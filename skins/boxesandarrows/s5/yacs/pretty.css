@@ -1,0 +1,119 @@
+/**
+ * the S5 pure theme
+ *
+ * @author Bernard Paques
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+body {background: white ; color: #210; font: 28px Arial, sans-serif;}
+a {text-decoration: none; color: #336; border-bottom: 1px dotted;}
+h1, h2, h3, h4, h5, h6 {font-size: 1em; margin: 0;font-weight: normal}
+h1 {font-size: 1em; margin: 0;color: #026; font-weight: normal}
+h3 {font-size: 1em; margin: 0;font-weight: lighter}
+sup {font-size: 0.75em; font-weight: normal;
+  vertical-align: 0.5em; line-height: 1px;}
+ul {margin-left: 0; padding-left: 1em; list-style-type: square; list-style-image: url('bullet_s5.png');}
+li {margin-bottom: 0.66em;vertical-align: middle;}
+li li {margin: 0.33em 0; font-size: 0.75em;}
+
+#header {
+	background: url('header_s5.png') no-repeat left center;
+	border-bottom: 0px solid #333;
+	padding: 0;
+	font-size: 0.5em;
+}
+
+div#footer {
+	background: url('footer_s5.png') no-repeat right top;
+	color: black;
+	border-top: 0px solid #333;
+	font-size: 0.5em;
+}
+
+#footer h1, #footer h2 { padding: 0.5em 0.75em;
+  font-weight: normal; font-style: normal;}
+
+#footer h1 {padding-left: 5em; left: 0; font-size: 1em; letter-spacing: 1px;}
+
+#footer h2 {position: absolute; bottom: 0; right: 0;}
+
+#controls {font-size: 0.75em;}
+#navList {margin-top: 3px;}
+#navLinks a {margin: 0 0.33em; padding: 0 0.25em;
+  border: 1px solid; border-color: #CCD #556 #556 #CCD;
+  background-color: #8597C4;}
+
+#currentSlide {
+	font-size: 0.5em;
+}
+
+#currentSlide span {font-size: 1em; color: black;}
+#currentSlide #csSep {display: none;}
+#currentSlide #csHere {font-weight: bold; margin: 0 0 3px 3px;}
+//#currentSlide #csHere:before {content: "#"; font-weight: normal;}
+//#currentSlide #csTotal:before {content: " of ";}
+#currentSlide #csTotal{display:none;}
+
+div.slide {
+/*	background-color: #fcc;
+	border: 1px solid #ccc; */
+}
+
+.slide h1 {font-size: 1.66em; line-height: 1em; letter-spacing: -1px;
+  margin: 0.1em -15% 0.5em -0.6em; padding: 0.5em 15% 0.06125em 0;}
+.first h1 {border: none; font-size: 150%; letter-spacing: 0; margin: 3em 0 2.5em;}
+.first h3 {margin: 0; text-align: left; border: black;}
+.first h4 {margin: 0; font-size: 0.75em; text-align: left;}
+
+.slide .current {color: #003; text-shadow: 0 0 0.25em #9AABD7;}
+
+/* display bulleted items before they are active */
+.incremental, .incremental *, .incremental *:after {color: #DDE; visibility: visible;}
+img.incremental {visibility: hidden;}
+
+/* styles used by YACS */
+
+.center_image { /* an image in the middle of the page [image=xx, center] */
+	clear: left;
+	text-align: center;
+}
+
+.center_image p { /* its caption */
+	display: none;
+/*	text-align: center;
+	font-size: smaller;
+	padding-top: 0;
+	margin-top: 0; */
+}
+
+.left_image { /* an image floated to the left -- [image=xx, left] */
+	float: left;
+	margin-right: 8px;
+	text-align: center;
+}
+
+.left_image p { /* its caption */
+	display: none;
+/*	text-align: center;
+	font-size: smaller;
+	padding-top: 0;
+	margin-top: 0; */
+}
+
+.right_image { /* an image floated to the rift -- [image=xx, right] */
+	float: right;
+	margin-left: 8px;
+	text-align: center;
+}
+
+.right_image p { /* its caption */
+	display: none;
+/*	text-align: center;
+	font-size: smaller;
+	padding-top: 0;
+	margin-top: 0; */
+}
+
+
+
+

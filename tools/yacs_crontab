@@ -1,0 +1,74 @@
+# run YACS background process
+#
+# This configuration file is aiming to run the script cron.php, which is part
+# of the YACS distribution archive, at regular time intervals.
+#
+# The suggested cron line has the following structure:
+#
+# 09,19,29,39,49,59 * * * * <user> <php> <path/to/yacs/cron.php> >/dev/null 2>&1
+#
+# where:
+#
+# - '09,19,29,39,49,59 * * * *' simply asks for one execution every 10 minutes.
+#
+# - <user> is the account used by the web daemon.
+# The default value is www-data, but this can be changed according to actual
+# run-time configuration of the web server.
+# You should not set this to root, because of security risks.
+#
+# - <php> is the command to launch the PHP script engine.
+# The default value is php, meaning simply that the server has been configured
+# properly to have the PHP script engine callable from everywhere.
+# You can replace this with the full path to the software,
+# for example /usr/bin/php, if necessary.
+#
+# - <path/to/yacs/cron.php> is the absolute path to the cron.php script.
+# The default value is /var/www/yacs/cron.php, but this has to be changed
+# according to your actual installation.
+#
+# - '>/dev/null 2>&1' sends every output to trash
+#
+# The setup of background processing is not so difficult, providing you pass
+# through every following steps:
+#
+# 1. Finalize the command to use. Open a telnet or putty session to the server,
+# and try to launch the cron.php script directly. The outcome of these tests
+# are the right values for parameters <php> and <path/to/yacs/cron.php> to
+# use in this crontab.
+#
+# 2. Identify the account used by the web daemon. You can check documentation
+# pages of the ISP who is hosting your server or ask the system administrator.
+# The ll command will provide you names of user and group assigned to script
+# files, and these are probably good starting points as well.
+# At the end of the day, you need the parameter <user>.
+#
+# 3. Activate the crontab. Change this file to reflect proper parameter values,
+# and then submit the resulting file to the system administrator
+# or ISP for activation. In some cases, you may have to do this yourself.
+#
+# 4. Stop YACS in-line background processing. Browse the server through the web,
+# and visit the system configuration panel. Check the radio button that will
+# instruct YACS to rely on external cron.
+#
+# 5. Check that it works. On tick YACS should fetch news from RSS feeds, or
+# received inbound mail messages, as per your settings. Also, you can visit the
+# information page on YACS run-time. From the control panel, click on
+# the link 'System information', then, on following page, on the 'YACS' link,
+# to list recorded times of background processing.
+#
+# If you edit this file, ensure you save it as a proper Unix thing.
+# In particular, pay attention to following elements:
+#
+# - insert a TAB character around the <user> parameter, not single space
+#
+# - encode ends of line as single line feeds (which differs from Windows CR+LF)
+#
+# - add an end of line after the command to execute
+#
+#
+# More information and support at http://www.yetanothercommunitysystem.com/
+#
+#
+# Stop talking and do the job:
+#
+09,19,29,39,49,59 * * * *	www-data	php /var/www/yacs/cron.php >/dev/null 2>&1

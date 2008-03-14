@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<methodResponse>
+<params><param><value><array><data>
+	<value><struct>
+	<member><name>url</name><value>http://127.0.0.1/yacs/categories/view.php/3810</value></member>
+	<member><name>blogid</name><value><int>3810</int></value></member>
+	<member><name>blogname</name><value>Rallye des Princesses 2003</value></member>
+</struct></value>
+	<value><struct>
+	<member><name>url</name><value>http://127.0.0.1/yacs/categories/view.php/3811</value></member>
+	<member><name>blogid</name><value><int>3811</int></value></member>
+	<member><name>blogname</name><value>&lt;font color=FF0099&gt;The Rallye des Princesses, 2003 edition&lt;/font&gt;</value></member>
+</struct></value>
+	<value><struct>
+	<member><name>url</name><value>http://127.0.0.1/yacs/categories/view.php/4037</value></member>
+	<member><name>blogid</name><value><int>4037</int></value></member>
+	<member><name>blogname</name><value>Les étapes du Rallye des Princesses 2003</value></member>
+</struct></value>
+	<value><struct>
+	<member><name>url</name><value>http://127.0.0.1/yacs/categories/view.php/4036</value></member>
+	<member><name>blogid</name><value><int>4036</int></value></member>
+	<member><name>blogname</name><value>Les participants au Rallye des Princesses 2003</value></member>
+</struct></value>
+	<value><struct>
+	<member><name>url</name><value>http://127.0.0.1/yacs/categories/view.php/1</value></member>
+	<member><name>blogid</name><value><int>1</int></value></member>
+	<member><name>blogname</name><value>Partenaires</value></member>
+</struct></value>
+	<value><struct>
+	<member><name>url</name><value>http://127.0.0.1/yacs/categories/view.php/3805</value></member>
+	<member><name>blogid</name><value><int>3805</int></value></member>
+	<member><name>blogname</name><value>Evénementiel</value></member>
+</struct></value>
+	<value><struct>
+	<member><name>url</name><value>http://127.0.0.1/yacs/categories/view.php/4035</value></member>
+	<member><name>blogid</name><value><int>4035</int></value></member>
+	<member><name>blogname</name><value>Assignments</value></member>
+</struct></value>
+	<value><struct>
+	<member><name>url</name><value>http://127.0.0.1/yacs/categories/view.php/4041</value></member>
+	<member><name>blogid</name><value><int>4041</int></value></member>
+	<member><name>blogname</name><value>Le stage d'avril 2003</value></member>
+</struct></value>
+	<value><struct>
+	<member><name>url</name><value>http://127.0.0.1/yacs/categories/view.php/4038</value></member>
+	<member><name>blogid</name><value><int>4038</int></value></member>
+	<member><name>blogname</name><value>Ma catégorie</value></member>
+</struct></value>
+	<value><struct>
+	<member><name>url</name><value>http://127.0.0.1/yacs/categories/view.php/3806</value></member>
+	<member><name>blogid</name><value><int>3806</int></value></member>
+	<member><name>blogname</name><value>Rallye des Princesses 2002</value></member>
+</struct></value>
+</data></array></value></param></params></methodResponse>

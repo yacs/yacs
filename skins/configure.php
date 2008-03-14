@@ -1,0 +1,805 @@
+<?php
+/**
+ * the configuration panel for skins
+ *
+ * This page is called to change rendering parameters of the YACS server.
+ *
+ * Parameters are grouped as follows:
+ * - meta-information - most are used in template files
+ * - general rendering options - enable or disable some components
+ * - freemind - parameters specific to mind maps
+ * - article pages - parameters specific to articles
+ * - image processing
+ *
+ *
+ * Meta-information parameters:
+ *
+ * [*] [code]site_name[/code] - used everywhere to reference your server.
+ * If this parameter is empty, YACS uses the network host name instead (eg, '[code]www.myserver.com[/code]').
+ * This parameter is appended to each &lt;title&gt; attribute.
+ * It is also used extensively in meta attributes used at the main index page (eg, [code]DC.title[/code]) and
+ * in newsfeeds (eg, it is the default value for feed title).
+ * Also used at [article=about, the about page], the description page for your site.
+ * Lastly, it is also the default value for subject of new newsletters.
+ *
+ * [*] [code]site_slogan[/code] - may be displayed at every page, in template.php.
+ * During YACS installation a default slogan is proposed.
+ * This parameter may be set to an empty string if you don't want any slogan to appear.
+ *
+ * [*] [code]site_description[/code] - appearing in a &lt;meta&gt; tag of all pages.
+ * It is also the default value for channel description in newsfeeds.
+ * Also used at [article=about, the about page], the description page for your site.
+ * During YACS installation a default slogan is proposed.
+ * This parameter may be set to an empty string if you don't want any description to appear.
+ *
+ * [*] [code]site_keywords[/code] - appearing in a &lt;meta&gt; tag
+ *
+ * [*] [code]site_email[/code] - webmaster mail address - warning, this address may be spammed
+ *
+ * [*] [code]site_copyright[/code] - used in [article=about, the about page]
+ *
+ * [*] [code]site_owner[/code] - used in [article=about, the about page]
+ *
+ * [*] [code]revisit_after[/code] - appearing in a &lt;meta&gt; tag (default: 7 days)
+ *
+ * [*] [code]site_position[/code] - the latitute and longitude, separated by a comma.
+ * See either [link=GeoTags Search Engine]http://geotags.com/[/link]
+ * or [link=Free Geocoding Service for 22 Countries]http://www.travelgis.com/geocode/Default.aspx[/link]
+ * for more information.
+ *
+ * @link http://geotags.com/ GeoTags Search Engine
+ * @link http://www.travelgis.com/geocode/Default.aspx Free Geocoding Service for 22 Countries
+ *
+ * [*] [code]site_head[/code] - inserted as-is in the &lt;head&gt; section of each page
+ *
+ * [*] [code]site_icon[/code] - the icon for favorites; may be displayed at every page, in template.php
+ *
+ * [*] [code]site_trailer[/code] - text added at the bottom of every page.
+ * This is useful to integrate various javascript libraries (page tracking, etc).
+ *
+ *
+ * General rendering options:
+ *
+ * [*] [code]site_navigation_maximum[/code] - The maximum number of navigation boxes to display on page side.
+ * Default value is 7. This parameter should be used in template file.
+ *
+ * [*] [code]site_extra_maximum[/code] - The maximum number of extra boxes to display on page side.
+ * Default value is 7. This parameter is used in various scripts.
+ *
+ * [*] [code]with_author_information[/code] - Add links to author pages in lists of articles.
+ * By default this information is available only at article pages.
+ *
+ * [*] [code]pages_without_feeds[/code] - Do not list feeds in sections, categories, and articles
+ *
+ * [*] [code]pages_without_reference[/code] - To avoid self-referencing
+ *
+ * [*] [code]pages_without_bookmarklets[/code] - Do not display javascript tools
+ *
+ * [*] [code]pages_without_history[/code] - To avoid the display of visited pages
+ *
+ * [*] [code]skins_with_details[/code] - Computing power is enough to provide more details.
+ * When this parameter is set to 'Y', many additional requests are submitted
+ * to the database server to count files, comments and links attached to sections
+ * and to articles.
+ *
+ *
+ * Parameters for freemind:
+ *
+ * [*] [code]pages_without_freemind[/code] - Do not feature links to download
+ * section content as Freemind maps.
+ *
+ * [*] [code]skins_freemind_canvas_size[/code] - Width and height of embedded
+ * mind maps. Default is "100%, 500px".
+ *
+ * [*] [code]skins_freemind_article_bgcolor[/code] - Background for articles.
+ *
+ * [*] [code]skins_freemind_article_color[/code] - Foreground for articles.
+ *
+ * [*] [code]skins_freemind_article_style[/code] - 'fork' or 'bubble'
+ *
+ * [*] [code]skins_freemind_edge_color[/code] - Default is #6666ff
+ *
+ * [*] [code]skins_freemind_edge_style[/code] - Default is 'bezier'.
+ * Can be either 'bezier', 'sharp_bezier', 'linear', 'sharp_linear', 'rectangular'.
+ *
+ * [*] [code]skins_freemind_edge_thickness[/code] - '1', '2', '3', ... or 'thin'.
+ *
+ * [*] [code]skins_freemind_main_bgcolor[/code] - Background for the central
+ * area of the map.
+ *
+ * [*] [code]skins_freemind_main_color[/code] - Foreground for the central
+ * area of the map.
+ *
+ * [*] [code]skins_freemind_section_bgcolor[/code] - Background for sections.
+ *
+ * [*] [code]skins_freemind_section_color[/code] - Foreground for sections.
+ *
+ * [*] [code]skins_freemind_section_style[/code] - 'fork' or 'bubble'
+ *
+ *
+ * Parameters for articles:
+ *
+ * [*] [code]with_anonymous_side_tools[/code] - To foster registration
+ *
+ * [*] [code]with_bottom_tools[/code] - Display, or not, conversion tools
+ *
+ * [*] [code]with_anonymous_bottom_tools[/code] - Spread published information more largely
+ *
+ *
+ * Parameters for image processing:
+ *
+ * [*] [code]standard_width[/code] - the maximum width, in pixels, for images that have to be resized.
+ * Default value is 640 pixels.
+ *
+ * [*] [code]standard_height[/code] - the maximum height, in pixels, for images that have to be resized.
+ * Default value is 640 pixels.
+ *
+ * [*] [code]avatar_width[/code] - the maximum width, in pixels, for avatars.
+ * Default value is 80 pixels.
+ *
+ * [*] [code]avatar_height[/code] - the maximum height, in pixels, for avatars.
+ * Default value is 80 pixels.
+ *
+ * [*] [code]thumbnail_threshold[/code] - size in bytes that require a thumbnail image.
+ * Default value is 20480 bytes.
+ *
+ * [*] [code]thumbnail_width[/code] - the maximum width, in pixels, for thumbnail images.
+ * Default value is 60 pixels.
+ *
+ * [*] [code]thumbnail_height[/code] - the maximum height, in pixels, for thumbnail images.
+ * Default value is 60 pixels.
+ *
+ * @see images/edit.php
+ *
+ * [*] [code]thumbnails_without_caption[/code] - If set to 'Y', only a hovering title is provided.
+ * Else, which is the default, image title is added to thumbnail as caption.
+ *
+ *
+ * Access to this page is reserved to associates.
+ *
+ * Configuration information is saved into [code]parameters/skins.include.php[/code].
+ * If YACS is prevented to write to the file, it displays parameters to allow for a manual update.
+ *
+ * The file [code]parameters/skins.include.php.bak[/code] can be used to restore
+ * the active configuration before the last change.
+ *
+ * If the file [code]demo.flag[/code] exists, the script assumes that this instance
+ * of YACS runs in demonstration mode.
+ * In this mode the edit form is displayed, but parameters are not saved in the configuration file.
+ *
+ * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @author GnapZ
+ * @tester Pat
+ * @tester Natice
+ * @tester FabriceV
+ * @tester Aleko
+ * @tester Guillaume Perez
+ * @tester Mark
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+// common definitions and initial processing
+include_once '../shared/global.php';
+
+// load the skin
+load_skin('skins');
+
+// the path to this page
+$context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
+
+// the title of the page
+$context['page_title'] = i18n::s('The configuration panel for the rendering engine');
+
+// not first installation
+if(file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off')) {
+
+	// do it again
+	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
+		$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/configure.php' => i18n::s('Edit') ));
+
+	// the back button
+	$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/' => i18n::s('Select another skin') ));
+
+}
+
+// anonymous users are invited to log in or to register
+if(!Surfer::is_logged())
+	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('skins/configure.php'));
+
+// only associates can proceed
+elseif(!Surfer::is_associate()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
+// display the input form
+} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'POST')) {
+
+	// first installation
+	if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
+		$context['text'] .= '<p>'.i18n::s('You can use default values and change these later on. Hit the button at the bottom of the page to move forward.')."</p>\n";
+
+	// load current parameters, if any
+	Safe::load('parameters/skins.include.php');
+
+	// the form
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';
+
+	// splash message
+	$context['text'] .= '<p>'.i18n::s('Click on titles to access various rendering options.')."</p>\n";
+
+	//
+	// meta-information
+	//
+
+	// site name
+	$label = i18n::s('Site name');
+	$input = '<input type="text" name="site_name" size="50" value="'.encode_field($context['site_name']).'" maxlength="255"'.EOT;
+	$hint = i18n::s('Short and meaningful title, such as "My little big server", used almost everywhere, and appended to the title of every page of this site');
+	$fields[] = array($label, $input, $hint);
+
+	// site slogan
+	if(!isset($context['site_slogan']))
+		$context['site_slogan'] = '-- just do it. and do it right. and make it free. and let it be. and... (your turn)';
+	$label = i18n::s('Site slogan');
+	$input = '<input type="text" name="site_slogan" size="50" value="'.encode_field($context['site_slogan']).'" maxlength="255"'.EOT;
+	$hint = i18n::s('This tag line will be repeated at a number of pages');
+	$fields[] = array($label, $input, $hint);
+
+	// site description
+	if(!isset($context['site_description']))
+		$context['site_description'] = 'YACS Community';
+	$label = i18n::s('Site description');
+	$input = '<textarea name="site_description" cols="40" rows="2">'.encode_field($context['site_description']).'</textarea>';
+	$hint = i18n::s('Up to two lines of text, used in the "description" meta field to help search engines');
+	$fields[] = array($label, $input, $hint);
+
+	// keywords
+	$label = i18n::s('Keywords');
+	$input = '<input type="text" name="site_keywords" size="40" value="'.encode_field(isset($context['site_keywords']) ? $context['site_keywords'] : '').'" maxlength="255"'.EOT;
+	$hint = i18n::s('Keywords separated with commas, inserted in the "keyword" meta field for search engines');
+	$fields[] = array($label, $input, $hint);
+
+	// site_email address
+	if(!isset($context['site_email']) || !$context['site_email'])
+		$context['site_email'] = 'unknown_webmaster@acme.heaven';
+	$label = i18n::s('Contact mail address');
+	$input = '<input type="text" name="site_email" size="40" value="'.encode_field($context['site_email']).'" maxlength="255"'.EOT;
+	$hint = sprintf(i18n::s('May be subject to spam attacks; featured in the %s page and in RSS feeds, at least'),
+		Skin::build_link(Articles::get_url('about'), i18n::s('about'), 'shortcut'));
+	$fields[] = array($label, $input, $hint);
+
+	// copyright
+	$label = i18n::s('Copyright');
+	$input = '<input type="text" name="site_copyright" size="50" value="'.encode_field(isset($context['site_copyright']) ? $context['site_copyright'] : '').'" maxlength="255"'.EOT;
+	$hint = i18n::s('Example: "2002-2003, Acme incorporated"; inserted in the "copyright" meta field');
+	$fields[] = array($label, $input, $hint);
+
+	// site owner
+	$label = i18n::s('Site owner');
+	$input = '<input type="text" name="site_owner" size="50" value="'.encode_field(isset($context['site_owner']) ? $context['site_owner'] : '').'" maxlength="255"'.EOT;
+	$hint = sprintf(i18n::s('The name of the site owner, e.g. "ACME and company"; Featured in the %s page and in ATOM feeds, at least'),
+		Skin::build_link(Articles::get_url('about'), i18n::s('about'), 'shortcut'));
+	$fields[] = array($label, $input, $hint);
+
+	// revisit after
+	if(!isset($context['site_revisit_after']) || !$context['site_revisit_after'])
+		$context['site_revisit_after'] = 7;
+	$label = i18n::s('Usual delay between updates');
+	$input = '<input type="text" name="site_revisit_after" size="4" value="'.encode_field($context['site_revisit_after']).'" maxlength="4"'.EOT.' '.i18n::s('days');
+	$hint = i18n::s('Please be realistic here. Used to flag new and updated items. Also featured in "revisit-after" meta field.');
+	$fields[] = array($label, $input, $hint);
+
+	// position
+	$label = i18n::s('Geographical position');
+	$input = '<input type="text" name="site_position" size="40" value="'.encode_field(isset($context['site_position']) ? $context['site_position'] : '').'" maxlength="255"'.EOT;
+	$hint = sprintf(i18n::s('Latitude and longitude, separated by a comma, for example: 47.98481,-71.42124, featured as meta fields "geo.position" and "ICBM" at the front page. See %s or %s'),
+		Skin::build_link('http://geotags.com/', i18n::s('GeoTags Search Engine'), 'external'),
+		Skin::build_link('http://www.travelgis.com/geocode/Default.aspx', i18n::s('Geocoding Service'), 'external'));
+	$fields[] = array($label, $input, $hint);
+
+	// head
+	$label = i18n::s('Head');
+	$input = '<textarea name="site_head" cols="40" rows="2">'.encode_field(isset($context['site_head']) ? $context['site_head'] : '').'</textarea>';
+	$hint = i18n::s('Other tags to be inserted into the head section, as meta fields. Please double check generated code to avoid mistakes.  You can use this field to add meta information to your site, that will be used by search engines or software robots. Example: &lt;meta name="dmoz.id" content="put here the dmoz branch for your site"&gt;');
+	$fields[] = array($label, $input, $hint);
+
+	// icon
+	$label = i18n::s('Icon');
+	$input = '<input type="text" name="site_icon" size="40" value="'.encode_field(isset($context['site_icon']) ? $context['site_icon'] : '').'" maxlength="255"'.EOT;
+	$hint = i18n::s('The web address of the little image representing your site in favorites or bookmarks. Used to supplement the default "favicon.ico", if any');
+	$fields[] = array($label, $input, $hint);
+
+	// trailer
+	$label = i18n::s('Trailer');
+	$input = '<textarea name="site_trailer" cols="40" rows="2">'.encode_field(isset($context['site_trailer']) ? $context['site_trailer'] : '').'</textarea>';
+	$hint = i18n::s('Additional text inserted at the very end of every web page generated by YACS. Use this to integrate page tracking systems, with adequate &lt;script&gt; tags.');
+	$fields[] = array($label, $input, $hint);
+
+	// one folded box
+	$context['text'] .= Skin::build_box(i18n::s('Meta-information'), Skin::build_form($fields), 'folder');
+	$fields = array();
+
+	//
+	// general rendering options
+	//
+	$text = '';
+
+	// maximum number of navigation boxes
+	if(!isset($context['site_navigation_maximum']) || !$context['site_navigation_maximum'])
+		$context['site_navigation_maximum'] = 7;
+	$label = i18n::s('Maximum number of navigation boxes');
+	$input = '<input type="text" name="site_navigation_maximum" size="2" value="'.encode_field($context['site_navigation_maximum']).'" maxlength="2"'.EOT;
+	$hint = i18n::s('Navigation boxes are displayed on page side, at all pages of the site.');
+	$text .= '<p>'.$label.' '.$input.BR.'<span class="details">'.$hint."</span></p>\n";
+
+	// maximum number of extra boxes
+	if(!isset($context['site_extra_maximum']) || !$context['site_extra_maximum'])
+		$context['site_extra_maximum'] = 7;
+	$label = i18n::s('Maximum number of extra boxes');
+	$input = '<input type="text" name="site_extra_maximum" size="2" value="'.encode_field($context['site_extra_maximum']).'" maxlength="2"'.EOT;
+	$hint = i18n::s('Extra boxes are displayed on the side of pages to which they have been associated.');
+	$text .= '<p>'.$label.' '.$input.BR.'<span class="details">'.$hint."</span></p>\n";
+
+	// author information
+	$label = i18n::s('Author information');
+	$input = '<input type="radio" name="with_author_information" value="N"';
+	if(!isset($context['with_author_information']) || ($context['with_author_information'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Hide this information');
+	$input .= BR.'<input type="radio" name="with_author_information" value="Y"';
+	if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Add links to author profiles in lists of articles');
+	$text .= '<p>'.$label.':'.BR.$input."</p>\n";
+
+	// feed
+	$label = i18n::s('Side box for RSS feeds');
+	$input = '<input type="radio" name="pages_without_feed" value="N"';
+	if(!isset($context['pages_without_feed']) || ($context['pages_without_feed'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('List RSS feeds in sections, categories, articles, and user profiles');
+	$input .= BR.'<input type="radio" name="pages_without_feed" value="Y"';
+	if(isset($context['pages_without_feed']) && ($context['pages_without_feed'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Hide this information');
+	$text .= '<p>'.$label.':'.BR.$input."</p>\n";
+
+	// self reference
+	$label = i18n::s('Side box for self reference');
+	$input = '<input type="radio" name="pages_without_reference" value="N"';
+	if(!isset($context['pages_without_reference']) || ($context['pages_without_reference'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Add self-referencing shortcut and web link to visited pages');
+	$input .= BR.'<input type="radio" name="pages_without_reference" value="Y"';
+	if(isset($context['pages_without_reference']) && ($context['pages_without_reference'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Hide this information');
+	$text .= '<p>'.$label.':'.BR.$input."</p>\n";
+
+	// bookmarklets
+	$label = i18n::s('Side box for bookmarklets');
+	$input = '<input type="radio" name="pages_without_bookmarklets" value="N"';
+	if(!isset($context['pages_without_bookmarklets']) || ($context['pages_without_bookmarklets'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Add Javascript bookmarklets to enable further contributions');
+	$input .= BR.'<input type="radio" name="pages_without_bookmarklets" value="Y"';
+	if(isset($context['pages_without_bookmarklets']) && ($context['pages_without_bookmarklets'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Hide this information');
+	$text .= '<p>'.$label.':'.BR.$input."</p>\n";
+
+	// visited pages
+	$label = i18n::s('Side box for visited pages');
+	$input = '<input type="radio" name="pages_without_history" value="N"';
+	if(!isset($context['pages_without_history']) || ($context['pages_without_history'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Remember and list pages visited during a session');
+	$input .= BR.'<input type="radio" name="pages_without_history" value="Y"';
+	if(isset($context['pages_without_history']) && ($context['pages_without_history'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Do not use this feature');
+	$text .= '<p>'.$label.':'.BR.$input."</p>\n";
+
+	// with details
+	$label = i18n::s('Level of details');
+	$input = '<input type="radio" name="skins_with_details" value="N"';
+	if(!isset($context['skins_with_details']) || ($context['skins_with_details'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Compute page elements dynamically');
+	$input .= BR.'<input type="radio" name="skins_with_details" value="Y"';
+	if(isset($context['skins_with_details']) && ($context['skins_with_details'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Benefit from extended computing power to provide additional dynamic details');
+	$text .= '<p>'.$label.':'.BR.$input."</p>\n";
+
+	// one folded box
+	$context['text'] .= Skin::build_box(i18n::s('General rendering options'), $text, 'folder');
+
+	//
+	// handling freemind
+	//
+	$text = '';
+
+	// without freemind
+	$label = i18n::s('Download');
+	$input = '<input type="radio" name="pages_without_freemind" value="N"';
+	if(!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Content of sections can be downloaded as Freemind maps');
+	$input .= BR.'<input type="radio" name="pages_without_freemind" value="Y"';
+	if(isset($context['pages_without_freemind']) && ($context['pages_without_freemind'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Do not offer links to get Freemind maps');
+	$fields[] = array($label, $input);
+
+	// freemind canvas
+	if(!isset($context['skins_freemind_canvas_height']))
+		$context['skins_freemind_canvas_height'] = '500px';
+	if(!isset($context['skins_freemind_canvas_width']))
+		$context['skins_freemind_canvas_width'] = '100%';
+	$label = i18n::s('Canvas');
+	$input = sprintf(i18n::s('Width: %s'), '<input type="text" name="skins_freemind_canvas_width" size="8" value="'.encode_field($context['skins_freemind_canvas_width']).'" maxlength="10"'.EOT)
+		.' '.sprintf(i18n::s('Height: %s'), '<input type="text" name="skins_freemind_canvas_height" size="8" value="'.encode_field($context['skins_freemind_canvas_height']).'" maxlength="10"'.EOT);
+	$hint = i18n::s('Width and height of Flash or Java canvas used for interactive browsing.');
+	$fields[] = array($label, $input, $hint);
+
+	// freemind edge color, style, and thickness
+	if(!isset($context['skins_freemind_edge_color']))
+		$context['skins_freemind_edge_color'] = '';
+	if(!isset($context['skins_freemind_edge_style']))
+		$context['skins_freemind_edge_style'] = '';
+	if(!isset($context['skins_freemind_edge_thickness']))
+		$context['skins_freemind_edge_thickness'] = '';
+	$label = i18n::s('Edges');
+	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_edge_color" size="8" value="'.encode_field($context['skins_freemind_edge_color']).'" maxlength="8"'.EOT)
+		.' '.sprintf(i18n::s('Thickness: %s'), '<input type="text" name="skins_freemind_edge_thickness" size="8" value="'.encode_field($context['skins_freemind_edge_thickness']).'" maxlength="8"'.EOT)
+		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_edge_style" size="12" value="'.encode_field($context['skins_freemind_edge_style']).'" maxlength="12"'.EOT);
+	$hint = i18n::s('Use HTML codes for colors, numbers or "thin" for thickness, and "bezier" or "linear" for style.');
+	$fields[] = array($label, $input, $hint);
+
+	// freemind main bgcolor and color
+	if(!isset($context['skins_freemind_main_bgcolor']))
+		$context['skins_freemind_main_bgcolor'] = '';
+	if(!isset($context['skins_freemind_main_color']))
+		$context['skins_freemind_main_color'] = '';
+	$label = i18n::s('Main node');
+	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_main_color" size="8" value="'.encode_field($context['skins_freemind_main_color']).'" maxlength="8"'.EOT)
+		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_main_bgcolor" size="8" value="'.encode_field($context['skins_freemind_main_bgcolor']).'" maxlength="8"'.EOT);
+	$hint = i18n::s('Use HTML codes for colors.');
+	$fields[] = array($label, $input, $hint);
+
+	// freemind sections bgcolor, color and style
+	if(!isset($context['skins_freemind_section_bgcolor']))
+		$context['skins_freemind_section_bgcolor'] = '';
+	if(!isset($context['skins_freemind_section_color']))
+		$context['skins_freemind_section_color'] = '';
+	if(!isset($context['skins_freemind_section_style']))
+		$context['skins_freemind_section_style'] = '';
+	$label = i18n::s('Section nodes');
+	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_section_color" size="8" value="'.encode_field($context['skins_freemind_section_color']).'" maxlength="8"'.EOT)
+		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_section_bgcolor" size="8" value="'.encode_field($context['skins_freemind_section_bgcolor']).'" maxlength="8"'.EOT)
+		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_section_style" size="8" value="'.encode_field($context['skins_freemind_section_style']).'" maxlength="8"'.EOT);
+	$hint = i18n::s('Use HTML codes for colors, and "fork" or "bubble" for style.');
+	$fields[] = array($label, $input, $hint);
+
+	// freemind articles bgcolor, color and style
+	if(!isset($context['skins_freemind_article_bgcolor']))
+		$context['skins_freemind_article_bgcolor'] = '';
+	if(!isset($context['skins_freemind_article_color']))
+		$context['skins_freemind_article_color'] = '';
+	if(!isset($context['skins_freemind_article_style']))
+		$context['skins_freemind_article_style'] = '';
+	$label = i18n::s('Article nodes');
+	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_article_color" size="8" value="'.encode_field($context['skins_freemind_article_color']).'" maxlength="8"'.EOT)
+		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_article_bgcolor" size="8" value="'.encode_field($context['skins_freemind_article_bgcolor']).'" maxlength="8"'.EOT)
+		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_article_style" size="8" value="'.encode_field($context['skins_freemind_article_style']).'" maxlength="8"'.EOT);
+	$hint = i18n::s('Use HTML codes for colors, and "fork" or "bubble" for style.');
+	$fields[] = array($label, $input, $hint);
+
+	// one folded box
+	$context['text'] .= Skin::build_box(i18n::s('Freemind maps'), Skin::build_form($fields), 'folder');
+	$fields = array();
+
+	//
+	// handling articles
+	//
+	$text = '';
+
+	// with details
+	$label = i18n::s('Details visibility');
+	$input = '<input type="radio" name="content_without_details" value="N"';
+	if(!isset($context['content_without_details']) || ($context['content_without_details'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Display detailed information (author, date, ...) on all pages');
+	$input .= BR.'<input type="radio" name="content_without_details" value="Y"';
+	if(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Details are displayed only in sections with option \'with_details\'');
+	$text .= '<p>'.$label.':'.BR.$input."</p>\n";
+
+	// side tools
+	$text .= '<p>&nbsp;</p><p>'.i18n::s('Side tools (comment, post an image, attach a file or a link) allow community member to contribute easily.')."</p>\n";
+
+	// with anonymous side tools
+	$label = i18n::s('Side tools visibility');
+	$input = '<input type="radio" name="with_anonymous_side_tools" value="N"';
+	if(!isset($context['with_anonymous_side_tools']) || ($context['with_anonymous_side_tools'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Side tools are shown only to members');
+	$input .= BR.'<input type="radio" name="with_anonymous_side_tools" value="Y"';
+	if(isset($context['with_anonymous_side_tools']) && ($context['with_anonymous_side_tools'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Allow anonymous surfers to trigger side tools as well (recommended on intranets)');
+	$text .= '<p>'.$label.':'.BR.$input."</p>\n";
+
+	// bottom tools
+	$text .= '<p>&nbsp;</p><p>'.i18n::s('Bottom tools (pdf, palm, word, print) are used to export or to convert pages to an alternate format or media.')."</p>\n";
+
+	// with tools
+	$label = i18n::s('Bottom tools global control');
+	$input = '<input type="radio" name="with_bottom_tools" value="N"';
+	if(!isset($context['with_bottom_tools']) || ($context['with_bottom_tools'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Bottom tools are displayed only in sections with option \'with_bottom_tools\'');
+	$input .= BR.'<input type="radio" name="with_bottom_tools" value="Y"';
+	if(isset($context['with_bottom_tools']) && ($context['with_bottom_tools'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Display bottom tools on all pages');
+	$text .= '<p>'.$label.':'.BR.$input."</p>\n";
+
+	// with anonymous bottom tools
+	$label = i18n::s('Bottom tools visibility');
+	$input = '<input type="radio" name="with_anonymous_bottom_tools" value="N"';
+	if(!isset($context['with_anonymous_bottom_tools']) || ($context['with_anonymous_bottom_tools'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Bottom tools are shown only to members');
+	$input .= BR.'<input type="radio" name="with_anonymous_bottom_tools" value="Y"';
+	if(isset($context['with_anonymous_bottom_tools']) && ($context['with_anonymous_bottom_tools'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Allow anonymous surfers to use bottom tools as well (recommended on intranets)');
+	$text .= '<p>'.$label.':'.BR.$input."</p>\n";
+
+	// one folded box
+	$context['text'] .= Skin::build_box(i18n::s('Article pages'), $text, 'folder');
+
+	//
+	// handling images
+	//
+
+	// standard width
+	if(!isset($context['standard_width']) || !$context['standard_width'])
+		$context['standard_width'] = 640;
+	$label = i18n::s('Standard width');
+	$input = '<input type="text" name="standard_width" size="5" value="'.encode_field($context['standard_width']).'" maxlength="5"'.EOT;
+	$hint = i18n::s('The maximum width for uploaded photos');
+	$fields[] = array($label, $input, $hint);
+
+	// standard heigth
+	if(!isset($context['standard_height']) || !$context['standard_height'])
+		$context['standard_height'] = 640;
+	$label = i18n::s('Standard height');
+	$input = '<input type="text" name="standard_height" size="5" value="'.encode_field($context['standard_height']).'" maxlength="5"'.EOT;
+	$hint = i18n::s('The maximum height for uploaded photos');
+	$fields[] = array($label, $input, $hint);
+
+	// avatar width
+	if(!isset($context['avatar_width']) || !$context['avatar_width'])
+		$context['avatar_width'] = 80;
+	$label = i18n::s('Avatar width');
+	$input = '<input type="text" name="avatar_width" size="5" value="'.encode_field($context['avatar_width']).'" maxlength="5"'.EOT;
+	$hint = i18n::s('The maximum number of pixels for the width of avatars');
+	$fields[] = array($label, $input, $hint);
+
+	// avatar heigth
+	if(!isset($context['avatar_height']) || !$context['avatar_height'])
+		$context['avatar_height'] = 80;
+	$label = i18n::s('Avatar height');
+	$input = '<input type="text" name="avatar_height" size="5" value="'.encode_field($context['avatar_height']).'" maxlength="5"'.EOT;
+	$hint = i18n::s('The maximum number of pixels for the height of avatars');
+	$fields[] = array($label, $input, $hint);
+
+	// thumbnail threshold
+	if(!isset($context['thumbnail_threshold']) || !$context['thumbnail_threshold'])
+		$context['thumbnail_threshold'] = 20480;
+	$label = i18n::s('Thumbnail threshold');
+	$input = '<input type="text" name="thumbnail_threshold" size="10" value="'.encode_field($context['thumbnail_threshold']).'" maxlength="10"'.EOT;
+	$hint = i18n::s('The number of bytes to trigger the creation of a thumbnail');
+	$fields[] = array($label, $input, $hint);
+
+	// thumbnail width
+	if(!isset($context['thumbnail_width']) || !$context['thumbnail_width'])
+		$context['thumbnail_width'] = 60;
+	$label = i18n::s('Thumbnail width');
+	$input = '<input type="text" name="thumbnail_width" size="5" value="'.encode_field($context['thumbnail_width']).'" maxlength="5"'.EOT;
+	$hint = i18n::s('The maximum number of pixels for the width of thumbnails');
+	$fields[] = array($label, $input, $hint);
+
+	// thumbnail heigth
+	if(!isset($context['thumbnail_height']) || !$context['thumbnail_height'])
+		$context['thumbnail_height'] = 60;
+	$label = i18n::s('Thumbnail height');
+	$input = '<input type="text" name="thumbnail_height" size="5" value="'.encode_field($context['thumbnail_height']).'" maxlength="5"'.EOT;
+	$hint = i18n::s('The maximum number of pixels for the height of thumbnails');
+	$fields[] = array($label, $input, $hint);
+
+	// thumbnail caption
+	$label = i18n::s('Thumbnail caption');
+	$input = '<input type="radio" name="thumbnails_without_caption" value="N"';
+	if(!isset($context['thumbnails_without_caption']) || ($context['thumbnails_without_caption'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Use titles as captions below thumbnail images');
+	$input .= BR.'<input type="radio" name="thumbnails_without_caption" value="Y"';
+	if(isset($context['thumbnails_without_caption']) && ($context['thumbnails_without_caption'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Only provide a hovering title, but no caption');
+	$fields[] = array($label, $input);
+
+	// one folded box
+	$context['text'] .= Skin::build_box(i18n::s('Images processing'), '<p>'.i18n::s('Configure the handling of images. YACS uses the GD module of PHP to automatically resize submitted images when they are very large, and to build thumbnail images as well.')."</p>\n".Skin::build_form($fields), 'folder');
+	$fields = array();
+
+	// the submit button
+	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+
+	// end of the form
+	$context['text'] .= '</div></form>';
+
+// no modifications in demo mode
+} elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
+
+	// remind the surfer
+	$context['text'] .= '<p>'.i18n::s('This instance of YACS runs in demonstration mode. For security reasons configuration parameters cannot be changed in this mode.')."</p>\n";
+
+// save updated parameters
+} else {
+
+	// ensure we have a valid revisit_after
+	if(!isset($context['revisit_after']) || (intval($context['revisit_after']) < 1))
+		$context['revisit_after'] = 1;
+
+	// backup the old version
+	Safe::unlink($context['path_to_root'].'parameters/skins.include.php.bak');
+	Safe::rename($context['path_to_root'].'parameters/skins.include.php', $context['path_to_root'].'parameters/skins.include.php.bak');
+
+	// build the new configuration file
+	$content = '<?php'."\n"
+		.'// This file has been created by the configuration script skins/configure.php'."\n"
+		.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.Surfer::get_name().'. Please do not modify it manually.'."\n"
+		.'global $context;'."\n"
+		.'$context[\'site_name\']=\''.addcslashes($_REQUEST['site_name'], "\\'")."';\n"
+		.'$context[\'site_description\']=\''.addcslashes($_REQUEST['site_description'], "\\'")."';\n"
+		.'$context[\'site_keywords\']=\''.addcslashes($_REQUEST['site_keywords'], "\\'")."';\n"
+		.'$context[\'site_owner\']=\''.addcslashes($_REQUEST['site_owner'], "\\'")."';\n"
+		.'$context[\'site_email\']=\''.addcslashes($_REQUEST['site_email'], "\\'")."';\n"
+		.'$context[\'site_copyright\']=\''.addcslashes($_REQUEST['site_copyright'], "\\'")."';\n"
+		.'$context[\'site_icon\']=\''.addcslashes($_REQUEST['site_icon'], "\\'")."';\n"
+		.'$context[\'site_head\']=\''.addcslashes(str_replace("\r", '', $_REQUEST['site_head']), "\\'")."';\n"
+		.'$context[\'site_revisit_after\']=\''.addcslashes($_REQUEST['site_revisit_after'], "\\'")."';\n"
+		.'$context[\'site_slogan\']=\''.addcslashes($_REQUEST['site_slogan'], "\\'")."';\n"
+		.'$context[\'site_position\']=\''.addcslashes($_REQUEST['site_position'], "\\'")."';\n"
+		.'$context[\'site_trailer\']=\''.addcslashes($_REQUEST['site_trailer'], "\\'")."';\n";
+	if(isset($_REQUEST['content_without_details']))
+		$content .= '$context[\'content_without_details\']=\''.addcslashes($_REQUEST['content_without_details'], "\\'")."';\n";
+	if(isset($_REQUEST['pages_without_bookmarklets']))
+		$content .= '$context[\'pages_without_bookmarklets\']=\''.addcslashes($_REQUEST['pages_without_bookmarklets'], "\\'")."';\n";
+	if(isset($_REQUEST['pages_without_freemind']))
+		$content .= '$context[\'pages_without_freemind\']=\''.addcslashes($_REQUEST['pages_without_freemind'], "\\'")."';\n";
+	if(isset($_REQUEST['pages_without_history']))
+		$content .= '$context[\'pages_without_history\']=\''.addcslashes($_REQUEST['pages_without_history'], "\\'")."';\n";
+	if(isset($_REQUEST['pages_without_reference']))
+		$content .= '$context[\'pages_without_reference\']=\''.addcslashes($_REQUEST['pages_without_reference'], "\\'")."';\n";
+	if(isset($_REQUEST['site_extra_maximum']) && intval($_REQUEST['site_extra_maximum']))
+		$content .= '$context[\'site_extra_maximum\']=\''.intval($_REQUEST['site_extra_maximum'])."';\n";
+	if(isset($_REQUEST['site_navigation_maximum']) && intval($_REQUEST['site_navigation_maximum']))
+		$content .= '$context[\'site_navigation_maximum\']=\''.intval($_REQUEST['site_navigation_maximum'])."';\n";
+	if(isset($_REQUEST['skins_with_details']))
+		$content .= '$context[\'skins_with_details\']=\''.addcslashes($_REQUEST['skins_with_details'], "\\'")."';\n";
+	if(isset($_REQUEST['thumbnails_without_caption']))
+		$content .= '$context[\'thumbnails_without_caption\']=\''.addcslashes($_REQUEST['thumbnails_without_caption'], "\\'")."';\n";
+	if(isset($_REQUEST['with_anonymous_bottom_tools']))
+		$content .= '$context[\'with_anonymous_bottom_tools\']=\''.addcslashes($_REQUEST['with_anonymous_bottom_tools'], "\\'")."';\n";
+	if(isset($_REQUEST['pages_without_feed']))
+		$content .= '$context[\'pages_without_feed\']=\''.addcslashes($_REQUEST['pages_without_feed'], "\\'")."';\n";
+	if(isset($_REQUEST['with_anonymous_side_tools']))
+		$content .= '$context[\'with_anonymous_side_tools\']=\''.addcslashes($_REQUEST['with_anonymous_side_tools'], "\\'")."';\n";
+	if(isset($_REQUEST['with_bottom_tools']))
+		$content .= '$context[\'with_bottom_tools\']=\''.addcslashes($_REQUEST['with_bottom_tools'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_freemind_article_bgcolor']) && $_REQUEST['skins_freemind_article_bgcolor'])
+		$content .= '$context[\'skins_freemind_article_bgcolor\']=\''.addcslashes($_REQUEST['skins_freemind_article_bgcolor'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_freemind_article_color']) && $_REQUEST['skins_freemind_article_color'])
+		$content .= '$context[\'skins_freemind_article_color\']=\''.addcslashes($_REQUEST['skins_freemind_article_color'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_freemind_article_style']) && $_REQUEST['skins_freemind_article_style'])
+		$content .= '$context[\'skins_freemind_article_style\']=\''.addcslashes($_REQUEST['skins_freemind_article_style'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_freemind_canvas_height']) && $_REQUEST['skins_freemind_canvas_height'])
+		$content .= '$context[\'skins_freemind_canvas_height\']=\''.addcslashes($_REQUEST['skins_freemind_canvas_height'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_freemind_canvas_width']) && $_REQUEST['skins_freemind_canvas_width'])
+		$content .= '$context[\'skins_freemind_canvas_width\']=\''.addcslashes($_REQUEST['skins_freemind_canvas_width'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_freemind_edge_color']) && $_REQUEST['skins_freemind_edge_color'])
+		$content .= '$context[\'skins_freemind_edge_color\']=\''.addcslashes($_REQUEST['skins_freemind_edge_color'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_freemind_edge_style']) && $_REQUEST['skins_freemind_edge_style'])
+		$content .= '$context[\'skins_freemind_edge_style\']=\''.addcslashes($_REQUEST['skins_freemind_edge_style'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_freemind_edge_thickness']) && $_REQUEST['skins_freemind_edge_thickness'])
+		$content .= '$context[\'skins_freemind_edge_thickness\']=\''.addcslashes($_REQUEST['skins_freemind_edge_thickness'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_freemind_main_bgcolor']) && $_REQUEST['skins_freemind_main_bgcolor'])
+		$content .= '$context[\'skins_freemind_main_bgcolor\']=\''.addcslashes($_REQUEST['skins_freemind_main_bgcolor'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_freemind_main_color']) && $_REQUEST['skins_freemind_main_color'])
+		$content .= '$context[\'skins_freemind_main_color\']=\''.addcslashes($_REQUEST['skins_freemind_main_color'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_freemind_section_bgcolor']) && $_REQUEST['skins_freemind_section_bgcolor'])
+		$content .= '$context[\'skins_freemind_section_bgcolor\']=\''.addcslashes($_REQUEST['skins_freemind_section_bgcolor'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_freemind_section_color']) && $_REQUEST['skins_freemind_section_color'])
+		$content .= '$context[\'skins_freemind_section_color\']=\''.addcslashes($_REQUEST['skins_freemind_section_color'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_freemind_section_style']) && $_REQUEST['skins_freemind_section_style'])
+		$content .= '$context[\'skins_freemind_section_style\']=\''.addcslashes($_REQUEST['skins_freemind_section_style'], "\\'")."';\n";
+	$content .= '$context[\'standard_width\']=\''.addcslashes($_REQUEST['standard_width'], "\\'")."';\n"
+		.'$context[\'standard_height\']=\''.addcslashes($_REQUEST['standard_height'], "\\'")."';\n"
+		.'$context[\'avatar_width\']=\''.addcslashes($_REQUEST['avatar_width'], "\\'")."';\n"
+		.'$context[\'avatar_height\']=\''.addcslashes($_REQUEST['avatar_height'], "\\'")."';\n"
+		.'$context[\'thumbnail_threshold\']=\''.addcslashes($_REQUEST['thumbnail_threshold'], "\\'")."';\n"
+		.'$context[\'thumbnail_width\']=\''.addcslashes($_REQUEST['thumbnail_width'], "\\'")."';\n"
+		.'$context[\'thumbnail_height\']=\''.addcslashes($_REQUEST['thumbnail_height'], "\\'")."';\n";
+	if(isset($_REQUEST['with_author_information']))
+		$content .= '$context[\'with_author_information\']=\''.addcslashes($_REQUEST['with_author_information'], "\\'")."';\n";
+	$content .= '?>'."\n";
+
+	// update the parameters file
+	if(!Safe::file_put_contents('parameters/skins.include.php', $content)) {
+
+		Skin::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/skins.include.php'));
+
+		// allow for a manual update
+		$context['text'] .= '<p style="text-decoration: blink;">'.sprintf(i18n::s('To actually change the configuration, please copy and paste following lines by yourself in file %s.'), 'parameters/skins.include.php')."</p>\n";
+
+	// job done
+	} else {
+
+		$context['text'] .= '<p>'.sprintf(i18n::s('The following configuration has been saved into the file %s.'), 'parameters/skins.include.php')."</p>\n";
+
+		// first installation
+		if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
+			$context['text'] .= '<p>'.i18n::s('Review provided information and go to the bottom of the page to move forward.')."</a></p>\n";
+
+		// purge the cache
+		Cache::clear();
+
+		// remember the change
+		$label = sprintf(i18n::c('%s has been updated'), 'parameters/skins.include.php');
+		$description = $context['url_to_home'].$context['url_to_root'].'skins/configure.php';
+		Logger::remember('skins/configure.php', $label, $description);
+	}
+
+	// display updated parameters
+	$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folder');
+
+	// first installation
+	if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
+		$context['text'] .= '<form method="get" action="../control/" id="main_form">'."\n"
+			.'<p>'.Skin::build_submit_button(i18n::s('Switch the server on')).'</p>'."\n"
+			.'</form>'."\n";
+
+	// ordinary follow-up commands
+	} else {
+
+		// what's next?
+		$context['text'] .= '<p>'.i18n::s('What do you want to do now?')."</p>\n";
+
+		// follow-up menu
+		$menu = array();
+
+		// offer to change it again
+		$menu = array_merge($menu, array( 'skins/configure.php' => i18n::s('Configure again') ));
+
+		// back to the control panel
+		$menu = array_merge($menu, array( 'control/' => i18n::s('Go to the Control Panel') ));
+
+		// display follow-up commands
+		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
+	}
+
+}
+
+// render the skin
+render_skin();
+
+?>

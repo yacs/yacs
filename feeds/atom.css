@@ -1,0 +1,11 @@
+feed { display: block; font-family: "Trebuchet MS", "Bitstream Vera Sans", verdana, lucida, arial, helvetica, sans-serif; margin: 2%; font-size: medium; color: #000000; background: #ffffff; }
+title { display: block; font-size: large; color: inherit; background: inherit; font-weight: bold; }
+tagline, link { display: block; font-size: small; }
+id, modified { display: none; }
+generator { display: block; font-size: small; }
+info { display: block; margin: 3em 4em 3em 4em; color: Black; background: #FFFACD; border: solid #CCCC66 2px; text-align: center; padding: 1.5em; font-family: mono; font-size: small; }
+entry { display: block; color: inherit; background: inherit; padding: 0; margin: 1em 1em 4em 1em; }
+entry modified, entry name { display: inline; color: #999999; background: inherit; font-size: small; }
+entry created, entry issued, entry id { display: none; }
+entry title { display: block; font-size: large; font-weight: bold; color: inherit; background: inherit; padding: 1em 1em 0em 0em; margin: 0; border-top: solid 1px #dddddd; }
+content { display: block; font-size: medium; color: inherit; background: inherit; padding: 1em; line-height: 1.5em; }

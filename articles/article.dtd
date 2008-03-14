@@ -1,0 +1,7 @@
+<!ELEMENT article (title, nick_name, (attribute)*)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT nick_name (#PCDATA)>
+<!ELEMENT attribute (introduction | source | description)>
+<!ELEMENT introduction (#PCDATA)>
+<!ELEMENT source (#PCDATA)>
+<!ELEMENT description (#PCDATA)>

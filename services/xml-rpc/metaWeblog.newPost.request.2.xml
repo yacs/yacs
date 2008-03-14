@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<methodCall>
+    <methodName>metaWeblog.editPost</methodName>
+    <params>
+        <param>
+            <value>
+                <string>4354</string>
+            </value>
+        </param>
+        <param>
+            <value>
+                <string>bernard</string>
+            </value>
+        </param>
+        <param>
+            <value>
+                <string>congo</string>
+            </value>
+        </param>
+        <param>
+            <value>
+                <struct>
+                    <member>
+	                    <name>title</name>
+	                    <value>
+	                        <string>How to categorize a page to one topic using w.bloggar?</string>
+	                    </value>
+                    </member>
+                    <member>
+	                    <name>description</name>
+                    	<value>
+                        	<string>[title]Change the configuration of w.bloggar[/title]
+                        	Launch w.bloggar. Press F10 to display the configuration dialog box. Click on the Custom tab. For Categories, select &apos;metaWeblog - Single&apos;. Save and close the dialog box, then close w.bloggar.
+
+                        	[title]Categorize while weblogging[/title]
+                        	Launch w.bloggar again. Now you should see a dropping list next the title field. w.bloggar automatically populates this list with top-level topics from the target yacs server.</string>
+	                    </value>
+                    </member>
+                    <member>
+	                    <name>categories</name>
+	                    <value>
+	                        <array>
+	                            <data>
+	                                <value>
+	                                    <string>Un nouveau topic</string>
+	                                </value>
+	                            </data>
+	                        </array>
+	                    </value>
+                    </member>
+                </struct>
+            </value>
+        </param>
+        <param>
+            <value>
+                <boolean>0</boolean>
+            </value>
+        </param>
+    </params>
+</methodCall>

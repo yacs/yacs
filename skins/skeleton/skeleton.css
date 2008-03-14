@@ -1,0 +1,2045 @@
+/**
+ * A fluid 2-column layout
+ *
+ * As its name implies, the skeleton skin may be used as a good starting point by skin designers requiring:
+ * - a fluid 2-column layout
+ * - top navigation tabs
+ *
+ * This single style sheet takes care of all media (screen, handheld, print, etc.)
+ *
+ * This style sheet has been checked against Mozilla Firefox version 1 and Microsoft Internet Explorer version 6.
+ * You may have to split this file into several pieces to avoid side-effects on legacy browsers such as Netscape navigator 4.7, etc.
+ *
+ * Styles are ordered according to following list:
+ * - standard HTML and XHTML tags are refined
+ * - unique styles used for page layout
+ * - other unique styles
+ * - classes
+ *
+ * For contextual rules, uniqueness comes before classes.
+ * This means that '#main_panel code' and '#main_panel a.article' are placed into the second section.
+ * And 'p.menu_bar' is in the last section.
+ *
+ * Where applicable we have also mentioned the YACS codes related to styles.
+ * You can find more information on YACS codes at codes/codes.php and related pages.
+ *
+ * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+/**
+ * import core YACS reference style sheet -- this has to come before any other rule
+ */
+@import url("../_reference/yacs.css");
+
+/**
+ * standard tags - redefine behaviour of reference HTML and XHTML tags
+ * to ensure that all browsers will be aligned
+ */
+
+a,
+a code { /* basic link */
+	color: #039;
+	text-decoration: none;
+	cursor: pointer; /* help ie on folded boxes */
+}
+
+a:link,
+a:link code { /* link displayed for the first time */
+	color: #039;
+}
+
+a:visited,
+a:visited code { /* link that has been used at least once */
+	color: #039;
+}
+
+a:active,
+a:active code { /* link at the moment it is clicked */
+	background-color: #ede;
+}
+
+a:hover,
+a:hover code { /* link below the mouse pointer */
+	background-color: #ede;
+}
+
+a img { /* avoid borders around images used as links */
+	border: none;
+}
+
+acronym { /* help in a popup -- [hint]...[/hint] */
+	border-bottom: 1px dotted #ccc;
+	cursor: help;
+}
+
+address { /* a author profile towards the end of the main panel -- from articles/view.php */
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+b { /* bold -- [b]...[/b] */
+}
+
+body { /* most elements will inherit some of these attributes */
+	margin: 0;
+	padding: 2em 3% 1em 3%;
+	font-family: Georgia, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 1em;
+	font-weight: normal;
+	color: #333;
+	background: #999 url("images/background_page.gif");
+}
+
+blockquote { /* someone has been cited -- [quote]...[/quote] */
+	border-left: 2px solid #bfbfbf;
+	margin: 0;
+	padding: 0 0 0 3px;
+}
+
+@media screen { /* not on printers */
+
+	blockquote { /* prefix quotes with a nice image */
+		padding-left: 25px;
+		background: url("images/quote_left.gif") top left no-repeat;
+		border: none;
+	}
+
+	blockquote .quote_prefix span { /* instead of the bare quote char */
+		display: none;
+	}
+}
+
+br { /* new line -- [nl] */
+}
+
+button { /* change button appearance */
+}
+
+button:hover {
+}
+
+center { /* is this one deprecated? -- [center]...[/center] */
+}
+
+code { /* some code sample -- [code]...[/code] */
+	color: #000000;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 1em;
+	font-weight: normal;
+}
+
+del { /* deleted -- [deleted]...[/deleted] */
+}
+
+form { /* inline rendering for all browsers */
+	margin: 0;
+	padding: 0;
+}
+
+h1 { /* appears only once, with the page title */
+	margin: 1em 0 0.5em 0;
+	padding: 0;
+	color: #f93;
+	font-size: 1.5em;
+	font-weight: bold;
+	text-align: left;
+}
+
+h2 { /* appears in the main content panel, to introduce sections of the page -- [title]...[/title], [question]...[/question] */
+	clear: left;
+	margin: 1em 0 0.5em 0;
+	padding: 0;
+	font-size: 1.2em;
+	font-weight: bold;
+	text-align: left;
+	clear: both;
+
+}
+
+h3 { /* a second level of heading in the main panel -- [subtitle]...[/subtitle] */
+	clear: left;
+	margin: 1em 0 0.5em 0;
+	padding: 0;
+	font-size: 1em;
+	font-weight: bold;
+	text-align: left;
+}
+
+hr { /* an ordinary horizontal rule --- [---], [___] */
+	height: 0px;
+	border-width: 1px;
+	border-color: #888;
+	border-style: none none dotted none;
+}
+
+i { /* italic -- [i]...[/i] */
+}
+
+img { /* a standard image */
+	margin: 0;
+	padding: 0;
+}
+
+input[type="password"],
+input[type="text"] { /* change form elements */
+	border: #26a solid 1px;
+}
+
+input:focus { /* help to locate the current field */
+	background-color:#dedede;
+}
+
+input[type="submit"] { /* change button appearance */
+	background-color: #aaa;
+	border-color: #dcdcdc #696969 #696969 #dcdcdc;
+	border-style: solid;
+	border-width: 2px;
+	text-align: center;
+	padding: 1px;
+	font-size: 10px;
+}
+
+input[type="submit"]:focus,
+input[type="submit"]:hover {
+	background-color: #caa;
+}
+
+ins { /* inserted -- [inserted]...[/inserted] */
+}
+
+li { /* avoid justification alignment */
+	text-align: left;
+}
+
+marquee { /* horizontal scroller -- [scroller]...[/scroller] */
+}
+
+ol { /* a numbered list -- [list=1]...[/list], [list=a]...[/list], [list=A]...[/list], [list=i]...[/list], [list=I]...[/list] */
+}
+
+p { /* add a space after each paragraph */
+	margin: 0 0 16px 0;
+	padding: 3px 0;
+}
+
+pre { /* a block of sample lines -- [php]...[/php], [snippet]...[/snippet] */
+	font-family: "Courier New", Courier, monospace;
+	font-size: 12px;
+	font-weight: normal;
+	margin: 1em;
+	padding: 1em;
+	background-color: #ffc;
+	color: #000;
+	border: 1px solid #999;
+	white-space: pre;
+}
+
+sub { /* shifted down -- [subscript]...[/subscript] */
+}
+
+sup { /* shifted up -- [superscript]...[/superscript] */
+}
+
+table { /* an ordinary table -- [table]...[/table] */
+	border-collapse: collapse;
+	border-bottom: 1px solid #bfbfbf;
+	border-right: 1px solid #bfbfbf;
+	margin-left: 2px; /* because rendering glitch in control panel */
+}
+
+td { /* an ordinary cell */
+	border-top: 1px solid #bfbfbf;
+	border-left: 1px solid #bfbfbf;
+	margin: 0;
+	padding: 4px;
+	vertical-align: top;
+    text-align: left;
+}
+
+textarea { /* change form elements */
+	border: #26a solid 1px;
+}
+
+textarea:focus { /* signal current input area */
+	background-color: #dedede;
+}
+
+th { /* an ordinary table header -- headers in [table]headers[body]content[/table] */
+	border-left: 1px solid #bfbfbf;
+	font-weight: normal;
+	background-color: #dedede;
+    text-align: left;
+}
+
+u { /* underlined -- [u]...[/u] */
+}
+
+ul { /* an ordinary list -- [list]...[/list] */
+}
+
+/**
+ * layout elements - also add behaviour for related sub-elements where applicable
+ */
+
+#footer_panel { /* comes after everything */
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	max-width: 90em;
+	text-align: center;
+	font-size: 0.8em;
+	font-weight: normal;
+}
+
+#footer_panel a {
+	font-weight: normal;
+}
+
+@media print { /* do not print footer information */
+
+	#footer_panel {
+		display: none;
+	}
+
+}
+
+#header_panel { /* comes before everything */
+	background-image: url("images/header_background.jpg");
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	max-width: 90em;
+	position: relative;
+	min-height: 5em;
+	height: 5em;
+	border-width: 1px;
+	border-style: solid solid none solid;
+	border-color: #000;
+}
+
+@media print { /* do not print heading information, including #tabs */
+
+	#header_panel {
+		display: none;
+	}
+
+}
+
+@media screen { /* only on a wide screen */
+
+	#main_panel { /* where the actual content is */
+		margin: 0;
+		padding: 0 1em 1em 1em;
+		width: 72%;
+		float: right;
+		text-align: justify;
+	}
+
+	#main_panel a code { /* next rule do not impact links (eg, <code> in [toc]) */
+		background-color: transparent;
+	}
+
+	#main_panel code { /* make code more visual */
+		background-color: #F5F5F5;
+		margin: 0;
+		padding: 0 4px 0 4px;
+	}
+
+	#main_panel pre code { /* use block attributes instead of in-line attributes */
+		background-color: transparent;
+		margin: 0;
+		padding: 0;
+	}
+
+}
+
+#main_panel ul { /* change lists in the main panel */
+	margin: 0.5em 0 1em 0;
+	padding: 0;
+	list-style: none;
+}
+
+#main_panel ul li {
+    margin: 0;
+    padding: 0;
+    padding-left: 20px;
+    background: url("images/bullet.gif") no-repeat 0px 0px;
+  }
+
+#side_panel { /* complementary information related to this page */
+	clear: left;
+	padding: 0.5em;
+	margin-right: 75%;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 0.7em;
+	font-weight: normal;
+}
+
+@media print { /* do not print complementary information */
+
+	#side_panel {
+		display: none;
+	}
+
+}
+
+#side_panel a:hover { /* links in the side panel */
+	background-color: #ccc;
+}
+
+#side_panel dl { /* actually, a box on the side panel */
+	margin: 0;
+	padding: 0;
+}
+
+#side_panel dl dd { /* body of one side box */
+	margin: 0.2em 0 2em 0;
+	padding: 0;
+}
+
+#side_panel dt { /* used for titles of various boxes */
+	background: transparent url("images/side_header.gif") top right;
+	margin: 1em 0 0.2em 0;
+	padding: 2px 30px 2px 2px;
+	font-weight: bold;
+}
+
+@media screen { /* on large screens */
+
+	#wrapper { /* limit the horizontal size of everything, and decorate the layout */
+		border: 1px solid #000;
+		background: #fff url("images/yacs_background.png") repeat-y 25% 0%; /*  */
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		max-width: 90em;
+	}
+
+}
+
+/**
+ * unique elements - may appear in one or several pages
+ */
+
+#categories ul { /* categories related to an article, on page side -- articles/view.php */
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#categories ul li { /* space between links */
+	margin: 0 0 4px 0;
+	padding: 0;
+}
+
+p#crumbs { /* path to this page -- see template script */
+	font-size: 0.8em;
+	font-weight: normal;
+	padding: 0;
+	margin: 0 0 20px 0;
+}
+
+p#crumbs a {
+	font-size: 0.8em;
+	font-weight: normal;
+}
+
+@media print { /* do not print context information */
+	p#crumbs {
+		display: none;
+	}
+}
+
+#featured { /* the navigation box for statically featured pages -- index.php, sections/view.php */
+}
+
+#featured ul { /* the list of featured pages */
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#featured hr { /* simple rule between items */
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px dotted #447;
+	height: 0px;
+}
+
+/* gadget boxes are generated at index.php and sections/view.php */
+
+dl#gadget_1,
+dl#gadget_3,
+dl#gadget_5,
+dl#gadget_7 { /* no more than two boxes per row -- also see .gadget_box -- from index.php, sections/view.php */
+ 	clear: left;
+}
+
+#gadgets_prefix { /* comes before gadget boxes */
+	clear: left; /* align properly after site map, if any */
+	margin-top: 8px;
+	font-size: 0.8em;
+}
+
+#gadgets_suffix { /* comes after gadget boxes */
+	clear: left; /* compensate for left-floated boxes */
+	margin: 0; /* ignored by firefox anyway */
+	padding: 0 0 2em 0; /* make some room after gadget boxes */
+}
+
+#header_slogan { /* appears towards the top of the page -- see template script */
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0; /* need for IE Mac */
+	padding: 12px 20px 0 0;
+	font-size: 0.7em;
+	font-weight: bold;
+	text-align: right; /* need for IE Mac */
+	white-space: nowrap; /* for Opera */
+}
+
+#header_title { /* appears towards the top of the page -- see template script */
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 0; /* need for IE Mac */
+	padding: 12px 0 0 20px;
+	font-size: 1.3em;
+	font-weight: bold;
+	color: #5F697E;
+	background: transparent;
+}
+
+@media screen { /* for the home page, only on large screens -- index.php */
+
+	#home_center { /* a centered article at the home page, in layout: newspaper */
+		border-left: 1px dotted #bfbfbf;
+		margin: 0 0 1em 0.5em;
+	    padding: 0 0 0 0.5em;
+	    float: left;
+	    width: 31%; /* 31% is the maximum accepted by Firefox to have three boxes in a row at 800x600 */
+	}
+
+	#home_east { /* the rightmost article at the home page, in layouts: boxesandarrows, newspaper */
+		border-left: 1px dotted #bfbfbf;
+		margin: 0 0 1em 0.5em;
+	    padding: 0 0 0 0.5em;
+	    float: left;
+	    width: 31%; /* for newspaper */
+/*	    width: 48%; /* for boxesandarrows */
+	}
+
+	#home_north { /* the most new article at the home page, in layouts: daily, newspaper, slashdot */
+		clear: left;
+	    border: 1px solid #fa0;
+	    margin: 0.5em 0 0.5em 0;
+	    padding: 0 0.5em;
+	}
+
+	#home_north h2 { /* space above title to be partly delegated to the containing div */
+	    margin-top: 0.5em;
+	}
+
+	#home_north .date { /* space above date to be partly delegated to the containing div */
+	    margin-top: 0.5em;
+	}
+
+	#home_west { /* the leftmost article at the home page, in layouts: boxesandarrows, newspaper */
+		margin: 0 0 1em 0;
+	    padding: 0;
+	    float: left;
+	    width: 31%; /* for newspaper */
+/*	    width: 48%; /* for boxesandarrows */
+	}
+
+	#home_south h3 { /* titles within home_east, home_center and home_west, for layout: newspaper */
+		margin-top: 0;
+	}
+
+}
+
+#neighbours ul { /* navigation commands on page side -- articles/view.php */
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#neighbours ul li { /* space between links */
+	margin: 0 0 4px 0;
+	padding: 0;
+}
+
+#news { /* the navigation box for static news -- index.php, sections/view.php */
+}
+
+#news ul { /* the list of news */
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#news hr { /* simple rule between items */
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px dotted #447;
+	height: 0px;
+}
+
+p#page_menu { /* an horizontal menu of commands below page title -- see template script */
+	margin: 0 0 8px 0;
+	font-family: sans-serif;
+	font-size: 0.8em;
+	font-weight: normal;
+}
+
+p#page_menu a {
+	font-family: sans-serif;
+	font-size: 0.8em;
+	font-weight: normal;
+}
+
+@media print { /* do not print the page menu */
+	p#page_menu {
+		display: none;
+	}
+}
+
+dl#rotating_featured dd ,
+dl#rotating_news dd { /* the navigation box for rotating news -- index.php, sections/view.php */
+	height: 12em; /* should be taller than longer element */
+	overflow: hidden; /* strip the tail, if any */
+	width: auto;
+}
+
+dl#rotating_featured dd hr,
+dl#rotating_news dd hr { /* items are displayed one at a time, and the separator is useless */
+	display: none;
+}
+
+dl#rotating_featured dd ul,
+dl#rotating_news dd ul { /* the actual list of news */
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#scrolling_featured div.scroller_outside,
+#scrolling_news div.scroller_outside { /* the navigation box for scrolling news -- index.php, sections/view.php */
+	height: 200px; /* the height of the scrolling area */
+}
+
+#scrolling_featured hr,
+#scrolling_news hr { /* separate items */
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px dotted #447;
+	height: 0px;
+}
+
+#scrolling_featured ul,
+#scrolling_news ul { /* a list with no bullet */
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#sections a.section { /* a link to a section, in some site map -- index.php, sections/index.php, sections/view.php */
+	font-weight: bold;
+}
+
+body#slideshow { /* background for slideshows */
+	background: white;
+}
+
+body#slideshow h1 { /* title for slideshows */
+	text-align: center;
+	background: none;
+	padding: 0;
+}
+
+/* the global navigation bar -- see template script */
+
+#tabs,
+#tabs a { /* text appearance in tabs */
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 0.8em;;
+	font-weight: normal;
+}
+
+#tabs ul { /* position tabs */
+	width: auto;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin: 0 1px 0 0;
+	padding: 0;
+	list-style: none;
+	z-index: 10;
+}
+
+#tabs ul li { /* tab top left corner */
+	float: right;
+	background: transparent url("images/navigation_tab.gif") 100% -600px no-repeat;
+	padding: 0 6px 0 0;
+	margin: 0 1px 0 0;
+	border-bottom: 1px solid #515358;
+}
+
+#tabs ul li:hover { /* change tab background on hovering */
+	background-position: 100% -400px;
+	cursor: pointer; /* else ie 6 is lost */
+}
+
+#tabs ul li a { /* tab top right corner */
+	float: left;
+	display: block;
+	padding: 4px 4px 4px 10px;
+	background: transparent url("images/navigation_tab.gif") 0% -600px no-repeat;
+	color: #fff;
+	text-decoration: none;
+}
+
+#tabs ul li:hover a { /* change tab background on hovering */
+	background-position: 0% -400px;
+}
+
+
+#tools img { /* towards bottom of the page -- see articles/view.php */
+	margin-right: 4px; /* space between icons and labels */
+}
+
+#user_menu ul { /* commands that apply to this user -- see template script */
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+@media screen { /* on large screens */
+
+	#wrapper_prefix { /* top decoration */
+		background: url("images/yacs_top.png") 25% 0px no-repeat;
+		font-size: 3px; /* for IE */
+		margin: 0;
+		padding: 0 0 5px 0;
+		width: 100%;
+	}
+
+	#wrapper_suffix { /* bottom decoration */
+		background: url("images/yacs_bottom.png") 25% 100% no-repeat;
+		clear: both;
+		font-size: 3px; /* for IE */
+		margin: 0;
+		padding: 5px 0 0 0;
+		width: 100%;
+	}
+
+}
+
+/**
+ * styles by classes
+ */
+
+@media screen { /* not on printers */
+
+	#main_panel a.article { /* the image near a link to an article -- [article=id], [article=id, label] */
+		padding-right: 13px;
+		background: url("icons/document.png") right no-repeat;
+	}
+
+	* html #main_panel a.article { /* ie kills trailing rendering on long links */
+		padding-right: 0px;
+		background: none;
+	}
+
+}
+
+td.author { /* in jive and yabb layouts */
+	border-right: 1px solid #bfbfbf;
+}
+
+.author_box { /* a user profile, towards the beginning of an article */
+	float: right;
+	padding: 2px;
+	border: 1px dotted #888;
+}
+
+img.avatar { /* an image representing a member -- do not float it! */
+	margin: 3px; /* some space around the image */
+}
+
+p.away { /* not visible for ordinary browsers -- accessibility tweak */
+	position: absolute;
+	left: -999px;
+	width: 990px;
+}
+
+.big { /* bigger than default, but smaller than .huge -- [big]...[/big] */
+	font-size: 2em;
+	line-height: 1.1em;
+}
+
+#main_panel a.button { /* a link that mimic a form button -- [button]url[/button], [button=label]url[/button] */
+	display: -moz-inline-box; /* mandatory for firefox 2 */
+	display: inline-block;
+	cursor: pointer;
+	border: none;
+    font-size: 0;
+	font-style: normal;
+	text-decoration: none;
+	color: #2e523b;
+    line-height: 0;
+    background: transparent url('images/button_drop.png') 0 0 no-repeat;
+	height: 30px;
+	margin: 0 6px 0 0;
+	padding: 0 10px 0 0;
+	vertical-align: middle;
+}
+
+#main_panel a.button span {
+	display: inline-block;
+	cursor: pointer;
+	border: none;
+    font-family: "Arial" !important;
+    font-size: 12px !important;
+    font-style: normal;
+	white-space: nowrap;
+    letter-spacing: 0 !important;
+    color: #222;
+	line-height: 16px;
+    background: transparent url('images/button_drop.png') 100% 0 no-repeat;
+	height: 30px;
+	margin: 0 -16px 0 10px;
+	padding: 8px 20px 0 10px;
+	vertical-align: middle;
+}
+
+
+#main_panel span.button { /* a button in a form */
+	display: -moz-inline-box; /* mandatory for firefox 2 */
+	display: inline-block;
+	cursor: pointer;
+	border: none;
+    font-size: 0;
+	font-style: normal;
+	text-decoration: none;
+	color: #2e523b;
+    line-height: 0;
+    background: transparent url('images/button_drop.png') 0 0 no-repeat;
+	height: 30px;
+	margin: 0 6px 0 0;
+	padding: 0 10px 0 0;
+	vertical-align: middle;
+}
+
+#main_panel span.button button {
+	display: -moz-inline-box;
+	display: inline-block;
+	cursor: pointer;
+	border: none;
+    font-family: "Arial" !important;
+    font-size: 12px !important;
+    font-style: normal;
+	white-space: nowrap;
+    letter-spacing: 0 !important;
+    color: #222;
+	line-height: 1;
+    background: transparent url('images/button_drop.png') 100% 0 no-repeat;
+	height: 30px;
+	margin: 0 -16px 0 10px;
+	padding: 0 20px 0 10px;
+	vertical-align: text-top;
+}
+
+#main_panel a.button:hover,
+#main_panel span.button:hover {
+	background-position:0 -60px;
+	color:#fff;
+	text-decoration:none;
+}
+
+#main_panel a.button:hover span,
+#main_panel span.button:hover button {
+	background-position:100% -60px;
+	color:#fff;
+}
+
+#main_panel a.button:active span,
+#main_panel span.button:focus button {
+	color:#444;
+}
+
+table.calendar { /* add bottom and right borders to the table*/
+	border-spacing: 0;
+	border-collapse: separate;
+	border-bottom: 1px solid #bfbfbf;
+	border-right: 1px solid #bfbfbf;
+	margin-bottom: 1em;
+}
+
+table.calendar caption,
+table.calendar caption a { /* calendar caption */
+	font-weight: bold;
+	font-size: 12px;
+	font-style: normal;
+	color: #fff8ff;
+	background-color: #8D90AB;
+	text-align: left;
+	padding: 0 2px 0 2px;
+}
+
+table.calendar td,
+table.calendar th { /* add top and left borders to each cell */
+	border-top: 1px solid #bfbfbf;
+	border-left: 1px solid #bfbfbf;
+	margin: 0;
+	padding: 4px;
+	vertical-align: top;
+    text-align: left;
+}
+
+table.calendar td.spot {
+	background-color: #eee;
+	font-weight: bold;
+}
+
+@media screen { /* not on printers */
+
+	#main_panel a.category { /* the image near a link to a category -- [category=id], [category=id, label] */
+		padding-right: 16px;
+		background: url("icons/section.png") right no-repeat;
+	}
+
+	* html #main_panel a.category { /* ie kills trailing rendering on long links */
+		padding-right: 0px;
+		background: none;
+	}
+
+}
+
+p.caution { /* a warning paragraph -- [caution]...[/caution] -- see also CAUTION_FLAG in skins/skin_skeleton.php */
+}
+
+.center_image { /* an image in the middle of the page [image=xx, center] */
+	display: block;
+	position: relative;
+	clear: both;
+	text-align: center;
+	margin: 8px 0 8px 0;
+}
+
+.center_image .large img { /* add a simple border around large images */
+	border: 1px solid #a9a9a9;
+	padding: 4px;
+}
+
+.center_image .image_caption { /* image caption */
+	display: block;
+	text-align: center;
+	font-size: smaller;
+	padding-top: 0;
+	margin-top: 0;
+}
+
+table.collections { /* a list of downloadable files -- see collections/browse.php */
+	border-spacing: 0;
+	border: none;
+}
+
+table.collections a img {
+	border: none;
+}
+
+table.collections td {
+	border: none;
+	margin: 0;
+	padding: 0.3em 8px 0.3em 8px;
+}
+
+table.collections th {
+	border: none;
+	margin: 0;
+	padding: 0.3em 8px 0.3em 8px;
+}
+
+dl.column { /* one single column -- index.php */
+    margin: 1em 8px 8px 0;
+    padding: 0;
+}
+
+dl.column dd { /* column actual content */
+	margin: 0 0 1em 2em;
+	padding: 0 0 0 4px;
+	border-left: dotted 1px #D6CCBD;
+	overflow: hidden; /* kill oversized links */
+}
+
+dl.column dd,
+dl.column dd a.category,
+dl.column dd .details,
+dl.column dd a.section { /* make content look larger in single column */
+	font-size: 107%;
+}
+
+dl.column dd p,
+dl.column dd ul { /* vertical margins within a box */
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+}
+
+dl.column dt { /* the image aside the column */
+	clear: left;
+	border: 0;
+	margin: 0;
+	padding: 2px 0 2px 0;
+}
+
+dl.column dt img { /* align the image */
+	margin: 0;
+	padding: 0;
+}
+
+dl.column_1,
+dl.column_2 { /* left or right column out of two -- index.php, sections/index.php, sections/view.php, categories/index.php, etc. */
+    margin: 0 8px 8px 0;
+    padding: 0;
+    float: left;
+    width: 45%;
+}
+
+dl.column_1 dd,
+dl.column_2 dd { /* column actual content */
+	margin: 0 0 1em 30px;
+	padding: 0 0 0.4em 0.7em;
+	border-left: solid 1px #D6CCBD;
+	text-align: left;
+	overflow: hidden; /* kill oversized links */
+}
+
+dl.column_1 dd p,
+dl.column_1 dd ul,
+dl.column_2 dd p,
+dl.column_2 dd ul { /* space around content elements */
+	margin-top: 0.2em;
+	margin-bottom: 0.2em;
+}
+
+dl.column_1 dt,
+dl.column_2 dt { /* the image aside the column */
+	clear: left;
+	text-align: left;
+	border: 0;
+	margin: 0;
+	padding: 2px 0 0 0;
+}
+
+dl.column_1 dt img,
+dl.column_2 dt img { /* align the image */
+	margin: 0;
+	padding: 0;
+}
+
+.comic { /* use a special font -- [style=comic]...[/style] */
+    font-family: "Comic Sans MS", cursive;
+}
+
+@media screen { /* not on printers */
+
+	#main_panel a.comment { /* the image near a link to a comment -- [comment=id], [comment=id, label] */
+		padding-right: 17px;
+		background: url("icons/news.png") right no-repeat;
+	}
+
+	* html #main_panel a.comment { /* ie kills trailing rendering on long links */
+		padding-right: 0px;
+		background: none;
+	}
+
+}
+
+@media screen { /* not on printers */
+
+	div.comment div {	/* some blog comment -- comments/layout_comments_as_daily.php */
+		margin-left: 1em;
+	}
+
+}
+
+ul.compact,
+#main_panel ul.compact,
+#side_panel ul.compact { /* we use our own item prefix -- see the skin script */
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#main_panel ul.compact li,
+#side_panel ul.compact li { /* remove default bullet */
+    margin: 0;
+    padding: 0;
+    background: none;
+}
+
+.cursive { /* use a cursive font -- [style=cursive]...[/style] */
+    font-family: cursive;
+}
+
+p.date { /* date of a post, above its title -- articles/layout_articles_as_daily.php & skins/layout_home_articles_as_daily.php */
+	color: #888;
+	font-size: 0.8em;
+	margin-top: 1.5em;
+	margin-bottom: 0;
+	padding-bottom: 4px;
+	width: 100%;
+	border-bottom: 1px solid #ddd;
+	text-align: right;
+}
+
+table.decorated { /* a 2-column table, with images on the left -- [decorated]...[/decorated] */
+	border-spacing: 0;
+	border: none;
+}
+
+table.decorated td {
+	border: none;
+	margin: 0;
+	padding: 6px;
+}
+
+table.decorated td img { /* align the decorating image with decorated text */
+	margin-top: 6px;
+}
+
+.details { /* a set of details */
+	font-family: sans-serif;
+	font-weight: normal;
+}
+
+.details a { /* a link among details */
+	font-family: sans-serif;
+	font-weight: normal;
+}
+
+#main_panel .details { /* less contrasted than regular text */
+	color: #888;
+	font-size: 0.7em;
+}
+
+#main_panel .details a { /* faded into text */
+	color: #666;
+	font-size: 1em;
+}
+
+#side_panel .details { /* less contrasted than regular text */
+	color: #447;
+	font-size: 1em; /* all text is small on side panel */
+}
+
+p.details { /* stick to previous and next elements */
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+dl.download dd { /* the description below a download link -- see files/view.php */
+	margin-left: 0;
+}
+
+dl.download dt { /* the link to download a file -- see files/view.php */
+	margin-bottom: 1em;
+	font-weight: bold;
+}
+
+@media screen { /* not on printers */
+
+	.draft { /* signal draft pages with a neat image */
+		padding-right: 10px;
+		margin-right: 2px;
+		background: url("icons/to_publish.gif") right no-repeat;
+	}
+
+	.draft span { /* mask default text */
+		display: none;
+	}
+}
+
+@media screen { /* not on printers */
+
+	#main_panel a.email { /* the image near a link to an email address -- [email]address[/email], [email=label]address[/email] */
+		padding-right: 18px;
+		background: url("icons/mailto.png") right no-repeat;
+	}
+
+	* html #main_panel a.email { /* ie kills trailing rendering on long links */
+		padding-right: 0px;
+		background: none;
+	}
+
+}
+
+div.error { /* report on abnormal conditions */
+	color: red;
+}
+
+div.even { /* stacked with div.odd */
+	padding: 0.5em 0;
+}
+
+@media screen { /* not on printers */
+
+	.expired { /* display a neat image to flag expired pages */
+		padding-right: 16px;
+		margin-right: 2px;
+		background: url("icons/expired.gif") right no-repeat;
+	}
+
+	.expired span { /* mask default text */
+		display: none;
+	}
+}
+
+@media screen { /* not on printers */
+
+	#main_panel a.external { /* the image near an external link -- [link]href[/link], [link=label]href[/link] */
+		padding-right: 15px;
+		background: url("icons/link.png") right no-repeat;
+	}
+
+	* html #main_panel a.external { /* ie kills trailing rendering on long links */
+		padding-right: 0px;
+		background: none;
+	}
+
+}
+
+div.external_image { /* display an image hosted elsewhere -- [img]url[/img] */
+	max-width: 400px; /* clip the image to preserve comments layout */
+	width: 400px;
+	overflow: hidden;
+}
+
+.extra_box ul { /* a list in the side panel */
+	margin: 0.5em 0 1em 0;
+	padding: 0 0 0 1.5em;
+	list-style: disc;
+}
+
+.fantasy { /* various rendering, you have been warned -- [style=fantasy]...[/style] */
+    font-family: fantasy;
+}
+
+@media screen { /* not on printers */
+
+	#main_panel a.file { /* the image near a link to view file details -- [file=id], [file=id, label] */
+		padding-right: 15px;
+		background: url("icons/download.png") right no-repeat;
+	}
+
+	* html #main_panel a.file { /* ie kills trailing rendering on long links */
+		padding-right: 0px;
+		background: none;
+	}
+
+}
+
+.flag { /* compact meta-information -- [flag]foo bar[/flag], but also [new], [popular], [updated] -- see also .new, .popular, .updated */
+	color: red;
+	font-size: 0.8em;
+}
+
+span#family { /* within section title -- see sections/view.php */
+	font-weight: normal;
+	font-size: 12px;
+	font-style: normal;
+	line-height: 12px;
+	color: #66a;
+}
+
+.family,
+.family a { /* to introduce several successive sections in a forum -- see sections/layout_sections_as_yabb.php */
+	font-weight: bold;
+	font-size: 12px;
+	font-style: normal;
+	color: #fff8ff;
+	background-color: #8D90AB;
+	text-align: left;
+	padding: 0 2px 0 2px;
+}
+
+dl.floating_box { /* float to the left */
+	float: left;
+	display: table-cell;
+	margin-right: 2em;
+	text-align: center;
+}
+
+dl.floating_box dd { /* center box content */
+	text-align: center;
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+dl.floating_box dt { /* center box title */
+	text-align: center;
+	border: none;
+	font-size: 1.5em;
+	padding: 0;
+	margin: 0;
+}
+
+div.folder_body { /* the body of an unfolded box -- [folder]...[/folder] */
+	background-color: #F5F5F5;
+	border-style: none none dotted dotted;
+	border-width: 1px;
+	padding: 3px 1em 1em 1em;
+	margin-left: 5px;
+}
+
+a.folder_header { /* not an ordinary link */
+	font-weight: bold;
+}
+
+table.form { /* a table used to present form fields */
+	border: none;
+}
+
+table.form td {
+	border: none;
+	margin: 0;
+	padding: 0.3em 0.5em 0.5em 0;
+}
+
+.frame_image { /* a framed image -- [image=123,frame] */
+	display: block;
+}
+
+.frame_image img {
+	border: 1px solid #a9a9a9;
+	padding: 4px;
+}
+
+.frame_image .image_caption { /* a nice panel with the title below the image */
+	display: block;
+	text-align: left;
+	margin: 0;
+	padding: 6px;
+	font-size: small;
+}
+
+.frame_image span.suffix { /* ensure following text flows below the image */
+	display: block;
+	clear: left;
+}
+
+dl.gadget_box { /* container of one gadget box -- also see #gadget_1, etc. -- from index.php, sections/view.php */
+	padding: 0;
+	margin: 0 1em 1em 0;
+	float: left;
+	width: 45%;
+}
+
+dl.gadget_box dd { /* content of one gadget box */
+	font-size: 0.8em;
+	margin-left: 0;
+}
+
+dl.gadget_box dt { /* header of one gadget box */
+	background-image: url("images/gadget_tab.jpg");
+	background-position: top left;
+	background-repeat: no-repeat;
+	padding: 0 0 0 6px;
+	margin: 0;
+}
+
+dl.gadget_box dt span { /* header of one gadget box */
+	display: block;
+	background-image: url("images/gadget_tab.jpg");
+	background-position: top right;
+	background-repeat: no-repeat;
+	padding: 2px 6px 0 0;
+	margin: 0;
+}
+
+table.grid { /* add bottom and right borders to the table*/
+	border-spacing: 0;
+	border-collapse: separate;
+	border-bottom: 1px solid #bfbfbf;
+	border-right: 1px solid #bfbfbf;
+}
+
+table.grid td,
+table.grid th { /* add top and left borders to each cell */
+	border-top: 1px solid #bfbfbf;
+	border-left: 1px solid #bfbfbf;
+	margin: 0;
+	padding: 4px;
+	vertical-align: top;
+    text-align: left;
+}
+
+.hide { /* text readers will show it */
+	display: none;
+}
+
+.highlight1 { /* to locate words looked for, following a search request */
+	background-color: #80FF80;
+}
+
+.highlight2 {
+	background-color: #8080FF;
+}
+
+.highlight3 {
+	background-color: #FF8080;
+}
+
+.huge { /* bigger than .big -- [huge]...[/huge] */
+	font-size: 3em;
+	line-height: 1.1em;
+}
+
+img.icon { /* main image of an article, or of some section -- $context[page_image'], handled in template script */
+	border: 5px solid #ccc; /* add a border */
+	float: right;
+	margin: 6px 6px 10px 10px;
+	padding: 0;
+}
+
+br.images_prefix { /* before a set of thumbnails, to align them correctly -- [images] */
+	clear: left;
+}
+
+br.images_suffix { /* after a set of thumbnails, to align following text properly -- [/images] */
+	clear: left;
+}
+
+.indent { /* shift to the right -- [indent]...[/indent] */
+	margin: 0.3em 0 0.5em 3em;
+}
+
+.inline_image { /* an embedded image (not the thumbnail, which is .thumbnail_image) */
+}
+
+.inline_image .large img { /* a simple border forlarge images */
+	border: 1px solid #a9a9a9;
+	padding: 4px;
+}
+
+.inline_image .large .image_caption {	 /* a nice panel with the title below the image */
+	text-align: left;
+	margin: 0;
+	padding: 6px;
+	font-size: small;
+}
+
+.inline_image span.suffix { /* ensure following text flows below the image */
+	display: block;
+	clear: left;
+}
+
+.introduction { /* before the main content of an article -- articles/view.php, sections/view.php, categories/view.php */
+    font-weight: bold;
+    text-align: left;
+}
+
+table.jive { /* to introduce threads and comments -- see articles/layout_articles_as_jive.php */
+	border-collapse: collapse;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	max-width: 90%;
+	width: 90%;
+	margin: 0;
+	padding: 0;
+}
+
+table.jive tr.even {
+	background-color: #ffe;
+}
+
+table.jive tr.odd {
+	background-color: #fef;
+}
+
+table.jive tr td { /* separate lines */
+	margin: 0;
+	padding: 8px;
+	overflow: hidden;
+}
+
+table.jive tr th { /* table header */
+	font-weight: bold;
+	margin: 0;
+	padding: 8px;
+}
+
+p.jive_menu { /* commands below every jive item */
+	margin: 1em 0 0 0;
+}
+
+.left_image { /* an image floated to the left -- [image=xx, left] */
+	display: block;
+	float: left;
+	margin: 8px 8px 8px 0;
+	text-align: center;
+}
+
+.left_image .large img { /* add a simple border around large images */
+	border: 1px solid #a9a9a9;
+	padding: 4px;
+}
+
+.left_image .large .image_caption { /* a nice panel with the title below the image */
+	display: block;
+	text-align: center;
+	margin: 0;
+	padding: 6px;
+	font-size: small;
+}
+
+.left_image .image_caption {	/* when the image is not so large */
+	display: block;
+	text-align: center;
+	font-size: smaller;
+	padding-top: 0;
+	margin-top: 0;
+}
+
+dl.manual_comments { /* to list comments in a manual -- see comments/layout_comments_as_manual.php */
+	margin: 0 1em 0 0;
+	padding: 0;
+}
+
+dl.manual_comments dd { /* body of one note */
+	margin: 0 0 1em 0;
+	padding: 0.3em 1em 1em 1em;
+}
+
+dl.manual_comments dd.odd {
+	border-left: 1px solid #daa;
+	border-right: 1px solid #daa;
+	border-bottom: 1px solid #daa;
+}
+
+dl.manual_comments dd.even {
+	border-left: 1px solid #aaf;
+	border-right: 1px solid #aaf;
+	border-bottom: 1px solid #aaf;
+}
+
+dl.manual_comments dt { /* header of one note */
+	margin: 1em 0 0 0;
+	padding: 1em 1em 2px 1em;
+}
+
+dl.manual_comments dt.odd {
+	border-top: 1px solid #daa;
+	border-left: 1px solid #daa;
+	border-right: 1px solid #daa;
+}
+
+dl.manual_comments dt.even {
+	border-top: 1px solid #aaf;
+	border-left: 1px solid #aaf;
+	border-right: 1px solid #aaf;
+}
+
+.menu { /* a small inline menu, almost anywhere */
+	display: inline;
+	margin: 0;
+	padding: 0;
+	font-size: 0.8em;
+}
+
+.menu a {
+	font-weight: normal;
+}
+
+.menu_bar { /* an horizontal menu of commands, below a section title */
+	clear: left;
+	margin: 8px 0 8px 0;
+}
+
+.menu_bar a {
+	font-weight: normal;
+}
+
+.my_style { /* featured in help pages -- [style=my_style] -- codes/basic.php */
+	color: blue;
+}
+
+table.neighbours { /* previous and next links -- images/view.php */
+	clear: left;
+	border: none;
+	margin: 0;
+}
+
+table.neighbours tr td {
+	border: none;
+}
+
+table.neighbours tr td.next {
+	border: none;
+	padding: 1em 0 1em 3em;
+}
+
+table.neighbours tr td.option {
+	border: none;
+	padding: 1em 2em 1em 2em;
+}
+
+table.neighbours tr td.previous {
+	border: none;
+	padding: 1em 3em 1em 0;
+}
+
+@media screen { /* not on printers */
+
+	.new { /* display a neat image as a flag -- [new] -- see also .flag */
+		padding-right: 31px;
+		margin-right: 2px;
+		background: url("icons/new.gif") right no-repeat;
+	}
+
+	.new span { /* mask default text */
+		display: none;
+	}
+}
+
+@media screen { /* not on printers */
+	#main_panel a.next { /* shortcut to next page -- [next=id], [next=id, label] */
+	}
+}
+
+p.note { /* a noticeable paragraph -- [note]...[/note] -- see also NOTICE_FLAG in skins/skin_skeleton.php */
+}
+
+div.odd { /* stacked with div.even */
+	padding: 0.5em 0;
+}
+
+#main_panel td.odd { /* one row out of two, but only in the main panel */
+	background-color: #F4F0F4;
+}
+
+div.overlay { /* in lists, and before the main content of an article -- articles/view.php */
+	padding: 0;
+	margin: 0;
+}
+
+div.overlay p { /* one component of some overlay content */
+	padding: 0;
+	margin: 0;
+}
+
+dl.poll { /* layout poll results */
+    margin: 1em 8px 8px 0;
+    padding: 0;
+}
+
+dl.poll dd { /* horizontal bar for one answer */
+	white-space: nowrap; /* to replace <nobr> */
+	margin: 0 0 1em 1.5em;
+	padding: 0 0 0 0;
+}
+
+dl.poll dt { /* label of one answer */
+	clear: left;
+	border: 0;
+	margin: 0;
+	padding: 2px 3px 2px 0;
+}
+
+@media screen { /* not on printers */
+
+	.popular { /* display a neat image as a flag -- [popular] -- see also .flag */
+		padding-right: 24px;
+		margin-right: 2px;
+		background: url("icons/popular.gif") right no-repeat;
+	}
+
+	.popular span {	/* mask default text */
+		display: none;
+	}
+}
+
+@media screen { /* not on printers */
+	#main_panel a.previous { /* shortcut to previous page -- [previous=id], [previous=id, label] */
+	}
+}
+
+@media screen { /* not on printers */
+
+	.private { /* display a neat image to flag private items */
+		padding-right: 13px;
+		background: url("icons/private.png") right no-repeat;
+	}
+
+	.private span { /* mask text */
+		display: none;
+	}
+}
+
+@media screen { /* not on printers */
+
+	.restricted { /* display a neat image to flag restricted items */
+		padding-right: 13px;
+		background: url("icons/restricted.png") right no-repeat;
+	}
+
+	.restricted span { /* mask text */
+		display: none;
+	}
+}
+
+.right { /* flushed to the right -- [right] */
+	text-align: right;
+}
+
+.right_image { /* an image floated to the rift -- [image=xx, right] */
+	display: block;
+	float: right;
+	margin: 8px 0 8px 8px;
+	text-align: center;
+}
+
+.right_image .large img { /* add a simple border around large images */
+	border: 1px solid #a9a9a9;
+	padding: 4px;
+}
+
+.right_image .large .image_caption {	 /* a nice panel with the title below the image */
+	display: block;
+	text-align: center;
+	margin: 0;
+	padding: 8px;
+	font-size: small;
+}
+
+.right_image .image_caption { /* image caption */
+	display: block;
+	text-align: center;
+	font-size: smaller;
+	padding-top: 0;
+	margin-top: 0;
+}
+
+.sans-serif { /* use a sans-serif font -- [style=sans-serif]...[/style] */
+    font-family: sans-serif;
+}
+
+@media screen { /* not on printers */
+
+	#main_panel a.script { /* the image near a link to a phpDoc page -- [script]path/script.php[/script] */
+		padding-right: 14px;
+		background: url("icons/server.png") right no-repeat;
+	}
+
+	* html #main_panel a.script { /* ie kills trailing rendering on long links */
+		padding-right: 0px;
+		background: none;
+	}
+
+}
+
+.scroller_inside { /* the internal div of a scroller */
+	position: relative;
+}
+
+.scroller_outside { /* the external div of a scroller */
+	overflow: hidden; /* strip the tail, if any */
+	position: relative; /* let the inside scroller work correctly */
+}
+
+@media screen { /* not on printers */
+
+	#main_panel a.section { /* the image near a link to a section -- [section=id], [section=id, label] */
+		padding-right: 16px;
+		background: url("icons/section.png") right no-repeat;
+	}
+
+	* html #main_panel a.section { /* ie kills trailing rendering on long links */
+		padding-right: 0px;
+		background: none;
+	}
+
+}
+
+div.section_box { /* components of the main content */
+	clear: left;
+    margin-top: 10px;
+}
+
+.serif { /* use a serif font -- [style=serif]...[/style] */
+    font-family: serif;
+}
+
+@media screen { /* not on printers */
+
+	#main_panel a.server { /* the image near a link to a server profile -- [server=id], [server=id, label] */
+		padding-right: 14px;
+		background: url("icons/server.png") right no-repeat;
+	}
+
+	* html #main_panel a.server { /* ie kills trailing rendering on long links */
+		padding-right: 0px;
+		background: none;
+	}
+
+}
+
+@media screen { /* not on printers */
+
+	#main_panel a.shortcut { /* the image near a local link */
+		padding-right: 15px;
+		background: url("icons/shortcut.png") right no-repeat;
+	}
+
+	* html #main_panel a.shortcut { /* ie kills trailing rendering on long links */
+		padding-right: 0px;
+		background: none;
+	}
+
+}
+
+div.sidebar_box { /* somewhere in the main panel -- [sidebar]...[/sidebar] */
+	background-color: #ffc;
+	border-style: none none none dotted;
+	border-width: 1px;
+	border-color: #696;
+	float: right;
+	width: 40%;
+	padding: 1em;
+	font-size: smaller;
+	margin: 0 0 4px 4px;
+}
+
+div.sidebar_box h3 { /* header of one sidebar box -- the 'foo bar' of [sidebar=foo bar]...[/sidebar] */
+	margin: 0;
+	padding: 0;
+}
+
+.small, /* smaller than default, but larger than .tiny -- [small]...[/small] */
+table.small tr td { /* [table=small]...[/table] */
+	font-size: 0.8em;
+}
+
+td.sorted { /* for tables handled through javascript -- see tables/sort.js */
+	background-color: #f0f0f0;
+}
+
+th.sorted {
+	background-color: #c4c0c4;
+}
+
+tr.odd td.sorted {
+	background-color: #F4F0F4;
+}
+
+.thumbnail_image { /* float thumbnails to align them */
+	display: block;
+	float: left;
+	display: table-cell;
+	margin-right: 8px;
+	text-align: center;
+	height: 170px;	/* to align with actual thumbnail height set in configuration panel for skins */
+	width: 120px;	/* to align with actual thumbnail width set in configuration panel for skins */
+}
+
+.thumbnail_image img { /* add a small border to images */
+	border: 1px solid #333;
+}
+
+.thumbnail_image .image_caption { /* caption */
+	display: block;
+	text-align: center;
+	font-size: 7pt;
+	padding-top: 0;
+	margin: 0;
+}
+
+.tiny, /* smaller than .small -- [tiny]...[/tiny] */
+table.tiny tr td { /* [table=tiny]...[/table] */
+	font-size: 0.7em;
+}
+
+.toc_box { /* table of content -- [toc] */
+	background-color: #F5F5F5;
+	font-size: 0.7em;;
+	padding: 9px;
+	margin-top: 0.5em;
+	margin-bottom: 1em;
+}
+
+#main_panel div.toc_box ul { /* first level of the toc */
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#main_panel div.toc_box ul ul { /* second level of the toc */
+	margin-left: 1.3em;
+}
+
+.toq_box { /* table of questions -- [toq] */
+	background-color: #F5F5F5;
+	font-size: 0.7em;;
+	padding: 9px;
+	margin-top: 0.5em;
+	margin-bottom: 1em;
+}
+
+#main_panel div.toq_box ul { /* a list of questions */
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#contextual_menu ul.tree { /* shape a tree of links -- see build_tree() in skins/skin_skeleton.php */
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	font-family: arial, sans-serif;
+	font-size: 10px;
+	line-height: 14px;
+}
+
+#contextual_menu ul.tree ul { /* indent all levels, except level 1 */
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	font-family: arial, sans-serif;
+	font-size: 10px;
+	line-height: 14px;
+	background-image: url("icons/tree/vertical.gif");
+	background-repeat: repeat-y;
+	background-position: 0px 0px;
+}
+
+#contextual_menu ul.tree li { /* every branch of the tree */
+	margin: 0;
+	padding-top: 0;
+}
+
+#contextual_menu ul.tree_level_1 li { /* top-level branch of the tree is left-aligned */
+	padding-left: 0;
+}
+
+#contextual_menu ul.tree_level_2 li,
+#contextual_menu ul.tree_level_3 li,
+#contextual_menu ul.tree_level_4 li,
+#contextual_menu ul.tree_level_5 li { /* other levels are indented */
+	padding-left: 14px;
+	background-image: url("icons/tree/node.gif");
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+}
+
+#contextual_menu ul.tree_level_2 li.last,
+#contextual_menu ul.tree_level_3 li.last,
+#contextual_menu ul.tree_level_4 li.last,
+#contextual_menu ul.tree_level_5 li.last { /* last item of a branch */
+	background-image: url("icons/tree/last.gif");
+	background-color: #8483AF; /* mask the default ul background --use the exact underlying background color */
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+}
+
+#contextual_menu ul.tree li a.below,
+#contextual_menu ul.tree li a.close { /* focus is not here */
+	padding-left: 16px;
+	background: url("icons/tree/close.gif") top left no-repeat;
+}
+
+#contextual_menu ul.tree li a.current,
+#contextual_menu ul.tree li a.open { /* item has the current focus */
+	color: #444;
+	padding-left: 16px;
+	background: url("icons/tree/open.gif") top left no-repeat;
+}
+
+@media screen { /* not on printers */
+
+	.updated { /* flag modified pages -- [updated] -- see also .flag */
+		padding-right: 60px;
+		margin-right: 2px;
+		background: url("icons/updated.gif") right no-repeat;
+	}
+
+	.updated span {	/* mask default text */
+		display: none;
+	}
+}
+
+@media screen { /* not on printers */
+
+	#main_panel a.user { /* the image near a link to a user profile -- [user=id], [user=id, label] */
+		padding-right: 15px;
+		background: url("icons/zoom.png") right no-repeat;
+	}
+
+	* html #main_panel a.user { /* ie kills trailing rendering on long links */
+		padding-right: 0px;
+		background: none;
+	}
+
+}
+
+table.wide { /* to introduce threads and comments -- see articles/layout_articles_as_jive.php */
+	width: 100%;
+	margin: 0px;
+	border: 1px solid #ccc;
+}
+
+dl.wiki_comments { /* to list comments in a wiki -- see comments/layout_comments_as_wiki.php */
+}
+
+dl.wiki_comments dd { /* body of one note */
+	margin: 0 0 2em 4px;
+	padding: 0.5em 1em 0.5em 1em;
+}
+
+dl.wiki_comments dd.odd {
+	border-left: 1px solid #daa;
+}
+
+dl.wiki_comments dd.even {
+	border-left: 1px solid #aaf;
+}
+
+dl.wiki_comments dt { /* header of one note */
+	margin: 0;
+	padding: 0 0 2px 0;
+	display: inline;
+	margin-right: auto;
+}
+
+dl.wiki_comments dt.odd {
+	border-bottom: 1px solid #daa;
+}
+
+dl.wiki_comments dt.even {
+	border-bottom: 1px solid #aaf;
+}
+
+table.yabb { /* to introduce threads and comments -- see articles/layout_articles_as_yabb.php */
+	width: 100%;
+	margin: 0px;
+	border: 1px solid #ccc;
+}
+
+table.yabb tr.even {
+	background-color: #ffe;
+}
+
+table.yabb tr.odd {
+	background-color: #fef;
+}
+

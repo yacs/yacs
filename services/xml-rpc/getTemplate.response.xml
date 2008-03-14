@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><methodResponse><params><param><value>&lt;HTML&gt;
+  &lt;HEAD&gt;
+    &lt;TITLE&gt;&lt;$BlogTitle$&gt;: &lt;$BlogDescription$&gt;&lt;/TITLE&gt;
+
+&lt;STYLE type="text/css"&gt;
+ body {
+  background-color: #4E7CA2;
+  color: #FFFFFF;}
+A:link { text-decoration: none; color:#C1D5FF}
+A:visited { text-decoration: none; color:#c0c0c0}
+A:hover { text-decoration: none; color:#C1D5FF}
+ td.c4 {font-family: TREBUCHET MS, ARIAL, sans-serif; font-size: 70%}
+p.c2 {font-family: TREBUCHET MS, ARIAL, sans-serif; font-size: 80%; text-align: justify}
+H4 {font-family: "TREBUCHET MS", "ARIAL", "sans-serif"; font-size: 100%; font-weight:bold;}
+H1 {font-family: "TREBUCHET MS", "ARIAL", "sans-serif"; font-size: 200%; }
+&lt;/STYLE&gt;
+
+  &lt;/HEAD&gt;
+
+  &lt;BODY topmargin="0" leftmargin="0" marginwidth="0" marginheight="0" TEXT="#FFFFFF"&gt;
+
+&lt;!-- Begin Table 1 --&gt;
+
+    &lt;TABLE HEIGHT="100%" cellpadding="0" cellspacing="0" border="0" VALIGN="TOP"&gt;
+      &lt;TR&gt;
+        &lt;TD VALIGN="TOP"&gt;
+          &lt;!-- Begin Table 2 --&gt;
+
+          &lt;TABLE border="0" cellpadding="0" cellspacing="0" width="530"
+          height="100%" valign="TOP"&gt;
+            &lt;TR&gt;
+              &lt;TD rowspan="1" colspan="2" width="530" valign="TOP"&gt;&lt;IMG
+              src="bloggertemplate46_a.gif" width="530" height="84" border="0"&gt;&lt;/TD&gt;
+            &lt;/TR&gt;
+
+            &lt;TR&gt;
+              &lt;TD rowspan="1" colspan="1" width="84" height="100%" bgcolor=
+              "#2C75B2" valign="TOP"&gt;&lt;IMG SRC="bloggertemplate46_blogsidebackground.gif"&gt;
+              &lt;/TD&gt;
+
+              &lt;TD rowspan="1" colspan="1" width="446" height="100%"
+              bgcolor="#013969" valign="TOP"&gt;
+
+                &lt;BR&gt;
+
+                &lt;BLOCKQUOTE&gt;
+
+                &lt;h1&gt;&lt;$BlogTitle$&gt;&lt;/h1&gt;
+
+                  &lt;!-- Blogger code begins here --&gt;
+
+                  &lt;BLOGGER&gt;
+                   &lt;BlogDateHeader&gt;
+                       &lt;b&gt;&lt;h4&gt;&lt;$BlogDateHeaderDate$&gt;:&lt;/h4&gt;&lt;/b&gt;
+                  &lt;/BlogDateHeader&gt;
+                  &lt;P class="c2"&gt;
+                  &lt;a name="&lt;$BlogItemNumber$&gt;"&gt;&lt;$BlogItemBody$&gt;&lt;/a&gt;
+                  &lt;br&gt;
+                  &lt;small&gt;&lt;$BlogItemAuthor$&gt; // &lt;a href="&lt;$BlogItemArchiveFileName$&gt;%23&lt;$BlogItemNumber$&gt;"&gt;&lt;$BlogItemDateTime$&gt;&lt;/a&gt;&lt;/small&gt;
+                  &lt;br&gt;
+                  &lt;center&gt;______________________&lt;/center&gt;
+                  &lt;br&gt;
+                  &lt;/p&gt;
+                  &lt;/BLOGGER&gt;
+
+                  &lt;!-- Blogger code ends here --&gt;
+                &lt;/BLOCKQUOTE&gt;
+                &lt;BR&gt;
+
+
+                &lt;CENTER&gt;
+                  &lt;A href="http://www.blogger.com"&gt;&lt;IMG
+                  src="http://buttons.blogger.com/bloggerbutton46.gif" border="0" alt=
+                  "This site is powered by Blogger because Blogger rocks!"&gt;
+                  &lt;/A&gt;
+                &lt;/CENTER&gt;
+                &lt;br&gt;&lt;br&gt;
+
+              &lt;/TD&gt;
+            &lt;/TR&gt;
+          &lt;/TABLE&gt;
+          &lt;!-- End Table 2 --&gt;
+        &lt;/TD&gt;
+
+        &lt;TD VALIGN="TOP"&gt;
+
+&lt;!-- You may add more line breaks (br) or you can remove some depending on where you want the link table to start --&gt;
+&lt;BR&gt;
+&lt;BR&gt;
+&lt;BR&gt;
+&lt;BR&gt;
+&lt;BR&gt;
+&lt;BR&gt;
+
+           &lt;!-- Begin Table 3 --&gt;
+
+          &lt;TABLE border="0" cellpadding="0" cellspacing="0" width="193"
+          height="100%"&gt;
+            &lt;TR&gt;
+              &lt;TD rowspan="1" colspan="2" width="193" height="35"&gt;&lt;IMG src=
+              "bloggertemplate46_1.gif" width="193" height="35" border="0"&gt;&lt;/TD&gt;
+            &lt;/TR&gt;
+
+            &lt;TR&gt;
+              &lt;TD rowspan="1" colspan="1" width="35" height="100%" bgcolor=
+              "#88BDEA" valign="TOP"&gt;&lt;IMG SRC="bloggertemplate46_linksidebackground.gif"&gt;
+              &lt;/TD&gt;
+
+              &lt;TD rowspan="1" colspan="1" width="158" height="100%"
+              bgcolor="#005196" valign="TOP"&gt;
+                &lt;BR&gt;
+
+
+                &lt;CENTER&gt;
+                  &lt;!-- Begin Table 4 (this is for your links or other things)--&gt;
+
+                  &lt;TABLE width="90%" cellpadding="0" cellspacing="0"
+                  border="0"&gt;
+                    &lt;TR&gt;
+                      &lt;TD class="c4"&gt;
+			&lt;$BlogDescription$&gt;
+
+
+		    &lt;!-- Uncomment this and place your links to other blogs and
+                      such in this area! For example:&lt;BR&gt;
+                      &lt;BR&gt;
+                      &lt;A href="http://www.blogspot.com"&gt;Blog*Spot&lt;/A&gt;
+		  --&gt;
+
+                      &lt;br&gt;&lt;br&gt;&lt;b&gt;Archives&lt;/b&gt;&lt;br&gt;
+                       &lt;script type="text/javascript" src="&lt;$BlogArchiveFileName$&gt;"&gt;&lt;/script&gt;
+                        &lt;br&gt;&lt;br&gt;
+
+
+
+                &lt;!-- these are spacer breaks to take this column to the bottom of the page (or near).
+                     only necessary for Netscape 4.x-type browsers. You can get rid of some of them
+                     if you add more stuff above. --&gt;
+                &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+                &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+                &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+                &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+                &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+
+                       &lt;/TD&gt;
+
+                    &lt;/TR&gt;
+                  &lt;/TABLE&gt;
+                  &lt;!-- End Table 4 --&gt;
+                &lt;/CENTER&gt;
+              &lt;/TD&gt;
+            &lt;/TR&gt;
+          &lt;/TABLE&gt;
+          &lt;!-- End Table 3 --&gt;
+        &lt;/TD&gt;
+      &lt;/TR&gt;
+    &lt;/TABLE&gt;
+    &lt;!-- End Table 1 --&gt;
+  &lt;/BODY&gt;
+&lt;/HTML&gt;
+
+</value></param></params></methodResponse>

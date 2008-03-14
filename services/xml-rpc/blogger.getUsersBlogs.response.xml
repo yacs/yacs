@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+ <methodResponse>
+   <params>
+     <param>
+       <value>
+         <array>
+           <data>
+             <value>
+               <struct>
+                 <member>
+                   <name>url</name>
+                     <value>http://stuff.foo.com/biz</value>
+                       </member>
+                 <member>
+                   <name>blogid</name>
+                     <value>2997323</value>
+                       </member>
+                 <member>
+                   <name>blogName</name>
+                     <value>Blogger Biz Dev</value>
+                       </member>
+               </struct>  </value>  <value>  <struct>  <member>  <name>url</name>  <value>http://www.blogger.com/</value>  </member>  <member>  <name>blogid</name>  <value>2723</value>  </member>  <member>  <name>blogName</name>  <value>Blogger News</value>  </member>  </struct>  <value>  <struct>  <member>  <name>url</name>  <value>http://www.geocities.com/rafting/</value>  </member>  <member>  <name>blogid</name>  <value>223723</value>  </member>  <member>  <name>blogName</name>  <value>RaftingBlog</value>  </member>  </struct>  </value>  </value>  </data>  </array>  </value>  </param>  </params> </methodResponse>

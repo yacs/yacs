@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<methodCall>
+<methodName>metaWeblog.newPost</methodName>
+<params>
+<param>
+    <value>
+        <string>4038</string>
+    </value>
+</param>
+<param>
+    <value>
+        <string>bernard</string>
+    </value>
+</param>
+<param>
+    <value>
+        <string>congo</string>
+    </value>
+</param>
+<param>
+    <value>
+        <struct>
+            <member>
+                <name>title</name>
+                <value>
+                    <string>hello world</string>
+                </value>
+            </member>
+            <member>
+                <name>description</name>
+                <value>
+                    <string>what to do next?</string>
+                </value>
+            </member>
+        </struct>
+    </value>
+</param>
+<param>
+<value>
+<boolean>0</boolean>
+</value>
+</param>
+<param>
+<value>
+<boolean>TRUE</boolean>
+</value>
+</param>
+<param>
+<value>
+<boolean>FALSE</boolean>
+</value>
+</param>
+</params>
+</methodCall>

@@ -1,0 +1,98 @@
+<?php
+/**
+ * one month of dates
+ *
+ * @todo http://www.investinitaly.com/events_archivio.jsp?calFrom=2006-3-01&calTo=2006-3-01&resultFrom=2006-3-01&resultTo=2006-3-31
+ *
+ * Accept following invocations:
+ * - month.php
+ * - month.php/2012/3
+ * - month.php?month=2012-03
+ *
+ * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author GnapZ
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+// common definitions and initial processing
+include_once '../shared/global.php';
+include_once 'dates.php';
+
+// target month
+$target = 0;
+if(isset($context['arguments'][1]))
+	$target = $context['arguments'][0].'/'.$context['arguments'][1];
+elseif(isset($_REQUEST['month']))
+	$target = $_REQUEST['month'];
+$target = strip_tags($target);
+if($target < '1970')
+	$target = gmstrftime('%Y/%m');
+
+// do not accept more than 7 chars
+if(strlen($target) > 7)
+	$target = substr($target, 0, 7);
+
+// expand the compact form (e.g., '199903' -> '1999/03')
+if(strlen($target) == 6)
+	$target = substr($target, 0, 4).'/'.substr($target, 5, 2);
+
+// normalize separator
+$target = str_replace('-', '/', $target);
+
+// load localized strings
+i18n::bind('dates');
+
+// load the skin
+load_skin('dates');
+
+// the title of the page
+$context['page_title'] = ucfirst(Dates::get_month_label($target));
+
+// page main content
+$cache_id = 'dates/month.php#text#'.$target;
+if(!$text =& Cache::get($cache_id)) {
+
+	// draw one month
+	list($year, $month) = explode('/', $target, 2);
+	$text .= Dates::build_month_calendar($year, $month, 'month');
+
+	// previous month
+	$previous = gmstrftime('%Y/%m', gmmktime(0, 0, 0, $month-1, 1, $year));
+
+	// next month
+	$next = gmstrftime('%Y/%m', gmmktime(0, 0, 0, $month+1, 1, $year));
+
+	// neighbours
+	$neighbours = array(Dates::get_url($previous, 'month'), Dates::get_month_label($previous),
+		Dates::get_url($next, 'month'), Dates::get_month_label($next),
+		Dates::get_url($year, 'year'), $year);
+
+	// links to display previous and next months
+	$text .= Skin::neighbours($neighbours, 'slideshow');
+
+	// cache, whatever change, for 5 minutes
+	Cache::put($cache_id, $text, 'stable', 300);
+
+}
+$context['text'] .= $text;
+
+// page extra content
+$cache_id = 'dates/month.php#extra';
+if(!$text =& Cache::get($cache_id)) {
+
+	// side bar with the list of most recent pages
+	if($items = Articles::list_by_date(0, COMPACT_LIST_SIZE, 'compact'))
+		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'extra');
+
+	Cache::put($cache_id, $text, 'articles');
+}
+$context['extra'] .= $text;
+
+// referrals, if any
+$context['extra'] .= Skin::build_referrals('dates/month.php/'.$target);
+
+// render the skin
+render_skin();
+
+?>

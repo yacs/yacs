@@ -1,0 +1,196 @@
+#
+# This file adds nice features to YACS
+#
+# Note: we have assumed a standard installation in the directory /yacs
+# and you may have to change this appropriately. For example, if YACS
+# has been installed directly in the topmost directory, replace every
+# "/yacs/" by "/" in this file.
+#
+# Uncomment directives below depending of your needs.
+# Do this one block at a time.
+# Then load the main index page of your YACS server.
+# If you experiment a 500 Internal Server Error then
+# comment out every directive below or suppress this file.
+#
+# More support at http://www.yetanothercommunitysystem.com/
+#
+# All lines related to .html and .xml extensions are legacy, related to
+# YACS version 7.6alpha. They should be removed by Q3, 2007.
+
+# ask Apache to redirect to pretty error pages
+#
+ErrorDocument 401 /yacs/error.php?error=401
+ErrorDocument 403 /yacs/error.php?error=403
+ErrorDocument 404 /yacs/error.php?error=404
+
+# set the default handler to index.php
+#
+##DirectoryIndex index.php
+
+# disable directory browsing below this directory
+#
+##Options -Indexes
+
+# is a pre-requisite for acceptance of RewriteRule directives in mod_rewrite
+#
+##Options FollowSymLinks
+
+# expires static objects for one day 86400 = 24*60*60
+#
+<IfModule mod_expires.c>
+
+	# ensure the engine has been activated
+	#
+##	ExpiresActive On
+
+	# expires text files
+	#
+##	ExpiresByType text/css A86400
+##	ExpiresByType text/plain A86400
+##	ExpiresByType text/javascript A86400
+##	ExpiresByType application/x-javascript A86400
+##	ExpiresByType text/javascript A86400
+
+	# expires images
+	#
+##	ExpiresByType image/gif A86400
+##	ExpiresByType image/jpeg A86400
+##	ExpiresByType image/png A86400
+
+	# expires static flash files
+##	ExpiresByType application/x-shockwave-flash A86400
+
+</IfModule>
+
+# rewrite URLs
+#
+<IfModule mod_rewrite.c>
+
+	# ensure the engine has been activated
+	#
+	RewriteEngine on
+
+	# used to test the rewriting function in control/configure.php
+	#
+	RewriteRule rewrite_test/([0-9]+)$	control/test.php?a=$1  [QSA,L]
+	RewriteRule rewrite_test$ control/test.php	[QSA,L]
+
+	# provide pretty references to actions
+	#
+	RewriteRule action-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  actions/$1.php?id=$2	[QSA,L]
+	RewriteRule action-([0-9]+)$  actions/view.php?id=$1  [QSA,L]
+
+	# provide pretty references to articles
+	#
+	RewriteRule article-([a-zA-Z_]+)/([0-9]+)-([^/]+)$	articles/$1.php?id=$2&action=$3  [QSA,L]
+	RewriteRule article-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  articles/$1.php?id=$2  [QSA,L]
+	RewriteRule article-([0-9]+)-([^/]+)$  articles/view.php?id=$1	[QSA,L]
+	RewriteRule article-([^/]+)$  articles/view.php?id=$1  [QSA,L]
+
+	# provide pretty references to categories
+	#
+	RewriteRule category-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  categories/$1.php?id=$2  [QSA,L]
+	RewriteRule category-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	categories/$1.php?id=$2  [QSA,L]
+	RewriteRule category-([0-9]+)-([^/]+)$	categories/view.php?id=$1  [QSA,L]
+	RewriteRule category-([^/]+)$  categories/view.php?id=$1  [QSA,L]
+
+	# provide pretty references to comments
+	#
+	RewriteRule comment-([a-zA-Z_]+)/([0-9]+)-([^/]+)$	comments/$1.php?id=$2  [QSA,L]
+	RewriteRule comment-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  comments/$1.php?id=$2  [QSA,L]
+	RewriteRule comment-([0-9]+)$  comments/view.php?id=$1	[QSA,L]
+
+	# provide pretty references to dates
+	#
+	RewriteRule date-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	dates/$1.php?id=$2	[QSA,L]
+	RewriteRule date-([0-9]+)$	dates/view.php?id=$1  [QSA,L]
+
+	# provide pretty references to decisions
+	#
+	RewriteRule decision-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	decisions/$1.php?id=$2	[QSA,L]
+	RewriteRule decision-([0-9]+)$	decisions/view.php?id=$1  [QSA,L]
+
+	# provide pretty references to feeds
+	#
+	RewriteRule feeds/articles$  articles/feed.php	[QSA,L]
+	RewriteRule feeds/atom$  feeds/atom_0.3.php  [QSA,L]
+	RewriteRule feeds/comments$  comments/feed.php	[QSA,L]
+	RewriteRule feeds/files$  files/feed.php  [QSA,L]
+	RewriteRule feeds/opml$  feeds/describe.php  [QSA,L]
+	RewriteRule feeds/rss$	feeds/rss_2.0.php  [QSA,L]
+
+	# provide pretty references to files
+	#
+	RewriteRule file-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  files/$1.php?id=$2&action=$3  [QSA,L]
+	RewriteRule file-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	files/$1.php?id=$2	[QSA,L]
+	RewriteRule file-([0-9]+)-([^/]+)$	files/view.php?id=$1  [QSA,L]
+	RewriteRule file-([0-9]+)$	files/view.php?id=$1  [QSA,L]
+
+	# provide pretty references to forms
+	#
+	RewriteRule form-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  forms/$1.php?id=$2&action=$3  [QSA,L]
+	RewriteRule form-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$	forms/$1.php?id=$2	[QSA,L]
+	RewriteRule form-([0-9]+)-([^/]+)$	forms/view.php?id=$1  [QSA,L]
+	RewriteRule form-([0-9]+)$	forms/view.php?id=$1  [QSA,L]
+
+	# provide pretty references to images
+	#
+	RewriteRule image-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  images/$1.php?id=$2  [QSA,L]
+	RewriteRule image-([0-9]+)$  images/view.php?id=$1	[QSA,L]
+
+	# provide pretty references to locations
+	#
+	RewriteRule location-([a-zA-Z_]+)/([^/]+)$	locations/$1.php?id=$2	[QSA,L]
+	RewriteRule location-([0-9]+)$	locations/view.php?id=$1  [QSA,L]
+
+	# provide pretty references to sections
+	#
+	RewriteRule section-([a-zA-Z_]+)/(([0-9]+|all))-([^/]+)$  sections/$1.php?id=$2  [QSA,L]
+	RewriteRule section-([a-zA-Z_]+)/(([0-9a-zA-Z:]+|all))$  sections/$1.php?id=$2	[QSA,L]
+	RewriteRule section-([0-9]+)-([^/]+)$  sections/view.php?id=$1	[QSA,L]
+	RewriteRule section-([^/]+)$  sections/view.php?id=$1  [QSA,L]
+
+	# provide pretty references to servers
+	#
+	RewriteRule server-([a-zA-Z_]+)/([0-9]+)$  servers/$1.php?id=$2  [QSA,L]
+	RewriteRule server-([0-9]+)$  servers/view.php?id=$1  [QSA,L]
+
+	# provide pretty references to tables
+	#
+	RewriteRule table-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  tables/$1.php?id=$2  [QSA,L]
+	RewriteRule table-([0-9]+)$  tables/view.php?id=$1	[QSA,L]
+
+	# provide pretty references to users
+	#
+	RewriteRule user-([a-zA-Z_]+)/([0-9]+)-([^/]+)$  users/$1.php?id=$2&action=$3  [QSA,L]
+	RewriteRule user-([a-zA-Z_]+)/([0-9a-fA-Z]+)$  users/$1.php?id=$2  [QSA,L]
+	RewriteRule user-([0-9]+)-([^/]+)$	users/view.php?id=$1  [QSA,L]
+	RewriteRule user-([^/]+)$  users/view.php?id=$1  [QSA,L]
+
+	# provide pretty references to versions
+	#
+	RewriteRule version-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  versions/$1.php?id=$2  [QSA,L]
+	RewriteRule version-([0-9]+)$  versions/view.php?id=$1	[QSA,L]
+
+	# allow nice selector  go/keyword -> go.php/keyword --see codes/codes.php
+	#
+	RewriteRule go/([^/]+)$ go.php?id=$1  [QSA,L]
+
+	# provide pretty references to other top-level scripts
+	#
+	RewriteRule about$	articles/view.php?id=about	[QSA,L]
+	RewriteRule cron$  cron.php  [QSA,L]
+	RewriteRule help$  help.php  [QSA,L]
+	RewriteRule privacy$  articles/view.php?id=privacy	[QSA,L]
+	RewriteRule search$  search.php  [QSA,L]
+
+	# translate authentication data if PHP runs as CGI -- see agents/feed.php
+	#
+	RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization},L]
+
+</IfModule>
+
+#download palm files
+#
+##AddType application/octet-stream .prc .pdb
+

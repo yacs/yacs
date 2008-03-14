@@ -1,0 +1,288 @@
+<?php
+/**
+ * list comments available for a given anchor
+ *
+ * This page features various elements, depending of the layout selected for the anchor.
+ *
+ * Following principles have been selected for threads that start at anchor page:
+ * - The anchor page ([script]articles/view.php[/script]) features a first set of comments (1..COMMENTS_PER_PAGE).
+ * Therefore, this script lists following pages of comments (page 2, 3, etc.).
+ * - The link to comments is actually the link to the anchor page (e.g., 'articles/view.php/123#comments').
+ * - Page 1 (e.g., 'comments/view.php/article/123') lists comments COMMENTS_PER_PAGE+1..2*COMMENTS_PER_PAGE.
+ * - Each comment features links to Reply, Quote, Edit and Delete, taking proper access restrictions into account.
+ * - The link to add a comment is labelled 'Add your own comment'.
+ *
+ * This applies to following layouts:
+ * - compact
+ * - daily
+ * - decorated
+ * - jive
+ * - manual
+ * - yabb
+ *
+ * Following principles have been selected for other layouts:
+ * - This script is used to list every comments, and the anchor page ([script]articles/view.php[/script])
+ * only has a 'Discuss this page (### comments)' links.
+ * - The link to comments is actually the link to this page (e.g., 'comments/list.php/article/123').
+ * - Page 1 (e.g., 'comments/view.php/article/123') lists comments 1..COMMENTS_PER_PAGE, etc.
+ * - Each comment features links to Reply, Quote, Edit and Delete, taking proper access restrictions into account.
+ * - The link to add a comment is labelled 'Add your own comment'.
+ *
+ * This applies to following layouts:
+ * - alistapart
+ * - boxesandarrows
+ * - table
+ * - wiki
+ *
+ * Access is granted only if the surfer is allowed to view the anchor page.
+ *
+ * Accepted calls:
+ * - list.php?id=article:&lt;id&gt;
+ * - list.php/&lt;article&gt;/&lt;id&gt;
+ *
+ * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
+ * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
+ *
+ * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author GnapZ
+ * @tester Agnes
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+// common definitions and initial processing
+include_once '../shared/global.php';
+include_once 'comments.php';
+
+// look for the target anchor
+$id = NULL;
+if(isset($context['arguments'][0]) && isset($context['arguments'][1]))
+	$id = $context['arguments'][0].':'.$context['arguments'][1];
+elseif(isset($context['arguments'][0]))
+	$id = $context['arguments'][0];
+elseif(isset($_REQUEST['id']))
+	$id = $_REQUEST['id'];
+if(strpos($id, ':') === FALSE)
+	$id = 'article:'.$id;
+$id = strip_tags($id);
+
+// get the anchor
+$anchor = NULL;
+if($id)
+	$anchor = Anchors::get($id);
+
+// which page should be displayed
+if(isset($_REQUEST['page']))
+	$page = $_REQUEST['page'];
+if(!isset($page) && isset($context['arguments'][2]))
+	$page = $context['arguments'][2];
+if(!isset($page))
+	$page = 1;
+$page = strip_tags($page);
+
+// the anchor has to be viewable by this surfer
+if(!is_object($anchor) || $anchor->is_viewable())
+	$permitted = TRUE;
+else
+	$permitted = FALSE;
+
+// load localized strings
+i18n::bind('comments');
+
+// load the skin, maybe with a variant
+load_skin('comments', $anchor);
+
+// clear the tab we are in, if any
+if(is_object($anchor))
+	$context['current_focus'] = $anchor->get_focus();
+
+// the path to this page
+if(is_object($anchor) && $anchor->is_viewable())
+	$context['path_bar'] = $anchor->get_path_bar();
+else
+	$context['path_bar'] = array( 'comments/' => i18n::s('Comments') );
+
+// the title of the page
+if(is_object($anchor) && $anchor->is_viewable()) {
+	$title = $anchor->get_title();;
+	$context['page_title'] = $anchor->get_label('comments', 'list_title', $title);
+} else
+	$context['page_title'] = i18n::s('Comments');
+
+// command to go back
+if(is_object($anchor) && $anchor->is_viewable())
+	$context['page_menu'] = array( $anchor->get_url() => i18n::s('Back to main content') );
+
+// an anchor is mandatory
+if(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	$label = i18n::s('No anchor has been found.');
+
+	if($id)
+		$label .= ' '.sprintf(i18n::s('(%s is unknown)'), $id);
+
+	Skin::error($label);
+
+// permission denied
+} elseif(!$permitted) {
+
+	// anonymous users are invited to log in or to register
+	if(!Surfer::is_logged())
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('comments/list.php?id='.$anchor->get_reference()));
+
+	// permission denied to authenticated user
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
+// display the index
+} else {
+
+	// insert anchor prefix and suffix, plus any available icon
+	$context['prefix'] .= $anchor->get_prefix();
+
+	// some introductory text to the anchor
+	$context['text'] .= $anchor->get_teaser('teaser');
+
+	// cache the section
+	$cache_id = 'comments/list.php?id='.$anchor->get_reference().'#'.$page;
+	if(!$text =& Cache::get($cache_id)) {
+
+		// thread starts at the anchor page most of the time
+		$home_link = $anchor->get_url().'#comments';
+
+		// layout as defined in anchor
+		if($anchor->has_layout('boxesandarrows')) {
+			include_once '../comments/layout_comments_as_boxesandarrows.php';
+			$layout =& new Layout_comments_as_boxesandarrows();
+
+			// thread starts here
+			$home_link = Comments::get_url($anchor->get_reference(), 'list');
+
+		} elseif($anchor->has_layout('compact')) {
+			include_once '../comments/layout_comments.php';
+			$layout =& new Layout_comments();
+
+		} elseif($anchor->has_layout('daily')) {
+			include_once '../comments/layout_comments_as_daily.php';
+			$layout =& new Layout_comments_as_daily();
+
+		} elseif($anchor->has_layout('decorated')) {
+			include_once '../comments/layout_comments.php';
+			$layout =& new Layout_comments();
+
+		} elseif($anchor->has_layout('jive')) {
+			include_once '../comments/layout_comments_as_jive.php';
+			$layout =& new Layout_comments_as_jive();
+
+		} elseif($anchor->has_layout('manual')) {
+			include_once '../comments/layout_comments_as_manual.php';
+			$layout =& new Layout_comments_as_manual();
+
+		} elseif($anchor->has_layout('wiki')) {
+			include_once '../comments/layout_comments_as_wiki.php';
+			$layout =& new Layout_comments_as_wiki();
+
+			// thread starts here
+			$home_link = Comments::get_url($anchor->get_reference(), 'list');
+
+		} elseif($anchor->has_layout('yabb')) {
+			include_once '../comments/layout_comments_as_yabb.php';
+			$layout =& new Layout_comments_as_yabb();
+
+		} else {
+			include_once '../comments/layout_comments.php';
+			$layout =& new Layout_comments();
+
+			// thread starts here
+			$home_link = Comments::get_url($anchor->get_reference(), 'list');
+
+		}
+
+		// don't display anchor of these comments
+		$layout->set_variant('no_anchor');
+
+		// the maximum number of comments per page
+		if(is_object($layout))
+			$items_per_page = $layout->items_per_page();
+		else
+			$items_per_page = COMMENTS_PER_PAGE;
+
+		// the first comment to list
+		$offset = ($page - 1) * $items_per_page;
+		if(is_object($layout) && method_exists($layout, 'set_offset'))
+			$layout->set_offset($offset);
+
+		// build a complete box
+		$box['bar'] = array();
+		$box['text'] = '';
+
+		// a navigation bar for these comments
+		include_once '../comments/comments.php';
+		if($count = Comments::count_for_anchor($anchor->get_reference())) {
+			if($count > 1) {
+				$box['bar'] = array_merge($box['bar'], array('_count' => $count.'&nbsp;'.$anchor->get_label('comments', 'count_many')));
+			} elseif($count == 1) {
+				$box['bar'] = array_merge($box['bar'], array('_count' => '1&nbsp;'.$anchor->get_label('comments', 'count_one')));
+			}
+
+			// navigation commands for comments
+			$prefix = Comments::get_url($anchor->get_reference(), 'navigate');
+			$box['bar'] = array_merge($box['bar'],
+				Skin::navigate($home_link, $prefix, $count, $items_per_page, $page, FALSE));
+
+			// list comments by date
+			$items = Comments::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, $layout);
+
+			// actually render the html
+			if(is_array($items))
+				$box['text'] .= Skin::build_list($items, 'rows');
+			elseif(is_string($items))
+				$box['text'] .= $items;
+
+		}
+
+		// the command to post a new comment, if this is allowed
+		if(Comments::are_allowed($anchor)) {
+			$box['bar'] = array_merge($box['bar'],
+				array( Comments::get_url($anchor->get_reference(), 'comment') => NEW_COMMENT_IMG.' '.$anchor->get_label('comments', 'new_command') ));
+		}
+
+		// show commands
+		if(@count($box['bar']) && ($context['skin_variant'] != 'mobile')) {
+
+			// append the menu bar at the end
+			if((strlen($box['text']) > 10) && $count)
+				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
+
+			// shortcut to last comment in page
+			if(is_object($layout) && ($count > 3)) {
+
+				$box['bar'] = array_merge($box['bar'], array('#last_comment' => i18n::s('Page bottom')));
+
+				$box['text'] .= '<span id="last_comment" />';
+			}
+
+			// insert the menu bar at the beginning
+			$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
+
+		}
+
+		// build a box
+		if($box['text'])
+			$text =& Skin::build_box('', $box['text'], 'section', 'comments');
+
+		// cache this to speed subsequent queries
+		Cache::put($cache_id, $text, 'comments');
+	}
+	$context['text'] .= $text;
+
+	// insert anchor suffix
+	if(is_object($anchor))
+		$context['text'] .= $anchor->get_suffix();
+
+}
+
+// render the skin
+render_skin();
+
+?>
