@@ -122,19 +122,19 @@ else {
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";
 
-    // set the focus
-    $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	// set the focus
+	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
 		.'document.getElementById("confirmed").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// user nick name
 	if($item['nick_name'])
-	    $context['text'] .= Skin::build_block($item['nick_name'], 'title');
+		$context['text'] .= Skin::build_block($item['nick_name'], 'title');
 
 	// user full name
 	if($item['full_name'])
-	    $context['text'] .= '<p>'.$item['full_name']."</p>\n";
+		$context['text'] .= '<p>'.$item['full_name']."</p>\n";
 
 	// introduction text, if any
 	if($item['introduction'])

@@ -71,7 +71,7 @@ else
 
 // command to go back
 if(isset($item['id']))
-    $context['page_menu'] = array( Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:'') => sprintf(i18n::s('Back to the page of %s'), $item['nick_name']) );
+	$context['page_menu'] = array( Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:'') => sprintf(i18n::s('Back to the page of %s'), $item['nick_name']) );
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())

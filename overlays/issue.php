@@ -251,9 +251,9 @@ class Issue extends Overlay {
 	function &get_live_title($host=NULL) {
 		global $context;
 
-		// live title
 		$text = Codes::beautify_title($host['title']);
 
+		// live title
 		switch($this->attributes['status']) {
 
 		case 'on-going:suspect':

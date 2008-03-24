@@ -38,7 +38,7 @@ $item =& Articles::get($id);
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']))
-    $anchor = Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -98,7 +98,7 @@ if(is_object($anchor))
 
 // the title of the page
 if(isset($item['title']) && $item['title'])
-    $context['page_title'] = $item['title'];
+	$context['page_title'] = $item['title'];
 else
 	$context['page_title'] = i18n::s('No title has been provided.');
 
@@ -122,7 +122,7 @@ if(!isset($item['id'])) {
 } else {
 
 	// initialize the rendering engine
-	Codes::initialize(Articles::get_url($item['id'], 'view', $item['title']));
+	Codes::initialize(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 
 	// the article or the anchor icon, if any
 	if(isset($item['icon_url']) && $item['icon_url'])
@@ -130,7 +130,7 @@ if(!isset($item['id'])) {
 	elseif(is_object($anchor))
 		$context['page_image'] = $anchor->get_icon_url();
 
-    // display the source, if any
+	// display the source, if any
 	if(isset($item['source']) && $item['source']) {
 		include_once '../links/links.php';
 		if($attributes = Links::transform_reference($item['source'])) {
@@ -144,8 +144,8 @@ if(!isset($item['id'])) {
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_prefix();
 
-    // the introduction text
-    if(isset($item['introduction']) && $item['introduction'])
+	// the introduction text
+	if(isset($item['introduction']) && $item['introduction'])
 		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 	// get text related to the overlay, if any

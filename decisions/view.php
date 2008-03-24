@@ -67,15 +67,15 @@ if(is_object($anchor))
 
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
-    $context['path_bar'] = $anchor->get_path_bar();
+	$context['path_bar'] = $anchor->get_path_bar();
 else
-    $context['path_bar'] = array( 'decisions/' => i18n::s('All decisions') );
+	$context['path_bar'] = array( 'decisions/' => i18n::s('All decisions') );
 
 // the title of the page
 if(is_object($anchor))
 	$context['page_title'] = sprintf(i18n::s('Decision: %s'), $anchor->get_title());
 else
-    $context['page_title'] = i18n::s('View a decision');
+	$context['page_title'] = i18n::s('View a decision');
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())
@@ -83,11 +83,11 @@ if(is_object($anchor) && $anchor->is_viewable())
 
 // commands for associates and author, but not for editors
 if($item['id'] && (Surfer::is_associate() || Surfer::is_creator($item['create_id'])) )
-    $context['page_menu'] = array_merge($context['page_menu'], array( decisions::get_url($item['id'], 'edit') => i18n::s('Modify') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( decisions::get_url($item['id'], 'edit') => i18n::s('Modify') ));
 
 // commands for associates
 if($item['id'] && Surfer::is_associate())
-    $context['page_menu'] = array_merge($context['page_menu'], array( decisions::get_url($item['id'], 'delete') => i18n::s('Delete') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( decisions::get_url($item['id'], 'delete') => i18n::s('Delete') ));
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
@@ -166,7 +166,7 @@ if(!isset($item['id'])) {
 	}
 
 	// the poster of this decision
-    $details[] = sprintf(i18n::s('by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date'], 'with_hour'));
+	$details[] = sprintf(i18n::s('by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date'], 'with_hour'));
 
 	// the complete details
 	if($details)
@@ -174,17 +174,17 @@ if(!isset($item['id'])) {
 
 	// the last edition of this decision
 	if($item['create_name'] != $item['edit_name'])
-	    $context['text'] .= '<p class="detail">'.sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date'], 'with_hour')).'</p>';
+		$context['text'] .= '<p class="detail">'.sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date'], 'with_hour')).'</p>';
 
-    // display the full decision
-    if($item['description']) {
+	// display the full decision
+	if($item['description']) {
 
 		// beautify the complete decision
 		$text = Codes::beautify($item['description']);
 
-        // show the description
-        $context['text'] .= '<p></p>'.$text."<p></p>\n";
-    }
+		// show the description
+		$context['text'] .= '<p></p>'.$text."<p></p>\n";
+	}
 
 	// insert anchor suffix
 	if(is_object($anchor))

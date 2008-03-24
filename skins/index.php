@@ -66,14 +66,14 @@
  * For example, here is an excerpt of skins/acme_marketing/manifest.php:
  * [php]
  * $skins['skins/sita_marketing'] = array(
- * 	'label_en' => 'The ACME Marketing skin',
- * 	'label_fr' => 'Le style ACME Marketing',
- * 	'description_en' => 'This skin has been build after the original marketing web site.'
- * 		.' To be used only on web servers inside the ACME intranet.',
- * 	'description_fr' => 'Ce style a &eacute;t&eacute; d&eacute;velopp&eacute; d\'apr&egrave;s le site du d&eacute;partement marketing.'
- * 		.' A utiliser seulement sur des serveurs web &agrave; l\'int&eacute;rieur de l\'intranet ACME.',
- * 	'thumbnail' => 'preview.jpg',
- * 	'home_url' => 'http://marketing.acme.info/');
+ *	'label_en' => 'The ACME Marketing skin',
+ *	'label_fr' => 'Le style ACME Marketing',
+ *	'description_en' => 'This skin has been build after the original marketing web site.'
+ *		.' To be used only on web servers inside the ACME intranet.',
+ *	'description_fr' => 'Ce style a &eacute;t&eacute; d&eacute;velopp&eacute; d\'apr&egrave;s le site du d&eacute;partement marketing.'
+ *		.' A utiliser seulement sur des serveurs web &agrave; l\'int&eacute;rieur de l\'intranet ACME.',
+ *	'thumbnail' => 'preview.jpg',
+ *	'home_url' => 'http://marketing.acme.info/');
  * [/php]
  *
  * Obviously, manifest.php simple task is to append to a public variable named $skins an array of attributes

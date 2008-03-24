@@ -11,24 +11,24 @@
  * The layout is made of following components:
  * <ul>
  * <li>div#header_panel</li>
- *   <ul>
- *   <li>p#header_title</li>
- *   <li>p#header_slogan</li>
- *   <li>ul#tabs</li>
- *   </ul>
+ *	 <ul>
+ *	 <li>p#header_title</li>
+ *	 <li>p#header_slogan</li>
+ *	 <li>ul#tabs</li>
+ *	 </ul>
  * <li>div#wrapper</li>
- * 	<ul>
- *  <li>div#extra_panel</li>
+ *	<ul>
+ *	<li>div#extra_panel</li>
  *	<li>div#main_panel</li>
- *   <ul>
- *   <li>p#crumbs - path to this page</li>
- *   <li>img.icon - the main image for this page</li>
- *   <li>h1 - page title</li>
- *   <li>p#page_menu - commands for this page</li>
- *   <li>div.error - to report on errors, if any</li>
- *   <li>(page main content)</li>
- *   </ul>
- *  <li>div#footer_panel</li>
+ *	 <ul>
+ *	 <li>p#crumbs - path to this page</li>
+ *	 <li>img.icon - the main image for this page</li>
+ *	 <li>h1 - page title</li>
+ *	 <li>p#page_menu - commands for this page</li>
+ *	 <li>div.error - to report on errors, if any</li>
+ *	 <li>(page main content)</li>
+ *	 </ul>
+ *	<li>div#footer_panel</li>
  *	</ul>
  * <li>div#side_panel</li>
  * </ul>
@@ -86,12 +86,12 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
 	if($focus = Page::top_focus()) {
 		echo "\t".'<style type="text/css" media="screen">'."\n"
 			."\t\t".'ul li#'.$focus.' a {'."\n"
-	  		."\t\t\t".'background-position: 0% -44px;'."\n"
-	  		."\t\t\t".'border-bottom: 1px solid #fff;'."\n"
+			."\t\t\t".'background-position: 0% -44px;'."\n"
+			."\t\t\t".'border-bottom: 1px solid #fff;'."\n"
 			."\t\t".'}'."\n"
 			."\t\t".'ul li#'.$focus.' a span {'."\n"
-	  		."\t\t\t".'background-position: 100% -44px;'."\n"
-	  		."\t\t\t".'color: #039;'."\n"
+			."\t\t\t".'background-position: 100% -44px;'."\n"
+			."\t\t\t".'color: #039;'."\n"
 			."\t\t".'}'."\n"
 			."\t".'</style>'."\n";
 	}

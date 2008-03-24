@@ -37,13 +37,13 @@ load_skin('users', $anchor);
 
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
-    $context['path_bar'] = $anchor->get_path_bar();
+	$context['path_bar'] = $anchor->get_path_bar();
 else
-    $context['path_bar'] = array( 'users/' => i18n::s('Users') );
+	$context['path_bar'] = array( 'users/' => i18n::s('Users') );
 
 // the title of the page
 if(is_object($anchor))
-    $context['page_title'] = sprintf(i18n::s('Users assigned to %s'), $anchor->get_title());
+	$context['page_title'] = sprintf(i18n::s('Users assigned to %s'), $anchor->get_title());
 else
 	$context['page_title'] = i18n::s('Assign users');
 
@@ -77,7 +77,7 @@ else {
 	}
 
 	// back to the anchor page
-    $context['page_menu'] = array( $anchor->get_url() => sprintf(i18n::s('Back to %s'), $anchor->get_title()) );
+	$context['page_menu'] = array( $anchor->get_url() => sprintf(i18n::s('Back to %s'), $anchor->get_title()) );
 
 	// insert anchor prefix
 	if(is_object($anchor))
@@ -127,7 +127,7 @@ else {
 			// add a link to unselect the user
 			if(Surfer::is_associate()) {
 				$link = $context['script_url'].'?anchor=user:'.$id.'&amp;member='.urlencode($anchor->get_reference()).'&amp;action=reset';
- 				$suffix .= ' - <span class="details">'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
+				$suffix .= ' - <span class="details">'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
 			}
 
 			// format the item

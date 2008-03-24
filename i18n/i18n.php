@@ -111,26 +111,26 @@ Class i18n {
 
 	}
 
- 	/**
- 	 * get a localized string based on preferred language for the community
- 	 *
- 	 * This function is an equivalent to gettext(), except it deals with community localization.
- 	 *
- 	 * @param string the template string to be translated
- 	 * @return string the localized string
- 	 */
- 	function &c($text) {
- 		global $context;
+	/**
+	 * get a localized string based on preferred language for the community
+	 *
+	 * This function is an equivalent to gettext(), except it deals with community localization.
+	 *
+	 * @param string the template string to be translated
+	 * @return string the localized string
+	 */
+	function &c($text) {
+		global $context;
 
- 		// sanity check
- 		if(!$text)
- 			return $text;
+		// sanity check
+		if(!$text)
+			return $text;
 
- 		// select language used by community
- 		if(isset($context['preferred_language']))
- 			$locale = $context['preferred_language'];
- 		else
- 			$locale = 'en';
+		// select language used by community
+		if(isset($context['preferred_language']))
+			$locale = $context['preferred_language'];
+		else
+			$locale = 'en';
 
 		// cache is empty
 		global $l10n;
@@ -151,14 +151,14 @@ Class i18n {
 		// provide the localized string
 		$text = $l10n[$locale][$text];
 		return $text;
- 	}
+	}
 
- 	/**
- 	 * the database of country codes
- 	 *
- 	 * @return array of ($label => code)
- 	 */
- 	function &get_countries() {
+	/**
+	 * the database of country codes
+	 *
+	 * @return array of ($label => code)
+	 */
+	function &get_countries() {
 
 		// initialize the table only once
 		static $codes;
@@ -415,7 +415,7 @@ Class i18n {
 
 		// return the table
 		return $codes;
- 	}
+	}
 
 	/**
 	 * get country codes as options of a selectable list
@@ -513,16 +513,16 @@ Class i18n {
 		return NULL;
 	}
 
- 	/**
- 	 * the database of language codes
- 	 *
- 	 * The full set of ISO639 2-letter codes, with their localized name.
- 	 *
- 	 * @link http://www.oasis-open.org/cover/iso639a.html ISO 639, revised 1989
- 	 *
- 	 * @return array of ($label => code)
- 	 */
- 	function &get_languages() {
+	/**
+	 * the database of language codes
+	 *
+	 * The full set of ISO639 2-letter codes, with their localized name.
+	 *
+	 * @link http://www.oasis-open.org/cover/iso639a.html ISO 639, revised 1989
+	 *
+	 * @return array of ($label => code)
+	 */
+	function &get_languages() {
 
 		// initialize the table only once
 		static $codes;
@@ -678,7 +678,7 @@ Class i18n {
 
 		// return the table
 		return $codes;
- 	}
+	}
 
 	/**
 	 * get language codes as options of a selectable list
@@ -730,14 +730,14 @@ Class i18n {
 		return $text;
 	}
 
- 	/**
- 	 * the database of international phone codes
- 	 *
- 	 * @link http://www.kropla.com/dialcode.htm International dialing codes
- 	 *
- 	 * @return array of ($label => code)
- 	 */
- 	function &get_phone_codes() {
+	/**
+	 * the database of international phone codes
+	 *
+	 * @link http://www.kropla.com/dialcode.htm International dialing codes
+	 *
+	 * @return array of ($label => code)
+	 */
+	function &get_phone_codes() {
 
 		// initialize the table only once
 		static $codes;
@@ -991,7 +991,7 @@ Class i18n {
 
 		// return the table
 		return $codes;
- 	}
+	}
 
 	/**
 	 * get phone codes as options of a selectable list
@@ -1327,24 +1327,24 @@ Class i18n {
 		return $locales;
 	}
 
- 	/**
- 	 * lookup a localised string in an array
- 	 *
+	/**
+	 * lookup a localised string in an array
+	 *
 	 * This can be used to parse manifest files for example.
 	 *
- 	 * This function also transcode HTML entities to Unicode entities, if any.
- 	 *
- 	 * @param array the array containing localized strings
- 	 * @param string the label identifying string
- 	 * @param string desired language, if any
- 	 * @return string the localized string, if any
- 	 */
- 	function &l($strings, $name, $forced='') {
- 		global $context;
+	 * This function also transcode HTML entities to Unicode entities, if any.
+	 *
+	 * @param array the array containing localized strings
+	 * @param string the label identifying string
+	 * @param string desired language, if any
+	 * @return string the localized string, if any
+	 */
+	function &l($strings, $name, $forced='') {
+		global $context;
 
- 		// sanity check
- 		if(!$name)
- 			return $name;
+		// sanity check
+		if(!$name)
+			return $name;
 
 		// select a string
 		if($forced && ($key = $name.'_'.$forced) && array_key_exists($key, $strings))
@@ -1368,84 +1368,29 @@ Class i18n {
 			$text =& utf8::transcode($text);
 
 		return $text;
- 	}
+	}
 
- 	/**
- 	 * localize in singular/plural as per community settings
- 	 *
- 	 * This function is equivalent to ngettext(), except that it localizes in the preferred language for the community.
- 	 *
- 	 * @param string singular form
- 	 * @param string plural form
- 	 * @param int number of items to consider
- 	 * @return string the localized string
- 	 */
- 	function &nc($singular, $plural, $count) {
- 		global $context;
+	/**
+	 * localize in singular/plural as per community settings
+	 *
+	 * This function is equivalent to ngettext(), except that it localizes in the preferred language for the community.
+	 *
+	 * @param string singular form
+	 * @param string plural form
+	 * @param int number of items to consider
+	 * @return string the localized string
+	 */
+	function &nc($singular, $plural, $count) {
+		global $context;
 
- 		// select language used by community
- 		if(isset($context['preferred_language']))
- 			$locale = $context['preferred_language'];
- 		else
- 			$locale = 'en';
+		// select language used by community
+		if(isset($context['preferred_language']))
+			$locale = $context['preferred_language'];
+		else
+			$locale = 'en';
 
- 		// key in cache
- 		$text = $singular.chr(0).$plural;
-
-		// do it manually
-		global $l10n;
-		if(!isset($l10n) || !is_array($l10n[$locale]) || !array_key_exists($text, $l10n[$locale]) || !array_key_exists('_plural', $l10n[$locale])) {
-			if($count != 1)
-				return $plural;
-			else
-				return $singular;
-		}
-
-		// use cached plural definition
-		$plural = $l10n[$locale]['_plural'];
-
-		// make a PHP statement out of it
-	    $plural = str_replace('nplurals','$total', $plural);
-	    $plural = str_replace('n', $count, $plural);
-	    $plural = str_replace('plural', '$select', $plural);
-
-	    // compute string index
-	    $total = 0;
-	    $select = 0;
-	    eval($plural);
-	    if($select >= $total)
-	    	$select = $total - 1;
-
-	    // get translated strings
-		$text = $l10n[$locale][$text];
-
-		// explode and select correct part
-        $parts = explode(chr(0), $text);
-        $text = $parts[$select];
-		return $text;
- 	}
-
- 	/**
- 	 * localize in singular/plural for a surfer
- 	 *
- 	 * This function is equivalent to ngettext(), except that it localizes in the preferred language for the surfer.
- 	 *
- 	 * @param string singular form
- 	 * @param string plural form
- 	 * @param int number of items to consider
- 	 * @return string the localized string
- 	 */
- 	function &ns($singular, $plural, $count) {
- 		global $context;
-
- 		// select language used by surfer
- 		if(isset($context['language']))
- 			$locale = $context['language'];
- 		else
- 			$locale = 'en';
-
- 		// key in cache
- 		$text = $singular.chr(0).$plural;
+		// key in cache
+		$text = $singular.chr(0).$plural;
 
 		// do it manually
 		global $l10n;
@@ -1460,46 +1405,101 @@ Class i18n {
 		$plural = $l10n[$locale]['_plural'];
 
 		// make a PHP statement out of it
-	    $plural = str_replace('nplurals','$total', $plural);
-	    $plural = str_replace('n', $count, $plural);
-	    $plural = str_replace('plural', '$select', $plural);
+		$plural = str_replace('nplurals','$total', $plural);
+		$plural = str_replace('n', $count, $plural);
+		$plural = str_replace('plural', '$select', $plural);
 
-	    // compute string index
-	    $total = 0;
-	    $select = 0;
-	    eval($plural);
-	    if($select >= $total)
-	    	$select = $total - 1;
+		// compute string index
+		$total = 0;
+		$select = 0;
+		eval($plural);
+		if($select >= $total)
+			$select = $total - 1;
 
-	    // get translated strings
+		// get translated strings
 		$text = $l10n[$locale][$text];
 
 		// explode and select correct part
-        $parts = explode(chr(0), $text);
-        $text = $parts[$select];
+		$parts = explode(chr(0), $text);
+		$text = $parts[$select];
 		return $text;
- 	}
+	}
 
- 	/**
- 	 * get a localized string for a surfer
- 	 *
- 	 * This function is an equivalent to gettext(), except it deals with surfer localization.
- 	 *
- 	 * @param string the template string to be translated
- 	 * @return string the localized string, if any
- 	 */
- 	function &s($text) {
- 		global $context;
+	/**
+	 * localize in singular/plural for a surfer
+	 *
+	 * This function is equivalent to ngettext(), except that it localizes in the preferred language for the surfer.
+	 *
+	 * @param string singular form
+	 * @param string plural form
+	 * @param int number of items to consider
+	 * @return string the localized string
+	 */
+	function &ns($singular, $plural, $count) {
+		global $context;
 
- 		// sanity check
- 		if(!$text)
- 			return $text;
+		// select language used by surfer
+		if(isset($context['language']))
+			$locale = $context['language'];
+		else
+			$locale = 'en';
 
- 		// select language used by surfer
- 		if(isset($context['language']))
- 			$locale = $context['language'];
- 		else
- 			$locale = 'en';
+		// key in cache
+		$text = $singular.chr(0).$plural;
+
+		// do it manually
+		global $l10n;
+		if(!isset($l10n) || !is_array($l10n[$locale]) || !array_key_exists($text, $l10n[$locale]) || !array_key_exists('_plural', $l10n[$locale])) {
+			if($count != 1)
+				return $plural;
+			else
+				return $singular;
+		}
+
+		// use cached plural definition
+		$plural = $l10n[$locale]['_plural'];
+
+		// make a PHP statement out of it
+		$plural = str_replace('nplurals','$total', $plural);
+		$plural = str_replace('n', $count, $plural);
+		$plural = str_replace('plural', '$select', $plural);
+
+		// compute string index
+		$total = 0;
+		$select = 0;
+		eval($plural);
+		if($select >= $total)
+			$select = $total - 1;
+
+		// get translated strings
+		$text = $l10n[$locale][$text];
+
+		// explode and select correct part
+		$parts = explode(chr(0), $text);
+		$text = $parts[$select];
+		return $text;
+	}
+
+	/**
+	 * get a localized string for a surfer
+	 *
+	 * This function is an equivalent to gettext(), except it deals with surfer localization.
+	 *
+	 * @param string the template string to be translated
+	 * @return string the localized string, if any
+	 */
+	function &s($text) {
+		global $context;
+
+		// sanity check
+		if(!$text)
+			return $text;
+
+		// select language used by surfer
+		if(isset($context['language']))
+			$locale = $context['language'];
+		else
+			$locale = 'en';
 
 		// cache is empty
 		global $l10n;
@@ -1521,7 +1521,7 @@ Class i18n {
 		// provide the localized string
 		$text = $l10n[$locale][$text];
 		return $text;
- 	}
+	}
 
 	/**
 	 * get a localized string for a background process
@@ -1534,9 +1534,9 @@ Class i18n {
 	function &server($name) {
 		global $context, $local;
 
- 		// sanity check
- 		if(!$name)
- 			return $name;
+		// sanity check
+		if(!$name)
+			return $name;
 
 		// select a string
 		if(isset($local[$name.'_'.$context['preferred_language']]))
@@ -1551,9 +1551,9 @@ Class i18n {
 		return $text;
 	}
 
- 	/**
- 	 * get a localized string for a surfer
- 	 *
+	/**
+	 * get a localized string for a surfer
+	 *
 	 * To localize strings internally you should put alternative strings in the $local array, and use
 	 * this function to select the correct version.
 	 *
@@ -1564,18 +1564,18 @@ Class i18n {
 	 * $text = i18n::user('mystring');
 	 * [/php]
 	 *
- 	 * This function also transcode HTML entities to Unicode entities, if any.
- 	 *
- 	 * @param string the label identifying string
- 	 * @param string desired language, if any
- 	 * @return string the localized string, if any
- 	 */
- 	function &user($name, $forced='') {
- 		global $context, $local;
+	 * This function also transcode HTML entities to Unicode entities, if any.
+	 *
+	 * @param string the label identifying string
+	 * @param string desired language, if any
+	 * @return string the localized string, if any
+	 */
+	function &user($name, $forced='') {
+		global $context, $local;
 
- 		// sanity check
- 		if(!$name)
- 			return $name;
+		// sanity check
+		if(!$name)
+			return $name;
 
 		// select a string
 		if($forced && ($key = $name.'_'.$forced) && array_key_exists($key, $local))
@@ -1599,7 +1599,7 @@ Class i18n {
 			$text =& utf8::transcode($text);
 
 		return $text;
- 	}
+	}
 
 }
 

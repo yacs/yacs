@@ -69,15 +69,15 @@ if(is_object($anchor))
 
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
-    $context['path_bar'] = $anchor->get_path_bar();
+	$context['path_bar'] = $anchor->get_path_bar();
 else
-    $context['path_bar'] = array( 'comments/' => i18n::s('All comments') );
+	$context['path_bar'] = array( 'comments/' => i18n::s('All comments') );
 
 // the title of the page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['page_title'] = $anchor->get_label('comments', 'view_title', $anchor->get_title());
 else
-    $context['page_title'] = i18n::s('View a comment');
+	$context['page_title'] = i18n::s('View a comment');
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable()) {
@@ -98,23 +98,23 @@ if(is_object($anchor) && $anchor->is_viewable()) {
 // the quote command is available to logged users, or to everybody if set so
 if($item['id'] && $permitted && Comments::are_allowed($anchor)) {
 
-    $context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'reply') => i18n::s('Reply') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'reply') => i18n::s('Reply') ));
 
-    $context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'quote') => i18n::s('Quote') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'quote') => i18n::s('Quote') ));
 }
 
 // commands for associates, authenticated editors and author
 if($item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())
 	|| Surfer::is_creator($item['create_id']))) {
 
-    $context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'edit') => i18n::s('Modify') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'edit') => i18n::s('Modify') ));
 
-    $context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'delete') => i18n::s('Delete') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'delete') => i18n::s('Delete') ));
 }
 
 // commands for associates and authenticated editors
 if($item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())))
-    $context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'promote') => i18n::s('Promote') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'promote') => i18n::s('Promote') ));
 
 // the new comment command is available to logged users, and to everybody if set so
 if($permitted && Comments::are_allowed($anchor)) {
@@ -122,7 +122,7 @@ if($permitted && Comments::are_allowed($anchor)) {
 		$link = 'comments/edit.php/'.str_replace(':', '/', $item['anchor']);
 	else
 		$link = 'comments/edit.php?anchor='.$item['anchor'];
-    $context['page_menu'] = array_merge($context['page_menu'], array( $link => i18n::s('New comment') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $link => i18n::s('New comment') ));
 }
 
 // not found -- help web crawlers
@@ -196,25 +196,25 @@ if(!isset($item['id'])) {
 		$details[] = Comments::get_img($item['type']);
 
 	// the poster of this comment
-    $details[] = sprintf(i18n::s('by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date'], 'with_hour'));
+	$details[] = sprintf(i18n::s('by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date'], 'with_hour'));
 
 	// the last edition of this comment
 	if($item['create_name'] != $item['edit_name'])
-	    $details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date'], 'with_hour'));
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date'], 'with_hour'));
 
 	// the complete details
 	if($details)
 		$context['text'] .= '<p class="details">'.ucfirst(implode(' ', $details))."</p>\n";
 
-    // display the full comment
-    if($item['description']) {
+	// display the full comment
+	if($item['description']) {
 
 		// beautify the complete comment
 		$text = Codes::beautify($item['description']);
 
-        // show the description
-        $context['text'] .= '<p></p>'.$text."<p></p>\n";
-    }
+		// show the description
+		$context['text'] .= '<p></p>'.$text."<p></p>\n";
+	}
 
 	// list follow-ups in thread, if any
 	if($next = Comments::list_next($item['id'], 'compact'))
@@ -223,8 +223,8 @@ if(!isset($item['id'])) {
 	// incitate people to react
 	if($item['id'] && $permitted && Comments::are_allowed($anchor)) {
 		$menu = array( Comments::get_url($item['id'], 'reply') => NEW_COMMENT_IMG.' '.i18n::s('React to this post') );
-	    $context['text'] .= Skin::build_list($menu, 'menu_bar');
-    }
+		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+	}
 
 	// insert anchor suffix
 	if(is_object($anchor))

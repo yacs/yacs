@@ -13,7 +13,7 @@
  * Accepted calls:
  * - edit.php	add a new server
  * - edit.php/&lt;id&gt;	modify an existing server
- * - edit.php?id=&lt;id&gt;	modify an existing server
+ * - edit.php?id=&lt;id&gt; modify an existing server
  *
  * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
  * @author Vincent No&euml;l
@@ -53,9 +53,9 @@ $context['path_bar'] = array( 'servers/' => i18n::s('Servers') );
 
 // the title of the page
 if($item['id'])
-    $context['page_title'] = i18n::s('Edit a server profile');
+	$context['page_title'] = i18n::s('Edit a server profile');
 else
-    $context['page_title'] = i18n::s('Add a new server profile');
+	$context['page_title'] = i18n::s('Add a new server profile');
 
 // always validate input syntax
 if(isset($_REQUEST['introduction']))
@@ -104,7 +104,7 @@ elseif(count($context['error'])) {
 		Users::increment_posts(Surfer::get_id());
 
 		// forward to the updated page
-    	Safe::redirect($next);
+		Safe::redirect($next);
 
 	// update of an existing server
 	} else {
@@ -113,7 +113,7 @@ elseif(count($context['error'])) {
 		$next = $context['url_to_home'].$context['url_to_root'].Servers::get_url($_REQUEST['id']);
 
 		// forward to the updated page
-    	Safe::redirect($next);
+		Safe::redirect($next);
 	}
 
 // display the form on GET
@@ -313,7 +313,7 @@ if($with_form) {
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
-	    $context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
+		$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
 
 	// end of the form
 	$context['text'] .= '</div></form>';
@@ -330,7 +330,7 @@ if($with_form) {
 		.'		return false;'."\n"
 		.'	}'."\n"
 		."\n"
-	    .'	// successful check'."\n"
+		.'	// successful check'."\n"
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"

@@ -23,9 +23,9 @@ Class Codec {
 	 * [php]
 	 * $result = $codec->export_request($service, $parameters);
 	 * if(!$result[0])
-	 * 	echo $result[1]; // print error code
+	 *	echo $result[1]; // print error code
 	 * else
-	 * 	... // send data from $result[1] to the remote web server
+	 *	... // send data from $result[1] to the remote web server
 	 * [/php]
 	 *
 	 * @param string name of the remote service
@@ -42,9 +42,9 @@ Class Codec {
 	 * [php]
 	 * $result = $codec->export_response($values, $service);
 	 * if(!$result[0])
-	 * 	echo $result[1]; // print error code
+	 *	echo $result[1]; // print error code
 	 * else
-	 * 	... // send data from $result[1] to the web client
+	 *	... // send data from $result[1] to the web client
 	 * [/php]
 	 *
 	 * @param mixed transmitted values, if any

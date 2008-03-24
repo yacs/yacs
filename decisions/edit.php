@@ -30,7 +30,7 @@
  * - edit.php/&lt;type&gt;/&lt;id&gt;			create a new decision for this anchor
  * - edit.php?anchor=&lt;type&gt;:&lt;id&gt;	create a new decision for this anchor
  * - edit.php/&lt;id&gt;						modify an existing decision
- * - edit.php?id=&lt;id&gt;						modify an existing decision
+ * - edit.php?id=&lt;id&gt; 					modify an existing decision
  *
  * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
@@ -237,15 +237,15 @@ if(!is_object($anchor)) {
 			$context['text'] .= '</p>';
 		}
 
-	    // splash message
- 		$context['text'] .= Skin::build_block(i18n::s('What do you want to do now?'), 'title');
+		// splash message
+		$context['text'] .= Skin::build_block(i18n::s('What do you want to do now?'), 'title');
 
 		// follow-up commands
 		$menu = array();
 		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Go back to main page')));
 		$menu = array_merge($menu, array(Decisions::get_url($id, 'view') => i18n::s('View the decision')));
 		$menu = array_merge($menu, array(Decisions::get_url($id, 'edit') => i18n::s('Edit the decision')));
- 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// log the submission of a new decision by a non-associate
 		if(!Surfer::is_associate()) {
@@ -275,9 +275,9 @@ if($with_form) {
 
 	// preview a decision
 	if(isset($_REQUEST['preview']) && $_REQUEST['preview']) {
- 		$context['text'] .= Skin::build_box(i18n::s('Preview of your post:'), Codes::beautify($item['description']), 'section');
+		$context['text'] .= Skin::build_box(i18n::s('Preview of your post:'), Codes::beautify($item['description']), 'section');
 
- 		$context['text'] .= Skin::build_block(i18n::s('Modify your post below'), 'title');
+		$context['text'] .= Skin::build_block(i18n::s('Modify your post below'), 'title');
 
 	}
 
@@ -400,23 +400,23 @@ if($with_form) {
 	// end of the form
 	$context['text'] .= '</div></form>';
 
-// 	// the script used for form handling at the browser
-// 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
-// 		.'// check that main fields are not empty'."\n"
-// 		.'func'.'tion validateDocumentPost(container) {'."\n"
-// 		."\n"
-// 		.'	// description is mandatory'."\n"
-// 		.'	if(!container.description.value) {'."\n"
-// 		.'		alert("'.i18n::s('Please type a valid decision').'");'."\n"
+//	// the script used for form handling at the browser
+//	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+//		.'// check that main fields are not empty'."\n"
+//		.'func'.'tion validateDocumentPost(container) {'."\n"
+//		."\n"
+//		.'	// description is mandatory'."\n"
+//		.'	if(!container.description.value) {'."\n"
+//		.'		alert("'.i18n::s('Please type a valid decision').'");'."\n"
 //		.'		Yacs.stopWorking();'."\n"
-// 		.'		return false;'."\n"
-// 		.'	}'."\n"
-// 		."\n"
-// 		.'	// successful check'."\n"
-// 		.'	return true;'."\n"
-// 		.'}'."\n"
-// 		."\n"
-// 		.'// ]]></script>'."\n";
+//		.'		return false;'."\n"
+//		.'	}'."\n"
+//		."\n"
+//		.'	// successful check'."\n"
+//		.'	return true;'."\n"
+//		.'}'."\n"
+//		."\n"
+//		.'// ]]></script>'."\n";
 
 }
 

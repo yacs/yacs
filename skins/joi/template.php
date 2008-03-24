@@ -7,24 +7,24 @@
  * The layout makes things natural if styles are disactivated. It is made of following components:
  * <ul>
  * <li>div#wrapper - limit the horizontal size of everything, and center it in the page</li>
- *  <ul>
- *  <li>div#header_panel</li>
- *   <ul>
- *   <li>p#header_title</li>
- *   <li>p#header_slogan</li>
- *   </ul>
- *  <li>div#main_panel</li>
- *   <ul>
- *   <li>p#crumbs - path to this page</li>
- *   <li>h1 - page title</li>
- *   <li>p#page_menu - commands for this page</li>
- *   <li>div.error - to report on errors, if any</li>
- *   <li>img.icon - the main image for this page</li>
- *   <li>(page main content)</li>
- *   </ul>
- *  <li>div#side_panel</li>
- *  <li>div#footer_panel</li>
- *  </ul>
+ *	<ul>
+ *	<li>div#header_panel</li>
+ *	 <ul>
+ *	 <li>p#header_title</li>
+ *	 <li>p#header_slogan</li>
+ *	 </ul>
+ *	<li>div#main_panel</li>
+ *	 <ul>
+ *	 <li>p#crumbs - path to this page</li>
+ *	 <li>h1 - page title</li>
+ *	 <li>p#page_menu - commands for this page</li>
+ *	 <li>div.error - to report on errors, if any</li>
+ *	 <li>img.icon - the main image for this page</li>
+ *	 <li>(page main content)</li>
+ *	 </ul>
+ *	<li>div#side_panel</li>
+ *	<li>div#footer_panel</li>
+ *	</ul>
  * </ul>
  *
  * This template implements following access keys at all pages:

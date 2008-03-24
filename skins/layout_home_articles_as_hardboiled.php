@@ -49,7 +49,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 		if(!SQL::count($result)) {
 			$label = i18n::s('No article has been published so far.');
 			if(Surfer::is_associate())
-			 	$label .= ' '.sprintf(i18n::s('Use the %s to start to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+				$label .= ' '.sprintf(i18n::s('Use the %s to start to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
 			return $output;
 		}
@@ -250,8 +250,8 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 				$suffix = str_replace('<span class="details"></span>', '', $suffix);
 
 				// insert a suffix separator
-	// 			if(trim($suffix))
-	// 				$suffix = ' -&nbsp;'.$suffix;
+	//			if(trim($suffix))
+	//				$suffix = ' -&nbsp;'.$suffix;
 
 				// the icon to put in the left column
 				if($item['thumbnail_url'])

@@ -225,7 +225,7 @@ if(!$permitted) {
 		$file_upload = $_FILES['upload']['tmp_name'];
 
 		// $_FILES transcoding to utf8 is not automatic
-    	$_FILES['upload']['name'] = utf8::to_unicode($_FILES['upload']['name']);
+		$_FILES['upload']['name'] = utf8::to_unicode($_FILES['upload']['name']);
 
 		// enhance file name
 		$file_name = $_FILES['upload']['name'];
@@ -240,7 +240,7 @@ if(!$permitted) {
 			$_FILES['upload']['name'] .= '.'.$file_extension;
 
 		// ensure we have a file name
-    	$file_name = utf8::to_ascii($_FILES['upload']['name']);
+		$file_name = utf8::to_ascii($_FILES['upload']['name']);
 		$_REQUEST['image_name'] = $file_name;
 
 		// create an anchor if none has been provided

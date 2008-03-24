@@ -152,7 +152,7 @@ if(is_object($anchor))
 else
 	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
 if(isset($item['id']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
 // the title of the page
 if(isset($labels['title']) && $labels['title'])
@@ -162,7 +162,7 @@ else
 
 // command to go back
 if(isset($item['id']))
-	$context['page_menu'] = array( Articles::get_url($item['id'], 'view', $item['title']) => i18n::s('Back to the page') );
+	$context['page_menu'] = array( Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to the page') );
 
 // not found
 if(!isset($item['id'])) {
@@ -328,7 +328,7 @@ if(!isset($item['id'])) {
 	$context['page_title'] = i18n::s('Invite people to review and to contribute');
 
 	// referenced page
-	$context['text'] .= '<p>'.Skin::build_link(Articles::get_url($item['id']), $item['title'])."</p>\n";
+	$context['text'] .= '<p>'.Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), $item['title'])."</p>\n";
 
 	// splash message
 	$context['text'] .= '<p>'.i18n::s('Recipient addresses put in this page are used only once, to send your message, and are not stored afterwards.').'</p>';
@@ -366,7 +366,7 @@ if(!isset($item['id'])) {
 	if($author_id = Surfer::get_id())
 		$author .= "\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($author_id, 'view', Surfer::get_name());
 
-	// the message
+	// the message -- no title nor nick name in title, this will be replaced afterwards!
 	$label = i18n::s('Message content');
 	if(isset($item['create_id']) && Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
 		$content = sprintf(i18n::s("I have created a web page and would like you to review it and to contribute. \n\n%s\n\nPlease let me thank you for your kind support.\n\n%s"), $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id']), $author);
@@ -442,7 +442,7 @@ if(!isset($item['id'])) {
 	$context['page_title'] = i18n::s('Provide feed-back to page author');
 
 	// referenced page
-	$context['text'] .= '<p>'.Skin::build_link(Articles::get_url($item['id']), $item['title'])."</p>\n";
+	$context['text'] .= '<p>'.Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), $item['title'])."</p>\n";
 
 	// the form to send a message
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';

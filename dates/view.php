@@ -49,15 +49,15 @@ load_skin('dates', $anchor);
 
 // the path to this page
 if(is_object($anchor))
-    $context['path_bar'] = $anchor->get_path_bar();
+	$context['path_bar'] = $anchor->get_path_bar();
 else
-    $context['path_bar'] = array( 'dates/' => i18n::s('Dates') );
+	$context['path_bar'] = array( 'dates/' => i18n::s('Dates') );
 
 // the title of the page
 if(is_object($anchor))
-    $context['page_title'] = $anchor->get_title();
+	$context['page_title'] = $anchor->get_title();
 elseif(isset($item['id']) && $item['id'])
-    $context['page_title'] = i18n::s('View some date');
+	$context['page_title'] = i18n::s('View some date');
 
 // back to the anchor page
 if(is_object($anchor))
@@ -65,13 +65,13 @@ if(is_object($anchor))
 
 // commands for associates and editors
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
-    $context['page_menu'] = array_merge($context['page_menu'], array( dates::get_url($id, 'edit') => i18n::s('Edit') ));
-    $context['page_menu'] = array_merge($context['page_menu'], array( dates::get_url($id, 'delete') => i18n::s('Delete') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( dates::get_url($id, 'edit') => i18n::s('Edit') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( dates::get_url($id, 'delete') => i18n::s('Delete') ));
 
 // commands for the author
 } elseif(Surfer::is_creator($item['edit_id'])) {
-    $context['page_menu'] = array_merge($context['page_menu'],
-        array( dates::get_url($item['id'], 'edit') => i18n::s('Edit') ));
+	$context['page_menu'] = array_merge($context['page_menu'],
+		array( dates::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 }
 
 // not found -- help web crawlers
@@ -87,7 +87,7 @@ if(!isset($item['id'])) {
 
 	// information on uploader
 	if(Surfer::is_member() && $item['edit_name'])
-        $details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 	// the complete details
 	if(is_array($details))

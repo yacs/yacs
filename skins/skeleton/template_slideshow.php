@@ -84,7 +84,7 @@ echo Skin::build_error_block();
 
 // display the page image, if any
 if($context['page_image'])
-   	echo ICON_PREFIX.'<img src="'.$context['page_image'].'" class="icon" alt=""'.EOT.ICON_SUFFIX;
+	echo ICON_PREFIX.'<img src="'.$context['page_image'].'" class="icon" alt=""'.EOT.ICON_SUFFIX;
 
 // render and display the content, if any
 echo $context['text'];

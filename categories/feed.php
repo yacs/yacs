@@ -91,7 +91,7 @@ else
 if($item['title'])
 	$context['page_title'] = $item['title'];
 else
-    $context['page_title'] = i18n::s('RSS feed for category');
+	$context['page_title'] = i18n::s('RSS feed for category');
 
 // not found
 if(!$item['id']) {

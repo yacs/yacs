@@ -15,14 +15,14 @@
 global $hooks;
 $hooks[] = array(
 	'id'		=> 'echo',
- 	'type'		=> 'serve',
- 	'script'	=> 'services/rpc_echo_hook.php',
- 	'function'	=> 'RPC_Echo::serve',
- 	'label_en'	=> 'Echo service',
- 	'label_fr'	=> 'Service de renvoi',
- 	'description_en' => 'A very simple web service.',
- 	'description_fr' => 'Un service web simpliste.',
- 	'source' => 'http://www.yetanothercommunitysystem.com/'
+	'type'		=> 'serve',
+	'script'	=> 'services/rpc_echo_hook.php',
+	'function'	=> 'RPC_Echo::serve',
+	'label_en'	=> 'Echo service',
+	'label_fr'	=> 'Service de renvoi',
+	'description_en' => 'A very simple web service.',
+	'description_fr' => 'Un service web simpliste.',
+	'source' => 'http://www.yetanothercommunitysystem.com/'
 );
 
 class RPC_Echo {

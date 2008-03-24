@@ -147,19 +147,19 @@ else {
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";
 
-    // set the focus
-    $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	// set the focus
+	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
 		.'document.getElementById("confirmed").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// the title of the section
 	if($item['title'])
-	    $context['text'] .= Skin::build_block($item['title'], 'title');
+		$context['text'] .= Skin::build_block($item['title'], 'title');
 
 	// information on last editor
 	if($item['edit_name'])
-	    $details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 	// hits
 	if($item['hits'] > 1)
@@ -174,7 +174,7 @@ else {
 
 	// main text
 	if($item['description'])
-	    $context['text'] .= Codes::beautify($item['description'])."\n";
+		$context['text'] .= Codes::beautify($item['description'])."\n";
 
 	// count items related to this section
 	$context['text'] .= Anchors::stat_related_to('section:'.$item['id'], i18n::s('Following items are attached to this record and will be suppressed as well.'));

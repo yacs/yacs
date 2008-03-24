@@ -111,7 +111,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
 if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
 // the title of the page
 if(is_object($overlay) && ($label = $overlay->get_label('page_title', isset($item['id'])?'edit':'new')))
@@ -123,7 +123,7 @@ else
 
 // command to go back
 if(isset($item['id']))
-	$context['page_menu'] = array( Articles::get_url($id) => i18n::s('Back to the page') );
+	$context['page_menu'] = array( Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to the page') );
 
 // an error has occurred
 if(count($context['error']))
@@ -179,7 +179,7 @@ elseif(!isset($item['id'])) {
 		Comments::post($fields);
 
 		// switch to the updated page
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title']));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 
 	}
 

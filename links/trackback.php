@@ -92,14 +92,14 @@ $anchor = NULL;
 if(isset($_REQUEST['anchor']))
 	$anchor = $_REQUEST['anchor'];
 elseif(isset($context['arguments'][1]))
-    $anchor = $context['arguments'][0].':'.$context['arguments'][1];
+	$anchor = $context['arguments'][0].':'.$context['arguments'][1];
 elseif(isset($context['arguments'][0]))
-    $anchor = 'article:'.$context['arguments'][0];
+	$anchor = 'article:'.$context['arguments'][0];
 $anchor = strip_tags($anchor);
 
 // get the related anchor, if any
 if($anchor)
-    $anchor = Anchors::get($anchor);
+	$anchor = Anchors::get($anchor);
 
 // load localized strings
 i18n::bind('links');
@@ -321,7 +321,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 	// end of the form
 	$context['text'] .= '</div></form>';
 
-    // the script used for form handling at the browser
+	// the script used for form handling at the browser
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
@@ -354,7 +354,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		.'		return false;'."\n"
 		.'	}'."\n"
 		."\n"
-	    .'	// successful check'."\n"
+		.'	// successful check'."\n"
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
@@ -364,7 +364,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('This server supports the %s created by Ben Trott and Mena Trott. Please note that any %s system attempts to trackback up to seven links from each published page.'), Skin::build_link('http://www.movabletype.org/docs/mttrackback.html', i18n::s('trackback specification'), 'external'), Skin::build_link('http://www.yetanothercommunitysystem.com/', i18n::s('YACS'), 'external')).'</p>'
-	 	.'<p>'.i18n::s('You can use this form to manually trackback your pages to this site.').'</p>'
+		.'<p>'.i18n::s('You can use this form to manually trackback your pages to this site.').'</p>'
 		.'<p>'.i18n::s('Please set a meaningful title to be used instead of the link itself.').'</p>'
 		.'<p>'.i18n::s('Also, take the time to describe the link. This field is fully indexed for searches.').'</p>';
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');

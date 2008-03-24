@@ -91,11 +91,11 @@ if(is_object($anchor))
 
 // the path to this page
 if(is_object($anchor))
-    $context['path_bar'] = $anchor->get_path_bar();
+	$context['path_bar'] = $anchor->get_path_bar();
 else
 	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
 if(isset($item['id']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
 // the title of the page
 if(is_object($overlay) && ($label = $overlay->get_label('title', 'duplicate')))
@@ -227,8 +227,8 @@ if(!isset($item['id'])) {
 		.'<input type="hidden" name="action" value="duplicate" />'."\n"
 		.'</p></form>'."\n";
 
-    // set the focus
-    $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	// set the focus
+	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
 		.'document.getElementById("confirmed").focus();'."\n"
 		.'// ]]></script>'."\n";
@@ -240,11 +240,11 @@ if(!isset($item['id'])) {
 
 	// the title of the article
 	if($item['title'])
-	    $context['text'] .= Skin::build_block($item['title'], 'title');
+		$context['text'] .= Skin::build_block($item['title'], 'title');
 
 	// last edition
 	if($item['edit_name'])
-        $details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 	// hits
 	if($item['hits'] > 1)
@@ -254,8 +254,8 @@ if(!isset($item['id'])) {
 	if(@count($details))
 		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
-    // display the source, if any
-    if($item['source']) {
+	// display the source, if any
+	if($item['source']) {
 		if(preg_match('/http:\/\/([^\s]+)/', $item['source'], $matches))
 			$item['source'] = Skin::build_link($matches[0], $matches[0], 'external');
 		else {

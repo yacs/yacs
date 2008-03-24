@@ -993,7 +993,7 @@ Class Article extends Anchor {
 			$notification = array();
 			$notification['type'] = 'alert';
 			$notification['action'] = $action;
-			$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_url($this->item['id'], 'view', $this->item['title']);
+			$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name']);
 			$notification['nick_name'] = Surfer::get_name();
 			$notification['title'] = utf8::to_unicode($this->item['title']);
 
@@ -1038,7 +1038,7 @@ Class Article extends Anchor {
 			//
 
 			// watchers don't have the secret handle
-			$mail['link'] =  $context['url_to_home'].$context['url_to_root'].Articles::get_url($this->item['id'], 'view', $this->item['title']);
+			$mail['link'] =  $context['url_to_home'].$context['url_to_root'].Articles::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name']);
 
 			// poster benefits from the secret handle to access the article
 			$mail['message'] = sprintf($mail['template'], $mail['title'], $mail['link'], $mail['action'])

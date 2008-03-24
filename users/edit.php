@@ -585,13 +585,13 @@ if($with_form) {
 	$hint = i18n::s('Select your preferred interface to edit content at this site.');
 	$fields[] = array($label, $input, $hint);
 
-// 	// options
-// 	if(Surfer::is_associate()) {
-// 		$label = i18n::s('Options');
-// 		$input = '<input type="text" name="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o"'.EOT;
-// 		$hint = i18n::s('You can combine: \'locked\'');
-// 		$fields[] = array($label, $input, $hint);
-// 	}
+//	// options
+//	if(Surfer::is_associate()) {
+//		$label = i18n::s('Options');
+//		$input = '<input type="text" name="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o"'.EOT;
+//		$hint = i18n::s('You can combine: \'locked\'');
+//		$fields[] = array($label, $input, $hint);
+//	}
 
 	// usage of e-mail address
 	$label = i18n::s('E-mail usage');

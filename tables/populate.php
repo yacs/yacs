@@ -55,7 +55,7 @@ elseif($anchor = Articles::lookup('my_article')) {
 		."articles.introduction as introduction, \n"
 		."articles.edit_name as 'last editor', \n"
 		."articles.edit_date as 'Date' \n"
- 		."FROM ".SQL::table_name('articles')." AS articles \n"
+		."FROM ".SQL::table_name('articles')." AS articles \n"
 		."WHERE (articles.active='Y') \n"
 		."ORDER BY articles.rank, articles.edit_date DESC, articles.title LIMIT 0,10";
 	if(Tables::post($fields))

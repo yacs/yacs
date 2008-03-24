@@ -123,7 +123,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		$context['page_title'] = i18n::s('Thank you very much for your contribution');
 
 		// the date
-	    $context['text'] .= '<p>'.sprintf(i18n::s('Target date: %s'), Skin::build_date($item['date_stamp'], 'full')).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::s('Target date: %s'), Skin::build_date($item['date_stamp'], 'full')).'</p>';
 
 		// the action
 		$context['text'] .= '<p>'.i18n::s('The date has been saved.').'</p>';

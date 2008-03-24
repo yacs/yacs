@@ -139,9 +139,9 @@ if($id && !isset($item['id'])) {
 	if($text) {
 
 		// return the standard MIME type, but ensure the user agent will accept it -- Internet Explorer 6 don't
-// 		if(isset($_SERVER['HTTP_ACCEPT']) && stristr($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml'))
-// 		    Safe::header('Content-Type: application/xhtml+xml; charset='.$context['charset']);
-// 		else
+//		if(isset($_SERVER['HTTP_ACCEPT']) && stristr($_SERVER['HTTP_ACCEPT'], 'application/xhtml+xml'))
+//			Safe::header('Content-Type: application/xhtml+xml; charset='.$context['charset']);
+//		else
 			Safe::header('Content-Type: text/html; charset='.$context['charset']);
 
 		Safe::header('Content-Length: '.strlen($text));

@@ -51,12 +51,12 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
 	if($focus = Page::top_focus()) {
 		echo "\t".'<style type="text/css" media="screen">'."\n"
 			."\t\t".'#tabs li#'.$focus.' a {'."\n"
-	  		."\t\t\t".'background-position: 0% -44px;'."\n"
-	  		."\t\t\t".'border-bottom: 1px solid #fff;'."\n"
+			."\t\t\t".'background-position: 0% -44px;'."\n"
+			."\t\t\t".'border-bottom: 1px solid #fff;'."\n"
 			."\t\t".'}'."\n"
 			."\t\t".'#tabs li#'.$focus.' a span {'."\n"
-	  		."\t\t\t".'color: #039;'."\n"
-	  		."\t\t\t".'background-position: 100% -44px;'."\n"
+			."\t\t\t".'color: #039;'."\n"
+			."\t\t\t".'background-position: 100% -44px;'."\n"
 			."\t\t".'}'."\n"
 			."\t".'</style>'."\n";
 	}

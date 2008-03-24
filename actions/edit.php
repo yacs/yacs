@@ -26,7 +26,7 @@
  * Accepted calls:
  * - edit.php?anchor=&lt;type&gt;:&lt;id&gt;	add a new action for the anchor
  * - edit.php/&lt;id&gt;					modify an existing action
- * - edit.php?id=&lt;id&gt;				modify an existing action
+ * - edit.php?id=&lt;id&gt; 			modify an existing action
  *
  * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
@@ -57,9 +57,9 @@ $item =& Actions::get($id);
 // look for the target anchor on item creation
 $target_anchor = NULL;
 if(isset($_REQUEST['anchor']))
-    $target_anchor = $_REQUEST['anchor'];
+	$target_anchor = $_REQUEST['anchor'];
 elseif(isset($context['arguments'][1]))
-    $target_anchor = $context['arguments'][0].':'.$context['arguments'][1];
+	$target_anchor = $context['arguments'][0].':'.$context['arguments'][1];
 $target_anchor = strip_tags($target_anchor);
 
 // get the related anchor, if any
@@ -67,7 +67,7 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor = Anchors::get($item['anchor']);
 elseif($target_anchor)
-    $anchor = Anchors::get($target_anchor);
+	$anchor = Anchors::get($target_anchor);
 
 // associates and editors can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
@@ -108,15 +108,15 @@ if(is_object($anchor))
 
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
-    $context['path_bar'] = $anchor->get_path_bar();
+	$context['path_bar'] = $anchor->get_path_bar();
 else
-    $context['path_bar'] = array( 'actions/' => i18n::s('Actions') );
+	$context['path_bar'] = array( 'actions/' => i18n::s('Actions') );
 
 // the title of the page
 if($item['id'])
-    $context['page_title'] = i18n::s('Update an action');
+	$context['page_title'] = i18n::s('Update an action');
 else
-    $context['page_title'] = i18n::s('Add an action');
+	$context['page_title'] = i18n::s('Add an action');
 
 // always validate input syntax
 if(isset($_REQUEST['description']))
@@ -195,20 +195,20 @@ if(!$permitted) {
 		// thanks
 		$context['page_title'] = i18n::s('The action has been put in the to-do list');
 
- 		// action overview
- 		$context['text'] .= Skin::build_block(i18n::s('Overview of your post:'), 'title')
- 			.'<p><b>'.Codes::beautify_title($_REQUEST['title']).'</b></p>'
- 			.Codes::beautify($_REQUEST['description']);
+		// action overview
+		$context['text'] .= Skin::build_block(i18n::s('Overview of your post:'), 'title')
+			.'<p><b>'.Codes::beautify_title($_REQUEST['title']).'</b></p>'
+			.Codes::beautify($_REQUEST['description']);
 
-	    // splash message
- 		$context['text'] .= Skin::build_block(i18n::s('What do you want to do now?'), 'title');
+		// splash message
+		$context['text'] .= Skin::build_block(i18n::s('What do you want to do now?'), 'title');
 
 		// follow-up commands
 		$menu = array();
 		if(is_object($anchor))
 			$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the main page')));
 		$menu = array_merge($menu, array(Actions::get_url($id, 'edit') => i18n::s('Edit the action')));
- 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// send an e-mail message to the target end user, if any
 		if(($to = $anchor->get_value('email')) && preg_match('/.+@.+/', $to)) {
@@ -220,7 +220,7 @@ if(!$permitted) {
 			$message = sprintf(i18n::s("The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.\n\nSender: %s\n\n%s\n\n%s\n\n"), Surfer::get_name(), strip_tags(preg_replace('/<br *\/*>/i', "\n", Codes::beautify($_REQUEST['description']))), $context['url_to_home'].$context['url_to_root'].Actions::get_url($id));
 
 			// actual post - don't stop on error
-		    include_once $context['path_to_root'].'shared/mailer.php';
+			include_once $context['path_to_root'].'shared/mailer.php';
 			Mailer::notify($to, $subject, $message);
 
 		}
@@ -239,7 +239,7 @@ if(!$permitted) {
 		$anchor->touch('action:update', $item['id'], TRUE);
 
 		// forward to the updated anchor page
-    	Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#actions');
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#actions');
 	}
 
 // display the form on GET
@@ -306,19 +306,19 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// action status
-    $label = i18n::s('Status');
-    $input = '<input type="radio" name="status" value="O"';
-    if(($item['status'] == 'O') || !$item['status'])
-    	$input .= ' checked="checked"';
-    $input .= EOT.' '.i18n::s('On-going').' ';
-    $input .= '<input type="radio" name="status" value="C"';
-    if($item['status'] == 'C')
-    	$input .= ' checked="checked"';
-    $input .= EOT.' '.i18n::s('Completed').' ';
-    $input .= '<input type="radio" name="status" value="R"';
-    if($item['status'] == 'R')
-    	$input .= ' checked="checked"';
-    $input .= EOT.' '.i18n::s('Rejected')."\n";
+	$label = i18n::s('Status');
+	$input = '<input type="radio" name="status" value="O"';
+	if(($item['status'] == 'O') || !$item['status'])
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('On-going').' ';
+	$input .= '<input type="radio" name="status" value="C"';
+	if($item['status'] == 'C')
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Completed').' ';
+	$input .= '<input type="radio" name="status" value="R"';
+	if($item['status'] == 'R')
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Rejected')."\n";
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -329,10 +329,10 @@ if($with_form) {
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
-	    $context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
+		$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
 
 	// other hidden fields
-    $context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
+	$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 
 	// end of the form
 	$context['text'] .= '</div></form>';
@@ -353,7 +353,7 @@ if($with_form) {
 		.'			return false;'."\n"
 		.'		}'."\n"
 		."\n"
-	    .'		// successful check'."\n"
+		.'		// successful check'."\n"
 		.'		return true;'."\n"
 		.'	}'."\n"
 		."\n"

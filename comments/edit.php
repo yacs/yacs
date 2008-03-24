@@ -43,7 +43,7 @@
  * - edit.php/reply/&lt;id&gt;					reply to an existing comment
  * - edit.php?reply=&lt;id&gt;					reply to an existing comment
  * - edit.php/&lt;id&gt;						modify an existing comment
- * - edit.php?id=&lt;id&gt;						modify an existing comment
+ * - edit.php?id=&lt;id&gt; 					modify an existing comment
  *
  * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
@@ -259,8 +259,8 @@ if(!is_object($anchor)) {
 	Surfer::track($_REQUEST);
 
 	// only authenticated surfers are allowed to post links
-// 	if(!Surfer::is_logged())
-// 		$_REQUEST['description'] = preg_replace('/(http:|https:|ftp:|mailto:)[\w@\/\.]+/', '!!!', $_REQUEST['description']);
+//	if(!Surfer::is_logged())
+//		$_REQUEST['description'] = preg_replace('/(http:|https:|ftp:|mailto:)[\w@\/\.]+/', '!!!', $_REQUEST['description']);
 
 	// thread at the anchor page most of the time
 	if($anchor->has_layout('compact') || $anchor->has_layout('daily') || $anchor->has_layout('decorated') || $anchor->has_layout('jive') || $anchor->has_layout('manual') || $anchor->has_layout('yabb'))
@@ -384,18 +384,18 @@ if(!is_object($anchor)) {
 		// thanks
 		$context['page_title'] = i18n::s('Thank you very much for your contribution');
 
- 		// comment preview
- 		$context['text'] .= Skin::build_block(i18n::s('Preview of your post:'), 'title');
+		// comment preview
+		$context['text'] .= Skin::build_block(i18n::s('Preview of your post:'), 'title');
 
 		// the type, except on wikis and manuals
 		if(is_object($anchor) && !$anchor->has_layout('manual') && !$anchor->has_layout('wiki'))
 			$context['text'] .= Comments::get_img($_REQUEST['type']);
 
- 		// actual content
+		// actual content
 		$context['text'] .= Codes::beautify($_REQUEST['description']);
 
-	    // splash message
- 		$context['text'] .= Skin::build_block(i18n::s('What do you want to do now?'), 'title');
+		// splash message
+		$context['text'] .= Skin::build_block(i18n::s('What do you want to do now?'), 'title');
 
 		// follow-up commands -- see sections/section.php
 		$menu = array();
@@ -406,13 +406,13 @@ if(!is_object($anchor)) {
 
 		$menu = array_merge($menu, array(Comments::get_url($id, 'view') => $anchor->get_label('comments', 'view_command')));
 
- 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
- 		// comment author
- 		if($author = Surfer::get_name())
-	 		$author = sprintf(i18n::c('Comment by %s'), $author);
-	 	else
-	 		$author = i18n::c('Anonymous comment');
+		// comment author
+		if($author = Surfer::get_name())
+			$author = sprintf(i18n::c('Comment by %s'), $author);
+		else
+			$author = i18n::c('Anonymous comment');
 
 		// log the submission of a new comment
 		$label = sprintf(i18n::c('%s: %s'), $author, strip_tags($anchor->get_title()));
@@ -449,10 +449,10 @@ if($with_form) {
 
 	// preview a comment
 	if(isset($_REQUEST['preview'])) {
- 		$context['text'] .= Skin::build_block(i18n::s('Preview of your post:'), 'title')
+		$context['text'] .= Skin::build_block(i18n::s('Preview of your post:'), 'title')
 			.Codes::beautify($item['description']);
 
- 		$context['text'] .= Skin::build_block(i18n::s('Modify your post below'), 'title');
+		$context['text'] .= Skin::build_block(i18n::s('Modify your post below'), 'title');
 
 	// quote the previous comment, if any
 	} elseif(isset($item['id']) && ($action == 'quote')) {
@@ -628,10 +628,10 @@ if($with_form) {
 		."\n"
 		.'// ]]></script>'."\n";
 
- 	// reply or quote
- 	if(isset($reference_item['description']) && $reference_item['description'] && (($action == 'quote') || ($action == 'reply'))) {
- 		$excerpt = Skin::strip($reference_item['description'], 200);
- 		$poster = $reference_item['create_name'];
+	// reply or quote
+	if(isset($reference_item['description']) && $reference_item['description'] && (($action == 'quote') || ($action == 'reply'))) {
+		$excerpt = Skin::strip($reference_item['description'], 200);
+		$poster = $reference_item['create_name'];
 
 	// insert anchor excerpt
 	} elseif(is_object($anchor)) {

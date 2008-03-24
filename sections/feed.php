@@ -32,7 +32,7 @@
  * This may means that some news readers based on Internet Explorer won't be able to get YACS events log.
  * If this occurs, please consider to switch to standard-conformant software such as [link=Feedreader]http://www.feedreader.com/[/link].
  *
- * @link http://support.microsoft.com/default.aspx?scid=kb;[LN];834489  Microsoft Knowledge Base Article - 834489
+ * @link http://support.microsoft.com/default.aspx?scid=kb;[LN];834489	Microsoft Knowledge Base Article - 834489
  *
  * If following features are enabled, this script will use them:
  * - compression - Through gzip, we have observed a shift from 3566 bytes to 881 bytes, meaning one Ethernet frame rather than three
@@ -122,7 +122,7 @@ $context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
 if(isset($item['title']) && $item['title'])
 	$context['page_title'] = $item['title'];
 else
-    $context['page_title'] = i18n::s('Section feed');
+	$context['page_title'] = i18n::s('Section feed');
 
 // not found
 if(!isset($item['id']) || !$item['id']) {

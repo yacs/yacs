@@ -440,7 +440,7 @@ if(!isset($item['id'])) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'view', $item['title'])));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name'])));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
@@ -463,7 +463,7 @@ if(!isset($item['id'])) {
 	}
 
 	// initialize the rendering engine
-	Codes::initialize(Articles::get_url($item['id'], 'view', $item['title']));
+	Codes::initialize(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 
 	// neighbours information
 	$neighbours = NULL;
@@ -500,7 +500,7 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Articles::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml"'.EOT;
 
 	// implement the trackback interface
-	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title']);
+	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/article/'.$item['id'];
 	else
@@ -836,7 +836,7 @@ if(!isset($item['id'])) {
 				// if there are several pages, add navigation commands to browse them
 				if(count($pages) > 1) {
 					$page_menu = array( '_' => i18n::s('Pages') );
-					$home = Articles::get_url($item['id'], 'view', $item['title']);
+					$home = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 					$prefix = Articles::get_url($item['id'], 'navigate', 'pages');
 					$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page+1));
 
@@ -903,7 +903,7 @@ if(!isset($item['id'])) {
 					$box['text'] .= $items;
 
 				// navigation commands for files
-				$home = Articles::get_url($item['id'], 'view', $item['title']);
+				$home = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 				$prefix = Articles::get_url($item['id'], 'navigate', 'files');
 				$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
 
@@ -1140,7 +1140,7 @@ if(!isset($item['id'])) {
 					$box['text'] .= $items;
 
 				// navigation commands for links
-				$home = Articles::get_url($item['id'], 'view', $item['title']);
+				$home = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 				$prefix = Articles::get_url($item['id'], 'navigate', 'links');
 				$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index));
 			}
@@ -1474,7 +1474,7 @@ if(!isset($item['id'])) {
 		// put at top of stack
 		if(!isset($_SESSION['visited']))
 			$_SESSION['visited'] = array();
-		$_SESSION['visited'] = array_merge(array(Articles::get_url($item['id'], 'view', $item['title']) => Codes::beautify($item['title'])), $_SESSION['visited']);
+		$_SESSION['visited'] = array_merge(array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => Codes::beautify($item['title'])), $_SESSION['visited']);
 
 		// limit to 7 most recent pages
 		if(count($_SESSION['visited']) > 7)

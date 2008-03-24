@@ -150,8 +150,8 @@ if(!isset($item['id'])) {
 		}
 	}
 
-    // the introduction text
-    if($item['introduction'])
+	// the introduction text
+	if($item['introduction'])
 		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 	// the beautified description, which is the actual page body

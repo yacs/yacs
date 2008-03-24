@@ -2,6 +2,7 @@
 /**
  * populate the database
  *
+ * @todo allow for the creation of a calendar in a section
  * @todo allow for the creation of a s5 presentation
  * @todo allow for the capture of a remote rss feed in a new section
  *

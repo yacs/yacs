@@ -14,6 +14,8 @@
  * If the parameter 'debug_mail' is set, then a copy of every posted message
  * is saved in the file temporary/debug.txt for further review.
  *
+ * @link http://en.wikipedia.org/wiki/MIME Multipurpose Internet Mail Extensions (MIME)
+ *
  * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

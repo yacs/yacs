@@ -51,14 +51,14 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// the front page
 	$text .= '	<url>'."\n"
-    	.'		<loc>'.$context['url_to_home'].$context['url_to_root'].'</loc>'."\n"
+		.'		<loc>'.$context['url_to_home'].$context['url_to_root'].'</loc>'."\n"
 		.'		<changefreq>weekly</changefreq>'."\n"
 		.'		<priority>1.0</priority>'."\n"
 		.'	</url>'."\n\n";
 
 	// the site map
 	$text .= '	<url>'."\n"
-    	.'		<loc>'.$context['url_to_home'].$context['url_to_root'].'sections/</loc>'."\n"
+		.'		<loc>'.$context['url_to_home'].$context['url_to_root'].'sections/</loc>'."\n"
 		.'		<changefreq>weekly</changefreq>'."\n"
 		.'		<priority>1.0</priority>'."\n"
 		.'	</url>'."\n\n";
@@ -67,13 +67,13 @@ if(!$text =& Cache::get($cache_id)) {
 	if($items = Sections::list_by_title_for_anchor(NULL, 0, 25, 'raw'))
 		foreach($items as $id => $item)
 			$text .= '	<url>'."\n"
-		    	.'		<loc>'.$context['url_to_home'].$context['url_to_root'].Sections::get_url($id, 'view', $item['title']).'</loc>'."\n"
+				.'		<loc>'.$context['url_to_home'].$context['url_to_root'].Sections::get_url($id, 'view', $item['title']).'</loc>'."\n"
 				.'		<changefreq>weekly</changefreq>'."\n"
 				.'	</url>'."\n\n";
 
 	// the categories tree
 	$text .= '	<url>'."\n"
-    	.'		<loc>'.$context['url_to_home'].$context['url_to_root'].'categories/</loc>'."\n"
+		.'		<loc>'.$context['url_to_home'].$context['url_to_root'].'categories/</loc>'."\n"
 		.'		<changefreq>weekly</changefreq>'."\n"
 		.'		<priority>0.7</priority>'."\n"
 		.'	</url>'."\n\n";
@@ -83,20 +83,20 @@ if(!$text =& Cache::get($cache_id)) {
 	if($items = Categories::list_by_date(0, 25, 'raw'))
 		foreach($items as $id => $item)
 			$text .= '	<url>'."\n"
-		    	.'		<loc>'.$context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'view', $item['title']).'</loc>'."\n"
+				.'		<loc>'.$context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'view', $item['title']).'</loc>'."\n"
 				.'		<changefreq>weekly</changefreq>'."\n"
 				.'	</url>'."\n\n";
 
 	// members
 	$text .= '	<url>'."\n"
-    	.'		<loc>'.$context['url_to_home'].$context['url_to_root'].'users/</loc>'."\n"
+		.'		<loc>'.$context['url_to_home'].$context['url_to_root'].'users/</loc>'."\n"
 		.'		<changefreq>weekly</changefreq>'."\n"
 		.'		<priority>0.7</priority>'."\n"
 		.'	</url>'."\n\n";
 
 	// the OPML feed
 	$text .= '	<url>'."\n"
-    	.'		<loc>'.$context['url_to_home'].$context['url_to_root'].'feeds/describe.php</loc>'."\n"
+		.'		<loc>'.$context['url_to_home'].$context['url_to_root'].'feeds/describe.php</loc>'."\n"
 		.'		<changefreq>weekly</changefreq>'."\n"
 		.'	</url>'."\n\n";
 

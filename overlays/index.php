@@ -110,15 +110,15 @@
  * // our recipe
  * class Recipe extends Overlay {
  *
- *   // create some HTML fields to be inserted into a form
- *   function get_fields($host) {
- *   ...
- *   }
+ *	 // create some HTML fields to be inserted into a form
+ *	 function get_fields($host) {
+ *	 ...
+ *	 }
  *
- *   // parse some values from a form
- *   function parse($fields) {
- *   ...
- *   }
+ *	 // parse some values from a form
+ *	 function parse($fields) {
+ *	 ...
+ *	 }
  * }
  * [/php]
  *
@@ -138,8 +138,8 @@
  * [php]
  * // in sections/view.php, add a link to create a recipe
  * if(preg_match('/:with_recipes:/i', $section['options']) {
- *   $page .= Skin::build_link(rawurlencode('articles/edit.php/overlay/recipe:john.doe@acme.com:v1'
- *     .'?anchor=section:'.$section['id']), i18n::s('Post a new recipe'));
+ *	 $page .= Skin::build_link(rawurlencode('articles/edit.php/overlay/recipe:john.doe@acme.com:v1'
+ *	   .'?anchor=section:'.$section['id']), i18n::s('Post a new recipe'));
  * }
  * [/php]
  *
@@ -150,12 +150,12 @@
  * [php]
  * // we have to create a new overlay
  * if($context['arguments'][0] == 'overlay')
- *   $overlay = new_overlay($context['arguments'][1]);
+ *	 $overlay = new_overlay($context['arguments'][1]);
  *
  * // or we have to edit an existing one
  * elseif($id = $context['arguments'][0]) {
- *   $item =& Articles::get($id);
- *   $overlay = get_overlay($item);
+ *	 $item =& Articles::get($id);
+ *	 $overlay = get_overlay($item);
  * }
  * [/php]
  *

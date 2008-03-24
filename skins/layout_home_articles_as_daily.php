@@ -66,7 +66,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 		if(!SQL::count($result)) {
 			$label = i18n::s('No article has been published so far.');
 			if(Surfer::is_associate())
-			 	$label .= ' '.sprintf(i18n::s('Use the %s to start to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+				$label .= ' '.sprintf(i18n::s('Use the %s to start to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
 			return $output;
 		}
@@ -179,8 +179,8 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 				$box['content'] .= $overlay->get_text('list', $item).BR.BR."\n";
 
 			// the description
- 			if(trim($item['description']))
- 				$box['content'] .= Codes::beautify($item['description'], $item['options'])."\n";
+			if(trim($item['description']))
+				$box['content'] .= Codes::beautify($item['description'], $item['options'])."\n";
 
 			// build a menu
 			$menu = array();

@@ -22,14 +22,14 @@
 global $hooks;
 $hooks[] = array(
 	'id'		=> 'drupal.login',
- 	'type'		=> 'serve',
- 	'script'	=> 'services/xml_rpc_drupal.login_hook.php',
- 	'function'	=> 'Drupal::login',
- 	'label_en'	=> 'Remote authentication (Drupal style)',
- 	'label_fr'	=> 'Authentification &agrave; distance (comme Drupal)',
- 	'description_en' => 'The most simple authentication mechanism one can think of.',
- 	'description_fr' => 'Le m&eacute;canisme d\'authentification le plus simple auquel on puisse penser',
- 	'source' => 'http://www.yetanothercommunitysystem.com/'
+	'type'		=> 'serve',
+	'script'	=> 'services/xml_rpc_drupal.login_hook.php',
+	'function'	=> 'Drupal::login',
+	'label_en'	=> 'Remote authentication (Drupal style)',
+	'label_fr'	=> 'Authentification &agrave; distance (comme Drupal)',
+	'description_en' => 'The most simple authentication mechanism one can think of.',
+	'description_fr' => 'Le m&eacute;canisme d\'authentification le plus simple auquel on puisse penser',
+	'source' => 'http://www.yetanothercommunitysystem.com/'
 );
 
 class Drupal {

@@ -39,12 +39,12 @@
  *
  * <?xml version="1.0" encoding="iso-8859-15"?>
  * <item>
- * 	<title>RE: How to create a button from an image?  </title>
- * 	<link>http://www.yetanothercommunitysystem.com/</link>
- * 	<pubDate>Mon, 04 Oct 2004 12:21:52 GMT</pubDate>
- * 	<description><![CDATA[hello world ]]></description>
- * 	<author>foo.bar@acme.com (Foo)</author>
- * 	<dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">foo.bar@acme.com (Foo)</dc:creator>
+ *	<title>RE: How to create a button from an image?  </title>
+ *	<link>http://www.yetanothercommunitysystem.com/</link>
+ *	<pubDate>Mon, 04 Oct 2004 12:21:52 GMT</pubDate>
+ *	<description><![CDATA[hello world ]]></description>
+ *	<author>foo.bar@acme.com (Foo)</author>
+ *	<dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">foo.bar@acme.com (Foo)</dc:creator>
  * </item>
  * [/snippet]
  *
@@ -97,14 +97,14 @@ $anchor = NULL;
 if(isset($_REQUEST['anchor']))
 	$anchor = $_REQUEST['anchor'];
 elseif(isset($context['arguments'][1]))
-    $anchor = $context['arguments'][0].':'.$context['arguments'][1];
+	$anchor = $context['arguments'][0].':'.$context['arguments'][1];
 elseif(isset($context['arguments'][0]))
-    $anchor = 'article:'.$context['arguments'][0];
+	$anchor = 'article:'.$context['arguments'][0];
 $anchor = strip_tags($anchor);
 
 // get the related anchor, if any
 if($anchor)
-    $anchor = Anchors::get($anchor);
+	$anchor = Anchors::get($anchor);
 
 // a straightforward implementation of the Comment API
 if(isset($_SERVER['CONTENT_TYPE']) && ($_SERVER['CONTENT_TYPE'] == 'text/xml')) {

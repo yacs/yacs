@@ -41,7 +41,7 @@ $item =& Articles::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-    $anchor = Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // load localized strings
 i18n::bind('articles');
@@ -55,13 +55,13 @@ if(is_object($anchor))
 
 // the path to this page
 if(is_object($anchor))
-    $context['path_bar'] = $anchor->get_path_bar();
+	$context['path_bar'] = $anchor->get_path_bar();
 else
-    $context['path_bar'] = array( 'articles/' => 'Articles' );
+	$context['path_bar'] = array( 'articles/' => 'Articles' );
 
 // the title of the page
 if(isset($item['title']) && $item['title'])
-    $context['page_title'] = sprintf(i18n::s('Draft: %s'), $item['title']);
+	$context['page_title'] = sprintf(i18n::s('Draft: %s'), $item['title']);
 else
 	$context['page_title'] = i18n::s('No title has been provided.');
 
@@ -94,13 +94,13 @@ if(!isset($item['id'])) {
 
 // then display an updated page
 else
-	Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title']));
+	Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 
 // the path to this page
 if(is_object($anchor))
-    $context['path_bar'] = $anchor->get_path_bar();
+	$context['path_bar'] = $anchor->get_path_bar();
 else
-    $context['path_bar'] = array( 'articles/' => 'Articles' );
+	$context['path_bar'] = array( 'articles/' => 'Articles' );
 
 // render the skin
 render_skin();

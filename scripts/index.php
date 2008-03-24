@@ -148,17 +148,17 @@ if(Surfer::is_associate() && !file_exists('reference/footprints.php')) {
 	$context['text'] .= Skin::build_block(i18n::s('Incremental upgrades'), 'title');
 
 	// the status message
- 	Safe::load('scripts/staging/footprints.php');
- 	if(isset($generation['date']) && $generation['date'])
- 		$context['text'] .= '<p>'.sprintf(i18n::s('Last update took place on %s'), $generation['date']).'</p>'."\n";
- 	unset($generation);
+	Safe::load('scripts/staging/footprints.php');
+	if(isset($generation['date']) && $generation['date'])
+		$context['text'] .= '<p>'.sprintf(i18n::s('Last update took place on %s'), $generation['date']).'</p>'."\n";
+	unset($generation);
 
- 	// ensure we have a reference server
- 	if(!isset($context['reference_server']) || !$context['reference_server'])
- 		$context['reference_server'] = i18n::s('www.yetanothercommunitysystem.com');
+	// ensure we have a reference server
+	if(!isset($context['reference_server']) || !$context['reference_server'])
+		$context['reference_server'] = i18n::s('www.yetanothercommunitysystem.com');
 
- 	// offer to upgrade
- 	$context['text'] .= '<p>'.Skin::build_link('scripts/stage.php', i18n::s('Update scripts'))."</p>\n";
+	// offer to upgrade
+	$context['text'] .= '<p>'.Skin::build_link('scripts/stage.php', i18n::s('Update scripts'))."</p>\n";
 
 }
 

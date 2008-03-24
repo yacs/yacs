@@ -223,7 +223,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
 if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
 // the title of the page
 if(is_object($overlay) && ($label = $overlay->get_label('page_title', isset($item['id'])?'edit':'new')))
@@ -235,7 +235,7 @@ else
 
 // command to go back
 if(isset($item['id']))
-	$context['page_menu'] = array( Articles::get_url($item['id'], 'view', $item['title']) => i18n::s('Back to the page') );
+	$context['page_menu'] = array( Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to the page') );
 
 // save data in session, if any, to pass through login step or through section selection step
 if(!Surfer::is_logged() || !is_object($anchor)) {
@@ -489,7 +489,7 @@ if(!$permitted) {
 
 		// allow back-referencing from overlay
 		$_REQUEST['self_reference'] = 'article:'.$item['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title']);
+		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 
 		// stop on error
 		if(!Articles::put($_REQUEST) || (is_object($overlay) && !$overlay->remember('update', $_REQUEST))) {
@@ -519,7 +519,7 @@ if(!$permitted) {
 			}
 
 			// display the updated page
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title']));
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 		}
 
 

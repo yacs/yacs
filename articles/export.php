@@ -50,7 +50,7 @@ $item =& Articles::get($id);
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']))
-    $anchor = Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -98,9 +98,9 @@ if(is_object($anchor))
 
 // the title of the page
 if(isset($item['title']) && $item['title'])
-    $context['page_title'] = $item['title'];
+	$context['page_title'] = $item['title'];
 else
-    $context['page_title'] = i18n::s('No title has been provided.');
+	$context['page_title'] = i18n::s('No title has been provided.');
 
 // not found
 if(!isset($item['id'])) {
@@ -134,12 +134,12 @@ if(!isset($item['id'])) {
 	if(isset($item['nick_name']) && $item['nick_name'])
 		$text .= ' <nick_name>'.encode_field($item['nick_name']).'</nick_name>'."\n";
 
-    // the introduction text
-    if(isset($item['introduction']) && $item['introduction'])
+	// the introduction text
+	if(isset($item['introduction']) && $item['introduction'])
 		$text .=  ' <introduction>'.encode_field($item['introduction']).'</introduction>'."\n";
 
-    // the source
-    if(isset($item['source']) && $item['source'])
+	// the source
+	if(isset($item['source']) && $item['source'])
 		$text .=  ' <source>'.encode_field($item['source']).'</source>'."\n";
 
 	// the overlay, if any

@@ -89,15 +89,15 @@ if(is_object($anchor))
 
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
-    $context['path_bar'] = $anchor->get_path_bar();
+	$context['path_bar'] = $anchor->get_path_bar();
 else
-    $context['path_bar'] = array( 'actions/' => 'actions' );
+	$context['path_bar'] = array( 'actions/' => 'actions' );
 
 // the title of the page
 if($item['title'])
-    $context['page_title'] = $item['title'];
+	$context['page_title'] = $item['title'];
 else
-    $context['page_title'] = i18n::s('Accept one action');
+	$context['page_title'] = i18n::s('Accept one action');
 
 // not found
 if(!$item['id']) {
@@ -126,7 +126,7 @@ else {
 	if(!Surfer::is_logged()) {
 
 		// provide some feed-back
-	    $context['page_title'] = i18n::s('Your request has been processed.');
+		$context['page_title'] = i18n::s('Your request has been processed.');
 
 		// the new status
 		switch($status) {
@@ -145,10 +145,10 @@ else {
 		}
 
 		// show that everything's going fine
- 		$context['text'] .= sprintf(i18n::s('<p>The following action has been flagged with the status:</p><p><b>%s</b></p>'), $label);
+		$context['text'] .= sprintf(i18n::s('<p>The following action has been flagged with the status:</p><p><b>%s</b></p>'), $label);
 
- 		// display the action itself
- 		$context['text'] .= Skin::build_box($item['title'], Codes::beautify($item['description']), 'section');
+		// display the action itself
+		$context['text'] .= Skin::build_box($item['title'], Codes::beautify($item['description']), 'section');
 
 	// else display an updated page
 	} else

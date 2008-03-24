@@ -183,13 +183,13 @@ Class Layout_articles_as_yabb extends Layout_interface {
 				$anchors[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'basic', i18n::s('In this section'));
 
 
-// 			// list up to three categories by title, if any
-// 			if($members = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
-// 				foreach($members as $category_id => $attributes) {
-// 					if(!isset($this->layout_variant) || ($this->layout_variant != 'category:'.$category_id))
-// 						$anchors[] = Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'basic', i18n::s('Related topics'));
-// 				}
-// 			}
+			// list up to three categories by title, if any
+			if($members = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+				foreach($members as $category_id => $attributes) {
+					if(!isset($this->layout_variant) || ($this->layout_variant != 'category:'.$category_id))
+						$anchors[] = Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'basic', i18n::s('Related topics'));
+				}
+			}
 
 			// list section and categories in the suffix
 			if(@count($anchors))

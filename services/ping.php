@@ -63,7 +63,7 @@
  * [*] Alice's blogging system (AliceBlog) gets all external URLs
  * referenced in the post (in this case, just the one to Bob).
  * [*] AliceBlog requests http://www.bob.com/post5 and parses it for a
- * 		[code]&lt;link&gt;[/code] tag matching [code]&lt;link rel="pingback" href="http://foo/xmlrpcserver" /&gt;[/code].
+ *		[code]&lt;link&gt;[/code] tag matching [code]&lt;link rel="pingback" href="http://foo/xmlrpcserver" /&gt;[/code].
  * [*] If it doesn't find one, or the response of the request doesn't seem
  * to support it, then abort the ping trial for this link.
  * [*] Perform an XML-RPC ping to the URL found in the [code]&lt;link&gt;[/code].

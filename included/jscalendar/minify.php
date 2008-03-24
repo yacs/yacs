@@ -59,10 +59,10 @@ if(!$text =& Safe::file_get_contents($hash)) {
 	$text .= Safe::file_get_contents($context['path_to_root'].'included/jscalendar/calendar-setup.js')."\n";
 
 	// minify the thing
-// 	if(file_exists($context['path_to_root'].'included/jsmin.php')) {
-// 		include_once $context['path_to_root'].'included/jsmin.php';
-// 		$text = JSMin::minify($text);
-// 	}
+//	if(file_exists($context['path_to_root'].'included/jsmin.php')) {
+//		include_once $context['path_to_root'].'included/jsmin.php';
+//		$text = JSMin::minify($text);
+//	}
 
 	// save in cache for the next request
 	Safe::file_put_contents($hash, $text);

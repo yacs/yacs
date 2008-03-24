@@ -112,7 +112,7 @@ Class Layout_articles_as_admin extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url = Articles::get_url($item['id'], 'view', $item['title']);
+			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);

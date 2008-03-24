@@ -85,8 +85,8 @@ elseif(!$original || !$updated) {
 	// end of the form
 	$context['text'] .= '</div></form>';
 
-    // set the focus
-    $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	// set the focus
+	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
 		.'document.getElementById("original").focus();'."\n"
 		.'// ]]></script>'."\n";

@@ -73,9 +73,9 @@ else
 
 // the title of the page
 if($item['title'])
-    $context['page_title'] = $item['title'];
+	$context['page_title'] = $item['title'];
 else
-    $context['page_title'] = i18n::s('Print a category');
+	$context['page_title'] = i18n::s('Print a category');
 
 // not found
 if(!$item['id']) {
@@ -96,8 +96,8 @@ if(!$item['id']) {
 // display the category
 } else {
 
-    // the introduction text
-    if($item['introduction'])
+	// the introduction text
+	if($item['introduction'])
 		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 	// the beautified description, which is the actual page body

@@ -78,7 +78,7 @@ else
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['page_title'] = $anchor->get_title();
 else
-    $context['page_title'] = i18n::s('Comments feed');
+	$context['page_title'] = i18n::s('Comments feed');
 
 // permission denied
 if(!$permitted) {

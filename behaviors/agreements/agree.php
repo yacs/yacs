@@ -36,7 +36,7 @@ $id = strip_tags($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($id))
-    $anchor = Anchors::get($id);
+	$anchor = Anchors::get($id);
 
 // load localized strings
 i18n::bind('behaviors');
@@ -65,13 +65,13 @@ else {
 
 // the path to this page
 if(is_object($anchor))
-    $context['path_bar'] = $anchor->get_path_bar();
+	$context['path_bar'] = $anchor->get_path_bar();
 
 // the title of the page
 if(is_object($anchor))
-    $context['page_title'] = $anchor->get_title();
+	$context['page_title'] = $anchor->get_title();
 else
-    $context['page_title'] = i18n::s('Your agreement has been recorded.');
+	$context['page_title'] = i18n::s('Your agreement has been recorded.');
 
 // common commands for this page
 if(isset($_SERVER['HTTP_REFERER']))

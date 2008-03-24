@@ -88,14 +88,14 @@ if($item['id'] && Surfer::is_associate()) {
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";
 
-    // set the focus
-    $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	// set the focus
+	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
 		.'document.getElementById("confirmed").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// the title of the server
-    $context['text'] .= Skin::build_block($item['title'], 'title');
+	$context['text'] .= Skin::build_block($item['title'], 'title');
 
 	// the nick name
 	if($item['host_name'] && Surfer::is_associate())
@@ -103,7 +103,7 @@ if($item['id'] && Surfer::is_associate()) {
 
 		// information on last update
 	if($item['edit_name'])
-        $details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 	// restricted to logged members
 	if($item['active'] == 'R')
@@ -118,15 +118,15 @@ if($item['id'] && Surfer::is_associate()) {
 
 	// main url
 	if($item['main_url'])
-        $context['text'] .= '<p>'.sprintf(i18n::s('Main URL: %s'), Skin::build_link($item['main_url'], NULL, 'external'))."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('Main URL: %s'), Skin::build_link($item['main_url'], NULL, 'external'))."</p>\n";
 
 	// feed url
 	if($item['feed_url'])
-        $context['text'] .= '<p>'.sprintf(i18n::s('Feed URL: %s'), Skin::build_link($item['feed_url'], NULL, 'external'))."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('Feed URL: %s'), Skin::build_link($item['feed_url'], NULL, 'external'))."</p>\n";
 
 	// the related anchor
 	if(is_object($anchor))
-        $text .= '<p>'.sprintf(i18n::s('Related to %s'), Skin::build_link($anchor->get_url(), $anchor->get_title(), 'category'))."</p>\n";
+		$text .= '<p>'.sprintf(i18n::s('Related to %s'), Skin::build_link($anchor->get_url(), $anchor->get_title(), 'category'))."</p>\n";
 
 	// a section for remote services
 	$context['text'] .= Skin::build_block(i18n::s('Services accessed remotely'), 'subtitle');
@@ -177,17 +177,17 @@ if($item['id'] && Surfer::is_associate()) {
 		$context['text'] .= '<p>'.i18n::s('This server is not allowed to submit search requests.')."</p>\n";
 
 	// a section for the description
-    if($item['description']) {
+	if($item['description']) {
 
-	    // display the full text
+		// display the full text
 		$context['text'] .= Skin::build_block(i18n::s('Server description'), 'subtitle');
 
-        // beautify the text
-        $text = Codes::beautify($item['description']);
+		// beautify the text
+		$text = Codes::beautify($item['description']);
 
-        // show the description
-        $context['text'] .= '<p></p>'.$text."<p></p>\n";
-    }
+		// show the description
+		$context['text'] .= '<p></p>'.$text."<p></p>\n";
+	}
 
 }
 

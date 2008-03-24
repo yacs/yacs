@@ -46,7 +46,7 @@ Class PDF extends FPDF {
 		//
 
 		// start the rendering engine
-	    $this->AliasNbPages();
+		$this->AliasNbPages();
 		$this->AddPage();
 		$this->SetFont('Arial','B', 16);
 
@@ -74,163 +74,163 @@ Class PDF extends FPDF {
 
 				switch(strtolower($tag)) {
 
-		        case 'a':
-		        	if(preg_match('/href="(.*)"/i', $attributes, $matches)) {
-		        		$link = $matches[1];
+				case 'a':
+					if(preg_match('/href="(.*)"/i', $attributes, $matches)) {
+						$link = $matches[1];
 
-		        		// suppress local references (eg, in table of content)
-		        		if(preg_match('/(#.*)/', $link))
-		        			$link = '';
+						// suppress local references (eg, in table of content)
+						if(preg_match('/(#.*)/', $link))
+							$link = '';
 
-		        		// make URL out of URI
-		        		elseif(preg_match('/^\//', $link))
-		        			$link = $context['url_to_home'].$link;
-	        		}
-		            break;
+						// make URL out of URI
+						elseif(preg_match('/^\//', $link))
+							$link = $context['url_to_home'].$link;
+					}
+					break;
 
-		        case 'b':
-		        	$this->SetFont('', 'B');
-		        	break;
-		        case '/b':
-		        	$this->SetFont('', '');
-		        	break;
+				case 'b':
+					$this->SetFont('', 'B');
+					break;
+				case '/b':
+					$this->SetFont('', '');
+					break;
 
-		        case 'br':
-		            $this->Ln($height);
-		            break;
+				case 'br':
+					$this->Ln($height);
+					break;
 
-		        case 'code':
-		            $this->SetFont('Courier','',11);
-		            $this->SetFontSize(11);
-		            break;
-		        case '/code':
+				case 'code':
+					$this->SetFont('Courier','',11);
+					$this->SetFontSize(11);
+					break;
+				case '/code':
 					$this->SetFont('Times','',12);
 					$this->SetFontSize(12);
-		            break;
+					break;
 
-		        case 'div':
-		        case '/div':
-		            $this->Ln($height);
-		            break;
+				case 'div':
+				case '/div':
+					$this->Ln($height);
+					break;
 
-		        case 'em':
-		        	$this->SetFont('', 'I');
-		        	break;
-		        case '/em':
-		        	$this->SetFont('', '');
-		        	break;
+				case 'em':
+					$this->SetFont('', 'I');
+					break;
+				case '/em':
+					$this->SetFont('', '');
+					break;
 
-		        case 'font':
-		        	if(preg_match('/color="#(.{6})"/i', $attributes, $matches)) {
-		        		$color = $matches[1];
+				case 'font':
+					if(preg_match('/color="#(.{6})"/i', $attributes, $matches)) {
+						$color = $matches[1];
 
-		        		$r = hexdec($color[0].$color[1]);
-		        		$g = hexdec($color[2].$color[3]);
-		        		$b = hexdec($color[4].$color[5]);
+						$r = hexdec($color[0].$color[1]);
+						$g = hexdec($color[2].$color[3]);
+						$b = hexdec($color[4].$color[5]);
 
-			            $this->SetTextColor($r,$g,$b);
-	        		}
-		            break;
-		        case 'font':
+						$this->SetTextColor($r,$g,$b);
+					}
+					break;
+				case 'font':
 					$this->SetFont('Times','',12);
-		            $this->SetTextColor(0,0,0);
+					$this->SetTextColor(0,0,0);
 					$this->SetFontSize(12);
-		            break;
+					break;
 
-		        case 'h1':
-		            $this->Ln(10);
-		            $this->SetTextColor(150,0,0);
-		            $this->SetFontSize(22);
+				case 'h1':
+					$this->Ln(10);
+					$this->SetTextColor(150,0,0);
+					$this->SetFontSize(22);
 					$height = 8;
-		            break;
-		        case 'h2':
-		            $this->Ln(8);
-		            $this->SetFontSize(18);
+					break;
+				case 'h2':
+					$this->Ln(8);
+					$this->SetFontSize(18);
 					$height = 6;
-		            break;
-		        case 'h3':
-		            $this->Ln(6);
-		            $this->SetFontSize(16);
+					break;
+				case 'h3':
+					$this->Ln(6);
+					$this->SetFontSize(16);
 					$height = 5;
-		            break;
-		        case 'h4':
-		            $this->Ln(6);
-		            $this->SetTextColor(102,0,0);
-		            $this->SetFontSize(14);
+					break;
+				case 'h4':
+					$this->Ln(6);
+					$this->SetTextColor(102,0,0);
+					$this->SetFontSize(14);
 					$height = 5;
-		            break;
-		        case '/h1':
-		        case '/h2':
-		        case '/h3':
-		        case '/h4':
+					break;
+				case '/h1':
+				case '/h2':
+				case '/h3':
+				case '/h4':
 					$this->Ln($height);
 					$this->SetFont('Times','',12);
-		            $this->SetTextColor(0,0,0);
+					$this->SetTextColor(0,0,0);
 					$this->SetFontSize(12);
 					$height = 5;
-		            break;
+					break;
 
-		        case 'hr':
-		        	$this->Ln($height+2);
+				case 'hr':
+					$this->Ln($height+2);
 					$this->Line($this->GetX(),$this->GetY(),$this->GetX()+187,$this->GetY());
 					$this->Ln(3);
 					break;
 
-		        case 'i':
-		        	$this->SetFont('', 'I');
-		        	break;
-		        case '/i':
-		        	$this->SetFont('', '');
-		        	break;
+				case 'i':
+					$this->SetFont('', 'I');
+					break;
+				case '/i':
+					$this->SetFont('', '');
+					break;
 
-		        case 'img':
-        			// only accept JPG and PNG
-		        	if(preg_match('/src="(.*\.(jpg|jpeg|png))"/i', $attributes, $matches)) {
-		        		$image = $matches[1];
+				case 'img':
+					// only accept JPG and PNG
+					if(preg_match('/src="(.*\.(jpg|jpeg|png))"/i', $attributes, $matches)) {
+						$image = $matches[1];
 
-		        		// map on a file
-	        			$image = preg_replace('/^'.preg_quote($context['url_to_root'], '/').'/', $context['path_to_root'], $image);
+						// map on a file
+						$image = preg_replace('/^'.preg_quote($context['url_to_root'], '/').'/', $context['path_to_root'], $image);
 
-	        			// include the image only if the file exists
-	        			if($attributes = Safe::GetImageSize($image)) {
+						// include the image only if the file exists
+						if($attributes = Safe::GetImageSize($image)) {
 
-	        				// insert an image at 72 dpi -- the k factor
-	        				$this->Image($image, $this->GetX(), $this->GetY(), $attributes[0]/$this->k, $attributes[1]/$this->k);
+							// insert an image at 72 dpi -- the k factor
+							$this->Image($image, $this->GetX(), $this->GetY(), $attributes[0]/$this->k, $attributes[1]/$this->k);
 
-	        				// make room for the image
-	        				$this-> y += 3 + ($attributes[1]/$this->k);
-        				}
-	        		}
-		            break;
+							// make room for the image
+							$this-> y += 3 + ($attributes[1]/$this->k);
+						}
+					}
+					break;
 
-		        case 'p':
-		        case '/p':
-		            $this->Ln($height);
-		            break;
+				case 'p':
+				case '/p':
+					$this->Ln($height);
+					break;
 
-		        case 'pre':
-		            $this->SetFont('Courier','',11);
-		            $this->SetFontSize(11);
-		            $preformatted = TRUE;
-		            break;
-		        case '/pre':
+				case 'pre':
+					$this->SetFont('Courier','',11);
+					$this->SetFontSize(11);
+					$preformatted = TRUE;
+					break;
+				case '/pre':
 					$this->SetFont('Times','',12);
 					$this->SetFontSize(12);
-		            $preformatted = FALSE;
-		            break;
+					$preformatted = FALSE;
+					break;
 
-		        case 'tr':
-		        	$this->Ln($height+2);
+				case 'tr':
+					$this->Ln($height+2);
 					$this->Line($this->GetX(),$this->GetY(),$this->GetX()+187,$this->GetY());
 					$this->Ln(3);
 					break;
 
-		        case 'u':
-		        	$this->SetFont('', 'U');
-		        	break;
-		        case '/u':
-		        	$this->SetFont('', '');
-		        	break;
+				case 'u':
+					$this->SetFont('', 'U');
+					break;
+				case '/u':
+					$this->SetFont('', '');
+					break;
 				}
 
 
@@ -268,18 +268,18 @@ Class PDF extends FPDF {
 		global $context;
 
 		// go to 1.5 cm from bottom
-	    $this->SetY(-15);
+		$this->SetY(-15);
 
-	    // select Arial italic 8
-	    $this->SetFont('Times','',8);
+		// select Arial italic 8
+		$this->SetFont('Times','',8);
 
-	    // print centered page number
-	    $this->SetTextColor(0,0,0);
-	    $this->Cell(0,4,'Page '.$this->PageNo().'/{nb}',0,1,'C');
+		// print centered page number
+		$this->SetTextColor(0,0,0);
+		$this->Cell(0,4,'Page '.$this->PageNo().'/{nb}',0,1,'C');
 
-	    // we are proud of it
-	    $this->SetTextColor(0,0,180);
-	    $this->Cell(0, 4, utf8::to_iso8859(utf8::transcode(i18n::s('PDF export created by YACS'), TRUE)), 0, 0, 'C', 0, 'http://www.yetanothercommunitysystem.com/');
+		// we are proud of it
+		$this->SetTextColor(0,0,180);
+		$this->Cell(0, 4, utf8::to_iso8859(utf8::transcode(i18n::s('PDF export created by YACS'), TRUE)), 0, 0, 'C', 0, 'http://www.yetanothercommunitysystem.com/');
 	}
 
 	/**
@@ -289,18 +289,18 @@ Class PDF extends FPDF {
 	function Header() {
 		global $context;
 
-	    //Select Arial bold 15
-	    $this->SetTextColor(0,0,0);
-	    $this->SetFont('Times','',10);
-	    $this->Cell(0,10,utf8::to_iso8859($context['page_title']),0,0,'C');
-	    $this->Ln(4);
-//	    $this->Cell(0,10,$this->articleurl,0,0,'C');
-	    $this->Ln(7);
-	    $this->Line($this->GetX(), $this->GetY(), $this->GetX()+187, $this->GetY());
+		//Select Arial bold 15
+		$this->SetTextColor(0,0,0);
+		$this->SetFont('Times','',10);
+		$this->Cell(0,10,utf8::to_iso8859($context['page_title']),0,0,'C');
+		$this->Ln(4);
+//		$this->Cell(0,10,$this->articleurl,0,0,'C');
+		$this->Ln(7);
+		$this->Line($this->GetX(), $this->GetY(), $this->GetX()+187, $this->GetY());
 
-	    //Line break
-	    $this->Ln(12);
-	    $this->SetFont('Times','',12);
+		//Line break
+		$this->Ln(12);
+		$this->SetFont('Times','',12);
 	}
 }
 

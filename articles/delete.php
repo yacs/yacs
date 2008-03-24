@@ -91,7 +91,7 @@ else {
 	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
 }
 if(isset($item['id']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
 // the title of the page
 if(is_object($overlay) && ($label = $overlay->get_label('title', 'delete')))

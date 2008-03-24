@@ -112,36 +112,36 @@ else {
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";
 
-    // set the focus
-    $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	// set the focus
+	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
 		.'document.getElementById("confirmed").focus();'."\n"
 		.'// ]]></script>'."\n";
 
- 	// the title of the decision
+	// the title of the decision
 	if(isset($item['title']) && $item['title'])
-	    $context['text'] .= Skin::build_block($item['title'], 'title');
+		$context['text'] .= Skin::build_block($item['title'], 'title');
 
 	// the poster of this decision
-    $details[] = sprintf(i18n::s('by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
+	$details[] = sprintf(i18n::s('by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
 
 	// the last edition of this decision
 	if($item['create_name'] != $item['edit_name'])
-	    $details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 	// the complete details
 	if($details)
 		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
-    // display the full decision
-    if($item['description']) {
+	// display the full decision
+	if($item['description']) {
 
 		// beautify the complete decision
 		$text = Codes::beautify($item['description']);
 
-        // show the description
-        $context['text'] .= '<p></p>'.$text."<p></p>\n";
-    }
+		// show the description
+		$context['text'] .= '<p></p>'.$text."<p></p>\n";
+	}
 }
 
 // render the skin

@@ -168,7 +168,7 @@ if(!isset($item['id'])) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'thread', $item['title'])));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name'])));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
@@ -181,7 +181,7 @@ if(!isset($item['id'])) {
 	Surfer::click('article:'.$item['id'], $item['active']);
 
 	// initialize the rendering engine
-	Codes::initialize(Articles::get_url($item['id'], 'view', $item['title']));
+	Codes::initialize(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 
 	// add meta information, if any
 	if(isset($item['meta']) && $item['meta'])
@@ -469,7 +469,7 @@ if(!isset($item['id'])) {
 
 			// url of this page
 			if(isset($item['id'])) {
-				$menu = array('users/login.php?url='.urlencode(Articles::get_url($item['id'], 'thread', $item['title']))=> i18n::s('Authenticate or register to contribute to this thread'));
+				$menu = array('users/login.php?url='.urlencode(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']))=> i18n::s('Authenticate or register to contribute to this thread'));
 				$context['text'] .= Skin::build_list($menu, 'menu_bar');
 			}
 
@@ -648,7 +648,7 @@ if(!isset($item['id'])) {
 	if(Surfer::is_member() && (!isset($context['pages_without_reference']) || ($context['pages_without_reference'] != 'Y')) ) {
 
 		// in a sidebar box
-		$context['extra'] .= Skin::build_box(i18n::s('Reference this page'), Codes::beautify(sprintf(i18n::s('Here, use code [escape][article=%s][/escape][nl]Elsewhere, bookmark the [link=full link]%s[/link]'), $item['id'], $context['url_to_root'].Articles::get_url($item['id'], 'thread', $item['title']))), 'navigation', 'reference');
+		$context['extra'] .= Skin::build_box(i18n::s('Reference this page'), Codes::beautify(sprintf(i18n::s('Here, use code [escape][article=%s][/escape][nl]Elsewhere, bookmark the [link=full link]%s[/link]'), $item['id'], $context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']))), 'navigation', 'reference');
 
 	}
 
@@ -657,7 +657,7 @@ if(!isset($item['id'])) {
 
 		// in a sidebar box
 		include_once '../agents/referrals.php';
-		if($text = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Articles::get_url($item['id'], 'thread')))
+		if($text = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name'])))
 			$context['extra'] .= Skin::build_box(i18n::s('Referrals'), $text, 'navigation', 'referrals');
 
 	}
@@ -697,7 +697,7 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Articles::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml"'.EOT;
 
 	// implement the trackback interface
-	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'thread', $item['title']);
+	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/article/'.$item['id'];
 	else
@@ -837,7 +837,7 @@ if(!isset($item['id'])) {
 		// put at top of stack
 		if(!isset($_SESSION['visited']))
 			$_SESSION['visited'] = array();
-		$_SESSION['visited'] = array_merge(array(Articles::get_url($item['id'], 'thread', $item['title']) => Codes::beautify($item['title'])), $_SESSION['visited']);
+		$_SESSION['visited'] = array_merge(array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => Codes::beautify($item['title'])), $_SESSION['visited']);
 
 		// limit to 7 most recent pages
 		if(count($_SESSION['visited']) > 7)

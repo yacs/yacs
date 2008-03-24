@@ -19,15 +19,15 @@
  * // server hook to some web service
  * global $hooks;
  * $hooks[] = array(
- * 	'id'		=> 'search',
- * 	'type'		=> 'serve',
- * 	'script'	=> 'services/search_service.php',
- * 	'function'	=> 'Search::serve',
- * 	'label_en'	=> 'Remote search',
- * 	'label_fr'	=> 'Recherche distante',
- * 	'description_en' => 'Example of remote search configuration.',
- * 	'description_fr' => 'Exemple de configuration pour recherche distante.',
- * 	'source' => 'http://www.yetanothercommunitysystem.com/'
+ *	'id'		=> 'search',
+ *	'type'		=> 'serve',
+ *	'script'	=> 'services/search_service.php',
+ *	'function'	=> 'Search::serve',
+ *	'label_en'	=> 'Remote search',
+ *	'label_fr'	=> 'Recherche distante',
+ *	'description_en' => 'Example of remote search configuration.',
+ *	'description_fr' => 'Exemple de configuration pour recherche distante.',
+ *	'source' => 'http://www.yetanothercommunitysystem.com/'
  * );
  * [/php]
  *

@@ -114,7 +114,7 @@ if(!isset($item['id'])) {
 		// follow-up commands
 		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
 		$menu = array();
-		$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title']) => i18n::s('View the page')));
+		$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('View the page')));
 		$menu = array_merge($menu, array('articles/review.php#oldest' => i18n::s('List oldest pages at the review queue')));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
@@ -147,7 +147,7 @@ if(!isset($item['id'])) {
 	// follow-up commands
 	$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
 	$menu = array();
-	$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title']) => i18n::s('View the page')));
+	$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('View the page')));
 	$menu = array_merge($menu, array('articles/review.php#expired' => i18n::s('Go to the review queue')));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
@@ -174,7 +174,7 @@ if(!isset($item['id'])) {
 		// follow-up commands
 		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
 		$menu = array();
-		$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title']) => i18n::s('View the page')));
+		$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('View the page')));
 		$menu = array_merge($menu, array('articles/review.php' => i18n::s('Go to the review queue')));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 

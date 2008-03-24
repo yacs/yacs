@@ -121,11 +121,11 @@ if(!$text =& Cache::get($cache_id)) {
 	$values['channel']['link'] = $context['url_to_home'].'/';
 	$values['channel']['description'] = $context['channel_description'];
 
-// 	// use the text input for search
-// 	$values['channel']['description'] .= "\n\n".'<form action="'.$context['url_to_home'].$context['url_to_root'].'search.php" method="GET"><div>'
-// 		.'<input type="text" name="search" size="10" value="Search..." maxlength="128" />'
-// 		.'<input type="submit" value=">>" />'
-// 		.'</div></form>';
+//	// use the text input for search
+//	$values['channel']['description'] .= "\n\n".'<form action="'.$context['url_to_home'].$context['url_to_root'].'search.php" method="GET"><div>'
+//		.'<input type="text" name="search" size="10" value="Search..." maxlength="128" />'
+//		.'<input type="submit" value=">>" />'
+//		.'</div></form>';
 
 	// the image for this channel
 	if(isset($context['powered_by_image']) && $context['powered_by_image'])

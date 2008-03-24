@@ -70,7 +70,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
 if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
 // the title of the page
 if(isset($item['title']) && $item['title'])
@@ -80,7 +80,7 @@ else
 
 // command to go back
 if(isset($item['id']))
-	$context['page_menu'] = array( Articles::get_url($id) => i18n::s('Back to the page') );
+	$context['page_menu'] = array( Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to the page') );
 
 // not found
 if(!isset($item['id'])) {
@@ -104,7 +104,7 @@ if(!isset($item['id'])) {
 
 // do the toggle and redirect to the page
 elseif(Articles::lock($item['id'], $item['locked']))
-	Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title']));
+	Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 
 // failed operation
 $context['text'] .= '<p>'.i18n::s('Operation has failed.').'</p>';

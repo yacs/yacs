@@ -5,23 +5,23 @@
  * The layout makes things natural if styles are disactivated. It is made of following components:
  * <ul>
  * <li>div#header_panel</li>
- *   <ul>
- *   <li>p#header_title</li>
- *   <li>p#header_slogan</li>
- *   <li>ul#tabs</li>
- *   </ul>
+ *	 <ul>
+ *	 <li>p#header_title</li>
+ *	 <li>p#header_slogan</li>
+ *	 <li>ul#tabs</li>
+ *	 </ul>
  * <li>div#wrapper</li>
- * 	<ul>
+ *	<ul>
  *	<li>div#wrapper_prefix - top background decoration</li>
  *	<li>div#main_panel</li>
- *   <ul>
- *   <li>p#crumbs - path to this page</li>
- *   <li>img.icon - the main image for this page</li>
- *   <li>h1 - page title</li>
- *   <li>p#page_menu - commands for this page</li>
- *   <li>div.error - to report on errors, if any</li>
- *   <li>(page main content)</li>
- *   </ul>
+ *	 <ul>
+ *	 <li>p#crumbs - path to this page</li>
+ *	 <li>img.icon - the main image for this page</li>
+ *	 <li>h1 - page title</li>
+ *	 <li>p#page_menu - commands for this page</li>
+ *	 <li>div.error - to report on errors, if any</li>
+ *	 <li>(page main content)</li>
+ *	 </ul>
  *	<li>div#side_panel</li>
  *	<li>div#wrapper_suffix - bottom background decoration</li>
  *	</ul>
@@ -86,19 +86,19 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
 	if($focus = Page::top_focus()) {
 		echo "\t".'<style type="text/css" media="screen">'."\n"
 			."\t\t".'ul li#'.$focus.' {'."\n"
-	  		."\t\t\t".'background-position: 100% -200px;'."\n"
-	  		."\t\t\t".'border-bottom: 1px solid #fff;'."\n"
+			."\t\t\t".'background-position: 100% -200px;'."\n"
+			."\t\t\t".'border-bottom: 1px solid #fff;'."\n"
 			."\t\t".'}'."\n"
 			."\t\t".'ul li#'.$focus.' a {'."\n"
-	  		."\t\t\t".'background-position: 0% -200px;'."\n"
-	  		."\t\t\t".'color: #039;'."\n"
+			."\t\t\t".'background-position: 0% -200px;'."\n"
+			."\t\t\t".'color: #039;'."\n"
 			."\t\t".'}'."\n"
 			."\t\t".'ul li#'.$focus.':hover {'."\n"
-	  		."\t\t\t".'background-position: 100% 0%;'."\n"
+			."\t\t\t".'background-position: 100% 0%;'."\n"
 			."\t\t".'}'."\n"
 			."\t\t".'ul li#'.$focus.':hover a {'."\n"
-	  		."\t\t\t".'background-position: 0% 0%;'."\n"
-	  		."\t\t\t".'color: #333;'."\n"
+			."\t\t\t".'background-position: 0% 0%;'."\n"
+			."\t\t\t".'color: #333;'."\n"
 			."\t\t".'}'."\n"
 			."\t".'</style>'."\n";
 	}

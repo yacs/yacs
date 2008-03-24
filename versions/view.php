@@ -65,9 +65,9 @@ if(is_object($anchor))
 
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
-    $context['path_bar'] = $anchor->get_path_bar();
+	$context['path_bar'] = $anchor->get_path_bar();
 // else
-//     $context['path_bar'] = array( 'versions/' => i18n::s('Versions') );
+//	   $context['path_bar'] = array( 'versions/' => i18n::s('Versions') );
 
 // the title of the page
 if(is_object($anchor) && $anchor->is_viewable())
@@ -81,12 +81,12 @@ if(is_object($anchor) && $anchor->is_viewable())
 
 // index of available versions
 if((is_object($anchor) && $anchor->is_editable()))
-    $context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url($anchor->get_reference(), 'list') => i18n::s('List versions') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url($anchor->get_reference(), 'list') => i18n::s('List versions') ));
 
 // restore command
 if($item['id'] && (Surfer::is_associate()
 	|| (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())))
-    $context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url($item['id'], 'restore') => i18n::s('Restore this version') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url($item['id'], 'restore') => i18n::s('Restore this version') ));
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
@@ -112,11 +112,11 @@ if(!isset($item['id'])) {
 
 	// information to members
 	if(Surfer::is_member())
-        $context['text'] .= '<p>'.sprintf(i18n::s('This version has been posted by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']))."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('This version has been posted by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']))."</p>\n";
 
 	// display details for this version
 	$context['text'] .= '<dl class="version">'."\n";
- 	if(($attributes = Safe::unserialize($item['content'])) && @count($attributes)) {
+	if(($attributes = Safe::unserialize($item['content'])) && @count($attributes)) {
 		foreach($attributes as $name => $value) {
 
 			// display changes to the main description field
@@ -128,7 +128,7 @@ if(!isset($item['id'])) {
 				$context['text'] .= '<dt>'.$name.'</dt>'."\n".'<dd>'.$value.'</dd>'."\n";
 			}
 		}
- 	}
+	}
 	$context['text'] .= '</dl>'."\n";
 
 	//

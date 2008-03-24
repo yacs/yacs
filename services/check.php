@@ -36,9 +36,9 @@ $anchor = NULL;
 if(isset($_REQUEST['id']))
 	$anchor = $_REQUEST['id'];
 elseif(isset($context['arguments'][1]))
-    $anchor = $context['arguments'][0].':'.$context['arguments'][1];
+	$anchor = $context['arguments'][0].':'.$context['arguments'][1];
 elseif(isset($context['arguments'][0]))
-    $anchor = $context['arguments'][0];
+	$anchor = $context['arguments'][0];
 $anchor = strip_tags($anchor);
 
 // default anchor type is article
@@ -47,7 +47,7 @@ if(!strpos($anchor, ':'))
 
 // get the related anchor, if any
 if($anchor)
-    $anchor = Anchors::get($anchor);
+	$anchor = Anchors::get($anchor);
 
 // an anchor is mandatory
 if(!is_object($anchor)) {

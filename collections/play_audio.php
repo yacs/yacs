@@ -212,7 +212,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 		// suggest a download
 		if(!headers_sent()) {
-		    $file_name = utf8::to_ascii($id.'.m3u');
+			$file_name = utf8::to_ascii($id.'.m3u');
 			Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
 		}
 
@@ -224,7 +224,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 		}
 
 		// strong validation
-	 	if((!isset($context['without_http_cache']) || ($context['without_http_cache'] != 'Y')) && !headers_sent()) {
+		if((!isset($context['without_http_cache']) || ($context['without_http_cache'] != 'Y')) && !headers_sent()) {
 
 			// generate some strong validator
 			$etag = '"'.md5($text).'"';

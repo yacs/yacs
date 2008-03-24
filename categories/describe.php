@@ -8,7 +8,7 @@
  * You will find below an example of script result:
  * [snippet]
  * <?xml version="1.0" encoding="UTF-8"?>
- * 	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ *	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
  *		<rdf:Description rdf:about="http://127.0.0.1/yacs/categories/view.php/4310">
  *			<dc:title>Please this marvellous page</dc:title>
  *			<dc:description>It is really interesting</dc:description>
@@ -94,9 +94,9 @@ else
 
 // the title of the page
 if($item['title'])
-    $context['page_title'] = $item['title'];
+	$context['page_title'] = $item['title'];
 else
-    $context['page_title'] = i18n::s('OPML description of a category');
+	$context['page_title'] = i18n::s('OPML description of a category');
 
 // not found
 if(!$item['id']) {

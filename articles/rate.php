@@ -143,7 +143,7 @@ if(!isset($item['id'])) {
 
 	// reference the anchor page
 	if(is_object($anchor) && $anchor->is_viewable())
-		$context['text'] .= '<p>'.sprintf(i18n::s('You are rating: %s'), Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), $item['title']))."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('You are rating: %s'), Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), $item['title'], $item['nick_name']))."</p>\n";
 
 	// splash
 	$context['text'] .= '<p>'.i18n::s('What do you think of this page?')."</p>\n";
@@ -176,15 +176,15 @@ if(!isset($item['id'])) {
 } else {
 
 	// set a cookie to remember the rating for 100 days
-	if($id && $rating)
-		Safe::setcookie('rating_'.$id, $rating, time()+60*60*24*100, $context['url_to_root']);
+	if($rating)
+		Safe::setcookie('rating_'.$item['id'], $rating, time()+60*60*24*100, $context['url_to_root']);
 
 	// update the database
 	Articles::rate($item['id'], $rating);
 
 	// return to the rated page
 	if(!headers_sent())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title']));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 
 	// ask for manual click
 	else {
@@ -195,7 +195,7 @@ if(!isset($item['id'])) {
 
 		// link to the article, depending on access rights
 		if($permitted)
-			$menu = array_merge($menu, array(Articles::get_url($id) => i18n::s('Back to the page')));
+			$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to the page')));
 
 		// back to the front page
 		$menu = array_merge($menu, array('index.php#article_'.$item['id'] => i18n::s('Go to the front page')));

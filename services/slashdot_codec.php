@@ -17,19 +17,19 @@
  * <?xml version="1.0"?><backslash
  * xmlns:backslash="http://slashdot.org/backslash.dtd">
  *
- * 	<story>
- * 		<title>Recording Industry Extinction Predicted RSN</title>
- * 		<url>http://slashdot.org/article.pl?sid=03/01/23/1236242</url>
- * 		<time>2003-01-23 17:00:05</time>
- * 		<author>michael</author>
- * 		<department>imminent-death-predictions-getting-boring</department>
- * 		<category>141</category>
- * 		<comments>107</comments>
- * 		<section>articles</section>
- * 		<image>categorymusic.gif</image>
- * 	</story>
+ *	<story>
+ *		<title>Recording Industry Extinction Predicted RSN</title>
+ *		<url>http://slashdot.org/article.pl?sid=03/01/23/1236242</url>
+ *		<time>2003-01-23 17:00:05</time>
+ *		<author>michael</author>
+ *		<department>imminent-death-predictions-getting-boring</department>
+ *		<category>141</category>
+ *		<comments>107</comments>
+ *		<section>articles</section>
+ *		<image>categorymusic.gif</image>
+ *	</story>
  *
- *  ...
+ *	...
  *
  *	<story>
  *		<title>Using Redundancies to Find Errors</title>

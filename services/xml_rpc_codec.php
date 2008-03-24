@@ -166,9 +166,9 @@ Class XML_RPC_Codec extends Codec {
 	 * $parameter = array( 'search' => $_REQUEST['search']);
 	 * $result = $codec->export_request($service, $parameter);
 	 * if(!$result[0])
-	 * 	echo $result[1]; // print error code
+	 *	echo $result[1]; // print error code
 	 * else
-	 * 	... // send xml data from $result[1] to the remote web server
+	 *	... // send xml data from $result[1] to the remote web server
 	 * [/php]
 	 *
 	 * Resulting xml:
@@ -178,7 +178,7 @@ Class XML_RPC_Codec extends Codec {
 	 * <methodName>search</methodName>
 	 * <params>
 	 * <param><value><struct>
-	 * 	<member><name>search</name><value><string>...</string></value></member>
+	 *	<member><name>search</name><value><string>...</string></value></member>
 	 * </struct></value></param>
 	 * </params>
 	 * </methodCall>
@@ -243,8 +243,8 @@ Class XML_RPC_Codec extends Codec {
 	 * <methodResponse>
 	 * <fault>
 	 * <value><struct>
-	 * 	<member><name>faultCode</name><value><int>...</int></value></member>
-	 * 	<member><name>faultString</name><value>...</value></member>
+	 *	<member><name>faultCode</name><value><int>...</int></value></member>
+	 *	<member><name>faultString</name><value>...</value></member>
 	 * </struct></value>
 	 * </fault>
 	 * </methodResponse>

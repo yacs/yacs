@@ -147,7 +147,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 					$flag = '';
 
 				// title
-				$last_post = Skin::build_link(Articles::get_url($article['id'], 'view', $article['nick_name']), Codes::beautify_title($article['title']), 'article');
+				$last_post = Skin::build_link(Articles::get_url($article['id'], 'view', $article['title'], $article['nick_name']), Codes::beautify_title($article['title']), 'article');
 
 				// last editor
 				if($article['edit_date']) {

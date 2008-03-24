@@ -24,9 +24,9 @@ Class Layout_interface {
 	 *
 	 * // query the database
 	 * if($order)
-	 *    $items = Articles::list_for($order, $anchor, 0, 10, $layout);
+	 *	  $items = Articles::list_for($order, $anchor, 0, 10, $layout);
 	 * else
-	 *    $items = Articles::list_by_date_for_anchor($anchor, 0, 10, $layout);
+	 *	  $items = Articles::list_by_date_for_anchor($anchor, 0, 10, $layout);
 	 * [/php]
 	 *
 	 * @return string to be used in requests to the database

@@ -127,28 +127,28 @@ if(!$item['id']) {
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";
 
-    // set the focus
-    $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	// set the focus
+	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
 		.'document.getElementById("confirmed").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// the geo_place_name of the location
-    $context['text'] .= Skin::build_block($item['geo_place_name'], 'title');
+	$context['text'] .= Skin::build_block($item['geo_place_name'], 'title');
 
-    // display the full text
-    if($item['description']) {
+	// display the full text
+	if($item['description']) {
 
-        // beautify the text
-        $text = Codes::beautify($item['description']);
+		// beautify the text
+		$text = Codes::beautify($item['description']);
 
-        // show the description
-        $context['text'] .= '<p></p>'.$text."<p></p>\n";
-    }
+		// show the description
+		$context['text'] .= '<p></p>'.$text."<p></p>\n";
+	}
 
 	// information on uploader
 	if(Surfer::is_member() && $item['edit_name'])
-        $details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 	// the complete details
 	$context['text'] .= ucfirst(implode(', ', $details)).BR."\n";

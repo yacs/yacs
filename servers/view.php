@@ -117,7 +117,7 @@ if(!$item['id']) {
 
 		// information on last update
 		if($item['edit_name'])
-	        $details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+			$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 		// restricted to logged members
 		if($item['active'] == 'R')
@@ -137,7 +137,7 @@ if(!$item['id']) {
 
 		// main url
 		if($item['main_url'])
-	        $text .= '<p>'.sprintf(i18n::s('Main URL: %s'), Skin::build_link($item['main_url'], NULL, 'external'))."</p>\n";
+			$text .= '<p>'.sprintf(i18n::s('Main URL: %s'), Skin::build_link($item['main_url'], NULL, 'external'))."</p>\n";
 
 		// a section for remote services
 		$text .= Skin::build_block(i18n::s('Services accessed remotely'), 'subtitle');
@@ -198,14 +198,14 @@ if(!$item['id']) {
 		$text .= '<p>'.$label."</p>\n";
 
 		// a section for the description
-	    if($item['description']) {
+		if($item['description']) {
 
-		    // display the full text
+			// display the full text
 			$text .= Skin::build_block(i18n::s('Server description'), 'subtitle');
 
-	        // show the description
-	        $text .= '<p></p>'.Codes::beautify($item['description'])."<p></p>\n";
-	    }
+			// show the description
+			$text .= '<p></p>'.Codes::beautify($item['description'])."<p></p>\n";
+		}
 
 		// save in cache
 		Cache::put($cache_id, $text, 'server:'.$item['id']);

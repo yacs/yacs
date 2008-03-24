@@ -39,7 +39,7 @@ $item =& Tables::get($id);
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']))
-    $anchor = Anchors::get($item['anchor']);
+	$anchor = Anchors::get($item['anchor']);
 
 // the anchor has to be viewable by this surfer
 if(is_object($anchor) && !$anchor->is_viewable())
@@ -59,15 +59,15 @@ if(is_object($anchor))
 
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
-    $context['path_bar'] = $anchor->get_path_bar();
+	$context['path_bar'] = $anchor->get_path_bar();
 else
 	$context['path_bar'] = array( 'tables/' => i18n::s('Tables') );
 
 // the title of the page
 if(isset($item['title']) && $item['title'])
-    $context['page_title'] = $item['title'];
+	$context['page_title'] = $item['title'];
 else
-    $context['page_title'] = i18n::s('Fetch a table as XML');
+	$context['page_title'] = i18n::s('Fetch a table as XML');
 
 // not found
 if(!isset($item['id'])) {
@@ -103,7 +103,7 @@ if(!isset($item['id'])) {
 
 	// suggest a download
 	if(!headers_sent()) {
-	    $file_name = utf8::to_ascii(Skin::strip($item['title'], 20).'.xml');
+		$file_name = utf8::to_ascii(Skin::strip($item['title'], 20).'.xml');
 		Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
 	}
 
