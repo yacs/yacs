@@ -233,7 +233,7 @@ var Forms = {
 			+ '<tr class="odd"><td>' + Forms.i18n.text + '</td><td><textarea class="text" rows="3" cols="50">' + options.text + '</textarea></td></tr>'
 			+ '<tr class="even"><td>' + Forms.i18n.type + '</td><td><select class="type"><option value="radio"' + options.option_radio + '>' + Forms.i18n.radio + '</option>'
 			+ '<option value="check"' + options.option_check + '>' + Forms.i18n.check + '</option>'
-			+ '<option value="radio"' + options.option_drop + '>' + Forms.i18n.drop + '</option>'
+			+ '<option value="drop"' + options.option_drop + '>' + Forms.i18n.drop + '</option>'
 			+ '</select></td></tr>'
 			+ '<tr class="odd"><td>' + Forms.i18n.name + '</td><td><input type="text" class="name" value="' + options.name + '" /></td></tr>'
 			+ '<tr class="even"><td colspan="2">'

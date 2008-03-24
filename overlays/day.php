@@ -2,8 +2,6 @@
 /**
  * describe one specific day
  *
- * @todo add a parameter to provide a calendar view (current month + links to next month)
- *
  * This overlay accepts following parameters:
  *
  * - layout_as_list - When this parameter is used, dates are just listed.
@@ -289,25 +287,16 @@ class Day extends Overlay {
 		} else {
 
 			// show past dates as well
-			if($with_past_dates) {
-				for($delta = 11; $delta >= 1; $delta--) {
-					$stamp = strtotime('-'.$delta.' month');
-					if($month = Dates::build_month_calendar(gmstrftime('%Y', $stamp), gmstrftime('%m', $stamp), 'month', $anchor))
-						$text .= '<h2>'.Dates::get_month_label(gmstrftime('%Y/%m', $stamp)).'</h2>'."\n".$month;
-				}
-			}
+			if($with_past_dates)
+				$items = Dates::list_for_anchor($anchor, 0, 500, 'links');
 
-			// this month
-			if($month = Dates::build_month_calendar(gmstrftime('%Y'), gmstrftime('%m'), 'month', $anchor))
-				$text .= '<h2>'.Dates::get_month_label(gmstrftime('%Y/%m')).'</h2>'."\n".$month;
+			// only show future dates
+			else
+				$items = Dates::list_future_for_anchor($anchor, 0, 500, 'links');
 
-			// next months
-			for($delta = 1; $delta <= 7; $delta++) {
-				$stamp = strtotime('+'.$delta.' month');
-				if($month = Dates::build_month_calendar(gmstrftime('%Y', $stamp), gmstrftime('%m', $stamp), 'month', $anchor))
-					$text .= '<h2>'.Dates::get_month_label(gmstrftime('%Y/%m', $stamp)).'</h2>'."\n".$month;
-			}
-
+			// layout all these dates
+			if($items)
+				$text .= Dates::build_months($items);
 		}
 
 		// ensure empowered surfers can access past dates

@@ -60,7 +60,7 @@ if(!Surfer::is_associate()) {
 
 			// animate user screen and take care of time
 			$count++;
-			if(!($count%10)) {
+			if(!($count%100)) {
 				$context['text'] .= sprintf(i18n::s('%d records have been processed'), $count).BR."\n";
 
 				// ensure enough execution time

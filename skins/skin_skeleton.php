@@ -380,9 +380,6 @@ Class Skin_Skeleton {
 	 * - YYYY-MM-DD HH:MM:SS
 	 * - YYMMDD HH:MM:SS GMT
 	 *
-	 * The date provided is considered to be GMT-based.
-	 * It is adjusted to the time zone of the surfer, if applicable.
-	 *
 	 * The variant is processed as follows:
 	 * - 'day' - only day, month and year --no time information
 	 * - 'with_hour' - adapts to time scale, and mention hours for today and yesterday
@@ -391,6 +388,14 @@ Class Skin_Skeleton {
 	 * - 'month' - only month and year
 	 * - 'standalone' - like full, but without the 'on ' prefix
 	 * - 'iso8601' - the special format applies
+	 *
+	 * The date provided is considered to be GMT-based.
+	 * It is adjusted to the time zone of the surfer, if applicable.
+	 * This adjustment does not apply to following variants:
+	 * - 'day'
+	 * - 'iso8601'
+	 * - 'standalone'
+	 *
 	 *
 	 * @link http://www.w3.org/TR/NOTE-datetime the w3c profile of ISO 8601
 	 * @link http://www.cs.tut.fi/~jkorpela/iso8601.html short description of ISO 8601
@@ -411,8 +416,8 @@ Class Skin_Skeleton {
 			return $output;
 		}
 
-		// surfer offset, except on iso8601
-		if($variant == 'iso8601')
+		// surfer offset, except on 'day' and 'iso8601'
+		if(preg_match('/^(day|iso8601|standalone)/', $variant))
 			$surfer_offset = 0;
 		else
 			$surfer_offset = Surfer::get_gmt_offset();
@@ -434,7 +439,7 @@ Class Skin_Skeleton {
 			$actual_stamp = intval($stamp) + (($surfer_offset - $gmt_offset) * 3600);
 
 		// YYYY-MM-DD HH:MM:SS, or a string that can be readed
-		} elseif(($actual_stamp = strtotime($stamp.' UTC')) != -1) {
+		} elseif(($actual_stamp = strtotime($stamp)) != -1) {
 
 			// adjust to surfer time zone
 			$actual_stamp += (($surfer_offset - $gmt_offset) * 3600);
@@ -471,8 +476,8 @@ Class Skin_Skeleton {
 		// now
 		$now = time();
 
-		// server actual offset
-		$gmt_offset = intval((strtotime(date('M d Y H:i:s')) - strtotime(gmdate('M d Y H:i:s'))) / 3600);
+		// server actual offset -- provided as a parameter
+//		$gmt_offset = intval((strtotime(date('M d Y H:i:s')) - strtotime(gmdate('M d Y H:i:s'))) / 3600);
 
 		// server stamp, as seen by surfer
 		$today = getdate($now + (($surfer_offset - $gmt_offset) * 3600));
@@ -2359,7 +2364,7 @@ Class Skin_Skeleton {
 			$actual_stamp = intval($stamp) + ($surfer_offset * 3600);
 
 		// YYYY-MM-DD HH:MM:SS, or a string that can be readed
-		} elseif(($actual_stamp = strtotime($stamp.' UTC')) != -1) {
+		} elseif(($actual_stamp = strtotime($stamp)) != -1) {
 
 			// adjust to surfer time zone
 			$actual_stamp += ($surfer_offset * 3600);

@@ -60,26 +60,11 @@ if(Surfer::is_associate())
 $cache_id = 'dates/index.php#text';
 if(!$text =& Cache::get($cache_id)) {
 
-	// the current GMT date
-	$year = (int)gmstrftime('%Y');
-	$month = (int)gmstrftime('%m');
-
-	// draw current month
-	$text .= Dates::build_month_calendar($year, $month, 'months');
-
-	// next month
-	$year = (int)gmstrftime('%Y', gmmktime(0, 0, 0, $month+1, 1, $year));
-	$month = (int)gmstrftime('%m', gmmktime(0, 0, 0, $month+1, 1, $year));
-
-	// draw next month
-	$text .= Dates::build_month_calendar($year, $month, 'months');
-
-	// next month
-	$year = (int)gmstrftime('%Y', gmmktime(0, 0, 0, $month+1, 1, $year));
-	$month = (int)gmstrftime('%m', gmmktime(0, 0, 0, $month+1, 1, $year));
-
-	// draw next month
-	$text .= Dates::build_month_calendar($year, $month, 'months');
+	// get and draw upcoming events with links to global calendars
+	if($items =& Dates::list_future(0, 200, 'links'))
+		$text = Dates::build_months($items, TRUE);
+	else
+		$text = i18n::s('No event has been planned so far');
 
 	// cache, whatever changes, for 1 minute
 	Cache::put($cache_id, $text, 'stable', 60);

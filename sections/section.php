@@ -741,7 +741,7 @@ Class Section extends Anchor {
 	 */
 	function get_url($action='view') {
 		if(isset($this->item['id']))
-			return Sections::get_url($this->item['id'], $action, $this->item['title']);
+			return Sections::get_url($this->item['id'], $action, $this->item['title'], $this->item['nick_name']);
 		return NULL;
 	}
 

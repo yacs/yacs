@@ -2,6 +2,8 @@
 /**
  * bulk operation on section content.
  *
+ * @todo reset hits on duplicate
+ *
  * This script allows for several bulk operations, namely:
  * - duplicate the section and its content at once
  * - publish all pages at once
@@ -290,7 +292,7 @@ if(!$item['id']) {
 		// a splash message
 		$context['text'] .= Skin::build_block(sprintf(i18n::s('This script will attach pages of this section to another section. If you would like to move the section itself, including its content, please %s and select another anchor.'), Skin::build_link(Sections::get_url($id, 'edit'), 'use the edit form')), 'caution')."\n";
 
-		$context['text'] .= '<p>'.sprintf(i18n::s('You are about to move %d pages at once. Are you sure you want to do this?'), $stats['count'])."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('You are about to move %d pages at once. Are you sure you want to do this?'), $count)."</p>\n";
 
 		// the submit button
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
@@ -417,7 +419,7 @@ if(!$item['id']) {
 
 	// confirmation is required
 	} else {
-		$context['text'] .= '<p>'.sprintf(i18n::s('You are about to delete %d pages at once.  Are you sure you want to do this?'), $stats['count'])."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('You are about to delete %d pages at once.  Are you sure you want to do this?'), $count)."</p>\n";
 
 		// the submit button
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"

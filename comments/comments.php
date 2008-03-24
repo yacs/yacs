@@ -2,6 +2,8 @@
 /**
  * the database abstraction layer for comments
  *
+ * @todo add a field to count words in a post
+ *
  * Comments are not intended to create complex threading systems.
  * They are more or less to be used as sticky notes aside published pages.
  *
@@ -138,7 +140,7 @@ Class Comments {
 			return NULL;
 
 		// profiling mode
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
 			logger::profile('comments::count_for_anchor');
 
 		// select among available items
@@ -1464,13 +1466,11 @@ Class Comments {
 
 			// kill the request to avoid repeated transmissions when nothing has changed
 			if(--$timer < 1) {
-//				logger::debug('dying for '.Surfer::get_name(), 'comments::pull');
 				header('Status: 504 Gateway Timeout', TRUE, 504);
 				die();
 			}
 
 			// preserve server resources
-//			logger::debug('sleeping '.Surfer::get_name(), 'comments::pull');
 			sleep(1);
 		}
 
@@ -1662,7 +1662,7 @@ Class Comments {
 		global $context;
 
 		// profiling mode
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
 			logger::profile('comments::stat_for_anchor');
 
 		// sanity check

@@ -62,7 +62,7 @@ $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 if(isset($_REQUEST['target'])) {
 
 	// call blog web service
-	$url = 'http://'.$_REQUEST['target'].'/yacs/services/blog.php';
+	$url = 'http://'.$_REQUEST['target'].'/services/blog.php';
 
 	// blogger.getUserInfo
 	$context['text'] .= Skin::build_block('blogger.getUserInfo', 'title');
@@ -233,7 +233,7 @@ if(isset($_REQUEST['target'])) {
 	if(!$status)
 		$context['text'] .= 'status: '.$data;
 	elseif(is_array($data) && isset($data['faultString']) && $data['faultString'])
-		$context['text'] .= 'fault: '.$data['faultString'];
+		$context['text'] .= $data['faultString'];
 	elseif(is_array($data)) {
 		$context['text'] .= '?? ';
 		foreach($data as $item) {
@@ -263,7 +263,7 @@ if(isset($_REQUEST['target'])) {
 	if(!$status)
 		$context['text'] .= 'status: '.$data;
 	elseif(is_array($data) && isset($data['faultString']) && $data['faultString'])
-		$context['text'] .= 'fault: '.$data['faultString'];
+		$context['text'] .= $data['faultString'];
 	elseif(is_array($data)) {
 		$context['text'] .= "<p>";
 		foreach($data as $name => $value) {
@@ -291,7 +291,7 @@ if(isset($_REQUEST['target'])) {
 	if(!$status)
 		$context['text'] .= 'status: '.$data;
 	elseif(is_array($data) && isset($data['faultString']) && $data['faultString'])
-		$context['text'] .= 'fault: '.$data['faultString'];
+		$context['text'] .= $data['faultString'];
 	elseif(is_array($data)) {
 		$context['text'] .= '?? ';
 		foreach($data as $item) {
@@ -324,7 +324,7 @@ if(isset($_REQUEST['target'])) {
 	if(!$status)
 		$context['text'] .= 'status: '.$data;
 	elseif(is_array($data) && isset($data['faultString']) && $data['faultString'])
-		$context['text'] .= 'fault: '.$data['faultString'];
+		$context['text'] .= $data['faultString'];
 	elseif(is_array($data)) {
 		$context['text'] .= '?? ';
 		foreach($data as $item) {
@@ -354,7 +354,7 @@ if(isset($_REQUEST['target'])) {
 		if(!$status)
 			$context['text'] .= 'status: '.$data;
 		elseif(is_array($data) && isset($data['faultString']) && $data['faultString'])
-			$context['text'] .= 'fault: '.$data['faultString'];
+			$context['text'] .= $data['faultString'];
 		elseif(is_array($data)) {
 			$context['text'] .= '?? ';
 			foreach($data as $item) {
@@ -374,7 +374,7 @@ if(isset($_REQUEST['target'])) {
 		if(!$status)
 			$context['text'] .= 'status: '.$data;
 		elseif(is_array($data) && isset($data['faultString']) && $data['faultString'])
-			$context['text'] .= 'fault: '.$data['faultString'];
+			$context['text'] .= $data['faultString'];
 		elseif(is_array($data)) {
 			$context['text'] .= '?? ';
 			foreach($data as $item) {
@@ -400,7 +400,7 @@ if(isset($_REQUEST['target'])) {
 		if(!$status)
 			$context['text'] .= 'status: '.$data;
 		elseif(is_array($data) && isset($data['faultString']) && $data['faultString'])
-			$context['text'] .= 'fault: '.$data['faultString'];
+			$context['text'] .= $data['faultString'];
 		elseif(is_array($data)) {
 			$context['text'] .= '?? ';
 			foreach($data as $item) {
@@ -420,7 +420,7 @@ if(isset($_REQUEST['target'])) {
 		if(!$status)
 			$context['text'] .= 'status: '.$data;
 		elseif(is_array($data) && isset($data['faultString']) && $data['faultString'])
-			$context['text'] .= 'fault: '.$data['faultString'];
+			$context['text'] .= $data['faultString'];
 		elseif(is_array($data)) {
 			$context['text'] .= '?? ';
 			foreach($data as $item) {
@@ -463,7 +463,7 @@ if(isset($_REQUEST['target'])) {
 	if(!$status)
 		$context['text'] .= 'status: '.$data;
 	elseif(is_array($data) && isset($data['faultString']) && $data['faultString'])
-		$context['text'] .= 'fault: '.$data['faultString'];
+		$context['text'] .= $data['faultString'];
 	elseif(is_array($data)) {
 		$context['text'] .= '?? ';
 		foreach($data as $item) {

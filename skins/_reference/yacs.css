@@ -18,6 +18,7 @@
  * - AJAX users
  *
  * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author ThierryP
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -219,7 +220,8 @@ div#tabs_bar {
 	position: relative;
 	margin: 2em 0 1em 0;
 	padding: 0 0 0 1em;
-	width: 80%; /* room on the right for avatars, etc. */
+	line-height: 20px; /* to avoid tabs superposition */
+   	width: 80%; /* room on the right for avatars, etc. */
 	border-bottom: 1px solid #c0c0c0;
 }
 
@@ -229,7 +231,7 @@ div#tabs_bar ul {
 	list-style-type: none;
 	text-align: left; /* change to left, center, or right to align the menu as desired */
 	margin: 1px 0 0 0;
-	padding: 3px 0;
+	padding: 6px 0 0 0;
 }
 
 div#tabs_bar ul li {
@@ -374,4 +376,42 @@ dl.comments dd .details { /* some details in comments */
 
 div#extra_panel ul.compact li a.idle { /* user is present, yet idle */
 	color: #888;
+}
+
+/**
+ * calendars
+ */
+
+table.calendar { /* one table per month */
+	margin-top: 1em;
+}
+
+table.calendar caption { /* label for target month */
+	margin: 0;
+	padding: 1em 0 0.5em 0.5em;
+	font-size: 1.2em;
+	font-weight: bold;
+	text-align: left;
+}
+
+table.calendar tr td,
+table.calendar tr th { /* an ordinary cell in a calendar table */
+	font-weight: normal;
+	width: 10em;
+}
+
+td.spot { /* a cell in calendar that has some content */
+	background-color: #fdd;
+}
+
+dl.family { /* a list of dates */
+	margin-bottom: 1em;
+}
+
+dl.family dt { /* a date */
+	margin-top: 0.5em;
+}
+
+dl.family dd { /* data for one date */
+	margin: 0 0 1em 0;
 }

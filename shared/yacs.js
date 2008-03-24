@@ -1224,7 +1224,7 @@ var Yacs = {
 
 }
 
-// ready to receive new notifications
-Event.observe(window, 'load', function() { Yacs.onWindowLoad() });
+// ready to receive new notifications -- since yacs.js is loaded at the bottomof the page, this is faster then Event.observe(window, 'load', ...)
+Yacs.onWindowLoad();
 
 

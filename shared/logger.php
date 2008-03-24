@@ -189,8 +189,8 @@ class Logger {
 	function profile_dump() {
 		global $context;
 
-		// only in debug mode
-		if(!isset($context['with_debug']) || ($context['with_debug'] != 'Y'))
+		// only in profiling mode
+		if(!isset($context['with_profile']) || ($context['with_profile'] != 'Y'))
 			return;
 
 		// memory status

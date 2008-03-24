@@ -2,7 +2,8 @@
 /**
  * the database abstraction layer for files
  *
- * @todo suuport KOffice file extensions
+ * @todo support .m4v for iPod videos video/x-m4v
+ * @todo support KOffice file extensions
  * @todo support .dia for Dia http://live.gnome.org/Dia
  * @todo support .sla for scribus http://www.scribus.net/
  * @todo support .sif for Synfig http://synfig.org/
@@ -217,7 +218,7 @@ Class Files {
 			return NULL;
 
 		// profiling mode
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
 			logger::profile('files::count_for_anchor');
 
 		// limit the scope of the request
@@ -1548,6 +1549,7 @@ Class Files {
 	 * - 'no_anchor' - to build detailed lists in an anchor page
 	 * - 'no_author' - to build detailed lists in a user page
 	 * - 'full' - include anchor information
+	 * - 'simple' - more than compact, less than decorated
 	 * - 'raw' - an array of $id => $attributes
 	 * - 'search' - include anchor information
 	 *
@@ -1604,6 +1606,12 @@ Class Files {
 		case 'raw':
 			include_once $context['path_to_root'].'files/layout_files_as_raw.php';
 			$variant =& new Layout_files_as_raw();
+			$output =& $variant->layout($result);
+			return $output;
+
+		case 'simple':
+			include_once $context['path_to_root'].'files/layout_files_as_simple.php';
+			$variant =& new Layout_files_as_simple();
 			$output =& $variant->layout($result);
 			return $output;
 
@@ -1962,7 +1970,7 @@ Class Files {
 			return NULL;
 
 		// profiling mode
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
 			logger::profile('files::stat_for_anchor');
 
 		// limit the scope of the request

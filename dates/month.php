@@ -53,9 +53,8 @@ $context['page_title'] = ucfirst(Dates::get_month_label($target));
 $cache_id = 'dates/month.php#text#'.$target;
 if(!$text =& Cache::get($cache_id)) {
 
-	// draw one month
+	// which month?
 	list($year, $month) = explode('/', $target, 2);
-	$text .= Dates::build_month_calendar($year, $month, 'month');
 
 	// previous month
 	$previous = gmstrftime('%Y/%m', gmmktime(0, 0, 0, $month-1, 1, $year));
@@ -70,6 +69,12 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// links to display previous and next months
 	$text .= Skin::neighbours($neighbours, 'slideshow');
+
+	// get items for this month
+	$items =& Dates::list_for_month($year, $month, 'links');
+
+	// draw one month - force an empty month
+	$text .= Dates::build_months($items, FALSE, FALSE, $year, $month);
 
 	// cache, whatever change, for 5 minutes
 	Cache::put($cache_id, $text, 'stable', 300);

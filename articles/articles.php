@@ -2,6 +2,7 @@
 /**
  * the database abstraction layer for articles
  *
+ * @todo add a field to count words in a post
  * @todo add new monitoring layout http://www.socialtext.com/products/tour/recentchanges
  * @todo add a read-only ticket for protected pages
  * @todo place in bin on deletion
@@ -213,7 +214,7 @@ Class Articles {
 			return NULL;
 
 		// profiling mode
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
 			logger::profile('articles::count_for_anchor');
 
 		// select among active items
@@ -291,7 +292,7 @@ Class Articles {
 		include_once '../overlays/overlay.php';
 		if(isset($item['overlay']) && ($overlay = Overlay::load($item))) {
 			$item['self_reference'] = 'article:'.$item['id'];
-			$item['self_url'] = Articles::get_url($item['id']);
+			$item['self_url'] = Articles::get_url($item['id']); // -- no title, nor nick name here
 			$overlay->remember('delete', $item);
 		}
 
@@ -602,7 +603,7 @@ Class Articles {
 			return "unknown order '".$order."'";
 
 		// query the database
-		$query = "SELECT id, title FROM ".SQL::table_name('articles')." AS articles "
+		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
 		if(!$result =& SQL::query($query))
@@ -614,7 +615,7 @@ Class Articles {
 
 		// return url of the first item of the list
 		$next =& SQL::fetch($result);
-		return array(Articles::get_url($next['id'], 'view', $next['title']), $next['title']);
+		return array(Articles::get_url($next['id'], 'view', $next['title'], $next['nick_name']), $next['title']);
 	}
 
 	/**
@@ -724,7 +725,7 @@ Class Articles {
 			return "unknown order '".$order."'";
 
 		// query the database
-		$query = "SELECT id, title FROM ".SQL::table_name('articles')." AS articles "
+		$query = "SELECT id, title, nick_name FROM ".SQL::table_name('articles')." AS articles "
 			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$match.") AND (".$where.")"
 			." ORDER BY ".$order." LIMIT 0, 1";
 		if(!$result =& SQL::query($query))
@@ -736,7 +737,7 @@ Class Articles {
 
 		// return url of the first item of the list
 		$previous =& SQL::fetch($result);
-		return array(Articles::get_url($previous['id'], 'view', $previous['title']), $previous['title']);
+		return array(Articles::get_url($previous['id'], 'view', $previous['title'], $previous['nick_name']), $previous['title']);
 	}
 
 	/**
@@ -1966,12 +1967,12 @@ Class Articles {
 				$items = array();
 				while($item =& SQL::fetch($result)) {
 
+					// url to read the full article
+					$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+
 					// reset the rendering engine between items
 					if(is_callable(array('Codes', 'initialize')))
-						Codes::initialize(Articles::get_url($item['id'], 'view', $item['title']));
-
-					// url to read the full article
-					$url = Articles::get_url($item['id'], 'view', $item['title']);
+						Codes::initialize(Articles::get_url($url));
 
 					// format the resulting string depending on layout
 					$items[$url] = Skin::layout_article($item, $variant);

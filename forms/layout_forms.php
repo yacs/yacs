@@ -59,9 +59,7 @@ Class Layout_forms extends Layout_interface {
 			$prefix = $suffix = $icon = '';
 
 			// flag forms that are created or updated very recently
-			if($item['create_date'] >= $dead_line)
-				$suffix .= NEW_FLAG;
-			elseif($item['edit_date'] >= $dead_line)
+			if($item['edit_date'] >= $dead_line)
 				$suffix .= UPDATED_FLAG;
 
 			// signal restricted and private forms
@@ -82,7 +80,7 @@ Class Layout_forms extends Layout_interface {
 					$details[] = sprintf(i18n::s('to %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section'));
 
 				// the last action
-				$details[] = sprintf(i18n::s('%s %s'), get_action_label($item['edit_action']), Skin::build_date($item['edit_date']));
+				$details[] = sprintf(i18n::s('edited %s'), Skin::build_date($item['edit_date']));
 
 				// edit command
 				$details[] = Skin::build_link(Forms::get_url($item['id'], 'edit'), i18n::s('edit'), 'basic');

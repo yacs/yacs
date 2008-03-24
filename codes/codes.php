@@ -78,8 +78,8 @@
  * - &lt;url&gt; - &lt;a href="url">url&lt;/a> or &lt;a href="url" class="external">url&lt;/a>
  * - &#91;link]&lt;url&gt;[/link] - &lt;a href="url">url&lt;/a> or &lt;a href="url" class="external">url&lt;/a>
  * - &#91;link=&lt;label&gt;]&lt;url&gt;[/link] - &lt;a href="url">label&lt;/a> or &lt;a href="url" class="external">label&lt;/a>
- * - &#91;url]&lt;url&gt;[/url] - deprecated by [link]
- * - &#91;url=&lt;url&gt;]&lt;label&gt;[/url] - deprecated by [link]
+ * - &#91;url]&lt;url&gt;[/url] - deprecated by &#91;link]
+ * - &#91;url=&lt;url&gt;]&lt;label&gt;[/url] - deprecated by &#91;link]
  * - &#91;button=&lt;label&gt;]&lt;url&gt;[/button] - build simple buttons with css
  * - &lt;address&gt; - &lt;a href="mailto:address" class="email">address&lt;/a>
  * - &#91;email]&lt;address&gt;[/email] - &lt;a href="mailto:address" class="email">address&lt;/a>
@@ -196,7 +196,7 @@
  * @see codes/misc.php
  *
  * In-line elements:
- * - &#91;flash=&lt;id>, width, height] - play a Flash object
+ * - &#91;flash=&lt;id>, width, height, flashparams] - play a Flash object
  * - &#91;flash=&lt;id>, window] - play a Flash object in a separate window
  * - &#91;freemind=&lt;id>] - a Freemind map out of given file
  * - &#91;sound=&lt;id>] - play a sound
@@ -232,11 +232,13 @@
  * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
  * @author Mordread Wallas
  * @author GnapZ
+ * @author Lasares
  * @tester Viviane Zaniroli
  * @tester Agnes
  * @tester Pat
  * @tester Guillaume Perez
  * @tester Fw_crocodile
+ * @tester Lasares
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -276,7 +278,7 @@ Class Codes {
 			return $text;
 
 		// profiling mode
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
 			logger::profile('codes::beautify');
 
 		//
@@ -690,7 +692,7 @@ Class Codes {
 				'/\[img=([^\]]+?)\](.*?)\[\/img\]/ise', 	// [img=alt]src[/img]
 				'/\[image=([^\]]+?)\]/ie',					// [image=<id>]
 				'/\[image([^\]]+?)\]/ie',					// [image<id>] (deprecated)
-				'/\[flash=([^\]]+?)\]/ie',					// [flash=<id>, <width>, <height>] or [flash=<id>, window]
+				'/\[flash=([^\]]+?)\]/ie',					// [flash=<id>, <width>, <height>, <params>] or [flash=<id>, window]
 				'/\[sound=([^\]]+?)\]/ie',					// [sound=<id>]
 				'/\[go=([^\]]+?)\]/ie', 					// [go=<name>]
 				'/\[article=([^\]]+?)\]/ie',				// [article=<id>] or [article=<id>, title]
@@ -842,7 +844,7 @@ Class Codes {
 				"'<div class=\"external_image\"><img src=\"'.Codes::clean_href('$2').'\" alt=\"'.Codes::clean_href('$1').'\"/></div>'", // [img=alt]src[/img]
 				"Codes::render_object('image', stripslashes('$1'))",			// [image=<id>]
 				"Codes::render_object('image', stripslashes('$1'))",			// [image<id>] (deprecated)
-				"Codes::render_object('flash', stripslashes('$1'))",			// [flash=<id>, <width>, <height>]
+				"Codes::render_object('flash', stripslashes('$1'))",			// [flash=<id>, <width>, <height>, <params>]
 				"Codes::render_object('sound', stripslashes('$1'))",			// [sound=<id>]
 				"Codes::render_object('go', stripslashes('$1'))",				// [go=<name>]
 				"Codes::render_object('article', stripslashes('$1'))",			// [article=<id>]
@@ -1355,41 +1357,37 @@ Class Codes {
 			$freemind_viewer_index++;
 
 		// load flash player
+		$url = $context['url_to_home'].$context['url_to_root'].'included/browser/visorFreemind.swf';
+
+		// variables
+		$flashvars = 'initLoadFile='.$target_href.'&openUrl=_self';
+
 		$text = '<div id="freemind_viewer_'.$freemind_viewer_index.'">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 			.'<script type="text/javascript">// <![CDATA['."\n"
-			.'// try to load the Flash viewer first'."\n"
-			.'var fo = new SWFObject("'.$context['url_to_home'].$context['url_to_root'].'included/browser/visorFreemind.swf", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/visorFreeMind", "'.$width.'", "'.$height.'", 6, "");'."\n"
-//			.'fo.addParam("bgcolor", "#ffffff");'."\n"
-//			.'fo.addParam("quality", "high");'."\n"
-//			.'fo.addParam("wmode", "transparent");'."\n"
-// //			.'fo.addVariable("defaultToolTipWordWrap",300);'."\n" // not useful, since YACS folds long lines
-//			.'fo.addVariable("defaultWordWrap", "500");'."\n"	// width of text node in pixels, 600 is the plugin's default
-			.'fo.addVariable("initLoadFile", "'.$target_href.'");'."\n"
-// //			.'fo.addVariable("justMap","true");'."\n"		// mask all upper controls
-// //			.'fo.addVariable("min_alpha_buttons",20);'."\n"
-// //			.'fo.addVariable("mainNodeShape","rectangle");'."\n"	// rectangle or ellipse or none
-// //			.'fo.addVariable("max_alpha_buttons",100);'."\n"
-			.'fo.addVariable("openUrl", "_self");'."\n" 		// _blank: open separate window on click (buggy on IE7); _self: open in current window
-//			.'fo.addVariable("startCollapsedToLevel","2");'."\n"	// level from which nodes should be collapsed. -1 for all nodes
-			.'// if Flash loader cannot do the job, fall back to the Java applet'."\n"
-			.'if(!fo.write("freemind_viewer_'.$freemind_viewer_index.'")) {'."\n"
+	        .'var params = {};'."\n"
+	        .'params.base = "'.dirname($url).'/";'."\n"
+	        .'params.quality = "high";'."\n"
+	        .'params.wmode = "transparent";'."\n"
+	        .'params.menu = "false";'."\n"
+	        .'params.flashvars = "'.$flashvars.'";'."\n"
+			.'swfobject.embedSWF("'.$url.'", "freemind_viewer_'.$freemind_viewer_index.'", "'.$width.'", "'.$height.'", "8", "", false, params);'."\n"
 
-			// the following does not work under IE7...
-			.'	var applet = document.createElement("embed");'."\n"
-//			.'	applet.setAttribute("classid", "clsid:8AD9C840-044E-11D1-B3E9-00805F499D93");'."\n"
-			.'	applet.setAttribute("code", "freemind.main.FreeMindApplet.class");'."\n"
-			.'	applet.setAttribute("archive", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/freemindbrowser.jar");'."\n"
-			.'	applet.setAttribute("type", "application/x-java-applet;version=1.4");'."\n"
-			.'	applet.setAttribute("modes", "freemind.modes.browsemode.BrowseMode");'."\n"
-			.'	applet.setAttribute("browsemode_initial_map", "'.$target_href.'");'."\n"
-			.'	applet.setAttribute("initial_mode", "Browse");'."\n"
-			.'	applet.setAttribute("selection_method", "selection_method_direct");'."\n"
-			.'	applet.setAttribute("width", "'.$width.'");'."\n"
-			.'	applet.setAttribute("height", "'.$height.'");'."\n"
-			.'	applet.setAttribute("scriptable", "false");'."\n"
-			.'	var handle = document.getElementById("freemind_viewer_'.$freemind_viewer_index.'");'."\n"
-			.'	handle.replaceChild(applet, handle.childNodes[0]);'."\n"
-			.'}'."\n"
+// 			// the following does not work under IE7...
+// 			.'	var applet = document.createElement("embed");'."\n"
+// //			.'	applet.setAttribute("classid", "clsid:8AD9C840-044E-11D1-B3E9-00805F499D93");'."\n"
+// 			.'	applet.setAttribute("code", "freemind.main.FreeMindApplet.class");'."\n"
+// 			.'	applet.setAttribute("archive", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/freemindbrowser.jar");'."\n"
+// 			.'	applet.setAttribute("type", "application/x-java-applet;version=1.4");'."\n"
+// 			.'	applet.setAttribute("modes", "freemind.modes.browsemode.BrowseMode");'."\n"
+// 			.'	applet.setAttribute("browsemode_initial_map", "'.$target_href.'");'."\n"
+// 			.'	applet.setAttribute("initial_mode", "Browse");'."\n"
+// 			.'	applet.setAttribute("selection_method", "selection_method_direct");'."\n"
+// 			.'	applet.setAttribute("width", "'.$width.'");'."\n"
+// 			.'	applet.setAttribute("height", "'.$height.'");'."\n"
+// 			.'	applet.setAttribute("scriptable", "false");'."\n"
+// 			.'	var handle = document.getElementById("freemind_viewer_'.$freemind_viewer_index.'");'."\n"
+// 			.'	handle.replaceChild(applet, handle.childNodes[0]);'."\n"
+// 			.'}'."\n"
 			.'// ]]></script>'."\n";
 
 		// offer to download a copy of the map
@@ -1657,14 +1655,20 @@ Class Codes {
 			if(!isset($context['root_flash_at_home']) || ($context['root_flash_at_home'] != 'Y'))
 				$text = '';
 
-			else
+			else {
+				$url = $context['url_to_home'].$context['url_to_root'].'feeds/flash/slashdot.php';
+				$flashvars = '';
 				$text = '<div id="local_news" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.'<script type="text/javascript">// <![CDATA['."\n"
-					.'var fo = new SWFObject("'.$context['url_to_home'].$context['url_to_root'].'feeds/flash/slashdot.php", "'.$context['url_to_home'].$context['url_to_root'].'feeds/flash/slashdot", "80%", "50", 6, "");'."\n"
-					.'fo.addParam("quality", "high");'."\n"
-					.'fo.addParam("wmode", "transparent");'."\n"
-					.'fo.write("local_news");'."\n"
+			        .'var params = {};'."\n"
+			        .'params.base = "'.dirname($url).'/";'."\n"
+			        .'params.quality = "high";'."\n"
+			        .'params.wmode = "transparent";'."\n"
+			        .'params.menu = "false";'."\n"
+			        .'params.flashvars = "'.$flashvars.'";'."\n"
+					.'swfobject.embedSWF("'.$url.'", "local_news", "80%", "50", "8", "", false, params);'."\n"
 					.'// ]]></script>'."\n";
+			}
 
 			return $text;
 
@@ -1756,7 +1760,7 @@ Class Codes {
 					$text = Skin::strip($item['title']);
 
 				// make a link to the target page
-				$url = Articles::get_url($item['id'], 'view', $item['title']);
+				$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
@@ -1897,7 +1901,7 @@ Class Codes {
 			include_once $context['path_to_root'].'files/files.php';
 
 			// split parameters
-			$attributes = preg_split("/\s*,\s*/", $id, 3);
+			$attributes = preg_split("/\s*,\s*/", $id, 4);
 			$id = $attributes[0];
 
 			// get the file
@@ -1916,15 +1920,18 @@ Class Codes {
 				return $output;
 			}
 
-			// all parameters are mandatory
-			if(@count($attributes) != 3) {
+			// otherwise, we need at least the mandatory parameters
+			if(@count($attributes) < 3) {
 				$output = '&#91;flash=id, width, height]';
 				return $output;
 			}
 
-			// object dimensions
+			// object attributes
 			$width = $attributes[1];
 			$height = $attributes[2];
+			$flashvars = '';
+			if(isset($attributes[3]))
+				$flashvars = $attributes[3];
 
 			// where to get the file
 			if(isset($item['file_href']) && $item['file_href'])
@@ -1939,11 +1946,13 @@ Class Codes {
 			case 'swf':
 				$output = '<div id="swf_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.'<script type="text/javascript">// <![CDATA['."\n"
-					.'var fo = new SWFObject("'.$url.'", "swf_'.$item['id'].'", "'.$width.'", "'.$height.'", 6, "");'."\n"
-					.'fo.addParam("base", "'.dirname($url).'/");'."\n"
-					.'fo.addParam("quality", "high");'."\n"
-					.'fo.addParam("wmode", "transparent");'."\n"
-					.'fo.write("swf_'.$item['id'].'");'."\n"
+			        .'var params = {};'."\n"
+			        .'params.base = "'.dirname($url).'/";'."\n"
+			        .'params.quality = "high";'."\n"
+			        .'params.wmode = "transparent";'."\n"
+			        .'params.menu = "false";'."\n"
+			        .'params.flashvars = "'.$flashvars.'";'."\n"
+					.'swfobject.embedSWF("'.$url.'", "swf_'.$item['id'].'", "'.$width.'", "'.$height.'", "8", "", false, params);'."\n"
 					.'// ]]></script>'."\n";
 				return $output;
 
@@ -1951,15 +1960,24 @@ Class Codes {
 			case 'flv':
 
 				// a flash player to stream a flash video
-				$flv_player_url = $context['url_to_root'].'included/browser/flvplayer.swf';
-				$url = $flv_player_url.'?file='.$url.'&amp;autoStart=false';
+				$flvplayer_url = $context['url_to_root'].'included/browser/flvplayer.swf';
 
+				// pass parameters to the player
+				if($flashvars)
+					$flashvars .= 'file='.$url.'&'.$flashvars;
+				else
+					$flashvars .= 'file='.$url;
+
+				// the full object is built in Javascript
 				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.'<script type="text/javascript">// <![CDATA['."\n"
-					.'var fo = new SWFObject("'.$url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", 6, "");'."\n"
-					.'fo.addParam("quality", "high");'."\n"
-					.'fo.addParam("wmode", "transparent");'."\n"
-					.'fo.write("flv_'.$item['id'].'");'."\n"
+			        .'var params = {};'."\n"
+			        .'params.base = "'.dirname($url).'/";'."\n"
+			        .'params.quality = "high";'."\n"
+			        .'params.wmode = "transparent";'."\n"
+			        .'params.menu = "false";'."\n"
+			        .'params.flashvars = "'.$flashvars.'";'."\n"
+					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "8", "", false, params);'."\n"
 					.'// ]]></script>'."\n";
 				return $output;
 
@@ -2291,6 +2309,13 @@ Class Codes {
 		case 'sound':
 			include_once $context['path_to_root'].'files/files.php';
 
+			// maybe an alternate title has been provided
+			$attributes = preg_split("/\s*,\s*/", $id, 2);
+			$id = $attributes[0];
+			$flashvars = '';
+			if(isset($attributes[1]))
+				$flashvars = $attributes[1];
+
 			// get the file
 			if(!$item =& Files::get($id)) {
 				if(Surfer::is_associate())
@@ -2313,15 +2338,21 @@ Class Codes {
 			case 'mp3':
 
 				// a flash player to stream a sound
-				$mp3_player_url = $context['url_to_root'].'included/browser/dewplayer.swf';
-				$url = $mp3_player_url.'?son='.$url;
+				$dewplayer_url = $context['url_to_root'].'included/browser/dewplayer.swf';
+				if($flashvars)
+					$flashvars = 'son='.$url.'&'.$flashvars;
+				else
+					$flashvars = 'son='.$url;
 
-				$output = '<div id="mp3_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+				$output = '<div id="sound_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.'<script type="text/javascript">// <![CDATA['."\n"
-					.'var fo = new SWFObject("'.$url.'", "mp3_'.$item['id'].'", "200", "20", 6, "");'."\n"
-					.'fo.addParam("quality", "high");'."\n"
-					.'fo.addParam("wmode", "transparent");'."\n"
-					.'fo.write("mp3_'.$item['id'].'");'."\n"
+			        .'var params = {};'."\n"
+			        .'params.base = "'.dirname($url).'/";'."\n"
+			        .'params.quality = "high";'."\n"
+			        .'params.wmode = "transparent";'."\n"
+			        .'params.menu = "false";'."\n"
+			        .'params.flashvars = "'.$flashvars.'";'."\n"
+					.'swfobject.embedSWF("'.$dewplayer_url.'", "sound_'.$item['id'].'", "200", "20", "8", "", false, params);'."\n"
 					.'// ]]></script>'."\n";
 				return $output;
 

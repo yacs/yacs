@@ -74,22 +74,26 @@ Class Layout_files extends Layout_interface {
 			if(preg_match('/\.mp3$/i', $item['file_name']) && file_exists($context['path_to_root'].'included/browser/dewplayer.swf')) {
 
 				// the player
-				$mp3_player_url = $context['url_to_root'].'included/browser/dewplayer.swf';
+				$dewplayer_url = $context['url_to_root'].'included/browser/dewplayer.swf';
 
 				// the mp3 file
 				if(isset($item['file_href']) && $item['file_href'])
 					$mp3_url = $item['file_href'];
 				else
 					$mp3_url = $context['url_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+				$flashvars = 'son='.$mp3_url;
 
 				// combine the two in a single object
 				$prefix .= '<div id="mp3_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.'<script type="text/javascript">// <![CDATA['."\n"
-		 			.'var fo = new SWFObject("'.$mp3_player_url.'?son='.$mp3_url.'", "mp3_'.$item['id'].'", "200", "20", 6, "");'."\n"
-		 			.'fo.addParam("quality", "high");'."\n"
-		 			.'fo.addParam("wmode", "transparent");'."\n"
- 		 			.'fo.write("mp3_'.$item['id'].'");'."\n"
-					.'// ]]></script>'."\n";
+			        .'var params = {};'."\n"
+			        .'params.base = "'.dirname($mp3_url).'/";'."\n"
+			        .'params.quality = "high";'."\n"
+			        .'params.wmode = "transparent";'."\n"
+			        .'params.menu = "false";'."\n"
+			        .'params.flashvars = "'.$flashvars.'";'."\n"
+					.'swfobject.embedSWF("'.$dewplayer_url.'", "mp3_'.$item['id'].'", "200", "20", "8", "", false, params);'."\n"
+					.'// ]]></script>'.BR."\n";
 
 			}
 

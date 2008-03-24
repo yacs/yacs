@@ -310,7 +310,7 @@ if($credentials) {
 			$now = (string)time();
 
 			// token is made of: user id, time of login, gmt offset, salt --salt combines date of login with secret handle
-			$token = $user['id'].'|'.$now.'|'.$gmt_offset.'|'.md5($now.'|'.$user['handle']);
+			$token = $user['id'].'|'.$now.'|'.Surfer::get_gmt_offset().'|'.md5($now.'|'.$user['handle']);
 
 			// path to this instance
 			Safe::setcookie('screening', $token, time()+60*60*24*500, $context['url_to_root']);

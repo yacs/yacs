@@ -354,7 +354,7 @@ Class Sections {
 		global $context;
 
 		// profiling mode
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
 			logger::profile('sections::count_for_anchor');
 
 		// limit the query to one level
@@ -1173,8 +1173,7 @@ Class Sections {
 		// sections by title
 		$query = "SELECT sections.*"
 			." FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE (sections.id = LIKE '".SQL::escape($name)."') AND ".$where
-			." GROUP BY sections.id";
+			." WHERE (sections.id = LIKE '".SQL::escape($name)."') AND ".$where;
 
 		$output =& Sections::list_selected(SQL::query($query), $variant);
 		return $output;
@@ -1322,7 +1321,6 @@ Class Sections {
 		$query = "SELECT sections.*"
 			." FROM ".SQL::table_name('sections')." AS sections"
 			." WHERE ".$where
-			." GROUP BY sections.id"
 			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT ".$offset.','.$count;
 
 		$output =& Sections::list_selected(SQL::query($query, $silent), $variant);
@@ -2218,7 +2216,7 @@ Class Sections {
 		global $context;
 
 		// profiling mode
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
 			logger::profile('sections::stat_for_anchor');
 
 		// limit the query to one level

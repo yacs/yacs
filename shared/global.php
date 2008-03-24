@@ -323,7 +323,7 @@ elseif(isset($_SERVER['REQUEST_URI']) && preg_match('/\.php$/', $_SERVER['REQUES
 	$context['script_url'] = $_SERVER['REQUEST_URI'];
 
 // which script are we executing?
-if($context['script_url'] && !preg_match('/(error|services\/check|users\/heartbit|users\/visit)\.php/', $context['script_url']) && isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+if(isset($context['with_profile']) && ($context['with_profile'] == 'Y') && $context['script_url'] && !preg_match('/(error|services\/check|users\/heartbit|users\/visit)\.php/', $context['script_url']))
 	Logger::remember($context['script_url'], 'run', '', 'debug');
 
 // the HTTP accepted verbs by default --can be modified in some scripts, if necessary
@@ -1282,14 +1282,6 @@ function render_skin($stamp=NULL) {
 
 	// dump profile information, if any
 	Logger::profile_dump();
-
-	// something has been buffered
-	if(is_callable('ob_get_length') && ob_get_length()) {
-
-		// ensure everything has been sent to the browser
-		if(is_callable('ob_end_flush'))
-			while(@ob_end_flush());
-	}
 
 	// tick only during regular operation
 	if(!file_exists($context['path_to_root'].'parameters/switch.on'))

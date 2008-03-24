@@ -2,8 +2,6 @@
 /**
  * layout sections as an index page of Yahoo!
  *
- * @todo sort articles by overlay order where applicable
- *
  * With this layout up to three sub-items are listed as well.
  * These can be either sub-sections and/or articles, depending of relative availability of both kind of items.
  *

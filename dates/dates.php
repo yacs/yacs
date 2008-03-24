@@ -14,64 +14,34 @@
 Class Dates {
 
 	/**
-	 * produce a nice calendar for the given month
-	 *
-	 * Provide an anchor reference to limit the scope of the calendar.
-	 *
-	 * @parameter int year
-	 * @parameter int month, from 1 to 12
-	 * @parameter string the target view: 'months', 'month' or 'year'
-	 * @parameter string reference to an anchor (e.g., 'section:123'), if any
-	 * @return a string to be put in the web page
+	 * start a calendar for one month
 	 */
-	function build_month_calendar($year, $month, $variant='month', $anchor=NULL) {
+	function &build_month_prefix($year, $month, $day, $caption=NULL) {
 		global $context;
 
-		// load localized strings
-		i18n::bind('dates');
+		// cache labels for days
+		static $days;
+		if(!isset($days)) {
 
-		// get dates as an array of $url => ($prefix, $label, $suffix, $type, $icon, $date)
-		$dates = Dates::list_for_month($year, $month, 'links', $anchor);
+			// load localized strings
+			i18n::bind('dates');
 
-		// sanity check
-		if(!is_array($dates) || !count($dates))
-			return '';
-
-		// pick the first date
-		$next_date = each($dates);
-		$date_link = $date_attributes = NULL;
-		if($next_date !== FALSE) {
-			$date_link = $next_date[0];
-			$date_attributes = $next_date[1];
+			$days = array();
+			$days[0] = i18n::s('sunday');
+			$days[1] = i18n::s('monday');
+			$days[2] = i18n::s('tuesday');
+			$days[3] = i18n::s('wednesday');
+			$days[4] = i18n::s('thursday');
+			$days[5] = i18n::s('friday');
+			$days[6] = i18n::s('saturday');
 		}
 
-		// here we go
-		$text = '<table id="month_'.$month.'" class="month calendar">';
+		// one table per month
+		$text = '<table class="month calendar">';
 
-		// several months to be displayed
-		if($variant != 'month') {
-
-			// calendar title
-			$title = ucfirst(Dates::get_month_label($month)).' '.$year;
-
-			// zoom to the month
-			if($variant == 'year')
-				$title = Skin::build_link(Dates::get_url($year.'/'.$month, 'month'), $title, 'month');
-
-			// calendar caption
-			$text .= '<caption>'.$title.'</caption>';
-
-		}
-
-		// labels for days
-		static $days = array();
-		$days[0] = i18n::s('sunday');
-		$days[1] = i18n::s('monday');
-		$days[2] = i18n::s('tuesday');
-		$days[3] = i18n::s('wednesday');
-		$days[4] = i18n::s('thursday');
-		$days[5] = i18n::s('friday');
-		$days[6] = i18n::s('saturday');
+		// add caption
+		if($caption)
+			$text .= '<caption>'.$caption.'</caption>';
 
 		// display labels for days
 		$text .= '<tr>';
@@ -79,82 +49,50 @@ Class Dates {
 			$text .= '<th>'.ucfirst($label).'</th>';
 		$text .= '</tr>';
 
-		// first day of this month
-		$first_of_month = gmmktime(0, 0, 0, $month, 1, $year);
-
-		// day in week for the first day of the month
-		$day_in_week = (int)gmstrftime('%w', $first_of_month);
-
 		// first week
 		$text .= '<tr>';
 
+		// compute day in week for first day of this month
+		if($day < 0) {
+
+			// first day of this month
+			$first_of_month = gmmktime(0, 0, 0, $month, 1, $year);
+
+			// day in week for the first day of the month
+			$day = (int)gmstrftime('%w', $first_of_month);
+
+		}
+
 		// draw empty cells at the beginning of the month
-		for($index = 0; $index < $day_in_week; $index++)
+		for($index = 0; $index < $day; $index++)
 			$text .= '<td>&nbsp;</td>';
 
+		// job done
+		return $text;
+	}
+
+	/**
+	 * end of one month
+	 */
+	function &build_month_suffix($year, $month, $day) {
+		global $context;
+
+		$text = '';
+
 		// number of days in this month
-		$days_in_month = (int)gmdate('t', $first_of_month);
+		$days_in_month = (int)gmdate('t', gmmktime(0, 0, 0, $month, 1, $year));
 
-		// paint all days of this month
-		for($index = 1; $index <= $days_in_month; $index++) {
+		// day in week for the current date
+		$day_in_week = (int)gmstrftime('%w', gmmktime(0, 0, 0, $month, $day, $year));
 
-			// process every matching date records
-			$day_content = '';
-			$match = gmstrftime('%Y-%m-%d', gmmktime(0, 0, 0, $month, $index, $year));
-			while($date_link && $date_attributes && preg_match('/'.$match.'/', $date_attributes[5])) {
+		// complement empty days for this month
+		for(; $day <= $days_in_month; $day++) {
+			$text .= '<td>'.$day.'</td>';
 
-				list($prefix, $label, $suffix, $type, $icon, $date) = $date_attributes;
-				$day_content .= BR.$prefix.Skin::build_link($date_link, $label, $type).$suffix;
-
-				// pick next date
-				$next_date = each($dates);
-				$date_link = $date_attributes = NULL;
-				if($next_date !== FALSE) {
-					$date_link = $next_date[0];
-					$date_attributes = $next_date[1];
-				}
-			}
-
-			// global calendar
-			if($variant == 'year') {
-
-				// something happens at this date
-				if($day_content)
-
-					// link to the daily calendar
-					$text .= '<td class="spot">'.Skin::build_link(Dates::get_url($year.'/'.$month.'/'.$index, 'day'), $index, 'day');
-
-				// nothing to report on
-				else
-					$text .= '<td>'.$index;
-
-			// monthly view
-			} else {
-
-				// something happens on this date
-				if($day_content)
-					$text .= '<td class="spot">';
-				else
-					$text .= '<td>';
-
-				// day index
-				$text .= $index;
-
-				// all events on this day
-				$text .= $day_content;
-
-			}
-
-			// nothing more for this date
-			$text .= '</td>';
-
-			// next day in week
+			// start a new week on next row
 			if(++$day_in_week >= 7) {
-
-				// start a new week
 				$day_in_week = 0;
 				$text .= '</tr><tr>';
-
 			}
 		}
 
@@ -164,10 +102,151 @@ Class Dates {
 				$text .= '<td>&nbsp;</td>';
 		}
 
-		// end the job
+		// close the last week
 		$text .= '</tr></table>';
 
-		return str_replace('</tr><tr></tr>', '</tr>', $text);
+		// done
+		return $text;
+	}
+
+	/**
+	 * produce monthly views for provided items
+	 *
+	 * @parameter array of $url => ($prefix, $label, $suffix, $type, $icon, $date)
+	 * @parameter boolean if TRUE, add links to yearly and monthly views
+	 * @parameter boolean if FALSE, do no display month captions
+	 * @parameter int forced year, in case no dates are provided
+	 * @parameter int forced month, in case no dates are provided
+	 * @return a string to be put in the web page
+	 */
+	function &build_months($dates, $with_zoom=FALSE, $with_caption=TRUE, $forced_year=NULL, $forced_month=NULL) {
+		global $context;
+
+		// we return some text
+		$text = '';
+
+		// we have done nothing yet
+		$current_year = $current_month = $current_day = NULL;
+		$day_content = '';
+
+		// process all dates
+		foreach($dates as $date_link => $date_attributes) {
+
+			// look at this date
+			list($prefix, $label, $suffix, $type, $icon, $date) = $date_attributes;
+			$year = intval(substr($date, 0, 4));
+			$month = intval(substr($date, 5, 2));
+			$day = intval(substr($date, 8, 2));
+
+			// flush previous day, if any
+			if($day_content && (($day != $current_day) || ($month != $current_month) || ($year != $current_year))) {
+				$text .= '<td class="spot">'.$current_day.$day_content.'</td>';
+				$current_day++;
+				if(++$day_in_week >= 7) {
+					$day_in_week = 0;
+					$text .= '</tr><tr>';
+				}
+				$day_content = '';
+			}
+
+			// content for this date
+			$day_content .= BR.$prefix.Skin::build_link($date_link, $label, $type).$suffix;
+
+			// close current month
+			if($current_month && ($month != $current_month))
+				$text .= Dates::build_month_suffix($current_year, $current_month, $current_day);
+
+			// move to month for this date
+			while((!$current_year && !$current_month && !$current_day) || ($month != $current_month)) {
+
+				if(!$current_month) {
+					$current_year = $year;
+					$current_month = $month;
+				} else {
+					if(++$current_month > 12) {
+						$current_year++;
+						$current_month = 1;
+					}
+				}
+
+				// add a caption
+				$title = '';
+				if($with_caption) {
+
+					// month title
+					$title = ucfirst(Dates::get_month_label($current_month)).' '.$current_year;
+
+					// zoom to the monthly view
+					if($with_zoom)
+						$title = Skin::build_link(Dates::get_url($current_year.'/'.$current_month, 'month'), $title, 'month');
+
+				}
+
+				// first day of this month
+				$first_of_month = gmmktime(0, 0, 0, $month, 1, $year);
+
+				// day in week for the first day of the month
+				$day_in_week = (int)gmstrftime('%w', $first_of_month);
+
+				// start a new month
+				$current_day = 1;
+				$text .= Dates::build_month_prefix($current_year, $current_month, $day_in_week, $title);
+
+				// not yet at the target month, close an empty month
+				if($month != $current_month)
+					$text .= Dates::build_month_suffix($current_year, $current_month, $current_day);
+
+			}
+
+			// fill in gaps
+			while($current_day < $day) {
+				$text .= '<td>'.$current_day++.'</td>';
+
+				// start a new week on next row
+				if(++$day_in_week >= 7) {
+					$day_in_week = 0;
+					$text .= '</tr><tr>';
+				}
+			}
+
+		}
+
+		// flush previous day
+		if($day_content)
+			$text .= '<td class="spot">'.$current_day++.$day_content.'</td>';
+
+		// close last month, if any
+		if($current_month)
+			$text .= Dates::build_month_suffix($current_year, $current_month, $current_day);
+
+		// draw an empty calendar, if required
+		if(!$text && $forced_year) {
+
+			// one single month
+			if($forced_month > 0) {
+
+				// add a caption
+				$title = '';
+				if($with_caption) {
+
+					// month title
+					$title = ucfirst(Dates::get_month_label($forced_month)).' '.$forced_year;
+
+					// zoom to the monthly view
+					if($with_zoom)
+						$title = Skin::build_link(Dates::get_url($forced_year.'/'.$forced_month, 'month'), $title, 'month');
+
+				}
+
+				$text .= Dates::build_month_prefix($forced_year, $forced_month, -1, $title)
+					.Dates::build_month_suffix($forced_year, $forced_month, 1);
+
+			}
+
+		}
+
+		// done
+		return $text;
 	}
 
 	/**
@@ -549,9 +628,6 @@ Class Dates {
 				." AND (articles.publish_date < '".$now."')))";
 		}
 
-		// now
-		$match = gmstrftime('%Y-%m-%d');
-
 		// the request
 		$query = "SELECT dates.date_stamp as date_stamp, articles.id as id, articles.title as title, articles.nick_name as nick_name, articles.active, articles.edit_date, articles.publish_date, articles.introduction, articles.thumbnail_url FROM ".SQL::table_name('dates')." as dates"
 			.", ".SQL::table_name('articles')." AS articles"
@@ -642,7 +718,7 @@ Class Dates {
 	 * Provide an anchor reference to limit the scope of the list.
 	 *
 	 * @param int the year
-	 * @param int the month, from 1 to 12
+	 * @param int the month, from 1 to 12, or -1 for the full year
 	 * @param string the list variant, if any
 	 * @param string reference an target anchor (e.g., 'section:123'), if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
@@ -690,24 +766,40 @@ Class Dates {
 
 		// check the year
 		if($year < 1970)
-			$year = (int)gmstrftime('%Y');
+			$year = (int)strftime('%Y');
 
 		// check the month
-		if(($month < 1) || ($month > 12))
-			$month = (int)gmstrftime('%m');
+		if(($month >= 1) && ($month <= 12))
+			$match = strftime('%Y-%m-', mktime(0, 0, 0, $month, 1, $year)).'%';
 
-		// prefix to match
-		$match = gmstrftime('%Y-%m-', gmmktime(0, 0, 0, $month, 1, $year)).'%';
+		// check the full year
+		else
+			$match = strftime('%Y-', mktime(0, 0, 0, 1, 1, $year)).'%';
 
 		// the request
 		$query = "SELECT dates.date_stamp as date_stamp, articles.* FROM ".SQL::table_name('dates')." as dates"
 			.", ".SQL::table_name('articles')." AS articles"
 			." WHERE ((dates.anchor_type LIKE 'article') AND (dates.anchor_id = articles.id))"
 			."	AND (dates.date_stamp LIKE '".SQL::escape($match)."') AND ".$where
-			." ORDER BY dates.date_stamp LIMIT 100";
+			." ORDER BY dates.date_stamp LIMIT 1000";
 
 		// the list of dates
 		$output =& Dates::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
+	 * list future dates
+	 *
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
+	 *
+	 * @see dates/index.php
+	 */
+	function &list_future($offset=0, $count=100, $variant='family') {
+		$output =& Dates::list_future_for_anchor(NULL, $offset, $count, $variant);
 		return $output;
 	}
 
@@ -757,14 +849,18 @@ Class Dates {
 				." AND (articles.publish_date < '".$now."')))";
 		}
 
-		// now
-		$match = gmstrftime('%Y-%m-%d');
+		// starting this month
+		$match = gmstrftime('%Y-%m-01');
+
+		// only for one anchor
+		if($anchor)
+			$where = "(articles.anchor LIKE '".SQL::escape($anchor)."') AND ".$where;
 
 		// the request
 		$query = "SELECT dates.date_stamp as date_stamp, articles.id as id, articles.title as title, articles.nick_name as nick_name, articles.active, articles.edit_date, articles.publish_date, articles.introduction, articles.thumbnail_url FROM ".SQL::table_name('dates')." as dates"
 			.", ".SQL::table_name('articles')." AS articles"
 			." WHERE ((dates.anchor_type LIKE 'article') AND (dates.anchor_id = articles.id))"
-			."	AND (dates.date_stamp >= '".SQL::escape($match)."') AND (articles.anchor LIKE '".SQL::escape($anchor)."') AND ".$where
+			."	AND (dates.date_stamp >= '".SQL::escape($match)."') AND ".$where
 			." ORDER BY dates.date_stamp LIMIT ".$offset.','.$count;
 
 		// the list of dates
@@ -1025,8 +1121,8 @@ Class Dates {
 		global $context;
 
 		// select among available items
-		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date
-			FROM ".SQL::table_name('dates')." as dates";
+		$query = "SELECT COUNT(*) as count, MIN(edit_date) as oldest_date, MAX(edit_date) as newest_date"
+			." FROM ".SQL::table_name('dates')." as dates";
 
 		$output =& SQL::query_first($query);
 		return $output;
@@ -1053,22 +1149,24 @@ Class Dates {
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
 
+		$where = '('.$where.')';
+
 		// current time
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// put only published pages in boxes
 		if(isset($variant) && ($variant == 'boxes')) {
-			$where = "(".$where.") AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')";
 
 		// provide published pages to anonymous surfers
 		} elseif(!Surfer::is_logged()) {
-			$where = "(".$where.") AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
-			$where = "(".$where.") AND ((articles.create_id='".Surfer::get_id()."') OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where .= " AND ((articles.create_id='".Surfer::get_id()."') OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')))";
 		}
 
@@ -1080,7 +1178,7 @@ Class Dates {
 			." FROM ".SQL::table_name('dates')." as dates "
 			.", ".SQL::table_name('articles')." AS articles"
 			." WHERE ((dates.anchor_type LIKE 'article') AND (dates.anchor_id = articles.id))"
-			."	AND (dates.anchor = '".SQL::escape($anchor)."') AND (".$where.")";
+			."	AND (dates.anchor = '".SQL::escape($anchor)."') AND ".$where;
 
 		$output =& SQL::query_first($query);
 		return $output;
@@ -1107,22 +1205,24 @@ Class Dates {
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
 
+		$where = '('.$where.')';
+
 		// current time
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// put only published pages in boxes
 		if(isset($variant) && ($variant == 'boxes')) {
-			$where = "(".$where.") AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')";
 
 		// provide published pages to anonymous surfers
 		} elseif(!Surfer::is_logged()) {
-			$where = "(".$where.") AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
-			$where = "(".$where.") AND ((articles.create_id='".Surfer::get_id()."') OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where .= " AND ((articles.create_id='".Surfer::get_id()."') OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')))";
 		}
 

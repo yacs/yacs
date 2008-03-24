@@ -40,10 +40,6 @@ $context['page_title'] = $year;
 $cache_id = 'dates/year.php#text#'.$year;
 if(!$text =& Cache::get($cache_id)) {
 
-	// draw every month
-	for($month = 1; $month <= 12; $month++)
-		$text .= Dates::build_month_calendar($year, $month, 'year');
-
 	// previous year
 	$previous = $year-1;
 
@@ -57,6 +53,17 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// links to display previous and next years
 	$text .= Skin::neighbours($neighbours, 'slideshow');
+
+	// one calendar per month
+	for($index = 1; $index <= 12; $index++) {
+
+		// items for this month
+		$items =& Dates::list_for_month($year, $index, 'links');
+
+		// draw all months - force empty months
+		$text .= Dates::build_months($items, TRUE, TRUE, $year, $index);
+
+	}
 
 	// cache, whatever change, for 5 minutes
 	Cache::put($cache_id, $text, 'stable', 300);

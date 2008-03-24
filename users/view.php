@@ -463,7 +463,7 @@ if(!isset($item['id'])) {
 			$box['text'] = '';
 
 			// list files by date
-			$items = Files::list_by_date_for_author($item['id'], 0, 20, 'compact');
+			$items = Files::list_by_date_for_author($item['id'], 0, 20, 'simple');
 
 			// actually render the html for the section
 			if(is_array($items))

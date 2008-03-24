@@ -101,13 +101,12 @@ $context['page_title'] = $url;
 if(!$url)
 	Skin::error(i18n::s('No link URL has been provided.'));
 
-// ensure referer is this site
-elseif(!isset($_SERVER['HTTP_REFERER']) || !preg_match('/^'.preg_quote($context['url_to_home'], '/').'\b/', $_SERVER['HTTP_REFERER'])) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+// do not record click not coming from this site
+elseif(!isset($_SERVER['HTTP_REFERER']) || !preg_match('/^'.preg_quote($context['url_to_home'], '/').'\b/', $_SERVER['HTTP_REFERER']))
+	Safe::redirect($url);
 
 // increment hits for this link and redirect if no error
-} else if($error = Links::click($url))
+else if($error = Links::click($url))
 	Skin::error($error);
 else
 	Safe::redirect($url);

@@ -1345,7 +1345,7 @@ Class Categories {
 			."path='".SQL::escape($path)."',"
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
 			."rank='".SQL::escape($fields['rank'])."',"
-			."sections_count='".SQL::escape($fields['sections_count'])."',"
+			."sections_count='".SQL::escape(isset($fields['sections_count']) ? $fields['sections_count'] : 5)."',"
 			."sections_layout='".SQL::escape($fields['sections_layout'])."',"
 			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
 			."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',"
@@ -1522,7 +1522,7 @@ Class Categories {
 		if(!isset($context['users_without_archiving']) || ($context['users_without_archiving'] != 'Y')) {
 
 			// if the stamp has a value, this is a valid publication
-			if(is_string($stamp) && ($stamp > NULL_DATE) && ($stamp = strtotime($stamp.' UTC')) && ($stamp = getdate($stamp))) {
+			if(is_string($stamp) && ($stamp > NULL_DATE) && ($stamp = strtotime($stamp)) && ($stamp = getdate($stamp))) {
 
 				// weeks are starting on Monday
 				$week = mktime(0,0,0, $stamp['mon'], $stamp['mday']-$stamp['wday']+1, $stamp['year']);

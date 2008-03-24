@@ -177,8 +177,11 @@ if(Surfer::is_associate()) {
 if(@count($_SERVER) && !file_exists($context['path_to_root'].'parameters/demo.flag')) {
 	echo '<p>'.i18n::s('Server attributes:').BR."\n";
 	foreach($_SERVER as $name => $value) {
+
+		// protect key attributes
 		if(!Surfer::is_associate() && !preg_match('/^(HTTP_|PATH_INFO|QUERY_STRING|REMOTE_|REQUEST_|SERVER_|STATUS)/', $name))
 			continue;
+
 		echo '$_SERVER[\''.$name.'\']='.$value.BR."\n";
 	}
 	echo "</p>\n";
@@ -216,71 +219,74 @@ if(!is_callable('ob_list_handlers')) {
 	}
 }
 
-// user/group of this script
-if(is_callable('getmyuid') && (($uid = getmyuid()) !== FALSE) && is_callable('getmygid') && (($gid = getmygid()) !== FALSE)) {
+// do not reveal names of accounts used on server side
+if(Surfer::is_associate() && !file_exists($context['path_to_root'].'parameters/demo.flag')) {
 
-	// describe user
-	$ulabel = $uid;
-	if(is_callable('posix_getpwuid') && (($uinfo = posix_getpwuid($uid)) !== FALSE)) {
-		if(isset($uinfo['name']))
-			$ulabel = $uinfo['name'].'['.$uid.']';
-	}
+	// user/group of this script
+	if(is_callable('getmyuid') && (($uid = getmyuid()) !== FALSE) && is_callable('getmygid') && (($gid = getmygid()) !== FALSE)) {
 
-	// describe group and members
-	$glabel = $gid;
-	if(is_callable('posix_getgrgid') && (($ginfo = posix_getgrgid($gid)) !== FALSE)) {
-
-		// group name
-		if(isset($ginfo['name']))
-			$glabel = $ginfo['name'].'['.$gid.']';
-
-		// group members
-		if(isset($ginfo['members']) && is_array($ginfo['members'])) {
-			$gmembers = array();
-			foreach($ginfo['members'] as $index => $label)
-				$gmembers[] = $label;
-			if(count($gmembers))
-				$glabel .= ' ('.implode(', ', $gmembers).')';
+		// describe user
+		$ulabel = $uid;
+		if(is_callable('posix_getpwuid') && (($uinfo = posix_getpwuid($uid)) !== FALSE)) {
+			if(isset($uinfo['name']))
+				$ulabel = $uinfo['name'].'['.$uid.']';
 		}
+
+		// describe group and members
+		$glabel = $gid;
+		if(is_callable('posix_getgrgid') && (($ginfo = posix_getgrgid($gid)) !== FALSE)) {
+
+			// group name
+			if(isset($ginfo['name']))
+				$glabel = $ginfo['name'].'['.$gid.']';
+
+			// group members
+			if(isset($ginfo['members']) && is_array($ginfo['members'])) {
+				$gmembers = array();
+				foreach($ginfo['members'] as $index => $label)
+					$gmembers[] = $label;
+				if(count($gmembers))
+					$glabel .= ' ('.implode(', ', $gmembers).')';
+			}
+		}
+
+		// display gathered information
+		echo '<p>'.i18n::s('user/group of this script:').' '.$ulabel.'/'.$glabel."</p>\n";
+
+	} else
+		echo '<p>'.i18n::s('Impossible to retrieve user/group of this script.')."</p>\n";
+
+	// user/group of this process
+	if(is_callable('posix_geteuid') && (($uid = posix_geteuid()) !== FALSE) && is_callable('posix_getgroups') && (($gids = posix_getgroups()) !== FALSE)) {
+
+		// describe user
+		$ulabel = $uid;
+		if(is_callable('posix_getpwuid') && (($uinfo = posix_getpwuid($uid)) !== FALSE)) {
+			if(isset($uinfo['name']))
+				$ulabel = $uinfo['name'].'['.$uid.']';
+		}
+
+		// describe groups
+		$glabel = '';
+		foreach($gids as $gid) {
+
+			// group name
+			if(is_callable('posix_getgrgid') && (($ginfo = posix_getgrgid($gid)) !== FALSE) && isset($ginfo['name']))
+				$glabel .= $ginfo['name'].'['.$gid.']';
+
+			else
+				$glabel .= $gid;
+
+			// next one
+			$glabel .= ' ';
+
+		}
+
+		// display gathered information
+		echo '<p>'.i18n::s('user/group of this process:').' '.$ulabel.'/'.$glabel."</p>\n";
+
+	} else {
+		echo '<p>'.i18n::s('Impossible to retrieve user/group of this process.')."</p>\n";
 	}
-
-	// display gathered information
-	echo '<p>'.i18n::s('user/group of this script:').' '.$ulabel.'/'.$glabel."</p>\n";
-
-} else
-	echo '<p>'.i18n::s('Impossible to retrieve user/group of this script.')."</p>\n";
-
-// user/group of this process
-if(is_callable('posix_geteuid') && (($uid = posix_geteuid()) !== FALSE) && is_callable('posix_getgroups') && (($gids = posix_getgroups()) !== FALSE)) {
-
-	// describe user
-	$ulabel = $uid;
-	if(is_callable('posix_getpwuid') && (($uinfo = posix_getpwuid($uid)) !== FALSE)) {
-		if(isset($uinfo['name']))
-			$ulabel = $uinfo['name'].'['.$uid.']';
-	}
-
-	// describe groups
-	$glabel = '';
-	foreach($gids as $gid) {
-
-		// group name
-		if(is_callable('posix_getgrgid') && (($ginfo = posix_getgrgid($gid)) !== FALSE) && isset($ginfo['name']))
-			$glabel .= $ginfo['name'].'['.$gid.']';
-
-		else
-			$glabel .= $gid;
-
-		// next one
-		$glabel .= ' ';
-
-	}
-
-	// display gathered information
-	echo '<p>'.i18n::s('user/group of this process:').' '.$ulabel.'/'.$glabel."</p>\n";
-
-} else {
-	echo '<p>'.i18n::s('Impossible to retrieve user/group of this process.')."</p>\n";
 }
-
 ?>

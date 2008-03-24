@@ -40,9 +40,9 @@ $anchor = NULL;
 if(isset($_REQUEST['id']))
 	$anchor = $_REQUEST['id'];
 elseif(isset($context['arguments'][1]))
-    $anchor = $context['arguments'][0].':'.$context['arguments'][1];
+	$anchor = $context['arguments'][0].':'.$context['arguments'][1];
 elseif(isset($context['arguments'][0]))
-    $anchor = $context['arguments'][0];
+	$anchor = $context['arguments'][0];
 $anchor = strip_tags($anchor);
 
 // default anchor type is article
@@ -51,7 +51,7 @@ if(!strpos($anchor, ':'))
 
 // get the related anchor, if any
 if($anchor)
-    $anchor = Anchors::get($anchor);
+	$anchor = Anchors::get($anchor);
 
 // load localized strings
 i18n::bind('comments');
@@ -124,15 +124,13 @@ if(!is_object($anchor)) {
 	$anchor->touch('comment:create', $id);
 
 	// we do not increment the post counter of the surfer during a chat
-// 	Users::increment_posts(Surfer::get_id());
+//	Users::increment_posts(Surfer::get_id());
 
 	// thread update will trigger screen repaint through separate pending call of this script
 	die('OK');
 
 // or we will only wait for update -- the AJAX-Comet way to stay synchronized
 } else {
-
-//	logger::debug($_SERVER['HTTP_REFERER'], 'comments::thread '.Surfer::get_name());
 
 	// we are running
 	global $pending;
@@ -159,8 +157,6 @@ if(!is_object($anchor)) {
 
 	// encode result in JSON
 	$output = Safe::json_encode($response);
-
-//	logger::debug($output, 'sending comments to '.Surfer::get_name());
 
 	// allow for data compression
 	render_raw('application/json; charset='.$context['charset']);

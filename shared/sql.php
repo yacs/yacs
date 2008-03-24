@@ -592,7 +592,7 @@ Class SQL {
 		global $context;
 
 		// profiling mode
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y')) {
+		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y')) {
 			logger::profile('sql::query');
 			logger::profile('sql::query('.$query.')');
 		}
@@ -631,8 +631,6 @@ Class SQL {
 
 		// profile database requests
 		$query_stamp = get_micro_time();
-
-//		logger::debug($query, 'query');
 
 		// do the job
 		if(is_callable('mysqli_query'))

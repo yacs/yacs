@@ -333,15 +333,6 @@ Class Surfer {
 
 				$menu['articles/edit.php'] = array(NULL, i18n::s('Add a page'), NULL, $type, NULL, i18n::s('Use a web form to submit new content to this site'));
 
-				// if uploads are administratively allowed
-				if(Surfer::may_upload()) {
-
-					$menu['images/edit.php'] = array(NULL, i18n::s('Post an image'), NULL, $type, NULL, i18n::s('Upload a picture in a new page'));
-
-					$menu['files/edit.php'] = array(NULL, i18n::s('Share a file'), NULL, $type, NULL, i18n::s('Upload a file in a new page'));
-
-				}
-
 				$menu['links/edit.php'] = array(NULL, i18n::s('Bookmark a link'), NULL, $type, NULL, i18n::s('Upload a link in a new page'));
 
 			}
@@ -1264,8 +1255,9 @@ Class Surfer {
 	 * and the root path of the instance that has validated the surfer.
 	 *
 	 * @param array session attributes
+	 * @param boolean TRUE to remind date of last login in user record
 	 */
-	function set($fields) {
+	function set($fields, $update_flag = FALSE) {
 		global $context;
 
 		// save session attributes
@@ -1312,6 +1304,12 @@ Class Surfer {
 
 		// the surfer has been authenticated, do not challenge him anymore
 		$_SESSION['surfer_is_not_a_robot'] = TRUE;
+
+		// remember silently the date of the last login
+		if($update_flag && isset($fields['id'])) {
+			$query = "UPDATE ".SQL::table_name('users')." SET login_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."', login_address='".$_SERVER['REMOTE_ADDR']."' WHERE id = ".$fields['id'];
+			SQL::query($query, FALSE, $context['users_connection']);
+		}
 
 	}
 
@@ -1434,9 +1432,9 @@ if(isset($_SERVER['REMOTE_ADDR']) && !Surfer::is_crawler() && !headers_sent()) {
 			elseif(!isset($user['handle']) || strcmp($nouns[3], md5($nouns[1].'|'.$user['handle'])))
 				;
 
-			// save surfer profile in session context
+			// save surfer profile in session context, and remind date of last login
 			else
-				Surfer::set($user);
+				Surfer::set($user, TRUE);
 
 		}
 

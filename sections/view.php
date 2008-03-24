@@ -1141,7 +1141,7 @@ if(!isset($item['id'])) {
 				}
 
 				// newest articles of main sub-sections, if not at another follow-up page
-				if(!$zoom_type) {
+				if(!$zoom_type && !preg_match('/\bno_new_articles\b/i', $item['options'])) {
 
 					// select a layout
 					if(!isset($item['articles_layout']) || !$item['articles_layout']) {

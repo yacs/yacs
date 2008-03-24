@@ -158,7 +158,6 @@ if(isset($item['id']))
 if(!isset($item['id']) || !$item['id']) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has been found.'));
-	$context['text'] .= 'hello world';
 
 // permission denied
 } elseif(!$permitted) {

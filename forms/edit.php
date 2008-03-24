@@ -256,14 +256,12 @@ if($with_form) {
 	//
 
 	// the title
-	if(!is_object($overlay) || !($label = $overlay->get_label('title', isset($item['id'])?'edit':'new')))
-		$label = i18n::s('Title');
+	$label = i18n::s('Title');
 	$value = '';
 	if(isset($item['title']) && $item['title'])
 		$value = $item['title'];
 	$input = '<textarea name="title" id="title" rows="2" cols="50" accesskey="t">'.encode_field($value).'</textarea>';
-	if(!is_object($overlay) || !($hint = $overlay->get_label('title_hint', isset($item['id'])?'edit':'new')))
-		$hint = i18n::s('Please provide a meaningful title.');
+	$hint = i18n::s('Please provide a meaningful title.');
 	$fields[] = array($label, $input, $hint);
 
 	// the introduction
