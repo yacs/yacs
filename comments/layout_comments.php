@@ -27,10 +27,6 @@ Class Layout_comments extends Layout_interface {
 	/**
 	 * list comments
 	 *
-	 * Recognizes following variants:
-	 * - 'no_anchor' -- do not mention anchor link
-	 * - 'no_author' -- do not mention author link
-	 *
 	 * @param resource the SQL result
 	 * @return string the rendered text
 	 *
@@ -77,12 +73,10 @@ Class Layout_comments extends Layout_interface {
 			$suffix .= Skin::build_link(Comments::get_url($item['id']), Comments::get_img($item['type']), 'basic', i18n::s('Zoom on this comment'));
 
 			// a link to the user profile
-			if($this->layout_variant != 'no_author') {
-				if($item['create_name'])
-					$suffix .= ' '.Users::get_link($item['create_name'], $item['create_address'], $item['create_id']);
-				else
-					$suffix .= ' '.Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
-			}
+			if($item['create_name'])
+				$suffix .= ' '.Users::get_link($item['create_name'], $item['create_address'], $item['create_id']);
+			else
+				$suffix .= ' '.Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
 
 			// the edition date
 			if($item['create_name'])
@@ -106,13 +100,6 @@ Class Layout_comments extends Layout_interface {
 			// description
 			if($description = ucfirst(trim(Codes::beautify($item['description']))))
 					$suffix .= ' '.$description;
-
-			// show an anchor comment
-			if(($this->layout_variant != 'no_anchor') && $item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
-				$anchor_url = $anchor->get_url();
-				$anchor_label = ucfirst($anchor->get_title());
-				$suffix .= BR.sprintf(i18n::s('In %s'), Skin::build_link($anchor_url, $anchor_label, 'shortcut'))."\n";
-			}
 
 			// url to view the comment
 			$url = Comments::get_url($item['id']);

@@ -457,9 +457,9 @@ var Yacs = {
 		}
 		var suffix = '<span class="onHoverRight">';
 		if(handle.hasClassName('mutable')) {
-			suffix += '<a href="#" onmousedown="Yacs.toggleProperties(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
+			suffix += '<a href="#" onclick="Yacs.toggleProperties(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
 		}
-		suffix += '<a hrf="#" onmousedown="Element.remove(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
+		suffix += '<a href="#" onclick="Element.remove(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
 		new Element.insert(handle, { top: suffix + prefix });
 
 		handle.onmouseout = function () { Yacs.mouseOut(this); return false; };

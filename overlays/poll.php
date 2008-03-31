@@ -99,13 +99,13 @@ class Poll extends Overlay {
 			switch($action) {
 
 			case 'edit':
-				return i18n::s('Modify one poll');
+				return i18n::s('Edit a poll');
 
 			case 'delete':
-				return i18n::s('Delete one poll');
+				return i18n::s('Delete a poll');
 
 			case 'new':
-				return i18n::s('Post a new poll');
+				return i18n::s('Add a poll');
 
 			case 'view':
 			default:

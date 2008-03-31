@@ -62,7 +62,7 @@ if(count(get_included_files()) < 3) {
 	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
 
 	// the title of the page
-	$context['page_title'] = i18n::s('Create default pages');
+	$context['page_title'] = i18n::s('Add default pages');
 
 	// stop hackers the hard way
 	if(!Surfer::is_associate())
@@ -271,7 +271,7 @@ elseif($anchor = Sections::lookup('my_section')) {
 		." ^â&ecirc;&icirc;&ocirc;û¨äëïöü£&ugrave;%*µ,;:!?./§¤"
 		."\a\b\c\d\e\f\g\h\i\j\k\l\m\o\p\q\r\s\t\u\v\w\x\y\z"
 		."\n:) 8) :D :O ;) :( X( !! ?? ?! -- ++ >> §§"
-		."\n[b]bold [i]and[/b] italic[/i][nl][u]underlined[/u]"
+		."\n[b]bold[/b] and [i]italic[/i][nl][u]underlined[/u]"
 		."\n<a href=\"http://myweb/mypage.html\">anchor</a><!-- comment -->"
 		."\nCheck my [link=document]http://myweb/mypage.html[/link] on this subject;"
 		." more info [email=here>>]me@dummy.com[/email]"
@@ -424,7 +424,7 @@ elseif($anchor = Sections::lookup('global')) {
 		.'<p>'.i18n::c('This server requires you to define and enter passwords to access certain areas of the site. In case this conjures up images of crackers breaking into our databases and getting your passwords, you don\'t have to worry about it. Passwords are stored in an encrypted format, so that <i>we</i> can\'t even look at them. This encryption <i>is</i> breakable, but it takes a lot of effort and computing time (days or weeks to crack a single password) so for all intents and purposes, your passwords are safe here. The downside to this, of course, is that if you lose or forget your password we can\'t get it back for you. We\'ve provided a method to reset your password if this happens, but as with any other password, it\'s best not to forget in the first place.').'</p>'."\n"
 		.'[title]'.i18n::c('Posted material').'[/title]'."\n"
 		.'<p>'.i18n::c('Posted material is, of course, not private; several persons can look at them. But this is as good a time as any to point out that we own and retain control of whatever records you enter into the system. This means that we reserve the right to view and modify your articles, files, links, comments, etc. and we exercise this right. Most of the time we do this to fix trivial things; for example, if you post a page into an incorrect section, made a really obvious typo, or put in something really inappropriate, then we might modify it. But in any case, you should be aware that this could happen. FYI, <i>we</i> get to decide what\'s inappropriate, but you should all know your netiquette by now, right?  :-)').'</p>'."\n"
-		.'<hr><p>'.i18n::c('If you have any questions or comments about our privacy policy, or would like more information about a particular category, please [article=about, get in touch] with us.').'</p>'."\n";
+		.'<hr/><p>'.i18n::c('If you have any questions or comments about our privacy policy, or would like more information about a particular category, please [article=about, get in touch] with us.').'</p>'."\n";
 	$fields['locked'] = 'Y'; // only associates can change this page
 	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 	if(Articles::post($fields))

@@ -2,6 +2,7 @@
 /**
  * view one user profile
  *
+ * @todo share information with stds http://www.dataportability.org/graphsync/
  * @todo add 'in xxx' to the list of posted files
  * @todo we have live profiles!
  * @todo your workspaces/your watchlist http://www.socialtext.com/products/overview
@@ -198,6 +199,7 @@ if(isset($item['id']) && !isset($zoom_type) && $permitted && Surfer::get_id() &&
 	else
 		$label = i18n::s('Watch');
 
+	Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( $link => array(NULL, WATCH_TOOL_IMG.$label, NULL, 'basic', NULL, i18n::s('Manage your watch list'))));
 }
 
@@ -299,7 +301,7 @@ if(!isset($item['id'])) {
 
 		// add links to contribute to this site
 		if(Surfer::is_creator($id))
-			$details[] = sprintf(i18n::s('As an associate of this community, you may contribute freely to any part of this server. Enjoy! %s, %s, %s'), Skin::build_link('articles/edit.php', i18n::s('Write a page')), Skin::build_link('images/edit.php', i18n::s('Post a photo')), Skin::build_link('files/edit.php', i18n::s('Share a file')))."\n";
+			$details[] = i18n::s('As an associate of this community, you may contribute freely to any part of this server.');
 		else
 			$details[] = i18n::s('As an associate of this community, this user has unlimited rights (and duties) on this server.');
 
@@ -307,7 +309,7 @@ if(!isset($item['id'])) {
 
 		// add links to contribute to this site
 		if(Surfer::is_creator($id))
-			$details[] = sprintf(i18n::s('As a member of this community, you may access freely to most part of this server. Enjoy! %s, %s, %s'), Skin::build_link('articles/edit.php', i18n::s('Write a page')), Skin::build_link('images/edit.php', i18n::s('Post a photo')), Skin::build_link('files/edit.php', i18n::s('Share a file')))."\n";
+			$details[] = i18n::s('As a member of this community, you may access freely most pages of this server.');
 		else
 			$details[] = i18n::s('Member of this community, with contribution rights to this server.');
 
@@ -373,7 +375,7 @@ if(!isset($item['id'])) {
 	// offer to extend personal spaces
 	$allowed = max($context['users_maximum_managed_sections'] - count(Surfer::personal_sections()), 0);
 	if(Surfer::is_member() && (Surfer::get_id() == $item['id']) && $allowed)
-		$items = array_merge($items, array('sections/new.php' => i18n::s('Create a blog, a discussion board, or another personal web space')));
+		$items = array_merge($items, array('sections/new.php' => i18n::s('Add a blog, a discussion board, or another personal web space')));
 
 	// associates can assign editors and readers
 	elseif(Surfer::is_associate()) {
@@ -594,9 +596,7 @@ if(!isset($item['id'])) {
 		// shortcuts
 
 		$link_list = array(
-				'articles/edit.php' => array(NULL, i18n::s('Write a page'), NULL, 'shortcut', NULL, i18n::s('Use a web form to post a new article')),
-				'images/edit.php'	=> array(NULL, i18n::s('Post a photo'), NULL, 'shortcut', NULL, i18n::s('Upload a picture from your computer')),
-				'files/edit.php'	=> array(NULL, i18n::s('Share a file'), NULL, 'shortcut', NULL, i18n::s('Pick some file, and upload it for immediate podcast')),
+				'articles/edit.php' => array(NULL, i18n::s('Add a page'), NULL, 'shortcut', NULL, i18n::s('Use a web form to submit new content'))
 				);
 
 		$label .= Skin::build_list($link_list, 'compact');
@@ -768,7 +768,7 @@ if(!isset($item['id'])) {
 
 	// implement the trackback interface
 	$permanent_link = $context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:'');
-	if(isset($context['with_friendly_urls']) && (isset($context['with_friendly_urls']) && (isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))))
+	if($context['with_friendly_urls'] == 'Y')
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/user/'.$item['id'];
 	else
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=user:'.$item['id'];

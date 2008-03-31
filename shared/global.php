@@ -111,6 +111,15 @@ $context['text'] = '';
 // path to files and images, for supported virtual hosts --see files/edit.php and images/edit.php
 $context['virtual_path'] = '';
 
+// debug the execution of this script --may be changed in control/configure.php
+$context['with_debug'] = 'N';
+
+// how to build links --may be changed in control/configure.php
+$context['with_friendly_urls'] = 'N';
+
+// profile execution of this script
+$context['with_profile'] = 'N';
+
 //
 // Performance stuff
 //
@@ -179,6 +188,10 @@ include_once $context['path_to_root'].'shared/logger.php';
 // the cache library
 include_once $context['path_to_root'].'shared/cache.php';
 
+// our knowledge about current surfer --after the definition of url_to_root parameter
+if(!defined('NO_CONTROLLER_PRELOAD'))
+	include_once $context['path_to_root'].'shared/surfer.php';
+
 //
 // default values for global parameters set in control/configure.php
 //
@@ -191,6 +204,14 @@ $context['file_mask'] = 0644;
 
 // load general parameters (see control/configure.php)
 Safe::load('parameters/control.include.php');
+
+// profile this page -- add '?profile' at the end of the URL to profile, but only at selected sites
+if(($context['with_debug'] == 'Y') && isset($_REQUEST['profile']))
+	$context['with_profile'] = 'Y';
+
+// profiling mode -- we will miss part of it...
+if($context['with_profile'] == 'Y')
+	logger::profile('global', 'start');
 
 // the name of this server
 if(isset($_SERVER['HTTP_HOST']))
@@ -222,7 +243,7 @@ if(!defined('NO_MODEL_PRELOAD'))
 	Safe::load('parameters/users.include.php');
 
 // see all errors on development machine
-if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+if($context['with_debug'] == 'Y')
 	$level = E_ALL;
 
 // mask notifications and warnings
@@ -323,7 +344,7 @@ elseif(isset($_SERVER['REQUEST_URI']) && preg_match('/\.php$/', $_SERVER['REQUES
 	$context['script_url'] = $_SERVER['REQUEST_URI'];
 
 // which script are we executing?
-if(isset($context['with_profile']) && ($context['with_profile'] == 'Y') && $context['script_url'] && !preg_match('/(error|services\/check|users\/heartbit|users\/visit)\.php/', $context['script_url']))
+if(($context['with_profile'] == 'Y') && $context['script_url'] && !preg_match('/(error|services\/check|users\/heartbit|users\/visit)\.php/', $context['script_url']))
 	Logger::remember($context['script_url'], 'run', '', 'debug');
 
 // the HTTP accepted verbs by default --can be modified in some scripts, if necessary
@@ -545,10 +566,6 @@ if(!defined('NO_MODEL_PRELOAD')) {
 if(!defined('NO_MODEL_PRELOAD'))
 	include_once $context['path_to_root'].'users/users.php';
 
-// our knowledge about current surfer --after the definition of url_to_root parameter
-if(!defined('NO_CONTROLLER_PRELOAD'))
-	include_once $context['path_to_root'].'shared/surfer.php';
-
 //
 // Content basic information -- articles and sections
 //
@@ -649,6 +666,10 @@ function embed_yacs_suffix() {
 function load_skin($variant='', $anchor=NULL, $options='') {
 	global $context;
 
+	// profiling mode
+	if($context['with_profile'] == 'Y')
+		logger::profile('load_skin', 'start');
+
 	// use a specific skin, if any
 	if($options && preg_match('/\bskin_(.+?)\b/i', $options, $matches))
 		$context['skin'] = 'skins/'.$matches[1];
@@ -662,8 +683,17 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	Safe::load('parameters/skins.include.php');
 	Safe::load('parameters/root.include.php'); // to support Page::tabs()
 
+	if($context['with_profile'] == 'Y')
+		logger::profile('include skin_skeleton', 'start');
+
 	// load skin basic library
 	include_once $context['path_to_root'].'skins/skin_skeleton.php';
+
+	if($context['with_profile'] == 'Y')
+		logger::profile('include skin_skeleton', 'stop');
+
+	if($context['with_profile'] == 'Y')
+		logger::profile('include skin', 'start');
 
 	// load actual skin
 	if(is_readable($context['path_to_root'].$context['skin'].'/skin.php')) {
@@ -678,9 +708,24 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 
 	}
 
+	if($context['with_profile'] == 'Y')
+		logger::profile('include skin', 'stop');
+
 	// the codes library
+	if($context['with_profile'] == 'Y')
+		logger::profile('include codes', 'start');
+
 	include_once $context['path_to_root'].'codes/codes.php';
+	if($context['with_profile'] == 'Y')
+		logger::profile('include codes', 'stop');
+
+	if($context['with_profile'] == 'Y')
+		logger::profile('include smileys', 'start');
+
 	include_once $context['path_to_root'].'smileys/smileys.php';
+
+	if($context['with_profile'] == 'Y')
+		logger::profile('include smileys', 'stop');
 
 	// skin variant is already set -- maybe already set as 'mobile'
 	if(isset($context['skin_variant']))
@@ -698,9 +743,19 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	else
 		$context['skin_variant'] = $variant;
 
+	if($context['with_profile'] == 'Y')
+		logger::profile('skin::load', 'start');
+
 	// initialize skin constants
 	if(!defined('BR'))
 		Skin::load();
+
+	if($context['with_profile'] == 'Y')
+		logger::profile('skin::load', 'stop');
+
+	// profiling mode
+	if($context['with_profile'] == 'Y')
+		logger::profile('load_skin', 'stop');
 
 }
 
@@ -789,7 +844,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
  *
  * @param int the time() to be used as the Last-Modified date of the page, if any
  */
-function render_skin($stamp=NULL) {
+function render_skin($stamp=0) {
 	global $context, $local; // put here ALL global variables to be included in template, including $local
 
 	// allow for only one call -- see scripts/validate.php
@@ -797,6 +852,41 @@ function render_skin($stamp=NULL) {
 	if(isset($rendering_fuse))
 		return;
 	$rendering_fuse = TRUE;
+
+	// ensure we have a fake skin, at least
+	if(!is_callable(array('Skin', 'build_list'))) {
+
+		class Skin {
+			function &build_block($text) {
+				return $text;
+			}
+
+			function &build_box($title, $content) {
+				$text = '<h3>'.$title.'</h3><div>'.$content.'</div>';
+				return $text;
+			}
+
+			function &build_link($url, $label) {
+				$text = '<a href="'.$url.'">'.$label.'</a>';
+				return $text;
+			}
+
+			function &build_list() {
+				$text = '{list}';
+				return $text;
+			}
+
+			function &build_user_menu() {
+				$text = '{user_menu}';
+				return $text;
+			}
+		}
+
+		define('BR', '<br />');
+		define('EOT', '/>');
+
+		$context['skin_variant'] = 'fake';
+	}
 
 	// don't do this on second rendering phase
 	if(!isset($context['embedded']) || ($context['embedded'] != 'suffix')) {
@@ -818,189 +908,9 @@ function render_skin($stamp=NULL) {
 
 	}
 
-	// words may be highlighted, but only while viewing information
-	if(preg_match('/view\.php/', $context['script_url'])) {
-
-		// highlight words if we are coming from a search engine
-		$highlight = '';
-		if(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER']) {
-
-			// coming from this server
-			if(preg_match('/\b'.preg_quote($context['host_name'], '/').'\/.*\?(.*)/', $_SERVER['HTTP_REFERER'], $matches) && trim($matches[1])) {
-				$items = explode('&', $matches[1]);
-				while($item = each($items)) {
-					list($name, $value) = explode('=', $item['value']);
-					if($name == 'search') {
-						$highlight = urldecode($value);
-						break;
-					}
-				}
-
-			// coming from all the web
-			} elseif(preg_match('/\balltheweb\b.*\?(.*)/', $_SERVER['HTTP_REFERER'], $matches) && trim($matches[1])) {
-				$items = explode('&', $matches[1]);
-				while($item = each($items)) {
-					list($name, $value) = explode('=', $item['value']);
-					if($name == 'q') {
-						$highlight = urldecode($value);
-						break;
-					}
-				}
-
-			// coming from ask
-			} elseif(preg_match('/\bask\b.*\?(.*)/', $_SERVER['HTTP_REFERER'], $matches) && trim($matches[1])) {
-				$items = explode('&', $matches[1]);
-				while($item = each($items)) {
-					list($name, $value) = explode('=', $item['value']);
-					if($name == 'q') {
-						$highlight = urldecode($value);
-						break;
-					}
-				}
-
-			// coming from feedster
-			} elseif(preg_match('/\bfeedster\b.*\?(.*)/', $_SERVER['HTTP_REFERER'], $matches) && trim($matches[1])) {
-				$items = explode('&', $matches[1]);
-				while($item = each($items)) {
-					list($name, $value) = explode('=', $item['value']);
-					if($name == 'q') {
-						$highlight = urldecode($value);
-						break;
-					}
-				}
-
-			// coming from google
-			} elseif(preg_match('/\bgoogle\b.*\?(.*)/', $_SERVER['HTTP_REFERER'], $matches) && trim($matches[1])) {
-				$items = explode('&', $matches[1]);
-				while($item = each($items)) {
-					list($name, $value) = explode('=', $item['value']);
-					if($name == 'q') {
-						$highlight = urldecode($value);
-						break;
-					}
-				}
-
-			// coming from yahoo
-			} elseif(preg_match('/http:\/\/.*\.yahoo\..*\/.*\?(.*)/', $_SERVER['HTTP_REFERER'], $matches) && trim($matches[1])) {
-				$items = explode('&', $matches[1]);
-				while($item = each($items)) {
-					list($name, $value) = explode('=', $item['value']);
-					if($name == 'p') {
-						$highlight = urldecode($value);
-						break;
-					}
-				}
-			}
-		}
-
-		// explicitly hightlight some words, if required
-		if(isset($_REQUEST['highlight']) && $_REQUEST['highlight'])
-			$highlight = strip_tags($_REQUEST['highlight']);
-
-		// make unicode HTML entities
-		$highlight = utf8::to_unicode($highlight);
-
-		// minimum size for any search token - depends of mySQL setup
-		$query = "SHOW VARIABLES LIKE 'ft_min_word_len'";
-		if(is_callable(array('SQL', 'query_first')) && ($row =& SQL::query_first($query)) && ($row['Value'] > 0))
-			define('MINIMUM_TOKEN_SIZE', $row['Value']);
-
-		// by default MySQL indexes words with at least four chars
-		if(!defined('MINIMUM_TOKEN_SIZE'))
-			define('MINIMUM_TOKEN_SIZE', 4);
-
-		// kill short and redundant tokens
-		$tokens = preg_split('/[\s,]+/', $highlight);
-		if(@count($tokens)) {
-			$highlight = '';
-			foreach($tokens as $token) {
-
-				// too short
-				if(strlen(preg_replace('/&.+?;/', 'x', $token)) < MINIMUM_TOKEN_SIZE)
-					continue;
-
-				// already here (repeated word)
-				if(strpos($highlight, $token) !== FALSE)
-					continue;
-
-				// keep this token
-				$highlight .= $token.' ';
-			}
-			$highlight = trim($highlight);
-		}
-
-		// make an array
-		if($highlight)
-			$highlight = explode(' ', $highlight);
-
-		// actual highlighting, if any
-		if(is_array($highlight) && @count($highlight)) {
-
-			// build search and replace patterns
-			$words = array();
-			$highlighted_words = array();
-			$extra = array();
-			for ($i = 0, $j = count($highlight); $i < $j; $i++) {
-				$words[$i] = '/('.preg_quote($highlight[$i], '/').')/i';
-				// up to three highlighting colors
-				$highlighted_words[$i] = '<span class="highlight'.(($i % 3)+1).'">$1</span>';
-				$extra[] = '<span class="highlight'.(($i % 3)+1).'">'.$highlight[$i].'</span>';
-			}
-
-			// highlight in title
-			$input = $context['page_title'];
-			$output = '';
-			while($input) {
-				if(preg_match('/^([^<]*)?(<.*?>)?(.*)$/s', $input, $matches)) {
-					$output .= preg_replace($words, $highlighted_words, $matches[1]);
-					$output .= $matches[2];
-					$input = $matches[3];
-				}
-			}
-			$context['page_title'] = $output;
-
-			// highlight in main text --limit input size because of processing overhead
-			$input = $context['text'];
-			$output = '';
-			$count = 0;
-			while($input) {
-
-				// opening tag
-				if($position = strpos($input, '<') !== FALSE) {
-					$output .= preg_replace($words, $highlighted_words, substr($input, 0, $position));
-					$input = substr($input, $position);
-
-					// closing tag
-					if($position = strpos($input, '>')) {
-						$output .= substr($input, 0, $position+1);
-						if($position+1 >= strlen($input))
-							$input = '';
-						else
-							$input = substr($input, $position+1);
-					} else {
-						$output .= $input;
-						$input = '';
-					}
-
-				} else {
-					$output .= $input;
-					$input = '';
-				}
-
-
-				// limit processing overhead
-				$count++;
-				if($count > 1024) {
-					$output .= $input;
-					break;
-				}
-			}
-			$context['text'] = $output;
-
-			// list highlighted words in the extra panel
-			$context['extra'] .= Skin::build_box(i18n::s('Highlighted'), Skin::build_list($extra, 'compact'), 'navigation', 'highlighted').$context['extra'];
-		}
-	}
+	// profiling mode
+	if($context['with_profile'] == 'Y')
+		logger::profile('render_skin', 'start');
 
 	// yes, we are proud of this piece of software
 	Safe::header('X-Powered-By: YACS (http://www.yetanothercommunitysystem.com/)');
@@ -1013,7 +923,7 @@ function render_skin($stamp=NULL) {
 	Safe::header('Vary: Accept-Encoding, Cookie, ETag, If-None-Match, Set-Cookie');
 
 	// handle web cache
-	if(!(isset($context['without_http_cache']) && ($context['without_http_cache'] == 'Y')) && !headers_sent()) {
+	if(($stamp >= 0) && !(isset($context['without_http_cache']) && ($context['without_http_cache'] == 'Y')) && !headers_sent()) {
 
 		// ask for revalidation in any case - 'no-cache' is mandatory for IE6 !!!
 		Safe::header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
@@ -1213,17 +1123,9 @@ function render_skin($stamp=NULL) {
 	if(isset($context['skin_variant']) && is_readable($context['path_to_root'].$context['skin'].'/template_'.$context['skin_variant'].'.php'))
 		include $context['path_to_root'].$context['skin'].'/template_'.$context['skin_variant'].'.php';
 
-	// load a template for this module -- html version
-	elseif(isset($context['skin_variant']) && is_readable($context['path_to_root'].$context['skin'].'/template_'.$context['skin_variant'].'.html'))
-		include $context['path_to_root'].$context['skin'].'/template_'.$context['skin_variant'].'.html';
-
 	// else use the original template -- php version
 	elseif(is_readable($context['path_to_root'].$context['skin'].'/template.php'))
 		include $context['path_to_root'].$context['skin'].'/template.php';
-
-	// else use the original template -- html version
-	elseif(is_readable($context['path_to_root'].$context['skin'].'/template.html'))
-		include $context['path_to_root'].$context['skin'].'/template.html';
 
 	// no valid template has been loaded, build one from scratch
 	else {
@@ -1269,7 +1171,7 @@ function render_skin($stamp=NULL) {
 		if($context['extra'])
 			echo '<hr'.EOT."\n".$context['extra'];
 
-		// allow aonymous user to login
+		// allow anonymous user to login
 		if(is_callable(array('Surfer', 'get_capability')) && !Surfer::is_logged())
 			echo '<hr'.EOT."\n".Skin::build_link('users/login.php', 'Login', 'basic');
 
@@ -1279,6 +1181,10 @@ function render_skin($stamp=NULL) {
 
 	// track surfer presence
 	Surfer::click();
+
+	// profiling mode
+	if($context['with_profile'] == 'Y')
+		logger::profile('render_skin', 'stop');
 
 	// dump profile information, if any
 	Logger::profile_dump();
@@ -1332,7 +1238,7 @@ function render_skin($stamp=NULL) {
 		return;
 
 	// remember cron tick
-	if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+	if($context['with_debug'] == 'Y')
 		Logger::remember('cron.php', 'tick', '', 'debug');
 
 	// trigger background processing -- capture the output and don't send it back to the browser
@@ -1796,7 +1702,7 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 		$name = trim(str_replace(array(' ', '.', ',', ';', ':', '!', '?', '<', '>', '/'), '-', strtolower(utf8::to_ascii(trim($name)))), '-');
 
 	// use rewriting engine to achieve pretty references, except if composed anchor -- look .htaccess
-	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R') && (count($nouns) == 1)) {
+	if(($context['with_friendly_urls'] == 'R') && (count($nouns) == 1)) {
 
 		// 'view' is a special case, else insert action in reference
 		if($action == 'view')
@@ -1815,7 +1721,7 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 		return $link;
 
 	// be cool with search engines
-	} elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y')) {
+	} elseif($context['with_friendly_urls'] == 'Y') {
 
 		// reference module and action in reference
 		$link = $module.'/'.$action.'.php/';
@@ -1847,5 +1753,9 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 		return $link;
 	}
 }
+
+// profiling mode
+if($context['with_profile'] == 'Y')
+	logger::profile('global', 'stop');
 
 ?>

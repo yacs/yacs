@@ -101,20 +101,27 @@ if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('articles/v
 // watch command is provided to logged surfers who are not contributing -- no forget command
 if(isset($item['create_id']) && $permitted && Surfer::get_id() && !Surfer::is_creator($item['create_id']) && !$in_watch_list) {
 	$link = Users::get_url('article:'.$item['id']);
+	Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( $link => array(NULL, WATCH_TOOL_IMG.i18n::s('Watch'), NULL, 'basic', NULL, i18n::s('Manage your watch list'))));
 }
 
 // modify this page
-if(isset($item['id']) && $editable)
+if(isset($item['id']) && $editable) {
+	Skin::define_img('EDIT_ARTICLE_IMG', $context['skin'].'/icons/articles/edit.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'edit') => array(NULL, EDIT_ARTICLE_IMG.i18n::s('Edit'), NULL, 'basic', NULL, i18n::s('Update the content of this page')) ));
+}
 
 // mail this page
-if(isset($item['id']) && $permitted && Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y'))
+if(isset($item['id']) && $permitted && Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	Skin::define_img('MAIL_TOOL_IMG', $context['skin'].'/icons/tools/mail.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'mail') => array(NULL, MAIL_TOOL_IMG.i18n::s('Invite'), NULL, 'basic', NULL, i18n::s('Invite people to review and to contribute')) ));
+}
 
 // post an image
-if(isset($item['id']) && $permitted && $editable && Images::are_allowed($anchor, $item))
+if(isset($item['id']) && $permitted && $editable && Images::are_allowed($anchor, $item)) {
+	Skin::define_img('IMAGE_TOOL_IMG', $context['skin'].'/icons/tools/image.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( 'images/edit.php?anchor='.urlencode('article:'.$item['id']) => IMAGE_TOOL_IMG.i18n::s('Add an image') ));
+}
 
 // upload a file
 if(isset($item['id']) && $permitted && $editable && Files::are_allowed($anchor, $item))
@@ -127,36 +134,50 @@ if(isset($item['id']) && $permitted && $editable && Links::are_allowed($anchor, 
 // publish, for associates and authenticated editors
 if(isset($item['id']) && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))) {
 
-	if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE))
+	if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) {
+		Skin::define_img('PUBLISH_ARTICLE_IMG', $context['skin'].'/icons/articles/publish.gif');
 		$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'publish') => PUBLISH_ARTICLE_IMG.i18n::s('Publish') ));
-	else
+	} else {
+		Skin::define_img('DRAFT_ARTICLE_IMG', $context['skin'].'/icons/articles/draft.gif');
 		$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'unpublish') => DRAFT_ARTICLE_IMG.i18n::s('Draft') ));
+	}
 }
 
 // lock command provided to associates and authenticated editors
 if(isset($item['id']) && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))) {
 
-	if(!isset($item['locked']) || ($item['locked'] == 'N'))
+	if(!isset($item['locked']) || ($item['locked'] == 'N')) {
+		Skin::define_img('LOCK_TOOL_IMG', $context['skin'].'/icons/tools/lock.gif');
 		$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'lock') => LOCK_TOOL_IMG.i18n::s('Lock') ));
-	else
+	} else {
+		Skin::define_img('UNLOCK_TOOL_IMG', $context['skin'].'/icons/tools/unlock.gif');
 		$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'lock') => UNLOCK_TOOL_IMG.i18n::s('Unlock') ));
+	}
 }
 
 // assign command provided to associates and authenticated editors
-if(isset($item['id']) && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())))
+if(isset($item['id']) && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))) {
+	Skin::define_img('ASSIGN_TOOL_IMG', $context['skin'].'/icons/tools/assign.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( Users::get_url('article:'.$item['id'], 'select') => ASSIGN_TOOL_IMG.i18n::s('Assign') ));
+}
 
 // review command provided to associates and section editors
-if(isset($item['id']) && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())))
+if(isset($item['id']) && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))) {
+	Skin::define_img('STAMP_ARTICLE_IMG', $context['skin'].'/icons/articles/stamp.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'stamp') => STAMP_ARTICLE_IMG.i18n::s('Stamp') ));
+}
 
 // delete command provided to associates and section editors
-if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())))
+if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))) {
+	Skin::define_img('DELETE_ARTICLE_IMG', $context['skin'].'/icons/articles/delete.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'delete') => DELETE_ARTICLE_IMG.i18n::s('Delete') ));
+}
 
 // print this page
-if(isset($item['id']) && $permitted && Surfer::is_logged())
+if(isset($item['id']) && $permitted && Surfer::is_logged()) {
+	Skin::define_img('PRINT_TOOL_IMG', $context['skin'].'/icons/tools/print.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'print') => array(NULL, PRINT_TOOL_IMG.i18n::s('Print'), NULL, 'basic', NULL, i18n::s('Get a paper copy of this page.')) ));
+}
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
@@ -450,7 +471,7 @@ if(!isset($item['id'])) {
 					$link = 'http://'.$context['host_name'].':5800';
 
 				// open the link in an external window
-				$link = '<a href="'.$link.'" title="Browse in a new window" onclick="window.open(this.href); return false;"><span>'.sprintf(i18n::s('%s workstation'), Surfer::get_name()).'</span></a>';
+				$link = '<a href="'.$link.'" title="'.i18n::s('Browse in a separate window').'" onclick="window.open(this.href); return false;"><span>'.sprintf(i18n::s('%s workstation'), Surfer::get_name()).'</span></a>';
 
 				// append the command to the menu
 				$menu[] = '<a href="#" onclick="javascript:Comments.contribute(\''.str_replace('"', '&quot;', $link).'\');return false;" title="'.i18n::s('Share my VNC session').'"><span>'.i18n::s('Share my VNC session').'</span></a>';
@@ -504,6 +525,7 @@ if(!isset($item['id'])) {
 	// advertise this thread
 	$invite = '';
 	if(isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+		Skin::define_img('MAIL_TOOL_IMG', $context['skin'].'/icons/tools/mail.gif');
 		$invite = Skin::build_link(Articles::get_url($item['id'], 'mail', 'invite'), MAIL_TOOL_IMG.i18n::s('Invite other people'), 'basic', i18n::s('Send a mail notification to people'), TRUE).BR;
 	}
 
@@ -562,6 +584,7 @@ if(!isset($item['id'])) {
 			if(Links::are_allowed($anchor, $item)) {
 
 				// add a link
+				Skin::define_img('NEW_LINK_IMG', $context['skin'].'/icons/links/new.gif');
 				$link = 'links/edit.php?anchor='.urlencode('article:'.$item['id']);
 				$text .= BR.Skin::build_link($link, NEW_LINK_IMG.i18n::s('Add a link') );
 
@@ -698,7 +721,7 @@ if(!isset($item['id'])) {
 
 	// implement the trackback interface
 	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
-	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+	if($context['with_friendly_urls'] == 'Y')
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/article/'.$item['id'];
 	else
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=article:'.$item['id'];

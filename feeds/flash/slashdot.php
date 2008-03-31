@@ -21,6 +21,7 @@
  *
  * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
  * @tester Guillaume Perez
+ * @tester Nuxwin
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -31,6 +32,9 @@ Safe::load('parameters/feeds.flash.include.php');
 
 // load the skin
 load_skin('articles');
+
+// ensure we see only articles visible at the home page
+$context['skin_variant'] = 'home';
 
 // sanity check
 if(is_callable('ming_useswfversion'))

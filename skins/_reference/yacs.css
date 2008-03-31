@@ -92,6 +92,12 @@ div.sortable {
 	background-color: #edf6dd;
 }
 
+div#form_input_panel {
+	margin-top: 2em;
+	border-top: 1px solid #ccc;
+	padding-top: 1em;
+}
+
 div#form_panel {
 	position: relative;
 }
@@ -276,7 +282,7 @@ div#tabs_panels div.panel-background {
 }
 
 /**
- * styles for threads, used in articles/view_as_thread.php
+ * styles for threads
  *
  * @see articles/view_as_thread.php
  */
@@ -346,6 +352,11 @@ div#thread_text_panel dl dt.thread_me { /* my details */
 div#thread_text_panel dl dt.thread_other { /* details about other contributor */
 }
 
+div.follow_up { /* comments from page author */
+	border: none;
+	background-color: #ffffe5;
+}
+
 /**
  * styles used for locked threads
  */
@@ -387,8 +398,8 @@ table.calendar { /* one table per month */
 }
 
 table.calendar caption { /* label for target month */
-	margin: 0;
-	padding: 1em 0 0.5em 0.5em;
+	margin-top: 1em;
+	padding: 1em 0 0 0.5em;
 	font-size: 1.2em;
 	font-weight: bold;
 	text-align: left;
@@ -415,3 +426,15 @@ dl.family dt { /* a date */
 dl.family dd { /* data for one date */
 	margin: 0 0 1em 0;
 }
+
+/**
+ * other reference styles used by YACS
+ */
+
+p.assistant_bar { /* menu appears at page bottom */
+	margin-top: 2em;
+	border-top: 1px solid #ccc;
+	padding-top: 1em;
+	width: 40em;
+}
+

@@ -107,7 +107,7 @@ if($item['id'] && $permitted && Comments::are_allowed($anchor)) {
 if($item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())
 	|| Surfer::is_creator($item['create_id']))) {
 
-	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'edit') => i18n::s('Modify') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 
 	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'delete') => i18n::s('Delete') ));
 }
@@ -118,7 +118,7 @@ if($item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($
 
 // the new comment command is available to logged users, and to everybody if set so
 if($permitted && Comments::are_allowed($anchor)) {
-	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+	if($context['with_friendly_urls'] == 'Y')
 		$link = 'comments/edit.php/'.str_replace(':', '/', $item['anchor']);
 	else
 		$link = 'comments/edit.php?anchor='.$item['anchor'];
@@ -222,6 +222,7 @@ if(!isset($item['id'])) {
 
 	// incitate people to react
 	if($item['id'] && $permitted && Comments::are_allowed($anchor)) {
+		Skin::define_img('NEW_COMMENT_IMG', $context['skin'].'/icons/comments/new.gif');
 		$menu = array( Comments::get_url($item['id'], 'reply') => NEW_COMMENT_IMG.' '.i18n::s('React to this post') );
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 	}

@@ -47,7 +47,7 @@ Class Layout_actions extends Layout_interface {
 			$prefix = $suffix = $icon = '';
 
 			// the url to view this item
-			$url =& Actions::get_url($item['id']);
+			$url = Actions::get_url($item['id']);
 
 			// reset the rendering engine between items
 			if(is_callable(array('Codes', 'initialize')))

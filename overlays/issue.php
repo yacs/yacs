@@ -220,13 +220,13 @@ class Issue extends Overlay {
 			switch($action) {
 
 			case 'edit':
-				return i18n::s('Modify one issue');
+				return i18n::s('Edit an issue');
 
 			case 'delete':
-				return i18n::s('Delete one issue');
+				return i18n::s('Delete an issue');
 
 			case 'new':
-				return i18n::s('New issue');
+				return i18n::s('Add an issue');
 
 			case 'view':
 			default:

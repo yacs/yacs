@@ -34,27 +34,27 @@ include_once '../../shared/global.php';
 
 // get content from the cache, if possible
 $hash = Cache::hash('included/jscalendar/minify-'.$context['language'].'.js');
-if(!$text =& Safe::file_get_contents($hash)) {
+if(!$text = Safe::file_get_contents($hash)) {
 
 	// the returned string
 	$text = '';
 
 	// leading scripts
-	if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+	if($context['with_debug'] == 'Y')
 		Logger::remember('included/jscalendar/minify.php', 'calendar.js', '', 'debug');
 	$text .= Safe::file_get_contents($context['path_to_root'].'included/jscalendar/calendar.js')."\n";
 
 	if(file_exists($context['path_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js')) {
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		if($context['with_debug'] == 'Y')
 			Logger::remember('included/jscalendar/minify.php', 'lang/calendar-'.strtolower($context['language']).'.js', '', 'debug');
 		$text .= Safe::file_get_contents($context['path_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js')."\n";
 	} else {
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		if($context['with_debug'] == 'Y')
 			Logger::remember('included/jscalendar/minify.php', 'lang/calendar-en.js', '', 'debug');
 		$text .= Safe::file_get_contents($context['path_to_root'].'included/jscalendar/lang/calendar-en.js')."\n";
 	}
 
-	if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+	if($context['with_debug'] == 'Y')
 		Logger::remember('included/jscalendar/minify.php', 'lang/calendar-setup.js', '', 'debug');
 	$text .= Safe::file_get_contents($context['path_to_root'].'included/jscalendar/calendar-setup.js')."\n";
 

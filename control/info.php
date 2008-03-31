@@ -5,7 +5,7 @@
  * Depending on the subject selected, this script will provide detailed information:
  * - yacs - profiling data about yacs run-time
  * - phpinfo - simple call of phpinfo()
- * - sql - display the result of the query 'SHOW VARIABLES'
+ * - sql - display the result of queries 'SHOW VARIABLES' and 'SHOW VARIABLES'
  * - images - check the availability of GD and related library functions
  *
  * If no topic is provided the script also lists a shortcut to background processing.
@@ -181,6 +181,7 @@ if(!Surfer::is_associate()) {
 			}
 			$context['text'] .= "</table>\n";
 		}
+
 		break;
 
 	case 'images':	// support of graphics

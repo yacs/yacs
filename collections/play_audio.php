@@ -190,7 +190,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 				$target_duration = '-1';
 
 			// protect file origin, and set winamp headers
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$target_url = $context['url_to_home'].$context['url_to_root'].'collections/fetch.php/'.rawurlencode($item['collection']).'/'.$item['relative_url'].rawurlencode($file);
 			else
 				$target_url = $context['url_to_home'].$context['url_to_root'].'collections/fetch.php?path='.urlencode($item['collection'].'/'.$item['relative_url'].$file);

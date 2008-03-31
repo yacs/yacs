@@ -80,7 +80,7 @@ Class rss_Codec extends Codec {
 		// parse data
 		if(!xml_parse($parser, $data)) {
 
-			if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+			if($context['with_debug'] == 'Y')
 				Logger::remember('services/rss_codec.php', 'invalid packet to decode', str_replace("\r\n", "\n", $data), 'debug');
 
 			return array(FALSE, 'Parsing error: '.xml_error_string(xml_get_error_code($parser))
@@ -426,7 +426,7 @@ Class rss_Codec extends Codec {
 	function import_request($data) {
 
 		// parse the input packet
-		return($this->decode($data));
+		return $this->decode($data);
 	}
 
 	/**
@@ -440,7 +440,7 @@ Class rss_Codec extends Codec {
 	function import_response($data, $headers=NULL, $parameters=NULL) {
 
 		// parse the input packet
-		return($this->decode($data));
+		return $this->decode($data);
 	}
 
 }

@@ -189,7 +189,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			$menu[] = Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), i18n::s('Permalink'), 'basic');
 
 			// info on related files
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$file = 'articles/view.php/'.$item['id'].'/files/1';
 			else
 				$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
@@ -207,7 +207,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 			// info on related links
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$link = 'articles/view.php/'.$item['id'].'/links/1';
 			else
 				$link = 'articles/view.php?id='.urlencode($item['id']).'&amp;links=1';
@@ -215,7 +215,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 				$menu[] = Skin::build_link($link, sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count), 'basic');
 
 			// trackback
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);

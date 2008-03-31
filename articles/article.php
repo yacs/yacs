@@ -1043,7 +1043,7 @@ Class Article extends Anchor {
 			// poster benefits from the secret handle to access the article
 			$mail['message'] = sprintf($mail['template'], $mail['title'], $mail['link'], $mail['action'])
 				."\n\n"
-				.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been attached to a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the page and click on the Forget link.'), $context['site_name']);
+				.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the page and click on the Forget link.'), $context['site_name']);
 
 			// alert all watchers
 			Users::alert_watchers('article:'.$this->item['id'], $mail, $notification);

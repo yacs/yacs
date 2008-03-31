@@ -92,7 +92,7 @@ if(Surfer::is_associate()
 	|| (is_object($anchor) && $anchor->is_editable())
 	|| (Surfer::is_member() && ($target_anchor == 'user:'.Surfer::get_id()))) {
 
-	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+	if($context['with_friendly_urls'] == 'Y')
 		$link = 'actions/edit.php/'.str_replace(':', '/', $target_anchor);
 	else
 		$link = 'actions/edit.php?anchor='.$target_anchor;
@@ -173,9 +173,9 @@ if(!is_object($anchor)) {
 
 			// navigation commands for actions, if necessary
 			$home = 'actions/list.php';
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$prefix = $home.'/'.str_replace(':', '/', $target_anchor);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				$prefix = $home.'/'.str_replace(':', '/', $target_anchor);
 			else
 				$prefix = $home.'?anchor='.$target_anchor.'&page=';

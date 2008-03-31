@@ -190,7 +190,7 @@ class Logger {
 		global $context;
 
 		// only in profiling mode
-		if(!isset($context['with_profile']) || ($context['with_profile'] != 'Y'))
+		if($context['with_profile'] != 'Y')
 			return;
 
 		// memory status
@@ -216,7 +216,10 @@ class Logger {
 		foreach($logger_profile_data as $id => $attributes) {
 			if(isset($attributes['count']) && ($attributes['count'] <= 0))
 				continue;
-			Logger::debug($attributes['count'].' x '.$id, 'profile data');
+			if(isset($attributes['sum']) && ($attributes['sum'] > 0))
+				Logger::debug(sprintf('%.2f seconds', $attributes['sum']).' = '.$attributes['count'].' x '.$id, 'profile data');
+			else
+				Logger::debug($attributes['count'].' x '.$id, 'profile data');
 		}
 	}
 

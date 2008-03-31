@@ -142,14 +142,14 @@ if(!$text =& Cache::get($cache_id)) {
 	if($items = Servers::list_for_feed(0, COMPACT_LIST_SIZE, 'full')) {
 
 		// link to the index of server profiles
-		$text .= '<p>'.sprintf(i18n::s('To extend the list of feeders create adequate %s.'), Skin::build_link('servers/', i18n::s('server profiles'), 'shortcut'))."</p>\n";
+		$text .= '<p>'.sprintf(i18n::s('To extend the list of feeders add adequate %s.'), Skin::build_link('servers/', i18n::s('server profiles'), 'shortcut'))."</p>\n";
 
 		// list of profiles used as news feeders
 		$text .= Skin::build_list($items, 'decorated');
 
 	// no feeder defined
 	} else
-		$text .= sprintf(i18n::s('No feeder has been defined. If you need to create some external RSS %s.'), Skin::build_link('servers/edit.php', i18n::s('create an adequate server profile')));
+		$text .= sprintf(i18n::s('No feeder has been defined. If you need to integrate some external RSS %s.'), Skin::build_link('servers/edit.php', i18n::s('add a server profile')));
 
 	// get news from remote feeders
 	include_once 'feeds.php';
@@ -177,18 +177,23 @@ $context['extra'] .= Skin::build_box(i18n::s('Aggregate this site'), '<p>'.join(
 
 // an extra box with popular standard icons for newsfeeds
 $text = '';
-if(OPML_STANDARD_IMG)
-	$text .= Skin::build_link(Feeds::get_url('opml'), OPML_STANDARD_IMG, '').BR;
-if(ATOM_0_3_STANDARD_IMG)
-	$text .= Skin::build_link(Feeds::get_url('atom'), ATOM_0_3_STANDARD_IMG, '').BR;
-if(RSS_2_0_STANDARD_IMG)
-	$text .= Skin::build_link(Feeds::get_url('rss'), RSS_2_0_STANDARD_IMG, '').BR;
-if(RSS_1_0_STANDARD_IMG)
-	$text .= Skin::build_link('feeds/rss_1.0.php', RSS_1_0_STANDARD_IMG, '').BR;
-if(RSS_0_9_STANDARD_IMG)
-	$text .= Skin::build_link('feeds/rss_0.92.php', RSS_0_9_STANDARD_IMG, '').BR;
-if($text)
-	$context['extra'] .= Skin::build_box(i18n::s('Pick a feed'), '<p>'.$text.'</p>', 'extra');
+
+Skin::define_img('OPML_STANDARD_IMG', $context['skin'].'/icons/standards/opml.png');
+$text .= Skin::build_link(Feeds::get_url('opml'), OPML_STANDARD_IMG, '').BR;
+
+Skin::define_img('ATOM_0_3_STANDARD_IMG', $context['skin'].'/icons/standards/atom_0.3.png');
+$text .= Skin::build_link(Feeds::get_url('atom'), ATOM_0_3_STANDARD_IMG, '').BR;
+
+Skin::define_img('RSS_2_0_STANDARD_IMG', $context['skin'].'/icons/standards/rss_2.0.png');
+$text .= Skin::build_link(Feeds::get_url('rss'), RSS_2_0_STANDARD_IMG, '').BR;
+
+Skin::define_img('RSS_1_0_STANDARD_IMG', $context['skin'].'/icons/standards/rss_1.0.png');
+$text .= Skin::build_link('feeds/rss_1.0.php', RSS_1_0_STANDARD_IMG, '').BR;
+
+Skin::define_img('RSS_0_9_STANDARD_IMG', $context['skin'].'/icons/standards/rss_0.9.png');
+$text .= Skin::build_link('feeds/rss_0.92.php', RSS_0_9_STANDARD_IMG, '').BR;
+
+$context['extra'] .= Skin::build_box(i18n::s('Pick a feed'), '<p>'.$text.'</p>', 'extra');
 
 // referrals, if any
 $context['extra'] .= Skin::build_referrals('feeds/index.php');

@@ -139,7 +139,7 @@ case '404':
 		sprintf(i18n::s('Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the freshest pages and the most read pages on this site. This can be an efficient way for you to reach the information you are looking after.'), Skin::build_link('articles/', i18n::s('articles'), 'shortcut'), Skin::build_link('files/', i18n::s('files'), 'shortcut'), Skin::build_link('comments/', i18n::s('comments'), 'shortcut'), Skin::build_link('users/', i18n::s('users'), 'shortcut')), 'section');
 
 	// only in debug mode
-	if(!isset($context['with_debug']) || ($context['with_debug'] != 'Y'))
+	if($context['with_debug'] != 'Y')
 		;
 
 	// remember the error

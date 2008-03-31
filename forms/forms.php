@@ -250,8 +250,6 @@ Class Forms {
 		if(!isset($fields['active']) || !$fields['active'])
 			$fields['active'] = 'Y';
 
-//		logger::debug($fields, 'fields');
-
 		// update the existing record
 		if(isset($fields['id'])) {
 

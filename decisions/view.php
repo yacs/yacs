@@ -83,7 +83,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 
 // commands for associates and author, but not for editors
 if($item['id'] && (Surfer::is_associate() || Surfer::is_creator($item['create_id'])) )
-	$context['page_menu'] = array_merge($context['page_menu'], array( decisions::get_url($item['id'], 'edit') => i18n::s('Modify') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( decisions::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 
 // commands for associates
 if($item['id'] && Surfer::is_associate())

@@ -79,9 +79,9 @@ if($stats['count'])
 // navigation commands for articles, if necessary
 if($stats['count'] > $items_per_page) {
 	$home = 'articles/index.php';
-	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+	if($context['with_friendly_urls'] == 'Y')
 		$prefix = $home.'/';
-	elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+	elseif($context['with_friendly_urls'] == 'R')
 		$prefix = $home.'/';
 	else
 		$prefix = $home.'?page=';
@@ -124,7 +124,7 @@ if(!$text =& Cache::get($cache_id)) {
 	// query the database and layout that stuff
 	$offset = ($page - 1) * $items_per_page;
 	if(!$text = Articles::list_by_date($offset, $items_per_page, $layout))
-		$text = '<p>'.i18n::s('Be the first one to create a new page!').'</p>';
+		$text = '<p>'.i18n::s('Be the first one to add a page!').'</p>';
 
 	// we have an array to format
 	if(is_array($text))

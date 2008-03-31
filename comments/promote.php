@@ -123,7 +123,7 @@ if(!$item['id']) {
 
 	// make an article
 	if(!$id = Articles::post($fields))
-		Skin::error(i18n::s('Impossible to create a new item.'));
+		Skin::error(i18n::s('Impossible to add a page.'));
 
 	else {
 

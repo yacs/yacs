@@ -103,7 +103,7 @@ if(isset($item['id']) && isset($item['title']))
 if(isset($item['title']))
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
 else
-	$context['page_title'] = i18n::s('Create a section');
+	$context['page_title'] = i18n::s('Add a section');
 
 // command to go back
 if(isset($item['id']))
@@ -204,7 +204,7 @@ if(!$permitted) {
 		$section = Anchors::get('section:'.$id);
 
 		// reward the poster for new posts
-		$context['page_title'] = i18n::s('A new section has been successfully created');
+		$context['page_title'] = i18n::s('A section has been successfully added');
 
 		$context['text'] .= i18n::s('<p>Please review the new page carefully and fix possible errors rapidly.</p>');
 
@@ -219,7 +219,7 @@ if(!$permitted) {
 		if(preg_match('/\bwith_links\b/i', $section->item['options']))
 			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('section:'.$id) => i18n::s('Add a link')));
 		if(is_object($anchor) && Surfer::is_empowered())
-			$menu = array_merge($menu, array('sections/edit.php?anchor='.urlencode($anchor->get_reference()) => i18n::s('Create another section')));
+			$menu = array_merge($menu, array('sections/edit.php?anchor='.urlencode($anchor->get_reference()) => i18n::s('Add another section')));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// log the creation of a new section

@@ -130,7 +130,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 	// help associates to update this directory
 	if(Surfer::is_associate()) {
 
-		if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+		if($context['with_friendly_urls'] == 'Y')
 			$link = 'collections/upload.php/'.str_replace('//', '/', rawurlencode($item['collection']).'/'.$item['relative_url']);
 		else
 			$link = 'collections/upload.php?path='.urlencode(str_replace('//', '/', $item['collection'].'/'.$item['relative_path']));
@@ -214,7 +214,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 				foreach($directories_in_path as $node) {
 
 					// one line per folder
-					if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+					if($context['with_friendly_urls'] == 'Y')
 						$link = 'browse.php/'.str_replace('//', '/', rawurlencode($item['collection']).'/'.$item['relative_url'].'/'.rawurlencode($node));
 					else
 						$link = 'browse.php?path='.urlencode(str_replace('//', '/', $item['collection'].'/'.$item['relative_path'].'/'.$node));
@@ -233,7 +233,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 			if($with_audio) {
 
 				// use a friendly link if applicable
-				if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+				if($context['with_friendly_urls'] == 'Y')
 					$link = 'play_audio.php/'.str_replace('//', '/', rawurlencode($item['collection']).'/'.$item['relative_url']);
 				else
 					$link = 'play_audio.php?path='.urlencode(str_replace('//', '/', $item['collection'].'/'.$item['relative_path']));
@@ -251,7 +251,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 			if($with_slideshow) {
 
 				// use a friendly link if applicable
-				if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+				if($context['with_friendly_urls'] == 'Y')
 					$link = 'play_slideshow.php/'.str_replace('//', '/', rawurlencode($item['collection']).'/'.$item['relative_url']);
 				else
 					$link = 'play_slideshow.php?path='.urlencode(str_replace('//', '/', $item['collection'].'/'.$item['relative_path']));
@@ -347,7 +347,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 							$hover = i18n::s('Start a play-on-demand session');
 
 						// use a friendly link if applicable
-						if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+						if($context['with_friendly_urls'] == 'Y')
 							$target_url = 'stream.php/'.str_replace('//', '/', rawurlencode($item['collection']).'/'.$item['relative_url'].'/'.rawurlencode($node));
 						else
 							$target_url = 'stream.php?path='.urlencode(str_replace('//', '/', $item['collection'].'/'.$item['relative_path'].'/'.$node));
@@ -400,7 +400,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 							$hover = i18n::s('Start a video-on-demand session');
 
 						// use a friendly link if applicable
-						if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+						if($context['with_friendly_urls'] == 'Y')
 							$target_url = 'stream.php/'.str_replace('//', '/', rawurlencode($item['collection']).'/'.$item['relative_url'].'/'.rawurlencode($node));
 						else
 							$target_url = 'stream.php?path='.urlencode(str_replace('//', '/', $item['collection'].'/'.$item['relative_url'].'/'.$node));

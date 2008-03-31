@@ -341,7 +341,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$file = 'articles/view.php/'.$item['id'].'/files/1';
 			else
 				$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';

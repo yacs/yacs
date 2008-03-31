@@ -218,7 +218,7 @@ Class Files {
 			return NULL;
 
 		// profiling mode
-		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
+		if($context['with_profile'] == 'Y')
 			logger::profile('files::count_for_anchor');
 
 		// limit the scope of the request
@@ -558,6 +558,7 @@ Class Files {
 				'rar' => $files_icons_url.'zip_icon.gif',
 				'rmp' => $files_icons_url.'open_workbench_icon.gif',
 				'rpm' => $files_icons_url.'zip_icon.gif',
+				'rtf' => $files_icons_url.'word_icon.gif',
 				'shtml' => $files_icons_url.'html_icon.gif',
 				'snd' => $files_icons_url.'sound_icon.png', 		// audio/basic
 				'sql' => $files_icons_url.'text_icon.gif',
@@ -758,6 +759,7 @@ Class Files {
 				'ram' => 'audio/x-pn-realaudio',	// real audio
 				'rar' => 'application/rar',
 				'rmp' => 'application/download',	// open workbench
+				'rtf' => 'application/msword',
 				'shtml' => 'text/html',
 				'snd' => 'audio/basic',
 				'sql' => 'text/plain',
@@ -922,9 +924,9 @@ Class Files {
 
 		// get files in rss -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'feed') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'files/feed.php/'.str_replace(':', '/', $id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'files/feed.php/'.str_replace(':', '/', $id);
 			else
 				return 'files/feed.php?anchor='.urlencode($id);
@@ -1052,7 +1054,7 @@ Class Files {
 	 *
 	 */
 	function is_stream($name) {
-		return( Files::is_audio_stream($name) || Files::is_video_stream($name) || preg_match('/\.(mm|swf)$/i', $name));
+		return Files::is_audio_stream($name) || Files::is_video_stream($name) || preg_match('/\.(mm|swf)$/i', $name);
 	}
 
 	/**
@@ -1970,7 +1972,7 @@ Class Files {
 			return NULL;
 
 		// profiling mode
-		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
+		if($context['with_profile'] == 'Y')
 			logger::profile('files::stat_for_anchor');
 
 		// limit the scope of the request

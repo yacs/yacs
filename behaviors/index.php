@@ -52,7 +52,7 @@ $context['text'] .= '</ul>';
 
 // how to use behaviors
 if(Surfer::is_associate())
-	$context['text'] .= '<p>'.sprintf(i18n::s('For example, if you want to apply the behavior <code>foo</code>, go to the %s , and select a target section, or create a new one.'), Skin::build_link('sections/', i18n::s('site map'), 'shortcut')).'</p>'
+	$context['text'] .= '<p>'.sprintf(i18n::s('For example, if you want to apply the behavior <code>foo</code>, go to the %s , and select a target section, or add a new one.'), Skin::build_link('sections/', i18n::s('site map'), 'shortcut')).'</p>'
 		.'<p>'.i18n::s('In the form used to edit the section, type the keyword <code>foo</code> in the behavior field, then save changes.').'</p>';
 
 // referrals, if any

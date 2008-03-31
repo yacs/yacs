@@ -305,7 +305,7 @@ if(!$permitted) {
 
 					// post a new page
 					if(($item['capability'] == 'M') || ($item['capability'] == 'A')) {
-						$context['text'] .= '<ul><li>'.sprintf(i18n::s('%s, maybe with some images and/or files'), '<a href="'.$context['url_to_root'].'articles/edit.php">'.i18n::s('Post a new article').'</a>').'</li></ul>';
+						$context['text'] .= '<ul><li>'.sprintf(i18n::s('%s, maybe with some images and/or files'), '<a href="'.$context['url_to_root'].'articles/edit.php">'.i18n::s('Add a page').'</a>').'</li></ul>';
 					}
 
 					// edit profile

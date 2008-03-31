@@ -592,10 +592,8 @@ Class SQL {
 		global $context;
 
 		// profiling mode
-		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y')) {
+		if($context['with_profile'] == 'Y')
 			logger::profile('sql::query');
-			logger::profile('sql::query('.$query.')');
-		}
 
 		// allow for reference
 		$output = FALSE;
@@ -632,11 +630,19 @@ Class SQL {
 		// profile database requests
 		$query_stamp = get_micro_time();
 
+		// profiling mode
+		if($context['with_profile'] == 'Y')
+			logger::profile('sql::query('.$query.')', 'start');
+
 		// do the job
 		if(is_callable('mysqli_query'))
 			$result = mysqli_query($connection, $query);
 		else
 			$result = mysql_query($query, $connection);
+
+		// profiling mode
+		if($context['with_profile'] == 'Y')
+			logger::profile('sql::query('.$query.')', 'stop');
 
 		// finalize result
 		if($result) {
@@ -651,7 +657,7 @@ Class SQL {
 
 			// flag slow requests
 			$duration = (get_micro_time() - $query_stamp);
-			if(($duration >= 0.5) && isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+			if(($duration >= 0.5) && ($context['with_debug'] == 'Y'))
 				Logger::remember('shared/sql.php', 'SQL::query() slow request', $duration."\n\n".$query, 'debug');
 
 			// return the set of selected rows
@@ -670,7 +676,7 @@ Class SQL {
 			}
 
 			// log the error at development host
-			if(isset($context['with_debug']) && ($context['with_debug'] == 'Y')) {
+			if($context['with_debug'] == 'Y') {
 				Logger::remember('shared/sql.php', 'SQL::query()', SQL::error($connection)."\n\n".$query, 'debug');
 			}
 
@@ -819,7 +825,7 @@ Class SQL {
 			$tables = array();
 			$query = 'SHOW TABLES';
 			if(!$rows = SQL::query($query))
-				return('<p>'.SQL::error().'</p>');
+				return '<p>'.SQL::error().'</p>';
 			while($row =& SQL::fetch_row($rows))
 				$tables[] = $row[0];
 			SQL::free($rows);

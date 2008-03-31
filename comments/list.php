@@ -198,9 +198,6 @@ if(!is_object($anchor)) {
 
 		}
 
-		// don't display anchor of these comments
-		$layout->set_variant('no_anchor');
-
 		// the maximum number of comments per page
 		if(is_object($layout))
 			$items_per_page = $layout->items_per_page();
@@ -243,6 +240,7 @@ if(!is_object($anchor)) {
 
 		// the command to post a new comment, if this is allowed
 		if(Comments::are_allowed($anchor)) {
+			Skin::define_img('NEW_COMMENT_IMG', $context['skin'].'/icons/comments/new.gif');
 			$box['bar'] = array_merge($box['bar'],
 				array( Comments::get_url($anchor->get_reference(), 'comment') => NEW_COMMENT_IMG.' '.$anchor->get_label('comments', 'new_command') ));
 		}

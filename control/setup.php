@@ -272,7 +272,7 @@ function send_body() {
 		// in the middle of an update
 		if(file_exists('../parameters/switch.off')) {
 			echo '<form method="get" action="../scripts/run_once.php">'."\n"
-				.'<p>'.Skin::build_submit_button(i18n::s('Run one-time scripts and go to the Control Panel')).'</p>'."\n"
+				.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Run one-time scripts and go to the Control Panel')).'</p>'."\n"
 				.'</form>'."\n";
 
 			// this may take several minutes
@@ -281,7 +281,7 @@ function send_body() {
 		// populate the database on first installation
 		} elseif(!file_exists('../parameters/switch.on')) {
 			echo '<form method="get" action="populate.php">'."\n"
-				.'<p>'.Skin::build_submit_button(i18n::s('Initialize the database')).'</p>'."\n"
+				.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Initialize the database')).'</p>'."\n"
 				.'</form>'."\n";
 
 		// or back to the control panel

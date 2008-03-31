@@ -105,7 +105,11 @@ Class Layout_comments_as_boxesandarrows extends Layout_interface {
 
 			// the reply and quote commands are offered, providing new comments are allowed
 			if(Comments::are_allowed($anchor)) {
+
+				Skin::define_img('NEW_COMMENT_IMG', $context['skin'].'/icons/comments/new.gif');
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'reply') => NEW_COMMENT_IMG.i18n::s('reply') ));
+
+				Skin::define_img('QUOTE_COMMENT_IMG', $context['skin'].'/icons/comments/quote.gif');
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'quote') => QUOTE_COMMENT_IMG.i18n::s('quote') ));
 			}
 

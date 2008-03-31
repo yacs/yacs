@@ -138,13 +138,13 @@ class Scripts {
 		// read the original file
 		$stat = Safe::stat($context['path_to_root'].$original);
 		if(!is_array($stat))
-			return(sprintf(i18n::s('Error: Impossible to read the script %s'), $original));
+			return sprintf(i18n::s('Error: Impossible to read the script %s'), $original);
 		$original_lines = Safe::file($context['path_to_root'].$original);
 
 		// read the updated file
 		$stat = Safe::stat($context['path_to_root'].$updated);
 		if(!is_array($stat))
-			return(sprintf(i18n::s('Error: Impossible to read the script %s'), $updated));
+			return sprintf(i18n::s('Error: Impossible to read the script %s'), $updated);
 		$updated_lines = Safe::file($context['path_to_root'].$updated);
 
 		// compare the two sequences
@@ -176,14 +176,14 @@ class Scripts {
 		// read the original file
 		$stat = Safe::stat($context['path_to_root'].$original);
 		if(!is_array($stat))
-			return(sprintf(i18n::s('Error: Impossible to read the script %s'), $original));
+			return sprintf(i18n::s('Error: Impossible to read the script %s'), $original);
 		$text = '--- '.$original."\t".str_replace('&nbsp;', ' ', Skin::build_date($stat[9]))."\n";
 		$original_lines = Safe::file($context['path_to_root'].$original);
 
 		// read the updated file
 		$stat = Safe::stat($context['path_to_root'].$updated);
 		if(!is_array($stat))
-			return(sprintf(i18n::s('Error: Impossible to read the script %s'), $updated));
+			return sprintf(i18n::s('Error: Impossible to read the script %s'), $updated);
 		$text .= '+++ '.$updated."\t".str_replace('&nbsp;', ' ', Skin::build_date($stat[9]))."\n";
 		$updated_lines = Safe::file($context['path_to_root'].$updated);
 
@@ -273,7 +273,7 @@ class Scripts {
 			$action = 'view';
 
 		// be cool with search engines
-		if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+		if($context['with_friendly_urls'] == 'Y')
 			return 'scripts/'.$action.'.php/'.$id;
 		else
 			return 'scripts/'.$action.'.php?script='.$id;
@@ -567,7 +567,7 @@ class Scripts {
 		}
 
 		// return the result of the whole comparison
-		return($text);
+		return $text;
 	}
 
 	/**

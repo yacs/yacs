@@ -67,9 +67,9 @@ if($stats['count'])
 // navigation commands for servers, if necessary
 if($stats['count'] > SERVERS_PER_PAGE) {
 	$home = 'servers/index.php';
-	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+	if($context['with_friendly_urls'] == 'Y')
 		$prefix = $home.'/';
-	elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+	elseif($context['with_friendly_urls'] == 'R')
 		$prefix = $home.'/';
 	else
 		$prefix = $home.'?page=';

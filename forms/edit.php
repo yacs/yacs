@@ -244,12 +244,13 @@ if(!Surfer::is_logged()) {
 if($with_form) {
 
 	// the form to edit an form
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="$(\'content\').value = Forms.toJSON(\'form_panel\'); return validateDocumentPost(this)" id="main_form"><div>';
+	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="$(\'content\').value = Forms.toJSON(\'form_panel\'); return validateDocumentPost(this)" id="main_form"><div>';
 
 	// this form has several panels
 	$panels = array();
 	$panels['information'] = '';
 	$panels['content'] = '';
+	$panels['processing'] = '';
 	$fields = array();
 
 	// the information panel
@@ -283,15 +284,42 @@ if($with_form) {
 
 	// additional options for this post
 	$label = i18n::s('Post processing');
-
-	// validate page content
 	$input = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').BR;
-
 	$fields[] = array($label, $input, '');
 
 	// we are now entering extended content
 	$panels['information'] .= Skin::build_form($fields);
 	$fields = array();
+
+	// the content panel
+	//
+
+	// the place to build the form interactively
+	$panels['content'] .= '<div id="form_wrapper">'."\n";
+
+	// where we display form fields for the end user
+	$panels['content'] .= '<div id="form_panel">'.'</div>'."\n";
+
+	// user commands
+	$menu = array();
+
+	// add items
+	$menu[] = '<a href="#" onclick="javascript:Forms.appendLabel();return false;"><span>'.i18n::s('Add some text').'</span></a>';
+	$menu[] = '<a href="#" onclick="javascript:Forms.appendTextInput();return false;"><span>'.i18n::s('Add a string input field').'</span></a>';
+	$menu[] = '<a href="#" onclick="javascript:Forms.appendListInput();return false;"><span>'.i18n::s('Add a selection input field').'</span></a>';
+	$menu[] = '<a href="#" onclick="javascript:Forms.appendFileInput();return false;"><span>'.i18n::s('Enable file upload').'</span></a>';
+
+	// display all commands
+	$panels['content'] .= '<div id="form_input_panel">'.i18n::s('Use links below to append new fields.').Skin::finalize_list($menu, 'menu_bar')."</div>\n";
+
+	// end of the wrapper
+	$panels['content'] .= '</div>'."\n";
+
+	// the place to serialize the form
+	$panels['content'] .= '<input type="hidden" name="content" id="content" />'."\n";
+
+	// the processing panel
+	//
 
 	// the nick name
 	$label = i18n::s('Nick name');
@@ -325,47 +353,24 @@ if($with_form) {
 
 	$fields[] = array($label, $input);
 
-	// finalize this panel
-	$panels['information'] .= Skin::build_box(i18n::s('Advanced options'), Skin::build_form($fields), 'folder');
-	$fields = array();
-
-	// the content panel
-	//
-
-	// the place to build the form interactively
-	$panels['content'] .= '<div id="form_wrapper">'."\n";
-
-	// where we display form fields for the end user
-	$panels['content'] .= '<div id="form_panel">'.'</div>'."\n";
-
-	// user commands
-	$menu = array();
-
-	// add items
-	$menu[] = '<a href="#" onclick="javascript:Forms.appendLabel();return false;"><span>'.i18n::s('Add some text').'</span></a>';
-	$menu[] = '<a href="#" onclick="javascript:Forms.appendTextInput();return false;"><span>'.i18n::s('Add a string input field').'</span></a>';
-	$menu[] = '<a href="#" onclick="javascript:Forms.appendListInput();return false;"><span>'.i18n::s('Add a selection input field').'</span></a>';
-
-	// display all commands
-	$panels['content'] .= '<div id="form_input_panel">'.Skin::finalize_list($menu, 'menu_bar')."</div>\n";
-
-	// end of the wrapper
-	$panels['content'] .= '</div>'."\n";
-
 	// the target section
-	if(isset($item['anchor']) || isset($_REQUEST['anchor']))
-		$panels['content'] .= '<hr><p>'.i18n::s('Select below the section to capture this form').BR
-			.'<select name="anchor">'.Sections::get_options($item['anchor'] ? $item['anchor'] : $_REQUEST['anchor']).'</select>'
-			.'</p>'."\n";
+	if(isset($item['anchor']) || isset($_REQUEST['anchor'])) {
+		$label = i18n::s('Capture');
+		$input = i18n::s('Select below the section to capture this form').BR
+			.'<select name="anchor">'.Sections::get_options($item['anchor'] ? $item['anchor'] : $_REQUEST['anchor']).'</select>';
+		$fields[] = array($label, $input);
+	}
 
-	// the place to serialize the form
-	$panels['content'] .= '<input type="hidden" name="content" id="content" />'."\n";
+	// finalize this panel
+	$panels['processing'] .= Skin::build_form($fields);
+	$fields = array();
 
 	// show all tabs
 	//
 	$all_tabs = array(
 		array('information_tab', i18n::s('Information'), 'information_panel', $panels['information']),
-		array('content_tab', i18n::s('Content'), 'content_panel', $panels['content'])
+		array('content_tab', i18n::s('Content'), 'content_panel', $panels['content']),
+		array('processing_tab', i18n::s('Processing'), 'processing_panel', $panels['processing'])
 		);
 
 	// let YACS do the hard job
@@ -434,7 +439,7 @@ if($with_form) {
 
 }
 
-// render the skin
-render_skin();
+// render the skin -- don't use HTTP cache, because of AJAX updates of the form panel
+render_skin(-1);
 
 ?>

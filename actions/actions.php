@@ -396,9 +396,9 @@ Class Actions {
 
 		// the prefix for navigation links --name references the things to page
 		if($action == 'navigate') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'actions/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'actions/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
 			else
 				return 'actions/view.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';

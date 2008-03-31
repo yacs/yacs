@@ -176,10 +176,11 @@ Class Layout_articles_as_jive extends Layout_interface {
 //			// the command to watch this topic
 //			if(Surfer::get_id() && ($item['create_id'] != Surfer::get_id()) && ($item['publish_id'] != Surfer::get_id())) {
 //				if(!Members::check('article:'.$item['id'], 'user:'.Surfer::get_id())) {
-//					if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+//					if($context['with_friendly_urls'] == 'Y')
 //						$link = 'users/track.php/article/'.$item['id'];
 //					else
 //						$link = 'users/track.php?article='.$item['id'];
+//					Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
 //					$content .= ' '.WATCH_TOOL_IMG.sprintf(i18n::s('%s this topic'), Skin::build_link($link, i18n::s('Watch')))."\n";
 //				}
 //			}

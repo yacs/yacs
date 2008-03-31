@@ -278,8 +278,8 @@ Class Codes {
 			return $text;
 
 		// profiling mode
-		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
-			logger::profile('codes::beautify');
+		if($context['with_profile'] == 'Y')
+			logger::profile('codes::beautify', 'start');
 
 		//
 		// looking for compact content
@@ -324,7 +324,8 @@ Class Codes {
 		$text =& Codes::render($text);
 
 		// render smileys after codes, else it will break escaped strings
-		$text =& Smileys::render_smileys($text);
+		if(is_callable(array('Smileys', 'render_smileys')))
+			$text =& Smileys::render_smileys($text);
 
 		// relocate images
 		$text = str_replace('"skins/', '"'.$context['path_to_root'].'skins/', $text);
@@ -340,6 +341,10 @@ Class Codes {
 		// implicit formatting
 		elseif($new_lines == 'proceed')
 			$text =& Codes::beautify_implied($text, 'newlines');
+
+		// profiling mode
+		if($context['with_profile'] == 'Y')
+			logger::profile('codes::beautify', 'stop');
 
 		return $text;
 	}
@@ -533,15 +538,14 @@ Class Codes {
 	 */
 	function &beautify_title($text) {
 
-		// the only code accepted in titles
+		// the only code transformed in titles
 		$output = str_replace(array('[nl]', '[NL]'), '<br />', $text);
 
 		// suppress pairing codes
 		$output = preg_replace('/\[(.+?)\](.+?)\[\/(.+?)\]/s', '\\2', $output);
 
-
-		// remove everything, except links, breaks and images
-		$output = strip_tags($output, '<a><br><img>');
+		// remove everything, except links, breaks and images, and selected tags
+		$output = strip_tags($output, '<a><abbr><acronym><b><big><br><code><del><dfn><em><i><img><ins><q><small><span><strong><sub><sup><tt><u>');
 
 		// return by reference
 		return $output;
@@ -633,7 +637,7 @@ Class Codes {
 				'/\[csv\](.*?)\[\/csv\]/ise',			// [csv]...[/csv] (before [table])
 				'/\[table=([^\]]+?)\](.*?)\[\/table\]/ise', // [table=variant]...[/table]
 				'/\[table\](.*?)\[\/table\]/ise',		// [table]...[/table]
-				'/(\W|\A)##(\S.*?)##(\W|\Z)/is',		// ##...##
+				'/( |\A)##(\S.*?)##( |\Z)/is',		// ##...##
 				'/\[code\](.*?)\[\/code\]/is',			// [code]...[/code]
 				'/\[indent\](.*?)\[\/indent\]/ise', 	// [indent]...[/indent]
 				'/\[quote\](.*?)\[\/quote\]/ise',		// [quote]...[/quote]
@@ -662,17 +666,17 @@ Class Codes {
 				'/\[huge\](.*?)\[\/huge\]/ise', 		// [huge]...[/huge]
 				'/\[subscript\](.*?)\[\/subscript\]/is',// [subscript]...[/subscript]
 				'/\[superscript\](.*?)\[\/superscript\]/is',// [superscript]...[/superscript]
-				'/(\W|\A)\+\+(\S.*?)\+\+(\W|\Z)/is',	// ++...++
+				'/( |\A)\+\+(\S.*?)\+\+( |\Z)/is',	// ++...++
 				'/\[(---+|___+)\]\s*/ise',				// [---], [___] --- before inserted
 				'/^-----*/me',							// ----
 				'/\[inserted\](.*?)\[\/inserted\]/is',	// [inserted]...[/inserted]
-				'/(\W|\A)--(\w.*?)--(\W|\Z)/ise',		// --...--
+				'/( |\A)--(\w.*?)--( |\Z)/ise',		// --...--
 				'/\[deleted\](.*?)\[\/deleted\]/is',	// [deleted]...[/deleted]
-				'/(\W|\A)\*\*(\S.*?)\*\*(\W|\Z)/is',	// **...**
+				'/( |\A)\*\*(\S.*?)\*\*( |\Z)/is',	// **...**
 				'/\[b\](.*?)\[\/b\]/is',				// [b]...[/b]
-				'/(\W|\A)\/\/(\S.*?)\/\/(\W|\Z)/is',	// //...//
+				'/( |\A)\/\/(\S.*?)\/\/( |\Z)/is',	// //...//
 				'/\[i\](.*?)\[\/i\]/is',				// [i]...[/i]
-				'/(\W|\A)__(\S.*?)__(\W|\Z)/is',		// __...__
+				'/( |\A)__(\S.*?)__( |\Z)/is',		// __...__
 				'/\[u\](.*?)\[\/u\]/is',				// [u]...[/u]
 				'/\[color=([^\]]+?)\](.*?)\[\/color\]/is',	// [color=<color>]...[/color]
 				'/\[new\]/ie',							// [new]
@@ -1018,7 +1022,7 @@ Class Codes {
 				$title = RESTRICTED_FLAG.$title;
 
 			// link to collection index page
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$link = 'collections/browse.php/'.rawurlencode($name);
 			else
 				$link = 'collections/browse.php?path='.urlencode($name);
@@ -1733,7 +1737,7 @@ Class Codes {
 				$text = sprintf(i18n::s('action %s'), $id);
 
 			// make a link to the target page
-			$url =& Actions::get_url($id);
+			$url = Actions::get_url($id);
 
 			// return a complete anchor
 			$output =& Skin::build_link($url, $text, $type);
@@ -2013,9 +2017,9 @@ Class Codes {
 				$text = $name;
 
 			// be cool with search engines
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			if($context['with_friendly_urls'] == 'R')
 				$url = 'go/'.rawurlencode($name);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			elseif($context['with_friendly_urls'] == 'Y')
 				$url = 'go.php/'.rawurlencode($name);
 			else
 				$url = 'go.php?id='.urlencode($name);

@@ -473,9 +473,9 @@ Class Dates {
 
 		// get a one-year calendar -- id is the target year (e.g., '1999')
 		if($action == 'year') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'dates/year.php/'.rawurlencode($id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'dates/year.php/'.rawurlencode($id);
 			else
 				return 'dates/year.php?year='.urlencode($id);
@@ -496,9 +496,9 @@ Class Dates {
 			$id = str_replace('-', '/', $id);
 
 
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'dates/month.php/'.$id;
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'dates/month.php/'.$id;
 			else
 				return 'dates/month.php?month='.urlencode($id);
@@ -518,9 +518,9 @@ Class Dates {
 			// normalize separator
 			$id = str_replace('-', '/', $id);
 
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'dates/day.php/'.$id;
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'dates/day.php/'.$id;
 			else
 				return 'dates/day.php?day='.urlencode($id);

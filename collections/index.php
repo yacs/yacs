@@ -73,7 +73,7 @@ if(isset($context['collections']) && is_array($context['collections'])) {
 		elseif($visibility == 'R')
 			$title = RESTRICTED_FLAG.$title;
 
-		if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+		if($context['with_friendly_urls'] == 'Y')
 			$link = 'collections/browse.php/'.rawurlencode($name);
 		else
 			$link = 'collections/browse.php?path='.urlencode($name);

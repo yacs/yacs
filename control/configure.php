@@ -431,11 +431,11 @@ if(!Surfer::is_associate()) {
 	// debug
 	$label = i18n::s('Verbosity');
 	$input = '<input type="radio" name="with_debug" value="N"';
-	if(!isset($context['with_debug']) || ($context['with_debug'] != 'Y'))
+	if($context['with_debug'] != 'Y')
 		$input .= ' checked="checked"';
 	$input .= EOT.' '.i18n::s('Verbosity should be kept to a minimum (normal operation).');
 	$input .= BR.'<input type="radio" name="with_debug" value="Y"';
-	if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+	if($context['with_debug'] == 'Y')
 		$input .= ' checked="checked"';
 	$input .= EOT.' '.i18n::s('Provide as much information as possible (development server).');
 	$fields[] = array($label, $input);
@@ -459,16 +459,16 @@ if(!Surfer::is_associate()) {
 		// friendly urls
 		$label = i18n::s('URL generation');
 		$input = '<input type="radio" name="with_friendly_urls" value="N"';
-		if(!isset($context['with_friendly_urls']) || ($context['with_friendly_urls'] != 'Y'))
+		if($context['with_friendly_urls'] != 'Y')
 			$input .= ' checked="checked"';
 		$input .= EOT.' '.i18n::s('This system does not support the mapping of args in the URL.').' (<code>articles/view.php?id=123</code>)';
 		$input .= BR.'<input type="radio" name="with_friendly_urls" value="Y"';
-		if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+		if($context['with_friendly_urls'] == 'Y')
 			$input .= ' checked="checked"';
 		$input .= EOT.' '.i18n::s('Help search engines to index more pages.').' (<code>articles/view.php/123</code>)'
 			.' ('.Skin::build_link('control/test.php/123/456', i18n::s('test link'), 'external').')';
 		$input .= BR.'<input type="radio" name="with_friendly_urls" value="R"';
-		if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+		if($context['with_friendly_urls'] == 'R')
 			$input .= ' checked="checked"';
 		$input .= EOT.' '.i18n::s('Rewriting rules have been activated (in <code>.htaccess</code>) to support pretty references.').' (<code>article-123</code>)'
 			.' ('.Skin::build_link('rewrite_test/123', i18n::s('test link'), 'external').')';
@@ -888,7 +888,7 @@ if(!Surfer::is_associate()) {
 
 		// look for software extensions
 		$context['text'] .= '<form method="get" action="scan.php" id="main_form">'."\n"
-			.'<p>'.Skin::build_submit_button(i18n::s('Look for software extensions'), NULL, 's', 'confirmed').'</p>'."\n"
+			.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Look for software extensions'), NULL, 's', 'confirmed').'</p>'."\n"
 			.'</form>'."\n";
 
 		// this may take several minutes
@@ -902,7 +902,7 @@ if(!Surfer::is_associate()) {
 			$context['followup_label'] = i18n::s('Next step');
 
 		$context['text'] .= '<form method="get" action="'.$context['url_to_root'].$context['followup_link'].'" id="main_form">'."\n"
-			.'<p>'.Skin::build_submit_button($context['followup_label']).'</p>'."\n"
+			.'<p class="assistant_bar">'.Skin::build_submit_button($context['followup_label']).'</p>'."\n"
 			.'</form>'."\n";
 
 	// ordinary follow-up commands

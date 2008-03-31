@@ -231,7 +231,7 @@ if(is_object($overlay) && ($label = $overlay->get_label('page_title', isset($ite
 elseif(isset($item['title']) && $item['title'])
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
 else
-	$context['page_title'] = i18n::s('Post a new page');
+	$context['page_title'] = i18n::s('Add a page');
 
 // command to go back
 if(isset($item['id']))
@@ -588,7 +588,7 @@ if(!$permitted) {
 		if(Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y'))
 			$menu = array_merge($menu, array(Articles::get_url($id, 'mail') => i18n::s('Invite people to review and to contribute')));
 		if(is_object($anchor) && Surfer::is_empowered())
-			$menu = array_merge($menu, array('articles/edit.php?anchor='.urlencode($anchor->get_reference()) => i18n::s('Create another page')));
+			$menu = array_merge($menu, array('articles/edit.php?anchor='.urlencode($anchor->get_reference()) => i18n::s('Add another page')));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// log the creation of a new page

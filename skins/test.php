@@ -67,11 +67,11 @@ define('COMPACT_LIST', Skin::build_list($items, 'compact'));
 // alphabetical order
 
 // $context['debug'] - for debugging purpose
-if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+if($context['with_debug'] == 'Y')
 	$context['debug'][] = sprintf(i18n::s('debug data, put into %s'), '$context[\'debug\']');
 
 // // $context['error'] - to report run time errors
-if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+if($context['with_debug'] == 'Y')
 	Skin::error(sprintf(i18n::s('error data, put into %s'), '$context[\'error\']'));
 
 // $context['navigation'] - navigation boxes
@@ -182,8 +182,8 @@ $context['prefix'] .= '</select> '.Skin::build_submit_button(' &raquo; ').'</p><
 // $context['prefix'] - some prefix data
 $context['prefix'] .= '<p>'.sprintf(i18n::s('Use this page while developing or checking a skin, then activate the skin and move to %s to finalize your work.'), Skin::build_link('codes/', i18n::s('help pages on YACS codes'), 'shortcut')).'</p>';
 
-// // $context['suffix'] - some suffix data
-if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+// $context['suffix'] - some suffix data
+if($context['with_debug'] == 'Y')
 	$context['suffix'] = sprintf(i18n::s('suffix data, put into %s'), '$context[\'suffix\']');
 
 // will be derivated to $context['text'] after codes::beautify()

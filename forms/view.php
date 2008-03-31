@@ -16,6 +16,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../files/files.php';	// for attached files
 
 // look for the id
 $id = NULL;
@@ -62,12 +63,6 @@ $context['path_bar'] = array( 'forms/' => i18n::s('Forms') );
 // the title of the page
 if($item['title'])
 	$context['page_title'] = $item['title'];
-
-// commands for associates
-if(Surfer::is_associate()) {
-	$context['page_menu'] = array_merge($context['page_menu'], array( Forms::get_url($id, 'edit') => i18n::s('Edit') ));
-	$context['page_menu'] = array_merge($context['page_menu'], array( Forms::get_url($id, 'delete') => i18n::s('Delete') ));
-}
 
 // no form yet
 $with_form = FALSE;
@@ -131,6 +126,30 @@ if(!isset($item['id'])) {
 
 			switch($field['class']) {
 
+			// reflect captured text
+			case 'file':
+				if(isset($_FILES[$field['name']]['name']) && $_FILES[$field['name']]['name']) {
+
+					// $_FILES transcoding to utf8 is not automatic
+					$_FILES[$field['name']]['name'] = utf8::to_unicode($_FILES[$field['name']]['name']);
+
+					// enhance file name
+					$file_name = $_FILES[$field['name']]['name'];
+					$file_extension = '';
+					$position = strrpos($_FILES[$field['name']]['name'], '.');
+					if($position !== FALSE) {
+						$file_name = substr($_FILES[$field['name']]['name'], 0, $position);
+						$file_extension = strtolower(substr($_FILES[$field['name']]['name'], $position+1));
+					}
+					$_FILES[$field['name']]['name'] = str_replace(array('.', '_', '%20'), ' ', $file_name);
+					if($file_extension)
+						$_FILES[$field['name']]['name'] .= '.'.$file_extension;
+
+					// to be replaced with actual file reference
+					$text .= '<p>[file='.$field['name'].', '.$_FILES[$field['name']]['name'].'] ('.$field['name'].')'."</p>\n";
+				}
+				break;
+
 			// reflect titles in the generated page
 			case 'label':
 				if(isset($field['type']) && ($field['type'] == 'title'))
@@ -153,23 +172,25 @@ if(!isset($item['id'])) {
 				}
 
 				// display selected option
-				if($field['type'] == "check")
-					$text .= '<ul>'."\n";
-				else
-					$text .= '<p>';
-				foreach($options as $option) {
-					$checked = '';
-					if((is_array($_REQUEST[$field['name']]) && in_array($option[0], $_REQUEST[$field['name']])) || ($option[0] == $_REQUEST[$field['name']])) {
-						if($field['type'] == "check")
-							$text .= '<li>'.$option[1].' ('.$option[0].', '.$field['name'].')'."</li>\n";
-						else
-							$text .= $option[1].' ('.$option[0].', '.$field['name'].')';
+				if(isset($_REQUEST[$field['name']])) {
+					if($field['type'] == "check")
+						$text .= '<ul>'."\n";
+					else
+						$text .= '<p>';
+					foreach($options as $option) {
+						$checked = '';
+						if((is_array($_REQUEST[$field['name']]) && in_array($option[0], $_REQUEST[$field['name']])) || ($option[0] == $_REQUEST[$field['name']])) {
+							if($field['type'] == "check")
+								$text .= '<li>'.$option[1].' ('.$option[0].', '.$field['name'].')'."</li>\n";
+							else
+								$text .= $option[1].' ('.$option[0].', '.$field['name'].')';
+						}
 					}
+					if($field['type'] == "check")
+						$text .= '</ul>'."\n";
+					else
+						$text .= '</p>'."\n";
 				}
-				if($field['type'] == "check")
-					$text .= '</ul>'."\n";
-				else
-					$text .= '</p>'."\n";
 
 				break;
 
@@ -211,6 +232,76 @@ if(!isset($item['id'])) {
 
 		// touch the related anchor
 		$anchor->touch('article:create', $id, isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+		// attach files to this page, if any
+		if(is_array($_FILES) && Surfer::may_upload()) {
+
+			// look for files in fields
+			foreach($fields as $field) {
+				if(isset($field['class']) && ($field['class'] == 'file') && isset($_FILES[$field['name']]['name']) && $_FILES[$field['name']]['name']) {
+
+					// ensure we have a file name
+					$file_name = utf8::to_ascii($_FILES[$field['name']]['name']);
+
+					// create folders
+					$file_path = 'files/'.$context['virtual_path'].'article/'.$id;
+					Safe::make_path($file_path);
+
+					// make an absolute path
+					$file_path = $context['path_to_root'].$file_path.'/';
+
+					// size exceeds php.ini settings -- UPLOAD_ERR_INI_SIZE
+					if(isset($_FILES[$field['name']]['error']) && ($_FILES[$field['name']]['error'] == 1))
+						Skin::error(i18n::s('The size of this file is over server limit (php.ini).'));
+
+					// size exceeds form limit -- UPLOAD_ERR_FORM_SIZE
+					elseif(isset($_FILES[$field['name']]['error']) && ($_FILES[$field['name']]['error'] == 2))
+						Skin::error(i18n::s('The size of this file is over form limit.'));
+
+					// partial transfer -- UPLOAD_ERR_PARTIAL
+					elseif(isset($_FILES[$field['name']]['error']) && ($_FILES[$field['name']]['error'] == 3))
+						Skin::error(i18n::s('File transfer has been interrupted.'));
+
+					// no file -- UPLOAD_ERR_NO_FILE
+					elseif(isset($_FILES[$field['name']]['error']) && ($_FILES[$field['name']]['error'] == 4))
+						Skin::error(i18n::s('No file has been transferred.'));
+
+					// zero bytes transmitted
+					elseif(!$_FILES[$field['name']]['size'])
+						Skin::error(sprintf(i18n::s('It is likely file size goes beyond the limit displayed in upload form. Nothing has been transmitted for %s.'), $_FILES[$field['name']]['name']));
+
+					// check provided upload name
+					elseif(!Safe::is_uploaded_file($_FILES[$field['name']]['tmp_name']))
+						Skin::error(i18n::s('Possible file attack.'));
+
+					// move the uploaded file
+					elseif(!Safe::move_uploaded_file($_FILES[$field['name']]['tmp_name'], $file_path.$file_name))
+						Skin::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
+
+					// this will be filtered by umask anyway
+					else {
+						Safe::chmod($file_path.$file_name, $context['file_mask']);
+
+						// record one file entry
+						$item = array();
+						$item['anchor'] = 'article:'.$id;
+						$item['file_name'] = $file_name;
+						$item['file_size'] = $_FILES[$field['name']]['size'];
+						$item['file_href'] = '';
+
+						//
+						if($attached = Files::post($item))
+							$_REQUEST['description'] = str_replace('[file='.$field['name'], '[file='.$attached, $_REQUEST['description']);
+
+					}
+
+				}
+			}
+
+			// update references in new page
+			Articles::put($_REQUEST);
+
+		}
 
 		// if poster is a registered user
 		if(Surfer::get_id()) {
@@ -278,8 +369,8 @@ if($with_form) {
 			$details = array();
 
 			// the nick name
-			if($item['host_name'])
-				$details[] = '"'.$item['host_name'].'"';
+			if($item['nick_name'])
+				$details[] = '"'.$item['nick_name'].'"';
 
 			// information on last update
 			if($item['edit_name'])
@@ -304,7 +395,7 @@ if($with_form) {
 			$text .= '<p>'.Codes::beautify($item['description'])."</p>\n";
 
 		// the form
-		$text .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+		$text .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 		// form fields
 		$fields = array();
@@ -360,6 +451,12 @@ if($with_form) {
 
 				switch($field['class']) {
 
+				// upload a file
+				case 'file':
+					if(Surfer::may_upload())
+						$text .= '<input type="file" name="'.encode_field($field['name']).'" size="45" maxlength="255" />';
+					break;
+
 				// insert a field to get some text
 				case 'label':
 					if(isset($field['type']) && ($field['type'] == 'title'))
@@ -409,10 +506,14 @@ if($with_form) {
 		}
 
 		// bottom commands
-		$text .= Skin::finalize_list(array(
-			Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's'),
-			Skin::build_link('forms/', 'Cancel', 'span')
-			), 'menu_bar');
+		$menu = array();
+		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+		if(Surfer::is_associate()) {
+			$menu[] = Skin::build_link(Forms::get_url($id, 'edit'), i18n::s('Edit'), 'span');
+			$menu[] = Skin::build_link(Forms::get_url($id, 'delete'), i18n::s('Delete'), 'span');
+		}
+		$menu[] = Skin::build_link('forms/', i18n::s('Cancel'), 'span');
+		$text .= Skin::finalize_list($menu, 'assistant_bar');
 
 		// end of the form
 		$text .= '</div></form>';

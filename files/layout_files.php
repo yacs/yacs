@@ -59,12 +59,13 @@ Class Layout_files extends Layout_interface {
 			if(isset($item['description']) && trim($item['description']))
 				$url = Files::get_url($item['id'], 'view', $item['file_name']);
 
-			// download the file directly
-			elseif(Files::is_stream($item['file_name'])) {
+			// else stream the file, except for mp3, which benefit from the dewplayer
+			elseif(Files::is_stream($item['file_name']) && !(preg_match('/\.mp3$/i', $item['file_name']) && file_exists($context['path_to_root'].'included/browser/dewplayer.swf')))
 				$url = Files::get_url($item['id'], 'stream', $item['file_name']);
-			} else {
+
+			// else download the file
+			else
 				$url = Files::get_url($item['id'], 'fetch', $item['file_name']);
-			}
 
 			// reset the rendering engine between items
 			if(is_callable(array('Codes', 'initialize')))

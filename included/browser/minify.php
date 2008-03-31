@@ -37,18 +37,18 @@ include_once '../../shared/global.php';
 
 // get content from the cache, if possible
 $hash = Cache::hash('included/browser/minify.js');
-if(!$text =& Safe::file_get_contents($hash)) {
+if(!$text = Safe::file_get_contents($hash)) {
 
 	// the returned string
 	$text = '';
 
 	// prototype
-	if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+	if($context['with_debug'] == 'Y')
 		Logger::remember('included/browser/minify.php', 'prototype.js', '', 'debug');
 	$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/prototype.js')."\n";
 
 	// effects
-	if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+	if($context['with_debug'] == 'Y')
 		Logger::remember('included/browser/minify.php', 'effects.js', '', 'debug');
 	$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/effects.js')."\n";
 
@@ -67,7 +67,7 @@ if(!$text =& Safe::file_get_contents($hash)) {
 	foreach(Safe::glob('*.js') as $name) {
 		if(in_array($name, $to_avoid))
 			continue;
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		if($context['with_debug'] == 'Y')
 			Logger::remember('included/browser/minify.php', $name, '', 'debug');
 		$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/'.$name)."\n";
 	}

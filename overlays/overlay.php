@@ -170,7 +170,7 @@ class Overlay {
 		}
 
 		// houston, we've got a problem -- Skin::error() is buggy here
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		if($context['with_debug'] == 'Y')
 			Logger::remember('overlays/overlay.php', 'overlay::bind() unknown overlay type', $type, 'debug');
 		return NULL;
 	}

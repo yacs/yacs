@@ -133,9 +133,9 @@ if(!is_object($anchor)) {
 
 			// navigation commands
 			$home = 'versions/list.php';
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$prefix = $home.'/'.str_replace(':', '/', $anchor->get_reference());
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				$prefix = $home.'/'.str_replace(':', '/', $anchor->get_reference());
 			else
 				$prefix = $home.'?id='.$anchor->get_reference().'&page=';

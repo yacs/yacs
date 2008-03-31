@@ -59,7 +59,7 @@ $page = strip_tags($page);
 i18n::bind('categories');
 
 // load the skin
-load_skin('categories');
+load_skin('site_taxonomy');
 
 // the title of the page
 $context['page_title'] = i18n::s('The categories tree');
@@ -73,9 +73,9 @@ if($stats['count'] > CATEGORIES_PER_PAGE) {
 
 	// navigation commands for categories, if necessary
 	$home = 'categories/index.php';
-	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+	if($context['with_friendly_urls'] == 'Y')
 		$prefix = $home.'/';
-	elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+	elseif($context['with_friendly_urls'] == 'R')
 		$prefix = $home.'/';
 	else
 		$prefix = $home.'?page=';
@@ -88,7 +88,7 @@ if($stats['count'])
 
 // commands for associates
 if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'categories/edit.php' => i18n::s('Create a category'),
+	$context['page_menu'] = array_merge($context['page_menu'], array( 'categories/edit.php' => i18n::s('Add a category'),
 		'categories/check.php' => i18n::s('Maintenance') ));
 
 // page main content

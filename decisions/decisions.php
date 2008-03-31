@@ -459,9 +459,9 @@ Class Decisions {
 
 		// add a decision -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'decision') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'decisions/edit.php/'.str_replace(':', '/', $id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'decisions/edit.php/'.str_replace(':', '/', $id);
 			else
 				return 'decisions/edit.php?anchor='.urlencode($id);
@@ -469,9 +469,9 @@ Class Decisions {
 
 		// get decisions in rss -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'feed') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'decisions/feed.php/'.str_replace(':', '/', $id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'decisions/feed.php/'.str_replace(':', '/', $id);
 			else
 				return 'decisions/feed.php?id='.urlencode($id);
@@ -479,9 +479,9 @@ Class Decisions {
 
 		// list decisions -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'list') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'decisions/list.php/'.str_replace(':', '/', $id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'decisions/list.php/'.str_replace(':', '/', $id);
 			else
 				return 'decisions/list.php?anchor='.urlencode($id);
@@ -489,9 +489,9 @@ Class Decisions {
 
 		// navigate decisions -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'navigate') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'decisions/list.php/'.str_replace(':', '/', $id).'/';
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'decisions/list.php/'.str_replace(':', '/', $id).'/';
 			else
 				return 'decisions/list.php?anchor='.urlencode($id).'&amp;page=';

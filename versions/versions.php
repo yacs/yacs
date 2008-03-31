@@ -197,7 +197,7 @@ Class Versions {
 
 		// list versions -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'list') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'versions/list.php/'.str_replace(':', '/', $id);
 			else
 				return 'versions/list.php?id='.urlencode($id);

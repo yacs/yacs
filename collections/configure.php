@@ -205,7 +205,7 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input, $hint);
 
 	// add a folded box
-	$context['text'] .= Skin::build_box(i18n::s('Add a new collection'), Skin::build_form($fields), 'folder');
+	$context['text'] .= Skin::build_box(i18n::s('Add a collection'), Skin::build_form($fields), 'folder');
 	$fields = array();
 
 	// the submit button

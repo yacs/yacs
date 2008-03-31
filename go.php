@@ -142,7 +142,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 	$context['text'] .= '<p>'.sprintf(i18n::s('Sorry, no page has the provided name: %s'), $id).'</p>'."\n";
 
 	// offer to create a new page
-	$context['text'] .= '<p>'.Skin::build_link('articles/edit.php?name='.urlencode($id), i18n::s('I would like to create a page with this name'), 'shortcut').'</p>'."\n";
+	$context['text'] .= '<p>'.Skin::build_link('articles/edit.php?name='.urlencode($id), i18n::s('Add a page with this name'), 'shortcut').'</p>'."\n";
 
 }
 

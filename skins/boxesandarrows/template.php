@@ -156,7 +156,7 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 	if(is_callable(array('i18n', 's'))) {
 
 		// take URL rewriting into account
-		if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+		if($context['with_friendly_urls'] == 'R')
 			$link = 'privacy';
 		else
 			$link = 'privacy.php';

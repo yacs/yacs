@@ -140,7 +140,7 @@ Class Comments {
 			return NULL;
 
 		// profiling mode
-		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
+		if($context['with_profile'] == 'Y')
 			logger::profile('comments::count_for_anchor');
 
 		// select among available items
@@ -722,9 +722,9 @@ Class Comments {
 
 		// add a comment -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'comment') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'comments/edit.php/'.str_replace(':', '/', $id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'comments/edit.php/'.str_replace(':', '/', $id);
 			else
 				return 'comments/edit.php?anchor='.urlencode($id);
@@ -732,9 +732,9 @@ Class Comments {
 
 		// get comments in rss -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'feed') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'comments/feed.php/'.str_replace(':', '/', $id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'comments/feed.php/'.str_replace(':', '/', $id);
 			else
 				return 'comments/feed.php?anchor='.urlencode($id);
@@ -742,9 +742,9 @@ Class Comments {
 
 		// list comments -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'list') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'comments/list.php/'.str_replace(':', '/', $id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'comment-list/'.$id;
 			else
 				return 'comments/list.php?id='.urlencode($id);
@@ -752,9 +752,9 @@ Class Comments {
 
 		// navigate comments -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'navigate') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'comments/list.php/'.str_replace(':', '/', $id).'/';
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'comments/list.php/'.str_replace(':', '/', $id).'/';
 			else
 				return 'comments/list.php?id='.urlencode($id).'&amp;page=';
@@ -762,9 +762,9 @@ Class Comments {
 
 		// quote an existing comment
 		if($action == 'quote') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'comments/edit.php/quote/'.rawurlencode($id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'comments/edit.php/quote/'.rawurlencode($id);
 			else
 				return 'comments/edit.php?quote='.urlencode($id);
@@ -772,9 +772,9 @@ Class Comments {
 
 		// reply to an existing comment
 		if($action == 'reply') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'comments/edit.php/reply/'.rawurlencode($id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'comments/edit.php/reply/'.rawurlencode($id);
 			else
 				return 'comments/edit.php?reply='.urlencode($id);
@@ -782,9 +782,9 @@ Class Comments {
 
 		// add a comment, the service -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'service.comment') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'comments/post.php/'.str_replace(':', '/', $id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'comments/post.php/'.str_replace(':', '/', $id);
 			else
 				return 'comments/post.php?anchor='.urlencode($id);
@@ -965,7 +965,6 @@ Class Comments {
 	 *
 	 * Accept following layouts:
 	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
-	 * - 'no_anchor' - to build detailed lists in an anchor page
 	 * - 'full' - include anchor information
 	 * - 'search' - include anchor information
 	 * - 'thread' - for real-time chat
@@ -1662,7 +1661,7 @@ Class Comments {
 		global $context;
 
 		// profiling mode
-		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
+		if($context['with_profile'] == 'Y')
 			logger::profile('comments::stat_for_anchor');
 
 		// sanity check

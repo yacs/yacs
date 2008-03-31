@@ -175,7 +175,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
-				if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+				if($context['with_friendly_urls'] == 'Y')
 					$file = 'articles/view.php/'.$item['id'].'/files/1';
 				else
 					$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
@@ -194,7 +194,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE)) {
-				if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+				if($context['with_friendly_urls'] == 'Y')
 					$link = 'articles/view.php/'.$item['id'].'/links/1';
 				else
 					$link = 'articles/view.php?id='.urlencode($item['id']).'&amp;links=1';
@@ -202,7 +202,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 			}
 
 			// trackback
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);

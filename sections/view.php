@@ -314,6 +314,7 @@ if(isset($item['id']) && !$zoom_type && $permitted && Surfer::is_logged()) {
 	else
 		$label = i18n::s('Watch');
 
+	Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( $link => array(NULL, WATCH_TOOL_IMG.$label, NULL, 'basic', NULL, i18n::s('Manage your watch list'))));
 }
 
@@ -327,8 +328,9 @@ if(isset($item['id']) && !$zoom_type && $permitted && Articles::are_allowed($anc
 	elseif($item['articles_layout'] == 'yabb')
 		$label = i18n::s('Start a new topic');
 	else
-		$label = i18n::s('Write a page');
+		$label = i18n::s('Add a page');
 
+	Skin::define_img('NEW_ARTICLE_IMG', $context['skin'].'/icons/articles/new.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( $url => array(NULL, NEW_ARTICLE_IMG.$label, NULL, 'basic', NULL, i18n::s('Add new content to this section')) ));
 
 }
@@ -337,13 +339,8 @@ if(isset($item['id']) && !$zoom_type && $permitted && Articles::are_allowed($anc
 if(isset($item['id']) && !$zoom_type && $permitted && (!isset($item['content_overlay']) || !trim($item['content_overlay'])) && (!isset($item['articles_templates']) || !trim($item['articles_templates'])) && (!is_object($anchor) || !$anchor->get_templates_for('article')) && Articles::are_allowed($anchor, $item)) {
 
 	$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;variant=poll';
-
-	if($item['articles_layout'] == 'jive')
-		$label = i18n::s('Create a poll');
-	elseif($item['articles_layout'] == 'yabb')
-		$label = i18n::s('Create a poll');
-	else
-		$label = i18n::s('Create a poll');
+	$label = i18n::s('Add a poll');
+	Skin::define_img('POLL_IMG', $context['skin'].'/icons/articles/poll.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( $url => array(NULL, POLL_IMG.$label, NULL, 'basic', NULL, i18n::s('Add new content to this section')) ));
 }
 
@@ -352,7 +349,8 @@ if(isset($item['id']) && !$zoom_type && $permitted
 	&& (!isset($item['sections_layout']) || ($item['sections_layout'] != 'none'))
 	&& Surfer::is_empowered()) {
 
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'sections/edit.php?anchor='.urlencode('section:'.$item['id']) => array(NULL, NEW_SECTION_IMG.i18n::s('Create a sub-section'), NULL, 'basic', NULL, i18n::s('Create a new web section here')) ));
+	Skin::define_img('NEW_SECTION_IMG', $context['skin'].'/icons/sections/new.gif');
+	$context['page_menu'] = array_merge($context['page_menu'], array( 'sections/edit.php?anchor='.urlencode('section:'.$item['id']) => array(NULL, NEW_SECTION_IMG.i18n::s('Add a section'), NULL, 'basic', NULL, i18n::s('Add a section')) ));
 
 }
 
@@ -360,15 +358,20 @@ if(isset($item['id']) && !$zoom_type && $permitted
 if(isset($item['id']) && !$zoom_type && Surfer::is_empowered()) {
 
 	// modify this page
+	Skin::define_img('EDIT_SECTION_IMG', $context['skin'].'/icons/sections/edit.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url($item['id'], 'edit') => array(NULL, EDIT_SECTION_IMG.i18n::s('Edit'), NULL, 'basic', NULL, i18n::s('Update the content of this page')) ));
 
 	// access previous versions, if any
-	if($has_versions && Surfer::is_logged())
+	if($has_versions && Surfer::is_logged()) {
+		Skin::define_img('HISTORY_TOOL_IMG', $context['skin'].'/icons/tools/history.gif');
 		$context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url('section:'.$item['id'], 'list') => array(NULL, HISTORY_TOOL_IMG.i18n::s('History'), NULL, 'basic', NULL, i18n::s('Previous versions of this page')) ));
+	}
 
 	// post an image
-	if(Surfer::may_upload())
+	if(Surfer::may_upload()) {
+		Skin::define_img('IMAGE_TOOL_IMG', $context['skin'].'/icons/tools/image.gif');
 		$context['page_menu'] = array_merge($context['page_menu'], array( 'images/edit.php?anchor='.urlencode('section:'.$item['id']) => IMAGE_TOOL_IMG.i18n::s('Add an image') ));
+	}
 
 	// bulk operations
 	$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url($item['id'], 'bulk') => i18n::s('Bulk') ));
@@ -380,6 +383,7 @@ if(isset($item['id']) && !$zoom_type && Surfer::is_empowered()) {
 		$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url($item['id'], 'lock') => i18n::s('Unlock') ));
 
 	// delete the section
+	Skin::define_img('DELETE_SECTION_IMG', $context['skin'].'/icons/sections/delete.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url($item['id'], 'delete') => DELETE_SECTION_IMG.i18n::s('Delete') ));
 
 }
@@ -393,8 +397,10 @@ if(isset($item['id']) && !$zoom_type && $permitted && Links::are_allowed($anchor
 	$context['page_menu'] = array_merge($context['page_menu'], array( 'links/edit.php?anchor='.urlencode('section:'.$item['id']) => LINK_TOOL_IMG.i18n::s('Add a link') ));
 
 // print
-if(isset($item['id']) && !$zoom_type && $permitted && Surfer::is_logged())
+if(isset($item['id']) && !$zoom_type && $permitted && Surfer::is_logged()) {
+	Skin::define_img('PRINT_TOOL_IMG', $context['skin'].'/icons/tools/print.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url($item['id'], 'print') => array(NULL, PRINT_TOOL_IMG.i18n::s('Print'), NULL, 'basic', NULL, i18n::s('Get a paper copy of this page.')) ));
+}
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
@@ -460,7 +466,7 @@ if(!isset($item['id'])) {
 
 	// implement the trackback interface
 	$permanent_link = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id']);
-	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+	if($context['with_friendly_urls'] == 'Y')
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/section/'.$item['id'];
 	else
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=section:'.$item['id'];
@@ -747,6 +753,7 @@ if(!isset($item['id'])) {
 
 					$link = Users::get_url('article:'.$item['id'], 'track');
 
+					Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
 					$bottom_menu = array_merge($bottom_menu, array($link => array(NULL, WATCH_TOOL_IMG.i18n::s('Watch'), NULL, 'basic', NULL, i18n::s('Manage your watch list')) ));
 				}
 
@@ -754,6 +761,7 @@ if(!isset($item['id'])) {
 				if(isset($item['id']) && !$zoom_type && Surfer::is_empowered() && Surfer::is_logged()) {
 
 					// change this page
+					Skin::define_img('EDIT_SECTION_IMG', $context['skin'].'/icons/sections/edit.gif');
 					$bottom_menu = array_merge($bottom_menu, array( Sections::get_url($item['id'], 'edit') => array(NULL, EDIT_SECTION_IMG.i18n::s('Edit'), NULL, 'basic', i18n::s('Update the content of this page')) ));
 
 				}
@@ -915,7 +923,7 @@ if(!isset($item['id'])) {
 						// the command to post a new section, for associates
 						$url = 'sections/edit.php?anchor='.urlencode('section:'.$item['id']);
 						if(Surfer::is_empowered())
-							$box['bar'] = array_merge($box['bar'], array( $url => i18n::s('Create a sub-section') ));
+							$box['bar'] = array_merge($box['bar'], array( $url => i18n::s('Add a section') ));
 					}
 
 					// actually render the html for the section
@@ -974,6 +982,7 @@ if(!isset($item['id'])) {
 				$description = '<p>'.sprintf(i18n::s('Content of this section has been designed as an interactive on-line presentation. Navigate using the keyboard or a pointing device as usual. Use letter C to display control, and letter B to switch to/from a black screen. Based on the %s technology.'), Skin::build_link('http://www.meyerweb.com/eric/tools/s5/', i18n::s('S5'), 'external')).'</p>';
 
 				// the label
+				Skin::define_img('PLAY_IMG', $context['skin'].'/icons/files/play.gif');
 				$label = PLAY_IMG.' '.sprintf(i18n::s('Play %s'), str_replace('_', ' ', $item['title']));
 
 				// hovering the link
@@ -1071,13 +1080,14 @@ if(!isset($item['id'])) {
 							// the command to post a new page
 							if(Articles::are_allowed($anchor, $item)) {
 
+								Skin::define_img('NEW_THREAD_IMG', $context['skin'].'/icons/articles/new_thread.gif');
 								$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
 								if($item['articles_layout'] == 'jive')
 									$label = NEW_THREAD_IMG.' '.i18n::s('Start a new topic');
 								elseif($item['articles_layout'] == 'yabb')
 									$label = NEW_THREAD_IMG.' '.i18n::s('Start a new topic');
 								else
-									$label = i18n::s('Write a page');
+									$label = i18n::s('Add a page');
 								$box['bar'] = array_merge($box['bar'], array( $url => $label ));
 
 							}
@@ -1086,13 +1096,9 @@ if(!isset($item['id'])) {
 							if((!isset($item['content_overlay']) || !trim($item['content_overlay'])) && (!isset($item['articles_templates']) || !trim($item['articles_templates'])) && (!is_object($anchor) || !$anchor->get_templates_for('article')) && Articles::are_allowed($anchor, $item)) {
 
 								$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;variant=poll';
-								if($item['articles_layout'] == 'jive')
-									$label = POLL_IMG.' '.i18n::s('Create a poll');
-								elseif($item['articles_layout'] == 'yabb')
-									$label = POLL_IMG.' '.i18n::s('Create a poll');
-								else
-									$label = i18n::s('Create a poll');
-								$box['bar'] = array_merge($box['bar'], array( $url => $label ));
+								Skin::define_img('POLL_IMG', $context['skin'].'/icons/articles/poll.gif');
+								$label = i18n::s('Add a poll');
+								$box['bar'] = array_merge($box['bar'], array( $url => POLL_IMG.$label ));
 
 							}
 						}
@@ -1370,16 +1376,6 @@ if(!isset($item['id'])) {
 				include_once '../comments/layout_comments_as_yabb.php';
 				$layout =& new Layout_comments_as_yabb();
 
-			// layout is defined by general parameter
-			} elseif($context['root_articles_layout'] == 'boxesandarrows') {
-				include_once '../comments/layout_comments_as_boxesandarrows.php';
-				$layout =& new Layout_comments_as_boxesandarrows();
-
-			} elseif($context['root_articles_layout'] == 'daily') {
-				include_once '../comments/layout_comments_as_daily.php';
-				$layout =& new Layout_comments_as_daily();
-
-			// regular case
 			} else {
 				include_once '../comments/layout_comments.php';
 				$layout =& new Layout_comments();
@@ -1387,10 +1383,6 @@ if(!isset($item['id'])) {
 				// thread starts on a separate page
 				$home_link = Comments::get_url('section:'.$item['id'], 'list');
 			}
-
-			// do not repeat anchor information
-			if(is_object($layout))
-				$layout->set_variant('no_anchor');
 
 			// the maximum number of comments per page
 			if(is_object($layout))
@@ -1512,6 +1504,7 @@ if(!isset($item['id'])) {
 			if(Links::are_allowed($anchor, $item, TRUE)) {
 
 				// the command to post a new link
+				Skin::define_img('NEW_LINK_IMG', $context['skin'].'/icons/links/new.gif');
 				$url = 'links/edit.php?anchor='.urlencode('section:'.$item['id']);
 				$box['bar'] = array_merge($box['bar'], array( $url => NEW_LINK_IMG.i18n::s('Add a link') ));
 

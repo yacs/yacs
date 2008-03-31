@@ -311,7 +311,7 @@
 		// the dynamic menu is displayed at all pages, on regular usage
 		$cache_id = 'skins/page.php#menu';
 		$text = '';
-		if(file_exists($context['path_to_root'].'parameters/switch.on') && (!$text =& Cache::get($cache_id)) && is_callable(array('Articles', 'get'))) {
+		if(file_exists($context['path_to_root'].'parameters/switch.on') && (!$text =& Cache::get($cache_id)) && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
 			if($item =& Articles::get('menu'))
 				$text =& Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'main_menu');
 			Cache::put($cache_id, $text, 'articles');

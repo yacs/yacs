@@ -72,7 +72,7 @@ if(count(get_included_files()) < 3) {
 	$context['path_bar'] = array( 'servers/' => i18n::s('Servers') );
 
 	// the title of the page
-	$context['page_title'] = i18n::s('Create default server profiles');
+	$context['page_title'] = i18n::s('Add default server profiles');
 
 	// stop hackers the hard way
 	if(!Surfer::is_associate())

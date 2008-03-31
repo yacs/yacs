@@ -331,9 +331,9 @@ Class Surfer {
 			if(Surfer::is_associate()
 				|| (Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y'))) ) {
 
-				$menu['articles/edit.php'] = array(NULL, i18n::s('Add a page'), NULL, $type, NULL, i18n::s('Use a web form to submit new content to this site'));
+				$menu['articles/edit.php'] = array(NULL, i18n::s('Add a page'), NULL, $type, NULL, i18n::s('Use a web form to submit new content'));
 
-				$menu['links/edit.php'] = array(NULL, i18n::s('Bookmark a link'), NULL, $type, NULL, i18n::s('Upload a link in a new page'));
+				$menu['links/edit.php'] = array(NULL, i18n::s('Bookmark a link'), NULL, $type, NULL, i18n::s('Share interesting pages'));
 
 			}
 
@@ -353,7 +353,7 @@ Class Surfer {
 		// surfer has not been authenticated, and self-registration is allowed
 		} elseif(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y')) {
 
-			$menu['users/edit.php'] = array(NULL, i18n::s('Register'), NULL, $type, NULL, i18n::s('Create a user profile to be part of this community'));
+			$menu['users/edit.php'] = array(NULL, i18n::s('Register'), NULL, $type, NULL, i18n::s('Share your profile in this community'));
 
 			$menu['users/login.php'] = array(NULL, i18n::s('Login'), NULL, $type, NULL, i18n::s('Prove who you are'));
 

@@ -49,7 +49,7 @@ var Forms = {
 		new Effect.Highlight(id);
 
 		// drag and drop is allowed to re-order the list
-		Sortable.create("form_panel", {tag:"div", only:"sortable", overclass: "sortable_hover", ghosting:true, constraint:"vertical", handle:"drag_handle" });
+		Sortable.create("form_panel", {tag:"div", only:"sortable", overclass: "sortable_hover", constraint:"vertical", handle:"drag_handle" });
 	},
 
 	/**
@@ -99,8 +99,8 @@ var Forms = {
 			+ '<option value="raw"' + options.option_raw + '>Some text</option>'
 			+ '</select></td></tr>'
 			+ '<tr class="odd"><td colspan="2">'
-			+ '<a href="#" onmousedown="Forms.saveLabel(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/accept.png" width="16" height=16" /></a>'
-			+ '<a href="#" onmousedown="Forms.restoreLabel(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/cancel.png" width="16" height=16" /></a>'
+			+ '<a href="#" onclick="Forms.saveLabel(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/accept.png" width="16" height=16" /></a>'
+			+ '<a href="#" onclick="Forms.restoreLabel(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/cancel.png" width="16" height=16" /></a>'
 			+ '</td></tr>'
 			+ '</table>'
 			+ '</div>'
@@ -187,6 +187,115 @@ var Forms = {
 	},
 
 	/**
+	 * upload a file
+	 */
+	appendFileInput: function(options) {
+
+		// compute a unique id for this item
+		if(!Forms.fieldCounter)
+			Forms.fieldCounter = 1;
+		else
+			Forms.fieldCounter += 1;
+
+		// set default options
+		if(typeof options == 'undefined')
+			options = { };
+
+		options.preview = '<input type="file" disabled="disabled"/>';
+
+		if(!options.name)
+			options.name = 'field_' + Forms.fieldCounter;
+
+		// content of the new item
+		var content = '<div id="field_' + Forms.fieldCounter + '" class="sortable mutable">'
+			+ '<div class="preview">' + options.preview + '</div>'
+			+ '<div class="properties" style="display: none">'
+			+ '<table class="form">'
+// 			+ '<tr class="odd"><td>' + Forms.i18n.text + '</td><td><textarea class="text" rows="3" cols="50">' + options.text + '</textarea></td></tr>'
+// 			+ '<tr class="even"><td>' + Forms.i18n.type + '</td><td><select class="type"><option value="radio"' + options.option_radio + '>' + Forms.i18n.radio + '</option>'
+// 			+ '<option value="check"' + options.option_check + '>' + Forms.i18n.check + '</option>'
+// 			+ '<option value="drop"' + options.option_drop + '>' + Forms.i18n.drop + '</option>'
+// 			+ '</select></td></tr>'
+			+ '<tr class="odd"><td>' + Forms.i18n.name + '</td><td><input type="text" class="name" value="' + options.name + '" /></td></tr>'
+			+ '<tr class="even"><td colspan="2">'
+			+ '<a href="#" onclick="Forms.saveFileInput(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/accept.png" width="16" height=16" /></a>'
+			+ '<a href="#" onclick="Forms.restoreFileInput(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/cancel.png" width="16" height=16" /></a>'
+			+ '</td></tr>'
+			+ '</table>'
+			+ '</div>'
+			+ '<div class="state" style="display: none">'
+			+ '<div class="class">file</div>'
+// 			+ '<div class="text">' + options.text + '</div>'
+// 			+ '<div class="type">' + options.type + '</div>'
+			+ '<div class="name">' + options.name + '</div>'
+			+ '</div>'
+			+ '</div>';
+
+		// update the list on screen
+		Forms.append("field_" + Forms.fieldCounter, content);
+
+	},
+
+	/**
+	 * the user has cancelled his update
+	 */
+	restoreFileInput: function(handle) {
+		handle = $(handle);
+
+		// restore from the store
+		var store = handle.select('div.state')[0];
+
+// 		var itemText = handle.select('textarea')[0].value;
+// 		var nodes = store.select('div.text');
+// 		if(nodes.length) {
+// 			itemText = nodes[0].innerHTML;
+// 			handle.select('textarea')[0].value = itemText;
+// 		}
+
+// 		var itemType = handle.select('select')[0].value;
+// 		nodes = store.select('div.type');
+// 		if(nodes.length) {
+// 			itemType = nodes[0].innerHTML;
+// 			handle.select('select')[0].value = itemType;
+// 		}
+
+		var itemName = handle.select('input.name')[0].value;
+		nodes = store.select('div.name');
+		if(nodes.length) {
+			itemName = nodes[0].innerHTML;
+			handle.select('select')[0].value = itemName;
+		}
+
+		// also update the preview
+		var preview = handle.select('div.preview')[0];
+		new Element.update(preview, '<input type="file" disabled="disabled" />');
+
+		// close properties
+		new Effect.toggle(handle.select('div.properties')[0], 'slide');
+	},
+
+	/**
+	 * the user has validated his update
+	 */
+	saveFileInput: function(handle) {
+		handle = $(handle);
+
+		// save in the store
+		var store = handle.select('div.state')[0];
+// 		var itemText = handle.select('div.properties')[0].select('textarea')[0].value;
+// 		var itemType = handle.select('div.properties')[0].select('select')[0].value;
+		var itemName = handle.select('input.name')[0].value;
+		new Element.update(store, '<div class="class">file</div>' + '<div class="name">' + itemName + '</div>');
+
+		// also update the preview
+		var preview = handle.select('div.preview')[0];
+		new Element.update(preview, '<input type="file" disabled="disabled" />');
+
+		// close properties
+		new Effect.toggle(handle.select('div.properties')[0], 'slide');
+	},
+
+	/**
 	 * display some text
 	 */
 	appendListInput: function(options) {
@@ -237,8 +346,8 @@ var Forms = {
 			+ '</select></td></tr>'
 			+ '<tr class="odd"><td>' + Forms.i18n.name + '</td><td><input type="text" class="name" value="' + options.name + '" /></td></tr>'
 			+ '<tr class="even"><td colspan="2">'
-			+ '<a href="#" onmousedown="Forms.saveListInput(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/accept.png" width="16" height=16" /></a>'
-			+ '<a href="#" onmousedown="Forms.restoreListInput(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/cancel.png" width="16" height=16" /></a>'
+			+ '<a href="#" onclick="Forms.saveListInput(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/accept.png" width="16" height=16" /></a>'
+			+ '<a href="#" onclick="Forms.restoreListInput(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/cancel.png" width="16" height=16" /></a>'
 			+ '</td></tr>'
 			+ '</table>'
 			+ '</div>'
@@ -372,8 +481,8 @@ var Forms = {
 			+ '</select></td></tr>'
 			+ '<tr class="even"><td>' + Forms.i18n.name + '</td><td><input type="text" class="name" value="' + options.name + '" /></td></tr>'
 			+ '<tr class="odd"><td colspan="2">'
-			+ '<a href="#" onmousedown="Forms.saveTextInput(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/accept.png" width="16" height=16" /></a>'
-			+ '<a href="#" onmousedown="Forms.restoreTextInput(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/cancel.png" width="16" height=16" /></a>'
+			+ '<a href="#" onclick="Forms.saveTextInput(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/accept.png" width="16" height=16" /></a>'
+			+ '<a href="#" onclick="Forms.restoreTextInput(\'field_' + Forms.fieldCounter + '\'); return false"><img src="' + url_to_root + 'skins/_reference/cancel.png" width="16" height=16" /></a>'
 			+ '</td></tr>'
 			+ '</table>'
 			+ '</div>'
@@ -459,13 +568,16 @@ var Forms = {
 	fromJSON: function(handle, items) {
 		items.each(function(item) {
 
-			if(item.class == 'label')
+			if(item['class'] == 'file')
+				Forms.appendFileInput(item);
+
+			if(item['class'] == 'label')
 				Forms.appendLabel(item);
 
-			if(item.class == 'list')
+			if(item['class'] == 'list')
 				Forms.appendListInput(item);
 
-			if(item.class == 'text')
+			if(item['class'] == 'text')
 				Forms.appendTextInput(item);
 
 		});
@@ -486,6 +598,11 @@ var Forms = {
 
 			if(index)
 				buffer += ",\n";
+
+			if(nodeClass == 'file') {
+				buffer += '{ "class": "file"'
+					+ ', "name": '+nodes[index].select('div.name')[0].innerHTML.toJSON()+' }';
+			}
 
 			if(nodeClass == 'label') {
 				buffer += '{ "class": "label"'

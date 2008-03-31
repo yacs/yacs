@@ -2,6 +2,8 @@
 /**
  * describe blogging API in RSD format
  *
+ * @todo set blogID as in http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=2872362&SiteID=1
+ *
  * Really Simple Discovery (RSD) is a way to help client software find the
  * services needed to read, edit, or "work with" weblogging software.
  *
@@ -35,7 +37,7 @@ $text .= '<service>'."\n";
 $text .= '	<engineName>YACS</engineName>'."\n"
 	.'<engineLink>http://www.yetanothercommunitysystem.com/</engineLink>'."\n";
 
-// server home page
+// blog home page
 $text .= '	<homePageLink>'.$context['url_to_home'].$context['url_to_root'].'</homePageLink>'."\n";
 
 // available blogging api

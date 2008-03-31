@@ -2,6 +2,8 @@
 /**
  * change parameters for feeds
  *
+ * @todo remove subscribe buttons in case of intranet web site
+ *
  * This script will let you modify information spread along outbound channels, such as:
  *
  * - [code]channel_title[/code] - The name of your site, as it will appears in newsfeeds.
@@ -155,7 +157,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_block(i18n::s('Beeing feeded by others'), 'title');
 
 	// the splash message
-	$context['text'] .= '<p>'.sprintf(i18n::s('To extend the list of feeders create adequate %s.'), Skin::build_link('servers/', i18n::s('server profiles'), 'shortcut'))."</p>\n";
+	$context['text'] .= '<p>'.sprintf(i18n::s('To extend the list of feeders add adequate %s.'), Skin::build_link('servers/', i18n::s('server profiles'), 'shortcut'))."</p>\n";
 
 	// feeding period
 	if(!isset($context['minutes_between_feeds']) || !$context['minutes_between_feeds'])

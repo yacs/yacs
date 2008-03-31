@@ -772,7 +772,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 
 	// if the server has been switched off, update the database schema
 	if(file_exists('../parameters/switch.off')) {
-		$context['text'] .= '<form method="post" action="setup.php"><p>'."\n"
+		$context['text'] .= '<form method="post" action="setup.php"><p class="assistant_bar">'."\n"
 			.Skin::build_submit_button(i18n::s('Update the database schema'))."\n"
 			.'<input type="hidden" name="action" value="build" />'."\n"
 			.'</p></form>'."\n";
@@ -782,7 +782,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 
 	// create the database on first installation
 	} elseif(!file_exists('../parameters/switch.on')) {
-		$context['text'] .= '<form method="post" action="setup.php"><p>'."\n"
+		$context['text'] .= '<form method="post" action="setup.php"><p class="assistant_bar">'."\n"
 			.Skin::build_submit_button(i18n::s('Create tables in the database'))."\n"
 			.'<input type="hidden" name="action" value="build" />'."\n"
 			.'</p></form>'."\n";

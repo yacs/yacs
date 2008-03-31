@@ -485,17 +485,17 @@ class Mailer {
 		}
 
 		// post in debug mode, to get messages, if any
-		if(isset($context['with_debug']) && ($context['with_debug'] == 'Y') && mail($recipient, $subject, $message, $headers))
+		if(($context['with_debug'] == 'Y') && mail($recipient, $subject, $message, $headers))
 			;
 
 		// regular post
-		elseif(!(isset($context['with_debug']) && ($context['with_debug'] == 'Y')) && @mail($recipient, $subject, $message, $headers))
+		elseif(($context['with_debug'] != 'Y') && @mail($recipient, $subject, $message, $headers))
 			;
 
 		// an error has been encountered
 		elseif(isset($context['debug_mail']) && ($context['debug_mail'] == 'Y'))
 			Logger::remember('shared/mailer.php', sprintf(i18n::s('Error while sending the message to %s'), $decoded_recipient), $decoded_subject, 'debug');
-		elseif(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		elseif($context['with_debug'] == 'Y')
 			Logger::remember('shared/mailer.php', sprintf(i18n::s('Error while sending the message to %s'), $decoded_recipient), $decoded_subject, 'debug');
 
 	}

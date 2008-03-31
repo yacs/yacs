@@ -126,7 +126,7 @@ Class Collections {
 			$item['collection_description'] = '';
 
 			// collection index page
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$link = $context['url_to_root'].'collections/browse.php/'.rawurlencode($item['collection']);
 			else
 				$link = $context['url_to_root'].'collections/browse.php?path='.urlencode($item['collection']);
@@ -139,7 +139,7 @@ Class Collections {
 
 				$path .= '/'.$directory;
 				$url .= '/'.rawurlencode($directory);
-				if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+				if($context['with_friendly_urls'] == 'Y')
 					$link = $context['url_to_root'].'collections/browse.php/'.$url;
 				else
 					$link = $context['url_to_root'].'collections/browse.php?path='.urlencode($path);
@@ -313,7 +313,7 @@ Class Collections {
 			return NULL;
 
 		// close the URL with a / to avoid NS to save as php, but only if it safe to do so
-		if(($action == 'fetch') && (isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y')))
+		if(($action == 'fetch') && ($context['with_friendly_urls'] == 'Y'))
 			return 'collections/'.$action.'.php/?id='.urlencode($id);
 
 		// check the target action
@@ -321,7 +321,7 @@ Class Collections {
 			$action = 'view';
 
 		// be cool with search engines
-		if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+		if($context['with_friendly_urls'] == 'Y')
 			return 'collections/'.$action.'.php/'.rawurlencode($id);
 		else
 			return 'collections/'.$action.'.php?id='.urlencode($id);

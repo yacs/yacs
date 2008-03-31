@@ -86,7 +86,7 @@ else
 if(isset($item['id']))
 	$context['page_title'] = i18n::s('Edit a location');
 else
-	$context['page_title'] = i18n::s('Add a new location');
+	$context['page_title'] = i18n::s('Add a location');
 
 // always validate input syntax
 if(isset($_REQUEST['introduction']))

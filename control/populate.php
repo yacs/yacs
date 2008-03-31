@@ -163,7 +163,7 @@ if(!$permitted) {
 		$fields = array();
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
@@ -209,7 +209,7 @@ if(!$permitted) {
 	} else {
 
 		// page title
-		$context['page_title'] = i18n::s('Creation of basic items in the database');
+		$context['page_title'] = i18n::s('Add basic items');
 
 		// on first installation
 		if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
@@ -286,7 +286,7 @@ if(!$permitted) {
 				// configure the interface on first installation
 				if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
 					echo '<form method="get" action="../skins/configure.php">'."\n"
-						.'<p>'.Skin::build_submit_button(i18n::s('Configure the rendering engine')).'</p>'."\n"
+						.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Configure the rendering engine')).'</p>'."\n"
 						.'</form>'."\n";
 
 				// or back to the control panel
@@ -323,11 +323,11 @@ if(!$permitted) {
 // create a blog
 } elseif($action == 'blog') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add a blog');
+
 	// get section parameters
 	if(!isset($_REQUEST['title']) || !$_REQUEST['title']) {
-
-		// page title
-		$context['page_title'] = i18n::s('New blog');
 
 		// splash
 		$context['text'] .= '<p>'.i18n::s('With YACS, each blog is an independant section, usually featuring one main contributor on some topic. Each post in a blog may include images, photos, files, comments, trackbacks and related links.').'</p>'
@@ -388,7 +388,7 @@ if(!$permitted) {
 		$fields = array();
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Create a blog'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
@@ -415,9 +415,6 @@ if(!$permitted) {
 
 	// create a section
 	} else {
-
-		// page title
-		$context['page_title'] = i18n::s('Creation of a new blog');
 
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
@@ -473,11 +470,11 @@ if(!$permitted) {
 // create a book
 } elseif($action == 'book') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add a book');
+
 	// get section parameters
 	if(!isset($_REQUEST['title']) || !$_REQUEST['title']) {
-
-		// page title
-		$context['page_title'] = i18n::s('New electronic book');
 
 		// splash
 		$context['text'] .= '<p>'.i18n::s('With YACS, a book is an hierarchy of sections and of pages.').'</p>';
@@ -541,7 +538,7 @@ if(!$permitted) {
 		$context['text'] .= Skin::build_block(i18n::s('Start'), 'title');
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Create the book'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
@@ -568,9 +565,6 @@ if(!$permitted) {
 
 	// create a section
 	} else {
-
-		// page title
-		$context['page_title'] = i18n::s('Creation of a new book');
 
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
@@ -662,7 +656,7 @@ if(!$permitted) {
 		// configure the interface on first installation
 		if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
 			echo '<form method="get" action="../skins/configure.php">'."\n"
-				.'<p>'.Skin::build_submit_button(i18n::s('Configure the rendering engine')).'</p>'."\n"
+				.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Configure the rendering engine')).'</p>'."\n"
 				.'</form>'."\n";
 
 		// or back to the control panel
@@ -688,11 +682,11 @@ if(!$permitted) {
 // create a collection
 } elseif($action == 'collection') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add a collection');
+
 	// get collection parameters
 	if(!isset($_REQUEST['name']) || !$_REQUEST['name']) {
-
-		// page title
-		$context['page_title'] = i18n::s('New collection');
 
 		// splash
 		$context['text'] .= '<p>'.i18n::s('YACS may turn your web site to a straightforward media server.').'</p>'
@@ -752,7 +746,7 @@ if(!$permitted) {
 			$fields = array();
 
 			// the submit button
-			$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Create a collection'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+			$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 			// end of the form
 			$context['text'] .= '</div></form>';
@@ -787,9 +781,6 @@ if(!$permitted) {
 
 	// create a collection
 	} else {
-
-		// page title
-		$context['page_title'] = i18n::s('Creation of a new collection');
 
 		// build the new configuration file
 		$content = '<?php'."\n"
@@ -849,11 +840,11 @@ if(!$permitted) {
 // create a composite section
 } elseif($action == 'composite') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add a section');
+
 	// get parameters
 	if(!isset($_REQUEST['main_title']) || !$_REQUEST['main_title']) {
-
-		// page title
-		$context['page_title'] = i18n::s('A composite section');
 
 		// splash
 		$context['text'] .= '<p>'.i18n::s('YACS allows for composite section index pages.').'</p>'
@@ -902,7 +893,7 @@ if(!$permitted) {
 		// scrolling news
 		$context['text'] .= Skin::build_block(i18n::s('Side news'), 'subtitle');
 
-		$input = '<input type="checkbox" name="news_check" checked="checked"'.EOT.' '.i18n::s('Create a companion section to post articles that will appear in the news panel of the parent section');
+		$input = '<input type="checkbox" name="news_check" checked="checked"'.EOT.' '.i18n::s('Add a companion section to post articles that will appear in the news panel of the parent section');
 		$context['text'] .= '<p>'.$input.'</p>';
 
 		$label = i18n::s('Title');
@@ -920,7 +911,7 @@ if(!$permitted) {
 		// gadget boxes
 		$context['text'] .= Skin::build_block(i18n::s('Gadget boxes'), 'subtitle');
 
-		$input = '<input type="checkbox" name="gadget_check" checked="checked"'.EOT.' '.i18n::s('Create a companion section to post articles that will appear in individual gadget boxes');
+		$input = '<input type="checkbox" name="gadget_check" checked="checked"'.EOT.' '.i18n::s('Add a companion section to post articles that will appear in individual gadget boxes');
 		$context['text'] .= '<p>'.$input.'</p>';
 
 		$label = i18n::s('Title');
@@ -938,7 +929,7 @@ if(!$permitted) {
 		// extra boxes
 		$context['text'] .= Skin::build_block(i18n::s('Extra boxes'), 'subtitle');
 
-		$input = '<input type="checkbox" name="extra_check" checked="checked"'.EOT.' '.i18n::s('Create a companion section to post articles that will appear in individual extra boxes');
+		$input = '<input type="checkbox" name="extra_check" checked="checked"'.EOT.' '.i18n::s('Add a companion section to post articles that will appear in individual extra boxes');
 		$context['text'] .= '<p>'.$input.'</p>';
 
 		$label = i18n::s('Title');
@@ -957,7 +948,7 @@ if(!$permitted) {
 		$context['text'] .= Skin::build_block(i18n::s('Next step'), 'title');
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Create new sections'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
@@ -984,9 +975,6 @@ if(!$permitted) {
 
 	// create the stuff
 	} else {
-
-		// page title
-		$context['page_title'] = i18n::s('Creation of a composite section');
 
 		// update the main section
 		$item = array();
@@ -1093,11 +1081,11 @@ if(!$permitted) {
 // create a forum
 } elseif($action == 'forum') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add a forum');
+
 	// get section parameters
 	if(!isset($_REQUEST['title']) || !$_REQUEST['title']) {
-
-		// page title
-		$context['page_title'] = i18n::s('New forum');
 
 		// splash
 		$context['text'] .= '<p>'.i18n::s('A forum is made of one or several discussion boards, which are aiming to support threads of interaction between community members. Each topic started in a discussion board may feature images, photos, files, and related links.').'</p>'
@@ -1166,7 +1154,7 @@ if(!$permitted) {
 		$context['text'] .= Skin::build_block(i18n::s('Start'), 'title');
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Create the forum'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
@@ -1193,9 +1181,6 @@ if(!$permitted) {
 
 	// create a section
 	} else {
-
-		// page title
-		$context['page_title'] = i18n::s('Creation of a new forum');
 
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
@@ -1256,6 +1241,9 @@ if(!$permitted) {
 // create a directory of links
 } elseif($action == 'links') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add a directory of links');
+
 	// reuse the section 'bookmarks'
 	if(!$item = Sections::get('bookmarks')) {
 
@@ -1274,9 +1262,6 @@ if(!$permitted) {
 
 	// get parameters
 	if(!isset($_REQUEST['main_title']) || !$_REQUEST['main_title']) {
-
-		// page title
-		$context['page_title'] = i18n::s('New directory of links');
 
 		// splash
 		$context['text'] .= '<p>'.i18n::s('YACS lets people share bookmarks and favorites quite easily.').'</p>'
@@ -1335,7 +1320,7 @@ if(!$permitted) {
 		$context['text'] .= Skin::build_block(i18n::s('Start'), 'title');
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Create the directory of links'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
@@ -1362,9 +1347,6 @@ if(!$permitted) {
 
 	// create the stuff
 	} else {
-
-		// page title
-		$context['page_title'] = i18n::s('Creation of a directory of links');
 
 		// update the main section
 		$item['title'] = $_REQUEST['main_title'];
@@ -1408,11 +1390,11 @@ if(!$permitted) {
 // publish original work
 } elseif($action == 'original') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add a section');
+
 	// get section parameters
 	if(!isset($_REQUEST['title']) || !$_REQUEST['title']) {
-
-		// page title
-		$context['page_title'] = i18n::s('Post original work');
 
 		// splash
 		$context['text'] .= '<p>'.i18n::s('Use YACS to publish pages you have carefully crafted, and look at your name proudly listed on your work. Each page may feature images, photos, files, comments and related links.').'</p>';
@@ -1473,7 +1455,7 @@ if(!$permitted) {
 		$fields = array();
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Create the section'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
@@ -1500,9 +1482,6 @@ if(!$permitted) {
 
 	// create a section
 	} else {
-
-		// page title
-		$context['page_title'] = i18n::s('Creation of a new section to publish original work');
 
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
@@ -1546,6 +1525,9 @@ if(!$permitted) {
 // dedicate a section to partners
 } elseif($action == 'partners') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add a section');
+
 	// a section already exists for partners
 	if($item = Sections::get('partners')) {
 
@@ -1562,9 +1544,6 @@ if(!$permitted) {
 
 	// get section parameters
 	} elseif(!isset($_REQUEST['title']) || !$_REQUEST['title']) {
-
-		// page title
-		$context['page_title'] = i18n::s('New section for partners');
 
 		// splash
 		$context['text'] .=  '<p>'.i18n::s('Partners are listed at the front page, in a scrollable area.').'</p>'
@@ -1591,7 +1570,7 @@ if(!$permitted) {
 		$fields = array();
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Create a section'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
@@ -1618,9 +1597,6 @@ if(!$permitted) {
 
 	// create a section
 	} else {
-
-		// page title
-		$context['page_title'] = i18n::s('Creation of a section for partners');
 
 		$fields = array();
 		$fields['nick_name'] = 'partners';
@@ -1657,11 +1633,11 @@ if(!$permitted) {
 // dedicate a section to polls
 } elseif($action == 'polls') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add a section');
+
 	// get section parameters
 	if(!isset($_REQUEST['title']) || !$_REQUEST['title']) {
-
-		// page title
-		$context['page_title'] = i18n::s('New section for polls');
 
 		// splash
 		$context['text'] .= '<p>'.i18n::s('With YACS, polls are ordinary articles that have extended attributes to handle votes and to display bar graphs.').'</p>'
@@ -1710,7 +1686,7 @@ if(!$permitted) {
 		$fields = array();
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Create a section for polls'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
@@ -1737,9 +1713,6 @@ if(!$permitted) {
 
 	// create a section
 	} else {
-
-		// page title
-		$context['page_title'] = i18n::s('Creation of a polling section');
 
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
@@ -1778,11 +1751,11 @@ if(!$permitted) {
 // dedicate a section to cooking recipes
 } elseif($action == 'recipes') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add a section');
+
 	// get section parameters
 	if(!isset($_REQUEST['title']) || !$_REQUEST['title']) {
-
-		// page title
-		$context['page_title'] = i18n::s('New section for cooking recipes');
 
 		// splash
 		$context['text'] .= '<p>'.i18n::s('With YACS, recipes are ordinary articles that have some extended attributes such as the list of ingredients, or the number of people to serve, etc.').'</p>'
@@ -1831,7 +1804,7 @@ if(!$permitted) {
 		$fields = array();
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Create a book for recipes'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
@@ -1858,9 +1831,6 @@ if(!$permitted) {
 
 	// create a section
 	} else {
-
-		// page title
-		$context['page_title'] = i18n::s('Creation of a cookbook');
 
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
@@ -1899,11 +1869,11 @@ if(!$permitted) {
 // add samples to learn by example
 } elseif($action == 'samples') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add sample content');
+
 	// ask for confirmation
 	if(!isset($_REQUEST['confirmation']) || !$_REQUEST['confirmation']) {
-
-		// page title
-		$context['page_title'] = i18n::s('Add sample data');
 
 		// splash message
 		$context['text'] .= '<p>'.i18n::s('This script adds various records, including sections, categories, articles, comments and tables, to the database. We recommend you to proceed if you are discovering YACS and wish to learn by example.').'</p>'
@@ -1915,16 +1885,13 @@ if(!$permitted) {
 			.'<input type="hidden" name="confirmation" value="Y"'.EOT;
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Start')).'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Start')).'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
 
 	// actual data creation
 	} else {
-
-		// page title
-		$context['page_title'] = i18n::s('Create sample data');
 
 		// create samples only
 		$context['populate'] = 'samples';
@@ -1968,7 +1935,7 @@ if(!$permitted) {
 			// configure the interface on first installation
 			if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
 				echo '<form method="get" action="../skins/configure.php">'."\n"
-					.'<p>'.Skin::build_submit_button(i18n::s('Next step')).'</p>'."\n"
+					.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Next step')).'</p>'."\n"
 					.'</form>'."\n";
 
 			// or back to the control panel
@@ -1995,11 +1962,11 @@ if(!$permitted) {
 // create sample server profiles
 } elseif($action == 'servers') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add server profiles');
+
 	// ask for confirmation
 	if(!isset($_REQUEST['confirmation']) || !$_REQUEST['confirmation']) {
-
-		// page title
-		$context['page_title'] = i18n::s('New server profiles');
 
 		// splash message
 		$context['text'] .= '<p>'.i18n::s('This script adds some public servers to be pinged when content is added to your server. Do not trigger this if your host is not visible from the Internet.').'</p>';
@@ -2010,7 +1977,7 @@ if(!$permitted) {
 			.'<input type="hidden" name="confirmation" value="Y"'.EOT;
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Start')).'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Start')).'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
@@ -2028,9 +1995,6 @@ if(!$permitted) {
 
 	// actual data creation
 	} else {
-
-		// page title
-		$context['page_title'] = i18n::s('Create server profiles');
 
 		/**
 		 * dynamically generate the page
@@ -2063,11 +2027,11 @@ if(!$permitted) {
 // create a vote or a poll
 } elseif($action == 'vote') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add a page');
+
 	// get section parameters
 	if(!isset($_REQUEST['type']) || !$_REQUEST['type']) {
-
-		// page title
-		$context['page_title'] = i18n::s('Sollicite users for their input');
 
 		// splash message
 		$context['text'] .= '<p>'.i18n::s('This script will create one single page to capture collective feed-back. What kind of support are you looking for?').'</p>';
@@ -2096,7 +2060,7 @@ if(!$permitted) {
 		$fields = array();
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Start'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Start'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
@@ -2108,11 +2072,11 @@ if(!$permitted) {
 // create a wiki
 } elseif($action == 'wiki') {
 
+	// page title
+	$context['page_title'] = i18n::s('Add a wiki');
+
 	// get section parameters
 	if(!isset($_REQUEST['title']) || !$_REQUEST['title']) {
-
-		// page title
-		$context['page_title'] = i18n::s('New wiki');
 
 		// splash
 		$context['text'] .= '<p>'.i18n::s('With YACS, each wiki is an independant section, with options to limit the number of contributors or readers. Each post in a wiki may feature images, photos, files, comments, trackbacks and related links.').'</p>'
@@ -2174,7 +2138,7 @@ if(!$permitted) {
 		$fields = array();
 
 		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Create a wiki'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Add content'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 		// end of the form
 		$context['text'] .= '</div></form>';
@@ -2201,9 +2165,6 @@ if(!$permitted) {
 
 	// create a section
 	} else {
-
-		// page title
-		$context['page_title'] = i18n::s('Creation of a new wiki');
 
 		$fields = array();
 		$fields['anchor'] = $_REQUEST['anchor'];
@@ -2275,53 +2236,53 @@ if(!$permitted) {
 	$context['text'] .= '<form method="get" action="'.$context['script_url'].'" id="main_form">'."\n";
 
 	// create sample records
-	$context['text'] .= '<p><input type="radio" name="action" value="samples" /> '.i18n::s('Create sample records -- add sections, categories, and articles to your site, and learn by example').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="samples" /> '.i18n::s('Add sample records -- add sections, categories, and articles to your site, and learn by example').'</p>'."\n";
 
 	// create a collection
-	$context['text'] .= '<p><input type="radio" name="action" value="collection" /> '.i18n::s('Create a collection -- and share available files, enable audio and video on-demand, and slideshows').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="collection" /> '.i18n::s('Add a collection -- and share available files, enable audio and video on-demand, and slideshows').'</p>'."\n";
 
 	// create a blog
-	$context['text'] .= '<p><input type="radio" name="action" value="blog" /> '.i18n::s('Create a blog -- and share your feeling, your findings, your soul').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="blog" /> '.i18n::s('Add a blog -- and share your feeling, your findings, your soul').'</p>'."\n";
 
 	// create a wiki
-	$context['text'] .= '<p><input type="radio" name="action" value="wiki" /> '.i18n::s('Create a wiki -- to support collaborative work in a team of peers').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="wiki" /> '.i18n::s('Add a wiki -- to support collaborative work in a team of peers').'</p>'."\n";
 
 	// post original work
 	$context['text'] .= '<p><input type="radio" name="action" value="original" /> '.i18n::s('Post original work -- in a section that will feature author\'s profiles').'</p>'."\n";
 
 	// create a forum
-	$context['text'] .= '<p><input type="radio" name="action" value="forum" /> '.i18n::s('Create a forum -- let people interact').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="forum" /> '.i18n::s('Add a forum -- let people interact').'</p>'."\n";
 
 	// create a book
-	$context['text'] .= '<p><input type="radio" name="action" value="book" /> '.i18n::s('Create an electronic book, or a manual -- actually, a structured set of pages').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="book" /> '.i18n::s('Add an electronic book, or a manual -- actually, a structured set of pages').'</p>'."\n";
 
 	// create a composite section
-	$context['text'] .= '<p><input type="radio" name="action" value="composite" /> '.i18n::s('Create a composite section -- with scrolling news, plus gadget and extra boxes').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="composite" /> '.i18n::s('Add a composite section -- with scrolling news, plus gadget and extra boxes').'</p>'."\n";
 
 	// sollicitate users for feed-back
 	$context['text'] .= '<p><input type="radio" name="action" value="vote" /> '.i18n::s('Sollicitate users input -- create one single vote, a petition, or a poll').'</p>'."\n";
 
 	// create a section for polls
-	$context['text'] .= '<p><input type="radio" name="action" value="polls" /> '.i18n::s('Create a section for polls -- the most recent is active; previous polls are still listed').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="polls" /> '.i18n::s('Add a section for polls -- the most recent is active; previous polls are still listed').'</p>'."\n";
 
 	// create a section for partners if none exists
 	if(!Sections::get('partners'))
-		$context['text'] .= '<p><input type="radio" name="action" value="partners" /> '.i18n::s('Create a section for partners -- the special people or sites that are supporting your site').'</p>'."\n";
+		$context['text'] .= '<p><input type="radio" name="action" value="partners" /> '.i18n::s('Add a section for partners -- the special people or sites that are supporting your site').'</p>'."\n";
 
 	// create a cookbook
-	$context['text'] .= '<p><input type="radio" name="action" value="recipes" /> '.i18n::s('Create a cookbook -- cooking recipes, the French secret to happiness').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="recipes" /> '.i18n::s('Add a cookbook -- cooking recipes, the French secret to happiness').'</p>'."\n";
 
 	// create a directory of links
-	$context['text'] .= '<p><input type="radio" name="action" value="links" /> '.i18n::s('Create a directory of links -- a small version of Yahoo!, or of DMOZ').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="links" /> '.i18n::s('Add a directory of links -- a small version of Yahoo!, or of DMOZ').'</p>'."\n";
 
 	// create sample server profiles
-	$context['text'] .= '<p><input type="radio" name="action" value="servers" /> '.i18n::s('Create sample server profiles -- ping well-known news aggregator and become famous').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="servers" /> '.i18n::s('Add sample server profiles -- ping well-known news aggregator and become famous').'</p>'."\n";
 
 	// create basic records
-	$context['text'] .= '<p><input type="radio" name="action" value="build" /> '.i18n::s('Create basic records -- in case you would need to replay some steps of the setup process').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="build" /> '.i18n::s('Add basic records -- in case you would need to replay some steps of the setup process').'</p>'."\n";
 
 	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Next step'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+	$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Next step'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 	// end of the form
 	$context['text'] .= '</form>'."\n";
@@ -2333,12 +2294,10 @@ if(!$permitted) {
 		$label .= '<ul>'."\n";
 
 		if(Surfer::is_associate())
-			$label .= '<li>'.Skin::build_link('sections/edit.php', i18n::s('Create a section'), 'shortcut').'</li>'."\n"
-				.'<li>'.Skin::build_link('categories/edit.php', i18n::s('Create a category'), 'shortcut').'</li>'."\n";
+			$label .= '<li>'.Skin::build_link('sections/edit.php', i18n::s('Add a section'), 'shortcut').'</li>'."\n"
+				.'<li>'.Skin::build_link('categories/edit.php', i18n::s('Add a category'), 'shortcut').'</li>'."\n";
 
-		$label .= '<li> '.Skin::build_link('articles/edit.php', i18n::s('Write a new page'), 'shorcut').'</li>'."\n"
-			.'<li> '.Skin::build_link('images/edit.php', i18n::s('Post a photo'), 'shortcut').'</li>'."\n"
-			.'<li> '.Skin::build_link('files/edit.php', i18n::s('Share a file'), 'shortcut').'</li>'."\n";
+		$label .= '<li> '.Skin::build_link('articles/edit.php', i18n::s('Add a page'), 'shorcut').'</li>'."\n";
 
 		$label .= '</ul>'."\n";
 

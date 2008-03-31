@@ -2,6 +2,10 @@
 /**
  * process remote blog calls
  *
+ * @todo use https to secure blogging, as asked for at http://www.dscoduc.com/post/2008/03/Insecure-blogging.aspx
+ * @todo implement Wordpress API, as in http://trac.wordpress.org/browser/trunk/xmlrpc.php
+ * @todo improve support of Windows Live Writer as in http://www.andrewgrant.org/keyword-tags
+ * @todo implement WLW manifest as described in http://msdn2.microsoft.com/en-us/library/bb463266.aspx
  * @todo restrict the list of blogs to assigned sections, plus the default section
  * @todo use section.php for editors
  *
@@ -567,7 +571,7 @@ else {
 
 		// restrict changes after publication, if not an associate and not in wiki mode
 		elseif(($item['publish_date'] > NULL_DATE) && ($user['capability'] != 'A') && !($section && preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])) && !($context['users_with_auto_publish'] == 'Y'))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to change a published post in blog %s at %s'), $blogid, $context['url_to_home']));
+			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to change blog %s at %s'), $blogid, $context['url_to_home']));
 
 		else {
 			// remember the previous page version
@@ -975,7 +979,7 @@ else {
 
 		// restrict access to associates and editors
 		elseif(($user['capability'] != 'A') && (!preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to modify blog %s at %s'), $blogid, $context['url_to_home']));
+			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to change blog %s at %s'), $blogid, $context['url_to_home']));
 
 		// we actually process only 'main' type
 		elseif($type != 'main')
@@ -1012,7 +1016,7 @@ else {
 
 		// restrict changes after publication
 		elseif(($item['publish_date'] > NULL_DATE) && ($user['capability'] != 'A') && !($section && preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors']) && ($context['users_with_auto_publish'] != 'Y')))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to change a published post in blog %s at %s'), $blogid, $context['url_to_home']));
+			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to change blog %s at %s'), $blogid, $context['url_to_home']));
 
 		else {
 			// remember the previous page version

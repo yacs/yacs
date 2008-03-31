@@ -139,12 +139,12 @@ if(!isset($item['id'])) {
 		// let action owner and associates change action status
 		if(($item['anchor'] == 'user:'.Surfer::get_id()) || Surfer::is_associate()) {
 
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$complete_link = 'actions/accept.php/'.$item['id'].'/completed';
 			else
 				$complete_link = 'actions/accept.php?id='.$item['id'].'&status=completed';
 
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$reject_link = 'actions/accept.php/'.$item['id'].'/rejected';
 			else
 				$reject_link = 'actions/accept.php?id='.$item['id'].'&status=rejected';
@@ -162,7 +162,7 @@ if(!isset($item['id'])) {
 		// let action owner and associates change action status
 		if(($item['anchor'] == 'user:'.Surfer::get_id()) || Surfer::is_associate()) {
 
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$reset_link = 'actions/accept.php/'.$item['id'].'/on-going';
 			else
 				$reset_link = 'actions/accept.php?id='.$item['id'].'&status=on-going';
@@ -179,7 +179,7 @@ if(!isset($item['id'])) {
 		// let action owner and associates change action status
 		if(($item['anchor'] == 'user:'.Surfer::get_id()) || Surfer::is_associate()) {
 
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$reset_link = 'actions/accept.php/'.$item['id'].'/on-going';
 			else
 				$reset_link = 'actions/accept.php?id='.$item['id'].'&status=on-going';

@@ -155,14 +155,22 @@ Class Layout_comments_as_jive extends Layout_interface {
 
 			// the reply and quote commands are offered when new comments are allowed
 			if(Comments::are_allowed($anchor)) {
+
+				Skin::define_img('NEW_COMMENT_IMG', $context['skin'].'/icons/comments/new.gif');
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'reply') => NEW_COMMENT_IMG.i18n::s('Reply') ));
+
+				Skin::define_img('QUOTE_COMMENT_IMG', $context['skin'].'/icons/comments/quote.gif');
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'quote') => QUOTE_COMMENT_IMG.i18n::s('Quote') ));
 			}
 
 			// additional commands for associates and poster and editor
 			if(Surfer::is_empowered() || Surfer::is_creator($item['create_id'])) {
-				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'edit') => EDIT_COMMENT_IMG.i18n::s('Modify') ));
-				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'delete') => DELETE_COMMENT_IMG.i18n::s('Remove') ));
+
+				Skin::define_img('EDIT_COMMENT_IMG', $context['skin'].'/icons/comments/edit.gif');
+				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'edit') => EDIT_COMMENT_IMG.i18n::s('Edit') ));
+
+				Skin::define_img('DELETE_COMMENT_IMG', $context['skin'].'/icons/comments/delete.gif');
+				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'delete') => DELETE_COMMENT_IMG.i18n::s('Delete') ));
 			}
 
 			// comment main text

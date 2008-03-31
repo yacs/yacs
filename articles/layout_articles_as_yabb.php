@@ -62,11 +62,11 @@ Class Layout_articles_as_yabb extends Layout_interface {
 			if(defined('HOT_THREAD_IMG'))
 				$help .= HOT_THREAD_IMG.' '.i18n::s('Hot thread (10 replies)').BR."\n";
 
-			if(defined('VERY_HOT_THREAD_IMG'))
-				$help .= VERY_HOT_THREAD_IMG.' '.i18n::s('Very hot thread (20 replies)').BR."\n";
+			Skin::define_img('VERY_HOT_THREAD_IMG', $context['skin'].'/icons/articles/very_hot_thread.gif');
+			$help .= VERY_HOT_THREAD_IMG.' '.i18n::s('Very hot thread (20 replies)').BR."\n";
 
-			if(defined('STICKY_THREAD_IMG'))
-				$help .= STICKY_THREAD_IMG.' '.i18n::s('Sticky thread').BR."\n";
+			Skin::define_img('STICKY_THREAD_IMG', $context['skin'].'/icons/articles/sticky_thread.gif');
+			$help .= STICKY_THREAD_IMG.' '.i18n::s('Sticky thread').BR."\n";
 
 			if($help)
 				$context['extra'] .= Skin::build_box(i18n::s('Icons'), $help, 'navigation', 'help');
@@ -139,13 +139,16 @@ Class Layout_articles_as_yabb extends Layout_interface {
 
 			// select an icon for this thread
 			$item['comments_count'] = Comments::count_for_anchor('article:'.$item['id']);
-			if(is_object($overlay) && ($overlay->attributes['overlay_type'] == 'poll'))
+			if(is_object($overlay) && ($overlay->attributes['overlay_type'] == 'poll')) {
+				Skin::define_img('POLL_IMG', $context['skin'].'/icons/articles/poll.gif');
 				$icon = POLL_IMG;
-			elseif($item['rank'] < 10000)
+			} elseif($item['rank'] < 10000) {
+				Skin::define_img('STICKY_THREAD_IMG', $context['skin'].'/icons/articles/sticky_thread.gif');
 				$icon = STICKY_THREAD_IMG;
-			elseif(isset($item['comments_count']) && ($item['comments_count'] >= 20))
+			} elseif(isset($item['comments_count']) && ($item['comments_count'] >= 20)) {
+				Skin::define_img('VERY_HOT_THREAD_IMG', $context['skin'].'/icons/articles/very_hot_thread.gif');
 				$icon = VERY_HOT_THREAD_IMG;
-			elseif(isset($item['comments_count']) && ($item['comments_count'] >= 10))
+			} elseif(isset($item['comments_count']) && ($item['comments_count'] >= 10))
 				$icon = HOT_THREAD_IMG;
 			else
 				$icon = THREAD_IMG;

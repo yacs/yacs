@@ -57,7 +57,7 @@ class Agree_on_file_access extends Behavior {
 		$context['text'] .= Codes::beautify(Safe::file_get_contents($context['path_to_root'].'behaviors/agreements/'.$this->parameters));
 
 		// target link to record agreement
-		if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+		if($context['with_friendly_urls'] == 'Y')
 			$agree_link = 'behaviors/agreements/agree.php/'.rawurlencode($anchor);
 		else
 			$agree_link = 'behaviors/agreements/agree.php?id='.urlencode($anchor);

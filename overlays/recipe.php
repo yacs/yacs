@@ -85,13 +85,13 @@ class Recipe extends Overlay {
 			switch($action) {
 
 			case 'edit':
-				return i18n::s('Modify one recipe');
+				return i18n::s('Edit a recipe');
 
 			case 'delete':
-				return i18n::s('Delete one recipe');
+				return i18n::s('Delete a recipe');
 
 			case 'new':
-				return i18n::s('Post a new recipe');
+				return i18n::s('Add a recipe');
 
 			case 'view':
 			default:

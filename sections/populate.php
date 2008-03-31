@@ -67,7 +67,7 @@ if(count(get_included_files()) < 3) {
 	$context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
 
 	// the title of the page
-	$context['page_title'] = i18n::s('Create default sections');
+	$context['page_title'] = i18n::s('Add default sections');
 
 	// stop hackers the hard way
 	if(!Surfer::is_associate())
@@ -433,7 +433,7 @@ else {
 	$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
 	$menu = array();
 	$menu = array_merge($menu, array('sections/' => i18n::s('Go back to the site map')));
-	$menu = array_merge($menu, array('control/populate.php' => i18n::s('Create additional content')));
+	$menu = array_merge($menu, array('control/populate.php' => i18n::s('Add additional content')));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	render_skin();

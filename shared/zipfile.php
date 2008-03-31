@@ -104,7 +104,7 @@ class zipfile {
 
 		//sanity check
 		if($data_length < $zdata_length)
-			return($this->store($name, $date, $data));
+			return $this->store($name, $date, $data);
 
 		//
 		// add one file record

@@ -51,6 +51,7 @@ Class XML_RPC_Codec extends Codec {
 	 * @return array a status code (TRUE is ok) and the parsing result
 	 */
 	function decode($data) {
+		global $context;
 
 		// create a parser
 		$parser = xml_parser_create();
@@ -66,7 +67,7 @@ Class XML_RPC_Codec extends Codec {
 		$this->stack = array();
 		if(!xml_parse($parser, $data)) {
 
-			if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+			if($context['with_debug'] == 'Y')
 				Logger::remember('services/xml_rpc_codec.php', 'invalid packet to decode', str_replace("\r\n", "\n", $data), 'debug');
 
 			return array(FALSE, 'Parsing error: '.xml_error_string(xml_get_error_code($parser))

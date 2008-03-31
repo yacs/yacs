@@ -294,7 +294,7 @@ if($with_form) {
 	if(Surfer::is_associate())
 		$text .= '<p>'.i18n::s('If you paste some existing HTML content and want to avoid the implicit formatting insert the code <code>[formatted]</code> at the very beginning of the description field.');
 	else
-		$text .= '<p>'.i18n::s('All HTML tags are removed.');
+		$text .= '<p>'.i18n::s('Most HTML tags are removed.');
 	$text .= ' '.sprintf(i18n::s('You can use %s to beautify your post'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help')).'.</p>';
 
 

@@ -76,6 +76,10 @@ Class Layout_comments_as_daily extends Layout_interface {
 			else
 				$class = 'odd';
 
+			// flag comments from anchor author
+			if(isset($this->layout_variant) && ($this->layout_variant == 'user:'.$item['create_id']))
+				$class .= ' follow_up';
+
 			// name this comment
 			$text .= '<div id="comment_'.$item['id'].'" class="'.$class.' comment">'."\n".'<h3>';
 

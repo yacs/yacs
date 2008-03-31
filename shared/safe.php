@@ -415,6 +415,7 @@ class Safe {
 	 * @return an array or FALSE
 	 */
 	function GetImageSize($file) {
+		global $context;
 
 		// translate the path
 		$file = Safe::realpath($file);
@@ -422,6 +423,9 @@ class Safe {
 		// sanity check
 		if(!is_readable($file))
 			return FALSE;
+
+		if($context['with_profile'] == 'Y')
+			logger::profile('GetImageSize', 'count');
 
 		// ensure call is allowed
 		if(is_callable('GetImageSize'))
@@ -691,6 +695,7 @@ class Safe {
 
 		// include it
 		include_once $file;
+
 		return TRUE;
 	}
 

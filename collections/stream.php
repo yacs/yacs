@@ -157,7 +157,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 			$mime = 'audio/x-mpegurl';
 
 			// protect file origin, and set winamp headers
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$text = $context['url_to_home'].$context['url_to_root'].'collections/fetch.php/'.rawurlencode($item['collection']).'/'.$item['relative_url'];
 			else
 				$text = $context['url_to_home'].$context['url_to_root'].'collections/fetch.php?path='.urlencode($item['id']);

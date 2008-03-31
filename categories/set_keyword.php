@@ -27,7 +27,7 @@ load_skin('categories');
 $context['page_title'] = i18n::s('Keywords update');
 
 // create a category to host keywords if none exists
-if(!$root_category =& Categories::lookup('keywords')) {
+if(!$root_category = Categories::lookup('keywords')) {
 	$fields = array();
 	$fields['nick_name'] = 'keywords';
 	$fields['title'] = i18n::c('Keywords');

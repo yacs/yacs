@@ -134,7 +134,7 @@ if(!isset($item['id'])) {
 	// compute the url for this article
 	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 
-	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y')) {
+	if($context['with_friendly_urls'] == 'Y') {
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/article/'.$item['id'];
 	} else {
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=article:'.$item['id'];

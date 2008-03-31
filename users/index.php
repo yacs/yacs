@@ -87,9 +87,9 @@ if($stats['count'])
 // navigation commands for users, if necessary
 if($stats['count'] > USERS_PER_PAGE) {
 	$home = 'users/index.php';
-	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+	if($context['with_friendly_urls'] == 'Y')
 		$prefix = $home.'/';
-	elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+	elseif($context['with_friendly_urls'] == 'R')
 		$prefix = $home.'/';
 	else
 		$prefix = $home.'?page=';

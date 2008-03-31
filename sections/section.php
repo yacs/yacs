@@ -204,9 +204,9 @@ Class Section extends Anchor {
 			// command to create a comment
 			case 'new_command':
 				if($this->has_layout('jive'))
-					return i18n::s('Post a new reply');
+					return i18n::s('Reply to this post');
 				if($this->has_layout('manual'))
-					return i18n::s('Add a new note');
+					return i18n::s('Annotate this page');
 				if($this->has_layout('wiki'))
 					return i18n::s('Annotate this page');
 				return i18n::s('Add a comment');
@@ -214,11 +214,11 @@ Class Section extends Anchor {
 			// page title to create a comment
 			case 'new_title':
 				if($this->has_layout('jive'))
-					return i18n::s('Post a new reply');
+					return i18n::s('Reply to this post');
 				if($this->has_layout('manual'))
-					return i18n::s('Add a new note');
+					return i18n::s('Annotate this page');
 				if($this->has_layout('wiki'))
-					return i18n::s('Add a new note');
+					return i18n::s('Annotate this page');
 				return i18n::s('Add a comment');
 
 			// command to view content
@@ -1299,7 +1299,7 @@ Class Section extends Anchor {
 				$mail2['subject'] = sprintf(i18n::c('%s: %s'), ucfirst(strip_tags($this->item['title'])), strip_tags($target['title']));
 
 				// message to section watcher
-				$mail['message'] = sprintf(i18n::c('A new page has been submitted by %s'), $surfer)
+				$mail['message'] = sprintf(i18n::c('A page has been submitted by %s'), $surfer)
 					."\n\n".ucfirst(strip_tags($target['title']))
 					."\n".$context['url_to_home'].$context['url_to_root'].Articles::get_url($target['id'], 'view', $target['title'])
 					."\n\n"
@@ -1311,7 +1311,7 @@ Class Section extends Anchor {
 				// message to poster watcher
 				if(Surfer::get_id()) {
 
-					$mail2['message'] = sprintf(i18n::c('A new page has been submitted by %s'), $surfer)
+					$mail2['message'] = sprintf(i18n::c('A page has been submitted by %s'), $surfer)
 						."\n\n".ucfirst(strip_tags($target['title']))
 						."\n".$context['url_to_home'].$context['url_to_root'].Articles::get_url($target['id'], 'view', $target['title'])
 						."\n\n"
@@ -1347,7 +1347,7 @@ Class Section extends Anchor {
 					$surfer = i18n::c('(anonymous)');
 
 				// message to section watcher
-				$mail['message'] = sprintf(i18n::c('A new file has been uploaded by %s'), $surfer)
+				$mail['message'] = sprintf(i18n::c('A file has been uploaded by %s'), $surfer)
 					."\n\n".ucfirst(strip_tags($title))
 					."\n".$context['url_to_home'].$context['url_to_root'].Files::get_url($target['id'])
 					."\n\n"
@@ -1359,7 +1359,7 @@ Class Section extends Anchor {
 				// message to poster watcher
 				if(Surfer::get_id()) {
 
-					$mail2['message'] = sprintf(i18n::c('A new file has been uploaded by %s'), $surfer)
+					$mail2['message'] = sprintf(i18n::c('A file has been uploaded by %s'), $surfer)
 						."\n\n".ucfirst(strip_tags($title))
 						."\n".$context['url_to_home'].$context['url_to_root'].Files::get_url($target['id'])
 						."\n\n"

@@ -623,9 +623,9 @@ Class Categories {
 
 		// the prefix for navigation links --name references the things to page
 		if($action == 'navigate') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'categories/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'categories/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
 			else
 				return 'categories/view.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
@@ -1528,7 +1528,7 @@ Class Categories {
 				$week = mktime(0,0,0, $stamp['mon'], $stamp['mday']-$stamp['wday']+1, $stamp['year']);
 
 				// create the category for this week if it does not exist
-				if(!($category =& Categories::lookup('week '.date('y/m/d', $week))) && ($anchor =& Categories::get(i18n::c('weekly')))) {
+				if(!($category = Categories::lookup('week '.date('y/m/d', $week))) && ($anchor =& Categories::get(i18n::c('weekly')))) {
 
 					$fields = array();
 					$fields['anchor'] = 'category:'.$anchor['id'];
@@ -1552,7 +1552,7 @@ Class Categories {
 				$month = mktime(0,0,0, $stamp['mon'], 1, $stamp['year']);
 
 				// create the category for this month if it does not exist
-				if(!($category =& Categories::lookup('month '.date('M Y', $month))) && ($anchor =& Categories::get(i18n::c('monthly')))) {
+				if(!($category = Categories::lookup('month '.date('M Y', $month))) && ($anchor =& Categories::get(i18n::c('monthly')))) {
 					$fields = array();
 					$fields['anchor'] = 'category:'.$anchor['id'];
 					$fields['nick_name'] = 'month '.date('M Y', $month);
@@ -1579,7 +1579,7 @@ Class Categories {
 		if(is_array($tags) && count($tags)) {
 
 			// create a category to host keywords, if none exists
-			if(!$root_category =& Categories::lookup('keywords')) {
+			if(!$root_category = Categories::lookup('keywords')) {
 				$fields = array();
 				$fields['nick_name'] = 'keywords';
 				$fields['title'] = i18n::c('Keywords');

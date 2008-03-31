@@ -70,7 +70,7 @@ else
 if(isset($item['id']))
 	$context['page_title'] = i18n::s('Update a date');
 else
-	$context['page_title'] = i18n::s('Declare a new date');
+	$context['page_title'] = i18n::s('Add a date');
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())

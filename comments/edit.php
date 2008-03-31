@@ -452,7 +452,7 @@ if($with_form) {
 		$context['text'] .= Skin::build_block(i18n::s('Preview of your post:'), 'title')
 			.Codes::beautify($item['description']);
 
-		$context['text'] .= Skin::build_block(i18n::s('Modify your post below'), 'title');
+		$context['text'] .= Skin::build_block(i18n::s('Edit your post below'), 'title');
 
 	// quote the previous comment, if any
 	} elseif(isset($item['id']) && ($action == 'quote')) {

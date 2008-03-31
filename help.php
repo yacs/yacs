@@ -270,8 +270,8 @@ if(Surfer::is_member()) {
 		.'<li>'.sprintf(i18n::s('%s and change it if you like.'), Skin::build_link('users/view.php', i18n::s('Review your user profile'), 'shortcut')).'</li>'."\n";
 	if(Surfer::is_associate())
 		$context['text'] .= '<li>'.sprintf(i18n::s('%s with the Content Assistant'), Skin::build_link('control/populate.php', i18n::s('Structure content of your server'), 'shortcut')).'</li>'."\n"
-			.'<li>'.sprintf(i18n::s('%s. Some people would say \'a new blog\'.'), Skin::build_link('sections/edit.php', i18n::s('Create a new section'), 'shortcut')).'</li>'."\n";
-	$context['text'] .= '<li>'.sprintf(i18n::s('%s. Or call it a \'blog entry\' if you prefer.'), Skin::build_link('articles/edit.php', i18n::s('Create a new article'), 'shortcut')).'</li>'."\n"
+			.'<li>'.sprintf(i18n::s('%s. Some people would say \'a new blog\'.'), Skin::build_link('sections/edit.php', i18n::s('Add a section'), 'shortcut')).'</li>'."\n";
+	$context['text'] .= '<li>'.sprintf(i18n::s('%s. Or call it a \'blog entry\' if you prefer.'), Skin::build_link('articles/edit.php', i18n::s('Add a page'), 'shortcut')).'</li>'."\n"
 		.'<li>'.sprintf(i18n::s('%s and check some configuration parameters.'), Skin::build_link('control/', i18n::s('Go to the Control Panel'), 'shortcut')).'</li>'."\n"
 		.'<li>'.sprintf(i18n::s('%s of this site.'), Skin::build_link('index.php', i18n::s('Go to the main page'), 'shortcut')).'</li>'."\n"
 		.'</ul>'."\n";
@@ -305,11 +305,7 @@ if(!Surfer::is_logged() || Surfer::is_member()) {
 		$context['text'] .= '<li>'.sprintf(i18n::s('%s to be authenticated at each visit'), Skin::build_link('users/edit.php', i18n::s('Register'))).'</li>';
 
 	// actual contributions
-	$context['text'] .= '<li>'.sprintf(i18n::s('%s that will be published on this site'), Skin::build_link('articles/edit.php', i18n::s('Write a page'))).'</li>';
-
-	$context['text'] .= '<li>'.sprintf(i18n::s('%s to be viewed by other members'), Skin::build_link('images/edit.php', i18n::s('Post an image or a photo'))).'</li>';
-
-	$context['text'] .= '<li>'.sprintf(i18n::s('%s with other members'), Skin::build_link('files/edit.php', i18n::s('Share a file'))).'</li>';
+	$context['text'] .= '<li>'.sprintf(i18n::s('%s that will be published on this site'), Skin::build_link('articles/edit.php', i18n::s('Add a page'))).'</li>';
 
 	$context['text'] .= '<li>'.i18n::s('While you\'re browsing, don\'t hesitate to comment visited pages, to send images or files, or to share some interesting link you may have').'</li>';
 

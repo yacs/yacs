@@ -83,7 +83,7 @@ if($page < 1)
 i18n::bind('sections');
 
 // load the skin
-load_skin('sections');
+load_skin('site_map');
 
 // page size
 $items_per_page = 50;
@@ -100,9 +100,9 @@ if($count > $items_per_page) {
 
 	// navigation commands for sections, if necessary
 	$home = 'sections/index.php';
-	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+	if($context['with_friendly_urls'] == 'Y')
 		$prefix = $home.'/';
-	elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+	elseif($context['with_friendly_urls'] == 'R')
 		$prefix = $home.'/';
 	else
 		$prefix = $home.'?page=';
@@ -111,7 +111,7 @@ if($count > $items_per_page) {
 
 // associates may create a new section
 if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'sections/edit.php' => i18n::s('Create a section') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( 'sections/edit.php' => i18n::s('Add a section') ));
 
 // associates may trigger the content assistant
 if(Surfer::is_associate())

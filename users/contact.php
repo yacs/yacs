@@ -144,11 +144,11 @@ if(!isset($item['id'])) {
 
 		// ensure we have a valid anchor
 		if(!$anchor)
-			Skin::error(i18n::s('Impossible to create a new item.'));
+			Skin::error(i18n::s('Impossible to add a page.'));
 
 		// post the new thread
 		elseif(!$new_id = Articles::post($article))
-			Skin::error(i18n::s('Impossible to create a new item.'));
+			Skin::error(i18n::s('Impossible to add a page.'));
 
 		// ensure both surfers will be allowed to access this page
 		else {

@@ -90,7 +90,7 @@ if($missing == 3) {
 		// provide instructions
 		Skin::error(sprintf(i18n::s('ERROR: YACS requires at least PHP version 4.3. The server runs version %s.'), phpversion()));
 
-		$context['text'] .= '<p><a href="setup.php">'.i18n::s('Check PHP version again')."</a></p>\n";
+		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check PHP version again')."</a></p>\n";
 
 		// check
 		$check = i18n::s('ERROR');
@@ -107,7 +107,7 @@ if($missing == 3) {
 		// provide instructions
 		Skin::error(i18n::s('ERROR: YACS requires the MySQL PHP extension.'));
 
-		$context['text'] .= '<p><a href="setup.php">'.i18n::s('Check the MySQL PHP extension again')."</a></p>\n";
+		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check the MySQL PHP extension again')."</a></p>\n";
 
 		// check
 		$value = i18n::s('Absent');
@@ -127,7 +127,7 @@ if($missing == 3) {
 		// provide instructions
 		Skin::error(i18n::s('ERROR: YACS requires the XML PHP extension.'));
 
-		$context['text'] .= '<p><a href="setup.php">'.i18n::s('Check the XML PHP extension again')."</a></p>\n";
+		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check the XML PHP extension again')."</a></p>\n";
 
 		// check
 		$value = i18n::s('Absent');
@@ -144,7 +144,7 @@ if($missing == 3) {
 	// ensure we can handle ZIP files
 	if(!is_callable('zip_open')) {
 		$context['text'] .= '<p>'.i18n::s('WARNING: You will not be able to upload zip files.')."</p>\n";
-		$context['text'] .= '<p><a href="setup.php">'.i18n::s('Check the ZIP PHP extension again')."</a></p>\n";
+		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check the ZIP PHP extension again')."</a></p>\n";
 
 		// check
 		$value = i18n::s('Absent');
@@ -214,7 +214,7 @@ if($missing == 3) {
 
 		$context['text'] .= '<p>'.sprintf(i18n::s('Check the provided %s file to find more help on file permissions.'), '<a href="'.i18n::s('readme.txt').'">'.i18n::s('readme.txt').'</a>')."</p>\n";
 
-		$context['text'] .= '<p><a href="setup.php">'.i18n::s('Check again our ability to write to files')."</a></p>\n";
+		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check again our ability to write to files')."</a></p>\n";
 
 
 		// check
@@ -256,7 +256,7 @@ if($missing == 3) {
 
 		// add a button to start the installation process
 		$context['text'] .= '<form method="get" action="control/configure.php" id="main_form">'."\n"
-			.'<p>'.Skin::build_submit_button(i18n::s('Start the installation process'), NULL, NULL, 'confirmed').'</p>'."\n"
+			.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Start the installation process'), NULL, NULL, 'confirmed').'</p>'."\n"
 			.'</form>'."\n";
 
 		// a place holder for cookies activation
@@ -334,13 +334,13 @@ if($missing == 3) {
 	}
 
 	// the splash message
-	$context['text'] .= sprintf(i18n::s("<p>You have passed through the several installation steps.</p>\nWhat do you want to do now?<ul>\n<li>Select %s for your site.</li>\n<li>Populate your site with the %s.</li>\n<li>Manage everything from the %s.</li>\n<li>Check the %s of this site.</li>\n<li>Review your %s.</li>\n<li>Create a %s.</li>\n<li>Look at the %s.</li>\n<li>Visit %s to learn more.</li>\n</ul>\n<p>Thank you for having selected to use YACS for your web site.</p>\n"),
+	$context['text'] .= sprintf(i18n::s("<p>You have passed through the several installation steps.</p>\nWhat do you want to do now?<ul>\n<li>Select %s for your site.</li>\n<li>Populate your site with the %s.</li>\n<li>Manage everything from the %s.</li>\n<li>Check the %s of this site.</li>\n<li>Review your %s.</li>\n<li>%s.</li>\n<li>Look at the %s.</li>\n<li>Visit %s to learn more.</li>\n</ul>\n<p>Thank you for having selected to use YACS for your web site.</p>\n"),
 		Skin::build_link('skins/', i18n::s('another skin')),
 		Skin::build_link('control/populate.php', i18n::s('Content Assistant')),
 		Skin::build_link('control/', i18n::s('Control Panel')),
-		Skin::build_link($context['url_to_root'], i18n::s('main page')),
+		Skin::build_link($context['url_to_root'], i18n::s('front page')),
 		Skin::build_link('users/view.php', i18n::s('user profile')),
-		Skin::build_link('articles/edit.php', i18n::s('new page')),
+		Skin::build_link('articles/edit.php', i18n::s('Add a page')),
 		Skin::build_link('help.php', i18n::s('help index page')),
 		Skin::build_link(i18n::s('http://www.yetanothercommunitysystem.com/'), i18n::s('www.yetanothercommunitysystem.com'), 'external'))."\n";
 

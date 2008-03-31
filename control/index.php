@@ -521,6 +521,44 @@ if(!file_exists('../parameters/control.include.php')) {
 			// end of the table
 			$text .= Skin::table_suffix();
 
+			// total size of the database
+			$query = "SHOW TABLE STATUS";
+			if(!$result =& SQL::query($query)) {
+				$context['text'] .= Skin::error_pop().BR."\n";
+			} else {
+
+				// consolidate numbers
+				$total_tables = 0;
+				$total_records = 0;
+				$total_size = 0;
+				$data_size = 0;
+				$index_size = 0;
+				while($row =& SQL::fetch($result)) {
+					$total_tables += 1;
+					$total_records += $row['Rows'];
+					$total_size += $row['Data_length'] +$row['Index_length'];
+					$data_size += $row['Data_length'];
+					$index_size += $row['Index_length'];
+				}
+
+				// turn big numbers to human-readable format
+				function get_size($size){
+					if($size < 1024)
+						return $size;
+
+					$labels = array('', 'K', 'M', 'G', 'T');
+					foreach($labels as $label) {
+						if($size < 1024)
+							break;
+						$size = $size / 1024;
+					}
+					return round($size, 2).' '.$label;
+				}
+
+				// overall size of the database
+				$text .= '<p>'.sprintf('%d tables and %d records in %sbytes (%sbytes data, %sbytes index)', $total_tables, $total_records, get_size($total_size), get_size($data_size), get_size($index_size))."</p>\n";
+			}
+
 			// build another tab
 			$all_tabs = array_merge($all_tabs, array(array('overview_tab', i18n::s('Overview'), 'overview_panel', $text)));
 
@@ -536,7 +574,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			if(Surfer::is_associate()
 				|| (Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y'))) ) {
 
-				$commands[] = sprintf(i18n::s('%s - select a section and type some text, then add images, files and links'), Skin::build_link('articles/edit.php', i18n::s('Create a page'), 'basic'));
+				$commands[] = sprintf(i18n::s('%s - select a section and type some text, then add images, files and links'), Skin::build_link('articles/edit.php', i18n::s('Add a page'), 'basic'));
 				$commands[] = sprintf(i18n::s('%s - fill pre-defined fields, then add images, files and links'), Skin::build_link('forms/', i18n::s('Use a form'), 'basic'));
 
 			}

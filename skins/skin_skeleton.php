@@ -85,6 +85,7 @@ Class Skin_Skeleton {
 		switch($variant) {
 
 		case 'caution':
+			Skin::define_img('CAUTION_FLAG', $context['skin'].'/icons/codes/caution.gif', i18n::s('<b>Warning:</b> '), '!!!');
 			$text = '<p class="caution"'.$id.'>'.CAUTION_FLAG.$text.'</p>';
 			return $text;
 
@@ -152,6 +153,7 @@ Class Skin_Skeleton {
 			return $content;
 
 		case 'note':
+			Skin::define_img('NOTICE_FLAG', $context['skin'].'/icons/codes/note.gif', i18n::s('<b>Note:</b> '));
 			$text = '<p class="note"'.$id.'>'.NOTICE_FLAG.$text.'</p>'."\n";
 			return $text;
 
@@ -1324,7 +1326,7 @@ Class Skin_Skeleton {
 
 			// a default title
 			if(!$href_title)
-				$href_title = ' title="'.encode_field(i18n::s('Browse in a new window')).'"';
+				$href_title = ' title="'.encode_field(i18n::s('Browse in a separate window')).'"';
 
 			$text = '<a href="'.$url.'"'.$href_title.' class="external" onclick="window.open(this.href); return false;">'.$text.'</a>';
 			return $text;
@@ -1423,7 +1425,7 @@ Class Skin_Skeleton {
 
 			// if we have built the documentation, use it
 			if(file_exists($context['path_to_root'].'scripts/reference/footprints.php')) {
-				if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+				if($context['with_friendly_urls'] == 'Y')
 					$prefix = 'scripts/view.php/';
 				else
 					$prefix = 'scripts/view.php?script=';
@@ -1520,6 +1522,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Provide this link to specialized software, such as a RSS news reader')).'"';
 
+			Skin::define_img('XML_IMG', $context['skin'].'/icons/xml.gif');
 			$text = '<a href="'.$url.'"'.$href_title.' class="xml"'
 				.' onclick="window.open(this.href); return false;"'
 				.' onkeypress="window.open(this.href); return false;">'.XML_IMG.$text.'</a>';
@@ -1552,6 +1555,7 @@ Class Skin_Skeleton {
 	 * Accept following variants:
 	 * - '1-column' - links are stacked vertically
 	 * - '2-columns' - two stacks of links
+	 * - 'assistant_bar' - the bar of commands at the bottom of a page
 	 * - 'comma' - a trivial 'xxx, yyy, zzz' list
 	 * - 'compact' - a <ul class="compact"> list
 	 * - 'crumbs' - a list of containers -- should be called once per page
@@ -2038,17 +2042,22 @@ Class Skin_Skeleton {
 	function &build_rating_img($rating) {
 		global $context;
 
-		if(($rating == 1) && defined('RATING_1_IMG'))
+		if($rating == 1) {
+			Skin::define_img('RATING_1_IMG', $context['skin'].'/icons/rating/rated_1.gif', '*', '*');
 			$output = RATING_1_IMG;
-		elseif(($rating == 2) && defined('RATING_2_IMG'))
+		} elseif($rating == 2) {
+			Skin::define_img('RATING_2_IMG', $context['skin'].'/icons/rating/rated_2.gif', '**', '**');
 			$output = RATING_2_IMG;
-		elseif(($rating == 3) && defined('RATING_3_IMG'))
+		} elseif($rating == 3) {
+			Skin::define_img('RATING_3_IMG', $context['skin'].'/icons/rating/rated_3.gif', '***', '***');
 			$output = RATING_3_IMG;
-		elseif(($rating == 4) && defined('RATING_4_IMG'))
+		} elseif($rating == 4) {
+			Skin::define_img('RATING_4_IMG', $context['skin'].'/icons/rating/rated_4.gif', '****', '****');
 			$output = RATING_4_IMG;
-		elseif(($rating == 5) && defined('RATING_5_IMG'))
+		} elseif($rating == 5) {
+			Skin::define_img('RATING_5_IMG', $context['skin'].'/icons/rating/rated_5.gif', '*****', '*****');
 			$output = RATING_5_IMG;
-		else
+		} else
 			$output = '';
 		return $output;
 	}
@@ -2772,6 +2781,36 @@ Class Skin_Skeleton {
 				$text = '<dl class="column">'."\n".$text.'</dl>'."\n";
 				return $text;
 
+			// use css selector: p.assistant_bar, or customize constants in skin.php -- icons are dropped, if any
+			case 'assistant_bar':
+
+				$line_count = 0;
+				foreach($list as $label) {
+
+					// between two items
+					if($line_count++) {
+						if(MENU_SEPARATOR)
+							$text .= MENU_SEPARATOR;
+						else
+							$text .= ' ';
+					}
+
+					// drop the icon
+					if(is_array($label))
+						$label = $label[0];
+
+					// mark first and last items
+					if($line_count == 1)
+						$text .= '<span class="first">'.$label.'</span>';
+					elseif($line_count == count($list))
+						$text .= '<span class="last">'.$label.'</span>';
+					else
+						$text .= $label;
+				}
+
+				$text = '<p class="assistant_bar">'.MENU_PREFIX.$text.MENU_SUFFIX."</p>\n";
+				return $text;
+
 			// left and right columns for the 2-columns layout; actually, a definition list to be shaped through css with selectors: dl.column_1 and dl.column_2
 			case 'column_1':
 			case 'column_2':
@@ -3107,9 +3146,6 @@ Class Skin_Skeleton {
 	 * Normally such images are in the sub-directory 'icons' and below.
 	 * Other directories, including 'images', are reserved to inclusion from the template itself, or through CSS.
 	 *
-	 * Following constants can be initialized simply by putting some image at the right place, as per the following:
-	 * - POWERED_BY_YACS_FLAG features a label, or image in sub-directory icons/powered_by_yacs.gif
-	 *
 	 */
 	function initialize() {
 		global $context;
@@ -3121,9 +3157,6 @@ Class Skin_Skeleton {
 		// the maximum number of articles per page
 		if(!defined('ARTICLES_PER_PAGE'))
 			define('ARTICLES_PER_PAGE', 30);
-
-		// the prefix icon used to print in the tool set
-		Skin::define_img('ASSIGN_TOOL_IMG', $context['skin'].'/icons/tools/assign.gif');
 
 		// define new lines
 		if(!defined('BR')) {
@@ -3143,9 +3176,6 @@ Class Skin_Skeleton {
 
 		// the HTML to signal an answer
 		Skin::define_img('ANSWER_FLAG', $context['skin'].'/icons/answer.gif', i18n::s('A: '), '!!');
-
-		// the prefix icon used for atom 0.3 standard
-		Skin::define_img('ATOM_0_3_STANDARD_IMG', $context['skin'].'/icons/standards/atom_0.3.png');
 
 		// the maximum number of bookmarks per page -- see users/view.php
 		if(!defined('BOOKMARKS_PER_PAGE'))
@@ -3173,9 +3203,6 @@ Class Skin_Skeleton {
 		// the maximum number of categories per page -- see articles/view.php, sections/index.php, sections/view.php
 		if(!defined('CATEGORIES_PER_PAGE'))
 			define('CATEGORIES_PER_PAGE', 20);
-
-		// the HTML to prefix a warning paragraph
-		Skin::define_img('CAUTION_FLAG', $context['skin'].'/icons/codes/caution.gif', i18n::s('<b>Warning:</b> '), '!!!');
 
 		// the prefix icon used for comments in the tool set
 		Skin::define_img('COMMENT_TOOL_IMG', $context['skin'].'/icons/tools/comment.gif');
@@ -3223,42 +3250,12 @@ Class Skin_Skeleton {
 		// the img tag used with the [decorated] code; either a decorating icon, or equivalent to the bullet
 		Skin::define_img('DECORATED_IMG', $context['skin'].'/icons/decorated.gif', BULLET_IMG);
 
-		// the prefix icon used for images in the tool set
-		Skin::define_img('DELETE_ARTICLE_IMG', $context['skin'].'/icons/articles/delete.gif');
-
-		// the prefix icon used to delete comments
-		Skin::define_img('DELETE_COMMENT_IMG', $context['skin'].'/icons/comments/delete.gif');
-
-		// the prefix icon used for images in the tool set
-		Skin::define_img('DELETE_SECTION_IMG', $context['skin'].'/icons/sections/delete.gif');
-
-		// the img tag used to download a file -- see files/view.php
-		Skin::define_img('DOWNLOAD_IMG', $context['skin'].'/icons/files/download.gif');
-
-		// the prefix icon used for images in the tool set
-		Skin::define_img('DRAFT_ARTICLE_IMG', $context['skin'].'/icons/articles/draft.gif');
-
 		// the bullet used to signal pages to be published
 		Skin::define_img('DRAFT_FLAG', $context['skin'].'/icons/to_publish.gif', '<span class="draft flag"><span> '.i18n::s('to publish').' </span>&nbsp;</span>', i18n::s('to publish'));
-
-		// the prefix icon used for images in the tool set
-		Skin::define_img('DUPLICATE_ARTICLE_IMG', $context['skin'].'/icons/articles/duplicate.gif');
-
-		// the prefix icon used for images in the tool set
-		Skin::define_img('EDIT_ARTICLE_IMG', $context['skin'].'/icons/articles/edit.gif');
-
-		// the prefix icon used to edit comments
-		Skin::define_img('EDIT_COMMENT_IMG', $context['skin'].'/icons/comments/edit.gif');
-
-		// the prefix icon used for images in the tool set
-		Skin::define_img('EDIT_SECTION_IMG', $context['skin'].'/icons/sections/edit.gif');
 
 		// the bullet used to signal expired pages
 		if(!defined('EXPIRED_FLAG'))
 			define('EXPIRED_FLAG', '<span class="expired flag"><span> ('.i18n::s('expired').') </span>&nbsp;</span>');
-
-		// the prefix icon used for images in the tool set
-		Skin::define_img('EXPORT_TOOL_IMG', $context['skin'].'/icons/tools/export.gif');
 
 		// the HTML to be inserted before a box title
 		if(!defined('EXTRA_BOX_TITLE_PREFIX'))
@@ -3317,9 +3314,6 @@ Class Skin_Skeleton {
 		if(!defined('GADGET_BOX_TITLE_SUFFIX'))
 			define('GADGET_BOX_TITLE_SUFFIX', BOX_TITLE_SUFFIX);
 
-		// the prefix icon used for images in the tool set
-		Skin::define_img('HISTORY_TOOL_IMG', $context['skin'].'/icons/tools/history.gif');
-
 		// the horizontal ruler
 		if(!defined('HORIZONTAL_RULER'))
 			define('HORIZONTAL_RULER', '<hr'.EOT);
@@ -3334,9 +3328,6 @@ Class Skin_Skeleton {
 		// the HTML to be appended to an icon
 		if(!defined('ICON_SUFFIX'))
 			define('ICON_SUFFIX', '');
-
-		// the prefix icon used for images in the tool set
-		Skin::define_img('IMAGE_TOOL_IMG', $context['skin'].'/icons/tools/image.gif');
 
 		// the HTML string used to prefix an in-line menu
 		if(!defined('INLINE_MENU_PREFIX'))
@@ -3357,17 +3348,8 @@ Class Skin_Skeleton {
 		if(!defined('LINKS_PER_PAGE'))
 			define('LINKS_PER_PAGE', 200);
 
-		// the prefix icon used to lock in the tool set
-		Skin::define_img('LOCK_TOOL_IMG', $context['skin'].'/icons/tools/lock.gif');
-
 		// the HTML used to signal a locked page
 		Skin::define_img('LOCKED_FLAG', $context['skin'].'/icons/locked.gif', '%');
-
-		// the prefix icon used for locked threads
-		Skin::define_img('LOCKED_THREAD_IMG', $context['skin'].'/icons/articles/locked_thread.gif');
-
-		// the prefix icon used to mail in the tool set
-		Skin::define_img('MAIL_TOOL_IMG', $context['skin'].'/icons/tools/mail.gif');
 
 		// the HTML string used to prefix topmenu items [menu]
 		if(!defined('MENU_1_PREFIX'))
@@ -3408,9 +3390,6 @@ Class Skin_Skeleton {
 		// the HTML used to append to a stripped text
 		Skin::define_img('MORE_IMG', $context['skin'].'/icons/more.gif', ' &raquo;');
 
-		// the prefix icon used to fetch to msword in the tool set
-		Skin::define_img('MSWORD_TOOL_IMG', $context['skin'].'/icons/tools/word.gif');
-
 		// the HTML to be inserted before a box title
 		if(!defined('NAVIGATION_BOX_TITLE_PREFIX'))
 			define('NAVIGATION_BOX_TITLE_PREFIX', BOX_TITLE_PREFIX);
@@ -3419,27 +3398,9 @@ Class Skin_Skeleton {
 		if(!defined('NAVIGATION_BOX_TITLE_SUFFIX'))
 			define('NAVIGATION_BOX_TITLE_SUFFIX', BOX_TITLE_SUFFIX);
 
-		// the prefix icon used to create an article
-		Skin::define_img('NEW_ARTICLE_IMG', $context['skin'].'/icons/articles/new.gif');
-
-		// the prefix icon used to create a comment
-		Skin::define_img('NEW_COMMENT_IMG', $context['skin'].'/icons/comments/new.gif');
-
-		// the prefix icon used to create a section
-		Skin::define_img('NEW_SECTION_IMG', $context['skin'].'/icons/sections/new.gif');
-
-		// the prefix icon used to create a decision
-		Skin::define_img('NEW_DECISION_IMG', $context['skin'].'/icons/comments/new.gif');
-
 		// the bullet used to signal new pages
 		if(!defined('NEW_FLAG'))
 			define('NEW_FLAG', '<span class="new flag"><span> ('.i18n::s('new').') </span>&nbsp;</span>');
-
-		// the prefix icon used to create a link
-		Skin::define_img('NEW_LINK_IMG', $context['skin'].'/icons/links/new.gif');
-
-		// the prefix icon used to create a thread
-		Skin::define_img('NEW_THREAD_IMG', $context['skin'].'/icons/articles/new_thread.gif');
 
 		// the HTML string used to prefix some news
 		if(!defined('NEWS_PREFIX'))
@@ -3456,15 +3417,6 @@ Class Skin_Skeleton {
 		// the suffix for [next=...] links
 		if(!defined('NEXT_IMG'))
 			define('NEXT_IMG', '<span> &raquo; </span>');
-
-		// the HTML to be suffixed to next links
-		Skin::define_img('NEXT_SUFFIX', $context['skin'].'/icons/next_icon.gif', ' &gt;&gt;');
-
-		// the HTML to prefix a noticeable paragraph
-		Skin::define_img('NOTICE_FLAG', $context['skin'].'/icons/codes/note.gif', i18n::s('<b>Note:</b> '));
-
-		// the prefix icon used for opml standard
-		Skin::define_img('OPML_STANDARD_IMG', $context['skin'].'/icons/standards/opml.png');
 
 		// the HTML string used to prefix the main menu
 		if(!defined('PAGE_MENU_PREFIX'))
@@ -3486,40 +3438,16 @@ Class Skin_Skeleton {
 		if(!defined('PAGE_TITLE_SUFFIX'))
 			define('PAGE_TITLE_SUFFIX', '');
 
-		// the prefix icon used to fetch to palm pdf in the tool set
-		Skin::define_img('PALM_TOOL_IMG', $context['skin'].'/icons/tools/palm.gif');
-
-		// the prefix icon used to fetch as pdf in the tool set
-		Skin::define_img('PDF_TOOL_IMG', $context['skin'].'/icons/tools/pdf.gif');
-
-		// the img tag used to stream a file -- see files/view.php
-		Skin::define_img('PLAY_IMG', $context['skin'].'/icons/files/play.gif');
-
-		// the prefix icon used for polls
-		Skin::define_img('POLL_IMG', $context['skin'].'/icons/articles/poll.gif');
-
 		// the bullet used to signal popular pages
 		if(!defined('POPULAR_FLAG'))
 			define('POPULAR_FLAG', '<span class="popular flag"><span> ('.i18n::s('popular').') </span>&nbsp;</span>');
-
-		// powered by YACS
-		Skin::define_img('POWERED_BY_YACS_FLAG', $context['skin'].'/icons/powered_by_yacs.gif', i18n::s('YACS'), i18n::s('YACS'));
 
 		// the prefix for [previous=...] links
 		if(!defined('PREVIOUS_IMG'))
 			define('PREVIOUS_IMG', '<span> &laquo; </span>');
 
-		// the HTML to be prefixed to previous links
-		Skin::define_img('PREVIOUS_PREFIX', $context['skin'].'/icons/previous_icon.gif', '&lt;&lt; ');
-
-		// the prefix icon used to print in the tool set
-		Skin::define_img('PRINT_TOOL_IMG', $context['skin'].'/icons/tools/print.gif');
-
 		// the bullet used to signal private pages
 		Skin::define_img('PRIVATE_FLAG', $context['skin'].'/icons/private.png', '('.i18n::s('private').')');
-
-		// the prefix icon used for images in the tool set
-		Skin::define_img('PUBLISH_ARTICLE_IMG', $context['skin'].'/icons/articles/publish.gif');
 
 		// the HTML to signal a question
 		Skin::define_img('QUESTION_FLAG', $context['skin'].'/icons/question.gif', i18n::s('Q: '), '?');
@@ -3532,31 +3460,8 @@ Class Skin_Skeleton {
 		if(!defined('QUESTION_SUFFIX'))
 			define('QUESTION_SUFFIX', '');
 
-		// the prefix icon used to quote comments
-		Skin::define_img('QUOTE_COMMENT_IMG', $context['skin'].'/icons/comments/quote.gif');
-
-		// the prefix icon used for images in the tool set
-		Skin::define_img('RATE_TOOL_IMG', $context['skin'].'/icons/tools/rate.gif');
-
-		// rating
-		Skin::define_img('RATING_1_IMG', $context['skin'].'/icons/rating/rated_1.gif', '*', '*');
-		Skin::define_img('RATING_2_IMG', $context['skin'].'/icons/rating/rated_2.gif', '**', '**');
-		Skin::define_img('RATING_3_IMG', $context['skin'].'/icons/rating/rated_3.gif', '***', '***');
-		Skin::define_img('RATING_4_IMG', $context['skin'].'/icons/rating/rated_4.gif', '****', '****');
-		Skin::define_img('RATING_5_IMG', $context['skin'].'/icons/rating/rated_5.gif', '*****', '*****');
-
 		// the bullet used to signal restricted pages
-		if(!defined('RESTRICTED_FLAG'))
-			Skin::define_img('RESTRICTED_FLAG', $context['skin'].'/icons/restricted.png', '('.i18n::s('restricted').')');
-
-		// the prefix icon used for rss 0.9 standard
-		Skin::define_img('RSS_0_9_STANDARD_IMG', $context['skin'].'/icons/standards/rss_0.9.png');
-
-		// the prefix icon used for rss 1.0 standard
-		Skin::define_img('RSS_1_0_STANDARD_IMG', $context['skin'].'/icons/standards/rss_1.0.png');
-
-		// the prefix icon used for rss 2.0 standard
-		Skin::define_img('RSS_2_0_STANDARD_IMG', $context['skin'].'/icons/standards/rss_2.0.png');
+		Skin::define_img('RESTRICTED_FLAG', $context['skin'].'/icons/restricted.png', '('.i18n::s('restricted').')');
 
 		// the theme to use for on-line presentations
 		if(!defined('S5_THEME') && file_exists($context['path_to_root'].$context['skin'].'/s5/yacs/slides.css'))
@@ -3596,18 +3501,9 @@ Class Skin_Skeleton {
 		if(!defined('SITE_NAME_SUFFIX'))
 			define('SITE_NAME_SUFFIX', '');
 
-		// the prefix icon used for images in the tool set
-		Skin::define_img('STAMP_ARTICLE_IMG', $context['skin'].'/icons/articles/stamp.gif');
-
 		// the HTML used to signal sticky pages
 		if(!defined('STICKY_FLAG'))
 			define('STICKY_FLAG', '');
-
-		// the prefix icon used for sticky threads
-		Skin::define_img('STICKY_THREAD_IMG', $context['skin'].'/icons/articles/sticky_thread.gif');
-
-		// the prefix icon used for sticky locked threads
-		Skin::define_img('STICKY_LOCKED_THREAD_IMG', $context['skin'].'/icons/articles/sticky_locked_thread.gif');
 
 		// the HTML to be inserted before a subtitle
 		if(!defined('SUBTITLE_PREFIX'))
@@ -3672,14 +3568,8 @@ Class Skin_Skeleton {
 		if(!defined('TOQ_BOX_TITLE_SUFFIX'))
 			define('TOQ_BOX_TITLE_SUFFIX', '');
 
-		// the prefix icon used to trackback a page
-		Skin::define_img('TRACKBACK_IMG', $context['skin'].'/icons/links/trackback.gif');
-
 		// the img tag used with 2-columns list; either a folder icon, or equivalent to the bullet
 		Skin::define_img('TWO_COLUMNS_IMG', $context['skin'].'/icons/folder.gif', BULLET_IMG);
-
-		// the prefix icon used to unlock in the tool set
-		Skin::define_img('UNLOCK_TOOL_IMG', $context['skin'].'/icons/tools/unlock.gif');
 
 		// the bullet used to signal updated pages
 		if(!defined('UPDATED_FLAG'))
@@ -3689,18 +3579,9 @@ Class Skin_Skeleton {
 		if(!defined('USERS_LIST_SIZE'))
 			define('USERS_LIST_SIZE', 20);
 
-		// the prefix icon used for very hot threads
-		Skin::define_img('VERY_HOT_THREAD_IMG', $context['skin'].'/icons/articles/very_hot_thread.gif');
-
-		// the prefix icon used to update the watch list
-		Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
-
 		// number of words in a teaser
 		if(!defined('WORDS_IN_TEASER'))
 			define('WORDS_IN_TEASER', 100);
-
-		// the IMG to flag a RSS feed
-		Skin::define_img('XML_IMG', $context['skin'].'/icons/xml.gif');
 
 		// maximum number of elements for each section in Yahoo!-like layout
 		if(!defined('YAHOO_LIST_SIZE'))
@@ -3811,9 +3692,9 @@ Class Skin_Skeleton {
 			$range = count($range);
 
 		if(($range < 1) && ($page_index < 2))
-			return($bar);
+			return $bar;
 		if(($range < $page_size) && ($page_index < 2))
-			return($bar);
+			return $bar;
 
 		// links to previous pages
 		$pages = range(1, $page_index);
@@ -3965,8 +3846,13 @@ Class Skin_Skeleton {
 			break;
 
 		case 'slideshow':	// images/view.php
+
+			Skin::define_img('PREVIOUS_PREFIX', $context['skin'].'/icons/previous_icon.gif', '&lt;&lt; ');
 			$previous_label = PREVIOUS_PREFIX.$previous_label;
+
+			Skin::define_img('NEXT_SUFFIX', $context['skin'].'/icons/next_icon.gif', ' &gt;&gt;');
 			$next_label = $next_label.NEXT_SUFFIX;
+
 			break;
 
 		}

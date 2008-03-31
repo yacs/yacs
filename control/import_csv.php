@@ -224,7 +224,7 @@ elseif(!Surfer::is_associate()) {
 
 	switch($etape) {
 		case '1':
-			$context['text'].= '<hr><h3>'.i18n::s('Step 1 : Transfer of csv file').'</h3>'
+			$context['text'].= '<hr/><h3>'.i18n::s('Step 1 : Transfer of csv file').'</h3>'
 				.'<FORM action="./import_csv.php" METHOD="POST" ENCTYPE="multipart/form-data"><div>'
 				.'<input type="HIDDEN" name="MAX_FILE_SIZE" VALUE="'.$file_maximum_size .'" />'
 				.'<INPUT TYPE="HIDDEN" NAME="etape" value="2">'
@@ -236,7 +236,7 @@ elseif(!Surfer::is_associate()) {
 			break;
 		case '2':
 			$context['text'].= BR.'<font color="green">'.i18n::s('Step 1 has been completed.').'</font>'.BR
-				."<a href=".$PHP_SELF."?etape=1&nom_fichier=".$nom_fichier."&display_lines=".$display_lines.'>'.i18n::s('Restart step 1').'</a><hr>'
+				."<a href=".$PHP_SELF."?etape=1&nom_fichier=".$nom_fichier."&display_lines=".$display_lines.'>'.i18n::s('Restart step 1').'</a><hr/>'
 				.'<h3>'.i18n::s('Step 2 : Read csv file information').'</h3>'
 				.'<FORM action="./import_csv.php" METHOD="POST"><div>'
 				.'<INPUT TYPE="HIDDEN" NAME="etape" value="3">'
@@ -264,7 +264,7 @@ elseif(!Surfer::is_associate()) {
 			$context['text'].= "</script>\n";
 			$context['text'] .= BR.'<font color="green">'.i18n::s('Step 2 has been completed.').'</font>'.BR
 				."<a href=".$PHP_SELF."?etape=1&nom_fichier=".$nom_fichier."&display_lines=".$display_lines.'>'.i18n::s('Restart step 1').'</a>&nbsp;'
-				."<a href=".$PHP_SELF."?etape=2&nom_fichier=".$nom_fichier."&delimiteur=".$delimiteur."&separateur=".$separateur.'&display_lines='.$display_lines."&data_start=".$data_start."&desc_line=".$desc_line."&overlay=".$overlay."&nb_fields=".$nb_fields.'>'.i18n::s('Restart step 2').'</a><hr>'.'<h3>'.i18n::s('Step 3 : Test import').'</h3>'.BR;
+				."<a href=".$PHP_SELF."?etape=2&nom_fichier=".$nom_fichier."&delimiteur=".$delimiteur."&separateur=".$separateur.'&display_lines='.$display_lines."&data_start=".$data_start."&desc_line=".$desc_line."&overlay=".$overlay."&nb_fields=".$nb_fields.'>'.i18n::s('Restart step 2').'</a><hr/>'.'<h3>'.i18n::s('Step 3 : Test import').'</h3>'.BR;
 			$context['text'].= '<FORM action="./import_csv.php" METHOD="POST"><div>';
 			$context['text'].= '<INPUT TYPE="HIDDEN" NAME="etape" value="4">';
 			$context['text'].= '<input type="hidden" name="nom_fichier" value="'.$nom_fichier.'">';
@@ -316,7 +316,7 @@ elseif(!Surfer::is_associate()) {
 				$context['text'] .= "&article_".$i."=".$article_sel[$i];
 				$context['text'] .= "&overlay_".$i."=".$overlay_sel[$i];
 			}
-			$context['text'] .= '>'.i18n::s('Restart step 3').'</a><hr>'
+			$context['text'] .= '>'.i18n::s('Restart step 3').'</a><hr/>'
 				.'<h3>'.i18n::s('Step 4 : Import data').'</h3>';
 			$context['text'].= '<FORM action="./import_csv.php" METHOD="POST"><div>';
 			$context['text'].= '<INPUT TYPE="HIDDEN" NAME="etape" value="5">';

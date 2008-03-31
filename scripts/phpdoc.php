@@ -376,7 +376,7 @@ class PhpDoc {
 			$path = array_shift(preg_split('/\//', dirname($script)));
 
 			// build links to view the documentation
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y')) {
+			if($context['with_friendly_urls'] == 'Y') {
 				$link = 'scripts/view.php/'.$script;
 				if($path)
 					$index_link = 'scripts/view.php/'.$path.'/index.php';
@@ -412,7 +412,7 @@ class PhpDoc {
 
 		// format the index page
 		if($home) {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$link = 'scripts/view.php/index.php';
 			else
 				$link = 'scripts/view.php?script=index.php';

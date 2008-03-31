@@ -697,7 +697,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 		// make a string out of the array
 		if($context['skin_variant'] == 'mobile')
-			$items = date('j/n/Y')."\n<hr>\n".Skin::build_list($items, 'rows')."<hr>\n";
+			$items = date('j/n/Y')."\n<hr />\n".Skin::build_list($items, 'rows')."<hr>\n";
 		elseif(isset($context['root_articles_layout']) && ($context['root_articles_layout'] == 'compact'))
 			$items =& Skin::build_list($items, 'compact');
 		else

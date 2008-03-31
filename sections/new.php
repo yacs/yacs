@@ -109,7 +109,7 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Personal spaces');
 		$fields['description'] = i18n::c('Sections created by members');
 		if(!$new_id = Sections::post($fields)) {
-			Logger::remember('feeds/feeds.php', 'Impossible to create a section for personal spaces');
+			Logger::remember('feeds/feeds.php', 'Impossible to add a section.');
 			return;
 		}
 

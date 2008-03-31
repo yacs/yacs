@@ -420,7 +420,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="users_without_submission" value="Y"';
 	if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Only associates are allowed to create articles. Members can post comments.');
+	$input .= EOT.' '.i18n::s('Only associates are allowed to add pages. Members can post comments.');
 	$fields[] = array($label, $input);
 
 	// content publishing

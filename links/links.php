@@ -196,7 +196,7 @@ Class Links {
 			return NULL;
 
 		// profiling mode
-		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
+		if($context['with_profile'] == 'Y')
 			logger::profile('links::count_for_anchor');
 
 		// select among available items
@@ -1325,7 +1325,7 @@ Class Links {
 		global $context;
 
 		// profiling mode
-		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
+		if($context['with_profile'] == 'Y')
 			logger::profile('links::stat_for_anchor');
 
 		// select among available items

@@ -443,7 +443,7 @@ if($credentials) {
 
 		// command to edit a new article, except if it is the forward
 		if(Surfer::is_member() && isset($_REQUEST['login_forward']) && !preg_match('/^articles\/edit.php/', $_REQUEST['login_forward']))
-			$menu = array_merge($menu, array('articles/edit.php' => i18n::s('Write a page')));
+			$menu = array_merge($menu, array('articles/edit.php' => i18n::s('Add a page')));
 
 		// command to go to the user page
 		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('Go to my user profile')));
@@ -464,9 +464,7 @@ if($credentials) {
 		// contribution links, in an extra box
 		if(Surfer::is_member()) {
 			$links = array();
-			$links = array_merge($links, array( 'articles/edit.php' => i18n::s('Write a page') ));
-			$links = array_merge($links, array( 'images/edit.php' => i18n::s('Post a photo') ));
-			$links = array_merge($links, array( 'files/edit.php' => i18n::s('Share a file') ));
+			$links = array_merge($links, array( 'articles/edit.php' => i18n::s('Add a page') ));
 
 			if(Surfer::is_associate()) {
 				$links = array_merge($links, array( 'sections/edit.php' => i18n::s('New section') ));

@@ -55,7 +55,7 @@ $context['path_bar'] = array( 'servers/' => i18n::s('Servers') );
 if($item['id'])
 	$context['page_title'] = i18n::s('Edit a server profile');
 else
-	$context['page_title'] = i18n::s('Add a new server profile');
+	$context['page_title'] = i18n::s('Add a server profile');
 
 // always validate input syntax
 if(isset($_REQUEST['introduction']))

@@ -214,7 +214,7 @@ Class Articles {
 			return NULL;
 
 		// profiling mode
-		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
+		if($context['with_profile'] == 'Y')
 			logger::profile('articles::count_for_anchor');
 
 		// select among active items
@@ -783,9 +783,9 @@ Class Articles {
 
 		// the service to check for updates
 		if($action == 'check') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'services/check.php/article/'.rawurlencode($id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'services/check.php?id='.urlencode('article:'.$id);
 			else
 				return 'services/check.php?id='.urlencode('article:'.$id);
@@ -793,9 +793,9 @@ Class Articles {
 
 		// the prefix for navigation links --name references the things to page
 		if($action == 'navigate') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'articles/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'articles/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
 			else
 				return 'articles/view.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
@@ -1630,6 +1630,7 @@ Class Articles {
 	 * - 'draft' - order by reverse date of modification, but only draft pages
 	 * - 'edition' - order by rank, then by reverse date of modification
 	 * - 'hits' - order by reverse number of hits, then by reverse date of publication
+	 * - 'overlay' - order by overlay_id
 	 * - 'publication' - order by rank, then by reverse date of publication
 	 * - 'rating' - order by rank, then by reverse number of points
 	 * - 'title' - order by rank, then by titles
@@ -1726,6 +1727,15 @@ Class Articles {
 		case 'hits':	// order by reverse number of hits, then by reverse date of publication
 
 			$order = 'hits DESC, articles.publish_date DESC';
+			break;
+
+		case 'overlay':	// order by overlay_id, then by number of points
+
+			// avoid side effects of ranking across several sections
+			if(is_array($anchor) && (count($anchor) > 1))
+				$order = 'articles.overlay_id, rating_sum DESC, articles.publish_date DESC';
+			else
+				$order = 'articles.overlay_id, articles.rank, rating_sum DESC, articles.publish_date DESC';
 			break;
 
 		case 'publication': // order by rank, then by reverse date of publication

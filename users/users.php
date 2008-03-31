@@ -467,9 +467,9 @@ Class Users {
 			}
 
 			// be cool with search engines
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'users/login.php/'.rawurlencode($id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'users/login.php/'.rawurlencode($id);
 			else
 				return 'users/login.php?credentials='.urlencode($id);
@@ -477,9 +477,9 @@ Class Users {
 
 		// the prefix for navigation links --name references things that are navigated
 		if($action == 'navigate') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'users/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'users/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
 			else
 				return 'users/view.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
@@ -487,9 +487,9 @@ Class Users {
 
 		// track something -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'track') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				return 'users/track.php/'.str_replace(':', '/', $id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'users/track.php/'.str_replace(':', '/', $id);
 			else
 				return 'users/track.php?anchor='.urlencode($id);

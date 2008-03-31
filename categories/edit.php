@@ -103,7 +103,7 @@ if(isset($item['id']) && isset($item['title']))
 if($item['title'])
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
 else
-	$context['page_title'] = i18n::s('Create a new category');
+	$context['page_title'] = i18n::s('Add a category');
 
 // command to go back
 if($item['id'])

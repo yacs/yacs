@@ -446,7 +446,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 			global $deleted_nodes;
 			if($deleted_nodes) {
 				$time = round(get_micro_time() - $milestone, 2);
-				$context['text'] .= '<p>'.sprintf(i18n::s('%d files and images have been removed from the file system in %.2f seconds.'), $deleted_nodes, $time).'</p>';
+				$context['text'] .= '<p>'.sprintf(i18n::s('%d files and images have been deleted from the file system in %.2f seconds.'), $deleted_nodes, $time).'</p>';
 			}
 
 		}

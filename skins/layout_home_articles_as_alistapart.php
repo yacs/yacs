@@ -186,14 +186,14 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		}
 
 		// trackback
-		if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+		if($context['with_friendly_urls'] == 'Y')
 			$link = 'links/trackback.php/article/'.$item['id'];
 		else
 			$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
 		$menu = array_merge($menu, array($link => i18n::s('Trackback')));
 
 		// info on related links
-		if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+		if($context['with_friendly_urls'] == 'Y')
 			$link = 'articles/view.php/'.$item['id'].'/links/1';
 		else
 			$link = 'articles/view.php?id='.urlencode($item['id']).'&amp;links=1';
@@ -203,7 +203,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 		// attach a file
 		if(Surfer::is_member() && Surfer::may_upload()) {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			if($context['with_friendly_urls'] == 'Y')
 				$link = 'files/edit.php/article/'.$item['id'];
 			else
 				$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
@@ -217,7 +217,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 		// modify this page
 		if(Surfer::is_associate())
-			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'edit') => i18n::s('Modify this page') ));
+			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'edit') => i18n::s('Edit this page') ));
 
 		// talk about it
 		if(@count($menu))

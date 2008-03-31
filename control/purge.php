@@ -343,7 +343,7 @@ if(!Surfer::is_associate()) {
 		$context['text'] .= '<p><input type="radio" name="action" value="reference" /> '.i18n::s('Delete the repository of reference scripts and related documentation. This can be rebuild from the scripts index page').'</p>';
 
 	// purge debug data
-	$context['text'] .= '<p><input type="radio" name="action" value="debug" /> '.i18n::s('Remove file temporary/debug.txt to purge debug data.').'</p>';
+	$context['text'] .= '<p><input type="radio" name="action" value="debug" /> '.i18n::s('Delete file temporary/debug.txt to purge debug data.').'</p>';
 
 	// purge agents accounting
 	$context['text'] .= '<p><input type="radio" name="action" value="agents" /> '.i18n::s('Purge accounting data on user agents and browsers from the database. These will be recreated progressively during future browsing.').'</p>';
@@ -355,7 +355,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '<p><input type="radio" name="action" value="scripts" /> '.i18n::s('Purge script performance data from the database. These will be recreated progressively during future browsing.').'</p>';
 
 	// purge log data
-	$context['text'] .= '<p><input type="radio" name="action" value="log" /> '.i18n::s('Remove file temporary/log.txt to purge events data.').'</p>';
+	$context['text'] .= '<p><input type="radio" name="action" value="log" /> '.i18n::s('Delete file temporary/log.txt to purge events data.').'</p>';
 
 	// the submit button
 	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Start'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";

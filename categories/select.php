@@ -186,7 +186,7 @@ if(!is_object($anchor)) {
 	// the form to link additional categories
 	if(!is_array($categories) || (count($categories) < CATEGORIES_LIST_SIZE)) {
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><div>'
-			.i18n::s('Add a category:').' <select name="anchor">'.Categories::get_options($categories).'</select>'
+			.i18n::s('Add a category').' <select name="anchor">'.Categories::get_options($categories).'</select>'
 			.' '.Skin::build_submit_button(i18n::s('Link'))
 			.'<input type="hidden" name="member" value="'.encode_field($member).'">'
 			.'</div></form>'."\n";

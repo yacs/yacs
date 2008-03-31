@@ -99,6 +99,10 @@ Class i18n {
 		if(in_array($module, $loaded))
 			return;
 
+		// profiling mode
+		if($context['with_profile'] == 'Y')
+			logger::profile('i18n::bind', 'start');
+
 		// prevent subsequent loading for this module
 		$loaded[] = $module;
 
@@ -108,6 +112,10 @@ Class i18n {
 		// load strings according to community localization
 		if($context['preferred_language'] != $context['language'])
 			i18n::load($context['preferred_language'], $module);
+
+		// profiling mode
+		if($context['with_profile'] == 'Y')
+			logger::profile('i18n::bind', 'stop');
 
 	}
 
@@ -141,7 +149,7 @@ Class i18n {
 		if(!array_key_exists($text, $l10n[$locale])) {
 
 			// log information on development platform
-			if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+			if($context['with_debug'] == 'Y')
 				logger::remember('i18n/i18n.php', $text.' is not defined for locale '.$locale, '', 'debug');
 
 			// degrade to provided string
@@ -1039,6 +1047,148 @@ Class i18n {
 	}
 
 	/**
+	 * the database of time zones
+	 *
+	 * @return array of ($shift => $label)
+	 */
+	function &get_time_zones() {
+
+		// initialize the table only once
+		static $codes;
+		if(!is_array($codes)) {
+
+			// load localized strings
+			i18n::bind('i18n');
+
+			// alphabetical order of countries (not of codes)
+			$codes = array(
+				'UTC' => '(UTC) Casablanca, Monrovia',
+				'UTC' => '(UTC) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London',
+				'UTC+01:00' => '(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna',
+				'UTC+01:00' => '(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague',
+				'UTC+01:00' => '(UTC+01:00) Brussels, Copenhagen, Madrid, Paris',
+				'UTC+01:00' => '(UTC+01:00) Sarajevo, Skopje, Sofija, Vilnius, Warsaw, Zagreb',
+				'UTC+01:00' => '(UTC+01:00) West Central Africa',
+				'UTC+02:00' => '(UTC+02:00) Athens, Istanbul, Minsk',
+				'UTC+02:00' => '(UTC+02:00) Bucharest',
+				'UTC+02:00' => '(UTC+02:00) Cairo',
+				'UTC+02:00' => '(UTC+02:00) Harare, Pretoria',
+				'UTC+02:00' => '(UTC+02:00) Helsinki, Riga, Tallinn',
+				'UTC+02:00' => '(UTC+02:00) Jerusalem',
+				'UTC+03:00' => '(UTC+03:00) Baghdad',
+				'UTC+03:00' => '(UTC+03:00) Kuwait, Riyadh',
+				'UTC+03:00' => '(UTC+03:00) Moscow, St. Petersburg, Volgograd',
+				'UTC+03:00' => '(UTC+03:00) Nairobi',
+				'UTC+03:30' => '(UTC+03:30) Tehran',
+				'UTC+04:00' => '(UTC+04:00) Abu Dhabi, Muscat',
+				'UTC+04:00' => '(UTC+04:00) Baku, Tbilisi, Yerevan',
+				'UTC+04:30' => '(UTC+04:30) Kabul',
+				'UTC+05:00' => '(UTC+05:00) Ekaterinburg',
+				'UTC+05:00' => '(UTC+05:00) Islamabad, Karachi, Tashkent',
+				'UTC+05:30' => '(UTC+05:30) Calcutta, Chennai, Mumbai, New Delhi',
+				'UTC+05:45' => '(UTC+05:45) Kathmandu',
+				'UTC+06:00' => '(UTC+06:00) Almaty, Novosibirsk',
+				'UTC+06:00' => '(UTC+06:00) Astana, Dhaka',
+				'UTC+06:00' => '(UTC+06:00) Sri Jayawardenepura',
+				'UTC+06:30' => '(UTC+06:30) Rangoon',
+				'UTC+07:00' => '(UTC+07:00) Bangkok, Hanoi, Jakarta',
+				'UTC+07:00' => '(UTC+07:00) Krasnoyarsk',
+				'UTC+08:00' => '(UTC+08:00) Beijing, Chongqing, Hong Kong, Urumqi',
+				'UTC+08:00' => '(UTC+08:00) Irkutsk, Ulaan Bataar',
+				'UTC+08:00' => '(UTC+08:00) Kuala Lumpur, Singapore',
+				'UTC+08:00' => '(UTC+08:00) Perth',
+				'UTC+08:00' => '(UTC+08:00) Taipei',
+				'UTC+09:00' => '(UTC+09:00) Osaka, Sapporo, Tokyo',
+				'UTC+09:00' => '(UTC+09:00) Seoul',
+				'UTC+09:00' => '(UTC+09:00) Yakutsk',
+				'UTC+09:30' => '(UTC+09:30) Adelaide',
+				'UTC+09:30' => '(UTC+09:30) Darwin',
+				'UTC+10:00' => '(UTC+10:00) Brisbane',
+				'UTC+10:00' => '(UTC+10:00) Canberra, Melbourne, Sydney',
+				'UTC+10:00' => '(UTC+10:00) Guam, Port Moresby',
+				'UTC+10:00' => '(UTC+10:00) Hobart',
+				'UTC+10:00' => '(UTC+10:00) Vladivostok',
+				'UTC+11:00' => '(UTC+11:00) Magadan, Solomon Is., New Caledonia',
+				'UTC+12:00' => '(UTC+12:00) Auckland, Wellington',
+				'UTC+12:00' => '(UTC+12:00) Fiji, Kamchatka, Marshall Is.',
+				'UTC+13:00' => '(UTC+13:00) Nuku&#39;alofa',
+				'UTC-01:00' => '(UTC-01:00) Azores',
+				'UTC-01:00' => '(UTC-01:00) Cape Verde Is.',
+				'UTC-02:00' => '(UTC-02:00) Mid-Atlantic',
+				'UTC-03:00' => '(UTC-03:00) Brasilia',
+				'UTC-03:00' => '(UTC-03:00) Buenos Aires, Georgetown',
+				'UTC-03:00' => '(UTC-03:00) Greenland',
+				'UTC-03:30' => '(UTC-03:30) Newfoundland',
+				'UTC-04:00' => '(UTC-04:00) Atlantic Time (Canada)',
+				'UTC-04:00' => '(UTC-04:00) Caracas, La Paz',
+				'UTC-04:00' => '(UTC-04:00) Santiago',
+				'UTC-05:00' => '(UTC-05:00) Bogota, Lima, Quito',
+				'UTC-05:00' => '(UTC-05:00) Eastern Time (US &amp; Canada)',
+				'UTC-05:00' => '(UTC-05:00) Indiana (East)',
+				'UTC-06:00' => '(UTC-06:00) Central America',
+				'UTC-06:00' => '(UTC-06:00) Central Time (US &amp; Canada)',
+				'UTC-06:00' => '(UTC-06:00) Mexico City',
+				'UTC-06:00' => '(UTC-06:00) Saskatchewan',
+				'UTC-07:00' => '(UTC-07:00) Arizona',
+				'UTC-07:00' => '(UTC-07:00) Mountain Time (US &amp; Canada)',
+				'UTC-08:00' => '(UTC-08:00) Pacific Time (US &amp; Canada); Tijuana',
+				'UTC-09:00' => '(UTC-09:00) Alaska',
+				'UTC-10:00' => '(UTC-10:00) Hawaii',
+				'UTC-11:00' => '(UTC-11:00) Midway Island, Samoa',
+				'UTC-12:00' => '(UTC-12:00) Eniwetok, Kwajalein'
+			);
+
+		}
+
+		// return the table
+		return $codes;
+	}
+
+	/**
+	 * get time zones as options of a selectable list
+	 *
+	 * This function returns a full &lt;select&gt; tag.
+	 *
+	 * @param string the current time zone, if any
+	 * @param string alternate name and id for the returned tag
+	 * @return the HTML to insert in the page
+	 */
+	function &get_time_zones_select($current=NULL, $id='time_zone') {
+		global $context;
+
+		// all options
+		$text = '<select name="'.$id.'" id="'.$id.'">'."\n";
+
+		// fetch the list of time zones
+		$zones =& i18n::get_time_zones();
+
+		// engage surfer
+		if(!$current)
+			$text .= '<option>'.i18n::s('Select a time zone')."</option>\n";
+
+		// all options
+		foreach($zones as $code => $label) {
+
+			// the code
+			$text .= '<option value="'.$code.'"';
+
+			// is this the current option?
+			if(strpos($current, $code) === 0)
+				$text .= ' selected="selected"';
+
+			// the label for this code
+			$text .= '>'.$label."</option>\n";
+
+		}
+
+		// return by reference
+		$text .= '</select>';
+
+		// job done
+		return $text;
+	}
+
+	/**
 	 * initialize the localization engine
 	 *
 	 * This function analyzes data provided by the browser to automate surfer localization.
@@ -1176,7 +1326,7 @@ Class i18n {
 		if(!$handle = Safe::fopen($context['path_to_root'].$path, 'rb')) {
 
 			// log information on development platform
-			if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+			if($context['with_debug'] == 'Y')
 				logger::remember('i18n/i18n.php', 'Impossible to load '.$path, '', 'debug');
 
 			// we've got a problem
@@ -1195,7 +1345,7 @@ Class i18n {
 			$order = 'N'; // big endian
 		else {
 			// log information on development platform
-			if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+			if($context['with_debug'] == 'Y')
 				logger::remember('i18n/i18n.php', 'bad magic number in '.$path, '', 'debug');
 
 			// we've got a problem
@@ -1355,7 +1505,7 @@ Class i18n {
 			$text = $strings[ $key ];
 		elseif(array_key_exists($name, $strings))
 			$text = $strings[ $name ];
-		elseif(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		elseif($context['with_debug'] == 'Y')
 			$text = 'i18n:'.':l("'.$name.'")';
 		else
 			$text = $name;
@@ -1510,7 +1660,7 @@ Class i18n {
 		if(!array_key_exists($text, $l10n[$locale])) {
 
 			// log information on development platform
-			if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+			if($context['with_debug'] == 'Y')
 				logger::remember('i18n/i18n.php', $text.' is not defined for locale '.$locale, '', 'debug');
 
 			// degrade to provided string
@@ -1586,7 +1736,7 @@ Class i18n {
 			$text = $local[ $key ];
 		elseif(array_key_exists($name, $local))
 			$text = $local[ $name ];
-		elseif(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+		elseif($context['with_debug'] == 'Y')
 			$text = 'i18n:'.':user("'.$name.'")';
 		else
 			$text = $name;

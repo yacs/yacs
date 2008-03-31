@@ -200,7 +200,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 		$text .= '<p class="details right">'.Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), i18n::s('Read the page'), 'basic');
 
 		// info on related files
-		if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+		if($context['with_friendly_urls'] == 'Y')
 			$file = 'articles/view.php/'.$item['id'].'/files/1';
 		else
 			$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';

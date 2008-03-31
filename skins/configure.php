@@ -774,7 +774,7 @@ elseif(!Surfer::is_associate()) {
 	// first installation
 	if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
 		$context['text'] .= '<form method="get" action="../control/" id="main_form">'."\n"
-			.'<p>'.Skin::build_submit_button(i18n::s('Switch the server on')).'</p>'."\n"
+			.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Switch the server on')).'</p>'."\n"
 			.'</form>'."\n";
 
 	// ordinary follow-up commands

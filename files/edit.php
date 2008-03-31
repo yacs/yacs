@@ -444,7 +444,6 @@ if(!$permitted) {
 
 		// always touch the related anchor on new posts
 		$anchor->touch('file:create', $id);
-//		$anchor->touch('file:create', $id, isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
@@ -462,7 +461,7 @@ if(!$permitted) {
 			$context['text'] .= '<p>'.implode(BR, $attributes)."</p>\n";
 
 		// the action
-		$context['text'] .= '<p>'.i18n::s('A new entry has been successfully created for this file.').'</p>';
+		$context['text'] .= '<p>'.i18n::s('The upload has been successfully recorded.').'</p>';
 
 		// splash message
 		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';

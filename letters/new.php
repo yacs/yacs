@@ -85,7 +85,7 @@ if(!defined('WRAPPING_LENGTH'))
 $context['path_bar'] = array( 'letters/' => i18n::s('All letters') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Create a letter');
+$context['page_title'] = i18n::s('Post a letter');
 
 // load parameters for letters
 Safe::load('parameters/letters.include.php');

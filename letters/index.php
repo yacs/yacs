@@ -22,7 +22,7 @@ $context['page_title'] = i18n::s('Most recent letters');
 
 // menu bar
 if(Surfer::is_associate()) {
-	$context['page_menu'] = array( 'letters/new.php' => i18n::s('Create a letter') );
+	$context['page_menu'] = array( 'letters/new.php' => i18n::s('Post a letter') );
 	$context['page_menu'] = array_merge($context['page_menu'], array( 'letters/configure.php' => i18n::s('Configure') ));
 }
 

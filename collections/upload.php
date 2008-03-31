@@ -173,7 +173,7 @@ elseif(!Surfer::is_associate()) {
 				$context['text'] .= '<p>'.i18n::s('Congratulations, the directory has been populated.').'</p>';
 
 				// display follow-up commands
-				if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+				if($context['with_friendly_urls'] == 'Y')
 					$link = 'collections/browse.php/'.str_replace('//', '/', rawurlencode($item['collection']).'/'.$item['relative_url']);
 				else
 					$link = 'collections/browse.php?path='.urlencode(str_replace('//', '/', $item['collection'].'/'.$item['relative_path']));

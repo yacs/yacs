@@ -178,7 +178,7 @@ class Day extends Overlay {
 
 				// update the database
 				if(!$id = Dates::post($fields)) {
-					Skin::error(i18n::s('Impossible to create a new item.'));
+					Skin::error(i18n::s('Impossible to add an item.'));
 					return FALSE;
 				}
 
@@ -207,7 +207,7 @@ class Day extends Overlay {
 				// create a record instead of raising an error, we are smart y'a'know
 				} else {
 					if(!$id = Dates::post($fields)) {
-						Skin::error(i18n::s('Impossible to create a new item.'));
+						Skin::error(i18n::s('Impossible to add an item.'));
 						return FALSE;
 					}
 				}

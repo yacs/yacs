@@ -184,7 +184,7 @@ else
 
 // associates can create a sub-category
 if(isset($item['id']) && !$zoom_type && $permitted && Categories::are_allowed($anchor, $item))
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'categories/edit.php?anchor='.urlencode('category:'.$item['id']) => i18n::s('Create a sub-category') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( 'categories/edit.php?anchor='.urlencode('category:'.$item['id']) => i18n::s('Add a category') ));
 
 // commands for associates and editors do not appear on follow-up pages
 if((!$zoom_type) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))) {
@@ -423,7 +423,7 @@ if(!isset($item['id'])) {
 			// the command to post a new category
 			if($stats['count'] && Categories::are_allowed($anchor, $item)) {
 				$url = 'categories/edit.php?anchor='.urlencode('category:'.$item['id']);
-				$box['bar'] = array_merge($box['bar'], array( $url => i18n::s('Create a sub-category') ));
+				$box['bar'] = array_merge($box['bar'], array( $url => i18n::s('Add a category') ));
 			}
 
 			// actually render the html for the section
@@ -967,7 +967,7 @@ if(!isset($item['id'])) {
 
 	// implement the trackback interface
 	$permanent_link = $context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'view', $item['title']);
-	if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+	if($context['with_friendly_urls'] == 'Y')
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/category/'.$item['id'];
 	else
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=category:'.$item['id'];

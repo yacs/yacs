@@ -341,6 +341,7 @@ if(!isset($item['id'])) {
 			.'<p>'.sprintf(i18n::s('To stream sounds over the network and to play them on arrival, use an advanced media player such as %s (open source) or %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('www.winamp.com'), i18n::s('Winamp'), 'external')).'</p>';
 
 		// the label
+		Skin::define_img('PLAY_IMG', $context['skin'].'/icons/files/play.gif');
 		$label = PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// use a definition list to enable customization of the download box
@@ -358,6 +359,7 @@ if(!isset($item['id'])) {
 			.'<p>'.sprintf(i18n::s('To stream images over the network and to render them on arrival, use an advanced media player such as %s.'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s(' VLC media player'), 'external')).'</p>';
 
 		// the label
+		Skin::define_img('PLAY_IMG', $context['skin'].'/icons/files/play.gif');
 		$label = PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// use a definition list to enable customization of the download box
@@ -374,6 +376,7 @@ if(!isset($item['id'])) {
 		$description = '<p>'.i18n::s('This file allows for interactions over the web. If some Flash player has been installed at your workstation, click on the link to start the show.').'</p>';
 
 		// the label
+		Skin::define_img('PLAY_IMG', $context['skin'].'/icons/files/play.gif');
 		$label = PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// where the file is
@@ -393,6 +396,7 @@ if(!isset($item['id'])) {
 		$description = '<p>'.i18n::s('If Flash or Java has been installed at your workstation, click on the link to browse this mind map.').'</p>';
 
 		// the label
+		Skin::define_img('PLAY_IMG', $context['skin'].'/icons/files/play.gif');
 		$label = PLAY_IMG.' '.sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
 
 		// hovering the link
@@ -416,6 +420,7 @@ if(!isset($item['id'])) {
 //		$description = '<p>'.i18n::s('This file can be modified directly over the web. If a recent version of Microsoft Word has been installed at your workstation, click on the link to launch it.).'</p>';
 
 //		// the label
+//		Skin::define_img('PLAY_IMG', $context['skin'].'/icons/files/play.gif');
 //		$label = PLAY_IMG.' '.sprintf(i18n::s('Edit %s'), str_replace('_', ' ', $item['file_name']));
 
 //		// hovering the link
@@ -536,8 +541,9 @@ if(!isset($item['id'])) {
 		$description = '<p>'.sprintf(i18n::s('You are about to download a X.509 certificate.')).'</p>';
 		break;
 
-	case 'doc':
+	case 'doc':		// application/msword
 	case 'dot':
+	case 'rtf':
 		$description = '<p>'.sprintf(i18n::s('You are about to download a Microsoft Word document. If you do not have this software, you may download a free vizualiser from %s. Or you may prefer to use the free office solution from the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external'), Skin::build_link(i18n::s('www.openoffice.org'), i18n::s('Open Office web server'), 'external')).'</p>';
 		break;
 
@@ -788,6 +794,7 @@ if(!isset($item['id'])) {
 	$title = i18n::s('Get a copy of this file');
 
 	// file is available to download
+	Skin::define_img('DOWNLOAD_IMG', $context['skin'].'/icons/files/download.gif');
 	$label = '<a href="'.$link.'" title="'.encode_field($title).'" id="file_download">'.DOWNLOAD_IMG.' '.sprintf(i18n::s('Download %s'), str_replace('_', ' ', $item['file_name'])).'</a>';
 
 	// use a definition list to enable customization of the download box

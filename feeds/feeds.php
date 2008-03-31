@@ -240,7 +240,7 @@ class Feeds {
 		global $context;
 
 		// use rewriting engine to achieve pretty references
-		if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+		if($context['with_friendly_urls'] == 'R')
 			return 'feeds/'.$id;
 
 		// the default is to trigger actual PHP scripts
@@ -362,7 +362,7 @@ class Feeds {
 					$fields['title'] = i18n::c('External News');
 					$fields['description'] = i18n::c('Received from feeding servers');
 					if(!$new_id = Sections::post($fields)) {
-						Logger::remember('feeds/feeds.php', 'Impossible to create a section for news');
+						Logger::remember('feeds/feeds.php', 'Impossible to add a section.');
 						return;
 					}
 					$anchor = 'section:'.$new_id;

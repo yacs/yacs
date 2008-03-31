@@ -117,7 +117,7 @@ $context['cron_text'] = Hooks::include_scripts('tick');
 echo $context['cron_text'];
 
 // log outcome of script execution in debug mode
-if(isset($context['with_debug']) && ($context['with_debug'] == 'Y'))
+if($context['with_debug'] == 'Y')
 	Logger::remember('cron.php', 'background processing', $context['cron_text'], 'debug');
 
 // remember tick date

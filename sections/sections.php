@@ -354,7 +354,7 @@ Class Sections {
 		global $context;
 
 		// profiling mode
-		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
+		if($context['with_profile'] == 'Y')
 			logger::profile('sections::count_for_anchor');
 
 		// limit the query to one level
@@ -954,7 +954,7 @@ Class Sections {
 				// depending sections, if any
 				if($to_avoid == 'no_subsections')
 					;
-				elseif($depending =& Sections::get_options_for_anchor($reference, $spaces.'&nbsp;&nbsp;', $default, $to_avoid))
+				elseif($depending = Sections::get_options_for_anchor($reference, $spaces.'&nbsp;&nbsp;', $default, $to_avoid))
 					$text .= $depending;
 
 			}
@@ -980,7 +980,7 @@ Class Sections {
 					$text .='>'.$spaces.Skin::strip($attributes['title'])."</option>\n";
 
 					// depending sections, if any
-					if($depending =& Sections::get_options_for_anchor($reference, $spaces.'&nbsp;&nbsp;', $default, $to_avoid))
+					if($depending = Sections::get_options_for_anchor($reference, $spaces.'&nbsp;&nbsp;', $default, $to_avoid))
 						$text .= $depending;
 
 				}
@@ -1024,9 +1024,9 @@ Class Sections {
 
 		// the rss feed for files --deprecated to files::get_url()
 		if($action == 'files') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			if($context['with_friendly_urls'] == 'R')
 				return 'files/feed.php/section/'.rawurlencode($id);
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			elseif($context['with_friendly_urls'] == 'Y')
 				return 'files/feed.php/section/'.rawurlencode($id);
 			else
 				return 'files/feed.php?anchor='.urlencode('section:'.$id);
@@ -1034,9 +1034,9 @@ Class Sections {
 
 		// the prefix for navigation links --the parameter $name references the things to page, e.g., 'sections', 'comments', ...
 		if($action == 'navigate') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			if($context['with_friendly_urls'] == 'R')
 				return 'sections/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			elseif($context['with_friendly_urls'] == 'Y')
 				return 'sections/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
 			else
 				return 'sections/view.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
@@ -1044,9 +1044,9 @@ Class Sections {
 
 		// the purge of content in this section
 		if($action == 'purge') {
-			if(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'R'))
+			if($context['with_friendly_urls'] == 'R')
 				return 'sections/bulk.php/'.rawurlencode($id).'/purge';
-			elseif(isset($context['with_friendly_urls']) && ($context['with_friendly_urls'] == 'Y'))
+			elseif($context['with_friendly_urls'] == 'Y')
 				return 'sections/bulk.php/'.rawurlencode($id).'/purge';
 			else
 				return 'sections/bulk.php?id='.urlencode($id).'&amp;action=purge';
@@ -2216,7 +2216,7 @@ Class Sections {
 		global $context;
 
 		// profiling mode
-		if(isset($context['with_profile']) && ($context['with_profile'] == 'Y'))
+		if($context['with_profile'] == 'Y')
 			logger::profile('sections::stat_for_anchor');
 
 		// limit the query to one level

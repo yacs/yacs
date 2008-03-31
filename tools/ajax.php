@@ -66,7 +66,7 @@ $context['text'] .= '<p><b>'.i18n::s('Drag and drop following elements').'</b></
 // some AJAX to make it work
 $context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
 	.'$("sortables").select(".sortable").each(function(node) { Yacs.addOnDemandTools(node); });'."\n"
-	.'Sortable.create("sortables", {tag:"div", only:"sortable", overclass:"sortable_hover", ghosting:true, constraint:"vertical", handle:"drag_handle" });'."\n"
+	.'Sortable.create("sortables", {tag:"div", only:"sortable", overclass:"sortable_hover", constraint:"vertical", handle:"drag_handle" });'."\n"
 	.'// ]]></script>'."\n";
 
 // render the page according to the loaded skin
