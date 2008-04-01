@@ -134,10 +134,10 @@ class Vote extends Overlay {
 		// start date
 		$label = i18n::s('Start date');
 
-		// adjust date from server time zone to surfer time zone
+		// adjust date from UTC time zone to surfer time zone
 		$value = '';
-		if(isset($this->attributes['start_date']) && ($this->attributes['start_date'] > NULL_DATE) && (($stamp = strtotime($this->attributes['start_date'].' UTC')) != -1))
-			$value = strftime('%Y-%m-%d %H:%M', $stamp + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
+		if(isset($this->attributes['start_date']) && ($this->attributes['start_date'] > NULL_DATE))
+			$value = Surfer::from_GMT($this->attributes['start_date']);
 
 		$input = '<input type="text" name="start_date" value ="'.encode_field($value).'" size="32" maxlength="64" />';
 		$hint = i18n::s('YYYY-MM-AA HH:MM');
@@ -146,10 +146,10 @@ class Vote extends Overlay {
 		// end date
 		$label = i18n::s('End date');
 
-		// adjust date from server time zone to surfer time zone
+		// adjust date from UTC time zone to surfer time zone
 		$value = '';
-		if(isset($this->attributes['end_date']) && ($this->attributes['end_date'] > NULL_DATE) && (($stamp = strtotime($this->attributes['end_date'].' UTC')) != -1))
-			$value = strftime('%Y-%m-%d %H:%M', $stamp + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
+		if(isset($this->attributes['end_date']) && ($this->attributes['end_date'] > NULL_DATE))
+			$value = Surfer::from_GMT($this->attributes['end_date']);
 
 		$input = '<input type="text" name="end_date" value ="'.encode_field($value).'" size="32" maxlength="64" />';
 		$hint = i18n::s('YYYY-MM-AA HH:MM');
@@ -399,15 +399,15 @@ class Vote extends Overlay {
 		$this->attributes['voter_list'] = isset($fields['voter_list']) ? $fields['voter_list'] : '';
 		$this->attributes['start_date'] = isset($fields['start_date']) ? $fields['start_date'] : '';
 
-		// adjust date from surfer time zone to server time zone
-		if(isset($fields['start_date']) && $fields['start_date'] && (($stamp = strtotime($fields['start_date'].' UTC')) != -1))
-			$this->attributes['start_date'] = strftime('%Y-%m-%d %H:%M:%S', $stamp - ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
+		// adjust date from surfer time zone to UTC time zone
+		if(isset($fields['start_date']) && $fields['start_date'])
+			$this->attributes['start_date'] = Surfer::to_GMT($fields['start_date']);
 
 		$this->attributes['end_date'] = isset($fields['end_date']) ? $fields['end_date'] : '';
 
-		// adjust date from surfer time zone to server time zone
-		if(isset($fields['end_date']) && $fields['end_date'] && (($stamp = strtotime($fields['end_date'].' UTC')) != -1))
-			$this->attributes['end_date'] = strftime('%Y-%m-%d %H:%M:%S', $stamp - ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
+		// adjust date from surfer time zone to UTC time zone
+		if(isset($fields['end_date']) && $fields['end_date'])
+			$this->attributes['end_date'] = Surfer::to_GMT($fields['end_date']);
 
 		return $this->attributes;
 	}

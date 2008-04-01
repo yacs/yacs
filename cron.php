@@ -104,7 +104,7 @@ $record = Values::get_record('cron.tick', NULL_DATE);
 
 // wait at least 5 minutes = 300 seconds between ticks
 if(isset($record['edit_date']))
-	$target = strtotime($record['edit_date'].' UTC') + 300;
+	$target = SQL::strtotime($record['edit_date']) + 300;
 else
 	$target = time();
 

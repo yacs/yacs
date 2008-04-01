@@ -494,21 +494,30 @@ Class Surfer {
 	}
 
 	/**
-	 * adjust a time stamp to surfer time zone
+	 * adjust a date to surfer time zone
 	 *
-	 * @param string a time stamp in GMT zone
-	 * @return string a time stamp in surfer time zone
+	 * Use this function to convert dates from UTC time zone before they are
+	 * sent in forms processed by surfer.
+	 *
+	 * To beautify a date sent to the surfer use Skin::build_date() instead.
+	 *
+	 * You should apply this function only to data coming from the database.
+	 *
+	 * @param string a stamp written on the 'YYYY-MM-DD HH:MM:SS' model
+	 * @return string a rewrite of the stamp in the surfer time zone
 	 */
-	function &from_GMT($stamp) {
+	function from_GMT($stamp) {
 		global $context;
 
 		// sanity check
-		if(!isset($stamp) || ($stamp <= NULL_DATE) || (($seconds = strtotime($stamp.' UTC')) == -1))
+		if(!isset($stamp) || ($stamp <= NULL_DATE))
 			return $stamp;
 
+		// time in UTC time zone
+		$stamp = mktime(intval(substr($stamp, 11, 2)), intval(substr($stamp, 14, 2)), intval(substr($stamp, 17, 2)), intval(substr($stamp, 5, 2)), intval(substr($stamp, 8, 2)), intval(substr($stamp, 0, 4)));
+
 		// shift to surfer time zone
-		$stamp = strftime('%Y-%m-%d %H:%M:%S', $seconds + (Surfer::get_gmt_offset() * 3600));
-		return $stamp;
+		return strftime('%Y-%m-%d %H:%M:%S', $stamp + (Surfer::get_gmt_offset() * 3600));
 	}
 
 	/**
@@ -1377,22 +1386,29 @@ Class Surfer {
 	}
 
 	/**
-	 * adjust a time stamp to GMT
+	 * adjust a date to UTC time zone
 	 *
-	 * @param string a time stamp in surfer time zone
-	 * @return string a time stamp in GMT zone
+	 * Use this function to convert dates received from surfer time zone
+	 * before saving them in the database.
+	 *
+	 * You should apply this function only to data received from web forms.
+	 *
+	 * @param string a stamp written on the 'YYYY-MM-DD HH:MM:SS' model
+	 * @return string a rewrite of the stamp in the UTC time zone
 	 */
-	function &to_GMT($stamp) {
-		global $context;
+	function to_GMT($stamp) {
 
 		// sanity check
-		if(!isset($stamp) || ($stamp <= NULL_DATE) || (($seconds = strtotime($stamp)) == -1))
+		if(!isset($stamp) || ($stamp <= NULL_DATE))
 			return $stamp;
 
-		// shift to GMT
-		$stamp = strftime('%Y-%m-%d %H:%M:%S', $seconds - (Surfer::get_gmt_offset() * 3600));
-		return $stamp;
+		// time in surfer time zone
+		$stamp = mktime(intval(substr($stamp, 11, 2)), intval(substr($stamp, 14, 2)), intval(substr($stamp, 17, 2)), intval(substr($stamp, 5, 2)), intval(substr($stamp, 8, 2)), intval(substr($stamp, 0, 4)));
+
+		// shift to UTC time zone
+		return strftime('%Y-%m-%d %H:%M:%S', $stamp - (Surfer::get_gmt_offset() * 3600));
 	}
+
 }
 
 // we don't want to use url rewriting, but only cookies (exclusive with 'use.cookies' and 'use_trans_sid')
@@ -1441,6 +1457,7 @@ if(isset($_SERVER['REMOTE_ADDR']) && !Surfer::is_crawler() && !headers_sent()) {
 	// allow no more than one hour of inactivity
 	} elseif(isset($_SESSION['watchdog']) && (time() > ($_SESSION['watchdog'] + 3600)))
 		Surfer::reset();
+	else
 
 	// refresh the watchdog
 	$_SESSION['watchdog'] = time();

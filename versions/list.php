@@ -29,7 +29,7 @@ include_once 'versions.php';
 $id = NULL;
 if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
-elseif(isset($context['arguments']) && $context['arguments'][0] && $context['arguments'][1])
+elseif(isset($context['arguments'][1]) && $context['arguments'][0] && $context['arguments'][1])
 	$id = $context['arguments'][0].':'.$context['arguments'][1];
 $id = strip_tags($id);
 

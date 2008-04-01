@@ -8,6 +8,8 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
+var startWatch = new Date();
+
 var Yacs = {
 
 	/**
@@ -190,10 +192,6 @@ var Yacs = {
 		// compute time shift
 		var now = new Date();
 		timeZone = (-now.getTimezoneOffset() /60);
-//		var gmtDate = new Date(now.getFullYear(), 0, 1, 0, 0, 0, 0);
-//		var gmtString = gmtDate.toGMTString();
-//		var localDate = new Date(gmtString.substring(0, gmtString.lastIndexOf(" ")-1));
-//		var timeZone = (gmtDate - localDate) / (1000 * 60 * 60);
 
 		// remember this in a cookie
 		Yacs.setCookie("TimeZone", timeZone);
@@ -325,26 +323,6 @@ var Yacs = {
 		var end = document.cookie.indexOf(";", begin);
 		if(end == -1) { end = document.cookie.length; }
 		return unescape(document.cookie.substring(begin + prefix.length, end));
-
-//		var arg = name + "=";
-//		var alen = arg.length;
-//		var clen = document.cookie.length;
-//		var i = 0;
-//		var j = 0;
-//		while(i < clen){
-//			j = i + alen;
-//			if (document.cookie.substring(i, j) == arg) {
-//				var endstr = document.cookie.indexOf(";", j);
-//				if(endstr == -1){
-//				   endstr = document.cookie.length;
-//				}
-//				return unescape(document.cookie.substring(j, endstr));
-//			}
-//			i = document.cookie.indexOf(" ", i) + 1;
-//			if(i == 0)
-//				break;
-//		}
-//		return null;
 	},
 
 	/**
@@ -488,46 +466,32 @@ var Yacs = {
 	},
 
 	/**
-	 * general initialization on window successful load
+	 * general initialization
 	 */
 	onWindowLoad: function() {
 
-		// resize according to surfer preferences
-		Yacs.textSize();
+		// background processing
+		setTimeout(function() {
 
-		// this window has the focus
-		Yacs.hasFocus = true;
+			// resize according to surfer preferences
+			Yacs.textSize();
 
-		// subscribe to notifications after some time
-		setTimeout(function(){
+			// this window has the focus
+			Yacs.hasFocus = true;
 
-			// check for notifications periodically
-			Yacs.subscribe();
+			// compute and record surfer time zone
+			Yacs.detectTimeZone();
 
-			// slow down notifications on window blur
-			Event.observe(window, 'blur', function() { Yacs.hasFocus = false; });
+			// detect Flash on client side
+			Yacs.detectFlash();
 
-			// back to normal rate on focus
-			Event.observe(window, 'focus', function() { Yacs.hasFocus = true; });
+			// pre-load the spinning image used during ajax updates
+			Yacs.spinningImage = new Image();
+			Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax_spinner.gif';
 
-			}, 3000);
-
-		// compute and record surfer time zone
-		Yacs.detectTimeZone();
-
-		// detect Flash on client side
-		Yacs.detectFlash();
-
-		// pre-load the spinning image used during ajax updates
-		Yacs.spinningImage = new Image();
-		Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax_spinner.gif';
-
-		// pre-load the image used at the working overlay
-		Yacs.workingImage = new Image();
-		Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax_working.gif';
-
-		// do not stop page loading
-		setTimeout(function(){
+			// pre-load the image used at the working overlay
+			Yacs.workingImage = new Image();
+			Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax_working.gif';
 
 			// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
 			var buttons = $$('button');
@@ -559,7 +523,16 @@ var Yacs = {
 				}
 			}
 
-		}, 500);
+			// check for notifications periodically
+			Yacs.subscribe();
+
+			// slow down notifications on window blur
+			Event.observe(window, 'blur', function() { Yacs.hasFocus = false; });
+
+			// back to normal rate on focus
+			Event.observe(window, 'focus', function() { Yacs.hasFocus = true; });
+
+		}, 1);
 
 	},
 
@@ -1224,7 +1197,5 @@ var Yacs = {
 
 }
 
-// ready to receive new notifications -- since yacs.js is loaded at the bottomof the page, this is faster then Event.observe(window, 'load', ...)
+// since this file is loaded at the bottom of the page, this is faster then Event.observe(window, 'load', ...)
 Yacs.onWindowLoad();
-
-

@@ -319,8 +319,8 @@ if(!$item['id']) {
 	// look for draft pages
 	if($items = Articles::list_for_anchor_by('draft', 'section:'.$id, 0, 100, 'raw')) {
 
-		// adjust date from server time zone to surfer time zone
-		$now = strftime('%Y-%m-%d %H:%M:%S', time() + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));		// current time
+		// adjust date to UTC time zone
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// process articles
 		$count = 0;

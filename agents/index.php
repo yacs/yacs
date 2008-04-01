@@ -255,7 +255,7 @@ if(!Surfer::is_associate()) {
 		} else {
 			$context['text'] .= "<table>\n";
 			while($row =& SQL::fetch($result)) {
-				$context['text'] .= '<tr><td>'.$row['id'].'</td><td>'.str_replace("\n", BR, $row['value']).'</td><td>'.$row['edit_date']."</td></tr>\n";
+				$context['text'] .= '<tr><td>'.$row['id'].'</td><td>'.str_replace("\n", BR, $row['value']).'</td><td>'.Surfer::from_GMT($row['edit_date'])."</td></tr>\n";
 			}
 			$context['text'] .= "</table>\n";
 		}

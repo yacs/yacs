@@ -951,6 +951,25 @@ Class SQL {
 	}
 
 	/**
+	 * convert a stamp to an integer
+	 *
+	 * Use this function to convert dates fetched from the database to
+	 * times in the context of the server.
+	 *
+	 * Since dates saved in the database are always aligned to UTC time zone,
+	 * this function also adjusts the provided string to the server time zone.
+	 *
+	 * To adjust strings received from the surfer to UTC time zone, you should
+	 * use Surfer::to_GMT() instead of SQL::strtotime().
+	 *
+	 * @param string a stamp written on the 'YYYY-MM-DD HH:MM:SS' model
+	 * @return int the number of seconds since 1st January of 1970
+	 */
+	function strtotime($stamp) {
+		return gmmktime(intval(substr($stamp, 11, 2)), intval(substr($stamp, 14, 2)), intval(substr($stamp, 17, 2)), intval(substr($stamp, 5, 2)), intval(substr($stamp, 8, 2)), intval(substr($stamp, 0, 4)));
+	}
+
+	/**
 	 * create a table name
 	 *
 	 * Note: this function handles properly the specific case of the table for user profiles.

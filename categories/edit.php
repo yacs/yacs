@@ -117,9 +117,9 @@ if(!Surfer::is_associate() || (isset($_REQUEST['option_validate']) && ($_REQUEST
 		validate($_REQUEST['description']);
 }
 
-// adjust dates from surfer time zone to server time zone
-if(isset($_REQUEST['expiry_date']) && $_REQUEST['expiry_date'] && (($stamp = strtotime($_REQUEST['expiry_date'].' UTC')) != -1))
-	$_REQUEST['expiry_date'] = strftime('%Y-%m-%d %H:%M:%S', $stamp - ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
+// adjust dates from surfer time zone to UTC time zone
+if(isset($_REQUEST['expiry_date']))
+	$_REQUEST['expiry_date'] = Surfer::to_GMT($_REQUEST['expiry_date']);
 
 // permission denied
 if(!$permitted) {
@@ -587,10 +587,10 @@ if($with_form) {
 	// the expiry date, if any
 	$label = i18n::s('Expiry date');
 
-	// adjust date from server time zone to surfer time zone
+	// adjust date from UTC time zone to surfer time zone
 	$value = '';
-	if(isset($item['expiry_date']) && ($item['expiry_date'] > NULL_DATE) && (($stamp = strtotime($item['expiry_date'].' UTC')) != -1))
-		$value = strftime('%Y-%m-%d %H:%M:%S', $stamp + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
+	if(isset($item['expiry_date']) && ($item['expiry_date'] > NULL_DATE))
+		$value = Surfer::from_GMT($item['expiry_date']);
 
 	$input = Skin::build_input('expiry_date', $value, 'date_time');
 	$hint = i18n::s('Let the server hide categories on dead-lines - automatically.');

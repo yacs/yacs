@@ -1477,7 +1477,7 @@ Class Comments {
 		$response = array();
 		$response['items'] =& Comments::list_by_thread_for_anchor($anchor, 0, $count, 'thread');
 		$response['name'] = strip_tags($stat['edit_name']);
-		$response['timestamp'] = strtotime($stat['edit_date'].' UTC');
+		$response['timestamp'] = SQL::strtotime($stat['edit_date']);
 
 		// return by reference
 		return $response;

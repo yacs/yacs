@@ -51,7 +51,7 @@ $id = NULL;
 $target_anchor = NULL;
 
 // parameters transmitted through friendly urls
-if(isset($context['arguments']) && $context['arguments'][0]) {
+if(isset($context['arguments'][0]) && $context['arguments'][0]) {
 
 	// create a new decision for the provided anchor
 	if(isset($context['arguments'][1]) && $context['arguments'][1]) {

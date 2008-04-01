@@ -141,7 +141,7 @@ if(!isset($item['id'])) {
 
 	// the creator of this article, if any, and if different from the publisher and if more than 24 hours before last edition
 	if(Surfer::is_member() && isset($item['create_date']) && ($item['create_id'] != $item['publish_id'])
-		&& (strtotime($item['create_date'].' UTC')+24*60*60 < strtotime($item['edit_date'].' UTC'))) {
+		&& (SQL::strtotime($item['create_date'])+24*60*60 < SQL::strtotime($item['edit_date']))) {
 
 		$details[] = sprintf(i18n::s('posted by %s %s'), ucfirst($item['create_name']), Skin::build_date($item['create_date']));
 	}

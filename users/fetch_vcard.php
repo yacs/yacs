@@ -120,7 +120,7 @@ if(!isset($item['id'])) {
 		.'N:'.$names."\x0D\x0A"
 		.'NICKNAME:'.$item['nick_name']."\x0D\x0A"
 		.'EMAIL;PREF;INTERNET:'.$item['email']."\x0D\x0A"
-		.'REV:'.date('Ymd\THis\Z', strtotime($item['edit_date'].' UTC'))."\x0D\x0A"
+		.'REV:'.date('Ymd\THis\Z', SQL::strtotime($item['edit_date']))."\x0D\x0A"
 		.'END:VCARD'."\x0D\x0A";
 
 	//

@@ -272,7 +272,7 @@ if(!isset($item['id'])) {
 
 				// hide last edition if done by creator, and if less than 24 hours between creation and last edition
 				if($item['create_date'] && ($item['create_id'] == $item['edit_id'])
-						&& (strtotime($item['create_date'].' UTC')+24*60*60 >= strtotime($item['edit_date'].' UTC')))
+						&& (SQL::strtotime($item['create_date'])+24*60*60 >= SQL::strtotime($item['edit_date'])))
 					;
 
 				// the last edition of this category

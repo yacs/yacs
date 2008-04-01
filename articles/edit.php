@@ -267,10 +267,6 @@ if(!Surfer::is_associate() || (isset($_REQUEST['option_validate']) && ($_REQUEST
 		validate($_REQUEST['description']);
 }
 
-// adjust dates from surfer time zone to server time zone
-if(isset($_REQUEST['publish_date']) && $_REQUEST['publish_date'] && (($stamp = strtotime($_REQUEST['publish_date'].' UTC')) != -1))
-	$_REQUEST['publish_date'] = strftime('%Y-%m-%d %H:%M:%S', $stamp - ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
-
 // permission denied
 if(!$permitted) {
 
@@ -449,12 +445,8 @@ if(!$permitted) {
 		$_REQUEST['overlay_id'] = $overlay->get_id();
 	}
 
-	// a publication date has been manually defined by an associate or by an editor
-	if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE) && Surfer::is_empowered())
-		;
-
 	// this is an explicit draft
-	elseif(isset($_REQUEST['options']) && preg_match('/\bdraft\b/', $_REQUEST['options']))
+	if(isset($_REQUEST['options']) && preg_match('/\bdraft\b/', $_REQUEST['options']))
 		unset($_REQUEST['publish_date']);
 
 	// this is a modification

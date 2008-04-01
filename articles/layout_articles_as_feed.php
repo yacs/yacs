@@ -63,7 +63,7 @@ Class Layout_articles_as_feed extends Layout_interface {
 				$title = Codes::beautify_title($item['title']);
 
 			// time of last update
-			$time = strtotime($item['edit_date']).' UTC';
+			$time = SQL::strtotime($item['edit_date']);
 
 			// the section
 			$section = '';

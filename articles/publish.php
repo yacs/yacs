@@ -57,10 +57,6 @@ if(isset($item['anchor']))
 // do not always show the edition form
 $with_form = FALSE;
 
-// if publication has been confirmed, ensure we have a valid date
-if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'publish') && !isset($_REQUEST['publish_date']))
-	$_REQUEST['publish_date'] = strftime('%Y-%m-%d %H:%M:%S', time());
-
 // load localized strings
 i18n::bind('articles');
 
@@ -76,19 +72,14 @@ if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();
 else
 	$context['path_bar'] = array( 'articles/' => 'Articles' );
+if(isset($item['id']))
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
 // the title of the page
 if(isset($item['title']) && $item['title'])
 	$context['page_title'] = sprintf(i18n::s('Publish: %s'), $item['title']);
 else
 	$context['page_title'] = i18n::s('No title has been provided.');
-
-// common commands for this page
-if(isset($_SERVER['HTTP_REFERER']))
-	$referer = $_SERVER['HTTP_REFERER'];
-else
-	$referer = 'articles/review.php';
-$context['page_menu'] = array( $referer => i18n::s('Back to the page') );
 
 // not found
 if(!isset($item['id'])) {
@@ -106,8 +97,18 @@ if(!isset($item['id'])) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
+// page has already been published
+} elseif(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // publication is confirmed
 } elseif(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
+
+	// convert dates from surfer time zone to UTC time zone
+ 	$_REQUEST['publish_date'] = Surfer::to_GMT($_REQUEST['publish_date']);
+	if(isset($_REQUEST['expiry_date']) && ($_REQUEST['expiry_date'] > NULL_DATE))
+	 	$_REQUEST['expiry_date'] = Surfer::to_GMT($_REQUEST['expiry_date']);
 
 	// update the database
 	if($error = Articles::stamp($item['id'], $_REQUEST['publish_date'], isset($_REQUEST['expiry_date']) ? $_REQUEST['expiry_date'] : ''))
@@ -231,9 +232,6 @@ if($with_form) {
 
 	// adjust date from server time zone to surfer time zone
 	$value = strftime('%Y-%m-%d %H:%M:%S', time() + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
-	if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE) && (($stamp = strtotime($item['publish_date'].' UTC')) != -1))
-		$value = strftime('%Y-%m-%d %H:%M:%S', $stamp + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
-
 	$input = Skin::build_input('publish_date', $value, 'date_time');
 	$hint = i18n::s('Indicate a date (YYYY-MM-DD) in the future and let YACS make the page appear automatically.');
 	$fields[] = array($label, $input, $hint);
@@ -292,10 +290,10 @@ if($with_form) {
 	// the expiry date, if any
 	$label = i18n::s('Expiry date');
 
-	// adjust date from server time zone to surfer time zone
+	// adjust date from UTC time zone to surfer time zone
 	$value = '';
-	if(isset($item['expiry_date']) && ($item['expiry_date'] > NULL_DATE) && (($stamp = strtotime($item['expiry_date'].' UTC')) != -1))
-		$value = strftime('%Y-%m-%d %H:%M:%S', $stamp + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
+	if(isset($item['expiry_date']))
+		$value = Surfer::from_GMT($item['expiry_date']);
 
 	$input = Skin::build_input('expiry_date', $value, 'date_time');
 	$hint = i18n::s('Use this field to limit the life time of published pages.');
@@ -305,10 +303,13 @@ if($with_form) {
 	$context['text'] .= Skin::build_form($fields);
 	$fields = array();
 
-	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+	// submit or cancel
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+	$menu[] = Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
+	$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
 
-	// transmit the id as a hidden field
+	// article id and confirmation
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
 
 	// end of the form

@@ -831,7 +831,7 @@ Class Article extends Anchor {
 			}
 
 			// refresh stamp only if image update occurs within 6 hours after last edition
-			if(strtotime($this->item['edit_date'].' UTC') + 6*60*60 < time())
+			if(SQL::strtotime($this->item['edit_date']) + 6*60*60 < time())
 				$silently = TRUE;
 
 		// add a reference to a new image at the top the description
@@ -841,7 +841,7 @@ Class Article extends Anchor {
 				$query[] = "description = '".SQL::escape('[image='.$origin.']'."\n\n".$this->item['description'])."'";
 
 			// refresh stamp only if image update occurs within 6 hours after last edition
-			if(strtotime($this->item['edit_date'].' UTC') + 6*60*60 < time())
+			if(SQL::strtotime($this->item['edit_date']) + 6*60*60 < time())
 				$silently = TRUE;
 
 		// suppress a reference to an image that has been deleted

@@ -594,7 +594,7 @@ if(!isset($item['id'])) {
 
 			// the publisher of this article, if any
 			if(($item['publish_date'] > NULL_DATE)
-				&& ( ($item['create_id'] != $item['publish_id']) || (strtotime($item['create_date'].' UTC')+24*60*60 < strtotime($item['publish_date'].' UTC')) )
+				&& ( ($item['create_id'] != $item['publish_id']) || (SQL::strtotime($item['create_date'])+24*60*60 < SQL::strtotime($item['publish_date'])) )
 				&& (Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()))) {
 
 				if($item['publish_name'])
@@ -605,7 +605,7 @@ if(!isset($item['id'])) {
 
 			// last modification by creator, and less than 24 hours between creation and last edition
 			if(($item['create_date'] > NULL_DATE) && ($item['create_id'] == $item['edit_id'])
-					&& (strtotime($item['create_date'].' UTC')+24*60*60 >= strtotime($item['edit_date'].' UTC')))
+					&& (SQL::strtotime($item['create_date'])+24*60*60 >= SQL::strtotime($item['edit_date'])))
 				;
 			// publication is the last action
 			elseif(($item['publish_date'] > NULL_DATE) && ($item['edit_date'] == $item['publish_date']))
@@ -1477,7 +1477,7 @@ if(!isset($item['id'])) {
 		.'var PeriodicalCheck = {'."\n"
 		."\n"
 		.'	url: "'.$context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'check').'",'."\n"
-		.'	timestamp: '.strtotime($item['edit_date'].' UTC').','."\n"
+		.'	timestamp: '.SQL::strtotime($item['edit_date']).','."\n"
 		."\n"
 		.'	initialize: function() { },'."\n"
 		."\n"
@@ -1531,7 +1531,7 @@ if(!isset($item['id'])) {
 
 // stamp the page
 if(isset($item['edit_date']) && $item['edit_date'] && !preg_match('/\[table=(.+?)\]/i', $item['description']))
-	$last_modified = strtotime($item['edit_date'].' UTC');
+	$last_modified = SQL::strtotime($item['edit_date']);
 else
 	$last_modified = time();
 

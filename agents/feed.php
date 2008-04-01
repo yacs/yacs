@@ -201,7 +201,7 @@ if(!$permitted) {
 				$text .= "\n".' <item>'."\n"
 					.'		<title>'.encode_field(strip_tags($label))."</title>\n"
 					.'		<description><![CDATA[ '.$description." ]]></description>\n"
-					.'		<pubDate>'.gmdate('D, d M Y H:i:s', strtotime($stamp.' UTC'))." GMT</pubDate>\n"
+					.'		<pubDate>'.gmdate('D, d M Y H:i:s', SQL::strtotime($stamp))." GMT</pubDate>\n"
 					.'		<link>'.$context['url_to_home'].$context['url_to_root'].'agents/?subject=events&amp;id='.$id."</link>\n"
 					.'		<guid isPermaLink="false">'.$id."</guid>\n"
 					.'		<category>'.encode_field($script)."</category>\n"

@@ -55,7 +55,7 @@ Class Layout_articles_as_contents extends Layout_interface {
 			$url = $context['url_to_home'].$context['url_to_root'].$url;
 
 			// time of last update
-			$time = strtotime($item['edit_date']).' UTC';
+			$time = SQL::strtotime($item['edit_date']);
 
 			// build a title
 			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))

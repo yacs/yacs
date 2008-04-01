@@ -471,7 +471,7 @@ Class Link {
 			if(preg_match('/^Last-Modified: (.*?)/', $line, $matches))
 
 				// return the stamp for this link
-				return date("Y-m-d H:i:s", strtotime($matches[1].' UTC'));
+				return date("Y-m-d H:i:s", strtotime($matches[1]));
 
 		}
 

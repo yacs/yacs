@@ -99,7 +99,7 @@ Class Links {
 			return TRUE;
 
 		// teasers are activated
-		if(isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
 			return TRUE;
 
 		// the default is to not allow for new links

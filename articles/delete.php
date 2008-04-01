@@ -87,9 +87,8 @@ if(is_object($anchor))
 // the path to this page
 if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();
-else {
+else
 	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
-}
 if(isset($item['id']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 

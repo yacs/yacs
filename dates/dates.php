@@ -245,6 +245,9 @@ Class Dates {
 
 		}
 
+		// empty rows are not allowed
+		$text = str_replace('<tr></tr>', '', $text);
+
 		// done
 		return $text;
 	}

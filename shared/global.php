@@ -13,6 +13,8 @@
  * - NO_VIEW_PRELOAD - no internationalization
  * - NO_MODEL_PRELOAD - no SQL library, and no standard data libraries (e.g., articles, sections, users)
  *
+ * Do not modify this file by yourself, changes would be lost on next software upgrades.
+ *
  * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Olivier
@@ -29,9 +31,25 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-//
-// initialize template variables (alphabetical order) -- see skins/test.php
-//
+// we will manage the cache by ourself
+if(is_callable('session_cache_limiter'))
+	@session_cache_limiter('none');
+
+// default value for name filtering in forms (e.g. 'edit_name' filled by anonymous surfers)
+if(!defined('FORBIDDEN_CHARS_IN_NAMES'))
+	define('FORBIDDEN_CHARS_IN_NAMES', '/[^\s\w-:&#;\'"]+/');
+
+// default value for url filtering in forms
+if(!defined('FORBIDDEN_CHARS_IN_URLS'))
+	define('FORBIDDEN_CHARS_IN_URLS', '/[^\w~_:@\/\.&#;\,+%\?=-]+/');
+
+// default value for path filtering in forms -- ../ and \
+if(!defined('FORBIDDEN_STRINGS_IN_PATHS'))
+	define('FORBIDDEN_STRINGS_IN_PATHS', '/\.{2,}\//');
+
+// default value for codes filtering for teasers
+if(!defined('FORBIDDEN_CODES_IN_TEASERS'))
+	define('FORBIDDEN_CODES_IN_TEASERS', '/\[(location=[^\]]+?|table=[^\]]+?|toc|toq)\]\s*/i');
 
 // store attributes for this request, including global parameters and request-specific variables
 global $context;
@@ -39,13 +57,22 @@ global $context;
 // ensure we have built everything --stop all kinds of data injections
 $context = array();
 
+// the HTTP accepted verbs by default --can be modified in some scripts, if necessary
+$context['accepted_methods'] = 'GET,HEAD,OPTIONS,POST,PUT';
+
+// parameters of the scripts passed in the URL, if any
+$context['arguments'] = array();
+
 // type of object produced by YACS
 $context['content_type'] = 'text/html';
 
 // where developers can add debugging messages --one string per row
 $context['debug'] = array();
 
-// surfer does not benefit from extended rights yet -- see Surfer::empower()
+// default mask to be used on mkdir -- see control/configure.php
+$context['directory_mask'] = 0755;
+
+// surfer does not benefit from extended rights yet -- see Surfer::empower() in shared/surfer.php
 $context['empowered'] = '?';
 
 // a stack of error messages --one string per row
@@ -54,14 +81,23 @@ $context['error'] = array();
 // content of the extra panel
 $context['extra'] = '';
 
+// default mask to be used on chmod -- see control/configure.php
+$context['file_mask'] = 0644;
+
+// compute server gmt offset based on system configuration
+$context['gmt_offset'] = intval((strtotime(date('M d Y H:i:s')) - strtotime(gmdate('M d Y H:i:s'))) / 3600);
+
 // required client libraries
 $context['javascript'] = array();
 
-// surfer preferred language -- changed in i18n::initialize()
+// surfer preferred language -- changed in i18n::initialize() in i18n/i18n.php
 $context['language'] = 'en';
 
 // content of the navigation panel
 $context['navigation'] = '';
+
+// default P3P compact policy enables IE support of our cookies, even through frameset -- http://support.microsoft.com/kb/323752
+$context['p3p_compact_policy'] = 'CAO PSA OUR';
 
 // page author (meta-information)
 $context['page_author'] = '';
@@ -105,31 +141,7 @@ $context['site_icon'] = '';
 // site slogan
 $context['site_slogan'] = '';
 
-// page main content
-$context['text'] = '';
-
-// path to files and images, for supported virtual hosts --see files/edit.php and images/edit.php
-$context['virtual_path'] = '';
-
-// debug the execution of this script --may be changed in control/configure.php
-$context['with_debug'] = 'N';
-
-// how to build links --may be changed in control/configure.php
-$context['with_friendly_urls'] = 'N';
-
-// profile execution of this script
-$context['with_profile'] = 'N';
-
-//
-// Performance stuff
-//
-
-global $logger_profile_data;
-$logger_profile_data = array();
-
-/**
- * get the current time stamp
- */
+// we will use this at several places
 function get_micro_time() {
 	list($usec, $sec) = explode(" ",microtime(), 2);
 	return ((float)$usec + (float)$sec);
@@ -138,32 +150,27 @@ function get_micro_time() {
 // start processing the page
 $context['start_time'] = get_micro_time();
 
-// we will manage the cache by ourself
-if(is_callable('session_cache_limiter'))
-	@session_cache_limiter('none');
+// page main content
+$context['text'] = '';
+
+// default value for allowed tags -- see users/configure.php
+$context['users_allowed_tags']	= '<b><code><dd><dl><dt><i><ol><li><p><ul>';
+
+// path to files and images, for supported virtual hosts --see files/edit.php and images/edit.php
+$context['virtual_path'] = '';
+
+// debug the execution of this script -- see control/configure.php
+$context['with_debug'] = 'N';
+
+// how to build links -- see control/configure.php
+$context['with_friendly_urls'] = 'N';
+
+// profile execution of this script
+$context['with_profile'] = 'N';
 
 //
 // System parameters
 //
-
-/**
- * get the value of one global parameter
- *
- * @param string name of the parameter
- * @param mixed default value, if any
- * @return the actual value of this parameter, else the default value, else ''
- */
-function &get_parameter($name, $default='') {
-	global $context;
-
-	if(isset($context[$name])) {
-		$output =& $context[$name];
-		return $output;
-	}
-
-	$output = $default;
-	return $output;
-}
 
 // get our position from the environment --always end the string with a slash
 if(isset($_ENV['YACS_HOME']))
@@ -188,28 +195,25 @@ include_once $context['path_to_root'].'shared/logger.php';
 // the cache library
 include_once $context['path_to_root'].'shared/cache.php';
 
-// our knowledge about current surfer --after the definition of url_to_root parameter
-if(!defined('NO_CONTROLLER_PRELOAD'))
-	include_once $context['path_to_root'].'shared/surfer.php';
-
-//
-// default values for global parameters set in control/configure.php
-//
-
-// default mask to be used on mkdir
-$context['directory_mask'] = 0755;
-
-// default mask to be used on chmod
-$context['file_mask'] = 0644;
-
-// load general parameters (see control/configure.php)
+// load general parameters -- see control/configure.php
 Safe::load('parameters/control.include.php');
+
+// maximize level of error reporting on development servers
+if($context['with_debug'] == 'Y')
+	$level = E_ALL;
+else
+	$level = E_ALL ^ (E_NOTICE | E_USER_NOTICE | E_WARNING);
+Safe::error_reporting($level);
 
 // profile this page -- add '?profile' at the end of the URL to profile, but only at selected sites
 if(($context['with_debug'] == 'Y') && isset($_REQUEST['profile']))
 	$context['with_profile'] = 'Y';
 
-// profiling mode -- we will miss part of it...
+// performance stuff
+global $logger_profile_data;
+$logger_profile_data = array();
+
+// profiling mode -- okay, we are missing things happening before this line...
 if($context['with_profile'] == 'Y')
 	logger::profile('global', 'start');
 
@@ -237,45 +241,6 @@ if(Safe::load('parameters/'.$virtual.'.include.php'))
 // start with a default skin
 if(!isset($context['skin']) && is_dir($context['path_to_root'].'skins/digital'))
 	$context['skin'] = 'skins/digital';
-
-// load users parameters (see users/configure.php)
-if(!defined('NO_MODEL_PRELOAD'))
-	Safe::load('parameters/users.include.php');
-
-// see all errors on development machine
-if($context['with_debug'] == 'Y')
-	$level = E_ALL;
-
-// mask notifications and warnings
-else
-	$level = E_ALL ^ (E_NOTICE | E_USER_NOTICE | E_WARNING);
-
-// set reporting level
-Safe::error_reporting($level);
-
-// default value for name filtering in forms (e.g. 'edit_name' filled by anonymous surfers)
-if(!defined('FORBIDDEN_CHARS_IN_NAMES'))
-	define('FORBIDDEN_CHARS_IN_NAMES', '/[^\s\w-:&#;\'"]+/');
-
-// default value for url filtering in forms
-if(!defined('FORBIDDEN_CHARS_IN_URLS'))
-	define('FORBIDDEN_CHARS_IN_URLS', '/[^\w~_:@\/\.&#;\,+%\?=-]+/');
-
-// default value for path filtering in forms -- ../ and \
-if(!defined('FORBIDDEN_STRINGS_IN_PATHS'))
-	define('FORBIDDEN_STRINGS_IN_PATHS', '/\.{2,}\//');
-
-// default value for codes filtering for teasers
-if(!defined('FORBIDDEN_CODES_IN_TEASERS'))
-	define('FORBIDDEN_CODES_IN_TEASERS', '/\[(location=[^\]]+?|table=[^\]]+?|toc|toq)\]\s*/i');
-
-// default value for allowed tags
-if(!isset($context['users_allowed_tags']))
-	$context['users_allowed_tags']	= '<b><code><dd><dl><dt><i><ol><li><p><ul>';
-
-// default P3P compact policy enables IE support of our cookies, even through frameset -- http://support.microsoft.com/kb/323752
-if(!isset($context['p3p_compact_policy']))
-	$context['p3p_compact_policy'] = 'CAO PSA OUR';
 
 // ensure we have a site name
 if(!isset($context['site_name']))
@@ -347,11 +312,9 @@ elseif(isset($_SERVER['REQUEST_URI']) && preg_match('/\.php$/', $_SERVER['REQUES
 if(($context['with_profile'] == 'Y') && $context['script_url'] && !preg_match('/(error|services\/check|users\/heartbit|users\/visit)\.php/', $context['script_url']))
 	Logger::remember($context['script_url'], 'run', '', 'debug');
 
-// the HTTP accepted verbs by default --can be modified in some scripts, if necessary
-$context['accepted_methods'] = 'GET,HEAD,OPTIONS,POST,PUT';
-
-// compute server gmt offset based on system configuration
-$context['gmt_offset'] = intval((strtotime(date('M d Y H:i:s')) - strtotime(gmdate('M d Y H:i:s'))) / 3600);
+//
+// decode script parameters passed in URL
+//
 
 // we cannot rewrite $_SERVER
 $path_info = '';
@@ -370,7 +333,6 @@ if(preg_match('/^.+?\.php/', $path_info, $matches))
 if(strlen($path_info)) {
 
 	// split all args, if any, and decode each of them
-	$context['arguments'] = array();
 	$arguments = explode('/', substr($path_info, 1));
 	if(is_array($arguments)) {
 		foreach($arguments as $argument)
@@ -544,7 +506,7 @@ if(!is_readable($context['path_to_root'].'parameters/control.include.php') && !p
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'control/');
 
 //
-// Access the database
+// Access data
 //
 
 // no need for data access
@@ -565,6 +527,14 @@ if(!defined('NO_MODEL_PRELOAD')) {
 // the database of site members
 if(!defined('NO_MODEL_PRELOAD'))
 	include_once $context['path_to_root'].'users/users.php';
+
+// load users parameters -- see users/configure.php
+if(!defined('NO_MODEL_PRELOAD'))
+	Safe::load('parameters/users.include.php');
+
+// our knowledge about current surfer -- after the definition of path_to_root parameter, and after the loading of user parameters
+if(!defined('NO_CONTROLLER_PRELOAD'))
+	include_once $context['path_to_root'].'shared/surfer.php';
 
 //
 // Content basic information -- articles and sections
@@ -1231,7 +1201,7 @@ function render_skin($stamp=0) {
 
 	// wait at least 5 minutes = 300 seconds between ticks
 	if($stamp > NULL_DATE)
-		$target = strtotime($stamp.' UTC') + 300;
+		$target = SQL::strtotime($stamp) + 300;
 	else
 		$target = time();
 	if($target > time())

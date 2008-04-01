@@ -45,7 +45,7 @@ Class Layout_images_as_feed extends Layout_interface {
 			$url = $context['url_to_home'].$context['url_to_root'].Images::get_url($item['id']);
 
 			// time of last update
-			$time = strtotime($item['edit_date'].' UTC');
+			$time = SQL::strtotime($item['edit_date']);
 
 			// the title as the label
 			if($item['title'])

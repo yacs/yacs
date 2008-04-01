@@ -566,6 +566,25 @@ Class Codes {
 	}
 
 	/**
+	 * get the value of one global parameter
+	 *
+	 * @param string name of the parameter
+	 * @param mixed default value, if any
+	 * @return the actual value of this parameter, else the default value, else ''
+	 */
+	function &get_parameter($name, $default='') {
+		global $context;
+
+		if(isset($context[$name])) {
+			$output =& $context[$name];
+			return $output;
+		}
+
+		$output = $default;
+		return $output;
+	}
+
+	/**
 	 * reset global variables used for rendering
 	 *
 	 * This function should be called between the processing of different articles in a loop
@@ -784,7 +803,7 @@ Class Codes {
 				"Codes::render_hidden(stripslashes('$1'), 'hidden')",			// [hidden]...[/hidden]
 				"Codes::render_hidden(stripslashes('$1'), 'restricted')",		// [restricted]...[/restricted]
 				"Codes::render_hidden(stripslashes('$1'), 'anonymous')",		// [anonymous]...[/anonymous]
-				"get_parameter('\\1')", 										// [parameter=<name>]
+				"Codes::get_parameter('\\1')", 									// [parameter=<name>]
 				"utf8::to_unicode(str_replace('$1', '|', utf8::from_unicode(stripslashes('$2'))))", // [csv=;]...[/csv]
 				"str_replace(',', '|', stripslashes('$1'))",					// [csv]...[/csv]
 				"Codes::render_table(stripslashes('$2'), '$1')",				// [table=variant]...[/table]
@@ -988,7 +1007,7 @@ Class Codes {
 	function &render_collections() {
 		global $context;
 
-		// has on ecollection been defined?
+		// has one collection been defined?
 		Safe::load('parameters/collections.include.php');
 		if(!isset($context['collections']) || !is_array($context['collections'])) {
 			$output = NULL;

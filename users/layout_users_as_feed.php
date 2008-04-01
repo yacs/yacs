@@ -41,7 +41,7 @@ Class Layout_users_as_feed extends Layout_interface {
 			$url = $context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:'');
 
 			// time of last update
-			$time = strtotime($item['edit_date'].' UTC');
+			$time = SQL::strtotime($item['edit_date']);
 
 			// the title as the label
 			if($item['full_name'])

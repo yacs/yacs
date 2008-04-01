@@ -123,6 +123,10 @@ if(!isset($item['id'])) {
 // new expiry date
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'expiry')) {
 
+	// convert from surfer time zone to UTC time zone
+	if(isset($_REQUEST['expiry_date']) && ($_REQUEST['expiry_date'] > NULL_DATE))
+	 	$_REQUEST['expiry_date'] = Surfer::to_GMT($_REQUEST['expiry_date']);
+
 	// reset the expiry date
 	if(!$_REQUEST['expiry_date'] || ($_REQUEST['expiry_date'] <= '0000-00-00')) {
 		$query = "UPDATE ".SQL::table_name('articles')." SET expiry_date='".NULL_DATE."' WHERE id = ".SQL::escape($item['id']);
@@ -153,6 +157,10 @@ if(!isset($item['id'])) {
 
 // new publication date
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'publish')) {
+
+	// convert from surfer time zone to UTC time zone
+	if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE))
+	 	$_REQUEST['publish_date'] = Surfer::to_GMT($_REQUEST['publish_date']);
 
 	// invalid date
 	if(!isset($_REQUEST['publish_date']) || ($_REQUEST['publish_date'] <= '0000-00-00')) {
@@ -204,10 +212,10 @@ if($with_form) {
 	$context['text'] .= Skin::build_block(i18n::s('Expire'), 'title');
 
 	// change the expiry date
-	if(isset($item['expiry_date']) && ($item['expiry_date'] > NULL_DATE) && (($stamp = strtotime($item['expiry_date'].' UTC')) != -1)) {
+	if(isset($item['expiry_date']) && ($item['expiry_date'] > NULL_DATE)) {
 
-		// adjust date from server time zone to surfer time zone
-		$value = strftime('%Y-%m-%d %H:%M:%S', $stamp + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
+		// adjust date from UTC time zone to surfer time zone
+		$value = Surfer::from_GMT($item['expiry_date']);
 
 		// a form to change the date
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" name="form_2"><div>'."\n";
@@ -253,10 +261,10 @@ if($with_form) {
 	$context['text'] .= Skin::build_block(i18n::s('Publication'), 'title');
 
 	// change the publication date
-	if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE) && (($stamp = strtotime($item['publish_date'].' UTC')) != -1)) {
+	if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {
 
 		// adjust date from server time zone to surfer time zone
-		$value = strftime('%Y-%m-%d %H:%M:%S', $stamp + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
+		$value = Surfer::from_GMT($item['publish_date']);
 
 		// a form to change the date
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" name="form_3"><div>'."\n";

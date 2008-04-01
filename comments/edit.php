@@ -77,7 +77,7 @@ $id = NULL;
 $target_anchor = NULL;
 
 // parameters transmitted through friendly urls
-if(isset($context['arguments']) && $context['arguments'][0]) {
+if(isset($context['arguments'][0]) && $context['arguments'][0]) {
 
 	// quote an existing comment
 	if($context['arguments'][0] == 'quote') {

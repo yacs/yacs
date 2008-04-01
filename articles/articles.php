@@ -2764,15 +2764,11 @@ Class Articles {
 	 *
 	 * [*] If no date is provided, the review field is updated to the current date and time.
 	 *
-	 * If a publication date is provided, it is assumed to be in the time zone of the surfer,
-	 * and it is adjusted to the server time zone automatically.
+	 * Dates are supposed to be in UTC time zone.
 	 *
 	 * The name of the surfer is registered as the official publisher.
 	 * As an alternative, publisher attributes ('name', 'id' and 'address') can be provided
 	 * in parameters.
-	 *
-	 * If an expiration date is provided, it is assumed to be in the time zone of the surfer,
-	 * and it is adjusted to the server time zone automatically.
 	 *
 	 * @param int the id of the item to publish
 	 * @param string the target publication date, if any
@@ -2806,26 +2802,21 @@ Class Articles {
 		elseif(preg_match('/GMT$/', $publication) && (strlen($publication) == 19)) {
 
 			// YYMMDD-HH:MM:SS GMT -> HH, MM, SS, MM, DD, YY
-			$publication_stamp = mktime(substr($publication, 7, 2), substr($publication, 10, 2), substr($publication, 13, 2),
-				substr($publication, 2, 2), substr($publication, 4, 2), substr($publication, 0, 2));
-
-			// adjust to surfer time zone
-			$publication_stamp += ($surfer_offset * 3600);
+			$publication_stamp = gmmktime(intval(substr($publication, 7, 2)), intval(substr($publication, 10, 2)), intval(substr($publication, 13, 2)),
+				intval(substr($publication, 2, 2)), intval(substr($publication, 4, 2)), intval(substr($publication, 0, 2)));
 
 		// time()-like stamp
 		} elseif(intval($publication) > 1000000000) {
 
-			// adjust to server time zone
-			$publication_stamp = intval($publication) - (($surfer_offset - $server_offset) * 3600);
+			// adjust to UTC time zone
+			$publication_stamp = intval($publication) + ($context['gmt_offset'] * 3600);
 
 		// YYYY-MM-DD HH:MM:SS, or a string that can be readed
-		} elseif(($publication_stamp = strtotime($publication.' UTC')) != -1) {
-
-			// adjust to server time zone
-			$publication_stamp -= (($surfer_offset - $server_offset) * 3600);
+		} elseif(($publication_stamp = SQL::strtotime($publication)) != -1)
+			;
 
 		// invalid date
-		} else
+		else
 			return sprintf(i18n::s('"%s" is not a valid publication date'), $publication);
 
 		// no expiration date
@@ -2836,26 +2827,21 @@ Class Articles {
 		elseif(preg_match('/GMT$/', $expiry) && (strlen($expiry) == 19)) {
 
 			// YYMMDD-HH:MM:SS GMT -> HH, MM, SS, MM, DD, YY
-			$expiry_stamp = mktime(substr($expiry, 7, 2), substr($expiry, 10, 2), substr($expiry, 13, 2),
+			$expiry_stamp = gmmktime(substr($expiry, 7, 2), substr($expiry, 10, 2), substr($expiry, 13, 2),
 				substr($expiry, 2, 2), substr($expiry, 4, 2), substr($expiry, 0, 2));
-
-			// adjust to surfer time zone
-			$expiry_stamp += ($surfer_offset * 3600);
 
 		// time()-like stamp
 		} elseif(intval($expiry) > 1000000000) {
 
 			// adjust to server time zone
-			$expiry_stamp = intval($expiry) - (($surfer_offset - $server_offset) * 3600);
+			$expiry_stamp = intval($expiry) + ($context['gmt_offset'] * 3600);
 
 		// YYYY-MM-DD HH:MM:SS, or a string that can be readed
-		} elseif(($expiry_stamp = strtotime($expiry.' UTC')) != -1) {
-
-			// adjust to server time zone
-			$expiry_stamp -= (($surfer_offset - $server_offset) * 3600);
+		} elseif(($expiry_stamp = SQL::strtotime($expiry)) != -1)
+			;
 
 		// invalid date
-		} else
+		else
 			return sprintf(i18n::s('"%s" is not a valid expiry date'), $expiry);
 
 		// review date

@@ -277,6 +277,8 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'no_anchor');
 			else
 				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'no_anchor');
+			if(is_array($items))
+				$box['text'] .= Skin::build_list($items, 'decorated');
 
 			// navigation commands for files
 			$prefix = Articles::get_url($item['id'], 'navigate', 'files');
@@ -288,13 +290,11 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 				$box['bar'] = array_merge($box['bar'], array( $link => i18n::s('Upload a file') ));
 			}
 
+			if(is_array($box['bar']) && ($context['skin_variant'] != 'mobile'))
+				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 		}
 
 		// actually render the html for the section
-		if(is_array($box['bar']) && ($context['skin_variant'] != 'mobile'))
-			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-		if(is_array($items))
-			$box['text'] .= Skin::build_list($items, 'decorated');
 		if($box['text'])
 			$text .= Skin::build_box(i18n::s('Related files'), $box['text'], 'section', 'files');
 

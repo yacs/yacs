@@ -172,7 +172,7 @@ class Anchor {
 		if(!isset($this->item['edit_date']))
 			$response['timestamp'] = '';
 		else
-			$response['timestamp'] = strtotime($this->item['edit_date'].' UTC');
+			$response['timestamp'] = SQL::strtotime($this->item['edit_date']);
 
 		// 'name'
 		if(!isset($this->item['edit_name']))

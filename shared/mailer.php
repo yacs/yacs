@@ -379,7 +379,7 @@ class Mailer {
 
 			// date of last stamp
 			if(isset($bucket['edit_date']))
-				$stamp = strtotime($bucket['edit_date'].' UTC');
+				$stamp = SQL::strtotime($bucket['edit_date']);
 			else
 				$stamp = time() - 3600;
 

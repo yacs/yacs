@@ -1438,13 +1438,13 @@ class Messages {
 			$entry_fields['title'] = $post_subject;
 
 		// message creation stamp
-		$post_date = gmdate('D, j M Y G:i:s');
+		$post_date = gmdate('D, j M Y G:i:s').' GMT';
 		foreach($message_headers as $header)
 			if(preg_match('/Date/i', $header['name'])) {
 				$post_date = $header['value'];
 				break;
 			}
-		$entry_fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', strtotime($post_date.' UTC'));
+		$entry_fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', strtotime($post_date));
 		if(!isset($entry_fields['create_name']))
 			$entry_fields['create_name'] = $user['nick_name'];
 		if(!isset($entry_fields['create_id']))

@@ -45,7 +45,7 @@ Class Layout_links_as_feed extends Layout_interface {
 			$url = $item['link_url'];
 
 			// time of last update
-			$time = strtotime($item['edit_date'].' UTC');
+			$time = SQL::strtotime($item['edit_date']);
 
 			// the title as the label
 			if($item['title'])
