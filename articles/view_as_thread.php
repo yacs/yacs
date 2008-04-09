@@ -70,7 +70,7 @@ if(count(get_included_files()) < 3) {
 }
 
 // load the skin, maybe with a variant
-load_skin('thread', $anchor, isset($item['options']) ? $item['options'] : '');
+load_skin('view_as_thread', $anchor, isset($item['options']) ? $item['options'] : '');
 
 // clear the tab we are in, if any
 if(is_object($anchor))
@@ -416,13 +416,13 @@ if(!isset($item['id'])) {
 	// conversation is over
 	if(isset($item['locked']) && ($item['locked'] == 'Y')) {
 
-			// display a transcript of past comments
-			include_once $context['path_to_root'].'comments/comments.php';
-			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, 500, 'excerpt');
-			if(is_array($items))
-				$context['text'] .= Skin::build_list($items, 'rows');
-			elseif(is_string($items))
-				$context['text'] .= $items;
+		// display a transcript of past comments
+		include_once $context['path_to_root'].'comments/comments.php';
+		$items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, 500, 'excerpt');
+		if(is_array($items))
+			$context['text'] .= Skin::build_list($items, 'rows');
+		elseif(is_string($items))
+			$context['text'] .= $items;
 
 	// on-going conversation
 	} else {

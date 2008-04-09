@@ -275,7 +275,7 @@ if($with_form) {
 
 	// preview a decision
 	if(isset($_REQUEST['preview']) && $_REQUEST['preview']) {
-		$context['text'] .= Skin::build_box(i18n::s('Preview of your post:'), Codes::beautify($item['description']), 'section');
+		$context['text'] .= Skin::build_box(i18n::s('Preview of your post:'), Codes::beautify($item['description']));
 
 		$context['text'] .= Skin::build_block(i18n::s('Edit your post below'), 'title');
 

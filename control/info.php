@@ -77,7 +77,7 @@ if(!Surfer::is_associate()) {
 			foreach($included_files as $included_file)
 				$text .= '<li>'.$included_file.'</li>';
 			$text .= '</ul>';
-			$context['text'] .= Skin::build_box(i18n::s('Included files'), $text, 'section');
+			$context['text'] .= Skin::build_box(i18n::s('Included files'), $text);
 		}
 
 		// size of all variables
@@ -93,7 +93,7 @@ if(!Surfer::is_associate()) {
 				$text .= '<li>'.$key.' ('.$count.' vars, '.$size.' bytes)</li>';
 			}
 			$text .= '</ul>';
-			$context['text'] .= Skin::build_box(i18n::s('Variables'), $text, 'section');
+			$context['text'] .= Skin::build_box(i18n::s('Variables'), $text);
 		}
 
 		// count constants and their size
@@ -101,13 +101,13 @@ if(!Surfer::is_associate()) {
 			$count = count($all_constants);
 			$size = strlen(serialize($all_constants));
 			$text = $count.' constants, '.$size.' bytes';
-			$context['text'] .= Skin::build_box(i18n::s('Constants'), $text, 'section');
+			$context['text'] .= Skin::build_box(i18n::s('Constants'), $text);
 		}
 
 		// memory status
 		if(is_callable('memory_get_usage')) {
 			$text = memory_get_usage().' bytes';
-			$context['text'] .= Skin::build_box(i18n::s('Memory'), $text, 'section');
+			$context['text'] .= Skin::build_box(i18n::s('Memory'), $text);
 		}
 
 		break;

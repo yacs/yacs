@@ -44,6 +44,9 @@
  *
  * // get text related to this instance
  * $text = $overlay->get_text('view');
+ *
+ * // get additional tabs
+ * $text = $overlay->get_tabs('view');
  * [/php]
  *
  * Also, post-processing steps can include the removal of the hosting record,
@@ -66,6 +69,7 @@
  * - [code]get_fields()[/code] -- build a form to modify overlay content
  * - [code]get_id()[/code] -- to retrieve an overlay
  * - [code]get_label()[/code] -- specialize the overlaid page
+ * - [code]get_tabs()[/code] -- add information in panels
  * - [code]get_text()[/code] -- use overlay data in normal pages
  * - [code]get_type()[/code] -- basic information
  * - [code]parse_fields()[/code] -- capture form content
@@ -304,6 +308,26 @@ class Overlay {
 	function &get_live_title($host=NULL) {
 		$text = Codes::beautify_title($host['title']);
 		return $text;
+	}
+
+	/**
+	 * add some tabs
+	 *
+	 * Display additional information in panels.
+	 *
+	 * Accepted action codes:
+	 * - 'view' - embedded into the main viewing page
+	 * - 'edit' - embedded into the main form page
+	 *
+	 * @see overlays/overlay.php
+	 *
+	 * @param string the on-going action
+	 * @param array the hosting record
+	 * @return an array of array('tab_id', 'tab_label', 'panel_id', 'panel_content') or NULL
+	 */
+	function &get_tabs($variant='view', $host=NULL) {
+		$output = NULL;
+		return $output;
 	}
 
 	/**

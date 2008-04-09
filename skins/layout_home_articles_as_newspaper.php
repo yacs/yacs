@@ -158,7 +158,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$others['articles/'] = array(NULL, i18n::s('All articles'), NULL, 'shortcut');
 
 			// make section box
-			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($others, 'decorated'), 'section');
+			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($others, 'decorated'));
 		}
 
 		// end of processing

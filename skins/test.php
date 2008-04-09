@@ -236,25 +236,25 @@ $text .= '[toc]'.i18n::s('the main content').' '.DUMMY_TEXT."\n"
 $sidebar =& Skin::build_box(i18n::s('sidebar box'), i18n::s('sidebar content'), 'sidebar');
 
 // $context['text'] - section with sidebar box
-$text .= Skin::build_box(i18n::s('section with a sidebar box'), i18n::s('section box').' '.DUMMY_TEXT.$sidebar.DUMMY_TEXT, 'section');
+$text .= Skin::build_box(i18n::s('section with a sidebar box'), i18n::s('section box').' '.DUMMY_TEXT.$sidebar.DUMMY_TEXT);
 
 // a folded box
 $folder =& Skin::build_box(i18n::s('folded box'), i18n::s('folded content'), 'folder');
 
 // $context['text'] - section with folded box
-$text .= Skin::build_box(i18n::s('section with a folded box'), i18n::s('section box').' '.DUMMY_TEXT.$folder.DUMMY_TEXT, 'section');
+$text .= Skin::build_box(i18n::s('section with a folded box'), i18n::s('section box').' '.DUMMY_TEXT.$folder.DUMMY_TEXT);
 
 // a menu bar
 $menu_bar = array('skins/test.php' => i18n::s('Test script'), 'skins/' => i18n::s('All skins'), 'scripts/' => i18n::s('All scripts'));;
 
 // $context['text'] - section with a menu bar
-$text .= Skin::build_box(i18n::s('section with a menu bar'), i18n::s('section box').' '.DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT, 'section');
+$text .= Skin::build_box(i18n::s('section with a menu bar'), i18n::s('section box').' '.DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT);
 
 // page neighbours
 $neighbours = array('#previous', i18n::s('previous'), '#next', i18n::s('next'), '#', 'index');
 
 // $context['text'] - section with neighbours
-$text .= Skin::build_box(i18n::s('section with neighbours'), i18n::s('section box').' '.DUMMY_TEXT.Skin::neighbours($neighbours, 'slideshow'), 'section');
+$text .= Skin::build_box(i18n::s('section with neighbours'), i18n::s('section box').' '.DUMMY_TEXT.Skin::neighbours($neighbours, 'slideshow'));
 
 // user profile at page bottom
 $user = array();

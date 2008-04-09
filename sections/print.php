@@ -204,7 +204,7 @@ if(!isset($item['id'])) {
 	elseif(is_string($items))
 		$box['text'] .= $items;
 	if($box['text'])
-		$context['text'] .= Skin::build_box('', $box['text'], 'section', 'sections');
+		$context['text'] .= Skin::build_box('', $box['text']);
 
 	//
 	// the articles section
@@ -261,7 +261,7 @@ if(!isset($item['id'])) {
 	elseif(is_string($items))
 		$box['text'] .= $items;
 	if($box['text'])
-		$context['text'] .=  Skin::build_box('', $box['text'], 'section', 'articles');
+		$context['text'] .=  Skin::build_box('', $box['text']);
 
 	// sub-sections targeting the main area
 	if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'main')) {
@@ -284,7 +284,7 @@ if(!isset($item['id'])) {
 			if(preg_match('/<h2>|<h3>|class="section_box"/', $context['text']))
 				$title = i18n::s('What is new?');
 
-			$context['text'] .= Skin::build_box($title, $box['text'], 'section', 'what_is_new');
+			$context['text'] .= Skin::build_box($title, $box['text'], 'header1', 'what_is_new');
 		}
 	}
 
@@ -301,7 +301,7 @@ if(!isset($item['id'])) {
 
 	// actually render the html for the section
 	if($items)
-		$context['text'] .= Skin::build_box(i18n::s('Related files'), Skin::build_list($items, 'decorated'), 'section');
+		$context['text'] .= Skin::build_box(i18n::s('Related files'), Skin::build_list($items, 'decorated'));
 
 	//
 	// the comments section
@@ -362,7 +362,7 @@ if(!isset($item['id'])) {
 
 	// build a box
 	if($box['text'])
-		$context['text'] .= Skin::build_box('', $box['text'], 'section', 'comments');
+		$context['text'] .= Skin::build_box('', $box['text'], 'header1', 'comments');
 
 	//
 	// related link
@@ -377,7 +377,7 @@ if(!isset($item['id'])) {
 
 	// actually render the html
 	if($items)
-		$context['text'] .= Skin::build_box(i18n::s('Related links'), Skin::build_list($items, 'decorated'), 'section');
+		$context['text'] .= Skin::build_box(i18n::s('Related links'), Skin::build_list($items, 'decorated'));
 
 	// insert anchor suffix
 	if(is_object($anchor))

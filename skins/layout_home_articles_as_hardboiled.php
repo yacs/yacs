@@ -228,7 +228,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 
 				// the main anchor link
 				if(is_object($anchor))
-					$anchors[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section');
+					$anchors[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()));
 
 				// list up to three categories by title, if any
 				if($members = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {

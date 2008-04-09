@@ -57,7 +57,7 @@ Class Layout_actions extends Layout_interface {
 			$label = $item['title'];
 
 			// description
-			if($description =& ucfirst(trim(Codes::beautify($item['description']))) ) {
+			if($description = ucfirst(trim(Codes::beautify($item['description']))) ) {
 
 				if($variant == 'compact')
 					$suffix .= ' - '.Skin::strip($description, 10);

@@ -589,7 +589,7 @@ if($with_form) {
 //	if(Surfer::is_associate()) {
 //		$label = i18n::s('Options');
 //		$input = '<input type="text" name="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o"'.EOT;
-//		$hint = i18n::s('You can combine: \'locked\'');
+//		$hint = i18n::s('You may combine several keywords:').' locked';
 //		$fields[] = array($label, $input, $hint);
 //	}
 
@@ -654,7 +654,7 @@ if($with_form) {
 
 	// associates may decide to not stamp changes
 	if(isset($item['id']) && Surfer::is_associate())
-		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y"'.EOT.' '.i18n::s('Do not change modification date').'</p>';
+		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y"'.EOT.' '.i18n::s('Do not change modification date.').'</p>';
 
 	// the submit button
 	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";

@@ -39,7 +39,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// make a box
 	if($text)
-		$text =& Skin::build_box('', $text, 'section', 'categories');
+		$text =& Skin::build_box('', $text, 'header1', 'categories');
 
 	// cache this to speed subsequent queries
 	Cache::put($cache_id, $text, 'categories');

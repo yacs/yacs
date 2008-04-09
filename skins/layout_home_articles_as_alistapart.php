@@ -82,7 +82,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 		// build the list of other articles
 		if(@count($others))
-			$text .= Skin::build_box(i18n::s('Previous publications'), Skin::build_list($others, 'compact'), 'section');
+			$text .= Skin::build_box(i18n::s('Previous publications'), Skin::build_list($others, 'compact'));
 
 		// end of processing
 		SQL::free($result);
@@ -221,7 +221,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 		// talk about it
 		if(@count($menu))
-			$text .= Skin::build_box(i18n::s('Contribute'), Skin::build_list($menu, 'menu_bar'), 'section');
+			$text .= Skin::build_box(i18n::s('Contribute'), Skin::build_list($menu, 'menu_bar'));
 
 		// returned the formatted content
 		return $text;

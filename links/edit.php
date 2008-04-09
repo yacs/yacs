@@ -194,7 +194,7 @@ else
 
 // the title of the page
 if($item['id'])
-	$context['page_title'] = i18n::s('Update a link');
+	$context['page_title'] = i18n::s('Edit a link');
 else
 	$context['page_title'] = i18n::s('Add a link');
 

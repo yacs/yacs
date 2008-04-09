@@ -214,7 +214,7 @@ if(!isset($item['id'])) {
 
 	// list tracked articles by date
 	if($items = Members::list_articles_by_date_for_member('user:'.$item['id'], 0, 20, 'compact'))
-		$context['text'] .= Skin::build_box(i18n::s('Watch list'), Skin::build_list($items, 'compact'), 'section', 'watch_list');
+		$context['text'] .= Skin::build_box(i18n::s('Watch list'), Skin::build_list($items, 'compact'));
 
 }
 

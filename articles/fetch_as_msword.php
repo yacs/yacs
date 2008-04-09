@@ -212,7 +212,7 @@ if(!isset($item['id'])) {
 
 	// actually list items
 	if(count($items))
-		$context['text'] .= Skin::build_box(i18n::s('Related files'), utf8::to_unicode(Skin::build_list($items, 'compact')), 'section');
+		$context['text'] .= Skin::build_box(i18n::s('Related files'), utf8::to_unicode(Skin::build_list($items, 'compact')));
 
 	//
 	// attached comments
@@ -224,7 +224,7 @@ if(!isset($item['id'])) {
 
 	// actually list items
 	if($items)
-		$context['text'] .= Skin::build_box(i18n::s('Comments'), utf8::to_unicode($items), 'section');
+		$context['text'] .= Skin::build_box(i18n::s('Comments'), utf8::to_unicode($items));
 
 	//
 	// related links
@@ -240,7 +240,7 @@ if(!isset($item['id'])) {
 
 	// actually list items
 	if(count($items))
-		$context['text'] .= Skin::build_box(i18n::s('Related links'), utf8::to_unicode(Skin::build_list($items, 'compact')), 'section');
+		$context['text'] .= Skin::build_box(i18n::s('Related links'), utf8::to_unicode(Skin::build_list($items, 'compact')));
 
 	//
 	// page suffix

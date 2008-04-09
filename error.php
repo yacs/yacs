@@ -124,19 +124,19 @@ case '404':
 	$context['text'] .= sprintf(i18n::s('We\'re sorry. The page you requested doesn\'t exist on this server %s'), Skin::build_block($_SERVER['REQUEST_URI'], 'code'));
 
 	// check typos
-	$context['text'] .= Skin::build_box(i18n::s('Check the address'), i18n::s('Normally we are not using upper case letters, and no spacing sign.'), 'section');
+	$context['text'] .= Skin::build_box(i18n::s('Check the address'), i18n::s('Normally we are not using upper case letters, and no spacing sign.'));
 
 	// update bookmarks
 	$context['text'] .= Skin::build_box(i18n::s('Update your bookmark'),
-		sprintf(i18n::s('It is likely that we have changed the content of this site without warning you. Thank you for browsing %s and to refresh your bookmark.'), Skin::build_link($context['url_to_root'], i18n::s('the site front page'), 'shortcut')), 'section');
+		sprintf(i18n::s('It is likely that we have changed the content of this site without warning you. Thank you for browsing %s and to refresh your bookmark.'), Skin::build_link($context['url_to_root'], i18n::s('the site front page'), 'shortcut')));
 
 	// search the site
 	$context['text'] .= Skin::build_box(i18n::s('Search this site'),
-		sprintf(i18n::s('Type one or several words in %s.'), Skin::build_link('search.php', i18n::s('the searching form'), 'shortcut')), 'section');
+		sprintf(i18n::s('Type one or several words in %s.'), Skin::build_link('search.php', i18n::s('the searching form'), 'shortcut')));
 
 	// browse recent posts
 	$context['text'] .= Skin::build_box(i18n::s('Browse index pages'),
-		sprintf(i18n::s('Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the freshest pages and the most read pages on this site. This can be an efficient way for you to reach the information you are looking after.'), Skin::build_link('articles/', i18n::s('articles'), 'shortcut'), Skin::build_link('files/', i18n::s('files'), 'shortcut'), Skin::build_link('comments/', i18n::s('comments'), 'shortcut'), Skin::build_link('users/', i18n::s('users'), 'shortcut')), 'section');
+		sprintf(i18n::s('Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the freshest pages and the most read pages on this site. This can be an efficient way for you to reach the information you are looking after.'), Skin::build_link('articles/', i18n::s('articles'), 'shortcut'), Skin::build_link('files/', i18n::s('files'), 'shortcut'), Skin::build_link('comments/', i18n::s('comments'), 'shortcut'), Skin::build_link('users/', i18n::s('users'), 'shortcut')));
 
 	// only in debug mode
 	if($context['with_debug'] != 'Y')

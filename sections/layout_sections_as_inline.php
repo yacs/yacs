@@ -144,7 +144,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 				$box['text'] = '<ul><li>'.implode('</li>'."\n".'<li>', $elements).'</li></ul>'."\n";
 
 			// always make a box
-			$text .= Skin::build_box($box['title'], $box['text'], 'section');
+			$text .= Skin::build_box($box['title'], $box['text']);
 
 		}
 

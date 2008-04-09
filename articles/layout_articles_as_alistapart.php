@@ -125,11 +125,11 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 		// build the list of future articles
 		if(@count($future))
-			$text = Skin::build_box(i18n::s('Pages under preparation'), Skin::build_list($future, 'compact'), 'section').$text;
+			$text = Skin::build_box(i18n::s('Pages under preparation'), Skin::build_list($future, 'compact')).$text;
 
 		// build the list of other articles
 		if(@count($others))
-			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($others, 'compact'), 'section');
+			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($others, 'compact'));
 
 		// end of processing
 		SQL::free($result);
@@ -294,9 +294,9 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 		}
 
-		// actually render the html for the section
+		// actually render the html for this box
 		if($box['text'])
-			$text .= Skin::build_box(i18n::s('Related files'), $box['text'], 'section', 'files');
+			$text .= Skin::build_box(i18n::s('Related files'), $box['text'], 'header1', 'files');
 
 		//
 		// bottom page menu
@@ -361,7 +361,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 		// talk about it
 		if(@count($menu))
-			$text .= Skin::build_box((strlen($text) > 1024) ? i18n::s('Follow-up') : '', Skin::build_list($menu, 'menu_bar'), 'section');
+			$text .= Skin::build_box((strlen($text) > 1024) ? i18n::s('Follow-up') : '', Skin::build_list($menu, 'menu_bar'));
 
 		// returned the formatted content
 		return $text;

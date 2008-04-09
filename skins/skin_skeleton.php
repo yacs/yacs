@@ -208,8 +208,10 @@ Class Skin_Skeleton {
 	 * - 'floating' for a box floated to the left
 	 * - 'folder' for a folded box with content
 	 * - 'gadget' for additional content in the main part of the page
+	 * - 'header1' with a level 1 title
+	 * - 'header2' with a level 2 title
+	 * - 'header3' with a level 3 title
 	 * - 'navigation' for additional navigational information on page side
-	 * - 'section' to structure main content of the page
 	 * - 'sidebar' for some extra information in the main part of the page
 	 * - 'toc' for a table of content
 	 * - 'toq' for a table of questions
@@ -223,7 +225,7 @@ Class Skin_Skeleton {
 	 * @return the HTML to display
 	 *
 	 */
-	function &build_box($title, $content, $variant='', $id='', $url='', $popup='') {
+	function &build_box($title, $content, $variant='header1', $id='', $url='', $popup='') {
 		global $context;
 
 		// append a link to the title, if any
@@ -249,12 +251,19 @@ Class Skin_Skeleton {
 			$output =& Skin::build_gadget_box($title, $content, $id);
 			return $output;
 
+		case 'header1':
+		case 'header2':
+		case 'header3':
+		default:
+			$output =& Skin::build_header_box($title, $content, $id, $variant);
+			return $output;
+
 		case 'navigation':
 			$output =& Skin::build_navigation_box($title, $content, $id);
 			return $output;
 
-		case 'section':
-			$output =& Skin::build_section_box($title, $content, $id);
+		case 'section': // legacy
+			$output =& Skin::build_header_box($title, $content, $id);
 			return $output;
 
 		case 'sidebar':
@@ -267,10 +276,6 @@ Class Skin_Skeleton {
 
 		case 'toq':
 			$output =& Skin::build_toq_box($title, $content, $id);
-			return $output;
-
-		default:
-			$output =& Skin::build_default_box($title, $content, $id);
 			return $output;
 
 		}
@@ -608,37 +613,6 @@ Class Skin_Skeleton {
 	}
 
 	/**
-	 * build a default box
-	 *
-	 * @param string the box title, if any
-	 * @param string the box content
-	 * @param string an optional unique id for this box
-	 * @return the HTML to display
-	 */
-	function &build_default_box($title, &$content, $id) {
-		global $context;
-
-		// this box has a unique id
-		if($id)
-			$id = ' id="'.$id.'" ';
-
-		// external div boundary
-		$text = '<div class="box"'.$id.'>'."\n";
-
-		// title is optional
-		if($title)
-			$text .= '<h3>'.Skin::strip($title)."</h3>\n";
-
-		// box content
-		$text .= '<div>'.$content.'</div>';
-
-		// external div boundary
-		$text .= '</div>'."\n";
-
-		return $text;
-	}
-
-	/**
 	 * build a block of error messages
 	 *
 	 * @param mixed string or array of strings
@@ -811,12 +785,15 @@ Class Skin_Skeleton {
 	 */
 	function &build_form(&$fields, $variant='2-columns') {
 
+		// we return some text
+		$text = '';
+
 		// sanity check
 		if(!$fields || !is_array($fields))
-			return;
+			return $text;
 
 		// use a table for the layout
-		$text =& Skin::table_prefix('form');
+		$text .= Skin::table_prefix('form');
 		$lines = 1;
 
 		// parse each field
@@ -905,6 +882,55 @@ Class Skin_Skeleton {
 
 		// external div boundary
 		$text .= '</dl>'."\n";
+
+		return $text;
+	}
+
+	/**
+	 * build a box with a title
+	 *
+	 * The variant can be: 'header1', 'header2' or 'header3' depending of the
+	 * level of title to consider.
+	 *
+	 * @param string the box title, if any
+	 * @param string the box content
+	 * @param string an optional unique id for this box
+	 * @param string level of title to consider
+	 * @return the HTML to display
+	 */
+	function &build_header_box($title, &$content, $id='', $variant='header1') {
+		global $context;
+
+		// this box has a unique id
+		if($id)
+			$id = ' id="'.$id.'" ';
+
+		// else create our own unique id
+		else {
+			static $box_index = 0;
+			$id = ' id="header_box_'.++$box_index.'" ';
+		}
+
+		// external div boundary
+		$text = '<div class="header_box"'.$id.'>'."\n";
+
+		// map the level to a given tag
+		if($variant == 'header3')
+			$tag = 'h4';
+		elseif($variant == 'header2')
+			$tag = 'h3';
+		else
+			$tag = 'h2';
+
+		// add a header, but only if there is a title
+		if($title =& Skin::strip($title))
+			$text .= '<'.$tag.'>'.HEADER_BOX_TITLE_PREFIX.$title.HEADER_BOX_TITLE_SUFFIX.'</'.$tag.">\n";
+
+		// box content
+		$text .= '<div>'.$content.'</div>';
+
+		// external div boundary
+		$text .= '</div>'."\n";
 
 		return $text;
 	}
@@ -1252,7 +1278,7 @@ Class Skin_Skeleton {
 
 			// a default title
 			if(!$href_title)
-				$href_title = ' title="'.encode_field(i18n::s('Read the article')).'"';
+				$href_title = ' title="'.encode_field(i18n::s('Read the page')).'"';
 
 			$text = '<a href="'.$url.'"'.$href_title.' class="article"'.$new_window.'>'.$text.'</a>';
 			return $text;
@@ -1969,7 +1995,7 @@ Class Skin_Skeleton {
 				$details[] = sprintf(i18n::s('registered %s'), Skin::build_date($user['create_date'], 'full', $context['language']));
 
 			// show contact information
-			if((!isset($context['users_with_email_display']) || ($context['users_with_email_display'] != 'N')) && (Surfer::is_member() || ($context['users_with_email_display'] == 'Y'))) {
+			if(Surfer::is_member() || (isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'Y'))) {
 
 				$contacts = '';
 
@@ -2089,43 +2115,6 @@ Class Skin_Skeleton {
 		}
 
 		return $output;
-	}
-
-	/**
-	 * build a section box
-	 *
-	 * @param string the box title, if any
-	 * @param string the box content
-	 * @param string an optional unique id for this box
-	 * @return the HTML to display
-	 */
-	function &build_section_box($title, &$content, $id='') {
-		global $context;
-
-		// this box has a unique id
-		if($id)
-			$id = ' id="'.$id.'" ';
-
-		// else create our own unique id
-		else {
-			static $global_section_box_index = 0;
-			$id = ' id="section_'.++$global_section_box_index.'" ';
-		}
-
-		// external div boundary
-		$text = '<div class="section_box"'.$id.'>'."\n";
-
-		// add a header, but only if there is a title
-		if($title =& Skin::strip($title))
-			$text .= '<h2>'.SECTION_BOX_TITLE_PREFIX.$title.SECTION_BOX_TITLE_SUFFIX."</h2>\n";
-
-		// box content
-		$text .= '<div>'.$content.'</div>';
-
-		// external div boundary
-		$text .= '</div>'."\n";
-
-		return $text;
 	}
 
 	/**
@@ -3314,6 +3303,14 @@ Class Skin_Skeleton {
 		if(!defined('GADGET_BOX_TITLE_SUFFIX'))
 			define('GADGET_BOX_TITLE_SUFFIX', BOX_TITLE_SUFFIX);
 
+		// the HTML to be inserted before a box title
+		if(!defined('HEADER_BOX_TITLE_PREFIX'))
+			define('HEADER_BOX_TITLE_PREFIX', BOX_TITLE_PREFIX);
+
+		// the HTML to be appended to a box title
+		if(!defined('HEADER_BOX_TITLE_SUFFIX'))
+			define('HEADER_BOX_TITLE_SUFFIX', BOX_TITLE_SUFFIX);
+
 		// the horizontal ruler
 		if(!defined('HORIZONTAL_RULER'))
 			define('HORIZONTAL_RULER', '<hr'.EOT);
@@ -3468,14 +3465,6 @@ Class Skin_Skeleton {
 			define('S5_THEME', 'yacs');
 		if(!defined('S5_THEME'))
 			define('S5_THEME', 'i18n');
-
-		// the HTML to be inserted before a box title
-		if(!defined('SECTION_BOX_TITLE_PREFIX'))
-			define('SECTION_BOX_TITLE_PREFIX', BOX_TITLE_PREFIX);
-
-		// the HTML to be appended to a box title
-		if(!defined('SECTION_BOX_TITLE_SUFFIX'))
-			define('SECTION_BOX_TITLE_SUFFIX', BOX_TITLE_SUFFIX);
 
 		// the maximum number of sections attached to an anchor -- see sections/select.php
 		if(!defined('SECTIONS_LIST_SIZE'))

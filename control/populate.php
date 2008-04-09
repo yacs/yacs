@@ -369,7 +369,7 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read this blog').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read pages posted here').BR;
 		$input .= '<input type="radio" name="active" value="R"'.EOT.' '.i18n::s('Access is restricted to authenticated members').BR;
 		$input .= '<input type="radio" name="active" value="N"'.EOT.' '.i18n::s('Access is restricted to associates and editors');
 		$fields[] = array($label, $input);
@@ -1436,7 +1436,7 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read articles posted here').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read pages posted here').BR;
 		$input .= '<input type="radio" name="active" value="R"'.EOT.' '.i18n::s('Access is restricted to authenticated members').BR;
 		$input .= '<input type="radio" name="active" value="N"'.EOT.' '.i18n::s('Access is restricted to associates and editors');
 		$fields[] = array($label, $input);
@@ -1667,7 +1667,7 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read these polls').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read pages posted here').BR;
 		$input .= '<input type="radio" name="active" value="R"'.EOT.' '.i18n::s('Access is restricted to authenticated members').BR;
 		$input .= '<input type="radio" name="active" value="N"'.EOT.' '.i18n::s('Access is restricted to associates and editors');
 		$fields[] = array($label, $input);
@@ -1785,7 +1785,7 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read these cooking recipes').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read pages posted here').BR;
 		$input .= '<input type="radio" name="active" value="R"'.EOT.' '.i18n::s('Access is restricted to authenticated members').BR;
 		$input .= '<input type="radio" name="active" value="N"'.EOT.' '.i18n::s('Access is restricted to associates and editors');
 		$fields[] = array($label, $input);
@@ -2119,7 +2119,7 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read this wiki').BR;
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read pages posted here').BR;
 		$input .= '<input type="radio" name="active" value="R"'.EOT.' '.i18n::s('Access is restricted to authenticated members').BR;
 		$input .= '<input type="radio" name="active" value="N"'.EOT.' '.i18n::s('Access is restricted to associates and editors');
 		$fields[] = array($label, $input);
@@ -2301,7 +2301,7 @@ if(!$permitted) {
 
 		$label .= '</ul>'."\n";
 
-		$context['text'] .= Skin::build_box(i18n::s('Shortcuts'), $label, 'section');
+		$context['text'] .= Skin::build_box(i18n::s('Shortcuts'), $label);
 	}
 
 	// the help panel

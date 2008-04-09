@@ -135,6 +135,10 @@
  * before SMTP sending. There is no default values.
  * These are required at ovh for SMTP to take place.
  *
+ * [*] [code]mail_hourly_maximum[/code] - the maximum number of outbound
+ * messages per hour. The default value is 50 messages per hour, which is safe
+ * at most Internet service providers.
+ *
  * [*] [code]debug_mail[/code] - if set to 'Y',
  * save titles and recipients of sent messages into [code]temporary/debug.txt[/code]
  *
@@ -623,6 +627,13 @@ if(!Surfer::is_associate()) {
 		$input = '<input type="text" name="mail_from" size="45" value="'.encode_field($context['mail_from']).'" maxlength="255" />';
 		$fields[] = array($label, $input);
 
+		// maximum outbound messages per hour
+		$label = i18n::s('Maximum of outbound messages per hour');
+		if(!isset($context['mail_hourly_maximum']) || ($context['mail_hourly_maximum'] < 5))
+			$context['mail_hourly_maximum'] = 50;
+		$input = '<input type="text" name="mail_hourly_maximum" size="5" value="'.encode_field($context['mail_hourly_maximum']).'" maxlength="10" />';
+		$fields[] = array($label, $input);
+
 		// target recipients for logged events
 		$label = i18n::s('Recipients of system events');
 		if(!isset($context['mail_logger_recipient']))
@@ -694,7 +705,7 @@ if(!Surfer::is_associate()) {
 	//
 	// the submit button
 	//
-	$context['text'] .= Skin::build_box(i18n::s('Save parameters'), '<p>'.Skin::build_submit_button(i18n::s('Save'), i18n::s('Press [s] to submit data'), 's', 'confirmed').'</p>', 'section');
+	$context['text'] .= Skin::build_box(i18n::s('Save parameters'), '<p>'.Skin::build_submit_button(i18n::s('Save'), i18n::s('Press [s] to submit data'), 's', 'confirmed').'</p>');
 
 	// end of the form
 	$context['text'] .= '</div></form>';
@@ -767,6 +778,8 @@ if(!Surfer::is_associate()) {
 		$content .= '$context[\'mail_encoding\']=\''.addcslashes($_REQUEST['mail_encoding'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_from']))
 		$content .= '$context[\'mail_from\']=\''.addcslashes($_REQUEST['mail_from'], "\\'")."';\n";
+	if(isset($_REQUEST['mail_hourly_maximum']) && (intval($_REQUEST['mail_hourly_maximum']) >= 5))
+		$content .= '$context[\'mail_hourly_maximum\']='.intval($_REQUEST['mail_hourly_maximum']).";\n";
 	if(isset($_REQUEST['mail_logger_recipient']))
 		$content .= '$context[\'mail_logger_recipient\']=\''.addcslashes($_REQUEST['mail_logger_recipient'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_pop3_server']))

@@ -79,7 +79,7 @@ Class Article extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function get_icon_url() {
-		if(isset($this->item['icon_url']) && $this->item['icon_ur'])
+		if(isset($this->item['icon_url']) && $this->item['icon_url'])
 			return $this->item['icon_url'];
 		return $this->get_thumbnail_url();
 	}
@@ -491,9 +491,31 @@ Class Article extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function get_url($action='view') {
-		if(isset($this->item['id']))
+
+		// sanity check
+		if(!isset($this->item['id']))
+			return NULL;
+
+		// regular link
+		if($action != 'discuss')
 			return Articles::get_url($this->item['id'], $action, $this->item['title'], $this->item['nick_name']);
-		return NULL;
+
+		// get the parent
+		if(!isset($this->anchor))
+			$this->anchor = Anchors::get($this->item['anchor']);
+
+		// layouts that start at the article page
+		if($this->has_layout('compact') || $this->has_layout('daily') || $this->has_layout('decorated') || $this->has_layout('jive') || $this->has_layout('manual') || $this->has_layout('yabb'))
+			return $this->get_url().'#comments';
+
+		// variants that start at the article page
+		elseif($this->is_interactive())
+			return $this->get_url().'#comments';
+
+		// start threads on a separate page
+		else
+			return Comments::get_url($this->get_reference(), 'list');
+
 	}
 
 	/**
@@ -556,12 +578,16 @@ Class Article extends Anchor {
 	 */
 	function is_interactive() {
 
-		// section asks for threads
-		if(isset($this->item['anchor']) && ($anchor = Anchors::get($this->item['anchor'])) && is_object($anchor) && $anchor->has_option('view_as_thread'))
+		// article has been configured to be viewed as a thread
+		if(isset($this->item['options']) && preg_match('/\bview_as_(\w+?)\b/i', $this->item['options']))
 			return TRUE;
 
-		// article has been configured to be viewed as a thread
-		if(isset($this->item['options']) && preg_match('/\bview_as_thread\b/i', $this->item['options']))
+		// get the parent
+		if(!isset($this->anchor))
+			$this->anchor = Anchors::get($this->item['anchor']);
+
+		// section asks for threads
+		if(is_object($this->anchor) && $this->anchor->has_option('view_as'))
 			return TRUE;
 
 		// not an interactive page

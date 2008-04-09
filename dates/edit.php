@@ -68,7 +68,7 @@ else
 
 // the title of the page
 if(isset($item['id']))
-	$context['page_title'] = i18n::s('Update a date');
+	$context['page_title'] = i18n::s('Edit a date');
 else
 	$context['page_title'] = i18n::s('Add a date');
 

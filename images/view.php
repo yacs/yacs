@@ -89,7 +89,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 if($item['id'] && (Surfer::is_associate()
 	|| (is_object($anchor) && $anchor->is_editable())
 	|| Surfer::is_creator($item['edit_id']))) {
-	$context['page_menu'] = array_merge($context['page_menu'], array( Images::get_url($item['id'], 'edit') => i18n::s('Edit') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Images::get_url($item['id'], 'edit') => i18n::s('Update') ));
 }
 
 // the delete command is available to associates and editors

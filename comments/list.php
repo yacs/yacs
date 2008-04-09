@@ -147,16 +147,10 @@ if(!is_object($anchor)) {
 	$cache_id = 'comments/list.php?id='.$anchor->get_reference().'#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
 
-		// thread starts at the anchor page most of the time
-		$home_link = $anchor->get_url().'#comments';
-
 		// layout as defined in anchor
 		if($anchor->has_layout('boxesandarrows')) {
 			include_once '../comments/layout_comments_as_boxesandarrows.php';
 			$layout =& new Layout_comments_as_boxesandarrows();
-
-			// thread starts here
-			$home_link = Comments::get_url($anchor->get_reference(), 'list');
 
 		} elseif($anchor->has_layout('compact')) {
 			include_once '../comments/layout_comments.php';
@@ -182,9 +176,6 @@ if(!is_object($anchor)) {
 			include_once '../comments/layout_comments_as_wiki.php';
 			$layout =& new Layout_comments_as_wiki();
 
-			// thread starts here
-			$home_link = Comments::get_url($anchor->get_reference(), 'list');
-
 		} elseif($anchor->has_layout('yabb')) {
 			include_once '../comments/layout_comments_as_yabb.php';
 			$layout =& new Layout_comments_as_yabb();
@@ -192,9 +183,6 @@ if(!is_object($anchor)) {
 		} else {
 			include_once '../comments/layout_comments.php';
 			$layout =& new Layout_comments();
-
-			// thread starts here
-			$home_link = Comments::get_url($anchor->get_reference(), 'list');
 
 		}
 
@@ -225,7 +213,7 @@ if(!is_object($anchor)) {
 			// navigation commands for comments
 			$prefix = Comments::get_url($anchor->get_reference(), 'navigate');
 			$box['bar'] = array_merge($box['bar'],
-				Skin::navigate($home_link, $prefix, $count, $items_per_page, $page, FALSE));
+				Skin::navigate($anchor->get_url('discuss'), $prefix, $count, $items_per_page, $page, FALSE));
 
 			// list comments by date
 			$items = Comments::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, $layout);
@@ -267,7 +255,7 @@ if(!is_object($anchor)) {
 
 		// build a box
 		if($box['text'])
-			$text =& Skin::build_box('', $box['text'], 'section', 'comments');
+			$text =& Skin::build_box('', $box['text'], 'header1', 'comments');
 
 		// cache this to speed subsequent queries
 		Cache::put($cache_id, $text, 'comments');

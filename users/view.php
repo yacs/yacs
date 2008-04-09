@@ -394,7 +394,7 @@ if(!isset($item['id'])) {
 	// one box for assigned sections
 	if(count($items)) {
 		$content = Skin::build_list($items, 'compact');
-		$contributions .= Skin::build_box(i18n::s('Assigned sections'), $content, 'section', 'assigned_sections');
+		$contributions .= Skin::build_box(i18n::s('Assigned sections'), $content, 'header1', 'assigned_sections');
 	}
 
 	// contributed articles
@@ -442,7 +442,7 @@ if(!isset($item['id'])) {
 
 			// a complete box
 			if($box['text'])
-				$text =& Skin::build_box(i18n::s('Recent pages'), $box['text'], 'section', 'contributed_articles');
+				$text =& Skin::build_box(i18n::s('Recent pages'), $box['text'], 'header1', 'contributed_articles');
 
 			// save in cache
 			Cache::put($cache_id, $text, 'articles');
@@ -471,7 +471,7 @@ if(!isset($item['id'])) {
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'compact');
 			if($box['text'])
-				$text =& Skin::build_box(i18n::s('Recent files'), $box['text'], 'section', 'contributed_files');
+				$text =& Skin::build_box(i18n::s('Recent files'), $box['text'], 'header1', 'contributed_files');
 
 			// save in cache
 			Cache::put($cache_id, $text, 'files');
@@ -529,7 +529,7 @@ if(!isset($item['id'])) {
 		}
 
 		// a full box
-		$bottom_content .= Skin::build_box(i18n::s('Related files'), $items, 'section', 'related_files');
+		$bottom_content .= Skin::build_box(i18n::s('Related files'), $items, 'header1', 'related_files');
 
 	// or just offer to upload a file
 	} elseif((Surfer::is_creator($item['id']) || Surfer::is_associate()) && Surfer::may_upload())
@@ -554,7 +554,7 @@ if(!isset($item['id'])) {
 		}
 
 		// a full box
-		$bottom_content .= Skin::build_box(i18n::s('Related links'), $items, 'section', 'related_links');
+		$bottom_content .= Skin::build_box(i18n::s('Related links'), $items, 'header1', 'related_links');
 
 	// or just offer to add a link
 	} elseif(Surfer::is_creator($item['id']) || Surfer::is_associate())

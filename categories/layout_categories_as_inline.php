@@ -121,7 +121,7 @@ Class Layout_categories_as_inline extends Layout_interface {
 				$box['text'] = '<ul>'.$box['text'].'</ul>'."\n";
 
 			// always make a box, to let associates visit the category
-			$text .= Skin::build_box($box['title'], $box['text'], 'section');
+			$text .= Skin::build_box($box['title'], $box['text']);
 
 		}
 

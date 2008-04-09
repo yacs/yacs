@@ -80,20 +80,8 @@ else
 	$context['page_title'] = i18n::s('View a comment');
 
 // back to the anchor page
-if(is_object($anchor) && $anchor->is_viewable()) {
-
-	// sometimes thread starts at anchor page
-	if($anchor->has_layout('wiki') || $anchor->has_layout('yabb')) {
-		$home_link = $anchor->get_url().'#comments';
-		$context['page_menu'] = array_merge($context['page_menu'], array( $home_link => i18n::s('Main page') ));
-
-	// thread link
-	} else {
-		$home_link = Comments::get_url($anchor->get_reference(), 'list');
-		$context['page_menu'] = array_merge($context['page_menu'], array( $home_link => i18n::s('Thread page') ));
-	}
-
-}
+if(is_object($anchor) && $anchor->is_viewable())
+	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url('discuss') => i18n::s('Thread page') ));
 
 // the quote command is available to logged users, or to everybody if set so
 if($item['id'] && $permitted && Comments::are_allowed($anchor)) {
@@ -220,12 +208,30 @@ if(!isset($item['id'])) {
 	if($next = Comments::list_next($item['id'], 'compact'))
 		$context['text'] .= ' <p style="margin-bottom: 0; padding-bottom: 0;">'.i18n::s('This comment has inspired:').'</p>'.Skin::build_list($next, 'compact');
 
-	// incitate people to react
-	if($item['id'] && $permitted && Comments::are_allowed($anchor)) {
-		Skin::define_img('NEW_COMMENT_IMG', $context['skin'].'/icons/comments/new.gif');
-		$menu = array( Comments::get_url($item['id'], 'reply') => NEW_COMMENT_IMG.' '.i18n::s('React to this post') );
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+	// follow-up commands
+	$menu = array();
+
+	// a bottom menu to react
+	if(Comments::are_allowed($anchor)) {
+
+		// allow posters to change their own comments
+		if($item['create_id'] == Surfer::get_id())
+			$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), i18n::s('Edit'), 'button' );
+
+		// allow surfers to react to contributions from other people
+		else {
+			Skin::define_img('NEW_COMMENT_IMG', $context['skin'].'/icons/comments/new.gif');
+			$menu[] = Skin::build_link(Comments::get_url($item['id'], 'reply'), NEW_COMMENT_IMG.' '.i18n::s('React to this post'), 'basic');
+		}
 	}
+
+	// go back to the thread
+	if(is_object($anchor))
+		$menu[] = Skin::build_link($anchor->get_url('discuss'), i18n::s('Cancel'), 'span' );
+
+	// build the menu
+	if(count($menu))
+		$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
 
 	// insert anchor suffix
 	if(is_object($anchor))

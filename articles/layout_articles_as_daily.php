@@ -213,7 +213,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 			if(count($menu))
 				$box['content'] .= '<p class="daily_menu" style="clear: left; text-align: right">'.MENU_PREFIX.implode(MENU_SEPARATOR, $menu).MENU_SUFFIX."</p>\n";
 
-			$text .= Skin::build_box($box['title'], $box['content'], 'section', 'article_'.$item['id']);
+			$text .= Skin::build_box($box['title'], $box['content'], 'header1', 'article_'.$item['id']);
 			$box['content'] = '';
 			$box['title'] = '';
 		}

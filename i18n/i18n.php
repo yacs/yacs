@@ -1736,8 +1736,8 @@ Class i18n {
 			$text = $local[ $key ];
 		elseif(array_key_exists($name, $local))
 			$text = $local[ $name ];
-		elseif($context['with_debug'] == 'Y')
-			$text = 'i18n:'.':user("'.$name.'")';
+// 		elseif($context['with_debug'] == 'Y')
+// 			$text = 'i18n:'.':user("'.$name.'")';
 		else
 			$text = $name;
 
@@ -1753,8 +1753,9 @@ Class i18n {
 
 }
 
-// store strings localized internally -- obsoleted by gettext
+// store strings localized internally -- to be used with i18n::l($local, '...')
 global $local;
+$local = array();
 
 //
 // legacy support

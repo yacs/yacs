@@ -76,7 +76,8 @@ $action = '';
 $id = NULL;
 $target_anchor = NULL;
 
-// parameters transmitted through friendly urls
+// parameters transmitted through friendly urls -- login_hook is used only if authentication is required
+$login_hook = '';
 if(isset($context['arguments'][0]) && $context['arguments'][0]) {
 
 	// quote an existing comment
@@ -116,6 +117,7 @@ if(isset($context['arguments'][0]) && $context['arguments'][0]) {
 	$login_hook = 'reply='.$id;
 
 } elseif(isset($_REQUEST['id']) && $_REQUEST['id']) {
+	$action = 'edit';
 	$id = $_REQUEST['id'];
 	$login_hook = 'id='.$id;
 
@@ -183,20 +185,10 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'comments/' => i18n::s('Comments') );
 
-// the title for updated content
-if(isset($item['id']) && ($action == 'edit')) {
-	if(is_object($anchor))
-		$context['page_title'] = $anchor->get_label('comments', 'edit_title');
-	else
-		$context['page_title'] = i18n::s('Update a comment');
-
-// the title for new content
-} else {
-	if(is_object($anchor))
-		$context['page_title'] = $anchor->get_label('comments', 'new_title');
-	else
-		$context['page_title'] = i18n::s('Add a comment');
-}
+if(is_object($anchor))
+	$context['page_title'] = sprintf(i18n::s('Comment: %s'), $anchor->get_title());
+else
+	$context['page_title'] = i18n::s('Comment');
 
 // always validate input syntax
 if(isset($_REQUEST['description']))
@@ -261,14 +253,6 @@ if(!is_object($anchor)) {
 	// only authenticated surfers are allowed to post links
 //	if(!Surfer::is_logged())
 //		$_REQUEST['description'] = preg_replace('/(http:|https:|ftp:|mailto:)[\w@\/\.]+/', '!!!', $_REQUEST['description']);
-
-	// thread at the anchor page most of the time
-	if($anchor->has_layout('compact') || $anchor->has_layout('daily') || $anchor->has_layout('decorated') || $anchor->has_layout('jive') || $anchor->has_layout('manual') || $anchor->has_layout('yabb'))
-		$home_link = $anchor->get_url().'#comments';
-
-	// else thread on a separate page
-	else
-		$home_link = Comments::get_url($anchor->get_reference(), 'list');
 
 	// attach file from member, if any
 	if(Surfer::is_member() && isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
@@ -363,7 +347,7 @@ if(!is_object($anchor)) {
 	}
 
 	// preview mode
-	if(isset($_REQUEST['preview'])) {
+	if(isset($_REQUEST['preview']) && ($_REQUEST['preview'] == 'Y')) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -399,7 +383,7 @@ if(!is_object($anchor)) {
 
 		// follow-up commands -- see sections/section.php
 		$menu = array();
-		$menu = array_merge($menu, array($home_link => $anchor->get_label('comments', 'thread_command')));
+		$menu = array_merge($menu, array($anchor->get_url('discuss') => $anchor->get_label('comments', 'thread_command')));
 
 		if(Surfer::is_logged())
 			$menu = array_merge($menu, array(Comments::get_url($id, 'edit') => $anchor->get_label('comments', 'edit_command')));
@@ -434,7 +418,7 @@ if(!is_object($anchor)) {
 		$anchor->touch('comment:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
 
 		// forward to the updated thread
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].$home_link);
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('discuss'));
 
 	}
 
@@ -448,7 +432,7 @@ if($with_form) {
 	$reference_item = array();
 
 	// preview a comment
-	if(isset($_REQUEST['preview'])) {
+	if(isset($_REQUEST['preview']) && ($_REQUEST['preview'] == 'Y')) {
 		$context['text'] .= Skin::build_block(i18n::s('Preview of your post:'), 'title')
 			.Codes::beautify($item['description']);
 
@@ -490,15 +474,14 @@ if($with_form) {
 			$context['text'] .= Articles::get_options().'</select>';
 
 		} else {
-			$context['text'] .= Skin::build_link($anchor->get_url().'#comments', $anchor->get_title())
-				.'<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" '.EOT;
+			$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" '.EOT;
 		}
 
 		$context['text'] .= "</p>\n";
 	}
 
 	// display info on current version
-	if(isset($item['id']) && !preg_match('/(new|quote|reply)/', $action) && !(isset($_REQUEST['preview']) && $_REQUEST['preview'])) {
+	if(isset($item['id']) && !preg_match('/(new|quote|reply)/', $action)) {
 
 		// the creator
 		if(isset($item['create_date'])) {
@@ -591,13 +574,18 @@ if($with_form) {
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
 
+	// the submit, preview and cancel buttons --use Skin::build_submit_button() only once, because of IE6 bug http://www.fourmilab.ch/fourmilog/archives/2007-03/000824.html
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit_button');
+	$menu[] = '<a href="#" onclick="$(\'preview_flag\').setAttribute(\'value\', \'Y\'); $(\'submit_button\').click(); return false;" accesskey="p" title="'.i18n::s('Press [p] for preview').'">'.i18n::s('Preview').'</a>';
+	if(is_object($anchor))
+		$menu[] = Skin::build_link($anchor->get_url('discuss'), i18n::s('Cancel'), 'span');
+
+	$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
+
 	// associates and editors may decide to not stamp changes
 	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the annotated page').'</p>';
-
-	// the preview and submit button --use Skin::build_submit_button() only once, because of IE6 bug http://www.fourmilab.ch/fourmilog/archives/2007-03/000824.html
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's')
-		.' '.Skin::build_submit_button(i18n::s('Preview'), NULL, NULL, 'preview')."</p>\n";
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
@@ -606,6 +594,9 @@ if($with_form) {
 	// enable comments threading
 	if(isset($reference_item['id']) && $reference_item['id'])
 		$context['text'] .= '<input type="hidden" name="previous_id" value="'.$reference_item['id'].'" />';
+
+	// allow post preview
+	$context['text'] .= '<input type="hidden" name="preview" value="N" id="preview_flag" />';
 
 	// end of the form
 	$context['text'] .= '</div></form>';

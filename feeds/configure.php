@@ -188,7 +188,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_form($fields);
 
 	// the submit button
-	$context['text'] .= Skin::build_box(i18n::s('Save parameters'), '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n", 'section');
+	$context['text'] .= Skin::build_box(i18n::s('Save parameters'), '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n");
 
 	// end of the form
 	$context['text'] .= '</div></form>';

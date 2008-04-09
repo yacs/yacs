@@ -301,8 +301,8 @@ if(!$item['id']) {
 			.'<title>'.$title.'</title>'."\n";
 
 		// load skin style sheet
-		if(isset($context['skin']))
-			$text .= '<link rel="stylesheet" href="'.$context['url_to_root'].$context['skin'].'/'.str_replace('skins/', '', $context['skin']).'.css" type="text/css" media="all" />'."\n";
+// 		if(isset($context['skin']))
+// 			$text .= '<link rel="stylesheet" href="'.$context['url_to_root'].$context['skin'].'/'.str_replace('skins/', '', $context['skin']).'.css" type="text/css" media="all" />'."\n";
 
 		$text .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/swfobject.js"></script>'."\n"
 			.'</head>'."\n"
@@ -312,7 +312,7 @@ if(!$item['id']) {
 		$text .= Codes::render_object('flash', $item['id'].', 100%, 90%');
 
 		// add a link to close the window
-		$text .= '<p style="text-align: center; margin: 0.5em 0 1em 0;"><a href="javascript:self.close()" class="button">'.i18n::s('Close').'</a></p>'."\n";
+		$text .= '<p style="text-align: center; margin: 0.5em 0 1em 0;"><button type="button" onclick="self.close()">'.i18n::s('Close').'</button></p>'."\n";
 
 		// page postamble
 		$text .= '</body>'."\n"

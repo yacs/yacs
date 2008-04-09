@@ -2,6 +2,10 @@
 /**
  * create a new form or edit an existing one
  *
+ * @todo add a grid control to capture tabular information (Justin)
+ * @todo allow for download of captured data as a CSV or XML file
+ * @todo introduce hidden fields as another kind of text input field, to capture constants
+ *
  * This is the main script used to post a new form, or to modify an existing one.
  *
  * Only site associates are allowed to create or to modify forms for the site they manage.
@@ -117,7 +121,7 @@ if(!Surfer::is_logged()) {
 
 		// one box for all sections
 		if(count($items)) {
-			$context['text'] .= Skin::build_box(i18n::s('Your sections'), Skin::build_list($items, '2-columns'), 'section', 'assigned_sections');
+			$context['text'] .= Skin::build_box(i18n::s('Your sections'), Skin::build_list($items, '2-columns'), 'header1', 'assigned_sections');
 			$with_title = TRUE;
 
 		}
@@ -134,7 +138,7 @@ if(!Surfer::is_logged()) {
 		if($with_title)
 			$title = i18n::s('Regular sections');
 
-		$context['text'] .= Skin::build_box($title, $items, 'section', 'regular_sections');
+		$context['text'] .= Skin::build_box($title, $items, 'header1', 'regular_sections');
 
 	} else
 		$context['text'] .= '<p>'.sprintf(i18n::s('No regular section has been created yet! Use %s to create one.'), Skin::build_link('control/populate.php', i18n::s('the Content Assistant'), 'shortcut')).'</p>';
@@ -150,7 +154,7 @@ if(!Surfer::is_logged()) {
 				$text =& Skin::build_list($text, '2-columns');
 
 			// displayed as another box
-			$context['text'] .= Skin::build_box(i18n::s('Special sections'), $text, 'section', 'special_sections');
+			$context['text'] .= Skin::build_box(i18n::s('Special sections'), $text, 'header1', 'special_sections');
 
 		}
 	}

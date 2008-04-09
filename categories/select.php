@@ -133,7 +133,7 @@ if(!is_object($anchor)) {
 				$suffix .= ' <form method="post" action="'.$context['url_to_root'].'categories/set_as_thumbnail.php"><div>'
 					.'<input type="hidden" name="anchor" value="'.encode_field($member).'"/>'
 					.'<input type="hidden" name="id" value="'.$category_id.'"/>'
-					.Skin::build_submit_button(i18n::s('Use this thumbnail as the thumbnail of the article'))
+					.Skin::build_submit_button(i18n::s('Use this thumbnail as the thumbnail of the page'))
 					.'</div></form>';
 			}
 

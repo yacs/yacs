@@ -3,13 +3,23 @@
 # This configuration file is aiming to run the script cron.php, which is part
 # of the YACS distribution archive, at regular time intervals.
 #
-# The suggested cron line has the following structure:
+#
+##############################
+#
+# COMMAND STRUCTURE
+#
+#
+# You can trigger the script either locally, or remotely, as follows:
 #
 # 09,19,29,39,49,59 * * * * <user> <php> <path/to/yacs/cron.php> >/dev/null 2>&1
+#
+# 09,19,29,39,49,59 * * * * <user> <cmd> http://<server><path/to/yacs/cron.php> >/dev/null 2>&1
 #
 # where:
 #
 # - '09,19,29,39,49,59 * * * *' simply asks for one execution every 10 minutes.
+# Alternatively, you can use '*/10 * * * *' as a shortcut. YACS will ensure
+# a minutes of 5 minutes between two successive ticks.
 #
 # - <user> is the account used by the web daemon.
 # The default value is www-data, but this can be changed according to actual
@@ -26,15 +36,49 @@
 # The default value is /var/www/yacs/cron.php, but this has to be changed
 # according to your actual installation.
 #
-# - '>/dev/null 2>&1' sends every output to trash
+# - <cmd> is the command to fetch content of a remote page, for example
+# '/usr/bin/wget -O - -q' or '/usr/bin/lynx -source'
+#
+# - <server> is the hostname of the server that is running yacs.
+#
+# - '>/dev/null 2>&1' sends every output to trash. Remove this during tests
+# to get any error or warning message, and append it at the very last stage,
+# just before operational roll-out.
+#
+#
+##############################
+#
+# SAMPLE COMMANDS
+#
+#
+# Some examples that can inspire you:
+#
+# 0,10,20,30,40,50 * * * *	www-data	php /var/www/yacs/cron.php >/dev/null 2>&1
+#
+# 09,19,29,39,49,59 * * * *	www-data	/usr/local/bin/php /www/yacs/cron.php >/dev/null 2>&1
+#
+# */10 * * * *	www-data	/usr/bin/wget -O - -q http://www.foo.bar/cron.php >/dev/null 2>&1
+#
+# */7 * * * *	www-data	/usr/bin/lynx -source http://www.acme.com/yacs/cron.php >/dev/null 2>&1
+#
+#
+##############################
+#
+# HOW TO PROCEED?
+#
 #
 # The setup of background processing is not so difficult, providing you pass
 # through every following steps:
 #
+# 0. Select to go either for remote invocation or for local processing.
+# Use wget or equivalent to trigger cron operations for several servers from
+# only one computer. Or use it as a fall-back option if local processing does
+# not work. An example of this is the absence of MySQL library in the PHP run-time.
+#
 # 1. Finalize the command to use. Open a telnet or putty session to the server,
 # and try to launch the cron.php script directly. The outcome of these tests
-# are the right values for parameters <php> and <path/to/yacs/cron.php> to
-# use in this crontab.
+# are the right values for parameters <cmd>, <server>, <php> and
+# <path/to/yacs/cron.php> you may need to use in this crontab.
 #
 # 2. Identify the account used by the web daemon. You can check documentation
 # pages of the ISP who is hosting your server or ask the system administrator.
@@ -69,6 +113,8 @@
 # More information and support at http://www.yetanothercommunitysystem.com/
 #
 #
-# Stop talking and do the job:
+##############################
+#
+# LET'S GO
 #
 09,19,29,39,49,59 * * * *	www-data	php /var/www/yacs/cron.php >/dev/null 2>&1

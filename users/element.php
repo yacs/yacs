@@ -237,7 +237,7 @@ if(!isset($item['id'])) {
 
 	// a full box
 	if($box['text'])
-		$text .= Skin::build_box(i18n::s('Permanent addresses'), $box['text'], 'section', 'external_contact');
+		$text .= Skin::build_box(i18n::s('Permanent addresses'), $box['text'], 'header1', 'external_contact');
 
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
@@ -304,25 +304,25 @@ if(!isset($item['id'])) {
 	// list watched users by posts
 	if($items = Members::list_users_by_posts_for_member('user:'.$item['id'], 0, BOOKMARKS_PER_PAGE, 'watch')) {
 		if(is_array($items))
-			$output .= Skin::build_box(i18n::s('Watched users'), Skin::build_list($items, 'decorated'), 'section', 'watched_users');
+			$output .= Skin::build_box(i18n::s('Watched users'), Skin::build_list($items, 'decorated'), 'header1', 'watched_users');
 		else
-			$output .= Skin::build_box(i18n::s('Watched users'), $items, 'section', 'watched_users');
+			$output .= Skin::build_box(i18n::s('Watched users'), $items, 'header1', 'watched_users');
 	}
 
 	// list watched sections by date
 	if($items = Members::list_sections_by_date_for_member('user:'.$item['id'], 0, BOOKMARKS_PER_PAGE, 'compact')) {
 		if(is_array($items))
-			$output .= Skin::build_box(i18n::s('Watched sections'), Skin::build_list($items, 'compact'), 'section', 'watched_sections');
+			$output .= Skin::build_box(i18n::s('Watched sections'), Skin::build_list($items, 'compact'), 'header1', 'watched_sections');
 		else
-			$output .= Skin::build_box(i18n::s('Watched sections'), $items, 'section', 'watched_sections');
+			$output .= Skin::build_box(i18n::s('Watched sections'), $items, 'header1', 'watched_sections');
 	}
 
 	// list watched articles by date
 	if($items = Members::list_articles_by_date_for_member('user:'.$item['id'], 0, BOOKMARKS_PER_PAGE, 'simple')) {
 		if(is_array($items))
-			$output .= Skin::build_box(i18n::s('Watched pages'), Skin::build_list($items, 'compact'), 'section', 'watched_articles');
+			$output .= Skin::build_box(i18n::s('Watched pages'), Skin::build_list($items, 'compact'), 'header1', 'watched_articles');
 		else
-			$output .= Skin::build_box(i18n::s('Watched pages'), $items, 'section', 'watched_articles');
+			$output .= Skin::build_box(i18n::s('Watched pages'), $items, 'header1', 'watched_articles');
 	}
 
 	// actual transmission except on a HEAD request

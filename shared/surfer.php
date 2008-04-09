@@ -158,7 +158,7 @@ Class Surfer {
 
 			// make a box
 			if(count($box['list']))
-				$text .= Skin::build_box(i18n::s('Your presence'), Skin::build_list($box['list'], 'compact'), 'section', 'co_browsing');
+				$text .= Skin::build_box(i18n::s('Your presence'), Skin::build_list($box['list'], 'compact'), 'header1', 'co_browsing');
 
 		// navigating another profile
 		} else {
@@ -180,7 +180,7 @@ Class Surfer {
 
 			// make a box
 			if(count($box['list']))
-				$text .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'section', 'co_browsing');
+				$text .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'header1', 'co_browsing');
 
 		}
 
@@ -210,7 +210,7 @@ Class Surfer {
 
 			// make a box
 			if($box['text'])
-				$text .= Skin::build_box($box['title'], $box['text'], 'section', 'private_conversations');
+				$text .= Skin::build_box($box['title'], $box['text'], 'header1', 'private_conversations');
 
 		}
 
@@ -296,7 +296,7 @@ Class Surfer {
 
 			// make a box
 			if($box['text'])
-				$text .= Skin::build_box($box['title'], $box['text'], 'section', 'contact_options');
+				$text .= Skin::build_box($box['title'], $box['text'], 'header1', 'contact_options');
 
 		}
 
@@ -600,39 +600,20 @@ Class Surfer {
 					.'<option value="fckeditor" selected="selected">'.i18n::s('FCKEditor')."</option>\n"
 					.'<option value="tinymce">'.i18n::s('TinyMCE')."</option>\n"
 					.'</select> ';
-			}
 
-			// hint
-			$text .= '<span class="tiny">'.sprintf(i18n::s('Powered by %s. You can also select %s or include %s and %s to enhance the rendering of your page.'),
-				Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKeditor'), 'external'),
-				Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external'),
-				Skin::build_link('codes/', i18n::s('YACS codes'), 'help'),
-				Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</span>';
+				// hint
+				$text .= '<span class="tiny">'.sprintf(i18n::s('Powered by %s. You can also select %s or include %s and %s to enhance the rendering of your page.'),
+					Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKeditor'), 'external'),
+					Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external'),
+					Skin::build_link('codes/', i18n::s('YACS codes'), 'help'),
+					Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</span>';
+			}
 
 		// tinymce
 		} elseif(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce_src.js')) {
 
-			$text .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce_src.js"></script>'."\n"
-					.'<script type="text/javascript">// <![CDATA['."\n"
-					.'	tinyMCE.init({'."\n"
-					.'		mode : "textareas",'."\n"
-					.'		theme : "advanced",'."\n"
-					.'		editor_selector : "tinymce",'."\n"
-					.'		plugins : "advhr,advimage,advlink,emotions,fullscreen,paste,searchreplace,table",'."\n"
-					.'		theme_advanced_buttons1 : "fullscreen,|,cut,copy,paste,pastetext,pasteword,|,search,replace,|,fontselect,fontsizeselect",'."\n"
-					.'		theme_advanced_buttons2 : "bold,italic,underline,strikethrough,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,undo,redo",'."\n"
-					.'		theme_advanced_buttons3 : "tablecontrols,|,link,unlink,anchor,image,advhr",'."\n"
-					.'		theme_advanced_toolbar_location : "top",'."\n"
-					.'		theme_advanced_toolbar_align : "left",'."\n"
-					.'		plugi2n_insertdate_dateFormat : "%Y-%m-%d",'."\n"
-					.'		plugi2n_insertdate_timeFormat : "%H:%M:%S",'."\n"
-					.'		paste_auto_cleanup_on_paste : true,'."\n"
-					.'		paste_convert_headers_to_strong : false,'."\n"
-					.'		paste_strip_class_attributes : "all",'."\n"
-					.'		paste_remove_spans : false,'."\n"
-					.'		paste_remove_styles : false 	'."\n"
-					.'	});'."\n"
-					.'// ]]></script>'."\n";
+			// load the TinyMCE script -- see shared/global.php
+			$context['javascript']['tinymce'] = TRUE;
 
 			// the textarea that will be handled by TinyMCE
 			$text .= '<div><textarea name="'.$name.'" id="edit_area" class="tinymce" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
@@ -647,14 +628,14 @@ Class Surfer {
 					.'<option value="fckeditor">'.i18n::s('FCKEditor')."</option>\n"
 					.'<option value="tinymce" selected="selected">'.i18n::s('TinyMCE')."</option>\n"
 					.'</select> ';
-			}
 
-			// hint
-			$text .= '<span class="tiny">'.sprintf(i18n::s('Powered by %s. You can also select %s or include %s and %s to enhance the rendering of your page.'),
-				Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external'),
-				Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKeditor'), 'external'),
-				Skin::build_link('codes/', i18n::s('YACS codes'), 'help'),
-				Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</span>';
+				// hint
+				$text .= '<span class="tiny">'.sprintf(i18n::s('Powered by %s. You can also select %s or include %s and %s to enhance the rendering of your page.'),
+					Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external'),
+					Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKeditor'), 'external'),
+					Skin::build_link('codes/', i18n::s('YACS codes'), 'help'),
+					Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</span>';
+			}
 
 		// default to plain editor
 		} else {
@@ -672,21 +653,22 @@ Class Surfer {
 					.'<option value="fckeditor">'.i18n::s('FCKEditor')."</option>\n"
 					.'<option value="tinymce">'.i18n::s('TinyMCE')."</option>\n"
 					.'</select> ';
+
+				// hint
+				$hint = sprintf(i18n::s('Please use %s to enhance the rendering of your page.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'));
+				if(Surfer::is_associate())
+					$hint .= BR.i18n::s('You are allowed to post any XHTML.');
+				else
+					$hint .= BR.sprintf(i18n::s('Also, following XHTML tags are allowed: %s'), trim(str_replace('><', ', ', $context['users_allowed_tags']), '<>'));
+				if(Surfer::is_member()) {
+					$hint .= ' '.sprintf(i18n::s('You can switch to %s or %s in %s.'),
+						Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external'),
+						Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKeditor'), 'external'),
+						Skin::build_link(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()), i18n::s('your user profile'), 'basic'));
+				}
+				$text .= BR.'<span class="tiny">'.$hint.'</span>';
 			}
 
-			// hint
-			$hint = sprintf(i18n::s('Please use %s to enhance the rendering of your page.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'));
-			if(Surfer::is_associate())
-				$hint .= BR.i18n::s('You are allowed to post any XHTML.');
-			else
-				$hint .= BR.sprintf(i18n::s('Also, following XHTML tags are allowed: %s'), trim(str_replace('><', ', ', $context['users_allowed_tags']), '<>'));
-			if(Surfer::is_member()) {
-				$hint .= ' '.sprintf(i18n::s('You can switch to %s or %s in %s.'),
-					Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external'),
-					Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKeditor'), 'external'),
-					Skin::build_link(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()), i18n::s('your user profile'), 'basic'));
-			}
-			$text .= BR.'<span class="tiny">'.$hint.'</span>';
 		}
 
 		// job done
@@ -1457,7 +1439,6 @@ if(isset($_SERVER['REMOTE_ADDR']) && !Surfer::is_crawler() && !headers_sent()) {
 	// allow no more than one hour of inactivity
 	} elseif(isset($_SESSION['watchdog']) && (time() > ($_SESSION['watchdog'] + 3600)))
 		Surfer::reset();
-	else
 
 	// refresh the watchdog
 	$_SESSION['watchdog'] = time();

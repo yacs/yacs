@@ -459,7 +459,7 @@ if($credentials) {
 		if(is_array($items) && @count($items))
 			$box['text'] .= Skin::build_list($items, 'decorated');
 		if($box['text'])
-			$context['text'] .= Skin::build_box(i18n::s('On-going actions'), $box['text'], 'section', 'actions');
+			$context['text'] .= Skin::build_box(i18n::s('On-going actions'), $box['text']);
 
 		// contribution links, in an extra box
 		if(Surfer::is_member()) {

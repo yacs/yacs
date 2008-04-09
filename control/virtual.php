@@ -208,7 +208,7 @@ elseif($id && ($action == 'delete')) {
 				$rows[] = array($matches[1], $matches[0]);
 		}
 
-		$context['text'] .= Skin::build_box(i18n::s('Configured virtual hosts'), Skin::table(NULL, $rows), 'section');
+		$context['text'] .= Skin::build_box(i18n::s('Configured virtual hosts'), Skin::table(NULL, $rows));
 
 	}
 

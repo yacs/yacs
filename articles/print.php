@@ -177,7 +177,7 @@ if(!isset($item['id'])) {
 
 	// actually list items
 	if(count($items))
-		$context['text'] .= Skin::build_box(i18n::s('Related files'), Skin::build_list($items, 'decorated'), 'section');
+		$context['text'] .= Skin::build_box(i18n::s('Related files'), Skin::build_list($items, 'decorated'));
 
 	//
 	// attached comments
@@ -189,7 +189,7 @@ if(!isset($item['id'])) {
 
 	// actually list items
 	if(count($items))
-		$context['text'] .= Skin::build_box(i18n::s('Comments'), Skin::build_list($items, 'rows'), 'section');
+		$context['text'] .= Skin::build_box(i18n::s('Comments'), Skin::build_list($items, 'rows'));
 
 	//
 	// related links
@@ -205,7 +205,7 @@ if(!isset($item['id'])) {
 
 	// actually list items
 	if(count($items))
-		$context['text'] .= Skin::build_box(i18n::s('Related links'), Skin::build_list($items, 'decorated'), 'section');
+		$context['text'] .= Skin::build_box(i18n::s('Related links'), Skin::build_list($items, 'decorated'));
 
 	// insert anchor suffix
 	if(is_object($anchor))

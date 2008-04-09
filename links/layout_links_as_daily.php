@@ -53,7 +53,7 @@ Class Layout_links_as_daily extends Layout_interface {
 				if($box['content']) {
 					if($in_north)
 						$text .= '<div id="home_north">'."\n";
-					$text .= Skin::build_box($box['title'], $box['content'], 'section');
+					$text .= Skin::build_box($box['title'], $box['content']);
 					if($in_north)
 						$text .= '</div>'."\n";
 					$in_north = FALSE;
@@ -139,7 +139,7 @@ Class Layout_links_as_daily extends Layout_interface {
 		// close the on-going box
 		if($in_north)
 			$text .= '<div id="home_north">'."\n";
-		$text .= Skin::build_box($box['title'], $box['content'], 'section');
+		$text .= Skin::build_box($box['title'], $box['content']);
 		if($in_north)
 			$text .= '</div>'."\n";
 

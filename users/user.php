@@ -76,11 +76,11 @@ Class User extends Anchor {
 			$order = 'date';
 
 			// get previous url
-			if($previous_url =& Actions::get_previous_url($item, 'user:'.$this->item['id'], $order))
+			if($previous_url = Actions::get_previous_url($item, 'user:'.$this->item['id'], $order))
 				$previous_label = i18n::s('Previous action');
 
 			// get next url
-			if($next_url =& Actions::get_next_url($item, 'user:'.$this->item['id'], $order))
+			if($next_url = Actions::get_next_url($item, 'user:'.$this->item['id'], $order))
 				$next_label = i18n::s('Next action');
 
 		// previous and next comments

@@ -334,7 +334,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 					$text .= '- '.sprintf(i18n::s('function: %s'), $hook['function']).BR."\n";
 
 				if(isset($hook['source']))
-					$text .= '- '.sprintf(i18n::s('label: %s'), $hook['source']).BR."\n";
+					$text .= '- '.sprintf(i18n::s('source: %s'), $hook['source']).BR."\n";
 
 				$text .= "</dd>\n\n";
 

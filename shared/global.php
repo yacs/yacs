@@ -653,17 +653,8 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	Safe::load('parameters/skins.include.php');
 	Safe::load('parameters/root.include.php'); // to support Page::tabs()
 
-	if($context['with_profile'] == 'Y')
-		logger::profile('include skin_skeleton', 'start');
-
 	// load skin basic library
 	include_once $context['path_to_root'].'skins/skin_skeleton.php';
-
-	if($context['with_profile'] == 'Y')
-		logger::profile('include skin_skeleton', 'stop');
-
-	if($context['with_profile'] == 'Y')
-		logger::profile('include skin', 'start');
 
 	// load actual skin
 	if(is_readable($context['path_to_root'].$context['skin'].'/skin.php')) {
@@ -678,24 +669,11 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 
 	}
 
-	if($context['with_profile'] == 'Y')
-		logger::profile('include skin', 'stop');
-
 	// the codes library
-	if($context['with_profile'] == 'Y')
-		logger::profile('include codes', 'start');
-
 	include_once $context['path_to_root'].'codes/codes.php';
-	if($context['with_profile'] == 'Y')
-		logger::profile('include codes', 'stop');
 
-	if($context['with_profile'] == 'Y')
-		logger::profile('include smileys', 'start');
-
+	// the library of smileys
 	include_once $context['path_to_root'].'smileys/smileys.php';
-
-	if($context['with_profile'] == 'Y')
-		logger::profile('include smileys', 'stop');
 
 	// skin variant is already set -- maybe already set as 'mobile'
 	if(isset($context['skin_variant']))
@@ -1052,6 +1030,33 @@ function render_skin($stamp=0) {
 	// site trailer, if any
 	if(isset($context['site_trailer']) && $context['site_trailer'])
 		$context['page_footer'] .= $context['site_trailer']."\n";
+
+	// activate tinyMCE, if available -- see shared/surfer.php
+	if(isset($context['javascript']['tinymce']) && file_exists($context['path_to_root'].'included/tiny_mce/tiny_mce_src.js')) {
+
+		$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce_src.js"></script>'."\n"
+			.'<script type="text/javascript">// <![CDATA['."\n"
+			.'	tinyMCE.init({'."\n"
+			.'		mode : "textareas",'."\n"
+			.'		theme : "advanced",'."\n"
+			.'		editor_selector : "tinymce",'."\n"
+			.'		plugins : "advhr,advimage,advlink,emotions,fullscreen,paste,searchreplace,table",'."\n"
+			.'		theme_advanced_buttons1 : "fullscreen,|,cut,copy,paste,pastetext,pasteword,|,search,replace,|,fontselect,fontsizeselect",'."\n"
+			.'		theme_advanced_buttons2 : "bold,italic,underline,strikethrough,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,undo,redo",'."\n"
+			.'		theme_advanced_buttons3 : "tablecontrols,|,link,unlink,anchor,image,advhr",'."\n"
+			.'		theme_advanced_toolbar_location : "top",'."\n"
+			.'		theme_advanced_toolbar_align : "left",'."\n"
+			.'		plugi2n_insertdate_dateFormat : "%Y-%m-%d",'."\n"
+			.'		plugi2n_insertdate_timeFormat : "%H:%M:%S",'."\n"
+			.'		paste_auto_cleanup_on_paste : true,'."\n"
+			.'		paste_convert_headers_to_strong : false,'."\n"
+			.'		paste_strip_class_attributes : "all",'."\n"
+			.'		paste_remove_spans : false,'."\n"
+			.'		paste_remove_styles : false 	'."\n"
+			.'	});'."\n"
+			.'// ]]></script>'."\n";
+
+	}
 
 	// activate jsCalendar, if available
 	if(isset($context['javascript']['calendar']) && file_exists($context['path_to_root'].'included/jscalendar/calendar.js')) {
@@ -1669,7 +1674,10 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 
 	// ensure a safe name
 	if(isset($name))
-		$name = trim(str_replace(array(' ', '.', ',', ';', ':', '!', '?', '<', '>', '/'), '-', strtolower(utf8::to_ascii(trim($name)))), '-');
+		$name = trim(str_replace(array(' ', '.', ',', ';', ':', '!', '?', '<', '>', '/', '_'), '-', strtolower(utf8::to_ascii(trim($name)))), '-');
+
+	// do not fool rewriting, just in case alternate nae would be put in title
+	$name = str_replace($alternate.'-', '', $name);
 
 	// use rewriting engine to achieve pretty references, except if composed anchor -- look .htaccess
 	if(($context['with_friendly_urls'] == 'R') && (count($nouns) == 1)) {

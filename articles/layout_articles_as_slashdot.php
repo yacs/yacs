@@ -199,7 +199,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 			$content .= Skin::build_list($menu, 'menu_bar');
 
 			// insert a complete box
-			$text .= Skin::build_box($icon.$prefix.$title.$suffix, $content, 'section', 'article_'.$item['id']);
+			$text .= Skin::build_box($icon.$prefix.$title.$suffix, $content, 'header1', 'article_'.$item['id']);
 
 		}
 

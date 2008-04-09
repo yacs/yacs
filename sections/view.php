@@ -507,7 +507,7 @@ if(!isset($item['id'])) {
 				$content = (string)$items;
 
 			// insert thumbnails before page title
-			$text .= Skin::build_box('', '<br class="images_prefix"'.EOT.$content.'<br class="images_suffix"'.EOT, 'section', 'top_icons');
+			$text .= Skin::build_box('', '<br class="images_prefix"'.EOT.$content.'<br class="images_suffix"'.EOT, 'header1', 'top_icons');
 
 		}
 
@@ -953,7 +953,7 @@ if(!isset($item['id'])) {
 					}
 
 					// insert a full box
-					$box['text'] =& Skin::build_box('', $box['text'], 'section', 'sub-sections');
+					$box['text'] =& Skin::build_box('', $box['text'], 'header1', 'sub-sections');
 				}
 
 				// integrate commands in bottom menu
@@ -1132,7 +1132,7 @@ if(!isset($item['id'])) {
 						}
 
 						// insert a full box
-						$box['text'] =& Skin::build_box($title, $box['text'], 'section', 'articles');
+						$box['text'] =& Skin::build_box($title, $box['text'], 'header1', 'articles');
 
 					}
 
@@ -1217,7 +1217,7 @@ if(!isset($item['id'])) {
 								$title = i18n::s('What is new?');
 
 							// update the final page
-							$bottom_text .= Skin::build_box($title, $content, 'section', 'what_is_new');
+							$bottom_text .= Skin::build_box($title, $content, 'header1', 'what_is_new');
 
 						}
 					}
@@ -1266,7 +1266,7 @@ if(!isset($item['id'])) {
 
 			// make a complete box
 			if($content)
-				$bottom_text .= Skin::build_box(i18n::s('Hidden pages'), $content, 'section', 'articles');
+				$bottom_text .= Skin::build_box(i18n::s('Hidden pages'), $content, 'header1', 'articles');
 		}
 
 		//
@@ -1326,7 +1326,7 @@ if(!isset($item['id'])) {
 				$box['bar'] = array();
 
 				// insert a full box
-				$box['text'] =& Skin::build_box(i18n::s('Files'), $box['text'], 'section', 'files');
+				$box['text'] =& Skin::build_box(i18n::s('Files'), $box['text'], 'header1', 'files');
 			}
 
 			// integrate commands in bottom menu
@@ -1352,9 +1352,6 @@ if(!isset($item['id'])) {
 			else
 				$title_label = i18n::s('Your comments');
 
-			// thread starts here most of the time
-			$home_link = '_comments';
-
 			// layout is defined in options
 			if($item['articles_layout'] == 'boxesandarrows') {
 				include_once '../comments/layout_comments_as_boxesandarrows.php';
@@ -1379,9 +1376,6 @@ if(!isset($item['id'])) {
 			} else {
 				include_once '../comments/layout_comments.php';
 				$layout =& new Layout_comments();
-
-				// thread starts on a separate page
-				$home_link = Comments::get_url('section:'.$item['id'], 'list');
 			}
 
 			// the maximum number of comments per page
@@ -1451,7 +1445,7 @@ if(!isset($item['id'])) {
 				}
 
 				// insert a full box
-				$box['text'] =& Skin::build_box($title, $box['text'], 'section', 'comments');
+				$box['text'] =& Skin::build_box($title, $box['text'], 'header1', 'comments');
 			}
 
 			// integrate commands in bottom menu
@@ -1525,7 +1519,7 @@ if(!isset($item['id'])) {
 				}
 
 				// insert a full box
-				$box['text'] =& Skin::build_box(i18n::s('Related links'), $box['text'], 'section', 'links');
+				$box['text'] =& Skin::build_box(i18n::s('Related links'), $box['text'], 'header1', 'links');
 
 			}
 
@@ -1561,7 +1555,7 @@ if(!isset($item['id'])) {
 				$content =& Skin::build_list($items, 'compact');
 
 				// displayed as another box
-				$bottom_text .= Skin::build_box(i18n::s('Special sections'), $content, 'section', 'special_sections');
+				$bottom_text .= Skin::build_box(i18n::s('Special sections'), $content, 'header1', 'special_sections');
 
 			}
 		}
@@ -1613,7 +1607,7 @@ if(!isset($item['id'])) {
 				$text = (string)$items;
 
 			// make a box with a frame of images
-			$text .= Skin::build_box('', '<br class="images_prefix"'.EOT.$text.'<br class="images_suffix"'.EOT, 'section', 'bottom_icons');
+			$text .= Skin::build_box('', '<br class="images_prefix"'.EOT.$text.'<br class="images_suffix"'.EOT, 'header1', 'bottom_icons');
 
 		}
 

@@ -511,7 +511,7 @@ class Anchors {
 				.Skin::table_suffix();
 
 			// put it in a box
-			$related = Skin::build_box(i18n::s('Related items'), $related, 'section');
+			$related = Skin::build_box(i18n::s('Related items'), $related);
 
 		}
 

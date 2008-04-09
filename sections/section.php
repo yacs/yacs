@@ -189,7 +189,7 @@ Class Section extends Anchor {
 					return i18n::s('Update a note');
 				if($this->has_layout('wiki'))
 					return i18n::s('Edit this note');
-				return i18n::s('Update a comment');
+				return i18n::s('Edit a comment');
 
 			// page title to list comments
 			case 'list_title':
@@ -846,11 +846,11 @@ Class Section extends Anchor {
 		}
 
 		// 'variant' matches with 'variant_red_background', return 'red_background'
-		if(preg_match('/\b'.$option.'_(.+?)\b/i', $this->item['content_options'], $matches))
+		if(preg_match('/\b'.$option.'_(\w+?)\b/i', $this->item['content_options'], $matches))
 			return $matches[1];
 
 		// 'variant' matches with 'variant_red_background', return 'red_background'
-		if(preg_match('/\b'.$option.'_(.+?)\b/i', $this->item['options'], $matches))
+		if(preg_match('/\b'.$option.'_(\w+?)\b/i', $this->item['options'], $matches))
 			return $matches[1];
 
 		// exact match, return TRUE

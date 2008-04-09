@@ -378,7 +378,7 @@ Class SQL {
 		elseif(!$context['connection'] =& SQL::connect($context['database_server'], $context['database_user'], $context['database_password'], $context['database'])) {
 
 			// exit if batch mode
-			if(!$context['script_url'])
+			if(!isset($_SERVER['REMOTE_ADDR']))
 				exit(i18n::s('Impossible to connect to the database'));
 
 			// else jump to the control panel, if not in it already
@@ -389,7 +389,7 @@ Class SQL {
 		} elseif((!$count = SQL::count_tables($context['database'], $context['connection'])) || ($count < 5)) {
 
 			// exit if batch mode
-			if(!$context['script_url'])
+			if(!isset($_SERVER['REMOTE_ADDR']))
 				exit(i18n::s('Missing tables in the database'));
 
 			// else jump to the control panel if not in it already

@@ -271,7 +271,7 @@ elseif(isset($_REQUEST['directory']) && preg_match('/^(boxesandarrows|digital|jo
 
 	$box['text'] .= BR.'<span class="tiny">'.sprintf(i18n::s('Check the %s to browse descriptions and previews of available skins.'), Skin::build_link('skins/', i18n::s('skin index page'), 'help')).'</span>'."</p>\n";
 
-	$context['text'] .= Skin::build_box($box['title'], $box['text'], 'section');
+	$context['text'] .= Skin::build_box($box['title'], $box['text']);
 
 	// step 2 - name the new skin
 	$box = array();
@@ -293,7 +293,7 @@ elseif(isset($_REQUEST['directory']) && preg_match('/^(boxesandarrows|digital|jo
 	// build the form
 	$box['text'] = Skin::build_form($fields);
 
-	$context['text'] .= Skin::build_box($box['title'], $box['text'], 'section');
+	$context['text'] .= Skin::build_box($box['title'], $box['text']);
 
 	// step 3 - do the job
 	$box = array();
@@ -302,7 +302,7 @@ elseif(isset($_REQUEST['directory']) && preg_match('/^(boxesandarrows|digital|jo
 	// the submit button
 	$box['text'] = '<p>'.Skin::build_submit_button(i18n::s('Copy and transcode files'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
-	$context['text'] .= Skin::build_box($box['title'], $box['text'], 'section');
+	$context['text'] .= Skin::build_box($box['title'], $box['text']);
 
 	// end of the form
 	$context['text'] .= '</div></form>';

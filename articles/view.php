@@ -213,6 +213,14 @@ $poster = array();
 if(isset($item['create_id']))
 	$poster =& Users::get($item['create_id']);
 
+// also load the article as an object
+$article = NULL;
+if(isset($item['id'])) {
+	include_once 'article.php';
+	$article = new Article();
+	$article->load_by_content($item, $anchor);
+}
+
 // editors can do what they want on items anchored here
 if(Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())
 	Surfer::empower();
@@ -976,7 +984,7 @@ if(!isset($item['id'])) {
 				$box['bar'] = array();
 
 				// insert a full box
-				$box['text'] =& Skin::build_box(i18n::s('Files'), $box['text'], 'section', 'files');
+				$box['text'] =& Skin::build_box(i18n::s('Files'), $box['text'], 'header1', 'files');
 			}
 
 			// integrate commands in bottom menu
@@ -1020,9 +1028,6 @@ if(!isset($item['id'])) {
 			else
 				$add_label = i18n::s('Add a comment');
 
-			// thread starts here most of the time
-			$home_link = '_comments';
-
 			// layout is defined in anchor
 			if(is_object($anchor) && $anchor->has_layout('compact')) {
 				include_once '../comments/layout_comments.php';
@@ -1052,9 +1057,6 @@ if(!isset($item['id'])) {
 			} else {
 				include_once '../comments/layout_comments.php';
 				$layout =& new Layout_comments();
-
-				// thread starts on a separate page
-				$home_link = Comments::get_url('article:'.$item['id'], 'list');
 			}
 
 			// provide author information to layouts
@@ -1078,6 +1080,8 @@ if(!isset($item['id'])) {
 			// a navigation bar for these comments
 			if($zoom_type == 'comments')
 				$home_link = '_count';
+			else
+				$home_link = $article->get_url('discuss');
 			if($count = Comments::count_for_anchor('article:'.$item['id'])) {
 				$box['bar'] = array_merge($box['bar'], array($home_link => sprintf(i18n::ns('1 comment', '%d comments', $count), $count)));
 
@@ -1132,7 +1136,7 @@ if(!isset($item['id'])) {
 				}
 
 				// insert a full box
-				$box['text'] =& Skin::build_box($title, $box['text'], 'section', 'comments');
+				$box['text'] =& Skin::build_box($title, $box['text'], 'header1', 'comments');
 			}
 
 			// integrate commands in bottom menu
@@ -1210,7 +1214,7 @@ if(!isset($item['id'])) {
 				}
 
 				// insert a full box
-				$box['text'] =& Skin::build_box(i18n::s('Related links'), $box['text'], 'section', 'links');
+				$box['text'] =& Skin::build_box(i18n::s('Related links'), $box['text'], 'header1', 'links');
 
 			}
 

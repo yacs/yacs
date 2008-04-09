@@ -199,7 +199,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 			$content .= Skin::build_list($menu, 'menu_bar');
 
 			// insert a complete box
-			$text .= Skin::build_box($icon.$prefix.Codes::beautify_title($item['title']).$suffix, $content, 'section', 'article_'.$item['id']);
+			$text .= Skin::build_box($icon.$prefix.Codes::beautify_title($item['title']).$suffix, $content, 'header1', 'article_'.$item['id']);
 
 			// section closing
 			if($item_count == 1)
@@ -212,7 +212,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 		// add links to archives
 		$anchor =& Categories::get(i18n::c('monthly'));
 		if(isset($anchor['id']) && ($items = Categories::list_by_date_for_anchor('category:'.$anchor['id'], 0, COMPACT_LIST_SIZE, 'compact')))
-			$text .= Skin::build_box(i18n::s('Past articles'), Skin::build_list($items, 'menu_bar'), 'section');
+			$text .= Skin::build_box(i18n::s('Past articles'), Skin::build_list($items, 'menu_bar'));
 
 		return $text;
 	}

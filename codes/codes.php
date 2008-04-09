@@ -656,7 +656,7 @@ Class Codes {
 				'/\[csv\](.*?)\[\/csv\]/ise',			// [csv]...[/csv] (before [table])
 				'/\[table=([^\]]+?)\](.*?)\[\/table\]/ise', // [table=variant]...[/table]
 				'/\[table\](.*?)\[\/table\]/ise',		// [table]...[/table]
-				'/( |\A)##(\S.*?)##( |\Z)/is',		// ##...##
+				'/( |\A)##(\S.*?)##(\W|\Z)/is',		// ##...##
 				'/\[code\](.*?)\[\/code\]/is',			// [code]...[/code]
 				'/\[indent\](.*?)\[\/indent\]/ise', 	// [indent]...[/indent]
 				'/\[quote\](.*?)\[\/quote\]/ise',		// [quote]...[/quote]
@@ -685,17 +685,17 @@ Class Codes {
 				'/\[huge\](.*?)\[\/huge\]/ise', 		// [huge]...[/huge]
 				'/\[subscript\](.*?)\[\/subscript\]/is',// [subscript]...[/subscript]
 				'/\[superscript\](.*?)\[\/superscript\]/is',// [superscript]...[/superscript]
-				'/( |\A)\+\+(\S.*?)\+\+( |\Z)/is',	// ++...++
+				'/( |\A)\+\+(\S.*?)\+\+(\W|\Z)/is',	// ++...++
 				'/\[(---+|___+)\]\s*/ise',				// [---], [___] --- before inserted
 				'/^-----*/me',							// ----
 				'/\[inserted\](.*?)\[\/inserted\]/is',	// [inserted]...[/inserted]
-				'/( |\A)--(\w.*?)--( |\Z)/ise',		// --...--
+				'/( |\A)--(\w.*?)--(\W|\Z)/ise',		// --...--
 				'/\[deleted\](.*?)\[\/deleted\]/is',	// [deleted]...[/deleted]
-				'/( |\A)\*\*(\S.*?)\*\*( |\Z)/is',	// **...**
+				'/( |\A)\*\*(\S.*?)\*\*(\W|\Z)/is',	// **...**
 				'/\[b\](.*?)\[\/b\]/is',				// [b]...[/b]
-				'/( |\A)\/\/(\S.*?)\/\/( |\Z)/is',	// //...//
+				'/( |\A)\/\/(\S.*?)\/\/(\W|\Z)/is',	// //...//
 				'/\[i\](.*?)\[\/i\]/is',				// [i]...[/i]
-				'/( |\A)__(\S.*?)__( |\Z)/is',		// __...__
+				'/( |\A)__(\S.*?)__(\W|\Z)/is',		// __...__
 				'/\[u\](.*?)\[\/u\]/is',				// [u]...[/u]
 				'/\[color=([^\]]+?)\](.*?)\[\/color\]/is',	// [color=<color>]...[/color]
 				'/\[new\]/ie',							// [new]
@@ -1393,7 +1393,7 @@ Class Codes {
 	        .'params.wmode = "transparent";'."\n"
 	        .'params.menu = "false";'."\n"
 	        .'params.flashvars = "'.$flashvars.'";'."\n"
-			.'swfobject.embedSWF("'.$url.'", "freemind_viewer_'.$freemind_viewer_index.'", "'.$width.'", "'.$height.'", "8", "", false, params);'."\n"
+			.'swfobject.embedSWF("'.$url.'", "freemind_viewer_'.$freemind_viewer_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
 
 // 			// the following does not work under IE7...
 // 			.'	var applet = document.createElement("embed");'."\n"
@@ -1689,7 +1689,7 @@ Class Codes {
 			        .'params.wmode = "transparent";'."\n"
 			        .'params.menu = "false";'."\n"
 			        .'params.flashvars = "'.$flashvars.'";'."\n"
-					.'swfobject.embedSWF("'.$url.'", "local_news", "80%", "50", "8", "", false, params);'."\n"
+					.'swfobject.embedSWF("'.$url.'", "local_news", "80%", "50", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
 					.'// ]]></script>'."\n";
 			}
 
@@ -1975,7 +1975,7 @@ Class Codes {
 			        .'params.wmode = "transparent";'."\n"
 			        .'params.menu = "false";'."\n"
 			        .'params.flashvars = "'.$flashvars.'";'."\n"
-					.'swfobject.embedSWF("'.$url.'", "swf_'.$item['id'].'", "'.$width.'", "'.$height.'", "8", "", false, params);'."\n"
+					.'swfobject.embedSWF("'.$url.'", "swf_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
 					.'// ]]></script>'."\n";
 				return $output;
 
@@ -2000,7 +2000,7 @@ Class Codes {
 			        .'params.wmode = "transparent";'."\n"
 			        .'params.menu = "false";'."\n"
 			        .'params.flashvars = "'.$flashvars.'";'."\n"
-					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "8", "", false, params);'."\n"
+					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
 					.'// ]]></script>'."\n";
 				return $output;
 
@@ -2375,7 +2375,7 @@ Class Codes {
 			        .'params.wmode = "transparent";'."\n"
 			        .'params.menu = "false";'."\n"
 			        .'params.flashvars = "'.$flashvars.'";'."\n"
-					.'swfobject.embedSWF("'.$dewplayer_url.'", "sound_'.$item['id'].'", "200", "20", "8", "", false, params);'."\n"
+					.'swfobject.embedSWF("'.$dewplayer_url.'", "sound_'.$item['id'].'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
 					.'// ]]></script>'."\n";
 				return $output;
 

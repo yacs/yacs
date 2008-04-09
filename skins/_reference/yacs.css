@@ -36,6 +36,7 @@ div.autocomplete,
 	border:1px solid #888;
 	margin:0px;
 	padding:0px;
+	z-index: 1500; /* show in front of tinymce, which is at 1000 */
 }
 
 div.autocomplete ul,
@@ -156,7 +157,7 @@ div#modal_centered { /* the centered container */
 	border: 2px solid #888;
 	margin: 0 auto;
 	padding: 4px;
-	z-index: 100;
+	z-index: 2000;
 }
 
 div#modal_content div.boxButtons {
@@ -184,7 +185,7 @@ div#modal_panel {	/* the grey overlay that sits behind the modal box */
 	min-height: 100%;
 	background: transparent url('overlay_background.png') repeat; /* transparent image generated at http://apps.everamber.com/alpha/ */
 	text-align: center;
-	z-index: 99; /* just below modal_centered */
+	z-index: 1999; /* just below modal_centered */
 }
 
 /**
@@ -435,6 +436,6 @@ p.assistant_bar { /* menu appears at page bottom */
 	margin-top: 2em;
 	border-top: 1px solid #ccc;
 	padding-top: 1em;
-	width: 40em;
+   	width: 80%; /* same width as div#tabs_bar */
 }
 

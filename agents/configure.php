@@ -167,7 +167,7 @@ elseif(!Surfer::is_associate()) {
 
 			$label = i18n::s('Processing options');
 			$input = '<input type="text" name="mail_queue_options[]" size="45" value="'.encode_field($options).'" maxlength="255" />';
-			$hint = i18n::s('You can combine: \'with_apop\', \'no_reply\', \'auto_publish\'');
+			$hint = i18n::s('You may combine several keywords:').' with_apop, no_reply, auto_publish';
 			$fields[] = array($label, $input, $hint);
 
 			$label = i18n::s('Processing hooks');
@@ -231,7 +231,7 @@ elseif(!Surfer::is_associate()) {
 
 	$label = i18n::s('Processing options');
 	$input = '<input type="text" name="mail_queue_options[]" size="45" maxlength="255" />';
-	$hint = i18n::s('You can combine: \'with_apop\', \'no_reply\', \'auto_publish\'');
+	$hint = i18n::s('You may combine several keywords:').' with_apop, no_reply, auto_publish';
 	$fields[] = array($label, $input, $hint);
 
 	$label = i18n::s('Processing hooks');
@@ -266,7 +266,7 @@ elseif(!Surfer::is_associate()) {
 	$fields = array();
 
 	// the submit button
-	$context['text'] .= Skin::build_box(i18n::s('Save parameters'), '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n", 'section');
+	$context['text'] .= Skin::build_box(i18n::s('Save parameters'), '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n");
 
 	// end of the form
 	$context['text'] .= '</div></form>';

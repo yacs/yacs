@@ -160,7 +160,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// make a box
 	if($items)
-		$text .= Skin::build_box('', $items, 'section', 'sections');
+		$text .= Skin::build_box('', $items, 'header1', 'sections');
 
 	// associates may list specific sections as well
 	if(($page == 1) && Surfer::is_associate()) {
@@ -191,7 +191,7 @@ if(!$text =& Cache::get($cache_id)) {
 				$content .= (string)$items;
 
 			// displayed as another page section
-			$text .= Skin::build_box(i18n::s('Special sections'), $content, 'section', 'special_sections');
+			$text .= Skin::build_box(i18n::s('Special sections'), $content, 'header1', 'special_sections');
 
 		}
 	}

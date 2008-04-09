@@ -316,7 +316,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 		// make a section box with a frame of images
 		if($text)
-			$text = Skin::build_box('', '<br class="images_prefix"'.EOT.$text.'<br class="images_suffix"'.EOT, 'section', 'top_icons');
+			$text = Skin::build_box('', '<br class="images_prefix"'.EOT.$text.'<br class="images_suffix"'.EOT, 'header1', 'top_icons');
 
 	}
 
@@ -598,7 +598,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 		// make a box
 		if($items)
-			$text .= Skin::build_box('', $items, 'section', 'sections');
+			$text .= Skin::build_box('', $items, 'header1', 'sections');
 
 	}
 
@@ -711,7 +711,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 		// make a box
 		if($items)
-			$items =& Skin::build_box($title, $items, 'section', 'recent_articles');
+			$items =& Skin::build_box($title, $items, 'header1', 'recent_articles');
 
 	}
 	$text .= $items;
@@ -728,7 +728,7 @@ if(!$text =& Cache::get($cache_id)) {
 		// list most recent files
 		include_once $context['path_to_root'].'files/files.php';
 		if($items = Files::list_by_date(0, COMPACT_LIST_SIZE, 'dates'))
-			$text .= Skin::build_box($title, Skin::build_list($items, 'compact'), 'section', 'recent_files');
+			$text .= Skin::build_box($title, Skin::build_list($items, 'compact'), 'header1', 'recent_files');
 
 	}
 
@@ -743,7 +743,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 		// list most recent links
 		if($items = Links::list_by_date(0, COMPACT_LIST_SIZE, 'dates'))
-			$text .= Skin::build_box($title, Skin::build_list($items, 'compact'), 'section', 'recent_links');
+			$text .= Skin::build_box($title, Skin::build_list($items, 'compact'), 'header1', 'recent_links');
 
 	}
 
@@ -776,7 +776,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 		// make a section box with a frame of images
 		if($items)
-			$text .= Skin::build_box('', '<br class="images_prefix"'.EOT.$items.'<br class="images_suffix"'.EOT, 'section', 'bottom_icons');
+			$text .= Skin::build_box('', '<br class="images_prefix"'.EOT.$items.'<br class="images_suffix"'.EOT, 'header1', 'bottom_icons');
 
 	}
 

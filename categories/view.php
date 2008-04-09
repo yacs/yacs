@@ -434,7 +434,7 @@ if(!isset($item['id'])) {
 			if(is_array($box['bar']))
 				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 			if($box['text'])
-				$text =& Skin::build_box('', $box['text'], 'section', 'categories');
+				$text =& Skin::build_box('', $box['text'], 'header1', 'categories');
 
 			// save in cache
 			Cache::put($cache_id, $text, 'categories');
@@ -482,7 +482,7 @@ if(!isset($item['id'])) {
 			if(is_array($box['bar']))
 				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 			if($box['text'])
-				$text =& Skin::build_box(i18n::s('Related users'), $box['text'], 'section', 'users');
+				$text =& Skin::build_box(i18n::s('Related users'), $box['text'], 'header1', 'users');
 
 			// save in cache
 			Cache::put($cache_id, $text, 'users');
@@ -561,7 +561,7 @@ if(!isset($item['id'])) {
 			if(is_array($box['bar']))
 				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 			if($box['text'])
-				$text =& Skin::build_box(i18n::s('Related sections'), $box['text'], 'section', 'sections');
+				$text =& Skin::build_box(i18n::s('Related sections'), $box['text'], 'header1', 'sections');
 
 			// save in cache
 			Cache::put($cache_id, $text, 'sections');
@@ -642,7 +642,7 @@ if(!isset($item['id'])) {
 			if(is_array($box['bar']))
 				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 			if($box['text'])
-				$text =& Skin::build_box(i18n::s('Related pages'), $box['text'], 'section', 'articles');
+				$text =& Skin::build_box(i18n::s('Related pages'), $box['text'], 'header1', 'articles');
 
 			// save in cache
 			Cache::put($cache_id, $text, 'articles');
@@ -697,7 +697,7 @@ if(!isset($item['id'])) {
 			if(is_array($box['bar']))
 				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 			if($box['text'])
-				$text =& Skin::build_box('', $box['text'], 'section', 'files');
+				$text =& Skin::build_box('', $box['text'], 'header1', 'files');
 
 			// save in cache
 			Cache::put($cache_id, $text, 'files');
@@ -761,7 +761,7 @@ if(!isset($item['id'])) {
 			if($box['text']) {
 				// either a section or an extra box
 				if($zoom_type == 'comments')
-					$text =& Skin::build_box('', $box['text'], 'section', 'comments');
+					$text =& Skin::build_box('', $box['text'], 'header1', 'comments');
 				else
 					$text =& Skin::build_box('', $box['text'], 'extra', 'comments');
 			}
@@ -823,7 +823,7 @@ if(!isset($item['id'])) {
 			if(is_array($box['bar']))
 				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 			if($box['text'])
-				$text =& Skin::build_box('', $box['text'], 'section', 'links');
+				$text =& Skin::build_box('', $box['text'], 'header1', 'links');
 
 			// save in cache
 			Cache::put($cache_id, $text, 'links');

@@ -146,7 +146,7 @@ if(!isset($item['id'])) {
 
 	// actually render the html
 	if($items)
-		$context['text'] .= Skin::build_box(i18n::s('Comments'), Skin::build_list($items, 'rows'), 'section');
+		$context['text'] .= Skin::build_box(i18n::s('Comments'), Skin::build_list($items, 'rows'));
 
 	//
 	// details come after everything else

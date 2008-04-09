@@ -233,7 +233,7 @@ if(@count($items))
 elseif(is_string($items))
 	$box['text'] .= $items;
 if($box['text'])
-	$context['text'] .= Skin::build_box($box['title'], $box['text'], 'section', 'articles');
+	$context['text'] .= Skin::build_box($box['title'], $box['text'], 'header1', 'articles');
 
 // on first page
 if($page == 1) {

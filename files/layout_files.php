@@ -93,7 +93,7 @@ Class Layout_files extends Layout_interface {
 			        .'params.wmode = "transparent";'."\n"
 			        .'params.menu = "false";'."\n"
 			        .'params.flashvars = "'.$flashvars.'";'."\n"
-					.'swfobject.embedSWF("'.$dewplayer_url.'", "mp3_'.$item['id'].'", "200", "20", "8", "", false, params);'."\n"
+					.'swfobject.embedSWF("'.$dewplayer_url.'", "mp3_'.$item['id'].'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
 					.'// ]]></script>'.BR."\n";
 
 			}

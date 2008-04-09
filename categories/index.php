@@ -110,7 +110,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// make a box
 	if($text)
-		$text =& Skin::build_box('', $text, 'section', 'categories');
+		$text =& Skin::build_box('', $text, 'header1', 'categories');
 
 	// associates may list specific categories as well
 	if(($page == 1) && Surfer::is_associate()) {
@@ -123,7 +123,7 @@ if(!$text =& Cache::get($cache_id)) {
 				$items = Skin::build_list($items, '2-columns');
 
 			// displayed as another page section
-			$text .= Skin::build_box(i18n::s('Special categories'), $items, 'section', 'inactive_categories');
+			$text .= Skin::build_box(i18n::s('Special categories'), $items, 'header1', 'inactive_categories');
 		}
 	}
 

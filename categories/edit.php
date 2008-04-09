@@ -320,7 +320,7 @@ if($with_form) {
 		$input = '';
 
 		// validate page content
-		$input .= '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML').BR;
+		$input .= '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').BR;
 
 		// do not remember changes on existing pages
 		if(isset($item['id']))
@@ -581,7 +581,7 @@ if($with_form) {
 	// options
 	$label = i18n::s('Options');
 	$input = '<input type="text" name="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />';
-	$hint = i18n::s('You can combine: layout_as_inline, layout_as_yahoo, no_articles, articles_by_title, with_files, no_links, with_comments');
+	$hint = i18n::s('You may combine several keywords:').' layout_as_inline, layout_as_yahoo, no_articles, articles_by_title, with_files, no_links, with_comments';
 	$fields[] = array($label, $input, $hint);
 
 	// the expiry date, if any

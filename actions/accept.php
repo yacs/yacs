@@ -148,7 +148,7 @@ else {
 		$context['text'] .= sprintf(i18n::s('<p>The following action has been flagged with the status:</p><p><b>%s</b></p>'), $label);
 
 		// display the action itself
-		$context['text'] .= Skin::build_box($item['title'], Codes::beautify($item['description']), 'section');
+		$context['text'] .= Skin::build_box($item['title'], Codes::beautify($item['description']));
 
 	// else display an updated page
 	} else

@@ -157,9 +157,6 @@ if(!is_object($anchor)) {
 	$cache_id = 'decisions/list.php?anchor='.$target_anchor.'#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
 
-		// thread starts here
-		$home_link = Decisions::get_url($anchor->get_reference(), 'list');
-
 		$layout = 'no_anchor';
 
 		// the maximum number of decisions per page
@@ -195,7 +192,7 @@ if(!is_object($anchor)) {
 		// navigation commands for decisions
 		$prefix = Decisions::get_url($anchor->get_reference(), 'navigate');
 		$box['bar'] = array_merge($box['bar'],
-			Skin::navigate($home_link, $prefix, $stats['count'], DECISIONS_PER_PAGE, $page, FALSE));
+			Skin::navigate(Decisions::get_url($anchor->get_reference(), 'list'), $prefix, $stats['count'], DECISIONS_PER_PAGE, $page, FALSE));
 
 		// show commands
 		if(@count($box['bar']) && ($context['skin_variant'] != 'mobile')) {
@@ -212,7 +209,7 @@ if(!is_object($anchor)) {
 
 		// build a box
 		if($box['text'])
-			$text =& Skin::build_box('', $box['text'], 'section', 'decisions');
+			$text =& Skin::build_box('', $box['text'], 'header1', 'decisions');
 
 		// cache this to speed subsequent queries
 		Cache::put($cache_id, $text, 'decisions');

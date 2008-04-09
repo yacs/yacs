@@ -658,10 +658,6 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['revisit_after']) || (intval($context['revisit_after']) < 1))
 		$context['revisit_after'] = 1;
 
-	// backup the old version
-	Safe::unlink($context['path_to_root'].'parameters/skins.include.php.bak');
-	Safe::rename($context['path_to_root'].'parameters/skins.include.php', $context['path_to_root'].'parameters/skins.include.php.bak');
-
 	// build the new configuration file
 	$content = '<?php'."\n"
 		.'// This file has been created by the configuration script skins/configure.php'."\n"

@@ -54,7 +54,11 @@
  * - id: 'control/index.php#configure'
  * - type: 'link'
  *
- * It also has a hook to list extra modules:
+ * The hook to list extra tools:
+ * - id: 'control/index.php#tools'
+ * - type: 'link'
+ *
+ * The hook to list extra modules:
  * - id: 'control/index.php#modules'
  * - type: 'link'
  *
@@ -631,7 +635,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				$commands[] = sprintf(i18n::s('%s - learn about your visitors'), Skin::build_link('agents/', i18n::s('Usage information'), 'basic'));
 
 			// insert commands
-			$text .= Skin::build_box(i18n::s('Content Management'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'section', 'content_management');
+			$text .= Skin::build_box(i18n::s('Content Management'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'header1', 'content_management');
 
 			// members can use additional tools
 			if(Surfer::is_member()) {
@@ -706,7 +710,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				}
 
 				// insert commands
-				$text .= Skin::build_box(i18n::s('Express yourself'), '<ul>'.$content.'</ul>', 'section', 'express_yourself');
+				$text .= Skin::build_box(i18n::s('Express yourself'), '<ul>'.$content.'</ul>', 'header1', 'express_yourself');
 
 			}
 
@@ -758,7 +762,7 @@ if(!file_exists('../parameters/control.include.php')) {
 					$text .= '<ul><li>'.join('</li><li>', $commands).'</li></ul>';
 
 				// the hook for the control panels
-				if(is_callable(array('Hooks', 'link_scripts')) && ($links = Hooks::link_scripts('control/#configure', 'bullets')))
+				if(is_callable(array('Hooks', 'link_scripts')) && ($links = Hooks::link_scripts('control/index.php#configure', 'bullets')))
 					$text .= '<ul>'.$links.'</ul>';
 
 				// build another tab
@@ -808,7 +812,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				$commands[] = sprintf(i18n::s('%s - compress Javascript files'), '<a href="jsmin.php">'.i18n::s('JSmin').'</a>');
 
 				// insert commands
-				$text .= Skin::build_box(i18n::s('System Management'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'section', 'system_management');
+				$text .= Skin::build_box(i18n::s('System Management'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'header1', 'system_management');
 
 			}
 
@@ -889,7 +893,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				$commands[] = sprintf(i18n::s('%s - low-level information related to this server and to your browser'), '<a href="test.php">'.i18n::s('System test page').'</a>');
 
 			}
-			$text .= Skin::build_box(i18n::s('More information'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'section', 'more_information');
+			$text .= Skin::build_box(i18n::s('More information'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'header1', 'more_information');
 
 			// build another tab
 			if($text)
@@ -918,7 +922,7 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// the hook for the control panels
 			if(is_callable(array('Hooks', 'link_scripts')))
-				$box['text'] .= Hooks::link_scripts('control/#tools', 'bullets');
+				$box['text'] .= Hooks::link_scripts('control/index.php#tools', 'bullets');
 
 			$box['text'] .= '<li>'.Skin::build_link('help.php', i18n::s('Help'), 'shortcut')."</li>\n";
 
@@ -969,7 +973,7 @@ if(!file_exists('../parameters/control.include.php')) {
 
 				// the hook for the control panels
 				if(is_callable(array('Hooks', 'link_scripts')))
-					$box['text'] .= Hooks::link_scripts('control/#modules', 'bullets');
+					$box['text'] .= Hooks::link_scripts('control/index.php#modules', 'bullets');
 
 				// list modules in an extra box
 				$context['extra'] .= Skin::build_box($box['title'], $box['text']."</ul>\n", 'extra');

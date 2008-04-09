@@ -193,6 +193,9 @@ class Logger {
 		if($context['with_profile'] != 'Y')
 			return;
 
+		// request
+		Logger::debug($_REQUEST, '$_REQUEST');
+
 		// memory status
 		if(is_callable('memory_get_usage'))
 			Logger::debug(memory_get_usage().' bytes', 'memory used');

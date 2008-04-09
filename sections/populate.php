@@ -90,7 +90,7 @@ else {
 	$fields = array();
 	$fields['nick_name'] = 'channels';
 	$fields['title'] = i18n::c('Channels');
-	$fields['introduction'] = i18n::c('Real-time collaborative places');
+	$fields['introduction'] = i18n::c('Real-time collaboration');
 	$fields['description'] = i18n::c('Every page in this section supports interactive discussion and file sharing.');
 	$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
 	$fields['index_map'] = 'Y'; // listed with regular sections

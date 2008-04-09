@@ -139,7 +139,7 @@ if(!is_object($anchor)) {
 					$box['text'] =& Skin::build_list($box['text'], 'decorated');
 
 				// make a section
-				$text =& Skin::build_box(i18n::s('On-going actions'), $box['text'], 'section');
+				$text =& Skin::build_box(i18n::s('On-going actions'), $box['text']);
 
 			}
 
@@ -193,7 +193,7 @@ if(!is_object($anchor)) {
 			// layout everything in a box
 			if(count($box['bar']))
 				$text =& Skin::build_list($box['bar'], 'menu_bar')."\n".$text;
-			$text =& Skin::build_box($box['title'], $text, 'section');
+			$text =& Skin::build_box($box['title'], $text);
 
 		}
 
@@ -223,7 +223,7 @@ if(!is_object($anchor)) {
 					$box['text'] =& Skin::build_list($box['text'], 'decorated');
 
 				// make a section
-				$text =& Skin::build_box(i18n::s('Rejected actions'), $box['text'], 'section');
+				$text =& Skin::build_box(i18n::s('Rejected actions'), $box['text']);
 
 			}
 

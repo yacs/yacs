@@ -52,13 +52,26 @@ if(isset($_REQUEST['page']))
 	$page = $_REQUEST['page'];
 $page = strip_tags($page);
 
+// minimum size for any search token - depends of mySQL setup
+$query = "SHOW VARIABLES LIKE 'ft_min_word_len'";
+if(!defined('MINIMUM_TOKEN_SIZE') && ($row =& SQL::query_first($query)) && ($row['Value'] > 0))
+	define('MINIMUM_TOKEN_SIZE', $row['Value']);
+
+// by default MySQL indexes words with at least four chars
+if(!defined('MINIMUM_TOKEN_SIZE'))
+	define('MINIMUM_TOKEN_SIZE', 4);
+
 // kill short and redundant tokens
 $tokens = preg_split('/[\s,]+/', $search);
 if(@count($tokens)) {
 	$search = '';
 	foreach($tokens as $token) {
 
-		// already here (repeated word)
+		// too short
+		if(strlen(preg_replace('/&.+?;/', 'x', $token)) < MINIMUM_TOKEN_SIZE)
+			continue;
+
+		// already here (repeated token)
 		if($search && (strpos($search, $token) !== FALSE))
 			continue;
 
@@ -159,7 +172,7 @@ if(is_array($items))
 elseif(is_string($items))
 	$box['text'] .= $items;
 if($box['text'])
-	$context['text'] .= Skin::build_box($box['title'], $box['text'], 'section', 'articles');
+	$context['text'] .= Skin::build_box($box['title'], $box['text']);
 
 // nothing found
 if($no_result && $search)
