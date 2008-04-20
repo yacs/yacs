@@ -301,7 +301,7 @@ if(!isset($item['id'])) {
 
 	// actually render the html for the section
 	if($items)
-		$context['text'] .= Skin::build_box(i18n::s('Related files'), Skin::build_list($items, 'decorated'));
+		$context['text'] .= Skin::build_box(i18n::s('Files'), Skin::build_list($items, 'decorated'));
 
 	//
 	// the comments section
@@ -377,7 +377,7 @@ if(!isset($item['id'])) {
 
 	// actually render the html
 	if($items)
-		$context['text'] .= Skin::build_box(i18n::s('Related links'), Skin::build_list($items, 'decorated'));
+		$context['text'] .= Skin::build_box(i18n::s('See also'), Skin::build_list($items, 'decorated'));
 
 	// insert anchor suffix
 	if(is_object($anchor))

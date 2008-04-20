@@ -146,14 +146,7 @@ load_skin('users');
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = i18n::s('The configuration panel for users');
-
-// the back button
-$context['page_menu'] = array_merge($context['page_menu'], array( 'users/' => i18n::s('All users') ));
-
-// do it again
-if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'users/configure.php' => i18n::s('Configure') ));
+$context['page_title'] = sprintf(i18n::s('Configure: %s'), i18n::s('People'));
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -167,9 +160,6 @@ elseif(!Surfer::is_associate()) {
 // display the input form
 } elseif($_SERVER['REQUEST_METHOD'] != 'POST') {
 
-	// the splash message
-	$context['text'] .= '<p>'.i18n::s('This configuration panel allows to change parameters related to registered users of this site.')."</p>\n";
-
 	// load current parameters, if any
 	Safe::load('parameters/users.include.php');
 
@@ -179,7 +169,7 @@ elseif(!Surfer::is_associate()) {
 	//
 	// registration management
 	//
-	$context['text'] .= Skin::build_block(i18n::s('Registration management'), 'title');
+	$registration = '';
 	$fields = array();
 
 	// registration control
@@ -219,20 +209,20 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// default editor
-	$label = i18n::s('Editor');
-	$input = '<input type="radio" name="users_default_editor" value="yacs"';
-	if(!isset($context['users_default_editor']) || ($context['users_default_editor'] == 'yacs'))
+	$label = i18n::s('Default editor');
+	$input = '<input type="radio" name="users_default_editor" value="tinymce"';
+	if(!isset($context['users_default_editor']) || ($context['users_default_editor'] == 'tinymce'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Default editor is a bare TEXTAREA with YACS codes.');
+	$input .= EOT.' '.i18n::s('TinyMCE');
 	$input .= BR.'<input type="radio" name="users_default_editor" value="fckeditor"';
 	if(isset($context['users_default_editor']) && ($context['users_default_editor'] == 'fckeditor'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Default editor is WYSIWYG FCKEditor.');
-	$input .= BR.'<input type="radio" name="users_default_editor" value="tinymce"';
-	if(isset($context['users_default_editor']) && ($context['users_default_editor'] == 'tinymce'))
+	$input .= EOT.' '.i18n::s('FCKEditor');
+	$input .= BR.'<input type="radio" name="users_default_editor" value="yacs"';
+	if(isset($context['users_default_editor']) && ($context['users_default_editor'] == 'yacs'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Default editor is WYSIWYG TinyMCE.');
-	$input .= BR.'<input type="checkbox" name="force_editor_change" />'.i18n::s('Set this value in all user profiles.');
+	$input .= EOT.' '.i18n::s('Textarea');
+	$input .= BR.'<input type="checkbox" name="force_editor_change" />'.i18n::s('Update all user profiles.');
 	$fields[] = array($label, $input);
 
 	// overlay
@@ -256,13 +246,13 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// build the form
-	$context['text'] .= Skin::build_form($fields);
+	$registration .= Skin::build_form($fields);
 	$fields = array();
 
 	//
 	// authentication management
 	//
-	$context['text'] .= Skin::build_block(i18n::s('Authentication management'), 'title');
+	$authentication = '';
 
 	// permanent authentication
 	$label = i18n::s('Identification');
@@ -322,13 +312,13 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// build the form
-	$context['text'] .= Skin::build_form($fields);
+	$authentication .= Skin::build_form($fields);
 	$fields = array();
 
 	//
 	// content management
 	//
-	$context['text'] .= Skin::build_block(i18n::s('Content management'), 'title');
+	$content = '';
 
 	// alert present users
 	$label = i18n::s('Alerts');
@@ -354,6 +344,22 @@ elseif(!Surfer::is_associate()) {
 	$input .= EOT.' '.i18n::s('Enhance the user index with member avatars.');
 	$fields[] = array($label, $input);
 
+	// spam protection
+	$label = i18n::s('Spam');
+	$input = '<input type="radio" name="users_with_email_display" value="N"';
+	if(!isset($context['users_with_email_display']) || ($context['users_with_email_display'] == 'N'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Protect mail addresses as much as possible (for Internet servers).');
+	$input .= BR.'<input type="radio" name="users_with_email_display" value="R"';
+	if(isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'R'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Show email addresses to authenticated members.');
+	$input .= BR.'<input type="radio" name="users_with_email_display" value="Y"';
+	if(isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Share email addresses as much as possible (for intranet servers).');
+	$fields[] = array($label, $input);
+
 	// users_maximum_managed_sections
 	if(!isset($context['users_maximum_managed_sections']) || !$context['users_maximum_managed_sections'] || ($context['users_maximum_managed_sections'] < 0))
 		$context['users_maximum_managed_sections'] = 0;
@@ -374,22 +380,6 @@ elseif(!Surfer::is_associate()) {
 	$input .= EOT.' '.i18n::s('Nothing from restricted pages and links to post is disclosed to non-members.');
 	$fields[] = array($label, $input);
 
-	// spam protection
-	$label = i18n::s('Spam');
-	$input = '<input type="radio" name="users_with_email_display" value="N"';
-	if(!isset($context['users_with_email_display']) || ($context['users_with_email_display'] == 'N'))
-		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Protect mail addresses as much as possible (for Internet servers).');
-	$input .= BR.'<input type="radio" name="users_with_email_display" value="R"';
-	if(isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'R'))
-		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Show email addresses to authenticated members.');
-	$input .= BR.'<input type="radio" name="users_with_email_display" value="Y"';
-	if(isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Share email addresses as much as possible (for intranet servers).');
-	$fields[] = array($label, $input);
-
 	// auto-archiving
 	$label = i18n::s('Archiving');
 	$input = '<input type="radio" name="users_without_archiving" value="N"';
@@ -403,13 +393,19 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// build the form
-	$context['text'] .= Skin::build_form($fields);
+	$content .= Skin::build_form($fields);
 	$fields = array();
 
 	//
 	// submission management
 	//
-	$context['text'] .= Skin::build_block(i18n::s('Submission management'), 'title');
+	$submission = '';
+
+	// allowed tags
+	$label = i18n::s('Allowed Tags');
+	$input = '<input type="text" name="users_allowed_tags" size="65" value="'.encode_field($context['users_allowed_tags']).'" maxlength="128" />';
+	$hint = i18n::s('List HTML tags allowed to members.').BR.'&lt;a&gt;&lt;abbr&gt;&lt;acronym&gt;&lt;b&gt;&lt;big&gt;&lt;br&gt;&lt;code&gt;&lt;dd&gt;&lt;del&gt;&lt;dfn&gt;&lt;dl&gt;&lt;dt&gt;&lt;em&gt;&lt;i&gt;&lt;img&gt;&lt;ins&gt;&lt;li&gt;&lt;ol&gt;&lt;p&gt;&lt;q&gt;&lt;small&gt;&lt;span&gt;&lt;strong&gt;&lt;sub&gt;&lt;sup&gt;&lt;tt&gt;&lt;u&gt;&lt;ul&gt;';
+	$fields[] = array($label, $input, $hint);
 
 	// submission control
 	$label = i18n::s('Submissions');
@@ -424,7 +420,7 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// content publishing
-	$label = i18n::s('Publication');
+	$label = i18n::s('Publications');
 	$input = '<input type="radio" name="users_with_auto_publish" value="N"';
 	if(!isset($context['users_with_auto_publish']) || ($context['users_with_auto_publish'] != 'Y'))
 		$input .= ' checked="checked"';
@@ -492,20 +488,40 @@ elseif(!Surfer::is_associate()) {
 	$input .= EOT.' '.i18n::s('Allow anonymous surfers to post comments.');
 	$fields[] = array($label, $input);
 
-	// allowed tags
-	$label = i18n::s('Allowed Tags');
-	$input = '<input type="text" name="users_allowed_tags" size="65" value="'.encode_field($context['users_allowed_tags']).'" maxlength="128" />';
-	$hint = i18n::s('List HTML tags allowed to members.');
-	$fields[] = array($label, $input, $hint);
-
 	// build the form
-	$context['text'] .= Skin::build_form($fields);
+	$submission .= Skin::build_form($fields);
 	$fields = array();
 
 	//
-	// the submit button
+	// assemble all tabs
 	//
-	$context['text'] .= Skin::build_box(i18n::s('Save parameters'), '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n");
+	$all_tabs = array(
+		array('registration_tab', i18n::s('Registration'), 'registration_panel', $registration),
+		array('authentication_tab', i18n::s('Authentication'), 'authentication_panel', $authentication),
+		array('content_tab', i18n::s('Content'), 'content_panel', $content),
+		array('submission_tab', i18n::s('Submission'), 'submission_panel', $submission)
+		);
+
+	// let YACS do the hard job
+	$context['text'] .= Skin::build_tabs($all_tabs);
+
+	//
+	// bottom commands
+	//
+	$menu = array();
+
+	// the submit button
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+	// control panel
+	if(file_exists('../parameters/control.include.php'))
+		$menu[] = Skin::build_link('control/', i18n::s('Control Panel'), 'span');
+
+	// all users
+	$menu[] = Skin::build_link('users/', i18n::s('People'), 'span');
+
+	// insert the menu in the page
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// end of the form
 	$context['text'] .= '</div></form>';
@@ -614,16 +630,19 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folder');
 
 	// what's next?
-	$context['text'] .= '<p>'.i18n::s('What do you want to do now?')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('Where do you want to go now?')."</p>\n";
 
 	// follow-up commands
 	$menu = array();
 
-	// offer to change it again
-	$menu = array_merge($menu, array( 'users/configure.php' => i18n::s('Configure again') ));
+	// index page
+	$menu = array_merge($menu, array( 'users/' => i18n::s('People') ));
 
-	// back to the control panel
-	$menu = array_merge($menu, array( 'control/' => i18n::s('Go to the Control Panel') ));
+	// control panel
+	$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
+
+	// do it again
+	$menu = array_merge($menu, array( 'users/configure.php' => i18n::s('Configure again') ));
 
 	// display follow-up commands
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');

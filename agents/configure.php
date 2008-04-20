@@ -4,9 +4,6 @@
  *
  * Use this script to modify following parameters:
  *
- * - [code]with_referrals[/code] - if set to Yes, show referrals to everybody.
- * Else show referrals only to associates.
- *
  * - [code]debug_messages[/code] - if set to Yes, then processed messages will be saved
  * for debugging purpose.
  * Used in [script]agents/messages.php[/script].
@@ -52,14 +49,7 @@ load_skin('agents');
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = i18n::s('The configuration panel for agents');
-
-// the back button
-$context['page_menu'] = array_merge($context['page_menu'], array( 'agents/' => i18n::s('The index page for agents') ));
-
-// do it again
-if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'agents/configure.php' => i18n::s('Edit') ));
+$context['page_title'] = sprintf(i18n::s('Configure: %s'), i18n::s('Background processing'));
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -79,35 +69,13 @@ elseif(!Surfer::is_associate()) {
 	// the form
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';
 
-	// the splash message
-	$context['text'] .= '<p>'.i18n::s('Use this page to configure agents, that is, scripts executed in the background without any human interaction.')."</p>\n";
-
-	// referrals
-	$context['text'] .= Skin::build_block(i18n::s('Referrals'), 'title');
-
-	// with referrals
-	$label = i18n::s('Display referrals:');
-	$input = '<input type="radio" name="with_referrals" value="N"';
-	if(!isset($context['with_referrals']) || ($context['with_referrals'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('only to associates');
-	$input .= BR.'<input type="radio" name="with_referrals" value="Y"';
-	if(isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('to every surfer');
-	$context['text'] .= '<p>'.$label.BR.$input."</p>\n";
-
-	// inbound mail queues
-	$context['text'] .= Skin::build_block(i18n::s('Inbound messages'), 'title');
-
-	// debug_messages
-	$checked = '';
-	if(isset($context['debug_messages']) && ($context['debug_messages'] == 'Y'))
-		$checked = 'checked="checked" ';
-	$context['text'] .= '<p><input type="checkbox" name="debug_messages" value="Y" '.$checked.'/> '.i18n::s('Debug mail protocol in temporary/debug.txt, and file each message processed by agents/messages.php. Use this option for troubleshooting only.')."</p>\n";
+	//
+	// messages
+	//
+	$messages = '';
 
 	// introduction to the queue list
-	$context['text'] .= '<p>'.i18n::s('Below is the list of mail accounts from which messages can be fetched and posted in the database.')."</p>\n";
+	$messages .= '<p>'.i18n::s('Mail accounts from which messages can be fetched and posted in the database.')."</p>\n";
 
 	// list existing queues
 	if(isset($context['mail_queues']) && is_array($context['mail_queues'])) {
@@ -116,7 +84,7 @@ elseif(!Surfer::is_associate()) {
 
 			// queues list
 			$count++;
-			$context['text'] .= '<p><b>'.sprintf(i18n::s('Queue #%d'), $count)."</b></p>\n";
+			$messages .= '<p><b>'.sprintf(i18n::s('Queue #%d'), $count)."</b></p>\n";
 
 			list($server, $account, $password, $allowed, $match, $section, $options, $hooks, $prefix, $suffix) = $attributes;
 
@@ -176,13 +144,13 @@ elseif(!Surfer::is_associate()) {
 			$fields[] = array($label, $input, $hint);
 
 			// put the set of fields in the page
-			$context['text'] .= Skin::build_form($fields);
+			$messages .= Skin::build_form($fields);
 			$fields = array();
 		}
 	}
 
 	// append one queue
-	$context['text'] .= '<p><b>'.i18n::s('Add a mail queue')."</b></p>\n";
+	$messages .= '<p><b>'.i18n::s('Add a mail queue')."</b></p>\n";
 
 	$label = i18n::s('Nick name');
 	$input = '<input type="text" name="mail_queue_names[]" size="32" maxlength="64" />';
@@ -240,14 +208,22 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input, $hint);
 
 	// put the set of fields in the page
-	$context['text'] .= Skin::build_form($fields);
+	$messages .= Skin::build_form($fields);
 	$fields = array();
 
+	// debug_messages
+	$checked = '';
+	if(isset($context['debug_messages']) && ($context['debug_messages'] == 'Y'))
+		$checked = 'checked="checked" ';
+	$messages .= '<p><input type="checkbox" name="debug_messages" value="Y" '.$checked.'/> '.i18n::s('Debug mail protocol in temporary/debug.txt, and file each message processed by agents/messages.php. Use this option for troubleshooting only.')."</p>\n";
+
+	//
 	// uploads
-	$context['text'] .= Skin::build_block(i18n::s('Inbound files'), 'title');
+	//
+	$uploads = '';
 
 	// the splash message
-	$context['text'] .= i18n::s('<p>Following parameters are used for files uploaded to this server, for example via FTP. These do not apply to pages submitted through web forms or w.bloggar.</p>')."\n";
+	$uploads .= '<p>'.i18n::s('Following parameters are used for files uploaded to this server, for example via FTP. These do not apply to pages submitted through web forms or XML-RPC.')."</p>\n";
 
 	// uploads_nick_name
 	$label = i18n::s('Author nick name or id');
@@ -262,14 +238,45 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input, $hint);
 
 	// build the form
-	$context['text'] .= Skin::build_form($fields);
+	$uploads .= Skin::build_form($fields);
 	$fields = array();
 
+	//
+	// assemble all tabs
+	//
+	$all_tabs = array(
+		array('messages_tab', i18n::s('Messages'), 'messages_panel', $messages),
+		array('uploads_tab', i18n::s('Uploads'), 'uploads_panel', $uploads)
+		);
+
+	// let YACS do the hard job
+	$context['text'] .= Skin::build_tabs($all_tabs);
+
+	//
+	// bottom commands
+	//
+	$menu = array();
+
 	// the submit button
-	$context['text'] .= Skin::build_box(i18n::s('Save parameters'), '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n");
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+	// control panel
+	if(file_exists('../parameters/control.include.php'))
+		$menu[] = Skin::build_link('control/', i18n::s('Control Panel'), 'span');
+
+	// cancel
+	if(file_exists('../parameters/control.include.php'))
+		$menu[] = Skin::build_link('agents/', i18n::s('Background processing'), 'span');
+
+	// insert the menu in the page
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// end of the form
 	$context['text'] .= '</div></form>';
+
+	// help box
+	$help = '<p>'.i18n::s('Use this page to configure agents, that is, scripts executed in the background without any human interaction.')."</p>\n";
+	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'extra');
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
@@ -312,8 +319,6 @@ elseif(!Surfer::is_associate()) {
 				.$allowed.'\', \''.$match.'\', \''.$section.'\', \''.$options.'\', \''.$hooks.'\', \''.$prefix.'\', \''.$suffix."');\n";
 		}
 	}
-	if(isset($_REQUEST['with_referrals']))
-		$content .= '$context[\'with_referrals\']=\''.addcslashes($_REQUEST['with_referrals'], "\\'")."';\n";
 	$content .= '?>'."\n";
 
 	// open the parameters file
@@ -342,16 +347,19 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folder');
 
 	// what's next?
-	$context['text'] .= '<p>'.i18n::s('What do you want to do now?')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('Where do you want to go now?')."</p>\n";
 
 	// follow-up commands
 	$menu = array();
 
-	// offer to change it again
-	$menu = array_merge($menu, array( 'agents/configure.php' => i18n::s('Edit parameters again') ));
+	// index page
+	$menu = array_merge($menu, array( 'agents/' => i18n::s('Background processing') ));
 
-	// back to the control panel
-	$menu = array_merge($menu, array( 'control/' => i18n::s('Go to the Control Panel') ));
+	// control panel
+	$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
+
+	// do it again
+	$menu = array_merge($menu, array( 'agents/configure.php' => i18n::s('Configure again') ));
 
 	// display follow-up commands
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');

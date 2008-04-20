@@ -37,7 +37,7 @@ class Profiles {
 		$url = $context['script_url'];
 
 		// execution time up to now
-		$execution_time = get_micro_time() - $context['start_time'];
+		$execution_time = round(get_micro_time() - $context['start_time'], 4);
 
 		// if a record exists for this url
 		$query = "SELECT * FROM ".SQL::table_name('profiles')." AS profiles WHERE profiles.url = '$url'";
@@ -77,7 +77,7 @@ class Profiles {
 			."ORDER BY total_hits DESC LIMIT ".$offset.', '.$count;
 		if($result =& SQL::query($query))
 			while($row =& SQL::fetch($result))
-				$rows[] = array('left='.$row['url'], 'left='.$row['total_hits'], 'left='.round($row['total_time']/$row['total_hits'], 3), 'left='.$row['minimum_time'], 'left='.$row['maximum_time']);
+				$rows[] = array('left='.$row['url'], 'left='.$row['total_hits'], 'left='.round($row['total_time']/$row['total_hits'], 3), 'left='.$row['minimum_time'], 'left='.$row['maximum_time'], 'left='.$row['total_time']);
 
 		return $rows;
 	}
@@ -91,8 +91,8 @@ class Profiles {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['url']			= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['total_hits']	= "INT UNSIGNED DEFAULT '0' NOT NULL";
+		$fields['url']			= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['total_hits']	= "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['total_time']	= "DOUBLE UNSIGNED";
 		$fields['minimum_time'] = "FLOAT UNSIGNED";
 		$fields['maximum_time'] = "FLOAT UNSIGNED";
@@ -123,4 +123,6 @@ class Profiles {
 	}
 
 }
+
+i18n::bind('agents');
 ?>

@@ -8,8 +8,6 @@
  * chat session, or by the server itself, for example during co-browsing sessions,
  * to transmit web addresses from a master workstation to a slave workstation.
  *
- * Notifications are dedicated to real-time communication, and YACS uses an
- * AJAX-Comet architecture to transmit them as soon as possible.
  * Ultimately, notifications are always deleted after 180 seconds of life time
  * when there is no way to push them to their target recipients.
  *
@@ -126,7 +124,7 @@
  * The YACS notification system is spread in several files:
  * - shared/yacs.js - the AJAX code that manages notifications on browser side
  * - users/notifications.php - the storage engine for transient notifications
- * - users/heartbit.php - the Comet-based script that receives and pushes notifications
+ * - users/heartbit.php - receives and pushes notifications
  * - users/contact.php - send a textual notification, or ask for chat
  *
  * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]

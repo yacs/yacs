@@ -221,7 +221,7 @@
 
 		// all our feeds
 		if(is_callable(array('i18n', 's')))
-			echo ' - '.Skin::build_link('feeds/', i18n::s('rss feeds'), 'basic');
+			echo ' - '.Skin::build_link('feeds/', i18n::s('information channels'), 'basic');
 
 		// add footer suffix
 		echo $suffix;

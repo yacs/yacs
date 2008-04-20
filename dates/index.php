@@ -45,7 +45,7 @@ i18n::bind('dates');
 load_skin('dates');
 
 // the title of the page
-$context['page_title'] = i18n::s('All dates');
+$context['page_title'] = i18n::s('Dates');
 
 // count dates in the database
 $stats = Dates::stat();

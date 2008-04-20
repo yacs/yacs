@@ -257,7 +257,7 @@ class Anchors {
 		// duplicate memberships for this anchor
 		Members::duplicate_for_anchor($from_anchor, $to_anchor);
 
-		// the delete_related_to hook
+		// the duplicate_related_to hook
 		if(is_callable(array('Hooks', 'include_scripts')))
 			$context['text'] .= Hooks::include_scripts('shared/anchors.php#duplicate_related_to', array($from_anchor, $to_anchor));
 

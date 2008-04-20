@@ -296,7 +296,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 		// actually render the html for this box
 		if($box['text'])
-			$text .= Skin::build_box(i18n::s('Related files'), $box['text'], 'header1', 'files');
+			$text .= Skin::build_box(i18n::s('Files'), $box['text'], 'header1', 'files');
 
 		//
 		// bottom page menu

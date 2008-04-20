@@ -3,13 +3,11 @@
  * view one user profile
  *
  * @todo share information with stds http://www.dataportability.org/graphsync/
- * @todo add 'in xxx' to the list of posted files
  * @todo we have live profiles!
  * @todo your workspaces/your watchlist http://www.socialtext.com/products/overview
  * @todo list assigned files
  * @todo list assigned articles (along assigned sections) (Agnes)
  * @todo add 10 preferred blogs/links
- * @todo add birthday
  *
  * This script displays one user profile. Depending on who the surfer is, more or less information is provided.
  * - surfer is the user: view any detail, may edit the page
@@ -24,7 +22,6 @@
  * this has been explicitly required (parameter [code]users_with_email_display[/code] set in [script]control/configure.php[/script]).
  *
  * @link http://www.hypothetic.org/docs/msn/index.php MSN Messenger Protocol
- * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
  *
  * The list of most recent pages from this user is displayed in the main panel.
  * Only the author and associates can see articles that have not been published yet.
@@ -162,11 +159,6 @@ elseif(isset($item['active']) && ($item['active'] == 'Y'))
 else
 	$permitted = FALSE;
 
-// is the item on user watch list?
-$in_watch_list = FALSE;
-if(isset($item['id']) && Surfer::get_id())
-	$in_watch_list = Members::check('user:'.$item['id'], 'user:'.Surfer::get_id());
-
 // load localized strings
 i18n::bind('users');
 
@@ -174,72 +166,16 @@ i18n::bind('users');
 load_skin('users');
 
 // the path to this page
-$context['path_bar'] = array( 'users/' => i18n::s('Users') );
+$context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
-if(isset($item['nick_name']) && $item['nick_name']) {
-	$context['page_title'] = $item['nick_name'];
-
-	// append the full name, if nick name is not part of it
-	if(isset($item['full_name']) && $item['full_name'] && !preg_match('/\b'.preg_quote($item['nick_name'], '\b/').'/', $item['full_name']))
-		$context['page_title'] .= ' - '.$item['full_name'];
-
-} elseif(isset($item['full_name']) && $item['full_name'])
-	$context['page_title'] = $item['full_name'];
-else
-	$context['page_title'] = i18n::s('Unknown user');
-
-// watch command is provided to logged surfers
-if(isset($item['id']) && !isset($zoom_type) && $permitted && Surfer::get_id() && ($item['id'] != Surfer::get_id())) {
-
-	$link = Users::get_url('user:'.$item['id'], 'track');
-
-	if($in_watch_list)
-		$label = i18n::s('Forget');
+if(isset($item['full_name']) && $item['full_name']) {
+	if(strpos($item['full_name'], $item['nick_name']) === FALSE)
+		$context['page_title'] = $item['full_name'].' <span style="font-size: smaller;">- '.$item['nick_name'].'</span>';
 	else
-		$label = i18n::s('Watch');
-
-	Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( $link => array(NULL, WATCH_TOOL_IMG.$label, NULL, 'basic', NULL, i18n::s('Manage your watch list'))));
-}
-
-// logged users may download the vcard on first page
-if(isset($item['id']) && !isset($zoom_type) && $permitted && Surfer::is_logged())
-	$context['page_menu'] = array_merge($context['page_menu'], array( Users::get_url($item['id'], 'fetch_vcard', isset($item['nick_name'])?$item['nick_name']:'') => i18n::s('vCard') ));
-
-// anyone can modify his own profile; associates can do what they want
-if(isset($item['id']) && !isset($zoom_type) && (Surfer::is_creator($item['id']) || Surfer::is_associate())) {
-	$context['page_menu'] = array_merge($context['page_menu'], array( Users::get_url($item['id'], 'edit') => i18n::s('Edit') ));
-	$context['page_menu'] = array_merge($context['page_menu'], array( Users::get_url($item['id'], 'select_avatar') => i18n::s('Avatar') ));
-	if(Surfer::may_upload())
-		$context['page_menu'] = array_merge($context['page_menu'], array( 'images/edit.php?anchor=user:'.$item['id'] => i18n::s('Add an image') ));
-	$context['page_menu'] = array_merge($context['page_menu'], array( Users::get_url($item['id'], 'password') => i18n::s('Password') ));
-}
-
-// only associates can delete user profiles; self-deletion may also be allowed
-if(isset($item['id']) && !isset($zoom_type) && $permitted
-	&& (Surfer::is_associate()
-		|| (Surfer::is_creator($item['id']) && (!isset($context['users_without_self_deletion']) || ($context['users_without_self_deletion'] != 'Y'))))) {
-
-	$context['page_menu'] = array_merge($context['page_menu'], array( Users::get_url($item['id'], 'delete') => i18n::s('Delete') ));
-}
-
-// command to send a message, if mail has been activated on this server
-if(isset($item['id']) && !isset($zoom_type) && $permitted && isset($item['email']) && ($item['without_messages'] != 'Y')
-	&& isset($context['with_email']) && ($context['with_email'] == 'Y')
-	&& (Surfer::is_associate() && isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'N'))
-	&& (Surfer::is_member() && isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'R')) ) {
-	$context['page_menu'] = array_merge($context['page_menu'], array( Users::get_url($item['id'], 'mail') => i18n::s('Send a message') ));
-}
-
-// any member can submit a new action to another profile
-if(isset($item['id']) && !isset($zoom_type) && $permitted && Actions::are_allowed(NULL, $item))
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'actions/edit.php?anchor=user:'.$item['id'] => i18n::s('Add an action') ));
-
-// the print command is provided to logged users, or to any user in Wiki mode
-if(isset($item['id']) && !isset($zoom_type) && $permitted && (Surfer::is_logged() || (isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y')) )) {
-	$context['page_menu'] = array_merge($context['page_menu'], array( Users::get_url($item['id'], 'print') => i18n::s('Print') ));
-}
+		$context['page_title'] = $item['full_name'];
+} elseif(isset($item['nick_name']))
+	$context['page_title'] = $item['nick_name'];
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
@@ -265,10 +201,6 @@ if(!isset($item['id'])) {
 
 	// initialize the rendering engine
 	Codes::initialize(Users::get_url($item['id'], 'view', $item['nick_name']));
-
-	// the user icon, if any
-	if(isset($item['avatar_url']))
-		$context['page_image'] = $item['avatar_url'];
 
 	//
 	// the tab to contributions
@@ -324,16 +256,6 @@ if(!isset($item['id'])) {
 			$details[] = EXPIRED_FLAG.i18n::s('This surfer has been banned and cannot authenticate.');
 	}
 
-	// restricted or hidden profile
-	if(isset($item['active']) && ($item['active'] != 'Y')) {
-
-		if(($item['active'] == 'R') && Surfer::is_member())
-			$details[] = RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members');
-		elseif(($item['active'] == 'N') && Surfer::is_associate())
-			$details[] = PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates');
-
-	}
-
 	// locked profile
 	if(Surfer::is_member() && preg_match('/\blocked\b/i', $item['options']) ) {
 		if(Surfer::is_associate())
@@ -347,19 +269,6 @@ if(!isset($item['id'])) {
 	// provide details
 	if(count($details))
 		$contributions .= '<p class="details">'.implode(BR."\n", $details).'</p>'.BR;
-
-	// tags
-	if(isset($item['tags']) && $item['tags']) {
-		$tags = explode(',', $item['tags']);
-		$line = '';
-		foreach($tags as $tag) {
-			if($category = Categories::get_by_keyword(trim($tag)))
-				$line .= Skin::build_link(Categories::get_url($category['id'], 'view', $category['title']), trim($tag), 'basic').' ';
-			else
-				$line .= trim($tag).' ';
-		}
-		$contributions .= '<p class="tags">'.sprintf(i18n::s('Tags: %s'), trim($line)).'</p>'."\n";
-	}
 
 	// managed sections
 	//
@@ -481,6 +390,35 @@ if(!isset($item['id'])) {
 		$contributions .= $text;
 	}
 
+	// the list of contributed links if not at another follow-up page
+	if(!isset($zoom_type)) {
+
+		// cache the section
+		if(!isset($zoom_index))
+			$zoom_index = 1;
+		$cache_id = 'users/view.php?id='.$item['id'].'#contributed_links#'.$zoom_index;
+		if(!$text =& Cache::get($cache_id)) {
+
+			// build a complete box
+			$box['text'] = '';
+
+			// list links by date
+			$items = Links::list_by_date_for_author($item['id'], 0, 20, 'simple');
+
+			// actually render the html for the section
+			if(is_array($items))
+				$box['text'] .= Skin::build_list($items, 'compact');
+			if($box['text'])
+				$text =& Skin::build_box(i18n::s('Recent links'), $box['text'], 'header1', 'contributed_links');
+
+			// save in cache
+			Cache::put($cache_id, $text, 'links');
+		}
+
+		// embed a box for links
+		$contributions .= $text;
+	}
+
 	//
 	// the tab to information
 	//
@@ -488,13 +426,18 @@ if(!isset($item['id'])) {
 	// we return some HTML
 	$information = '';
 
-	// the full name
-	if(isset($item['full_name']) && $item['full_name'])
-		$information .= '<p>'.sprintf(i18n::s('Full name: %s'), $item['full_name'])."</p>\n";
-
-	// introduction
-	if(isset($item['introduction']) && $item['introduction'])
-		$information .= Skin::build_block($item['introduction'], 'introduction');
+	// tags
+	if(isset($item['tags']) && $item['tags']) {
+		$tags = explode(',', $item['tags']);
+		$line = '';
+		foreach($tags as $tag) {
+			if($category = Categories::get_by_keyword(trim($tag)))
+				$line .= Skin::build_link(Categories::get_url($category['id'], 'view', $category['title']), trim($tag), 'basic').' ';
+			else
+				$line .= trim($tag).' ';
+		}
+		$information .= '<p class="tags">'.sprintf(i18n::s('Tags: %s'), trim($line)).'</p>'."\n";
+	}
 
 	// get text related to the overlay, if any
 	if(is_object($overlay))
@@ -504,11 +447,15 @@ if(!isset($item['id'])) {
 	if(isset($item['description']) && $item['description'])
 		$information .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
-	// a menu below the main description
-	if(Surfer::is_empowered())
-		$bottom_menu = array( Users::get_url($item['id'], 'edit') => i18n::s('Edit') );
-	else
-		$bottom_menu = array();
+	$bottom_menu = array();
+
+	// anyone can modify his own profile; associates can do what they want
+	if(isset($item['id']) && !isset($zoom_type) && Surfer::is_empowered())
+		$bottom_menu = array_merge($bottom_menu, array( Users::get_url($item['id'], 'edit') => i18n::s('Edit') ));
+
+	// anyone can modify his own profile; associates can do what they want
+	if(isset($item['id']) && !isset($zoom_type) && Surfer::may_upload() && Surfer::is_empowered())
+		$bottom_menu = array_merge($bottom_menu, array( 'images/edit.php?anchor=user:'.$item['id'] => i18n::s('Add an image') ));
 
 	// to come after the menu
 	$bottom_content = '';
@@ -525,11 +472,11 @@ if(!isset($item['id'])) {
 		// the command to post a new file
 		if((Surfer::is_creator($item['id']) || Surfer::is_associate()) && Surfer::may_upload()) {
 			$menu = array( 'files/edit.php?anchor=user:'.$item['id'] => i18n::s('Upload a file') );
-			$items .= '<p style="margin: 0 0 1em 0;">'.Skin::build_list($menu, 'menu').'</p>';
+			$items .= Skin::build_list($menu, 'menu_bar');
 		}
 
 		// a full box
-		$bottom_content .= Skin::build_box(i18n::s('Related files'), $items, 'header1', 'related_files');
+		$bottom_content .= Skin::build_box(i18n::s('Files'), $items, 'header1', 'related_files');
 
 	// or just offer to upload a file
 	} elseif((Surfer::is_creator($item['id']) || Surfer::is_associate()) && Surfer::may_upload())
@@ -554,7 +501,7 @@ if(!isset($item['id'])) {
 		}
 
 		// a full box
-		$bottom_content .= Skin::build_box(i18n::s('Related links'), $items, 'header1', 'related_links');
+		$bottom_content .= Skin::build_box(i18n::s('See also'), $items, 'header1', 'related_links');
 
 	// or just offer to add a link
 	} elseif(Surfer::is_creator($item['id']) || Surfer::is_associate())
@@ -566,14 +513,13 @@ if(!isset($item['id'])) {
 
 	$information .= $bottom_content;
 
-
-	// only some tabs are pre-loaded -- others will be loaded on click
+	// assemble tabs
 	$all_tabs = array(
 		array('contributions_tab', i18n::s('Contributions'), 'contributions_panel', $contributions),
-		array('watch_tab', i18n::s('Watch list'), 'watch_panel', NULL, Users::get_url($item['id'], 'element', 'watch')),
 		array('information_tab', i18n::s('Information'), 'information_panel', $information),
 		array('contact_tab', i18n::s('Contact'), 'contact_panel', NULL, Users::get_url($item['id'], 'element', 'contact')),
-		array('actions_tab', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'))
+		array('actions_tab', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions')),
+		array('watch_tab', i18n::s('Watch list'), 'watch_panel', NULL, Users::get_url($item['id'], 'element', 'watch'))
 		);
 
 	// show preferences only to related surfers and to associates
@@ -583,9 +529,32 @@ if(!isset($item['id'])) {
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($all_tabs);
 
+	// bottom menu
+	$menu = array();
+
+	// only associates can delete user profiles; self-deletion may also be allowed
+	if(isset($item['id']) && !isset($zoom_type) && $permitted
+		&& (Surfer::is_associate()
+			|| (Surfer::is_creator($item['id']) && (!isset($context['users_without_self_deletion']) || ($context['users_without_self_deletion'] != 'Y'))))) {
+
+		$menu[] = Skin::build_link(Users::get_url($item['id'], 'delete'), i18n::s('Delete'), 'span');
+	}
+
+	// the print command is provided to logged users, or to any user in Wiki mode
+	if(isset($item['id']) && !isset($zoom_type) && $permitted && (Surfer::is_logged() || (isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y')) )) {
+		$menu[] = Skin::build_link(Users::get_url($item['id'], 'print'), i18n::s('Print'), 'span');
+	}
+
+	// append the menu
+	if(count($menu))
+		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
 	//
 	// populate the extra panel
 	//
+
+	// user profile aside
+	$context['extra'] .= Skin::build_profile($item, 'extra');
 
 	// on my page, offer tools to create articles
 	if(isset($item['id']) && Surfer::is_member() && ($item['id'] == Surfer::get_id())) {
@@ -634,10 +603,13 @@ if(!isset($item['id'])) {
 	}
 
 	// get news from rss
-	if(isset($item['id']) && isset($item['capability']) && (($item['capability'] == 'A') || ($item['capability'] == 'M')) && (!isset($context['pages_without_feed']) || ($context['pages_without_feed'] != 'Y')) ) {
+	if(isset($item['id']) && isset($item['capability']) && (($item['capability'] == 'A') || ($item['capability'] == 'M')) && (!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {
 
-		$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'feed'), i18n::s('recent articles'), 'xml').BR
-			.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'feed'), $item['nick_name']));
+		$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'feed'), i18n::s('recent pages'), 'xml');
+
+		// public aggregators
+		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+			$content .= BR.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'feed'), $item['nick_name']));
 
 		$context['extra'] .= Skin::build_box(i18n::s('Stay tuned'), $content, 'extra', 'feeds');
 	}
@@ -765,23 +737,6 @@ if(!isset($item['id'])) {
 
 	// a meta link to a description page (actually, rdf)
 	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Users::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml"'.EOT;
-
-	// implement the trackback interface
-	$permanent_link = $context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:'');
-	if($context['with_friendly_urls'] == 'Y')
-		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/user/'.$item['id'];
-	else
-		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=user:'.$item['id'];
-	$context['page_header'] .= "\n".'<!--'
-		."\n".'<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'
-		."\n".' 		xmlns:dc="http://purl.org/dc/elements/1.1/"'
-		."\n".' 		xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">'
-		."\n".'<rdf:Description'
-		."\n".' trackback:ping="'.$trackback_link.'"'
-		."\n".' dc:identifier="'.$permanent_link.'"'
-		."\n".' rdf:about="'.$permanent_link.'" />'
-		."\n".'</rdf:RDF>'
-		."\n".'-->';
 
 	// set specific headers
 	if(isset($item['introduction']) && $item['introduction'])

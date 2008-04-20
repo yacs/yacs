@@ -46,7 +46,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 $included = TRUE;
 
 // but direct call is also allowed
-if(count(get_included_files()) < 3) {
+if(!defined('YACS')) {
 	$included = FALSE;
 
 	// include global declarations
@@ -59,7 +59,7 @@ if(count(get_included_files()) < 3) {
 	load_skin('articles');
 
 	// the path to this page
-	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
+	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 
 	// the title of the page
 	$context['page_title'] = i18n::s('Add default pages');
@@ -178,9 +178,10 @@ elseif($anchor = Sections::lookup('extra_boxes')) {
 	$fields = array();
 	$fields['anchor'] = $anchor;
 	$fields['nick_name'] = 'extra_rss';
-	$fields['title'] = i18n::c('News Feeder');
+	$fields['title'] = i18n::c('Stay tuned');
 	$fields['introduction'] = '';
-	$fields['description'] = sprintf(i18n::s('You can get %s from this site. Other %s are also available.'), Skin::build_link('feeds/rss_2.0.php', 'RSS news', 'xml'), Skin::build_link('feeds/', 'information channels', 'shortcut'));
+	$fields['description'] = Skin::build_link('feeds/rss_2.0.php', 'recent pages', 'xml')
+		.BR.Skin::build_link('feeds/', 'information channels', 'shortcut');
 	$fields['locked'] = 'Y'; // only associates can change this page
 	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 	if(Articles::post($fields))
@@ -474,7 +475,7 @@ if($included)
 	echo $text;
 else {
 	$context['text'] .= $text;
-	$menu = array('articles/' => i18n::s('All articles'));
+	$menu = array('articles/' => i18n::s('All pages'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 	render_skin();
 }

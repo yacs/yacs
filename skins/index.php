@@ -123,7 +123,7 @@ include_once '../shared/global.php';
 load_skin('skins');
 
 // the title of the page
-$context['page_title'] = i18n::s('Available skins');
+$context['page_title'] = i18n::s('Skins');
 
 // derive a skin
 if(Surfer::is_associate())
@@ -138,7 +138,7 @@ $context['page_menu'] = array_merge($context['page_menu'], array( 'skins/test.ph
 
 // associates may change parameters
 if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/configure.php' => i18n::s('Change rendering parameters') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/configure.php' => i18n::s('Configure the page factory') ));
 
 // read all manifest.php files to list skins
 $skins = array();

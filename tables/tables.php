@@ -700,27 +700,26 @@ Class Tables {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['nick_name']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";				// up to 64 chars
-		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['description']	= "TEXT NOT NULL";											// up to 64k chars
-		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['query']		= "TEXT NOT NULL";											// up to 64k chars
-		$fields['with_number']	= "ENUM('Y','N') DEFAULT 'Y' NOT NULL"; 					// Yes or No
-		$fields['with_zoom']	= "ENUM('Y','N') DEFAULT 'Y' NOT NULL"; 					// Yes or No
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item modification
-		$fields['edit_id']		= "MEDIUMINT DEFAULT '0' NOT NULL";
+		$fields['nick_name']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
+		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['description']	= "TEXT NOT NULL";
+		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['query']		= "TEXT NOT NULL";
+		$fields['with_number']	= "ENUM('Y','N') DEFAULT 'Y' NOT NULL";
+		$fields['with_zoom']	= "ENUM('Y','N') DEFAULT 'Y' NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
-		$indexes['INDEX nick_name'] = "(nick_name)";
 		$indexes['INDEX anchor']	= "(anchor)";
-		$indexes['INDEX title'] 	= "(title(255))";
-		$indexes['INDEX edit_name'] = "(edit_name)";
-		$indexes['INDEX edit_id']	= "(edit_id)";
 		$indexes['INDEX edit_date'] = "(edit_date)";
+		$indexes['INDEX edit_id']	= "(edit_id)";
+		$indexes['INDEX nick_name'] = "(nick_name)";
+		$indexes['INDEX title'] 	= "(title(255))";
 		$indexes['FULLTEXT INDEX']	= "full_text(title, source, description)";
 
 		return SQL::setup_table('tables', $fields, $indexes);

@@ -17,7 +17,7 @@ i18n::bind('behaviors');
 load_skin('behaviors');
 
 // set page title
-$context['page_title'] = i18n::s('Available behaviors');
+$context['page_title'] = i18n::s('Behaviors');
 
 // splash message
 if(Surfer::is_associate())

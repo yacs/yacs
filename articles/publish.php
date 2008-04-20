@@ -67,19 +67,16 @@ load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
-// the path to this page
+// path to this page
 if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'articles/' => 'Articles' );
+	$context['path_bar'] = array( 'articles/' => 'All pages' );
 if(isset($item['id']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
-// the title of the page
-if(isset($item['title']) && $item['title'])
-	$context['page_title'] = sprintf(i18n::s('Publish: %s'), $item['title']);
-else
-	$context['page_title'] = i18n::s('No title has been provided.');
+// page title
+$context['page_title'] = i18n::s('Publish a page');
 
 // not found
 if(!isset($item['id'])) {
@@ -223,6 +220,10 @@ if($with_form) {
 
 	// the form
 	$context['text'] .= '<form id="edit_form" method="post" action="'.$context['script_url'].'"><div>';
+
+	// reference the anchor page
+	if(is_object($anchor) && $anchor->is_viewable())
+		$context['text'] .= '<p>'.sprintf(i18n::s('You are publishing: %s'), Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), $item['title'], $item['nick_name']))."</p>\n";
 
 	// encode fields
 	$fields = array();

@@ -78,7 +78,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		}
 
 		// a link to the index pages for articles
-		$others['articles/'] = i18n::s('More pages').MORE_IMG;
+		$others['articles/'] = i18n::s('All pages').MORE_IMG;
 
 		// build the list of other articles
 		if(@count($others))

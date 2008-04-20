@@ -82,7 +82,7 @@ if(!defined('WRAPPING_LENGTH'))
 	define('WRAPPING_LENGTH', 70);
 
 // the path to this page
-$context['path_bar'] = array( 'letters/' => i18n::s('All letters') );
+$context['path_bar'] = array( 'letters/' => i18n::s('Newsletters') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Post a letter');
@@ -692,7 +692,7 @@ elseif(isset($action) && ($action == 'announcement')) {
 	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
 
 	// forward to the index page
-	$menu = array( 'letters/' => i18n::s('All letters') );
+	$menu = array( 'letters/' => i18n::s('Newsletters') );
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // make the user select an option

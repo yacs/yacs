@@ -89,19 +89,16 @@ load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
-// the path to this page
+// path to this page
 if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
+	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 if(isset($item['id']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
-// the title of the page
-if(is_object($overlay) && ($label = $overlay->get_label('title', 'duplicate')))
-	$context['page_title'] = $label;
-else
-	$context['page_title'] = i18n::s('Duplicate a page');
+// page title
+$context['page_title'] = i18n::s('Duplicate a page');
 
 // not found
 if(!isset($item['id'])) {

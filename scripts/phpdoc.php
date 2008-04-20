@@ -666,8 +666,8 @@ class PhpDoc {
 		$fields['name'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['anchor']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['label']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['content']		= "MEDIUMTEXT NOT NULL";							// up to 16M chars
-		$fields['hits'] 		= "INT UNSIGNED DEFAULT '0' NOT NULL";						// counter
+		$fields['content']		= "MEDIUMTEXT NOT NULL";
+		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['edit_date']	= "DATETIME";
 
 		$indexes = array();

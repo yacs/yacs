@@ -2,15 +2,10 @@
 /**
  * create a new user or edit an existing one
  *
- * @todo add a password hint https://www.godaddy.com/gdshop/jump_pages/HintExplination.asp?
  * @todo on subscriptor application, post a query page when there is no messaging facility (gnapz)
  * @todo select preferred language for alert messages
  * @todo if a profile is modified, send a message to the target user to let him know about it
  * @todo derive this to users/subscribe.php
- * @todo vcard: general(full name/nick name/birthday/email/homepage/phone#)
- * @todo vcard: location(street 1 & 2/city/state/postal code/country)
- * @todo vcard: work(company/department/position/role)
- * @todo vcard: about()
  *
  * This page can be used by anonymous surfers that would like to register, by logged
  * users that are updating their profile, or by associates that declare new users
@@ -131,7 +126,7 @@ i18n::bind('users');
 load_skin('users');
 
 // the path to this page
-$context['path_bar'] = array( 'users/' => i18n::s('All users') );
+$context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
 if($item['nick_name'])
@@ -140,10 +135,6 @@ elseif(Surfer::is_associate())
 	$context['page_title'] = i18n::s('Add a user');
 else
 	$context['page_title'] = i18n::s('Register on this server');
-
-// command to go back
-if(isset($item['id']))
-	$context['page_menu'] = array( Users::get_url($item['id']) => sprintf(i18n::s('Back to the page of %s'), $item['nick_name']) );
 
 // always validate input syntax
 if(isset($_REQUEST['introduction']))
@@ -241,9 +232,6 @@ if(!$permitted) {
 			$item = $_REQUEST;
 			$with_form = TRUE;
 
-			// limit brute attacks
-			Safe::sleep(10);
-
 		// actual post
 		} elseif(!$id = Users::post($_REQUEST)) {
 
@@ -340,9 +328,6 @@ if(!$permitted) {
 // display the form if required to do so
 if($with_form) {
 
-	// locate mandatory fields
-	$context['text'] .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
-
 	// the form to edit a user
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
@@ -435,12 +420,6 @@ if($with_form) {
 	$hint = i18n::s('A comma-separated list of keywords');
 	$fields[] = array($label, $input, $hint);
 
-	// the introduction
-	$label = i18n::s('Introduction');
-	$input = '<input type="text" name="introduction" size="50" value="'.encode_field(isset($item['introduction'])?$item['introduction']:'').'" maxlength="255" '.EOT;
-	$hint = i18n::s('Your occupation, your motto, or some interesting words');
-	$fields[] = array($label, $input, $hint);
-
 	// include overlay fields, if any
 	if(is_object($overlay)) {
 
@@ -456,24 +435,104 @@ if($with_form) {
 	$input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'', TRUE);
 	$fields[] = array($label, $input);
 
-	// pgp key
-	$label = i18n::s('PGP key or certificate');
-	$input = '<textarea name="pgp_key" rows="5" cols="50">'.encode_field(isset($item['pgp_key'])?$item['pgp_key']:'').'</textarea>';
-	$hint = i18n::s('Paste here the public key you would like to share with others.');
-	$fields[] = array($label, $input, $hint);
-
 	// form fields in this panel
 	$panels['information'] .= Skin::build_form($fields);
 	$fields = array();
 
+	// if we are editing an existing item
+	if(isset($item['id'])) {
+
+		// related images
+		$box = '';
+
+		// the menu to post a new image or to select an avatar
+		$menu = array();
+
+		if(Surfer::may_upload())
+			$menu = array_merge($menu, array('images/edit.php?anchor=user:'.$item['id'] => i18n::s('Add an image')));
+
+		$box .= Skin::build_list($menu, 'menu_bar');
+
+		// the list of images
+		include_once '../images/images.php';
+		if($items = Images::list_by_date_for_anchor('user:'.$item['id'], 0, 50)) {
+
+			// help to insert in textarea
+			if(!isset($_SESSION['surfer_editor']) || (($_SESSION['surfer_editor'] != 'fckeditor') && ($_SESSION['surfer_editor'] != 'tinymce')))
+				$box .= '<p>'.i18n::s('Click on links to insert images in the main field.')."</p>\n";
+
+			$box .= Skin::build_list($items, 'decorated');
+		}
+
+		// in a folded box
+		$panels['information'] .= Skin::build_box(i18n::s('Images'), $box, 'folder');
+
+		// related locations
+		$box = '';
+
+		// the menu to post a new location
+		$menu = array( 'locations/edit.php?anchor=user:'.$item['id'] => i18n::s('Add a location') );
+		$box .= Skin::build_list($menu, 'menu_bar');
+
+		// the list of locations
+		include_once '../locations/locations.php';
+		$items = Locations::list_by_date_for_anchor('user:'.$item['id']);
+		$box .= Skin::build_list($items, 'decorated');
+
+		// in a folded box
+		$panels['information'] .= Skin::build_box(i18n::s('Locations'), $box, 'folder');
+	}
+
 	// the contact panel
 	//
 
-	// the web address, if any
+	// organisation
+	$label = i18n::s('Organization');
+	$input = '<input type="text" name="vcard_organization" size="40" value="'.encode_field(isset($item['vcard_organization'])?$item['vcard_organization']:'').'" '.EOT;
+	$fields[] = array($label, $input);
+
+	// title
+	$label = i18n::s('Title');
+	$input = '<input type="text" name="vcard_title" size="40" value="'.encode_field(isset($item['vcard_title'])?$item['vcard_title']:'').'" '.EOT;
+	$hint = i18n::s('Your occupation, your motto, or some interesting words');
+	$fields[] = array($label, $input, $hint);
+
+	// label
+	$label = i18n::s('Physical address');
+	$input = '<textarea name="vcard_label" rows="5" cols="50">'.encode_field(isset($item['vcard_label'])?$item['vcard_label']:'').'</textarea>';
+	$fields[] = array($label, $input);
+
+	// phone number
+	$label = i18n::s('Phone number');
+	$input = '<input type="text" name="phone_number" size="20" value="'.encode_field(isset($item['phone_number'])?$item['phone_number']:'').'" '.EOT;
+	$fields[] = array($label, $input);
+
+	// alternate number
+	$label = i18n::s('Alternate number');
+	$input = '<input type="text" name="alternate_number" size="20" value="'.encode_field(isset($item['alternate_number'])?$item['alternate_number']:'').'" '.EOT;
+	$fields[] = array($label, $input);
+
+	// web address, if any
 	$label = i18n::s('Web address');
 	$input = '<input type="text" name="web_address" size="40" value="'.encode_field(isset($item['web_address'])?$item['web_address']:'').'" '.EOT;
 	$hint = i18n::s('If your home page is not here.');
 	$fields[] = array($label, $input, $hint);
+
+	// birth date
+	$label = i18n::s('Birth date');
+	$input = '<input type="text" name="birth_date" size="20" value="'.encode_field(isset($item['birth_date'])?$item['birth_date']:'').'" '.EOT;
+	$hint = i18n::s('YYYY-MM-DD');
+	$fields[] = array($label, $input, $hint);
+
+	// agent
+	$label = i18n::s('Alternate contact');
+	$input = '<input type="text" name="vcard_agent" size="40" value="'.encode_field(isset($item['vcard_agent'])?$item['vcard_agent']:'').'" '.EOT;
+	$hint = i18n::s('Another person who can act on your behalf');
+	$fields[] = array($label, $input, $hint);
+
+	// extend the form
+	$panels['contact'] .= Skin::build_form($fields);
+	$fields = array();
 
 	// the AIM address
 	$label = i18n::s('AIM Screenname');
@@ -517,8 +576,18 @@ if($with_form) {
 	$hint = sprintf(i18n::s('Fill this one only if you are a regular %s user'), Skin::build_link('http://messenger.yahoo.com/', 'Yahoo Messenger', 'external'));
 	$fields[] = array($label, $input, $hint);
 
-	// form fields in this panel
-	$panels['contact'] .= Skin::build_form($fields);
+	// add a folded box
+	$panels['contact'] .= Skin::build_box(i18n::s('Instant messaging'), Skin::build_form($fields), 'folder');
+	$fields = array();
+
+	// pgp key
+	$label = i18n::s('PGP key or certificate');
+	$input = '<textarea name="pgp_key" rows="5" cols="50">'.encode_field(isset($item['pgp_key'])?$item['pgp_key']:'').'</textarea>';
+	$hint = i18n::s('Paste here the public key you would like to share with others.');
+	$fields[] = array($label, $input, $hint);
+
+	// add a folded box
+	$panels['contact'] .= Skin::build_box(i18n::s('Public key'), Skin::build_form($fields), 'folder');
 	$fields = array();
 
 	// the preferences panel
@@ -530,28 +599,36 @@ if($with_form) {
 		$input = '<input type="radio" name="active" value="Y"';
 		if(!isset($item['active']) || ($item['active'] == 'Y'))
 			$input .= ' checked="checked"';
-		$input .= ' '.EOT.' '.i18n::s('Anyone may read this profile')
+		$input .= ' '.EOT.' '.i18n::s('Anyone may read this profile.')
 			.BR.'<input type="radio" name="active" value="R"';
 		if(isset($item['active']) && ($item['active'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= ' '.EOT.' '.i18n::s('Access is restricted to authenticated members')
+		$input .= ' '.EOT.' '.i18n::s('Access is restricted to authenticated members.')
 			.BR.'<input type="radio" name="active" value="N"';
 		if(isset($item['active']) && ($item['active'] == 'N'))
 			$input .= ' checked="checked"';
-		$input .= ' '.EOT.' '.i18n::s('Access is restricted to associates')."\n";
+		$input .= ' '.EOT.' '.i18n::s('Access is restricted to associates.')."\n";
 		$fields[] = array($label, $input);
 	}
 
 	// the avatar url
-	$label = i18n::s('Avatar URL');
-	$input = '<input type="text" name="avatar_url" size="50" value="'.encode_field(isset($item['avatar_url'])?$item['avatar_url']:'').'" maxlength="255" '.EOT;
-	$hint = i18n::s('Paste your gravatar address, or use the list of images attached to this profile, if any.');
-	$fields[] = array($label, $input, $hint);
+	if(isset($item['id'])) {
+		$label = i18n::s('Avatar URL');
+		$input = '<input type="text" name="avatar_url" size="50" value="'.encode_field(isset($item['avatar_url'])?$item['avatar_url']:'').'" maxlength="255" '.EOT;
+		$hint = sprintf(i18n::s('%s, paste your gravatar address, or use the list of images attached to this profile, if any.'), Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Select an avatar from the library'), 'basic'));
+		$fields[] = array($label, $input, $hint);
+	}
 
 	// from where
 	$label = i18n::s('From');
 	$input = '<input type="text" name="from_where" size="50" value="'.encode_field(isset($item['from_where'])?$item['from_where']:'').'" maxlength="255" '.EOT;
 	$hint = i18n::s('Some hint on your location (eg, \'Paris\', \'home\', \'the toys-for-sick-persons department\')');
+	$fields[] = array($label, $input, $hint);
+
+	// the introduction
+	$label = i18n::s('Introduction');
+	$input = '<textarea name="introduction" rows="5" cols="50">'.encode_field(isset($item['introduction'])?$item['introduction']:'').'</textarea>';
+	$hint = i18n::s('Displayed aside your pages');
 	$fields[] = array($label, $input, $hint);
 
 	// signature
@@ -572,7 +649,7 @@ if($with_form) {
 	$input .= '<option value="yacs"';
 	if($item['editor'] == 'yacs')
 		$input .= ' selected="selected"';
-	$input .= '>'.i18n::s('Textarea with YACS codes')."</option>\n";
+	$input .= '>'.i18n::s('Textarea')."</option>\n";
 	$input .= '<option value="fckeditor"';
 	if($item['editor'] == 'fckeditor')
 		$input .= ' selected="selected"';
@@ -593,7 +670,7 @@ if($with_form) {
 //		$fields[] = array($label, $input, $hint);
 //	}
 
-	// usage of e-mail address
+	// e-mail usage
 	$label = i18n::s('E-mail usage');
 
 	// confirm password
@@ -627,11 +704,29 @@ if($with_form) {
 	$hint = i18n::s('Your explicit approval is a pre-requisite for us to use your e-mail address.');
 	$fields[] = array($label, $input, $hint);
 
+	// share screen
+	$label = i18n::s('Share screen');
+	$input = '<input type="radio" name="with_sharing" value="N"';
+	if(!isset($item['with_sharing']) || ($item['with_sharing'] == 'N'))
+		$input .= ' checked="checked"';
+	$input .= ' '.EOT.' '.i18n::s('Screen is not shared with other people.')
+		.BR.'<input type="radio" name="with_sharing" value="V"';
+	if(isset($item['with_sharing']) && ($item['with_sharing'] == 'V'))
+		$input .= ' checked="checked"';
+	$input .= ' '.EOT.' '.i18n::s('Allow remote access using VNC.')
+		.BR.'<input type="radio" name="with_sharing" value="M"';
+	if(isset($item['with_sharing']) && ($item['with_sharing'] == 'M'))
+		$input .= ' checked="checked"';
+	$input .= ' '.EOT.' '.i18n::s('Allow remote access with NetMeeting.')."\n";
+	$fields[] = array($label, $input);
+
 	// proxy
-	$label = i18n::s('External address');
-	$input = '<input type="text" name="proxy_address" size="55" value="'.encode_field(isset($item['proxy_address']) ? $item['proxy_address'] : '').'" maxlength="255"'.EOT;
-	$hint = i18n::s('The network address to be used to reach your workstation, if known');
-	$fields[] = array($label, $input, $hint);
+	if(isset($item['login_address'])) {
+		$label = i18n::s('Network address');
+		$input = '<input type="text" name="proxy_address" size="55" value="'.encode_field(isset($item['proxy_address']) ? $item['proxy_address'] : '').'" maxlength="255"'.EOT;
+		$hint = sprintf(i18n::s('The network address to be used to reach your workstation, if not %s'), $item['login_address']);
+		$fields[] = array($label, $input, $hint);
+	}
 
 	// form fields in this panel
 	$panels['preferences'] .= Skin::build_form($fields);
@@ -648,6 +743,21 @@ if($with_form) {
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($all_tabs);
 
+	//
+	// bottom commands
+	//
+	$menu = array();
+
+	// the submit button
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+	// cancel button
+	if(isset($item['id']))
+		$menu[] = Skin::build_link(Users::get_url($item['id'], 'view', $item['nick_name'], $item['full_name']), i18n::s('Cancel'), 'span');
+
+	// insert the menu in the page
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
 	// link to privacy statement
 	if(!isset($item['id']) && !Surfer::is_associate())
 		$context['text'] .= '<p>'.sprintf(i18n::s('By clicking submit, you agree to the terms and conditions outlined in the %s.'), Skin::build_link('privacy.php', i18n::s('privacy policy'), 'basic')).'</p>';
@@ -655,9 +765,6 @@ if($with_form) {
 	// associates may decide to not stamp changes
 	if(isset($item['id']) && Surfer::is_associate())
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y"'.EOT.' '.i18n::s('Do not change modification date.').'</p>';
-
-	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
@@ -711,64 +818,29 @@ if($with_form) {
 
 	// the help panel
 	if(isset($item['id']) || Surfer::is_associate()) {
-		$help = '<p>'.i18n::s('The nick name has to be unique throughout the database of users.').'</p>'
-			.'<p>'.i18n::s('The e-mail address is used mainly for the letters sent from time to time. Check boxes below it to avoid the risk of missing interesting material.').'</p>';
+		$help = '<p>'.i18n::s('The nick name has to be unique throughout the database of users.').'</p>';
 
-		if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
-			$help .= '<p>'.sprintf(i18n::s('Before subscribing, you can review our %s'), Skin::build_link('letters/', i18n::s('archive of past newsletters'))).'</p>';
+		// html and codes
+		$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
 
-		$help .= '<p>'.sprintf(i18n::s('You can beautify the text using %s such as [b] for bold chars or [i] for italics.'), Skin::build_link('codes/', 'formatting codes', 'help')).'</p>';
 	} else {
 		$help = i18n::s('Help us to create a better online experience for you, and become a registered user of this site.')
-			.'<p>'.i18n::s('With your registration, you will benefit from advanced services such as the ability:').'</p><ul>'
-			.' <li>'.i18n::s('to view pages restricted to the core community').'</li>'
-			.' <li>'.i18n::s('to submit new articles into available sections').'</li>'
-			.' <li>'.i18n::s('to attach a file to an existing page').'</li>'
-			.' <li>'.i18n::s('to post a camera shot or an image to a published page').'</li>'
-			.' <li>'.i18n::s('to comment any viewed page').'</li>'
-			.' <li>'.i18n::s('and more...').'</li></ul>'
+			.'<p>'.i18n::s('With your registration, you will benefit from advanced services such as the ability:').'</p><ul class="compact">'
+			.'<li>'.i18n::s('to view pages restricted to the core community').'</li>'
+			.'<li>'.i18n::s('to submit new articles into available sections').'</li>'
+			.'<li>'.i18n::s('to attach a file to an existing page').'</li>'
+			.'<li>'.i18n::s('to post a camera shot or an image to a published page').'</li>'
+			.'<li>'.i18n::s('to comment any viewed page').'</li>'
+			.'<li>'.i18n::s('and more...').'</li></ul>'
 			.'<p>'.i18n::s('And, best of all -- it\'s FREE.').'</p>'
 			.'<p>'.i18n::s('We are aiming to protect your privacy.')
 			.' '.i18n::s('We don\'t share or distribute the email addresses stored in our database.').'</p>';
 	}
 
+ 	// locate mandatory fields
+ 	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
+
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
-
-	// if we are editing an existing item
-	if(isset($item['id'])) {
-
-		// the related images
-		$context['text'] .= Skin::build_block(i18n::s('Images'), 'title');
-
-		// the menu to post a new image or to select an avatar
-		$menu = array();
-
-		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('images/edit.php?anchor=user:'.$item['id'] => i18n::s('Add an image')));
-
-		$menu = array_merge($menu, array(Users::get_url($item['id'], 'select_avatar') => i18n::s('Select an avatar from the library')));
-
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
-
-		// the list of images
-		include_once '../images/images.php';
-		if($items = Images::list_by_date_for_anchor('user:'.$item['id'], 0, 50)) {
-			$context['text'] .= '<p>'.i18n::s('Click on links to insert images in the main field.')."</p>\n";
-			$context['text'] .= Skin::build_list($items, 'decorated');
-		}
-
-		// the related locations
-		$context['text'] .= Skin::build_block(i18n::s('Locations'), 'title');
-
-		// the menu to post a new location
-		$menu = array( 'locations/edit.php?anchor=user:'.$item['id'] => i18n::s('Add a location') );
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
-
-		// the list of locations
-		include_once '../locations/locations.php';
-		$items = Locations::list_by_date_for_anchor('user:'.$item['id']);
-		$context['text'] .= Skin::build_list($items, 'decorated');
-	}
 
 }
 

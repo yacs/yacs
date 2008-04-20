@@ -12,12 +12,6 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-// stop hackers
-if(count(get_included_files()) < 3) {
-	echo 'Script must be included';
-	return;
-}
-
 // do not move forward on validation
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
@@ -73,6 +67,10 @@ if($items=Safe::glob($context['path_to_root'].'temporary/cache_*')) {
 	foreach($items as $name)
 		Safe::unlink($name);
 }
+
+// version 8.4
+if(!defined('YACS'))
+	define('YACS', TRUE);
 
 // safe copy of footprints.php to the root directory
 Safe::unlink($context['path_to_root'].'footprints.php.bak');

@@ -77,7 +77,7 @@ if(!defined('USERS_PER_PAGE'))
 	define('USERS_PER_PAGE', 50);
 
 // the title of the page
-$context['page_title'] = i18n::s('All contributing users');
+$context['page_title'] = i18n::s('People');
 
 // count users in the database
 $stats = Users::stat();

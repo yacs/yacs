@@ -34,6 +34,7 @@
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Mordread Wallas
  * @tester Anatoly
+ * @tester LeToto
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -158,7 +159,7 @@ Class Surfer {
 
 			// make a box
 			if(count($box['list']))
-				$text .= Skin::build_box(i18n::s('Your presence'), Skin::build_list($box['list'], 'compact'), 'header1', 'co_browsing');
+				$text .= Skin::build_box(i18n::s('Your presence'), Skin::build_list($box['list'], 'compact'), 'folder', 'co_browsing');
 
 		// navigating another profile
 		} else {
@@ -180,7 +181,7 @@ Class Surfer {
 
 			// make a box
 			if(count($box['list']))
-				$text .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'header1', 'co_browsing');
+				$text .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'folder', 'co_browsing');
 
 		}
 
@@ -210,7 +211,7 @@ Class Surfer {
 
 			// make a box
 			if($box['text'])
-				$text .= Skin::build_box($box['title'], $box['text'], 'header1', 'private_conversations');
+				$text .= Skin::build_box($box['title'], $box['text'], 'folder', 'private_conversations');
 
 		}
 
@@ -296,7 +297,7 @@ Class Surfer {
 
 			// make a box
 			if($box['text'])
-				$text .= Skin::build_box($box['title'], $box['text'], 'header1', 'contact_options');
+				$text .= Skin::build_box($box['title'], $box['text'], 'folder', 'contact_options');
 
 		}
 
@@ -466,7 +467,7 @@ Class Surfer {
 		// update the record of the surfer
 		$query = "UPDATE ".SQL::table_name('users')
 			." SET click_anchor='".SQL::escape($anchor)."', click_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'"
-			." WHERE (id LIKE '".SQL::escape(Surfer::get_id())."')";
+			." WHERE id = ".SQL::escape(Surfer::get_id());
 		SQL::query($query, FALSE, $context['users_connection']);
 
 		// also update recent visits
@@ -562,22 +563,25 @@ Class Surfer {
 	 *
 	 * Curently YACS supports following choices:
 	 * - 'yacs' - the default, plain, code-based textarea
-	 * - 'fckeditor' - the WYSIWYG, open-source, Internet standard
-	 * - 'tinymce' - an alternate WYSIWYG editor
+	 * - 'fckeditor' - WYSIWYG editor
+	 * - 'tinymce' - WYSIWYG editor
 	 *
 	 * @link http://www.fckeditor.net/ FCKEditor
 	 * @link http://tinymce.moxiecode.com/ TinyMCE
 	 *
 	 * @param string the name of the editing field
 	 * @param string content to be put in the editor
-	 * @param boolean TRUE to stick to current editor, FALSE otherwise
 	 * @return string to be inserted in the XHTML flow
 	 */
-	function get_editor($name='description', $value='', $fixed_editor = FALSE) {
+	function get_editor($name='description', $value='') {
 		global $context;
 
 		// returned string
 		$text = '';
+
+		// enforce default configuration
+		if(!isset($_SESSION['surfer_editor']) && isset($context['users_default_editor']))
+			$_SESSION['surfer_editor'] = $context['users_default_editor'];
 
 		// fckeditor
 		if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor') && is_readable($context['path_to_root'].'included/fckeditor/fckeditor.php')) {
@@ -593,22 +597,6 @@ Class Surfer {
 			// signal an advanced editor
 			$text .= '<input type="hidden" name="editor" value="fckeditor" />';
 
-			// editor
-			if(!$fixed_editor) {
-				$text .= '<select name="preferred_editor" onchange="return document.getElementById(\'main_form\').submit();">'
-					.'<option value="yacs">'.i18n::s('Textarea')."</option>\n"
-					.'<option value="fckeditor" selected="selected">'.i18n::s('FCKEditor')."</option>\n"
-					.'<option value="tinymce">'.i18n::s('TinyMCE')."</option>\n"
-					.'</select> ';
-
-				// hint
-				$text .= '<span class="tiny">'.sprintf(i18n::s('Powered by %s. You can also select %s or include %s and %s to enhance the rendering of your page.'),
-					Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKeditor'), 'external'),
-					Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external'),
-					Skin::build_link('codes/', i18n::s('YACS codes'), 'help'),
-					Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</span>';
-			}
-
 		// tinymce
 		} elseif(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce_src.js')) {
 
@@ -621,22 +609,6 @@ Class Surfer {
 			// signal an advanced editor
 			$text .= '<input type="hidden" name="editor" value="tinymce" />';
 
-			// editor
-			if(!$fixed_editor) {
-				$text .= '<select name="preferred_editor" onchange="return document.getElementById(\'main_form\').submit();">'
-					.'<option value="yacs">'.i18n::s('Textarea')."</option>\n"
-					.'<option value="fckeditor">'.i18n::s('FCKEditor')."</option>\n"
-					.'<option value="tinymce" selected="selected">'.i18n::s('TinyMCE')."</option>\n"
-					.'</select> ';
-
-				// hint
-				$text .= '<span class="tiny">'.sprintf(i18n::s('Powered by %s. You can also select %s or include %s and %s to enhance the rendering of your page.'),
-					Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external'),
-					Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKeditor'), 'external'),
-					Skin::build_link('codes/', i18n::s('YACS codes'), 'help'),
-					Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</span>';
-			}
-
 		// default to plain editor
 		} else {
 			if(file_exists($context['path_to_root'].'codes/edit.js')) {
@@ -646,30 +618,14 @@ Class Surfer {
 			}
 			$text .= '<textarea name="'.$name.'" id="edit_area" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea>';
 
-			// editor
-			if(!$fixed_editor) {
-				$text .= BR.'<select name="preferred_editor" onchange="return document.getElementById(\'main_form\').submit();">'
-					.'<option value="yacs" selected="selected">'.i18n::s('Textarea')."</option>\n"
-					.'<option value="fckeditor">'.i18n::s('FCKEditor')."</option>\n"
-					.'<option value="tinymce">'.i18n::s('TinyMCE')."</option>\n"
-					.'</select> ';
-
-				// hint
-				$hint = sprintf(i18n::s('Please use %s to enhance the rendering of your page.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'));
-				if(Surfer::is_associate())
-					$hint .= BR.i18n::s('You are allowed to post any XHTML.');
-				else
-					$hint .= BR.sprintf(i18n::s('Also, following XHTML tags are allowed: %s'), trim(str_replace('><', ', ', $context['users_allowed_tags']), '<>'));
-				if(Surfer::is_member()) {
-					$hint .= ' '.sprintf(i18n::s('You can switch to %s or %s in %s.'),
-						Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external'),
-						Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKeditor'), 'external'),
-						Skin::build_link(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()), i18n::s('your user profile'), 'basic'));
-				}
-				$text .= BR.'<span class="tiny">'.$hint.'</span>';
-			}
-
 		}
+
+		// hint
+		if(Surfer::is_associate())
+			$hint = i18n::s('You are allowed to post any XHTML.');
+		else
+			$hint = sprintf(i18n::s('Also, following XHTML tags are allowed: %s'), trim(str_replace('><', ', ', $context['users_allowed_tags']), '<>'));
+		$text .= '<p class="tiny">'.$hint.'</p>';
 
 		// job done
 		return $text;
@@ -1280,14 +1236,17 @@ Class Surfer {
 		if(isset($fields['editor']))
 			$_SESSION['surfer_editor'] = $fields['editor'];
 		if(!isset($_SESSION['surfer_editor']) && !$_SESSION['surfer_editor'])
-			$_SESSION['surfer_editor'] = 'yacs';
+			$_SESSION['surfer_editor'] = $context['users_default_editor'];
 
 		// remember the address of the authenticating workstation
 		if(isset($_SERVER['REMOTE_ADDR']))
 			$_SESSION['workstation_id'] = $_SERVER['REMOTE_ADDR'];
 
+		// screen sharing
+		$_SESSION['with_sharing'] = isset($fields['with_sharing']) ? $fields['with_sharing'] : 'N';
+
 		// an external network address has been defined
-		$_SESSION['proxy_address'] = isset($fields['proxy_address'])?$fields['proxy_address']:'';
+		$_SESSION['proxy_address'] = isset($fields['proxy_address']) ? $fields['proxy_address'] : '';
 
 		// remember the authenticating instance
 		if(isset($context['url_to_root']) && $context['url_to_root'])
@@ -1403,10 +1362,6 @@ if(isset($_SERVER['REMOTE_ADDR'])) {
 
 // retrieve session data, but not if run from the command line, and not from robot nor spider
 if(isset($_SERVER['REMOTE_ADDR']) && !Surfer::is_crawler() && !headers_sent()) {
-
-	// set or retrieve session context
-	if(session_id() == '')
-		session_start();
 
 	// switch to another instance on same host
 	if(isset($_SESSION['server_id']) && isset($_SESSION['url_to_root']) && strcmp($_SESSION['server_id'], $context['url_to_root']))

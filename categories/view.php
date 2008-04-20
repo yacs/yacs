@@ -842,9 +842,15 @@ if(!isset($item['id'])) {
 	//
 
 	// get news from rss
-	if(isset($item['id']) && (!isset($context['pages_without_feed']) || ($context['pages_without_feed'] != 'Y')) ) {
-		$label = sprintf(i18n::s('You can get %s'), Skin::build_link(Categories::get_url($item['id'], 'feed'), i18n::s('RSS news from this category'), 'xml'));
-		$context['extra'] .= Skin::build_box(i18n::s('News Feeder'), $label, 'extra');
+	if(isset($item['id']) && (!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {
+
+		$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'feed'), i18n::s('recent pages'), 'xml');
+
+		// public aggregators
+		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+			$content .= BR.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'feed'), $item['title']));
+
+		$context['extra'] .= Skin::build_box(i18n::s('Stay tuned'), $content, 'extra', 'feeds');
 	}
 
 	// the bookmarking bookmarklet

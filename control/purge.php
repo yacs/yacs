@@ -153,7 +153,7 @@ if(!Surfer::is_associate()) {
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
-	$menu = array('control/' => i18n::s('Back to the control panel'));
+	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // purge the cache

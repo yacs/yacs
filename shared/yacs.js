@@ -523,9 +523,6 @@ var Yacs = {
 				}
 			}
 
-			// check for notifications periodically
-			Yacs.subscribe();
-
 			// slow down notifications on window blur
 			Event.observe(window, 'blur', function() { Yacs.hasFocus = false; });
 
@@ -534,6 +531,8 @@ var Yacs = {
 
 		}, 1);
 
+		// check for asynchronous notifications
+		setTimeout(function(){ Yacs.subscribe() }, 40000);
 	},
 
 	/**
@@ -1135,11 +1134,12 @@ var Yacs = {
 	 */
 	update: function(panel, address, args) {
 
+		$(panel).innerHTML = '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />';
+
 		new Ajax.Updater(panel, address, $H({
 			asynchronous: true,
 			method: 'get',
-			evalScripts: true,
-			onLoading: function(request) { $(panel).innerHTML = '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />' }
+			evalScripts: true
 			}).merge(args)
 		);
 

@@ -75,7 +75,7 @@ else
 
 // common commands for this page
 if(isset($_SERVER['HTTP_REFERER']))
-	$context['page_menu'] = array( $_SERVER['HTTP_REFERER'] => i18n::s('Back') );
+	$context['page_menu'] = array( $_SERVER['HTTP_REFERER'] => i18n::s('Back to previous page') );
 
 // render the skin
 render_skin();

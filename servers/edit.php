@@ -76,12 +76,6 @@ elseif(count($context['error'])) {
 	$item = $_REQUEST;
 	$with_form = TRUE;
 
-// change editor
-} elseif(isset($_REQUEST['preferred_editor']) && $_REQUEST['preferred_editor'] && ($_REQUEST['preferred_editor'] != $_SESSION['surfer_editor'])) {
-	$_SESSION['surfer_editor'] = $_REQUEST['preferred_editor'];
-	$item = $_REQUEST;
-	$with_form = TRUE;
-
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
@@ -157,15 +151,15 @@ if($with_form) {
 	$input = '<input type="radio" name="active" value="Y" accesskey="v"';
 	if(!isset($item['active']) || ($item['active'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Anyone may read this profile')
+	$input .= EOT.' '.i18n::s('Anyone may read this profile.')
 		.BR.'<input type="radio" name="active" value="R"';
 	if(isset($item['active']) && ($item['active'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Access is restricted to authenticated members')
+	$input .= EOT.' '.i18n::s('Access is restricted to authenticated members.')
 		.BR.'<input type="radio" name="active" value="N"';
 	if(isset($item['active']) && ($item['active'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Access is restricted to associates')."\n";
+	$input .= EOT.' '.i18n::s('Access is restricted to associates.')."\n";
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -341,7 +335,7 @@ if($with_form) {
 	// general help on this form
 	$help = '<p>'.i18n::s('Use this page to describe network interactions with a peering server, part of the cloud we are in.').'</p>'
 		.'<p>'.i18n::s('Edit general-purpose attributes in the overview area.').'</p>'
-		.'<p>'.sprintf(i18n::s('%s and %s are available to beautify your post.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
+		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
 		.'<p>'.i18n::s('Then configure and trigger web services that we will use remotely.').'</p>'
 		.'<p>'.i18n::s('Also, uncheck web services that we should not provide to the target server.').'</p>';
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');

@@ -66,12 +66,19 @@
  *
  * The interface itself is made of following member functions,
  * that have to be overloaded into child functions:
+ * - [code]allows()[/code] -- re-enforce access rights
+ * - [code]get_extra_text()[/code] -- to be integrated into page side
  * - [code]get_fields()[/code] -- build a form to modify overlay content
  * - [code]get_id()[/code] -- to retrieve an overlay
  * - [code]get_label()[/code] -- specialize the overlaid page
+ * - [code]get_list_text()[/code] -- to be integrated into a list of items
+ * - [code]get_live_introduction()[/code] -- change page introduction
+ * - [code]get_live_title()[/code] -- change page title
  * - [code]get_tabs()[/code] -- add information in panels
  * - [code]get_text()[/code] -- use overlay data in normal pages
+ * - [code]get_trailer_text()[/code] -- to be appended after the description
  * - [code]get_type()[/code] -- basic information
+ * - [code]get_view_text()[/code] -- to be integrated into the main page, between introduction and description
  * - [code]parse_fields()[/code] -- capture form content
  * - [code]remember()[/code] -- for specific post-processing steps
  *
@@ -80,7 +87,7 @@
  * - [code]save()[/code] -- to serialize overlay content
  *
  * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
- * @autor GnapZ
+ * @author GnapZ
  * @tester Neige1963
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -185,8 +192,20 @@ class Overlay {
 	 * @return some XML to be inserted into the resulting page
 	 */
 	function export() {
-		$text .=  ' <overlay>'."\n";
+		if(isset($this->attributes['overlay_type']))
+			$class = ' class="'.$this->attributes['overlay_type'].'"';
+		else
+			$class = '';
+		if(isset($this->attributes['overlay_parameters']))
+			$parameters = ' parameters="'.$this->attributes['overlay_parameters'].'"';
+		else
+			$parameters = '';
+		$text =  ' <overlay'.$class.$parameters.'>'."\n";
 		foreach($this->attributes as $label => $value) {
+			if($label == 'overlay_type')
+				continue;
+			if($label == 'overlay_parameters')
+				continue;
 			if(is_array($value)) {
 				$text .=  "\t".' <'.$label.'><array>'."\n";
 				foreach($value as $sub_value) {
@@ -210,15 +229,15 @@ class Overlay {
 	}
 
 	/**
-	 * display the content of one overlay in a box
+	 * text to be inserted aside
 	 *
 	 * To be overloaded into derivated class
 	 *
 	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_box_text($host=NULL) {
-		$text = NULL;
+	function &get_extra_text($host=NULL) {
+		$text = '';
 		return $text;
 	}
 
@@ -293,7 +312,20 @@ class Overlay {
 	 * @return some HTML to be inserted into the resulting page
 	 */
 	function &get_list_text($host=NULL) {
-		$text = NULL;
+		$text = '';
+		return $text;
+	}
+
+	/**
+	 * display a live introduction
+	 *
+	 * To be overloaded into derivated class
+	 *
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function &get_live_introduction($host=NULL) {
+		$text = Codes::beautify_title($host['introduction']);
 		return $text;
 	}
 
@@ -311,7 +343,7 @@ class Overlay {
 	}
 
 	/**
-	 * add some tabs
+	 * add some tabbed panels
 	 *
 	 * Display additional information in panels.
 	 *
@@ -334,9 +366,11 @@ class Overlay {
 	 * display the content of one overlay
 	 *
 	 * Accepted variant codes:
-	 * - 'box' - displayed in a box
+	 * - 'extra' - displayed aside
+	 * - 'introduction' - as a live introduction
 	 * - 'list' - part of a list
 	 * - 'title' - as a live title
+	 * - 'trailer' - displayed at the bottom
 	 * - 'view' - in the main viewing panel
 	 *
 	 * To be overloaded into derivated class
@@ -348,9 +382,14 @@ class Overlay {
 	function &get_text($variant='view', $host=NULL) {
 		switch($variant) {
 
-		// container is displayed in a small box
-		case 'box':
-			$text =& $this->get_box_text($host);
+		// extra side of the page
+		case 'extra':
+			$text =& $this->get_extra_text($host);
+			return $text;
+
+		// live introduction
+		case 'introduction':
+			$text =& $this->get_live_introduction($host);
 			return $text;
 
 		// container is one item of a list
@@ -363,12 +402,30 @@ class Overlay {
 			$text =& $this->get_live_title($host);
 			return $text;
 
+		// at the bottom of the page, after the description field
+		case 'trailer':
+			$text =& $this->get_trailer_text($host);
+			return $text;
+
 		// full page of the container
 		case 'view':
 		default:
 			$text =& $this->get_view_text($host);
 			return $text;
 		}
+	}
+
+	/**
+	 * text to come after page description
+	 *
+	 * To be overloaded into derivated class
+	 *
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function &get_trailer_text($host=NULL) {
+		$text = '';
+		return $text;
 	}
 
 	/**

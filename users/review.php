@@ -33,13 +33,13 @@ i18n::bind('users');
 load_skin('users');
 
 // the path to this page
-$context['path_bar'] = array( 'users/' => i18n::s('All users') );
+$context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
 $context['page_title'] = i18n::s('User profiles to be reviewed');
 
 // the menu bar for this page
-$context['page_menu'] = array( 'users/' => i18n::s('All user profiles') );
+$context['page_menu'] = array( 'users/' => i18n::s('People') );
 
 // list newest profiles
 if($rows = Users::list_by_date(0, 10, 'full')) {

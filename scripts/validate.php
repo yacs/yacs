@@ -26,7 +26,7 @@ i18n::bind('scripts');
 load_skin('scripts');
 
 // the path to this page
-$context['path_bar'] = array( 'scripts/' => i18n::s('Scripts') );
+$context['path_bar'] = array( 'scripts/' => i18n::s('Server software') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Check PHP syntax of reference scripts');
@@ -49,7 +49,7 @@ function send_body() {
 		echo '<p>'.i18n::s('You are not allowed to perform this operation.')."</p>\n";
 
 		// forward to the index page
-		$menu = array('scripts/' => i18n::s('All scripts'));
+		$menu = array('scripts/' => i18n::s('Server software'));
 		echo Skin::build_list($menu, 'menu_bar');
 
 	// ask for confirmation

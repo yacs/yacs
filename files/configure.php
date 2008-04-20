@@ -43,14 +43,7 @@ load_skin('files');
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = i18n::s('The configuration panel for files');
-
-// the back button
-$context['page_menu'] = array_merge($context['page_menu'], array( 'files/' => i18n::s('Recent files') ));
-
-// do it again
-if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'files/configure.php' => i18n::s('Edit') ));
+$context['page_title'] = sprintf(i18n::s('Configure: %s'), i18n::s('Files'));
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -73,7 +66,7 @@ elseif(!Surfer::is_associate()) {
 	//
 	// supported extensions
 	//
-	$context['text'] .= Skin::build_block(i18n::s('Extensions management'), 'title');
+	$extensions = '';
 
 	// supported extensions
 	$label = i18n::s('Supported extensions');
@@ -91,15 +84,13 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input, $hint);
 
 	// build the form
-	$context['text'] .= Skin::build_form($fields);
+	$extensions .= Skin::build_form($fields);
 	$fields = array();
 
 	//
-	// anonymous ftp
+	// file store
 	//
-	$context['text'] .= Skin::build_block(i18n::s('Anonymous FTP'), 'title');
-
-	$context['text'] .= '<p>'.i18n::s('By default files are stored into the web space of your server. To optimize the transfer of large files, you should setup an anonymous ftp service on your server, and then use this configuration panel to enable its usage.').'</p>';
+	$store = '<p>'.i18n::s('By default files are stored into the web space of your server. To optimize the transfer of large files, you should setup an anonymous ftp service on your server, and then use this configuration panel to enable its usage.').'</p>';
 
 	// use ftp
 	$label = i18n::s('Use FTP');
@@ -130,13 +121,38 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input, $hint);
 
 	// put the set of fields in the page
-	$context['text'] .= Skin::build_form($fields);
+	$store .= Skin::build_form($fields);
 	$fields = array();
 
 	//
-	// the submit button
+	// assemble all tabs
 	//
-	$context['text'] .= Skin::build_box(i18n::s('Save parameters'), '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n");
+	$all_tabs = array(
+		array('extensions_tab', i18n::s('Extensions'), 'extensions_panel', $extensions),
+		array('store_tab', i18n::s('Storage'), 'store_panel', $store)
+		);
+
+	// let YACS do the hard job
+	$context['text'] .= Skin::build_tabs($all_tabs);
+
+	//
+	// bottom commands
+	//
+	$menu = array();
+
+	// the submit button
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+	// control panel
+	if(file_exists('../parameters/control.include.php'))
+		$menu[] = Skin::build_link('control/', i18n::s('Control Panel'), 'span');
+
+	// all skins
+	if(file_exists('../parameters/control.include.php'))
+		$menu[] = Skin::build_link('files/', i18n::s('Files'), 'span');
+
+	// insert the menu in the page
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// end of the form
 	$context['text'] .= '</div></form>';
@@ -207,16 +223,19 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folder');
 
 	// what's next?
-	$context['text'] .= '<p>'.i18n::s('What do you want to do now?')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('Where do you want to go now?')."</p>\n";
 
 	// follow-up commands
 	$menu = array();
 
-	// offer to change it again
-	$menu = array_merge($menu, array( 'files/configure.php' => i18n::s('Configure again') ));
+	// index page
+	$menu = array_merge($menu, array( 'files/' => i18n::s('Files') ));
 
-	// back to the control panel
-	$menu = array_merge($menu, array( 'control/' => i18n::s('Go to the Control Panel') ));
+	// control panel
+	$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
+
+	// do it again
+	$menu = array_merge($menu, array( 'files/configure.php' => i18n::s('Configure again') ));
 
 	// display follow-up commands
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');

@@ -84,7 +84,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 			if($item_count == 1)
 				$text .= Skin::build_block(i18n::s('What\'s New?'), 'title', 'new_articles')."\n".'<div id="home_south">'."\n";
 			elseif($item_count == 3)
-				$text .= '</div>'.Skin::build_block(i18n::s('Recent Articles'), 'title', 'recent_articles')."\n";
+				$text .= '</div>'.Skin::build_block(i18n::s('Recent pages'), 'title', 'recent_articles')."\n";
 
 			// layout newest articles
 			if($item_count < 3) {
@@ -128,7 +128,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 
 		// link to articles index
 		if($item_count > 4) {
-			$text .= '<p><b>'.Skin::build_link('articles/', i18n::s('All articles'), 'shortcut').'</b></p>'."\n";
+			$text .= '<p><b>'.Skin::build_link('articles/', i18n::s('All pages'), 'shortcut').'</b></p>'."\n";
 		}
 
 		return $text;

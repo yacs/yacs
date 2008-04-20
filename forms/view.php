@@ -1,6 +1,13 @@
 <?php
 /**
- * display one form profile
+ * capture form data
+ *
+ * This script displays an empty form, captures the input from the end-user,
+ * and creates a web page out of it.
+ *
+ * Content of the new page reflects form content, except help labels.
+ * Moreover, an overlay of class form is added to the page to store captured
+ * values. This overlay provides support for export to CSV and XML formats.
  *
  * The extra panel has following elements:
  * - The top popular referrals, if any
@@ -114,6 +121,7 @@ if(!isset($item['id'])) {
 
 	// parse the form
 	$text = '';
+	$attributes = array();
 	if($item['content']) {
 
 		// list all fields in sequence
@@ -146,7 +154,10 @@ if(!isset($item['id'])) {
 						$_FILES[$field['name']]['name'] .= '.'.$file_extension;
 
 					// to be replaced with actual file reference
-					$text .= '<p>[file='.$field['name'].', '.$_FILES[$field['name']]['name'].'] ('.$field['name'].')'."</p>\n";
+					$text .= '<p>[file='.$field['name'].', '.$_FILES[$field['name']]['name'].']'."</p>\n";
+
+					// remember attribute value
+					$attributes[] = array($field['name'] => $_FILES[$field['name']]['name']);
 				}
 				break;
 
@@ -156,8 +167,8 @@ if(!isset($item['id'])) {
 					$text .= '<h2>'.$field['text'].'</h2>'."\n";
 				elseif(isset($field['type']) && ($field['type'] == 'subtitle'))
 					$text .= '<h3>'.$field['text'].'</h3>'."\n";
- 				else
- 					$text .= $field['text']."\n";
+// 				else
+// 					$text .= $field['text']."\n";
 				break;
 
 			// reflect selected items
@@ -173,31 +184,38 @@ if(!isset($item['id'])) {
 
 				// display selected option
 				if(isset($_REQUEST[$field['name']])) {
+					$checked = array();
 					if($field['type'] == "check")
 						$text .= '<ul>'."\n";
 					else
 						$text .= '<p>';
 					foreach($options as $option) {
-						$checked = '';
 						if((is_array($_REQUEST[$field['name']]) && in_array($option[0], $_REQUEST[$field['name']])) || ($option[0] == $_REQUEST[$field['name']])) {
 							if($field['type'] == "check")
-								$text .= '<li>'.$option[1].' ('.$option[0].', '.$field['name'].')'."</li>\n";
+								$text .= '<li>'.$option[1]."</li>\n";
 							else
-								$text .= $option[1].' ('.$option[0].', '.$field['name'].')';
+								$text .= $option[1];
+
+							$checked = array_merge($checked, array($option[0] => $option[1]));
 						}
 					}
 					if($field['type'] == "check")
 						$text .= '</ul>'."\n";
 					else
 						$text .= '</p>'."\n";
+
+					// remember attribute value
+					$attributes[] = array($field['name'] => $checked);
 				}
 
 				break;
 
 			// reflect captured text
 			case 'text':
-				$text .= '<p>'.$_REQUEST[$field['name']]."\n"
-					.'('.$field['name'].')'."</p>\n";
+				$text .= '<p>'.$_REQUEST[$field['name']]."</p>\n";
+
+				// remember attribute value
+				$attributes[] = array($field['name'] => $_REQUEST[$field['name']]);
 				break;
 			}
 		}
@@ -210,14 +228,20 @@ if(!isset($item['id'])) {
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
 
+	// store structured data in an overlay
+	include_once '../overlays/overlay.php';
+	$overlay = Overlay::bind('form');
+	$overlay->parse_once($attributes);
+
+	// save content of the overlay in the article
+	$_REQUEST['overlay'] = $overlay->save();
+	$_REQUEST['overlay_id'] = $overlay->get_id();
+
 	// stop robots
 	if(Surfer::may_be_a_robot()) {
 		Skin::error(i18n::s('Please prove you are not a robot.'));
 		$item = $_REQUEST;
 		$with_form = TRUE;
-
-		// limit brute attacks
-		Safe::sleep(10);
 
 	// create a new page
 	} elseif(!$id = Articles::post($_REQUEST)) {

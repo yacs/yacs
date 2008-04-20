@@ -1729,7 +1729,7 @@ Class Articles {
 			$order = 'hits DESC, articles.publish_date DESC';
 			break;
 
-		case 'overlay':	// order by overlay_id, then by number of points
+		case 'overlay': // order by overlay_id, then by number of points
 
 			// avoid side effects of ranking across several sections
 			if(is_array($anchor) && (count($anchor) > 1))
@@ -2672,52 +2672,52 @@ Class Articles {
 		global $context;
 
 		$fields = array();
-		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT"; 			// up to 16m items
-		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL"; 				// Yes, Restricted or No
-		$fields['active_set']	= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL"; 				// set locally
-		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";				// up to 64 chars
-		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL"; 				// up to 64 chars
+		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
+		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
+		$fields['active_set']	= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
+		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL";
 		$fields['anchor_id']	= "MEDIUMINT UNSIGNED NOT NULL";
-		$fields['behaviors']	= "TEXT NOT NULL";											// up to 64k chars
+		$fields['behaviors']	= "TEXT NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['create_date']	= "DATETIME";
-		$fields['create_id']	= "MEDIUMINT DEFAULT '0' NOT NULL";
-		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item creation
-		$fields['description']	= "MEDIUMTEXT NOT NULL";									// up to 16M chars
+		$fields['create_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
+		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['description']	= "MEDIUMTEXT NOT NULL";
 		$fields['edit_action']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
-		$fields['edit_id']		= "MEDIUMINT DEFAULT '0' NOT NULL";
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item modification
-		$fields['expiry_date']	= "DATETIME";												// expiry date
-		$fields['extra']		= "TEXT NOT NULL";											// up to 64k chars
-		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";						// up to 128 chars
-		$fields['hits'] 		= "INT UNSIGNED DEFAULT '0' NOT NULL";						// counter
-		$fields['home_panel']	= "VARCHAR(255) DEFAULT 'main' NOT NULL";					// 'main' or 'none'
-		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['introduction'] = "TEXT NOT NULL";											// up to 64k chars
-		$fields['language'] 	= "VARCHAR(64) DEFAULT '' NOT NULL";						// up to 64 chars
-		$fields['locked']		= "ENUM('Y', 'N') DEFAULT 'N' NOT NULL";					// Yes or No
-		$fields['meta'] 		= "TEXT NOT NULL";											// up to 64k chars
-		$fields['nick_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// up to 128 chars
-		$fields['options']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['overlay']		= "TEXT NOT NULL";											// up to 64k chars
-		$fields['overlay_id']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// to find the page by its overlay
-		$fields['prefix']		= "TEXT NOT NULL";											// up to 64k chars
+		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['expiry_date']	= "DATETIME";
+		$fields['extra']		= "TEXT NOT NULL";
+		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['home_panel']	= "VARCHAR(255) DEFAULT 'main' NOT NULL";
+		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['introduction'] = "TEXT NOT NULL";
+		$fields['language'] 	= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['locked']		= "ENUM('Y', 'N') DEFAULT 'N' NOT NULL";
+		$fields['meta'] 		= "TEXT NOT NULL";
+		$fields['nick_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['options']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['overlay']		= "TEXT NOT NULL";
+		$fields['overlay_id']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['prefix']		= "TEXT NOT NULL";
 		$fields['publish_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['publish_date'] = "DATETIME";
-		$fields['publish_id']	= "MEDIUMINT DEFAULT '0' NOT NULL";
-		$fields['publish_name'] = "VARCHAR(128) DEFAULT '' NOT NULL";						// item publication
-		$fields['rank'] 		= "INT UNSIGNED DEFAULT 10000 NOT NULL";					// 0 to 0xFFFFFFFF
-		$fields['rating_sum']	= "INT UNSIGNED DEFAULT 0 NOT NULL";						// 0 to 0xFFFFFFFF
-		$fields['rating_count'] = "INT UNSIGNED DEFAULT 0 NOT NULL";						// 0 to 0xFFFFFFFF
-		$fields['review_date']	= "DATETIME";												// review date
-		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['suffix']		= "TEXT NOT NULL";											// up to 64k chars
-		$fields['tags'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['trailer']		= "TEXT NOT NULL";											// up to 64k chars
+		$fields['publish_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
+		$fields['publish_name'] = "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['rank'] 		= "INT UNSIGNED DEFAULT 10000 NOT NULL";
+		$fields['rating_sum']	= "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['rating_count'] = "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['review_date']	= "DATETIME";
+		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['suffix']		= "TEXT NOT NULL";
+		$fields['tags'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['trailer']		= "TEXT NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 		= "(id)";
@@ -2727,10 +2727,8 @@ Class Articles {
 		$indexes['INDEX anchor_type']	= "(anchor_type)";
 		$indexes['INDEX create_date']	= "(create_date)";
 		$indexes['INDEX create_id'] 	= "(create_id)";
-		$indexes['INDEX create_name']	= "(create_name)";
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
 		$indexes['INDEX edit_id']		= "(edit_id)";
-		$indexes['INDEX edit_name'] 	= "(edit_name)";
 		$indexes['INDEX expiry_date']	= "(expiry_date)";
 		$indexes['INDEX handle']		= "(handle)";
 		$indexes['INDEX hits']			= "(hits)";
@@ -2741,7 +2739,6 @@ Class Articles {
 		$indexes['INDEX overlay_id']	= "(overlay_id)";
 		$indexes['INDEX publish_date']	= "(publish_date)";
 		$indexes['INDEX publish_id']	= "(publish_id)";
-		$indexes['INDEX publish_name']	= "(publish_name)";
 		$indexes['INDEX rank']			= "(rank)";
 		$indexes['INDEX rating_sum']	= "(rating_sum)";
 		$indexes['INDEX review_date']	= "(review_date)";

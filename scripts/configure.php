@@ -40,10 +40,7 @@ load_skin('scripts');
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = i18n::s('The configuration panel for scripts');
-
-// the back button
-$context['page_menu'] = array( 'scripts/' => i18n::s('All scripts') );
+$context['page_title'] = sprintf(i18n::s('Configure: %s'), i18n::s('Server software'));
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -63,9 +60,6 @@ elseif(!Surfer::is_associate()) {
 	// the form
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';
 
-	// reference server
-	$context['text'] .= Skin::build_block(i18n::s('Reference server'), 'title');
-
 	// the reference server
 	if(!isset($context['reference_server']))
 		$context['reference_server'] = i18n::s('www.yetanothercommunitysystem.com');
@@ -73,25 +67,41 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="text" name="reference_server" id="reference_server" size="45" value="'.encode_field($context['reference_server']).'" maxlength="255" />';
 	$context['text'] .= '<p>'.$label.BR.$input."</p>\n";
 
-	// front page update
-	$context['text'] .= Skin::build_block(i18n::s('Update of the front page'), 'title');
+	// we are not at the front page
+	if(strcmp($context['url_to_root'], '/')) {
 
-	// index.php has to be duplicated
-	$label = i18n::s('Decide below if YACS is allowed to update the front page of this server:');
-	$input = '<input type="radio" name="home_at_root" value="N"';
-	if(!isset($context['home_at_root']) || ($context['home_at_root'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('No, the front page of this server is not managed by YACS.');
-	$input .= BR.'<input type="radio" name="home_at_root" value="Y"';
-	if(isset($context['home_at_root']) && ($context['home_at_root'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Yes. If the script index.php is updated into the YACS directory, it will be duplicated at the upper directory as well');
-	$context['text'] .= '<p>'.$label.BR.$input."</p>\n";
+		// index.php has to be duplicated
+		$label = i18n::s('Update the front page of this server:');
+		$input = '<input type="radio" name="home_at_root" value="N"';
+		if(!isset($context['home_at_root']) || ($context['home_at_root'] != 'Y'))
+			$input .= ' checked="checked"';
+		$input .= EOT.' '.i18n::s('No, the front page of this server is not managed by YACS.');
+		$input .= BR.'<input type="radio" name="home_at_root" value="Y"';
+		if(isset($context['home_at_root']) && ($context['home_at_root'] == 'Y'))
+			$input .= ' checked="checked"';
+		$input .= EOT.' '.i18n::s('Yes. If the script index.php is updated into the YACS directory, it will be duplicated at the upper directory as well');
+		$context['text'] .= '<p>'.$label.BR.$input."</p>\n";
+
+	}
 
 	//
+	// bottom commands
+	//
+	$menu = array();
+
 	// the submit button
-	//
-	$context['text'] .= Skin::build_box(i18n::s('Save parameter'), '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n");
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+	// control panel
+	if(file_exists('../parameters/control.include.php'))
+		$menu[] = Skin::build_link('control/', i18n::s('Control Panel'), 'span');
+
+	// all skins
+	if(file_exists('../parameters/control.include.php'))
+		$menu[] = Skin::build_link('scripts/', i18n::s('Server software'), 'span');
+
+	// insert the menu in the page
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// end of the form
 	$context['text'] .= '</div></form>';
@@ -103,8 +113,7 @@ elseif(!Surfer::is_associate()) {
 		.'// ]]></script>'."\n";
 
 	// general help on this form
-	$help = '<p>'.i18n::s('Indicate only the DNS name or IP address of the reference server; nothing more, nothing less.').'</p>'
-		.'<p>'.i18n::s('Ask for the front page update only if this is a file index.php that YACS can overwrite.').'</p>';
+	$help = '<p>'.i18n::s('Indicate only the DNS name or IP address of the reference server; nothing more, nothing less.').'</p>';
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
@@ -154,19 +163,22 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folder');
 
 	// what's next?
-	$context['text'] .= '<p>'.i18n::s('What do you want to do now?')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('Where do you want to go now?')."</p>\n";
 
 	// follow-up commands
 	$menu = array();
 
-	// offer to change it again
-	$menu = array_merge($menu, array( 'scripts/configure.php' => i18n::s('Configure again') ));
-
 	// stage updated scripts
 	$menu = array_merge($menu, array( 'scripts/stage.php' => i18n::s('Stage updated scripts') ));
 
-	// back to the control panel
-	$menu = array_merge($menu, array( 'control/' => i18n::s('Go to the Control Panel') ));
+	// index page
+	$menu = array_merge($menu, array( 'scripts/' => i18n::s('Server software') ));
+
+	// control panel
+	$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
+
+	// doe it again
+	$menu = array_merge($menu, array( 'scripts/configure.php' => i18n::s('Configure again') ));
 
 	// display follow-up commands
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');

@@ -222,7 +222,7 @@ elseif(isset($_REQUEST['directory']) && preg_match('/^(boxesandarrows|digital|jo
 		$menu = array_merge($menu, array( 'skins/test.php?skin='.urlencode($directory) => i18n::s('Test the new skin') ));
 
 		// skins index
-		$menu = array_merge($menu, array( 'skins/' => i18n::s('Go to skins index') ));
+		$menu = array_merge($menu, array( 'skins/' => i18n::s('Skins') ));
 
 		// display follow-up commands
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
@@ -268,8 +268,6 @@ elseif(isset($_REQUEST['directory']) && preg_match('/^(boxesandarrows|digital|jo
 		}
 	}
 	$box['text'] .= '</select>';
-
-	$box['text'] .= BR.'<span class="tiny">'.sprintf(i18n::s('Check the %s to browse descriptions and previews of available skins.'), Skin::build_link('skins/', i18n::s('skin index page'), 'help')).'</span>'."</p>\n";
 
 	$context['text'] .= Skin::build_box($box['title'], $box['text']);
 

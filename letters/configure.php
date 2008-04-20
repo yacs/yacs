@@ -45,14 +45,7 @@ load_skin('letters');
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = i18n::s('The configuration panel for letters');
-
-// the back button
-$context['page_menu'] = array_merge($context['page_menu'], array( 'letters/' => i18n::s('Archived letters') ));
-
-// do it again
-if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'letters/configure.php' => i18n::s('Configure again') ));
+$context['page_title'] = sprintf(i18n::s('Configure: %s'), i18n::s('Newsletters'));
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -115,8 +108,24 @@ elseif(!Surfer::is_associate()) {
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
 
+	//
+	// bottom commands
+	//
+	$menu = array();
+
 	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+	// control panel
+	if(file_exists('../parameters/control.include.php'))
+		$menu[] = Skin::build_link('control/', i18n::s('Control Panel'), 'span');
+
+	// all skins
+	if(file_exists('../parameters/control.include.php'))
+		$menu[] = Skin::build_link('letters/', i18n::s('Newsletters'), 'span');
+
+	// insert the menu in the page
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// end of the form
 	$context['text'] .= '</div></form>';
@@ -126,14 +135,6 @@ elseif(!Surfer::is_associate()) {
 		.'// set the focus on first form field'."\n"
 		.'document.getElementById("letter_title").focus();'."\n"
 		.'// ]]></script>'."\n";
-
-	// general help on this form
-	$help = '<p>'.i18n::s('Letters are built by scanning the database of articles and by using parameters set in this form. Of course, the result of this automatic process can be manually edited before the actual post.').'</p>'
-		.'<p>'.i18n::s('The letter title is appearing in the mailbox of the recipients. It should be left unchanged for quite long period of time.').'</p>'
-		.'<p>'.i18n::s('The letter prefix and suffix should explain in few words the origin of the letter. They should also describe adequate means to contact you and to change the subscription to this service.').'</p>'
-		.'<p>'.i18n::s('Other prefixes and suffixes are used to customize the dynamic list of most recent articles.').'</p>'
-		.'<p>'.i18n::s('The Reply-To: field is optional. If left blank, the e-mail address of the person that is preparing the newsletter will be used.').'</p>';
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
@@ -194,16 +195,19 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folder');
 
 	// what's next?
-	$context['text'] .= '<p>'.i18n::s('What do you want to do now?')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('Where do you want to go now?')."</p>\n";
 
 	// follow-up commands
 	$menu = array();
 
-	// offer to change it again
-	$menu = array_merge($menu, array( 'letters/configure.php' => i18n::s('Configure again') ));
+	// index page
+	$menu = array_merge($menu, array( 'letters/' => i18n::s('Newsletters') ));
 
-	// back to the control panel
-	$menu = array_merge($menu, array( 'control/' => i18n::s('Go to the Control Panel') ));
+	// control panel
+	$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
+
+	// do it again
+	$menu = array_merge($menu, array( 'letters/configure.php' => i18n::s('Configure again') ));
 
 	// display follow-up commands
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');

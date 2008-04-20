@@ -1091,12 +1091,12 @@ Class Dates {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['anchor']		= "VARCHAR(64) DEFAULT 'article:1' NOT NULL";				// up to 64 chars
+		$fields['anchor']		= "VARCHAR(64) DEFAULT 'article:1' NOT NULL";
 		$fields['anchor_id']	= "MEDIUMINT UNSIGNED NOT NULL";
-		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL"; 				// up to 64 chars
-		$fields['date_stamp']	= "DATETIME";												//
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item modification
-		$fields['edit_id']		= "MEDIUMINT DEFAULT '0' NOT NULL";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL";
+		$fields['date_stamp']	= "DATETIME";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
 
@@ -1106,9 +1106,8 @@ Class Dates {
 		$indexes['INDEX anchor_id'] 	= "(anchor_id)";
 		$indexes['INDEX anchor_type']	= "(anchor_type)";
 		$indexes['INDEX date_stamp'] = "(date_stamp)";
-		$indexes['INDEX edit_name'] = "(edit_name)";
-		$indexes['INDEX edit_id']	= "(edit_id)";
 		$indexes['INDEX edit_date'] = "(edit_date)";
+		$indexes['INDEX edit_id']	= "(edit_id)";
 
 		return SQL::setup_table('dates', $fields, $indexes);
 	}

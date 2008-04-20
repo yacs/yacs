@@ -52,14 +52,7 @@ load_skin('collections');
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = i18n::s('The configuration panel for collections');
-
-// the back button
-$context['page_menu'] = array_merge($context['page_menu'], array( 'collections/' => i18n::s('All collections') ));
-
-// do it again
-if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'collections/configure.php' => i18n::s('Edit') ));
+$context['page_title'] = sprintf(i18n::s('Configure: %s'), i18n::s('File collections'));
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -79,15 +72,13 @@ elseif(!Surfer::is_associate()) {
 	// the form
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';
 
-	// the splash message
-	$context['text'] .= '<p>'.i18n::s('Below is the list of shared directories of files.')."</p>\n";
-
-	// collections list
-	$context['text'] .= Skin::build_block(i18n::s('Collections'), 'title');
+	// one tab per collection
+	$all_tabs = array();
 
 	// list existing collections
 	if(isset($context['collections']) && is_array($context['collections'])) {
 
+		$index = 1;
 		foreach($context['collections'] as $name => $attributes) {
 
 			list($title, $path, $url, $introduction, $description, $prefix, $suffix, $visibility) = $attributes;
@@ -147,9 +138,12 @@ elseif(!Surfer::is_associate()) {
 			$hint = i18n::s('Inserted at bottom of pages for this collection');
 			$fields[] = array($label, $input, $hint);
 
-			// add a folded box
-			$context['text'] .= Skin::build_box(sprintf(i18n::s('Collection: %s'), ($title?$title:$name)), Skin::build_form($fields), 'folder');
+			// add a tab
+			$label = ucfirst($title ? $title : $name);
+			$panel = Skin::build_form($fields);
 			$fields = array();
+			$all_tabs[] = array('collection_tab_'.$index, $label, 'collection_panel_'.$index, $panel);
+			$index++;
 
 		}
 	}
@@ -204,23 +198,41 @@ elseif(!Surfer::is_associate()) {
 	$hint = i18n::s('Inserted at bottom of pages for this collection');
 	$fields[] = array($label, $input, $hint);
 
-	// add a folded box
-	$context['text'] .= Skin::build_box(i18n::s('Add a collection'), Skin::build_form($fields), 'folder');
+	// add a tab
+	$label = i18n::s('Add a collection');
+	$panel = Skin::build_form($fields);
 	$fields = array();
+	$all_tabs[] = array('new_tab', $label, 'new_panel', $panel);
+
+	//
+	// assemble all tabs
+	//
+	$context['text'] .= Skin::build_tabs($all_tabs);
+
+	//
+	// bottom commands
+	//
+	$menu = array();
 
 	// the submit button
-	$context['text'] .= Skin::build_box(i18n::s('Save parameters'), '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n");
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+	// control panel
+	if(file_exists('../parameters/control.include.php'))
+		$menu[] = Skin::build_link('control/', i18n::s('Control Panel'), 'span');
+
+	// all skins
+	if(file_exists('../parameters/control.include.php'))
+		$menu[] = Skin::build_link('collections/', i18n::s('File collections'), 'span');
+
+	// insert the menu in the page
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// end of the form
 	$context['text'] .= '</div></form>';
 
 	// general help on this form
-	$help = '<p>'.i18n::s('The Collection Nick Name is prepended to the path of each file of the collection. Therefore it has to be as short (typically, one word) and as meaningful as possible.').'</p>'
-		.'<p>'.i18n::s('The Label is the actual title for this collection. It is used as a page title on the collection index page, and in the path list at the top of each subsequent page for the collection.').'</p>'
-		.'<p>'.i18n::s('The Path Prefix is prepended by the server to access every directory and file of the collection. You should indicate here the location of the collection in the local file system.').'</p>'
-		.'<p>'.i18n::s('The URL Prefix is inserted in links used to download files of the collection. You should indicate here the access method (e.g., ftp) and path used to access files remotely, from a web browser.').'</p>'
-		.'<p>'.i18n::s('The Introduction is used only on the main index page of all collections, while the Description is inserted in the index page of this collection.').'</p>'
-		.'<p>'.i18n::s('The Prefix and Suffix are inserted respectively at the beginning and end of each page of the collection, except the index.').'</p>';
+	$help = '<p>'.i18n::s('Use this form to give remote access to selected folders.')."</p>\n";
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 // no modifications in demo mode
@@ -287,16 +299,19 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folder');
 
 	// what's next?
-	$context['text'] .= '<p>'.i18n::s('What do you want to do now?')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('Where do you want to go now?')."</p>\n";
 
 	// follow-up commands
 	$menu = array();
 
-	// offer to change it again
-	$menu = array_merge($menu, array( 'collections/configure.php' => i18n::s('Configure again') ));
+	// index page
+	$menu = array_merge($menu, array( 'collections/' => i18n::s('File collections') ));
 
-	// back to the control panel
-	$menu = array_merge($menu, array( 'control/' => i18n::s('Go to the Control Panel') ));
+	// control panel
+	$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
+
+	// do it again
+	$menu = array_merge($menu, array( 'collections/configure.php' => i18n::s('Configure again') ));
 
 	// display follow-up commands
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');

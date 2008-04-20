@@ -646,48 +646,47 @@ Class Servers {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['title']		= "VARCHAR(128) DEFAULT '' NOT NULL";						//
-		$fields['host_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						//
-		$fields['description']	= "TEXT NOT NULL";								// up to 64k chars
-		$fields['main_url'] 	= "VARCHAR(128) DEFAULT '' NOT NULL";						//
+		$fields['title']		= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['host_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['description']	= "TEXT NOT NULL";
+		$fields['main_url'] 	= "VARCHAR(128) DEFAULT '' NOT NULL";
 
-		$fields['submit_feed']	= "ENUM('Y','N') DEFAULT 'N' NOT NULL"; 					// Yes or No
-		$fields['feed_url'] 	= "VARCHAR(128) DEFAULT '' NOT NULL";						//
-		$fields['anchor']		= "VARCHAR(64) DEFAULT 'category:1' NOT NULL";				// up to 64 chars
+		$fields['submit_feed']	= "ENUM('Y','N') DEFAULT 'N' NOT NULL";
+		$fields['feed_url'] 	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['anchor']		= "VARCHAR(64) DEFAULT 'category:1' NOT NULL";
 
-		$fields['submit_ping']	= "ENUM('Y','N') DEFAULT 'N' NOT NULL"; 					// Yes or No
-		$fields['ping_url'] 	= "VARCHAR(128) DEFAULT '' NOT NULL";						//
-		$fields['process_ping'] = "ENUM('Y','N') DEFAULT 'Y' NOT NULL"; 					// Yes or No
+		$fields['submit_ping']	= "ENUM('Y','N') DEFAULT 'N' NOT NULL";
+		$fields['ping_url'] 	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['process_ping'] = "ENUM('Y','N') DEFAULT 'Y' NOT NULL";
 
-		$fields['submit_monitor'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";					// Yes or No
-		$fields['monitor_url']	= "VARCHAR(128) DEFAULT '' NOT NULL";						//
-		$fields['process_monitor'] = "ENUM('Y','N') DEFAULT 'Y' NOT NULL";					// Yes or No
+		$fields['submit_monitor'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
+		$fields['monitor_url']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['process_monitor'] = "ENUM('Y','N') DEFAULT 'Y' NOT NULL";
 
-		$fields['submit_search'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";					// Yes or No
-		$fields['search_url']	= "VARCHAR(128) DEFAULT '' NOT NULL";						//
-		$fields['process_search'] = "ENUM('Y','N') DEFAULT 'Y' NOT NULL";					// Yes or No
+		$fields['submit_search'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
+		$fields['search_url']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['process_search'] = "ENUM('Y','N') DEFAULT 'Y' NOT NULL";
 
 		$fields['stamp_date']	= "DATETIME";
 
-		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL"; 				// Yes, Restricted or No
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item modification
-		$fields['edit_id']		= "MEDIUMINT DEFAULT '0' NOT NULL";
+		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
-		$indexes['INDEX title'] 	= "(title)";
+		$indexes['INDEX active']		= "(active)";
+		$indexes['INDEX edit_date'] = "(edit_date)";
+		$indexes['INDEX edit_id']	= "(edit_id)";
 		$indexes['INDEX host_name'] = "(host_name)";
 		$indexes['INDEX main_url']	= "(main_url)";
+		$indexes['INDEX stamp_date']	= "(stamp_date)";
 		$indexes['INDEX submit_monitor']	= "(submit_monitor)";
 		$indexes['INDEX submit_ping']	= "(submit_ping)";
 		$indexes['INDEX submit_search'] = "(submit_search)";
-		$indexes['INDEX active']		= "(active)";
-		$indexes['INDEX edit_name'] = "(edit_name)";
-		$indexes['INDEX edit_id']	= "(edit_id)";
-		$indexes['INDEX edit_date'] = "(edit_date)";
-		$indexes['INDEX stamp_date']	= "(stamp_date)";
+		$indexes['INDEX title'] 	= "(title)";
 		$indexes['FULLTEXT INDEX']	= "full_text(title, description)";
 
 		return SQL::setup_table('servers', $fields, $indexes);

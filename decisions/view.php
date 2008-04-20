@@ -69,7 +69,7 @@ if(is_object($anchor))
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'decisions/' => i18n::s('All decisions') );
+	$context['path_bar'] = array( 'decisions/' => i18n::s('Decisions') );
 
 // the title of the page
 if(is_object($anchor))

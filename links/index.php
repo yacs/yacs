@@ -47,7 +47,7 @@ load_skin('links');
 $items_per_page = 50;
 
 // the title of the page
-$context['page_title'] = i18n::s('All links');
+$context['page_title'] = i18n::s('Links');
 
 // count links in the database
 $stats = Links::stat();

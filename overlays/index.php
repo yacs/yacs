@@ -176,7 +176,7 @@ i18n::bind('overlays');
 load_skin('overlays');
 
 // the title of the page
-$context['page_title'] = i18n::s('Available overlays');
+$context['page_title'] = i18n::s('Overlays');
 
 // splash message
 if(Surfer::is_associate())

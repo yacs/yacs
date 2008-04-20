@@ -1676,4 +1676,5 @@ class Messages {
 
 }
 
+i18n::bind('agents');
 ?>

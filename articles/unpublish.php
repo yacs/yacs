@@ -49,29 +49,6 @@ i18n::bind('articles');
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
-// clear the tab we are in, if any
-if(is_object($anchor))
-	$context['current_focus'] = $anchor->get_focus();
-
-// the path to this page
-if(is_object($anchor))
-	$context['path_bar'] = $anchor->get_path_bar();
-else
-	$context['path_bar'] = array( 'articles/' => 'Articles' );
-
-// the title of the page
-if(isset($item['title']) && $item['title'])
-	$context['page_title'] = sprintf(i18n::s('Draft: %s'), $item['title']);
-else
-	$context['page_title'] = i18n::s('No title has been provided.');
-
-// common commands for this page
-if(isset($_SERVER['HTTP_REFERER']))
-	$referer = $_SERVER['HTTP_REFERER'];
-else
-	$referer = 'articles/review.php';
-$context['page_menu'] = array( $referer => i18n::s('Back to the page') );
-
 // not found
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -96,11 +73,25 @@ if(!isset($item['id'])) {
 else
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 
-// the path to this page
+// clear the tab we are in, if any
+if(is_object($anchor))
+	$context['current_focus'] = $anchor->get_focus();
+
+// path to this page
 if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'articles/' => 'Articles' );
+	$context['path_bar'] = array( 'articles/' => 'All pages' );
+
+// page title
+$context['page_title'] = i18n::s('Unpublish a page');
+
+// common commands for this page
+if(isset($_SERVER['HTTP_REFERER']))
+	$referer = $_SERVER['HTTP_REFERER'];
+else
+	$referer = 'articles/review.php';
+$context['page_menu'] = array( $referer => i18n::s('Back to the page') );
 
 // render the skin
 render_skin();

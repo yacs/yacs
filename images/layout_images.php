@@ -123,10 +123,19 @@ Class Layout_images extends Layout_interface {
 
 				// the image id to put as text in the left column
 				if($variant == $anchor->get_reference()) {
-					$icon = '<a onclick="javascript:edit_insert(\'\', \' [image='.$item['id'].']\');return false;" title="insert" tabindex="2000">[image='.$item['id'].']</a>'
-						.BR.'<a onclick="javascript:edit_insert(\'\', \' [image='.$item['id'].', left]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',left]</a>'
-						.BR.'<a onclick="javascript:edit_insert(\'\', \' [image='.$item['id'].', right]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',right]</a>'
-						.BR.'<a onclick="javascript:edit_insert(\'\', \' [image='.$item['id'].', center]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',center]</a>';
+
+					// help to insert in textarea
+					if(!isset($_SESSION['surfer_editor']) || (($_SESSION['surfer_editor'] != 'fckeditor') && ($_SESSION['surfer_editor'] != 'tinymce')))
+						$icon = '<a onclick="javascript:edit_insert(\'\', \' [image='.$item['id'].']\');return false;" title="insert" tabindex="2000">[image='.$item['id'].']</a>'
+							.BR.'<a onclick="javascript:edit_insert(\'\', \' [image='.$item['id'].', left]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',left]</a>'
+							.BR.'<a onclick="javascript:edit_insert(\'\', \' [image='.$item['id'].', right]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',right]</a>'
+							.BR.'<a onclick="javascript:edit_insert(\'\', \' [image='.$item['id'].', center]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',center]</a>';
+
+					else
+						$icon = '[image='.$item['id'].']'
+							.BR.'[image='.$item['id'].',left]'
+							.BR.'[image='.$item['id'].',right]'
+							.BR.'[image='.$item['id'].',center]';
 
 				// show an anchor link
 				} else {

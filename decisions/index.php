@@ -40,7 +40,7 @@ i18n::bind('decisions');
 load_skin('decisions');
 
 // the title of the page
-$context['page_title'] = i18n::s('All decision threads');
+$context['page_title'] = i18n::s('Decisions');
 
 // count decisions in the database
 $stats = Decisions::stat_threads();

@@ -28,7 +28,7 @@ load_skin('codes');
 
 // the path to this page
 $context['path_bar'] = array( 'help.php' => i18n::s('Help index'),
-	'codes/' => i18n::s('All Formatting Codes') );
+	'codes/' => i18n::s('Formatting Codes') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Codes to format tables');

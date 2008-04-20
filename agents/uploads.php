@@ -310,4 +310,5 @@ class Uploads {
 
 }
 
+i18n::bind('agents');
 ?>

@@ -87,8 +87,8 @@ elseif(isset($_REQUEST['content']) && $_REQUEST['content']) {
 		$menu = array();
 		$menu = array_merge($menu, array('skins/test.php?skin='.urlencode($skin) => i18n::s('Test the updated skin')));
 		$menu = array_merge($menu, array('skins/edit.php?skin='.urlencode($skin) => i18n::s('Edit a file of this skin')));
-		$menu = array_merge($menu, array('skins/' => i18n::s('List available skins')));
-		$menu = array_merge($menu, array('skins/configure.php' => i18n::s('Configure skins')));
+		$menu = array_merge($menu, array('skins/' => i18n::s('Skins')));
+		$menu = array_merge($menu, array('skins/configure.php' => i18n::s('Configure the page factory')));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	}

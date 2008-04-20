@@ -677,6 +677,12 @@ Class Links {
 			$output =& $variant->layout($result);
 			return $output;
 
+		case 'simple':
+			include_once $context['path_to_root'].'links/layout_links_as_simple.php';
+			$variant =& new Layout_links_as_simple();
+			$output =& $variant->layout($result);
+			return $output;
+
 		default:
 			include_once $context['path_to_root'].'links/layout_links.php';
 			$variant =& new Layout_links();
@@ -1237,18 +1243,18 @@ Class Links {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";				// up to 64 chars
+		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
 		$fields['anchor_id']	= "MEDIUMINT UNSIGNED NOT NULL";
-		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL"; 				// up to 64 chars
-		$fields['link_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['link_target']	= "ENUM('I','B') DEFAULT 'I' NOT NULL"; 					// Inside current window, or Blank
-		$fields['link_title']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['description']	= "TEXT NOT NULL";											// up to 64k chars
-		$fields['keywords'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['hits'] 		= "INT UNSIGNED DEFAULT '0' NOT NULL";						// counter
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item modification
-		$fields['edit_id']		= "MEDIUMINT DEFAULT '0' NOT NULL";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL";
+		$fields['link_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['link_target']	= "ENUM('I','B') DEFAULT 'I' NOT NULL";
+		$fields['link_title']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['description']	= "TEXT NOT NULL";
+		$fields['keywords'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_action']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
@@ -1258,12 +1264,11 @@ Class Links {
 		$indexes['INDEX anchor']	= "(anchor)";
 		$indexes['INDEX anchor_id'] 	= "(anchor_id)";
 		$indexes['INDEX anchor_type']	= "(anchor_type)";
+		$indexes['INDEX edit_date'] = "(edit_date)";
+		$indexes['INDEX edit_id']	= "(edit_id)";
+		$indexes['INDEX hits']		= "(hits)";
 		$indexes['INDEX link_url']	= "(link_url)";
 		$indexes['INDEX title'] 	= "(title(255))";
-		$indexes['INDEX hits']		= "(hits)";
-		$indexes['INDEX edit_name'] = "(edit_name)";
-		$indexes['INDEX edit_id']	= "(edit_id)";
-		$indexes['INDEX edit_date'] = "(edit_date)";
 		$indexes['FULLTEXT INDEX']	= "full_text(title, link_url, description)";
 
 		return SQL::setup_table('links', $fields, $indexes);
@@ -1363,40 +1368,40 @@ Class Links {
 			case 'article':
 				if($item =& Articles::get($matches[2]))
 					return array(Articles::get_url($matches[2]), $item['title'], $item['introduction']);
-				return array('articles/', i18n::s('Unknown article'), '');
+				return array(NULL, $text, NULL);
 
 			// section link
 			case 'section':
 				if($item =& Sections::get($matches[2]))
 					return array(Sections::get_url($matches[2]), $item['title'], $item['introduction']);
-				return array('sections/', i18n::s('Unknown section'), '');
+				return array(NULL, $text, NULL);
 
 			// file link
 			case 'file':
 				include_once $context['path_to_root'].'files/files.php';
 				if($item =& Files::get($matches[2]))
 					return array(Files::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['file_name'])));
-				return array('files/', i18n::s('Unknown file'), '');
+				return array(NULL, $text, NULL);
 
 			// image link
 			case 'image':
 				include_once $context['path_to_root'].'images/images.php';
 				if($item =& Images::get($matches[2]))
 					return array(Images::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['image_name'])));
-				return array('images/', i18n::s('Unknown image'), '');
+				return array(NULL, $text, NULL);
 
 			// category link
 			case 'category':
 				include_once $context['path_to_root'].'categories/categories.php';
 				if($item =& Categories::get($matches[2]))
 					return array(Categories::get_url($item['id'], 'view', $item['title']), $item['title'], $item['introduction']);
-				return array('categories/', i18n::s('Unknown category'), '');
+				return array(NULL, $text, NULL);
 
 			// user link
 			case 'user':
 				if($item =& Users::get($matches[2]))
 					return array(Users::get_url($item['id'], 'view', $item['title']), $item['full_name']);
-				return array('users/', i18n::s('Unknown user'), '');
+				return array(NULL, $text, NULL);
 
 			}
 		}

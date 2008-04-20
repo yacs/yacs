@@ -49,9 +49,6 @@
  *
  * [*] [code]file_mask[/code] - Default mask to be used for files.
  *
- * [*] [code]url_to_root[/code] - The absolute path to YACS scripts.
- * The default value is '[code]/yacs/[/code]'.
- *
  * [*] [code]preferred_language[/code] - The two-letter ISO code representing the language
  * to be used for auto-generated text, such as background e-mail message, etc.
  * Default value is '[code]en[/code]'.
@@ -73,11 +70,6 @@
  * you can set the parameter [code]with_cron[/code] to 'Y' to smooth response
  * times of YACS.
  *
- * [*] [code]cron_host[/code] - Because crontabs are shared at most hosting
- * providers, [script]cron.php[/script] believes it runs at ##localhost##, where
- * the software expects a real host name. The parameter overcomes this situation
- * and can even be set as a virtual host of your choice.
- *
  * [*] [code]with_debug[/code] - By default YACS runs in production mode.
  * However, at development site you can turn this parameter to 'Y' to get more information.
  * For example, PHP is reconfigured to display all messages, including notices and warnings.
@@ -85,12 +77,13 @@
  *
  * Inbound HTTP parameters:
  *
- * [*] [code]with_ajax_comet[/code] - By default YACS maintains short-lived
- * HTTP connections, and AJAX updates rely on client-based polling cycles.
- * Set this parameter to 'Y' to actually activate the COMET architecture, and
- * to let the server propagate fresh information as soon as possible.
- * This setting will generate long-lived HTTP connections, and therefore consume
- * more system resources on server side.
+ * [*] [code]main_host[/code] - Because crontabs are shared at most hosting
+ * providers, [script]cron.php[/script] believes it runs at ##localhost##, where
+ * the software expects a real host name. The parameter overcomes this situation
+ * and can even be set as a virtual host of your choice.
+ *
+ * [*] [code]url_to_root[/code] - The absolute path to YACS scripts.
+ * The default value is '[code]/yacs/[/code]'.
  *
  * [*] [code]with_friendly_urls[/code] - By default pages are referenced using query strings
  * (e.g;, [code]articles/view.php?id=123[/code]). In numerous cases you can activate friendly URLS
@@ -100,8 +93,8 @@
  * HTTP headers to help proxies and browsers cache provided information.
  * However sometimes it can be useful to disable this feature.
  *
- *
- * Outbound HTTP parameters:
+ * [*] [code]without_internet_visibility[/code] - By default YACS links to public aggregators.
+ * Change this parameter to 'Y' to disable this feature.
  *
  * [*] [code]without_outbound_http[/code] - By default YACS connects to other web servers.
  * Change this parameter to 'Y' to disable this feature.
@@ -215,22 +208,7 @@ if(!file_exists('../parameters/control.include.php') || !$connection ) {
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Main Configuration Panel');
-
-// not first installation
-if(class_exists('Skin') && (file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))) {
-
-	// do it again if necessary
-	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
-		$context['page_menu'] = array_merge($context['page_menu'], array( 'control/configure.php' => i18n::s('Edit') ));
-
-	// back to the control panel
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'control/' => i18n::s('Control Panel') ));
-
-	// select another skin visually
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/' => i18n::s('Select another skin') ));
-
-}
+$context['page_title'] = sprintf(i18n::s('Configure: %s'), i18n::s('System parameters'));
 
 // ensure we have an associate
 if(!Surfer::is_associate()) {
@@ -238,7 +216,7 @@ if(!Surfer::is_associate()) {
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
-	$menu = array('control/' => i18n::s('Back to the control panel'));
+	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // nothing more in demo mode
@@ -256,10 +234,10 @@ if(!Surfer::is_associate()) {
 	//
 	// database parameters
 	//
-	$context['text'] .= Skin::build_block(i18n::s('Database parameters'), 'title');
+	$database = '';
 	$fields = array();
 
-	$context['text'] .= '<p>'.sprintf(i18n::s('Following parameters may be provided by your Internet Service Provider (ISP), or by some database manager. If you manage your own server, the database should have been created before moving forward. You may check the %s file for further information.'), '<a href="../'.i18n::s('readme.txt').'">'.i18n::s('readme.txt').'</a>')."</p>\n";
+	$database .= '<p>'.sprintf(i18n::s('Following parameters may be provided by your Internet Service Provider (ISP), or by some database manager. If you manage your own server, the database should have been created before moving forward. You may check the %s file for further information.'), '<a href="../'.i18n::s('readme.txt').'">'.i18n::s('readme.txt').'</a>')."</p>\n";
 
 	// host name
 	$label = i18n::s('Database server name');
@@ -297,7 +275,7 @@ if(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// build the form
-	$context['text'] .= Skin::build_form($fields);
+	$database .= Skin::build_form($fields);
 	$fields = array();
 
 	//
@@ -345,22 +323,15 @@ if(!Surfer::is_associate()) {
 	$fields = array();
 
 	// in a folded box
-	$context['text'] .= Skin::build_box(i18n::s('Custom storage of user information'), $text, 'folder');
+	$database .= Skin::build_box(i18n::s('Custom storage of user information'), $text, 'folder');
 
 	//
 	// system parameters
 	//
-	$context['text'] .= Skin::build_block(i18n::s('System parameters'), 'title');
+	$system = '';
 
 	// splash message
-	$context['text'] .= '<p>'.i18n::s('If you do not know what following parameters mean, please use default values for safety.')."</p>\n";
-
-	// url to root -- see shared/global.php to understand the usage of 'url_to_root_parameter'
-	$label = i18n::s('Path (URL) to root directory');
-	if(!isset($context['url_to_root_parameter']))
-		$context['url_to_root_parameter'] = '';
-	$input = '<input type="text" name="url_to_root_parameter" size="45" value="'.encode_field($context['url_to_root_parameter']).'" maxlength="255" />';
-	$fields[] = array($label, $input);
+	$system .= '<p>'.i18n::s('If you do not know what following parameters mean, please use default values for safety.')."</p>\n";
 
 	// preferred language for messages generated by YACS
 	$label = i18n::s('Community language');
@@ -414,7 +385,7 @@ if(!Surfer::is_associate()) {
 	$input .= EOT.' '.i18n::s('Compute all page elements.');
 	$fields[] = array($label, $input);
 
-	// with_cron and cron_host
+	// with_cron
 	$label = i18n::s('Background processing');
 	$input = '<input type="radio" name="with_cron" value="N"';
 	if(!isset($context['with_cron']) || ($context['with_cron'] != 'Y'))
@@ -423,7 +394,7 @@ if(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="with_cron" value="Y"';
 	if(isset($context['with_cron']) && ($context['with_cron'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('The server launches cron.php on its own, as virtual host').' <input type="text" name="cron_host" value="'.encode_field(isset($context['cron_host'])?$context['cron_host']:$context['host_name']).'" size="20"/>';
+	$input .= EOT.' '.i18n::s('The server launches cron.php on its own').' (see sample '.Skin::build_link('tools/yacs_crontab', 'yacs_crontab', 'help').')';
 	$fields[] = array($label, $input);
 
 	// file_mask and directory_mask
@@ -445,267 +416,273 @@ if(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// build the form
-	$context['text'] .= Skin::build_form($fields);
+	$system .= Skin::build_form($fields);
 	$fields = array();
 
 	//
-	// inbound HTTP parameters
+	// HTTP parameters
 	//
+	$http = '';
 
-	// not on first installation
-	if(file_exists('../parameters/control.include.php')) {
+	// splash message
+	$http .= '<p>'.i18n::s('If you do not know what following parameters mean, please use default values for safety.')."</p>\n";
 
-		$context['text'] .= Skin::build_block(i18n::s('Inbound HTTP parameters'), 'title');
+	// main_host
+	$label = i18n::s('Server name');
+	$input = '<input type="text" name="main_host" value="'.encode_field(isset($context['main_host'])?$context['main_host']:$context['host_name']).'" size="20"/>';
+	$fields[] = array($label, $input);
 
-		// splash message
-		$context['text'] .= '<p>'.i18n::s('If you do not know what following parameters mean, please use default values for safety.')."</p>\n";
+	// url to root -- see shared/global.php to understand the usage of 'url_to_root_parameter'
+	$label = i18n::s('Path (URL) to root directory');
+	if(!isset($context['url_to_root_parameter']))
+		$context['url_to_root_parameter'] = '';
+	$input = '<input type="text" name="url_to_root_parameter" size="45" value="'.encode_field($context['url_to_root_parameter']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
 
-		// friendly urls
-		$label = i18n::s('URL generation');
-		$input = '<input type="radio" name="with_friendly_urls" value="N"';
-		if($context['with_friendly_urls'] != 'Y')
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('This system does not support the mapping of args in the URL.').' (<code>articles/view.php?id=123</code>)';
-		$input .= BR.'<input type="radio" name="with_friendly_urls" value="Y"';
-		if($context['with_friendly_urls'] == 'Y')
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Help search engines to index more pages.').' (<code>articles/view.php/123</code>)'
-			.' ('.Skin::build_link('control/test.php/123/456', i18n::s('test link'), 'external').')';
-		$input .= BR.'<input type="radio" name="with_friendly_urls" value="R"';
-		if($context['with_friendly_urls'] == 'R')
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Rewriting rules have been activated (in <code>.htaccess</code>) to support pretty references.').' (<code>article-123</code>)'
-			.' ('.Skin::build_link('rewrite_test/123', i18n::s('test link'), 'external').')';
-		$fields[] = array($label, $input);
+	// friendly urls
+	$label = i18n::s('URL generation');
+	$input = '<input type="radio" name="with_friendly_urls" value="N"';
+	if($context['with_friendly_urls'] != 'Y')
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('This system does not support the mapping of args in the URL.').' (<code>articles/view.php?id=123</code>)';
+	$input .= BR.'<input type="radio" name="with_friendly_urls" value="Y"';
+	if($context['with_friendly_urls'] == 'Y')
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Help search engines to index more pages.').' (<code>articles/view.php/123</code>)'
+		.' ('.Skin::build_link('control/test.php/123/456', i18n::s('test link'), 'external').')';
+	$input .= BR.'<input type="radio" name="with_friendly_urls" value="R"';
+	if($context['with_friendly_urls'] == 'R')
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Rewriting rules have been activated (in <code>.htaccess</code>) to support pretty references.').' (<code>article-123</code>)'
+		.' ('.Skin::build_link('rewrite_test/123', i18n::s('test link'), 'external').')';
+	$fields[] = array($label, $input);
 
-		// web cache
-		$label = i18n::s('Web cache');
-		$input = '<input type="radio" name="without_http_cache" value="N"';
-		if(!isset($context['without_http_cache']) || ($context['without_http_cache'] != 'Y'))
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Set HTTP headers to enable private caching and to ask for every page revalidation.');
-		$input .= BR.'<input type="radio" name="without_http_cache" value="Y"';
-		if(isset($context['without_http_cache']) && ($context['without_http_cache'] == 'Y'))
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('No cache management. Default settings of the PHP engine apply.');
-		$fields[] = array($label, $input);
+	// web cache
+	$label = i18n::s('Web cache');
+	$input = '<input type="radio" name="without_http_cache" value="N"';
+	if(!isset($context['without_http_cache']) || ($context['without_http_cache'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Set HTTP headers to enable private caching and to ask for every page revalidation.');
+	$input .= BR.'<input type="radio" name="without_http_cache" value="Y"';
+	if(isset($context['without_http_cache']) && ($context['without_http_cache'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('No cache management. Default settings of the PHP engine apply.');
+	$fields[] = array($label, $input);
 
-		// AJAX COMET
-		$label = i18n::s('AJAX acceleration');
-		$input = '<input type="radio" name="with_ajax_comet" value="N"';
-		if(!isset($context['with_ajax_comet']) || ($context['with_ajax_comet'] != 'Y'))
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Workstations poll the server periodically to get fresh information.');
-		$input .= BR.'<input type="radio" name="with_ajax_comet" value="Y"';
-		if(isset($context['with_ajax_comet']) && ($context['with_ajax_comet'] == 'Y'))
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('The server pushes fresh information as soon as possible, using AJAX COMET principles. This setting will require more TCP resources than the previous one.');
-		$fields[] = array($label, $input);
+	// without Internet visibility
+	$label = i18n::s('Visibility');
+	$input = '<input type="radio" name="without_internet_visibility" value="N"';
+	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Public content may be processed by web crawlers and news aggregators.');
+	$input .= BR.'<input type="radio" name="without_internet_visibility" value="Y"';
+	if(isset($context['without_internet_visibility']) && ($context['without_internet_visibility'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('This server can not be reached from the Internet.');
+	$fields[] = array($label, $input);
 
-		// build the form
-		$context['text'] .= Skin::build_form($fields);
-		$fields = array();
+	// without outbound http
+	$label = i18n::s('Outbound requests');
+	$input = '<input type="radio" name="without_outbound_http" value="N"';
+	if(!isset($context['without_outbound_http']) || ($context['without_outbound_http'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('This server uses the web for syndication, for pings or for other activities.');
+	$input .= BR.'<input type="radio" name="without_outbound_http" value="Y"';
+	if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Prevent this server to connect to others.');
+	$fields[] = array($label, $input);
 
-	}
+	// build the form
+	$http .= Skin::build_form($fields);
+	$fields = array();
 
-	//
-	// outbound HTTP parameters
-	//
+	// the proxy host
+	$label = i18n::s('Proxy address or name');
+	if(!isset($context['proxy_server']))
+		$context['proxy_server'] = '';
+	$input = '<input type="text" name="proxy_server" size="45" value="'.encode_field($context['proxy_server']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
 
-	// not on first installation
-	if(file_exists('../parameters/control.include.php')) {
+	// the proxy user name
+	$label = i18n::s('Proxy account');
+	if(!isset($context['proxy_user']))
+		$context['proxy_user'] = '';
+	$input = '<input type="text" name="proxy_user" size="45" value="'.encode_field($context['proxy_user']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
 
-		$context['text'] .= Skin::build_block(i18n::s('Outbound HTTP parameters'), 'title');
+	// the proxy password
+	$label = i18n::s('Proxy password');
+	if(!isset($context['proxy_password']))
+		$context['proxy_password'] = '';
+	$input = '<input type="password" name="proxy_password" size="45" value="'.encode_field($context['proxy_password']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
 
-		// without outbound http
-		$label = i18n::s('Global switch');
-		$input = '<input type="radio" name="without_outbound_http" value="N"';
-		if(!isset($context['without_outbound_http']) || ($context['without_outbound_http'] != 'Y'))
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('This server uses the web for syndication, for pings or for other activities.');
-		$input .= BR.'<input type="radio" name="without_outbound_http" value="Y"';
-		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y'))
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Prevent this server to connect to others.');
-		$fields[] = array($label, $input);
-
-		// the proxy host
-		$label = i18n::s('Proxy address or name');
-		if(!isset($context['proxy_server']))
-			$context['proxy_server'] = '';
-		$input = '<input type="text" name="proxy_server" size="45" value="'.encode_field($context['proxy_server']).'" maxlength="255" />';
-		$fields[] = array($label, $input);
-
-		// the proxy user name
-		$label = i18n::s('Proxy account');
-		if(!isset($context['proxy_user']))
-			$context['proxy_user'] = '';
-		$input = '<input type="text" name="proxy_user" size="45" value="'.encode_field($context['proxy_user']).'" maxlength="255" />';
-		$fields[] = array($label, $input);
-
-		// the proxy password
-		$label = i18n::s('Proxy password');
-		if(!isset($context['proxy_password']))
-			$context['proxy_password'] = '';
-		$input = '<input type="password" name="proxy_password" size="45" value="'.encode_field($context['proxy_password']).'" maxlength="255" />';
-		$fields[] = array($label, $input);
-
-		// build the form
-		$context['text'] .= Skin::build_form($fields);
-		$fields = array();
-
-	}
+	// build the form
+	$http .= Skin::build_box(i18n::s('Proxy settings'), Skin::build_form($fields), 'folder');
+	$fields = array();
 
 	//
 	// outbound mail parameters
 	//
+	$mail = '';
 
-	// not on first installation
-	if(file_exists('../parameters/control.include.php')) {
+	// splash message
+	$mail .= '<p>'.i18n::s('If you do not know what following parameters mean, please use default values for safety.')."</p>\n";
 
-		$context['text'] .= Skin::build_block(i18n::s('Outbound mail parameters'), 'title');
+	// with mail
+	$label = i18n::s('Global switch');
+	$input = '<input type="radio" name="with_email" value="N"';
+	if(!isset($context['with_email']) || ($context['with_email'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('This system is not configured to send e-mail messages.');
+	$input .= BR.'<input type="radio" name="with_email" value="Y"';
+	if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Use below parameters to handle electronic mail messages.');
+	$fields[] = array($label, $input);
 
-		// splash message
-		$context['text'] .= '<p>'.i18n::s('If you do not know what following parameters mean, please use default values for safety.')."</p>\n";
+	// smtp server
+	$label = i18n::s('SMTP server (if blank, use php.ini)');
+	if(!isset($context['mail_smtp_server']))
+		$context['mail_smtp_server'] = '';
+	$input = '<input type="text" name="mail_smtp_server" size="45" value="'.encode_field($context['mail_smtp_server']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
 
-		// with mail
-		$label = i18n::s('Global switch');
-		$input = '<input type="radio" name="with_email" value="N"';
-		if(!isset($context['with_email']) || ($context['with_email'] != 'Y'))
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('This system is not configured to send e-mail messages.');
-		$input .= BR.'<input type="radio" name="with_email" value="Y"';
-		if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Use below parameters to handle electronic mail messages.');
-		$fields[] = array($label, $input);
+	// pop3 server
+	$label = i18n::s('POP3 server used for authentication');
+	if(!isset($context['mail_pop3_server']))
+		$context['mail_pop3_server'] = '';
+	$input = '<input type="text" name="mail_pop3_server" size="45" value="'.encode_field($context['mail_pop3_server']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
 
-		// smtp server
-		$label = i18n::s('SMTP server (if blank, use php.ini)');
-		if(!isset($context['mail_smtp_server']))
-			$context['mail_smtp_server'] = '';
-		$input = '<input type="text" name="mail_smtp_server" size="45" value="'.encode_field($context['mail_smtp_server']).'" maxlength="255" />';
-		$fields[] = array($label, $input);
+	// pop3 user name
+	$label = i18n::s('POP3 account');
+	if(!isset($context['mail_pop3_user']))
+		$context['mail_pop3_user'] = '';
+	$input = '<input type="text" name="mail_pop3_user" size="45" value="'.encode_field($context['mail_pop3_user']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
 
-		// mail encoding
-		$label = i18n::s('Messages encoding');
-		$input = '<input type="radio" name="mail_encoding" value="base64"';
-		if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Transform messages using base64 encoding to ensure that only 7-bit ASCII entities are transmitted.');
-		$input .= BR.'<input type="radio" name="mail_encoding" value="8bit"';
-		if(isset($context['mail_encoding']) && ($context['mail_encoding'] == '8bit'))
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Do not transform bytes and assume proper transmission of 8-bit entities end-to-end.');
-		$fields[] = array($label, $input);
+	// pop3 password
+	$label = i18n::s('POP3 password');
+	if(!isset($context['mail_pop3_password']))
+		$context['mail_pop3_password'] = '';
+	$input = '<input type="password" name="mail_pop3_password" size="45" value="'.encode_field($context['mail_pop3_password']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
 
-		// pop3 server
-		$label = i18n::s('POP3 server used for authentication');
-		if(!isset($context['mail_pop3_server']))
-			$context['mail_pop3_server'] = '';
-		$input = '<input type="text" name="mail_pop3_server" size="45" value="'.encode_field($context['mail_pop3_server']).'" maxlength="255" />';
-		$fields[] = array($label, $input);
+	// mail encoding
+	$label = i18n::s('Messages encoding');
+	$input = '<input type="radio" name="mail_encoding" value="base64"';
+	if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Transform messages using base64 encoding to ensure that only 7-bit ASCII entities are transmitted.');
+	$input .= BR.'<input type="radio" name="mail_encoding" value="8bit"';
+	if(isset($context['mail_encoding']) && ($context['mail_encoding'] == '8bit'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Do not transform bytes and assume proper transmission of 8-bit entities end-to-end.');
+	$fields[] = array($label, $input);
 
-		// pop3 user name
-		$label = i18n::s('POP3 account');
-		if(!isset($context['mail_pop3_user']))
-			$context['mail_pop3_user'] = '';
-		$input = '<input type="text" name="mail_pop3_user" size="45" value="'.encode_field($context['mail_pop3_user']).'" maxlength="255" />';
-		$fields[] = array($label, $input);
+	// source address
+	$label = i18n::s('Source address for electronic mail (From:)');
+	if(!isset($context['mail_from']))
+		$context['mail_from'] = '';
+	$input = '<input type="text" name="mail_from" size="45" value="'.encode_field($context['mail_from']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
 
-		// pop3 password
-		$label = i18n::s('POP3 password');
-		if(!isset($context['mail_pop3_password']))
-			$context['mail_pop3_password'] = '';
-		$input = '<input type="password" name="mail_pop3_password" size="45" value="'.encode_field($context['mail_pop3_password']).'" maxlength="255" />';
-		$fields[] = array($label, $input);
+	// maximum outbound messages per hour
+	$label = i18n::s('Maximum of outbound messages per hour');
+	if(!isset($context['mail_hourly_maximum']) || ($context['mail_hourly_maximum'] < 5))
+		$context['mail_hourly_maximum'] = 50;
+	$input = '<input type="text" name="mail_hourly_maximum" size="5" value="'.encode_field($context['mail_hourly_maximum']).'" maxlength="10" />';
+	$fields[] = array($label, $input);
 
-		// source address
-		$label = i18n::s('Source address for electronic mail (From:)');
-		if(!isset($context['mail_from']))
-			$context['mail_from'] = '';
-		$input = '<input type="text" name="mail_from" size="45" value="'.encode_field($context['mail_from']).'" maxlength="255" />';
-		$fields[] = array($label, $input);
+	// target recipients for logged events
+	$label = i18n::s('Recipients of system events');
+	if(!isset($context['mail_logger_recipient']))
+		$context['mail_logger_recipient'] = '';
+	$input = '<input type="text" name="mail_logger_recipient" size="45" value="'.encode_field($context['mail_logger_recipient']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
 
-		// maximum outbound messages per hour
-		$label = i18n::s('Maximum of outbound messages per hour');
-		if(!isset($context['mail_hourly_maximum']) || ($context['mail_hourly_maximum'] < 5))
-			$context['mail_hourly_maximum'] = 50;
-		$input = '<input type="text" name="mail_hourly_maximum" size="5" value="'.encode_field($context['mail_hourly_maximum']).'" maxlength="10" />';
-		$fields[] = array($label, $input);
+	// debug mail
+	$label = i18n::s('Debug mail services');
+	$checked = '';
+	if(isset($context['debug_mail']) && ($context['debug_mail'] == 'Y'))
+		$checked = ' checked="checked" ';
+	$input = '<input type="checkbox" name="debug_mail" value="Y" '.$checked.'/> '.i18n::s('List messages sent electronically in the file temporary/debug.txt. Use this option only for troubleshooting.');
+	$fields[] = array($label, $input);
 
-		// target recipients for logged events
-		$label = i18n::s('Recipients of system events');
-		if(!isset($context['mail_logger_recipient']))
-			$context['mail_logger_recipient'] = '';
-		$input = '<input type="text" name="mail_logger_recipient" size="45" value="'.encode_field($context['mail_logger_recipient']).'" maxlength="255" />';
-		$fields[] = array($label, $input);
-
-		// debug mail
-		$label = i18n::s('Debug mail services');
-		$checked = '';
-		if(isset($context['debug_mail']) && ($context['debug_mail'] == 'Y'))
-			$checked = ' checked="checked" ';
-		$input = '<input type="checkbox" name="debug_mail" value="Y" '.$checked.'/> '.i18n::s('List messages sent electronically in the file temporary/debug.txt. Use this option only for troubleshooting.');
-		$fields[] = array($label, $input);
-
-		// build the form
-		$context['text'] .= Skin::build_form($fields);
-		$fields = array();
-
-	}
+	// build the form
+	$mail .= Skin::build_form($fields);
+	$fields = array();
 
 	//
-	// about the skin
+	// change the skin
 	//
+	$skin = '';
 
-	// on first installation, use the default skin
-	if(!file_exists('../parameters/control.include.php'))
-		$context['text'] .= '<input type="hidden" name="skin" value="'.encode_field($context['skin']).'" >'."\n";
+	$skin .= '<p>'.sprintf(i18n::s('Check %s to manage and preview all available styles.'), Skin::build_link('skins/', i18n::s('the index page of skins')))."</p>\n";
 
-	// else let the user select his preferred skin
-	else {
+	// list skins available on this system
+	if($dir = Safe::opendir("../skins")) {
 
-		$context['text'] .= Skin::build_block(i18n::s('Skin of the server'), 'title');
+		// valid skins have a template.php file
+		$skins = array();
+		while(($file = Safe::readdir($dir)) !== FALSE) {
+			if($file == '.' || $file == '..' || !is_dir('../skins/'.$file))
+				continue;
+			if(!file_exists('../skins/'.$file.'/template.php'))
+				continue;
 
-		$context['text'] .= '<p>'.i18n::s('Please select a skin. This can be changed and configured later on.')."</p>\n";
+			// set a default skin
+			if(!$context['skin'])
+				$context['skin'] = 'skins/'.$file;
 
-		// list skins available on this system
-		$context['text'] .= '<p>';
-		if($dir = Safe::opendir("../skins")) {
+			$checked = '';
+			if($context['skin'] == 'skins/'.$file)
+				$checked = ' checked="checked"';
+			$skins[] = '<input type="radio" name="skin" value="skins/'.encode_field($file).'"'.$checked.' /> '.$file;
 
-			// valid skins have a template.php file
-			while(($file = Safe::readdir($dir)) !== FALSE) {
-				if($file == '.' || $file == '..' || !is_dir('../skins/'.$file))
-					continue;
-				if(!file_exists('../skins/'.$file.'/template.php'))
-					continue;
-
-				// set a default skin
-				if(!$context['skin'])
-					$context['skin'] = 'skins/'.$file;
-
-				$checked = '';
-				if($context['skin'] == 'skins/'.$file)
-					$checked = ' checked="checked"';
-				$skins[] = '<input type="radio" name="skin" value="skins/'.encode_field($file).'"'.$checked.EOT.' '.$file.BR."\n";
-
-			}
-			Safe::closedir($dir);
-			if(@count($skins)) {
-				sort($skins);
-				foreach($skins as $skin)
-					$context['text'] .= $skin;
-			}
 		}
-		$context['text'] .= '</p>';
-
+		Safe::closedir($dir);
+		if(count($skins)) {
+			sort($skins);
+			foreach($skins as $item)
+				$skin .= '<p>'.$item.'</p>';
+		}
 	}
 
 	//
-	// the submit button
+	// assemble all tabs
 	//
-	$context['text'] .= Skin::build_box(i18n::s('Save parameters'), '<p>'.Skin::build_submit_button(i18n::s('Save'), i18n::s('Press [s] to submit data'), 's', 'confirmed').'</p>');
+	$all_tabs = array(
+		array('database_tab', i18n::s('Database'), 'database_panel', $database),
+		array('system_tab', i18n::s('System'), 'system_panel', $system),
+		array('http_tab', i18n::s('Network'), 'http_panel', $http),
+		array('mail_tab', i18n::s('Mail'), 'mail_panel', $mail),
+		array('skin_tab', i18n::s('Skin'), 'skin_panel', $skin)
+		);
+
+	// let YACS do the hard job
+	$context['text'] .= Skin::build_tabs($all_tabs);
+
+	//
+	// bottom commands
+	//
+	$menu = array();
+
+	// the submit button
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+	// control panel
+	if(file_exists('../parameters/control.include.php'))
+		$menu[] = Skin::build_link('control/', i18n::s('Control Panel'), 'span');
+
+	// all skins
+	if(file_exists('../parameters/control.include.php'))
+		$menu[] = Skin::build_link('skins/', i18n::s('Skins'), 'span');
+
+	// insert the menu in the page
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// end of the form
 	$context['text'] .= '</div></form>';
@@ -721,7 +698,7 @@ if(!Surfer::is_associate()) {
 
 		// return to the skins index if we are coming from there
 		if($_REQUEST['parameter'] == 'skin') {
-			$context['followup_label'] = i18n::s('All skins');
+			$context['followup_label'] = i18n::s('Skins');
 			$context['followup_link'] = 'skins/';
 		}
 
@@ -748,8 +725,8 @@ if(!Surfer::is_associate()) {
 		.'// This file has been created by the configuration script control/configure.php'."\n"
 		.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.Surfer::get_name().'. Please do not modify it manually.'."\n"
 		.'global $context;'."\n";
-	if(isset($_REQUEST['cron_host']))
-		$content .= '$context[\'cron_host\']=\''.addcslashes($_REQUEST['cron_host'], "\\'")."';\n";
+	if(isset($_REQUEST['main_host']))
+		$content .= '$context[\'main_host\']=\''.addcslashes($_REQUEST['main_host'], "\\'")."';\n";
 	if(isset($_REQUEST['database_server']))
 		$content .= '$context[\'database_server\']=\''.addcslashes($_REQUEST['database_server'], "\\'")."';\n";
 	if(isset($_REQUEST['database_user']))
@@ -802,8 +779,6 @@ if(!Surfer::is_associate()) {
 		$content .= '$context[\'skin\']=\''.addcslashes($_REQUEST['skin'], "\\'")."';\n";
 	if(isset($_REQUEST['url_to_root_parameter']))
 		$content .= '$context[\'url_to_root\']=\''.addcslashes($_REQUEST['url_to_root_parameter'], "\\'")."';\n";
-	if(isset($_REQUEST['with_ajax_comet']))
-		$content .= '$context[\'with_ajax_comet\']=\''.addcslashes($_REQUEST['with_ajax_comet'], "\\'")."';\n";
 	if(isset($_REQUEST['with_compression']))
 		$content .= '$context[\'with_compression\']=\''.addcslashes($_REQUEST['with_compression'], "\\'")."';\n";
 	if(isset($_REQUEST['with_cron']))
@@ -818,6 +793,8 @@ if(!Surfer::is_associate()) {
 		$content .= '$context[\'without_cache\']=\''.addcslashes($_REQUEST['without_cache'], "\\'")."';\n";
 	if(isset($_REQUEST['without_http_cache']))
 		$content .= '$context[\'without_http_cache\']=\''.addcslashes($_REQUEST['without_http_cache'], "\\'")."';\n";
+	if(isset($_REQUEST['without_internet_visibility']))
+		$content .= '$context[\'without_internet_visibility\']=\''.addcslashes($_REQUEST['without_internet_visibility'], "\\'")."';\n";
 	if(isset($_REQUEST['without_language_detection']))
 		$content .= '$context[\'without_language_detection\']=\''.addcslashes($_REQUEST['without_language_detection'], "\\'")."';\n";
 	if(isset($_REQUEST['without_outbound_http']))
@@ -854,6 +831,9 @@ if(!Surfer::is_associate()) {
 
 		// purge the cache
 		Cache::clear();
+
+		// also purge session cache for this surfer
+		unset($_SESSION['l10n_modules']);
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/control.include.php');
@@ -922,16 +902,16 @@ if(!Surfer::is_associate()) {
 	} else {
 
 		// what's next?
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?')."</p>\n";
+		$context['text'] .= '<p>'.i18n::s('Where do you want to go now?').'</p>';
 
 		// follow-up menu
 		$menu = array();
 
-		// offer to change it again
-		$menu = array_merge($menu, array( 'control/configure.php' => i18n::s('Configure again') ));
+		// control panel
+		$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
 
-		// back to the control panel
-		$menu = array_merge($menu, array( 'control/' => i18n::s('Go to the Control Panel') ));
+		// do it again
+		$menu = array_merge($menu, array( 'control/configure.php' => i18n::s('Configure again') ));
 
 		// display follow-up commands
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');

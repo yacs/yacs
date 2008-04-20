@@ -80,17 +80,14 @@ i18n::bind('decisions');
 // load the skin
 load_skin('decisions');
 
-// the path to this page
+// path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
 	$context['path_bar'] = array( 'decisions/' => i18n::s('Decisions') );
 
-// the title of the page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_title'] = $anchor->get_title();
-else
-	$context['page_title'] = i18n::s('Decision feed');
+// page title
+$context['page_title'] = i18n::s('RSS feed');
 
 // permission denied
 if(!$permitted) {

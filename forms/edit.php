@@ -164,12 +164,6 @@ if(!Surfer::is_logged()) {
 	$item = $_REQUEST;
 	$with_form = TRUE;
 
-// change editor
-} elseif(isset($_REQUEST['preferred_editor']) && $_REQUEST['preferred_editor'] && ($_REQUEST['preferred_editor'] != $_SESSION['surfer_editor'])) {
-	$_SESSION['surfer_editor'] = $_REQUEST['preferred_editor'];
-	$item = $_REQUEST;
-	$with_form = TRUE;
-
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
@@ -391,7 +385,7 @@ if($with_form) {
 		$menu[] = Skin::build_link(Forms::get_url($item['id'], 'view', $item['title']), i18n::s('Cancel'), 'span');
 
 	// insert commands
-	$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
@@ -424,7 +418,7 @@ if($with_form) {
 	// content of the help box
 	$help = '<p>';
 	$help .= i18n::s('If you paste some existing HTML content and want to avoid the implicit formatting insert the code <code>[formatted]</code> at the very beginning of the description field.');
-	$help .= ' '.sprintf(i18n::s('%s and %s are available to beautify your post.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+	$help .= ' '.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
 
 	// in a sidebar box
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');

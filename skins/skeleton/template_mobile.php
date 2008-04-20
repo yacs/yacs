@@ -7,11 +7,8 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-// this one has to be included
-if(count(get_included_files()) < 3) {
-	echo 'Script must be included';
-	return;
-}
+// stop hackers
+defined('YACS') or exit('Script must be included');
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

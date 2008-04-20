@@ -81,7 +81,7 @@ if(is_object($anchor))
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'comments/' => i18n::s('All comments') );
+	$context['path_bar'] = array( 'comments/' => i18n::s('Threads') );
 
 // the title of the page
 if(is_object($anchor) && $anchor->is_viewable())

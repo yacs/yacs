@@ -341,11 +341,11 @@ if(is_object($anchor))
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
+	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 
 // page title
-if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-	$context['page_title'] = $overlay->get_live_title($item);
+if(is_object($overlay))
+	$context['page_title'] = $overlay->get_text('title', $item);
 elseif(isset($item['title']) && $item['title'])
 	$context['page_title'] = $item['title'];
 else
@@ -754,6 +754,11 @@ if(!isset($item['id'])) {
 				$details[] = $label;
 			}
 
+			// no more details
+			if(count($details))
+				$text .= ucfirst(implode(BR."\n", $details)).BR."\n";
+			$text .= "</p>\n";
+
 			// tags, if any
 			if(isset($item['tags']) && $item['tags']) {
 				$tags = explode(',', $item['tags']);
@@ -764,13 +769,8 @@ if(!isset($item['id'])) {
 					else
 						$line .= trim($tag).' ';
 				}
-				$details[] = sprintf(i18n::s('Tags: %s'), trim($line));
+				$text .= '<p class="tags">'.sprintf(i18n::s('Tags: %s'), trim($line)).'</p>'."\n";
 			}
-
-			// no more details
-			if(count($details))
-				$text .= ucfirst(implode(BR."\n", $details)).BR."\n";
-			$text .= "</p>\n";
 
 			// save in cache
 			Cache::put($cache_id, $text, 'article:'.$item['id']);
@@ -830,7 +830,9 @@ if(!isset($item['id'])) {
 			if($page == 1) {
 
 				// the introduction text, if any
-				if(isset($item['introduction']) && trim($item['introduction']))
+				if(is_object($overlay))
+					$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
+				elseif(isset($item['introduction']) && trim($item['introduction']))
 					$text .= Skin::build_block($item['introduction'], 'introduction');
 				else
 					$text .= BR;
@@ -1214,7 +1216,7 @@ if(!isset($item['id'])) {
 				}
 
 				// insert a full box
-				$box['text'] =& Skin::build_box(i18n::s('Related links'), $box['text'], 'header1', 'links');
+				$box['text'] =& Skin::build_box(i18n::s('See also'), $box['text'], 'header1', 'links');
 
 			}
 
@@ -1242,6 +1244,10 @@ if(!isset($item['id'])) {
 
 		// insert text collected so far
 		$text .= $bottom_text;
+
+		// add trailer information from the overlay, if any
+		if(is_object($overlay))
+			$text .= $overlay->get_text('trailer', $item);
 
 		// add trailer information from this item, if any
 		if(isset($item['trailer']) && trim($item['trailer']))
@@ -1294,6 +1300,10 @@ if(!isset($item['id'])) {
 			$box_popup = '';
 			$text = Skin::build_box($box_title, $menu, 'navigation', 'contextual_menu', $box_url, $box_popup)."\n".$context['extra'];
 		}
+
+		// add extra information from the overlay, if any
+		if(is_object($overlay))
+			$text .= $overlay->get_text('extra', $item);
 
 		// add extra information from this item, if any
 		if(isset($item['extra']) && $item['extra'])
@@ -1436,16 +1446,20 @@ if(!isset($item['id'])) {
 		}
 
 		// get news from rss
-		if(isset($item['id']) && (!isset($context['pages_without_feed']) || ($context['pages_without_feed'] != 'Y')) ) {
+		if(isset($item['id']) && (!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {
 
 			// list of attached files
 			$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('article:'.$item['id'], 'feed'), i18n::s('podcasted files'), 'xml');
 
 			// comments are allowed
-			if(Comments::are_allowed($anchor, $item))
+			if(Comments::are_allowed($anchor, $item)) {
 				$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), i18n::s('recent comments'), 'xml').BR
-					.$content.BR
-					.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), $item['title']));
+					.$content;
+
+				// public aggregators
+				if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+					$content .= BR.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), $item['title']));
+			}
 
 			$text .= Skin::build_box(i18n::s('Stay tuned'), $content, 'extra', 'feeds');
 		}
@@ -1473,9 +1487,6 @@ if(!isset($item['id'])) {
 	//
 
 	$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
-		."\n"
-		.'// we are visiting this page until we leave'."\n"
-		.'new PeriodicalExecuter(function(){ new Ajax.Request("'.$context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'visit').'", { method: "get" }) }, 40);'."\n"
 		."\n"
 		.'// reload this page on update'."\n"
 		.'var PeriodicalCheck = {'."\n"

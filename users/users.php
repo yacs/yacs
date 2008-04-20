@@ -205,10 +205,6 @@ Class Users {
 		if(is_callable(array('Logger', 'remember')))
 			Logger::remember('users/users.php', 'Failed basic authentication', 'User: '.$_SERVER['PHP_AUTH_USER']."\n".'Password: '.$_SERVER['PHP_AUTH_PW']);
 
-		// slow down hackers
-		if(is_callable(array('Safe', 'sleep')))
-			Safe::sleep(5);
-
 		// tough luck
 		return NULL;
 	}
@@ -500,7 +496,7 @@ Class Users {
 			return 'users/select.php?member='.urlencode($id);
 
 		// check the target action
-		if(!preg_match('/^(contact|delete|describe|edit|element|feed|fetch_vcard|mail|password|print|select_avatar|validate|view|visit)$/', $action))
+		if(!preg_match('/^(contact|delete|describe|edit|element|feed|fetch_vcard|mail|password|print|select_avatar|share|validate|view|visit)$/', $action))
 			$action = 'view';
 
 		// normalize the link
@@ -537,7 +533,7 @@ Class Users {
 		// do the job
 		$query = "UPDATE ".SQL::table_name('users')
 			." SET post_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."', posts=posts+1"
-			." WHERE (id LIKE '$id')";
+			." WHERE id = ".$id;
 		SQL::query($query, FALSE, $context['users_connection']);
 
 		// clear the cache for users
@@ -999,13 +995,20 @@ Class Users {
 		$authenticated = FALSE;
 		$item = NULL;
 
+		// up to three authentication attempts during last hour
+		$authentication_horizon = gmstrftime('%Y-%m-%d %H:%M:%S', time()-3600);
+
 		// search a user profile locally
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
 			." WHERE users.email LIKE '".SQL::escape($name)."' OR users.nick_name LIKE '".SQL::escape($name)."'";
 		if(isset($context['users_connection']) && ($item =& SQL::query_first($query, FALSE, $context['users_connection']))) {
 
-			// the user has been banned
+			// the user has been explicitly banned
 			if($item['capability'] == '?')
+				$authenticated = FALSE;
+
+			// more than three failed authentications during previous hour
+			elseif(($item['authenticate_date'] > $authentication_horizon) && ($item['authenticate_failures'] >= 3))
 				$authenticated = FALSE;
 
 			// successful local check
@@ -1040,6 +1043,8 @@ Class Users {
 			$fields['without_alerts'] = 'N';
 			$fields['without_confirmations'] = 'N';
 			$fields['without_confirmations'] = 'N';
+			$fields['authenticate_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+			$fields['authenticate_failures'] = 0;
 
 			// stop on error
 			if(!$id = Users::post($fields))
@@ -1047,6 +1052,38 @@ Class Users {
 
 			// retrieve the shadow record
 			$item =& Users::get($id);
+		}
+
+		// bad credentials
+		if(!$authenticated && isset($item['id'])) {
+
+			// increment failing authentications during last hour
+			if(isset($item['authenticate_date']) && ($item['authenticate_date'] >= $authentication_horizon)) {
+
+				$query = "UPDATE ".SQL::table_name('users')
+					." SET authenticate_failures=authenticate_failures+1"
+					." WHERE id = ".$item['id'];
+
+				if($item['authenticate_failures'] >= 2)
+					Skin::error(i18n::s('Wait for one hour to recover from too many failed authentications.'));
+				elseif($item['authenticate_failures'] == 1)
+					Skin::error(i18n::s('You have 1 grace authentication attempt.'));
+
+			// first failure in a row
+			} else {
+				$query = "UPDATE ".SQL::table_name('users')
+					." SET authenticate_date = '".gmstrftime('%Y-%m-%d %H:%M:%S')."'"
+					.", authenticate_failures=1"
+					." WHERE id = ".$item['id'];
+
+				Skin::error(i18n::s('You have 2 grace authentication attempts.'));
+			}
+
+			// update target record
+			SQL::query($query, FALSE, $context['users_connection']);
+
+			// no user record is returned
+			return NULL;
 		}
 
 		// not authenticated, or no record
@@ -1060,9 +1097,14 @@ Class Users {
 			$handle = ", handle='".$item['handle']."' ";
 		}
 
-		// remember silently the date of the last login
+		// remember silently the date of the last login, and reset authentication counter
 		$query = "UPDATE ".SQL::table_name('users')
-			." SET login_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."', login_address='".$_SERVER['REMOTE_ADDR']."'".$handle." WHERE id = ".$item['id'];
+			." SET login_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'"
+			.", login_address='".$_SERVER['REMOTE_ADDR']."'"
+			.", authenticate_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'"
+			.", authenticate_failures=0"
+			.$handle
+			." WHERE id = ".$item['id'];
 		SQL::query($query, FALSE, $context['users_connection']);
 
 		// valid user - date of previous login is transmitted as well
@@ -1190,8 +1232,9 @@ Class Users {
 			$query .= "id='".SQL::escape($fields['id'])."',";
 		$query .= "email='".SQL::escape(isset($fields['email']) ? $fields['email'] : '')."', "
 			."active='".SQL::escape($fields['active'])."', "
-			."avatar_url='".SQL::escape(isset($fields['avatar_url']) ? $fields['avatar_url'] : '')."', "
 			."aim_address='".SQL::escape(isset($fields['aim_address']) ? $fields['aim_address'] : '')."', "
+			."alternate_number='".SQL::escape(isset($fields['alternate_number']) ? $fields['alternate_number'] : '')."', "
+			."avatar_url='".SQL::escape(isset($fields['avatar_url']) ? $fields['avatar_url'] : '')."', "
 			."capability='".SQL::escape($fields['capability'])."', "
 			."create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."', "
 			."create_id='".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id'])."', "
@@ -1218,14 +1261,20 @@ Class Users {
 			."overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."',"
 			."password='".SQL::escape(isset($fields['password']) ? $fields['password'] : '')."', "
 			."pgp_key='".SQL::escape(isset($fields['pgp_key']) ? $fields['pgp_key'] : '')."', "
+			."phone_number='".SQL::escape(isset($fields['phone_number']) ? $fields['phone_number'] : '')."', "
 			."post_date='".SQL::escape($fields['post_date'])."', "
 			."posts=".SQL::escape(isset($fields['posts']) ? $fields['posts'] : '0').", "
 			."proxy_address='".SQL::escape(isset($fields['proxy_address']) ? $fields['proxy_address'] : '')."', "
 			."signature='".SQL::escape(isset($fields['signature']) ? $fields['signature'] : '')."', "
 			."skype_address='".SQL::escape(isset($fields['skype_address']) ? $fields['skype_address'] : '')."', "
 			."tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."', "
+			."vcard_agent='".SQL::escape(isset($fields['vcard_agent']) ? $fields['vcard_agent'] : '')."', "
+			."vcard_label='".SQL::escape(isset($fields['vcard_label']) ? $fields['vcard_label'] : '')."', "
+			."vcard_organization='".SQL::escape(isset($fields['vcard_organization']) ? $fields['vcard_organization'] : '')."', "
+			."vcard_title='".SQL::escape(isset($fields['vcard_title']) ? $fields['vcard_title'] : '')."', "
 			."web_address='".SQL::escape(isset($fields['web_address']) ? $fields['web_address'] : '')."', "
 			."with_newsletters='".($fields['with_newsletters'])."', "
+			."with_sharing='".(isset($fields['with_sharing']) ? $fields['with_sharing'] : 'N')."', "
 			."without_alerts='".($fields['without_alerts'])."', "
 			."without_confirmations='".($fields['without_confirmations'])."', "
 			."without_messages='".($fields['without_messages'])."', "
@@ -1391,8 +1440,9 @@ Class Users {
 		// change all fields, except the password
 		else {
 			$query .= "email='".SQL::escape(isset($fields['email']) ? $fields['email'] : '')."', "
-				."avatar_url='".SQL::escape(isset($fields['avatar_url']) ? $fields['avatar_url'] : '')."', "
 				."aim_address='".SQL::escape(isset($fields['aim_address']) ? $fields['aim_address'] : '')."', "
+				."alternate_number='".SQL::escape(isset($fields['alternate_number']) ? $fields['alternate_number'] : '')."', "
+				."avatar_url='".SQL::escape(isset($fields['avatar_url']) ? $fields['avatar_url'] : '')."', "
 				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."', "
 				."editor='".SQL::escape($fields['editor'])."', "
 				."from_where='".SQL::escape(isset($fields['from_where']) ? $fields['from_where'] : '')."', "
@@ -1407,12 +1457,18 @@ Class Users {
 				."overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."',"
 				."overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."',"
 				."pgp_key='".SQL::escape(isset($fields['pgp_key']) ? $fields['pgp_key'] : '')."', "
+				."phone_number='".SQL::escape(isset($fields['phone_number']) ? $fields['phone_number'] : '')."', "
 				."proxy_address='".SQL::escape(isset($fields['proxy_address']) ? $fields['proxy_address'] : '')."', "
 				."signature='".SQL::escape(isset($fields['signature']) ? $fields['signature'] : '')."', "
 				."skype_address='".SQL::escape(isset($fields['skype_address']) ? $fields['skype_address'] : '')."', "
 				."tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."', "
+				."vcard_agent='".SQL::escape(isset($fields['vcard_agent']) ? $fields['vcard_agent'] : '')."', "
+				."vcard_label='".SQL::escape(isset($fields['vcard_label']) ? $fields['vcard_label'] : '')."', "
+				."vcard_organization='".SQL::escape(isset($fields['vcard_organization']) ? $fields['vcard_organization'] : '')."', "
+				."vcard_title='".SQL::escape(isset($fields['vcard_title']) ? $fields['vcard_title'] : '')."', "
 				."web_address='".SQL::escape(isset($fields['web_address']) ? $fields['web_address'] : '')."', "
 				."with_newsletters='".($fields['with_newsletters'])."', "
+				."with_sharing='".(isset($fields['with_sharing']) ? $fields['with_sharing'] : 'N')."', "
 				."without_alerts='".($fields['without_alerts'])."', "
 				."without_confirmations='".($fields['without_confirmations'])."', "
 				."without_messages='".($fields['without_messages'])."', "
@@ -1535,63 +1591,69 @@ Class Users {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL"; 				// Yes, Restricted or No
-		$fields['aim_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['avatar_url']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['birthday_date'] = "DATETIME";
-		$fields['capability']	= "ENUM('A','M','S','?') DEFAULT '?' NOT NULL"; 			// Associate, Member, Subscriber or unknown
-		$fields['click_anchor'] = "VARCHAR(64) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['click_date']	= "DATETIME";												// last click
-		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// profile creation
-		$fields['create_id']	= "MEDIUMINT UNSIGNED DEFAULT '1' NOT NULL";
+		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
+		$fields['aim_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['alternate_number'] = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['authenticate_date']	= "DATETIME";
+		$fields['authenticate_failures']	= "SMALLINT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['avatar_url']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['birth_date'] = "DATETIME";
+		$fields['capability']	= "ENUM('A','M','S','?') DEFAULT '?' NOT NULL";
+		$fields['click_anchor'] = "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['click_date']	= "DATETIME";
+		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['create_id']	= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['create_date']	= "DATETIME";
-		$fields['description']	= "TEXT NOT NULL";											// up to 64k chars
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// profile modification
-		$fields['edit_id']		= "MEDIUMINT UNSIGNED DEFAULT '1' NOT NULL";
+		$fields['description']	= "TEXT NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_id']		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_action']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
-		$fields['editor']		= "VARCHAR(128) DEFAULT '' NOT NULL";						// preferred editor tool
-		$fields['email']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['full_name']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['from_where']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";						// up to 128 chars
-		$fields['icq_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['introduction'] = "TEXT NOT NULL";											// up to 64k chars
-		$fields['irc_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['jabber_address'] = "VARCHAR(255) DEFAULT '' NOT NULL"; 					// up to 255 chars
-		$fields['login_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['login_date']	= "DATETIME";												// last login
-		$fields['msn_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['nick_name']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['options']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['overlay']		= "TEXT NOT NULL";											// up to 64k chars
-		$fields['overlay_id']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// to find the page by its overlay
-		$fields['password'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['pgp_key']		= "TEXT NOT NULL";											// up to 64k chars
-		$fields['post_date']	= "DATETIME";												// last post
-		$fields['posts']		= "INT UNSIGNED DEFAULT '0' NOT NULL";						// counter
-		$fields['proxy_address']= "VARCHAR(255) DEFAULT '' NOT NULL";						// inbound proxy
-		$fields['signature']	= "TEXT NOT NULL";											// up to 64k chars
-		$fields['skype_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['tags'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['web_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['with_newsletters'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL"; 				// accept newsletters
-		$fields['without_alerts'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";					// be alerted on comments
-		$fields['without_confirmations'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";			// confirm password
-		$fields['without_messages'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL"; 				// allow other users to post messages
-		$fields['yahoo_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
+		$fields['editor']		= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['email']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['full_name']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['from_where']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['icq_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['introduction'] = "TEXT NOT NULL";
+		$fields['irc_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['jabber_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['login_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['login_date']	= "DATETIME";
+		$fields['msn_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['nick_name']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['options']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['overlay']		= "TEXT NOT NULL";
+		$fields['overlay_id']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['password'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['pgp_key']		= "TEXT NOT NULL";
+		$fields['phone_number'] = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['post_date']	= "DATETIME";
+		$fields['posts']		= "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['proxy_address']= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['signature']	= "TEXT NOT NULL";
+		$fields['skype_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['tags'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['vcard_agent']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['vcard_label']	= "TEXT NOT NULL";
+		$fields['vcard_organization']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['vcard_title']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['web_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['with_newsletters'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
+		$fields['with_sharing'] = "ENUM('N','V', 'M') DEFAULT 'N' NOT NULL";
+		$fields['without_alerts'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
+		$fields['without_confirmations'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
+		$fields['without_messages'] = "ENUM('Y','N') DEFAULT 'N' NOT NULL";
+		$fields['yahoo_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 		= "(id)";
-		$indexes['INDEX birthday_date'] = "(birthday_date)";
 		$indexes['INDEX create_date']	= "(create_date)";
 		$indexes['INDEX create_id'] 	= "(create_id)";
-		$indexes['INDEX create_name']	= "(create_name)";
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
 		$indexes['INDEX edit_id']		= "(edit_id)";
-		$indexes['INDEX edit_name'] 	= "(edit_name)";
 		$indexes['INDEX email'] 		= "(email)";
 		$indexes['INDEX full_name'] 	= "(full_name(255))";
 		$indexes['INDEX handle']		= "(handle)";
@@ -1692,7 +1754,7 @@ Class Users {
 		// do the job
 		$query = "UPDATE ".SQL::table_name('users')
 			." SET capability='M'"
-			." WHERE (id LIKE '$id')";
+			." WHERE id = ".$id;
 		$result =& SQL::query($query, FALSE, $context['users_connection']);
 
 		// clear the cache for users

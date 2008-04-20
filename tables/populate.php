@@ -25,11 +25,9 @@
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
 
-// this one has to be included
-if(count(get_included_files()) < 3) {
-	echo 'Script must be included';
-	return;
-}
+// stop hackers
+defined('YACS') or exit('Script must be included');
+
 include_once $context['path_to_root'].'tables/tables.php';
 
 // load localized strings

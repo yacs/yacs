@@ -113,8 +113,8 @@ else
 	$context['path_bar'] = array( 'actions/' => i18n::s('Actions') );
 
 // the title of the page
-if($item['id'])
-	$context['page_title'] = i18n::s('Update an action');
+if(isset($item['title']))
+	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
 else
 	$context['page_title'] = i18n::s('Add an action');
 
@@ -149,12 +149,6 @@ if(!$permitted) {
 
 // an error occured
 } elseif(count($context['error'])) {
-	$item = $_REQUEST;
-	$with_form = TRUE;
-
-// change editor
-} elseif(isset($_REQUEST['preferred_editor']) && $_REQUEST['preferred_editor'] && ($_REQUEST['preferred_editor'] != $_SESSION['surfer_editor'])) {
-	$_SESSION['surfer_editor'] = $_REQUEST['preferred_editor'];
 	$item = $_REQUEST;
 	$with_form = TRUE;
 
@@ -363,7 +357,7 @@ if($with_form) {
 
 	// general help on this form
 	$context['extra'] .= Skin::build_box(i18n::s('Help'),
-		sprintf(i18n::s('<p>If possible, describe the whole action in its title. The description field should be used for additional non-essentiel details.</p><p>%s and %s are available to beautify your post.</p><p>Use the target field to designate the main web resource involved in the action.</p>'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')), 'navigation', 'help');
+		sprintf(i18n::s('<p>If possible, describe the whole action in its title. The description field should be used for additional non-essentiel details.</p><p>%s and %s are available to enhance text rendering.</p><p>Use the target field to designate the main web resource involved in the action.</p>'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')), 'navigation', 'help');
 
 }
 

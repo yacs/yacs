@@ -66,7 +66,7 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('No server profile to ping! You should configure at least %s'), Skin::build_link('servers/populate.php', i18n::s('some common targets'), 'shortcut')).'</p>';
 
 	// back to the index of servers
-	$menu = array('servers/' => i18n::s('All server profiles'));
+	$menu = array('servers/' => i18n::s('Servers'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	// remember this in log as well

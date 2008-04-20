@@ -146,23 +146,16 @@ load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
-// the path to this page
+// path to this page
 if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
+	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 if(isset($item['id']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
-// the title of the page
-if(isset($labels['title']) && $labels['title'])
-	$context['page_title'] = $labels['title'];
-else
-	$context['page_title'] = i18n::s('Mail a page');
-
-// command to go back
-if(isset($item['id']))
-	$context['page_menu'] = array( Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to the page') );
+// page title
+$context['page_title'] = i18n::s('Mail a page');
 
 // not found
 if(!isset($item['id'])) {

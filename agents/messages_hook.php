@@ -10,10 +10,7 @@
  */
 
 // stop hackers
-if(count(get_included_files()) < 3) {
-	echo 'Script must be included';
-	return;
-}
+defined('YACS') or exit('Script must be included');
 
 // trigger the post-processing function
 $hooks[] = array(

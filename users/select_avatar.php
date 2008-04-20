@@ -61,7 +61,7 @@ i18n::bind('users');
 load_skin('users');
 
 // the path to this page
-$context['path_bar'] = array( 'users/' => i18n::s('Users') );
+$context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
 if(isset($item['nick_name']))

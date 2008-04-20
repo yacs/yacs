@@ -95,7 +95,6 @@ div.sortable {
 
 div#form_input_panel {
 	margin-top: 2em;
-	border-top: 1px solid #ccc;
 	padding-top: 1em;
 }
 
@@ -226,15 +225,17 @@ div.nicetitle p.destination {
 div#tabs_bar {
 	position: relative;
 	margin: 2em 0 1em 0;
-	padding: 0 0 0 1em;
+	padding: 0 0 0 0.5em;
 	line-height: 20px; /* to avoid tabs superposition */
    	width: 80%; /* room on the right for avatars, etc. */
 	border-bottom: 1px solid #c0c0c0;
 }
 
 div#tabs_bar ul {
+	font-family:	Arial,sans-serif;
 	font-size: 12px;
-	font-weight: bold;
+	font-weight: normal;
+	line-height: 21px;
 	list-style-type: none;
 	text-align: left; /* change to left, center, or right to align the menu as desired */
 	margin: 1px 0 0 0;
@@ -250,7 +251,7 @@ div#tabs_bar ul li {
 div#tabs_bar ul li a {
 	text-decoration: none;
 	padding: 3px 7px;
-	margin-right: 3px;
+	margin: 0;
 	border: 1px solid #c0c0c0;
 	border-bottom: none;
 }
@@ -276,10 +277,14 @@ div#tabs_panels {
 
 div#tabs_panels div.panel-foreground {
 	display: block;
+	position: static;
+	left: 0;
 }
 
 div#tabs_panels div.panel-background {
-	display: none;
+/*	display: none;  do not hide tab content, this may kill Google Maps */
+	position: absolute;
+	left: +7000px;
 }
 
 /**
@@ -356,6 +361,37 @@ div#thread_text_panel dl dt.thread_other { /* details about other contributor */
 div.follow_up { /* comments from page author */
 	border: none;
 	background-color: #ffffe5;
+}
+
+/**
+ * tags
+ */
+
+p.tags {
+	font-family:	Arial,sans-serif;
+	font-size: 12px;
+	font-weight:	400;
+	font-style:	normal;
+	color:	#666666;
+}
+
+p.tags a {
+	font-family:	Arial,sans-serif;
+	font-size: 12px;
+	font-weight:	400;
+	font-style:	normal;
+	color:	#666666;
+	background: transparent url("tag_bg.gif") top left no-repeat;
+	border-right: 1px solid #c2c2c1;
+	padding: 0 5px 1px 15px;
+	margin: 0;
+	text-transform:	none;
+	text-decoration:	none;
+	letter-spacing:	normal;
+	word-spacing:	normal;
+	line-height:	16px;
+	text-align:	start;
+	vertical-align:	baseline;
 }
 
 /**
@@ -439,3 +475,7 @@ p.assistant_bar { /* menu appears at page bottom */
    	width: 80%; /* same width as div#tabs_bar */
 }
 
+div.folder_box {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}

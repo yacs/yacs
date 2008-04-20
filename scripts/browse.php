@@ -59,7 +59,7 @@ i18n::bind('scripts');
 load_skin('scripts');
 
 // the path to this page
-$context['path_bar'] = array( 'scripts/' => i18n::s('Scripts') );
+$context['path_bar'] = array( 'scripts/' => i18n::s('Server software') );
 
 // the title of the page
 if($script && ($store == 'reference'))

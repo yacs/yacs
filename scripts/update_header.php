@@ -15,12 +15,6 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-// stop hackers
-if(count(get_included_files()) < 3) {
-	echo 'Script must be included';
-	return;
-}
-
 // avoid errors on old versions
 if(!is_callable(array('i18n', 'bind')))
 	return;

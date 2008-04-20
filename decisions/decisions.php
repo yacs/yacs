@@ -883,17 +883,17 @@ Class Decisions {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";				// up to 64 chars
-		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL"; 				// up to 64 chars
+		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL";
 		$fields['anchor_id']	= "MEDIUMINT UNSIGNED NOT NULL";
-		$fields['type'] 		= "VARCHAR(64) DEFAULT 'yes' NOT NULL"; 				// up to 64 chars
-		$fields['description']	= "TEXT NOT NULL";								// up to 64k chars
-		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item creation
-		$fields['create_id']	= "MEDIUMINT DEFAULT '0' NOT NULL";
+		$fields['type'] 		= "VARCHAR(64) DEFAULT 'yes' NOT NULL";
+		$fields['description']	= "TEXT NOT NULL";
+		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['create_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['create_date']	= "DATETIME";
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item modification
-		$fields['edit_id']		= "MEDIUMINT DEFAULT '0' NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_action']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
@@ -903,13 +903,11 @@ Class Decisions {
 		$indexes['INDEX anchor']	= "(anchor)";
 		$indexes['INDEX anchor_id'] = "(anchor_id)";
 		$indexes['INDEX anchor_type']	= "(anchor_type)";
-		$indexes['INDEX type']		= "(type)";
-		$indexes['INDEX create_name'] = "(create_name)";
-		$indexes['INDEX create_id'] = "(create_id)";
 		$indexes['INDEX create_date'] = "(create_date)";
-		$indexes['INDEX edit_name'] = "(edit_name)";
-		$indexes['INDEX edit_id']	= "(edit_id)";
+		$indexes['INDEX create_id'] = "(create_id)";
 		$indexes['INDEX edit_date'] = "(edit_date)";
+		$indexes['INDEX edit_id']	= "(edit_id)";
+		$indexes['INDEX type']		= "(type)";
 		$indexes['FULLTEXT INDEX']	= "full_text(description)";
 
 		return SQL::setup_table('decisions', $fields, $indexes);

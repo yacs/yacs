@@ -223,20 +223,11 @@ if(!is_object($anchor)) {
 	$item = $_REQUEST;
 	$with_form = TRUE;
 
-// change editor
-} elseif(isset($_REQUEST['preferred_editor']) && $_REQUEST['preferred_editor'] && ($_REQUEST['preferred_editor'] != $_SESSION['surfer_editor'])) {
-	$_SESSION['surfer_editor'] = $_REQUEST['preferred_editor'];
-	$item = $_REQUEST;
-	$with_form = TRUE;
-
 // stop robots
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && Surfer::may_be_a_robot()) {
 	Skin::error(i18n::s('Please prove you are not a robot.'));
 	$item = $_REQUEST;
 	$with_form = TRUE;
-
-	// limit brute attacks
-	Safe::sleep(10);
 
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
@@ -577,7 +568,7 @@ if($with_form) {
 	// the submit, preview and cancel buttons --use Skin::build_submit_button() only once, because of IE6 bug http://www.fourmilab.ch/fourmilog/archives/2007-03/000824.html
 	$menu = array();
 	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit_button');
-	$menu[] = '<a href="#" onclick="$(\'preview_flag\').setAttribute(\'value\', \'Y\'); $(\'submit_button\').click(); return false;" accesskey="p" title="'.i18n::s('Press [p] for preview').'">'.i18n::s('Preview').'</a>';
+	$menu[] = '<a href="#" onclick="$(\'preview_flag\').setAttribute(\'value\', \'Y\'); $(\'submit_button\').click(); return false;" accesskey="p" title="'.i18n::s('Press [p] for preview').'"><span>'.i18n::s('Preview').'</span></a>';
 	if(is_object($anchor))
 		$menu[] = Skin::build_link($anchor->get_url('discuss'), i18n::s('Cancel'), 'span');
 
@@ -653,7 +644,7 @@ if($with_form) {
 		$help .= '<p>'.i18n::s('Most HTML tags are removed.');
 	else
 		$help .= '<p>';
-	$help .= ' '.sprintf(i18n::s('%s and %s are available to beautify your post.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+	$help .= ' '.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
 
 	// in a sidebar box
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');

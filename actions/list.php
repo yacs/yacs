@@ -85,7 +85,7 @@ else
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['page_title'] = $anchor->get_title();
 else
-	$context['page_title'] = i18n::s('All actions');
+	$context['page_title'] = i18n::s('Actions');
 
 // the command to create a new action is available to associates, editors and target member
 if(Surfer::is_associate()

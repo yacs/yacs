@@ -43,13 +43,13 @@ i18n::bind('articles');
 load_skin('articles');
 
 // the path to this page
-$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
+$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Articles to be reviewed');
 
 // the menu bar for this page
-$context['page_menu'] = array( 'articles/' => i18n::s('All articles') );
+$context['page_menu'] = array( 'articles/' => i18n::s('All pages') );
 
 // list queries
 if(Surfer::is_associate()) {

@@ -693,7 +693,7 @@ if(!$text =& Cache::get($cache_id)) {
 	if(is_array($items)) {
 
 		// add a link to articles index
-		$items['articles/'] = array(NULL, i18n::s('All articles'), NULL, 'shortcut');
+		$items['articles/'] = array(NULL, i18n::s('All pages'), NULL, 'shortcut');
 
 		// make a string out of the array
 		if($context['skin_variant'] == 'mobile')
@@ -720,10 +720,10 @@ if(!$text =& Cache::get($cache_id)) {
 	if(isset($context['home_with_recent_files']) && ($context['home_with_recent_files'] == 'Y') && ($context['skin_variant'] != 'mobile')){
 
 		// box title
-		$title = i18n::s('Most recent files');
+		$title = i18n::s('Recent files');
 
 		// link to the index page from the box title
-		$title =& Skin::build_box_title($title, 'files/', i18n::s('More files'));
+		$title =& Skin::build_box_title($title, 'files/', i18n::s('Files'));
 
 		// list most recent files
 		include_once $context['path_to_root'].'files/files.php';
@@ -736,7 +736,7 @@ if(!$text =& Cache::get($cache_id)) {
 	if(isset($context['home_with_recent_links']) && ($context['home_with_recent_links'] == 'Y') && ($context['skin_variant'] != 'mobile')){
 
 		// box title
-		$title = i18n::s('Most recent links');
+		$title = i18n::s('Recent links');
 
 		// link to the index page from the box title
 		$title =& Skin::build_box_title($title, 'links/', i18n::s('More links'));
@@ -807,7 +807,7 @@ if(!$text =& Cache::get($cache_id)) {
 		if($anchor['id'] && ($items = Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, ($context['root_featured_count']+1), 'news'))) {
 
 			// link to the category page from the box title
-			$title =& Skin::build_box_title($anchor['title'], Categories::get_url($anchor['id'], 'view', $anchor['title']), i18n::s('All featured pages'));
+			$title =& Skin::build_box_title($anchor['title'], Categories::get_url($anchor['id'], 'view', $anchor['title']), i18n::s('Featured pages'));
 
 			// limit to seven links only
 			if(@count($items) > $context['root_featured_count']) {
@@ -1017,7 +1017,7 @@ if(!$text =& Cache::get($cache_id)) {
 			$box['title'] = Codes::beautify_title($item['title']);
 
 			// link to the index page for polls
-			$box['title'] =& Skin::build_box_title($box['title'], $anchor->get_url(), i18n::s('All polls'));
+			$box['title'] =& Skin::build_box_title($box['title'], $anchor->get_url(), i18n::s('Polls'));
 
 			// the introductory text
 			if($item['introduction'])
@@ -1047,7 +1047,7 @@ if(!$text =& Cache::get($cache_id)) {
 			if(count($items) > COMPACT_LIST_SIZE) {
 				@array_splice($items, COMPACT_LIST_SIZE);
 
-				$items['articles/'] = i18n::s('More pages').MORE_IMG;
+				$items['articles/'] = i18n::s('All pages').MORE_IMG;
 			}
 
 			$text .= Skin::build_box(i18n::s('Recent Pages'), Skin::build_list($items, 'compact'), 'navigation');

@@ -663,28 +663,27 @@ Class Images {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";				// up to 64 chars
-		$fields['image_name']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['image_size']	= "INTEGER DEFAULT '0' NOT NULL";
-		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['description']	= "TEXT NOT NULL";											// up to 64k chars
-		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['thumbnail_name']= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['link_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['use_thumbnail']= "ENUM('A', 'Y','N') DEFAULT 'Y' NOT NULL";				// Always, Yes or No
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item modification
-		$fields['edit_id']		= "MEDIUMINT DEFAULT '0' NOT NULL";
+		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
+		$fields['image_name']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['image_size']	= "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['description']	= "TEXT NOT NULL";
+		$fields['source']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['thumbnail_name']= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['link_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['use_thumbnail']= "ENUM('A', 'Y','N') DEFAULT 'Y' NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX anchor']	= "(anchor)";
-		$indexes['INDEX title'] 	= "(title(255))";
-		$indexes['INDEX image_size']= "(image_size)";
-		$indexes['INDEX edit_name'] = "(edit_name)";
-		$indexes['INDEX edit_id']	= "(edit_id)";
 		$indexes['INDEX edit_date'] = "(edit_date)";
+		$indexes['INDEX edit_id']	= "(edit_id)";
+		$indexes['INDEX image_size']= "(image_size)";
+		$indexes['INDEX title'] 	= "(title(255))";
 		$indexes['FULLTEXT INDEX']	= "full_text(title, source, description)";
 
 		return SQL::setup_table('images', $fields, $indexes);

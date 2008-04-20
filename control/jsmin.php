@@ -64,22 +64,13 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 	// list running scripts
 	$context['text'] .= '<p>'.i18n::s('Compressing Javascript files...').BR."\n";
 
-	// modify the reference repository or regular files
-	if(isset($_REQUEST['target']) && ($_REQUEST['target'] == 'reference'))
-		$target = $context['path_to_root'].'scripts/reference';
-	else
-		$target = $context['path_to_root'];
-
 	// paths to scan
 	$patterns = array(
 		$target.'included/browser/*.js',
-		$target.'included/jscalendar/*.js',
-		$target.'included/tiny_mce/*.js',
-		$target.'shared/*.js',
-		$target.'temporary/cache_*.js'
+		$target.'included/jscalendar/*.js'
 	);
 
-	// read all js files
+	// process all js files
 	$count = 0;
 	foreach($patterns as $pattern) {
 		foreach(Safe::glob($pattern) as $name) {
@@ -89,21 +80,23 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 			// we do have some content
 			if($text = Safe::file_get_contents($name)) {
 
-				// backup the old version
-				Safe::unlink($name.'.bak');
-				Safe::rename($name, $name.'.bak');
-
 				// actual compression
 				$text = JSMin::minify($text);
 
 				// save updated content
-				Safe::file_put_contents($name, $text);
+				Safe::file_put_contents($name.'.jsmin', $text);
 
 				// one file has been compressed
 				$count++;
 
 			}
 		}
+	}
+
+	// also delete cached javascript files -- see Cache::hash()
+	if($items=Safe::glob($context['path_to_root'].'temporary/cache_*.js')) {
+		foreach($items as $name)
+			Safe::unlink($name);
 	}
 
 	// report to surfer
@@ -129,9 +122,6 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 	// the confirmation question
 	$context['text'] .= '<b>'.sprintf(i18n::s('You are about to apply jsmin to Javascript files of this server. Are you sure?'), $context['file_mask'])."</b>\n";
-
-	// only compress reference files
-	$context['text'] .= '<p><input type="checkbox" name="target" value="reference"'.EOT.' '.i18n::s('Update files in the reference repository instead of regular files').'</p>';
 
 	// the menu for this page
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><p>'

@@ -1519,7 +1519,7 @@ if(!isset($item['id'])) {
 				}
 
 				// insert a full box
-				$box['text'] =& Skin::build_box(i18n::s('Related links'), $box['text'], 'header1', 'links');
+				$box['text'] =& Skin::build_box(i18n::s('See also'), $box['text'], 'header1', 'links');
 
 			}
 
@@ -1802,11 +1802,14 @@ if(!isset($item['id'])) {
 		}
 
 		// get news from rss
-		if(isset($item['id']) && (!isset($context['pages_without_feed']) || ($context['pages_without_feed'] != 'Y')) ) {
+		if(isset($item['id']) && (!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {
 
-			$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'feed'), i18n::s('recent articles'), 'xml').BR
-				.Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('section:'.$item['id'], 'feed'), i18n::s('podcasted files'), 'xml').BR
-				.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'feed'), $item['title']));
+			$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'feed'), i18n::s('recent pages'), 'xml')
+				.BR.Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('section:'.$item['id'], 'feed'), i18n::s('podcasted files'), 'xml');
+
+			// public aggregators
+			if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+				$content .= BR.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'feed'), $item['title']));
 
 			$text .= Skin::build_box(i18n::s('Stay tuned'), $content, 'extra', 'feeds');
 		}

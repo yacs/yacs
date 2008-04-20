@@ -142,12 +142,6 @@ if(!$permitted) {
 	$item = $_REQUEST;
 	$with_form = TRUE;
 
-// change editor
-} elseif(isset($_REQUEST['preferred_editor']) && $_REQUEST['preferred_editor'] && ($_REQUEST['preferred_editor'] != $_SESSION['surfer_editor'])) {
-	$_SESSION['surfer_editor'] = $_REQUEST['preferred_editor'];
-	$item = $_REQUEST;
-	$with_form = TRUE;
-
 // update an existing section
 } elseif(isset($item['id']) && isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
@@ -255,6 +249,8 @@ if($with_form) {
 	$onchange = '';
 	if(!isset($item['id']))
 		$onchange = ' onchange="$(\'title\').value = this.value"';
+	elseif(!$item['index_title'])
+		$item['index_title'] = $item['title'];
 	$input = '<textarea name="index_title" rows="2" cols="50" accesskey="t"'.$onchange.'>'.encode_field(isset($item['index_title']) ? $item['index_title'] : '').'</textarea>';
 	$hint = i18n::s('Please provide a meaningful title.');
 	$fields[] = array($label, $input, $hint);
@@ -273,6 +269,35 @@ if($with_form) {
 	// append regular fields
 	$index .= Skin::build_form($fields);
 	$fields = array();
+
+	// images
+	if(Surfer::may_upload()) {
+		$box = '';
+
+		// splash message for new pages
+		if(!isset($item['id']))
+			$box .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
+
+		else {
+
+			$menu = array( 'images/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add an image') );
+			$box .= Skin::build_list($menu, 'menu_bar');
+
+			// the list of images
+			include_once '../images/images.php';
+			if($items = Images::list_by_date_for_anchor('section:'.$item['id'], 0, 50, NULL)) {
+
+				// help to insert in textarea
+				if(!isset($_SESSION['surfer_editor']) || (($_SESSION['surfer_editor'] != 'fckeditor') && ($_SESSION['surfer_editor'] != 'tinymce')))
+					$box .= '<p>'.i18n::s('Click on links to insert images in the main field.')."</p>\n";
+
+				$box .= Skin::build_list($items, 'decorated');
+			}
+
+		}
+		$index .= Skin::build_box(i18n::s('Images'), $box, 'folder', 'edit_images');
+
+	}
 
 	// associates and editors can change the layout of the index page
 	if(Surfer::is_empowered()) {
@@ -534,33 +559,8 @@ if($with_form) {
 	}
 
 	// fields related to this section
-	$content .= Skin::build_box(i18n::s('This section'), Skin::build_form($fields), 'header2');
+	$content .= Skin::build_form($fields);
 	$fields = array();
-
-	// images
-	if(Surfer::may_upload()) {
-		$box = '';
-
-		// splash message for new pages
-		if(!isset($item['id']))
-			$box .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
-
-		else {
-
-			$menu = array( 'images/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add an image') );
-			$box .= Skin::build_list($menu, 'menu_bar');
-
-			// the list of images
-			include_once '../images/images.php';
-			if($items = Images::list_by_date_for_anchor('section:'.$item['id'], 0, 50, NULL)) {
-				$box .= '<p>'.i18n::s('Click on links to insert images in the main field.')."</p>\n"
-					.Skin::build_list($items, 'decorated');
-			}
-
-		}
-		$content .= Skin::build_box(i18n::s('Images'), $box, 'header2', 'edit_images');
-
-	}
 
 	// settings for sub-sections
 	//
@@ -596,6 +596,7 @@ if($with_form) {
 			.'<li><a onclick="javascript:append_to_content_options(\'members_edit\')" style="cursor: pointer;">members_edit</a> - '.i18n::s('Allow members to change content').'</li>'
 			.'<li><a onclick="javascript:append_to_content_options(\'auto_publish\')" style="cursor: pointer;">auto_publish</a> - '.i18n::s('Pages are not reviewed prior publication').'</li>'
 			.'<li><a onclick="javascript:append_to_content_options(\'view_as_thread\')" style="cursor: pointer;">view_as_thread</a> - '.i18n::s('Real-time collaboration').'</li>'
+			.'<li><a onclick="javascript:append_to_content_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels').'</li>'
 			.'<li>view_as_foo_bar - '.i18n::s('Branch out to articles/view_as_foo_bar.php').'</li>';
 		if(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y'))
 			$hint .= '<li><a onclick="javascript:append_to_content_options(\'with_details\')" style="cursor: pointer;">with_details</a> - '.i18n::s('Show page details to all surfers').'</li>';
@@ -759,7 +760,6 @@ if($with_form) {
 	if(Surfer::is_associate()) {
 
 		// options for recent pages of this section
-		$label = '';
 		$input = i18n::s('Recent pages should be:').BR;
 		$input .= '<input type="radio" name="home_panel" value="main"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'main'))
@@ -797,11 +797,9 @@ if($with_form) {
 		if(!isset($item['home_panel']) || !preg_match('/^(extra|extra_boxes|gadget|gadget_boxes|icon_bottom|icon_top|main|news)$/', $item['home_panel']))
 			$input .= ' checked="checked"';
 		$input .= EOT.' '.i18n::s('not displayed at the site front page');
-		$fields[] = array($label, $input);
 
 		// one folded box for layout options
-		$content .= Skin::build_box(i18n::s('Contribution to the site front page'), Skin::build_form($fields), 'folder');
-		$fields = array();
+		$content .= Skin::build_box(i18n::s('Contribution to the site front page'), $input, 'folder');
 
 	// preserve previous settings
 	} else {
@@ -912,7 +910,7 @@ if($with_form) {
 	}
 
 	// append fields
-	$options .= Skin::build_box(i18n::s('Restrictions'), Skin::build_form($fields), 'header2');
+	$options .= Skin::build_form($fields);
 	$fields = array();
 
 	// the family
@@ -1052,7 +1050,7 @@ if($with_form) {
 		$help .= '<p>'.i18n::s('Please type the text of your new page and hit the submit button. You will then be able to post images, files and links on subsequent forms.').'</p>';
 
 	// html and codes
-	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to beautify your post.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
 
  	// locate mandatory fields
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';

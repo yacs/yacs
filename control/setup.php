@@ -286,7 +286,7 @@ function send_body() {
 
 		// or back to the control panel
 		} else {
-			$menu = array('control/' => i18n::s('Back to the control panel'));
+			$menu = array('control/' => i18n::s('Control Panel'));
 			echo Skin::build_list($menu, 'menu_bar');
 		}
 

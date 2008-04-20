@@ -2,8 +2,6 @@
 /**
  * check updates
  *
- * This script is the back-end part in a AJAX-Comet architecture.
- *
  * @see articles/view.php
  * @see articles/view_as_thread.php
  *

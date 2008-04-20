@@ -507,6 +507,8 @@ Class Locations {
 	/**
 	 * map at Google
 	 *
+	 * @link http://www.nabble.com/problem-loading-googlemaps-into-jquery-UI-tabs-td15962881s27240.html
+	 *
 	 * @param array a list of locations
 	 * @param int the scale to use
 	 * @return string suitable XHTML to be sent to the browser
@@ -771,27 +773,26 @@ Class Locations {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['anchor']		= "VARCHAR(64) DEFAULT 'article:1' NOT NULL";				// up to 64 chars
-		$fields['geo_place_name'] = "VARCHAR(128) DEFAULT '' NOT NULL"; 					//
-		$fields['geo_position'] = "VARCHAR(128) DEFAULT '' NOT NULL";						//
-		$fields['longitude']	= "VARCHAR(128) DEFAULT '' NOT NULL";						//
-		$fields['latitude'] 	= "VARCHAR(128) DEFAULT '' NOT NULL";						//
-		$fields['geo_country']	= "VARCHAR(128) DEFAULT '' NOT NULL";						//
-		$fields['description']	= "TEXT NOT NULL";								// up to 64k chars
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item modification
-		$fields['edit_id']		= "MEDIUMINT DEFAULT '0' NOT NULL";
+		$fields['anchor']		= "VARCHAR(64) DEFAULT 'article:1' NOT NULL";
+		$fields['geo_place_name'] = "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['geo_position'] = "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['longitude']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['latitude'] 	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['geo_country']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['description']	= "TEXT NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX anchor']	= "(anchor)";
-		$indexes['INDEX geo_place_name'] = "(geo_place_name)";
-		$indexes['INDEX longitude'] = "(longitude)";
-		$indexes['INDEX latitude']	= "(latitude)";
-		$indexes['INDEX edit_name'] = "(edit_name)";
-		$indexes['INDEX edit_id']	= "(edit_id)";
 		$indexes['INDEX edit_date'] = "(edit_date)";
+		$indexes['INDEX edit_id']	= "(edit_id)";
+		$indexes['INDEX geo_place_name'] = "(geo_place_name)";
+		$indexes['INDEX latitude']	= "(latitude)";
+		$indexes['INDEX longitude'] = "(longitude)";
 		$indexes['FULLTEXT INDEX']	= "full_text(geo_place_name, geo_country, description)";
 
 		return SQL::setup_table('locations', $fields, $indexes);

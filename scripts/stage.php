@@ -77,7 +77,7 @@ i18n::bind('scripts');
 load_skin('scripts');
 
 // the path to this page
-$context['path_bar'] = array( 'scripts/' => i18n::s('Scripts') );
+$context['path_bar'] = array( 'scripts/' => i18n::s('Server software') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Stage updated scripts');
@@ -234,7 +234,7 @@ if($id) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Impossible to get %s. Please %s again.'), $url, '<a href="configure.php">'.i18n::s('configure').'</a>')."</p>\n";
 
 		// forward to the index page
-		$menu = array('scripts/' => i18n::s('All scripts'));
+		$menu = array('scripts/' => i18n::s('Server software'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	// save the reference footprints in the cache
@@ -253,7 +253,7 @@ if($id) {
 			$context['text'] .= i18n::s('Invalid reference index. Staging has been cancelled.')."</p>\n";
 
 			// forward to the index page
-			$menu = array('scripts/' => i18n::s('All scripts'));
+			$menu = array('scripts/' => i18n::s('Server software'));
 			$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// print date of reference build
@@ -342,7 +342,7 @@ if($id) {
 				$context['text'] .= i18n::s('Errors have been encountered, and you cannot proceed with the network update.')."</p>\n";
 
 				// forward to the index page
-				$menu = array('scripts/' => i18n::s('All scripts'));
+				$menu = array('scripts/' => i18n::s('Server software'));
 				$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 
@@ -351,7 +351,7 @@ if($id) {
 				$context['text'] .= i18n::s('No file has been staged. Scripts on your server are exact copies of the reference set.')."</p>\n";
 
 				// forward to the index page
-				$menu = array('scripts/' => i18n::s('All scripts'));
+				$menu = array('scripts/' => i18n::s('Server software'));
 				$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 			// scripts are ready for update

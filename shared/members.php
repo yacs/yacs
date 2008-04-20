@@ -527,7 +527,8 @@ Class Members {
 
 		// avoid weekly and monthly publications if overall request
 		else
-			$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE 'month%')";
+			$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
+				." AND (categories.nick_name NOT LIKE 'month%') AND (categories.nick_name NOT LIKE '".i18n::c('monthly')."')";
 
 		// the list of categories
 		$query = "SELECT COUNT(members.id) as importance, categories.*	FROM ".SQL::table_name('members')." AS members"
@@ -590,7 +591,8 @@ Class Members {
 
 		// avoid weekly and monthly publications in list of articles
 		if($variant == 'raw')
-			$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE 'month%')";
+			$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
+				." AND (categories.nick_name NOT LIKE 'month%') AND (categories.nick_name NOT LIKE '".i18n::c('monthly')."')";
 
 		// the list of categories
 		$query = "SELECT categories.*	FROM ".SQL::table_name('members')." AS members"
@@ -1107,10 +1109,10 @@ Class Members {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['anchor']		= "VARCHAR(64) NOT NULL";									// up to 64 chars
-		$fields['member']		= "VARCHAR(64) NOT NULL";									// up to 64 chars
-		$fields['member_type']	= "VARCHAR(64) NOT NULL";									// up to 64 chars
-		$fields['member_id']	= "VARCHAR(64) NOT NULL";									// up to 64 chars
+		$fields['anchor']		= "VARCHAR(64) NOT NULL";
+		$fields['member']		= "VARCHAR(64) NOT NULL";
+		$fields['member_type']	= "VARCHAR(64) NOT NULL";
+		$fields['member_id']	= "VARCHAR(64) NOT NULL";
 		$fields['edit_date']	= "DATETIME";
 
 		$indexes = array();

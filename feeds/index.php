@@ -171,9 +171,11 @@ $context['text'] .= $text;
 // extra panel
 //
 
-// an extra box to help people configure their feeders
-$link = $context['url_to_home'].$context['url_to_root'].Feeds::get_url('rss');
-$context['extra'] .= Skin::build_box(i18n::s('Aggregate this site'), '<p>'.join(BR, Skin::build_subscribers($link)).'</p>', 'extra');
+// public aggregrators
+if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')) {
+	$link = $context['url_to_home'].$context['url_to_root'].Feeds::get_url('rss');
+	$context['extra'] .= Skin::build_box(i18n::s('Aggregate this site'), '<p>'.join(BR, Skin::build_subscribers($link)).'</p>', 'extra');
+}
 
 // an extra box with popular standard icons for newsfeeds
 $text = '';

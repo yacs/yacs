@@ -15,24 +15,22 @@ Class Layout_files_as_hits extends Layout_interface {
 	 * list files
 	 *
 	 * @param resource the SQL result
-	 * @return string the rendered text
+	 * @return array of resulting items, or NULL
 	 *
 	 * @see skins/layout.php
 	**/
 	function &layout(&$result) {
 		global $context;
 
+		// we return an array of ($url => $attributes)
+		$items = array();
+
 		// empty list
-		if(!SQL::count($result)) {
-			$output = array();
-			return $output;
-		}
+		if(!SQL::count($result))
+			return $items;
 
 		// load localized strings
 		i18n::bind('files');
-
-		// we return an array of ($url => $attributes)
-		$items = array();
 
 		// flag files updated recently
 		if($context['site_revisit_after'] < 1)

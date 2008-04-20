@@ -1,6 +1,6 @@
 <?php
 /**
- * fetch the vCard of one user
+ * fetch a business card
  *
  * Export some attributes of the user profile.
  * This script is useful to catch user info in an external system such as a Palm OS or a Pocket PC.
@@ -16,6 +16,8 @@
  * REV:20040922T000712Z
  * END:VCARD
  * [/snippet]
+ *
+ * @link http://www.imc.org/pdi/vcard-21.txt
  *
  * If following features are enabled, this script will use them:
  * - compression - using gzip
@@ -79,7 +81,7 @@ i18n::bind('users');
 load_skin('users');
 
 // the path to this page
-$context['path_bar'] = array( 'users/' => i18n::s('Users') );
+$context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
 if($item['full_name'])
@@ -113,14 +115,70 @@ if(!isset($item['id'])) {
 	if(preg_match('/^(.+)\s(.+?)$/', $names, $matches))
 		$names = $matches[2].';'.$matches[1];
 
-	// build the vCard content
+	// build the vCard
 	$text = 'BEGIN:VCARD'."\x0D\x0A"
 		.'VERSION:2.1'."\x0D\x0A"
 		.'FN:'.$item['full_name']."\x0D\x0A"
 		.'N:'.$names."\x0D\x0A"
-		.'NICKNAME:'.$item['nick_name']."\x0D\x0A"
-		.'EMAIL;PREF;INTERNET:'.$item['email']."\x0D\x0A"
-		.'REV:'.date('Ymd\THis\Z', SQL::strtotime($item['edit_date']))."\x0D\x0A"
+		.'NICKNAME:'.$item['nick_name']."\x0D\x0A";
+
+	// organization, if any
+	if(isset($item['vcard_organization']) && $item['vcard_organization'])
+		$text .= 'ORG:'.$item['vcard_organization']."\x0D\x0A";
+
+	// title, if any
+	if(isset($item['vcard_title']) && $item['vcard_title'])
+		$text .= 'TITLE:'.$item['vcard_title']."\x0D\x0A";
+
+	// physical address, if any
+	if(isset($item['vcard_label']) && $item['vcard_label'])
+		$text .= 'LABEL:'.str_replace(array("\r", "\n"), array('', ';'), $item['vcard_label'])."\x0D\x0A";
+
+	// phone number, if any
+	if(isset($item['phone_number']) && $item['phone_number'])
+		$text .= 'TEL;PREF:'.$item['phone_number']."\x0D\x0A";
+
+	// alternate number, if any
+	if(isset($item['alternate_number']) && $item['alternate_number'])
+		$text .= 'TEL;MSG:'.$item['alternate_number']."\x0D\x0A";
+
+	// web mail, if any
+	if(isset($item['email']) && $item['email'])
+		$text .= 'EMAIL;PREF;INTERNET:'.$item['email']."\x0D\x0A";
+
+	// web address, if any
+	if(isset($item['web_address']) && $item['web_address'])
+		$text .= 'ORG:'.$item['web_address']."\x0D\x0A";
+
+	// birth date, if any
+	if(isset($item['birth_date']) && $item['birth_date'])
+		$text .= 'BDAY:'.substr($item['birth_date'], 0, 10)."\x0D\x0A";
+
+	// agent, if any -- not accepted by Palm Desktop :-(
+// 	if(isset($item['vcard_agent']) && $item['vcard_agent'] && ($agent =& Users::get($item['vcard_agent']))) {
+// 		$text .= 'AGENT:'."\x0D\x0A"
+// 			.'BEGIN:VCARD'."\x0D\x0A"
+// 			.'VERSION:2.1'."\x0D\x0A"
+// 			.'FN:'.$agent['full_name']."\x0D\x0A"
+// 			.'NICKNAME:'.$agent['nick_name']."\x0D\x0A";
+
+// 		// phone number, if any
+// 		if(isset($agent['phone_number']) && $agent['phone_number'])
+// 			$text .= 'TEL;PREF:'.$agent['phone_number']."\x0D\x0A";
+
+// 		// alternate number, if any
+// 		if(isset($agent['alternate_number']) && $agent['alternate_number'])
+// 			$text .= 'TEL;MSG:'.$agent['alternate_number']."\x0D\x0A";
+
+// 		// web mail, if any
+// 		if(isset($agent['email']) && $agent['email'])
+// 			$text .= 'EMAIL;PREF;INTERNET:'.$agent['email']."\x0D\x0A";
+
+// 		$text .= 'END:VCARD'."\x0D\x0A";
+// 	}
+
+	// date of last update
+	$text .= 'REV:'.date('Ymd\THis\Z', SQL::strtotime($item['edit_date']))."\x0D\x0A"
 		.'END:VCARD'."\x0D\x0A";
 
 	//

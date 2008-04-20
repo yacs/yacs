@@ -57,11 +57,11 @@ load_skin('actions');
 $items_per_page = 50;
 
 // the title of the page
-$context['page_title'] = i18n::s('All actions');
+$context['page_title'] = i18n::s('Actions');
 
 // this page is really only for associates
 if(!Surfer::is_associate()) {
-	Skin::error(sprintf(i18n::s('Because of our security policy you are not allowed to list actions. Please browse %s to visualize any action attached.'), Skin::build_link('articles/', i18n::s('published pages'), 'basic')));
+	Skin::error(sprintf(i18n::s('Because of our security policy you are not allowed to list actions. Please browse %s to visualize any action attached.'), Skin::build_link('articles/', i18n::s('pages'), 'basic')));
 
 // display the index
 } else {

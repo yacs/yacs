@@ -60,17 +60,15 @@ load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
-// the path to this page
+// path to this page
 if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'articles/' => 'Articles' );
+	$context['path_bar'] = array( 'articles/' => 'All pages' );
 
-// the title of the page
+// page title
 if(isset($item['title']) && $item['title'])
 	$context['page_title'] = sprintf(i18n::s('Stamp: %s'), $item['title']);
-else
-	$context['page_title'] = i18n::s('No title has been provided.');
 
 // common commands for this page
 if(isset($_SERVER['HTTP_REFERER']))

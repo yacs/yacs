@@ -128,7 +128,7 @@ if(file_exists($context['path_to_root'].$context['skin'].'/icons/server.png'))
 	$context['page_image'] = $context['url_to_root'].$context['skin'].'/icons/server.png';
 
 // back to skin index
-$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/' => i18n::s('All skins') ));
+$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/' => i18n::s('Skins') ));
 
 // edit this skin
 if(isset($skin) && Surfer::is_associate())
@@ -152,7 +152,7 @@ $context['page_publisher'] = 'webmaestro again, still through some PHP script';
 $context['page_title'] = i18n::s('Skin test page');
 
 // $context['path_bar'] - back to other sections
-$context['path_bar'] = array( 'skins/' => i18n::s('All skins'));
+$context['path_bar'] = array( 'skins/' => i18n::s('Skins'));
 
 // $context['prefix'] - also list skins available on this system
 $context['prefix'] .= '<form method="get" action="'.$context['script_url'].'"><p>';
@@ -245,7 +245,7 @@ $folder =& Skin::build_box(i18n::s('folded box'), i18n::s('folded content'), 'fo
 $text .= Skin::build_box(i18n::s('section with a folded box'), i18n::s('section box').' '.DUMMY_TEXT.$folder.DUMMY_TEXT);
 
 // a menu bar
-$menu_bar = array('skins/test.php' => i18n::s('Test script'), 'skins/' => i18n::s('All skins'), 'scripts/' => i18n::s('All scripts'));;
+$menu_bar = array('skins/test.php' => i18n::s('Test script'), 'skins/' => i18n::s('Skins'), 'scripts/' => i18n::s('Server software'));;
 
 // $context['text'] - section with a menu bar
 $text .= Skin::build_box(i18n::s('section with a menu bar'), i18n::s('section box').' '.DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT);

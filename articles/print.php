@@ -99,8 +99,6 @@ if(is_object($anchor))
 // the title of the page
 if(isset($item['title']) && $item['title'])
 	$context['page_title'] = $item['title'];
-else
-	$context['page_title'] = i18n::s('No title has been provided.');
 
 // not found
 if(!isset($item['id'])) {
@@ -177,7 +175,7 @@ if(!isset($item['id'])) {
 
 	// actually list items
 	if(count($items))
-		$context['text'] .= Skin::build_box(i18n::s('Related files'), Skin::build_list($items, 'decorated'));
+		$context['text'] .= Skin::build_box(i18n::s('Files'), Skin::build_list($items, 'decorated'));
 
 	//
 	// attached comments
@@ -205,7 +203,7 @@ if(!isset($item['id'])) {
 
 	// actually list items
 	if(count($items))
-		$context['text'] .= Skin::build_box(i18n::s('Related links'), Skin::build_list($items, 'decorated'));
+		$context['text'] .= Skin::build_box(i18n::s('See also'), Skin::build_list($items, 'decorated'));
 
 	// insert anchor suffix
 	if(is_object($anchor))

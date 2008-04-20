@@ -32,7 +32,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation.').'</p>';
 
 	// forward to the index page
-	$menu = array('decisions/' => i18n::s('All decisions'));
+	$menu = array('decisions/' => i18n::s('Decisions'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'GET')) {
@@ -86,7 +86,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
 
 			// forward to the index page
-	$menu = array('decisions/' => i18n::s('All decisions'));
+	$menu = array('decisions/' => i18n::s('Decisions'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // which check?

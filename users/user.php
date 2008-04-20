@@ -1,9 +1,6 @@
 <?php
 // stop hackers
-if(count(get_included_files()) < 3) {
-	echo 'Script must be included';
-	return;
-}
+defined('YACS') or exit('Script must be included');
 
 /**
  * the implementation of anchor for users
@@ -219,7 +216,7 @@ Class User extends Anchor {
 		i18n::bind('users');
 
 		// the index of users
-		$output = array('users/' => i18n::s('Users'));
+		$output = array('users/' => i18n::s('People'));
 
 		// then this user
 		if(isset($this->item['id'])) {

@@ -1436,13 +1436,7 @@ Class Comments {
 	function &pull($anchor, $stamp, $count=100) {
 		global $context;
 
-		// COMET has been activated
-		if(isset($context['with_ajax_comet']) && ($context['with_ajax_comet'] == 'Y'))
-			$timer = 60;
-
-		// the default behavior is to have short-lived connections only
-		else
-			$timer = 1;
+		$timer = 1;
 
 		// some implementations will kill network connections earlier anyway
 		Safe::set_time_limit(max(30, $timer));
@@ -1571,18 +1565,18 @@ Class Comments {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";				// up to 64 chars
-		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL"; 				// up to 64 chars
+		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
+		$fields['anchor_type']	= "VARCHAR(64) DEFAULT 'section' NOT NULL";
 		$fields['anchor_id']	= "MEDIUMINT UNSIGNED NOT NULL";
-		$fields['previous_id']	= "MEDIUMINT UNSIGNED DEFAULT '0' ";							// 1 to 64k
-		$fields['type'] 		= "VARCHAR(64) DEFAULT 'default' NOT NULL"; 				// up to 64 chars
-		$fields['description']	= "TEXT NOT NULL";								// up to 64k chars
-		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item creation
-		$fields['create_id']	= "MEDIUMINT DEFAULT '0' NOT NULL";
+		$fields['previous_id']	= "MEDIUMINT UNSIGNED DEFAULT 0 ";
+		$fields['type'] 		= "VARCHAR(64) DEFAULT 'default' NOT NULL";
+		$fields['description']	= "TEXT NOT NULL";
+		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['create_id']	= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['create_date']	= "DATETIME";
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item modification
-		$fields['edit_id']		= "MEDIUMINT DEFAULT '0' NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_action']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
@@ -1592,14 +1586,12 @@ Class Comments {
 		$indexes['INDEX anchor']	= "(anchor)";
 		$indexes['INDEX anchor_id'] = "(anchor_id)";
 		$indexes['INDEX anchor_type']	= "(anchor_type)";
+		$indexes['INDEX create_date'] = "(create_date)";
+		$indexes['INDEX create_id'] = "(create_id)";
+		$indexes['INDEX edit_date'] = "(edit_date)";
+		$indexes['INDEX edit_id']	= "(edit_id)";
 		$indexes['INDEX previous_id']	= "(previous_id)";
 		$indexes['INDEX type']		= "(type)";
-		$indexes['INDEX create_name'] = "(create_name)";
-		$indexes['INDEX create_id'] = "(create_id)";
-		$indexes['INDEX create_date'] = "(create_date)";
-		$indexes['INDEX edit_name'] = "(edit_name)";
-		$indexes['INDEX edit_id']	= "(edit_id)";
-		$indexes['INDEX edit_date'] = "(edit_date)";
 		$indexes['FULLTEXT INDEX']	= "full_text(description)";
 
 		return SQL::setup_table('comments', $fields, $indexes);

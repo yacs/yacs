@@ -53,7 +53,7 @@ i18n::bind('scripts');
 load_skin('scripts');
 
 // the path to this page
-$context['path_bar'] = array( 'scripts/' => i18n::s('Scripts') );
+$context['path_bar'] = array( 'scripts/' => i18n::s('Server software') );
 
 // the title of the page
 if($script == 'todo')
@@ -84,7 +84,7 @@ if($script) {
 	}
 
 	// back to the index
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'scripts/' => i18n::s('All scripts') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( 'scripts/' => i18n::s('Server software') ));
 }
 
 // no script has been provided -- help web crawlers

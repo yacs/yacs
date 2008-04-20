@@ -136,7 +136,7 @@ case '404':
 
 	// browse recent posts
 	$context['text'] .= Skin::build_box(i18n::s('Browse index pages'),
-		sprintf(i18n::s('Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the freshest pages and the most read pages on this site. This can be an efficient way for you to reach the information you are looking after.'), Skin::build_link('articles/', i18n::s('articles'), 'shortcut'), Skin::build_link('files/', i18n::s('files'), 'shortcut'), Skin::build_link('comments/', i18n::s('comments'), 'shortcut'), Skin::build_link('users/', i18n::s('users'), 'shortcut')));
+		sprintf(i18n::s('Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the freshest pages and the most read pages on this site. This can be an efficient way for you to reach the information you are looking after.'), Skin::build_link('articles/', i18n::s('pages'), 'shortcut'), Skin::build_link('files/', i18n::s('files'), 'shortcut'), Skin::build_link('comments/', i18n::s('comments'), 'shortcut'), Skin::build_link('users/', i18n::s('people'), 'shortcut')));
 
 	// only in debug mode
 	if($context['with_debug'] != 'Y')

@@ -39,7 +39,7 @@ i18n::bind('scripts');
 load_skin('scripts');
 
 // the path to this page
-$context['path_bar'] = array( 'scripts/' => i18n::s('Scripts') );
+$context['path_bar'] = array( 'scripts/' => i18n::s('Server software') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Update scripts');
@@ -58,7 +58,7 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= '<p>'.i18n::s('Invalid reference footprints. Update has been cancelled.')."</p>\n";
 
 		// forward to the index page
-		$menu = array('scripts/' => i18n::s('All scripts'));
+		$menu = array('scripts/' => i18n::s('Server software'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // actual update
@@ -165,7 +165,7 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= i18n::s('Scripts on your server are exact copies of the reference set.')."</p>\n";
 
 		// forward to the index page
-		$menu = array('scripts/' => i18n::s('All scripts'));
+		$menu = array('scripts/' => i18n::s('Server software'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	// no script has been modified
@@ -309,7 +309,7 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= '<p>'.i18n::s('No file has been downloaded. Scripts on your server are exact copies of the reference set.')."</p>\n";
 
 		// forward to the index page
-		$menu = array('scripts/' => i18n::s('All scripts'));
+		$menu = array('scripts/' => i18n::s('Server software'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	// scripts are ready for update

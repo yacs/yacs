@@ -14,7 +14,6 @@
  * For example, the remote search facility is implemented quite easily in search.php:
  * [php]
  * // search at other sites
- * include_once 'parameters/hooks.include.php';
  * if(is_callable(array('Hooks', 'call_scripts'))) {
  *	$parameters = array( 'search' => $_REQUEST['search'],
  *		'output_spec' => array('output_format' => 'slashdot') );

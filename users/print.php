@@ -165,8 +165,8 @@ if(!isset($item['id'])) {
 	// the files section
 	//
 
-	// the section title
-	$section = Skin::build_block(i18n::s('Related files'), 'title');
+	// title
+	$section = Skin::build_block(i18n::s('Files'), 'title');
 
 	// list files by date
 	include_once '../files/files.php';
@@ -180,8 +180,8 @@ if(!isset($item['id'])) {
 	// the links section
 	//
 
-	// the section title
-	$section = Skin::build_block(i18n::s('Related links'), 'title');
+	// title
+	$section = Skin::build_block(i18n::s('See also'), 'title');
 
 	// list links by date
 	include_once '../links/links.php';
@@ -198,8 +198,8 @@ if(!isset($item['id'])) {
 	// the articles section
 	//
 
-	// the section title
-	$section = Skin::build_block(i18n::s('Recent articles'), 'title');
+	// title
+	$section = Skin::build_block(i18n::s('Recent pages'), 'title');
 
 	// list articles by date
 	$items = Articles::list_by_date_for_author($item['id'], 0, 50, 'compact');

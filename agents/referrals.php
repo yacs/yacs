@@ -410,11 +410,11 @@ class Referrals {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['url']			= "TEXT NOT NULL";								// url > 255 chars
-		$fields['referer']		= "TEXT NOT NULL";								// url > 255 chars
-		$fields['domain']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['keywords'] 	= "VARCHAR(255) DEFAULT ''";								// up to 255 chars
-		$fields['hits'] 		= "INT UNSIGNED DEFAULT '0' NOT NULL";
+		$fields['url']			= "TEXT NOT NULL";
+		$fields['referer']		= "TEXT NOT NULL";
+		$fields['domain']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['keywords'] 	= "VARCHAR(255) DEFAULT ''";
+		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['stamp']		= "DATETIME";
 
 		$indexes = array();
@@ -447,4 +447,6 @@ class Referrals {
 	}
 
 }
+
+i18n::bind('agents');
 ?>

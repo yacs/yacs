@@ -56,7 +56,7 @@ class Move_on_article_access extends Behavior {
 				$link = Articles::get_url(str_replace('article:', '', $anchor), 'move', str_replace('section:', '', $section->get_reference()));
 
 				// make a sub-menu
-				$menu = array_merge($menu, array($link => $tokens[1]));
+				$menu = array_merge(array($link => array(NULL, $tokens[1], NULL, 'button')), $menu);
 			}
 		}
 

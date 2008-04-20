@@ -210,7 +210,7 @@ class Vote extends Overlay {
 	}
 
 	/**
-	 * display the content of one classic car
+	 * display one vote
 	 *
 	 * Accepted variant codes:
 	 * - 'box' - displayed in a box

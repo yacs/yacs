@@ -124,12 +124,6 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 	$item = $_REQUEST;
 	$with_form = TRUE;
 
-// change editor
-} elseif(isset($_REQUEST['preferred_editor']) && $_REQUEST['preferred_editor'] && ($_REQUEST['preferred_editor'] != $_SESSION['surfer_editor'])) {
-	$_SESSION['surfer_editor'] = $_REQUEST['preferred_editor'];
-	$item = $_REQUEST;
-	$with_form = TRUE;
-
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
@@ -338,7 +332,7 @@ if($with_form) {
 		.'<li>'.Skin::build_link(i18n::s('http://www.batchgeocode.com/lookup/'), i18n::s('Address Map Coordinate (Lat/Long) Finder'), 'external').'</li>'
 		.'<li>'.Skin::build_link(i18n::s('http://www.travelgis.com/geocode/Default.aspx'), i18n::s('Free Geocoding Service for 22 Countries'), 'external').'</li>'
 		.'</ul>'
-		.'<p>'.sprintf(i18n::s('%s and %s are available to beautify your post.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }

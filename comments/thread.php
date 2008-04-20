@@ -2,13 +2,7 @@
 /**
  * manage contributions to a thread
  *
- * This script is the back-end part in a AJAX-Comet architecture.
- *
  * @see articles/view_as_thread.php
- *
- *
- * @link http://alex.dojotoolkit.org/?p=545 Comet: Low Latency Data for the Browser
- * @link http://www.zeitoun.net/index.php?2007/06/22/46-how-to-implement-comet-with-php How to implement COMET with PHP
  *
  * Accept following invocations:
  * - thread.php/12 (visit article #12)
@@ -129,7 +123,7 @@ if(!is_object($anchor)) {
 	// thread update will trigger screen repaint through separate pending call of this script
 	die('OK');
 
-// or we will only wait for update -- the AJAX-Comet way to stay synchronized
+// get some updates
 } else {
 
 	// we are running

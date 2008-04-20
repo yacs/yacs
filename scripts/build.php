@@ -80,7 +80,7 @@ i18n::bind('scripts');
 load_skin('scripts');
 
 // the path to this page
-$context['path_bar'] = array( 'scripts/' => i18n::s('Scripts') );
+$context['path_bar'] = array( 'scripts/' => i18n::s('Server software') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Build a reference store at this server');
@@ -95,7 +95,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation.')."</p>\n";
 
 	// forward to the index page
-	$menu = array('scripts/' => i18n::s('All scripts'));
+	$menu = array('scripts/' => i18n::s('Server software'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // ask for confirmation
@@ -414,7 +414,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
 
 	// forward to the index page
-	$menu = array('scripts/' => i18n::s('All scripts'));
+	$menu = array('scripts/' => i18n::s('Server software'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	// remember the built

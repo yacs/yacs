@@ -117,7 +117,7 @@ load_skin('polls', $anchor);
 if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'articles/' => 'Articles' );
+	$context['path_bar'] = array( 'articles/' => 'All pages' );
 
 // the title of the page
 if(isset($item['title']) && $item['title'])
@@ -126,9 +126,8 @@ else
 	$context['page_title'] = i18n::s('Vote for a poll');
 
 // common commands for this page
-if(!$referer = $_SERVER['HTTP_REFERER'])
-	$referer = 'articles/review.php';
-$context['page_menu'] = array( $referer => i18n::s('Back') );
+if(isset($_SERVER['HTTP_REFERER']))
+	$context['page_menu'] = array( $_SERVER['HTTP_REFERER'] => i18n::s('Back to previous page') );
 
 // no subject
 if(!isset($item['id'])) {

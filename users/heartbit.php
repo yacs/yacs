@@ -93,8 +93,6 @@ if(!Surfer::get_id()) {
 // look for some notification
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD')) {
 
-//	logger::debug($_SERVER['HTTP_REFERER'], 'users::heartbit '.Surfer::get_name());
-
 	// change session data to extend life of related file
 	if(!isset($_SESSION['heartbit']))
 		$_SESSION['heartbit'] = 0;

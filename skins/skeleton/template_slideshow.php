@@ -9,11 +9,8 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-// this one has to be included
-if(count(get_included_files()) < 3) {
-	echo 'Script must be included';
-	return;
-}
+// stop hackers
+defined('YACS') or exit('Script must be included');
 
 // xml prefix
 echo '<'.'?xml version="1.0" encoding="'.$context['charset'].'"?'.'>'; ?>

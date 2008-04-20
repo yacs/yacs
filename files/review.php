@@ -38,7 +38,7 @@ $context['path_bar'] = array( 'files/' => i18n::s('Files') );
 $context['page_title'] = i18n::s('Files to review');
 
 // the menu bar for this page
-$context['page_menu'] = array( 'files/' => i18n::s('All files') );
+$context['page_menu'] = array( 'files/' => i18n::s('Files') );
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())

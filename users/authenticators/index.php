@@ -12,7 +12,7 @@ include_once '../../shared/global.php';
 load_skin('users');
 
 // the title of the page
-$context['page_title'] = i18n::s('Available authenticators');
+$context['page_title'] = i18n::s('Authenticators');
 
 // splash message
 if(Surfer::is_associate())

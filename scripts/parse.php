@@ -45,7 +45,7 @@ i18n::bind('scripts');
 load_skin('scripts');
 
 // the path to this page
-$context['path_bar'] = array( 'scripts/' => i18n::s('Scripts') );
+$context['path_bar'] = array( 'scripts/' => i18n::s('Server software') );
 
 // the title of the page
 if($script)
@@ -57,7 +57,7 @@ else
 if($script) {
 	$context['page_menu'] = array( 'scripts/browse.php?script='.$script => i18n::s('Browse'),
 		'scripts/fetch.php?script='.$script => i18n::s('Fetch'),
-		'scripts/' => i18n::s('All scripts') );
+		'scripts/' => i18n::s('Server software') );
 }
 
 // no script has been provided

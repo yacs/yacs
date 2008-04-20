@@ -94,10 +94,8 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
 
 // load for hooks --see control/scan.php
-if(!is_readable($context['path_to_root'].'parameters/hooks.include.php'))
-	exit(sprintf(i18n::s('Impossible to read %s.'), 'parameters/hooks.include.php'));
 if(!is_callable(array('Hooks', 'include_scripts')))
-	exit(i18n::s('Invalid parameters/hooks.include.php you should rescan for software extensions'));
+	exit(sprintf(i18n::s('Impossible to read %s.'), 'parameters/hooks.include.php'));
 
 // get date of last tick
 $record = Values::get_record('cron.tick', NULL_DATE);

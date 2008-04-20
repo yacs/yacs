@@ -482,27 +482,41 @@ if($credentials) {
 		$links = array_merge($links, array( 'users/view.php' => i18n::s('My profile') ));
 		$links = array_merge($links, array( 'sections/' => i18n::s('Site map') ));
 		$links = array_merge($links, array( 'categories/' => i18n::s('Categories tree') ));
-		$links = array_merge($links, array( 'articles/' => i18n::s('Articles') ));
+		$links = array_merge($links, array( 'articles/' => i18n::s('All pages') ));
 		$links = array_merge($links, array( 'files/' => i18n::s('Files') ));
 		$links = array_merge($links, array( 'links/' => i18n::s('Links') ));
 		$links = array_merge($links, array( 'search.php' => i18n::s('Search') ));
 
 		$context['extra'] .= Skin::build_box(i18n::s('Navigate'), Skin::build_list($links, 'compact'), 'navigation');
 
-	// impossible to authenticate the surfer
+	// failed authentication
 	} else {
 
 		// reset the current session
 		Surfer::reset();
 
 		// the page title
-		$context['page_title'] = i18n::s('Sorry!');
+		$context['page_title'] = i18n::s('Failed authentication');
 
-		// some explanation
-		$context['text'] = i18n::s('We are very sorry, but we have not been able to authenticate you as a valid member of this community.');
+		// what to do next
+		$context['text'] .= '<p>'.i18n::s('Where do you want to go now?').'</p>';
 
-		// limit brute attacks
-		Safe::sleep(5);
+		// the menu of possible actions
+		$menu = array();
+
+		// step back
+		if(isset($_SERVER['HTTP_REFERER']))
+			$menu = array_merge($menu, array($_SERVER['HTTP_REFERER'] => i18n::s('Back to previous page') ));
+
+		// authenticate again
+		$menu = array_merge($menu, array('users/password.php' => i18n::s('Lost password')));
+
+		// go to the front page
+		$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Server front page')));
+
+		// display the menu
+		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
 	}
 
 // provide the empty form by default
@@ -510,10 +524,6 @@ if($credentials) {
 
 	// the page title
 	$context['page_title'] = i18n::s('Please register or log in');
-
-	// the menu for this page
-	if(isset($_SERVER['HTTP_REFERER']))
-		$context['page_menu'] = array( $_SERVER['HTTP_REFERER'] => i18n::s('Back') );
 
 	// the introduction, for protected pages only
 	if(isset($_REQUEST['url']))

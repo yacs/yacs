@@ -56,7 +56,7 @@ $included = TRUE;
 
 // but direct call is also allowed
 global $context;
-if(count(get_included_files()) < 3) {
+if(!defined('YACS')) {
 	$included = FALSE;
 
 	// include global declarations

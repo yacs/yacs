@@ -1144,6 +1144,7 @@ Class Skin_Skeleton {
 	 * - 'server' - jump to a server profile (news, ftp, etc.)
 	 * - 'shortcut' - stay within the site
 	 * - 'span' - like 'basic', but insert a <span> around the label
+	 * - 'tag' - a folksonomy
 	 * - 'user' - see a member profile
 	 * - 'year' - a full year calendar
 	 *
@@ -1978,55 +1979,6 @@ Class Skin_Skeleton {
 			if(isset($user['from_where']) && $user['from_where'])
 				$details[] = sprintf(i18n::s('from %s'), Codes::beautify($user['from_where']));
 
-			// guest/member/associate
-			if($user['capability'] == 'A')
-				$details[] = i18n::s('Associate');
-			elseif($user['capability'] == 'M')
-				$details[] = i18n::s('Member');
-			elseif($user['capability'] == 'S')
-				$details[] = i18n::s('Subscriber');
-
-			// posts
-			if($user['posts'])
-				$details[] = sprintf(i18n::ns('1&nbsp;post', '%d&nbsp;posts', $user['posts']), $user['posts']);
-
-			// registration date
-			if($user['create_date'])
-				$details[] = sprintf(i18n::s('registered %s'), Skin::build_date($user['create_date'], 'full', $context['language']));
-
-			// show contact information
-			if(Surfer::is_member() || (isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'Y'))) {
-
-				$contacts = '';
-
-				// aim
-				if(isset($user['aim_address']) && $user['aim_address'])
-					$contacts .= ' '.Skin::build_presence($user['aim_address'], 'aim');
-
-				// icq
-				if(isset($user['icq_address']) && $user['icq_address'])
-					$contacts .= ' '.Skin::build_presence($user['icq_address'], 'icq');
-
-				// irc
-				if(isset($user['irc_address']) && $user['irc_address'])
-					$contacts .= ' '.Skin::build_presence($user['irc_address'], 'irc');
-
-				// msn
-				if(isset($user['msn_address']) && $user['msn_address'])
-					$contacts .= ' '.Skin::build_presence($user['msn_address'], 'msn');
-
-				// skype
-				if(isset($user['skype_address']) && $user['skype_address'])
-					$contacts .= ' '.Skin::build_presence($user['skype_address'], 'skype');
-
-				// yahoo
-				if(isset($user['yahoo_address']) && $user['yahoo_address'])
-					$contacts .= ' '.Skin::build_presence($user['yahoo_address'], 'yahoo');
-
-				if($contacts)
-					$details[] = $contacts;
-			}
-
 			// details first
 			if(count($details))
 				$text .= '<p class="details">'.join(BR, $details).'</p>';
@@ -2036,7 +1988,7 @@ Class Skin_Skeleton {
 				$text .= Codes::beautify($user['introduction']);
 
 			// everything in an extra box
-			$text = Skin::build_box($user['nick_name'], $text, 'extra');
+			$text = Skin::build_box($user['full_name'], $text, 'extra');
 			break;
 		}
 
@@ -2828,7 +2780,7 @@ Class Skin_Skeleton {
 					if(is_array($label))
 						$label = $label[0];
 
-					$text .= $label."\n";
+					$text .= $label;
 				}
 
 				return $text;

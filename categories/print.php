@@ -111,7 +111,7 @@ if(!$item['id']) {
 	// the section of sub-categories
 	//
 
-	// the section title
+	// title
 	$section = Skin::build_block(i18n::s('Related categories'), 'title');
 
 	// list items by date (default) or by title (option :categories_by_title:)
@@ -128,7 +128,7 @@ if(!$item['id']) {
 	// the section of linked articles
 	//
 
-	// the section title
+	// title
 	$section = Skin::build_block(i18n::s('Related pages'), 'title');
 
 	// list items by date (default) or by title (option articles_by_title)
@@ -145,8 +145,8 @@ if(!$item['id']) {
 	// the files section
 	//
 
-	// the section title
-	$section = Skin::build_block(i18n::s('Related files'), 'title');
+	// title
+	$section = Skin::build_block(i18n::s('Files'), 'title');
 
 	// list files by date (default) or by title (option :files_by_title:)
 	include_once '../files/files.php';
@@ -163,8 +163,8 @@ if(!$item['id']) {
 	// the links section
 	//
 
-	// the section title
-	$section = Skin::build_block(i18n::s('Related links'), 'title');
+	// title
+	$section = Skin::build_block(i18n::s('See also'), 'title');
 
 	// list links by date (default) or by title (option :links_by_title:)
 	include_once '../links/links.php';

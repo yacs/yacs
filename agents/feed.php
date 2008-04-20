@@ -72,11 +72,11 @@ i18n::bind('agents');
 // just to benefit from current skin style
 load_skin('agents');
 
-// the path to this page
-$context['path_bar'] = array( 'feeds/' => i18n::s('All feeds') );
+// path to this page
+$context['path_bar'] = array( 'feeds/' => i18n::s('Information channels') );
 
-// the title of the page
-$context['page_title'] = i18n::s('System events');
+// page title
+$context['page_title'] = i18n::s('RSS feed');
 
 // permission denied
 if(!$permitted) {

@@ -59,7 +59,7 @@ load_skin('files');
 $items_per_page = 50;
 
 // the title of the page
-$context['page_title'] = i18n::s('All files');
+$context['page_title'] = i18n::s('Files');
 
 // count files in the database
 $stats = Files::stat();

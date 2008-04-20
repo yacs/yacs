@@ -121,7 +121,7 @@ if(!$permitted) {
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
-	$menu = array('control/' => i18n::s('Back to the control panel'));
+	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // create one associate profile
@@ -286,12 +286,12 @@ if(!$permitted) {
 				// configure the interface on first installation
 				if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
 					echo '<form method="get" action="../skins/configure.php">'."\n"
-						.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Configure the rendering engine')).'</p>'."\n"
+						.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Configure the page factory')).'</p>'."\n"
 						.'</form>'."\n";
 
 				// or back to the control panel
 				} else {
-					$menu = array('control/' => i18n::s('Back to the control panel'));
+					$menu = array('control/' => i18n::s('Control Panel'));
 					echo Skin::build_list($menu, 'menu_bar');
 				}
 
@@ -312,7 +312,7 @@ if(!$permitted) {
 				$menu = array_merge($menu, array(Users::get_url($user['id']) => i18n::s('Check the new associate profile')));
 			$menu = array_merge($menu, array('users/select_avatar.php?id='.urlencode($user['id']) => i18n::s('Select an avatar')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 			$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 			// an associate account has been created
@@ -458,7 +458,7 @@ if(!$permitted) {
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 			$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 			// new content has been created
@@ -613,7 +613,7 @@ if(!$permitted) {
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 			$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 			// new content has been created
@@ -656,7 +656,7 @@ if(!$permitted) {
 		// configure the interface on first installation
 		if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
 			echo '<form method="get" action="../skins/configure.php">'."\n"
-				.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Configure the rendering engine')).'</p>'."\n"
+				.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Configure the page factory')).'</p>'."\n"
 				.'</form>'."\n";
 
 		// or back to the control panel
@@ -669,7 +669,7 @@ if(!$permitted) {
 			$menu = array();
 			$menu = array_merge($menu, array('sections/' => i18n::s('Check the updated Site Map')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 			echo Skin::build_list($menu, 'menu_bar');
 
 		}
@@ -829,9 +829,9 @@ if(!$permitted) {
 			$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
 			$menu = array();
 			$menu = array_merge($menu, array('collections/browse.php?path='.urlencode($_REQUEST['name']) => i18n::s('Access the new collection')));
-			$menu = array_merge($menu, array('collections/' => i18n::s('See collections index page')));
+			$menu = array_merge($menu, array('collections/' => i18n::s('File collections')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 			$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		}
@@ -1070,7 +1070,7 @@ if(!$permitted) {
 		$menu = array();
 		$menu = array_merge($menu, array(Sections::get_url($item['id']) => i18n::s('Access the new section')));
 		$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-		$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+		$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// new content has been created
@@ -1228,7 +1228,7 @@ if(!$permitted) {
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 			$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		}
@@ -1379,7 +1379,7 @@ if(!$permitted) {
 		$menu = array();
 		$menu = array_merge($menu, array(Sections::get_url('bookmarks') => i18n::s('Access the directory')));
 		$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-		$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+		$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// new content has been created
@@ -1513,7 +1513,7 @@ if(!$permitted) {
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 			$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 			// new content has been created
@@ -1539,7 +1539,7 @@ if(!$permitted) {
 		$menu = array();
 		$menu = array_merge($menu, array(Sections::get_url($item['id']) => i18n::s('Access the new section')));
 		$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-		$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+		$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	// get section parameters
@@ -1621,7 +1621,7 @@ if(!$permitted) {
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 			$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 			// new content has been created
@@ -1739,7 +1739,7 @@ if(!$permitted) {
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 			$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 			// new content has been created
@@ -1857,7 +1857,7 @@ if(!$permitted) {
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 			$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 			// new content has been created
@@ -1935,7 +1935,7 @@ if(!$permitted) {
 			// configure the interface on first installation
 			if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
 				echo '<form method="get" action="../skins/configure.php">'."\n"
-					.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Next step')).'</p>'."\n"
+					.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Configure the page factory')).'</p>'."\n"
 					.'</form>'."\n";
 
 			// or back to the control panel
@@ -1948,7 +1948,7 @@ if(!$permitted) {
 				$menu = array();
 				$menu = array_merge($menu, array('sections/' => i18n::s('Check the updated Site Map')));
 				$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-				$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+				$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 				echo Skin::build_list($menu, 'menu_bar');
 
 			}
@@ -2013,9 +2013,9 @@ if(!$permitted) {
 
 			// follow-up commands
 			$menu = array();
-			$menu = array_merge($menu, array('servers/' => i18n::s('check the list of servers')));
+			$menu = array_merge($menu, array('servers/' => i18n::s('Servers')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 			echo Skin::build_list($menu, 'menu_bar');
 
 			// new content has been created
@@ -2217,7 +2217,7 @@ if(!$permitted) {
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Go to the Control Panel')));
+			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 			$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 			// new content has been created

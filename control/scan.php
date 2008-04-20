@@ -85,7 +85,6 @@
  * additional configuration panels:
  * [php]
  * // the hook for the control panel
- * include_once '../parameters/hooks.include.php';
  * if(is_callable(array('Hooks', 'link_scripts')))
  *	$context['text'] .= Hooks::link_scripts('control/index.php#configure', 'bullets');
  * [/php]
@@ -94,7 +93,6 @@
  * extra tables of the database:
  * [php]
  * // the setup hook
- * include_once '../parameters/hooks.include.php';
  * if(is_callable(array('Hooks', 'include_scripts')))
  *	$context['text'] .= Hooks::include_scripts('control/setup.php');
  * [/php]
@@ -236,7 +234,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
-	$menu = array('control/' => i18n::s('Back to the control panel'));
+	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // review hooks, but never on first install
@@ -444,7 +442,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
 
 	// back to the control panel
-	$menu = array('control/' => i18n::s('Back to the control panel'));
+	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // rebuild hooks or first installation
@@ -508,12 +506,8 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 			// set default values
 			if(!isset($hook['label_en']))
 				$hook['label_en'] = '*** undefined label';
-			if(!isset($hook['label_fr']))
-				$hook['label_fr'] = '*** pas de libell&eacute;';
 			if(!isset($hook['description_en']))
 				$hook['description_en'] = '';
-			if(!isset($hook['description_fr']))
-				$hook['description_fr'] = '';
 			if(!isset($hook['source']))
 				$hook['source'] = '';
 
@@ -543,14 +537,19 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 					$linked_items[$hook['id']] = '';
 
 				// compilation
-				$linked_items[$hook['id']] .= "\n"
-					."\t\t\t".'$local[\'label_en\'] = \''.addslashes($hook['label_en']).'\';'."\n"
-					."\t\t\t".'$local[\'label_fr\'] = \''.addslashes($hook['label_fr']).'\';'."\n"
-					."\t\t\t".'$links[\''.$hook['script'].'\'] = i18n::user(\'label\');'."\n"
-					."\t\t\t".'$local[\'label_en\'] = \''.addslashes($hook['description_en']).'\';'."\n"
-					."\t\t\t".'$local[\'label_fr\'] = \''.addslashes($hook['description_fr']).'\';'."\n"
-					."\t\t\t".'$descriptions[\''.$hook['script'].'\'] = i18n::user(\'label\');'."\n"
-					."\t\t\t".'$sources[\''.$hook['script'].'\'] = \''.addslashes($hook['source']).'\';'."\n";
+				$linked_items[$hook['id']] .= "\n";
+				if(isset($hook['label_en']))
+					$linked_items[$hook['id']] .= "\t\t\t".'$local[\'label_en\'] = \''.addslashes($hook['label_en']).'\';'."\n";
+				if(isset($hook['label_fr']))
+					$linked_items[$hook['id']] .= "\t\t\t".'$local[\'label_fr\'] = \''.addslashes($hook['label_fr']).'\';'."\n";
+				$linked_items[$hook['id']] .= "\t\t\t".'$links[\''.$hook['script'].'\'] = i18n::user(\'label\');'."\n";
+				if(isset($hook['description_en']))
+					$linked_items[$hook['id']] .= "\t\t\t".'$local[\'label_en\'] = \''.addslashes($hook['description_en']).'\';'."\n";
+				if(isset($hook['description_fr']))
+					$linked_items[$hook['id']] .= "\t\t\t".'$local[\'label_fr\'] = \''.addslashes($hook['description_fr']).'\';'."\n";
+				$linked_items[$hook['id']] .= "\t\t\t".'$descriptions[\''.$hook['script'].'\'] = i18n::user(\'label\');'."\n";
+				if(isset($hook['source']))
+					$linked_items[$hook['id']] .= "\t\t\t".'$sources[\''.$hook['script'].'\'] = \''.addslashes($hook['source']).'\';'."\n";
 
 				break;
 
@@ -792,7 +791,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 
 	// or back to the control panel
 	} else {
-		$menu = array('control/' => i18n::s('Back to the control panel'));
+		$menu = array('control/' => i18n::s('Control Panel'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 	}
 

@@ -57,12 +57,12 @@ if(!defined('LOCATIONS_PER_PAGE'))
 	define('LOCATIONS_PER_PAGE', 20);
 
 // the title of the page
-$context['page_title'] = i18n::s('All locations');
+$context['page_title'] = i18n::s('Locations');
 
 // this page is really only for associates
 if(!Surfer::is_associate())
 	$context['text'] .= '<p>'.i18n::s('Because of our security policy you are not allowed to list locations.').'</p>'
-		.'<p>'.sprintf(i18n::s('Please browse %s to visualize any location that could be embedded.'), Skin::build_link('articles/', i18n::s('published pages'), 'basic')).'</p>'."\n";
+		.'<p>'.sprintf(i18n::s('Please browse %s to visualize any location that could be embedded.'), Skin::build_link('articles/', i18n::s('pages'), 'basic')).'</p>'."\n";
 
 // display the index
 else {

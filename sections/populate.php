@@ -51,7 +51,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 $included = TRUE;
 
 // but direct call is also allowed
-if(count(get_included_files()) < 3) {
+if(!defined('YACS')) {
 	$included = FALSE;
 
 	// include the global declarations

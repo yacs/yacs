@@ -20,7 +20,7 @@ i18n::bind('articles');
 load_skin('articles');
 
 // the path to this page
-$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
+$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Articles maintenance');
@@ -31,7 +31,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation.')."</p>\n";
 
 	// forward to the index page
-	$menu = array('articles/' => i18n::s('All articles'));
+	$menu = array('articles/' => i18n::s('All pages'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // look for orphans
@@ -84,7 +84,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
 
 	// forward to the index page
-	$menu = array('articles/' => i18n::s('All articles'));
+	$menu = array('articles/' => i18n::s('All pages'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // which check?

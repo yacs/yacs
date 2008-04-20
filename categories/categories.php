@@ -408,6 +408,85 @@ Class Categories {
 	}
 
 	/**
+	 * get categories as checkboxes
+	 *
+	 * Only categories matching following criteria are returned:
+	 * - category is visible (active='Y')
+	 * - category is restricted (active='R'), but surfer is a logged member
+	 * - category is hidden (active='N'), but surfer is an associate
+	 * - an expiry date has not been defined, or is not yet passed
+	 *
+	 * @param array a list of categories ($reference => $attributes) currently assigned to the item, or a category reference (i.e., 'category:234')
+	 * @param string the anchor currently selected, if any
+	 * @return the HTML to insert in the page
+	 */
+	function &get_checkboxes($to_avoid=NULL, $to_select=NULL) {
+		global $context;
+
+		// returned text
+		$text = '';
+
+		// display active and restricted items
+		$where = "categories.active='Y'";
+		if(Surfer::is_member())
+			$where .= " OR categories.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR categories.active='N'";
+		$where = '('.$where.')';
+
+		// only consider live categories
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$where .= ' AND ((categories.expiry_date is NULL)'
+			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
+
+		// avoid weekly and monthly publications
+		$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
+			." AND (categories.nick_name NOT LIKE 'month%') AND (categories.nick_name NOT LIKE '".i18n::c('monthly')."')";
+
+		// make an array of assigned categories
+		if(is_string($to_avoid) && $to_avoid) {
+			$to_avoid_as_string = $to_avoid;
+			$to_avoid = array();
+			$to_avoid[$to_avoid_as_string] = 'only one';
+		} elseif(!is_array($to_avoid))
+			$to_avoid = array();
+
+		// skip categories already assigned
+		foreach($to_avoid as $reference)
+			$where .= " AND (categories.nick_name <> '".$reference."')";
+
+		// limit the query to top level
+		$query = "SELECT categories.id, categories.nick_name, categories.path, categories.title"
+			." FROM ".SQL::table_name('categories')." AS categories"
+			." WHERE (".$where.") AND categories.anchor =''"
+			." ORDER BY categories.path, categories.title LIMIT 0, 500";
+		if(!$result =& SQL::query($query))
+			return $text;
+
+		// parse request results
+		while($result && list($option_id, $option_nick_name, $option_path, $option_label) = SQL::fetch_row($result)) {
+
+			// maybe we are in the selected line
+			$checked = '';
+			if(is_string($to_select) && ($to_select == 'category:'.$option_id))
+				$checked = ' checked';
+			elseif(is_array($to_select) && !(array_search('category:'.$option_id, $to_select) === false))
+				$checked = ' checked';
+
+			if($option_path) {
+				$path = explode('|', $option_path);
+				$label = join(CATEGORY_PATH_SEPARATOR, $path);
+			} else
+				$label = $option_label;
+
+			$text .= '<input type=checkbox name="category:'.$option_id.'"'.$checked.'>'.$label."\n";
+		}
+
+		// job done
+		return $text;
+	}
+
+	/**
 	 * get the most read category
 	 *
 	 * Only categories matching following criteria are returned:
@@ -508,7 +587,7 @@ Class Categories {
 	 * get sub-categories as options of a &lt;SELECT&gt; field
 	 *
 	 * @param string an anchor reference, or NULL
-	 * @param array a list of categories ($reference => $attributes) currently assigned to the item, or a category reference (i.e., 'category:234')
+	 * @param array a list of categories ($reference => $attributes) currently assigned to the item, or a category reference (i.e., 'category:234'), or 'root'
 	 * @param string the anchor currently selected, if any
 	 * @return the HTML to insert in the page
 	 */
@@ -516,7 +595,8 @@ Class Categories {
 		global $context;
 
 		// an option to put the category at the root level
-		$content = '<option value="">'.i18n::s('-- Root level')."</option>\n";
+		if($to_avoid != 'root')
+			$content = '<option value="">'.i18n::s('-- Root level')."</option>\n";
 
 		// we have a default or previous setting
 		$current = '';
@@ -555,8 +635,16 @@ Class Categories {
 		$where .= ' AND ((categories.expiry_date is NULL)'
 			."	OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
 
-		// avoid weekly and monthly publications if accessed remotely
-		$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE 'month%')";
+		// avoid weekly and monthly publications
+		$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
+			." AND (categories.nick_name NOT LIKE 'month%') AND (categories.nick_name NOT LIKE '".i18n::c('monthly')."')";
+
+		// avoid keywords if accessed remotely
+		$where .= " AND (categories.nick_name NOT LIKE 'keywords%')";
+		$where .= " AND (categories.anchor NOT LIKE '".Categories::lookup('keywords')."')";;
+
+		// avoid featured if accessed remotely
+		$where .= " AND (categories.nick_name NOT LIKE '".i18n::c('featured')."')";
 
 		// make an array of assigned categories
 		if(is_string($to_avoid) && $to_avoid) {
@@ -853,24 +941,24 @@ Class Categories {
 		global $context;
 
 		// display active and restricted items
-		$where = "active='Y'";
+		$where = "categories.active='Y'";
 		if(Surfer::is_logged())
-			$where .= " OR active='R'";
+			$where .= " OR categories.active='R'";
 		if(Surfer::is_empowered())
-			$where .= " OR active='N'";
+			$where .= " OR categories.active='N'";
+		$where = '('.$where.')';
 
 		// only consider live categories
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$where = '('.$where.')'
-			.' AND ((expiry_date is NULL) '
-			.'	OR (expiry_date <= \'0000-00-01\') OR (expiry_date > \''.$now.'\'))';
+		$where .= " AND ((categories.expiry_date is NULL) OR (categories.expiry_date <= '0000-00-01') OR (categories.expiry_date > '".$now."'))";
 
 		// avoid weekly publications and keywords
-		$where = "(".$where.") AND nick_name NOT LIKE 'week%' "
-			." AND nick_name NOT LIKE 'month%' AND keywords=''";
+		$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
+			." AND (categories.nick_name NOT LIKE 'month%') AND (categories.nick_name NOT LIKE '".i18n::c('monthly')."')"
+			." AND (categories.keywords = '')";
 
 		// do not limit the query to top level only
-		$query = "SELECT * FROM ".SQL::table_name('categories')
+		$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
 			." WHERE ".$where
 			." ORDER BY path, title LIMIT ".$offset.', '.$count;
 
@@ -1695,61 +1783,59 @@ Class Categories {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL"; 				// Yes, Restricted or No
-		$fields['active_set']	= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL"; 				// set locally
-		$fields['anchor']		= "VARCHAR(64)";											// up to 64 chars
+		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
+		$fields['active_set']	= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
+		$fields['anchor']		= "VARCHAR(64)";
 		$fields['articles_layout']	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['bullet_url']	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
+		$fields['bullet_url']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['categories_count'] = "INT UNSIGNED NOT NULL";
 		$fields['categories_layout'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['categories_overlay'] = "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['create_date']	= "DATETIME";
-		$fields['create_id']	= "MEDIUMINT UNSIGNED DEFAULT '1' NOT NULL";
-		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item creation
-		$fields['description']	= "TEXT NOT NULL";											// up to 64k chars
-		$fields['display']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// the anchor of the page to display this category
+		$fields['create_id']	= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
+		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['description']	= "TEXT NOT NULL";
+		$fields['display']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['edit_action']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
-		$fields['edit_id']		= "MEDIUMINT UNSIGNED DEFAULT '1' NOT NULL";
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item modification
+		$fields['edit_id']		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['expiry_date']	= "DATETIME";
-		$fields['hits'] 		= "INT UNSIGNED DEFAULT '0' NOT NULL";						// counter
-		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['introduction'] = "TEXT NOT NULL";											// up to 64k chars
-		$fields['keywords'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['nick_name']	= "VARCHAR(64) DEFAULT '' NOT NULL";						// up to 32 chars
-		$fields['options']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['overlay']		= "TEXT NOT NULL";											// up to 64k chars
-		$fields['overlay_id']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// to find the page by its overlay
+		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['introduction'] = "TEXT NOT NULL";
+		$fields['keywords'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['nick_name']	= "VARCHAR(64) DEFAULT '' NOT NULL";
+		$fields['options']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['overlay']		= "TEXT NOT NULL";
+		$fields['overlay_id']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['path'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['prefix']		= "TEXT NOT NULL";											// up to 64k chars
-		$fields['rank'] 		= "MEDIUMINT UNSIGNED DEFAULT '10000' NOT NULL";			// 1 to 64k
+		$fields['prefix']		= "TEXT NOT NULL";
+		$fields['rank'] 		= "MEDIUMINT UNSIGNED DEFAULT 10000 NOT NULL";
 		$fields['sections_count']	= "INT UNSIGNED NOT NULL";
 		$fields['sections_layout']	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['suffix']		= "TEXT NOT NULL";											// up to 64k chars
-		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
+		$fields['suffix']		= "TEXT NOT NULL";
+		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY id']		= "(id)";
-		$indexes['INDEX nick_name'] 	= "(nick_name)";
-		$indexes['INDEX anchor']		= "(anchor)";
-		$indexes['INDEX path']			= "(path(255))";
-		$indexes['INDEX title'] 		= "(title(255))";
-		$indexes['INDEX rank']			= "(rank)";
 		$indexes['INDEX active']		= "(active)";
-		$indexes['INDEX hits']			= "(hits)";
-		$indexes['INDEX display']		= "(display)";
-		$indexes['INDEX keywords']		= "(keywords(255))";
-		$indexes['INDEX create_name']	= "(create_name)";
-		$indexes['INDEX create_id'] 	= "(create_id)";
+		$indexes['INDEX anchor']		= "(anchor)";
 		$indexes['INDEX create_date']	= "(create_date)";
-		$indexes['INDEX edit_name'] 	= "(edit_name)";
-		$indexes['INDEX edit_id']		= "(edit_id)";
+		$indexes['INDEX create_id'] 	= "(create_id)";
+		$indexes['INDEX display']		= "(display)";
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
+		$indexes['INDEX edit_id']		= "(edit_id)";
 		$indexes['INDEX expiry_date']	= "(expiry_date)";
+		$indexes['INDEX hits']			= "(hits)";
+		$indexes['INDEX keywords']		= "(keywords(255))";
+		$indexes['INDEX nick_name'] 	= "(nick_name)";
+		$indexes['INDEX path']			= "(path(255))";
+		$indexes['INDEX rank']			= "(rank)";
+		$indexes['INDEX title'] 		= "(title(255))";
 		$indexes['FULLTEXT INDEX']	= "full_text(title, introduction, description)";
 
 		return SQL::setup_table('categories', $fields, $indexes);

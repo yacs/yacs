@@ -60,28 +60,6 @@ i18n::bind('articles');
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
-// clear the tab we are in, if any
-if(is_object($anchor))
-	$context['current_focus'] = $anchor->get_focus();
-
-// the path to this page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['path_bar'] = $anchor->get_path_bar();
-else
-	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
-if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
-
-// the title of the page
-if(isset($item['title']) && $item['title'])
-	$context['page_title'] = sprintf(i18n::s('Lock: %s'), $item['title']);
-else
-	$context['page_title'] = i18n::s('Lock a page');
-
-// command to go back
-if(isset($item['id']))
-	$context['page_menu'] = array( Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to the page') );
-
 // not found
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -105,6 +83,21 @@ if(!isset($item['id'])) {
 // do the toggle and redirect to the page
 elseif(Articles::lock($item['id'], $item['locked']))
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+
+// clear the tab we are in, if any
+if(is_object($anchor))
+	$context['current_focus'] = $anchor->get_focus();
+
+// path to this page
+if(is_object($anchor) && $anchor->is_viewable())
+	$context['path_bar'] = $anchor->get_path_bar();
+else
+	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
+if(isset($item['id']) && isset($item['title']))
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
+
+// page title
+$context['page_title'] = i18n::s('Lock a page');
 
 // failed operation
 $context['text'] .= '<p>'.i18n::s('Operation has failed.').'</p>';

@@ -23,18 +23,19 @@ Class Layout_links extends Layout_interface {
 	 *
 	 * @param resource the SQL result
 	 * @param string a variant, if any
-	 * @return string the rendered text
+	 * @return array of resulting items, or NULL
 	 *
 	 * @see skins/layout.php
 	**/
 	function &layout(&$result, $variant='full') {
 		global $context;
 
+		// we return an array of ($url => $attributes)
+		$items = array();
+
 		// empty list
-		if(!SQL::count($result)) {
-			$output = array();
-			return $output;
-		}
+		if(!SQL::count($result))
+			return $items;
 
 		// load localized strings
 		i18n::bind('links');
@@ -44,9 +45,6 @@ Class Layout_links extends Layout_interface {
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// we return an array of ($url => $attributes)
-		$items = array();
 
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {

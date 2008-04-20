@@ -255,12 +255,6 @@ if(!$permitted) {
 	$item = $_REQUEST;
 	$with_form = TRUE;
 
-// change editor
-} elseif(isset($_REQUEST['preferred_editor']) && $_REQUEST['preferred_editor'] && ($_REQUEST['preferred_editor'] != $_SESSION['surfer_editor'])) {
-	$_SESSION['surfer_editor'] = $_REQUEST['preferred_editor'];
-	$item = $_REQUEST;
-	$with_form = TRUE;
-
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
@@ -306,9 +300,6 @@ if(!$permitted) {
 		Skin::error(i18n::s('Please prove you are not a robot.'));
 		$item = $_REQUEST;
 		$with_form = TRUE;
-
-		// limit brute attacks
-		Safe::sleep(10);
 
 	// reward the poster for new posts
 	} elseif(!isset($_REQUEST['id'])) {
@@ -562,7 +553,7 @@ if($with_form) {
 	$help = '<p>'.sprintf(i18n::s('You can use following shortcuts to link to other pages of this server: %s'), '&#91;article=&lt;id>] &#91;section=&lt;id>] &#91;category=&lt;id>]').'</p>'
 		.'<p>'.i18n::s('Please set a meaningful title to be used instead of the link itself.').'</p>'
 		.'<p>'.i18n::s('Also, take the time to describe the link. This field is fully indexed for searches.').'</p>'
-		.'<p>'.sprintf(i18n::s('%s and %s are available to beautify your post.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }

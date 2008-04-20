@@ -46,7 +46,7 @@ such as polls or cooking recipes
 - ...
 
 A more complete list of features is available at
-http://www.yetanothercommunitysystem.com/yacs/go/features
+http://www.yetanothercommunitysystem.com/go/features
 
 
 Requirements for running YACS
@@ -88,7 +88,7 @@ First installation of YACS
 
 0. To get the most recent stable archive, visit
 
-	http://www.yetanothercommunitysystem.com/yacs/go/download
+	http://www.yetanothercommunitysystem.com/go/download
 
 1. Explode all files of the archive to a directory of your computer.
    Make sure that path names are preserved during the operation.
@@ -155,7 +155,7 @@ and to check periodically for updated and new scripts.
 
 To get more information on this feature visit
 
-	http://www.yetanothercommunitysystem.com/yacs/go/upgrades
+	http://www.yetanothercommunitysystem.com/go/upgrades
 
 The default reference server is www.yetanothercommunitysystem.com, but you can
 change this to use another server if you wish. IT managers will appreciate.

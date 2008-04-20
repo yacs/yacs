@@ -105,21 +105,16 @@ $destination = Anchors::get($destination);
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
-// the path to this page
+// path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
+	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 if(isset($item['id']) && isset($item['title']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
-// the title of the page
-if(is_object($overlay) && ($label = $overlay->get_label('page_title', isset($item['id'])?'edit':'new')))
-	$context['page_title'] = $label;
-elseif(isset($item['title']) && $item['title'])
-	$context['page_title'] = sprintf(i18n::s('Move: %s'), $item['title']);
-else
-	$context['page_title'] = i18n::s('Move a page');
+// page title
+$context['page_title'] = i18n::s('Move a page');
 
 // command to go back
 if(isset($item['id']))

@@ -44,7 +44,7 @@ i18n::bind('users');
 load_skin('users');
 
 // the path to this page
-$context['path_bar'] = array( 'users/' => i18n::s('Users') );
+$context['path_bar'] = array( 'users/' => i18n::s('People') );
 if(Surfer::is_logged())
 	$context['path_bar'] = array_merge($context['path_bar'], array( Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => Surfer::get_name() ));
 

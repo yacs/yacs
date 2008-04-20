@@ -109,7 +109,7 @@ if(is_object($anchor))
 else
 	$context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
 if(isset($item['id']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(sections::get_url($item['id']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
 // the title of the page
 $context['page_title'] = i18n::s('Bulk operations');

@@ -450,12 +450,12 @@ Class Versions {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['anchor']		= "VARCHAR(64) NOT NULL";									// up to 64 chars
-		$fields['content']		= "MEDIUMTEXT NOT NULL";							// up to 16M chars
+		$fields['anchor']		= "VARCHAR(64) NOT NULL";
+		$fields['content']		= "MEDIUMTEXT NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
-		$fields['edit_id']		= "MEDIUMINT DEFAULT '0' NOT NULL";
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item modification
+		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";

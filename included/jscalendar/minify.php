@@ -39,10 +39,15 @@ if(!$text = Safe::file_get_contents($hash)) {
 	// the returned string
 	$text = '';
 
-	// leading scripts
+	// combine scripts
 	if($context['with_debug'] == 'Y')
 		Logger::remember('included/jscalendar/minify.php', 'calendar.js', '', 'debug');
-	$text .= Safe::file_get_contents($context['path_to_root'].'included/jscalendar/calendar.js')."\n";
+
+	// use the compressed version if it's available
+	if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js'.'.jsmin'))
+		$text .= Safe::file_get_contents($context['path_to_root'].'included/jscalendar/calendar.js'.'.jsmin')."\n";
+	else
+		$text .= Safe::file_get_contents($context['path_to_root'].'included/jscalendar/calendar.js')."\n";
 
 	if(file_exists($context['path_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js')) {
 		if($context['with_debug'] == 'Y')
@@ -56,13 +61,12 @@ if(!$text = Safe::file_get_contents($hash)) {
 
 	if($context['with_debug'] == 'Y')
 		Logger::remember('included/jscalendar/minify.php', 'lang/calendar-setup.js', '', 'debug');
-	$text .= Safe::file_get_contents($context['path_to_root'].'included/jscalendar/calendar-setup.js')."\n";
 
-	// minify the thing
-//	if(file_exists($context['path_to_root'].'included/jsmin.php')) {
-//		include_once $context['path_to_root'].'included/jsmin.php';
-//		$text = JSMin::minify($text);
-//	}
+	// use the compressed version if it's available
+	if(file_exists($context['path_to_root'].'included/jscalendar/calendar-setup.js'.'.jsmin'))
+		$text .= Safe::file_get_contents($context['path_to_root'].'included/jscalendar/calendar-setup.js'.'.jsmin')."\n";
+	else
+		$text .= Safe::file_get_contents($context['path_to_root'].'included/jscalendar/calendar-setup.js')."\n";
 
 	// save in cache for the next request
 	Safe::file_put_contents($hash, $text);

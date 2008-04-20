@@ -43,10 +43,6 @@ load_skin('query');
 // the title of the page
 $context['page_title'] = i18n::s('We are here to help');
 
-// command to go back
-if(isset($_SERVER['HTTP_REFERER']))
-	$context['page_menu'] = array( $_SERVER['HTTP_REFERER'] => i18n::s('Back') );
-
 // post a new query
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
@@ -144,13 +140,13 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		$context['text'] .= $status;
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$context['text'] .= '<p>'.i18n::s('Where do you want to go now?').'</p>';
 		$menu = array();
-		$menu = array_merge($menu, array('index.php' => i18n::s('Go back to the front page')));
-		$menu = array_merge($menu, array('articles/' => i18n::s('List recent pages')));
-		$menu = array_merge($menu, array('sections/' => i18n::s('View the site map')));
-		$menu = array_merge($menu, array('search.php' => i18n::s('Use the search engine')));
-		$menu = array_merge($menu, array('help.php' => i18n::s('Visit the help index')));
+		$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
+		$menu = array_merge($menu, array('articles/' => i18n::s('All pages')));
+		$menu = array_merge($menu, array('sections/' => i18n::s('Site map')));
+		$menu = array_merge($menu, array('search.php' => i18n::s('Search')));
+		$menu = array_merge($menu, array('help.php' => i18n::s('Help index')));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// send a confirmation message to the surfer
@@ -198,9 +194,6 @@ if($with_form) {
 	// splash message
 	$context['text'] .= i18n::s('<p>Please fill out the form and it will be sent automatically to the site managers. Be as precise as possible, and mention your e-mail address to let us a chance to contact you back.</p>')."\n";
 
-	// locate mandatory fields
-	$context['text'] .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
-
 	// the form to send a query
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
@@ -243,8 +236,18 @@ if($with_form) {
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
 
+	// bottom commands
+	$menu = array();
+
 	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+	// step back
+	if(isset($_SERVER['HTTP_REFERER']))
+		$menu[] = Skin::build_link($_SERVER['HTTP_REFERER'], i18n::s('Cancel'), 'span');
+
+	// display the menu
+	$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
 
 	// end of the form
 	$context['text'] .= '</div></form>';
@@ -297,6 +300,8 @@ if($with_form) {
 		$text .= '<p>'.i18n::s('Most HTML tags are removed.');
 	$text .= ' '.sprintf(i18n::s('You can use %s to beautify your post'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help')).'.</p>';
 
+	// locate mandatory fields
+	$text .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
 
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $text, 'navigation', 'help');
 

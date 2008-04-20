@@ -231,7 +231,7 @@ if(!isset($item['id'])) {
 
 	// actually render the html for the section
 	if(count($items))
-		$context['text'] .= Skin::build_box(i18n::s('Related files'), Skin::build_list($items, 'compact'));
+		$context['text'] .= Skin::build_box(i18n::s('Files'), Skin::build_list($items, 'compact'));
 
 	//
 	// the comments section
@@ -259,7 +259,7 @@ if(!isset($item['id'])) {
 
 	// actually render the html
 	if(count($items))
-		$context['text'] .= Skin::build_box(i18n::s('Related links'), utf8::to_unicode(Skin::build_list($items, 'compact')));
+		$context['text'] .= Skin::build_box(i18n::s('See also'), utf8::to_unicode(Skin::build_list($items, 'compact')));
 
 	//
 	// page suffix

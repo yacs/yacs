@@ -133,7 +133,7 @@ if($id) {
 			.'<p>'.i18n::s('You can now visit the skins directory to test the behaviour of available skins, and to select the one you wish.').'</p>';
 
 		// display follow-up commands
-		$menu = array( 'skins/' => i18n::s('Go to the skins directory') );
+		$menu = array( 'skins/' => i18n::s('Skins') );
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	}

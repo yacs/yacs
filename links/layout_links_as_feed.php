@@ -14,21 +14,19 @@ Class Layout_links_as_feed extends Layout_interface {
 	 * list links
 	 *
 	 * @param resource the SQL result
-	 * @return string the rendered text
+	 * @return array of resulting items, or NULL
 	 *
 	 * @see skins/layout.php
 	**/
 	function &layout(&$result) {
 		global $context;
 
-		// empty list
-		if(!SQL::count($result)) {
-			$output = array();
-			return $output;
-		}
-
 		// we return an array of ($url => $attributes)
 		$items = array();
+
+		// empty list
+		if(!SQL::count($result))
+			return $items;
 
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {

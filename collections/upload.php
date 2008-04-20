@@ -59,7 +59,7 @@ if($user = Users::authenticate())
 	Surfer::empower($user['capability']);
 
 // the path to this page
-$context['path_bar'] = array( 'collections/' => i18n::s('Collections') );
+$context['path_bar'] = array( 'collections/' => i18n::s('File collections') );
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -74,7 +74,7 @@ elseif(!Surfer::is_associate()) {
 } elseif(!isset($item['collection']) || !$item['collection']) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	$context['page_title'] = i18n::s('Unknown collection');
-	Skin::error(sprintf(i18n::s('The collection asked for is unknown. Please check %s'), Skin::build_link('collections/', i18n::s('the index page'), 'shortcut')));
+	Skin::error(i18n::s('The collection asked for is unknown.'));
 
 // manage the upload
 } else {

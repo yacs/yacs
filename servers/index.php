@@ -57,7 +57,7 @@ if(!defined('SERVERS_PER_PAGE'))
 	define('SERVERS_PER_PAGE', 50);
 
 // the title of the page
-$context['page_title'] = i18n::s('All server profiles');
+$context['page_title'] = i18n::s('Servers');
 
 // count servers in the database
 $stats = Servers::stat();

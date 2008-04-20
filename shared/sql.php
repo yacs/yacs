@@ -385,17 +385,6 @@ Class SQL {
 			if(!preg_match('/(\/control\/|\/included\/|setup|login\.php$)/i', $context['script_url']))
 				Safe::redirect($context['url_to_home'].$context['url_to_root'].'control/');
 
-		// ensure we have some tables
-		} elseif((!$count = SQL::count_tables($context['database'], $context['connection'])) || ($count < 5)) {
-
-			// exit if batch mode
-			if(!isset($_SERVER['REMOTE_ADDR']))
-				exit(i18n::s('Missing tables in the database'));
-
-			// else jump to the control panel if not in it already
-			elseif(!preg_match('/(\/control\/|\/included\/|setup|login\.php$)/i', $context['script_url']))
-				Safe::redirect($context['url_to_home'].$context['url_to_root'].'control/');
-
 		}
 
 		// connect to the database for user records
@@ -422,10 +411,15 @@ Class SQL {
 		}
 
 		// detect utf8 database, if any
-		$context['database_is_utf8'] = FALSE;
-		$query = "SHOW VARIABLES LIKE 'character_set_database'";
-		if(($result =& SQL::query_first($query)) && ($result['Value'] == 'utf8'))
-			$context['database_is_utf8'] = TRUE;
+		if(!isset($_SESSION['database_is_utf8'])) {
+			$_SESSION['database_is_utf8'] = FALSE;
+			$query = "SHOW VARIABLES LIKE 'character_set_database'";
+			if(($result =& SQL::query_first($query)) && ($result['Value'] == 'utf8'))
+				$_SESSION['database_is_utf8'] = TRUE;
+		}
+
+		// ask only once per session
+		$context['database_is_utf8'] = $_SESSION['database_is_utf8'];
 
 		// database ok
 		return TRUE;

@@ -104,17 +104,14 @@ i18n::bind('files');
 // load a skin
 load_skin('files');
 
-// the path to this page
+// path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
 	$context['path_bar'] = array( 'files/' => i18n::s('Files') );
 
-// the title of the page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_title'] = $anchor->get_title();
-else
-	$context['page_title'] = i18n::s('Files feed');
+// page title
+$context['page_title'] = i18n::s('RSS feed');
 
 // permission denied
 if(!$permitted) {

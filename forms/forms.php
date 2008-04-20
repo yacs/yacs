@@ -333,17 +333,17 @@ Class Forms {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL"; 				// Yes, Restricted or No
-		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";				// up to 64 chars
-		$fields['content']		= "TEXT NOT NULL";											// up to 64k chars
-		$fields['description']	= "TEXT NOT NULL";											// up to 64k chars
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item modification
-		$fields['edit_id']		= "MEDIUMINT DEFAULT '0' NOT NULL";
+		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
+		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
+		$fields['content']		= "TEXT NOT NULL";
+		$fields['description']	= "TEXT NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
-		$fields['introduction'] = "TEXT NOT NULL";											// up to 64k chars
-		$fields['nick_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						//
-		$fields['title']		= "VARCHAR(128) DEFAULT '' NOT NULL";						//
+		$fields['introduction'] = "TEXT NOT NULL";
+		$fields['nick_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['title']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";

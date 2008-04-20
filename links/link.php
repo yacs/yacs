@@ -410,7 +410,8 @@ Class Link {
 
 		// open a network connection -- wait for up to 10 seconds for the TCP connection
 		if(!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 10)) {
-//			logger::debug($host.':'.$port.' is not reachable', $url);
+			if($context['with_debug'] == 'Y')
+				logger::remember('links/link.php', $host.':'.$port.' is not reachable', $url, 'debug');
 			return FALSE;
 		}
 
@@ -461,7 +462,8 @@ Class Link {
 
 		// ensure we have a valid HTTP status line
 		if(!preg_match('/^HTTP\/[0-9\.]+ 20\d /', $lines[0])) {
-//			logger::debug('bad status: '.$lines[0], $url);
+			if($context['with_debug'] == 'Y')
+				logger::remember('links/link.php', 'bad status: '.$lines[0], $url, 'debug');
 			return FALSE;
 		}
 

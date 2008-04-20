@@ -61,7 +61,7 @@ if(!defined('TABLES_PER_PAGE'))
 	define('TABLES_PER_PAGE', 50);
 
 // the title of the page
-$context['page_title'] = i18n::s('All tables');
+$context['page_title'] = i18n::s('Tables');
 
 // this page is really only for associates
 if(!Surfer::is_associate())

@@ -62,12 +62,12 @@ if(!defined('IMAGES_PER_PAGE'))
 	define('IMAGES_PER_PAGE', 50);
 
 // the title of the page
-$context['page_title'] = i18n::s('Recent images');
+$context['page_title'] = i18n::s('Images');
 
 // this page is really only for associates
 if(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.i18n::s('Because of our security policy you are not allowed to list images.').'</p>'
-		.'<p>'.sprintf(i18n::s('Please browse %s to visualize any image that could be embedded.'), Skin::build_link('articles/', i18n::s('published pages'))).'</p>';
+		.'<p>'.sprintf(i18n::s('Please browse %s to visualize any image that could be embedded.'), Skin::build_link('articles/', i18n::s('pages'))).'</p>';
 
 // display the index
 } else {

@@ -34,7 +34,7 @@ i18n::bind('scripts');
 load_skin('scripts');
 
 // the path to this page
-$context['path_bar'] = array( 'scripts/' => i18n::s('Scripts') );
+$context['path_bar'] = array( 'scripts/' => i18n::s('Server software') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Apply a patch');
@@ -118,7 +118,7 @@ elseif(!Surfer::is_associate()) {
 				$context['text'] .= '<p>'.i18n::s('Congratulations, the patch has been applied.').'</p>';
 
 				// display follow-up commands
-				$menu = array( 'scripts/' => i18n::s('All scripts') );
+				$menu = array( 'scripts/' => i18n::s('Server software') );
 				$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 			}

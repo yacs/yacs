@@ -126,7 +126,7 @@ load_skin('root');
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = i18n::s('The configuration panel for the front page');
+$context['page_title'] = sprintf(i18n::s('Configure: %s'), i18n::s('Front page'));
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -148,8 +148,8 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';
 
 	// the main panel
-	$context['text'] .= Skin::build_block(i18n::s('The main panel'), 'title');
-	$fields = array();
+	//
+	$main = '';
 
 	// options to display the cover page
 	$label = i18n::s('Cover article');
@@ -389,11 +389,12 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// build the form
-	$context['text'] .= Skin::build_form($fields);
+	$main .= Skin::build_form($fields);
 	$fields = array();
 
 	// the extra panel
-	$context['text'] .= Skin::build_block(i18n::s('The extra panel'), 'title');
+	//
+	$extra = '';
 
 	// featured articles can be either a static or an animated list
 	$label = i18n::s('Featured');
@@ -488,13 +489,38 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// build the form
-	$context['text'] .= Skin::build_form($fields);
+	$extra .= Skin::build_form($fields);
 	$fields = array();
 
 	//
-	// the submit button
+	// assemble all tabs
 	//
-	$context['text'] .= Skin::build_box(i18n::s('Save parameters'), '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n");
+	$all_tabs = array(
+		array('main_tab', i18n::s('Main panel'), 'main_content', $main),
+		array('extra_tab', i18n::s('Side panel'), 'extra_content', $extra)
+		);
+
+	// let YACS do the hard job
+	$context['text'] .= Skin::build_tabs($all_tabs);
+
+	//
+	// bottom commands
+	//
+	$menu = array();
+
+	// the submit button
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+	// control panel
+	if(file_exists('parameters/control.include.php'))
+		$menu[] = Skin::build_link('control/', i18n::s('Control Panel'), 'span');
+
+	// control panel
+	if(file_exists('parameters/control.include.php'))
+		$menu[] = Skin::build_link($context['url_to_root'], i18n::s('Front page'), 'span');
+
+	// insert the menu in the page
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// end of the form
 	$context['text'] .= '</div></form>';
@@ -625,19 +651,19 @@ elseif(!Surfer::is_associate()) {
 	} else {
 
 		// what's next?
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?')."</p>\n";
+		$context['text'] .= '<p>'.i18n::s('Where do you want to go now?')."</p>\n";
 
 		// follow-up menu
 		$menu = array();
 
-		// visit the front page
-		$menu = array_merge($menu, array( $context['url_to_root'] => i18n::s('View the front page') ));
+		// front page
+		$menu = array_merge($menu, array( $context['url_to_root'] => i18n::s('Front page') ));
 
-		// offer to change it again
+		// control panel
+		$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
+
+		// do it again
 		$menu = array_merge($menu, array( 'configure.php' => i18n::s('Configure again') ));
-
-		// back to the control panel
-		$menu = array_merge($menu, array( 'control/' => i18n::s('Go to the Control Panel') ));
 
 		// display follow-up commands
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');

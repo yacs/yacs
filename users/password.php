@@ -54,7 +54,7 @@ i18n::bind('users');
 load_skin('users');
 
 // the path to this page
-$context['path_bar'] = array( 'users/' => i18n::s('All users') );
+$context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
 if(isset($item['nick_name']))
@@ -114,9 +114,6 @@ if(!isset($item['id']) || !$item['id']) {
 	// stop robots
 	if(Surfer::may_be_a_robot()) {
 		Skin::error(i18n::s('Please prove you are not a robot.'));
-
-		// limit brute attacks
-		Safe::sleep(10);
 
 	// we have a target address, which is the correct one, and mail has been activated
 	} elseif(isset($item['email']) && trim($item['email']) && !strcmp($id, $item['nick_name']) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
@@ -191,9 +188,6 @@ elseif($origin) {
 		Skin::error(i18n::s('Please prove you are not a robot.'));
 		$item = $_REQUEST;
 		$with_form = TRUE;
-
-		// limit brute attacks
-		Safe::sleep(10);
 
 	// display the form on error
 	} elseif(!Users::put($_REQUEST)) {

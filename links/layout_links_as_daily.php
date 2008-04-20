@@ -13,16 +13,17 @@ Class Layout_links_as_daily extends Layout_interface {
 	 * list blogmarks
 	 *
 	 * @param resource the SQL result
-	 * @return string the rendered text
+	 * @return string resulting text
 	**/
 	function &layout(&$result) {
 		global $context;
 
+		// we return a string
+		$text = '';
+
 		// empty list
-		if(!SQL::count($result)) {
-			$output = array();
-			return $output;
-		}
+		if(!SQL::count($result))
+			return $text;
 
 		// load localized strings
 		i18n::bind('links');
@@ -39,7 +40,6 @@ Class Layout_links_as_daily extends Layout_interface {
 		define('ALLOWED_HTML_TAGS', '<a><b><br><h1><h2><h3><i><img><li><ol><p><ul>');
 
 		// build a list of articles
-		$text = '';
 		$box = array();
 		$box['content'] = '';
 		$previous_date = NULL;

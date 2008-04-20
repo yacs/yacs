@@ -81,17 +81,14 @@ i18n::bind('categories');
 // load the skin
 load_skin('categories');
 
-// the path to this page
+// path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
 	$context['path_bar'] = array( 'categories/' => i18n::s('Categories') );
 
-// the title of the page
-if($item['title'])
-	$context['page_title'] = $item['title'];
-else
-	$context['page_title'] = i18n::s('RSS feed for category');
+// page title
+$context['page_title'] = i18n::s('RSS feed');
 
 // not found
 if(!$item['id']) {

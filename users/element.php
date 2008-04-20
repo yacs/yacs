@@ -100,7 +100,7 @@ i18n::bind('users');
 load_skin('users');
 
 // the path to this page
-$context['path_bar'] = array( 'users/' => i18n::s('Users') );
+$context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
 if(isset($item['nick_name']))
@@ -155,15 +155,67 @@ if(!isset($item['id'])) {
 	// we return some HTML
 	$text = '';
 
-	// include contact information
-	$text .= Skin::build_user_contact($item);
+	$menu = array();
 
-	// permanent address
-	$box = array( 'bar' => array(), 'text' => '');
+	// edit command
+	if(isset($item['id']) && !isset($zoom_type) && Surfer::is_empowered())
+		$menu = array_merge($menu, array( Users::get_url($item['id'], 'edit') => i18n::s('Edit')));
 
-	// web address, if any
-	if(isset($item['web_address']) && $item['web_address'])
-		$box['text'] .= '<p>'.sprintf(i18n::s('Web address: %s'), Skin::build_link($item['web_address'], $item['web_address'], 'external'))."</p>\n";
+	// watch command is provided to logged surfers
+	if(Surfer::get_id() && ($item['id'] != Surfer::get_id())) {
+
+		$link = Users::get_url('user:'.$item['id'], 'track');
+
+		// is the item on user watch list?
+		$in_watch_list = FALSE;
+		if(isset($item['id']) && Surfer::get_id())
+			$in_watch_list = Members::check('user:'.$item['id'], 'user:'.Surfer::get_id());
+
+		if($in_watch_list)
+			$label = i18n::s('Forget');
+		else
+			$label = i18n::s('Watch');
+
+		Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
+		$menu = array_merge($menu, array( $link => array(NULL, WATCH_TOOL_IMG.$label, NULL, 'basic', NULL, i18n::s('Manage your watch list'))));
+	}
+
+	// command to send a message, if mail has been activated on this server
+	if(isset($item['email']) && $item['email'] && (Surfer::is_empowered()
+		|| (isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'Y'))
+		|| (Surfer::is_logged() && isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'R')))) {
+		$menu = array_merge($menu, array( Users::get_url($item['id'], 'mail') => i18n::s('Send a message') ));
+	}
+
+	// logged users may download the vcard
+	if(Surfer::is_logged())
+		$menu = array_merge($menu, array( Users::get_url($item['id'], 'fetch_vcard', isset($item['nick_name'])?$item['nick_name']:'') => i18n::s('vCard')));
+
+	if(count($menu))
+		$text .= Skin::build_list($menu, 'menu_bar');
+
+	// business card
+	$rows = array();
+
+	// organization, if any
+	if(isset($item['vcard_organization']) && $item['vcard_organization'])
+		$rows[] = array(i18n::s('Organization'), $item['vcard_organization']);
+
+	// title, if any
+	if(isset($item['vcard_title']) && $item['vcard_title'])
+		$rows[] = array(i18n::s('Title'), $item['vcard_title']);
+
+	// physical address, if any
+	if(isset($item['vcard_label']) && $item['vcard_label'])
+		$rows[] = array(i18n::s('Physical address'), str_replace("\n", BR, $item['vcard_label']));
+
+	// phone number, if any
+	if(isset($item['phone_number']) && $item['phone_number'])
+		$rows[] = array(i18n::s('Phone number'), $item['phone_number']);
+
+	// alternate number, if any
+	if(isset($item['alternate_number']) && $item['alternate_number'])
+		$rows[] = array(i18n::s('Alternate number'), $item['alternate_number']);
 
 	// do not let robots steal addresses
 	if(Surfer::is_empowered()
@@ -172,23 +224,46 @@ if(!isset($item['id'])) {
 
 		// email address - not showed to anonymous surfers for spam protection
 		if(isset($item['email']) && $item['email']) {
-			if(Surfer::is_creator($item['id']))
-				$label = i18n::s('Your e-mail address: %s %s');
-			else
-				$label = i18n::s('E-mail address: %s %s');
 
 			if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
 				$url = $context['url_to_root'].Users::get_url($id, 'mail');
 			else
 				$url = 'mailto:'.$item['email'];
 
-			if(isset($item['with_newsletters']) && ($item['with_newsletters'] == 'Y'))
-				$suffix = '';
-			else
-				$suffix = i18n::s('(do not wish to receive newsletters)');
-
-			$box['text'] .= '<p>'.sprintf(i18n::s($label), Skin::build_link($url, $item['email'], 'email'), $suffix)."</p>\n";
+			$rows[] = array(i18n::s('E-mail address'), Skin::build_link($url, $item['email'], 'email'));
 		}
+	}
+
+	// web address, if any
+	if(isset($item['web_address']) && $item['web_address'])
+		$rows[] = array(i18n::s('Web address'), Skin::build_link($item['web_address'], $item['web_address'], 'external'));
+
+	// birth date, if any
+	if(isset($item['birth_date']) && $item['birth_date'])
+		$rows[] = array(i18n::s('Birth date'), $item['birth_date']);
+
+	// agent, if any
+	if(isset($item['vcard_agent']) && $item['vcard_agent']) {
+		if($agent =& Users::get($item['vcard_agent']))
+			$rows[] = array(i18n::s('Alternate contact'), Skin::build_link(Users::get_url($agent['id'], 'view', $agent['nick_name'], $agent['full_name']), $agent['nick_name'], 'user'));
+		else
+			$rows[] = array(i18n::s('Alternate contact'), $item['vcard_agent']);
+	}
+
+	if(count($rows)) {
+		$text .= Skin::table(NULL, $rows, 'form');
+	}
+
+	// where to join this user at this site
+	$text .= Skin::build_user_contact($item);
+
+	// permanent address
+	$box = array( 'bar' => array(), 'text' => '');
+
+	// do not let robots steal addresses
+	if(Surfer::is_empowered()
+		|| (isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'Y'))
+		|| (Surfer::is_logged() && isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'R'))) {
 
 		// put contact addresses in a table
 		$rows = array();
@@ -225,19 +300,17 @@ if(!isset($item['id'])) {
 		if(count($rows))
 			$box['text'] .= Skin::table(NULL, $rows, 'form');
 
-		// how to change this
-		if(Surfer::is_empowered()) {
-			$menu = array( Users::get_url($item['id'], 'edit') => i18n::s('Edit') );
-			$box['text'] .= Skin::build_list($menu, 'menu_bar');
-		}
-
 	// motivate people to register
 	} elseif(!Surfer::is_logged())
 		$box['text'] .= '<p>'.i18n::s('Please authenticate to view e-mail and instant messaging contact information, for this user.')."</p>\n";
 
 	// a full box
 	if($box['text'])
-		$text .= Skin::build_box(i18n::s('Permanent addresses'), $box['text'], 'header1', 'external_contact');
+		$text .= Skin::build_box(i18n::s('Instant messaging'), $box['text'], 'folder');
+
+	// pgp key
+	if(isset($item['pgp_key']) && $item['pgp_key'])
+		$text .= Skin::build_box(i18n::s('Public key'), '<span style="font-size: 50%">'.$item['pgp_key'].'</span>', 'folder');
 
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
@@ -252,8 +325,30 @@ if(!isset($item['id'])) {
 	// we return some HTML
 	$output = '';
 
-	// preferences, but only to authenticated surfers
+	// anyone can modify his own profile; associates can do what they want
+	if(isset($item['id']) && !isset($zoom_type) && Surfer::is_empowered()) {
+		$menu = array( Users::get_url($item['id'], 'edit') => i18n::s('Edit'),
+			Users::get_url($item['id'], 'password') => i18n::s('Change password'),
+			Users::get_url($item['id'], 'select_avatar') => i18n::s('Change avatar') );
+		$output .= Skin::build_list($menu, 'menu_bar');
+	}
+
+	// show preferences, but only to authenticated surfers
 	if(Surfer::is_logged()) {
+
+		// public or restricted or hidden profile
+		if(isset($item['active'])) {
+			if($item['active'] == 'Y')
+				$output .= '<p>'.i18n::s('Anyone may read this profile.').'</p>';
+			elseif($item['active'] == 'R')
+				$output .= '<p>'.RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members.').'</p>';
+			elseif($item['active'] == 'N')
+				$output .= '<p>'.PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates.').'</p>';
+		}
+
+		// signature
+		if(isset($item['signature']) && $item['signature'])
+			$output .= '<p>'.sprintf(i18n::s('Signature: %s'), BR.Codes::beautify($item['signature'])).'</p>'."\n";
 
 		// preferred editor
 		if(isset($item['editor']) && ($item['editor'] == 'fckeditor'))
@@ -261,27 +356,55 @@ if(!isset($item['id'])) {
 		elseif(isset($item['editor']) && ($item['editor'] == 'tinymce'))
 			$label = Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external');
 		else
-			$label = i18n::s('Textarea &amp; YACS codes');
+			$label = i18n::s('Textarea');
 		$output .= '<p>'.sprintf(i18n::s('Editor: %s'), $label).'</p>'."\n";
 
-		// from where
-		if(isset($item['from_where']) && $item['from_where'])
-			$output .= '<p>'.sprintf(i18n::s('From: %s'), Codes::beautify($item['from_where'])).'</p>'."\n";
+		// e-mail usage
+		if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
 
-		// signature
-		if(isset($item['signature']) && $item['signature'])
-			$output .= '<p>'.sprintf(i18n::s('Signature: %s'), BR.Codes::beautify($item['signature'])).'</p>'."\n";
+			$items = array();
 
-		// pgp key
-		if(isset($item['pgp_key']) && $item['pgp_key'])
-			$output .= '<p>'.sprintf(i18n::s('PGP key or certificate: %s'), BR.'<span style="font-size: 50%">'.$item['pgp_key'].'</span>').'</p>'."\n";
+			// confirm password
+			if(!isset($item['without_confirmations']) || ($item['without_confirmations'] != 'Y'))
+				$items[] = i18n::s('Confirm every password change.');
 
-	}
+			// receive alerts
+			if(!isset($item['without_alerts']) || ($item['without_alerts'] != 'Y'))
+				$items[] = i18n::s('Alert me when my articles are commented.');
 
-	// how to change this
-	if(Surfer::is_empowered()) {
-		$menu = array( Users::get_url($item['id'], 'edit') => i18n::s('Edit') );
-		$output .= Skin::build_list($menu, 'menu_bar');
+			// receive private messages
+			if(!isset($item['without_messages']) || ($item['without_messages'] != 'Y'))
+				$items[] = i18n::s('Allow other members to send me private messages.');
+
+			// explicit newsletter subscription
+			if(!isset($item['id']) || !isset($item['with_newsletters']) || ($item['with_newsletters'] == 'Y'))
+				$items[] = i18n::s('Send me periodical newsletters related to this server.');
+
+			if(count($items))
+				$output .= '<dl><dt>'.i18n::s('E-mail usage').'</dt><dd>'
+					.'<ul><li>'.join('</li><li>', $items).'</li></ul>'
+					.'</dd></dl>';
+
+		}
+
+		// share screen
+		if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
+			if(!isset($item['with_sharing']) || ($item['with_sharing'] == 'N'))
+				$output .= '<p>'.i18n::s('Screen is not shared with other people.').'</p>';
+			if(isset($item['with_sharing']) && ($item['with_sharing'] == 'V'))
+				$output .= '<p>'.i18n::s('Allow remote access using VNC.').'</p>';
+			if(isset($item['with_sharing']) && ($item['with_sharing'] == 'M'))
+				$output .= '<p>'.i18n::s('Allow remote access with NetMeeting.').'</p>';
+		}
+
+		// proxy
+		if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
+			if(isset($item['proxy_address']) && $item['proxy_address'])
+				$output .= '<p>'.sprintf(i18n::s('Network address: %s'), $item['proxy_address']).'</p>';
+			elseif(isset($item['login_address']))
+				$output .= '<p>'.sprintf(i18n::s('Network address: %s'), $item['login_address']).'</p>';
+		}
+
 	}
 
 	// actual transmission except on a HEAD request
@@ -304,25 +427,25 @@ if(!isset($item['id'])) {
 	// list watched users by posts
 	if($items = Members::list_users_by_posts_for_member('user:'.$item['id'], 0, BOOKMARKS_PER_PAGE, 'watch')) {
 		if(is_array($items))
-			$output .= Skin::build_box(i18n::s('Watched users'), Skin::build_list($items, 'decorated'), 'header1', 'watched_users');
+			$output .= Skin::build_box(i18n::s('Watched users'), Skin::build_list($items, 'decorated'), 'header2', 'watched_users');
 		else
-			$output .= Skin::build_box(i18n::s('Watched users'), $items, 'header1', 'watched_users');
+			$output .= Skin::build_box(i18n::s('Watched users'), $items, 'header2', 'watched_users');
 	}
 
 	// list watched sections by date
 	if($items = Members::list_sections_by_date_for_member('user:'.$item['id'], 0, BOOKMARKS_PER_PAGE, 'compact')) {
 		if(is_array($items))
-			$output .= Skin::build_box(i18n::s('Watched sections'), Skin::build_list($items, 'compact'), 'header1', 'watched_sections');
+			$output .= Skin::build_box(i18n::s('Watched sections'), Skin::build_list($items, 'compact'), 'header2', 'watched_sections');
 		else
-			$output .= Skin::build_box(i18n::s('Watched sections'), $items, 'header1', 'watched_sections');
+			$output .= Skin::build_box(i18n::s('Watched sections'), $items, 'header2', 'watched_sections');
 	}
 
 	// list watched articles by date
 	if($items = Members::list_articles_by_date_for_member('user:'.$item['id'], 0, BOOKMARKS_PER_PAGE, 'simple')) {
 		if(is_array($items))
-			$output .= Skin::build_box(i18n::s('Watched pages'), Skin::build_list($items, 'compact'), 'header1', 'watched_articles');
+			$output .= Skin::build_box(i18n::s('Watched pages'), Skin::build_list($items, 'compact'), 'header2', 'watched_articles');
 		else
-			$output .= Skin::build_box(i18n::s('Watched pages'), $items, 'header1', 'watched_articles');
+			$output .= Skin::build_box(i18n::s('Watched pages'), $items, 'header2', 'watched_articles');
 	}
 
 	// actual transmission except on a HEAD request

@@ -42,7 +42,7 @@ i18n::bind('comments');
 load_skin('comments');
 
 // the title of the page
-$context['page_title'] = i18n::s('All threads');
+$context['page_title'] = i18n::s('Threads');
 
 // count comments in the database
 $stats = Comments::stat_threads();

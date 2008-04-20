@@ -8,12 +8,6 @@
  * On a regular page, it allows for dynamic conversations involving two people
  * or more. When the page is locked, only a transcript is displayed.
  *
- * This script uses AJAX in a COMET architecture. This means that Javascript
- * is mandatory, and that refresh requests made to server are blocked until
- * new contributions are made.
- *
- * @link http://en.wikipedia.org/wiki/Comet_(programming)
- *
  * The main panel has following elements:
  * - The article itself, with details, introduction, and main text. This may be overloaded if required.
  * - The real-time chatting space, built upon a specialized layout for comments
@@ -63,11 +57,8 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-// stop hackers
-if(count(get_included_files()) < 3) {
-	echo 'Script must be included';
-	return;
-}
+// loaded from articles/view.php
+defined('YACS') or exit('Script must be included');
 
 // load the skin, maybe with a variant
 load_skin('view_as_thread', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -80,11 +71,11 @@ if(is_object($anchor))
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
+	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 
 // page title
-if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-	$context['page_title'] = $overlay->get_live_title($item);
+if(is_object($overlay))
+	$context['page_title'] = $overlay->get_text('title', $item);
 elseif(isset($item['title']) && $item['title'])
 	$context['page_title'] = $item['title'];
 else
@@ -373,6 +364,11 @@ if(!isset($item['id'])) {
 		$details[] = $label;
 	}
 
+	// lines details
+	if(count($details))
+		$context['page_details'] .= ucfirst(implode(BR."\n", $details)).BR."\n";
+	$context['page_details'] .= "</p>\n";
+
 	// tags, if any
 	if(isset($item['tags']) && $item['tags']) {
 		$tags = explode(',', $item['tags']);
@@ -383,20 +379,17 @@ if(!isset($item['id'])) {
 			else
 				$line .= trim($tag).' ';
 		}
-		$details[] = i18n::s('Tags:').' '.trim($line);
+		$context['page_details'] .= '<p class="tags">'.sprintf(i18n::s('Tags: %s'), trim($line)).'</p>'."\n";
 	}
-
-	// lines details
-	if(count($details))
-		$context['page_details'] .= ucfirst(implode(BR."\n", $details)).BR."\n";
-	$context['page_details'] .= "</p>\n";
 
 	// insert anchor prefix
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_prefix();
 
 	// the introduction text, if any
-	if(isset($item['introduction']) && trim($item['introduction']))
+	if(is_object($overlay))
+		$context['text'] .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
+	elseif(isset($item['introduction']) && trim($item['introduction']))
 		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 	else
 		$context['text'] .= BR;
@@ -460,7 +453,7 @@ if(!isset($item['id'])) {
 			$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), i18n::s('View history'), 'span');
 
 			// display my VNC session
-			if(Surfer::is_empowered()) {
+			if(isset($_SESSION['with_sharing']) && ($_SESSION['with_sharing'] == 'V')) {
 
 				// use either explicit or implicit address
 				if(isset($_SESSION['proxy_address']) && $_SESSION['proxy_address'])
@@ -471,10 +464,23 @@ if(!isset($item['id'])) {
 					$link = 'http://'.$context['host_name'].':5800';
 
 				// open the link in an external window
-				$link = '<a href="'.$link.'" title="'.i18n::s('Browse in a separate window').'" onclick="window.open(this.href); return false;"><span>'.sprintf(i18n::s('%s workstation'), Surfer::get_name()).'</span></a>';
+				$link = '<a href="'.$link.'" title="'.i18n::s('Browse in a separate window').'" onclick="window.open(this.href); return false;"><span>'.sprintf(i18n::s('Shared screen of %s'), Surfer::get_name()).'</span></a>';
 
 				// append the command to the menu
-				$menu[] = '<a href="#" onclick="javascript:Comments.contribute(\''.str_replace('"', '&quot;', $link).'\');return false;" title="'.i18n::s('Share my VNC session').'"><span>'.i18n::s('Share my VNC session').'</span></a>';
+				$menu[] = '<a href="#" onclick="javascript:Comments.contribute(\''.str_replace('"', '&quot;', $link).'\');return false;" title="'.i18n::s('Share screen with VNC').'"><span>'.i18n::s('Share screen with VNC').'</span></a>';
+			}
+
+			// share my netmeeting session
+			if(isset($_SESSION['with_sharing']) && ($_SESSION['with_sharing'] == 'M')) {
+
+				// link to the session descriptor
+				$link = $context['url_to_home'].$context['url_to_root'].Users::get_url(Surfer::get_id(), 'share');
+
+				// open the link in an external window
+				$link = '<a href="'.$link.'" title="'.i18n::s('Browse in a separate window').'" onclick="window.open(this.href); return false;"><span>'.sprintf(i18n::s('Shared screen of %s'), Surfer::get_name()).'</span></a>';
+
+				// append the command to the menu
+				$menu[] = '<a href="#" onclick="javascript:Comments.contribute(\''.str_replace('"', '&quot;', $link).'\');return false;" title="'.i18n::s('Share screen with NetMeeting').'"><span>'.i18n::s('Share screen with NetMeeting').'</span></a>';
 			}
 
 			// display all commands
@@ -506,6 +512,10 @@ if(!isset($item['id'])) {
 	// trailer information
 	//
 
+	// add trailer information from the overlay, if any
+	if(is_object($overlay))
+		$context['text'] .= $overlay->get_text('trailer', $item);
+
 	// add trailer information from this item, if any
 	if(isset($item['trailer']) && trim($item['trailer']))
 		$context['text'] .= Codes::beautify($item['trailer']);
@@ -517,6 +527,10 @@ if(!isset($item['id'])) {
 	//
 	// the extra panel
 	//
+
+	// add extra information from the overlay, if any
+	if(is_object($overlay))
+		$context['extra'] .= $overlay->get_text('extra', $item);
 
 	// add extra information from this item, if any
 	if(isset($item['extra']) && $item['extra'])
@@ -559,7 +573,7 @@ if(!isset($item['id'])) {
 
 	// display this aside the thread
 	if($text)
-		$context['extra'] .= Skin::build_box(i18n::s('Related files'), $text, 'extra', 'files');
+		$context['extra'] .= Skin::build_box(i18n::s('Files'), $text, 'extra', 'files');
 
 	// links attached to this article
 	$cache_id = 'articles/view_as_thread.php?id='.$item['id'].'#links';
@@ -590,7 +604,7 @@ if(!isset($item['id'])) {
 
 			}
 
-			$text = Skin::build_box(i18n::s('Related links'), $text, 'extra');
+			$text = Skin::build_box(i18n::s('See also'), $text, 'extra');
 		}
 
 		// save in cache
@@ -690,7 +704,7 @@ if(!isset($item['id'])) {
 	//
 
 	// comments as a RSS feed
-	if(isset($item['id']) && (!isset($context['pages_without_feed']) || ($context['pages_without_feed'] != 'Y')) ) {
+	if(isset($item['id']) && (!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {
 
 		$content = '';
 
@@ -699,8 +713,11 @@ if(!isset($item['id'])) {
 
 		// comments are allowed
 		if(Comments::are_allowed($anchor, $item)) {
-			$content .= Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), i18n::s('recent comments'), 'xml').BR
-				.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), $item['title']));
+			$content .= Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), i18n::s('recent comments'), 'xml');
+
+			// public aggregators
+			if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+				$content .= BR.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), $item['title']));
 		}
 
 		// in a side box
@@ -836,7 +853,7 @@ if(!isset($item['id'])) {
 			."\n"
 			.'// update attached files, in the background'."\n"
 			.'new Ajax.PeriodicalUpdater("thread_files_panel", "'.$context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'thread').'",'."\n"
-			.'	{ method: "get", frequency: 61, decay: 1 });'."\n";
+			.'	{ method: "get", frequency: 181, decay: 1 });'."\n";
 
 		// only authenticated surfers can contribute
 		if(Surfer::is_logged() && Comments::are_allowed($anchor, $item))

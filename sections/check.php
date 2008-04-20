@@ -31,7 +31,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= i18n::s('You are not allowed to perform this operation.');
 
 	// forward to the index page
-	$menu = array('sections/' => i18n::s('All sections'));
+	$menu = array('sections/' => i18n::s('Site Map'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // look for orphans
@@ -84,7 +84,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
 
 	// forward to the index page
-	$menu = array('sections/' => i18n::s('All sections'));
+	$menu = array('sections/' => i18n::s('Site Map'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // which check?

@@ -146,12 +146,6 @@ if(!$permitted) {
 	$item = $_REQUEST;
 	$with_form = TRUE;
 
-// change editor
-} elseif(isset($_REQUEST['preferred_editor']) && $_REQUEST['preferred_editor'] && ($_REQUEST['preferred_editor'] != $_SESSION['surfer_editor'])) {
-	$_SESSION['surfer_editor'] = $_REQUEST['preferred_editor'];
-	$item = $_REQUEST;
-	$with_form = TRUE;
-
 // update an existing category
 } elseif(($item['id']) && isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
@@ -699,7 +693,7 @@ if($with_form) {
 		.'// ]]></script>'."\n";
 
 	// general help on this form
-	$help = '<p>'.sprintf(i18n::s('%s and %s are available to beautify your post.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+	$help = '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 	// if we are editing an existing category
@@ -717,8 +711,12 @@ if($with_form) {
 		// the list of images
 		include_once '../images/images.php';
 		if($items = Images::list_by_date_for_anchor('category:'.$item['id'], 0, 50)) {
-			$context['text'] .= '<p>'.i18n::s('Click on links to insert images in the main field.')."</p>\n";
-			$context['text'] .= Skin::build_list($items, 'decorated');
+
+			// help to insert in textarea
+			if(!isset($_SESSION['surfer_editor']) || (($_SESSION['surfer_editor'] != 'fckeditor') && ($_SESSION['surfer_editor'] != 'tinymce')))
+				$box .= '<p>'.i18n::s('Click on links to insert images in the main field.')."</p>\n";
+
+			$box .= Skin::build_list($items, 'decorated');
 		}
 
 	}

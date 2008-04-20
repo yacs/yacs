@@ -177,9 +177,9 @@ class Browsers {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['type'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['variable'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-		$fields['hits'] 		= "INT UNSIGNED DEFAULT '0' NOT NULL";
+		$fields['type'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['variable'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
@@ -207,4 +207,6 @@ class Browsers {
 	}
 
 }
+
+i18n::bind('agents');
 ?>

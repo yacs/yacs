@@ -45,12 +45,22 @@ if(!$text = Safe::file_get_contents($hash)) {
 	// prototype
 	if($context['with_debug'] == 'Y')
 		Logger::remember('included/browser/minify.php', 'prototype.js', '', 'debug');
-	$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/prototype.js')."\n";
+
+	// use the compressed version if it's available
+	if(file_exists($context['path_to_root'].'included/browser/prototype.js'.'.jsmin'))
+		$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/prototype.js'.'.jsmin')."\n";
+	else
+		$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/prototype.js')."\n";
 
 	// effects
 	if($context['with_debug'] == 'Y')
 		Logger::remember('included/browser/minify.php', 'effects.js', '', 'debug');
-	$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/effects.js')."\n";
+
+	// use the compressed version if it's available
+	if(file_exists($context['path_to_root'].'included/browser/effects.js'.'.jsmin'))
+		$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/effects.js'.'.jsmin')."\n";
+	else
+		$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/effects.js')."\n";
 
 	// script to not load afterwards
 	$to_avoid = array(
@@ -69,7 +79,12 @@ if(!$text = Safe::file_get_contents($hash)) {
 			continue;
 		if($context['with_debug'] == 'Y')
 			Logger::remember('included/browser/minify.php', $name, '', 'debug');
-		$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/'.$name)."\n";
+
+		// use the compressed version if it's available
+		if(file_exists($context['path_to_root'].'included/browser/'.$name.'.jsmin'))
+			$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/'.$name.'.jsmin')."\n";
+		else
+			$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/'.$name)."\n";
 	}
 
 	// save in cache for the next request

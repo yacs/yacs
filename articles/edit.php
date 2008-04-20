@@ -216,19 +216,17 @@ load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
-// the path to this page
+// path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
+	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 if(isset($item['id']) && isset($item['title']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
-// the title of the page
-if(is_object($overlay) && ($label = $overlay->get_label('page_title', isset($item['id'])?'edit':'new')))
-	$context['page_title'] = $label;
-elseif(isset($item['title']) && $item['title'])
-	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
+// page title
+if(isset($item['id']))
+	$context['page_title'] = i18n::s('Edit a page');
 else
 	$context['page_title'] = i18n::s('Add a page');
 
@@ -365,12 +363,6 @@ if(!$permitted) {
 	$item = $_REQUEST;
 	$with_form = TRUE;
 
-// change editor
-} elseif(isset($_REQUEST['preferred_editor']) && $_REQUEST['preferred_editor'] && ($_REQUEST['preferred_editor'] != $_SESSION['surfer_editor'])) {
-	$_SESSION['surfer_editor'] = $_REQUEST['preferred_editor'];
-	$item = $_REQUEST;
-	$with_form = TRUE;
-
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
@@ -431,9 +423,6 @@ if(!$permitted) {
 		Skin::error(i18n::s('Please prove you are not a robot.'));
 		$item = $_REQUEST;
 		$with_form = TRUE;
-
-		// limit brute attacks
-		Safe::sleep(10);
 
 	// update an existing page
 	} elseif(isset($_REQUEST['id'])) {
@@ -736,6 +725,59 @@ if($with_form) {
 	$information .= Skin::build_form($fields);
 	$fields = array();
 
+	// images
+	if(Surfer::may_upload()) {
+		$box = '';
+
+		// splash message for new pages
+		if(!isset($item['id']))
+			$box .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
+
+		else {
+
+			$menu = array( 'images/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add an image') );
+			$box .= Skin::build_list($menu, 'menu_bar');
+
+			// the list of images
+			include_once '../images/images.php';
+			if($items = Images::list_by_date_for_anchor('article:'.$item['id'], 0, 50, NULL)) {
+
+				// help to insert in textarea
+				if(!isset($_SESSION['surfer_editor']) || (($_SESSION['surfer_editor'] != 'fckeditor') && ($_SESSION['surfer_editor'] != 'tinymce')))
+					$box .= '<p>'.i18n::s('Click on links to insert images in the main field.')."</p>\n";
+
+				$box .= Skin::build_list($items, 'decorated');
+			}
+
+		}
+		$information .= Skin::build_box(i18n::s('Images'), $box, 'folder', 'edit_images');
+
+	}
+
+	// if we are editing an existing article
+	if(isset($item['id'])) {
+
+		// locations are reserved to authenticated members
+		if(Surfer::is_member()) {
+
+			include_once '../locations/locations.php';
+			$menu = array( 'locations/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a location') );
+			$items = Locations::list_by_date_for_anchor('article:'.$item['id'], 0, 50, NULL);
+			$information .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folder');
+
+		}
+
+		// tables are reserved to associates
+		if(Surfer::is_associate()) {
+
+			include_once '../tables/tables.php';
+			$menu = array( 'tables/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a table') );
+			$items = Tables::list_by_date_for_anchor('article:'.$item['id'], 0, 50, NULL);
+			$information .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folder');
+
+		}
+	}
+
 	// rendering options
 	if(Surfer::is_empowered() && Surfer::is_member()) {
 		$label = i18n::s('Rendering');
@@ -754,7 +796,8 @@ if($with_form) {
 			.'<li><a onclick="javascript:append_to_options(\'no_links\')" style="cursor: pointer;">no_links</a> - '.i18n::s('Prevent the addition of related links').'</li>'
 			.'<li><a onclick="javascript:append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)').'</li>'
 			.'<li><a onclick="javascript:append_to_options(\'no_comments\')" style="cursor: pointer;">no_comments</a> - '.i18n::s('Prevent the addition of comments').'</li>'
-			.'<li><a onclick="javascript:append_to_content_options(\'view_as_thread\')" style="cursor: pointer;">view_as_thread</a> - '.i18n::s('Real-time collaboration').'</li>'
+			.'<li><a onclick="javascript:append_to_options(\'view_as_thread\')" style="cursor: pointer;">view_as_thread</a> - '.i18n::s('Real-time collaboration').'</li>'
+			.'<li><a onclick="javascript:append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels').'</li>'
 			.'<li>view_as_foo_bar - '.i18n::s('Branch out to articles/view_as_foo_bar.php').'</li>'
 			.'<li>skin_foo_bar - '.i18n::s('Apply a specific skin (in skins/foo_bar) here').'</li>'
 			.'<li>variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular skin template').'</li></ul>';
@@ -827,57 +870,8 @@ if($with_form) {
 // 	}
 
 	// fields related to this page
-	$content .= Skin::build_box(i18n::s('This page'), Skin::build_form($fields), 'header2');
+	$content .= Skin::build_form($fields);
 	$fields = array();
-
-	// images
-	if(Surfer::may_upload()) {
-		$box = '';
-
-		// splash message for new pages
-		if(!isset($item['id']))
-			$box .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
-
-		else {
-
-			$menu = array( 'images/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add an image') );
-			$box .= Skin::build_list($menu, 'menu_bar');
-
-			// the list of images
-			include_once '../images/images.php';
-			if($items = Images::list_by_date_for_anchor('article:'.$item['id'], 0, 50, NULL)) {
-				$box .= '<p>'.i18n::s('Click on links to insert images in the main field.')."</p>\n"
-					.Skin::build_list($items, 'decorated');
-			}
-
-		}
-		$content .= Skin::build_box(i18n::s('Images'), $box, 'header2', 'edit_images');
-
-	}
-
-	// if we are editing an existing article
-	if(isset($item['id'])) {
-
-		// locations are reserved to authenticated members
-		if(Surfer::is_member()) {
-
-			include_once '../locations/locations.php';
-			$menu = array( 'locations/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a location') );
-			$items = Locations::list_by_date_for_anchor('article:'.$item['id'], 0, 50, NULL);
-			$content .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'header2');
-
-		}
-
-		// tables are reserved to associates
-		if(Surfer::is_associate()) {
-
-			include_once '../tables/tables.php';
-			$menu = array( 'tables/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a table') );
-			$items = Tables::list_by_date_for_anchor('article:'.$item['id'], 0, 50, NULL);
-			$content .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'header2');
-
-		}
-	}
 
 	// the prefix
 	if(Surfer::is_associate()) {
@@ -1013,7 +1007,7 @@ if($with_form) {
 	$fields[] = array($label, $input);
 
 	// append fields
-	$options .= Skin::build_box(i18n::s('Restrictions'), Skin::build_form($fields), 'header2');
+	$options .= Skin::build_form($fields);
 	$fields = array();
 
 	// language of this page
@@ -1055,16 +1049,20 @@ if($with_form) {
 	// assemble all tabs
 	//
 
-	// only some tabs are pre-loaded -- others will be loaded on click
+	// front-end tabs
 	$all_tabs = array(
-		array('information_tab', i18n::s('Page'), 'information_panel', $information),
-		array('content_tab', i18n::s('Content tree'), 'content_panel', $content),
-		array('options_tab', i18n::s('Options'), 'options_panel', $options)
+		array('information_tab', i18n::s('Information'), 'information_panel', $information)
 		);
 
 	// append tabs from the overlay, if any
 	if(is_object($overlay) && ($more_tabs = $overlay->get_tabs('edit', $item)))
  		$all_tabs = array_merge($all_tabs, $more_tabs);
+
+	// back-end tabs
+	$all_tabs = array_merge($all_tabs, array(
+		array('content_tab', i18n::s('Content tree'), 'content_panel', $content),
+		array('options_tab', i18n::s('Options'), 'options_panel', $options)
+		));
 
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($all_tabs);
@@ -1172,7 +1170,7 @@ if($with_form) {
 		$help .= '<p>'.i18n::s('Please type the text of your new page and hit the submit button. You will then be able to post images, files and links on subsequent forms.').'</p>';
 
 	// html and codes
-	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to beautify your post.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
 
  	// locate mandatory fields
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';

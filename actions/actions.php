@@ -686,30 +686,29 @@ Class Actions {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['anchor']		= "VARCHAR(64) DEFAULT 'article:1' NOT NULL";				// up to 64 chars
-		$fields['title']		= "VARCHAR(128) DEFAULT '' NOT NULL";						//
-		$fields['target_url']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// what to act on
-		$fields['status']		= "ENUM('O','C','R') DEFAULT 'O' NOT NULL"; 	// On-going, Completed, Rejected
+		$fields['anchor']		= "VARCHAR(64) DEFAULT 'article:1' NOT NULL";
+		$fields['title']		= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['target_url']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['status']		= "ENUM('O','C','R') DEFAULT 'O' NOT NULL";
 		$fields['status_date']	= "DATETIME";
-		$fields['description']	= "TEXT NOT NULL";								// up to 64k chars
-		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// profile creation
-		$fields['create_id']	= "MEDIUMINT UNSIGNED DEFAULT '1' NOT NULL";
+		$fields['description']	= "TEXT NOT NULL";
+		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['create_id']	= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['create_date']	= "DATETIME";
-		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";						// item modification
-		$fields['edit_id']		= "MEDIUMINT DEFAULT '0' NOT NULL";
+		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['edit_id']		= "MEDIUMINT DEFAULT 0 NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 	= "(id)";
 		$indexes['INDEX anchor']	= "(anchor)";
-		$indexes['INDEX title'] 	= "(title)";
-		$indexes['INDEX status']	= "(status)";
 		$indexes['INDEX create_date']	= "(create_date)";
-		$indexes['INDEX edit_name'] = "(edit_name)";
-		$indexes['INDEX edit_id']	= "(edit_id)";
 		$indexes['INDEX edit_date'] = "(edit_date)";
+		$indexes['INDEX edit_id']	= "(edit_id)";
+		$indexes['INDEX status']	= "(status)";
+		$indexes['INDEX title'] 	= "(title)";
 		$indexes['FULLTEXT INDEX']	= "full_text(title, description)";
 
 		return SQL::setup_table('actions', $fields, $indexes);

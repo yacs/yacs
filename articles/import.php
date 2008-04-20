@@ -28,7 +28,7 @@ i18n::bind('articles');
 load_skin('articles');
 
 // the path to this page
-$context['path_bar'] = array( 'articles/' => i18n::s('Articles') );
+$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Import articles');

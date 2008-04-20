@@ -17,7 +17,7 @@ i18n::bind('tables');
 load_skin('tables');
 
 // the path to this page
-$context['path_bar'] = array( 'tables/' => i18n::s('All tables') );
+$context['path_bar'] = array( 'tables/' => i18n::s('Tables') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Import table content');
@@ -32,7 +32,7 @@ elseif(!Surfer::is_associate()) {
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
-	$menu = array('control/' => i18n::s('Back to the control panel'));
+	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // import data

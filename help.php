@@ -272,7 +272,7 @@ if(Surfer::is_member()) {
 		$context['text'] .= '<li>'.sprintf(i18n::s('%s with the Content Assistant'), Skin::build_link('control/populate.php', i18n::s('Structure content of your server'), 'shortcut')).'</li>'."\n"
 			.'<li>'.sprintf(i18n::s('%s. Some people would say \'a new blog\'.'), Skin::build_link('sections/edit.php', i18n::s('Add a section'), 'shortcut')).'</li>'."\n";
 	$context['text'] .= '<li>'.sprintf(i18n::s('%s. Or call it a \'blog entry\' if you prefer.'), Skin::build_link('articles/edit.php', i18n::s('Add a page'), 'shortcut')).'</li>'."\n"
-		.'<li>'.sprintf(i18n::s('%s and check some configuration parameters.'), Skin::build_link('control/', i18n::s('Go to the Control Panel'), 'shortcut')).'</li>'."\n"
+		.'<li>'.sprintf(i18n::s('%s, the central place to manage this server.'), Skin::build_link('control/', i18n::s('Control Panel'), 'shortcut')).'</li>'."\n"
 		.'<li>'.sprintf(i18n::s('%s of this site.'), Skin::build_link('index.php', i18n::s('Go to the main page'), 'shortcut')).'</li>'."\n"
 		.'</ul>'."\n";
 }
@@ -282,7 +282,7 @@ $context['text'] .= Skin::build_block(i18n::s('Where to look for information?'),
 	.'<ul>'
 	.'<li>'.Skin::build_link('sections/', i18n::s('Site map')).'</li>'
 	.'<li>'.Skin::build_link('categories/', i18n::s('Categories tree')).'</li>'
-	.'<li>'.sprintf(i18n::s('Index of most recent %1$s, %2$s, %3$s and %4$s'), Skin::build_link('articles/', i18n::s('articles')), Skin::build_link('files/', i18n::s('files')), Skin::build_link('comments/', i18n::s('threads')), Skin::build_link('users/', i18n::s('users'))).'</li>'
+	.'<li>'.sprintf(i18n::s('Index of most recent %1$s, %2$s, %3$s and %4$s'), Skin::build_link('articles/', i18n::s('pages')), Skin::build_link('files/', i18n::s('files')), Skin::build_link('comments/', i18n::s('threads')), Skin::build_link('users/', i18n::s('people'))).'</li>'
 	.'<li>'.Skin::build_link('search.php', i18n::s('Full-text search')).'</li>'
 	.'<li>'.Skin::build_link('control/', i18n::s('Control panel')).'</li>';
 if(!Surfer::is_logged())
@@ -410,7 +410,7 @@ else
 include_once 'scripts/scripts.php';
 $context['text'] .= Skin::build_block(i18n::s('Get the source code?'), 'title')
 	.'<ul>'
-	.'<li>'.Skin::build_link($target.'scripts/', i18n::s('Index of reference scripts')).'</li>'
+	.'<li>'.Skin::build_link($target.'scripts/', i18n::s('Server software')).'</li>'
 	.'<li>'.sprintf(i18n::s('YACS %s and %s'), Skin::build_link($target.Scripts::get_url('authors'), i18n::s('authors')), Skin::build_link('scripts/view.php?script=testers', i18n::s('testers'))).'</li>'
 	.'<li>'.sprintf(i18n::s('%s LGPL and variations'), Skin::build_link($target.Scripts::get_url('licenses'), i18n::s('Licenses'))).'</li>'
 	.'<li>'.Skin::build_link($target.Scripts::get_url('todo'), i18n::s('Still on the to-do list')).'</li>'

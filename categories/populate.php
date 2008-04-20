@@ -23,11 +23,8 @@
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
 
-// this one has to be included
-if(count(get_included_files()) < 3) {
-	echo 'Direct inclusion is not allowed';
-	return;
-}
+// stop hackers
+defined('YACS') or exit('Script must be included');
 
 // clear the cache for categories
 Cache::clear('categories');

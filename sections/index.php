@@ -210,7 +210,7 @@ $cache_id = 'sections/index.php#extra';
 if(!$text =& Cache::get($cache_id)) {
 
 	// add an extra box with helpful links
-	$links = array('categories/' => i18n::s('All categories'),
+	$links = array('categories/' => i18n::s('Categories'),
 		'search.php' => i18n::s('Search on keyword'),
 		'help.php' => i18n::s('Help index'),
 		'query.php' => i18n::s('Contact the webmaster'));

@@ -47,7 +47,7 @@ if(!Surfer::is_associate()) {
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// back to the control panel
-	$menu = array('control/' => i18n::s('Back to the control panel'));
+	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // switch on
@@ -78,7 +78,7 @@ if(!Surfer::is_associate()) {
 	}
 
 	// back to the control panel
-	$menu = array('control/' => i18n::s('Back to the control panel'));
+	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // switch off
@@ -130,12 +130,12 @@ if(!Surfer::is_associate()) {
 	// follow-up commands
 	$menu = array();
 
-	// offer to change it again
+	// do it again
 	if(file_exists($context['path_to_root'].'parameters/switch.off'))
 		$menu = array_merge($menu, array( 'control/switch.php?action=on' => i18n::s('Switch on') ));
 
-	// back to the control panel
-	$menu = array_merge($menu, array( 'control/' => i18n::s('Back to the control panel') ));
+	// control panel
+	$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
 
 	// display follow-up commands
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');

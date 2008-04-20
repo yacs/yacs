@@ -115,14 +115,11 @@ i18n::bind('sections');
 // load a skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
-// the path to this page
+// path to this page
 $context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
 
-// the title of the page
-if(isset($item['title']) && $item['title'])
-	$context['page_title'] = $item['title'];
-else
-	$context['page_title'] = i18n::s('Section feed');
+// page title
+$context['page_title'] = i18n::s('RSS feed');
 
 // not found
 if(!isset($item['id']) || !$item['id']) {

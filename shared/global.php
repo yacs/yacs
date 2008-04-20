@@ -31,9 +31,16 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
+// yacs is loading
+define('YACS', TRUE);
+
 // we will manage the cache by ourself
 if(is_callable('session_cache_limiter'))
 	@session_cache_limiter('none');
+
+// retrieve session data, but not if run from the command line
+if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == ''))
+	session_start();
 
 // default value for name filtering in forms (e.g. 'edit_name' filled by anonymous surfers)
 if(!defined('FORBIDDEN_CHARS_IN_NAMES'))
@@ -154,7 +161,10 @@ $context['start_time'] = get_micro_time();
 $context['text'] = '';
 
 // default value for allowed tags -- see users/configure.php
-$context['users_allowed_tags']	= '<b><code><dd><dl><dt><i><ol><li><p><ul>';
+$context['users_allowed_tags']	= '<a><abbr><acronym><b><big><br><code><dd><del><dfn><dl><dt><em><i><img><ins><li><ol><p><q><small><span><strong><sub><sup><tt><u><ul>';
+
+// default editor -- see users/configure.php
+$context['users_default_editor'] = 'yacs';
 
 // path to files and images, for supported virtual hosts --see files/edit.php and images/edit.php
 $context['virtual_path'] = '';
@@ -220,8 +230,8 @@ if($context['with_profile'] == 'Y')
 // the name of this server
 if(isset($_SERVER['HTTP_HOST']))
 	$context['host_name'] = strip_tags($_SERVER['HTTP_HOST']); // from HTTP request
-elseif(!isset($_SERVER['REMOTE_ADDR']) && isset($context['cron_host']))
-	$context['host_name'] = $context['cron_host'];	// pretend we are a virtual host during crontab job
+elseif(!isset($_SERVER['REMOTE_ADDR']) && isset($context['main_host']))
+	$context['host_name'] = $context['main_host'];	// pretend we are a virtual host during crontab job
 elseif(isset($_SERVER['SERVER_NAME']))
 	$context['host_name'] = strip_tags($_SERVER['SERVER_NAME']); // from web daemon configuration file
 else
@@ -283,26 +293,26 @@ $context['self_script'] = str_replace($context['url_to_home'], '', $context['sel
 
 // script_url is used in forms, for self-referencing -- web reference after rewriting
 $context['script_url'] = '';
-if(isset($_SERVER['REDIRECT_URL']) && preg_match('/'.preg_quote($context['path_to_root'], '/').'.+?\.php/', $_SERVER['REDIRECT_URL'], $matches))
-	$context['script_url'] = str_replace($context['path_to_root'], $context['url_to_root'], $matches[0]);
-elseif(isset($_SERVER['REDIRECT_URL']) && preg_match('/'.preg_quote($context['url_to_root'], '/').'.+?\.php/', $_SERVER['REDIRECT_URL'], $matches))
+if(isset($_SERVER['REDIRECT_URL']) && preg_match('/'.preg_quote($context['url_to_root'], '/').'.+?\.php/', $_SERVER['REDIRECT_URL'], $matches))
 	$context['script_url'] = $matches[0];
-elseif(isset($_SERVER['REDIRECT_URI']) && preg_match('/'.preg_quote($context['path_to_root'], '/').'.+?\.php/', $_SERVER['REDIRECT_URI'], $matches))
-	$context['script_URI'] = str_replace($context['path_to_root'], $context['url_to_root'], $matches[0]);
+elseif(isset($_SERVER['REDIRECT_URL']) && preg_match('/'.preg_quote($context['path_to_root'], '/').'.+?\.php/', $_SERVER['REDIRECT_URL'], $matches))
+	$context['script_url'] = str_replace($context['path_to_root'], $context['url_to_root'], $matches[0]);
 elseif(isset($_SERVER['REDIRECT_URI']) && preg_match('/'.preg_quote($context['url_to_root'], '/').'.+?\.php/', $_SERVER['REDIRECT_URI'], $matches))
 	$context['script_URI'] = $matches[0];
-elseif(isset($_SERVER['PHP_SELF']) && preg_match('/'.preg_quote($context['path_to_root'], '/').'.+?\.php/', $_SERVER['PHP_SELF'], $matches))
-	$context['script_url'] = str_replace($context['path_to_root'], $context['url_to_root'], $matches[0]);
+elseif(isset($_SERVER['REDIRECT_URI']) && preg_match('/'.preg_quote($context['path_to_root'], '/').'.+?\.php/', $_SERVER['REDIRECT_URI'], $matches))
+	$context['script_URI'] = str_replace($context['path_to_root'], $context['url_to_root'], $matches[0]);
 elseif(isset($_SERVER['PHP_SELF']) && preg_match('/'.preg_quote($context['url_to_root'], '/').'.+?\.php/', $_SERVER['PHP_SELF'], $matches))
 	$context['script_url'] = $matches[0];
-elseif(isset($_SERVER['SCRIPT_URL']) && preg_match('/'.preg_quote($context['path_to_root'], '/').'.+?\.php/', $_SERVER['SCRIPT_URL'], $matches))
+elseif(isset($_SERVER['PHP_SELF']) && preg_match('/'.preg_quote($context['path_to_root'], '/').'.+?\.php/', $_SERVER['PHP_SELF'], $matches))
 	$context['script_url'] = str_replace($context['path_to_root'], $context['url_to_root'], $matches[0]);
 elseif(isset($_SERVER['SCRIPT_URL']) && preg_match('/'.preg_quote($context['url_to_root'], '/').'.+?\.php/', $_SERVER['SCRIPT_URL'], $matches))
 	$context['script_url'] = $matches[0];
-elseif(isset($_SERVER['SCRIPT_NAME']) && preg_match('/'.preg_quote($context['path_to_root'], '/').'.+?\.php/', $_SERVER['SCRIPT_NAME'], $matches))
+elseif(isset($_SERVER['SCRIPT_URL']) && preg_match('/'.preg_quote($context['path_to_root'], '/').'.+?\.php/', $_SERVER['SCRIPT_URL'], $matches))
 	$context['script_url'] = str_replace($context['path_to_root'], $context['url_to_root'], $matches[0]);
 elseif(isset($_SERVER['SCRIPT_NAME']) && preg_match('/'.preg_quote($context['url_to_root'], '/').'.+?\.php/', $_SERVER['SCRIPT_NAME'], $matches))
 	$context['script_url'] = $matches[0];
+elseif(isset($_SERVER['SCRIPT_NAME']) && preg_match('/'.preg_quote($context['path_to_root'], '/').'.+?\.php/', $_SERVER['SCRIPT_NAME'], $matches))
+	$context['script_url'] = str_replace($context['path_to_root'], $context['url_to_root'], $matches[0]);
 elseif(isset($_SERVER['SCRIPT_FILENAME']) && preg_match('/'.preg_quote($context['path_to_root'], '/').'.+?\.php/', $_SERVER['SCRIPT_FILENAME'], $matches))
 	$context['script_url'] = str_replace($context['path_to_root'], $context['url_to_root'], $matches[0]);
 elseif(isset($_SERVER['REQUEST_URI']) && preg_match('/\.php$/', $_SERVER['REQUEST_URI']))
@@ -487,9 +497,6 @@ if(!defined('NO_VIEW_PRELOAD')) {
 
 	// load strings localized externally for shared scripts
 	i18n::bind('shared');
-
-	// localize messages generated in the background
-	i18n::bind('agents');
 
 }
 
@@ -1019,6 +1026,10 @@ function render_skin($stamp=0) {
 
 	// load a bunch of included scripts in one step, including prototype --we are doing that in the header, because of Event.observe(window, "load", ... in $context['text']
 	$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/minify.php"></script>'."\n";
+
+// 	// load the google library
+// 	if(isset($context['google_api_key']) && $context['google_api_key'])
+// 		$context['page_header'] .= '<script type="text/javascript" src="http://www.google.com/jsapi?key='.$context['google_api_key'].'"></script>'."\n";
 
 	// activate AJAX client library
 	if(file_exists($context['path_to_root'].'shared/yacs.js'))

@@ -96,7 +96,7 @@ i18n::bind('scripts');
 load_skin('scripts');
 
 // the title of the page
-$context['page_title'] = i18n::s('Scripts');
+$context['page_title'] = i18n::s('Server software');
 
 // if there is some documentation
 if(file_exists($context['path_to_root'].'scripts/reference/footprints.php')) {

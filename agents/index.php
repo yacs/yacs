@@ -190,14 +190,14 @@ if(!Surfer::is_associate()) {
 
 		// profiles
 		include_once $context['path_to_root'].'agents/profiles.php';
-		$rows = Profiles::list_by_hits(0, 30);
+		$rows = Profiles::list_by_hits(0, 50);
 		if($rows) {
 
 			// put a title for this section
 			$context['text'] .= Skin::build_block(i18n::s('Most popular scripts'), 'title');
 
 			// the actual list of events
-			$headers = array(i18n::s('Script'), i18n::s('Hits'), i18n::s('Average time'), i18n::s('Minimum time'), i18n::s('Maximum time'));
+			$headers = array(i18n::s('Script'), i18n::s('Hits'), i18n::s('Average time'), i18n::s('Minimum time'), i18n::s('Maximum time'), i18n::s('Total time'));
 			$context['text'] .= Skin::table($headers, $rows);
 
 		}
@@ -279,7 +279,7 @@ if(!Surfer::is_associate()) {
 			$context['text'] .= '<p>'.sprintf(i18n::s('Date of last cron: %s'), $stamp['edit_date'].' GMT').'</p>';
 
 		// newsfeed for associates
-		$context['extra'] .= Skin::build_box(i18n::s('Monitoring Feed'), sprintf(i18n::s('You can get a RSS list of most recent events for this server %s'), Skin::build_link('agents/feed.php', i18n::s('here'), 'xml')), 'extra');
+		$context['extra'] .= Skin::build_box(i18n::s('Stay tuned'), Skin::build_link('agents/feed.php', i18n::s('system events'), 'xml'), 'extra');
 
 		break;
 	}
