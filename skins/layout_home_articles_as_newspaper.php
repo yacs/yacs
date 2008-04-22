@@ -237,13 +237,13 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		else
 			$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
 		if($count = Files::count_for_anchor('article:'.$item['id']))
-			$menu[] = Skin::build_link($file, sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count), 'basic');
+			$menu[] = Skin::build_link($file, sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
 
 		// info on related comments
 		include_once $context['path_to_root'].'comments/comments.php';
 		$link = Comments::get_url('article:'.$item['id'], 'list');
 		if($count = Comments::count_for_anchor('article:'.$item['id']))
-			$menu[] = Skin::build_link($link, sprintf(i18n::ns('1&nbsp;comment', '%d&nbsp;comments', $count), $count), 'basic');
+			$menu[] = Skin::build_link($link, sprintf(i18n::ns('1 comment', '%d comments', $count), $count), 'basic');
 
 		// discuss
 		if(Comments::are_allowed($anchor, $item))
@@ -255,7 +255,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		else
 			$link = 'articles/view.php?id='.urlencode($item['id']).'&amp;links=1';
 		if($count = Links::count_for_anchor('article:'.$item['id']))
-			$menu[] = Skin::build_link($link, sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count), 'basic');
+			$menu[] = Skin::build_link($link, sprintf(i18n::ns('1 link', '%d links', $count), $count), 'basic');
 
 		// trackback
 		if($context['with_friendly_urls'] == 'Y')
@@ -349,7 +349,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		include_once $context['path_to_root'].'comments/comments.php';
 		if($count = Comments::count_for_anchor('article:'.$item['id'])) {
 			$link = Comments::get_url('article:'.$item['id'], 'list');
-			$text .= ' - '.Skin::build_link($link, sprintf(i18n::ns('1&nbsp;comment', '%d&nbsp;comments', $count), $count), 'basic');
+			$text .= ' - '.Skin::build_link($link, sprintf(i18n::ns('1 comment', '%d comments', $count), $count), 'basic');
 		}
 
 		// trackback
@@ -365,7 +365,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		else
 			$link = 'articles/view.php?id='.urlencode($item['id']).'&amp;links=1';
 		if($count = Links::count_for_anchor('article:'.$item['id']))
-			$text .= ' - '.Skin::build_link($link, sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count), 'basic');
+			$text .= ' - '.Skin::build_link($link, sprintf(i18n::ns('1 link', '%d links', $count), $count), 'basic');
 
 		// link to the anchor page
 		if(is_object($anchor)) {
@@ -424,7 +424,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// count comments
 		if($count = Comments::count_for_anchor('article:'.$item['id']))
-			$suffix .= ' -&nbsp;'.sprintf(i18n::ns('1&nbsp;comment', '%d&nbsp;comments', $count), $count);
+			$suffix .= ' -&nbsp;'.sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
 
 		// end of details
 		$suffix .= '</span>';

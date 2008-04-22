@@ -82,7 +82,7 @@ $context['page_title'] = i18n::s('People');
 // count users in the database
 $stats = Users::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' =>sprintf(i18n::ns('1&nbsp;user', '%d&nbsp;users', $stats['count']), $stats['count'])));
+	$context['page_menu'] = array_merge($context['page_menu'], array('_count' =>sprintf(i18n::ns('1 user', '%d users', $stats['count']), $stats['count'])));
 
 // navigation commands for users, if necessary
 if($stats['count'] > USERS_PER_PAGE) {

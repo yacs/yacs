@@ -140,7 +140,7 @@ Class i18n {
 			$locale = 'en';
 
 		// cache is empty
-		if(!isset($_SESSION['l10n']) || !is_array($_SESSION['l10n'][$locale]))
+		if(!isset($_SESSION['l10n']) || !isset($_SESSION['l10n'][$locale]) || !is_array($_SESSION['l10n'][$locale]))
 			return $text;
 
 		// this is not a known original string
@@ -1593,7 +1593,7 @@ Class i18n {
 		$text = $singular.chr(0).$plural;
 
 		// do it manually
-		if(!isset($_SESSION['l10n']) || !is_array($_SESSION['l10n'][$locale]) || !array_key_exists($text, $_SESSION['l10n'][$locale]) || !array_key_exists('_plural', $_SESSION['l10n'][$locale])) {
+		if(!isset($_SESSION['l10n']) || !isset($_SESSION['l10n'][$locale]) || !is_array($_SESSION['l10n'][$locale]) || !array_key_exists($text, $_SESSION['l10n'][$locale]) || !array_key_exists('_plural', $_SESSION['l10n'][$locale])) {
 			if($count != 1)
 				return $plural;
 			else
@@ -1646,7 +1646,7 @@ Class i18n {
 			$locale = 'en';
 
 		// cache is empty
-		if(!isset($_SESSION['l10n']) || !is_array($_SESSION['l10n'][$locale]))
+		if(!isset($_SESSION['l10n']) || !isset($_SESSION['l10n'][$locale]) || !is_array($_SESSION['l10n'][$locale]))
 			return $text;
 
 		// this is not a known original string

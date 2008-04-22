@@ -107,7 +107,7 @@ Class Layout_comments_as_jive extends Layout_interface {
 
 			// posts
 			if($poster['posts'])
-				$author_details[] = sprintf(i18n::ns('1&nbsp;post', '%d&nbsp;posts', $poster['posts']), $poster['posts']);
+				$author_details[] = sprintf(i18n::ns('1 post', '%d posts', $poster['posts']), $poster['posts']);
 
 			// registration date
 			if($poster['create_date'])

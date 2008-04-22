@@ -129,7 +129,7 @@ if(!is_object($anchor)) {
 		if($stats['count'] > VERSIONS_PER_PAGE) {
 
 			// total count of versions
-			$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1&nbsp;version', '%d&nbsp;versions', $stats['count']), $stats['count'])));
+			$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 version', '%d versions', $stats['count']), $stats['count'])));
 
 			// navigation commands
 			$home = 'versions/list.php';

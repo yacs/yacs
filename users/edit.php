@@ -637,39 +637,6 @@ if($with_form) {
 	$hint = i18n::s('To be appended to your comments and mail messages. Separated with dashes from main text.');
 	$fields[] = array($label, $input, $hint);
 
-	// editor
-	$label = i18n::s('Editor');
-	$input = '<select name="preferred_editor">';	// hack because of FCKEditor already uses 'editor'
-	if(isset($item['editor']))
-		;
-	elseif(!isset($context['users_default_editor']))
-		$item['editor'] = 'yacs';
-	else
-		$item['editor'] = $context['users_default_editor'];
-	$input .= '<option value="yacs"';
-	if($item['editor'] == 'yacs')
-		$input .= ' selected="selected"';
-	$input .= '>'.i18n::s('Textarea')."</option>\n";
-	$input .= '<option value="fckeditor"';
-	if($item['editor'] == 'fckeditor')
-		$input .= ' selected="selected"';
-	$input .= '>'.i18n::s('WYSIWYG interface (FCKEditor)')."</option>\n";
-	$input .= '<option value="tinymce"';
-	if($item['editor'] == 'tinymce')
-		$input .= ' selected="selected"';
-	$input .= '>'.i18n::s('WYSIWYG interface (TinyMCE)')."</option>\n";
-	$input .= '</select>';
-	$hint = i18n::s('Select your preferred interface to edit content at this site.');
-	$fields[] = array($label, $input, $hint);
-
-//	// options
-//	if(Surfer::is_associate()) {
-//		$label = i18n::s('Options');
-//		$input = '<input type="text" name="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o"'.EOT;
-//		$hint = i18n::s('You may combine several keywords:').' locked';
-//		$fields[] = array($label, $input, $hint);
-//	}
-
 	// e-mail usage
 	$label = i18n::s('E-mail usage');
 
@@ -703,6 +670,53 @@ if($with_form) {
 
 	$hint = i18n::s('Your explicit approval is a pre-requisite for us to use your e-mail address.');
 	$fields[] = array($label, $input, $hint);
+
+	// editor
+	$label = i18n::s('Editor');
+	$input = '<select name="preferred_editor">';	// hack because of FCKEditor already uses 'editor'
+	if(isset($item['editor']))
+		;
+	elseif(!isset($context['users_default_editor']))
+		$item['editor'] = 'yacs';
+	else
+		$item['editor'] = $context['users_default_editor'];
+	$input .= '<option value="tinymce"';
+	if($item['editor'] == 'tinymce')
+		$input .= ' selected="selected"';
+	$input .= '>'.i18n::s('TinyMCE')."</option>\n";
+	$input .= '<option value="fckeditor"';
+	if($item['editor'] == 'fckeditor')
+		$input .= ' selected="selected"';
+	$input .= '>'.i18n::s('FCKEditor')."</option>\n";
+	$input .= '<option value="yacs"';
+	if($item['editor'] == 'yacs')
+		$input .= ' selected="selected"';
+	$input .= '>'.i18n::s('Textarea')."</option>\n";
+	$input .= '</select>';
+	$hint = i18n::s('Select your preferred tool to edit text.');
+	$fields[] = array($label, $input, $hint);
+
+	// interface
+	$label = i18n::s('Interface');
+	$input = '<select name="interface">';
+	$input .= '<option value="I"';
+	if(!isset($item['interface']) || ($item['interface'] == 'I'))
+		$input .= ' selected="selected"';
+	$input .= '>'.i18n::s('Improved interface')."</option>\n";
+	$input .= '<option value="C"';
+	if(isset($item['interface']) && ($item['interface'] == 'C'))
+		$input .= ' selected="selected"';
+	$input .= '>'.i18n::s('Complex interface')."</option>\n";
+	$input .= '</select>';
+	$fields[] = array($label, $input);
+
+//	// options
+//	if(Surfer::is_associate()) {
+//		$label = i18n::s('Options');
+//		$input = '<input type="text" name="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o"'.EOT;
+//		$hint = i18n::s('You may combine several keywords:').' locked';
+//		$fields[] = array($label, $input, $hint);
+//	}
 
 	// share screen
 	$label = i18n::s('Share screen');
@@ -762,8 +776,8 @@ if($with_form) {
 	if(!isset($item['id']) && !Surfer::is_associate())
 		$context['text'] .= '<p>'.sprintf(i18n::s('By clicking submit, you agree to the terms and conditions outlined in the %s.'), Skin::build_link('privacy.php', i18n::s('privacy policy'), 'basic')).'</p>';
 
-	// associates may decide to not stamp changes
-	if(isset($item['id']) && Surfer::is_associate())
+	// associates may decide to not stamp changes -- complex command
+	if(isset($item['id']) && Surfer::is_associate() && Surfer::has_all())
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y"'.EOT.' '.i18n::s('Do not change modification date.').'</p>';
 
 	// transmit the id as a hidden field

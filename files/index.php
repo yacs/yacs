@@ -64,7 +64,7 @@ $context['page_title'] = i18n::s('Files');
 // count files in the database
 $stats = Files::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $stats['count']), $stats['count'])));
+	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 file', '%d files', $stats['count']), $stats['count'])));
 
 // navigation commands for files, if necessary
 if($stats['count'] > $items_per_page) {

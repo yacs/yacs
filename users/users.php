@@ -1209,6 +1209,8 @@ Class Users {
 			$fields['editor'] = $context['users_default_editor'];
 		else
 			$fields['editor'] = 'yacs';
+		if(!isset($fields['interface']) || ($fields['interface'] != 'C'))
+			$fields['interface'] = 'I';
 		if(!isset($fields['with_newsletters']) || ($fields['with_newsletters'] != 'Y'))
 			$fields['with_newsletters'] = 'N';
 		if(!isset($fields['without_alerts']) || ($fields['without_alerts'] != 'N'))
@@ -1251,6 +1253,7 @@ Class Users {
 			."full_name='".SQL::escape(isset($fields['full_name']) ? $fields['full_name'] : '')."', "
 			."handle='".SQL::escape($fields['handle'])."', "
 			."icq_address='".SQL::escape(isset($fields['icq_address']) ? $fields['icq_address'] : '')."', "
+			."interface='".SQL::escape($fields['interface'])."', "
 			."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."', "
 			."irc_address='".SQL::escape(isset($fields['irc_address']) ? $fields['irc_address'] : '')."', "
 			."jabber_address='".SQL::escape(isset($fields['jabber_address']) ? $fields['jabber_address'] : '')."', "
@@ -1413,6 +1416,8 @@ Class Users {
 			$fields['editor'] = $context['users_default_editor'];
 		else
 			$fields['editor'] = 'yacs';
+		if(!isset($fields['interface']) || ($fields['interface'] != 'C'))
+			$fields['interface'] = 'I';
 		if(!isset($fields['with_newsletters']) || ($fields['with_newsletters'] != 'Y'))
 			$fields['with_newsletters'] = 'N';
 		if(!isset($fields['without_alerts']) || ($fields['without_alerts'] != 'N'))
@@ -1448,6 +1453,7 @@ Class Users {
 				."from_where='".SQL::escape(isset($fields['from_where']) ? $fields['from_where'] : '')."', "
 				."full_name='".SQL::escape(isset($fields['full_name']) ? $fields['full_name'] : '')."', "
 				."icq_address='".SQL::escape(isset($fields['icq_address']) ? $fields['icq_address'] : '')."', "
+				."interface='".SQL::escape($fields['interface'])."', "
 				."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."', "
 				."irc_address='".SQL::escape(isset($fields['irc_address']) ? $fields['irc_address'] : '')."', "
 				."jabber_address='".SQL::escape(isset($fields['jabber_address']) ? $fields['jabber_address'] : '')."', "
@@ -1617,6 +1623,7 @@ Class Users {
 		$fields['from_where']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['icq_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['interface']	= "ENUM('N','C') DEFAULT 'N' NOT NULL";
 		$fields['introduction'] = "TEXT NOT NULL";
 		$fields['irc_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['jabber_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";

@@ -133,7 +133,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 			// rating
 			$rating_label = '';
 			if($item['rating_count'])
-				$rating_label = Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])).' '.sprintf(i18n::ns('%d&nbsp;rate', '%d&nbsp;rates', $item['rating_count']), $item['rating_count']).' ';
+				$rating_label = Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])).' '.sprintf(i18n::ns('%d rate', '%d rates', $item['rating_count']), $item['rating_count']).' ';
 
 			// add a link to let surfer rate this item
 			if(is_object($anchor) && $anchor->has_option('with_rating')) {
@@ -179,13 +179,13 @@ Class Layout_articles_as_digg extends Layout_interface {
 					$file = 'articles/view.php/'.$item['id'].'/files/1';
 				else
 					$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
-				$details[] = Skin::build_link($file, sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count), 'basic');
+				$details[] = Skin::build_link($file, sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
 			}
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
 				$link = Comments::get_url('article:'.$item['id'], 'list');
-				$menu = array_merge($menu, array( $link => sprintf(i18n::ns('1&nbsp;comment', '%d&nbsp;comments', $count), $count) ));
+				$menu = array_merge($menu, array( $link => sprintf(i18n::ns('1 comment', '%d comments', $count), $count) ));
 			}
 
 			// discuss
@@ -198,7 +198,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 					$link = 'articles/view.php/'.$item['id'].'/links/1';
 				else
 					$link = 'articles/view.php?id='.urlencode($item['id']).'&amp;links=1';
-				$menu = array_merge($menu, array( $link => sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count) ));
+				$menu = array_merge($menu, array( $link => sprintf(i18n::ns('1 link', '%d links', $count), $count) ));
 			}
 
 			// trackback

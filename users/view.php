@@ -325,7 +325,7 @@ if(!isset($item['id'])) {
 			// count the number of articles for this user
 			$stats = Articles::stat_for_author($item['id']);
 			if($stats['count'] > ARTICLES_PER_PAGE)
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1&nbsp;article', '%d&nbsp;articles', $stats['count']), $stats['count'])));
+				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 page', '%d pages', $stats['count']), $stats['count'])));
 
 			// navigation commands for articles
 //			$home = Users::get_url($item['id'], 'view', $item['title']);
@@ -619,7 +619,7 @@ if(!isset($item['id'])) {
 	if(!$text =& Cache::get($cache_id)) {
 		$items = Articles::list_by_hits_for_author($item['id'], 0, COMPACT_LIST_SIZE, 'hits');
 		if(is_array($items))
-			$text .= Skin::build_box(i18n::s('Top articles'), Skin::build_list($items, 'compact'), 'extra', 'top_articles');
+			$text .= Skin::build_box(i18n::s('Top pages'), Skin::build_list($items, 'compact'), 'extra', 'top_articles');
 
 		// save in cache
 		Cache::put($cache_id, $text, 'articles');
@@ -685,8 +685,15 @@ if(!isset($item['id'])) {
 	}
 
 	// how to reference this page
-	if(Surfer::is_member() && !isset($zoom_type) && (!isset($context['pages_without_reference']) || ($context['pages_without_reference'] != 'Y')) )
-		$context['extra'] .= Skin::build_box(i18n::s('Reference this page'), Codes::beautify(sprintf(i18n::s('Here, use code [escape][user=%s][/escape][nl]Elsewhere, bookmark the [link=full link]%s[/link]'), ($item['nick_name']?$item['nick_name']:$item['id']), $context['url_to_root'].Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:''))), 'navigation', 'reference');
+	if(Surfer::is_member() && !isset($zoom_type) && (!isset($context['pages_without_reference']) || ($context['pages_without_reference'] != 'Y')) ) {
+
+		// box content
+		$label = sprintf(i18n::s('Here, use code %s'), '<code>[user='.$item['id'].']</code>')."\n"
+			.BR.sprintf(i18n::s('Elsewhere, bookmark the %s'), Skin::build_link(Users::get_url($item['id'], 'view', $item['nick_name']), i18n::s('full link')))."\n";
+
+		// in a sidebar box
+		$text .= Skin::build_box(i18n::s('Reference this page'), $label, 'navigation', 'reference');
+	}
 
 	// referrals, if any
 	if(!isset($zoom_type) && (Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y')))) {

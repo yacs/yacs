@@ -150,11 +150,11 @@ Class Layout_articles_as_jive extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = Skin::build_link($url.'#files', FILE_TOOL_IMG.' '.sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count), 'basic');
+				$details[] = Skin::build_link($url.'#files', FILE_TOOL_IMG.' '.sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = LINK_TOOL_IMG.' '.sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count);
+				$details[] = LINK_TOOL_IMG.' '.sprintf(i18n::ns('1 link', '%d links', $count), $count);
 
 			// more commands
 			$content .= '<p class="jive_menu">';
@@ -170,7 +170,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 
 			// count replies
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-				$content .= ' ('.Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('1&nbsp;comment', '%d&nbsp;comments', $count), $count), 'basic').') ';
+				$content .= ' ('.Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('1 comment', '%d comments', $count), $count), 'basic').') ';
 
 // would require a cache per user
 //			// the command to watch this topic

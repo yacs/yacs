@@ -736,7 +736,7 @@ if(!isset($item['id'])) {
 				// report on current rating
 				$label = '';
 				if($item['rating_count'])
-					$label .= Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])).' '.sprintf(i18n::ns('%d&nbsp;rate', '%d&nbsp;rates', $item['rating_count']), $item['rating_count']).' ';
+					$label .= Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])).' '.sprintf(i18n::ns('%d rate', '%d rates', $item['rating_count']), $item['rating_count']).' ';
 
 				// user has not rated previously
 				if(!isset($_COOKIE['rating_'.$item['id']])) {
@@ -930,7 +930,7 @@ if(!isset($item['id'])) {
 
 			// count the number of files in this article
 			if($count = Files::count_for_anchor('article:'.$item['id'])) {
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count)));
+				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 file', '%d files', $count), $count)));
 
 				// list files by date (default) or by title (option files_by_title)
 				$offset = ($zoom_index - 1) * FILES_PER_PAGE;
@@ -1061,7 +1061,7 @@ if(!isset($item['id'])) {
 				$layout =& new Layout_comments();
 			}
 
-			// provide author information to layouts
+			// provide author information to layout
 			if(is_object($layout) && $item['create_id'])
 				$layout->set_variant('user:'.$item['create_id']);
 
@@ -1163,7 +1163,7 @@ if(!isset($item['id'])) {
 
 			// a navigation bar for these links
 			if($count = Links::count_for_anchor('article:'.$item['id'])) {
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count)));
+				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 link', '%d links', $count), $count)));
 
 				// list links by date (default) or by title (option links_by_title)
 				$offset = ($zoom_index - 1) * LINKS_PER_PAGE;
@@ -1298,7 +1298,7 @@ if(!isset($item['id'])) {
 
 			// in a navigation box
 			$box_popup = '';
-			$text = Skin::build_box($box_title, $menu, 'navigation', 'contextual_menu', $box_url, $box_popup)."\n".$context['extra'];
+			$text .= Skin::build_box($box_title, $menu, 'navigation', 'contextual_menu', $box_url, $box_popup)."\n".$context['extra'];
 		}
 
 		// add extra information from the overlay, if any
@@ -1441,7 +1441,11 @@ if(!isset($item['id'])) {
 		if(Surfer::is_member() && !$zoom_type && (!isset($context['pages_without_reference']) || ($context['pages_without_reference'] != 'Y')) ) {
 
 			// in a sidebar box
-			$text .= Skin::build_box(i18n::s('Reference this page'), Codes::beautify(sprintf(i18n::s('Here, use code [escape][article=%s][/escape][nl]Elsewhere, bookmark the [link=full link]%s[/link]'), $item['id'], $context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title']))), 'navigation', 'reference');
+			$label = sprintf(i18n::s('Here, use code %s'), '<code>[article='.$item['id'].']</code>')."\n"
+				.BR.sprintf(i18n::s('Elsewhere, bookmark the %s'), Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('full link')))."\n";
+
+			// in a sidebar box
+			$text .= Skin::build_box(i18n::s('Reference this page'), $label, 'navigation', 'reference');
 
 		}
 

@@ -69,7 +69,7 @@ if(!Surfer::is_associate()) {
 	// count actions in the database
 	$stats = Actions::stat();
 	if($stats['count'])
-		$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1&nbsp;action', '%d&nbsp;actions', $stats['count']), $stats['count'])));
+		$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 action', '%d actions', $stats['count']), $stats['count'])));
 
 	// navigation commands for actions, if necessary
 	if($stats['count'] > $items_per_page) {

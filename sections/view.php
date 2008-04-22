@@ -905,7 +905,7 @@ if(!isset($item['id'])) {
 				// count the number of subsections
 				if($count = Sections::count_for_anchor('section:'.$item['id'])) {
 					if($count > $items_per_page)
-						$box['bar'] = array('_count' => sprintf(i18n::ns('1&nbsp;section', '%d&nbsp;sections', $count), $count));
+						$box['bar'] = array('_count' => sprintf(i18n::ns('1 section', '%d sections', $count), $count));
 
 					// list items by title
 					$offset = ($zoom_index - 1) * $items_per_page;
@@ -1064,7 +1064,7 @@ if(!isset($item['id'])) {
 						// count the number of articles in this section
 						if($count = Articles::count_for_anchor('section:'.$item['id'])) {
 							if($count > $items_per_page)
-								$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1&nbsp;page', '%d&nbsp;pages', $count), $count)));
+								$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 page', '%d pages', $count), $count)));
 
 							// navigation commands for articles
 							$home = Sections::get_url($item['id'], 'view', $item['title']);
@@ -1281,7 +1281,7 @@ if(!isset($item['id'])) {
 
 			// count the number of files in this section
 			if($count = Files::count_for_anchor('section:'.$item['id'])) {
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count)));
+				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 file', '%d files', $count), $count)));
 
 				// list files by date (default) or by title (option 'files_by_title')
 				$offset = ($zoom_index - 1) * FILES_PER_PAGE;
@@ -1397,7 +1397,7 @@ if(!isset($item['id'])) {
 				$link = '_count';
 			if($count = Comments::count_for_anchor('section:'.$item['id'])) {
 				if($count > $items_per_page)
-					$box['bar'] = array_merge($box['bar'], array($link => sprintf(i18n::s('%d&nbsp;comments'), $count)));
+					$box['bar'] = array_merge($box['bar'], array($link => sprintf(i18n::s('%d comments'), $count)));
 
 				// list comments by date
 				$items = Comments::list_by_date_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout);
@@ -1471,7 +1471,7 @@ if(!isset($item['id'])) {
 			// a navigation bar for these links
 			if($count = Links::count_for_anchor('section:'.$item['id'])) {
 				if($count > LINKS_PER_PAGE)
-					$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count)));
+					$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 link', '%d links', $count), $count)));
 
 				// list links by date (default) or by title (option 'links_by_title')
 				$offset = ($zoom_index - 1) * LINKS_PER_PAGE;
@@ -1623,6 +1623,10 @@ if(!isset($item['id'])) {
 	// cache content
 	$cache_id = 'sections/view.php?id='.$item['id'].'#extra';
 	if(!$text =& Cache::get($cache_id)) {
+
+		// show creator profile, if required to do so
+		if(preg_match('/\bwith_creator_profile\b/', $item['options']) && ($poster = Users::get($item['create_id'])) && ($section = Anchors::get('section:'.$item['id'])))
+			$text .= $section->get_user_profile($poster, 'extra');
 
 		// show news -- set in sections/edit.php
 		if($item['index_news'] != 'none') {
@@ -1873,12 +1877,11 @@ if(!isset($item['id'])) {
 		if(Surfer::is_member() && !$zoom_type && (!isset($context['pages_without_reference']) || ($context['pages_without_reference'] != 'Y')) ) {
 
 			// box content
-			$content = sprintf(i18n::s('Here, use code [escape][section=%s][/escape]'), $item['id'])."\n"
-				.BR.sprintf(i18n::s('Elsewhere, bookmark [link=%s]%s[/link]'), $item['title'], $context['url_to_home'].$context['url_to_root']
-					.Sections::get_url($item['id'], 'view', $item['title']))."\n";
+			$label = sprintf(i18n::s('Here, use code %s'), '<code>[section='.$item['id'].']</code>')."\n"
+				.BR.sprintf(i18n::s('Elsewhere, bookmark the %s'), Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('full link')))."\n";
 
 			// in a sidebar box
-			$text .= Skin::build_box(i18n::s('Reference this page'), Codes::beautify($content), 'navigation');
+			$text .= Skin::build_box(i18n::s('Reference this page'), $label, 'navigation', 'reference');
 
 		}
 

@@ -122,20 +122,40 @@ class Poll extends Overlay {
 	/**
 	 * display the content of one poll
 	 *
-	 * Accepted variant:
-	 * - 'view' - display poll result with graphical bars
-	 * - 'list' - display the voting form and results if article has option 'poll_with_results',
-	 * else display the voting form
-	 * - 'box' - display the voting form
-	 * - else display the voting form
-	 *
 	 * @see overlays/overlay.php
 	 *
-	 * @param string the variant, if any
 	 * @param attributes of the hosting page
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function get_text($variant='view', $host=NULL) {
+	function &get_list_text($host=NULL) {
+		global $context;
+
+		// are votes still allowed?
+		$enable_votes = TRUE;
+		if(isset($host['locked']) && ($host['locked'] == 'Y'))
+			$enable_votes = FALSE;
+
+		// show voting form and results if asked for
+		if(isset($host['options']) && preg_match('/\bpoll_with_results\b/i', $host['options']))
+			$text = $this->get_text_to_list($host, $enable_votes);
+
+		// else only provide the voting form
+		else
+			$text = $this->get_text_to_vote($host, $enable_votes);
+
+		$text = Codes::beautify($text);
+		return $text;
+	}
+
+	/**
+	 * display the content of one poll
+	 *
+	 * @see overlays/overlay.php
+	 *
+	 * @param attributes of the hosting page
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function &get_view_text($host=NULL) {
 		global $context;
 
 		// are votes still allowed?
@@ -144,18 +164,10 @@ class Poll extends Overlay {
 			$enable_votes = FALSE;
 
 		// at the main page, show full content
-		if($variant == 'view')
-			$text = $this->get_text_to_view($host, $enable_votes);
+		$text = $this->get_text_to_view($host, $enable_votes);
 
-		// show voting form and results if asked for
-		elseif(($variant == 'list') && isset($host['options']) && preg_match('/\bpoll_with_results\b/i', $host['options']))
-			$text = $this->get_text_to_list($host, $enable_votes);
-
-		// else only provide the voting form
-		else
-			$text = $this->get_text_to_vote($host, $enable_votes);
-
-		return Codes::beautify($text);
+		$text = Codes::beautify($text);
+		return $text;
 	}
 
 	/**

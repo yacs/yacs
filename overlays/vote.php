@@ -212,18 +212,12 @@ class Vote extends Overlay {
 	/**
 	 * display one vote
 	 *
-	 * Accepted variant codes:
-	 * - 'box' - displayed in a box
-	 * - 'list' - part of a list
-	 * - 'view' - in the main viewing panel
-	 *
 	 * @see overlays/overlay.php
 	 *
-	 * @param string the on-going action
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function get_text($variant='view', $host=NULL) {
+	function &get_text($host=NULL) {
 		global $context;
 
 		include_once $context['path_to_root'].'decisions/decisions.php';
@@ -236,8 +230,7 @@ class Vote extends Overlay {
 		if($ballot = Decisions::get_ballot('article:'.$this->attributes['id'])) {
 
 			// link to ballot page
-			if($variant == 'view')
-				$text .= '<p>'.Skin::build_link(Decisions::get_url($ballot), i18n::s('View your ballot'), 'shortcut').'</p>';
+			$text .= '<p>'.Skin::build_link(Decisions::get_url($ballot), i18n::s('View your ballot'), 'shortcut').'</p>';
 
 		// link to vote
 		} elseif(Surfer::is_member())
@@ -247,117 +240,106 @@ class Vote extends Overlay {
 		$open = FALSE;
 
 		// vote dates
-		if(($variant == 'view')) {
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
-			// current time
-			$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+		// no start date
+		if(!isset($this->attributes['start_date']) || ($this->attributes['start_date'] <= NULL_DATE)) {
 
-			// no start date
-			if(!isset($this->attributes['start_date']) || ($this->attributes['start_date'] <= NULL_DATE)) {
+			// no end date either
+			if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE)) {
 
-				// no end date either
-				if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE)) {
+				$text .= '<p>'.i18n::s('Vote is currently open').$vote.'</p>';
 
-					$text .= '<p>'.i18n::s('Vote is currently open').$vote.'</p>';
+				$open = TRUE;
 
-					$open = TRUE;
+			// vote has not ended yet
+			} elseif($now < $this->attributes['end_date']) {
 
-				// vote has not ended yet
-				} elseif($now < $this->attributes['end_date']) {
+				$text .= '<p>'.sprintf(i18n::s('Vote is open until %s'), Skin::build_date($this->attributes['end_date'], 'standalone')).$vote.'</p>';
 
-					$text .= '<p>'.sprintf(i18n::s('Vote is open until %s'), Skin::build_date($this->attributes['end_date'], 'standalone')).$vote.'</p>';
+				$open = TRUE;
 
-					$open = TRUE;
-
-				// vote has ended
-				} else {
-					$text .= '<p>'.sprintf(i18n::s('Vote has ended on %s'), Skin::build_date($this->attributes['end_date'], 'standalone')).'</p>';
-
-				}
-
-			// vote has not started yet
-			} elseif($now < $this->attributes['start_date']) {
-
-				// no end date
-				if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE))
-					$text .= '<p>'.sprintf(i18n::s('Vote will start on %s'), Skin::build_date($this->attributes['start_date'], 'standalone')).'</p>';
-
-				// vote has not ended yet
-				else
-					$text .= '<p>'.sprintf(i18n::s('Vote will take place between %s and %s'), Skin::build_date($this->attributes['start_date'], 'standalone'), Skin::build_date($this->attributes['end_date'], 'standalone')).'</p>';
-
-
-			// vote has started in the past
+			// vote has ended
 			} else {
-
-				// no end date
-				if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE)) {
-
-					$text .= '<p>'.sprintf(i18n::s('Vote has started on %s'), Skin::build_date($this->attributes['start_date'], 'standalone')).$vote.'</p>';
-
-					$open = TRUE;
-
-				// vote has not ended yet
-				} elseif($now < $this->attributes['end_date']) {
-
-					$text .= '<p>'.sprintf(i18n::s('Vote is taking place between %s and %s'), Skin::build_date($this->attributes['start_date'], 'standalone'), Skin::build_date($this->attributes['end_date'], 'standalone')).$vote.'</p>';
-
-					$open = TRUE;
-
-				// vote has ended
-				} else
-					$text .= '<p>'.sprintf(i18n::s('Vote has ended on %s'), Skin::build_date($this->attributes['end_date'], 'standalone')).'</p>';
+				$text .= '<p>'.sprintf(i18n::s('Vote has ended on %s'), Skin::build_date($this->attributes['end_date'], 'standalone')).'</p>';
 
 			}
+
+		// vote has not started yet
+		} elseif($now < $this->attributes['start_date']) {
+
+			// no end date
+			if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE))
+				$text .= '<p>'.sprintf(i18n::s('Vote will start on %s'), Skin::build_date($this->attributes['start_date'], 'standalone')).'</p>';
+
+			// vote has not ended yet
+			else
+				$text .= '<p>'.sprintf(i18n::s('Vote will take place between %s and %s'), Skin::build_date($this->attributes['start_date'], 'standalone'), Skin::build_date($this->attributes['end_date'], 'standalone')).'</p>';
+
+
+		// vote has started in the past
+		} else {
+
+			// no end date
+			if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE)) {
+
+				$text .= '<p>'.sprintf(i18n::s('Vote has started on %s'), Skin::build_date($this->attributes['start_date'], 'standalone')).$vote.'</p>';
+
+				$open = TRUE;
+
+			// vote has not ended yet
+			} elseif($now < $this->attributes['end_date']) {
+
+				$text .= '<p>'.sprintf(i18n::s('Vote is taking place between %s and %s'), Skin::build_date($this->attributes['start_date'], 'standalone'), Skin::build_date($this->attributes['end_date'], 'standalone')).$vote.'</p>';
+
+				$open = TRUE;
+
+			// vote has ended
+			} else
+				$text .= '<p>'.sprintf(i18n::s('Vote has ended on %s'), Skin::build_date($this->attributes['end_date'], 'standalone')).'</p>';
+
 		}
 
 		// show results and ballots
 		$show = FALSE;
 
 		// vote management
-		if(($variant == 'view'))
-			if(!$open)
-				$show = TRUE;
+		if(!$open)
+			$show = TRUE;
 
 		// decisions for this vote
-		if($variant == 'view') {
+		list($total, $yes, $no) = Decisions::get_results_for_anchor('article:'.$this->attributes['id']);
 
-			// get results from the database
-			list($total, $yes, $no) = Decisions::get_results_for_anchor('article:'.$this->attributes['id']);
+		// show results
+		if($total) {
 
-			// show results
-			if($total) {
+			// full results
+			if($show) {
 
-				// full results
-				if($show) {
+				$label = '';
 
-					$label = '';
+				// total number of votes
+				$label = sprintf(i18n::ns('%d vote', '%d votes', $total), $total);
 
-					// total number of votes
-					$label = sprintf(i18n::ns('%d vote', '%d votes', $total), $total);
+				// count of yes
+				if($yes)
+					$label .= ', '.sprintf(i18n::ns('%d approval', '%d approvals', $yes), $yes).' ('.(int)($yes*100/$total).'%)';
 
-					// count of yes
-					if($yes)
-						$label .= ', '.sprintf(i18n::ns('%d approval', '%d approvals', $yes), $yes).' ('.(int)($yes*100/$total).'%)';
+				// count of no
+				if($no)
+					$label .= ', '.sprintf(i18n::ns('%d reject', '%d rejects', $no), $no).' ('.(int)($no*100/$total).'%)';
 
-					// count of no
-					if($no)
-						$label .= ', '.sprintf(i18n::ns('%d reject', '%d rejects', $no), $no).' ('.(int)($no*100/$total).'%)';
+				// a link to ballots
+				$text .= '<p>'.Skin::build_link(Decisions::get_url('article:'.$this->attributes['id'], 'list'), $label, 'basic', i18n::s('See ballot papers')).'</p>';
 
-					// a link to ballots
-					$text .= '<p>'.Skin::build_link(Decisions::get_url('article:'.$this->attributes['id'], 'list'), $label, 'basic', i18n::s('See ballot papers')).'</p>';
-
-				// on-going vote
-				} else
-					$text .= sprintf(i18n::ns('%d vote so far', '%d votes so far', $total), $total);
-
-			}
+			// on-going vote
+			} else
+				$text .= sprintf(i18n::ns('%d vote so far', '%d votes so far', $total), $total);
 
 		}
 
 		// voters, only before vote end
-		if(($variant == 'view') && !$show) {
-
+		if(!$show) {
 
 			$text .= '<p>';
 
@@ -381,7 +363,8 @@ class Vote extends Overlay {
 			$text .= '</p>';
 		}
 
-		return '<div class="overlay">'.Codes::beautify($text).'</div>';
+		$text = '<div class="overlay">'.Codes::beautify($text).'</div>';
+		return $text;
 	}
 
 	/**

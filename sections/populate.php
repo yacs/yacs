@@ -210,8 +210,9 @@ else {
 	$fields['introduction'] = i18n::c('Sample blogging place');
 	$fields['description'] = i18n::c('This section has been created by the populate script for experimentation purpose on available layouts. Feel free to change this text, to add some images, to play with codes, etc. Have you checked the help link on the side of this page? Once you will feel more comfortable with the handling of sections, just delete this one and create tons of sections of your own.');
 	$fields['section_layout'] = 'map';
+	$fields['options'] = 'with_creator_profile articles_by_publication';
 	$fields['articles_layout'] = 'daily'; // that's a blog
-	$fields['content_options'] = 'with_rating'; // let surfers rate their readings
+	$fields['content_options'] = 'with_extra_profile with_rating'; // let surfers rate their readings
 	if(Sections::post($fields))
 		$text .= sprintf(i18n::s('A section %s has been created.'), $fields['title']).BR."\n";
 	else
@@ -230,7 +231,7 @@ else {
 	$fields['introduction'] = i18n::c('Sample discussion board');
 	$fields['description'] = i18n::c('This section has been created by the populate script for experimentation purpose on available layouts. Feel free to change this text, to add some images, to play with codes, etc. Have you checked the help link on the side of this page? Once you will feel more comfortable with the handling of sections, just delete this one and create tons of sections of your own.');
 	$fields['articles_layout'] = 'jive'; // a threading layout
-	$fields['content_options'] = 'auto_publish, with_rating'; // let surfers rate their readings
+	$fields['content_options'] = 'auto_publish with_rating'; // let surfers rate their readings
 	if(Sections::post($fields))
 		$text .= sprintf(i18n::s('A section %s has been created.'), $fields['title']).BR."\n";
 	else

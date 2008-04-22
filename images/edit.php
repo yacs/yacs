@@ -671,8 +671,8 @@ if($with_form) {
 		$fields = array();
 	}
 
-	// associates may decide to not stamp changes
-	if(isset($item['id']) && $item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))) {
+	// associates may decide to not stamp changes -- complex command
+	if(isset($item['id']) && $item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())) && Surfer::has_all()) {
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" '.EOT.' '.i18n::s('Do not change modification date of the related page.').'</p>';
 	}
 

@@ -625,7 +625,7 @@ Class Surfer {
 			$hint = i18n::s('You are allowed to post any XHTML.');
 		else
 			$hint = sprintf(i18n::s('Also, following XHTML tags are allowed: %s'), trim(str_replace('><', ', ', $context['users_allowed_tags']), '<>'));
-		$text .= '<p class="tiny">'.$hint.'</p>';
+		$text .= '<span class="tiny">'.$hint.'</span>';
 
 		// job done
 		return $text;
@@ -756,6 +756,19 @@ Class Surfer {
 		$input = i18n::s('Type exactly the following 5 chars:').' '.$salt.' <input type="text" name="pepper" size="7"'.EOT
 			.'<input type="hidden" name="salt" value="'.md5($salt).'"'.EOT;
 		return array($label, $input);
+	}
+
+	/**
+	 * user interface complexity
+	 *
+	 * @return TRUE or FALSE
+	 */
+	function has_all() {
+
+		if(isset($_SESSION['surfer_interface']) && ($_SESSION['surfer_interface'] == 'C'))
+			return TRUE;
+		return FALSE;
+
 	}
 
 	/**
@@ -1237,6 +1250,12 @@ Class Surfer {
 			$_SESSION['surfer_editor'] = $fields['editor'];
 		if(!isset($_SESSION['surfer_editor']) && !$_SESSION['surfer_editor'])
 			$_SESSION['surfer_editor'] = $context['users_default_editor'];
+
+		// interface preference
+		if(isset($fields['interface']) && ($fields['interface'] == 'C'))
+			$_SESSION['surfer_interface'] = 'C';
+		else
+			$_SESSION['surfer_interface'] = 'I';
 
 		// remember the address of the authenticating workstation
 		if(isset($_SERVER['REMOTE_ADDR']))

@@ -350,15 +350,6 @@ if(!isset($item['id'])) {
 		if(isset($item['signature']) && $item['signature'])
 			$output .= '<p>'.sprintf(i18n::s('Signature: %s'), BR.Codes::beautify($item['signature'])).'</p>'."\n";
 
-		// preferred editor
-		if(isset($item['editor']) && ($item['editor'] == 'fckeditor'))
-			$label = Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKeditor'), 'external');
-		elseif(isset($item['editor']) && ($item['editor'] == 'tinymce'))
-			$label = Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external');
-		else
-			$label = i18n::s('Textarea');
-		$output .= '<p>'.sprintf(i18n::s('Editor: %s'), $label).'</p>'."\n";
-
 		// e-mail usage
 		if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
 
@@ -385,6 +376,23 @@ if(!isset($item['id'])) {
 					.'<ul><li>'.join('</li><li>', $items).'</li></ul>'
 					.'</dd></dl>';
 
+		}
+
+		// preferred editor
+		if(isset($item['editor']) && ($item['editor'] == 'fckeditor'))
+			$label = Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKeditor'), 'external');
+		elseif(isset($item['editor']) && ($item['editor'] == 'tinymce'))
+			$label = Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external');
+		else
+			$label = i18n::s('Textarea');
+		$output .= '<p>'.sprintf(i18n::s('Editor: %s'), $label).'</p>'."\n";
+
+		// interface
+		if(isset($item['interface'])) {
+			if($item['interface'] == 'I')
+				$output .= '<p>'.i18n::s('Improved interface').'</p>';
+			elseif($item['interface'] == 'C')
+				$output .= '<p>'.i18n::s('Complex interface').'</p>';
 		}
 
 		// share screen

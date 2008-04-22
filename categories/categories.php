@@ -1423,6 +1423,7 @@ Class Categories {
 			."edit_id='".SQL::escape($fields['edit_id'])."',"
 			."edit_name='".SQL::escape($fields['edit_name'])."',"
 			."expiry_date='".SQL::escape($fields['expiry_date'])."',"
+			."extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."',"
 			."hits=".SQL::escape(isset($fields['hits']) ? $fields['hits'] : '0').","
 			."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
 			."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."',"
@@ -1437,7 +1438,8 @@ Class Categories {
 			."sections_layout='".SQL::escape($fields['sections_layout'])."',"
 			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
 			."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',"
-			."title='".SQL::escape($fields['title'])."'";
+			."title='".SQL::escape($fields['title'])."',"
+			."trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
 
 		// actual insert
 		if(SQL::query($query) === FALSE)
@@ -1545,6 +1547,7 @@ Class Categories {
 			."description='".SQL::escape($fields['description'])."',"
 			."display='".SQL::escape($fields['display'])."',"
 			."expiry_date='".SQL::escape($fields['expiry_date'])."',"
+			."extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."',"
 			."icon_url='".SQL::escape($fields['icon_url'])."',"
 			."introduction='".SQL::escape($fields['introduction'])."',"
 			."keywords='".SQL::escape($fields['keywords'])."',"
@@ -1558,7 +1561,8 @@ Class Categories {
 			."sections_layout='".SQL::escape($fields['sections_layout'])."',"
 			."suffix='".SQL::escape($fields['suffix'])."',"
 			."thumbnail_url='".SQL::escape($fields['thumbnail_url'])."',"
-			."title='".SQL::escape($fields['title'])."'";
+			."title='".SQL::escape($fields['title'])."',"
+			."trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
 
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
@@ -1803,6 +1807,7 @@ Class Categories {
 		$fields['edit_id']		= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
 		$fields['edit_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['expiry_date']	= "DATETIME";
+		$fields['extra']		= "TEXT NOT NULL";
 		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['introduction'] = "TEXT NOT NULL";
@@ -1819,6 +1824,7 @@ Class Categories {
 		$fields['suffix']		= "TEXT NOT NULL";
 		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['trailer']		= "TEXT NOT NULL";
 
 		$indexes = array();
 		$indexes['PRIMARY KEY id']		= "(id)";

@@ -56,24 +56,16 @@ class Select extends Overlay {
 	/**
 	 * display the content of one recipe
 	 *
-	 * Accepted variant codes:
-	 * - 'view' - embedded into the main viewing page
-	 *
 	 * @see overlays/overlay.php
 	 *
-	 * @param string the variant code
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function get_text($variant='view', $host=NULL) {
+	function &get_view_text($host=NULL) {
 		global $context;
 
-		// add something to zooming views only
-		if($variant != 'view')
-			return '';
-
 		// just a reminder message
-		$text .= '<p>'.i18n::s('Edit this page to select some overlay.')."</p>\n";
+		$text = '<p>'.i18n::s('Edit this page to select some overlay.')."</p>\n";
 
 		return $text;
 	}

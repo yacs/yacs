@@ -182,7 +182,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		// info on related comments
 		if($count = Comments::count_for_anchor('article:'.$item['id'])) {
 			$link = Comments::get_url('article:'.$item['id'], 'list');
-			$menu = array_merge($menu, array($link => sprintf(i18n::ns('1&nbsp;comment', '%d&nbsp;comments', $count), $count)));
+			$menu = array_merge($menu, array($link => sprintf(i18n::ns('1 comment', '%d comments', $count), $count)));
 		}
 
 		// trackback
@@ -199,7 +199,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$link = 'articles/view.php?id='.urlencode($item['id']).'&amp;links=1';
 		include_once $context['path_to_root'].'links/links.php';
 		if($count = Links::count_for_anchor('article:'.$item['id']))
-			$menu = array_merge($menu, array($link => sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count)));
+			$menu = array_merge($menu, array($link => sprintf(i18n::ns('1 link', '%d links', $count), $count)));
 
 		// attach a file
 		if(Surfer::is_member() && Surfer::may_upload()) {
@@ -213,7 +213,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		// see files attached to this article
 		include_once $context['path_to_root'].'files/files.php';
 		if($count = Files::count_for_anchor('article:'.$item['id']))
-			$menu = array_merge($menu, array($link => sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count)));
+			$menu = array_merge($menu, array($link => sprintf(i18n::ns('1 file', '%d files', $count), $count)));
 
 		// modify this page
 		if(Surfer::is_associate())

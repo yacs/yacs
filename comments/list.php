@@ -186,6 +186,10 @@ if(!is_object($anchor)) {
 
 		}
 
+		// provide author information to layout
+		if(is_object($layout) && is_object($anchor) && isset($anchor->item['create_id']))
+			$layout->set_variant('user:'.$anchor->item['create_id']);
+
 		// the maximum number of comments per page
 		if(is_object($layout))
 			$items_per_page = $layout->items_per_page();
@@ -207,7 +211,7 @@ if(!is_object($anchor)) {
 			if($count > 1) {
 				$box['bar'] = array_merge($box['bar'], array('_count' => $count.'&nbsp;'.$anchor->get_label('comments', 'count_many')));
 			} elseif($count == 1) {
-				$box['bar'] = array_merge($box['bar'], array('_count' => '1&nbsp;'.$anchor->get_label('comments', 'count_one')));
+				$box['bar'] = array_merge($box['bar'], array('_count' => '1 '.$anchor->get_label('comments', 'count_one')));
 			}
 
 			// navigation commands for comments

@@ -298,8 +298,8 @@ if($with_form) {
 	$context['text'] .= Skin::build_form($fields);
 	$fields = array();
 
-	// associates may decide to not stamp changes
-	if(isset($item['id']))
+	// associates may decide to not stamp changes -- complex command
+	if(isset($item['id']) && Surfer::has_all())
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.').'</p>';
 
 	// the submit button

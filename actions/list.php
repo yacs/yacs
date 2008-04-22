@@ -169,7 +169,7 @@ if(!is_object($anchor)) {
 		if($stats['count'] > $items_per_page) {
 
 			// count actions in the database
-			$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1&nbsp;action', '%d actions', $stats['count']), $stats['count'])));
+			$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 action', '%d actions', $stats['count']), $stats['count'])));
 
 			// navigation commands for actions, if necessary
 			$home = 'actions/list.php';

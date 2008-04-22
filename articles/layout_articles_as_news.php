@@ -127,15 +127,15 @@ Class Layout_articles_as_news extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count);
+				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count);
+				$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1&nbsp;comment', '%d&nbsp;comments', $count), $count);
+				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
 
 			// actually insert details
 			if($details)

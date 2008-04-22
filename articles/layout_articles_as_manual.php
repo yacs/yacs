@@ -118,11 +118,11 @@ Class Layout_articles_as_manual extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = FILE_TOOL_IMG.' '.sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count);
+				$details[] = FILE_TOOL_IMG.' '.sprintf(i18n::ns('1 file', '%d files', $count), $count);
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = LINK_TOOL_IMG.' '.sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count);
+				$details[] = LINK_TOOL_IMG.' '.sprintf(i18n::ns('1 link', '%d links', $count), $count);
 
 			// rating
 			if($item['rating_count'])

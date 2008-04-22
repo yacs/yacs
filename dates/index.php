@@ -50,7 +50,7 @@ $context['page_title'] = i18n::s('Dates');
 // count dates in the database
 $stats = Dates::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1&nbsp;date', '%d&nbsp;dates', $stats['count']), $stats['count'])));
+	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 date', '%d dates', $stats['count']), $stats['count'])));
 
 // commands for associates
 if(Surfer::is_associate())

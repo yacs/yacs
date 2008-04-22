@@ -108,7 +108,7 @@ Class Layout_sections extends Layout_interface {
 
 			// info on related sections
 			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1&nbsp;section', '%d&nbsp;sections', $count), $count);
+				$details[] = sprintf(i18n::ns('1 section', '%d sections', $count), $count);
 				$related_count += $count;
 
 				// add sub-sections
@@ -130,7 +130,7 @@ Class Layout_sections extends Layout_interface {
 
 			// info on related articles
 			if($count = Articles::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1&nbsp;page', '%d&nbsp;pages', $count), $count);
+				$details[] = sprintf(i18n::ns('1 page', '%d pages', $count), $count);
 				$related_count += $count;
 
 				// add related articles if necessary
@@ -162,7 +162,7 @@ Class Layout_sections extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count);
+				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
 				$related_count += $count;
 
 				// add related files if necessary
@@ -184,7 +184,7 @@ Class Layout_sections extends Layout_interface {
 
 			// info on related links
 			if($count = Links::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count);
+				$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
 				$related_count += $count;
 
 				// add related links if necessary
@@ -206,7 +206,7 @@ Class Layout_sections extends Layout_interface {
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('section:'.$item['id']))
-				$details[] = sprintf(i18n::ns('1&nbsp;comment', '%d&nbsp;comments', $count), $count);
+				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
 
 			// give me more
 			if(count($details) && ($related_count > YAHOO_LIST_SIZE))

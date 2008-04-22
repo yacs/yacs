@@ -74,7 +74,7 @@ $context['page_title'] = i18n::s('All pages');
 // count articles in the database
 $stats = Articles::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1&nbsp;page', '%d&nbsp;pages', $stats['count']), $stats['count'])));
+	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 page', '%d pages', $stats['count']), $stats['count'])));
 
 // navigation commands for articles, if necessary
 if($stats['count'] > $items_per_page) {

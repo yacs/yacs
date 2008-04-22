@@ -52,7 +52,7 @@ $context['page_title'] = i18n::s('Links');
 // count links in the database
 $stats = Links::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $stats['count']), $stats['count'])));
+	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 link', '%d links', $stats['count']), $stats['count'])));
 
 // navigation commands for links, if necessary
 if($stats['count'] > $items_per_page) {

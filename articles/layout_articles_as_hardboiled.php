@@ -187,19 +187,19 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 				// the number of hits
 				if(Surfer::is_logged() && ($item['hits'] > 1))
-					$details[] = sprintf(i18n::s('%d&nbsp;hits'), $item['hits']);
+					$details[] = sprintf(i18n::s('%d hits'), $item['hits']);
 
 				// info on related files
 				if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-					$details[] = sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count);
+					$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
 
 				// info on related links
 				if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-					$details[] = sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count);
+					$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
 
 				// info on related comments
 				if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-					$details[] = sprintf(i18n::ns('1&nbsp;comment', '%d&nbsp;comments', $count), $count);
+					$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
 
 				// rating
 				if($item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating'))
@@ -345,7 +345,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 				$file = 'articles/view.php/'.$item['id'].'/files/1';
 			else
 				$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
-			$text .= ' ('.Skin::build_link($file, sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count), 'basic').')';
+			$text .= ' ('.Skin::build_link($file, sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic').')';
 		}
 
 		// link to the anchor page

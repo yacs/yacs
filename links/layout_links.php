@@ -76,7 +76,7 @@ Class Layout_links extends Layout_interface {
 
 			// the number of clicks
 			if($item['hits'])
-				$suffix .= ' ('.sprintf(i18n::ns('1&nbsp;click', '%d&nbsp;clicks', $item['hits']), $item['hits']).') ';
+				$suffix .= ' ('.sprintf(i18n::ns('1 click', '%d clicks', $item['hits']), $item['hits']).') ';
 
 			// description
 			if($item['description'])

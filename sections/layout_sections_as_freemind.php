@@ -125,7 +125,7 @@ Class Layout_sections_as_freemind extends Layout_interface {
 
 			// count related articles, if any
 			if($count = Articles::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1&nbsp;page', '%d&nbsp;pages', $count), $count);
+				$details[] = sprintf(i18n::ns('1 page', '%d pages', $count), $count);
 
 				// if there are many articles, append a node to browse the section
 				if($count > $articles_per_page) {
@@ -160,15 +160,15 @@ Class Layout_sections_as_freemind extends Layout_interface {
 
 			// count related files, if any
 			if($count = Files::count_for_anchor('section:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count);
+				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
 
 			// count related comments, if any
 			if($count = Comments::count_for_anchor('section:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1&nbsp;comment', '%d&nbsp;comments', $count), $count);
+				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
 
 			// count related links, if any
 			if($count = Links::count_for_anchor('section:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count);
+				$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
 
 			// append details
 			if(count($details)) {

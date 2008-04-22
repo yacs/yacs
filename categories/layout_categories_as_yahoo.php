@@ -83,36 +83,36 @@ Class Layout_categories_as_yahoo extends Layout_interface {
 			// info on related categories
 			$stats = Categories::stat_for_anchor('category:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1&nbsp;category', '%d&nbsp;categories', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('1 category', '%d categories', $stats['count']), $stats['count']);
 			$related_count += $stats['count'];
 
 			// info on related sections
 			$stats = Members::stat_sections_for_anchor('category:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1&nbsp;section', '%d&nbsp;sections', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('1 section', '%d sections', $stats['count']), $stats['count']);
 			$related_count += $stats['count'];
 
 			// info on related articles
 			$stats = Members::stat_articles_for_anchor('category:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1&nbsp;article', '%d&nbsp;articles', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('1 page', '%d pages', $stats['count']), $stats['count']);
 			$related_count += $stats['count'];
 
 			// info on related files
 			if($count = Files::count_for_anchor('category:'.$item['id'], TRUE)) {
-				$details[] = sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count);
+				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
 				$related_count += $count;
 			}
 
 			// info on related links
 			if($count = Links::count_for_anchor('category:'.$item['id'], TRUE)) {
-				$details[] = sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count);
+				$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
 				$related_count += $count;
 			}
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('category:'.$item['id'], TRUE)) {
-				$details[] = sprintf(i18n::ns('1&nbsp;comment', '%d&nbsp;comments', $count), $count);
+				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
 				$related_count += $stats['count'];
 			}
 

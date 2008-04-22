@@ -334,12 +334,12 @@ if($credentials) {
 
 		}
 
+		//
+		// main panel
+		//
+
 		// the page title
 		$context['page_title'] = i18n::s('Welcome!');
-
-		// the user icon, if any
-		if(isset($user['avatar_url']) && $user['avatar_url'])
-			$context['page_image'] = $user['avatar_url'];
 
 		// lay fields in a table
 		$context['text'] .= Skin::table_prefix('form');
@@ -460,6 +460,13 @@ if($credentials) {
 			$box['text'] .= Skin::build_list($items, 'decorated');
 		if($box['text'])
 			$context['text'] .= Skin::build_box(i18n::s('On-going actions'), $box['text']);
+
+		//
+		// extra panel
+		//
+
+		// user profile aside
+		$context['extra'] .= Skin::build_profile($user, 'extra');
 
 		// contribution links, in an extra box
 		if(Surfer::is_member()) {

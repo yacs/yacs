@@ -70,7 +70,7 @@ else {
 	// count locations in the database
 	$stats = Locations::stat();
 	if($stats['count'])
-		$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1&nbsp;location', '%d&nbsp;locations', $stats['count']), $stats['count'])));
+		$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 location', '%d locations', $stats['count']), $stats['count'])));
 
 	// navigation commands for locations, if necessary
 	if($stats['count'] > LOCATIONS_PER_PAGE) {

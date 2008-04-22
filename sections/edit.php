@@ -293,8 +293,9 @@ if($with_form) {
 
 				$box .= Skin::build_list($items, 'decorated');
 			}
-
 		}
+
+		// in a folded box
 		$index .= Skin::build_box(i18n::s('Images'), $box, 'folder', 'edit_images');
 
 	}
@@ -447,11 +448,12 @@ if($with_form) {
 			.'<li><a onclick="javascript:append_to_options(\'articles_by_title\')" style="cursor: pointer;">articles_by_title</a> - '.i18n::s('Sort pages by title').'</li>'
 			.'<li><a onclick="javascript:append_to_options(\'articles_by_reverse_rank\')" style="cursor: pointer;">articles_by_reverse_rank</a> - '.i18n::s('Sort pages by reverse rank').'</li>'
 			.'<li><a onclick="javascript:append_to_options(\'no_new_articles\')" style="cursor: pointer;">no_new_articles</a> - '.i18n::s('Do not list recent pages from sub-sections').'</li>'
-			.'<li><a onclick="javascript:append_to_options(\'with_files\')" style="cursor: pointer;">with_files</a> - '.i18n::s('Files may be attached directly to section index').'</li>'
+			.'<li><a onclick="javascript:append_to_options(\'with_files\')" style="cursor: pointer;">with_files</a> - '.i18n::s('Files can be added to the index page').'</li>'
 			.'<li><a onclick="javascript:append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)').'</li>'
-			.'<li><a onclick="javascript:append_to_options(\'with_links\')" style="cursor: pointer;">with_links</a> - '.i18n::s('Links may be attached directly to section index').'</li>'
+			.'<li><a onclick="javascript:append_to_options(\'with_links\')" style="cursor: pointer;">with_links</a> - '.i18n::s('Links can be added to the index page').'</li>'
 			.'<li><a onclick="javascript:append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)').'</li>'
-			.'<li><a onclick="javascript:append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The section index itself is a thread').'</li>'
+			.'<li><a onclick="javascript:append_to_options(\'with_creator_profile\')" style="cursor: pointer;">with_creator_profile</a> - '.i18n::s('Display profile of section creator').'</li>'
+			.'<li><a onclick="javascript:append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread').'</li>'
 			.'<li><a onclick="javascript:append_to_options(\'with_slideshow\')" style="cursor: pointer;">with_slideshow</a> - '.i18n::s('Display content as a S5 slideshow').'</li>'
 			.'<li>skin_foo_bar - '.i18n::s('Apply a specific skin (in skins/foo_bar) here').'</li>'
 			.'<li>variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular skin template').'</li>'
@@ -629,13 +631,13 @@ if($with_form) {
 		// the prefix
 		$label = i18n::s('Prefix');
 		$input = '<textarea name="prefix" rows="2" cols="50">'.encode_field(isset($item['prefix']) ? $item['prefix'] : '').'</textarea>';
-		$hint = i18n::s('To be inserted at the top of pages of this section.');
+		$hint = i18n::s('To be inserted at the top of related pages.');
 		$fields[] = array($label, $input, $hint);
 
 		// the suffix
 		$label = i18n::s('Suffix');
 		$input = '<textarea name="suffix" rows="2" cols="50">'.encode_field(isset($item['suffix']) ? $item['suffix'] : '').'</textarea>';
-		$hint = i18n::s('To be inserted at the bottom of pages of this section.');
+		$hint = i18n::s('To be inserted at the bottom of related pages.');
 		$fields[] = array($label, $input, $hint);
 
 		// append fields
@@ -1003,8 +1005,8 @@ if($with_form) {
 	// several options to check
 	$input = '';
 
-	// do not stamp edition date
-	if(Surfer::is_empowered() && isset($item['id']))
+	// do not stamp edition date -- complex command
+	if(Surfer::is_empowered() && isset($item['id']) && Surfer::has_all())
 		$input .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.').BR;
 
 	// validate page content
@@ -1046,8 +1048,8 @@ if($with_form) {
 	$help = '';
 
 	// splash message for new pages
-	if(!isset($item['id']))
-		$help .= '<p>'.i18n::s('Please type the text of your new page and hit the submit button. You will then be able to post images, files and links on subsequent forms.').'</p>';
+	if(!isset($item['id']) && !count($context['error']))
+		$help .= '<p>'.i18n::s('Please describe the new section and hit the submit button. You will then be able to post images, files and links on subsequent forms.').'</p>';
 
 	// html and codes
 	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';

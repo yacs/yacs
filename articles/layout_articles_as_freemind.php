@@ -118,15 +118,15 @@ Class Layout_articles_as_freemind extends Layout_interface {
 
 			// count related files, if any
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count);
+				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
 
 			// count related comments, if any
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1&nbsp;comment', '%d&nbsp;comments', $count), $count);
+				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
 
 			// count related links, if any
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count);
+				$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
 
 			// append details
 			if(count($details)) {

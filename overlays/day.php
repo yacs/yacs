@@ -102,24 +102,17 @@ class Day extends Overlay {
 	/**
 	 * display the content of one instance
 	 *
-	 * Accepted variant codes:
-	 * - 'view' - embedded into the main viewing page
-	 *
 	 * @see overlays/overlay.php
 	 *
-	 * @param string the on-going action
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function get_text($variant='view', $host=NULL) {
+	function &get_view_text($host=NULL) {
 		global $context;
 
-		// add something only to zooming views
-		if($variant != 'view')
-			return '';
-
 		// the date
-		return '<p class="day">'.Skin::build_date($this->attributes['date_stamp'], 'day')."</p>\n";
+		$text = '<p class="day">'.Skin::build_date($this->attributes['date_stamp'], 'day')."</p>\n";
+		return $text;
 	}
 
 	/**
@@ -259,7 +252,7 @@ class Day extends Overlay {
 				// count the number of dates in this section
 				$stats = Dates::stat_for_anchor($anchor);
 				if($stats['count'] > DATES_PER_PAGE)
-					$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('1&nbsp;date', '%d&nbsp;dates', $stats['count']), $stats['count'])));
+					$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('1 date', '%d dates', $stats['count']), $stats['count'])));
 
 				// navigation commands for dates
 				$home = Sections::get_url(str_replace('section:', '', $anchor));
@@ -312,7 +305,7 @@ class Day extends Overlay {
 			// count the number of dates in this section
 			$stats = Dates::stat_past_for_anchor($anchor);
 			if($stats['count'] > DATES_PER_PAGE)
-				$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('1&nbsp;date', '%d&nbsp;dates', $stats['count']), $stats['count'])));
+				$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('1 date', '%d dates', $stats['count']), $stats['count'])));
 
 			// navigation commands for dates
 			$home = Sections::get_url(str_replace('section:', '', $anchor));

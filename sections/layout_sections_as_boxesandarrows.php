@@ -95,7 +95,7 @@ Class Layout_sections_as_boxesandarrows extends Layout_interface {
 
 			// info on related sections
 			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1&nbsp;section', '%d&nbsp;sections', $count), $count);
+				$details[] = sprintf(i18n::ns('1 section', '%d sections', $count), $count);
 
 				// add sub-sections on index pages
 				if($related =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'compact')) {
@@ -112,19 +112,19 @@ Class Layout_sections_as_boxesandarrows extends Layout_interface {
 
 			// info on related articles
 			if($count = Articles::count_for_anchor('section:'.$item['id']))
-				$details[] = sprintf(i18n::ns('1&nbsp;page', '%d&nbsp;pages', $count), $count);
+				$details[] = sprintf(i18n::ns('1 page', '%d pages', $count), $count);
 
 			// info on related files
 			if($count = Files::count_for_anchor('section:'.$item['id']))
-				$details[] = sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count);
+				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
 
 			// info on related links
 			if($count = Links::count_for_anchor('section:'.$item['id']))
-				$details[] = sprintf(i18n::ns('1&nbsp;link', '%d&nbsp;links', $count), $count);
+				$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('section:'.$item['id']))
-				$details[] = sprintf(i18n::ns('1&nbsp;comment', '%d&nbsp;comments', $count), $count);
+				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
 
 			// actually insert details
 			if(count($details))

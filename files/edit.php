@@ -709,7 +709,7 @@ if($with_form) {
 		if(isset($item['icon_url']) && $item['icon_url'])
 			$value = $item['icon_url'];
 		$input = '<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
-		$hint = i18n::s('You can click on the Set as icon link in the list of images below, if any');
+		$hint = i18n::s('You can click on the \'Set as icon\' link in the list of images, if any.');
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -717,7 +717,7 @@ if($with_form) {
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
 		$label = i18n::s('Thumbnail URL');
 		$input = '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
-		$hint = i18n::s('You can click on the Set as thumbnail link in the list of images below, if any');
+		$hint = i18n::s('You can click on the \'Set as thumbnail\' link in the list of images, if any.');
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -725,8 +725,8 @@ if($with_form) {
 	$context['text'] .= Skin::build_box(i18n::s('Advanced options'), Skin::build_form($fields), 'folder');
 	$fields = array();
 
-	// associates may decide to not stamp changes, but only for changes
-	if(isset($item['id']) && Surfer::is_associate() && isset($anchor)) {
+	// associates may decide to not stamp changes, but only for changes -- complex command
+	if(isset($item['id']) && Surfer::is_associate() && isset($anchor) && Surfer::has_all()) {
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the related page.').'</p>';
 	}
 

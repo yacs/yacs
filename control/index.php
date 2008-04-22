@@ -718,9 +718,9 @@ if(!file_exists('../parameters/control.include.php')) {
 			$all_tabs = array_merge($all_tabs, array(array('content_tab', i18n::s('Content'), 'content_panel', $text)));
 
 			//
-			// the Configuration Panels tab is reserved to associates
+			// the Configuration Panels tab is reserved to associates -- complex command
 			//
-			if(Surfer::is_associate()) {
+			if(Surfer::is_associate() && Surfer::has_all()) {
 
 				$text = '<p>'.i18n::s('Click on following links to review or change parameters of this server.').'</p>';
 
@@ -774,8 +774,8 @@ if(!file_exists('../parameters/control.include.php')) {
 			//
 			$text = '';
 
-			// commands for associates
-			if(Surfer::is_associate()) {
+			// commands for associates -- complex command
+			if(Surfer::is_associate() && Surfer::has_all()) {
 
 				$commands = array();
 
@@ -882,7 +882,7 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// more information to associates
 			$commands = array();
-			if(Surfer::is_associate()) {
+			if(Surfer::is_associate() && Surfer::has_all()) {
 				$commands[] = sprintf(i18n::s('%s - check a lot of styles used by YACS'), '<a href="../skins/test.php">'.i18n::s('Skin test page').'</a>');
 				$commands[] = sprintf(i18n::s('%s - validate browser and server behaviors'), '<a href="test.php">'.i18n::s('System test page').'</a>');
 				$commands[] = sprintf(i18n::s('%s - operation summary'), '<a href="../agents/">'.i18n::s('Background processing').'</a>');
@@ -909,6 +909,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			// extra boxes
 			//
 
+			$box = array();
 			$box['bar'] = array();
 			$box['text'] = '';
 			$box['title'] = '';
@@ -928,8 +929,8 @@ if(!file_exists('../parameters/control.include.php')) {
 			// list modules in an extra box
 			$context['extra'] .= Skin::build_box($box['title'], '<ul>'.$box['text']."</ul>\n", 'extra');
 
-			// list modules if a skin has been defined
-			if(class_exists('Skin')) {
+			// list modules if a skin has been defined -- complex command
+			if(class_exists('Skin') && Surfer::has_all()) {
 
 				$box['bar'] = array();
 				$box['text'] = '';

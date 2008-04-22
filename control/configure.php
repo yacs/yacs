@@ -620,7 +620,9 @@ if(!Surfer::is_associate()) {
 	//
 	$skin = '';
 
-	$skin .= '<p>'.sprintf(i18n::s('Check %s to manage and preview all available styles.'), Skin::build_link('skins/', i18n::s('the index page of skins')))."</p>\n";
+	// drive people to the visual index, but not on first install
+	if(file_exists($context['path_to_root'].'parameters/control.include.php'))
+		$skin .= '<p>'.sprintf(i18n::s('Check %s to manage and preview all available styles.'), Skin::build_link('skins/', i18n::s('the index page of skins')))."</p>\n";
 
 	// list skins available on this system
 	if($dir = Safe::opendir("../skins")) {

@@ -226,7 +226,7 @@ if(isset($item['id']) && isset($item['title']))
 
 // page title
 if(isset($item['id']))
-	$context['page_title'] = i18n::s('Edit a page');
+	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
 else
 	$context['page_title'] = i18n::s('Add a page');
 
@@ -877,7 +877,7 @@ if($with_form) {
 	if(Surfer::is_associate()) {
 		$label = i18n::s('Prefix');
 		$input = '<textarea name="prefix" rows="2" cols="50">'.encode_field(isset($item['prefix']) ? $item['prefix'] : '').'</textarea>';
-		$hint = i18n::s('To be inserted at the top of items related to this page.');
+		$hint = i18n::s('To be inserted at the top of related pages.');
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -885,7 +885,7 @@ if($with_form) {
 	if(Surfer::is_associate()) {
 		$label = i18n::s('Suffix');
 		$input = '<textarea name="suffix" rows="2" cols="50">'.encode_field(isset($item['suffix']) ? $item['suffix'] : '').'</textarea>';
-		$hint = i18n::s('To be inserted at the bottom of items related to this page.');
+		$hint = i18n::s('To be inserted at the bottom of related pages.');
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1026,7 +1026,7 @@ if($with_form) {
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
 		$label = i18n::s('Thumbnail URL');
 		$input = '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
-		$hint = i18n::s('You can click on the \'Set as thumbnail\' link in the list of images below, if any');
+		$hint = i18n::s('You can click on the \'Set as thumbnail\' link in the list of images, if any.');
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1037,7 +1037,7 @@ if($with_form) {
 		if(isset($item['icon_url']) && $item['icon_url'])
 			$value = $item['icon_url'];
 		$input = '<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
-		$hint = i18n::s('You can click on the \'Set as icon\' link in the list of images below, if any.');
+		$hint = i18n::s('You can click on the \'Set as icon\' link in the list of images, if any.');
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1090,8 +1090,8 @@ if($with_form) {
 		$input .= '<input type="checkbox" name="option_draft" value="Y" /> '.i18n::s('This is a draft document. Do not publish the page, even if auto-publish has been enabled.').BR;
 	}
 
-	// do not remember changes on existing pages
-	if(isset($item['id']) && Surfer::is_empowered())
+	// do not remember changes on existing pages -- complex command
+	if(isset($item['id']) && Surfer::is_empowered() && Surfer::has_all())
 		$input .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.').BR;
 
 	// hardcoded

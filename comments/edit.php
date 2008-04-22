@@ -454,22 +454,8 @@ if($with_form) {
 	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// reference the anchor page
-	if(is_object($anchor) && $anchor->is_viewable()) {
-		$context['text'] .= '<p>';
-
-		// let associates move comments around
-		if(isset($item['id']) && Surfer::is_associate()) {
-			$context['text'] .= BR.'<select name="anchor">';
-			if(is_object($anchor))
-				$context['text'] .= '<option value="'.$anchor->get_reference().'" selected="selected">'.ucfirst($anchor->get_title())."</option>\n";
-			$context['text'] .= Articles::get_options().'</select>';
-
-		} else {
-			$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" '.EOT;
-		}
-
-		$context['text'] .= "</p>\n";
-	}
+	if(is_object($anchor))
+		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" '.EOT;
 
 	// display info on current version
 	if(isset($item['id']) && !preg_match('/(new|quote|reply)/', $action)) {
@@ -574,8 +560,8 @@ if($with_form) {
 
 	$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
 
-	// associates and editors may decide to not stamp changes
-	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
+	// associates and editors may decide to not stamp changes -- complex command
+	if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) && Surfer::has_all())
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the annotated page').'</p>';
 
 	// transmit the id as a hidden field

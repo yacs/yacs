@@ -205,7 +205,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 		else
 			$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
 		if($count = Files::count_for_anchor('article:'.$item['id']))
-			$text .= ' ('.Skin::build_link($file, sprintf(i18n::ns('1&nbsp;file', '%d&nbsp;files', $count), $count), 'basic').')';
+			$text .= ' ('.Skin::build_link($file, sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic').')';
 
 		// link to the anchor page
 		if(is_object($anchor))

@@ -74,7 +74,7 @@ else {
 	// count tables in the database
 	$stats = Tables::stat();
 	if($stats['count'])
-		$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1&nbsp;table', '%d&nbsp;tables', $stats['count']), $stats['count'])));
+		$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 table', '%d tables', $stats['count']), $stats['count'])));
 
 	// navigation commands for tables, if necessary
 	if($stats['count'] > TABLES_PER_PAGE) {

@@ -424,8 +424,10 @@ if(!$permitted) {
 		$fields['active_set'] = $_REQUEST['active'];
 		$fields['home_panel'] = $_REQUEST['home_panel'];
 		$fields['index_map'] = 'Y'; // listed with ordinary sections
+		$fields['section_layout'] = 'map';
+		$fields['options'] = 'with_creator_profile articles_by_publication';
 		$fields['articles_layout'] = 'daily'; // the preferred layout for blogs
-		$fields['content_options'] = 'with_extra_profile'; // show user profiles in a side panel
+		$fields['content_options'] = 'with_extra_profile with_rating'; // show user profiles in a side panel
 		if($_REQUEST['contribution'] == 'N')	// only associates and editors can contribute
 			$fields['locked'] = 'Y';
 		$fields['rank'] = 10000; // default value
