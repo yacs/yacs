@@ -755,7 +755,8 @@ Class Actions {
 
 }
 
-// ensure this library has been fully localized
-i18n::bind('actions');
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('actions');
 
 ?>

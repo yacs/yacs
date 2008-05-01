@@ -93,9 +93,6 @@ elseif(Surfer::is_empowered() && ($action != 'duplicate') && ($action != 'move')
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('sections');
-
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 

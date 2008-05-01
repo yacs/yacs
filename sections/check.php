@@ -13,9 +13,6 @@
 // include the global declarations
 include_once '../shared/global.php';
 
-// load localized strings
-i18n::bind('sections');
-
 // load the skin
 load_skin('sections');
 

@@ -26,9 +26,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-
-// load localized strings
-i18n::bind('servers');
+include_once 'servers.php';
 
 // load the skin
 load_skin('servers');

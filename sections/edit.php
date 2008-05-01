@@ -80,9 +80,6 @@ else
 // do not always show the edition form
 $with_form = FALSE;
 
-// load localized strings
-i18n::bind('sections');
-
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
@@ -90,15 +87,16 @@ load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
-// the path to this page
+// path to this page
 if(is_object($anchor)&& $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
 	$context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
-if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_url($item['id']) => $item['title']));
 
-// the title of the page
+if(isset($item['id']) && isset($item['title']))
+	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
+
+// page title
 if(isset($item['title']))
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
 else
@@ -455,6 +453,8 @@ if($with_form) {
 			.'<li><a onclick="javascript:append_to_options(\'with_creator_profile\')" style="cursor: pointer;">with_creator_profile</a> - '.i18n::s('Display profile of section creator').'</li>'
 			.'<li><a onclick="javascript:append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread').'</li>'
 			.'<li><a onclick="javascript:append_to_options(\'with_slideshow\')" style="cursor: pointer;">with_slideshow</a> - '.i18n::s('Display content as a S5 slideshow').'</li>'
+			.'<li><a onclick="javascript:append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels').'</li>'
+			.'<li>view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'sections/view_as_foo_bar.php').'</li>'
 			.'<li>skin_foo_bar - '.i18n::s('Apply a specific skin (in skins/foo_bar) here').'</li>'
 			.'<li>variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular skin template').'</li>'
 			.'<li><a onclick="javascript:append_to_options(\'no_contextual_menu\')" style="cursor: pointer;">no_contextual_menu</a> - '.i18n::s('No information about surrounding sections').'</li></ul>';
@@ -1056,6 +1056,22 @@ if($with_form) {
 
  	// locate mandatory fields
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
+
+ 	// change to another editor
+	$help .= '<form><p><select name="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
+	$selected = '';
+	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
+	$help .= '</select></p></form>';
 
 	// drive associates to the Content Assistant
 	if(Surfer::is_associate())

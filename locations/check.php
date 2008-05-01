@@ -14,9 +14,6 @@
 include_once '../shared/global.php';
 include_once 'locations.php';
 
-// load localized strings
-i18n::bind('locations');
-
 // load the skin
 load_skin('locations');
 

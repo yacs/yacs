@@ -52,9 +52,6 @@ $anchor = NULL;
 if($target_anchor)
 	$anchor = Anchors::get($target_anchor);
 
-// load localized strings
-i18n::bind('decisions');
-
 // load the skin, maybe with a variant
 load_skin('decisions', $anchor);
 

@@ -31,9 +31,6 @@ Class Layout_forms extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
-		// load localized strings
-		i18n::bind('forms');
-
 		// flag forms updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;

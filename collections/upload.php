@@ -23,14 +23,12 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../files/files.php';
+include_once 'collections.php';
 
 // the maximum size for uploads
 $file_maximum_size = str_replace('M', '000000', Safe::get_cfg_var('upload_max_filesize'));
 if(!$file_maximum_size || $file_maximum_size > 10000000)
 	$file_maximum_size = 10000000;
-
-// load localized strings
-i18n::bind('collections');
 
 // load the skin -- before loading the collection
 load_skin('collections');
@@ -46,7 +44,6 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // bind the virtual item to something real
-include_once 'collections.php';
 $item = Collections::get($id);
 
 // icons used to depict files and folders

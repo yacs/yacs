@@ -19,9 +19,6 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 // stop hackers
 defined('YACS') or exit('Script must be included');
 
-// load localized strings
-i18n::bind('users');
-
 // clear the cache for users
 Cache::clear('users');
 

@@ -1344,7 +1344,7 @@ Class Skin_Skeleton {
 		case 'external':
 
 			// count external clicks, but not for robots
-			if(!Surfer::is_crawler())
+			if(is_callable(array('Surfer', 'is_crawler')) && !Surfer::is_crawler())
 				$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
 
 			// add an icon, except if there is already an image -- obsoleted by css
@@ -1665,9 +1665,11 @@ Class Skin_Skeleton {
 
 			// split $label as $prefix $label $suffix $type $icon $title
 			$prefix = $link = $suffix = $type = $icon = $title = NULL;
-			if(is_array($label)) {
-				$prefix = $label[0];
-				$suffix = $label[2];
+			if(is_array($label) && isset($label[1])) {
+				if(isset($label[0]))
+					$prefix = $label[0];
+				if(isset($label[2]))
+					$suffix = $label[2];
 				if(isset($label[3]))
 					$type	= $label[3];
 				if(isset($label[4]))
@@ -3116,7 +3118,11 @@ Class Skin_Skeleton {
 			define('EOT', ' />');
 
 		// the HTML to signal an answer
-		Skin::define_img('ANSWER_FLAG', $context['skin'].'/icons/answer.gif', i18n::s('A: '), '!!');
+		if(is_callable(array('i18n', 's')))
+			$text = i18n::s('A: ');
+		else
+			$text = 'A: ';
+		Skin::define_img('ANSWER_FLAG', $context['skin'].'/icons/answer.gif', $text, '!!');
 
 		// the maximum number of bookmarks per page -- see users/view.php
 		if(!defined('BOOKMARKS_PER_PAGE'))
@@ -3192,11 +3198,20 @@ Class Skin_Skeleton {
 		Skin::define_img('DECORATED_IMG', $context['skin'].'/icons/decorated.gif', BULLET_IMG);
 
 		// the bullet used to signal pages to be published
-		Skin::define_img('DRAFT_FLAG', $context['skin'].'/icons/to_publish.gif', '<span class="draft flag"><span> '.i18n::s('to publish').' </span>&nbsp;</span>', i18n::s('to publish'));
+		if(is_callable(array('i18n', 's')))
+			$text = i18n::s('to publish');
+		else
+			$text = 'to publish';
+		Skin::define_img('DRAFT_FLAG', $context['skin'].'/icons/to_publish.gif', '<span class="draft flag"><span> '.$text.' </span>&nbsp;</span>', $text);
 
 		// the bullet used to signal expired pages
-		if(!defined('EXPIRED_FLAG'))
-			define('EXPIRED_FLAG', '<span class="expired flag"><span> ('.i18n::s('expired').') </span>&nbsp;</span>');
+		if(!defined('EXPIRED_FLAG')) {
+			if(is_callable(array('i18n', 's')))
+				$text = i18n::s('expired');
+			else
+				$text = 'expired';
+			define('EXPIRED_FLAG', '<span class="expired flag"><span> ('.$text.') </span>&nbsp;</span>');
+		}
 
 		// the HTML to be inserted before a box title
 		if(!defined('EXTRA_BOX_TITLE_PREFIX'))
@@ -3348,8 +3363,13 @@ Class Skin_Skeleton {
 			define('NAVIGATION_BOX_TITLE_SUFFIX', BOX_TITLE_SUFFIX);
 
 		// the bullet used to signal new pages
-		if(!defined('NEW_FLAG'))
-			define('NEW_FLAG', '<span class="new flag"><span> ('.i18n::s('new').') </span>&nbsp;</span>');
+		if(!defined('NEW_FLAG')) {
+			if(is_callable(array('i18n', 's')))
+				$text = i18n::s('new');
+			else
+				$text = 'new';
+			define('NEW_FLAG', '<span class="new flag"><span> ('.$text.') </span>&nbsp;</span>');
+		}
 
 		// the HTML string used to prefix some news
 		if(!defined('NEWS_PREFIX'))
@@ -3388,18 +3408,31 @@ Class Skin_Skeleton {
 			define('PAGE_TITLE_SUFFIX', '');
 
 		// the bullet used to signal popular pages
-		if(!defined('POPULAR_FLAG'))
-			define('POPULAR_FLAG', '<span class="popular flag"><span> ('.i18n::s('popular').') </span>&nbsp;</span>');
+		if(!defined('POPULAR_FLAG')) {
+			if(is_callable(array('i18n', 's')))
+				$text = i18n::s('popular');
+			else
+				$text = 'popular';
+			define('POPULAR_FLAG', '<span class="popular flag"><span> ('.$text.') </span>&nbsp;</span>');
+		}
 
 		// the prefix for [previous=...] links
 		if(!defined('PREVIOUS_IMG'))
 			define('PREVIOUS_IMG', '<span> &laquo; </span>');
 
 		// the bullet used to signal private pages
-		Skin::define_img('PRIVATE_FLAG', $context['skin'].'/icons/private.png', '('.i18n::s('private').')');
+		if(is_callable(array('i18n', 's')))
+			$text = i18n::s('private');
+		else
+			$text = 'private';
+		Skin::define_img('PRIVATE_FLAG', $context['skin'].'/icons/private.png', '('.$text.')');
 
 		// the HTML to signal a question
-		Skin::define_img('QUESTION_FLAG', $context['skin'].'/icons/question.gif', i18n::s('Q: '), '?');
+		if(is_callable(array('i18n', 's')))
+			$text = i18n::s('Q: ');
+		else
+			$text = 'Q: ';
+		Skin::define_img('QUESTION_FLAG', $context['skin'].'/icons/question.gif', $text, '?');
 
 		// the HTML to be inserted before a question
 		if(!defined('QUESTION_PREFIX'))
@@ -3410,7 +3443,11 @@ Class Skin_Skeleton {
 			define('QUESTION_SUFFIX', '');
 
 		// the bullet used to signal restricted pages
-		Skin::define_img('RESTRICTED_FLAG', $context['skin'].'/icons/restricted.png', '('.i18n::s('restricted').')');
+		if(is_callable(array('i18n', 's')))
+			$text = i18n::s('restricted');
+		else
+			$text = 'restricted';
+		Skin::define_img('RESTRICTED_FLAG', $context['skin'].'/icons/restricted.png', '('.$text.')');
 
 		// the theme to use for on-line presentations
 		if(!defined('S5_THEME') && file_exists($context['path_to_root'].$context['skin'].'/s5/yacs/slides.css'))
@@ -3513,8 +3550,13 @@ Class Skin_Skeleton {
 		Skin::define_img('TWO_COLUMNS_IMG', $context['skin'].'/icons/folder.gif', BULLET_IMG);
 
 		// the bullet used to signal updated pages
-		if(!defined('UPDATED_FLAG'))
-			define('UPDATED_FLAG', '<span class="updated flag"><span> ('.i18n::s('updated').') </span>&nbsp;</span>');
+		if(!defined('UPDATED_FLAG')) {
+			if(is_callable(array('i18n', 's')))
+				$text = i18n::s('updated');
+			else
+				$text = 'updated';
+			define('UPDATED_FLAG', '<span class="updated flag"><span> ('.$text.') </span>&nbsp;</span>');
+		}
 
 		// the maximum number of users attached to an anchor -- see sections/select.php
 		if(!defined('USERS_LIST_SIZE'))
@@ -3667,7 +3709,7 @@ Class Skin_Skeleton {
 				else
 					$label = $first;
 			}
-			$bar = array_merge($bar, array( $url => array(NULL, $label, NULL, 'basic') ));
+			$bar = array_merge($bar, array( $url => array('', $label, '', 'basic') ));
 		}
 
 		// commands to see next page
@@ -3685,7 +3727,7 @@ Class Skin_Skeleton {
 				else
 					$label = $first;
 
-				$bar = array_merge($bar, array( $prefix.$page_index => array(NULL, $label, NULL, 'basic') ));
+				$bar = array_merge($bar, array( $prefix.$page_index => array('', $label, '', 'basic') ));
 
 				if(!$next_page)
 					$next_page = $prefix.$page_index;
@@ -3694,7 +3736,7 @@ Class Skin_Skeleton {
 		// link to next page
 		} elseif($range == $last+1) {
 			$page_index++;
-			$bar = array_merge($bar, array( $prefix.$page_index => array(NULL, i18n::s('More'), NULL, 'basic') ));
+			$bar = array_merge($bar, array( $prefix.$page_index => array('', i18n::s('More'), '', 'basic') ));
 
 			if(!$next_page)
 				$next_page = $prefix.$page_index;
@@ -3702,7 +3744,7 @@ Class Skin_Skeleton {
 
 		// append a link to the next page, if required -- # is to not overload the existing link
 		if($to_next_page)
-			$bar = array_merge($bar, array( $next_page.'#' => array(NULL, i18n::s('Next page'), NULL, 'basic') ));
+			$bar = array_merge($bar, array( $next_page.'#' => array('', i18n::s('Next page'), '', 'basic') ));
 
 		return $bar;
 	}
@@ -4336,5 +4378,8 @@ Class Skin_Skeleton {
 
 }
 
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('skins');
 
 ?>

@@ -93,9 +93,6 @@ elseif(isset($item['active']) && ($item['active'] == 'Y'))
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('users');
-
 // load the skin
 load_skin('users');
 
@@ -177,7 +174,7 @@ if(!isset($item['id'])) {
 			$label = i18n::s('Watch');
 
 		Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
-		$menu = array_merge($menu, array( $link => array(NULL, WATCH_TOOL_IMG.$label, NULL, 'basic', NULL, i18n::s('Manage your watch list'))));
+		$menu = array_merge($menu, array( $link => array('', WATCH_TOOL_IMG.$label, '', 'basic', '', i18n::s('Manage your watch list'))));
 	}
 
 	// command to send a message, if mail has been activated on this server

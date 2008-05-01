@@ -159,9 +159,6 @@ elseif(isset($item['active']) && ($item['active'] == 'Y'))
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('users');
-
 // load the skin
 load_skin('users');
 
@@ -565,7 +562,7 @@ if(!isset($item['id'])) {
 		// shortcuts
 
 		$link_list = array(
-				'articles/edit.php' => array(NULL, i18n::s('Add a page'), NULL, 'shortcut', NULL, i18n::s('Use a web form to submit new content'))
+				'articles/edit.php' => array('', i18n::s('Add a page'), '', 'shortcut', '', i18n::s('Use a web form to submit new content'))
 				);
 
 		$label .= Skin::build_list($link_list, 'compact');

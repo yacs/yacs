@@ -119,9 +119,6 @@ else
 // show the edition form only if required to do so
 $with_form = FALSE;
 
-// load localized strings
-i18n::bind('users');
-
 // load the skin
 load_skin('users');
 
@@ -660,7 +657,7 @@ if($with_form) {
 	$input .= BR.'<input type="checkbox" name="without_messages" value="N"';
 	if(!isset($item['without_messages']) || ($item['without_messages'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= ' '.EOT.' '.i18n::s('Allow other members to send me private messages.')."\n";
+	$input .= ' '.EOT.' '.i18n::s('Allow other members to send me messages.')."\n";
 
 	// explicit newsletter subscription
 	$input .= BR.'<input type="checkbox" name="with_newsletters" value="Y"';
@@ -853,6 +850,22 @@ if($with_form) {
 
  	// locate mandatory fields
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
+
+ 	// change to another editor
+	$help .= '<form><p><select name="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
+	$selected = '';
+	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
+	$help .= '</select></p></form>';
 
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 

@@ -65,6 +65,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'comments.php';
 
 // the maximum size for uploads
 $file_maximum_size = str_replace('M', '000000', Safe::get_cfg_var('upload_max_filesize'));
@@ -132,7 +133,6 @@ $id = strip_tags($id);
 $target_anchor = strip_tags($target_anchor);
 
 // get the item from the database
-include_once 'comments.php';
 $item =& Comments::get($id);
 
 // get the related anchor, if any
@@ -168,9 +168,6 @@ else
 
 // do not always show the edition form
 $with_form = FALSE;
-
-// load localized strings
-i18n::bind('comments');
 
 // load the skin, maybe with a variant
 load_skin('comments', $anchor);
@@ -631,6 +628,22 @@ if($with_form) {
 	else
 		$help .= '<p>';
 	$help .= ' '.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+
+ 	// change to another editor
+	$help .= '<form><p><select name="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
+	$selected = '';
+	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
+	$help .= '</select></p></form>';
 
 	// in a sidebar box
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');

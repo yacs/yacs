@@ -155,7 +155,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		if(count($others)) {
 
 			// link to articles index
-			$others['articles/'] = array(NULL, i18n::s('All pages'), NULL, 'shortcut');
+			$others['articles/'] = array('', i18n::s('All pages'), '', 'shortcut');
 
 			// make section box
 			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($others, 'decorated'));

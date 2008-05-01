@@ -40,9 +40,6 @@ if(strlen($target) == 6)
 // normalize separator
 $target = str_replace('-', '/', $target);
 
-// load localized strings
-i18n::bind('dates');
-
 // load the skin
 load_skin('dates');
 

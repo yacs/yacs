@@ -573,6 +573,34 @@ Class SQL {
 	}
 
 	/**
+	 * purge idle space
+	 *
+	 * This function OPTIMIZEs tables that may induce overheads because of
+	 * frequent deletions, including: cache, links, members, messages,
+	 * notifications, values, versions, visits.
+	 *
+	 * @param boolean optional TRUE to not report on any error
+	 * @param resource connection to be considered, if any
+	 * @return TRUE on success, or FALSE on error
+	 */
+	function purge($silent=FALSE, $connection=NULL) {
+		global $context;
+
+		$query = 'OPTIMIZE TABLE '.SQL::table_name('cache')
+			.', '.SQL::table_name('links')
+			.', '.SQL::table_name('members')
+			.', '.SQL::table_name('messages')
+			.', '.SQL::table_name('notifications')
+			.', '.SQL::table_name('values')
+			.', '.SQL::table_name('versions')
+			.', '.SQL::table_name('visits');
+
+		if($result =& SQL::query($query, $silent, $connection))
+			return TRUE;
+		return FALSE;
+	}
+
+	/**
 	 * query the database
 	 *
 	 * This function populates the error context, where applicable.
@@ -670,9 +698,8 @@ Class SQL {
 			}
 
 			// log the error at development host
-			if($context['with_debug'] == 'Y') {
+			if($context['with_debug'] == 'Y')
 				Logger::remember('shared/sql.php', 'SQL::query()', SQL::error($connection)."\n\n".$query, 'debug');
-			}
 
 		}
 

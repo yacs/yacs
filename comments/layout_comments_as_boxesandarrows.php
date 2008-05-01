@@ -49,9 +49,6 @@ Class Layout_comments_as_boxesandarrows extends Layout_interface {
 			return $output;
 		}
 
-		// load localized strings
-		i18n::bind('comments');
-
 		// flag comments updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;

@@ -10,9 +10,6 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
-// load localized strings
-i18n::bind('i18n');
-
 // load the skin
 load_skin('i18n');
 

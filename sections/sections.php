@@ -1053,7 +1053,7 @@ Class Sections {
 		}
 
 		// check the target action
-		if(!preg_match('/^(bulk|delete|describe|duplicate|edit|feed|freemind|import|lock|print|slideshow|view|view_as_freemind)$/', $action))
+		if(!preg_match('/^(bulk|delete|describe|duplicate|edit|feed|freemind|import|lock|mail|print|slideshow|view|view_as_freemind)$/', $action))
 			$action = 'view';
 
 		// normalize the link
@@ -2264,7 +2264,8 @@ Class Sections {
 
 }
 
-// ensure this library has been fully localized
-i18n::bind('sections');
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('sections');
 
 ?>

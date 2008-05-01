@@ -26,9 +26,6 @@ Class Layout_dates_as_family extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// load localized strings
-		i18n::bind('dates');
-
 		// flag sections updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;

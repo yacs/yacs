@@ -43,9 +43,6 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor = Anchors::get($item['anchor']);
 
-// load localized strings
-i18n::bind('images');
-
 // load the skin, maybe with a variant
 load_skin('images', $anchor);
 

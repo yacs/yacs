@@ -1676,5 +1676,8 @@ class Messages {
 
 }
 
-i18n::bind('agents');
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('agents');
+
 ?>

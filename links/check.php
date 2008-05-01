@@ -37,9 +37,6 @@ include_once '../shared/global.php';
 include_once 'links.php';
 include_once 'link.php';
 
-// load localized strings
-i18n::bind('links');
-
 // load the skin
 load_skin('links');
 

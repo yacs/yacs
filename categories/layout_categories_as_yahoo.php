@@ -31,9 +31,6 @@ Class Layout_categories_as_yahoo extends Layout_interface {
 			return $output;
 		}
 
-		// load localized strings
-		i18n::bind('categories');
-
 		// flag categories updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;

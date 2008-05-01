@@ -36,9 +36,6 @@ Class Layout_sections_as_select extends Layout_interface {
 		if(!isset($this->layout_variant))
 			$this->layout_variant = 'articles/edit.php?anchor=section:';
 
-		// load localized strings
-		i18n::bind('sections');
-
 		// we return some text
 		$text ='';
 
@@ -186,11 +183,11 @@ Class Layout_sections_as_select extends Layout_interface {
 
 				// expose sub-sub-sections as well
 				if(count($leaves) > YAHOO_LIST_SIZE)
-					$subs[$url] = array(NULL, $attributes['title'], Skin::build_box(i18n::s('More spaces'), Skin::build_list($leaves, 'compact'), 'folder'));
+					$subs[$url] = array('', $attributes['title'], Skin::build_box(i18n::s('More spaces'), Skin::build_list($leaves, 'compact'), 'folder'));
 
 				// expose sub-sub-sections as well
 				elseif(count($leaves))
-					$subs[$url] = array(NULL, $attributes['title'], Skin::build_list($leaves, 'compact'));
+					$subs[$url] = array('', $attributes['title'], Skin::build_list($leaves, 'compact'));
 
 				// a simple clickable label
 				else

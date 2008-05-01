@@ -14,9 +14,6 @@
 include_once '../shared/global.php';
 include_once 'decisions.php';
 
-// load localized strings
-i18n::bind('decisions');
-
 // load the skin
 load_skin('decisions');
 

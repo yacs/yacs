@@ -36,6 +36,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'comments.php';
 
 // look for the anchor as a string
 $anchor = '';
@@ -61,9 +62,6 @@ if(!is_object($anchor) || $anchor->is_viewable())
 	$permitted = TRUE;
 else
 	$permitted = FALSE;
-
-// load localized strings
-i18n::bind('comments');
 
 // load the skin, maybe with a variant
 load_skin('comments', $anchor);
@@ -124,7 +122,6 @@ if(!$permitted) {
 			$values['channel']['image'] = $context['url_to_home'].$context['url_to_root'].$context['powered_by_image'];
 
 		// list comments from the database -- 2000 is the limit set in Comments::purge_for_anchor()
-		include_once '../comments/comments.php';
 		if(is_object($anchor))
 			$values['items'] = Comments::list_by_date_for_anchor($anchor->get_reference(), 0, 2000, 'feeds');
 		else

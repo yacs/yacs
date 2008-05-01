@@ -33,9 +33,6 @@ Class Layout_articles_as_yahoo extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// load localized strings
-		i18n::bind('articles');
-
 		// the number of related items to display
 		if(!defined('YAHOO_LIST_SIZE'))
 			define('YAHOO_LIST_SIZE', 3);

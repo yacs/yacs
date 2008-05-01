@@ -28,9 +28,6 @@ Class Layout_decisions_as_feed extends Layout_interface {
 			return $output;
 		}
 
-		// load localized strings
-		i18n::bind('decisions');
-
 		// we return an array of ($url => $attributes)
 		$items = array();
 

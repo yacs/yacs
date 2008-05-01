@@ -54,9 +54,6 @@ elseif(isset($item['id']) && Surfer::is_creator($item['id']))
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('users');
-
 // load the skin
 load_skin('users');
 

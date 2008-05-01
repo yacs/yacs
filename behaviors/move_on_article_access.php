@@ -26,9 +26,6 @@ class Move_on_article_access extends Behavior {
 	function &add_commands($script, $anchor, $menu=array()) {
 		global $context;
 
-		// load localized strings
-		i18n::bind('behaviors');
-
 		// limit the scope of our check
 		if(($script != 'articles/view.php') && ($script != 'articles/view_as_thread.php'))
 			return $menu;
@@ -56,7 +53,7 @@ class Move_on_article_access extends Behavior {
 				$link = Articles::get_url(str_replace('article:', '', $anchor), 'move', str_replace('section:', '', $section->get_reference()));
 
 				// make a sub-menu
-				$menu = array_merge(array($link => array(NULL, $tokens[1], NULL, 'button')), $menu);
+				$menu = array_merge(array($link => array('', $tokens[1], '', 'button')), $menu);
 			}
 		}
 

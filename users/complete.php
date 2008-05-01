@@ -19,7 +19,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once 'users.php';
 
 // ensure browser always look for fresh data
 Safe::header("Cache-Control: no-cache, must-revalidate");
@@ -28,9 +27,6 @@ Safe::header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 // stop here on scripts/validate.php
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
-
-// load localized strings
-i18n::bind('users');
 
 // some input is mandatory
 if(!isset($_REQUEST['q']) || !$_REQUEST['q']) {

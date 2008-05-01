@@ -56,9 +56,6 @@ Class Layout_sections_as_freemind extends Layout_interface {
 		else
 			$differentiate = $fuse = TRUE;
 
-		// load localized strings
-		i18n::bind('sections');
-
 		// flag articles updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;

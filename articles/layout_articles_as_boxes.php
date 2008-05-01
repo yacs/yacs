@@ -36,9 +36,6 @@ Class Layout_articles_as_boxes extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
-		// load localized strings
-		i18n::bind('articles');
-
 		// process all items in the list
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		include_once $context['path_to_root'].'articles/article.php';

@@ -87,29 +87,29 @@ $context['navigation'] .= Skin::build_box(i18n::s('navigation'), Codes::beautify
 	.'[submenu='.i18n::s('Help').']help.php[/submenu] Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum.'), 'navigation');
 
 // $context['extra'] - a fake contextual menu
-$text = Skin::build_tree(array(array('#', NULL, i18n::s('menu').' 1', NULL, 'close'),
-	array('#', NULL, i18n::s('menu').' 2', NULL, 'open', NULL, NULL,
-		array(array('#', NULL, i18n::s('menu').' 2.1', NULL, 'close'),
-			array('#', NULL, i18n::s('menu').' 2.2', NULL, 'open', NULL, NULL,
-				array(array('#', NULL, i18n::s('menu').' 2.2.1', NULL, 'close'),
-					array('#', NULL, i18n::s('menu').' 2.2.2', NULL, 'open', NULL, NULL,
-						array(array('#', NULL, i18n::s('menu').' 2.2.2.1', NULL, 'close'),
-							array('#', NULL, i18n::s('menu').' 2.2.2.2', NULL, 'open', NULL, NULL,
-								array(array('#', NULL, i18n::s('menu').' 2.2.2.2.1', NULL, 'close'),
-								array('#', NULL, i18n::s('menu').' 2.2.2.2.2', NULL, 'close'),
-								array('#', NULL, i18n::s('menu').' 2.2.2.2.3', NULL, 'close'),
-								array('#', NULL, i18n::s('menu').' 2.2.2.2.4', NULL, 'close'),
-								array('#', NULL, i18n::s('menu').' 2.2.2.2.5', NULL, 'open'),
-								array('#', NULL, i18n::s('menu').' 2.2.2.2.6', NULL, 'close')
+$text = Skin::build_tree(array(array('#', '', i18n::s('menu').' 1', '', 'close'),
+	array('#', '', i18n::s('menu').' 2', '', 'open', '', '',
+		array(array('#', '', i18n::s('menu').' 2.1', '', 'close'),
+			array('#', '', i18n::s('menu').' 2.2', '', 'open', '', '',
+				array(array('#', '', i18n::s('menu').' 2.2.1', '', 'close'),
+					array('#', '', i18n::s('menu').' 2.2.2', '', 'open', '', '',
+						array(array('#', '', i18n::s('menu').' 2.2.2.1', '', 'close'),
+							array('#', '', i18n::s('menu').' 2.2.2.2', '', 'open', '', '',
+								array(array('#', '', i18n::s('menu').' 2.2.2.2.1', '', 'close'),
+								array('#', '', i18n::s('menu').' 2.2.2.2.2', '', 'close'),
+								array('#', '', i18n::s('menu').' 2.2.2.2.3', '', 'close'),
+								array('#', '', i18n::s('menu').' 2.2.2.2.4', '', 'close'),
+								array('#', '', i18n::s('menu').' 2.2.2.2.5', '', 'open'),
+								array('#', '', i18n::s('menu').' 2.2.2.2.6', '', 'close')
 								)),
-							array('#', NULL, i18n::s('menu').' 2.2.2.3', NULL, 'close')
+							array('#', '', i18n::s('menu').' 2.2.2.3', '', 'close')
 						)),
-					array('#', NULL, i18n::s('menu').' 2.2.3', NULL, 'close')
+					array('#', '', i18n::s('menu').' 2.2.3', '', 'close')
 				)),
-			array('#', NULL, i18n::s('menu').' 2.3', NULL, 'close')
+			array('#', '', i18n::s('menu').' 2.3', '', 'close')
 		)),
-	array('#', NULL, i18n::s('menu').' 3', NULL, 'close'),
-	array('#', NULL, i18n::s('menu').' 4', NULL, 'close')
+	array('#', '', i18n::s('menu').' 3', '', 'close'),
+	array('#', '', i18n::s('menu').' 4', '', 'close')
 	));
 $context['extra'] .= Skin::build_box(i18n::s('contextual menu'), $text, 'navigation', 'contextual_menu');
 
@@ -135,7 +135,7 @@ if(isset($skin) && Surfer::is_associate())
 	$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/edit.php?skin='.$skin => i18n::s('Edit this skin') ));
 
 // validate at w3c
-$context['page_menu'] = array_merge($context['page_menu'], array( 'http://validator.w3.org/check?uri=referer' => array(NULL, i18n::s('Validate at w3c'), NULL, 'external') ));
+$context['page_menu'] = array_merge($context['page_menu'], array( 'http://validator.w3.org/check?uri=referer' => array('', i18n::s('Validate at w3c'), '', 'external') ));
 
 // use this skin for the site
 if(isset($skin) && Surfer::is_associate())

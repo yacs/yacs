@@ -53,9 +53,6 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
-// load localized strings
-i18n::bind('codes');
-
 // load the skin
 load_skin('codes');
 

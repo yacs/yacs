@@ -44,9 +44,6 @@
 // the main library
 include_once '../shared/global.php';
 
-// load localized strings
-i18n::bind('articles');
-
 //
 // create the javascript that support bookmarklets
 //

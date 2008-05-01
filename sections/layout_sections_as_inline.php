@@ -31,9 +31,6 @@ Class Layout_sections_as_inline extends Layout_interface {
 			return $output;
 		}
 
-		// load localized strings
-		i18n::bind('sections');
-
 		// the maximum number of items per section
 		if(!defined('MAXIMUM_ITEMS_PER_SECTION'))
 			define('MAXIMUM_ITEMS_PER_SECTION', 50);

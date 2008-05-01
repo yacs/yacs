@@ -51,9 +51,6 @@ if($anchor && !strpos($anchor, ':'))
 if($anchor)
 	$anchor = Anchors::get($anchor);
 
-// load localized strings
-i18n::bind('users');
-
 // required to format the roster
 load_skin('users');
 

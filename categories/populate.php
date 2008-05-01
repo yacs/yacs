@@ -32,9 +32,6 @@ Cache::clear('categories');
 // this page is dedicated to categories
 include_once $context['path_to_root'].'categories/categories.php';
 
-// load localized strings
-i18n::bind('categories');
-
 $text = '';
 
 // 'featured' category

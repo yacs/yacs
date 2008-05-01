@@ -62,9 +62,6 @@ elseif(is_object($anchor) && $anchor->is_viewable())
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('versions');
-
 // load the skin, maybe with a variant
 load_skin('versions', $anchor);
 
@@ -149,7 +146,7 @@ if(!is_object($anchor)) {
 			// we have an array to format
 			if(@count($items)) {
 				$suffix = ' '.sprintf(i18n::s('%s by %s %s'), get_action_label($anchor->get_value('edit_action')), ucfirst($anchor->get_value('edit_name')), Skin::build_date($anchor->get_value('edit_date')));
-				$items = array_merge(array($anchor->get_url() => array(NULL, i18n::s('Current version'), $suffix, 'basic')), $items);
+				$items = array_merge(array($anchor->get_url() => array('', i18n::s('Current version'), $suffix, 'basic')), $items);
 				$box['text'] .= Skin::build_list($items, 'decorated');
 			}
 

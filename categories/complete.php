@@ -29,9 +29,6 @@ Safe::header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
 
-// load localized strings
-i18n::bind('categories');
-
 // load the skin, maybe with a variant
 load_skin('categories');
 

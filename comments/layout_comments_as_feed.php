@@ -28,9 +28,6 @@ Class Layout_comments_as_feed extends Layout_interface {
 			return $output;
 		}
 
-		// load localized strings
-		i18n::bind('comments');
-
 		// we return an array of ($url => $attributes)
 		$items = array();
 

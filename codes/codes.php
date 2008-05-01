@@ -2104,7 +2104,7 @@ Class Codes {
 				include_once $context['path_to_root'].'/links/links.php';
 				$attributes = Links::transform_reference($image['link_url']);
 				if($attributes[0])
-					$link = $attributes[0];
+					$link = $context['url_to_root'].$attributes[0];
 
 				// direct use of this link
 				else
@@ -2182,7 +2182,7 @@ Class Codes {
 						include_once $context['path_to_root'].'/links/links.php';
 						$attributes = Links::transform_reference($image['link_url']);
 						if($attributes[0])
-							$link = $attributes[0];
+							$link = $context['url_to_root'].$attributes[0];
 
 						// direct use of this link
 						else
@@ -2207,7 +2207,7 @@ Class Codes {
 					$label =& Skin::build_image($variant, $href, $title, $link);
 
 					// add item to the stack
-					$items[ $href ]  = array(NULL, $label, NULL, 'image', NULL);
+					$items[ $href ]  = array('', $label, '', 'image', NULL);
 
 				}
 
@@ -3045,7 +3045,8 @@ Class Codes {
 	}
 }
 
-// ensure this library has been fully localized
-i18n::bind('codes');
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('codes');
 
 ?>

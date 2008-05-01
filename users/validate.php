@@ -36,9 +36,6 @@ $id = strip_tags($id);
 // get the item from the database
 $item =& Users::get($id);
 
-// load localized strings
-i18n::bind('users');
-
 // load the skin
 load_skin('users');
 

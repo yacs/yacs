@@ -14,9 +14,6 @@
 include_once '../shared/global.php';
 include_once 'tables.php';
 
-// load localized strings
-i18n::bind('tables');
-
 // load the skin
 load_skin('tables');
 

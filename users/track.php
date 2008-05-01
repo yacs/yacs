@@ -37,9 +37,6 @@ $anchor = Anchors::get($track);
 if(is_object($anchor))
 	$item = $anchor->item;
 
-// load localized strings
-i18n::bind('users');
-
 // load the skin
 load_skin('users');
 

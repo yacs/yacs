@@ -101,9 +101,6 @@ $anchor = strip_tags($anchor);
 if($anchor)
 	$anchor = Anchors::get($anchor);
 
-// load localized strings
-i18n::bind('links');
-
 // load the skin, maybe with a variant
 load_skin('links', $anchor);
 

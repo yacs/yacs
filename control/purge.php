@@ -8,33 +8,38 @@
  *
  * At the moment following items can be purged:
  *
- * [*] cache - All cached components are suppressed from the database.
- * May be useful to make room in the database by suppressing old and unused components.
- * If activated, the cache will be populated again based on actual requests.
- *
- * [*] .bak scripts - Suppress old versions of scripts that have been replaced during updates.
- * Useful to recover some space for files, at least until the next update.
- *
- * [*] reference - All reference scripts are suppressed from the file system. Related phpDoc pages
- * are suppressed from the database. Useful to save space on slave servers.
- * The reference repository and the phpDoc pages can be built again from the index page of scripts.
- *
- * [*] agents - All data concerning user agents and browsers are deleted.
+ * [*] 'agents' - All data concerning user agents and browsers are deleted.
  * May be useful from time to time to restart a sampling period of time.
  *
- * [*] referrals - All referring links are deleted.
+ * [*] 'bak' - Suppress old versions of scripts that have been replaced
+ * during updates. Useful to recover disk space, at least until the next update.
+ *
+ * [*] 'cache' - All cached components are suppressed from the database. Make room
+ * in the database by suppressing old and unused components. If activated, the
+ * cache will be populated again based on actual requests.
+ *
+ * [*] 'debug' - Kill the file temporary/debug.txt
+ *
+ * [*] 'log' - Kill the file temporary/log.txt
+ *
+ * [*] 'overhead' - Recover lost disk space of the database
+ *
+ * [*] 'reference' - All reference scripts are suppressed from the file system.
+ * Related phpDoc pages are suppressed from the database. This is useful to save
+ * space on slave servers. The reference repository and the phpDoc pages can be
+ * built again from the index page of scripts.
+ *
+ * [*] 'referrals' - All referring links are deleted.
  * May be useful from time to time in case of spamming.
  *
- * [*] scripts - All data concerning script execution and performance are deleted.
+ * [*] 'scripts' - All data concerning script execution and performance are deleted.
+ *
  * Of course, scripts thmselves are left untouched.
  * May be useful from time to time to restart a sampling period of time.
  *
- * [*] debug - Kill the file temporary/debug.txt
- *
- * [*] log - Kill the file temporary/log.txt
- *
- * Note that if you want to purge some obsoleted file, you should create a script to be run once,
- * and to add it to your release. See [script]scripts/run_once.php[/script] for more information.
+ * Note that if you want to purge some obsoleted file, you should create a
+ * script to be run once, and to add it to your release.
+ * See [script]scripts/run_once.php[/script] for more information.
  *
  * @see scripts/run_once.php
  *
@@ -156,6 +161,45 @@ if(!Surfer::is_associate()) {
 	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
+// delete agents data
+} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'agents')) {
+
+	$context['text'] .= '<p>'.i18n::s('Deleting agents data...')."</p>\n";
+
+	// suppress records
+	$query = "DELETE FROM ".SQL::table_name('counters');
+	if(SQL::query($query) === FALSE)
+		$context['text'] .= Skin::error_pop().BR."\n";
+
+	// display the execution time
+	$time_end = get_micro_time();
+	$time = round($time_end - $context['start_time'], 2);
+	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
+
+	// forward to the control panel
+	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
+	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
+// purge old scripts
+} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'bak')) {
+
+	$context['text'] .= '<p>'.i18n::s('Deleting previous versions of scripts...')."</p>\n";
+	delete_backup('/');
+
+	// ending message
+	global $deleted_nodes;
+	if($deleted_nodes > 1)
+		$context['text'] .= sprintf(i18n::s('%d files have been deleted'), $deleted_nodes).BR."\n";
+
+	// display the execution time
+	$time_end = get_micro_time();
+	$time = round($time_end - $context['start_time'], 2);
+	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
+
+	// forward to the control panel
+	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
+	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
 // purge the cache
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'cache')) {
 
@@ -177,16 +221,47 @@ if(!Surfer::is_associate()) {
 	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
-// purge old scripts
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'bak')) {
+// delete debug data
+} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'debug')) {
 
-	$context['text'] .= '<p>'.i18n::s('Deleting previous versions of scripts...')."</p>\n";
-	delete_backup('/');
+	$context['text'] .= '<p>'.i18n::s('Deleting debug data...')."</p>\n";
 
-	// ending message
-	global $deleted_nodes;
-	if($deleted_nodes > 1)
-		$context['text'] .= sprintf(i18n::s('%d files have been deleted'), $deleted_nodes).BR."\n";
+	// suppress temporary/debug.txt
+	Safe::unlink($context['path_to_root'].'temporary/debug.txt');
+
+	// display the execution time
+	$time_end = get_micro_time();
+	$time = round($time_end - $context['start_time'], 2);
+	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
+
+	// forward to the control panel
+	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
+	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
+// delete log data
+} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'log')) {
+
+	$context['text'] .= '<p>'.i18n::s('Deleting log data...')."</p>\n";
+
+	// suppress temporary/debug.txt
+	Safe::unlink($context['path_to_root'].'temporary/log.txt');
+
+	// display the execution time
+	$time_end = get_micro_time();
+	$time = round($time_end - $context['start_time'], 2);
+	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
+
+	// forward to the control panel
+	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
+	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
+// delete log data
+} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'overhead')) {
+
+	$context['text'] .= '<p>'.i18n::s('Recovering overhead space from the database...')."</p>\n";
+
+	// purge the database
+	SQL::purge();
 
 	// display the execution time
 	$time_end = get_micro_time();
@@ -222,25 +297,6 @@ if(!Surfer::is_associate()) {
 	global $deleted_nodes;
 	if($deleted_nodes > 1)
 		$context['text'] .= sprintf(i18n::s('%d files have been deleted'), $deleted_nodes).BR."\n";
-
-	// display the execution time
-	$time_end = get_micro_time();
-	$time = round($time_end - $context['start_time'], 2);
-	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
-
-	// forward to the control panel
-	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
-	$context['text'] .= Skin::build_list($menu, 'menu_bar');
-
-// delete agents data
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'agents')) {
-
-	$context['text'] .= '<p>'.i18n::s('Deleting agents data...')."</p>\n";
-
-	// suppress records
-	$query = "DELETE FROM ".SQL::table_name('counters');
-	if(SQL::query($query) === FALSE)
-		$context['text'] .= Skin::error_pop().BR."\n";
 
 	// display the execution time
 	$time_end = get_micro_time();
@@ -289,40 +345,6 @@ if(!Surfer::is_associate()) {
 	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
-// delete debug data
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'debug')) {
-
-	$context['text'] .= '<p>'.i18n::s('Deleting debug data...')."</p>\n";
-
-	// suppress temporary/debug.txt
-	Safe::unlink($context['path_to_root'].'temporary/debug.txt');
-
-	// display the execution time
-	$time_end = get_micro_time();
-	$time = round($time_end - $context['start_time'], 2);
-	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
-
-	// forward to the control panel
-	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
-	$context['text'] .= Skin::build_list($menu, 'menu_bar');
-
-// delete log data
-} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'log')) {
-
-	$context['text'] .= '<p>'.i18n::s('Deleting log data...')."</p>\n";
-
-	// suppress temporary/debug.txt
-	Safe::unlink($context['path_to_root'].'temporary/log.txt');
-
-	// display the execution time
-	$time_end = get_micro_time();
-	$time = round($time_end - $context['start_time'], 2);
-	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
-
-	// forward to the control panel
-	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
-	$context['text'] .= Skin::build_list($menu, 'menu_bar');
-
 // which check?
 } else {
 
@@ -337,6 +359,9 @@ if(!Surfer::is_associate()) {
 
 	// purge .bak scripts
 	$context['text'] .= '<p><input type="radio" name="action" value="bak" /> '.i18n::s('Purge previous versions of scripts. Delete all files with the suffix .php.bak').'</p>';
+
+	// recover overhead from the database
+	$context['text'] .= '<p><input type="radio" name="action" value="overhead" /> '.i18n::s('Recover overhead disk space from the database.').'</p>';
 
 	// purge reference scripts
 	if(file_exists($context['path_to_root'].'scripts/reference/footprints.php'))

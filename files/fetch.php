@@ -60,6 +60,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'files.php';
 
 // look for the id
 $id = NULL;
@@ -78,7 +79,6 @@ elseif(isset($context['arguments'][1]))
 $action = strip_tags($action);
 
 // get the item from the database
-include_once 'files.php';
 $item =& Files::get($id);
 
 // get the related anchor, if any
@@ -119,9 +119,6 @@ elseif(($item['active'] == 'Y') || ($item['active'] == 'X'))
 // the default is to disallow access
 else
 	$permitted = FALSE;
-
-// load localized strings
-i18n::bind('files');
 
 // load the skin, maybe with a variant
 load_skin('files', $anchor);

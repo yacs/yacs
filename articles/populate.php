@@ -52,9 +52,6 @@ if(!defined('YACS')) {
 	// include global declarations
 	include_once '../shared/global.php';
 
-	// load localized strings
-	i18n::bind('articles');
-
 	// load the skin
 	load_skin('articles');
 
@@ -68,9 +65,7 @@ if(!defined('YACS')) {
 	if(!Surfer::is_associate())
 		exit('You are not allowed to perform this operation.');
 
-// load localized strings
-} else
-	i18n::bind('articles');
+}
 
 // start to create some new pages
 $text = '';

@@ -14,9 +14,6 @@
 include_once '../shared/global.php';
 include_once 'comments.php';
 
-// load localized strings
-i18n::bind('comments');
-
 // load the skin
 load_skin('comments');
 

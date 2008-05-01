@@ -25,9 +25,6 @@ class Agree_on_file_access extends Behavior {
 	function allow($script, $anchor = NULL) {
 		global $context;
 
-		// load localized strings
-		i18n::bind('behaviors');
-
 		// limit the scope of our check
 		if(($script != 'files/view.php') && ($script != 'files/fetch.php') && ($script != 'files/fetch_all.php') && ($script != 'files/stream.php'))
 			return TRUE;

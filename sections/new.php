@@ -33,9 +33,6 @@ include_once '../shared/global.php';
 if(!isset($context['users_maximum_managed_sections']))
 	$context['users_maximum_managed_sections'] = 0;
 
-// load localized strings
-i18n::bind('sections');
-
 // load the skin before assessing permissions
 load_skin('sections');
 
@@ -298,6 +295,23 @@ if($with_form) {
 
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', 'YACS codes', 'help'), Skin::build_link('smileys/', 'smileys', 'help')).'</p>';
+
+ 	// change to another editor
+	$help .= '<form><p><select name="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
+	$selected = '';
+	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
+	$help .= '</select></p></form>';
+
 	if(Surfer::is_associate())
 		$help .= '<p>'.sprintf(i18n::s('Use the %s if you are lost.'), Skin::build_link('control/populate.php', 'Content Assistant', 'shortcut')).'</p>'."\n";
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');

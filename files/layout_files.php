@@ -37,9 +37,6 @@ Class Layout_files extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
-		// load localized strings
-		i18n::bind('files');
-
 		// flag files updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;

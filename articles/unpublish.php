@@ -43,9 +43,6 @@ $anchor = NULL;
 if(isset($item['anchor']))
 	$anchor = Anchors::get($item['anchor']);
 
-// load localized strings
-i18n::bind('articles');
-
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 

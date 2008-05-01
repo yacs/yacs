@@ -148,9 +148,6 @@ if($credentials && ($credentials = base64_decode($credentials))) {
 
 }
 
-// load localized strings
-i18n::bind('users');
-
 // load the skin
 load_skin('users');
 

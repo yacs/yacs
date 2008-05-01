@@ -16,6 +16,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'categories.php';
 
 // look for the id
 $id = NULL;
@@ -36,14 +37,10 @@ elseif(isset($_REQUEST['anchor']))
 $anchor = strip_tags($anchor);
 
 // get the item from the database
-include_once 'categories.php';
 $item =& Categories::get($id);
 
 // get the anchor as well
 $anchor = Anchors::get($anchor);
-
-// load localized strings
-i18n::bind('categories');
 
 // load the skin
 load_skin('categories');

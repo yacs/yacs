@@ -166,9 +166,6 @@ if(isset($_SERVER['CONTENT_TYPE']) && ($_SERVER['CONTENT_TYPE'] == 'text/xml')) 
 		$source = strip_tags($_REQUEST['email']);
 }
 
-// load localized strings
-i18n::bind('comments');
-
 // load the skin, maybe with a variant
 load_skin('comments', $anchor);
 

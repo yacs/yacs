@@ -33,6 +33,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'comments.php';
 
 // look for the id
 $id = NULL;
@@ -43,7 +44,6 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-include_once 'comments.php';
 $item =& Comments::get($id);
 
 // get the related anchor, if any
@@ -56,9 +56,6 @@ if(!is_object($anchor) || $anchor->is_viewable())
 	$permitted = TRUE;
 else
 	$permitted = FALSE;
-
-// load localized strings
-i18n::bind('comments');
 
 // load the skin, maybe with a variant
 load_skin('comments', $anchor);
@@ -216,12 +213,12 @@ if(!isset($item['id'])) {
 
 		// allow posters to change their own comments
 		if($item['create_id'] == Surfer::get_id())
-			$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), i18n::s('Edit'), 'button' );
+			$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), i18n::s('Edit'), 'span' );
 
 		// allow surfers to react to contributions from other people
 		else {
 			Skin::define_img('NEW_COMMENT_IMG', $context['skin'].'/icons/comments/new.gif');
-			$menu[] = Skin::build_link(Comments::get_url($item['id'], 'reply'), NEW_COMMENT_IMG.' '.i18n::s('React to this post'), 'basic');
+			$menu[] = Skin::build_link(Comments::get_url($item['id'], 'reply'), NEW_COMMENT_IMG.' '.i18n::s('React to this post'), 'span');
 		}
 	}
 

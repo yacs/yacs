@@ -206,9 +206,6 @@ else
 // do not always show the edition form
 $with_form = FALSE;
 
-// load localized strings
-i18n::bind('articles');
-
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
@@ -798,7 +795,7 @@ if($with_form) {
 			.'<li><a onclick="javascript:append_to_options(\'no_comments\')" style="cursor: pointer;">no_comments</a> - '.i18n::s('Prevent the addition of comments').'</li>'
 			.'<li><a onclick="javascript:append_to_options(\'view_as_thread\')" style="cursor: pointer;">view_as_thread</a> - '.i18n::s('Real-time collaboration').'</li>'
 			.'<li><a onclick="javascript:append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels').'</li>'
-			.'<li>view_as_foo_bar - '.i18n::s('Branch out to articles/view_as_foo_bar.php').'</li>'
+			.'<li>view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'articles/view_as_foo_bar.php').'</li>'
 			.'<li>skin_foo_bar - '.i18n::s('Apply a specific skin (in skins/foo_bar) here').'</li>'
 			.'<li>variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular skin template').'</li></ul>';
 		$fields[] = array($label, $input, $hint);
@@ -1174,6 +1171,22 @@ if($with_form) {
 
  	// locate mandatory fields
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
+
+ 	// change to another editor
+	$help .= '<form><p><select name="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
+	$selected = '';
+	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
+	$help .= '</select></p></form>';
 
 	// drive associates to the Content Assistant
 	if(Surfer::is_associate())

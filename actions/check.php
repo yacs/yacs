@@ -13,9 +13,6 @@
 include_once '../shared/global.php';
 include_once 'actions.php';
 
-// load localized strings
-i18n::bind('actions');
-
 // load the skin
 load_skin('actions');
 

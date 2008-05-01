@@ -271,8 +271,15 @@ $has_versions = FALSE;
 if(isset($item['id']) && !$zoom_type && Surfer::is_empowered() && Surfer::is_logged() && Versions::count_for_anchor('section:'.$item['id']))
 	$has_versions = TRUE;
 
-// load localized strings
-i18n::bind('sections');
+// use a specific script to render the article in replacement of the standard one --also protect from hackers
+if(isset($item['options']) && preg_match('/\bview_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
+	include $matches[0].'.php';
+	return;
+} elseif(is_object($anchor) && ($viewer = $anchor->has_option('view_as')) && is_readable('view_as_'.$viewer.'.php')) {
+	$name = 'view_as_'.$viewer.'.php';
+	include $name;
+	return;
+}
 
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -315,7 +322,7 @@ if(isset($item['id']) && !$zoom_type && $permitted && Surfer::is_logged()) {
 		$label = i18n::s('Watch');
 
 	Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( $link => array(NULL, WATCH_TOOL_IMG.$label, NULL, 'basic', NULL, i18n::s('Manage your watch list'))));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $link => array('', WATCH_TOOL_IMG.$label, '', 'basic', '', i18n::s('Manage your watch list'))));
 }
 
 // the command to post a new page
@@ -331,7 +338,7 @@ if(isset($item['id']) && !$zoom_type && $permitted && Articles::are_allowed($anc
 		$label = i18n::s('Add a page');
 
 	Skin::define_img('NEW_ARTICLE_IMG', $context['skin'].'/icons/articles/new.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( $url => array(NULL, NEW_ARTICLE_IMG.$label, NULL, 'basic', NULL, i18n::s('Add new content to this section')) ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $url => array('', NEW_ARTICLE_IMG.$label, '', 'basic', '', i18n::s('Add new content to this section')) ));
 
 }
 
@@ -341,7 +348,7 @@ if(isset($item['id']) && !$zoom_type && $permitted && (!isset($item['content_ove
 	$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;variant=poll';
 	$label = i18n::s('Add a poll');
 	Skin::define_img('POLL_IMG', $context['skin'].'/icons/articles/poll.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( $url => array(NULL, POLL_IMG.$label, NULL, 'basic', NULL, i18n::s('Add new content to this section')) ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $url => array('', POLL_IMG.$label, '', 'basic', '', i18n::s('Add new content to this section')) ));
 }
 
 // associates can create a sub-section, if sub sections are allowed
@@ -350,7 +357,7 @@ if(isset($item['id']) && !$zoom_type && $permitted
 	&& Surfer::is_empowered()) {
 
 	Skin::define_img('NEW_SECTION_IMG', $context['skin'].'/icons/sections/new.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'sections/edit.php?anchor='.urlencode('section:'.$item['id']) => array(NULL, NEW_SECTION_IMG.i18n::s('Add a section'), NULL, 'basic', NULL, i18n::s('Add a section')) ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( 'sections/edit.php?anchor='.urlencode('section:'.$item['id']) => array('', NEW_SECTION_IMG.i18n::s('Add a section'), '', 'basic', '', i18n::s('Add a section')) ));
 
 }
 
@@ -359,12 +366,12 @@ if(isset($item['id']) && !$zoom_type && Surfer::is_empowered()) {
 
 	// modify this page
 	Skin::define_img('EDIT_SECTION_IMG', $context['skin'].'/icons/sections/edit.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url($item['id'], 'edit') => array(NULL, EDIT_SECTION_IMG.i18n::s('Edit'), NULL, 'basic', NULL, i18n::s('Update the content of this page')) ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url($item['id'], 'edit') => array('', EDIT_SECTION_IMG.i18n::s('Edit'), '', 'basic', '', i18n::s('Update the content of this page')) ));
 
 	// access previous versions, if any
 	if($has_versions && Surfer::is_logged()) {
 		Skin::define_img('HISTORY_TOOL_IMG', $context['skin'].'/icons/tools/history.gif');
-		$context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url('section:'.$item['id'], 'list') => array(NULL, HISTORY_TOOL_IMG.i18n::s('History'), NULL, 'basic', NULL, i18n::s('Previous versions of this page')) ));
+		$context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url('section:'.$item['id'], 'list') => array('', HISTORY_TOOL_IMG.i18n::s('History'), '', 'basic', '', i18n::s('Previous versions of this page')) ));
 	}
 
 	// post an image
@@ -399,7 +406,7 @@ if(isset($item['id']) && !$zoom_type && $permitted && Links::are_allowed($anchor
 // print
 if(isset($item['id']) && !$zoom_type && $permitted && Surfer::is_logged()) {
 	Skin::define_img('PRINT_TOOL_IMG', $context['skin'].'/icons/tools/print.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url($item['id'], 'print') => array(NULL, PRINT_TOOL_IMG.i18n::s('Print'), NULL, 'basic', NULL, i18n::s('Get a paper copy of this page.')) ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url($item['id'], 'print') => array('', PRINT_TOOL_IMG.i18n::s('Print'), '', 'basic', '', i18n::s('Get a paper copy of this page.')) ));
 }
 
 // not found -- help web crawlers
@@ -585,9 +592,6 @@ if(!isset($item['id'])) {
 			// at the parent index page
 			if($item['anchor']) {
 
-				if(isset($item['index_map']) && ($item['index_map'] == 'N'))
-					$details[] = i18n::s('Is listed with special sections, only to associates and editors.');
-
 				if(isset($item['index_panel']) && ($item['index_panel'] == 'extra'))
 					$details[] = i18n::s('Is displayed at the parent section page among other extra boxes.');
 				elseif(isset($item['index_panel']) && ($item['index_panel'] == 'extra_boxes'))
@@ -602,8 +606,6 @@ if(!isset($item['id'])) {
 					$details[] = i18n::s('Article thumbnails are displayed at the top of the parent section page.');
 				elseif(isset($item['index_panel']) && ($item['index_panel'] == 'news'))
 					$details[] = i18n::s('Articles are listed at the parent section page, in the area reserved to flashy news.');
-				elseif(isset($item['index_panel']) && ($item['index_panel'] == 'main'))
-					$details[] = i18n::s('Articles posted here are displayed at the parent section page.');
 
 			// at the site map
 			} else {
@@ -630,8 +632,6 @@ if(!isset($item['id'])) {
 				$details[] = i18n::s('Article thumbnails are displayed at the top of the front page.');
 			elseif(isset($item['home_panel']) && ($item['home_panel'] == 'news'))
 				$details[] = i18n::s('Articles are listed at the front page, in the area reserved to recent news.');
-			elseif(isset($item['home_panel']) && ($item['home_panel'] == 'main'))
-				$details[] = i18n::s('Articles posted here are displayed at the front page');
 		}
 
 		// signal sections to be activated
@@ -754,7 +754,7 @@ if(!isset($item['id'])) {
 					$link = Users::get_url('article:'.$item['id'], 'track');
 
 					Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
-					$bottom_menu = array_merge($bottom_menu, array($link => array(NULL, WATCH_TOOL_IMG.i18n::s('Watch'), NULL, 'basic', NULL, i18n::s('Manage your watch list')) ));
+					$bottom_menu = array_merge($bottom_menu, array($link => array('', WATCH_TOOL_IMG.i18n::s('Watch'), '', 'basic', '', i18n::s('Manage your watch list')) ));
 				}
 
 				// add explicit modification commands, if allowed to do so
@@ -762,7 +762,7 @@ if(!isset($item['id'])) {
 
 					// change this page
 					Skin::define_img('EDIT_SECTION_IMG', $context['skin'].'/icons/sections/edit.gif');
-					$bottom_menu = array_merge($bottom_menu, array( Sections::get_url($item['id'], 'edit') => array(NULL, EDIT_SECTION_IMG.i18n::s('Edit'), NULL, 'basic', i18n::s('Update the content of this page')) ));
+					$bottom_menu = array_merge($bottom_menu, array( Sections::get_url($item['id'], 'edit') => array('', EDIT_SECTION_IMG.i18n::s('Edit'), '', 'basic', i18n::s('Update the content of this page')) ));
 
 				}
 
@@ -809,7 +809,7 @@ if(!isset($item['id'])) {
 						foreach($related as $url => $label) {
 							if(is_array($label))
 								$label = $label[0].' '.$label[1];
-							$box['list'] = array_merge($box['list'], array($url => array(NULL, $label, NULL, 'basic')));
+							$box['list'] = array_merge($box['list'], array($url => array('', $label, '', 'basic')));
 						}
 					}
 
@@ -1417,7 +1417,7 @@ if(!isset($item['id'])) {
 
 			// new comments are allowed -- check option 'with_comments'
 			if(Comments::are_allowed($anchor, $item, TRUE))
-				$box['bar'] = array_merge($box['bar'], array( Comments::get_url('section:'.$item['id'], 'comment') => array(NULL, COMMENT_TOOL_IMG.i18n::s('Add a comment'), NULL, 'basic', NULL, i18n::s('Express yourself, and say what you think.'))));
+				$box['bar'] = array_merge($box['bar'], array( Comments::get_url('section:'.$item['id'], 'comment') => array('', COMMENT_TOOL_IMG.i18n::s('Add a comment'), '', 'basic', '', i18n::s('Express yourself, and say what you think.'))));
 
 			// build a box
 			if($box['text']) {
@@ -1574,10 +1574,6 @@ if(!isset($item['id'])) {
 		// add trailer information from this item, if any
 		if(isset($item['trailer']) && trim($item['trailer']))
 			$text .= Codes::beautify($item['trailer']);
-
-		// insert anchor suffix
-		if(is_object($anchor))
-			$text .= $anchor->get_suffix();
 
 		//
 		// save in cache

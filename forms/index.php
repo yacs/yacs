@@ -24,9 +24,6 @@ elseif(isset($context['arguments'][0]))
 	$page = $context['arguments'][0];
 $page = strip_tags($page);
 
-// load localized strings
-i18n::bind('forms');
-
 // load the skin
 load_skin('forms');
 

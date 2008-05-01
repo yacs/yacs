@@ -71,9 +71,6 @@ Class File extends Anchor {
 		if(!isset($this->item['id']))
 			return NULL;
 
-		// load localized strings
-		i18n::bind('files');
-
 		// initialize components
 		$previous_url = $previous_label = $next_url = $next_label = $option_url = $option_label ='';
 

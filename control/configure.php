@@ -394,7 +394,7 @@ if(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="with_cron" value="Y"';
 	if(isset($context['with_cron']) && ($context['with_cron'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('The server launches cron.php on its own').' (see sample '.Skin::build_link('tools/yacs_crontab', 'yacs_crontab', 'help').')';
+	$input .= EOT.' '.i18n::s('The server launches cron.php on its own').' ('.sprintf(i18n::s('see sample %s'), Skin::build_link('tools/yacs_crontab', 'yacs_crontab', 'help')).')';
 	$fields[] = array($label, $input);
 
 	// file_mask and directory_mask

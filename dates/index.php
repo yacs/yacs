@@ -38,9 +38,6 @@
 include_once '../shared/global.php';
 include_once 'dates.php';
 
-// load localized strings
-i18n::bind('dates');
-
 // load the skin
 load_skin('dates');
 

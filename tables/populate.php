@@ -30,9 +30,6 @@ defined('YACS') or exit('Script must be included');
 
 include_once $context['path_to_root'].'tables/tables.php';
 
-// load localized strings
-i18n::bind('tables');
-
 // clear the cache for tables
 Cache::clear('tables');
 

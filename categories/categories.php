@@ -724,7 +724,7 @@ Class Categories {
 			return 'categories/select.php?anchor='.urlencode($id);
 
 		// check the target action
-		if(!preg_match('/^(delete|describe|edit|feed|print|view)$/', $action))
+		if(!preg_match('/^(delete|describe|edit|feed|mail|print|view)$/', $action))
 			$action = 'view';
 
 		// normalize the link
@@ -1896,7 +1896,8 @@ Class Categories {
 
 }
 
-// ensure this library has been fully localized
-i18n::bind('categories');
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('categories');
 
 ?>

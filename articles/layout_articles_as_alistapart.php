@@ -41,9 +41,6 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// load localized strings
-		i18n::bind('articles');
-
 		// current time
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 

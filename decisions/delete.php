@@ -22,6 +22,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'decisions.php';
 
 // look for the id
 $id = NULL;
@@ -32,7 +33,6 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-include_once 'decisions.php';
 $item =& Decisions::get($id);
 
 // get the related anchor, if any
@@ -47,9 +47,6 @@ if(Surfer::is_associate())
 // the default is to deny access
 else
 	$permitted = FALSE;
-
-// load localized strings
-i18n::bind('decisions');
 
 // load the skin, maybe with a variant
 load_skin('decisions', $anchor);

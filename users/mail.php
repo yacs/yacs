@@ -2,8 +2,6 @@
 /**
  * mail a message to a user
  *
- * Senders can select to get a copy of messages.
- *
  * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
  *
  * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
@@ -75,9 +73,6 @@ elseif(isset($item['active']) && (($item['active'] == 'R') || ($item['active'] =
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('users');
-
 // load the skin
 load_skin('users');
 
@@ -89,10 +84,6 @@ if(isset($item['nick_name']))
 	$context['page_title'] .= sprintf(i18n::s('Mail to %s'), $item['nick_name']);
 else
 	$context['page_title'] .= i18n::s('Send a message');
-
-// command to go back
-if(isset($item['id']))
-	$context['page_menu'] = array( Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:'') => sprintf(i18n::s('Back to the page of %s'), $item['nick_name']) );
 
 // not found
 if(!isset($item['id'])) {
@@ -232,7 +223,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		$name .= ' &lt;'.$item['email'].'&gt;';
 
 	// header
-	$context['text'] .= '<p>'.sprintf(i18n::s('You are sending a message to %s'), $name).'</p>'."\n";
+	$context['text'] .= '<p>'.i18n::s('You are sending a message to:').' '.$name.'</p>'."\n";
 
 	// the form to send a message
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
@@ -254,10 +245,22 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 	// get a copy of the sent message
 	if(Surfer::is_logged())
-		$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Email a copy of this message to your own address').'</p>';
+		$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.').'</p>';
+
+	//
+	// bottom commands
+	//
+	$menu = array();
 
 	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Send'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+	$menu[] = Skin::build_submit_button(i18n::s('Send'), i18n::s('Press [s] to submit data'), 's');
+
+	// cancel button
+	if(isset($item['id']))
+		$menu[] = Skin::build_link(Users::get_url($item['id'], 'view', $item['nick_name'], $item['full_name']), i18n::s('Cancel'), 'span');
+
+	// insert the menu in the page
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// transmit the id as a hidden field
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';

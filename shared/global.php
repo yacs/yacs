@@ -164,7 +164,7 @@ $context['text'] = '';
 $context['users_allowed_tags']	= '<a><abbr><acronym><b><big><br><code><dd><del><dfn><dl><dt><em><i><img><ins><li><ol><p><q><small><span><strong><sub><sup><tt><u><ul>';
 
 // default editor -- see users/configure.php
-$context['users_default_editor'] = 'yacs';
+$context['users_default_editor'] = 'tinymce';
 
 // path to files and images, for supported virtual hosts --see files/edit.php and images/edit.php
 $context['virtual_path'] = '';
@@ -652,9 +652,6 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 		$context['skin'] = 'skins/'.$matches[1];
 	elseif(is_object($anchor) && ($skin = $anchor->has_option('skin')) && is_string($skin))
 		$context['skin'] = 'skins/'.$skin;
-
-	// load localized strings
-	i18n::bind('skins');
 
 	// load skins parameters, if any
 	Safe::load('parameters/skins.include.php');
@@ -1166,7 +1163,8 @@ function render_skin($stamp=0) {
 	}
 
 	// track surfer presence
-	Surfer::click();
+	if(is_callable(array('Surfer', 'click')))
+		Surfer::click();
 
 	// profiling mode
 	if($context['with_profile'] == 'Y')

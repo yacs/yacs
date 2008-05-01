@@ -24,6 +24,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'tables.php';
 
 // look for the id
 $id = NULL;
@@ -38,7 +39,6 @@ if(isset($_SERVER['HTTP_ACCEPT_CHARSET']) && preg_match('/^iso-8859-1/i', $_SERV
 	$id = utf8_encode($id);
 
 // get the item from the database
-include_once 'tables.php';
 $item =& Tables::get($id);
 
 // get the related anchor
@@ -51,9 +51,6 @@ if(!is_object($anchor) || $anchor->is_viewable())
 	$permitted = TRUE;
 else
 	$permitted = FALSE;
-
-// load localized strings
-i18n::bind('tables');
 
 // load the skin, maybe with a variant
 load_skin('tables', $anchor);

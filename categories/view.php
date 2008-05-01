@@ -5,12 +5,12 @@
  * The main panel has following elements:
  * - The category itself, with details, introduction, and main text.
  * - The list of sub-categories
- * - The list of related users
  * - The list of related sections
  * - The list of related articles
  * - The list of related files
  * - The list of comments
  * - The list of related links
+ * - The list of related users
  *
  * The extra panel has following elements:
  * - A bookmarklet to post bookmarks at this category
@@ -62,6 +62,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'categories.php';
 include_once '../comments/comments.php';
 include_once '../files/files.php';
 include_once '../links/links.php';
@@ -114,7 +115,6 @@ elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 }
 
 // get the item from the database
-include_once 'categories.php';
 $item =& Categories::get($id);
 
 // get the related anchor, if any
@@ -149,9 +149,6 @@ elseif($item['active'] == 'Y')
 // the default is to disallow access
 else
 	$permitted = FALSE;
-
-// load localized strings
-i18n::bind('categories');
 
 // load the skin, maybe with a variant
 load_skin('categories', $anchor, isset($item['options']) ? $item['options'] : '');
@@ -438,55 +435,6 @@ if(!isset($item['id'])) {
 	}
 
 	//
-	// users associated to this category
-	//
-
-	// the list of related users if not at another follow-up page
-	if((!$zoom_type) || ($zoom_type == 'users')) {
-
-		// cache the section
-		$cache_id = 'categories/view.php?id='.$item['id'].'#users#'.$zoom_index;
-		if(!$text =& Cache::get($cache_id)) {
-
-			// build a complete box
-			$box['bar'] = array();
-			$box['text'] = '';
-
-			// count the number of users in this category
-			$stats = Members::stat_users_for_anchor('category:'.$item['id']);
-			if($stats['count'] > USERS_LIST_SIZE)
-				$box['bar'] = array('_count' => sprintf(i18n::ns('1 user', '%d users', $stats['count']), $stats['count']));
-
-			// navigation commands for users
-			$home = Categories::get_url($item['id'], 'view', $item['title']);
-			$prefix = Categories::get_url($item['id'], 'navigate', 'users');
-			$box['bar'] = array_merge($box['bar'],
-				Skin::navigate($home, $prefix, $stats['count'], USERS_LIST_SIZE, $zoom_index));
-
-			// list items by date (default) or by title (option 'users_by_title')
-			$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
-			$items = Members::list_users_by_posts_for_anchor('category:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch');
-
-			// actually render the html for the section
-			if(is_array($items))
-				$box['text'] .= Skin::build_list($items, 'decorated');
-			elseif(is_string($items))
-				$box['text'] .= $items;
-			if(is_array($box['bar']))
-				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-			if($box['text'])
-				$text =$box['text'];
-
-			// save in cache
-			Cache::put($cache_id, $text, 'users');
-		}
-
-		// in a separate panel
-		if(trim($text))
-			$panels[] = array('users_tab', i18n::s('Persons'), 'users_panel', $text);
-	}
-
-	//
 	// sections associated to this category
 	//
 
@@ -494,7 +442,7 @@ if(!isset($item['id'])) {
 	if(((!$zoom_type) || ($zoom_type == 'sections'))
 		&& (!isset($item['sections_layout']) || ($item['sections_layout'] != 'none'))) {
 
-		// cache the section
+		// cache panel content
 		$cache_id = 'categories/view.php?id='.$item['id'].'#sections#'.$zoom_index;
 		if(!$text =& Cache::get($cache_id)) {
 
@@ -647,6 +595,7 @@ if(!isset($item['id'])) {
 		if(trim($text))
 			$panels[] = array('articles_tab', i18n::s('Pages'), 'articles_panel', $text);
 	}
+
 
 	//
 	// files attached to this category
@@ -819,6 +768,62 @@ if(!isset($item['id'])) {
 		// in a separate panel
 		if(trim($text))
 			$panels[] = array('links_tab', i18n::s('Links'), 'links_panel', $text);
+	}
+
+	//
+	// users associated to this category
+	//
+
+	// the list of related users if not at another follow-up page
+	if((!$zoom_type) || ($zoom_type == 'users')) {
+
+		// cache the section
+		$cache_id = 'categories/view.php?id='.$item['id'].'#users#'.$zoom_index;
+		if(!$text =& Cache::get($cache_id)) {
+
+			// build a complete box
+			$box = array('bar' => array(), 'text' => '');
+
+			// count the number of users in this category
+			$stats = Members::stat_users_for_anchor('category:'.$item['id']);
+
+			// send a message to a category
+			if(($stats['count'] > 1) && Surfer::is_associate())
+				$box['bar'] = array_merge($box['bar'], array(Categories::get_url($item['id'], 'mail') => i18n::s('Send a message')));
+
+			// spread the list over several pages
+			if($stats['count'] > USERS_LIST_SIZE)
+				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 user', '%d users', $stats['count']), $stats['count'])));
+
+			// navigation commands for users
+			$home = Categories::get_url($item['id'], 'view', $item['title']);
+			$prefix = Categories::get_url($item['id'], 'navigate', 'users');
+			$box['bar'] = array_merge($box['bar'],
+				Skin::navigate($home, $prefix, $stats['count'], USERS_LIST_SIZE, $zoom_index));
+
+			// list items by date (default) or by title (option 'users_by_title')
+			$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
+			$items = Members::list_users_by_posts_for_anchor('category:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch');
+
+			// actually render the html
+			if(is_array($box['bar']))
+				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
+			if(is_array($items))
+				$box['text'] .= Skin::build_list($items, 'decorated');
+			elseif(is_string($items))
+				$box['text'] .= $items;
+			if(is_array($box['bar']) && (($stats['count'] - $offset) > 5))
+				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
+			if($box['text'])
+				$text =$box['text'];
+
+			// save in cache
+			Cache::put($cache_id, $text, 'users');
+		}
+
+		// in a separate panel
+		if(trim($text))
+			$panels[] = array('users_tab', i18n::s('Persons'), 'users_panel', $text);
 	}
 
 	//

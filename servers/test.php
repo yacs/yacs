@@ -25,6 +25,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'servers.php';
 
 // look for the id
 $id = NULL;
@@ -35,7 +36,6 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-include_once 'servers.php';
 $item =& Servers::get($id);
 
 // get the related anchor, if any
@@ -62,9 +62,6 @@ elseif($item['active'] == 'Y')
 // the default is to disallow access
 else
 	$permitted = FALSE;
-
-// load localized strings
-i18n::bind('servers');
 
 // load the skin
 load_skin('servers');

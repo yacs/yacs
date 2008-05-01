@@ -47,9 +47,6 @@ if(!strpos($anchor, ':'))
 if($anchor)
 	$anchor = Anchors::get($anchor);
 
-// load localized strings
-i18n::bind('comments');
-
 load_skin('comments');
 
 // an anchor is mandatory

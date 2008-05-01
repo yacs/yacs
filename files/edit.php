@@ -78,6 +78,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'files.php';
 
 // the maximum size for uploads
 $file_maximum_size = str_replace('M', '000000', Safe::get_cfg_var('upload_max_filesize'));
@@ -93,7 +94,6 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-include_once 'files.php';
 $item =& Files::get($id);
 
 // get the related anchor, if any
@@ -147,9 +147,6 @@ else
 
 // do not always show the edition form
 $with_form = FALSE;
-
-// load localized strings
-i18n::bind('files');
 
 // load the skin, maybe with a variant
 load_skin('files', $anchor);

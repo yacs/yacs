@@ -30,9 +30,6 @@ Class Layout_articles_as_contents extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
-		// load localized strings
-		i18n::bind('articles');
-
 		// process all items in the list
 		include_once $context['path_to_root'].'articles/article.php';
 		include_once $context['path_to_root'].'comments/comments.php';

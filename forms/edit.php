@@ -3,7 +3,6 @@
  * create a new form or edit an existing one
  *
  * @todo add a grid control to capture tabular information (Justin)
- * @todo allow for download of captured data as a CSV or XML file
  * @todo introduce hidden fields as another kind of text input field, to capture constants
  *
  * This is the main script used to post a new form, or to modify an existing one.
@@ -48,9 +47,6 @@ elseif(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
 
 // do not always show the edition form
 $with_form = FALSE;
-
-// load localized strings
-i18n::bind('forms');
 
 // load the skin
 load_skin('forms');
@@ -419,6 +415,22 @@ if($with_form) {
 	$help = '<p>';
 	$help .= i18n::s('If you paste some existing HTML content and want to avoid the implicit formatting insert the code <code>[formatted]</code> at the very beginning of the description field.');
 	$help .= ' '.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
+
+ 	// change to another editor
+	$help .= '<form><p><select name="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
+	$selected = '';
+	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
+	$help .= '</select></p></form>';
 
 	// in a sidebar box
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');

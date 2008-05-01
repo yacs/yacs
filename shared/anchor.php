@@ -375,7 +375,7 @@ class Anchor {
 	 * @see skins/skin_skeleton.php
 	 */
 	function get_neighbours($type, $item) {
-		return array(NULL, NULL, NULL, NULL, NULL, NULL);
+		return array('', '', '', '', '', NULL);
 	}
 
 	/**
@@ -573,7 +573,7 @@ class Anchor {
 	 * This basic version does not care about the provided parameter.
 	 *
 	 * @param string an optional variant
-	 * @return NULL, of some text
+	 * @return string some text or NULL
 	 */
 	function &get_teaser($variant = 'basic') {
 

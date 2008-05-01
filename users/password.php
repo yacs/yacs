@@ -47,9 +47,6 @@ if(isset($item['password'])) {
 // do not always show the edition form
 $with_form = FALSE;
 
-// load localized strings
-i18n::bind('users');
-
 // load the skin
 load_skin('users');
 

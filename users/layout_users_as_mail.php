@@ -33,6 +33,10 @@ Class Layout_users_as_mail extends Layout_interface {
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
 
+			// not a valid e-mail recipient
+			if(!$item['email'] || !preg_match('/^[a-zA-Z0-9\.\-_]+?@[a-zA-Z0-9\.\-_]+/', $item['email']))
+				continue;
+
 			// the e-mail address
 			$key = $item['email'];
 

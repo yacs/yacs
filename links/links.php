@@ -1368,50 +1368,51 @@ Class Links {
 			case 'article':
 				if($item =& Articles::get($matches[2]))
 					return array(Articles::get_url($matches[2]), $item['title'], $item['introduction']);
-				return array(NULL, $text, NULL);
+				return array('', $text, '');
 
 			// section link
 			case 'section':
 				if($item =& Sections::get($matches[2]))
 					return array(Sections::get_url($matches[2]), $item['title'], $item['introduction']);
-				return array(NULL, $text, NULL);
+				return array('', $text, '');
 
 			// file link
 			case 'file':
 				include_once $context['path_to_root'].'files/files.php';
 				if($item =& Files::get($matches[2]))
 					return array(Files::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['file_name'])));
-				return array(NULL, $text, NULL);
+				return array('', $text, '');
 
 			// image link
 			case 'image':
 				include_once $context['path_to_root'].'images/images.php';
 				if($item =& Images::get($matches[2]))
 					return array(Images::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['image_name'])));
-				return array(NULL, $text, NULL);
+				return array('', $text, '');
 
 			// category link
 			case 'category':
 				include_once $context['path_to_root'].'categories/categories.php';
 				if($item =& Categories::get($matches[2]))
 					return array(Categories::get_url($item['id'], 'view', $item['title']), $item['title'], $item['introduction']);
-				return array(NULL, $text, NULL);
+				return array('', $text, '');
 
 			// user link
 			case 'user':
 				if($item =& Users::get($matches[2]))
 					return array(Users::get_url($item['id'], 'view', $item['title']), $item['full_name']);
-				return array(NULL, $text, NULL);
+				return array('', $text, '');
 
 			}
 		}
 
-		return array(NULL, $text, NULL);
+		return array('', $text, '');
 	}
 
 }
 
-// ensure this library has been fully localized
-i18n::bind('links');
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('links');
 
 ?>

@@ -47,9 +47,6 @@ Class Layout_articles_as_yabb extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// load localized strings
-		i18n::bind('articles');
-
 		// add a help box, but only once
 		static $fuse;
 		if(!isset($fuse)) {

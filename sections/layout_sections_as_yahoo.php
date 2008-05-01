@@ -32,9 +32,6 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			return $output;
 		}
 
-		// load localized strings
-		i18n::bind('sections');
-
 		// flag sections updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;

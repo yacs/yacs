@@ -49,9 +49,6 @@ elseif(isset($context['arguments'][0]))
 	$page = $context['arguments'][0];
 $page = strip_tags($page);
 
-// load localized strings
-i18n::bind('files');
-
 // load the skin
 load_skin('files');
 

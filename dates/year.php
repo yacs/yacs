@@ -27,9 +27,6 @@ $year = strip_tags($year);
 if($year < 1970)
 	$year = (int)gmstrftime('%Y');
 
-// load localized strings
-i18n::bind('dates');
-
 // load the skin
 load_skin('dates');
 

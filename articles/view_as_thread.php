@@ -93,19 +93,19 @@ if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('articles/v
 if(isset($item['create_id']) && $permitted && Surfer::get_id() && !Surfer::is_creator($item['create_id']) && !$in_watch_list) {
 	$link = Users::get_url('article:'.$item['id']);
 	Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( $link => array(NULL, WATCH_TOOL_IMG.i18n::s('Watch'), NULL, 'basic', NULL, i18n::s('Manage your watch list'))));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $link => array('', WATCH_TOOL_IMG.i18n::s('Watch'), '', 'basic', '', i18n::s('Manage your watch list'))));
 }
 
 // modify this page
 if(isset($item['id']) && $editable) {
 	Skin::define_img('EDIT_ARTICLE_IMG', $context['skin'].'/icons/articles/edit.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'edit') => array(NULL, EDIT_ARTICLE_IMG.i18n::s('Edit'), NULL, 'basic', NULL, i18n::s('Update the content of this page')) ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'edit') => array('', EDIT_ARTICLE_IMG.i18n::s('Edit'), '', 'basic', '', i18n::s('Update the content of this page')) ));
 }
 
 // mail this page
 if(isset($item['id']) && $permitted && Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 	Skin::define_img('MAIL_TOOL_IMG', $context['skin'].'/icons/tools/mail.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'mail') => array(NULL, MAIL_TOOL_IMG.i18n::s('Invite'), NULL, 'basic', NULL, i18n::s('Invite people to review and to contribute')) ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'mail') => array('', MAIL_TOOL_IMG.i18n::s('Invite'), '', 'basic', '', i18n::s('Invite people to review and to contribute')) ));
 }
 
 // post an image
@@ -167,7 +167,7 @@ if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anch
 // print this page
 if(isset($item['id']) && $permitted && Surfer::is_logged()) {
 	Skin::define_img('PRINT_TOOL_IMG', $context['skin'].'/icons/tools/print.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'print') => array(NULL, PRINT_TOOL_IMG.i18n::s('Print'), NULL, 'basic', NULL, i18n::s('Get a paper copy of this page.')) ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'print') => array('', PRINT_TOOL_IMG.i18n::s('Print'), '', 'basic', '', i18n::s('Get a paper copy of this page.')) ));
 }
 
 // not found -- help web crawlers

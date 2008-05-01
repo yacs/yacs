@@ -156,31 +156,44 @@ if(!Surfer::is_associate()) {
 		else
 			$context['text'] .= '<p>'.i18n::s('YACS saves data Unicode entities encoded in ASCII character set.')."</p>\n";
 
+		// 'SHOW STATUS'
+		$query = "SHOW STATUS";
+		if(!$result =& SQL::query($query)) {
+			$content = Skin::error_pop().BR."\n";
+		} else {
+			$content = "<table>\n";
+			while($row =& SQL::fetch($result)) {
+				$content .= '<tr><td>'.$row['Variable_name'].'</td><td>'.$row['Value']."</td></tr>\n";
+			}
+			$content .= "</table>\n";
+		}
+		$context['text'] .= Skin::build_box(i18n::s('SQL status'), $content, 'folder');
+
 		// 'SHOW VARIABLES'
-		$context['text'] .= Skin::build_block(i18n::s('SQL variables'), 'title');
 		$query = "SHOW VARIABLES";
 		if(!$result =& SQL::query($query)) {
-			$context['text'] .= Skin::error_pop().BR."\n";
+			$content = Skin::error_pop().BR."\n";
 		} else {
-			$context['text'] .= "<table>\n";
+			$content = "<table>\n";
 			while($row =& SQL::fetch($result)) {
-				$context['text'] .= '<tr><td>'.$row['Variable_name'].'</td><td>'.$row['Value']."</td></tr>\n";
+				$content .= '<tr><td>'.$row['Variable_name'].'</td><td>'.$row['Value']."</td></tr>\n";
 			}
-			$context['text'] .= "</table>\n";
+			$content .= "</table>\n";
 		}
+		$context['text'] .= Skin::build_box(i18n::s('SQL variables'), $content, 'folder');
 
 		// 'SHOW CHARACTER SET'
-		$context['text'] .= Skin::build_block(i18n::s('Supported charsets'), 'title');
 		$query = "SHOW CHARACTER SET";
 		if(!$result =& SQL::query($query)) {
-			$context['text'] .= Skin::error_pop().BR."\n";
+			$content = Skin::error_pop().BR."\n";
 		} else {
-			$context['text'] .= "<table>\n";
+			$content = "<table>\n";
 			while($row =& SQL::fetch($result)) {
-				$context['text'] .= '<tr><td>'.$row['Charset'].'</td><td>'.$row['Description']."</td></tr>\n";
+				$content .= '<tr><td>'.$row['Charset'].'</td><td>'.$row['Description']."</td></tr>\n";
 			}
-			$context['text'] .= "</table>\n";
+			$content .= "</table>\n";
 		}
+		$context['text'] .= Skin::build_box(i18n::s('Supported charsets'), $content, 'folder');
 
 		break;
 

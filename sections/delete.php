@@ -65,9 +65,6 @@ elseif(Surfer::is_member() && isset($item['create_id']) && (Surfer::get_id() == 
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('sections');
-
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
@@ -82,7 +79,7 @@ else
 	$context['path_bar'] = array( 'sections/' => i18n::s('Sections'));
 
 if($item['id'] && $item['title'])
-	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_url($item['id']) => $item['title'] ));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title'] ));
 
 // the title of the page
 $context['page_title'] = i18n::s('Delete a section');
@@ -122,7 +119,7 @@ if(!$item['id']) {
 
 	$menu = array();
 	$menu = array_merge($menu, array(Sections::get_url($item['id'], 'purge') => i18n::s('Purge all articles from this section')));
-	$menu = array_merge($menu, array(Sections::get_url($item['id']) => i18n::s('Cancel and go back to the section page')));
+	$menu = array_merge($menu, array(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Cancel')));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // deletion has to be confirmed

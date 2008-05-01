@@ -16,9 +16,6 @@
 include_once '../shared/global.php';
 include_once 'images.php';
 
-// load localized strings
-i18n::bind('images');
-
 // load the skin
 load_skin('images');
 

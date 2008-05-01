@@ -59,7 +59,7 @@ Class Layout_categories_as_compact extends Layout_interface {
 				$count = '';
 
 			// list all components for this item
-			$items[$url] = array(NULL, $label, $count, 'basic', NULL);
+			$items[$url] = array('', $label, $count, 'basic', NULL);
 
 		}
 

@@ -22,9 +22,6 @@ defined('YACS') or exit('Script must be included');
 
 include_once $context['path_to_root'].'comments/comments.php';
 
-// load localized strings
-i18n::bind('comments');
-
 // clear the cache for comments
 Cache::clear('comments');
 

@@ -36,6 +36,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'categories.php';
 
 // look for the id
 $id = NULL;
@@ -46,7 +47,6 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-include_once 'categories.php';
 $item =& Categories::get($id);
 
 // get the related anchor, if any --use request first, because anchor can change
@@ -83,9 +83,6 @@ else
 
 // do not always show the edition form
 $with_form = FALSE;
-
-// load localized strings
-i18n::bind('categories');
 
 // load the skin
 load_skin('categories');
@@ -803,6 +800,22 @@ if($with_form) {
 
  	// locate mandatory fields
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
+
+ 	// change to another editor
+	$help .= '<form><p><select name="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="tinymce"'.$selected.'>'.i18n::s('TinyMCE')."</option>\n";
+	$selected = '';
+	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="fckeditor"'.$selected.'>'.i18n::s('FCKEditor')."</option>\n";
+	$selected = '';
+	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
+		$selected = ' selected="selected"';
+	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
+	$help .= '</select></p></form>';
 
 	// in a side box
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');

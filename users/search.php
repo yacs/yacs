@@ -81,9 +81,6 @@ if(@count($tokens)) {
 	$search = trim($search);
 }
 
-// load localized strings
-i18n::bind('users');
-
 // load the skin
 load_skin('search');
 

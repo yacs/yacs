@@ -36,9 +36,6 @@ Class Layout_decisions extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
-		// load localized strings
-		i18n::bind('decisions');
-
 		// flag decisions updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;

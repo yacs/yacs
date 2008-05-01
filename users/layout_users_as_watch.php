@@ -30,9 +30,6 @@ Class Layout_users_as_watch extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
-		// load localized strings
-		i18n::bind('users');
-
 		// flag users updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
@@ -59,13 +56,11 @@ Class Layout_users_as_watch extends Layout_interface {
 			// the url to view this item
 			$url = Users::get_url($item['id'], 'view', $item['nick_name']);
 
-			// use the nick name
-			$title = $item['nick_name'];
-
-			// append the full name, if nick name is not part of it
-			if(isset($item['full_name']) && $item['full_name'] && !preg_match('/\b'.preg_quote($item['nick_name'], '\b/').'/', $item['full_name']))
-				$title .= ' - '.$item['full_name'];
-
+			// use full name, then nick name
+			if(isset($item['full_name']) && $item['full_name']) {
+				$title = $item['full_name'].' <span style="font-size: smaller;">- '.$item['nick_name'].'</span>';
+			} elseif(isset($item['nick_name']))
+				$title = $item['nick_name'];
 
 			// flag users updated recently
 			if($item['create_date'] >= $dead_line)

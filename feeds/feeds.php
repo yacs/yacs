@@ -302,9 +302,6 @@ class Feeds {
 		// get feeding parameters
 		Safe::load('parameters/feeds.include.php');
 
-		// localize generated messages
-		i18n::bind('feeds');
-
 		// delay between feeds - minimum is 5 minutes
 		if(!isset($context['minutes_between_feeds']) || ($context['minutes_between_feeds'] < 5))
 			$context['minutes_between_feeds'] = 5;
@@ -444,4 +441,9 @@ class Feeds {
 	}
 
 }
+
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('feeds');
+
 ?>

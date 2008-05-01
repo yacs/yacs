@@ -60,6 +60,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'files.php';
 
 // look for the anchor as a string
 $anchor = '';
@@ -97,9 +98,6 @@ elseif(!is_object($anchor))
 // the default is to disallow access
 else
 	$permitted = FALSE;
-
-// load localized strings
-i18n::bind('files');
 
 // load a skin
 load_skin('files');
@@ -154,7 +152,6 @@ if(!$permitted) {
 			$values['channel']['image'] = $context['url_to_home'].$context['url_to_root'].$context['powered_by_image'];
 
 		// list newest files
-		include_once '../files/files.php';
 		if(is_object($anchor))
 			$values['items'] = Files::list_by_date_for_anchor($anchor->get_reference(), 0, 50, 'feeds');
 		else

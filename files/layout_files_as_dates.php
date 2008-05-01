@@ -69,7 +69,7 @@ Class Layout_files_as_dates extends Layout_interface {
 			$suffix .= ' '.Skin::build_date($item['edit_date']);
 
 			// list all components for this item
-			$items[$url] = array(NULL, $label, $suffix, 'file', NULL);
+			$items[$url] = array('', $label, $suffix, 'file', NULL);
 
 		}
 

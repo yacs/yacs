@@ -25,9 +25,6 @@ Class Layout_links_as_daily extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// load localized strings
-		i18n::bind('links');
-
 		// flag items updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;

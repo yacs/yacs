@@ -537,18 +537,20 @@ if(!file_exists('../parameters/control.include.php')) {
 				$total_size = 0;
 				$data_size = 0;
 				$index_size = 0;
+				$unused_size = 0;
 				while($row =& SQL::fetch($result)) {
 					$total_tables += 1;
 					$total_records += $row['Rows'];
-					$total_size += $row['Data_length'] +$row['Index_length'];
+					$total_size += $row['Data_length'] + $row['Index_length'] + $row['Data_free'];
 					$data_size += $row['Data_length'];
 					$index_size += $row['Index_length'];
+					$unused_size += $row['Data_free'];
 				}
 
 				// turn big numbers to human-readable format
 				function get_size($size){
 					if($size < 1024)
-						return $size;
+						return $size.' ';
 
 					$labels = array('', 'K', 'M', 'G', 'T');
 					foreach($labels as $label) {
@@ -560,7 +562,8 @@ if(!file_exists('../parameters/control.include.php')) {
 				}
 
 				// overall size of the database
-				$text .= '<p>'.sprintf('%d tables and %d records in %sbytes (%sbytes data, %sbytes index)', $total_tables, $total_records, get_size($total_size), get_size($data_size), get_size($index_size))."</p>\n";
+				$text .= '<p>'.sprintf(i18n::s('%d tables and %d records in %sbytes'), $total_tables, $total_records, get_size($total_size))
+					.BR.sprintf(i18n::s('(%sbytes data, %sbytes index, %sbytes unused)'), get_size($data_size), get_size($index_size), get_size($unused_size))."</p>\n";
 			}
 
 			// build another tab
@@ -718,16 +721,17 @@ if(!file_exists('../parameters/control.include.php')) {
 			$all_tabs = array_merge($all_tabs, array(array('content_tab', i18n::s('Content'), 'content_panel', $text)));
 
 			//
-			// the Configuration Panels tab is reserved to associates -- complex command
+			// the Configuration Panels tab is reserved to associates
 			//
-			if(Surfer::is_associate() && Surfer::has_all()) {
+			if(Surfer::is_associate()) {
 
 				$text = '<p>'.i18n::s('Click on following links to review or change parameters of this server.').'</p>';
 
 				$commands = array();
 
-				// configuration scripts that are part of the core
-				$commands[] = sprintf(i18n::s('%s - configure database, security and other essential parameters'), Skin::build_link('control/configure.php', i18n::s('System parameters'), 'basic'));
+				// configuration scripts that are part of the core -- some complex commands
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - configure database, security and other essential parameters'), Skin::build_link('control/configure.php', i18n::s('System parameters'), 'basic'));
 
 				$commands[] = sprintf(i18n::s('%s - define permissions given to people'), Skin::build_link('users/configure.php', i18n::s('People'), 'basic'));
 
@@ -735,26 +739,34 @@ if(!file_exists('../parameters/control.include.php')) {
 
 				$commands[] = sprintf(i18n::s('%s - change meta-information, etc.'), Skin::build_link('skins/configure.php', i18n::s('Page factory'), 'basic'));
 
-				$commands[] = sprintf(i18n::s('%s - select and test skins available at this server'), Skin::build_link('skins/', i18n::s('Skins'), 'basic'));
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - select and test skins available at this server'), Skin::build_link('skins/', i18n::s('Skins'), 'basic'));
 
-				$commands[] = sprintf(i18n::s('%s - to change rendering of dynamic Flash objects'), Skin::build_link('feeds/flash/configure.php', i18n::s('Flash'), 'basic'));
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - to change rendering of dynamic Flash objects'), Skin::build_link('feeds/flash/configure.php', i18n::s('Flash'), 'basic'));
 
 				$commands[] = sprintf(i18n::s('%s - enhance information provided through RSS'), Skin::build_link('feeds/configure.php', i18n::s('Information channels'), 'basic'));
 
-				$commands[] = sprintf(i18n::s('%s - to share and stream existing directories and files'), Skin::build_link('collections/configure.php', i18n::s('File collections'), 'basic'));
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - to share and stream existing directories and files'), Skin::build_link('collections/configure.php', i18n::s('File collections'), 'basic'));
 
-				$commands[] = sprintf(i18n::s('%s - to add extensions and to make uploaded files available from FTP'), Skin::build_link('files/configure.php', i18n::s('Files'), 'basic'));
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - to add extensions and to make uploaded files available from FTP'), Skin::build_link('files/configure.php', i18n::s('Files'), 'basic'));
 
 				if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
 					$commands[] = sprintf(i18n::s('%s - change the template used for newsletters'), Skin::build_link('letters/configure.php', i18n::s('Newsletters'), 'basic'));
 
-				$commands[] = sprintf(i18n::s('%s - change parameters for back-end services'), Skin::build_link('services/configure.php', i18n::s('Web services'), 'basic'));
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - change parameters for back-end services'), Skin::build_link('services/configure.php', i18n::s('Web services'), 'basic'));
 
-				$commands[] = sprintf(i18n::s('%s - ban spamming hosts'), Skin::build_link('servers/configure.php', i18n::s('Servers'), 'basic'));
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - ban spamming hosts'), Skin::build_link('servers/configure.php', i18n::s('Servers'), 'basic'));
 
-				$commands[] = sprintf(i18n::s('%s - for incoming messages and files'), Skin::build_link('agents/configure.php', i18n::s('Background processing'), 'basic'));
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - for incoming messages and files'), Skin::build_link('agents/configure.php', i18n::s('Background processing'), 'basic'));
 
-				$commands[] = sprintf(i18n::s('%s - change the reference server used for software updates'), Skin::build_link('scripts/configure.php', i18n::s('Server software'), 'basic'));
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - change the reference server used for software updates'), Skin::build_link('scripts/configure.php', i18n::s('Server software'), 'basic'));
 
 				// insert commands
 				if(count($commands))

@@ -42,9 +42,6 @@ Class Layout_sections extends Layout_interface {
 		if(!isset($this->layout_variant))
 			$this->layout_variant = 'full';
 
-		// load localized strings
-		i18n::bind('sections');
-
 		// flag sections updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
@@ -122,7 +119,7 @@ Class Layout_sections extends Layout_interface {
 								$sub_hover = $label[5];
 							$label = $label[1];
 						}
-						$content[$link] = array($sub_prefix, $label, $sub_suffix, 'basic', NULL, $sub_hover);
+						$content[$link] = array($sub_prefix, $label, $sub_suffix, 'basic', '', $sub_hover);
 					}
 				}
 
@@ -154,7 +151,7 @@ Class Layout_sections extends Layout_interface {
 								$sub_hover = $label[5];
 							$label = $label[1];
 						}
-						$content[$link] = array($sub_prefix, $label, $sub_suffix, 'basic', NULL, $sub_hover);
+						$content[$link] = array($sub_prefix, $label, $sub_suffix, 'basic', '', $sub_hover);
 					}
 				}
 
@@ -176,7 +173,7 @@ Class Layout_sections extends Layout_interface {
 								$sub_hover = $label[5];
 							$label = $label[1];
 						}
-						$content[$link] = array($sub_prefix, $label, $sub_suffix, 'basic', NULL, $sub_hover);
+						$content[$link] = array($sub_prefix, $label, $sub_suffix, 'basic', '', $sub_hover);
 					}
 				}
 
@@ -198,7 +195,7 @@ Class Layout_sections extends Layout_interface {
 								$sub_hover = $label[5];
 							$label = $label[1];
 						}
-						$content[$link] = array($sub_prefix, $label, $sub_suffix, 'basic', NULL, $sub_hover);
+						$content[$link] = array($sub_prefix, $label, $sub_suffix, 'basic', '', $sub_hover);
 					}
 				}
 
@@ -210,7 +207,7 @@ Class Layout_sections extends Layout_interface {
 
 			// give me more
 			if(count($details) && ($related_count > YAHOO_LIST_SIZE))
-				$content[Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name'])] = array(NULL, i18n::s('More').MORE_IMG, NULL, 'more', NULL, i18n::s('This section contains other information of interest'));
+				$content[Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name'])] = array('', i18n::s('More').MORE_IMG, '', 'more', '', i18n::s('This section contains other information of interest'));
 
 			// append details to the suffix
 			if(count($details))

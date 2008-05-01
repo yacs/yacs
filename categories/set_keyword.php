@@ -10,15 +10,12 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../categories/categories.php';
+include_once 'categories.php';
 
 // what we are looking for
 $search = NULL;
 if(isset($_REQUEST['search']))
 	$search = strip_tags($_REQUEST['search']);
-
-// load localized strings
-i18n::bind('categories');
 
 // load the skin
 load_skin('categories');

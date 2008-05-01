@@ -49,7 +49,7 @@ Class Layout_servers_as_dates extends Layout_interface {
 			$label = Skin::strip($item['title'], 10);
 
 			// list all components for this item
-			$items[$url] = array(NULL, $label, ' '.Skin::build_date($item['edit_date']), 'server', NULL);
+			$items[$url] = array('', $label, ' '.Skin::build_date($item['edit_date']), 'server', NULL);
 
 		}
 

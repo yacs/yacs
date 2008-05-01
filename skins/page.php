@@ -459,7 +459,7 @@
 
 			// the first tab links to the front page
 			if($with_home && is_callable(array('i18n', 's')))
-				$site_bar = array_merge($site_bar, array($context['url_to_root'] => array(NULL, i18n::s('Home'), NULL, 'home')));
+				$site_bar = array_merge($site_bar, array($context['url_to_root'] => array('', i18n::s('Home'), '', 'home')));
 
 			// default number of sections to list
 			if(!isset($context['root_sections_count_at_home']) || ($context['root_sections_count_at_home'] < 1))

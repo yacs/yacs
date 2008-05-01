@@ -63,9 +63,6 @@ elseif(isset($item['active']) && $item['active'] == 'Y')
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('sections');
-
 // load the skin, and use the special template for S5
 load_skin('s5');
 

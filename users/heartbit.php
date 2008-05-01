@@ -37,9 +37,6 @@ Safe::header("Cache-Control: no-store, no-cache, must-revalidate");
 Safe::header("Cache-Control: post-check=0, pre-check=0", false);
 Safe::header("Pragma: no-cache");
 
-// load localized strings
-i18n::bind('users');
-
 // surfer has to be logged --provide a short response
 if(!Surfer::get_id()) {
 	Logger::profile_dump();

@@ -136,9 +136,6 @@ elseif(isset($item['active']) && ($item['active'] == 'Y') && Surfer::is_member()
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('articles');
-
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 

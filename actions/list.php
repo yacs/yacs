@@ -62,9 +62,6 @@ if(!is_object($anchor) || $anchor->is_viewable())
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('actions');
-
 // load the skin, maybe with a variant
 load_skin('actions', $anchor);
 

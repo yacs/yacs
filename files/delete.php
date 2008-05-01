@@ -65,9 +65,6 @@ elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id())
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('files');
-
 // load the skin, maybe with a variant
 load_skin('files', $anchor);
 

@@ -86,9 +86,6 @@ Class Layout_articles_as_admin extends Layout_interface {
 		if(!isset($this->layout_variant))
 			$this->layout_variant = 'full';
 
-		// load localized strings
-		i18n::bind('articles');
-
 		// flag articles updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;

@@ -57,9 +57,6 @@ if(!defined('YACS')) {
 	// include the global declarations
 	include_once '../shared/global.php';
 
-	// load localized strings
-	i18n::bind('sections');
-
 	// load the skin
 	load_skin('sections');
 
@@ -73,9 +70,7 @@ if(!defined('YACS')) {
 	if(!Surfer::is_associate())
 		exit('You are not allowed to perform this operation.');
 
-// load localized strings
-} else
-	i18n::bind('sections');
+}
 
 // clear the cache for sections
 Cache::clear('sections');

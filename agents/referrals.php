@@ -233,9 +233,9 @@ class Referrals {
 			// hack to make this compliant to XHTML
 			$url = str_replace('&', '&amp;', $row['referer']);
 			if(isset($row['keywords']) && $row['keywords'])
-				$items[$url] = array(NULL, $row['keywords'], ' ('.$row['hits'].')', 'basic', NULL);
+				$items[$url] = array('', $row['keywords'], ' ('.$row['hits'].')', 'basic', '');
 			else
-				$items[$url] = array(NULL, $row['domain'], ' ('.$row['hits'].')', 'basic', NULL);
+				$items[$url] = array('', $row['domain'], ' ('.$row['hits'].')', 'basic', '');
 		}
 		if(count($items))
 			return Skin::build_list($items, 'compact');
@@ -448,5 +448,8 @@ class Referrals {
 
 }
 
-i18n::bind('agents');
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('agents');
+
 ?>

@@ -60,6 +60,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'files.php';
 
 // look for the id
 $id = NULL;
@@ -70,7 +71,6 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-include_once 'files.php';
 $item =& Files::get($id);
 
 // get the related anchor, if any
@@ -122,9 +122,6 @@ if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
 // and except for poster
 if(Surfer::is_creator($item['create_id']))
 	$editable = TRUE;
-
-// load localized strings
-i18n::bind('files');
 
 // load the skin, maybe with a variant
 load_skin('files', $anchor);

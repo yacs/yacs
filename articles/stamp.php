@@ -50,9 +50,6 @@ if(isset($item['anchor']))
 // do not always show the edition form
 $with_form = FALSE;
 
-// load localized strings
-i18n::bind('articles');
-
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 

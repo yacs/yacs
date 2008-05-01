@@ -46,9 +46,6 @@ if(is_object($anchor) && !$anchor->is_viewable())
 else
 	$permitted = TRUE;
 
-// load localized strings
-i18n::bind('locations');
-
 // load the skin
 load_skin('locations');
 

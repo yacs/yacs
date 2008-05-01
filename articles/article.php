@@ -97,9 +97,6 @@ Class Article extends Anchor {
 		if(!isset($this->item['id']))
 			return NULL;
 
-		// load localized strings
-		i18n::bind('articles');
-
 		// initialize components
 		$previous_url = $previous_label = $next_url = $next_label = $option_url = $option_label ='';
 
@@ -309,9 +306,6 @@ Class Article extends Anchor {
 			$text = NULL;
 			return $text;
 		}
-
-		// load localized strings
-		i18n::bind('articles');
 
 		// the text to be returned
 		$text = '';
@@ -796,9 +790,6 @@ Class Article extends Anchor {
 			return;
 		}
 
-		// load localized strings
-		i18n::bind('articles');
-
 		// components of the query
 		$query = array();
 
@@ -1129,5 +1120,9 @@ Class Article extends Anchor {
 	}
 
 }
+
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('articles');
 
 ?>

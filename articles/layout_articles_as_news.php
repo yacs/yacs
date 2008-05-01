@@ -34,9 +34,6 @@ Class Layout_articles_as_news extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
-		// load localized strings
-		i18n::bind('articles');
-
 		// flag articles updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;

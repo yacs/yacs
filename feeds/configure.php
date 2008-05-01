@@ -61,9 +61,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-
-// load localized strings
-i18n::bind('feeds');
+include_once 'feeds.php';
 
 // load the skin
 load_skin('feeds');

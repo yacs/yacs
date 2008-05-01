@@ -99,9 +99,6 @@ elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == S
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('articles');
-
 // no not kill script validation
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;

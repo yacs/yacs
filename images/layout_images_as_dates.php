@@ -61,7 +61,7 @@ Class Layout_images_as_dates extends Layout_interface {
 			$suffix .= ' '.Skin::build_date($item['edit_date']);
 
 			// list all components for this item
-			$items[$url] = array(NULL, $label, $suffix, 'image', NULL);
+			$items[$url] = array('', $label, $suffix, 'image', NULL);
 
 		}
 

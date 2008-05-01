@@ -41,9 +41,6 @@ Class Layout_comments extends Layout_interface {
 			return $output;
 		}
 
-		// load localized strings
-		i18n::bind('comments');
-
 		// sanity check
 		if(!isset($this->layout_variant))
 			$this->layout_variant = 'full';

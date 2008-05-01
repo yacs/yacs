@@ -54,9 +54,6 @@
 include_once '../shared/global.php';
 include_once 'feeds.php';
 
-// load localized strings
-i18n::bind('feeds');
-
 // load the skin
 load_skin('feeds');
 
@@ -81,11 +78,11 @@ if(!$text =& Cache::get($cache_id)) {
 	$text .= '<p>'.i18n::s('Regular individuals will feed their preferred news reader with one of the links below:')."</p>\n";
 
 	$links = array(
-			Feeds::get_url('rss')	=> array(NULL, i18n::s('RSS 2.0 format'), NULL, 'xml'),
-			Feeds::get_url('atom')	=> array(NULL, i18n::s('ATOM 0.3 format'), NULL, 'xml'),
-			'feeds/rss_1.0.php' 	=> array(NULL, i18n::s('RDF/RSS 1.0 format'), NULL, 'xml'),
-			'feeds/rss_0.92.php'	=> array(NULL, i18n::s('RSS 0.92 format'), NULL, 'xml'),
-			Feeds::get_url('opml')	=> array(NULL, i18n::s('Index of main channels in OPML format'), NULL, 'xml')
+			Feeds::get_url('rss')	=> array('', i18n::s('RSS 2.0 format'), '', 'xml'),
+			Feeds::get_url('atom')	=> array('', i18n::s('ATOM 0.3 format'), '', 'xml'),
+			'feeds/rss_1.0.php' 	=> array('', i18n::s('RDF/RSS 1.0 format'), '', 'xml'),
+			'feeds/rss_0.92.php'	=> array('', i18n::s('RSS 0.92 format'), '', 'xml'),
+			Feeds::get_url('opml')	=> array('', i18n::s('Index of main channels in OPML format'), '', 'xml')
 			);
 
 	$text .= Skin::build_list($links, 'bullets');
@@ -94,8 +91,8 @@ if(!$text =& Cache::get($cache_id)) {
 	$text .= '<p>'.i18n::s('Advanced bloggers can also use (heavy) RSS 2.0 feeds:').'</p>';
 
 	$links = array(
-			Feeds::get_url('articles')	=> array(NULL, i18n::s('recent articles, integral version'), NULL, 'xml'),
-			Feeds::get_url('comments')	=> array(NULL, i18n::s('all comments'), NULL, 'xml'),
+			Feeds::get_url('articles')	=> array('', i18n::s('recent articles, integral version'), '', 'xml'),
+			Feeds::get_url('comments')	=> array('', i18n::s('all comments'), '', 'xml'),
 			);
 
 	$text .= Skin::build_list($links, 'bullets');

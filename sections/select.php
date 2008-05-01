@@ -34,9 +34,6 @@ $anchor = NULL;
 if(isset($_REQUEST['anchor']))
 	$anchor = Anchors::get($_REQUEST['anchor']);
 
-// load localized strings
-i18n::bind('sections');
-
 // load the skin, maybe with a variant
 load_skin('sections', $anchor);
 

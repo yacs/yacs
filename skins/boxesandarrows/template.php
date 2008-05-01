@@ -132,7 +132,7 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 	echo '<div id="footer_panel">'."\n";
 
 	// surfer name and execution time, if known
-	if(Surfer::get_name() && is_callable(array('i18n', 's'))) {
+	if(is_callable(array('Surfer', 'get_name')) && Surfer::get_name() && is_callable(array('i18n', 's'))) {
 		$execution_time = round(get_micro_time() - $context['start_time'], 2);
 		echo sprintf(i18n::s('Page prepared in %.2f seconds for %s'), $execution_time, ucwords(Surfer::get_name())).' ';
 	}
@@ -142,7 +142,7 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 		echo '<br />Copyright &copy; '.$context['site_copyright']."\n";
 
 	// a command to authenticate
-	if(!Surfer::is_logged() && is_callable(array('i18n', 's')))
+	if(is_callable(array('Surfer', 'is_logged')) && !Surfer::is_logged() && is_callable(array('i18n', 's')))
 		echo ' - '.Skin::build_link('users/login.php', i18n::s('login'), 'basic').' ';
 
 	// about this site

@@ -170,9 +170,6 @@ Class i18n {
 		static $codes;
 		if(!is_array($codes)) {
 
-			// load localized strings
-			i18n::bind('i18n');
-
 			// alphabetical order of countries (not of codes)
 			$codes = array(
 				'AF'	=> i18n::s('Afghanistan'),
@@ -533,9 +530,6 @@ Class i18n {
 		// initialize the table only once
 		static $codes;
 		if(!is_array($codes)) {
-
-			// load localized strings
-			i18n::bind('i18n');
 
 			// alphabetical order of languages (not of codes)
 			$codes = array(
@@ -1055,9 +1049,6 @@ Class i18n {
 		static $codes;
 		if(!is_array($codes)) {
 
-			// load localized strings
-			i18n::bind('i18n');
-
 			// alphabetical order of countries (not of codes)
 			$codes = array(
 				'UTC' => '(UTC) Casablanca, Monrovia',
@@ -1501,10 +1492,12 @@ Class i18n {
 			$text = $strings[ $key ];
 		elseif(array_key_exists($name, $strings))
 			$text = $strings[ $name ];
-		elseif($context['with_debug'] == 'Y')
-			$text = 'i18n:'.':l("'.$name.'")';
-		else
+		else {
 			$text = $name;
+			if($context['with_debug'] == 'Y')
+				logger::remember('i18n/i18n.php', $name);
+
+		}
 
 		// the file may be absent during updates
 		Safe::load('shared/utf8.php');
@@ -1675,22 +1668,9 @@ Class i18n {
 	 * @return string the localized string, if any
 	 */
 	function &server($name) {
-		global $context, $local;
+		global $local;
 
-		// sanity check
-		if(!$name)
-			return $name;
-
-		// select a string
-		if(isset($local[$name.'_'.$context['preferred_language']]))
-			$text = $local[$name.'_'.$context['preferred_language']];
-		else
-			$text = $local[$name.'_en'];
-
-		// transcode HTML entities to Unicode entities
-		if(is_callable(array('utf8', 'transcode')))
-			$text =& utf8::transcode($text);
-
+		$text =& i18n::l($local, $name, $context['preferred_language']);
 		return $text;
 	}
 
@@ -1714,33 +1694,9 @@ Class i18n {
 	 * @return string the localized string, if any
 	 */
 	function &user($name, $forced='') {
-		global $context, $local;
+		global $local;
 
-		// sanity check
-		if(!$name)
-			return $name;
-
-		// select a string
-		if($forced && ($key = $name.'_'.$forced) && array_key_exists($key, $local))
-			$text = $local[ $key ];
-		elseif(($key = $name.'_'.$context['language']) && array_key_exists($key, $local))
-			$text = $local[ $key ];
-		elseif(($key = $name.'_en') && array_key_exists($key, $local))
-			$text = $local[ $key ];
-		elseif(array_key_exists($name, $local))
-			$text = $local[ $name ];
-// 		elseif($context['with_debug'] == 'Y')
-// 			$text = 'i18n:'.':user("'.$name.'")';
-		else
-			$text = $name;
-
-		// the file may be absent during updates
-		Safe::load('shared/utf8.php');
-
-		// transcode to utf8
-		if(isset($context['charset']) && ($context['charset'] == 'utf-8') && is_callable(array('utf8', 'transcode')))
-			$text =& utf8::transcode($text);
-
+		$text =& i18n::l($local, $name, $forced);
 		return $text;
 	}
 
@@ -1771,5 +1727,8 @@ if(!function_exists('get_preferred')) {
 	}
 
 }
+
+// load localized strings
+i18n::bind('i18n');
 
 ?>

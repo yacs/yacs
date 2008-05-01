@@ -86,9 +86,6 @@ elseif(isset($item['active']) && $item['active'] == 'Y')
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('articles');
-
 // load the skin with a specific variant
 load_skin('print');
 

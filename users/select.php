@@ -29,9 +29,6 @@ $anchor = NULL;
 if(isset($_REQUEST['member']))
 	$anchor = Anchors::get($_REQUEST['member']);
 
-// load localized strings
-i18n::bind('users');
-
 // load the skin, maybe with a variant
 load_skin('users', $anchor);
 

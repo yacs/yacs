@@ -32,9 +32,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-
-// load localized strings
-i18n::bind('files');
+include_once 'files.php';
 
 // load the skin
 load_skin('files');

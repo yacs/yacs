@@ -26,9 +26,6 @@ Class Image {
 	function adjust($original, $verbose=TRUE, $variant='standard') {
 		global $context;
 
-		// load localized strings
-		i18n::bind('images');
-
 		// get file name
 		$file_name = basename($original);
 
@@ -152,9 +149,6 @@ Class Image {
 	 */
 	function shrink($original, $target, $verbose=TRUE) {
 		global $context;
-
-		// load localized strings
-		i18n::bind('images');
 
 		// get file name
 		$file_name = basename($original);
@@ -281,5 +275,9 @@ Class Image {
 	}
 
 }
+
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('images');
 
 ?>

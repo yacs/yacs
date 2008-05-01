@@ -37,9 +37,6 @@ $id = strip_tags($id);
 // get the item from the database
 $item =& Sections::get($id);
 
-// load localized strings
-i18n::bind('sections');
-
 // load the skin
 load_skin('sections');
 

@@ -27,6 +27,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'locations.php';
 
 // look for the id
 $id = NULL;
@@ -37,7 +38,6 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-include_once 'locations.php';
 $item =& Locations::get($id);
 
 // get the related anchor, if any
@@ -50,9 +50,6 @@ if(!is_object($anchor) || $anchor->is_viewable())
 	$permitted = TRUE;
 else
 	$permitted = FALSE;
-
-// load localized strings
-i18n::bind('locations');
 
 // load the skin, maybe with a variant
 load_skin('locations', $anchor);

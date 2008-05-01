@@ -47,9 +47,6 @@ Class Layout_comments_as_thread extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// load localized strings
-		i18n::bind('comments');
-
 		// flag items older than 5 minutes ago
 		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 300);
 

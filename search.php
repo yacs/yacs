@@ -314,7 +314,7 @@ if(!$section_id && ($page == 1) && ($servers = Servers::list_for_search(0, 3, 's
 				if(count($details))
 					$suffix .= '<span class="details">'.join(' - ', $details).'</span>';
 
-				$items[$item['link']] = array(NULL, $item['title'], $suffix, 'external', NULL);
+				$items[$item['link']] = array('', $item['title'], $suffix, 'external', '');
 
 			}
 			$context['text'] .= Skin::build_list($items, 'decorated');

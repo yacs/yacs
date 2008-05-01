@@ -693,7 +693,7 @@ if(!$text =& Cache::get($cache_id)) {
 	if(is_array($items)) {
 
 		// add a link to articles index
-		$items['articles/'] = array(NULL, i18n::s('All pages'), NULL, 'shortcut');
+		$items['articles/'] = array('', i18n::s('All pages'), '', 'shortcut');
 
 		// make a string out of the array
 		if($context['skin_variant'] == 'mobile')

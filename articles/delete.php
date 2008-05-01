@@ -74,9 +74,6 @@ elseif(Surfer::is_creator($item['create_id']))
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('articles');
-
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 

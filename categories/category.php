@@ -81,9 +81,6 @@ Class Category extends Anchor {
 		if(!isset($this->item['id']))
 			return NULL;
 
-		// load localized strings
-		i18n::bind('categories');
-
 		// the parent level
 		$anchor = Anchors::get($this->item['anchor']);
 		if(is_object($anchor))
@@ -386,5 +383,9 @@ Class Category extends Anchor {
 
 
 }
+
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('categories');
 
 ?>

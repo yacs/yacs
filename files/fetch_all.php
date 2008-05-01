@@ -40,6 +40,7 @@ If the file download will change regularly (i.e. you want the browser to downloa
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'files.php';
 
 // the anchor
 $type = $id = '';
@@ -88,9 +89,6 @@ elseif(isset($item['active']) && ($item['active'] == 'Y'))
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('files');
-
 // load the skin, maybe with a variant
 load_skin('files', $anchor);
 
@@ -131,10 +129,8 @@ if(!isset($item['id'])) {
 
 	// get related files from the database
 	$items = array();
-	if(isset($type) && isset($id)) {
-		include_once 'files.php';
+	if(isset($type) && isset($id))
 		$items = Files::list_by_date_for_anchor($type.':'.$id, 0, 20, 'raw');
-	}
 
 	// archive each file
 	$file_path = $context['path_to_root'].'/files/'.$context['virtual_path'].$type.'/'.$id.'/';

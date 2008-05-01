@@ -326,27 +326,27 @@ Class Surfer {
 
 			if(Surfer::get_id() && is_callable(array('Users', 'get_url'))) {
 				$link = Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
-				$menu[$link] = array(NULL, i18n::s('My profile'), NULL, $type, NULL, i18n::s('View all data this site knows about you'));
+				$menu[$link] = array('', i18n::s('My profile'), '', $type, '', i18n::s('View all data this site knows about you'));
 			}
 
 			if(Surfer::is_associate()
 				|| (Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y'))) ) {
 
-				$menu['articles/edit.php'] = array(NULL, i18n::s('Add a page'), NULL, $type, NULL, i18n::s('Use a web form to submit new content'));
+				$menu['articles/edit.php'] = array('', i18n::s('Add a page'), '', $type, '', i18n::s('Use a web form to submit new content'));
 
-				$menu['links/edit.php'] = array(NULL, i18n::s('Bookmark a link'), NULL, $type, NULL, i18n::s('Share interesting pages'));
+				$menu['links/edit.php'] = array('', i18n::s('Bookmark a link'), '', $type, '', i18n::s('Share interesting pages'));
 
 			}
 
 			if(Surfer::is_associate())
-				$menu['articles/review.php'] = array(NULL, i18n::s('Review queue'), NULL, $type, NULL, i18n::s('Check requests, publish submitted articles, review old pages'));
+				$menu['articles/review.php'] = array('', i18n::s('Review queue'), '', $type, '', i18n::s('Check requests, publish submitted articles, review old pages'));
 
-			$menu['users/logout.php'] = array(NULL, i18n::s('Logout'), NULL, $type, NULL, i18n::s('You will be considered as an anonymous surfer'));
+			$menu['users/logout.php'] = array('', i18n::s('Logout'), '', $type, '', i18n::s('You will be considered as an anonymous surfer'));
 
 			if(Surfer::is_associate())
-				$menu['control/'] = array(NULL, i18n::s('Control Panel'), NULL, $type, NULL, i18n::s('System commands, configuration panels, content overview'));
+				$menu['control/'] = array('', i18n::s('Control Panel'), '', $type, '', i18n::s('System commands, configuration panels, content overview'));
 
-			$menu['help.php'] = array(NULL, i18n::s('Help'), NULL, $type, NULL, i18n::s('If you don\'t know how to proceed, start here'));
+			$menu['help.php'] = array('', i18n::s('Help'), '', $type, '', i18n::s('If you don\'t know how to proceed, start here'));
 
 		// no user menu during installation
 		} elseif(!file_exists($context['path_to_root'].'parameters/switch.on') && !file_exists($context['path_to_root'].'parameters/switch.off')) {
@@ -354,11 +354,11 @@ Class Surfer {
 		// surfer has not been authenticated, and self-registration is allowed
 		} elseif(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y')) {
 
-			$menu['users/edit.php'] = array(NULL, i18n::s('Register'), NULL, $type, NULL, i18n::s('Share your profile in this community'));
+			$menu['users/edit.php'] = array('', i18n::s('Register'), '', $type, '', i18n::s('Share your profile in this community'));
 
-			$menu['users/login.php'] = array(NULL, i18n::s('Login'), NULL, $type, NULL, i18n::s('Prove who you are'));
+			$menu['users/login.php'] = array('', i18n::s('Login'), '', $type, '', i18n::s('Prove who you are'));
 
-			$menu['help.php'] = array(NULL, i18n::s('Help'), NULL, $type, NULL, i18n::s('If you don\'t know how to proceed, start here'));
+			$menu['help.php'] = array('', i18n::s('Help'), '', $type, '', i18n::s('If you don\'t know how to proceed, start here'));
 		}
 
 		// return by reference
@@ -609,14 +609,14 @@ Class Surfer {
 			// signal an advanced editor
 			$text .= '<input type="hidden" name="editor" value="tinymce" />';
 
-		// default to plain editor
+		// default to plain editor -- BR after the Textarea is mandatory
 		} else {
 			if(file_exists($context['path_to_root'].'codes/edit.js')) {
 				$text .= '<script type="text/javascript" src="'.$context['url_to_root'].'codes/edit.js"></script>';
 				if(file_exists($context['path_to_root'].'smileys/edit.js'))
 					$text .= '<script type="text/javascript" src="'.$context['url_to_root'].'smileys/edit.js"></script>';
 			}
-			$text .= '<textarea name="'.$name.'" id="edit_area" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea>';
+			$text .= '<textarea name="'.$name.'" id="edit_area" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea>'.BR;
 
 		}
 
@@ -1441,5 +1441,9 @@ if(@count($_REQUEST) && (!isset($context['allow_html_input']) || ($context['allo
 		$_REQUEST = Surfer::strip_tags($_REQUEST, $context['users_allowed_tags']);
 	}
 }
+
+// remember editor setting
+if(isset($_COOKIE['surfer_editor']))
+	$_SESSION['surfer_editor'] = $_COOKIE['surfer_editor'];
 
 ?>

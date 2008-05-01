@@ -628,16 +628,16 @@ elseif(isset($action) && ($action == 'announcement')) {
 	// list and count recipients
 	$recipients_errors = $recipients_processed = $recipients_ok = 0;
 	if(is_array($to)) {
-		$context['text'] .= i18n::s('Sending the letter to:')."\n".'<ul>'."\n";
+		$context['text'] .= i18n::s('A message has been sent to:')."\n".'<ul>'."\n";
 		foreach($to as $address)
 			$context['text'] .= '<li>'.encode_field($address).'</li>'."\n";
 		$context['text'] .= '</ul>'."\n";
 		$recipients_processed = count($to);
 	} elseif($to) {
-		$context['text'] .= i18n::s('Sending the letter to:').' '.encode_field($to).BR."\n";
+		$context['text'] .= i18n::s('A message has been sent to:').' '.encode_field($to).BR."\n";
 		$recipients_processed = 1;
 	} else
-		$context['text'] .= '<b>'.i18n::s('No recipient has been defined for this letter.')."</b>".BR."\n";
+		$context['text'] .= '<b>'.i18n::s('No recipient has been defined.')."</b>".BR."\n";
 
 	// do the job
 	if($recipients_processed) {

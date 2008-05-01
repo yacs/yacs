@@ -21,9 +21,6 @@ if(!$file_maximum_size || $file_maximum_size > 50000000)
 // do not always show the edition form
 $with_form = FALSE;
 
-// load localized strings
-i18n::bind('articles');
-
 // load the skin
 load_skin('articles');
 

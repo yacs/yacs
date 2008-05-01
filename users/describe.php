@@ -85,9 +85,6 @@ elseif(isset($item['active']) && ($item['active'] == 'Y'))
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('users');
-
 // load the skin
 load_skin('users');
 

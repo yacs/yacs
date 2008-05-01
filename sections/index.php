@@ -79,9 +79,6 @@ $page = strip_tags($page);
 if($page < 1)
 	$page = 1;
 
-// load localized strings
-i18n::bind('sections');
-
 // load the skin
 load_skin('site_map');
 

@@ -88,9 +88,6 @@ Class Section extends Anchor {
 		if(!isset($this->item['id']))
 			return FALSE;
 
-		// load localized strings
-		i18n::bind('sections');
-
 		// a default title
 		if(!$title)
 			$title = $this->get_title();
@@ -272,9 +269,6 @@ Class Section extends Anchor {
 		// no item bound
 		if(!isset($this->item['id']))
 			return NULL;
-
-		// load localized strings
-		i18n::bind('sections');
 
 		// initialize components
 		$previous_url = $previous_label = $next_url = $next_label = $option_url = $option_label ='';
@@ -521,9 +515,6 @@ Class Section extends Anchor {
 			$text = NULL;
 			return $text;
 		}
-
-		// load localized strings
-		i18n::bind('sections');
 
 		// the text to be returned
 		$text = '';
@@ -1540,4 +1531,9 @@ Class Section extends Anchor {
 	}
 
 }
+
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('sections');
+
 ?>

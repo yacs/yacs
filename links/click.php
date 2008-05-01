@@ -22,6 +22,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'links.php';
 
 // get target url
 $url = NULL;
@@ -64,7 +65,6 @@ if($url && !preg_match('/^(\/|\w+:)/i', $url)) {
 $url = rtrim($url, '/');
 
 // get the item from the database
-include_once 'links.php';
 $item =& Links::get($url);
 
 // get the related anchor, if any
@@ -77,9 +77,6 @@ if(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 else
 	$permitted = TRUE;
-
-// load localized strings
-i18n::bind('links');
 
 // load the skin, maybe with a variant
 load_skin('links', $anchor);

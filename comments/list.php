@@ -86,9 +86,6 @@ if(!is_object($anchor) || $anchor->is_viewable())
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('comments');
-
 // load the skin, maybe with a variant
 load_skin('comments', $anchor);
 

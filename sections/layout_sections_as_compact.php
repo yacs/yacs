@@ -40,9 +40,6 @@ Class Layout_sections_as_compact extends Layout_interface {
 			return $output;
 		}
 
-		// load localized strings
-		i18n::bind('sections');
-
 		// we return an array of ($url => $attributes)
 		$items = array();
 

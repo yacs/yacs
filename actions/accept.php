@@ -31,6 +31,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'actions.php';
 
 // look for the id
 $id = NULL;
@@ -49,7 +50,6 @@ elseif(isset($context['arguments'][1]))
 $status = strip_tags($status);
 
 // get the item from the database
-include_once 'actions.php';
 $item =& Actions::get($id);
 
 // get the related anchor, if any
@@ -76,9 +76,6 @@ elseif(Surfer::get_id() && ($item['anchor'] == 'user:'.Surfer::get_id()))
 // the default is to deny access
 else
 	$permitted = FALSE;
-
-// load localized strings
-i18n::bind('actions');
 
 // load the skin, maybe with a variant
 load_skin('actions', $anchor);

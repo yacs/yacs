@@ -41,9 +41,6 @@ Class Layout_articles_as_freemind extends Layout_interface {
 		if(isset($context['skins_freemind_article_style']) && $context['skins_freemind_article_style'])
 			$freemind_article_style = ' STYLE="'.$context['skins_freemind_article_style'].'"';
 
-		// load localized strings
-		i18n::bind('articles');
-
 		// flag articles updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;

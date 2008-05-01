@@ -44,6 +44,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'decisions.php';
 
 // what should we do?
 $action = '';
@@ -83,7 +84,6 @@ $id = strip_tags($id);
 $target_anchor = strip_tags($target_anchor);
 
 // get the item from the database
-include_once 'decisions.php';
 if($id)
 	$item =& Decisions::get($id);
 
@@ -93,9 +93,6 @@ if(isset($item['anchor']) && $item['anchor'])
 	$anchor = Anchors::get($item['anchor']);
 elseif($target_anchor)
 	$anchor = Anchors::get($target_anchor);
-
-// load localized strings
-i18n::bind('decisions');
 
 // load the skin, maybe with a variant
 load_skin('decisions', $anchor);

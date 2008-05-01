@@ -15,6 +15,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once 'locations.php';
 
 // look for the id
 $id = NULL;
@@ -25,11 +26,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-include_once 'locations.php';
 $item =& Locations::get($id);
-
-// load localized strings
-i18n::bind('locations');
 
 // load the skin
 load_skin('locations');

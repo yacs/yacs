@@ -456,13 +456,13 @@ table#wrapper {
  * unique elements - may appear in one or several pages
  */
 
-#categories ul { /* categories related to an article, on page side -- articles/view.php */
+dl#categories ul { /* categories related to an article, on page side -- articles/view.php */
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
-#categories ul li { /* space between links */
+dl#categories ul li { /* space between links */
 	margin: 0 0 4px 0;
 	padding: 0;
 }

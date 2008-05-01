@@ -36,9 +36,6 @@ Class Layout_dates extends Layout_interface {
 			return $output;
 		}
 
-		// load localized strings
-		i18n::bind('dates');
-
 		// flag dates updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;

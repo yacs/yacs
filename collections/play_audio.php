@@ -40,9 +40,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-
-// load localized strings
-i18n::bind('collections');
+include_once 'collections.php';
 
 // load the skin -- before loading the collection
 load_skin('collections');
@@ -58,7 +56,6 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // bind the virtual item to something real
-include_once 'collections.php';
 $item = Collections::get($id);
 
 // icons used to depict files and folders

@@ -31,9 +31,6 @@ Class Layout_sections_as_menu extends Layout_interface {
 			return $output;
 		}
 
-		// load localized strings
-		i18n::bind('sections');
-
 		// hovering label
 		$href_title = i18n::s('View the section');
 

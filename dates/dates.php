@@ -22,10 +22,6 @@ Class Dates {
 		// cache labels for days
 		static $days;
 		if(!isset($days)) {
-
-			// load localized strings
-			i18n::bind('dates');
-
 			$days = array();
 			$days[0] = i18n::s('sunday');
 			$days[1] = i18n::s('monday');
@@ -1244,7 +1240,8 @@ Class Dates {
 
 }
 
-// ensure this library has been fully localized
-i18n::bind('dates');
+// load localized strings
+if(is_callable(array('i18n', 'bind')))
+	i18n::bind('dates');
 
 ?>

@@ -53,6 +53,7 @@ include_once '../shared/global.php';
 include_once '../images/images.php';
 include_once '../links/links.php';
 include_once '../versions/versions.php';	// back in history
+include_once 'files.php';
 
 // look for the id
 $id = NULL;
@@ -63,7 +64,6 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-include_once 'files.php';
 $item =& Files::get($id);
 
 // get the related anchor, if any
@@ -120,9 +120,6 @@ elseif(isset($item['id']) && Surfer::is_member() && (!isset($context['users_with
 // the default is to disable change commands
 else
 	$editable = FALSE;
-
-// load localized strings
-i18n::bind('files');
 
 // load the skin, maybe with a variant
 load_skin('files', $anchor);

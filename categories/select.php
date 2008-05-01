@@ -48,9 +48,6 @@ if(Categories::are_allowed($anchor))
 else
 	$permitted = FALSE;
 
-// load localized strings
-i18n::bind('categories');
-
 // load the skin
 load_skin('categories');
 

@@ -277,7 +277,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 
 			// link to articles index
 			if($item_count > 4)
-				$items['articles/'] = array(NULL, i18n::s('All pages'), NULL, 'shortcut');
+				$items['articles/'] = array('', i18n::s('All pages'), '', 'shortcut');
 
 			// turn the list to a string
 			$text .= Skin::build_list($items, 'decorated');

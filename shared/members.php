@@ -857,7 +857,7 @@ Class Members {
 	}
 
 	/**
-	 * list alphabetically users related to a given category
+	 * list alphabetically users related to a given anchor
 	 *
 	 * Only users matching following criteria are returned:
 	 * - user is visible (active='Y')
@@ -897,12 +897,12 @@ Class Members {
 			." ORDER BY users.full_name, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& users::list_selected(SQL::query($query), $variant);
+		$output =& Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
 	/**
-	 * list alphabetically users related to a given category
+	 * list alphabetically users assigned to an anchor
 	 *
 	 * Only users matching following criteria are returned:
 	 * - user is visible (active='Y')
@@ -942,12 +942,12 @@ Class Members {
 			." ORDER BY users.posts DESC, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		$output =& users::list_selected(SQL::query($query), $variant);
+		$output =& Users::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
 
 	/**
-	 * list alphabetically the users assigned to an anchor
+	 * list alphabetically users with some member
 	 *
 	 * Only users matching following criteria are returned:
 	 * - user is visible (active='Y')
@@ -1002,11 +1002,16 @@ Class Members {
 			$where .= " OR users.active='R'";
 		if(Surfer::is_empowered())
 			$where .= " OR users.active='N'";
+		$where = '('.$where.')';
+
+		// only include users who want to receive mail messages
+		if($variant == 'mail')
+			$where .= " AND (without_messages != 'Y')";
 
 		// the list of users
 		$query = "SELECT *	FROM ".SQL::table_name('users')." AS users"
 			." WHERE (id = ".join(" OR id = ", $ids).")"
-			."	AND (".$where.")"
+			."	AND ".$where
 			." ORDER BY users.posts DESC, users.nick_name LIMIT ".$offset.','.$count;
 
 		// use existing listing facility

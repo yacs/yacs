@@ -28,9 +28,6 @@ Class Layout_images_as_hits extends Layout_interface {
 			return $output;
 		}
 
-		// load localized strings
-		i18n::bind('images');
-
 		// we return an array of ($url => $attributes)
 		$items = array();
 

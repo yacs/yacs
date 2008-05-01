@@ -11,9 +11,6 @@
 include_once '../shared/global.php';
 include_once 'categories.php';
 
-// load localized strings
-i18n::bind('categories');
-
 // load the skin
 load_skin('categories');
 
