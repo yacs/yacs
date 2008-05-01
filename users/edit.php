@@ -674,7 +674,7 @@ if($with_form) {
 	if(isset($item['editor']))
 		;
 	elseif(!isset($context['users_default_editor']))
-		$item['editor'] = 'yacs';
+		$item['editor'] = 'tinymce';
 	else
 		$item['editor'] = $context['users_default_editor'];
 	$input .= '<option value="tinymce"';
