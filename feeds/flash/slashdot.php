@@ -30,7 +30,7 @@ include_once '../../shared/global.php';
 
 Safe::load('parameters/feeds.flash.include.php');
 
-// load the skin
+// load a skin engine
 load_skin('articles');
 
 // ensure we see only articles visible at the home page

@@ -93,11 +93,8 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 		}
 	}
 
-	// also delete cached javascript files -- see Cache::hash()
-	if($items=Safe::glob($context['path_to_root'].'temporary/cache_*.js')) {
-		foreach($items as $name)
-			Safe::unlink($name);
-	}
+	// also delete cached javascript files
+	Cache::purge('js');
 
 	// report to surfer
 	if($count)
@@ -114,8 +111,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 	// remember the operation
 	$label = i18n::c('jsmin has been applied to Javascript files');
-	$description = $context['url_to_home'].$context['url_to_root'].'control/jsmin.php';
-	Logger::remember('control/jsmin.php', $label, $description);
+	Logger::remember('control/jsmin.php', $label);
 
 // confirmation is required
 } else {

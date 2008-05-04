@@ -335,7 +335,7 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="with_author_information" value="N"';
 	if(!isset($context['with_author_information']) || ($context['with_author_information'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Hide this information');
+	$input .= EOT.' '.i18n::s('Do not display this item.');
 	$input .= BR.'<input type="radio" name="with_author_information" value="Y"';
 	if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y'))
 		$input .= ' checked="checked"';
@@ -351,7 +351,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="skins_general_without_feed" value="Y"';
 	if(isset($context['skins_general_without_feed']) && ($context['skins_general_without_feed'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Hide this information');
+	$input .= EOT.' '.i18n::s('Do not display this item.');
 	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
 
 	// self reference
@@ -363,7 +363,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="pages_without_reference" value="Y"';
 	if(isset($context['pages_without_reference']) && ($context['pages_without_reference'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Hide this information');
+	$input .= EOT.' '.i18n::s('Do not display this item.');
 	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
 
 	// bookmarklets
@@ -375,7 +375,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="pages_without_bookmarklets" value="Y"';
 	if(isset($context['pages_without_bookmarklets']) && ($context['pages_without_bookmarklets'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Hide this information');
+	$input .= EOT.' '.i18n::s('Do not display this item.');
 	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
 
 	// visited pages
@@ -387,7 +387,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="pages_without_history" value="Y"';
 	if(isset($context['pages_without_history']) && ($context['pages_without_history'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('hide this information');
+	$input .= EOT.' '.i18n::s('Do not display this item.');
 	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
 
 	// with referrals
@@ -788,8 +788,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/skins.include.php');
-		$description = $context['url_to_home'].$context['url_to_root'].'skins/configure.php';
-		Logger::remember('skins/configure.php', $label, $description);
+		Logger::remember('skins/configure.php', $label);
 	}
 
 	// display updated parameters

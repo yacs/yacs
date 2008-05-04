@@ -1804,8 +1804,8 @@ if(!isset($item['id'])) {
 		// get news from rss
 		if(isset($item['id']) && (!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {
 
-			$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'feed'), i18n::s('recent pages'), 'xml')
-				.BR.Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('section:'.$item['id'], 'feed'), i18n::s('podcasted files'), 'xml');
+			$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'feed'), i18n::s('Recent pages'), 'xml')
+				.BR.Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('section:'.$item['id'], 'feed'), i18n::s('Podcasted files'), 'xml');
 
 			// public aggregators
 			if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))

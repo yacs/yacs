@@ -709,11 +709,11 @@ if(!isset($item['id'])) {
 		$content = '';
 
 		// a feed to shared files
-		$content .= Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('article:'.$item['id'], 'feed'), i18n::s('podcasted files'), 'xml').BR;
+		$content .= Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('article:'.$item['id'], 'feed'), i18n::s('Podcasted files'), 'xml').BR;
 
 		// comments are allowed
 		if(Comments::are_allowed($anchor, $item)) {
-			$content .= Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), i18n::s('recent comments'), 'xml');
+			$content .= Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), i18n::s('Recent comments'), 'xml');
 
 			// public aggregators
 			if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))

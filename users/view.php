@@ -602,7 +602,7 @@ if(!isset($item['id'])) {
 	// get news from rss
 	if(isset($item['id']) && isset($item['capability']) && (($item['capability'] == 'A') || ($item['capability'] == 'M')) && (!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {
 
-		$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'feed'), i18n::s('recent pages'), 'xml');
+		$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'feed'), i18n::s('Recent pages'), 'xml');
 
 		// public aggregators
 		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
@@ -615,7 +615,7 @@ if(!isset($item['id'])) {
 	$cache_id = 'users/view.php?id='.$item['id'].'#popular_articles';
 	if(!$text =& Cache::get($cache_id)) {
 		$items = Articles::list_by_hits_for_author($item['id'], 0, COMPACT_LIST_SIZE, 'hits');
-		if(is_array($items))
+		if(is_array($items) && count($items))
 			$text .= Skin::build_box(i18n::s('Top pages'), Skin::build_list($items, 'compact'), 'extra', 'top_articles');
 
 		// save in cache
@@ -627,7 +627,7 @@ if(!isset($item['id'])) {
 	$cache_id = 'users/view.php?id='.$item['id'].'#popular_files';
 	if(!$text =& Cache::get($cache_id)) {
 		$items = Files::list_by_hits_for_author($item['id'], 0, COMPACT_LIST_SIZE);
-		if(is_array($items))
+		if(is_array($items) && count($items))
 			$text .= Skin::build_box(i18n::s('Top files'), Skin::build_list($items, 'compact'), 'extra', 'top_files');
 
 		// save in cache

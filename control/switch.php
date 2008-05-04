@@ -65,8 +65,7 @@ if(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = i18n::c('The server has been switched on.');
-		$description = $context['url_to_home'].$context['url_to_root'].'control/switch.php';
-		Logger::remember('control/switch.php', $label, $description);
+		Logger::remember('control/switch.php', $label);
 
 	// if the server is currently switched on
 	} elseif(file_exists($context['path_to_root'].'parameters/switch.on')) {
@@ -116,8 +115,7 @@ if(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = i18n::c('The server has been switched off.');
-		$description = $context['url_to_home'].$context['url_to_root'].'control/switch.php';
-		Logger::remember('control/switch.php', $label, $description);
+		Logger::remember('control/switch.php', $label);
 
 	// if the server is currently switched off
 	} elseif(file_exists($context['path_to_root'].'parameters/switch.off'))

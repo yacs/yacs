@@ -144,8 +144,8 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// side bar with a rss feed, if this server is well populated
 	if($stats['count'] > $items_per_page) {
-		$text .= Skin::build_box(i18n::s('Stay tuned'), Skin::build_link(Feeds::get_url('rss'), i18n::s('recent pages'), 'xml')
-			.BR.Skin::build_link(Feeds::get_url('articles'), i18n::s('full content'), 'xml'));
+		$text .= Skin::build_box(i18n::s('Stay tuned'), Skin::build_link(Feeds::get_url('rss'), i18n::s('Recent pages'), 'xml')
+			.BR.Skin::build_link(Feeds::get_url('articles'), i18n::s('Full content'), 'xml'));
 	}
 
 	// side boxes for related categories, if any

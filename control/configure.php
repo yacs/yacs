@@ -839,8 +839,7 @@ if(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/control.include.php');
-		$description = $context['url_to_home'].$context['url_to_root'].'control/configure.php';
-		Logger::remember('control/configure.php', $label, $description);
+		Logger::remember('control/configure.php', $label);
 
 	}
 

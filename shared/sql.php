@@ -575,17 +575,39 @@ Class SQL {
 	/**
 	 * purge idle space
 	 *
-	 * This function OPTIMIZEs tables that may induce overheads because of
+	 * This function OPTIMIZEs tables that may create overheads because of
 	 * frequent deletions, including: cache, links, members, messages,
 	 * notifications, values, versions, visits.
 	 *
+	 * Last purge is recorded as value 'sql.tick'.
+	 *
 	 * @param boolean optional TRUE to not report on any error
-	 * @param resource connection to be considered, if any
-	 * @return TRUE on success, or FALSE on error
+	 * @return a string to be displayed in resulting page, if any
 	 */
-	function purge($silent=FALSE, $connection=NULL) {
+	function purge($silent=FALSE) {
 		global $context;
 
+		// useless if we don't have a valid database connection
+		if(!$context['connection'])
+			return;
+
+		// remember start time
+		$stamp = get_micro_time();
+
+		// get date of last tick
+		$record = Values::get_record('sql.tick', NULL_DATE);
+
+		// wait at least 1 hour = 3600 seconds between ticks
+		if(isset($record['edit_date']))
+			$target = SQL::strtotime($record['edit_date']) + 3600;
+		else
+			$target = time();
+
+		// request to be delayed
+		if($target > time())
+			return 'shared/sql.php: wait until '.gmdate('r', $target).' GMT'.BR;
+
+		// recover unused bytes
 		$query = 'OPTIMIZE TABLE '.SQL::table_name('cache')
 			.', '.SQL::table_name('links')
 			.', '.SQL::table_name('members')
@@ -594,10 +616,19 @@ Class SQL {
 			.', '.SQL::table_name('values')
 			.', '.SQL::table_name('versions')
 			.', '.SQL::table_name('visits');
+		$result =& SQL::query($query, $silent);
 
-		if($result =& SQL::query($query, $silent, $connection))
-			return TRUE;
-		return FALSE;
+		// remember tick date and resulting text
+		Values::set('sql.tick', 'purge');
+
+		// compute execution time
+		$time = round(get_micro_time() - $stamp, 2);
+
+		// report on work achieved
+		if($result)
+			return 'shared/sql.php: unused bytes have been recovered ('.$time.' seconds)'.BR;
+		else
+			return 'shared/sql.php: nothing to recover ('.$time.' seconds)'.BR;
 	}
 
 	/**

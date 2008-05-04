@@ -72,9 +72,7 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= '<p><strong>'.i18n::s('The server has been switched OFF. Switch it back on as soon as possible.').'</strong>'.BR."\n";
 
 		// remember the change
-		$label = i18n::c('The server has been switched off.');
-		$description = $context['url_to_home'].$context['url_to_root'].'scripts/update.php';
-		Logger::remember('scripts/update.php', $label, $description);
+		Logger::remember('scripts/update.php', i18n::c('The server has been switched off.'));
 	}
 
 	// purge the scripts/run_once directory from previous content
@@ -200,12 +198,7 @@ elseif(!Surfer::is_associate()) {
 
 		// purge the cache
 		Cache::clear();
-
-		// also delete regular temporary files -- see Cache::hash()
-		if($items=Safe::glob($context['path_to_root'].'temporary/cache_*')) {
-			foreach($items as $name)
-				Safe::unlink($name);
-		}
+		Cache::purge('js');
 
 	}
 

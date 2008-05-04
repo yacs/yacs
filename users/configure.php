@@ -75,6 +75,9 @@
  * In other situations, it may be important to restrict file modifications to
  * their original authors. In such situations set this parameter to 'Y'.
  *
+ * [*] [code]users_without_login_box[/code] - By default YACS adds a login box
+ * to the interface. Change this parameter to 'Y' to avoid this.
+ *
  * [*] [code]users_without_login_welcome[/code] - By default YACS confirms authentication after logon.
  * Change this parameter to 'Y' to streamline this additional step.
  *
@@ -252,16 +255,16 @@ elseif(!Surfer::is_associate()) {
 	//
 	$authentication = '';
 
-	// permanent authentication
-	$label = i18n::s('Identification');
-	$input = '<input type="radio" name="users_with_permanent_authentication" value="N"';
-	if(!isset($context['users_with_permanent_authentication']) || ($context['users_with_permanent_authentication'] != 'Y'))
+	// login box
+	$label = i18n::s('Authentication');
+	$input = '<input type="radio" name="users_without_login_box" value="N"';
+	if(!isset($context['users_without_login_box']) || ($context['users_without_login_box'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Ask for authentication on every web session (public site).');
-	$input .= BR.'<input type="radio" name="users_with_permanent_authentication" value="Y"';
-	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y'))
+	$input .= EOT.' '.i18n::s('Offer anonymous surfers to login.');
+	$input .= BR.'<input type="radio" name="users_without_login_box" value="Y"';
+	if(isset($context['users_without_login_box']) && ($context['users_without_login_box'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Set a long-lasting cookie on successful login and do not bother people afterwards (intranet site).');
+	$input .= EOT.' '.i18n::s('Do not display this item.');
 	$fields[] = array($label, $input);
 
 	// anti-robot
@@ -307,6 +310,18 @@ elseif(!Surfer::is_associate()) {
 	if(isset($context['users_without_login_welcome']) && ($context['users_without_login_welcome'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= EOT.' '.i18n::s('Redirect directly to protected page after authentication.');
+	$fields[] = array($label, $input);
+
+	// permanent authentication
+	$label = i18n::s('Identification');
+	$input = '<input type="radio" name="users_with_permanent_authentication" value="N"';
+	if(!isset($context['users_with_permanent_authentication']) || ($context['users_with_permanent_authentication'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Ask for authentication on every web session (public site).');
+	$input .= BR.'<input type="radio" name="users_with_permanent_authentication" value="Y"';
+	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Set a long-lasting cookie on successful login and do not bother people afterwards (intranet site).');
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -583,6 +598,8 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'users_without_archiving\']=\''.addcslashes($_REQUEST['users_without_archiving'], "\\'")."';\n";
 	if(isset($_REQUEST['users_without_file_overloads']))
 		$content .= '$context[\'users_without_file_overloads\']=\''.addcslashes($_REQUEST['users_without_file_overloads'], "\\'")."';\n";
+	if(isset($_REQUEST['users_without_login_box']))
+		$content .= '$context[\'users_without_login_box\']=\''.addcslashes($_REQUEST['users_without_login_box'], "\\'")."';\n";
 	if(isset($_REQUEST['users_without_login_welcome']))
 		$content .= '$context[\'users_without_login_welcome\']=\''.addcslashes($_REQUEST['users_without_login_welcome'], "\\'")."';\n";
 	if(isset($_REQUEST['users_without_revision']))
@@ -619,8 +636,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/users.include.php');
-		$description = $context['url_to_home'].$context['url_to_root'].'users/configure.php';
-		Logger::remember('users/configure.php', $label, $description);
+		Logger::remember('users/configure.php', $label);
 
 	}
 

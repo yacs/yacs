@@ -212,8 +212,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/files.include.php');
-		$description = $context['url_to_home'].$context['url_to_root'].'files/configure.php';
-		Logger::remember('files/configure.php', $label, $description);
+		Logger::remember('files/configure.php', $label);
 
 	}
 

@@ -288,7 +288,7 @@ class Uploads {
 			}
 
 			// remember tick date
-			include_once $context['path_to_root'].'shared/values.php';	// uploads.tick.entries
+			include_once $context['path_to_root'].'shared/values.php';
 			Values::set('uploads.tick.entries', $count);
 		}
 

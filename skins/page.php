@@ -221,7 +221,7 @@
 
 		// all our feeds
 		if(is_callable(array('i18n', 's')))
-			echo ' - '.Skin::build_link('feeds/', i18n::s('information channels'), 'basic');
+			echo ' - '.Skin::build_link('feeds/', i18n::s('Information channels'), 'basic');
 
 		// add footer suffix
 		echo $suffix;
@@ -329,11 +329,11 @@
 				$box_url = Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
 				$box_popup = i18n::s('See your user profile');
 			} else {
-				$box_title = i18n::s('User menu');
+				$box_title = i18n::s('User login');
 				$box_url = '';
 				$box_popup = '';
 			}
-			echo Skin::build_box($box_title, Skin::build_list($menu, 'compact'), 'navigation', 'user_menu', $box_url, $box_popup)."\n";
+			echo Skin::build_box($box_title, $menu, 'navigation', 'user_menu', $box_url, $box_popup)."\n";
 		}
 
 		// categories to display among navigation boxes, after end of setup, and if we have access to the database

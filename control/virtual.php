@@ -83,8 +83,7 @@ elseif($id && ($action == 'delete')) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been deleted'), $file);
-		$description = $context['url_to_home'].$context['url_to_root'].'control/virtual.php';
-		Logger::remember('control/virtual.php', $label, $description);
+		Logger::remember('control/virtual.php', $label);
 
 	}
 
@@ -161,8 +160,7 @@ elseif($id && ($action == 'delete')) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been created'), $target);
-		$description = $context['url_to_home'].$context['url_to_root'].'control/virtual.php';
-		Logger::remember('control/virtual.php', $label, $description);
+		Logger::remember('control/virtual.php', $label);
 
 	}
 

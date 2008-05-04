@@ -295,8 +295,7 @@ function send_body() {
 
 		// remember the change
 		$label = i18n::c('The database has been optimised');
-		$description = $context['url_to_home'].$context['url_to_root'].'control/setup.php';
-		Logger::remember('control/setup.php', $label, $description);
+		Logger::remember('control/setup.php', $label);
 
 	// ask for confirmation
 	} else {

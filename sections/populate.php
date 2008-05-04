@@ -3,7 +3,7 @@
  * populate sections
  *
  * Creates following sections for web management purposes:
- * - 'channels' - sample interactive places
+ * - 'covers' - the most recent article is displayed at the front page of the site
  * - 'default' - the default place to post new content
  * - 'extra_boxes' - boxes only displayed at the front page, in the extra panel
  * - 'gadget_boxes' - boxes only displayed at the front page, as gadgets
@@ -14,6 +14,7 @@
  * - 'templates' - models for new articles
  *
  * Also, if the parameter $context['populate'] is set to 'samples', additional articles will be created:
+ * - 'channels' - sample interactive places
  * - 'files' - a sample library of files
  * - 'my_blog' - a sample blog
  * - 'my_jive_board' - a sample discussion board
@@ -78,8 +79,10 @@ Cache::clear('sections');
 // this page is dedicated to sections
 $text = '';
 
-// 'channels' section - interactive places
-if(Sections::get('channels'))
+// 'channels' section - sample data
+if(!isset($context['populate']) || ($context['populate'] != 'samples'))
+	;
+elseif(Sections::get('channels'))
 	$text .= i18n::s('A section already exists for channels.').BR."\n";
 else {
 	$fields = array();
@@ -93,6 +96,26 @@ else {
 	$fields['articles_layout'] = 'map'; // list threads appropriately
 	$fields['content_options'] = 'view_as_thread'; // change the rendering script for articles
 	$fields['maximum_items'] = 1000; // limit the overall number of threads
+	if(Sections::post($fields))
+		$text .= sprintf(i18n::s('A section %s has been created.'), $fields['title']).BR."\n";
+	else
+		$text .= Skin::error_pop().BR."\n";
+}
+
+// 'covers' section - basic data
+if(Sections::get('covers'))
+	$text .= i18n::s('A section already exists for cover pages.').BR."\n";
+else {
+	$fields = array();
+	$fields['nick_name'] = 'covers';
+	$fields['title'] = i18n::c('Covers');
+	$fields['introduction'] = i18n::c('Enter your cover page here');
+	$fields['description'] = i18n::c('The most recent published article in this section is used as the cover page of the site.');
+	$fields['active_set'] = 'N'; // only associates can access these pages
+	$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
+	$fields['index_map'] = 'N'; // listed with special sections
+	$fields['locked'] = 'Y'; // only associates can contribute
+	$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 	if(Sections::post($fields))
 		$text .= sprintf(i18n::s('A section %s has been created.'), $fields['title']).BR."\n";
 	else

@@ -206,11 +206,8 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.i18n::s('Deleting all cached items...')."</p>\n";
 	$context['text'] .= Cache::clear();
 
-	// also delete regular temporary files -- see Cache::hash()
-	if($items=Safe::glob($context['path_to_root'].'temporary/cache_*')) {
-		foreach($items as $name)
-			Safe::unlink($name);
-	}
+	// refresh javascript libraries
+	Cache::purge('js');
 
 	// display the execution time
 	$time_end = get_micro_time();

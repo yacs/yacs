@@ -94,6 +94,12 @@ Class i18n {
 		if(!isset($_SESSION['l10n_modules']))
 			$_SESSION['l10n_modules'] = array();
 
+		// ensure all cached modules are accurate on development machine
+		if($context['with_debug'] == 'Y') {
+			i18n::load('en', $module);
+			i18n::load('fr', $module);
+		}
+
 		// this module has already been loaded
 		if(isset($_SESSION['l10n_modules'][$module]))
 			return;
@@ -103,7 +109,7 @@ Class i18n {
 
 		// profiling mode
 		if($context['with_profile'] == 'Y')
-			logger::profile('i18n::bind', 'start');
+			Logger::profile('i18n::bind', 'start');
 
 		// load strings according to surfer localization
 		i18n::load($context['language'], $module);
@@ -114,7 +120,7 @@ Class i18n {
 
 		// profiling mode
 		if($context['with_profile'] == 'Y')
-			logger::profile('i18n::bind', 'stop');
+			Logger::profile('i18n::bind', 'stop');
 
 	}
 
@@ -1210,7 +1216,8 @@ Class i18n {
 		foreach($scores as $locale => $score) {
 
 			// ensure full locale availability
-			if(file_exists($context['path_to_root'].'i18n/locale/'.$locale.'/i18n.mo')) {
+			$path = 'i18n/locale/'.$locale.'/i18n.mo';
+			if(file_exists($context['path_to_root'].$path) || file_exists(Cache::hash($path.'.php'))) {
 
 					// this is guessed surfer locale
 					$context['language'] = $locale;
@@ -1226,7 +1233,8 @@ Class i18n {
 
 			// check for availability of basic language file
 			$locale = substr($locale, 0, $position);
-			if(file_exists($context['path_to_root'].'i18n/locale/'.$locale.'/i18n.mo')) {
+			$path = 'i18n/locale/'.$locale.'/i18n.mo';
+			if(file_exists($context['path_to_root'].$path) || file_exists(Cache::hash($path.'.php'))) {
 
 					// this is guessed surfer locale
 					$context['language'] = $locale;
@@ -1305,7 +1313,13 @@ Class i18n {
 
 		// load PHP version, if it exists, and if it is fresher than the original
 		$hash = Cache::hash($path.'.php');
-		if(is_readable($context['path_to_root'].$path) && is_readable($hash) && (filemtime($hash) > filemtime($context['path_to_root'].$path))) {
+		if(is_readable($hash) && is_readable($context['path_to_root'].$path) && (filemtime($hash) > filemtime($context['path_to_root'].$path))) {
+			include_once $hash;
+			return TRUE;
+		}
+
+		// also load the PHP version if there is no .mo file
+		if(is_readable($hash) && !file_exists($context['path_to_root'].$path)) {
 			include_once $hash;
 			return TRUE;
 		}
@@ -1364,13 +1378,16 @@ Class i18n {
 		$translated_table = unpack($order.$count, fread($handle, ($count * 4)));
 
 		// no cache if we are not allowed to write files
-		$cache = NULL;
 		if($cache = Safe::fopen($hash, 'w')) {
 
 			// start the cache file
 			$cache_content = '<?php'."\n"
-				.'// This file has been created by the script i18n/i18n.php'."\n"
-				.'// on '.gmdate("F j, Y, g:i a").' GMT. Please do not modify it manually.'."\n";
+				.'/**'."\n"
+				.' * cache localized strings'."\n"
+				.' *'."\n"
+				.' * This file has been created by the script i18n/i18n.php'."\n"
+				.' * on '.gmdate("F j, Y, g:i a").' GMT. Please do not modify it manually.'."\n"
+				.' */'."\n";
 
 		}
 

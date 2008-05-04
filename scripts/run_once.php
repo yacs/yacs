@@ -179,11 +179,8 @@ function send_body() {
 
 		}
 
-		// ensure actual refresh of regular temporary files -- see Cache::hash()
-		if($items=Safe::glob($context['path_to_root'].'temporary/cache_*')) {
-			foreach($items as $name)
-				Safe::unlink($name);
-		}
+		// refresh javascript libraries
+		Cache::purge('js');
 
 	}
 

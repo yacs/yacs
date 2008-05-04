@@ -94,8 +94,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 	// remember the operation
 	$label = sprintf(i18n::c('chmod %s has been applied to scripts'), $context['file_mask']);
-	$description = $context['url_to_home'].$context['url_to_root'].'control/chmod.php';
-	Logger::remember('control/chmod.php', $label, $description);
+	Logger::remember('control/chmod.php', $label);
 
 // confirmation is required
 } else {

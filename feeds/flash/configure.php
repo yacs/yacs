@@ -235,8 +235,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/feeds.flash.include.php');
-		$description = $context['url_to_home'].$context['url_to_root'].'feeds/configure.php';
-		Logger::remember('feeds/configure.php', $label, $description);
+		Logger::remember('feeds/configure.php', $label);
 
 	}
 

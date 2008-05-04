@@ -237,7 +237,7 @@ if(!isset($item['id'])) {
 
 	// birth date, if any
 	if(isset($item['birth_date']) && $item['birth_date'])
-		$rows[] = array(i18n::s('Birth date'), $item['birth_date']);
+		$rows[] = array(i18n::s('Birth date'), substr($item['birth_date'], 0, 10));
 
 	// agent, if any
 	if(isset($item['vcard_agent']) && $item['vcard_agent']) {

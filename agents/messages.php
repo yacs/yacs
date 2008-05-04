@@ -1628,7 +1628,6 @@ class Messages {
 	 * This function is aiming to run silently, therefore errors are logged in a file.
 	 *
 	 * @return a string to be displayed in resulting page, if any
-	 *
 	 */
 	function tick_hook() {
 		global $context;

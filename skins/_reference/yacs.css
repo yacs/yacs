@@ -479,3 +479,16 @@ div.folder_box {
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 }
+
+p#columns_prefix { /* comes before columns */
+	clear: left; /* align properly after site map, if any */
+	margin: 0;
+	padding: 0;
+}
+
+p#columns_suffix { /* comes after columns */
+	clear: left; /* compensate for left-floated columns */
+	margin: 0; /* ignored by firefox anyway */
+	padding: 0 0 2em 0; /* make some room after columns */
+}
+

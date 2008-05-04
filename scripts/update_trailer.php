@@ -62,8 +62,8 @@ if(!is_callable('normalize_url')) {
 if(!isset($context['content_type']))
 	$context['content_type'] = 'text/html';
 
-// also delete regular temporary files -- see Cache::hash()
-if($items=Safe::glob($context['path_to_root'].'temporary/cache_*')) {
+// refresh javascript libraries
+if($items=Safe::glob($context['path_to_root'].'temporary/cache_*.js')) {
 	foreach($items as $name)
 		Safe::unlink($name);
 }

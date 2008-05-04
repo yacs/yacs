@@ -111,11 +111,14 @@ if($target > time())
 	exit('Wait until '.gmdate('r', $target).' GMT');
 
 // remember tick date and avoid racing conditions
-Values::set('cron.tick', $context['cron_text']);
+Values::set('cron.tick', 'running...');
 
 // do the job and provide feed-back to user
 $context['cron_text'] = Hooks::include_scripts('tick');
 echo $context['cron_text'];
+
+// remember tick date and resulting text
+Values::set('cron.tick', $context['cron_text']);
 
 // log outcome of script execution in debug mode
 if($context['with_debug'] == 'Y')

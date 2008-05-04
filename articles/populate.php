@@ -7,15 +7,13 @@
  *
  * Creates articles with following nick names:
  * - 'about' - a page providing an overview of this site
- * - 'coffee_machine' - a permanent thread for unformal conversations
  * - 'cover' - a cover article for the front page
  * - 'extra_rss' - a sample extra box to link to our XML RSS feed
  * - 'menu' - a sample general menu displayed on all pages
  * - 'privacy' - to provide clear statements to community members
- * - 'support_chat' - a sample thread to better support your users
- * - 'wiki_template' - to create a wiki page
  *
  * Also, if the parameter $context['populate'] is set to 'samples', additional articles will be created:
+ * - 'coffee_machine' - a permanent thread for unformal conversations
  * - 'extra' - a sample extra box at the front page
  * - 'gadget_cloud' - a sample gadget box featuring the cloud at the front page
  * - 'gadget_collections' - a sample gadget box featuring available collections at the front page
@@ -26,6 +24,8 @@
  * - 'my_wiki_page' - some wiki sample content
  * - 'my_yabb_thread' - a sample thread made of one article, with a number of comments
  * - 'navigation' - a sample navigation box
+ * - 'support_chat' - a sample thread to better support your users
+ * - 'wiki_template' - to create a wiki page
  *
  * @see control/populate.php
  *
@@ -111,8 +111,10 @@ elseif($anchor = Sections::lookup('global')) {
 		$text .= Skin::error_pop().BR."\n";
 }
 
-// 'coffee_machine' article
-if(Articles::get('coffee_machine'))
+// 'coffee_machine' article - sample data
+if(!isset($context['populate']) || ($context['populate'] != 'samples'))
+	;
+elseif(Articles::get('coffee_machine'))
 	$text .= i18n::s('A page already exists for the coffee machine.').BR."\n";
 elseif($anchor = Sections::lookup('channels')) {
 	$fields = array();
@@ -130,12 +132,11 @@ elseif($anchor = Sections::lookup('channels')) {
 // 'cover' article - basic data
 if(Articles::get('cover'))
 	$text .= i18n::s('A cover article already exists.').BR."\n";
-elseif($anchor = Sections::lookup('global')) {
+elseif($anchor = Sections::lookup('covers')) {
 	$fields = array();
 	$fields['anchor'] = $anchor;
 	$fields['nick_name'] = 'cover';
 	$fields['title'] = i18n::c('Welcome!');
-	$fields['active_set'] = 'N'; // this page is integrated into the front page anyway
 	$fields['introduction'] = i18n::c('Cover article');
 	$fields['description'] = i18n::s("This is the cover page posted in the [link=global section]sections/view.php?id=global[/link].\nVisit the section to change any global page, such as this one, the about page, or the privacy page.\nIf you don't know how to proceed, visit the [link=help index]help.php[/link].");
 	$fields['locked'] = 'Y'; // only associates can change this page
@@ -175,8 +176,8 @@ elseif($anchor = Sections::lookup('extra_boxes')) {
 	$fields['nick_name'] = 'extra_rss';
 	$fields['title'] = i18n::c('Stay tuned');
 	$fields['introduction'] = '';
-	$fields['description'] = Skin::build_link('feeds/rss_2.0.php', 'recent pages', 'xml')
-		.BR.Skin::build_link('feeds/', 'information channels', 'shortcut');
+	$fields['description'] = Skin::build_link('feeds/rss_2.0.php', i18n::c('Recent pages'), 'xml')
+		.BR.Skin::build_link('feeds/', i18n::c('Information channels'), 'shortcut');
 	$fields['locked'] = 'Y'; // only associates can change this page
 	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 	if(Articles::post($fields))
@@ -240,8 +241,7 @@ elseif($anchor = Sections::lookup('global')) {
 		.'[submenu='.i18n::c('Site Map').']sections/[/submenu]'."\n"
 		.'[submenu='.i18n::c('Categories').']categories/[/submenu]'."\n"
 		.'[submenu='.i18n::c('Users').']users/[/submenu]'."\n"
-		.'[submenu='.i18n::c('Help').']help.php[/submenu]'."\n"
-		."[anonymous]\n[---][login][/anonymous]";
+		.'[submenu='.i18n::c('Help').']help.php[/submenu]'."\n";
 	$fields['locked'] = 'Y'; // only associates can change this page
 	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 	if(Articles::post($fields))
@@ -429,8 +429,10 @@ elseif($anchor = Sections::lookup('global')) {
 		$text .= Skin::error_pop().BR."\n";
 }
 
-// 'support_chat' article
-if(Articles::get('support_chat'))
+// 'support_chat' article - sample data
+if(!isset($context['populate']) || ($context['populate'] != 'samples'))
+	;
+elseif(Articles::get('support_chat'))
 	$text .= i18n::s('A page already exists for the support chat.').BR."\n";
 elseif($anchor = Sections::lookup('channels')) {
 	$fields = array();
@@ -445,8 +447,10 @@ elseif($anchor = Sections::lookup('channels')) {
 		$text .= Skin::error_pop().BR."\n";
 }
 
-// 'wiki_template' article
-if(Articles::get('wiki_template'))
+// 'wiki_template' article - sample data
+if(!isset($context['populate']) || ($context['populate'] != 'samples'))
+	;
+elseif(Articles::get('wiki_template'))
 	$text .= i18n::s('A template already exists for wiki pages.').BR."\n";
 elseif($anchor = Sections::lookup('templates')) {
 	$fields = array();

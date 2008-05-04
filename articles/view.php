@@ -1450,11 +1450,11 @@ if(!isset($item['id'])) {
 		if(isset($item['id']) && (!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {
 
 			// list of attached files
-			$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('article:'.$item['id'], 'feed'), i18n::s('podcasted files'), 'xml');
+			$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('article:'.$item['id'], 'feed'), i18n::s('Podcasted files'), 'xml');
 
 			// comments are allowed
 			if(Comments::are_allowed($anchor, $item)) {
-				$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), i18n::s('recent comments'), 'xml').BR
+				$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), i18n::s('Recent comments'), 'xml').BR
 					.$content;
 
 				// public aggregators

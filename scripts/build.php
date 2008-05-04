@@ -418,9 +418,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	// remember the built
-	$label = i18n::c('The reference store has been rebuilt');
-	$description = $context['url_to_home'].$context['url_to_root'].'scripts/build.php';
-	Logger::remember('scripts/build.php', $label, $description);
+	Logger::remember('scripts/build.php', i18n::c('The reference store has been rebuilt'));
 }
 
 // render the skin

@@ -708,9 +708,8 @@ if(!file_exists('../parameters/control.include.php')) {
 				$content = '<li>'.sprintf(i18n::s('Please %s to benefit from all contribution tools provided by this site.'), Skin::build_link('users/login.php', i18n::s('authenticate'), 'basic')).'</li>';
 
 				// offer a self-registration, if allowed
-				if(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y')) {
+				if(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y'))
 					$content .= '<li>'.sprintf(i18n::s('Registration is FREE and offers great benefits. %s if you are not yet a member of %s.'), Skin::build_link('users/edit.php', i18n::s('Click here to register'), 'basic'), $context['site_name'])."</li>\n";
-				}
 
 				// insert commands
 				$text .= Skin::build_box(i18n::s('Express yourself'), '<ul>'.$content.'</ul>', 'header1', 'express_yourself');

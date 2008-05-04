@@ -822,8 +822,7 @@ if(!$permitted) {
 
 			// remember the change
 			$label = sprintf(i18n::c('%s has been updated'), 'parameters/collections.include.php');
-			$description = $context['url_to_home'].$context['url_to_root'].'collections/configure.php';
-			Logger::remember('control/populate.php', $label, $description);
+			Logger::remember('control/populate.php', $label);
 
 			// splash
 			$context['text'] .= '<p>'.i18n::s('Congratulations, one collection has been added to your site.').'</p>';

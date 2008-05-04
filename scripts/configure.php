@@ -154,8 +154,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/scripts.include.php');
-		$description = $context['url_to_home'].$context['url_to_root'].'scripts/configure.php';
-		Logger::remember('scripts/configure.php', $label, $description);
+		Logger::remember('scripts/configure.php', $label);
 
 	}
 

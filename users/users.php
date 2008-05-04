@@ -1237,6 +1237,7 @@ Class Users {
 			."aim_address='".SQL::escape(isset($fields['aim_address']) ? $fields['aim_address'] : '')."', "
 			."alternate_number='".SQL::escape(isset($fields['alternate_number']) ? $fields['alternate_number'] : '')."', "
 			."avatar_url='".SQL::escape(isset($fields['avatar_url']) ? $fields['avatar_url'] : '')."', "
+			."birth_date='".SQL::escape(isset($fields['birth_date']) ? $fields['birth_date'] : '')."', "
 			."capability='".SQL::escape($fields['capability'])."', "
 			."create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."', "
 			."create_id='".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id'])."', "
@@ -1448,6 +1449,7 @@ Class Users {
 				."aim_address='".SQL::escape(isset($fields['aim_address']) ? $fields['aim_address'] : '')."', "
 				."alternate_number='".SQL::escape(isset($fields['alternate_number']) ? $fields['alternate_number'] : '')."', "
 				."avatar_url='".SQL::escape(isset($fields['avatar_url']) ? $fields['avatar_url'] : '')."', "
+				."birth_date='".SQL::escape(isset($fields['birth_date']) ? $fields['birth_date'] : '')."', "
 				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."', "
 				."editor='".SQL::escape($fields['editor'])."', "
 				."from_where='".SQL::escape(isset($fields['from_where']) ? $fields['from_where'] : '')."', "
@@ -1657,6 +1659,7 @@ Class Users {
 
 		$indexes = array();
 		$indexes['PRIMARY KEY'] 		= "(id)";
+		$indexes['INDEX birth_date']	= "(birth_date)";
 		$indexes['INDEX create_date']	= "(create_date)";
 		$indexes['INDEX create_id'] 	= "(create_id)";
 		$indexes['INDEX edit_date'] 	= "(edit_date)";

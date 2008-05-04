@@ -223,7 +223,8 @@ Class Cache {
 	/**
 	 * build a temporary file name
 	 *
-	 * This function helps to turn the directory of temporary files to a flat space.
+	 * This function helps to turn the directory of temporary files to a flat
+	 * space. Files created there can be deleted using Cache::purge().
 	 *
 	 * @param string target file path and name
 	 * @return string a suitable name for the temporary directory, or NULL
@@ -235,6 +236,22 @@ Class Cache {
 		if($id)
 			$output = $context['path_to_root'].'temporary/cache_'.str_replace(array('/', '\\', '#'), '_', $id);
 		return $output;
+	}
+
+	/**
+	 * purge some temporary files
+	 *
+	 * This function works in conjunction with Cache::hash().
+	 *
+	 * @param string extension of files to purge
+	 */
+	function purge($type='js') {
+		global $context;
+
+		if($items=Safe::glob($context['path_to_root'].'temporary/cache_*.'.$type)) {
+			foreach($items as $name)
+				Safe::unlink($name);
+		}
 	}
 
 	/**
@@ -269,14 +286,6 @@ Class Cache {
 
 		// cached content depends on time offset
 		$id .= '/'.Surfer::get_gmt_offset();
-
-//		// suppress existing content, if any --do not report on error, if any
-//		$query = "DELETE FROM ".SQL::table_name('cache')." WHERE id LIKE '".SQL::escape($id)."'";
-//		SQL::query($query, TRUE);
-
-		// do not go beyond transient period for global objects
-//		if(($topic == 'global') && ($duration > 20))
-//			$duration = 20;
 
 		// don't cache more than expected
 		$expiry = gmstrftime('%Y-%m-%d %H:%M:%S', time() + $duration);

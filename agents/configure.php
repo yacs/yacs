@@ -338,8 +338,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/agents.include.php');
-		$description = $context['url_to_home'].$context['url_to_root'].'agents/configure.php';
-		Logger::remember('agents/configure.php', $label, $description);
+		Logger::remember('agents/configure.php', $label);
 
 	}
 

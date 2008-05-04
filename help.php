@@ -285,7 +285,7 @@ $context['text'] .= Skin::build_block(i18n::s('Where to look for information?'),
 	.'<li>'.sprintf(i18n::s('Index of most recent %1$s, %2$s, %3$s and %4$s'), Skin::build_link('articles/', i18n::s('pages')), Skin::build_link('files/', i18n::s('files')), Skin::build_link('comments/', i18n::s('threads')), Skin::build_link('users/', i18n::s('people'))).'</li>'
 	.'<li>'.Skin::build_link('search.php', i18n::s('Full-text search')).'</li>'
 	.'<li>'.Skin::build_link('control/', i18n::s('Control panel')).'</li>';
-if(!Surfer::is_logged())
+if(!Surfer::is_logged() && (!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y')))
 	$context['text'] .= '<li> '.sprintf(i18n::s('%s to access more material, and to receive our newsletters'), Skin::build_link('users/edit.php', i18n::s('Register'))).'</li>';
 $context['text'] .= '</ul>';
 
@@ -301,13 +301,15 @@ if(!Surfer::is_logged() || Surfer::is_member()) {
 	$context['text'] .= '<ul>';
 
 	// offer anonymous surfer to register
-	if(!Surfer::is_logged())
+	if(!Surfer::is_logged() && (!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y')))
 		$context['text'] .= '<li>'.sprintf(i18n::s('%s to be authenticated at each visit'), Skin::build_link('users/edit.php', i18n::s('Register'))).'</li>';
 
 	// actual contributions
-	$context['text'] .= '<li>'.sprintf(i18n::s('%s that will be published on this site'), Skin::build_link('articles/edit.php', i18n::s('Add a page'))).'</li>';
+	if(Surfer::is_member()) {
+		$context['text'] .= '<li>'.sprintf(i18n::s('%s that will be published on this site'), Skin::build_link('articles/edit.php', i18n::s('Add a page'))).'</li>';
 
-	$context['text'] .= '<li>'.i18n::s('While you\'re browsing, don\'t hesitate to comment visited pages, to send images or files, or to share some interesting link you may have').'</li>';
+		$context['text'] .= '<li>'.i18n::s('While you\'re browsing, don\'t hesitate to comment visited pages, to send images or files, or to share some interesting link you may have').'</li>';
+	}
 
 	// special command to associate
 	if(Surfer::is_associate())

@@ -73,6 +73,27 @@ var Yacs = {
 	},
 
 	/**
+	 * remote procedure call based on JSON-RPC
+	 *
+	 */
+	call: function(parameters, callBack) {
+
+		// start an ajax transaction
+		handle = new Ajax.Request(url_to_root + 'services/json_rpc.php', {
+			method: 'post',
+			parameters: parameters,
+			requestHeaders: {Accept: 'application/json'},
+			onSuccess: function(transport) {
+				var response = transport.responseText.evalJSON(true);
+				callBack(response);
+			},
+			onFailure: function(transport) {
+				callBack(FALSE);
+			}
+		});
+	},
+
+	/**
 	 * clear one cookie
 	 *
 	 * @param cookie name

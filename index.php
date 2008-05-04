@@ -336,17 +336,19 @@ $cache_id = 'index.php#page_title';
 if(!$text =& Cache::get($cache_id)) {
 
 	// the cover article is not displayed on a mobile device
-	$topic = 'global';
 	if(($context['skin_variant'] != 'mobile') && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] == 'full'))) {
 
 		// load the cover page
-		if(!$cover_page)
-			$cover_page =& Articles::get('cover');
+		if(!$cover_page) {
+			if($anchor = Sections::lookup('covers'))
+				$cover_page =& Articles::get_newest_for_anchor($anchor);
+			else
+				$cover_page =& Articles::get('cover');
+		}
 
 		// use cover page
 		if(isset($cover_page['id'])) {
 			$text = $cover_page['title'];
-			$topic = 'article:'.$cover_page['id'];
 
 			// link to the cover page for associates
 			if(Surfer::is_associate())
@@ -355,8 +357,8 @@ if(!$text =& Cache::get($cache_id)) {
 		}
 	}
 
-	// save in cache
-	Cache::put($cache_id, $text, $topic);
+	// save in cache, whatever change, for 1 minute
+	Cache::put($cache_id, $text, 'stable', 60);
 }
 
 // the new page title
@@ -374,8 +376,12 @@ if(!$text =& Cache::get($cache_id)) {
 	if(($context['skin_variant'] != 'mobile') && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
 
 		// load the cover page
-		if(!$cover_page)
-			$cover_page =& Articles::get('cover');
+		if(!$cover_page) {
+			if($anchor = Sections::lookup('covers'))
+				$cover_page =& Articles::get_newest_for_anchor($anchor);
+			else
+				$cover_page =& Articles::get('cover');
+		}
 
 		// may be changed in skin.php if necessary
 		$text .= Skin::layout_cover_article($cover_page);
@@ -598,7 +604,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 		// make a box
 		if($items)
-			$text .= Skin::build_box('', $items, 'header1', 'sections');
+			$text .= $items;
 
 	}
 
@@ -755,8 +761,12 @@ if(!$text =& Cache::get($cache_id)) {
 	if(($context['skin_variant'] != 'mobile') && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
 
 		// load the cover page
-		if(!$cover_page)
-			$cover_page =& Articles::get('cover');
+		if(!$cover_page) {
+			if($anchor = Sections::lookup('covers'))
+				$cover_page =& Articles::get_newest_for_anchor($anchor);
+			else
+				$cover_page =& Articles::get('cover');
+		}
 
 		// may be changed in skin.php if necessary
 		if(isset($cover_page['trailer']))

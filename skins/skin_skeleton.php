@@ -1634,12 +1634,18 @@ Class Skin_Skeleton {
 				$left = !$left;
 			}
 
+			// align columns
+			$text = '<p id="columns_prefix" />';
+
 			// build the left column
-			$text =& Skin::build_list($column_1, 'column_1', TWO_COLUMNS_IMG, $new_window);
+			$text .= Skin::build_list($column_1, 'column_1', TWO_COLUMNS_IMG, $new_window);
 
 			// build the right column
 			if(count($column_2))
 				$text .= Skin::build_list($column_2, 'column_2', TWO_COLUMNS_IMG, $new_window);
+
+			// clear text after columns
+			$text .= '<p id="columns_suffix" />';
 
 			// done
 			return $text;
@@ -2523,7 +2529,7 @@ Class Skin_Skeleton {
 	 * You can overload this function in your own skin to change this behaviour.
 	 *
 	 * @param string the type of each link
-	 * @return a list of $url => array($prefix, $label, $suffix, $type, $icon, $title) to be used with Skin::build_list()
+	 * @return string to be displayed as user menu
 	 *
 	 * @see shared/surfer.php
 	 */

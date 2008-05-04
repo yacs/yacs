@@ -311,18 +311,18 @@ Class Surfer {
 	 * This function has to be called from the template, once the skin has been loaded.
 	 *
 	 * @param string the type of each link
-	 * @return a list of $url => array($prefix, $label, $suffix, $type) to be used with Skin::build_list()
+	 * @return string to be displayed as user menu
 	 *
 	 * @see skins/skin_skeleton.php
 	 */
 	function &build_user_menu($type = 'submenu') {
 		global $context;
 
-		// an array of links
-		$menu = array();
-
 		// surfer is a valid user
 		if(Surfer::is_logged()) {
+
+			// all available commands
+			$menu = array();
 
 			if(Surfer::get_id() && is_callable(array('Users', 'get_url'))) {
 				$link = Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
@@ -348,23 +348,46 @@ Class Surfer {
 
 			$menu['help.php'] = array('', i18n::s('Help'), '', $type, '', i18n::s('If you don\'t know how to proceed, start here'));
 
+			$content = Skin::build_list($menu, 'compact');
+
 		// no user menu during installation
-		} elseif(!file_exists($context['path_to_root'].'parameters/switch.on') && !file_exists($context['path_to_root'].'parameters/switch.off')) {
+		} elseif(!file_exists($context['path_to_root'].'parameters/switch.on') && !file_exists($context['path_to_root'].'parameters/switch.off'))
+			;
 
-		// surfer has not been authenticated, and self-registration is allowed
-		} elseif(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y')) {
+		// surfer has not been authenticated, and login box is allowed
+		elseif(!isset($context['users_without_login_box']) || ($context['users_without_login_box'] != 'Y')) {
 
-			$menu['users/edit.php'] = array('', i18n::s('Register'), '', $type, '', i18n::s('Share your profile in this community'));
+			$content = '<form method="post" action="'.$context['url_to_root'].'users/login.php" id="login_form"><p>'."\n";
 
-			$menu['users/login.php'] = array('', i18n::s('Login'), '', $type, '', i18n::s('Prove who you are'));
+			// the id or email field
+			$content .= i18n::s('User').BR.'<input type="text" name="login_name" value="" size="10" maxlength="255"'.EOT."\n".BR;
+
+			// the password
+			$content .= i18n::s('Password').BR.'<input type="password" name="login_password" size="10" maxlength="255"'.EOT."\n".BR;
+
+			// the button
+			$content .= Skin::build_submit_button(i18n::s('Login'));
+
+			// end of the form
+			$content .= '</p></form>';
+
+			// additional commands
+			$menu = array();
+
+			// self-registration is allowed
+			if(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y'))
+				$menu['users/edit.php'] = array('', i18n::s('Register'), '', $type, '', i18n::s('Share your profile in this community'));
+
+			$menu['users/password.php'] = array('', i18n::s('Lost password'), '', $type, '', i18n::s('Prove who you are'));
 
 			$menu['help.php'] = array('', i18n::s('Help'), '', $type, '', i18n::s('If you don\'t know how to proceed, start here'));
+
+			$content .= Skin::build_list($menu, 'compact');
+
 		}
 
 		// return by reference
-		if(!count($menu))
-			$menu = NULL;
-		return $menu;
+		return $content;
 	}
 
 	/**

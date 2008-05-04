@@ -290,8 +290,7 @@ elseif(!Surfer::is_associate()) {
 
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/collections.include.php');
-		$description = $context['url_to_home'].$context['url_to_root'].'collections/configure.php';
-		Logger::remember('collections/configure.php', $label, $description);
+		Logger::remember('collections/configure.php', $label);
 
 	}
 
