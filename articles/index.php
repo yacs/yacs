@@ -85,24 +85,6 @@ if($stats['count'] > $items_per_page) {
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
 }
 
-// the command to post a new page
-if(Surfer::is_associate()
-	|| (Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y'))) ) {
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'articles/edit.php' => i18n::s('Add a page') ));
-}
-
-// associates can review submitted articles
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'articles/review.php' => i18n::s('Review queue') ));
-
-// associates may import some XML
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'articles/import.php' => i18n::s('Import articles') ));
-
-// associates may check the database
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'articles/check.php' => i18n::s('Maintenance') ));
-
 // page main content
 $cache_id = 'articles/index.php#text#'.$page;
 if(!$text =& Cache::get($cache_id)) {
@@ -132,6 +114,18 @@ if(!$text =& Cache::get($cache_id)) {
 }
 $context['text'] .= $text;
 
+// add a page
+if(Surfer::is_associate() || (Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y'))) )
+	$context['page_tools'][] = Skin::build_link('articles/edit.php', i18n::s('Add a page'), 'basic');
+
+// other commands
+if(Surfer::is_associate()) {
+	$context['page_tools'][] = Skin::build_link('articles/review.php', i18n::s('Review queue'), 'basic');
+	$context['page_tools'][] = Skin::build_link('control/populate.php', i18n::s('Content Assistant'));
+	$context['page_tools'][] = Skin::build_link('articles/import.php', i18n::s('Import articles'), 'basic');
+	$context['page_tools'][] = Skin::build_link('articles/check.php', i18n::s('Maintenance'), 'basic');
+}
+
 // page extra information
 $cache_id = 'articles/index.php#extra';
 if(!$text =& Cache::get($cache_id)) {
@@ -145,7 +139,7 @@ if(!$text =& Cache::get($cache_id)) {
 	// side bar with a rss feed, if this server is well populated
 	if($stats['count'] > $items_per_page) {
 		$text .= Skin::build_box(i18n::s('Stay tuned'), Skin::build_link(Feeds::get_url('rss'), i18n::s('Recent pages'), 'xml')
-			.BR.Skin::build_link(Feeds::get_url('articles'), i18n::s('Full content'), 'xml'));
+			.BR.Skin::build_link(Feeds::get_url('articles'), i18n::s('Full content'), 'xml'), 'extra');
 	}
 
 	// side boxes for related categories, if any

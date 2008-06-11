@@ -86,6 +86,10 @@ $context['navigation'] .= Skin::build_box(i18n::s('navigation'), Codes::beautify
 	.'[submenu='.i18n::s('Users').']users/[/submenu]'."\n"
 	.'[submenu='.i18n::s('Help').']help.php[/submenu] Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum.'), 'navigation');
 
+// $context['extra'] - extra boxes
+$context['extra'] .= Skin::build_box(i18n::s('extra').' 1', i18n::s('extra box').' 1 '.DUMMY_TEXT, 'extra');
+$context['extra'] .= Skin::build_box(i18n::s('extra').' 2', i18n::s('extra box').' 2 '.COMPACT_LIST, 'extra');
+
 // $context['extra'] - a fake contextual menu
 $text = Skin::build_tree(array(array('#', '', i18n::s('menu').' 1', '', 'close'),
 	array('#', '', i18n::s('menu').' 2', '', 'open', '', '',
@@ -113,10 +117,7 @@ $text = Skin::build_tree(array(array('#', '', i18n::s('menu').' 1', '', 'close')
 	));
 $context['extra'] .= Skin::build_box(i18n::s('contextual menu'), $text, 'navigation', 'contextual_menu');
 
-// $context['extra'] - navigation and extra boxes
-$context['extra'] .= Skin::build_box(i18n::s('extra').' 1', i18n::s('extra box').' 1 '.DUMMY_TEXT, 'extra');
-$context['extra'] .= Skin::build_box(i18n::s('extra').' 2', i18n::s('extra box').' 2 '.COMPACT_LIST, 'extra');
-
+// $context['extra'] - navigation boxes
 $context['extra'] .= Skin::build_box(i18n::s('navigation').' 1', i18n::s('navigation box').' 1 '.DUMMY_TEXT, 'navigation');
 $context['extra'] .= Skin::build_box(i18n::s('navigation').' 2', i18n::s('navigation box').' 2 '.COMPACT_LIST, 'navigation');
 

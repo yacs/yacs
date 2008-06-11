@@ -151,11 +151,11 @@ if($credentials && ($credentials = base64_decode($credentials))) {
 // load the skin
 load_skin('users');
 
+// page title
+$context['page_title'] = i18n::s('Authentication');
+
 // use provided credentials
 if($credentials) {
-
-	// the page title
-	$context['page_title'] = i18n::s('One-click authentication');
 
 	// page author is coming back
 	if(isset($credentials[0]) && ($credentials[0] == 'edit')) {
@@ -215,20 +215,13 @@ if($credentials) {
 			$context['text'] .= '<p>'.i18n::s('Welcome!').'</p>'
 				.'<p>'.i18n::s('You have been successfully authenticated.').'</p>';
 
-			// what to do next
-			$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
-
-			// the menu of possible actions
+			// follow-up commands
+			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
-
-			// change password
 			$menu = array_merge($menu, array('users/password.php' => i18n::s('Change password')));
-
-			// command to go to the user page
 			$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('Go to my user profile')));
-
-			// display the login menu
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$follow_up .= Skin::build_list($menu, 'page_menu');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		}
 
@@ -331,15 +324,21 @@ if($credentials) {
 
 		}
 
+		// page title
+		$context['page_title'] = i18n::s('Welcome!');
+
+		//
+		// panels
+		//
+		$panels = array();
+
 		//
 		// main panel
 		//
-
-		// the page title
-		$context['page_title'] = i18n::s('Welcome!');
+		$information = '';
 
 		// lay fields in a table
-		$context['text'] .= Skin::table_prefix('form');
+		$information .= Skin::table_prefix('form');
 		$lines = 1;
 
 		// a link to the user profile
@@ -347,14 +346,14 @@ if($credentials) {
 		$cells[] = i18n::s('Your personal record');
 		$url = Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
 		$cells[] = 'left='.Skin::build_link($url, Surfer::get_name(), 'user');
-		$context['text'] .= Skin::table_row($cells, $lines++);
+		$information .= Skin::table_row($cells, $lines++);
 
 		// the name
 		if(isset($user['full_name']) && $user['full_name']) {
 			$cells = array();
 			$cells[] = i18n::s('Your name');
 			$cells[] = 'left='.$user['full_name'];
-			$context['text'] .= Skin::table_row($cells, $lines++);
+			$information .= Skin::table_row($cells, $lines++);
 		}
 
 		// the email field
@@ -362,7 +361,7 @@ if($credentials) {
 			$cells = array();
 			$cells[] = i18n::s('Your e-mail address');
 			$cells[] = 'left='.Surfer::get_email_address();
-			$context['text'] .= Skin::table_row($cells, $lines++);
+			$information .= Skin::table_row($cells, $lines++);
 		}
 
 		// gmt offset
@@ -377,7 +376,7 @@ if($credentials) {
 				$cells[] = 'left='.sprintf(i18n::s('GMT+%d hours'), $gmt_offset);
 			else
 				$cells[] = 'left='.sprintf(i18n::s('GMT%d hours'), $gmt_offset);
-			$context['text'] .= Skin::table_row($cells, $lines++);
+			$information .= Skin::table_row($cells, $lines++);
 		}
 
 		// IP address
@@ -385,7 +384,7 @@ if($credentials) {
 			$cells = array();
 			$cells[] = i18n::s('Your network address');
 			$cells[] = 'left='.$_SERVER['REMOTE_ADDR'];
-			$context['text'] .= Skin::table_row($cells, $lines++);
+			$information .= Skin::table_row($cells, $lines++);
 		}
 
 		// last login
@@ -393,70 +392,56 @@ if($credentials) {
 			$cells = array();
 			$cells[] = i18n::s('Last login');
 			$cells[] = 'left='.Skin::build_date($user['login_date']);
-			$context['text'] .= Skin::table_row($cells, $lines++);
+			$information .= Skin::table_row($cells, $lines++);
 		}
 
 		// end of the table
-		$context['text'] .= Skin::table_suffix();
+		$information .= Skin::table_suffix();
 
 		// the capability field - associate, member, or subscriber
 		if(Surfer::is_associate())
-			$context['text'] .= '<p>'.i18n::s('As an associate of this community, you may contribute freely to any part of this server.').'</p>';
+			$information .= '<p>'.i18n::s('As an associate of this community, you may contribute freely to any part of this server.').'</p>';
 		elseif(Surfer::is_member())
-			$context['text'] .= '<p>'.i18n::s('As a member of this community, you may access freely most pages of this server.').'</p>';
+			$information .= '<p>'.i18n::s('As a member of this community, you may access freely most pages of this server.').'</p>';
 		else
-			$context['text'] .= '<p>'.i18n::s('As a subscriber of this community, you may freely access most pages of this server.').'</p>';
+			$information .= '<p>'.i18n::s('As a subscriber of this community, you may freely access most pages of this server.').'</p>';
 
-		// what to do next
-		$context['text'] .= '<p>'.i18n::s('Where do you want to go now?').'</p>';
-
-		// the menu of possible actions
-		$menu = array();
-
-		// explicit forward to the calling page
-		if(isset($_REQUEST['login_forward']))
-			$menu = array_merge($menu, array($_REQUEST['login_forward'] => i18n::s('Move forward')));
-
-		// go back to caller
-		elseif(isset($_SERVER['HTTP_REFERER']) && !preg_match('/users\/login\.php/', $_SERVER['HTTP_REFERER']))
-			$menu = array_merge($menu, array($_SERVER['HTTP_REFERER'] => i18n::s('Back to previous page')));
-
-		// go to the front page
-		else
-			$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Server front page')));
-
-		// shortcut to on-going threads
-		if(Surfer::is_associate())
-			$menu = array_merge($menu, array('comments/' => i18n::s('On-going threads')));
-
-		// shortcut to the review queue
-		if(Surfer::is_associate())
-			$menu = array_merge($menu, array('articles/review.php' => i18n::s('Articles to review')));
-
-		// shortcut to the control panel for associates
-		if(Surfer::is_associate())
-			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-
-
-		// command to edit a new article, except if it is the forward
-		if(Surfer::is_member() && isset($_REQUEST['login_forward']) && !preg_match('/^articles\/edit.php/', $_REQUEST['login_forward']))
-			$menu = array_merge($menu, array('articles/edit.php' => i18n::s('Add a page')));
-
-		// command to go to the user page
-		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('Go to my user profile')));
-
-		// display the login menu
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		// display in a separate panel
+		$panels[] = array('information_tab', i18n::s('You'), 'information_panel', $information);
 
 		// on-going actions, if any
-		$box['bar'] = array();
-		$box['text'] = '';
 		include_once '../actions/actions.php';
-		$items = Actions::list_by_date_for_anchor('user:'.Surfer::get_id(), 0, ACTIONS_PER_PAGE);
-		if(is_array($items) && @count($items))
-			$box['text'] .= Skin::build_list($items, 'decorated');
-		if($box['text'])
-			$context['text'] .= Skin::build_box(i18n::s('On-going actions'), $box['text']);
+		if($items = Actions::list_by_date_for_anchor('user:'.Surfer::get_id(), 0, ACTIONS_PER_PAGE)) {
+			if(is_array($items) && @count($items))
+				$items = Skin::build_list($items, 'decorated');
+			$panels[] = array('actions_tab', i18n::s('Actions'), 'actions', $items);
+		}
+
+		//
+		// assemble all tabs
+		//
+		$context['text'] .= Skin::build_tabs($panels);
+
+		// follow-up commands
+		$follow_up = i18n::s('Where do you want to go now?');
+		$menu = array();
+		if(isset($_REQUEST['login_forward']))
+			$menu = array_merge($menu, array($_REQUEST['login_forward'] => i18n::s('Move forward')));
+		elseif(isset($_SERVER['HTTP_REFERER']) && !preg_match('/users\/login\.php/', $_SERVER['HTTP_REFERER']))
+			$menu = array_merge($menu, array($_SERVER['HTTP_REFERER'] => i18n::s('Back to previous page')));
+		else
+			$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Server front page')));
+		if(Surfer::is_associate())
+			$menu = array_merge($menu, array('comments/' => i18n::s('On-going threads')));
+		if(Surfer::is_associate())
+			$menu = array_merge($menu, array('articles/review.php' => i18n::s('Articles to review')));
+		if(Surfer::is_associate())
+			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
+		if(Surfer::is_member() && isset($_REQUEST['login_forward']) && !preg_match('/^articles\/edit.php/', $_REQUEST['login_forward']))
+			$menu = array_merge($menu, array('articles/edit.php' => i18n::s('Add a page')));
+		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('Go to my user profile')));
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		//
 		// extra panel
@@ -499,13 +484,10 @@ if($credentials) {
 		// reset the current session
 		Surfer::reset();
 
-		// the page title
-		$context['page_title'] = i18n::s('Failed authentication');
+		Skin::error(i18n::s('Failed authentication'));
 
-		// what to do next
-		$context['text'] .= '<p>'.i18n::s('Where do you want to go now?').'</p>';
-
-		// the menu of possible actions
+		// follow-up commands
+		$follow_up = i18n::s('Where do you want to go now?');
 		$menu = array();
 
 		// step back
@@ -519,7 +501,8 @@ if($credentials) {
 		$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Server front page')));
 
 		// display the menu
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}
 
@@ -581,7 +564,7 @@ if($credentials) {
 	$menu[] = Skin::build_link('users/password.php', i18n::s('Lost password'), 'span');
 
 	// insert the menu in the page
-	$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
+	$context['text'] .= Skin::finalize_list($menu, 'page_menu');
 
 	// save the forwarding url as well
 	if(isset($_REQUEST['url']))

@@ -90,7 +90,7 @@ elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id())
 	$permitted = TRUE;
 
 // authenticated users may view their own posts
-elseif(isset($item['create_id']) && Surfer::is_creator($item['create_id']))
+elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
 	$permitted = TRUE;
 
 // access is restricted to authenticated member
@@ -105,16 +105,20 @@ elseif(($item['active'] == 'Y') || ($item['active'] == 'X'))
 else
 	$permitted = FALSE;
 
+// nothing to change
+if(!isset($item['id']))
+	$editable = FALSE;
+
 // associates and editors are allowed to change the file
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
 	$editable = TRUE;
 
 // the original poster can change the file as well
-elseif(Surfer::is_creator($item['create_id']))
+elseif(Surfer::is($item['create_id']))
 	$editable = TRUE;
 
 // authenticated members are allowed to modify files from others
-elseif(isset($item['id']) && Surfer::is_member() && (!isset($context['users_without_file_overloads']) || ($context['users_without_file_overloads'] != 'Y')))
+elseif(Surfer::is_member() && (!isset($context['users_without_file_overloads']) || ($context['users_without_file_overloads'] != 'Y')))
 	$editable = TRUE;
 
 // the default is to disable change commands
@@ -169,10 +173,6 @@ if(isset($item['id']) && $editable)
 if($has_versions && (Surfer::is_empowered() && Surfer::is_logged()))
 	$context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url('file:'.$item['id'], 'list') => i18n::s('Versions') ));
 
-// add an image
-if(isset($item['id']) && $editable && Images::are_allowed($anchor, $item))
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'images/edit.php?anchor='.urlencode('file:'.$item['id']) => i18n::s('Add an image') ));
-
 // delete command provided to associates and editors
 if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())))
 	$context['page_menu'] = array_merge($context['page_menu'], array( Files::get_url($item['id'], 'delete') => i18n::s('Delete') ));
@@ -206,8 +206,55 @@ if(!isset($item['id'])) {
 	if(isset($item['icon_url']) && $item['icon_url'])
 		$context['page_image'] = $item['icon_url'];
 
+	// display the source, if any
+	if($item['source']) {
+		if(preg_match('/http:\/\/([^\s]+)/', $item['source'], $matches))
+			$item['source'] = Skin::build_link($matches[0], $matches[0], 'external');
+		else {
+			if($attributes = Links::transform_reference($item['source'])) {
+				list($link, $title, $description) = $attributes;
+				$item['source'] = Skin::build_link($link, $title);
+			}
+		}
+		$context['page_details'] .= '<p>'.sprintf(i18n::s('Source: %s'), $item['source'])."</p>\n";
+	}
+
+	// all details
+	$context['page_details'] .= '<p class="details">';
+
+	// warns associate, poster and editor if not active
+	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()) || Surfer::is($item['create_id'])) {
+
+		// restricted to logged members
+		if($item['active'] == 'R')
+			$context['page_details'] .= RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members').BR."\n";
+
+		// restricted to associates
+		elseif($item['active'] == 'N')
+			$context['page_details'] .= PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates and editors').BR."\n";
+
+	}
+
+	$details = array();
+
+	// information on upload
+	if(Surfer::is_logged())
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+	else
+		$details[] = Skin::build_date($item['edit_date']);
+
+	// all details
+	$context['page_details'] .= ucfirst(implode(', ', $details)).'</p>';
+
+	// file details
+	$context['text'] .= '<p>';
+
 	// the file name
-	$context['text'] .= str_replace('_', ' ', $item['file_name']).BR."\n";
+	if($item['title'])
+		$context['text'] .= str_replace('_', ' ', $item['file_name']).BR;
+
+	// some details
+	$details = array();
 
 	// file size
 	if($item['file_size'] > 1)
@@ -217,31 +264,12 @@ if(!isset($item['id'])) {
 	if($item['hits'] > 1)
 		$details[] = sprintf(i18n::s('%d&nbsp;downloads'), $item['hits']);
 
-	// information on upload
-	if(Surfer::is_logged())
-		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
-	else
-		$details[] = Skin::build_date($item['edit_date']);
-
 	// file has been assigned
 	if(isset($item['assign_id']) && $item['assign_id'])
 		$details[] = DRAFT_FLAG.i18n::s('pending refresh');
 
-	// complete details
-	$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
-
-	// warns associate, poster and editor if not active
-	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()) || Surfer::is_creator($item['create_id'])) {
-
-		// restricted to logged members
-		if($item['active'] == 'R')
-			$context['text'] .= RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members').BR."\n";
-
-		// restricted to associates
-		elseif($item['active'] == 'N')
-			$context['text'] .= PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates and editors').BR."\n";
-
-	}
+	// display these details
+	$context['text'] .= '<span class="details">'.ucfirst(implode(', ', $details)).'</span></p>';
 
 	// insert anchor prefix
 	if(is_object($anchor))
@@ -313,19 +341,6 @@ if(!isset($item['id'])) {
 		$context['text'] .= $text."\n";
 	}
 
-	// display the source, if any
-	if($item['source']) {
-		if(preg_match('/http:\/\/([^\s]+)/', $item['source'], $matches))
-			$item['source'] = Skin::build_link($matches[0], $matches[0], 'external');
-		else {
-			if($attributes = Links::transform_reference($item['source'])) {
-				list($link, $title, $description) = $attributes;
-				$item['source'] = Skin::build_link($link, $title);
-			}
-		}
-		$context['text'] .= '<p>'.sprintf(i18n::s('Source: %s'), $item['source'])."</p>\n";
-	}
-
 	//
 	// plugins
 	//
@@ -338,7 +353,7 @@ if(!isset($item['id'])) {
 			.'<p>'.sprintf(i18n::s('To stream sounds over the network and to play them on arrival, use an advanced media player such as %s (open source) or %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('www.winamp.com'), i18n::s('Winamp'), 'external')).'</p>';
 
 		// the label
-		Skin::define_img('PLAY_IMG', $context['skin'].'/icons/files/play.gif');
+		Skin::define_img('PLAY_IMG', 'icons/files/play.gif');
 		$label = PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// use a definition list to enable customization of the download box
@@ -356,7 +371,7 @@ if(!isset($item['id'])) {
 			.'<p>'.sprintf(i18n::s('To stream images over the network and to render them on arrival, use an advanced media player such as %s.'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s(' VLC media player'), 'external')).'</p>';
 
 		// the label
-		Skin::define_img('PLAY_IMG', $context['skin'].'/icons/files/play.gif');
+		Skin::define_img('PLAY_IMG', 'icons/files/play.gif');
 		$label = PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// use a definition list to enable customization of the download box
@@ -373,7 +388,7 @@ if(!isset($item['id'])) {
 		$description = '<p>'.i18n::s('This file allows for interactions over the web. If some Flash player has been installed at your workstation, click on the link to start the show.').'</p>';
 
 		// the label
-		Skin::define_img('PLAY_IMG', $context['skin'].'/icons/files/play.gif');
+		Skin::define_img('PLAY_IMG', 'icons/files/play.gif');
 		$label = PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// where the file is
@@ -393,7 +408,7 @@ if(!isset($item['id'])) {
 		$description = '<p>'.i18n::s('If Flash or Java has been installed at your workstation, click on the link to browse this mind map.').'</p>';
 
 		// the label
-		Skin::define_img('PLAY_IMG', $context['skin'].'/icons/files/play.gif');
+		Skin::define_img('PLAY_IMG', 'icons/files/play.gif');
 		$label = PLAY_IMG.' '.sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
 
 		// hovering the link
@@ -417,7 +432,7 @@ if(!isset($item['id'])) {
 //		$description = '<p>'.i18n::s('This file can be modified directly over the web. If a recent version of Microsoft Word has been installed at your workstation, click on the link to launch it.).'</p>';
 
 //		// the label
-//		Skin::define_img('PLAY_IMG', $context['skin'].'/icons/files/play.gif');
+//		Skin::define_img('PLAY_IMG', 'icons/files/play.gif');
 //		$label = PLAY_IMG.' '.sprintf(i18n::s('Edit %s'), str_replace('_', ' ', $item['file_name']));
 
 //		// hovering the link
@@ -791,7 +806,7 @@ if(!isset($item['id'])) {
 	$title = i18n::s('Get a copy of this file');
 
 	// file is available to download
-	Skin::define_img('DOWNLOAD_IMG', $context['skin'].'/icons/files/download.gif');
+	Skin::define_img('DOWNLOAD_IMG', 'icons/files/download.gif');
 	$label = '<a href="'.$link.'" title="'.encode_field($title).'" id="file_download">'.DOWNLOAD_IMG.' '.sprintf(i18n::s('Download %s'), str_replace('_', ' ', $item['file_name'])).'</a>';
 
 	// use a definition list to enable customization of the download box
@@ -849,8 +864,26 @@ if(!isset($item['id'])) {
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_suffix();
 
-	// side tools
+	// page tools
 	//
+
+	// update tools
+	if($editable) {
+
+		// file is also available for detach
+		if(isset($item['id']) && $editable && Surfer::may_upload() && Surfer::is_member() && (!isset($item['assign_id']) || ($item['assign_id'] < 1)))
+			$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'detach'), i18n::s('Detach'), 'basic');
+
+		// modify this page
+		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('Update'), 'basic');
+
+		// post an image, if upload is allowed
+		if(Images::are_allowed($anchor, $item)) {
+			Skin::define_img('IMAGE_TOOL_IMG', 'icons/tools/image.gif');
+			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']), IMAGE_TOOL_IMG.i18n::s('Add an image'), 'basic');
+		}
+
+	}
 
 	// the navigation sidebar
 	$cache_id = 'files/view.php?id='.$item['id'].'#navigation';
@@ -870,14 +903,6 @@ if(!isset($item['id'])) {
 		Cache::put($cache_id, $text, 'files');
 	}
 	$context['extra'] .= $text;
-
-	// how to reference this page
-	if(Surfer::is_member() && (!isset($context['pages_without_reference']) || ($context['pages_without_reference'] != 'Y')) ) {
-
-		// in a sidebar box
-		$context['extra'] .= Skin::build_box(i18n::s('Reference this page'), Codes::beautify(sprintf(i18n::s('Here, use code [escape][file=%s][/escape][nl]Elsewhere, bookmark the [link=full link]%s[/link]'), $item['id'], $context['url_to_root'].Files::get_url($item['id'], 'view', $item['file_name']))), 'navigation', 'reference');
-
-	}
 
 	// referrals, if any
 	if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))) {

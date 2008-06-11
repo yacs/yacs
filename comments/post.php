@@ -250,14 +250,17 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 				Logger::remember('comments/post.php', 'comments post item', $fields, 'debug');
 
 			// save in the database
-			if(!$id = Comments::post($fields))
+			if(!$fields['id'] = Comments::post($fields))
 				$response = array('faultCode' => 1, 'faultString' => Skin::error_pop());
 
 			// post-processing
 			else {
 
 				// touch the related anchor
-				$anchor->touch('comment:create', $id);
+				$anchor->touch('comment:create', $fields['id']);
+
+				// clear cache
+				Comments::clear($fields);
 
 				// increment the post counter of the surfer
 				if($user['id'])

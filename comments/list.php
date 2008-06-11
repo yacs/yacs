@@ -229,7 +229,7 @@ if(!is_object($anchor)) {
 
 		// the command to post a new comment, if this is allowed
 		if(Comments::are_allowed($anchor)) {
-			Skin::define_img('NEW_COMMENT_IMG', $context['skin'].'/icons/comments/new.gif');
+			Skin::define_img('NEW_COMMENT_IMG', 'icons/comments/new.gif');
 			$box['bar'] = array_merge($box['bar'],
 				array( Comments::get_url($anchor->get_reference(), 'comment') => NEW_COMMENT_IMG.' '.$anchor->get_label('comments', 'new_command') ));
 		}

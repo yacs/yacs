@@ -296,7 +296,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="users_authenticator" value="custom"';
 	if($context['users_authenticator'] != 'local')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.sprintf(i18n::s('Use the authenticator %s'), '<input type="text" name="users_custom_authenticator" value="'.encode_field($custom_authenticator).'" size="50"'.EOT);
+	$input .= EOT.' '.sprintf(i18n::s('Use the authenticator %s'), '<input type="text" name="users_custom_authenticator" value="'.encode_field($custom_authenticator).'" size="80"'.EOT);
 	$hint = i18n::s('Provide adequate parameters after authenticator type.');
 	$fields[] = array($label, $input, $hint);
 
@@ -643,23 +643,14 @@ elseif(!Surfer::is_associate()) {
 	// display updated parameters
 	$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folder');
 
-	// what's next?
-	$context['text'] .= '<p>'.i18n::s('Where do you want to go now?')."</p>\n";
-
 	// follow-up commands
+	$follow_up = i18n::s('Where do you want to go now?');
 	$menu = array();
-
-	// index page
 	$menu = array_merge($menu, array( 'users/' => i18n::s('People') ));
-
-	// control panel
 	$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
-
-	// do it again
 	$menu = array_merge($menu, array( 'users/configure.php' => i18n::s('Configure again') ));
-
-	// display follow-up commands
-	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 }
 

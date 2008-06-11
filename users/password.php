@@ -61,8 +61,13 @@ elseif(isset($item['full_name']))
 else
 	$context['page_title'] = i18n::s('Change password');
 
+// we are using an external authenticator
+if(isset($context['users_authenticator']) && $context['users_authenticator']) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // no user id has been provided
-if(!isset($item['id']) || !$item['id']) {
+} elseif(!isset($item['id']) || !$item['id']) {
 	$context['page_title'] = i18n::s('Lost password');
 
 	// mail has been enabled at this site

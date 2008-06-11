@@ -75,7 +75,7 @@ Class Layout_files_as_feed extends Layout_interface {
 			$description = Skin::cap($description, 300);
 
 			// fix image references
-			$description = preg_replace('/"\//', '"'.$context['url_to_home'].'/', $description);
+			$description = preg_replace('/"\/([^">]+?)"/', '"'.$context['url_to_home'].'/\\1"', $description);
 
 			$introduction = $description;
 
@@ -87,7 +87,7 @@ Class Layout_files_as_feed extends Layout_interface {
 			$type = Files::get_mime_type($item['file_name']);
 			$extensions[] = '<enclosure url="'.$context['url_to_home'].$context['url_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['file_name'].'"'
 				.' length="'.$item['file_size'].'"'
-				.' type="'.$type.'"/>';
+				.' type="'.$type.'" />';
 
 			// list all components for this item
 			$items[$url] = array($time, $label, $author, $section, NULL, $introduction, $description, $extensions);

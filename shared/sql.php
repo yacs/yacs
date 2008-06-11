@@ -11,6 +11,7 @@
  * @link http://www.artfulsoftware.com/infotree/queries.php Common queries in MySQL 5
  *
  * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @tester ThierryP
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -379,7 +380,7 @@ Class SQL {
 
 			// exit if batch mode
 			if(!isset($_SERVER['REMOTE_ADDR']))
-				exit(i18n::s('Impossible to connect to the database'));
+				exit(sprintf(i18n::s('Impossible to connect to %s.'), $context['database']));
 
 			// else jump to the control panel, if not in it already
 			if(!preg_match('/(\/control\/|\/included\/|setup|login\.php$)/i', $context['script_url']))
@@ -595,6 +596,7 @@ Class SQL {
 		$stamp = get_micro_time();
 
 		// get date of last tick
+		include_once $context['path_to_root'].'shared/values.php';
 		$record = Values::get_record('sql.tick', NULL_DATE);
 
 		// wait at least 1 hour = 3600 seconds between ticks

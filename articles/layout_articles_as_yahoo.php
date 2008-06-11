@@ -83,10 +83,6 @@ Class Layout_articles_as_yahoo extends Layout_interface {
 			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
 				$prefix .= DRAFT_FLAG;
 
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$prefix .= LOCKED_FLAG;
-
 			// signal restricted and private articles
 			if($item['active'] == 'N')
 				$prefix .= PRIVATE_FLAG;

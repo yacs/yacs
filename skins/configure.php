@@ -74,8 +74,6 @@
  *
  * [*] [code]skins_general_without_feed[/code] - Do not list feeds in sections, categories, and articles
  *
- * [*] [code]pages_without_reference[/code] - To avoid self-referencing
- *
  * [*] [code]pages_without_bookmarklets[/code] - Do not display javascript tools
  *
  * [*] [code]pages_without_history[/code] - To avoid the display of visited pages
@@ -87,8 +85,6 @@
  *
  *
  * Parameters for articles:
- *
- * [*] [code]with_anonymous_side_tools[/code] - To foster registration
  *
  * [*] [code]with_bottom_tools[/code] - Display, or not, conversion tools
  *
@@ -354,18 +350,6 @@ elseif(!Surfer::is_associate()) {
 	$input .= EOT.' '.i18n::s('Do not display this item.');
 	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
 
-	// self reference
-	$label = i18n::s('Side box for self reference');
-	$input = '<input type="radio" name="pages_without_reference" value="N"';
-	if(!isset($context['pages_without_reference']) || ($context['pages_without_reference'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Add self-referencing shortcut and web link to visited pages');
-	$input .= BR.'<input type="radio" name="pages_without_reference" value="Y"';
-	if(isset($context['pages_without_reference']) && ($context['pages_without_reference'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not display this item.');
-	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
-
 	// bookmarklets
 	$label = i18n::s('Side box for bookmarklets');
 	$input = '<input type="radio" name="pages_without_bookmarklets" value="N"';
@@ -429,21 +413,6 @@ elseif(!Surfer::is_associate()) {
 	if(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= EOT.' '.i18n::s('Details are displayed only in sections with option \'with_details\'');
-	$articles .= '<p>'.$label.':'.BR.$input."</p>\n";
-
-	// side tools
-	$articles .= '<p>&nbsp;</p><p>'.i18n::s('Side tools (comment, post an image, attach a file or a link) allow community member to contribute easily.')."</p>\n";
-
-	// with anonymous side tools
-	$label = i18n::s('Side tools visibility');
-	$input = '<input type="radio" name="with_anonymous_side_tools" value="N"';
-	if(!isset($context['with_anonymous_side_tools']) || ($context['with_anonymous_side_tools'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Side tools are shown only to members');
-	$input .= BR.'<input type="radio" name="with_anonymous_side_tools" value="Y"';
-	if(isset($context['with_anonymous_side_tools']) && ($context['with_anonymous_side_tools'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Allow anonymous surfers to trigger side tools as well (recommended on intranets)');
 	$articles .= '<p>'.$label.':'.BR.$input."</p>\n";
 
 	// bottom tools
@@ -684,6 +653,10 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['revisit_after']) || (intval($context['revisit_after']) < 1))
 		$context['revisit_after'] = 1;
 
+	// backup the old version
+	Safe::unlink($context['path_to_root'].'parameters/skins.include.php.bak');
+	Safe::rename($context['path_to_root'].'parameters/skins.include.php', $context['path_to_root'].'parameters/skins.include.php.bak');
+
 	// build the new configuration file
 	$content = '<?php'."\n"
 		.'// This file has been created by the configuration script skins/configure.php'."\n"
@@ -709,8 +682,6 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'pages_without_freemind\']=\''.addcslashes($_REQUEST['pages_without_freemind'], "\\'")."';\n";
 	if(isset($_REQUEST['pages_without_history']))
 		$content .= '$context[\'pages_without_history\']=\''.addcslashes($_REQUEST['pages_without_history'], "\\'")."';\n";
-	if(isset($_REQUEST['pages_without_reference']))
-		$content .= '$context[\'pages_without_reference\']=\''.addcslashes($_REQUEST['pages_without_reference'], "\\'")."';\n";
 	if(isset($_REQUEST['site_extra_maximum']) && intval($_REQUEST['site_extra_maximum']))
 		$content .= '$context[\'site_extra_maximum\']=\''.intval($_REQUEST['site_extra_maximum'])."';\n";
 	if(isset($_REQUEST['site_navigation_maximum']) && intval($_REQUEST['site_navigation_maximum']))
@@ -723,8 +694,6 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'thumbnails_without_caption\']=\''.addcslashes($_REQUEST['thumbnails_without_caption'], "\\'")."';\n";
 	if(isset($_REQUEST['with_anonymous_bottom_tools']))
 		$content .= '$context[\'with_anonymous_bottom_tools\']=\''.addcslashes($_REQUEST['with_anonymous_bottom_tools'], "\\'")."';\n";
-	if(isset($_REQUEST['with_anonymous_side_tools']))
-		$content .= '$context[\'with_anonymous_side_tools\']=\''.addcslashes($_REQUEST['with_anonymous_side_tools'], "\\'")."';\n";
 	if(isset($_REQUEST['with_bottom_tools']))
 		$content .= '$context[\'with_bottom_tools\']=\''.addcslashes($_REQUEST['with_bottom_tools'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_freemind_article_bgcolor']) && $_REQUEST['skins_freemind_article_bgcolor'])
@@ -796,30 +765,21 @@ elseif(!Surfer::is_associate()) {
 
 	// first installation
 	if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
-		$context['text'] .= '<form method="get" action="../control/" id="main_form">'."\n"
+		$context['text'] .= Skin::build_block('<form method="get" action="../control/" id="main_form">'."\n"
 			.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Switch the server on')).'</p>'."\n"
-			.'</form>'."\n";
+			.'</form>', 'bottom');
 
 	// ordinary follow-up commands
 	} else {
 
-		// what's next?
-		$context['text'] .= '<p>'.i18n::s('Where do you want to go now?')."</p>\n";
-
-		// follow-up menu
+		// follow-up commands
+		$follow_up = i18n::s('Where do you want to go now?');
 		$menu = array();
-
-		// index page
 		$menu = array_merge($menu, array( 'skins/' => i18n::s('Skins') ));
-
-		// control panel
 		$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
-
-		// do it again
 		$menu = array_merge($menu, array( 'skins/configure.php' => i18n::s('Configure again') ));
-
-		// display follow-up commands
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}
 

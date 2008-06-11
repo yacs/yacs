@@ -80,10 +80,6 @@ if(!Surfer::is_associate()) {
 		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
 	}
 
-	// commands for associates
-	if(Surfer::is_associate())
-		$context['page_menu'] = array_merge($context['page_menu'], array( 'actions/check.php' => i18n::s('Maintenance') ));
-
 	// seek the database
 	$cache_id = 'actions/index.php#actions_by_date#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
@@ -103,6 +99,10 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= $text;
 
 }
+
+// page tools
+if(Surfer::is_associate())
+	$context['page_tools'][] = Skin::build_link('actions/check.php', i18n::s('Maintenance'), 'basic');
 
 // side bar with the list of most recent pages
 $cache_id = 'actions/index.php#articles_by_date';

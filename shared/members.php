@@ -91,8 +91,8 @@ Class Members {
 		if(SQL::query_count($query))
 			return NULL;
 
-		// clear the cache for categories and sections
-		Cache::clear(array('categories', 'sections', 'members', 'users'));
+		// clear the cache
+		Cache::clear(array($anchor, $member));
 
 		// boost further queries
 		list($member_type, $member_id) = explode(':', $member, 2);
@@ -193,7 +193,7 @@ Class Members {
 			}
 
 			// clear the cache for members
-			Cache::clear(array('members', 'member:'));
+			Cache::clear(array($anchor_from, $anchor_to));
 
 		}
 
@@ -1079,11 +1079,11 @@ Class Members {
 		if(!$fields['member'])
 			return i18n::s('No member has been provided.');
 
-		// clear the cache for categories
-		Cache::clear(array('categories', 'members'));
-
 		// delete existing records for this member
 		Members::unlink_for_member($fields['member']);
+
+		// topics to clear
+		$topics = array($fields['member']);
 
 		// insert one new record per anchor
 		if(is_array($fields['anchors'])) {
@@ -1099,8 +1099,13 @@ Class Members {
 					." member_id='".SQL::escape($member_id)."',"
 					." edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
 				SQL::query($query);
+
+				$topics = $anchor;
 			}
 		}
+
+		// clear the cache
+		Cache::clear($topics);
 
 		// end of job
 		return NULL;
@@ -1285,7 +1290,6 @@ Class Members {
 			."	AND (members.member_type LIKE 'user')"
 			."	AND (users.id = members.member_id)"
 			."	AND (".$where.")";
-
 		$output =& SQL::query_first($query);
 		return $output;
 	}
@@ -1314,8 +1318,8 @@ Class Members {
 		if(!$member)
 			return i18n::s('A member is required for this operation.');
 
-		// clear the cache for categories
-		Cache::clear(array('categories', 'members'));
+		// clear the cache
+		Cache::clear(array($anchor, $member, $father));
 
 		// check if the membership already exists
 		$query = "SELECT id  FROM ".SQL::table_name('members')
@@ -1374,13 +1378,13 @@ Class Members {
 		if(!$member)
 			return i18n::s('A member is required for this operation.');
 
-		// clear the cache for categories and sections
-		Cache::clear(array('categories', 'sections', 'members', 'users'));
-
 		// delete all matching records in the database
 		$query = "DELETE FROM ".SQL::table_name('members')
 			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."')";
 		SQL::query($query);
+
+		// clear the cache
+		Cache::clear(array($anchor, $member));
 
 		// end of job
 		return NULL;
@@ -1397,13 +1401,11 @@ Class Members {
 	function unlink_for_anchor($anchor) {
 		global $context;
 
-		// clear the cache for categories
-		Cache::clear(array('categories', 'members'));
-
 		// delete all matching records in the database
 		$query = "DELETE FROM ".SQL::table_name('members')
 			." WHERE (anchor LIKE '".SQL::escape($anchor)."')";
 		SQL::query($query);
+
 	}
 
 	/**
@@ -1414,13 +1416,11 @@ Class Members {
 	function unlink_for_member($member) {
 		global $context;
 
-		// clear the cache for categories
-		Cache::clear(array('categories', 'members'));
-
 		// delete records in the database
 		$query = "DELETE FROM ".SQL::table_name('members')
 			." WHERE (member LIKE '".SQL::escape($member)."')";
 		SQL::query($query);
+
 	}
 
 	/**
@@ -1431,17 +1431,11 @@ Class Members {
 	function unlink_for_reference($reference=NULL) {
 		global $context;
 
-		// sanity check
-		if(!$reference)
-			return;
-
-		// clear the cache for categories
-		Cache::clear(array('categories', 'members'));
-
 		// delete all uses of this reference
 		$query = "DELETE FROM ".SQL::table_name('members')
 			." WHERE (anchor LIKE '".SQL::escape($reference)."') OR (member LIKE '".SQL::escape($reference)."')";
 		SQL::query($query);
+
 	}
 
 }

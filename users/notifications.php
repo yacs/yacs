@@ -141,7 +141,7 @@ Class Notifications {
 	 *
 	 * @see users/heartbit.php
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// delete obsoleted notifications

@@ -111,10 +111,6 @@ if(!isset($item['id'])) {
 	// post-processing tasks
 	else {
 
-		// touch the related anchor
-		if(is_object($anchor))
-			$anchor->touch('article:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
-
 		$context['text'] .= '<p>'.i18n::s('The page has been successfully published.')."</p>\n";
 
 		// trackback option
@@ -197,14 +193,21 @@ if(!isset($item['id'])) {
 		if(is_callable(array('Hooks', 'include_scripts')))
 			$context['text'] .= Hooks::include_scripts('publish', $item['id']);
 
+		// touch the related anchor
+		if(is_object($anchor))
+			$anchor->touch('article:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
+
+		// clear the cache
+		Articles::clear($item);
+
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('View the page')));
 		if(Surfer::is_associate())
 			$menu = array_merge($menu, array('articles/review.php' => i18n::s('Go to the review queue')));
-
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}
 

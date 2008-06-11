@@ -49,7 +49,9 @@ class Day extends Overlay {
 	 * @see articles/edit.php
 	 */
 	function get_id() {
-		return 'day:'.$this->attributes['date_stamp'];
+		if(isset($this->attributes['date_stamp']))
+			return 'day:'.$this->attributes['date_stamp'];
+		return NULL;
 	}
 
 	/**
@@ -110,8 +112,11 @@ class Day extends Overlay {
 	function &get_view_text($host=NULL) {
 		global $context;
 
+		$text = '';
+
 		// the date
-		$text = '<p class="day">'.Skin::build_date($this->attributes['date_stamp'], 'day')."</p>\n";
+		if(isset($this->attributes['date_stamp']))
+			$text = '<p class="day">'.Skin::build_date($this->attributes['date_stamp'], 'day')."</p>\n";
 		return $text;
 	}
 
@@ -170,7 +175,7 @@ class Day extends Overlay {
 				$fields['date_stamp'] = $this->attributes['date_stamp'];
 
 				// update the database
-				if(!$id = Dates::post($fields)) {
+				if(!$fields['id'] = Dates::post($fields)) {
 					Skin::error(i18n::s('Impossible to add an item.'));
 					return FALSE;
 				}
@@ -199,7 +204,7 @@ class Day extends Overlay {
 
 				// create a record instead of raising an error, we are smart y'a'know
 				} else {
-					if(!$id = Dates::post($fields)) {
+					if(!$fields['id'] = Dates::post($fields)) {
 						Skin::error(i18n::s('Impossible to add an item.'));
 						return FALSE;
 					}
@@ -217,13 +222,24 @@ class Day extends Overlay {
 	 *
 	 * @param string the anchor to consider (e.g., 'section:123')
 	 * @param int page index
-	 * @return string to be inserted in resulting web page
+	 * @return string to be inserted in resulting web page, or NULL
 	 */
-	function render_articles_for_anchor($anchor, $page=1) {
+	function render($type, $anchor, $page=1) {
 		global $context;
+
+		// instead of articles
+		if($type != 'articles')
+			return NULL;
 
 		// text to be embedded in the resulting page
 		$text = '';
+
+		// empowered users can contribute
+		if(Surfer::is_empowered()) {
+			$menu = array();
+			$menu[] = Skin::build_link('articles/edit.php?anchor='.urlencode($anchor), i18n::s('Add an event'), 'basic');
+			$text = Skin::finalize_list($menu, 'menu_bar');
+		}
 
 		// we will build a list of dates
 		include_once $context['path_to_root'].'dates/dates.php';

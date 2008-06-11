@@ -68,25 +68,9 @@ Class Layout_links_as_daily extends Layout_interface {
 			// time
 			$box['content'] .= '<span class="details">'.substr($item['edit_date'], 11, 5).'</span> ';
 
-			// the title
-			if($item['title'])
-				$label = Skin::strip($item['title'], 70);
+			// make a label
+			$label = Links::clean($item['title'], $item['link_url']);
 
-			// or try to make something out of the url
-			else {
-				$items = @parse_url($item['link_url']);
-				if(isset($items['path'])) {
-					$path = array_slice(explode('/', $items['path']), -3);
-					if(isset($items['host']))
-						array_unshift($path, $items['host']);
-					$label = str_replace('//', '/', join('/', $path));
-				} elseif(isset($items['host']))
-					$label = $items['host'];
-				else
-					$label = $items['link_url'];
-				if(strlen($label) > 21)
-					$label = '...'.substr($label, -21);
-			}
 			$box['content'] .= Skin::build_link($item['link_url'], $label);
 
 			// flag links updated recently
@@ -98,7 +82,7 @@ Class Layout_links_as_daily extends Layout_interface {
 				$box['content'] .= "\n<br/>".Skin::cap(Codes::beautify($item['description']), 500)."\n";
 
 			// the menu bar for associates and poster
-			if(Surfer::is_empowered() || Surfer::is_creator($item['edit_id'])) {
+			if(Surfer::is_empowered() || Surfer::is($item['edit_id'])) {
 				$menu = array( 'links/edit.php?id='.$item['id'] => i18n::s('Edit'),
 					'links/delete.php?id='.$item['id'] => i18n::s('Delete') );
 				$box['content'] .= ' '.Skin::build_list($menu, 'menu');

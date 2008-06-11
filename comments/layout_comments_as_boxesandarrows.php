@@ -103,15 +103,15 @@ Class Layout_comments_as_boxesandarrows extends Layout_interface {
 			// the reply and quote commands are offered, providing new comments are allowed
 			if(Comments::are_allowed($anchor)) {
 
-				Skin::define_img('NEW_COMMENT_IMG', $context['skin'].'/icons/comments/new.gif');
+				Skin::define_img('NEW_COMMENT_IMG', 'icons/comments/new.gif');
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'reply') => NEW_COMMENT_IMG.i18n::s('reply') ));
 
-				Skin::define_img('QUOTE_COMMENT_IMG', $context['skin'].'/icons/comments/quote.gif');
+				Skin::define_img('QUOTE_COMMENT_IMG', 'icons/comments/quote.gif');
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'quote') => QUOTE_COMMENT_IMG.i18n::s('quote') ));
 			}
 
 			// the menu bar for associates and poster
-			if(Surfer::is_empowered() || Surfer::is_creator($item['create_id'])) {
+			if(Surfer::is_empowered() || Surfer::is($item['create_id'])) {
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'edit') => i18n::s('edit') ));
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'delete') => i18n::s('delete') ));
 			}

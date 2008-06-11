@@ -67,7 +67,7 @@ if(Surfer::is_empowered() || Articles::is_assigned($id) || (is_object($anchor) &
 	$permitted = TRUE;
 
 // poster can always view the page
-elseif(Surfer::is_creator($item['create_id']))
+elseif(Surfer::is($item['create_id']))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
@@ -200,7 +200,7 @@ if(!isset($item['id'])) {
 
 	// actually list items
 	if(count($items))
-		$context['text'] .= Skin::build_box(i18n::s('See also'), Skin::build_list($items, 'decorated'));
+		$context['text'] .= Skin::build_box(i18n::s('Links'), Skin::build_list($items, 'decorated'));
 
 	// insert anchor suffix
 	if(is_object($anchor))

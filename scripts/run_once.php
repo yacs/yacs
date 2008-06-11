@@ -10,7 +10,7 @@
  * [title]How to write a script to be ran once?[/title]
  *
  * Such script is really simple to write, since the only requirement for software developer is to
- * display information to the surfer through 'echo' commands. This is because the regular rendering engine
+ * display information to the surfer through 'echo' commands. This is because the regular page factory
  * (updated via the $context variable) is not available during the execution of multiple scripts.
  *
  * Except for the bare display interface, a script that is ran once benefits from the full power of YACS (database access, localization, ...).

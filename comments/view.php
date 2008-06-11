@@ -70,7 +70,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'comments/' => i18n::s('Threads') );
 
-// the title of the page
+// page title
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['page_title'] = $anchor->get_label('comments', 'view_title', $anchor->get_title());
 else
@@ -78,36 +78,28 @@ else
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url('discuss') => i18n::s('Thread page') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url('discuss') => i18n::s('Main page') ));
 
-// the quote command is available to logged users, or to everybody if set so
-if($item['id'] && $permitted && Comments::are_allowed($anchor)) {
+// react to this post
+if(Comments::are_allowed($anchor)) {
 
-	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'reply') => i18n::s('Reply') ));
+	// allow posters to change their own comments
+	if($item['create_id'] == Surfer::get_id())
+		$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 
-	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'quote') => i18n::s('Quote') ));
+	// allow surfers to react to contributions from other people
+	else {
+		Skin::define_img('NEW_COMMENT_IMG', 'icons/comments/new.gif');
+		$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'reply') => NEW_COMMENT_IMG.' '.i18n::s('React to this post') ));
+		$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'quote') => i18n::s('Quote') ));
+	}
 }
 
 // commands for associates, authenticated editors and author
 if($item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())
-	|| Surfer::is_creator($item['create_id']))) {
-
-	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'edit') => i18n::s('Edit') ));
+	|| Surfer::is($item['create_id']))) {
 
 	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'delete') => i18n::s('Delete') ));
-}
-
-// commands for associates and authenticated editors
-if($item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())))
-	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'promote') => i18n::s('Promote') ));
-
-// the new comment command is available to logged users, and to everybody if set so
-if($permitted && Comments::are_allowed($anchor)) {
-	if($context['with_friendly_urls'] == 'Y')
-		$link = 'comments/edit.php/'.str_replace(':', '/', $item['anchor']);
-	else
-		$link = 'comments/edit.php?anchor='.$item['anchor'];
-	$context['page_menu'] = array_merge($context['page_menu'], array( $link => i18n::s('New comment') ));
 }
 
 // not found -- help web crawlers
@@ -136,42 +128,22 @@ if(!isset($item['id'])) {
 	// initialize the rendering engine
 	Codes::initialize(Comments::get_url($item['id']));
 
-	// insert anchor prefix
+	// neighbours information
+	$neighbours = NULL;
 	if(is_object($anchor))
-		$context['text'] .= $anchor->get_prefix();
+		$neighbours = $anchor->get_neighbours('comment', $item);
 
-	// retrieve navigation links if we have an anchor
-	if(is_object($anchor)) {
+	//
+	// page header
+	//
 
-		// retrieve information from cache, if any
-		$cache_id = 'comments/view.php?id='.$item['id'].'#navigation';
-		if($data =& Cache::get($cache_id))
-			$data = unserialize($data);
+	// a meta link to prefetch the next page
+	if(isset($neighbours[2]) && $neighbours[2])
+		$context['page_header'] .= "\n".'<link rel="next" href="'.$context['url_to_root'].$neighbours[2].'" title="'.encode_field($neighbours[3]).'" />';
 
-		// build information from the database
-		else {
-
-			$data = $anchor->get_neighbours('comment', $item);
-
-			// serialize data
-			$text = serialize($data);
-
-			// save in cache
-			Cache::put($cache_id, $text, 'comments');
-		}
-
-		// links to display previous and next pages, if any
-		$context['text'] .= Skin::neighbours($data, 'slideshow');
-
-		// a meta link to prefetch the next page
-		if(isset($data[2]) && $data[2])
-			$context['page_header'] .= "\n".'<link rel="next" href="'.$context['url_to_root'].$data[2].'" title="'.encode_field($data[3]).'"'.EOT;
-
-	}
-
-	// link to the previous comment in thread, if any
-	if($item['previous_id'] && ($previous =& Comments::get($item['previous_id'])))
-		$context['text'] .= ' <p>'.sprintf(i18n::s('Comment inspired from %s'), Skin::build_link(Comments::get_url($previous['id']), $previous['create_name'])).'</p>';
+	//
+	// page details -- $context['page_details']
+	//
 
 	// some details about this item
 	$details = array();
@@ -187,9 +159,24 @@ if(!isset($item['id'])) {
 	if($item['create_name'] != $item['edit_name'])
 		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date'], 'with_hour'));
 
-	// the complete details
+	// all details
 	if($details)
-		$context['text'] .= '<p class="details">'.ucfirst(implode(' ', $details))."</p>\n";
+		$context['page_details'] .= '<p>'.ucfirst(implode(' ', $details))."</p>\n";
+
+	//
+	// main panel -- $context['text']
+	//
+
+	// insert anchor prefix
+	if(is_object($anchor))
+		$context['text'] .= $anchor->get_prefix();
+
+	// links to display previous and next pages, if any
+	$context['text'] .= Skin::neighbours($neighbours, 'slideshow');
+
+	// link to the previous comment in thread, if any
+	if($item['previous_id'] && ($previous =& Comments::get($item['previous_id'])))
+		$context['text'] .= ' <p>'.sprintf(i18n::s('Comment inspired from %s'), Skin::build_link(Comments::get_url($previous['id']), $previous['create_name'])).'</p>';
 
 	// display the full comment
 	if($item['description']) {
@@ -198,41 +185,42 @@ if(!isset($item['id'])) {
 		$text = Codes::beautify($item['description']);
 
 		// show the description
-		$context['text'] .= '<p></p>'.$text."<p></p>\n";
+		$context['text'] .= '<div>'.$text."</div>\n";
 	}
 
 	// list follow-ups in thread, if any
 	if($next = Comments::list_next($item['id'], 'compact'))
 		$context['text'] .= ' <p style="margin-bottom: 0; padding-bottom: 0;">'.i18n::s('This comment has inspired:').'</p>'.Skin::build_list($next, 'compact');
 
-	// follow-up commands
-	$menu = array();
+	// insert anchor suffix
+	if(is_object($anchor))
+		$context['text'] .= $anchor->get_suffix();
+
+	//
+	// extra panel -- $context['extra']
+	//
+
+	// page tools
+	//
 
 	// a bottom menu to react
 	if(Comments::are_allowed($anchor)) {
 
 		// allow posters to change their own comments
 		if($item['create_id'] == Surfer::get_id())
-			$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), i18n::s('Edit'), 'span' );
+			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'edit'), i18n::s('Edit'), 'basic' );
 
 		// allow surfers to react to contributions from other people
 		else {
-			Skin::define_img('NEW_COMMENT_IMG', $context['skin'].'/icons/comments/new.gif');
-			$menu[] = Skin::build_link(Comments::get_url($item['id'], 'reply'), NEW_COMMENT_IMG.' '.i18n::s('React to this post'), 'span');
+			Skin::define_img('NEW_COMMENT_IMG', 'icons/comments/new.gif');
+			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'reply'), NEW_COMMENT_IMG.' '.i18n::s('Reply'), 'basic');
+			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'quote'), i18n::s('Quote'), 'basic');
 		}
 	}
 
-	// go back to the thread
-	if(is_object($anchor))
-		$menu[] = Skin::build_link($anchor->get_url('discuss'), i18n::s('Cancel'), 'span' );
-
-	// build the menu
-	if(count($menu))
-		$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
-
-	// insert anchor suffix
-	if(is_object($anchor))
-		$context['text'] .= $anchor->get_suffix();
+	// turn this to an article
+	if($item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())))
+		$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'promote'), i18n::s('Promote'), 'basic');
 
 	//
 	// the referrals, if any, in a sidebar

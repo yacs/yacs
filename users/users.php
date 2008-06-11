@@ -56,7 +56,7 @@ Class Users {
 		global $context;
 
 		// retrieve user attributes
-		if(!isset($user['id']) && !$user =& Users::get($id))
+		if(!isset($user['id']) && !$user =& Users::get($user))
 			return FALSE;
 
 		// ensure poster wants alerts
@@ -260,6 +260,25 @@ Class Users {
 	}
 
 	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('users');
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'user:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
+	}
+
+	/**
 	 * delete one user
 	 *
 	 * @param int the id of the user to delete
@@ -284,9 +303,6 @@ Class Users {
 		$query = "DELETE FROM ".SQL::table_name('users')." WHERE id = ".SQL::escape($item['id']);
 		if(SQL::query($query, FALSE, $context['users_connection']) === FALSE)
 			return FALSE;
-
-		// clear the cache for users
-		Cache::clear(array('users', 'user:'.$item['id'], 'categories'));
 
 		// job done
 		return TRUE;
@@ -332,8 +348,8 @@ Class Users {
 		$id = utf8::to_unicode($id);
 
 		// strip extra text from enhanced ids '3-alfred' -> '3'
-		if($position = strpos($id, '-'))
-			$id = substr($id, 0, $position);
+		if(preg_match('/^([0-9]+)-.+/', $id, $matches))
+			$id = $matches[1];
 
 		// cache previous answers
 		static $cache;
@@ -344,14 +360,27 @@ Class Users {
 		if(!$mutable && isset($cache[$id]))
 			return $cache[$id];
 
+		$query = array();
+
+		if($int_value = intval($id))
+			$query[] = "(users.id = ".SQL::escape($int_value).")";
+
+		if(strpos($id, '@'))
+			$query[] = "(users.email LIKE '".SQL::escape($id)."')";
+		elseif(preg_match('/[0-9a-fA-F]{32}/', $id))
+			$query[] = "(users.handle LIKE '".SQL::escape($id)."')";
+		else
+			$query[] = "(users.nick_name LIKE '".SQL::escape($id)."')";
+
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE (users.id LIKE '".SQL::escape($id)."')"
-			."	OR (users.nick_name LIKE '".SQL::escape($id)."')"
-			."	OR (users.email LIKE '".SQL::escape($id)."')"
-			."	OR (users.handle LIKE '".SQL::escape($id)."')"
+			." WHERE ".join(' OR ', $query)
 			." LIMIT 1";
 		$output =& SQL::query_first($query, FALSE, $context['users_connection']);
+
+		// save in cache
+		if(isset($output['id']))
+			$cache[ $output['id'] ] = $output;
 
 		include_once $context['path_to_root'].'users/visits.php';
 
@@ -366,10 +395,6 @@ Class Users {
 		// user is not present
 		elseif(isset($output['id']))
 			$output['is_present'] = FALSE;
-
-		// save in cache
-		if(isset($output['id']))
-			$cache[$id] = $output;
 
 		// return by reference
 		return $output;
@@ -704,10 +729,11 @@ Class Users {
 			$where .= " OR users.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
+		$where = '('.$where.')';
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE (".$where.") AND (users.post_date > '2000-01-01')"
+			." WHERE ".$where." AND (users.post_date > '2000-01-01')"
 			." ORDER BY users.post_date, users.nick_name LIMIT ".$offset.','.$count;
 
 		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);
@@ -750,10 +776,11 @@ Class Users {
 			$where .= " OR users.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
+		$where = '('.$where.')';
 
-		// protect the privacy of e-mail boxes
+		// protect the privacy of e-mail boxes and never send messages to banned users
 		if($variant == 'mail')
-			$where = '('.$where.') AND (users.with_newsletters=\'Y\')';
+			$where .= " AND (users.with_newsletters='Y') AND (users.capability != '?')";
 
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
@@ -996,11 +1023,12 @@ Class Users {
 		$item = NULL;
 
 		// up to three authentication attempts during last hour
+		$blocked = FALSE;
 		$authentication_horizon = gmstrftime('%Y-%m-%d %H:%M:%S', time()-3600);
 
 		// search a user profile locally
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
-			." WHERE users.email LIKE '".SQL::escape($name)."' OR users.nick_name LIKE '".SQL::escape($name)."'";
+			." WHERE users.email LIKE '".SQL::escape($name)."' OR users.nick_name LIKE '".SQL::escape($name)."' OR users.full_name LIKE '".SQL::escape($name)."'";
 		if(isset($context['users_connection']) && ($item =& SQL::query_first($query, FALSE, $context['users_connection']))) {
 
 			// the user has been explicitly banned
@@ -1008,25 +1036,30 @@ Class Users {
 				$authenticated = FALSE;
 
 			// more than three failed authentications during previous hour
-			elseif(($item['authenticate_date'] > $authentication_horizon) && ($item['authenticate_failures'] >= 3))
+			elseif(($item['authenticate_date'] > $authentication_horizon) && ($item['authenticate_failures'] >= 3)) {
 				$authenticated = FALSE;
+				$blocked = TRUE;
 
 			// successful local check
-			elseif(md5($password) == $item['password'])
+			} elseif(md5($password) == $item['password'])
 				$authenticated = TRUE;
 
 		}
 
 		// we have to authenticate externally, if this has been explicitly allowed
-		if(!$authenticated && isset($context['users_authenticator']) && $context['users_authenticator']) {
+		if(!$authenticated && !$blocked && isset($context['users_authenticator']) && $context['users_authenticator']) {
 
 			// load and configure an authenticator instance
 			include_once $context['path_to_root'].'users/authenticator.php';
 			if(!$authenticator = Authenticator::bind($context['users_authenticator']))
 				return NULL;
 
+			// submit full name to authenticator
+			if(isset($item['full_name']) && trim($item['full_name']) && $authenticator->login($item['full_name'], $password))
+				$authenticated = TRUE;
+
 			// submit credentials to authenticator
-			if($authenticator->login($name, $password))
+			elseif($authenticator->login($name, $password))
 				$authenticated = TRUE;
 
 		}
@@ -1047,11 +1080,11 @@ Class Users {
 			$fields['authenticate_failures'] = 0;
 
 			// stop on error
-			if(!$id = Users::post($fields))
+			if(!$fields['id'] = Users::post($fields))
 				return NULL;
 
 			// retrieve the shadow record
-			$item =& Users::get($id);
+			$item =& Users::get($fields['id']);
 		}
 
 		// bad credentials
@@ -1135,7 +1168,7 @@ Class Users {
 	 * @see users/populate.php
 	 * @see query.php
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// nick_name is required
@@ -1211,14 +1244,14 @@ Class Users {
 			$fields['editor'] = 'yacs';
 		if(!isset($fields['interface']) || ($fields['interface'] != 'C'))
 			$fields['interface'] = 'I';
-		if(!isset($fields['with_newsletters']) || ($fields['with_newsletters'] != 'Y'))
-			$fields['with_newsletters'] = 'N';
-		if(!isset($fields['without_alerts']) || ($fields['without_alerts'] != 'N'))
-			$fields['without_alerts'] = 'Y';
-		if(!isset($fields['without_confirmations']) || ($fields['without_confirmations'] != 'N'))
-			$fields['without_confirmations'] = 'Y';
-		if(!isset($fields['without_messages']) || ($fields['without_messages'] != 'N'))
-			$fields['without_messages'] = 'Y';
+		if(!isset($fields['with_newsletters']) || ($fields['with_newsletters'] != 'N'))
+			$fields['with_newsletters'] = 'Y';
+		if(!isset($fields['without_alerts']) || ($fields['without_alerts'] != 'Y'))
+			$fields['without_alerts'] = 'N';
+		if(!isset($fields['without_confirmations']) || ($fields['without_confirmations'] != 'Y'))
+			$fields['without_confirmations'] = 'N';
+		if(!isset($fields['without_messages']) || ($fields['without_messages'] != 'Y'))
+			$fields['without_messages'] = 'N';
 
 		// clean provided tags
 		if(isset($fields['tags']))
@@ -1362,7 +1395,7 @@ Class Users {
 	 * @see users/password.php
 	 * @see users/select_avatar.php
 	**/
-	function put($fields) {
+	function put(&$fields) {
 		global $context;
 
 		// load the record

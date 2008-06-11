@@ -286,7 +286,7 @@ Class Section extends Anchor {
 			elseif(preg_match('/\barticles_by_reverse_rank\b/i', $this->item['options']))
 				$order = 'reverse_rank';
 			else
-				$order = 'date';
+				$order = 'edition';
 
 			// get previous url
 			if($previous = Articles::get_previous_url($item, 'section:'.$this->item['id'], $order)) {
@@ -770,10 +770,6 @@ Class Section extends Anchor {
 		// at the beginning of the page
 		case 'prefix';
 
-//			// for discussion boards, display only the poster avatar at the beginning of the page
-//			if($this->has_layout('yabb') && isset($user['avatar_url']) && $user['avatar_url'])
-//				return '<img src="'.$user['avatar_url'].'" alt="avatar" style="padding: 8px 8px 8px 0; text-align: left;"'.EOT;
-
 			// ensure the section has been configured for that
 			if($this->has_option('with_prefix_profile'))
 				return Skin::build_profile($user, 'prefix');
@@ -817,9 +813,10 @@ Class Section extends Anchor {
 	 * will feature the skin 'boxes'.
 	 *
 	 * @param string the option we are looking for
+	 * @param boolean TRUE if coming from content leaf, FALSE if coming from content branch
 	 * @return TRUE or FALSE, or the value of the matching option if any
 	 */
-	 function has_option($option) {
+	 function has_option($option, $leaf=TRUE) {
 
 		// sanity check
 		if(!isset($this->item['id']))
@@ -834,19 +831,19 @@ Class Section extends Anchor {
 		}
 
 		// 'variant' matches with 'variant_red_background', return 'red_background'
-		if(preg_match('/\b'.$option.'_(\w+?)\b/i', $this->item['content_options'], $matches))
+		if($leaf && preg_match('/\b'.$option.'_(\w+?)\b/i', $this->item['content_options'], $matches))
 			return $matches[1];
 
 		// 'variant' matches with 'variant_red_background', return 'red_background'
-		if(preg_match('/\b'.$option.'_(\w+?)\b/i', $this->item['options'], $matches))
+		if(!$leaf && preg_match('/\b'.$option.'_(\w+?)\b/i', $this->item['options'], $matches))
 			return $matches[1];
 
 		// exact match, return TRUE
-		if(preg_match('/\b'.$option.'\b/i', $this->item['content_options']))
+		if($leaf && preg_match('/\b'.$option.'\b/i', $this->item['content_options']))
 			return TRUE;
 
 		// exact match, return TRUE
-		if(preg_match('/\b'.$option.'\b/i', $this->item['options']))
+		if(!$leaf && preg_match('/\b'.$option.'\b/i', $this->item['options']))
 			return TRUE;
 
 		// options that are not cascaded to sub-sections -- e.g. extra boxes aside a forum
@@ -856,7 +853,6 @@ Class Section extends Anchor {
 			.'|auto_publish'		// e.g. extra boxes aside a forum...
 			.'|files_by_title'
 			.'|links_by_title'
-			.'|members_edit'		// security hole if cascaded
 			.'|no_comments' 		// e.g. master section vs. sub-forum
 			.'|no_links'
 			.'|no_neighbours'
@@ -878,7 +874,7 @@ Class Section extends Anchor {
 				$this->anchor = Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor))
-				return $this->anchor->has_option($option);
+				return $this->anchor->has_option($option, $leaf);
 		}
 
 		// no match
@@ -915,6 +911,10 @@ Class Section extends Anchor {
 			return $this->is_editable_cache;
 
 		if(isset($this->item['id'])) {
+
+			// section has been locked
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return $this->is_editable_cache = FALSE;
 
 			// anonymous edition is allowed
 			if($this->has_option('anonymous_edit'))
@@ -1085,12 +1085,7 @@ Class Section extends Anchor {
 		$this->item = $item;
 
 		// save updated state
-		if($error = Sections::put($item)) {
-			Skin::error($error);
-			return FALSE;
-		}
-
-		return TRUE;
+		return Sections::put($item);
 	}
 
 	/**

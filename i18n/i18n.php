@@ -1276,6 +1276,51 @@ Class i18n {
 	}
 
 	/**
+	 * lookup a localised string in an array
+	 *
+	 * This can be used to parse manifest files for example.
+	 *
+	 * This function also transcode HTML entities to Unicode entities, if any.
+	 *
+	 * @param array the array containing localized strings
+	 * @param string the label identifying string
+	 * @param string desired language, if any
+	 * @return string the localized string, if any
+	 */
+	function &l($strings, $name, $forced='') {
+		global $context;
+
+		// sanity check
+		if(!$name)
+			return $name;
+
+		// select a string
+		if($forced && ($key = $name.'_'.$forced) && array_key_exists($key, $strings))
+			$text = $strings[ $key ];
+		elseif(($key = $name.'_'.$context['language']) && array_key_exists($key, $strings))
+			$text = $strings[ $key ];
+		elseif(($key = $name.'_en') && array_key_exists($key, $strings))
+			$text = $strings[ $key ];
+		elseif(array_key_exists($name, $strings))
+			$text = $strings[ $name ];
+		else {
+			$text = $name;
+			if($context['with_debug'] == 'Y')
+				logger::remember('i18n/i18n.php', $name);
+
+		}
+
+		// the file may be absent during updates
+		Safe::load('shared/utf8.php');
+
+		// transcode to utf8
+		if(isset($context['charset']) && ($context['charset'] == 'utf-8') && is_callable(array('utf8', 'transcode')))
+			$text =& utf8::transcode($text);
+
+		return $text;
+	}
+
+	/**
 	 * load one .mo file
 	 *
 	 * This function attempts to include a cached version (actually, a .mo.php
@@ -1479,51 +1524,6 @@ Class i18n {
 
 		// done
 		return $locales;
-	}
-
-	/**
-	 * lookup a localised string in an array
-	 *
-	 * This can be used to parse manifest files for example.
-	 *
-	 * This function also transcode HTML entities to Unicode entities, if any.
-	 *
-	 * @param array the array containing localized strings
-	 * @param string the label identifying string
-	 * @param string desired language, if any
-	 * @return string the localized string, if any
-	 */
-	function &l($strings, $name, $forced='') {
-		global $context;
-
-		// sanity check
-		if(!$name)
-			return $name;
-
-		// select a string
-		if($forced && ($key = $name.'_'.$forced) && array_key_exists($key, $strings))
-			$text = $strings[ $key ];
-		elseif(($key = $name.'_'.$context['language']) && array_key_exists($key, $strings))
-			$text = $strings[ $key ];
-		elseif(($key = $name.'_en') && array_key_exists($key, $strings))
-			$text = $strings[ $key ];
-		elseif(array_key_exists($name, $strings))
-			$text = $strings[ $name ];
-		else {
-			$text = $name;
-			if($context['with_debug'] == 'Y')
-				logger::remember('i18n/i18n.php', $name);
-
-		}
-
-		// the file may be absent during updates
-		Safe::load('shared/utf8.php');
-
-		// transcode to utf8
-		if(isset($context['charset']) && ($context['charset'] == 'utf-8') && is_callable(array('utf8', 'transcode')))
-			$text =& utf8::transcode($text);
-
-		return $text;
 	}
 
 	/**

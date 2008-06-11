@@ -25,6 +25,29 @@
 Class Decisions {
 
 	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('decisions');
+
+		// clear anchor page
+		if(isset($item['anchor']))
+			$topics[] = $item['anchor'];
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'decision:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
+	}
+
+	/**
 	 * delete one decision
 	 *
 	 * @param int the id of the decision to delete
@@ -39,16 +62,10 @@ Class Decisions {
 		if(!$id || !is_numeric($id))
 			return FALSE;
 
-		// delete related items
-//		Anchors::delete_related_to('decision:'.$id);
-
 		// delete the record in the database
 		$query = "DELETE FROM ".SQL::table_name('decisions')." WHERE id = ".SQL::escape($id);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
-
-		// clear the cache for decisions
-		Cache::clear(array('decisions', 'decision:'.$id));
 
 		// job done
 		return TRUE;
@@ -65,9 +82,6 @@ Class Decisions {
 	 */
 	function delete_for_anchor($anchor) {
 		global $context;
-
-		// clear the cache for decisions
-		Cache::clear(array('decisions', 'decision:'));
 
 		// delete all matching records in the database
 		$query = "DELETE FROM ".SQL::table_name('decisions')." WHERE anchor LIKE '".SQL::escape($anchor)."'";
@@ -487,6 +501,16 @@ Class Decisions {
 				return 'decisions/list.php?anchor='.urlencode($id);
 		}
 
+		// mail for decision -- the id has to be an anchor (e.g., 'article:15')
+		if($action == 'mail') {
+			if($context['with_friendly_urls'] == 'Y')
+				return 'decisions/mail.php/'.str_replace(':', '/', $id);
+			elseif($context['with_friendly_urls'] == 'R')
+				return 'decisions/mail.php/'.str_replace(':', '/', $id);
+			else
+				return 'decisions/mail.php?anchor='.urlencode($id);
+		}
+
 		// navigate decisions -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'navigate') {
 			if($context['with_friendly_urls'] == 'Y')
@@ -740,14 +764,8 @@ Class Decisions {
 	 *
 	 * @see decisions/edit.php
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
-
-		// no decision
-		if(!$fields['description']) {
-			Skin::error(i18n::s('No description has been transmitted for this decision.'));
-			return FALSE;
-		}
 
 		// no anchor reference
 		if(!$fields['anchor']) {

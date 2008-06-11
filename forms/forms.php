@@ -10,6 +10,25 @@
 Class Forms {
 
 	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('forms');
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'form:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
+	}
+
+	/**
 	 * delete one form in the database
 	 *
 	 * @param int the id of the form to delete
@@ -31,9 +50,6 @@ Class Forms {
 		$query = "DELETE FROM ".SQL::table_name('forms')." WHERE id = ".$id;
 		if(SQL::query($query) === FALSE)
 			return FALSE;
-
-		// clear the cache for forms
-		Cache::clear(array('forms', 'form:'.$id));
 
 		// job done
 		return TRUE;
@@ -228,7 +244,7 @@ Class Forms {
 	 *
 	 * @see forms/edit.php
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// title cannot be empty

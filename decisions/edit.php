@@ -44,6 +44,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../shared/xml.php';	// input validation
 include_once 'decisions.php';
 
 // what should we do?
@@ -84,8 +85,7 @@ $id = strip_tags($id);
 $target_anchor = strip_tags($target_anchor);
 
 // get the item from the database
-if($id)
-	$item =& Decisions::get($id);
+$item =& Decisions::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
@@ -117,7 +117,7 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
 // surfer created the decision
-elseif(isset($item['create_id']) && Surfer::is_creator($item['create_id']))
+elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
 	$permitted = TRUE;
 
 // only authenticated members can post new decisions
@@ -141,17 +141,15 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'decisions/' => i18n::s('Decisions') );
 
-// the title for updated content
+// page title
 if(is_object($anchor))
 	$context['page_title'] = sprintf(i18n::s('Decide: %s'), $anchor->get_title());
-
-// the title for new content
 else
-	$context['page_title'] = i18n::s('Express your decision');
+	$context['page_title'] = i18n::s('Decide');
 
 // always validate input syntax
 if(isset($_REQUEST['description']))
-	validate($_REQUEST['description']);
+	xml::validate($_REQUEST['description']);
 
 // an anchor is mandatory
 if(!is_object($anchor)) {
@@ -170,12 +168,9 @@ if(!is_object($anchor)) {
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // maybe posts are not allowed here
-} elseif(is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_associate()) {
+} elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked')) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
-	if(isset($item['id']))
-		Skin::error(i18n::s('This page has been locked. It cannot be modified anymore.'));
-	else
-		Skin::error(i18n::s('Posts are not allowed anymore here.'));
+	Skin::error(i18n::s('This page has been locked.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -195,7 +190,7 @@ if(!is_object($anchor)) {
 		$with_form = TRUE;
 
 	// display the form on error
-	} elseif(!$id = Decisions::post($_REQUEST)) {
+	} elseif(!$_REQUEST['id'] = Decisions::post($_REQUEST)) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -203,7 +198,10 @@ if(!is_object($anchor)) {
 	} elseif(!isset($item['id'])) {
 
 		// touch the related anchor
-		$anchor->touch('decision:create', $id, isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+		$anchor->touch('decision:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+		// clear cache
+		Decisions::clear($_REQUEST);
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
@@ -228,20 +226,19 @@ if(!is_object($anchor)) {
 			$context['text'] .= '</p>';
 		}
 
-		// splash message
-		$context['text'] .= Skin::build_block(i18n::s('What do you want to do now?'), 'title');
-
 		// follow-up commands
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Go back to main page')));
-		$menu = array_merge($menu, array(Decisions::get_url($id, 'view') => i18n::s('View the decision')));
-		$menu = array_merge($menu, array(Decisions::get_url($id, 'edit') => i18n::s('Edit the decision')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$menu = array_merge($menu, array(Decisions::get_url($_REQUEST['id'], 'view') => i18n::s('View the decision')));
+		$menu = array_merge($menu, array(Decisions::get_url($_REQUEST['id'], 'edit') => i18n::s('Edit the decision')));
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the submission of a new decision by a non-associate
 		if(!Surfer::is_associate()) {
 			$label = sprintf(i18n::c('New decision: %s'), strip_tags($anchor->get_title()));
-			$description = $context['url_to_home'].$context['url_to_root'].Decisions::get_url($id);
+			$description = $context['url_to_home'].$context['url_to_root'].Decisions::get_url($_REQUEST['id']);
 			Logger::notify('decisions/edit.php', $label, $description);
 		}
 
@@ -251,8 +248,11 @@ if(!is_object($anchor)) {
 		// touch the related anchor
 		$anchor->touch('decision:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
 
+		// clear cache
+		Decisions::clear($_REQUEST);
+
 		// forward to the updated thread
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Decisions::get_url($id, 'view'));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].Decisions::get_url($_REQUEST['id'], 'view'));
 	}
 
 // display the form on GET
@@ -276,11 +276,12 @@ if($with_form) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// reference the anchor page
-	if(is_object($anchor) && $anchor->is_viewable()) {
-		$context['text'] .= '<p>'.$anchor->get_teaser('teaser');
+	if(is_object($anchor) && $anchor->is_viewable())
+		$context['text'] .= '<p>'.$anchor->get_teaser('teaser')."</p>\n";
 
-		$context['text'] .= "</p>\n";
-	}
+	// review the page on another window
+	if(!isset($item['id']))
+		$context['text'] .= '<p>'.Skin::build_link($anchor->get_url(), i18n::s('Review the page'), 'help');
 
 	// display info on current version
 	if(isset($item['id']) && !preg_match('/(new|quote|reply)/', $action) && !(isset($_REQUEST['preview']) && $_REQUEST['preview'])) {
@@ -373,13 +374,23 @@ if($with_form) {
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
 
+	//
+	// bottom commands
+	//
+	$menu = array();
+
+	// the submit button
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+	// cancel button
+	$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
+
+	// insert the menu in the page
+	$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
+
 	// associates may decide to not stamp changes -- complex command
 	if(Surfer::is_associate() && Surfer::has_all())
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').'</p>';
-
-	// the preview and submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's')
-		.' '.Skin::build_submit_button(i18n::s('Preview'), NULL, NULL, 'preview').'</p>'."\n";
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

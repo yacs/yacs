@@ -53,7 +53,7 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
 // authenticated surfers may suppress their own posts
-elseif(Surfer::is_creator($item['edit_id']))
+elseif(Surfer::is($item['edit_id']))
 	$permitted = TRUE;
 
 // the default is to deny access
@@ -73,7 +73,7 @@ else
 $context['page_title'] = i18n::s('Delete a date');
 
 // not found
-if(!$item['id']) {
+if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -93,10 +93,11 @@ if(!$item['id']) {
 
 	// touch the related anchor before actual deletion, since the date has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('date:delete', $id, TRUE);
+		$anchor->touch('date:delete', $item['id'], TRUE);
 
 	// if no error, back to the anchor or to the index page
-	if(Dates::delete($id)) {
+	if(Dates::delete($item['id'])) {
+		Dates::clear($item);
 		if(is_object($anchor))
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
 		else

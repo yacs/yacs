@@ -56,10 +56,6 @@ if($stats['count'] > THREADS_PER_PAGE) {
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], THREADS_PER_PAGE, $page));
 }
 
-// associates may check the database
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'decisions/check.php' => i18n::s('Maintenance') ));
-
 // page main content
 $cache_id = 'decisions/index.php#text#'.$page;
 if(!$text =& Cache::get($cache_id)) {
@@ -79,6 +75,10 @@ if(!$text =& Cache::get($cache_id)) {
 	Cache::put($cache_id, $text, 'stable', 60);
 }
 $context['text'] .= $text;
+
+// page tools
+if(Surfer::is_associate())
+	$context['page_tools'][] = Skin::build_link('decisions/check.php', i18n::s('Maintenance'));
 
 // page extra content
 $cache_id = 'decisions/index.php#extra';

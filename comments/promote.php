@@ -96,7 +96,7 @@ if(!$item['id']) {
 
 	// touch the related anchor before actual deletion, since the item has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('comment:promote', $id, TRUE);
+		$anchor->touch('comment:promote', $item['id'], TRUE);
 
 	// prepare a new article
 	$fields = array();
@@ -119,18 +119,23 @@ if(!$item['id']) {
 	$fields['create_date'] = $item['create_date'];
 
 	// make an article
-	if(!$id = Articles::post($fields))
+	if(!$fields['id'] = Articles::post($fields))
 		Skin::error(i18n::s('Impossible to add a page.'));
 
 	else {
 
 		// touch the new anchor
 		if($anchor = Anchors::get($fields['anchor']))
-			$anchor->touch('article:create', $id, TRUE);
+			$anchor->touch('article:create', $fields['id'], TRUE);
+
+		// clear the cache
+		Articles::clear($fields);
 
 		// delete the comment and jump to the new article
-		if(Comments::delete($item['id']))
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($id, 'view', $fields['title'], ''));
+		if(Comments::delete($item['id'])) {
+			Comments::clear($item);
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($fields['id'], 'view', $fields['title'], ''));
+		}
 	}
 
 // promotion has to be confirmed

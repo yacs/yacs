@@ -128,8 +128,10 @@ if(!isset($item['id'])) {
 			$section['articles_layout'] = 'yabb'; // these are threads
 			$section['content_options'] = 'view_as_thread'; // these are threads
 			$section['maximum_items'] = 1000; // limit the overall number of threads
-			if($new_id = Sections::post($section))
-				$anchor = 'section:'.$new_id;
+			if($section['id'] = Sections::post($section)) {
+				Sections::clear($section);
+				$anchor = 'section:'.$section['id'];
+			}
 		}
 
 		// the new thread
@@ -144,37 +146,40 @@ if(!isset($item['id'])) {
 			Skin::error(i18n::s('Impossible to add a page.'));
 
 		// post the new thread
-		elseif(!$new_id = Articles::post($article))
+		elseif(!$article['id'] = Articles::post($article))
 			Skin::error(i18n::s('Impossible to add a page.'));
 
 		// ensure both surfers will be allowed to access this page
 		else {
 
 			// make editors of the new page
-			Members::assign('user:'.Surfer::get_id(), 'article:'.$new_id);
-			Members::assign('user:'.$item['id'], 'article:'.$new_id);
+			Members::assign('user:'.Surfer::get_id(), 'article:'.$article['id']);
+			Members::assign('user:'.$item['id'], 'article:'.$article['id']);
 
 			// add this page to watch lists
-			Members::assign('article:'.$new_id, 'user:'.Surfer::get_id());
-			Members::assign('article:'.$new_id, 'user:'.$item['id']);
+			Members::assign('article:'.$article['id'], 'user:'.Surfer::get_id());
+			Members::assign('article:'.$article['id'], 'user:'.$item['id']);
 
 			// make a new comment out of received message, if any
 			if(isset($_REQUEST['message']) && trim($_REQUEST['message'])) {
 				$comment = array();
-				$comment['anchor'] = 'article:'.$new_id;
+				$comment['anchor'] = 'article:'.$article['id'];
 				$comment['description'] = strip_tags($_REQUEST['message']);
 				Comments::post($comment);
 			}
 
 			// purge section cache
 			if($section = Anchors::get($article['anchor']))
-				$section->touch('article:create', $new_id, TRUE);
+				$section->touch('article:create', $article['id'], TRUE);
+
+			// clear the cache
+			Articles::clear($article);
 
 			// contact target user by e-mail
 			$mail['subject'] = sprintf(i18n::c('Chat: %s'), strip_tags($article['title']));
 			$mail['message'] = sprintf(i18n::c('%s would like to have a private chat with you'), Surfer::get_name())
 				."\n\n".ucfirst(strip_tags($article['title']))
-				."\n".$context['url_to_home'].$context['url_to_root'].Articles::get_url($new_id, 'view', $article['title'])
+				."\n".$context['url_to_home'].$context['url_to_root'].Articles::get_url($article['id'], 'view', $article['title'])
 				."\n\n"
 				.i18n::c('If you wish to prevent other surfers to contact you please visit your user profile at the following address, and change preferences.')
 				."\n\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name'])
@@ -182,8 +187,8 @@ if(!isset($item['id'])) {
 
 			// also prepare an interactive alert
 			$notification['type'] = 'hello';
-			$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_url($new_id);
-			$notification['reference'] = 'article:'.$new_id;
+			$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_url($article['id']);
+			$notification['reference'] = 'article:'.$article['id'];
 
 		}
 

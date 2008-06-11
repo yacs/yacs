@@ -49,10 +49,6 @@ $stats = Dates::stat();
 if($stats['count'])
 	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 date', '%d dates', $stats['count']), $stats['count'])));
 
-// commands for associates
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'dates/check.php' => i18n::s('Maintenance') ));
-
 // page main content
 $cache_id = 'dates/index.php#text';
 if(!$text =& Cache::get($cache_id)) {
@@ -67,6 +63,10 @@ if(!$text =& Cache::get($cache_id)) {
 	Cache::put($cache_id, $text, 'stable', 60);
 }
 $context['text'] .= $text;
+
+// page tools
+if(Surfer::is_associate())
+	$context['page_tools'][] = Skin::build_link('dates/check.php', i18n::s('Maintenance'), 'basic');
 
 // page extra information
 $cache_id = 'dates/index.php#extra';

@@ -295,7 +295,7 @@ Class User extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	 function is_editable($user_id = NULL) {
-		if(isset($this->item['id']) && Surfer::is_creator($this->item['id']))
+		if(isset($this->item['id']) && Surfer::is($this->item['id']))
 			return TRUE;
 		return FALSE;
 	 }

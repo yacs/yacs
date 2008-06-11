@@ -137,7 +137,11 @@ if(!isset($item['id'])) {
 
 	// a form to capture user rating
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>'
-		.'<input type="hidden" name="id" value="'.$item['id'].'" '.EOT;
+		.'<input type="hidden" name="id" value="'.$item['id'].'" />';
+
+	// the page that will be updated
+	if(isset($_SERVER['HTTP_REFERER']))
+		$context['text'] .= '<input type="hidden" name="referer" value="'.encode_field($_SERVER['HTTP_REFERER']).'" />';
 
 	// give a five
 	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="5" onclick="javascript:document.getElementById(\'main_form\').submit()" /> '.i18n::s('Excellent').' </div> ';
@@ -154,7 +158,7 @@ if(!isset($item['id'])) {
 	// give a one
 	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="1" onclick="javascript:document.getElementById(\'main_form\').submit()" /> '.i18n::s('Forget it').' </div> ';
 
-	$context['text'] .= '<br style="clear: left;"'.EOT;
+	$context['text'] .= '<br style="clear: left;" />';
 
 	// end of the form
 	$context['text'] .= '</div></form>';
@@ -169,12 +173,26 @@ if(!isset($item['id'])) {
 	// update the database
 	Articles::rate($item['id'], $rating);
 
-	// return to the rated page
-	if(!headers_sent())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+	// touch the related anchor
+	if(is_object($anchor))
+		$anchor->touch('article:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
+
+	// clear the cache
+	Articles::clear($item);
+
+	// return from rating
+	if(!headers_sent()) {
+
+		// go back to page referring to here
+		if(isset($_REQUEST['referer']))
+			Safe::redirect($_REQUEST['referer']);
+
+		// go page to rated page
+		else
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 
 	// ask for manual click
-	else {
+	} else {
 		$context['text'] .= '<p>'.i18n::s('Thank you for your rating')."</p>\n";
 
 		// follow-up commands

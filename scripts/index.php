@@ -98,49 +98,6 @@ load_skin('scripts');
 // the title of the page
 $context['page_title'] = i18n::s('Server software');
 
-// if there is some documentation
-if(file_exists($context['path_to_root'].'scripts/reference/footprints.php')) {
-
-	// the list of things to do
-	$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url('todo') => i18n::s('To do') ));
-
-	// the list of testers
-	$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url('testers') => i18n::s('Testers') ));
-
-	// the list of authors
-	$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url('authors') => i18n::s('Authors') ));
-
-	// the list of licenses
-	$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url('licenses') => i18n::s('Licenses') ));
-
-}
-
-
-// other commands for associates
-if(Surfer::is_associate()) {
-
-	// signal scripts to run once, if any
-	if(Safe::glob($context['path_to_root'].'scripts/run_once/*.php') !== FALSE) {
-		$context['page_menu'] = array_merge($context['page_menu'], array( 'scripts/run_once.php' => i18n::s('Run once') ));
-	}
-
-	// stage from reference server
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'scripts/stage.php' => i18n::s('Update') ));
-
-	// set the reference server
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'scripts/configure.php' => i18n::s('Configure') ));
-
-	// validate scripts
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'scripts/validate.php' => i18n::s('Validate') ));
-
-	// build the reference here
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'scripts/build.php' => i18n::s('Build') ));
-
-	// patch the server
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'scripts/upload.php' => i18n::s('Patch') ));
-
-}
-
 // associates may trigger incremental upgrades, but not at reference servers
 if(Surfer::is_associate() && !file_exists('reference/footprints.php')) {
 
@@ -166,24 +123,61 @@ if(Surfer::is_associate() && !file_exists('reference/footprints.php')) {
 include_once 'phpdoc.php';
 $item = PhpDoc::get('index');
 if($item) {
-	// documentation title
-	$context['text'] .= Skin::build_block(i18n::s('On-line Documentation'), 'title');
+
+	// the list of things to do
+	$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url('todo') => i18n::s('To do') ));
+
+	// the list of testers
+	$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url('testers') => i18n::s('Testers') ));
+
+	// the list of authors
+	$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url('authors') => i18n::s('Authors') ));
+
+	// the list of licenses
+	$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url('licenses') => i18n::s('Licenses') ));
 
 	// splash message
-	$context['text'] .= '<p>'.i18n::s('Click on any link below to access the documentation extracted from each script (phpDoc).')."</p>\n";
+	$text = '<p>'.i18n::s('Click on any link below to access the documentation extracted from each script (phpDoc).')."</p>\n";
 
 	// tree of links to documentation pages
-	$context['text'] .= Codes::beautify($item['content']);
+	$text .= Codes::beautify($item['content']);
 
 // link to some other server
 } else {
 
-	$context['text'] .= Skin::build_block(i18n::s('On-line Documentation'), 'title').'<p>'.i18n::s('The complete documentation is available at the following server:')."</p>\n";
+	$text = '<p>'.i18n::s('The complete documentation is available at the following server:').'</p>';
 
 	// link to the existing reference server, or to the original server
 	if(!isset($context['reference_server']) || !$context['reference_server'])
 		$context['reference_server'] = i18n::s('www.yetanothercommunitysystem.com');
-	$context['text'] .= '<p>'.Skin::build_link('http://'.$context['reference_server'].'/', $context['reference_server'], 'external')."</p>\n";
+	$text .= '<p>'.Skin::build_link('http://'.$context['reference_server'].'/', $context['reference_server'], 'external')."</p>\n";
+
+}
+
+// documentation box
+$context['text'] .= Skin::build_box(i18n::s('On-line Documentation'), $text);
+
+// page tools
+if(Surfer::is_associate()) {
+
+	// patch the server
+	$context['page_tools'][] = Skin::build_link('scripts/upload.php', i18n::s('Patch'), 'basic');
+
+	// signal scripts to run once, if any
+	if(Safe::glob($context['path_to_root'].'scripts/run_once/*.php') !== FALSE)
+		$context['page_tools'][] = Skin::build_link('scripts/run_once.php', i18n::s('Run once'), 'basic');
+
+	// stage from reference server
+	$context['page_tools'][] = Skin::build_link('scripts/stage.php', i18n::s('Update'), 'basic');
+
+	// set the reference server
+	$context['page_tools'][] = Skin::build_link('scripts/configure.php', i18n::s('Configure'), 'basic');
+
+	// validate scripts
+	$context['page_tools'][] = Skin::build_link('scripts/validate.php', i18n::s('Validate'), 'basic');
+
+	// build the reference here
+	$context['page_tools'][] = Skin::build_link('scripts/build.php', i18n::s('Build'), 'basic');
 
 }
 

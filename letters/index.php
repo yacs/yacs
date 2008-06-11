@@ -18,13 +18,7 @@ i18n::bind('letters');
 load_skin('letters');
 
 // the title of the page
-$context['page_title'] = i18n::s('Most recent letters');
-
-// menu bar
-if(Surfer::is_associate()) {
-	$context['page_menu'] = array( 'letters/new.php' => i18n::s('Post a letter') );
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'letters/configure.php' => i18n::s('Configure') ));
-}
+$context['page_title'] = i18n::s('Newsletters');
 
 // seek the database
 $anchor = Sections::lookup('letters');
@@ -34,6 +28,13 @@ if($anchor && ($rows = Articles::list_by_date_for_anchor($anchor, 0, 20)))
 // empty list
 else
 	$context['text'] .= '<p>'.i18n::s('No letter has been sent yet.').'</p>';
+
+// page tools
+//
+if(Surfer::is_associate()) {
+	$context['page_tools'][] = Skin::build_link('letters/new.php', i18n::s('Post a letter'), 'basic');
+	$context['page_tools'][] = Skin::build_link('letters/configure.php', i18n::s('Configure'), 'basic');
+}
 
 // referrals, if any
 $context['extra'] .= Skin::build_referrals('letters/index.php');

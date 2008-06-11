@@ -95,7 +95,7 @@ Class Layout_dates_as_family extends Layout_interface {
 
 			// board introduction
 			if($item['introduction'])
-				$suffix .= '<br style="clear: none;"/>'.Codes::beautify($item['introduction']);
+				$suffix .= '<br style="clear: none;" />'.Codes::beautify($item['introduction']);
 
 			// this is another row of the output
 			$rows[] = array($prefix.$title.$suffix, $thumbnail, NULL);

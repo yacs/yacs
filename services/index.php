@@ -33,10 +33,6 @@ load_skin('services');
 // the title of the page
 $context['page_title'] = i18n::s('Back-end services');
 
-// associates may change parameters
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'services/configure.php' => i18n::s('Configure') ));
-
 // splash
 $context['text'] .= '<p>'.i18n::s('This index page lists the main services that you can use in the background. Connect your blogging software, RSS news feeder, or other web sites to this server through following Application Programming Interfaces (API).')."</p>\n";
 
@@ -96,6 +92,10 @@ $rows[] = array(i18n::s('URL:'), '<b>'.$context['url_to_home'].$context['url_to_
 $rows[] = array(i18n::s('Documentation:'), Skin::build_link('services/xml_rpc.php', NULL, 'script'));
 $rows[] = array(i18n::s('Specification:'), Skin::build_link('http://www.xmlrpc.com/spec', 'XML-RPC Specification', 'external'));
 $context['text'] .= Skin::table(NULL, $rows);
+
+// page tools
+if(Surfer::is_associate())
+	$context['page_tools'][] = Skin::build_link('services/configure.php', i18n::s('Configure'), 'basic');
 
 // referrals, if any
 $context['extra'] .= Skin::build_referrals('services/index.php');

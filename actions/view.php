@@ -70,13 +70,13 @@ else
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Go back to main page') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Main page') ));
 
 // the edit command is available to associates, editors, target member, and poster
 if($item['id'] && (Surfer::is_associate()
 	|| (is_object($anchor) && $anchor->is_editable())
 	|| (Surfer::is_member() && ($item['anchor'] == 'user:'.Surfer::get_id()))
-	|| Surfer::is_creator($item['create_id']))) {
+	|| Surfer::is($item['create_id']))) {
 
 	$context['page_menu'] = array_merge($context['page_menu'], array( Actions::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 }
@@ -85,7 +85,7 @@ if($item['id'] && (Surfer::is_associate()
 if($item['id'] && (Surfer::is_associate()
 	|| (is_object($anchor) && $anchor->is_editable())
 	|| (Surfer::is_member() && ($item['anchor'] == 'user:'.Surfer::get_id()))
-	|| Surfer::is_creator($item['create_id']))) {
+	|| Surfer::is($item['create_id']))) {
 
 	$context['page_menu'] = array_merge($context['page_menu'], array( Actions::get_url($item['id'], 'delete') => i18n::s('Delete') ));
 }

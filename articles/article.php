@@ -372,15 +372,6 @@ Class Article extends Anchor {
 			else
 				$text = preg_replace('/\[(.*?).*?\](.*?)\[\/\1\]/s', '${2}', $text);
 
-			// preserve breaks
-			$text = preg_replace('/<(br *\/*|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
-
-			// strip most html tags
-			$text = strip_tags($text, '<a><b><br><i><img><strong><u>');
-
-			// remove new lines after breaks
-			$text = preg_replace('/<(br *\/*)>\n*/i', "<\\1>", $text);
-
 		}
 
 		// turn html entities to unicode entities
@@ -448,6 +439,10 @@ Class Article extends Anchor {
 
 		// preserve as much as possible
 		case 'teaser':
+
+			// push titles
+ 			$text = str_ireplace(array('<h3', '</h3'), array('<h4', '</h4'), $text);
+ 			$text = str_ireplace(array('<h2', '</h2'), array('<h3', '</h3'), $text);
 
 			// limit the number of words
 			if(is_callable(array('Skin', 'cap')))
@@ -570,7 +565,7 @@ Class Article extends Anchor {
 	function is_interactive() {
 
 		// article has been configured to be viewed as a thread
-		if(isset($this->item['options']) && preg_match('/\bview_as_(\w+?)\b/i', $this->item['options']))
+		if(isset($this->item['options']) && preg_match('/\bview_as_thread\b/i', $this->item['options']))
 			return TRUE;
 
 		// get the parent
@@ -578,7 +573,7 @@ Class Article extends Anchor {
 			$this->anchor = Anchors::get($this->item['anchor']);
 
 		// section asks for threads
-		if(is_object($this->anchor) && $this->anchor->has_option('view_as'))
+		if(is_object($this->anchor) && $this->anchor->has_option('view_as_thread'))
 			return TRUE;
 
 		// not an interactive page
@@ -982,8 +977,12 @@ Class Article extends Anchor {
 		if(isset($this->item['anchor']) && $this->item['anchor'])
 			$anchor = Anchors::get($this->item['anchor']);
 
+		// no alerts on interactive pages
+		if($this->is_interactive())
+			;
+
 		// send alerts on new item
-		if(preg_match('/:(create|insert)$/i', $action)) {
+		elseif(preg_match('/:(create|insert)$/i', $action)) {
 
 			// mail message
 			$mail = array();
@@ -1061,15 +1060,14 @@ Class Article extends Anchor {
 
 			// alert all watchers
 			Users::alert_watchers('article:'.$this->item['id'], $mail, $notification);
-
-			// add this page to the watch list of the contributor
-			if(Surfer::get_id() && (!$silently) && !$this->is_interactive())
-				Members::assign('article:'.$this->item['id'], 'user:'.Surfer::get_id());
-
 		}
 
+		// add this page to the watch list of the contributor
+		if(preg_match('/:(create|insert)$/i', $action) && Surfer::get_id())
+				Members::assign('article:'.$this->item['id'], 'user:'.Surfer::get_id());
+
 		// always clear the cache, even on no update
-		Cache::clear(array('articles', 'article:'.$this->item['id']));
+		Cache::clear(array('articles', 'article:'.$this->item['id'], 'categories'));
 
 		// get the parent
 		if(!$this->anchor)
@@ -1114,8 +1112,8 @@ Class Article extends Anchor {
 			." WHERE id = ".SQL::escape($this->item['id']);
 		SQL::query($query);
 
-		// always clear the cache, even on no update
-		Cache::clear(array('articles', 'article:'.$this->item['id'], 'sections'));
+		// always clear the cache
+		Articles::clear($this->item);
 
 	}
 

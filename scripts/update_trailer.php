@@ -58,19 +58,25 @@ if(!is_callable('normalize_url')) {
 
 }
 
-// version 7.10 -
+// version 7.10
 if(!isset($context['content_type']))
 	$context['content_type'] = 'text/html';
-
-// refresh javascript libraries
-if($items=Safe::glob($context['path_to_root'].'temporary/cache_*.js')) {
-	foreach($items as $name)
-		Safe::unlink($name);
-}
 
 // version 8.4
 if(!defined('YACS'))
 	define('YACS', TRUE);
+
+// version 8.5 - new side menu
+if(!isset($context['page_tools']))
+	$context['page_tools'] = array();
+if(!isset($context['script_url']))
+	$context['script_url'] = '';
+
+// force a refresh of compacted javascript libraries
+if($items=Safe::glob($context['path_to_root'].'temporary/cache_*.js')) {
+	foreach($items as $name)
+		Safe::unlink($name);
+}
 
 // safe copy of footprints.php to the root directory
 Safe::unlink($context['path_to_root'].'footprints.php.bak');

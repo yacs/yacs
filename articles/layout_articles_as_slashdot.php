@@ -48,6 +48,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 			return $text;
 
 		// flag articles updated recently
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
@@ -98,7 +99,9 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 				$prefix .= RESTRICTED_FLAG.' ';
 
 			// flag articles updated recently
-			if($item['create_date'] >= $dead_line)
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+				$suffix .= ' '.EXPIRED_FLAG;
+			elseif($item['create_date'] >= $dead_line)
 				$suffix .= ' '.NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
 				$suffix .= ' '.UPDATED_FLAG;
@@ -179,7 +182,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu = array_merge($menu, array( $link => i18n::s('Trackback') ));
+			$menu = array_merge($menu, array( $link => i18n::s('Reference') ));
 
 			// link to the anchor page
 			if(is_object($anchor))

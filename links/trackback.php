@@ -186,8 +186,10 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 			// save in the database
 			$fields['anchor'] = $anchor->get_reference();
 			$fields['link_url'] = $source;
-			if(!Links::post($fields))
+			if(!$fields['id'] = Links::post($fields))
 				$response = array('faultCode' => 1, 'faultString' => Skin::error_pop());
+			else
+				Links::clear($fields);
 		}
 	}
 
@@ -242,10 +244,22 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 } else {
 
 	// splash
-	$context['text'] .= '<p>'.i18n::s('Please feel free to blog about this particular article, and to trackback to it.').'</p>'."\n";
+	$context['text'] .= '<p>'.i18n::s('Please feel free to blog about this particular page, and to trackback to it.').'</p>'."\n";
 
-	// article summary
-	$context['text'] .= Skin::build_block(i18n::s('Page summary'), 'title');
+	// internal reference
+	//
+	$text = '';
+
+	// use the code
+	$label = i18n::s('At any place of this site, use the following code to reference the target page:');
+	$value = '['.str_replace(':', '=', $anchor->get_reference()).']';
+	$text .= '<p>'.$label.' <code>'.$value.'</code></p>'."\n";
+
+	$context['text'] .= Skin::build_box(i18n::s('Internal reference'), $text);
+
+	// external reference
+	//
+	$text = '';
 
 	// compute the summary
 	$summary = '<a href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'">'
@@ -254,27 +268,26 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		$summary .= ' &mdash; '.$excerpt;
 
 	// a suggestion of text to be pasted in referencing page
-	$context['text'] .= '<p>'.i18n::s('We suggest you to cut and paste the following piece of text to reference this page').'</p>';
-	$context['text'] .= Skin::build_block(encode_field($summary), 'code');
+	$text .= '<p>'.i18n::s('We suggest you to cut and paste the following piece of text to reference this page:').'</p>'
+		.Skin::build_block(encode_field($summary), 'code');
 
 	// permalink
 	$label = i18n::s('Page address (permalink):');
 	$value = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
-	$context['text'] .= '<p>'.$label.BR.'<code>'.$value.'</code></p>'."\n";
+	$text .= '<p>'.$label.' <code>'.$value.'</code></p>'."\n";
 
-	// trackback link
-	$label = i18n::s('Trackback address:');
-	$value = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor='.$anchor->get_reference();
-	$context['text'] .= '<p>'.$label.BR.'<code>'.$value.'</code></p>'."\n";
+	$context['text'] .= Skin::build_box(i18n::s('External reference'), $text);
 
-	// the source section
-	$context['text'] .= Skin::build_block(i18n::s('Drop a link to your page'), 'title');
+
+	// trackback
+	//
+	$text = '';
 
 	// splash screen
-	$context['text'] .= '<p>'.i18n::s('You can use the form below to manually trackback any of your pages to this site. Of course, use this capability only if your weblogging software is not able to do it automatically.')."</p>\n";
+	$text .= '<p>'.i18n::s('You can use the form below to manually trackback any of your pages to this site. Of course, use this capability only if your weblogging software is not able to do it automatically.')."</p>\n";
 
 	// the form to edit a link
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+	$text .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// the link url
 	if(!isset($url) || !$url)
@@ -307,19 +320,19 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		$fields[] = $field;
 
 	// build the form
-	$context['text'] .= Skin::build_form($fields);
+	$text .= Skin::build_form($fields);
 
 	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>';
+	$text .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>';
 
 	// other hidden fields
-	$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
+	$text .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 
 	// end of the form
-	$context['text'] .= '</div></form>';
+	$text .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$text .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -359,11 +372,16 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		.'document.getElementById("url").focus();'."\n"
 		.'// ]]></script>'."\n";
 
+	// trackback link
+	$label = i18n::s('Trackback address:');
+	$value = $context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor='.$anchor->get_reference();
+	$text .= '<p>'.$label.' <code>'.$value.'</code></p>'."\n";
+
+	$context['text'] .= Skin::build_box(i18n::s('Trackback'), $text);
+
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('This server supports the %s created by Ben Trott and Mena Trott. Please note that any %s system attempts to trackback up to seven links from each published page.'), Skin::build_link('http://www.movabletype.org/docs/mttrackback.html', i18n::s('trackback specification'), 'external'), Skin::build_link('http://www.yetanothercommunitysystem.com/', i18n::s('YACS'), 'external')).'</p>'
-		.'<p>'.i18n::s('You can use this form to manually trackback your pages to this site.').'</p>'
-		.'<p>'.i18n::s('Please set a meaningful title to be used instead of the link itself.').'</p>'
-		.'<p>'.i18n::s('Also, take the time to describe the link. This field is fully indexed for searches.').'</p>';
+		.'<p>'.i18n::s('You can use this form to manually trackback your pages to this site.').'</p>';
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }

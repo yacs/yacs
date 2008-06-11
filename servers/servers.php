@@ -13,6 +13,25 @@
 Class Servers {
 
 	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('servers');
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'server:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
+	}
+
+	/**
 	 * delete one server in the database
 	 *
 	 * @param int the id of the server to delete
@@ -34,9 +53,6 @@ Class Servers {
 		$query = "DELETE FROM ".SQL::table_name('servers')." WHERE id = ".$id;
 		if(SQL::query($query) === FALSE)
 			return FALSE;
-
-		// clear the cache for servers
-		Cache::clear(array('servers', 'server:'.$id));
 
 		// job done
 		return TRUE;
@@ -486,7 +502,7 @@ Class Servers {
 	 * @param array an array of fields
 	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// no title

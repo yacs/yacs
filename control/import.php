@@ -117,7 +117,7 @@ function send_body() {
 
 	// connect to the server
 	if(!$handle =& SQL::connect($_REQUEST['server'], $_REQUEST['user'], $_REQUEST['password'], $_REQUEST['database'])) {
-		echo sprintf(i18n::s('Impossible to connect to database %s'), strip_tags($_REQUEST['database']));
+		echo sprintf(i18n::s('Impossible to connect to %s.'), strip_tags($_REQUEST['database']));
 
 	// do the conversion
 	} else {

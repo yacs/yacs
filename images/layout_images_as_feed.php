@@ -73,7 +73,7 @@ Class Layout_images_as_feed extends Layout_interface {
 			$description = Skin::cap($description, 300);
 
 			// fix image references
-			$description = preg_replace('/"\//', '"'.$context['url_to_home'].'/', $description);
+			$description = preg_replace('/"\/([^">]+?)"/', '"'.$context['url_to_home'].'/\\1"', $description);
 
 			$introduction = $description;
 
@@ -85,7 +85,7 @@ Class Layout_images_as_feed extends Layout_interface {
 			$type = Files::get_mime_type($item['image_name']);
 			$extensions[] = '<enclosure url="'.$context['url_to_home'].$context['url_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['image_name'].'"'
 				.' length="'.$item['image_size'].'"'
-				.' type="'.$type.'"/>';
+				.' type="'.$type.'" />';
 
 			// list all components for this item
 			$items[$url] = array($time, $label, $author, $section, NULL, $introduction, $description, $extensions);

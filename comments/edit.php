@@ -65,6 +65,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../shared/xml.php';	// input validation
 include_once 'comments.php';
 
 // the maximum size for uploads
@@ -154,8 +155,12 @@ elseif(isset($item['id']) && (Surfer::is_associate() || (Surfer::is_member() && 
 elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
+// maybe posts are not allowed here
+elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
+	$permitted = FALSE;
+
 // surfer created the comment
-elseif(isset($item['create_id']) && Surfer::is_creator($item['create_id']))
+elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
 	$permitted = TRUE;
 
 // only authenticated surfers can post new comments, except if anonymous posts have been allowed
@@ -189,7 +194,7 @@ else
 
 // always validate input syntax
 if(isset($_REQUEST['description']))
-	validate($_REQUEST['description']);
+	xml::validate($_REQUEST['description']);
 
 // an anchor is mandatory
 if(!is_object($anchor)) {
@@ -206,14 +211,6 @@ if(!is_object($anchor)) {
 	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
-
-// maybe posts are not allowed here
-} elseif(is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_associate()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
-	if(isset($item['id']))
-		Skin::error(i18n::s('This page has been locked. It cannot be modified anymore.'));
-	else
-		Skin::error(i18n::s('Posts are not allowed anymore here.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -340,7 +337,7 @@ if(!is_object($anchor)) {
 		$with_form = TRUE;
 
 	// display the form on error
-	} elseif(!$id = Comments::post($_REQUEST)) {
+	} elseif(!$_REQUEST['id'] = Comments::post($_REQUEST)) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -348,16 +345,16 @@ if(!is_object($anchor)) {
 	} elseif(!isset($item['id'])) {
 
 		// touch the related anchor
-		$anchor->touch('comment:create', $id, isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+		$anchor->touch('comment:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+		// clear cache
+		Comments::clear($_REQUEST);
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
 
 		// thanks
 		$context['page_title'] = i18n::s('Thank you very much for your contribution');
-
-		// comment preview
-		$context['text'] .= Skin::build_block(i18n::s('Preview of your post:'), 'title');
 
 		// the type, except on wikis and manuals
 		if(is_object($anchor) && !$anchor->has_layout('manual') && !$anchor->has_layout('wiki'))
@@ -366,19 +363,15 @@ if(!is_object($anchor)) {
 		// actual content
 		$context['text'] .= Codes::beautify($_REQUEST['description']);
 
-		// splash message
-		$context['text'] .= Skin::build_block(i18n::s('What do you want to do now?'), 'title');
-
-		// follow-up commands -- see sections/section.php
+		// follow-up commands
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array($anchor->get_url('discuss') => $anchor->get_label('comments', 'thread_command')));
-
 		if(Surfer::is_logged())
-			$menu = array_merge($menu, array(Comments::get_url($id, 'edit') => $anchor->get_label('comments', 'edit_command')));
-
-		$menu = array_merge($menu, array(Comments::get_url($id, 'view') => $anchor->get_label('comments', 'view_command')));
-
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $anchor->get_label('comments', 'edit_command')));
+		$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'view') => $anchor->get_label('comments', 'view_command')));
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// comment author
 		if($author = Surfer::get_name())
@@ -388,7 +381,7 @@ if(!is_object($anchor)) {
 
 		// log the submission of a new comment
 		$label = sprintf(i18n::c('%s: %s'), $author, strip_tags($anchor->get_title()));
-		$description = $context['url_to_home'].$context['url_to_root'].Comments::get_url($id);
+		$description = $context['url_to_home'].$context['url_to_root'].Comments::get_url($_REQUEST['id']);
 
 		// notify sysops
 		Logger::notify('comments/edit.php', $label, $description);
@@ -404,6 +397,9 @@ if(!is_object($anchor)) {
 
 		// touch the related anchor
 		$anchor->touch('comment:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
+
+		// clear cache
+		Comments::clear($_REQUEST);
 
 		// forward to the updated thread
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('discuss'));
@@ -548,14 +544,13 @@ if($with_form) {
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
 
-	// the submit, preview and cancel buttons --use Skin::build_submit_button() only once, because of IE6 bug http://www.fourmilab.ch/fourmilog/archives/2007-03/000824.html
+	// bottom commands
 	$menu = array();
 	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit_button');
 	$menu[] = '<a href="#" onclick="$(\'preview_flag\').setAttribute(\'value\', \'Y\'); $(\'submit_button\').click(); return false;" accesskey="p" title="'.i18n::s('Press [p] for preview').'"><span>'.i18n::s('Preview').'</span></a>';
 	if(is_object($anchor))
 		$menu[] = Skin::build_link($anchor->get_url('discuss'), i18n::s('Cancel'), 'span');
-
-	$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// associates and editors may decide to not stamp changes -- complex command
 	if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) && Surfer::has_all())

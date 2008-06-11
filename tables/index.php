@@ -85,14 +85,6 @@ else {
 		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], TABLES_PER_PAGE, $page));
 	}
 
-	// associates may check the database
-	if(Surfer::is_associate())
-		$context['page_menu'] = array_merge($context['page_menu'], array( 'tables/check.php' => i18n::s('Maintenance') ));
-
-	// associates may import data
-	if(Surfer::is_associate())
-		$context['page_menu'] = array_merge($context['page_menu'], array( 'tables/import.php' => i18n::s('Import') ));
-
 	// page main content
 	$cache_id = 'tables/index.php#text#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
@@ -111,6 +103,12 @@ else {
 	}
 	$context['text'] .= $text;
 
+}
+
+// page tools
+if(Surfer::is_associate()) {
+	$context['page_tools'][] = Skin::build_link('tables/import.php', i18n::s('Import'), 'basic');
+	$context['page_tools'][] = Skin::build_link('tables/check.php', i18n::s('Maintenance'), 'basic');
 }
 
 // page extra content

@@ -134,7 +134,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 	// ensure the target file exists
 	if(!is_readable($item['actual_path']))
-		$context['text'] .= '<p>'.sprintf(i18n::s('The file %s does not exist. Please check %s.'), $id, Skin::build_link('collections/browse.php?path='.$collection, i18n::s('the index page'), 'shortcut'))."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('The file %s does not exist. Please check %s.'), $id, Skin::build_link('collections/browse.php?path='.$item['collection'], i18n::s('the index page'), 'shortcut'))."</p>\n";
 
 	// build streaming redirector
 	else {

@@ -2,30 +2,12 @@
 /**
  * populate articles
  *
- * @todo 'retrspective_template' http://www.eu.socialtext.net/open/index.cgi?retrospective_template
- * @todo 'case_study' http://www.eu.socialtext.net/cases2/index.cgi?case_template
- *
  * Creates articles with following nick names:
  * - 'about' - a page providing an overview of this site
  * - 'cover' - a cover article for the front page
  * - 'extra_rss' - a sample extra box to link to our XML RSS feed
  * - 'menu' - a sample general menu displayed on all pages
  * - 'privacy' - to provide clear statements to community members
- *
- * Also, if the parameter $context['populate'] is set to 'samples', additional articles will be created:
- * - 'coffee_machine' - a permanent thread for unformal conversations
- * - 'extra' - a sample extra box at the front page
- * - 'gadget_cloud' - a sample gadget box featuring the cloud at the front page
- * - 'gadget_collections' - a sample gadget box featuring available collections at the front page
- * - 'my_article' - a sample plain article
- * - 'my_blog_page' - some blogging sample
- * - 'my_manual_page' - a sample page of an electronic book
- * - 'my_jive_thread' - a sample thread made of one article, with a number of comments
- * - 'my_wiki_page' - some wiki sample content
- * - 'my_yabb_thread' - a sample thread made of one article, with a number of comments
- * - 'navigation' - a sample navigation box
- * - 'support_chat' - a sample thread to better support your users
- * - 'wiki_template' - to create a wiki page
  *
  * @see control/populate.php
  *
@@ -111,24 +93,6 @@ elseif($anchor = Sections::lookup('global')) {
 		$text .= Skin::error_pop().BR."\n";
 }
 
-// 'coffee_machine' article - sample data
-if(!isset($context['populate']) || ($context['populate'] != 'samples'))
-	;
-elseif(Articles::get('coffee_machine'))
-	$text .= i18n::s('A page already exists for the coffee machine.').BR."\n";
-elseif($anchor = Sections::lookup('channels')) {
-	$fields = array();
-	$fields['anchor'] = $anchor;
-	$fields['nick_name'] = 'coffee_machine';
-	$fields['title'] = i18n::c('Coffee machine');
-	$fields['introduction'] = i18n::c('Take a break, and discuss important things');
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
-	else
-		$text .= Skin::error_pop().BR."\n";
-}
-
 // 'cover' article - basic data
 if(Articles::get('cover'))
 	$text .= i18n::s('A cover article already exists.').BR."\n";
@@ -139,26 +103,6 @@ elseif($anchor = Sections::lookup('covers')) {
 	$fields['title'] = i18n::c('Welcome!');
 	$fields['introduction'] = i18n::c('Cover article');
 	$fields['description'] = i18n::s("This is the cover page posted in the [link=global section]sections/view.php?id=global[/link].\nVisit the section to change any global page, such as this one, the about page, or the privacy page.\nIf you don't know how to proceed, visit the [link=help index]help.php[/link].");
-	$fields['locked'] = 'Y'; // only associates can change this page
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
-	else
-		$text .= Skin::error_pop().BR."\n";
-}
-
-// 'extra' article - sample data
-if(!isset($context['populate']) || ($context['populate'] != 'samples'))
-	;
-elseif(Articles::get('extra'))
-	$text .= i18n::s('A sample extra box already exists.').BR."\n";
-elseif($anchor = Sections::lookup('extra_boxes')) {
-	$fields = array();
-	$fields['anchor'] = $anchor;
-	$fields['nick_name'] = 'extra';
-	$fields['title'] = i18n::c('Hello again');
-	$fields['introduction'] = '';
-	$fields['description'] = i18n::c("This is a sample extra box.\nVisit the [link=extra section]sections/view.php?id=extra_boxes[/link] to review all extra boxes.");;
 	$fields['locked'] = 'Y'; // only associates can change this page
 	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 	if(Articles::post($fields))
@@ -186,46 +130,6 @@ elseif($anchor = Sections::lookup('extra_boxes')) {
 		$text .= Skin::error_pop().BR."\n";
 }
 
-// 'gadget_cloud' article - sample data
-if(!isset($context['populate']) || ($context['populate'] != 'samples'))
-	;
-elseif(Articles::get('gadget_cloud'))
-	$text .= i18n::s('A sample cloud box already exists.').BR."\n";
-elseif($anchor = Sections::lookup('gadget_boxes')) {
-	$fields = array();
-	$fields['anchor'] = $anchor;
-	$fields['nick_name'] = 'gadget_cloud';
-	$fields['title'] = i18n::c('Tags cloud');
-	$fields['introduction'] = '';
-	$fields['description'] = '[cloud]';
-	$fields['locked'] = 'Y'; // only associates can change this page
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
-	else
-		$text .= Skin::error_pop().BR."\n";
-}
-
-// 'gadget_collections' article - sample data
-if(!isset($context['populate']) || ($context['populate'] != 'samples'))
-	;
-elseif(Articles::get('gadget_collections'))
-	$text .= i18n::s('A sample collections box already exists.').BR."\n";
-elseif($anchor = Sections::lookup('gadget_boxes')) {
-	$fields = array();
-	$fields['anchor'] = $anchor;
-	$fields['nick_name'] = 'gadget_collections';
-	$fields['title'] = i18n::c('Collections');
-	$fields['introduction'] = '';
-	$fields['description'] = '[collections]';
-	$fields['locked'] = 'Y'; // only associates can change this page
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
-	else
-		$text .= Skin::error_pop().BR."\n";
-}
-
 // 'menu' article - basic data
 if(Articles::get('menu'))
 	$text .= i18n::s('A navigation menu already exists.').BR."\n";
@@ -243,154 +147,6 @@ elseif($anchor = Sections::lookup('global')) {
 		.'[submenu='.i18n::c('Users').']users/[/submenu]'."\n"
 		.'[submenu='.i18n::c('Help').']help.php[/submenu]'."\n";
 	$fields['locked'] = 'Y'; // only associates can change this page
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
-	else
-		$text .= Skin::error_pop().BR."\n";
-}
-
-// 'my_article' article - sample data
-if(!isset($context['populate']) || ($context['populate'] != 'samples'))
-	;
-elseif(Articles::get('my_article'))
-	$text .= i18n::s('A sample article already exists.').BR."\n";
-elseif($anchor = Sections::lookup('my_section')) {
-	$fields = array();
-	$fields['anchor'] = $anchor;
-	$fields['nick_name'] = 'my_article';
-	$fields['title'] = i18n::c('Edit me');
-	$fields['introduction'] = i18n::c('Sample article');
-	$fields['description'] = i18n::c('This is a sample article to let you learn and practice.')
-		."\n\nabcdefghijklmnopqrstuvwxyz"
-		." &&eacute;\"'(-&egrave;_&ccedil;&agrave; )=~#{[|`\\x^@]}"
-		." ^â&ecirc;&icirc;&ocirc;û¨äëïöü£&ugrave;%*µ,;:!?./§¤"
-		."\a\b\c\d\e\f\g\h\i\j\k\l\m\o\p\q\r\s\t\u\v\w\x\y\z"
-		."\n:) 8) :D :O ;) :( X( !! ?? ?! -- ++ >> §§"
-		."\n[b]bold[/b] and [i]italic[/i][nl][u]underlined[/u]"
-		."\n<a href=\"http://myweb/mypage.html\">anchor</a><!-- comment -->"
-		."\nCheck my [link=document]http://myweb/mypage.html[/link] on this subject;"
-		." more info [email=here>>]me@dummy.com[/email]"
-		."\n[code]// say hello\necho \"hello world\";[/code]"
-		."\n[quote]Once upon a time...[/quote]"
-		."\n[*]First item[nl][nl][*]Second item"
-		."\n[list][*]First item [*]Second item[/list]"
-		."\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. "
-		."\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ";;
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
-	else
-		$text .= Skin::error_pop().BR."\n";
-}
-
-// 'my_blog_page' article - sample data
-if(!isset($context['populate']) || ($context['populate'] != 'samples'))
-	;
-elseif(Articles::get('my_blog_page'))
-	$text .= i18n::s('A sample page exists for the blog.').BR."\n";
-elseif($anchor = Sections::lookup('my_blog')) {
-	$fields = array();
-	$fields['anchor'] = $anchor;
-	$fields['nick_name'] = 'my_blog_page';
-	$fields['title'] = i18n::c('Sample page of the blog');
-	$fields['introduction'] = i18n::c('Sample content with its set of notes');
-	$fields['description'] = i18n::c('This page demonstrates the rendering of the ##daily## layout.');
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
-	else
-		$text .= Skin::error_pop().BR."\n";
-}
-
-// 'my_jive_thread' article - sample data
-if(!isset($context['populate']) || ($context['populate'] != 'samples'))
-	;
-elseif(Articles::get('my_jive_thread'))
-	$text .= i18n::s('A sample jive thread already exists.').BR."\n";
-elseif($anchor = Sections::lookup('my_jive_board')) {
-	$fields = array();
-	$fields['anchor'] = $anchor;
-	$fields['nick_name'] = 'my_jive_thread';
-	$fields['title'] = i18n::c('Sample jive thread');
-	$fields['introduction'] = i18n::c('Sample article with its set of comments');
-	$fields['description'] = i18n::c('This page demonstrates the rendering of the ##jive## layout.');
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
-	else
-		$text .= Skin::error_pop().BR."\n";
-}
-
-// 'my_manual_page' article - sample data
-if(!isset($context['populate']) || ($context['populate'] != 'samples'))
-	;
-elseif(Articles::get('my_manual_page'))
-	$text .= i18n::s('A sample page exists for the manual.').BR."\n";
-elseif($anchor = Sections::lookup('my_manual_chapter')) {
-	$fields = array();
-	$fields['anchor'] = $anchor;
-	$fields['nick_name'] = 'my_manual_page';
-	$fields['title'] = i18n::c('Sample page of the manual');
-	$fields['introduction'] = i18n::c('Sample content with its set of notes');
-	$fields['description'] = i18n::c('This page demonstrates the rendering of the ##manual## layout.');
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
-	else
-		$text .= Skin::error_pop().BR."\n";
-}
-
-// 'my_wiki_page' article - sample data
-if(!isset($context['populate']) || ($context['populate'] != 'samples'))
-	;
-elseif(Articles::get('my_wiki_page'))
-	$text .= i18n::s('A sample page exists for the wiki.').BR."\n";
-elseif($anchor = Sections::lookup('my_wiki')) {
-	$fields = array();
-	$fields['anchor'] = $anchor;
-	$fields['nick_name'] = 'my_wiki_page';
-	$fields['title'] = i18n::c('Sample page of the wiki');
-	$fields['introduction'] = i18n::c('Sample content with its set of extensions');
-	$fields['description'] = i18n::c('This page demonstrates the rendering of the ##wiki## layout.');
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
-	else
-		$text .= Skin::error_pop().BR."\n";
-}
-
-// 'my_yabb_thread' article - sample data
-if(!isset($context['populate']) || ($context['populate'] != 'samples'))
-	;
-elseif(Articles::get('my_yabb_thread'))
-	$text .= i18n::s('A sample yabb thread already exists.').BR."\n";
-elseif($anchor = Sections::lookup('my_yabb_board')) {
-	$fields = array();
-	$fields['anchor'] = $anchor;
-	$fields['nick_name'] = 'my_yabb_thread';
-	$fields['title'] = i18n::c('Sample yabb thread');
-	$fields['introduction'] = i18n::c('Sample article with its set of comments');
-	$fields['description'] = i18n::c('This page demonstrates the rendering of the ##yabb## layout.');
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
-	else
-		$text .= Skin::error_pop().BR."\n";
-}
-
-// 'navigation' article - sample data
-if(!isset($context['populate']) || ($context['populate'] != 'samples'))
-	;
-elseif(Articles::get('navigation'))
-	$text .= i18n::s('A sample navigation box already exists.').BR."\n";
-elseif($anchor = Sections::lookup('navigation_boxes')) {
-	$fields = array();
-	$fields['anchor'] = $anchor;
-	$fields['nick_name'] = 'navigation';
-	$fields['title'] = i18n::c('Hello World');
-	$fields['introduction'] = '';
-	$fields['description'] = i18n::c("This is a sample navigation box.\nVisit the [link=navigation section]sections/view.php?id=navigation_boxes[/link] to review all navigation boxes.");
 	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 	if(Articles::post($fields))
 		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
@@ -429,42 +185,6 @@ elseif($anchor = Sections::lookup('global')) {
 		$text .= Skin::error_pop().BR."\n";
 }
 
-// 'support_chat' article - sample data
-if(!isset($context['populate']) || ($context['populate'] != 'samples'))
-	;
-elseif(Articles::get('support_chat'))
-	$text .= i18n::s('A page already exists for the support chat.').BR."\n";
-elseif($anchor = Sections::lookup('channels')) {
-	$fields = array();
-	$fields['anchor'] = $anchor;
-	$fields['nick_name'] = 'support_chat';
-	$fields['title'] = i18n::c('Interactive support');
-	$fields['introduction'] = i18n::c('To seek for help from other members of the community');
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
-	else
-		$text .= Skin::error_pop().BR."\n";
-}
-
-// 'wiki_template' article - sample data
-if(!isset($context['populate']) || ($context['populate'] != 'samples'))
-	;
-elseif(Articles::get('wiki_template'))
-	$text .= i18n::s('A template already exists for wiki pages.').BR."\n";
-elseif($anchor = Sections::lookup('templates')) {
-	$fields = array();
-	$fields['anchor'] = $anchor;
-	$fields['nick_name'] = 'wiki_template';
-	$fields['title'] = i18n::c('Wiki page');
-	$fields['introduction'] = i18n::c('Use this page model to add a page that can be modified by any surfer');
-	$fields['options'] = 'anonymous_edit';
-	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
-	else
-		$text .= Skin::error_pop().BR."\n";
-}
 
 // clear the full cache
 Cache::clear();

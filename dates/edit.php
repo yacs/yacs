@@ -86,13 +86,9 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 	Skin::error(i18n::s('No anchor has been found.'));
 
 // maybe posts are not allowed here
-} elseif(is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_associate()) {
-
+} elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked')) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
-	if(isset($item['id']))
-		Skin::error(i18n::s('This page has been locked. It cannot be modified anymore.'));
-	else
-		Skin::error(i18n::s('Posts are not allowed anymore here.'));
+	Skin::error(i18n::s('This page has been locked.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -106,7 +102,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 	$next = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
 
 	// display the form on error
-	if(!$id = Dates::post($_REQUEST)) {
+	if(!$_REQUEST['id'] = Dates::post($_REQUEST)) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -126,19 +122,19 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		$context['text'] .= '<p>'.i18n::s('The date has been saved.').'</p>';
 
 		// touch the related anchor
-		$anchor->touch('date:create', $id, isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+		$anchor->touch('date:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
-		// splash message
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		// clear cache
+		Dates::clear($_REQUEST);
 
 		// follow-up commands
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		if(is_object($anchor)) {
-			$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the updated page')));
-			$menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit the page')));
-			$menu = array_merge($menu, array('dates/edit.php?anchor='.$anchor->get_reference() => i18n::s('Add another date')));
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
-		}
+		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the updated page')));
+		$menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit the page')));
+		$menu = array_merge($menu, array('dates/edit.php?anchor='.$anchor->get_reference() => i18n::s('Add another date')));
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// update of an existing date
 	} else {
@@ -149,8 +145,11 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		// touch the related anchor
 		$anchor->touch('date:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
+		// clear cache
+		Dates::clear($_REQUEST);
+
 		// forward to the view page
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].dates::get_url($_REQUEST['id']));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].Dates::get_url($_REQUEST['id']));
 
 	}
 

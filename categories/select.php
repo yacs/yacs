@@ -119,8 +119,8 @@ if(!is_object($anchor)) {
 			// build a unlink button for this category
 			if(Surfer::is_associate()) {
 				$suffix .= BR.'<form method="post" action="'.$context['script_url'].'"><div>'
-					.'<input type="hidden" name="anchor" value="category:'.$category_id.'"/>'
-					.'<input type="hidden" name="member" value="'.encode_field($member).'"/>'
+					.'<input type="hidden" name="anchor" value="category:'.$category_id.'" />'
+					.'<input type="hidden" name="member" value="'.encode_field($member).'" />'
 					.Skin::build_submit_button(i18n::s('Unlink'))
 					.'</div></form>';
 			}
@@ -128,8 +128,8 @@ if(!is_object($anchor)) {
 			// a button to change the thumbnail of the anchored page
 			if($icon) {
 				$suffix .= ' <form method="post" action="'.$context['url_to_root'].'categories/set_as_thumbnail.php"><div>'
-					.'<input type="hidden" name="anchor" value="'.encode_field($member).'"/>'
-					.'<input type="hidden" name="id" value="'.$category_id.'"/>'
+					.'<input type="hidden" name="anchor" value="'.encode_field($member).'" />'
+					.'<input type="hidden" name="id" value="'.$category_id.'" />'
 					.Skin::build_submit_button(i18n::s('Use this thumbnail as the thumbnail of the page'))
 					.'</div></form>';
 			}
@@ -183,8 +183,8 @@ if(!is_object($anchor)) {
 	// the form to link additional categories
 	if(!is_array($categories) || (count($categories) < CATEGORIES_LIST_SIZE)) {
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><div>'
-			.i18n::s('Add a category').' <select name="anchor">'.Categories::get_options($categories).'</select>'
-			.' '.Skin::build_submit_button(i18n::s('Link'))
+			.i18n::s('Select a category').' <select name="anchor">'.Categories::get_options($categories).'</select>'
+			.' '.Skin::build_submit_button(i18n::s('Associate'))
 			.'<input type="hidden" name="member" value="'.encode_field($member).'">'
 			.'</div></form>'."\n";
 	}

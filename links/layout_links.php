@@ -49,23 +49,8 @@ Class Layout_links extends Layout_interface {
 			// initialize variables
 			$prefix = $suffix = $icon = '';
 
-			// use the title as a label
-			if($item['title'])
-				$label = Skin::strip($item['title'], 70);
-
-			// or try to make something out of the url
-			else {
-				$link_items = @parse_url($item['link_url']);
-				if(isset($link_items['path'])) {
-					$path = array_slice(explode('/', $link_items['path']), -3);
-					if(isset($link_items['host']))
-						array_unshift($path, $link_items['host']);
-					$label = str_replace('//', '/', join('/', $path));
-				} else
-					$label = $link_items['host'];
-				if((strlen($label) > 13) && (($variant == 'compact') || ($variant == 'hits')))
-					$label = '...'.substr($label, -13);
-			}
+			// make a label
+			$label = Links::clean($item['title'], $item['link_url']);
 
 			// flag links uploaded recently
 			if($item['edit_date'] >= $dead_line)
@@ -80,7 +65,7 @@ Class Layout_links extends Layout_interface {
 				$suffix .= ' '.Codes::beautify($item['description']);
 
 			// the menu bar for associates and poster
-			if(Surfer::is_empowered() || Surfer::is_creator($item['edit_id'])) {
+			if(Surfer::is_empowered() || Surfer::is($item['edit_id'])) {
 				$menu = array( 'links/edit.php?id='.$item['id'] => i18n::s('Edit'),
 					'links/delete.php?id='.$item['id'] => i18n::s('Delete') );
 				$suffix .= ' '.Skin::build_list($menu, 'menu');

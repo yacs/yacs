@@ -218,7 +218,7 @@ Class Layout_sections extends Layout_interface {
 
 				// one line per related item
 				if(count($content))
-					$suffix .= '<span class="details">'.Skin::build_list($content, 'compact')."</span>\n";
+					$suffix .= '<div class="details">'.Skin::build_list($content, 'compact')."</div>\n";
 
 			}
 

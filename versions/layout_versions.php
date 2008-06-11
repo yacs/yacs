@@ -61,11 +61,11 @@ Class Layout_versions extends Layout_interface {
 			$menu = array();
 
 			// if option 'anonymous_edit', anonymous surfers may view versions
-			if(Surfer::is_empowered() || Surfer::is_creator($item['edit_id']))
+			if(Surfer::is_empowered() || Surfer::is($item['edit_id']))
 				$menu = array_merge($menu, array( Versions::get_url($item['id'], 'view') => i18n::s('view') ));
 
 			// authenticated associates and editors may restore a version
-			if((Surfer::is_empowered() && Surfer::is_member()) || Surfer::is_creator($item['edit_id']))
+			if((Surfer::is_empowered() && Surfer::is_member()) || Surfer::is($item['edit_id']))
 				$menu = array_merge($menu, array( Versions::get_url($item['id'], 'restore') => i18n::s('restore') ));
 
 			if(count($menu))

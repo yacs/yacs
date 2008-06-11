@@ -41,12 +41,12 @@ Class Layout_sections_as_freemind extends Layout_interface {
 
 		// differentiate each section at the top-level of the tree
 		$various_attributes = array(
-			array( ' STYLE="bubble" ', '<cloud COLOR="#fcf2c5"/>'."\n".'<edge COLOR="#cccc00" STYLE="linear" WIDTH="2"/>'."\n".'<font NAME="SansSerif" SIZE="12"/>'."\n" ),
-			array( ' BACKGROUND_COLOR="#f9f5d1" COLOR="#996600" STYLE="bubble"	', '<edge STYLE="sharp_bezier" WIDTH="8"/>'."\n".'<font BOLD="true" ITALIC="true" NAME="Dialog" SIZE="14"/>'."\n" ),
-			array( ' BACKGROUND_COLOR="#feeab8" COLOR="#407c41" STYLE="bubble" ', '<edge COLOR="#ffcc33" STYLE="sharp_bezier" WIDTH="8"/>'."\n".'<font BOLD="true" NAME="Comic Sans MS" SIZE="14"/>'."\n" ),
-			array( ' COLOR="#006699" STYLE="bubble" ', '<edge COLOR="#f67740" STYLE="sharp_linear" WIDTH="6"/>'."\n" ),
-			array( ' BACKGROUND_COLOR="#ffffff" STYLE="bubble" ', '<edge COLOR="#990099" STYLE="sharp_linear" WIDTH="8"/>'."\n".'<font BOLD="true" NAME="SansSerif" SIZE="12"/>'."\n" ),
-			array( ' BACKGROUND_COLOR="#d5d57f" COLOR="#787805" STYLE="bubble" ', '<edge COLOR="#9e9e05" STYLE="sharp_bezier" WIDTH="8"/>'."\n".'<cloud COLOR="#eeeeb4"/>'."\n".'<font BOLD="true" ITALIC="true" NAME="SansSerif" SIZE="12"/>'."\n" )
+			array( ' STYLE="bubble" ', '<cloud COLOR="#fcf2c5" />'."\n".'<edge COLOR="#cccc00" STYLE="linear" WIDTH="2" />'."\n".'<font NAME="SansSerif" SIZE="12" />'."\n" ),
+			array( ' BACKGROUND_COLOR="#f9f5d1" COLOR="#996600" STYLE="bubble"	', '<edge STYLE="sharp_bezier" WIDTH="8" />'."\n".'<font BOLD="true" ITALIC="true" NAME="Dialog" SIZE="14" />'."\n" ),
+			array( ' BACKGROUND_COLOR="#feeab8" COLOR="#407c41" STYLE="bubble" ', '<edge COLOR="#ffcc33" STYLE="sharp_bezier" WIDTH="8" />'."\n".'<font BOLD="true" NAME="Comic Sans MS" SIZE="14" />'."\n" ),
+			array( ' COLOR="#006699" STYLE="bubble" ', '<edge COLOR="#f67740" STYLE="sharp_linear" WIDTH="6" />'."\n" ),
+			array( ' BACKGROUND_COLOR="#ffffff" STYLE="bubble" ', '<edge COLOR="#990099" STYLE="sharp_linear" WIDTH="8" />'."\n".'<font BOLD="true" NAME="SansSerif" SIZE="12" />'."\n" ),
+			array( ' BACKGROUND_COLOR="#d5d57f" COLOR="#787805" STYLE="bubble" ', '<edge COLOR="#9e9e05" STYLE="sharp_bezier" WIDTH="8" />'."\n".'<cloud COLOR="#eeeeb4" />'."\n".'<font BOLD="true" ITALIC="true" NAME="SansSerif" SIZE="12" />'."\n" )
 			);
 
 		// do not do that at second level and beyond
@@ -175,7 +175,7 @@ Class Layout_sections_as_freemind extends Layout_interface {
 			}
 
 			// rating
-			if(isset($item['rating_count']) && $item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating'))
+			if(isset($item['rating_count']) && $item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating', FALSE))
 				$rating = Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count']));
 
 			// link to this section within node if there is no content

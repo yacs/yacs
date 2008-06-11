@@ -75,18 +75,6 @@ if($stats['count'] > $items_per_page) {
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
 }
 
-// command to review files
-if(Surfer::is_member())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'files/review.php' => i18n::s('Review files') ));
-
-// command to check the database
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'files/check.php' => i18n::s('Maintenance') ));
-
-// configuration panel
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'files/configure.php' => i18n::s('Configure') ));
-
 // page main content
 $cache_id = 'files/index.php#text#'.$page;
 if(!$text =& Cache::get($cache_id)) {
@@ -104,6 +92,14 @@ if(!$text =& Cache::get($cache_id)) {
 	Cache::put($cache_id, $text, 'files');
 }
 $context['text'] .= $text;
+
+// page tools
+if(Surfer::is_member())
+	$context['page_tools'][] = Skin::build_link('files/review.php', i18n::s('Review files'), 'basic');
+if(Surfer::is_associate()) {
+	$context['page_tools'][] = Skin::build_link('files/configure.php', i18n::s('Configure'), 'basic');
+	$context['page_tools'][] = Skin::build_link('files/check.php', i18n::s('Maintenance'), 'basic');
+}
 
 // page extra content
 $cache_id = 'files/index.php#extra';

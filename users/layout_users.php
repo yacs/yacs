@@ -62,10 +62,6 @@ Class Layout_users extends Layout_interface {
 			elseif($item['edit_date'] >= $dead_line)
 				$suffix .= UPDATED_FLAG;
 
-			// signal locked profiles
-			if(isset($item['options']) && preg_match('/\blocked\b/i', $item['options']))
-				$prefix .= LOCKED_FLAG;
-
 			// signal restricted and private articles
 			if($item['active'] == 'N')
 				$prefix .= PRIVATE_FLAG;

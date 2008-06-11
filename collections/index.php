@@ -44,14 +44,11 @@ if($user = Users::authenticate())
 // the title of the page
 $context['page_title'] = i18n::s('Collections');
 
-// configure collections
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'collections/configure.php' => i18n::s('Configure') ));
-
 // list existing collections
 Safe::load('parameters/collections.include.php');
 if(isset($context['collections']) && is_array($context['collections'])) {
-	$context['text'] .= '<ul class="collections">'."\n";
+	$links = array();
+
 	foreach($context['collections'] as $name => $attributes) {
 
 		// retrieve collection information
@@ -78,21 +75,26 @@ if(isset($context['collections']) && is_array($context['collections'])) {
 		else
 			$link = 'collections/browse.php?path='.urlencode($name);
 
-		$context['text'] .= '<li><a href="'.$context['url_to_root'].$link.'">'.$title.'</a>';
-
 		if($introduction)
-			$context['text'] .= ' - '.Codes::beautify($introduction);
+			$introduction = ' - '.Codes::beautify($introduction);
 
-		$context['text'] .= "</li>\n";
+		$links[] = array(Skin::build_link($link, $title, 'basic').$introduction, DECORATED_IMG);
+
 	}
-	$context['text'] .= "</ul>\n";
+	$context['text'] .= Skin::finalize_list($links, 'decorated');
 
 // no collection has been configured yet
 } else
 	$context['text'] .= i18n::s('No collection has been defined. Please configure.');
 
+// page tools
+if(Surfer::is_associate())
+	$context['page_tools'][] = Skin::build_link('collections/configure.php', i18n::s('Configure'), 'basic');
+
 // referrals, if any
 $context['extra'] .= Skin::build_referrals('collections/index.php');
+
+//$context['extra'] .= 'hellow orld';
 
 // render the skin
 render_skin();

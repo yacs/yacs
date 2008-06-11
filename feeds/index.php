@@ -60,22 +60,22 @@ load_skin('feeds');
 // the title of the page
 $context['page_title'] = i18n::s('Information channels');
 
-// configure feeds
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'feeds/configure.php' => i18n::s('Configure') ));
-
 // page main content
 $cache_id = 'feeds/index.php#text';
 if(!$text =& Cache::get($cache_id)) {
 
+	// tabbed panels
+	$panels = array();
+
 	// outbound feeds
-	$text .= Skin::build_block(i18n::s('Outbound feeds'), 'title');
+	//
+	$outbound = '';
 
 	// splash -- largely inspired by ALA
-	$text .= '<p>'.sprintf(i18n::s('If you are unfamiliar with news feeds, they are easy to use. First, download a newsreader application like %s or %s. Then, copy and paste the URL of any news feed below into the application subscribe dialogue. See Google for more about %s.'), Skin::build_link(i18n::s('http://www.rssbandit.org/'), i18n::s('Rss Bandit'), 'external'), Skin::build_link(i18n::s('http://www.feedreader.com/'), i18n::s('FeedReader'), 'external'), Skin::build_link(i18n::s('http://www.google.com/search?q=RSS+newsreaders'), i18n::s('RSS newsreaders'), 'external'))."</p>\n";
+	$outbound .= '<p>'.sprintf(i18n::s('If you are unfamiliar with news feeds, they are easy to use. First, download a newsreader application like %s or %s. Then, copy and paste the URL of any news feed below into the application subscribe dialogue. See Google for more about %s.'), Skin::build_link(i18n::s('http://www.rssbandit.org/'), i18n::s('Rss Bandit'), 'external'), Skin::build_link(i18n::s('http://www.feedreader.com/'), i18n::s('FeedReader'), 'external'), Skin::build_link(i18n::s('http://www.google.com/search?q=RSS+newsreaders'), i18n::s('RSS newsreaders'), 'external'))."</p>\n";
 
 	// a list of feeds
-	$text .= '<p>'.i18n::s('Regular individuals will feed their preferred news reader with one of the links below:')."</p>\n";
+	$outbound .= '<p>'.i18n::s('Regular individuals will feed their preferred news reader with one of the links below:')."</p>\n";
 
 	$links = array(
 			Feeds::get_url('rss')	=> array('', i18n::s('RSS 2.0 format'), '', 'xml'),
@@ -85,23 +85,23 @@ if(!$text =& Cache::get($cache_id)) {
 			Feeds::get_url('opml')	=> array('', i18n::s('Index of main channels in OPML format'), '', 'xml')
 			);
 
-	$text .= Skin::build_list($links, 'bullets');
+	$outbound .= Skin::build_list($links, 'bullets');
 
 	// feeds for power users
-	$text .= '<p>'.i18n::s('Advanced bloggers can also use (heavy) RSS 2.0 feeds:').'</p>';
+	$outbound .= '<p>'.i18n::s('Advanced bloggers can also use (heavy) RSS 2.0 feeds:').'</p>';
 
 	$links = array(
 			Feeds::get_url('articles')	=> array('', i18n::s('recent articles, integral version'), '', 'xml'),
-			Feeds::get_url('comments')	=> array('', i18n::s('all comments'), '', 'xml'),
+			Feeds::get_url('comments')	=> array('', i18n::s('recent comments'), '', 'xml'),
 			);
 
-	$text .= Skin::build_list($links, 'bullets');
+	$outbound .= Skin::build_list($links, 'bullets');
 
 	// feeding files
-	$text .= '<p>'.sprintf(i18n::s('YACS enables automatic downloads and %s through a feed dedicated to %s (RSS 2.0).'), Skin::build_link(i18n::s('http://en.wikipedia.org/wiki/Podcasting'), i18n::s('podcasting'), 'external'), Skin::build_link(Feeds::get_url('files'), i18n::s('public files'), 'xml')).'</p>';
+	$outbound .= '<p>'.sprintf(i18n::s('YACS enables automatic downloads and %s through a feed dedicated to %s (RSS 2.0).'), Skin::build_link(i18n::s('http://en.wikipedia.org/wiki/Podcasting'), i18n::s('podcasting'), 'external'), Skin::build_link(Feeds::get_url('files'), i18n::s('recent files'), 'xml')).'</p>';
 
 	// other outbound feeds
-	$text .= '<p>'.i18n::s('More specific outbound feeds are also available. Look for the XML button at other places:').'</p>'."\n<ul>\n"
+	$outbound .= '<p>'.i18n::s('More specific outbound feeds are also available. Look for the XML button at other places:').'</p>'."\n<ul>\n"
 		.'<li>'.sprintf(i18n::s('Browse the %s; each section has its own feed.'), Skin::build_link('sections/', i18n::s('site map'), 'shortcut')).'</li>'
 		.'<li>'.sprintf(i18n::s('Or browse %s to get a more focused feed.'), Skin::build_link('categories/', i18n::s('categories'), 'shortcut')).'</li>'
 		.'<li>'.sprintf(i18n::s('Visit any of the available %s to list articles from your preferred author.'), Skin::build_link('users/', i18n::s('user profiles'), 'shortcut')).'</li>'
@@ -109,55 +109,68 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// help Google
 	if(Surfer::is_associate())
-		$text .= '<li>'.sprintf(i18n::s('To help %s we also maintain a %s to be indexed.'), Skin::build_link(i18n::s('https://www.google.com/webmasters/sitemaps/'), i18n::s('Google'), 'external'), Skin::build_link('sitemap.php', i18n::s('Sitemap list of important pages'), 'xml')).'</li>';
+		$outbound .= '<li>'.sprintf(i18n::s('To help %s we also maintain a %s to be indexed.'), Skin::build_link(i18n::s('https://www.google.com/webmasters/sitemaps/'), i18n::s('Google'), 'external'), Skin::build_link('sitemap.php', i18n::s('Sitemap list of important pages'), 'xml')).'</li>';
 
 	// feeding events
 	if(Surfer::is_associate())
-		$text .= '<li>'.sprintf(i18n::s('As a an associate, you can also access the %s (RSS 2.0).'), Skin::build_link('agents/feed.php', i18n::s('event log'), 'xml')).'</li>';
+		$outbound .= '<li>'.sprintf(i18n::s('As a an associate, you can also access the %s (RSS 2.0).'), Skin::build_link('agents/feed.php', i18n::s('event log'), 'xml')).'</li>';
 
 	// end of outbound feeds
-	$text .= "\n</ul>\n";
+	$outbound.= "\n</ul>\n";
 
 	// get local news
 	include_once 'feeds.php';
 	$rows = Feeds::get_local_news();
 	if(is_array($rows)) {
-		$text .= Skin::build_block(i18n::s('Current local news'), 'title');
-		$text .= "<ul>\n";
+		$outbound .= Skin::build_block(i18n::s('Current local news'), 'title');
+		$outbound .= "<ul>\n";
 		foreach($rows as $url => $attributes) {
 			list($time, $title, $author, $section, $image, $description) = $attributes;
-			$text .= '<li>'.$title.' ('.$url.")</li>\n";
+			$outbound .= '<li>'.$title.' ('.$url.")</li>\n";
 		}
-		$text .= "</ul>\n";
+		$outbound .= "</ul>\n";
 	}
 
+	// display in a separate panel
+	if(trim($outbound))
+		$panels[] = array('outbound_tab', i18n::s('Outbound feeds'), 'outbound_panel', $outbound);
+
 	// inbound feeds
-	$text .= Skin::build_block(i18n::s('Inbound feeds'), 'title');
+	//
+	$inbound = '';
 
 	// list existing feeders
 	include_once $context['path_to_root'].'servers/servers.php';
 	if($items = Servers::list_for_feed(0, COMPACT_LIST_SIZE, 'full')) {
 
 		// link to the index of server profiles
-		$text .= '<p>'.sprintf(i18n::s('To extend the list of feeders add adequate %s.'), Skin::build_link('servers/', i18n::s('server profiles'), 'shortcut'))."</p>\n";
+		$inbound .= '<p>'.sprintf(i18n::s('To extend the list of feeders add adequate %s.'), Skin::build_link('servers/', i18n::s('server profiles'), 'shortcut'))."</p>\n";
 
 		// list of profiles used as news feeders
-		$text .= Skin::build_list($items, 'decorated');
+		$inbound .= Skin::build_list($items, 'decorated');
 
 	// no feeder defined
 	} else
-		$text .= sprintf(i18n::s('No feeder has been defined. If you need to integrate some external RSS %s.'), Skin::build_link('servers/edit.php', i18n::s('add a server profile')));
+		$inbound .= sprintf(i18n::s('No feeder has been defined. If you need to integrate some external RSS %s.'), Skin::build_link('servers/edit.php', i18n::s('add a server profile')));
 
 	// get news from remote feeders
 	include_once 'feeds.php';
 	$news = Feeds::get_remote_news();
 	if(is_array($news)) {
-		$text .= Skin::build_block(i18n::s('Most recent external news'), 'title');
+		$inbound .= Skin::build_block(i18n::s('Most recent external news'), 'title');
 
 		// list of profiles used as news feeders
-		$text .= Skin::build_list($news, 'compact');
+		$inbound .= Skin::build_list($news, 'compact');
 
 	}
+
+	// display in a separate panel
+	if(trim($inbound))
+		$panels[] = array('inbound_tab', i18n::s('Inbound feeds'), 'inbound_panel', $inbound);
+
+	// assemble all tabs
+	//
+	$text .= Skin::build_tabs($panels);
 
 	// cache, whatever change, for 5 minutes
 	Cache::put($cache_id, $text, 'stable', 300);
@@ -168,31 +181,35 @@ $context['text'] .= $text;
 // extra panel
 //
 
+// page tools
+if(Surfer::is_associate())
+	$context['page_tools'][] = Skin::build_link('feeds/configure.php', i18n::s('Configure'), 'basic');
+
+// an extra box with popular standard icons for newsfeeds
+$text = '';
+
+Skin::define_img('OPML_STANDARD_IMG', 'icons/standards/opml.png');
+$text .= Skin::build_link(Feeds::get_url('opml'), OPML_STANDARD_IMG, '').BR;
+
+Skin::define_img('ATOM_0_3_STANDARD_IMG', 'icons/standards/atom_0.3.png');
+$text .= Skin::build_link(Feeds::get_url('atom'), ATOM_0_3_STANDARD_IMG, '').BR;
+
+Skin::define_img('RSS_2_0_STANDARD_IMG', 'icons/standards/rss_2.0.png');
+$text .= Skin::build_link(Feeds::get_url('rss'), RSS_2_0_STANDARD_IMG, '').BR;
+
+Skin::define_img('RSS_1_0_STANDARD_IMG', 'icons/standards/rss_1.0.png');
+$text .= Skin::build_link('feeds/rss_1.0.php', RSS_1_0_STANDARD_IMG, '').BR;
+
+Skin::define_img('RSS_0_9_STANDARD_IMG', 'icons/standards/rss_0.9.png');
+$text .= Skin::build_link('feeds/rss_0.92.php', RSS_0_9_STANDARD_IMG, '').BR;
+
+$context['extra'] .= Skin::build_box(i18n::s('Pick a feed'), '<p>'.$text.'</p>', 'extra');
+
 // public aggregrators
 if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')) {
 	$link = $context['url_to_home'].$context['url_to_root'].Feeds::get_url('rss');
 	$context['extra'] .= Skin::build_box(i18n::s('Aggregate this site'), '<p>'.join(BR, Skin::build_subscribers($link)).'</p>', 'extra');
 }
-
-// an extra box with popular standard icons for newsfeeds
-$text = '';
-
-Skin::define_img('OPML_STANDARD_IMG', $context['skin'].'/icons/standards/opml.png');
-$text .= Skin::build_link(Feeds::get_url('opml'), OPML_STANDARD_IMG, '').BR;
-
-Skin::define_img('ATOM_0_3_STANDARD_IMG', $context['skin'].'/icons/standards/atom_0.3.png');
-$text .= Skin::build_link(Feeds::get_url('atom'), ATOM_0_3_STANDARD_IMG, '').BR;
-
-Skin::define_img('RSS_2_0_STANDARD_IMG', $context['skin'].'/icons/standards/rss_2.0.png');
-$text .= Skin::build_link(Feeds::get_url('rss'), RSS_2_0_STANDARD_IMG, '').BR;
-
-Skin::define_img('RSS_1_0_STANDARD_IMG', $context['skin'].'/icons/standards/rss_1.0.png');
-$text .= Skin::build_link('feeds/rss_1.0.php', RSS_1_0_STANDARD_IMG, '').BR;
-
-Skin::define_img('RSS_0_9_STANDARD_IMG', $context['skin'].'/icons/standards/rss_0.9.png');
-$text .= Skin::build_link('feeds/rss_0.92.php', RSS_0_9_STANDARD_IMG, '').BR;
-
-$context['extra'] .= Skin::build_box(i18n::s('Pick a feed'), '<p>'.$text.'</p>', 'extra');
 
 // referrals, if any
 $context['extra'] .= Skin::build_referrals('feeds/index.php');

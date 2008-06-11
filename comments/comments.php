@@ -56,7 +56,7 @@ Class Comments {
 		global $context;
 
 		// comments are prevented in anchor
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_comments'))
+		if(is_object($anchor) && $anchor->has_option('no_comments'))
 			return FALSE;
 
 		// comments are prevented in item
@@ -75,13 +75,17 @@ Class Comments {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// item has been locked -- we do not care about the anchor
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
-			return FALSE;
-
 		// surfer has special privileges
 		if(Surfer::is_empowered())
 			return TRUE;
+
+		// item has been locked
+		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// anchor has been locked --only used when there is no item provided
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
 
 		// surfer created the page
 		if(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
@@ -119,6 +123,29 @@ Class Comments {
 
 		// the default is to not allow for new comments
 		return FALSE;
+	}
+
+	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('articles', 'categories', 'comments', 'sections', 'users');
+
+		// clear anchor page
+		if(isset($item['anchor']))
+			$topics[] = $item['anchor'];
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'comment:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
 	}
 
 	/**
@@ -166,9 +193,6 @@ Class Comments {
 		if(!$id || !is_numeric($id))
 			return FALSE;
 
-		// delete related items
-//		Anchors::delete_related_to('comment:'.$id);
-
 		// suppress links to this comment
 		$query = "UPDATE ".SQL::table_name('comments')." SET previous_id=0 WHERE previous_id = ".SQL::escape($id);
 		if(SQL::query($query) === FALSE)
@@ -178,9 +202,6 @@ Class Comments {
 		$query = "DELETE FROM ".SQL::table_name('comments')." WHERE id = ".SQL::escape($id);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
-
-		// clear the cache for comments
-		Cache::clear(array('comments', 'comment:'.$id));
 
 		// job done
 		return TRUE;
@@ -195,9 +216,6 @@ Class Comments {
 	 */
 	function delete_for_anchor($anchor) {
 		global $context;
-
-		// clear the cache for comments
-		Cache::clear(array('comments', 'comment:'));
 
 		// delete all matching records in the database
 		$query = "DELETE FROM ".SQL::table_name('comments')." WHERE anchor LIKE '".SQL::escape($anchor)."'";
@@ -1318,7 +1336,7 @@ Class Comments {
 	 * @see comments/edit.php
 	 * @see comments/post.php
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// no comment

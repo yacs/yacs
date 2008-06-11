@@ -21,10 +21,12 @@ include_once '../shared/global.php';
 
 // tracked item
 $track = NULL;
-if(isset($_REQUEST['section']))
-	$track = 'section:'.$_REQUEST['section'];
-elseif(isset($_REQUEST['article']))
+if(isset($_REQUEST['article']))
 	$track = 'article:'.$_REQUEST['article'];
+elseif(isset($_REQUEST['section']))
+	$track = 'section:'.$_REQUEST['section'];
+elseif(isset($_REQUEST['user']))
+	$track = 'user:'.$_REQUEST['user'];
 elseif(isset($_REQUEST['anchor']))
 	$track = $_REQUEST['anchor'];
 elseif(isset($context['arguments'][1]))
@@ -125,10 +127,10 @@ if(!$item['id']) {
 	if(Surfer::get_id())
 		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id()).'#watch_list' => i18n::s('View my watch list')));
 
-	// splash message
-	$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
-
-	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+	// follow-up commands
+	$follow_up = i18n::s('What do you want to do now?');
+	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 }
 

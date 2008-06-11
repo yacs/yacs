@@ -8,8 +8,6 @@
  *
  * Only associates can use this script.
  *
- * This script relies on an external library to handle archive files.
- *
  * Accept following invocations:
  * - upload.php
  *

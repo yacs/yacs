@@ -56,6 +56,7 @@ Class Layout_articles_as_manual extends Layout_interface {
 			return $text;
 
 		// flag articles updated recently
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(!isset($context['site_revisit_after']) || ($context['site_revisit_after'] < 1))
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
@@ -91,10 +92,6 @@ Class Layout_articles_as_manual extends Layout_interface {
 			// signal articles to be published
 			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
 				$prefix .= DRAFT_FLAG;
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$prefix .= LOCKED_FLAG;
 
 			// signal restricted and private articles
 			if(isset($item['active']) && ($item['active'] == 'N'))

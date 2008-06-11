@@ -778,13 +778,11 @@ dl#news hr { /* simple rule between items */
 p#page_menu { /* an horizontal menu of commands below page title -- see template script */
 	margin: 0 0 8px 0;
 	font-family: sans-serif;
-	font-size: 0.8em;
 	font-weight: normal;
 }
 
 p#page_menu a {
 	font-family: sans-serif;
-	font-size: 0.8em;
 	font-weight: normal;
 }
 
@@ -1313,7 +1311,7 @@ table.decorated td img { /* align the decorating image with decorated text */
 }
 
 p.details { /* stick to previous and next elements */
-	margin-top: 0;
+	margin-top: 0.6em;
 	margin-bottom: 0;
 	padding-top: 0;
 	padding-bottom: 0;
@@ -1723,6 +1721,7 @@ dl.manual_comments dt.even {
 
 .menu_bar { /* an horizontal menu of commands, below a section title */
 	clear: left;
+	font-size: 0.8em;
 	margin: 8px 0 8px 0;
 }
 

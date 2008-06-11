@@ -26,8 +26,8 @@ class Move_on_article_access extends Behavior {
 	function &add_commands($script, $anchor, $menu=array()) {
 		global $context;
 
-		// limit the scope of our check
-		if(($script != 'articles/view.php') && ($script != 'articles/view_as_thread.php'))
+		// limit the scope of our check to viewed pages
+		if(!preg_match('/articles\/view/', $script))
 			return $menu;
 
 		// sanity check

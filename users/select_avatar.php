@@ -47,7 +47,7 @@ if(Surfer::is_associate())
 	$permitted = TRUE;
 
 // the record of the authenticated surfer
-elseif(isset($item['id']) && Surfer::is_creator($item['id']))
+elseif(isset($item['id']) && Surfer::is($item['id']))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -93,7 +93,8 @@ elseif(!isset($item['id'])) {
 	// no password change
 	unset($item['password']);
 
-	Users::put($item);
+	if(Users::put($item))
+		Users::clear($item);
 }
 
 // the current avatar, if any

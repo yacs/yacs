@@ -93,17 +93,6 @@ if($stats['count'] > USERS_PER_PAGE) {
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], USERS_PER_PAGE, $page));
 }
 
-// map users on Google Maps
-if($stats['count'] && isset($context['google_api_key']) && $context['google_api_key'])
-	$context['page_menu'] = array_merge($context['page_menu'], array( Locations::get_url('users', 'map_on_google') => i18n::s('Map all users') ));
-
-// associates may create new profiles
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'users/edit.php' => i18n::s('Add a user') ));
-
-// anyone can review some user profiles
-$context['page_menu'] = array_merge($context['page_menu'], array( 'users/review.php' => i18n::s('Review user profiles') ));
-
 // the prefix hook for the index of members
 if(is_callable(array('Hooks', 'include_scripts')))
 	$context['text'] .= Hooks::include_scripts('users/index.php#prefix');
@@ -116,9 +105,9 @@ $context['text'] .= '<form action="'.$context['url_to_root'].'users/search.php" 
 	.'</p>'
 	."</form>\n";
 
-// map users on Google Maps
-if($stats['count'] && isset($context['google_api_key']) && $context['google_api_key'])
-	$context['text'] .= '<p>'.Skin::build_link(Locations::get_url('users', 'map_on_google'), i18n::s('Map users at Google Maps')).'</p>';
+// // map users on Google Maps
+// if($stats['count'] && isset($context['google_api_key']) && $context['google_api_key'])
+// 	$context['text'] .= '<p>'.Skin::build_link(Locations::get_url('users', 'map_on_google'), i18n::s('Map users at Google Maps')).'</p>';
 
 // look up the database to find the list of users
 $cache_id = 'users/index.php#text#'.$page;
@@ -138,13 +127,20 @@ if(!$text =& Cache::get($cache_id)) {
 }
 $context['text'] .= $text;
 
-// also put a small menu at the bottom of the page
-if(strlen($context['text']) > 1024)
-	$context['text'] .= '<p>'.Skin::build_list($context['page_menu'], 'menu')."</p>\n";
-
 // the suffix hook for the index of members
 if(is_callable(array('Hooks', 'include_scripts')))
 	$context['text'] .= Hooks::include_scripts('users/index.php#suffix');
+
+// page tools
+if(Surfer::is_associate())
+	$context['page_tools'][] = Skin::build_link('users/edit.php', i18n::s('Add a user'));
+elseif(Surfer::get_id())
+	$context['page_tools'][] = Skin::build_link('users/view.php', i18n::s('My profile'));
+else
+	$context['page_tools'][] = Skin::build_link('users/edit.php', i18n::s('Register'));
+if(isset($context['google_api_key']) && $context['google_api_key'])
+	$context['page_tools'][] = Skin::build_link(Locations::get_url('users', 'map_on_google'), i18n::s('Google map'));
+$context['page_tools'][] = Skin::build_link('users/review.php', i18n::s('Review profiles'));
 
 // side bar with the list of present users --don't cache, this will change on each request anyway
 include_once $context['path_to_root'].'users/visits.php';

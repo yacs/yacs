@@ -124,7 +124,7 @@ Class Cache {
 			$query = "DELETE FROM ".SQL::table_name('cache');
 
 		// clear everything, except transient and stable items.
-		elseif($topic == 'global') {
+		elseif(is_string($topic) && ($topic == 'global')) {
 
 			// clear expired items
 			$where = "(expiry_date < '".gmstrftime('%Y-%m-%d %H:%M:%S')."')";
@@ -149,8 +149,10 @@ Class Cache {
 
 			// if several topics have been given, delete all of them
 			if(is_array($topic)) {
-				foreach($topic as $item)
-					$where .= " OR (topic LIKE '".SQL::escape($item)."')";
+				foreach($topic as $item) {
+					if(is_string($item) && $item)
+						$where .= " OR (topic LIKE '".SQL::escape($item)."')";
+				}
 
 			// if a topic has been provided, delete related records
 			} elseif(is_string($topic) && $topic)

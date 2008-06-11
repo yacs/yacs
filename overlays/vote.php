@@ -217,7 +217,7 @@ class Vote extends Overlay {
 	 * @param array the hosting record
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_text($host=NULL) {
+	function &get_view_text($host=NULL) {
 		global $context;
 
 		include_once $context['path_to_root'].'decisions/decisions.php';

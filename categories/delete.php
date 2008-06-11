@@ -54,14 +54,14 @@ if(is_object($anchor)&& $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
 	$context['path_bar'] = array( 'categories/' => i18n::s('Categories') );
-if($item['id'] && $item['title'])
+if(isset($item['id']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Categories::get_url($item['id'], 'view', $item['title']) => $item['title'] ));
 
 // the title of the page
 $context['page_title'] = i18n::s('Delete a category');
 
 // not found
-if(!$item['id']) {
+if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -81,10 +81,15 @@ if(!$item['id']) {
 
 	// touch the related anchor before actual deletion, since the image has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('category:delete', $id, TRUE);
+		$anchor->touch('category:delete', $item['id'], TRUE);
 
-	// if no error, back to the anchor or to the index page
-	if(Categories::delete($id)) {
+	// attempt to delete
+	if(Categories::delete($item['id'])) {
+
+		// this can appear anywhere
+		Cache::clear();
+
+		// back to the anchor page or to the index page
 		if(is_object($anchor))
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
 		else

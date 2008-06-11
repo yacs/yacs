@@ -74,10 +74,6 @@ Class Files {
 	function are_allowed($anchor=NULL, $item=NULL, $explicit=FALSE) {
 		global $context;
 
-		// files are prevented in anchor
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_files'))
-			return FALSE;
-
 		// files are prevented in item
 		if(!$explicit && isset($item['options']) && is_string($item['options']) && preg_match('/\bno_files\b/i', $item['options']))
 			return FALSE;
@@ -98,13 +94,17 @@ Class Files {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// item has been locked -- we do not care about the anchor
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
-			return FALSE;
-
 		// surfer has special privileges
 		if(Surfer::is_empowered())
 			return TRUE;
+
+		// item has been locked
+		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// anchor has been locked --only used when there is no item provided
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
 
 		// surfer created the page
 		if(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
@@ -200,6 +200,29 @@ Class Files {
 	}
 
 	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('articles', 'categories', 'files', 'sections', 'users');
+
+		// clear anchor page
+		if(isset($item['anchor']))
+			$topics[] = $item['anchor'];
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'file:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
+	}
+
+	/**
 	 * count records for one anchor
 	 *
 	 * @param string the selected anchor (e.g., 'article:12')
@@ -274,9 +297,6 @@ Class Files {
 		$query = "DELETE FROM ".SQL::table_name('files')." WHERE id = ".SQL::escape($item['id']);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
-
-		// clear the cache for files
-		Cache::clear(array('files', 'file:'.$item['id']));
 
 		// job done
 		return TRUE;
@@ -1677,7 +1697,7 @@ Class Files {
 	 * @see files/author.php
 	 * @see files/edit.php
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// no anchor reference

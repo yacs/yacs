@@ -249,6 +249,29 @@ Class Dates {
 	}
 
 	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('articles', 'dates');
+
+		// clear anchor page
+		if(isset($item['anchor']))
+			$topics[] = $item['anchor'];
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'date:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
+	}
+
+	/**
 	 * count dates attached to some anchor
 	 *
 	 * @param string the selected anchor (e.g., 'article:12')
@@ -316,16 +339,10 @@ Class Dates {
 		if(!$id || !is_numeric($id))
 			return FALSE;
 
-		// delete related items
-//		Anchors::delete_related_to('date:'.$id);
-
 		// delete the record in the database
 		$query = "DELETE FROM ".SQL::table_name('dates')." WHERE id = ".SQL::escape($id);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
-
-		// clear the cache for dates
-		Cache::clear(array('dates', 'date:'.$id));
 
 		// job done
 		return TRUE;
@@ -341,9 +358,6 @@ Class Dates {
 	 */
 	function delete_for_anchor($anchor) {
 		global $context;
-
-		// clear the cache for dates
-		Cache::clear(array('dates', 'date:'));
 
 		// delete all matching records in the database
 		$query = "DELETE FROM ".SQL::table_name('dates')." WHERE anchor LIKE '".SQL::escape($anchor)."'";
@@ -996,7 +1010,7 @@ Class Dates {
 	 *
 	 * @see dates/edit.php
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// no date

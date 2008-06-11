@@ -157,11 +157,11 @@ Class Call {
 
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y'))
-			return array(FALSE, 'Outbound HTTP is not authorized');
+			return array(FALSE, 'Outbound HTTP is not authorized.');
 
 		// connect to the server
 		if(!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 30))
-			return array(FALSE, 'Impossible to connect to '.$items['host'].':'.$items['port']);
+			return array(FALSE, sprintf('Impossible to connect to %s.', $items['host'].':'.$items['port']));
 
 		// ensure enough execution time
 		Safe::set_time_limit(30);
@@ -262,11 +262,11 @@ Class Call {
 
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y'))
-			return array(FALSE, 'Outbound HTTP is not authorized');
+			return array(FALSE, 'Outbound HTTP is not authorized.');
 
 		// connect to the server
 		if(!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 30))
-			return array(FALSE, 'Impossible to connect to '.$host.':'.$port);
+			return array(FALSE, sprintf('Impossible to connect to %s.', $host.':'.$port));
 
 		// ensure enough execution time
 		Safe::set_time_limit(30);

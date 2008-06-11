@@ -235,10 +235,10 @@ Class Surfer {
 				$box['text'] .= '<dl>';
 
 				// real-time notifications
-				$box['text'] .= '<dt><input type="radio" name="rendez_vous" value="thread" checked="checked" onclick="javascript:document.getElementById(\'address\').disabled=true;"/>'.i18n::s('Start a private conversation').'</dt><dd><p /></dd>'."\n"
-					.'<dt><input type="radio" name="rendez_vous" value="browse"  onclick="javascript:document.getElementById(\'address\').disabled=false;"/>'.i18n::s('Share the following web address').BR
-						.'&nbsp;&nbsp;<input type="text" id="address" name="address" size="45" value="" maxlength="255" disabled="disabled"/></dt><dd><p /></dd>'."\n"
-					.'<dt><input type="radio" name="rendez_vous" value="none"  onclick="javascript:document.getElementById(\'address\').disabled=true;"/>'.i18n::s('Send a private message').'</dt><dd> </dd>';
+				$box['text'] .= '<dt><input type="radio" name="rendez_vous" value="thread" checked="checked" onclick="javascript:document.getElementById(\'address\').disabled=true;" />'.i18n::s('Start a private conversation').'</dt><dd><p /></dd>'."\n"
+					.'<dt><input type="radio" name="rendez_vous" value="browse"  onclick="javascript:document.getElementById(\'address\').disabled=false;" />'.i18n::s('Share the following web address').BR
+						.'&nbsp;&nbsp;<input type="text" id="address" name="address" size="45" value="" maxlength="255" disabled="disabled" /></dt><dd><p /></dd>'."\n"
+					.'<dt><input type="radio" name="rendez_vous" value="none"  onclick="javascript:document.getElementById(\'address\').disabled=true;" />'.i18n::s('Send a private message').'</dt><dd> </dd>';
 
 				// end of options
 				$box['text'] .= '</dl>'."\n";
@@ -768,7 +768,7 @@ Class Surfer {
 
 		// build a random string --  l, o, O and 0 are confusing
 		$pool = 'abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
-		$salt = $pool[mt_rand(0, strlen($pool)-1)]
+		$_SESSION['salt'] = $pool[mt_rand(0, strlen($pool)-1)]
 			.$pool[mt_rand(0, strlen($pool)-1)]
 			.$pool[mt_rand(0, strlen($pool)-1)]
 			.$pool[mt_rand(0, strlen($pool)-1)]
@@ -776,8 +776,7 @@ Class Surfer {
 
 		// add salt and pepper to the form
 		$label = i18n::s('Robot stopper').' *';
-		$input = i18n::s('Type exactly the following 5 chars:').' '.$salt.' <input type="text" name="pepper" size="7"'.EOT
-			.'<input type="hidden" name="salt" value="'.md5($salt).'"'.EOT;
+		$input = i18n::s('Type exactly the following 5 chars:').' '.$_SESSION['salt'].' <input type="text" name="pepper" size="7" />';
 		return array($label, $input);
 	}
 
@@ -811,6 +810,38 @@ Class Surfer {
 			return TRUE;
 
 		// assume no Flash
+		return FALSE;
+	}
+
+	/**
+	 * check the id of page surfer
+	 *
+	 * To control that a surfer is the actual creator of one article, following code may be used:
+	 * [php]
+	 * // load the article from the database, including the editors list
+	 * $item =& Articles::get($id);
+	 *
+	 * // check that the current surfer is a valid editor
+	 * if(Surfer::is($item['create_id']) {
+	 *	 ...
+	 * }
+	 * [/php]
+	 *
+	 * @param string the id of the original poster
+	 * @return true or false
+	 */
+	function is($id) {
+
+		// sanity check
+		if(!$id)
+			return FALSE;
+		if(!Surfer::get_id())
+			return FALSE;
+
+		// look for strict equivalence
+		if(Surfer::get_id() == $id)
+			return TRUE;
+
 		return FALSE;
 	}
 
@@ -896,38 +927,6 @@ Class Surfer {
 			return TRUE;
 
 		// maybe a human being, or a dog
-		return FALSE;
-	}
-
-	/**
-	 * is the current surfer the creator of one item?
-	 *
-	 * To control that a surfer is the actual creator of one article, following code may be used:
-	 * [php]
-	 * // load the article from the database, including the editors list
-	 * $item =& Articles::get($id);
-	 *
-	 * // check that the current surfer is a valid editor
-	 * if(Surfer::is_creator($item['create_id']) {
-	 *	 ...
-	 * }
-	 * [/php]
-	 *
-	 * @param string the id of the original poster
-	 * @return true or false
-	 */
-	function is_creator($id) {
-
-		// sanity check
-		if(!$id)
-			return FALSE;
-		if(!Surfer::get_id())
-			return FALSE;
-
-		// look for strict equivalence
-		if(Surfer::get_id() == $id)
-			return TRUE;
-
 		return FALSE;
 	}
 
@@ -1021,7 +1020,7 @@ Class Surfer {
 	 *
 	 * This function helps to stop robots, by checking outcome of user challenge.
 	 *
-	 * It has to be used in cuonjonction with [code]Surfer::get_robot_stopper()[/code].
+	 * It has to be used in conjonction with [code]Surfer::get_robot_stopper()[/code].
 	 *
 	 * @return FALSE if salt and pepper are equals, TRUE otherwise
 	 */
@@ -1041,11 +1040,11 @@ Class Surfer {
 			return FALSE;
 
 		// salt could have been hacked
-		if(!isset($_REQUEST['salt']))
+		if(!isset($_SESSION['salt']))
 			return TRUE;
 
 		// salt and pepper are ok
-		if(isset($_REQUEST['pepper']) && !strcmp(md5($_REQUEST['pepper']), $_REQUEST['salt'])) {
+		if(isset($_REQUEST['pepper']) && !strcmp($_REQUEST['pepper'], $_SESSION['salt'])) {
 
 			// remember this, to not challenge the surfer again
 			$_SESSION['surfer_is_not_a_robot'] = TRUE;

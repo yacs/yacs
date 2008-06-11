@@ -40,15 +40,15 @@ $user_password = isset($_REQUEST['user_password']) ? $_REQUEST['user_password'] 
 // display a specific form
 $context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';
 $label = i18n::s('Server address');
-$input = '<input type="text" name="target" id="target" size="30" maxlength="128" value="'.encode_field($target).'"/>'."\n"
+$input = '<input type="text" name="target" id="target" size="30" maxlength="128" value="'.encode_field($target).'" />'."\n"
 	.' '.Skin::build_submit_button(i18n::s('Go'));
 $hint = i18n::s('The name or the IP address of the yacs server');
 $fields[] = array($label, $input, $hint);
 $label = i18n::s('User name');
-$input = '<input type="text" name="user_name" size="30" maxlength="128" value="'.encode_field($user_name).'"/>';
+$input = '<input type="text" name="user_name" size="30" maxlength="128" value="'.encode_field($user_name).'" />';
 $fields[] = array($label, $input);
 $label = i18n::s('User password');
-$input = '<input type="password" name="user_password" size="30" maxlength="128" value="'.$user_password.'"/>';
+$input = '<input type="password" name="user_password" size="30" maxlength="128" value="'.$user_password.'" />';
 $fields[] = array($label, $input);
 $context['text'] .= Skin::build_form($fields);
 $context['text'] .= '</div></form>';

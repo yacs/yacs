@@ -73,22 +73,6 @@ if($stats['count'] > SERVERS_PER_PAGE) {
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], SERVERS_PER_PAGE, $page));
 }
 
-// associates may create a new server profile
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'servers/edit.php' => i18n::s('Add a server profile') ));
-
-// associates may ping the cloud
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'servers/ping.php' => i18n::s('Ping the cloud') ));
-
-// associates may populate default server profiles
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'servers/populate.php' => i18n::s('Populate') ));
-
-// associates may change parameters
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'servers/configure.php' => i18n::s('Configure') ));
-
 // seek the database
 $cache_id = 'servers/index.php#text#'.$page;
 if(!$text =& Cache::get($cache_id)) {
@@ -106,6 +90,14 @@ if(!$text =& Cache::get($cache_id)) {
 	Cache::put($cache_id, $text, 'servers');
 }
 $context['text'] .= $text;
+
+// page tools
+if(Surfer::is_associate()) {
+	$context['page_tools'][] = Skin::build_link('servers/edit.php', i18n::s('Add a server'));
+	$context['page_tools'][] = Skin::build_link('servers/ping.php', i18n::s('Ping the cloud'));
+	$context['page_tools'][] = Skin::build_link('servers/configure.php', i18n::s('Configure'));
+	$context['page_tools'][] = Skin::build_link('servers/populate.php', i18n::s('Populate'));
+}
 
 // referrals, if any
 $context['extra'] .= Skin::build_referrals('servers/index.php');

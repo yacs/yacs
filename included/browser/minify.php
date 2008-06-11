@@ -73,19 +73,33 @@ if(!$text = Safe::file_get_contents($hash)) {
 
 		);
 
-	// read all js files
-	foreach(Safe::glob('*.js') as $name) {
-		if(in_array($name, $to_avoid))
-			continue;
-		if($context['with_debug'] == 'Y')
-			Logger::remember('included/browser/minify.php', $name, '', 'debug');
+	// read all compressed files
+	if($names = Safe::glob('*.js.jsmin'))
+		foreach($names as $name) {
+			$name = str_replace('.js.jsmin', '.js', $name);
+			if(in_array($name, $to_avoid))
+				continue;
 
-		// use the compressed version if it's available
-		if(file_exists($context['path_to_root'].'included/browser/'.$name.'.jsmin'))
+			// use the compressed version
 			$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/'.$name.'.jsmin')."\n";
-		else
+
+			if($context['with_debug'] == 'Y')
+				Logger::remember('included/browser/minify.php', $name, '', 'debug');
+			$to_avoid[] = $name;
+		}
+
+	// read all js files
+	if($names = Safe::glob('*.js'))
+		foreach($names as $name) {
+			if(in_array($name, $to_avoid))
+				continue;
+
+			// use the regular version
 			$text .= Safe::file_get_contents($context['path_to_root'].'included/browser/'.$name)."\n";
-	}
+
+			if($context['with_debug'] == 'Y')
+				Logger::remember('included/browser/minify.php', $name, '', 'debug');
+		}
 
 	// save in cache for the next request
 	Safe::file_put_contents($hash, $text);

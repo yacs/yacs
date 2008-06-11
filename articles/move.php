@@ -170,6 +170,10 @@ elseif(!isset($item['id'])) {
 		$fields['description'] = sprintf(i18n::s('Moved by %s from %s to %s'), Surfer::get_name(), $anchor->get_title(), $destination->get_title());
 		Comments::post($fields);
 
+		// update the cache
+		Articles::clear($fields);
+		Cache::clear($anchor->get_reference());
+
 		// switch to the updated page
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 

@@ -116,23 +116,18 @@
 Class Categories {
 
 	/**
-	 * check if new categories can be added
+	 * check if new categories can be added or assigned
 	 *
 	 * This function returns TRUE if categories can be added to some place,
 	 * and FALSE otherwise.
 	 *
 	 * The function prevents the creation of new categories when:
-	 * - the global parameter 'users_without_submission' has been set to 'Y'
-	 * - provided item has been locked
+	 * - the surfer is not an associate
 	 * - item has some option 'no_categories' that prevents new categories
 	 * - the anchor has some option 'no_categories' that prevents new categories
+	 * - global parameter 'users_without_submission' has been set to 'Y'
 	 *
-	 * Then the function allows for new categories when:
-	 * - surfer has been authenticated as a valid member
-	 * - or parameter 'users_without_teasers' has not been set to 'Y'
-	 *
-	 * Then, ultimately, the default is not allow for the creation of new
-	 * categories.
+	 * Locked items can be further categorized.
 	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
@@ -140,6 +135,10 @@ Class Categories {
 	 */
 	function are_allowed($anchor=NULL, $item=NULL) {
 		global $context;
+
+		// surfer has to be an associate
+		if(!Surfer::is_associate())
+			return FALSE;
 
 		// categories are prevented in item
 		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_categories\b/i', $item['options']))
@@ -149,50 +148,12 @@ Class Categories {
 		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_categories'))
 			return FALSE;
 
-		// surfer is an associate
-		if(Surfer::is_associate())
-			return TRUE;
-
-		// submissions have been disallowed
+		// submissions have been disallowed globally
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// surfer has special privileges
-		if(Surfer::is_empowered())
-			return TRUE;
-
-		// surfer screening
-		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
-			return FALSE;
-		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
-		// anchor has been locked
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('locked'))
-			return FALSE;
-
-		// item has been locked
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
-			return FALSE;
-
-		// authenticated members are allowed to add categories, except to categories
-		if(Surfer::is_member() && (!is_object($anchor) || (strpos($anchor->get_reference(), 'category:') !== 0)))
-			return TRUE;
-
-		// contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
-			return TRUE;
-
-		// anonymous contributions are allowed for this item
-		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
-			return TRUE;
-
-		// teasers are activated
-		if(!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
-			return TRUE;
-
-		// the default is to not allow for new categories
-		return FALSE;
+		// ok, all tests have been passed
+		return TRUE;
 	}
 
 	/**
@@ -208,6 +169,29 @@ Class Categories {
 				return Categories::build_path($category['anchor']).'|'.strip_tags($anchor->get_title());
 			return strip_tags($anchor->get_title());
 		}
+	}
+
+	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('categories');
+
+		// clear anchor page
+		if(isset($item['anchor']))
+			$topics[] = $item['anchor'];
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'category:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
 	}
 
 	/**
@@ -230,9 +214,6 @@ Class Categories {
 		$query = "DELETE FROM ".SQL::table_name('categories')." WHERE id = ".SQL::escape($id);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
-
-		// clear the cache for categories
-		Cache::clear(array('categories', 'category:'.$id));
 
 		// job done
 		return TRUE;
@@ -612,8 +593,10 @@ Class Categories {
 				$fields['nick_name'] = $nick_name;
 				$fields['title'] = ucfirst($nick_name);
 
-				if($id = Categories::post($fields))
-					$current = 'category:'.$id;
+				if($fields['id'] = Categories::post($fields)) {
+					Categories::clear($fields);
+					$current = 'category:'.$fields['id'];
+				}
 			}
 
 		}
@@ -640,8 +623,8 @@ Class Categories {
 			." AND (categories.nick_name NOT LIKE 'month%') AND (categories.nick_name NOT LIKE '".i18n::c('monthly')."')";
 
 		// avoid keywords if accessed remotely
-		$where .= " AND (categories.nick_name NOT LIKE 'keywords%')";
-		$where .= " AND (categories.anchor NOT LIKE '".Categories::lookup('keywords')."')";;
+// 		$where .= " AND (categories.nick_name NOT LIKE 'keywords%')";
+// 		$where .= " AND (categories.anchor NOT LIKE '".Categories::lookup('keywords')."')";;
 
 		// avoid featured if accessed remotely
 		$where .= " AND (categories.nick_name NOT LIKE '".i18n::c('featured')."')";
@@ -655,10 +638,8 @@ Class Categories {
 			$to_avoid = array();
 
 		// skip categories already assigned
-		foreach($to_avoid as $reference => $dummy) {
-			$id = str_replace('category:', '', $reference);
-			$where .= " AND (categories.id NOT LIKE '".$id."')";
-		}
+		foreach($to_avoid as $reference => $dummy)
+			$where .= " AND (categories.id NOT LIKE '".str_replace('category:', '', $reference)."')";
 
 		// do not limit the query to top level
 		$query = "SELECT categories.id, categories.nick_name, categories.path, categories.title"
@@ -1320,7 +1301,7 @@ Class Categories {
 	 * @see categories/set_keyword.php
 	 * @see control/import.php
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// title cannot be empty
@@ -1461,7 +1442,7 @@ Class Categories {
 	 * @param array an array of fields
 	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	**/
-	function put($fields) {
+	function put(&$fields) {
 		global $context;
 
 		// id cannot be empty
@@ -1630,8 +1611,10 @@ Class Categories {
 					$fields['title'] = sprintf(i18n::c('Week of&nbsp;%s'), date(i18n::c('m/d/y'), $week));
 					$fields['description'] = i18n::c('Articles published during this week');
 					$fields['options'] = 'no_links';
-					if($id = Categories::post($fields))
-						$category = 'category:'.$id;
+					if($fields['id'] = Categories::post($fields)) {
+						Categories::clear($fields);
+						$category = 'category:'.$fields['id'];
+					}
 				}
 
 				// link the reference to this weekly category
@@ -1653,8 +1636,10 @@ Class Categories {
 					$fields['title'] = Skin::build_date($month, 'month', $context['preferred_language']);
 					$fields['description'] = i18n::c('Articles published during this month');
 					$fields['options'] = 'no_links';
-					if($id = Categories::post($fields))
-						$category = 'category:'.$id;
+					if($fields['id'] = Categories::post($fields)) {
+						Categories::clear($fields);
+						$category = 'category:'.$fields['id'];
+					}
 				}
 
 				// link the reference to this monthly category
@@ -1679,8 +1664,10 @@ Class Categories {
 				$fields['description'] = i18n::c('This category is a specialized glossary of terms, made out of tags added to pages, and out of search requests.');
 				$fields['rank'] = 29000;
 				$fields['options'] = 'no_links';
-				if($id = Categories::post($fields))
-					$root_category = 'category:'.$id;
+				if($fields['id'] = Categories::post($fields)) {
+					Categories::clear($fields);
+					$root_category = 'category:'.$fields['id'];
+				}
 			}
 
 			// one category per tag
@@ -1693,8 +1680,10 @@ Class Categories {
 					$fields['keywords'] = $title;
 					if($root_category)
 						$fields['anchor'] = $root_category;
-					if($id = Categories::post($fields))
-						$category = 'category:'.$id;
+					if($fields['id'] = Categories::post($fields)) {
+						Categories::clear($fields);
+						$category = 'category:'.$fields['id'];
+					}
 				} else
 					$category = 'category:'.$category['id'];
 
@@ -1774,7 +1763,7 @@ Class Categories {
 			return;
 
 		// do the job
-		$query = "UPDATE ".SQL::table_name('categories')." SET hits=hits+1 WHERE (id LIKE '$id')";
+		$query = "UPDATE ".SQL::table_name('categories')." SET hits=hits+1 WHERE id = ".SQL::escape($id);
 		SQL::query($query);
 
 	}

@@ -79,14 +79,6 @@ else
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Main page') ));
 
-// download the table in Excel
-if(isset($item['id']))
-	$context['page_menu'] = array_merge($context['page_menu'], array( Tables::get_url($id, 'fetch_as_csv') => i18n::s('CSV (Excel)') ));
-
-// download the table in XML
-if(isset($item['id']))
-	$context['page_menu'] = array_merge($context['page_menu'], array( Tables::get_url($id, 'fetch_as_xml') => i18n::s('XML') ));
-
 // only associates and editors are allowed to alter or delete tables
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
 	$context['page_menu'] = array_merge($context['page_menu'], array( Tables::get_url($id, 'edit') => i18n::s('Edit') ));
@@ -122,9 +114,9 @@ if(!isset($item['id'])) {
 	if(Surfer::is_member())
 		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']),Skin::build_date($item['edit_date']));
 
-	// all details
+	// page details
 	if(count($details))
-		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+		$context['page_details'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// insert anchor prefix
 	if(is_object($anchor))
@@ -146,11 +138,20 @@ if(!isset($item['id'])) {
 
 	// display the query string to associates and editors
 	if(isset($item['query']) && $item['query'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())))
-		$context['text'] .= '<p><pre>'.encode_field($item['query'])."</pre></p>\n";
+		$context['text'] .= Skin::build_box(i18n::s('Query string'), Skin::build_block(encode_field($item['query']), 'code'), 'folder');
 
 	// insert anchor suffix
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_suffix();
+
+	// page tools
+	//
+	$context['page_tools'][] = Skin::build_link(Tables::get_url($id, 'fetch_as_csv'), i18n::s('CSV (Excel)'));
+	$context['page_tools'][] = Skin::build_link(Tables::get_url($id, 'fetch_as_xml'), i18n::s('XML'));
+	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
+		$context['page_tools'][] = Skin::build_link(Tables::get_url($id, 'edit'), i18n::s('Edit'));
+//		$context['page_tools'][] = Skin::build_link(Tables::get_url($id, 'delete'), i18n::s('Delete'));
+	}
 
 	// referrals, if any
 	if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))) {

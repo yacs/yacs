@@ -36,6 +36,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../shared/xml.php';	// input validation
 include_once 'categories.php';
 
 // look for the id
@@ -105,9 +106,9 @@ else
 // validate input syntax
 if(!Surfer::is_associate() || (isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y'))) {
 	if(isset($_REQUEST['introduction']))
-		validate($_REQUEST['introduction']);
+		xml::validate($_REQUEST['introduction']);
 	if(isset($_REQUEST['description']))
-		validate($_REQUEST['description']);
+		xml::validate($_REQUEST['description']);
 }
 
 // adjust dates from surfer time zone to UTC time zone
@@ -178,6 +179,9 @@ if(!$permitted) {
 		if(is_object($anchor))
 			$anchor->touch('category:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
 
+		// clear cache
+		Categories::clear($_REQUEST);
+
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].Categories::get_url($_REQUEST['id'], 'view', $_REQUEST['title']));
 	}
 
@@ -201,8 +205,8 @@ if(!$permitted) {
 		$_REQUEST['overlay_id'] = $overlay->get_id();
 	}
 	// display the form on error
-	if((!$id = Categories::post($_REQUEST))
-			|| (is_object($overlay) && !$overlay->remember('insert', $_REQUEST, $id))) {
+	if((!$_REQUEST['id'] = Categories::post($_REQUEST))
+			|| (is_object($overlay) && !$overlay->remember('insert', $_REQUEST, $_REQUEST['id']))) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -211,7 +215,10 @@ if(!$permitted) {
 
 		// touch the related anchor
 		if(is_object($anchor))
-			$anchor->touch('category:create', $id, isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+			$anchor->touch('category:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+		// clear cache
+		Categories::clear($_REQUEST);
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
@@ -222,19 +229,20 @@ if(!$permitted) {
 		$context['text'] .= '<p>'.i18n::s('Please review the new page carefully and fix possible errors rapidly.').'</p>';
 
 		// get the new item
-		$category = Anchors::get('category:'.$id);
+		$category = Anchors::get('category:'.$_REQUEST['id']);
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array($category->get_url() => i18n::s('View the category')));
 		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('category:'.$id) => i18n::s('Add an image')));
+			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(preg_match('/\bwith_files\b/i', $category->item['options']) && Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('category:'.$id) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Upload a file')));
 		if(!preg_match('/\bno_links\b/i', $category->item['options']))
-			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('category:'.$id) => i18n::s('Add a link')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add a link')));
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}
 
@@ -505,15 +513,16 @@ if($with_form) {
 		.'	target.value = target.value + " " + keyword;'."\n"
 		.'}'."\n"
 		.'// ]]></script>'."\n";
-	$hint = i18n::s('You may combine several keywords:')
-		.'<ul><li><a onclick="javascript:append_to_options(\'articles_by_title\')" style="cursor: pointer;">articles_by_title</a> - '.i18n::s('Sort pages by title').'</li>'
-		.'<li><a onclick="javascript:append_to_options(\'with_files\')" style="cursor: pointer;">with_files</a> - '.i18n::s('Files can be added to the index page').'</li>'
-		.'<li><a onclick="javascript:append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)').'</li>'
-		.'<li><a onclick="javascript:append_to_options(\'with_links\')" style="cursor: pointer;">with_links</a> - '.i18n::s('Links can be added to the index page').'</li>'
-		.'<li><a onclick="javascript:append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)').'</li>'
-		.'<li><a onclick="javascript:append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread').'</li>'
-		.'<li>skin_foo_bar - '.i18n::s('Apply a specific skin (in skins/foo_bar) here').'</li>'
-		.'<li>variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular skin template').'</li></ul>';
+	$keywords = array();
+	$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_title\')" style="cursor: pointer;">articles_by_title</a> - '.i18n::s('Sort pages by title');
+	$keywords[] = '<a onclick="javascript:append_to_options(\'with_files\')" style="cursor: pointer;">with_files</a> - '.i18n::s('Files can be added to the index page');
+	$keywords[] = '<a onclick="javascript:append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+	$keywords[] = '<a onclick="javascript:append_to_options(\'with_links\')" style="cursor: pointer;">with_links</a> - '.i18n::s('Links can be added to the index page');
+	$keywords[] = '<a onclick="javascript:append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
+	$keywords[] = '<a onclick="javascript:append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread');
+	$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific skin (in skins/foo_bar) here');
+	$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular skin template');
+	$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
 	$fields[] = array($label, $input, $hint);
 
 	// trailer information

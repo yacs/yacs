@@ -85,7 +85,7 @@ if($item['id'] && $item['title'])
 $context['page_title'] = i18n::s('Delete a section');
 
 // not found
-if(!$item['id']) {
+if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -105,22 +105,20 @@ if(!$item['id']) {
 
 	// touch the related anchor before actual deletion, since the image has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('section:delete', $id, TRUE);
+		$anchor->touch('section:delete', $item['id'], TRUE);
 
-	// if no error, back to the index page
-	if(Sections::delete($id)) {
+	// attempt to delete
+	if(Sections::delete($item['id'])) {
+
+		// this can appear anywhere
+		Cache::clear();
+
+		// back to the anchor page or to the index page
 		if(is_object($anchor))
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'sections/');
 	}
-
-	$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
-
-	$menu = array();
-	$menu = array_merge($menu, array(Sections::get_url($item['id'], 'purge') => i18n::s('Purge all articles from this section')));
-	$menu = array_merge($menu, array(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Cancel')));
-	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // deletion has to be confirmed
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))

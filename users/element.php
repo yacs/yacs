@@ -78,7 +78,7 @@ if(Surfer::is_associate())
 	$permitted = TRUE;
 
 // the record of the authenticated surfer
-elseif(isset($item['id']) && Surfer::is_creator($item['id']))
+elseif(isset($item['id']) && Surfer::is($item['id']))
 	$permitted = TRUE;
 
 // access is restricted to authenticated member
@@ -132,8 +132,8 @@ if(!isset($item['id'])) {
 	// display the list of pending actions
 	if($items)
 		$output .= $items;
-	else
-		$output .= i18n::s('No action has been assigned to this user.');
+	elseif(Surfer::get_id() != $item['id'])
+		$output .= i18n::s('No action has been assigned to this person.');
 
 	// offer to add a new action
 	$menu = array( 'actions/edit.php?anchor=user:'.$item['id'] => i18n::s('Add an action') );
@@ -154,10 +154,6 @@ if(!isset($item['id'])) {
 
 	$menu = array();
 
-	// edit command
-	if(isset($item['id']) && !isset($zoom_type) && Surfer::is_empowered())
-		$menu = array_merge($menu, array( Users::get_url($item['id'], 'edit') => i18n::s('Edit')));
-
 	// watch command is provided to logged surfers
 	if(Surfer::get_id() && ($item['id'] != Surfer::get_id())) {
 
@@ -173,7 +169,7 @@ if(!isset($item['id'])) {
 		else
 			$label = i18n::s('Watch');
 
-		Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
+		Skin::define_img('WATCH_TOOL_IMG', 'icons/tools/watch.gif');
 		$menu = array_merge($menu, array( $link => array('', WATCH_TOOL_IMG.$label, '', 'basic', '', i18n::s('Manage your watch list'))));
 	}
 
@@ -236,7 +232,7 @@ if(!isset($item['id'])) {
 		$rows[] = array(i18n::s('Web address'), Skin::build_link($item['web_address'], $item['web_address'], 'external'));
 
 	// birth date, if any
-	if(isset($item['birth_date']) && $item['birth_date'])
+	if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE))
 		$rows[] = array(i18n::s('Birth date'), substr($item['birth_date'], 0, 10));
 
 	// agent, if any
@@ -324,9 +320,10 @@ if(!isset($item['id'])) {
 
 	// anyone can modify his own profile; associates can do what they want
 	if(isset($item['id']) && !isset($zoom_type) && Surfer::is_empowered()) {
-		$menu = array( Users::get_url($item['id'], 'edit') => i18n::s('Edit'),
-			Users::get_url($item['id'], 'password') => i18n::s('Change password'),
-			Users::get_url($item['id'], 'select_avatar') => i18n::s('Change avatar') );
+		$menu = array();
+		if(!isset($context['users_authenticator']) || !$context['users_authenticator'])
+			$menu = array_merge($menu, array(Users::get_url($item['id'], 'password') => i18n::s('Change password')));
+		$menu = array_merge($menu, array(Users::get_url($item['id'], 'select_avatar') => i18n::s('Change avatar')));
 		$output .= Skin::build_list($menu, 'menu_bar');
 	}
 
@@ -412,6 +409,10 @@ if(!isset($item['id'])) {
 
 	}
 
+	// display workstation time offset
+	if(Surfer::get_id() && (Surfer::get_id() == $item['id']) && isset($_COOKIE['TimeZone']))
+		$output .= '<p>'.i18n::s('Browser GMT offset:').' UTC '.(($_COOKIE['TimeZone'] > 0) ? '+' : '-').$_COOKIE['TimeZone'].' '.i18n::s('hour(s)')."</p>\n";
+
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 		echo $output;
@@ -427,30 +428,30 @@ if(!isset($item['id'])) {
 
 	// help surfer on their own profiles
 	if(Surfer::get_id() == $item['id'])
-		$output .= '<p>'.i18n::s('Click on the Watch link while browsing user profiles, sections, or articles.').'</p>';
+		$output .= '<p>'.i18n::s('Click on the Watch link while browsing people, sections, or articles.').'</p>';
 
 	// list watched users by posts
-	if($items = Members::list_users_by_posts_for_member('user:'.$item['id'], 0, BOOKMARKS_PER_PAGE, 'watch')) {
+	if($items = Members::list_users_by_posts_for_member('user:'.$item['id'], 0, USERS_PER_PAGE, 'watch')) {
 		if(is_array($items))
-			$output .= Skin::build_box(i18n::s('Watched users'), Skin::build_list($items, 'decorated'), 'header2', 'watched_users');
-		else
-			$output .= Skin::build_box(i18n::s('Watched users'), $items, 'header2', 'watched_users');
+			$items = Skin::build_list($items, 'decorated');
+		$menu = array();
+		if(Surfer::is_associate() || (Surfer::get_id() == $item['id']))
+			$menu = array(Users::get_url('user:'.$item['id'], 'select') => i18n::s('Manage'));
+		$output .= Skin::build_box(i18n::s('Watched people'), Skin::build_list($menu, 'menu_bar').$items, 'header2', 'watched_users');
 	}
 
 	// list watched sections by date
-	if($items = Members::list_sections_by_date_for_member('user:'.$item['id'], 0, BOOKMARKS_PER_PAGE, 'compact')) {
+	if($items = Members::list_sections_by_date_for_member('user:'.$item['id'], 0, SECTIONS_PER_PAGE, 'compact')) {
 		if(is_array($items))
-			$output .= Skin::build_box(i18n::s('Watched sections'), Skin::build_list($items, 'compact'), 'header2', 'watched_sections');
-		else
-			$output .= Skin::build_box(i18n::s('Watched sections'), $items, 'header2', 'watched_sections');
+			$items = Skin::build_list($items, 'compact');
+		$output .= Skin::build_box(i18n::s('Watched sections'), $items, 'folder', 'watched_sections');
 	}
 
 	// list watched articles by date
-	if($items = Members::list_articles_by_date_for_member('user:'.$item['id'], 0, BOOKMARKS_PER_PAGE, 'simple')) {
+	if($items = Members::list_articles_by_date_for_member('user:'.$item['id'], 0, ARTICLES_PER_PAGE, 'simple')) {
 		if(is_array($items))
-			$output .= Skin::build_box(i18n::s('Watched pages'), Skin::build_list($items, 'compact'), 'header2', 'watched_articles');
-		else
-			$output .= Skin::build_box(i18n::s('Watched pages'), $items, 'header2', 'watched_articles');
+			$items = Skin::build_list($items, 'compact');
+		$output .= Skin::build_box(i18n::s('Watched pages'), $items, 'folder', 'watched_articles');
 	}
 
 	// actual transmission except on a HEAD request

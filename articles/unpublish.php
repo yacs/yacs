@@ -66,9 +66,14 @@ if(!isset($item['id'])) {
 } elseif($error = Articles::unpublish($item['id']))
 	$context['text'] .= $error;
 
-// then display an updated page
-else
+// then jump to the target page
+else {
+	// clear the cache
+	Articles::clear($item);
+
+	// display the updated page
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+}
 
 // clear the tab we are in, if any
 if(is_object($anchor))

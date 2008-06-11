@@ -20,10 +20,10 @@
  *	<foaf:surname>Ruby</foaf:surname>
  *	<foaf:nick>rubys</foaf:nick>
  *	<foaf:mbox_sha1sum>703471c6f39094d88665d24ce72c42fdc5f20585</foaf:mbox_sha1sum>
- *	<foaf:homepage rdf:resource="http://www.intertwingly.net/"/>
- *	<foaf:depiction rdf:resource="http://www.intertwingly.net/images/SamR_small.jpg"/>
- *	<foaf:workplaceHomepage rdf:resource="http://www.ibm.com/"/>
- *	<foaf:schoolHomepage rdf:resource="http://www.cnu.edu/"/>
+ *	<foaf:homepage rdf:resource="http://www.intertwingly.net/" />
+ *	<foaf:depiction rdf:resource="http://www.intertwingly.net/images/SamR_small.jpg" />
+ *	<foaf:workplaceHomepage rdf:resource="http://www.ibm.com/" />
+ *	<foaf:schoolHomepage rdf:resource="http://www.cnu.edu/" />
  * </foaf:Person>
  * </rdf:RDF>
  * [/snippet]
@@ -70,7 +70,7 @@ if(Surfer::is_associate())
 	$permitted = TRUE;
 
 // the page of the authenticated surfer
-elseif(isset($item['id']) && Surfer::is_creator($item['id']))
+elseif(isset($item['id']) && Surfer::is($item['id']))
 	$permitted = TRUE;
 
 // access is restricted to authenticated member

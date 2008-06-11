@@ -125,21 +125,6 @@ load_skin('skins');
 // the title of the page
 $context['page_title'] = i18n::s('Skins');
 
-// derive a skin
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/derive.php' => i18n::s('Derive to a new skin') ));
-
-// upload a skin
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/upload.php' => i18n::s('Upload a skin') ));
-
-// test page
-$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/test.php' => i18n::s('Test page') ));
-
-// associates may change parameters
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/configure.php' => i18n::s('Configure the page factory') ));
-
 // read all manifest.php files to list skins
 $skins = array();
 if($dir = Safe::opendir(".")) {
@@ -238,6 +223,14 @@ else {
 
 	// rendering stage
 	$context['text'] .= Skin::build_list($items, 'rows');
+}
+
+// page tools
+if(Surfer::is_associate()) {
+	$context['page_tools'][] = Skin::build_link('skins/configure.php', i18n::s('Configure'), 'basic');
+	$context['page_tools'][] = Skin::build_link('skins/test.php', i18n::s('Test page'), 'basic');
+	$context['page_tools'][] = Skin::build_link('skins/upload.php', i18n::s('Upload a skin'), 'basic');
+	$context['page_tools'][] = Skin::build_link('skins/derive.php', i18n::s('Derive to a new skin'), 'basic');
 }
 
 // how to get a skin

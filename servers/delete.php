@@ -47,7 +47,7 @@ $context['path_bar'] = array( 'servers/' => i18n::s('Servers') );
 $context['page_title'] = i18n::s('Delete a server');
 
 // not found
-if(!$item['id']) {
+if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -66,8 +66,10 @@ if(!$item['id']) {
 } elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {
 
 	// delete and go back to the index page
-	if(Servers::delete($id))
+	if(Servers::delete($item['id'])) {
+		Servers::clear($item);
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'servers/');
+	}
 
 // deletion has to be confirmed
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {

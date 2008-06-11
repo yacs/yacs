@@ -66,18 +66,18 @@ Class Tables {
 		if(Surfer::is_empowered())
 			return TRUE;
 
+		// item has been locked
+		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// anchor has been locked --only used when there is no item provided
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
+
 		// surfer screening
 		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
 			return FALSE;
 		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
-		// anchor has been locked
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('locked'))
-			return FALSE;
-
-		// item has been locked
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
 
 		// teasers are activated
@@ -231,18 +231,19 @@ Class Tables {
 			// the table body
 			$count = 0;
 			$row_index = 0;
-			$zoom = '';
 			while($row =& SQL::fetch_row($rows)) {
 				$cells = array();
 				if($table['with_number'] == 'Y')
 					$cells[] = ++$row_index;
+				$link = '';
 				for($index=0; $index < count($row); $index++) {
 					if(($index == 0) && ($table['with_zoom'] == 'Y'))
-						$zoom = ' '.Skin::build_link($row[$index], MORE_IMG, 'zoom');
-					else {
-						$cells[] = $row[$index].$zoom;
-						$zoom = '';
-					}
+						$link = $row[$index];
+					elseif($link) {
+						$cells[] = Skin::build_link($link, $row[$index]);
+						$link = '';
+					} else
+						$cells[] = $row[$index];
 				}
 				$text .= "\t\t".Skin::table_row($cells, $count++);
 			}
@@ -292,6 +293,29 @@ Class Tables {
 	}
 
 	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('tables');
+
+		// clear anchor page
+		if(isset($item['anchor']))
+			$topics[] = $item['anchor'];
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'table:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
+	}
+
+	/**
 	 * delete one table in the database
 	 *
 	 * @param int the id of the table to delete
@@ -327,9 +351,6 @@ Class Tables {
 	 */
 	function delete_for_anchor($anchor) {
 		global $context;
-
-		// clear the cache for tables
-		Cache::clear('tables');
 
 		// delete all matching records in the database
 		$query = "DELETE FROM ".SQL::table_name('tables')." WHERE anchor LIKE '".SQL::escape($anchor)."'";
@@ -370,13 +391,13 @@ Class Tables {
 				$item['anchor'] = $anchor_to;
 
 				// actual duplication
-				if($new_id = Tables::post($item)) {
+				if($item['id'] = Tables::post($item)) {
 
 					// more pairs of strings to transcode
-					$transcoded[] = array('/\[table='.preg_quote($old_id, '/').'/i', '[table='.$new_id);
+					$transcoded[] = array('/\[table='.preg_quote($old_id, '/').'/i', '[table='.$item['id']);
 
 					// duplicate elements related to this item
-					Anchors::duplicate_related_to('table:'.$old_id, 'table:'.$new_id);
+					Anchors::duplicate_related_to('table:'.$old_id, 'table:'.$item['id']);
 
 					// stats
 					$count++;
@@ -600,7 +621,7 @@ Class Tables {
 	 * @see tables/edit.php
 	 * @see tables/populate.php
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// no query

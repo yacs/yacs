@@ -242,26 +242,15 @@ elseif(!Surfer::is_associate()) {
 	// display updated parameters
 	$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folder');
 
-	// what's next?
-	$context['text'] .= '<p>'.i18n::s('Where do you want to go now?')."</p>\n";
-
 	// follow-up commands
+	$follow_up = i18n::s('Where do you want to go now?');
 	$menu = array();
-
-	// front page
 	$menu = array_merge($menu, array( $context['url_to_root'] => i18n::s('Front page') ));
-
-	// index page
 	$menu = array_merge($menu, array( 'feeds/' => i18n::s('Information channels') ));
-
-	// control panel
 	$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
-
-	// do it again
 	$menu = array_merge($menu, array( 'feeds/flash/configure.php' => i18n::s('Configure again') ));
-
-	// display follow-up commands
-	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 }
 

@@ -100,10 +100,11 @@ if(!$item['id']) {
 		$context['text'] .= '<p>'.i18n::s('The page has been successfully restored.').'</p>';
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the restored page')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// clear the cache; the article may be listed at many places
 		Cache::clear();

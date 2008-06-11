@@ -190,7 +190,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$link = 'links/trackback.php/article/'.$item['id'];
 		else
 			$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-		$menu = array_merge($menu, array($link => i18n::s('Trackback')));
+		$menu = array_merge($menu, array($link => i18n::s('Reference')));
 
 		// info on related links
 		if($context['with_friendly_urls'] == 'Y')

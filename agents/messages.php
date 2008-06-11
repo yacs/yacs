@@ -82,7 +82,7 @@
  * Example: [code]&lt;categories&gt;PHP, MySQL, Apache, interesting subjects&lt;/categories&gt;[/code].
  *
  * [*] '[code]introduction[/code]' - text to be used as blog excerpt.
- * Example: [code]&lt;introduction&gt;Hello World&lt;/introduction&gt;[/code].
+ * Example: [code]&lt;introduction&gt;Hello world&lt;/introduction&gt;[/code].
  *
  * [*] '[code]section[/code]' - the id or the nick name of the section to be used
  * Example: [code]&lt;section&gt;news&lt;/section&gt;[/code].
@@ -617,7 +617,7 @@ class Messages {
 
 		// open a network connection
 		if(!$handle = Safe::fsockopen($server, $port, $errno, $errstr, 10)) {
-			Logger::remember('agents/messages.php', 'Impossible to connect to '.$server);
+			Logger::remember('agents/messages.php', sprintf('Impossible to connect to %s', $server));
 			return 0;
 		}
 
@@ -1045,7 +1045,7 @@ class Messages {
 
 		// create a file record in the database
 		include_once $context['path_to_root'].'files/files.php';
-		if(!$file_id = Files::post($item)) {
+		if(!$item['id'] = Files::post($item)) {
 			Logger::remember('agents/messages.php', Skin::error_pop());
 			return;
 		}
@@ -1268,7 +1268,7 @@ class Messages {
 
 		// create an image record in the database
 		include_once $context['path_to_root'].'images/images.php';
-		if(!$id = Images::post($item)) {
+		if(!$item['id'] = Images::post($item)) {
 			Logger::remember('agents/messages.php', 'Impossible to save image '.$item['image_name']);
 			return;
 		}
@@ -1276,7 +1276,7 @@ class Messages {
 			Logger::remember('agents/messages.php', 'Messages::submit_image()', $item, 'debug');
 
 		// insert the image in the anchor page
-		$host->touch('image:create', $id, TRUE);
+		$host->touch('image:create', $item['id'], TRUE);
 
 	}
 
@@ -1290,7 +1290,7 @@ class Messages {
 	 * @param array of entity attributes
 	 * @param string the textual entity to process
 	 * @param string an optional anchor (e.g., 'article:123')
-	 * @return the anchor of created page, if any
+	 * @return string reference of created item, or NULL
 	 */
 	function submit_page($message_headers, $entity_headers, $text, $anchor=NULL) {
 		global $context;
@@ -1311,7 +1311,7 @@ class Messages {
 		// no subject
 		if(!$post_subject) {
 			Logger::remember('agents/messages.php', 'No subject');
-			return;
+			return NULL;
 		}
 
 		// identify message sender
@@ -1329,7 +1329,7 @@ class Messages {
 		// no poster
 		if(!$post_sender) {
 			Logger::remember('agents/messages.php', 'No poster address');
-			return;
+			return NULL;
 		}
 
 		// ensure poster is allowed to move forward
@@ -1353,7 +1353,7 @@ class Messages {
 		// the poster has to be recorded in the database
 		} elseif(!$user['id']) {
 			Logger::remember('agents/messages.php', 'Unknown poster address '.$post_sender);
-			return;
+			return NULL;
 
 		// maybe subscribers are allowed to post here
 		} elseif(($user['capability'] == 'S') && $allowed && preg_match('/\bany_subscriber\b/i', $allowed))
@@ -1366,7 +1366,7 @@ class Messages {
 		// else the poster has to be an associate
 		elseif($user['capability'] != 'A') {
 			Logger::remember('agents/messages.php', 'Poster '.$post_sender.' is not allowed to post email messages');
-			return;
+			return NULL;
 		}
 
 		// security match
@@ -1384,7 +1384,7 @@ class Messages {
 
 			if(!preg_match('/'.preg_quote($match, '/').'/i', $to_be_matched)) {
 				Logger::remember('agents/messages.php', 'Message does not match /'.preg_quote($match, '/').'/');
-				return;
+				return NULL;
 			}
 		}
 
@@ -1474,11 +1474,10 @@ class Messages {
 
 			// insert comment in the database
 			include_once $context['path_to_root'].'comments/comments.php';
-			if(!$new_id = Comments::post($entry_fields)) {
+			if(!$entry_fields['id'] = Comments::post($entry_fields)) {
 				Logger::remember('agents/messages.php', Skin::error_pop());
-				return;
+				return NULL;
 			}
-			$anchor = 'comment:'.$new_id;
 
 			// debug, if required to do so
 			if($context['debug_messages'] == 'Y')
@@ -1486,6 +1485,15 @@ class Messages {
 
 			// increment the post counter of the surfer
 			Users::increment_posts($user['id']);
+
+			// clear cache
+			$parent = Anchors::get($entry_fields['anchor']);
+
+			// touch the related anchor
+			if(is_object($parent) && isset($entry_fields['id']))
+				$parent->touch('comment:create', $entry_fields['id'], TRUE);
+
+			$anchor = 'comment:'.$entry_fields['id'];
 
 		// post a brand new page
 		} else {
@@ -1509,9 +1517,9 @@ class Messages {
 				$entry_fields['anchor'] = $section->get_reference();
 
 			// save in the database
-			if(!$article_id = Articles::post($entry_fields)) {
+			if(!$entry_fields['id'] = Articles::post($entry_fields)) {
 				Logger::remember('agents/messages.php', Skin::error_pop());
-				return;
+				return NULL;
 			}
 
 			// debugging log
@@ -1524,12 +1532,15 @@ class Messages {
 			Users::increment_posts($user['id']);
 
 			// get the new item
-			$anchor = 'article:'.$article_id;
+			$anchor = 'article:'.$entry_fields['id'];
 			$article = Anchors::get($anchor);
 
 			// touch the related anchor
-			if(is_object($section) && isset($article_id))
-				$section->touch('article:create', $article_id, TRUE);
+			if(is_object($section) && isset($entry_fields['id']))
+				$section->touch('article:create', $entry_fields['id'], TRUE);
+
+			// clear the cache
+			Articles::clear($entry_fields);
 
 			// if the page has been published
 			if(isset($entry_fields['publish_date']) && ($entry_fields['publish_date'] > NULL_DATE)) {
@@ -1557,7 +1568,7 @@ class Messages {
 
 				// 'publish' hook
 				if(is_callable(array('Hooks', 'include_scripts')))
-					Hooks::include_scripts('publish', $article_id);
+					Hooks::include_scripts('publish', $entry_fields['id']);
 
 			}
 

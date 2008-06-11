@@ -167,21 +167,22 @@ $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 // nothing found yet
 $no_result = TRUE;
 
+// provide results in separate panels
+$panels = array();
+
 // on first page, and if search is not constrained
 if(($page == 1) && !$section_id) {
 
 	// search in sections
 	if($rows = Sections::search($search)) {
-		$context['text'] .= Skin::build_block(i18n::s('Matching sections'), 'title');
-		$context['text'] .= Skin::build_list($rows, 'decorated');
+		$panels[] = array('sections_tab', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
 		$no_result = FALSE;
 	}
 
 	// search in categories
 	include_once $context['path_to_root'].'categories/categories.php';
 	if($rows = Categories::search($search)) {
-		$context['text'] .= Skin::build_block(i18n::s('Matching categories'), 'title');
-		$context['text'] .= Skin::build_list($rows, 'decorated');
+		$panels[] = array('catgories_tab', i18n::s('Categories'), 'categories_panel', Skin::build_list($rows, 'decorated'));
 		$no_result = FALSE;
 	}
 }
@@ -221,10 +222,6 @@ $prefix = $home.'&page=';
 if(($navigate = Skin::navigate($home, $prefix, $cap, ARTICLES_PER_PAGE, $page)) && @count($navigate))
 	$box['bar'] = array_merge($box['bar'], $navigate);
 
-// a command to update the related category
-if($cap && Surfer::is_member())
-	$box['bar'] = array_merge($box['bar'], array('categories/set_keyword.php?search='.urlencode($search) => sprintf(i18n::s('Update the category %s'), $search)));
-
 // actually render the html
 if(@count($box['bar']))
 	$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
@@ -233,7 +230,7 @@ if(@count($items))
 elseif(is_string($items))
 	$box['text'] .= $items;
 if($box['text'])
-	$context['text'] .= Skin::build_box($box['title'], $box['text'], 'header1', 'articles');
+	$panels[] = array('articles_tab', i18n::s('Pages'), 'articles_panel', $box['text']);
 
 // on first page
 if($page == 1) {
@@ -241,8 +238,7 @@ if($page == 1) {
 	// search in files
 	include_once $context['path_to_root'].'files/files.php';
 	if($rows = Files::search($search)) {
-		$context['text'] .= Skin::build_block(i18n::s('Matching files'), 'title');
-		$context['text'] .= Skin::build_list($rows, 'decorated');
+		$panels[] = array('files_tab', i18n::s('Files'), 'files_panel', Skin::build_list($rows, 'decorated'));
 		$no_result = FALSE;
 	}
 
@@ -256,8 +252,7 @@ if($page == 1) {
 
 	// search in users
 	if($rows = Users::search($search)) {
-		$context['text'] .= Skin::build_block(i18n::s('Matching users'), 'title');
-		$context['text'] .= Skin::build_list($rows, 'decorated');
+		$panels[] = array('users_tab', i18n::s('People'), 'users_panel', Skin::build_list($rows, 'decorated'));
 		$no_result = FALSE;
 	}
 
@@ -271,8 +266,12 @@ if($page == 1) {
 
 }
 
+// assemble all tabs
+if(count($panels))
+	$context['text'] .= Skin::build_tabs($panels);
+
 // nothing found
-if($no_result && $search)
+if(!count($panels) && $search)
 	$context['text'] .= sprintf(i18n::s('<p>No page has been found. This will happen with very short words (less than %d letters), that are not fully indexed. This can happen as well if more than half of pages contain the searched words. Try to use most restrictive words and to suppress "noise" words.</p>'), MINIMUM_TOKEN_SIZE)."\n";
 
 // search at peering sites, but only on unconstrained request and on first page
@@ -322,61 +321,62 @@ if(!$section_id && ($page == 1) && ($servers = Servers::list_for_search(0, 3, 's
 	}
 }
 
+//
+// extra panel
+//
+
 // extend the search, but only at first page
 if($search && ($page == 1)) {
-	$context['text'] .= Skin::build_block(i18n::s('Extended search'), 'title');
+
+	// a tool to update the related category
+	if($cap && Surfer::is_member())
+		$context['page_tools'][] = Skin::build_link('categories/set_keyword.php?search='.urlencode($search), i18n::s('Remember this search'));
 
 	// same keywords on whole site
 	if($section_id)
-		$context['text'] .= '<p>'.Skin::build_link('search.php?search='.urlencode($search), sprintf(i18n::s('Search %s in all sections'), $search), 'basic').'</p>'."\n";
+		$context['page_tools'][] = Skin::build_link('search.php?search='.urlencode($search), i18n::s('Search in all sections'), 'basic');
 
 	// submit one token to our page locator
-	if(preg_match('/^([\S-]+)/', $search, $matches)) {
-		$context['text'] .= '<p>'.sprintf(i18n::s('Submit %s to our %s in case this word would be a known nick name for any page.'), $matches[1], Skin::build_link('go.php?id='.urlencode($matches[1]), i18n::s('page locator'), 'basic')).'</p>'."\n";
-	}
-
-	// go to external servers
-	$context['text'] .= '<p>'.sprintf(i18n::s('Search for %s at '), $search);
+	if(preg_match('/^([\S-]+)/', $search, $matches))
+		$context['page_tools'][] = Skin::build_link('go.php?id='.urlencode($matches[1]), i18n::s('Look for a named page'), 'basic');
 
 	// encode for urls, but preserve unicode chars
 	$search = urlencode(utf8::from_unicode($search));
 
 	// Google
 	$link = 'http://www.google.com/search?q='.$search.'&ie=utf-8';
-	$context['text'] .= Skin::build_link($link, i18n::s('Google'), 'external').', ';
+	$context['page_tools'][] = Skin::build_link($link, i18n::s('Google'), 'external');
 
 	// Yahoo!
 	$link = 'http://search.yahoo.com/search?p='.$search.'&ei=utf-8';
-	$context['text'] .= Skin::build_link($link, i18n::s('Yahoo!'), 'external').', ';
+	$context['page_tools'][] = Skin::build_link($link, i18n::s('Yahoo!'), 'external');
 
 	// Ask Jeeves
 	$link = 'http://web.ask.com/web?q='.$search;
-	$context['text'] .= Skin::build_link($link, i18n::s('Ask Jeeves'), 'external').', ';
+	$context['page_tools'][] = Skin::build_link($link, i18n::s('Ask Jeeves'), 'external');
 
 	// All the web
 	$link = 'http://alltheweb.com/search?q='.$search.'&cs=utf8';
-	$context['text'] .= Skin::build_link($link, i18n::s('All the web'), 'external').', ';
+	$context['page_tools'][] = Skin::build_link($link, i18n::s('All the web'), 'external');
 
 	// Feedster
 	$link = 'http://www.feedster.com/search.php?q='.$search;
-	$context['text'] .= Skin::build_link($link, i18n::s('Feedster'), 'external').', ';
+	$context['page_tools'][] = Skin::build_link($link, i18n::s('Feedster'), 'external');
 
 	// Technorati
 	$link = 'http://www.technorati.com/cosmos/search.html?rank=&url='.$search;
-	$context['text'] .= Skin::build_link($link, i18n::s('Technorati'), 'external').'.';
+	$context['page_tools'][] = Skin::build_link($link, i18n::s('Technorati'), 'external');
 
-	$context['text'] .= "</p>\n";
 }
 
 // general help on this page
 $context['extra'] .= Skin::build_box(i18n::s('Help'), i18n::s('This search engine only display pages that have all words in it. <p>Also, only exact matches will be listed. Therefore "category" and "categories" won\'t give the same results. Note that "red" and "reds" may also give different results.</p>'), 'navigation', 'help');
 
-// make a newsfeed out of a successful search
+// how to stay tuned
+$lines = array();
 if($search)
-	$label = sprintf(i18n::s('You can get a RSS list of matching pages for this search %s'), Skin::build_link('services/search.php?search='.urlencode($search), i18n::s('here'), 'xml'));
-else
-	$label = i18n::s('Enter some keyword and hit enter to build a customized newsfeed.');
-$context['extra'] .= Skin::build_box(i18n::s('Customized Newsfeed'), $label, 'extra');
+	$lines[] = Skin::build_link('services/search.php?search='.urlencode($search), i18n::s('Matching pages'), 'xml');
+$context['extra'] .= Skin::build_box(i18n::s('Stay tuned'), join(BR, $lines), 'extra', 'feeds');
 
 // side bar with the list of most recent keywords
 $cache_id = 'search.php#keywords_by_date';

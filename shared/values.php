@@ -37,9 +37,6 @@ Class Values {
 		if(SQL::query($query) === FALSE)
 			return FALSE;
 
-		// clear the cache
-		Cache::clear(array('values', 'value:'.$id));
-
 		// job done
 		return TRUE;
 

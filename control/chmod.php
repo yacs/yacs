@@ -33,7 +33,7 @@ $context['page_title'] = i18n::s('Update file permissions');
 if(!Surfer::is_logged())
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('control/chmod.php'));
 
-// only associates can proceed when a switch file exists
+// only associates can proceed and when a switch file exists
 elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parameters/switch.on') || file_exists($context['path_to_root'].'parameters/switch.off'))) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation.')."</p>\n";

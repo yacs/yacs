@@ -94,7 +94,7 @@ Class Layout_decisions extends Layout_interface {
 			$menu = array();
 
 			// associates and poster can change the decision
-			if(Surfer::is_empowered() || Surfer::is_creator($item['create_id']))
+			if(Surfer::is_empowered() || Surfer::is($item['create_id']))
 				$menu = array_merge($menu, array( Decisions::get_url($item['id'], 'edit') => i18n::s('edit') ));
 
 			// only associates can delete some decision

@@ -32,6 +32,7 @@ Class Layout_articles_as_boxesandarrows extends Layout_interface {
 			return $text;
 
 		// flag articles updated recently
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
@@ -65,15 +66,15 @@ Class Layout_articles_as_boxesandarrows extends Layout_interface {
 			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
 				$prefix .= DRAFT_FLAG;
 
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$prefix .= LOCKED_FLAG;
-
 			// signal restricted and private articles
 			if($item['active'] == 'N')
 				$prefix .= PRIVATE_FLAG.' ';
 			elseif($item['active'] == 'R')
 				$prefix .= RESTRICTED_FLAG.' ';
+
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$suffix .= ' '.LOCKED_FLAG;
 
 			// flag articles updated recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))

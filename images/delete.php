@@ -59,7 +59,7 @@ elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id())
 	$permitted = TRUE;
 
 // authenticated surfers may suppress their own posts --no create_id yet...
-elseif(isset($item['edit_id']) && Surfer::is_creator($item['edit_id']))
+elseif(isset($item['edit_id']) && Surfer::is($item['edit_id']))
 	$permitted = TRUE;
 
 // the default is to deny access
@@ -83,7 +83,7 @@ else
 $context['page_title'] = i18n::s('Delete an image');
 
 // not found
-if(!$item['id']) {
+if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -103,10 +103,11 @@ if(!$item['id']) {
 
 	// touch the related anchor before actual deletion, since the image has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('image:delete', $id, TRUE);
+		$anchor->touch('image:delete', $item['id'], TRUE);
 
 	// if no error, back to the anchor or to the index page
-	if(Images::delete($id)) {
+	if(Images::delete($item['id'])) {
+		Images::clear($item);
 		if(is_object($anchor))
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
 		else

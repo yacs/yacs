@@ -47,7 +47,7 @@ Class Layout_links_as_feed extends Layout_interface {
 
 			// the title as the label
 			if($item['title'])
-				$label = $item['link_name'];
+				$label = $item['title'];
 			else
 				$label = $url;
 
@@ -66,7 +66,7 @@ Class Layout_links_as_feed extends Layout_interface {
 			$description = Skin::cap($description, 300);
 
 			// fix image references
-			$description = preg_replace('/"\//', '"'.$context['url_to_home'].'/', $description);
+			$description = preg_replace('/"\/([^">]+?)"/', '"'.$context['url_to_home'].'/\\1"', $description);
 
 			$introduction = $description;
 

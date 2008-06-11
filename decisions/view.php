@@ -79,7 +79,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Main page') ));
 
 // commands for associates and author, but not for editors
-if($item['id'] && (Surfer::is_associate() || Surfer::is_creator($item['create_id'])) )
+if($item['id'] && (Surfer::is_associate() || Surfer::is($item['create_id'])) )
 	$context['page_menu'] = array_merge($context['page_menu'], array( decisions::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 
 // commands for associates
@@ -111,6 +111,10 @@ if(!isset($item['id'])) {
 
 	// initialize the rendering engine
 	Codes::initialize(Decisions::get_url($item['id']));
+
+	// the last edition of this decision
+	if($item['create_name'] != $item['edit_name'])
+		$context['pag_details'] .= '<p class="detail">'.sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date'], 'with_hour')).'</p>';
 
 	// insert anchor prefix
 	if(is_object($anchor))
@@ -168,10 +172,6 @@ if(!isset($item['id'])) {
 	// the complete details
 	if($details)
 		$context['text'] .= '<p>'.ucfirst(implode(' ', $details))."</p>\n";
-
-	// the last edition of this decision
-	if($item['create_name'] != $item['edit_name'])
-		$context['text'] .= '<p class="detail">'.sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date'], 'with_hour')).'</p>';
 
 	// display the full decision
 	if($item['description']) {

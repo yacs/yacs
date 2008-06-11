@@ -34,6 +34,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 			return $text;
 
 		// flag articles updated recently
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
@@ -78,10 +79,6 @@ Class Layout_articles_as_jive extends Layout_interface {
 			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
 				$text .= DRAFT_FLAG;
 
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$text .= LOCKED_FLAG;
-
 			// signal restricted and private articles
 			if($item['active'] == 'N')
 				$text .= PRIVATE_FLAG.' ';
@@ -106,16 +103,18 @@ Class Layout_articles_as_jive extends Layout_interface {
 			if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y')) {
 				if($item['create_name'])
 					$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
-				else
-					$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 			}
 
 			// last update
 			$details[] = sprintf(i18n::s('Updated %s'), Skin::build_date($item['edit_date']));
 
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$details[] = LOCKED_FLAG;
+
 			// add details to the title
 			if(count($details))
-				$text .= '<p class="details">'.join(BR, $details).'</p>';
+				$text .= '<p class="details">'.join(', ', $details).'</p>';
 
 			// next cell for the content
 			$text .= '</td><td width="70%">';
@@ -177,7 +176,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 //						$link = 'users/track.php/article/'.$item['id'];
 //					else
 //						$link = 'users/track.php?article='.$item['id'];
-//					Skin::define_img('WATCH_TOOL_IMG', $context['skin'].'/icons/tools/watch.gif');
+//					Skin::define_img('WATCH_TOOL_IMG', 'icons/tools/watch.gif');
 //					$content .= ' '.WATCH_TOOL_IMG.sprintf(i18n::s('%s this topic'), Skin::build_link($link, i18n::s('Watch')))."\n";
 //				}
 //			}

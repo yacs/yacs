@@ -41,6 +41,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../shared/xml.php';	// input validation
 include_once 'actions.php';
 
 // look for the id
@@ -117,7 +118,7 @@ else
 
 // always validate input syntax
 if(isset($_REQUEST['description']))
-	validate($_REQUEST['description']);
+	xml::validate($_REQUEST['description']);
 
 // permission denied
 if(!$permitted) {
@@ -136,13 +137,9 @@ if(!$permitted) {
 	Skin::error(i18n::s('No anchor has been found.'));
 
 // maybe posts are not allowed here
-} elseif(is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_associate()) {
-
-	if(isset($item['id']))
-		$label = i18n::s('This page has been locked. It cannot be modified anymore.');
-	else
-		$label = i18n::s('Posts are not allowed anymore here.');
-	Skin::error($label);
+} elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked')) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('This page has been locked.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -170,7 +167,7 @@ if(!$permitted) {
 		$with_form = TRUE;
 
 	// display the form on error
-	} elseif(!$id = Actions::post($_REQUEST)) {
+	} elseif(!$_REQUEST['id'] = Actions::post($_REQUEST)) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -178,7 +175,10 @@ if(!$permitted) {
 	} elseif(!$item['id']) {
 
 		// touch the related anchor silently
-		$anchor->touch('action:create', $id, TRUE);
+		$anchor->touch('action:create', $_REQUEST['id'], TRUE);
+
+		// clear the cache
+		Actions::clear($_REQUEST);
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
@@ -191,15 +191,14 @@ if(!$permitted) {
 			.'<p><b>'.Codes::beautify_title($_REQUEST['title']).'</b></p>'
 			.Codes::beautify($_REQUEST['description']);
 
-		// splash message
-		$context['text'] .= Skin::build_block(i18n::s('What do you want to do now?'), 'title');
-
 		// follow-up commands
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		if(is_object($anchor))
 			$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the main page')));
-		$menu = array_merge($menu, array(Actions::get_url($id, 'edit') => i18n::s('Edit the action')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$menu = array_merge($menu, array(Actions::get_url($_REQUEST['id'], 'edit') => i18n::s('Edit the action')));
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// send an e-mail message to the target end user, if any
 		if(($to = $anchor->get_value('email')) && preg_match('/.+@.+/', $to)) {
@@ -208,7 +207,7 @@ if(!$permitted) {
 			$subject = sprintf(i18n::s('New to-do: %s'), strip_tags($_REQUEST['title']));
 
 			// message body
-			$message = sprintf(i18n::s("The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.\n\nSender: %s\n\n%s\n\n%s\n\n"), Surfer::get_name(), strip_tags(preg_replace('/<br *\/*>/i', "\n", Codes::beautify($_REQUEST['description']))), $context['url_to_home'].$context['url_to_root'].Actions::get_url($id));
+			$message = sprintf(i18n::s("The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.\n\nSender: %s\n\n%s\n\n%s\n\n"), Surfer::get_name(), strip_tags(preg_replace('/<br *\/*>/i', "\n", Codes::beautify($_REQUEST['description']))), $context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']));
 
 			// actual post - don't stop on error
 			include_once $context['path_to_root'].'shared/mailer.php';
@@ -219,7 +218,7 @@ if(!$permitted) {
 		// log the submission of a new comment by a non-associate
 		if(!Surfer::is_associate()) {
 			$label = sprintf(i18n::c('New action for %s'), strip_tags($anchor->get_title()));
-			$description = $context['url_to_home'].$context['url_to_root'].Actions::get_url($id);
+			$description = $context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']);
 			Logger::notify('actions/edit.php', $label, $description);
 		}
 
@@ -228,6 +227,9 @@ if(!$permitted) {
 
 		// touch the related anchor silently
 		$anchor->touch('action:update', $item['id'], TRUE);
+
+		// clear cache
+		Actions::clear($_REQUEST);
 
 		// forward to the updated anchor page
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#actions');

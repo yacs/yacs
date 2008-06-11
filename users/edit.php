@@ -80,6 +80,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../shared/xml.php';	// input validation
 
 // look for the id
 $id = NULL;
@@ -105,7 +106,7 @@ if(Surfer::is_associate())
 	$permitted = TRUE;
 
 // the page of the authenticated surfer
-elseif(isset($item['id']) && Surfer::is_creator($item['id']))
+elseif(isset($item['id']) && Surfer::is($item['id']))
 	$permitted = TRUE;
 
 // registration of new users is allowed
@@ -135,9 +136,9 @@ else
 
 // always validate input syntax
 if(isset($_REQUEST['introduction']))
-	validate($_REQUEST['introduction']);
+	xml::validate($_REQUEST['introduction']);
 if(isset($_REQUEST['description']))
-	validate($_REQUEST['description']);
+	xml::validate($_REQUEST['description']);
 
 // permission denied
 if(!$permitted) {
@@ -193,6 +194,9 @@ if(!$permitted) {
 			if(is_callable(array('Hooks', 'include_scripts')))
 				Hooks::include_scripts('users/edit.php#put', $item['id']);
 
+			// clear cache
+			Users::clear($_REQUEST);
+
 			// display the updated page
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:''));
 
@@ -200,7 +204,6 @@ if(!$permitted) {
 
 		// on error display the form again
 		$with_form = TRUE;
-		$id = $_REQUEST['id'];
 		$item = $_REQUEST;
 
 	// insert a new record in the database
@@ -230,7 +233,7 @@ if(!$permitted) {
 			$with_form = TRUE;
 
 		// actual post
-		} elseif(!$id = Users::post($_REQUEST)) {
+		} elseif(!$_REQUEST['id'] = Users::post($_REQUEST)) {
 
 			// on error display the form again
 			$with_form = TRUE;
@@ -239,12 +242,9 @@ if(!$permitted) {
 		// successful post
 		} else {
 
-			// save id in the request as well;
-			$_REQUEST['id'] = $id;
-
 			// allow back-referencing from overlay
-			$_REQUEST['self_reference'] = 'user:'.$id;
-			$_REQUEST['self_url'] = Users::get_url($id, 'view', isset($_REQUEST['nick_name'])?$_REQUEST['nick_name']:'');
+			$_REQUEST['self_reference'] = 'user:'.$_REQUEST['id'];
+			$_REQUEST['self_url'] = Users::get_url($_REQUEST['id'], 'view', isset($_REQUEST['nick_name'])?$_REQUEST['nick_name']:'');
 
 			// post an overlay, with the new user id
 			if(is_object($overlay) && !$overlay->remember('insert', $_REQUEST)) {
@@ -256,17 +256,17 @@ if(!$permitted) {
 
 				// 'users/edit.php#post' hook
 				if(is_callable(array('Hooks', 'include_scripts')))
-					Hooks::include_scripts('users/edit.php#post', $id);
+					Hooks::include_scripts('users/edit.php#post', $_REQUEST['id']);
 
 				// associates are redirected to the new user page
 				if(Surfer::is_associate())
-					Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($id, 'view', isset($_REQUEST['nick_name'])?$_REQUEST['nick_name']:''));
+					Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($_REQUEST['id'], 'view', isset($_REQUEST['nick_name'])?$_REQUEST['nick_name']:''));
 
 				// welcome message
 				else {
 
 					// get the new record
-					$item =& Users::get($id);
+					$item =& Users::get($_REQUEST['id']);
 
 					// start a session with this new record
 					if(!Surfer::is_logged())
@@ -277,27 +277,30 @@ if(!$permitted) {
 
 					// the welcome message
 					$context['text'] .= '<p>'.ucfirst($item['nick_name']).',</p>'
-						.'<p>'.i18n::s('You are now a registered user of this community. Each time you will visit this site, please provide your nick name and password to authenticate.').'</p>'
-						.'<p>'.i18n::s('What do you want to do now?').'</p>';
+						.'<p>'.i18n::s('You are now a registered user of this community. Each time you will visit this site, please provide your nick name and password to authenticate.').'</p>';
+
+					// follow-up commands
+					$follow_up = i18n::s('What do you want to do now?');
 
 					// just proceed
-					if(isset($_REQUEST['forward']) && $_REQUEST['forward']) {
-						$context['text'] .= '<ul><li><b>'.Skin::build_link($_REQUEST['forward'], i18n::s('Proceed with what I was doing before registering')).'</a></b></li></ul>';
-					}
+					if(isset($_REQUEST['forward']) && $_REQUEST['forward'])
+						$follow_up .= '<ul><li><b>'.Skin::build_link($_REQUEST['forward'], i18n::s('Proceed with what I was doing before registering')).'</a></b></li></ul>';
 
 					// select an avatar
-					$context['text'] .= '<ul><li>'.sprintf(i18n::s('%s from the library'), '<a href="'.$context['url_to_root'].'users/select_avatar.php?id='.$id.'">'.i18n::s('Select an avatar').'</a>').'</li></ul>';
+					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s from the library'), '<a href="'.$context['url_to_root'].'users/select_avatar.php?id='.$_REQUEST['id'].'">'.i18n::s('Select an avatar').'</a>').'</li></ul>';
 
 					// post a new page
-					if(($item['capability'] == 'M') || ($item['capability'] == 'A')) {
-						$context['text'] .= '<ul><li>'.sprintf(i18n::s('%s, maybe with some images and/or files'), '<a href="'.$context['url_to_root'].'articles/edit.php">'.i18n::s('Add a page').'</a>').'</li></ul>';
-					}
+					if(($item['capability'] == 'M') || ($item['capability'] == 'A'))
+						$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, maybe with some images and/or files'), '<a href="'.$context['url_to_root'].'articles/edit.php">'.i18n::s('Add a page').'</a>').'</li></ul>';
 
 					// edit profile
-					$context['text'] .= '<ul><li>'.sprintf(i18n::s('%s, to let others have a better understanding of who I am'), '<a href="'.$context['url_to_root'].'users/edit.php?id='.$id.'">'.i18n::s('Edit my user profile').'</a>').'</li></ul>';
+					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, to let others have a better understanding of who I am'), '<a href="'.$context['url_to_root'].'users/edit.php?id='.$_REQUEST['id'].'">'.i18n::s('Edit my user profile').'</a>').'</li></ul>';
 
 					// more help
-					$context['text'] .= '<ul><li>'.sprintf(i18n::s('%s, and get basic directions'), '<a href="'.$context['url_to_root'].'help.php">'.i18n::s('Go the main help page').'</a>').'</li></ul>';
+					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, and get basic directions'), '<a href="'.$context['url_to_root'].'help.php">'.i18n::s('Go the main help page').'</a>').'</li></ul>';
+
+					// display on page bottom
+					$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 					// send silently a message to the event logger, if any
 					switch($item['capability']) {
@@ -413,7 +416,7 @@ if($with_form) {
 
 	// tags
 	$label = i18n::s('Tags');
-	$input = '<input type="text" name="tags" id="tags" value="'.encode_field(isset($item['tags'])?$item['tags']:'').'" size="45" maxlength="255" accesskey="t"/><div id="tags_choices" class="autocomplete"></div>';
+	$input = '<input type="text" name="tags" id="tags" value="'.encode_field(isset($item['tags'])?$item['tags']:'').'" size="45" maxlength="255" accesskey="t" /><div id="tags_choices" class="autocomplete"></div>';
 	$hint = i18n::s('A comma-separated list of keywords');
 	$fields[] = array($label, $input, $hint);
 
@@ -517,7 +520,7 @@ if($with_form) {
 
 	// birth date
 	$label = i18n::s('Birth date');
-	$input = '<input type="text" name="birth_date" size="20" value="'.encode_field(isset($item['birth_date'])?$item['birth_date']:'').'" '.EOT;
+	$input = '<input type="text" name="birth_date" size="20" value="'.encode_field(isset($item['birth_date'])?substr($item['birth_date'], 0, 10):'').'" '.EOT;
 	$hint = i18n::s('YYYY-MM-DD');
 	$fields[] = array($label, $input, $hint);
 
@@ -552,7 +555,7 @@ if($with_form) {
 	// the Jabber address
 	$label = i18n::s('Jabber address');
 	$input = '<input type="text" name="jabber_address" size="40" value="'.encode_field(isset($item['jabber_address'])?$item['jabber_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('If you are using some %s solution.'), Skin::build_link('http://www.jabber.org/', i18n::s('Jabber'), 'external'));
+	$hint = sprintf(i18n::s('If you are using some %s solution, including Google Talk.'), Skin::build_link('http://www.jabber.org/', i18n::s('Jabber'), 'external'));
 	$fields[] = array($label, $input, $hint);
 
 	// the MSN address

@@ -69,7 +69,7 @@ Class Layout_locations extends Layout_interface {
 				$suffix .= ' '.ucfirst(trim($item['description']));
 
 			// the menu bar for associates and poster
-			if(Surfer::is_empowered() || Surfer::is_creator($item['edit_id'])) {
+			if(Surfer::is_empowered() || Surfer::is($item['edit_id'])) {
 				$menu = array( Locations::get_url($item['id'], 'edit') => i18n::s('Edit'),
 					Locations::get_url($item['id'], 'delete') => i18n::s('Delete') );
 				$suffix .= ' '.Skin::build_list($menu, 'menu');

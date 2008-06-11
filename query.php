@@ -72,10 +72,12 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 
 		// reference the new section
-		if($new_id = Sections::post($fields)) {
+		if($fields['id'] = Sections::post($fields)) {
+			Sections::clear($fields);
+
 			$context['text'] .= '<p>'.sprintf(i18n::s('A section \'%s\' has been created.'), $fields['nick_name'])."</p>\n";
 
-			$anchor = Anchors::get('section:'.$new_id);
+			$anchor = Anchors::get('section:'.$fields['id']);
 		}
 	}
 	$_REQUEST['anchor'] = $anchor->get_reference();
@@ -108,7 +110,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		$with_form = TRUE;
 
 	// display the form on error
-	} elseif(!$query_id = Articles::post($_REQUEST)) {
+	} elseif(!$_REQUEST['id'] = Articles::post($_REQUEST)) {
 		$with_form = TRUE;
 
 	// post-processing
@@ -120,7 +122,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		// use the secret handle to access the query
 		$link = '';
 		$status = '';
-		if(($item =& Articles::get($query_id)) && $item['handle']) {
+		if(($item =& Articles::get($_REQUEST['id'])) && $item['handle']) {
 
 			// build credentials --see users/login.php
 			$credentials = array();
@@ -140,14 +142,15 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		$context['text'] .= $status;
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('Where do you want to go now?').'</p>';
+		$follow_up = i18n::s('Where do you want to go now?');
 		$menu = array();
 		$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
 		$menu = array_merge($menu, array('articles/' => i18n::s('All pages')));
 		$menu = array_merge($menu, array('sections/' => i18n::s('Site map')));
 		$menu = array_merge($menu, array('search.php' => i18n::s('Search')));
 		$menu = array_merge($menu, array('help.php' => i18n::s('Help index')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// send a confirmation message to the surfer
 		if(isset($_REQUEST['edit_address']) && preg_match('/.+@.+/', $_REQUEST['edit_address']) && $link) {
@@ -168,11 +171,14 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		}
 
 		// touch the related anchor
-		if(is_object($anchor) && isset($item['id']))
-			$anchor->touch('article:create', $item['id'], TRUE);
+		if(is_object($anchor) && $_REQUEST['id'])
+			$anchor->touch('article:create', $_REQUEST['id'], TRUE);
+
+		// clear the cache
+		Articles::clear($_REQUEST);
 
 		// get the article back
-		$article = Anchors::get('article:'.$query_id);
+		$article = Anchors::get('article:'.$_REQUEST['id']);
 
 		// log the query submission
 		if(is_object($article)) {

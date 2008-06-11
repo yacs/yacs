@@ -64,18 +64,18 @@ Class Locations {
 		if(Surfer::is_empowered())
 			return TRUE;
 
+		// item has been locked
+		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// anchor has been locked --only used when there is no item provided
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
+
 		// surfer screening
 		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
 			return FALSE;
 		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
-		// anchor has been locked
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('locked'))
-			return FALSE;
-
-		// item has been locked
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
 
 		// authenticated members are allowed to add locations
@@ -103,6 +103,29 @@ Class Locations {
 	}
 
 	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('locations', 'users');
+
+		// clear anchor page
+		if(isset($item['anchor']))
+			$topics[] = $item['anchor'];
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'location:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
+	}
+
+	/**
 	 * delete one location in the database and in the file system
 	 *
 	 * @param int the id of the location to delete
@@ -117,16 +140,10 @@ Class Locations {
 		if(!$id || !is_numeric($id))
 			return FALSE;
 
-		// delete related items
-//		Anchors::delete_related_to('location:'.$id);
-
 		// delete the record in the database
 		$query = "DELETE FROM ".SQL::table_name('locations')." WHERE id = ".SQL::escape($id);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
-
-		// clear the cache for locations
-		Cache::clear(array('locations', 'location:'.$id));
 
 		// job done
 		return TRUE;
@@ -141,9 +158,6 @@ Class Locations {
 	 */
 	function delete_for_anchor($anchor) {
 		global $context;
-
-		// clear the cache for locations
-		Cache::clear(array('locations', 'location:'));
 
 		// delete all matching records in the database
 		$query = "DELETE FROM ".SQL::table_name('locations')." WHERE anchor LIKE '".SQL::escape($anchor)."'";
@@ -184,13 +198,13 @@ Class Locations {
 				$item['anchor'] = $anchor_to;
 
 				// actual duplication
-				if($new_id = Locations::post($item)) {
+				if($item['id'] = Locations::post($item)) {
 
 					// more pairs of strings to transcode
-					$transcoded[] = array('/\[location='.preg_quote($old_id, '/').'/i', '[location='.$new_id);
+					$transcoded[] = array('/\[location='.preg_quote($old_id, '/').'/i', '[location='.$item['id']);
 
 					// duplicate elements related to this item
-					Anchors::duplicate_related_to('location:'.$old_id, 'location:'.$new_id);
+					Anchors::duplicate_related_to('location:'.$old_id, 'location:'.$item['id']);
 
 					// stats
 					$count++;
@@ -580,7 +594,7 @@ Class Locations {
 
 				// insert thumbnail, if any
 				if($icon = $anchor->get_thumbnail_url())
-					$description = '<a href="'.$context['url_to_root'].$anchor->get_url().'"><img src="'.$icon.'" alt="'.encode_field($anchor->get_title()).'" style="float: left; margin-right: 1em; border: none;"/></a>'.$description;
+					$description = '<a href="'.$context['url_to_root'].$anchor->get_url().'"><img src="'.$icon.'" alt="'.encode_field($anchor->get_title()).'" style="float: left; margin-right: 1em; border: none;" /></a>'.$description;
 
 				// a link to the anchor page
 				$description .= BR."\n".Skin::build_link($anchor->get_url(), $anchor->get_title());
@@ -674,7 +688,7 @@ Class Locations {
 	 *
 	 * @see locations/edit.php
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// no geo_place_name

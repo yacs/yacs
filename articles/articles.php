@@ -37,12 +37,12 @@
  * then a report on initial issue ('[code]2.the issue.ppt[/code]'), and a business case for the solution ('[code]3.profit_and_loss.xls[/code]').
  * By adjusting file names and titles as shown, and by setting the option [code]files_by_title[/code], you would achieve a nice and logical thing.
  *
- * [*] [code]formatted[/code] - The YACS rendering engine is disabled, since the description contains formatting tags.
+ * [*] [code]formatted[/code] - The YACS page factory is disabled, since the description contains formatting tags.
  * Use this option if you copy the source of a HTML or of a XHTML page, and paste it into an article at your server.
  * Note that this keyword is also accepted if it is formatted as a YACS code ('[code]&#91;formatted]'[/code])
  * at the very beginning of the description field.
  *
- * [*] [code]hardcoded[/code] - The YACS rendering engine is disabled, except that new lines are changed to (X)HTML breaks.
+ * [*] [code]hardcoded[/code] - The YACS page factory is disabled, except that new lines are changed to (X)HTML breaks.
  * Use this option if you copy some raw text file (including a mail message) and make a page out of it.
  * Note that this keyword is also accepted if it is formatted as a YACS code ('[code]&#91;hardcoded]'[/code])
  * at the very beginning of the description field.
@@ -133,11 +133,15 @@ Class Articles {
 		global $context;
 
 		// articles are prevented in anchor
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_articles'))
+		if(is_object($anchor) && $anchor->has_option('no_articles'))
 			return FALSE;
 
 		// articles are prevented in item
 		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_articles\b/i', $item['options']))
+			return FALSE;
+
+		// articles are prevented in item, through layout
+		if(isset($item['articles_layout']) && ($item['articles_layout'] == 'none'))
 			return FALSE;
 
 		// surfer is an associate
@@ -166,6 +170,10 @@ Class Articles {
 		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
 
+		// anchor has been locked --only used when there is no item provided
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
+
 		// authenticated members are allowed to add articles
 		if(Surfer::is_member())
 			return TRUE;
@@ -188,6 +196,29 @@ Class Articles {
 
 		// the default is to not allow for new articles
 		return FALSE;
+	}
+
+	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('articles', 'sections', 'categories', 'users');
+
+		// clear anchor page
+		if(isset($item['anchor']))
+			$topics[] = $item['anchor'];
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'article:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
 	}
 
 	/**
@@ -296,9 +327,6 @@ Class Articles {
 			$overlay->remember('delete', $item);
 		}
 
-		// clear the cache; the article may be listed at many places
-		Cache::clear();
-
 		// job done
 		return TRUE;
 	}
@@ -309,7 +337,6 @@ Class Articles {
 	 * @param string the anchor to check (e.g., 'section:123')
 	 * @return void
 	 *
-	 * @see sections/bulk.php
 	 * @see shared/anchors.php
 	 */
 	function delete_for_anchor($anchor) {
@@ -361,9 +388,6 @@ Class Articles {
 		if(isset($item['overlay']) && ($overlay = Overlay::load($item))) {
 			$overlay->remember('delete', $item);
 		}
-
-		// clear the cache; articles may be listed at several places
-		Cache::clear();
 
 		// everything has gone fine
 		return NULL;
@@ -497,6 +521,54 @@ Class Articles {
 	}
 
 	/**
+	 * list articles with a given overlay identifier
+	 *
+	 * @param string the target overlay identifier
+	 * @return array of page ids that match the provided identifier, else NULL
+	 */
+	function get_ids_for_overlay($overlay_id) {
+		global $context;
+
+		// display active items
+		$active = "(articles.active='Y'";
+
+		// add restricted items to members, or if teasers are allowed
+		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+			$active .= " OR articles.active='R'";
+
+		// include hidden sections for associates
+		if(Surfer::is_associate())
+			$active .= " OR articles.active='N'";
+
+		// end of active filter
+		$active .= ")";
+
+// 		// use only live sections
+// 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+// 		$criteria[] = "((sections.activation_date is NULL)"
+// 			." OR (sections.activation_date <= '".$now."'))"
+// 			." AND ((sections.expiry_date is NULL)"
+// 			." OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+
+		// list up to 200 sections
+		$query = "SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
+			." WHERE overlay_id LIKE '".SQl::escape($overlay_id)."' AND ".$active
+			." LIMIT 200";
+		if(!$result =& SQL::query($query)) {
+			$output = NULL;
+			return $output;
+		}
+
+		// process all matching records
+		$ids = array();
+		while($item =& SQL::fetch($result))
+			$ids[] = $item['id'];
+
+		// return a list of ids
+		return $ids;
+	}
+
+	/**
 	 * get the newest article for one anchor
 	 *
 	 * This function is to be used while listing articles for one anchor.
@@ -590,15 +662,19 @@ Class Articles {
 		$where .= " AND ((articles.expiry_date is NULL) "
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
 
-		if($order == 'date') {
+		// depending on selected sequence
+		if($order == 'edition') {
 			$match = "articles.rank >= ".SQL::escape($item['rank'])." AND articles.edit_date < '".SQL::escape($item['edit_date'])."'";
 			$order = 'articles.rank, articles.edit_date DESC, articles.title';
-		} elseif($order == 'title') {
-			$match = "articles.title > '".SQL::escape($item['title'])."'";
-			$order = 'articles.title';
 		} elseif($order == 'publication') {
 			$match = "articles.rank >= ".SQL::escape($item['rank'])." AND articles.publish_date < '".SQL::escape($item['publish_date'])."'";
 			$order = 'articles.rank, articles.publish_date DESC, articles.title';
+		} elseif($order == 'rating') {
+			$match = "articles.rank >= ".SQL::escape($item['rank'])." AND articles.rating_sum < ".SQL::escape($item['rating_sum']);
+			$order = 'articles.rank, articles.rating_sum DESC, articles.publish_date DESC';
+		} elseif($order == 'title') {
+			$match = "articles.title > '".SQL::escape($item['title'])."'";
+			$order = 'articles.title';
 		} else
 			return "unknown order '".$order."'";
 
@@ -712,15 +788,18 @@ Class Articles {
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
 
 		// depending on selected sequence
-		if($order == 'date') {
+		if($order == 'edition') {
 			$match = "articles.rank <= ".SQL::escape($item['rank'])." AND articles.edit_date > '".SQL::escape($item['edit_date'])."'";
 			$order = 'articles.rank DESC, articles.edit_date, articles.title';
-		} elseif($order == 'title') {
-			$match = "articles.title < '".SQL::escape($item['title'])."'";
-			$order = 'articles.title DESC';
 		} elseif($order == 'publication') {
 			$match = "articles.rank <= ".SQL::escape($item['rank'])." AND articles.publish_date > '".SQL::escape($item['publish_date'])."'";
 			$order = 'articles.rank DESC, articles.publish_date, articles.title';
+		} elseif($order == 'rating') {
+			$match = "articles.rank <= ".SQL::escape($item['rank'])." AND articles.rating_sum > ".SQL::escape($item['rating_sum']);
+			$order = 'articles.rank DESC, articles.rating_sum, articles.publish_date';
+		} elseif($order == 'title') {
+			$match = "articles.title < '".SQL::escape($item['title'])."'";
+			$order = 'articles.title DESC';
 		} else
 			return "unknown order '".$order."'";
 
@@ -2051,30 +2130,6 @@ Class Articles {
 	}
 
 	/**
-	 * move articles from one anchor to another
-	 *
-	 * @param string reference of the source anchor
-	 * @param string reference of the target anchor
-	 * @return int number of moved articles, of FALSE
-	 *
-	 * @see sections/bulk.php
-	 */
-	function move($from_anchor, $to_anchor) {
-		global $context;
-
-		// do the job
-		$query = "UPDATE ".SQL::table_name('articles')." SET anchor='".SQL::escape($to_anchor)."' WHERE anchor LIKE '".SQL::escape($from_anchor)."'";
-		$result = SQL::query($query);
-
-		// clear the cache
-		Cache::clear();
-
-		// report on our job
-		return $result;
-
-	}
-
-	/**
 	 * post a new article
 	 *
 	 * This function populates the error context, where applicable.
@@ -2225,9 +2280,6 @@ Class Articles {
 		include_once $context['path_to_root'].'categories/categories.php';
 		Categories::remember('article:'.$id, isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
-		// clear the cache for articles; update section index as well
-		Cache::clear(array('articles', 'sections', 'categories'));
-
 		// return the id of the new item
 		return $id;
 	}
@@ -2262,9 +2314,6 @@ Class Articles {
 
 		// end of processing
 		SQL::free($result);
-
-		// clear the cache for articles
-		Cache::clear('articles', 'sections', 'categories');
 
 	}
 
@@ -2390,9 +2439,6 @@ Class Articles {
 		include_once $context['path_to_root'].'categories/categories.php';
 		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
-		// clear the cache for articles
-		Cache::clear(array('articles', 'article:'.$fields['id'], 'sections', 'categories'));
-
 		// end of job
 		return TRUE;
 	}
@@ -2411,6 +2457,9 @@ Class Articles {
 			Skin::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
+
+		// set default values for this editor
+		$fields = Surfer::check_default_editor($fields);
 
 		// quey components
 		$query = array();
@@ -2469,15 +2518,19 @@ Class Articles {
 			$query[] = "overlay='".SQL::escape($fields['overlay'])."'";
 		if(isset($fields['overlay_id']))
 			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
+		if(isset($fields['publish_date']) && Surfer::is_empowered()) {
+			$query[] = "publish_name='".SQL::escape(isset($fields['publish_name']) ? $fields['publish_name'] : $fields['edit_name'])."'";
+			$query[] = "publish_id='".SQL::escape(isset($fields['publish_id']) ? $fields['publish_id'] : $fields['edit_id'])."'";
+			$query[] = "publish_address='".SQL::escape(isset($fields['publish_address']) ? $fields['publish_address'] : $fields['edit_address'])."'";
+			$query[] = "publish_date='".SQL::escape($fields['publish_date'])."'";
+		}
+
 		if(isset($fields['tags']))
 			$query[] = "tags='".SQL::escape($fields['tags'])."'";
 
 		// nothing to update
 		if(!count($query))
 			return TRUE;
-
-		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
 
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y') || !Surfer::is_empowered()) {
@@ -2494,9 +2547,6 @@ Class Articles {
 			." WHERE id = ".SQL::escape($fields['id']);
 		if(!SQL::query($query))
 			return FALSE;
-
-		// clear the cache for articles
-		Cache::clear(array('articles', 'article:'.$fields['id'], 'sections', 'categories'));
 
 		// end of job
 		return TRUE;
@@ -2522,9 +2572,6 @@ Class Articles {
 			." SET rating_sum = rating_sum + ".SQL::escape($rating).", rating_count = rating_count + 1"
 			." WHERE id = ".SQL::escape($id);
 		SQL::query($query);
-
-		// clear the cache for articles; update section index as well
-		Cache::clear(array('articles', 'article:'.$id, 'sections', 'categories'));
 
 	}
 
@@ -2774,7 +2821,7 @@ Class Articles {
 	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	 *
 	 * @see articles/publish.php
-	 * @see sections/bulk.php
+	 * @see sections/manage.php
 	**/
 	function stamp($id, $publication=NULL, $expiry=NULL, $publisher=NULL) {
 		global $context;
@@ -2874,9 +2921,6 @@ Class Articles {
 			include_once $context['path_to_root'].'categories/categories.php';
 			Categories::remember('article:'.$id, gmstrftime('%Y-%m-%d %H:%M:%S', $publication_stamp));
 		}
-
-		// clear the cache for articles; update section index as well
-		Cache::clear(array('articles', 'article:'.$id, 'sections', 'categories'));
 
 		// end of job
 		return NULL;
@@ -3103,9 +3147,6 @@ Class Articles {
 			." edit_action='article:update'"
 			." WHERE id = ".SQL::escape($id);
 		SQL::query($query);
-
-		// clear the cache for articles; update related section information in section index
-		Cache::clear(array('articles', 'article:'.$id, 'sections', 'categories'));
 
 		// end of job
 		return NULL;

@@ -241,7 +241,7 @@ Class Import {
 
 				// <$BlogItemControl$> -- the menu bar for associates and poster
 				$article_prefix .= 'unset($BlogItemControl);'."\n"
-					.'if(Surfer::is_associate() || Surfer::is_creator($item[\'create_id\']) || Surfer::is_creator($item[\'edit_id\'])) {'."\n"
+					.'if(Surfer::is_associate() || Surfer::is($item[\'create_id\']) || Surfer::is($item[\'edit_id\'])) {'."\n"
 					.'	$menu = array( Articles::get_url($item[\'id\'], \'edit\') => i18n::s(\'edit\'),'."\n"
 					.'		Articles::get_url($item[\'id\'], \'delete\') => i18n::s(\'delete\') );'."\n"
 					.'	$BlogItemControl = \' \'.Skin::build_list($menu, \'menu\');'."\n"

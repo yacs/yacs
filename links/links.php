@@ -64,13 +64,17 @@ Class Links {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// item has been locked -- we do not care about the anchor
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
-			return FALSE;
-
 		// surfer has special privileges
 		if(Surfer::is_empowered())
 			return TRUE;
+
+		// item has been locked
+		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// anchor has been locked --only used when there is no item provided
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
 
 		// surfer created the page
 		if(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
@@ -104,6 +108,80 @@ Class Links {
 
 		// the default is to not allow for new links
 		return FALSE;
+	}
+
+	/**
+	 * clean link label
+	 *
+	 * @param string link title, if any
+	 * @param string link URI
+	 * @param int maximum number of chars
+	 * @return string a cleaned label
+	 */
+	function clean($title='', $reference='', $size=100) {
+		global $context;
+
+		// use provided title
+		$label = Skin::strip($title, $size);
+
+		// or extract a label from the link itself
+		if(!$label) {
+			$label = basename($reference, '.htm');
+			if(($position = strpos($label, '?')) > 0)
+				$label = substr($label, 0, $position);
+			$label = str_replace('_', ' ', str_replace('%20', ' ', $label));
+
+			if(strlen($label) > $size)
+				$label = '...'.substr($label, -$size);
+		}
+
+		// sanity check
+		if(!$label)
+			$label = '...';
+
+		return $label;
+
+// 			// use the title as a label
+// 			if($item['title'])
+// 				$label = Skin::strip($item['title'], 70);
+
+// 			// or try to make something out of the url
+// 			else {
+// 				$link_items = @parse_url($item['link_url']);
+// 				if(isset($link_items['path'])) {
+// 					$path = array_slice(explode('/', $link_items['path']), -3);
+// 					if(isset($link_items['host']))
+// 						array_unshift($path, $link_items['host']);
+// 					$label = str_replace('//', '/', join('/', $path));
+// 				} else
+// 					$label = $link_items['host'];
+// 				if((strlen($label) > 13) && (($variant == 'compact') || ($variant == 'hits')))
+// 					$label = '...'.substr($label, -13);
+// 			}
+
+	}
+
+	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('articles', 'categories', 'links', 'sections', 'users');
+
+		// clear anchor page
+		if(isset($item['anchor']))
+			$topics[] = $item['anchor'];
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'link:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
 	}
 
 	/**
@@ -158,13 +236,12 @@ Class Links {
 				$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 
 				// reference the new section
-				if($new_id = Sections::post($fields))
-					$anchor = 'section:'.$new_id;
+				if($fields['id'] = Sections::post($fields)) {
+					Sections::clear($fields);
+					$anchor = 'section:'.$fields['id'];
+				}
 
 			}
-
-			// clear the cache for links
-			Cache::clear('links');
 
 			// create a new link in the database
 			$fields = array();
@@ -172,7 +249,9 @@ Class Links {
 			$fields['link_url'] = $url;
 			$fields['hits'] = 1;
 			$fields = Surfer::check_default_editor($fields);
-			Links::post($fields);
+			if($fields['id'] = Links::post($fields)) {
+				Links::clear($fields);
+			}
 
 		}
 	}
@@ -222,16 +301,10 @@ Class Links {
 		if(!$id || !is_numeric($id))
 			return FALSE;
 
-		// delete related items
-//		Anchors::delete_related_to('link:'.$id);
-
 		// delete the record in the database
 		$query = "DELETE FROM ".SQL::table_name('links')." WHERE id = ".SQL::escape($id);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
-
-		// clear the cache for links
-		Cache::clear(array('links', 'link:'.$id));
 
 		// job done
 		return TRUE;
@@ -246,9 +319,6 @@ Class Links {
 	 */
 	function delete_for_anchor($anchor) {
 		global $context;
-
-		// clear the cache for links
-		Cache::clear(array('links', 'link:'));
 
 		// delete all matching records in the database
 		$query = "DELETE FROM ".SQL::table_name('links')." WHERE anchor LIKE '".SQL::escape($anchor)."'";
@@ -286,10 +356,10 @@ Class Links {
 				$item['anchor'] = $anchor_to;
 
 				// actual duplication
-				if($new_id = Links::post($item)) {
+				if($item['id'] = Links::post($item)) {
 
 					// duplicate elements related to this item
-					Anchors::duplicate_related_to('link:'.$old_id, 'link:'.$new_id);
+					Anchors::duplicate_related_to('link:'.$old_id, 'link:'.$item['id']);
 
 					// stats
 					$count++;
@@ -821,8 +891,10 @@ Class Links {
 			// create a new link in the database
 			$fields['anchor'] = $anchor;
 			$fields['link_url'] = $url;
-			Links::post($fields);
-			$links_created[] = $url;
+			if($fields['id'] = Links::post($fields)) {
+				Links::clear($fields);
+				$links_created[] = $url;
+			}
 		}
 
 		// locate the anchor object for this text, we need its url
@@ -958,14 +1030,14 @@ Class Links {
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
 			if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-				Logger::remember('links/links.php', 'Link::ping_as_trackback()', 'Outbound HTTP is not authorized', 'debug');
+				Logger::remember('links/links.php', 'Link::ping_as_trackback()', 'Outbound HTTP is not authorized.', 'debug');
 			return FALSE;
 		}
 
 		// connect to the server
 		if(!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 30)) {
 			if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
-				Logger::remember('links/links.php', 'Link::ping_as_trackback()', 'Impossible to connect to '.$host.':'.$port, 'debug');
+				Logger::remember('links/links.php', 'Link::ping_as_trackback()', sprintf('Impossible to connect to %s.', $host.':'.$port), 'debug');
 			return FALSE;
 		}
 
@@ -1033,7 +1105,7 @@ Class Links {
 	 * @see links/trackback.php
 	 * @see services/ping.php
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// no link
@@ -1140,7 +1212,7 @@ Class Links {
 	 * @param array an array of fields
 	 * @return boolean TRUE on success, FALSE on error
 	**/
-	function put($fields) {
+	function put(&$fields) {
 		global $context;
 
 		// id cannot be empty

@@ -106,18 +106,6 @@ if($count > $items_per_page) {
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $count, $items_per_page, $page));
 }
 
-// associates may create a new section
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'sections/edit.php' => i18n::s('Add a section') ));
-
-// associates may trigger the content assistant
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'control/populate.php' => i18n::s('Content Assistant') ));
-
-// associates may check the database
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'sections/check.php' => i18n::s('Maintenance') ));
-
 //
 // meta information
 //
@@ -202,22 +190,30 @@ $context['text'] .= $text;
 if(is_callable(array('Hooks', 'include_scripts')))
 	$context['text'] .= Hooks::include_scripts('sections/index.php#suffix');
 
+// page tools
+if(Surfer::is_associate()) {
+	$context['page_tools'][] = Skin::build_link('sections/edit.php', i18n::s('Add a section'));
+	$context['page_tools'][] = Skin::build_link('control/populate.php', i18n::s('Content Assistant'));
+	$context['page_tools'][] = Skin::build_link('sections/check.php', i18n::s('Maintenance'));
+}
+
 // display extra information
 $cache_id = 'sections/index.php#extra';
 if(!$text =& Cache::get($cache_id)) {
 
-	// add an extra box with helpful links
-	$links = array('categories/' => i18n::s('Categories'),
-		'search.php' => i18n::s('Search on keyword'),
-		'help.php' => i18n::s('Help index'),
-		'query.php' => i18n::s('Contact the webmaster'));
-	$text .= Skin::build_box(i18n::s('See also'), Skin::build_list($links, 'compact'), 'extra')."\n";
+	// see also
+	$lines = array();
+	$lines[] = Skin::build_link('categories/', i18n::s('Categories'));
+	$lines[] = Skin::build_link('search.php', i18n::s('Search on keyword'));
+	$lines[] = Skin::build_link('help.php', i18n::s('Help index'));
+	$lines[] = Skin::build_link('query.php', i18n::s('Contact the webmaster'));
+	$text .= Skin::build_box(i18n::s('See also'), Skin::finalize_list($lines, 'compact'), 'extra');
 
 	// list monthly publications in an extra box
 	include_once '../categories/categories.php';
 	$anchor =& Categories::get(i18n::c('monthly'));
 	if(isset($anchor['id']) && ($items = Categories::list_by_date_for_anchor('category:'.$anchor['id'], 0, COMPACT_LIST_SIZE, 'compact'))) {
-		$text .= Skin::build_box($anchor['title'], Skin::build_list($items, 'categories'), 'extra')."\n";
+		$text .= Skin::build_box($anchor['title'], Skin::build_list($items, 'compact'), 'extra')."\n";
 	}
 
 	// side boxes for related categories, if any

@@ -100,21 +100,7 @@
  * [title]How to describe a hook?[/title]
  * A hook is a php script file that describes some extension to the system.
  *
- * For example, the scripts that handle collections in YACS have a hook to integrate the configuration panel
- * of collections into the control panel of the system.
- * Here is an excerpt of [code]collections/hook.php[/code]:
- * [php]
- * $hooks[] = array(
- *	'id'		=> 'control/index.php#configure',
- *	'type'		=> 'link',
- *	'script'	=> 'collections/configure.php',
- *	'label_en' => 'Collections',
- *	'label_fr' => 'Collections' );
- * [/php]
- *
- * Obviously, this hooking script has the simple task to append an array of attributes to a public variable named [code]$hooks[/code].
- *
- * Another usage of hook is to include additional code to an existing script.
+ * One usage of hook is to include additional code to an existing script.
  * For example, here is a hook to create additional tables during the setup of the database.
  * Note that it is possible to call one function in the included file. This is an option however.
  * [php]
@@ -136,7 +122,7 @@
  * Therefore, hooks have to be installed through the control panel, and this is exactly the job of the
  * script [code]control/scan.php[/code].
  * When triggered, [code]control/scan.php[/code] will look for files named '[code]hook.php[/code]'
- * or '[code]&lt;some_label_here&gt;_hook.php[/code]' almost everywhere under the YACS installation directory.
+ * or '[code]&lt;some_label_here&gt;_hook.php[/code]' in selected directories of the YACS installation directory.
  * It will then compile gathered information into the single file [code]parameters/hooks.include.php[/code].
  *
  * [title]Configuration information[/title]
@@ -215,8 +201,8 @@ function include_hook($path) {
 			include_once $actual_item;
 			$context['text'] .= sprintf(i18n::s('Hook %s has been included'), $actual_item).BR."\n";
 
-		// scan any sub dir except of scripts
-		} elseif(is_dir($actual_item) && $item != 'scripts' && $item != 'images' && $item != 'files')
+		// scan any sub dir except at server root
+		} elseif(($path != $context['path_to_root']) && is_dir($actual_item))
 			include_hook($actual_item);
 	}
 
@@ -225,6 +211,9 @@ function include_hook($path) {
 }
 
 global $hooks, $action;
+
+// scan only selected sub-directories
+$scanned = array('', 'agents', 'articles', 'categories', 'control', 'included', 'parameters', 'sections', 'services', 'shared', 'tools', 'users');
 
 // ensure that the user is an associate, except on first install
 if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))) {
@@ -241,7 +230,8 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 } elseif(($action == 'check') && (file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))) {
 
 	// include all scripts named 'hook.php' recursively
-	include_hook($context['path_to_root']);
+	foreach($scanned as $name)
+		include_hook($context['path_to_root'].$name);
 	global $scanned_directories;
 	if($scanned_directories > 1)
 		$context['text'] .= sprintf(i18n::s('%d directories have been scanned.'), $scanned_directories).BR."\n";
@@ -456,7 +446,8 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		$context['text'] .= '<p>'.i18n::s('Review provided information and go to the bottom of the page to move forward.')."</p>\n";
 
 	// include all scripts named 'hook.php' recursively
-	include_hook($context['path_to_root']);
+	foreach($scanned as $name)
+		include_hook($context['path_to_root'].$name);
 	global $scanned_directories;
 	if($scanned_directories > 1)
 		$context['text'] .= sprintf(i18n::s('%d directories have been scanned.'), $scanned_directories).BR."\n";
@@ -652,13 +643,13 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 				$content .= "\t\t".'case \''.$id.'\':'."\n".$item
 					."\t\t\tbreak;\n\n";
 
-		// no linking hook has been found
-		$content .= "\t\t}\n\n\t\t".'if(!count($links))'."\n"
-			."\t\t\t".'return NULL;'."\n\n";
-
 		// return the array itself
-		$content .= "\t\t".'if($variant == \'array\')'."\n"
+		$content .= "\t\t}\n\n\t\t".'if($variant == \'array\')'."\n"
 			."\t\t\t".'return $links;'."\n\n";
+
+		// no linking hook has been found
+		$content .= "\t\t".'if(!count($links))'."\n"
+			."\t\t\t".'return NULL;'."\n\n";
 
 		// format the result
 		$content .= "\t\t".'$text = \'\';'."\n\n"
@@ -770,20 +761,20 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 
 	// if the server has been switched off, update the database schema
 	if(file_exists('../parameters/switch.off')) {
-		$context['text'] .= '<form method="post" action="setup.php"><p class="assistant_bar">'."\n"
+		$context['text'] .= Skin::build_block('<form method="post" action="setup.php"><p class="assistant_bar">'."\n"
 			.Skin::build_submit_button(i18n::s('Update the database schema'))."\n"
 			.'<input type="hidden" name="action" value="build" />'."\n"
-			.'</p></form>'."\n";
+			.'</p></form>', 'bottom');
 
 		// this may take several minutes
 		$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.').'</p>';
 
 	// create the database on first installation
 	} elseif(!file_exists('../parameters/switch.on')) {
-		$context['text'] .= '<form method="post" action="setup.php"><p class="assistant_bar">'."\n"
+		$context['text'] .= Skin::build_block('<form method="post" action="setup.php"><p class="assistant_bar">'."\n"
 			.Skin::build_submit_button(i18n::s('Create tables in the database'))."\n"
 			.'<input type="hidden" name="action" value="build" />'."\n"
-			.'</p></form>'."\n";
+			.'</p></form>', 'bottom');
 
 		// this may take several minutes
 		$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.').'</p>';

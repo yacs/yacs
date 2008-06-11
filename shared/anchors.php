@@ -169,6 +169,9 @@ class Anchors {
 		include_once $context['path_to_root'].'locations/locations.php';
 		Locations::delete_for_anchor($anchor);
 
+		// delete related sections
+		Sections::delete_for_anchor($anchor);
+
 		// delete related tables
 		include_once $context['path_to_root'].'tables/tables.php';
 		Tables::delete_for_anchor($anchor);
@@ -183,9 +186,6 @@ class Anchors {
 		// the delete_related_to hook
 		if(is_callable(array('Hooks', 'include_scripts')))
 			$context['text'] .= Hooks::include_scripts('shared/anchors.php#delete_related_to', $anchor);
-
-		// clear the cache as well
-		Cache::clear();
 
 	}
 

@@ -26,6 +26,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../shared/xml.php';	// input validation
 include_once 'servers.php';
 
 // look for the id
@@ -56,9 +57,9 @@ else
 
 // always validate input syntax
 if(isset($_REQUEST['introduction']))
-	validate($_REQUEST['introduction']);
+	xml::validate($_REQUEST['introduction']);
 if(isset($_REQUEST['description']))
-	validate($_REQUEST['description']);
+	xml::validate($_REQUEST['description']);
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -193,8 +194,10 @@ if($with_form) {
 			$fields['rank'] = 40000; // at the end of the list
 			$fields['title'] = i18n::c('External News');
 			$fields['description'] = i18n::s('Received from feeding servers');
-			if($new_id = Sections::post($fields))
-				$anchor = 'section:'.$new_id;
+			if($fields['id'] = Sections::post($fields)) {
+				Sections::clear($fields);
+				$anchor = 'section:'.$fields['id'];
+			}
 			$fields = array();
 		}
 
@@ -262,7 +265,7 @@ if($with_form) {
 	// the host name -- on creation we will extract it automatically
 	if(isset($item['id'])) {
 		$label = i18n::s('Host name');
-		$input = '<input type="text" name="host_name" size="20" value="'.encode_field($item['host_name']).'" maxlength="64" accesskey="n"/>';
+		$input = '<input type="text" name="host_name" size="20" value="'.encode_field($item['host_name']).'" maxlength="64" accesskey="n" />';
 		$hint = i18n::s('Checked on each server request to us');
 		$fields[] = array($label, $input, $hint);
 	}

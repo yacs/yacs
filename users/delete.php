@@ -51,7 +51,7 @@ elseif(isset($context['users_without_self_deletion']) && ($context['users_withou
 	$permitted = FALSE;
 
 // the surfer is allowed to delete its own profile
-elseif(isset($item['create_id']) && Surfer::is_creator($item['create_id']))
+elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -94,12 +94,18 @@ if(!isset($item['id'])) {
 } elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {
 
 	// close the session on self-deletion
-	if(Surfer::get_id() == $id)
+	if(Surfer::get_id() == $item['id'])
 		Surfer::reset();
 
-	// delete and go back to the index page
-	if(Users::delete($id))
+	// attempt to delete
+	if(Users::delete($item['id'])) {
+
+		// this can appear anywhere
+		Cache::clear();
+
+		// back to the index page
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/');
+	}
 
 // deletion has to be confirmed
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
@@ -109,7 +115,7 @@ if(!isset($item['id'])) {
 else {
 
 	// the submit button
-	if(Surfer::is_creator($item['id']))
+	if(Surfer::is($item['id']))
 		$label = i18n::s('Yes, I want to suppress my own profile from this server and log out.');
 	else
 		$label = i18n::s('Yes, I want to suppress this user');

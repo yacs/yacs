@@ -32,8 +32,10 @@ if(!$root_category = Categories::lookup('keywords')) {
 	$fields['description'] = i18n::c('This category is a specialized glossary of terms, made out of tags added to pages, and out of search requests.');
 	$fields['rank'] = 29000;
 	$fields['options'] = 'no_links';
-	if($id = Categories::post($fields))
-		$root_category = 'category:'.$id;
+	if($fields['id'] = Categories::post($fields)) {
+		Categories::clear($fields);
+		$root_category = 'category:'.$fields['id'];
+	}
 }
 
 // ensure we have a valid category to host keywords
@@ -58,8 +60,10 @@ elseif(!$articles = Articles::search($search, 0, 50, 'raw')) {
 	$fields['keywords'] = $search;
 	$fields['anchor'] = $root_category;
 	$fields['title'] = ucfirst($search);
-	if($id = Categories::post($fields))
-		$category =& Categories::get($id);
+	if($fields['id'] = Categories::post($fields)) {
+		Categories::clear($fields);
+		$category =& Categories::get($fields['id']);
+	}
 }
 
 // ensure we have a valid category for found articles

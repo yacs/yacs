@@ -253,10 +253,12 @@ if(!$HTTP_RAW_POST_DATA) {
 				// save in the database
 				$fields['anchor'] = $anchor;
 				$fields['link_url'] = $source;
-				if(!Links::post($fields))
+				if(!$fields['id'] = Links::post($fields))
 					$response = 0;
-				else
+				else {
 					$response = 'Thanks for the ping';
+					Links::clear($fields);
+				}
 			}
 		}
 

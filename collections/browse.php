@@ -124,17 +124,6 @@ if(!isset($item['collection']) || !$item['collection']) {
 	} else
 		$context['page_title'] = i18n::s('Untitled collection');
 
-	// help associates to update this directory
-	if(Surfer::is_associate()) {
-
-		if($context['with_friendly_urls'] == 'Y')
-			$link = 'collections/upload.php/'.str_replace('//', '/', rawurlencode($item['collection']).'/'.$item['relative_url']);
-		else
-			$link = 'collections/upload.php?path='.urlencode(str_replace('//', '/', $item['collection'].'/'.$item['relative_path']));
-
-		$context['page_menu'] = array_merge($context['page_menu'], array( $link => i18n::s('Upload a file') ));
-	}
-
 	// cache the directory
 	$cache_id = 'collections/browse.php?path='.$id;
 	if(!$text =& Cache::get($cache_id)) {
@@ -151,7 +140,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 		$text .= Safe::file_get_contents($item['actual_path'].'/.header');
 
 		// browse the path to list directories and files
-		if(!$dir = Safe::opendir ($item['actual_path'])) {
+		if(!$dir = Safe::opendir($item['actual_path'])) {
 			$label = sprintf(i18n::s('The directory %s does not exist. Please check %s'), $item['actual_path'], Skin::build_link('collections/browse.php?path='.$item['collection'], i18n::s('the index page'), 'shortcut'));
 			if(Surfer::is_associate())
 				$label .= ' '.sprintf(i18n::s('Or check %s'), Skin::build_link('collections/configure.php', i18n::s('the configuration panel for collections'), 'shortcut'));
@@ -452,6 +441,17 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 	// in the main panel
 	$context['text'] .= $text;
+
+	// help associates to update this directory
+	if(Surfer::is_associate()) {
+
+		if($context['with_friendly_urls'] == 'Y')
+			$link = 'collections/upload.php/'.str_replace('//', '/', rawurlencode($item['collection']).'/'.$item['relative_url']);
+		else
+			$link = 'collections/upload.php?path='.urlencode(str_replace('//', '/', $item['collection'].'/'.$item['relative_path']));
+
+		$context['page_tools'][] = Skin::build_link($link, i18n::s('Upload a file'));
+	}
 
 	// general help
 	$help = '<p>'.i18n::s('Click on file names to transfer them to your workstation, or to start a Play-on-demand session.').'</p>'

@@ -64,7 +64,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 	$context['text'] .= Skin::build_form($fields);
 
 	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button('Envoyer').'</p>'."\n";
+	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit')).'</p>'."\n";
 
 	// end of the form
 	$context['text'] .= '</div></form>';

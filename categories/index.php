@@ -79,15 +79,6 @@ if($stats['count'] > CATEGORIES_PER_PAGE) {
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], CATEGORIES_PER_PAGE, $page));
 }
 
-// link to site cloud
-if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'categories/cloud.php' => i18n::s('Cloud of tags') ));
-
-// commands for associates
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'categories/edit.php' => i18n::s('Add a category'),
-		'categories/check.php' => i18n::s('Maintenance') ));
-
 // page main content
 $cache_id = 'categories/index.php#text#'.$page;
 if(!$text =& Cache::get($cache_id)) {
@@ -129,16 +120,24 @@ if(!$text =& Cache::get($cache_id)) {
 }
 $context['text'] .= $text;
 
+// page tools
+if(Surfer::is_associate()) {
+	$context['page_tools'][] = Skin::build_link('categories/edit.php', i18n::s('Add a category'));
+	$context['page_tools'][] = Skin::build_link('control/populate.php', i18n::s('Content Assistant'));
+	$context['page_tools'][] = Skin::build_link('categories/check.php', i18n::s('Maintenance'));
+}
+
 // display extra information
 $cache_id = 'categories/index.php#extra';
 if(!$text =& Cache::get($cache_id)) {
 
-	// add an extra box with helpful links
-	$links = array('sections/' => i18n::s('Site map'),
+	// see also
+	$links = array('categories/cloud.php' => i18n::s('Cloud of tags'),
+		'sections/' => i18n::s('Site map'),
 		'search.php' => i18n::s('Search on keyword'),
 		'help.php' => i18n::s('Help index'),
 		'query.php' => i18n::s('Contact the webmaster'));
-	$text .= Skin::build_box(i18n::s('See also'), Skin::build_list($links, 'compact'), 'extra')."\n";
+	$text .= Skin::build_box(i18n::s('See also'), Skin::build_list($links, 'compact'), 'extra');
 
 	// side bar with the list of most popular articles, if this server is well populated
 	if($stats['count'] > CATEGORIES_PER_PAGE) {

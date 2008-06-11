@@ -262,7 +262,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$link = 'links/trackback.php/article/'.$item['id'];
 		else
 			$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-		$menu = array_merge($menu, array( $link => i18n::s('Trackback') ));
+		$menu = array_merge($menu, array( $link => i18n::s('Reference') ));
 
 		// link to the anchor page
 		if(is_object($anchor))
@@ -357,7 +357,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$link = 'links/trackback.php/article/'.$item['id'];
 		else
 			$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-		$text .= BR.Skin::build_link($link, i18n::s('Trackback'), 'basic');
+		$text .= BR.Skin::build_link($link, i18n::s('Reference'), 'basic');
 
 		// info on related links
 		if($context['with_friendly_urls'] == 'Y')

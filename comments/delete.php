@@ -60,7 +60,7 @@ elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id())
 	$permitted = TRUE;
 
 // authenticated surfers may suppress their own posts
-elseif(isset($item['create_id']) && Surfer::is_creator($item['create_id']))
+elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
 	$permitted = TRUE;
 
 // the default is to deny access
@@ -87,7 +87,7 @@ else
 	$context['page_title'] = i18n::s('Delete a comment');
 
 // not found
-if(!$item['id']) {
+if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -107,10 +107,11 @@ if(!$item['id']) {
 
 	// touch the related anchor before actual deletion, since the item has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('comment:delete', $id, TRUE);
+		$anchor->touch('comment:delete', $item['id'], TRUE);
 
 	// if no error, back to the anchor or to the index page
-	if(Comments::delete($id)) {
+	if(Comments::delete($item['id'])) {
+		Comments::clear($item);
 		if(is_object($anchor))
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#comments');
 		else

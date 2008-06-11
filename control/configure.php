@@ -82,12 +82,24 @@
  * the software expects a real host name. The parameter overcomes this situation
  * and can even be set as a virtual host of your choice.
  *
+ * [*] [code]proxy_server[/code] - if the infrastructure requires a proxy for external HTTP requests
+ *
+ * [*] [code]proxy_user[/code] - the account to be used against the proxy
+ *
+ * [*] [code]proxy_password[/code] - authentication data
+ *
  * [*] [code]url_to_root[/code] - The absolute path to YACS scripts.
  * The default value is '[code]/yacs/[/code]'.
  *
  * [*] [code]with_friendly_urls[/code] - By default pages are referenced using query strings
  * (e.g;, [code]articles/view.php?id=123[/code]). In numerous cases you can activate friendly URLS
  * to let surfers and spiders reference your pages more easily (e.g;, [code]articles/view.php/123[/code]).
+ *
+ * [*] [code]with_given_host[/code] - By default yacs accepts any host name.
+ * Set this parameter to 'Y' to redirect users to the right host name.
+ *
+ * [*] [code]with_https[/code] - By default yacs accepts any web requests.
+ * Set this parameter to 'Y' to ensure transfers are secured over SSL.
  *
  * [*] [code]without_http_cache[/code] - By default YACS handles [code]ETag[/code] and [code]Last-Modified[/code]
  * HTTP headers to help proxies and browsers cache provided information.
@@ -98,12 +110,6 @@
  *
  * [*] [code]without_outbound_http[/code] - By default YACS connects to other web servers.
  * Change this parameter to 'Y' to disable this feature.
- *
- * [*] [code]proxy_server[/code] - if the infrastructure requires a proxy for external HTTP requests
- *
- * [*] [code]proxy_user[/code] - the account to be used against the proxy
- *
- * [*] [code]proxy_password[/code] - authentication data
  *
  *
  * Outbound e-mail parameters:
@@ -429,7 +435,15 @@ if(!Surfer::is_associate()) {
 
 	// main_host
 	$label = i18n::s('Server name');
-	$input = '<input type="text" name="main_host" value="'.encode_field(isset($context['main_host'])?$context['main_host']:$context['host_name']).'" size="20"/>';
+	$input = '<input type="text" name="main_host" value="'.encode_field(isset($context['main_host'])?$context['main_host']:$context['host_name']).'" size="20" />'
+		.BR.'<input type="radio" name="with_given_host" value="N"';
+	if(!isset($context['with_given_host']) || ($context['with_given_host'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Accept all web requests.');
+	$input .= BR.'<input type="radio" name="with_given_host" value="Y"';
+	if(isset($context['with_given_host']) && ($context['with_given_host'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Redirect to this server name if another name is used in request.');
 	$fields[] = array($label, $input);
 
 	// url to root -- see shared/global.php to understand the usage of 'url_to_root_parameter'
@@ -455,6 +469,19 @@ if(!Surfer::is_associate()) {
 		$input .= ' checked="checked"';
 	$input .= EOT.' '.i18n::s('Rewriting rules have been activated (in <code>.htaccess</code>) to support pretty references.').' (<code>article-123</code>)'
 		.' ('.Skin::build_link('rewrite_test/123', i18n::s('test link'), 'external').')';
+	$fields[] = array($label, $input);
+
+	// web security
+	$label = i18n::s('Web security');
+	$input = '<input type="radio" name="with_https" value="N"';
+	if(!isset($context['with_https']) || ($context['with_https'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Accept all web requests.');
+	$input .= BR.'<input type="radio" name="with_https" value="Y"';
+	if(isset($context['with_https']) && ($context['with_https'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Redirect all non-secured requests to https.')
+		.' ('.Skin::build_link(str_replace('http:', 'https:', $context['url_to_home']).$context['url_to_root'].'control/test.php/123/456', i18n::s('test link'), 'external').')';
 	$fields[] = array($label, $input);
 
 	// web cache
@@ -791,6 +818,10 @@ if(!Surfer::is_associate()) {
 		$content .= '$context[\'with_email\']=\''.addcslashes($_REQUEST['with_email'], "\\'")."';\n";
 	if(isset($_REQUEST['with_friendly_urls']))
 		$content .= '$context[\'with_friendly_urls\']=\''.addcslashes($_REQUEST['with_friendly_urls'], "\\'")."';\n";
+	if(isset($_REQUEST['with_given_host']))
+		$content .= '$context[\'with_given_host\']=\''.addcslashes($_REQUEST['with_given_host'], "\\'")."';\n";
+	if(isset($_REQUEST['with_https']))
+		$content .= '$context[\'with_https\']=\''.addcslashes($_REQUEST['with_https'], "\\'")."';\n";
 	if(isset($_REQUEST['without_cache']))
 		$content .= '$context[\'without_cache\']=\''.addcslashes($_REQUEST['without_cache'], "\\'")."';\n";
 	if(isset($_REQUEST['without_http_cache']))
@@ -881,9 +912,9 @@ if(!Surfer::is_associate()) {
 		}
 
 		// look for software extensions
-		$context['text'] .= '<form method="get" action="scan.php" id="main_form">'."\n"
+		$context['text'] .= Skin::build_block('<form method="get" action="scan.php" id="main_form">'."\n"
 			.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Look for software extensions'), NULL, 's', 'confirmed').'</p>'."\n"
-			.'</form>'."\n";
+			.'</form>', 'bottom');
 
 		// this may take several minutes
 		$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.')."</p>\n";
@@ -895,27 +926,20 @@ if(!Surfer::is_associate()) {
 		if(!isset($context['followup_label']))
 			$context['followup_label'] = i18n::s('Next step');
 
-		$context['text'] .= '<form method="get" action="'.$context['url_to_root'].$context['followup_link'].'" id="main_form">'."\n"
+		$context['text'] .= Skin::build_block('<form method="get" action="'.$context['url_to_root'].$context['followup_link'].'" id="main_form">'."\n"
 			.'<p class="assistant_bar">'.Skin::build_submit_button($context['followup_label']).'</p>'."\n"
-			.'</form>'."\n";
+			.'</form>', 'bottom');
 
 	// ordinary follow-up commands
 	} else {
 
-		// what's next?
-		$context['text'] .= '<p>'.i18n::s('Where do you want to go now?').'</p>';
-
-		// follow-up menu
+		// follow-up commands
+		$follow_up = i18n::s('Where do you want to go now?');
 		$menu = array();
-
-		// control panel
 		$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
-
-		// do it again
 		$menu = array_merge($menu, array( 'control/configure.php' => i18n::s('Configure again') ));
-
-		// display follow-up commands
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}
 }

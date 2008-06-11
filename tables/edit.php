@@ -25,6 +25,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../shared/xml.php';	// input validation
 include_once 'tables.php';
 
 // look for the id
@@ -84,9 +85,9 @@ else
 
 // always validate input syntax
 if(isset($_REQUEST['introduction']))
-	validate($_REQUEST['introduction']);
+	xml::validate($_REQUEST['introduction']);
 if(isset($_REQUEST['description']))
-	validate($_REQUEST['description']);
+	xml::validate($_REQUEST['description']);
 
 // an anchor is mandatory
 if(!is_object($anchor)) {
@@ -114,13 +115,9 @@ if(!is_object($anchor)) {
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // maybe posts are not allowed here
-} elseif($anchor->has_option('locked') && !Surfer::is_associate()) {
-
+} elseif(!isset($item['id']) && $anchor->has_option('locked')) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
-	if(isset($item['id']))
-		Skin::error(i18n::s('This page has been locked. It cannot be modified anymore.'));
-	else
-		Skin::error(i18n::s('Posts are not allowed anymore here.'));
+	Skin::error(i18n::s('This page has been locked.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -134,7 +131,7 @@ if(!is_object($anchor)) {
 	$next = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
 
 	// display the form on error
-	if(!$id = Tables::post($_REQUEST)) {
+	if(!$_REQUEST['id'] = Tables::post($_REQUEST)) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -144,11 +141,11 @@ if(!is_object($anchor)) {
 		// a new post
 		if(!$item['id']) {
 
-			// save id in the request as well;
-			$_REQUEST['id'] = $id;
-
 			// touch the related anchor
 			$anchor->touch('table:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+			// clear cache
+			Tables::clear($_REQUEST);
 
 			// increment the post counter of the surfer
 			Users::increment_posts(Surfer::get_id());
@@ -158,6 +155,9 @@ if(!is_object($anchor)) {
 
 			// touch the related anchor
 			$anchor->touch('table:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+			// clear cache
+			Tables::clear($_REQUEST);
 
 		}
 

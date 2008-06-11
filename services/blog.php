@@ -532,7 +532,7 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// check the article exists
-		elseif(!$item)
+		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown postid %s at %s'), $postid, $context['url_to_home']) );
 
 		// restrict deletions
@@ -540,11 +540,13 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to delete post %s at %s'), $postid, $context['url_to_home']));
 
 		// delete the article
-		elseif(!Articles::delete($postid))
+		elseif(!Articles::delete($item['id']))
 			$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to delete record of postid %s'), $postid) );
 
-		else
+		else {
+			Cache::clear();
 			$response = TRUE;
+		}
 		break;
 
 	// update the information about an existing post
@@ -607,11 +609,12 @@ else {
 				$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to update record of postid %s'), $postid) );
 
 			else {
+				Articles::clear($fields);
 				$response = TRUE;
 
 				// purge section cache
 				if($parent = Anchors::get($fields['anchor']))
-					$parent->touch('article:update', $article_id, TRUE);
+					$parent->touch('article:update', $fields['id'], TRUE);
 
 				// if the page has been published
 				if($fields['publish_date'] > NULL_DATE) {
@@ -920,18 +923,21 @@ else {
 			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 			// post the article
-			if(!$article_id = Articles::post($fields))
+			if(!$fields['id'] = Articles::post($fields))
 				$response = array( 'faultCode' => -32500, 'faultString' => Skin::error_pop());
 
 			else {
-				$response = '<string>'.$article_id.'</string>';
+				$response = '<string>'.$fields['id'].'</string>';
 
 				// one post more for this user
 				Users::increment_posts($user['id']);
 
 				// purge section cache
 				if($parent = Anchors::get($fields['anchor']))
-					$parent->touch('article:create', $article_id, TRUE);
+					$parent->touch('article:create', $fields['id'], TRUE);
+
+				// clear the cache
+				Articles::clear($fields);
 
 				// if the page has been published
 				if($fields['publish_date'] > NULL_DATE) {
@@ -940,13 +946,13 @@ else {
 					if($section['active'] == 'Y') {
 
 						// pingback, if any
-						Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$article_id);
+						Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$fields['id']);
 
 					}
 
 					// 'publish' hook
 					if(is_callable(array('Hooks', 'include_scripts')))
-						Hooks::include_scripts('publish', $article_id);
+						Hooks::include_scripts('publish', $fields['id']);
 
 				}
 
@@ -957,7 +963,7 @@ else {
 				if(isset($content['mt_keywords']))
 					$keywords .= ', '.$content['mt_keywords'];
 				$keywords = trim($keywords, ', ');
-				Categories::remember('article:'.$article_id, isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
+				Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
 
 			}
 		}
@@ -1058,6 +1064,7 @@ else {
 				$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to update record of postid %s'), $postid) );
 
 			else {
+				Articles::clear($fields);
 				$response = TRUE;
 
 				// purge section cache
@@ -1288,7 +1295,7 @@ else {
 				$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 				// create a file entry in the database, if not a thumbnail
-				if(!preg_match('/_tn\./i', $file_name) && (!$file_id = Files::post($fields)))
+				if(!preg_match('/_tn\./i', $file_name) && (!$fields['id'] = Files::post($fields)))
 					$response = array( 'faultCode' => -32500, 'faultString' => Skin::error_pop());
 
 				// provide some file information in response
@@ -1298,6 +1305,9 @@ else {
 						'url' => $context['url_to_home'].$context['url_to_root'].$file_path.'/'.$file_name,
 						'type' => Files::get_mime_type($file_name)
 					);
+
+					// clear cache
+					Files::clear($fields);
 				}
 
 				// increment the post counter of the surfer
@@ -1376,18 +1386,21 @@ else {
 			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 			// post the article
-			if(!$article_id = Articles::post($fields))
+			if(!$fields['id'] = Articles::post($fields))
 				$response = array( 'faultCode' => -32500, 'faultString' => Skin::error_pop());
 
 			else {
-				$response = '<string>'.$article_id.'</string>';
+				$response = '<string>'.$fields['id'].'</string>';
 
 				// increment the post counter of the surfer
 				Users::increment_posts($user['id']);
 
 				// purge section cache
 				if($parent = Anchors::get($fields['anchor']))
-					$parent->touch('article:create', $article_id, TRUE);
+					$parent->touch('article:create', $fields['id'], TRUE);
+
+				// clear the cache
+				Articles::clear($fields);
 
 				// if the page has been published
 				if($fields['publish_date'] > NULL_DATE) {
@@ -1405,12 +1418,12 @@ else {
 							$to_be_parsed .= $fields['description'].' ';
 
 						// pingback, if any
-						Links::ping($to_be_parsed, 'article:'.$article_id);
+						Links::ping($to_be_parsed, 'article:'.$fields['id']);
 					}
 
 					// 'publish' hook
 					if(is_callable(array('Hooks', 'include_scripts')))
-						Hooks::include_scripts('publish', $article_id);
+						Hooks::include_scripts('publish', $fields['id']);
 
 				}
 
@@ -1421,7 +1434,7 @@ else {
 				if(isset($content['mt_keywords']))
 					$keywords .= ', '.$content['mt_keywords'];
 				$keywords = trim($keywords, ', ');
-				Categories::remember('article:'.$article_id, isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
+				Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
 
 			}
 		}

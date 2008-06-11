@@ -43,10 +43,6 @@ Class Images {
 	function are_allowed($anchor=NULL, $item=NULL) {
 		global $context;
 
-		// images are prevented in anchor
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_images'))
-			return FALSE;
-
 		// images are prevented in item
 		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_images\b/i', $item['options']))
 			return FALSE;
@@ -63,13 +59,17 @@ Class Images {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// item has been locked -- we do not care about the anchor
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
-			return FALSE;
-
 		// surfer has special privileges
 		if(Surfer::is_empowered())
 			return TRUE;
+
+		// item has been locked
+		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// anchor has been locked --only used when there is no item provided
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
 
 		// surfer screening
 		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
@@ -99,6 +99,29 @@ Class Images {
 
 		// the default is to not allow for new images
 		return FALSE;
+	}
+
+	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('articles', 'categories', 'files', 'images', 'sections', 'users');
+
+		// clear anchor page
+		if(isset($item['anchor']))
+			$topics[] = $item['anchor'];
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'image:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
 	}
 
 	/**
@@ -132,9 +155,6 @@ Class Images {
 		$query = "DELETE FROM ".SQL::table_name('images')." WHERE id = ".SQL::escape($item['id']);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
-
-		// clear the cache for images
-		Cache::clear(array('images', 'image:'.$item['id']));
 
 		// job done
 		return TRUE;
@@ -562,7 +582,7 @@ Class Images {
 	 * @param array an array of fields
 	 * @return the id of the image, or FALSE on error
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// no anchor reference

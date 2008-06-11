@@ -29,7 +29,6 @@
  * - 'partners' - our preferred partners
  * - 'polls' -- create a section for polls
  * - 'recipes' -- create a book of cooking recipes
- * - 'samples' -- create samples items to learn by exemple
  * - 'servers' -- sample hosts to be pinged, etc. ([script]servers/populate.php[/script])
  * - 'vote' -- create one vote, or one poll
  * - 'wiki' -- create a wiki
@@ -42,14 +41,7 @@
  * - categories ([script]categories/populate.php[/script]) -- for featured pages
  * - articles ([script]articles/populate.php[/script]) -- cover page, menu, etc.
  *
- * When the parameter 'action' has the value 'samples', this script creates records in following tables:
- * - sections ([script]sections/populate.php[/script]) -- sample sections
- * - categories ([script]categories/populate.php[/script]) -- sample categories
- * - articles ([script]articles/populate.php[/script]) -- sample pages
- * - comments ([script]comments/populate.php[/script]) -- sample comments
- * - tables ([script]tables/populate.php[/script]) -- sample tables
- *
- * When the parameter has the value 'associate', 'build' or 'samples', this script also invokes a hook to populate additional tables:
+ * When the parameter has the value 'associate', 'build', this script also invokes a hook to populate additional tables:
  * - id: 'control/populate.php'
  * - type: 'include'
  *
@@ -64,10 +56,8 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-// include the global declarations
+// common libraries
 include_once '../shared/global.php';
-
-// include explicitly some libraries
 include_once '../categories/categories.php';
 
 // what to do
@@ -286,9 +276,9 @@ if(!$permitted) {
 
 				// configure the interface on first installation
 				if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
-					echo '<form method="get" action="../skins/configure.php">'."\n"
+					echo Skin::build_block('<form method="get" action="../skins/configure.php">'."\n"
 						.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Configure the page factory')).'</p>'."\n"
-						.'</form>'."\n";
+						.'</form>', 'bottom');
 
 				// or back to the control panel
 				} else {
@@ -304,17 +294,16 @@ if(!$permitted) {
 		// ordinary follow-up
 		} else {
 
-			// splash
-			$context['text'] .= '<h3>'.i18n::s('What do you want to do now?').'</h3>';
-
 			// follow-up commands
+			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			if(isset($user['id']))
 				$menu = array_merge($menu, array(Users::get_url($user['id']) => i18n::s('Check the new associate profile')));
 			$menu = array_merge($menu, array('users/select_avatar.php?id='.urlencode($user['id']) => i18n::s('Select an avatar')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$follow_up .= Skin::build_list($menu, 'page_menu');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// an associate account has been created
 			Logger::remember('control/populate.php', 'an associate account has been created');
@@ -452,17 +441,16 @@ if(!$permitted) {
 
 			}
 
-			// follow-up
-			$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
-
 			// follow-up commands
+			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			$menu = array_merge($menu, array(Sections::get_url($new_id) => i18n::s('Access the new blog')));
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$follow_up .= Skin::build_list($menu, 'page_menu');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
 			Logger::remember('control/populate.php', 'content assistant has created new content');
@@ -610,14 +598,15 @@ if(!$permitted) {
 			$context['text'] .= '<p>'.i18n::s('Congratulations, one electronic book has been added to your site.').'</p>';
 
 			// follow-up commands
-			$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			$menu = array_merge($menu, array(Sections::get_url($new_id) => i18n::s('Access the new book')));
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$follow_up .= Skin::build_list($menu, 'page_menu');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
 			Logger::remember('control/populate.php', 'content assistant has created new content');
@@ -665,7 +654,7 @@ if(!$permitted) {
 		// or back to the control panel
 		} else {
 
-			// splash
+			// follow-up commands
 			echo '<h3>'.i18n::s('What do you want to do now?').'</h3>';
 
 			// follow-up commands
@@ -673,7 +662,7 @@ if(!$permitted) {
 			$menu = array_merge($menu, array('sections/' => i18n::s('Check the updated Site Map')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			echo Skin::build_list($menu, 'menu_bar');
+			echo Skin::build_list($menu, 'page_menu');
 
 		}
 
@@ -828,13 +817,14 @@ if(!$permitted) {
 			$context['text'] .= '<p>'.i18n::s('Congratulations, one collection has been added to your site.').'</p>';
 
 			// follow-up commands
-			$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			$menu = array_merge($menu, array('collections/browse.php?path='.urlencode($_REQUEST['name']) => i18n::s('Access the new collection')));
 			$menu = array_merge($menu, array('collections/' => i18n::s('File collections')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$follow_up .= Skin::build_list($menu, 'page_menu');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		}
 	}
@@ -1007,6 +997,7 @@ if(!$permitted) {
 				$article['title'] = i18n::c('sample');
 				$article['description'] = i18n::c('This is a sample scrolling news.');
 				$article['id'] = Articles::post($article);
+				Articles::clear($article);
 			}
 
 		}
@@ -1032,6 +1023,7 @@ if(!$permitted) {
 				$article['title'] = i18n::c('Gadget box');
 				$article['description'] = i18n::c('This is a sample gadget box.');
 				$article['id'] = Articles::post($article);
+				Articles::clear($article);
 			}
 
 		}
@@ -1057,6 +1049,7 @@ if(!$permitted) {
 				$article['title'] = i18n::c('Sample box');
 				$article['description'] = i18n::c('This is a sample extra box.');
 				$article['id'] = Articles::post($article);
+				Articles::clear($article);
 			}
 
 		}
@@ -1068,12 +1061,13 @@ if(!$permitted) {
 		$context['text'] .= '<p>'.i18n::s('Congratulations, a new feature-rich section has been added to your site.').'</p>';
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array(Sections::get_url($item['id']) => i18n::s('Access the new section')));
 		$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 		$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// new content has been created
 		Logger::remember('control/populate.php', 'content assistant has created new content');
@@ -1224,14 +1218,15 @@ if(!$permitted) {
 			$context['text'] .= '<p>'.i18n::s('Congratulations, one forum has been added to your site.').'</p>';
 
 			// follow-up commands
-			$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			$menu = array_merge($menu, array(Sections::get_url($new_id) => i18n::s('Check the new forum')));
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$follow_up .= Skin::build_list($menu, 'page_menu');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		}
 
@@ -1354,8 +1349,7 @@ if(!$permitted) {
 		$item['title'] = $_REQUEST['main_title'];
 		$item['introduction'] = $_REQUEST['main_introduction'];
 		$item['description'] = $_REQUEST['main_description'];
-		if($error = Sections::put($item))
-			Skin::error($error);
+		Sections::put($item);
 
 		// create new sections
 		for($index = 0; $index < count($_REQUEST['titles']); $index++) {
@@ -1377,12 +1371,13 @@ if(!$permitted) {
 		$context['text'] .= '<p>'.i18n::s('Congratulations, your site has been structured to host a directory of web links. Review each section individually to enhance it, to add images, etc.').'</p>';
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array(Sections::get_url('bookmarks') => i18n::s('Access the directory')));
 		$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 		$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// new content has been created
 		Logger::remember('control/populate.php', 'content assistant has created new content');
@@ -1509,14 +1504,15 @@ if(!$permitted) {
 			$context['text'] .= '<p>'.i18n::s('Congratulations, one new section has been added to your site.').'</p>';
 
 			// follow-up commands
-			$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			$menu = array_merge($menu, array(Sections::get_url($new_id) => i18n::s('Check the new section')));
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$follow_up .= Skin::build_list($menu, 'page_menu');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
 			Logger::remember('control/populate.php', 'content assistant has created new content');
@@ -1537,12 +1533,13 @@ if(!$permitted) {
 		$context['text'] .= '<p>'.i18n::s('A section already exists for partners.').'</p>';
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array(Sections::get_url($item['id']) => i18n::s('Access the new section')));
 		$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 		$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// get section parameters
 	} elseif(!isset($_REQUEST['title']) || !$_REQUEST['title']) {
@@ -1617,14 +1614,15 @@ if(!$permitted) {
 			$context['text'] .= '<p>'.i18n::s('Congratulations, one section dedicated to partners has been added to your site.').'</p>';
 
 			// follow-up commands
-			$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			$menu = array_merge($menu, array(Sections::get_url($new_id) => i18n::s('Access the new section')));
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$follow_up .= Skin::build_list($menu, 'page_menu');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
 			Logger::remember('control/populate.php', 'content assistant has created new content');
@@ -1735,14 +1733,15 @@ if(!$permitted) {
 			$context['text'] .= '<p>'.i18n::s('Congratulations, one section specialized in polls has been added to your site.').'</p>';
 
 			// follow-up commands
-			$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			$menu = array_merge($menu, array(Sections::get_url($new_id) => i18n::s('Access the new section')));
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$follow_up .= Skin::build_list($menu, 'page_menu');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
 			Logger::remember('control/populate.php', 'content assistant has created new content');
@@ -1853,107 +1852,15 @@ if(!$permitted) {
 			$context['text'] .= '<p>'.i18n::s('Congratulations, one section specialized in cooking recipes has been added to your site.').'</p>';
 
 			// follow-up commands
-			$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			$menu = array_merge($menu, array(Sections::get_url($new_id) => i18n::s('Access the new section')));
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
-
-			// new content has been created
-			Logger::remember('control/populate.php', 'content assistant has created new content');
-
-		}
-	}
-
-// add samples to learn by example
-} elseif($action == 'samples') {
-
-	// page title
-	$context['page_title'] = i18n::s('Add sample content');
-
-	// ask for confirmation
-	if(!isset($_REQUEST['confirmation']) || !$_REQUEST['confirmation']) {
-
-		// splash message
-		$context['text'] .= '<p>'.i18n::s('This script adds various records, including sections, categories, articles, comments and tables, to the database. We recommend you to proceed if you are discovering YACS and wish to learn by example.').'</p>'
-			.'<p>'.i18n::s('If you have a running server, it could be a better choice to go back and to consider other options of the Content Assistant.').'</p>';
-
-		// the form to get confirmation
-		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="samples"'.EOT
-			.'<input type="hidden" name="confirmation" value="Y"'.EOT;
-
-		// the submit button
-		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Start')).'</p>'."\n";
-
-		// end of the form
-		$context['text'] .= '</div></form>';
-
-	// actual data creation
-	} else {
-
-		// create samples only
-		$context['populate'] = 'samples';
-
-		/**
-		 * dynamically generate the page
-		 *
-		 * @see skins/index.php
-		 */
-		function send_body() {
-			global $context;
-
-			// populate tables for users
-			echo Skin::build_block(i18n::s('Users'), 'subtitle');
-			include_once '../users/populate.php';
-
-			// populate tables for sections
-			echo Skin::build_block(i18n::s('Sections'), 'subtitle');
-			include_once '../sections/populate.php';
-
-			// populate tables for categories
-			echo Skin::build_block(i18n::s('Categories'), 'subtitle');
-			include_once '../categories/populate.php';
-
-			// populate tables for articles
-			echo Skin::build_block(i18n::s('Articles'), 'subtitle');
-			include_once '../articles/populate.php';
-
-			// populate tables for comments
-			echo Skin::build_block(i18n::s('Comments'), 'subtitle');
-			include_once '../comments/populate.php';
-
-			// populate tables for tables
-			echo Skin::build_block(i18n::s('Tables'), 'subtitle');
-			include_once '../tables/populate.php';
-
-			// the populate hook
-			if(is_callable(array('Hooks', 'include_scripts')))
-				echo Hooks::include_scripts('control/populate.php');
-
-			// configure the interface on first installation
-			if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
-				echo '<form method="get" action="../skins/configure.php">'."\n"
-					.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Configure the page factory')).'</p>'."\n"
-					.'</form>'."\n";
-
-			// or back to the control panel
-			} else {
-
-				// splash
-				echo '<h3>'.i18n::s('What do you want to do now?').'</h3>';
-
-				// follow-up commands
-				$menu = array();
-				$menu = array_merge($menu, array('sections/' => i18n::s('Check the updated Site Map')));
-				$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
-				$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-				echo Skin::build_list($menu, 'menu_bar');
-
-			}
+			$follow_up .= Skin::build_list($menu, 'page_menu');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
 			Logger::remember('control/populate.php', 'content assistant has created new content');
@@ -2025,6 +1932,10 @@ if(!$permitted) {
 
 		}
 	}
+
+// create sample items
+} elseif($action == 'test') {
+	Safe::redirect($context['url_to_home'].$context['url_to_root'].'tools/populate.php');
 
 // create a vote or a poll
 } elseif($action == 'vote') {
@@ -2210,17 +2121,16 @@ if(!$permitted) {
 
 			}
 
-			// follow-up
-			$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
-
 			// follow-up commands
+			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			$menu = array_merge($menu, array(Sections::get_url($new_id) => i18n::s('Access the new wiki')));
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$follow_up .= Skin::build_list($menu, 'page_menu');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// new content has been created
 			Logger::remember('control/populate.php', 'content assistant has created new content');
@@ -2237,11 +2147,11 @@ if(!$permitted) {
 	// the form
 	$context['text'] .= '<form method="get" action="'.$context['script_url'].'" id="main_form">'."\n";
 
-	// create sample records
-	$context['text'] .= '<p><input type="radio" name="action" value="samples" /> '.i18n::s('Add sample records -- add sections, categories, and articles to your site, and learn by example').'</p>'."\n";
+	// sollicitate users for feed-back
+	$context['text'] .= '<p><input type="radio" name="action" value="vote" /> '.i18n::s('Sollicitate users input -- create one single vote, a petition, or a poll').'</p>'."\n";
 
-	// create a collection
-	$context['text'] .= '<p><input type="radio" name="action" value="collection" /> '.i18n::s('Add a collection -- and share available files, enable audio and video on-demand, and slideshows').'</p>'."\n";
+	// create a forum
+	$context['text'] .= '<p><input type="radio" name="action" value="forum" /> '.i18n::s('Add a forum -- let people interact').'</p>'."\n";
 
 	// create a blog
 	$context['text'] .= '<p><input type="radio" name="action" value="blog" /> '.i18n::s('Add a blog -- and share your feeling, your findings, your soul').'</p>'."\n";
@@ -2252,17 +2162,11 @@ if(!$permitted) {
 	// post original work
 	$context['text'] .= '<p><input type="radio" name="action" value="original" /> '.i18n::s('Post original work -- in a section that will feature author\'s profiles').'</p>'."\n";
 
-	// create a forum
-	$context['text'] .= '<p><input type="radio" name="action" value="forum" /> '.i18n::s('Add a forum -- let people interact').'</p>'."\n";
-
 	// create a book
 	$context['text'] .= '<p><input type="radio" name="action" value="book" /> '.i18n::s('Add an electronic book, or a manual -- actually, a structured set of pages').'</p>'."\n";
 
 	// create a composite section
 	$context['text'] .= '<p><input type="radio" name="action" value="composite" /> '.i18n::s('Add a composite section -- with scrolling news, plus gadget and extra boxes').'</p>'."\n";
-
-	// sollicitate users for feed-back
-	$context['text'] .= '<p><input type="radio" name="action" value="vote" /> '.i18n::s('Sollicitate users input -- create one single vote, a petition, or a poll').'</p>'."\n";
 
 	// create a section for polls
 	$context['text'] .= '<p><input type="radio" name="action" value="polls" /> '.i18n::s('Add a section for polls -- the most recent is active; previous polls are still listed').'</p>'."\n";
@@ -2277,11 +2181,18 @@ if(!$permitted) {
 	// create a directory of links
 	$context['text'] .= '<p><input type="radio" name="action" value="links" /> '.i18n::s('Add a directory of links -- a small version of Yahoo!, or of DMOZ').'</p>'."\n";
 
+	// create a collection
+	$context['text'] .= '<p><input type="radio" name="action" value="collection" /> '.i18n::s('Add a collection -- and share available files, enable audio and video on-demand, and slideshows').'</p>'."\n";
+
 	// create sample server profiles
 	$context['text'] .= '<p><input type="radio" name="action" value="servers" /> '.i18n::s('Add sample server profiles -- ping well-known news aggregator and become famous').'</p>'."\n";
 
 	// create basic records
-	$context['text'] .= '<p><input type="radio" name="action" value="build" /> '.i18n::s('Add basic records -- in case you would need to replay some steps of the setup process').'</p>'."\n";
+	$context['text'] .= '<p><input type="radio" name="action" value="build" /> '.i18n::s('Add basic items -- in case you would need to replay some steps of the setup process').'</p>'."\n";
+
+	// create a test environment
+	if(file_exists($context['path_to_root'].'tools/populate.php'))
+		$context['text'] .= '<p><input type="radio" name="action" value="test" /> '.i18n::s('Add sample items -- for test purpose').'</p>'."\n";
 
 	// the submit button
 	$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Next step'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
@@ -2289,7 +2200,12 @@ if(!$permitted) {
 	// end of the form
 	$context['text'] .= '</form>'."\n";
 
-	// contribution shortcuts, in a section box
+	// the help panel
+	$help = '<p>'.i18n::s('Turn any regular section to a photo album by adding images to posted pages.').'</p>'
+		.'<p>'.i18n::s('YACS creates weekly and monthly archives automatically. No specific action is required to create these.').'</p>';
+	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+
+	// contribution shortcuts
 	if(Surfer::is_member()) {
 		$label = '<p>'.i18n::s('Of course, you may also use regular editors to create simple items:')."</p>\n";
 
@@ -2303,13 +2219,8 @@ if(!$permitted) {
 
 		$label .= '</ul>'."\n";
 
-		$context['text'] .= Skin::build_box(i18n::s('Shortcuts'), $label);
+		$context['extra'] .= Skin::build_box(i18n::s('Shortcuts'), $label, 'navigation');
 	}
-
-	// the help panel
-	$help = '<p>'.i18n::s('Turn any regular section to a photo album by adding images to posted pages.').'</p>'
-		.'<p>'.i18n::s('YACS creates weekly and monthly archives automatically. No specific action is required to create these.').'</p>';
-	$context['extra'] .= Skin::build_box(i18n::s('Tips'), $help, 'navigation', 'help');
 
 }
 

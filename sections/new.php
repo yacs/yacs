@@ -28,6 +28,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../shared/xml.php';	// input validation
 
 // the maximum number of personal sections per user
 if(!isset($context['users_maximum_managed_sections']))
@@ -63,9 +64,9 @@ if(Surfer::get_id())
 
 // always validate input syntax
 if(isset($_REQUEST['introduction']))
-	validate($_REQUEST['introduction']);
+	xml::validate($_REQUEST['introduction']);
 if(isset($_REQUEST['description']))
-	validate($_REQUEST['description']);
+	xml::validate($_REQUEST['description']);
 
 // access denied
 if(!$permitted) {
@@ -99,10 +100,11 @@ if(!$permitted) {
 		$fields['rank'] = 40000; // at the end of the list
 		$fields['title'] = i18n::c('Personal spaces');
 		$fields['description'] = i18n::c('Sections created by members');
-		if(!$new_id = Sections::post($fields)) {
+		if(!$fields['id'] = Sections::post($fields)) {
 			Logger::remember('feeds/feeds.php', 'Impossible to add a section.');
 			return;
 		}
+		Sections::clear($fields);
 
 		// retrieve the new section
 		$anchor =& Sections::get('personal_spaces');
@@ -118,7 +120,7 @@ if(!$permitted) {
 	$_REQUEST['active_set'] = $_REQUEST['active'];
 
 	// display the form on error
-	if(!$id = Sections::post($_REQUEST)) {
+	if(!$_REQUEST['id'] = Sections::post($_REQUEST)) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -126,11 +128,14 @@ if(!$permitted) {
 	} else {
 
 		// make the surfer an editor of this section
-		Members::assign('user:'.Surfer::get_id(), 'section:'.$id);
+		Members::assign('user:'.Surfer::get_id(), 'section:'.$_REQUEST['id']);
 
 		// touch the related anchor
 		if(is_object($anchor))
-			$anchor->touch('section:create', $id, isset($_REQUEST['active']) && ($_REQUEST['active'] != 'Y'));
+			$anchor->touch('section:create', $_REQUEST['id'], isset($_REQUEST['active']) && ($_REQUEST['active'] != 'Y'));
+
+		// clear cache
+		Sections::clear($_REQUEST);
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
@@ -144,21 +149,17 @@ if(!$permitted) {
 		$section = Anchors::get('section:'.$id);
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-
 		$menu = array_merge($menu, array($section->get_url() => i18n::s('View the section')));
-
 		if(Surfer::may_upload())
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$id) => i18n::s('Add an image')));
-
 		if(preg_match('/\bwith_files\b/i', $section->item['options']) && Surfer::may_upload())
 			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$id) => i18n::s('Upload a file')));
-
 		if(preg_match('/\bwith_links\b/i', $section->item['options']))
 			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('section:'.$id) => i18n::s('Add a link')));
-
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}
 

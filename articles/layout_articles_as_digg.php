@@ -49,7 +49,12 @@ Class Layout_articles_as_digg extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
+		// sanity check
+		if(!isset($this->layout_variant))
+			$this->layout_variant = 'full';
+
 		// flag articles updated recently
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
@@ -101,6 +106,25 @@ Class Layout_articles_as_digg extends Layout_interface {
 			if($icon)
 				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('Read more')).'" title="'.encode_field(i18n::s('Read more')).'"'.EOT.'</a>';
 
+			// rating
+			if($item['rating_count'])
+				$rating_label = sprintf(i18n::ns('%s vote', '%s votes', $item['rating_count']), '<span class="big">'.$item['rating_count'].'</span>'.BR);
+			else
+				$rating_label = i18n::s('No vote');
+
+			// present results
+			$digg = '<div class="digg"><div class="votes">'.$rating_label.'</div>';
+
+			// add a link to let surfer rate this item --don't use cookies, this is cached
+			$digg .= '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>';
+
+			// close digg-like area
+			$digg .= '</div>';
+
+			// signal articles to be published
+			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
+				$prefix .= DRAFT_FLAG;
+
 			// signal restricted and private articles
 			if($item['active'] == 'N')
 				$prefix .= PRIVATE_FLAG.' ';
@@ -108,10 +132,23 @@ Class Layout_articles_as_digg extends Layout_interface {
 				$prefix .= RESTRICTED_FLAG.' ';
 
 			// flag articles updated recently
-			if($item['create_date'] >= $dead_line)
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+				$suffix .= ' '.EXPIRED_FLAG;
+			elseif($item['create_date'] >= $dead_line)
 				$suffix .= ' '.NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
 				$suffix .= ' '.UPDATED_FLAG;
+
+			// the full introductory text
+			if($item['introduction'])
+				$content .= Codes::beautify($item['introduction'], $item['options']);
+
+			// else ask for a teaser
+			else {
+				$article =& new Article();
+				$article->load_by_content($item);
+				$content .= $article->get_teaser('teaser');
+			}
 
 			// add details
 			$details = array();
@@ -125,50 +162,25 @@ Class Layout_articles_as_digg extends Layout_interface {
 			}
 
 			// the publish date
-			$details[] = Skin::build_date($item['publish_date']);
+			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
+				$details[] = Skin::build_date($item['publish_date']);
 
-			// rating
-			$rating_label = '';
-			if($item['rating_count'])
-				$rating_label = Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])).' '.sprintf(i18n::ns('%d rate', '%d rates', $item['rating_count']), $item['rating_count']).' ';
-
-			// add a link to let surfer rate this item
-			if(is_object($anchor) && $anchor->has_option('with_rating')) {
-				if(!$item['rating_count'])
-					$rating_label .= i18n::s('Rate this page');
-				$rating_label = Skin::build_link(Articles::get_url($item['id'], 'rate'), $rating_label, 'basic', i18n::s('Rate this page'));
-			}
-
-			// display current rating, and allow for rating
-			$details[] = $rating_label;
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$details[] = LOCKED_FLAG;
 
 			// details
 			if(count($details))
-				$content .= '<p class="details">'.ucfirst(implode(', ', $details)).'</p>';
-
-			// the full introductory text
-			if($item['introduction'])
-				$content .= Codes::beautify($item['introduction'], $item['options']);
-
-			// else ask for a teaser
-			elseif(!is_object($overlay)) {
-				$article =& new Article();
-				$article->load_by_content($item);
-				$content .= $article->get_teaser('teaser');
-			}
-
-			// insert overlay data, if any
-			if(is_object($overlay))
-				$content .= $overlay->get_text('list', $item);
+				$content .= '<p class="tiny follow_up">'.ucfirst(implode(', ', $details)).'</p>';
 
 			// an array of links
 			$menu = array();
 
-			// rate the article
-			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'rate') => i18n::s('Rate this page') ));
-
 			// read the article
 			$menu = array_merge($menu, array( $url => i18n::s('Read more') ));
+
+			// add a link to let surfer rate this item
+			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'rate') => i18n::s('Rate this page') ));
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
@@ -203,10 +215,10 @@ Class Layout_articles_as_digg extends Layout_interface {
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu = array_merge($menu, array( $link => i18n::s('Trackback') ));
+			$menu = array_merge($menu, array( $link => i18n::s('Reference') ));
 
 			// link to the anchor page
-			if(is_object($anchor))
+			if(($this->layout_variant != 'no_anchor') && ($item['anchor'] != $this->layout_variant) && is_object($anchor))
 				$menu = array_merge($menu, array( $anchor->get_url() => $anchor->get_title() ));
 
 			// list up to three categories by title, if any
@@ -217,10 +229,13 @@ Class Layout_articles_as_digg extends Layout_interface {
 			}
 
 			// append a menu
-			$content .= Skin::build_list($menu, 'menu_bar');
+			$content .= '<p>'.Skin::build_list($menu, 'menu').'</p>';
+
+			// manage layout
+			$content = '<div class="digg_content">'.$digg.$content.'</div>';
 
 			// insert a complete box
-			$text .= Skin::build_box($icon.$prefix.$title.$suffix, $content, 'header1', 'article_'.$item['id']);
+			$text .= Skin::build_box($prefix.$title.$suffix, $icon.$content, 'header1', 'article_'.$item['id']);
 
 			// section closing
 			if($item_count == 1)

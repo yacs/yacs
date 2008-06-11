@@ -171,7 +171,7 @@ Class Layout_files extends Layout_interface {
 
 			// detach or edit the file
 			if((Surfer::is_empowered() && Surfer::is_member())
-				|| Surfer::is_creator($item['create_id'])
+				|| Surfer::is($item['create_id'])
 				|| (Surfer::is_member() && (!isset($context['users_without_file_overloads']) || ($context['users_without_file_overloads'] != 'Y'))) ) {
 
 				if(!isset($item['assign_id']) || ($item['assign_id'] < 1))
@@ -185,7 +185,7 @@ Class Layout_files extends Layout_interface {
 				$menu = array_merge($menu, array( Files::get_url($item['id'], 'clear') => i18n::s('Unassign') ));
 
 			// delete the file
-			if((Surfer::is_empowered() && Surfer::is_member()) || Surfer::is_creator($item['create_id']))
+			if((Surfer::is_empowered() && Surfer::is_member()) || Surfer::is($item['create_id']))
 				$menu = array_merge($menu, array( Files::get_url($item['id'], 'delete') => i18n::s('Delete') ));
 
 			// append the menu, if any

@@ -133,24 +133,29 @@ elseif(!Surfer::is_associate()) {
 
 		}
 
-		// backup the old version, if any
-		Safe::unlink($context['path_to_root'].$file.'.bak');
-		Safe::rename($context['path_to_root'].$file, $context['path_to_root'].$file.'.bak');
-
 		// ensure all folders exist
 		if(!Safe::make_path(dirname($file))) {
 			$context['text'] .= sprintf(i18n::s('Error! Unable to create path to %s.'), $file).BR."\n";
 			$failures++;
 
-		// actual update by moving the staging script
-		} elseif(Safe::rename($context['path_to_root'].'scripts/staging/'.$file, $context['path_to_root'].$file)) {
-			$context['text'] .= sprintf(i18n::s('%s has been updated'), $file.' ('.$attributes[0].' '.i18n::s('lines').')').BR."\n";
-			$updated_files++;
-
-		// failed update
+		// actual update
 		} else {
-			$context['text'] .= sprintf(i18n::s('Error! Unable to update %s.'), $file).BR."\n";
-			$failures++;
+
+			// backup the old version, if any --kill index.php created by make_path, if necessary
+			Safe::unlink($context['path_to_root'].$file.'.bak');
+			Safe::rename($context['path_to_root'].$file, $context['path_to_root'].$file.'.bak');
+
+			// move the staging script
+			if(Safe::rename($context['path_to_root'].'scripts/staging/'.$file, $context['path_to_root'].$file)) {
+				$context['text'] .= sprintf(i18n::s('%s has been updated'), $file.' ('.$attributes[0].' '.i18n::s('lines').')').BR."\n";
+				$updated_files++;
+
+			// failed update
+			} else {
+				$context['text'] .= sprintf(i18n::s('Error! Unable to update %s.'), $file).BR."\n";
+				$failures++;
+			}
+
 		}
 
 		// ensure enough execution time

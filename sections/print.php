@@ -102,14 +102,6 @@ if(!isset($item['id'])) {
 	// provide details
 	$details = array();
 
-	// locked section
-	if(Surfer::is_empowered() && isset($item['locked']) && ($item['locked'] == 'Y') ) {
-		if($item['articles_layout'] == 'yabb')
-			$details[] = LOCKED_FLAG.' '.i18n::s('Forum is locked.');
-		else
-			$details[] = LOCKED_FLAG.' '.i18n::s('Posts are not allowed.');
-	}
-
 	// restricted to logged members
 	if($item['active'] == 'R')
 		$details[] = RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members');
@@ -275,14 +267,8 @@ if(!isset($item['id'])) {
 			$box['text'] .= Skin::build_list($items, 'decorated');
 		elseif(is_string($items))
 			$box['text'] .= $items;
-		if($box['text']) {
-			// add a title in case of complex page
-			$title = '';
-			if(preg_match('/<h2>|<h3>|class="section_box"/', $context['text']))
-				$title = i18n::s('What is new?');
-
-			$context['text'] .= Skin::build_box($title, $box['text'], 'header1', 'what_is_new');
-		}
+		if($box['text'])
+			$context['text'] .= Skin::build_box(i18n::s('What is new?'), $box['text']);
 	}
 
 	//
@@ -359,7 +345,7 @@ if(!isset($item['id'])) {
 
 	// build a box
 	if($box['text'])
-		$context['text'] .= Skin::build_box('', $box['text'], 'header1', 'comments');
+		$context['text'] .= Skin::build_box('', $box['text']);
 
 	//
 	// related link
@@ -374,7 +360,7 @@ if(!isset($item['id'])) {
 
 	// actually render the html
 	if($items)
-		$context['text'] .= Skin::build_box(i18n::s('See also'), Skin::build_list($items, 'decorated'));
+		$context['text'] .= Skin::build_box(i18n::s('Links'), Skin::build_list($items, 'decorated'));
 
 	// insert anchor suffix
 	if(is_object($anchor))

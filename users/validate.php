@@ -60,12 +60,13 @@ elseif(Users::validate($item['id'])) {
 	$context['text'] .= sprintf(i18n::s('<p>%s,</p><p>Your e-mail address has been validated, and you are now an active member of this community.</p>'), ucfirst($item['nick_name']));
 
 	// follow-up commands
-	$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+	$follow_up = i18n::s('What do you want to do now?');
 	$menu = array();
 	$menu = array_merge($menu, array('users/login.php' => i18n::s('Login')));
 	$menu = array_merge($menu, array(Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:'') => i18n::s('Go to my user profile')));
 	$menu = array_merge($menu, array('index.php' => i18n::s('Go to the front page')));
-	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // failed operation
 } else

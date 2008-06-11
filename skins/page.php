@@ -35,6 +35,11 @@
 		if($context['skin_variant'])
 			$id = ' id="'.$context['skin_variant'].'"';
 
+		// page tools
+		if(count($context['page_tools']) > 0)
+			$context['extra'] = Skin::build_box(i18n::s('Tools'), Skin::finalize_list($context['page_tools'], 'tools'), 'extra', 'page_tools')
+				.$context['extra'];
+
 		// we do have some extra content to render
 		$class = '';
 		if(trim($context['extra']))
@@ -125,14 +130,6 @@
 		if(isset($context['page_title']) && $context['page_title'])
 			echo Skin::build_block($context['page_title'], 'page_title');
 
-		// display the menu bar
-		if($with_page_menu && isset($context['page_menu']) && (@count($context['page_menu']) > 0))
-			echo Skin::build_list($context['page_menu'], 'page_menu');
-
-		// display page details, if any
-		if(isset($context['page_details']) && $context['page_details'])
-			echo $context['page_details']."\n";
-
 		// display error messages, if any
 		if(is_callable(array('Skin', 'build_error_block')))
 			echo Skin::build_error_block();
@@ -151,6 +148,14 @@
 
 		// maybe some additional text has been created in send_body()
 		echo $context['text'];
+
+		// display page details, if any
+		if(isset($context['page_details']) && $context['page_details'])
+			echo '<div style="margin-top: 3em;">'.$context['page_details']."</div>\n";
+
+		// display the menu bar
+		if($with_page_menu && isset($context['page_menu']) && (@count($context['page_menu']) > 0))
+			echo Skin::build_list($context['page_menu'], 'page_menu');
 
 		// display the suffix, if any
 		if(isset($context['suffix']) && $context['suffix'])
@@ -318,10 +323,6 @@
 		}
 		echo $text;
 
-		// complementary information, if any and if required to do so
-		if($with_extra && trim($context['extra']))
-			echo trim($context['extra'])."\n";
-
 		// the user menu, in a navigation box
 		if(is_callable(array('Users', 'get_url')) && ($menu = Skin::build_user_menu('basic')) && is_callable(array('i18n', 's'))) {
 			if(Surfer::is_logged()) {
@@ -335,6 +336,10 @@
 			}
 			echo Skin::build_box($box_title, $menu, 'navigation', 'user_menu', $box_url, $box_popup)."\n";
 		}
+
+		// complementary information, if any and if required to do so
+		if($with_extra && trim($context['extra']))
+			echo trim($context['extra'])."\n";
 
 		// categories to display among navigation boxes, after end of setup, and if we have access to the database
 		$cache_id = 'skins/page.php#navigation';

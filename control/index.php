@@ -599,6 +599,12 @@ if(!file_exists('../parameters/control.include.php')) {
 					Skin::build_link(Articles::get_url('about'), i18n::s('the about page')),
 					Skin::build_link(Articles::get_url('privacy'), i18n::s('the privacy statement')));
 
+			if(Surfer::is_associate())
+				$commands[] = sprintf(i18n::s('%s - scripts to enhance articles and user profiles'), '<a href="../overlays/">'.i18n::s('Overlays').'</a>');
+
+			if(Surfer::is_associate())
+				$commands[] = sprintf(i18n::s('%s - scripts to enhance sections'), '<a href="../behaviors/">'.i18n::s('Behaviors').'</a>');
+
 			// letters
 			if(Surfer::is_associate() && isset($context['with_email']) && ($context['with_email'] == 'Y'))
 				$commands[] = sprintf(i18n::s('%s - broadcast digests and announcements by e-mail'), Skin::build_link('letters/', i18n::s('Newsletters'), 'basic'));
@@ -750,10 +756,13 @@ if(!file_exists('../parameters/control.include.php')) {
 					$commands[] = sprintf(i18n::s('%s - to share and stream existing directories and files'), Skin::build_link('collections/configure.php', i18n::s('File collections'), 'basic'));
 
 				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - to add extensions and to make uploaded files available from FTP'), Skin::build_link('files/configure.php', i18n::s('Files'), 'basic'));
+					$commands[] = sprintf(i18n::s('%s - to extend accepted types and to make uploaded files available from FTP'), Skin::build_link('files/configure.php', i18n::s('Files'), 'basic'));
 
 				if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
 					$commands[] = sprintf(i18n::s('%s - change the template used for newsletters'), Skin::build_link('letters/configure.php', i18n::s('Newsletters'), 'basic'));
+
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - review and setup YACS hooking pieces of software'), '<a href="scan.php">'.i18n::s('Extensions').'</a>');
 
 				if(Surfer::has_all())
 					$commands[] = sprintf(i18n::s('%s - change parameters for back-end services'), Skin::build_link('services/configure.php', i18n::s('Web services'), 'basic'));
@@ -795,12 +804,6 @@ if(!file_exists('../parameters/control.include.php')) {
 				$commands[] = sprintf(i18n::s('%s - check the database structure; also optimize data tables and update index'), '<a href="setup.php">'.i18n::s('Database maintenance').'</a>');
 
 				$commands[] = sprintf(i18n::s('%s - clear the cache or delete what can be safely deleted'), '<a href="purge.php">'.i18n::s('Purge').'</a>');
-
-				$commands[] = sprintf(i18n::s('%s - review and setup YACS hooking pieces of software'), '<a href="scan.php">'.i18n::s('Extensions').'</a>');
-
-				$commands[] = sprintf(i18n::s('%s - scripts to enhance articles and user profiles'), '<a href="../overlays/">'.i18n::s('Overlays').'</a>');
-
-				$commands[] = sprintf(i18n::s('%s - scripts to enhance sections'), '<a href="../behaviors/">'.i18n::s('Behaviors').'</a>');
 
 				$commands[] = sprintf(i18n::s('%s - shut the server down, or fire it up again'), '<a href="switch.php">'.i18n::s('Switch').'</a>');
 
@@ -893,16 +896,12 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// more information to associates
 			$commands = array();
-			if(Surfer::is_associate() && Surfer::has_all()) {
-				$commands[] = sprintf(i18n::s('%s - check a lot of styles used by YACS'), '<a href="../skins/test.php">'.i18n::s('Skin test page').'</a>');
-				$commands[] = sprintf(i18n::s('%s - validate browser and server behaviors'), '<a href="test.php">'.i18n::s('System test page').'</a>');
+			if(Surfer::is_associate()) {
 				$commands[] = sprintf(i18n::s('%s - operation summary'), '<a href="../agents/">'.i18n::s('Background processing').'</a>');
-				$commands[] = sprintf(i18n::s('%s - run-time reports'), '<a href="info.php">'.i18n::s('System information').'</a>');
-
-			} elseif(!Surfer::is_crawler()) {
-				$commands[] = sprintf(i18n::s('%s - low-level information related to this server and to your browser'), '<a href="test.php">'.i18n::s('System test page').'</a>');
-
+				$commands[] = sprintf(i18n::s('%s - check a lot of styles used by YACS'), '<a href="../skins/test.php">'.i18n::s('Skin test page').'</a>');
+				$commands[] = sprintf(i18n::s('%s - phpinfo() and more'), '<a href="info.php">'.i18n::s('Run-time information').'</a>');
 			}
+			$commands[] = sprintf(i18n::s('%s - validate browser and server behaviors'), '<a href="test.php">'.i18n::s('System test page').'</a>');
 			$text .= Skin::build_box(i18n::s('More information'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'header1', 'more_information');
 
 			// build another tab
@@ -920,74 +919,68 @@ if(!file_exists('../parameters/control.include.php')) {
 			// extra boxes
 			//
 
-			$box = array();
-			$box['bar'] = array();
-			$box['text'] = '';
-			$box['title'] = '';
+			$links = array();
+			$links[] = Skin::build_link('sections/', i18n::s('Site Map'), 'shortcut');
+			$links[] = Skin::build_link('categories/', i18n::s('Categories'), 'shortcut');
+			$links[] = Skin::build_link('users/', i18n::s('People'), 'shortcut');
 
-			$box['title'] = i18n::s('Tools');
+			// the hook for more tools
+			if(is_callable(array('Hooks', 'link_scripts')) && ($more_links = Hooks::link_scripts('control/index.php#tools', 'array')))
+				$links = array_merge($links, $more_links);
 
-			$box['text'] .= '<li>'.Skin::build_link('sections/', i18n::s('Site Map'), 'shortcut')."</li>\n";
-			$box['text'] .= '<li>'.Skin::build_link('categories/', i18n::s('Categories'), 'shortcut')."</li>\n";
-			$box['text'] .= '<li>'.Skin::build_link('users/', i18n::s('People'), 'shortcut')."</li>\n";
-
-			// the hook for the control panels
-			if(is_callable(array('Hooks', 'link_scripts')))
-				$box['text'] .= Hooks::link_scripts('control/index.php#tools', 'bullets');
-
-			$box['text'] .= '<li>'.Skin::build_link('help.php', i18n::s('Help'), 'shortcut')."</li>\n";
+			$links[] = Skin::build_link('help.php', i18n::s('Help'), 'shortcut');
 
 			// list modules in an extra box
-			$context['extra'] .= Skin::build_box($box['title'], '<ul>'.$box['text']."</ul>\n", 'extra');
+			$context['extra'] .= Skin::build_box(i18n::s('See also'), Skin::finalize_list($links, 'compact'), 'extra', 'tools_box');
 
 			// list modules if a skin has been defined -- complex command
 			if(class_exists('Skin') && Surfer::has_all()) {
-
-				$box['bar'] = array();
-				$box['text'] = '';
-				$box['title'] = '';
-
-				$box['title'] = i18n::s('Modules');
-
-				$box['text'] = i18n::s('Most important modules at this site:')."\n<ul>\n";
+				$links = array();
 
 				if(Surfer::is_associate())
-					$box['text'] .= '<li>'.Skin::build_link('actions/', i18n::s('Actions'), 'shortcut')."</li>\n";
+					$links[] = Skin::build_link('actions/', 'actions', 'shortcut');
 				if(Surfer::is_associate())
-					$box['text'] .= '<li>'.Skin::build_link('agents/', i18n::s('Background processing'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('articles/', i18n::s('Pages'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('categories/', i18n::s('Categories'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('codes/', i18n::s('Codes'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('collections/', i18n::s('File collections'), 'shortcut')."</li>\n";
+					$links[] = Skin::build_link('agents/', 'agents', 'shortcut');
+				$links[] = Skin::build_link('articles/', 'articles', 'shortcut');
 				if(Surfer::is_associate())
-					$box['text'] .= '<li>'.Skin::build_link('comments/', i18n::s('Comments'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('dates/', i18n::s('Dates'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('feeds/', i18n::s('Information channels'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('files/', i18n::s('Files'), 'shortcut')."</li>\n";
+					$links[] = Skin::build_link('behaviors/', 'behaviors', 'shortcut');
+				$links[] = Skin::build_link('categories/', 'categories', 'shortcut');
+				$links[] = Skin::build_link('codes/', 'codes', 'shortcut');
+				$links[] = Skin::build_link('collections/', 'collections', 'shortcut');
 				if(Surfer::is_associate())
-					$box['text'] .= '<li>'.Skin::build_link('images/', i18n::s('Images'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('letters/', i18n::s('Newsletters'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('links/', i18n::s('Links'), 'shortcut')."</li>\n";
+					$links[] = Skin::build_link('comments/', 'comments', 'shortcut');
+				$links[] = Skin::build_link('dates/', 'dates', 'shortcut');
 				if(Surfer::is_associate())
-					$box['text'] .= '<li>'.Skin::build_link('locations/', i18n::s('Locations'), 'shortcut')."</li>\n";
+					$links[] = Skin::build_link('decisions/', 'decisions', 'shortcut');
+				$links[] = Skin::build_link('feeds/', 'feeds', 'shortcut');
+				$links[] = Skin::build_link('files/', 'files', 'shortcut');
+				$links[] = Skin::build_link('forms/', 'forms', 'shortcut');
 				if(Surfer::is_associate())
-					$box['text'] .= '<li>'.Skin::build_link('overlays/', i18n::s('Overlays'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('scripts/', i18n::s('Server software'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('sections/', i18n::s('Sections'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('servers/', i18n::s('Servers'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('services/', i18n::s('Web services'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('skins/', i18n::s('Skins'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('smileys/', i18n::s('Smileys'), 'shortcut')."</li>\n";
+					$links[] = Skin::build_link('images/', 'images', 'shortcut');
+				$links[] = Skin::build_link('letters/', 'letters', 'shortcut');
+				$links[] = Skin::build_link('links/', 'links', 'shortcut');
 				if(Surfer::is_associate())
-					$box['text'] .= '<li>'.Skin::build_link('tables/', i18n::s('Tables'), 'shortcut')."</li>\n";
-				$box['text'] .= '<li>'.Skin::build_link('users/', i18n::s('People'), 'shortcut')."</li>\n";
+					$links[] = Skin::build_link('locations/', 'locations', 'shortcut');
+				if(Surfer::is_associate())
+					$links[] = Skin::build_link('overlays/', 'overlays', 'shortcut');
+				$links[] = Skin::build_link('scripts/', 'scripts', 'shortcut');
+				$links[] = Skin::build_link('sections/', 'sections', 'shortcut');
+				$links[] = Skin::build_link('servers/', 'servers', 'shortcut');
+				$links[] = Skin::build_link('services/', 'services', 'shortcut');
+				$links[] = Skin::build_link('skins/', 'skins', 'shortcut');
+				$links[] = Skin::build_link('smileys/', 'smileys', 'shortcut');
+				if(Surfer::is_associate())
+					$links[] = Skin::build_link('tables/', 'tables', 'shortcut');
+				if(Surfer::is_associate())
+					$links[] = Skin::build_link('tools/', 'tools', 'shortcut');
+				$links[] = Skin::build_link('users/', 'users', 'shortcut');
 
-				// the hook for the control panels
-				if(is_callable(array('Hooks', 'link_scripts')))
-					$box['text'] .= Hooks::link_scripts('control/index.php#modules', 'bullets');
+				// the hook for more modules
+				if(is_callable(array('Hooks', 'link_scripts')) && ($more_links = Hooks::link_scripts('control/index.php#modules', 'array')))
+					$links = array_merge($links, $more_links);
 
 				// list modules in an extra box
-				$context['extra'] .= Skin::build_box($box['title'], $box['text']."</ul>\n", 'extra');
+				$context['extra'] .= Skin::build_box(i18n::s('Modules'), Skin::finalize_list($links, 'compact'), 'extra');
 
 			}
 

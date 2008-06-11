@@ -350,6 +350,37 @@ Class Codes {
 	}
 
 	/**
+	 * beautify some text in the extra panel
+	 *
+	 * @param string the text to beautify
+	 * @return the beautified text
+	 *
+	 * @see articles/view.php
+	 */
+	function &beautify_extra($text) {
+		global $context;
+
+		// regular rendering
+		$text =& Codes::beautify($text);
+
+		$search = array();
+		$replace = array();
+
+		// [box.extra=title]...[/box]
+		$search[] = '/\[box\.(extra)=([^\]]+?)\](.*?)\[\/box\]/ise';
+		$replace[] = "Skin::build_box(stripslashes('$2'), stripslashes('$3'), '$1')";
+
+		// [box.navigation=title]...[/box]
+		$search[] = '/\[box\.(navigation)=([^\]]+?)\](.*?)\[\/box\]/ise';
+		$replace[] = "Skin::build_box(stripslashes('$2'), stripslashes('$3'), '$1')";
+
+		// process all codes
+		$text = preg_replace($search, $replace, $text);
+		return $text;
+
+	}
+
+	/**
 	 * render some basic formatting
 	 *
 	 * - suppress multiple newlines
@@ -861,10 +892,10 @@ Class Codes {
 				"BR.BULLET_IMG.'&nbsp;'",
 				'<li>\\1</li>', 												// [li]...[/li]
 				"Codes::render_object('images', stripslashes('$1'))",			// [images=<ids>]
-				"'<div class=\"external_image\"><img src=\"'.Codes::clean_href('$1').'\" alt=\"\"/></div>'",	// [image]src[/image]
-				"'<div class=\"external_image\"><img src=\"'.Codes::clean_href('$2').'\" alt=\"'.Codes::clean_href('$1').'\"/></div>'", // [image=alt]src[/image]
-				"'<div class=\"external_image\"><img src=\"'.Codes::clean_href('$1').'\" alt=\"\"/></div>'",	// [img]src[/img]
-				"'<div class=\"external_image\"><img src=\"'.Codes::clean_href('$2').'\" alt=\"'.Codes::clean_href('$1').'\"/></div>'", // [img=alt]src[/img]
+				"'<div class=\"external_image\"><img src=\"'.Codes::clean_href('$1').'\" alt=\"\" /></div>'",	// [image]src[/image]
+				"'<div class=\"external_image\"><img src=\"'.Codes::clean_href('$2').'\" alt=\"'.Codes::clean_href('$1').'\" /></div>'", // [image=alt]src[/image]
+				"'<div class=\"external_image\"><img src=\"'.Codes::clean_href('$1').'\" alt=\"\" /></div>'",	// [img]src[/img]
+				"'<div class=\"external_image\"><img src=\"'.Codes::clean_href('$2').'\" alt=\"'.Codes::clean_href('$1').'\" /></div>'", // [img=alt]src[/img]
 				"Codes::render_object('image', stripslashes('$1'))",			// [image=<id>]
 				"Codes::render_object('image', stripslashes('$1'))",			// [image<id>] (deprecated)
 				"Codes::render_object('flash', stripslashes('$1'))",			// [flash=<id>, <width>, <height>, <params>]
@@ -1939,7 +1970,7 @@ Class Codes {
 			// stream in a separate page
 			if(isset($attributes[1]) && preg_match('/window/i', $attributes[1])) {
 
-				$output = '<a href="'.Files::get_url($id, 'stream', $item['file_name']).'" onclick="window.open(this.href); return false;" class="button">'.i18n::s('Play in a separate window').'</a>';
+				$output = '<a href="'.Files::get_url($id, 'stream', $item['file_name']).'" onclick="window.open(this.href); return false;" class="button"><span>'.i18n::s('Play in a separate window').'</span></a>';
 				return $output;
 			}
 
@@ -2087,7 +2118,6 @@ Class Codes {
 				$href = Images::get_thumbnail_href($image);
 
 				// to drive to plain image
-//				$link = $context['url_to_root'].Images::get_url($id);
 				$link = Images::get_icon_href($image);
 
 			// add an url, if any

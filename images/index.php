@@ -86,10 +86,6 @@ if(!Surfer::is_associate()) {
 		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], IMAGES_PER_PAGE, $page));
 	}
 
-	// associates may check the database
-	if(Surfer::is_associate())
-		$context['page_menu'] = array_merge($context['page_menu'], array( 'images/check.php' => i18n::s('Maintenance') ));
-
 	// page main content
 	$cache_id = 'images/index.php#text#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
@@ -109,6 +105,10 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= $text;
 
 }
+
+// page tools
+if(Surfer::is_associate())
+	$context['page_tools'][] = Skin::build_link('images/check.php', i18n::s('Maintenance'), 'basic');
 
 // page extra content
 $cache_id = 'images/index.php#extra';

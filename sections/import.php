@@ -166,7 +166,7 @@ elseif(!Surfer::is_associate()) {
 		}
 
 		// clear the cache, to avoid side effects of complex updates
-		$context['text'] .= Cache::clear();
+		Cache::clear();
 
 	}
 

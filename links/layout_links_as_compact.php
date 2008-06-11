@@ -47,13 +47,8 @@ Class Layout_links_as_compact extends Layout_interface {
 			if($item['edit_date'] >= $dead_line)
 				$suffix .= NEW_FLAG;
 
-			// link title or link name
-			$label = Skin::strip($item['title'], 10);
-			if(!$label) {
-				$name_as_title = TRUE;
-				$label = ucfirst($item['link_url']);
-			}
-			$label = str_replace('_', ' ', str_replace('%20', ' ', $label));
+			// make a label
+			$label = Links::clean($item['title'], $item['link_url'], 30);
 
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, 'basic', NULL);

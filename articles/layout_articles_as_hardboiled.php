@@ -43,6 +43,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			return $text;
 
 		// flag articles updated recently
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
@@ -131,10 +132,6 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 				if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
 					$prefix .= DRAFT_FLAG;
 
-				// signal locked articles
-				if(isset($item['locked']) && ($item['locked'] == 'Y'))
-					$prefix .= LOCKED_FLAG;
-
 				// signal restricted and private articles
 				if($item['active'] == 'N')
 					$prefix .= PRIVATE_FLAG;
@@ -201,6 +198,10 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 				// rating
 				if($item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating'))
 					$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
+
+				// signal locked articles
+				if(isset($item['locked']) && ($item['locked'] == 'Y'))
+					$details[] = LOCKED_FLAG;
 
 				// combine in-line details
 				if(count($details))
@@ -345,13 +346,13 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$text .= ' ('.Skin::build_link($file, sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic').')';
 		}
 
-		// link to the anchor page
-		if(is_object($anchor))
-			$text .= BR.Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic', i18n::s('More similar pages in this section'));
+// 		// link to the anchor page
+// 		if(is_object($anchor))
+// 			$text .= BR.Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic', i18n::s('More similar pages in this section'));
 
 		// list up to three categories by title, if any
 		if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
-			$text .= BR.i18n::s('See also');
+			$text .= BR;
 			$first_category = TRUE;
 			foreach($items as $id => $attributes) {
 				if(!$first_category)

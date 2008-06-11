@@ -22,10 +22,13 @@ embed_yacs_prefix();
 if(!isset($_SERVER['REQUEST_METHOD']) || ($_SERVER['REQUEST_METHOD'] != 'HEAD')) {
 
 	// display page title
-	echo '<h1>'.i18n::s('the Hello World page').'</h1>';
+	echo '<h1>'.i18n::s('Hello world').'</h1>';
 
 	// display page content
-	echo '<p>'.i18n::s('Hello Word, I am happy to be there!').'</p>';
+	echo '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+		.' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+		.' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+		.' Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>';
 
 }
 

@@ -126,7 +126,7 @@ if(!$item['id']) {
 	//
 
 	// title
-	$section = Skin::build_block(i18n::s('Related pages'), 'title');
+	$section = Skin::build_block(i18n::s('Pages'), 'title');
 
 	// list items by date (default) or by title (option articles_by_title)
 	if(preg_match('/\barticles_by_title\b/i', $item['options']))

@@ -242,10 +242,12 @@ if(!isset($item['id']) || !$item['id']) {
 		$item['edit_name'] = $user['nick_name'];
 		$item['edit_id'] = $user['id'];
 		$item['edit_address'] = $user['email'];
-		if(!Files::post($item, 'A'))
+		if(!$item['id'] = Files::post($item, 'A'))
 			Safe::header('500 Internal Server Error');
-		else
+		else {
+			Files::clear($item);
 			Safe::header('200 OK');
+		}
 
 	}
 

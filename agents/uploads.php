@@ -139,14 +139,17 @@ class Uploads {
 		$anchor = Anchors::get($fields['anchor']);
 
 		// post a page
-		$article_id = Articles::post($fields);
+		$fields['id'] = Articles::post($fields);
 
 		// increment the post counter of the surfer
 		Users::increment_posts($user['id']);
 
 		// touch the related anchor
-		if(is_object($anchor) && isset($article_id))
-			$anchor->touch('article:create', $article_id, TRUE);
+		if(is_object($anchor) && isset($fields['id']))
+			$anchor->touch('article:create', $fields['id'], TRUE);
+
+		// clear the cache
+		Articles::clear($fields);
 
 		// if the page has been published
 		if($fields['publish_date'] > NULL_DATE) {
@@ -156,13 +159,13 @@ class Uploads {
 
 				// pingback, if any
 				include_once $context['path_to_root'].'links/links.php';
-				Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$article_id);
+				Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$fields['id']);
 
 			}
 
 			// 'publish' hook
 			if(is_callable(array('Hooks', 'include_scripts')))
-				Hooks::include_scripts('publish', $article_id);
+				Hooks::include_scripts('publish', $fields['id']);
 
 		}
 

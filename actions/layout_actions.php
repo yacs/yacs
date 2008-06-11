@@ -72,7 +72,7 @@ Class Layout_actions extends Layout_interface {
 				$suffix .= '<br/><span class="small">'.Skin::build_date($item['edit_date']).'</span>';
 
 			// the menu bar for associates and poster
-			if(Surfer::is_empowered() || Surfer::is_creator($item['edit_id'])) {
+			if(Surfer::is_empowered() || Surfer::is($item['edit_id'])) {
 				$menu = array( Actions::get_url($item['id'], 'edit') => i18n::s('edit'),
 					Actions::get_url($item['id'], 'delete') => i18n::s('delete') );
 				$suffix .= ' '.Skin::build_list($menu, 'menu');

@@ -265,24 +265,23 @@ function send_body() {
 			echo Hooks::include_scripts('control/setup.php');
 
 		// reopen the server for others
-		if($temporary_off && Safe::rename($context['path_to_root'].'parameters/switch.off', $context['path_to_root'].'parameters/switch.on')) {
+		if($temporary_off && Safe::rename($context['path_to_root'].'parameters/switch.off', $context['path_to_root'].'parameters/switch.on'))
 			echo '<p>'.i18n::s('The server has been switched on.').'</p>';
-		}
 
 		// in the middle of an update
 		if(file_exists('../parameters/switch.off')) {
-			echo '<form method="get" action="../scripts/run_once.php">'."\n"
+			echo Skin::build_block('<form method="get" action="../scripts/run_once.php">'."\n"
 				.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Run one-time scripts and go to the Control Panel')).'</p>'."\n"
-				.'</form>'."\n";
+				.'</form>', 'bottom');
 
 			// this may take several minutes
 			echo '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.').'</p>';
 
 		// populate the database on first installation
 		} elseif(!file_exists('../parameters/switch.on')) {
-			echo '<form method="get" action="populate.php">'."\n"
+			echo Skin::build_block('<form method="get" action="populate.php">'."\n"
 				.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Initialize the database')).'</p>'."\n"
-				.'</form>'."\n";
+				.'</form>', 'bottom');
 
 		// or back to the control panel
 		} else {

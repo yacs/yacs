@@ -72,7 +72,7 @@ elseif(($item['publish_date'] > NULL_DATE) && isset($context['users_without_revi
 	$permitted = FALSE;
 
 // authenticated surfers may duplicate their own posts
-elseif(Surfer::is_creator($item['create_id']))
+elseif(Surfer::is($item['create_id']))
 	$permitted = TRUE;
 
 // the default is to deny access
@@ -141,10 +141,7 @@ if(!isset($item['id'])) {
 	$overlay = Overlay::load($item);
 
 	// create a new page
-	if($id = Articles::post($item)) {
-
-		// remember the new id
-		$item['id'] = $id;
+	if($item['id'] = Articles::post($item)) {
 
 		// post an overlay, with the new article id
 		if(is_object($overlay))
@@ -156,6 +153,9 @@ if(!isset($item['id'])) {
 		// touch the related anchor
 		if(is_object($anchor))
 			$anchor->touch('article:create', $item['id']);
+
+		// clear the cache
+		Articles::clear($item);
 
 		// if poster is a registered user
 		if(Surfer::get_id()) {
@@ -177,7 +177,7 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<p>'.i18n::s('The page has been duplicated.').'</p>';
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array($article->get_url() => i18n::s('View the page')));
 		$menu = array_merge($menu, array($article->get_url('edit') => i18n::s('Edit the page')));
@@ -186,7 +186,8 @@ if(!isset($item['id'])) {
 			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode($article->get_reference()) => i18n::s('Upload a file')));
 		}
 		$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode($article->get_reference()) => i18n::s('Add a link')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the creation of a new article
 		$label = sprintf(i18n::c('Article copy: %s'), strip_tags($article->get_title()));

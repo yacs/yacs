@@ -74,7 +74,7 @@ if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
 	$context['page_menu'] = array_merge($context['page_menu'], array( Locations::get_url($id, 'delete') => i18n::s('Delete') ));
 
 // commands for the author
-} elseif(Surfer::is_creator($item['edit_id'])) {
+} elseif(Surfer::is($item['edit_id'])) {
 	$context['page_menu'] = array_merge($context['page_menu'],
 		array( Locations::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 }
@@ -95,9 +95,9 @@ if(!isset($item['id'])) {
 	if(Surfer::is_member() && $item['edit_name'])
 		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
-	// the complete details
+	// page details
 	if(is_array($details))
-		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+		$context['page_details'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// insert anchor prefix
 	if(is_object($anchor))

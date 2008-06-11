@@ -77,9 +77,15 @@ if(!isset($item['id'])) {
 } elseif(count($context['error']))
 	;
 
-// do the toggle and redirect to the page
-elseif(Articles::lock($item['id'], $item['locked']))
+// do the toggle
+elseif(Articles::lock($item['id'], $item['locked'])) {
+
+	// clear the cache
+	Articles::clear($item);
+
+	// redirect to the page
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+}
 
 // clear the tab we are in, if any
 if(is_object($anchor))

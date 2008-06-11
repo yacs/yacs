@@ -106,13 +106,16 @@ if(!is_object($anchor)) {
 	}
 
 	// actual database update
-	if(!$id = Comments::post($fields)) {
+	if(!$fields['id'] = Comments::post($fields)) {
 		Safe::header('Status: 500 Internal Error', TRUE, 500);
 		die(i18n::s('Your contribution has not been posted.'));
 	}
 
 	// touch the related anchor
-	$anchor->touch('comment:create', $id);
+	$anchor->touch('comment:create', $fields['id']);
+
+	// clear cache
+	Comments::clear($fields);
 
 	// we do not increment the post counter of the surfer during a chat
 //	Users::increment_posts(Surfer::get_id());

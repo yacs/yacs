@@ -338,12 +338,14 @@ var Yacs = {
 	 * @return cookie value
 	 */
 	getCookie: function(name) {
+
 		var prefix = name + "=";
 		var begin = document.cookie.indexOf(prefix);
 		if(begin == -1) { return null; }
 		var end = document.cookie.indexOf(";", begin);
 		if(end == -1) { end = document.cookie.length; }
 		return unescape(document.cookie.substring(begin + prefix.length, end));
+
 	},
 
 	/**
@@ -463,6 +465,7 @@ var Yacs = {
 
 		handle.onmouseout = function () { Yacs.mouseOut(this); return false; };
 		handle.onmouseover = function () { Yacs.mouseOver(this); return false; };
+
 	},
 
 	/**
@@ -491,69 +494,72 @@ var Yacs = {
 	 */
 	onWindowLoad: function() {
 
-		// background processing
-		setTimeout(function() {
+		// resize according to surfer preferences
+		Yacs.textSize();
 
-			// resize according to surfer preferences
-			Yacs.textSize();
+		// this window has the focus
+		Yacs.hasFocus = true;
 
-			// this window has the focus
-			Yacs.hasFocus = true;
+		// compute and record surfer time zone
+		Yacs.detectTimeZone();
 
-			// compute and record surfer time zone
-			Yacs.detectTimeZone();
+		// detect Flash on client side
+		Yacs.detectFlash();
 
-			// detect Flash on client side
-			Yacs.detectFlash();
+		// pre-load the spinning image used during ajax updates
+		Yacs.spinningImage = new Image();
+		Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax_spinner.gif';
 
-			// pre-load the spinning image used during ajax updates
-			Yacs.spinningImage = new Image();
-			Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax_spinner.gif';
+		// pre-load the image used at the working overlay
+		Yacs.workingImage = new Image();
+		Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax_working.gif';
 
-			// pre-load the image used at the working overlay
-			Yacs.workingImage = new Image();
-			Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax_working.gif';
-
-			// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
-			var buttons = $$('button');
-			for(var index = 0; index < buttons.length; index++) {
-				var button = buttons[index];
-				var buttonType = String(button.getAttribute('type'));
-				if(buttonType.toLowerCase().match('submit') && !Element.hasClassName(button, 'no_spin_on_click')) {
-					button.onclick = function () { Yacs.startWorking(); return true; };
-				}
+		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
+		var buttons = $$('button');
+		for(var index = 0; index < buttons.length; index++) {
+			var button = buttons[index];
+			var buttonType = String(button.getAttribute('type'));
+			if(buttonType.toLowerCase().match('submit') && !Element.hasClassName(button, 'no_spin_on_click')) {
+				button.onclick = Yacs.startWorking;
 			}
+		}
 
-			// on-demand headers
-			var nodes = $$('.onDemandTools');
-			for(var index = 0; index < nodes.length; index++) {
-				var node = nodes[index];
-				Yacs.addOnDemandTools(node, { });
+		// on-demand headers
+		var nodes = $$('.onDemandTools');
+		for(var index = 0; index < nodes.length; index++) {
+			var node = nodes[index];
+			Yacs.addOnDemandTools(node, { });
+		}
+
+		// prepare for a nice slideshow
+		var anchors = $$('a.image_show');
+		for(var index = 0; index < anchors.length; index++) {
+			var anchor = anchors[index];
+			anchor.onclick = function () { Yacs.showImage(this); return false; };
+			if(index > 0) {
+				anchor.previousAnchor = anchors[index - 1];
 			}
-
-			// prepare for a nice slideshow
-			var anchors = $$('a.image_show');
-			for(var index = 0; index < anchors.length; index++) {
-				var anchor = anchors[index];
-				anchor.onclick = function () { Yacs.showImage(this); return false; };
-				if(index > 0) {
-					anchor.previousAnchor = anchors[index - 1];
-				}
-				if(index+1 < anchors.length) {
-					anchor.nextAnchor = anchors[index + 1];
-				}
+			if(index+1 < anchors.length) {
+				anchor.nextAnchor = anchors[index + 1];
 			}
+		}
 
-			// slow down notifications on window blur
-			Event.observe(window, 'blur', function() { Yacs.hasFocus = false; });
+		// slow down notifications on window blur
+		Event.observe(window, 'blur', Yacs.looseFocus);
 
-			// back to normal rate on focus
-			Event.observe(window, 'focus', function() { Yacs.hasFocus = true; });
-
-		}, 1);
+		// back to normal rate on focus
+		Event.observe(window, 'focus', Yacs.getFocus);
 
 		// check for asynchronous notifications
-		setTimeout(function(){ Yacs.subscribe() }, 40000);
+		setTimeout("Yacs.subscribe()", 40000);
+	},
+
+	getFocus: function() {
+		Yacs.hasFocus = true;
+	},
+
+	looseFocus: function() {
+		Yacs.hasFocus = false;
 	},
 
 	/**
@@ -622,6 +628,7 @@ var Yacs = {
 	 * @param days before expiration (optional)
 	 */
 	setCookie: function(name, value) {
+
 		var argv = arguments;
 		var argc = arguments.length;
 		var expires = (argc > 2) ? argv[2] : null;
@@ -639,6 +646,7 @@ var Yacs = {
 			((path == null) ? "" : ("; path=" + path)) +
 			((domain == null) ? "" : ("; domain=" + domain)) +
 			((secure == true) ? "; secure" : "");
+
 	},
 
 	/**
@@ -751,7 +759,7 @@ var Yacs = {
 
 		if(Yacs.workingOverlay) {
 			Element.setStyle(Yacs.workingOverlay, { display: 'block' });
-			return;
+			return true;
 		}
 
 		// insert some html at the bottom of the page that looks similar to this:
@@ -778,6 +786,7 @@ var Yacs = {
 		var objBody = document.getElementsByTagName("body").item(0);
 		objBody.appendChild(Yacs.workingOverlay);
 
+		return true;
 	},
 
 	/**
@@ -819,35 +828,42 @@ var Yacs = {
 			method: 'get',
 			parameters: { },
 			requestHeaders: {Accept: 'application/json'},
-			onSuccess: function(transport) {
-
-				// dispatch received notification
-				var response = transport.responseText.evalJSON(true);
-				switch(response['type']) {
-				case 'alert':
-					Yacs.handleAlertNotification(response);
-					break;
-				case 'browse':
-					Yacs.handleBrowseNotification(response);
-					break;
-				case 'hello':
-					Yacs.handleHelloNotification(response);
-					break;
-				}
-
-				// minimum time between two successive notifications
-				Yacs.subscribeTimer = setTimeout(function(){ Yacs.subscribe() }, 20000);
-				Yacs.subscribeAjax = null;
-			},
-			onFailure: function(transport) {
-				if(Yacs.hasFocus) { // regular idle cycle
-					Yacs.subscribeTimer = setTimeout(function(){ Yacs.subscribe() }, 40000);
-				} else { // don't stress the server when we don't have the focus
-					Yacs.subscribeTimer = setTimeout(function(){ Yacs.subscribe() }, 120000);
-				}
-				Yacs.subscribeAjax = null;
-			}
+			onSuccess: Yacs.subscribeSuccess,
+			onFailure: Yacs.subscribeFailure
 		});
+	},
+
+	subscribeFailure: function(transport) {
+
+		if(Yacs.hasFocus) { // regular idle cycle
+			Yacs.subscribeTimer = setTimeout("Yacs.subscribe()", 40000);
+		} else { // don't stress the server when we don't have the focus
+			Yacs.subscribeTimer = setTimeout("Yacs.subscribe()", 120000);
+		}
+		Yacs.subscribeAjax = null;
+
+	},
+
+	subscribeSuccess: function(transport) {
+
+		// dispatch received notification
+		var response = transport.responseText.evalJSON(true);
+		switch(response['type']) {
+		case 'alert':
+			Yacs.handleAlertNotification(response);
+			break;
+		case 'browse':
+			Yacs.handleBrowseNotification(response);
+			break;
+		case 'hello':
+			Yacs.handleHelloNotification(response);
+			break;
+		}
+
+		// minimum time between two successive notifications
+		Yacs.subscribeTimer = setTimeout("Yacs.subscribe()", 20000);
+		Yacs.subscribeAjax = null;
+
 	},
 
 	// remember polling rate
@@ -943,6 +959,7 @@ var Yacs = {
 	 * @link http://ajaxcookbook.org/
 	 */
 	syslog: function(message) {
+
 		if (!Yacs.window_ || Yacs.window_.closed) {
 			var win = window.open("", null, "width=400,height=200," +
 								  "scrollbars=yes,resizable=yes,status=no," +
@@ -957,6 +974,7 @@ var Yacs = {
 		var logLine = Yacs.window_.document.createElement("div");
 		logLine.appendChild(Yacs.window_.document.createTextNode('=> ' + message));
 		Yacs.window_.document.body.appendChild(logLine);
+
 	},
 
 	/**
@@ -967,81 +985,68 @@ var Yacs = {
 	 * or, alternatively, just call Skin::build_tabs() from within you PHP code
 	 * to have everything done automatically.
 	 *
-	 * @see skins/skin_skeleton.php
-	 *
-	 * More information for those who would like to do it the hard way:
-	 *
 	 * @param tabs A list of tabs related to panels and URLs
 	 * @param args This corresponds to the Ajax options supported in prototype.js
 	 *
-	 * A live example featured in users/view.php:
-	 *
-	 *	<script type="text/javascript"><!--
-	 *	// animate tabs after page loading
-	 *	Event.observe(window, 'load', function() { Yacs.tabs({
-	 *		'contributions_tab': [ 'contributions_panel' ],
-	 *		'activities_tab': [ 'activities_panel', '/yacs/user-element/2-activities' ],
-	 *		'actions_tab': [ 'actions_panel', '/yacs/user-element/2-actions' ],
-	 *		'contact_tab': [ 'contact_panel', '/yacs/user-element/2-contact' ],
-	 *		'information_tab': [ 'information_panel', '/yacs/user-element/2-information' ],
-	 *		'preferences_tab': [ 'preferences_panel', '/yacs/user-element/2-preferences' ]}, {})
-	 *		});
-	 *	// -->
-	 *	</script>
-	 *
 	 * @see users/view.php
+	 * @see skins/skin_skeleton.php
 	 *
 	 * @link http://actsasflinn.com/Ajax_Tabs/index.html AJAX Tabs (Rails redux)
 	 * @link http://20bits.com/2007/05/23/dynamic-ajax-tabs-in-20-lines/
 	 */
 	tabs: function(tabs, args) {
 
-		// attach behavior to each item
+		Yacs.tabs_list = tabs;
+		Yacs.tabs_args = args;
+
+		// react to clicks
 		for(id in tabs) {
-
-			// react to clicks
-			Event.observe($(id), 'click', function(e) {
-
-				// target the clicked tab
-				var clicked = Event.element(e);
-
-				// if we click on a link, move upwards to list item -- 'a' is for XHTML strict, 'A' for other cases
-				if((clicked.tagName == 'a') || (clicked.tagName == 'A'))
-					clicked = clicked.parentNode;
-
-				// trigger custom behavior, if any
-				if(typeof(args.onClick) == 'function')
-					args.onClick(clicked);
-
-				// activate the clicked tab -- see skins/_reference/ajax.css
-				for(iterator in tabs) {
-					if(clicked.id == $(iterator).id) {
-						$(iterator).className = 'tab-foreground';
-					} else {
-						$(iterator).className = 'tab-background';
-					}
-				}
-
-				// activate the related panel -- see skins/_reference/ajax.css
-				for(iterator in tabs) {
-					if(clicked.id == $(iterator).id) {
-						$(tabs[iterator][0]).className = 'panel-foreground';
-
-						// load panel content, if any
-						if(tabs[iterator].length > 1) {
-							Yacs.updateOnce(tabs[iterator][0], tabs[iterator][1], args);
-						}
-
-					} else {
-						$(tabs[iterator][0]).className = 'panel-background';
-					}
-				}
-
-				// do not propagate event
-				Event.stop(e);
-			})
-
+			Event.observe($(id), 'click', Yacs.tabs_event);
 		}
+	},
+
+	/**
+	 * click on a tab
+	 */
+	tabs_event: function(e) {
+
+		// target the clicked tab
+		var clicked = Event.element(e);
+
+		// if we click on a link, move upwards to list item -- 'a' is for XHTML strict, 'A' for other cases
+		if((clicked.tagName == 'a') || (clicked.tagName == 'A'))
+			clicked = clicked.parentNode;
+
+		// trigger custom behavior, if any
+		if(typeof(Yacs.tabs_args.onClick) == 'function')
+			Yacs.tabs_args.onClick(clicked);
+
+		// activate the clicked tab -- see skins/_reference/ajax.css
+		for(iterator in Yacs.tabs_list) {
+			if(clicked.id == $(iterator).id) {
+				$(iterator).className = 'tab-foreground';
+			} else {
+				$(iterator).className = 'tab-background';
+			}
+		}
+
+		// activate the related panel -- see skins/_reference/ajax.css
+		for(iterator in Yacs.tabs_list) {
+			if(clicked.id == $(iterator).id) {
+				$(Yacs.tabs_list[iterator][0]).className = 'panel-foreground';
+
+				// load panel content, if any
+				if(Yacs.tabs_list[iterator].length > 1) {
+					Yacs.updateOnce(Yacs.tabs_list[iterator][0], Yacs.tabs_list[iterator][1], Yacs.tabs_args);
+				}
+
+			} else {
+				$(Yacs.tabs_list[iterator][0]).className = 'panel-background';
+			}
+		}
+
+		// do not propagate event
+		Event.stop(e);
 	},
 
 	/**

@@ -104,14 +104,18 @@ if(!isset($item['id'])) {
 		if(is_object($anchor))
 			$anchor->touch('article:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
 
+		// clear the cache
+		Articles::clear($item);
+
 		$context['text'] .= '<p>'.i18n::s('The article has been stamped as being reviewed today.')."</p>\n";
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('View the page')));
 		$menu = array_merge($menu, array('articles/review.php#oldest' => i18n::s('List oldest pages at the review queue')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}
 
@@ -127,9 +131,6 @@ if(!isset($item['id'])) {
 		$query = "UPDATE ".SQL::table_name('articles')." SET expiry_date='".NULL_DATE."' WHERE id = ".SQL::escape($item['id']);
 		SQL::query($query);
 
-		// clear the cache for articles; update section index as well
-		Cache::clear(array('articles', 'article:'.$item['id'], 'sections'));
-
 		$context['text'] .= '<p>'.i18n::s('The expiry date has been removed.')."</p>\n";
 
 	// update the database
@@ -143,12 +144,16 @@ if(!isset($item['id'])) {
 	if(is_object($anchor))
 		$anchor->touch('article:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
 
+	// clear the cache
+	Articles::clear($item);
+
 	// follow-up commands
-	$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+	$follow_up = i18n::s('What do you want to do now?');
 	$menu = array();
 	$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('View the page')));
 	$menu = array_merge($menu, array('articles/review.php#expired' => i18n::s('Go to the review queue')));
-	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // new publication date
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'publish')) {
@@ -172,14 +177,18 @@ if(!isset($item['id'])) {
 		if(is_object($anchor))
 			$anchor->touch('article:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
 
+		// clear the cache
+		Articles::clear($item);
+
 		$context['text'] .= '<p>'.i18n::s('The publication date has been successfully changed.')."</p>\n";
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('View the page')));
 		$menu = array_merge($menu, array('articles/review.php' => i18n::s('Go to the review queue')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}
 

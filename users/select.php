@@ -2,13 +2,14 @@
 /**
  * assign users to any object
  *
- * @todo manage watch list as in sections/select.php
- *
  * This script displays assigned users to an anchor, and list users that could be assigned as well.
  *
  * This is the main tool used by associates to assign editors to pages they are managing.
  *
- * Only associates can use this script. This means that editors cannot delegate their power to someone else.
+ * Only associates can use this script to assign users to sections and to articles.
+ * This means that editors cannot delegate their power to someone else.
+ *
+ * Users are allowed to manage other users in their watch list.
  *
  * Accept following invocations:
  * - select.php?member=article:12
@@ -29,6 +30,18 @@ $anchor = NULL;
 if(isset($_REQUEST['member']))
 	$anchor = Anchors::get($_REQUEST['member']);
 
+// associates can do what they want
+if(Surfer::is_associate())
+	$permitted = TRUE;
+
+// the page of the authenticated surfer
+elseif(is_object($anchor) && Surfer::get_id() && ($anchor->get_reference() == 'user:'.Surfer::get_id()))
+	$permitted = TRUE;
+
+// the default is to disallow access
+else
+	$permitted = FALSE;
+
 // load the skin, maybe with a variant
 load_skin('users', $anchor);
 
@@ -39,21 +52,24 @@ else
 	$context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
-if(is_object($anchor))
-	$context['page_title'] = sprintf(i18n::s('Users assigned to %s'), $anchor->get_title());
-else
-	$context['page_title'] = i18n::s('Assign users');
+if(is_object($anchor)) {
+	if(preg_match('/^user:/', $anchor->get_reference()))
+		$context['page_title'] = sprintf(i18n::s('People watched by %s'), $anchor->get_title());
+	else
+		$context['page_title'] = sprintf(i18n::s('People assigned to %s'), $anchor->get_title());
+}
 
 // an anchor is mandatory
 if(!is_object($anchor))
 	Skin::error(i18n::s('No anchor has been found.'));
 
-// surfer has to be an associate
-elseif(!Surfer::is_associate())
+// permission denied
+elseif(!$permitted) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // build a form to associates some users to this item
-else {
+} else {
 
 	// look for the user through his nick name
 	if(isset($_REQUEST['assigned_name']) && ($user = Users::get($_REQUEST['assigned_name'])))
@@ -62,33 +78,29 @@ else {
 	// assign a user, and also update his watch list
 	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set') && isset($_REQUEST['anchor']) && isset($_REQUEST['member'])) {
 		Members::assign($_REQUEST['anchor'], $_REQUEST['member']);
-		if(preg_match('/^user:/', $_REQUEST['anchor']))
+		if(!preg_match('/^user:/', $_REQUEST['anchor']))
 			Members::assign($_REQUEST['member'], $_REQUEST['anchor']);
 
 	// break an assignment, and also purge the watch list
 	} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'reset') && isset($_REQUEST['anchor']) && isset($_REQUEST['member'])) {
 		Members::free($_REQUEST['anchor'], $_REQUEST['member']);
-		if(preg_match('/^user:/', $_REQUEST['anchor']))
+		if(!preg_match('/^user:/', $_REQUEST['anchor']))
 			Members::free($_REQUEST['member'], $_REQUEST['anchor']);
 
 	}
-
-	// back to the anchor page
-	$context['page_menu'] = array( $anchor->get_url() => sprintf(i18n::s('Back to %s'), $anchor->get_title()) );
 
 	// insert anchor prefix
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_prefix();
 
 	// splash
-	$context['text'] .= '<p>'.i18n::s('Select or deselect users assigned to this page.').'</p>';
+	$context['text'] .= '<p>'.i18n::s('Type some letters to look for some name, then select one user at a time.').'</p>';
 
 	// the form to link additional users
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
 		.i18n::s('Assign').' <input type="text" name="assigned_name" id="name" size="45" maxlength="255" /><div id="name_choices" class="autocomplete"></div> <span id="ajax_spinner" style="display: none"><img src="'.$context['url_to_root'].'skins/_reference/ajax_completer.gif" alt="Working..." /></span>'
 		.'<input type="hidden" name="member" value="'.encode_field($anchor->get_reference()).'">'
 		.'<input type="hidden" name="action" value="set">'
-		.BR.i18n::s('Type some letters to look for some name, then select one user at a time.')
 		.'</p></form>'."\n";
 
 	// enable autocompletion
@@ -136,6 +148,11 @@ else {
 		$context['text'] .= '<p>'.Skin::build_list($new_users, 'compact').'</p>';
 
 	}
+
+	// back to the anchor page
+	$links = array();
+	$links[] = Skin::build_link($anchor->get_url(), i18n::s('Done'), 'button');
+	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
 
 	// insert anchor suffix
 	if(is_object($anchor))

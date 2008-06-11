@@ -80,6 +80,7 @@
  * - [code]get_type()[/code] -- basic information
  * - [code]get_view_text()[/code] -- to be integrated into the main page, between introduction and description
  * - [code]parse_fields()[/code] -- capture form content
+ * - [code]render()[/code] -- delegate rendering to the overlay
  * - [code]remember()[/code] -- for specific post-processing steps
  *
  * Following functions are aiming to simplify external calls:
@@ -325,7 +326,7 @@ class Overlay {
 	 * @return some HTML to be inserted into the resulting page
 	 */
 	function &get_live_introduction($host=NULL) {
-		$text = Codes::beautify_title($host['introduction']);
+		$text = $host['introduction'];
 		return $text;
 	}
 
@@ -518,6 +519,20 @@ class Overlay {
 	 */
 	function parse_fields($fields) {
 		return $this->attributes;
+	}
+
+	/**
+	 * render some page component
+	 *
+	 * @param string type of component to render, e.g., 'articles'
+	 * @param string anchor reference, such as 'section:123'
+	 * @param int page
+	 * @return mixed some text, or NULL
+	 *
+	 * @see articles/view.php
+	 */
+	function render($type, $reference, $page=1) {
+		return NULL;
 	}
 
 	/**

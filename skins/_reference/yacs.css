@@ -110,7 +110,7 @@ div#form_panel h3 { /* align title with dragging handle */
 div#form_wrapper { /* the panel where fields are handled */
 	margin-bottom: 2em;
 	padding-bottom: 0.5em;
-	minimum-height: 5em;
+	min-height: 5em;
 }
 
 /**
@@ -279,12 +279,14 @@ div#tabs_panels div.panel-foreground {
 	display: block;
 	position: static;
 	left: 0;
+	max-width: 3000px; /* avoid overlap between tabbed panels in FF */
 }
 
 div#tabs_panels div.panel-background {
 /*	display: none;  do not hide tab content, this may kill Google Maps */
 	position: absolute;
-	left: +7000px;
+	left: -20000px; /* no impact on horizontal sliding control */
+	max-width: 3000px; /* avoid overlap between tabbed panels in FF */
 }
 
 /**
@@ -297,7 +299,7 @@ div#thread_wrapper { /* around text and input field */
 	position: relative;
 	max-width: 700px; /* limit the width */
 	margin: 1em 0;
-	padding: 0 0 6px 6px;
+	padding: 0 0 6px 0;
 }
 
 div#thread_wrapper textarea#contribution { /* the main input field */
@@ -373,6 +375,7 @@ p.tags {
 	font-weight:	400;
 	font-style:	normal;
 	color:	#666666;
+	margin: 1em 0;
 }
 
 p.tags a {
@@ -468,7 +471,7 @@ dl.family dd { /* data for one date */
  * other reference styles used by YACS
  */
 
-p.assistant_bar { /* menu appears at page bottom */
+div.bottom { /* the last div of the content area */
 	margin-top: 2em;
 	border-top: 1px solid #ccc;
 	padding-top: 1em;
@@ -480,6 +483,57 @@ div.folder_box {
 	margin-bottom: 0.5em;
 }
 
+div.digg { /* a left floating box */
+/*	float: right; */
+	position: absolute;
+	top: auto;
+	left: -60px;
+	width: 52px;
+	margin: 0 1em 1em 0;
+	padding: 0;
+}
+
+div.digg div.votes { /* report on previous votes */
+	font-size: 12px;
+	background: transparent url("votes_bg.gif") top left no-repeat;
+	height: 47px; /* 53 - 6 */
+	text-align: center;
+	margin: 0;
+	padding: 6px 1em 0 1em;
+}
+
+div.digg div.votes span.big { /* number of votes */
+	font-size: 18px;
+}
+
+div.digg div.rate { /* a link to vote */
+	border: 1px solid #ccc;
+	text-align: center;
+	margin: 4px 0 0 0;
+	padding: 0.1em;
+	font-size: 14px;
+}
+
+div.digg div.rate:hover { /* an easy-to-click link */
+	background-color: #ddd;
+}
+
+div.digg div.rate a,
+div.digg div.rate a:hover { /* no underline, etc. */
+	text-decoration: none;
+}
+
+div.digg_content { /* actual page content */
+	position: relative;
+	margin-left: 60px;
+	min-height: 100px;
+}
+
+p.follow_up { /* at the bottom of some component */
+	margin: 1em 0 0 0;
+	padding: 2px 0 0 0;
+}
+
 p#columns_prefix { /* comes before columns */
 	clear: left; /* align properly after site map, if any */
 	margin: 0;
@@ -489,6 +543,6 @@ p#columns_prefix { /* comes before columns */
 p#columns_suffix { /* comes after columns */
 	clear: left; /* compensate for left-floated columns */
 	margin: 0; /* ignored by firefox anyway */
-	padding: 0 0 2em 0; /* make some room after columns */
+	padding: 0 0 2em 0; /* make some room below columns */
 }
 

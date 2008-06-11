@@ -241,18 +241,12 @@ if(!isset($item['id'])) {
 		$with_form = TRUE;
 
 	// create a new page
-	} elseif(!$id = Articles::post($_REQUEST)) {
+	} elseif(!$_REQUEST['id'] = Articles::post($_REQUEST)) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
 	// successful post
 	} else {
-
-		// save id in the request as well;
-		$_REQUEST['id'] = $id;
-
-		// touch the related anchor
-		$anchor->touch('article:create', $id, isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// attach files to this page, if any
 		if(is_array($_FILES) && Surfer::may_upload()) {
@@ -265,7 +259,7 @@ if(!isset($item['id'])) {
 					$file_name = utf8::to_ascii($_FILES[$field['name']]['name']);
 
 					// create folders
-					$file_path = 'files/'.$context['virtual_path'].'article/'.$id;
+					$file_path = 'files/'.$context['virtual_path'].'article/'.$_REQUEST['id'];
 					Safe::make_path($file_path);
 
 					// make an absolute path
@@ -305,7 +299,7 @@ if(!isset($item['id'])) {
 
 						// record one file entry
 						$item = array();
-						$item['anchor'] = 'article:'.$id;
+						$item['anchor'] = 'article:'.$_REQUEST['id'];
 						$item['file_name'] = $file_name;
 						$item['file_size'] = $_FILES[$field['name']]['size'];
 						$item['file_href'] = '';
@@ -324,6 +318,12 @@ if(!isset($item['id'])) {
 
 		}
 
+		// touch the related anchor
+		$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+		// clear the cache
+		Articles::clear($_REQUEST);
+
 		// if poster is a registered user
 		if(Surfer::get_id()) {
 
@@ -331,12 +331,12 @@ if(!isset($item['id'])) {
 			Users::increment_posts(Surfer::get_id());
 
 			// add this page to watch list
-			Members::assign('article:'.$id, 'user:'.Surfer::get_id());
+			Members::assign('article:'.$_REQUEST['id'], 'user:'.Surfer::get_id());
 
 		}
 
 		// get the new item
-		$article = Anchors::get('article:'.$id);
+		$article = Anchors::get('article:'.$_REQUEST['id']);
 
 		// page title
 		$context['page_title'] = i18n::s('Thank you for your contribution');
@@ -345,17 +345,18 @@ if(!isset($item['id'])) {
 		$context['text'] .= i18n::s('<p>A new page has been created with submitted data. You can use its permanent address at any time to review or complement it.</p>');
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array($article->get_url() => i18n::s('View the page')));
 		if(Surfer::may_upload()) {
-			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('article:'.$id) => i18n::s('Add an image')));
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$id) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Add an image')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Upload a file')));
 		}
-		$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('article:'.$id) => i18n::s('Add a link')));
+		$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Add a link')));
 		if(Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y'))
-			$menu = array_merge($menu, array(Articles::get_url($id, 'mail') => i18n::s('Invite people to review and to contribute')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$menu = array_merge($menu, array(Articles::get_url($_REQUEST['id'], 'mail') => i18n::s('Invite people')));
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the creation of a new page
 		$label = sprintf(i18n::c('New page: %s'), strip_tags($article->get_title()));
@@ -381,35 +382,35 @@ if($with_form) {
 	// initialize the rendering engine
 	Codes::initialize(Forms::get_url($item['id'], 'view', $item['title']));
 
+	// provide details only to associates
+	if(Surfer::is_associate()) {
+		$details = array();
+
+		// the nick name
+		if($item['nick_name'])
+			$details[] = '"'.$item['nick_name'].'"';
+
+		// information on last update
+		if($item['edit_name'])
+			$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+
+		// restricted to logged members
+		if($item['active'] == 'R')
+			$details[] = RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members').BR."\n";
+
+		// restricted to associates
+		elseif($item['active'] == 'N')
+			$details[] = PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates').BR."\n";
+
+		// all details
+		if(@count($details))
+			$context['page_details'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+
+	}
+
 	// use the cache if possible
 	$cache_id = 'forms/view.php?id='.$item['id'].'#content';
 	if(!$text =& Cache::get($cache_id)) {
-
-		// provide details only to associates
-		if(Surfer::is_associate()) {
-			$details = array();
-
-			// the nick name
-			if($item['nick_name'])
-				$details[] = '"'.$item['nick_name'].'"';
-
-			// information on last update
-			if($item['edit_name'])
-				$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
-
-			// restricted to logged members
-			if($item['active'] == 'R')
-				$details[] = RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members').BR."\n";
-
-			// restricted to associates
-			elseif($item['active'] == 'N')
-				$details[] = PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates').BR."\n";
-
-			// all details
-			if(@count($details))
-				$text .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
-
-		}
 
 		// show the description
 		if($item['description'])
@@ -504,11 +505,11 @@ if($with_form) {
 						$text .= '</select>'."\n";
 					} elseif(isset($field['type']) && ($field['type'] == 'check')) {
 						foreach($options as $option) {
-							$text .= '<input type="checkbox" name="'.encode_field($field['name']).'[]" value="'.encode_field($option[0]).'"/> '.$option[1].BR."\n";
+							$text .= '<input type="checkbox" name="'.encode_field($field['name']).'[]" value="'.encode_field($option[0]).'" /> '.$option[1].BR."\n";
 						}
 					} else {
 						foreach($options as $option) {
-							$text .= '<input type="radio" name="'.encode_field($field['name']).'" value="'.encode_field($option[0]).'"/> '.$option[1].BR."\n";
+							$text .= '<input type="radio" name="'.encode_field($field['name']).'" value="'.encode_field($option[0]).'" /> '.$option[1].BR."\n";
 						}
 					}
 					break;
@@ -530,8 +531,8 @@ if($with_form) {
 		$menu = array();
 		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 		if(Surfer::is_associate()) {
-			$menu[] = Skin::build_link(Forms::get_url($id, 'edit'), i18n::s('Edit'), 'span');
-			$menu[] = Skin::build_link(Forms::get_url($id, 'delete'), i18n::s('Delete'), 'span');
+			$menu[] = Skin::build_link(Forms::get_url($item['id'], 'edit'), i18n::s('Edit'), 'span');
+			$menu[] = Skin::build_link(Forms::get_url($item['id'], 'delete'), i18n::s('Delete'), 'span');
 		}
 		$menu[] = Skin::build_link('forms/', i18n::s('Cancel'), 'span');
 		$text .= Skin::finalize_list($menu, 'assistant_bar');

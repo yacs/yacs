@@ -523,8 +523,10 @@ elseif(isset($action) && ($action == 'announcement')) {
 		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 
 		// reference the new section
-		if($new_id = Sections::post($fields))
-			$anchor = 'section:'.$new_id;
+		if($fields['id'] = Sections::post($fields)) {
+			Sections::clear($fields);
+			$anchor = 'section:'.$fields['id'];
+		}
 
 	}
 
@@ -545,12 +547,14 @@ elseif(isset($action) && ($action == 'announcement')) {
 	$fields['publish_id'] = Surfer::get_id();
 	$fields['publish_address'] = Surfer::get_email_address();
 	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	if($articles_id = Articles::post($fields)) {
+	if($fields['id'] = Articles::post($fields)) {
 
 		// purge section cache
 		if($section = Anchors::get($fields['anchor']))
-			$section->touch('article:create', $article_id, TRUE);
+			$section->touch('article:create', $fields['id'], TRUE);
 
+		// clear the cache
+		Articles::clear($fields);
 	}
 
 	// from: from configuration files

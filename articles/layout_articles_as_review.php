@@ -81,10 +81,6 @@ Class Layout_articles_as_review extends Layout_interface {
 			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
 				$prefix .= DRAFT_FLAG;
 
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$prefix .= LOCKED_FLAG;
-
 			// signal restricted and private articles
 			if($item['active'] == 'N')
 				$prefix .= PRIVATE_FLAG;
@@ -118,6 +114,10 @@ Class Layout_articles_as_review extends Layout_interface {
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
+
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$details[] = LOCKED_FLAG;
 
 			// append details to the suffix
 			$suffix .= ' -&nbsp;<span class="details">'.ucfirst(trim(implode(', ', $details))).'</span>';

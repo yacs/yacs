@@ -36,7 +36,7 @@ $context['page_title'] = i18n::s('Forms');
 // count forms in the database
 $stats = Forms::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 page', '%d pages', $stats['count']), $stats['count'])));
+	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 form', '%d forms', $stats['count']), $stats['count'])));
 
 // navigation commands for forms, if necessary
 if($stats['count'] > $items_per_page) {
@@ -48,11 +48,6 @@ if($stats['count'] > $items_per_page) {
 	else
 		$prefix = $home.'?page=';
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
-}
-
-// menu bar
-if(Surfer::is_associate()) {
-	$context['page_menu'] = array( 'forms/edit.php' => i18n::s('Add a form') );
 }
 
 // page main content
@@ -71,6 +66,10 @@ if(!$text =& Cache::get($cache_id)) {
 	Cache::put($cache_id, $text, 'forms');
 }
 $context['text'] .= $text;
+
+// page tools
+if(Surfer::is_associate())
+	$context['page_tools'][] = Skin::build_link('forms/edit.php', i18n::s('Add a form'));
 
 // referrals, if any
 $context['extra'] .= Skin::build_referrals('forms/index.php');

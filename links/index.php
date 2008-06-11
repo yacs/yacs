@@ -63,17 +63,6 @@ if($stats['count'] > $items_per_page) {
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
 }
 
-// commands for associates
-if(Surfer::is_associate()) {
-
-	// view external links embedded in pages
-	if(Sections::lookup('clicks'))
-		$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url('clicks') => i18n::s('Detected clicks') ));
-
-	// check links
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'links/check.php' => i18n::s('Maintenance') ));
-}
-
 // page main content
 $cache_id = 'links/index.php#text#'.$page;
 if(!$text =& Cache::get($cache_id)) {
@@ -105,6 +94,13 @@ if(!$text =& Cache::get($cache_id)) {
 	Cache::put($cache_id, $text, 'links');
 }
 $context['text'] .= $text;
+
+// page tools
+if(Surfer::is_associate()) {
+	if(Sections::lookup('clicks'))
+		$context['page_tools'][] = Skin::build_link(Sections::get_url('clicks'), i18n::s('Detected clicks'), 'basic');
+	$context['page_tools'][] = Skin::build_link('links/check.php', i18n::s('Maintenance'), 'basic');
+}
 
 // page extra content
 $cache_id = 'links/index.php#extra';

@@ -58,7 +58,7 @@ elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id())
 	$permitted = TRUE;
 
 // authenticated surfers may suppress their own posts
-// elseif(isset($item['create_id']) && Surfer::is_creator($item['create_id']))
+// elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
 //	$permitted = TRUE;
 
 // the default is to deny access
@@ -93,10 +93,11 @@ if(!isset($item['id'])) {
 
 	// touch the related anchor before actual deletion, since the file has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('file:delete', $id, TRUE);
+		$anchor->touch('file:delete', $item['id'], TRUE);
 
 	// if no error, back to the anchor or to the index page
-	if(Files::delete($id)) {
+	if(Files::delete($item['id'])) {
+		Files::clear($item);
 		if(is_object($anchor))
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#files');
 		else
@@ -121,7 +122,7 @@ if($item['id']) {
 
 	// display the confirmation button only to allowed surfers
 	if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())
-		|| Surfer::is_creator($item['create_id'])) {
+		|| Surfer::is($item['create_id'])) {
 
 		// the submit button
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"

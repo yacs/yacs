@@ -30,7 +30,7 @@
  *
  * [title]General structure of a YACS page[/title]
  *
- * Generally speaking the overall YACS rendering engine handles three different kinds of areas on the screen:
+ * Generally speaking the overall YACS page factory handles three different kinds of areas on the screen:
  * - the main panel - This is where most of the text will be placed.
  * Every YACS script is aiming to put some content in the main area.
  * - the extra panel - Extra information, if any, to be displayed on page side.
@@ -132,7 +132,7 @@
  *
  * The number of articles displayed depends on the selected layout.
  * For example, the alistapart layout displays one single full-page, while slashdot summarizes several articles.
- * To override this number set the parameter [code]root_articles_count_at_home[/code] in the configuration panel for rendering engine.
+ * To override this number set the parameter [code]root_articles_count_at_home[/code] in the configuration panel for page factory.
  *
  * This front page is also able to display the content of one single section, if its id is specified in the parameter ##root_sections_at_home##.
  * In this case, the list of recent pages may be affected by any overlay that has been activated for the target section.
@@ -672,8 +672,8 @@ if(!$text =& Cache::get($cache_id)) {
 		}
 
 		// delegate rendering to the overlay, where applicable
-		if(isset($content_overlay) && is_object($content_overlay) && is_callable(array($content_overlay, 'render_articles_for_anchor'))) {
-			$text .= $content_overlay->render_articles_for_anchor('section:'.$target_section['id']);
+		if(is_object($content_overlay) && ($overlaid = $content_overlay->render('articles', 'section:'.$target_section['id']))) {
+			$text .= $overlaid;
 			$items = '';
 
 		// else use the regular layout
@@ -711,7 +711,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 		// add a title in case of complex page
 		$title = '';
-		if(preg_match('/<h2>|<h3>|class="section_box"/', $context['text'])) {
+		if(preg_match('/<h2>|<h3>/', $context['text'].$text)) {
 			$title = i18n::s('Recent Pages');
 		}
 
@@ -800,6 +800,20 @@ $context['text'] .= $text;
 //
 // compute extra information -- $context['extra']
 //
+
+// page tools
+//
+if(Surfer::is_associate()) {
+	$context['page_tools'][] = Skin::build_link('configure.php', i18n::s('Configure'));
+	if(isset($cover_page['id']))
+		$context['page_tools'][] = Skin::build_link(Articles::get_url($cover_page['id'], 'view', $cover_page['title'], $cover_page['nick_name']), i18n::s('Cover page'), 'basic');
+	if(($section = Sections::get('gadget_boxes')) && isset($section['id']))
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($section['id'], 'view', $section['title'], $section['nick_name']), i18n::s('Gadget boxes'), 'basic');
+	if(($section = Sections::get('extra_boxes')) && isset($section['id']))
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($section['id'], 'view', $section['title'], $section['nick_name']), i18n::s('Extra boxes'), 'basic');
+	if(($section = Sections::get('navigation_boxes')) && isset($section['id']))
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($section['id'], 'view', $section['title'], $section['nick_name']), i18n::s('Navigation boxes'), 'basic');
+}
 
 // save some database requests
 $cache_id = 'index.php#extra';

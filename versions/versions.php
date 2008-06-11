@@ -100,8 +100,6 @@ Class Versions {
 		$query = "DELETE FROM ".SQL::table_name('versions')
 			." WHERE anchor LIKE '".SQL::escape($anchor)."'";
 		SQL::query($query);
-
-		return NULL;
 	}
 
 	/**

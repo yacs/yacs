@@ -73,18 +73,18 @@ $context['text'] .= Skin::build_block(i18n::s('Test weblogUpdates.ping'), 'title
 $fields = array();
 $context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';
 $label = i18n::s('Server address');
-$input = '<input type="text" name="target" id="target" size="30" maxlength="128" value="'.encode_field(isset($_REQUEST['target']) ? $_REQUEST['target'] : '').'"/>'."\n"
+$input = '<input type="text" name="target" id="target" size="30" maxlength="128" value="'.encode_field(isset($_REQUEST['target']) ? $_REQUEST['target'] : '').'" />'."\n"
 	.' '.Skin::build_submit_button(i18n::s('Go'));
 $hint = i18n::s('The name or the IP address of the yacs server');
 $fields[] = array($label, $input, $hint);
 $label = i18n::s('Name of the updated server');
-$input = '<input type="text" name="name" size="45" maxlength="255" value="'.encode_field(isset($_REQUEST['name']) ? $_REQUEST['name'] : '').'"/>';
+$input = '<input type="text" name="name" size="45" maxlength="255" value="'.encode_field(isset($_REQUEST['name']) ? $_REQUEST['name'] : '').'" />';
 $fields[] = array($label, $input);
 $label = i18n::s('URI of the updated server');
-$input = '<input type="text" name="url" size="45" maxlength="255" value="'.encode_field(isset($_REQUEST['url']) ? $_REQUEST['url'] : '').'"/>';
+$input = '<input type="text" name="url" size="45" maxlength="255" value="'.encode_field(isset($_REQUEST['url']) ? $_REQUEST['url'] : '').'" />';
 $fields[] = array($label, $input);
 $context['text'] .= Skin::build_form($fields);
-$context['text'] .= '<input type="hidden" name="action" value="weblogUpdates.ping"/>';
+$context['text'] .= '<input type="hidden" name="action" value="weblogUpdates.ping" />';
 $context['text'] .= '</div></form>';
 
 // the script used for form handling at the browser
@@ -100,18 +100,18 @@ $context['text'] .= Skin::build_block(i18n::s('Test pingback.ping'), 'title');
 $fields = array();
 $context['text'] .= '<form method="post" action="'.$context['script_url'].'"><div>';
 $label = i18n::s('Server address');
-$input = '<input type="text" name="target" size="30" maxlength="128" value="'.encode_field(isset($_REQUEST['target']) ? $_REQUEST['target'] : '').'"/>'."\n"
+$input = '<input type="text" name="target" size="30" maxlength="128" value="'.encode_field(isset($_REQUEST['target']) ? $_REQUEST['target'] : '').'" />'."\n"
 	.' '.Skin::build_submit_button(i18n::s('Go'));
 $hint = i18n::s('The name or the IP address of the yacs server');
 $fields[] = array($label, $input, $hint);
 $label = i18n::s('URI of the source page');
-$input = '<input type="text" name="source_link" size="45" maxlength="255" value="'.encode_field(isset($_REQUEST['source_link']) ? $_REQUEST['source_link'] : '').'"/>';
+$input = '<input type="text" name="source_link" size="45" maxlength="255" value="'.encode_field(isset($_REQUEST['source_link']) ? $_REQUEST['source_link'] : '').'" />';
 $fields[] = array($label, $input);
 $label = i18n::s('URI of the target page');
-$input = '<input type="text" name="target_link" size="45" maxlength="255" value="'.encode_field(isset($_REQUEST['target_link']) ? $_REQUEST['target_link'] : '').'"/>';
+$input = '<input type="text" name="target_link" size="45" maxlength="255" value="'.encode_field(isset($_REQUEST['target_link']) ? $_REQUEST['target_link'] : '').'" />';
 $fields[] = array($label, $input);
 $context['text'] .= Skin::build_form($fields);
-$context['text'] .= '<input type="hidden" name="action" value="pingback.ping"/>';
+$context['text'] .= '<input type="hidden" name="action" value="pingback.ping" />';
 $context['text'] .= '</div></form>';
 
 render_skin();

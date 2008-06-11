@@ -207,19 +207,19 @@ class Contact extends Overlay {
 			$rows[] = array(i18n::s('Mail address'), str_replace("\n", '<br />', $this->attributes['mail']));
 
 		// phone number
-		if(($variant == 'view') && isset($this->attributes['phone_number']) && $this->attributes['phone_number'])
+		if(isset($this->attributes['phone_number']) && $this->attributes['phone_number'])
 			$rows[] = array(i18n::s('Phone number'), $this->attributes['phone_number']);
 
 		// alternate number
-		if(($variant == 'view') && isset($this->attributes['alternate_number']) && $this->attributes['alternate_number'])
+		if(isset($this->attributes['alternate_number']) && $this->attributes['alternate_number'])
 			$rows[] = array(i18n::s('Alternate number'), $this->attributes['alternate_number']);
 
 		// e-mail
-		if(($variant == 'view') && isset($this->attributes['e_mail']) && $this->attributes['e_mail'])
+		if(isset($this->attributes['e_mail']) && $this->attributes['e_mail'])
 			$rows[] = array(i18n::s('E-mail'), Skin::build_link('mailto:'.$this->attributes['e_mail'], $this->attributes['e_mail'], 'email'));
 
 		// web
-		if(($variant == 'view') && isset($this->attributes['web']) && $this->attributes['web'])
+		if(isset($this->attributes['web']) && $this->attributes['web'])
 			$rows[] = array(i18n::s('Web'), Skin::build_link($this->attributes['web'], $this->attributes['web']));
 
 		// finalize the table

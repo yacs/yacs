@@ -46,7 +46,7 @@ $context['path_bar'] = array( 'forms/' => i18n::s('Forms') );
 $context['page_title'] = i18n::s('Delete a form');
 
 // not found
-if(!$item['id']) {
+if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -65,8 +65,10 @@ if(!$item['id']) {
 } elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {
 
 	// delete and go back to the index page
-	if(Forms::delete($id))
+	if(Forms::delete($item['id'])) {
+		Forms::clear($item);
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'forms/');
+	}
 
 // deletion has to be confirmed
 } elseif(isset($_form['REQUEST_METHOD']) && ($_form['REQUEST_METHOD'] == 'POST')) {

@@ -39,6 +39,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../shared/xml.php';	// input validation
 include_once 'locations.php';
 
 // look for the id
@@ -87,9 +88,9 @@ else
 
 // always validate input syntax
 if(isset($_REQUEST['introduction']))
-	validate($_REQUEST['introduction']);
+	xml::validate($_REQUEST['introduction']);
 if(isset($_REQUEST['description']))
-	validate($_REQUEST['description']);
+	xml::validate($_REQUEST['description']);
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -108,13 +109,9 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 	Skin::error(i18n::s('No anchor has been found.'));
 
 // maybe posts are not allowed here
-} elseif(is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_associate()) {
-
+} elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked')) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
-	if(isset($item['id']))
-		Skin::error(i18n::s('This page has been locked. It cannot be modified anymore.'));
-	else
-		Skin::error(i18n::s('Posts are not allowed anymore here.'));
+	Skin::error(i18n::s('This page has been locked.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -128,7 +125,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 	$next = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
 
 	// display the form on error
-	if(!$id = Locations::post($_REQUEST)) {
+	if(!$_REQUEST['id'] = Locations::post($_REQUEST)) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -154,25 +151,25 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		$context['text'] .= '<p>'.i18n::s('The location has been appended to the page.').'</p>';
 
 		// touch the related anchor
-		$anchor->touch('location:create', $id, isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+		$anchor->touch('location:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
-		// splash message
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		// clear cache
+		Locations::clear($_REQUEST);
 
 		// follow-up commands
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		if(is_object($anchor)) {
-			$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the updated page')));
-			$menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit the page')));
-			$menu = array_merge($menu, array('locations/edit.php?anchor='.$anchor->get_reference() => i18n::s('Add another location')));
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
-		}
+		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the updated page')));
+		$menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit the page')));
+		$menu = array_merge($menu, array('locations/edit.php?anchor='.$anchor->get_reference() => i18n::s('Add another location')));
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the submission by a non-associate
 		if(!Surfer::is_associate() && is_object($anchor)) {
 			$label = sprintf(i18n::c('New location in %s'), strip_tags($anchor->get_title()));
 			$description = $_REQUEST['geo_place_name']."\n"
-				.sprintf(i18n::c('at %s'), $context['url_to_home'].$context['url_to_root'].Locations::get_url($id));
+				.sprintf(i18n::c('at %s'), $context['url_to_home'].$context['url_to_root'].Locations::get_url($_REQUEST['id']));
 			Logger::notify('locations/edit.php', $label, $description);
 		}
 
@@ -184,6 +181,9 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 
 		// touch the related anchor
 		$anchor->touch('location:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+		// clear cache
+		Locations::clear($_REQUEST);
 
 		// forward to the view page
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].Locations::get_url($_REQUEST['id']));

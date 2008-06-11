@@ -67,7 +67,7 @@ elseif(($item['publish_date'] > NULL_DATE) && isset($context['users_without_revi
 	$permitted = FALSE;
 
 // authenticated surfers may suppress their own posts
-elseif(Surfer::is_creator($item['create_id']))
+elseif(Surfer::is($item['create_id']))
 	$permitted = TRUE;
 
 // the default is to deny access
@@ -116,10 +116,13 @@ if(!isset($item['id'])) {
 
 	// touch the related anchor before actual deletion, since the image has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('article:delete', $id, TRUE);
+		$anchor->touch('article:delete', $item['id'], TRUE);
 
 	// attempt to delete
-	if(Articles::delete($id)) {
+	if(Articles::delete($item['id'])) {
+
+		// this can appear anywhere
+		Cache::clear();
 
 		// back to the anchor page or to the index page
 		if(is_object($anchor))

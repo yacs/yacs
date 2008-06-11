@@ -132,18 +132,18 @@ Class Actions {
 		if(Surfer::is_empowered())
 			return TRUE;
 
+		// item has been locked
+		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// anchor has been locked --only used when there is no item provided
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
+
 		// surfer screening
 		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
 			return FALSE;
 		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
-		// anchor has been locked
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('locked'))
-			return FALSE;
-
-		// item has been locked
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
 
 		// authenticated members are allowed to add actions
@@ -167,6 +167,29 @@ Class Actions {
 	}
 
 	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('actions', 'articles', 'users');
+
+		// clear anchor page
+		if(isset($item['anchor']))
+			$topics[] = $item['anchor'];
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'action:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
+	}
+
+	/**
 	 * delete one action
 	 *
 	 * @param int the id of the action to delete
@@ -181,16 +204,10 @@ Class Actions {
 		if(!$id || !is_numeric($id))
 			return FALSE;
 
-		// delete related items
-//		Anchors::delete_related_to('action:'.$id);
-
 		// delete the record in the database
 		$query = "DELETE FROM ".SQL::table_name('actions')." WHERE id = ".SQL::escape($id);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
-
-		// clear the cache for actions
-		Cache::clear(array('actions', 'action:'.$id));
 
 		// job done
 		return TRUE;
@@ -205,9 +222,6 @@ Class Actions {
 	 */
 	function delete_for_anchor($anchor) {
 		global $context;
-
-		// clear the cache for actions
-		Cache::clear(array('actions', 'action:'));
 
 		// delete all matching records in the database
 		$query = "DELETE FROM ".SQL::table_name('actions')." WHERE anchor LIKE '".SQL::escape($anchor)."'";
@@ -248,13 +262,13 @@ Class Actions {
 				$item['anchor'] = $anchor_to;
 
 				// actual duplication
-				if($new_id = Actions::post($item)) {
+				if($item['id'] = Actions::post($item)) {
 
 					// more pairs of strings to transcode
-					$transcoded[] = array('/\[action='.preg_quote($old_id, '/').'/i', '[action='.$new_id);
+					$transcoded[] = array('/\[action='.preg_quote($old_id, '/').'/i', '[action='.$item['id']);
 
 					// duplicate elements related to this item
-					Anchors::duplicate_related_to('action:'.$old_id, 'action:'.$new_id);
+					Anchors::duplicate_related_to('action:'.$old_id, 'action:'.$item['id']);
 
 					// stats
 					$count++;
@@ -581,7 +595,7 @@ Class Actions {
 	 * @param array an array of fields
 	 * @return the id of the new action, or FALSE on error
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// no title

@@ -2,6 +2,8 @@
 /**
  * mail an article
  *
+ * @todo add cancel button
+ *
  * This script has a form to post a mail message based on an existing article.
  *
  * If the action parameter is empty, a menu is offered either:
@@ -315,7 +317,7 @@ if(!isset($item['id'])) {
 } elseif($action == 'invite') {
 
 	// page title
-	$context['page_title'] = i18n::s('Invite people to review and to contribute');
+	$context['page_title'] = i18n::s('Invite people');
 
 	// referenced page
 	$context['text'] .= '<p>'.Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), $item['title'])."</p>\n";
@@ -329,7 +331,7 @@ if(!isset($item['id'])) {
 	// the recipient
 	$label = i18n::s('People to invite');
 	$input = '<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
-	$hint = i18n::s('Enter nick names, or email addresses, separated by commas, of all persons allowed to contribute to this page.');
+	$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');
 	$fields[] = array($label, $input, $hint);
 
 	// the sender
@@ -344,10 +346,9 @@ if(!isset($item['id'])) {
 
 	// the subject
 	$label = i18n::s('Message title');
+	$title = '';
 	if($name = Surfer::get_name())
 		$title = sprintf(i18n::s('You are invited by %s'), $name);
-	else
-		$title = i18n::s('You are invited to collaborate');
 	$input = '<input type="text" name="subject" size="45" maxlength="255" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
 
@@ -550,7 +551,7 @@ if(!isset($item['id'])) {
 	$context['text'] .= '<form method="get" action="'.$context['script_url'].'" id="main_form"><div>';
 
 	// invite other people to contribute
-	$context['text'] .= '<p><input type="radio" name="action" id="action" value="invite" /> '.i18n::s('Invite people to review and to contribute').'</p>';
+	$context['text'] .= '<p><input type="radio" name="action" id="action" value="invite" /> '.i18n::s('Invite people').'</p>';
 
 	// provide some feed-back
 	$context['text'] .= '<p><input type="radio" name="action" id="action" value="feed-back" /> '.i18n::s('Provide feed-back to page author').'</p>';

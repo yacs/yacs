@@ -650,7 +650,7 @@ elseif(!Surfer::is_associate()) {
 	} else {
 
 		// what's next?
-		$context['text'] .= '<p>'.i18n::s('Where do you want to go now?')."</p>\n";
+		$follow_up = i18n::s('Where do you want to go now?');
 
 		// follow-up menu
 		$menu = array();
@@ -665,7 +665,10 @@ elseif(!Surfer::is_associate()) {
 		$menu = array_merge($menu, array( 'configure.php' => i18n::s('Configure again') ));
 
 		// display follow-up commands
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+
+		// at page bottom
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}
 

@@ -59,10 +59,10 @@ Class Layout_articles_as_yabb extends Layout_interface {
 			if(defined('HOT_THREAD_IMG'))
 				$help .= HOT_THREAD_IMG.' '.i18n::s('Hot thread (10 replies)').BR."\n";
 
-			Skin::define_img('VERY_HOT_THREAD_IMG', $context['skin'].'/icons/articles/very_hot_thread.gif');
+			Skin::define_img('VERY_HOT_THREAD_IMG', 'icons/articles/very_hot_thread.gif');
 			$help .= VERY_HOT_THREAD_IMG.' '.i18n::s('Very hot thread (20 replies)').BR."\n";
 
-			Skin::define_img('STICKY_THREAD_IMG', $context['skin'].'/icons/articles/sticky_thread.gif');
+			Skin::define_img('STICKY_THREAD_IMG', 'icons/articles/sticky_thread.gif');
 			$help .= STICKY_THREAD_IMG.' '.i18n::s('Sticky thread').BR."\n";
 
 			if($help)
@@ -112,10 +112,6 @@ Class Layout_articles_as_yabb extends Layout_interface {
 			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
 				$prefix .= DRAFT_FLAG;
 
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$prefix .= LOCKED_FLAG;
-
 			// signal restricted and private articles
 			if($item['active'] == 'N')
 				$prefix .= PRIVATE_FLAG.' ';
@@ -137,13 +133,13 @@ Class Layout_articles_as_yabb extends Layout_interface {
 			// select an icon for this thread
 			$item['comments_count'] = Comments::count_for_anchor('article:'.$item['id']);
 			if(is_object($overlay) && ($overlay->attributes['overlay_type'] == 'poll')) {
-				Skin::define_img('POLL_IMG', $context['skin'].'/icons/articles/poll.gif');
+				Skin::define_img('POLL_IMG', 'icons/articles/poll.gif');
 				$icon = POLL_IMG;
 			} elseif($item['rank'] < 10000) {
-				Skin::define_img('STICKY_THREAD_IMG', $context['skin'].'/icons/articles/sticky_thread.gif');
+				Skin::define_img('STICKY_THREAD_IMG', 'icons/articles/sticky_thread.gif');
 				$icon = STICKY_THREAD_IMG;
 			} elseif(isset($item['comments_count']) && ($item['comments_count'] >= 20)) {
-				Skin::define_img('VERY_HOT_THREAD_IMG', $context['skin'].'/icons/articles/very_hot_thread.gif');
+				Skin::define_img('VERY_HOT_THREAD_IMG', 'icons/articles/very_hot_thread.gif');
 				$icon = VERY_HOT_THREAD_IMG;
 			} elseif(isset($item['comments_count']) && ($item['comments_count'] >= 10))
 				$icon = HOT_THREAD_IMG;
@@ -219,6 +215,10 @@ Class Layout_articles_as_yabb extends Layout_interface {
 
 				$details .= $user.' '.Skin::build_date($item['edit_date']);
 			}
+
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$details .= ', '.LOCKED_FLAG;
 
 			// poster details
 			if($details)

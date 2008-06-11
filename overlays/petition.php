@@ -264,7 +264,8 @@ class Petition extends Overlay {
 
 		$text .= '</p>';
 
-		return '<div class="overlay">'.Codes::beautify($text).'</div>';
+		$text = '<div class="overlay">'.Codes::beautify($text).'</div>';
+		return $text;
 	}
 
 	/**

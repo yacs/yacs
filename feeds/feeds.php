@@ -358,11 +358,12 @@ class Feeds {
 					$fields['rank'] = 40000; // at the end of the list
 					$fields['title'] = i18n::c('External News');
 					$fields['description'] = i18n::c('Received from feeding servers');
-					if(!$new_id = Sections::post($fields)) {
+					if(!$fields['id'] = Sections::post($fields)) {
 						Logger::remember('feeds/feeds.php', 'Impossible to add a section.');
 						return;
 					}
-					$anchor = 'section:'.$new_id;
+					Sections::clear($fields);
+					$anchor = 'section:'.$fields['id'];
 				}
 			}
 

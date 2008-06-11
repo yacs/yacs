@@ -132,7 +132,7 @@ if($id && !isset($item['id'])) {
 
 	$icon = '';
 	if(!isset($item['id']))
-		$icon = "\t".'<icon BUILTIN="gohome"/>'."\n";
+		$icon = "\t".'<icon BUILTIN="gohome" />'."\n";
 
 	// get the list from the cache, if possible
 	if(isset($item['id']))
@@ -223,7 +223,7 @@ if($id && !isset($item['id'])) {
 			}
 
 			// rating
-			if(isset($item['rating_count']) && $item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating'))
+			if(isset($item['rating_count']) && $item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating', FALSE))
 				$rating = Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count']));
 
 		}
@@ -237,8 +237,8 @@ if($id && !isset($item['id'])) {
 				.$freemind_main_color
 				.' TEXT="'.encode_field(utf8::to_hex('<html><center>'.$prefix.$title.$rating.'</center></html>')).'">'."\n"
 			.$icon
-			."\t".'<font BOLD="true" NAME="SansSerif" SIZE="15"/>'."\n"
-			."\t".'<edge COLOR="'.$context['skins_freemind_edge_color'].'" STYLE="'.$context['skins_freemind_edge_style'].'" WIDTH="'.$context['skins_freemind_edge_thickness'].'"/>'."\n";
+			."\t".'<font BOLD="true" NAME="SansSerif" SIZE="15" />'."\n"
+			."\t".'<edge COLOR="'.$context['skins_freemind_edge_color'].'" STYLE="'.$context['skins_freemind_edge_style'].'" WIDTH="'.$context['skins_freemind_edge_thickness'].'" />'."\n";
 
 		// add details
 		if($suffix)

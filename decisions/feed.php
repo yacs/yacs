@@ -124,7 +124,7 @@ if(!$permitted) {
 			$values['channel']['link'] = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
 			$values['channel']['description'] = $anchor->get_teaser('quote');
 		} else {
-			$values['channel']['title'] = sprintf(i18n::s('Last decisions at %s'), $context['site_name']);
+			$values['channel']['title'] = sprintf(i18n::s('Recent decisions at %s'), $context['site_name']);
 			$values['channel']['link'] = $context['url_to_home'].$context['url_to_root'];
 			$values['channel']['description'] = i18n::s('Each article also has its own newsfeed.');
 		}

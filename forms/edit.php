@@ -25,6 +25,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../shared/xml.php';	// input validation
 include_once 'forms.php';
 
 // look for the id
@@ -65,9 +66,9 @@ else
 // validate input syntax
 if(!Surfer::is_associate() || (isset($_REQUEST['option_validate']) && ($_REQUEST['option_validate'] == 'Y'))) {
 	if(isset($_REQUEST['introduction']))
-		validate($_REQUEST['introduction']);
+		xml::validate($_REQUEST['introduction']);
 	if(isset($_REQUEST['description']))
-		validate($_REQUEST['description']);
+		xml::validate($_REQUEST['description']);
 }
 
 // anonymous users are invited to log in or to register
@@ -170,7 +171,7 @@ if(!Surfer::is_logged()) {
 		$_REQUEST['edit_address'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $_REQUEST['edit_address']);
 
 	// update an existing form
-	if(isset($_REQUEST['id'])) {
+	if(isset($item['id'])) {
 
 		// remember the previous version
 		if($item['id']) {
@@ -184,35 +185,36 @@ if(!Surfer::is_logged()) {
 			$with_form = TRUE;
 
 		// else display the updated page
-		} else
+		} else {
+			Forms::clear($_REQUEST);
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].Forms::get_url($item['id'], 'view', $item['title']));
+		}
 
 	// create a new page
-	} elseif(!$id = Forms::post($_REQUEST)) {
+	} elseif(!$_REQUEST['id'] = Forms::post($_REQUEST)) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
 	// successful post
 	} else {
-
-		// save id in the request as well;
-		$_REQUEST['id'] = $id;
+		Forms::clear($_REQUEST);
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
 
 		// get the new item
-		$form = Forms::get($id);
+		$form = Forms::get($_REQUEST['id']);
 
 		// page title
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array(Forms::get_url($form['id'], 'view', $form['title']) => i18n::s('Use the form')));
 		$menu = array_merge($menu, array(Forms::get_url($form['id'], 'edit') => i18n::s('Edit again')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the creation of a new form
 		$label = sprintf(i18n::c('New form: %s'), strip_tags($form['title']));
@@ -320,7 +322,7 @@ if($with_form) {
 	$value = '';
 	if(isset($item['nick_name']) && $item['nick_name'])
 		$value = $item['nick_name'];
-	$input = '<input type="text" name="nick_name" size="32" value="'.encode_field($value).'" maxlength="64" accesskey="n"/>';
+	$input = '<input type="text" name="nick_name" size="32" value="'.encode_field($value).'" maxlength="64" accesskey="n" />';
 	$hint = sprintf(i18n::s('To designate a page by its name in the %s'), Skin::build_link('go.php', 'page selector', 'help'));
 	$fields[] = array($label, $input, $hint);
 

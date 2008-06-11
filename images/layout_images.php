@@ -61,13 +61,13 @@ Class Layout_images extends Layout_interface {
 				Codes::initialize($url);
 
 			// link to the thumbnail image, if any
-			$label = '<span class="small_image"><img src="'.Images::get_thumbnail_href($item).'" title="'.encode_field(strip_tags($item['title'])).'" alt=""/></span>';
+			$label = '<span class="small_image"><img src="'.Images::get_thumbnail_href($item).'" title="'.encode_field(strip_tags($item['title'])).'" alt="" /></span>';
 
 			// the menu bar
 			$menu = array();
 
 			// change the image
-			if(Surfer::is_empowered() || Surfer::is_creator($item['edit_id']))
+			if(Surfer::is_empowered() || Surfer::is($item['edit_id']))
 				$menu = array_merge($menu, array( Images::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 
 			// use the image
@@ -83,7 +83,7 @@ Class Layout_images extends Layout_interface {
 			}
 
 			// delete the image
-			if(Surfer::is_empowered() || Surfer::is_creator($item['edit_id']))
+			if(Surfer::is_empowered() || Surfer::is($item['edit_id']))
 				$menu = array_merge($menu, array( Images::get_url($item['id'], 'delete') => i18n::s('Delete') ));
 
 			if(count($menu))

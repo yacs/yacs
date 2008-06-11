@@ -120,7 +120,7 @@ if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
 	$editable = TRUE;
 
 // and except for poster
-if(Surfer::is_creator($item['create_id']))
+if(Surfer::is($item['create_id']))
 	$editable = TRUE;
 
 // load the skin, maybe with a variant

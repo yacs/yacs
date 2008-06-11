@@ -89,6 +89,7 @@ if(!isset($item['id'])) {
 
 	// delete and go back to the anchor or to the index page
 	if(Tables::delete($item['id'])) {
+		Tables::clear($item);
 		if(is_object($anchor))
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
 		else

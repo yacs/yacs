@@ -238,7 +238,7 @@ class Poll extends Overlay {
 					$middle = '';
 					$ratio = '';
 				}
-				$text .= '<dd>'.$left_img.$middle.$right_img.' '.$ratio.'<br style="clear: left;"/></dd>'."\n";
+				$text .= '<dd>'.$left_img.$middle.$right_img.' '.$ratio.'<br style="clear: left;" /></dd>'."\n";
 
 			}
 		}

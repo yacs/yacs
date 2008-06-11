@@ -212,7 +212,10 @@ function send_body() {
 		$context['navigation'] = '';
 		$context['suffix'] = '';
 		$context['text'] = '';
+		$context['page_details'] = '';
 		$context['page_footer'] = '';
+		$context['page_menu'] = array();
+		$context['page_tools'] = '';
 
 		// now we will finalize this page
 		global $finalizing_fuse;

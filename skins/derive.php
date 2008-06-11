@@ -211,21 +211,14 @@ elseif(isset($_REQUEST['directory']) && preg_match('/^(boxesandarrows|digital|jo
 		$context['text'] .= '<p>'.i18n::s('Congratulations, you have completed the creation of a new skin.').'</p>'
 			.'<p>'.sprintf(i18n::s('Feel free to change and adjust files at skins/%s to better suit your needs.'), $directory).'</p>';
 
-		// what to do now?
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		// follow-up commands
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-
-		// use the new skin
 		$menu = array_merge($menu, array( 'control/configure.php?parameter=skin&value='.urlencode('skins/'.$directory) => i18n::s('Use this skin') ));
-
-		// test the new skin
 		$menu = array_merge($menu, array( 'skins/test.php?skin='.urlencode($directory) => i18n::s('Test the new skin') ));
-
-		// skins index
 		$menu = array_merge($menu, array( 'skins/' => i18n::s('Skins') ));
-
-		// display follow-up commands
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}
 

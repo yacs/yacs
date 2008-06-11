@@ -18,7 +18,7 @@ $context['page_title'] = i18n::s('Test i18n');
 
 // the date of last modification
 if(Surfer::is_associate())
-	$context['text'] .= '<p>'.i18n::s('Edited').' '.Skin::build_date(getlastmod()).'</p>';
+	$context['page_details'] .= '<p>'.i18n::s('Edited').' '.Skin::build_date(getlastmod()).'</p>';
 
 //
 // translations based on surfer preferences

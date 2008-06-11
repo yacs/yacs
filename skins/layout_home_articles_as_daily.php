@@ -219,7 +219,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu[] = Skin::build_link($link, i18n::s('Trackback'), 'basic');
+			$menu[] = Skin::build_link($link, i18n::s('Reference'), 'basic');
 
 			// a menu bar, but flushed to the right
 			if(count($menu))

@@ -129,7 +129,7 @@ class Issue extends Overlay {
 		if(isset($host['id']) && Surfer::is_empowered()) {
 
 			// solution manager
-			if((!isset($this->attributes['manager']) || !$this->attributes['manager']) && ($host['create_id'] != Surfer::get_id()))
+			if(!isset($this->attributes['manager']) || !$this->attributes['manager'])
 				$this->attributes['manager'] = Surfer::get_name();
 			$label = i18n::s('Solution Manager');
 			$input = '<input type="text" name="manager" value ="'.encode_field($this->attributes['manager']).'" size="25" maxlength="32" />';
@@ -138,6 +138,7 @@ class Issue extends Overlay {
 
 		}
 
+		// job done
 		return $fields;
 	}
 

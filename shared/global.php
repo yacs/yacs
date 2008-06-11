@@ -133,6 +133,9 @@ $context['page_publisher'] = '';
 // page main title
 $context['page_title'] = '';
 
+// side menus --an array of strings
+$context['page_tools'] = array();
+
 // page breadcrumbs
 $context['path_bar'] = array();
 
@@ -273,6 +276,14 @@ elseif(isset($_SERVER['SCRIPT_URI']))
 elseif(isset($_SERVER['REQUEST_URI'])) // this includes query string
 	$context['self_url'] = $context['url_to_home'].$_SERVER['REQUEST_URI'];
 
+// redirect to given host name, if required to do so
+if(isset($context['with_given_host']) && ($context['with_given_host'] == 'Y') && isset($context['main_host']) && ($context['main_host'] != $context['host_name']))
+	Safe::redirect(str_replace($context['host_name'], $context['main_host'], $context['self_url']));
+
+// ensure protocol is secured
+if(isset($context['with_https']) && ($context['with_https'] == 'Y') && !isset($_SERVER['HTTPS']) && ($_SERVER['SERVER_PORT'] != 443))
+	Safe::redirect(str_replace('http:', 'https:', $context['self_url']));
+
 // web reference to yacs root-level scripts
 if(!isset($context['url_to_root'])) {
 	$context['url_to_root'] = '/';
@@ -288,7 +299,7 @@ if(!isset($context['url_to_root'])) {
 // save parameter to be used in control/configure.php
 $context['url_to_root_parameter'] = $context['url_to_root'];
 
-// self_script is legacy -- mainly used in templates, as '<base href="'.$context['url_to_home'].$context['self_script'].'"/>'
+// self_script is legacy -- mainly used in templates, as '<base href="'.$context['url_to_home'].$context['self_script'].'" />'
 $context['self_script'] = str_replace($context['url_to_home'], '', $context['self_url']);
 
 // script_url is used in forms, for self-referencing -- web reference after rewriting
@@ -477,11 +488,6 @@ function encode_link($link) {
 	return $output;
 }
 
-// ok, this is a hack to convert utf-8 encoding to unicode entities
-// should be deleted when we will support utf-8 end-to-end...
-if(($context['charset'] == 'utf-8') && is_array($_REQUEST) && count($_REQUEST))
-	$_REQUEST =& utf8::decode_recursively($_REQUEST);
-
 //
 // Localization and internationalization
 //
@@ -650,7 +656,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	// use a specific skin, if any
 	if($options && preg_match('/\bskin_(.+?)\b/i', $options, $matches))
 		$context['skin'] = 'skins/'.$matches[1];
-	elseif(is_object($anchor) && ($skin = $anchor->has_option('skin')) && is_string($skin))
+	elseif(is_object($anchor) && ($skin = $anchor->has_option('skin', FALSE)) && is_string($skin))
 		$context['skin'] = 'skins/'.$skin;
 
 	// load skins parameters, if any
@@ -688,7 +694,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 		$context['skin_variant'] = $matches[1];
 
 	// use anchor variant
-	elseif(is_object($anchor) && ($anchor_variant = $anchor->has_option('variant')) && is_string($anchor_variant))
+	elseif(is_object($anchor) && ($anchor_variant = $anchor->has_option('variant', FALSE)) && is_string($anchor_variant))
 		$context['skin_variant'] = $anchor_variant;
 
 	// use provided variant
@@ -978,9 +984,9 @@ function render_skin($stamp=0) {
 
 	// the description of this page
 	if(isset($context['page_description']) && $context['page_description'])
-		$context['page_header'] .= '<meta name="description" content="'.encode_field($context['page_description']).'"'.EOT."\n";
+		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['page_description'])).'"'.EOT."\n";
 	elseif(isset($context['site_description']) && $context['site_description'])
-		$context['page_header'] .= '<meta name="description" content="'.encode_field($context['site_description']).'"'.EOT."\n";
+		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'"'.EOT."\n";
 
 	// copyright
 	if(isset($context['site_copyright']) && $context['site_copyright'])
@@ -1387,14 +1393,6 @@ function yacs_handler($content) {
 	elseif(!preg_match('/(x-gzip|gzip)\b/i', $_SERVER['HTTP_ACCEPT_ENCODING'], $matches))
 		$compress = FALSE;
 
-	// always compress scripts created dynamically
-	elseif(isset($context['content_type']) && ($context['content_type'] == 'application/javascript'))
-		$compress = TRUE;
-
-	// also compress JSON snippets created dynamically
-	elseif(isset($context['content_type']) && ($context['content_type'] == 'application/json'))
-		$compress = TRUE;
-
 	// compression has not been allowed
 	elseif(!isset($context['with_compression']) || ($context['with_compression'] != 'Y'))
 		$compress = FALSE;
@@ -1421,88 +1419,6 @@ function yacs_handler($content) {
 	return $data;
 }
 
-
-/**
- * check HTML/XHTML syntax
- *
- * This function uses some PHP XML parser to validate the provided string.
- * The objective is to spot malformed or unordered HTML and XHTML tags. No more, no less.
- *
- * The error context is populated, if required.
- *
- * @param string the string to check
- * @return boolean TRUE on success, FALSE otherwise
- *
- * @see actions/edit.php
- * @see articles/edit.php
- * @see comments/edit.php
- * @see locations/edit.php
- * @see sections/edit.php
- * @see servers/edit.php
- * @see tables/edit.php
- * @see users/edit.php
- */
-function validate($input) {
-	global $context;
-
-	// assume syntax is ok
-	$text = '';
-
-	// sanity check
-	if(!is_callable('create_function'))
-		return TRUE;
-
-	// obvious
-	$input = trim($input);
-	if(!$input)
-		return TRUE;
-
-	// beautify YACS codes
-	$input = Codes::beautify($input);
-
-	// do not validate code nor snippet --do it in two steps to make it work
-	$input = preg_replace('/<code>(.+?)<\/code>/ise', "'<code>'.str_replace('<', '&lt;', '$1').'</code>'", $input);
-	$input = preg_replace('/<pre>(.+?)<\/pre>/ise', "'<pre>'.str_replace('<', '&lt;', '$1').'</pre>'", $input);
-
-	// make a supposedly valid xml snippet
-	$snippet = '<?xml version=\'1.0\'?>'."\n".'<snippet>'."\n".preg_replace(array('/&(?!(amp|#\d+);)/i', '/ < /i', '/ > /i'), array('&amp;', ' &lt; ', ' &gt; '), $input)."\n".'</snippet>'."\n";
-
-	// remember tags during parsing
-	global $validation_stack;
-	$validation_stack = array();
-
-	// create a parser
-	$xml_parser = xml_parser_create();
-	$startElement = create_function( '$parser, $name, $attrs', 'global $validation_stack; array_push($validation_stack, $name);' );
-	$endElement = create_function( '$parser, $name', 'global $validation_stack; array_pop($validation_stack);' );
-	xml_set_element_handler($xml_parser, $startElement, $endElement);
-
-	// spot errors, if any
-	if(!xml_parse($xml_parser, $snippet, TRUE)) {
-
-		$text .= sprintf(i18n::s('XML error: %s at line %d'), xml_error_string(xml_get_error_code($xml_parser)),
-			xml_get_current_line_number($xml_parser)-2).BR."\n";
-
-		$lines = explode("\n", $snippet);
-		$line = $lines[xml_get_current_line_number($xml_parser)-1];
-		if(strpos($line, '</snippet>') === FALSE)
-			$text .= htmlentities($line).BR."\n";
-
-		$element = array_pop($validation_stack);
-		if(!preg_match('/snippet/i', $element))
-			$text .= sprintf(i18n::s('Last stacking element: %s'), $element);
-	}
-
-	// clear resources
-	xml_parser_free($xml_parser);
-
-	// return parsing result
-	if($text) {
-		Skin::error($text);
-		return FALSE;
-	}
-	return TRUE;
-}
 
 //
 // Anchor stuff -- see shared/anchor.php for more information
@@ -1683,10 +1599,15 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 
 	// ensure a safe name
 	if(isset($name))
-		$name = trim(str_replace(array(' ', '.', ',', ';', ':', '!', '?', '<', '>', '/', '_'), '-', strtolower(utf8::to_ascii(trim($name)))), '-');
+		$name = str_replace(array(' ', '.', ',', ';', ':', '!', '?', '<', '>', '/', '_'), '-', strtolower(utf8::to_ascii(trim($name))));
 
-	// do not fool rewriting, just in case alternate nae would be put in title
-	$name = str_replace($alternate.'-', '', $name);
+	// do not fool rewriting, just in case alternate name would be put in title
+	if(isset($name))
+		$name = preg_replace('/[a-z_]+-[0-9]+$/', '', $name);
+
+	// remove dashes
+	if(isset($name))
+		$name = trim($name, '-');
 
 	// use rewriting engine to achieve pretty references, except if composed anchor -- look .htaccess
 	if(($context['with_friendly_urls'] == 'R') && (count($nouns) == 1)) {

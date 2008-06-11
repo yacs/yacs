@@ -57,7 +57,7 @@ elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id())
 	$permitted = TRUE;
 
 // authenticated users may suppress their own posts
-elseif(isset($item['create_id']) && Surfer::is_creator($item['create_id']))
+elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
 	$permitted = TRUE;
 
 // the default is to deny access
@@ -87,7 +87,7 @@ elseif(is_object($anchor) && $anchor->is_viewable())
 	$context['page_menu'] = array( $anchor->get_url() => i18n::s('Cancel') );
 
 // not found
-if(!$item['id']) {
+if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -107,11 +107,13 @@ if(!$item['id']) {
 
 	// touch the related anchor before actual deletion, since the action has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('action:delete', $id, TRUE);
+		$anchor->touch('action:delete', $item['id'], TRUE);
 
 	// back to the anchor page except on error
-	if(Actions::delete($id))
+	if(Actions::delete($item['id'])) {
+		Actions::clear($item);
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+	}
 
 // deletion has to be confirmed
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {

@@ -161,26 +161,15 @@ elseif(!Surfer::is_associate()) {
 	// display updated parameters
 	$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folder');
 
-	// what's next?
-	$context['text'] .= '<p>'.i18n::s('Where do you want to go now?')."</p>\n";
-
 	// follow-up commands
+	$follow_up = i18n::s('Where do you want to go now?');
 	$menu = array();
-
-	// stage updated scripts
 	$menu = array_merge($menu, array( 'scripts/stage.php' => i18n::s('Stage updated scripts') ));
-
-	// index page
 	$menu = array_merge($menu, array( 'scripts/' => i18n::s('Server software') ));
-
-	// control panel
 	$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
-
-	// doe it again
 	$menu = array_merge($menu, array( 'scripts/configure.php' => i18n::s('Configure again') ));
-
-	// display follow-up commands
-	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 }
 

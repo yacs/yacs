@@ -257,7 +257,7 @@ $context['page_title'] = i18n::s('Help index');
 
 // the date of last modification
 if(Surfer::is_associate())
-	$context['text'] .= '<p class="details">'.sprintf(i18n::s('Edited %s'), Skin::build_date(getlastmod())).'</p>';
+	$context['page_details'] .= '<p class="details">'.sprintf(i18n::s('Edited %s'), Skin::build_date(getlastmod())).'</p>';
 
 // the prefix hook for the help page
 if(is_callable(array('Hooks', 'include_scripts')))

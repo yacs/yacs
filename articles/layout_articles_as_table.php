@@ -32,6 +32,7 @@ Class Layout_articles_as_table extends Layout_interface {
 			return $text;
 
 		// flag articles updated recently
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
@@ -63,10 +64,6 @@ Class Layout_articles_as_table extends Layout_interface {
 			// signal articles to be published
 			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
 				$title .= DRAFT_FLAG;
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$title .= LOCKED_FLAG;
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
@@ -162,12 +159,16 @@ Class Layout_articles_as_table extends Layout_interface {
 				;
 
 			// publication is the last action
-			elseif(($item['publish_date'] > NULL_DATE) && (substr($item['edit_date'], 0, 10) == substr($item['publish_date'], 0, 10)))
+			elseif(($item['publish_date'] > NULL_DATE) && strpos($item['edit_action'], ':publish'))
 				;
 
 			// the last action
 			else
 				$details[] = get_action_label($item['edit_action']).' '.Skin::build_date($item['edit_date']);
+
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$details[] = LOCKED_FLAG;
 
 			// rating
 			if($item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating'))
@@ -175,7 +176,7 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// page details
 			if(count($details))
-				$details = '<p class="details">'.join(BR, $details).'</p>';
+				$details = '<p class="details">'.join(', ', $details).'</p>';
 
 			// this is another row of the output -- title, abstract, (author,) details
 			if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y'))

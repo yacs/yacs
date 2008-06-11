@@ -50,7 +50,6 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
 
 		// build a list of articles
-		$text = '';
 		$item_count = 0;
 		$future = array();
 		$others = array();
@@ -78,15 +77,15 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 			// initialize variables
 			$prefix = $suffix = '';
 
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$prefix .= LOCKED_FLAG;
-
 			// signal restricted and private articles
 			if($item['active'] == 'N')
 				$prefix .= PRIVATE_FLAG.' ';
 			elseif($item['active'] == 'R')
 				$prefix .= RESTRICTED_FLAG.' ';
+
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$suffix .= LOCKED_FLAG;
 
 			// flag expired articles, and articles updated recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
@@ -183,15 +182,15 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		else if(($item['publish_date'] > NULL_DATE) && ($item['publish_date'] > $now))
 			$prefix .= DRAFT_FLAG;
 
-		// signal locked articles
-		if(isset($item['locked']) && ($item['locked'] == 'Y'))
-			$prefix .= LOCKED_FLAG;
-
 		// signal restricted and private articles
 		if($item['active'] == 'N')
 			$prefix .= PRIVATE_FLAG.' ';
 		elseif($item['active'] == 'R')
 			$prefix .= RESTRICTED_FLAG.' ';
+
+		// signal locked articles
+		if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			$suffix .= LOCKED_FLAG;
 
 		// flag expired article
 		if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
@@ -231,10 +230,10 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		}
 
 		// the introduction text, if any
-		if($item['introduction'])
+		if(is_object($overlay))
+			$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
+		elseif(isset($item['introduction']) && trim($item['introduction']))
 			$text .= Skin::build_block($item['introduction'], 'introduction');
-		else
-			$text .= BR;
 
 		// insert overlay data, if any
 		if(is_object($overlay))
@@ -295,6 +294,10 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		if($box['text'])
 			$text .= Skin::build_box(i18n::s('Files'), $box['text'], 'header1', 'files');
 
+		// insert overlay data, if any
+		if(is_object($overlay))
+			$text .= $overlay->get_text('trailer', $item);
+
 		//
 		// bottom page menu
 		//
@@ -320,7 +323,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu = array_merge($menu, array($link => i18n::s('Trackback')));
+			$menu = array_merge($menu, array($link => i18n::s('Reference')));
 
 		}
 
@@ -350,7 +353,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 		// modify this page
 		if(Surfer::is_empowered())
-			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'edit') => i18n::s('Edit the page') ));
+			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 
 		// view permalink
 		if(Surfer::is_empowered())

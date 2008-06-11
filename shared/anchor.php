@@ -756,9 +756,10 @@ class Anchor {
 	 * To be overloaded into derivated class, if necessary
 	 *
 	 * @param string the option we are looking for
+	 * @param boolean TRUE if coming from content leaf, FALSE if coming from content branch
 	 * @return TRUE or FALSE, or the value of the matching option if any
 	 */
-	function has_option($option) {
+	function has_option($option, $leaf=TRUE) {
 
 		// sanity check
 		if(!$this->item)
@@ -788,7 +789,7 @@ class Anchor {
 				$this->anchor = Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor))
-				return $this->anchor->has_option($option);
+				return $this->anchor->has_option($option, $leaf);
 		}
 
 		// no match

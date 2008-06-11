@@ -83,13 +83,14 @@ elseif(isset($_REQUEST['content']) && $_REQUEST['content']) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('The target file %s has been successfully updated.'), 'skins/'.$skin.'/'.$file).'</p>';
 
 		// follow-up commands
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array('skins/test.php?skin='.urlencode($skin) => i18n::s('Test the updated skin')));
 		$menu = array_merge($menu, array('skins/edit.php?skin='.urlencode($skin) => i18n::s('Edit a file of this skin')));
 		$menu = array_merge($menu, array('skins/' => i18n::s('Skins')));
 		$menu = array_merge($menu, array('skins/configure.php' => i18n::s('Configure the page factory')));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}
 

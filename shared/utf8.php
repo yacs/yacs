@@ -30,9 +30,9 @@ Class Utf8 {
 			return $fields;
 		foreach($fields as $name => $value) {
 			if(is_array($value))
-				$fields[$name] = utf8::decode_recursively($value);
+				$fields[$name] =& Utf8::decode_recursively($value);
 			elseif(is_string($value))
-				$fields[$name] = utf8::to_unicode($value);
+				$fields[$name] =& Utf8::to_unicode($value);
 		}
 		return $fields;
 	}
@@ -53,7 +53,8 @@ Class Utf8 {
 		$text =& utf8::transcode($html);
 
 		// for unicode entities and extended iso8859-1
-		return utf8::from_unicode($text);
+		$text =& utf8::from_unicode($text);
+		return $text;
 	}
 
 	/**
@@ -168,7 +169,7 @@ Class Utf8 {
 	function &to_ascii($utf, $options='') {
 
 		// string can be native utf8
-		$utf = Utf8::to_unicode($utf);
+		$utf =& Utf8::to_unicode($utf);
 
 		// from Unicode to iso-8859-1
 		$areas = preg_split('/&#(\d+);/', $utf, -1, PREG_SPLIT_DELIM_CAPTURE);

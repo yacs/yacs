@@ -86,6 +86,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../shared/xml.php';	// input validation
 include_once 'images.php';
 
 // the maximum size for uploads
@@ -169,9 +170,9 @@ else
 
 // always validate input syntax
 if(isset($_REQUEST['introduction']))
-	validate($_REQUEST['introduction']);
+	xml::validate($_REQUEST['introduction']);
 if(isset($_REQUEST['description']))
-	validate($_REQUEST['description']);
+	xml::validate($_REQUEST['description']);
 
 // permission denied
 if(!$permitted) {
@@ -194,12 +195,9 @@ if(!$permitted) {
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // maybe posts are not allowed here
-} elseif(is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_associate()) {
+} elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked')) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
-	if(isset($item['id']))
-		Skin::error(i18n::s('This page has been locked. It cannot be modified anymore.'));
-	else
-		Skin::error(i18n::s('Posts are not allowed here.'));
+	Skin::error(i18n::s('This page has been locked.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -259,13 +257,16 @@ if(!$permitted) {
 				$fields['anchor'] = 'section:'.Sections::get_default();
 
 			// create a hosting article for this image
-			if($article_id = Articles::post($fields)) {
-				$anchor = Anchors::get('article:'.$article_id);
+			if($fields['id'] = Articles::post($fields)) {
+				$anchor = Anchors::get('article:'.$fields['id']);
 				$_REQUEST['anchor'] = $anchor->get_reference();
 
 				// purge section cache
 				if($section = Anchors::get($fields['anchor']))
-					$section->touch('article:create', $article_id, TRUE);
+					$section->touch('article:create', $fields['id'], TRUE);
+
+				// clear the cache
+				Articles::clear($fields);
 			}
 			$fields = array();
 		}
@@ -398,12 +399,12 @@ if(!$permitted) {
 		$with_form = TRUE;
 
 	// display the form on error
-	} elseif(!$id = Images::post(array_merge($_REQUEST, $_FILES))) {
+	} elseif(!$_REQUEST['id'] = Images::post(array_merge($_REQUEST, $_FILES))) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
 	// reward the poster for new posts
-	} elseif(!isset($_REQUEST['id'])) {
+	} elseif(!isset($item['id'])) {
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
@@ -417,7 +418,7 @@ if(!$permitted) {
 			$attributes[] = $_REQUEST['image_name'];
 		if($url = Images::get_thumbnail_href($_REQUEST)) {
 			$stuff = '<img src="'.$url.'" title="'.encode_field(strip_tags($_REQUEST['title'])).'" alt=""'.EOT;
-			$attributes[] = Skin::build_link(Images::get_url($id), $stuff, 'basic');
+			$attributes[] = Skin::build_link(Images::get_url($_REQUEST['id']), $stuff, 'basic');
 		}
 		if(is_array($attributes))
 			$context['text'] .= '<p>'.implode(BR, $attributes)."</p>\n";
@@ -447,24 +448,24 @@ if(!$permitted) {
 		}
 
 		// touch the related anchor
-		$anchor->touch($action, $id, isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+		$anchor->touch($action, $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
-		// splash message
-		$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+		// clear cache
+		Images::clear($_REQUEST);
 
 		// follow-up commands
+		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		if(is_object($anchor)) {
-			$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the updated page')));
-			$menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit the page')));
-			$menu = array_merge($menu, array('images/edit.php?anchor='.$anchor->get_reference() => i18n::s('Submit another image')));
-		}
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the updated page')));
+		$menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit the page')));
+		$menu = array_merge($menu, array('images/edit.php?anchor='.$anchor->get_reference() => i18n::s('Submit another image')));
+		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the submission by a non-associate
 		if(!Surfer::is_associate() && is_object($anchor)) {
 			$label = sprintf(i18n::c('New image in %s'), strip_tags($anchor->get_title()));
-			$description = sprintf(i18n::s('%s at %s'), $_REQUEST['image_name']."\n", $context['url_to_home'].$context['url_to_root'].Images::get_url($id));
+			$description = sprintf(i18n::s('%s at %s'), $_REQUEST['image_name']."\n", $context['url_to_home'].$context['url_to_root'].Images::get_url($_REQUEST['id']));
 			Logger::notify('images/edit.php', $label, $description);
 		}
 
@@ -488,6 +489,9 @@ if(!$permitted) {
 		// touch the related anchor
 		$anchor->touch($action, $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
+		// clear cache
+		Images::clear($_REQUEST);
+
 		// forward to the view page
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].Images::get_url($_REQUEST['id']));
 
@@ -499,10 +503,6 @@ if(!$permitted) {
 
 // display the form
 if($with_form) {
-
-	// reference the anchor page
-	if(is_object($anchor) && $anchor->is_viewable())
-		$context['text'] .= '<p>'.Skin::build_link($anchor->get_url(), $anchor->get_title())."</p>\n";
 
 	// the form to edit an image
 	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" id="main_form"><div>';
@@ -519,61 +519,55 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 	}
 
+	// the image
+	$label = i18n::s('Image');
+	$input = '';
+	$hint = '';
+
 	// display info on current version
 	if(isset($item['id']) && $item['id']) {
+		$details = array();
 
 		// file name
-		if(isset($item['image_name'])) {
-			$label = i18n::s('File name');
-			$text = $item['image_name'];
-			$fields[] = array($label, $text);
-		}
+		if(isset($item['image_name']))
+			$details[] = $item['image_name'];
+
+		// last edition
+		if($item['edit_name'])
+			$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 		// file size
-		if(isset($item['image_size'])) {
-			$label = i18n::s('File size');
-			$text = number_format($item['image_size']).' '.i18n::s('bytes');
-			$fields[] = array($label, $text);
-		}
+		if(isset($item['image_size']))
+			$details[] = Skin::build_number($item['image_size'], i18n::s('bytes'));
 
-		// the last poster
-		if(isset($item['edit_id'])) {
-			$label = i18n::s('Posted by');
-			$text = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id'])
-				.' '.Skin::build_date($item['edit_date']);
-			$fields[] = array($label, $text);
-		}
-
+		if(count($details))
+			$input .= ucfirst(implode(BR, $details)).BR.BR;
 	}
 
 	// the upload entry requires rights to upload
 	if(Surfer::may_upload()) {
 
-		// the image
-		$label = i18n::s('Image');
 		if(isset($item['id']))
-			$input = i18n::s('Select another image to replace the current one');
+			$input .= i18n::s('Select another image to replace the current one');
 		else
-			$input = i18n::s('Pick up one image you would like to share');
+			$input .= i18n::s('Pick up one image you would like to share');
 		$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $image_maximum_size));
 		$input .= BR.'<input type="hidden" name="MAX_FILE_SIZE" value="'.$image_maximum_size.'" />'
 			.'<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'"'.EOT
 			.' (&lt;&nbsp;'.$size_hint.'&nbsp;'.i18n::s('bytes').')';
 		$hint = i18n::s('Please select a .png, .gif or .jpeg image.');
-		$fields[] = array($label, $input, $hint);
 
 	}
 
+	$fields[] = array($label, $input, $hint);
+
 	// the title
 	$label = i18n::s('Title');
-	$input = '<textarea name="title" rows="2" cols="40" accesskey="t">'.encode_field(isset($item['title'])?$item['title']:'')."</textarea>";
-	$hint = i18n::s('Please provide a meaningful title.');
-	$fields[] = array($label, $input, $hint);
+	$input = '<input type="text" name="title" size="50" value="'.encode_field(isset($item['title'])?$item['title']:'').'" maxlength="255" accesskey="t" />';
+	$fields[] = array($label, $input);
 
 	// the description
 	$label = i18n::s('Description');
-
-	// use the editor if possible
 	$input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'');
 	$fields[] = array($label, $input);
 
@@ -668,13 +662,16 @@ if($with_form) {
 		$fields = array();
 	}
 
-	// associates may decide to not stamp changes -- complex command
-	if(isset($item['id']) && $item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())) && Surfer::has_all()) {
-		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" '.EOT.' '.i18n::s('Do not change modification date of the related page.').'</p>';
-	}
+	// bottom commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+	if(is_object($anchor) && $anchor->is_viewable())
+		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
-	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+	// associates may decide to not stamp changes -- complex command
+	if(isset($item['id']) && $item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())) && Surfer::has_all())
+		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" '.EOT.' '.i18n::s('Do not change modification date of the related page.').'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

@@ -83,7 +83,7 @@ Class Link {
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
 			if($debug)
-				Logger::remember($debug, 'Outbound HTTP is not authorized', '', 'debug');
+				Logger::remember($debug, 'Outbound HTTP is not authorized.', '', 'debug');
 			return FALSE;
 		}
 
@@ -124,7 +124,7 @@ Class Link {
 		// open a network connection -- wait for up to 10 seconds for the TCP connection
 		if(!$handle && (!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 10))) {
 			if($debug)
-				Logger::remember($debug, 'Impossible to connect to '.$host.':'.$port, '', 'debug');
+				Logger::remember($debug, sprintf('Impossible to connect to %s.', $host.':'.$port), '', 'debug');
 			return FALSE;
 		}
 
@@ -294,7 +294,7 @@ Class Link {
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
 			if($debug)
-				Logger::remember($debug, 'Outbound HTTP is not authorized', '', 'debug');
+				Logger::remember($debug, 'Outbound HTTP is not authorized.', '', 'debug');
 			return FALSE;
 		}
 

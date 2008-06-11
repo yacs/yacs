@@ -284,7 +284,7 @@ Class Sections {
 		global $context;
 
 		// sections are prevented in anchor
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_sections'))
+		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_sections', FALSE))
 			return FALSE;
 
 		// sections are prevented in item
@@ -303,18 +303,18 @@ Class Sections {
 		if(Surfer::is_empowered())
 			return TRUE;
 
+		// item has been locked
+		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// anchor has been locked --only used when there is no item provided
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
+
 		// surfer screening
 		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
 			return FALSE;
 		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
-		// anchor has been locked
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('locked'))
-			return FALSE;
-
-		// item has been locked
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
 
 		// anonymous contributions are allowed for this anchor
@@ -338,6 +338,29 @@ Class Sections {
 	}
 
 	/**
+	 * clear cache entries for one item
+	 *
+	 * @param array item attributes
+	 */
+	function clear(&$item) {
+
+		// where this item can be displayed
+		$topics = array('categories', 'sections', 'users');
+
+		// clear anchor page
+		if(isset($item['anchor']))
+			$topics[] = $item['anchor'];
+
+		// clear this page
+		if(isset($item['id']))
+			$topics[] = 'section:'.$item['id'];
+
+		// clear the cache
+		Cache::clear($topics);
+
+	}
+
+	/**
 	 * count records for some anchor
 	 *
 	 * Only sections matching following criteria are returned:
@@ -350,8 +373,12 @@ Class Sections {
 	 * @param string the selected anchor (e.g., 'section:12')
 	 * @return int resulting count, or NULL on error
 	 */
-	function count_for_anchor($anchor = '') {
+	function count_for_anchor($anchor) {
 		global $context;
+
+		// sanity check
+		if(!$anchor)
+			return NULL;
 
 		// profiling mode
 		if($context['with_profile'] == 'Y')
@@ -426,11 +453,34 @@ Class Sections {
 		if(SQL::query($query) === FALSE)
 			return FALSE;
 
-		// clear the cache for sections
-		Cache::clear(array('sections', 'section:'.$item['id'], 'categories'));
-
 		// job done
 		return TRUE;
+	}
+
+	/**
+	 * delete all sections for a given anchor
+	 *
+	 * @param string the anchor to check (e.g., 'section:123')
+	 * @return void
+	 *
+	 * @see shared/anchors.php
+	 */
+	function delete_for_anchor($anchor) {
+		global $context;
+
+		// seek all records attached to this anchor
+		$query = "SELECT id FROM ".SQL::table_name('sections')." AS sections "
+			." WHERE sections.anchor LIKE '".SQL::escape($anchor)."'";
+		if(!$result =& SQL::query($query))
+			return;
+
+		// empty list
+		if(!SQL::count($result))
+			return;
+
+		// delete silently all matching items
+		while($row =& SQL::fetch($result))
+			Sections::delete($row['id']);
 	}
 
 	/**
@@ -467,13 +517,13 @@ Class Sections {
 				$item['anchor'] = $anchor_to;
 
 				// actual duplication
-				if($new_id = Sections::post($item)) {
+				if($item['id'] = Sections::post($item)) {
 
 					// more pairs of strings to transcode
-					$transcoded[] = array('/\[section='.preg_quote($old_id, '/').'/i', '[section='.$new_id);
+					$transcoded[] = array('/\[section='.preg_quote($old_id, '/').'/i', '[section='.$item['id']);
 
 					// duplicate elements related to this item
-					Anchors::duplicate_related_to('section:'.$old_id, 'section:'.$new_id);
+					Anchors::duplicate_related_to('section:'.$old_id, 'section:'.$item['id']);
 
 					// stats
 					$count++;
@@ -840,21 +890,21 @@ Class Sections {
 			// all options
 			$text = '';
 
-			// assigned sections come first
-			if(($assigned = Surfer::assigned_sections()) && count($assigned)) {
+// 			// assigned sections come first
+// 			if(($assigned = Surfer::assigned_sections()) && count($assigned)) {
 
-				// in a separate group
-				$text .= '<optgroup label="'.i18n::s('Assigned sections').'">';
+// 				// in a separate group
+// 				$text .= '<optgroup label="'.i18n::s('Assigned sections').'">';
 
-				// one option per assigned section
-				foreach($assigned as $assigned_id) {
-					if($section = Anchors::get('section:'.$assigned_id))
-						$text .= '<option value="'.$section->get_reference().'">'.Skin::strip($section->get_title())."</option>\n";
-				}
+// 				// one option per assigned section
+// 				foreach($assigned as $assigned_id) {
+// 					if($section = Anchors::get('section:'.$assigned_id))
+// 						$text .= '<option value="'.$section->get_reference().'">'.Skin::strip($section->get_title())."</option>\n";
+// 				}
 
-				// end of group
-				$text .= "</optgroup>\n";
-			}
+// 				// end of group
+// 				$text .= "</optgroup>\n";
+// 			}
 
 			// we don't want a default section
 			if($default == 'none')
@@ -865,15 +915,15 @@ Class Sections {
 				$default = 'section:'.Sections::get_default();
 
 			// in a separate group
-			if($assigned && count($assigned))
-				$text .= '<optgroup label="'.i18n::s('Site map').'">';
+// 			if($assigned && count($assigned))
+// 				$text .= '<optgroup label="'.i18n::s('Site map').'">';
 
 			// list sections recursively
 			$text .= Sections::get_options_for_anchor(NULL, '', $default, $to_avoid);
 
 			// end of group
-			if($assigned && count($assigned))
-				$text .= "</optgroup>\n";
+// 			if($assigned && count($assigned))
+// 				$text .= "</optgroup>\n";
 
 			// associates can also see inactive sections at the top level
 			if(Surfer::is_associate() && ($sections = Sections::list_inactive_by_title_for_anchor(NULL, 0, 100, 'raw'))) {
@@ -1032,6 +1082,26 @@ Class Sections {
 				return 'files/feed.php?anchor='.urlencode('section:'.$id);
 		}
 
+		// the prefix for managing content
+		if($action == 'manage') {
+			if($context['with_friendly_urls'] == 'R') {
+				if($name)
+					return 'sections/manage.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
+				else
+					return 'sections/manage.php/'.rawurlencode($id);
+			} elseif($context['with_friendly_urls'] == 'Y') {
+				if($name)
+					return 'sections/manage.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
+				else
+					return 'sections/manage.php/'.rawurlencode($id);
+			} else {
+				if($name)
+					return 'sections/manage.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
+				else
+					return 'sections/manage.php?id='.urlencode($id);
+			}
+		}
+
 		// the prefix for navigation links --the parameter $name references the things to page, e.g., 'sections', 'comments', ...
 		if($action == 'navigate') {
 			if($context['with_friendly_urls'] == 'R')
@@ -1042,18 +1112,8 @@ Class Sections {
 				return 'sections/view.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
 		}
 
-		// the purge of content in this section
-		if($action == 'purge') {
-			if($context['with_friendly_urls'] == 'R')
-				return 'sections/bulk.php/'.rawurlencode($id).'/purge';
-			elseif($context['with_friendly_urls'] == 'Y')
-				return 'sections/bulk.php/'.rawurlencode($id).'/purge';
-			else
-				return 'sections/bulk.php?id='.urlencode($id).'&amp;action=purge';
-		}
-
 		// check the target action
-		if(!preg_match('/^(bulk|delete|describe|duplicate|edit|feed|freemind|import|lock|mail|print|slideshow|view|view_as_freemind)$/', $action))
+		if(!preg_match('/^(delete|describe|duplicate|edit|feed|freemind|import|lock|mail|print|slideshow|view|view_as_freemind)$/', $action))
 			$action = 'view';
 
 		// normalize the link
@@ -1671,7 +1731,7 @@ Class Sections {
 	 * @see links/links.php
 	 * @see query.php
 	**/
-	function post($fields) {
+	function post(&$fields) {
 		global $context;
 
 		// title cannot be empty
@@ -1819,20 +1879,24 @@ Class Sections {
 	 * put an updated section in the database
 	 *
 	 * @param array an array of fields
-	 * @return string either a null string, or some text describing an error to be inserted into the html response
+	 * @return TRUE on success, or FALSE on error
 	 *
 	 * @see sections/edit.php
 	**/
-	function put($fields) {
+	function put(&$fields) {
 		global $context;
 
 		// id cannot be empty
-		if(!isset($fields['id']) || !is_numeric($fields['id']))
-			return i18n::s('No item has the provided id.');
+		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+			Skin::error(i18n::s('No item has the provided id.'));
+			return FALSE;
+		}
 
 		// title cannot be empty
-		if(!isset($fields['title']) || !trim($fields['title']))
-			return i18n::s('No title has been provided.');
+		if(!isset($fields['title']) || !trim($fields['title'])) {
+			Skin::error(i18n::s('No title has been provided.'));
+			return FALSE;
+		}
 
 		// protect from hackers
 		if(isset($fields['bullet_url']))
@@ -1953,13 +2017,110 @@ Class Sections {
 
 		// actual update query
 		$query .= " WHERE id = ".SQL::escape($fields['id']);
-		SQL::query($query);
+		if(SQL::query($query) === FALSE)
+			return FALSE;
 
 		// clear the cache
 		Cache::clear(array('section:'.$fields['id'], 'sections', 'categories'));
 
 		// end of job
-		return NULL;
+		return TRUE;
+	}
+
+	/**
+	 * change only some attributes
+	 *
+	 * @param array an array of fields
+	 * @return TRUE on success, or FALSE on error
+	**/
+	function put_attributes(&$fields) {
+		global $context;
+
+		// id cannot be empty
+		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+			Skin::error(i18n::s('No item has the provided id.'));
+			return FALSE;
+		}
+
+		// set default values for this editor
+		$fields = Surfer::check_default_editor($fields);
+
+		// quey components
+		$query = array();
+
+		// anchor this page to another place
+		if(isset($fields['anchor'])) {
+			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
+			$query[] = "anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1)";
+			$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
+		}
+		if(isset($fields['prefix']) && Surfer::is_associate())
+			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
+		if(isset($fields['suffix']) && Surfer::is_associate())
+			$query[] = "suffix='".SQL::escape($fields['suffix'])."'";
+
+		// fields that are visible only to associates and to editors -- see articles/edit.php
+		if(isset($fields['nick_name']) && Surfer::is_empowered() && Surfer::is_member())
+			$query[] = "nick_name='".SQL::escape($fields['nick_name'])."'";
+		if(isset($fields['behaviors']) && Surfer::is_empowered() && Surfer::is_member())
+			$query[] = "behaviors='".SQL::escape($fields['behaviors'])."'";
+		if(isset($fields['extra']) && Surfer::is_empowered() && Surfer::is_member())
+			$query[] = "extra='".SQL::escape($fields['extra'])."'";
+		if(isset($fields['icon_url']) && Surfer::is_empowered() && Surfer::is_member())
+			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";
+		if(isset($fields['rank']) && Surfer::is_empowered() && Surfer::is_member())
+			$query[] = "rank='".SQL::escape($fields['rank'])."'";
+		if(isset($fields['thumbnail_url']) && Surfer::is_empowered() && Surfer::is_member())
+			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
+		if(isset($fields['locked']) && Surfer::is_empowered() && Surfer::is_member())
+			$query[] = "locked='".SQL::escape($fields['locked'])."'";
+		if(isset($fields['meta']) && Surfer::is_empowered() && Surfer::is_member())
+			$query[] = "meta='".SQL::escape($fields['meta'])."'";
+		if(isset($fields['options']) && Surfer::is_empowered() && Surfer::is_member())
+			$query[] = "options='".SQL::escape($fields['options'])."'";
+		if(isset($fields['trailer']) && Surfer::is_empowered() && Surfer::is_member())
+			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
+//		if(Surfer::is_empowered() && Surfer::is_member())
+//			$query[] = "active='".SQL::escape($fields['active'])."',";
+//		if(Surfer::is_empowered() && Surfer::is_member())
+//			$query[] = "active_set='".SQL::escape($fields['active_set'])."',";
+
+		// fields visible to authorized member
+		if(isset($fields['title']))
+			$query[] = "title='".SQL::escape($fields['title'])."'";
+		if(isset($fields['introduction']))
+			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";
+		if(isset($fields['description']))
+			$query[] = "description='".SQL::escape($fields['description'])."'";
+		if(isset($fields['language']))
+			$query[] = "language='".SQL::escape($fields['language'])."'";
+		if(isset($fields['overlay']))
+			$query[] = "overlay='".SQL::escape($fields['overlay'])."'";
+		if(isset($fields['overlay_id']))
+			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
+
+		// nothing to update
+		if(!count($query))
+			return TRUE;
+
+		// maybe a silent update
+		if(!isset($fields['silent']) || ($fields['silent'] != 'Y') || !Surfer::is_empowered()) {
+			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
+			$query[] = "edit_id='".SQL::escape($fields['edit_id'])."'";
+			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
+			$query[] = "edit_action='article:update'";
+			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
+		}
+
+		// actual update query
+		$query = "UPDATE ".SQL::table_name('sections')
+			." SET ".implode(', ', $query)
+			." WHERE id = ".SQL::escape($fields['id']);
+		if(!SQL::query($query))
+			return FALSE;
+
+		// end of job
+		return TRUE;
 	}
 
 	/**

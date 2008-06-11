@@ -58,6 +58,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 			return $text;
 
 		// flag articles updated recently
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
@@ -126,7 +127,9 @@ Class Layout_articles_as_daily extends Layout_interface {
 			$details = array();
 
 			// flag articles updated recently
-			if($item['create_date'] >= $dead_line)
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+				$details[] = EXPIRED_FLAG;
+			elseif($item['create_date'] >= $dead_line)
 				$details[] = NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
 				$detaisl[] = UPDATED_FLAG;
@@ -204,7 +207,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu[] = Skin::build_link($link, i18n::s('Trackback'), 'basic');
+			$menu[] = Skin::build_link($link, i18n::s('Reference'), 'basic');
 
 			// a menu bar, but flushed to the right
 			if(count($menu))

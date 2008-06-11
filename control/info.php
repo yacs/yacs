@@ -46,10 +46,10 @@ $context['page_title'] = i18n::s('Run-time information');
 
 // commands for associates
 if(Surfer::is_associate()) {
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'control/info.php?subject=yacs' => i18n::s('yacs') ));
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'control/info.php?subject=phpinfo' => i18n::s('phpinfo()') ));
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'control/info.php?subject=sql' => i18n::s('SQL') ));
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'control/info.php?subject=images' => i18n::s('images') ));
+	$context['page_tools'][] = Skin::build_link('control/info.php?subject=yacs', i18n::s('yacs'));
+	$context['page_tools'][] = Skin::build_link('control/info.php?subject=phpinfo', i18n::s('phpinfo()'));
+	$context['page_tools'][] = Skin::build_link('control/info.php?subject=sql', i18n::s('SQL'));
+	$context['page_tools'][] = Skin::build_link('control/info.php?subject=images', i18n::s('images'));
 }
 
 // the user has to be an associate
@@ -238,7 +238,6 @@ if(!Surfer::is_associate()) {
 		.'<li>'.sprintf(i18n::s('%s, to know everything about PHP runtime at this server.'), '<a href="'.$context['url_to_root'].'control/info.php?subject=phpinfo">'.i18n::s('PhpInfo').'</a>').'</li>'
 		.'<li>'.sprintf(i18n::s('%s, to get run-time parameters of the SQL engine.'), '<a href="'.$context['url_to_root'].'control/info.php?subject=sql">'.i18n::s('SQL').'</a>').'</li>'
 		.'<li>'.sprintf(i18n::s('%s, to understand image support at this site.'), '<a href="'.$context['url_to_root'].'control/info.php?subject=images">'.i18n::s('Images').'</a>').'</li>'
-		.'<li>'.sprintf(i18n::s('%s - operation summary'), '<a href="'.$context['url_to_root'].'agents/">'.i18n::s('Background processing').'</a>').'</li>'
 		.'</ul>';
 
 }

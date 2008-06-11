@@ -114,6 +114,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../shared/xml.php';	// input validation
 include_once 'links.php';
 
 // allow for direct login
@@ -216,7 +217,7 @@ if(!Surfer::is_logged() || !is_object($anchor)) {
 
 // always validate input syntax
 if(isset($_REQUEST['description']))
-	validate($_REQUEST['description']);
+	xml::validate($_REQUEST['description']);
 
 // permission denied
 if(!$permitted) {
@@ -239,13 +240,10 @@ if(!$permitted) {
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // maybe posts are not allowed here
-} elseif(is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_associate()) {
+} elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked')) {
 
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
-	if(isset($item['id']))
-		Skin::error(i18n::s('This page has been locked. It cannot be modified anymore.'));
-	else
-		Skin::error(i18n::s('Posts are not allowed anymore here.'));
+	Skin::error(i18n::s('This page has been locked.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -299,10 +297,10 @@ if(!$permitted) {
 		$with_form = TRUE;
 
 	// reward the poster for new posts
-	} elseif(!isset($_REQUEST['id'])) {
+	} elseif(!isset($item['id'])) {
 
 		// display the form on error
-		if(!$id = Links::post($_REQUEST)) {
+		if(!$_REQUEST['id'] = Links::post($_REQUEST)) {
 			$item = $_REQUEST;
 			$with_form = TRUE;
 
@@ -310,7 +308,10 @@ if(!$permitted) {
 		} else {
 
 			// touch the related anchor
-			$anchor->touch('link:create', $id, isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+			$anchor->touch('link:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+			// clear cache
+			Links::clear($_REQUEST);
 
 			// increment the post counter of the surfer
 			Users::increment_posts(Surfer::get_id());
@@ -318,16 +319,18 @@ if(!$permitted) {
 			// thanks
 			$context['page_title'] = i18n::s('Thank you very much for your contribution');
 
-			// splash message
-			$context['text'] .= '<p>'.i18n::s('What do you want to do now?').'</p>';
+			// the action
+			$context['text'] .= '<p>'.i18n::s('The link has been successfully recorded.').'</p>';
 
 			// follow-up commands
+			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			if(is_object($anchor)) {
 				$menu = array_merge($menu, array($anchor->get_url().'#links' => i18n::s('View the updated page')));
 				$menu = array_merge($menu, array('links/edit.php?anchor='.$anchor->get_reference() => i18n::s('Submit another link')));
 			}
-			$context['text'] .= Skin::build_list($menu, 'menu_bar');
+			$follow_up .= Skin::build_list($menu, 'page_menu');
+			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 			// log the submission of a new link by a non-associate
 			if(!Surfer::is_associate() && is_object($anchor)) {
@@ -352,6 +355,9 @@ if(!$permitted) {
 			// touch the related anchor
 			$anchor->touch('link:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
+			// clear cache
+			Links::clear($_REQUEST);
+
 			// forward to the updated anchor page
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#links');
 		}
@@ -363,10 +369,6 @@ if(!$permitted) {
 
 // display the form
 if($with_form) {
-
-	// reference the anchor page
-	if(is_object($anchor) && $anchor->is_viewable())
-		$context['text'] .= '<p>'.Skin::build_link($anchor->get_url().'#links', $anchor->get_title())."</p>\n";
 
 	// the form to edit a link
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
@@ -439,7 +441,7 @@ if($with_form) {
 		$value = $_REQUEST['link'];
 	elseif(isset($_SESSION['pasted_link']))
 		$value = $_SESSION['pasted_link'];
-	$input = '<input type="text" name="link_url" id="link_url" size="55" value="'.encode_field($value).'" maxlength="255" accesskey="a"/>';
+	$input = '<input type="text" name="link_url" id="link_url" size="55" value="'.encode_field($value).'" maxlength="255" accesskey="a" />';
 	$hint = i18n::s('You can either type a plain url (http://) or use [article=&lt;id&gt;] notation');
 	$fields[] = array($label, $input, $hint);
 
@@ -491,27 +493,19 @@ if($with_form) {
 	$input = Surfer::get_editor('description', $value);
 	$fields[] = array($label, $input);
 
-	// last edition
-	if(isset($item['edit_name']) && $item['edit_name']) {
-		$label = i18n::s('Edited by');
-		$value = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id'])
-			.' '.Skin::build_date($item['edit_date']);
-		$fields[] = array($label, $value);
-	}
-
-	// hits
-	if(isset($item['hits']) && ($item['hits'] > 1))
-		$fields[] = array(i18n::s('Selections'), sprintf(i18n::s('%d clicks'), $item['hits']));
-
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
+
+	// bottom commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+	if(is_object($anchor) && $anchor->is_viewable())
+		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// associates may decide to not stamp changes -- complex command
 	if(Surfer::is_associate() && Surfer::has_all())
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the related page.').'</p>';
-
-	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
@@ -545,6 +539,21 @@ if($with_form) {
 	unset($_SESSION['anchor_reference']);
 	unset($_SESSION['pasted_text']);
 	unset($_SESSION['pasted_title']);
+
+	// details
+	$details = array();
+
+	// last edition
+	if(isset($item['edit_name']) && $item['edit_name'])
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+
+	// hits
+	if(isset($item['hits']) && ($item['hits'] > 1))
+		$details[] = sprintf(i18n::s('%d clicks'), $item['hits']);
+
+	// all details
+	if(@count($details))
+		$context['page_details'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('You can use following shortcuts to link to other pages of this server: %s'), '&#91;article=&lt;id>] &#91;section=&lt;id>] &#91;category=&lt;id>]').'</p>'

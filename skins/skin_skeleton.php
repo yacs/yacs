@@ -27,6 +27,7 @@ Class Skin_Skeleton {
 	 * Useful for highlighting snippets of code or other types of text information
 	 *
 	 * Accepted variants:
+	 * - 'bottom' the last div in the content area
 	 * - 'center' some centered text
 	 * - 'code' a snippet of code
 	 * - 'decorated' to add on beauty
@@ -84,8 +85,12 @@ Class Skin_Skeleton {
 		// depending on variant
 		switch($variant) {
 
+		case 'bottom':
+			$text = '<div class="bottom"'.$id.'>'.$text.'</div>';
+			return $text;
+
 		case 'caution':
-			Skin::define_img('CAUTION_FLAG', $context['skin'].'/icons/codes/caution.gif', i18n::s('<b>Warning:</b> '), '!!!');
+			Skin::define_img('CAUTION_FLAG', 'icons/codes/caution.gif', i18n::s('<b>Warning:</b> '), '!!!');
 			$text = '<p class="caution"'.$id.'>'.CAUTION_FLAG.$text.'</p>';
 			return $text;
 
@@ -153,7 +158,7 @@ Class Skin_Skeleton {
 			return $content;
 
 		case 'note':
-			Skin::define_img('NOTICE_FLAG', $context['skin'].'/icons/codes/note.gif', i18n::s('<b>Note:</b> '));
+			Skin::define_img('NOTICE_FLAG', 'icons/codes/note.gif', i18n::s('<b>Note:</b> '));
 			$text = '<p class="note"'.$id.'>'.NOTICE_FLAG.$text.'</p>'."\n";
 			return $text;
 
@@ -979,7 +984,9 @@ Class Skin_Skeleton {
 		}
 
 		// should we add a caption?
-		if(!preg_match('/thumbnail/i', $variant))
+		if(preg_match('/inline/i', $variant))
+			$with_caption = FALSE;
+		elseif(!preg_match('/thumbnail/i', $variant))
 			$with_caption = TRUE;
 		elseif(!isset($context['thumbnails_without_caption']) || ($context['thumbnails_without_caption'] != 'Y'))
 			$with_caption = TRUE;
@@ -1016,7 +1023,7 @@ Class Skin_Skeleton {
 			$text .= '<span'.$complement.'>';
 
 		// the image itself
-		$image = '<span><img src="'.$href.'" alt="'.encode_field(strip_tags($alt)).'"  title="'.encode_field(strip_tags($hover)).'"/></span>';
+		$image = '<span><img src="'.$href.'" alt="'.encode_field(strip_tags($alt)).'"  title="'.encode_field(strip_tags($hover)).'" /></span>';
 
 		// add a link
 		if($link && ($variant == 'thumbnail'))
@@ -1549,7 +1556,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Provide this link to specialized software, such as a RSS news reader')).'"';
 
-			Skin::define_img('XML_IMG', $context['skin'].'/icons/xml.gif');
+			Skin::define_img('XML_IMG', 'icons/xml.gif');
 			$text = '<a href="'.$url.'"'.$href_title.' class="xml"'
 				.' onclick="window.open(this.href); return false;"'
 				.' onkeypress="window.open(this.href); return false;">'.XML_IMG.$text.'</a>';
@@ -1699,7 +1706,7 @@ Class Skin_Skeleton {
 
 			// clean labels at occasions --codes have already been transformed here
 			if(($variant == 'crumbs') || ($variant == 'tabs'))
-				$label = strip_tags($label, '<img>');
+				$label = trim(strip_tags($label, '<img>'));
 
 			// ease the handling of css, but only for links
 			if(($variant == 'tabs') || ($variant == 'menu_bar') || ($variant == 'page_menu'))
@@ -2029,19 +2036,19 @@ Class Skin_Skeleton {
 		global $context;
 
 		if($rating == 1) {
-			Skin::define_img('RATING_1_IMG', $context['skin'].'/icons/rating/rated_1.gif', '*', '*');
+			Skin::define_img('RATING_1_IMG', 'icons/rating/rated_1.gif', '*', '*');
 			$output = RATING_1_IMG;
 		} elseif($rating == 2) {
-			Skin::define_img('RATING_2_IMG', $context['skin'].'/icons/rating/rated_2.gif', '**', '**');
+			Skin::define_img('RATING_2_IMG', 'icons/rating/rated_2.gif', '**', '**');
 			$output = RATING_2_IMG;
 		} elseif($rating == 3) {
-			Skin::define_img('RATING_3_IMG', $context['skin'].'/icons/rating/rated_3.gif', '***', '***');
+			Skin::define_img('RATING_3_IMG', 'icons/rating/rated_3.gif', '***', '***');
 			$output = RATING_3_IMG;
 		} elseif($rating == 4) {
-			Skin::define_img('RATING_4_IMG', $context['skin'].'/icons/rating/rated_4.gif', '****', '****');
+			Skin::define_img('RATING_4_IMG', 'icons/rating/rated_4.gif', '****', '****');
 			$output = RATING_4_IMG;
 		} elseif($rating == 5) {
-			Skin::define_img('RATING_5_IMG', $context['skin'].'/icons/rating/rated_5.gif', '*****', '*****');
+			Skin::define_img('RATING_5_IMG', 'icons/rating/rated_5.gif', '*****', '*****');
 			$output = RATING_5_IMG;
 		} else
 			$output = '';
@@ -2221,6 +2228,16 @@ Class Skin_Skeleton {
 		$panels_text = '';
 		$js_text = '';
 
+		// sanity check
+		if(!@count($tabs))
+			return $tabs_text;
+
+		// only one list
+		if(count($tabs) == 1) {
+			$tabs_text .= '<div id="'.$tabs[0][2].'">'.$tabs[0][3].'</div>';
+			return $tabs_text;
+		}
+
 		// process each parameter separately -- style names are hardcoded in shared/ajax.js
 		$index = 0;
 		$js_lines = array();
@@ -2234,7 +2251,7 @@ Class Skin_Skeleton {
 			else
 				$tabs_text .= ' class="tab-background"';
 
-			$tabs_text .= '><a href="#">'.$tab[1].'</a></li>'."\n";
+			$tabs_text .= '><a href="#'.$tab[2].'">'.$tab[1].'</a></li>'."\n";
 
 			// populate panels
 			$panels_text .= '<div id="'.$tab[2].'"';
@@ -2651,8 +2668,10 @@ Class Skin_Skeleton {
 			return;
 
 		// make an absolute path to image, in case of export (freemind, etc.)
-		if($size = Safe::GetImageSize($context['path_to_root'].$file))
-			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].$file.'" '.$size[3].' alt="'.$alternate.'"'.EOT.' ');
+		if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/'.$file))
+			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'"'.EOT.' ');
+		elseif($size = Safe::GetImageSize($context['path_to_root'].'skins/images/'.$file))
+			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].'skins/images/'.$file.'" '.$size[3].' alt="'.$alternate.'"'.EOT.' ');
 		else
 			define($name, $default);
 	}
@@ -2757,7 +2776,7 @@ Class Skin_Skeleton {
 						$text .= $label;
 				}
 
-				$text = '<p class="assistant_bar">'.MENU_PREFIX.$text.MENU_SUFFIX."</p>\n";
+				$text = Skin::build_block(MENU_PREFIX.$text.MENU_SUFFIX, 'bottom');
 				return $text;
 
 			// left and right columns for the 2-columns layout; actually, a definition list to be shaped through css with selectors: dl.column_1 and dl.column_2
@@ -3063,6 +3082,26 @@ Class Skin_Skeleton {
 				$text = '<div id="tabs">'.TABS_PREFIX.'<ul>'."\n".$text.'</ul>'.TABS_SUFFIX."</div>\n";
 				return $text;
 
+			// similar to compact, except tags are stripped
+			case 'tools':
+
+				$line_count = 0;
+				foreach($list as $label) {
+
+					// between two items
+					if($line_count++)
+						$text .= COMPACT_LIST_SEPARATOR;
+
+					$icon = '';
+					if(is_array($label))
+						list($label, $icon) = $label;
+
+					$text .= '<li>'.COMPACT_LIST_ITEM_PREFIX.$icon.trim(strip_tags(str_replace('/> ', '/>', $label), '<a>')).COMPACT_LIST_ITEM_SUFFIX.'</li>'."\n";
+				}
+
+				$text = COMPACT_LIST_PREFIX.'<ul class="compact">'."\n".$text.'</ul>'.COMPACT_LIST_SUFFIX."\n";
+				return $text;
+
 			// the regular <ul> list -- icons are dropped, if any
 			default:
 			case 'unordered':
@@ -3105,7 +3144,7 @@ Class Skin_Skeleton {
 
 		// the maximum number of articles per page
 		if(!defined('ARTICLES_PER_PAGE'))
-			define('ARTICLES_PER_PAGE', 30);
+			define('ARTICLES_PER_PAGE', 50);
 
 		// define new lines
 		if(!defined('BR')) {
@@ -3128,14 +3167,10 @@ Class Skin_Skeleton {
 			$text = i18n::s('A: ');
 		else
 			$text = 'A: ';
-		Skin::define_img('ANSWER_FLAG', $context['skin'].'/icons/answer.gif', $text, '!!');
-
-		// the maximum number of bookmarks per page -- see users/view.php
-		if(!defined('BOOKMARKS_PER_PAGE'))
-			define('BOOKMARKS_PER_PAGE', 20);
+		Skin::define_img('ANSWER_FLAG', 'icons/answer.gif', $text, '!!');
 
 		// the bullet used to prefix list items
-		Skin::define_img('BULLET_IMG', $context['skin'].'/icons/bullet.gif', '¤', '-');
+		Skin::define_img('BULLET_IMG', 'icons/bullet.gif', '¤', '-');
 
 		// the generic HTML to be inserted before a box title
 		if(!defined('BOX_TITLE_PREFIX'))
@@ -3158,7 +3193,7 @@ Class Skin_Skeleton {
 			define('CATEGORIES_PER_PAGE', 20);
 
 		// the prefix icon used for comments in the tool set
-		Skin::define_img('COMMENT_TOOL_IMG', $context['skin'].'/icons/tools/comment.gif');
+		Skin::define_img('COMMENT_TOOL_IMG', 'icons/tools/comment.gif');
 
 		// the maximum number of comments per page
 		if(!defined('COMMENTS_PER_PAGE'))
@@ -3201,14 +3236,14 @@ Class Skin_Skeleton {
 			define('CRUMBS_SUFFIX', '&nbsp;&laquo; &nbsp; ');
 
 		// the img tag used with the [decorated] code; either a decorating icon, or equivalent to the bullet
-		Skin::define_img('DECORATED_IMG', $context['skin'].'/icons/decorated.gif', BULLET_IMG);
+		Skin::define_img('DECORATED_IMG', 'icons/decorated.gif', BULLET_IMG);
 
 		// the bullet used to signal pages to be published
 		if(is_callable(array('i18n', 's')))
 			$text = i18n::s('to publish');
 		else
 			$text = 'to publish';
-		Skin::define_img('DRAFT_FLAG', $context['skin'].'/icons/to_publish.gif', '<span class="draft flag"><span> '.$text.' </span>&nbsp;</span>', $text);
+		Skin::define_img('DRAFT_FLAG', 'icons/to_publish.gif', '<span class="draft flag"><span> '.$text.' </span>&nbsp;</span>', $text);
 
 		// the bullet used to signal expired pages
 		if(!defined('EXPIRED_FLAG')) {
@@ -3236,7 +3271,7 @@ Class Skin_Skeleton {
 			define('FAMILY_SUFFIX', BR);
 
 		// the prefix icon used for images in the tool set
-		Skin::define_img('FILE_TOOL_IMG', $context['skin'].'/icons/tools/file.gif');
+		Skin::define_img('FILE_TOOL_IMG', 'icons/tools/file.gif');
 
 		// the maximum number of files per page
 		if(!defined('FILES_PER_PAGE'))
@@ -3289,7 +3324,7 @@ Class Skin_Skeleton {
 			define('HORIZONTAL_RULER', '<hr'.EOT);
 
 		// the prefix icon used for hot threads
-		Skin::define_img('HOT_THREAD_IMG', $context['skin'].'/icons/articles/hot_thread.gif');
+		Skin::define_img('HOT_THREAD_IMG', 'icons/articles/hot_thread.gif');
 
 		// the HTML to be inserted before an icon
 		if(!defined('ICON_PREFIX'))
@@ -3312,14 +3347,14 @@ Class Skin_Skeleton {
 			define('INLINE_MENU_SUFFIX', '</span>');
 
 		// the prefix icon used to add a link in the tool set
-		Skin::define_img('LINK_TOOL_IMG', $context['skin'].'/icons/tools/link.gif');
+		Skin::define_img('LINK_TOOL_IMG', 'icons/tools/link.gif');
 
 		// the maximum number of links per page
 		if(!defined('LINKS_PER_PAGE'))
 			define('LINKS_PER_PAGE', 200);
 
 		// the HTML used to signal a locked page
-		Skin::define_img('LOCKED_FLAG', $context['skin'].'/icons/locked.gif', '%');
+		Skin::define_img('LOCKED_FLAG', 'icons/locked.gif', '%');
 
 		// the HTML string used to prefix topmenu items [menu]
 		if(!defined('MENU_1_PREFIX'))
@@ -3358,7 +3393,7 @@ Class Skin_Skeleton {
 			define('MENU_SUFFIX', '');
 
 		// the HTML used to append to a stripped text
-		Skin::define_img('MORE_IMG', $context['skin'].'/icons/more.gif', ' &raquo;');
+		Skin::define_img('MORE_IMG', 'icons/more.gif', ' &raquo;');
 
 		// the HTML to be inserted before a box title
 		if(!defined('NAVIGATION_BOX_TITLE_PREFIX'))
@@ -3431,14 +3466,14 @@ Class Skin_Skeleton {
 			$text = i18n::s('private');
 		else
 			$text = 'private';
-		Skin::define_img('PRIVATE_FLAG', $context['skin'].'/icons/private.png', '('.$text.')');
+		Skin::define_img('PRIVATE_FLAG', 'icons/private.png', '('.$text.')');
 
 		// the HTML to signal a question
 		if(is_callable(array('i18n', 's')))
 			$text = i18n::s('Q: ');
 		else
 			$text = 'Q: ';
-		Skin::define_img('QUESTION_FLAG', $context['skin'].'/icons/question.gif', $text, '?');
+		Skin::define_img('QUESTION_FLAG', 'icons/question.gif', $text, '?');
 
 		// the HTML to be inserted before a question
 		if(!defined('QUESTION_PREFIX'))
@@ -3453,7 +3488,7 @@ Class Skin_Skeleton {
 			$text = i18n::s('restricted');
 		else
 			$text = 'restricted';
-		Skin::define_img('RESTRICTED_FLAG', $context['skin'].'/icons/restricted.png', '('.$text.')');
+		Skin::define_img('RESTRICTED_FLAG', 'icons/restricted.png', '('.$text.')');
 
 		// the theme to use for on-line presentations
 		if(!defined('S5_THEME') && file_exists($context['path_to_root'].$context['skin'].'/s5/yacs/slides.css'))
@@ -3518,7 +3553,7 @@ Class Skin_Skeleton {
 			define('TABS_SUFFIX', '');
 
 		// the prefix icon used for regular threads
-		Skin::define_img('THREAD_IMG', $context['skin'].'/icons/articles/thread.gif');
+		Skin::define_img('THREAD_IMG', 'icons/articles/thread.gif');
 
 		// the maximum number of threads per page -- comments/index.php
 		if(!defined('THREADS_PER_PAGE'))
@@ -3553,7 +3588,7 @@ Class Skin_Skeleton {
 			define('TOQ_BOX_TITLE_SUFFIX', '');
 
 		// the img tag used with 2-columns list; either a folder icon, or equivalent to the bullet
-		Skin::define_img('TWO_COLUMNS_IMG', $context['skin'].'/icons/folder.gif', BULLET_IMG);
+		Skin::define_img('TWO_COLUMNS_IMG', 'icons/folder.gif', BULLET_IMG);
 
 		// the bullet used to signal updated pages
 		if(!defined('UPDATED_FLAG')) {
@@ -3567,6 +3602,10 @@ Class Skin_Skeleton {
 		// the maximum number of users attached to an anchor -- see sections/select.php
 		if(!defined('USERS_LIST_SIZE'))
 			define('USERS_LIST_SIZE', 20);
+
+		// the maximum number of watched users per page
+		if(!defined('USERS_PER_PAGE'))
+			define('USERS_PER_PAGE', 20);
 
 		// number of words in a teaser
 		if(!defined('WORDS_IN_TEASER'))
@@ -3836,10 +3875,10 @@ Class Skin_Skeleton {
 
 		case 'slideshow':	// images/view.php
 
-			Skin::define_img('PREVIOUS_PREFIX', $context['skin'].'/icons/previous_icon.gif', '&lt;&lt; ');
+			Skin::define_img('PREVIOUS_PREFIX', 'icons/previous_icon.gif', '&lt;&lt; ');
 			$previous_label = PREVIOUS_PREFIX.$previous_label;
 
-			Skin::define_img('NEXT_SUFFIX', $context['skin'].'/icons/next_icon.gif', ' &gt;&gt;');
+			Skin::define_img('NEXT_SUFFIX', 'icons/next_icon.gif', ' &gt;&gt;');
 			$next_label = $next_label.NEXT_SUFFIX;
 
 			break;
@@ -3882,8 +3921,8 @@ Class Skin_Skeleton {
 			$text .= '<ul>';
 			if($previous)
 				$text .= '<li class="previous">'.$previous.'</li>';
-			if($option)
-				$text .= '<li class="option">'.$option.'</li>';
+// 			if($option)
+// 				$text .= '<li class="option">'.$option.'</li>';
 			if($next)
 				$text .= '<li class="next">'.$next.'</li>';
 			$text .= '</ul>';
@@ -4117,17 +4156,17 @@ Class Skin_Skeleton {
 			$text = Codes::strip($text);
 
 		// strip most html, except <a> for anchored names, <br> for new lines, <img> for bullets and <span> for css
-		$text = strip_tags($text, $allowed_html);
+		$text = trim(strip_tags($text, $allowed_html));
 
 		// count overall words
-		$overall = count(preg_split("/[\s,\.;\?!]+/", strip_tags($text), -1, PREG_SPLIT_NO_EMPTY));
+		$overall = count(preg_split("/[\s,\.;\?!]+/", $text, -1, PREG_SPLIT_NO_EMPTY));
 
 		// no parsing overhead in case of short labels
 		if($overall <= $count)
 			return $text;
 
 		// skip html tags
-		$areas = preg_split('/(<[\w]+[^>]*>)/', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
+		$areas = preg_split('/(<\/{0,1}[\w]+[^>]*>)/', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
 		$text = '';
 		$index = 0;
 		foreach($areas as $area) {
@@ -4171,6 +4210,7 @@ Class Skin_Skeleton {
 				$overall -= count($words);
 
 			}
+			$index++;
 		}
 
 		// indicate the number of words to read, if significant text to read

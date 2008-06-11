@@ -181,10 +181,12 @@ if(!isset($item['id'])) {
 
 	// jump automatically to the next page, if any
 	elseif($next && !headers_sent()) {
+		Articles::clear($item);
 		Safe::redirect($next);
 
 	// ask for manual click
 	} else {
+		Articles::clear($item);
 		$context['text'] .= '<p>'.i18n::s('Thank you for your vote')."</p>\n";
 
 		// link to the poll, depending on access rights

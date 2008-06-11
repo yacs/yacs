@@ -42,10 +42,10 @@ Class Layout_articles_as_freemind extends Layout_interface {
 			$freemind_article_style = ' STYLE="'.$context['skins_freemind_article_style'].'"';
 
 		// flag articles updated recently
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// process all items in the list
 		include_once $context['path_to_root'].'articles/article.php';
@@ -143,7 +143,7 @@ Class Layout_articles_as_freemind extends Layout_interface {
 				.$freemind_article_color
 				.$freemind_article_style
 				.' TEXT="'.encode_field(utf8::to_hex('<html>'.i18n::s('more pages').'</html>')).'" FOLDED="true">'
-				.'<edge WIDTH="thin"/>'."\n".'<font NAME="SansSerif" SIZE="12"/>'."\n";
+				.'<edge WIDTH="thin" />'."\n".'<font NAME="SansSerif" SIZE="12" />'."\n";
 
 				$stack++;
 			}
@@ -157,7 +157,7 @@ Class Layout_articles_as_freemind extends Layout_interface {
 				.' TEXT="'.encode_field(utf8::to_hex('<html>'.$prefix.$title.$rating.'</html>')).'"'
 				.' LINK="'.encode_field($context['url_to_home'].$context['url_to_root'].$url).'">';
 
-			$text .= '<edge WIDTH="thin"/>'."\n".'<font NAME="SansSerif" SIZE="12"/>'."\n";
+			$text .= '<edge WIDTH="thin" />'."\n".'<font NAME="SansSerif" SIZE="12" />'."\n";
 
 			// add details
 			if($suffix)
