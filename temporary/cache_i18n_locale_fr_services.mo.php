@@ -1,0 +1,96 @@
+<?php
+/**
+ * cache localized strings
+ *
+ * This file has been created by the script i18n/i18n.php
+ * on June 10, 2008, 9:58 pm GMT. Please do not modify it manually.
+ */
+$_SESSION['l10n']['fr']['%s at %s']='%s &#224; %s';
+$_SESSION['l10n']['fr']['%s has been updated']='%s a &#233;t&#233; mis &#224; jour';
+$_SESSION['l10n']['fr']['Back-end services']='Services distribu&#233;s';
+$_SESSION['l10n']['fr']['Blogging interface']='Interface pour le webblogging';
+$_SESSION['l10n']['fr']['Bound to hooked back-end scripts']='Li&#233;e aux scripts de service';
+$_SESSION['l10n']['fr']['Build a customised RSS feed based on any keyword']='Pour b&#226;tir un fil de nouvelles RSS &#224; partir de mots de recherche';
+$_SESSION['l10n']['fr']['Configuration parameters']='Param&#232;tres de configuration';
+$_SESSION['l10n']['fr']['Configure']='Configuration';
+$_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
+$_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
+$_SESSION['l10n']['fr']['Control Panel']='Panneau de contr&#244;le';
+$_SESSION['l10n']['fr']['Copy network packets sent and received by comments/post.php in temporary/debug.txt']='Sauver les paquets envoy&#233;s et re&#231;us par comments/post.php dans le fichier temporary/debug.txt';
+$_SESSION['l10n']['fr']['Copy network packets sent and received by links/trackback.php in temporary/debug.txt']='Sauver les paquets envoy&#233;s et re&#231;us par links/trackback.php dans le fichier temporary/debug.txt';
+$_SESSION['l10n']['fr']['Copy network packets sent and received by services/blog.php in temporary/debug.txt']='Sauver les paquets envoy&#233;s et re&#231;us par services/blog.php dans le fichier temporary/debug.txt';
+$_SESSION['l10n']['fr']['Copy network packets sent and received by services/call.php in temporary/debug.txt']='Sauver les paquets envoy&#233;s et re&#231;us par services/call.php dans le fichier temporary/debug.txt';
+$_SESSION['l10n']['fr']['Copy network packets sent and received by services/json_rpc.php and by services/xml_rpc.php in temporary/debug.txt']='Sauver les paquets envoy&#233;s et re&#231;us par services/json_rpc.php et par services/xml_rpc.php dans le fichier temporary/debug.txt';
+$_SESSION['l10n']['fr']['Copy network packets sent and received by services/ping.php in temporary/debug.txt']='Sauver les paquets envoy&#233;s et re&#231;us par services/ping.php dans le fichier temporary/debug.txt';
+$_SESSION['l10n']['fr']['Debug blog services']='Mode de mise au point des services blogs';
+$_SESSION['l10n']['fr']['Debug calls of web services']='Mode de mise au point des appels client';
+$_SESSION['l10n']['fr']['Debug commenting services']='Mode de mise au point des services de commentaire';
+$_SESSION['l10n']['fr']['Debug ping services']='Mode de mise au point des services ping';
+$_SESSION['l10n']['fr']['Debug pingback and trackback services']='Mode de mise au point des services pingback et trackback';
+$_SESSION['l10n']['fr']['Debug remote procedure calls']='Mode de mise au point des appels &#224; distance (RPC)';
+$_SESSION['l10n']['fr']['Do not know how to process %s']='%s ne correspond &#224; rien de connu';
+$_SESSION['l10n']['fr']['Documentation:']='Documentation :';
+$_SESSION['l10n']['fr']['ERROR: Impossible to write to the file %s. The configuration has not been saved.']='ERREUR : impossible d\'&#233;crire dans le fichier %s. La configuration n\'a pas &#233;t&#233; sauvegard&#233;e.';
+$_SESSION['l10n']['fr']['Generic JSON-RPC interface']='Interface JSON-RPC g&#233;n&#233;rique';
+$_SESSION['l10n']['fr']['Generic XML-RPC interface']='Interface XML-RPC g&#233;n&#233;rique';
+$_SESSION['l10n']['fr']['Go']='Contacter';
+$_SESSION['l10n']['fr']['Go to the %s and check debug mode for <code>call</code> has been set, if you want to record HTTP requests and responses.']='Allez dans le %s et assurez-vous que le mode de mise au point pour les <code>call</code> a &#233;t&#233; s&#233;lectionn&#233; si vous souhaitez enregistrer les requ&#234;tes et r&#233;ponses HTTP.';
+$_SESSION['l10n']['fr']['Go to the %s and check debug mode for <code>rpc</code> has been set, if you want to record HTTP requests and responses.']='Allez dans le %s et assurez-vous que le mode de mise au point pour les <code>rpc</code> a &#233;t&#233; s&#233;lectionn&#233; si vous souhaitez enregistrer les requ&#234;tes et r&#233;ponses HTTP.';
+$_SESSION['l10n']['fr']['Google API key']='Cl&#233; d\'API Google';
+$_SESSION['l10n']['fr']['Google Analytics']='Google Analytics';
+$_SESSION['l10n']['fr']['Help']='Aide';
+$_SESSION['l10n']['fr']['Impossible to delete record of postid %s']='Impossible d\'effacer l\'envoi %s';
+$_SESSION['l10n']['fr']['Impossible to save content of file %s']='Impossible d\'enregistrer le contenu du fichier %s';
+$_SESSION['l10n']['fr']['Impossible to update record of postid %s']='Impossible de modifier la page %s';
+$_SESSION['l10n']['fr']['Message']='Message';
+$_SESSION['l10n']['fr']['Name of the updated server']='Nom du serveur mis &#224; jour';
+$_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a &#233;t&#233; trouv&#233;.';
+$_SESSION['l10n']['fr']['No file data has been received.']='Aucun fichier n\'a &#233;t&#233; transmis.';
+$_SESSION['l10n']['fr']['Only the main template can be changed']='Seul le style principal peut &#234;tre chang&#233;';
+$_SESSION['l10n']['fr']['Ping interface']='Interface Ping';
+$_SESSION['l10n']['fr']['Please register at %s before blogging']='Merci de vous enregistrer &#224; l\'adresse %s avant de  blogger';
+$_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
+$_SESSION['l10n']['fr']['Sample blog client']='Exemple de client blog';
+$_SESSION['l10n']['fr']['Sample ping client']='Exemple de client ping';
+$_SESSION['l10n']['fr']['Search interface']='Interface de recherche';
+$_SESSION['l10n']['fr']['Server address']='Adresse du serveur';
+$_SESSION['l10n']['fr']['Specification:']='Sp&#233;cification :';
+$_SESSION['l10n']['fr']['Specifications:']='Sp&#233;cifications :';
+$_SESSION['l10n']['fr']['Submit']='Enregistrer';
+$_SESSION['l10n']['fr']['Support popular blogging software such as w.bloggar.']='Pour le support de logiciels de blogging usuels tels que w.bloggar.';
+$_SESSION['l10n']['fr']['Test pingback.ping']='Test pingback.ping';
+$_SESSION['l10n']['fr']['Test weblogUpdates.ping']='Test weblogUpdates.ping';
+$_SESSION['l10n']['fr']['The following configuration has been saved into the file %s.']='La configuration suivante a &#233;t&#233; enregistr&#233;e dans le fichier %s.';
+$_SESSION['l10n']['fr']['The name or the IP address of the yacs server']='Le nom ou l\'adresse IP du serveur cible';
+$_SESSION['l10n']['fr']['This index page lists the main services that you can use in the background. Connect your blogging software, RSS news feeder, or other web sites to this server through following Application Programming Interfaces (API).']='Cette page liste les principaux services que vous pouvez utiliser en arri&#232;re-plan. Connectez votre logiciel de blogging, votre lecteur de nouvelles RSS, ou d\'autres sites &#224; ce serveur web sur la base des interfaces programmatiques d&#233;crites ci-dessous.';
+$_SESSION['l10n']['fr']['This instance of YACS runs in demonstration mode. For security reasons configuration parameters cannot be changed in this mode.']='Cette instance de YACS s\'ex&#233;cute en mode d&#233;monstration. Pour des raisons de s&#233;curit&#233;, les param&#232;tres de configuration ne peuvent pas &#234;tre modifi&#233;s dans ce mode.';
+$_SESSION['l10n']['fr']['To actually change the configuration, please copy and paste following lines by yourself in file %s.']='Pour changer la configuration, merci de copier et de coller les lignes suivantes dans le fichier %s :';
+$_SESSION['l10n']['fr']['To integrate Google Maps to your server, %s and enter it here']='Pour int&#233;grer Google Maps &#224; votre serveur, %s et indiquez-la ici';
+$_SESSION['l10n']['fr']['To monitor your server with Google Analytics, %s and enter your Urchin account here']='Pour analyser l\'activit&#233; de votre serveur avec Google Analytics, %s et indiquez ici votre identifiant Urchin';
+$_SESSION['l10n']['fr']['To spread updates']='Pour diffuser les mises &#224; jour';
+$_SESSION['l10n']['fr']['URI of the source page']='Adresse de la page source';
+$_SESSION['l10n']['fr']['URI of the target page']='Adresse de la page cible';
+$_SESSION['l10n']['fr']['URI of the updated server']='Adresse du serveur mis &#224; jour';
+$_SESSION['l10n']['fr']['URL:']='Adresse :';
+$_SESSION['l10n']['fr']['Unknown blog %s at %s']='Identifiant blog %s inconnu &#224; l\'adresse %s';
+$_SESSION['l10n']['fr']['Unknown postid %s at %s']='Identifiant postid %s inconnu &#224; l\'adresse %s';
+$_SESSION['l10n']['fr']['Unknown user name']='Nom d\'utilisateur inconnu';
+$_SESSION['l10n']['fr']['Use this option only for troubleshooting']='A r&#233;server aux phases de mise au point';
+$_SESSION['l10n']['fr']['User name']='Nom d\'utilisateur';
+$_SESSION['l10n']['fr']['User password']='Mot de passe';
+$_SESSION['l10n']['fr']['Web service test']='Test de service web';
+$_SESSION['l10n']['fr']['Web services']='Services web';
+$_SESSION['l10n']['fr']['Where do you want to go now?']='O&#249; voulez-vous aller &#224; pr&#233;sent ?';
+$_SESSION['l10n']['fr']['You are not allowed to change blog %s at %s']='Vous n\'&#234;tes pas autoris&#233; &#224; modifier le blog %s &#224; l\'adresse %s';
+$_SESSION['l10n']['fr']['You are not allowed to delete post %s at %s']='Vous n\'&#234;tes pas autoris&#233; &#224; effacer l\'envoi %s &#224; l\'adresse %s';
+$_SESSION['l10n']['fr']['You are not allowed to get template for blog %s at %s']='Vous n\'&#234;tes pas autoris&#233; &#224; obtenir le mod&#232;le de page du blog %s &#224; l\'adresse %s';
+$_SESSION['l10n']['fr']['You are not allowed to perform this operation.']='Vous n\'&#234;tes pas autoris&#233; &#224; faire cette op&#233;ration.';
+$_SESSION['l10n']['fr']['You are not allowed to post in blog %s at %s']='Vous n\'&#234;tes pas autoris&#233; &#224; poster dans le blog %s &#224; l\'adresse %s';
+$_SESSION['l10n']['fr']['You are not allowed to upload files.']='Vous n\'&#234;tes pas autoris&#233; &#224; envoyer des fichiers.';
+$_SESSION['l10n']['fr']['apply for a key']='demandez une cl&#233;';
+$_SESSION['l10n']['fr']['configuration panel for services']='le panneau de configuration des services';
+$_SESSION['l10n']['fr']['http://www.google-analytics.com/']='http://www.google-analytics.com/';
+$_SESSION['l10n']['fr']['http://www.google.com/apis/maps/signup.html']='http://www.google.com/apis/maps/signup.html';
+$_SESSION['l10n']['fr']['register']='enregistrez-vous';
+$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n>1);';
+?>
