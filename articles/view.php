@@ -285,17 +285,17 @@ else
 // is this surfer allowed to change the page?
 //
 
+// associates and editors can do what they want
+if(Surfer::is_empowered())
+	$editable = TRUE;
+
 // this page cannot be modified anymore
-if(isset($item['locked']) && ($item['locked'] == 'Y'))
+elseif(isset($item['locked']) && ($item['locked'] == 'Y'))
 	$editable = FALSE;
 
 // new posts are not allowed here
 elseif(!isset($item['id']) && (is_object($anchor) && $anchor->has_option('locked')))
 	$editable = FALSE;
-
-// associates and editors can do what they want
-elseif(Surfer::is_empowered())
-	$editable = TRUE;
 
 // surfer created the page and the page has not been published
 elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())
@@ -433,6 +433,11 @@ if(!isset($item['id'])) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name'])));
 
 	// permission denied to authenticated user
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
+// stop crawlers on non-published pages
+} elseif((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && !Surfer::is_logged()) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
@@ -752,7 +757,7 @@ if(!isset($item['id'])) {
 			if(isset($item['introduction']) && $item['introduction'])
 				$text .= Codes::beautify($item['introduction'], $item['options']);
 			else
-				$text .= Skin::cap(Codes::beautify($item['description'], $item['options']), 50)."<p> </p>\n";
+				$text .= '<div class="description">'.Skin::cap(Codes::beautify($item['description'], $item['options']), 50)."</div>\n";
 
 		// else expose full details
 		} else {
@@ -808,6 +813,10 @@ if(!isset($item['id'])) {
 			// the beautified description, which is the actual page body
 			if(trim($item['description'])) {
 
+				// use adequate label
+				if(is_object($overlay) && ($label = $overlay->get_label('description')))
+					$text .= Skin::build_block($label, 'title');
+
 				// provide only the requested page
 				$pages = preg_split('/\s*\[page\]\s*/is', $item['description']);
 				if($page > count($pages))
@@ -821,13 +830,7 @@ if(!isset($item['id'])) {
 					$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
 
 				// beautify the target page
-				$description = Codes::beautify($description, $item['options'])."\n";
-
-				// use adequate label
-				if(is_object($overlay) && ($label = $overlay->get_label('description')))
-					$text .= Skin::build_block($label, 'title').'<p>'.$description."</p>\n";
-				else
-					$text .= $description."\n";
+				$text .= '<div class="description">'.Codes::beautify($description, $item['options'])."</div>\n";
 
 				// if there are several pages, add navigation commands to browse them
 				if(count($pages) > 1) {

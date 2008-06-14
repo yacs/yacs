@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 10, 2008, 9:55 pm GMT. Please do not modify it manually.
+ * on June 13, 2008, 9:33 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['%s approvals (%d%%), %s rejections (%d%%)']='%s approvals (%d%%), %s rejections (%d%%)';
@@ -91,20 +91,20 @@ $_SESSION['l10n']['en']['View the decision']='View the decision';
 $_SESSION['l10n']['en']['Visit %s to get more interesting pages.']='Visit %s to get more interesting pages.';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['Yes, I want to suppress this decision']='Yes, I want to suppress this decision';
-$_SESSION['l10n']['en']['You are invited personnally to express your decision on following page.
+$_SESSION['l10n']['en']['You are not allowed to perform this operation.']='You are not allowed to perform this operation.';
+$_SESSION['l10n']['en']['You are personally invited to express your decision on following page.
 
 %s
 
 Please let me thank you for your kind support.
 
-%s']='You are invited personnally to express your decision on following page.
+%s']='You are personally invited to express your decision on following page.
 
 %s
 
 Please let me thank you for your kind support.
 
 %s';
-$_SESSION['l10n']['en']['You are not allowed to perform this operation.']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['You must type a recipient for your message.']='You must type a recipient for your message.';
 $_SESSION['l10n']['en']['You must type an address for replies.']='You must type an address for replies.';
 $_SESSION['l10n']['en']['Your address']='Your address';

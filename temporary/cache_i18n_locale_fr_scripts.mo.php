@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 10, 2008, 9:55 pm GMT. Please do not modify it manually.
+ * on June 14, 2008, 10:01 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d file has been downloaded from the reference server.'.chr(0).'%d files have been downloaded from the reference server.']='%d fichier a &#233;t&#233; t&#233;l&#233;charg&#233; depuis le serveur de r&#233;f&#233;rence.'.chr(0).'%d fichiers ont &#233;t&#233; t&#233;l&#233;charg&#233;s depuis le serveur de r&#233;f&#233;rence.';
 $_SESSION['l10n']['fr']['%d file has been updated.'.chr(0).'%d files have been updated.']='%d fichier a &#233;t&#233; mis &#224; jour.'.chr(0).'%d fichiers ont &#233;t&#233; mis &#224; jour.';
@@ -97,7 +97,6 @@ $_SESSION['l10n']['fr']['Merge']='Combin&#233;';
 $_SESSION['l10n']['fr']['Meta data have been saved in scripts/reference/footprints.php.']='Les donn&#233;es ont &#233;t&#233; sauv&#233;es dans le fichier scripts/reference/footprints.php.';
 $_SESSION['l10n']['fr']['No archive has been found.']='Aucune archive n\'a &#233;t&#233; trouv&#233;e.';
 $_SESSION['l10n']['fr']['No comments to report on!']='Aucun commentaire &#224; rapporter !';
-$_SESSION['l10n']['fr']['No file has been downloaded. Scripts on your server are exact copies of the reference set.']='Aucun fichier n\'a &#233;t&#233; t&#233;l&#233;charg&#233;. Les scripts sur votre serveur sont &#224; jour par rapport au serveur de r&#233;f&#233;rence.';
 $_SESSION['l10n']['fr']['No file has been staged. Scripts on your server are exact copies of the reference set.']='Aucun fichier n\'a &#233;t&#233; t&#233;l&#233;charg&#233;. Les scripts sur votre serveur sont &#224; jour par rapport au serveur de r&#233;f&#233;rence.';
 $_SESSION['l10n']['fr']['No file has been updated.']='Aucun fichier n\'a &#233;t&#233; mis &#224; modifi&#233;.';
 $_SESSION['l10n']['fr']['No script has been executed']='Aucun script d\'extension n\'a &#233;t&#233; ex&#233;cut&#233;';

@@ -179,14 +179,8 @@ if(!isset($item['id'])) {
 		$context['text'] .= ' <p>'.sprintf(i18n::s('Comment inspired from %s'), Skin::build_link(Comments::get_url($previous['id']), $previous['create_name'])).'</p>';
 
 	// display the full comment
-	if($item['description']) {
-
-		// beautify the complete comment
-		$text = Codes::beautify($item['description']);
-
-		// show the description
-		$context['text'] .= '<div>'.$text."</div>\n";
-	}
+	if($item['description'])
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 	// list follow-ups in thread, if any
 	if($next = Comments::list_next($item['id'], 'compact'))

@@ -138,7 +138,7 @@ else {
 
 	// main text
 	if($item['description'])
-		$context['text'] .= Codes::beautify($item['description'])."\n";
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 	// count items related to this category
 	$context['text'] .= Anchors::stat_related_to('category:'.$item['id'], i18n::s('Following items are attached to this record and will be suppressed as well.'));

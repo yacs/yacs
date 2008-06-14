@@ -199,14 +199,8 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Regional position: %s'), $item['geo_country'])."</p>\n";
 
 	// display the full text
-	if($item['description']) {
-
-		// beautify the text
-		$text = Codes::beautify($item['description']);
-
-		// show the description
-		$context['text'] .= $text."\n";
-	}
+	if($item['description'])
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 	// insert anchor suffix
 	if(is_object($anchor))

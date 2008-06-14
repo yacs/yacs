@@ -180,7 +180,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 
 			// the description
 			if(trim($item['description']))
-				$box['content'] .= Codes::beautify($item['description'], $item['options'])."\n";
+				$box['content'] .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
 
 			// build a menu
 			$menu = array();

@@ -213,7 +213,7 @@ function include_hook($path) {
 global $hooks, $action;
 
 // scan only selected sub-directories
-$scanned = array('', 'agents', 'articles', 'categories', 'control', 'included', 'parameters', 'sections', 'services', 'shared', 'tools', 'users');
+$scanned = array('', 'agents', 'articles', 'categories', 'control', 'included', 'overlays', 'parameters', 'sections', 'services', 'shared', 'tools', 'users');
 
 // ensure that the user is an associate, except on first install
 if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))) {

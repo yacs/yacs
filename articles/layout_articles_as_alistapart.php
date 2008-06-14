@@ -241,13 +241,13 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 		// the beautified description, which is the actual page body
 		if(trim($item['description'])) {
-			$description = Codes::beautify($item['description'], $item['options']);
 
 			// use adequate label
 			if(is_object($overlay) && ($label = $overlay->get_label('description')))
-				$text .= Skin::build_block($label, 'title').'<p>'.$description."</p>\n";
-			else
-				$text .= $description."\n";
+				$context['text'] .= Skin::build_block($label, 'title');
+
+			$context['text'] .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
+
 		}
 
 		//

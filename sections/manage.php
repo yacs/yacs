@@ -100,13 +100,13 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'])
 	$action = $_REQUEST['action'];
 $action = strip_tags($action);
 
-// editors can do what they want on items anchored here
+// editors of upper containers have associate-like capabilities
 if(Surfer::is_member() && is_object($anchor) && $anchor->is_editable())
 	Surfer::empower();
 
-// // editors of upper containers have associate-like capabilities
-// elseif((isset($item['id']) && Sections::is_assigned($item['id']) && Surfer::is_member()) || (is_object($anchor) && $anchor->is_editable()))
-//	Surfer::empower();
+// editors can do what they want on items anchored here
+elseif(Surfer::is_member() && isset($item['id']) && Sections::is_assigned($item['id']))
+	Surfer::empower();
 
 // associates are always authorized
 if(Surfer::is_associate())
@@ -729,7 +729,7 @@ if(!$item['id']) {
 			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n";
 
 		// target section
-		$context['text'] .= '<p>'.i18n::s('Move following pages below to').' <select name=move_to>'.Sections::get_options('section:'.$item['id']).'</select></p>';
+		$context['text'] .= '<p>'.i18n::s('Move following pages to').' <select name=move_to>'.Sections::get_options('section:'.$item['id']).'</select></p>';
 
 		// selected pages
 		$context['text'] .= $selected_articles;
@@ -758,7 +758,7 @@ if(!$item['id']) {
 			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n";
 
 		// target section
-		$context['text'] .= '<p>'.i18n::s('Move following pages below to').' <select name=move_to>'.Sections::get_options('section:'.$item['id']).'</select></p>';
+		$context['text'] .= '<p>'.i18n::s('Move following pages to').' <select name=move_to>'.Sections::get_options('section:'.$item['id']).'</select></p>';
 
 		// selected pages
 		$context['text'] .= $selected_sections;

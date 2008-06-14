@@ -209,7 +209,7 @@ if(!isset($item['id'])) {
 
 	// image description
 	if($item['description'])
-		$context['text'] .= Codes::beautify($item['description']);
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 	// build the path to the image file
 	$url = $context['url_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['image_name'];

@@ -405,7 +405,7 @@ elseif(!Surfer::is_associate()) {
 	if($handle = Safe::fopen($context['path_to_root'].$file_name, 'wb')) {
 		fwrite($handle, $zipfile->get());
 		fclose($handle);
-		$context['text'] .= BR.sprintf(i18n::s('Reference archive has been saved in %s.'), $file_name)."\n";
+		$context['text'] .= BR.sprintf(i18n::s('Reference archive has been saved in %s.'), Skin::build_link($context['path_to_root'].$file_name, $file_name, 'basic'));
 	}
 	$context['text'] .= "</p>\n";
 

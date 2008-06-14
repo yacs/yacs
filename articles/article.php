@@ -441,8 +441,8 @@ Class Article extends Anchor {
 		case 'teaser':
 
 			// push titles
- 			$text = str_ireplace(array('<h3', '</h3'), array('<h4', '</h4'), $text);
- 			$text = str_ireplace(array('<h2', '</h2'), array('<h3', '</h3'), $text);
+ 			$text = str_replace(array('<h3', '</h3'), array('<h4', '</h4'), $text);
+ 			$text = str_replace(array('<h2', '</h2'), array('<h3', '</h3'), $text);
 
 			// limit the number of words
 			if(is_callable(array('Skin', 'cap')))

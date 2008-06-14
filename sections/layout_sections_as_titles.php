@@ -22,14 +22,15 @@ Class Layout_sections_as_titles extends Layout_interface {
 	function &layout(&$result) {
 		global $context;
 
-		// empty list
-		if(!SQL::count($result)) {
-			$output = array();
-			return $output;
-		}
-
 		// we return some text
 		$text = '';
+
+		// empty list
+		if(!SQL::count($result))
+			return $text;
+
+		// clear flows
+		$text .= '<br style="clear: left" />';
 
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
@@ -52,14 +53,14 @@ Class Layout_sections_as_titles extends Layout_interface {
 			$title =& Skin::build_link($url, $title, 'basic', $hover);
 
 			// use the thumbnail for this section
-			if($icon = $item['thumbnail_url']) {
+			if($icon = trim($item['thumbnail_url'])) {
 
 				// fix relative path
 				if(!preg_match('/^(\/|http:|https:|ftp:)/', $icon))
 					$icon = $context['url_to_root'].$icon;
 
 				// build the complete HTML element
-				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($title).'" '.EOT;
+				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($hover).'" '.EOT;
 
 			// use default icon if nothing to display
 			} else
@@ -72,6 +73,9 @@ Class Layout_sections_as_titles extends Layout_interface {
 			$text .= Skin::build_box($title, $icon, 'floating');
 
 		}
+
+		// clear flows
+		$text .= '<br style="clear: left" />';
 
 		// end of processing
 		SQL::free($result);

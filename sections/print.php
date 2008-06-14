@@ -146,7 +146,7 @@ if(!isset($item['id'])) {
 
 	// the description, which is the actual page body
 	if(isset($item['description']) && $item['description'])
-		$context['text'] .= '<p></p>'.Codes::beautify($item['description'])."<p></p>\n";
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 	//
 	// sub-sections, if any

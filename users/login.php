@@ -456,9 +456,9 @@ if($credentials) {
 			$links = array_merge($links, array( 'articles/edit.php' => i18n::s('Add a page') ));
 
 			if(Surfer::is_associate()) {
-				$links = array_merge($links, array( 'sections/edit.php' => i18n::s('New section') ));
-				$links = array_merge($links, array( 'categories/edit.php' => i18n::s('New category') ));
-				$links = array_merge($links, array( 'users/edit.php' => i18n::s('New user') ));
+				$links = array_merge($links, array( 'sections/edit.php' => i18n::s('Add a section') ));
+				$links = array_merge($links, array( 'categories/edit.php' => i18n::s('Add a category') ));
+				$links = array_merge($links, array( 'users/edit.php' => i18n::s('Add a user') ));
 			}
 
 			$context['extra'] .= Skin::build_box(i18n::s('Contribute'), Skin::build_list($links, 'compact'), 'navigation');

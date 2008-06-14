@@ -117,14 +117,8 @@ if(!isset($item['id'])) {
 		$context['text'] .= $anchor->get_prefix();
 
 	// display the full text
-	if($item['description']) {
-
-		// beautify the text
-		$text = Codes::beautify($item['description']);
-
-		// show the description
-		$context['text'] .= '<p></p>'.$text."<p></p>\n";
-	}
+	if($item['description'])
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 	// action status
 	switch($item['status']) {

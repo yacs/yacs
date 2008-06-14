@@ -135,11 +135,8 @@ Class Layout_articles_as_jive extends Layout_interface {
 				$content .= $overlay->get_text('list', $item);
 
 			// the description
-			if(trim($item['description'])) {
-				if($content && (substr(trim($content), -1) != '>'))
-					$content .= BR;
-				$content .= Codes::beautify($item['description'], $item['options'])."\n";
-			}
+			if(trim($item['description']))
+				$content .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
 
 			// attachment details
 			$details = array();

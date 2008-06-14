@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 10, 2008, 9:53 pm GMT. Please do not modify it manually.
+ * on June 14, 2008, 9:58 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%s is currently present at this site, and several contact options are available:']='%s is currently present at this site, and several contact options are available:';
 $_SESSION['l10n']['en']['A member is required for this operation.']='A member is required for this operation.';

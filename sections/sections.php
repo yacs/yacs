@@ -291,6 +291,10 @@ Class Sections {
 		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_sections\b/i', $item['options']))
 			return FALSE;
 
+		// sections are prevented in this item through layout
+		if(isset($item['sections_layout']) && ($item['sections_layout'] == 'none'))
+			return FALSE;
+
 		// surfer is an associate
 		if(Surfer::is_associate())
 			return TRUE;

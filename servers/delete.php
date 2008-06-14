@@ -182,10 +182,8 @@ if($item['id'] && Surfer::is_associate()) {
 		$context['text'] .= Skin::build_block(i18n::s('Server description'), 'subtitle');
 
 		// beautify the text
-		$text = Codes::beautify($item['description']);
+		$context['text'] = '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
-		// show the description
-		$context['text'] .= '<p></p>'.$text."<p></p>\n";
 	}
 
 }

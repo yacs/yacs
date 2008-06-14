@@ -132,14 +132,9 @@ else {
 		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// display the full decision
-	if($item['description']) {
+	if($item['description'])
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
-		// beautify the complete decision
-		$text = Codes::beautify($item['description']);
-
-		// show the description
-		$context['text'] .= '<p></p>'.$text."<p></p>\n";
-	}
 }
 
 // render the skin

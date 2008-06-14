@@ -152,12 +152,13 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'view', $item['title']) => i18n::s('Read more') ));
 
 			// info on related files
-			if($context['with_friendly_urls'] == 'Y')
-				$file = 'articles/view.php/'.$item['id'].'/files/1';
-			else
-				$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
-			if($count = Files::count_for_anchor('article:'.$item['id']))
-				$details[] = Skin::build_link($file, sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
+			if($count = Files::count_for_anchor('article:'.$item['id'])) {
+				if($context['with_friendly_urls'] == 'Y')
+					$file = 'articles/view.php/'.$item['id'].'/files/1';
+				else
+					$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
+				$menu = array_merge($menu, array( $file => sprintf(i18n::ns('1 file', '%d files', $count), $count) ));
+			}
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'])) {

@@ -120,9 +120,6 @@ if(!is_object($anchor)) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
-// provide buttons only if page is not locked
-//} elseif(!isset($item['id']) && (is_object($anchor) && $anchor->has_option('locked')) && !Surfer::is_associate()) {
-
 // display the index
 } else {
 

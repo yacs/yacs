@@ -142,6 +142,11 @@ if(!isset($item['id'])) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
+// stop crawlers on non-published pages
+} elseif((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && !Surfer::is_logged()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // display page content
 } else {
 
@@ -471,7 +476,7 @@ if(!isset($item['id'])) {
 
 	// the beautified description, which is the actual page body
 	if(trim($item['description']))
-		$information .= '<div id="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
+		$information .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
 
 	// add trailer information from the overlay, if any
 	if(is_object($overlay))

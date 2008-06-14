@@ -135,21 +135,17 @@ if(!isset($item['id'])) {
 	$context['text'] .= Skin::build_block($item['geo_place_name'], 'title');
 
 	// display the full text
-	if($item['description']) {
+	if($item['description'])
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
-		// beautify the text
-		$text = Codes::beautify($item['description']);
-
-		// show the description
-		$context['text'] .= '<p></p>'.$text."<p></p>\n";
-	}
+	$details = array();
 
 	// information on uploader
 	if(Surfer::is_member() && $item['edit_name'])
 		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 	// the complete details
-	$context['text'] .= ucfirst(implode(', ', $details)).BR."\n";
+	$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
 }
 

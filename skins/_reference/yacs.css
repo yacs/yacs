@@ -478,6 +478,16 @@ div.bottom { /* the last div of the content area */
    	width: 80%; /* same width as div#tabs_bar */
 }
 
+div#cover_article { /* the main text at the front page */
+	margin-top: 0.5em;
+	margin-bottom: 1em;
+}
+
+div.description { /* the main text */
+	margin-top: 0.5em;
+	margin-bottom: 1em;
+}
+
 div.folder_box {
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;

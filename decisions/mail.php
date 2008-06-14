@@ -261,7 +261,7 @@ if(!is_object($anchor)) {
 
 	// the message
 	$label = i18n::s('Message content');
-	$content = sprintf(i18n::s("You are invited personnally to express your decision on following page.\n\n%s\n\nPlease let me thank you for your kind support.\n\n%s"), $context['url_to_home'].$context['url_to_root'].Decisions::get_url($anchor->get_reference(), 'decision'), $author);
+	$content = sprintf(i18n::s("You are personally invited to express your decision on following page.\n\n%s\n\nPlease let me thank you for your kind support.\n\n%s"), $context['url_to_home'].$context['url_to_root'].Decisions::get_url($anchor->get_reference(), 'decision'), $author);
 
 	$input = '<textarea name="message" rows="15" cols="50">'.encode_field($content).'</textarea>';
 	$hint = i18n::s('Use only plain ASCII, no HTML.');

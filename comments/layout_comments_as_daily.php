@@ -119,7 +119,7 @@ Class Layout_comments_as_daily extends Layout_interface {
 			$text .= ' -&nbsp;'.Skin::build_list($menu, 'menu');
 
 			// the note itself
-			$text .= '</h3><div>'."\n";
+			$text .= '</h3><div class="description">'."\n";
 
 			// the comment itself
 			$text .= ucfirst(trim(Codes::beautify($item['description'])));

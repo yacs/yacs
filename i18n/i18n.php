@@ -1685,7 +1685,7 @@ Class i18n {
 	 * @return string the localized string, if any
 	 */
 	function &server($name) {
-		global $local;
+		global $context, $local;
 
 		$text =& i18n::l($local, $name, $context['preferred_language']);
 		return $text;

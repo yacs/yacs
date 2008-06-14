@@ -15,8 +15,6 @@
  * This script attempts to validate the new or updated comment against a standard PHP XML parser.
  * The objective is to spot malformed or unordered HTML and XHTML tags. No more, no less.
  *
- * Surfer signature is automatically appended to new comments, if any.
- *
  * On anonymous usage YACS attempts to stop robots by generating a random string and by asking user to type it.
  *
  * On new comment by a non-associate a mail is sent to the system operator.
@@ -156,7 +154,7 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
 // maybe posts are not allowed here
-elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
+elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered())
 	$permitted = FALSE;
 
 // surfer created the comment

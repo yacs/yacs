@@ -2,7 +2,6 @@
 /**
  * search among pages
  *
- * @todo articles in the middle, and related tags / related users / related sections / related bookmarks on side panel
  * @todo allow for a search limited to users
  * @todo allow for a search limited to files
  * @todo introduce boolean searches, depending on MySQL version (> 4.0.1)
@@ -170,23 +169,6 @@ $no_result = TRUE;
 // provide results in separate panels
 $panels = array();
 
-// on first page, and if search is not constrained
-if(($page == 1) && !$section_id) {
-
-	// search in sections
-	if($rows = Sections::search($search)) {
-		$panels[] = array('sections_tab', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
-		$no_result = FALSE;
-	}
-
-	// search in categories
-	include_once $context['path_to_root'].'categories/categories.php';
-	if($rows = Categories::search($search)) {
-		$panels[] = array('catgories_tab', i18n::s('Categories'), 'categories_panel', Skin::build_list($rows, 'decorated'));
-		$no_result = FALSE;
-	}
-}
-
 // search in articles
 $box = array();
 $box['title'] = '';
@@ -232,8 +214,15 @@ elseif(is_string($items))
 if($box['text'])
 	$panels[] = array('articles_tab', i18n::s('Pages'), 'articles_panel', $box['text']);
 
-// on first page
-if($page == 1) {
+// on first page, and if search is not constrained
+if(($page == 1) && !$section_id) {
+
+	// search in categories
+	include_once $context['path_to_root'].'categories/categories.php';
+	if($rows = Categories::search($search)) {
+		$panels[] = array('categories_tab', i18n::s('Categories'), 'categories_panel', Skin::build_list($rows, 'decorated'));
+		$no_result = FALSE;
+	}
 
 	// search in files
 	include_once $context['path_to_root'].'files/files.php';
@@ -242,27 +231,17 @@ if($page == 1) {
 		$no_result = FALSE;
 	}
 
-//	// search in links
-//	include_once $context['path_to_root'].'links/links.php';
-//	if($rows = Links::search($search)) {
-//		$context['text'] .= Skin::build_block(i18n::s('Matching links'), 'title');
-//		$context['text'] .= Skin::build_list($rows, 'decorated');
-//		$no_result = FALSE;
-//	}
+	// search in sections
+	if($rows = Sections::search($search)) {
+		$panels[] = array('sections_tab', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
+		$no_result = FALSE;
+	}
 
 	// search in users
 	if($rows = Users::search($search)) {
 		$panels[] = array('users_tab', i18n::s('People'), 'users_panel', Skin::build_list($rows, 'decorated'));
 		$no_result = FALSE;
 	}
-
-//	// search in comments
-//	include_once $context['path_to_root'].'comments/comments.php';
-//	if($rows = Comments::search($search)) {
-//		$context['text'] .= Skin::build_block(i18n::s('Matching comments'), 'title');
-//		$context['text'] .= Skin::build_list($rows, 'decorated');
-//		$no_result = FALSE;
-//	}
 
 }
 

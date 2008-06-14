@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 10, 2008, 9:55 pm GMT. Please do not modify it manually.
+ * on June 13, 2008, 9:33 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont &#233;t&#233; trait&#233;s';
 $_SESSION['l10n']['fr']['%s approvals (%d%%), %s rejections (%d%%)']='%s approbations (%d%%), %s rejets (%d%%)';
@@ -91,20 +91,20 @@ $_SESSION['l10n']['fr']['View the decision']='Voir la d&#233;cision';
 $_SESSION['l10n']['fr']['Visit %s to get more interesting pages.']='Visitez %s pour lire d\'autres pages int&#233;ressantes.';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire &#224; pr&#233;sent ?';
 $_SESSION['l10n']['fr']['Yes, I want to suppress this decision']='Oui, je veux supprimer cette d&#233;cision';
-$_SESSION['l10n']['fr']['You are invited personnally to express your decision on following page.
+$_SESSION['l10n']['fr']['You are not allowed to perform this operation.']='Vous n\'&#234;tes pas autoris&#233; &#224; faire cette op&#233;ration.';
+$_SESSION['l10n']['fr']['You are personally invited to express your decision on following page.
 
 %s
 
 Please let me thank you for your kind support.
 
-%s']='Vous &#234;tes invit&#233; personnellement &#224; donner votre accord sur la pgae r&#233;f&#233;renc&#233;e ci-dessous. 
+%s']='Vous &#234;tes invit&#233; personnellement &#224; donner votre accord sur la page r&#233;f&#233;renc&#233;e ci-dessous. 
 
 %s
 
 Merci par avance de votre contribution.
 
 %s';
-$_SESSION['l10n']['fr']['You are not allowed to perform this operation.']='Vous n\'&#234;tes pas autoris&#233; &#224; faire cette op&#233;ration.';
 $_SESSION['l10n']['fr']['You must type a recipient for your message.']='Vous devez indiquer le destinataire de votre message.';
 $_SESSION['l10n']['fr']['You must type an address for replies.']='Vous devez indiquer une adresse de retour.';
 $_SESSION['l10n']['fr']['Your address']='Votre adresse';

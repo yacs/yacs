@@ -414,7 +414,7 @@ if($with_form) {
 
 		// show the description
 		if($item['description'])
-			$text .= '<p>'.Codes::beautify($item['description'])."</p>\n";
+			$text .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 		// the form
 		$text .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';

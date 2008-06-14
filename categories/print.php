@@ -99,7 +99,7 @@ if(!$item['id']) {
 
 	// the beautified description, which is the actual page body
 	if($item['description'])
-		$context['text'] .= '<p></p>'.Codes::beautify($item['description'])."<p></p>\n";
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 //	// date of last update
 //	$context['text'] .= i18n::s('Last update').' '.Skin::build_date($item['edit_date']);

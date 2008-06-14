@@ -122,14 +122,8 @@ if($item['id'] && Surfer::is_associate()) {
 		$text .= '<p>'.sprintf(i18n::s('Related to %s'), Skin::build_link($anchor->get_url(), $anchor->get_title(), 'section'))."</p>\n";
 
 	// show description
-	if($item['description']) {
-
-		// beautify the text
-		$text = Codes::beautify($item['description']);
-
-		// show the description
-		$context['text'] .= '<p>'.$text."</p>\n";
-	}
+	if($item['description'])
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 }
 

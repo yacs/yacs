@@ -93,12 +93,17 @@ elseif(!Surfer::is_associate()) {
 
 		// skip existing exact copies
 		if(is_readable($context['path_to_root'].$file) && ($result = Scripts::hash($file))) {
-			if($attributes[1] == $result[1])
+
+			// double check
+			if($attributes[1] != $result[1])
+				;
+
+			elseif(isset($attributes[2]) && ($attributes[2] != $result[3]))
+				;
+
+			else
 				continue;
 
-			// in case content has been compressed
-			if(isset($attributes[2]) && ($attributes[2] == $result[3]))
-				continue;
 		}
 
 		// we should have an updated file in the staging directory
@@ -245,12 +250,17 @@ elseif(!Surfer::is_associate()) {
 
 		// is the current file version ok?
 		if(is_readable($context['path_to_root'].$file) && ($result = Scripts::hash($file))) {
-			if($attributes[1] == $result[1])
+
+			// double check
+			if($attributes[1] != $result[1])
+				;
+
+			elseif(isset($attributes[2]) && ($attributes[2] != $result[3]))
+				;
+
+			else
 				continue;
 
-			// in case content has been compressed
-			if(isset($attributes[2]) && ($attributes[2] == $result[3]))
-				continue;
 		}
 
 		// maybe the script has already been executed -- never expect an exact copy
@@ -304,7 +314,7 @@ elseif(!Surfer::is_associate()) {
 
 	// server is up to date
 	} elseif(!$staging_files) {
-		$context['text'] .= '<p>'.i18n::s('No file has been downloaded. Scripts on your server are exact copies of the reference set.')."</p>\n";
+		$context['text'] .= '<p>'.i18n::s('Scripts on your server are exact copies of the reference set.')."</p>\n";
 
 		// forward to the index page
 		$menu = array('scripts/' => i18n::s('Server software'));

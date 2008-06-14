@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 10, 2008, 9:53 pm GMT. Please do not modify it manually.
+ * on June 14, 2008, 9:58 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d active now'.chr(0).'%d active now']='%d active now'.chr(0).'%d active now';
 $_SESSION['l10n']['en']['%d posts']='%d posts';
@@ -34,9 +34,11 @@ $_SESSION['l10n']['en']['Access is restricted to authenticated members']='Access
 $_SESSION['l10n']['en']['Access is restricted to authenticated members.']='Access is restricted to authenticated members.';
 $_SESSION['l10n']['en']['Actions']='Actions';
 $_SESSION['l10n']['en']['Add a blog, a discussion board, or another personal web space']='Add a blog, a discussion board, or another personal web space';
+$_SESSION['l10n']['en']['Add a category']='Add a category';
 $_SESSION['l10n']['en']['Add a link']='Add a link';
 $_SESSION['l10n']['en']['Add a location']='Add a location';
 $_SESSION['l10n']['en']['Add a page']='Add a page';
+$_SESSION['l10n']['en']['Add a section']='Add a section';
 $_SESSION['l10n']['en']['Add a user']='Add a user';
 $_SESSION['l10n']['en']['Add an action']='Add an action';
 $_SESSION['l10n']['en']['Add an image']='Add an image';
@@ -259,13 +261,10 @@ $_SESSION['l10n']['en']['Neighbours']='Neighbours';
 $_SESSION['l10n']['en']['Network address']='Network address';
 $_SESSION['l10n']['en']['Network address: %s']='Network address: %s';
 $_SESSION['l10n']['en']['New associate: %s']='New associate: %s';
-$_SESSION['l10n']['en']['New category']='New category';
 $_SESSION['l10n']['en']['New member: %s']='New member: %s';
 $_SESSION['l10n']['en']['New password']='New password';
 $_SESSION['l10n']['en']['New password has to be confirmed.']='New password has to be confirmed.';
-$_SESSION['l10n']['en']['New section']='New section';
 $_SESSION['l10n']['en']['New subscriber: %s']='New subscriber: %s';
-$_SESSION['l10n']['en']['New user']='New user';
 $_SESSION['l10n']['en']['New users are free to provide an e-mail address or not.']='New users are free to provide an e-mail address or not.';
 $_SESSION['l10n']['en']['New: %s']='New: %s';
 $_SESSION['l10n']['en']['Newest Members']='Newest Members';

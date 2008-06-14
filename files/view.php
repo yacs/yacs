@@ -332,14 +332,8 @@ if(!isset($item['id'])) {
 	}
 
 	// display the full text
-	if($item['description']) {
-
-		// beautify the text
-		$text = Codes::beautify($item['description']);
-
-		// show the description
-		$context['text'] .= $text."\n";
-	}
+	if($item['description'])
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 	//
 	// plugins

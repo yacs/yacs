@@ -1273,6 +1273,17 @@ dl.floating_box { /* float to the left */
 	display: table-cell;
 	margin-right: 2em;
 	text-align: center;
+	padding: 6px;
+	border: 1px solid transparent;
+}
+
+dl.floating_box:hover {
+	background-color: #fee;
+	border: 1px solid #ddd;
+}
+
+dl.floating_box a {
+	text-decoration: none;
 }
 
 dl.floating_box dd { /* center box content */
@@ -1285,7 +1296,8 @@ dl.floating_box dd { /* center box content */
 dl.floating_box dt { /* center box title */
 	text-align: center;
 	border: none;
-	font-size: 1.5em;
+	font-size: 1.2em;
+	font-weight: bold;
 	padding: 0;
 	margin: 0;
 }

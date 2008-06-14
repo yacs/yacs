@@ -152,11 +152,8 @@ if(!isset($item['id'])) {
 		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 	// the beautified description, which is the actual page body
-	if($item['description']) {
-		$description = Codes::beautify($item['description']);
-
-		$context['text'] .= '<p>'.$description."</p>\n";
-	}
+	if($item['description'])
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 	//
 	// the files section

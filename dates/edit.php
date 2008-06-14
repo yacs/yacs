@@ -86,7 +86,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 	Skin::error(i18n::s('No anchor has been found.'));
 
 // maybe posts are not allowed here
-} elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked')) {
+} elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('This page has been locked.'));
 

@@ -416,12 +416,6 @@ if(!$permitted) {
 	else
 		unset($_REQUEST['publish_date']);
 
-	// allow back-referencing from overlay
-	if($item['id']) {
-		$_REQUEST['self_reference'] = 'article:'.$item['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
-	}
-
 	// stop robots
 	if(Surfer::may_be_a_robot()) {
 		Skin::error(i18n::s('Please prove you are not a robot.'));
@@ -430,6 +424,10 @@ if(!$permitted) {
 
 	// update an existing page
 	} elseif(isset($_REQUEST['id'])) {
+
+		// allow back-referencing from overlay
+		$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
+		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_url($_REQUEST['id'], 'view', $_REQUEST['title'], $_REQUEST['nick_name']);
 
 		// remember the previous version
 		if($item['id']) {
@@ -472,6 +470,10 @@ if(!$permitted) {
 
 	// successful post
 	} else {
+
+		// allow back-referencing from overlay
+		$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
+		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_url($_REQUEST['id'], 'view', $_REQUEST['title'], $_REQUEST['nick_name']);
 
 		// post an overlay, with the new article id --don't stop on error
 		if(is_object($overlay))

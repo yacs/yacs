@@ -132,14 +132,8 @@ else {
 		$context['text'] .= ucfirst(implode(', ', $details)).BR."\n";
 
 	// display the full text
-	if(isset($item['description']) && $item['description']) {
-
-		// beautify the text
-		$text = Codes::beautify($item['description']);
-
-		// show the description
-		$context['text'] .= '<p></p>'.$text."<p></p>\n";
-	}
+	if(isset($item['description']) && $item['description'])
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 	// execute the query string to build the table
 	if(isset($item['query']) && $item['query'])

@@ -625,11 +625,9 @@ Class Codes {
 	function initialize($main_target=NULL) {
 		global $context;
 
-		global $codes_base, $codes_toc, $codes_toq;
+		global $codes_base;
 		if($main_target)
 			$codes_base = $context['url_to_root'].$main_target;
-		unset($GLOBALS['codes_toc']);
-		unset($GLOBALS['codes_toq']);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 10, 2008, 9:53 pm GMT. Please do not modify it manually.
+ * on June 14, 2008, 9:58 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d active now'.chr(0).'%d active now']='%d actif en ce momemt'.chr(0).'%d actifs en ce momemt';
 $_SESSION['l10n']['fr']['%d posts']='%d contributions';
@@ -34,9 +34,11 @@ $_SESSION['l10n']['fr']['Access is restricted to authenticated members']='Acc&#2
 $_SESSION['l10n']['fr']['Access is restricted to authenticated members.']='Acc&#232;s restreint aux membres authentifi&#233;s.';
 $_SESSION['l10n']['fr']['Actions']='Actions';
 $_SESSION['l10n']['fr']['Add a blog, a discussion board, or another personal web space']='Ajouter un espace web personnel (blog, forum, etc.)';
+$_SESSION['l10n']['fr']['Add a category']='Ajouter une cat&#233;gorie';
 $_SESSION['l10n']['fr']['Add a link']='Ajouter un lien';
 $_SESSION['l10n']['fr']['Add a location']='Ajouter un emplacement';
 $_SESSION['l10n']['fr']['Add a page']='Ajouter une page';
+$_SESSION['l10n']['fr']['Add a section']='Ajouter une section';
 $_SESSION['l10n']['fr']['Add a user']='Ajouter un utilisateur';
 $_SESSION['l10n']['fr']['Add an action']='Ajouter une action';
 $_SESSION['l10n']['fr']['Add an image']='Ajouter une image';
@@ -259,13 +261,10 @@ $_SESSION['l10n']['fr']['Neighbours']='A proximit&#233;';
 $_SESSION['l10n']['fr']['Network address']='Adresse r&#233;seau';
 $_SESSION['l10n']['fr']['Network address: %s']='Adresse r&#233;seau : %s';
 $_SESSION['l10n']['fr']['New associate: %s']='Nouvel associ&#233; : %s';
-$_SESSION['l10n']['fr']['New category']='Nouvelle cat&#233;gorie';
 $_SESSION['l10n']['fr']['New member: %s']='Nouveau membre : %s';
 $_SESSION['l10n']['fr']['New password']='Nouveau mot de passe';
 $_SESSION['l10n']['fr']['New password has to be confirmed.']='Le nouveau mot de passe doit &#234;tre confirm&#233;.';
-$_SESSION['l10n']['fr']['New section']='Nouvelle section';
 $_SESSION['l10n']['fr']['New subscriber: %s']='Nouveau souscripteur : %s';
-$_SESSION['l10n']['fr']['New user']='Nouvel utilisateur';
 $_SESSION['l10n']['fr']['New users are free to provide an e-mail address or not.']='Les nouveaux utilisateurs peuvent indiquer une adresse e-mail ou pas.';
 $_SESSION['l10n']['fr']['New: %s']='Nouvel : %s';
 $_SESSION['l10n']['fr']['Newest Members']='Derniers inscrits';

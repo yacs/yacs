@@ -201,7 +201,7 @@ if(!$item['id']) {
 			$text .= Skin::build_block(i18n::s('Server description'), 'subtitle');
 
 			// show the description
-			$text .= '<p></p>'.Codes::beautify($item['description'])."<p></p>\n";
+			$text .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 		}
 
 		// save in cache

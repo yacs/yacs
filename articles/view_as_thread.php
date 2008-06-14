@@ -159,6 +159,11 @@ if(!isset($item['id'])) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
+// stop crawlers on non-published pages
+} elseif((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && !Surfer::is_logged()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // display the thread
 } else {
 
@@ -435,7 +440,7 @@ if(!isset($item['id'])) {
 
 	// the beautified description, which is the actual page body
 	if(trim($item['description']))
-		$context['text'] .= '<div id="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
 
 	// special layout for digg
 	if(defined('DIGG'))
@@ -463,7 +468,7 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<div id="thread_wrapper">'."\n";
 
 		// text panel
-		$context['text'] .= '<div id="thread_text_panel"><img src="'.$context['url_to_root'].'skins/_reference/ajax_spinner.gif" /></div>'."\n";
+		$context['text'] .= '<div id="thread_text_panel"><img src="'.$context['url_to_root'].'skins/_reference/ajax_spinner.gif" alt="loading..."/></div>'."\n";
 
 		// surfer cannot contribute
 		if(!Comments::are_allowed($anchor, $item))
@@ -472,8 +477,8 @@ if(!isset($item['id'])) {
 		// the input panel is where logged surfers can post data
 		elseif(Surfer::is_logged()) {
 			$context['text'] .= '<form method="post" action="#" onsubmit="javascript:Comments.contribute($(\'contribution\').value);return false;" id="thread_input_panel">'."\n"
-				.'<p style="width: 100%; margin: 0 0 0.3em 0; padding: 0;"><textarea rows="2" cols="50" name="contribution" id="contribution" ></textarea></p>'."\n"
-				.'<p style="width: 100%; margin: 0 0 0.3em 0; padding: 0;">';
+				.'<div style="width: 100%; margin: 0 0 0.3em 0; padding: 0;"><textarea rows="2" cols="50" name="contribution" id="contribution" ></textarea></div>'."\n"
+				.'<div style="width: 100%; margin: 0 0 0.3em 0; padding: 0;">';
 
 			// user commands
 			$menu = array();
@@ -503,7 +508,7 @@ if(!isset($item['id'])) {
 				$link = '<a href="'.$link.'" title="'.i18n::s('Browse in a separate window').'" onclick="window.open(this.href); return false;"><span>'.sprintf(i18n::s('Screen shared by %s'), Surfer::get_name()).'</span></a>';
 
 				// append the command to the menu
-				$menu[] = '<a href="#" onclick="javascript:Comments.contribute(\''.str_replace('"', '&quot;', $link).'\');return false;" title="'.i18n::s('Share screen with VNC').'"><span>'.i18n::s('Share screen with VNC').'</span></a>';
+				$menu[] = '<a href="#" onclick="javascript:Comments.contribute(\''.str_replace('"', '&quot;', htmlspecialchars($link)).'\');return false;" title="'.i18n::s('Share screen with VNC').'"><span>'.i18n::s('Share screen with VNC').'</span></a>';
 			}
 
 			// share my netmeeting session
@@ -516,11 +521,11 @@ if(!isset($item['id'])) {
 				$link = '<a href="'.$link.'" title="'.i18n::s('Browse in a separate window').'" onclick="window.open(this.href); return false;"><span>'.sprintf(i18n::s('Shared screen of %s'), Surfer::get_name()).'</span></a>';
 
 				// append the command to the menu
-				$menu[] = '<a href="#" onclick="javascript:Comments.contribute(\''.str_replace('"', '&quot;', $link).'\');return false;" title="'.i18n::s('Share screen with NetMeeting').'"><span>'.i18n::s('Share screen with NetMeeting').'</span></a>';
+				$menu[] = '<a href="#" onclick="javascript:Comments.contribute(\''.str_replace('"', '&quot;', htmlspecialchars($link)).'\');return false;" title="'.i18n::s('Share screen with NetMeeting').'"><span>'.i18n::s('Share screen with NetMeeting').'</span></a>';
 			}
 
 			// augment panel size
-			$menu[] = '<a href="#" onclick="Comments.showMore(); return false;">'.i18n::s('Show more lines').'</a>';
+			$menu[] = '<a href="#" onclick="Comments.showMore(); return false;"><span>'.i18n::s('Show more lines').'</span></a>';
 
 			// display all commands
 			$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
@@ -529,7 +534,7 @@ if(!isset($item['id'])) {
 			$context['text'] .= '<input type="checkbox" id="submitOnEnter" checked="checked" /> '.i18n::s('Submit text when Enter is pressed.');
 
 			// end the form
-			$context['text'] .= '</form>'."\n";
+			$context['text'] .= '</div></form>'."\n";
 
 		// other surfers are invited to authenticate
 		} else {
@@ -683,12 +688,6 @@ if(!isset($item['id'])) {
 
 	// spreading tools
 	//
-
-	// mail this page
-	if(!$zoom_type && $editable && Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		Skin::define_img('MAIL_TOOL_IMG', 'icons/tools/mail.gif');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'mail'), MAIL_TOOL_IMG.i18n::s('Invite people'), 'basic', '', i18n::s('Spread the word'));
-	}
 
 	// the command to track back -- complex command
 	if(Surfer::is_logged() && Surfer::has_all()) {

@@ -398,6 +398,10 @@ if(!isset($item['id'])) {
 		// the beautified description, which is the actual page body
 		if(trim($item['description'])) {
 
+			// use adequate label
+			if(is_object($overlay) && ($label = $overlay->get_label('description')))
+				$text .= Skin::build_block($label, 'title');
+
 			// provide only the requested page
 			$pages = preg_split('/\s*\[page\]\s*/is', $item['description']);
 			if($page > count($pages))
@@ -411,13 +415,7 @@ if(!isset($item['id'])) {
 				$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
 
 			// beautify the target page
-			$description = Codes::beautify($description, $item['options'])."\n";
-
-			// use adequate label
-			if(is_object($overlay) && ($label = $overlay->get_label('description')))
-				$text .= Skin::build_block($label, 'title').'<p>'.$description."</p>\n";
-			else
-				$text .= $description."\n";
+			$text .= '<div class="description">'.Codes::beautify($description, $item['options'])."</div>\n";
 
 			// if there are several pages, add navigation commands to browse them
 			if(count($pages) > 1) {
@@ -1420,16 +1418,8 @@ if(!isset($item['id'])) {
 	if(Articles::are_allowed($anchor, $item)) {
 
 		$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
-
-		if($item['articles_layout'] == 'jive')
-			$label = i18n::s('Start a new topic');
-		elseif($item['articles_layout'] == 'yabb')
-			$label = i18n::s('Start a new topic');
-		else
-			$label = i18n::s('Add a page');
-
 		Skin::define_img('NEW_ARTICLE_IMG', 'icons/articles/new.gif');
-		$context['page_tools'][] = Skin::build_link($url, NEW_ARTICLE_IMG.$label, 'basic', i18n::s('Add new content to this section'));
+		$context['page_tools'][] = Skin::build_link($url, NEW_ARTICLE_IMG.i18n::s('Add a page'), 'basic', i18n::s('Add new content to this section'));
 
 		// the command to create a new poll, if no overlay nor template has been defined for content of this section
 		if((!isset($item['content_overlay']) || !trim($item['content_overlay'])) && (!isset($item['articles_templates']) || !trim($item['articles_templates'])) && (!is_object($anchor) || !$anchor->get_templates_for('article'))) {
@@ -1441,16 +1431,12 @@ if(!isset($item['id'])) {
 
 	}
 
-	// associates can create a sub-section, if sub sections are allowed
-	if($editable && (!isset($item['sections_layout']) || ($item['sections_layout'] != 'none'))) {
+	// sub sections are allowed
+	if(Sections::are_allowed($anchor, $item)) {
 
+		// add a section
 		Skin::define_img('NEW_SECTION_IMG', 'icons/sections/new.gif');
 		$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), NEW_SECTION_IMG.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
-
-	}
-
-	// update tools
-	if(!$zoom_type && $editable) {
 
 		// manage content
 		if($has_content)

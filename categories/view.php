@@ -376,7 +376,7 @@ if(!isset($item['id'])) {
 
 			// the description, which is the actual page body
 			if(isset($item['description']) && $item['description'])
-				$text .= Codes::beautify($item['description'])."\n";
+				$text .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 			// save in cache if no dynamic element
 			if(!preg_match('/\[table=(.+?)\]/i', $item['description']))

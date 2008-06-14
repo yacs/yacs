@@ -4159,7 +4159,7 @@ Class Skin_Skeleton {
 		$text = trim(strip_tags($text, $allowed_html));
 
 		// count overall words
-		$overall = count(preg_split("/[\s,\.;\?!]+/", $text, -1, PREG_SPLIT_NO_EMPTY));
+		$overall = count(preg_split("/[ \t,\.;\?!]+/", $text, -1, PREG_SPLIT_NO_EMPTY));
 
 		// no parsing overhead in case of short labels
 		if($overall <= $count)
@@ -4169,6 +4169,7 @@ Class Skin_Skeleton {
 		$areas = preg_split('/(<\/{0,1}[\w]+[^>]*>)/', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
 		$text = '';
 		$index = 0;
+		$overall = 0;
 		foreach($areas as $area) {
 
 			// tag to be preserved
@@ -4183,17 +4184,18 @@ Class Skin_Skeleton {
 			} else {
 
 				// count words from this area
-				$words = preg_split("/([\s,\.;\?!]+)/", $area, $count+1, PREG_SPLIT_DELIM_CAPTURE);
+				$words = preg_split("/([ \t,\.;\?!]+)/", $area, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 				// we still have some room
 				if(count($words) <= (2*$count))
 					$text .= $area;
 
 				// limit has been reached
-				else {
+				elseif($count > 0) {
+					$overall += intval(count($words)/2 - $count);
 
 					// drop the tail
-					array_pop($words);
+					array_splice($words, 2*$count);
 
 					// reassemble displayed words
 					$text .= implode('', $words).'...';
@@ -4201,25 +4203,26 @@ Class Skin_Skeleton {
 					// append a link to the full page
 					$with_more = TRUE;
 
-				}
+				} else
+					$overall += intval(count($words)/2);
 
 				// less words to accept
-				$count -= count($words);
-
-				// less words to read
-				$overall -= count($words);
+				$count -= intval(count($words)/2);
 
 			}
 			$index++;
 		}
 
-		// indicate the number of words to read, if significant text to read
-		if($overall > 30)
-			$text .= ' ('.sprintf(i18n::s('%d words to read'), $overall).') ';
+		// there is more to read
+		if($with_more && $url) {
 
-		// add a link if possible
-		if($with_more && $url)
+			// indicate the number of words to read, if significant text to read
+			if($overall > 30)
+				$text .= ' ('.sprintf(i18n::s('%d words to read'), $overall).') ';
+
+			// add a link
 			$text .= ' '.Skin::build_link($url, MORE_IMG, 'more', i18n::s('Read more')).' ';
+		}
 
 		return $text;
 	}

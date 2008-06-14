@@ -150,6 +150,10 @@ elseif(isset($context['arguments'][1]))
 elseif(isset($item['anchor']))
 	$anchor = Anchors::get($item['anchor']);
 
+// editors can do what they want on items anchored here
+if(is_object($anchor) && $anchor->is_editable())
+	Surfer::empower();
+
 // associates and editors can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
 	$permitted = TRUE;
@@ -240,8 +244,7 @@ if(!$permitted) {
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // maybe posts are not allowed here
-} elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked')) {
-
+} elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('This page has been locked.'));
 

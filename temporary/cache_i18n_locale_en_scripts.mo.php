@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 10, 2008, 9:55 pm GMT. Please do not modify it manually.
+ * on June 14, 2008, 10:01 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d file has been downloaded from the reference server.'.chr(0).'%d files have been downloaded from the reference server.']='%d file has been downloaded from the reference server.'.chr(0).'%d files have been downloaded from the reference server.';
 $_SESSION['l10n']['en']['%d file has been updated.'.chr(0).'%d files have been updated.']='%d file has been updated.'.chr(0).'%d files have been updated.';
@@ -97,7 +97,6 @@ $_SESSION['l10n']['en']['Merge']='Merge';
 $_SESSION['l10n']['en']['Meta data have been saved in scripts/reference/footprints.php.']='Meta data have been saved in scripts/reference/footprints.php.';
 $_SESSION['l10n']['en']['No archive has been found.']='No archive has been found.';
 $_SESSION['l10n']['en']['No comments to report on!']='No comments to report on!';
-$_SESSION['l10n']['en']['No file has been downloaded. Scripts on your server are exact copies of the reference set.']='No file has been downloaded. Scripts on your server are exact copies of the reference set.';
 $_SESSION['l10n']['en']['No file has been staged. Scripts on your server are exact copies of the reference set.']='No file has been staged. Scripts on your server are exact copies of the reference set.';
 $_SESSION['l10n']['en']['No file has been updated.']='No file has been updated.';
 $_SESSION['l10n']['en']['No script has been executed']='No script has been executed';
