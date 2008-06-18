@@ -497,7 +497,7 @@ if(!$permitted) {
 		}
 
 		// get the new item
-		$article = Anchors::get('article:'.$_REQUEST['id']);
+		$article = Anchors::get('article:'.$_REQUEST['id'], TRUE);
 
 		// page title
 		$context['page_title'] = i18n::s('Thank you for your contribution');
@@ -699,7 +699,7 @@ if($with_form) {
 
 	// the description label
 	if(!is_object($overlay) || !($label = $overlay->get_label('description', isset($item['id'])?'edit':'new')))
-		$label = i18n::s('Content');
+		$label = i18n::s('Description');
 
 	// use the editor if possible
 	$value = '';
@@ -779,20 +779,20 @@ if($with_form) {
 		$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
 			.'<script type="text/javascript">// <![CDATA['."\n"
 			.'function append_to_options(keyword) {'."\n"
-			.'	var target = document.getElementById("options");'."\n"
+			.'	var target = $("options");'."\n"
 			.'	target.value = target.value + " " + keyword;'."\n"
 			.'}'."\n"
 			.'// ]]></script>'."\n";
 		$keywords = array();
-		$keywords[] = '<a onclick="javascript:append_to_options(\'anonymous_edit\')" style="cursor: pointer;">anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'members_edit\')" style="cursor: pointer;">members_edit</a> - '.i18n::s('Allow members to edit content');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'no_files\')" style="cursor: pointer;">no_files</a> - '.i18n::s('Prevent the upload of new files');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'no_links\')" style="cursor: pointer;">no_links</a> - '.i18n::s('Prevent the addition of related links');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'no_comments\')" style="cursor: pointer;">no_comments</a> - '.i18n::s('Prevent the addition of comments');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'view_as_thread\')" style="cursor: pointer;">view_as_thread</a> - '.i18n::s('Real-time collaboration');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
+		$keywords[] = '<a onclick="append_to_options(\'anonymous_edit\')" style="cursor: pointer;">anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
+		$keywords[] = '<a onclick="append_to_options(\'members_edit\')" style="cursor: pointer;">members_edit</a> - '.i18n::s('Allow members to edit content');
+		$keywords[] = '<a onclick="append_to_options(\'no_files\')" style="cursor: pointer;">no_files</a> - '.i18n::s('Prevent the upload of new files');
+		$keywords[] = '<a onclick="append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+		$keywords[] = '<a onclick="append_to_options(\'no_links\')" style="cursor: pointer;">no_links</a> - '.i18n::s('Prevent the addition of related links');
+		$keywords[] = '<a onclick="append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
+		$keywords[] = '<a onclick="append_to_options(\'no_comments\')" style="cursor: pointer;">no_comments</a> - '.i18n::s('Prevent the addition of comments');
+		$keywords[] = '<a onclick="append_to_options(\'view_as_thread\')" style="cursor: pointer;">view_as_thread</a> - '.i18n::s('Real-time collaboration');
+		$keywords[] = '<a onclick="append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
 		$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'articles/view_as_foo_bar.php');
 		$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific skin (in skins/foo_bar) here');
 		$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular skin template');
@@ -1129,32 +1129,31 @@ if($with_form) {
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// several options to check
-	$input = '';
+	$input = array();
 
 	// keep as draft
-	if(!isset($item['id'])) {
-		$input .= '<input type="checkbox" name="option_draft" value="Y" /> '.i18n::s('This is a draft document. Do not publish the page, even if auto-publish has been enabled.').BR;
-	}
+	if(!isset($item['id']))
+		$input[] = '<input type="checkbox" name="option_draft" value="Y" /> '.i18n::s('This is a draft document. Do not publish the page, even if auto-publish has been enabled.');
 
 	// do not remember changes on existing pages -- complex command
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::has_all())
-		$input .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.').BR;
+		$input[] = '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.');
 
 	// hardcoded
 	if(!isset($item['id']))
-		$input .= '<input type="checkbox" name="option_hardcoded" value="Y" /> '.i18n::s('Preserve carriage returns and newlines.').BR;
+		$input[] = '<input type="checkbox" name="option_hardcoded" value="Y" /> '.i18n::s('Preserve carriage returns and newlines.');
 
 	// do not apply implicit transformations
 	if(!isset($item['id']))
-		$input .= '<input type="checkbox" name="option_formatted" value="Y" /> '.i18n::s('The text has been entirely tagged, and implicit transformations do not apply. YACS codes are processed as usual.').BR;
+		$input[] = '<input type="checkbox" name="option_formatted" value="Y" /> '.i18n::s('The text has been entirely tagged, and implicit transformations do not apply. YACS codes are processed as usual.');
 
 	// validate page content
 	if(Surfer::is_associate())
-		$input .= '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').BR;
+		$input[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
 
 	// append post-processing options
 	if($input)
-		$context['text'] .= $input;
+		$context['text'] .= '<p>'.implode(BR, $input).'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
@@ -1186,6 +1185,25 @@ if($with_form) {
 	$context['page_footer'] .= '	// successful check'."\n"
 		.'	return true;'."\n"
 		.'}'."\n"
+		."\n"
+		.'// detect changes in form'."\n"
+		.'func'.'tion detectChanges() {'."\n"
+		."\n"
+		.'	var nodes = $$("form#main_form input");'."\n"
+		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
+		.'		var node = nodes[index];'."\n"
+		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'	}'."\n"
+		."\n"
+		.'	nodes = $$("form#main_form textarea");'."\n"
+		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
+		.'		var node = nodes[index];'."\n"
+		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'	}'."\n"
+		.'}'."\n"
+		."\n"
+		.'// observe changes in form'."\n"
+		.'Event.observe(window, "load", detectChanges);'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'Event.observe(window, "load", function() { $("title").focus() });'."\n"
@@ -1222,7 +1240,7 @@ if($with_form) {
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
 
  	// change to another editor
-	$help .= '<form><p><select name="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	$help .= '<form><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
 	$selected = '';
 	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
 		$selected = ' selected="selected"';

@@ -91,7 +91,7 @@ elseif(!Surfer::is_associate()) {
 	// set the focus
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("banned_hosts").focus();'."\n"
+		.'$("banned_hosts").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 // no modifications in demo mode

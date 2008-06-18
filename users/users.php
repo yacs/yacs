@@ -441,9 +441,7 @@ Class Users {
 
 		if(($id > 0) && ($url = Users::get_url($id, 'view', $name)))
 			return Skin::build_link($url, $name, 'user', NULL, $new_window);
-		elseif(!Surfer::is_logged() && (!isset($context['users_with_email_display']) || ($context['users_with_email_display'] != 'Y')))
-			return $name;
-		elseif(!Surfer::is_associate() && isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'N'))
+		elseif(!Surfer::may_mail())
 			return $name;
 		elseif(preg_match('/@/', $email))
 			return Skin::build_link($email, $name, 'email');
@@ -1236,8 +1234,8 @@ Class Users {
 		// set default values
 		if(!isset($fields['active']) || !trim($fields['active']))
 			$fields['active'] = 'Y';
-		if(isset($fields['preferred_editor']))
-			$fields['editor'] = $fields['preferred_editor'];	// hack because of FCKEditor already uses 'editor'
+		if(isset($fields['selected_editor']))
+			$fields['editor'] = $fields['selected_editor'];	// hack because of FCKEditor already uses 'editor'
 		elseif(isset($context['users_default_editor']))
 			$fields['editor'] = $context['users_default_editor'];
 		else

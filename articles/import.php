@@ -194,7 +194,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	// the script used for form handling at the browser
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("upload").focus();'."\n"
+		.'$("upload").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 }

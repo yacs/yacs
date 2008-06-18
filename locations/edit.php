@@ -227,7 +227,7 @@ if($with_form) {
 	if(isset($context['google_api_key']) && $context['google_api_key']) {
 
 		// encode on click
-		$input .= '<button type="button" id="encode" onclick="lookupAddress(document.getElementById(\'geo_place_name\').value); return false;">'.encode_field(i18n::s('Encode this address')).'</button>'."\n"
+		$input .= '<button type="button" id="encode" onclick="lookupAddress($(\'geo_place_name\').value); return false;">'.encode_field(i18n::s('Encode this address')).'</button>'."\n"
 			.'<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$context['google_api_key'].'" type="text/javascript"></script>'."\n"
 			.'<script type="text/javascript">// <![CDATA['."\n"
 			.'var geocoder = null;'."\n"
@@ -242,7 +242,7 @@ if($with_form) {
 			.'				if (!point) {'."\n"
 			.'					alert("'.i18n::s('This address has not been found').'");'."\n"
 			.'				} else {'."\n"
-			.'					document.getElementById(\'geo_position\').value = point.y.toString() + ", " + point.x.toString();'."\n"
+			.'					$(\'geo_position\').value = point.y.toString() + ", " + point.x.toString();'."\n"
 			.'					alert("'.i18n::s('This address has been encoded as').'\n" + point.y.toString() + ", " + point.x.toString());'."\n"
 			.'				}'."\n"
 			.'			}'."\n"
@@ -320,7 +320,7 @@ if($with_form) {
 		.'	}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("geo_place_name").focus();'."\n"
+		.'$("geo_place_name").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// general help on this form

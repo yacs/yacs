@@ -174,11 +174,8 @@ if(!isset($item['id'])) {
 	}
 
 	// command to send a message, if mail has been activated on this server
-	if(isset($item['email']) && $item['email'] && (Surfer::is_empowered()
-		|| (isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'Y'))
-		|| (Surfer::is_logged() && isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'R')))) {
+	if(isset($item['email']) && $item['email'] && Surfer::may_mail())
 		$menu = array_merge($menu, array( Users::get_url($item['id'], 'mail') => i18n::s('Send a message') ));
-	}
 
 	// logged users may download the vcard
 	if(Surfer::is_logged())
@@ -210,21 +207,15 @@ if(!isset($item['id'])) {
 	if(isset($item['alternate_number']) && $item['alternate_number'])
 		$rows[] = array(i18n::s('Alternate number'), $item['alternate_number']);
 
-	// do not let robots steal addresses
-	if(Surfer::is_empowered()
-		|| (isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'Y'))
-		|| (Surfer::is_logged() && isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'R'))) {
+	// email address - not showed to anonymous surfers for spam protection
+	if(isset($item['email']) && $item['email'] && Surfer::may_mail()) {
 
-		// email address - not showed to anonymous surfers for spam protection
-		if(isset($item['email']) && $item['email']) {
+		if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
+			$url = $context['url_to_root'].Users::get_url($id, 'mail');
+		else
+			$url = 'mailto:'.$item['email'];
 
-			if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
-				$url = $context['url_to_root'].Users::get_url($id, 'mail');
-			else
-				$url = 'mailto:'.$item['email'];
-
-			$rows[] = array(i18n::s('E-mail address'), Skin::build_link($url, $item['email'], 'email'));
-		}
+		$rows[] = array(i18n::s('E-mail address'), Skin::build_link($url, $item['email'], 'email'));
 	}
 
 	// web address, if any
@@ -254,9 +245,7 @@ if(!isset($item['id'])) {
 	$box = array( 'bar' => array(), 'text' => '');
 
 	// do not let robots steal addresses
-	if(Surfer::is_empowered()
-		|| (isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'Y'))
-		|| (Surfer::is_logged() && isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'R'))) {
+	if(Surfer::may_contact()) {
 
 		// put contact addresses in a table
 		$rows = array();

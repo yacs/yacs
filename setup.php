@@ -265,10 +265,10 @@ if($missing == 3) {
 		// the script used to check that cookies are activated
 		$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 			.'document.cookie = \'CookiesEnabled=1\';'."\n"
-			.'if((document.cookie == \'\') && document.getElementById) {'."\n"
-			.'	document.getElementById(\'ask_for_cookies\').innerhtml = \''.i18n::s('You must enable cookies to manage this server. Change settings of your browser accordingly, then revisit this page afterwards.').'\';'."\n"
-			.'	document.getElementById(\'ask_for_cookies\').style.display = \'block\';'."\n"
-			.'	document.getElementById(\'confirmed\').disabled = true;'."\n"
+			.'if((document.cookie == "") && document.getElementById) {'."\n"
+			.'	$("ask_for_cookies").innerhtml = \''.i18n::s('You must enable cookies to manage this server. Change settings of your browser accordingly, then revisit this page afterwards.').'\';'."\n"
+			.'	$("ask_for_cookies").style.display = "block";'."\n"
+			.'	$("confirmed").disabled = true;'."\n"
 			.'}'."\n"
 			.'// ]]></script>'."\n";
 

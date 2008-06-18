@@ -271,7 +271,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("subject").focus();'."\n"
+		.'$("subject").focus();'."\n"
 		."\n"
 		.'// ]]></script>';
 

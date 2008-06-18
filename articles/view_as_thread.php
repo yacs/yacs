@@ -207,29 +207,20 @@ if(!isset($item['id'])) {
 	// compute page details -- $context['page_details']
 	//
 
-	// cache page details because of tags
+	// tags, if any
+	if(isset($item['tags']) && $item['tags'])
+		$context['page_tags'] = $item['tags'];
+
+	// cache page details
 	$cache_id = 'articles/view_as_thread.php?id='.$item['id'].'#page_details';
 	if(!$text =& Cache::get($cache_id)) {
-
-		// tags, if any
-		if(isset($item['tags']) && $item['tags']) {
-			$tags = explode(',', $item['tags']);
-			$line = '';
-			foreach($tags as $tag) {
-				if($category = Categories::get_by_keyword(trim($tag)))
-					$line .= Skin::build_link(Categories::get_url($category['id'], 'view', trim($tag)), trim($tag), 'basic').' ';
-				else
-					$line .= trim($tag).' ';
-			}
-			$text .= '<p class="tags">'.sprintf(i18n::s('Tags: %s'), trim($line)).'</p>'."\n";
-		}
 
 		// one detail per line
 		$text .= '<p class="details">';
 		$details = array();
 
 		// article rating, if the anchor allows for it, and if no rating has already been registered
-		if(is_object($anchor) && $anchor->has_option('with_rating') && !$anchor->has_option('rate_as_digg')) {
+		if(is_object($anchor) && !$anchor->has_option('without_rating') && !$anchor->has_option('rate_as_digg')) {
 
 			// report on current rating
 			$label = '';
@@ -409,7 +400,7 @@ if(!isset($item['id'])) {
 		$context['text'] .= $anchor->get_prefix();
 
 	// article rating, if the anchor allows for it, and if no rating has already been registered
-	if(is_object($anchor) && $anchor->has_option('with_rating') && $anchor->has_option('rate_as_digg')) {
+	if(is_object($anchor) && !$anchor->has_option('without_rating') && $anchor->has_option('rate_as_digg')) {
 
 		// rating
 		if($item['rating_count'])
@@ -426,6 +417,10 @@ if(!isset($item['id'])) {
 		define('DIGG', TRUE);
 	}
 
+	// the poster profile, if any, at the beginning of the first page
+	if(isset($poster['id']) && is_object($anchor) && is_callable(array($anchor, 'get_user_profile')))
+		$context['text'] .= $anchor->get_user_profile($poster, 'prefix');
+
 	// the introduction text, if any
 	if(is_object($overlay))
 		$context['text'] .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
@@ -441,6 +436,10 @@ if(!isset($item['id'])) {
 	// the beautified description, which is the actual page body
 	if(trim($item['description']))
 		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
+
+	// the poster profile, if any, at the bottom of the page
+	if(isset($poster['id']) && is_object($anchor) && is_callable(array($anchor, 'get_user_profile')))
+		$context['text'] .= $anchor->get_user_profile($poster, 'suffix');
 
 	// special layout for digg
 	if(defined('DIGG'))
@@ -468,7 +467,7 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<div id="thread_wrapper">'."\n";
 
 		// text panel
-		$context['text'] .= '<div id="thread_text_panel"><img src="'.$context['url_to_root'].'skins/_reference/ajax_spinner.gif" alt="loading..."/></div>'."\n";
+		$context['text'] .= '<div id="thread_text_panel"><img style="padding: 3px;" src="'.$context['url_to_root'].'skins/_reference/ajax_spinner.gif" alt="loading..."/></div>'."\n";
 
 		// surfer cannot contribute
 		if(!Comments::are_allowed($anchor, $item))
@@ -476,9 +475,8 @@ if(!isset($item['id'])) {
 
 		// the input panel is where logged surfers can post data
 		elseif(Surfer::is_logged()) {
-			$context['text'] .= '<form method="post" action="#" onsubmit="javascript:Comments.contribute($(\'contribution\').value);return false;" id="thread_input_panel">'."\n"
-				.'<div style="width: 100%; margin: 0 0 0.3em 0; padding: 0;"><textarea rows="2" cols="50" name="contribution" id="contribution" ></textarea></div>'."\n"
-				.'<div style="width: 100%; margin: 0 0 0.3em 0; padding: 0;">';
+			$context['text'] .= '<form method="post" action="#" onsubmit="Comments.contribute($(\'contribution\').value);return false;" id="thread_input_panel">'."\n"
+				.'<textarea rows="2" name="contribution" id="contribution" ></textarea>';
 
 			// user commands
 			$menu = array();
@@ -508,7 +506,7 @@ if(!isset($item['id'])) {
 				$link = '<a href="'.$link.'" title="'.i18n::s('Browse in a separate window').'" onclick="window.open(this.href); return false;"><span>'.sprintf(i18n::s('Screen shared by %s'), Surfer::get_name()).'</span></a>';
 
 				// append the command to the menu
-				$menu[] = '<a href="#" onclick="javascript:Comments.contribute(\''.str_replace('"', '&quot;', htmlspecialchars($link)).'\');return false;" title="'.i18n::s('Share screen with VNC').'"><span>'.i18n::s('Share screen with VNC').'</span></a>';
+				$menu[] = '<a href="#" onclick="Comments.contribute(\''.str_replace('"', '&quot;', htmlspecialchars($link)).'\');return false;" title="'.i18n::s('Share screen with VNC').'"><span>'.i18n::s('Share screen with VNC').'</span></a>';
 			}
 
 			// share my netmeeting session
@@ -521,7 +519,7 @@ if(!isset($item['id'])) {
 				$link = '<a href="'.$link.'" title="'.i18n::s('Browse in a separate window').'" onclick="window.open(this.href); return false;"><span>'.sprintf(i18n::s('Shared screen of %s'), Surfer::get_name()).'</span></a>';
 
 				// append the command to the menu
-				$menu[] = '<a href="#" onclick="javascript:Comments.contribute(\''.str_replace('"', '&quot;', htmlspecialchars($link)).'\');return false;" title="'.i18n::s('Share screen with NetMeeting').'"><span>'.i18n::s('Share screen with NetMeeting').'</span></a>';
+				$menu[] = '<a href="#" onclick="Comments.contribute(\''.str_replace('"', '&quot;', htmlspecialchars($link)).'\');return false;" title="'.i18n::s('Share screen with NetMeeting').'"><span>'.i18n::s('Share screen with NetMeeting').'</span></a>';
 			}
 
 			// augment panel size
@@ -534,18 +532,28 @@ if(!isset($item['id'])) {
 			$context['text'] .= '<input type="checkbox" id="submitOnEnter" checked="checked" /> '.i18n::s('Submit text when Enter is pressed.');
 
 			// end the form
-			$context['text'] .= '</div></form>'."\n";
+			$context['text'] .= '</form>'."\n";
 
 		// other surfers are invited to authenticate
 		} else {
 
 			$context['text'] .= '<div id="thread_input_panel">';
 
+			// commands
+			$menu = array();
+
 			// url of this page
-			if(isset($item['id'])) {
+			if(isset($item['id']))
 				$menu = array('users/login.php?url='.urlencode(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']))=> i18n::s('Authenticate or register to contribute to this thread'));
-				$context['text'] .= Skin::build_list($menu, 'menu_bar');
-			}
+
+			// view thread history
+			$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), i18n::s('View history'), 'span');
+
+			// augment panel size
+			$menu[] = '<a href="#" onclick="Comments.showMore(); return false;"><span>'.i18n::s('Show more lines').'</span></a>';
+
+			// display all commands
+			$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 			$context['text'] .= '</div>'."\n";
 
@@ -574,6 +582,10 @@ if(!isset($item['id'])) {
 	//
 	// extra panel -- most content is cached, except commands specific to current surfer
 	//
+
+	// the poster profile, if any, aside
+	if(isset($poster['id']) && is_object($anchor) && is_callable(array($anchor, 'get_user_profile')))
+		$context['extra_prefix'] .= $anchor->get_user_profile($poster, 'extra');
 
 	// cache content
 	$cache_id = 'articles/view_as_thread.php?id='.$item['id'].'#extra#head';
@@ -659,8 +671,6 @@ if(!isset($item['id'])) {
 
 	// page tools
 	//
-
-	// update tools
 	if(!$zoom_type && $editable) {
 
 		// modify this page
@@ -673,65 +683,58 @@ if(!isset($item['id'])) {
 			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGE_TOOL_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or any image file, to illustrate this page.'));
 		}
 
-		// attach a file, if upload is allowed
-		if(Files::are_allowed($anchor, $item))
-			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILE_TOOL_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Do not hesitate to attach files related to this page.'));
-
-		// comment this page if anchor does not prevent it
-		if(Comments::are_allowed($anchor, $item))
-			$context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENT_TOOL_IMG.i18n::s('Add a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
-
-		// add a link
-		if(Links::are_allowed($anchor, $item))
-			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('article:'.$item['id']), LINK_TOOL_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 	}
 
-	// spreading tools
+	// 'Export tools' box
 	//
+	$lines = array();
 
 	// the command to track back -- complex command
 	if(Surfer::is_logged() && Surfer::has_all()) {
 		Skin::define_img('TRACKBACK_IMG', 'icons/links/trackback.gif');
-		$context['page_tools'][] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), TRACKBACK_IMG.i18n::s('Reference'), 'basic', i18n::s('Various means to link to this page'));
+		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	}
 
 	// more tools
-	if(((isset($context['with_bottom_tools']) && ($context['with_bottom_tools'] == 'Y'))
-		|| (is_object($anchor) && $anchor->has_option('with_bottom_tools')))) {
+	if(((isset($context['with_export_tools']) && ($context['with_export_tools'] == 'Y'))
+		|| (is_object($anchor) && $anchor->has_option('with_export_tools')))) {
 
-		// get a PDF version
-		if(Surfer::is_member() || ($context['with_anonymous_bottom_tools'] === 'Y')) {
+		// check tools visibility
+		if(Surfer::is_member() || (isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))) {
+
+			// get a PDF version
 			Skin::define_img('PDF_TOOL_IMG', 'icons/tools/pdf.gif');
-			$context['page_tools'][] = Skin::build_link(Articles::get_url($id, 'fetch_as_pdf'), PDF_TOOL_IMG.i18n::s('PDF'), 'basic', i18n::s('Download this page as a PDF file.'));
-		}
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_pdf'), PDF_TOOL_IMG.i18n::s('Export to PDF'), 'basic', i18n::s('Download this page as a PDF file.'));
 
-		// open in Word
-		if(Surfer::is_member() || ($context['with_anonymous_bottom_tools'] === 'Y')) {
+			// open in Word
 			Skin::define_img('MSWORD_TOOL_IMG', 'icons/tools/word.gif');
-			$context['page_tools'][] = Skin::build_link(Articles::get_url($id, 'fetch_as_msword'), MSWORD_TOOL_IMG.i18n::s('MS-Word'), 'basic', i18n::s('Copy this page in Microsoft MS-Word.'));
-		}
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_msword'), MSWORD_TOOL_IMG.i18n::s('Export to MS-Word'), 'basic', i18n::s('Copy this page in Microsoft MS-Word.'));
 
-		// get a palm version
-		if(Surfer::is_member() || ($context['with_anonymous_bottom_tools'] === 'Y')) {
+			// get a palm version
 			Skin::define_img('PALM_TOOL_IMG', 'icons/tools/palm.gif');
-			$context['page_tools'][] = Skin::build_link(Articles::get_url($id, 'fetch_for_palm'), PALM_TOOL_IMG.i18n::s('Palm'), 'basic', i18n::s('Fetch this page as a Palm memo.'));
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_for_palm'), PALM_TOOL_IMG.i18n::s('Export to Palm'), 'basic', i18n::s('Fetch this page as a Palm memo.'));
+
 		}
-
-	}
-
-	// print this page
-	if(Surfer::is_logged()) {
-		Skin::define_img('PRINT_TOOL_IMG', 'icons/tools/print.gif');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($id, 'print'), PRINT_TOOL_IMG.i18n::s('Print'), 'basic', i18n::s('Get a paper copy of this page.'));
 	}
 
 	// export to XML command provided to associates -- complex command
 	if(!$zoom_type && Surfer::is_associate() && Surfer::has_all()) {
 		Skin::define_img('EXPORT_TOOL_IMG', 'icons/tools/export.gif');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'export'), EXPORT_TOOL_IMG.i18n::s('Export'), 'basic');
+		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'export'), EXPORT_TOOL_IMG.i18n::s('Export to XML'), 'basic');
 	}
 
-	// how to stay tuned
+	// print this page
+	if(Surfer::is_logged() || (isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))) {
+		Skin::define_img('PRINT_TOOL_IMG', 'icons/tools/print.gif');
+		$lines[] = Skin::build_link(Articles::get_url($id, 'print'), PRINT_TOOL_IMG.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
+	}
+
+	// in a side box
+	if(count($lines))
+		$context['extra'] .= Skin::build_box(i18n::s('Export tools'), Skin::finalize_list($lines, 'tools'), 'extra', 'export');
+
+	// 'Stay tuned' box
+	//
 	$lines = array();
 
 	// watch command is provided to logged surfers

@@ -687,7 +687,7 @@ if($with_form) {
 	// the script used for form handling at the browser
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("upload").focus();'."\n"
+		.'$("upload").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// general help on this form

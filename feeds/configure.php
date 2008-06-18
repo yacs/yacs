@@ -217,7 +217,7 @@ elseif(!Surfer::is_associate()) {
 	// set the focus
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("channel_title").focus();'."\n"
+		.'$("channel_title").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// general help on this form

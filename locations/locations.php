@@ -556,7 +556,7 @@ Class Locations {
 		// create this map
 		$text .= '<script type="text/javascript">//<![CDATA['."\n"
 			.'if((typeof GBrowserIsCompatible != "undefined") && (GBrowserIsCompatible())) {'."\n"
-			.'	var map = new GMap2(document.getElementById("'.$handle.'"));'."\n"
+			.'	var map = new GMap2($("'.$handle.'"));'."\n"
 			.'	map.addControl(new GSmallMapControl());'."\n"
 			.'	map.addControl(new GMapTypeControl());'."\n";
 

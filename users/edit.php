@@ -266,7 +266,7 @@ if(!$permitted) {
 				else {
 
 					// get the new record
-					$item =& Users::get($_REQUEST['id']);
+					$item =& Users::get($_REQUEST['id'], TRUE);
 
 					// start a session with this new record
 					if(!Surfer::is_logged())
@@ -673,7 +673,7 @@ if($with_form) {
 
 	// editor
 	$label = i18n::s('Editor');
-	$input = '<select name="preferred_editor">';	// hack because of FCKEditor already uses 'editor'
+	$input = '<select name="selected_editor">';	// hack because of FCKEditor already uses 'editor'
 	if(isset($item['editor']))
 		;
 	elseif(!isset($context['users_default_editor']))
@@ -823,8 +823,27 @@ if($with_form) {
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
+		.'// detect changes in form'."\n"
+		.'func'.'tion detectChanges() {'."\n"
+		."\n"
+		.'	var nodes = $$("form#main_form input");'."\n"
+		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
+		.'		var node = nodes[index];'."\n"
+		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'	}'."\n"
+		."\n"
+		.'	nodes = $$("form#main_form textarea");'."\n"
+		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
+		.'		var node = nodes[index];'."\n"
+		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'	}'."\n"
+		.'}'."\n"
+		."\n"
+		.'// observe changes in form'."\n"
+		.'Event.observe(window, "load", detectChanges);'."\n"
+		."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("nick_name").focus();'."\n"
+		.'$("nick_name").focus();'."\n"
 		."\n"
 		.'// enable tags autocompletion'."\n"
 		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("tags", "tags_choices", "'.$context['url_to_root'].'categories/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
@@ -855,7 +874,7 @@ if($with_form) {
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
 
  	// change to another editor
-	$help .= '<form><p><select name="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	$help .= '<form><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
 	$selected = '';
 	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
 		$selected = ' selected="selected"';

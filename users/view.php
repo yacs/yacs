@@ -237,18 +237,9 @@ if(!isset($item['id'])) {
 	// page details -- $context['page_details']
 	//
 
-	// tags
-	if(isset($item['tags']) && $item['tags']) {
-		$tags = explode(',', $item['tags']);
-		$line = '';
-		foreach($tags as $tag) {
-			if($category = Categories::get_by_keyword(trim($tag)))
-				$line .= Skin::build_link(Categories::get_url($category['id'], 'view', $category['title']), trim($tag), 'basic').' ';
-			else
-				$line .= trim($tag).' ';
-		}
-		$context['page_details'] .= '<p class="tags">'.sprintf(i18n::s('Tags: %s'), trim($line)).'</p>'."\n";
-	}
+	// tags, if any
+	if(isset($item['tags']) && $item['tags'])
+		$context['page_tags'] = $item['tags'];
 
 	// one detail per line
 	$context['page_details'] .= '<p class="details">';
@@ -598,7 +589,7 @@ if(!isset($item['id'])) {
 	// print this page
 	if(Surfer::is_logged()) {
 		Skin::define_img('PRINT_TOOL_IMG', 'icons/tools/print.gif');
-		$context['page_tools'][] = Skin::build_link(Users::get_url($id, 'print'), PRINT_TOOL_IMG.i18n::s('Print'), 'basic');
+		$context['page_tools'][] = Skin::build_link(Users::get_url($id, 'print'), PRINT_TOOL_IMG.i18n::s('Print this page'), 'basic');
 	}
 
 	// how to stay tuned

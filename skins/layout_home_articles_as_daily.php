@@ -163,7 +163,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			}
 
 			// rating
-			if($item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating'))
+			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 				$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// show details
@@ -219,7 +219,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu[] = Skin::build_link($link, i18n::s('Reference'), 'basic');
+			$menu[] = Skin::build_link($link, i18n::s('Reference this page'), 'basic');
 
 			// a menu bar, but flushed to the right
 			if(count($menu))

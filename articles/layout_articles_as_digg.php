@@ -215,7 +215,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu = array_merge($menu, array( $link => i18n::s('Reference') ));
+			$menu = array_merge($menu, array( $link => i18n::s('Reference this page') ));
 
 			// link to the anchor page
 			if(($this->layout_variant != 'no_anchor') && ($item['anchor'] != $this->layout_variant) && is_object($anchor))

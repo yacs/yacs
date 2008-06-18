@@ -1194,7 +1194,7 @@ if(!$item['id']) {
 
 	}
 
-	// diplay in a separate panel
+	// display in a separate panel
 	if(trim($text))
 		$panels[] = array('sections_tab', i18n::s('Sections'), 'sections_panel', $text);
 

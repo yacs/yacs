@@ -507,8 +507,12 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 
 			// ensure this item has been selected
 			if(isset($_REQUEST['reviewed']) && ($_REQUEST['reviewed'] == 'yes')) {
-				$local['name_en'] = $hook['label_en'];
-				$local['name_fr'] = $hook['label_fr'];
+				unset($local['name_en']);
+				if(isset($hook['label_en']))
+					$local['name_en'] = $hook['label_en'];
+				unset($local['name_fr']);
+				if(isset($hook['label_fr']))
+					$local['name_fr'] = $hook['label_fr'];
 				if(!isset($_REQUEST[$id]) || ($_REQUEST[$id] != 'Y')) {
 					$context['text'] .= sprintf(i18n::s('Disabling extension %s'), $id).BR."\n";
 					continue;
@@ -800,7 +804,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 	// the script used for form handling at the browser
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("confirmed").focus();'."\n"
+		.'$("confirmed").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// this may take several minutes

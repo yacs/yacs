@@ -20,7 +20,7 @@ Class Layout_images extends Layout_interface {
 	 * list images
 	 *
 	 * Recognize following variants:
-	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
+	 * - 'compact' - to build short lists in boxes and sidebars
 	 * - '<a valid anchor>' - example: 'section:123' - to list images attached to an anchor page
 	 *
 	 * @param resource the SQL result
@@ -60,8 +60,57 @@ Class Layout_images extends Layout_interface {
 			if(is_callable(array('Codes', 'initialize')))
 				Codes::initialize($url);
 
-			// link to the thumbnail image, if any
-			$label = '<span class="small_image"><img src="'.Images::get_thumbnail_href($item).'" title="'.encode_field(strip_tags($item['title'])).'" alt="" /></span>';
+			$label = '_';
+
+			// the title
+			if($item['title'])
+				$suffix .= Skin::strip($item['title'], 10).BR;
+
+			// details
+			$details = array();
+
+			// file name
+			if($item['image_name'])
+				$details[] = $item['image_name'];
+
+			// file size
+			if($item['image_size'] > 1)
+				$details[] = number_format($item['image_size']).'&nbsp;'.i18n::s('bytes');
+
+			// poster
+			if($item['edit_name'])
+				$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+
+			// append details
+			if(count($details))
+				$suffix .= ucfirst(implode(', ', $details)).BR;
+
+			// there is an anchor
+			if($item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
+
+				// the image id to put as text in the left column
+				if($variant == $anchor->get_reference()) {
+
+					// help to insert in textarea
+					if(!isset($_SESSION['surfer_editor']) || (($_SESSION['surfer_editor'] != 'fckeditor') && ($_SESSION['surfer_editor'] != 'tinymce')))
+						$suffix .= '<a onclick="edit_insert(\'\', \' [image='.$item['id'].']\');return false;" title="insert" tabindex="2000">[image='.$item['id'].']</a>'
+							.' <a onclick="edit_insert(\'\', \' [image='.$item['id'].', left]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',left]</a>'
+							.' <a onclick="edit_insert(\'\', \' [image='.$item['id'].', right]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',right]</a>'
+							.' <a onclick="edit_insert(\'\', \' [image='.$item['id'].', center]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',center]</a>'.BR;
+
+					else
+						$suffix .= '[image='.$item['id'].']'
+							.' [image='.$item['id'].',left]'
+							.' [image='.$item['id'].',right]'
+							.' [image='.$item['id'].',center]'.BR;
+
+				// show an anchor link
+				} else {
+					$anchor_url = $anchor->get_url();
+					$anchor_label = ucfirst($anchor->get_title());
+					$suffix .= sprintf(i18n::s('In %s'), Skin::build_link($anchor_url, $anchor_label)).BR;
+				}
+			}
 
 			// the menu bar
 			$menu = array();
@@ -87,60 +136,10 @@ Class Layout_images extends Layout_interface {
 				$menu = array_merge($menu, array( Images::get_url($item['id'], 'delete') => i18n::s('Delete') ));
 
 			if(count($menu))
-				$suffix .= BR.Skin::build_list($menu, 'menu');
+				$suffix .= Skin::build_list($menu, 'menu');
 
-			// the title
-			if($item['title'])
-				$suffix .= BR.Skin::strip($item['title'], 10)."\n";
-
-			// details
-			$details = array();
-
-			// reference to the image
-			$details[] = '[image='.$item['id'].']';
-
-			// file name
-			if($item['image_name'])
-				$details[] = $item['image_name'];
-
-			// file size
-			if($item['image_size'] > 1)
-				$details[] = number_format($item['image_size']).'&nbsp;'.i18n::s('bytes');
-
-			// poster
-			if($item['edit_name'])
-				$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
-
-			// append details
-			if(count($details))
-				$suffix .= BR.ucfirst(implode(', ', $details))."\n";
-
-			// there is an anchor
-			if($item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
-
-				// the image id to put as text in the left column
-				if($variant == $anchor->get_reference()) {
-
-					// help to insert in textarea
-					if(!isset($_SESSION['surfer_editor']) || (($_SESSION['surfer_editor'] != 'fckeditor') && ($_SESSION['surfer_editor'] != 'tinymce')))
-						$icon = '<a onclick="javascript:edit_insert(\'\', \' [image='.$item['id'].']\');return false;" title="insert" tabindex="2000">[image='.$item['id'].']</a>'
-							.BR.'<a onclick="javascript:edit_insert(\'\', \' [image='.$item['id'].', left]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',left]</a>'
-							.BR.'<a onclick="javascript:edit_insert(\'\', \' [image='.$item['id'].', right]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',right]</a>'
-							.BR.'<a onclick="javascript:edit_insert(\'\', \' [image='.$item['id'].', center]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',center]</a>';
-
-					else
-						$icon = '[image='.$item['id'].']'
-							.BR.'[image='.$item['id'].',left]'
-							.BR.'[image='.$item['id'].',right]'
-							.BR.'[image='.$item['id'].',center]';
-
-				// show an anchor link
-				} else {
-					$anchor_url = $anchor->get_url();
-					$anchor_label = ucfirst($anchor->get_title());
-					$suffix .= BR.sprintf(i18n::s('In %s'), Skin::build_link($anchor_url, $anchor_label));
-				}
-			}
+			// link to the thumbnail image, if any
+			$icon = '<span class="small_image"><img src="'.Images::get_thumbnail_href($item).'" title="'.encode_field(strip_tags($item['title'])).'" alt="" /></span>';
 
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, 'image', $icon);

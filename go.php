@@ -174,7 +174,7 @@ $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 	.'	}'."\n"
 	."\n"
 	.'// set the focus on first form field'."\n"
-	.'document.getElementById(\'id\').focus();'."\n"
+	.'$("id").focus();'."\n"
 	.'// ]]></script>'."\n";
 
 // extend the process to the search engine

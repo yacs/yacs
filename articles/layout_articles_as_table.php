@@ -171,7 +171,7 @@ Class Layout_articles_as_table extends Layout_interface {
 				$details[] = LOCKED_FLAG;
 
 			// rating
-			if($item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating'))
+			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 				$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// page details

@@ -185,7 +185,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		$title = Codes::beautify_title($item['title']);
 
 		// rating
-		if($item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating'))
+		if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 			$title .= ' '.Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 		// pack in a block
@@ -262,7 +262,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$link = 'links/trackback.php/article/'.$item['id'];
 		else
 			$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-		$menu = array_merge($menu, array( $link => i18n::s('Reference') ));
+		$menu = array_merge($menu, array( $link => i18n::s('Reference this page') ));
 
 		// link to the anchor page
 		if(is_object($anchor))
@@ -292,7 +292,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		$title = Codes::beautify_title($item['title']);
 
 		// rating
-		if($item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating'))
+		if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 			$title .= ' '.Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 		// pack in a block
@@ -357,7 +357,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$link = 'links/trackback.php/article/'.$item['id'];
 		else
 			$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-		$text .= BR.Skin::build_link($link, i18n::s('Reference'), 'basic');
+		$text .= BR.Skin::build_link($link, i18n::s('Reference this page'), 'basic');
 
 		// info on related links
 		if($context['with_friendly_urls'] == 'Y')

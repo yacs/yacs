@@ -278,7 +278,7 @@ if(!isset($item['id']) || !$item['id']) {
 	// set the focus
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("confirmed").focus();'."\n"
+		.'$("confirmed").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// just download

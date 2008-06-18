@@ -272,7 +272,7 @@ if($with_form) {
 		.'	}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("title").focus();'."\n"
+		.'$("title").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// the help panel

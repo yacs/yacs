@@ -124,7 +124,7 @@ elseif(!Surfer::is_associate()) {
 
 	// set the focus on the button
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
-		.'document.getElementById("confirmed").focus();'."\n"
+		.'$("confirmed").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// this may take several minutes

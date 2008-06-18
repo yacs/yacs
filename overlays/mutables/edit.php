@@ -141,7 +141,7 @@ if(!Surfer::is_associate()) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("id").focus();'."\n"
+		.'$("id").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 }

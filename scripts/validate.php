@@ -65,7 +65,7 @@ function send_body() {
 
 		// set the focus on the button
 		echo '<script type="text/javascript">// <![CDATA['."\n"
-			.'document.getElementById("confirmed").focus();'."\n"
+			.'$("confirmed").focus();'."\n"
 			.'// ]]></script>'."\n";
 
 		// this may take some time

@@ -189,7 +189,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'document.getElementById("nick_name").focus();'."\n"
+			.'$("nick_name").focus();'."\n"
 			.'// ]]></script>';
 
 		// this may take some time
@@ -400,7 +400,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'document.getElementById("title").focus();'."\n"
+			.'$("title").focus();'."\n"
 			.'// ]]></script>'."\n";
 
 	// create a section
@@ -417,7 +417,7 @@ if(!$permitted) {
 		$fields['section_layout'] = 'map';
 		$fields['options'] = 'with_creator_profile articles_by_publication';
 		$fields['articles_layout'] = 'daily'; // the preferred layout for blogs
-		$fields['content_options'] = 'with_extra_profile with_rating'; // show user profiles in a side panel
+		$fields['content_options'] = 'with_extra_profile'; // show user profiles in a side panel
 		if($_REQUEST['contribution'] == 'N')	// only associates and editors can contribute
 			$fields['locked'] = 'Y';
 		$fields['rank'] = 10000; // default value
@@ -551,7 +551,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'document.getElementById("title").focus();'."\n"
+			.'$("title").focus();'."\n"
 			.'// ]]></script>'."\n";
 
 	// create a section
@@ -568,7 +568,7 @@ if(!$permitted) {
 		$fields['articles_layout'] = 'manual'; // the preferred layout for books
 		$fields['sections_layout'] = 'inline'; // the preferred layout for books
 		$fields['options'] = 'articles_by_title'; // preserve page ordering over time
-		$fields['content_options'] = 'with_rating, with_bottom_tools'; // let surfers rate pages and convert pages
+		$fields['content_options'] = 'with_export_tools'; // let surfers convert pages
 		$fields['rank'] = 10000; // default value
 		if($new_id = Sections::post($fields)) {
 
@@ -585,7 +585,7 @@ if(!$permitted) {
 				$fields['articles_layout'] = 'manual'; // the preferred layout for books
 				$fields['sections_layout'] = 'inline'; // the preferred layout for books
 				$fields['options'] = 'articles_by_title'; // preserve page ordering over time
-				$fields['content_options'] = 'with_rating, with_bottom_tools'; // let surfers rate pages and convert pages
+				$fields['content_options'] = 'with_export_tools'; // let surfers convert pages
 				$fields['rank'] = ($index+1); //  preserve order
 				if($fields['title'])
 					Sections::post($fields);
@@ -766,7 +766,7 @@ if(!$permitted) {
 				.'}'."\n"
 				."\n"
 				.'// set the focus on first form field'."\n"
-				.'document.getElementById("name").focus();'."\n"
+				.'$("name").focus();'."\n"
 				.'// ]]></script>'."\n";
 
 		}
@@ -962,7 +962,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'document.getElementById("main_title").focus();'."\n"
+			.'$("main_title").focus();'."\n"
 			.'// ]]></script>'."\n";
 
 	// create the stuff
@@ -987,6 +987,7 @@ if(!$permitted) {
 			$section['articles_layout'] = 'decorated';
 			$section['index_panel'] = 'scroller';
 			$section['home_panel'] = 'none';	// new pages are not pushed at the front page
+			$section['content_options'] = 'without_rating'; // show user profiles in a side panel
 			if($section['title'])
 				$section['id'] = Sections::post($section);
 
@@ -1013,6 +1014,7 @@ if(!$permitted) {
 			$section['articles_layout'] = 'decorated';
 			$section['index_panel'] = 'gadget_boxes';
 			$section['home_panel'] = 'none';	// new pages are not pushed at the front page
+			$section['content_options'] = 'without_rating';
 			if($section['title'])
 				$section['id'] = Sections::post($section);
 
@@ -1039,6 +1041,7 @@ if(!$permitted) {
 			$section['articles_layout'] = 'decorated';
 			$section['index_panel'] = 'extra_boxes';
 			$section['home_panel'] = 'none';	// new pages are not pushed at the front page
+			$section['content_options'] = 'without_rating';
 			if($section['title'])
 				$section['id'] = Sections::post($section);
 
@@ -1172,7 +1175,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'document.getElementById("title").focus();'."\n"
+			.'$("title").focus();'."\n"
 			.'// ]]></script>'."\n";
 
 	// create a section
@@ -1339,7 +1342,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'document.getElementById("main_title").focus();'."\n"
+			.'$("main_title").focus();'."\n"
 			.'// ]]></script>'."\n";
 
 	// create the stuff
@@ -1474,7 +1477,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'document.getElementById("title").focus();'."\n"
+			.'$("title").focus();'."\n"
 			.'// ]]></script>'."\n";
 
 	// create a section
@@ -1489,11 +1492,11 @@ if(!$permitted) {
 		$fields['home_panel'] = $_REQUEST['home_panel'];
 		$fields['index_map'] = 'Y'; // listed with ordinary sections
 		if($_REQUEST['profile'] == 'extra')
-			$fields['content_options'] = 'with_extra_profile, with_rating, with_bottom_tools'; // let surfers rate pages in all cases
+			$fields['content_options'] = 'with_extra_profil with_export_tools';
 		elseif($_REQUEST['profile'] == 'prefix')
-			$fields['content_options'] = 'with_prefix_profile, with_rating, with_bottom_tools';
+			$fields['content_options'] = 'with_prefix_profile with_export_tools';
 		else
-			$fields['content_options'] = 'with_suffix_profile, with_rating, with_bottom_tools';
+			$fields['content_options'] = 'with_suffix_profile with_export_tools';
 		$fields['rank'] = 10000; // default value
 		if($new_id = Sections::post($fields)) {
 
@@ -1591,7 +1594,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'document.getElementById("title").focus();'."\n"
+			.'$("title").focus();'."\n"
 			.'// ]]></script>'."\n";
 
 	// create a section
@@ -1605,6 +1608,7 @@ if(!$permitted) {
 		$fields['index_map'] = 'Y'; // listed with ordinary sections
 		$fields['rank'] = 50000; // towards the end of the list
 		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
+		$fields['content_options'] = 'without_rating';
 		if($new_id = Sections::post($fields)) {
 
 			// increment the post counter of the surfer
@@ -1708,7 +1712,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'document.getElementById("title").focus();'."\n"
+			.'$("title").focus();'."\n"
 			.'// ]]></script>'."\n";
 
 	// create a section
@@ -1724,6 +1728,7 @@ if(!$permitted) {
 		$fields['overlay'] = 'poll'; // poll management
 		$fields['rank'] = 10000; // default value
 		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
+		$fields['content_options'] = 'without_rating';
 		if($new_id = Sections::post($fields)) {
 
 			// increment the post counter of the surfer
@@ -1827,7 +1832,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'document.getElementById("title").focus();'."\n"
+			.'$("title").focus();'."\n"
 			.'// ]]></script>'."\n";
 
 	// create a section
@@ -1840,7 +1845,7 @@ if(!$permitted) {
 		$fields['active_set'] = $_REQUEST['active'];
 		$fields['home_panel'] = $_REQUEST['home_panel'];
 		$fields['index_map'] = 'Y'; // listed with ordinary sections
-		$fields['content_options'] = 'wih_rating, with_bottom_tools'; // let surfers select their preferred recipe
+		$fields['content_options'] = 'with_export_tools';
 		$fields['overlay'] = 'recipe'; // recipe management
 		$fields['rank'] = 10000; // default value
 		if($new_id = Sections::post($fields)) {
@@ -2073,7 +2078,7 @@ if(!$permitted) {
 			.'}'."\n"
 			."\n"
 			.'// set the focus on first form field'."\n"
-			.'document.getElementById("title").focus();'."\n"
+			.'$("title").focus();'."\n"
 			.'// ]]></script>'."\n";
 
 	// create a section
@@ -2089,7 +2094,7 @@ if(!$permitted) {
 		$fields['index_map'] = 'Y'; // listed with ordinary sections
 		$fields['articles_layout'] = 'wiki'; // the preferred layout for wikis
 		$fields['options'] = 'articles_by_title'; // alphabetical order
-		$fields['content_options'] = 'auto_publish with_rating with_bottom_tools';
+		$fields['content_options'] = 'auto_publish with_export_tools';
 		if($_REQUEST['contribution'] == 'Y')		// anyone can contribute
 			$fields['content_options'] .= ' anonymous_edit';
 		elseif($_REQUEST['contribution'] == 'R')	// only members can contribute

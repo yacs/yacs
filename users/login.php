@@ -592,7 +592,7 @@ if($credentials) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("login_name").focus();'."\n"
+		.'$("login_name").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// a place holder for cookies activation
@@ -601,10 +601,10 @@ if($credentials) {
 	// the script used to check that cookies are activated
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'document.cookie = \'CookiesEnabled=1\';'."\n"
-		.'if((document.cookie == \'\') && document.getElementById) {'."\n"
-		."\t".'document.getElementById(\'ask_for_cookies\').innerHTML = \''.i18n::s('You must enable cookies to authenticate to this server. Change settings of your browser accordingly, then revisit this login page afterwards.').'\';'."\n"
-		."\t".'document.getElementById(\'ask_for_cookies\').style.display = \'block\';'."\n"
-		."\t".'document.getElementById(\'login_button\').disabled = true;'."\n"
+		.'if((document.cookie == "") && document.getElementById) {'."\n"
+		."\t".'$("ask_for_cookies").innerHTML = \''.i18n::s('You must enable cookies to authenticate to this server. Change settings of your browser accordingly, then revisit this login page afterwards.').'\';'."\n"
+		."\t".'$("ask_for_cookies").style.display = \'block\';'."\n"
+		."\t".'$("login_button").disabled = true;'."\n"
 		.'}'."\n"
 		.'// ]]></script>'."\n";
 

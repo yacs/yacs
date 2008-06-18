@@ -155,7 +155,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $stats['count']), $stats['count']);
 
 			// rating
-			if($item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating'))
+			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 				$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// signal locked articles

@@ -252,7 +252,7 @@ if(!$permitted) {
 		Users::increment_posts(Surfer::get_id());
 
 		// get the new item
-		$section = Anchors::get('section:'.$_REQUEST['id']);
+		$section = Anchors::get('section:'.$_REQUEST['id'], TRUE);
 
 		// reward the poster for new posts
 		$context['page_title'] = i18n::s('A section has been successfully added');
@@ -310,12 +310,10 @@ if($with_form) {
 		$label = i18n::s('Title').' *';
 
 	// copy this as compact title on initial edit
-	$onchange = '';
-	if(!isset($item['id']))
-		$onchange = ' onchange="$(\'title\').value = this.value"';
-	elseif(!$item['index_title'])
+	if((!isset($item['index_title']) || !$item['index_title']) && isset($item['title']))
 		$item['index_title'] = $item['title'];
-	$input = '<textarea name="index_title" id="index_title" rows="2" cols="50" accesskey="t"'.$onchange.'>'.encode_field(isset($item['index_title']) ? $item['index_title'] : '').'</textarea>';
+	$input = '<textarea name="index_title" id="index_title" rows="2" cols="50" accesskey="t">'.encode_field(isset($item['index_title']) ? $item['index_title'] : '').'</textarea>'
+		.'<input type="hidden" id="shadow_title" value="'.encode_field(isset($item['index_title']) ? $item['index_title'] : '').'" />';
 	if(!is_object($overlay) || !($hint = $overlay->get_label('title_hint', isset($item['id'])?'edit':'new')))
 		$hint = i18n::s('Please provide a meaningful title.');
 	$fields[] = array($label, $input, $hint);
@@ -339,7 +337,7 @@ if($with_form) {
 
 	// the description label
 	if(!is_object($overlay) || !($label = $overlay->get_label('description', isset($item['id'])?'edit':'new')))
-		$label = i18n::s('Content');
+		$label = i18n::s('Description');
 
 	// use the editor if possible
 	$input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'');
@@ -517,7 +515,7 @@ if($with_form) {
 		$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
 			.'<script type="text/javascript">// <![CDATA['."\n"
 			.'function append_to_options(keyword) {'."\n"
-			.'	var target = document.getElementById("options");'."\n"
+			.'	var target = $("options");'."\n"
 			.'	target.value = target.value + " " + keyword;'."\n"
 			.'}'."\n"
 			.'// ]]></script>'."\n";
@@ -671,7 +669,7 @@ if($with_form) {
 		$input = '<input type="text" name="content_options" id="content_options" size="55" value="'.encode_field(isset($item['content_options']) ? $item['content_options'] : '').'" maxlength="255" accesskey="o" />'
 			.'<script type="text/javascript">// <![CDATA['."\n"
 			.'function append_to_content_options(keyword) {'."\n"
-			.'	var target = document.getElementById("content_options");'."\n"
+			.'	var target = $("content_options");'."\n"
 			.'	target.value = target.value + " " + keyword;'."\n"
 			.'}'."\n"
 			.'// ]]></script>'."\n";
@@ -684,9 +682,9 @@ if($with_form) {
 		$keywords[] = 'view_as_foo_bar - '.i18n::s('Branch out to articles/view_as_foo_bar.php');
 		if(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y'))
 			$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_details\')" style="cursor: pointer;">with_details</a> - '.i18n::s('Show page details to all surfers');
-		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_rating\')" style="cursor: pointer;">with_rating</a> - '.i18n::s('Allow surfers to rate pages of this section');
+		$keywords[] = '<a onclick="javascript:append_to_content_options(\'without_rating\')" style="cursor: pointer;">without_rating</a> - '.i18n::s('Surfers are not allowed to rate pages in this section');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'rate_as_digg\')" style="cursor: pointer;">rate_as_digg</a> - '.i18n::s('Ask explicitly for more votes');
-		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_bottom_tools\')" style="cursor: pointer;">with_bottom_tools</a> - '.i18n::s('Add conversion tools to PDF, MS-Word, Palm at the bottom of each page');
+		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_export_tools\')" style="cursor: pointer;">with_export_tools</a> - '.i18n::s('Add conversion tools to PDF, MS-Word, Palm');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_prefix_profile\')" style="cursor: pointer;">with_prefix_profile</a> - '.i18n::s('Introduce the poster before main text');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_suffix_profile\')" style="cursor: pointer;">with_suffix_profile</a> - '.i18n::s('Append some poster details at the bottom of the page');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_extra_profile\')" style="cursor: pointer;">with_extra_profile</a> - '.i18n::s('Append some poster details aside the page (adequate to most weblogs)');
@@ -1007,7 +1005,7 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 	}
 
-	// index title
+	// compact title
 	$label = i18n::s('Compact title');
 	$input = '<textarea name="title" id="title" rows="2" cols="50">'.encode_field(isset($item['title']) ? $item['title'] : '').'</textarea>';
 	$hint = i18n::s('Alternate title used in lists and in the contextual menu');
@@ -1137,19 +1135,19 @@ if($with_form) {
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// several options to check
-	$input = '';
+	$input = array();
 
 	// do not stamp edition date -- complex command
 	if(Surfer::is_empowered() && isset($item['id']) && Surfer::has_all())
-		$input .= '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.').BR;
+		$input[] = '<input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.');
 
 	// validate page content
 	if(Surfer::is_empowered())
-		$input .= '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.').BR;
+		$input[] = '<input type="checkbox" name="option_validate" value="Y" checked="checked" /> '.i18n::s('Ensure this post is valid XHTML.');
 
 	// append post-processing options
 	if($input)
-		$context['text'] .= $input;
+		$context['text'] .= '<p>'.implode(BR, $input).'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
@@ -1174,8 +1172,42 @@ if($with_form) {
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
+		.'// update title'."\n"
+		.'func'.'tion updateTitle() {'."\n"
+		."\n"
+		.'	if(!$("title").value) {'."\n"
+		.'		$("title").value = $("index_title").value;'."\n"
+		.'	}'."\n"
+		.'	if($("shadow_title").value == $("title").value) {'."\n"
+		.'		$("title").value = $("index_title").value;'."\n"
+		.'	}'."\n"
+		.'	$("shadow_title").value = $("index_title").value;'."\n"
+		.'}'."\n"
+		."\n"
+		.'// observe changes in form'."\n"
+		.'Event.observe("index_title", "change", updateTitle);'."\n"
+		."\n"
+		.'// disable editor selection on change'."\n"
+		.'func'.'tion detectChanges() {'."\n"
+		."\n"
+		.'	var nodes = $$("form#main_form input");'."\n"
+		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
+		.'		var node = nodes[index];'."\n"
+		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'	}'."\n"
+		."\n"
+		.'	nodes = $$("form#main_form textarea");'."\n"
+		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
+		.'		var node = nodes[index];'."\n"
+		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'	}'."\n"
+		.'}'."\n"
+		."\n"
+		.'// observe changes in form'."\n"
+		.'Event.observe(window, "load", detectChanges);'."\n"
+		."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("index_title").focus();'."\n"
+		.'$("index_title").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// content of the help box
@@ -1192,7 +1224,7 @@ if($with_form) {
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
 
  	// change to another editor
-	$help .= '<form><p><select name="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	$help .= '<form><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
 	$selected = '';
 	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
 		$selected = ' selected="selected"';

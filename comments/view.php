@@ -161,7 +161,7 @@ if(!isset($item['id'])) {
 
 	// all details
 	if($details)
-		$context['page_details'] .= '<p>'.ucfirst(implode(' ', $details))."</p>\n";
+		$context['page_details'] .= '<p class="details">'.ucfirst(implode(' ', $details))."</p>\n";
 
 	//
 	// main panel -- $context['text']

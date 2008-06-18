@@ -126,25 +126,21 @@ if(!isset($item['id'])) {
 	if(isset($item['web_address']) && $item['web_address'])
 		$context['text'] .= '<p>'.sprintf(i18n::s('Web address: %s'), Skin::build_link($item['web_address'], $item['web_address'], 'external'))."</p>\n";
 
-	// the email field is showed only to logged surfers, to not let robots steal addresses
-	if((!isset($context['users_with_email_display']) || ($context['users_with_email_display'] != 'N')) && (Surfer::is_member() || ($context['users_with_email_display'] == 'Y'))) {
+	// email address - not showed to anonymous surfers for spam protection
+	if(isset($item['email']) && $item['email'] && Surfer::may_mail()) {
+		$label = i18n::s('E-mail address: %s %s');
 
-		// email address - not showed to anonymous surfers for spam protection
-		if(isset($item['email']) && $item['email']) {
-			$label = i18n::s('E-mail address: %s %s');
+		if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
+			$url = Users::get_url($id, 'mail');
+		else
+			$url = 'mailto:'.$item['email'];
 
-			if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
-				$url = Users::get_url($id, 'mail');
-			else
-				$url = 'mailto:'.$item['email'];
+		if(isset($item['with_newsletters']) && ($item['with_newsletters'] == 'Y'))
+			$suffix = '';
+		else
+			$suffix = i18n::s('(do not wish to receive newsletters)');
 
-			if(isset($item['with_newsletters']) && ($item['with_newsletters'] == 'Y'))
-				$suffix = '';
-			else
-				$suffix = i18n::s('(do not wish to receive newsletters)');
-
-			$context['text'] .= '<p>'.sprintf(i18n::s($label), Skin::build_link($url, $item['email'], 'email'), $suffix)."</p>\n";
-		}
+		$context['text'] .= '<p>'.sprintf(i18n::s($label), Skin::build_link($url, $item['email'], 'email'), $suffix)."</p>\n";
 	}
 
 	// the introduction text

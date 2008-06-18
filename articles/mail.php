@@ -2,13 +2,7 @@
 /**
  * mail an article
  *
- * @todo add cancel button
- *
  * This script has a form to post a mail message based on an existing article.
- *
- * If the action parameter is empty, a menu is offered either:
- * - to invite a set of people to contribute
- * - or to send some feed-back to the initial author
  *
  * When a message is sent to invited people, these may, or not, be part of
  * the community.
@@ -40,10 +34,8 @@
  * Accepted calls:
  * - mail.php/&lt;id&gt;
  * - mail.php?id=&lt;id&gt;
- * - mail.php/&lt;id&gt;/feed-back
- * - mail.php?id=&lt;id&gt;&action=feed-back
- * - mail.php/&lt;id&gt;/invite
- * - mail.php?id=&lt;id&gt;&action=invite
+ * - mail.php/&lt;id&gt;
+ * - mail.php?id=&lt;id&gt;
  *
  * If this article, or one of its anchor, specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
@@ -96,42 +88,36 @@ if(!$action && isset($item['create_id']) && Surfer::get_id() && ($item['create_i
 elseif(!$action && Surfer::is_logged() &&  isset($item['create_address']) && Surfer::get_email_address() && !strcmp($item['create_address'], Surfer::get_email_address()))
 	$action = 'invite';
 
-// maybe this anonymous surfer is allowed to handle this item
-if(isset($item['handle']) && Surfer::may_handle($item['handle']))
+// section editors can do what they want
+if(is_object($anchor) && $anchor->is_editable())
+	Surfer::empower();
+
+// article editors can also do what they want
+elseif(isset($item['id']) && Articles::is_assigned($item['id']))
+	Surfer::empower();
+
+// surfer has been explicitly invited to collaborate
+elseif(isset($item['handle']) && Surfer::may_handle($item['handle']))
 	Surfer::empower();
 
 // associates and editors can do what they want
-if(Surfer::is_empowered() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_empowered())
 	$permitted = TRUE;
 
-// poster can always view the page
-// elseif(isset($item['create_id']) && Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
-//	$permitted = TRUE;
-
-// maybe this article cannot be modified anymore
-elseif(isset($item['locked']) && ($item['locked'] == 'Y'))
+// function is available only to authenticated members --not subscribers
+elseif(!Surfer::is_member())
 	$permitted = FALSE;
-
-// surfer created the page and the page has not been published
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())
-	&& (!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) )
-	$permitted = TRUE;
-
-// surfer has created the published page and revisions are allowed
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())
-	&& isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE) && (!isset($context['users_without_revision']) || ($context['users_without_revision'] != 'Y')))
-	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
 elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
-// access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] == 'R') && Surfer::is_member())
+// surfer created the page
+elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
 	$permitted = TRUE;
 
-// public access is allowed to authenticated members
-elseif(isset($item['active']) && ($item['active'] == 'Y') && Surfer::is_member())
+// access is restricted to authenticated member
+elseif(isset($item['active']) && ($item['active'] != 'N'))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -154,7 +140,8 @@ if(isset($item['id']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
 // page title
-$context['page_title'] = i18n::s('Mail a page');
+if(isset($item['title']))
+	$context['page_title'] = sprintf(i18n::s('Share: %s'), $item['title']);
 
 // not found
 if(!isset($item['id'])) {
@@ -274,18 +261,25 @@ if(!isset($item['id'])) {
 		$tokens = explode(' ', $recipient);
 		$actual_recipient = trim(str_replace(array('<', '>'), '', $tokens[count($tokens)-1]));
 
-		// build credentials --see users/login.php
-		$credentials = array();
-		$credentials[0] = 'visit';
-		$credentials[1] = 'article:'.$item['id'];
-		$credentials[2] = $actual_recipient;
-		$credentials[3] = sprintf('%u', crc32($actual_recipient.':'.$item['handle']));
+		// add credentials in message
+		if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y')) {
 
-		// the secret link
-		$link = Users::get_url($credentials, 'credentials');
+			// build credentials --see users/login.php
+			$credentials = array();
+			$credentials[0] = 'visit';
+			$credentials[1] = 'article:'.$item['id'];
+			$credentials[2] = $actual_recipient;
+			$credentials[3] = sprintf('%u', crc32($actual_recipient.':'.$item['handle']));
 
-		// translate strings to allow for one-click authentication
-		$actual_message = str_replace(Articles::get_url($item['id']), $link, $message);
+			// the secret link
+			$link = Users::get_url($credentials, 'credentials');
+
+			// translate strings to allow for one-click authentication
+			$actual_message = str_replace(Articles::get_url($item['id']), $link, $message);
+
+		// regular message
+		} else
+			$actual_message = $message;
 
 		// change content for message poster
 		if(!strcmp($recipient, $from))
@@ -314,35 +308,23 @@ if(!isset($item['id'])) {
 	}
 
 // a form to send an invitation to several people
-} elseif($action == 'invite') {
-
-	// page title
-	$context['page_title'] = i18n::s('Invite people');
-
-	// referenced page
-	$context['text'] .= '<p>'.Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), $item['title'])."</p>\n";
-
-	// splash message
-	$context['text'] .= '<p>'.i18n::s('Recipient addresses put in this page are used only once, to send your message, and are not stored afterwards.').'</p>';
+} else {
 
 	// the form to send a message
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
-	// the recipient
+	// recipients
 	$label = i18n::s('People to invite');
 	$input = '<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
 	$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');
 	$fields[] = array($label, $input, $hint);
 
-	// the sender
-	$label = i18n::s('Your e-mail address');
-	$input = '<input type="text" name="from" size="45" maxlength="255" value="'.encode_field(Surfer::get_email_address()).'" />';
-
-	// get a copy of the sent message
-	if(Surfer::is_logged())
-		$input .= BR.'<input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.');
-
-	$fields[] = array($label, $input, '');
+	// credentials
+	if(Surfer::is_empowered()) {
+		$input = '<input type="radio" name="provide_credentials" value="N" checked="checked" /> '.i18n::s('Invitees are asked to review and to contribute.')
+			.BR.'<input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('Allow these persons to edit the page.');
+		$fields[] = array('', $input);
+	}
 
 	// the subject
 	$label = i18n::s('Message title');
@@ -362,7 +344,7 @@ if(!isset($item['id'])) {
 	if(isset($item['create_id']) && Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
 		$content = sprintf(i18n::s("I have created a web page and would like you to review it and to contribute. \n\n%s\n\nPlease let me thank you for your kind support.\n\n%s"), $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id']), $author);
 	else
-		$content = sprintf(i18n::s("You are invited personnally to check the the following page, and to contribute accordingly.\n\n%s\n\nPlease let me thank you for your kind support.\n\n%s"), $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id']), $author);
+		$content = sprintf(i18n::s("You are invited personally to check the following page, and to contribute accordingly.\n\n%s\n\nPlease let me thank you for your kind support.\n\n%s"), $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id']), $author);
 
 	$input = '<textarea name="message" rows="15" cols="50">'.encode_field($content).'</textarea>';
 	$hint = i18n::s('Use only plain ASCII, no HTML.');
@@ -371,8 +353,24 @@ if(!isset($item['id'])) {
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
 
+	//
+	// bottom commands
+	//
+	$menu = array();
+
 	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+
+	// cancel button
+	if(isset($item['id']))
+		$menu[] = Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
+
+	// insert the menu in the page
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+	// get a copy of the sent message
+	if(Surfer::is_logged() && Surfer::get_email_address())
+		$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.').'</p>';
 
 	// transmit the id as a hidden field
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
@@ -426,149 +424,10 @@ if(!isset($item['id'])) {
 		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("names", "names_choices", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
 		.'// ]]></script>';
 
-// a form to send some feed-back
-} elseif($action == 'feed-back') {
+	// help message
+	$help = '<p>'.i18n::s('Recipient addresses are used only once, to send your message, and are not stored afterwards.').'</p>';
+	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
-	// page title
-	$context['page_title'] = i18n::s('Provide feed-back to page author');
-
-	// referenced page
-	$context['text'] .= '<p>'.Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), $item['title'])."</p>\n";
-
-	// the form to send a message
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
-
-	// the recipient
-	$label = i18n::s('Recipient e-mail address');
-	if(isset($item['create_address']) && $item['create_address'])
-		$recipient = 'value="'.encode_field($item['create_address']).'"';
-	elseif(isset($context['site_email']) && $context['site_email'])
-		$recipient = 'value="'.encode_field($context['site_email']).'"';
-	else
-		$recipient = '';
-	$input = '<input type="text" name="to" id="to" size="45" maxlength="255" '.$recipient.'/>';
-	$hint = i18n::s('The recipient to receive feed-back.');
-	$fields[] = array($label, $input, $hint);
-
-	// the sender
-	$label = i18n::s('Your e-mail address');
-	$input = '<input type="text" name="from" size="45" maxlength="255" value="'.encode_field(Surfer::get_email_address()).'" />';
-
-	// get a copy of the sent message
-	if(Surfer::is_logged())
-		$input .= BR.'<input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.');
-
-	$fields[] = array($label, $input, '');
-
-
-	// the subject
-	$label = i18n::s('Message title');
-	$input = '<input type="text" name="subject" size="45" maxlength="255" value="'.encode_field(isset($item['title']) ? $item['title'] : '').'" />';
-	$fields[] = array($label, $input);
-
-	// the message
-	$label = i18n::s('Message content');
-	$content = '';
-
-	// some introductory text for this article
-	include_once $context['path_to_root'].'articles/article.php';
-	$article =& new Article();
-	$article->load_by_content($item);
-
-	// link to the original page
-	$content = sprintf(i18n::s("You have written:\n\n%s\n\n%s"), $article->get_teaser('teaser'), $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id']));
-
-	// no HTML in mail messages
-	$content = strip_tags(preg_replace(array('/(<br>|<br\/>|<br \/>)/i', '/<\/td>/i', '/<ol>/i', '/<ul>/i', '/<li>/i'), array("\n", "</td>\t", "<ol>\n", "<ul>\n", "<li>- "), $content));
-
-	$input = '<textarea name="message" rows="15" cols="50">'.encode_field($content).'</textarea>';
-	$hint = i18n::s('Use only plain ASCII, no HTML.');
-	$fields[] = array($label, $input, $hint);
-
-	// build the form
-	$context['text'] .= Skin::build_form($fields);
-
-	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
-
-	// transmit the id as a hidden field
-	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
-	$context['text'] .= '<input type="hidden" name="action" value="feed-back" />';
-
-	// end of the form
-	$context['text'] .= '</div></form>';
-
-	// append the script used for data checking on the browser
-	$context['text'] .= '<script type="text/javascript">'."\n"
-		.'<!--'."\n"
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// to is mandatory'."\n"
-		.'	if(!container.to.value) {'."\n"
-		.'		alert("'.i18n::s('You must type a recipient for your message.').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
-		.'		return false;'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	// from is mandatory'."\n"
-		.'	if(!container.from.value) {'."\n"
-		.'		alert("'.i18n::s('You must type an address for replies.').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
-		.'		return false;'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	// title is mandatory'."\n"
-		.'	if(!container.subject.value) {'."\n"
-		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
-		.'		return false;'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	// body is mandatory'."\n"
-		.'	if(!container.message.value) {'."\n"
-		.'		alert("'.i18n::s('The message content can not be empty.').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
-		.'		return false;'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	// successful check'."\n"
-		.'	return true;'."\n"
-		.'}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
-		.'document.getElementById(\'to\').focus();'."\n"
-		."\n"
-		.'// ]]></script>';
-
-// which action?
-} else {
-
-	// the splash message
-	$context['text'] .= '<p>'.i18n::s('Please select below the kind of message you would like to send.')."</p>\n";
-
-	// the form
-	$context['text'] .= '<form method="get" action="'.$context['script_url'].'" id="main_form"><div>';
-
-	// invite other people to contribute
-	$context['text'] .= '<p><input type="radio" name="action" id="action" value="invite" /> '.i18n::s('Invite people').'</p>';
-
-	// provide some feed-back
-	$context['text'] .= '<p><input type="radio" name="action" id="action" value="feed-back" /> '.i18n::s('Provide feed-back to page author').'</p>';
-
-	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Start')).'</p>'."\n";
-
-	// transmit the id as a hidden field
-	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
-
-	// end of the form
-	$context['text'] .= '</div></form>';
-
-	// set the focus on the button
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
-		.'document.getElementById("action").focus();'."\n"
-		.'// ]]></script>'."\n";
 
 }
 

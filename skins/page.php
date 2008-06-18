@@ -37,12 +37,11 @@
 
 		// page tools
 		if(count($context['page_tools']) > 0)
-			$context['extra'] = Skin::build_box(i18n::s('Tools'), Skin::finalize_list($context['page_tools'], 'tools'), 'extra', 'page_tools')
-				.$context['extra'];
+			$context['extra_prefix'] .= Skin::build_box(i18n::s('Tools'), Skin::finalize_list($context['page_tools'], 'tools'), 'extra', 'page_tools');
 
 		// we do have some extra content to render
 		$class = '';
-		if(trim($context['extra']))
+		if($context['extra_prefix'] || $context['extra'])
 			$class = ' class="extra"';
 
 		// start the body
@@ -149,9 +148,23 @@
 		// maybe some additional text has been created in send_body()
 		echo $context['text'];
 
+		// tags, if any
+		if($context['page_tags']) {
+			$tags = explode(',', $context['page_tags']);
+			$line = '';
+			foreach($tags as $tag) {
+				if($category = Categories::get_by_keyword(trim($tag)))
+					$line .= Skin::build_link(Categories::get_url($category['id'], 'view', trim($tag)), trim($tag), 'basic').' ';
+				else
+					$line .= trim($tag).' ';
+			}
+			$context['page_details'] = '<p class="tags">'.sprintf(i18n::s('Tags: %s'), trim($line)).'</p>'
+				.$context['page_details']."\n";
+		}
+
 		// display page details, if any
 		if(isset($context['page_details']) && $context['page_details'])
-			echo '<div style="margin-top: 3em;">'.$context['page_details']."</div>\n";
+			echo '<div id="page_details">'.$context['page_details']."</div>\n";
 
 		// display the menu bar
 		if($with_page_menu && isset($context['page_menu']) && (@count($context['page_menu']) > 0))
@@ -175,8 +188,8 @@
 		global $context;
 
 		// display complementary information, if any
-		if(trim($context['extra']))
-			echo '<div id="extra_panel">'.trim($context['extra'])."</div>\n";
+		if($context['extra_prefix'] || $context['extra'])
+			echo '<div id="extra_panel">'.$context['extra_prefix'].$context['extra']."</div>\n";
 
 	}
 
@@ -338,8 +351,8 @@
 		}
 
 		// complementary information, if any and if required to do so
-		if($with_extra && trim($context['extra']))
-			echo trim($context['extra'])."\n";
+		if($with_extra && ($context['extra_prefix'] || $context['extra']))
+			echo $context['extra_prefix'].$context['extra']."\n";
 
 		// categories to display among navigation boxes, after end of setup, and if we have access to the database
 		$cache_id = 'skins/page.php#navigation';

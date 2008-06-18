@@ -133,7 +133,7 @@ elseif(!Surfer::is_associate()) {
 	// set the focus
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("letter_title").focus();'."\n"
+		.'$("letter_title").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 // no modifications in demo mode

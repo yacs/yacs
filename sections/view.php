@@ -1684,13 +1684,13 @@ if(!isset($item['id'])) {
 	// the command to track back -- complex command
 	if(Surfer::is_logged() && Surfer::has_all()) {
 		Skin::define_img('TRACKBACK_IMG', 'icons/links/trackback.gif');
-		$context['page_tools'][] = Skin::build_link('links/trackback.php?anchor='.urlencode('section:'.$item['id']), TRACKBACK_IMG.i18n::s('Reference'), 'basic', i18n::s('Various means to link to this page'));
+		$context['page_tools'][] = Skin::build_link('links/trackback.php?anchor='.urlencode('section:'.$item['id']), TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	}
 
 	// print this page
 	if(Surfer::is_logged()) {
 		Skin::define_img('PRINT_TOOL_IMG', 'icons/tools/print.gif');
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'print'), PRINT_TOOL_IMG.i18n::s('Print'), 'basic', i18n::s('Get a paper copy of this page.'));
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'print'), PRINT_TOOL_IMG.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
 	}
 
 	// how to stay tuned

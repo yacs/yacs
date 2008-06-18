@@ -226,7 +226,7 @@ if($with_form) {
 		.'	}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("date").focus();'."\n"
+		.'$("date").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// general help on this form

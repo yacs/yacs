@@ -223,7 +223,7 @@ if($id && !isset($item['id'])) {
 			}
 
 			// rating
-			if(isset($item['rating_count']) && $item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating', FALSE))
+			if(isset($item['rating_count']) && $item['rating_count'] && is_object($anchor) && !$anchor->has_option('without_rating', FALSE))
 				$rating = Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count']));
 
 		}

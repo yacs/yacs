@@ -298,12 +298,12 @@ if($with_form) {
 	$context['text'] .= Skin::build_form($fields);
 	$fields = array();
 
+	// the submit button
+	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && Surfer::has_all())
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date.').'</p>';
-
-	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
@@ -329,7 +329,7 @@ if($with_form) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("title").focus();'."\n"
+		.'$("title").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// general help on this form

@@ -160,7 +160,7 @@ $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 	.'	}'."\n"
 	."\n"
 	.'// set the focus on first form field'."\n"
-	.'document.getElementById("search").focus();'."\n"
+	.'$("search").focus();'."\n"
 	.'// ]]></script>'."\n";
 
 // nothing found yet

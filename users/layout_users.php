@@ -76,7 +76,7 @@ Class Layout_users extends Layout_interface {
 			$label = Skin::strip($item['nick_name'], 10);
 
 			// show contact information
-			if(isset($context['users_with_email_display']) && (($context['users_with_email_display'] == 'Y') || (Surfer::is_member() && ($context['users_with_email_display'] == 'R')) || Surfer::is_empowered())) {
+			if(Surfer::may_contact()) {
 
 				// aim
 				if(isset($item['aim_address']) && $item['aim_address'])

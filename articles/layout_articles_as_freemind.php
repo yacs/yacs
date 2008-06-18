@@ -133,7 +133,7 @@ Class Layout_articles_as_freemind extends Layout_interface {
 			}
 
 			// rating
-			if(isset($item['rating_count']) && $item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating'))
+			if(isset($item['rating_count']) && $item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 				$rating = Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count']));
 
 			// maybe the time to stack items

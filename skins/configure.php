@@ -86,9 +86,9 @@
  *
  * Parameters for articles:
  *
- * [*] [code]with_bottom_tools[/code] - Display, or not, conversion tools
+ * [*] [code]with_export_tools[/code] - Display, or not, conversion tools
  *
- * [*] [code]with_anonymous_bottom_tools[/code] - Spread published information more largely
+ * [*] [code]with_anonymous_export_tools[/code] - Spread published information more largely
  *
  *
  * Parameters for image processing:
@@ -404,7 +404,7 @@ elseif(!Surfer::is_associate()) {
 	$articles = '';
 
 	// with details
-	$label = i18n::s('Details visibility');
+	$label = i18n::s('Details visibility:');
 	$input = '<input type="radio" name="content_without_details" value="N"';
 	if(!isset($context['content_without_details']) || ($context['content_without_details'] != 'Y'))
 		$input .= ' checked="checked"';
@@ -413,33 +413,30 @@ elseif(!Surfer::is_associate()) {
 	if(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= EOT.' '.i18n::s('Details are displayed only in sections with option \'with_details\'');
-	$articles .= '<p>'.$label.':'.BR.$input."</p>\n";
+	$articles .= '<p>'.$label.BR.$input."</p>\n";
 
-	// bottom tools
-	$articles .= '<p>&nbsp;</p><p>'.i18n::s('Bottom tools (pdf, palm, word, print) are used to export or to convert pages to an alternate format or media.')."</p>\n";
+	// export tools gobal control
+	$label = i18n::s('Export tools convert pages to an alternate format or media (pdf, palm, word):');
+	$input = '<input type="radio" name="with_export_tools" value="N"';
+	if(!isset($context['with_export_tools']) || ($context['with_export_tools'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Export tools are displayed only in sections with option \'with_export_tools\'');
+	$input .= BR.'<input type="radio" name="with_export_tools" value="Y"';
+	if(isset($context['with_export_tools']) && ($context['with_export_tools'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Display export tools on all pages');
+	$articles .= '<p>'.$label.BR.$input."</p>\n";
 
-	// with tools
-	$label = i18n::s('Bottom tools global control');
-	$input = '<input type="radio" name="with_bottom_tools" value="N"';
-	if(!isset($context['with_bottom_tools']) || ($context['with_bottom_tools'] != 'Y'))
+	// export tools visibility
+	$label = i18n::s('Export tools visibility');
+	$input = '<input type="radio" name="with_anonymous_export_tools" value="N"';
+	if(!isset($context['with_anonymous_export_tools']) || ($context['with_anonymous_export_tools'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Bottom tools are displayed only in sections with option \'with_bottom_tools\'');
-	$input .= BR.'<input type="radio" name="with_bottom_tools" value="Y"';
-	if(isset($context['with_bottom_tools']) && ($context['with_bottom_tools'] == 'Y'))
+	$input .= EOT.' '.i18n::s('Export tools are shown only to members');
+	$input .= BR.'<input type="radio" name="with_anonymous_export_tools" value="Y"';
+	if(isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Display bottom tools on all pages');
-	$articles .= '<p>'.$label.':'.BR.$input."</p>\n";
-
-	// with anonymous bottom tools
-	$label = i18n::s('Bottom tools visibility');
-	$input = '<input type="radio" name="with_anonymous_bottom_tools" value="N"';
-	if(!isset($context['with_anonymous_bottom_tools']) || ($context['with_anonymous_bottom_tools'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Bottom tools are shown only to members');
-	$input .= BR.'<input type="radio" name="with_anonymous_bottom_tools" value="Y"';
-	if(isset($context['with_anonymous_bottom_tools']) && ($context['with_anonymous_bottom_tools'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Allow anonymous surfers to use bottom tools as well (recommended on intranets)');
+	$input .= EOT.' '.i18n::s('Allow anonymous surfers to use export tools (recommended on intranets)');
 	$articles .= '<p>'.$label.':'.BR.$input."</p>\n";
 
 	//
@@ -692,10 +689,10 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'skins_with_details\']=\''.addcslashes($_REQUEST['skins_with_details'], "\\'")."';\n";
 	if(isset($_REQUEST['thumbnails_without_caption']))
 		$content .= '$context[\'thumbnails_without_caption\']=\''.addcslashes($_REQUEST['thumbnails_without_caption'], "\\'")."';\n";
-	if(isset($_REQUEST['with_anonymous_bottom_tools']))
-		$content .= '$context[\'with_anonymous_bottom_tools\']=\''.addcslashes($_REQUEST['with_anonymous_bottom_tools'], "\\'")."';\n";
-	if(isset($_REQUEST['with_bottom_tools']))
-		$content .= '$context[\'with_bottom_tools\']=\''.addcslashes($_REQUEST['with_bottom_tools'], "\\'")."';\n";
+	if(isset($_REQUEST['with_anonymous_export_tools']))
+		$content .= '$context[\'with_anonymous_export_tools\']=\''.addcslashes($_REQUEST['with_anonymous_export_tools'], "\\'")."';\n";
+	if(isset($_REQUEST['with_export_tools']))
+		$content .= '$context[\'with_export_tools\']=\''.addcslashes($_REQUEST['with_export_tools'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_freemind_article_bgcolor']) && $_REQUEST['skins_freemind_article_bgcolor'])
 		$content .= '$context[\'skins_freemind_article_bgcolor\']=\''.addcslashes($_REQUEST['skins_freemind_article_bgcolor'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_freemind_article_color']) && $_REQUEST['skins_freemind_article_color'])

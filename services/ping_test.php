@@ -90,7 +90,7 @@ $context['text'] .= '</div></form>';
 // the script used for form handling at the browser
 $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 	.'// set the focus on first form field'."\n"
-	.'document.getElementById("target").focus();'."\n"
+	.'$("target").focus();'."\n"
 	.'// ]]></script>'."\n";
 
 // test pingback.ping

@@ -169,7 +169,7 @@ if(!isset($item['id'])) {
 		}
 
 		// get the new item
-		$article = Anchors::get('article:'.$item['id']);
+		$article = Anchors::get('article:'.$item['id'], TRUE);
 
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
@@ -225,7 +225,7 @@ if(!isset($item['id'])) {
 	// set the focus
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("confirmed").focus();'."\n"
+		.'$("confirmed").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// the article or the anchor icon, if any

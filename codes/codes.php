@@ -1437,7 +1437,7 @@ Class Codes {
 // 			.'	applet.setAttribute("width", "'.$width.'");'."\n"
 // 			.'	applet.setAttribute("height", "'.$height.'");'."\n"
 // 			.'	applet.setAttribute("scriptable", "false");'."\n"
-// 			.'	var handle = document.getElementById("freemind_viewer_'.$freemind_viewer_index.'");'."\n"
+// 			.'	var handle = $("freemind_viewer_'.$freemind_viewer_index.'");'."\n"
 // 			.'	handle.replaceChild(applet, handle.childNodes[0]);'."\n"
 // 			.'}'."\n"
 			.'// ]]></script>'."\n";
@@ -2140,6 +2140,10 @@ Class Codes {
 
 			// get the <img ... /> element
 			} else {
+
+				// do not append poor titles to inline images
+				if($variant == 'inline')
+					$title = '';
 
 				// flag large images
 				if($image['image_size'] > $context['thumbnail_threshold'])

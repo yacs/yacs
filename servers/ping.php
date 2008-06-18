@@ -84,7 +84,7 @@ elseif(!Surfer::is_associate()) {
 
 	// set the focus on the backup button
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
-		.'document.getElementById("go").focus();'."\n"
+		.'$("go").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 }

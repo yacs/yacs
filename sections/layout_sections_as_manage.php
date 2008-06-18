@@ -180,7 +180,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 				$details[] = LOCKED_FLAG;
 
 // 			// rating
-// 			if($item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating'))
+// 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 // 				$details[] = Skin::build_link(Sections::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// combine in-line details

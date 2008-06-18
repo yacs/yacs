@@ -158,7 +158,7 @@ elseif(!Surfer::is_associate()) {
 	// set the focus
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("files_extensions").focus();'."\n"
+		.'$("files_extensions").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// general help on this form

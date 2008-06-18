@@ -57,12 +57,12 @@ $item =& Users::get($id);
 if(Surfer::is_associate())
 	$permitted = TRUE;
 
-// only regular members can post mail messages
-elseif(!Surfer::is_member())
-	$permitted = FALSE;
-
 // check global parameter
 elseif(isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'N'))
+	$permitted = FALSE;
+
+// only regular members can post mail messages
+elseif(!Surfer::is_member())
 	$permitted = FALSE;
 
 // access is restricted to authenticated member
@@ -292,7 +292,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("subject").focus();'."\n"
+		.'$("subject").focus();'."\n"
 		."\n"
 		.'// ]]></script>';
 

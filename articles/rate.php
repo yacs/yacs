@@ -16,7 +16,7 @@
  *
  * The script accepts rating data based of the following permission assessment:
  * - permission is denied if the anchor is not visible by the surfer
- * - permission is denied if the anchor hasn't the option 'with_rating'
+ * - permission is denied if the anchor has the option 'without_rating'
  * - permission is granted if the surfer is logged
  * - permission is granted if the surfer may handle the item
  * - else rating data is denied
@@ -72,8 +72,8 @@ $rating = strip_tags($rating);
 if(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
-// rating has to be explicitly allowed
-elseif(is_object($anchor) && !$anchor->has_option('with_rating'))
+// rating has been explicitly disallowed
+elseif(is_object($anchor) && $anchor->has_option('without_rating'))
 	$permitted = FALSE;
 
 // surfer is logged
@@ -144,19 +144,19 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<input type="hidden" name="referer" value="'.encode_field($_SERVER['HTTP_REFERER']).'" />';
 
 	// give a five
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="5" onclick="javascript:document.getElementById(\'main_form\').submit()" /> '.i18n::s('Excellent').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="5" onclick="$(\'main_form\').submit()" /> '.i18n::s('Excellent').' </div> ';
 
 	// give a four
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="4" onclick="javascript:document.getElementById(\'main_form\').submit()" /> '.i18n::s('Good').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="4" onclick="$(\'main_form\').submit()" /> '.i18n::s('Good').' </div> ';
 
 	// give a three
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="3" onclick="javascript:document.getElementById(\'main_form\').submit()" /> '.i18n::s('Average').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="3" onclick="$(\'main_form\').submit()" /> '.i18n::s('Average').' </div> ';
 
 	// give a two
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="2" onclick="javascript:document.getElementById(\'main_form\').submit()" /> '.i18n::s('Poor').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="2" onclick="$(\'main_form\').submit()" /> '.i18n::s('Poor').' </div> ';
 
 	// give a one
-	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="1" onclick="javascript:document.getElementById(\'main_form\').submit()" /> '.i18n::s('Forget it').' </div> ';
+	$context['text'] .= '<div style="float: left;"><input name="rating" type="radio" value="1" onclick="$(\'main_form\').submit()" /> '.i18n::s('Forget it').' </div> ';
 
 	$context['text'] .= '<br style="clear: left;" />';
 

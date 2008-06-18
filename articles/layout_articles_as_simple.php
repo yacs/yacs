@@ -94,7 +94,7 @@ Class Layout_articles_as_simple extends Layout_interface {
 				$suffix .= UPDATED_FLAG;
 
 			// rating
-			if($item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating'))
+			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 				$suffix .= Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count']));
 
 			// info on related comments

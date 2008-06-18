@@ -137,7 +137,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		$text .= '<p class="details">'.$author.Skin::build_date($item['publish_date']).' - Issue No. '.Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), $item['id'])."</p>\n";
 
 		// article rating, if the anchor allows for it
-		if(is_object($anchor) && $anchor->has_option('with_rating')) {
+		if(is_object($anchor) && !$anchor->has_option('without_rating')) {
 
 			// report on current rating
 			if($item['rating_count'])
@@ -190,7 +190,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			$link = 'links/trackback.php/article/'.$item['id'];
 		else
 			$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-		$menu = array_merge($menu, array($link => i18n::s('Reference')));
+		$menu = array_merge($menu, array($link => i18n::s('Reference this page')));
 
 		// info on related links
 		if($context['with_friendly_urls'] == 'Y')

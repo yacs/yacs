@@ -82,7 +82,7 @@
  *
  * [*] [code]no_neighbours[/code] - Use this setting to avoid previous / next links added by YACS to navigate a section.
  *
- * [*] [code]with_bottom_tools[/code] - Add tools at the bottom of each article to mail and convert text
+ * [*] [code]with_export_tools[/code] - Add tools to convert page text
  * to PDF, Palm, MS-Word or to a printer. These tools are not displayed by default.
  * You may find useful to activate them to further help surfers to reuse published material.
  *
@@ -92,9 +92,9 @@
  * [*] [code]with_prefix_profile[/code] - Display poster profile at the top of the page, after page title.
  * This setting is suitable to original publications, white papers, etc. By default YACS does not display poster profile.
  *
- * [*] [code]with_rating[/code] - Allow for page rating by surfers.
- * By default YACS does not display rating tools.
- * Use this setting to involve your community in the improvement of your site.
+ * [*] [code]without_rating[/code] - Prevent surfers to rate pages
+ * By default YACS does display rating tools.
+ * Use this setting at special sections such as cover pages, etc.
  *
  * [*] [code]with_suffix_profile[/code] - Display poster profile at the bottom of the page, after main content.
  * This setting is suitable to original publications, white papers, etc. By default YACS does not display poster profile.

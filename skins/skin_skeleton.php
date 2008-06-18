@@ -983,15 +983,15 @@ Class Skin_Skeleton {
 			return $output;
 		}
 
-		// should we add a caption?
-		if(preg_match('/inline/i', $variant))
+		// always display captions aside large images
+		if(preg_match('/\blarge\b/i', $variant))
+			$with_caption = TRUE;
+
+		// add captions to other images
+		elseif(isset($context['thumbnails_without_caption']) && ($context['thumbnails_without_caption'] == 'Y'))
 			$with_caption = FALSE;
-		elseif(!preg_match('/thumbnail/i', $variant))
-			$with_caption = TRUE;
-		elseif(!isset($context['thumbnails_without_caption']) || ($context['thumbnails_without_caption'] != 'Y'))
-			$with_caption = TRUE;
 		else
-			$with_caption = FALSE;
+			$with_caption = TRUE;
 
 		// document the image
 		if($title) {
@@ -1026,7 +1026,7 @@ Class Skin_Skeleton {
 		$image = '<span><img src="'.$href.'" alt="'.encode_field(strip_tags($alt)).'"  title="'.encode_field(strip_tags($hover)).'" /></span>';
 
 		// add a link
-		if($link && ($variant == 'thumbnail'))
+		if($link && !preg_match('/\blarge\b/', $variant))
 			$text .= '<a href="'.$link.'" class="image_show">'.$image.'</a>';
 		elseif($link)
 			$text .= '<a href="'.$link.'">'.$image.'</a>';
@@ -3984,8 +3984,8 @@ Class Skin_Skeleton {
 		// hide every news item, except the first one
 		$text .= '// hide every news item, except the first one'."\n";
 		for($index = 1; $index < count($matches[1]); $index++)
-			$text .= 'handle = document.getElementById ? document.getElementById("'.$matches[1][$index].'") : document.all["'.$matches[1][$index].'"]'."\n"
-				.'handle.style.display="none"'."\n";
+			$text .= 'handle = $("'.$matches[1][$index].'");'."\n"
+				.'handle.style.display="none";'."\n";
 
 		// one function per rotating step
 		for($index = 0; $index < count($matches[1]); $index++) {
@@ -3994,11 +3994,11 @@ Class Skin_Skeleton {
 
 			$text .= "\n".'// from item '.$from.' to item '.$to."\n"
 				.'function rotate_'.$from.'() {'."\n"
-				.'	handle = document.getElementById ? document.getElementById("'.$from.'") : document.all["'.$from.'"]'."\n"
-				.'	handle.style.display="none"'."\n"
-				.'	handle = document.getElementById ? document.getElementById("'.$to.'") : document.all["'.$to.'"]'."\n"
-				.'	handle.style.display="block"'."\n"
-				.'	setTimeout("rotate_'.$to.'()",5000)'."\n"
+				.'	handle = $("'.$from.'");'."\n"
+				.'	handle.style.display="none";'."\n"
+				.'	handle = $("'.$to.'");'."\n"
+				.'	handle.style.display="block";'."\n"
+				.'	setTimeout("rotate_'.$to.'()",5000);'."\n"
 				.'}'."\n";
 		}
 
@@ -4063,7 +4063,7 @@ Class Skin_Skeleton {
 			."\n"
 			.'// the actual scroller'."\n"
 			.'function scroll_scroller_'.$scroller_id.'() {'."\n"
-			.'	handle = document.getElementById ? document.getElementById("scroller_'.$scroller_id.'") : document.all["scroller_'.$scroller_id.'"];'."\n"
+			.'	handle = $("scroller_'.$scroller_id.'");'."\n"
 			.'	current = parseInt(handle.style.'.$object_parameter.') - scroller_'.$scroller_id.'_speed;'."\n"
 			.'	if(current < scroller_'.$scroller_id.'_stop)'."\n"
 			.'		current = scroller_'.$scroller_id.'_start;'."\n"
@@ -4074,7 +4074,7 @@ Class Skin_Skeleton {
 			.'window.onload = function() {'."\n"
 			."\n"
 			.'	// locate the inside div'."\n"
-			.'	handle = document.getElementById ? document.getElementById("scroller_'.$scroller_id.'") : document.all["scroller_'.$scroller_id.'"];'."\n"
+			.'	handle = $("scroller_'.$scroller_id.'");'."\n"
 			."\n"
 			.'	// start at the bottom of the outside container'."\n"
 			.'	scroller_'.$scroller_id.'_start = handle.parentNode.'.$container_limit.' - 20;'."\n"

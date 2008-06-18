@@ -599,9 +599,9 @@ Class SQL {
 		include_once $context['path_to_root'].'shared/values.php';
 		$record = Values::get_record('sql.tick', NULL_DATE);
 
-		// wait at least 1 hour = 3600 seconds between ticks
+		// wait at least 24 hour = 24*3600 seconds between ticks
 		if(isset($record['edit_date']))
-			$target = SQL::strtotime($record['edit_date']) + 3600;
+			$target = SQL::strtotime($record['edit_date']) + 24*3600;
 		else
 			$target = time();
 

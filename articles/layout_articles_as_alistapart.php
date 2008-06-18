@@ -217,7 +217,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		}
 
 		// article rating, if the anchor allows for it
-		if(is_object($anchor) && $anchor->has_option('with_rating')) {
+		if(!is_object($anchor) || !$anchor->has_option('without_rating')) {
 
 			// report on current rating
 			$label = '';
@@ -323,7 +323,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu = array_merge($menu, array($link => i18n::s('Reference')));
+			$menu = array_merge($menu, array($link => i18n::s('Reference this page')));
 
 		}
 

@@ -300,10 +300,10 @@ if($with_form) {
 	$menu = array();
 
 	// add items
-	$menu[] = '<a href="#" onclick="javascript:Forms.appendLabel();return false;"><span>'.i18n::s('Add some text').'</span></a>';
-	$menu[] = '<a href="#" onclick="javascript:Forms.appendTextInput();return false;"><span>'.i18n::s('Add a string input field').'</span></a>';
-	$menu[] = '<a href="#" onclick="javascript:Forms.appendListInput();return false;"><span>'.i18n::s('Add a selection input field').'</span></a>';
-	$menu[] = '<a href="#" onclick="javascript:Forms.appendFileInput();return false;"><span>'.i18n::s('Enable file upload').'</span></a>';
+	$menu[] = '<a href="#" onclick="Forms.appendLabel();return false;"><span>'.i18n::s('Add some text').'</span></a>';
+	$menu[] = '<a href="#" onclick="Forms.appendTextInput();return false;"><span>'.i18n::s('Add a string input field').'</span></a>';
+	$menu[] = '<a href="#" onclick="Forms.appendListInput();return false;"><span>'.i18n::s('Add a selection input field').'</span></a>';
+	$menu[] = '<a href="#" onclick="Forms.appendFileInput();return false;"><span>'.i18n::s('Enable file upload').'</span></a>';
 
 	// display all commands
 	$panels['content'] .= '<div id="form_input_panel">'.i18n::s('Use links below to append new fields.').Skin::finalize_list($menu, 'menu_bar')."</div>\n";
@@ -408,6 +408,25 @@ if($with_form) {
 		.'	return true;'."\n"
 		.'}'."\n"
 		."\n"
+		.'// detect changes in form'."\n"
+		.'func'.'tion detectChanges() {'."\n"
+		."\n"
+		.'	var nodes = $$("form#main_form input");'."\n"
+		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
+		.'		var node = nodes[index];'."\n"
+		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'	}'."\n"
+		."\n"
+		.'	nodes = $$("form#main_form textarea");'."\n"
+		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
+		.'		var node = nodes[index];'."\n"
+		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'	}'."\n"
+		.'}'."\n"
+		."\n"
+		.'// observe changes in form'."\n"
+		.'Event.observe(window, "load", detectChanges);'."\n"
+		."\n"
 		.'// set the focus on first form field'."\n"
 		.'Event.observe(window, "load", function() { $("title").focus() });'."\n"
 		."\n"
@@ -419,7 +438,7 @@ if($with_form) {
 	$help .= ' '.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
 
  	// change to another editor
-	$help .= '<form><p><select name="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	$help .= '<form><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
 	$selected = '';
 	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
 		$selected = ' selected="selected"';

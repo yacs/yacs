@@ -274,7 +274,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 	// permalink
 	$label = i18n::s('Page address (permalink):');
 	$value = $context['url_to_home'].$context['url_to_root'].$anchor->get_url();
-	$text .= '<p>'.$label.' <code>'.$value.'</code></p>'."\n";
+	$text .= '<p>'.$label.BR.'<code>'.$value.'</code></p>'."\n";
 
 	$context['text'] .= Skin::build_box(i18n::s('External reference'), $text);
 
@@ -369,7 +369,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("url").focus();'."\n"
+		.'$("url").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// trackback link

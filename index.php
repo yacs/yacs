@@ -503,7 +503,7 @@ if(!$text =& Cache::get($cache_id)) {
 					$box['text'] = Skin::build_link($section->get_url(), i18n::s('View the section'), 'shortcut');
 
 				// append a box
-				if($box['text'])
+				if(isset($box['text']) && $box['text'])
 					$gadget_boxes[] = array($box['title'], $box['text'], $section->get_nick_name());
 
 			}

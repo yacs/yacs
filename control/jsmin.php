@@ -66,8 +66,8 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 	// paths to scan
 	$patterns = array(
-		$target.'included/browser/*.js',
-		$target.'included/jscalendar/*.js'
+		$context['path_to_root'].'included/browser/*.js',
+		$context['path_to_root'].'included/jscalendar/*.js'
 	);
 
 	// process all js files

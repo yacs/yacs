@@ -127,7 +127,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 				$rating_label = Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])).' '.sprintf(i18n::ns('%d rate', '%d rates', $item['rating_count']), $item['rating_count']).' ';
 
 			// add a link to let surfer rate this item
-			if(is_object($anchor) && $anchor->has_option('with_rating')) {
+			if(is_object($anchor) && !$anchor->has_option('without_rating')) {
 				if(!$item['rating_count'])
 					$rating_label .= i18n::s('Rate this page');
 				$rating_label = Skin::build_link(Articles::get_url($item['id'], 'rate'), $rating_label, 'basic', i18n::s('Rate this page'));
@@ -196,7 +196,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu = array_merge($menu, array( $link => i18n::s('Reference') ));
+			$menu = array_merge($menu, array( $link => i18n::s('Reference this page') ));
 
 			// link to the anchor page
 			if(is_object($anchor))

@@ -175,7 +175,7 @@ Class Layout_sections_as_freemind extends Layout_interface {
 			}
 
 			// rating
-			if(isset($item['rating_count']) && $item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating', FALSE))
+			if(isset($item['rating_count']) && $item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating', FALSE)))
 				$rating = Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count']));
 
 			// link to this section within node if there is no content

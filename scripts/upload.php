@@ -156,7 +156,7 @@ elseif(!Surfer::is_associate()) {
 		// the script used for form handling at the browser
 		$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 			.'// set the focus on first form field'."\n"
-			.'document.getElementById("focus").focus();'."\n"
+			.'$("focus").focus();'."\n"
 			.'// ]]></script>'."\n";
 
 	}

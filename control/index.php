@@ -679,7 +679,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				$text .= '</ul>'."\n";
 
 				// the command to add a side panel
-				$text .= '<p>'.sprintf(i18n::s('If your browser supports side panels and javascript, click on the following link to %s'), '<a onclick="javascript:addSidePanel()">'.i18n::s('add a blogging panel').'</a>.').'</p>'."\n";
+				$text .= '<p>'.sprintf(i18n::s('If your browser supports side panels and javascript, click on the following link to %s'), '<a onclick="addSidePanel()">'.i18n::s('add a blogging panel').'</a>.').'</p>'."\n";
 
 				// the actual javascript code to add a panel
 				$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"

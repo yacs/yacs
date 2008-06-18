@@ -235,10 +235,10 @@ Class Surfer {
 				$box['text'] .= '<dl>';
 
 				// real-time notifications
-				$box['text'] .= '<dt><input type="radio" name="rendez_vous" value="thread" checked="checked" onclick="javascript:document.getElementById(\'address\').disabled=true;" />'.i18n::s('Start a private conversation').'</dt><dd><p /></dd>'."\n"
-					.'<dt><input type="radio" name="rendez_vous" value="browse"  onclick="javascript:document.getElementById(\'address\').disabled=false;" />'.i18n::s('Share the following web address').BR
+				$box['text'] .= '<dt><input type="radio" name="rendez_vous" value="thread" checked="checked" onclick="$(\'address\').disabled=true;" />'.i18n::s('Start a private conversation').'</dt><dd><p /></dd>'."\n"
+					.'<dt><input type="radio" name="rendez_vous" value="browse"  onclick="$(\'address\').disabled=false;" />'.i18n::s('Share the following web address').BR
 						.'&nbsp;&nbsp;<input type="text" id="address" name="address" size="45" value="" maxlength="255" disabled="disabled" /></dt><dd><p /></dd>'."\n"
-					.'<dt><input type="radio" name="rendez_vous" value="none"  onclick="javascript:document.getElementById(\'address\').disabled=true;" />'.i18n::s('Send a private message').'</dt><dd> </dd>';
+					.'<dt><input type="radio" name="rendez_vous" value="none"  onclick="javascript:$(\'address\').disabled=true;" />'.i18n::s('Send a private message').'</dt><dd> </dd>';
 
 				// end of options
 				$box['text'] .= '</dl>'."\n";
@@ -259,7 +259,7 @@ Class Surfer {
 
 				// append the script used for data checking on the browser
 				$box['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
-					.'document.getElementById("message").focus();'."\n"
+					.'$("message").focus();'."\n"
 					.'// ]]></script>';
 
 			// contact an user that is currently absent
@@ -290,7 +290,7 @@ Class Surfer {
 
 				// append the script used for data checking on the browser
 				$box['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
-					.'document.getElementById("thread_title").focus();'."\n"
+					.'$("thread_title").focus();'."\n"
 					.'// ]]></script>';
 
 			}
@@ -329,13 +329,18 @@ Class Surfer {
 				$menu[$link] = array('', i18n::s('My profile'), '', $type, '', i18n::s('View all data this site knows about you'));
 			}
 
-			if(Surfer::is_associate()
-				|| (Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y'))) ) {
+			// from the front page
+			if(($context['skin_variant'] == 'home') || ($context['skin_variant'] == 'slash')) {
 
-				$menu['articles/edit.php'] = array('', i18n::s('Add a page'), '', $type, '', i18n::s('Use a web form to submit new content'));
+				// commands to contribute
+				if(Surfer::is_associate()
+					|| (Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y'))) ) {
 
-				$menu['links/edit.php'] = array('', i18n::s('Bookmark a link'), '', $type, '', i18n::s('Share interesting pages'));
+					$menu['articles/edit.php'] = array('', i18n::s('Add a page'), '', $type, '', i18n::s('Use a web form to submit new content'));
 
+					$menu['links/edit.php'] = array('', i18n::s('Bookmark a link'), '', $type, '', i18n::s('Share interesting pages'));
+
+				}
 			}
 
 			if(Surfer::is_associate())
@@ -1059,6 +1064,36 @@ Class Surfer {
 	}
 
 	/**
+	 * can this surfer contact other users?
+	 *
+	 * @return TRUE if alowed, FALSE otherwise
+	 */
+	function may_contact() {
+		global $context;
+
+		// associate can always do it
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// communication between members is not allowed
+		if(!isset($context['users_with_email_display']))
+			return FALSE;
+
+		if($context['users_with_email_display'] == 'N')
+			return FALSE;
+
+		// authenticated surfers can communicate through mail
+		if(Surfer::is_logged())
+			return TRUE;
+
+		// anonymous surfers can communicate by e-mail
+		if($context['users_with_email_display'] == 'Y')
+			return TRUE;
+
+		return FALSE;
+	}
+
+	/**
 	 * back door to some resource
 	 *
 	 * This function checks the provided handle against authorized handles
@@ -1076,6 +1111,28 @@ Class Surfer {
 		// true if handle is here
 		return in_array($handle, $_SESSION['surfer_handles']);
 
+	}
+
+	/**
+	 * can this surfer mail other users?
+	 *
+	 * @return TRUE if alowed, FALSE otherwise
+	 */
+	function may_mail() {
+		global $context;
+
+		// email has to be activated
+		if(!isset($context['with_email']))
+			return FALSE;
+
+		if($context['with_email'] != 'Y')
+			return FALSE;
+
+		// only members can send e-mail
+		if(!Surfer::is_member())
+			return FALSE;
+
+		return Surfer::may_contact();
 	}
 
 	/**

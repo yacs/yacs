@@ -297,6 +297,7 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Coffee machine');
 		$fields['introduction'] = i18n::c('Take a break, and discuss important things');
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$fields['options'] = 'view_as_thread';
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -478,7 +479,7 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('My jive discussion board');
 		$fields['introduction'] = i18n::c('Sample discussion board');
 		$fields['articles_layout'] = 'jive'; // a threading layout
-		$fields['content_options'] = 'auto_publish with_rating'; // let surfers rate their readings
+		$fields['content_options'] = 'auto_publish'; // let surfers rate their readings
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -539,7 +540,7 @@ if(!$permitted) {
 		$fields['section_layout'] = 'map';
 		$fields['options'] = 'with_creator_profile articles_by_publication';
 		$fields['articles_layout'] = 'daily'; // that's a blog
-		$fields['content_options'] = 'with_extra_profile with_rating'; // let surfers rate their readings
+		$fields['content_options'] = 'with_extra_profile'; // let surfers rate their readings
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -679,7 +680,6 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('Sample electronic book');
 		$fields['sections_layout'] = 'inline'; // list content of sub-sections
 		$fields['articles_layout'] = 'manual'; // the default value
-		$fields['content_options'] = 'with_rating'; // let surfers rate their readings
 		$fields['locked'] = 'Y'; // post in underlying chapters
 		$fields['options'] = 'no_new_articles'; // allpages are listed anyway
 		if(Sections::post($fields))
@@ -699,7 +699,6 @@ if(!$permitted) {
 		$fields['anchor'] = $parent; // anchor to parent
 		$fields['sections_layout'] = 'inline'; // list content of sub-sections
 		$fields['articles_layout'] = 'manual';
-		$fields['content_options'] = 'with_rating'; // let surfers rate their readings
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -778,7 +777,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('Anyone can update pages in this section');
 		$fields['section_layout'] = 'inline'; // that's a wiki
 		$fields['articles_layout'] = 'wiki'; // a wiki
-		$fields['content_options'] = 'anonymous_edit, auto_publish, with_rating, with_bottom_tools'; // let surfers rate their readings
+		$fields['content_options'] = 'anonymous_edit, auto_publish, with_export_tools';
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -835,7 +834,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('Authenticated members can update pages in this section');
 		$fields['section_layout'] = 'inline'; // that's a wiki
 		$fields['articles_layout'] = 'wiki'; // a wiki
-		$fields['content_options'] = 'members_edit, auto_publish, with_rating, with_bottom_tools'; // let surfers rate their readings
+		$fields['content_options'] = 'members_edit, auto_publish, with_export_tools';
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -921,7 +920,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'my_section';
 		$fields['title'] = i18n::c('My Section');
 		$fields['introduction'] = i18n::c('Sample plain section');
-		$fields['content_options'] = 'with_rating, with_bottom_tools'; // let surfers rate their readings
+		$fields['content_options'] = 'with_export_tools';
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else

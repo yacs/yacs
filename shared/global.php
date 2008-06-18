@@ -88,6 +88,9 @@ $context['error'] = array();
 // content of the extra panel
 $context['extra'] = '';
 
+// prefix of the extra panel
+$context['extra_prefix'] = '';
+
 // default mask to be used on chmod -- see control/configure.php
 $context['file_mask'] = 0644;
 
@@ -129,6 +132,9 @@ $context['page_menu'] = array();
 
 // page publisher (meta-information)
 $context['page_publisher'] = '';
+
+// page tags
+$context['page_tags'] = '';
 
 // page main title
 $context['page_title'] = '';
@@ -1036,7 +1042,7 @@ function render_skin($stamp=0) {
 
 	// activate AJAX client library
 	if(file_exists($context['path_to_root'].'shared/yacs.js'))
-		$context['page_footer'] = '<script type="text/javascript" src="'.$context['url_to_root'].'shared/yacs.js"></script>'."\n".$context['page_footer'];
+		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'shared/yacs.js"></script>'."\n";
 
 	// insert one tabulation before each header line
 	$context['page_header'] = "\t".str_replace("\n", "\n\t", $context['page_header'])."\n";

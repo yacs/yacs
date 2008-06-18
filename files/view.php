@@ -457,7 +457,7 @@ if(!isset($item['id'])) {
 //				."\n"
 //			.'	// use a definition list to enable customization of the download box'."\n"
 //				.'	document.write(\'<dl class="download">\');'."\n"
-//				.'	document.write(\'<dt><a onclick="javascript:edit_in_word()" title="'.addcslashes($title, "'").'">'.addcslashes($label, "'").'</a></dt>\');'."\n"
+//				.'	document.write(\'<dt><a onclick="edit_in_word()" title="'.addcslashes($title, "'").'">'.addcslashes($label, "'").'</a></dt>\');'."\n"
 //				.'	document.write(\'<dd>'.addcslashes($description, "'").'</dd></dl>\');'."\n"
 //			.'}'."\n"
 //			.'// ]]></script>'."\n";

@@ -114,7 +114,7 @@ Class Layout_comments_as_yabb extends Layout_interface {
 				$author_details[] = sprintf(i18n::s('registered %s'), Skin::build_date($poster['create_date'], 'no_hour', $context['language']));
 
 			// show contact information
-			if((!isset($context['users_with_email_display']) || ($context['users_with_email_display'] != 'N')) && (Surfer::is_member() || ($context['users_with_email_display'] == 'Y'))) {
+			if(Surfer::may_contact()) {
 
 				$contacts = '';
 

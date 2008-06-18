@@ -253,12 +253,12 @@ elseif(!Surfer::is_associate()) {
 		case '3':
 			$context['text'].= "\n<script language='javascript'>\n";
 			$context['text'].= "function raz_select(sel1, sel2) {\n";
-			$context['text'].= "sel = document.getElementById(sel1);\n";
+			$context['text'].= "sel = $(sel1);\n";
 			$context['text'] .= "if (sel) {\n";
 			$context['text'] .= "if (sel.type == 'checkbox') sel.checked = false;\n";
 			$context['text'] .= "else sel.value='';\n";
 			$context['text'].= "}\n";
-			$context['text'].= "sel = document.getElementById(sel2);\n";
+			$context['text'].= "sel = $(sel2);\n";
 			$context['text'] .= "if (sel) sel.value='';\n";
 			$context['text'].= "}\n";
 			$context['text'].= "</script>\n";

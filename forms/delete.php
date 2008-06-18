@@ -92,7 +92,7 @@ if($item['id'] && Surfer::is_associate()) {
 	// set the focus
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("confirmed").focus();'."\n"
+		.'$("confirmed").focus();'."\n"
 		.'// ]]></script>'."\n";
 
 	// the title of the form

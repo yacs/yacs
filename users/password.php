@@ -265,7 +265,7 @@ if($with_form) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'document.getElementById("password").focus();'."\n"
+		.'$("password").focus();'."\n"
 		."\n"
 		.'// ]]></script>'."\n";
 }

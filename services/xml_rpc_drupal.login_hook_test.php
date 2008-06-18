@@ -49,7 +49,7 @@ $context['text'] .= '</div></form>';
 
 // set the focus at the first field
 $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
-	.'document.getElementById("target").focus();'."\n"
+	.'$("target").focus();'."\n"
 	.'// ]]></script>'."\n";
 
 // process provided parameters

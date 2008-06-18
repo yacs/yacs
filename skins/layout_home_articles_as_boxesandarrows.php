@@ -265,9 +265,8 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 			$suffix .= ' '.UPDATED_FLAG;
 
 		// rating
-		if($item['rating_count'] && is_object($anchor) && $anchor->has_option('with_rating')) {
+		if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic', i18n::s('Rate this article!'));
-		}
 
 		// use the title as a link to the page
 		$text .= '<p id="article_'.$item['id'].'">'.$prefix.'<b>'.Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), Codes::beautify_title($item['title']), 'basic', i18n::s('Read this page')).'</b>'.$suffix;
