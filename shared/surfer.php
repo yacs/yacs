@@ -626,13 +626,13 @@ Class Surfer {
 			$text .= '<input type="hidden" name="editor" value="fckeditor" />';
 
 		// tinymce
-		} elseif(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce_src.js')) {
+		} elseif(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'tinymce') && is_readable($context['path_to_root'].'included/tiny_mce/tiny_mce.js')) {
 
 			// load the TinyMCE script -- see shared/global.php
 			$context['javascript']['tinymce'] = TRUE;
 
 			// the textarea that will be handled by TinyMCE
-			$text .= '<div><textarea name="'.$name.'" id="edit_area" class="tinymce" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
+			$text .= '<div><textarea name="'.$name.'" class="tinymce" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
 
 			// signal an advanced editor
 			$text .= '<input type="hidden" name="editor" value="tinymce" />';
@@ -644,7 +644,7 @@ Class Surfer {
 				if(file_exists($context['path_to_root'].'smileys/edit.js'))
 					$text .= '<script type="text/javascript" src="'.$context['url_to_root'].'smileys/edit.js"></script>';
 			}
-			$text .= '<textarea name="'.$name.'" id="edit_area" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea>'.BR;
+			$text .= '<textarea name="'.$name.'" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea>'.BR;
 
 		}
 

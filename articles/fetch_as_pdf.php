@@ -37,6 +37,9 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../comments/comments.php';
+include_once '../files/files.php';
+include_once '../links/links.php';
 include_once '../overlays/overlay.php';
 
 // look for the id
@@ -57,7 +60,6 @@ if(isset($item['anchor']))
 
 // get the related overlay, if any
 $overlay = NULL;
-include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
@@ -96,11 +98,14 @@ load_skin('print');
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
-// the title of the page
-if(isset($item['title']) && $item['title'])
-	$context['page_title'] = utf8::to_unicode($item['title']);
+// page title
+if(is_object($overlay))
+	$context['page_title'] = $overlay->get_text('title', $item);
+elseif(isset($item['title']) && $item['title'])
+	$context['page_title'] = $item['title'];
 else
 	$context['page_title'] = i18n::s('No title has been provided.');
+$context['page_title'] = utf8::to_unicode($context['page_title']);
 
 // not found
 if(!isset($item['id'])) {
@@ -132,6 +137,84 @@ if(!isset($item['id'])) {
 		$context['page_author'] = $item['create_name'];
 	if(isset($item['publish_name']) && $item['publish_name'])
 		$context['page_publisher'] = $item['publish_name'];
+
+	// insert anchor prefix
+	if(is_object($anchor))
+		$context['text'] .= utf8::to_unicode($anchor->get_prefix());
+
+	// the introduction text
+	if(is_object($overlay))
+		$context['text'] .= Skin::build_block(utf8::to_unicode($overlay->get_text('introduction', $item)), 'introduction');
+	elseif(isset($item['introduction']) && trim($item['introduction']))
+		$context['text'] .= Skin::build_block(utf8::to_unicode($item['introduction']), 'introduction');
+
+	// get text related to the overlay, if any
+	if(is_object($overlay))
+		$context['text'] .= utf8::to_unicode($overlay->get_text('view', $item));
+
+	// the description, which is the actual page body
+	if(isset($item['description']) && $item['description']) {
+		$description = utf8::to_unicode(Codes::beautify($item['description'], $item['options']));
+
+		// use adequate label
+		if(is_object($overlay) && ($label = $overlay->get_label('description')))
+			$context['text'] .= Skin::build_block($label, 'title').'<div>'.$description."</div>\n";
+		else
+			$context['text'] .= $description."\n";
+	}
+
+	//
+	// the files section
+	//
+
+	// list files by date (default) or by title (option files_by_title)
+	$items = array();
+	if(isset($item['options']) && preg_match('/\bfiles_by_title\b/i', $item['options']))
+		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 50, 'compact');
+	else
+		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'compact');
+
+	// actually render the html for the section
+	if(count($items))
+		$context['text'] .= Skin::build_box(i18n::s('Files'), Skin::build_list($items, 'compact'));
+
+	//
+	// the comments section
+	//
+
+	// list immutable comments by date
+	$items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, 500, 'excerpt');
+
+	// actually render the html
+	if($items)
+		$context['text'] .= Skin::build_box(i18n::s('Comments'), utf8::to_unicode($items));
+
+	//
+	// the links section
+	//
+
+	// list links by date (default) or by title (option links_by_title)
+	$items = array();
+	if(isset($item['options']) && preg_match('/\blinks_by_title\b/i', $item['options']))
+		$items = Links::list_by_title_for_anchor('article:'.$item['id'], 0, 50, 'compact');
+	else
+		$items = Links::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'compact');
+
+	// actually render the html
+	if(count($items))
+		$context['text'] .= Skin::build_box(i18n::s('See also'), utf8::to_unicode(Skin::build_list($items, 'compact')));
+
+	//
+	// page suffix
+	//
+
+	// add trailer information from the overlay, if any
+	if(is_object($overlay))
+		$context['text'] .= utf8::to_unicode($overlay->get_text('trailer', $item));
+
+	// add trailer information from this item, if any
+	if(isset($item['trailer']) && trim($item['trailer']))
+		$context['text'] .= utf8::to_unicode(Codes::beautify($item['trailer']));
 
 	// gather details
 	$details = array();
@@ -179,88 +262,16 @@ if(!isset($item['id'])) {
 
 	// all details
 	if(count($details))
-		$context['text'] .= ucfirst(implode(', ', $details)).BR."\n";
+		$context['text'] .= '<p>'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// display the source, if any
 	if(isset($item['source']) && $item['source']) {
-		include_once '../links/links.php';
 		if($attributes = Links::transform_reference($item['source'])) {
 			list($link, $title, $description) = $attributes;
 			$item['source'] = $title;
 		}
 		$context['text'] .= '<p>'.sprintf(i18n::s('Source: %s'), utf8::to_unicode($item['source']))."</p>\n";
 	}
-
-	// insert anchor prefix
-	if(is_object($anchor))
-		$context['text'] .= utf8::to_unicode($anchor->get_prefix());
-
-	// the introduction text
-	if(isset($item['introduction']) && $item['introduction'])
-		$context['text'] .= Skin::build_block(utf8::to_unicode($item['introduction']), 'introduction');
-
-	// get text related to the overlay, if any
-	if(is_object($overlay))
-		$context['text'] .= utf8::to_unicode($overlay->get_text('view', $item));
-
-	// the description, which is the actual page body
-	if(isset($item['description']) && $item['description']) {
-		$description = utf8::to_unicode(Codes::beautify($item['description'], $item['options']));
-
-		// use adequate label
-		if(is_object($overlay) && ($label = $overlay->get_label('description')))
-			$context['text'] .= Skin::build_block($label, 'title').'<div>'.$description."</div>\n";
-		else
-			$context['text'] .= $description."\n";
-	}
-
-	//
-	// the files section
-	//
-
-	// list files by date (default) or by title (option files_by_title)
-	$items = array();
-	include_once '../files/files.php';
-	if(isset($item['options']) && preg_match('/\bfiles_by_title\b/i', $item['options']))
-		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 50, 'compact');
-	else
-		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'compact');
-
-	// actually render the html for the section
-	if(count($items))
-		$context['text'] .= Skin::build_box(i18n::s('Files'), Skin::build_list($items, 'compact'));
-
-	//
-	// the comments section
-	//
-
-	// list immutable comments by date
-	include_once '../comments/comments.php';
-	$items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, 500, 'excerpt');
-
-	// actually render the html
-	if($items)
-		$context['text'] .= Skin::build_box(i18n::s('Comments'), utf8::to_unicode($items));
-
-	//
-	// the links section
-	//
-
-	// list links by date (default) or by title (option links_by_title)
-	$items = array();
-	include_once '../links/links.php';
-	if(isset($item['options']) && preg_match('/\blinks_by_title\b/i', $item['options']))
-		$items = Links::list_by_title_for_anchor('article:'.$item['id'], 0, 50, 'compact');
-	else
-		$items = Links::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'compact');
-
-	// actually render the html
-	if(count($items))
-		$context['text'] .= Skin::build_box(i18n::s('See also'), utf8::to_unicode(Skin::build_list($items, 'compact')));
-
-	//
-	// page suffix
-	//
 
 	// link to the original page
 	$context['text'] .= '<p>'.sprintf(i18n::s('The original page is located at %s'), Skin::build_link($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name'])))."</p>\n";

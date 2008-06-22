@@ -215,6 +215,7 @@ function send_body() {
 		$context['page_details'] = '';
 		$context['page_footer'] = '';
 		$context['page_menu'] = array();
+		$context['page_tags'] = '';
 		$context['page_tools'] = '';
 
 		// now we will finalize this page

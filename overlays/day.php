@@ -75,6 +75,21 @@ class Day extends Overlay {
 		// the target label
 		switch($name) {
 
+		// edit command
+		case 'edit_command':
+			return i18n::s('Edit this event');
+			break;
+
+		// new command
+		case 'new_command':
+			return i18n::s('Add an event');
+			break;
+
+		// publish command
+		case 'publish_command':
+			return i18n::s('Add an event');
+			break;
+
 		// page title
 		case 'page_title':
 
@@ -95,6 +110,7 @@ class Day extends Overlay {
 				return NULL;
 
 			}
+			break;
 		}
 
 		// no match

@@ -225,7 +225,7 @@ if(isset($item['id']) && isset($item['title']))
 // page title
 if(isset($item['id']))
 	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
-else
+elseif(!is_object($overlay) || (!$context['page_title'] = $overlay->get_label('new_command')))
 	$context['page_title'] = i18n::s('Add a page');
 
 // save data in session, if any, to pass through login step or through section selection step
@@ -378,8 +378,8 @@ if(!$permitted) {
 		$_REQUEST['description'] = preg_replace('/(http:|https:|ftp:|mailto:)[\w@\/\.]+/', '!!!', $_REQUEST['description']);
 
 	// set options
-	if(isset($_REQUEST['option_draft']) && ($_REQUEST['option_draft'] == 'Y'))
-		$_REQUEST['options'] .= ' draft';
+	if(!isset($_REQUEST['options']))
+		$_REQUEST['options'] = '';
 	if(isset($_REQUEST['option_formatted']) && ($_REQUEST['option_formatted'] == 'Y'))
 		$_REQUEST['options'] .= ' formatted';
 	if(isset($_REQUEST['option_hardcoded']) && ($_REQUEST['option_hardcoded'] == 'Y'))
@@ -401,7 +401,7 @@ if(!$permitted) {
 	}
 
 	// this is an explicit draft
-	if(isset($_REQUEST['options']) && preg_match('/\bdraft\b/', $_REQUEST['options']))
+	if(isset($_REQUEST['option_draft']) && ($_REQUEST['option_draft'] == 'Y'))
 		unset($_REQUEST['publish_date']);
 
 	// this is a modification
@@ -508,6 +508,10 @@ if(!$permitted) {
 
 		// remind that the page has to be published
 		elseif(Surfer::is_empowered())
+			$context['text'] .= i18n::s('<p>Don\'t forget to publish the new page someday. Review the page, enhance it and then click on the Publish command to make it publicly available.</p>');
+
+		// section has for auto-publish, but the surfer has posted a draft document
+		elseif((isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y')) || (is_object($anchor) && $anchor->has_option('auto_publish')))
 			$context['text'] .= i18n::s('<p>Don\'t forget to publish the new page someday. Review the page, enhance it and then click on the Publish command to make it publicly available.</p>');
 
 		// reward regular members
@@ -693,7 +697,7 @@ if($with_form) {
 		$fields = array_merge($fields, $overlay->get_fields($item));
 
 		// remember the overlay type as well
-		$information .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'">';
+		$information .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'" />';
 
 	}
 
@@ -1240,7 +1244,7 @@ if($with_form) {
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
 
  	// change to another editor
-	$help .= '<form><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	$help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
 	$selected = '';
 	if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'tinymce'))
 		$selected = ' selected="selected"';

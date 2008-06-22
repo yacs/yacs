@@ -90,10 +90,8 @@ if(isset($item['id']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
 // page title
-if(is_object($overlay) && ($label = $overlay->get_label('title', 'delete')))
-	$context['page_title'] = $label;
-else
-	$context['page_title'] = i18n::s('Delete a page');
+if(isset($item['id']))
+	$context['page_title'] = sprintf(i18n::s('Delete: %s'), $item['title']);
 
 // not found
 if(!isset($item['id'])) {
@@ -139,27 +137,32 @@ if(!isset($item['id'])) {
 // please confirm
 else {
 
-	// the submit button
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-		.Skin::build_submit_button(i18n::s('Yes, I want to suppress this page'), NULL, NULL, 'confirmed')."\n"
-		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
-		.'<input type="hidden" name="action" value="delete" />'."\n"
-		.'</p></form>'."\n";
-
-	// set the focus
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
-		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
-		.'// ]]></script>'."\n";
-
 	// the article or the anchor icon, if any
 	$context['page_image'] = $item['icon_url'];
 	if(!$context['page_image'] && is_object($anchor))
 		$context['page_image'] = $anchor->get_icon_url();
 
-	// the title of the article
-	if($item['title'])
-		$context['text'] .= Skin::build_block($item['title'], 'title');
+	// the introduction text, if any
+	if($item['introduction'])
+		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
+
+	// get text related to the overlay, if any
+	if(is_object($overlay))
+		$context['text'] .= $overlay->get_text('view', $item);
+
+	// the beautified description, which is the actual page body
+	if($item['description']) {
+
+		// use adequate label
+		if(is_object($overlay) && ($label = $overlay->get_label('description')))
+			$context['text'] .= Skin::build_block($label, 'title');
+
+		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
+
+	}
+
+	// details
+	$details = array();
 
 	// last edition
 	if($item['edit_name']) {
@@ -188,27 +191,27 @@ else {
 		$context['text'] .= '<p class="details">'.sprintf(i18n::s('Source: %s'), $item['source'])."</p>\n";
 	}
 
-	// the introduction text, if any
-	if($item['introduction'])
-		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
-
-	// get text related to the overlay, if any
-	if(is_object($overlay))
-		$context['text'] .= $overlay->get_text('view', $item);
-
-	// the beautified description, which is the actual page body
-	if($item['description']) {
-
-		// use adequate label
-		if(is_object($overlay) && ($label = $overlay->get_label('description')))
-			$context['text'] .= Skin::build_block($label, 'title');
-
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
-
-	}
-
 	// count items related to this article
 	$context['text'] .= Anchors::stat_related_to('article:'.$item['id'], i18n::s('Following items are attached to this record and will be suppressed as well.'));
+
+	// commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to suppress this page'), NULL, NULL, 'confirmed');
+	if(isset($item['id']))
+		$menu[] = Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
+
+	// render commands
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
+		.Skin::finalize_list($menu, 'assistant_bar')
+		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
+		.'<input type="hidden" name="action" value="delete" />'."\n"
+		.'</p></form>'."\n";
+
+	// set the focus
+	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+		.'// set the focus on first form field'."\n"
+		.'$("confirmed").focus();'."\n"
+		.'// ]]></script>'."\n";
 
 }
 

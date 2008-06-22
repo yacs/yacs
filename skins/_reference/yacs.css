@@ -271,7 +271,7 @@ div#tabs_panels {
 	width: auto;
 	padding: 0;
 	margin: 1em 0 0 0;
-	min-height: 300px;
+	min-height: 200px;
 	overflow: auto;
 }
 
@@ -303,8 +303,8 @@ div#thread_wrapper { /* around text and input field */
 }
 
 div#thread_wrapper textarea#contribution { /* the main input field */
-	width: 98%;
-	margin: 0;
+	width: 99%;
+	margin: 0 0 0.5em 0;
 	padding: 3px;
 	background-color: #eee;
 	overflow: auto; /* add a vertical scroller if required */
@@ -471,6 +471,10 @@ dl.family dd { /* data for one date */
  * other reference styles used by YACS
  */
 
+div.author_box { /* poster information, when placed at page top */
+	margin-left: 1em;
+}
+
 div.bottom { /* the last div of the content area */
 	margin-top: 2em;
 	border-top: 1px solid #ccc;
@@ -556,3 +560,6 @@ p#columns_suffix { /* comes after columns */
 	padding: 0 0 2em 0; /* make some room below columns */
 }
 
+div#page_details {
+	margin-top: 3em;
+}

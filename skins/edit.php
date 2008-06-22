@@ -168,7 +168,7 @@ elseif(isset($_REQUEST['content']) && $_REQUEST['content']) {
 			Skin::error(i18n::s('The file seems to be empty.'));
 
 		// textarea to edit the file
-		$context['text'] .= '<textarea name="content" id="edit_area" rows="25" cols="50" accesskey="c">'.encode_field($content).'</textarea>';
+		$context['text'] .= '<textarea name="content" rows="25" cols="50" accesskey="c">'.encode_field($content).'</textarea>';
 
 		// button to upload changes
 		$context['text'] .= BR.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</div></form>'."\n";

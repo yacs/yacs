@@ -2,8 +2,6 @@
 /**
  * the review page for files
  *
- * @todo listed files are repeated several times, check the SQL statements
- *
  * This page lists files that should be reviewed, that is:
  *
  * - oldest files - it is likely that their validity should be controlled

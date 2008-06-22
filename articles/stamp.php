@@ -64,15 +64,8 @@ else
 	$context['path_bar'] = array( 'articles/' => 'All pages' );
 
 // page title
-if(isset($item['title']) && $item['title'])
+if(isset($item['title']))
 	$context['page_title'] = sprintf(i18n::s('Stamp: %s'), $item['title']);
-
-// common commands for this page
-if(isset($_SERVER['HTTP_REFERER']))
-	$referer = $_SERVER['HTTP_REFERER'];
-else
-	$referer = 'articles/review.php';
-$context['page_menu'] = array( $referer => i18n::s('Back to the page') );
 
 // not found
 if(!isset($item['id'])) {
@@ -289,6 +282,14 @@ if($with_form) {
 		$context['text'] .= '<p>'.Skin::build_link(Articles::get_url($item['id'], 'publish'), i18n::s('Publish the page'), 'shortcut').'</p>';
 
 	}
+
+	// cancel
+	if(isset($_SERVER['HTTP_REFERER']))
+		$referer = $_SERVER['HTTP_REFERER'];
+	else
+		$referer = 'articles/review.php';
+	$menu = array( Skin::build_link($referer, i18n::s('Cancel'), 'span') );
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 }
 

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 14, 2008, 9:58 pm GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
 $_SESSION['l10n']['fr']['%d comments']='%d commentaires';
@@ -71,14 +71,13 @@ $_SESSION['l10n']['fr']['Add a section']='Ajouter une section';
 $_SESSION['l10n']['fr']['Add additional content']='Ajouter d\'autres contenus';
 $_SESSION['l10n']['fr']['Add an image']='Ajouter une image';
 $_SESSION['l10n']['fr']['Add another section']='Ajouter une autre section';
-$_SESSION['l10n']['fr']['Add conversion tools to PDF, MS-Word, Palm at the bottom of each page']='Ajouter en bas de page des outils de conversion PDF, MS-Word et Palm';
+$_SESSION['l10n']['fr']['Add conversion tools to PDF, MS-Word, Palm']='Ajouter des outils de conversion PDF, MS-Word et Palm';
 $_SESSION['l10n']['fr']['Add default sections']='Ajouter les sections par d&#233;faut';
 $_SESSION['l10n']['fr']['Add new content to this section']='Ajouter du contenu &#224; cette section';
 $_SESSION['l10n']['fr']['All characters after this string will be removed']='Tous les caract&#232;res apr&#232;s cette cha&#238;ne seront supprim&#233;s';
 $_SESSION['l10n']['fr']['All characters before this string will be removed']='Tous les caract&#232;res avant cette cha&#238;ne seront supprim&#233;s';
 $_SESSION['l10n']['fr']['Allow anonymous surfers to change content']='Les surfeurs anonymes peuvent changer le contenu';
 $_SESSION['l10n']['fr']['Allow members to change content']='Les membres peuvent changer le contenu';
-$_SESSION['l10n']['fr']['Allow surfers to rate pages of this section']='Autoriser les surfeurs &#224; noter les pages de cette section';
 $_SESSION['l10n']['fr']['Alternate title used in lists and in the contextual menu']='Titre utilis&#233; dans les listes et dans le menu contextuel';
 $_SESSION['l10n']['fr']['Annotate this page']='Annoter cette page';
 $_SESSION['l10n']['fr']['Another personal space of %s']='Un autre espace personnel de %s';
@@ -315,7 +314,7 @@ $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoye
 $_SESSION['l10n']['fr']['Prevent YACS to add links to previous and next pages in the same section']='Ne pas ins&#233;rer de liens vers les pages suivantes et pr&#233;c&#233;dentes de la m&#234;me section';
 $_SESSION['l10n']['fr']['Previous']='Pr&#233;c&#233;dent';
 $_SESSION['l10n']['fr']['Previous versions of this page']='Versions pr&#233;c&#233;dentes de cette page';
-$_SESSION['l10n']['fr']['Print']='Imprimer';
+$_SESSION['l10n']['fr']['Print this page']='Imprimer cette page';
 $_SESSION['l10n']['fr']['Processed Queries']='Requ&#234;tes trait&#233;es';
 $_SESSION['l10n']['fr']['Promote a comment']='Promouvoir un commentaire';
 $_SESSION['l10n']['fr']['Promote a note']='Promouvoir une annotation';
@@ -337,7 +336,7 @@ $_SESSION['l10n']['fr']['Real-time collaboration']='Interactions en temps r&#233
 $_SESSION['l10n']['fr']['Recent files']='Fichiers r&#233;cents';
 $_SESSION['l10n']['fr']['Recent pages']='Pages r&#233;centes';
 $_SESSION['l10n']['fr']['Recent pages should be:']='Les pages r&#233;centes sont :';
-$_SESSION['l10n']['fr']['Reference']='R&#233;f&#233;rencer';
+$_SESSION['l10n']['fr']['Reference this page']='R&#233;f&#233;rencer cette page';
 $_SESSION['l10n']['fr']['Referrals']='R&#233;f&#233;rences externes';
 $_SESSION['l10n']['fr']['Related']='Voir aussi';
 $_SESSION['l10n']['fr']['Related servers']='Voir aussi';
@@ -391,6 +390,7 @@ $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Submitted to the webmaster by any surfers']='Soumises aux webmestres par n\'importe quel surfeur';
 $_SESSION['l10n']['fr']['Suffix']='Suffixe';
 $_SESSION['l10n']['fr']['Suffix separator']='S&#233;parateur de suffixe';
+$_SESSION['l10n']['fr']['Surfers are not allowed to rate pages in this section']='Interdire de noter les pages de cette section';
 $_SESSION['l10n']['fr']['Tabbed panels']='Panneaux &#224; onglets';
 $_SESSION['l10n']['fr']['Templates']='Pages mod&#232;les';
 $_SESSION['l10n']['fr']['Text to be appended at the bottom of the page, after all other elements attached to this page.']='Texte &#224; ajouter en bas de page, apr&#232;s les &#233;l&#233;ments attach&#233;s &#224; cette page.';

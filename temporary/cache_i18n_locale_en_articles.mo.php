@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 14, 2008, 9:58 pm GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['"%s" is not a valid expiry date']='"%s" is not a valid expiry date';
 $_SESSION['l10n']['en']['"%s" is not a valid publication date']='"%s" is not a valid publication date';
@@ -47,6 +47,7 @@ $_SESSION['l10n']['en']['All other trademarks, icons, and logos, shown or mentio
 $_SESSION['l10n']['en']['All pages']='All pages';
 $_SESSION['l10n']['en']['Allow anonymous surfers to edit content']='Allow anonymous surfers to edit content';
 $_SESSION['l10n']['en']['Allow members to edit content']='Allow members to edit content';
+$_SESSION['l10n']['en']['Allow these persons to edit the page.']='Allow these persons to edit the page.';
 $_SESSION['l10n']['en']['Also complements the title in lists featuring this page']='Also complements the title in lists featuring this page';
 $_SESSION['l10n']['en']['Although some Internet users think cookies are a serious privacy issue, as web designers we think that they come in darned handy. This site uses cookies for basic account identification purposes, but that\'s as far as we go. We won\'t use any information from cookies to track your browsing sessions, attempt to extract personal information from them that we wouldn\'t otherwise have access to, or do any other naughty things with your cookies. If you don\'t agree with our use of cookies, you can configure most web browsers not to accept them. Even without a cookie, a significant part of this server will still be accessible to you (although you will lose the ability to do anything that requires you to be logged into the server).']='Although some Internet users think cookies are a serious privacy issue, as web designers we think that they come in darned handy. This site uses cookies for basic account identification purposes, but that\'s as far as we go. We won\'t use any information from cookies to track your browsing sessions, attempt to extract personal information from them that we wouldn\'t otherwise have access to, or do any other naughty things with your cookies. If you don\'t agree with our use of cookies, you can configure most web browsers not to accept them. Even without a cookie, a significant part of this server will still be accessible to you (although you will lose the ability to do anything that requires you to be logged into the server).';
 $_SESSION['l10n']['en']['An about page already exists.']='An about page already exists.';
@@ -84,6 +85,7 @@ $_SESSION['l10n']['en']['Content tree']='Content tree';
 $_SESSION['l10n']['en']['Contribute to the web and link to relevant pages.']='Contribute to the web and link to relevant pages.';
 $_SESSION['l10n']['en']['Contribution to the site front page']='Contribution to the site front page';
 $_SESSION['l10n']['en']['Cookies']='Cookies';
+$_SESSION['l10n']['en']['Copy in MS-Word']='Copy in MS-Word';
 $_SESSION['l10n']['en']['Copy of %s']='Copy of %s';
 $_SESSION['l10n']['en']['Copy this page in Microsoft MS-Word.']='Copy this page in Microsoft MS-Word.';
 $_SESSION['l10n']['en']['Copyright']='Copyright';
@@ -91,7 +93,7 @@ $_SESSION['l10n']['en']['Cover article']='Cover article';
 $_SESSION['l10n']['en']['Dead articles']='Dead articles';
 $_SESSION['l10n']['en']['Default Section']='Default Section';
 $_SESSION['l10n']['en']['Delete']='Delete';
-$_SESSION['l10n']['en']['Delete a page']='Delete a page';
+$_SESSION['l10n']['en']['Delete: %s']='Delete: %s';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['Details']='Details';
 $_SESSION['l10n']['en']['Discuss']='Discuss';
@@ -105,7 +107,7 @@ $_SESSION['l10n']['en']['Download this page as a PDF file.']='Download this page
 $_SESSION['l10n']['en']['Draft']='Draft';
 $_SESSION['l10n']['en']['Due to the large amount of e-mail that we get, we can NOT guarantee a response! This is especially true if your e-mail concerns issues we can\'t really help you with.']='Due to the large amount of e-mail that we get, we can NOT guarantee a response! This is especially true if your e-mail concerns issues we can\'t really help you with.';
 $_SESSION['l10n']['en']['Duplicate']='Duplicate';
-$_SESSION['l10n']['en']['Duplicate a page']='Duplicate a page';
+$_SESSION['l10n']['en']['Duplicate: %s']='Duplicate: %s';
 $_SESSION['l10n']['en']['E-mail has not been enabled on this system.']='E-mail has not been enabled on this system.';
 $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit the page']='Edit the page';
@@ -119,7 +121,8 @@ $_SESSION['l10n']['en']['Error while sending the message to %s']='Error while se
 $_SESSION['l10n']['en']['Excellent']='Excellent';
 $_SESSION['l10n']['en']['Expire']='Expire';
 $_SESSION['l10n']['en']['Expiry date']='Expiry date';
-$_SESSION['l10n']['en']['Export']='Export';
+$_SESSION['l10n']['en']['Export to XML']='Export to XML';
+$_SESSION['l10n']['en']['Export tools']='Export tools';
 $_SESSION['l10n']['en']['Express yourself, and say what you think.']='Express yourself, and say what you think.';
 $_SESSION['l10n']['en']['Extra']='Extra';
 $_SESSION['l10n']['en']['FCKEditor']='FCKEditor';
@@ -182,6 +185,7 @@ $_SESSION['l10n']['en']['Information']='Information';
 $_SESSION['l10n']['en']['Information channels']='Information channels';
 $_SESSION['l10n']['en']['Introduction']='Introduction';
 $_SESSION['l10n']['en']['Invite people']='Invite people';
+$_SESSION['l10n']['en']['Invitees are asked to review and to contribute.']='Invitees are asked to review and to contribute.';
 $_SESSION['l10n']['en']['It seems to be one of the Laws of the Internet that every site of any importance must have an email address for the webmaster. Far be it from us to break the trend; so, if you have something vitally important to tell the folks who designed this place, send a message at the following address.']='It seems to be one of the Laws of the Internet that every site of any importance must have an email address for the webmaster. Far be it from us to break the trend; so, if you have something vitally important to tell the folks who designed this place, send a message at the following address.';
 $_SESSION['l10n']['en']['Keywords']='Keywords';
 $_SESSION['l10n']['en']['Language']='Language';
@@ -198,8 +202,6 @@ $_SESSION['l10n']['en']['Lock a page']='Lock a page';
 $_SESSION['l10n']['en']['Locked']='Locked';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Looking for orphans in articles table...']='Looking for orphans in articles table...';
-$_SESSION['l10n']['en']['MS-Word']='MS-Word';
-$_SESSION['l10n']['en']['Mail a page']='Mail a page';
 $_SESSION['l10n']['en']['Mail address: %s']='Mail address: %s';
 $_SESSION['l10n']['en']['Mailings']='Mailings';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
@@ -243,13 +245,11 @@ $_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
 $_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Orphan: article %s']='Orphan: article %s';
 $_SESSION['l10n']['en']['Owner']='Owner';
-$_SESSION['l10n']['en']['PDF']='PDF';
 $_SESSION['l10n']['en']['Page']='Page';
 $_SESSION['l10n']['en']['Page bottom']='Page bottom';
 $_SESSION['l10n']['en']['Page content exceeds 64,000 characters. Do you confirm you are intended to post a jumbo page?']='Page content exceeds 64,000 characters. Do you confirm you are intended to post a jumbo page?';
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['Pages under preparation']='Pages under preparation';
-$_SESSION['l10n']['en']['Palm']='Palm';
 $_SESSION['l10n']['en']['Parse links and trackback referenced pages']='Parse links and trackback referenced pages';
 $_SESSION['l10n']['en']['Participants']='Participants';
 $_SESSION['l10n']['en']['Passwords']='Passwords';
@@ -263,7 +263,6 @@ $_SESSION['l10n']['en']['Please prove you are not a robot.']='Please prove you a
 $_SESSION['l10n']['en']['Please provide a meaningful title.']='Please provide a meaningful title.';
 $_SESSION['l10n']['en']['Please provide a recipient address.']='Please provide a recipient address.';
 $_SESSION['l10n']['en']['Please select below the check to perform.']='Please select below the check to perform.';
-$_SESSION['l10n']['en']['Please select below the kind of message you would like to send.']='Please select below the kind of message you would like to send.';
 $_SESSION['l10n']['en']['Please type the text of your new page and hit the submit button. You will then be able to post images, files and links on subsequent forms.']='Please type the text of your new page and hit the submit button. You will then be able to post images, files and links on subsequent forms.';
 $_SESSION['l10n']['en']['Poor']='Poor';
 $_SESSION['l10n']['en']['Popular']='Popular';
@@ -283,15 +282,14 @@ $_SESSION['l10n']['en']['Prevent the upload of new files']='Prevent the upload o
 $_SESSION['l10n']['en']['Previous']='Previous';
 $_SESSION['l10n']['en']['Previous pages']='Previous pages';
 $_SESSION['l10n']['en']['Previous versions of this page']='Previous versions of this page';
-$_SESSION['l10n']['en']['Print']='Print';
+$_SESSION['l10n']['en']['Print this page']='Print this page';
 $_SESSION['l10n']['en']['Privacy Policy']='Privacy Policy';
-$_SESSION['l10n']['en']['Provide feed-back to page author']='Provide feed-back to page author';
 $_SESSION['l10n']['en']['Publication']='Publication';
 $_SESSION['l10n']['en']['Publication date']='Publication date';
 $_SESSION['l10n']['en']['Publication date is invalid.']='Publication date is invalid.';
 $_SESSION['l10n']['en']['Publish']='Publish';
-$_SESSION['l10n']['en']['Publish a page']='Publish a page';
 $_SESSION['l10n']['en']['Publish the page']='Publish the page';
+$_SESSION['l10n']['en']['Publish: %s']='Publish: %s';
 $_SESSION['l10n']['en']['Put your e-mail address to be alerted on surfer reactions']='Put your e-mail address to be alerted on surfer reactions';
 $_SESSION['l10n']['en']['Query: [link=Use the on-line form]query.php[/link]']='Query: [link=Use the on-line form]query.php[/link]';
 $_SESSION['l10n']['en']['Rank']='Rank';
@@ -309,9 +307,8 @@ $_SESSION['l10n']['en']['Real-time collaboration']='Real-time collaboration';
 $_SESSION['l10n']['en']['Recent comments']='Recent comments';
 $_SESSION['l10n']['en']['Recent files']='Recent files';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
-$_SESSION['l10n']['en']['Recipient addresses put in this page are used only once, to send your message, and are not stored afterwards.']='Recipient addresses put in this page are used only once, to send your message, and are not stored afterwards.';
-$_SESSION['l10n']['en']['Recipient e-mail address']='Recipient e-mail address';
-$_SESSION['l10n']['en']['Reference']='Reference';
+$_SESSION['l10n']['en']['Recipient addresses are used only once, to send your message, and are not stored afterwards.']='Recipient addresses are used only once, to send your message, and are not stored afterwards.';
+$_SESSION['l10n']['en']['Reference this page']='Reference this page';
 $_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Regular sections']='Regular sections';
 $_SESSION['l10n']['en']['Related']='Related';
@@ -322,6 +319,8 @@ $_SESSION['l10n']['en']['Replies']='Replies';
 $_SESSION['l10n']['en']['Request is invalid.']='Request is invalid.';
 $_SESSION['l10n']['en']['Restricted to members']='Restricted to members';
 $_SESSION['l10n']['en']['Review queue']='Review queue';
+$_SESSION['l10n']['en']['Save as PDF']='Save as PDF';
+$_SESSION['l10n']['en']['Save in Palm']='Save in Palm';
 $_SESSION['l10n']['en']['Save the new date (YYYY-MM-DD HH:MM)']='Save the new date (YYYY-MM-DD HH:MM)';
 $_SESSION['l10n']['en']['Screen shared by %s']='Screen shared by %s';
 $_SESSION['l10n']['en']['Script terminated in %.2f seconds.']='Script terminated in %.2f seconds.';
@@ -338,6 +337,8 @@ $_SESSION['l10n']['en']['Sent by %s in %s']='Sent by %s in %s';
 $_SESSION['l10n']['en']['Set an expiry date (YYYY-MM-DD HH:MM)']='Set an expiry date (YYYY-MM-DD HH:MM)';
 $_SESSION['l10n']['en']['Share screen with NetMeeting']='Share screen with NetMeeting';
 $_SESSION['l10n']['en']['Share screen with VNC']='Share screen with VNC';
+$_SESSION['l10n']['en']['Share this page']='Share this page';
+$_SESSION['l10n']['en']['Share: %s']='Share: %s';
 $_SESSION['l10n']['en']['Shared screen of %s']='Shared screen of %s';
 $_SESSION['l10n']['en']['Show more lines']='Show more lines';
 $_SESSION['l10n']['en']['Site Map']='Site Map';
@@ -362,7 +363,6 @@ $_SESSION['l10n']['en']['Suffix']='Suffix';
 $_SESSION['l10n']['en']['Tabbed panels']='Tabbed panels';
 $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['Tags']='Tags';
-$_SESSION['l10n']['en']['Tags: %s']='Tags: %s';
 $_SESSION['l10n']['en']['Text to be appended at the bottom of the page, after all other elements attached to this page.']='Text to be appended at the bottom of the page, after all other elements attached to this page.';
 $_SESSION['l10n']['en']['Text to be inserted in the panel aside the page.']='Text to be inserted in the panel aside the page.';
 $_SESSION['l10n']['en']['Textarea']='Textarea';
@@ -380,7 +380,6 @@ $_SESSION['l10n']['en']['The page has been duplicated.']='The page has been dupl
 $_SESSION['l10n']['en']['The page has been successfully published.']='The page has been successfully published.';
 $_SESSION['l10n']['en']['The preferred mean to join us is to use the general-purpose query form. This is a convenient tool for you and for us, because your request and related answers will be listed at a single place accessible from your web browser. Moreover, you will be informed by e-mail of any progressing step to your query.']='The preferred mean to join us is to use the general-purpose query form. This is a convenient tool for you and for us, because your request and related answers will be listed at a single place accessible from your web browser. Moreover, you will be informed by e-mail of any progressing step to your query.';
 $_SESSION['l10n']['en']['The publication date has been successfully changed.']='The publication date has been successfully changed.';
-$_SESSION['l10n']['en']['The recipient to receive feed-back.']='The recipient to receive feed-back.';
 $_SESSION['l10n']['en']['The text has been entirely tagged, and implicit transformations do not apply. YACS codes are processed as usual.']='The text has been entirely tagged, and implicit transformations do not apply. YACS codes are processed as usual.';
 $_SESSION['l10n']['en']['This article contains other information of interest']='This article contains other information of interest';
 $_SESSION['l10n']['en']['This instance of YACS runs in demonstration mode. For security reasons mail messages cannot be actually sent in this mode.']='This instance of YACS runs in demonstration mode. For security reasons mail messages cannot be actually sent in this mode.';
@@ -448,13 +447,13 @@ $_SESSION['l10n']['en']['Yes - Only associates and editors can modify content']=
 $_SESSION['l10n']['en']['Yes, I want to duplicate this page']='Yes, I want to duplicate this page';
 $_SESSION['l10n']['en']['Yes, I want to suppress this page']='Yes, I want to suppress this page';
 $_SESSION['l10n']['en']['You are invited by %s']='You are invited by %s';
-$_SESSION['l10n']['en']['You are invited personnally to check the the following page, and to contribute accordingly.
+$_SESSION['l10n']['en']['You are invited personally to check the following page, and to contribute accordingly.
 
 %s
 
 Please let me thank you for your kind support.
 
-%s']='You are invited personnally to check the the following page, and to contribute accordingly.
+%s']='You are invited personally to check the following page, and to contribute accordingly.
 
 %s
 
@@ -462,21 +461,11 @@ Please let me thank you for your kind support.
 
 %s';
 $_SESSION['l10n']['en']['You are not allowed to perform this operation.']='You are not allowed to perform this operation.';
-$_SESSION['l10n']['en']['You are publishing: %s']='You are publishing: %s';
 $_SESSION['l10n']['en']['You are rating: %s']='You are rating: %s';
 $_SESSION['l10n']['en']['You can click on the \'Set as icon\' link in the list of images, if any.']='You can click on the \'Set as icon\' link in the list of images, if any.';
 $_SESSION['l10n']['en']['You can click on the \'Set as thumbnail\' link in the list of images, if any.']='You can click on the \'Set as thumbnail\' link in the list of images, if any.';
 $_SESSION['l10n']['en']['You can upload a camera shot, a drawing, or any image file, to illustrate this page.']='You can upload a camera shot, a drawing, or any image file, to illustrate this page.';
 $_SESSION['l10n']['en']['You have already rated his page.']='You have already rated his page.';
-$_SESSION['l10n']['en']['You have written:
-
-%s
-
-%s']='You have written:
-
-%s
-
-%s';
 $_SESSION['l10n']['en']['You may combine several keywords:']='You may combine several keywords:';
 $_SESSION['l10n']['en']['You must type a recipient for your message.']='You must type a recipient for your message.';
 $_SESSION['l10n']['en']['You must type an address for replies.']='You must type an address for replies.';

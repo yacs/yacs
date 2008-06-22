@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 14, 2008, 10:02 pm GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d hits']='%d hits';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
@@ -52,12 +52,12 @@ $_SESSION['l10n']['en']['Cloud of tags']='Cloud of tags';
 $_SESSION['l10n']['en']['Comments']='Comments';
 $_SESSION['l10n']['en']['Complete tags']='Complete tags';
 $_SESSION['l10n']['en']['Contact the webmaster']='Contact the webmaster';
-$_SESSION['l10n']['en']['Content']='Content';
 $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
 $_SESSION['l10n']['en']['Content tree']='Content tree';
 $_SESSION['l10n']['en']['Contribute to the web and link to relevant pages.']='Contribute to the web and link to relevant pages.';
 $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete a category']='Delete a category';
+$_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['Do not change modification date.']='Do not change modification date.';
 $_SESSION['l10n']['en']['Do not display articles.']='Do not display articles.';
 $_SESSION['l10n']['en']['Do not hesitate to attach files related to this page.']='Do not hesitate to attach files related to this page.';
@@ -141,8 +141,8 @@ $_SESSION['l10n']['en']['Please select below the check to perform.']='Please sel
 $_SESSION['l10n']['en']['Popular']='Popular';
 $_SESSION['l10n']['en']['Prefix']='Prefix';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
-$_SESSION['l10n']['en']['Print']='Print';
 $_SESSION['l10n']['en']['Print a category']='Print a category';
+$_SESSION['l10n']['en']['Print this page']='Print this page';
 $_SESSION['l10n']['en']['Publications by month']='Publications by month';
 $_SESSION['l10n']['en']['Publications by week']='Publications by week';
 $_SESSION['l10n']['en']['RSS feed']='RSS feed';

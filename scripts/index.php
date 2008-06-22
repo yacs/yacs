@@ -124,17 +124,21 @@ include_once 'phpdoc.php';
 $item = PhpDoc::get('index');
 if($item) {
 
+	$items = array();
+
 	// the list of things to do
-	$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url('todo') => i18n::s('To do') ));
+	$items[] = Skin::build_link(Scripts::get_url('todo'), i18n::s('To do'), 'basic');
 
 	// the list of testers
-	$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url('testers') => i18n::s('Testers') ));
+	$items[] = Skin::build_link(Scripts::get_url('testers'), i18n::s('Testers'), 'basic');
 
 	// the list of authors
-	$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url('authors') => i18n::s('Authors') ));
+	$items[] = Skin::build_link(Scripts::get_url('authors'), i18n::s('Authors'), 'basic');
 
 	// the list of licenses
-	$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url('licenses') => i18n::s('Licenses') ));
+	$items[] = Skin::build_link(Scripts::get_url('licenses'), i18n::s('Licenses'), 'basic');
+
+	$context['extra'] .= Skin::build_box(i18n::s('See also'), Skin::finalize_list($items, 'tools'), 'extra');
 
 	// splash message
 	$text = '<p>'.i18n::s('Click on any link below to access the documentation extracted from each script (phpDoc).')."</p>\n";

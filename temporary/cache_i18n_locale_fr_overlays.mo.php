@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 13, 2008, 9:33 am GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d approval'.chr(0).'%d approvals']='%d approbation'.chr(0).'%d approbations';
 $_SESSION['l10n']['fr']['%d reject'.chr(0).'%d rejects']='%d rejet'.chr(0).'%d rejets';
@@ -67,12 +67,14 @@ $_SESSION['l10n']['fr']['Edit an issue']='Modifier un probl&#232;me';
 $_SESSION['l10n']['fr']['Edit one contact']='Modifier un contact';
 $_SESSION['l10n']['fr']['Edit one day']='Modifier une journ&#233;e';
 $_SESSION['l10n']['fr']['Edit petition record']='Modifier une p&#233;tition';
+$_SESSION['l10n']['fr']['Edit this event']='Modifier cet &#233;v&#233;nement';
 $_SESSION['l10n']['fr']['Edit vote record']='Editer un vote';
 $_SESSION['l10n']['fr']['Editors of this section']='Les &#233;diteurs de cette section';
 $_SESSION['l10n']['fr']['Editors of this section are allowed to sign']='Les &#233;diteurs de cette section peuvent signer';
 $_SESSION['l10n']['fr']['Editors of this section are allowed to vote']='Les &#233;diteurs de cette section sont autoris&#233;s &#224; voter';
 $_SESSION['l10n']['fr']['Email address:']='Courrier &#233;lectronique :';
 $_SESSION['l10n']['fr']['End date']='Fermeture des votes';
+$_SESSION['l10n']['fr']['Export to XML']='Convertir en XML';
 $_SESSION['l10n']['fr']['Express your vote']='Exprimez-vous et votez';
 $_SESSION['l10n']['fr']['Extra box']='Bo&#238;te extra';
 $_SESSION['l10n']['fr']['Following people:']='Les personnes suivantes :';
@@ -171,7 +173,6 @@ $_SESSION['l10n']['fr']['Voters:']='Votants :';
 $_SESSION['l10n']['fr']['We are trying to standardize recipes for 4 people.']='Si possible, merci de standardiser vos recettes pour 4 convives.';
 $_SESSION['l10n']['fr']['Web']='Web';
 $_SESSION['l10n']['fr']['Web address:']='Adresse web :';
-$_SESSION['l10n']['fr']['XML']='XML';
 $_SESSION['l10n']['fr']['YYYY-MM-AA HH:MM']='AAAA-MM-JJ HH:MM';
 $_SESSION['l10n']['fr']['You have already signed']='Vous avez d&#233;j&#224; sign&#233;';
 $_SESSION['l10n']['fr']['You have already voted']='Vous avez d&#233;j&#224; vot&#233;';

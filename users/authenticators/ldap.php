@@ -9,6 +9,12 @@
  * - password to be used in bind
  * - distinguished name to be used in search (optional)
  * - search expression (optional)
+ * - comma separated list of ldap options: (optional)
+ *     DEREF=never|always|search|find  (default=never)
+ *     PROTOCOL_VERSION=2|3            (default=3)
+ *     SCOPE=one|sub                   (default=sub)
+ *     SIZELIMIT=n                     (default=0)
+ *     TIMELIMIT=n                     (default=0)
  *
  * Add " characters around any parameter that includes some white space.
  *
@@ -26,9 +32,10 @@
  * In this case, the user name and related password used for binding are
  * referring to placeholders. You may use a static search expression as well.
  *
- * Example configuration:
+ * Example configurations:
  * [snippet]
  * ldap ldap.mydomain.com %u %p
+ * ldap ldap.mydomain.com %u %p "" "" PROTOCOL_VERSION=2
  * [/snippet]
  *
  * Note: This is the most secured and easy way to authenticate some user.
@@ -40,7 +47,7 @@
  *
  * Example configuration:
  * [snippet]
- * ldap ldap.mydomain.com ldap_account passw0rd ou=mydomain,c=ww "(&(cn=%u)(userPassword=%p))"
+ * ldap ldap.mydomain.com ldap_account passw0rd ou=mydomain,c=ww "(&(cn=%u)(userPassword=%p))" DEREF=always,SCOPE=one
  * [/snippet]
  *
  * Note: Do not forgot to add a search expression to parameters, else
@@ -86,8 +93,12 @@ Class Ldap extends Authenticator {
 		foreach($tokens as $token) {
 
 			// sanity check --PREG_SPLIT_NO_EMPTY does not work
-			if(!trim($token))
+			if(!trim($token)) {
+				// catch "" arguments (used for example as an empty password)
+				if (!$outside)
+					$parameters[] = "";
 				continue;
+			}
 
 			// begin or end of a token
 			if($token == '"') {
@@ -142,6 +153,76 @@ Class Ldap extends Authenticator {
 		if(isset($parameters[4]))
 			$search_filter = str_replace(array('%u', '%p'), array($name, $password), $parameters[4]);
 
+		// parse options
+		$opt_deref=LDAP_DEREF_NEVER;
+		$opt_protocol_version=3;
+		$opt_sizelimit=0;
+		$opt_timelimit=0;
+		$opt_ldap_search_func="ldap_search";
+		if(isset($parameters[5])) {
+			$tokens = preg_split('/,/', $parameters[5], -1, PREG_SPLIT_NO_EMPTY);
+			foreach($tokens as $token) {
+				$argerror   = $valerror   = 0;
+				$argerror_s = $argerror_c = '';
+				list($key, $val) = explode('=', $token, 2);
+
+				if(    !strcasecmp($key, "DEREF")) {
+					if(    !strcasecmp($val,"never"))
+						$opt_deref=LDAP_DEREF_NEVER;
+					elseif(!strcasecmp($val,"always"))
+						$opt_deref=LDAP_DEREF_ALWAYS;
+					else
+						$valerror = 1;
+				}
+				elseif(!strcasecmp($key, "PROTOCOL_VERSION")) {
+					if($val == 2 || $val == 3)
+						$opt_protocol_version = $val;
+					else
+						$valerror = 1;
+				}
+				elseif(!strcasecmp($key, "SCOPE")) {
+					if(    !strcasecmp($val, "one"))
+						$opt_ldap_search_func = "ldap_list";
+					elseif(!strcasecmp($val, "sub"))
+						$opt_ldap_search_func = "ldap_search";
+					else
+						$valerror = 1;
+				}
+				elseif(!strcasecmp($key, "SIZELIMIT")) {
+					if(ctype_digit($val))
+						$opt_sizelimit = $val;
+					else
+						$valerror = 1;
+				}
+				elseif(!strcasecmp($key, "TIMELIMIT")) {
+					if(ctype_digit($val))
+						$opt_timelimit = $val;
+					else
+						$valerror = 1;
+				}
+				else {
+					$argerror_s = sprintf(i18n::s("Unknown LDAP option %s."), $key);
+					$argerror_c = sprintf(i18n::c("Unknown LDAP option %s."), $key);
+					$argerror = 1;
+				}
+
+				// a wrong value must trigger an error message
+				if($valerror) {
+					$argerror_s = sprintf(i18n::s("LDAP %s: bad value '%s'."), $key, $val);
+					$argerror_c = sprintf(i18n::c("LDAP %s: bad value '%s'."), $key, $val);
+					$argerror = 1;
+				}
+
+				// print any error message raised while parsing the option
+				if($argerror) {
+					Skin::error($argerror_s);
+					if($context['with_debug'] == 'Y')
+						Logger::remember('users/authenticators/ldap.php', $argerror_c, '', 'debug');
+					return(FALSE);
+				}
+			}
+		}
+
 		// ensure we can move forward
 		if(!is_callable('ldap_connect')) {
 			Skin::error(i18n::s('Please activate the LDAP library.'));
@@ -158,8 +239,11 @@ Class Ldap extends Authenticator {
 			return FALSE;
 		}
 
-		// switch to protocol V3 (the current standard)
-		@ldap_set_option($handle, LDAP_OPT_PROTOCOL_VERSION, 3);
+		// set desired options
+		@ldap_set_option($handle, LDAP_OPT_PROTOCOL_VERSION, $opt_protocol_version);
+		@ldap_set_option($handle, LDAP_OPT_DEREF, $opt_deref);
+		@ldap_set_option($handle, LDAP_OPT_SIZELIMIT, $opt_sizelimit);
+		@ldap_set_option($handle, LDAP_OPT_TIMELIMIT, $opt_timelimit);
 
 		// bind to directory, namely or anonymously
 		if($bind_dn && @ldap_bind($handle, $bind_dn, $bind_password))
@@ -181,7 +265,7 @@ Class Ldap extends Authenticator {
 		}
 
 		// search the directory
-		if(!$result = @ldap_search($handle, $search_dn, $search_filter, array('cn'))) {
+		if(!$result = @call_user_func($opt_ldap_search_func, $handle, $search_dn, $search_filter, array('cn'))) {
 			Skin::error(sprintf(i18n::s('Impossible to search in LDAP server %s.'), $server).BR.ldap_errno($handle).': '.ldap_error($handle));
 			if($context['with_debug'] == 'Y')
 				Logger::remember('users/authenticators/ldap.php', sprintf(i18n::c('Impossible to search in LDAP server %s.'), $server), ldap_errno($handle).': '.ldap_error($handle), 'debug');

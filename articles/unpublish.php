@@ -43,6 +43,25 @@ $anchor = NULL;
 if(isset($item['anchor']))
 	$anchor = Anchors::get($item['anchor']);
 
+// editors can do what they want on items anchored here
+if(Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())
+	Surfer::empower();
+
+// access control
+$permitted = FALSE;
+
+// associates and editors can publish pages
+if(Surfer::is_empowered())
+	$permitted = TRUE;
+
+// page authors can publish their pages where auto-publication has been allowed
+elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())) {
+	if(isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y'))
+		$permitted = TRUE;
+	elseif(is_object($anchor) && $anchor->has_option('auto_publish'))
+		$permitted = TRUE;
+}
+
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
@@ -51,8 +70,8 @@ if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
-// publication is restricted to associates and authenticated editors
-} elseif(!Surfer::is_associate() && (!Surfer::is_member() || !is_object($anchor) || !$anchor->is_editable())) {
+// publication is restricted
+} elseif(!$permitted) {
 
 	// anonymous users are invited to log in
 	if(!Surfer::is_logged())

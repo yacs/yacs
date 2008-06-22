@@ -2,8 +2,6 @@
 /**
  * change parameters for feeds
  *
- * @todo remove subscribe buttons in case of intranet web site
- *
  * This script will let you modify information spread along outbound channels, such as:
  *
  * - [code]channel_title[/code] - The name of your site, as it will appears in newsfeeds.

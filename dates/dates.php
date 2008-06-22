@@ -48,16 +48,11 @@ Class Dates {
 		// first week
 		$text .= '<tr>';
 
-		// compute day in week for first day of this month
-		if($day < 0) {
+		// first day of this month
+		$first_of_month = gmmktime(0, 0, 0, $month, 1, $year);
 
-			// first day of this month
-			$first_of_month = gmmktime(0, 0, 0, $month, 1, $year);
-
-			// day in week for the first day of the month
-			$day = (int)gmstrftime('%w', $first_of_month);
-
-		}
+		// day in week for the first day of the month
+		$day = (int)gmstrftime('%w', $first_of_month);
 
 		// draw empty cells at the beginning of the month
 		for($index = 0; $index < $day; $index++)
@@ -121,7 +116,7 @@ Class Dates {
 		// we return some text
 		$text = '';
 
-		// we have done nothing yet
+		// nothing done yet
 		$current_year = $current_month = $current_day = NULL;
 		$day_content = '';
 

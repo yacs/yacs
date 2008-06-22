@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 14, 2008, 9:58 pm GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d active now'.chr(0).'%d active now']='%d active now'.chr(0).'%d active now';
 $_SESSION['l10n']['en']['%d posts']='%d posts';
@@ -221,6 +221,7 @@ $_SESSION['l10n']['en']['Jabber Messenger: %s']='Jabber Messenger: %s';
 $_SESSION['l10n']['en']['Jabber address']='Jabber address';
 $_SESSION['l10n']['en']['Jump to the private page that has been created for your web chat with %s']='Jump to the private page that has been created for your web chat with %s';
 $_SESSION['l10n']['en']['Jump to the web address sent to %s']='Jump to the web address sent to %s';
+$_SESSION['l10n']['en']['LDAP %s: bad value \'%s\'.']='LDAP %s: bad value \'%s\'.';
 $_SESSION['l10n']['en']['Last login']='Last login';
 $_SESSION['l10n']['en']['Last name followed by a comma and by other names you may have']='Last name followed by a comma and by other names you may have';
 $_SESSION['l10n']['en']['Last name(s)']='Last name(s)';
@@ -332,7 +333,7 @@ $_SESSION['l10n']['en']['Previous comment']='Previous comment';
 $_SESSION['l10n']['en']['Previous file']='Previous file';
 $_SESSION['l10n']['en']['Previous image']='Previous image';
 $_SESSION['l10n']['en']['Previous location']='Previous location';
-$_SESSION['l10n']['en']['Print']='Print';
+$_SESSION['l10n']['en']['Print this page']='Print this page';
 $_SESSION['l10n']['en']['Private conversations']='Private conversations';
 $_SESSION['l10n']['en']['Proceed with what I was doing before registering']='Proceed with what I was doing before registering';
 $_SESSION['l10n']['en']['Protect mail addresses as much as possible (for Internet servers).']='Protect mail addresses as much as possible (for Internet servers).';
@@ -400,7 +401,6 @@ $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Subscriber']='Subscriber';
 $_SESSION['l10n']['en']['Subscriber of this community, allowed to browse public pages and to receive e-mail newsletters.']='Subscriber of this community, allowed to browse public pages and to receive e-mail newsletters.';
 $_SESSION['l10n']['en']['Tags']='Tags';
-$_SESSION['l10n']['en']['Tags: %s']='Tags: %s';
 $_SESSION['l10n']['en']['Teasers']='Teasers';
 $_SESSION['l10n']['en']['Textarea']='Textarea';
 $_SESSION['l10n']['en']['Thank you for your interest into %s.']='Thank you for your interest into %s.';
@@ -433,6 +433,7 @@ $_SESSION['l10n']['en']['To be appended to your comments and mail messages. Sepa
 $_SESSION['l10n']['en']['Top files']='Top files';
 $_SESSION['l10n']['en']['Top pages']='Top pages';
 $_SESSION['l10n']['en']['Type some letters to look for some name, then select one user at a time.']='Type some letters to look for some name, then select one user at a time.';
+$_SESSION['l10n']['en']['Unknown LDAP option %s.']='Unknown LDAP option %s.';
 $_SESSION['l10n']['en']['Unknown authenticator type %s']='Unknown authenticator type %s';
 $_SESSION['l10n']['en']['Unknown user']='Unknown user';
 $_SESSION['l10n']['en']['Update all user profiles.']='Update all user profiles.';

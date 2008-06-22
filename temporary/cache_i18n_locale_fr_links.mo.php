@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 13, 2008, 9:33 am GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d clicks']='%d s&#233;lections';
 $_SESSION['l10n']['fr']['%d links have been processed.']='%d liens ont &#233;t&#233; analys&#233;s.';

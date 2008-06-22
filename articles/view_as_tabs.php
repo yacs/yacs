@@ -81,7 +81,9 @@ if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('articles/v
 // modify this page
 if(isset($item['id']) && $editable) {
 	Skin::define_img('EDIT_ARTICLE_IMG', 'icons/articles/edit.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'edit') => array('', EDIT_ARTICLE_IMG.i18n::s('Edit this page'), '', 'basic', '', i18n::s('Update the content of this page')) ));
+	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+		$label = i18n::s('Edit this page');
+	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'edit') => array('', EDIT_ARTICLE_IMG.$label, '', 'basic', '', i18n::s('Update the content of this page')) ));
 }
 
 // publish, for associates and authenticated editors
@@ -738,7 +740,9 @@ if(!isset($item['id'])) {
 
 		// modify this page
 		Skin::define_img('EDIT_ARTICLE_IMG', 'icons/articles/edit.gif');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), EDIT_ARTICLE_IMG.i18n::s('Edit this page'), 'basic', i18n::s('Update the content of this page'));
+		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+			$label = i18n::s('Edit this page');
+		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), EDIT_ARTICLE_IMG.$label, 'basic', i18n::s('Update the content of this page'));
 
 		// post an image, if upload is allowed
 		if(Images::are_allowed($anchor, $item)) {
@@ -784,15 +788,15 @@ if(!isset($item['id'])) {
 
 			// get a PDF version
 			Skin::define_img('PDF_TOOL_IMG', 'icons/tools/pdf.gif');
-			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_pdf'), PDF_TOOL_IMG.i18n::s('Export to PDF'), 'basic', i18n::s('Download this page as a PDF file.'));
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_pdf'), PDF_TOOL_IMG.i18n::s('Save as PDF'), 'basic', i18n::s('Download this page as a PDF file.'));
 
 			// open in Word
 			Skin::define_img('MSWORD_TOOL_IMG', 'icons/tools/word.gif');
-			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_msword'), MSWORD_TOOL_IMG.i18n::s('Export to MS-Word'), 'basic', i18n::s('Copy this page in Microsoft MS-Word.'));
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_msword'), MSWORD_TOOL_IMG.i18n::s('Copy in MS-Word'), 'basic', i18n::s('Copy this page in Microsoft MS-Word.'));
 
 			// get a palm version
 			Skin::define_img('PALM_TOOL_IMG', 'icons/tools/palm.gif');
-			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_for_palm'), PALM_TOOL_IMG.i18n::s('Export to Palm'), 'basic', i18n::s('Fetch this page as a Palm memo.'));
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_for_palm'), PALM_TOOL_IMG.i18n::s('Save in Palm'), 'basic', i18n::s('Fetch this page as a Palm memo.'));
 
 		}
 	}

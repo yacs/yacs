@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 14, 2008, 10:01 pm GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d file has been downloaded from the reference server.'.chr(0).'%d files have been downloaded from the reference server.']='%d fichier a &#233;t&#233; t&#233;l&#233;charg&#233; depuis le serveur de r&#233;f&#233;rence.'.chr(0).'%d fichiers ont &#233;t&#233; t&#233;l&#233;charg&#233;s depuis le serveur de r&#233;f&#233;rence.';
 $_SESSION['l10n']['fr']['%d file has been updated.'.chr(0).'%d files have been updated.']='%d fichier a &#233;t&#233; mis &#224; jour.'.chr(0).'%d fichiers ont &#233;t&#233; mis &#224; jour.';
@@ -135,6 +135,7 @@ $_SESSION['l10n']['fr']['Script terminated in %.2f seconds.']='Script termin&#23
 $_SESSION['l10n']['fr']['Script view']='Affichage d\'un script';
 $_SESSION['l10n']['fr']['Scripts of your server are now updated from the staging store. Please do not close your browser until the end of this process']='Les scripts de votre serveur sont &#224; pr&#233;sent mis &#224; jour. Merci de ne pas fermer la fen&#234;tre de votre navigateur avant la fin de ce processus.';
 $_SESSION['l10n']['fr']['Scripts on your server are exact copies of the reference set.']='Les scripts sur votre serveur sont &#224; jour par rapport &#224; l\'ensemble de r&#233;f&#233;rence.';
+$_SESSION['l10n']['fr']['See also']='Voir aussi';
 $_SESSION['l10n']['fr']['See also:']='Voir aussi :';
 $_SESSION['l10n']['fr']['Select the file to upload']='Choisissez le fichier &#224; transmettre';
 $_SESSION['l10n']['fr']['Server software']='Logiciel serveur';

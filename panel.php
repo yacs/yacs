@@ -73,7 +73,7 @@ $context['text'] .= '<p>'.i18n::s('Introduction').BR
 
 // the description label
 $context['text'] .= '<p>'.i18n::s('Page content').BR
-	.'<textarea name="description" id="edit_area" rows="10" cols="20" accesskey="c"></textarea>'
+	.'<textarea name="description" rows="10" cols="20" accesskey="c"></textarea>'
 	.'</p>'."\n";
 
 // the submit and reset buttons

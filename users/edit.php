@@ -874,7 +874,7 @@ if($with_form) {
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
 
  	// change to another editor
-	$help .= '<form><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
+	$help .= '<form action=""><p><select name="preferred_editor" id="preferred_editor" onchange="Yacs.setCookie(\'surfer_editor\', this.value); window.location = window.location;">';
 	$selected = '';
 	if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor'))
 		$selected = ' selected="selected"';

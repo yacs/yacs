@@ -924,7 +924,7 @@ p.caution { /* a warning paragraph -- [caution]...[/caution] -- see also CAUTION
 .center_image { /* an image in the middle of the page [image=xx, center] */
 	display: block;
 	position: relative;
-	clear: both;
+	clear: left;
 	text-align: center;
 	margin: 8px 0 8px 0;
 }

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 13, 2008, 9:33 am GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d approval'.chr(0).'%d approvals']='%d approval'.chr(0).'%d approvals';
 $_SESSION['l10n']['en']['%d reject'.chr(0).'%d rejects']='%d reject'.chr(0).'%d rejects';
@@ -67,12 +67,14 @@ $_SESSION['l10n']['en']['Edit an issue']='Edit an issue';
 $_SESSION['l10n']['en']['Edit one contact']='Edit one contact';
 $_SESSION['l10n']['en']['Edit one day']='Edit one day';
 $_SESSION['l10n']['en']['Edit petition record']='Edit petition record';
+$_SESSION['l10n']['en']['Edit this event']='Edit this event';
 $_SESSION['l10n']['en']['Edit vote record']='Edit vote record';
 $_SESSION['l10n']['en']['Editors of this section']='Editors of this section';
 $_SESSION['l10n']['en']['Editors of this section are allowed to sign']='Editors of this section are allowed to sign';
 $_SESSION['l10n']['en']['Editors of this section are allowed to vote']='Editors of this section are allowed to vote';
 $_SESSION['l10n']['en']['Email address:']='Email address:';
 $_SESSION['l10n']['en']['End date']='End date';
+$_SESSION['l10n']['en']['Export to XML']='Export to XML';
 $_SESSION['l10n']['en']['Express your vote']='Express your vote';
 $_SESSION['l10n']['en']['Extra box']='Extra box';
 $_SESSION['l10n']['en']['Following people:']='Following people:';
@@ -171,7 +173,6 @@ $_SESSION['l10n']['en']['Voters:']='Voters:';
 $_SESSION['l10n']['en']['We are trying to standardize recipes for 4 people.']='We are trying to standardize recipes for 4 people.';
 $_SESSION['l10n']['en']['Web']='Web';
 $_SESSION['l10n']['en']['Web address:']='Web address:';
-$_SESSION['l10n']['en']['XML']='XML';
 $_SESSION['l10n']['en']['YYYY-MM-AA HH:MM']='YYYY-MM-AA HH:MM';
 $_SESSION['l10n']['en']['You have already signed']='You have already signed';
 $_SESSION['l10n']['en']['You have already voted']='You have already voted';

@@ -54,7 +54,7 @@ Class PDF extends FPDF {
 		$text = str_replace('/fetch_as_pdf.php', '/view.php', $text);
 
 		// remove all unsupported tags
-		$text = strip_tags($text, "<a><code><div><font><img><p><br><table><tr><blockquote><h1><h2><h3><h4><pre><ul><li><hr><b><i><u><strong><em>");
+		$text = strip_tags($text, "<a><b><blockquote><br><code><div><em><font><h1><h2><h3><h4><hr><i><img><li><p><pre><strong><table><tr><tt><u><ul>");
 
 		// spaces instead of carriage returns
 		$text = str_replace("\n", ' ', $text);
@@ -93,6 +93,13 @@ Class PDF extends FPDF {
 					break;
 				case '/b':
 					$this->SetFont('', '');
+					break;
+
+				case 'blockquote';
+					$this->Ln($height);
+					break;
+				case '/blockquote';
+					$this->Ln($height);
 					break;
 
 				case 'br':
@@ -203,6 +210,12 @@ Class PDF extends FPDF {
 					}
 					break;
 
+				case 'li':
+					$this->Ln($height);
+					break;
+				case '/li':
+					break;
+
 				case 'p':
 				case '/p':
 					$this->Ln($height);
@@ -219,10 +232,33 @@ Class PDF extends FPDF {
 					$preformatted = FALSE;
 					break;
 
+				case 'strong':
+					$this->SetFont('', 'B');
+					break;
+				case '/strong':
+					$this->SetFont('', '');
+					break;
+
+				case 'table':
+					$this->Ln($height);
+					break;
+				case '/table':
+					$this->Ln($height);
+					break;
+
 				case 'tr':
 					$this->Ln($height+2);
 					$this->Line($this->GetX(),$this->GetY(),$this->GetX()+187,$this->GetY());
 					$this->Ln(3);
+					break;
+
+				case 'tt':
+					$this->SetFont('Courier','',11);
+					$this->SetFontSize(11);
+					break;
+				case '/tt':
+					$this->SetFont('Times','',12);
+					$this->SetFontSize(12);
 					break;
 
 				case 'u':
@@ -231,6 +267,12 @@ Class PDF extends FPDF {
 				case '/u':
 					$this->SetFont('', '');
 					break;
+
+				case 'ul':
+					break;
+				case '/ul':
+					break;
+
 				}
 
 

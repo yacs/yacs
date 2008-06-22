@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 14, 2008, 10:02 pm GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d hits']='%d lectures';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont &#233;t&#233; trait&#233;s';
@@ -52,12 +52,12 @@ $_SESSION['l10n']['fr']['Cloud of tags']='Nuage d\'&#233;tiquettes';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
 $_SESSION['l10n']['fr']['Complete tags']='Etiquetage';
 $_SESSION['l10n']['fr']['Contact the webmaster']='Contacter le webmestre';
-$_SESSION['l10n']['fr']['Content']='Contenu';
 $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['Content tree']='Contenu';
 $_SESSION['l10n']['fr']['Contribute to the web and link to relevant pages.']='Participez &#224; l\'extension du web et indiquez les autres pages pertinentes.';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete a category']='Effacer une cat&#233;gorie';
+$_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['Do not change modification date.']='Ne pas changer la date de modification.';
 $_SESSION['l10n']['fr']['Do not display articles.']='Ne pas afficher les articles';
 $_SESSION['l10n']['fr']['Do not hesitate to attach files related to this page.']='N\'h&#233;sitez pas &#224; attacher les fichiers associ&#233;s &#224; cette page.';
@@ -141,8 +141,8 @@ $_SESSION['l10n']['fr']['Please select below the check to perform.']='Choisissez
 $_SESSION['l10n']['fr']['Popular']='Hit-Parade';
 $_SESSION['l10n']['fr']['Prefix']='Pr&#233;fixe';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
-$_SESSION['l10n']['fr']['Print']='Imprimer';
 $_SESSION['l10n']['fr']['Print a category']='Imprimer une cat&#233;gorie';
+$_SESSION['l10n']['fr']['Print this page']='Imprimer cette page';
 $_SESSION['l10n']['fr']['Publications by month']='Publications mois par mois';
 $_SESSION['l10n']['fr']['Publications by week']='Publications semaine par semaine';
 $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';

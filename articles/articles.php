@@ -2176,6 +2176,8 @@ Class Articles {
 			$fields['edit_action'] = preg_replace('/import$/i', 'update', $fields['edit_action']);
 		if(!isset($fields['rank']))
 			$fields['rank'] = 10000;
+		if(!isset($fields['nick_name']))
+			$fields['nick_name'] = '';
 
 		// clean provided tags
 		if(isset($fields['tags']))

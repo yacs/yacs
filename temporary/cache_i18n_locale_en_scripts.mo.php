@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 14, 2008, 10:01 pm GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d file has been downloaded from the reference server.'.chr(0).'%d files have been downloaded from the reference server.']='%d file has been downloaded from the reference server.'.chr(0).'%d files have been downloaded from the reference server.';
 $_SESSION['l10n']['en']['%d file has been updated.'.chr(0).'%d files have been updated.']='%d file has been updated.'.chr(0).'%d files have been updated.';
@@ -135,6 +135,7 @@ $_SESSION['l10n']['en']['Script terminated in %.2f seconds.']='Script terminated
 $_SESSION['l10n']['en']['Script view']='Script view';
 $_SESSION['l10n']['en']['Scripts of your server are now updated from the staging store. Please do not close your browser until the end of this process']='Scripts of your server are now updated from the staging store. Please do not close your browser until the end of this process';
 $_SESSION['l10n']['en']['Scripts on your server are exact copies of the reference set.']='Scripts on your server are exact copies of the reference set.';
+$_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['See also:']='See also:';
 $_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
 $_SESSION['l10n']['en']['Server software']='Server software';

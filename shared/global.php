@@ -1033,6 +1033,40 @@ function render_skin($stamp=0) {
 		.'	var url_to_skin = \''.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/\''."\n"
 		.'// ]]></script>'."\n";
 
+	// activate tinyMCE, if available -- before prototype and scriptaculous
+	if(isset($context['javascript']['tinymce']) && file_exists($context['path_to_root'].'included/tiny_mce/tiny_mce.js')) {
+
+		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce_gzip.js"></script>'."\n"
+			.'<script type="text/javascript">// <![CDATA['."\n"
+			.'	tinyMCE_GZ.init({'."\n"
+			.'		plugins : "safari,table,advhr,advimage,advlink,emotions,insertdatetime,media,searchreplace,contextmenu,paste,directionality,fullscreen,visualchars",'."\n"
+			.'		languages : "fr",'."\n"
+			.'		disk_cache : false,'."\n"
+			.'		debug : false });'."\n"
+			.'</script>'."\n"
+			.'<!-- Needs to be seperate script tags! -->'."\n"
+			.'<script type="text/javascript">'."\n"
+			.'	tinyMCE.init({'."\n"
+			.'		mode : "textareas",'."\n"
+			.'		theme : "advanced",'."\n"
+			.'		editor_selector : "tinymce",'."\n"
+			.'		plugins : "safari,table,advhr,advimage,advlink,emotions,insertdatetime,media,searchreplace,contextmenu,paste,directionality,fullscreen,visualchars",'."\n"
+			.'		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontselect,fontsizeselect",'."\n"
+			.'		theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",'."\n"
+			.'		theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,advhr,|,ltr,rtl,|,fullscreen",'."\n"
+			.'		theme_advanced_buttons4 : "",'."\n"
+			.'		theme_advanced_toolbar_location : "top",'."\n"
+			.'		theme_advanced_toolbar_align : "left",'."\n"
+			.'		theme_advanced_statusbar_location : "bottom",'."\n"
+			.'		theme_advanced_resizing : true,'."\n"
+			.'		extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",'."\n"
+			.'		template_external_list_url : "example_template_list.js",'."\n"
+			.'		use_native_selects : true'."\n"
+			.'	});'."\n"
+			.'// ]]></script>'."\n";
+
+	}
+
 	// load a bunch of included scripts in one step, including prototype --we are doing that in the header, because of Event.observe(window, "load", ... in $context['text']
 	$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/minify.php"></script>'."\n";
 
@@ -1050,33 +1084,6 @@ function render_skin($stamp=0) {
 	// site trailer, if any
 	if(isset($context['site_trailer']) && $context['site_trailer'])
 		$context['page_footer'] .= $context['site_trailer']."\n";
-
-	// activate tinyMCE, if available -- see shared/surfer.php
-	if(isset($context['javascript']['tinymce']) && file_exists($context['path_to_root'].'included/tiny_mce/tiny_mce_src.js')) {
-
-		$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce_src.js"></script>'."\n"
-			.'<script type="text/javascript">// <![CDATA['."\n"
-			.'	tinyMCE.init({'."\n"
-			.'		mode : "textareas",'."\n"
-			.'		theme : "advanced",'."\n"
-			.'		editor_selector : "tinymce",'."\n"
-			.'		plugins : "advhr,advimage,advlink,emotions,fullscreen,paste,searchreplace,table",'."\n"
-			.'		theme_advanced_buttons1 : "fullscreen,|,cut,copy,paste,pastetext,pasteword,|,search,replace,|,fontselect,fontsizeselect",'."\n"
-			.'		theme_advanced_buttons2 : "bold,italic,underline,strikethrough,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,|,undo,redo",'."\n"
-			.'		theme_advanced_buttons3 : "tablecontrols,|,link,unlink,anchor,image,advhr",'."\n"
-			.'		theme_advanced_toolbar_location : "top",'."\n"
-			.'		theme_advanced_toolbar_align : "left",'."\n"
-			.'		plugi2n_insertdate_dateFormat : "%Y-%m-%d",'."\n"
-			.'		plugi2n_insertdate_timeFormat : "%H:%M:%S",'."\n"
-			.'		paste_auto_cleanup_on_paste : true,'."\n"
-			.'		paste_convert_headers_to_strong : false,'."\n"
-			.'		paste_strip_class_attributes : "all",'."\n"
-			.'		paste_remove_spans : false,'."\n"
-			.'		paste_remove_styles : false 	'."\n"
-			.'	});'."\n"
-			.'// ]]></script>'."\n";
-
-	}
 
 	// activate jsCalendar, if available
 	if(isset($context['javascript']['calendar']) && file_exists($context['path_to_root'].'included/jscalendar/calendar.js')) {

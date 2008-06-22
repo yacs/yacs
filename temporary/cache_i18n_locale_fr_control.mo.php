@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 13, 2008, 9:34 am GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:25 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d SQL statements have been processed in %.2f seconds.']='%d commandes SQL ont &#233;t&#233; trait&#233;es en %.2f secondes.';
 $_SESSION['l10n']['fr']['%d articles have been processed. Finished']='%d articles ont &#233;t&#233; import&#233;s. Termin&#233;';
@@ -530,7 +530,7 @@ $_SESSION['l10n']['fr']['Service hooks']='Shared web services';
 $_SESSION['l10n']['fr']['Serving hook %s for %s']='Service de l\'extension %s pour %s';
 $_SESSION['l10n']['fr']['Session data:']='Donn&#233;es de session :';
 $_SESSION['l10n']['fr']['Session variables are stored correctly if the counter increments on page reload: %s']='Les variables de session sont sauv&#233;es correctement si le compteur s\'incr&#233;mente &#224; chaque rechargement de cette page : %s';
-$_SESSION['l10n']['fr']['Set HTTP headers to enable private caching and to ask for every page revalidation.']='Fournir les attribut HTTP pour autoriser le cache et pour demander la revalidation syst&#233;matique des pages.';
+$_SESSION['l10n']['fr']['Set HTTP headers to enable private caching and to ask for every page revalidation.']='Activer le cache c&#244;t&#233; navigateur et demander la revalidation syst&#233;matique des pages.';
 $_SESSION['l10n']['fr']['Shared links of interest']='Liens partag&#233;s';
 $_SESSION['l10n']['fr']['Shortcuts']='Raccourcis';
 $_SESSION['l10n']['fr']['Side news']='Nouvelles';
@@ -666,7 +666,7 @@ $_SESSION['l10n']['fr']['Visits']='Visites';
 $_SESSION['l10n']['fr']['Vote']='Vote';
 $_SESSION['l10n']['fr']['We recommend at least 4 letters, two digits, and a punctuation sign - in any order']='De pr&#233;f&#233;rence au moins 4 chiffres, 2 lettres et 1 signe de ponctuation';
 $_SESSION['l10n']['fr']['Web address']='Adresse web';
-$_SESSION['l10n']['fr']['Web cache']='M&#233;morisation des r&#233;ponses';
+$_SESSION['l10n']['fr']['Web cache']='Cache du navigateur';
 $_SESSION['l10n']['fr']['Web security']='S&#233;curit&#233; web';
 $_SESSION['l10n']['fr']['Web server:']='Serveur Internet :';
 $_SESSION['l10n']['fr']['Web services']='Services web';

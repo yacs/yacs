@@ -182,7 +182,7 @@ Class Layout_files extends Layout_interface {
 
 			// clear assignment
 			if(isset($item['assign_id']) && $item['assign_id'] && Surfer::is_associate())
-				$menu = array_merge($menu, array( Files::get_url($item['id'], 'clear') => i18n::s('Unassign') ));
+				$menu = array_merge($menu, array( Files::get_url($item['id'], 'clear') => array('', i18n::s('Unassign'), '', 'basic') ));
 
 			// delete the file
 			if((Surfer::is_empowered() && Surfer::is_member()) || Surfer::is($item['create_id']))

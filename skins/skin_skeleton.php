@@ -829,7 +829,7 @@ Class Skin_Skeleton {
 
 			// put the hint after the field
 			if($hint)
-				$input .= '<br style="clear: both;" /><span class="tiny">'.$hint.'</span>';
+				$input .= '<br style="clear: both;" /><div class="tiny">'.$hint.'</div>';
 
 			$cells = array();
 			switch($variant) {
@@ -1270,7 +1270,8 @@ Class Skin_Skeleton {
 		}
 
 		// open in a separate window if asked explicitly or on file download
-		if($new_window || preg_match('/\/file(s\/fetch\.php|-fetch\/)(?!.+detach$)/', $url) || preg_match('/\/file(s\/stream\.php|-stream\/)/', $url))
+// 		if($new_window || preg_match('/\/file(s\/fetch\.php|-fetch\/)(?!.+detach$)/', $url) || preg_match('/\/file(s\/stream\.php|-stream\/)/', $url))
+		if($new_window || preg_match('/\/file(s\/stream\.php|-stream\/)/', $url))
 			$new_window = ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"';
 		else
 			$new_window = '';

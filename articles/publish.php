@@ -2,8 +2,6 @@
 /**
  * publish an article
  *
- * @todo allow authors to publish their drafts in sections with option for auto-publication (Lasares)
- *
  * Publishing an article means that the surfer takes the ownership of the publication. Therefore,
  * his/her name is registered in the database with the publishing date.
  *
@@ -18,7 +16,9 @@
  * - the page has not been flagged to not appear at the front page
  * - the page is active (not restricted nor hidden)
  *
- * This page is to be used by associates and editors only, while they are reviewing queued articles.
+ * This page is to be used by associates and editors, while they are reviewing queued articles.
+ * In sections where option 'auto_publish' has been set, authors are also allowed
+ * to publish their pages.
  *
  * Accept following invocations:
  * - publish.php/12
@@ -31,6 +31,7 @@
  * @author GnapZ
  * @tester Olivier
  * @tester Pat
+ * @tester Lasares
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -54,6 +55,25 @@ $anchor = NULL;
 if(isset($item['anchor']))
 	$anchor = Anchors::get($item['anchor']);
 
+// editors can do what they want on items anchored here
+if(Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())
+	Surfer::empower();
+
+// access control
+$permitted = FALSE;
+
+// associates and editors can publish pages
+if(Surfer::is_empowered())
+	$permitted = TRUE;
+
+// page authors can publish their pages where auto-publication has been allowed
+elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())) {
+	if(isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y'))
+		$permitted = TRUE;
+	elseif(is_object($anchor) && $anchor->has_option('auto_publish'))
+		$permitted = TRUE;
+}
+
 // do not always show the edition form
 $with_form = FALSE;
 
@@ -73,15 +93,16 @@ if(isset($item['id']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
 // page title
-$context['page_title'] = i18n::s('Publish a page');
+if(isset($item['id']))
+	$context['page_title'] = sprintf(i18n::s('Publish: %s'), $item['title']);
 
 // not found
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
-// publication is restricted to associates and editors
-} elseif(!Surfer::is_associate() && (!Surfer::is_member() || !is_object($anchor) || !$anchor->is_editable())) {
+// publication is not available to everybody
+} elseif(!$permitted) {
 
 	// anonymous users are invited to log in
 	if(!Surfer::is_logged())
@@ -221,10 +242,6 @@ if($with_form) {
 	// the form
 	$context['text'] .= '<form id="edit_form" method="post" action="'.$context['script_url'].'"><div>';
 
-	// reference the anchor page
-	if(is_object($anchor) && $anchor->is_viewable())
-		$context['text'] .= '<p>'.sprintf(i18n::s('You are publishing: %s'), Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), $item['title'], $item['nick_name']))."</p>\n";
-
 	// encode fields
 	$fields = array();
 
@@ -308,7 +325,7 @@ if($with_form) {
 	$menu = array();
 	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 	$menu[] = Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
-	$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// article id and confirmation
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';

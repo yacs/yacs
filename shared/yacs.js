@@ -1223,5 +1223,5 @@ var Yacs = {
 
 }
 
-// since this file is loaded at the bottom of the page, this is faster then Event.observe(window, 'load', ...)
-Yacs.onWindowLoad();
+// initialize yacs
+Event.observe(window, "load", Yacs.onWindowLoad);

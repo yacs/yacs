@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 14, 2008, 9:58 pm GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
 $_SESSION['l10n']['en']['%d comments']='%d comments';
@@ -71,14 +71,13 @@ $_SESSION['l10n']['en']['Add a section']='Add a section';
 $_SESSION['l10n']['en']['Add additional content']='Add additional content';
 $_SESSION['l10n']['en']['Add an image']='Add an image';
 $_SESSION['l10n']['en']['Add another section']='Add another section';
-$_SESSION['l10n']['en']['Add conversion tools to PDF, MS-Word, Palm at the bottom of each page']='Add conversion tools to PDF, MS-Word, Palm at the bottom of each page';
+$_SESSION['l10n']['en']['Add conversion tools to PDF, MS-Word, Palm']='Add conversion tools to PDF, MS-Word, Palm';
 $_SESSION['l10n']['en']['Add default sections']='Add default sections';
 $_SESSION['l10n']['en']['Add new content to this section']='Add new content to this section';
 $_SESSION['l10n']['en']['All characters after this string will be removed']='All characters after this string will be removed';
 $_SESSION['l10n']['en']['All characters before this string will be removed']='All characters before this string will be removed';
 $_SESSION['l10n']['en']['Allow anonymous surfers to change content']='Allow anonymous surfers to change content';
 $_SESSION['l10n']['en']['Allow members to change content']='Allow members to change content';
-$_SESSION['l10n']['en']['Allow surfers to rate pages of this section']='Allow surfers to rate pages of this section';
 $_SESSION['l10n']['en']['Alternate title used in lists and in the contextual menu']='Alternate title used in lists and in the contextual menu';
 $_SESSION['l10n']['en']['Annotate this page']='Annotate this page';
 $_SESSION['l10n']['en']['Another personal space of %s']='Another personal space of %s';
@@ -315,7 +314,7 @@ $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Prevent YACS to add links to previous and next pages in the same section']='Prevent YACS to add links to previous and next pages in the same section';
 $_SESSION['l10n']['en']['Previous']='Previous';
 $_SESSION['l10n']['en']['Previous versions of this page']='Previous versions of this page';
-$_SESSION['l10n']['en']['Print']='Print';
+$_SESSION['l10n']['en']['Print this page']='Print this page';
 $_SESSION['l10n']['en']['Processed Queries']='Processed Queries';
 $_SESSION['l10n']['en']['Promote a comment']='Promote a comment';
 $_SESSION['l10n']['en']['Promote a note']='Promote a note';
@@ -337,7 +336,7 @@ $_SESSION['l10n']['en']['Real-time collaboration']='Real-time collaboration';
 $_SESSION['l10n']['en']['Recent files']='Recent files';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['Recent pages should be:']='Recent pages should be:';
-$_SESSION['l10n']['en']['Reference']='Reference';
+$_SESSION['l10n']['en']['Reference this page']='Reference this page';
 $_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Related']='Related';
 $_SESSION['l10n']['en']['Related servers']='Related servers';
@@ -391,6 +390,7 @@ $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Submitted to the webmaster by any surfers']='Submitted to the webmaster by any surfers';
 $_SESSION['l10n']['en']['Suffix']='Suffix';
 $_SESSION['l10n']['en']['Suffix separator']='Suffix separator';
+$_SESSION['l10n']['en']['Surfers are not allowed to rate pages in this section']='Surfers are not allowed to rate pages in this section';
 $_SESSION['l10n']['en']['Tabbed panels']='Tabbed panels';
 $_SESSION['l10n']['en']['Templates']='Templates';
 $_SESSION['l10n']['en']['Text to be appended at the bottom of the page, after all other elements attached to this page.']='Text to be appended at the bottom of the page, after all other elements attached to this page.';

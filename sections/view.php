@@ -367,7 +367,9 @@ if(isset($item['id']) && !$zoom_type && $has_content && $editable) {
 // modify this page
 if(isset($item['id']) && !$zoom_type && $editable) {
 	Skin::define_img('EDIT_SECTION_IMG', 'icons/sections/edit.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url($item['id'], 'edit') => array('', EDIT_SECTION_IMG.i18n::s('Edit this page'), '', 'basic', '', i18n::s('Update the content of this page')) ));
+	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+		$label = i18n::s('Edit this page');
+	$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url($item['id'], 'edit') => array('', EDIT_SECTION_IMG.$label, '', 'basic', '', i18n::s('Update the content of this page')) ));
 }
 
 // access previous versions, if any
@@ -1035,7 +1037,9 @@ if(!isset($item['id'])) {
 
 								Skin::define_img('NEW_THREAD_IMG', 'icons/articles/new_thread.gif');
 								$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
-								if($item['articles_layout'] == 'jive')
+								if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
+									;
+								elseif($item['articles_layout'] == 'jive')
 									$label = NEW_THREAD_IMG.' '.i18n::s('Start a new topic');
 								elseif($item['articles_layout'] == 'yabb')
 									$label = NEW_THREAD_IMG.' '.i18n::s('Start a new topic');
@@ -1626,7 +1630,15 @@ if(!isset($item['id'])) {
 
 		$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
 		Skin::define_img('NEW_ARTICLE_IMG', 'icons/articles/new.gif');
-		$context['page_tools'][] = Skin::build_link($url, NEW_ARTICLE_IMG.i18n::s('Add a page'), 'basic', i18n::s('Add new content to this section'));
+		if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
+			;
+		elseif($item['articles_layout'] == 'jive')
+			$label = i18n::s('Start a new topic');
+		elseif($item['articles_layout'] == 'yabb')
+			$label = i18n::s('Start a new topic');
+		else
+			$label = i18n::s('Add a page');
+		$context['page_tools'][] = Skin::build_link($url, NEW_ARTICLE_IMG.$label, 'basic', i18n::s('Add new content to this section'));
 
 		// the command to create a new poll, if no overlay nor template has been defined for content of this section
 		if((!isset($item['content_overlay']) || !trim($item['content_overlay'])) && (!isset($item['articles_templates']) || !trim($item['articles_templates'])) && (!is_object($anchor) || !$anchor->get_templates_for('article'))) {
@@ -1651,7 +1663,9 @@ if(!isset($item['id'])) {
 
 		// modify this page
 		Skin::define_img('EDIT_SECTION_IMG', 'icons/sections/edit.gif');
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), EDIT_SECTION_IMG.i18n::s('Edit this page'), 'basic', i18n::s('Update the content of this page'));
+		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+			$label = i18n::s('Edit this page');
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), EDIT_SECTION_IMG.$label, 'basic', i18n::s('Update the content of this page'));
 
 		// post an image, if upload is allowed
 		if(Images::are_allowed($anchor, $item)) {

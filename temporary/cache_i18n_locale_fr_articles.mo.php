@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 14, 2008, 9:58 pm GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['"%s" is not a valid expiry date']='"%s" n\'est pas une date d\'expiration valide';
 $_SESSION['l10n']['fr']['"%s" is not a valid publication date']='"%s" n\'est pas une date de publication valide';
@@ -47,6 +47,7 @@ $_SESSION['l10n']['fr']['All other trademarks, icons, and logos, shown or mentio
 $_SESSION['l10n']['fr']['All pages']='Toutes les pages';
 $_SESSION['l10n']['fr']['Allow anonymous surfers to edit content']='Les surfeurs anonymes peuvent changer le contenu';
 $_SESSION['l10n']['fr']['Allow members to edit content']='Les membres peuvent changer le contenu';
+$_SESSION['l10n']['fr']['Allow these persons to edit the page.']='Permettre d\'&#233;diter la page.';
 $_SESSION['l10n']['fr']['Also complements the title in lists featuring this page']='Compl&#232;te le titre dans les listes o&#249; la page apparait';
 $_SESSION['l10n']['fr']['Although some Internet users think cookies are a serious privacy issue, as web designers we think that they come in darned handy. This site uses cookies for basic account identification purposes, but that\'s as far as we go. We won\'t use any information from cookies to track your browsing sessions, attempt to extract personal information from them that we wouldn\'t otherwise have access to, or do any other naughty things with your cookies. If you don\'t agree with our use of cookies, you can configure most web browsers not to accept them. Even without a cookie, a significant part of this server will still be accessible to you (although you will lose the ability to do anything that requires you to be logged into the server).']='Ce site utilise les cookies comme m&#233;canisme standard de gestion de session. Nous n\'utilisons pas les cookies pour suivre les sessions de navigation individuelles, ni pour faire d\'autres choses ind&#233;licates. Si vous n\'&#234;tes pas d\'accord avec cette politique, merci de configurer votre navigateur pour ne pas accepter les cookies de ce site. Une partie significative de ce site vous restera accessible, m&#234;me si vous perdrez la facult&#233; de vous authentifier et de contribuer.';
 $_SESSION['l10n']['fr']['An about page already exists.']='Une page "&#224;-propos" existe d&#233;j&#224;.';
@@ -84,6 +85,7 @@ $_SESSION['l10n']['fr']['Content tree']='Gestion du contenu';
 $_SESSION['l10n']['fr']['Contribute to the web and link to relevant pages.']='Participez &#224; l\'extension du web et indiquez les autres pages pertinentes.';
 $_SESSION['l10n']['fr']['Contribution to the site front page']='Contribution &#224; la page d\'accueil';
 $_SESSION['l10n']['fr']['Cookies']='Cookies';
+$_SESSION['l10n']['fr']['Copy in MS-Word']='Copier dans MS-Word';
 $_SESSION['l10n']['fr']['Copy of %s']='Copie de %s';
 $_SESSION['l10n']['fr']['Copy this page in Microsoft MS-Word.']='Copier cette page dans Microsoft MS-Word';
 $_SESSION['l10n']['fr']['Copyright']='Copyright';
@@ -91,7 +93,7 @@ $_SESSION['l10n']['fr']['Cover article']='Article de couverture';
 $_SESSION['l10n']['fr']['Dead articles']='Articles p&#233;rim&#233;s';
 $_SESSION['l10n']['fr']['Default Section']='Section par d&#233;faut';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
-$_SESSION['l10n']['fr']['Delete a page']='Effacer un article';
+$_SESSION['l10n']['fr']['Delete: %s']='Supprimer : %s';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['Details']='D&#233;tails';
 $_SESSION['l10n']['fr']['Discuss']='Commenter';
@@ -105,7 +107,7 @@ $_SESSION['l10n']['fr']['Download this page as a PDF file.']='Charger cette page
 $_SESSION['l10n']['fr']['Draft']='Brouillon';
 $_SESSION['l10n']['fr']['Due to the large amount of e-mail that we get, we can NOT guarantee a response! This is especially true if your e-mail concerns issues we can\'t really help you with.']='L\'afflux de messages que nous recevons est tel que nous ne pouvons pas vous garantir une r&#233;ponse. Et bien &#233;videmment, nous pr&#233;f&#233;rons r&#233;pondre en priorit&#233; aux messages proches de nos centres d\'expertise.';
 $_SESSION['l10n']['fr']['Duplicate']='Dupliquer';
-$_SESSION['l10n']['fr']['Duplicate a page']='Dupliquer un article';
+$_SESSION['l10n']['fr']['Duplicate: %s']='Dupliquer : %s';
 $_SESSION['l10n']['fr']['E-mail has not been enabled on this system.']='Ce syst&#232;me n\'est pas configur&#233; pour l\'envoi de messages &#233;lectroniques.';
 $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit the page']='Modifier la page';
@@ -119,7 +121,8 @@ $_SESSION['l10n']['fr']['Error while sending the message to %s']='Erreur pendant
 $_SESSION['l10n']['fr']['Excellent']='Excellent';
 $_SESSION['l10n']['fr']['Expire']='Ech&#233;ance';
 $_SESSION['l10n']['fr']['Expiry date']='Date d\'expiration';
-$_SESSION['l10n']['fr']['Export']='Exporter';
+$_SESSION['l10n']['fr']['Export to XML']='Convertir en XML';
+$_SESSION['l10n']['fr']['Export tools']='Exporter';
 $_SESSION['l10n']['fr']['Express yourself, and say what you think.']='Exprimez-vous, et dites ce que vous en pensez.';
 $_SESSION['l10n']['fr']['Extra']='Extra';
 $_SESSION['l10n']['fr']['FCKEditor']='FCKEditor';
@@ -182,6 +185,7 @@ $_SESSION['l10n']['fr']['Information']='Information';
 $_SESSION['l10n']['fr']['Information channels']='Fils d\'information';
 $_SESSION['l10n']['fr']['Introduction']='Introduction';
 $_SESSION['l10n']['fr']['Invite people']='Inviter &#224; participer';
+$_SESSION['l10n']['fr']['Invitees are asked to review and to contribute.']='Inviter ces personnes &#224; lire et &#224; contribuer.';
 $_SESSION['l10n']['fr']['It seems to be one of the Laws of the Internet that every site of any importance must have an email address for the webmaster. Far be it from us to break the trend; so, if you have something vitally important to tell the folks who designed this place, send a message at the following address.']='L\'une des lois de l\'Internet veut que chaque site d\'importance indique l\'adresse &#233;lectronique de son webmestre. Loin de nous l\'id&#233;e de d&#233;roger &#224; ce principe. Donc, si vous avez quelque chose d\'important &#224; partager avec les responsables de ce site, envoyez un message &#224; l\'adresse suivante.';
 $_SESSION['l10n']['fr']['Keywords']='Mots-cl&#233;s';
 $_SESSION['l10n']['fr']['Language']='Langue';
@@ -198,8 +202,6 @@ $_SESSION['l10n']['fr']['Lock a page']='Verrouiller une page';
 $_SESSION['l10n']['fr']['Locked']='Verrouill&#233;';
 $_SESSION['l10n']['fr']['Look for orphan records']='D&#233;tecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Looking for orphans in articles table...']='D&#233;tecter les enregistrements orphelins';
-$_SESSION['l10n']['fr']['MS-Word']='MS-Word';
-$_SESSION['l10n']['fr']['Mail a page']='Envoyer un article';
 $_SESSION['l10n']['fr']['Mail address: %s']='Adresse du destinataire : %s';
 $_SESSION['l10n']['fr']['Mailings']='Courriers &#233;lectroniques';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
@@ -243,13 +245,11 @@ $_SESSION['l10n']['fr']['Operation has failed.']='L\'op&#233;ration a &#233;chou
 $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Orphan: article %s']='Orphelin : article %s';
 $_SESSION['l10n']['fr']['Owner']='Propri&#233;taire';
-$_SESSION['l10n']['fr']['PDF']='PDF';
 $_SESSION['l10n']['fr']['Page']='Page';
 $_SESSION['l10n']['fr']['Page bottom']='Bas de page';
 $_SESSION['l10n']['fr']['Page content exceeds 64,000 characters. Do you confirm you are intended to post a jumbo page?']='Le contenu de votre page exc&#232;de 64 000 caract&#232;res. Confirmez-vous votre intention d\'envoyer une page &#233;norme ?';
 $_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['Pages under preparation']='Pages en pr&#233;paration';
-$_SESSION['l10n']['fr']['Palm']='Palm';
 $_SESSION['l10n']['fr']['Parse links and trackback referenced pages']='Analyser les liens et avertir les pages r&#233;f&#233;renc&#233;es';
 $_SESSION['l10n']['fr']['Participants']='Participants';
 $_SESSION['l10n']['fr']['Passwords']='Mots de passe';
@@ -263,7 +263,6 @@ $_SESSION['l10n']['fr']['Please prove you are not a robot.']='Merci de prouver q
 $_SESSION['l10n']['fr']['Please provide a meaningful title.']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['Please provide a recipient address.']='Merci d\'indiquer une adresse de r&#233;ception.';
 $_SESSION['l10n']['fr']['Please select below the check to perform.']='Choisissez ci-dessous la v&#233;rification &#224; effectuer.';
-$_SESSION['l10n']['fr']['Please select below the kind of message you would like to send.']='Choisissez ci-dessous le type de message &#224; envoyer.';
 $_SESSION['l10n']['fr']['Please type the text of your new page and hit the submit button. You will then be able to post images, files and links on subsequent forms.']='Merci de taper le texte de votre nouvelle page et de cliquer sur le bouton en bas du formulaire. L\'envoi des images, des fichiers et des liens se fait dans un deuxi&#232;me temps.';
 $_SESSION['l10n']['fr']['Poor']='Pauvre';
 $_SESSION['l10n']['fr']['Popular']='Hit-Parade';
@@ -283,15 +282,14 @@ $_SESSION['l10n']['fr']['Prevent the upload of new files']='Emp&#234;cher l\'env
 $_SESSION['l10n']['fr']['Previous']='Pr&#233;c&#233;dent';
 $_SESSION['l10n']['fr']['Previous pages']='Pages pr&#233;c&#233;dentes';
 $_SESSION['l10n']['fr']['Previous versions of this page']='Versions pr&#233;c&#233;dentes de cette page';
-$_SESSION['l10n']['fr']['Print']='Imprimer';
+$_SESSION['l10n']['fr']['Print this page']='Imprimer cette page';
 $_SESSION['l10n']['fr']['Privacy Policy']='Protection de la vie priv&#233;e';
-$_SESSION['l10n']['fr']['Provide feed-back to page author']='R&#233;agir aupr&#232;s de l\'auteur';
 $_SESSION['l10n']['fr']['Publication']='Publication';
 $_SESSION['l10n']['fr']['Publication date']='Date de publication';
 $_SESSION['l10n']['fr']['Publication date is invalid.']='La date de publication est incorrecte.';
 $_SESSION['l10n']['fr']['Publish']='Publier';
-$_SESSION['l10n']['fr']['Publish a page']='Publier la page';
 $_SESSION['l10n']['fr']['Publish the page']='Publier la page';
+$_SESSION['l10n']['fr']['Publish: %s']='Publier : %s';
 $_SESSION['l10n']['fr']['Put your e-mail address to be alerted on surfer reactions']='Pour &#234;tre alert&#233; par courrier &#233;lectronique des r&#233;actions des autres surfers';
 $_SESSION['l10n']['fr']['Query: [link=Use the on-line form]query.php[/link]']='Requ&#234;te : [link=Utiliser le formulaire en ligne]query.php[/link]';
 $_SESSION['l10n']['fr']['Rank']='Rang';
@@ -309,9 +307,8 @@ $_SESSION['l10n']['fr']['Real-time collaboration']='Interactions en temps r&#233
 $_SESSION['l10n']['fr']['Recent comments']='Commentaires r&#233;cents';
 $_SESSION['l10n']['fr']['Recent files']='Fichiers r&#233;cents';
 $_SESSION['l10n']['fr']['Recent pages']='Pages r&#233;centes';
-$_SESSION['l10n']['fr']['Recipient addresses put in this page are used only once, to send your message, and are not stored afterwards.']='Les adresses indiqu&#233;es sont utilis&#233;es une fois, pour l\'envoi des messages, et ne sont pas conserv&#233;es par la suite.';
-$_SESSION['l10n']['fr']['Recipient e-mail address']='Adresse du destinataire';
-$_SESSION['l10n']['fr']['Reference']='R&#233;f&#233;rencer';
+$_SESSION['l10n']['fr']['Recipient addresses are used only once, to send your message, and are not stored afterwards.']='Les adresses indiqu&#233;es sont utilis&#233;es une seule fois, pour l\'envoi des messages, et ne sont pas conserv&#233;es par la suite.';
+$_SESSION['l10n']['fr']['Reference this page']='R&#233;f&#233;rencer cette page';
 $_SESSION['l10n']['fr']['Referrals']='R&#233;f&#233;rences externes';
 $_SESSION['l10n']['fr']['Regular sections']='Sections normales';
 $_SESSION['l10n']['fr']['Related']='A ce sujet';
@@ -322,6 +319,8 @@ $_SESSION['l10n']['fr']['Replies']='R&#233;actions';
 $_SESSION['l10n']['fr']['Request is invalid.']='La requ&#234;te est invalide.';
 $_SESSION['l10n']['fr']['Restricted to members']='Acc&#232;s restreint aux membres authentifi&#233;s';
 $_SESSION['l10n']['fr']['Review queue']='Articles &#224; contr&#244;ler';
+$_SESSION['l10n']['fr']['Save as PDF']='Sauver en PDF';
+$_SESSION['l10n']['fr']['Save in Palm']='Sauver dans un Palm';
 $_SESSION['l10n']['fr']['Save the new date (YYYY-MM-DD HH:MM)']='Enregistrer la nouvelle date (AAAA-MM-JJ HH:MM)';
 $_SESSION['l10n']['fr']['Screen shared by %s']='Ecran partag&#233; par %s';
 $_SESSION['l10n']['fr']['Script terminated in %.2f seconds.']='Script termin&#233; en %.2f seconds.';
@@ -338,6 +337,8 @@ $_SESSION['l10n']['fr']['Sent by %s in %s']='Envoy&#233; par %s dans %s';
 $_SESSION['l10n']['fr']['Set an expiry date (YYYY-MM-DD HH:MM)']='Enregistrer la date d\'&#233;ch&#233;ance (AAAA-MM-JJ HH:MM)';
 $_SESSION['l10n']['fr']['Share screen with NetMeeting']='Partager l\'&#233;cran avec NetMeeting';
 $_SESSION['l10n']['fr']['Share screen with VNC']='Partager l\'&#233;cran avec VNC';
+$_SESSION['l10n']['fr']['Share this page']='Partager cette page';
+$_SESSION['l10n']['fr']['Share: %s']='Partager : %s';
 $_SESSION['l10n']['fr']['Shared screen of %s']='Ecran partag&#233; par %s';
 $_SESSION['l10n']['fr']['Show more lines']='Montrer plus de lignes';
 $_SESSION['l10n']['fr']['Site Map']='Carte du site';
@@ -362,7 +363,6 @@ $_SESSION['l10n']['fr']['Suffix']='Suffixe';
 $_SESSION['l10n']['fr']['Tabbed panels']='Panneaux &#224; onglets';
 $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['Tags']='Etiquettes';
-$_SESSION['l10n']['fr']['Tags: %s']='Etiquettes : %s';
 $_SESSION['l10n']['fr']['Text to be appended at the bottom of the page, after all other elements attached to this page.']='Texte &#224; ajouter en bas de page, apr&#232;s tous les &#233;l&#233;ments attach&#233;s &#224; cette page.';
 $_SESSION['l10n']['fr']['Text to be inserted in the panel aside the page.']='Texte ins&#233;r&#233; dans le panneau extra, sur le c&#244;t&#233; de la page.';
 $_SESSION['l10n']['fr']['Textarea']='Textarea';
@@ -380,7 +380,6 @@ $_SESSION['l10n']['fr']['The page has been duplicated.']='La page a &#233;t&#233
 $_SESSION['l10n']['fr']['The page has been successfully published.']='La page a &#233;t&#233; publi&#233;e avec succ&#232;s.';
 $_SESSION['l10n']['fr']['The preferred mean to join us is to use the general-purpose query form. This is a convenient tool for you and for us, because your request and related answers will be listed at a single place accessible from your web browser. Moreover, you will be informed by e-mail of any progressing step to your query.']='Le plus simple pour nous contacter est d\'utiliser le formulaire de requ&#234;te. Il s\'agit d\'un outil pratique pour vous comme pour nous, parce votre requ&#234;te, ainsi que les les r&#233;ponses associ&#233;es, sont regroup&#233;es en une seule page accessible depuis votre navigateur. De plus, vous pouvez &#234;tre alert&#233; par courrier &#233;lectronique de chaque &#233;tape de traitement de votre requ&#234;te.';
 $_SESSION['l10n']['fr']['The publication date has been successfully changed.']='La date de publication a &#233;t&#233; modifi&#233;e.';
-$_SESSION['l10n']['fr']['The recipient to receive feed-back.']='Adresse de destination.';
 $_SESSION['l10n']['fr']['The text has been entirely tagged, and implicit transformations do not apply. YACS codes are processed as usual.']='Le texte a &#233;t&#233; enti&#232;rement balis&#233; et les transformations implicites sont inutiles. Traiter les codes YACS comme d\'habitude.';
 $_SESSION['l10n']['fr']['This article contains other information of interest']='Cet article contient d\'autres informations';
 $_SESSION['l10n']['fr']['This instance of YACS runs in demonstration mode. For security reasons mail messages cannot be actually sent in this mode.']='Cette instance de YACS s\'ex&#233;cute en mode d&#233;monstration. Par s&#233;curit&#233;, les messages &#233;lectroniques ne sont pas transmis dans ce mode.';
@@ -448,7 +447,7 @@ $_SESSION['l10n']['fr']['Yes - Only associates and editors can modify content']=
 $_SESSION['l10n']['fr']['Yes, I want to duplicate this page']='Oui, je veux dupliquer cette page';
 $_SESSION['l10n']['fr']['Yes, I want to suppress this page']='Oui, je veux supprimer cette page';
 $_SESSION['l10n']['fr']['You are invited by %s']='Vous &#234;tes invit&#233; par %s';
-$_SESSION['l10n']['fr']['You are invited personnally to check the the following page, and to contribute accordingly.
+$_SESSION['l10n']['fr']['You are invited personally to check the following page, and to contribute accordingly.
 
 %s
 
@@ -462,21 +461,11 @@ Merci par avance de votre contribution.
 
 %s';
 $_SESSION['l10n']['fr']['You are not allowed to perform this operation.']='Vous n\'&#234;tes pas autoris&#233; &#224; faire cette op&#233;ration.';
-$_SESSION['l10n']['fr']['You are publishing: %s']='Vous publiez : %s';
 $_SESSION['l10n']['fr']['You are rating: %s']='Vous &#234;tes en train de noter : %s';
 $_SESSION['l10n']['fr']['You can click on the \'Set as icon\' link in the list of images, if any.']='Vous pouvez cliquer sur le lien \'utiliser comme ic&#244;ne\' dans la liste des images, s\'il y en a.';
 $_SESSION['l10n']['fr']['You can click on the \'Set as thumbnail\' link in the list of images, if any.']='Vous pouvez cliquer sur le lien \'Utiliser comme vignette\' dans la liste des images, s\'il y en a.';
 $_SESSION['l10n']['fr']['You can upload a camera shot, a drawing, or any image file, to illustrate this page.']='Vous pouvez t&#233;l&#233;charger une photo, un dessin ou une image, pour illustrer cette page.';
 $_SESSION['l10n']['fr']['You have already rated his page.']='Vous avez d&#233;j&#224; not&#233; cette page.';
-$_SESSION['l10n']['fr']['You have written:
-
-%s
-
-%s']='Vous avez &#233;crit :
-
-%s
-
-%s';
 $_SESSION['l10n']['fr']['You may combine several keywords:']='Vous pouvez combiner plusieurs mots-cl&#233;s :';
 $_SESSION['l10n']['fr']['You must type a recipient for your message.']='Vous devez indiquer le destinataire de votre message.';
 $_SESSION['l10n']['fr']['You must type an address for replies.']='Vous devez indiquer une adresse de retour.';

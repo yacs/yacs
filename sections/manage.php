@@ -1072,7 +1072,7 @@ if(!$item['id']) {
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
 
 		// finalize the menu
-		$text .= Skin::finalize_list($menu, 'page_menu');
+		$text .= BR.Skin::finalize_list($menu, 'page_menu');
 
 		// count the number of articles in this section
 		$menu = array();

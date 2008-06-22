@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 13, 2008, 9:33 am GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en'][' VLC media player']=' VLC media player';
 $_SESSION['l10n']['en']['%d bytes']='%d bytes';
@@ -32,6 +32,7 @@ $_SESSION['l10n']['en']['Adobe web server']='Adobe web server';
 $_SESSION['l10n']['en']['Advanced options']='Advanced options';
 $_SESSION['l10n']['en']['Also, take the time to describe your post. This field is fully indexed for searches.']='Also, take the time to describe your post. This field is fully indexed for searches.';
 $_SESSION['l10n']['en']['Alternate link']='Alternate link';
+$_SESSION['l10n']['en']['Alternatively, you may download a copy of this file for you own usage.']='Alternatively, you may download a copy of this file for you own usage.';
 $_SESSION['l10n']['en']['An error has been encountered while clearing file assignment.']='An error has been encountered while clearing file assignment.';
 $_SESSION['l10n']['en']['Anyone may download this file']='Anyone may download this file';
 $_SESSION['l10n']['en']['Apple web server']='Apple web server';
@@ -55,12 +56,15 @@ $_SESSION['l10n']['en']['Delete a file']='Delete a file';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['Detach']='Detach';
 $_SESSION['l10n']['en']['Detach the file if you are intended to change its content']='Detach the file if you are intended to change its content';
+$_SESSION['l10n']['en']['Detach this file']='Detach this file';
 $_SESSION['l10n']['en']['Divx Player']='Divx Player';
 $_SESSION['l10n']['en']['Do not change modification date of the related page.']='Do not change modification date of the related page.';
 $_SESSION['l10n']['en']['Do not know how to stream this file type']='Do not know how to stream this file type';
 $_SESSION['l10n']['en']['Download']='Download';
 $_SESSION['l10n']['en']['Download %s']='Download %s';
+$_SESSION['l10n']['en']['Download a copy']='Download a copy';
 $_SESSION['l10n']['en']['Download from peers']='Download from peers';
+$_SESSION['l10n']['en']['Download page']='Download page';
 $_SESSION['l10n']['en']['Downloads']='Downloads';
 $_SESSION['l10n']['en']['Duration']='Duration';
 $_SESSION['l10n']['en']['ERROR: Impossible to write to the file %s. The configuration has not been saved.']='ERROR: Impossible to write to the file %s. The configuration has not been saved.';
@@ -102,7 +106,6 @@ $_SESSION['l10n']['en']['Impossible to copy file %s.']='Impossible to copy file 
 $_SESSION['l10n']['en']['Impossible to create path %s.']='Impossible to create path %s.';
 $_SESSION['l10n']['en']['Impossible to move the upload file to %s.']='Impossible to move the upload file to %s.';
 $_SESSION['l10n']['en']['It is likely file size goes beyond the limit displayed in upload form. Nothing has been transmitted for %s.']='It is likely file size goes beyond the limit displayed in upload form. Nothing has been transmitted for %s.';
-$_SESSION['l10n']['en']['Just provide me a copy of this file']='Just provide me a copy of this file';
 $_SESSION['l10n']['en']['Keywords']='Keywords';
 $_SESSION['l10n']['en']['Keywords: %s']='Keywords: %s';
 $_SESSION['l10n']['en']['LaTeX']='LaTeX';
@@ -116,7 +119,6 @@ $_SESSION['l10n']['en']['Main page']='Main page';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Microsoft web server']='Microsoft web server';
 $_SESSION['l10n']['en']['MindManager']='MindManager';
-$_SESSION['l10n']['en']['More information on this file']='More information on this file';
 $_SESSION['l10n']['en']['Most recent public files']='Most recent public files';
 $_SESSION['l10n']['en']['Navigation']='Navigation';
 $_SESSION['l10n']['en']['New file in %s']='New file in %s';
@@ -217,7 +219,6 @@ $_SESSION['l10n']['en']['Winamp']='Winamp';
 $_SESSION['l10n']['en']['Wireshark']='Wireshark';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['Yes, I want to delete this file']='Yes, I want to delete this file';
-$_SESSION['l10n']['en']['Yes, I want to detach this file']='Yes, I want to detach this file';
 $_SESSION['l10n']['en']['Yes, and following parameters are used for the mapping to the FTP service.']='Yes, and following parameters are used for the mapping to the FTP service.';
 $_SESSION['l10n']['en']['You are about to download a %s file.']='You are about to download a %s file.';
 $_SESSION['l10n']['en']['You are about to download a AWK script file.']='You are about to download a AWK script file.';

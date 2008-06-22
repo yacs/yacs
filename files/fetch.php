@@ -2,6 +2,8 @@
 /**
  * download one file
  *
+ * @todo allow for download resuming as in http://w-shadow.com/blog/2007/08/12/how-to-force-file-download-with-php/
+
  * By default the script provides content of the target file.
  * Depending of the optional action parameter, behaviour is changed as follows:
  * - 'clear' - assignment information is cleared, and no download takes place
@@ -143,14 +145,6 @@ else
 if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/fetch.php', 'file:'.$item['id']))
 	$permitted = FALSE;
 
-// back to the anchor page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url().'#files' => i18n::s('Main page') ));
-
-// more details on this file
-if(isset($item['id']))
-	$context['page_menu'] = array_merge($context['page_menu'], array( Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('More information on this file') ));
-
 // not found
 if(!isset($item['id']) || !$item['id']) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -262,18 +256,43 @@ if(!isset($item['id']) || !$item['id']) {
 	else
 		$context['text'] .= '<p>'.i18n::s('The assignment has been successfully cleared, and the file is again available for download.').'</p>';
 
+	// follow-up commands
+	$follow_up = '<p>'.i18n::s('Where do you want to go now?').'</p>';
+	$menu = array();
+	if(is_object($anchor))
+		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Main page')));
+	$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download page')));
+	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$context['text'] .= Skin::build_block($follow_up, 'bottom');
+
 // file has not been assigned, and surfer has not confirmed the detach yet
 } elseif((!isset($item['assign_id']) || !$item['assign_id']) && ($action == 'detach') && Surfer::is_member()) {
 
-	// inform surfer
+	// help on detach
 	$context['text'] .= '<p>'.i18n::s('You have asked to detach the file, and this will be recorded by the server. You are expected to change the provided document, and then to upload an updated version here. In the meantime other surfers will be advised to delay their downloads.').'</p>';
 
-	// a button to detach the file
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-		.Skin::build_submit_button(i18n::s('Yes, I want to detach this file'), NULL, NULL, 'confirmed')."\n"
+	// help on download
+	$context['text'] .= '<p>'.i18n::s('Alternatively, you may download a copy of this file for you own usage.').'</p>';
+
+	// commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Detach this file'), NULL, NULL, 'confirmed');
+	$menu[] = Skin::build_link(Files::get_url($item['id'], 'fetch', $item['file_name']), i18n::s('Download a copy'));
+	if(isset($_SERVER['HTTP_REFERER']))
+		$referer = $_SERVER['HTTP_REFERER'];
+	else
+		$referer = Files::get_url($item['id'], 'view', $item['file_name']);
+	$menu[] = Skin::build_link($referer, i18n::s('Cancel'), 'span');
+
+	// to get the actual file
+	$target_href = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
+
+	// render commands
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="window.open(\''.encode_field($target_href).'\',\'_blank\',\'width=0,height=0\'); return true;" id="main_form"><div>'."\n"
+		.Skin::finalize_list($menu, 'assistant_bar')
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="action" value="confirm" />'."\n"
-		.'</p></form>'."\n";
+		.'</div></form>'."\n";
 
 	// set the focus
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
@@ -281,23 +300,11 @@ if(!isset($item['id']) || !$item['id']) {
 		.'$("confirmed").focus();'."\n"
 		.'// ]]></script>'."\n";
 
-	// just download
-	$context['text'] .= '<p>'.Skin::build_link(Files::get_url($item['id'], 'fetch', $item['file_name']), i18n::s('Just provide me a copy of this file')).'</p>';
-
 // file has not been assigned, and surfer has confirmed the detach
 } elseif((!isset($item['assign_id']) || !$item['assign_id']) && ($action == 'confirm') && Surfer::is_member()) {
 
 	// to get the actual file
 	$target_href = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
-
-	// let the web server provide the actual file
-	if(!headers_sent()) {
-		Safe::header('Status: 301 moved Permanently', TRUE, 301);
-		Safe::header('Location: '.$target_href);
-
-	// this one may be blocked by anti-popup software
-	} else
-		$context['site_head'] .= '<meta http-equiv="Refresh" content="1;url='.$target_href.'"'.EOT."\n";
 
 	// help the surfer
 	$context['text'] .= '<p>'.i18n::s('You are requesting the following file:').'</p>'."\n";
@@ -312,6 +319,15 @@ if(!isset($item['id']) || !$item['id']) {
 	if(Files::assign($item['id'], $user))
 		$context['text'] .= '<p>'.i18n::s('Since the file has been assigned to you, other surfers will be discouraged to download copies from the server until you upload an updated version.').'</p>'."\n";
 
+	// follow-up commands
+	$follow_up = '<p>'.i18n::s('Where do you want to go now?').'</p>';
+	$menu = array();
+	if(is_object($anchor))
+		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Main page')));
+	$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download page')));
+	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$context['text'] .= Skin::build_block($follow_up, 'bottom');
+
 // file has been detached, and download has not been confirmed, and surfer is not owner
 } elseif(isset($item['assign_id']) && ($item['assign_id'] >= 1) && !(($action == 'confirm') || ($item['assign_id'] == Surfer::get_id()))) {
 
@@ -321,6 +337,15 @@ if(!isset($item['id']) || !$item['id']) {
 	$context['text'] .= '<p>'.i18n::s('You are encouraged to wait for a fresher version to be available before moving forward.').'</p>';
 
 	$context['text'] .= '<p>'.sprintf(i18n::s('Please note that the current shared version is %s if you absolutely require it.'), Skin::build_link(Files::get_url($item['id'], 'confirm'), i18n::s('still available for download'), 'basic')).'</p>'."\n";
+
+	// follow-up commands
+	$follow_up = '<p>'.i18n::s('Where do you want to go now?').'</p>';
+	$menu = array();
+	if(is_object($anchor))
+		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Main page')));
+	$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download page')));
+	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // actual transfer
 } elseif($item['id'] && $item['anchor']) {
@@ -463,7 +488,7 @@ if(!isset($item['id']) || !$item['id']) {
 
 	// let the web server provide the actual file
 	if(!headers_sent()) {
-		Safe::header('Status: 301 moved Permanently', TRUE, 301);
+		Safe::header('Status: 302 Found', TRUE, 302);
 		Safe::header('Location: '.$target_href);
 
 	// this one may be blocked by anti-popup software

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 13, 2008, 9:33 am GMT. Please do not modify it manually.
+ * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr'][' VLC media player']=' VLC media player';
 $_SESSION['l10n']['fr']['%d bytes']='%d  octets';
@@ -32,6 +32,7 @@ $_SESSION['l10n']['fr']['Adobe web server']='serveur d\'Adobe';
 $_SESSION['l10n']['fr']['Advanced options']='Options avanc&#233;es';
 $_SESSION['l10n']['fr']['Also, take the time to describe your post. This field is fully indexed for searches.']='Et prenez le temps de d&#233;crire votre envoi. Le champ de description est compl&#232;tement index&#233; afin de faciliter les recherches plein texte.';
 $_SESSION['l10n']['fr']['Alternate link']='Lien alternatif';
+$_SESSION['l10n']['fr']['Alternatively, you may download a copy of this file for you own usage.']='Vous pouvez aussi t&#233;l&#233;charger ce fichier pour votre propre usage.';
 $_SESSION['l10n']['fr']['An error has been encountered while clearing file assignment.']='Erreur pendant la suppression de l\'assignation.';
 $_SESSION['l10n']['fr']['Anyone may download this file']='Tout le monde peut t&#233;l&#233;charger ce fichier';
 $_SESSION['l10n']['fr']['Apple web server']='serveur d\'Apple';
@@ -55,12 +56,15 @@ $_SESSION['l10n']['fr']['Delete a file']='Effacer un fichier';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['Detach']='D&#233;tacher';
 $_SESSION['l10n']['fr']['Detach the file if you are intended to change its content']='D&#233;tacher le fichier si vous souhaitez modifier son contenu';
+$_SESSION['l10n']['fr']['Detach this file']='D&#233;tacher ce fichier';
 $_SESSION['l10n']['fr']['Divx Player']='Divx Player';
 $_SESSION['l10n']['fr']['Do not change modification date of the related page.']='Ne pas changer la date de modification de la page associ&#233;e.';
 $_SESSION['l10n']['fr']['Do not know how to stream this file type']='Impossible de streamer ce type de fichier';
 $_SESSION['l10n']['fr']['Download']='T&#233;l&#233;charger';
 $_SESSION['l10n']['fr']['Download %s']='T&#233;l&#233;charger %s';
+$_SESSION['l10n']['fr']['Download a copy']='T&#233;l&#233;charger';
 $_SESSION['l10n']['fr']['Download from peers']='T&#233;l&#233;chargez en peer-to-peer';
+$_SESSION['l10n']['fr']['Download page']='Page de t&#233;l&#233;chargement';
 $_SESSION['l10n']['fr']['Downloads']='T&#233;l&#233;chargements';
 $_SESSION['l10n']['fr']['Duration']='Dur&#233;e';
 $_SESSION['l10n']['fr']['ERROR: Impossible to write to the file %s. The configuration has not been saved.']='ERREUR : Impossible d\'&#233;crire dans le fichier %s. La configuration n\'a pas &#233;t&#233; sauvegard&#233;e.';
@@ -102,7 +106,6 @@ $_SESSION['l10n']['fr']['Impossible to copy file %s.']='Impossible de copier le 
 $_SESSION['l10n']['fr']['Impossible to create path %s.']='Impossible de cr&#233;er le chemin %s.';
 $_SESSION['l10n']['fr']['Impossible to move the upload file to %s.']='Impossible de d&#233;placer le fichier vers %s.';
 $_SESSION['l10n']['fr']['It is likely file size goes beyond the limit displayed in upload form. Nothing has been transmitted for %s.']='Il est probable que la taille du fichier d&#233;passe la limite affich&#233;e dans le formulaire d\'envoi. Aucun octet n\' a &#233;t&#233; transmis pour %s.';
-$_SESSION['l10n']['fr']['Just provide me a copy of this file']='Seulement fournir une copie de ce fichier';
 $_SESSION['l10n']['fr']['Keywords']='Mots-cl&#233;s';
 $_SESSION['l10n']['fr']['Keywords: %s']='Mots-cl&#233;s : %s';
 $_SESSION['l10n']['fr']['LaTeX']='LaTeX';
@@ -116,7 +119,6 @@ $_SESSION['l10n']['fr']['Main page']='Page principale';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Microsoft web server']='serveur de Microsoft';
 $_SESSION['l10n']['fr']['MindManager']='MindManager';
-$_SESSION['l10n']['fr']['More information on this file']='Plus d\'informations sur ce fichier';
 $_SESSION['l10n']['fr']['Most recent public files']='Les fichiers publics partag&#233;s r&#233;cemment';
 $_SESSION['l10n']['fr']['Navigation']='Navigation';
 $_SESSION['l10n']['fr']['New file in %s']='Nouveau fichier dans %s';
@@ -217,7 +219,6 @@ $_SESSION['l10n']['fr']['Winamp']='Winamp';
 $_SESSION['l10n']['fr']['Wireshark']='Wireshark';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';
 $_SESSION['l10n']['fr']['Yes, I want to delete this file']='Oui, je veux r&#233;ellement supprimer ce fichier';
-$_SESSION['l10n']['fr']['Yes, I want to detach this file']='Oui, je veux r&#233;ellement d&#233;tacher ce fichier';
 $_SESSION['l10n']['fr']['Yes, and following parameters are used for the mapping to the FTP service.']='Oui, et les param&#232;tres suivants sont utilis&#233;s pour le service FTP.';
 $_SESSION['l10n']['fr']['You are about to download a %s file.']='Vous &#234;tes sur le point de t&#233;l&#233;charger un fichier %s.';
 $_SESSION['l10n']['fr']['You are about to download a AWK script file.']='Vous &#234;tes sur le point de t&#233;l&#233;charger un script AWK.';
