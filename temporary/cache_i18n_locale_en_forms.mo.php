@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:26 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:24 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%s and %s are available to enhance text rendering.']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['1 form'.chr(0).'%d forms']='1 form'.chr(0).'%d forms';
@@ -49,6 +49,7 @@ $_SESSION['l10n']['en']['No file has been transferred.']='No file has been trans
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
 $_SESSION['l10n']['en']['No regular section has been created yet! Use %s to create one.']='No regular section has been created yet! Use %s to create one.';
 $_SESSION['l10n']['en']['No title has been provided.']='No title has been provided.';
+$_SESSION['l10n']['en']['Other sections']='Other sections';
 $_SESSION['l10n']['en']['Please carefully select a section for your form.']='Please carefully select a section for your form.';
 $_SESSION['l10n']['en']['Please prove you are not a robot.']='Please prove you are not a robot.';
 $_SESSION['l10n']['en']['Please provide a meaningful title.']='Please provide a meaningful title.';
@@ -63,7 +64,6 @@ $_SESSION['l10n']['en']['Related to %s']='Related to %s';
 $_SESSION['l10n']['en']['Select below the section to capture this form']='Select below the section to capture this form';
 $_SESSION['l10n']['en']['Sent by %s']='Sent by %s';
 $_SESSION['l10n']['en']['Sent by %s in %s']='Sent by %s in %s';
-$_SESSION['l10n']['en']['Special sections']='Special sections';
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Textarea']='Textarea';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';

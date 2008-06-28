@@ -4,7 +4,7 @@
  *
  * @see users/users.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -38,16 +38,16 @@ Class Layout_users_as_feed extends Layout_interface {
 				Codes::initialize(Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:''));
 
 			// url to view the user profile
-			$url = $context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:'');
+			$url = $context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name']);
 
 			// time of last update
 			$time = SQL::strtotime($item['edit_date']);
 
-			// the title as the label
+			// item title
 			if($item['full_name'])
-				$label = ucfirst($item['full_name']);
+				$label = ucfirst(Skin::strip($item['full_name'], 10));
 			else
-				$label = $item['nick_name'];
+				$label = ucfirst(Skin::strip($item['nick_name'], 10));
 
 			// the section
 			$section = '';

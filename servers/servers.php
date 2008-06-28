@@ -2,7 +2,7 @@
 /**
  * the database abstraction layer for servers
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Florent
  * @author GnapZ
  * @tester Fw_crocodile

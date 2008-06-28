@@ -10,7 +10,7 @@
  *
  * @link http://www.456bereastreet.com/archive/200410/bring_on_the_tables/ Bring on the tables
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Florent
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -81,7 +81,7 @@ Class Tables {
 			return FALSE;
 
 		// teasers are activated
-		if(!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(!Surfer::is_logged() && (!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y')))
 			return TRUE;
 
 		// the default is to not allow for new tables

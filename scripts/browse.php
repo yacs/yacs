@@ -7,7 +7,7 @@
  * - browse.php?script=/files/delete.php&store=reference
  * - browse.php?script=/files/delete.php&store=staging
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Manuel López Gallego
  * @reference

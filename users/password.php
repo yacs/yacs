@@ -13,7 +13,7 @@
  * can provide their nick name, and a message is sent to the related e-mail
  * address, with a link to authenticate back to the site.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Guillaume Perez
  * @reference
@@ -54,10 +54,10 @@ load_skin('users');
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
-if(isset($item['nick_name']))
-	$context['page_title'] = sprintf(i18n::s('Password: %s'), $item['nick_name']);
-elseif(isset($item['full_name']))
+if(isset($item['full_name']) && $item['full_name'])
 	$context['page_title'] = sprintf(i18n::s('Password: %s'), $item['full_name']);
+elseif(isset($item['nick_name']))
+	$context['page_title'] = sprintf(i18n::s('Password: %s'), $item['nick_name']);
 else
 	$context['page_title'] = i18n::s('Change password');
 

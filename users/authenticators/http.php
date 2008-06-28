@@ -15,8 +15,8 @@
  * restpost http://www.mydomain.com/authenticate.do username password
  * [/snippet]
  *
- * @author Alexandre FRANCOIS [email]alexandre-francois@voila.fr[/email]
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Alexandre Francois [email]alexandre-francois@voila.fr[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

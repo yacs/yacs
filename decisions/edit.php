@@ -35,7 +35,7 @@
  * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @reference
@@ -229,7 +229,7 @@ if(!is_object($anchor)) {
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Go back to main page')));
+		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
 		$menu = array_merge($menu, array(Decisions::get_url($_REQUEST['id'], 'view') => i18n::s('View the decision')));
 		$menu = array_merge($menu, array(Decisions::get_url($_REQUEST['id'], 'edit') => i18n::s('Edit the decision')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');

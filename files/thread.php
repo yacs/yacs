@@ -16,7 +16,7 @@
  * - thread.php?id=article:12 (visit article #12)
  * - thread.php?id=section:2 (visit section #2)
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -78,8 +78,14 @@ if(!is_object($anchor)) {
 		$output = Files::list_by_date_for_anchor($anchor->get_reference(), 0, 20, 'compact');
 
 	// ensure we are producing some text
-	if(is_array($output))
+	if(is_array($output)) {
+
+		// the command to list all files
+ 		if(count($output))
+ 			$output = array_merge($output, array(Files::get_url($anchor->get_reference(), 'list') => i18n::s('All files')));
+
 		$output =& Skin::build_list($output, 'compact');
+	}
 
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

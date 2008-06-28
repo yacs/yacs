@@ -11,7 +11,7 @@ defined('YACS') or exit('Script must be included');
  *
  * @see shared/anchor.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

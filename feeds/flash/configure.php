@@ -34,7 +34,7 @@
  * of YACS runs in demonstration mode.
  * In this mode the edit form is displayed, but parameters are not saved in the configuration file.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

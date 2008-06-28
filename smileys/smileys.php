@@ -12,7 +12,7 @@
  *
  * @link smileys/index.php The current list of supported smileys on this server
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @author Lucrecius
  * @tester Agnes

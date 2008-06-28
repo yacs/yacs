@@ -17,7 +17,7 @@
  * - thumbs up - I enjoy this
  * - warning - you should take care
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Florent
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -118,7 +118,7 @@ Class Comments {
 			return TRUE;
 
 		// teasers are activated
-		if(!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(!Surfer::is_logged() && (!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y')))
 			return TRUE;
 
 		// the default is to not allow for new comments

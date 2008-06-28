@@ -57,7 +57,7 @@
  * - index.php/2 (view sections 41 to 60)
  * - index.php?page=2 (view sections 41 to 60)
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Eoin
  * @reference
@@ -176,7 +176,7 @@ if(!$text =& Cache::get($cache_id)) {
 				$content .= (string)$items;
 
 			// displayed as another page section
-			$text .= Skin::build_box(i18n::s('Special sections'), $content, 'header1', 'special_sections');
+			$text .= Skin::build_box(i18n::s('Other sections'), $content, 'header1', 'other_sections');
 
 		}
 	}

@@ -47,7 +47,7 @@
  * - index.php/10 (view users 200 to 220, ranked by count of contributions)
  * - index.php?page=4 (view users 80 to 100, ranked by count of contributions)
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Fernand Le Chien
  * @reference

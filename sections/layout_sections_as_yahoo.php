@@ -7,7 +7,7 @@
  *
  * @see sections/sections.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @author Thierry Pinelli [email]contact@vdp-digital.com[/email]
  * @reference
@@ -123,7 +123,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 								$sub_hover = $label[5];
 							$label = $label[1];
 						}
-						$content[] = $sub_prefix.Skin::build_link($url, $label, 'basic', $sub_hover).$sub_suffix;
+						$content[] = $sub_prefix.Skin::build_link($url, $label, 'section', $sub_hover).$sub_suffix;
 					}
 				}
 
@@ -149,7 +149,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 				// delegate rendering to the overlay, where applicable
 				elseif(is_object($content_overlay) && is_callable(array($content_overlay, 'render_list_for_anchor'))) {
 
-					if($related =& $content_overlay->render_list_for_anchor('section:'.$item['id'], $maximum_items - count($content))) {
+					if($related = $content_overlay->render_list_for_anchor('section:'.$item['id'], $maximum_items - count($content))) {
 						foreach($related as $url => $label) {
 							$sub_prefix = $sub_suffix = $sub_hover = '';
 							if(is_array($label)) {
@@ -185,7 +185,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 									$sub_hover = $label[5];
 								$label = $label[1];
 							}
-							$content[] = $sub_prefix.Skin::build_link($url, $label, 'basic', $sub_hover).$sub_suffix;
+							$content[] = $sub_prefix.Skin::build_link($url, $label, 'article', $sub_hover).$sub_suffix;
 						}
 					}
 				}
@@ -207,7 +207,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 								$sub_hover = $label[5];
 							$label = $label[1];
 						}
-						$content[] = $sub_prefix.Skin::build_link($url, $label, 'basic', $sub_hover).$sub_suffix;
+						$content[] = $sub_prefix.Skin::build_link($url, $label, 'file', $sub_hover).$sub_suffix;
 					}
 				}
 
@@ -229,7 +229,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 								$sub_hover = $label[5];
 							$label = $label[1];
 						}
-						$content[] = $sub_prefix.Skin::build_link($url, $label, 'basic', $sub_hover).$sub_suffix;
+						$content[] = $sub_prefix.Skin::build_link($url, $label, 'link', $sub_hover).$sub_suffix;
 					}
 				}
 

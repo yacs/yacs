@@ -36,7 +36,7 @@
  * - index.php/2 (view categories 41 to 60)
  * - index.php?page=2 (view categories 41 to 60)
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Eoin
  * @reference

@@ -65,7 +65,7 @@
  * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Vincent No&euml;l
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -163,7 +163,12 @@ else
 	$context['path_bar'] = array( 'files/' => i18n::s('Files') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Upload a file');
+if(isset($item['title']) && $item['title'])
+	$context['page_title'] = sprintf(i18n::s('Update: %s'), $item['title']);
+elseif(isset($item['file_name']))
+	$context['page_title'] = sprintf(i18n::s('Update: %s'), str_replace('_', ' ', $item['file_name']));
+else
+	$context['page_title'] = i18n::s('Add a file');
 
 // always validate input syntax
 if(isset($_REQUEST['description']))
@@ -652,14 +657,40 @@ if($with_form) {
 	$context['text'] .= Skin::build_form($fields);
 	$fields = array();
 
-	// if we are editing an existing item
-	if(isset($item['id'])) {
+	// splash message for new items
+	if(!isset($item['id']))
+		$context['text'] .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
+
+	// images
+	else {
 		$box = '';
 
-		// the menu to post a new image
 		if(Surfer::may_upload()) {
-			$menu = array( 'images/edit.php?anchor='.urlencode('file:'.$item['id']) => i18n::s('Add an image') );
-			$box .= Skin::build_list($menu, 'menu_bar');
+
+			// an horizontal table
+			$cells = array();
+
+			// the command to upload a regular image
+			$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']), i18n::s('Add an image'), 'basic')
+				.BR.'<span class="details">'.i18n::s('Upload an image file and integrate it into the page. Big images will be rendered as clickable thumbnails.').'</span>';
+
+			// the command to upload page thumbnail
+			if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
+				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=thumbnail', i18n::s('Change page thumbnail').BR.'<img src="'.$item['thumbnail_url'].'" alt="" />', 'basic');
+			else
+				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=thumbnail', i18n::s('Add page thumbnail'), 'basic')
+					.BR.'<span class="details">'.i18n::s('Upload a small image to illustrate this page when it is listed into parent page.').'</span>';
+
+			// the command to upload page icon
+			if(isset($item['icon_url']) && $item['icon_url'])
+				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=icon', i18n::s('Change page icon').BR.'<img src="'.preg_replace('/\/images\/article\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />', 'basic');
+			else
+				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=icon', i18n::s('Add page icon'), 'basic')
+					.BR.'<span class="details">'.i18n::s('Upload an image to be displayed at page top. This will also be the default icon image for items attached to this page.').'</span>';
+
+			// display all commands
+			$box .= Skin::table_prefix('form').'<tr><td style="width: 200px">'.implode('</td><td style="padding-left: 3em; width: 200px">', $cells).'</td></tr></table>';
+
 		}
 
 		// the list of images
@@ -667,13 +698,15 @@ if($with_form) {
 		if($items = Images::list_by_date_for_anchor('file:'.$item['id'], 0, 50, NULL)) {
 
 			// help to insert in textarea
-			if(!isset($_SESSION['surfer_editor']) || (($_SESSION['surfer_editor'] != 'fckeditor') && ($_SESSION['surfer_editor'] != 'tinymce')))
-				$box .= '<p>'.i18n::s('Click on links to insert images in the main field.')."</p>\n";
+			if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'textarea'))
+				$box .= '<p>'.i18n::s('Use codes to insert images in the page.')."</p>\n";
+			else
+				$box .= '<p>'.i18n::s('Click on codes to insert images in the page.')."</p>\n";
 
 			$box .= Skin::build_list($items, 'decorated');
 		}
 
-		// add a folded box for images
+		// in a folded box
 		if($box)
 			$context['text'] .= Skin::build_box(i18n::s('Images'), $box, 'folder');
 
@@ -729,6 +762,16 @@ if($with_form) {
 		$fields[] = array($label, $input);
 	}
 
+	// the thumbnail url may be set after the page has been created
+	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
+		$label = i18n::s('Thumbnail URL');
+		$input = '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=thumbnail', i18n::s('Add an image'), 'basic').'</span>';
+		$hint = i18n::s('The image that illustrates the page at parent level.');
+		$fields[] = array($label, $input, $hint);
+	}
+
 	// the icon url may be set after the page has been created
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
 		$label = i18n::s('Icon URL');
@@ -736,15 +779,9 @@ if($with_form) {
 		if(isset($item['icon_url']) && $item['icon_url'])
 			$value = $item['icon_url'];
 		$input = '<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
-		$hint = i18n::s('You can click on the \'Set as icon\' link in the list of images, if any.');
-		$fields[] = array($label, $input, $hint);
-	}
-
-	// the thumbnail url may be set after the page has been created
-	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
-		$label = i18n::s('Thumbnail URL');
-		$input = '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
-		$hint = i18n::s('You can click on the \'Set as thumbnail\' link in the list of images, if any.');
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']).'&amp;action=icon', i18n::s('Add an image'), 'basic').'</span>';
+		$hint = i18n::s('The image displayed at page top.');
 		$fields[] = array($label, $input, $hint);
 	}
 

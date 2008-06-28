@@ -7,7 +7,7 @@
  *
  * It can be derived and transformed to accomodate any variation.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Agn&egrave;s Rambaud
  * @author GnapZ
  * @author Geasm

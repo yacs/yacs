@@ -52,7 +52,7 @@
  *
  * @link http://www.campfirenow.com/
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -287,10 +287,6 @@ if(!isset($item['id'])) {
 		// other details
 		$details = array();
 
-		// the nick name
-		if($item['nick_name'] && (Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable())))
-			$details[] = '"'.$item['nick_name'].'"';
-
 		// the creator of this article, if associate or if editor or if not prevented globally or if section option
 		if($item['create_date']
 			&& (Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable())
@@ -383,6 +379,15 @@ if(!isset($item['id'])) {
 		// in-line details
 		if(count($details))
 			$text .= ucfirst(implode(', ', $details))."\n";
+
+		// reference this item
+		if(Surfer::is_member()) {
+			$text .= BR.sprintf(i18n::s('Code to reference this page: %s'), '[article='.$item['id'].']');
+
+			// the nick name
+			if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'])))
+				$text .= BR.sprintf(i18n::s('Shortcut: %s'), $link);
+		}
 
 		$text .= "</p>\n";
 
@@ -485,6 +490,9 @@ if(!isset($item['id'])) {
 
 			// the submit button
 			$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit', 'no_spin_on_click');
+
+			// go to smileys
+			$menu[] = Skin::build_link('smileys/', i18n::s('Smileys'), 'help');
 
 			// upload a file
 			if(Files::are_allowed($anchor, $item))
@@ -624,8 +632,14 @@ if(!isset($item['id'])) {
 			$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 20, 'compact');
 
 		// actually render the html
-		if(is_array($items))
+		if(is_array($items)) {
+
+			// the command to list all files
+ 			if(count($items))
+ 				$items = array_merge($items, array(Files::get_url('article:'.$item['id'], 'list') => i18n::s('All files')));
+
 			$items = Skin::build_list($items, 'compact');
+		}
 
 		// display this aside the thread
 		if($items.$invite)
@@ -689,12 +703,12 @@ if(!isset($item['id'])) {
 
 	}
 
-	// 'Export tools' box
+	// 'Share' box
 	//
 	$lines = array();
 
-	// the command to track back -- complex command
-	if(Surfer::is_logged() && Surfer::has_all()) {
+	// the command to track back
+	if(Surfer::is_logged()) {
 		Skin::define_img('TRACKBACK_IMG', 'icons/links/trackback.gif');
 		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	}
@@ -735,9 +749,9 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['extra'] .= Skin::build_box(i18n::s('Export tools'), Skin::finalize_list($lines, 'tools'), 'extra', 'export');
+		$context['extra'] .= Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'export');
 
-	// 'Stay tuned' box
+	// 'More information' box
 	//
 	$lines = array();
 
@@ -771,7 +785,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$text .= Skin::build_box(i18n::s('Stay tuned'), join(BR, $lines), 'extra', 'feeds');
+		$text .= Skin::build_box(i18n::s('More information'), join(BR, $lines), 'extra', 'feeds');
 
 	// cache content
 	$cache_id = 'articles/view_as_thread.php?id='.$item['id'].'#extra#tail';

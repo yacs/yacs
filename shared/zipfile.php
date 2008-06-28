@@ -45,7 +45,7 @@
  *
  * @link http://www.pkware.com/appnote.txt official ZIP file format
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Eric Mueller [link]http://www.themepark.com/[/link]
  * @author Denis O.Philippov [email]webmaster@atlant.ru[/email], [link]http://www.atlant.ru[/link]
  * @reference

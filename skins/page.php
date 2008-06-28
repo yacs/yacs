@@ -10,7 +10,7 @@
  * - 9 to go to the control panel
  * - 0 to go to the help page
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Rod
  * @tester Agnes
  * @reference
@@ -135,7 +135,7 @@
 
 		// display the page image, if any
 		if(isset($context['page_image']) && $context['page_image'])
-			echo ICON_PREFIX.'<img src="'.$context['page_image'].'" class="icon" alt=""'.EOT.ICON_SUFFIX;
+			echo ICON_PREFIX.'<img src="'.$context['page_image'].'" class="icon" alt="" />'.ICON_SUFFIX;
 
 		// render and display the content, if any
 		echo $context['text'];
@@ -303,7 +303,7 @@
 
 		// the site name -- can be replaced, through CSS, by an image -- access key 1
 		if($context['site_name'] && $with_name)
-			echo '<p id="header_title"><a href="'.$context['url_to_root'].'" title="'.encode_field(i18n::s('Return to front page')).'" accesskey="1"><span>'.$context['site_name'].'</span></a></p>'."\n";
+			echo '<p id="header_title"><a href="'.$context['url_to_root'].'" title="'.encode_field(i18n::s('Front page')).'" accesskey="1"><span>'.$context['site_name'].'</span></a></p>'."\n";
 
 		// site slogan -- can be replaced, through CSS, by an image
 		if(isset($context['site_slogan']) && $with_slogan)
@@ -432,19 +432,6 @@
 		// append other items to the navigation panel
 		if($context['navigation'])
 			echo $context['navigation']."\n";
-
-		// list pages visited previously at this site, if any
-		if(isset($_SESSION['visited']) && count($_SESSION['visited']) && is_callable(array('i18n', 's'))) {
-
-			// box title
-			$title = i18n::s('Visited');
-
-			// box content as a compact list
-			$text =& Skin::build_list($_SESSION['visited'], 'compact');
-
-			// the list of recent pages
-			echo "\n".Skin::build_box($title, $text, 'navigation', 'visited_pages')."\n";
-		}
 
 	}
 

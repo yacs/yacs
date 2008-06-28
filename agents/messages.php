@@ -113,7 +113,7 @@
  * These parameters are set in [script]agents/configure.php[/script], and saved in parameters/agents.include.php.
  *
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester Guillaume Perez
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

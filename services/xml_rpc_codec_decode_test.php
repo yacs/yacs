@@ -4,7 +4,7 @@
  *
  * usage: php.exe -q xml_rpc_codec_test.php <sample_file.xml>
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  * @reference
  */

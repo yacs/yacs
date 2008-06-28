@@ -26,7 +26,7 @@
  * You can check this single page quite regularly to track new queries and dead pages.
  * Also you can review oldest pages to ensure their accuracy, or try to figure why nobody is interested in published material.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Mark
  * @reference

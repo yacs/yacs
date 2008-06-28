@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:26 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:25 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['Edited %s']='Edited %s';
 $_SESSION['l10n']['en']['Emotion']='Emotion';
@@ -13,11 +13,11 @@ $_SESSION['l10n']['en']['Here is the list of codes that are automatically conver
 $_SESSION['l10n']['en']['I am killed']='I am killed';
 $_SESSION['l10n']['en']['I want you']='I want you';
 $_SESSION['l10n']['en']['I would like to get it']='I would like to get it';
-$_SESSION['l10n']['en']['Index of smileys']='Index of smileys';
 $_SESSION['l10n']['en']['Let face it, sometimes words alone do not suffice. Adding a winking smilie, for instance, may help you clarify that you are joking.']='Let face it, sometimes words alone do not suffice. Adding a winking smilie, for instance, may help you clarify that you are joking.';
 $_SESSION['l10n']['en']['Ok, i leave']='Ok, i leave';
 $_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Santa Claus']='Santa Claus';
+$_SESSION['l10n']['en']['Smileys']='Smileys';
 $_SESSION['l10n']['en']['Smileys are small graphical images that can be used to convey an emotion or feeling. If you have used email or Internet chat, you are likely familiar with the smilie concept.']='Smileys are small graphical images that can be used to convey an emotion or feeling. If you have used email or Internet chat, you are likely familiar with the smilie concept.';
 $_SESSION['l10n']['en']['Star wars']='Star wars';
 $_SESSION['l10n']['en']['The King']='The King';

@@ -27,7 +27,7 @@
  * @see links/links.php
  * @see query.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -150,10 +150,10 @@ else {
 	$fields['title'] = i18n::c('Global pages');
 	$fields['description'] = i18n::c('This section contains pages that are referenced globally.');
 	$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
-	$fields['index_map'] = 'N'; // listed with special sections to not put it in a tab
+	$fields['index_map'] = 'N'; // listed with special sections
 	$fields['locked'] = 'Y'; // only associates can contribute
 	$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
-	$fields['rank'] = '90000'; // towards the end of the site map
+	$fields['rank'] = '1000'; // before other special sections
 	$fields['content_options'] = 'auto_publish'; // these will be reviewed anyway
 	if(Sections::post($fields))
 		$text .= sprintf(i18n::s('A section %s has been created.'), $fields['title']).BR."\n";

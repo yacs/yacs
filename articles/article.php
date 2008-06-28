@@ -9,7 +9,7 @@ defined('YACS') or exit('Script must be included');
  *
  * @see shared/anchor.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Guillaume Perez
  * @tester Dobliu

@@ -219,7 +219,7 @@
  *
  * Note that, contrary to other regular pages, this one does not trigger the 'tick' hook.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Cloubech
  * @tester Pat

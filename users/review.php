@@ -17,7 +17,7 @@
  *
  * You can check this single page quite regularly to track new user profiles and inactive members.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

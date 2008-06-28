@@ -237,7 +237,7 @@
  * - parameters: none
  * Use this hook to include any text right after the main content.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester Lasares
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

@@ -4,7 +4,7 @@
  *
  * Dates are an abstraction for time-related information.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @reference

@@ -3,13 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont &#233;t&#233; trait&#233;s';
 $_SESSION['l10n']['fr']['%s and %s are available to enhance text rendering.']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s:']='%s :';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
-$_SESSION['l10n']['fr']['(%s is unknown)']='(%s est inconnu)';
 $_SESSION['l10n']['fr']['1 post'.chr(0).'%d posts']='1 envoi'.chr(0).'%d envois';
 $_SESSION['l10n']['fr']['1 thread'.chr(0).'%d threads']='1 discussion'.chr(0).'%d discussions';
 $_SESSION['l10n']['fr']['A question']='Une question';
@@ -17,7 +16,7 @@ $_SESSION['l10n']['fr']['A suggestion']='Une suggestion';
 $_SESSION['l10n']['fr']['Anonymous comment']='Commentaire anonyme';
 $_SESSION['l10n']['fr']['Associate']='Associ&#233;';
 $_SESSION['l10n']['fr']['Attention']='Important';
-$_SESSION['l10n']['fr']['Back to main content']='Retour au contenu principal';
+$_SESSION['l10n']['fr']['Back to main page']='Retourner &#224; la page principale';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Comment']='Commentaire';
 $_SESSION['l10n']['fr']['Comment by %s']='Commentaire par %s';

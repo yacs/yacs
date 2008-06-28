@@ -20,7 +20,7 @@
  * - cache - supported through ETag and Last-Modified, not mentioning the setting of Content-Length;
  * Also, Cache-Control enables caching for some time, even through HTTPS
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

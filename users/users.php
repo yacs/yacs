@@ -29,7 +29,7 @@
  *
  * These profiles, while simple, may support different community patterns.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -463,7 +463,7 @@ Class Users {
 	 *
 	 * @param int the id of the user to handle
 	 * @param string the expected action ('view', 'print', 'edit', 'delete', ...)
-	 * @param string additional data, such as page name, if any
+	 * @param string user name
 	 * @return string a normalized reference
 	 *
 	 * @see control/configure.php
@@ -521,6 +521,12 @@ Class Users {
 		// check the target action
 		if(!preg_match('/^(contact|delete|describe|edit|element|feed|fetch_vcard|mail|password|print|select_avatar|share|validate|view|visit)$/', $action))
 			$action = 'view';
+
+// 		// view user profile --use only the nick name, since it is unique
+// 		if(($action == 'view') && $name) {
+// 			$id = $name;
+// 			$name = '';
+// 		}
 
 		// normalize the link
 		return normalize_url(array('users', 'user'), $action, $id, $name);

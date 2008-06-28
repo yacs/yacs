@@ -17,7 +17,7 @@
  * - select.php?anchor=article:12
  * - select.php?anchor=section:32
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Agnes
  * @tester Ddaniel

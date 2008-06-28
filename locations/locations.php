@@ -7,7 +7,7 @@
  * Look at [code]list_by_distance()[/code] for the selection of locations based on relative distances.
  * Thanks to Eoin for having provided the adequate formula.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Eoin
  * @author Florent
  * @author GnapZ
@@ -95,7 +95,7 @@ Class Locations {
 			return TRUE;
 
 		// teasers are activated
-		if(!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(!Surfer::is_logged() && (!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y')))
 			return TRUE;
 
 		// the default is to not allow for new locations

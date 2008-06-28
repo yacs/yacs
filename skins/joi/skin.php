@@ -8,7 +8,7 @@
  * Combined with the template ([script]skins/joi/template.php[/script]), and with related CSS and image files, it
  * contributes to the specific atmosphere of this skin.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

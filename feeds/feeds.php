@@ -8,7 +8,7 @@
  * - [code]get_remote_news_from()[/code] - actual news fetching from one feeding site
  * - [code]tick_hook()[/code] - trigger feeding in the background
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Dobliu
  * @tester NickR

@@ -133,7 +133,7 @@
  * If this section, or one of its anchor, specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Fw_crocodile
  * @tester Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -612,10 +612,6 @@ if(!isset($item['id'])) {
 			// additional details for associates and editors
 			if(Surfer::is_empowered()) {
 
-				// the nick name
-				if($item['nick_name'])
-					$details[] = '"'.$item['nick_name'].'"';
-
 				// the creator of this section
 				if($item['create_date'])
 					$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
@@ -653,6 +649,15 @@ if(!isset($item['id'])) {
 			// inline details
 			if(count($details))
 				$text .= ucfirst(implode(', ', $details));
+
+			// reference this item
+			if(Surfer::is_member()) {
+				$text .= BR.sprintf(i18n::s('Code to reference this page: %s'), '[section='.$item['id'].']');
+
+				// the nick name
+				if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'])))
+					$text .= BR.sprintf(i18n::s('Shortcut: %s'), $link);
+			}
 
 			// no more details
 			$text .= "</p>\n";
@@ -1432,7 +1437,7 @@ if(!isset($item['id'])) {
 				$content =& Skin::build_list($items, 'compact');
 
 				// displayed as another box
-				$text .= Skin::build_box(i18n::s('Special sections'), $content, 'header1', 'special_sections');
+				$text .= Skin::build_box(i18n::s('Other sections'), $content, 'header1', 'other_sections');
 
 			}
 		}
@@ -1686,8 +1691,9 @@ if(!isset($item['id'])) {
 			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), LINK_TOOL_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 	}
 
-	// spreading tools
+	// 'Share' box
 	//
+	$lines = array();
 
 // 		// mail this page
 // 		if(!$zoom_type && Surfer::is_empowered() && Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
@@ -1695,19 +1701,23 @@ if(!isset($item['id'])) {
 // 			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'mail'), MAIL_TOOL_IMG.i18n::s('Invite people'), 'basic', '', i18n::s('Spread the word'));
 // 		}
 
-	// the command to track back -- complex command
-	if(Surfer::is_logged() && Surfer::has_all()) {
+	// the command to track back
+	if(Surfer::is_logged()) {
 		Skin::define_img('TRACKBACK_IMG', 'icons/links/trackback.gif');
-		$context['page_tools'][] = Skin::build_link('links/trackback.php?anchor='.urlencode('section:'.$item['id']), TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
+		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('section:'.$item['id']), TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 	}
 
 	// print this page
-	if(Surfer::is_logged()) {
+	if(Surfer::is_logged() || (isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))) {
 		Skin::define_img('PRINT_TOOL_IMG', 'icons/tools/print.gif');
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'print'), PRINT_TOOL_IMG.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
+		$lines[] = Skin::build_link(Sections::get_url($id, 'print'), PRINT_TOOL_IMG.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
 	}
 
-	// how to stay tuned
+	// in a side box
+	if(count($lines))
+		$context['extra'] .= Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
+
+	// 'More information' box
 	$lines = array();
 
 	// watch command is provided to logged surfers
@@ -1738,7 +1748,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['extra'] .= Skin::build_box(i18n::s('Stay tuned'), join(BR, $lines), 'extra', 'feeds');
+		$context['extra'] .= Skin::build_box(i18n::s('More information'), join(BR, $lines), 'extra', 'feeds');
 
 	// cache content
 	$cache_id = 'sections/view.php?id='.$item['id'].'#extra#tail';
@@ -1888,6 +1898,22 @@ if(!isset($item['id'])) {
 
 	// update the extra panel
 	$context['extra'] .= $text;
+
+	//
+	// put this page in visited items
+	//
+	if(!isset($context['pages_without_history']) || ($context['pages_without_history'] != 'Y')) {
+
+		// put at top of stack
+		if(!isset($_SESSION['visited']))
+			$_SESSION['visited'] = array();
+		$_SESSION['visited'] = array_merge(array(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => Codes::beautify($item['title'])), $_SESSION['visited']);
+
+		// limit to 7 most recent pages
+		if(count($_SESSION['visited']) > 7)
+			array_pop($_SESSION['visited']);
+
+	}
 
 }
 

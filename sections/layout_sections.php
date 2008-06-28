@@ -7,7 +7,7 @@
  * @see sections/index.php
  * @see sections/sections.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @author Thierry Pinelli [email]contact@vdp-digital.com[/email]
  * @tester Christophe Battarel [email]christophe.battarel@altairis.fr[/email]

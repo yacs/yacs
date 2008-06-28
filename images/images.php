@@ -4,7 +4,7 @@
  *
  * Images are saved into the file system of the web server. Each image also has a related record in the database.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Florent
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -94,7 +94,7 @@ Class Images {
 			return TRUE;
 
 		// teasers are activated
-		if(!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(!Surfer::is_logged() && (!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y')))
 			return TRUE;
 
 		// the default is to not allow for new images

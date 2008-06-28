@@ -24,7 +24,7 @@
  *
  * Overlays are aiming to store additional structured data in articles, where behaviors are stateless, and apply equally to all pages of some kind.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

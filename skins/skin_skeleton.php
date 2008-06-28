@@ -8,7 +8,7 @@
  *
  * @link http://www.joemaller.com script to protect e-mail addresses from spam
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester Olivier
  * @tester Nuxwin
  * @tester ClaireFormatrice
@@ -1076,7 +1076,7 @@ Class Skin_Skeleton {
 			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" />';
 
 			// these are enhanced with jsCalendar, if present
-			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js')) {
+			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
 				$text .= '<script type="text/javascript">// <![CDATA['."\n"
 					.'Event.observe(window, "load", function() { Calendar.setup({'."\n"
 					.'	inputField	:	"'.$name.'",'."\n"
@@ -1098,7 +1098,7 @@ Class Skin_Skeleton {
 				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'">';
 
 			// these are enhanced with jsCalendar, if present
-			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js')) {
+			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
 				$text .= '<script type="text/javascript">// <![CDATA['."\n"
 					.'Event.observe(window, "load", function() { Calendar.setup({'."\n"
 					.'	inputField	:	"'.$name.'",'."\n"
@@ -1954,11 +1954,9 @@ Class Skin_Skeleton {
 			// a link to the user profile
 			$text .= Skin::build_link($url, $user['nick_name'], 'user');
 
-			// use the description or the introduction field, if any
+			// use the introduction field, if any
 			if(isset($user['introduction']) && trim($user['introduction']))
 				$text .= BR.Codes::beautify($user['introduction']);
-			elseif(isset($user['description']) && trim($user['description']))
-				$text .= BR.Codes::beautify($user['description'], 'compact');
 
 			$text = '<div class="author_box">'.$text.'</div></div>'."\n";
 			break;
@@ -2004,7 +2002,7 @@ Class Skin_Skeleton {
 				$text .= Codes::beautify($user['introduction']);
 
 			// everything in an extra box
-			$text = Skin::build_box($user['full_name'], $text, 'extra');
+			$text = Skin::build_box($user['full_name']?$user['full_name']:$user['nick_name'], $text, 'extra');
 			break;
 		}
 
@@ -3191,7 +3189,7 @@ Class Skin_Skeleton {
 
 		// the maximum number of categories per page -- see articles/view.php, sections/index.php, sections/view.php
 		if(!defined('CATEGORIES_PER_PAGE'))
-			define('CATEGORIES_PER_PAGE', 20);
+			define('CATEGORIES_PER_PAGE', 40);
 
 		// the prefix icon used for comments in the tool set
 		Skin::define_img('COMMENT_TOOL_IMG', 'icons/tools/comment.gif');

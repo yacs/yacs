@@ -43,7 +43,7 @@
  *
  * @see scripts/run_once.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Paddy
  * @reference
@@ -90,8 +90,8 @@ function delete_backup($path) {
 			if(is_dir($target_translated))
 				delete_backup($target);
 
-			// delete a backed up file: .css, .html, .js, .mo, .php, .po, .txt or .xml
-			elseif(preg_match('/\.(css|html|js|mo|php|po|txt|xml)\.bak$/i', $target_translated)) {
+			// delete a backed up file: .css, .gif, .htm, .html, .js, .mo, .php, .po, .swf, .txt or .xml
+			elseif(preg_match('/\.(css|gif|htm|html|js|mo|php|po|swf|txt|xml)\.bak$/i', $target_translated)) {
 				$context['text'] .= sprintf(i18n::s('Deleting %s'), $target_translated).BR."\n";
 				Safe::unlink($target_translated);
 				global $deleted_nodes;

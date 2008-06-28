@@ -8,7 +8,7 @@
  *
  * @see sections/view.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @author Thierry Pinelli (ThierryP)
  * @tester Mordread Wallas

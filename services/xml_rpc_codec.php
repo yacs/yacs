@@ -7,7 +7,7 @@
  *
  * @link http://www.xmlrpc.com/spec XML-RPC Specification
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

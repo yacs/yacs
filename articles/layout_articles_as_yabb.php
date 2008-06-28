@@ -11,7 +11,7 @@
  * The title of each article is also a link to the article itself.
  * A title attribute of the link displays the reference to use to link to the page (Thanks to Anatoly).
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @author Thierry Pinelli (ThierryP)
  * @tester Anatoly

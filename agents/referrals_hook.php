@@ -2,7 +2,7 @@
 /**
  * catch referral information
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @see control/scan.php
  * @see agents/referrals.php

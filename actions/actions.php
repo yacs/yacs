@@ -31,7 +31,7 @@
  * - a status that can be: 'on-going', 'completed' or 'rejected'
  * - dates of creation and last modification are recorded as well
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Florent
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @reference

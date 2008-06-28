@@ -70,7 +70,7 @@
  * To restore other kinds of backup archives (user files, user images, parameter files, or skin),
  * you have to explode the archive manually and to upload files individually.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Edige
  * @tester Lucrecius

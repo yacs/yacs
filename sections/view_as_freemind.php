@@ -18,7 +18,7 @@
  * - view_freemind.php/12/any_name - browse content of section 12
  * - view_as_freemind.php?id=12 - browse content of section 12
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

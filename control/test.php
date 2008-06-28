@@ -46,7 +46,7 @@
  * of YACS runs in demonstration mode, and does not provide the content
  * of [code]$_SERVER[/code] nor of [code]$_ENV[/code].
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Geoffroy Raimbault
  * @reference

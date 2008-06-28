@@ -50,7 +50,7 @@
  * If the mod_rewrite module is available, '[code]go.php[/code]' can be rewritten to '[code]go[/code]', making this script
  * strictly equivalent to the Cisco's GO link.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester ThierryP
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

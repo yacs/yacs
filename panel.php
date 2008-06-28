@@ -27,7 +27,7 @@
  *
  * @link http://livesidebar.com/lsbtabs/notes Live Sidebar Note-it
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

@@ -16,7 +16,7 @@
  * - visit.php?id=article:12 (visit article #12)
  * - visit.php?id=section:2 (visit section #2)
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

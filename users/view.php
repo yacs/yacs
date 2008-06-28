@@ -69,7 +69,7 @@
  * - view.php/12/bookmarks/2 (view the page 2 of the list of pages bookmarked by this user)
  * - view.php?id=12&bookmarks=2 (view the page 2 of the list of pages bookmarked by this user)
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Moi-meme
  * @tester Guillaume Perez
@@ -95,10 +95,6 @@ elseif(isset($context['arguments'][0]))
 elseif(Surfer::is_logged())
 	$id = Surfer::get_id();
 $id = strip_tags($id);
-
-// encode ISO-8859-1 argument, if any
-if(isset($_SERVER['HTTP_ACCEPT_CHARSET']) && preg_match('/^iso-8859-1/i', $_SERVER['HTTP_ACCEPT_CHARSET']))
-	$id = utf8_encode($id);
 
 // no follow-up page yet
 $zoom_type = '';
@@ -181,7 +177,7 @@ if(isset($item['full_name']) && $item['full_name']) {
 // anyone can modify his own profile; associates can do what they want
 if(isset($item['id']) && !$zoom_type && Surfer::is_empowered()) {
 	Skin::define_img('EDIT_USER_IMG', 'icons/users/edit.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Users::get_url($item['id'], 'edit') => EDIT_USER_IMG.i18n::s('Edit') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Users::get_url($item['id'], 'edit') => EDIT_USER_IMG.i18n::s('Edit this page') ));
 }
 
 // only associates can delete user profiles; self-deletion may also be allowed
@@ -248,39 +244,17 @@ if(!isset($item['id'])) {
 	// the capability field is displayed only to logged users
 	if(!Surfer::is_logged())
 		;
-	elseif($item['capability'] == 'A') {
+	elseif($item['capability'] == 'A')
+		$details[] = i18n::s('Associate');
 
-		// add links to contribute to this site
-		if(Surfer::is($id))
-			$details[] = i18n::s('As an associate of this community, you may contribute freely to any part of this server.');
-		else
-			$details[] = i18n::s('As an associate of this community, this user has unlimited rights (and duties) on this server.');
+	elseif($item['capability'] == 'M')
+		$details[] = i18n::s('Member');
 
-	} elseif($item['capability'] == 'M') {
+	elseif($item['capability'] == 'S')
+		$details[] = i18n::s('Subscriber');
 
-		// add links to contribute to this site
-		if(Surfer::is($id))
-			$details[] = i18n::s('As a member of this community, you may access freely most pages of this server.');
-		else
-			$details[] = i18n::s('Member of this community, with contribution rights to this server.');
-
-	} elseif($item['capability'] == 'S') {
-		if(Surfer::is($id))
-			$details[] = i18n::s('As a subscriber of this community, you may browse public pages and receive newsletters periodically.');
-		else
-			$details[] = i18n::s('Subscriber of this community, allowed to browse public pages and to receive e-mail newsletters.');
-
-	} elseif($item['capability'] == '?') {
-		if(Surfer::is_associate())
-			$details[] = EXPIRED_FLAG.i18n::s('This surfer has been banned and cannot authenticate.');
-	}
-
-	// no more details
-	if(count($details))
-		$context['page_details'] .= ucfirst(implode(BR."\n", $details)).BR."\n";
-
-	// details
-	$details = array();
+	elseif($item['capability'] == '?')
+			$details[] = EXPIRED_FLAG.i18n::s('Banned');
 
 	// the number of posts
 	if(isset($item['posts']) && ($item['posts'] > 1))
@@ -297,7 +271,12 @@ if(!isset($item['id'])) {
 	// combine these three items into one
 	if(count($details))
 		$context['page_details'] .= ucfirst(implode(', ', $details));
-	$context['page_details'] .= "</p>\n";
+
+	// reference this item
+	if(Surfer::is_member())
+		$context['page_details'] .= BR.sprintf(i18n::s('Code to reference this user: %s'), '[user='.$item['nick_name'].']');
+
+	$context['page_details'] .= '</p>';
 
 	//
 	// tabbed panels
@@ -420,8 +399,14 @@ if(!isset($item['id'])) {
 			// build a complete box
 			$box['text'] = '';
 
+			// avoid links to this page
+			include_once '../files/layout_files_as_simple.php';
+			$layout =& new Layout_files_as_simple();
+			if(is_object($layout))
+				$layout->set_variant('user:'.$item['id']);
+
 			// list files by date
-			$items = Files::list_by_date_for_author($item['id'], 0, 20, 'simple');
+			$items = Files::list_by_date_for_author($item['id'], 0, 20, $layout);
 
 			// actually render the html for the section
 			if(is_array($items))
@@ -478,6 +463,20 @@ if(!isset($item['id'])) {
 	// if not at another follow-up page
 	if(!$zoom_type) {
 
+		// local menu
+		$menu = array();
+
+		// the command to post a new file
+		if((Surfer::is($item['id']) || Surfer::is_associate()) && Surfer::may_upload())
+			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], i18n::s('Upload a file'), 'basic');
+
+		// the command to add a new link
+		if(Surfer::is($item['id']) || Surfer::is_associate())
+			$menu[] = Skin::build_link('links/edit.php?anchor=user:'.$item['id'], i18n::s('Add a link'), 'basic');
+
+		if(count($menu))
+			$information .= Skin::finalize_list($menu, 'menu_bar');
+
 		// get text related to the overlay, if any
 		if(is_object($overlay))
 			$information .= $overlay->get_text('view', $item);
@@ -491,18 +490,8 @@ if(!isset($item['id'])) {
 		$items = Files::list_by_date_for_anchor('user:'.$item['id'], 0, FILES_PER_PAGE, 'no_author');
 		if(is_array($items))
 			$items = Skin::build_list($items, 'decorated');
-		if($items) {
-
-			// the command to post a new file
-			if(((Surfer::get_id() == $item['id']) || Surfer::is_associate()) && Surfer::may_upload()) {
-				$menu = array( 'files/edit.php?anchor=user:'.$item['id'] => i18n::s('Upload a file') );
-				$items .= Skin::build_list($menu, 'menu_bar');
-			}
-
-			// a full box
+		if($items)
 			$information .= Skin::build_box(i18n::s('Files'), $items, 'header1', 'related_files');
-		}
-
 
 		// list links
 		//
@@ -512,18 +501,8 @@ if(!isset($item['id'])) {
 			$items = Links::list_by_date_for_anchor('user:'.$item['id'], 0, LINKS_PER_PAGE, 'no_author');
 		if(is_array($items))
 			$items = Skin::build_list($items, 'decorated');
-		if($items) {
-
-			// the command to add a new link
-			if(Surfer::is($item['id']) || Surfer::is_associate()) {
-				$menu = array( 'links/edit.php?anchor=user:'.$item['id'] => i18n::s('Add a link') );
-				$items .= Skin::build_list($menu, 'menu_bar');
-			}
-
-			// a full box
+		if($items)
 			$information .= Skin::build_box(i18n::s('Links'), $items, 'header1', 'related_links');
-
-		}
 	}
 
 	// in a separate tab
@@ -538,7 +517,7 @@ if(!isset($item['id'])) {
 	if(!$zoom_type)
 		$panels[] = array('actions_tab', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'));
 	if(!$zoom_type)
-		$panels[] = array('watch_tab', i18n::s('Watch list'), 'watch_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
+		$panels[] = array('watch_tab', i18n::s('Dashboard'), 'watch_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
 
 	// show preferences only to related surfers and to associates
 	if(!$zoom_type && ((Surfer::get_id() == $item['id']) || Surfer::is_associate()))
@@ -570,29 +549,35 @@ if(!isset($item['id'])) {
 
 		// modify this page
 		Skin::define_img('EDIT_USER_IMG', 'icons/users/edit.gif');
-		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), EDIT_USER_IMG.i18n::s('Edit'), 'basic');
+		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), EDIT_USER_IMG.i18n::s('Edit this page'), 'basic');
 
-		// post an image, if upload is allowed
-		if(Surfer::may_upload()) {
-			Skin::define_img('IMAGE_TOOL_IMG', 'icons/tools/image.gif');
-			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']), IMAGE_TOOL_IMG.i18n::s('Add an image'), 'basic');
-		}
+		// change avatar
+		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Change avatar'), 'basic');
 
-		// attach a file, if upload is allowed
-		if(Surfer::may_upload())
-			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('user:'.$item['id']), FILE_TOOL_IMG.i18n::s('Upload a file'), 'basic');
+		// change password
+		if(!isset($context['users_authenticator']) || !$context['users_authenticator'])
+			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'password'), i18n::s('Change password'), 'basic');
 
-		// add a link
-		$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('user:'.$item['id']), LINK_TOOL_IMG.i18n::s('Add a link'), 'basic');
 	}
+
+	// 'Share' box
+	//
+	$lines = array();
+
+	// logged users may download the vcard
+	if(Surfer::is_logged())
+		$lines[] = Skin::build_link(Users::get_url($item['id'], 'fetch_vcard', $item['nick_name']), i18n::s('Get business card'), 'basic');
 
 	// print this page
-	if(Surfer::is_logged()) {
-		Skin::define_img('PRINT_TOOL_IMG', 'icons/tools/print.gif');
-		$context['page_tools'][] = Skin::build_link(Users::get_url($id, 'print'), PRINT_TOOL_IMG.i18n::s('Print this page'), 'basic');
-	}
+	if(Surfer::is_logged())
+		$lines[] = Skin::build_link(Users::get_url($id, 'print'), i18n::s('Print this page'), 'basic');
 
-	// how to stay tuned
+	// in a side box
+	if(count($lines))
+		$context['extra'] .= Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
+
+	// 'More information' box
+	//
 	$lines = array();
 
 	// watch command is provided to logged surfers
@@ -627,7 +612,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['extra'] .= Skin::build_box(i18n::s('Stay tuned'), join(BR, $lines), 'extra', 'feeds');
+		$context['extra'] .= Skin::build_box(i18n::s('More information'), join(BR, $lines), 'extra', 'feeds');
 
 	// most popular articles for this user
 	$cache_id = 'users/view.php?id='.$item['id'].'#popular_articles';
@@ -721,6 +706,22 @@ if(!isset($item['id'])) {
 
 		// in the extra panel
 		$context['extra'] .= $text;
+
+	}
+
+	//
+	// put this page in visited items
+	//
+	if(!isset($context['pages_without_history']) || ($context['pages_without_history'] != 'Y')) {
+
+		// put at top of stack
+		if(!isset($_SESSION['visited']))
+			$_SESSION['visited'] = array();
+		$_SESSION['visited'] = array_merge(array(Users::get_url($item['id'], 'view', $item['nick_name']) => Codes::beautify($item['full_name']?$item['full_name']:$item['nick_name'])), $_SESSION['visited']);
+
+		// limit to 7 most recent pages
+		if(count($_SESSION['visited']) > 7)
+			array_pop($_SESSION['visited']);
 
 	}
 

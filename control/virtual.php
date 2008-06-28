@@ -18,7 +18,7 @@
  * - virtual.php/virtual_host_name/view
  * - virtual.php?id=virtual_host_name&action=view
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

@@ -16,7 +16,7 @@
  * - derive.php/original_skin
  * - derive.php?skin=original_skin
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester Dim
  * @tester Agnes
  * @tester Ghjmora

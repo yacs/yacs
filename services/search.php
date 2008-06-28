@@ -34,7 +34,7 @@
  * The response is a list of matching articles encoded with RSS.
  * Only public items are searched.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

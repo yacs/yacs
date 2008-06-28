@@ -229,7 +229,7 @@
  * This script attempts to fight bbCode code injections by filtering strings to be used
  * as [code]src[/code] or as [code]href[/code] attributes (Thank you Mordread).
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Mordread Wallas
  * @author GnapZ
  * @author Lasares
@@ -597,6 +597,38 @@ Class Codes {
 	}
 
 	/**
+	 * fix line breaks introduced by FCKEditor
+	 *
+	 * This function moves unclosed tags to the beginning of content.
+	 *
+	 * @param string input
+	 * @return string original or modified content
+	 */
+	function &fix_tags($text) {
+
+		// look for opening tag at content end
+		$last_open = strripos($text, '<p>');
+		$last_close = strripos($text, '</p');
+		if($last_open && (($last_close === FALSE) || ($last_open > $last_close))) {
+
+			// trail
+			$trail = '';
+			if(strlen($text) > $last_open + 3)
+				$trail = substr($text, $last_open + 3);
+
+			// move it to content start to restore pairing tags
+			$text = '<p>'.substr($text, 0, $last_open).$trail;
+
+		}
+
+		// also fix broken img tags, if any
+		$text = preg_replace('/\<(img[^\<\/]+)\>/i', '<\\1 />', $text);
+
+		// done
+		return $text;
+	}
+
+	/**
 	 * get the value of one global parameter
 	 *
 	 * @param string name of the parameter
@@ -825,28 +857,28 @@ Class Codes {
 		static $replace;
 		if(!isset($replace)) {
 			$replace = array(
-				"Codes::render_escaped(stripslashes('$1'))",					// [escape]...[/escape]
-				"Codes::render_pre(stripslashes('$1'), 'php')", 				// [php]...[/php]
-				"Codes::render_pre(stripslashes('$1'), 'snippet')", 			// [snippet]...[/snippet]
-				'', 															// [page]
-				"Codes::render_hidden(stripslashes('$1'), 'hidden')",			// [hidden]...[/hidden]
-				"Codes::render_hidden(stripslashes('$1'), 'restricted')",		// [restricted]...[/restricted]
-				"Codes::render_hidden(stripslashes('$1'), 'anonymous')",		// [anonymous]...[/anonymous]
-				"Codes::get_parameter('\\1')", 									// [parameter=<name>]
+				"Codes::render_escaped(Codes::fix_tags(stripslashes('$1')))",					// [escape]...[/escape]
+				"Codes::render_pre(Codes::fix_tags(stripslashes('$1')), 'php')", 				// [php]...[/php]
+				"Codes::render_pre(Codes::fix_tags(stripslashes('$1')), 'snippet')", 			// [snippet]...[/snippet]
+				'', 																		// [page]
+				"Codes::render_hidden(Codes::fix_tags(stripslashes('$1')), 'hidden')",			// [hidden]...[/hidden]
+				"Codes::render_hidden(Codes::fix_tags(stripslashes('$1')), 'restricted')",		// [restricted]...[/restricted]
+				"Codes::render_hidden(Codes::fix_tags(stripslashes('$1')), 'anonymous')",		// [anonymous]...[/anonymous]
+				"Codes::get_parameter('\\1')",			 									// [parameter=<name>]
 				"utf8::to_unicode(str_replace('$1', '|', utf8::from_unicode(stripslashes('$2'))))", // [csv=;]...[/csv]
 				"str_replace(',', '|', stripslashes('$1'))",					// [csv]...[/csv]
-				"Codes::render_table(stripslashes('$2'), '$1')",				// [table=variant]...[/table]
-				"Codes::render_table(stripslashes('$1'), '')",					// [table]...[/table]
+				"Codes::render_table(Codes::fix_tags(stripslashes('$2')), '$1')",				// [table=variant]...[/table]
+				"Codes::render_table(Codes::fix_tags(stripslashes('$1')), '')",					// [table]...[/table]
 				'\\1<code>\\2</code>\\3',										// ##...##
 				'<code>\\1</code>', 											// [code]...[/code]
-				"Skin::build_block(stripslashes('$1'), 'indent')",				// [indent]...[indent]
-				"Skin::build_block(stripslashes('$1'), 'quote')",				// [quote]...[/quote]
-				"Skin::build_box(stripslashes('$1'), stripslashes('$2'), 'folder')",	// [folder=title]...[/folder]
-				"Skin::build_box(NULL, stripslashes('$1'), 'folder')",			// [folder]...[/folder]
-				"Skin::build_box(stripslashes('$1'), stripslashes('$2'), 'sidebar')",	// [sidebar=title]...[/sidebar]
-				"Skin::build_box(NULL, stripslashes('$1'), 'sidebar')", 		// [sidebar]...[/sidebar]
-				"Skin::build_block(stripslashes('$1'), 'note')",				// [note]...[/note]
-				"Skin::build_block(stripslashes('$1'), 'caution')", 			// [caution]...[/caution]
+				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'indent')",				// [indent]...[indent]
+				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'quote')",				// [quote]...[/quote]
+				"Skin::build_box(stripslashes('$1'), Codes::fix_tags(stripslashes('$2')), 'folder')",	// [folder=title]...[/folder]
+				"Skin::build_box(NULL, Codes::fix_tags(stripslashes('$1')), 'folder')",			// [folder]...[/folder]
+				"Skin::build_box(stripslashes('$1'), Codes::fix_tags(stripslashes('$2')), 'sidebar')",	// [sidebar=title]...[/sidebar]
+				"Skin::build_box(NULL, Codes::fix_tags(stripslashes('$1')), 'sidebar')", 		// [sidebar]...[/sidebar]
+				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'note')",				// [note]...[/note]
+				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'caution')", 			// [caution]...[/caution]
 				"Skin::build_block(stripslashes('$1'), 'search')",				// [search=<words>]
 				"Skin::build_block(NULL, 'search')",							// [search]
 				"Codes::render_cloud('$1')",									// [cloud=12]
@@ -854,16 +886,16 @@ Class Codes {
 				"Codes::render_collections()",									// [collections]
 				"Skin::build_block(stripslashes('$1'), 'login')",				// [login=<words>]
 				"Skin::build_block(NULL, 'login')", 							// [login]
-				"Skin::build_block(stripslashes('$1'), 'center')",				// [center]...[/center]
-				"Skin::build_block(stripslashes('$1'), 'right')",				// [right]...[/right]
-				"Skin::build_block(stripslashes('$1'), 'decorated')",			// [decorated]...[/decorated]
-				"Skin::build_block(stripslashes('$2'), '$1')",					// [style=variant]...[/style]
+				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'center')",				// [center]...[/center]
+				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'right')",				// [right]...[/right]
+				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'decorated')",			// [decorated]...[/decorated]
+				"Skin::build_block(Codes::fix_tags(stripslashes('$2')), '$1')",					// [style=variant]...[/style]
 				'<acronym title="\\1">\\2</acronym>',							// [hint=help]...[/hint]
-				"Skin::build_block(stripslashes('$1'), 'caption')", 			// [caption]...[/caption]
-				"Skin::build_block(stripslashes('$1'), 'tiny')",				// [tiny]...[/tiny]
-				"Skin::build_block(stripslashes('$1'), 'small')",				// [small]...[/small]
-				"Skin::build_block(stripslashes('$1'), 'big')", 				// [big]...[/big]
-				"Skin::build_block(stripslashes('$1'), 'huge')",				// [huge]...[/huge]
+				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'caption')", 			// [caption]...[/caption]
+				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'tiny')",				// [tiny]...[/tiny]
+				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'small')",				// [small]...[/small]
+				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'big')", 				// [big]...[/big]
+				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'huge')",				// [huge]...[/huge]
 				'<sub>\\1</sub>',												// [subscript]...[/subscript]
 				'<sup>\\1</sup>',												// [superscript]...[/superscript]
 				'\\1<ins>\\2</ins>\\3', 										// ++...++
@@ -884,8 +916,8 @@ Class Codes {
 				"POPULAR_FLAG", 												// [popular]
 				"Skin::build_flag('\\1')",										// [flag=....]
 				"Skin::build_flag('\\1')",										// [flag]...[/flag]
-				"Codes::render_list(stripslashes('$1'), NULL)", 				// [list]...[/list]
-				"Codes::render_list(stripslashes('$2'), '$1')", 				// [list=?]...[/list]
+				"Codes::render_list(Codes::fix_tags(stripslashes('$1')), NULL)", 				// [list]...[/list]
+				"Codes::render_list(Codes::fix_tags(stripslashes('$2')), '$1')", 				// [list=?]...[/list]
 				"BR.BR.BULLET_IMG.'&nbsp;'",									// standalone [*]
 				"BR.BULLET_IMG.'&nbsp;'",
 				'<li>\\1</li>', 												// [li]...[/li]
@@ -923,10 +955,10 @@ Class Codes {
 				"Skin::build_link(Codes::clean_href('$2'), stripslashes('$1'), 'menu_2')",	// [submenu=label]url[/submenu]
 				"Codes::render_email(Codes::clean_href('$2'), stripslashes('$1'))", // [email=label]url[/email]
 				"Codes::render_email(Codes::clean_href('$1'), stripslashes('$1'))", // [email]url[/email]
-				"Codes::render_title(stripslashes('$1'), 'question')",			// [question]...[/question]
+				"Codes::render_title(Codes::fix_tags(stripslashes('$1')), 'question')",			// [question]...[/question]
 				"QUESTION_FLAG",												// [question]
 				"ANSWER_FLAG",													// [answer]
-				"Codes::render_animated(stripslashes('$1'), 'scroller')",		// [scroller]...[/scroller]
+				"Codes::render_animated(Codes::fix_tags(stripslashes('$1')), 'scroller')",		// [scroller]...[/scroller]
 				"Codes::render_table_of('questions')",							// [toq]
 				'[header1]\\1[/header1]',										// a trick for FCKEditor
 				'[header1]\\1[/header1]',										// [title]...[/title]
@@ -2436,18 +2468,22 @@ Class Codes {
 			$id = $attributes[0];
 
 			// ensure we have a label for this link
+			$name = utf8::from_entities($id);
 			if(isset($attributes[1])) {
 				$text = $attributes[1];
 				$type = 'basic'; // link is integrated in text
 			} elseif(!$item =& Users::get($id))
-				$text = '';
-			elseif(isset($item['nick_name']))
-				$text = ucfirst($item['nick_name']);
-			if(!isset($text) || !$text)
 				$text = sprintf(i18n::s('user %s'), $id);
+			elseif(isset($item['full_name']) && $item['full_name']) {
+				$name = $item['nick_name'];
+				$text = ucfirst($item['full_name']);
+			} elseif(isset($item['nick_name'])) {
+				$name = $item['nick_name'];
+				$text = ucfirst($item['nick_name']);
+			}
 
 			// make a link to the target page
-			$url = Users::get_url($id);
+			$url = Users::get_url($id, 'view', $name);
 
 			// return a complete anchor
 			$output =& Skin::build_link($url, $text, $type);

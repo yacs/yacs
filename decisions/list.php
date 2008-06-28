@@ -26,7 +26,7 @@
  * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -102,7 +102,7 @@ else
 
 // command to go back
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array( $anchor->get_url() => i18n::s('Back to main content') );
+	$context['page_menu'] = array( $anchor->get_url() => i18n::s('Back to main page') );
 
 // an anchor is mandatory
 if(!is_object($anchor)) {

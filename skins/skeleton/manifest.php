@@ -4,7 +4,7 @@
  *
  * As its name implies, the skeleton skin is quite simple. It may be used as a good starting point by skin designers.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

@@ -40,7 +40,7 @@
  * - index.php/10 (view articles 200 to 220, in the past)
  * - index.php?page=4 (view articles 80 to 100, back in the past)
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -138,7 +138,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// side bar with a rss feed, if this server is well populated
 	if($stats['count'] > $items_per_page) {
-		$text .= Skin::build_box(i18n::s('Stay tuned'), Skin::build_link(Feeds::get_url('rss'), i18n::s('Recent pages'), 'xml')
+		$text .= Skin::build_box(i18n::s('More information'), Skin::build_link(Feeds::get_url('rss'), i18n::s('Recent pages'), 'xml')
 			.BR.Skin::build_link(Feeds::get_url('articles'), i18n::s('Full content'), 'xml'), 'extra');
 	}
 

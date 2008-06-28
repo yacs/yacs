@@ -10,7 +10,7 @@
  *
  * @link http://joi.ito.com/archives/2003/12/30/css_in_rss_feed.html
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

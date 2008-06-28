@@ -2,7 +2,7 @@
 /**
  * the database abstraction layer for links
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Florent
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -103,7 +103,7 @@ Class Links {
 			return TRUE;
 
 		// teasers are activated
-		if(!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(!Surfer::is_logged() && (!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y')))
 			return TRUE;
 
 		// the default is to not allow for new links
@@ -1472,7 +1472,7 @@ Class Links {
 			// user link
 			case 'user':
 				if($item =& Users::get($matches[2]))
-					return array(Users::get_url($item['id'], 'view', $item['title']), $item['full_name']);
+					return array(Users::get_url($item['id'], 'view', $item['nick_name']), $item['full_name']?$item['full_name']:$item['nick_name']);
 				return array('', $text, '');
 
 			}

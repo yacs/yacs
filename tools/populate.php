@@ -79,7 +79,7 @@
  * Creates following sample tables:
  * - 'my_articles' - A simple table listing newest articles
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -162,6 +162,7 @@ if(!$permitted) {
 		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'Bobby').BR."\n";
 	else {
 		$fields = array();
+		$fields['fill_name'] = i18n::c('Sponge Bob');
 		$fields['nick_name'] = 'Bobby';
 		$fields['password'] = 'test';
 		$fields['confirm'] = 'test';

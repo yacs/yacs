@@ -105,7 +105,7 @@
  * You can prevent a server to flood you by disabling pings in the related server profile.
  *
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  *

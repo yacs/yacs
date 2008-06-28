@@ -13,7 +13,7 @@
  * @link http://www.drop.org/node.php?id=531 A distributed user system and a Drupal roadmap
  * @link http://drupal.org/doxygen/drupal/drupal_8module.html modules/drupal.module File Reference
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

@@ -3,7 +3,7 @@
  * layout sections, and their content, as nodes of a Freemind map
  *
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Thierry Pinelli [email]contact@vdp-digital.com[/email]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

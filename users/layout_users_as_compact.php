@@ -4,7 +4,7 @@
  *
  * @see users/users.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -42,7 +42,7 @@ Class Layout_users_as_compact extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// url to view the user
-			$url = Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:'');
+			$url = Users::get_url($item['id'], 'view', $item['nick_name']);
 
 			// initialize variables
 			$prefix = $suffix = '';
@@ -57,8 +57,11 @@ Class Layout_users_as_compact extends Layout_interface {
 			if($item['capability'] == '?')
 				$prefix .= EXPIRED_FLAG;
 
-			// use nick name
-			$label = ucfirst($item['nick_name']);
+			// item title
+			if($item['full_name'])
+				$label = ucfirst(Skin::strip($item['full_name'], 10));
+			else
+				$label = ucfirst(Skin::strip($item['nick_name'], 10));
 
 			// flag idle users
 			if(!isset($item['click_date']) || ($item['click_date'] < $idle))

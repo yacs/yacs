@@ -69,7 +69,7 @@
  * Therefore, on first installation (i.e., when the switch file is absent), the extension '.done' is appended to
  * every script in the directory scripts/run_once without actual execution of them.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:26 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:25 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['Edited %s']='Mis &#224; jour %s';
 $_SESSION['l10n']['fr']['Emotion']='Emotion';
@@ -13,11 +13,11 @@ $_SESSION['l10n']['fr']['Here is the list of codes that are automatically conver
 $_SESSION['l10n']['fr']['I am killed']='je suis mort';
 $_SESSION['l10n']['fr']['I want you']='c\'est tout de suite';
 $_SESSION['l10n']['fr']['I would like to get it']='une terrible envie';
-$_SESSION['l10n']['fr']['Index of smileys']='Index des emoticons';
 $_SESSION['l10n']['fr']['Let face it, sometimes words alone do not suffice. Adding a winking smilie, for instance, may help you clarify that you are joking.']='Il faut bien reconna&#238;tre que les mots &#224; eux seuls ne permettent pas toujours de s\'exprimer avec justesse. Par exemple, ajouter un clin d\'oeil peut aider &#224; faire comprendre que vous &#234;tes en train de plaisanter.';
 $_SESSION['l10n']['fr']['Ok, i leave']='Ok, je sors';
 $_SESSION['l10n']['fr']['Referrals']='R&#233;f&#233;rences externes';
 $_SESSION['l10n']['fr']['Santa Claus']='P&#232;re No&#235;l';
+$_SESSION['l10n']['fr']['Smileys']='Emoticons';
 $_SESSION['l10n']['fr']['Smileys are small graphical images that can be used to convey an emotion or feeling. If you have used email or Internet chat, you are likely familiar with the smilie concept.']='Les emoticons sont des petites images qui peuvent &#234;tre employ&#233;es pour v&#233;hiculer une &#233;motion ou un sentiment. Si vous avez d&#233;j&#224; utilis&#233; le courrier &#233;lectronique ou les babillards Internet, vous connaissez probablement d&#233;j&#224; le concept d\'emoticon.';
 $_SESSION['l10n']['fr']['Star wars']='Star wars';
 $_SESSION['l10n']['fr']['The King']='Le Roi';

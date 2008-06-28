@@ -14,7 +14,7 @@
  *
  * @link http://keystonewebsites.com/articles/mime_type.php Serving up XHTML with the correct MIME type
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester Agnes
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

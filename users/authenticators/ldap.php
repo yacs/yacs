@@ -57,8 +57,8 @@
  *
  * @link http://www.ietf.org/rfc/rfc2254.txt String Representation of LDAP
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
- * @author Alf83
+ * @author Bernard Paques
+ * @author Alexandre Francois [email]alexandre-francois@voila.fr[/email]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

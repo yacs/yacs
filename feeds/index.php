@@ -44,7 +44,7 @@
  * @link http://www.atomenabled.org/developers/syndication/atom-format-spec.php The Atom Syndication Format 0.3 (PRE-DRAFT)
  * @link http://blogs.law.harvard.edu/tech/rss RSS 2.0 Specification
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

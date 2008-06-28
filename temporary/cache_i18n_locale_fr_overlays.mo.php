@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d approval'.chr(0).'%d approvals']='%d approbation'.chr(0).'%d approbations';
 $_SESSION['l10n']['fr']['%d reject'.chr(0).'%d rejects']='%d rejet'.chr(0).'%d rejets';
@@ -79,8 +79,8 @@ $_SESSION['l10n']['fr']['Express your vote']='Exprimez-vous et votez';
 $_SESSION['l10n']['fr']['Extra box']='Bo&#238;te extra';
 $_SESSION['l10n']['fr']['Following people:']='Les personnes suivantes :';
 $_SESSION['l10n']['fr']['For example, if you want to apply the overlay <code>foo</code>, go to the %s, and select a target section, or add one.']='Par exemple, pour mettre en oeuvre le comportement <code>mon_comportement</code>, visitez la %s. Choisissez une section existante, ou ajoutez une nouvelle section si besoin.';
+$_SESSION['l10n']['fr']['Front page']='Page d\'accueil';
 $_SESSION['l10n']['fr']['Full name']='Nom complet';
-$_SESSION['l10n']['fr']['Go to the front page']='Aller &#224; la page d\'accueil';
 $_SESSION['l10n']['fr']['Immediate solution has been provided']='Une solution imm&#233;diate a &#233;t&#233; fournie';
 $_SESSION['l10n']['fr']['Impossible to add an item.']='Impossible d\'ajouter un &#233;l&#233;ment.';
 $_SESSION['l10n']['fr']['Impossible to update date %s']='Impossible de mettre &#224; jour la date %s';

@@ -32,7 +32,7 @@
  * - search.php?search=&lt;keywords&gt;&page=1
  * - search.php?search=&lt;keywords&gt;&anchor=section:12
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester Dobliu
  * @tester fw_crocodile
  * @tester Aleko
@@ -355,7 +355,7 @@ $context['extra'] .= Skin::build_box(i18n::s('Help'), i18n::s('This search engin
 $lines = array();
 if($search)
 	$lines[] = Skin::build_link('services/search.php?search='.urlencode($search), i18n::s('Matching pages'), 'xml');
-$context['extra'] .= Skin::build_box(i18n::s('Stay tuned'), join(BR, $lines), 'extra', 'feeds');
+$context['extra'] .= Skin::build_box(i18n::s('More information'), join(BR, $lines), 'extra', 'feeds');
 
 // side bar with the list of most recent keywords
 $cache_id = 'search.php#keywords_by_date';

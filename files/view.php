@@ -41,7 +41,7 @@
  * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Lasares
  * @reference
@@ -139,9 +139,9 @@ else
 	$context['path_bar'] = array( 'files/' => i18n::s('Files') );
 
 // the title of the page
-if($item['title'])
+if(isset($item['title']) && $item['title'])
 	$context['page_title'] = $item['title'];
-else
+elseif(isset($item['file_name']))
 	$context['page_title'] = str_replace('_', ' ', $item['file_name']);
 
 // editors have associate-like capabilities
@@ -159,15 +159,11 @@ if(isset($item['id']) && (Surfer::is_empowered() && Surfer::is_logged()) && Vers
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url().'#files' => i18n::s('Main page') ));
-
-// file is also available for detach
-if(isset($item['id']) && $editable && Surfer::may_upload() && Surfer::is_member() && (!isset($item['assign_id']) || ($item['assign_id'] < 1)))
-	$context['page_menu'] = array_merge($context['page_menu'], array( Files::get_url($item['id'], 'detach') => i18n::s('Detach') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url().'#files' => i18n::s('Back to main page') ));
 
 // edit command, if allowed to do so
 if(isset($item['id']) && $editable)
-	$context['page_menu'] = array_merge($context['page_menu'], array( Files::get_url($item['id'], 'edit') => i18n::s('Update') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Files::get_url($item['id'], 'edit') => i18n::s('Update this file') ));
 
 // restore a previous version, if any
 if($has_versions && (Surfer::is_empowered() && Surfer::is_logged()))
@@ -244,7 +240,14 @@ if(!isset($item['id'])) {
 		$details[] = Skin::build_date($item['edit_date']);
 
 	// all details
-	$context['page_details'] .= ucfirst(implode(', ', $details)).'</p>';
+	$context['page_details'] .= ucfirst(implode(', ', $details));
+
+	// reference this item
+	if(Surfer::is_member())
+		$context['page_details'] .= BR.sprintf(i18n::s('Use following codes to reference this item: %s'), '[file='.$item['id'].'] or [download='.$item['id'].']');
+
+	// end of details
+	$context['page_details'] .= '</p>';
 
 	// file details
 	$context['text'] .= '<p>';
@@ -861,15 +864,15 @@ if(!isset($item['id'])) {
 	// page tools
 	//
 
+	// back to the anchor page
+	if(is_object($anchor) && $anchor->is_viewable())
+		$context['page_tools'][] = Skin::build_link($anchor->get_url().'#files', i18n::s('Back to main page'));
+
 	// update tools
 	if($editable) {
 
-		// file is also available for detach
-		if(isset($item['id']) && $editable && Surfer::may_upload() && Surfer::is_member() && (!isset($item['assign_id']) || ($item['assign_id'] < 1)))
-			$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'detach'), i18n::s('Detach'), 'basic');
-
 		// modify this page
-		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('Update'), 'basic');
+		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('Update this file'), 'basic');
 
 		// post an image, if upload is allowed
 		if(Images::are_allowed($anchor, $item)) {

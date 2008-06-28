@@ -33,7 +33,7 @@
  * YACS adds a warning to all surfers, except the one that has been assigned, that they are
  * not considered as current file owners.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Florent
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -133,7 +133,7 @@ Class Files {
 			return TRUE;
 
 		// teasers are activated
-		if(!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(!Surfer::is_logged() && (!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y')))
 			return TRUE;
 
 		// the default is to not allow for new files
@@ -952,6 +952,16 @@ Class Files {
 				return 'files/feed.php?anchor='.urlencode($id);
 		}
 
+		// add a file -- the id has to be an anchor (e.g., 'article:15')
+		if($action == 'file') {
+			if($context['with_friendly_urls'] == 'Y')
+				return 'files/edit.php/'.str_replace(':', '/', $id);
+			elseif($context['with_friendly_urls'] == 'R')
+				return 'files/edit.php/'.str_replace(':', '/', $id);
+			else
+				return 'files/edit.php?anchor='.urlencode($id);
+		}
+
 		// confirm the download
 		if($action == 'confirm') {
 			$action = 'fetch';
@@ -971,7 +981,7 @@ Class Files {
 		}
 
 		// check the target action
-		if(!preg_match('/^(author|delete|edit|fetch|stream|thread|view)$/', $action))
+		if(!preg_match('/^(author|delete|edit|fetch|list|stream|thread|view)$/', $action))
 			$action = 'view';
 
 		// normalize the link

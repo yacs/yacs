@@ -5,7 +5,7 @@
  * @see articles/articles.php
  * @see articles/review.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @author Thierry Pinelli (ThierryP)
  * @reference

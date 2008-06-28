@@ -124,7 +124,7 @@
  * - [script]sections/section.php[/script]
  * - [script]users/user.php[/script]
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

@@ -41,7 +41,7 @@
  *
  * @see skins/configure.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -321,10 +321,6 @@ if(!isset($item['id'])) {
 		// details
 		$details = array();
 
-		// the nick name
-		if($item['nick_name'] && (Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable())))
-			$details[] = '"'.$item['nick_name'].'"';
-
 		// the creator of this article, if associate or if editor or if not prevented globally or if section option
 		if($item['create_date']
 			&& (Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable())
@@ -417,6 +413,17 @@ if(!isset($item['id'])) {
 		// in-line details
 		if(count($details))
 			$text .= ucfirst(implode(', ', $details));
+
+		// reference this item
+		if(Surfer::is_member()) {
+			$text .= BR.sprintf(i18n::s('Code to reference this page: %s'), '[article='.$item['id'].']');
+
+			// the nick name
+			if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'])))
+				$text .= BR.sprintf(i18n::s('Shortcut: %s'), $link);
+		}
+
+		// no more details
 		$text .= "</p>\n";
 
 		// save in cache
@@ -763,7 +770,7 @@ if(!isset($item['id'])) {
 			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('article:'.$item['id']), LINK_TOOL_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 	}
 
-	// 'Share this page' box
+	// 'Share' box
 	//
 	$lines = array();
 
@@ -815,9 +822,9 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['extra'] .= Skin::build_box(i18n::s('Share this page'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
+		$context['extra'] .= Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
 
-	// 'Stay tuned' box
+	// 'More information' box
 	//
 	$lines = array();
 
@@ -853,7 +860,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['extra'] .= Skin::build_box(i18n::s('Stay tuned'), join(BR, $lines), 'extra', 'feeds');
+		$context['extra'] .= Skin::build_box(i18n::s('More information'), join(BR, $lines), 'extra', 'feeds');
 
 	// cache content
 	$cache_id = 'articles/view_as_tabs.php?id='.$item['id'].'#extra#tail';

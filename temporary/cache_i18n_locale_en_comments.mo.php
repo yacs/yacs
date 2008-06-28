@@ -3,13 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['%s and %s are available to enhance text rendering.']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s:']='%s:';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
-$_SESSION['l10n']['en']['(%s is unknown)']='(%s is unknown)';
 $_SESSION['l10n']['en']['1 post'.chr(0).'%d posts']='1 post'.chr(0).'%d posts';
 $_SESSION['l10n']['en']['1 thread'.chr(0).'%d threads']='1 thread'.chr(0).'%d threads';
 $_SESSION['l10n']['en']['A question']='A question';
@@ -17,7 +16,7 @@ $_SESSION['l10n']['en']['A suggestion']='A suggestion';
 $_SESSION['l10n']['en']['Anonymous comment']='Anonymous comment';
 $_SESSION['l10n']['en']['Associate']='Associate';
 $_SESSION['l10n']['en']['Attention']='Attention';
-$_SESSION['l10n']['en']['Back to main content']='Back to main content';
+$_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Comment']='Comment';
 $_SESSION['l10n']['en']['Comment by %s']='Comment by %s';

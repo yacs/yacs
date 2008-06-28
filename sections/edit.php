@@ -30,7 +30,7 @@
  * If this section, or one of its anchor, specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Vincent No&euml;l
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -347,33 +347,57 @@ if($with_form) {
 	$index .= Skin::build_form($fields);
 	$fields = array();
 
+	// splash message for new items
+	if(!isset($item['id']))
+		$index .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
+
 	// images
-	if(Surfer::may_upload()) {
+	else {
 		$box = '';
 
-		// splash message for new pages
-		if(!isset($item['id']))
-			$box .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
+		if(Surfer::may_upload()) {
 
-		else {
+			// an horizontal table
+			$cells = array();
 
-			$menu = array( 'images/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add an image') );
-			$box .= Skin::build_list($menu, 'menu_bar');
+			// the command to upload a regular image
+			$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), i18n::s('Add an image'), 'basic')
+				.BR.'<span class="details">'.i18n::s('Upload an image file and integrate it into the page. Big images will be rendered as clickable thumbnails.').'</span>';
+
+			// the command to upload page thumbnail
+			if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
+				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=thumbnail', i18n::s('Change page thumbnail').BR.'<img src="'.$item['thumbnail_url'].'" alt="" />', 'basic');
+			else
+				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=thumbnail', i18n::s('Add page thumbnail'), 'basic')
+					.BR.'<span class="details">'.i18n::s('Upload a small image to illustrate this page when it is listed into parent page.').'</span>';
+
+			// the command to upload page icon
+			if(isset($item['icon_url']) && $item['icon_url'])
+				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon', i18n::s('Change page icon').BR.'<img src="'.preg_replace('/\/images\/article\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />', 'basic');
+			else
+				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon', i18n::s('Add page icon'), 'basic')
+					.BR.'<span class="details">'.i18n::s('Upload an image to be displayed at page top. This will also be the default icon image for items attached to this page.').'</span>';
+
+			// display all commands
+			$box .= Skin::table_prefix('form').'<tr><td style="width: 200px">'.implode('</td><td style="padding-left: 3em; width: 200px">', $cells).'</td></tr></table>';
 
 			// the list of images
 			include_once '../images/images.php';
 			if($items = Images::list_by_date_for_anchor('section:'.$item['id'], 0, 50, NULL)) {
 
 				// help to insert in textarea
-				if(!isset($_SESSION['surfer_editor']) || (($_SESSION['surfer_editor'] != 'fckeditor') && ($_SESSION['surfer_editor'] != 'tinymce')))
-					$box .= '<p>'.i18n::s('Click on links to insert images in the main field.')."</p>\n";
+				if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'textarea'))
+					$box .= '<p>'.i18n::s('Use codes to insert images in the page.')."</p>\n";
+				else
+					$box .= '<p>'.i18n::s('Click on codes to insert images in the page.')."</p>\n";
 
 				$box .= Skin::build_list($items, 'decorated');
 			}
 		}
 
 		// in a folded box
-		$index .= Skin::build_box(i18n::s('Images'), $box, 'folder', 'edit_images');
+		if($box)
+			$index .= Skin::build_box(i18n::s('Images'), $box, 'folder', 'edit_images');
 
 	}
 
@@ -1027,7 +1051,9 @@ if($with_form) {
 	if(isset($item['id']) && (Surfer::is_empowered())) {
 		$label = i18n::s('Thumbnail URL');
 		$input = '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
-		$hint = i18n::s('To illustrate the section at the Site map');
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=thumbnail', i18n::s('Add an image'), 'basic').'</span>';
+		$hint = i18n::s('The image that illustrates the page at parent level or at the Site map.');
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1035,7 +1061,9 @@ if($with_form) {
 	if(isset($item['id']) && (Surfer::is_empowered())) {
 		$label = i18n::s('Icon URL');
 		$input = '<input type="text" name="icon_url" size="55" value="'.encode_field(isset($item['icon_url']) ? $item['icon_url'] : '').'" maxlength="255" />';
-		$hint = i18n::s('Displayed at the section page, and used as the default icon for related article pages');
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon', i18n::s('Add an image'), 'basic').'</span>';
+		$hint = i18n::s('The image displayed at page top, and used as the default icon for related items.');
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1043,7 +1071,9 @@ if($with_form) {
 	if(isset($item['id']) && (Surfer::is_empowered())) {
 		$label = i18n::s('Bullet URL');
 		$input = '<input type="text" name="bullet_url" size="55" value="'.encode_field(isset($item['bullet_url']) ? $item['bullet_url'] : '').'" maxlength="255" />';
-		$hint = i18n::s('Displayed in front of articles listed in this section');
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=bullet', i18n::s('Add an image'), 'basic').'</span>';
+		$hint = i18n::s('The default image that illustrates every related item.');
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1197,6 +1227,12 @@ if($with_form) {
 		.'	}'."\n"
 		."\n"
 		.'	nodes = $$("form#main_form textarea");'."\n"
+		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
+		.'		var node = nodes[index];'."\n"
+		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'	}'."\n"
+		."\n"
+		.'	nodes = $$("form#main_form select");'."\n"
 		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
 		.'		var node = nodes[index];'."\n"
 		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"

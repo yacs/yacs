@@ -437,7 +437,7 @@
  *
  *
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester Marcelo L. L. Cabral
  * @tester Pat
  * @reference

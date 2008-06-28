@@ -30,7 +30,7 @@
  * - index.php/2 (view actions 41 to 60)
  * - index.php?page=2 (view actions 41 to 60)
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

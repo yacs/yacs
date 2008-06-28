@@ -63,7 +63,7 @@
  * - edit.php/&lt;id&gt;				modify an existing user profile
  * - edit.php?id=&lt;id&gt; 		modify an existing user profile
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Vincent No&euml;l
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -162,7 +162,7 @@ if(!$permitted) {
 
 	// build the full name for new users
 	if(isset($_REQUEST['first_name']) || isset($_REQUEST['last_name']))
-		$_REQUEST['full_name'] = trim($_REQUEST['last_name'].' '.$_REQUEST['first_name']);
+		$_REQUEST['full_name'] = trim(ucfirst($_REQUEST['last_name']).' '.ucfirst($_REQUEST['first_name']));
 
 	// when the page has been overlaid
 	if(is_object($overlay)) {
@@ -439,33 +439,52 @@ if($with_form) {
 	$panels['information'] .= Skin::build_form($fields);
 	$fields = array();
 
-	// if we are editing an existing item
-	if(isset($item['id'])) {
+	// splash message for new items
+	if(!isset($item['id']))
+		$panels['information'] .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
 
-		// related images
+	// images
+	else {
 		$box = '';
 
-		// the menu to post a new image or to select an avatar
-		$menu = array();
+		if(Surfer::may_upload()) {
 
-		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('images/edit.php?anchor=user:'.$item['id'] => i18n::s('Add an image')));
+			// an horizontal table
+			$cells = array();
 
-		$box .= Skin::build_list($menu, 'menu_bar');
+			// the command to upload a regular image
+			$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']), i18n::s('Add an image'), 'basic')
+				.BR.'<span class="details">'.i18n::s('Upload an image file and integrate it into the page. Big images will be rendered as clickable thumbnails.').'</span>';
+
+			// the command to upload page avatar
+			if(isset($item['avatar_url']) && $item['avatar_url'])
+				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']).'&amp;action=avatar', i18n::s('Change avatar').BR.'<img src="'.preg_replace('/\/images\/article\/[0-9]+\//', "\\0thumbs/", $item['avatar_url']).'" alt="" />', 'basic');
+			else
+				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']).'&amp;action=avatar', i18n::s('Add avatar'), 'basic')
+					.BR.'<span class="details">'.i18n::s('Upload an image to be displayed as your avatar.').'</span>';
+
+			// display all commands
+			$box .= Skin::table_prefix('form').'<tr><td style="width: 200px">'.implode('</td><td style="padding-left: 3em; width: 200px">', $cells).'</td></tr></table>';
+
+		}
 
 		// the list of images
 		include_once '../images/images.php';
 		if($items = Images::list_by_date_for_anchor('user:'.$item['id'], 0, 50)) {
 
 			// help to insert in textarea
-			if(!isset($_SESSION['surfer_editor']) || (($_SESSION['surfer_editor'] != 'fckeditor') && ($_SESSION['surfer_editor'] != 'tinymce')))
-				$box .= '<p>'.i18n::s('Click on links to insert images in the main field.')."</p>\n";
+				if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'textarea'))
+					$box .= '<p>'.i18n::s('Use codes to insert images in the page.')."</p>\n";
+				else
+					$box .= '<p>'.i18n::s('Click on codes to insert images in the page.')."</p>\n";
 
 			$box .= Skin::build_list($items, 'decorated');
+
 		}
 
 		// in a folded box
-		$panels['information'] .= Skin::build_box(i18n::s('Images'), $box, 'folder');
+		if($box)
+			$panels['information'] .= Skin::build_box(i18n::s('Images'), $box, 'folder');
 
 		// related locations
 		$box = '';
@@ -480,7 +499,8 @@ if($with_form) {
 		$box .= Skin::build_list($items, 'decorated');
 
 		// in a folded box
-		$panels['information'] .= Skin::build_box(i18n::s('Locations'), $box, 'folder');
+		if($box)
+			$panels['information'] .= Skin::build_box(i18n::s('Locations'), $box, 'folder');
 	}
 
 	// the contact panel
@@ -615,6 +635,8 @@ if($with_form) {
 	if(isset($item['id'])) {
 		$label = i18n::s('Avatar URL');
 		$input = '<input type="text" name="avatar_url" size="50" value="'.encode_field(isset($item['avatar_url'])?$item['avatar_url']:'').'" maxlength="255" '.EOT;
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']).'&amp;action=avatar', i18n::s('Add an image'), 'basic').'</span>';
 		$hint = sprintf(i18n::s('%s, paste your gravatar address, or use the list of images attached to this profile, if any.'), Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Select an avatar from the library'), 'basic'));
 		$fields[] = array($label, $input, $hint);
 	}
@@ -767,7 +789,7 @@ if($with_form) {
 
 	// cancel button
 	if(isset($item['id']))
-		$menu[] = Skin::build_link(Users::get_url($item['id'], 'view', $item['nick_name'], $item['full_name']), i18n::s('Cancel'), 'span');
+		$menu[] = Skin::build_link(Users::get_url($item['id'], 'view', $item['nick_name']), i18n::s('Cancel'), 'span');
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
@@ -833,6 +855,12 @@ if($with_form) {
 		.'	}'."\n"
 		."\n"
 		.'	nodes = $$("form#main_form textarea");'."\n"
+		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
+		.'		var node = nodes[index];'."\n"
+		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'	}'."\n"
+		."\n"
+		.'	nodes = $$("form#main_form select");'."\n"
 		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
 		.'		var node = nodes[index];'."\n"
 		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"

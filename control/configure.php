@@ -158,7 +158,7 @@
  * configuration panel, which will rewrite the configuration file.
  *
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Jan Boen
  * @tester Kedare

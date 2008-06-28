@@ -15,7 +15,7 @@
  * If the file [code]demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and declines to provide phpInfo().
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

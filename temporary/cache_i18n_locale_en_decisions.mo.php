@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:25 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:23 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['%s approvals (%d%%), %s rejections (%d%%)']='%s approvals (%d%%), %s rejections (%d%%)';
@@ -16,7 +16,7 @@ $_SESSION['l10n']['en']['Approved']='Approved';
 $_SESSION['l10n']['en']['Approved %s']='Approved %s';
 $_SESSION['l10n']['en']['Approved by %s %s']='Approved by %s %s';
 $_SESSION['l10n']['en']['Ask for a decision']='Ask for a decision';
-$_SESSION['l10n']['en']['Back to main content']='Back to main content';
+$_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Decide']='Decide';
 $_SESSION['l10n']['en']['Decide: %s']='Decide: %s';
@@ -36,7 +36,6 @@ $_SESSION['l10n']['en']['Edit your post below']='Edit your post below';
 $_SESSION['l10n']['en']['Edited by']='Edited by';
 $_SESSION['l10n']['en']['Enter nick names, or email addresses, separated by commas.']='Enter nick names, or email addresses, separated by commas.';
 $_SESSION['l10n']['en']['Error while sending the message to %s']='Error while sending the message to %s';
-$_SESSION['l10n']['en']['Go back to main page']='Go back to main page';
 $_SESSION['l10n']['en']['If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.']='If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.';
 $_SESSION['l10n']['en']['In %s']='In %s';
 $_SESSION['l10n']['en']['List decisions']='List decisions';

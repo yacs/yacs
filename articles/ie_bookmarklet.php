@@ -33,7 +33,7 @@
  * launch [code]regedit[/code], go to the key [code]HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\MenuExt[/code],
  * and delete relevant entries.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

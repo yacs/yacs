@@ -127,7 +127,7 @@
  * - users/heartbit.php - receives and pushes notifications
  * - users/contact.php - send a textual notification, or ask for chat
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

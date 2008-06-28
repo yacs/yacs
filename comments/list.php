@@ -43,7 +43,7 @@
  * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Agnes
  * @reference
@@ -108,17 +108,12 @@ if(is_object($anchor) && $anchor->is_viewable()) {
 
 // command to go back
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array( $anchor->get_url() => i18n::s('Back to main content') );
+	$context['page_menu'] = array( $anchor->get_url() => i18n::s('Back to main page') );
 
 // an anchor is mandatory
 if(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	$label = i18n::s('No anchor has been found.');
-
-	if($id)
-		$label .= ' '.sprintf(i18n::s('(%s is unknown)'), $id);
-
-	Skin::error($label);
+	Skin::error(i18n::s('No anchor has been found.'));
 
 // permission denied
 } elseif(!$permitted) {

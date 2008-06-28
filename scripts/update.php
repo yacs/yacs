@@ -11,7 +11,7 @@
  * If some file has been actually updated, the script attempts to include the special file [code]scripts/update_trailer.php[/code].
  * This file, which may be part of the update, bridges the old and the new set of scripts.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

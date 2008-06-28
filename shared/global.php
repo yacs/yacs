@@ -15,7 +15,7 @@
  *
  * Do not modify this file by yourself, changes would be lost on next software upgrades.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Olivier
  * @tester Arioch
@@ -517,7 +517,7 @@ if(!defined('NO_VIEW_PRELOAD')) {
 //
 
 // redirect if the server has been switched off and if not in the control panel, nor in the scripts or users modules
-if(file_exists($context['path_to_root'].'parameters/switch.off') && !preg_match('/\/(control|included|scripts|users)\//i', $context['script_url']))
+if(file_exists($context['path_to_root'].'parameters/switch.off') && !preg_match('/\/(control|included|scripts|users)\//i', $context['script_url']) && !preg_match('/\/configure\.php$/i', $context['script_url']))
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'control/closed.php');
 
 // if no parameters file, jump to the control panel, if not in it already
@@ -1108,6 +1108,19 @@ function render_skin($stamp=0) {
 
 	}
 
+	// list pages visited previously at this site, if any
+	if(isset($_SESSION['visited']) && count($_SESSION['visited']) && is_callable(array('i18n', 's'))) {
+
+		// box title
+		$title = i18n::s('Visited');
+
+		// box content as a compact list
+		$text =& Skin::build_list($_SESSION['visited'], 'compact');
+
+		// the list of recent pages
+		$context['extra'] .= Skin::build_box($title, $text, 'navigation', 'visited_pages');
+	}
+
 	// handle the output correctly
 	Safe::ob_start('yacs_handler');
 
@@ -1673,6 +1686,38 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 		// done
 		return $link;
 	}
+}
+
+/**
+ * create a shortcut link
+ *
+ * @param string page name
+ * @return string related URL
+ */
+function normalize_shortcut($id) {
+	global $context;
+
+	// sanity check
+	if(!$id)
+		return NULL;
+
+	// use rewriting engine to achieve pretty references, except if composed anchor -- look .htaccess
+	if(($context['with_friendly_urls'] == 'R'))
+		$link = 'go/'.rawurlencode($id);
+
+	// be cool with search engines
+	elseif($context['with_friendly_urls'] == 'Y')
+		$link = 'go.php/'.rawurlencode($id);
+
+	// generate a link safe at all systems
+	else
+		$link = 'go.php?id='.urlencode($id);
+
+	// link prefix
+	$link = $context['url_to_home'].$context['url_to_root'].$link;
+
+	// job done
+	return $link;
 }
 
 // profiling mode

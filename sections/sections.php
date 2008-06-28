@@ -245,7 +245,7 @@
  * By default top most sections (aka, not anchored to another section) are publicly listed at the site map.
  * Change the field 'index_map' to 'N' to prevent this behaviour. Hidden sections are listed among other special sections to preserve access from associates.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Fw_crocodile
  * @tester Tingadon
@@ -331,10 +331,6 @@ Class Sections {
 
 		// anonymous contributions are allowed for this item
 		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
-			return TRUE;
-
-		// teasers are activated
-		if(!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
 			return TRUE;
 
 		// the default is to not allow for new sections
@@ -932,7 +928,7 @@ Class Sections {
 			// associates can also see inactive sections at the top level
 			if(Surfer::is_associate() && ($sections = Sections::list_inactive_by_title_for_anchor(NULL, 0, 100, 'raw'))) {
 
-				$text .= '<optgroup label="'.i18n::s('Special sections').'">';
+				$text .= '<optgroup label="'.i18n::s('Other sections').'">';
 
 				// add to text
 				foreach($sections as $id => $attributes) {

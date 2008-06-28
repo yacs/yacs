@@ -94,7 +94,7 @@
  * [*] More than 10000 - To reject pages at the end of lists.
  *
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Florent
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -191,7 +191,7 @@ Class Articles {
 			return TRUE;
 
 		// teasers are activated
-		if(!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(!Surfer::is_logged() && (!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y')))
 			return TRUE;
 
 		// the default is to not allow for new articles
@@ -848,17 +848,17 @@ Class Articles {
 	 * @param int the id of the article to handle
 	 * @param string the expected action ('view', 'print', 'edit', 'delete', ...)
 	 * @param string additional data, such as page name, if any
-	 * @param string nick name, if any, to take over on previous parameter
+	 * @param string alternate name, if any, to take over on previous parameter
 	 * @return string a normalized reference
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view', $name=NULL, $nick_name=NULL) {
+	function get_url($id, $action='view', $name=NULL, $alternate_name=NULL) {
 		global $context;
 
-		// use nick name instead of regular name, if one is provided
-		if($nick_name)
-			$name = str_replace('_', ' ', $nick_name);
+		// use alternate name instead of regular name, if one is provided
+		if($alternate_name)
+			$name = str_replace('_', ' ', $alternate_name);
 
 		// the service to check for updates
 		if($action == 'check') {

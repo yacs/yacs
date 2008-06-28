@@ -6,7 +6,7 @@
  * Each definition term (i.e., &lt;dt&gt...&lt;/dt&gt;) is made of the section title, eventually prefixed with special icons.
  * Definition data (i.e., &lt;dd&gt...&lt;/dd&gt;) is built upon the section introduction, followed by the list of articles in the section.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @author Thierry Pinelli [email]contact@vdp-digital.com[/email]
  * @tester Pierre Robert

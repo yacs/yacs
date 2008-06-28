@@ -28,7 +28,7 @@
  * Note that special HTML characters encoded as Unicode numerical entities are
  * correctly unmasked, to prevent related code injections. (Thanks to Mordread on this).
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Vincent No&euml;l
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -329,29 +329,13 @@ Class Surfer {
 				$menu[$link] = array('', i18n::s('My profile'), '', $type, '', i18n::s('View all data this site knows about you'));
 			}
 
-			// from the front page
-			if(($context['skin_variant'] == 'home') || ($context['skin_variant'] == 'slash')) {
-
-				// commands to contribute
-				if(Surfer::is_associate()
-					|| (Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y'))) ) {
-
-					$menu['articles/edit.php'] = array('', i18n::s('Add a page'), '', $type, '', i18n::s('Use a web form to submit new content'));
-
-					$menu['links/edit.php'] = array('', i18n::s('Bookmark a link'), '', $type, '', i18n::s('Share interesting pages'));
-
-				}
-			}
-
 			if(Surfer::is_associate())
 				$menu['articles/review.php'] = array('', i18n::s('Review queue'), '', $type, '', i18n::s('Check requests, publish submitted articles, review old pages'));
-
-			$menu['users/logout.php'] = array('', i18n::s('Logout'), '', $type, '', i18n::s('You will be considered as an anonymous surfer'));
 
 			if(Surfer::is_associate())
 				$menu['control/'] = array('', i18n::s('Control Panel'), '', $type, '', i18n::s('System commands, configuration panels, content overview'));
 
-			$menu['help.php'] = array('', i18n::s('Help'), '', $type, '', i18n::s('If you don\'t know how to proceed, start here'));
+			$menu['users/logout.php'] = array('', i18n::s('Logout'), '', $type, '', i18n::s('You will be considered as an anonymous surfer'));
 
 			$content = Skin::build_list($menu, 'compact');
 
@@ -384,8 +368,6 @@ Class Surfer {
 				$menu['users/edit.php'] = array('', i18n::s('Register'), '', $type, '', i18n::s('Share your profile in this community'));
 
 			$menu['users/password.php'] = array('', i18n::s('Lost password'), '', $type, '', i18n::s('Prove who you are'));
-
-			$menu['help.php'] = array('', i18n::s('Help'), '', $type, '', i18n::s('If you don\'t know how to proceed, start here'));
 
 			$content .= Skin::build_list($menu, 'compact');
 
@@ -646,14 +628,14 @@ Class Surfer {
 			}
 			$text .= '<textarea name="'.$name.'" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea>'.BR;
 
-		}
+			// hint
+			if(Surfer::is_associate())
+				$hint = i18n::s('You are allowed to post any XHTML.');
+			else
+				$hint = sprintf(i18n::s('Following XHTML tags are allowed: %s'), trim(str_replace('><', ', ', $context['users_allowed_tags']), '<>'));
+			$text .= '<span class="tiny">'.$hint.'</span>';
 
-		// hint
-		if(Surfer::is_associate())
-			$hint = i18n::s('You are allowed to post any XHTML.');
-		else
-			$hint = sprintf(i18n::s('Also, following XHTML tags are allowed: %s'), trim(str_replace('><', ', ', $context['users_allowed_tags']), '<>'));
-		$text .= '<span class="tiny">'.$hint.'</span>';
+		}
 
 		// job done
 		return $text;

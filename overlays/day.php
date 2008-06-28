@@ -11,7 +11,7 @@
  * When the parameter is absent, only future dates are included, and a
  * separate list shows pas dates to associates and section editors.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

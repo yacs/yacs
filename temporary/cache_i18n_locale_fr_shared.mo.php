@@ -3,16 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%s is currently present at this site, and several contact options are available:']='%s est actuellement sur le site, et plusieurs options s\'offrent &#224; vous :';
 $_SESSION['l10n']['fr']['A member is required for this operation.']='Un membre est requis pour cette op&#233;ration.';
 $_SESSION['l10n']['fr']['Actions']='Actions';
-$_SESSION['l10n']['fr']['Add a page']='Ajouter une page';
-$_SESSION['l10n']['fr']['Also, following XHTML tags are allowed: %s']='De plus, les balises XHTML suivantes sont accept&#233;es : %s';
 $_SESSION['l10n']['fr']['An anchor is required for this operation.']='Une ancre est requise pour cette op&#233;ration.';
 $_SESSION['l10n']['fr']['Articles']='Articles';
-$_SESSION['l10n']['fr']['Bookmark a link']='Enregistrer un lien';
 $_SESSION['l10n']['fr']['Categories']='Cat&#233;gories';
 $_SESSION['l10n']['fr']['Check requests, publish submitted articles, review old pages']='Passer en revue les requ&#234;tes, publier les articles envoy&#233;s, v&#233;rifier les anciennes pages';
 $_SESSION['l10n']['fr']['Co-browsing']='Co-navigation';
@@ -31,9 +28,8 @@ $_SESSION['l10n']['fr']['Empty sender address']='Pas d\'adresse d\'&#233;metteur
 $_SESSION['l10n']['fr']['Empty table name!']='Pas de nom de table !';
 $_SESSION['l10n']['fr']['Error while sending the message to %s']='Erreur pendant l\'exp&#233;dition du message &#224; %s';
 $_SESSION['l10n']['fr']['Files']='Fichiers';
+$_SESSION['l10n']['fr']['Following XHTML tags are allowed: %s']='Les balises XHTML suivantes sont accept&#233;es : %s';
 $_SESSION['l10n']['fr']['Following items are attached to this record and will be impacted as well.']='Si vous continuez, les &#233;l&#233;ments suivants seront aussi modifi&#233;s dans la base de donn&#233;es.';
-$_SESSION['l10n']['fr']['Help']='Aide';
-$_SESSION['l10n']['fr']['If you don\'t know how to proceed, start here']='Si vous ne savez pas par o&#249; commencer, cliquez ici';
 $_SESSION['l10n']['fr']['Images']='Images';
 $_SESSION['l10n']['fr']['Impossible to connect to %s.']='Impossible de se connecter &#224; %s.';
 $_SESSION['l10n']['fr']['Impossible to extract files.']='Impossible d\'extraire les fichiers.';
@@ -66,7 +62,6 @@ $_SESSION['l10n']['fr']['Robot stopper']='Anti-robot';
 $_SESSION['l10n']['fr']['Sections']='Sections';
 $_SESSION['l10n']['fr']['Send']='Envoyer';
 $_SESSION['l10n']['fr']['Send a private message']='Envoyer un message priv&#233;';
-$_SESSION['l10n']['fr']['Share interesting pages']='Partager des pages int&#233;ressantes';
 $_SESSION['l10n']['fr']['Share the following web address']='Partager l\'adresse web suivante';
 $_SESSION['l10n']['fr']['Share your profile in this community']='Partager votre profil dans cette communaut&#233;';
 $_SESSION['l10n']['fr']['Start a private conversation']='D&#233;marrer une conversation priv&#233;e';
@@ -78,11 +73,11 @@ $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['The table']='La table';
 $_SESSION['l10n']['fr']['This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.']='Ce message a &#233;t&#233; g&#233;n&#233;r&#233; automatiquement par %s. Pour arr&#234;ter ces alertes dynamiques vous pouvez suivre le lien suivant et retirer votre adresse des destinaires des &#233;v&#233;nements syst&#232;me.';
 $_SESSION['l10n']['fr']['Type exactly the following 5 chars:']='Tapez exactement les 5 caract&#232;res suivants :';
-$_SESSION['l10n']['fr']['Use a web form to submit new content']='Utiliser un formulaire en ligne pour ajouter du contenu';
 $_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Evitez les balises HTML.';
 $_SESSION['l10n']['fr']['User']='Utilisateur';
 $_SESSION['l10n']['fr']['Versions']='Versions';
 $_SESSION['l10n']['fr']['View all data this site knows about you']='Voir toutes les informations vous concernant';
+$_SESSION['l10n']['fr']['Visited']='Visites';
 $_SESSION['l10n']['fr']['XML error: %s at line %d']='Erreur XML : %s &#224; la ligne %d';
 $_SESSION['l10n']['fr']['You are allowed to post any XHTML.']='Vous pouvez envoyer du XHTML.';
 $_SESSION['l10n']['fr']['You will be considered as an anonymous surfer']='Pour redevenir un surfeur anonyme';

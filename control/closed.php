@@ -17,7 +17,7 @@
  *
  * @see control/switch.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Thierry Pinelli [url]http://www.vdp-digital.com[/url]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

@@ -46,7 +46,7 @@
  * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Vincent No&euml;l
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
@@ -594,6 +594,12 @@ if($with_form) {
 		.'	}'."\n"
 		."\n"
 		.'	nodes = $$("form#main_form textarea");'."\n"
+		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
+		.'		var node = nodes[index];'."\n"
+		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'	}'."\n"
+		."\n"
+		.'	nodes = $$("form#main_form select");'."\n"
 		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
 		.'		var node = nodes[index];'."\n"
 		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"

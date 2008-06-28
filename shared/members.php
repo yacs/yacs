@@ -52,7 +52,7 @@
  * Members::list_sections_by_title_for_anchor($anchor, $offset, $count, $variant);
  * [/php]
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

@@ -24,7 +24,7 @@
  * - freemind.php/12/any_name - provide content of section 12
  * - freemind.php?id=12 - provide content of section 12
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

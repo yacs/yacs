@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['"%s" is not a valid expiry date']='"%s" n\'est pas une date d\'expiration valide';
 $_SESSION['l10n']['fr']['"%s" is not a valid publication date']='"%s" n\'est pas une date de publication valide';
@@ -42,7 +42,10 @@ $_SESSION['l10n']['fr']['Add a table']='Ajouter une table';
 $_SESSION['l10n']['fr']['Add an image']='Ajouter une image';
 $_SESSION['l10n']['fr']['Add another page']='Ajouter une autre page';
 $_SESSION['l10n']['fr']['Add default pages']='Ajout des pages par d&#233;faut';
+$_SESSION['l10n']['fr']['Add page icon']='Ajouter une ic&#244;ne de page';
+$_SESSION['l10n']['fr']['Add page thumbnail']='Ajouter une vignette de page';
 $_SESSION['l10n']['fr']['All content, including but not limited to user reviews, application listings and information contained therein, is owned by [parameter=site_owner] and may not be copied without permission. However, the above content my be freely modified and/or removed by the person or persons responsible for submitting it.']='L\'ensemble du contenu, y compris les apports ou commentaires des membres de la communaut&#233;, ou tout autre type d\'information publi&#233;e, est la propri&#233;t&#233; de [parameter=site_owner] et ne peut &#234;tre reproduit sans permission. Toutefois, ces informations peuvent &#234;tre modifi&#233;es ou supprim&#233;es librement par leurs cr&#233;ateurs.';
+$_SESSION['l10n']['fr']['All files']='Tous les fichiers';
 $_SESSION['l10n']['fr']['All other trademarks, icons, and logos, shown or mentioned, are the property of their respective owners, including those associated with any solutions listed in [parameter=site_name]. Although [parameter=site_owner] does not own and is not responsible for all of the content on the site, we reserve the right to edit or remove any content at any time in any way we deem necessary, without any notification whatselver to the owner(s) of that content, to keep it better in line with our stated and/or unstated policies. [parameter=site_owner] is not responsible for any copyright laws violated by the applications listed herein, although we will do everything we can do resolve any disputes that may arise in this area.']='Les marques ou images montr&#233;es ou mentionn&#233;es restent la propri&#233;t&#233; de leurs propri&#233;taires respectifs, y compris ceux associ&#233;s aux solutions list&#233;es sur [parameter=site_name]. [parameter=site_owner] se r&#233;serve le droit de corriger ou supprimer tout contenu &#224; chaque fois que cela sera n&#233;cessaire, sans devoir notifier l\'auteur initial de l\'information concern&#233;e. [parameter=site_owner] ne saurait &#234;tre tenu pour responsable des violations de droit d\'auteur initi&#233; par des membres de la communaut&#233;, m&#234;me si tout sera mis en oeuvre pour r&#233;soudre les probl&#232;mes &#233;ventuels.';
 $_SESSION['l10n']['fr']['All pages']='Toutes les pages';
 $_SESSION['l10n']['fr']['Allow anonymous surfers to edit content']='Les surfeurs anonymes peuvent changer le contenu';
@@ -72,11 +75,14 @@ $_SESSION['l10n']['fr']['Browse in a separate window']='Lire dans une autre fen&
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Categories']='Cat&#233;gories';
 $_SESSION['l10n']['fr']['Categories: %s']='Cat&#233;gories : %s';
+$_SESSION['l10n']['fr']['Change page icon']='Changer l\'ic&#244;ne de page';
+$_SESSION['l10n']['fr']['Change page thumbnail']='Changer la vignette de page';
 $_SESSION['l10n']['fr']['Change the expiry date (YYYY-MM-DD HH:MM)']='Modifier la date d\'&#233;ch&#233;ance (AAAA-MM-JJ HH:MM)';
 $_SESSION['l10n']['fr']['Change the overlay']='Changer d\'overlay';
 $_SESSION['l10n']['fr']['Change the publication date to %s']='Changer la date de publication au %s';
-$_SESSION['l10n']['fr']['Click on links to insert images in the main field.']='Cliquez sur les liens pour ins&#233;rer les images dans le champ principal.';
+$_SESSION['l10n']['fr']['Click on codes to insert images in the page.']='Cliquer sur les codes pour ins&#233;rer les images dans la page.';
 $_SESSION['l10n']['fr']['Click on the button below to purge the article from the review queue.']='Cliquez sur le bouton ci-dessous pour retirer l\'article de la file des pages &#224; r&#233;viser.';
+$_SESSION['l10n']['fr']['Code to reference this page: %s']='Code pour r&#233;f&#233;rencer cette page : %s';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
 $_SESSION['l10n']['fr']['Contact Us']='Comment nous contacter';
 $_SESSION['l10n']['fr']['Content']='Contenu';
@@ -122,7 +128,6 @@ $_SESSION['l10n']['fr']['Excellent']='Excellent';
 $_SESSION['l10n']['fr']['Expire']='Ech&#233;ance';
 $_SESSION['l10n']['fr']['Expiry date']='Date d\'expiration';
 $_SESSION['l10n']['fr']['Export to XML']='Convertir en XML';
-$_SESSION['l10n']['fr']['Export tools']='Exporter';
 $_SESSION['l10n']['fr']['Express yourself, and say what you think.']='Exprimez-vous, et dites ce que vous en pensez.';
 $_SESSION['l10n']['fr']['Extra']='Extra';
 $_SESSION['l10n']['fr']['FCKEditor']='FCKEditor';
@@ -217,6 +222,7 @@ $_SESSION['l10n']['fr']['Meta information']='Meta-information';
 $_SESSION['l10n']['fr']['More']='La suite';
 $_SESSION['l10n']['fr']['More content']='Contenu additionnel';
 $_SESSION['l10n']['fr']['More in %s']='En savoir plus dans %s';
+$_SESSION['l10n']['fr']['More information']='Plus d\'informations';
 $_SESSION['l10n']['fr']['More options']='Plus d\'options';
 $_SESSION['l10n']['fr']['More similar pages in this category']='Pages similaires dans cette cat&#233;gorie';
 $_SESSION['l10n']['fr']['Most recent comments']='Les commentaires les plus r&#233;cents';
@@ -244,6 +250,7 @@ $_SESSION['l10n']['fr']['One page of comments']='Une page de commentaires';
 $_SESSION['l10n']['fr']['Operation has failed.']='L\'op&#233;ration a &#233;chou&#233;.';
 $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Orphan: article %s']='Orphelin : article %s';
+$_SESSION['l10n']['fr']['Other sections']='Autres sections';
 $_SESSION['l10n']['fr']['Owner']='Propri&#233;taire';
 $_SESSION['l10n']['fr']['Page']='Page';
 $_SESSION['l10n']['fr']['Page bottom']='Bas de page';
@@ -335,24 +342,24 @@ $_SESSION['l10n']['fr']['Sender address: %s']='Emetteur : %s';
 $_SESSION['l10n']['fr']['Sent by %s']='Envoy&#233; par %s';
 $_SESSION['l10n']['fr']['Sent by %s in %s']='Envoy&#233; par %s dans %s';
 $_SESSION['l10n']['fr']['Set an expiry date (YYYY-MM-DD HH:MM)']='Enregistrer la date d\'&#233;ch&#233;ance (AAAA-MM-JJ HH:MM)';
+$_SESSION['l10n']['fr']['Share']='Partage';
 $_SESSION['l10n']['fr']['Share screen with NetMeeting']='Partager l\'&#233;cran avec NetMeeting';
 $_SESSION['l10n']['fr']['Share screen with VNC']='Partager l\'&#233;cran avec VNC';
-$_SESSION['l10n']['fr']['Share this page']='Partager cette page';
 $_SESSION['l10n']['fr']['Share: %s']='Partager : %s';
 $_SESSION['l10n']['fr']['Shared screen of %s']='Ecran partag&#233; par %s';
+$_SESSION['l10n']['fr']['Shortcut: %s']='Raccourci : %s';
 $_SESSION['l10n']['fr']['Show more lines']='Montrer plus de lignes';
 $_SESSION['l10n']['fr']['Site Map']='Carte du site';
 $_SESSION['l10n']['fr']['Site name']='Nom du site';
+$_SESSION['l10n']['fr']['Smileys']='Emoticons';
 $_SESSION['l10n']['fr']['Sort files by title (and not by date)']='Trier les fichiers par titre (et non par date)';
 $_SESSION['l10n']['fr']['Sort links by title (and not by date)']='Trier les liens par titre (et non par date)';
 $_SESSION['l10n']['fr']['Source']='Source';
 $_SESSION['l10n']['fr']['Source: %s']='Source : %s';
-$_SESSION['l10n']['fr']['Special sections']='Sections sp&#233;ciales';
 $_SESSION['l10n']['fr']['Spread the word']='Diffuser l\'information';
 $_SESSION['l10n']['fr']['Stamp']='Dater';
 $_SESSION['l10n']['fr']['Stamp: %s']='Dater :  %s';
 $_SESSION['l10n']['fr']['Start']='Commencer';
-$_SESSION['l10n']['fr']['Stay tuned']='Restez connect&#233;';
 $_SESSION['l10n']['fr']['Sticky thread']='Sujet d\'en-t&#234;te';
 $_SESSION['l10n']['fr']['Subject: %s']='Sujet : %s';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
@@ -374,6 +381,8 @@ $_SESSION['l10n']['fr']['The duplication has not been confirmed.']='Duplication 
 $_SESSION['l10n']['fr']['The expiry date has been removed.']='La date d\'&#233;ch&#233;ance &#224; &#233;t&#233; supprim&#233;e.';
 $_SESSION['l10n']['fr']['The expiry date has been successfully changed.']='La date d\'&#233;ch&#233;ance a &#233;t&#233; modifi&#233;e.';
 $_SESSION['l10n']['fr']['The following page has been updated']='La page suivante a &#233;t&#233; mise &#224; jour';
+$_SESSION['l10n']['fr']['The image displayed at page top, and used as the default icon for related items.']='L\'image affich&#233;e en haut de page, et utilis&#233;e comme ic&#244;ne par d&#233;faut pour les &#233;l&#233;ments contenus dans la page.';
+$_SESSION['l10n']['fr']['The image that illustrates the page at parent level.']='T&#233;l&#233;verser une image pour illustrer cette page au niveau de son parent.';
 $_SESSION['l10n']['fr']['The message content can not be empty.']='Le corps du message ne peut pas &#234;tre vide.';
 $_SESSION['l10n']['fr']['The original page is located at %s']='La page originale est &#224; l\'adresse %s';
 $_SESSION['l10n']['fr']['The page has been duplicated.']='La page a &#233;t&#233; dupliqu&#233;e.';
@@ -417,6 +426,10 @@ $_SESSION['l10n']['fr']['Update the content of this page']='Modifier le contenu 
 $_SESSION['l10n']['fr']['Update: %s']='Mise &#224; jour : %s';
 $_SESSION['l10n']['fr']['Updated %s']='Mis &#224; jour %s';
 $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
+$_SESSION['l10n']['fr']['Upload a small image to illustrate this page when it is listed into parent page.']='T&#233;l&#233;verser une petite image pour illustrer cette page au niveau de son parent.';
+$_SESSION['l10n']['fr']['Upload an image file and integrate it into the page. Big images will be rendered as clickable thumbnails.']='T&#233;l&#233;verser une image et l\'int&#233;grer dans la page. Les grandes images seront transform&#233;es en vignettes cliquables.';
+$_SESSION['l10n']['fr']['Upload an image to be displayed at page top. This will also be the default icon image for items attached to this page.']='T&#233;l&#233;verser une image &#224; afficher en haut de page. Elle sera l\'ic&#244;ne par d&#233;faut pour les &#233;l&#233;ments contenus dans la page.';
+$_SESSION['l10n']['fr']['Use codes to insert images in the page.']='Utiliser les codes pour ins&#233;rer les images dans la page.';
 $_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Tapez du texte sans attribut HTML.';
 $_SESSION['l10n']['fr']['Use the %s if you are lost.']='Utilisez %s si vous &#234;tes perdu.';
 $_SESSION['l10n']['fr']['Use this field to limit the life time of published pages.']='Utilisez ce champ pour limiter la dur&#233;e de vie des pages publi&#233;es.';
@@ -462,8 +475,6 @@ Merci par avance de votre contribution.
 %s';
 $_SESSION['l10n']['fr']['You are not allowed to perform this operation.']='Vous n\'&#234;tes pas autoris&#233; &#224; faire cette op&#233;ration.';
 $_SESSION['l10n']['fr']['You are rating: %s']='Vous &#234;tes en train de noter : %s';
-$_SESSION['l10n']['fr']['You can click on the \'Set as icon\' link in the list of images, if any.']='Vous pouvez cliquer sur le lien \'utiliser comme ic&#244;ne\' dans la liste des images, s\'il y en a.';
-$_SESSION['l10n']['fr']['You can click on the \'Set as thumbnail\' link in the list of images, if any.']='Vous pouvez cliquer sur le lien \'Utiliser comme vignette\' dans la liste des images, s\'il y en a.';
 $_SESSION['l10n']['fr']['You can upload a camera shot, a drawing, or any image file, to illustrate this page.']='Vous pouvez t&#233;l&#233;charger une photo, un dessin ou une image, pour illustrer cette page.';
 $_SESSION['l10n']['fr']['You have already rated his page.']='Vous avez d&#233;j&#224; not&#233; cette page.';
 $_SESSION['l10n']['fr']['You may combine several keywords:']='Vous pouvez combiner plusieurs mots-cl&#233;s :';

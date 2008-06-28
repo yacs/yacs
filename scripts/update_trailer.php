@@ -7,7 +7,7 @@
  *
  * @see scripts/update.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -71,6 +71,12 @@ if(!isset($context['page_tools']))
 	$context['page_tools'] = array();
 if(!isset($context['script_url']))
 	$context['script_url'] = '';
+
+// version 8.6 - new page components
+if(!isset($context['extra_prefix']))
+	$context['extra_prefix'] = '';
+if(!isset($context['page_tags']))
+	$context['page_tags'] = '';
 
 // force a refresh of compacted javascript libraries
 if($items=Safe::glob($context['path_to_root'].'temporary/cache_*.js')) {

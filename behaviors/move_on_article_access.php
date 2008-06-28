@@ -9,7 +9,7 @@
  * - section - id or nick name of the target section
  * - label - all following tokens are featured into the link
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

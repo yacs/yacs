@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:25 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:24 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%s (and shortcuts, buttons, ...)']='%s (et raccourcis, boutons, ...)';
 $_SESSION['l10n']['fr']['%s (and table of content)']='%s (et table des mati&#232;res)';
@@ -213,6 +213,7 @@ $_SESSION['l10n']['fr']['Matching pages']='Pages trouv&#233;es';
 $_SESSION['l10n']['fr']['May change configuration files']='Autoris&#233; &#224; modifier les fichiers de configuration';
 $_SESSION['l10n']['fr']['Miscelleanous codes']='Codes divers';
 $_SESSION['l10n']['fr']['More featured pages']='Autres pages &#224; la Une';
+$_SESSION['l10n']['fr']['More information']='Plus d\'informations';
 $_SESSION['l10n']['fr']['More links']='Autres liens';
 $_SESSION['l10n']['fr']['More pages']='Autres pages';
 $_SESSION['l10n']['fr']['Most HTML tags are removed.']='La plupart des balises HTML sont retir&#233;es.';
@@ -294,7 +295,6 @@ $_SESSION['l10n']['fr']['Smileys available at this system']='Emoticons disponibl
 $_SESSION['l10n']['fr']['Some configuration files are missing. Please follow the link to complete the installation process.']='Il manque certains fichiers de configuration. Merci de suivre le lien pour terminer l\'installation.';
 $_SESSION['l10n']['fr']['Sorry, no page has the provided name: %s']='D&#233;sol&#233;, aucune page n\'a le nom : %s';
 $_SESSION['l10n']['fr']['Start the installation process']='Commencer l\'installation';
-$_SESSION['l10n']['fr']['Stay tuned']='Restez connect&#233;';
 $_SESSION['l10n']['fr']['Still on the to-do list']='Choses &#224; faire';
 $_SESSION['l10n']['fr']['Structure content of your server']='Structurer le contenu de votre site';
 $_SESSION['l10n']['fr']['Submit']='Envoyer';

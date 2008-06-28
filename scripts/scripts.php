@@ -5,7 +5,7 @@
  * @link http://www.ics.uci.edu/~eppstein/161/960229.html ICS 161: Design and Analysis of Algorithms
  * @link http://www-es.fernuni-hagen.de/cgi-bin/info2html?(diff)Example%20Unified (diff) Example Unified
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

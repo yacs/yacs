@@ -10,7 +10,7 @@
  * However, you can select to also display raw results by adding the keyword
  * '[code]poll_with_results[/code]' in the field for options of the containing article.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Timster
  * @reference

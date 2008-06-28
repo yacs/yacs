@@ -8,7 +8,7 @@
  * - set_as_thumbnail.php/123?anchor=article:12
  * - set_as_thumbnail.php?id=123&anchor=section:32
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

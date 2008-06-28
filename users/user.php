@@ -20,7 +20,7 @@ defined('YACS') or exit('Script must be included');
  * is_editable() -- depending on the content of the editors field
  * touch() -- remember the last action in the user record
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @see shared/anchor.php
  * @reference
@@ -412,18 +412,10 @@ Class User extends Anchor {
 			// clear the cache for users, because of the new thumbnail to be used in lists
 			Cache::clear('users');
 
-		// append a new image, and set it as the article thumbnail
+		// append a new image
 		} elseif($action == 'image:set_as_both') {
 			if(!preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description']))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
-
-			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
-				if($url = Images::get_thumbnail_href($image))
-					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
-			} elseif($origin) {
-				$query[] = "thumbnail_url = '".SQL::escape($origin)."'";
-			}
 
 			// do not remember minor changes
 			$silently = TRUE;

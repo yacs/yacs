@@ -51,7 +51,7 @@
  * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
  * @link http://www.hixie.ch/specs/pingback/pingback Pingback specification
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Mark
@@ -295,10 +295,6 @@ if(!isset($item['id'])) {
 		// additional details for associates and editors
 		if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
 
-			// the nick name
-			if($item['nick_name'])
-				$details[] = '"'.$item['nick_name'].'"';
-
 			// the creator of this category
 			if($item['create_date'])
 				$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
@@ -333,6 +329,15 @@ if(!isset($item['id'])) {
 		// inline details
 		if(count($details))
 			$context['page_details'] .= ucfirst(implode(', ', $details));
+
+		// reference this item
+		if(Surfer::is_member()) {
+			$context['page_details'] .= BR.sprintf(i18n::s('Code to reference this page: %s'), '[category='.$item['id'].']');
+
+			// the nick name
+			if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'])))
+				$context['page_details'] .= BR.sprintf(i18n::s('Shortcut: %s'), $link);
+		}
 
 		$context['page_details'] .= '</p>';
 
@@ -951,8 +956,9 @@ if(!isset($item['id'])) {
 
 	}
 
-	// spreading tools
+	// 'Share' box
 	//
+	$lines = array();
 
 // 	// mail this page
 // 	if(!$zoom_type && Surfer::is_empowered() && Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
@@ -960,17 +966,21 @@ if(!isset($item['id'])) {
 // 		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'mail'), MAIL_TOOL_IMG.i18n::s('Invite people'), 'basic', '', i18n::s('Spread the word'));
 // 	}
 
-// 	// the command to track back -- complex command
-// 	if(Surfer::is_logged() && Surfer::has_all()) {
-// 		Skin::define_img('TRACKBACK_IMG', 'icons/links/trackback.gif');
-// 		$context['page_tools'][] = Skin::build_link('links/trackback.php?anchor='.urlencode('category:'.$item['id']), TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
-// 	}
+	// the command to track back
+	if(Surfer::is_logged()) {
+		Skin::define_img('TRACKBACK_IMG', 'icons/links/trackback.gif');
+		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('category:'.$item['id']), TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
+	}
 
 	// print this page
 	if(Surfer::is_logged()) {
 		Skin::define_img('PRINT_TOOL_IMG', 'icons/tools/print.gif');
-		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'print'), PRINT_TOOL_IMG.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
+		$lines[] = Skin::build_link(Categories::get_url($item['id'], 'print'), PRINT_TOOL_IMG.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
 	}
+
+	// in a side box
+	if(count($lines))
+		$context['extra'] .= Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
 
 	// cache content
 	$cache_id = 'categories/view.php?id='.$item['id'].'#extra#tail';
@@ -1002,7 +1012,7 @@ if(!isset($item['id'])) {
 			if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
 				$content .= BR.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'feed'), $item['title']));
 
-			$text .= Skin::build_box(i18n::s('Stay tuned'), $content, 'extra', 'feeds');
+			$text .= Skin::build_box(i18n::s('More information'), $content, 'extra', 'feeds');
 		}
 
 		// list related servers, if any
@@ -1071,6 +1081,22 @@ if(!isset($item['id'])) {
 
 	// update the extra panel
 	$context['extra'] .= $text;
+
+	//
+	// put this page in visited items
+	//
+	if(!isset($context['pages_without_history']) || ($context['pages_without_history'] != 'Y')) {
+
+		// put at top of stack
+		if(!isset($_SESSION['visited']))
+			$_SESSION['visited'] = array();
+		$_SESSION['visited'] = array_merge(array(Categories::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => Codes::beautify($item['title'])), $_SESSION['visited']);
+
+		// limit to 7 most recent pages
+		if(count($_SESSION['visited']) > 7)
+			array_pop($_SESSION['visited']);
+
+	}
 
 }
 

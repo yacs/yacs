@@ -12,7 +12,7 @@
  * - print.php/12
  * - print.php?id=12
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -204,7 +204,7 @@ if(!isset($item['id'])) {
 
 	// list tracked articles by date
 	if($items = Members::list_articles_by_date_for_member('user:'.$item['id'], 0, 20, 'compact'))
-		$context['text'] .= Skin::build_box(i18n::s('Watch list'), Skin::build_list($items, 'compact'));
+		$context['text'] .= Skin::build_box(i18n::s('Dashboard'), Skin::build_list($items, 'compact'));
 
 }
 

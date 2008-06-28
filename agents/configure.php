@@ -29,7 +29,7 @@
  * of YACS runs in demonstration mode.
  * In this mode the edit form is displayed, but parameters are not saved in the configuration file.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @tester Guillaume Perez

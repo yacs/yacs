@@ -18,7 +18,7 @@
  * - fetch_as_palm.php/12
  * - fetch_as_palm.php?id=12
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

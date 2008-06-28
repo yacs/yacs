@@ -68,7 +68,7 @@
  * Locales for surfers are automatically selected based on hints provided by web browsers, and on availability of related files.
  *
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester Lasares
  * @tester Agnes
  * @tester Moi-meme

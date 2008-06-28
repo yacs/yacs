@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:26 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:24 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%s and %s are available to enhance text rendering.']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['1 form'.chr(0).'%d forms']='1 formulaire'.chr(0).'%d formulaires';
@@ -49,6 +49,7 @@ $_SESSION['l10n']['fr']['No file has been transferred.']='Aucun fichier n\'a &#2
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['No regular section has been created yet! Use %s to create one.']='Aucune section ordinaire n\'a &#233;t&#233; cr&#233;e &#224; ce jour. Utilisez %s pour en cr&#233;er une.';
 $_SESSION['l10n']['fr']['No title has been provided.']='Aucun titre n\'a &#233;t&#233; fourni.';
+$_SESSION['l10n']['fr']['Other sections']='Autres sections';
 $_SESSION['l10n']['fr']['Please carefully select a section for your form.']='Choisissez o&#249; envoyer les formulaires saisis.';
 $_SESSION['l10n']['fr']['Please prove you are not a robot.']='Merci de prouver que vous n\'&#234;tes pas un robot.';
 $_SESSION['l10n']['fr']['Please provide a meaningful title.']='Merci d\'indiquer un titre significatif.';
@@ -63,7 +64,6 @@ $_SESSION['l10n']['fr']['Related to %s']='Attach&#233; &#224; %s';
 $_SESSION['l10n']['fr']['Select below the section to capture this form']='Choisissez ci-dessous la section o&#249; placer les formulaires saisis';
 $_SESSION['l10n']['fr']['Sent by %s']='Envoy&#233; par %s';
 $_SESSION['l10n']['fr']['Sent by %s in %s']='Envoy&#233; par %s dans %s';
-$_SESSION['l10n']['fr']['Special sections']='Sections sp&#233;ciales';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Textarea']='Textarea';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';

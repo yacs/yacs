@@ -19,7 +19,7 @@
  * Moreover, the validation occurs before computing any Flash data, meaning a very efficient
  * and fast reply on cache match.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester Guillaume Perez
  * @tester Nuxwin
  * @reference

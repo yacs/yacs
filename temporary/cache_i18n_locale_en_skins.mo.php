@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en'][' at %s%s']=' at %s%s';
 $_SESSION['l10n']['en']['%d files have been extracted.']='%d files have been extracted.';
@@ -107,6 +107,7 @@ $_SESSION['l10n']['en']['Files']='Files';
 $_SESSION['l10n']['en']['For more information on YACS skins, go %s.']='For more information on YACS skins, go %s.';
 $_SESSION['l10n']['en']['For more information on YACS skins, visit %s']='For more information on YACS skins, visit %s';
 $_SESSION['l10n']['en']['Freemind']='Freemind';
+$_SESSION['l10n']['en']['Front page']='Front page';
 $_SESSION['l10n']['en']['General']='General';
 $_SESSION['l10n']['en']['GeoTags Search Engine']='GeoTags Search Engine';
 $_SESSION['l10n']['en']['Geocoding Service']='Geocoding Service';
@@ -197,7 +198,6 @@ $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['Reference skins cannot be modified.']='Reference skins cannot be modified.';
 $_SESSION['l10n']['en']['Reference this page']='Reference this page';
 $_SESSION['l10n']['en']['Referrals']='Referrals';
-$_SESSION['l10n']['en']['Return to front page']='Return to front page';
 $_SESSION['l10n']['en']['Review provided information and go to the bottom of the page to move forward.']='Review provided information and go to the bottom of the page to move forward.';
 $_SESSION['l10n']['en']['Search...']='Search...';
 $_SESSION['l10n']['en']['Section']='Section';
@@ -294,7 +294,6 @@ $_SESSION['l10n']['en']['Usual delay between updates']='Usual delay between upda
 $_SESSION['l10n']['en']['Validate at w3c']='Validate at w3c';
 $_SESSION['l10n']['en']['View file details']='View file details';
 $_SESSION['l10n']['en']['View the category']='View the category';
-$_SESSION['l10n']['en']['Visited']='Visited';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['What\'s New?']='What\'s New?';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';

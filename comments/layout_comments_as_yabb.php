@@ -24,7 +24,7 @@
  *
  * @link http://www.yabbforum.com/ Yet Another Bulletin Board
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester FabriceV
  * @tester Lucrecius

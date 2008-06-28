@@ -18,7 +18,7 @@
  *
  * If no anchor data is provided, a list of sections is proposed to let the surfer select one of them.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -151,7 +151,7 @@ if(!Surfer::is_logged()) {
 				$text =& Skin::build_list($text, '2-columns');
 
 			// displayed as another box
-			$context['text'] .= Skin::build_box(i18n::s('Special sections'), $text, 'header1', 'special_sections');
+			$context['text'] .= Skin::build_box(i18n::s('Other sections'), $text, 'header1', 'other_sections');
 
 		}
 	}
@@ -418,6 +418,12 @@ if($with_form) {
 		.'	}'."\n"
 		."\n"
 		.'	nodes = $$("form#main_form textarea");'."\n"
+		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
+		.'		var node = nodes[index];'."\n"
+		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"
+		.'	}'."\n"
+		."\n"
+		.'	nodes = $$("form#main_form select");'."\n"
 		.'	for(var index = 0; index < nodes.length; index++) {'."\n"
 		.'		var node = nodes[index];'."\n"
 		.'		Event.observe(node, "change", function() { $("preferred_editor").disabled = true; });'."\n"

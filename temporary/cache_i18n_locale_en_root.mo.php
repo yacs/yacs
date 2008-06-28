@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:25 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:24 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%s (and shortcuts, buttons, ...)']='%s (and shortcuts, buttons, ...)';
 $_SESSION['l10n']['en']['%s (and table of content)']='%s (and table of content)';
@@ -213,6 +213,7 @@ $_SESSION['l10n']['en']['Matching pages']='Matching pages';
 $_SESSION['l10n']['en']['May change configuration files']='May change configuration files';
 $_SESSION['l10n']['en']['Miscelleanous codes']='Miscelleanous codes';
 $_SESSION['l10n']['en']['More featured pages']='More featured pages';
+$_SESSION['l10n']['en']['More information']='More information';
 $_SESSION['l10n']['en']['More links']='More links';
 $_SESSION['l10n']['en']['More pages']='More pages';
 $_SESSION['l10n']['en']['Most HTML tags are removed.']='Most HTML tags are removed.';
@@ -294,7 +295,6 @@ $_SESSION['l10n']['en']['Smileys available at this system']='Smileys available a
 $_SESSION['l10n']['en']['Some configuration files are missing. Please follow the link to complete the installation process.']='Some configuration files are missing. Please follow the link to complete the installation process.';
 $_SESSION['l10n']['en']['Sorry, no page has the provided name: %s']='Sorry, no page has the provided name: %s';
 $_SESSION['l10n']['en']['Start the installation process']='Start the installation process';
-$_SESSION['l10n']['en']['Stay tuned']='Stay tuned';
 $_SESSION['l10n']['en']['Still on the to-do list']='Still on the to-do list';
 $_SESSION['l10n']['en']['Structure content of your server']='Structure content of your server';
 $_SESSION['l10n']['en']['Submit']='Submit';

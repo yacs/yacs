@@ -71,7 +71,7 @@
  * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester Viviane Zaniroli
  * @author Vincent No&euml;l
  * @author GnapZ
@@ -93,6 +93,14 @@ include_once 'images.php';
 $image_maximum_size = str_replace('M', '000000', Safe::get_cfg_var('upload_max_filesize'));
 if((!$image_maximum_size) || $image_maximum_size > 20000000)
 	$image_maximum_size = 2000000;
+
+// what to do
+$action = '';
+if(isset($_REQUEST['action']))
+	$action = $_REQUEST['action'];
+if(!$action && isset($context['arguments'][0]))
+	$action = $context['arguments'][0];
+$action = strip_tags($action);
 
 // look for the id
 $id = NULL;
@@ -383,6 +391,8 @@ if(!$permitted) {
 			}
 
 			// update image description
+			if(!isset($_REQUEST['description']))
+				$_REQUEST['description'] = '';
 			if((@count($details)) || ($_REQUEST['description'] == ''))
 				$_REQUEST['description'] .= "\n\n".'<p class="details">'.implode(BR."\n", $details)."</p>\n";
 
@@ -417,7 +427,7 @@ if(!$permitted) {
 		if($_REQUEST['image_name'])
 			$attributes[] = $_REQUEST['image_name'];
 		if($url = Images::get_thumbnail_href($_REQUEST)) {
-			$stuff = '<img src="'.$url.'" title="'.encode_field(strip_tags($_REQUEST['title'])).'" alt=""'.EOT;
+			$stuff = '<img src="'.$url.'" alt="" />';
 			$attributes[] = Skin::build_link(Images::get_url($_REQUEST['id']), $stuff, 'basic');
 		}
 		if(is_array($attributes))
@@ -426,16 +436,16 @@ if(!$permitted) {
 		// the action
 		if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_bullet')) {
 			$action = 'image:set_as_bullet';
-			$context['text'] .= '<p>'.i18n::s('The image has been set as the new bullet').'</p>';
+			$context['text'] .= '<p>'.i18n::s('The image has been set as the new bullet.').'</p>';
 		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_icon')) {
 			$action = 'image:set_as_icon';
-			$context['text'] .= '<p>'.i18n::s('The image has become the page icon').'</p>';
+			$context['text'] .= '<p>'.i18n::s('The image has become the page icon.').'</p>';
 		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar')) {
 			$action = 'image:set_as_avatar';
-			$context['text'] .= '<p>'.i18n::s('The image has become the user avatar').'</p>';
+			$context['text'] .= '<p>'.i18n::s('The image has become the user avatar.').'</p>';
 		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_thumbnail')) {
 			$action = 'image:set_as_thumbnail';
-			$context['text'] .= '<p>'.i18n::s('The image has become the thumbnail image associated to the hosting page.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('This has become the thumbnail image of the page.').'</p>';
 		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_both')) {
 			$action = 'image:set_as_both';
 			$context['text'] .= '<p>'.i18n::s('The image has been added to the page, and it also has been set as the page thumbnail.').'</p>';
@@ -548,11 +558,9 @@ if($with_form) {
 	if(Surfer::may_upload()) {
 
 		if(isset($item['id']))
-			$input .= i18n::s('Select another image to replace the current one');
-		else
-			$input .= i18n::s('Pick up one image you would like to share');
+			$input .= i18n::s('Select another image to replace the current one').BR;
 		$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $image_maximum_size));
-		$input .= BR.'<input type="hidden" name="MAX_FILE_SIZE" value="'.$image_maximum_size.'" />'
+		$input .= '<input type="hidden" name="MAX_FILE_SIZE" value="'.$image_maximum_size.'" />'
 			.'<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'"'.EOT
 			.' (&lt;&nbsp;'.$size_hint.'&nbsp;'.i18n::s('bytes').')';
 		$hint = i18n::s('Please select a .png, .gif or .jpeg image.');
@@ -561,105 +569,102 @@ if($with_form) {
 
 	$fields[] = array($label, $input, $hint);
 
-	// the title
-	$label = i18n::s('Title');
-	$input = '<input type="text" name="title" size="50" value="'.encode_field(isset($item['title'])?$item['title']:'').'" maxlength="255" accesskey="t" />';
-	$fields[] = array($label, $input);
+	// not just a bare upload
+	if(($action != 'avatar') && ($action != 'bullet') && ($action != 'icon') && ($action != 'thumbnail')) {
 
-	// the description
-	$label = i18n::s('Description');
-	$input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'');
-	$fields[] = array($label, $input);
+		// the title
+		$label = i18n::s('Title');
+		$input = '<input type="text" name="title" size="50" value="'.encode_field(isset($item['title'])?$item['title']:'').'" maxlength="255" accesskey="t" />';
+		$fields[] = array($label, $input);
 
-	// the source
-	$label = i18n::s('Source');
-	$input = '<input type="text" name="source" size="45" value="'.encode_field(isset($item['source'])?$item['source']:'').'" maxlength="255" accesskey="u"'.EOT;
-	$hint = i18n::s('If you have get this file from outside sources, please reference these sources here');
-	$fields[] = array($label, $input, $hint);
+		// the description
+		$label = i18n::s('Description');
+		$input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'');
+		$fields[] = array($label, $input);
+
+		// the source
+		$label = i18n::s('Source');
+		$input = '<input type="text" name="source" size="45" value="'.encode_field(isset($item['source'])?$item['source']:'').'" maxlength="255" accesskey="u"'.EOT;
+		$hint = i18n::s('If you have get this file from outside sources, please reference these sources here');
+		$fields[] = array($label, $input, $hint);
+
+	}
 
 	// we are now entering the advanced options section
 	$context['text'] .= Skin::build_form($fields);
 	$fields = array();
 
-	// the link url, but only for associates and authenticated editors
-	if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())) {
-		$label = i18n::s('Link');
-		$input = '<input type="text" name="link_url" size="50" value="'.encode_field(isset($item['link_url'])?$item['link_url']:'').'" maxlength="255" accesskey="l"'.EOT;
-		$hint = i18n::s('You can make this image point to any web page if you wish');
-		$fields[] = array($label, $input, $hint);
-	}
+	// create a thumbnail on direct upload
+	if(!isset($item['id']) && !$anchor)
+		$context['text'] .= '<input type="hidden" name="action" value="set_as_both" />';
 
-	// how to use the image
-	if(is_object($anchor) && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))) {
-		$label = i18n::s('Image usage');
-		$input = '';
+	// use as avatar
+	else if($action == 'avatar')
+		$context['text'] .= '<input type="hidden" name="action" value="set_as_avatar" />';
+
+	// use as page bullet
+	else if($action == 'bullet')
+		$context['text'] .= '<input type="hidden" name="action" value="set_as_bullet" />';
+
+	// use as page icon
+	elseif($action == 'icon') {
 
 		// we are updating a user profile
-		if(is_object($anchor) && preg_match('/^user:/i', $anchor->get_reference())) {
-
-			$input .= '<input type="radio" name="action" value="set_as_avatar" checked="checked" '.EOT.' '.i18n::s('Set as user avatar').BR."\n";
-
-			if(Surfer::is_associate() && !$item['id'])
-				$input .= '<input type="radio" name="action" value="insert" '.EOT.' '.i18n::s('Insert at profile top').BR."\n";
-
-			$input .= '<input type="radio" name="action" value="embed" '.EOT.' '.i18n::s('Append at the bottom of user profile').BR."\n";
+		if(is_object($anchor) && preg_match('/^user:/i', $anchor->get_reference()))
+			$context['text'] .= '<input type="hidden" name="action" value="set_as_avatar" />';
 
 		// this is not a user profile
+		else
+			$context['text'] .= '<input type="hidden" name="action" value="set_as_icon" />';
+
+	// use as page thumbnail
+	} elseif($action == 'thumbnail')
+		$context['text'] .= '<input type="hidden" name="action" value="set_as_thumbnail" />';
+
+	// not just a bare upload
+	if(($action != 'avatar') && ($action != 'bullet') && ($action != 'icon') && ($action != 'thumbnail')) {
+
+		// the link url, but only for associates and authenticated editors
+		if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())) {
+			$label = i18n::s('Link');
+			$input = '<input type="text" name="link_url" size="50" value="'.encode_field(isset($item['link_url'])?$item['link_url']:'').'" maxlength="255" accesskey="l"'.EOT;
+			$hint = i18n::s('You can make this image point to any web page if you wish');
+			$fields[] = array($label, $input, $hint);
+		}
+
+		// automatic processing
+		if(Surfer::is_associate()) {
+			$label = i18n::s('Image processing');
+			$fields[] = array($label, '<input type="checkbox" name="automatic_process" value="Y" checked="checked" '.EOT.' '.i18n::s('Automatically resize the image if necessary'));
 		} else {
+			$context['text'] .= '<input type="hidden" name="automatic_process" value="Y" '.EOT;
+		}
 
-			$input .= '<input type="radio" name="action" value="set_as_icon"'.EOT.' '.i18n::s('Set as page icon').BR."\n";
-
-			if(!isset($item['id']) || !$item['id'])
-				$input .= '<input type="radio" name="action" value="insert" '.EOT.' '.i18n::s('Insert at page top').BR."\n";
-
-			$input .= '<input type="radio" name="action" value="embed" checked="checked"'.EOT.' '.i18n::s('Append at page bottom').BR."\n";
-
-			$input .= '<input type="radio" name="action" value="set_as_both" '.EOT.' '.i18n::s('Append the image, and also use it as thumbnail').BR."\n";
-
-			$input .= '<input type="radio" name="action" value="set_as_thumbnail" '.EOT.' '.i18n::s('Set as page thumbnail').BR."\n";
-
-			if(is_object($anchor) && preg_match('/^(section|category):/i', $anchor->get_reference()))
-				$input .= '<input type="radio" name="action" value="set_as_bullet" '.EOT.' '.i18n::s('Set as list bullet').BR."\n";
+		// how to use the thumbnail
+		if((Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))) {
+			$label = i18n::s('Insert a thumbnail');
+			$input = '<input type="radio" name="use_thumbnail" value="Y"';
+			if(!isset($item['use_thumbnail']) || ($item['use_thumbnail'] == 'Y'))
+				$input .= ' checked="checked"';
+			$input .= EOT.' '.i18n::s('Instead of the embedded image, but only for large files (>20&nbsp;kbytes)').BR."\n";
+			$input .= '<input type="radio" name="use_thumbnail" value="A"';
+			if(isset($item['use_thumbnail']) && ($item['use_thumbnail'] == 'A'))
+				$input .= ' checked="checked"';
+			$input .= EOT.' '.i18n::s('Always use the thumbnail. Users will click on it to see the full image.').BR."\n";
+			$input .= '<input type="radio" name="use_thumbnail" value="N"';
+			if(isset($item['use_thumbnail']) && ($item['use_thumbnail'] == 'N'))
+				$input .= ' checked="checked"';
+			$input .= EOT.' '.i18n::s('Never. Response times for surfers using modem links may be degraded on big images.')."\n";
+			$fields[] = array($label, $input);
 
 		}
-		$fields[] = array($label, $input);
 
-	// create a thumbnail on direct upload
-	} elseif(!isset($item['id']) && !$anchor) {
-		$context['text'] .= '<input type="hidden" name="action" value="set_as_both" '.EOT;
-	}
+		// add a folded box
+		if(count($fields)) {
+			$context['text'] .= Skin::build_box(i18n::s('Advanced options'), Skin::build_form($fields), 'folder');
+			$fields = array();
+		}
 
-	// automatic processing
-	if(Surfer::is_associate()) {
-		$label = i18n::s('Image processing');
-		$fields[] = array($label, '<input type="checkbox" name="automatic_process" value="Y" checked="checked" '.EOT.' '.i18n::s('Automatically resize the image if necessary'));
-	} else {
-		$context['text'] .= '<input type="hidden" name="automatic_process" value="Y" '.EOT;
-	}
-
-	// how to use the thumbnail
-	if((Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))) {
-		$label = i18n::s('Insert a thumbnail');
-		$input = '<input type="radio" name="use_thumbnail" value="Y"';
-		if(!isset($item['use_thumbnail']) || ($item['use_thumbnail'] == 'Y'))
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Instead of the embedded image, but only for large files (>20&nbsp;kbytes)').BR."\n";
-		$input .= '<input type="radio" name="use_thumbnail" value="A"';
-		if(isset($item['use_thumbnail']) && ($item['use_thumbnail'] == 'A'))
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Always use the thumbnail. Users will click on it to see the full image.').BR."\n";
-		$input .= '<input type="radio" name="use_thumbnail" value="N"';
-		if(isset($item['use_thumbnail']) && ($item['use_thumbnail'] == 'N'))
-			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Never. Response times for surfers using modem links may be degraded on big images.')."\n";
-		$fields[] = array($label, $input);
-
-	}
-
-	// add a folded box
-	if(count($fields)) {
-		$context['text'] .= Skin::build_box(i18n::s('Advanced options'), Skin::build_form($fields), 'folder');
-		$fields = array();
 	}
 
 	// bottom commands
@@ -690,11 +695,16 @@ if($with_form) {
 		.'$("upload").focus();'."\n"
 		.'// ]]></script>'."\n";
 
-	// general help on this form
-	$help = '<p>'.i18n::s('Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By clicking on thumbnails people can access full-sized pictures. The title is visible while the mouse is over the thumbnail. The description and the source information are displayed along the full-sized picture.').'</p>'
-		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
-		.'<p>'.i18n::s('Smaller files are embedded as-is. The description and the source fields are more or less useless in this case.').'</p>';
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	// not just a bare upload
+	if(($action != 'avatar') && ($action != 'bullet') && ($action != 'icon') && ($action != 'thumbnail')) {
+
+		// general help on this form
+		$help = '<p>'.i18n::s('Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By clicking on thumbnails people can access full-sized pictures. The title is visible while the mouse is over the thumbnail. The description and the source information are displayed along the full-sized picture.').'</p>'
+			.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
+			.'<p>'.i18n::s('Smaller files are embedded as-is. The description and the source fields are more or less useless in this case.').'</p>';
+		$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+
+	}
 
 }
 

@@ -37,7 +37,7 @@
  * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester Timster
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -195,7 +195,7 @@ if(!isset($item['id'])) {
 			$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title']) => i18n::s('View poll results')));
 
 		// back to the front page
-		$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Go to the front page')));
+		$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	}

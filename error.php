@@ -13,7 +13,7 @@
  * In order to avoid tracking of 404 codes due to web spiders browsing our scripts,
  * we don't log these errors if the referer URL matches [code]/scripts.view.php[/code].
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester Manuel López Gallego
  * @tester NickR
  * @reference

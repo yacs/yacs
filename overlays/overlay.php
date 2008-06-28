@@ -87,7 +87,7 @@
  * - [code]export()[/code] -- to generate some XML
  * - [code]save()[/code] -- to serialize overlay content
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Neige1963
  * @reference

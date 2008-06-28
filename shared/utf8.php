@@ -6,7 +6,7 @@
  * @link http://www.randomchaos.com/document.php?source=php_and_unicode How to develop multilingual, Unicode applications with PHP
  * @link http://www.cs.tut.fi/~jkorpela/chars.html#typing A tutorial on character code issues
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

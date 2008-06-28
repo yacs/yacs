@@ -29,7 +29,7 @@
  * Backup queues have the same names than input queues, with an additional .bak extension.
  * Basically, you just have to suppress the .bak extension to make YACS process related entries again.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

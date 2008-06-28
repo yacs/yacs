@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr'][' at %s%s']=' &#224; %s%s';
 $_SESSION['l10n']['fr']['%d files have been extracted.']='%d fichiers ont &#233;t&#233; extraits.';
@@ -107,6 +107,7 @@ $_SESSION['l10n']['fr']['Files']='Fichiers';
 $_SESSION['l10n']['fr']['For more information on YACS skins, go %s.']='Pour plus d\'informations sur les styles YACS, aller %s.';
 $_SESSION['l10n']['fr']['For more information on YACS skins, visit %s']='Pour plus d\'informations sur les style YACS, aller %s';
 $_SESSION['l10n']['fr']['Freemind']='Freemind';
+$_SESSION['l10n']['fr']['Front page']='Page d\'accueil';
 $_SESSION['l10n']['fr']['General']='G&#233;n&#233;ral';
 $_SESSION['l10n']['fr']['GeoTags Search Engine']='Moteur de recherche GeoTags';
 $_SESSION['l10n']['fr']['Geocoding Service']='Service de Geocoding';
@@ -183,7 +184,7 @@ $_SESSION['l10n']['fr']['Previous']='Pr&#233;c&#233;dent';
 $_SESSION['l10n']['fr']['Previous page']='Page pr&#233;c&#233;dente';
 $_SESSION['l10n']['fr']['Previous pages']='Pages pr&#233;c&#233;dentes';
 $_SESSION['l10n']['fr']['Previous publications']='Publications pr&#233;c&#233;dentes';
-$_SESSION['l10n']['fr']['Provide this link to specialized software, such as a RSS news reader']='Indiquer ce lien &#224; un logiciel sp&#233;cialis&#233;, par exemple un lecteur de novuelles RSS';
+$_SESSION['l10n']['fr']['Provide this link to specialized software, such as a RSS news reader']='Indiquer ce lien &#224; un logiciel sp&#233;cialis&#233;, par exemple un lecteur de nouvelles RSS';
 $_SESSION['l10n']['fr']['Q: ']='Q: ';
 $_SESSION['l10n']['fr']['Rate this article!']='Notez cet article !';
 $_SESSION['l10n']['fr']['Rate this page']='Votez pour cette page';
@@ -195,9 +196,8 @@ $_SESSION['l10n']['fr']['Read this comment']='Lire ce commentaire';
 $_SESSION['l10n']['fr']['Read this page']='Lire cette page';
 $_SESSION['l10n']['fr']['Recent pages']='Pages r&#233;centes';
 $_SESSION['l10n']['fr']['Reference skins cannot be modified.']='Les styles de r&#233;f&#233;rence ne peuvent pas &#234;tre modifi&#233;s.';
-$_SESSION['l10n']['fr']['Reference this page']='R&#233;f&#233;rrencer cette page';
+$_SESSION['l10n']['fr']['Reference this page']='R&#233;f&#233;rencer cette page';
 $_SESSION['l10n']['fr']['Referrals']='R&#233;f&#233;rences externes';
-$_SESSION['l10n']['fr']['Return to front page']='Retour &#224; la page d\'accueil';
 $_SESSION['l10n']['fr']['Review provided information and go to the bottom of the page to move forward.']='Contr&#244;ler l\'information fournie et utiliser le bouton en bas de page pour continuer.';
 $_SESSION['l10n']['fr']['Search...']='Chercher...';
 $_SESSION['l10n']['fr']['Section']='Section';
@@ -294,7 +294,6 @@ $_SESSION['l10n']['fr']['Usual delay between updates']='P&#233;riodicit&#233; ha
 $_SESSION['l10n']['fr']['Validate at w3c']='Valider au w3c';
 $_SESSION['l10n']['fr']['View file details']='Plus de d&#233;tails';
 $_SESSION['l10n']['fr']['View the category']='Voir la cat&#233;gorie';
-$_SESSION['l10n']['fr']['Visited']='Pages visit&#233;es';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire &#224; pr&#233;sent ?';
 $_SESSION['l10n']['fr']['What\'s New?']='Quoi de neuf ?';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='O&#249; voulez-vous aller &#224; pr&#233;sent ?';

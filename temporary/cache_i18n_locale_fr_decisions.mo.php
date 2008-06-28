@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:25 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:23 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont &#233;t&#233; trait&#233;s';
 $_SESSION['l10n']['fr']['%s approvals (%d%%), %s rejections (%d%%)']='%s approbations (%d%%), %s rejets (%d%%)';
@@ -16,7 +16,7 @@ $_SESSION['l10n']['fr']['Approved']='Approuv&#233;';
 $_SESSION['l10n']['fr']['Approved %s']='Approuv&#233; %s';
 $_SESSION['l10n']['fr']['Approved by %s %s']='Approuv&#233; par %s %s';
 $_SESSION['l10n']['fr']['Ask for a decision']='Demander une d&#233;cision';
-$_SESSION['l10n']['fr']['Back to main content']='Retour au contenu principal';
+$_SESSION['l10n']['fr']['Back to main page']='Retourner &#224; la page principale';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Decide']='D&#233;cider';
 $_SESSION['l10n']['fr']['Decide: %s']='D&#233;cider : %s';
@@ -36,7 +36,6 @@ $_SESSION['l10n']['fr']['Edit your post below']='Modifiez votre texte ci-dessous
 $_SESSION['l10n']['fr']['Edited by']='Modifi&#233; par';
 $_SESSION['l10n']['fr']['Enter nick names, or email addresses, separated by commas.']='Entrez les noms ou les adresses, s&#233;par&#233;s par des virgules.';
 $_SESSION['l10n']['fr']['Error while sending the message to %s']='Erreur pendant la transmission du message vers %s';
-$_SESSION['l10n']['fr']['Go back to main page']='Retourner &#224; la page principale';
 $_SESSION['l10n']['fr']['If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.']='Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur pourra alors positionner votre nom et votre adresse automatiquement dans les champs ci-dessous.';
 $_SESSION['l10n']['fr']['In %s']='Dans %s';
 $_SESSION['l10n']['fr']['List decisions']='Toutes les d&#233;cisions';

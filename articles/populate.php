@@ -14,7 +14,7 @@
  * This script do not use the standard publication mechanism ([code]Articles::publish()[/code])
  * and do not put created pages into weekly and monthly categories.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -118,7 +118,7 @@ elseif($anchor = Sections::lookup('extra_boxes')) {
 	$fields = array();
 	$fields['anchor'] = $anchor;
 	$fields['nick_name'] = 'extra_rss';
-	$fields['title'] = i18n::c('Stay tuned');
+	$fields['title'] = i18n::c('More information');
 	$fields['introduction'] = '';
 	$fields['description'] = Skin::build_link('feeds/rss_2.0.php', i18n::c('Recent pages'), 'xml')
 		.BR.Skin::build_link('feeds/', i18n::c('Information channels'), 'shortcut');

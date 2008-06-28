@@ -14,7 +14,7 @@
  * - to update smileys.php to bind the name to the file
  * - to update the page below to show it working
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -34,7 +34,7 @@ load_skin('smileys');
 $context['path_bar'] = array( 'help.php' => i18n::s('Help index') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Index of smileys');
+$context['page_title'] = i18n::s('Smileys');
 
 // the date of last modification
 if(Surfer::is_associate())

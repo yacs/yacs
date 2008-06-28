@@ -6,7 +6,7 @@
  *
  * It gets an overlay id, plus some pieces of text, and updates all related pages.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

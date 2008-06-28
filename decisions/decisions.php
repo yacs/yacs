@@ -15,7 +15,7 @@
  * - yes - this is an approval
  * - no - this is a reject
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @reference

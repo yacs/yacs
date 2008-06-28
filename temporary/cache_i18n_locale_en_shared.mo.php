@@ -3,16 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%s is currently present at this site, and several contact options are available:']='%s is currently present at this site, and several contact options are available:';
 $_SESSION['l10n']['en']['A member is required for this operation.']='A member is required for this operation.';
 $_SESSION['l10n']['en']['Actions']='Actions';
-$_SESSION['l10n']['en']['Add a page']='Add a page';
-$_SESSION['l10n']['en']['Also, following XHTML tags are allowed: %s']='Also, following XHTML tags are allowed: %s';
 $_SESSION['l10n']['en']['An anchor is required for this operation.']='An anchor is required for this operation.';
 $_SESSION['l10n']['en']['Articles']='Articles';
-$_SESSION['l10n']['en']['Bookmark a link']='Bookmark a link';
 $_SESSION['l10n']['en']['Categories']='Categories';
 $_SESSION['l10n']['en']['Check requests, publish submitted articles, review old pages']='Check requests, publish submitted articles, review old pages';
 $_SESSION['l10n']['en']['Co-browsing']='Co-browsing';
@@ -31,9 +28,8 @@ $_SESSION['l10n']['en']['Empty sender address']='Empty sender address';
 $_SESSION['l10n']['en']['Empty table name!']='Empty table name!';
 $_SESSION['l10n']['en']['Error while sending the message to %s']='Error while sending the message to %s';
 $_SESSION['l10n']['en']['Files']='Files';
+$_SESSION['l10n']['en']['Following XHTML tags are allowed: %s']='Following XHTML tags are allowed: %s';
 $_SESSION['l10n']['en']['Following items are attached to this record and will be impacted as well.']='Following items are attached to this record and will be impacted as well.';
-$_SESSION['l10n']['en']['Help']='Help';
-$_SESSION['l10n']['en']['If you don\'t know how to proceed, start here']='If you don\'t know how to proceed, start here';
 $_SESSION['l10n']['en']['Images']='Images';
 $_SESSION['l10n']['en']['Impossible to connect to %s.']='Impossible to connect to %s.';
 $_SESSION['l10n']['en']['Impossible to extract files.']='Impossible to extract files.';
@@ -66,7 +62,6 @@ $_SESSION['l10n']['en']['Robot stopper']='Robot stopper';
 $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['Send']='Send';
 $_SESSION['l10n']['en']['Send a private message']='Send a private message';
-$_SESSION['l10n']['en']['Share interesting pages']='Share interesting pages';
 $_SESSION['l10n']['en']['Share the following web address']='Share the following web address';
 $_SESSION['l10n']['en']['Share your profile in this community']='Share your profile in this community';
 $_SESSION['l10n']['en']['Start a private conversation']='Start a private conversation';
@@ -78,11 +73,11 @@ $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['The table']='The table';
 $_SESSION['l10n']['en']['This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.']='This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.';
 $_SESSION['l10n']['en']['Type exactly the following 5 chars:']='Type exactly the following 5 chars:';
-$_SESSION['l10n']['en']['Use a web form to submit new content']='Use a web form to submit new content';
 $_SESSION['l10n']['en']['Use only plain ASCII, no HTML.']='Use only plain ASCII, no HTML.';
 $_SESSION['l10n']['en']['User']='User';
 $_SESSION['l10n']['en']['Versions']='Versions';
 $_SESSION['l10n']['en']['View all data this site knows about you']='View all data this site knows about you';
+$_SESSION['l10n']['en']['Visited']='Visited';
 $_SESSION['l10n']['en']['XML error: %s at line %d']='XML error: %s at line %d';
 $_SESSION['l10n']['en']['You are allowed to post any XHTML.']='You are allowed to post any XHTML.';
 $_SESSION['l10n']['en']['You will be considered as an anonymous surfer']='You will be considered as an anonymous surfer';

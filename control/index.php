@@ -64,7 +64,7 @@
  *
  * @see control/scan.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @author GnapZ
  * @tester Agnes

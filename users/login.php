@@ -118,7 +118,7 @@
  * - users/login.php/... -- authenticate surfer using providing credentials
  * - users/login.php/?credentials=... -- use provided credentials
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester GnapZ
  * @tester Pierre Robert
@@ -219,7 +219,7 @@ if($credentials) {
 			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			$menu = array_merge($menu, array('users/password.php' => i18n::s('Change password')));
-			$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('Go to my user profile')));
+			$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('My profile')));
 			$follow_up .= Skin::build_list($menu, 'page_menu');
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -430,7 +430,7 @@ if($credentials) {
 		elseif(isset($_SERVER['HTTP_REFERER']) && !preg_match('/users\/login\.php/', $_SERVER['HTTP_REFERER']))
 			$menu = array_merge($menu, array($_SERVER['HTTP_REFERER'] => i18n::s('Back to previous page')));
 		else
-			$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Server front page')));
+			$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
 		if(Surfer::is_associate())
 			$menu = array_merge($menu, array('comments/' => i18n::s('On-going threads')));
 		if(Surfer::is_associate())
@@ -439,7 +439,7 @@ if($credentials) {
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 		if(Surfer::is_member() && isset($_REQUEST['login_forward']) && !preg_match('/^articles\/edit.php/', $_REQUEST['login_forward']))
 			$menu = array_merge($menu, array('articles/edit.php' => i18n::s('Add a page')));
-		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('Go to my user profile')));
+		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('My profile')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -498,7 +498,7 @@ if($credentials) {
 		$menu = array_merge($menu, array('users/password.php' => i18n::s('Lost password')));
 
 		// go to the front page
-		$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Server front page')));
+		$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
 
 		// display the menu
 		$follow_up .= Skin::build_list($menu, 'page_menu');

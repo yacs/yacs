@@ -79,7 +79,7 @@
  * The caching duration is limited to 20 minutes for ordinary items. This can
  * be extended for specific items while calling Cache::put(), if necessary.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

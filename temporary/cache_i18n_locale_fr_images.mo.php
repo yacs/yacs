@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 22, 2008, 10:24 pm GMT. Please do not modify it manually.
+ * on June 28, 2008, 11:23 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d bytes']='%d  octets';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont &#233;t&#233; trait&#233;s';
@@ -13,9 +13,6 @@ $_SESSION['l10n']['fr']['1 image'.chr(0).'%d images']='1 image'.chr(0).'%d image
 $_SESSION['l10n']['fr']['Add an image']='Ajouter une image';
 $_SESSION['l10n']['fr']['Advanced options']='Options avanc&#233;es';
 $_SESSION['l10n']['fr']['Always use the thumbnail. Users will click on it to see the full image.']='Toujours. Les utilisateurs cliqueront dessus pour visualiser l\'image agrandie.';
-$_SESSION['l10n']['fr']['Append at page bottom']='Ajout&#233;e en bas de page';
-$_SESSION['l10n']['fr']['Append at the bottom of user profile']='Ajout&#233;e en bas du profil d\'utilisateur';
-$_SESSION['l10n']['fr']['Append the image, and also use it as thumbnail']='Ajouter l\'image, et l\'utiliser aussi comme vignette de page';
 $_SESSION['l10n']['fr']['Automatically resize the image if necessary']='Redimensionner l\'image si n&#233;cessaire';
 $_SESSION['l10n']['fr']['Because of our security policy you are not allowed to list images.']='A cause de nos r&#233;glages de s&#233;curit&#233;, vous n\'&#234;tes pas autoris&#233; &#224; consulter la liste des images.';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
@@ -32,7 +29,6 @@ $_SESSION['l10n']['fr']['If you have get this file from outside sources, please 
 $_SESSION['l10n']['fr']['Image']='Image';
 $_SESSION['l10n']['fr']['Image processing']='Traitement de l\'image';
 $_SESSION['l10n']['fr']['Image transfer has been interrupted.']='Le transfet de l\'image a &#233;t&#233; interrompu.';
-$_SESSION['l10n']['fr']['Image usage']='Utiliser l\'image';
 $_SESSION['l10n']['fr']['Images']='Images';
 $_SESSION['l10n']['fr']['Images maintenance']='Maintenance des images';
 $_SESSION['l10n']['fr']['Impossible to adjust image %s.']='Impossible d\'ajuster l\'image %s.';
@@ -43,8 +39,6 @@ $_SESSION['l10n']['fr']['Impossible to skrink image %s']='Impossible de r&#233;d
 $_SESSION['l10n']['fr']['Impossible to write to %s.']='Impossible d\'&#233;crire dans %s.';
 $_SESSION['l10n']['fr']['In %s']='Dans %s';
 $_SESSION['l10n']['fr']['Insert a thumbnail']='Utiliser une vignette';
-$_SESSION['l10n']['fr']['Insert at page top']='Ajout&#233;e en haut de page';
-$_SESSION['l10n']['fr']['Insert at profile top']='Ins&#233;r&#233;e en haut du profil d\'utilisateur';
 $_SESSION['l10n']['fr']['Instead of the embedded image, but only for large files (>20&nbsp;kbytes)']='A la place de l\'image, mais seulement pour les fichiers importants (plus de 20 Koctets)';
 $_SESSION['l10n']['fr']['It is likely file size goes beyond the limit displayed in upload form. Nothing has been transmitted for %s']='Il est probable que la taille du fichier d&#233;passe la limite affich&#233;e dans le formulaire d\'envoi. Aucun octet transmis pour %s';
 $_SESSION['l10n']['fr']['Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By clicking on thumbnails people can access full-sized pictures. The title is visible while the mouse is over the thumbnail. The description and the source information are displayed along the full-sized picture.']='Les fichiers importants (plus de 20 koctets) sont publi&#233;s sous forme de vignettes. Il faut cliquer sur les vignettes pour acc&#233;der aux images compl&#232;tes. Le titre est affich&#233; lorsque la souris survole la vignette. La description et la source sont affich&#233;es avec l\'image compl&#232;te.';
@@ -68,7 +62,6 @@ $_SESSION['l10n']['fr']['No item has been found.']='Aucun &#233;l&#233;ment n\'a
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['Operation has failed.']='Impossible de mener l\'op&#233;ration &#224; son terme';
 $_SESSION['l10n']['fr']['Orphan: image %s']='Orphelin : image %s';
-$_SESSION['l10n']['fr']['Pick up one image you would like to share']='Choisissez l\'image que vous souhaitez partager';
 $_SESSION['l10n']['fr']['Please browse %s to visualize any image that could be embedded.']='Merci de naviguer sur les %s, y compris les images qu\'elles peuvent contenir.';
 $_SESSION['l10n']['fr']['Please carefully select a section for your image']='Choisissez l\'emplacement ad&#233;quat pour partager votre image';
 $_SESSION['l10n']['fr']['Please select a .png, .gif or .jpeg image.']='Merci de s&#233;lectionner une image .png, ou .gif ou .jpg';
@@ -100,13 +93,13 @@ $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Submit another image']='Envoyer une autre image';
 $_SESSION['l10n']['fr']['Thank you very much for your contribution']='Merci beaucoup de votre contribution';
 $_SESSION['l10n']['fr']['The deletion has not been confirmed.']='Effacement non confirm&#233;';
-$_SESSION['l10n']['fr']['The image has become the page icon']='L\'image a &#233;t&#233; positionn&#233;e comme ic&#244;ne de page';
-$_SESSION['l10n']['fr']['The image has become the thumbnail image associated to the hosting page.']='L\'image sera utilis&#233;e comme vignette repr&#233;sentative de la page associ&#233;e.';
-$_SESSION['l10n']['fr']['The image has become the user avatar']='L\'image a &#233;t&#233; positionn&#233;e comme avatar de ce profil utilisateur';
+$_SESSION['l10n']['fr']['The image has become the page icon.']='L\'image a &#233;t&#233; positionn&#233;e comme ic&#244;ne de page.';
+$_SESSION['l10n']['fr']['The image has become the user avatar.']='L\'image a &#233;t&#233; positionn&#233;e comme avatar.';
 $_SESSION['l10n']['fr']['The image has been added at the end of the page.']='L\'image a &#233;t&#233; ins&#233;r&#233;e &#224; la fin de la page.';
 $_SESSION['l10n']['fr']['The image has been added to the page, and it also has been set as the page thumbnail.']='L\'image a &#233;t&#233; ajout&#233;e ; elle servira aussi de vignette de la page associ&#233;e';
 $_SESSION['l10n']['fr']['The image has been inserted at the beginning of the page.']='L\'image a &#233;t&#233; ins&#233;r&#233;e au d&#233;but de la page.';
-$_SESSION['l10n']['fr']['The image has been set as the new bullet']='L\'image servira de puce';
+$_SESSION['l10n']['fr']['The image has been set as the new bullet.']='L\'image servira de puce.';
+$_SESSION['l10n']['fr']['This has become the thumbnail image of the page.']='L\'image sera utilis&#233;e comme vignette de page.';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a &#233;t&#233; verrouill&#233;e.';
 $_SESSION['l10n']['fr']['This script will create a brand new page for the uploaded file. If you would like to add an image to an existing page, browse the target page instead and use the adequate command from the menu below page title.']='Ce script va cr&#233;er une nouvelle page pour l\'image transmise. Si vous souhaitez compl&#233;ter une page existante, veuillez plut&#244;t visualiser la page en question et utiliser la commande ad hoc sous le titre de page.';
 $_SESSION['l10n']['fr']['Thumbnail']='Vignette';

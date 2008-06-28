@@ -22,7 +22,7 @@
  * - searches - stats on keywords used for searches. Information is captured by [script]agents/referrals.php[/script]
  * through [script]agents/referrals_hook.php[/script].
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @tester Pat
  * @tester ArunK
  * @tester Guillaume Perez

@@ -30,7 +30,7 @@
  * - mail.php/&lt;id&gt;
  * - mail.php?id=&lt;id&gt;
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Jan Boen
  * @tester Guillaume Perez
@@ -257,7 +257,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 	// cancel button
 	if(isset($item['id']))
-		$menu[] = Skin::build_link(Users::get_url($item['id'], 'view', $item['nick_name'], $item['full_name']), i18n::s('Cancel'), 'span');
+		$menu[] = Skin::build_link(Users::get_url($item['id'], 'view', $item['nick_name']), i18n::s('Cancel'), 'span');
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');

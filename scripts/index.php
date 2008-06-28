@@ -76,7 +76,7 @@
  * that various organizations will develop additional scripts on the YACS platform. They may use the remote reference
  * pattern to distribute these scripts internally to slave servers.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

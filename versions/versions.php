@@ -48,7 +48,7 @@
  * Or the last version from a previous day can be restored.
  * Incidentally, this daily pruning scheme also protects against potential overflow attacks on the storage space.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Florent
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]

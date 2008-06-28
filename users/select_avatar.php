@@ -19,7 +19,7 @@
  * - users/select_avatar.php/12
  * - users/select_avatar.php?id=12
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Kedare
  * @reference
@@ -145,7 +145,7 @@ if(!count($context['error'])) {
 		else {
 
 			if(Surfer::may_upload())
-				$text .= '<p>'.sprintf(i18n::s('Click on one image below to make it your new avatar. Instead of using the library you may prefer to %s.'), Skin::build_link('images/edit.php?anchor=user:'.$item['id'], i18n::s('upload your own avatar'), 'shortcut')).'</p>'."\n";
+				$text .= '<p>'.sprintf(i18n::s('Click on one image below to make it your new avatar. Instead of using the library you may prefer to %s.'), Skin::build_link('images/edit.php?anchor=user:'.$item['id'].'&amp;action=avatar', i18n::s('upload your own avatar'), 'shortcut')).'</p>'."\n";
 
 			// build the lists
 			while(($item = Safe::readdir($dir)) !== FALSE) {

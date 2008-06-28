@@ -106,7 +106,7 @@
  *
  * [*] More than 10000 - To reject categories at the end of lists.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester ThierryP

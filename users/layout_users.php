@@ -7,7 +7,7 @@
  * @see users/index.php
  * @see users/users.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -50,7 +50,7 @@ Class Layout_users extends Layout_interface {
 			$prefix = $suffix = $icon = '';
 
 			// the url to view this item
-			$url = Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:'');
+			$url = Users::get_url($item['id'], 'view', $item['nick_name']);
 
 			// reset the rendering engine between items
 			if(is_callable(array('Codes', 'initialize')))
@@ -72,8 +72,11 @@ Class Layout_users extends Layout_interface {
 			if($item['capability'] == '?')
 				$prefix .= EXPIRED_FLAG;
 
-			// use the nick_name to label the link
-			$label = Skin::strip($item['nick_name'], 10);
+			// item title
+			if($item['full_name'])
+				$label = ucfirst(Skin::strip($item['full_name'], 10));
+			else
+				$label = ucfirst(Skin::strip($item['nick_name'], 10));
 
 			// show contact information
 			if(Surfer::may_contact()) {
@@ -106,10 +109,6 @@ Class Layout_users extends Layout_interface {
 				if(isset($item['yahoo_address']) && $item['yahoo_address'])
 					$suffix .= ' '.Skin::build_presence($item['yahoo_address'], 'yahoo');
 			}
-
-			// the full_name
-			if($item['full_name'])
-				$suffix .= ' '.$item['full_name'];
 
 			// the introduction
 			if($item['introduction']) {

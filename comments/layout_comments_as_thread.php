@@ -11,7 +11,7 @@
  * of if teasers have been enabled (parameter '[code]users_without_teasers[/code]' not set to 'Y').
  * Both global parameters are set in [script]users/configure.php[/script]).
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  *

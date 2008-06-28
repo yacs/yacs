@@ -6,7 +6,7 @@
  *
  * @see files/files.php
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -29,6 +29,10 @@ Class Layout_files_as_simple extends Layout_interface {
 		// empty list
 		if(!SQL::count($result))
 			return $items;
+
+		// sanity check
+		if(!isset($this->layout_variant))
+			$this->layout_variant = 'full';
 
 		// flag files updated recently
 		if($context['site_revisit_after'] < 1)
@@ -70,8 +74,8 @@ Class Layout_files_as_simple extends Layout_interface {
 			if(!$label)
 				$label = ucfirst(str_replace(array('%20', '-', '_'), ' ', $item['file_name']));
 
-			// the main anchor link
-			if(is_object($anchor))
+			// the main anchor link, except on user profiles
+			if(is_object($anchor) && ($anchor->get_reference() != $this->layout_variant))
 				$suffix .= ' - <span class="details">'.sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()))).'</span>';
 
 			// list all components for this item

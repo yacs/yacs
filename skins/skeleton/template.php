@@ -50,7 +50,7 @@
  * - 9 to go to the control panel
  * - 0 to go to the help page
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Dave Child [link]http://www.ilovejackdaniels.com/[/link]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -120,7 +120,7 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
 
 	// the site name -- can be replaced, through CSS, by an image -- access key 1
 	if($context['site_name'] && is_callable(array('i18n', 's')))
-		echo '<p id="header_title"><a href="'.$context['url_to_root'].'" title="'.encode_field(i18n::s('Return to front page')).'" accesskey="1">'.$context['site_name'].'</a></p>'."\n";
+		echo '<p id="header_title"><a href="'.$context['url_to_root'].'" title="'.encode_field(i18n::s('Front page')).'" accesskey="1">'.$context['site_name'].'</a></p>'."\n";
 
 	// site slogan
 	if(isset($context['site_slogan']))

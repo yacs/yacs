@@ -31,7 +31,7 @@
  * Accept following invocations:
  * - play_audio.php?path=&lt;collection/path/to/browse&gt;
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author GnapZ
  * @tester Rodney Morison
  * @reference

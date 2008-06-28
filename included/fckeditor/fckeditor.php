@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2008 Frederico Caldeira Knabben
  *

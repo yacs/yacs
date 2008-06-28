@@ -7,7 +7,7 @@
  * - Logger::remember() stores an event locally, for later review
  * - Logger::notify() stores an event and also sends an e-mail message to site admins
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
