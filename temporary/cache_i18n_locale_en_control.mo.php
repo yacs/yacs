@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 28, 2008, 11:24 am GMT. Please do not modify it manually.
+ * on July 2, 2008, 5:39 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d SQL statements have been processed in %.2f seconds.']='%d SQL statements have been processed in %.2f seconds.';
 $_SESSION['l10n']['en']['%d articles have been processed. Finished']='%d articles have been processed. Finished';
@@ -539,6 +539,7 @@ $_SESSION['l10n']['en']['Site Map']='Site Map';
 $_SESSION['l10n']['en']['Skin']='Skin';
 $_SESSION['l10n']['en']['Skin test page']='Skin test page';
 $_SESSION['l10n']['en']['Skins']='Skins';
+$_SESSION['l10n']['en']['Skip transient data and minimize size of backup file']='Skip transient data and minimize size of backup file';
 $_SESSION['l10n']['en']['Smileys']='Smileys';
 $_SESSION['l10n']['en']['Sollicitate users input -- create one single vote, a petition, or a poll']='Sollicitate users input -- create one single vote, a petition, or a poll';
 $_SESSION['l10n']['en']['Some columns may be created or converted if their type has evolved.']='Some columns may be created or converted if their type has evolved.';

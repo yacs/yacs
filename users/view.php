@@ -468,11 +468,11 @@ if(!isset($item['id'])) {
 
 		// the command to post a new file
 		if((Surfer::is($item['id']) || Surfer::is_associate()) && Surfer::may_upload())
-			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], i18n::s('Upload a file'), 'basic');
+			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], i18n::s('Upload a file'), 'span');
 
 		// the command to add a new link
 		if(Surfer::is($item['id']) || Surfer::is_associate())
-			$menu[] = Skin::build_link('links/edit.php?anchor=user:'.$item['id'], i18n::s('Add a link'), 'basic');
+			$menu[] = Skin::build_link('links/edit.php?anchor=user:'.$item['id'], i18n::s('Add a link'), 'span');
 
 		if(count($menu))
 			$information .= Skin::finalize_list($menu, 'menu_bar');
@@ -503,6 +503,96 @@ if(!isset($item['id'])) {
 			$items = Skin::build_list($items, 'decorated');
 		if($items)
 			$information .= Skin::build_box(i18n::s('Links'), $items, 'header1', 'related_links');
+
+		// show preferences only to related surfers and to associates
+		if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
+			$box = '';
+
+			// public or restricted or hidden profile
+			if(isset($item['active'])) {
+				if($item['active'] == 'Y')
+					$box .= '<p>'.i18n::s('Anyone may read this profile.').'</p>';
+				elseif($item['active'] == 'R')
+					$box .= '<p>'.RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members.').'</p>';
+				elseif($item['active'] == 'N')
+					$box .= '<p>'.PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates.').'</p>';
+			}
+
+			// signature
+			if(isset($item['signature']) && $item['signature'])
+				$box .= '<p>'.sprintf(i18n::s('Signature: %s'), BR.Codes::beautify($item['signature'])).'</p>'."\n";
+
+			// e-mail usage
+			if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
+
+				$items = array();
+
+				// confirm password
+				if(!isset($item['without_confirmations']) || ($item['without_confirmations'] != 'Y'))
+					$items[] = i18n::s('Confirm every password change.');
+
+				// receive alerts
+				if(!isset($item['without_alerts']) || ($item['without_alerts'] != 'Y'))
+					$items[] = i18n::s('Alert me when my articles are commented.');
+
+				// receive private messages
+				if(!isset($item['without_messages']) || ($item['without_messages'] != 'Y'))
+					$items[] = i18n::s('Allow other members to send me private messages.');
+
+				// explicit newsletter subscription
+				if(!isset($item['id']) || !isset($item['with_newsletters']) || ($item['with_newsletters'] == 'Y'))
+					$items[] = i18n::s('Send me periodical newsletters related to this server.');
+
+				if(count($items))
+					$box .= '<dl><dt>'.i18n::s('E-mail usage').'</dt><dd>'
+						.'<ul><li>'.join('</li><li>', $items).'</li></ul>'
+						.'</dd></dl>';
+
+			}
+
+			// preferred editor
+			if(isset($item['editor']) && ($item['editor'] == 'fckeditor'))
+				$label = Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKeditor'), 'external');
+			elseif(isset($item['editor']) && ($item['editor'] == 'tinymce'))
+				$label = Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external');
+			else
+				$label = i18n::s('Textarea');
+			$box .= '<p>'.sprintf(i18n::s('Editor: %s'), $label).'</p>'."\n";
+
+			// interface
+			if(isset($item['interface'])) {
+				if($item['interface'] == 'I')
+					$box .= '<p>'.i18n::s('Improved interface').'</p>';
+				elseif($item['interface'] == 'C')
+					$box .= '<p>'.i18n::s('Complex interface').'</p>';
+			}
+
+			// share screen
+			if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
+				if(!isset($item['with_sharing']) || ($item['with_sharing'] == 'N'))
+					$box .= '<p>'.i18n::s('Screen is not shared with other people.').'</p>';
+				if(isset($item['with_sharing']) && ($item['with_sharing'] == 'V'))
+					$box .= '<p>'.i18n::s('Allow remote access using VNC.').'</p>';
+				if(isset($item['with_sharing']) && ($item['with_sharing'] == 'M'))
+					$box .= '<p>'.i18n::s('Allow remote access with NetMeeting.').'</p>';
+			}
+
+			// proxy
+			if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
+				if(isset($item['proxy_address']) && $item['proxy_address'])
+					$box .= '<p>'.sprintf(i18n::s('Network address: %s'), $item['proxy_address']).'</p>';
+				elseif(isset($item['login_address']))
+					$box.= '<p>'.sprintf(i18n::s('Network address: %s'), $item['login_address']).'</p>';
+			}
+
+			// display workstation time offset
+			if(Surfer::get_id() && (Surfer::get_id() == $item['id']) && isset($_COOKIE['TimeZone']))
+				$box .= '<p>'.i18n::s('Browser GMT offset:').' UTC '.(($_COOKIE['TimeZone'] > 0) ? '+' : '-').$_COOKIE['TimeZone'].' '.i18n::s('hour(s)')."</p>\n";
+
+			if($box)
+				$information .= Skin::build_box(i18n::s('Preferences'), $box, 'folder');
+
+		}
 	}
 
 	// in a separate tab
@@ -518,10 +608,6 @@ if(!isset($item['id'])) {
 		$panels[] = array('actions_tab', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'));
 	if(!$zoom_type)
 		$panels[] = array('watch_tab', i18n::s('Dashboard'), 'watch_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
-
-	// show preferences only to related surfers and to associates
-	if(!$zoom_type && ((Surfer::get_id() == $item['id']) || Surfer::is_associate()))
-		$panels = array_merge($panels, array(array('preferences_tab', i18n::s('Preferences'), 'preferences_panel', NULL, Users::get_url($item['id'], 'element', 'preferences'))));
 
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($panels);
@@ -642,6 +728,7 @@ if(!isset($item['id'])) {
 	if(!$zoom_type || ($zoom_type == 'categories')) {
 
 		// build a complete box
+		$box = array();
 		$box['bar'] = array();
 		$box['text'] = '';
 

@@ -287,6 +287,9 @@ if($credentials) {
 	// protect from hackers
 	$name = preg_replace('/[\'"\{\}\[\]\(\)]/', ' ', strip_tags($_REQUEST['login_name']));
 
+	// set permanent name shown from top level
+	Safe::setcookie('surfer_name', preg_replace('/(@.+)$/', '', $name), time()+60*60*24*500, '/');
+
 	// the surfer has been authenticated
 	if($user = Users::login($name, $_REQUEST['login_password'])) {
 
@@ -539,16 +542,21 @@ if($credentials) {
 	$context['text'] .= Skin::table_prefix('form');
 	$lines = 1;
 
+	// use cookie, if any
+	$name = '';
+	if(isset($_COOKIE['surfer_name']))
+		$name = $_COOKIE['surfer_name'];
+
 	// the id or email field
 	$cells = array();
 	$cells[] = i18n::s('Your nick name, or e-mail address');
-	$cells[] = '<input type="text" name="login_name" id="login_name" size="45" maxlength="255"'.EOT."\n";
+	$cells[] = '<input type="text" name="login_name" id="login_name" size="45" maxlength="255" value="'.encode_field($name).'" />'."\n";
 	$context['text'] .= Skin::table_row($cells, $lines++);
 
 	// the password
 	$cells = array();
 	$cells[] = i18n::s('Password');
-	$cells[] = '<input type="password" name="login_password" size="45" maxlength="255"'.EOT."\n";
+	$cells[] = '<input type="password" name="login_password" size="45" maxlength="255" />'."\n";
 	$context['text'] .= Skin::table_row($cells, $lines++);
 
 	// end of the table

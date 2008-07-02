@@ -16,7 +16,6 @@
  * - element.php/12/watch
  * - element.php?id=12&action=actions
  * - element.php?id=12&action=contact
- * - element.php?id=12&action=preferences
  * - element.php?id=12&action=watch
  *
  * @author Bernard Paques

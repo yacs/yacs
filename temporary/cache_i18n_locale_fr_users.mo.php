@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
+ * on July 2, 2008, 5:33 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d active now'.chr(0).'%d active now']='%d actif en ce momemt'.chr(0).'%d actifs en ce momemt';
 $_SESSION['l10n']['fr']['%d posts']='%d contributions';
@@ -16,7 +16,7 @@ $_SESSION['l10n']['fr']['%s would like to have a private chat with you']='%s sou
 $_SESSION['l10n']['fr']['%s would like you to browse the following link']='%s voudrait que vous naviguiez sur le lien suivant';
 $_SESSION['l10n']['fr']['%s, and get basic directions']='%s, et obtenir quelques informations essentielles';
 $_SESSION['l10n']['fr']['%s, maybe with some images and/or files']='%s, peut-&#234;tre avec des images et/ou des fichiers';
-$_SESSION['l10n']['fr']['%s, paste your gravatar address, or use the list of images attached to this profile, if any.']='%s, coller l\'emplacement de votre gravatar, ou utiliser l\'une des images &#233;ventuellement attach&#233;es &#224; ce profil.';
+$_SESSION['l10n']['fr']['%s, paste your gravatar address, or use images attached to this profile, if any.']='%s, coller l\'emplacement de votre gravatar, ou utiliser les images attach&#233;es &#224; ce profil.';
 $_SESSION['l10n']['fr']['%s, to let others have a better understanding of who I am']='%s pour mieux pr&#233;ciser aux autres qui vous &#234;tes';
 $_SESSION['l10n']['fr']['(do not wish to receive newsletters)']='(ne souhaite pas recevoir les lettres d\'information)';
 $_SESSION['l10n']['fr']['1 page'.chr(0).'%d pages']='1 page'.chr(0).'%d pages';
@@ -225,8 +225,9 @@ $_SESSION['l10n']['fr']['Jabber address']='Adresse Jabber';
 $_SESSION['l10n']['fr']['Jump to the private page that has been created for your web chat with %s']='Aller &#224; la page priv&#233;e qui a &#233;t&#233; cr&#233;&#233;e pour discuter avec %s';
 $_SESSION['l10n']['fr']['Jump to the web address sent to %s']='Aller &#224; l\'adresse transmise &#224; %s';
 $_SESSION['l10n']['fr']['LDAP %s: bad value \'%s\'.']='LDAP %s : valeur incorrecte \'%s\'.';
+$_SESSION['l10n']['fr']['Language']='Langue';
 $_SESSION['l10n']['fr']['Last login']='Derni&#232;re visite';
-$_SESSION['l10n']['fr']['Last name followed by a comma and by other names you may have']='Nom de famille suivi d\'une virgule et de votre pr&#233;nom';
+$_SESSION['l10n']['fr']['Last name followed by other names you may have']='Nom de famille suivi de vos pr&#233;noms';
 $_SESSION['l10n']['fr']['Last name(s)']='Nom de famille';
 $_SESSION['l10n']['fr']['Links']='Liens';
 $_SESSION['l10n']['fr']['List HTML tags allowed to members.']='Lister les balises HTML permises aux membres.';
@@ -390,6 +391,7 @@ $_SESSION['l10n']['fr']['Share']='Partage';
 $_SESSION['l10n']['fr']['Share email addresses as much as possible (for intranet servers).']='Partager les adresses de courrier &#233;lectronique autant que possible (pour les serveurs intranet).';
 $_SESSION['l10n']['fr']['Share screen']='Partager l\'&#233;cran';
 $_SESSION['l10n']['fr']['Show email addresses to authenticated members.']='Montrer les adresses de courrier &#233;lectronique aux membres.';
+$_SESSION['l10n']['fr']['Side information']='Informations de c&#244;t&#233;';
 $_SESSION['l10n']['fr']['Signature']='Signature';
 $_SESSION['l10n']['fr']['Signature: %s']='Signature : %s';
 $_SESSION['l10n']['fr']['Site map']='Carte du site';

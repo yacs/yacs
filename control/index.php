@@ -762,9 +762,6 @@ if(!file_exists('../parameters/control.include.php')) {
 					$commands[] = sprintf(i18n::s('%s - change the template used for newsletters'), Skin::build_link('letters/configure.php', i18n::s('Newsletters'), 'basic'));
 
 				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - review and setup YACS hooking pieces of software'), '<a href="scan.php">'.i18n::s('Extensions').'</a>');
-
-				if(Surfer::has_all())
 					$commands[] = sprintf(i18n::s('%s - change parameters for back-end services'), Skin::build_link('services/configure.php', i18n::s('Web services'), 'basic'));
 
 				if(Surfer::has_all())
@@ -819,6 +816,8 @@ if(!file_exists('../parameters/control.include.php')) {
 				// upgrade if there is no reference repository
 				} else
 					$commands[] = sprintf(i18n::s('%s - check for software updates'), '<a href="../scripts/">'.i18n::s('Server software').'</a>');
+
+				$commands[] = sprintf(i18n::s('%s - review and setup YACS hooking pieces of software'), '<a href="scan.php">'.i18n::s('Extensions').'</a>');
 
 				$commands[] = sprintf(i18n::s('%s - change permissions of script files'), '<a href="chmod.php">'.i18n::s('Permissions').'</a>');
 

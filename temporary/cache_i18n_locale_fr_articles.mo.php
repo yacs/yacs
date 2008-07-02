@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
+ * on July 2, 2008, 5:33 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['"%s" is not a valid expiry date']='"%s" n\'est pas une date d\'expiration valide';
 $_SESSION['l10n']['fr']['"%s" is not a valid publication date']='"%s" n\'est pas une date de publication valide';

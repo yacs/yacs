@@ -90,7 +90,7 @@ Class i18n {
 		if(!isset($context['language']))
 			return;
 
-		// initilization
+		// initialization
 		if(!isset($_SESSION['l10n_modules']))
 			$_SESSION['l10n_modules'] = array();
 
@@ -162,6 +162,30 @@ Class i18n {
 
 		// provide the localized string
 		$text = $_SESSION['l10n'][$locale][$text];
+		return $text;
+	}
+
+	/**
+	 * filter text provided to surfer
+	 *
+	 * @see codes/codes.php
+	 *
+	 * @param string some text
+	 * @param string the target language
+	 * @return string the provided text, if surfer language matches the target language, else ''
+	 */
+	function &filter($text, $language) {
+		global $context;
+
+		// sanity check
+		if(!isset($context['language']))
+			return $text;
+
+		// surfer is using a different language
+		if($language != $context['language'])
+			$text = '';
+
+		// job done
 		return $text;
 	}
 
@@ -700,8 +724,8 @@ Class i18n {
 	function &get_languages_select($current=NULL, $id='language') {
 		global $context;
 
-		// use surfer language by default --'none' is the default value for this field in the database
-		if(!$current || ($current == 'none'))
+		// use surfer language by default
+		if(!$current)
 			$current = $context['language'];
 
 		// all options
@@ -711,17 +735,26 @@ Class i18n {
 		$languages =& i18n::get_languages();
 
 		// engage surfer
-		if(!$current)
-			$text .= '<option>'.i18n::s('Select a language')."</option>\n";
+		$text .= '<option value="none">'.i18n::s('Select a language')."</option>\n";
+
+		// current language setting
+		if($current == $context['language'])
+			$text .= '<option value="'.$context['language'].'" selected="selected">'.i18n::get_language_label($context['language'])."</option>\n";
+		else
+			$text .= '<option value="'.$context['language'].'">'.i18n::get_language_label($context['language'])."</option>\n";
 
 		// all options
 		foreach($languages as $code => $label) {
+
+			// is this the current setting?
+			if($code == $context['language'])
+				continue;
 
 			// the code
 			$text .= '<option value="'.$code.'"';
 
 			// is this the current option?
-			if(strpos($current, $code) === 0)
+			if($code == $current)
 				$text .= ' selected="selected"';
 
 			// the label for this language
@@ -1193,60 +1226,66 @@ Class i18n {
 		global $context;
 
 		//
+		// user language
+		//
+		if(isset($_SESSION['surfer_language']) && $_SESSION['surfer_language'])
+			$context['language'] = $_SESSION['surfer_language'];
+
 		// guess surfer language
-		//
+		else {
 
-		// languages accepted by browser
-		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && $_SERVER['HTTP_ACCEPT_LANGUAGE'])
-			$accepted = explode(',', str_replace('en-securid,', '', $_SERVER['HTTP_ACCEPT_LANGUAGE']));
-		else
-			$accepted = array('*');
-
-		// score each language
-		$scores = array();
-		foreach($accepted as $item) {
-			$parts = explode(';', trim($item));
-			if(isset($parts[1]))
-				$scores[$parts[0]] = (float)trim($parts[1], ' q=');
+			// languages accepted by browser
+			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && $_SERVER['HTTP_ACCEPT_LANGUAGE'])
+				$accepted = explode(',', str_replace('en-securid,', '', $_SERVER['HTTP_ACCEPT_LANGUAGE']));
 			else
-				$scores[$parts[0]] = (float)1.0;
-		}
+				$accepted = array('*');
 
-		// process each wish in sequence --most preferred language comes first without sorting data
-		foreach($scores as $locale => $score) {
-
-			// ensure full locale availability
-			$path = 'i18n/locale/'.$locale.'/i18n.mo';
-			if(file_exists($context['path_to_root'].$path) || file_exists(Cache::hash($path.'.php'))) {
-
-					// this is guessed surfer locale
-					$context['language'] = $locale;
-
-					// drop other accepted languages
-					break;
-
+			// score each language
+			$scores = array();
+			foreach($accepted as $item) {
+				$parts = explode(';', trim($item));
+				if(isset($parts[1]))
+					$scores[$parts[0]] = (float)trim($parts[1], ' q=');
+				else
+					$scores[$parts[0]] = (float)1.0;
 			}
 
-			// locale has no country code
-			if(!$position = strpos($locale, '-'))
-				continue;
+			// process each wish in sequence --most preferred language comes first without sorting data
+			foreach($scores as $locale => $score) {
 
-			// check for availability of basic language file
-			$locale = substr($locale, 0, $position);
-			$path = 'i18n/locale/'.$locale.'/i18n.mo';
-			if(file_exists($context['path_to_root'].$path) || file_exists(Cache::hash($path.'.php'))) {
+				// ensure full locale availability
+				$path = 'i18n/locale/'.$locale.'/i18n.mo';
+				if(file_exists($context['path_to_root'].$path) || file_exists(Cache::hash($path.'.php'))) {
 
-					// this is guessed surfer locale
-					$context['language'] = $locale;
+						// this is guessed surfer locale
+						$context['language'] = $locale;
 
-					// drop other accepted languages
-					break;
+						// drop other accepted languages
+						break;
 
+				}
+
+				// locale has no country code
+				if(!$position = strpos($locale, '-'))
+					continue;
+
+				// check for availability of basic language file
+				$locale = substr($locale, 0, $position);
+				$path = 'i18n/locale/'.$locale.'/i18n.mo';
+				if(file_exists($context['path_to_root'].$path) || file_exists(Cache::hash($path.'.php'))) {
+
+						// this is guessed surfer locale
+						$context['language'] = $locale;
+
+						// drop other accepted languages
+						break;
+
+				}
 			}
 		}
 
 		//
-		// set community locale
+		// set community language
 		//
 
 		// use configuration file

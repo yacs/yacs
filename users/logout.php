@@ -14,6 +14,9 @@ include_once '../shared/global.php';
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
 
+// clear permanent name
+Safe::setcookie('surfer_name', '', time()+60*60*24*500, '/');
+
 // destroy surfer session
 Surfer::reset();
 

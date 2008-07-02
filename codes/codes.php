@@ -36,6 +36,7 @@
  * - --...-- - deleted
  * - &#91;deleted]...[/deleted] - deleted
  * - &#91;flag]...[/flag] - draw attention
+ * - &#91;lang=xy]...[/lang] - show some text only on matching language
  * - &#91;style=sans-serif]...[/style] - use a sans-serif font
  * - &#91;style=serif]...[/style] - use a serif font
  * - &#91;style=cursive]...[/style] - mimic hand writing
@@ -110,7 +111,6 @@
  * - &#91;script]&lt;path/script.php&gt;[/script] - to the phpDoc page for script 'path/script.php'
  * - &#91;search] - a search form
  * - &#91;search=&lt;word&gt;] - hit Enter to search for 'word'
- * - &#91;login] - a login form (to be used in menus)
  * - &#91;action=&lt;id>] - use action title as link label
  * - &#91;action=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;wikipedia=&lt;keyword] - search Wikipedia
@@ -607,8 +607,8 @@ Class Codes {
 	function &fix_tags($text) {
 
 		// look for opening tag at content end
-		$last_open = strripos($text, '<p>');
-		$last_close = strripos($text, '</p');
+		$last_open = strrpos($text, '<p>');
+		$last_close = strrpos($text, '</p');
 		if($last_open && (($last_close === FALSE) || ($last_open > $last_close))) {
 
 			// trail
@@ -713,11 +713,12 @@ Class Codes {
 				'/\[restricted\](.*?)\[\/restricted\]/ise', // [restricted]...[/restricted] (save some cycles if at the beginning)
 				'/\[anonymous\](.*?)\[\/anonymous\]/ise', // [anonymous]...[/anonymous] (save some cycles if at the beginning)
 				'/\[parameter=([^\]]+?)\]/ise', 			// [parameter=<name>]
+				'/\[lang=([^\]]+?)\](.*?)\[\/lang\]/ise',		// [lang=xy]...[/lang]
 				'/\[csv=(.)\](.*?)\[\/csv\]/ise',		// [csv=;]...[/csv] (before [table])
 				'/\[csv\](.*?)\[\/csv\]/ise',			// [csv]...[/csv] (before [table])
 				'/\[table=([^\]]+?)\](.*?)\[\/table\]/ise', // [table=variant]...[/table]
 				'/\[table\](.*?)\[\/table\]/ise',		// [table]...[/table]
-				'/( |\A)##(\S.*?)##(\W|\Z)/is',		// ##...##
+				'/##(\w.*?\w)##/is',					// ##...##
 				'/\[code\](.*?)\[\/code\]/is',			// [code]...[/code]
 				'/\[indent\](.*?)\[\/indent\]/ise', 	// [indent]...[/indent]
 				'/\[quote\](.*?)\[\/quote\]/ise',		// [quote]...[/quote]
@@ -732,8 +733,8 @@ Class Codes {
 				'/\[cloud=(\d+?)\]/ise',				// [cloud=12]
 				'/\[cloud\]/ise',						// [cloud]
 				'/\[collections\]/ise', 				// [collections]
-				'/\[login=([^\]]+?)\]/ise', 				// [login=words]
-				'/\[login\]/ise',						// [login]
+				'/\[login=([^\]]+?)\]/is', 				// [login=words] --obsoleted
+				'/\[login\]/is',						// [login] --obsoleted
 				'/\[center\](.*?)\[\/center\]/ise', 	// [center]...[/center]
 				'/\[right\](.*?)\[\/right\]/ise',		// [right]...[/right]
 				'/\[decorated\](.*?)\[\/decorated\]/ise',// [decorated]...[/decorated]
@@ -746,23 +747,23 @@ Class Codes {
 				'/\[huge\](.*?)\[\/huge\]/ise', 		// [huge]...[/huge]
 				'/\[subscript\](.*?)\[\/subscript\]/is',// [subscript]...[/subscript]
 				'/\[superscript\](.*?)\[\/superscript\]/is',// [superscript]...[/superscript]
-				'/( |\A)\+\+(\S.*?)\+\+(\W|\Z)/is',	// ++...++
+				'/\+\+(\w.*?\w)\+\+/is',				// ++...++
 				'/\[(---+|___+)\]\s*/ise',				// [---], [___] --- before inserted
 				'/^-----*/me',							// ----
 				'/\[inserted\](.*?)\[\/inserted\]/is',	// [inserted]...[/inserted]
-				'/( |\A)--(\w.*?)--(\W|\Z)/ise',		// --...--
+				'/--(\w.*?\w)--/ise',					// --...--
 				'/\[deleted\](.*?)\[\/deleted\]/is',	// [deleted]...[/deleted]
-				'/( |\A)\*\*(\S.*?)\*\*(\W|\Z)/is',	// **...**
+				'/\*\*(\w.*?\w)\*\*/is',				// **...**
 				'/\[b\](.*?)\[\/b\]/is',				// [b]...[/b]
-				'/( |\A)\/\/(\S.*?)\/\/(\W|\Z)/is',	// //...//
+				'/\/\/(\w.*?\w)\/\//is',				// //...//
 				'/\[i\](.*?)\[\/i\]/is',				// [i]...[/i]
-				'/( |\A)__(\S.*?)__(\W|\Z)/is',		// __...__
+				'/__(\w.*?\w)__/is',					// __...__
 				'/\[u\](.*?)\[\/u\]/is',				// [u]...[/u]
 				'/\[color=([^\]]+?)\](.*?)\[\/color\]/is',	// [color=<color>]...[/color]
 				'/\[new\]/ie',							// [new]
 				'/\[updated\]/ie',						// [updated]
 				'/\[popular\]/ie',						// [popular]
-				'/\[flag=([^\]]+?)\]/ie',					// [flag=<flag>]
+				'/\[flag=([^\]]+?)\]/ie',				// [flag=<flag>]
 				'/\[flag\](.*?)\[\/flag\]/ise', 		// [flag]...[/flag]
 				'/\[list\](.*?)\[\/list\]/ise', 		// [list]...[/list]
 				'/\[list=([^\]]+?)\](.*?)\[\/list\]/ise',	// [list=1]...[/list]
@@ -812,29 +813,29 @@ Class Codes {
 				'/\[title\](.*?)\[\/title\]\n*/is', 	// [title]...[/title]
 				'/\[subtitle\](.*?)\[\/subtitle\]\n*/is', // [subtitle]...[/subtitle]
 				'/\[(header[1-5])\](.*?)\[\/\1\]\n*/ise', // [header1]...[/header1] ... [header5]...[/header5]
-				'/^======(\S.*?)======/me', 			// ======...====== level 5 headline
-				'/^=====(\S.*?)=====/me',				// =====...===== level 4 headline
-				'/^====(\S.*?)====/me', 				// ====...==== level 3 headline
-				'/^===(\S.*?)===/me',					// ===...=== level 2 headline
-				'/^==(\S.*?)==/me', 					// ==...== level 1 headline
+				'/======(\w.*?\w)======/me', 			// ======...====== level 5 headline
+				'/=====(\w.*?\w)=====/me',				// =====...===== level 4 headline
+				'/====(\w.*?\w)====/me', 				// ====...==== level 3 headline
+				'/===(\w.*?\w)===/me',					// ===...=== level 2 headline
+				'/==(\w.*?\w)==/me', 					// ==...== level 1 headline
 				'/\[toc\]\n*/ise',						// [toc] (table of content)
 				'/\[published\]\n*/ise',				// [published] (a compact list of recent publications)
 				'/\[published=(.+?)\]\n*/ise',			// [published=section:4029] (a compact list of recent publications)
 				'/\[read\]\n*/ise', 					// [read] (a compact list of hits)
-				'/\[read=([^\]]+?)\]\n*/ise',				// [read=section:4029] (a compact list of hits)
+				'/\[read=([^\]]+?)\]\n*/ise',			// [read=section:4029] (a compact list of hits)
 				'/\[edited\]\n*/ise',					// [edited] (a compact list of recent updates)
-				'/\[edited=([^\]]+?)\]\n*/ise', 			// [edited=section:4029] (a compact list of recent updates)
+				'/\[edited=([^\]]+?)\]\n*/ise', 		// [edited=section:4029] (a compact list of recent updates)
 				'/\[commented\]\n*/ise',				// [commented] (a compact list of fresh threads)
-				'/\[commented=([^\]]+?)\]\n*/ise',			// [commented=section:4029] (a compact list of fresh threads)
+				'/\[commented=([^\]]+?)\]\n*/ise',		// [commented=section:4029] (a compact list of fresh threads)
 				'/\[contributed\]\n*/ise',				// [contributed] (a compact list of most active pages)
-				'/\[contributed=([^\]]+?)\]\n*/ise',		// [contributed=section:4029] (a compact list of active pages)
+				'/\[contributed=([^\]]+?)\]\n*/ise',	// [contributed=section:4029] (a compact list of active pages)
 				'/\[freemind\]\n*/ise', 				// [freemind] (a mind map of site content)
-				'/\[freemind=([^\]]+?)\]\n*/ise',			// [freemind=section:4029] (a mind map of section content)
+				'/\[freemind=([^\]]+?)\]\n*/ise',		// [freemind=section:4029] (a mind map of section content)
 				'/\[news=([^\]]+?)\]/ise',				// [news=flash]
-				'/\[table=([^\]]+?)\]/ise', 				// [table=<id>]
-				'/\[locations=([^\]]+?)\]/ise', 			// [locations=<id>]
-				'/\[location=([^\]]+?)\]/ise',				// [location=<id>]
-				'/\[wikipedia=([^\]]+?)\]/ise', 			// [wikipedia=keyword] or [wikipedia=keyword, title]
+				'/\[table=([^\]]+?)\]/ise', 			// [table=<id>]
+				'/\[locations=([^\]]+?)\]/ise', 		// [locations=<id>]
+				'/\[location=([^\]]+?)\]/ise',			// [location=<id>]
+				'/\[wikipedia=([^\]]+?)\]/ise', 		// [wikipedia=keyword] or [wikipedia=keyword, title]
 				'/\[be\]/i',							// [be] belgian flag
 				'/\[ca\]/i',							// [ca] canadian flag
 				'/\[ch\]/i',							// [ch] swiss flag
@@ -860,17 +861,18 @@ Class Codes {
 				"Codes::render_escaped(Codes::fix_tags(stripslashes('$1')))",					// [escape]...[/escape]
 				"Codes::render_pre(Codes::fix_tags(stripslashes('$1')), 'php')", 				// [php]...[/php]
 				"Codes::render_pre(Codes::fix_tags(stripslashes('$1')), 'snippet')", 			// [snippet]...[/snippet]
-				'', 																		// [page]
+				'', 																			// [page]
 				"Codes::render_hidden(Codes::fix_tags(stripslashes('$1')), 'hidden')",			// [hidden]...[/hidden]
 				"Codes::render_hidden(Codes::fix_tags(stripslashes('$1')), 'restricted')",		// [restricted]...[/restricted]
 				"Codes::render_hidden(Codes::fix_tags(stripslashes('$1')), 'anonymous')",		// [anonymous]...[/anonymous]
-				"Codes::get_parameter('\\1')",			 									// [parameter=<name>]
+				"Codes::get_parameter('\\1')",			 										// [parameter=<name>]
+				"i18n::filter(stripslashes('$2'), stripslashes('$1'))",							// [lang=xy]...[/lang]
 				"utf8::to_unicode(str_replace('$1', '|', utf8::from_unicode(stripslashes('$2'))))", // [csv=;]...[/csv]
 				"str_replace(',', '|', stripslashes('$1'))",					// [csv]...[/csv]
 				"Codes::render_table(Codes::fix_tags(stripslashes('$2')), '$1')",				// [table=variant]...[/table]
 				"Codes::render_table(Codes::fix_tags(stripslashes('$1')), '')",					// [table]...[/table]
-				'\\1<code>\\2</code>\\3',										// ##...##
-				'<code>\\1</code>', 											// [code]...[/code]
+				'<code>\\1</code>',																// ##...##
+				'<code>\\1</code>', 															// [code]...[/code]
 				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'indent')",				// [indent]...[indent]
 				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'quote')",				// [quote]...[/quote]
 				"Skin::build_box(stripslashes('$1'), Codes::fix_tags(stripslashes('$2')), 'folder')",	// [folder=title]...[/folder]
@@ -884,13 +886,13 @@ Class Codes {
 				"Codes::render_cloud('$1')",									// [cloud=12]
 				"Codes::render_cloud(20)",										// [cloud]
 				"Codes::render_collections()",									// [collections]
-				"Skin::build_block(stripslashes('$1'), 'login')",				// [login=<words>]
-				"Skin::build_block(NULL, 'login')", 							// [login]
+				'',																// [login=<words>] --obsoleted
+				'',									 							// [login] --obsoleted
 				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'center')",				// [center]...[/center]
 				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'right')",				// [right]...[/right]
 				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'decorated')",			// [decorated]...[/decorated]
 				"Skin::build_block(Codes::fix_tags(stripslashes('$2')), '$1')",					// [style=variant]...[/style]
-				'<acronym title="\\1">\\2</acronym>',							// [hint=help]...[/hint]
+				'<acronym title="\\1">\\2</acronym>',											// [hint=help]...[/hint]
 				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'caption')", 			// [caption]...[/caption]
 				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'tiny')",				// [tiny]...[/tiny]
 				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'small')",				// [small]...[/small]
@@ -898,17 +900,17 @@ Class Codes {
 				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'huge')",				// [huge]...[/huge]
 				'<sub>\\1</sub>',												// [subscript]...[/subscript]
 				'<sup>\\1</sup>',												// [superscript]...[/superscript]
-				'\\1<ins>\\2</ins>\\3', 										// ++...++
+				'<ins>\\1</ins>', 												// ++...++
 				"HORIZONTAL_RULER", 											// [---], [___]
 				"HORIZONTAL_RULER", 											// ----
 				'<ins>\\1</ins>',												// [inserted]...[/inserted]
 				"preg_match('/^(BEGIN|END)/', '\\2')?'\\1--\\2--\\3':'\\1<del>\\2</del>\\3'",	// --...-- take care of PKCS headers
 				'<del>\\1</del>',												// [deleted]...[/deleted]
-				'\\1<b>\\2</b>\\3', 											// **...**
+				'<b>\\1</b>',		 											// **...**
 				'<b>\\1</b>',													// [b]...[/b]
-				'\\1<i>\\2</i>\\3', 											// //...//
+				'<i>\\1</i>',		 											// //...//
 				'<i>\\1</i>',													// [i]...[/i]
-				'\\1<span style="text-decoration: underline">\\2</span>\\3',	// __...__
+				'<span style="text-decoration: underline">\\1</span>',			// __...__
 				'<span style="text-decoration: underline">\\1</span>',			// [u]...[/u]
 				'<span style="color: \\1">\\2</span>',							// [color]...[/color]
 				"NEW_FLAG", 													// [new]

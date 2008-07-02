@@ -386,10 +386,10 @@ if($with_form) {
 			if($items = Images::list_by_date_for_anchor('section:'.$item['id'], 0, 50, NULL)) {
 
 				// help to insert in textarea
-				if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'textarea'))
-					$box .= '<p>'.i18n::s('Use codes to insert images in the page.')."</p>\n";
-				else
+				if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
 					$box .= '<p>'.i18n::s('Click on codes to insert images in the page.')."</p>\n";
+				else
+					$box .= '<p>'.i18n::s('Use codes to insert images in the page.')."</p>\n";
 
 				$box .= Skin::build_list($items, 'decorated');
 			}
@@ -566,7 +566,7 @@ if($with_form) {
 
 		// trailer information
 		$label = i18n::s('Trailer');
-		$input = Surfer::get_editor('trailer', isset($item['trailer'])?$item['trailer']:'', TRUE);
+		$input = Surfer::get_editor('trailer', isset($item['trailer'])?$item['trailer']:'');
 		$hint = i18n::s('Text to be appended at the bottom of the page, after all other elements attached to this page.');
 		$fields[] = array($label, $input, $hint);
 

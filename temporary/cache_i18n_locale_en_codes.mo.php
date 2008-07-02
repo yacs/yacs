@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
+ * on July 2, 2008, 5:33 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['A Rabbit Story']='A Rabbit Story';
@@ -111,6 +111,7 @@ $_SESSION['l10n']['en']['Jean[nl]de la Fontaine']='Jean[nl]de la Fontaine';
 $_SESSION['l10n']['en']['Labelled button']='Labelled button';
 $_SESSION['l10n']['en']['Labelled e-mail address']='Labelled e-mail address';
 $_SESSION['l10n']['en']['Labelled link']='Labelled link';
+$_SESSION['l10n']['en']['Language']='Language';
 $_SESSION['l10n']['en']['Let assume a standard HTTP request to get it, such as the next one, which has 382 bytes:']='Let assume a standard HTTP request to get it, such as the next one, which has 382 bytes:';
 $_SESSION['l10n']['en']['Links (and shortcuts, buttons, ...)']='Links (and shortcuts, buttons, ...)';
 $_SESSION['l10n']['en']['List item']='List item';

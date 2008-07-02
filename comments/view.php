@@ -209,6 +209,10 @@ if(!isset($item['id'])) {
 			Skin::define_img('NEW_COMMENT_IMG', 'icons/comments/new.gif');
 			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'reply'), NEW_COMMENT_IMG.' '.i18n::s('Reply'), 'basic');
 			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'quote'), i18n::s('Quote'), 'basic');
+
+			if(Surfer::is_associate())
+				$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'edit'), i18n::s('Edit'), 'basic' );
+
 		}
 	}
 

@@ -1261,6 +1261,20 @@ Class Users {
 		if(isset($fields['tags']))
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
 
+		// save new settings in session and in cookie
+		if(Surfer::is($fields['id'])) {
+
+			// change preferred editor
+			$_SESSION['surfer_editor'] = $fields['editor'];
+			Safe::setcookie('surfer_editor', $fields['editor'], NULL, '/');
+
+			// change preferred language
+			if(isset($fields['language']) && ($_SESSION['surfer_language'] != $fields['language'])) {
+				$_SESSION['surfer_language'] = $fields['language'];
+				$_SESSION['l10n_modules'] = array();
+			}
+		}
+
 		// create a handle for this user
 		if(!isset($fields['handle']) || !trim($fields['handle']))
 			$fields['handle'] = md5(rand());
@@ -1295,6 +1309,7 @@ Class Users {
 			."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."', "
 			."irc_address='".SQL::escape(isset($fields['irc_address']) ? $fields['irc_address'] : '')."', "
 			."jabber_address='".SQL::escape(isset($fields['jabber_address']) ? $fields['jabber_address'] : '')."', "
+			."language='".SQL::escape(isset($fields['language']) ? $fields['language'] : '')."', "
 			."msn_address='".SQL::escape(isset($fields['msn_address']) ? $fields['msn_address'] : '')."', "
 			."nick_name='".SQL::escape($fields['nick_name'])."', "
 			."options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."', "
@@ -1448,8 +1463,8 @@ Class Users {
 		// set default values
 		if(!isset($fields['active']) || !$fields['active'])
 			$fields['active'] = 'Y';
-		if(isset($fields['preferred_editor']))
-			$fields['editor'] = $fields['preferred_editor'];	// hack because of FCKEditor already uses 'editor'
+		if(isset($fields['selected_editor']))
+			$fields['editor'] = $fields['selected_editor'];	// hack because of FCKEditor already uses 'editor'
 		elseif(isset($context['users_default_editor']))
 			$fields['editor'] = $context['users_default_editor'];
 		else
@@ -1469,9 +1484,19 @@ Class Users {
 		if(isset($fields['tags']))
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
 
-		// save new editor settings in surfer session
-		if($fields['id'] == Surfer::get_id())
+		// save new settings in session and in cookie
+		if(Surfer::is($fields['id'])) {
+
+			// change preferred editor
 			$_SESSION['surfer_editor'] = $fields['editor'];
+			Safe::setcookie('surfer_editor', $fields['editor'], NULL, '/');
+
+			// change preferred language
+			if(isset($fields['language']) && ($_SESSION['surfer_language'] != $fields['language'])) {
+				$_SESSION['surfer_language'] = $fields['language'];
+				$_SESSION['l10n_modules'] = array();
+			}
+		}
 
 		// update an existing record
 		$query = "UPDATE ".SQL::table_name('users')." SET ";
@@ -1496,6 +1521,7 @@ Class Users {
 				."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."', "
 				."irc_address='".SQL::escape(isset($fields['irc_address']) ? $fields['irc_address'] : '')."', "
 				."jabber_address='".SQL::escape(isset($fields['jabber_address']) ? $fields['jabber_address'] : '')."', "
+				."language='".SQL::escape(isset($fields['language']) ? $fields['language'] : '')."', "
 				."msn_address='".SQL::escape(isset($fields['msn_address']) ? $fields['msn_address'] : '')."', "
 				."nick_name='".SQL::escape($fields['nick_name'])."', "
 				."options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."', "
@@ -1666,6 +1692,7 @@ Class Users {
 		$fields['introduction'] = "TEXT NOT NULL";
 		$fields['irc_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['jabber_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['language'] = "VARCHAR(6) DEFAULT '' NOT NULL";
 		$fields['login_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['login_date']	= "DATETIME";
 		$fields['msn_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";

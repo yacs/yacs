@@ -34,7 +34,6 @@ Class Skin_Skeleton {
 	 * - 'error' an error message
 	 * - 'indent' an indented block
 	 * - 'introduction' some decorated text at the beginning of the page
-	 * - 'login' a form to login (to be used in menus)
 	 * - 'note' get reader attention
 	 * - 'page_title' the single page title
 	 * - 'question' as a title
@@ -139,23 +138,6 @@ Class Skin_Skeleton {
 		case 'introduction':
 			$text = '<div class="introduction"'.$id.'>'.Codes::beautify($text).'</div>'."\n";
 			return $text;
-
-		case 'login':
-			$content = '<form method="post" action="'.$context['url_to_root'].'users/login.php" id="login_form"><p>'."\n";
-
-			// the id or email field
-			$content .= i18n::s('User').BR.'<input type="text" name="login_name" value="'.encode_field($text).'" size="10" maxlength="255"'.EOT."\n".BR;
-
-			// the password
-			$content .= i18n::s('Password').BR.'<input type="password" name="login_password" size="10" maxlength="255"'.EOT."\n".BR;
-
-			// the button
-			$content .= Skin::build_submit_button(i18n::s('Login').' &raquo;');
-
-			// end of the form
-			$content .= '</p></form>';
-
-			return $content;
 
 		case 'note':
 			Skin::define_img('NOTICE_FLAG', 'icons/codes/note.gif', i18n::s('<b>Note:</b> '));
@@ -1382,7 +1364,7 @@ Class Skin_Skeleton {
 		case 'help':
 			$text = '<a href="'.$url.'"'.$href_title.' class="help"'
 				.' onclick="window.open(this.href); return false;"'
-				.' onkeypress="window.open(this.href); return false;">'.$text.'</a>';
+				.' onkeypress="window.open(this.href); return false;"><span>'.$text.'</span></a>';
 			return $text;
 
 		case 'internal': // like external, but stay in the same window

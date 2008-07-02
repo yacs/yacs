@@ -115,9 +115,6 @@ Class Layout_articles_as_news extends Layout_interface {
 			// details
 			$details = array();
 
-			// date of last modification -- do not use action code here
-			$details[] = Skin::build_date($item['edit_date']);
-
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
 				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
@@ -129,10 +126,6 @@ Class Layout_articles_as_news extends Layout_interface {
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$details[] = LOCKED_FLAG;
 
 			// actually insert details
 			if($details)

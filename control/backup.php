@@ -140,6 +140,13 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	else
 		fwrite($handle, $sql);
 
+	// skip some tables
+	$to_avoid = array();
+	if(isset($_REQUEST['backup_avoid']) && ($tokens = explode(' ', $_REQUEST['backup_avoid']))) {
+		foreach($tokens as $token)
+			$to_avoid[] = str_replace('`', '', SQL::table_name($token));
+	}
+
 	//enumerate tables
 	$queries = 0;
 	$tables = SQL::list_tables($context['database']);
@@ -171,10 +178,16 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		else
 			fwrite($handle, $sql);
 
+		// skip content of some tables
+		if(in_array($table_name, $to_avoid))
+			continue;
+
 		// read all lines
 		$query = "SELECT * FROM $table_name";
-		if(!$result =& SQL::query($query))
+		if(!$result =& SQL::query($query)) {
 			$context['text'] .= Skin::error_pop().BR."\n";
+			continue;
+		}
 
 		//parse the field info first
 		$field_list = '';
@@ -277,6 +290,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 				Safe::set_time_limit(30);
 
 		}
+		SQL::free($result);
 
 		if($compressed)
 			gzwrite($handle, "\n\n");
@@ -284,7 +298,6 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 			fwrite($handle, "\n\n");
 
 	}
-	SQL::free($result);
 
 	if($compressed)
 		gzclose($handle);
@@ -489,24 +502,45 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$count = 0;
 		foreach($lines as $line) {
 
-			// skip line comments
-			if(preg_match('/^\s*#/', $line))
-				continue;
-
 			// current line, for possible error reporting
 			$count++;
 			if(!$query)
 				$here = $count;
 
+			// transcode unicode entities --including those with a &#
+			$line =& utf8::from_unicode($line);
+
+			// skip empty lines
+			$line = trim($line, " \t\r\n\0\x0B");
+			if(!$line)
+				continue;
+			if($line == '--')
+				continue;
+
+			// skip line comments
+			if($line[0] == '#')
+				continue;
+			if(strncmp($line, '-- ', 3) == 0)
+				continue;
+
+			// look for closing ";"
+			$last = strlen($line)-1;
+			if($line[$last] == ';') {
+				if($last == 0)
+					$line = '';
+				else
+					$line = substr($line, 0, $last);
+				$execute = TRUE;
+			} elseif($count >= count($lines))
+				$execute = TRUE;
+			else
+				$execute = FALSE;
+
 			// a statement
-			$query .= trim($line);
+			$query .= $line."\n";
 
 			// end of statement - process it
-			if(preg_match('/(^DROP|\'\s*;\s*$|\d\s*;\s*$|\)\s*;\s*$|\)\s*type.+;\s*$)/is', $query) || ($count >= count($lines))) {
-
-				// chop end of statement
-				$query = rtrim($query, "; \t\r\n\0\x0B");
-
+			if($query && $execute) {
 				$context['text'] .= '<pre>'.$query.'</pre>'."\n";
 
 				// execute the statement
@@ -789,18 +823,22 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	$context['text'] .= '<p>'.sprintf(i18n::s('Since the full content of your database will be downloaded, you would like to %s it before proceeding.'), Skin::build_link('control/purge.php', i18n::s('purge'), 'shortcut'))."</p>\n";
 
 	// use the same script
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form">';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';
+
+	// the submit button
+	$context['text'] .= '<p><input type="hidden" name="action" value="backup" />'
+		.Skin::build_submit_button(i18n::s('Yes, I want to download database content'), NULL, NULL, 'go', 'no_spin_on_click');
 
 	// table prefix
 	if(isset($context['table_prefix']) && $context['table_prefix']) {
-		$context['text'] .= '<p><input type="checkbox" name="backup_prefix" value="'.$context['table_prefix'].'" checked="checked"'.EOT.' '.sprintf(i18n::s('Consider only tables with the prefix %s'), $context['table_prefix'])."</p>\n";
+		$context['text'] .= BR.'<input type="checkbox" name="backup_prefix" value="'.$context['table_prefix'].'" checked="checked"'.EOT.' '.sprintf(i18n::s('Consider only tables with the prefix %s'), $context['table_prefix']);
 	}
 
-	// the submit button
-	$context['text'] .= '<p>'
-		.'<input type="hidden" name="action" value="backup" />'
-		.Skin::build_submit_button(i18n::s('Yes, I want to download database content'), NULL, NULL, 'go', 'no_spin_on_click')."\n"
-		.'</p></form>';
+	// minimum data
+	$context['text'] .= BR.'<input type="checkbox" name="backup_avoid" value="cache notifications phpdoc versions visits" checked="checked" /> '.sprintf(i18n::s('Skip transient data and minimize size of backup file'));
+
+	// end of this form
+	$context['text'] .= '</p></div></form>';
 
 	// set the focus on the backup button
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
@@ -831,9 +869,6 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		.' (&lt;&nbsp;'.$size_hint.'&nbsp;'.i18n::s('bytes').')'.BR
 		.' <input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
 		.'<input type="file" name="upload" size="30" /></p>';
-
-	// purge files and images
-	$context['text'] .= '<p><input type="checkbox" name="delete_files" value="Y"'.EOT.' '.i18n::s('Delete files and images related to previous database content').'</p>';
 
 	// find available database files
 	$archives = array();
@@ -879,6 +914,9 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 	// the submit button
 	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Apply these SQL statements'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+
+	// purge files and images
+	$context['text'] .= '<p><input type="checkbox" name="delete_files" value="Y"'.EOT.' '.i18n::s('Delete files and images related to previous database content').'</p>';
 
 	// end of the form
 	$context['text'] .= '</div></form>';

@@ -482,6 +482,14 @@ div.bottom { /* the last div of the content area */
    	width: 80%; /* same width as div#tabs_bar */
 }
 
+p.cloud { /* ensure a minimum size for elements of a cloud */
+    font-size: 11px;
+}
+
+div#comments {
+	clear: left; /* align below thumbnails in main content */
+}
+
 div#cover_article { /* the main text at the front page */
 	margin-top: 0.5em;
 	margin-bottom: 1em;
@@ -495,6 +503,7 @@ div.description { /* the main text */
 div.folder_box {
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
+	clear: left; /* align below floating images */
 }
 
 div.digg { /* a left floating box */
@@ -562,4 +571,8 @@ p#columns_suffix { /* comes after columns */
 
 div#page_details {
 	margin-top: 3em;
+}
+
+table.yabb {
+	clear: left; /* align below thumbnails in main content */
 }

@@ -348,11 +348,16 @@ Class Surfer {
 
 			$content = '<form method="post" action="'.$context['url_to_root'].'users/login.php" id="login_form"><p>'."\n";
 
+			// use cookie, if any
+			$name = '';
+// 			if(isset($_COOKIE['surfer_name']))
+// 				$name = $_COOKIE['surfer_name'];
+
 			// the id or email field
-			$content .= i18n::s('User').BR.'<input type="text" name="login_name" value="" size="10" maxlength="255"'.EOT."\n".BR;
+			$content .= i18n::s('User').BR.'<input type="text" name="login_name" size="10" maxlength="255" value="'.encode_field($name).'" />'.BR;
 
 			// the password
-			$content .= i18n::s('Password').BR.'<input type="password" name="login_password" size="10" maxlength="255"'.EOT."\n".BR;
+			$content .= i18n::s('Password').BR.'<input type="password" name="login_password" size="10" maxlength="255" />'.BR;
 
 			// the button
 			$content .= Skin::build_submit_button(i18n::s('Login'));
@@ -621,12 +626,19 @@ Class Surfer {
 
 		// default to plain editor -- BR after the Textarea is mandatory
 		} else {
-			if(file_exists($context['path_to_root'].'codes/edit.js')) {
-				$text .= '<script type="text/javascript" src="'.$context['url_to_root'].'codes/edit.js"></script>';
-				if(file_exists($context['path_to_root'].'smileys/edit.js'))
-					$text .= '<script type="text/javascript" src="'.$context['url_to_root'].'smileys/edit.js"></script>';
-			}
-			$text .= '<textarea name="'.$name.'" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea>'.BR;
+
+			// the main textarea
+			if($name == 'description') {
+				if(file_exists($context['path_to_root'].'codes/edit.js')) {
+					$text .= '<script type="text/javascript" src="'.$context['url_to_root'].'codes/edit.js"></script>';
+					if(file_exists($context['path_to_root'].'smileys/edit.js'))
+						$text .= '<script type="text/javascript" src="'.$context['url_to_root'].'smileys/edit.js"></script>';
+				}
+				$text .= '<textarea name="description" id="edit_area" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea>'.BR;
+
+			// a secondary textarea
+			} else
+				$text .= '<textarea name="'.$name.'" rows="25" cols="50">'.encode_field($value).'</textarea>'.BR;
 
 			// hint
 			if(Surfer::is_associate())
@@ -702,6 +714,10 @@ Class Surfer {
 	 */
 	function get_name() {
 		global $context;
+
+		// use cookie
+		if(isset($_COOKIE['surfer_name']))
+			return $_COOKIE['surfer_name'];
 
 		// use session data
 		if(isset($_SESSION['surfer_name']))
@@ -1283,6 +1299,8 @@ Class Surfer {
 
 		// save session attributes
 		$_SESSION['surfer_id'] = isset($fields['id'])?$fields['id']:'';
+
+		$_SESSION['surfer_language'] = isset($fields['language'])?$fields['language']:'';
 
 		$_SESSION['surfer_name'] = isset($fields['nick_name'])?$fields['nick_name']:'';
 

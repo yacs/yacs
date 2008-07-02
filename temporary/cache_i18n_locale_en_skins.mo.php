@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
+ * on July 2, 2008, 5:33 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en'][' at %s%s']=' at %s%s';
 $_SESSION['l10n']['en']['%d files have been extracted.']='%d files have been extracted.';
@@ -143,7 +143,6 @@ $_SESSION['l10n']['en']['Links']='Links';
 $_SESSION['l10n']['en']['List RSS feeds in sections, categories, articles, and user profiles']='List RSS feeds in sections, categories, articles, and user profiles';
 $_SESSION['l10n']['en']['List pages visited during a session']='List pages visited during a session';
 $_SESSION['l10n']['en']['Listing files of the originating skin %s...']='Listing files of the originating skin %s...';
-$_SESSION['l10n']['en']['Login']='Login';
 $_SESSION['l10n']['en']['Main node']='Main node';
 $_SESSION['l10n']['en']['Main page']='Main page';
 $_SESSION['l10n']['en']['Make your choice among available skins at this server:']='Make your choice among available skins at this server:';
@@ -171,7 +170,6 @@ $_SESSION['l10n']['en']['Other tags to be inserted into the head section, as met
 $_SESSION['l10n']['en']['Page factory']='Page factory';
 $_SESSION['l10n']['en']['Page prepared in %.2f seconds for %s']='Page prepared in %.2f seconds for %s';
 $_SESSION['l10n']['en']['Pages']='Pages';
-$_SESSION['l10n']['en']['Password']='Password';
 $_SESSION['l10n']['en']['Past articles']='Past articles';
 $_SESSION['l10n']['en']['People']='People';
 $_SESSION['l10n']['en']['Permalink']='Permalink';
@@ -287,7 +285,6 @@ $_SESSION['l10n']['en']['Use the %s to start to populate this server.']='Use the
 $_SESSION['l10n']['en']['Use this page while developing or checking a skin, then activate the skin and move to %s to finalize your work.']='Use this page while developing or checking a skin, then activate the skin and move to %s to finalize your work.';
 $_SESSION['l10n']['en']['Use this skin']='Use this skin';
 $_SESSION['l10n']['en']['Use titles as captions below thumbnail images']='Use titles as captions below thumbnail images';
-$_SESSION['l10n']['en']['User']='User';
 $_SESSION['l10n']['en']['User login']='User login';
 $_SESSION['l10n']['en']['Users']='Users';
 $_SESSION['l10n']['en']['Usual delay between updates']='Usual delay between updates';

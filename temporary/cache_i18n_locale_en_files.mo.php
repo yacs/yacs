@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 28, 2008, 11:23 am GMT. Please do not modify it manually.
+ * on July 2, 2008, 5:38 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en'][' VLC media player']=' VLC media player';
 $_SESSION['l10n']['en']['%d bytes']='%d bytes';

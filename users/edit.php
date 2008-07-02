@@ -198,7 +198,7 @@ if(!$permitted) {
 			Users::clear($_REQUEST);
 
 			// display the updated page
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:''));
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name']));
 
 		}
 
@@ -335,7 +335,6 @@ if($with_form) {
 	$panels = array();
 	$panels['information'] = '';
 	$panels['contact'] = '';
-	$panels['preferences'] = '';
 	$fields = array();
 
 	// the information panel
@@ -367,7 +366,7 @@ if($with_form) {
 	if(isset($item['full_name']) && $item['full_name']) {
 		$label = i18n::s('Full name');
 		$input = '<input type="text" name="full_name" size="50" value="'.encode_field($item['full_name']).'" '.EOT;
-		$hint = i18n::s('Last name followed by a comma and by other names you may have');
+		$hint = i18n::s('Last name followed by other names you may have');
 		$fields[] = array($label, $input, $hint);
 	} else {
 		$label = i18n::s('First name(s)');
@@ -414,12 +413,6 @@ if($with_form) {
 	$hint .= ' '.i18n::s('We won\'t disclose personal information about you or your company to anyone outside this site.');
 	$fields[] = array($label, $input, $hint);
 
-	// tags
-	$label = i18n::s('Tags');
-	$input = '<input type="text" name="tags" id="tags" value="'.encode_field(isset($item['tags'])?$item['tags']:'').'" size="45" maxlength="255" accesskey="t" /><div id="tags_choices" class="autocomplete"></div>';
-	$hint = i18n::s('A comma-separated list of keywords');
-	$fields[] = array($label, $input, $hint);
-
 	// include overlay fields, if any
 	if(is_object($overlay)) {
 
@@ -432,8 +425,24 @@ if($with_form) {
 	$label = i18n::s('Description');
 
 	// use the editor if possible
-	$input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'', TRUE);
+	$input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'');
 	$fields[] = array($label, $input);
+
+	// tags
+	$label = i18n::s('Tags');
+	$input = '<input type="text" name="tags" id="tags" value="'.encode_field(isset($item['tags'])?$item['tags']:'').'" size="45" maxlength="255" accesskey="t" /><div id="tags_choices" class="autocomplete"></div>';
+	$hint = i18n::s('A comma-separated list of keywords');
+	$fields[] = array($label, $input, $hint);
+
+	// birth date
+	$label = i18n::s('Birth date');
+	if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE))
+		$value = substr($item['birth_date'], 0, 10);
+	else
+		$value = '';
+	$input = '<input type="text" name="birth_date" size="20" value="'.encode_field($value).'" />';
+	$hint = i18n::s('YYYY-MM-DD');
+	$fields[] = array($label, $input, $hint);
 
 	// form fields in this panel
 	$panels['information'] .= Skin::build_form($fields);
@@ -473,10 +482,10 @@ if($with_form) {
 		if($items = Images::list_by_date_for_anchor('user:'.$item['id'], 0, 50)) {
 
 			// help to insert in textarea
-				if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'textarea'))
-					$box .= '<p>'.i18n::s('Use codes to insert images in the page.')."</p>\n";
-				else
-					$box .= '<p>'.i18n::s('Click on codes to insert images in the page.')."</p>\n";
+			if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
+				$box .= '<p>'.i18n::s('Click on codes to insert images in the page.')."</p>\n";
+			else
+				$box .= '<p>'.i18n::s('Use codes to insert images in the page.')."</p>\n";
 
 			$box .= Skin::build_list($items, 'decorated');
 
@@ -503,115 +512,42 @@ if($with_form) {
 			$panels['information'] .= Skin::build_box(i18n::s('Locations'), $box, 'folder');
 	}
 
-	// the contact panel
+	// more information
 	//
 
-	// organisation
-	$label = i18n::s('Organization');
-	$input = '<input type="text" name="vcard_organization" size="40" value="'.encode_field(isset($item['vcard_organization'])?$item['vcard_organization']:'').'" '.EOT;
-	$fields[] = array($label, $input);
+	// the avatar url
+	if(isset($item['id'])) {
+		$label = i18n::s('Avatar URL');
+		$input = '<input type="text" name="avatar_url" size="50" value="'.encode_field(isset($item['avatar_url'])?$item['avatar_url']:'').'" maxlength="255" '.EOT;
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']).'&amp;action=avatar', i18n::s('Add an image'), 'basic').'</span>';
+		$hint = sprintf(i18n::s('%s, paste your gravatar address, or use images attached to this profile, if any.'), Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Select an avatar from the library'), 'basic'));
+		$fields[] = array($label, $input, $hint);
+	}
 
-	// title
-	$label = i18n::s('Title');
-	$input = '<input type="text" name="vcard_title" size="40" value="'.encode_field(isset($item['vcard_title'])?$item['vcard_title']:'').'" '.EOT;
-	$hint = i18n::s('Your occupation, your motto, or some interesting words');
+	// from where
+	$label = i18n::s('From');
+	$input = '<input type="text" name="from_where" size="50" value="'.encode_field(isset($item['from_where'])?$item['from_where']:'').'" maxlength="255" '.EOT;
+	$hint = i18n::s('Some hint on your location (eg, \'Paris\', \'home\', \'the toys-for-sick-persons department\')');
 	$fields[] = array($label, $input, $hint);
 
-	// label
-	$label = i18n::s('Physical address');
-	$input = '<textarea name="vcard_label" rows="5" cols="50">'.encode_field(isset($item['vcard_label'])?$item['vcard_label']:'').'</textarea>';
-	$fields[] = array($label, $input);
-
-	// phone number
-	$label = i18n::s('Phone number');
-	$input = '<input type="text" name="phone_number" size="20" value="'.encode_field(isset($item['phone_number'])?$item['phone_number']:'').'" '.EOT;
-	$fields[] = array($label, $input);
-
-	// alternate number
-	$label = i18n::s('Alternate number');
-	$input = '<input type="text" name="alternate_number" size="20" value="'.encode_field(isset($item['alternate_number'])?$item['alternate_number']:'').'" '.EOT;
-	$fields[] = array($label, $input);
-
-	// web address, if any
-	$label = i18n::s('Web address');
-	$input = '<input type="text" name="web_address" size="40" value="'.encode_field(isset($item['web_address'])?$item['web_address']:'').'" '.EOT;
-	$hint = i18n::s('If your home page is not here.');
+	// the introduction
+	$label = i18n::s('Introduction');
+	$input = '<textarea name="introduction" rows="5" cols="50">'.encode_field(isset($item['introduction'])?$item['introduction']:'').'</textarea>';
+	$hint = i18n::s('Displayed aside your pages');
 	$fields[] = array($label, $input, $hint);
 
-	// birth date
-	$label = i18n::s('Birth date');
-	$input = '<input type="text" name="birth_date" size="20" value="'.encode_field(isset($item['birth_date'])?substr($item['birth_date'], 0, 10):'').'" '.EOT;
-	$hint = i18n::s('YYYY-MM-DD');
-	$fields[] = array($label, $input, $hint);
-
-	// agent
-	$label = i18n::s('Alternate contact');
-	$input = '<input type="text" name="vcard_agent" size="40" value="'.encode_field(isset($item['vcard_agent'])?$item['vcard_agent']:'').'" '.EOT;
-	$hint = i18n::s('Another person who can act on your behalf');
-	$fields[] = array($label, $input, $hint);
-
-	// extend the form
-	$panels['contact'] .= Skin::build_form($fields);
+	// form fields in this panel
+	$panels['information'] .= Skin::build_box(i18n::s('Side information'), Skin::build_form($fields), 'folder');
 	$fields = array();
 
-	// the AIM address
-	$label = i18n::s('AIM Screenname');
-	$input = '<input type="text" name="aim_address" size="40" value="'.encode_field(isset($item['aim_address'])?$item['aim_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('Fill this one only if you are a regular %s user.'), Skin::build_link('http://www.aim.com/', i18n::s('AOL Instant Messenger'), 'external'));
-	$fields[] = array($label, $input, $hint);
-
-	// the ICQ number
-	$label = i18n::s('ICQ Number');
-	$input = '<input type="text" name="icq_address" size="40" value="'.encode_field(isset($item['icq_address'])?$item['icq_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('Fill this one only if you use %s'), Skin::build_link('http://www.icq.com/', i18n::s('ICQ'), 'external'));
-	$fields[] = array($label, $input, $hint);
-
-	// the IRC address
-	$label = i18n::s('IRC address');
-	$input = '<input type="text" name="irc_address" size="40" value="'.encode_field(isset($item['irc_address'])?$item['irc_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('Fill this one only if you use %s'), Skin::build_link('http://www.irchelp.org/', i18n::s('IRC'), 'external'));
-	$fields[] = array($label, $input, $hint);
-
-	// the Jabber address
-	$label = i18n::s('Jabber address');
-	$input = '<input type="text" name="jabber_address" size="40" value="'.encode_field(isset($item['jabber_address'])?$item['jabber_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('If you are using some %s solution, including Google Talk.'), Skin::build_link('http://www.jabber.org/', i18n::s('Jabber'), 'external'));
-	$fields[] = array($label, $input, $hint);
-
-	// the MSN address
-	$label = i18n::s('MSN address');
-	$input = '<input type="text" name="msn_address" size="40" value="'.encode_field(isset($item['msn_address'])?$item['msn_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('Fill this one only if you have a %s account'), Skin::build_link('http://www.msn.com', i18n::s('MSN'), 'external'));
-	$fields[] = array($label, $input, $hint);
-
-	// the skype address
-	$label = i18n::s('Skype id');
-	$input = '<input type="text" name="skype_address" size="40" value="'.encode_field(isset($item['skype_address'])?$item['skype_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('Fill this one only if you use %s'), Skin::build_link('http://www.skype.com', i18n::s('Skype'), 'external'));
-	$fields[] = array($label, $input, $hint);
-
-	// the Yahoo address
-	$label = i18n::s('Yahoo address');
-	$input = '<input type="text" name="yahoo_address" size="40" value="'.encode_field(isset($item['yahoo_address'])?$item['yahoo_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('Fill this one only if you are a regular %s user'), Skin::build_link('http://messenger.yahoo.com/', 'Yahoo Messenger', 'external'));
-	$fields[] = array($label, $input, $hint);
-
-	// add a folded box
-	$panels['contact'] .= Skin::build_box(i18n::s('Instant messaging'), Skin::build_form($fields), 'folder');
-	$fields = array();
-
-	// pgp key
-	$label = i18n::s('PGP key or certificate');
-	$input = '<textarea name="pgp_key" rows="5" cols="50">'.encode_field(isset($item['pgp_key'])?$item['pgp_key']:'').'</textarea>';
-	$hint = i18n::s('Paste here the public key you would like to share with others.');
-	$fields[] = array($label, $input, $hint);
-
-	// add a folded box
-	$panels['contact'] .= Skin::build_box(i18n::s('Public key'), Skin::build_form($fields), 'folder');
-	$fields = array();
-
-	// the preferences panel
+	// user preferences at the bottom of the information panel
 	//
+
+	// preferred language
+	$label = i18n::s('Language');
+	$input = i18n::get_languages_select(isset($item['language'])?$item['language']:'none');
+	$fields[] = array($label, $input);
 
 	// associates may change the active flag: Yes/public, Restricted/logged, No/associates
 	if(Surfer::is_associate()) {
@@ -630,28 +566,6 @@ if($with_form) {
 		$input .= ' '.EOT.' '.i18n::s('Access is restricted to associates.')."\n";
 		$fields[] = array($label, $input);
 	}
-
-	// the avatar url
-	if(isset($item['id'])) {
-		$label = i18n::s('Avatar URL');
-		$input = '<input type="text" name="avatar_url" size="50" value="'.encode_field(isset($item['avatar_url'])?$item['avatar_url']:'').'" maxlength="255" '.EOT;
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']).'&amp;action=avatar', i18n::s('Add an image'), 'basic').'</span>';
-		$hint = sprintf(i18n::s('%s, paste your gravatar address, or use the list of images attached to this profile, if any.'), Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Select an avatar from the library'), 'basic'));
-		$fields[] = array($label, $input, $hint);
-	}
-
-	// from where
-	$label = i18n::s('From');
-	$input = '<input type="text" name="from_where" size="50" value="'.encode_field(isset($item['from_where'])?$item['from_where']:'').'" maxlength="255" '.EOT;
-	$hint = i18n::s('Some hint on your location (eg, \'Paris\', \'home\', \'the toys-for-sick-persons department\')');
-	$fields[] = array($label, $input, $hint);
-
-	// the introduction
-	$label = i18n::s('Introduction');
-	$input = '<textarea name="introduction" rows="5" cols="50">'.encode_field(isset($item['introduction'])?$item['introduction']:'').'</textarea>';
-	$hint = i18n::s('Displayed aside your pages');
-	$fields[] = array($label, $input, $hint);
 
 	// signature
 	$label = i18n::s('Signature');
@@ -765,7 +679,108 @@ if($with_form) {
 	}
 
 	// form fields in this panel
-	$panels['preferences'] .= Skin::build_form($fields);
+	$panels['information'] .= Skin::build_box(i18n::s('Preferences'), Skin::build_form($fields), 'folder');
+	$fields = array();
+
+	// the contact panel
+	//
+
+	// organisation
+	$label = i18n::s('Organization');
+	$input = '<input type="text" name="vcard_organization" size="40" value="'.encode_field(isset($item['vcard_organization'])?$item['vcard_organization']:'').'" '.EOT;
+	$fields[] = array($label, $input);
+
+	// title
+	$label = i18n::s('Title');
+	$input = '<input type="text" name="vcard_title" size="40" value="'.encode_field(isset($item['vcard_title'])?$item['vcard_title']:'').'" '.EOT;
+	$hint = i18n::s('Your occupation, your motto, or some interesting words');
+	$fields[] = array($label, $input, $hint);
+
+	// label
+	$label = i18n::s('Physical address');
+	$input = '<textarea name="vcard_label" rows="5" cols="50">'.encode_field(isset($item['vcard_label'])?$item['vcard_label']:'').'</textarea>';
+	$fields[] = array($label, $input);
+
+	// phone number
+	$label = i18n::s('Phone number');
+	$input = '<input type="text" name="phone_number" size="20" value="'.encode_field(isset($item['phone_number'])?$item['phone_number']:'').'" '.EOT;
+	$fields[] = array($label, $input);
+
+	// alternate number
+	$label = i18n::s('Alternate number');
+	$input = '<input type="text" name="alternate_number" size="20" value="'.encode_field(isset($item['alternate_number'])?$item['alternate_number']:'').'" '.EOT;
+	$fields[] = array($label, $input);
+
+	// web address, if any
+	$label = i18n::s('Web address');
+	$input = '<input type="text" name="web_address" size="40" value="'.encode_field(isset($item['web_address'])?$item['web_address']:'').'" '.EOT;
+	$hint = i18n::s('If your home page is not here.');
+	$fields[] = array($label, $input, $hint);
+
+	// agent
+	$label = i18n::s('Alternate contact');
+	$input = '<input type="text" name="vcard_agent" size="40" value="'.encode_field(isset($item['vcard_agent'])?$item['vcard_agent']:'').'" '.EOT;
+	$hint = i18n::s('Another person who can act on your behalf');
+	$fields[] = array($label, $input, $hint);
+
+	// extend the form
+	$panels['contact'] .= Skin::build_form($fields);
+	$fields = array();
+
+	// the AIM address
+	$label = i18n::s('AIM Screenname');
+	$input = '<input type="text" name="aim_address" size="40" value="'.encode_field(isset($item['aim_address'])?$item['aim_address']:'').'" '.EOT;
+	$hint = sprintf(i18n::s('Fill this one only if you are a regular %s user.'), Skin::build_link('http://www.aim.com/', i18n::s('AOL Instant Messenger'), 'external'));
+	$fields[] = array($label, $input, $hint);
+
+	// the ICQ number
+	$label = i18n::s('ICQ Number');
+	$input = '<input type="text" name="icq_address" size="40" value="'.encode_field(isset($item['icq_address'])?$item['icq_address']:'').'" '.EOT;
+	$hint = sprintf(i18n::s('Fill this one only if you use %s'), Skin::build_link('http://www.icq.com/', i18n::s('ICQ'), 'external'));
+	$fields[] = array($label, $input, $hint);
+
+	// the IRC address
+	$label = i18n::s('IRC address');
+	$input = '<input type="text" name="irc_address" size="40" value="'.encode_field(isset($item['irc_address'])?$item['irc_address']:'').'" '.EOT;
+	$hint = sprintf(i18n::s('Fill this one only if you use %s'), Skin::build_link('http://www.irchelp.org/', i18n::s('IRC'), 'external'));
+	$fields[] = array($label, $input, $hint);
+
+	// the Jabber address
+	$label = i18n::s('Jabber address');
+	$input = '<input type="text" name="jabber_address" size="40" value="'.encode_field(isset($item['jabber_address'])?$item['jabber_address']:'').'" '.EOT;
+	$hint = sprintf(i18n::s('If you are using some %s solution, including Google Talk.'), Skin::build_link('http://www.jabber.org/', i18n::s('Jabber'), 'external'));
+	$fields[] = array($label, $input, $hint);
+
+	// the MSN address
+	$label = i18n::s('MSN address');
+	$input = '<input type="text" name="msn_address" size="40" value="'.encode_field(isset($item['msn_address'])?$item['msn_address']:'').'" '.EOT;
+	$hint = sprintf(i18n::s('Fill this one only if you have a %s account'), Skin::build_link('http://www.msn.com', i18n::s('MSN'), 'external'));
+	$fields[] = array($label, $input, $hint);
+
+	// the skype address
+	$label = i18n::s('Skype id');
+	$input = '<input type="text" name="skype_address" size="40" value="'.encode_field(isset($item['skype_address'])?$item['skype_address']:'').'" '.EOT;
+	$hint = sprintf(i18n::s('Fill this one only if you use %s'), Skin::build_link('http://www.skype.com', i18n::s('Skype'), 'external'));
+	$fields[] = array($label, $input, $hint);
+
+	// the Yahoo address
+	$label = i18n::s('Yahoo address');
+	$input = '<input type="text" name="yahoo_address" size="40" value="'.encode_field(isset($item['yahoo_address'])?$item['yahoo_address']:'').'" '.EOT;
+	$hint = sprintf(i18n::s('Fill this one only if you are a regular %s user'), Skin::build_link('http://messenger.yahoo.com/', 'Yahoo Messenger', 'external'));
+	$fields[] = array($label, $input, $hint);
+
+	// add a folded box
+	$panels['contact'] .= Skin::build_box(i18n::s('Instant messaging'), Skin::build_form($fields), 'folder');
+	$fields = array();
+
+	// pgp key
+	$label = i18n::s('PGP key or certificate');
+	$input = '<textarea name="pgp_key" rows="5" cols="50">'.encode_field(isset($item['pgp_key'])?$item['pgp_key']:'').'</textarea>';
+	$hint = i18n::s('Paste here the public key you would like to share with others.');
+	$fields[] = array($label, $input, $hint);
+
+	// add a folded box
+	$panels['contact'] .= Skin::build_box(i18n::s('Public key'), Skin::build_form($fields), 'folder');
 	$fields = array();
 
 	// show all tabs
@@ -773,7 +788,6 @@ if($with_form) {
 	$all_tabs = array(
 		array('information_tab', i18n::s('Information'), 'information_panel', $panels['information']),
 		array('contact_tab', i18n::s('Contact'), 'contact_panel', $panels['contact']),
-		array('preferences_tab', i18n::s('Preferences'), 'preferences_panel', $panels['preferences'])
 		);
 
 	// let YACS do the hard job

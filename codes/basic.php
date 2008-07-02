@@ -23,6 +23,7 @@
  * - --...-- - deleted
  * - &#91;deleted]...[/deleted] - deleted
  * - &#91;flag]...[/flag] - draw attention
+ * - &#91;lang=xy]...[/lang] - show some text only on matching language
  * - &#91;style=sans-serif]...[/style] - use a sans-serif font
  * - &#91;style=serif]...[/style] - use a serif font
  * - &#91;style=cursive]...[/style] - mimic hand writing
@@ -220,6 +221,14 @@ $context['text'] .= '[title]'.i18n::s('Flag').' [escape][flag]...[/flag][/escape
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('[flag]important![/flag] Don\'t forget to give something to your cat today.').'[/escape]</td>'
 	.'<td>'.i18n::s('[flag]important![/flag] Don\'t forget to give something to your cat today.').'</td></tr>'
+	.Skin::table_suffix();
+
+// [lang=xy]...[/lang]
+$context['text'] .= '[title]'.i18n::s('Language').' [escape][lang=xy]...[/lang][/escape][/title]'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][lang=en]This is in English[/lang][lang=fr]Ceci est en fran&ccedil;ais[/lang][/escape]</td>'
+	.'<td>[lang=en]This is in English[/lang][lang=fr]Ceci est en fran&ccedil;ais[/lang]</td></tr>'
 	.Skin::table_suffix();
 
 // [style=serif]...[/style]

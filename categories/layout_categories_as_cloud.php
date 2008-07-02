@@ -82,7 +82,7 @@ Class Layout_categories_as_cloud extends Layout_interface {
 		}
 
 		// final packaging
-		$text = '<p style="line-height: 2.2em" class="cloud">'.rtrim($text).'</p>';
+		$text = '<p class="cloud">'.rtrim($text).'</p>';
 
 		// return by reference
 		return $text;

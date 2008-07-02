@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
+ * on July 2, 2008, 5:33 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr'][' at %s%s']=' &#224; %s%s';
 $_SESSION['l10n']['fr']['%d files have been extracted.']='%d fichiers ont &#233;t&#233; extraits.';
@@ -143,7 +143,6 @@ $_SESSION['l10n']['fr']['Links']='Liens';
 $_SESSION['l10n']['fr']['List RSS feeds in sections, categories, articles, and user profiles']='Mentionner les fils de nouvelles dans les pages d\'index des sections, des cat&#233;gories, des articles, et des utilisateurs';
 $_SESSION['l10n']['fr']['List pages visited during a session']='Lister les pages visit&#233;es durant la session';
 $_SESSION['l10n']['fr']['Listing files of the originating skin %s...']='Inventaire des fichiers du style d\'origine %s...';
-$_SESSION['l10n']['fr']['Login']='Connexion';
 $_SESSION['l10n']['fr']['Main node']='Noeud principal';
 $_SESSION['l10n']['fr']['Main page']='Page principale';
 $_SESSION['l10n']['fr']['Make your choice among available skins at this server:']='Faites votre choix parmi les styles disponibles sur ce serveur :';
@@ -171,7 +170,6 @@ $_SESSION['l10n']['fr']['Other tags to be inserted into the head section, as met
 $_SESSION['l10n']['fr']['Page factory']='Fabrication des pages';
 $_SESSION['l10n']['fr']['Page prepared in %.2f seconds for %s']='Page pr&#233;par&#233;e en %.2f secondes pour %s';
 $_SESSION['l10n']['fr']['Pages']='Pages';
-$_SESSION['l10n']['fr']['Password']='Mot de passe';
 $_SESSION['l10n']['fr']['Past articles']='Articles pr&#233;c&#233;dents';
 $_SESSION['l10n']['fr']['People']='Personnes';
 $_SESSION['l10n']['fr']['Permalink']='Permalink';
@@ -287,7 +285,6 @@ $_SESSION['l10n']['fr']['Use the %s to start to populate this server.']='Utilise
 $_SESSION['l10n']['fr']['Use this page while developing or checking a skin, then activate the skin and move to %s to finalize your work.']='Utilisez cette page pour d&#233;velopper ou v&#233;rifier un style, puis allez aux %s pour finaliser votre travail.';
 $_SESSION['l10n']['fr']['Use this skin']='Utiliser ce style';
 $_SESSION['l10n']['fr']['Use titles as captions below thumbnail images']='Afficher les titres sous les vignettes';
-$_SESSION['l10n']['fr']['User']='Utilisateur';
 $_SESSION['l10n']['fr']['User login']='Authentification';
 $_SESSION['l10n']['fr']['Users']='Utilisateurs';
 $_SESSION['l10n']['fr']['Usual delay between updates']='P&#233;riodicit&#233; habituelle des mises &#224; jour';

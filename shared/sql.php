@@ -530,40 +530,61 @@ Class SQL {
 			// lines can be quite big...
 			$line = gzgets($handle, 262144);
 
-			// skip line comments
-			if(preg_match('/^\s*#/', $line))
-				continue;
-
 			// current line, for possible error reporting
 			$count++;
 			if(!$query)
 				$here = $count;
 
+			// transcode unicode entities --including those with a &#
+			$line =& utf8::from_unicode($line);
+
+			// skip empty lines
+			$line = trim($line, " \t\r\n\0\x0B");
+			if(!$line)
+				continue;
+			if($line == '--')
+				continue;
+
+			// skip line comments
+			if($line[0] == '#')
+				continue;
+			if(strncmp($line, '-- ', 3) == 0)
+				continue;
+
+			// look for closing ";"
+			$last = strlen($line)-1;
+			if($line[$last] == ';') {
+				if($last == 0)
+					$line = '';
+				else
+					$line = substr($line, 0, $last);
+				$execute = TRUE;
+			} else
+				$execute = FALSE;
+
+
 			// a statement
 			$query .= trim($line);
 
 			// end of statement - process it
-			if(preg_match('/(^DROP|\'\s*;\s*$|\d\s*;\s*$|\)\s*;\s*$|\)\s*type.+;\s*$|ENGINE=\w+;\s*$)/is', $query) || gzeof($handle)) {
+			if($query && ($execute || gzeof($handle))) {
 
-				// chop end of statement
-				if($query = rtrim($query, "; \t\r\n\0\x0B")) {
-
-					// execute the statement
-					if(!SQL::query($query, TRUE) && SQL::errno()) {
-						$errors++;
-						if($errors < 50) // display the faulty query on first errors
-							$context['text'] .= '<p>'.$here.': '.$query.BR.SQL::error()."</p>\n";
-						else // only report line in error afterwards
-							$context['text'] .= '<p>'.$here.': '.SQL::error()."</p>\n";
-					}
-					$query = '';
-					$queries++;
-
-					// ensure we have enough time
-					if(!($queries%50))
-						Safe::set_time_limit(30);
-
+				// execute the statement
+				if(!SQL::query($query, TRUE) && SQL::errno()) {
+					$errors++;
+					if($errors < 50) // display the faulty query on first errors
+						$context['text'] .= '<p>'.$here.': '.$query.BR.SQL::error()."</p>\n";
+					else // only report line in error afterwards
+						$context['text'] .= '<p>'.$here.': '.SQL::error()."</p>\n";
 				}
+
+				// next query
+				$query = '';
+				$queries++;
+
+				// ensure we have enough time
+				if(!($queries%50))
+					Safe::set_time_limit(30);
 
 			}
 		}

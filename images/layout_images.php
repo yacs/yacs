@@ -92,7 +92,7 @@ Class Layout_images extends Layout_interface {
 				if($variant == $anchor->get_reference()) {
 
 					// help to insert in textarea
-					if(!isset($_SESSION['surfer_editor']) || (($_SESSION['surfer_editor'] != 'fckeditor') && ($_SESSION['surfer_editor'] != 'tinymce')))
+					if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
 						$suffix .= '<a onclick="edit_insert(\'\', \' [image='.$item['id'].']\');return false;" title="insert" tabindex="2000">[image='.$item['id'].']</a>'
 							.' <a onclick="edit_insert(\'\', \' [image='.$item['id'].', left]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',left]</a>'
 							.' <a onclick="edit_insert(\'\', \' [image='.$item['id'].', right]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',right]</a>'

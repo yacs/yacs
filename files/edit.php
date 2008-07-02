@@ -698,10 +698,10 @@ if($with_form) {
 		if($items = Images::list_by_date_for_anchor('file:'.$item['id'], 0, 50, NULL)) {
 
 			// help to insert in textarea
-			if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'textarea'))
-				$box .= '<p>'.i18n::s('Use codes to insert images in the page.')."</p>\n";
-			else
+			if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
 				$box .= '<p>'.i18n::s('Click on codes to insert images in the page.')."</p>\n";
+			else
+				$box .= '<p>'.i18n::s('Use codes to insert images in the page.')."</p>\n";
 
 			$box .= Skin::build_list($items, 'decorated');
 		}

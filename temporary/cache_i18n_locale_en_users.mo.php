@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 28, 2008, 11:22 am GMT. Please do not modify it manually.
+ * on July 2, 2008, 5:33 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d active now'.chr(0).'%d active now']='%d active now'.chr(0).'%d active now';
 $_SESSION['l10n']['en']['%d posts']='%d posts';
@@ -16,7 +16,7 @@ $_SESSION['l10n']['en']['%s would like to have a private chat with you']='%s wou
 $_SESSION['l10n']['en']['%s would like you to browse the following link']='%s would like you to browse the following link';
 $_SESSION['l10n']['en']['%s, and get basic directions']='%s, and get basic directions';
 $_SESSION['l10n']['en']['%s, maybe with some images and/or files']='%s, maybe with some images and/or files';
-$_SESSION['l10n']['en']['%s, paste your gravatar address, or use the list of images attached to this profile, if any.']='%s, paste your gravatar address, or use the list of images attached to this profile, if any.';
+$_SESSION['l10n']['en']['%s, paste your gravatar address, or use images attached to this profile, if any.']='%s, paste your gravatar address, or use images attached to this profile, if any.';
 $_SESSION['l10n']['en']['%s, to let others have a better understanding of who I am']='%s, to let others have a better understanding of who I am';
 $_SESSION['l10n']['en']['(do not wish to receive newsletters)']='(do not wish to receive newsletters)';
 $_SESSION['l10n']['en']['1 page'.chr(0).'%d pages']='1 page'.chr(0).'%d pages';
@@ -225,8 +225,9 @@ $_SESSION['l10n']['en']['Jabber address']='Jabber address';
 $_SESSION['l10n']['en']['Jump to the private page that has been created for your web chat with %s']='Jump to the private page that has been created for your web chat with %s';
 $_SESSION['l10n']['en']['Jump to the web address sent to %s']='Jump to the web address sent to %s';
 $_SESSION['l10n']['en']['LDAP %s: bad value \'%s\'.']='LDAP %s: bad value \'%s\'.';
+$_SESSION['l10n']['en']['Language']='Language';
 $_SESSION['l10n']['en']['Last login']='Last login';
-$_SESSION['l10n']['en']['Last name followed by a comma and by other names you may have']='Last name followed by a comma and by other names you may have';
+$_SESSION['l10n']['en']['Last name followed by other names you may have']='Last name followed by other names you may have';
 $_SESSION['l10n']['en']['Last name(s)']='Last name(s)';
 $_SESSION['l10n']['en']['Links']='Links';
 $_SESSION['l10n']['en']['List HTML tags allowed to members.']='List HTML tags allowed to members.';
@@ -390,6 +391,7 @@ $_SESSION['l10n']['en']['Share']='Share';
 $_SESSION['l10n']['en']['Share email addresses as much as possible (for intranet servers).']='Share email addresses as much as possible (for intranet servers).';
 $_SESSION['l10n']['en']['Share screen']='Share screen';
 $_SESSION['l10n']['en']['Show email addresses to authenticated members.']='Show email addresses to authenticated members.';
+$_SESSION['l10n']['en']['Side information']='Side information';
 $_SESSION['l10n']['en']['Signature']='Signature';
 $_SESSION['l10n']['en']['Signature: %s']='Signature: %s';
 $_SESSION['l10n']['en']['Site map']='Site map';

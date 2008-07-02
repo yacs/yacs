@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 28, 2008, 11:24 am GMT. Please do not modify it manually.
+ * on July 2, 2008, 5:39 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d SQL statements have been processed in %.2f seconds.']='%d commandes SQL ont &#233;t&#233; trait&#233;es en %.2f secondes.';
 $_SESSION['l10n']['fr']['%d articles have been processed. Finished']='%d articles ont &#233;t&#233; import&#233;s. Termin&#233;';
@@ -539,6 +539,7 @@ $_SESSION['l10n']['fr']['Site Map']='Carte du site';
 $_SESSION['l10n']['fr']['Skin']='Style';
 $_SESSION['l10n']['fr']['Skin test page']='La page de test de rendu visuel';
 $_SESSION['l10n']['fr']['Skins']='Styles';
+$_SESSION['l10n']['fr']['Skip transient data and minimize size of backup file']='Eviter les donn&#233;es temporaires et minimiser le fichier de sauvegarde';
 $_SESSION['l10n']['fr']['Smileys']='Emoticons';
 $_SESSION['l10n']['fr']['Sollicitate users input -- create one single vote, a petition, or a poll']='Solliciter les utilisateurs -- cr&#233;er un vote, une p&#233;tition, ou un sondage';
 $_SESSION['l10n']['fr']['Some columns may be created or converted if their type has evolved.']='Certaines colonnes peuvent &#234;tre converties si leur type a &#233;volu&#233;.';
