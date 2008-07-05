@@ -273,12 +273,8 @@ if(!isset($item['id'])) {
 		}
 
 		// article editors, for associates and section editors
-		if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) && ($items = Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact'))) {
-
-			// list all assigned users
-			$details[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors:'), 'basic').' '.Skin::build_list($items, 'comma');
-
-		}
+		if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) && ($items = Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
+			$details[] = sprintf(i18n::s('Editors: %s'), Skin::build_list($items, 'comma'));
 
 		// no more details
 		if(count($details))

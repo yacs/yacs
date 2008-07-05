@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 2, 2008, 5:33 am GMT. Please do not modify it manually.
+ * on July 5, 2008, 10:17 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['"%s" is not a valid expiry date']='"%s" n\'est pas une date d\'expiration valide';
 $_SESSION['l10n']['fr']['"%s" is not a valid publication date']='"%s" n\'est pas une date de publication valide';
@@ -21,6 +21,7 @@ $_SESSION['l10n']['fr']['1 comment'.chr(0).'%d comments']='1 commentaire'.chr(0)
 $_SESSION['l10n']['fr']['1 file'.chr(0).'%d files']='1 fichier'.chr(0).'%d fichiers';
 $_SESSION['l10n']['fr']['1 link'.chr(0).'%d links']='1 lien'.chr(0).'%d liens';
 $_SESSION['l10n']['fr']['1 page'.chr(0).'%d pages']='1 page'.chr(0).'%d pages';
+$_SESSION['l10n']['fr']['1 user'.chr(0).'%d users']='1 personnes'.chr(0).'%d personnes';
 $_SESSION['l10n']['fr']['10000']='10000';
 $_SESSION['l10n']['fr']['<p>Don\'t forget to publish the new page someday. Review the page, enhance it and then click on the Publish command to make it publicly available.</p>']='<p>N\'oubliez pas de publier la nouvelle page un jour ou l\'autre. Editez la page, am&#233;liorer la, puis cliquez sur la commande Publier pour la rendre disponible &#224; tous.</p>';
 $_SESSION['l10n']['fr']['<p>The new page has been successfully published. Please review it now to ensure that it reflects your mind.</p>']='<p>La nouvelle page a &#233;t&#233; publi&#233;e avec succ&#232;s. Merci de vous relire afin d\'&#233;viter toute erreur involontaire.</p>';
@@ -50,7 +51,6 @@ $_SESSION['l10n']['fr']['All other trademarks, icons, and logos, shown or mentio
 $_SESSION['l10n']['fr']['All pages']='Toutes les pages';
 $_SESSION['l10n']['fr']['Allow anonymous surfers to edit content']='Les surfeurs anonymes peuvent changer le contenu';
 $_SESSION['l10n']['fr']['Allow members to edit content']='Les membres peuvent changer le contenu';
-$_SESSION['l10n']['fr']['Allow these persons to edit the page.']='Permettre d\'&#233;diter la page.';
 $_SESSION['l10n']['fr']['Also complements the title in lists featuring this page']='Compl&#232;te le titre dans les listes o&#249; la page apparait';
 $_SESSION['l10n']['fr']['Although some Internet users think cookies are a serious privacy issue, as web designers we think that they come in darned handy. This site uses cookies for basic account identification purposes, but that\'s as far as we go. We won\'t use any information from cookies to track your browsing sessions, attempt to extract personal information from them that we wouldn\'t otherwise have access to, or do any other naughty things with your cookies. If you don\'t agree with our use of cookies, you can configure most web browsers not to accept them. Even without a cookie, a significant part of this server will still be accessible to you (although you will lose the ability to do anything that requires you to be logged into the server).']='Ce site utilise les cookies comme m&#233;canisme standard de gestion de session. Nous n\'utilisons pas les cookies pour suivre les sessions de navigation individuelles, ni pour faire d\'autres choses ind&#233;licates. Si vous n\'&#234;tes pas d\'accord avec cette politique, merci de configurer votre navigateur pour ne pas accepter les cookies de ce site. Une partie significative de ce site vous restera accessible, m&#234;me si vous perdrez la facult&#233; de vous authentifier et de contribuer.';
 $_SESSION['l10n']['fr']['An about page already exists.']='Une page "&#224;-propos" existe d&#233;j&#224;.';
@@ -95,7 +95,6 @@ $_SESSION['l10n']['fr']['Copy in MS-Word']='Copier dans MS-Word';
 $_SESSION['l10n']['fr']['Copy of %s']='Copie de %s';
 $_SESSION['l10n']['fr']['Copy this page in Microsoft MS-Word.']='Copier cette page dans Microsoft MS-Word';
 $_SESSION['l10n']['fr']['Copyright']='Copyright';
-$_SESSION['l10n']['fr']['Cover article']='Article de couverture';
 $_SESSION['l10n']['fr']['Dead articles']='Articles p&#233;rim&#233;s';
 $_SESSION['l10n']['fr']['Default Section']='Section par d&#233;faut';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
@@ -120,7 +119,7 @@ $_SESSION['l10n']['fr']['Edit the page']='Modifier la page';
 $_SESSION['l10n']['fr']['Edit this page']='Modifier cette page';
 $_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['Editors']='Editeurs';
-$_SESSION['l10n']['fr']['Editors:']='Editeurs :';
+$_SESSION['l10n']['fr']['Editors: %s']='Editeurs : %s';
 $_SESSION['l10n']['fr']['Ensure this post is valid XHTML.']='V&#233;rifier que le contenu est du XHTML valide.';
 $_SESSION['l10n']['fr']['Enter nick names, or email addresses, separated by commas.']='Entrez les noms ou les adresses, s&#233;par&#233;s par des virgules.';
 $_SESSION['l10n']['fr']['Error while sending the message to %s']='Erreur pendant la transmission du message vers %s';
@@ -159,19 +158,7 @@ $_SESSION['l10n']['fr']['Home']='Accueil';
 $_SESSION['l10n']['fr']['Hot thread (10 replies)']='Sujet chaud (10 commentaires)';
 $_SESSION['l10n']['fr']['How you can help']='Comment vous pouvez contribuer';
 $_SESSION['l10n']['fr']['I confirm that the article looks ok']='Je confirme que l\'article est valide';
-$_SESSION['l10n']['fr']['I have created a web page and would like you to review it and to contribute. 
-
-%s
-
-Please let me thank you for your kind support.
-
-%s']='J\'ai cr&#233;&#233; une page web et souhaiterais que vous la lisiez et que vous y contribuez. 
-
-%s
-
-Merci par avance de votre contribution.
-
-%s';
+$_SESSION['l10n']['fr']['I have created a web page and would like you to check it, at the following address.']='J\'ai cr&#233;&#233; une page web et souhaiterais que vous la lisiez, &#224; l\'adresse suivante.';
 $_SESSION['l10n']['fr']['Icon URL']='Adresse web de l\'ic&#244;ne';
 $_SESSION['l10n']['fr']['Icons']='Ic&#244;nes';
 $_SESSION['l10n']['fr']['If you change the overlay you may loose some data.']='Vous pouvez perdre des informations si vous changez l\'overlay.';
@@ -190,7 +177,6 @@ $_SESSION['l10n']['fr']['Information']='Information';
 $_SESSION['l10n']['fr']['Information channels']='Fils d\'information';
 $_SESSION['l10n']['fr']['Introduction']='Introduction';
 $_SESSION['l10n']['fr']['Invite people']='Inviter &#224; participer';
-$_SESSION['l10n']['fr']['Invitees are asked to review and to contribute.']='Inviter ces personnes &#224; lire et &#224; contribuer.';
 $_SESSION['l10n']['fr']['It seems to be one of the Laws of the Internet that every site of any importance must have an email address for the webmaster. Far be it from us to break the trend; so, if you have something vitally important to tell the folks who designed this place, send a message at the following address.']='L\'une des lois de l\'Internet veut que chaque site d\'importance indique l\'adresse &#233;lectronique de son webmestre. Loin de nous l\'id&#233;e de d&#233;roger &#224; ce principe. Donc, si vous avez quelque chose d\'important &#224; partager avec les responsables de ce site, envoyez un message &#224; l\'adresse suivante.';
 $_SESSION['l10n']['fr']['Keywords']='Mots-cl&#233;s';
 $_SESSION['l10n']['fr']['Language']='Langue';
@@ -260,11 +246,16 @@ $_SESSION['l10n']['fr']['Pages under preparation']='Pages en pr&#233;paration';
 $_SESSION['l10n']['fr']['Parse links and trackback referenced pages']='Analyser les liens et avertir les pages r&#233;f&#233;renc&#233;es';
 $_SESSION['l10n']['fr']['Participants']='Participants';
 $_SESSION['l10n']['fr']['Passwords']='Mots de passe';
-$_SESSION['l10n']['fr']['People to invite']='Personnes &#224; inviter';
 $_SESSION['l10n']['fr']['Permalink']='Permalink';
+$_SESSION['l10n']['fr']['Persons']='Personnes';
 $_SESSION['l10n']['fr']['Ping']='Ping';
 $_SESSION['l10n']['fr']['Please carefully select a model for your page.']='Choisissez le mod&#232;le de page &#224; utiliser.';
 $_SESSION['l10n']['fr']['Please carefully select a section for your page.']='Choisissez o&#249; placer la nouvelle page';
+$_SESSION['l10n']['fr']['Please let me thank you for your kind support.
+
+%s']='Merci par avance de votre contribution.
+
+%s';
 $_SESSION['l10n']['fr']['Please note that this page has not been advertised to aggregation servers.']='Notez que cette page n\'a pas &#233;t&#233; signal&#233;e aux serveurs d\'aggr&#233;gation.';
 $_SESSION['l10n']['fr']['Please prove you are not a robot.']='Merci de prouver que vous n\'&#234;tes pas un robot.';
 $_SESSION['l10n']['fr']['Please provide a meaningful title.']='Merci d\'indiquer un titre significatif.';
@@ -394,11 +385,6 @@ $_SESSION['l10n']['fr']['This article contains other information of interest']='
 $_SESSION['l10n']['fr']['This instance of YACS runs in demonstration mode. For security reasons mail messages cannot be actually sent in this mode.']='Cette instance de YACS s\'ex&#233;cute en mode d&#233;monstration. Par s&#233;curit&#233;, les messages &#233;lectroniques ne sont pas transmis dans ce mode.';
 $_SESSION['l10n']['fr']['This is a copy of the message you have sent, for your own record.']='Ceci est une copie du message que vous avez envoy&#233;, pour m&#233;moire.';
 $_SESSION['l10n']['fr']['This is a draft document. Do not publish the page, even if auto-publish has been enabled.']='Cette page est un brouillon. Ne pas la publier, m&#234;me si la publication automatique est activ&#233;e.';
-$_SESSION['l10n']['fr']['This is the cover page posted in the [link=global section]sections/view.php?id=global[/link].
-Visit the section to change any global page, such as this one, the about page, or the privacy page.
-If you don\'t know how to proceed, visit the [link=help index]help.php[/link].']='Ceci est l\'article de couverture post&#233; dans [section=global, la section des pages globales].
-Visitez la section pour changer n\'importe quelle page globale, comme celle-&#231;i, la page "&#224;-propos", ou celle relative aux r&#232;gles de vi&#233; priv&#233;e.
-Si vous ne savez pas comment faire, visitez [link=la page d\'aide]help.php[/link].';
 $_SESSION['l10n']['fr']['This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the page and click on the Forget link.']='Ce message a &#233;t&#233; g&#233;n&#233;r&#233; automatiquement par %s car le nouvel &#233;l&#233;ment a &#233;t&#233; attach&#233; &#224; un espace web qui fait partie de votre liste de surveillance. Pour arr&#234;ter les alertes automatiques visiter la page et cliquer sur le lien Oublier.';
 $_SESSION['l10n']['fr']['This page has been locked and you are not allowed to modify it.']='Cette page a &#233;t&#233; verrouill&#233;e, et vous ne pouvez pas la modifier.';
 $_SESSION['l10n']['fr']['This page is NOT displayed at the front page.']='Cette page n\'est PAS affich&#233;e sur la page d\'accueil.';
@@ -460,19 +446,7 @@ $_SESSION['l10n']['fr']['Yes - Only associates and editors can modify content']=
 $_SESSION['l10n']['fr']['Yes, I want to duplicate this page']='Oui, je veux dupliquer cette page';
 $_SESSION['l10n']['fr']['Yes, I want to suppress this page']='Oui, je veux supprimer cette page';
 $_SESSION['l10n']['fr']['You are invited by %s']='Vous &#234;tes invit&#233; par %s';
-$_SESSION['l10n']['fr']['You are invited personally to check the following page, and to contribute accordingly.
-
-%s
-
-Please let me thank you for your kind support.
-
-%s']='Vous &#234;tes invit&#233; personnellement &#224; visiter la page suivante, et &#224; y contribuer. 
-
-%s
-
-Merci par avance de votre contribution.
-
-%s';
+$_SESSION['l10n']['fr']['You are invited personally to check the following page.']='Vous &#234;tes invit&#233; &#224; consulter la page suivante.';
 $_SESSION['l10n']['fr']['You are not allowed to perform this operation.']='Vous n\'&#234;tes pas autoris&#233; &#224; faire cette op&#233;ration.';
 $_SESSION['l10n']['fr']['You are rating: %s']='Vous &#234;tes en train de noter : %s';
 $_SESSION['l10n']['fr']['You can upload a camera shot, a drawing, or any image file, to illustrate this page.']='Vous pouvez t&#233;l&#233;charger une photo, un dessin ou une image, pour illustrer cette page.';
@@ -516,5 +490,7 @@ $_SESSION['l10n']['fr']['reviewed %s']='mis &#224; jour %s';
 $_SESSION['l10n']['fr']['smileys']='les emoticons';
 $_SESSION['l10n']['fr']['sticky']='class&#233;es';
 $_SESSION['l10n']['fr']['the Content Assistant']='l\'assistant de contenu';
+$_SESSION['l10n']['fr']['to edit the page']='&#224; modifier la page';
+$_SESSION['l10n']['fr']['to review the page']='&#224; consulter la page';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n > 1);';
 ?>

@@ -486,10 +486,6 @@ p.cloud { /* ensure a minimum size for elements of a cloud */
     font-size: 11px;
 }
 
-div#comments {
-	clear: left; /* align below thumbnails in main content */
-}
-
 div#cover_article { /* the main text at the front page */
 	margin-top: 0.5em;
 	margin-bottom: 1em;
@@ -573,6 +569,8 @@ div#page_details {
 	margin-top: 3em;
 }
 
-table.yabb {
-	clear: left; /* align below thumbnails in main content */
+div#comments,
+table.jive,
+table.yabb { /* align comments below thumbnails in main content */
+	clear: left;
 }

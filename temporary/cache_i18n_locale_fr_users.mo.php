@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 2, 2008, 5:33 am GMT. Please do not modify it manually.
+ * on July 5, 2008, 10:17 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d active now'.chr(0).'%d active now']='%d actif en ce momemt'.chr(0).'%d actifs en ce momemt';
 $_SESSION['l10n']['fr']['%d posts']='%d contributions';
@@ -158,10 +158,6 @@ $_SESSION['l10n']['fr']['FCKeditor']='FCKeditor';
 $_SESSION['l10n']['fr']['Failed authentication']='Erreur d\'authentification';
 $_SESSION['l10n']['fr']['Files']='Fichiers';
 $_SESSION['l10n']['fr']['Files can be modified only by their original authors, plus associates and editors.']='Les fichiers peuvent &#234;tre modifi&#233;s seulement par leurs auteurs, plus les associ&#233;s et les &#233;diteurs.';
-$_SESSION['l10n']['fr']['Fill this one only if you are a regular %s user']='Pour les utilisateurs r&#233;guliers de %s.';
-$_SESSION['l10n']['fr']['Fill this one only if you are a regular %s user.']='Pour les utilisateurs r&#233;guliers de %s.';
-$_SESSION['l10n']['fr']['Fill this one only if you have a %s account']='Pour les utilisateurs enregistr&#233;s sur %s.';
-$_SESSION['l10n']['fr']['Fill this one only if you use %s']='Pour les utilisateurs d\'%s';
 $_SESSION['l10n']['fr']['First name(s)']='Pr&#233;nom(s)';
 $_SESSION['l10n']['fr']['Following items are attached to this record and will be suppressed as well.']='Si vous continuez, les &#233;l&#233;ments suivants seront aussi d&#233;truits de la base de donn&#233;es.';
 $_SESSION['l10n']['fr']['For example, if you want to apply the authenticator <code>foo</code>, put that keyword in the %s.']='Par exemple, pour utiliser l\'uathentificateur <code>foo</code>, placez ce mot-cl&#233; dans le %s.';
@@ -196,8 +192,9 @@ $_SESSION['l10n']['fr']['IRC address']='Adresse IRC';
 $_SESSION['l10n']['fr']['IRC address: %s']='Adresse IRC : %s';
 $_SESSION['l10n']['fr']['Identification']='Identification';
 $_SESSION['l10n']['fr']['If you already are a registered member, but do not remember your username and/or password, %s.']='Si vous &#234;tes d&#233;j&#224; enregistr&#233;, mais que vous ne vous rappelez plus votre mot de passe, %s';
-$_SESSION['l10n']['fr']['If you are using some %s solution, including Google Talk.']='Pour ceux qui ont d&#233;ploy&#233; une solution %s, telle que Google Talk.';
 $_SESSION['l10n']['fr']['If you have registered to this site, type your nick name below and we will send you a web link to authenticate.']='Si vous vous &#234;tes enregistr&#233; sur ce site, indiquez votre surnom et nous vous enverrons un lien &#224; cliquer pour vous authentifier.';
+$_SESSION['l10n']['fr']['If you use %s, including Google Talk.']='Si vous utilisez %s, y compris Google Talk.';
+$_SESSION['l10n']['fr']['If you use %s.']='Si vous utilisez %s.';
 $_SESSION['l10n']['fr']['If you wish to prevent other surfers to contact you please visit your user profile at the following address, and change preferences.']='Pour emp&#234;cher les autres personnes de vous contacter, visitez votre profil d\'utilisateur &#224; l\'adresse suivante, et changez les pr&#233;f&#233;rences.';
 $_SESSION['l10n']['fr']['If your home page is not here.']='Si votre page d\'accueil n\'est pas sur ce syst&#232;me.';
 $_SESSION['l10n']['fr']['Image %d of %d']='Image %d de %d';
@@ -433,7 +430,7 @@ $_SESSION['l10n']['fr']['Time Zone']='Zone temporelle';
 $_SESSION['l10n']['fr']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['To actually change the configuration, please copy and paste following lines by yourself in file %s.']='Pour changer la configuration merci de copier et de coller les lignes suivantes dans le fichier %s.';
-$_SESSION['l10n']['fr']['To be appended to your comments and mail messages. Separated with dashes from main text.']='A rajouter &#224; vos commentaires et messages. S&#233;par&#233; par des traits au texte principal.';
+$_SESSION['l10n']['fr']['To be appended to your comments and mail messages. Separated with dashes from main text.']='Ajout&#233; &#224; vos commentaires et messages. S&#233;par&#233; par des traits du texte principal.';
 $_SESSION['l10n']['fr']['Top files']='Fichiers populaires';
 $_SESSION['l10n']['fr']['Top pages']='Pages populaires';
 $_SESSION['l10n']['fr']['Type some letters to look for some name, then select one user at a time.']='Tapez quelques lettres du nom recherch&#233;, puis s&#233;lectionner un utilisateur.';

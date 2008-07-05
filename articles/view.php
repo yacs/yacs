@@ -620,12 +620,8 @@ if(!isset($item['id'])) {
 			}
 
 			// article editors, for associates and section editors
-			if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) && ($items = Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact'))) {
-
-				// list all assigned users
-				$details[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors:'), 'basic').' '.Skin::build_list($items, 'comma');
-
-			}
+			if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) && ($items = Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
+				$details[] = sprintf(i18n::s('Editors: %s'), Skin::build_list($items, 'comma'));
 
 			// no more details
 			if(count($details))
@@ -1242,7 +1238,7 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 	// mail this page
-	if(!$zoom_type && $editable && Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if(!$zoom_type && $editable && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('MAIL_TOOL_IMG', 'icons/tools/mail.gif');
 		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), MAIL_TOOL_IMG.i18n::s('Invite people'), 'basic', i18n::s('Spread the word'));
 	}

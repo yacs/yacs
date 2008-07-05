@@ -80,24 +80,20 @@ elseif(isset($context['arguments'][1]))
 	$action = $context['arguments'][1];
 $action = strip_tags($action);
 
-// original poster should only invite other
-if(!$action && isset($item['create_id']) && Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
-	$action = 'invite';
-
-// even non-registered posters
-elseif(!$action && Surfer::is_logged() &&  isset($item['create_address']) && Surfer::get_email_address() && !strcmp($item['create_address'], Surfer::get_email_address()))
-	$action = 'invite';
+// message header
+if(isset($item['create_id']) && Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
+	$message_prefix = i18n::s('I have created a web page and would like you to check it, at the following address.')
+		."\n\n".$context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'])."\n\n";
+else
+	$message_prefix = i18n::s('You are invited personally to check the following page.')
+		."\n\n".$context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'])."\n\n";
 
 // section editors can do what they want
 if(is_object($anchor) && $anchor->is_editable())
 	Surfer::empower();
 
-// article editors can also do what they want
-elseif(isset($item['id']) && Articles::is_assigned($item['id']))
-	Surfer::empower();
-
-// surfer has been explicitly invited to collaborate
-elseif(isset($item['handle']) && Surfer::may_handle($item['handle']))
+// surfer created the page
+elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
 	Surfer::empower();
 
 // associates and editors can do what they want
@@ -109,15 +105,7 @@ elseif(!Surfer::is_member())
 	$permitted = FALSE;
 
 // the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// surfer created the page
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
-	$permitted = TRUE;
-
-// access is restricted to authenticated member
-elseif(isset($item['active']) && ($item['active'] != 'N'))
+elseif(is_object($anchor) && $anchor->is_viewable())
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -198,9 +186,9 @@ if(!isset($item['id'])) {
 		$subject = strip_tags($_REQUEST['subject']);
 
 	// message body
-	$message = '';
+	$message = $message_prefix;
 	if(isset($_REQUEST['message']))
-		$message = strip_tags($_REQUEST['message']);
+		$message .= strip_tags($_REQUEST['message']);
 
 	// add a tail to the sent message
 	if($message) {
@@ -314,17 +302,14 @@ if(!isset($item['id'])) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// recipients
-	$label = i18n::s('People to invite');
-	$input = '<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
+	$label = i18n::s('Invite people');
+	$input = '';
+	if(Surfer::is_empowered())
+		$input .= '<input type="radio" name="provide_credentials" value="N" checked="checked" /> '.i18n::s('to review the page')
+			.' &nbsp; <input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('to edit the page').BR;
+	$input .= '<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
 	$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');
 	$fields[] = array($label, $input, $hint);
-
-	// credentials
-	if(Surfer::is_empowered()) {
-		$input = '<input type="radio" name="provide_credentials" value="N" checked="checked" /> '.i18n::s('Invitees are asked to review and to contribute.')
-			.BR.'<input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('Allow these persons to edit the page.');
-		$fields[] = array('', $input);
-	}
 
 	// the subject
 	$label = i18n::s('Message title');
@@ -341,12 +326,9 @@ if(!isset($item['id'])) {
 
 	// the message -- no title nor nick name in title, this will be replaced afterwards!
 	$label = i18n::s('Message content');
-	if(isset($item['create_id']) && Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
-		$content = sprintf(i18n::s("I have created a web page and would like you to review it and to contribute. \n\n%s\n\nPlease let me thank you for your kind support.\n\n%s"), $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id']), $author);
-	else
-		$content = sprintf(i18n::s("You are invited personally to check the following page, and to contribute accordingly.\n\n%s\n\nPlease let me thank you for your kind support.\n\n%s"), $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id']), $author);
-
-	$input = '<textarea name="message" rows="15" cols="50">'.encode_field($content).'</textarea>';
+	$content = sprintf(i18n::s("Please let me thank you for your kind support.\n\n%s"), $author);
+	$input = str_replace("\n", BR, $message_prefix)
+		.'<textarea name="message" rows="15" cols="50">'.encode_field($content).'</textarea>';
 	$hint = i18n::s('Use only plain ASCII, no HTML.');
 	$fields[] = array($label, $input, $hint);
 

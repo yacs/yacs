@@ -730,43 +730,43 @@ if($with_form) {
 	// the AIM address
 	$label = i18n::s('AIM Screenname');
 	$input = '<input type="text" name="aim_address" size="40" value="'.encode_field(isset($item['aim_address'])?$item['aim_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('Fill this one only if you are a regular %s user.'), Skin::build_link('http://www.aim.com/', i18n::s('AOL Instant Messenger'), 'external'));
+	$hint = sprintf(i18n::s('If you use %s.'), Skin::build_link('http://www.aim.com/', i18n::s('AOL Instant Messenger'), 'external'));
 	$fields[] = array($label, $input, $hint);
 
 	// the ICQ number
 	$label = i18n::s('ICQ Number');
 	$input = '<input type="text" name="icq_address" size="40" value="'.encode_field(isset($item['icq_address'])?$item['icq_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('Fill this one only if you use %s'), Skin::build_link('http://www.icq.com/', i18n::s('ICQ'), 'external'));
+	$hint = sprintf(i18n::s('If you use %s.'), Skin::build_link('http://www.icq.com/', i18n::s('ICQ'), 'external'));
 	$fields[] = array($label, $input, $hint);
 
 	// the IRC address
 	$label = i18n::s('IRC address');
 	$input = '<input type="text" name="irc_address" size="40" value="'.encode_field(isset($item['irc_address'])?$item['irc_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('Fill this one only if you use %s'), Skin::build_link('http://www.irchelp.org/', i18n::s('IRC'), 'external'));
+	$hint = sprintf(i18n::s('If you use %s.'), Skin::build_link('http://www.irchelp.org/', i18n::s('IRC'), 'external'));
 	$fields[] = array($label, $input, $hint);
 
 	// the Jabber address
 	$label = i18n::s('Jabber address');
 	$input = '<input type="text" name="jabber_address" size="40" value="'.encode_field(isset($item['jabber_address'])?$item['jabber_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('If you are using some %s solution, including Google Talk.'), Skin::build_link('http://www.jabber.org/', i18n::s('Jabber'), 'external'));
+	$hint = sprintf(i18n::s('If you use %s, including Google Talk.'), Skin::build_link('http://www.jabber.org/', i18n::s('Jabber'), 'external'));
 	$fields[] = array($label, $input, $hint);
 
 	// the MSN address
 	$label = i18n::s('MSN address');
 	$input = '<input type="text" name="msn_address" size="40" value="'.encode_field(isset($item['msn_address'])?$item['msn_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('Fill this one only if you have a %s account'), Skin::build_link('http://www.msn.com', i18n::s('MSN'), 'external'));
+	$hint = sprintf(i18n::s('If you use %s.'), Skin::build_link('http://www.msn.com', i18n::s('MSN'), 'external'));
 	$fields[] = array($label, $input, $hint);
 
 	// the skype address
 	$label = i18n::s('Skype id');
 	$input = '<input type="text" name="skype_address" size="40" value="'.encode_field(isset($item['skype_address'])?$item['skype_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('Fill this one only if you use %s'), Skin::build_link('http://www.skype.com', i18n::s('Skype'), 'external'));
+	$hint = sprintf(i18n::s('If you use %s.'), Skin::build_link('http://www.skype.com', i18n::s('Skype'), 'external'));
 	$fields[] = array($label, $input, $hint);
 
 	// the Yahoo address
 	$label = i18n::s('Yahoo address');
 	$input = '<input type="text" name="yahoo_address" size="40" value="'.encode_field(isset($item['yahoo_address'])?$item['yahoo_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('Fill this one only if you are a regular %s user'), Skin::build_link('http://messenger.yahoo.com/', 'Yahoo Messenger', 'external'));
+	$hint = sprintf(i18n::s('If you use %s.'), Skin::build_link('http://messenger.yahoo.com/', 'Yahoo Messenger', 'external'));
 	$fields[] = array($label, $input, $hint);
 
 	// add a folded box

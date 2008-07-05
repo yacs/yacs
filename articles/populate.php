@@ -101,8 +101,6 @@ elseif($anchor = Sections::lookup('covers')) {
 	$fields['anchor'] = $anchor;
 	$fields['nick_name'] = 'cover';
 	$fields['title'] = i18n::c('Welcome!');
-	$fields['introduction'] = i18n::c('Cover article');
-	$fields['description'] = i18n::s("This is the cover page posted in the [link=global section]sections/view.php?id=global[/link].\nVisit the section to change any global page, such as this one, the about page, or the privacy page.\nIf you don't know how to proceed, visit the [link=help index]help.php[/link].");
 	$fields['locked'] = 'Y'; // only associates can change this page
 	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 	if(Articles::post($fields))

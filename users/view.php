@@ -581,7 +581,7 @@ if(!isset($item['id'])) {
 			if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
 				if(isset($item['proxy_address']) && $item['proxy_address'])
 					$box .= '<p>'.sprintf(i18n::s('Network address: %s'), $item['proxy_address']).'</p>';
-				elseif(isset($item['login_address']))
+				elseif(isset($item['login_address']) && $item['login_address'])
 					$box.= '<p>'.sprintf(i18n::s('Network address: %s'), $item['login_address']).'</p>';
 			}
 
@@ -604,7 +604,7 @@ if(!isset($item['id'])) {
 	//
 	if(!$zoom_type)
 		$panels[] = array('contact_tab', i18n::s('Contact'), 'contact_panel', NULL, Users::get_url($item['id'], 'element', 'contact'));
-	if(!$zoom_type)
+	if(!$zoom_type && Surfer::is_member())
 		$panels[] = array('actions_tab', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'));
 	if(!$zoom_type)
 		$panels[] = array('watch_tab', i18n::s('Dashboard'), 'watch_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));

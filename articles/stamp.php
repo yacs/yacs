@@ -237,14 +237,11 @@ if($with_form) {
 	// set a new expiry date
 	} else {
 
-		// adjust date from server time zone to surfer time zone
-		$value = strftime('%Y-%m-%d %H:%M:%S', time() + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
-
 		// a form to change the date
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" name="form_2"><div>'."\n";
 
 		// catch user input
-		$context['text'] .= '<p>'.sprintf(i18n::s('Mask the article to ordinary surfers after the %s'), Skin::build_input('expiry_date', $value, 'date_time')).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::s('Mask the article to ordinary surfers after the %s'), Skin::build_input('expiry_date', NULL, 'date_time')).'</p>';
 
 		// the submit button
 		$context['text'] .= Skin::build_submit_button(i18n::s('Set an expiry date (YYYY-MM-DD HH:MM)'))."\n"

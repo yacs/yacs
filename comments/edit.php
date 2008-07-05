@@ -162,7 +162,7 @@ elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
 	$permitted = TRUE;
 
 // only authenticated surfers can post new comments, except if anonymous posts have been allowed
-elseif(preg_match('/(new|quote|reply)/', $action) && (Surfer::is_logged() || (isset($context['users_with_anonymous_comments']) && ($context['users_with_anonymous_comments'] == 'Y'))))
+elseif(!isset($item['id']) && (Surfer::is_logged() || (isset($context['users_with_anonymous_comments']) && ($context['users_with_anonymous_comments'] == 'Y'))))
 	$permitted = TRUE;
 
 // the default is to disallow access

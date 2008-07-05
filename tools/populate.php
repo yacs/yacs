@@ -14,7 +14,7 @@
  * - 'Alice' - an associate
  * - 'Bobby' - a member
  * - 'Carol' - a member
- * - 'Teddy' - a subscriber
+ * - 'Sophie' - a subscriber
  *
  * Sample elements for the front page:
  * - 'extra_box' - a sample extra box at the front page
@@ -190,12 +190,12 @@ if(!$permitted) {
 			$text .= Skin::error_pop().BR."\n";
 	}
 
-	// 'Ted' is a subscriber
-	if(Users::get('Teddy'))
-		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'Teddy').BR."\n";
+	// 'Sophie' is a subscriber
+	if(Users::get('Sophie'))
+		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'Sophie').BR."\n";
 	else {
 		$fields = array();
-		$fields['nick_name'] = 'Teddy';
+		$fields['nick_name'] = 'Sophie';
 		$fields['password'] = 'test';
 		$fields['confirm'] = 'test';
 		$fields['introduction'] = i18n::c('Sample subscriber profile');

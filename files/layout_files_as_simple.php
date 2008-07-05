@@ -46,13 +46,8 @@ Class Layout_files_as_simple extends Layout_interface {
 			// get the main anchor
 			$anchor = Anchors::get($item['anchor']);
 
-			// view the file page if there is some description
-			if(isset($item['description']) && trim($item['description']))
-				$url = Files::get_url($item['id'], 'view', $item['file_name']);
-
-			// else download the file directly
-			else
-				$url = Files::get_url($item['id'], 'fetch', $item['file_name']);
+			// download the file directly
+			$url = Files::get_url($item['id'], 'fetch', $item['file_name']);
 
 			// initialize variables
 			$prefix = $suffix = '';

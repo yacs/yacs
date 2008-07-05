@@ -1197,15 +1197,6 @@ if(!isset($item['id'])) {
 		$cache_id = 'sections/view_as_tabs.php?id='.$item['id'].'#users#'.$zoom_index;
 		if(!$text =& Cache::get($cache_id)) {
 
-			// section editors and readers
-			if(Surfer::is_empowered() && Surfer::is_logged()) {
-				if($items = Members::list_editors_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
-					$details[] = sprintf(i18n::s('Editors: %s'), Skin::build_list($items, 'comma'));
-
-				if($items = Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
-					$details[] = sprintf(i18n::s('Readers: %s'), Skin::build_list($items, 'comma'));
-			}
-
 			// build a complete box
 			$box = array('bar' => array(), 'text' => '');
 

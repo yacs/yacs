@@ -535,7 +535,7 @@ elseif(!Surfer::is_associate()) {
 } else {
 
 	// ensure we have a valid layout for sections
-	if(!isset($_REQUEST['root_sections_layout']) || !$_REQUEST['root_sections_layout'] || !preg_match('/(compact|decorated|freemind|folded|inline|jive|map|menu|titles|yabb)/', $_REQUEST['root_sections_layout']))
+	if(!isset($_REQUEST['root_sections_layout']) || !$_REQUEST['root_sections_layout'] || !preg_match('/(compact|custom|decorated|freemind|folded|inline|jive|map|menu|titles|yabb)/', $_REQUEST['root_sections_layout']))
 		$_REQUEST['root_sections_layout'] = 'map';
 	elseif($_REQUEST['root_sections_layout'] == 'custom') {
 		if(isset($_REQUEST['sections_custom_layout']) && $_REQUEST['sections_custom_layout'])

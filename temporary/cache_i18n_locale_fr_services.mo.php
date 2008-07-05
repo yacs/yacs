@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 2, 2008, 5:40 am GMT. Please do not modify it manually.
+ * on July 4, 2008, 2:37 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%s at %s']='%s &#224; %s';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a &#233;t&#233; mis &#224; jour';

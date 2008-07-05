@@ -38,13 +38,8 @@ Class Layout_files_as_feed extends Layout_interface {
 			if($item['anchor'])
 				$anchor = Anchors::get($item['anchor']);
 
-			// view the file page if there is some description
-			if(isset($item['description']) && trim($item['description']))
-				$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'view', $item['file_name']);
-
-			// else download the file directly
-			else
-				$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
+			// download the file directly
+			$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 
 			// time of last update
 			$time = SQL::strtotime($item['edit_date']);

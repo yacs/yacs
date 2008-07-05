@@ -1262,7 +1262,7 @@ Class Users {
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
 
 		// save new settings in session and in cookie
-		if(Surfer::is($fields['id'])) {
+		if(isset($fields['id']) && Surfer::is($fields['id'])) {
 
 			// change preferred editor
 			$_SESSION['surfer_editor'] = $fields['editor'];

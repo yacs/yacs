@@ -306,14 +306,6 @@ if(!isset($item['id'])) {
 			$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Article has expired %s'), Skin::build_date($item['expiry_date']));
 		}
 
-		// article editors, for associates and section editors
-		if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) && ($items = Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact'))) {
-
-			// list all assigned users
-			$details[] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors:'), 'basic').' '.Skin::build_list($items, 'comma');
-
-		}
-
 		// no more details
 		if(count($details))
 			$text .= ucfirst(implode(BR."\n", $details)).BR."\n";
@@ -571,7 +563,7 @@ if(!isset($item['id'])) {
 		Cache::put($cache_id, $text, 'links');
 
 	}
-	$attachments .= $text;
+	$attachments .= trim($text);
 
 	//
 	// discussion tab - a non real-time interaction area
@@ -684,14 +676,64 @@ if(!isset($item['id'])) {
 		}
 
 		// build a box
-		if($box['text']) {
-
-			// insert a full box
-			$discussion .= $box['text'];
-		}
+		if($box['text'])
+			$discussion .= trim($box['text']);
 
 	}
 
+	//
+	// users
+	//
+	$users = '';
+
+	// the list of related users if not at another follow-up page
+	if(!$zoom_type || ($zoom_type == 'users')) {
+
+		// cache panel content
+		$cache_id = 'articles/view_as_tabs.php?id='.$item['id'].'#users#'.$zoom_index;
+		if(!$text =& Cache::get($cache_id)) {
+
+			// build a complete box
+			$box = array('bar' => array(), 'text' => '');
+
+			// count the number of users
+			$stats = Members::stat_users_for_anchor('article:'.$item['id']);
+
+			// spread the list over several pages
+			if($stats['count'] > USERS_LIST_SIZE)
+				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 user', '%d users', $stats['count']), $stats['count'])));
+
+			// navigation commands for users
+			$home = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$prefix = Articles::get_url($item['id'], 'navigate', 'users');
+			$box['bar'] = array_merge($box['bar'],
+				Skin::navigate($home, $prefix, $stats['count'], USERS_LIST_SIZE, $zoom_index));
+
+			// list items
+			$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
+			$items = Members::list_editors_by_name_for_member('article:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch');
+
+			// actually render the html
+			if(is_array($box['bar']))
+				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
+			if(is_array($items))
+				$box['text'] .= Skin::build_list($items, 'decorated');
+			elseif(is_string($items))
+				$box['text'] .= $items;
+			if(is_array($box['bar']) && (($stats['count'] - $offset) > 5))
+				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
+			if($box['text'])
+				$text =$box['text'];
+
+		}
+
+		// save in cache
+		Cache::put($cache_id, $text, 'users');
+
+		// display in a separate panel
+		$users .= trim($text);
+
+	}
 
 	//
 	// assemble all tabs
@@ -710,6 +752,8 @@ if(!isset($item['id'])) {
  		$all_tabs[] = array('attachments_tab', i18n::s('Attachments'), 'attachments_panel', $attachments);
  	if(trim($discussion))
 		$all_tabs[] = array('discussion_tab', i18n::s('Discussion'), 'discussion_panel', $discussion);
+	if($users)
+		$all_tabs[] = array('users_tab', i18n::s('Persons'), 'users_panel', $users);
 
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($all_tabs);
@@ -775,7 +819,7 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 	// mail this page
-	if(!$zoom_type && $editable && Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if(!$zoom_type && $editable && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('MAIL_TOOL_IMG', 'icons/tools/mail.gif');
 		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), MAIL_TOOL_IMG.i18n::s('Invite people'), 'basic', i18n::s('Spread the word'));
 	}

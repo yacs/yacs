@@ -84,7 +84,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 if(Comments::are_allowed($anchor)) {
 
 	// allow posters to change their own comments
-	if($item['create_id'] == Surfer::get_id())
+	if(Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
 		$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 
 	// allow surfers to react to contributions from other people
@@ -92,6 +92,10 @@ if(Comments::are_allowed($anchor)) {
 		Skin::define_img('NEW_COMMENT_IMG', 'icons/comments/new.gif');
 		$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'reply') => NEW_COMMENT_IMG.' '.i18n::s('React to this post') ));
 		$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'quote') => i18n::s('Quote') ));
+
+		if(Surfer::is_associate())
+			$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'edit') => i18n::s('Edit') ));
+
 	}
 }
 
@@ -153,7 +157,10 @@ if(!isset($item['id'])) {
 		$details[] = Comments::get_img($item['type']);
 
 	// the poster of this comment
-	$details[] = sprintf(i18n::s('by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date'], 'with_hour'));
+	if($poster = Users::get_link($item['create_name'], $item['create_address'], $item['create_id']))
+		$details[] = sprintf(i18n::s('by %s %s'), $poster, Skin::build_date($item['create_date'], 'with_hour'));
+	else
+		$details[] = Skin::build_date($item['create_date'], 'with_hour');
 
 	// the last edition of this comment
 	if($item['create_name'] != $item['edit_name'])
@@ -201,7 +208,7 @@ if(!isset($item['id'])) {
 	if(Comments::are_allowed($anchor)) {
 
 		// allow posters to change their own comments
-		if($item['create_id'] == Surfer::get_id())
+		if(Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
 			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'edit'), i18n::s('Edit'), 'basic' );
 
 		// allow surfers to react to contributions from other people

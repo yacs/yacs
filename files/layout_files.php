@@ -9,6 +9,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @tester Marco Pici
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -49,13 +50,8 @@ Class Layout_files extends Layout_interface {
 			// initialize variables
 			$prefix = $suffix = $icon = '';
 
-			// view the file page if there is some description
-			$view_url = Files::get_url($item['id'], 'view', $item['file_name']);
-			if(isset($item['description']) && trim($item['description']))
-				$url = Files::get_url($item['id'], 'view', $item['file_name']);
-
-			// else stream the file, except for mp3, which benefit from the dewplayer
-			elseif(Files::is_stream($item['file_name']) && !(preg_match('/\.mp3$/i', $item['file_name']) && file_exists($context['path_to_root'].'included/browser/dewplayer.swf')))
+			// stream the file, except for mp3, which benefit from the dewplayer
+			if(Files::is_stream($item['file_name']) && !(preg_match('/\.mp3$/i', $item['file_name']) && file_exists($context['path_to_root'].'included/browser/dewplayer.swf')))
 				$url = Files::get_url($item['id'], 'stream', $item['file_name']);
 
 			// else download the file
@@ -167,7 +163,7 @@ Class Layout_files extends Layout_interface {
 			$menu = array();
 
 			// view the file
-			$menu = array_merge($menu, array($view_url => i18n::s('Zoom')));
+			$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Zoom')));
 
 			// detach or edit the file
 			if((Surfer::is_empowered() && Surfer::is_member())

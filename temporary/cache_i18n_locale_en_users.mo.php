@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 2, 2008, 5:33 am GMT. Please do not modify it manually.
+ * on July 5, 2008, 10:17 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d active now'.chr(0).'%d active now']='%d active now'.chr(0).'%d active now';
 $_SESSION['l10n']['en']['%d posts']='%d posts';
@@ -158,10 +158,6 @@ $_SESSION['l10n']['en']['FCKeditor']='FCKeditor';
 $_SESSION['l10n']['en']['Failed authentication']='Failed authentication';
 $_SESSION['l10n']['en']['Files']='Files';
 $_SESSION['l10n']['en']['Files can be modified only by their original authors, plus associates and editors.']='Files can be modified only by their original authors, plus associates and editors.';
-$_SESSION['l10n']['en']['Fill this one only if you are a regular %s user']='Fill this one only if you are a regular %s user';
-$_SESSION['l10n']['en']['Fill this one only if you are a regular %s user.']='Fill this one only if you are a regular %s user.';
-$_SESSION['l10n']['en']['Fill this one only if you have a %s account']='Fill this one only if you have a %s account';
-$_SESSION['l10n']['en']['Fill this one only if you use %s']='Fill this one only if you use %s';
 $_SESSION['l10n']['en']['First name(s)']='First name(s)';
 $_SESSION['l10n']['en']['Following items are attached to this record and will be suppressed as well.']='Following items are attached to this record and will be suppressed as well.';
 $_SESSION['l10n']['en']['For example, if you want to apply the authenticator <code>foo</code>, put that keyword in the %s.']='For example, if you want to apply the authenticator <code>foo</code>, put that keyword in the %s.';
@@ -196,8 +192,9 @@ $_SESSION['l10n']['en']['IRC address']='IRC address';
 $_SESSION['l10n']['en']['IRC address: %s']='IRC address: %s';
 $_SESSION['l10n']['en']['Identification']='Identification';
 $_SESSION['l10n']['en']['If you already are a registered member, but do not remember your username and/or password, %s.']='If you already are a registered member, but do not remember your username and/or password, %s.';
-$_SESSION['l10n']['en']['If you are using some %s solution, including Google Talk.']='If you are using some %s solution, including Google Talk.';
 $_SESSION['l10n']['en']['If you have registered to this site, type your nick name below and we will send you a web link to authenticate.']='If you have registered to this site, type your nick name below and we will send you a web link to authenticate.';
+$_SESSION['l10n']['en']['If you use %s, including Google Talk.']='If you use %s, including Google Talk.';
+$_SESSION['l10n']['en']['If you use %s.']='If you use %s.';
 $_SESSION['l10n']['en']['If you wish to prevent other surfers to contact you please visit your user profile at the following address, and change preferences.']='If you wish to prevent other surfers to contact you please visit your user profile at the following address, and change preferences.';
 $_SESSION['l10n']['en']['If your home page is not here.']='If your home page is not here.';
 $_SESSION['l10n']['en']['Image %d of %d']='Image %d of %d';

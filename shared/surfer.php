@@ -136,6 +136,10 @@ Class Surfer {
 		// we return some text
 		$text = '';
 
+		// sanity check
+		if(!Surfer::get_id())
+			return $text;
+
 		// current presence
 		//
 		$box = array( 'list' => array(), 'text' => '');

@@ -37,7 +37,7 @@ Class Layout_users_as_complete extends Layout_interface {
 
 			// use the full name, if nick name is not part of it
 			$more = '';
-			if($item['full_name'] && !preg_match('/\b'.preg_quote($item['nick_name'], '\b/').'/', $item['full_name']))
+			if($item['full_name'] && !preg_match('/\b'.preg_quote($item['nick_name'], '/').'\b/', $item['full_name']))
 				$more = ucfirst($item['full_name']).' ';
 
 			// else use e-mail address, if any --but only to authenticated surfer

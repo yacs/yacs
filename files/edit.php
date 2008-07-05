@@ -422,10 +422,6 @@ if(!$permitted) {
 	if(!isset($_REQUEST['id']) && isset($_REQUEST['file_name']))
 		$_REQUEST['keywords'] .= ' '.str_replace(array('%20', '_', '.', '-'), ' ', $_REQUEST['file_name']);
 
-	// limit access rights based on parent heritage
-	if(is_object($anchor))
-		$_REQUEST['active'] = $anchor->ceil_rights(isset($_REQUEST['active_set']) ? $_REQUEST['active_set'] : 'Y');
-
 	// hook to index binary files
 
 	// an error has already been encoutered
