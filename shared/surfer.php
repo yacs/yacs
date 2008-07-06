@@ -1331,7 +1331,7 @@ Class Surfer {
 		// editor preference
 		if(isset($fields['editor']))
 			$_SESSION['surfer_editor'] = $fields['editor'];
-		if(!isset($_SESSION['surfer_editor']) && !$_SESSION['surfer_editor'])
+		if(!isset($_SESSION['surfer_editor']) || !$_SESSION['surfer_editor'])
 			$_SESSION['surfer_editor'] = $context['users_default_editor'];
 
 		// interface preference

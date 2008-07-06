@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 4, 2008, 2:38 pm GMT. Please do not modify it manually.
+ * on July 6, 2008, 8:47 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['A calendar of planned activities']='Un calendrier des activit&#233;s &#224; venir';
 $_SESSION['l10n']['fr']['A category "%s" has been created.']='La cat&#233;gorie "%s" a &#233;t&#233; cr&#233;&#233;e.';

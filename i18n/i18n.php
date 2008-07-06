@@ -153,7 +153,7 @@ Class i18n {
 		if(!array_key_exists($text, $_SESSION['l10n'][$locale])) {
 
 			// log information on development platform
-			if($context['with_debug'] == 'Y')
+			if(($context['with_debug'] == 'Y') && file_exists($context['path_to_root'].'parameters/switch.on'))
 				logger::remember('i18n/i18n.php', $text.' is not defined for locale '.$locale, '', 'debug');
 
 			// degrade to provided string
@@ -1702,7 +1702,7 @@ Class i18n {
 		if(!array_key_exists($text, $_SESSION['l10n'][$locale])) {
 
 			// log information on development platform
-			if($context['with_debug'] == 'Y')
+			if(($context['with_debug'] == 'Y') && file_exists($context['path_to_root'].'parameters/switch.on'))
 				logger::remember('i18n/i18n.php', $text.' is not defined for locale '.$locale, '', 'debug');
 
 			// degrade to provided string

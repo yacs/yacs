@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 4, 2008, 2:37 pm GMT. Please do not modify it manually.
+ * on July 6, 2008, 8:47 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%s and %s are available to enhance text rendering.']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['1 form'.chr(0).'%d forms']='1 form'.chr(0).'%d forms';

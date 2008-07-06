@@ -77,6 +77,8 @@ if(!isset($context['extra_prefix']))
 	$context['extra_prefix'] = '';
 if(!isset($context['page_tags']))
 	$context['page_tags'] = '';
+if(!isset($_SESSION['surfer_interface']))
+	$_SESSION['surfer_interface'] = 'C';
 
 // force a refresh of compacted javascript libraries
 if($items=Safe::glob($context['path_to_root'].'temporary/cache_*.js')) {
