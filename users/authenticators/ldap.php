@@ -82,7 +82,7 @@ Class Ldap extends Authenticator {
 
 		// we need some parameters
 		if(!isset($this->attributes['authenticator_parameters']) || !$this->attributes['authenticator_parameters']) {
-			Skin::error(i18n::s('Please indicate adequate parameters to the LDAP authenticator.'));
+			Skin::error(i18n::s('Please provide parameters to the authenticator.'));
 			return FALSE;
 		}
 
@@ -233,9 +233,9 @@ Class Ldap extends Authenticator {
 
 		// open network socket
 		if(!$handle = @ldap_connect($server, $port)) {
-			Skin::error(sprintf(i18n::s('Impossible to open a network connection to %s.'), $server));
+			Skin::error(sprintf(i18n::s('Impossible to connect to %.'), $server));
 			if($context['with_debug'] == 'Y')
-				Logger::remember('users/authenticators/ldap.php', sprintf(i18n::c('Impossible to open a network connection to %s.'), $server.':'.$port), '', 'debug');
+				Logger::remember('users/authenticators/ldap.php', sprintf(i18n::c('Impossible to connect to %.'), $server.':'.$port), '', 'debug');
 			return FALSE;
 		}
 

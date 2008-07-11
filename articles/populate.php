@@ -41,7 +41,7 @@ if(!defined('YACS')) {
 	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 
 	// the title of the page
-	$context['page_title'] = i18n::s('Add default pages');
+	$context['page_title'] = i18n::s('Content Assistant');
 
 	// stop hackers the hard way
 	if(!Surfer::is_associate())
@@ -54,7 +54,7 @@ $text = '';
 
 // 'about' article
 if(Articles::get('about'))
-	$text .= i18n::s('An about page already exists.').BR."\n";
+	$text .= sprintf(i18n::s('A page "%s" already exists.'), i18n::c('About this site')).BR."\n";
 elseif($anchor = Sections::lookup('global')) {
 	$fields = array();
 	$fields['anchor'] = $anchor;
@@ -88,14 +88,14 @@ elseif($anchor = Sections::lookup('global')) {
 	$fields['locked'] = 'Y'; // only associates can change this page
 	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 	else
 		$text .= Skin::error_pop().BR."\n";
 }
 
 // 'cover' article - basic data
 if(Articles::get('cover'))
-	$text .= i18n::s('A cover article already exists.').BR."\n";
+	$text .= sprintf(i18n::s('A page "%s" already exists.'), i18n::c('Welcome!')).BR."\n";
 elseif($anchor = Sections::lookup('covers')) {
 	$fields = array();
 	$fields['anchor'] = $anchor;
@@ -104,14 +104,14 @@ elseif($anchor = Sections::lookup('covers')) {
 	$fields['locked'] = 'Y'; // only associates can change this page
 	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 	else
 		$text .= Skin::error_pop().BR."\n";
 }
 
 // 'extra_rss' article - basic data
 if(Articles::get('extra_rss'))
-	$text .= i18n::s('A RSS feeding extra box already exists.').BR."\n";
+	$text .= sprintf(i18n::s('A page "%s" already exists.'), i18n::c('More information')).BR."\n";
 elseif($anchor = Sections::lookup('extra_boxes')) {
 	$fields = array();
 	$fields['anchor'] = $anchor;
@@ -123,14 +123,14 @@ elseif($anchor = Sections::lookup('extra_boxes')) {
 	$fields['locked'] = 'Y'; // only associates can change this page
 	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 	else
 		$text .= Skin::error_pop().BR."\n";
 }
 
 // 'menu' article - basic data
 if(Articles::get('menu'))
-	$text .= i18n::s('A navigation menu already exists.').BR."\n";
+	$text .= sprintf(i18n::s('A page "%s" already exists.'), i18n::c('Menu')).BR."\n";
 elseif($anchor = Sections::lookup('global')) {
 	$fields = array();
 	$fields['anchor'] = $anchor;
@@ -147,19 +147,19 @@ elseif($anchor = Sections::lookup('global')) {
 	$fields['locked'] = 'Y'; // only associates can change this page
 	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 	else
 		$text .= Skin::error_pop().BR."\n";
 }
 
 // 'privacy' article
 if(Articles::get('privacy'))
-	$text .= i18n::s('A privacy disclaimer already exists.').BR."\n";
+	$text .= sprintf(i18n::s('A page "%s" already exists.'), i18n::c('Privacy statement')).BR."\n";
 elseif($anchor = Sections::lookup('global')) {
 	$fields = array();
 	$fields['anchor'] = $anchor;
 	$fields['nick_name'] = 'privacy';
-	$fields['title'] = i18n::c('Privacy Policy');
+	$fields['title'] = i18n::c('Privacy statement');
 	$fields['description'] = '[toc]'."\n"
 		.'<p>'.i18n::c('We respect your privacy! Any and all information collected at this site will be kept strictly confidential and will not be sold, reused, rented, loaned or otherwise disclosed. Any information you give to us will be held with the utmost care, and will not be used in ways that you have not consented to. Read on for more specific information.').'</p>'."\n"
 		.'[title]'.i18n::c('User Information').'[/title]'."\n"
@@ -178,7 +178,7 @@ elseif($anchor = Sections::lookup('global')) {
 	$fields['locked'] = 'Y'; // only associates can change this page
 	$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 	if(Articles::post($fields))
-		$text .= sprintf(i18n::s('An article %s has been created.'), $fields['title']).BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 	else
 		$text .= Skin::error_pop().BR."\n";
 }

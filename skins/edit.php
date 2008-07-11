@@ -47,24 +47,32 @@ $context['path_bar'] = array( 'skins/' => i18n::s('Skins') );
 // the title of the page
 $context['page_title'] = i18n::s('Skin editor');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // anonymous users are invited to log in or to register
-if(!Surfer::is_logged())
+} elseif(!Surfer::is_logged())
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('skins/edit.php'));
 
 // only associates can use this tool
-elseif(!Surfer::is_associate())
+elseif(!Surfer::is_associate()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // only *.css and template.php can be modified
-elseif($file && !preg_match('/(\.css|template\.php)$/i', $file))
-	Skin::error(i18n::s('This script allows only for the modification of cascaded style sheets and of main template file.'));
+} elseif($file && !preg_match('/(\.css|template\.php)$/i', $file)) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // ensure the file already exists
-elseif($file && !file_exists($context['path_to_root'].'skins/'.$skin.'/'.$file))
-	Skin::error(i18n::s('This script allows only for the modification of an existing file.'));
+} elseif($file && !file_exists($context['path_to_root'].'skins/'.$skin.'/'.$file)) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // save the content of an updated file
-elseif(isset($_REQUEST['content']) && $_REQUEST['content']) {
+} elseif(isset($_REQUEST['content']) && $_REQUEST['content']) {
 
 	// warning if modification of some reference skin
 	if(isset($_REQUEST['content']) && $_REQUEST['content'] && preg_match('/^(boxesandarrows|digital|joi|skeleton)$/', $skin))

@@ -126,6 +126,43 @@ Class Comments {
 	}
 
 	/**
+	 * check if comments can be modified
+	 *
+	 * This function returns TRUE if comments can be edited to some place,
+	 * and FALSE otherwise.
+	 *
+	 * @param object an instance of the Anchor interface, if any
+	 * @param array a set of item attributes, if any
+	 * @return TRUE or FALSE
+	 */
+	function are_editable($anchor=NULL, $item=NULL) {
+		global $context;
+
+		// associates can do what they want
+		if(Surfer::is_associate())
+			return TRUE;
+
+		// the item is anchored to the profile of this member
+		if(Surfer::is_member() && isset($item['anchor']) && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
+			return TRUE;
+
+		// you cannot modify comments of others persons
+		if(!Surfer::is_empowered() || !Surfer::get_id())
+			return FALSE;
+
+		// you can handle your own comments
+		if(isset($item['create_id']) && Surfer::is($item['create_id']))
+			return TRUE;
+
+		// we need an assignment at the upper level
+		if(is_object($anchor) && !$anchor->is_assigned(FALSE))
+			return TRUE;
+
+		// the default is to not allow modifications
+		return FALSE;
+	}
+
+	/**
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes
@@ -449,6 +486,55 @@ Class Comments {
 			return WARNING_IMG;
 
 		}
+	}
+
+	/**
+	 * get a suitable layout
+	 *
+	 * @param object anchor that describes the layout that applies
+	 * @return object an instance of a Layout interface
+	 */
+	function &get_layout($anchor) {
+		global $context;
+
+		// no anchor
+		if(!is_object($anchor)) {
+			include_once '../comments/layout_comments.php';
+			$layout =& new Layout_comments();
+
+		// layout is defined in anchor
+		} elseif(is_object($anchor) && $anchor->has_layout('boxesandarrows')) {
+			include_once '../comments/layout_comments_as_boxesandarrows.php';
+			$layout =& new Layout_comments_as_daily();
+
+		} elseif(is_object($anchor) && $anchor->has_layout('daily')) {
+			include_once '../comments/layout_comments_as_daily.php';
+			$layout =& new Layout_comments_as_daily();
+
+		} elseif(is_object($anchor) && $anchor->has_layout('jive')) {
+			include_once '../comments/layout_comments_as_jive.php';
+			$layout =& new Layout_comments_as_jive();
+
+		} elseif(is_object($anchor) && $anchor->has_layout('manual')) {
+			include_once '../comments/layout_comments_as_manual.php';
+			$layout =& new Layout_comments_as_manual();
+
+		} elseif(is_object($anchor) && $anchor->has_layout('wiki')) {
+			include_once '../comments/layout_comments_as_wiki.php';
+			$layout =& new Layout_comments_as_wiki();
+
+		} elseif(is_object($anchor) && $anchor->has_layout('yabb')) {
+			include_once '../comments/layout_comments_as_yabb.php';
+			$layout =& new Layout_comments_as_yabb();
+
+		// regular case
+		} else {
+			include_once '../comments/layout_comments.php';
+			$layout =& new Layout_comments();
+		}
+
+		// job done
+		return $layout;
 	}
 
 	/**

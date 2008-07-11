@@ -85,8 +85,13 @@ if(isset($item['nick_name']))
 else
 	$context['page_title'] .= i18n::s('Send a message');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!isset($item['id'])) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -189,25 +194,6 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y'))
 			$context['text'] = '<p>'.sprintf(i18n::s('At your request, a copy was also sent to %s'), $from).'</p>';
 
-	// document the error
-	} else {
-
-		// the address
-		$context['text'] .= '<p>'.sprintf(i18n::s('Mail address: %s'), $to).'</p>'."\n";
-
-		// the subject
-		$context['text'] .= '<p>'.sprintf(i18n::s('Message title: %s'), $subject).'</p>'."\n";
-
-		// the message
-		$context['text'] .= '<p>'.sprintf(i18n::s('Message content: %s'), BR.$message).'</p>'."\n";
-
-		// make some text out of an array
-		if(is_array($headers))
-			$headers = implode("\n", $headers);
-
-		// the headers
-		$context['text'] .= '<p>'.sprintf(i18n::s('Message headers: %s'), BR.nl2br(encode_field($headers))).'</p>'."\n";
-
 	}
 
 // display the form
@@ -243,17 +229,13 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
 
-	// get a copy of the sent message
-	if(Surfer::is_logged())
-		$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.').'</p>';
-
 	//
 	// bottom commands
 	//
 	$menu = array();
 
 	// the submit button
-	$menu[] = Skin::build_submit_button(i18n::s('Send'), i18n::s('Press [s] to submit data'), 's');
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 
 	// cancel button
 	if(isset($item['id']))
@@ -261,6 +243,10 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+	// get a copy of the sent message
+	if(Surfer::is_logged())
+		$context['text'] .= BR.'<input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.');
 
 	// transmit the id as a hidden field
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';

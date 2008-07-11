@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:45 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:07 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d elements have been read']='%d elements have been read';
 $_SESSION['l10n']['en']['%s and %s are available to enhance text rendering.']='%s and %s are available to enhance text rendering.';
@@ -18,7 +18,6 @@ $_SESSION['l10n']['en']['Access is restricted to authenticated members']='Access
 $_SESSION['l10n']['en']['Access is restricted to authenticated members.']='Access is restricted to authenticated members.';
 $_SESSION['l10n']['en']['Add a server']='Add a server';
 $_SESSION['l10n']['en']['Add a server profile']='Add a server profile';
-$_SESSION['l10n']['en']['Add default server profiles']='Add default server profiles';
 $_SESSION['l10n']['en']['Aggregate news from this server by reading the XML feed at %s']='Aggregate news from this server by reading the XML feed at %s';
 $_SESSION['l10n']['en']['Allow this server to poll us regularly (<code>monitor.ping</code>) at %s']='Allow this server to poll us regularly (<code>monitor.ping</code>) at %s';
 $_SESSION['l10n']['en']['Allowed queries from this server']='Allowed queries from this server';
@@ -33,6 +32,7 @@ $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
 $_SESSION['l10n']['en']['Configure: %s']='Configure: %s';
+$_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete a server']='Delete a server';
@@ -55,7 +55,6 @@ $_SESSION['l10n']['en']['External News']='External News';
 $_SESSION['l10n']['en']['Feed']='Feed';
 $_SESSION['l10n']['en']['Feed URL: %s']='Feed URL: %s';
 $_SESSION['l10n']['en']['Feed test']='Feed test';
-$_SESSION['l10n']['en']['Feed test: %s']='Feed test: %s';
 $_SESSION['l10n']['en']['Following web sites have been contacted:']='Following web sites have been contacted:';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Host name']='Host name';

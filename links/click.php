@@ -94,8 +94,13 @@ else
 // the title of the page
 $context['page_title'] = $url;
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // do we have something?
-if(!$url)
+} elseif(!$url)
 	Skin::error(i18n::s('No link URL has been provided.'));
 
 // do not record click not coming from this site

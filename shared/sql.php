@@ -892,7 +892,7 @@ Class SQL {
 
 		// sanity check
 		if(!$table)
-			return '<p>'.i18n::s('Empty table name!')."</p>\n";
+			return '';
 
 		// build the tables list only once
 		static $tables;

@@ -253,7 +253,7 @@ class Day extends Overlay {
 		// empowered users can contribute
 		if(Surfer::is_empowered()) {
 			$menu = array();
-			$menu[] = Skin::build_link('articles/edit.php?anchor='.urlencode($anchor), i18n::s('Add an event'), 'basic');
+			$menu[] = Skin::build_link('articles/edit.php?anchor='.urlencode($anchor), i18n::s('Add an event'), 'span');
 			$text = Skin::finalize_list($menu, 'menu_bar');
 		}
 

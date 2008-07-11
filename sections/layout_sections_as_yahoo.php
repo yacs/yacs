@@ -255,7 +255,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 			// give me more
 			if(count($content) && ($related_count > $maximum_items))
-				$content[] = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('More').MORE_IMG, 'more', i18n::s('This section contains other information of interest'));
+				$content[] = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('More').MORE_IMG, 'more', i18n::s('Read the page'));
 
 			// layout details
 			if(count($content))

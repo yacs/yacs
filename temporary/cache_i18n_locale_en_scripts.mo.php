@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:45 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:07 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d file has been downloaded from the reference server.'.chr(0).'%d files have been downloaded from the reference server.']='%d file has been downloaded from the reference server.'.chr(0).'%d files have been downloaded from the reference server.';
 $_SESSION['l10n']['en']['%d file has been updated.'.chr(0).'%d files have been updated.']='%d file has been updated.'.chr(0).'%d files have been updated.';
@@ -27,7 +27,6 @@ $_SESSION['l10n']['en']['Apply a patch']='Apply a patch';
 $_SESSION['l10n']['en']['Authors']='Authors';
 $_SESSION['l10n']['en']['Authors of all those scripts']='Authors of all those scripts';
 $_SESSION['l10n']['en']['Authors:']='Authors:';
-$_SESSION['l10n']['en']['Back to the control panel']='Back to the control panel';
 $_SESSION['l10n']['en']['Browse']='Browse';
 $_SESSION['l10n']['en']['Browse the source of this script']='Browse the source of this script';
 $_SESSION['l10n']['en']['Build']='Build';

@@ -1010,7 +1010,11 @@ Class Articles {
 			$where .= " OR articles.active='R'";
 
 		// list hidden articles to associates, editors and to readers
-		if(is_callable(array('Surfer', 'is_empowered')) && Surfer::is_empowered('S'))
+		if($shared_page)
+			$where .= " OR articles.active='N'";
+		elseif(is_callable(array('Surfer', 'is_empowered')) && Surfer::is_empowered('S'))
+			$where .= " OR articles.active='N'";
+		elseif(Surfer::get_id() == $surfer_id)
 			$where .= " OR articles.active='N'";
 
 		// end of scope
@@ -2042,6 +2046,11 @@ Class Articles {
 			$layout =& new Layout_articles_as_simple();
 			break;
 
+		case 'thread':
+			include_once $context['path_to_root'].'articles/layout_articles_as_thread.php';
+			$layout =& new Layout_articles_as_thread();
+			break;
+
 		case 'thumbnails':
 			include_once $context['path_to_root'].'articles/layout_articles_as_thumbnails.php';
 			$layout =& new Layout_articles_as_thumbnails();
@@ -2278,9 +2287,13 @@ Class Articles {
 		// remember the id of the new item
 		$id = SQL::get_last_id($context['connection']);
 
-		// list the article in categories
+		// assign the page to related categories
 		include_once $context['path_to_root'].'categories/categories.php';
 		Categories::remember('article:'.$id, isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+
+		// turn author to page editor
+		if(isset($fields['edit_id']) && $fields['edit_id'])
+			Members::assign('user:'.$fields['edit_id'], 'article:'.$id);
 
 		// return the id of the new item
 		return $id;

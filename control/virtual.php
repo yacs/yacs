@@ -192,7 +192,7 @@ elseif($id && ($action == 'delete')) {
 	// follow-up commands
 	$follow_up = i18n::s('What do you want to do now?');
 	$menu = array();
-	$menu = array_merge($menu, array('control/virtual.php?id='.urlencode($id).'&action=edit' => i18n::s('Edit parameters')));
+	$menu = array_merge($menu, array('control/virtual.php?id='.urlencode($id).'&action=edit' => i18n::s('Configure again')));
 	$menu = array_merge($menu, array('control/virtual.php' => i18n::s('Manage virtual hosts')));
 	$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 	$follow_up .= Skin::build_list($menu, 'page_menu');
@@ -217,7 +217,7 @@ elseif($id && ($action == 'delete')) {
 	// follow-up commands
 	$follow_up = i18n::s('What do you want to do now?');
 	$menu = array();
-	$menu = array_merge($menu, array('control/virtual.php?id='.urlencode($id).'&action=edit' => i18n::s('Edit parameters')));
+	$menu = array_merge($menu, array('control/virtual.php?id='.urlencode($id).'&action=edit' => i18n::s('Configure again')));
 	$menu = array_merge($menu, array('control/virtual.php' => i18n::s('Manage virtual hosts')));
 	$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 	$follow_up .= Skin::build_list($menu, 'page_menu');

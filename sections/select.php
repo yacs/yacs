@@ -46,19 +46,24 @@ else
 // the title of the page
 if(is_object($anchor))
 	$context['page_title'] = sprintf(i18n::s('Sections for %s'), $anchor->get_title());
-else
-	$context['page_title'] = i18n::s('Select sections for this anchor');
+
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
-if(!is_object($anchor))
+} elseif(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No anchor has been found.'));
 
 // surfer has to be an associate
-elseif(!Surfer::is_associate())
+} elseif(!Surfer::is_associate()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // build a form to assign some sections to this item
-else {
+} else {
 
 	// assign a section, and add it to the watch list
 	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set') && isset($_REQUEST['member'])) {
@@ -75,7 +80,7 @@ else {
 	}
 
 	// back to the anchor page
-	$context['page_menu'] = array( $anchor->get_url() => sprintf(i18n::s('Back to %s'), $anchor->get_title()) );
+	$context['page_menu'] = array($anchor->get_url() => i18n::s('Back to main page'));
 
 	// insert anchor prefix
 	if(is_object($anchor))

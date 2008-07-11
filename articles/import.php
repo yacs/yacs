@@ -28,7 +28,7 @@ load_skin('articles');
 $context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Import articles');
+$context['page_title'] = i18n::s('Import');
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -161,7 +161,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	// the splash message
 	$context['text'] .= '<p>'.i18n::s('Post an XML file to import articles.')."</p>\n";
 
-	// the form to post an file
+	// the form to post a file
 	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" id="main_form"><div>';
 
 	// the file
@@ -169,7 +169,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
 	$input = '<input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
 		.'<input type="file" name="upload" id="upload" size="30" />'
-		.' '.sprintf(i18n::s('(&lt;&nbsp;%s&nbsp;%s)'), $size_hint, i18n::s('bytes'));
+		.' '.sprintf('(&lt;&nbsp;%s&nbsp;%s)', $size_hint, i18n::s('bytes'));
 	$hint = i18n::s('Select the file to upload');
 	$fields[] = array($label, $input, $hint);
 

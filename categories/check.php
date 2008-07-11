@@ -27,7 +27,7 @@ load_skin('categories');
 $context['path_bar'] = array( 'categories/' => i18n::s('Categories') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Maintenance of categories');
+$context['page_title'] = i18n::s('Maintenance');
 
 // the user has to be an associate
 if(!Surfer::is_associate()) {

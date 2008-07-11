@@ -43,7 +43,7 @@ load_skin('articles');
 $context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Articles to be reviewed');
+$context['page_title'] = i18n::s('Review queue');
 
 // the menu bar for this page
 $context['page_menu'] = array( 'articles/' => i18n::s('All pages') );

@@ -63,8 +63,13 @@ if(is_object($anchor))
 else
 	$context['page_title'] = i18n::s('Select categories for this page');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!is_object($anchor)) {
+} elseif(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has been found.'));
 
@@ -93,7 +98,7 @@ if(!is_object($anchor)) {
 
 	// back to the anchor page
 	if(is_object($anchor))
-		$context['page_menu'] = array( $anchor->get_url() => sprintf(i18n::s('Back to %s'), $anchor->get_title()) );
+		$context['page_menu'] = array($anchor->get_url() => i18n::s('Back to main page'));
 
 	// insert anchor prefix
 	if(is_object($anchor))

@@ -167,7 +167,7 @@ elseif(!Surfer::is_associate()) {
 
 			// everything went fine
 			if($success) {
-				$context['text'] .= '<p>'.i18n::s('Congratulations, the directory has been populated.').'</p>';
+				$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 				// display follow-up commands
 				if($context['with_friendly_urls'] == 'Y')

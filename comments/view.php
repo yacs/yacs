@@ -78,7 +78,7 @@ else
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url('discuss') => i18n::s('Main page') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Back to main page') ));
 
 // react to this post
 if(Comments::are_allowed($anchor)) {
@@ -93,18 +93,15 @@ if(Comments::are_allowed($anchor)) {
 		$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'reply') => NEW_COMMENT_IMG.' '.i18n::s('React to this post') ));
 		$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'quote') => i18n::s('Quote') ));
 
-		if(Surfer::is_associate())
+		if(Comments::are_editable($anchor, $item))
 			$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 
 	}
 }
 
 // commands for associates, authenticated editors and author
-if($item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())
-	|| Surfer::is($item['create_id']))) {
-
+if($item['id'] && Comments::are_editable($anchor, $item))
 	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'delete') => i18n::s('Delete') ));
-}
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {

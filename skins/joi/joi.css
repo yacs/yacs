@@ -715,12 +715,6 @@ dl#user_menu dd ul { /* commands that apply to this user -- see template script 
 
 }
 
-.author_box { /* a user profile, towards the beginning of an article */
-	float: right;
-	padding: 2px;
-	border: 1px dotted #888;
-}
-
 img.avatar { /* an image representing a member -- do not float it! */
 	margin: 4px; /* some space around the image */
 }

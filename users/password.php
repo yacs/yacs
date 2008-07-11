@@ -61,8 +61,13 @@ elseif(isset($item['nick_name']))
 else
 	$context['page_title'] = i18n::s('Change password');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // we are using an external authenticator
-if(isset($context['users_authenticator']) && $context['users_authenticator']) {
+} elseif(isset($context['users_authenticator']) && $context['users_authenticator']) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 

@@ -796,7 +796,7 @@ Class Decisions {
 		if(isset($fields['id'])) {
 
 			// id cannot be empty
-			if(!isset($fields['id']) || !is_numeric($fields['id'])) {
+			if(!is_numeric($fields['id'])) {
 				Skin::error(i18n::s('No item has the provided id.'));
 				return FALSE;
 			}

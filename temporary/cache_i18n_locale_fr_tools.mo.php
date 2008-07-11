@@ -3,11 +3,15 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:47 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:11 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['A calendar of planned activities']='Un calendrier des activit&#233;s &#224; venir';
 $_SESSION['l10n']['fr']['A category "%s" has been created.']='La cat&#233;gorie "%s" a &#233;t&#233; cr&#233;&#233;e.';
+$_SESSION['l10n']['fr']['A page "%s" already exists.']='La page "%s" existe d&#233;j&#224;.';
+$_SESSION['l10n']['fr']['A page "%s" has been created.']='La page "%s" a &#233;t&#233; cr&#233;&#233;e.';
 $_SESSION['l10n']['fr']['A sample "my_articles" table already exists.']='Une table "my_articles" de d&#233;monstration existe d&#233;j&#224;.';
+$_SESSION['l10n']['fr']['A section "%s" already exists.']='La section "%s" existe d&#233;j&#224;.';
+$_SESSION['l10n']['fr']['A section "%s" has been created.']='La section "%s" a &#233;t&#233; cr&#233;&#233;e.';
 $_SESSION['l10n']['fr']['A table "%s" has been created.']='La table "%s" a &#233;t&#233; cr&#233;&#233;e.';
 $_SESSION['l10n']['fr']['A user profile "%s" has been created, with the password "%s".']='Un compte "%s" a &#233;t&#233; cr&#233;&#233;, avec le mot de passe "%s".';
 $_SESSION['l10n']['fr']['AJAX demonstration']='D&#233;monstration AJAX';
@@ -51,7 +55,6 @@ $_SESSION['l10n']['fr']['Every page in this section supports interactive discuss
 $_SESSION['l10n']['fr']['FAT Index = 10 log( Raw Bytes / Useful Bytes )']='Indice d\'inefficacit&#233; = 10 log( Taille du contenu / Taille utile )';
 $_SESSION['l10n']['fr']['Fat Index']='Indice d\'inefficacit&#233;';
 $_SESSION['l10n']['fr']['Fat Index = %d dB']='Iindice d\'inefficacit&#233; = %d dB';
-$_SESSION['l10n']['fr']['Fat Index of [escape]']='Indice d\'inefficacit&#233; de [escape]';
 $_SESSION['l10n']['fr']['Files']='Fichiers';
 $_SESSION['l10n']['fr']['For project members only']='R&#233;serv&#233;e aux membres du projet';
 $_SESSION['l10n']['fr']['Form']='Formulaire';
@@ -81,8 +84,6 @@ foo bar']='Annotation num&#233;ro %d
 ga bu zo meu';
 $_SESSION['l10n']['fr']['OK']='OK';
 $_SESSION['l10n']['fr']['Optional cookie string: %s']='Cookie (option) : %s';
-$_SESSION['l10n']['fr']['Page "%s" already exists.']='La page "%s" existe d&#233;j&#224;.';
-$_SESSION['l10n']['fr']['Page "%s" has been created.']='La page "%s" a &#233;t&#233; cr&#233;&#233;e.';
 $_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['Please include all elements we could need']='Merci d\'ajouter tous les &#233;l&#233;ments dont nous pourrions avoir besoin';
 $_SESSION['l10n']['fr']['Post pages here to populate chapter 1']='Ajouter des pages pour compl&#233;ter le chapitre 1';
@@ -119,8 +120,6 @@ $_SESSION['l10n']['fr']['Sample sub category']='Sous-cat&#233;gorie de d&#233;mo
 $_SESSION['l10n']['fr']['Sample subscriber profile']='Exemple de souscripteur';
 $_SESSION['l10n']['fr']['Sample wikis']='D&#233;monstration des wikis';
 $_SESSION['l10n']['fr']['Sample yabb thread']='Discussion yabb de d&#233;monstration';
-$_SESSION['l10n']['fr']['Section "%s" already exists.']='La section "%s" existe d&#233;j&#224;.';
-$_SESSION['l10n']['fr']['Section "%s" has been created.']='La section "%s" a &#233;t&#233; cr&#233;&#233;e.';
 $_SESSION['l10n']['fr']['Sections']='Sections';
 $_SESSION['l10n']['fr']['Social bookmarking section']='Section de liens partag&#233;s';
 $_SESSION['l10n']['fr']['Sponge Bob']='Bob l\'Eponge';
@@ -173,7 +172,6 @@ $_SESSION['l10n']['fr']['Your name']='Votre nom';
 $_SESSION['l10n']['fr']['Your name: %s']='Votre nom : %s';
 $_SESSION['l10n']['fr']['Your post has been recorded and we would like to thank you for it.']='Votre envoi a &#233;t&#233; enregistr&#233; et nous vous en remercions.';
 $_SESSION['l10n']['fr']['Your post: %s']='Votre envoi : %s';
-$_SESSION['l10n']['fr']['[/escape]']='[/escape]';
 $_SESSION['l10n']['fr']['error while fetching %s']='Impossible d\'acc&#233;der &#224; %s';
 $_SESSION['l10n']['fr']['or']='ou bien';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n>1);';

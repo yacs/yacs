@@ -592,12 +592,12 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// change some global pages
 			if(Surfer::is_associate())
-				$commands[] = sprintf(i18n::s('%s, including %s, %s, %s and %s'),
+				$commands[] = sprintf(i18n::s('%s, including: %s, %s, %s and %s'),
 					Skin::build_link(Sections::get_url('global'), i18n::s('Global pages')),
 					Skin::build_link(Articles::get_url('cover'), i18n::s('the cover page')),
-					Skin::build_link(Articles::get_url('menu'), i18n::s('the menu')),
-					Skin::build_link(Articles::get_url('about'), i18n::s('the about page')),
-					Skin::build_link(Articles::get_url('privacy'), i18n::s('the privacy statement')));
+					Skin::build_link(Articles::get_url('menu'), i18n::s('Menu')),
+					Skin::build_link(Articles::get_url('about'), i18n::s('About this site')),
+					Skin::build_link(Articles::get_url('privacy'), i18n::s('Privacy statement')));
 
 			if(Surfer::is_associate())
 				$commands[] = sprintf(i18n::s('%s - scripts to enhance articles and user profiles'), '<a href="../overlays/">'.i18n::s('Overlays').'</a>');

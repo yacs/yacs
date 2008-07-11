@@ -148,7 +148,7 @@ if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/stre
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url().'#files' => i18n::s('Main page') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url().'#files' => i18n::s('Back to main page') ));
 
 // download command
 if($item['id'] && $permitted)

@@ -154,8 +154,13 @@ load_skin('users');
 // page title
 $context['page_title'] = i18n::s('Authentication');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // use provided credentials
-if($credentials) {
+} elseif($credentials) {
 
 	// page author is coming back
 	if(isset($credentials[0]) && ($credentials[0] == 'edit')) {
@@ -431,13 +436,11 @@ if($credentials) {
 		if(isset($_REQUEST['login_forward']))
 			$menu = array_merge($menu, array($_REQUEST['login_forward'] => i18n::s('Move forward')));
 		elseif(isset($_SERVER['HTTP_REFERER']) && !preg_match('/users\/login\.php/', $_SERVER['HTTP_REFERER']))
-			$menu = array_merge($menu, array($_SERVER['HTTP_REFERER'] => i18n::s('Back to previous page')));
+			$menu = array_merge($menu, array($_SERVER['HTTP_REFERER'] => i18n::s('Move forward')));
 		else
 			$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
 		if(Surfer::is_associate())
-			$menu = array_merge($menu, array('comments/' => i18n::s('On-going threads')));
-		if(Surfer::is_associate())
-			$menu = array_merge($menu, array('articles/review.php' => i18n::s('Articles to review')));
+			$menu = array_merge($menu, array('articles/review.php' => i18n::s('Review queue')));
 		if(Surfer::is_associate())
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 		if(Surfer::is_member() && isset($_REQUEST['login_forward']) && !preg_match('/^articles\/edit.php/', $_REQUEST['login_forward']))
@@ -469,14 +472,10 @@ if($credentials) {
 
 		// navigation links, in an extra box
 		$links = array();
-
-		$links = array_merge($links, array( $context['url_to_root'] => i18n::s('Main page') ));
-		$links = array_merge($links, array( 'users/view.php' => i18n::s('My profile') ));
+		$links = array_merge($links, array( $context['url_to_root'] => i18n::s('Front page') ));
 		$links = array_merge($links, array( 'sections/' => i18n::s('Site map') ));
-		$links = array_merge($links, array( 'categories/' => i18n::s('Categories tree') ));
-		$links = array_merge($links, array( 'articles/' => i18n::s('All pages') ));
-		$links = array_merge($links, array( 'files/' => i18n::s('Files') ));
-		$links = array_merge($links, array( 'links/' => i18n::s('Links') ));
+		$links = array_merge($links, array( 'users/' => i18n::s('People') ));
+		$links = array_merge($links, array( 'categories/' => i18n::s('Categories') ));
 		$links = array_merge($links, array( 'search.php' => i18n::s('Search') ));
 
 		$context['extra'] .= Skin::build_box(i18n::s('Navigate'), Skin::build_list($links, 'compact'), 'navigation');
@@ -494,8 +493,10 @@ if($credentials) {
 		$menu = array();
 
 		// step back
-		if(isset($_SERVER['HTTP_REFERER']))
-			$menu = array_merge($menu, array($_SERVER['HTTP_REFERER'] => i18n::s('Back to previous page') ));
+		if(isset($_REQUEST['login_forward']))
+			$menu = array_merge($menu, array($_REQUEST['login_forward'] => i18n::s('Move forward')));
+		elseif(isset($_SERVER['HTTP_REFERER']))
+			$menu = array_merge($menu, array($_SERVER['HTTP_REFERER'] => i18n::s('Move forward') ));
 
 		// authenticate again
 		$menu = array_merge($menu, array('users/password.php' => i18n::s('Lost password')));
@@ -610,7 +611,7 @@ if($credentials) {
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'document.cookie = \'CookiesEnabled=1\';'."\n"
 		.'if((document.cookie == "") && document.getElementById) {'."\n"
-		."\t".'$("ask_for_cookies").innerHTML = \''.i18n::s('You must enable cookies to authenticate to this server. Change settings of your browser accordingly, then revisit this login page afterwards.').'\';'."\n"
+		."\t".'$("ask_for_cookies").innerHTML = \''.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'\';'."\n"
 		."\t".'$("ask_for_cookies").style.display = \'block\';'."\n"
 		."\t".'$("login_button").disabled = true;'."\n"
 		.'}'."\n"

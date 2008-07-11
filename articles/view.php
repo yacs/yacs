@@ -365,10 +365,8 @@ else
 // page title
 if(is_object($overlay))
 	$context['page_title'] = $overlay->get_text('title', $item);
-elseif(isset($item['title']) && $item['title'])
+elseif(isset($item['title']))
 	$context['page_title'] = $item['title'];
-else
-	$context['page_title'] = i18n::s('No title has been provided.');
 
 // page language, if any
 if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'))
@@ -620,7 +618,7 @@ if(!isset($item['id'])) {
 			}
 
 			// article editors, for associates and section editors
-			if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) && ($items = Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
+			if((Surfer::is_associate() || Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_editable())) && ($items = Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
 				$details[] = sprintf(i18n::s('Editors: %s'), Skin::build_list($items, 'comma'));
 
 			// no more details
@@ -782,8 +780,8 @@ if(!isset($item['id'])) {
 			}
 
 			// the poster profile, if any, at the beginning of the first page
-			if(($page == 1) && isset($poster['id']) && is_object($anchor) && is_callable(array($anchor, 'get_user_profile')))
-				$text .= $anchor->get_user_profile($poster, 'prefix');
+			if(($page == 1) && isset($poster['id']) && is_object($anchor))
+				$text .= $anchor->get_user_profile($poster, 'prefix', Skin::build_date($item['create_date']));
 
 			// only at the first page
 			if($page == 1) {
@@ -853,8 +851,8 @@ if(!isset($item['id'])) {
 			}
 
 			// the poster profile, if any, at the end of the page
-			if(isset($poster['id']) && is_object($anchor) && is_callable(array($anchor, 'get_user_profile')))
-				$text .= $anchor->get_user_profile($poster, 'suffix');
+			if(isset($poster['id']) && is_object($anchor))
+				$text .= $anchor->get_user_profile($poster, 'suffix', Skin::build_date($item['create_date']));
 
 		}
 
@@ -963,36 +961,8 @@ if(!isset($item['id'])) {
 			else
 				$add_label = i18n::s('Add a comment');
 
-			// layout is defined in anchor
-			if(is_object($anchor) && $anchor->has_layout('compact')) {
-				include_once '../comments/layout_comments.php';
-				$layout =& new Layout_comments();
-
-			} elseif(is_object($anchor) && $anchor->has_layout('daily')) {
-				include_once '../comments/layout_comments_as_daily.php';
-				$layout =& new Layout_comments_as_daily();
-
-			} elseif(is_object($anchor) && $anchor->has_layout('decorated')) {
-				include_once '../comments/layout_comments.php';
-				$layout =& new Layout_comments();
-
-			} elseif(is_object($anchor) && $anchor->has_layout('jive')) {
-				include_once '../comments/layout_comments_as_jive.php';
-				$layout =& new Layout_comments_as_jive();
-
-			} elseif(is_object($anchor) && $anchor->has_layout('manual')) {
-				include_once '../comments/layout_comments_as_manual.php';
-				$layout =& new Layout_comments_as_manual();
-
-			} elseif(is_object($anchor) && $anchor->has_layout('yabb')) {
-				include_once '../comments/layout_comments_as_yabb.php';
-				$layout =& new Layout_comments_as_yabb();
-
-			// regular case
-			} else {
-				include_once '../comments/layout_comments.php';
-				$layout =& new Layout_comments();
-			}
+			// get a layout from anchor
+			$layout =& Comments::get_layout($anchor);
 
 			// provide author information to layout
 			if(is_object($layout) && $item['create_id'])
@@ -1182,8 +1152,8 @@ if(!isset($item['id'])) {
 
 
 	// the poster profile, if any, aside
-	if(isset($poster['id']) && is_object($anchor) && is_callable(array($anchor, 'get_user_profile')))
-		$context['extra_prefix'] .= $anchor->get_user_profile($poster, 'extra');
+	if(isset($poster['id']) && is_object($anchor))
+		$context['extra_prefix'] .= $anchor->get_user_profile($poster, 'extra', Skin::build_date($item['create_date']));
 
 	// cache content
 	$cache_id = 'articles/view.php?id='.$item['id'].'#extra#head';
@@ -1238,7 +1208,7 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 	// mail this page
-	if(!$zoom_type && $editable && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if(!$zoom_type && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('MAIL_TOOL_IMG', 'icons/tools/mail.gif');
 		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), MAIL_TOOL_IMG.i18n::s('Invite people'), 'basic', i18n::s('Spread the word'));
 	}

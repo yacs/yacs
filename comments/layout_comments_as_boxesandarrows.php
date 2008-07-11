@@ -22,17 +22,6 @@
 Class Layout_comments_as_boxesandarrows extends Layout_interface {
 
 	/**
-	 * the preferred number of items for this layout
-	 *
-	 * @return int the optimised count of items for this layout
-	 *
-	 * @see skins/layout.php
-	 */
-	function items_per_page() {
-		return 50;
-	}
-
-	/**
 	 * list comments as boxesandarrows do
 	 *
 	 * @param resource the SQL result
@@ -111,7 +100,7 @@ Class Layout_comments_as_boxesandarrows extends Layout_interface {
 			}
 
 			// the menu bar for associates and poster
-			if(Surfer::is_empowered() || Surfer::is($item['create_id'])) {
+			if(Comments::are_editable($anchor, $item)) {
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'edit') => i18n::s('edit') ));
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'delete') => i18n::s('delete') ));
 			}

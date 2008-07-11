@@ -70,12 +70,7 @@ load_skin('servers');
 $context['path_bar'] = array( 'servers/' => i18n::s('Servers') );
 
 // the title of the page
-if($item['title'])
-	$context['page_title'] = sprintf(i18n::s('Feed test: %s'), $item['title']);
-elseif($item['host_name'])
-	$context['page_title'] = sprintf(i18n::s('Feed test: %s'), $item['host_name']);
-else
-	$context['page_title'] = i18n::s('Feed test');
+$context['page_title'] = i18n::s('Feed test');
 
 // back to the server record
 if($item['id'])
@@ -87,8 +82,13 @@ if(Surfer::is_associate()) {
 	$context['page_menu'] = array_merge($context['page_menu'], array( Servers::get_url($id, 'delete') => i18n::s('Delete') ));
 }
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!$item['id']) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 

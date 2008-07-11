@@ -843,7 +843,7 @@ if(!Surfer::is_associate()) {
 	// alert the end user if we are not able to connect to the database
 	if(!$handle =& SQL::connect($_REQUEST['database_server'], $_REQUEST['database_user'], $_REQUEST['database_password'], $_REQUEST['database'])) {
 
-		Skin::error(i18n::s('ERROR: Unsuccessful connection to the database. Please check lines below and <a href="configure.php">edit parameters</a> again.'));
+		Skin::error(i18n::s('ERROR: Unsuccessful connection to the database. Please check lines below and <a href="configure.php">configure again</a>.'));
 
 	// update the parameters file
 	} elseif(!Safe::file_put_contents('parameters/control.include.php', $content)) {

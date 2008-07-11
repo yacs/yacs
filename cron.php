@@ -93,6 +93,10 @@ if(!file_exists($context['path_to_root'].'parameters/switch.on'))
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
 
+// stop crawlers
+if(Surfer::is_crawler())
+	return;
+
 // load for hooks --see control/scan.php
 if(!is_callable(array('Hooks', 'include_scripts')))
 	exit(sprintf(i18n::s('Impossible to read %s.'), 'parameters/hooks.include.php'));

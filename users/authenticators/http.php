@@ -40,7 +40,7 @@ Class Http extends Authenticator {
 
 		// we need some parameters
 		if(!isset($this->attributes['authenticator_parameters']) || !$this->attributes['authenticator_parameters']) {
-			Skin::error(i18n::s('Please indicate adequate parameters to the REST POST authenticator.'));
+			Skin::error(i18n::s('Please provide parameters to the authenticator.'));
 			return FALSE;
 		}
 

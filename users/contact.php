@@ -8,9 +8,6 @@
  * Existing private conversations between the surfer and the target user are
  * listed, if any, to support follow-up on existing threads.
  *
- * Also, a new thread can always be created in the section dedicated to
- * private conversations.
- *
  * Restrictions apply on this page:
  * - associates are allowed to move forward
  * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
@@ -29,233 +26,212 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../comments/comments.php';	// to create new threads
+include_once '../shared/mailer.php';		// to send messages
 
-// look for the id
+// load the skin
+load_skin('users');
+
+// several recipients
 $id = NULL;
 if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
-$id = strip_tags($id);
+if($id)
+	$id = explode(',', strip_tags($id));
 
-// get the item from the database
-$item =& Users::get($id);
+// identify all recipients
+$items = array();
+$item = NULL;
+if(is_array($id)) {
 
-// associates can do what they want
-if(Surfer::is_associate())
-	$permitted = TRUE;
+	// one recipient at a time
+	foreach($id as $target) {
+		$target = trim($target);
 
-// only regular members can contact other members
-elseif(!Surfer::is_member())
-	$permitted = FALSE;
+		// look for a user with this nick name
+		if($user =& Users::get($target))
+			$items[] = $user;
 
-// access is restricted to authenticated member
-elseif(isset($item['active']) && (($item['active'] == 'R') || ($item['active'] == 'Y')))
-	$permitted = TRUE;
+		// maybe a valid address
+		elseif(preg_match('/\w+@\w+\.\w+/', $target))
+			$items[] = array( 'email' => $target );
 
-// the default is to disallow access
-else
-	$permitted = FALSE;
+		else
+			Skin::error(sprintf(i18n::s('%s is unknown.'), $target));
 
-// load the skin
-load_skin('users');
+	}
+
+	// only one recipient
+	if(count($items) == 1)
+		$item = $items[0];
+
+}
 
 // the path to this page
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
+if(isset($item['id']))
+	$context['path_bar'] = array_merge($context['path_bar'], array( Users::get_url($item['id'], 'view', $item['nick_name']) => $item['full_name']?$item['full_name']:$item['nick_name'] ));
 
-// the title of the page
+// page title
 if(isset($item['nick_name']))
-	$context['page_title'] .= sprintf(i18n::s('Contact %s'), $item['nick_name']);
+	$context['page_title'] .= sprintf(i18n::s('Contact %s'), $item['full_name']?$item['full_name']:$item['nick_name']);
 else
 	$context['page_title'] .= i18n::s('Contact');
 
-// command to go back
-if(isset($item['id']))
-	$context['page_menu'] = array( Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:'') => sprintf(i18n::s('Back to the page of %s'), $item['nick_name']) );
+// an error occured
+if(count($context['error']))
+	;
 
 // not found
-if(!isset($item['id'])) {
+elseif(!count($items)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
-// user does not accept private messages
-} elseif(isset($item['without_messages']) && ($item['without_messages'] == 'Y')) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
-	Skin::error(i18n::s('This member does not accept e-mail messages.'));
-
-// you are not allowed to contact yourself
-} elseif(Surfer::get_id() && (Surfer::get_id() == $item['id'])) {
+// private pages are disallowed
+} elseif(isset($context['users_without_private_pages']) && ($context['users_without_private_pages'] == 'Y')) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
-} elseif(!$permitted) {
-
-	// anonymous users are invited to log in or to register
-	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Users::get_url($item['id'], 'contact')));
-
-	// permission denied to authenticated user
+} elseif(!Surfer::is_member()) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
+// the place for private pages
+} elseif(!$anchor = Sections::lookup('private')) {
+	header('Status: 500 Internal Error', TRUE, 500);
+	Skin::error(i18n::s('Impossible to add a page.'));
 
 // process submitted data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
-	// mail message
-	$mail = array();
+	// the new thread
+	$article = array();
+	$article['anchor'] = $anchor;
+	$article['title'] = isset($_REQUEST['title']) ? $_REQUEST['title'] : utf8::transcode(Skin::build_date(gmstrftime('%Y-%m-%d %H:%M:%S GMT'), 'full'));
+	$article['active_set'] = 'N';	// this is private
+	$article['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S'); // no review is required
 
-	// notification
-	$notification = array();
-	$notification['nick_name'] = Surfer::get_name();
-	$notification['recipient'] = $item['id'];
+	// post the new thread
+	if(!$article['id'] = Articles::post($article))
+		Skin::error(i18n::s('Impossible to add a page.'));
 
-	switch($_REQUEST['rendez_vous']) {
+	// ensure all surfers will be allowed to access this page
+	else {
 
-	case 'thread':
+		// make a new comment out of received message, if any
+		if(isset($_REQUEST['message']) && trim($_REQUEST['message'])) {
+			$comment = array();
+			$comment['anchor'] = 'article:'.$article['id'];
+			$comment['description'] = strip_tags($_REQUEST['message']);
+			Comments::post($comment);
+		}
 
-		// the place for private interactive discussions
-		if(!$anchor = Sections::lookup('chats')) {
-			$section = array();
-			$section['nick_name'] = 'chats';
-			$section['title'] =& i18n::c('Private conversations');
-			$section['introduction'] =& i18n::c('Long-lived one-to-one interactions');
-			$section['locked'] = 'N'; // no direct contributions
-			$section['active_set'] = 'N'; // for associates only
-			$section['home_panel'] = 'none'; // content is not pushed at the front page
-			$section['index_map'] = 'N'; // this is a special section
-			$section['sections_layout'] = 'none'; // prevent creation of sub-sections
-			$section['articles_layout'] = 'yabb'; // these are threads
-			$section['content_options'] = 'view_as_thread'; // these are threads
-			$section['maximum_items'] = 1000; // limit the overall number of threads
-			if($section['id'] = Sections::post($section)) {
-				Sections::clear($section);
-				$anchor = 'section:'.$section['id'];
+		// purge section cache
+		if($section = Anchors::get($article['anchor']))
+			$section->touch('article:create', $article['id'], TRUE);
+
+		// clear the cache
+		Articles::clear($article);
+
+		// feed-back to surfer
+		$context['text'] .= '<p>'.i18n::s('A new private page has been created. You can invite additional people later on if you wish.').'</p>';
+
+		// make editors of the new page
+		Members::assign('user:'.Surfer::get_id(), 'article:'.$article['id']);
+		foreach($items as $item) {
+			if(isset($item['id']))
+				Members::assign('user:'.$item['id'], 'article:'.$article['id']);
+		}
+
+		// add this page to watch lists
+		Members::assign('article:'.$article['id'], 'user:'.Surfer::get_id());
+		foreach($items as $item) {
+			if(isset($item['id']))
+				Members::assign('article:'.$article['id'], 'user:'.$item['id']);
+		}
+
+		// email has to be activated
+		if(isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+
+				// each recipient, one at a time
+				foreach($items as $item) {
+
+				// you cannot write to yourself
+				if(isset($item['id']) && (Surfer::get_id() == $item['id']))
+					continue;
+
+				// target recipient does not accept messages
+				if(isset($item['without_messages']) && ($item['without_messages'] == 'Y'))
+					continue;
+
+				// contact target user by e-mail
+				$mail = array();
+				$mail['subject'] = sprintf(i18n::c('New page: %s'), strip_tags($article['title']));
+				$mail['message'] = sprintf(i18n::c('%s would like to share a private page with you'), Surfer::get_name())
+					."\n\n".ucfirst(strip_tags($article['title']))
+					."\n".$context['url_to_home'].$context['url_to_root'];
+
+				// provide credentials by e-mail
+				if(isset($item['email'])) {
+
+					// build credentials --see users/login.php
+					$credentials = array();
+					$credentials[0] = 'visit';
+					$credentials[1] = 'article:'.$article['id'];
+					$credentials[2] = $item['email'];
+					$credentials[3] = sprintf('%u', crc32($item['email'].':'.$article['handle']));
+
+					// the secret link
+					$mail['message'] .= Users::get_url($credentials, 'credentials');
+
+				// target will have to authenticate on his own
+				} else
+					$mail['message'] .= Articles::get_url($article['id'], 'view', $article['title']);
+
+				// target is known here
+				if(isset($item['id'])) {
+
+					// suggest to change user preferences if applicable
+					$mail['message'] .= "\n\n"
+						.i18n::c('To prevent other surfers from contacting you, please visit your user profile at the following address, and change preferences.')
+						."\n\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name'])
+						."\n\n";
+
+					// also prepare an interactive alert
+					$notification = array();
+					$notification['nick_name'] = Surfer::get_name();
+					$notification['recipient'] = $item['id'];
+					$notification['type'] = 'hello';
+					$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_url($article['id'], 'view', $article['title']);
+					$notification['reference'] = 'article:'.$article['id'];
+
+					// alert the target user
+					if(!Users::alert($item, $mail, $notification))
+						Skin::error(sprintf(i18n::s('Impossible to send a message to %s.'), $item['nick_name']));
+
+				// we only have a recipient address
+				} elseif($item['email'] && !Mailer::notify($item['email'], $mail['subject'], $mail['message']))
+					Skin::error(sprintf(i18n::s('Impossible to send a message to %s.'), $item['email']));
+
 			}
-		}
 
-		// the new thread
-		$article = array();
-		$article['anchor'] = $anchor;
-		$article['title'] = isset($_REQUEST['title']) ? $_REQUEST['title'] : utf8::transcode(sprintf(i18n::s('%s and %s %s'), Surfer::get_name(), $item['nick_name'], Skin::build_date(gmstrftime('%Y-%m-%d %H:%M:%S GMT'), 'full')));
-		$article['active_set'] = 'N';	// this is private
-		$article['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S'); // no review is required
-
-		// ensure we have a valid anchor
-		if(!$anchor)
-			Skin::error(i18n::s('Impossible to add a page.'));
-
-		// post the new thread
-		elseif(!$article['id'] = Articles::post($article))
-			Skin::error(i18n::s('Impossible to add a page.'));
-
-		// ensure both surfers will be allowed to access this page
-		else {
-
-			// make editors of the new page
-			Members::assign('user:'.Surfer::get_id(), 'article:'.$article['id']);
-			Members::assign('user:'.$item['id'], 'article:'.$article['id']);
-
-			// add this page to watch lists
-			Members::assign('article:'.$article['id'], 'user:'.Surfer::get_id());
-			Members::assign('article:'.$article['id'], 'user:'.$item['id']);
-
-			// make a new comment out of received message, if any
-			if(isset($_REQUEST['message']) && trim($_REQUEST['message'])) {
-				$comment = array();
-				$comment['anchor'] = 'article:'.$article['id'];
-				$comment['description'] = strip_tags($_REQUEST['message']);
-				Comments::post($comment);
-			}
-
-			// purge section cache
-			if($section = Anchors::get($article['anchor']))
-				$section->touch('article:create', $article['id'], TRUE);
-
-			// clear the cache
-			Articles::clear($article);
-
-			// contact target user by e-mail
-			$mail['subject'] = sprintf(i18n::c('Chat: %s'), strip_tags($article['title']));
-			$mail['message'] = sprintf(i18n::c('%s would like to have a private chat with you'), Surfer::get_name())
-				."\n\n".ucfirst(strip_tags($article['title']))
-				."\n".$context['url_to_home'].$context['url_to_root'].Articles::get_url($article['id'], 'view', $article['title'])
-				."\n\n"
-				.i18n::c('If you wish to prevent other surfers to contact you please visit your user profile at the following address, and change preferences.')
-				."\n\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name'])
-				."\n\n";
-
-			// also prepare an interactive alert
-			$notification['type'] = 'hello';
-			$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_url($article['id']);
-			$notification['reference'] = 'article:'.$article['id'];
-
-		}
-
-		break;
-
-	case 'browse':
-		if(!isset($_REQUEST['address']))
-			Skin::error(i18n::s('Notification is invalid.'));
-		else {
-
-			// contact target user by e-mail
-			$mail['subject'] = sprintf(i18n::c('Browse with %s'), Surfer::get_name());
-			$mail['message'] = sprintf(i18n::c('%s would like you to browse the following link'), Surfer::get_name())
-				."\n\n".preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $_REQUEST['address'])
-				."\n\n"
-				.i18n::c('If you wish to prevent other surfers to contact you please visit your user profile at the following address, and change preferences.')
-				."\n\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name'])
-				."\n\n";
-
-			// also prepare an interactive alert
-			$notification['address'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $_REQUEST['address']);
-			$notification['type'] = 'browse';
-
-			// also attach received message, if any
-			if(isset($_REQUEST['message']) && trim($_REQUEST['message']))
-				$notification['message'] = strip_tags($_REQUEST['message']);
-
-		}
-		break;
-
-	case 'none';
-		$notification['type'] = 'hello';
-
-		// also attach received message, if any
-		if(isset($_REQUEST['message']) && trim($_REQUEST['message']))
-			$notification['message'] = strip_tags($_REQUEST['message']);
-
-		break;
+		} else
+			Skin::error(i18n::s('No notification has been sent. Please share the address of the new page by yourself.'));
 
 	}
 
-	// incorrect request
-	if(!isset($notification['type'])) {
-		Safe::header('Status: 400 Bad Request', TRUE, 400);
-		Skin::error('Invalid notification');
-
-	// alert the target user
-	} elseif(!Users::alert($item, $mail, $notification)) {
-		header('Status: 500 Internal Error', TRUE, 500);
-		Skin::error(sprintf(i18n::s('Impossible to send your message to %s.'), $item['nick_name']));
-
-	// follow-up for the surfer
-	} else {
-		$context['text'] = '<p>'.sprintf(i18n::s('Your message is being transmitted to %s.'), $item['nick_name']).'</p>';
-	}
-
-	// offer a link to the target page
-	if(isset($notification['address'])) {
-
-		// adapt the message to context
-		if(isset($notification['type']) && ($notification['type'] == 'hello'))
-			$menu = array($notification['address'] => sprintf(i18n::s('Jump to the private page that has been created for your web chat with %s'), $item['nick_name']));
-		else
-			$menu = array($notification['address'] => sprintf(i18n::s('Jump to the web address sent to %s'), $item['nick_name']));
-
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
-	}
+	// follow-up commands
+	$menu = array();
+	if(isset($article['id']))
+		$menu = array(Articles::get_url($article['id'], 'view', $article['title']) => i18n::s('View the page'));
+	if((count($items) == 1) && ($item = $items[0]) && isset($item['id']))
+		$menu = array_merge($menu, array(Users::get_url($item['id'], 'view', $item['nick_name']) => sprintf(i18n::s('Back to %s'), $item['nick_name'])));
+	elseif(Surfer::get_id())
+		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => sprintf(i18n::s('Back to %s'), Surfer::get_name())));
+	if(count($menu))
+		$context['text'] .= Skin::build_block(i18n::s('Where do you want to go now?').Skin::build_list($menu, 'page_menu'), 'bottom');
 
 // layout the available contact options
 } else

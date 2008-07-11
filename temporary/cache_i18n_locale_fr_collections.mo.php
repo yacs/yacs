@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:46 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:08 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d files have been extracted.']='%d fichiers ont &#233;t&#233; extraits.';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a &#233;t&#233; mis &#224; jour';
@@ -24,7 +24,7 @@ $_SESSION['l10n']['fr']['Configuration parameters']='Param&#232;tres de configur
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
 $_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
-$_SESSION['l10n']['fr']['Congratulations, the directory has been populated.']='F&#233;licitations, de nouveaux fichiers ont &#233;t&#233; ajout&#233;s au r&#233;pertoire.';
+$_SESSION['l10n']['fr']['Congratulations, you have shared new content.']='F&#233;licitations, votre contribution a bien &#233;t&#233; enregistr&#233;e.';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contr&#244;le';
 $_SESSION['l10n']['fr']['Delete to suppress']='Effacez pour supprimer';
 $_SESSION['l10n']['fr']['Description']='Description';

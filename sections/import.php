@@ -46,8 +46,13 @@ $context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
 // the title of the page
 $context['page_title'] = i18n::s('Import section content');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // anonymous users are invited to log in or to register
-if(!Surfer::is_logged())
+} elseif(!Surfer::is_logged())
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'import')));
 
 // only associates can proceed
@@ -157,7 +162,7 @@ elseif(!Surfer::is_associate()) {
 
 		// everything went fine
 		if($success) {
-			$context['text'] .= '<p>'.i18n::s('Congratulations, some web content has been imported.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 			// display follow-up commands
 			$menu = array( Sections::get_url($item['id'], 'view', $item['title']) => i18n::s('Back to the section') );

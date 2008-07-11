@@ -68,8 +68,13 @@ if(isset($_REQUEST['introduction']))
 if(isset($_REQUEST['description']))
 	xml::validate($_REQUEST['description']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // access denied
-if(!$permitted) {
+} elseif(!$permitted) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
@@ -339,7 +344,7 @@ if($with_form) {
 	$help .= '</select></p></form>';
 
 	if(Surfer::is_associate())
-		$help .= '<p>'.sprintf(i18n::s('Use the %s if you are lost.'), Skin::build_link('control/populate.php', 'Content Assistant', 'shortcut')).'</p>'."\n";
+		$help .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', 'Content Assistant', 'shortcut')).'</p>'."\n";
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }

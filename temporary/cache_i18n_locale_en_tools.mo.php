@@ -3,11 +3,15 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:47 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:11 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['A calendar of planned activities']='A calendar of planned activities';
 $_SESSION['l10n']['en']['A category "%s" has been created.']='A category "%s" has been created.';
+$_SESSION['l10n']['en']['A page "%s" already exists.']='A page "%s" already exists.';
+$_SESSION['l10n']['en']['A page "%s" has been created.']='A page "%s" has been created.';
 $_SESSION['l10n']['en']['A sample "my_articles" table already exists.']='A sample "my_articles" table already exists.';
+$_SESSION['l10n']['en']['A section "%s" already exists.']='A section "%s" already exists.';
+$_SESSION['l10n']['en']['A section "%s" has been created.']='A section "%s" has been created.';
 $_SESSION['l10n']['en']['A table "%s" has been created.']='A table "%s" has been created.';
 $_SESSION['l10n']['en']['A user profile "%s" has been created, with the password "%s".']='A user profile "%s" has been created, with the password "%s".';
 $_SESSION['l10n']['en']['AJAX demonstration']='AJAX demonstration';
@@ -51,7 +55,6 @@ $_SESSION['l10n']['en']['Every page in this section supports interactive discuss
 $_SESSION['l10n']['en']['FAT Index = 10 log( Raw Bytes / Useful Bytes )']='FAT Index = 10 log( Raw Bytes / Useful Bytes )';
 $_SESSION['l10n']['en']['Fat Index']='Fat Index';
 $_SESSION['l10n']['en']['Fat Index = %d dB']='Fat Index = %d dB';
-$_SESSION['l10n']['en']['Fat Index of [escape]']='Fat Index of [escape]';
 $_SESSION['l10n']['en']['Files']='Files';
 $_SESSION['l10n']['en']['For project members only']='For project members only';
 $_SESSION['l10n']['en']['Form']='Form';
@@ -81,8 +84,6 @@ foo bar']='Note #%d
 foo bar';
 $_SESSION['l10n']['en']['OK']='OK';
 $_SESSION['l10n']['en']['Optional cookie string: %s']='Optional cookie string: %s';
-$_SESSION['l10n']['en']['Page "%s" already exists.']='Page "%s" already exists.';
-$_SESSION['l10n']['en']['Page "%s" has been created.']='Page "%s" has been created.';
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['Please include all elements we could need']='Please include all elements we could need';
 $_SESSION['l10n']['en']['Post pages here to populate chapter 1']='Post pages here to populate chapter 1';
@@ -119,8 +120,6 @@ $_SESSION['l10n']['en']['Sample sub category']='Sample sub category';
 $_SESSION['l10n']['en']['Sample subscriber profile']='Sample subscriber profile';
 $_SESSION['l10n']['en']['Sample wikis']='Sample wikis';
 $_SESSION['l10n']['en']['Sample yabb thread']='Sample yabb thread';
-$_SESSION['l10n']['en']['Section "%s" already exists.']='Section "%s" already exists.';
-$_SESSION['l10n']['en']['Section "%s" has been created.']='Section "%s" has been created.';
 $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['Social bookmarking section']='Social bookmarking section';
 $_SESSION['l10n']['en']['Sponge Bob']='Sponge Bob';
@@ -173,7 +172,6 @@ $_SESSION['l10n']['en']['Your name']='Your name';
 $_SESSION['l10n']['en']['Your name: %s']='Your name: %s';
 $_SESSION['l10n']['en']['Your post has been recorded and we would like to thank you for it.']='Your post has been recorded and we would like to thank you for it.';
 $_SESSION['l10n']['en']['Your post: %s']='Your post: %s';
-$_SESSION['l10n']['en']['[/escape]']='[/escape]';
 $_SESSION['l10n']['en']['error while fetching %s']='error while fetching %s';
 $_SESSION['l10n']['en']['or']='or';
 $_SESSION['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';

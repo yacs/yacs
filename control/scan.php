@@ -684,7 +684,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 		$included_items['tick'] .= "\n"
 			."\t\t\t".'include_once $context[\'path_to_root\'].\'feeds/feeds.php\';'."\n"
 			."\t\t\t".'$text .= Feeds::tick_hook($parameters);'."\n";
-		$context['text'] .= i18n::s('Including news update on tick').BR."\n";
+		$context['text'] .= sprintf(i18n::s('Including hook %s for %s'), 'news', 'tick').BR."\n";
 
 		// one including item per id
 		if(count($included_items))

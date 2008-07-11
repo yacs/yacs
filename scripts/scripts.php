@@ -313,10 +313,6 @@ class Scripts {
 		// suppress comments and also, leading spaces
 		$compressed = preg_replace(array('|/\*.*?\*/|s', '|^\s+|m', '|^//.*?$|m'), '', $content);
 
-		// forget about new lines
-		$compressed = str_replace(array("\n\n", "{\n", ";\n", "}\n", '<?php', '?>'), array("\n", '{', ';', '}', '<?php ', ' ?>'), $compressed);
-		$compressed = str_replace("\n", '', $compressed);
-
 		// hash the compressed content
 		$compressed_hash = md5($compressed);
 

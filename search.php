@@ -111,7 +111,7 @@ load_skin('search');
 if($search)
 	$context['page_title'] = sprintf(i18n::s('Search: %s'), $search);
 else
-	$context['page_title'] = i18n::s('Server search');
+	$context['page_title'] = i18n::s('Search');
 
 // the form to submit a new search
 $context['text'] .= '<form method="get" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';

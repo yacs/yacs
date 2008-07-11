@@ -111,7 +111,7 @@ Class Layout_comments_as_daily extends Layout_interface {
 			}
 
 			// the menu bar for associates and poster
-			if(Surfer::is_empowered() || Surfer::is($item['create_id'])) {
+			if(Comments::are_editable($anchor, $item)) {
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'edit') => i18n::s('Edit') ));
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'delete') => i18n::s('Delete') ));
 			}

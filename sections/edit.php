@@ -132,8 +132,13 @@ if(isset($_REQUEST['activation_date']) && $_REQUEST['activation_date'])
 if(isset($_REQUEST['expiry_date']) && $_REQUEST['expiry_date'])
 	$_REQUEST['expiry_date'] = Surfer::to_GMT($_REQUEST['expiry_date']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // access denied
-if(!$permitted) {
+} elseif(!$permitted) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged()) {
@@ -255,7 +260,7 @@ if(!$permitted) {
 		$section = Anchors::get('section:'.$_REQUEST['id'], TRUE);
 
 		// reward the poster for new posts
-		$context['page_title'] = i18n::s('A section has been successfully added');
+		$context['page_title'] = i18n::s('Thank you for your contribution');
 
 		$context['text'] .= i18n::s('<p>Please review the new page carefully and fix possible errors rapidly.</p>');
 
@@ -715,6 +720,7 @@ if($with_form) {
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_comments\')" style="cursor: pointer;">no_comments</a> - '.i18n::s('Disallow post of new comments');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_links\')" style="cursor: pointer;">no_links</a> - '.i18n::s('Disallow post of new links');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_neighbours\')" style="cursor: pointer;">no_neighbours</a> - '.i18n::s('Prevent YACS to add links to previous and next pages in the same section');
+		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_deletions\')" style="cursor: pointer;">with_deletions</a> - '.i18n::s('Editors are allowed to delete pages');
 		$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
 		$fields[] = array($label, $input, $hint);
 
@@ -769,7 +775,7 @@ if($with_form) {
 				.'<input type="radio" name="index_map" value="Y"';
 			if(!isset($item['index_map']) || ($item['index_map'] != 'N'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.sprintf(i18n::s('listed in the main panel, as usual, with the rank %s (default value is 10000).'), '<input type="text" name="rank" size="5" value="'.encode_field(isset($item['rank']) ? $item['rank'] : '10000').'" maxlength="5" />');
+			$input .= EOT.' '.sprintf(i18n::s('listed in the main panel, with the rank %s (default value is 10000).'), '<input type="text" name="rank" size="5" value="'.encode_field(isset($item['rank']) ? $item['rank'] : '10000').'" maxlength="5" />');
 			$input .= BR.'<input type="radio" name="index_map" value="N"';
 			if(isset($item['index_map']) && ($item['index_map'] == 'N'))
 				$input .= ' checked="checked"';
@@ -777,11 +783,11 @@ if($with_form) {
 			$parent .= '<p>'.$label.BR.$input.'</p>';
 
 			$label = '';
-			$input = BR.i18n::s('Recent pages should be:').BR;
+			$input = BR.i18n::s('Content of this section should be:').BR;
 			$input .= '<input type="radio" name="index_panel" value="main"';
 			if(!isset($item['index_panel']) || ($item['index_panel'] == '') || ($item['index_panel'] == 'main'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('displayed in the main panel, as usual')
+			$input .= EOT.' '.i18n::s('displayed in the main panel')
 				.BR.'<input type="radio" name="index_panel" value="news"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'news'))
 				$input .= ' checked="checked"';
@@ -789,7 +795,7 @@ if($with_form) {
 				.BR.'<input type="radio" name="index_panel" value="gadget"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'gadget'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('listed in a gadget box in the main panel')
+			$input .= EOT.' '.i18n::s('listed in the main panel, in a gadget box')
 				.BR.'<input type="radio" name="index_panel" value="gadget_boxes"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'gadget_boxes'))
 				$input .= ' checked="checked"';
@@ -805,7 +811,7 @@ if($with_form) {
 				.BR.'<input type="radio" name="index_panel" value="extra"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'extra'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('listed in an extra box, on page side')
+			$input .= EOT.' '.i18n::s('listed on page side, in an extra box')
 				.BR.'<input type="radio" name="index_panel" value="extra_boxes"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'extra_boxes'))
 				$input .= ' checked="checked"';
@@ -842,7 +848,7 @@ if($with_form) {
 				.'<input type="radio" name="index_map" value="Y"';
 			if(!isset($item['index_map']) || ($item['index_map'] != 'N'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.sprintf(i18n::s('listed in the main panel, as usual, with the rank %s (default value is 10000). If the site front page features the site map, the section will be listed there as well.'), '<input type="text" name="rank" size="5" value="'.encode_field(isset($item['rank']) ? $item['rank'] : '10000').'" maxlength="5" />');
+			$input .= EOT.' '.sprintf(i18n::s('listed in the main panel, with the rank %s (default value is 10000).'), '<input type="text" name="rank" size="5" value="'.encode_field(isset($item['rank']) ? $item['rank'] : '10000').'" maxlength="5" />');
 			$input .= BR.'<input type="radio" name="index_map" value="N"';
 			if(isset($item['index_map']) && ($item['index_map'] == 'N'))
 				$input .= ' checked="checked"';
@@ -868,11 +874,11 @@ if($with_form) {
 	if(Surfer::is_associate()) {
 
 		// options for recent pages of this section
-		$input = i18n::s('Recent pages should be:').BR;
+		$input = i18n::s('Content of this section should be:').BR;
 		$input .= '<input type="radio" name="home_panel" value="main"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'main'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('displayed in the main panel, as usual')
+		$input .= EOT.' '.i18n::s('displayed in the main panel')
 			.BR.'<input type="radio" name="home_panel" value="news"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'news'))
 			$input .= ' checked="checked"';
@@ -880,7 +886,7 @@ if($with_form) {
 			.BR.'<input type="radio" name="home_panel" value="gadget"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'gadget'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('listed in a gadget box in the main panel')
+		$input .= EOT.' '.i18n::s('listed in the main panel, in a gadget box')
 			.BR.'<input type="radio" name="home_panel" value="gadget_boxes"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'gadget_boxes'))
 			$input .= ' checked="checked"';
@@ -896,7 +902,7 @@ if($with_form) {
 			.BR.'<input type="radio" name="home_panel" value="extra"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'extra'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('listed in an extra box, on page side')
+		$input .= EOT.' '.i18n::s('listed on page side, in an extra box')
 			.BR.'<input type="radio" name="home_panel" value="extra_boxes"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'extra_boxes'))
 			$input .= ' checked="checked"';
@@ -904,7 +910,7 @@ if($with_form) {
 			.BR.'<input type="radio" name="home_panel" value="none"';
 		if(!isset($item['home_panel']) || !preg_match('/^(extra|extra_boxes|gadget|gadget_boxes|icon_bottom|icon_top|main|news)$/', $item['home_panel']))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('not displayed at the site front page');
+		$input .= EOT.' '.i18n::s('not displayed at the front page');
 
 		// one folded box for layout options
 		$content .= Skin::build_box(i18n::s('Contribution to the site front page'), $input, 'folder');
@@ -1277,7 +1283,7 @@ if($with_form) {
 
 	// drive associates to the Content Assistant
 	if(Surfer::is_associate())
-		$help .= '<p>'.sprintf(i18n::s('Use the %s if you are lost.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>'."\n";
+		$help .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>'."\n";
 
 	// in a side box
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');

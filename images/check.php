@@ -23,7 +23,7 @@ load_skin('images');
 $context['path_bar'] = array( 'images/' => i18n::s('Images') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Images maintenance');
+$context['page_title'] = i18n::s('Maintenance');
 
 // the user has to be an associate
 if(!Surfer::is_associate()) {

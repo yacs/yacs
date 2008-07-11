@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:46 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:08 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont &#233;t&#233; trait&#233;s';
 $_SESSION['l10n']['fr']['%s and %s are available to enhance text rendering.']='Utilisez %s et %s pour embellir le texte.';
@@ -15,12 +15,12 @@ $_SESSION['l10n']['fr']['Add a date']='Ajouter une date';
 $_SESSION['l10n']['fr']['Add another date']='Ajouter une autre date';
 $_SESSION['l10n']['fr']['April']='Avril';
 $_SESSION['l10n']['fr']['August']='Ao&#251;t';
+$_SESSION['l10n']['fr']['Back to main page']='Retour &#224; la page principale';
 $_SESSION['l10n']['fr']['Dates']='Dates';
-$_SESSION['l10n']['fr']['Dates maintenance']='V&#233;rification des dates';
 $_SESSION['l10n']['fr']['December']='D&#233;cembre';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete a date']='Supprimer une date';
-$_SESSION['l10n']['fr']['Do not change modification date of the related page.']='Ne pas changer la date de modification de la page associ&#233;e.';
+$_SESSION['l10n']['fr']['Do not change modification date of the main page.']='Ne pas changer la date de modification de la page principale.';
 $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit a date']='Modifier une date';
 $_SESSION['l10n']['fr']['Edit the page']='Modifier la page';
@@ -31,7 +31,6 @@ $_SESSION['l10n']['fr']['Juillet']='Juillet';
 $_SESSION['l10n']['fr']['June']='Juin';
 $_SESSION['l10n']['fr']['Look for orphan records']='D&#233;tecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Look for unused dates']='D&#233;tecter les dates non-utilis&#233;es';
-$_SESSION['l10n']['fr']['Main page']='Page principale';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['March']='Mars';
 $_SESSION['l10n']['fr']['May']='Mai';
@@ -59,7 +58,7 @@ $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Target date']='Date cible';
 $_SESSION['l10n']['fr']['Target date: %s']='Date cible : %s';
-$_SESSION['l10n']['fr']['Thank you very much for your contribution']='Merci beaucoup de votre contribution';
+$_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['The date has been saved.']='La date a &#233;t&#233; enregistr&#233;e.';
 $_SESSION['l10n']['fr']['The deletion has not been confirmed']='Effacement non confirm&#233;';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a &#233;t&#233; verrouill&#233;e.';

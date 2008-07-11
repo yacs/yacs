@@ -76,7 +76,7 @@ else
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Main page') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Back to main page') ));
 
 // commands for associates and author, but not for editors
 if($item['id'] && (Surfer::is_associate() || Surfer::is($item['create_id'])) )

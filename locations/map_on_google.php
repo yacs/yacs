@@ -60,8 +60,6 @@ if(is_object($anchor))
 	$context['page_title'] = sprintf(i18n::s('Locations related to %s'), $anchor->get_title());
 elseif($id == 'users')
 	$context['page_title'] = i18n::s('Locations related to community members');
-else
-	$context['page_title'] = i18n::s('Unknown locations');
 
 // not found
 if(!is_object($anchor) && ($id != 'all') && ($id != 'users'))

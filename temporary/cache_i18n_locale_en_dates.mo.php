@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:46 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:08 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['%s and %s are available to enhance text rendering.']='%s and %s are available to enhance text rendering.';
@@ -15,12 +15,12 @@ $_SESSION['l10n']['en']['Add a date']='Add a date';
 $_SESSION['l10n']['en']['Add another date']='Add another date';
 $_SESSION['l10n']['en']['April']='April';
 $_SESSION['l10n']['en']['August']='August';
+$_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Dates']='Dates';
-$_SESSION['l10n']['en']['Dates maintenance']='Dates maintenance';
 $_SESSION['l10n']['en']['December']='December';
 $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete a date']='Delete a date';
-$_SESSION['l10n']['en']['Do not change modification date of the related page.']='Do not change modification date of the related page.';
+$_SESSION['l10n']['en']['Do not change modification date of the main page.']='Do not change modification date of the main page.';
 $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit a date']='Edit a date';
 $_SESSION['l10n']['en']['Edit the page']='Edit the page';
@@ -31,7 +31,6 @@ $_SESSION['l10n']['en']['Juillet']='Juillet';
 $_SESSION['l10n']['en']['June']='June';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Look for unused dates']='Look for unused dates';
-$_SESSION['l10n']['en']['Main page']='Main page';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['March']='March';
 $_SESSION['l10n']['en']['May']='May';
@@ -59,7 +58,7 @@ $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Target date']='Target date';
 $_SESSION['l10n']['en']['Target date: %s']='Target date: %s';
-$_SESSION['l10n']['en']['Thank you very much for your contribution']='Thank you very much for your contribution';
+$_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['The date has been saved.']='The date has been saved.';
 $_SESSION['l10n']['en']['The deletion has not been confirmed']='The deletion has not been confirmed';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';

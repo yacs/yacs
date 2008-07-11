@@ -83,8 +83,7 @@ Class Layout_links extends Layout_interface {
 				if($item['edit_name'])
 					$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
-			} else
-				$details[] = get_action_label($item['edit_action']);
+			}
 
 			// show an anchor link
 			if(($variant != 'no_anchor') && ($variant != 'no_author') && $item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {

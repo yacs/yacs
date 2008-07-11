@@ -50,17 +50,24 @@ $context['path_bar'] = array( 'skins/' => i18n::s('Skins') );
 // the title of the page
 $context['page_title'] = i18n::s('Derive a new skin from an existing one');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // anonymous users are invited to log in or to register
-if(!Surfer::is_logged())
+} elseif(!Surfer::is_logged())
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('skins/derive.php'));
 
 // only associates can use this tool
-elseif(!Surfer::is_associate())
+elseif(!Surfer::is_associate()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // it is not allowed to rewrite one reference template
-elseif(isset($_REQUEST['directory']) && preg_match('/^(boxesandarrows|digital|joi|skeleton)$/', $_REQUEST['directory'])) {
-	Skin::error(i18n::s('Reference skins cannot be modified.'));
+} elseif(isset($_REQUEST['directory']) && preg_match('/^(boxesandarrows|digital|images|joi|skeleton)$/', $_REQUEST['directory'])) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // do the job
 } elseif(isset($_REQUEST['directory']) && $_REQUEST['directory']) {
@@ -208,7 +215,7 @@ elseif(isset($_REQUEST['directory']) && preg_match('/^(boxesandarrows|digital|jo
 
 	// congratulations
 	else {
-		$context['text'] .= '<p>'.i18n::s('Congratulations, you have completed the creation of a new skin.').'</p>'
+		$context['text'] .= '<p>'.i18n::s('Congratulations, the skins directory has been updated.').'</p>'
 			.'<p>'.sprintf(i18n::s('Feel free to change and adjust files at skins/%s to better suit your needs.'), $directory).'</p>';
 
 		// follow-up commands

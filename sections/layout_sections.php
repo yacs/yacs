@@ -207,7 +207,7 @@ Class Layout_sections extends Layout_interface {
 
 			// give me more
 			if(count($details) && ($related_count > YAHOO_LIST_SIZE))
-				$content[Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name'])] = array('', i18n::s('More').MORE_IMG, '', 'more', '', i18n::s('This section contains other information of interest'));
+				$content[Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name'])] = array('', i18n::s('More').MORE_IMG, '', 'more', '', i18n::s('Read the page'));
 
 			// append details to the suffix
 			if(count($details))

@@ -102,6 +102,12 @@ else
 // load a skin
 load_skin('files');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	die(i18n::s('You are not allowed to perform this operation.'));
+}
+
 // path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();

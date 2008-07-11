@@ -67,8 +67,13 @@ else
 if(isset($item['title']))
 	$context['page_title'] = sprintf(i18n::s('Stamp: %s'), $item['title']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!isset($item['id'])) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -141,10 +146,10 @@ if(!isset($item['id'])) {
 	Articles::clear($item);
 
 	// follow-up commands
-	$follow_up = i18n::s('What do you want to do now?');
+	$follow_up = i18n::s('Where do you want to go now?');
 	$menu = array();
-	$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('View the page')));
-	$menu = array_merge($menu, array('articles/review.php#expired' => i18n::s('Go to the review queue')));
+	$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to main page')));
+	$menu = array_merge($menu, array('articles/review.php#expired' => i18n::s('Review queue')));
 	$follow_up .= Skin::build_list($menu, 'page_menu');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -176,10 +181,10 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<p>'.i18n::s('The publication date has been successfully changed.')."</p>\n";
 
 		// follow-up commands
-		$follow_up = i18n::s('What do you want to do now?');
+		$follow_up = i18n::s('Where do you want to go now?');
 		$menu = array();
-		$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('View the page')));
-		$menu = array_merge($menu, array('articles/review.php' => i18n::s('Go to the review queue')));
+		$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to main page')));
+		$menu = array_merge($menu, array('articles/review.php' => i18n::s('Review queue')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 

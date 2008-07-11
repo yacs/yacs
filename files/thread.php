@@ -63,8 +63,13 @@ else
 // page title
 $context['page_title'] = i18n::s('Files');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // an anchor is mandatory
-if(!is_object($anchor)) {
+} elseif(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No anchor has been found.'));
 

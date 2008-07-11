@@ -24,6 +24,6 @@ Surfer::reset();
 if(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] && !preg_match('/login\.php/i', $_SERVER['HTTP_REFERER']))
 	Safe::redirect($_SERVER['HTTP_REFERER']);
 else
-	Safe::redirect($context['url_to_home'].$context['url_to_root'].'index.php');
+	Safe::redirect($context['url_to_home'].$context['url_to_root']);
 
 ?>

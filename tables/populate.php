@@ -34,7 +34,7 @@ $text = '';
 
 // // 'my_articles' article
 // if(Tables::get('my_articles'))
-// 	$text .= i18n::s('A sample "my_articles" table already exists.').BR."\n";
+// 	$text .= sprintf(i18n::s('A table "%s" already exists.'), i18n::c('My Articles')).BR."\n";
 // elseif($anchor = Articles::lookup('my_article')) {
 // 	$fields = array();
 // 	$fields['anchor'] = $anchor;
@@ -51,7 +51,7 @@ $text = '';
 // 		."WHERE (articles.active='Y') \n"
 // 		."ORDER BY articles.rank, articles.edit_date DESC, articles.title LIMIT 0,10";
 // 	if(Tables::post($fields))
-// 		$text .= sprintf(i18n::s('A table %s has been created.'), $fields['title']).BR."\n";
+// 		$text .= sprintf(i18n::s('A table "%s" has been created.'), $fields['title']).BR."\n";
 // 	else
 // 		$text .= Skin::error_pop().BR."\n";
 // }

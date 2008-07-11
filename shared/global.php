@@ -1042,6 +1042,7 @@ function render_skin($stamp=0) {
 			.'		plugins : "safari,table,advhr,advimage,advlink,emotions,insertdatetime,media,searchreplace,contextmenu,paste,directionality,fullscreen,visualchars",'."\n"
 			.'		languages : "fr",'."\n"
 			.'		disk_cache : false,'."\n"
+			.'		theme : "advanced",'."\n"
 			.'		debug : false });'."\n"
 			.'</script>'."\n"
 			.'<!-- Needs to be seperate script tags! -->'."\n"

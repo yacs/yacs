@@ -89,8 +89,13 @@ if(isset($_REQUEST['introduction']))
 if(isset($_REQUEST['description']))
 	xml::validate($_REQUEST['description']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // an anchor is mandatory
-if(!is_object($anchor)) {
+} elseif(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No anchor has been found.'));
 
@@ -240,7 +245,7 @@ if($with_form) {
 
 	// associates may decide to not stamp changes -- complex command
 	if(Surfer::is_associate() && Surfer::has_all())
-		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page').'</p>';
+		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').'</p>';
 
 	// the submit button
 	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";

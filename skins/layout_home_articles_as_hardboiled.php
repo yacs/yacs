@@ -49,7 +49,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 		if(!SQL::count($result)) {
 			$label = i18n::s('No article has been published so far.');
 			if(Surfer::is_associate())
-				$label .= ' '.sprintf(i18n::s('Use the %s to start to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
 			return $output;
 		}
@@ -74,8 +74,8 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 			// next item
 			$item_count += 1;
 
-			// the url to view this item
-			$url = Articles::get_url($item['id'], 'view', $item['title']);
+			// permalink
+			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -115,10 +115,8 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 				} elseif(is_object($anchor)) {
 					$icon = $anchor->get_thumbnail_url();
 				}
-				if($icon) {
-					$url = Articles::get_url($item['id'], 'view', $item['title']);
+				if($icon)
 					$text .= '<a href="'.$context['url_to_root'].$url.'" title="'.i18n::s('Read the page').'"><img src="'.$icon.'" class="left_image" alt=""'.EOT.'</a>';
-				}
 
 				$text .= $this->layout_newest($item, $anchor).'</div>'."\n";
 
@@ -233,8 +231,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 				// list up to three categories by title, if any
 				if($members = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 					foreach($members as $id => $attributes) {
-						if($this->layout_variant != 'category:'.$id)
-							$anchors[] = Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'category');
+						$anchors[] = Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title'], isset($attributes['nick_name'])?$attributes['nick_name']:''), $attributes['title'], 'category');
 					}
 				}
 
@@ -299,6 +296,9 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 	function layout_newest($item, $anchor) {
 		global $context;
 
+		// permalink
+		$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+
 		// initialize variables
 		$prefix = $suffix = $text = '';
 
@@ -321,7 +321,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 		}
 
 		// use the title as a link to the page
-		$text .= $prefix.'<b>'.Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), Codes::beautify_title($item['title']), 'basic', i18n::s('Read this page')).'</b>'.$suffix;
+		$text .= $prefix.'<b>'.Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', i18n::s('Read this page')).'</b>'.$suffix;
 
 		// details
 		$details = array();
@@ -352,15 +352,11 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 			$text .= $overlay->get_text('list', $item);
 
 		// read this article
-		$text .= '<p class="details right">'.Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), i18n::s('Read this page'), 'basic');
+		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('Read this page'), 'basic');
 
 		// info on related files
-		if($context['with_friendly_urls'] == 'Y')
-			$file = 'articles/view.php/'.$item['id'].'/files/1';
-		else
-			$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
 		if($count = Files::count_for_anchor('article:'.$item['id']))
-			$text .= ' ('.Skin::build_link($file, sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic').')';
+			$text .= ' ('.Skin::build_link($url.'#files', sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic').')';
 
 		// link to the anchor page
 		if(is_object($anchor))
@@ -374,7 +370,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 			foreach($items as $id => $attributes) {
 				if(!$first_category)
 					$text .= ',';
-				$text .= ' '.Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'basic', i18n::s('More similar pages'));
+				$text .= ' '.Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title'], isset($attributes['nick_name'])?$attributes['nick_name']:''), $attributes['title'], 'basic', i18n::s('More similar pages'));
 				$first_category = FALSE;
 			}
 		}

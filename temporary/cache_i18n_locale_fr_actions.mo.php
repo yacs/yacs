@@ -3,27 +3,27 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:07 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont &#233;t&#233; trait&#233;s';
 $_SESSION['l10n']['fr']['1 action'.chr(0).'%d actions']='1 action'.chr(0).'%d actions';
 $_SESSION['l10n']['fr']['<p>If possible, describe the whole action in its title. The description field should be used for additional non-essentiel details.</p><p>%s and %s are available to enhance text rendering.</p><p>Use the target field to designate the main web resource involved in the action.</p>']='<p>Essayez de d&#233;crire compl&#232;tement l\'action dans son titre, et placez les &#233;l&#233;ments d\'information compl&#233;mentaires dans le champ de description.</p><p>Utilisez %s et %s pour embellir le texte.</p><p>Renseignez l\'adresse cible si cette action est reli&#233;e &#224; une ressource web particuli&#232;re.</p>';
 $_SESSION['l10n']['fr']['<p>The following action has been flagged with the status:</p><p><b>%s</b></p>']='<p>L\'action suivante a maintenant l\'&#233;tat :</p><p><b>%s</b></p>';
-$_SESSION['l10n']['fr']['Accept one action']='Accepter une action';
+$_SESSION['l10n']['fr']['Accept: %s']='Accepter : %s';
 $_SESSION['l10n']['fr']['Action assigned to: %s']='Action assign&#233;e &#224; %s';
 $_SESSION['l10n']['fr']['Action has been completed']='L\'action est termin&#233;e';
 $_SESSION['l10n']['fr']['Action has been rejected']='L\'action a &#233;t&#233; rejet&#233;e';
 $_SESSION['l10n']['fr']['Action is on-going']='L\'action est en cours';
 $_SESSION['l10n']['fr']['Actions']='Actions';
-$_SESSION['l10n']['fr']['Actions validation']='Validation des actions';
 $_SESSION['l10n']['fr']['Add an action']='Ajouter une action';
+$_SESSION['l10n']['fr']['Back to main page']='Retour &#224; la page principale';
 $_SESSION['l10n']['fr']['Be straigthforward']='Soyez clair et concis';
 $_SESSION['l10n']['fr']['Because of our security policy you are not allowed to list actions. Please browse %s to visualize any action attached.']='Notre politique de s&#233;curit&#233; ne vous donne pas acc&#232;s &#224; l\'index g&#233;n&#233;ral des actions. Merci de consulter %s pour visualiser les actions attach&#233;es.';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Completed']='Termin&#233;e';
 $_SESSION['l10n']['fr']['Completed actions']='Actions termin&#233;es';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
-$_SESSION['l10n']['fr']['Delete an action']='Supprimer une action';
+$_SESSION['l10n']['fr']['Delete: %s']='Supprimer : %s';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit the action']='Modifier l\'action';
@@ -32,7 +32,6 @@ $_SESSION['l10n']['fr']['Edited by']='Modifi&#233; par';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Look for orphan records']='Recherche des enregistrements orphelins';
 $_SESSION['l10n']['fr']['Looking for orphans in actions table...']='Recherche des orphelins dans la table des actions...';
-$_SESSION['l10n']['fr']['Main page']='Page principale';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Navigation']='Navigation';
 $_SESSION['l10n']['fr']['New action for %s']='Nouvelle action pour %s';
@@ -58,8 +57,8 @@ $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Status']='Etat';
 $_SESSION['l10n']['fr']['Submit']='Envoyer';
 $_SESSION['l10n']['fr']['Target address']='Adresse cible';
+$_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['The URL of the target page for this action, if any']='Une URL relative &#224; cette action, le cas &#233;ch&#233;ant';
-$_SESSION['l10n']['fr']['The action has been put in the to-do list']='L\'action a &#233;t&#233; ajout&#233;e dans la liste des choses &#224; faire';
 $_SESSION['l10n']['fr']['The deletion has not been confirmed']='La suppression n\'a pas &#233;t&#233; confirm&#233;e';
 $_SESSION['l10n']['fr']['The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.
 
@@ -82,14 +81,11 @@ $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a &#233;t&#233
 $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['Too many successive errors. Aborted']='Trop d\'erreurs successives. Abandon';
 $_SESSION['l10n']['fr']['Unknown status %s']='Etat inconnu %s';
-$_SESSION['l10n']['fr']['View an action']='Voir une action';
-$_SESSION['l10n']['fr']['View the main page']='Voir la page principale';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire &#224; pr&#233;sent ?';
 $_SESSION['l10n']['fr']['YACS codes']='Les codes YACS';
 $_SESSION['l10n']['fr']['Yes, I want to suppress this action']='Oui, je veux supprimer cette action';
 $_SESSION['l10n']['fr']['You are not allowed to perform this operation.']='Vous n\'&#234;tes pas autoris&#233; &#224; effectuer cette op&#233;ration.';
 $_SESSION['l10n']['fr']['You can use actions to notify immediately other members of new things to do. Actions are sent by email where possible. Else they are listed at login time.']='Vous pouvez utiliser les actions pour assigner des t&#226;ches aux membres de la communaut&#233;. Lorsque c\'est possible, des messages &#233;lectroniques sont propag&#233;s aux personnes concern&#233;es. Les nouvelles actions sont aussi affich&#233;es au moment de l\'authentification sur le serveur.';
-$_SESSION['l10n']['fr']['Your request has been processed.']='Votre commande a &#233;t&#233; prise en compte.';
 $_SESSION['l10n']['fr']['actions']='actions';
 $_SESSION['l10n']['fr']['delete']='supprimer';
 $_SESSION['l10n']['fr']['edit']='modifier';

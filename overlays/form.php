@@ -37,6 +37,29 @@ class Form extends Overlay {
 	}
 
 	/**
+	 * allow for data export
+	 *
+	 * @see overlays/overlay.php
+	 *
+	 * @param array the hosting record
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function &get_extra_text($host=NULL) {
+		global $context;
+
+		// a line of commands, but only to authenticated empowered surfers
+		if(Surfer::is_logged() && Surfer::is_empowered()) {
+			$menu = array();
+			$menu[] = Skin::build_link($this->get_url($host['id'], 'fetch_as_csv'), i18n::s('CSV'), 'button');
+			$menu[] = Skin::build_link(Articles::get_url($host['id'], 'export'), i18n::s('Export to XML'), 'span');
+			$text = Skin::build_box(i18n::s('Export data'), Skin::finalize_list($menu, 'menu_bar'), 'extra');
+		} else
+			$text = '';
+		return $text;
+
+	}
+
+	/**
 	 * display the content of one form
 	 *
 	 * @see overlays/overlay.php
@@ -45,18 +68,8 @@ class Form extends Overlay {
 	 * @return some HTML to be inserted into the resulting page
 	 */
 	function &get_view_text($host=NULL) {
-		global $context;
-
-		// a line of commands, but only to authenticated empowered surfers
-		if(Surfer::is_logged() && Surfer::is_empowered()) {
-			$menu = array();
-			$menu[] = Skin::build_link($this->get_url($host['id'], 'fetch_as_csv'), i18n::s('CSV'), 'button');
-			$menu[] = Skin::build_link(Articles::get_url($host['id'], 'export'), i18n::s('Export to XML'), 'span');
-			$text = Skin::finalize_list($menu, 'menu_bar');
-		} else
-			$text = '';
+		$text = '';
 		return $text;
-
 	}
 
 	function get_url($id, $action) {

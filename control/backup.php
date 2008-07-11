@@ -913,13 +913,13 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	}
 
 	// the submit button
-	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Apply these SQL statements'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Apply these SQL statements'), i18n::s('Press [s] to submit data'), 's')."\n";
 
 	// purge files and images
-	$context['text'] .= '<p><input type="checkbox" name="delete_files" value="Y"'.EOT.' '.i18n::s('Delete files and images related to previous database content').'</p>';
+	$context['text'] .= BR.'<input type="checkbox" name="delete_files" value="Y" checked="checked" />'.i18n::s('Delete files and images related to previous database content');
 
 	// end of the form
-	$context['text'] .= '</div></form>';
+	$context['text'] .= '</p></div></form>';
 
 	// this may take several minutes
 	$context['text'] .= i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.');

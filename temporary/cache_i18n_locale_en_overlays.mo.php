@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:45 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:07 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d approval'.chr(0).'%d approvals']='%d approval'.chr(0).'%d approvals';
 $_SESSION['l10n']['en']['%d reject'.chr(0).'%d rejects']='%d reject'.chr(0).'%d rejects';
@@ -36,7 +36,7 @@ $_SESSION['l10n']['en']['Answer 1']='Answer 1';
 $_SESSION['l10n']['en']['Answer 2']='Answer 2';
 $_SESSION['l10n']['en']['Answer 3']='Answer 3';
 $_SESSION['l10n']['en']['Associates only']='Associates only';
-$_SESSION['l10n']['en']['Back to previous page']='Back to previous page';
+$_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['CSV']='CSV';
 $_SESSION['l10n']['en']['Cancelled']='Cancelled';
 $_SESSION['l10n']['en']['Cast your vote']='Cast your vote';
@@ -74,6 +74,7 @@ $_SESSION['l10n']['en']['Editors of this section are allowed to sign']='Editors 
 $_SESSION['l10n']['en']['Editors of this section are allowed to vote']='Editors of this section are allowed to vote';
 $_SESSION['l10n']['en']['Email address:']='Email address:';
 $_SESSION['l10n']['en']['End date']='End date';
+$_SESSION['l10n']['en']['Export data']='Export data';
 $_SESSION['l10n']['en']['Export to XML']='Export to XML';
 $_SESSION['l10n']['en']['Express your vote']='Express your vote';
 $_SESSION['l10n']['en']['Extra box']='Extra box';
@@ -140,7 +141,7 @@ $_SESSION['l10n']['en']['Step 2 - Qualification has taken place on %s']='Step 2 
 $_SESSION['l10n']['en']['Step 3 - Analysis has ended on %s']='Step 3 - Analysis has ended on %s';
 $_SESSION['l10n']['en']['Step 4 - Resolution has been finalized on %s']='Step 4 - Resolution has been finalized on %s';
 $_SESSION['l10n']['en']['Step 5 - Issue has been closed on %s']='Step 5 - Issue has been closed on %s';
-$_SESSION['l10n']['en']['Thank you for your vote']='Thank you for your vote';
+$_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['This field is hardcoded']='This field is hardcoded';
 $_SESSION['l10n']['en']['This page has no overlay']='This page has no overlay';
 $_SESSION['l10n']['en']['Time to cook']='Time to cook';

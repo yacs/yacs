@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:46 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:08 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['%s approvals (%d%%), %s rejections (%d%%)']='%s approvals (%d%%), %s rejections (%d%%)';
@@ -17,13 +17,12 @@ $_SESSION['l10n']['en']['Approved %s']='Approved %s';
 $_SESSION['l10n']['en']['Approved by %s %s']='Approved by %s %s';
 $_SESSION['l10n']['en']['Ask for a decision']='Ask for a decision';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
+$_SESSION['l10n']['en']['Browse in a separate window']='Browse in a separate window';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
-$_SESSION['l10n']['en']['Decide']='Decide';
 $_SESSION['l10n']['en']['Decide: %s']='Decide: %s';
 $_SESSION['l10n']['en']['Decision']='Decision';
 $_SESSION['l10n']['en']['Decision: %s']='Decision: %s';
 $_SESSION['l10n']['en']['Decisions']='Decisions';
-$_SESSION['l10n']['en']['Decisions maintenance']='Decisions maintenance';
 $_SESSION['l10n']['en']['Decisions: %s']='Decisions: %s';
 $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete a decision']='Delete a decision';
@@ -38,21 +37,19 @@ $_SESSION['l10n']['en']['Enter nick names, or email addresses, separated by comm
 $_SESSION['l10n']['en']['Error while sending the message to %s']='Error while sending the message to %s';
 $_SESSION['l10n']['en']['If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.']='If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.';
 $_SESSION['l10n']['en']['In %s']='In %s';
-$_SESSION['l10n']['en']['List decisions']='List decisions';
+$_SESSION['l10n']['en']['Invite people']='Invite people';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
-$_SESSION['l10n']['en']['Mail address: %s']='Mail address: %s';
-$_SESSION['l10n']['en']['Main page']='Main page';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Message content']='Message content';
 $_SESSION['l10n']['en']['Message title']='Message title';
-$_SESSION['l10n']['en']['Message: %s']='Message: %s';
 $_SESSION['l10n']['en']['Motivation']='Motivation';
 $_SESSION['l10n']['en']['New decision: %s']='New decision: %s';
 $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.';
 $_SESSION['l10n']['en']['No decision has been recorded yet.']='No decision has been recorded yet.';
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
 $_SESSION['l10n']['en']['Orphan: decision %s']='Orphan: decision %s';
-$_SESSION['l10n']['en']['People to invite']='People to invite';
+$_SESSION['l10n']['en']['Page to review']='Page to review';
+$_SESSION['l10n']['en']['Please let me thank you for your kind support.']='Please let me thank you for your kind support.';
 $_SESSION['l10n']['en']['Please provide a meaningful title.']='Please provide a meaningful title.';
 $_SESSION['l10n']['en']['Please provide a recipient address.']='Please provide a recipient address.';
 $_SESSION['l10n']['en']['Please select the check to perform.']='Please select the check to perform.';
@@ -67,15 +64,12 @@ $_SESSION['l10n']['en']['Reject']='Reject';
 $_SESSION['l10n']['en']['Rejected']='Rejected';
 $_SESSION['l10n']['en']['Rejected %s']='Rejected %s';
 $_SESSION['l10n']['en']['Rejected by %s %s']='Rejected by %s %s';
-$_SESSION['l10n']['en']['Review the page']='Review the page';
 $_SESSION['l10n']['en']['Scanning decisions table...']='Scanning decisions table...';
 $_SESSION['l10n']['en']['Script terminated in %.2f seconds.']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Send me a copy of this message.']='Send me a copy of this message.';
-$_SESSION['l10n']['en']['Sender address: %s']='Sender address: %s';
 $_SESSION['l10n']['en']['Start']='Start';
-$_SESSION['l10n']['en']['Subject: %s']='Subject: %s';
 $_SESSION['l10n']['en']['Submit']='Submit';
-$_SESSION['l10n']['en']['Thank you very much for your contribution']='Thank you very much for your contribution';
+$_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['The deletion has not been confirmed.']='The deletion has not been confirmed.';
 $_SESSION['l10n']['en']['The message content can not be empty.']='The message content can not be empty.';
 $_SESSION['l10n']['en']['This has been rejected']='This has been rejected';
@@ -91,25 +85,10 @@ $_SESSION['l10n']['en']['Visit %s to get more interesting pages.']='Visit %s to 
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['Yes, I want to suppress this decision']='Yes, I want to suppress this decision';
 $_SESSION['l10n']['en']['You are not allowed to perform this operation.']='You are not allowed to perform this operation.';
-$_SESSION['l10n']['en']['You are personally invited to express your decision on following page.
-
-%s
-
-Please let me thank you for your kind support.
-
-%s']='You are personally invited to express your decision on following page.
-
-%s
-
-Please let me thank you for your kind support.
-
-%s';
-$_SESSION['l10n']['en']['You must type a recipient for your message.']='You must type a recipient for your message.';
-$_SESSION['l10n']['en']['You must type an address for replies.']='You must type an address for replies.';
+$_SESSION['l10n']['en']['You are personally invited to express your decision on following page.']='You are personally invited to express your decision on following page.';
 $_SESSION['l10n']['en']['Your address']='Your address';
 $_SESSION['l10n']['en']['Your approval has been recorded']='Your approval has been recorded';
 $_SESSION['l10n']['en']['Your decision']='Your decision';
-$_SESSION['l10n']['en']['Your e-mail address']='Your e-mail address';
 $_SESSION['l10n']['en']['Your message is being transmitted to %s']='Your message is being transmitted to %s';
 $_SESSION['l10n']['en']['Your motivation']='Your motivation';
 $_SESSION['l10n']['en']['Your name']='Your name';

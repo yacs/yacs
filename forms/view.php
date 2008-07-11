@@ -71,8 +71,13 @@ if($item['title'])
 // no form yet
 $with_form = FALSE;
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!isset($item['id'])) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -108,7 +113,8 @@ if(!isset($item['id'])) {
 	unset($_REQUEST['id']);
 
 	// make a title for the new page
-	$_REQUEST['title'] = sprintf(i18n::c('Form submitted by %s %s'), Surfer::get_name(), Skin::build_date(time(), 'day'));
+	if(!isset($_REQUEST['title']) || !$_REQUEST['title'])
+		$_REQUEST['title'] = sprintf('%s - %s', Surfer::get_name(), $item['title']);
 
 	// always publish the page
 	$_REQUEST['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
@@ -116,9 +122,13 @@ if(!isset($item['id'])) {
 	// do not re-use form description
 	$_REQUEST['description'] = '';
 
+	// basic attributes
+	$attributes = array();
+	$attributes[] = array(i18n::c('Name') => Surfer::get_name());
+	$attributes[] = array(i18n::c('Email') => Surfer::get_email_address());
+
 	// parse the form
 	$text = '';
-	$attributes = array();
 	if($item['content']) {
 
 		// list all fields in sequence
@@ -342,19 +352,15 @@ if(!isset($item['id'])) {
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
 		// the page has been recorded
-		$context['text'] .= i18n::s('<p>A new page has been created with submitted data. You can use its permanent address at any time to review or complement it.</p>');
+		$context['text'] .= '<p>'.i18n::s('A new page has been created with submitted data. This will be reviewed by people in charge.').'</p>';
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		$menu = array_merge($menu, array($article->get_url() => i18n::s('View the page')));
-		if(Surfer::may_upload()) {
-			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Add an image')));
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Upload a file')));
-		}
-		$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('article:'.$_REQUEST['id']) => i18n::s('Add a link')));
-		if(Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y'))
-			$menu = array_merge($menu, array(Articles::get_url($_REQUEST['id'], 'mail') => i18n::s('Invite people')));
+		if(!$anchor->is_viewable())
+			$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
+		else
+			$menu = array_merge($menu, array($article->get_url() => i18n::s('View the page')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -446,18 +452,39 @@ if($with_form) {
 			// the address, if any
 			$label = i18n::s('Your e-mail address');
 			$input = '<input type="text" name="edit_address" size="45" maxlength="128" accesskey="a" value="'.encode_field(Surfer::get_email_address()).'" />';
-			$hint = i18n::s('Put your e-mail address to be alerted on surfer reactions');
+			$hint = i18n::s('Put your e-mail address to receive feed-back');
 			$fields[] = array($label, $input, $hint);
 
 			// stop robots
 			if($field = Surfer::get_robot_stopper())
 				$fields[] = $field;
 
-			// we are now entering regular fields
-			$text .= Skin::build_form($fields);
-			$fields = array();
+		} else {
+
+			// the name, if any
+			if($value = Surfer::get_name()) {
+				$label = i18n::s('Your name');
+				$fields[] = array($label, $value);
+			}
+
+			// the address, if any
+			if($value = Surfer::get_email_address()) {
+				$label = i18n::s('Your e-mail address');
+				$fields[] = array($label, $value);
+			}
 
 		}
+
+		// we are now entering regular fields
+		$text .= Skin::build_form($fields);
+		$fields = array();
+
+		// the title
+		$title = sprintf('%s - %s', Surfer::get_name(i18n::s('Your name')), $item['title']);
+		$text .= Skin::build_block(i18n::s('Title'), 'subtitle')."\n"
+			.'<textarea name="title" id="title" rows="2" cols="50" accesskey="t">'.$title.'</textarea>'
+			.BR.'<span class="tiny">'.i18n::s('Please provide a meaningful title.').'</span>'.BR;
+
 
 		// build the user form
 		if($item['content']) {

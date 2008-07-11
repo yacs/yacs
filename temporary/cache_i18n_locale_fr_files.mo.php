@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:06 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr'][' VLC media player']=' VLC media player';
 $_SESSION['l10n']['fr']['%d bytes']='%d  octets';
@@ -42,7 +42,7 @@ $_SESSION['l10n']['fr']['Anyone may download this file']='Tout le monde peut t&#
 $_SESSION['l10n']['fr']['Apple web server']='serveur d\'Apple';
 $_SESSION['l10n']['fr']['Artist']='Artiste';
 $_SESSION['l10n']['fr']['As this field may be searched by surfers, please choose adequate searchable words']='Ce champ &#233;tant index&#233; pour les recherches, pensez &#224; soigner votre formulation';
-$_SESSION['l10n']['fr']['Back to main page']='Retourner &#224; la page principale';
+$_SESSION['l10n']['fr']['Back to main page']='Retour &#224; la page principale';
 $_SESSION['l10n']['fr']['Biggest files']='Les plus gros fichiers';
 $_SESSION['l10n']['fr']['Bitrate']='D&#233;bit';
 $_SESSION['l10n']['fr']['Browse %s']='Naviguer %s';
@@ -59,13 +59,13 @@ $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
 $_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contr&#244;le';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
-$_SESSION['l10n']['fr']['Delete a file']='Effacer un fichier';
+$_SESSION['l10n']['fr']['Delete: %s']='Supprimer : %s';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['Detach']='D&#233;tacher';
 $_SESSION['l10n']['fr']['Detach the file if you are intended to change its content']='D&#233;tacher le fichier si vous souhaitez modifier son contenu';
 $_SESSION['l10n']['fr']['Detach this file']='D&#233;tacher ce fichier';
 $_SESSION['l10n']['fr']['Divx Player']='Divx Player';
-$_SESSION['l10n']['fr']['Do not change modification date of the related page.']='Ne pas changer la date de modification de la page associ&#233;e.';
+$_SESSION['l10n']['fr']['Do not change modification date of the main page.']='Ne pas changer la date de modification de la page principale.';
 $_SESSION['l10n']['fr']['Do not know how to stream this file type']='Impossible de streamer ce type de fichier';
 $_SESSION['l10n']['fr']['Download']='T&#233;l&#233;charger';
 $_SESSION['l10n']['fr']['Download %s']='T&#233;l&#233;charger %s';
@@ -88,7 +88,6 @@ $_SESSION['l10n']['fr']['File size']='Taille du fichier';
 $_SESSION['l10n']['fr']['File transfer has been interrupted.']='Le transfert du fichier a &#233;t&#233; interrompu.';
 $_SESSION['l10n']['fr']['Files']='Fichiers';
 $_SESSION['l10n']['fr']['Files at %s']='Fichiers &#224; %s';
-$_SESSION['l10n']['fr']['Files maintenance']='Maintenance des fichiers';
 $_SESSION['l10n']['fr']['Files to review']='Les fichiers &#224; contr&#244;ler';
 $_SESSION['l10n']['fr']['Files: %s']='Fichiers : %s';
 $_SESSION['l10n']['fr']['Following items are attached to this record and will be suppressed as well.']='Si vous continuez, les &#233;l&#233;ments suivants seront aussi d&#233;truits de la base de donn&#233;es.';
@@ -124,7 +123,6 @@ $_SESSION['l10n']['fr']['Less downloaded files']='Fichiers les moins t&#233;l&#2
 $_SESSION['l10n']['fr']['List extensions you would like to support, separated by spaces or commas.']='Lister les extensions &#224; ajouter, s&#233;par&#233;es par des espaces ou des virgules.';
 $_SESSION['l10n']['fr']['Local path']='Chemin d\'acc&#232;s local';
 $_SESSION['l10n']['fr']['Look for orphan records']='D&#233;tecter les enregistrements orphelins';
-$_SESSION['l10n']['fr']['Main page']='Page principale';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Microsoft web server']='serveur de Microsoft';
 $_SESSION['l10n']['fr']['MindManager']='MindManager';
@@ -185,7 +183,7 @@ $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Supported extensions']='Extensions support&#233;es';
 $_SESSION['l10n']['fr']['TeX']='TeX';
 $_SESSION['l10n']['fr']['Texinfo']='Texinfo';
-$_SESSION['l10n']['fr']['Thank you very much for your contribution']='Merci beaucoup de votre contribution';
+$_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['The assignment has been successfully cleared, and the file is again available for download.']='L\'assignation a &#233;t&#233; supprim&#233;e, et le fichier est de nouveau disponible pour t&#233;l&#233;chargement.';
 $_SESSION['l10n']['fr']['The deletion has not been confirmed.']='Effacement non confirm&#233;';
 $_SESSION['l10n']['fr']['The download should start automatically within seconds. Else hit the provided link to trigger it manually.']='Le t&#233;l&#233;chargement devrait commencer automatiquement. Sinon, utilisez le lien fourni pour le d&#233;clencher manuellement.';
@@ -228,7 +226,6 @@ $_SESSION['l10n']['fr']['Use following codes to reference this item: %s']='Codes
 $_SESSION['l10n']['fr']['VLC media player']='VLC media player';
 $_SESSION['l10n']['fr']['Versions']='Versions';
 $_SESSION['l10n']['fr']['View the category']='Voir la cat&#233;gorie';
-$_SESSION['l10n']['fr']['View the main page']='Voir la page principale';
 $_SESSION['l10n']['fr']['Visibility']='Visibilit&#233;';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire &#224; pr&#233;sent ?';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='O&#249; voulez-vous aller &#224; pr&#233;sent ?';

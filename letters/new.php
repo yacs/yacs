@@ -95,19 +95,22 @@ if(!isset($context['letter_reply_to']) || !$context['letter_reply_to'])
 	$context['letter_reply_to'] = Surfer::get_email_address();
 
 // restrictions: for associates only
-if(!Surfer::is_associate())
+if(!Surfer::is_associate()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // e-mail has not been enabled
-elseif(!isset($context['with_email']) || ($context['with_email'] != 'Y'))
+} elseif(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('E-mail has not been activated on this system.'));
 
 // no post account
-elseif((!isset($context['mail_from']) || !$context['mail_from']) && (!isset($context['letter_reply_to']) || !$context['letter_reply_to']))
+} elseif((!isset($context['mail_from']) || !$context['mail_from']) && (!isset($context['letter_reply_to']) || !$context['letter_reply_to'])) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(sprintf(i18n::s('No account to post the letter. Please %s.'), Skin::build_link('letters/configure.php', i18n::s('configure one'))));
 
 // prepare some announcement
-elseif(isset($action) && ($action == 'announcement')) {
+} elseif(isset($action) && ($action == 'announcement')) {
 
 	// default values if no configuration file is available
 	if(!isset($context['letter_prefix']))

@@ -285,7 +285,7 @@ td { /* an ordinary cell */
 	margin: 0;
 	padding: 4px;
 	vertical-align: top;
-    text-align: left;
+	text-align: left;
 }
 
 textarea { /* change form elements */
@@ -298,7 +298,7 @@ textarea:focus { /* signal current input area */
 
 th { /* an ordinary table header -- headers in [table]headers[body]content[/table] */
 	background-color: #dedede;
-    text-align: left;
+	text-align: left;
 }
 
 u { /* underlined -- [u]...[/u] */
@@ -464,10 +464,10 @@ body#sections #extra_panel dl dt { /* enhance box titles on wider panels */
 }
 
 #main_panel ul li {
-    margin: 0;
-    padding: 0;
-    padding-left: 20px;
-    background: url("images/bullet.gif") no-repeat 0px 0px;
+	margin: 0;
+	padding: 0;
+	padding-left: 20px;
+	background: url("images/bullet.gif") no-repeat 0px 0px;
   }
 
 #side_panel { /* navigation information */
@@ -617,7 +617,7 @@ dl#gadget_6 dd {
 dl#gadget_1,
 dl#gadget_3,
 dl#gadget_5 { /* no more than two boxes per row -- also see .gadget_box -- from index.php, sections/view.php */
- 	clear: left;
+	clear: left;
 }
 
 #gadgets_prefix { /* comes before gadget boxes */
@@ -688,41 +688,41 @@ dl#gadget_5 { /* no more than two boxes per row -- also see .gadget_box -- from 
 	#home_center { /* a centered article at the home page, in layout: newspaper */
 		border-left: 1px dotted #bfbfbf;
 		margin: 0 0 1em 0.5em;
-	    padding: 0 0 0 0.5em;
-	    float: left;
-	    width: 31%; /* 31% is the maximum accepted by Firefox to have three boxes in a row at 800x600 */
+		padding: 0 0 0 0.5em;
+		float: left;
+		width: 31%; /* 31% is the maximum accepted by Firefox to have three boxes in a row at 800x600 */
 	}
 
 	#home_east { /* the rightmost article at the home page, in layouts: boxesandarrows, newspaper */
 		border-left: 1px dotted #bfbfbf;
 		margin: 0 0 1em 0.5em;
-	    padding: 0 0 0 0.5em;
-	    float: left;
-	    width: 31%; /* for newspaper */
-/*	    width: 48%; /* for boxesandarrows */
+		padding: 0 0 0 0.5em;
+		float: left;
+		width: 31%; /* for newspaper */
+/*		width: 48%; /* for boxesandarrows */
 	}
 
 	#home_north { /* the most new article at the home page, in layouts: daily, newspaper, slashdot */
 		clear: left;
-	    border: 1px solid #fa0;
-	    margin: 0.5em 0 0.5em 0;
-	    padding: 0 0.5em;
+		border: 1px solid #fa0;
+		margin: 0.5em 0 0.5em 0;
+		padding: 0 0.5em;
 	}
 
 	#home_north h2 { /* space above title to be partly delegated to the containing div */
-	    margin-top: 0.5em;
+		margin-top: 0.5em;
 	}
 
 	#home_north .date { /* space above date to be partly delegated to the containing div */
-	    margin-top: 0.5em;
+		margin-top: 0.5em;
 	}
 
 	#home_west { /* the leftmost article at the home page, in layouts: boxesandarrows, newspaper */
 		margin: 0 0 1em 0;
-	    padding: 0;
-	    float: left;
-	    width: 31%; /* for newspaper */
-/*	    width: 48%; /* for boxesandarrows */
+		padding: 0;
+		float: left;
+		width: 31%; /* for newspaper */
+/*		width: 48%; /* for boxesandarrows */
 	}
 
 	#home_south h3 { /* titles within home_east, home_center and home_west, for layout: newspaper */
@@ -930,12 +930,6 @@ dl#user_menu ul { /* commands that apply to this user -- see template script */
 
 }
 
-.author_box { /* a user profile, towards the beginning of an article */
-	float: right;
-	padding: 2px;
-	border: 1px dotted #888;
-}
-
 img.avatar { /* an image representing a member -- do not float it! */
 	margin: 3px; /* some space around the image */
 }
@@ -956,12 +950,12 @@ a.button { /* a link that mimic a form button -- [button]url[/button], [button=l
 	display: inline-block;
 	cursor: pointer;
 	border: none;
-    font-size: 0;
+	font-size: 0;
 	font-style: normal;
 	text-decoration: none;
 	color: #2e523b;
-    line-height: 0;
-    background: transparent url('images/button_yellow.png') 0 0 no-repeat;
+	line-height: 0;
+	background: transparent url('images/button_yellow.png') 0 0 no-repeat;
 	height: 30px;
 	margin: 0 6px 0 0;
 	padding: 0 10px 0 0;
@@ -972,14 +966,14 @@ a.button span {
 	display: inline-block;
 	cursor: pointer;
 	border: none;
-    font-family: "Arial" !important;
-    font-size: 12px !important;
-    font-style: normal;
+	font-family: "Arial" !important;
+	font-size: 12px !important;
+	font-style: normal;
 	white-space: nowrap;
-    letter-spacing: 0 !important;
-    color: #222;
+	letter-spacing: 0 !important;
+	color: #222;
 	line-height: 16px;
-    background: transparent url('images/button_yellow.png') 100% 0 no-repeat;
+	background: transparent url('images/button_yellow.png') 100% 0 no-repeat;
 	height: 30px;
 	margin: 0 -16px 0 10px;
 	padding: 8px 20px 0 10px;
@@ -992,12 +986,12 @@ span.button { /* a button in a form */
 	display: inline-block;
 	cursor: pointer;
 	border: none;
-    font-size: 0;
+	font-size: 0;
 	font-style: normal;
 	text-decoration: none;
 	color: #2e523b;
-    line-height: 0;
-    background: transparent url('images/button_yellow.png') 0 0 no-repeat;
+	line-height: 0;
+	background: transparent url('images/button_yellow.png') 0 0 no-repeat;
 	height: 30px;
 	margin: 0 6px 0 0;
 	padding: 0 10px 0 0;
@@ -1009,18 +1003,17 @@ span.button button {
 	display: inline-block;
 	cursor: pointer;
 	border: none;
-    font-family: "Arial" !important;
-    font-size: 12px !important;
-    font-style: normal;
+	font-family: "Arial" !important;
+	font-size: 12px !important;
+	font-style: normal;
 	white-space: nowrap;
-    letter-spacing: 0 !important;
-    color: #222;
+	letter-spacing: 0 !important;
+	color: #222;
 	line-height: 16px;
-    background: transparent url('images/button_yellow.png') 100% 0 no-repeat;
+	background: transparent url('images/button_yellow.png') 100% 0 no-repeat;
 	height: 30px;
 	margin: 0 -16px 0 10px;
 	padding: 0 20px 0 10px;
-	vertical-align: text-top;
 }
 
 a.button:hover,
@@ -1070,7 +1063,7 @@ table.calendar th { /* add top and left borders to each cell */
 	margin: 0;
 	padding: 4px;
 	vertical-align: top;
-    text-align: left;
+	text-align: left;
 }
 
 table.calendar td.spot {
@@ -1133,8 +1126,8 @@ table.collections th {
 }
 
 dl.column { /* one single column -- index.php */
-    margin: 1em 8px 8px 0;
-    padding: 0;
+	margin: 1em 8px 8px 0;
+	padding: 0;
 }
 
 dl.column dd { /* column actual content */
@@ -1171,10 +1164,10 @@ dl.column dt img { /* align the image */
 
 dl.column_1,
 dl.column_2 { /* left or right column out of two -- index.php, sections/index.php, sections/view.php, categories/index.php, etc. */
-    margin: 0 20px 8px 0;
-    padding: 0;
-    float: left;
-    width: 270px;
+	margin: 0 20px 8px 0;
+	padding: 0;
+	float: left;
+	width: 270px;
 }
 
 dl.column_1 dd,
@@ -1209,7 +1202,7 @@ dl.column_2 dt img { /* align the image */
 }
 
 .comic { /* use a special font -- [style=comic]...[/style] */
-    font-family: "Comic Sans MS", cursive;
+	font-family: "Comic Sans MS", cursive;
 }
 
 @media screen { /* not on printers */
@@ -1245,13 +1238,13 @@ ul.compact,
 ul.compact li,
 #main_panel ul.compact li,
 #extra_panel ul.compact li { /* remove default bullet */
-    margin: 0;
-    padding: 0;
-    background: none;
+	margin: 0;
+	padding: 0;
+	background: none;
 }
 
 .cursive { /* use a cursive font -- [style=cursive]...[/style] */
-    font-family: cursive;
+	font-family: cursive;
 }
 
 p.date { /* date of a post, above its title -- articles/layout_articles_as_daily.php & skins/layout_home_articles_as_daily.php */
@@ -1418,7 +1411,7 @@ span#family { /* within section title -- see sections/view.php */
 }
 
 .fantasy { /* various rendering, you have been warned -- [style=fantasy]...[/style] */
-    font-family: fantasy;
+	font-family: fantasy;
 }
 
 @media screen { /* not on printers */
@@ -1556,7 +1549,7 @@ table.grid th { /* add top and left borders to each cell */
 	margin: 0;
 	padding: 4px;
 	vertical-align: top;
-    text-align: left;
+	text-align: left;
 }
 
 .hide { /* text readers will show it */
@@ -1621,8 +1614,8 @@ br.images_suffix { /* after a set of thumbnails, to align following text properl
 }
 
 .introduction { /* before the main content of an article -- articles/view.php, sections/view.php, categories/view.php */
-    font-weight: bold;
-    text-align: left;
+	font-weight: bold;
+	text-align: left;
 }
 
 div.large img { /* add a simple frame */
@@ -1815,8 +1808,8 @@ div.overlay p { /* one component of some overlay content */
 }
 
 dl.poll { /* layout poll results */
-    margin: 1em 8px 8px 0;
-    padding: 0;
+	margin: 1em 8px 8px 0;
+	padding: 0;
 }
 
 dl.poll dd { /* horizontal bar for one answer */
@@ -1831,8 +1824,8 @@ dl.poll dt { /* label of one answer */
 	margin: 0;
 	padding: 2px 3px 2px 0;
 	float: left;
-    width: 110px;
-    text-align: left;
+	width: 110px;
+	text-align: left;
 }
 
 @media screen { /* not on printers */
@@ -1843,7 +1836,7 @@ dl.poll dt { /* label of one answer */
 		background: url("icons/popular.gif") right no-repeat;
 	}
 
-	.popular span {	/* mask default text */
+	.popular span { /* mask default text */
 		display: none;
 	}
 }
@@ -1910,7 +1903,7 @@ dl.poll dt { /* label of one answer */
 }
 
 .sans-serif { /* use a sans-serif font -- [style=sans-serif]...[/style] */
-    font-family: sans-serif;
+	font-family: sans-serif;
 }
 
 @media screen { /* not on printers */
@@ -1952,11 +1945,11 @@ dl.poll dt { /* label of one answer */
 
 div.section_box { /* components of the main content */
 	clear: left;
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 .serif { /* use a serif font -- [style=serif]...[/style] */
-    font-family: serif;
+	font-family: serif;
 }
 
 @media screen { /* not on printers */
@@ -2164,7 +2157,7 @@ table.tiny tr td { /* [table=tiny]...[/table] */
 		background: url("icons/updated.gif") right no-repeat;
 	}
 
-	.updated span {	/* mask default text */
+	.updated span { /* mask default text */
 		display: none;
 	}
 }

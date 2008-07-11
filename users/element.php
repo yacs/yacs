@@ -11,10 +11,8 @@
  *
  * Accept following invocations:
  * - element.php/12/actions
- * - element.php/12/contact
  * - element.php/12/watch
  * - element.php?id=12&action=actions
- * - element.php?id=12&action=contact
  * - element.php?id=12&action=watch
  *
  * @author Bernard Paques
@@ -103,8 +101,6 @@ if(isset($item['nick_name']))
 	$context['page_title'] = $item['nick_name'];
 elseif(isset($item['full_name']))
 	$context['page_title'] = $item['full_name'];
-else
-	$context['page_title'] = i18n::s('Unknown user');
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
@@ -143,161 +139,6 @@ if(!isset($item['id'])) {
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 		echo $output;
-
-	// the post-processing hook, then exit
-	finalize_page(TRUE);
-
-// list contact
-} elseif($action == 'contact') {
-
-	// we return some HTML
-	$text = '';
-
-	$menu = array();
-
-	// watch command is provided to logged surfers
-	if(Surfer::get_id() && ($item['id'] != Surfer::get_id())) {
-
-		$link = Users::get_url('user:'.$item['id'], 'track');
-
-		// is the item on user watch list?
-		$in_watch_list = FALSE;
-		if(isset($item['id']) && Surfer::get_id())
-			$in_watch_list = Members::check('user:'.$item['id'], 'user:'.Surfer::get_id());
-
-		if($in_watch_list)
-			$label = i18n::s('Forget');
-		else
-			$label = i18n::s('Watch');
-
-		Skin::define_img('WATCH_TOOL_IMG', 'icons/tools/watch.gif');
-		$menu = array_merge($menu, array( $link => array('', WATCH_TOOL_IMG.$label, '', 'basic', '', i18n::s('Manage your watch list'))));
-	}
-
-	// command to send a message, if mail has been activated on this server
-	if(isset($item['email']) && $item['email'] && Surfer::may_mail())
-		$menu = array_merge($menu, array( Users::get_url($item['id'], 'mail') => i18n::s('Send a message') ));
-
-	// logged users may download the vcard
-	if(Surfer::is_logged())
-		$menu = array_merge($menu, array( Users::get_url($item['id'], 'fetch_vcard', isset($item['nick_name'])?$item['nick_name']:'') => i18n::s('vCard')));
-
-	if(count($menu))
-		$text .= Skin::build_list($menu, 'menu_bar');
-
-	// business card
-	$rows = array();
-
-	// organization, if any
-	if(isset($item['vcard_organization']) && $item['vcard_organization'])
-		$rows[] = array(i18n::s('Organization'), $item['vcard_organization']);
-
-	// title, if any
-	if(isset($item['vcard_title']) && $item['vcard_title'])
-		$rows[] = array(i18n::s('Title'), $item['vcard_title']);
-
-	// physical address, if any
-	if(isset($item['vcard_label']) && $item['vcard_label'])
-		$rows[] = array(i18n::s('Physical address'), str_replace("\n", BR, $item['vcard_label']));
-
-	// phone number, if any
-	if(isset($item['phone_number']) && $item['phone_number'])
-		$rows[] = array(i18n::s('Phone number'), $item['phone_number']);
-
-	// alternate number, if any
-	if(isset($item['alternate_number']) && $item['alternate_number'])
-		$rows[] = array(i18n::s('Alternate number'), $item['alternate_number']);
-
-	// email address - not showed to anonymous surfers for spam protection
-	if(isset($item['email']) && $item['email'] && Surfer::may_mail()) {
-
-		if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
-			$url = $context['url_to_root'].Users::get_url($id, 'mail');
-		else
-			$url = 'mailto:'.$item['email'];
-
-		$rows[] = array(i18n::s('E-mail address'), Skin::build_link($url, $item['email'], 'email'));
-	}
-
-	// web address, if any
-	if(isset($item['web_address']) && $item['web_address'])
-		$rows[] = array(i18n::s('Web address'), Skin::build_link($item['web_address'], $item['web_address'], 'external'));
-
-	// birth date, if any
-	if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE))
-		$rows[] = array(i18n::s('Birth date'), substr($item['birth_date'], 0, 10));
-
-	// agent, if any
-	if(isset($item['vcard_agent']) && $item['vcard_agent']) {
-		if($agent =& Users::get($item['vcard_agent']))
-			$rows[] = array(i18n::s('Alternate contact'), Skin::build_link(Users::get_url($agent['id'], 'view', $agent['nick_name'], $agent['full_name']), $agent['nick_name'], 'user'));
-		else
-			$rows[] = array(i18n::s('Alternate contact'), $item['vcard_agent']);
-	}
-
-	if(count($rows)) {
-		$text .= Skin::table(NULL, $rows, 'form');
-	}
-
-	// where to join this user at this site
-	$text .= Skin::build_user_contact($item);
-
-	// permanent address
-	$box = array( 'bar' => array(), 'text' => '');
-
-	// do not let robots steal addresses
-	if(Surfer::may_contact()) {
-
-		// put contact addresses in a table
-		$rows = array();
-
-		// a clickable aim address
-		if(isset($item['aim_address']) && $item['aim_address'])
-			$rows[] = array(Skin::build_presence($item['aim_address'], 'aim'), sprintf(i18n::s('AIM Screenname: %s'), $item['aim_address']));
-
-		// a clickable icq number
-		if(isset($item['icq_address']) && $item['icq_address'])
-			$rows[] = array(Skin::build_presence($item['icq_address'], 'icq'), sprintf(i18n::s('ICQ Number: %s'), $item['icq_address']));
-
-		// a clickable irc address
-		if(isset($item['irc_address']) && $item['irc_address'])
-			$rows[] = array(Skin::build_presence($item['irc_address'], 'irc'), sprintf(i18n::s('IRC address: %s'), $item['irc_address']));
-
-		// a clickable jabber address
-		if(isset($item['jabber_address']) && $item['jabber_address'])
-			$rows[] = array(Skin::build_presence($item['jabber_address'], 'jabber'), sprintf(i18n::s('Jabber Messenger: %s'), $item['jabber_address']));
-
-		// a clickable msn address
-		if(isset($item['msn_address']) && $item['msn_address'])
-			$rows[] = array(Skin::build_presence($item['msn_address'], 'msn'), sprintf(i18n::s('MSN Instant Messenger: %s'), $item['msn_address']));
-
-		// a clickable skype address
-		if(isset($item['skype_address']) && $item['skype_address'])
-			$rows[] = array(Skin::build_presence($item['skype_address'], 'skype'), sprintf(i18n::s('Skype: %s'), $item['skype_address']));
-
-		// a clickable yahoo address -- the on-line status indicator requires to be connected to the Internet
-		if(isset($item['yahoo_address']) && $item['yahoo_address'])
-				$rows[] = array(Skin::build_presence($item['yahoo_address'], 'yahoo'), sprintf(i18n::s('Yahoo Messenger: %s'), $item['yahoo_address'])
-				.' <img src="http://opi.yahoo.com/online?u='.$item['yahoo_address'].'&amp;m=g&amp;t=1" alt="Yahoo Online Status Indicator"'.EOT);
-
-		if(count($rows))
-			$box['text'] .= Skin::table(NULL, $rows, 'form');
-
-	// motivate people to register
-	} elseif(!Surfer::is_logged())
-		$box['text'] .= '<p>'.i18n::s('Please authenticate to view e-mail and instant messaging contact information, for this user.')."</p>\n";
-
-	// a full box
-	if($box['text'])
-		$text .= Skin::build_box(i18n::s('Instant messaging'), $box['text'], 'folder');
-
-	// pgp key
-	if(isset($item['pgp_key']) && $item['pgp_key'])
-		$text .= Skin::build_box(i18n::s('Public key'), '<span style="font-size: 50%">'.$item['pgp_key'].'</span>', 'folder');
-
-	// actual transmission except on a HEAD request
-	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
-		echo $text;
 
 	// the post-processing hook, then exit
 	finalize_page(TRUE);

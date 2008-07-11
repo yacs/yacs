@@ -127,7 +127,7 @@ Class Layout_articles extends Layout_interface {
 
 				// link to description, if any
 				if($item['description'])
-					$suffix .= ' '.Skin::build_link($url, MORE_IMG, 'more', i18n::s('Read more')).' ';
+					$suffix .= ' '.Skin::build_link($url, MORE_IMG, 'more', i18n::s('Read the page')).' ';
 
 			}
 

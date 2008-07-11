@@ -95,10 +95,8 @@ else
 	$context['path_bar'] = array( 'decisions/' => i18n::s('Decisions') );
 
 // the title of the page
-if(is_object($anchor) && $anchor->is_viewable())
+if(is_object($anchor))
 	$context['page_title'] = sprintf(i18n::s('Decisions: %s'), $anchor->get_title());
-else
-	$context['page_title'] = i18n::s('List decisions');
 
 // command to go back
 if(is_object($anchor) && $anchor->is_viewable())

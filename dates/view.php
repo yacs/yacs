@@ -58,7 +58,7 @@ elseif(isset($item['id']) && $item['id'])
 
 // back to the anchor page
 if(is_object($anchor))
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Main page') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Back to main page') ));
 
 // commands for associates and editors
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {

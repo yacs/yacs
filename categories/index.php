@@ -59,7 +59,7 @@ $page = strip_tags($page);
 load_skin('site_taxonomy');
 
 // the title of the page
-$context['page_title'] = i18n::s('The categories tree');
+$context['page_title'] = i18n::s('Categories');
 
 // count categories in the database
 $stats = Categories::stat_for_anchor(NULL);

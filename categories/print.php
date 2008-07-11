@@ -69,13 +69,16 @@ else
 	$context['path_bar'] = array( 'categories/' => i18n::s('Categories') );
 
 // the title of the page
-if($item['title'])
+if(isset($item['title']))
 	$context['page_title'] = $item['title'];
-else
-	$context['page_title'] = i18n::s('Print a category');
+
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
-if(!$item['id']) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 

@@ -136,8 +136,9 @@ Class Users {
 				if(Visits::check_user_at_anchor($id, $reference))
 					continue;
 
-				// alert one surfer
-				Users::alert($attributes, $mail, $notification);
+				// ensure this surfer wants to be alerted
+				elseif($attributes['without_alerts'] != 'Y')
+					Users::alert($attributes, $mail, $notification);
 			}
 		}
 
@@ -1193,7 +1194,7 @@ Class Users {
 
 		// nickname may be already used
 		if(Users::get($fields['nick_name'])) {
-			Skin::error(sprintf(i18n::s('Another member already has the nick name %s.'), $fields['nick_name']));
+			Skin::error(i18n::s('Another member already has this nick name. Please select a different one.'));
 			return FALSE;
 		}
 

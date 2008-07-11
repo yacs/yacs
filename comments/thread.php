@@ -49,8 +49,13 @@ if($anchor)
 
 load_skin('comments');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	die(i18n::s('You are not allowed to perform this operation.'));
+
 // an anchor is mandatory
-if(!is_object($anchor)) {
+} elseif(!is_object($anchor)) {
 	Logger::profile_dump();
 
 	Safe::header('Status: 404 Not Found', TRUE, 404);

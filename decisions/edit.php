@@ -144,15 +144,18 @@ else
 // page title
 if(is_object($anchor))
 	$context['page_title'] = sprintf(i18n::s('Decide: %s'), $anchor->get_title());
-else
-	$context['page_title'] = i18n::s('Decide');
 
 // always validate input syntax
 if(isset($_REQUEST['description']))
 	xml::validate($_REQUEST['description']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // an anchor is mandatory
-if(!is_object($anchor)) {
+} elseif(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No anchor has been found.'));
 
@@ -207,7 +210,7 @@ if(!is_object($anchor)) {
 		Users::increment_posts(Surfer::get_id());
 
 		// thanks
-		$context['page_title'] = i18n::s('Thank you very much for your contribution');
+		$context['page_title'] = i18n::s('Thank you for your contribution');
 
 		// the type
 		if(is_object($anchor)) {
@@ -279,9 +282,13 @@ if($with_form) {
 	if(is_object($anchor) && $anchor->is_viewable())
 		$context['text'] .= '<p>'.$anchor->get_teaser('teaser')."</p>\n";
 
+	// fields in the form
+	$fields = array();
+
 	// review the page on another window
-	if(!isset($item['id']))
-		$context['text'] .= '<p>'.Skin::build_link($anchor->get_url(), i18n::s('Review the page'), 'help');
+	$label = i18n::s('Page to review');
+	$input = '<a href="'.$anchor->get_url().'" class="button" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"><span>'.i18n::s('Browse in a separate window').'</span></a>';
+	$fields[] = array($label, $input);
 
 	// display info on current version
 	if(isset($item['id']) && !preg_match('/(new|quote|reply)/', $action) && !(isset($_REQUEST['preview']) && $_REQUEST['preview'])) {

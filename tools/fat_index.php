@@ -76,10 +76,7 @@ if(isset($_REQUEST['reference']) && strlen($_REQUEST['reference'])) {
 
 // the title of the page
 // in YACS templates, it is placed into $context['title']
-if($reference)
-	$context['page_title'] = i18n::s('Fat Index of [escape]'.$reference.'[/escape]');
-else
-	$context['page_title'] = i18n::s('Fat Index');
+$context['page_title'] = i18n::s('Fat Index');
 
 // the splash message
 $context['text'] .= '<p>'.i18n::s('This script strips tags and white space to evaluate the amount of useful bytes. Then it computes the fat index as follows:').'</p>'."\n"

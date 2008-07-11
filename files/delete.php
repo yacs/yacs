@@ -79,12 +79,6 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
-
-	// anonymous users are invited to log in
-	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Files::get_url($item['id'], 'delete')));
-
-	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
@@ -115,7 +109,8 @@ else
 	$context['path_bar'] = array( 'index.php' => i18n::s('Files') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Delete a file');
+if(isset($item['file_name']))
+	$context['page_title'] = sprintf(i18n::s('Delete: %s'), $item['file_name']);
 
 // display the confirmation form
 if($item['id']) {

@@ -69,7 +69,7 @@ if(!defined('YACS')) {
 	$context['path_bar'] = array( 'servers/' => i18n::s('Servers') );
 
 	// the title of the page
-	$context['page_title'] = i18n::s('Add default server profiles');
+	$context['page_title'] = i18n::s('Content Assistant');
 
 	// stop hackers the hard way
 	if(!Surfer::is_associate())

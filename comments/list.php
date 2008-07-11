@@ -13,11 +13,14 @@
  * - The link to add a comment is labelled 'Add your own comment'.
  *
  * This applies to following layouts:
+ * - boxesandarrows
  * - compact
  * - daily
  * - decorated
  * - jive
  * - manual
+ * - table
+ * - wiki
  * - yabb
  *
  * Following principles have been selected for other layouts:
@@ -30,9 +33,6 @@
  *
  * This applies to following layouts:
  * - alistapart
- * - boxesandarrows
- * - table
- * - wiki
  *
  * Access is granted only if the surfer is allowed to view the anchor page.
  *
@@ -107,8 +107,12 @@ if(is_object($anchor) && $anchor->is_viewable()) {
 	$context['page_title'] = i18n::s('Comments');
 
 // command to go back
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array( $anchor->get_url() => i18n::s('Back to main page') );
+if(is_object($anchor) && $anchor->is_viewable()) {
+	if($anchor->has_layout('alistapart'))
+		$context['page_menu'] = array( $anchor->get_url('parent') => i18n::s('Back to main page') );
+	else
+		$context['page_menu'] = array( $anchor->get_url() => i18n::s('Back to main page') );
+}
 
 // an anchor is mandatory
 if(!is_object($anchor)) {
@@ -139,44 +143,8 @@ if(!is_object($anchor)) {
 	$cache_id = 'comments/list.php?id='.$anchor->get_reference().'#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
 
-		// layout as defined in anchor
-		if($anchor->has_layout('boxesandarrows')) {
-			include_once '../comments/layout_comments_as_boxesandarrows.php';
-			$layout =& new Layout_comments_as_boxesandarrows();
-
-		} elseif($anchor->has_layout('compact')) {
-			include_once '../comments/layout_comments.php';
-			$layout =& new Layout_comments();
-
-		} elseif($anchor->has_layout('daily')) {
-			include_once '../comments/layout_comments_as_daily.php';
-			$layout =& new Layout_comments_as_daily();
-
-		} elseif($anchor->has_layout('decorated')) {
-			include_once '../comments/layout_comments.php';
-			$layout =& new Layout_comments();
-
-		} elseif($anchor->has_layout('jive')) {
-			include_once '../comments/layout_comments_as_jive.php';
-			$layout =& new Layout_comments_as_jive();
-
-		} elseif($anchor->has_layout('manual')) {
-			include_once '../comments/layout_comments_as_manual.php';
-			$layout =& new Layout_comments_as_manual();
-
-		} elseif($anchor->has_layout('wiki')) {
-			include_once '../comments/layout_comments_as_wiki.php';
-			$layout =& new Layout_comments_as_wiki();
-
-		} elseif($anchor->has_layout('yabb')) {
-			include_once '../comments/layout_comments_as_yabb.php';
-			$layout =& new Layout_comments_as_yabb();
-
-		} else {
-			include_once '../comments/layout_comments.php';
-			$layout =& new Layout_comments();
-
-		}
+		// get a layout from anchor
+		$layout =& Comments::get_layout($anchor);
 
 		// provide author information to layout
 		if(is_object($layout) && is_object($anchor) && isset($anchor->item['create_id']))

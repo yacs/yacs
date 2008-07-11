@@ -118,8 +118,13 @@ $context['path_bar'] = array( 'tools/' => i18n::s('Tools') );
 // default page title
 $context['page_title'] = i18n::s('Content Assistant');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // permission denied
-if(!$permitted) {
+} elseif(!$permitted) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
@@ -215,7 +220,7 @@ if(!$permitted) {
 
 	// 'extra_box' article
 	if(Articles::get('extra_box'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'extra_box').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'extra_box').BR."\n";
 	elseif($anchor = Sections::lookup('extra_boxes')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -226,14 +231,14 @@ if(!$permitted) {
 		$fields['locked'] = 'Y'; // only associates can change this page
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'gadget_cloud' article
 	if(Articles::get('gadget_cloud'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'gadget_cloud').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'gadget_cloud').BR."\n";
 	elseif($anchor = Sections::lookup('gadget_boxes')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -244,14 +249,14 @@ if(!$permitted) {
 		$fields['locked'] = 'Y'; // only associates can change this page
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'gadget_collections' article
 	if(Articles::get('gadget_collections'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'gadget_collections').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'gadget_collections').BR."\n";
 	elseif($anchor = Sections::lookup('gadget_boxes')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -262,14 +267,14 @@ if(!$permitted) {
 		$fields['locked'] = 'Y'; // only associates can change this page
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'navigation_box' article
 	if(Articles::get('navigation_box'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'navigation_box').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'navigation_box').BR."\n";
 	elseif($anchor = Sections::lookup('navigation_boxes')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -279,7 +284,7 @@ if(!$permitted) {
 		$fields['description'] = i18n::c("This is a sample navigation box.\nVisit the [link=navigation section]sections/view.php?id=navigation_boxes[/link] to review all navigation boxes.");
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
@@ -290,7 +295,7 @@ if(!$permitted) {
 
 	// 'coffee_machine' article
 	if(Articles::get('coffee_machine'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'coffee_machine').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'coffee_machine').BR."\n";
 	elseif($anchor = Sections::lookup('global')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -300,7 +305,7 @@ if(!$permitted) {
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$fields['options'] = 'view_as_thread';
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
@@ -311,7 +316,7 @@ if(!$permitted) {
 
 	// 'events' section
 	if(Sections::get('events'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'events').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'events').BR."\n";
 	else {
 		$fields = array();
 		$fields['nick_name'] = 'events';
@@ -326,14 +331,14 @@ if(!$permitted) {
 		$fields['articles_templates'] = 'event_template';
 		$fields['maximum_items'] = 1000; // limit the overall number of events
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'event_template' article
 	if(Articles::get('event_template'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'event_template').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'event_template').BR."\n";
 	elseif($anchor = Sections::lookup('templates')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -349,7 +354,7 @@ if(!$permitted) {
 
 		if($fields['id'] = Articles::post($fields)) {
 			$overlay->remember('insert', $fields);
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		} else
 			$text .= Skin::error_pop().BR."\n";
 	}
@@ -360,7 +365,7 @@ if(!$permitted) {
 
 	// 'forums' top-level section
 	if(Sections::get('forums'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'forums').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'forums').BR."\n";
 	else {
 		$fields = array();
 		$fields['nick_name'] = 'forums';
@@ -370,14 +375,14 @@ if(!$permitted) {
 		$fields['articles_layout'] = 'none';
 		$fields['locked'] = 'Y';
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'channels' section
 	if(Sections::get('channels'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'channels').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'channels').BR."\n";
 	elseif($anchor = Sections::lookup('forums')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -392,14 +397,14 @@ if(!$permitted) {
 		$fields['content_options'] = 'view_as_thread'; // change the rendering script for articles
 		$fields['maximum_items'] = 1000; // limit the overall number of threads
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'support_chat' article
 	if(Articles::get('support_chat'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'support_chat').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'support_chat').BR."\n";
 	elseif($anchor = Sections::lookup('channels')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -408,14 +413,14 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('To seek for help from other members of the community');
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'yabb_board' section
 	if(Sections::get('yabb_board'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'yabb_board').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'yabb_board').BR."\n";
 	elseif($anchor = Sections::lookup('forums')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -426,14 +431,14 @@ if(!$permitted) {
 		$fields['sections_layout'] = 'yabb';
 		$fields['content_options'] = 'auto_publish, with_extra_profile';
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'yabb_thread' article
 	if(Articles::get('yabb_thread'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'yabb_thread').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'yabb_thread').BR."\n";
 	elseif($anchor = Sections::lookup('yabb_board')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -443,7 +448,7 @@ if(!$permitted) {
 		$fields['description'] = i18n::c('This page demonstrates the rendering of the ##yabb## layout.');
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
@@ -472,7 +477,7 @@ if(!$permitted) {
 
 	// 'jive_board' section
 	if(Sections::get('jive_board'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'jive_board').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'jive_board').BR."\n";
 	elseif($anchor = Sections::lookup('forums')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -482,14 +487,14 @@ if(!$permitted) {
 		$fields['articles_layout'] = 'jive'; // a threading layout
 		$fields['content_options'] = 'auto_publish'; // let surfers rate their readings
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'jive_thread' article
 	if(Articles::get('jive_thread'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'jive_thread').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'jive_thread').BR."\n";
 	elseif($anchor = Sections::lookup('jive_board')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -499,7 +504,7 @@ if(!$permitted) {
 		$fields['description'] = i18n::c('This page demonstrates the rendering of the ##jive## layout.');
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
@@ -532,7 +537,7 @@ if(!$permitted) {
 
 	// 'blog' section
 	if(Sections::get('blog'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'blog').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'blog').BR."\n";
 	else {
 		$fields = array();
 		$fields['nick_name'] = 'blog';
@@ -543,14 +548,14 @@ if(!$permitted) {
 		$fields['articles_layout'] = 'daily'; // that's a blog
 		$fields['content_options'] = 'with_extra_profile'; // let surfers rate their readings
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'blog_page' article
 	if(Articles::get('blog_page'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'blog_page').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'blog_page').BR."\n";
 	elseif($anchor = Sections::lookup('blog')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -560,7 +565,7 @@ if(!$permitted) {
 		$fields['description'] = i18n::c('This page demonstrates the rendering of the ##daily## layout.');
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
@@ -593,7 +598,7 @@ if(!$permitted) {
 
 	// 'project' top-level section
 	if(Sections::get('project'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'project').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'project').BR."\n";
 	else {
 		$fields = array();
 		$fields['nick_name'] = 'project';
@@ -603,7 +608,7 @@ if(!$permitted) {
 		$fields['options'] = 'view_as_tabs';
 		$fields['sections_layout'] = 'folded'; // show many articles in sections tab
 		if($id = Sections::post($fields)) {
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 
 			// bobby and carol as section editors
 			if($user = Users::get('Bobby'))
@@ -617,7 +622,7 @@ if(!$permitted) {
 
 	// 'project_public_page' article
 	if(Articles::get('project_public_page'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'project_public_page').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'project_public_page').BR."\n";
 	elseif($anchor = Sections::lookup('project')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -626,14 +631,14 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('This is a public page that describes the project.');
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'project_private' section
 	if(Sections::get('project_private'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'project_private').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'project_private').BR."\n";
 	elseif($anchor = Sections::lookup('project')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -646,14 +651,14 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('For project members only');
 		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'project_private_page' article
 	if(Articles::get('project_private_page'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'project_private_page').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'project_private_page').BR."\n";
 	elseif($anchor = Sections::lookup('project_private')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -662,7 +667,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('This is a private page that is part of project internal discussions.');
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
@@ -673,7 +678,7 @@ if(!$permitted) {
 
 	// 'book' section
 	if(Sections::get('book'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'book').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'book').BR."\n";
 	else {
 		$fields = array();
 		$fields['nick_name'] = 'book';
@@ -684,14 +689,14 @@ if(!$permitted) {
 		$fields['locked'] = 'Y'; // post in underlying chapters
 		$fields['options'] = 'no_new_articles'; // allpages are listed anyway
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'book_chapter' section
 	if(Sections::get('book_chapter'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'book_chapter').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'book_chapter').BR."\n";
 	elseif($parent = Sections::lookup('book')) {
 		$fields = array();
 		$fields['nick_name'] = 'book_chapter';
@@ -701,14 +706,14 @@ if(!$permitted) {
 		$fields['sections_layout'] = 'inline'; // list content of sub-sections
 		$fields['articles_layout'] = 'manual';
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'book_page' article
 	if(Articles::get('book_page'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'book_page').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'book_page').BR."\n";
 	elseif($anchor = Sections::lookup('book_chapter')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -718,7 +723,7 @@ if(!$permitted) {
 		$fields['description'] = i18n::c('This page demonstrates the rendering of the ##manual## layout.');
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
@@ -751,7 +756,7 @@ if(!$permitted) {
 
 	// 'wikis' top-level section
 	if(Sections::get('wikis'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'wikis').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'wikis').BR."\n";
 	else {
 		$fields = array();
 		$fields['nick_name'] = 'wikis';
@@ -762,14 +767,14 @@ if(!$permitted) {
 		$fields['locked'] = 'Y';
 		$fields['articles_templates'] = 'wiki_template';
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'wiki_anonymous ' section
 	if(Sections::get('wiki_anonymous'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'wiki_anonymous').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'wiki_anonymous').BR."\n";
 	elseif($anchor = Sections::lookup('wikis')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -780,14 +785,14 @@ if(!$permitted) {
 		$fields['articles_layout'] = 'wiki'; // a wiki
 		$fields['content_options'] = 'anonymous_edit, auto_publish, with_export_tools';
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'wiki_anonymous_page' article
 	if(Articles::get('wiki_anonymous_page'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'wiki_anonymous_page').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'wiki_anonymous_page').BR."\n";
 	elseif($anchor = Sections::lookup('wiki_anonymous')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -797,7 +802,7 @@ if(!$permitted) {
 		$fields['description'] = i18n::c('This page demonstrates the rendering of the ##wiki## layout.');
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
@@ -826,7 +831,7 @@ if(!$permitted) {
 
 	// 'wiki_members' section
 	if(Sections::get('wiki_members'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'wiki_members').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'wiki_members').BR."\n";
 	elseif($anchor = Sections::lookup('wikis')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -837,14 +842,14 @@ if(!$permitted) {
 		$fields['articles_layout'] = 'wiki'; // a wiki
 		$fields['content_options'] = 'members_edit, auto_publish, with_export_tools';
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'wiki_members_page' article
 	if(Articles::get('wiki_members_page'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'wiki_members_page').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'wiki_members_page').BR."\n";
 	elseif($anchor = Sections::lookup('wiki_members')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -854,14 +859,14 @@ if(!$permitted) {
 		$fields['description'] = i18n::c('This page demonstrates the rendering of the ##wiki## layout.');
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'wiki_template' article
 	if(Articles::get('wiki_template'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'wiki_template').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'wiki_template').BR."\n";
 	elseif($anchor = Sections::lookup('templates')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -870,7 +875,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('Use this page model to add a page that can be modified by any surfer');
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
@@ -881,7 +886,7 @@ if(!$permitted) {
 
 	// 'files' section
 	if(Sections::get('files'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'files').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'files').BR."\n";
 	else {
 		$fields = array();
 		$fields['nick_name'] = 'files';
@@ -891,14 +896,14 @@ if(!$permitted) {
 		$fields['section_layout'] = 'none';
 		$fields['articles_layout'] = 'none';
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'links' section
 	if(Sections::get('links'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'links').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'links').BR."\n";
 	else {
 		$fields = array();
 		$fields['nick_name'] = 'links';
@@ -908,14 +913,14 @@ if(!$permitted) {
 		$fields['section_layout'] = 'none';
 		$fields['articles_layout'] = 'none';
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
 
 	// 'my_section' section
 	if(Sections::get('my_section'))
-		$text .= sprintf(i18n::s('Section "%s" already exists.'), 'my_section').BR."\n";
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), 'my_section').BR."\n";
 	else {
 		$fields = array();
 		$fields['nick_name'] = 'my_section';
@@ -923,7 +928,7 @@ if(!$permitted) {
 		$fields['introduction'] = i18n::c('Sample plain section');
 		$fields['content_options'] = 'with_export_tools';
 		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('Section "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}
@@ -965,7 +970,7 @@ if(!$permitted) {
 
 	// 'my_article' article
 	if(Articles::get('my_article'))
-		$text .= sprintf(i18n::s('Page "%s" already exists.'), 'my_article').BR."\n";
+		$text .= sprintf(i18n::s('A page "%s" already exists.'), 'my_article').BR."\n";
 	elseif($anchor = Sections::lookup('my_section')) {
 		$fields = array();
 		$fields['anchor'] = $anchor;
@@ -990,7 +995,7 @@ if(!$permitted) {
 			."\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ";;
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if(Articles::post($fields))
-			$text .= sprintf(i18n::s('Page "%s" has been created.'), $fields['nick_name']).BR."\n";
+			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
 			$text .= Skin::error_pop().BR."\n";
 	}

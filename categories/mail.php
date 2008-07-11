@@ -70,8 +70,13 @@ else
 // the title of the page
 $context['page_title'] .= i18n::s('Send a message');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!isset($item['id'])) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -167,25 +172,6 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		$menu = array();
 		$menu[] = Skin::build_link(Categories::get_url($item['id'], 'view', $item['title'], $item['nick_name']), $item['title'], 'span');
 		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
-
-	// document the error
-	} else {
-
-		// the address
-		$context['text'] .= '<p>'.sprintf(i18n::s('Mail address: %s'), $to).'</p>'."\n";
-
-		// the subject
-		$context['text'] .= '<p>'.sprintf(i18n::s('Message title: %s'), $subject).'</p>'."\n";
-
-		// the message
-		$context['text'] .= '<p>'.sprintf(i18n::s('Message content: %s'), BR.$message).'</p>'."\n";
-
-		// make some text out of an array
-		if(is_array($headers))
-			$headers = implode("\n", $headers);
-
-		// the headers
-		$context['text'] .= '<p>'.sprintf(i18n::s('Message headers: %s'), BR.nl2br(encode_field($headers))).'</p>'."\n";
 
 	}
 

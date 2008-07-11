@@ -28,6 +28,12 @@ include_once 'feeds.php';
 // load a skin engine
 load_skin('feeds');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	die(i18n::s('You are not allowed to perform this operation.'));
+}
+
 // get the list from the cache, if possible
 $cache_id = 'feeds/describe.php#content';
 if(!$text =& Cache::get($cache_id)) {

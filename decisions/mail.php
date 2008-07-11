@@ -8,8 +8,8 @@
  * the community.
  *
  * Restrictions apply on this page:
+ * - surfer has to have an e-mail address
  * - associates and editors are allowed to move forward
- * - creator is allowed to view the page
  * - permission is denied if the anchor is not viewable
  * - article is restricted ('active' field == 'R'), but the surfer is an authenticated member
  * - public access is allowed ('active' field == 'Y'), and the surfer has been authenticated
@@ -21,12 +21,10 @@
  * Accepted calls:
  * - mail.php/&lt;id&gt;
  * - mail.php?id=&lt;id&gt;
- * - mail.php/&lt;id&gt;/feed-back
- * - mail.php?id=&lt;id&gt;&action=feed-back
- * - mail.php/&lt;id&gt;/invite
- * - mail.php?id=&lt;id&gt;&action=invite
+ * - mail.php/&lt;id&gt;
+ * - mail.php?id=&lt;id&gt;
  *
- * If the anchor page specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
+ * If this article, or one of its anchor, specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
  * @author Bernard Paques
@@ -54,12 +52,50 @@ $anchor = NULL;
 if($target_anchor)
 	$anchor = Anchors::get($target_anchor);
 
-// maybe the anchor has been locked
-if(is_object($anchor) && $anchor->has_option('locked'))
+// get the related overlay, if any
+$overlay = NULL;
+include_once '../overlays/overlay.php';
+if(isset($item['overlay']))
+	$overlay = Overlay::load($item);
+
+// what kind of action?
+$action = '';
+if(isset($_REQUEST['action']))
+	$action = $_REQUEST['action'];
+elseif(isset($context['arguments'][1]))
+	$action = $context['arguments'][1];
+$action = strip_tags($action);
+
+// anchor editors can do what they want
+if(is_object($anchor) && $anchor->is_editable())
+	Surfer::empower();
+
+// the page on balance
+if(is_object($anchor)) {
+
+	// link to decision form
+	$link = $context['url_to_home'].$context['url_to_root'].Decisions::get_url($anchor->get_reference(), 'decision');
+
+	// message prefix
+	$message_prefix = i18n::s('You are personally invited to express your decision on following page.')
+		."\n\n".$link."\n\n";
+
+}
+
+// we are using surfer own address
+if(!Surfer::get_email_address())
 	$permitted = FALSE;
 
 // associates and editors can do what they want
-elseif(Surfer::is_empowered() || (is_object($anchor) && $anchor->is_editable()))
+elseif(Surfer::is_empowered())
+	$permitted = TRUE;
+
+// function is available only to authenticated members --not subscribers
+elseif(!Surfer::is_member())
+	$permitted = FALSE;
+
+// the anchor has to be viewable by this surfer
+elseif(is_object($anchor) && $anchor->is_viewable())
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -82,10 +118,15 @@ else
 // page title
 $context['page_title'] = i18n::s('Ask for a decision');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!is_object($anchor)) {
+} elseif(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Skin::error(i18n::s('No anchor has been found.'));
 
 // e-mail has not been enabled
 } elseif(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
@@ -117,9 +158,7 @@ if(!is_object($anchor)) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// sender address
-	$from = '';
-	if(isset($_REQUEST['from']))
-		$from = strip_tags($_REQUEST['from']);
+	$from = Surfer::get_email_address();
 
 	// recipient(s) address(es)
 	$to = '';
@@ -137,9 +176,9 @@ if(!is_object($anchor)) {
 		$subject = strip_tags($_REQUEST['subject']);
 
 	// message body
-	$message = '';
+	$message = $message_prefix;
 	if(isset($_REQUEST['message']))
-		$message = strip_tags($_REQUEST['message']);
+		$message .= strip_tags($_REQUEST['message']);
 
 	// add a tail to the sent message
 	if($message) {
@@ -205,26 +244,18 @@ if(!is_object($anchor)) {
 			$message = i18n::s('This is a copy of the message you have sent, for your own record.')."\n".'-------'."\n\n".$message;
 
 		// post in debug mode, to get messages, if any
-		if(Mailer::post($from, $actual_recipient, $subject, $message, $headers, 'articles/mail.php')) {
+		if(Mailer::post($from, $actual_recipient, $subject, $message, $headers, 'articles/mail.php'))
 			$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), strip_tags($recipient)).'</p>';
 
-		// document the error
-		} else {
-
-			// the address
-			$context['text'] .= '<p>'.sprintf(i18n::s('Mail address: %s'), $actual_recipient).'</p>'."\n";
-
-			// the sender
-			$context['text'] .= '<p>'.sprintf(i18n::s('Sender address: %s'), $from).'</p>'."\n";
-
-			// the subject
-			$context['text'] .= '<p>'.sprintf(i18n::s('Subject: %s'), $subject).'</p>'."\n";
-
-			// the message
-			$context['text'] .= '<p>'.sprintf(i18n::s('Message: %s'), BR.nl2br($message)).'</p>'."\n";
-
-		}
 	}
+
+	// follow-up commands
+	$follow_up = i18n::s('What do you want to do now?');
+	$menu = array();
+	$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
+	$menu = array_merge($menu, array($context['script_url'] => i18n::s('Invite people')));
+	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // a form to send an invitation to several people
 } else {
@@ -232,21 +263,11 @@ if(!is_object($anchor)) {
 	// the form to send a message
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
-	// the recipient
-	$label = i18n::s('People to invite');
+	// recipients
+	$label = i18n::s('Invite people');
 	$input = '<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
 	$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');
 	$fields[] = array($label, $input, $hint);
-
-	// the sender
-	$label = i18n::s('Your e-mail address');
-	$input = '<input type="text" name="from" size="45" maxlength="255" value="'.encode_field(Surfer::get_email_address()).'" />';
-
-	// get a copy of the sent message
-	if(Surfer::is_logged())
-		$input .= BR.'<input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.');
-
-	$fields[] = array($label, $input, '');
 
 	// the subject
 	$label = i18n::s('Message title');
@@ -261,9 +282,9 @@ if(!is_object($anchor)) {
 
 	// the message
 	$label = i18n::s('Message content');
-	$content = sprintf(i18n::s("You are personally invited to express your decision on following page.\n\n%s\n\nPlease let me thank you for your kind support.\n\n%s"), $context['url_to_home'].$context['url_to_root'].Decisions::get_url($anchor->get_reference(), 'decision'), $author);
-
-	$input = '<textarea name="message" rows="15" cols="50">'.encode_field($content).'</textarea>';
+	$content = i18n::s('Please let me thank you for your kind support.')."\n\n".$author;
+	$input = str_replace("\n", BR, $message_prefix)
+		.'<textarea name="message" rows="15" cols="50">'.encode_field($content).'</textarea>';
 	$hint = i18n::s('Use only plain ASCII, no HTML.');
 	$fields[] = array($label, $input, $hint);
 
@@ -282,7 +303,10 @@ if(!is_object($anchor)) {
 	$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
 
 	// insert the menu in the page
-	$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+	// get a copy of the sent message
+	$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.').'</p>';
 
 	// transmit the id as a hidden field
 	$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
@@ -297,14 +321,7 @@ if(!is_object($anchor)) {
 		."\n"
 		.'	// to is mandatory'."\n"
 		.'	if(!container.to.value) {'."\n"
-		.'		alert("'.i18n::s('You must type a recipient for your message.').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
-		.'		return false;'."\n"
-		.'	}'."\n"
-		."\n"
-		.'	// from is mandatory'."\n"
-		.'	if(!container.from.value) {'."\n"
-		.'		alert("'.i18n::s('You must type an address for replies.').'");'."\n"
+		.'		alert("'.i18n::s('Please provide a recipient address.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"

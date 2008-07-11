@@ -169,11 +169,7 @@ Class Section extends Anchor {
 
 			// command to view the thread
 			case 'thread_command':
-				if($this->has_layout('manual'))
-					return i18n::s('Go back to user notes');
-				if($this->has_layout('wiki'))
-					return i18n::s('Go back to the main page');
-				return i18n::s('Go back to the updated thread');
+				return i18n::s('Back to main page');
 
 			// page title to modify a comment
 			case 'edit_title':
@@ -753,11 +749,12 @@ Class Section extends Anchor {
 	 *
 	 * @param array one user profile
 	 * @param string a profiling option, including 'prefix', 'suffix', and 'extra'
+	 * @param string more information
 	 * @return a string to be returned to the browser
 	 *
 	 * @see articles/view.php
 	 */
-	function get_user_profile($user, $variant='prefix') {
+	function get_user_profile($user, $variant='prefix', $more='') {
 		global $context;
 
 		// no user profile on mobiles
@@ -772,7 +769,7 @@ Class Section extends Anchor {
 
 			// ensure the section has been configured for that
 			if($this->has_option('with_prefix_profile'))
-				return Skin::build_profile($user, 'prefix');
+				return Skin::build_profile($user, 'prefix', $more);
 
 			break;
 
@@ -781,7 +778,7 @@ Class Section extends Anchor {
 
 			// ensure the section has been configured for that
 			if($this->has_option('with_suffix_profile'))
-				return Skin::build_profile($user, 'suffix');
+				return Skin::build_profile($user, 'suffix', $more);
 
 			break;
 
@@ -790,7 +787,7 @@ Class Section extends Anchor {
 
 			// ensure the section has been configured for that
 			if($this->has_option('with_extra_profile'))
-				return Skin::build_profile($user, 'extra');
+				return Skin::build_profile($user, 'extra', $more);
 
 			break;
 
@@ -911,6 +908,10 @@ Class Section extends Anchor {
 			return $this->is_editable_cache;
 
 		if(isset($this->item['id'])) {
+
+			// associates can always do what they want
+			if(Surfer::is_associate())
+				return $this->is_editable_cache = FALSE;
 
 			// section has been locked
 			if(isset($item['locked']) && ($item['locked'] == 'Y'))

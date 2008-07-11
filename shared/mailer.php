@@ -110,6 +110,10 @@ class Mailer {
 	function post($from, $to, $subject, $message, $headers='', $debug='shared/mailer.php') {
 		global $context;
 
+		// use surfer own address
+		if(!$from)
+			$from = Surfer::get_email_address();
+
 		// email services have to be activated
 		if(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
 			Skin::error(i18n::s('E-mail has not been enabled on this system.'));
@@ -117,7 +121,7 @@ class Mailer {
 
 		// email services are not allowed
 		} elseif(!is_callable('mail')) {
-			Skin::error(i18n::s('E-mail is not authorized on this system.'));
+			Skin::error(i18n::s('E-mail has not been enabled on this system.'));
 			return 0;
 
 		// check sender address

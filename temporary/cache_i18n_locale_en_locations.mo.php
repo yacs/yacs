@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:45 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:07 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['%s and %s are available to enhance text rendering.']='%s and %s are available to enhance text rendering.';
@@ -11,13 +11,14 @@ $_SESSION['l10n']['en']['1 location'.chr(0).'%d locations']='1 location'.chr(0).
 $_SESSION['l10n']['en']['Add a location']='Add a location';
 $_SESSION['l10n']['en']['Add another location']='Add another location';
 $_SESSION['l10n']['en']['Address Map Coordinate (Lat/Long) Finder']='Address Map Coordinate (Lat/Long) Finder';
+$_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Because of our security policy you are not allowed to list locations.']='Because of our security policy you are not allowed to list locations.';
 $_SESSION['l10n']['en']['Coordinates']='Coordinates';
 $_SESSION['l10n']['en']['Country']='Country';
 $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete a location']='Delete a location';
 $_SESSION['l10n']['en']['Description']='Description';
-$_SESSION['l10n']['en']['Do not change modification date of the related page.']='Do not change modification date of the related page.';
+$_SESSION['l10n']['en']['Do not change modification date of the main page.']='Do not change modification date of the main page.';
 $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit a location']='Edit a location';
 $_SESSION['l10n']['en']['Edit the page']='Edit the page';
@@ -30,12 +31,10 @@ $_SESSION['l10n']['en']['Latitude and longitude are numbers separated by a comma
 $_SESSION['l10n']['en']['Latitude, Longitude -- west longitudes and south latitudes are negative']='Latitude, Longitude -- west longitudes and south latitudes are negative';
 $_SESSION['l10n']['en']['Loading...']='Loading...';
 $_SESSION['l10n']['en']['Locations']='Locations';
-$_SESSION['l10n']['en']['Locations maintenance']='Locations maintenance';
 $_SESSION['l10n']['en']['Locations related to %s']='Locations related to %s';
 $_SESSION['l10n']['en']['Locations related to community members']='Locations related to community members';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Look for unused locations']='Look for unused locations';
-$_SESSION['l10n']['en']['Main page']='Main page';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Navigation']='Navigation';
 $_SESSION['l10n']['en']['Neighbours']='Neighbours';
@@ -63,7 +62,7 @@ $_SESSION['l10n']['en']['Script terminated in %.2f seconds.']='Script terminated
 $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['Street address, city, country']='Street address, city, country';
 $_SESSION['l10n']['en']['Submit']='Submit';
-$_SESSION['l10n']['en']['Thank you very much for your contribution']='Thank you very much for your contribution';
+$_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['The deletion has not been confirmed.']='The deletion has not been confirmed.';
 $_SESSION['l10n']['en']['The location has been appended to the page.']='The location has been appended to the page.';
 $_SESSION['l10n']['en']['This address has been encoded as']='This address has been encoded as';
@@ -71,8 +70,6 @@ $_SESSION['l10n']['en']['This address has not been found']='This address has not
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
 $_SESSION['l10n']['en']['To find coordinates of any emplacement you can visit following sites:']='To find coordinates of any emplacement you can visit following sites:';
 $_SESSION['l10n']['en']['Too many successive errors. Aborted']='Too many successive errors. Aborted';
-$_SESSION['l10n']['en']['Unknown location']='Unknown location';
-$_SESSION['l10n']['en']['Unknown locations']='Unknown locations';
 $_SESSION['l10n']['en']['Unused: location %s']='Unused: location %s';
 $_SESSION['l10n']['en']['Use the configuration panel for web services to enter your Google API key.']='Use the configuration panel for web services to enter your Google API key.';
 $_SESSION['l10n']['en']['View the updated page']='View the updated page';

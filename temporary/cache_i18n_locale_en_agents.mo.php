@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:06 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
 $_SESSION['l10n']['en']['<p>This is the list of most recent events at %s</p><p>You can also use following shortcuts to get more information for this server:</p><ul><li><a href="%s">Go to the front page (%s)</a></li><li><a href="%s">Go to the control panel (%s)</a></li></ul>']='<p>This is the list of most recent events at %s</p><p>You can also use following shortcuts to get more information for this server:</p><ul><li><a href="%s">Go to the front page (%s)</a></li><li><a href="%s">Go to the control panel (%s)</a></li></ul>';
@@ -65,7 +65,7 @@ $_SESSION['l10n']['en']['Server name']='Server name';
 $_SESSION['l10n']['en']['Signature boundary']='Signature boundary';
 $_SESSION['l10n']['en']['Size']='Size';
 $_SESSION['l10n']['en']['Submit']='Submit';
-$_SESSION['l10n']['en']['Thank you very much for your contribution']='Thank you very much for your contribution';
+$_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['The POP3 password']='The POP3 password';
 $_SESSION['l10n']['en']['The POP3 user name']='The POP3 user name';
 $_SESSION['l10n']['en']['The boundary used to locate signatures (e.g., \'___\' for Yahoo mail)']='The boundary used to locate signatures (e.g., \'___\' for Yahoo mail)';

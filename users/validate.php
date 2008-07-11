@@ -45,13 +45,18 @@ $context['path_bar'] = array( 'users/' => i18n::s('People') );
 // the title of the page
 $context['page_title'] = i18n::s('Validate your e-mail address');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!$item['id'])
+} elseif(!isset($item['id'])) {
 	Skin::error(i18n::s('No item has the provided id.'));
 
 // bad handle
-elseif($id != $item['handle'])
-	Skin::error(i18n::s('Invalid handle has been provided.'));
+} elseif($id != $item['handle'])
+	Skin::error(i18n::s('No item has the provided id.'));
 
 // actual validation
 elseif(Users::validate($item['id'])) {

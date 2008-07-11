@@ -101,14 +101,17 @@ if(is_object($anchor))
 // page title
 if(is_object($overlay))
 	$context['page_title'] = $overlay->get_text('title', $item);
-elseif(isset($item['title']) && $item['title'])
+elseif(isset($item['title']))
 	$context['page_title'] = $item['title'];
-else
-	$context['page_title'] = i18n::s('No title has been provided.');
 $context['page_title'] = utf8::to_unicode($context['page_title']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!isset($item['id'])) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 

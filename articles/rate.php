@@ -102,10 +102,16 @@ else
 	$context['path_bar'] = array( 'articles/' => 'All pages' );
 
 // page title
-$context['page_title'] = i18n::s('Rate a page');
+if(isset($item['title']))
+	$context['page_title'] = sprintf(i18n::s('Rate: %s'), $item['title']);
+
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
-if(!isset($item['id'])) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -193,14 +199,14 @@ if(!isset($item['id'])) {
 
 	// ask for manual click
 	} else {
-		$context['text'] .= '<p>'.i18n::s('Thank you for your rating')."</p>\n";
+		$context['text'] .= '<p>'.i18n::s('Thank you for your contribution')."</p>\n";
 
 		// follow-up commands
 		$menu = array();
 
 		// link to the article, depending on access rights
 		if($permitted)
-			$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to the page')));
+			$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to main page')));
 
 		// back to the front page
 		$menu = array_merge($menu, array('index.php#article_'.$item['id'] => i18n::s('Go to the front page')));

@@ -75,11 +75,16 @@ if(!file_exists('parameters/hooks.include.php'))
 if(!file_exists('parameters/skins.include.php'))
 	$missing++;
 
-// first installation
-if($missing == 3) {
+// title
+$context['page_title'] = i18n::s('Setup assistant');
 
-	// title
-	$context['page_title'] = i18n::s('First installation');
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
+// first installation
+} elseif($missing == 3) {
 
 	// to report on checks
 	$checks = array();
@@ -245,9 +250,6 @@ if($missing == 3) {
 	// link to the configuration page
 	if(!count($context['error'])) {
 
-		// title
-		$context['page_title'] = i18n::s('Welcome in the YACS setup assistant');
-
 		// report on checks
 		$context['text'] .= '<h2>'.i18n::s('Ready to start the installation').'</h2>';
 
@@ -281,20 +283,14 @@ if($missing == 3) {
 // on-going installation
 } elseif($missing) {
 
-	// title
-	$context['page_title'] = i18n::s('Incomplete installation');
-
 	// splash screen
 	$context['text'] .= '<p>'.i18n::s('Some configuration files are missing. Please follow the link to complete the installation process.')."</p>\n";
 
 	// to the control panel
-	$context['text'] .= '<p><a href="control/">'.i18n::s('Control panel')."</a></p>\n";
+	$context['text'] .= '<p><a href="control/">'.i18n::s('Control Panel')."</a></p>\n";
 
 // end of the installation
 } elseif(!file_exists('parameters/switch.on') && !file_exists('parameters/switch.off')) {
-
-	// the title of the page
-	$context['page_title'] = i18n::s('End of installation');
 
 	// create the switch
 	$content = '---------------------------------------------'."\n"
@@ -347,14 +343,11 @@ if($missing == 3) {
 // no need for installation
 } else {
 
-	// the title of the page
-	$context['page_title'] = i18n::s('No need for setup');
-
 	// the splash message
 	$context['text'] .= i18n::s('<p>Since basic configuration files exist on your server, it is likely that the installation has been achieved successfully. Click on the link below to modify the running parameters of your server.</p>')."\n";
 
 	// to the control panel
-	$context['text'] .= '<p><a href="control/">'.i18n::s('Go to the control panel')."</a></p>\n";
+	$context['text'] .= '<p><a href="control/">'.i18n::s('Control Panel')."</a></p>\n";
 
 }
 

@@ -182,8 +182,13 @@ else
 // the title of the page
 $context['page_title'] = i18n::s('Comment service');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // process uploaded data
-if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
+} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// extract nick name if  mailbox@server (name)
 	if(preg_match('/\((.+)\)/', $name, $matches))

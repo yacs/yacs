@@ -258,8 +258,13 @@ if(!Surfer::is_associate() || (isset($_REQUEST['option_validate']) && ($_REQUEST
 		xml::validate($_REQUEST['description']);
 }
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // permission denied
-if(!$permitted) {
+} elseif(!$permitted) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged()) {
@@ -327,7 +332,7 @@ if(!$permitted) {
 		$context['text'] .= Skin::build_box($title, $items, 'header1', 'regular_sections');
 
 	} else
-		$context['text'] .= '<p>'.sprintf(i18n::s('No regular section has been created yet! Use %s to create one.'), Skin::build_link('control/populate.php', i18n::s('the Content Assistant'), 'shortcut')).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>';
 
 	// also list special sections to associates
 	if(Surfer::is_associate()) {
@@ -657,7 +662,7 @@ if($with_form) {
 		// the address, if any
 		$label = i18n::s('Your e-mail address');
 		$input = '<input type="text" name="edit_address" size="45" maxlength="128" accesskey="a" value="'.encode_field(Surfer::get_email_address()).'" />';
-		$hint = i18n::s('Put your e-mail address to be alerted on surfer reactions');
+		$hint = i18n::s('Put your e-mail address to receive feed-back');
 		$fields[] = array($label, $input, $hint);
 
 		// stop robots
@@ -1291,7 +1296,7 @@ if($with_form) {
 
 	// drive associates to the Content Assistant
 	if(Surfer::is_associate() && !isset($item['id']))
-		$help .= '<p>'.sprintf(i18n::s('Use the %s if you are lost.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>'."\n";
+		$help .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>'."\n";
 
 	// in a side box
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');

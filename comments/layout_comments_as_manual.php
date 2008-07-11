@@ -27,17 +27,6 @@
 Class Layout_comments_as_manual extends Layout_interface {
 
 	/**
-	 * the preferred number of items for this layout
-	 *
-	 * @return int the optimised count of items fro this layout
-	 *
-	 * @see skins/layout.php
-	 */
-	function items_per_page() {
-		return 20;
-	}
-
-	/**
 	 * list comments as successive reader notes
 	 *
 	 * @param resource the SQL result
@@ -94,7 +83,7 @@ Class Layout_comments_as_manual extends Layout_interface {
 			$text .= ' - '.Skin::build_link(Comments::get_url($item['id']), '#', 'basic', i18n::s('Zoom on this note'));
 
 			// the menu bar for associates and poster
-			if(Surfer::is_empowered() || Surfer::is($item['create_id'])) {
+			if(Comments::are_editable($anchor, $item)) {
 				$menu = array( Comments::get_url($item['id'], 'edit') => i18n::s('edit'),
 					Comments::get_url($item['id'], 'delete') => i18n::s('delete') );
 				$text .= ' - '.Skin::build_list($menu, 'menu');

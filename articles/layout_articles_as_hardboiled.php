@@ -103,7 +103,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 					$icon = $anchor->get_thumbnail_url();
 				}
 				if($icon)
-					$text .= '<a href="'.$context['url_to_root'].$url.'" title="'.i18n::s('Read the page').'"><img src="'.$icon.'" class="left_image" alt=""'.EOT.'</a>';
+					$text .= '<a href="'.$context['url_to_root'].$url.'" title="'.i18n::s('Read this page').'"><img src="'.$icon.'" class="left_image" alt=""'.EOT.'</a>';
 
 				$text .= $this->layout_newest($item, $anchor).'</div>'."\n";
 
@@ -303,7 +303,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic', i18n::s('Rate this page'));
 
 		// use the title as a link to the page
-		$text .= $prefix.'<b>'.Skin::build_link($url, $title, 'basic', i18n::s('Read this article')).'</b>'.$suffix;
+		$text .= $prefix.'<b>'.Skin::build_link($url, $title, 'basic', i18n::s('Read this page')).'</b>'.$suffix;
 
 		// details
 		$details = array();
@@ -335,16 +335,11 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$text .= $overlay->get_text('list', $item);
 
 		// read this article
-		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('Read article'), 'basic');
+		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('Read this page'), 'basic');
 
 		// info on related files
-		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
-			if($context['with_friendly_urls'] == 'Y')
-				$file = 'articles/view.php/'.$item['id'].'/files/1';
-			else
-				$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
-			$text .= ' ('.Skin::build_link($file, sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic').')';
-		}
+		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
+			$text .= ' ('.Skin::build_link($url.'#files', sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic').')';
 
 // 		// link to the anchor page
 // 		if(is_object($anchor))

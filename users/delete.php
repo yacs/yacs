@@ -65,7 +65,8 @@ load_skin('users');
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Delete a user');
+if(isset($item['nick_name']))
+	$context['page_title'] = sprintf(i18n::s('Delete: %s'), $item['nick_name']);
 
 // not found
 if(!isset($item['id'])) {
@@ -74,12 +75,6 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
-
-	// anonymous users are invited to log in
-	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Users::get_url($item['id'], 'delete')));
-
-	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 

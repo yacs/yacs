@@ -47,26 +47,6 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor = Anchors::get($item['anchor']);
 
-// associates and authenticated editors can do what they want
-if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// the item is anchored to the profile of this member
-elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
-	$permitted = TRUE;
-
-// authenticated surfers may suppress their own posts
-elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
-	$permitted = TRUE;
-
-// the default is to deny access
-else
-	$permitted = FALSE;
-
 // load the skin, maybe with a variant
 load_skin('comments', $anchor);
 
@@ -86,19 +66,18 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['page_title'] = i18n::s('Delete a comment');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!isset($item['id'])) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
 // permission denied
-} elseif(!$permitted) {
-
-	// anonymous users are invited to log in
-	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Comments::get_url($item['id'], 'delete')));
-
-	// permission denied to authenticated user
+} elseif(!Comments::are_editable($anchor, $item)) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 

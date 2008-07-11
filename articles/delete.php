@@ -54,8 +54,12 @@ if(isset($item['overlay']))
 if(Surfer::is_member() && is_object($anchor) && $anchor->is_editable())
 	Surfer::empower();
 
-// associates and authenticated editors can do what they want
+// associates and section editors can do what they want
 if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))
+	$permitted = TRUE;
+
+// page editors may be allowed to proceed
+if(isset($item['id']) && Articles::is_assigned($item['id']) && is_object($anchor) && $anchor->has_option('with_deletions'))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
@@ -100,12 +104,6 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
-
-	// anonymous users are invited to log in
-	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'delete')));
-
-	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
@@ -123,8 +121,12 @@ if(!isset($item['id'])) {
 		Cache::clear();
 
 		// back to the anchor page or to the index page
-		if(is_object($anchor))
+		if(!is_object($anchor))
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].'articles/');
+		elseif($anchor->is_viewable())
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+		elseif($id = Surfer::get_id())
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($id, 'contact'));
 		else
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].'articles/');
 

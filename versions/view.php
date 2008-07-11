@@ -67,10 +67,8 @@ if(is_object($anchor) && $anchor->is_viewable())
 //	   $context['path_bar'] = array( 'versions/' => i18n::s('Versions') );
 
 // the title of the page
-if(is_object($anchor) && $anchor->is_viewable())
+if(is_object($anchor))
 	$context['page_title'] = sprintf(i18n::s('Version: %s'), $anchor->get_title());
-else
-	$context['page_title'] = i18n::s('View a version');
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())

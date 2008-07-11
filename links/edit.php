@@ -223,8 +223,13 @@ if(!Surfer::is_logged() || !is_object($anchor)) {
 if(isset($_REQUEST['description']))
 	xml::validate($_REQUEST['description']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // permission denied
-if(!$permitted) {
+} elseif(!$permitted) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged()) {
@@ -320,7 +325,7 @@ if(!$permitted) {
 			Users::increment_posts(Surfer::get_id());
 
 			// thanks
-			$context['page_title'] = i18n::s('Thank you very much for your contribution');
+			$context['page_title'] = i18n::s('Thank you for your contribution');
 
 			// the action
 			$context['text'] .= '<p>'.i18n::s('The link has been successfully recorded.').'</p>';
@@ -508,7 +513,7 @@ if($with_form) {
 
 	// associates may decide to not stamp changes -- complex command
 	if(Surfer::is_associate() && Surfer::has_all())
-		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the related page.').'</p>';
+		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

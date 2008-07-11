@@ -24,8 +24,13 @@ $context['path_bar'] = array( 'servers/' => i18n::s('Servers') );
 // the title of the page
 $context['page_title'] = i18n::s('Ping other servers of the cloud');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // anonymous users are invited to log in or to register
-if(!Surfer::is_logged())
+} elseif(!Surfer::is_logged())
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('servers/ping.php'));
 
 // only associates can proceed

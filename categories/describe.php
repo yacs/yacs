@@ -90,24 +90,21 @@ else
 	$context['path_bar'] = array( 'categories/' => i18n::s('path') );
 
 // the title of the page
-if($item['title'])
+if(isset($item['title']))
 	$context['page_title'] = $item['title'];
-else
-	$context['page_title'] = i18n::s('OPML description of a category');
+
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
-if(!$item['id']) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
 // permission denied
 } elseif(!$permitted) {
-
-	// anonymous users are invited to log in or to register
-	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Categories::get_url($item['id'], 'describe')));
-
-	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 

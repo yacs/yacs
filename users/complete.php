@@ -37,6 +37,12 @@ if(!isset($_REQUEST['q']) || !$_REQUEST['q']) {
 // just for sanity
 $_REQUEST['q'] = preg_replace(FORBIDDEN_CHARS_IN_NAMES, '_', $_REQUEST['q']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	die(i18n::s('You are not allowed to perform this operation.'));
+}
+
 // we return some text
 $output = '';
 

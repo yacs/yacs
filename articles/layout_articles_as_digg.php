@@ -183,13 +183,8 @@ Class Layout_articles_as_digg extends Layout_interface {
 			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'rate') => i18n::s('Rate this page') ));
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
-				if($context['with_friendly_urls'] == 'Y')
-					$file = 'articles/view.php/'.$item['id'].'/files/1';
-				else
-					$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
-				$details[] = Skin::build_link($file, sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
-			}
+			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
+				$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
@@ -202,13 +197,8 @@ Class Layout_articles_as_digg extends Layout_interface {
 				$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Discuss') ));
 
 			// info on related links
-			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE)) {
-				if($context['with_friendly_urls'] == 'Y')
-					$link = 'articles/view.php/'.$item['id'].'/links/1';
-				else
-					$link = 'articles/view.php?id='.urlencode($item['id']).'&amp;links=1';
-				$menu = array_merge($menu, array( $link => sprintf(i18n::ns('1 link', '%d links', $count), $count) ));
-			}
+			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
+				$menu = array_merge($menu, array( $url.'#links' => sprintf(i18n::ns('1 link', '%d links', $count), $count) ));
 
 			// trackback
 			if($context['with_friendly_urls'] == 'Y')

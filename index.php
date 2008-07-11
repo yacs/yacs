@@ -274,10 +274,6 @@ if(!isset($context['root_sections_layout']) || ($context['root_sections_layout']
 		$context['page_menu'] = $items;
 }
 
-// associates can change parameters of the front page
-if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array('configure.php' => i18n::s('Configure')));
-
 //
 // compute page meta-information -- $context['page_header'], etc.
 //

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:06 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d bytes']='%d  octets';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont &#233;t&#233; trait&#233;s';
@@ -14,6 +14,7 @@ $_SESSION['l10n']['fr']['Add an image']='Ajouter une image';
 $_SESSION['l10n']['fr']['Advanced options']='Options avanc&#233;es';
 $_SESSION['l10n']['fr']['Always use the thumbnail. Users will click on it to see the full image.']='Toujours. Les utilisateurs cliqueront dessus pour visualiser l\'image agrandie.';
 $_SESSION['l10n']['fr']['Automatically resize the image if necessary']='Redimensionner l\'image si n&#233;cessaire';
+$_SESSION['l10n']['fr']['Back to main page']='Retour &#224; la page principale';
 $_SESSION['l10n']['fr']['Because of our security policy you are not allowed to list images.']='A cause de nos r&#233;glages de s&#233;curit&#233;, vous n\'&#234;tes pas autoris&#233; &#224; consulter la liste des images.';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Cannot copy image to %s']='Impossible de copier vers %s';
@@ -21,7 +22,7 @@ $_SESSION['l10n']['fr']['Cannot write adjusted image to %s.']='Impossible d\'&#2
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete an image']='Effacer une image';
 $_SESSION['l10n']['fr']['Description']='Description';
-$_SESSION['l10n']['fr']['Do not change modification date of the related page.']='Ne pas changer la date de modification de la page associ&#233;e.';
+$_SESSION['l10n']['fr']['Do not change modification date of the main page.']='Ne pas changer la date de modification de la page principale.';
 $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit the page']='Modifier la page';
 $_SESSION['l10n']['fr']['Help']='Aide';
@@ -30,7 +31,6 @@ $_SESSION['l10n']['fr']['Image']='Image';
 $_SESSION['l10n']['fr']['Image processing']='Traitement de l\'image';
 $_SESSION['l10n']['fr']['Image transfer has been interrupted.']='Le transfet de l\'image a &#233;t&#233; interrompu.';
 $_SESSION['l10n']['fr']['Images']='Images';
-$_SESSION['l10n']['fr']['Images maintenance']='Maintenance des images';
 $_SESSION['l10n']['fr']['Impossible to adjust image %s.']='Impossible d\'ajuster l\'image %s.';
 $_SESSION['l10n']['fr']['Impossible to copy file %s.']='Impossible de copier le fichier %s.';
 $_SESSION['l10n']['fr']['Impossible to create path %s.']='Impossible de cr&#233;er le chemin %s.';
@@ -46,7 +46,6 @@ $_SESSION['l10n']['fr']['Link']='Lien';
 $_SESSION['l10n']['fr']['List biggest images']='Lister les plus grosses images';
 $_SESSION['l10n']['fr']['Look for orphan records']='D&#233;tecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Look for unused images']='D&#233;tecter les images non utilis&#233;es';
-$_SESSION['l10n']['fr']['Main page']='Page principale';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Never. Response times for surfers using modem links may be degraded on big images.']='Jamais. Les temps de r&#233;ponse pour certains utilisateurs sur liaison modem pourront &#234;tre d&#233;grad&#233;s pour des images de grande taille.';
 $_SESSION['l10n']['fr']['New image in %s']='Nouvelle image dans %s';
@@ -78,8 +77,6 @@ $_SESSION['l10n']['fr']['Scanning images table...']='Analyse de la table des ima
 $_SESSION['l10n']['fr']['Script terminated in %.2f seconds.']='Script termin&#233; en %.2f secondes.';
 $_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['Select another image to replace the current one']='Choisissez une autre image pour remplacer l\'image courante';
-$_SESSION['l10n']['fr']['Set an image as the page icon']='Utiliser comme ic&#244;ne de page';
-$_SESSION['l10n']['fr']['Set an image as the page thumbnail']='Utiliser comme vignette de page';
 $_SESSION['l10n']['fr']['Set as list bullet']='Comme puce, dans les listes';
 $_SESSION['l10n']['fr']['Set as page icon']='Comme ic&#244;ne de page';
 $_SESSION['l10n']['fr']['Set as page thumbnail']='Comme vignette de page, dans les listes';
@@ -91,7 +88,7 @@ $_SESSION['l10n']['fr']['Source: %s']='Source : %s';
 $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Submit another image']='Envoyer une autre image';
-$_SESSION['l10n']['fr']['Thank you very much for your contribution']='Merci beaucoup de votre contribution';
+$_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['The deletion has not been confirmed.']='Effacement non confirm&#233;';
 $_SESSION['l10n']['fr']['The image has become the page icon.']='L\'image a &#233;t&#233; positionn&#233;e comme ic&#244;ne de page.';
 $_SESSION['l10n']['fr']['The image has become the user avatar.']='L\'image a &#233;t&#233; positionn&#233;e comme avatar.';
@@ -110,7 +107,7 @@ $_SESSION['l10n']['fr']['Unknown image type in %s.']='Type d\'image inconnu dans
 $_SESSION['l10n']['fr']['Unused: image %s']='Inutilis&#233;e : image %s';
 $_SESSION['l10n']['fr']['Update']='Mettre &#224; jour';
 $_SESSION['l10n']['fr']['Update an image']='Mettre une image &#224; jour';
-$_SESSION['l10n']['fr']['Use an image as a bullet']='Utiliser comme puce dans les listes';
+$_SESSION['l10n']['fr']['Use an image']='Utiliser une image';
 $_SESSION['l10n']['fr']['View the updated page']='Voir la page mise &#224; jour';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire &#224; pr&#233;sent ?';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';

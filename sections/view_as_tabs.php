@@ -1285,7 +1285,7 @@ if(!isset($item['id'])) {
 
 		// show creator profile, if required to do so
 		if(preg_match('/\bwith_creator_profile\b/', $item['options']) && ($poster = Users::get($item['create_id'])) && ($section = Anchors::get('section:'.$item['id'])))
-			$text .= $section->get_user_profile($poster, 'extra');
+			$text .= $section->get_user_profile($poster, 'extra', Skin::build_date($item['create_date']));
 
 		// show news -- set in sections/edit.php
 		if($item['index_news'] != 'none') {
@@ -1480,7 +1480,7 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 // 		// mail this page
-// 		if(!$zoom_type && Surfer::is_empowered() && Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+// 		if(!$zoom_type && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 // 			Skin::define_img('MAIL_TOOL_IMG', 'icons/tools/mail.gif');
 // 			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'mail'), MAIL_TOOL_IMG.i18n::s('Invite people'), 'basic', '', i18n::s('Spread the word'));
 // 		}

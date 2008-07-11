@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:08 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%s (and shortcuts, buttons, ...)']='%s (and shortcuts, buttons, ...)';
 $_SESSION['l10n']['en']['%s (and table of content)']='%s (and table of content)';
@@ -23,7 +23,6 @@ $_SESSION['l10n']['en']['%s to access more material, and to receive our newslett
 $_SESSION['l10n']['en']['%s to be authenticated at each visit']='%s to be authenticated at each visit';
 $_SESSION['l10n']['en']['%s to look for additional support']='%s to look for additional support';
 $_SESSION['l10n']['en']['%s to publish them']='%s to publish them';
-$_SESSION['l10n']['en']['%s with the Content Assistant']='%s with the Content Assistant';
 $_SESSION['l10n']['en']['%s, the central place to manage this server.']='%s, the central place to manage this server.';
 $_SESSION['l10n']['en']['%s. Or call it a \'blog entry\' if you prefer.']='%s. Or call it a \'blog entry\' if you prefer.';
 $_SESSION['l10n']['en']['%s. Some people would say \'a new blog\'.']='%s. Some people would say \'a new blog\'.';
@@ -87,7 +86,7 @@ $_SESSION['l10n']['en']['<p>Your query will now be reviewed by one of the associ
 $_SESSION['l10n']['en']['A compact list of most recent pages. This layout is suitable for sites with a lot of items (gadget boxes, etc.) at the front page.']='A compact list of most recent pages. This layout is suitable for sites with a lot of items (gadget boxes, etc.) at the front page.';
 $_SESSION['l10n']['en']['A decorated list of most recent pages. This layout is suitable for sites with a long cover article at the front page.']='A decorated list of most recent pages. This layout is suitable for sites with a long cover article at the front page.';
 $_SESSION['l10n']['en']['A decorated list of pages that have been most rated by community members.']='A decorated list of pages that have been most rated by community members.';
-$_SESSION['l10n']['en']['A section \'%s\' has been created.']='A section \'%s\' has been created.';
+$_SESSION['l10n']['en']['A section "%s" has been created.']='A section "%s" has been created.';
 $_SESSION['l10n']['en']['Absent']='Absent';
 $_SESSION['l10n']['en']['Access to this page is forbidden (403)']='Access to this page is forbidden (403)';
 $_SESSION['l10n']['en']['Add a page']='Add a page';
@@ -105,7 +104,6 @@ $_SESSION['l10n']['en']['Browse index pages']='Browse index pages';
 $_SESSION['l10n']['en']['Browse yetanothercommunitysystem.com']='Browse yetanothercommunitysystem.com';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Categories']='Categories';
-$_SESSION['l10n']['en']['Categories tree']='Categories tree';
 $_SESSION['l10n']['en']['Check PHP version again']='Check PHP version again';
 $_SESSION['l10n']['en']['Check again our ability to write to files']='Check again our ability to write to files';
 $_SESSION['l10n']['en']['Check the MySQL PHP extension again']='Check the MySQL PHP extension again';
@@ -122,7 +120,6 @@ $_SESSION['l10n']['en']['Configure: %s']='Configure: %s';
 $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
 $_SESSION['l10n']['en']['Contribute to the development']='Contribute to the development';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
-$_SESSION['l10n']['en']['Control panel']='Control panel';
 $_SESSION['l10n']['en']['Cover article']='Cover article';
 $_SESSION['l10n']['en']['Cover page']='Cover page';
 $_SESSION['l10n']['en']['Details of your request']='Details of your request';
@@ -146,14 +143,12 @@ $_SESSION['l10n']['en']['ERROR: YACS requires at least PHP version 4.3. The serv
 $_SESSION['l10n']['en']['ERROR: YACS requires the MySQL PHP extension.']='ERROR: YACS requires the MySQL PHP extension.';
 $_SESSION['l10n']['en']['ERROR: YACS requires the XML PHP extension.']='ERROR: YACS requires the XML PHP extension.';
 $_SESSION['l10n']['en']['Edited %s']='Edited %s';
-$_SESSION['l10n']['en']['End of installation']='End of installation';
 $_SESSION['l10n']['en']['Extra']='Extra';
 $_SESSION['l10n']['en']['Extra boxes']='Extra boxes';
 $_SESSION['l10n']['en']['Featured']='Featured';
 $_SESSION['l10n']['en']['Featured pages']='Featured pages';
 $_SESSION['l10n']['en']['Feedster']='Feedster';
 $_SESSION['l10n']['en']['Files']='Files';
-$_SESSION['l10n']['en']['First installation']='First installation';
 $_SESSION['l10n']['en']['Flash']='Flash';
 $_SESSION['l10n']['en']['Focus on the last published article, and on the three articles published previously.']='Focus on the last published article, and on the three articles published previously.';
 $_SESSION['l10n']['en']['Focus on the last two most recent articles, then list previous pages. Click on article titles to read full text.']='Focus on the last two most recent articles, then list previous pages. Click on article titles to read full text.';
@@ -167,8 +162,7 @@ $_SESSION['l10n']['en']['Front page']='Front page';
 $_SESSION['l10n']['en']['Full-text search']='Full-text search';
 $_SESSION['l10n']['en']['Gadget boxes']='Gadget boxes';
 $_SESSION['l10n']['en']['Get the source code?']='Get the source code?';
-$_SESSION['l10n']['en']['Go to the control panel']='Go to the control panel';
-$_SESSION['l10n']['en']['Go to the main page']='Go to the main page';
+$_SESSION['l10n']['en']['Go to the front page']='Go to the front page';
 $_SESSION['l10n']['en']['Google']='Google';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Help index']='Help index';
@@ -186,7 +180,6 @@ $_SESSION['l10n']['en']['Include the list of most read articles']='Include the l
 $_SESSION['l10n']['en']['Include the list of recent files']='Include the list of recent files';
 $_SESSION['l10n']['en']['Include the list of recent links']='Include the list of recent links';
 $_SESSION['l10n']['en']['Include the list of servers that ping us']='Include the list of servers that ping us';
-$_SESSION['l10n']['en']['Incomplete installation']='Incomplete installation';
 $_SESSION['l10n']['en']['Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the freshest pages and the most read pages on this site. This can be an efficient way for you to reach the information you are looking after.']='Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the freshest pages and the most read pages on this site. This can be an efficient way for you to reach the information you are looking after.';
 $_SESSION['l10n']['en']['Index of most recent %1$s, %2$s, %3$s and %4$s']='Index of most recent %1$s, %2$s, %3$s and %4$s';
 $_SESSION['l10n']['en']['Introduction']='Introduction';
@@ -225,7 +218,6 @@ $_SESSION['l10n']['en']['News']='News';
 $_SESSION['l10n']['en']['Nick name']='Nick name';
 $_SESSION['l10n']['en']['No']='No';
 $_SESSION['l10n']['en']['No article has been created yet!']='No article has been created yet!';
-$_SESSION['l10n']['en']['No need for setup']='No need for setup';
 $_SESSION['l10n']['en']['No page has been attached to this category...']='No page has been attached to this category...';
 $_SESSION['l10n']['en']['Normally we are not using upper case letters, and no spacing sign.']='Normally we are not using upper case letters, and no spacing sign.';
 $_SESSION['l10n']['en']['Not satisfied yet?']='Not satisfied yet?';
@@ -284,8 +276,8 @@ $_SESSION['l10n']['en']['Select below among available pages.']='Select below amo
 $_SESSION['l10n']['en']['Select below among available sections.']='Select below among available sections.';
 $_SESSION['l10n']['en']['Selected shortcuts']='Selected shortcuts';
 $_SESSION['l10n']['en']['Sent by %s']='Sent by %s';
-$_SESSION['l10n']['en']['Server search']='Server search';
 $_SESSION['l10n']['en']['Server software']='Server software';
+$_SESSION['l10n']['en']['Setup assistant']='Setup assistant';
 $_SESSION['l10n']['en']['Side panel']='Side panel';
 $_SESSION['l10n']['en']['Similar to the first option, except that displayed information is scrolling.']='Similar to the first option, except that displayed information is scrolling.';
 $_SESSION['l10n']['en']['Similar to the first option, except that featured are rotated.']='Similar to the first option, except that featured are rotated.';
@@ -295,8 +287,6 @@ $_SESSION['l10n']['en']['Smileys available at this system']='Smileys available a
 $_SESSION['l10n']['en']['Some configuration files are missing. Please follow the link to complete the installation process.']='Some configuration files are missing. Please follow the link to complete the installation process.';
 $_SESSION['l10n']['en']['Sorry, no page has the provided name: %s']='Sorry, no page has the provided name: %s';
 $_SESSION['l10n']['en']['Start the installation process']='Start the installation process';
-$_SESSION['l10n']['en']['Still on the to-do list']='Still on the to-do list';
-$_SESSION['l10n']['en']['Structure content of your server']='Structure content of your server';
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Submit "%s" to our %s in case some pages could match this keyword.']='Submit "%s" to our %s in case some pages could match this keyword.';
 $_SESSION['l10n']['en']['Submit a query to ask for help']='Submit a query to ask for help';
@@ -330,10 +320,8 @@ $_SESSION['l10n']['en']['WARNING: This server runs in safe mode, and YACS may be
 $_SESSION['l10n']['en']['WARNING: YACS cannot write to files. If you are running some Unix, please ensure that permissions have been properly set. This issue can also be due to server running in safe mode.']='WARNING: YACS cannot write to files. If you are running some Unix, please ensure that permissions have been properly set. This issue can also be due to server running in safe mode.';
 $_SESSION['l10n']['en']['WARNING: You will not be able to upload zip files.']='WARNING: You will not be able to upload zip files.';
 $_SESSION['l10n']['en']['Warning: No script exists for the customized layout %s']='Warning: No script exists for the customized layout %s';
-$_SESSION['l10n']['en']['We are here to help']='We are here to help';
 $_SESSION['l10n']['en']['We\'re sorry. The page you requested doesn\'t exist on this server %s']='We\'re sorry. The page you requested doesn\'t exist on this server %s';
 $_SESSION['l10n']['en']['We\'re sorry. You are not authorized to view %s']='We\'re sorry. You are not authorized to view %s';
-$_SESSION['l10n']['en']['Welcome in the YACS setup assistant']='Welcome in the YACS setup assistant';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';
 $_SESSION['l10n']['en']['Where to look for information?']='Where to look for information?';
 $_SESSION['l10n']['en']['While you\'re browsing, don\'t hesitate to comment visited pages, to send images or files, or to share some interesting link you may have']='While you\'re browsing, don\'t hesitate to comment visited pages, to send images or files, or to share some interesting link you may have';

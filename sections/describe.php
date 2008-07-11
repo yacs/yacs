@@ -89,11 +89,15 @@ else
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
-// the title of the page
-if($item['title'])
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	die(i18n::s('You are not allowed to perform this operation.'));
+}
+
+// page title
+if(isset($item['title']))
 	$context['page_title'] = $item['title'];
-else
-	$context['page_title'] = i18n::s('No title has been provided.');
 
 // not found
 if(!$item['id']) {

@@ -63,14 +63,12 @@ else
 	$context['path_bar'] = array( 'actions/' => i18n::s('Actions') );
 
 // the title of the page
-if($item['title'])
+if(isset($item['title']))
 	$context['page_title'] = $item['title'];
-else
-	$context['page_title'] = i18n::s('View an action');
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Main page') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Back to main page') ));
 
 // the edit command is available to associates, editors, target member, and poster
 if($item['id'] && (Surfer::is_associate()

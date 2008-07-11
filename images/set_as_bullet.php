@@ -57,10 +57,15 @@ else
 	$context['path_bar'] = array( 'index.php' => i18n::s('Images') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Use an image as a bullet');
+$context['page_title'] = i18n::s('Use an image');
+
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
-if(!$item['id']) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has been found.'));
 

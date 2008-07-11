@@ -20,7 +20,7 @@ load_skin('sections');
 $context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Sections validation');
+$context['page_title'] = i18n::s('Maintenance');
 
 // the user has to be an associate
 if(!Surfer::is_associate()) {

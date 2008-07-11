@@ -64,17 +64,19 @@ if(isset($item['id']) && isset($item['title']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_url($item['id']) => $item['title']));
 
 // the title of the page
-if(isset($item['title']) && $item['title'])
-	$context['page_title'] = sprintf(i18n::s('Lock: %s'), $item['title']);
-else
-	$context['page_title'] = i18n::s('Lock a section');
+$context['page_title'] = i18n::s('Lock');
 
 // command to go back
 if(isset($item['id']))
 	$context['page_menu'] = array( Sections::get_url($id) => i18n::s('Back to the section') );
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!isset($item['id'])) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 

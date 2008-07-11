@@ -21,7 +21,7 @@ load_skin('decisions');
 $context['path_bar'] = array( 'decisions/' => i18n::s('Decisions') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Decisions maintenance');
+$context['page_title'] = i18n::s('Maintenance');
 
 // the user has to be an associate
 if(!Surfer::is_associate()) {

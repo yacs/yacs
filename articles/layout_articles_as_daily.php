@@ -79,7 +79,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 			// get the anchor
 			$anchor = Anchors::get($item['anchor']);
 
-			// the url to view this item
+			// permalink
 			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 
 			// reset the rendering engine between items
@@ -177,13 +177,8 @@ Class Layout_articles_as_daily extends Layout_interface {
 			$menu[] = Skin::build_link($url, i18n::s('Permalink'), 'basic');
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
-				if($context['with_friendly_urls'] == 'Y')
-					$file = 'articles/view.php/'.$item['id'].'/files/1';
-				else
-					$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
-				$menu[] = Skin::build_link($file, sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
-			}
+			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
+				$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id']))
@@ -194,13 +189,8 @@ Class Layout_articles_as_daily extends Layout_interface {
 				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 			// info on related links
-			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE)) {
-				if($context['with_friendly_urls'] == 'Y')
-					$link = 'articles/view.php/'.$item['id'].'/links/1';
-				else
-					$link = 'articles/view.php?id='.urlencode($item['id']).'&amp;links=1';
-				$menu[] = Skin::build_link($link, sprintf(i18n::ns('1 link', '%d links', $count), $count), 'basic');
-			}
+			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
+				$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('1 link', '%d links', $count), $count), 'basic');
 
 			// trackback
 			if($context['with_friendly_urls'] == 'Y')

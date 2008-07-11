@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:06 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en'][' VLC media player']=' VLC media player';
 $_SESSION['l10n']['en']['%d bytes']='%d bytes';
@@ -59,13 +59,13 @@ $_SESSION['l10n']['en']['Configure again']='Configure again';
 $_SESSION['l10n']['en']['Configure: %s']='Configure: %s';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Delete']='Delete';
-$_SESSION['l10n']['en']['Delete a file']='Delete a file';
+$_SESSION['l10n']['en']['Delete: %s']='Delete: %s';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['Detach']='Detach';
 $_SESSION['l10n']['en']['Detach the file if you are intended to change its content']='Detach the file if you are intended to change its content';
 $_SESSION['l10n']['en']['Detach this file']='Detach this file';
 $_SESSION['l10n']['en']['Divx Player']='Divx Player';
-$_SESSION['l10n']['en']['Do not change modification date of the related page.']='Do not change modification date of the related page.';
+$_SESSION['l10n']['en']['Do not change modification date of the main page.']='Do not change modification date of the main page.';
 $_SESSION['l10n']['en']['Do not know how to stream this file type']='Do not know how to stream this file type';
 $_SESSION['l10n']['en']['Download']='Download';
 $_SESSION['l10n']['en']['Download %s']='Download %s';
@@ -88,7 +88,6 @@ $_SESSION['l10n']['en']['File size']='File size';
 $_SESSION['l10n']['en']['File transfer has been interrupted.']='File transfer has been interrupted.';
 $_SESSION['l10n']['en']['Files']='Files';
 $_SESSION['l10n']['en']['Files at %s']='Files at %s';
-$_SESSION['l10n']['en']['Files maintenance']='Files maintenance';
 $_SESSION['l10n']['en']['Files to review']='Files to review';
 $_SESSION['l10n']['en']['Files: %s']='Files: %s';
 $_SESSION['l10n']['en']['Following items are attached to this record and will be suppressed as well.']='Following items are attached to this record and will be suppressed as well.';
@@ -124,7 +123,6 @@ $_SESSION['l10n']['en']['Less downloaded files']='Less downloaded files';
 $_SESSION['l10n']['en']['List extensions you would like to support, separated by spaces or commas.']='List extensions you would like to support, separated by spaces or commas.';
 $_SESSION['l10n']['en']['Local path']='Local path';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
-$_SESSION['l10n']['en']['Main page']='Main page';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Microsoft web server']='Microsoft web server';
 $_SESSION['l10n']['en']['MindManager']='MindManager';
@@ -185,7 +183,7 @@ $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Supported extensions']='Supported extensions';
 $_SESSION['l10n']['en']['TeX']='TeX';
 $_SESSION['l10n']['en']['Texinfo']='Texinfo';
-$_SESSION['l10n']['en']['Thank you very much for your contribution']='Thank you very much for your contribution';
+$_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['The assignment has been successfully cleared, and the file is again available for download.']='The assignment has been successfully cleared, and the file is again available for download.';
 $_SESSION['l10n']['en']['The deletion has not been confirmed.']='The deletion has not been confirmed.';
 $_SESSION['l10n']['en']['The download should start automatically within seconds. Else hit the provided link to trigger it manually.']='The download should start automatically within seconds. Else hit the provided link to trigger it manually.';
@@ -228,7 +226,6 @@ $_SESSION['l10n']['en']['Use following codes to reference this item: %s']='Use f
 $_SESSION['l10n']['en']['VLC media player']='VLC media player';
 $_SESSION['l10n']['en']['Versions']='Versions';
 $_SESSION['l10n']['en']['View the category']='View the category';
-$_SESSION['l10n']['en']['View the main page']='View the main page';
 $_SESSION['l10n']['en']['Visibility']='Visibility';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';

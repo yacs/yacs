@@ -120,8 +120,13 @@ else
 if(isset($_REQUEST['description']))
 	xml::validate($_REQUEST['description']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // permission denied
-if(!$permitted) {
+} elseif(!$permitted) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged() && isset($_REQUEST['anchor']))
@@ -184,7 +189,7 @@ if(!$permitted) {
 		Users::increment_posts(Surfer::get_id());
 
 		// thanks
-		$context['page_title'] = i18n::s('The action has been put in the to-do list');
+		$context['page_title'] = i18n::s('Thank you for your contribution');
 
 		// action overview
 		$context['text'] .= Skin::build_block(i18n::s('Overview of your post:'), 'title')
@@ -195,7 +200,7 @@ if(!$permitted) {
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		if(is_object($anchor))
-			$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the main page')));
+			$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
 		$menu = array_merge($menu, array(Actions::get_url($_REQUEST['id'], 'edit') => i18n::s('Edit the action')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');

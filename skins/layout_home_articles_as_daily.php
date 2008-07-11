@@ -66,7 +66,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 		if(!SQL::count($result)) {
 			$label = i18n::s('No article has been published so far.');
 			if(Surfer::is_associate())
-				$label .= ' '.sprintf(i18n::s('Use the %s to start to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
 			return $output;
 		}
@@ -87,8 +87,11 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
 
+			// permalink
+			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+
 			// reset the rendering engine between items
-			Codes::initialize(Articles::get_url($item['id']));
+			Codes::initialize($url);
 
 			// get the anchor
 			$anchor = Anchors::get($item['anchor']);
@@ -120,10 +123,8 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			$box['title'] = Codes::beautify_title($item['title']);
 
 			// the icon to put aside - never use anchor images
-			if($item['icon_url']) {
-				$url = Articles::get_url($item['id'], 'view', $item['title']);
+			if($item['icon_url'])
 				$box['content'] .= '<a href="'.$context['url_to_root'].$url.'"><img src="'.$item['icon_url'].'" class="left_image" alt=""'.EOT.'</a>';
-			}
 
 			// details
 			$details = array();
@@ -159,7 +160,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			// list up to three categories by title, if any
 			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 				foreach($items as $id => $attributes)
-					$details[] = Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'basic');
+					$details[] = Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title'], isset($attributes['nick_name'])?$attributes['nick_name']:''), $attributes['title'], 'basic');
 			}
 
 			// rating
@@ -186,15 +187,11 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			$menu = array();
 
 			// read the article
-			$menu[] = Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), i18n::s('Permalink'), 'basic');
+			$menu[] = Skin::build_link($url, i18n::s('Permalink'), 'basic');
 
 			// info on related files
-			if($context['with_friendly_urls'] == 'Y')
-				$file = 'articles/view.php/'.$item['id'].'/files/1';
-			else
-				$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
 			if($count = Files::count_for_anchor('article:'.$item['id']))
-				$menu[] = Skin::build_link($file, sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
+				$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'])) {
@@ -207,12 +204,8 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 			// info on related links
-			if($context['with_friendly_urls'] == 'Y')
-				$link = 'articles/view.php/'.$item['id'].'/links/1';
-			else
-				$link = 'articles/view.php?id='.urlencode($item['id']).'&amp;links=1';
 			if($count = Links::count_for_anchor('article:'.$item['id']))
-				$menu[] = Skin::build_link($link, sprintf(i18n::ns('1 link', '%d links', $count), $count), 'basic');
+				$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('1 link', '%d links', $count), $count), 'basic');
 
 			// trackback
 			if($context['with_friendly_urls'] == 'Y')
@@ -244,7 +237,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			$tokens = array();
 			foreach($items as $url => $attributes)
 				$tokens[] = Skin::build_link($url, $attributes[1], 'basic');
-			$tokens[] = Skin::build_link(Categories::get_url($anchor['id'], 'view', $anchor['title']), i18n::s('Archives'), 'basic');
+			$tokens[] = Skin::build_link(Categories::get_url($anchor['id'], 'view', $anchor['title'], isset($anchor['nick_name'])?$anchor['nick_name']:''), i18n::s('Archives'), 'basic');
 			$text .= '<p class="details">'.implode(' ~ ', $tokens)."</p>\n";
 		}
 

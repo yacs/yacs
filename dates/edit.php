@@ -69,8 +69,13 @@ if(isset($item['id']))
 else
 	$context['page_title'] = i18n::s('Add a date');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // anonymous users are invited to log in or to register
-if(!Surfer::is_logged())
+} elseif(!Surfer::is_logged())
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('dates/edit.php?id='.$id.'&anchor='.$_REQUEST['anchor']));
 
 // anyone can modify a date he/she posted previously; associates and editors can modify everything
@@ -113,7 +118,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		Users::increment_posts(Surfer::get_id());
 
 		// thanks
-		$context['page_title'] = i18n::s('Thank you very much for your contribution');
+		$context['page_title'] = i18n::s('Thank you for your contribution');
 
 		// the date
 		$context['text'] .= '<p>'.sprintf(i18n::s('Target date: %s'), Skin::build_date($item['date_stamp'], 'full')).'</p>';
@@ -194,7 +199,7 @@ if($with_form) {
 
 	// associates may decide to not stamp changes -- complex command
 	if(Surfer::is_associate() && Surfer::has_all())
-		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the related page.').'</p>';
+		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').'</p>';
 
 	// the submit button
 	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";

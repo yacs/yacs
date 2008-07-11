@@ -3,10 +3,10 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:45 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:07 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['Access has been denied']='Acc&#232;s refus&#233;';
-$_SESSION['l10n']['fr']['Back to previous page']='Retour &#224; la page pr&#233;c&#233;dente';
+$_SESSION['l10n']['fr']['Back to main page']='Retour &#224; la page principale';
 $_SESSION['l10n']['fr']['Bad parameter to behavior <code>%s %s</code>']='Mauvais param&#232;tre pour le comportement <code>%s %s</code>';
 $_SESSION['l10n']['fr']['Before moving forward, please read following text and express yourself at the end of the page.']='Avant d\'aller plus loin, merci de lire le texte qui suit, et d\'utiliser les boutons en bas de page.';
 $_SESSION['l10n']['fr']['Behaviors']='Comportements';

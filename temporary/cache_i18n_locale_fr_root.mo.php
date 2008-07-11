@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:08 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%s (and shortcuts, buttons, ...)']='%s (et raccourcis, boutons, ...)';
 $_SESSION['l10n']['fr']['%s (and table of content)']='%s (et table des mati&#232;res)';
@@ -23,7 +23,6 @@ $_SESSION['l10n']['fr']['%s to access more material, and to receive our newslett
 $_SESSION['l10n']['fr']['%s to be authenticated at each visit']='%s pour &#234;tre reconnu &#224; chaque visite';
 $_SESSION['l10n']['fr']['%s to look for additional support']='%s pour obtenir du support en ligne';
 $_SESSION['l10n']['fr']['%s to publish them']='%s avant de les publier';
-$_SESSION['l10n']['fr']['%s with the Content Assistant']='%s avec l\'Assistant de Contenu';
 $_SESSION['l10n']['fr']['%s, the central place to manage this server.']='%s, pour piloter ce serveur.';
 $_SESSION['l10n']['fr']['%s. Or call it a \'blog entry\' if you prefer.']='%s. Appelez ceci \'une entr&#233;e de blog\' si vous pr&#233;f&#233;rez.';
 $_SESSION['l10n']['fr']['%s. Some people would say \'a new blog\'.']='%s. Certains diraient \'un nouveau blog\'.';
@@ -87,7 +86,7 @@ $_SESSION['l10n']['fr']['<p>Your query will now be reviewed by one of the associ
 $_SESSION['l10n']['fr']['A compact list of most recent pages. This layout is suitable for sites with a lot of items (gadget boxes, etc.) at the front page.']='Une liste compacte des articles les plus r&#233;cents. Cette mise en page convient aux pages d\'accueil avec beaucoup de composants (bo&#238;tes gadgets, ...).';
 $_SESSION['l10n']['fr']['A decorated list of most recent pages. This layout is suitable for sites with a long cover article at the front page.']='Une liste d&#233;cor&#233;e des pages les plus r&#233;centes. Cette mise en page convient aux sites avec un article de couverture assez long en page d\'accueil.';
 $_SESSION['l10n']['fr']['A decorated list of pages that have been most rated by community members.']='Une liste des pages &#233;lues par les membres de la communaut&#233;.';
-$_SESSION['l10n']['fr']['A section \'%s\' has been created.']='Une section %s a &#233;t&#233; cr&#233;&#233;e';
+$_SESSION['l10n']['fr']['A section "%s" has been created.']='Une section "%s" a &#233;t&#233; cr&#233;&#233;e.';
 $_SESSION['l10n']['fr']['Absent']='Absent';
 $_SESSION['l10n']['fr']['Access to this page is forbidden (403)']='L\'acc&#232;s &#224; cette page est interdit (403)';
 $_SESSION['l10n']['fr']['Add a page']='Ajouter une page';
@@ -105,7 +104,6 @@ $_SESSION['l10n']['fr']['Browse index pages']='Parcourez les index';
 $_SESSION['l10n']['fr']['Browse yetanothercommunitysystem.com']='Naviguer sur yetanothercommunitysystem.com';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Categories']='Cat&#233;gories';
-$_SESSION['l10n']['fr']['Categories tree']='Arbre des cat&#233;gories';
 $_SESSION['l10n']['fr']['Check PHP version again']='V&#233;rifier de nouveau la version de PHP';
 $_SESSION['l10n']['fr']['Check again our ability to write to files']='V&#233;rifier de nouveau notre capacit&#233; &#224; &#233;crire dans les fichiers';
 $_SESSION['l10n']['fr']['Check the MySQL PHP extension again']='V&#233;rifier de nouveau la pr&#233;sence de l\'extension PHP MySQL';
@@ -119,10 +117,9 @@ $_SESSION['l10n']['fr']['Configuration parameters']='Param&#232;tres de configur
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
 $_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
-$_SESSION['l10n']['fr']['Content Assistant']='Assistant de Contenu';
+$_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['Contribute to the development']='Contribuer au d&#233;veloppement';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contr&#244;le';
-$_SESSION['l10n']['fr']['Control panel']='Panneau de Contr&#244;le';
 $_SESSION['l10n']['fr']['Cover article']='Article de couverture';
 $_SESSION['l10n']['fr']['Cover page']='Page de couverture';
 $_SESSION['l10n']['fr']['Details of your request']='D&#233;tails de votre requ&#234;te';
@@ -146,14 +143,12 @@ $_SESSION['l10n']['fr']['ERROR: YACS requires at least PHP version 4.3. The serv
 $_SESSION['l10n']['fr']['ERROR: YACS requires the MySQL PHP extension.']='ERREUR : YACS requi&#232;re l\'extension PHP MySQL.';
 $_SESSION['l10n']['fr']['ERROR: YACS requires the XML PHP extension.']='ERREUR : YACS requi&#232;re l\'extension PHP XML.';
 $_SESSION['l10n']['fr']['Edited %s']='Modifi&#233; %s';
-$_SESSION['l10n']['fr']['End of installation']='Fin de l\'installation';
 $_SESSION['l10n']['fr']['Extra']='Extra';
 $_SESSION['l10n']['fr']['Extra boxes']='Bo&#238;tes extra';
 $_SESSION['l10n']['fr']['Featured']='A la une';
 $_SESSION['l10n']['fr']['Featured pages']='Pages &#224; la Une';
 $_SESSION['l10n']['fr']['Feedster']='Feedster';
 $_SESSION['l10n']['fr']['Files']='Fichiers';
-$_SESSION['l10n']['fr']['First installation']='Premi&#232;re installation';
 $_SESSION['l10n']['fr']['Flash']='Flash';
 $_SESSION['l10n']['fr']['Focus on the last published article, and on the three articles published previously.']='Mettre en avant le dernier article, plus les trois articles pr&#233;c&#233;dents.';
 $_SESSION['l10n']['fr']['Focus on the last two most recent articles, then list previous pages. Click on article titles to read full text.']='Mettre en avant les deux articles les plus r&#233;cents, puis lister les articles pr&#233;c&#233;dents. Le texte int&#233;gral est accessible en cliquant sur les titres.';
@@ -167,8 +162,7 @@ $_SESSION['l10n']['fr']['Front page']='Page d\'accueil';
 $_SESSION['l10n']['fr']['Full-text search']='Recherche plein texte';
 $_SESSION['l10n']['fr']['Gadget boxes']='Bo&#238;tes gadget';
 $_SESSION['l10n']['fr']['Get the source code?']='Obtenir le code source ?';
-$_SESSION['l10n']['fr']['Go to the control panel']='Aller au Panneau de Contr&#244;le';
-$_SESSION['l10n']['fr']['Go to the main page']='Aller &#224; la page principale';
+$_SESSION['l10n']['fr']['Go to the front page']='Retourner &#224; la page d\'accueil';
 $_SESSION['l10n']['fr']['Google']='Google';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Help index']='Index de l\'aide';
@@ -186,7 +180,6 @@ $_SESSION['l10n']['fr']['Include the list of most read articles']='Inclure la li
 $_SESSION['l10n']['fr']['Include the list of recent files']='Inclure la liste des fichiers r&#233;cents';
 $_SESSION['l10n']['fr']['Include the list of recent links']='Inclure la liste des liens r&#233;cents';
 $_SESSION['l10n']['fr']['Include the list of servers that ping us']='Inclure la liste des serveurs qui nous ont avertis';
-$_SESSION['l10n']['fr']['Incomplete installation']='Installation incompl&#232;te';
 $_SESSION['l10n']['fr']['Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the freshest pages and the most read pages on this site. This can be an efficient way for you to reach the information you are looking after.']='Consultez les index des %1$s, des %2$s, des %3$s et des %4$s pour connaitre les pages nouvelles. Ceci est un moyen efficace d\'atteindre l\'information que vous recherchez.';
 $_SESSION['l10n']['fr']['Index of most recent %1$s, %2$s, %3$s and %4$s']='Index des %1$s, %2$s, %3$s et %4$s les plus r&#233;cents';
 $_SESSION['l10n']['fr']['Introduction']='Introduction';
@@ -225,7 +218,6 @@ $_SESSION['l10n']['fr']['News']='Nouvelles';
 $_SESSION['l10n']['fr']['Nick name']='Surnom';
 $_SESSION['l10n']['fr']['No']='Non';
 $_SESSION['l10n']['fr']['No article has been created yet!']='Aucun article n\'a &#233;t&#233; cr&#233;&#233;';
-$_SESSION['l10n']['fr']['No need for setup']='Aucun besoin d\'installation';
 $_SESSION['l10n']['fr']['No page has been attached to this category...']='Aucune page n\'a &#233;t&#233; attach&#233;e &#224; cette cat&#233;gorie...';
 $_SESSION['l10n']['fr']['Normally we are not using upper case letters, and no spacing sign.']='Normalement nous pr&#233;f&#233;rons les caract&#232;res minuscules, et &#233;vitons les signes d\'espacement';
 $_SESSION['l10n']['fr']['Not satisfied yet?']='Toujours pas combl&#233; ?';
@@ -284,8 +276,8 @@ $_SESSION['l10n']['fr']['Select below among available pages.']='Choisissez parmi
 $_SESSION['l10n']['fr']['Select below among available sections.']='Choisissez parmi les sections ci-dessous.';
 $_SESSION['l10n']['fr']['Selected shortcuts']='Raccourcis';
 $_SESSION['l10n']['fr']['Sent by %s']='Envoy&#233; par %s';
-$_SESSION['l10n']['fr']['Server search']='Recherche sur ce serveur';
 $_SESSION['l10n']['fr']['Server software']='Logiciel serveur';
+$_SESSION['l10n']['fr']['Setup assistant']='Assistant d\'installation';
 $_SESSION['l10n']['fr']['Side panel']='Panneau de c&#244;t&#233;';
 $_SESSION['l10n']['fr']['Similar to the first option, except that displayed information is scrolling.']='Similaire &#224; la premi&#232;re option, en faisant d&#233;filer l\'information.';
 $_SESSION['l10n']['fr']['Similar to the first option, except that featured are rotated.']='Similaire &#224; la premi&#232;re option, en faisant tourner les nouvelles.';
@@ -295,8 +287,6 @@ $_SESSION['l10n']['fr']['Smileys available at this system']='Emoticons disponibl
 $_SESSION['l10n']['fr']['Some configuration files are missing. Please follow the link to complete the installation process.']='Il manque certains fichiers de configuration. Merci de suivre le lien pour terminer l\'installation.';
 $_SESSION['l10n']['fr']['Sorry, no page has the provided name: %s']='D&#233;sol&#233;, aucune page n\'a le nom : %s';
 $_SESSION['l10n']['fr']['Start the installation process']='Commencer l\'installation';
-$_SESSION['l10n']['fr']['Still on the to-do list']='Choses &#224; faire';
-$_SESSION['l10n']['fr']['Structure content of your server']='Structurer le contenu de votre site';
 $_SESSION['l10n']['fr']['Submit']='Envoyer';
 $_SESSION['l10n']['fr']['Submit "%s" to our %s in case some pages could match this keyword.']='Envoyer "%s" au %s au cas o&#249; certaines pages contiendraient ce texte.';
 $_SESSION['l10n']['fr']['Submit a query to ask for help']='Envoyer une requ&#234;te pour demander de l\'aide';
@@ -330,10 +320,8 @@ $_SESSION['l10n']['fr']['WARNING: This server runs in safe mode, and YACS may be
 $_SESSION['l10n']['fr']['WARNING: YACS cannot write to files. If you are running some Unix, please ensure that permissions have been properly set. This issue can also be due to server running in safe mode.']='AVERTISSEMENT : YACS ne peut pas &#233;crire dans les fichiers. Sous Unix, assurez-vous que les permissions ont &#233;t&#233; positionn&#233;es correctement. Ce probl&#232;me peut provenir de l\'ex&#233;cution de PHP en mode safe.';
 $_SESSION['l10n']['fr']['WARNING: You will not be able to upload zip files.']='ATTENTION : Vous ne pourrez pas envoyer d\'archive au format zip.';
 $_SESSION['l10n']['fr']['Warning: No script exists for the customized layout %s']='Attention : Aucun script ne correspond &#224; la mise en page %s';
-$_SESSION['l10n']['fr']['We are here to help']='Laissez-nous vous aider';
 $_SESSION['l10n']['fr']['We\'re sorry. The page you requested doesn\'t exist on this server %s']='D&#233;sol&#233;. La page demand&#233;e n\'existe pas sur ce serveur %s';
 $_SESSION['l10n']['fr']['We\'re sorry. You are not authorized to view %s']='Nous sommes d&#233;sol&#233;s. Vous n\'&#234;tes pas autoris&#233; &#224; consulter %s';
-$_SESSION['l10n']['fr']['Welcome in the YACS setup assistant']='Bienvenue dans l\'assistant d\'installation de YACS';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='O&#249; voulez-vous aller &#224; pr&#233;sent ?';
 $_SESSION['l10n']['fr']['Where to look for information?']='O&#249; rechercher de l\'information ?';
 $_SESSION['l10n']['fr']['While you\'re browsing, don\'t hesitate to comment visited pages, to send images or files, or to share some interesting link you may have']='Pendant votre navigation, n\'h&#233;sitez pas &#224; commenter les pages visit&#233;es, &#224; ajouter images et fichiers, ou &#224; partager les adresses web int&#233;ressantes.';

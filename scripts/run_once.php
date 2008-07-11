@@ -198,12 +198,12 @@ function send_body() {
 	// if the server has been switched off, go back to the control panel
 	if(file_exists('../parameters/switch.off')) {
 		echo '<form method="get" action="'.$context['url_to_root'].'control/">'."\n"
-			.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Back to the control panel')).'</p>'."\n"
+			.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Control Panel')).'</p>'."\n"
 			.'</form>'."\n";
 
 	// else back to the control panel as well, but without a button
 	} else {
-		$menu = array('control/' => i18n::s('Back to the control panel'));
+		$menu = array('control/' => i18n::s('Control Panel'));
 		echo Skin::build_list($menu, 'menu_bar');
 	}
 

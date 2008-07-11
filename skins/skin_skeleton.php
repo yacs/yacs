@@ -489,36 +489,36 @@ Class Skin_Skeleton {
 		// format a date as an absolute string
 		if($variant == 'full') {
 			if($language == 'fr')
-				$output = 'le&nbsp;'.$items['mday'].'&nbsp;'.$months[$items['mon']].'&nbsp;'.($items['year']).$time;
+				$output = 'le '.$items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
 			else
-				$output = 'on&nbsp;'.$months[$items['mon']].'&nbsp;'.$items['mday'].'&nbsp;'.($items['year']).$time;
+				$output = 'on '.$months[$items['mon']].' '.$items['mday'].' '.($items['year']).$time;
 			return $output;
 		}
 
 		// the same, but without prefix
 		if($variant == 'standalone') {
 			if($language == 'fr')
-				$output = $items['mday'].'&nbsp;'.$months[$items['mon']].'&nbsp;'.($items['year']).$time;
+				$output = $items['mday'].' '.$months[$items['mon']].' '.($items['year']).$time;
 			else
-				$output = $months[$items['mon']].'&nbsp;'.$items['mday'].'&nbsp;'.($items['year']).$time;
+				$output = $months[$items['mon']].' '.$items['mday'].' '.($items['year']).$time;
 			return $output;
 		}
 
 		// month only
 		if($variant == 'month') {
 			if($language == 'fr')
-				$output = $months[$items['mon']].'&nbsp;'.($items['year']);
+				$output = $months[$items['mon']].' '.($items['year']);
 			else
-				$output = $months[$items['mon']].'&nbsp;'.($items['year']);
+				$output = $months[$items['mon']].' '.($items['year']);
 			return $output;
 		}
 
 		// day only
 		if($variant == 'day') {
 			if($language == 'fr')
-				$output = $items['mday'].'&nbsp;'.$months[$items['mon']].'&nbsp;'.($items['year']);
+				$output = $items['mday'].' '.$months[$items['mon']].' '.($items['year']);
 			else
-				$output = $months[$items['mon']].'&nbsp;'.$items['mday'].'&nbsp;'.($items['year']);
+				$output = $months[$items['mon']].' '.$items['mday'].' '.($items['year']);
 			return $output;
 		}
 
@@ -528,9 +528,9 @@ Class Skin_Skeleton {
 			$month_link =& Skin::build_link(Dates::get_url($items['year'].'/'.$items['mon'], 'month'), $months[$items['mon']], 'basic', i18n::s('Calendar of this month'));
 			$year_link =& Skin::build_link(Dates::get_url($items['year'], 'year'), $items['year'], 'basic', i18n::s('Calendar of this year'));
 			if($language == 'fr')
-				$output = $items['mday'].'&nbsp;'.$month_link.'&nbsp;'.$year_link;
+				$output = $items['mday'].' '.$month_link.' '.$year_link;
 			else
-				$output = $month_link.'&nbsp;'.$items['mday'].'&nbsp;'.$year_link;
+				$output = $month_link.' '.$items['mday'].' '.$year_link;
 			return $output;
 		}
 
@@ -581,19 +581,19 @@ Class Skin_Skeleton {
 		// this year
 		} elseif(($stamp <= $now) && ($items['year'] == $today['year'])) {
 			if($language == 'fr')
-				$output = 'le&nbsp;'.$items['mday'].'&nbsp;'.$months[$items['mon']];
+				$output = 'le '.$items['mday'].' '.$months[$items['mon']];
 			else
-				$output = 'on&nbsp;'.$months[$items['mon']].'&nbsp;'.$items['mday'];
+				$output = 'on '.$months[$items['mon']].' '.$items['mday'];
 			return $output;
 
 		// date in fr: le dd mmm yy
 		} elseif($language == 'fr') {
-			$output = 'le&nbsp;'.$items['mday'].'&nbsp;'.$months[$items['mon']].'&nbsp;'.($items['year']);
+			$output = 'le '.$items['mday'].' '.$months[$items['mon']].' '.($items['year']);
 			return $output;
 
 		// date in en: on mmm dd yy
 		} else {
-			$output = 'on&nbsp;'.$months[$items['mon']].'&nbsp;'.$items['mday'].'&nbsp;'.($items['year']);
+			$output = 'on '.$months[$items['mon']].' '.$items['mday'].' '.($items['year']);
 			return $output;
 		}
 
@@ -1799,9 +1799,9 @@ Class Skin_Skeleton {
 
 		// use language standards
 		if($context['language'] == 'fr')
-			$output = number_format($value, $decimals, ',', ' ').'&nbsp;'.$unit.$variant;
+			$output = number_format($value, $decimals, ',', ' ').' '.$unit.$variant;
 		else
-			$output = number_format($value, $decimals, '.', ',').'&nbsp;'.$unit.$variant;
+			$output = number_format($value, $decimals, '.', ',').' '.$unit.$variant;
 
 		return $output;
 	}
@@ -1827,72 +1827,45 @@ Class Skin_Skeleton {
 
 		case 'aim':
 			$url = 'aim:goim?screenname='.urlencode(trim($text));
-			$icon = $context['skin'].'/icons/pagers/aim.gif';
-			if(file_exists($context['path_to_root'].$icon))
-				$label = '<img src="'.$context['url_to_root'].$icon.'" alt="AIM"'.EOT;
-			else
-				$label = 'AIM';
-			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If AOL Instant Messenger has been installed, click to open a session')).'">'.$label.'</a>';
+			Skin::define_img('AIM_IMG', 'icons/pagers/aim.gif', 'AIM', 'AIM');
+			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If AOL Instant Messenger has been installed, click to open a session')).'">'.AIM_IMG.'</a>';
 			return $output;
 
 		case 'icq':
 			$url = 'http://www.icq.com/whitepages/wwp.php?to='.urlencode(trim($text)).'&amp;action=message';
-			$icon = $context['skin'].'/icons/pagers/icq.gif';
-			if(file_exists($context['path_to_root'].$icon))
-				$label = '<img src="'.$context['url_to_root'].$icon.'" alt="ICQ"'.EOT;
-			else
-				$label = 'ICQ';
-			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If ICQ has been installed, click to open a session')).'">'.$label.'</a>';
+			Skin::define_img('ICQ_IMG', 'icons/pagers/icq.gif', 'ICQ', 'ICQ');
+			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If ICQ has been installed, click to open a session')).'">'.ICQ_IMG.'</a>';
 			return $output;
 
 		case 'irc':
 			$url = 'irc://'.urlencode(trim($text));
-			$icon = $context['skin'].'/icons/pagers/irc.gif';
-			if(file_exists($context['path_to_root'].$icon))
-				$label = '<img src="'.$context['url_to_root'].$icon.'" alt="IRC"'.EOT;
-			else
-				$label = 'IRC';
-			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If some IRC software has been installed, click to open a session')).'">'.$label.'</a>';
+			Skin::define_img('IRC_IMG', 'icons/pagers/irc.gif', 'IRC', 'IRC');
+			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If some IRC software has been installed, click to open a session')).'">'.IRC_IMG.'</a>';
 			return $output;
 
 		case 'jabber':
-			$url = 'xmpp://'.urlencode(trim($text));
-			$icon = $context['skin'].'/icons/pagers/jabber.gif';
-			if(file_exists($context['path_to_root'].$icon))
-				$label = '<img src="'.$context['url_to_root'].$icon.'" alt="Jabber"'.EOT;
-			else
-				$label = 'Jabber';
-			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If some Jabber software has been installed, click to open a session')).'">'.$label.'</a>';
+			// as per http://juberti.blogspot.com/2006/11/gtalk-uri.html
+			$url = 'gtalk:chat?jid='.urlencode(trim($text));
+			Skin::define_img('JABBER_IMG', 'icons/pagers/jabber.gif', 'Jabber', 'Jabber');
+			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If some Jabber software has been installed, click to open a session')).'">'.JABBER_IMG.'</a>';
 			return $output;
 
 		case 'msn':
 			$url = "javascript:MsgrApp.LaunchIMUI('".trim($text)."')";
-			$icon = $context['skin'].'/icons/pagers/msn.gif';
-			if(file_exists($context['path_to_root'].$icon))
-				$label = '<img src="'.$context['url_to_root'].$icon.'" alt="MSN"'.EOT;
-			else
-				$label = 'MSN';
-			$outpuut = '<a href="'.$url.'" title="'.encode_field(i18n::s('If MSN Instant Messenger has been installed, click to open a session')).'">'.$label.'</a>';
+			Skin::define_img('MSN_IMG', 'icons/pagers/msn.gif', 'MSN', 'MSN');
+			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If Windows Live Messenger has been installed, click to open a session')).'">'.MSN_IMG.'</a>';
 			return $output;
 
 		case 'skype':
 			$url = 'callto://'.urlencode(trim($text));
-			$icon = $context['skin'].'/icons/pagers/skype.gif';
-			if(file_exists($context['path_to_root'].$icon))
-				$label = '<img src="'.$context['url_to_root'].$icon.'" alt="Skype"'.EOT;
-			else
-				$label = 'Skype';
-			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If Skype software is installed, click to open a Skype session')).'">'.$label.'</a>';
+			Skin::define_img('SKYPE_IMG', 'icons/pagers/skype.gif', 'Skype', 'Skype');
+			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If Skype software is installed, click to open a Skype session')).'">'.SKYPE_IMG.'</a>';
 			return $output;
 
 		case 'yahoo':
 			$url = 'ymsgr:sendim?'.urlencode(trim($text));
-			$icon = $context['skin'].'/icons/pagers/yahoo.gif';
-			if(file_exists($context['path_to_root'].$icon))
-				$label = '<img src="'.$context['url_to_root'].$icon.'" alt="Y!"'.EOT;
-			else
-				$label = 'Y!';
-			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If Yahoo Messenger has been installed, click to open session')).'">'.$label.'</a>';
+			Skin::define_img('YAHOO_IMG', 'icons/pagers/yahoo.gif', 'Yahoo!', 'Yahoo!');
+			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If Yahoo Messenger has been installed, click to open session')).'">'.YAHOO_IMG.'</a>';
 			return $output;
 
 		default:
@@ -1907,55 +1880,86 @@ Class Skin_Skeleton {
 	 *
 	 * @param array one user profile
 	 * @param string a profiling option, including 'prefix', 'suffix', and 'extra'
+	 * @param string more information
 	 * @return a string to be returned to the browser
 	 *
 	 * @see sections/section.php
 	 */
-	function &build_profile(&$user, $variant='prefix') {
+	function &build_profile(&$user, $variant='prefix', $more='') {
 		global $context;
 
-		// the link to the user profile
-		$url = Users::get_url($user['id'], 'view', isset($user['nick_name'])?$user['nick_name']:'');
-
-		// return by reference
+		// we return some text
 		$text = '';
 
+		// label
+		$label = (isset($user['full_name'])&&$user['full_name']) ? $user['full_name'] : $user['nick_name'];
+
+		// link to the user profile
+		$url = Users::get_url($user['id'], 'view', $user['nick_name']);
+
+		// depending of what we want to do
 		switch($variant) {
 
 		// at the beginning of the page
 		case 'prefix':
 		default:
 
-			// avatar in a div
+			// avatar
+			$avatar = '';
 			if(isset($user['avatar_url']) && $user['avatar_url'])
-				$text .= Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar"'.EOT, 'basic');
+				$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image" />', 'basic');
 
-			// text in a div
-			$text .= '<div style="margin: 3px; float: left;">';
+			// several items
+			$details = array();
 
-			// a link to the user profile
-			$text .= Skin::build_link($url, $user['nick_name'], 'user');
+			// date of post
+			if($more)
+				$details[] = $more;
+
+			// from where
+			if(isset($user['from_where']) && $user['from_where'])
+				$details[] = sprintf(i18n::s('from %s'), Codes::beautify($user['from_where']));
+
+			// display details
+			if(count($details))
+				$text .= '<span class="details">'.implode(', ', $details).'</span>'.BR;
 
 			// use the introduction field, if any
 			if(isset($user['introduction']) && trim($user['introduction']))
-				$text .= BR.Codes::beautify($user['introduction']);
+				$text .= Codes::beautify($user['introduction']);
 
-			$text = '<div class="author_box">'.$text.'</div></div>'."\n";
+			// suffix after the full name
+			if($text)
+				$text = ' -- '.$text;
+
+			$text = '<div class="top">'.$avatar.Skin::build_link($url, $label, 'user').$text.'</div>'."\n";
 			break;
 
 		// at the end of the page
 		case 'suffix':
 
-			// a link to the user profile
-			$text =& Skin::build_link($url, $user['nick_name'], 'user');
+			// avatar
+			$avatar = '';
+			if(isset($user['avatar_url']) && $user['avatar_url'])
+				$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image" />', 'basic');
 
-			// use the description or the introduction field, if any
+			// date of post
+			if($more)
+				$text .= $more.' ';
+
+			// from where
+			if(isset($user['from_where']) && $user['from_where'])
+				$text .= sprintf(i18n::s('from %s'), Codes::beautify($user['from_where'])).BR;
+
+			// use the introduction field, if any
 			if(isset($user['introduction']) && trim($user['introduction']))
-				$text .= ' -- '.Codes::beautify($user['introduction']);
-			elseif(isset($user['description']) && trim($user['description']))
-				$text .= ' -- '.Codes::beautify($user['description']);
+				$text .= Codes::beautify($user['introduction']);
 
-			$text = '<address>'.$text.'</address>'."\n";
+			// suffix after the full name
+			if($text)
+				$text = ' -- '.$text;
+
+			$text = '<address>'.$avatar.Skin::build_link($url, $label, 'user').$text.'</address>'."\n";
 			break;
 
 		// in a sidebox
@@ -1966,10 +1970,14 @@ Class Skin_Skeleton {
 
 			// avatar
 			if(isset($user['avatar_url']) && $user['avatar_url'])
-				$details[] =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar"'.EOT, 'basic');
+				$details[] =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar" />', 'basic');
 
 			// a link to the user profile
 			$details[] =& Skin::build_link($url, $user['nick_name'], 'user');
+
+			// date of post
+			if($more)
+				$details[] = $more;
 
 			// from where
 			if(isset($user['from_where']) && $user['from_where'])
@@ -1983,8 +1991,45 @@ Class Skin_Skeleton {
 			if(isset($user['introduction']) && trim($user['introduction']))
 				$text .= Codes::beautify($user['introduction']);
 
+			// show contact information
+			if(Surfer::may_contact()) {
+
+				$contacts = array();
+
+				// jabber
+				if(isset($user['jabber_address']) && $user['jabber_address'])
+					$contacts[] = Skin::build_presence($user['jabber_address'], 'jabber');
+
+				// skype
+				if(isset($user['skype_address']) && $user['skype_address'])
+					$contacts[] = Skin::build_presence($user['skype_address'], 'skype');
+
+				// yahoo
+				if(isset($user['yahoo_address']) && $user['yahoo_address'])
+					$contacts[] = Skin::build_presence($user['yahoo_address'], 'yahoo');
+
+				// msn
+				if(isset($user['msn_address']) && $user['msn_address'])
+					$contacts[] = Skin::build_presence($user['msn_address'], 'msn');
+
+				// aim
+				if(isset($user['aim_address']) && $user['aim_address'])
+					$contacts[] = Skin::build_presence($user['aim_address'], 'aim');
+
+				// irc
+				if(isset($user['irc_address']) && $user['irc_address'])
+					$contacts[] = Skin::build_presence($user['irc_address'], 'irc');
+
+				// icq
+				if(isset($user['icq_address']) && $user['icq_address'])
+					$contacts[] = Skin::build_presence($user['icq_address'], 'icq');
+
+				if($contacts)
+					$text .= BR.implode(' ', $contacts);
+			}
+
 			// everything in an extra box
-			$text = Skin::build_box($user['full_name']?$user['full_name']:$user['nick_name'], $text, 'extra');
+			$text = Skin::build_box($label, $text, 'extra');
 			break;
 		}
 
@@ -3695,7 +3740,7 @@ Class Skin_Skeleton {
 
 		// back to the main page
 		if($zooming)
-			$bar = array_merge($bar, array( $back => i18n::s('Main page') ));
+			$bar = array_merge($bar, array( $back => i18n::s('Back to main page') ));
 
 		if(is_array($range))
 			$range = count($range);

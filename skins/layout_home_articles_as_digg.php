@@ -45,7 +45,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 		if(!SQL::count($result)) {
 			$label = i18n::s('No article has been published so far.');
 			if(Surfer::is_associate())
-				$label .= ' '.sprintf(i18n::s('Use the %s to start to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
 			return $output;
 		}
@@ -64,8 +64,11 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
 
+			// permalink
+			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+
 			// reset the rendering engine between items
-			Codes::initialize(Articles::get_url($item['id']));
+			Codes::initialize($url);
 
 			// get the anchor
 			$anchor = Anchors::get($item['anchor']);
@@ -77,9 +80,8 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 			$item_count += 1;
 
 			// section opening
-			if($item_count == 1) {
+			if($item_count == 1)
 				$text .= '<div id="home_north">'."\n";
-			}
 
 			// reset everything
 			$content = $prefix = $label = $suffix = $icon = '';
@@ -90,10 +92,8 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 			} elseif(is_object($anchor)) {
 				$icon = $anchor->get_thumbnail_url();
 			}
-			if($icon) {
-				$url = Articles::get_url($item['id'], 'view', $item['title']);
+			if($icon)
 				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('Read more')).'" title="'.encode_field(i18n::s('Read more')).'"'.EOT.'</a>';
-			}
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
@@ -163,15 +163,11 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'rate') => i18n::s('Rate this page') ));
 
 			// read the article
-			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'view', $item['title']) => i18n::s('Read more') ));
+			$menu = array_merge($menu, array( $url => i18n::s('Read more') ));
 
 			// info on related files
-			if($context['with_friendly_urls'] == 'Y')
-				$file = 'articles/view.php/'.$item['id'].'/files/1';
-			else
-				$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
 			if($count = Files::count_for_anchor('article:'.$item['id']))
-				$details[] = Skin::build_link($file, sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
+				$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'])) {
@@ -184,12 +180,8 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 				$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Discuss') ));
 
 			// info on related links
-			if($context['with_friendly_urls'] == 'Y')
-				$link = 'articles/view.php/'.$item['id'].'/links/1';
-			else
-				$link = 'articles/view.php?id='.urlencode($item['id']).'&amp;links=1';
 			if($count = Links::count_for_anchor('article:'.$item['id']))
-				$menu = array_merge($menu, array( $link => sprintf(i18n::ns('1 link', '%d links', $count), $count) ));
+				$menu = array_merge($menu, array( $url.'#links' => sprintf(i18n::ns('1 link', '%d links', $count), $count) ));
 
 			// trackback
 			if($context['with_friendly_urls'] == 'Y')
@@ -206,7 +198,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 			include_once $context['path_to_root'].'categories/categories.php';
 			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 				foreach($items as $id => $attributes) {
-					$menu = array_merge($menu, array( Categories::get_url($attributes['id'], 'view', $attributes['title']) => $attributes['title'] ));
+					$menu = array_merge($menu, array( Categories::get_url($attributes['id'], 'view', $attributes['title'], isset($attributes['nick_name'])?$attributes['nick_name']:'') => $attributes['title'] ));
 				}
 			}
 

@@ -165,14 +165,14 @@ if(!$permitted) {
 			."\n"
 			.'	// name is mandatory'."\n"
 			.'	if(!container.nick_name.value) {'."\n"
-			.'		alert("'.i18n::s('You must set a name to this user.').'");'."\n"
+			.'		alert("'.i18n::s('You must provide a nick name.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n"
 			."\n"
 			.'	// password is mandatory'."\n"
 			.'	if(!container.password.value) {'."\n"
-			.'		alert("'.i18n::s('You must type a password for this user.').'");'."\n"
+			.'		alert("'.i18n::s('You must provide a password.').'");'."\n"
 			.'		Yacs.stopWorking();'."\n"
 			.'		return false;'."\n"
 			.'	}'."\n"
@@ -366,10 +366,10 @@ if(!$permitted) {
 
 		// home panel
 		$label = i18n::s('Front page');
-		$input = i18n::s('Posts to this blog should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel, as usual').BR;
+		$input = i18n::s('Content of this section should be:').BR;
+		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel').BR;
 		$input .= '<input type="radio" name="home_panel" value="gadget"'.EOT.' '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed at page side, in an extra box').BR;
+		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed on page side, in an extra box').BR;
 		$input .= '<input type="radio" name="home_panel" value="none"'.EOT.' '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
 
@@ -427,7 +427,7 @@ if(!$permitted) {
 			Users::increment_posts(Surfer::get_id());
 
 			// splash
-			$context['text'] .= '<p>'.i18n::s('Congratulations, one blog has been added to your site.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 			// feed-back on contributor scope
 			switch($_REQUEST['contribution']) {
@@ -595,7 +595,7 @@ if(!$permitted) {
 			Users::increment_posts(Surfer::get_id());
 
 			// splash
-			$context['text'] .= '<p>'.i18n::s('Congratulations, one electronic book has been added to your site.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 			// follow-up commands
 			$follow_up = i18n::s('What do you want to do now?');
@@ -814,7 +814,7 @@ if(!$permitted) {
 			Logger::remember('control/populate.php', $label);
 
 			// splash
-			$context['text'] .= '<p>'.i18n::s('Congratulations, one collection has been added to your site.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 			// follow-up commands
 			$follow_up = i18n::s('What do you want to do now?');
@@ -1061,7 +1061,7 @@ if(!$permitted) {
 		Users::increment_posts(Surfer::get_id());
 
 		// splash
-		$context['text'] .= '<p>'.i18n::s('Congratulations, a new feature-rich section has been added to your site.').'</p>';
+		$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -1218,7 +1218,7 @@ if(!$permitted) {
 			Users::increment_posts(Surfer::get_id());
 
 			// splash
-			$context['text'] .= '<p>'.i18n::s('Congratulations, one forum has been added to your site.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 			// follow-up commands
 			$follow_up = i18n::s('What do you want to do now?');
@@ -1371,7 +1371,7 @@ if(!$permitted) {
 		Users::increment_posts(Surfer::get_id());
 
 		// splash
-		$context['text'] .= '<p>'.i18n::s('Congratulations, your site has been structured to host a directory of web links. Review each section individually to enhance it, to add images, etc.').'</p>';
+		$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -1444,9 +1444,9 @@ if(!$permitted) {
 		// home panel
 		$label = i18n::s('Front page');
 		$input = i18n::s('Content of this section should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel, as usual').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget"'.EOT.' '.i18n::s('listed in a gadget box, in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed in an extra box, on page side').BR;
+		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel').BR;
+		$input .= '<input type="radio" name="home_panel" value="gadget"'.EOT.' '.i18n::s('listed in the main panel, in a gadget box').BR;
+		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed on page side, in an extra box').BR;
 		$input .= '<input type="radio" name="home_panel" value="none"'.EOT.' '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
 
@@ -1504,7 +1504,7 @@ if(!$permitted) {
 			Users::increment_posts(Surfer::get_id());
 
 			// splash
-			$context['text'] .= '<p>'.i18n::s('Congratulations, one new section has been added to your site.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 			// follow-up commands
 			$follow_up = i18n::s('What do you want to do now?');
@@ -1615,7 +1615,7 @@ if(!$permitted) {
 			Users::increment_posts(Surfer::get_id());
 
 			// splash
-			$context['text'] .= '<p>'.i18n::s('Congratulations, one section dedicated to partners has been added to your site.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 			// follow-up commands
 			$follow_up = i18n::s('What do you want to do now?');
@@ -1678,11 +1678,11 @@ if(!$permitted) {
 
 		// home panel
 		$label = i18n::s('Front page');
-		$input = i18n::s('Normally, YACS only display a panel for the most recent poll at the front page. To depart from this standard behaviour you can specify if polls should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel, as usual').BR;
+		$input = i18n::s('Content of this section should be:').BR;
+		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel').BR;
 		$input .= '<input type="radio" name="home_panel" value="gadget"'.EOT.' '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed at page side, in an extra box').BR;
-		$input .= '<input type="radio" name="home_panel" value="none"'.EOT.' '.i18n::s('not displayed at the front page - use the Control Panel for Skins to ensure the most recent poll is displayed');
+		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed on page side, in an extra box').BR;
+		$input .= '<input type="radio" name="home_panel" value="none"'.EOT.' '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
 
 		// build the form
@@ -1735,7 +1735,7 @@ if(!$permitted) {
 			Users::increment_posts(Surfer::get_id());
 
 			// splash
-			$context['text'] .= '<p>'.i18n::s('Congratulations, one section specialized in polls has been added to your site.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 			// follow-up commands
 			$follow_up = i18n::s('What do you want to do now?');
@@ -1798,10 +1798,10 @@ if(!$permitted) {
 
 		// home panel
 		$label = i18n::s('Front page');
-		$input = i18n::s('Published recipes should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel, as usual').BR;
+		$input = i18n::s('Content of this section should be:').BR;
+		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel').BR;
 		$input .= '<input type="radio" name="home_panel" value="gadget"'.EOT.' '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed at page side, in an extra box').BR;
+		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed on page side, in an extra box').BR;
 		$input .= '<input type="radio" name="home_panel" value="none"'.EOT.' '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
 
@@ -1854,7 +1854,7 @@ if(!$permitted) {
 			Users::increment_posts(Surfer::get_id());
 
 			// splash
-			$context['text'] .= '<p>'.i18n::s('Congratulations, one section specialized in cooking recipes has been added to your site.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 			// follow-up commands
 			$follow_up = i18n::s('What do you want to do now?');
@@ -2044,10 +2044,10 @@ if(!$permitted) {
 
 		// home panel
 		$label = i18n::s('Front page');
-		$input = i18n::s('Posts to this wiki should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel, as usual').BR;
+		$input = i18n::s('Content of this section should be:').BR;
+		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel').BR;
 		$input .= '<input type="radio" name="home_panel" value="gadget"'.EOT.' '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed at page side, in an extra box').BR;
+		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed on page side, in an extra box').BR;
 		$input .= '<input type="radio" name="home_panel" value="none"'.EOT.' '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
 
@@ -2108,7 +2108,7 @@ if(!$permitted) {
 			Users::increment_posts(Surfer::get_id());
 
 			// splash
-			$context['text'] .= '<p>'.i18n::s('Congratulations, one wiki has been added to your site.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 			// feed-back on contributor scope
 			switch($_REQUEST['contribution']) {

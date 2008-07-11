@@ -783,12 +783,6 @@ body#slideshow { /* background for slideshows */
 
 }
 
-.author_box { /* a user profile, towards the beginning of an article */
-	float: right;
-	padding: 2px;
-	border: 1px dotted #888;
-}
-
 img.avatar { /* an image representing a member -- do not float it! */
 	margin: 3px; /* some space around the image */
 }

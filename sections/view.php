@@ -348,8 +348,7 @@ if(isset($item['index_title']) && $item['index_title']) {
 		$context['page_title'] = $overlay->get_text('title', $item);
 	elseif(isset($item['title']) && $item['title'])
 		$context['page_title'] = $item['title'];
-} else
-	$context['page_title'] = i18n::s('No title has been provided.');
+}
 
 // insert page family, if any
 if(isset($item['family']) && $item['family'])
@@ -1501,7 +1500,7 @@ if(!isset($item['id'])) {
 
 		// show creator profile, if required to do so
 		if(preg_match('/\bwith_creator_profile\b/', $item['options']) && ($poster = Users::get($item['create_id'])) && ($section = Anchors::get('section:'.$item['id'])))
-			$text .= $section->get_user_profile($poster, 'extra');
+			$text .= $section->get_user_profile($poster, 'extra', Skin::build_date($item['create_date']));
 
 		// show news -- set in sections/edit.php
 		if($item['index_news'] != 'none') {

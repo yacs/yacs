@@ -140,8 +140,13 @@ if(isset($_REQUEST['introduction']))
 if(isset($_REQUEST['description']))
 	xml::validate($_REQUEST['description']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // permission denied
-if(!$permitted) {
+} elseif(!$permitted) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 
 	// registration is not allowed to anonymous surfers
@@ -273,7 +278,7 @@ if(!$permitted) {
 						Surfer::set($item);
 
 					// the welcome page
-					$context['page_title'] = i18n::s('Welcome !');
+					$context['page_title'] = i18n::s('Welcome!');
 
 					// the welcome message
 					$context['text'] .= '<p>'.ucfirst($item['nick_name']).',</p>'
@@ -330,15 +335,14 @@ if($with_form) {
 
 	// the form to edit a user
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+	$fields = array();
 
 	// this form has several panels
 	$panels = array();
-	$panels['information'] = '';
-	$panels['contact'] = '';
-	$fields = array();
 
 	// the information panel
 	//
+	$panels['information'] = '';
 
 	// associates can change the capability flag: Associate, Member, Subscriber or ?-unknown
 	if(Surfer::is_associate()) {
@@ -590,25 +594,25 @@ if($with_form) {
 	$input .= BR.'<input type="checkbox" name="without_alerts" value="N"';
 	if(!isset($item['without_alerts']) || ($item['without_alerts'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= ' '.EOT.' '.i18n::s('Alert me when my articles are commented.')."\n";
+	$input .= ' '.EOT.' '.i18n::s('Alert me when my pages are commented.')."\n";
 
 	// receive private messages
 	$input .= BR.'<input type="checkbox" name="without_messages" value="N"';
 	if(!isset($item['without_messages']) || ($item['without_messages'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= ' '.EOT.' '.i18n::s('Allow other members to send me messages.')."\n";
+	$input .= ' '.EOT.' '.i18n::s('Allow other members to contact me.')."\n";
 
 	// explicit newsletter subscription
 	$input .= BR.'<input type="checkbox" name="with_newsletters" value="Y"';
 	if(!isset($item['id']) || !isset($item['with_newsletters']) || ($item['with_newsletters'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= ' '.EOT.' '.i18n::s('Send me periodical newsletters related to this server.')."\n";
+	$input .= ' '.EOT.' '.i18n::s('Send me periodical newsletters.')."\n";
 
 	$hint = i18n::s('Your explicit approval is a pre-requisite for us to use your e-mail address.');
 	$fields[] = array($label, $input, $hint);
 
 	// editor
-	$label = i18n::s('Editor');
+	$label = i18n::s('Default editor');
 	$input = '<select name="selected_editor">';	// hack because of FCKEditor already uses 'editor'
 	if(isset($item['editor']))
 		;
@@ -684,6 +688,10 @@ if($with_form) {
 
 	// the contact panel
 	//
+	$panels['contact'] = '';
+
+	// business card
+	//
 
 	// organisation
 	$label = i18n::s('Organization');
@@ -719,55 +727,58 @@ if($with_form) {
 
 	// agent
 	$label = i18n::s('Alternate contact');
-	$input = '<input type="text" name="vcard_agent" size="40" value="'.encode_field(isset($item['vcard_agent'])?$item['vcard_agent']:'').'" '.EOT;
+	$input = '<input type="text" name="vcard_agent" id="vcard_agent" value ="'.encode_field(isset($item['vcard_agent'])?$item['vcard_agent']:'').'" size="25" maxlength="32" />'
+		.'<div id="vcard_agent_choice" class="autocomplete"></div>';
 	$hint = i18n::s('Another person who can act on your behalf');
 	$fields[] = array($label, $input, $hint);
 
 	// extend the form
-	$panels['contact'] .= Skin::build_form($fields);
+	$panels['contact'] .= Skin::build_box(i18n::s('Business card'), Skin::build_form($fields), 'folder');
 	$fields = array();
 
-	// the AIM address
-	$label = i18n::s('AIM Screenname');
-	$input = '<input type="text" name="aim_address" size="40" value="'.encode_field(isset($item['aim_address'])?$item['aim_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('If you use %s.'), Skin::build_link('http://www.aim.com/', i18n::s('AOL Instant Messenger'), 'external'));
-	$fields[] = array($label, $input, $hint);
+	// append the script used for data checking on the browser
+	$panels['contact'] .= '<script type="text/javascript">// <![CDATA['."\n"
+		.'// enable autocompletion for user names'."\n"
+		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("vcard_agent", "vcard_agent_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
+		.'// ]]></script>';
 
-	// the ICQ number
-	$label = i18n::s('ICQ Number');
-	$input = '<input type="text" name="icq_address" size="40" value="'.encode_field(isset($item['icq_address'])?$item['icq_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('If you use %s.'), Skin::build_link('http://www.icq.com/', i18n::s('ICQ'), 'external'));
-	$fields[] = array($label, $input, $hint);
-
-	// the IRC address
-	$label = i18n::s('IRC address');
-	$input = '<input type="text" name="irc_address" size="40" value="'.encode_field(isset($item['irc_address'])?$item['irc_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('If you use %s.'), Skin::build_link('http://www.irchelp.org/', i18n::s('IRC'), 'external'));
-	$fields[] = array($label, $input, $hint);
+	// instant messaging
+	//
 
 	// the Jabber address
-	$label = i18n::s('Jabber address');
+	$label = sprintf(i18n::s('%s, or %s'), Skin::build_link('http://mail.google.com/', i18n::s('GMail'), 'external'), Skin::build_link('http://www.jabber.org/', i18n::s('Jabber'), 'external'));
 	$input = '<input type="text" name="jabber_address" size="40" value="'.encode_field(isset($item['jabber_address'])?$item['jabber_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('If you use %s, including Google Talk.'), Skin::build_link('http://www.jabber.org/', i18n::s('Jabber'), 'external'));
-	$fields[] = array($label, $input, $hint);
-
-	// the MSN address
-	$label = i18n::s('MSN address');
-	$input = '<input type="text" name="msn_address" size="40" value="'.encode_field(isset($item['msn_address'])?$item['msn_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('If you use %s.'), Skin::build_link('http://www.msn.com', i18n::s('MSN'), 'external'));
-	$fields[] = array($label, $input, $hint);
+	$fields[] = array($label, $input);
 
 	// the skype address
-	$label = i18n::s('Skype id');
+	$label = Skin::build_link('http://www.skype.com/', i18n::s('Skype'), 'external');
 	$input = '<input type="text" name="skype_address" size="40" value="'.encode_field(isset($item['skype_address'])?$item['skype_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('If you use %s.'), Skin::build_link('http://www.skype.com', i18n::s('Skype'), 'external'));
-	$fields[] = array($label, $input, $hint);
+	$fields[] = array($label, $input);
 
 	// the Yahoo address
-	$label = i18n::s('Yahoo address');
+	$label = Skin::build_link('http://messenger.yahoo.com/', i18n::s('Yahoo! Messenger'), 'external');
 	$input = '<input type="text" name="yahoo_address" size="40" value="'.encode_field(isset($item['yahoo_address'])?$item['yahoo_address']:'').'" '.EOT;
-	$hint = sprintf(i18n::s('If you use %s.'), Skin::build_link('http://messenger.yahoo.com/', 'Yahoo Messenger', 'external'));
-	$fields[] = array($label, $input, $hint);
+	$fields[] = array($label, $input);
+
+	// the MSN address
+	$label = Skin::build_link('http://messenger.live.com/', i18n::s('Windows Live Messenger'), 'external');
+	$input = '<input type="text" name="msn_address" size="40" value="'.encode_field(isset($item['msn_address'])?$item['msn_address']:'').'" '.EOT;
+	$fields[] = array($label, $input);
+
+	// the AIM address
+	$label = Skin::build_link('http://www.aim.com/', i18n::s('AIM'), 'external');
+	$input = '<input type="text" name="aim_address" size="40" value="'.encode_field(isset($item['aim_address'])?$item['aim_address']:'').'" '.EOT;
+	$fields[] = array($label, $input);
+
+	// the IRC address
+	$label = Skin::build_link('http://www.irchelp.org/', i18n::s('IRC'), 'external');
+	$input = '<input type="text" name="irc_address" size="40" value="'.encode_field(isset($item['irc_address'])?$item['irc_address']:'').'" '.EOT;
+	$fields[] = array($label, $input);
+
+	// the ICQ number
+	$label = Skin::build_link('http://www.icq.com/', i18n::s('ICQ'), 'external');
+	$input = '<input type="text" name="icq_address" size="40" value="'.encode_field(isset($item['icq_address'])?$item['icq_address']:'').'" '.EOT;
+	$fields[] = array($label, $input);
 
 	// add a folded box
 	$panels['contact'] .= Skin::build_box(i18n::s('Instant messaging'), Skin::build_form($fields), 'folder');
@@ -810,7 +821,7 @@ if($with_form) {
 
 	// link to privacy statement
 	if(!isset($item['id']) && !Surfer::is_associate())
-		$context['text'] .= '<p>'.sprintf(i18n::s('By clicking submit, you agree to the terms and conditions outlined in the %s.'), Skin::build_link('privacy.php', i18n::s('privacy policy'), 'basic')).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::s('By clicking submit, you agree to the terms and conditions outlined in the %s.'), Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic')).'</p>';
 
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && Surfer::is_associate() && Surfer::has_all())
@@ -898,18 +909,6 @@ if($with_form) {
 		// html and codes
 		$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
 
-	} else {
-		$help = i18n::s('Help us to create a better online experience for you, and become a registered user of this site.')
-			.'<p>'.i18n::s('With your registration, you will benefit from advanced services such as the ability:').'</p><ul class="compact">'
-			.'<li>'.i18n::s('to view pages restricted to the core community').'</li>'
-			.'<li>'.i18n::s('to submit new articles into available sections').'</li>'
-			.'<li>'.i18n::s('to attach a file to an existing page').'</li>'
-			.'<li>'.i18n::s('to post a camera shot or an image to a published page').'</li>'
-			.'<li>'.i18n::s('to comment any viewed page').'</li>'
-			.'<li>'.i18n::s('and more...').'</li></ul>'
-			.'<p>'.i18n::s('And, best of all -- it\'s FREE.').'</p>'
-			.'<p>'.i18n::s('We are aiming to protect your privacy.')
-			.' '.i18n::s('We don\'t share or distribute the email addresses stored in our database.').'</p>';
 	}
 
  	// locate mandatory fields

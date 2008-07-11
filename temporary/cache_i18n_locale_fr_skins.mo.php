@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:06 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr'][' at %s%s']=' &#224; %s%s';
 $_SESSION['l10n']['fr']['%d files have been extracted.']='%d fichiers ont &#233;t&#233; extraits.';
@@ -38,6 +38,7 @@ $_SESSION['l10n']['fr']['As an option, you can assign this template to all pages
 $_SESSION['l10n']['fr']['Author information']='Information sur l\'auteur';
 $_SESSION['l10n']['fr']['Avatar height']='Hauteur d\'avatar';
 $_SESSION['l10n']['fr']['Avatar width']='Largeur d\'un avatar';
+$_SESSION['l10n']['fr']['Back to main page']='Retour &#224; la page principale';
 $_SESSION['l10n']['fr']['Background color: %s']='Couleur d\'arri&#232;re-plan : %s';
 $_SESSION['l10n']['fr']['Benefit from extended computing power to provide additional dynamic details']='La puissance du serveur permet de fournir plus de d&#233;tails';
 $_SESSION['l10n']['fr']['Browse in a separate window']='Lire dans une autre fen&#234;tre';
@@ -61,9 +62,8 @@ $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
 $_SESSION['l10n']['fr']['Configure the page factory']='Configurer la fabrication des pages';
 $_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
 $_SESSION['l10n']['fr']['Congratulations, the skins directory has been updated.']='F&#233;licitations, le r&#233;pertoire des styles a &#233;t&#233; mis &#224; jour.';
-$_SESSION['l10n']['fr']['Congratulations, you have completed the creation of a new skin.']='F&#233;licitations, vous venez de cr&#233;er un nouveau style.';
 $_SESSION['l10n']['fr']['Contact mail address']='Adresse de contact &#233;lectronique';
-$_SESSION['l10n']['fr']['Content Assistant']='Assistant de Contenu';
+$_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['Content of sections can be downloaded as Freemind maps']='Autoriser le t&#233;l&#233;chargement des sections sous forme de carte mentale Freemind';
 $_SESSION['l10n']['fr']['Contribute']='Exprimez-vous';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contr&#244;le';
@@ -121,8 +121,8 @@ $_SESSION['l10n']['fr']['How to get a skin?']='Comment obtenir un style ?';
 $_SESSION['l10n']['fr']['Icon']='Ic&#244;ne';
 $_SESSION['l10n']['fr']['If AOL Instant Messenger has been installed, click to open a session']='Si le logiciel AOL Instant Messenger est install&#233;, cliquez pour ouvrir une session';
 $_SESSION['l10n']['fr']['If ICQ has been installed, click to open a session']='Si le logiciel ICQ est install&#233;, cliquez pour ouvrir une session';
-$_SESSION['l10n']['fr']['If MSN Instant Messenger has been installed, click to open a session']='Si le logiciel MSN Messenger est install&#233;, cliquez pour ouvrir une session';
 $_SESSION['l10n']['fr']['If Skype software is installed, click to open a Skype session']='Si le logiciel Skype est install&#233;, cliquez pour ouvrir une session';
+$_SESSION['l10n']['fr']['If Windows Live Messenger has been installed, click to open a session']='Si Windows Live Messenger est install&#233;, cliquez pour ouvrir une session';
 $_SESSION['l10n']['fr']['If Yahoo Messenger has been installed, click to open session']='Si le logiciel Yahoo Messenger est install&#233;, cliquez pour ouvrir une session';
 $_SESSION['l10n']['fr']['If some IRC software has been installed, click to open a session']='Si un logiciel IRC est install&#233;, cliquez pour ouvrir une session';
 $_SESSION['l10n']['fr']['If some Jabber software has been installed, click to open a session']='Si un logiciel Jabber est install&#233;, cliquez pour ouvrir une session';
@@ -144,7 +144,6 @@ $_SESSION['l10n']['fr']['List RSS feeds in sections, categories, articles, and u
 $_SESSION['l10n']['fr']['List pages visited during a session']='Lister les pages visit&#233;es durant la session';
 $_SESSION['l10n']['fr']['Listing files of the originating skin %s...']='Inventaire des fichiers du style d\'origine %s...';
 $_SESSION['l10n']['fr']['Main node']='Noeud principal';
-$_SESSION['l10n']['fr']['Main page']='Page principale';
 $_SESSION['l10n']['fr']['Make your choice among available skins at this server:']='Faites votre choix parmi les styles disponibles sur ce serveur :';
 $_SESSION['l10n']['fr']['Maximum number of extra boxes']='Nombre maximum de bo&#238;tes extra';
 $_SESSION['l10n']['fr']['Maximum number of navigation boxes']='Nombre maximum de bo&#238;tes de navigation';
@@ -193,7 +192,6 @@ $_SESSION['l10n']['fr']['Read the page']='Lire la page';
 $_SESSION['l10n']['fr']['Read this comment']='Lire ce commentaire';
 $_SESSION['l10n']['fr']['Read this page']='Lire cette page';
 $_SESSION['l10n']['fr']['Recent pages']='Pages r&#233;centes';
-$_SESSION['l10n']['fr']['Reference skins cannot be modified.']='Les styles de r&#233;f&#233;rence ne peuvent pas &#234;tre modifi&#233;s.';
 $_SESSION['l10n']['fr']['Reference this page']='R&#233;f&#233;rencer cette page';
 $_SESSION['l10n']['fr']['Referrals']='R&#233;f&#233;rences externes';
 $_SESSION['l10n']['fr']['Review provided information and go to the bottom of the page to move forward.']='Contr&#244;ler l\'information fournie et utiliser le bouton en bas de page pour continuer.';
@@ -263,8 +261,6 @@ $_SESSION['l10n']['fr']['This is the list of avatars available at this site.']='
 $_SESSION['l10n']['fr']['This item has been updated']='Cet &#233;l&#233;ment a &#233;t&#233; mis &#224; jour';
 $_SESSION['l10n']['fr']['This item is a draft, and is not publicly visible']='Cet &#233;l&#233;ment est un brouillon, et n\'est pas visible publiquement';
 $_SESSION['l10n']['fr']['This item is new']='Nouvel &#233;l&#233;ment';
-$_SESSION['l10n']['fr']['This script allows only for the modification of an existing file.']='Ce script permet seulement de modifier un fichier existant.';
-$_SESSION['l10n']['fr']['This script allows only for the modification of cascaded style sheets and of main template file.']='Ce script autorise la modification seulement des feuilles de style cascad&#233;es et du template principal.';
 $_SESSION['l10n']['fr']['This script allows you to install or update a skin package to your YACS server.']='Ce script vous permet d\'installer ou de mettre &#224; jour un style de mise en page pour votre serveur YACS.';
 $_SESSION['l10n']['fr']['This tag line will be repeated at a number of pages']='Ceci est r&#233;p&#233;t&#233; sur plusieurs pages';
 $_SESSION['l10n']['fr']['Thumbnail caption']='Titre de vignette';
@@ -274,14 +270,14 @@ $_SESSION['l10n']['fr']['Thumbnail width']='Largeur de vignette';
 $_SESSION['l10n']['fr']['To actually change the configuration, please copy and paste following lines by yourself in file %s.']='Pour changer la configuration, merci de copier les lignes ci-dessous, et de les mettre par vous-m&#234;me dans le fichier %s :';
 $_SESSION['l10n']['fr']['To check or change your avatar, go to the %s.']='Pour v&#233;rifier ou changer votre avatar, visitez le %s.';
 $_SESSION['l10n']['fr']['Tools']='Outils';
-$_SESSION['l10n']['fr']['Trailer']='Fin de page';
+$_SESSION['l10n']['fr']['Trailer']='Bas de page';
 $_SESSION['l10n']['fr']['Up to two lines of text, used in the "description" meta field to help search engines']='Jusqu\'&#224; deux lignes de texte, utilis&#233; dans le champ "description" pour aider les moteurs de recherche';
 $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['Upload a skin']='T&#233;l&#233;charger un nouveau style';
 $_SESSION['l10n']['fr']['Use HTML codes for colors, and "fork" or "bubble" for style.']='utilisez les codes HTML pour les couleurs, et "fork" ou "bubble" pour le style.';
 $_SESSION['l10n']['fr']['Use HTML codes for colors, numbers or "thin" for thickness, and "bezier" or "linear" for style.']='Utilisez les codes HTML pour les couleurs, des nombres ou "thin" pour l\'&#233;paisseur, et "bezier" ou "linear" pour le style.';
 $_SESSION['l10n']['fr']['Use HTML codes for colors.']='Utilisez les codes HTML pour les couleurs.';
-$_SESSION['l10n']['fr']['Use the %s to start to populate this server.']='Utilisez l\'%s pour commencer &#224; peupler ce serveur.';
+$_SESSION['l10n']['fr']['Use the %s to populate this server.']='Utilisez l\'%s pour peupler ce serveur.';
 $_SESSION['l10n']['fr']['Use this page while developing or checking a skin, then activate the skin and move to %s to finalize your work.']='Utilisez cette page pour d&#233;velopper ou v&#233;rifier un style, puis allez aux %s pour finaliser votre travail.';
 $_SESSION['l10n']['fr']['Use this skin']='Utiliser ce style';
 $_SESSION['l10n']['fr']['Use titles as captions below thumbnail images']='Afficher les titres sous les vignettes';
@@ -344,7 +340,7 @@ $_SESSION['l10n']['fr']['only to associates']='seulement aux associ&#233;s';
 $_SESSION['l10n']['fr']['popular']='populaire';
 $_SESSION['l10n']['fr']['powered by %s']='un serveur %s';
 $_SESSION['l10n']['fr']['previous']='pr&#233;c&#233;dent';
-$_SESSION['l10n']['fr']['privacy statement']='r&#232;gles de confidentialit&#233;';
+$_SESSION['l10n']['fr']['privacy statement']='protection de la vie priv&#233;e';
 $_SESSION['l10n']['fr']['private']='priv&#233;';
 $_SESSION['l10n']['fr']['read more']='lire la suite';
 $_SESSION['l10n']['fr']['restricted']='Prot&#233;g&#233;';

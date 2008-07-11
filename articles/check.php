@@ -23,7 +23,7 @@ load_skin('articles');
 $context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Articles maintenance');
+$context['page_title'] = i18n::s('Maintenance');
 
 // the user has to be an associate
 if(!Surfer::is_associate()) {

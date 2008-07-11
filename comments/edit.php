@@ -141,12 +141,8 @@ if(isset($item['anchor']) && $item['anchor'])
 elseif($target_anchor)
 	$anchor = Anchors::get($target_anchor);
 
-// associates, editors and readers can always add a comment
-if(!isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())))
-	$permitted = TRUE;
-
 // associates and authenticated editors can modify any comment
-elseif(isset($item['id']) && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())))
+if(isset($item['id']) && Comments::are_editable($anchor, $item))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
@@ -156,10 +152,6 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 // maybe posts are not allowed here
 elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered())
 	$permitted = FALSE;
-
-// surfer created the comment
-elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
-	$permitted = TRUE;
 
 // only authenticated surfers can post new comments, except if anonymous posts have been allowed
 elseif(!isset($item['id']) && (Surfer::is_logged() || (isset($context['users_with_anonymous_comments']) && ($context['users_with_anonymous_comments'] == 'Y'))))
@@ -188,14 +180,19 @@ else
 if(is_object($anchor))
 	$context['page_title'] = sprintf(i18n::s('Comment: %s'), $anchor->get_title());
 else
-	$context['page_title'] = i18n::s('Comment');
+	$context['page_title'] = i18n::s('Add a comment');
 
 // always validate input syntax
 if(isset($_REQUEST['description']))
 	xml::validate($_REQUEST['description']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // an anchor is mandatory
-if(!is_object($anchor)) {
+} elseif(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No anchor has been found.'));
 
@@ -352,7 +349,7 @@ if(!is_object($anchor)) {
 		Users::increment_posts(Surfer::get_id());
 
 		// thanks
-		$context['page_title'] = i18n::s('Thank you very much for your contribution');
+		$context['page_title'] = i18n::s('Thank you for your contribution');
 
 		// the type, except on wikis and manuals
 		if(is_object($anchor) && !$anchor->has_layout('manual') && !$anchor->has_layout('wiki'))
@@ -364,7 +361,10 @@ if(!is_object($anchor)) {
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		$menu = array_merge($menu, array($anchor->get_url('discuss') => $anchor->get_label('comments', 'thread_command')));
+		if($anchor->has_layout('alistapart'))
+			$menu = array_merge($menu, array($anchor->get_url('parent') => $anchor->get_label('comments', 'thread_command')));
+		else
+			$menu = array_merge($menu, array($anchor->get_url('discuss') => $anchor->get_label('comments', 'thread_command')));
 		if(Surfer::is_logged())
 			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $anchor->get_label('comments', 'edit_command')));
 		$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'view') => $anchor->get_label('comments', 'view_command')));
@@ -513,8 +513,12 @@ if($with_form) {
 	$label = i18n::s('Your contribution');
 
 	// append surfer signature, if any
-	if(!isset($item['description']) && Surfer::get_id() && ($user =& Users::get(Surfer::get_id())) && isset($user['signature']) && trim($user['signature']))
-		$item['description'] = "\n\n\n\n-----\n".$user['signature'];
+	if(!isset($item['description']) && Surfer::get_id() && ($user =& Users::get(Surfer::get_id())) && isset($user['signature']) && trim($user['signature'])) {
+		if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] != 'yacs'))
+			$item['description'] = "<p>&nbsp;</p><div>-----<br />".$user['signature'].'</div>';
+		else
+			$item['description'] = "\n\n\n\n-----\n".$user['signature'];
+	}
 
 	// use the editor if possible
 	$input = Surfer::get_editor('description', isset($item['description']) ? $item['description'] : '');
@@ -552,7 +556,7 @@ if($with_form) {
 
 	// associates and editors may decide to not stamp changes -- complex command
 	if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) && Surfer::has_all())
-		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the annotated page').'</p>';
+		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

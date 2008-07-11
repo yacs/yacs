@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:47 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:11 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d SQL statements have been processed in %.2f seconds.']='%d ordres SQL ont &#233;t&#233; trait&#233;s en %.2f secondes.';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont &#233;t&#233; trait&#233;s';
@@ -11,6 +11,7 @@ $_SESSION['l10n']['fr']['%s and %s are available to enhance text rendering.']='U
 $_SESSION['l10n']['fr']['1 table'.chr(0).'%d tables']='1 table'.chr(0).'%d tables';
 $_SESSION['l10n']['fr']['Add a table']='Ajouter une table';
 $_SESSION['l10n']['fr']['As this field may be searched by surfers, please choose adequate searchable words']='Ce champ &#233;tant index&#233; pour les recherches, pensez &#224; soigner votre formulation';
+$_SESSION['l10n']['fr']['Back to main page']='Retour &#224; la page principale';
 $_SESSION['l10n']['fr']['Because of our security policy you are not allowed to list tables.']='A cause de nos r&#233;glages de s&#233;curit&#233;, vous n\'&#234;tes pas autoris&#233; &#224; consulter la liste des tables.';
 $_SESSION['l10n']['fr']['CSV (Excel)']='CSV (Excel)';
 $_SESSION['l10n']['fr']['Colon character ";"']='Caract&#232;re point-virgule ";"';
@@ -19,7 +20,7 @@ $_SESSION['l10n']['fr']['Control Panel']='Panneau de contr&#244;le';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete a table']='Supprimer une table';
 $_SESSION['l10n']['fr']['Description']='Description';
-$_SESSION['l10n']['fr']['Do not change modification date of the main page']='Ne pas changer la date de modification de la page principale';
+$_SESSION['l10n']['fr']['Do not change modification date of the main page.']='Ne pas changer la date de modification de la page principale.';
 $_SESSION['l10n']['fr']['Do not display row numbers']='Ne pas afficher les num&#233;ros de ligne';
 $_SESSION['l10n']['fr']['Double quote character']='Caract&#232;re "';
 $_SESSION['l10n']['fr']['Edit']='Modifier';
@@ -43,7 +44,6 @@ $_SESSION['l10n']['fr']['In: %s']='Dans %s';
 $_SESSION['l10n']['fr']['Insert a column with row numbers']='Afficher les num&#233;ros de ligne';
 $_SESSION['l10n']['fr']['Look for orphan records']='D&#233;tecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Look for unused tables']='D&#233;tecter les tables non-utilis&#233;es';
-$_SESSION['l10n']['fr']['Main page']='Page principale';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['MySQL reference page']='la page de r&#233;f&#233;rence MySQL';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a &#233;t&#233; trouv&#233;.';
@@ -77,7 +77,6 @@ $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Table name']='Nom de table';
 $_SESSION['l10n']['fr']['Table will be dropped and re-created']='La table va &#234;tre d&#233;truite, puis recr&#233;&#233;e';
 $_SESSION['l10n']['fr']['Tables']='Tables';
-$_SESSION['l10n']['fr']['Tables maintenance']='V&#233;rification des tables';
 $_SESSION['l10n']['fr']['Tabulation character']='Caract&#232;re de tabulation';
 $_SESSION['l10n']['fr']['The SELECT command submitted to the database']='La commande SELECT soumise &#224; la base de donn&#233;es';
 $_SESSION['l10n']['fr']['The deletion has not been confirmed.']='Effacement non confirm&#233;';

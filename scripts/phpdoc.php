@@ -459,13 +459,15 @@ class PhpDoc {
 			asort($this->testers);
 		}
 		$testers = '';
-		foreach($this->testers as $tester => $scripts) {
-			if($testers)
-				$testers .= "<p></p></dd>\n";
-			$testers .= '<dt>'.$tester."</dt>\n<dd>";
-			reset($scripts);
-			asort($scripts);
-			$testers .= join(' ', $scripts)."\n";
+		if($this->testers) {
+			foreach($this->testers as $tester => $scripts) {
+				if($testers)
+					$testers .= "<p></p></dd>\n";
+				$testers .= '<dt>'.$tester."</dt>\n<dd>";
+				reset($scripts);
+				asort($scripts);
+				$testers .= join(' ', $scripts)."\n";
+			}
 		}
 		if($testers)
 			$testers .= "<p></p></dd>\n";
@@ -507,12 +509,14 @@ class PhpDoc {
 			ksort($this->todos);
 		}
 		$todos = '';
-		foreach($this->todos as $script => $todo) {
-			$todos .= "<h2>".$script."</h2>\n"
-				."<ul>\n";
-			foreach($todo as $line)
-				$todos .= '<li>'.$line."</li>\n";
-			$todos .= "</ul>\n";
+		if($this->todos) {
+			foreach($this->todos as $script => $todo) {
+				$todos .= "<h2>".$script."</h2>\n"
+					."<ul>\n";
+				foreach($todo as $line)
+					$todos .= '<li>'.$line."</li>\n";
+				$todos .= "</ul>\n";
+			}
 		}
 		$query = "INSERT INTO ".SQL::table_name('phpdoc')." SET "
 			." name='todo',"

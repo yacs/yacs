@@ -167,7 +167,7 @@ Class Layout_categories_as_yahoo extends Layout_interface {
 
 			// give me more
 			if(count($details) && ($related_count > YAHOO_LIST_SIZE))
-				$details[] = Skin::build_link(Categories::get_url($item['id'], 'view', $item['title']), i18n::s('More').MORE_IMG, 'more', i18n::s('This category contains other information of interest'));
+				$details[] = Skin::build_link(Categories::get_url($item['id'], 'view', $item['title']), i18n::s('More').MORE_IMG, 'more', i18n::s('Read the page'));
 
 			// layout details
 			if(count($details))

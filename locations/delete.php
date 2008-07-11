@@ -84,12 +84,6 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
-
-	// anonymous users are invited to log in
-	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Locations::get_url($item['id'], 'delete')));
-
-	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 

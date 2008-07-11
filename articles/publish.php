@@ -96,8 +96,13 @@ if(isset($item['id']))
 if(isset($item['id']))
 	$context['page_title'] = sprintf(i18n::s('Publish: %s'), $item['title']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!isset($item['id'])) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -222,11 +227,11 @@ if(!isset($item['id'])) {
 		Articles::clear($item);
 
 		// follow-up commands
-		$follow_up = i18n::s('What do you want to do now?');
+		$follow_up = i18n::s('Where do you want to go now?');
 		$menu = array();
-		$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('View the page')));
+		$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to main page')));
 		if(Surfer::is_associate())
-			$menu = array_merge($menu, array('articles/review.php' => i18n::s('Go to the review queue')));
+			$menu = array_merge($menu, array('articles/review.php' => i18n::s('Review queue')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -301,7 +306,7 @@ if($with_form) {
 		$input .= EOT.' '.i18n::s('This publication should be advertised at:').$list;
 
 	} else
-		$input = sprintf(i18n::s('No aggregation server has been defined so far. Use the %s if your host is visible from the Internet.'), Skin::build_link('control/populate.php?action=servers', i18n::s('Content Assistant'), 'shortcut'));
+		$input = sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php?action=servers', i18n::s('Content Assistant'), 'shortcut'));
 
 	$fields[] = array($label, $input);
 

@@ -76,10 +76,8 @@ else
 // page title
 if(is_object($overlay))
 	$context['page_title'] = $overlay->get_text('title', $item);
-elseif(isset($item['title']) && $item['title'])
+elseif(isset($item['title']))
 	$context['page_title'] = $item['title'];
-else
-	$context['page_title'] = i18n::s('No title has been provided.');
 
 // page language, if any
 if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'))
@@ -421,8 +419,8 @@ if(!isset($item['id'])) {
 	}
 
 	// the poster profile, if any, at the beginning of the first page
-	if(isset($poster['id']) && is_object($anchor) && is_callable(array($anchor, 'get_user_profile')))
-		$context['text'] .= $anchor->get_user_profile($poster, 'prefix');
+	if(isset($poster['id']) && is_object($anchor))
+		$context['text'] .= $anchor->get_user_profile($poster, 'prefix', Skin::build_date($item['create_date']));
 
 	// the introduction text, if any
 	if(is_object($overlay))
@@ -441,8 +439,8 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
 
 	// the poster profile, if any, at the bottom of the page
-	if(isset($poster['id']) && is_object($anchor) && is_callable(array($anchor, 'get_user_profile')))
-		$context['text'] .= $anchor->get_user_profile($poster, 'suffix');
+	if(isset($poster['id']) && is_object($anchor))
+		$context['text'] .= $anchor->get_user_profile($poster, 'suffix', Skin::build_date($item['create_date']));
 
 	// special layout for digg
 	if(defined('DIGG'))
@@ -590,8 +588,8 @@ if(!isset($item['id'])) {
 	//
 
 	// the poster profile, if any, aside
-	if(isset($poster['id']) && is_object($anchor) && is_callable(array($anchor, 'get_user_profile')))
-		$context['extra_prefix'] .= $anchor->get_user_profile($poster, 'extra');
+	if(isset($poster['id']) && is_object($anchor))
+		$context['extra_prefix'] .= $anchor->get_user_profile($poster, 'extra', Skin::build_date($item['create_date']));
 
 	// cache content
 	$cache_id = 'articles/view_as_thread.php?id='.$item['id'].'#extra#head';
@@ -604,7 +602,7 @@ if(!isset($item['id'])) {
 		$invite = '';
 		if(isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 			Skin::define_img('MAIL_TOOL_IMG', 'icons/tools/mail.gif');
-			$invite = Skin::build_link(Articles::get_url($item['id'], 'mail', 'invite'), MAIL_TOOL_IMG.i18n::s('Invite people'), 'basic', i18n::s('Spread the word'), TRUE);
+			$invite = Skin::build_link(Articles::get_url($item['id'], 'mail'), MAIL_TOOL_IMG.i18n::s('Invite people'), 'basic', i18n::s('Spread the word'), TRUE);
 		}
 
 		// thread participants

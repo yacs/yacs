@@ -913,11 +913,12 @@ Class Members {
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
+	 * @param string an id to avoid, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see categories/view.php
 	 */
-	function &list_users_by_posts_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
+	function &list_users_by_posts_for_anchor($anchor, $offset=0, $count=10, $variant=NULL, $to_avoid=NULL) {
 		global $context;
 
 		// locate where we are
@@ -931,6 +932,10 @@ Class Members {
 		if(Surfer::is_associate())
 			$where .= " OR users.active='N'";
 		$where = '('.$where.')';
+
+		// avoid this one
+		if($to_avoid)
+			$where .= " AND (users.id != '".SQL::escape($to_avoid)."')";
 
 		// the list of users
 		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
@@ -958,11 +963,12 @@ Class Members {
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
+	 * @param string an id to avoid, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see users/select.php
 	 */
-	function &list_users_by_posts_for_member($member, $offset=0, $count=10, $variant='compact') {
+	function &list_users_by_posts_for_member($member, $offset=0, $count=10, $variant='compact', $to_avoid=NULL) {
 		global $context;
 
 		// return by reference
@@ -983,6 +989,10 @@ Class Members {
 		// build an array of ids
 		$ids = array();
 		while($row =& SQL::fetch($result)) {
+
+			// avoid this one
+			if($to_avoid && ($row['anchor'] == 'user:'.$to_avoid))
+				continue;
 
 			// remember this id
 			$ids[] = str_replace('user:', '', $row['anchor']);

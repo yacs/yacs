@@ -117,11 +117,14 @@ else
 // the title of the page
 if(is_object($anchor) && ($title = $anchor->get_title()))
 	$context['page_title'] = sprintf(i18n::s('Reference: %s'), $title);
-else
-	$context['page_title'] = i18n::s('Blog and trackback');
+
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
-if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
+} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// save the request if debug mode
 	if(isset($context['debug_trackback']) && ($context['debug_trackback'] == 'Y'))
@@ -202,7 +205,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 		// everything's going fine
 		else
-			$context['text'] = '<p>'.i18n::s('Thank you for tracking back.')."</p>\n";
+			$context['text'] = '<p>'.i18n::s('Thank you for your contribution')."</p>\n";
 
 	// send some XML
 	} else {
@@ -338,14 +341,14 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		."\n"
 		.'	// url is mandatory'."\n"
 		.'	if(!container.url.value) {'."\n"
-		.'		alert("'.i18n::s('You must set a referencing web address.').'");'."\n"
+		.'		alert("'.i18n::s('Please type a valid link.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
 		."\n"
 		.'	// title is mandatory'."\n"
 		.'	if(!container.title.value) {'."\n"
-		.'		alert("'.i18n::s('You must type the title of the referencing page.').'");'."\n"
+		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"

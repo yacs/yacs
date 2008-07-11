@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:45 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:07 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d elements have been read']='%d &#233;l&#233;ments ont &#233;t&#233; obtenus';
 $_SESSION['l10n']['fr']['%s and %s are available to enhance text rendering.']='Utilisez %s et %s pour embellir le texte.';
@@ -18,7 +18,6 @@ $_SESSION['l10n']['fr']['Access is restricted to authenticated members']='Acc&#2
 $_SESSION['l10n']['fr']['Access is restricted to authenticated members.']='Acc&#232;s restreint aux membres authentifi&#233;s.';
 $_SESSION['l10n']['fr']['Add a server']='Ajouter un serveur';
 $_SESSION['l10n']['fr']['Add a server profile']='Ajouter un serveur';
-$_SESSION['l10n']['fr']['Add default server profiles']='Ajouter les serveurs par d&#233;faut';
 $_SESSION['l10n']['fr']['Aggregate news from this server by reading the XML feed at %s']='Aggr&#233;ger les nouvelles de ce site par lecture du fil XML &#224; l\'adresse %s';
 $_SESSION['l10n']['fr']['Allow this server to poll us regularly (<code>monitor.ping</code>) at %s']='Autoriser ce serveur &#224; nous interroger r&#233;guli&#232;rement  (<code>monitor.ping</code>) &#224; %s';
 $_SESSION['l10n']['fr']['Allowed queries from this server']='Services autoris&#233;s pour ce serveur';
@@ -33,6 +32,7 @@ $_SESSION['l10n']['fr']['Configuration parameters']='Param&#232;tres de configur
 $_SESSION['l10n']['fr']['Configure']='Configuration';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
 $_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
+$_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contr&#244;le';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete a server']='Effacer un serveur';
@@ -55,7 +55,6 @@ $_SESSION['l10n']['fr']['External News']='Nouvelles du monde';
 $_SESSION['l10n']['fr']['Feed']='Feed';
 $_SESSION['l10n']['fr']['Feed URL: %s']='Les nouveaut&#233;s : %s';
 $_SESSION['l10n']['fr']['Feed test']='Test :';
-$_SESSION['l10n']['fr']['Feed test: %s']='Test : %s';
 $_SESSION['l10n']['fr']['Following web sites have been contacted:']='Les sites suivants ont &#233;t&#233; contact&#233;s :';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Host name']='Nom de machine';

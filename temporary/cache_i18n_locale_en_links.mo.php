@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:07 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d clicks']='%d clicks';
 $_SESSION['l10n']['en']['%d links have been processed.']='%d links have been processed.';
@@ -18,7 +18,6 @@ $_SESSION['l10n']['en']['All referrals are looking ok.']='All referrals are look
 $_SESSION['l10n']['en']['Also, take the time to describe the link. This field is fully indexed for searches.']='Also, take the time to describe the link. This field is fully indexed for searches.';
 $_SESSION['l10n']['en']['As this field may be searched by surfers, please choose adequate searchable words']='As this field may be searched by surfers, please choose adequate searchable words';
 $_SESSION['l10n']['en']['At any place of this site, use the following code to reference the target page:']='At any place of this site, use the following code to reference the target page:';
-$_SESSION['l10n']['en']['Blog and trackback']='Blog and trackback';
 $_SESSION['l10n']['en']['Blog name or section']='Blog name or section';
 $_SESSION['l10n']['en']['Broken links to review']='Broken links to review';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
@@ -32,7 +31,7 @@ $_SESSION['l10n']['en']['Delete a link']='Delete a link';
 $_SESSION['l10n']['en']['Deleted referrals']='Deleted referrals';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['Detected clicks']='Detected clicks';
-$_SESSION['l10n']['en']['Do not change modification date of the related page.']='Do not change modification date of the related page.';
+$_SESSION['l10n']['en']['Do not change modification date of the main page.']='Do not change modification date of the main page.';
 $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit a link']='Edit a link';
 $_SESSION['l10n']['en']['Excerpt or description']='Excerpt or description';
@@ -45,7 +44,6 @@ $_SESSION['l10n']['en']['If you have previously registered to this site, please 
 $_SESSION['l10n']['en']['Internal reference']='Internal reference';
 $_SESSION['l10n']['en']['Its title']='Its title';
 $_SESSION['l10n']['en']['Links']='Links';
-$_SESSION['l10n']['en']['Links maintenance']='Links maintenance';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['New link at %s']='New link at %s';
@@ -81,8 +79,7 @@ $_SESSION['l10n']['en']['Stay in same window on click']='Stay in same window on 
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Submit another link']='Submit another link';
 $_SESSION['l10n']['en']['Target window']='Target window';
-$_SESSION['l10n']['en']['Thank you for tracking back.']='Thank you for tracking back.';
-$_SESSION['l10n']['en']['Thank you very much for your contribution']='Thank you very much for your contribution';
+$_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['The deletion has not been confirmed.']='The deletion has not been confirmed.';
 $_SESSION['l10n']['en']['The link has been successfully recorded.']='The link has been successfully recorded.';
 $_SESSION['l10n']['en']['The remote address that is referencing content at this site']='The remote address that is referencing content at this site';
@@ -112,9 +109,7 @@ $_SESSION['l10n']['en']['You can use following shortcuts to link to other pages 
 $_SESSION['l10n']['en']['You can use the form below to manually trackback any of your pages to this site. Of course, use this capability only if your weblogging software is not able to do it automatically.']='You can use the form below to manually trackback any of your pages to this site. Of course, use this capability only if your weblogging software is not able to do it automatically.';
 $_SESSION['l10n']['en']['You can use this form to manually trackback your pages to this site.']='You can use this form to manually trackback your pages to this site.';
 $_SESSION['l10n']['en']['You must name the originating blog.']='You must name the originating blog.';
-$_SESSION['l10n']['en']['You must set a referencing web address.']='You must set a referencing web address.';
 $_SESSION['l10n']['en']['You must type an excerpt of the referencing page.']='You must type an excerpt of the referencing page.';
-$_SESSION['l10n']['en']['You must type the title of the referencing page.']='You must type the title of the referencing page.';
 $_SESSION['l10n']['en']['Your address']='Your address';
 $_SESSION['l10n']['en']['Your name']='Your name';
 $_SESSION['l10n']['en']['at %s']='at %s';

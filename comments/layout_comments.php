@@ -14,17 +14,6 @@
 Class Layout_comments extends Layout_interface {
 
 	/**
-	 * the preferred number of items for this layout
-	 *
-	 * @return int the optimised count of items for this layout
-	 *
-	 * @see skins/layout.php
-	 */
-	function items_per_page() {
-		return 10;
-	}
-
-	/**
 	 * list comments
 	 *
 	 * @param resource the SQL result
@@ -82,7 +71,7 @@ Class Layout_comments extends Layout_interface {
 				$suffix .= '&nbsp;'.Skin::build_date($item['edit_date']);
 
 			// the menu bar for associates, editors and poster
-			if((Surfer::is_empowered() && Surfer::is_member()) || Surfer::is($item['create_id'])) {
+			if(Comments::are_editable($anchor, $item)) {
 				$menu = array( Comments::get_url($item['id'], 'edit') => i18n::s('edit'),
 					Comments::get_url($item['id'], 'delete') => i18n::s('delete') );
 				$suffix .= ' '.Skin::build_list($menu, 'menu');

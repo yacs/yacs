@@ -31,7 +31,6 @@
  * [title]Pre-defined sections[/title]
  *
  * At the moment following section nick names are used throughout yacs:
- * - 'chats' - private interactive discussions - created automatically in [script]users/contact.php[/script]
  * - 'clicks' - to put orphan links when clicked - created automatically in [script]links/links.php[/script]
  * - 'covers' - the articles displayed at the very first page of the site
  * - 'extra_boxes' - boxes only displayed at the front page, in the extra panel
@@ -45,6 +44,7 @@
  * - 'navigation_boxes' - boxes on the left of the page
  * - 'partners' - our preferred partners
  * - 'polls' - some of the polls published on this site
+ * - 'private' - private pages
  * - 'queries' - pages sent by surfers to submit their queries to the webmaster - created automatically in [script]query.php[/script]
  * - 'recipes' - a sample cookbook
   *

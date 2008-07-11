@@ -113,12 +113,13 @@ if(isset($item['id']) && isset($item['title']))
 // page title
 $context['page_title'] = i18n::s('Move a page');
 
-// command to go back
-if(isset($item['id']))
-	$context['page_menu'] = array( Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to the page') );
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
-// an error has occurred
-if(count($context['error']))
+// an error has occured
+} elseif(count($context['error']))
 	;
 
 // not found

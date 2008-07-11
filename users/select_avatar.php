@@ -63,15 +63,18 @@ $context['path_bar'] = array( 'users/' => i18n::s('People') );
 // the title of the page
 if(isset($item['nick_name']))
 	$context['page_title'] = sprintf(i18n::s('Select an avatar for %s'), $item['nick_name']);
-else
-	$context['page_title'] = i18n::s('Select an avatar');
 
 // command to go back
 if(isset($item['id']))
-	$context['page_menu'] = array( Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:'') => sprintf(i18n::s('Back to the page of %s'), $item['nick_name']) );
+	$context['page_menu'] = array( Users::get_url($item['id'], 'view', $item['nick_name']) => sprintf(i18n::s('Back to %s'), $item['nick_name']) );
+
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
-if(!Surfer::is_logged())
+} elseif(!Surfer::is_logged())
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('users/select_avatar.php'));
 
 // not found

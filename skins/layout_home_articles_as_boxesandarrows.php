@@ -52,7 +52,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 		if(!SQL::count($result)) {
 			$label = i18n::s('No article has been published so far.');
 			if(Surfer::is_associate())
-				$label .= ' '.sprintf(i18n::s('Use the %s to start to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
 			return $output;
 		}
@@ -68,8 +68,11 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 		$item_count = 0;
 		while($item =& SQL::fetch($result)) {
 
+			// permalink
+			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+
 			// reset the rendering engine between items
-			Codes::initialize(Articles::get_url($item['id']));
+			Codes::initialize($url);
 
 			// next item
 			$item_count += 1;
@@ -106,10 +109,8 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 				} elseif(is_object($anchor)) {
 					$icon = $anchor->get_thumbnail_url();
 				}
-				if($icon) {
-					$url = Articles::get_url($item['id'], 'view', $item['title']);
+				if($icon)
 					$text .= '<a href="'.$context['url_to_root'].$url.'" title="'.i18n::s('Read the page').'"><img src="'.$icon.'" class="left_image" alt=""'.EOT.'</a>';
-				}
 
 				$text .= $this->layout_newest($item, $anchor).'</div>'."\n";
 
@@ -144,6 +145,9 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 	function layout_newest($item, $anchor) {
 		global $context;
 
+		// permalink
+		$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+
 		// initialize variables
 		$prefix = $suffix = $text = '';
 
@@ -166,7 +170,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 		}
 
 		// use the title as a link to the page
-		$text .= $prefix.'<b>'.Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), Codes::beautify_title($item['title']), 'basic', i18n::s('Read this page')).'</b>'.$suffix;
+		$text .= $prefix.'<b>'.Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', i18n::s('Read this page')).'</b>'.$suffix;
 
 		// details
 		$details = array();
@@ -197,15 +201,11 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 			$text .= $overlay->get_text('list', $item);
 
 		// read this article
-		$text .= '<p class="details right">'.Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), i18n::s('Read the page'), 'basic');
+		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('Read the page'), 'basic');
 
 		// info on related files
-		if($context['with_friendly_urls'] == 'Y')
-			$file = 'articles/view.php/'.$item['id'].'/files/1';
-		else
-			$file = 'articles/view.php?id='.urlencode($item['id']).'&amp;files=1';
 		if($count = Files::count_for_anchor('article:'.$item['id']))
-			$text .= ' ('.Skin::build_link($file, sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic').')';
+			$text .= ' ('.Skin::build_link($url.'#files', sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic').')';
 
 		// link to the anchor page
 		if(is_object($anchor))
@@ -240,6 +240,9 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 	function layout_recent($item, $anchor, $deadline) {
 		global $context;
 
+		// permalink
+		$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+
 		// get the related overlay, if any
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		$overlay = Overlay::load($item);
@@ -269,7 +272,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic', i18n::s('Rate this article!'));
 
 		// use the title as a link to the page
-		$text .= '<p id="article_'.$item['id'].'">'.$prefix.'<b>'.Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), Codes::beautify_title($item['title']), 'basic', i18n::s('Read this page')).'</b>'.$suffix;
+		$text .= '<p id="article_'.$item['id'].'">'.$prefix.'<b>'.Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', i18n::s('Read this page')).'</b>'.$suffix;
 
 		// add details
 		$details = array();

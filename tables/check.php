@@ -21,7 +21,7 @@ load_skin('tables');
 $context['path_bar'] = array( 'tables/' => i18n::s('Tables') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Tables maintenance');
+$context['page_title'] = i18n::s('Maintenance');
 
 // the user has to be an associate
 if(!Surfer::is_associate()) {

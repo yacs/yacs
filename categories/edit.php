@@ -115,8 +115,13 @@ if(!Surfer::is_associate() || (isset($_REQUEST['option_validate']) && ($_REQUEST
 if(isset($_REQUEST['expiry_date']))
 	$_REQUEST['expiry_date'] = Surfer::to_GMT($_REQUEST['expiry_date']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // permission denied
-if(!$permitted) {
+} elseif(!$permitted) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged()) {
@@ -224,7 +229,7 @@ if(!$permitted) {
 		Users::increment_posts(Surfer::get_id());
 
 		// reward the poster for new posts
-		$context['page_title'] = i18n::s('Thank you very much for your contribution');
+		$context['page_title'] = i18n::s('Thank you for your contribution');
 
 		$context['text'] .= '<p>'.i18n::s('Please review the new page carefully and fix possible errors rapidly.').'</p>';
 

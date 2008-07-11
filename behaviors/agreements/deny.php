@@ -32,7 +32,7 @@ $context['text'] .= '<p>'.i18n::s('Your agreement is required to access the targ
 
 // common commands for this page
 if(isset($_SERVER['HTTP_REFERER']))
-	$context['page_menu'] = array( $_SERVER['HTTP_REFERER'] => i18n::s('Back to previous page') );
+	$context['page_menu'] = array( $_SERVER['HTTP_REFERER'] => i18n::s('Back to main page') );
 
 // render the skin
 render_skin();

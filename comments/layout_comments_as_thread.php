@@ -21,17 +21,6 @@
 Class Layout_comments_as_thread extends Layout_interface {
 
 	/**
-	 * the preferred number of items for this layout
-	 *
-	 * @return int the optimised count of items for this layout
-	 *
-	 * @see skins/layout.php
-	 */
-	function items_per_page() {
-		return 20;
-	}
-
-	/**
 	 * list comments as successive notes in a thread
 	 *
 	 * @param resource the SQL result

@@ -69,8 +69,6 @@ load_skin('s5');
 // the title of the page
 if(isset($item['title']))
 	$context['page_title'] = $item['title'];
-else
-	$context['page_title'] = i18n::s('No title has been provided.');
 
 // not found
 if(!isset($item['id'])) {

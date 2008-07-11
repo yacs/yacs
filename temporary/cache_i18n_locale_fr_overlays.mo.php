@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:45 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:07 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d approval'.chr(0).'%d approvals']='%d approbation'.chr(0).'%d approbations';
 $_SESSION['l10n']['fr']['%d reject'.chr(0).'%d rejects']='%d rejet'.chr(0).'%d rejets';
@@ -36,7 +36,7 @@ $_SESSION['l10n']['fr']['Answer 1']='R&#233;ponse 1';
 $_SESSION['l10n']['fr']['Answer 2']='R&#233;ponse 2';
 $_SESSION['l10n']['fr']['Answer 3']='R&#233;ponse 3';
 $_SESSION['l10n']['fr']['Associates only']='Seulement les associ&#233;s';
-$_SESSION['l10n']['fr']['Back to previous page']='Retour &#224; la page pr&#233;c&#233;dente';
+$_SESSION['l10n']['fr']['Back to main page']='Retour &#224; la page principale';
 $_SESSION['l10n']['fr']['CSV']='CSV';
 $_SESSION['l10n']['fr']['Cancelled']='Annul&#233;';
 $_SESSION['l10n']['fr']['Cast your vote']='Voter';
@@ -74,6 +74,7 @@ $_SESSION['l10n']['fr']['Editors of this section are allowed to sign']='Les &#23
 $_SESSION['l10n']['fr']['Editors of this section are allowed to vote']='Les &#233;diteurs de cette section sont autoris&#233;s &#224; voter';
 $_SESSION['l10n']['fr']['Email address:']='Courrier &#233;lectronique :';
 $_SESSION['l10n']['fr']['End date']='Fermeture des votes';
+$_SESSION['l10n']['fr']['Export data']='Exporter les donn&#233;es';
 $_SESSION['l10n']['fr']['Export to XML']='Convertir en XML';
 $_SESSION['l10n']['fr']['Express your vote']='Exprimez-vous et votez';
 $_SESSION['l10n']['fr']['Extra box']='Bo&#238;te extra';
@@ -140,7 +141,7 @@ $_SESSION['l10n']['fr']['Step 2 - Qualification has taken place on %s']='Etape 2
 $_SESSION['l10n']['fr']['Step 3 - Analysis has ended on %s']='Etape 3 - L\'analyse s\'est termin&#233;e le %s';
 $_SESSION['l10n']['fr']['Step 4 - Resolution has been finalized on %s']='Etape 4 - la r&#233;solution a eu lieu le %s';
 $_SESSION['l10n']['fr']['Step 5 - Issue has been closed on %s']='Etape 5 - Le probl&#232;me a &#233;t&#233; clos le %s';
-$_SESSION['l10n']['fr']['Thank you for your vote']='Merci pour votre vote';
+$_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['This field is hardcoded']='Ce champ pr&#233;serve les retours &#224; la ligne';
 $_SESSION['l10n']['fr']['This page has no overlay']='Cette page n\'a pas d\'overlay';
 $_SESSION['l10n']['fr']['Time to cook']='Temps de cuisson';

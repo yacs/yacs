@@ -134,10 +134,8 @@ elseif(!$permitted) {
 				$label = $user['nick_name'];
 
 			// add a link to unselect the user
-			if(Surfer::is_associate()) {
-				$link = $context['script_url'].'?anchor=user:'.$id.'&amp;member='.urlencode($anchor->get_reference()).'&amp;action=reset';
-				$suffix .= ' - <span class="details">'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
-			}
+			$link = $context['script_url'].'?anchor=user:'.$id.'&amp;member='.urlencode($anchor->get_reference()).'&amp;action=reset';
+			$suffix .= ' - <span class="details">'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
 
 			// format the item
 			$new_users[$url] = array($prefix, $label, $suffix, $type, $icon);

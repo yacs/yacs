@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:06 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont &#233;t&#233; trait&#233;s';
 $_SESSION['l10n']['fr']['A Rabbit Story']='Fable de La Fontaine';
@@ -154,7 +154,7 @@ $_SESSION['l10n']['fr']['Pre-formatted']='Pr&#233;-formatt&#233;';
 $_SESSION['l10n']['fr']['Previous article shortcut']='Article pr&#233;c&#233;dent';
 $_SESSION['l10n']['fr']['Question']='Question';
 $_SESSION['l10n']['fr']['Question-title']='Question-titre';
-$_SESSION['l10n']['fr']['Quote']='Citation';
+$_SESSION['l10n']['fr']['Quote']='Citer';
 $_SESSION['l10n']['fr']['Rabbit']='Lapin';
 $_SESSION['l10n']['fr']['Rabbit and Turtle']='Et alors le lapin...';
 $_SESSION['l10n']['fr']['Rabbit|Turtle']='Lapin|Tortue';

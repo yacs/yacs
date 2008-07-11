@@ -58,11 +58,14 @@ if($item['nick_name'])
 	$context['page_title'] = $item['nick_name'];
 elseif($item['full_name'])
 	$context['page_title'] = $item['full_name'];
-else
-	$context['page_title'] = i18n::s('Unknown user');
+
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
-if(!isset($item['id'])) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -109,9 +112,9 @@ if(!isset($item['id'])) {
 	// warns associates if not active
 	if(($item['active'] != 'Y') && Surfer::is_associate()) {
 		if($item['active'] == 'R')
-			$details[] = i18n::s('Access is restricted to authenticated members');
+			$details[] = i18n::s('Access is restricted to authenticated members.');
 		else
-			$details[] = i18n::s('Access is restricted to associates');
+			$details[] = i18n::s('Access is restricted to associates.');
 	}
 
 	// provide details

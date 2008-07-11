@@ -38,7 +38,7 @@ Class Xml_rpc extends Authenticator {
 
 		// we need some parameters
 		if(!isset($this->attributes['authenticator_parameters']) || !$this->attributes['authenticator_parameters']) {
-			Skin::error(i18n::s('Please add an URL to the XML-RPC authenticator.'));
+			Skin::error(i18n::s('Please provide parameters to the authenticator.'));
 			return FALSE;
 		}
 

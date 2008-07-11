@@ -220,11 +220,11 @@ Class Notifications {
 			// a new item has been created
 			if(strpos($output['action'], ':create')) {
 
-				$lines[] = sprintf(i18n::s('New: %s'), $output['title'])."\n"
+				$lines[] = sprintf(i18n::s('New page: %s'), $output['title'])."\n"
 					.sprintf(i18n::s('%s by %s'), ucfirst(get_action_label($output['action'])), $output['nick_name'])."\n";
 
 				// surfer prompt
-				$lines[] = i18n::s('Would you like to browse the new page?');
+				$lines[] = i18n::s('Would you like to browse the page?');
 
 			// else consider this as an update
 			} else {
@@ -234,7 +234,7 @@ Class Notifications {
 					.sprintf(i18n::s('%s by %s'), ucfirst(get_action_label($output['action'])), $output['nick_name'])."\n";
 
 				// surfer prompt
-				$lines[] = i18n::s('Would you like to browse the updated page?');
+				$lines[] = i18n::s('Would you like to browse the page?');
 
 			}
 			break;
@@ -245,7 +245,7 @@ Class Notifications {
 				$lines[] = sprintf(i18n::s('From %s:'), $output['nick_name'])."\n".$output['message']."\n";
 
 			// address is mandatory
-			$lines[] = sprintf(i18n::s('Would you like to browse the link sent by %s?'), $output['nick_name']);
+			$lines[] = i18n::s('Would you like to browse the page?');
 			break;
 
 		case 'hello':
@@ -255,7 +255,7 @@ Class Notifications {
 
 			// address is present on new chat
 			if(isset($output['address']) && trim($output['address']))
-				$lines[] = sprintf(i18n::s('Would you like to chat with %s?'), $output['nick_name']);
+				$lines[] = i18n::s('Would you like to browse the page?');
 			break;
 
 		}

@@ -182,8 +182,13 @@ if(isset($_REQUEST['introduction']))
 if(isset($_REQUEST['description']))
 	xml::validate($_REQUEST['description']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // permission denied
-if(!$permitted) {
+} elseif(!$permitted) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged()) {
@@ -360,16 +365,14 @@ if(!$permitted) {
 			include_once $context['path_to_root'].'images/image.php';
 			Image::shrink($file_path.$file_name, $file_path.$_REQUEST['thumbnail_name'], TRUE);
 
+			// always limit the size of avatar images
+			if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar')) {
+				if(Image::adjust($file_path.$file_name, TRUE, 'avatar'))
+					$_REQUEST['image_size'] = Safe::filesize($file_path.$file_name);
+
 			// resize the image where applicable
-			if(isset($_REQUEST['automatic_process'])) {
-
-				// identify image limits
-				$variant = 'standard';
-				if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar'))
-					$variant = 'avatar';
-
-				// if image has been adjusted, change its size
-				if(Image::adjust($file_path.$file_name, TRUE, $variant))
+			} elseif(isset($_REQUEST['automatic_process'])) {
+				if(Image::adjust($file_path.$file_name, TRUE, 'standard'))
 					$_REQUEST['image_size'] = Safe::filesize($file_path.$file_name);
 
 			}
@@ -420,7 +423,7 @@ if(!$permitted) {
 		Users::increment_posts(Surfer::get_id());
 
 		// thanks
-		$context['page_title'] = i18n::s('Thank you very much for your contribution');
+		$context['page_title'] = i18n::s('Thank you for your contribution');
 
 		// show image attributes
 		$attributes = array();
@@ -665,7 +668,8 @@ if($with_form) {
 			$fields = array();
 		}
 
-	}
+	} else
+		$context['text'] .= '<input type="hidden" name="automatic_process" value="Y" />';
 
 	// bottom commands
 	$menu = array();
@@ -676,7 +680,7 @@ if($with_form) {
 
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && $item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())) && Surfer::has_all())
-		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" '.EOT.' '.i18n::s('Do not change modification date of the related page.').'</p>';
+		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" '.EOT.' '.i18n::s('Do not change modification date of the main page.').'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])

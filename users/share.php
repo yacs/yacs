@@ -78,11 +78,14 @@ if(isset($item['nick_name']))
 	$context['page_title'] = $item['nick_name'];
 elseif(isset($item['full_name']))
 	$context['page_title'] = $item['full_name'];
-else
-	$context['page_title'] = i18n::s('Unknown user');
+
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
-if(!isset($item['id'])) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 

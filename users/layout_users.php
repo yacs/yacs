@@ -81,25 +81,9 @@ Class Layout_users extends Layout_interface {
 			// show contact information
 			if(Surfer::may_contact()) {
 
-				// aim
-				if(isset($item['aim_address']) && $item['aim_address'])
-					$suffix .= ' '.Skin::build_presence($item['aim_address'], 'aim');
-
-				// icq
-				if(isset($item['icq_address']) && $item['icq_address'])
-					$suffix .= ' '.Skin::build_presence($item['icq_address'], 'icq');
-
-				// irc
-				if(isset($item['irc_address']) && $item['irc_address'])
-					$suffix .= ' '.Skin::build_presence($item['irc_address'], 'irc');
-
 				// jabber
 				if(isset($item['jabber_address']) && $item['jabber_address'])
 					$suffix .= ' '.Skin::build_presence($item['jabber_address'], 'jabber');
-
-				// msn
-				if(isset($item['msn_address']) && $item['msn_address'])
-					$suffix .= ' '.Skin::build_presence($item['msn_address'], 'msn');
 
 				// skype
 				if(isset($item['skype_address']) && $item['skype_address'])
@@ -108,6 +92,23 @@ Class Layout_users extends Layout_interface {
 				// yahoo
 				if(isset($item['yahoo_address']) && $item['yahoo_address'])
 					$suffix .= ' '.Skin::build_presence($item['yahoo_address'], 'yahoo');
+
+				// msn
+				if(isset($item['msn_address']) && $item['msn_address'])
+					$suffix .= ' '.Skin::build_presence($item['msn_address'], 'msn');
+
+				// aim
+				if(isset($item['aim_address']) && $item['aim_address'])
+					$suffix .= ' '.Skin::build_presence($item['aim_address'], 'aim');
+
+				// irc
+				if(isset($item['irc_address']) && $item['irc_address'])
+					$suffix .= ' '.Skin::build_presence($item['irc_address'], 'irc');
+
+				// icq
+				if(isset($item['icq_address']) && $item['icq_address'])
+					$suffix .= ' '.Skin::build_presence($item['icq_address'], 'icq');
+
 			}
 
 			// the introduction

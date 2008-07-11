@@ -37,17 +37,6 @@
 Class Layout_comments_as_yabb extends Layout_interface {
 
 	/**
-	 * the preferred number of items for this layout
-	 *
-	 * @return int the optimised count of items for this layout
-	 *
-	 * @see skins/layout.php
-	 */
-	function items_per_page() {
-		return 20;
-	}
-
-	/**
 	 * list comments as successive notes in a thread
 	 *
 	 * @param resource the SQL result
@@ -81,74 +70,69 @@ Class Layout_comments_as_yabb extends Layout_interface {
 			else
 				$author = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
 
+			// get record
 			if($item['create_name'])
 				$poster =& Users::get($item['create_id']);
 			else
 				$poster =& Users::get($item['edit_id']);
 
-			// add poster attributes
-			$author_details = array();
-
 			// avatar
 			if(isset($poster['avatar_url']) && $poster['avatar_url'])
-				$author_details[] = '<img src="'.$poster['avatar_url'].'" alt="avatar" title="avatar" class="avatar"'.EOT;
+				$author .= BR.'<img src="'.$poster['avatar_url'].'" alt="avatar" title="avatar" class="avatar" />';
+
+			$author .= '<span class="details">';
 
 			// from where
 			if(isset($poster['from_where']) && $poster['from_where'])
-				$author_details[] = sprintf(i18n::s('from %s'), Codes::beautify($poster['from_where']));
+				$author .= BR.sprintf(i18n::s('from %s'), Codes::beautify($poster['from_where']));
 
 			// guest/member/associate
+			$capability = '';
 			if($poster['capability'] == 'A')
-				$author_details[] = i18n::s('Associate');
+				$capability = i18n::s('Associate').', ';
 			elseif($poster['capability'] == 'M')
-				$author_details[] = i18n::s('Member');
+				;
 			elseif($poster['capability'] == 'S')
-				$author_details[] = i18n::s('Subscriber');
+				$capability = i18n::s('Subscriber').', ';
 
-			// posts
-			if($poster['posts'])
-				$author_details[] = sprintf(i18n::ns('1 post', '%d posts', $poster['posts']), $poster['posts']);
-
-			// registration date
-			if($poster['create_date'])
-				$author_details[] = sprintf(i18n::s('registered %s'), Skin::build_date($poster['create_date'], 'no_hour', $context['language']));
+			// + posts
+			$author .= BR.$capability.sprintf(i18n::ns('1 post', '%d posts', $poster['posts']), $poster['posts']);
 
 			// show contact information
 			if(Surfer::may_contact()) {
 
-				$contacts = '';
-
-				// aim
-				if(isset($poster['aim_address']) && $poster['aim_address'])
-					$contacts .= ' '.Skin::build_presence($poster['aim_address'], 'aim');
-
-				// icq
-				if(isset($poster['icq_address']) && $poster['icq_address'])
-					$contacts .= ' '.Skin::build_presence($poster['icq_address'], 'icq');
-
-				// irc
-				if(isset($poster['irc_address']) && $poster['irc_address'])
-					$contacts .= ' '.Skin::build_presence($poster['irc_address'], 'irc');
-
-				// msn
-				if(isset($poster['msn_address']) && $poster['msn_address'])
-					$contacts .= ' '.Skin::build_presence($poster['msn_address'], 'msn');
+				// jabber
+				if(isset($poster['jabber_address']) && $poster['jabber_address'])
+					$author .= ' '.Skin::build_presence($poster['jabber_address'], 'jabber');
 
 				// skype
 				if(isset($poster['skype_address']) && $poster['skype_address'])
-					$contacts .= ' '.Skin::build_presence($poster['skype_address'], 'skype');
+					$author .= ' '.Skin::build_presence($poster['skype_address'], 'skype');
 
 				// yahoo
 				if(isset($poster['yahoo_address']) && $poster['yahoo_address'])
-					$contacts .= ' '.Skin::build_presence($poster['yahoo_address'], 'yahoo');
+					$author .= ' '.Skin::build_presence($poster['yahoo_address'], 'yahoo');
 
-				if($contacts)
-					$author_details[] = $contacts;
+				// msn
+				if(isset($poster['msn_address']) && $poster['msn_address'])
+					$author .= ' '.Skin::build_presence($poster['msn_address'], 'msn');
+
+				// aim
+				if(isset($poster['aim_address']) && $poster['aim_address'])
+					$author .= ' '.Skin::build_presence($poster['aim_address'], 'aim');
+
+				// irc
+				if(isset($poster['irc_address']) && $poster['irc_address'])
+					$author .= ' '.Skin::build_presence($poster['irc_address'], 'irc');
+
+				// icq
+				if(isset($poster['icq_address']) && $poster['icq_address'])
+					$author .= ' '.Skin::build_presence($poster['icq_address'], 'icq');
+
 			}
 
 			// put everything in the author cell
-			if(@count($author_details))
-				$author .= BR.'<span class="details">'.join(BR, $author_details).'</span>';
+			$author .= '</span>';
 
 			// commands to handle this comment
 			$menu = array();
@@ -164,7 +148,7 @@ Class Layout_comments_as_yabb extends Layout_interface {
 			}
 
 			// additional commands for associates and poster and editor
-			if(Surfer::is_empowered() || Surfer::is($item['create_id'])) {
+			if(Comments::are_editable($anchor, $item)) {
 				Skin::define_img('EDIT_COMMENT_IMG', 'icons/comments/edit.gif');
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'edit') => EDIT_COMMENT_IMG.i18n::s('Edit') ));
 

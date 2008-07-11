@@ -71,8 +71,13 @@ if(!Surfer::is_associate() || (isset($_REQUEST['option_validate']) && ($_REQUEST
 		xml::validate($_REQUEST['description']);
 }
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // anonymous users are invited to log in or to register
-if(!Surfer::is_logged()) {
+} elseif(!Surfer::is_logged()) {
 
 	if(isset($item['id']))
 		$link = Forms::get_url($item['id'], 'edit');
@@ -138,7 +143,7 @@ if(!Surfer::is_logged()) {
 		$context['text'] .= Skin::build_box($title, $items, 'header1', 'regular_sections');
 
 	} else
-		$context['text'] .= '<p>'.sprintf(i18n::s('No regular section has been created yet! Use %s to create one.'), Skin::build_link('control/populate.php', i18n::s('the Content Assistant'), 'shortcut')).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>';
 
 	// also list special sections to associates
 	if(Surfer::is_associate()) {

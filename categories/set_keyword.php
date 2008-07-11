@@ -38,8 +38,13 @@ if(!$root_category = Categories::lookup('keywords')) {
 	}
 }
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // ensure we have a valid category to host keywords
-if(!$root_category)
+} elseif(!$root_category)
 	Skin::error(i18n::s('No item has been found.'));
 
 // operation is restricted to members

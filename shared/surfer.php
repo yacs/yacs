@@ -129,6 +129,8 @@ Class Surfer {
 	 * @return string the HTML snippet to be put in page
 	 *
 	 * @see skins/skin_skeleton.php
+	 * @see users/contact.php
+	 * @see users/view.php
 	 */
 	function &build_user_contact($user) {
 		global $context;
@@ -140,170 +142,160 @@ Class Surfer {
 		if(!Surfer::get_id())
 			return $text;
 
-		// current presence
+		// on-going pages
 		//
-		$box = array( 'list' => array(), 'text' => '');
+		if($anchor = Sections::lookup('private')) {
 
-		// i am looking at my own record
-		if(Surfer::get_id() && (Surfer::get_id() == $user['id'])) {
-
-			// some page or thread has been visited recently
-			include_once $context['path_to_root'].'users/visits.php';
-			if($items = Visits::list_for_user($user['id'])) {
-				$box['list'] = array_merge($box['list'], $items);
-
-			// user is present if active during last 10 minutes (10*60 = 600), but not at some thread
-			} elseif(isset($user['click_date']) && ($user['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
-
-				// show place of last click
-				if(isset($user['click_anchor']) && ($anchor = Anchors::get($user['click_anchor'])))
-					$box['list'] = array_merge($box['list'], array($anchor->get_url() => $anchor->get_title()));
-
-			}
-
-			// make a box
-			if(count($box['list']))
-				$text .= Skin::build_box(i18n::s('Your presence'), Skin::build_list($box['list'], 'compact'), 'folder', 'co_browsing');
-
-		// navigating another profile
-		} else {
-
-			// some page or thread has been visited recently
-			include_once $context['path_to_root'].'users/visits.php';
-			if($items = Visits::list_for_user($user['id'])) {
-				foreach($items as $url => $label)
-					$box['list'] = array_merge($box['list'], array($url => sprintf(i18n::s('Join %s at %s'), $user['nick_name'], $label)));
-
-			// user is present if active during last 10 minutes (10*60 = 600), but not at some thread
-			} elseif(isset($user['click_date']) && ($user['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
-
-				// show place of last click
-				if(isset($user['click_anchor']) && ($anchor = Anchors::get($user['click_anchor'])))
-					$box['list'] = array_merge($box['list'], array($anchor->get_url() => sprintf(i18n::s('Join %s at %s'), $user['nick_name'], $anchor->get_title())));
-
-			}
-
-			// make a box
-			if(count($box['list']))
-				$text .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'folder', 'co_browsing');
-
-		}
-
-		// on-going conversations
-		//
-		if($anchor = Sections::lookup('chats')) {
-
-			$box = array( 'text' => '', 'title' => '' );
+			// do not link to this user profile
+			include_once $context['path_to_root'].'articles/layout_articles_as_thread.php';
+			$layout =& new Layout_articles_as_thread();
+			$layout->set_variant($user['id']);
 
 			// i am looking at my own record
-			if(Surfer::get_id() && (Surfer::get_id() == $user['id'])) {
-				$box['title'] = i18n::s('Your private conversations');
+			if(Surfer::get_id() == $user['id']) {
 
-				// list private conversations, if any
-				if($items = Articles::list_assigned_by_date_for_anchor($anchor, $user['id'], 0, 20, 'simple no_anchor', FALSE))
-					$box['text'] = Skin::build_list($items, 'compact');
+				if($items = Articles::list_assigned_by_date_for_anchor($anchor, $user['id'], 0, 50, $layout, FALSE))
+					$text .= '<p>'.i18n::s('Your private pages').'</p>'.Skin::build_list($items, 'compact').'<p> </p>';
 
 			// navigating another profile
 			} else {
-				$box['title'] = sprintf(i18n::s('Your private conversations with %s'), $user['nick_name']);
 
-				// list existing private conversations, if any
-				if($items = Articles::list_assigned_by_date_for_anchor($anchor, $user['id'], 0, 20, 'simple no_anchor', TRUE))
-					$box['text'] = Skin::build_list($items, 'compact');
+				if($items = Articles::list_assigned_by_date_for_anchor($anchor, $user['id'], 0, 50, $layout, TRUE))
+					$text .= '<p>'.sprintf(i18n::s('Your private pages with %s'), $user['nick_name']).'</p>'.Skin::build_list($items, 'compact').'<p> </p>';
 
 			}
 
-			// make a box
-			if($box['text'])
-				$text .= Skin::build_box($box['title'], $box['text'], 'folder', 'private_conversations');
-
 		}
 
-		// real-time notifications
+		// only members can create private pages
+		if(!Surfer::is_member())
+			return $text;
+
+		// new private pages cannot be created
+		if(isset($context['users_without_private_pages']) && ($context['users_without_private_pages'] == 'Y'))
+			return $text;
+
+		// start a new private page
 		//
-		if(!Surfer::get_id() || (Surfer::get_id() != $user['id'])) {
+		$box = '<form method="post" action="'.$context['url_to_root'].'users/contact.php" onsubmit="return validateDocumentPost(this)" ><div>';
+		$fields = array();
 
-			$box = array( 'list' => array(), 'text' => '', 'title' => '' );
+		// on my page, engage with anybody
+		if(Surfer::get_id() == $user['id']) {
 
-			// contact a user that is currently present
-			if($user['is_present']) {
-				$box['title'] = sprintf(i18n::s('Options to contact %s'), $user['nick_name']);
+			// recipients
+			$label = i18n::s('Invite people').' *';
+			$input = '<textarea name="id" id="id" rows="3" cols="50"></textarea><div id="id_choice" class="autocomplete"></div>';
+			$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');
+			$fields[] = array($label, $input, $hint);
 
-				// a wide panel of options
-				$box['text'] .= '<p>'.sprintf(i18n::s('%s is currently present at this site, and several contact options are available:'), $user['nick_name']).'</p>'."\n";
+		// engage the browsed surfer
+		} else
+			$box .= '<input type="hidden" name="id" value="'.$user['id'].'" />';
 
-				// the form to list contact options
-				$box['text'] .= '<form method="post" action="'.$context['url_to_root'].'users/contact.php">';
+		// thread title
+		$label = i18n::s('Page topic').' *';
+		$input = '<input type="text" name="title" size="50" maxlength="255" />';
+		$fields[] = array($label, $input);
 
-				// layout as a definition list
-				$box['text'] .= '<dl>';
+		// thread first contribution
+		$label = i18n::s('Your first contribution');
+		$input = '<textarea name="message" rows="15" cols="50"></textarea>';
+		$hint = i18n::s('Use only plain ASCII, no HTML.');
+		$fields[] = array($label, $input, $hint);
 
-				// real-time notifications
-				$box['text'] .= '<dt><input type="radio" name="rendez_vous" value="thread" checked="checked" onclick="$(\'address\').disabled=true;" />'.i18n::s('Start a private conversation').'</dt><dd><p /></dd>'."\n"
-					.'<dt><input type="radio" name="rendez_vous" value="browse"  onclick="$(\'address\').disabled=false;" />'.i18n::s('Share the following web address').BR
-						.'&nbsp;&nbsp;<input type="text" id="address" name="address" size="45" value="" maxlength="255" disabled="disabled" /></dt><dd><p /></dd>'."\n"
-					.'<dt><input type="radio" name="rendez_vous" value="none"  onclick="javascript:$(\'address\').disabled=true;" />'.i18n::s('Send a private message').'</dt><dd> </dd>';
+		// build the form
+		$box .= Skin::build_form($fields);
 
-				// end of options
-				$box['text'] .= '</dl>'."\n";
+		// bottom commands
+		$menu = array();
+		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+		$box .= Skin::finalize_list($menu, 'menu_bar');
 
-				// the message
-				$box['text'] .= '<p>'.sprintf(i18n::s('Message to notify %s'), $user['nick_name']).BR
-					.'<textarea name="message" id="message" value="" rows="2" cols="50" maxlength="240" /></textarea>'.BR
-					.'<span class="tiny">'.i18n::s('Use only plain ASCII, no HTML.').'</span></p>';
+		// end of the form
+		$box .= '</div></form>';
 
-				// the submit button
-				$box['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Send'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+		// in a folded box
+		if(Surfer::get_id() == $user['id'])
+			$text .= Skin::build_box(i18n::s('Start a private page'), $box, 'folder');
+		else
+			$text .= Skin::build_box(sprintf(i18n::s('Start a private page with %s'), $user['nick_name']), $box, 'folder');
 
-				// transmit the id as a hidden field
-				$box['text'] .= '<input type="hidden" name="id" value="'.$user['id'].'" />';
+		// append the script used for data checking on the browser
+		$text .= '<script type="text/javascript">// <![CDATA['."\n"
+			.'// check that main fields are not empty'."\n"
+			.'func'.'tion validateDocumentPost(container) {'."\n"
+			."\n"
+			.'	// id is mandatory'."\n"
+			.'	if(!container.id.value) {'."\n"
+			.'		alert("'.i18n::s('Please provide a recipient address.').'");'."\n"
+			.'		Yacs.stopWorking();'."\n"
+			.'		return false;'."\n"
+			.'	}'."\n"
+			."\n"
+			.'	// title is mandatory'."\n"
+			.'	if(!container.title.value) {'."\n"
+			.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
+			.'		Yacs.stopWorking();'."\n"
+			.'		return false;'."\n"
+			.'	}'."\n"
+			."\n"
+			.'	// successful check'."\n"
+			.'	return true;'."\n"
+			.'}'."\n"
+			."\n"
+			.'// enable autocompletion'."\n"
+			.'Event.observe(window, "load", function() { new Ajax.Autocompleter("id", "id_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
+			.'// ]]></script>';
 
-				// end of the form
-				$box['text'] .= '</form>';
+// 		// current presence
+// 		//
+// 		$box = array( 'list' => array(), 'text' => '');
 
-				// append the script used for data checking on the browser
-				$box['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
-					.'$("message").focus();'."\n"
-					.'// ]]></script>';
+// 		// i am looking at my own record
+// 		if(Surfer::get_id() && (Surfer::get_id() == $user['id'])) {
 
-			// contact an user that is currently absent
-			} else {
-				$box['title'] = sprintf(i18n::s('Start a private conversation with %s'), $user['nick_name']);
+// 			// some page or thread has been visited recently
+// 			include_once $context['path_to_root'].'users/visits.php';
+// 			if($items = Visits::list_for_user($user['id'])) {
+// 				$box['list'] = array_merge($box['list'], $items);
 
-				// the form to create a private thread
-				$box['text'] .= '<form method="post" action="'.$context['url_to_root'].'users/contact.php">';
+// 			// user is present if active during last 10 minutes (10*60 = 600), but not at some thread
+// 			} elseif(isset($user['click_date']) && ($user['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
 
-				// thread title
-				$box['text'] .= '<p>'.i18n::s('Conversation topic').BR
-					.'<input type="text" name="title" id="thread_title" value="" size="45" maxlength="240" /></p>';
+// 				// show place of last click
+// 				if(isset($user['click_anchor']) && ($anchor = Anchors::get($user['click_anchor'])))
+// 					$box['list'] = array_merge($box['list'], array($anchor->get_url() => $anchor->get_title()));
 
-				// thread first contribution
-				$box['text'] .= '<p>'.i18n::s('Your first contribution').BR
-					.'<textarea name="message" id="message" value="" rows="2" cols="50" maxlength="240" /></textarea>'.BR
-					.'<span class="tiny">'.i18n::s('Use only plain ASCII, no HTML.').'</span></p>'
-					.'<input type="hidden" name="rendez_vous" value="thread" />';
+// 			}
 
-				// the submit button
-				$box['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Send'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
+// 			// make a box
+// 			if(count($box['list']))
+// 				$text .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'folder', 'co_browsing');
 
-				// transmit the id as a hidden field
-				$box['text'] .= '<input type="hidden" name="id" value="'.$user['id'].'" />';
+// 		// navigating another profile
+// 		} else {
 
-				// end of the form
-				$box['text'] .= '</form>';
+// 			// some page or thread has been visited recently
+// 			include_once $context['path_to_root'].'users/visits.php';
+// 			if($items = Visits::list_for_user($user['id'])) {
+// 				foreach($items as $url => $label)
+// 					$box['list'] = array_merge($box['list'], array($url => sprintf(i18n::s('Join %s at %s'), $user['nick_name'], $label)));
 
-				// append the script used for data checking on the browser
-				$box['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
-					.'$("thread_title").focus();'."\n"
-					.'// ]]></script>';
+// 			// user is present if active during last 10 minutes (10*60 = 600), but not at some thread
+// 			} elseif(isset($user['click_date']) && ($user['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
 
-			}
+// 				// show place of last click
+// 				if(isset($user['click_anchor']) && ($anchor = Anchors::get($user['click_anchor'])))
+// 					$box['list'] = array_merge($box['list'], array($anchor->get_url() => sprintf(i18n::s('Join %s at %s'), $user['nick_name'], $anchor->get_title())));
 
-			// make a box
-			if($box['text'])
-				$text .= Skin::build_box($box['title'], $box['text'], 'folder', 'contact_options');
+// 			}
 
-		}
+// 			// make a box
+// 			if(count($box['list']))
+// 				$text .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'folder', 'co_browsing');
+
+// 		}
 
 		// return by reference
 		return $text;
@@ -714,9 +706,10 @@ Class Surfer {
 	 *
 	 * This function will remove mention of originating server for shadow records.
 	 *
+	 * @param string default name
 	 * @return string user short name, or NULL
 	 */
-	function get_name() {
+	function get_name($default = '') {
 		global $context;
 
 		// use cookie
@@ -725,15 +718,10 @@ Class Surfer {
 
 		// use session data
 		if(isset($_SESSION['surfer_name']))
-			return preg_replace('/(@.+)$/', '', $_SESSION['surfer_name']);
+			return $_SESSION['surfer_name'];
 
-		// don't give a name if we have been called by a crawler
-		if(Surfer::is_crawler())
-			return NULL;
-
-		// surfer is unknown, give him a name
-		$_SESSION['surfer_name'] = i18n::s('Surfer').rand(1000, 100000);
-		return $_SESSION['surfer_name'];
+		// surfer is unknown
+		return $default;
 	}
 
 	/**
@@ -903,7 +891,7 @@ Class Surfer {
 			'blog', 				// generic ping
 			'boitho.com-dc',		// norwegian search engine
 			'bot',					// generic bot
-			'crawler',				// generic crawler
+			'crawler',				// generic crawler, including gsa-crawler
 			'fast-webcrawler',		// all the web
 			'frontier',
 			'gigabot',				// gigabot
@@ -922,7 +910,6 @@ Class Surfer {
 			'spider',
 			'surveybot',
 			'teoma',				// ask jeeves
-			'yacs', 				// another yacs server
 			'yahoo-verticalcrawler',// old yahoo bot
 			'yahoo! slurp', 		// new yahoo bot
 			'yahoo-mm', 			// another yahoo bot

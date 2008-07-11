@@ -184,10 +184,9 @@ if(!isset($item['id'])) {
 				$index = 0;
 				foreach($value as $option => $label) {
 					if($index++)
-						$labels .= ', ';
-					$labels .= ucfirst($label);
+						$text .= '""'.$separator;
+					$text .= '"'.filter(($option+1).' - '.$label).'"'."\n";
 				}
-				$text .= '"'.filter($labels).'"'."\n";
 
 			}
 		}

@@ -92,7 +92,7 @@ if(!defined('USERS_PER_PAGE'))
 if($search)
 	$context['page_title'] = sprintf(i18n::s('Search: %s'), $search);
 else
-	$context['page_title'] = i18n::s('User search');
+	$context['page_title'] = i18n::s('Search');
 
 // a search form for users
 if(!$search)

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:06 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en'][' at %s%s']=' at %s%s';
 $_SESSION['l10n']['en']['%d files have been extracted.']='%d files have been extracted.';
@@ -38,6 +38,7 @@ $_SESSION['l10n']['en']['As an option, you can assign this template to all pages
 $_SESSION['l10n']['en']['Author information']='Author information';
 $_SESSION['l10n']['en']['Avatar height']='Avatar height';
 $_SESSION['l10n']['en']['Avatar width']='Avatar width';
+$_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Background color: %s']='Background color: %s';
 $_SESSION['l10n']['en']['Benefit from extended computing power to provide additional dynamic details']='Benefit from extended computing power to provide additional dynamic details';
 $_SESSION['l10n']['en']['Browse in a separate window']='Browse in a separate window';
@@ -61,7 +62,6 @@ $_SESSION['l10n']['en']['Configure again']='Configure again';
 $_SESSION['l10n']['en']['Configure the page factory']='Configure the page factory';
 $_SESSION['l10n']['en']['Configure: %s']='Configure: %s';
 $_SESSION['l10n']['en']['Congratulations, the skins directory has been updated.']='Congratulations, the skins directory has been updated.';
-$_SESSION['l10n']['en']['Congratulations, you have completed the creation of a new skin.']='Congratulations, you have completed the creation of a new skin.';
 $_SESSION['l10n']['en']['Contact mail address']='Contact mail address';
 $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
 $_SESSION['l10n']['en']['Content of sections can be downloaded as Freemind maps']='Content of sections can be downloaded as Freemind maps';
@@ -121,8 +121,8 @@ $_SESSION['l10n']['en']['How to get a skin?']='How to get a skin?';
 $_SESSION['l10n']['en']['Icon']='Icon';
 $_SESSION['l10n']['en']['If AOL Instant Messenger has been installed, click to open a session']='If AOL Instant Messenger has been installed, click to open a session';
 $_SESSION['l10n']['en']['If ICQ has been installed, click to open a session']='If ICQ has been installed, click to open a session';
-$_SESSION['l10n']['en']['If MSN Instant Messenger has been installed, click to open a session']='If MSN Instant Messenger has been installed, click to open a session';
 $_SESSION['l10n']['en']['If Skype software is installed, click to open a Skype session']='If Skype software is installed, click to open a Skype session';
+$_SESSION['l10n']['en']['If Windows Live Messenger has been installed, click to open a session']='If Windows Live Messenger has been installed, click to open a session';
 $_SESSION['l10n']['en']['If Yahoo Messenger has been installed, click to open session']='If Yahoo Messenger has been installed, click to open session';
 $_SESSION['l10n']['en']['If some IRC software has been installed, click to open a session']='If some IRC software has been installed, click to open a session';
 $_SESSION['l10n']['en']['If some Jabber software has been installed, click to open a session']='If some Jabber software has been installed, click to open a session';
@@ -144,7 +144,6 @@ $_SESSION['l10n']['en']['List RSS feeds in sections, categories, articles, and u
 $_SESSION['l10n']['en']['List pages visited during a session']='List pages visited during a session';
 $_SESSION['l10n']['en']['Listing files of the originating skin %s...']='Listing files of the originating skin %s...';
 $_SESSION['l10n']['en']['Main node']='Main node';
-$_SESSION['l10n']['en']['Main page']='Main page';
 $_SESSION['l10n']['en']['Make your choice among available skins at this server:']='Make your choice among available skins at this server:';
 $_SESSION['l10n']['en']['Maximum number of extra boxes']='Maximum number of extra boxes';
 $_SESSION['l10n']['en']['Maximum number of navigation boxes']='Maximum number of navigation boxes';
@@ -193,7 +192,6 @@ $_SESSION['l10n']['en']['Read the page']='Read the page';
 $_SESSION['l10n']['en']['Read this comment']='Read this comment';
 $_SESSION['l10n']['en']['Read this page']='Read this page';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
-$_SESSION['l10n']['en']['Reference skins cannot be modified.']='Reference skins cannot be modified.';
 $_SESSION['l10n']['en']['Reference this page']='Reference this page';
 $_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Review provided information and go to the bottom of the page to move forward.']='Review provided information and go to the bottom of the page to move forward.';
@@ -263,8 +261,6 @@ $_SESSION['l10n']['en']['This is the list of avatars available at this site.']='
 $_SESSION['l10n']['en']['This item has been updated']='This item has been updated';
 $_SESSION['l10n']['en']['This item is a draft, and is not publicly visible']='This item is a draft, and is not publicly visible';
 $_SESSION['l10n']['en']['This item is new']='This item is new';
-$_SESSION['l10n']['en']['This script allows only for the modification of an existing file.']='This script allows only for the modification of an existing file.';
-$_SESSION['l10n']['en']['This script allows only for the modification of cascaded style sheets and of main template file.']='This script allows only for the modification of cascaded style sheets and of main template file.';
 $_SESSION['l10n']['en']['This script allows you to install or update a skin package to your YACS server.']='This script allows you to install or update a skin package to your YACS server.';
 $_SESSION['l10n']['en']['This tag line will be repeated at a number of pages']='This tag line will be repeated at a number of pages';
 $_SESSION['l10n']['en']['Thumbnail caption']='Thumbnail caption';
@@ -281,7 +277,7 @@ $_SESSION['l10n']['en']['Upload a skin']='Upload a skin';
 $_SESSION['l10n']['en']['Use HTML codes for colors, and "fork" or "bubble" for style.']='Use HTML codes for colors, and "fork" or "bubble" for style.';
 $_SESSION['l10n']['en']['Use HTML codes for colors, numbers or "thin" for thickness, and "bezier" or "linear" for style.']='Use HTML codes for colors, numbers or "thin" for thickness, and "bezier" or "linear" for style.';
 $_SESSION['l10n']['en']['Use HTML codes for colors.']='Use HTML codes for colors.';
-$_SESSION['l10n']['en']['Use the %s to start to populate this server.']='Use the %s to start to populate this server.';
+$_SESSION['l10n']['en']['Use the %s to populate this server.']='Use the %s to populate this server.';
 $_SESSION['l10n']['en']['Use this page while developing or checking a skin, then activate the skin and move to %s to finalize your work.']='Use this page while developing or checking a skin, then activate the skin and move to %s to finalize your work.';
 $_SESSION['l10n']['en']['Use this skin']='Use this skin';
 $_SESSION['l10n']['en']['Use titles as captions below thumbnail images']='Use titles as captions below thumbnail images';

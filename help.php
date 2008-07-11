@@ -253,7 +253,7 @@ i18n::bind('root');
 load_skin('help');
 
 // the title of the page
-$context['page_title'] = i18n::s('Help index');
+$context['page_title'] = i18n::s('Help');
 
 // the date of last modification
 if(Surfer::is_associate())
@@ -269,11 +269,11 @@ if(Surfer::is_member()) {
 		.'<ul>'."\n"
 		.'<li>'.sprintf(i18n::s('%s and change it if you like.'), Skin::build_link('users/view.php', i18n::s('Review your user profile'), 'shortcut')).'</li>'."\n";
 	if(Surfer::is_associate())
-		$context['text'] .= '<li>'.sprintf(i18n::s('%s with the Content Assistant'), Skin::build_link('control/populate.php', i18n::s('Structure content of your server'), 'shortcut')).'</li>'."\n"
+		$context['text'] .= '<li>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</li>'."\n"
 			.'<li>'.sprintf(i18n::s('%s. Some people would say \'a new blog\'.'), Skin::build_link('sections/edit.php', i18n::s('Add a section'), 'shortcut')).'</li>'."\n";
 	$context['text'] .= '<li>'.sprintf(i18n::s('%s. Or call it a \'blog entry\' if you prefer.'), Skin::build_link('articles/edit.php', i18n::s('Add a page'), 'shortcut')).'</li>'."\n"
 		.'<li>'.sprintf(i18n::s('%s, the central place to manage this server.'), Skin::build_link('control/', i18n::s('Control Panel'), 'shortcut')).'</li>'."\n"
-		.'<li>'.sprintf(i18n::s('%s of this site.'), Skin::build_link('index.php', i18n::s('Go to the main page'), 'shortcut')).'</li>'."\n"
+		.'<li>'.sprintf(i18n::s('%s of this site.'), Skin::build_link('index.php', i18n::s('Go to the front page'), 'shortcut')).'</li>'."\n"
 		.'</ul>'."\n";
 }
 
@@ -281,10 +281,10 @@ if(Surfer::is_member()) {
 $context['text'] .= Skin::build_block(i18n::s('Where to look for information?'), 'title')
 	.'<ul>'
 	.'<li>'.Skin::build_link('sections/', i18n::s('Site map')).'</li>'
-	.'<li>'.Skin::build_link('categories/', i18n::s('Categories tree')).'</li>'
+	.'<li>'.Skin::build_link('categories/', i18n::s('Categories')).'</li>'
 	.'<li>'.sprintf(i18n::s('Index of most recent %1$s, %2$s, %3$s and %4$s'), Skin::build_link('articles/', i18n::s('pages')), Skin::build_link('files/', i18n::s('files')), Skin::build_link('comments/', i18n::s('threads')), Skin::build_link('users/', i18n::s('people'))).'</li>'
 	.'<li>'.Skin::build_link('search.php', i18n::s('Full-text search')).'</li>'
-	.'<li>'.Skin::build_link('control/', i18n::s('Control panel')).'</li>';
+	.'<li>'.Skin::build_link('control/', i18n::s('Control Panel')).'</li>';
 if(!Surfer::is_logged() && (!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y')))
 	$context['text'] .= '<li> '.sprintf(i18n::s('%s to access more material, and to receive our newsletters'), Skin::build_link('users/edit.php', i18n::s('Register'))).'</li>';
 $context['text'] .= '</ul>';
@@ -415,8 +415,7 @@ $context['text'] .= Skin::build_block(i18n::s('Get the source code?'), 'title')
 	.'<li>'.Skin::build_link($target.'scripts/', i18n::s('Server software')).'</li>'
 	.'<li>'.sprintf(i18n::s('YACS %s and %s'), Skin::build_link($target.Scripts::get_url('authors'), i18n::s('authors')), Skin::build_link('scripts/view.php?script=testers', i18n::s('testers'))).'</li>'
 	.'<li>'.sprintf(i18n::s('%s LGPL and variations'), Skin::build_link($target.Scripts::get_url('licenses'), i18n::s('Licenses'))).'</li>'
-	.'<li>'.Skin::build_link($target.Scripts::get_url('todo'), i18n::s('Still on the to-do list')).'</li>'
-	.'<li>'.Skin::build_link($target.'index.php', i18n::s('Contribute to the development')).'</li>'
+	.'<li>'.Skin::build_link($target, i18n::s('Contribute to the development')).'</li>'
 	.'</ul>';
 
 // the suffix hook for the help page

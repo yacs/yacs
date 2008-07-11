@@ -150,16 +150,8 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 		echo ' - '.Skin::build_link(Articles::get_url('about'), i18n::s('about this site'), 'basic').' ';
 
 	// privacy statement
-	if(is_callable(array('i18n', 's'))) {
-
-		// take URL rewriting into account
-		if($context['with_friendly_urls'] == 'R')
-			$link = 'privacy';
-		else
-			$link = 'privacy.php';
-
-		echo ' - '.Skin::build_link($link, i18n::s('privacy statement'), 'basic').' ';
-	}
+	if(is_callable(array('i18n', 's')))
+		echo ' - '.Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic').' ';
 
 	// a reference to YACS
 	if(is_callable(array('i18n', 's')))

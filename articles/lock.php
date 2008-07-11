@@ -57,8 +57,13 @@ else
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!isset($item['id'])) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -100,7 +105,7 @@ if(isset($item['id']) && isset($item['title']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
 // page title
-$context['page_title'] = i18n::s('Lock a page');
+$context['page_title'] = i18n::s('Lock');
 
 // failed operation
 $context['text'] .= '<p>'.i18n::s('Operation has failed.').'</p>';

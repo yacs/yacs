@@ -34,17 +34,6 @@
 Class Layout_comments_as_jive extends Layout_interface {
 
 	/**
-	 * the preferred number of items for this layout
-	 *
-	 * @return int the optimised count of items for this layout
-	 *
-	 * @see skins/layout.php
-	 */
-	function items_per_page() {
-		return 20;
-	}
-
-	/**
 	 * list comments as successive notes in a thread
 	 *
 	 * @param resource the SQL result
@@ -115,21 +104,9 @@ Class Layout_comments_as_jive extends Layout_interface {
 
 				$contacts = '';
 
-				// aim
-				if(isset($poster['aim_address']) && $poster['aim_address'])
-					$contacts .= ' '.Skin::build_presence($poster['aim_address'], 'aim');
-
-				// icq
-				if(isset($poster['icq_address']) && $poster['icq_address'])
-					$contacts .= ' '.Skin::build_presence($poster['icq_address'], 'icq');
-
-				// irc
-				if(isset($poster['irc_address']) && $poster['irc_address'])
-					$contacts .= ' '.Skin::build_presence($poster['irc_address'], 'irc');
-
-				// msn
-				if(isset($poster['msn_address']) && $poster['msn_address'])
-					$contacts .= ' '.Skin::build_presence($poster['msn_address'], 'msn');
+				// jabber
+				if(isset($poster['jabber_address']) && $poster['jabber_address'])
+					$contacts .= ' '.Skin::build_presence($poster['jabber_address'], 'jabber');
 
 				// skype
 				if(isset($poster['skype_address']) && $poster['skype_address'])
@@ -138,6 +115,22 @@ Class Layout_comments_as_jive extends Layout_interface {
 				// yahoo
 				if(isset($poster['yahoo_address']) && $poster['yahoo_address'])
 					$contacts .= ' '.Skin::build_presence($poster['yahoo_address'], 'yahoo');
+
+				// msn
+				if(isset($poster['msn_address']) && $poster['msn_address'])
+					$contacts .= ' '.Skin::build_presence($poster['msn_address'], 'msn');
+
+				// aim
+				if(isset($poster['aim_address']) && $poster['aim_address'])
+					$contacts .= ' '.Skin::build_presence($poster['aim_address'], 'aim');
+
+				// irc
+				if(isset($poster['irc_address']) && $poster['irc_address'])
+					$contacts .= ' '.Skin::build_presence($poster['irc_address'], 'irc');
+
+				// icq
+				if(isset($poster['icq_address']) && $poster['icq_address'])
+					$contacts .= ' '.Skin::build_presence($poster['icq_address'], 'icq');
 
 				if($contacts)
 					$author_details[] = $contacts;
@@ -161,7 +154,7 @@ Class Layout_comments_as_jive extends Layout_interface {
 			}
 
 			// additional commands for associates and poster and editor
-			if(Surfer::is_empowered() || Surfer::is($item['create_id'])) {
+			if(Comments::are_editable($anchor, $item)) {
 
 				Skin::define_img('EDIT_COMMENT_IMG', 'icons/comments/edit.gif');
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'edit') => EDIT_COMMENT_IMG.i18n::s('Edit') ));

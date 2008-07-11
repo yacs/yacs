@@ -56,7 +56,7 @@ if(!defined('ERRORS_THRESHOLD'))
 $context['path_bar'] = array( 'links/' => i18n::s('Links') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Links maintenance');
+$context['page_title'] = i18n::s('Maintenance');
 
 // the user has to be an associate
 if(!Surfer::is_associate()) {

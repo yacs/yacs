@@ -821,7 +821,7 @@ class Anchor {
 	 *
 	 * @return TRUE or FALSE
 	 */
-	 function is_assigned() {
+	 function is_assigned($cascade=TRUE) {
 		global $context;
 
 		// cache the answer
@@ -830,12 +830,16 @@ class Anchor {
 
 		if(is_array($this->item)) {
 
+			// article has been assigned to this logged user
+			if(Articles::is_assigned($this->item['id']))
+				return $this->is_assigned_cache = TRUE;
+
 			// section has been assigned to this logged user
 			if(Sections::is_assigned($this->item['id']))
 				return $this->is_assigned_cache = TRUE;
 
 			// cascade rights inherited from container
-			if(isset($this->item['anchor'])) {
+			if($cascade && isset($this->item['anchor'])) {
 
 				// save requests
 				if(!isset($this->anchor) || !$this->anchor)

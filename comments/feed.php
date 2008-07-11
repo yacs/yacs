@@ -75,19 +75,13 @@ else
 // page title
 $context['page_title'] = i18n::s('RSS feed');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // permission denied
-if(!$permitted) {
-
-	// anonymous users are invited to log in or to register
-	if(!Surfer::is_logged()) {
-		if(is_object($anchor))
-			$link = $context['url_to_home'].$context['url_to_root'].'comments/feed.php?anchor='.$anchor->get_reference();
-		else
-			$link = $context['url_to_home'].$context['url_to_root'].'comments/feed.php';
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.htmlspecialchars(urlencode($link)));
-	}
-
-	// permission denied to authenticated user
+} elseif(!$permitted) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 

@@ -11,17 +11,6 @@
 Class Layout_comments_as_compact extends Layout_interface {
 
 	/**
-	 * the preferred number of items for this layout
-	 *
-	 * @return int the optimised count of items for this layout
-	 *
-	 * @see skins/layout.php
-	 */
-	function items_per_page() {
-		return 20;
-	}
-
-	/**
 	 * list comments
 	 *
 	 * @param resource the SQL result

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:07 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['%s and %s are available to enhance text rendering.']='%s and %s are available to enhance text rendering.';
@@ -13,22 +13,21 @@ $_SESSION['l10n']['en']['1 post'.chr(0).'%d posts']='1 post'.chr(0).'%d posts';
 $_SESSION['l10n']['en']['1 thread'.chr(0).'%d threads']='1 thread'.chr(0).'%d threads';
 $_SESSION['l10n']['en']['A question']='A question';
 $_SESSION['l10n']['en']['A suggestion']='A suggestion';
+$_SESSION['l10n']['en']['Add a comment']='Add a comment';
 $_SESSION['l10n']['en']['Anonymous comment']='Anonymous comment';
 $_SESSION['l10n']['en']['Associate']='Associate';
 $_SESSION['l10n']['en']['Attention']='Attention';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
-$_SESSION['l10n']['en']['Comment']='Comment';
 $_SESSION['l10n']['en']['Comment by %s']='Comment by %s';
 $_SESSION['l10n']['en']['Comment inspired from %s']='Comment inspired from %s';
 $_SESSION['l10n']['en']['Comment service']='Comment service';
 $_SESSION['l10n']['en']['Comment: %s']='Comment: %s';
 $_SESSION['l10n']['en']['Comments']='Comments';
 $_SESSION['l10n']['en']['Comments for: %s']='Comments for: %s';
-$_SESSION['l10n']['en']['Comments maintenance']='Comments maintenance';
 $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete a comment']='Delete a comment';
-$_SESSION['l10n']['en']['Do not change modification date of the annotated page']='Do not change modification date of the annotated page';
+$_SESSION['l10n']['en']['Do not change modification date of the main page.']='Do not change modification date of the main page.';
 $_SESSION['l10n']['en']['Each article also has its own newsfeed.']='Each article also has its own newsfeed.';
 $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit your post below']='Edit your post below';
@@ -45,7 +44,6 @@ $_SESSION['l10n']['en']['Impossible to move the upload file to %s.']='Impossible
 $_SESSION['l10n']['en']['It is likely file size goes beyond the limit displayed in upload form. Nothing has been transmitted for %s.']='It is likely file size goes beyond the limit displayed in upload form. Nothing has been transmitted for %s.';
 $_SESSION['l10n']['en']['Job has been completed']='Job has been completed';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
-$_SESSION['l10n']['en']['Main page']='Main page';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Member']='Member';
 $_SESSION['l10n']['en']['Most HTML tags are removed.']='Most HTML tags are removed.';
@@ -83,7 +81,7 @@ $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Subscriber']='Subscriber';
 $_SESSION['l10n']['en']['Textarea']='Textarea';
-$_SESSION['l10n']['en']['Thank you very much for your contribution']='Thank you very much for your contribution';
+$_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['The deletion has not been confirmed.']='The deletion has not been confirmed.';
 $_SESSION['l10n']['en']['The promotion has not been confirmed.']='The promotion has not been confirmed.';
 $_SESSION['l10n']['en']['The size of this file is over form limit.']='The size of this file is over form limit.';

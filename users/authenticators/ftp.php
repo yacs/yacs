@@ -34,7 +34,7 @@ Class Ftp extends Authenticator {
 
 		// we need some parameters
 		if(!isset($this->attributes['authenticator_parameters']) || !$this->attributes['authenticator_parameters']) {
-			Skin::error(i18n::s('Please indicate a target server name to the FTP authenticator.'));
+			Skin::error(i18n::s('Please provide parameters to the authenticator.'));
 			return FALSE;
 		}
 
@@ -47,7 +47,7 @@ Class Ftp extends Authenticator {
 
 		// open network socket
 		if(!$handle = Safe::fsockopen($server, $port)) {
-			Skin::error(sprintf(i18n::s('Impossible to open a network connection to %s.'), $this->attributes['authenticator_parameters']));
+			Skin::error(sprintf(i18n::s('Impossible to connect to %.'), $this->attributes['authenticator_parameters']));
 			return FALSE;
 		}
 

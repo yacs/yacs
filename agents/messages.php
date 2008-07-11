@@ -1586,7 +1586,7 @@ class Messages {
 					.$article->get_teaser('basic')."\n"
 					."\n".$context['url_to_home'].$context['url_to_root'].$article->get_url()."\n"
 					."\n"
-					.i18n::c('Thank you very much for your contribution');
+					.i18n::c('Thank you for your contribution');
 
 				// send a mail message
 				include_once $context['path_to_root'].'shared/mailer.php';

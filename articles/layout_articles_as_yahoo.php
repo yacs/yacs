@@ -158,7 +158,7 @@ Class Layout_articles_as_yahoo extends Layout_interface {
 
 			// give me more
 			if(count($details) && ($related_count > YAHOO_LIST_SIZE))
-				$details[] = Skin::build_link($url, i18n::s('More').MORE_IMG, 'more', i18n::s('This article contains other information of interest'));
+				$details[] = Skin::build_link($url, i18n::s('More').MORE_IMG, 'more', i18n::s('Read the page'));
 
 			// layout details
 			if(count($details))

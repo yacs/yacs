@@ -20,7 +20,7 @@ load_skin('actions');
 $context['path_bar'] = array( 'actions/' => i18n::s('actions') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Actions validation');
+$context['page_title'] = i18n::s('Maintenance');
 
 // the user has to be an associate
 if(!Surfer::is_associate()) {

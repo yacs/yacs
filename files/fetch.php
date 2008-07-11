@@ -260,7 +260,7 @@ if(!isset($item['id']) || !$item['id']) {
 	$follow_up = '<p>'.i18n::s('Where do you want to go now?').'</p>';
 	$menu = array();
 	if(is_object($anchor))
-		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Main page')));
+		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
 	$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download page')));
 	$follow_up .= Skin::build_list($menu, 'page_menu');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
@@ -323,7 +323,7 @@ if(!isset($item['id']) || !$item['id']) {
 	$follow_up = '<p>'.i18n::s('Where do you want to go now?').'</p>';
 	$menu = array();
 	if(is_object($anchor))
-		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Main page')));
+		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
 	$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download page')));
 	$follow_up .= Skin::build_list($menu, 'page_menu');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
@@ -342,7 +342,7 @@ if(!isset($item['id']) || !$item['id']) {
 	$follow_up = '<p>'.i18n::s('Where do you want to go now?').'</p>';
 	$menu = array();
 	if(is_object($anchor))
-		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Main page')));
+		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
 	$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download page')));
 	$follow_up .= Skin::build_list($menu, 'page_menu');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');

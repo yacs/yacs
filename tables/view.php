@@ -77,7 +77,7 @@ else
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Main page') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Back to main page') ));
 
 // only associates and editors are allowed to alter or delete tables
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {

@@ -324,7 +324,7 @@ if(!isset($item['id'])) {
 		// one box for assigned sections
 		if(count($items)) {
 			$content = Skin::build_list($items, 'compact');
-			$contributions .= Skin::build_box(i18n::s('Assigned sections'), $content, 'header1', 'assigned_sections');
+			$contributions .= Skin::build_box(i18n::s('My sections'), $content, 'header1', 'assigned_sections');
 		}
 	}
 
@@ -456,7 +456,7 @@ if(!isset($item['id'])) {
 		$panels[] = array('contributions_tab', i18n::s('Contributions'), 'contributions_panel', $contributions);
 
 	//
-	// the tab to information
+	// the information tab
 	//
 	$information = '';
 
@@ -485,13 +485,17 @@ if(!isset($item['id'])) {
 		if(isset($item['description']) && $item['description'])
 			$information .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
+		// birth date, if any
+		if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE))
+			$information .= '<p>'.i18n::s('Birth date').' '.substr($item['birth_date'], 0, 10).'</p>';
+
 		// list files
 		//
 		$items = Files::list_by_date_for_anchor('user:'.$item['id'], 0, FILES_PER_PAGE, 'no_author');
 		if(is_array($items))
 			$items = Skin::build_list($items, 'decorated');
 		if($items)
-			$information .= Skin::build_box(i18n::s('Files'), $items, 'header1', 'related_files');
+			$information .= Skin::build_box(i18n::s('Files'), $items, 'folder', 'related_files');
 
 		// list links
 		//
@@ -502,9 +506,10 @@ if(!isset($item['id'])) {
 		if(is_array($items))
 			$items = Skin::build_list($items, 'decorated');
 		if($items)
-			$information .= Skin::build_box(i18n::s('Links'), $items, 'header1', 'related_links');
+			$information .= Skin::build_box(i18n::s('Links'), $items, 'folder', 'related_links');
 
 		// show preferences only to related surfers and to associates
+		//
 		if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
 			$box = '';
 
@@ -537,11 +542,11 @@ if(!isset($item['id'])) {
 
 				// receive private messages
 				if(!isset($item['without_messages']) || ($item['without_messages'] != 'Y'))
-					$items[] = i18n::s('Allow other members to send me private messages.');
+					$items[] = i18n::s('Allow other members to contact me.');
 
 				// explicit newsletter subscription
 				if(!isset($item['id']) || !isset($item['with_newsletters']) || ($item['with_newsletters'] == 'Y'))
-					$items[] = i18n::s('Send me periodical newsletters related to this server.');
+					$items[] = i18n::s('Send me periodical newsletters.');
 
 				if(count($items))
 					$box .= '<dl><dt>'.i18n::s('E-mail usage').'</dt><dd>'
@@ -596,14 +601,132 @@ if(!isset($item['id'])) {
 	}
 
 	// in a separate tab
-	if(trim($information))
+	if($information)
 		$panels[] = array('information_tab', i18n::s('Information'), 'information_panel', $information);
+
+	//
+	// the contact tab
+	//
+	$contact = '';
+
+	// if not at another follow-up page
+	if(!$zoom_type) {
+
+		// shared private pages
+		$contact .= Skin::build_user_contact($item);
+
+		// business card
+		//
+		$rows = array();
+
+		// organization, if any
+		if(isset($item['vcard_organization']) && $item['vcard_organization'])
+			$rows[] = array(i18n::s('Organization'), $item['vcard_organization']);
+
+		// title, if any
+		if(isset($item['vcard_title']) && $item['vcard_title'])
+			$rows[] = array(i18n::s('Title'), $item['vcard_title']);
+
+		// physical address, if any
+		if(isset($item['vcard_label']) && $item['vcard_label'])
+			$rows[] = array(i18n::s('Physical address'), str_replace("\n", BR, $item['vcard_label']));
+
+		// phone number, if any
+		if(isset($item['phone_number']) && $item['phone_number'])
+			$rows[] = array(i18n::s('Phone number'), $item['phone_number']);
+
+		// alternate number, if any
+		if(isset($item['alternate_number']) && $item['alternate_number'])
+			$rows[] = array(i18n::s('Alternate number'), $item['alternate_number']);
+
+		// email address - not showed to anonymous surfers for spam protection
+		if(isset($item['email']) && $item['email'] && Surfer::may_mail()) {
+
+			if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
+				$url = $context['url_to_root'].Users::get_url($id, 'mail');
+			else
+				$url = 'mailto:'.$item['email'];
+
+			$rows[] = array(i18n::s('E-mail address'), Skin::build_link($url, $item['email'], 'email'));
+		}
+
+		// web address, if any
+		if(isset($item['web_address']) && $item['web_address'])
+			$rows[] = array(i18n::s('Web address'), Skin::build_link($item['web_address'], $item['web_address'], 'external'));
+
+		// agent, if any
+		if(isset($item['vcard_agent']) && $item['vcard_agent']) {
+			if($agent =& Users::get($item['vcard_agent']))
+				$rows[] = array(i18n::s('Alternate contact'), Skin::build_link(Users::get_url($agent['id'], 'view', $agent['nick_name'], $agent['full_name']), $agent['full_name']?$agent['full_name']:$agent['nick_name'], 'user'));
+			else
+				$rows[] = array(i18n::s('Alternate contact'), $item['vcard_agent']);
+		}
+
+		if(count($rows))
+			$contact .= Skin::build_box(i18n::s('Business card'), Skin::table(NULL, $rows, 'form'), 'folder');
+
+		// permanent address
+		$box = array( 'bar' => array(), 'text' => '');
+
+		// do not let robots steal addresses
+		if(Surfer::may_contact()) {
+
+			// put contact addresses in a table
+			$rows = array();
+
+			// a clickable jabber address
+			if(isset($item['jabber_address']) && $item['jabber_address'])
+				$rows[] = array(Skin::build_presence($item['jabber_address'], 'jabber'), sprintf(i18n::s('%s: %s'), i18n::s('Jabber'), $item['jabber_address']));
+
+			// a clickable skype address
+			if(isset($item['skype_address']) && $item['skype_address'])
+				$rows[] = array(Skin::build_presence($item['skype_address'], 'skype'), sprintf(i18n::s('%s: %s'), i18n::s('Skype'), $item['skype_address']));
+
+			// a clickable yahoo address -- the on-line status indicator requires to be connected to the Internet
+			if(isset($item['yahoo_address']) && $item['yahoo_address'])
+				$rows[] = array(Skin::build_presence($item['yahoo_address'], 'yahoo'), sprintf(i18n::s('%s: %s'), i18n::s('Yahoo! Messenger'), $item['yahoo_address'])
+				.' <img src="http://opi.yahoo.com/online?u='.$item['yahoo_address'].'&amp;m=g&amp;t=1" alt="Yahoo Online Status Indicator"'.EOT);
+
+			// a clickable msn address
+			if(isset($item['msn_address']) && $item['msn_address'])
+				$rows[] = array(Skin::build_presence($item['msn_address'], 'msn'), sprintf(i18n::s('%s: %s'), i18n::s('Windows Live Messenger'), $item['msn_address']));
+
+			// a clickable aim address
+			if(isset($item['aim_address']) && $item['aim_address'])
+				$rows[] = array(Skin::build_presence($item['aim_address'], 'aim'), sprintf(i18n::s('%s: %s'), i18n::s('AIM'), $item['aim_address']));
+
+			// a clickable irc address
+			if(isset($item['irc_address']) && $item['irc_address'])
+				$rows[] = array(Skin::build_presence($item['irc_address'], 'irc'), sprintf(i18n::s('%s: %s'), i18n::s('IRC'), $item['irc_address']));
+
+			// a clickable icq number
+			if(isset($item['icq_address']) && $item['icq_address'])
+				$rows[] = array(Skin::build_presence($item['icq_address'], 'icq'), sprintf(i18n::s('%s: %s'), i18n::s('ICQ'), $item['icq_address']));
+
+			if(count($rows))
+				$box['text'] .= Skin::table(NULL, $rows, 'form');
+
+		// motivate people to register
+		} elseif(!Surfer::is_logged())
+			$box['text'] .= '<p>'.i18n::s('Please authenticate to view e-mail and instant messaging contact information, for this user.')."</p>\n";
+
+		// a full box
+		if($box['text'])
+			$contact .= Skin::build_box(i18n::s('Instant messaging'), $box['text'], 'folder');
+
+		// pgp key
+		if(isset($item['pgp_key']) && $item['pgp_key'])
+			$contact .= Skin::build_box(i18n::s('Public key'), '<span style="font-size: 50%">'.$item['pgp_key'].'</span>', 'folder');
+
+	}
+
+	// in a separate tab
+	if($contact)
+		$panels[] = array('contact_tab', i18n::s('Contact'), 'contact', $contact);
 
 	//
 	// assemble tabs
 	//
-	if(!$zoom_type)
-		$panels[] = array('contact_tab', i18n::s('Contact'), 'contact_panel', NULL, Users::get_url($item['id'], 'element', 'contact'));
 	if(!$zoom_type && Surfer::is_member())
 		$panels[] = array('actions_tab', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'));
 	if(!$zoom_type)
@@ -652,7 +775,7 @@ if(!isset($item['id'])) {
 
 	// logged users may download the vcard
 	if(Surfer::is_logged())
-		$lines[] = Skin::build_link(Users::get_url($item['id'], 'fetch_vcard', $item['nick_name']), i18n::s('Get business card'), 'basic');
+		$lines[] = Skin::build_link(Users::get_url($item['id'], 'fetch_vcard', $item['nick_name']), i18n::s('Business card'), 'basic');
 
 	// print this page
 	if(Surfer::is_logged())

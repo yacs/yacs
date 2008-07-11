@@ -81,6 +81,10 @@
  * [*] [code]users_without_login_welcome[/code] - By default YACS confirms authentication after logon.
  * Change this parameter to 'Y' to streamline this additional step.
  *
+ * [*] [code]users_without_private_pages[/code] - By default YACS allows
+ * community members to create private pages.
+ * Change this parameter to 'Y' to avoid this.
+ *
  * [*] [code]users_without_registration[/code] - By default YACS accepts any new registrant.
  * If explicitly set to 'Y', new applications will be rejected.
  * Associates will have to create new user profiles when required.
@@ -174,7 +178,7 @@ elseif(!Surfer::is_associate()) {
 	$fields = array();
 
 	// registration control
-	$label = i18n::s('Self-registration');
+	$label = i18n::s('Registration');
 	$input = '<input type="radio" name="users_without_registration" value="N"';
 	if(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y'))
 		$input .= ' checked="checked"';
@@ -371,6 +375,18 @@ elseif(!Surfer::is_associate()) {
 	if(isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= EOT.' '.i18n::s('Share email addresses as much as possible (for intranet servers).');
+	$fields[] = array($label, $input);
+
+	// without private pages
+	$label = i18n::s('Private pages');
+	$input = '<input type="radio" name="users_without_private_pages" value="N"';
+	if(!isset($context['users_without_private_pages']) || ($context['users_without_private_pages'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Facilitate contacts between community members through shared private pages.');
+	$input .= BR.'<input type="radio" name="users_without_private_pages" value="Y"';
+	if(isset($context['users_without_private_pages']) && ($context['users_without_private_pages'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= EOT.' '.i18n::s('Prevent members to create private pages.');
 	$fields[] = array($label, $input);
 
 	// users_maximum_managed_sections
@@ -602,6 +618,8 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'users_without_login_box\']=\''.addcslashes($_REQUEST['users_without_login_box'], "\\'")."';\n";
 	if(isset($_REQUEST['users_without_login_welcome']))
 		$content .= '$context[\'users_without_login_welcome\']=\''.addcslashes($_REQUEST['users_without_login_welcome'], "\\'")."';\n";
+	if(isset($_REQUEST['users_without_private_pages']))
+		$content .= '$context[\'users_without_private_pages\']=\''.addcslashes($_REQUEST['users_without_private_pages'], "\\'")."';\n";
 	if(isset($_REQUEST['users_without_revision']))
 		$content .= '$context[\'users_without_revision\']=\''.addcslashes($_REQUEST['users_without_revision'], "\\'")."';\n";
 	if(isset($_REQUEST['users_without_registration']))

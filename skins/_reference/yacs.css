@@ -471,8 +471,11 @@ dl.family dd { /* data for one date */
  * other reference styles used by YACS
  */
 
-div.author_box { /* poster information, when placed at page top */
-	margin-left: 1em;
+div.top { /* poster information, when placed at page top */
+	margin-bottom: 2em;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 1em;
+   	width: 80%; /* same width as div#tabs_bar */
 }
 
 div.bottom { /* the last div of the content area */
@@ -480,6 +483,11 @@ div.bottom { /* the last div of the content area */
 	border-top: 1px solid #ccc;
 	padding-top: 1em;
    	width: 80%; /* same width as div#tabs_bar */
+}
+
+address {
+	font-style: normal;
+	padding: 2em 0;
 }
 
 p.cloud { /* ensure a minimum size for elements of a cloud */

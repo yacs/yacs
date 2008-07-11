@@ -57,22 +57,30 @@ else
 	$context['path_bar'] = array( 'index.php' => i18n::s('Images') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Set an image as the page thumbnail');
+$context['page_title'] = i18n::s('Use an image');
+
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
-if(!$item['id'])
+} elseif(!isset($item['id'])) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has been found.'));
 
 // no anchor
-elseif(!is_object($anchor))
+} elseif(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No anchor has been found.'));
 
 // operation is restricted to associates and editors
-elseif(!Surfer::is_associate() && !$anchor->is_editable())
+} elseif(!Surfer::is_associate() && !$anchor->is_editable()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // set this image as the anchor thumbnail
-else {
+} else {
 
 	// back to the anchor page if no error
 	if(!($error = $anchor->touch('image:set_as_thumbnail', $id)))

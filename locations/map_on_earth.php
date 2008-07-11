@@ -37,8 +37,6 @@ $context['path_bar'] = array( 'locations/' => i18n::s('Locations') );
 // the title of the page
 if(isset($item['geo_place_name']))
 	$context['page_title'] = $item['geo_place_name'];
-else
-	$context['page_title'] = i18n::s('Unknown location');
 
 // not found
 if(!isset($item['id']))

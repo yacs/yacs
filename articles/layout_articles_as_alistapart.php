@@ -328,13 +328,9 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		}
 
 		// info on related links
-		if($context['with_friendly_urls'] == 'Y')
-			$link = 'articles/view.php/'.$item['id'].'/links/1';
-		else
-			$link = 'articles/view.php?id='.urlencode($item['id']).'&amp;links=1';
 		include_once $context['path_to_root'].'links/links.php';
 		if($count = Links::count_for_anchor('article:'.$item['id']))
-			$menu = array_merge($menu, array($link => sprintf(i18n::ns('1 link', '%d links', $count), $count)));
+			$menu = array_merge($menu, array($url.'#links' => sprintf(i18n::ns('1 link', '%d links', $count), $count)));
 
 		// new files are accepted at the index page and at the article level
 		if(is_object($anchor) && $anchor->has_option('with_files')

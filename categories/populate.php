@@ -32,7 +32,7 @@ $text = '';
 
 // 'featured' category
 if(Categories::get(i18n::c('featured')))
-	$text .= i18n::s('A category already exists for featured articles.').BR."\n";
+	$text .= sprintf(i18n::s('A category "%s" already exists.'), i18n::c('Featured')).BR."\n";
 else {
 	$fields = array();
 	$fields['nick_name'] = i18n::c('featured');
@@ -43,12 +43,12 @@ else {
 	$fields['active'] = 'N';
 	$fields['options'] = 'no_links';
 	if(Categories::post($fields))
-		$text .= sprintf(i18n::s('A category %s has been created.'), $fields['title']).BR."\n";
+		$text .= sprintf(i18n::s('A category "%s" has been created.'), $fields['title']).BR."\n";
 }
 
 // 'monthly' category
 if(Categories::get(i18n::c('monthly')))
-	$text .= i18n::s('A category already exists for publications by months.').BR."\n";
+	$text .= sprintf(i18n::s('A category "%s" already exists.'), i18n::c('Publications by month')).BR."\n";
 else {
 	$fields = array();
 	$fields['nick_name'] = i18n::c('monthly');
@@ -58,12 +58,12 @@ else {
 	$fields['rank'] = 22000;
 	$fields['options'] = 'no_links';
 	if(Categories::post($fields))
-		$text .= sprintf(i18n::s('A category %s has been created.'), $fields['title']).BR."\n";
+		$text .= sprintf(i18n::s('A category "%s" has been created.'), $fields['title']).BR."\n";
 }
 
 // 'weekly' category
 if(Categories::get(i18n::c('weekly')))
-	$text .= i18n::s('A category already exists for publications week by week.').BR."\n";
+	$text .= sprintf(i18n::s('A category "%s" already exists.'), i18n::c('Publications by week')).BR."\n";
 else {
 	$fields = array();
 	$fields['nick_name'] = i18n::c('weekly');
@@ -73,7 +73,7 @@ else {
 	$fields['rank'] = 21000;
 	$fields['options'] = 'no_links';
 	if(Categories::post($fields))
-		$text .= sprintf(i18n::s('A category %s has been created.'), $fields['title']).BR."\n";
+		$text .= sprintf(i18n::s('A category "%s" has been created.'), $fields['title']).BR."\n";
 }
 
 // print error message, if any

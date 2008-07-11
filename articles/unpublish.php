@@ -65,8 +65,13 @@ elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == S
 // load the skin, maybe with a variant
 load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // not found
-if(!isset($item['id'])) {
+} elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Skin::error(i18n::s('No item has the provided id.'));
 
@@ -105,14 +110,14 @@ else
 	$context['path_bar'] = array( 'articles/' => 'All pages' );
 
 // page title
-$context['page_title'] = i18n::s('Unpublish a page');
+$context['page_title'] = i18n::s('Draft');
 
 // common commands for this page
 if(isset($_SERVER['HTTP_REFERER']))
 	$referer = $_SERVER['HTTP_REFERER'];
 else
 	$referer = 'articles/review.php';
-$context['page_menu'] = array( $referer => i18n::s('Back to the page') );
+$context['page_menu'] = array( $referer => i18n::s('Back to main page') );
 
 // render the skin
 render_skin();

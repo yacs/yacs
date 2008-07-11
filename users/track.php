@@ -48,7 +48,7 @@ if(Surfer::is_logged())
 	$context['path_bar'] = array_merge($context['path_bar'], array( Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => Surfer::get_name() ));
 
 // the title of the page
-$context['page_title'] = i18n::s('Watch list update');
+$context['page_title'] = i18n::s('Watch list');
 
 // not found
 if(!$item['id']) {
@@ -82,7 +82,7 @@ if(!$item['id']) {
 	// follow-up commands
 	$menu = array();
 	if(is_object($anchor) && $anchor->is_viewable())
-		$menu = array($anchor->get_url() => sprintf(i18n::s('Go back to %s'), $anchor->get_title()));
+		$menu = array($anchor->get_url() => i18n::s('Back to main page'));
 
 	// the page now appears in the watch list
 	if(Members::check($track, 'user:'.Surfer::get_id())) {
@@ -125,7 +125,7 @@ if(!$item['id']) {
 		$context['text'] .= '<p>'.i18n::s('Please note that pages automatically appear in your watch list if you modify them either directly or by posting new pieces of information (e.g., comment, image, or file).')."</p>\n";
 
 	if(Surfer::get_id())
-		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id()).'#watch_list' => i18n::s('View my watch list')));
+		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id()).'#watch_list' => i18n::s('Watch list')));
 
 	// follow-up commands
 	$follow_up = i18n::s('What do you want to do now?');

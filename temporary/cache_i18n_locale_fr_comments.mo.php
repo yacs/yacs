@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:07 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont &#233;t&#233; trait&#233;s';
 $_SESSION['l10n']['fr']['%s and %s are available to enhance text rendering.']='Utilisez %s et %s pour embellir le texte.';
@@ -13,22 +13,21 @@ $_SESSION['l10n']['fr']['1 post'.chr(0).'%d posts']='1 envoi'.chr(0).'%d envois'
 $_SESSION['l10n']['fr']['1 thread'.chr(0).'%d threads']='1 discussion'.chr(0).'%d discussions';
 $_SESSION['l10n']['fr']['A question']='Une question';
 $_SESSION['l10n']['fr']['A suggestion']='Une suggestion';
+$_SESSION['l10n']['fr']['Add a comment']='Ajouter un commentaire';
 $_SESSION['l10n']['fr']['Anonymous comment']='Commentaire anonyme';
 $_SESSION['l10n']['fr']['Associate']='Associ&#233;';
 $_SESSION['l10n']['fr']['Attention']='Important';
-$_SESSION['l10n']['fr']['Back to main page']='Retourner &#224; la page principale';
+$_SESSION['l10n']['fr']['Back to main page']='Retour &#224; la page principale';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
-$_SESSION['l10n']['fr']['Comment']='Commentaire';
 $_SESSION['l10n']['fr']['Comment by %s']='Commentaire par %s';
 $_SESSION['l10n']['fr']['Comment inspired from %s']='Commentaire inspir&#233; par %s';
 $_SESSION['l10n']['fr']['Comment service']='Envoi de commentaire';
 $_SESSION['l10n']['fr']['Comment: %s']='Commenter: %s';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
 $_SESSION['l10n']['fr']['Comments for: %s']='Commentaires pour %s';
-$_SESSION['l10n']['fr']['Comments maintenance']='V&#233;rification des commentaires';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete a comment']='Effacer un commentaire';
-$_SESSION['l10n']['fr']['Do not change modification date of the annotated page']='Ne pas changer la date de modification de la page annot&#233;e';
+$_SESSION['l10n']['fr']['Do not change modification date of the main page.']='Ne pas changer la date de modification de la page principale.';
 $_SESSION['l10n']['fr']['Each article also has its own newsfeed.']='Ce serveur propose &#233;galement un fil de nouvelles pour chaque article.';
 $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit your post below']='Modifiez votre texte ci-dessous';
@@ -45,7 +44,6 @@ $_SESSION['l10n']['fr']['Impossible to move the upload file to %s.']='Impossible
 $_SESSION['l10n']['fr']['It is likely file size goes beyond the limit displayed in upload form. Nothing has been transmitted for %s.']='Il est probable que la taille du fichier d&#233;passe les limites autoris&#233;es. Rien n\'a &#233;t&#233; transmis pour %s.';
 $_SESSION['l10n']['fr']['Job has been completed']='C\'est fait';
 $_SESSION['l10n']['fr']['Look for orphan records']='D&#233;tecter les enregistrements orphelins';
-$_SESSION['l10n']['fr']['Main page']='Page principale';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Member']='Membre';
 $_SESSION['l10n']['fr']['Most HTML tags are removed.']='La plupart des balises HTML sont retir&#233;es.';
@@ -83,7 +81,7 @@ $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Subscriber']='Souscripteur';
 $_SESSION['l10n']['fr']['Textarea']='Textarea';
-$_SESSION['l10n']['fr']['Thank you very much for your contribution']='Merci beaucoup de votre contribution';
+$_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['The deletion has not been confirmed.']='Effacement non confirm&#233;';
 $_SESSION['l10n']['fr']['The promotion has not been confirmed.']='Promotion non confirm&#233;e';
 $_SESSION['l10n']['fr']['The size of this file is over form limit.']='La taille du fichier d&#233;passe les limites autoris&#233;es.';

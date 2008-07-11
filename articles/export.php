@@ -94,10 +94,8 @@ if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
 // the title of the page
-if(isset($item['title']) && $item['title'])
+if(isset($item['title']))
 	$context['page_title'] = $item['title'];
-else
-	$context['page_title'] = i18n::s('No title has been provided.');
 
 // not found
 if(!isset($item['id'])) {

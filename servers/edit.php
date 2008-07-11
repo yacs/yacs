@@ -61,16 +61,22 @@ if(isset($_REQUEST['introduction']))
 if(isset($_REQUEST['description']))
 	xml::validate($_REQUEST['description']);
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
 // anonymous users are invited to log in or to register
-if(!Surfer::is_logged())
+} elseif(!Surfer::is_logged())
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Servers::get_url($id, 'edit')));
 
 // associates only
-elseif(!Surfer::is_associate())
+elseif(!Surfer::is_associate()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an error occured
-elseif(count($context['error'])) {
+} elseif(count($context['error'])) {
 	$item = $_REQUEST;
 	$with_form = TRUE;
 

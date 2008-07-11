@@ -91,10 +91,8 @@ else
 	$context['path_bar'] = array( 'actions/' => 'actions' );
 
 // the title of the page
-if($item['title'])
-	$context['page_title'] = $item['title'];
-else
-	$context['page_title'] = i18n::s('Accept one action');
+if(isset($item['title']))
+	$context['page_title'] = sprintf(i18n::s('Accept: %s'), $item['title']);
 
 // not found
 if(!$item['id']) {
@@ -121,9 +119,6 @@ else {
 
 	// if the surfer came directly to this page, rewards it
 	if(!Surfer::is_logged()) {
-
-		// provide some feed-back
-		$context['page_title'] = i18n::s('Your request has been processed.');
 
 		// the new status
 		switch($status) {

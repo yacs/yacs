@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:47 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:11 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d SQL statements have been processed in %.2f seconds.']='%d SQL statements have been processed in %.2f seconds.';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
@@ -11,6 +11,7 @@ $_SESSION['l10n']['en']['%s and %s are available to enhance text rendering.']='%
 $_SESSION['l10n']['en']['1 table'.chr(0).'%d tables']='1 table'.chr(0).'%d tables';
 $_SESSION['l10n']['en']['Add a table']='Add a table';
 $_SESSION['l10n']['en']['As this field may be searched by surfers, please choose adequate searchable words']='As this field may be searched by surfers, please choose adequate searchable words';
+$_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Because of our security policy you are not allowed to list tables.']='Because of our security policy you are not allowed to list tables.';
 $_SESSION['l10n']['en']['CSV (Excel)']='CSV (Excel)';
 $_SESSION['l10n']['en']['Colon character ";"']='Colon character ";"';
@@ -19,7 +20,7 @@ $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete a table']='Delete a table';
 $_SESSION['l10n']['en']['Description']='Description';
-$_SESSION['l10n']['en']['Do not change modification date of the main page']='Do not change modification date of the main page';
+$_SESSION['l10n']['en']['Do not change modification date of the main page.']='Do not change modification date of the main page.';
 $_SESSION['l10n']['en']['Do not display row numbers']='Do not display row numbers';
 $_SESSION['l10n']['en']['Double quote character']='Double quote character';
 $_SESSION['l10n']['en']['Edit']='Edit';
@@ -43,7 +44,6 @@ $_SESSION['l10n']['en']['In: %s']='In: %s';
 $_SESSION['l10n']['en']['Insert a column with row numbers']='Insert a column with row numbers';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Look for unused tables']='Look for unused tables';
-$_SESSION['l10n']['en']['Main page']='Main page';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['MySQL reference page']='MySQL reference page';
 $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.';
@@ -77,7 +77,6 @@ $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Table name']='Table name';
 $_SESSION['l10n']['en']['Table will be dropped and re-created']='Table will be dropped and re-created';
 $_SESSION['l10n']['en']['Tables']='Tables';
-$_SESSION['l10n']['en']['Tables maintenance']='Tables maintenance';
 $_SESSION['l10n']['en']['Tabulation character']='Tabulation character';
 $_SESSION['l10n']['en']['The SELECT command submitted to the database']='The SELECT command submitted to the database';
 $_SESSION['l10n']['en']['The deletion has not been confirmed.']='The deletion has not been confirmed.';

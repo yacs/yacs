@@ -63,6 +63,12 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 // load localized strings
 i18n::bind('control');
 
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	return i18n::s('You are not allowed to perform this operation.');
+}
+
 // no skin for this page
 define('BR', '<br>');
 

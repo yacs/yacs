@@ -3,10 +3,10 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2008, 8:44 pm GMT. Please do not modify it manually.
+ * on July 11, 2008, 8:06 am GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%s has been updated']='%s a &#233;t&#233; mis &#224; jour';
-$_SESSION['l10n']['fr']['<p>This is the list of most recent events at %s</p><p>You can also use following shortcuts to get more information for this server:</p><ul><li><a href="%s">Go to the front page (%s)</a></li><li><a href="%s">Go to the control panel (%s)</a></li></ul>']='<p>Voici la liste des &#233;v&#233;nements r&#233;cents &#224; %s</p><p>Vous pouvez obtenir plus d\'information &#224; l\'aide des raccourcis suivants :</p><ul><li><a href="%s">Allez &#224; la page frontale (%s)</a></li><li><a href="%s">Allez sur le Panneau de Contr&#244;le (%s)</a></li></ul>';
+$_SESSION['l10n']['fr']['<p>This is the list of most recent events at %s</p><p>You can also use following shortcuts to get more information for this server:</p><ul><li><a href="%s">Go to the front page (%s)</a></li><li><a href="%s">Go to the control panel (%s)</a></li></ul>']='<p>Voici la liste des &#233;v&#233;nements r&#233;cents &#224; %s</p><p>Vous pouvez obtenir plus d\'information &#224; l\'aide des raccourcis suivants :</p><ul><li><a href="%s">Allez &#224; la page frontale (%s)</a></li><li><a href="%s">Allez sur le Panneau de contr&#244;le (%s)</a></li></ul>';
 $_SESSION['l10n']['fr']['A list of e-mail addresses allowed to post to this queue, or \'any_member\', \'any_subscriber\', or \'anyone\' (do not replicate associates addresses)']='Liste des adresses autoris&#233;es, ou \'any_member\', \'any_subscriber\' ou \'anyone\'. Les associ&#233;s ont toujours le droit de poster des messages, il est inutile de r&#233;p&#233;ter leurs adresses.';
 $_SESSION['l10n']['fr']['A regularity expression to be matched by incoming messages to be accepted (e.g., \'X-Originating-IP:  [21.18.33.9]\')']='Une expression r&#233;guli&#232;re qui doit correspondre aux messages re&#231;us pour qu\'ils soient accept&#233;s (exemple : \'X-Originating-IP:  [21.18.33.9]\')';
 $_SESSION['l10n']['fr']['Account name']='Intitul&#233; du compte';
@@ -19,7 +19,7 @@ $_SESSION['l10n']['fr']['Browsers']='Navigateurs';
 $_SESSION['l10n']['fr']['Configuration parameters']='Param&#232;tres de configuration';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
 $_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
-$_SESSION['l10n']['fr']['Control Panel']='Panneau de Contr&#244;le';
+$_SESSION['l10n']['fr']['Control Panel']='Panneau de contr&#244;le';
 $_SESSION['l10n']['fr']['Count']='Nombre';
 $_SESSION['l10n']['fr']['Debug mail protocol in temporary/debug.txt, and file each message processed by agents/messages.php. Use this option for troubleshooting only.']='Mode de mise au point. Enregistrer les &#233;l&#233;ments de protocole dans temporary/debug.txt, et faire un fichier de chaque message re&#231;u.';
 $_SESSION['l10n']['fr']['Default section']='Section par d&#233;faut';
@@ -65,7 +65,7 @@ $_SESSION['l10n']['fr']['Server name']='Nom du serveur';
 $_SESSION['l10n']['fr']['Signature boundary']='Limite de signature';
 $_SESSION['l10n']['fr']['Size']='Taille';
 $_SESSION['l10n']['fr']['Submit']='Envoyer';
-$_SESSION['l10n']['fr']['Thank you very much for your contribution']='Merci de votre envoi';
+$_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['The POP3 password']='Le mot de passe POP3';
 $_SESSION['l10n']['fr']['The POP3 user name']='Le nom POP3 de la bo&#238;te aux lettres de r&#233;ception';
 $_SESSION['l10n']['fr']['The boundary used to locate signatures (e.g., \'___\' for Yahoo mail)']='Le s&#233;parateur de signature (par exemple, \'___\' pour les messages Yahoo)';

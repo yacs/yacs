@@ -21,7 +21,7 @@ load_skin('dates');
 $context['path_bar'] = array( 'dates/' => i18n::s('Dates') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Dates maintenance');
+$context['page_title'] = i18n::s('Maintenance');
 
 // the user has to be an associate
 if(!Surfer::is_associate()) {

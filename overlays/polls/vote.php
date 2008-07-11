@@ -127,7 +127,7 @@ else
 
 // common commands for this page
 if(isset($_SERVER['HTTP_REFERER']))
-	$context['page_menu'] = array( $_SERVER['HTTP_REFERER'] => i18n::s('Back to previous page') );
+	$context['page_menu'] = array( $_SERVER['HTTP_REFERER'] => i18n::s('Back to main page') );
 
 // no subject
 if(!isset($item['id'])) {
@@ -187,7 +187,7 @@ if(!isset($item['id'])) {
 	// ask for manual click
 	} else {
 		Articles::clear($item);
-		$context['text'] .= '<p>'.i18n::s('Thank you for your vote')."</p>\n";
+		$context['text'] .= '<p>'.i18n::s('Thank you for your contribution')."</p>\n";
 
 		// link to the poll, depending on access rights
 		$menu = array();

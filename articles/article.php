@@ -482,25 +482,29 @@ Class Article extends Anchor {
 		if(!isset($this->item['id']))
 			return NULL;
 
-		// regular link
-		if($action != 'discuss')
-			return Articles::get_url($this->item['id'], $action, $this->item['title'], $this->item['nick_name']);
-
 		// get the parent
 		if(!isset($this->anchor))
 			$this->anchor = Anchors::get($this->item['anchor']);
 
-		// layouts that start at the article page
-		if($this->has_layout('compact') || $this->has_layout('daily') || $this->has_layout('decorated') || $this->has_layout('jive') || $this->has_layout('manual') || $this->has_layout('yabb'))
-			return $this->get_url().'#comments';
+		// jump to parent page
+		if($action == 'parent')
+			return $this->anchor->get_url();
+
+		// regular link
+		if($action != 'discuss')
+			return Articles::get_url($this->item['id'], $action, $this->item['title'], $this->item['nick_name']);
 
 		// variants that start at the article page
-		elseif($this->is_interactive())
+		if($this->is_interactive())
 			return $this->get_url().'#comments';
 
 		// start threads on a separate page
-		else
+		if($this->has_layout('alistapart'))
 			return Comments::get_url($this->get_reference(), 'list');
+
+		// layouts that start at the article page
+		else
+			return $this->get_url().'#comments';
 
 	}
 
@@ -981,8 +985,8 @@ Class Article extends Anchor {
 		if($this->is_interactive())
 			;
 
-		// send alerts on new item
-		elseif(preg_match('/:(create|insert)$/i', $action)) {
+		// send alert
+		elseif(preg_match('/:(create|insert|update)$/i', $action)) {
 
 			// mail message
 			$mail = array();
@@ -1025,16 +1029,23 @@ Class Article extends Anchor {
 
 			// regular poster
 			if($this->item['create_id']) {
+				include_once $context['path_to_root'].'users/visits.php';
 
-				// send an alert if surfer is not the poster
-				if(!Surfer::get_id() || (Surfer::get_id() != $this->item['create_id'])) {
+				// to not send alerts to myself
+				if(Surfer::get_id() && (Surfer::get_id() == $this->item['create_id']))
+					;
 
-					// except if the user is visiting this anchor
-					include_once $context['path_to_root'].'users/visits.php';
-					if(!Visits::check_user_at_anchor($this->item['create_id'], 'article:'.$this->item['id']))
-						Users::alert($this->item['create_id'], $mail, $notification);
+				// page creator is already looking at the page
+				elseif(Visits::check_user_at_anchor($this->item['create_id'], 'article:'.$this->item['id']))
+					;
 
-				}
+				// no surfer with this id
+				elseif(!$creator = Users::get($this->item['create_id']))
+					;
+
+				// ensure this surfer wants to be alerted
+				elseif($creator['without_alerts'] != 'Y')
+					Users::alert($creator, $mail, $notification);
 
 			// we have only a mail address for this poster
 			} elseif($this->item['create_address']) {
@@ -1062,9 +1073,9 @@ Class Article extends Anchor {
 			Users::alert_watchers('article:'.$this->item['id'], $mail, $notification);
 		}
 
-		// add this page to the watch list of the contributor
-		if(preg_match('/:(create|insert)$/i', $action) && Surfer::get_id())
-				Members::assign('article:'.$this->item['id'], 'user:'.Surfer::get_id());
+		// add this page to the watch list of the contributor, on any action
+		if(Surfer::get_id())
+			Members::assign('article:'.$this->item['id'], 'user:'.Surfer::get_id());
 
 		// always clear the cache, even on no update
 		Cache::clear(array('articles', 'article:'.$this->item['id'], 'categories'));

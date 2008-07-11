@@ -41,10 +41,15 @@ i18n::bind('root');
 load_skin('query');
 
 // the title of the page
-$context['page_title'] = i18n::s('We are here to help');
+$context['page_title'] = i18n::s('Help');
+
+// stop crawlers
+if(Surfer::is_crawler()) {
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // post a new query
-if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
+} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// protect from hackers
 	if(isset($_REQUEST['edit_name']))
@@ -75,7 +80,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 		if($fields['id'] = Sections::post($fields)) {
 			Sections::clear($fields);
 
-			$context['text'] .= '<p>'.sprintf(i18n::s('A section \'%s\' has been created.'), $fields['nick_name'])."</p>\n";
+			$context['text'] .= '<p>'.sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name'])."</p>\n";
 
 			$anchor = Anchors::get('section:'.$fields['id']);
 		}
