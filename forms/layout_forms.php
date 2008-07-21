@@ -69,9 +69,6 @@ Class Layout_forms extends Layout_interface {
 			if(Surfer::is_associate()) {
 				$details = array();
 
-				if($item['nick_name'])
-					$details[] = sprintf('{%s}', $item['nick_name']);
-
 				// the main anchor link
 				if(is_object($anchor))
 					$details[] = sprintf(i18n::s('to %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section'));

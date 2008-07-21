@@ -273,10 +273,6 @@ if(Surfer::is_crawler()) {
 					// get the new record
 					$item =& Users::get($_REQUEST['id'], TRUE);
 
-					// start a session with this new record
-					if(!Surfer::is_logged())
-						Surfer::set($item);
-
 					// the welcome page
 					$context['page_title'] = i18n::s('Welcome!');
 
@@ -369,12 +365,12 @@ if($with_form) {
 	// full name
 	if(isset($item['full_name']) && $item['full_name']) {
 		$label = i18n::s('Full name');
-		$input = '<input type="text" name="full_name" size="50" value="'.encode_field($item['full_name']).'" '.EOT;
+		$input = '<input type="text" name="full_name" id="full_name" size="50" value="'.encode_field($item['full_name']).'" '.EOT;
 		$hint = i18n::s('Last name followed by other names you may have');
 		$fields[] = array($label, $input, $hint);
 	} else {
 		$label = i18n::s('First name(s)');
-		$input = '<input type="text" name="first_name" size="50" '.EOT;
+		$input = '<input type="text" name="first_name" id="first_name" size="50" '.EOT;
 		$fields[] = array($label, $input);
 
 		$label = i18n::s('Last name(s)');
@@ -894,22 +890,24 @@ if($with_form) {
 		."\n"
 		.'// observe changes in form'."\n"
 		.'Event.observe(window, "load", detectChanges);'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$("nick_name").focus();'."\n"
-		."\n"
-		.'// enable tags autocompletion'."\n"
+		."\n";
+	if(isset($item['full_name']) && $item['full_name'])
+		$context['text'] .= '// set the focus on first form field'."\n"
+	 		.'$("full_name").focus();'."\n"
+	 		."\n";
+	else
+		$context['text'] .= '// set the focus on first form field'."\n"
+	 		.'$("first_name").focus();'."\n"
+	 		."\n";
+	$context['text'] .= '// enable tags autocompletion'."\n"
 		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("tags", "tags_choices", "'.$context['url_to_root'].'categories/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
 		.'// ]]></script>';
 
 	// the help panel
-	if(isset($item['id']) || Surfer::is_associate()) {
-		$help = '<p>'.i18n::s('The nick name has to be unique throughout the database of users.').'</p>';
+	$help = '<p>'.i18n::s('The nick name has to be unique throughout the database of users.').'</p>';
 
-		// html and codes
-		$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
-
-	}
+	// html and codes
+	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
 
  	// locate mandatory fields
  	$help .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';

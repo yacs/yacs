@@ -128,15 +128,11 @@ elseif(!count($items)) {
 			Comments::post($comment);
 		}
 
-		// purge section cache
-		if($section = Anchors::get($article['anchor']))
-			$section->touch('article:create', $article['id'], TRUE);
-
-		// clear the cache
-		Articles::clear($article);
-
 		// feed-back to surfer
 		$context['text'] .= '<p>'.i18n::s('A new private page has been created. You can invite additional people later on if you wish.').'</p>';
+
+		// increment the post counter of the surfer
+		Users::increment_posts(Surfer::get_id());
 
 		// make editors of the new page
 		Members::assign('user:'.Surfer::get_id(), 'article:'.$article['id']);
@@ -219,6 +215,13 @@ elseif(!count($items)) {
 
 		} else
 			Skin::error(i18n::s('No notification has been sent. Please share the address of the new page by yourself.'));
+
+		// purge section cache
+		if($section = Anchors::get($article['anchor']))
+			$section->touch('article:create', $article['id'], TRUE);
+
+		// clear the cache
+		Articles::clear($article);
 
 	}
 

@@ -288,6 +288,48 @@ class Mailer {
 	}
 
 	/**
+	 * actual transmission of a mail message
+	 *
+	 * @param string the target address
+	 * @param string message subject
+	 * @param string message content
+	 * @param string optional headers
+	 * @return TRUE on success, FALSE otherwise
+	 */
+	function process($recipient, $subject, $message, $headers) {
+		global $context;
+
+		// decode recipient for log
+		$decoded_recipient = $recipient;
+		if(preg_match('/^=\?[^\?]+\?B\?(.*)=$/i', $recipient, $matches))
+			$decoded_recipient = base64_decode($matches[1]);
+
+		// decode subject for log
+		$decoded_subject = $subject;
+		if(preg_match('/^=\?[^\?]+\?B\?(.*)=$/i', $subject, $matches))
+			$decoded_subject = base64_decode($matches[1]);
+
+		// track last post
+		include_once $context['path_to_root'].'shared/values.php';
+		Values::set('mailer.last.posted', $decoded_subject.' ('.$decoded_recipient.')');
+
+		// post in debug mode, to get messages, if any
+		if(($context['with_debug'] == 'Y') && mail($recipient, $subject, $message, $headers))
+			;
+
+		// regular post
+		elseif(($context['with_debug'] != 'Y') && @mail($recipient, $subject, $message, $headers))
+			;
+
+		// an error has been encountered
+		elseif(isset($context['debug_mail']) && ($context['debug_mail'] == 'Y'))
+			Logger::remember('shared/mailer.php', sprintf(i18n::s('Error while sending the message to %s'), $decoded_recipient), $decoded_subject, 'debug');
+		elseif($context['with_debug'] == 'Y')
+			Logger::remember('shared/mailer.php', sprintf(i18n::s('Error while sending the message to %s'), $decoded_recipient), $decoded_subject, 'debug');
+
+	}
+
+	/**
 	 * defer the processing of one message
 	 *
 	 * This function saves provided data in the database.
@@ -300,6 +342,16 @@ class Mailer {
 	 */
 	function queue($recipient, $subject, $message, $headers='') {
 		global $context;
+
+		// debug mode
+		if(isset($context['debug_mail']) && ($context['debug_mail'] == 'Y')) {
+			$text = $headers."\n"
+				.'To: '.$recipient."\n"
+				.'Subject: '.$subject."\n\n"
+				.$message;
+
+			Logger::remember('shared/mailer.php', 'Sending message by e-mail', $text, 'debug');
+		}
 
 		// transaction attributes
 		$query = array();
@@ -316,6 +368,28 @@ class Mailer {
 		if(SQL::query($query) === FALSE)
 			return FALSE;
 		return TRUE;
+	}
+
+	/**
+	 * create tables for queued messages
+	 */
+	function setup() {
+		global $context;
+
+		$fields = array();
+		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT"; 			// up to 16m items
+		$fields['edit_date']	= "DATETIME";
+		$fields['headers']		= "TEXT NOT NULL";											// up to 64k chars
+		$fields['message']		= "MEDIUMTEXT NOT NULL";									// up to 16M chars
+		$fields['recipient']	= "VARCHAR(255) DEFAULT 'main' NOT NULL";
+		$fields['subject']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
+
+		$indexes = array();
+		$indexes['PRIMARY KEY'] 		= "(id)";
+		$indexes['INDEX edit_date'] 	= "(edit_date)";
+
+		return SQL::setup_table('messages', $fields, $indexes);
+
 	}
 
 	/**
@@ -452,79 +526,6 @@ class Mailer {
 			return 'shared/mailer.php: nothing to do ('.$time.' seconds)'.BR;
 	}
 
-	/**
-	 * actual transmission of a mail message
-	 *
-	 * @param string the target address
-	 * @param string message subject
-	 * @param string message content
-	 * @param string optional headers
-	 * @return TRUE on success, FALSE otherwise
-	 */
-	function process($recipient, $subject, $message, $headers) {
-		global $context;
-
-		// decode recipient for log
-		$decoded_recipient = $recipient;
-		if(preg_match('/^=\?[^\?]+\?B\?(.*)=$/i', $recipient, $matches))
-			$decoded_recipient = base64_decode($matches[1]);
-
-		// decode subject for log
-		$decoded_subject = $subject;
-		if(preg_match('/^=\?[^\?]+\?B\?(.*)=$/i', $subject, $matches))
-			$decoded_subject = base64_decode($matches[1]);
-
-		// track last post
-		include_once $context['path_to_root'].'shared/values.php';
-		Values::set('mailer.last.posted', $decoded_subject.' ('.$decoded_recipient.')');
-
-		// debug mode
-		if(isset($context['debug_mail']) && ($context['debug_mail'] == 'Y')) {
-			$text = $headers."\n"
-				.'To: '.$recipient."\n"
-				.'Subject: '.$subject."\n\n"
-				.$message;
-
-			Logger::remember('shared/mailer.php', 'Sending message by e-mail', $text, 'debug');
-		}
-
-		// post in debug mode, to get messages, if any
-		if(($context['with_debug'] == 'Y') && mail($recipient, $subject, $message, $headers))
-			;
-
-		// regular post
-		elseif(($context['with_debug'] != 'Y') && @mail($recipient, $subject, $message, $headers))
-			;
-
-		// an error has been encountered
-		elseif(isset($context['debug_mail']) && ($context['debug_mail'] == 'Y'))
-			Logger::remember('shared/mailer.php', sprintf(i18n::s('Error while sending the message to %s'), $decoded_recipient), $decoded_subject, 'debug');
-		elseif($context['with_debug'] == 'Y')
-			Logger::remember('shared/mailer.php', sprintf(i18n::s('Error while sending the message to %s'), $decoded_recipient), $decoded_subject, 'debug');
-
-	}
-
-	/**
-	 * create tables for queued messages
-	 */
-	function setup() {
-		global $context;
-
-		$fields = array();
-		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT"; 			// up to 16m items
-		$fields['edit_date']	= "DATETIME";
-		$fields['headers']		= "TEXT NOT NULL";											// up to 64k chars
-		$fields['message']		= "MEDIUMTEXT NOT NULL";									// up to 16M chars
-		$fields['recipient']	= "VARCHAR(255) DEFAULT 'main' NOT NULL";
-		$fields['subject']		= "VARCHAR(255) DEFAULT '' NOT NULL";						// up to 255 chars
-
-		$indexes = array();
-		$indexes['PRIMARY KEY'] 		= "(id)";
-		$indexes['INDEX edit_date'] 	= "(edit_date)";
-
-		return SQL::setup_table('messages', $fields, $indexes);
-
-	}
 }
 
 ?>

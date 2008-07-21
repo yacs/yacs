@@ -67,7 +67,7 @@ if(!$text =& Cache::get($cache_id)) {
 	if($items = Sections::list_by_title_for_anchor(NULL, 0, 25, 'raw'))
 		foreach($items as $id => $item)
 			$text .= '	<url>'."\n"
-				.'		<loc>'.$context['url_to_home'].$context['url_to_root'].Sections::get_url($id, 'view', $item['title']).'</loc>'."\n"
+				.'		<loc>'.encode_field($context['url_to_home'].$context['url_to_root'].Sections::get_url($id, 'view', $item['title'])).'</loc>'."\n"
 				.'		<changefreq>weekly</changefreq>'."\n"
 				.'	</url>'."\n\n";
 
@@ -83,7 +83,7 @@ if(!$text =& Cache::get($cache_id)) {
 	if($items = Categories::list_by_date(0, 25, 'raw'))
 		foreach($items as $id => $item)
 			$text .= '	<url>'."\n"
-				.'		<loc>'.$context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'view', $item['title']).'</loc>'."\n"
+				.'		<loc>'.encode_field($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'view', $item['title'])).'</loc>'."\n"
 				.'		<changefreq>weekly</changefreq>'."\n"
 				.'	</url>'."\n\n";
 

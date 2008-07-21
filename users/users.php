@@ -1342,11 +1342,11 @@ Class Users {
 			return FALSE;
 
 		// remember the id of the new item
-		$id = SQL::get_last_id($context['connection']);
+		$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// list the user in categories
 		include_once $context['path_to_root'].'categories/categories.php';
-		Categories::remember('user:'.$id, NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+		Categories::remember('user:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
 		// clear the cache for users
 		Cache::clear('users', 'categories');
@@ -1368,7 +1368,7 @@ Class Users {
 			// build credentials --see users/login.php
 			$credentials = array();
 			$credentials[0] = 'login';
-			$credentials[1] = $id;
+			$credentials[1] = $fields['id'];
 			$credentials[2] = rand(1000, 9999);
 			$credentials[3] = sprintf('%u', crc32($credentials[2].':'.$fields['handle']));
 
@@ -1397,8 +1397,12 @@ Class Users {
 
 		}
 
+		// automatic login
+		if(!Surfer::get_id() && is_callable(array('Surfer', 'set')))
+			Surfer::set($fields, TRUE);
+
 		// return the id of the new item
-		return $id;
+		return $fields['id'];
 	}
 
 	/**

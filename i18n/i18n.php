@@ -1228,7 +1228,7 @@ Class i18n {
 		//
 		// user language
 		//
-		if(isset($_SESSION['surfer_language']) && $_SESSION['surfer_language'])
+		if(isset($_SESSION['surfer_language']) && ($_SESSION['surfer_language'] != 'none'))
 			$context['language'] = $_SESSION['surfer_language'];
 
 		// guess surfer language

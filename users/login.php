@@ -35,7 +35,7 @@
  *
  * [title]one-click authentication[/title]
  *
- * This authentication mechanism is aiming to help members to come back to the
+ * This authentication mechanism helps members to come back to the
  * site, through registration confirmation by e-mail.
  *
  * The link used for one-click authentication references the target user profile,
@@ -174,14 +174,23 @@ if(Surfer::is_crawler()) {
 			Skin::error(i18n::s('Request is invalid.'));
 
 		// we need some salted secret
-		elseif(!isset($credentials[2]) || strcmp($credentials[2], sprintf('%u', crc32($poster['nick_name'].':'.$anchor->get_handle()))))
+		elseif(!isset($credentials[2]))
+			Skin::error(i18n::s('Request is invalid.'));
+
+		// check salted secret against nick name --also as lower case
+		elseif(strcmp($credentials[2], sprintf('%u', crc32($poster['nick_name'].':'.$anchor->get_handle()))) && strcmp($credentials[2], sprintf('%u', crc32(strtolower($poster['nick_name']).':'.$anchor->get_handle()))))
 			Skin::error(i18n::s('Request is invalid.'));
 
 		// authenticate and redirect
 		else {
 
+			// note date of login
+			$update_flag = FALSE;
+			if(!Surfer::get_id() || (Surfer::get_id() != $poster['id']))
+				$update_flag = TRUE;
+
 			// save surfer profile in session context
-			Surfer::set($poster);
+			Surfer::set($poster, $update_flag);
 
 			// add this anchor to allowed handles
 			Surfer::add_handle($anchor->get_handle());
@@ -209,8 +218,13 @@ if(Surfer::is_crawler()) {
 		// authenticate and offer to change the password
 		else {
 
+			// note date of login
+			$update_flag = FALSE;
+			if(!Surfer::get_id() || (Surfer::get_id() != $user['id']))
+				$update_flag = TRUE;
+
 			// save surfer profile in session context
-			Surfer::set($user);
+			Surfer::set($user, $update_flag);
 
 			// the user icon, if any
 			if(isset($user['avatar_url']) && $user['avatar_url'])
@@ -266,8 +280,15 @@ if(Surfer::is_crawler()) {
 					$user['email'] = $address;
 				}
 
+				// note date of login
+				$update_flag = FALSE;
+				if(!isset($user['id']))
+					;
+				elseif(!Surfer::get_id() || (Surfer::get_id() != $user['id']))
+					$update_flag = TRUE;
+
 				// save surfer profile in session context
-				Surfer::set($user);
+				Surfer::set($user, $update_flag);
 
 				// ensure this user profile is also an editor of the visited page
 				if(isset($user['id']))
@@ -292,11 +313,11 @@ if(Surfer::is_crawler()) {
 	// protect from hackers
 	$name = preg_replace('/[\'"\{\}\[\]\(\)]/', ' ', strip_tags($_REQUEST['login_name']));
 
-	// set permanent name shown from top level
-	Safe::setcookie('surfer_name', preg_replace('/(@.+)$/', '', $name), time()+60*60*24*500, '/');
-
 	// the surfer has been authenticated
 	if($user = Users::login($name, $_REQUEST['login_password'])) {
+
+		// set permanent name shown from top level
+		Safe::setcookie('surfer_name', $user['nick_name'], time()+60*60*24*500, '/');
 
 		// save surfer profile in session context
 		Surfer::set($user);
@@ -482,6 +503,9 @@ if(Surfer::is_crawler()) {
 
 	// failed authentication
 	} else {
+
+		// set permanent name shown from top level
+		Safe::setcookie('surfer_name', preg_replace('/(@.+)$/', '', $name), time()+60*60*24*500, '/');
 
 		// reset the current session
 		Surfer::reset();

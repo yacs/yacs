@@ -1256,8 +1256,8 @@ Class Section extends Anchor {
 			SQL::query($query);
 		}
 
-		// send alerts on new item
-		if(preg_match('/:(create|insert)$/i', $action)) {
+		// send alerts on new item, except for pages in special sections
+		if(isset($item['index_map']) && ($item['index_map'] == 'Y') && preg_match('/:(create|insert)$/i', $action)) {
 
 			// poster name, if applicable
 			if(!$surfer = Surfer::get_name())

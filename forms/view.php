@@ -2,6 +2,8 @@
 /**
  * capture form data
  *
+ * @todo display shortcut based on nick name at page bottom
+ *
  * This script displays an empty form, captures the input from the end-user,
  * and creates a web page out of it.
  *

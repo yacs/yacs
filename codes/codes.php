@@ -718,7 +718,7 @@ Class Codes {
 				'/\[csv\](.*?)\[\/csv\]/ise',			// [csv]...[/csv] (before [table])
 				'/\[table=([^\]]+?)\](.*?)\[\/table\]/ise', // [table=variant]...[/table]
 				'/\[table\](.*?)\[\/table\]/ise',		// [table]...[/table]
-				'/##(\S.*?\w)##/is',					// ##...##
+				'/##(\S.*?\S)##/is',					// ##...##
 				'/\[code\](.*?)\[\/code\]/is',			// [code]...[/code]
 				'/\[indent\](.*?)\[\/indent\]/ise', 	// [indent]...[/indent]
 				'/\[quote\](.*?)\[\/quote\]/ise',		// [quote]...[/quote]
@@ -747,17 +747,17 @@ Class Codes {
 				'/\[huge\](.*?)\[\/huge\]/ise', 		// [huge]...[/huge]
 				'/\[subscript\](.*?)\[\/subscript\]/is',// [subscript]...[/subscript]
 				'/\[superscript\](.*?)\[\/superscript\]/is',// [superscript]...[/superscript]
-				'/\+\+(\S.*?\w)\+\+/is',				// ++...++
+				'/\+\+(\S.*?\S)\+\+/is',				// ++...++
 				'/\[(---+|___+)\]\s*/ise',				// [---], [___] --- before inserted
 				'/^-----*/me',							// ----
 				'/\[inserted\](.*?)\[\/inserted\]/is',	// [inserted]...[/inserted]
-				'/--(\S.*?\w)--/ise',					// --...--
+				'/--(\S.*?\S)--/ise',					// --...--
 				'/\[deleted\](.*?)\[\/deleted\]/is',	// [deleted]...[/deleted]
-				'/\*\*(\S.*?\w)\*\*/is',				// **...**
+				'/\*\*(\S.*?\S)\*\*/is',				// **...**
 				'/\[b\](.*?)\[\/b\]/is',				// [b]...[/b]
-				'/\/\/(\S.*?\w)\/\//is',				// //...//
+				'/\/\/(\S.*?\S)\/\//is',				// //...//
 				'/\[i\](.*?)\[\/i\]/is',				// [i]...[/i]
-				'/__(\S.*?\w)__/is',					// __...__
+				'/__(\S.*?\S)__/is',					// __...__
 				'/\[u\](.*?)\[\/u\]/is',				// [u]...[/u]
 				'/\[color=([^\]]+?)\](.*?)\[\/color\]/is',	// [color=<color>]...[/color]
 				'/\[new\]/ie',							// [new]
@@ -813,11 +813,11 @@ Class Codes {
 				'/\[title\](.*?)\[\/title\]\n*/is', 	// [title]...[/title]
 				'/\[subtitle\](.*?)\[\/subtitle\]\n*/is', // [subtitle]...[/subtitle]
 				'/\[(header[1-5])\](.*?)\[\/\1\]\n*/ise', // [header1]...[/header1] ... [header5]...[/header5]
-				'/======(\w.*?\w)======/me',			// ======...====== level 5 headline
-				'/=====(\w.*?\w)=====/me',				// =====...===== level 4 headline
-				'/====(\w.*?\w)====/me',				// ====...==== level 3 headline
-				'/===(\w.*?\w)===/me',					// ===...=== level 2 headline
-				'/==(\w.*?\w)==/me',					// ==...== level 1 headline
+				'/======(\S.*?\S)======/me',			// ======...====== level 5 headline
+				'/=====(\S.*?\S)=====/me',				// =====...===== level 4 headline
+				'/====(\S.*?\S)====/me',				// ====...==== level 3 headline
+				'/===(\S.*?\S)===/me',					// ===...=== level 2 headline
+				'/==(\S.*?\S)==/me',					// ==...== level 1 headline
 				'/\[toc\]\n*/ise',						// [toc] (table of content)
 				'/\[published\]\n*/ise',				// [published] (a compact list of recent publications)
 				'/\[published=(.+?)\]\n*/ise',			// [published=section:4029] (a compact list of recent publications)
