@@ -119,7 +119,7 @@ if(!$item['id']) {
 } else {
 
 	// compute the url for this section
-	$url = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id']);
+	$url = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 
 	// get a description
 	if($item['introduction'])

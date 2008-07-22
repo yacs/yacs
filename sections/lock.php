@@ -61,14 +61,14 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
 if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_url($item['id']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
 
 // the title of the page
 $context['page_title'] = i18n::s('Lock');
 
 // command to go back
 if(isset($item['id']))
-	$context['page_menu'] = array( Sections::get_url($id) => i18n::s('Back to the section') );
+	$context['page_menu'] = array( Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to the section') );
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -97,7 +97,7 @@ if(Surfer::is_crawler()) {
 
 // do the toggle and redirect to the page
 elseif(Sections::lock($item['id'], $item['locked']))
-	Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id']));
+	Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 
 // failed operation
 $context['text'] .= '<p>'.i18n::s('Operation has failed.').'</p>';

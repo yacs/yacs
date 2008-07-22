@@ -1289,7 +1289,7 @@ Class Section extends Anchor {
 					."\n\n"
 					.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the following section, or its parent sections, and click on the Forget link.'), $context['site_name'])
 					."\n\n".ucfirst(strip_tags($this->item['title']))
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'])
+					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name'])
 					."\n\n";
 
 				// message to poster watcher
@@ -1337,7 +1337,7 @@ Class Section extends Anchor {
 					."\n\n"
 					.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the following section, or its parent sections, and click on the Forget link.'), $context['site_name'])
 					."\n\n".ucfirst(strip_tags($this->item['title']))
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'])
+					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name'])
 					."\n\n";
 
 				// message to poster watcher
@@ -1378,7 +1378,7 @@ Class Section extends Anchor {
 					."\n\n"
 					.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the following section, or its parent sections, and click on the Forget link.'), $context['site_name'])
 					."\n\n".ucfirst(strip_tags($this->item['title']))
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'])
+					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name'])
 					."\n\n";
 
 				// message to poster watcher
@@ -1420,11 +1420,11 @@ Class Section extends Anchor {
 				// message body
 				$mail['message'] = i18n::c('A new item has been added to the following section').
 					"\n\n".sprintf(i18n::c('%s in %s'), $action, $title)
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'])
+					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name'])
 					."\n\n"
 					.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the following section, or its parent sections, and click on the Forget link.'), $context['site_name'])
 					."\n\n".$title
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'])
+					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name'])
 					."\n\n";
 
 				// message to poster watcher
@@ -1432,7 +1432,7 @@ Class Section extends Anchor {
 
 					$mail2['message'] = i18n::c('A new item has been added to the following section').
 						"\n\n".sprintf(i18n::c('%s in %s'), $action, $title)
-						."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'])
+						."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name'])
 						."\n\n"
 						.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted by a user that is part of your watch list. If you wish to stop these automatic alerts please visit the following user profile and click on the Forget link.'), $context['site_name'])
 						."\n\n".ucfirst(strip_tags(Surfer::get_name()))
@@ -1442,7 +1442,7 @@ Class Section extends Anchor {
 				}
 
 				// notification content
-				$notification['address'] = $context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title']);
+				$notification['address'] = $context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name']);
 				$notification['title'] = utf8::to_unicode($title);
 
 			}

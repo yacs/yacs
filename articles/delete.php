@@ -59,7 +59,7 @@ if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anch
 	$permitted = TRUE;
 
 // page editors may be allowed to proceed
-if(isset($item['id']) && Articles::is_assigned($item['id']) && is_object($anchor) && $anchor->has_option('with_deletions'))
+elseif(isset($item['id']) && Articles::is_assigned($item['id']) && is_object($anchor) && $anchor->has_option('with_deletions'))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer

@@ -94,7 +94,7 @@ if(Surfer::is_crawler()) {
 } else {
 
 	// initialize the rendering engine
-	Codes::initialize(Sections::get_url($item['id'], 'view', $item['title']));
+	Codes::initialize(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 
 	// the article or the anchor icon, if any
 	if(isset($item['icon_url']) && $item['icon_url'])

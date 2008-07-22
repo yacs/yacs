@@ -162,7 +162,7 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Sections::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml"'.EOT;
 
 	// implement the trackback interface
-	$permanent_link = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id']);
+	$permanent_link = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 	if($context['with_friendly_urls'] == 'Y')
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/section/'.$item['id'];
 	else
@@ -631,7 +631,7 @@ if(!isset($item['id'])) {
 								$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 page', '%d pages', $count), $count)));
 
 							// navigation commands for articles
-							$home = Sections::get_url($item['id'], 'view', $item['title']);
+							$home = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 							$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
 							$box['bar'] = array_merge($box['bar'],
 								Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index));
@@ -779,7 +779,7 @@ if(!isset($item['id'])) {
 					$box['text'] .= $items;
 
 				// navigation commands for files
-				$home = Sections::get_url($item['id'], 'view', $item['title']);
+				$home = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 				$prefix = Sections::get_url($item['id'], 'navigate', 'files');
 				$box['bar'] = array_merge($box['bar'],
 					Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
@@ -857,7 +857,7 @@ if(!isset($item['id'])) {
 					$box['text'] .= $items;
 
 				// navigation commands for links
-				$home = Sections::get_url($item['id'], 'view', $item['title']);
+				$home = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 				$prefix = Sections::get_url($item['id'], 'navigate', 'links');
 				$box['bar'] = array_merge($box['bar'],
 					Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index));
@@ -1102,7 +1102,7 @@ if(!isset($item['id'])) {
 					$items = Sections::list_by_title_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout);
 
 					// navigation commands for sections
-					$home = Sections::get_url($item['id'], 'view', $item['title']);
+					$home = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 					$prefix = Sections::get_url($item['id'], 'navigate', 'sections');
 					$box['bar'] = array_merge($box['bar'],
 						Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index));
@@ -1671,7 +1671,7 @@ if(!isset($item['id'])) {
 
 			// box content
 			include_once '../agents/referrals.php';
-			if($content = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Sections::get_url($item['id'])))
+			if($content = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name'])))
 				$text .= Skin::build_box(i18n::s('Referrals'), $content, 'navigation', 'referrals');
 
 		}

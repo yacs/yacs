@@ -633,7 +633,7 @@ if(!isset($item['id'])) {
 			if($zoom_type == 'comments')
 				$url = '_count';
 			 else
-				$url = 'categories/view.php?id='.$item['id'].'&amp;comments=1';
+				$url = Categories::get_url($item['id'], 'view', $item['title'], $item['nick_name']).'#comments';
 			if($count = Comments::count_for_anchor('category:'.$item['id'])) {
 				if($count > COMMENTS_PER_PAGE)
 					$box['bar'] = array('_count' => sprintf(i18n::ns('1 comment', '%d comments', $count), $count));

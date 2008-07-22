@@ -444,7 +444,7 @@ if(!$permitted) {
 			// follow-up commands
 			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
-			$menu = array_merge($menu, array(Sections::get_url($new_id) => i18n::s('Access the new blog')));
+			$menu = array_merge($menu, array(Sections::get_url($new_id, 'view', $fields['title']) => i18n::s('Access the new blog')));
 			if(Surfer::may_upload())
 				$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$new_id) => i18n::s('Add an image')));
 			$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));

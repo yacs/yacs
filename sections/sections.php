@@ -1625,12 +1625,12 @@ Class Sections {
 				$items = array();
 				while($item =& SQL::fetch($result)) {
 
+					// url to read the full section
+					$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+
 					// reset the rendering engine between items
 					if(is_callable(array('Codes', 'initialize')))
-						Codes::initialize(sections::get_url($item['id'], 'view', $item['title']));
-
-					// url to read the full section
-					$url = Sections::get_url($item['id'], 'view', $item['title']);
+						Codes::initialize($url);
 
 					// format the resulting string depending on variant
 					$items[$url] = Skin::layout_section($item, $variant);

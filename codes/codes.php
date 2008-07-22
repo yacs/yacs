@@ -2350,22 +2350,26 @@ Class Codes {
 			$attributes = preg_split("/\s*,\s*/", $id, 2);
 			$id = $attributes[0];
 
-			// ensure we have a label for this link
-			if(isset($attributes[1])) {
-				$text = $attributes[1];
-				$type = 'basic'; // link is integrated in text
-			} elseif(!$item =& Sections::get($id))
-				$text = '';
-			else
-				$text = Skin::strip($item['title']);
-			if(!isset($text) || !$text)
-				$text = sprintf(i18n::s('section %s'), $id);
+			// load the record from the database
+			if(!$item =& Sections::get($id))
+				$output = sprintf(i18n::s('section %s'), $id);
 
-			// make a link to the target page
-			$url = Sections::get_url($id);
+			else {
 
-			// return a complete anchor
-			$output =& Skin::build_link($url, $text, $type);
+				// ensure we have a label for this link
+				if(isset($attributes[1])) {
+					$text = $attributes[1];
+					$type = 'basic'; // link is integrated in text
+				} else
+					$text = Skin::strip($item['title']);
+
+				// make a link to the target page
+				$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+
+				// return a complete anchor
+				$output =& Skin::build_link($url, $text, $type);
+			}
+
 			return $output;
 
 		// link to a server

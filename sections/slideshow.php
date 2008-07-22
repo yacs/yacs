@@ -80,7 +80,7 @@ if(!isset($item['id'])) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'])));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'slideshow')));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
@@ -90,7 +90,7 @@ if(!isset($item['id'])) {
 } else {
 
 	// initialize the rendering engine
-	Codes::initialize(Sections::get_url($item['id'], 'view', $item['title']));
+	Codes::initialize(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 
 	// increment silently the hits counter if not associate, nor creator
 	if(Surfer::is_associate())
@@ -109,7 +109,7 @@ if(!isset($item['id'])) {
 	// allow associates and editors to change the page
 	$anchor = '';
 	if(Surfer::is_empowered())
-		$anchor = Skin::build_link(Sections::get_url($item['id']), MORE_IMG, 'basic');
+		$anchor = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), MORE_IMG, 'basic');
 
 	$context['text'] .= '<div class="slide first">'."\n"
 		.'<h1>'.Codes::beautify_title($item['title']).$anchor.'</h1>'."\n"
@@ -157,7 +157,7 @@ if(!isset($item['id'])) {
 	if(isset($item['anchor']) && ($anchor = Anchors::get($item['anchor'])))
 		$link = $anchor->get_url();
 	else
-		$link = Sections::get_url($item['id']);
+		$link = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 
 	// one closing slide
 	$context['text'] .= '<div class="slide last">'."\n"

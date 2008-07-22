@@ -231,7 +231,7 @@ if(Surfer::is_crawler()) {
 			Sections::clear($_REQUEST);
 
 			// display the updated page
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'view', $item['title']));
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
 		}
 
 	// create a new section
