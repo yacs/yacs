@@ -101,7 +101,7 @@ Class Layout_articles_as_compact extends Layout_interface {
 
 			// add a link to the main page
 			else
-				$hover = i18n::s('Read this page');
+				$hover = i18n::s('View the page');
 
 			// help members to reference this page
 			if(Surfer::is_member())

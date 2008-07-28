@@ -123,7 +123,7 @@ $context['text'] .= $text;
 // page tools
 if(Surfer::is_associate()) {
 	$context['page_tools'][] = Skin::build_link('categories/edit.php', i18n::s('Add a category'));
-	$context['page_tools'][] = Skin::build_link('control/populate.php', i18n::s('Content Assistant'));
+	$context['page_tools'][] = Skin::build_link('help/populate.php', i18n::s('Content Assistant'));
 	$context['page_tools'][] = Skin::build_link('categories/check.php', i18n::s('Maintenance'));
 }
 
@@ -135,7 +135,7 @@ if(!$text =& Cache::get($cache_id)) {
 	$links = array('categories/cloud.php' => i18n::s('Cloud of tags'),
 		'sections/' => i18n::s('Site map'),
 		'search.php' => i18n::s('Search on keyword'),
-		'help.php' => i18n::s('Help index'),
+		'help/' => i18n::s('Help index'),
 		'query.php' => i18n::s('Contact the webmaster'));
 	$text .= Skin::build_box(i18n::s('See also'), Skin::build_list($links, 'compact'), 'extra');
 

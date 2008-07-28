@@ -434,7 +434,7 @@ Class Tables {
 
 		// ensure proper unicode encoding
 		$id = (string)$id;
-		$id = utf8::to_unicode($id);
+		$id = utf8::encode($id);
 
 		// strip extra text from enhanced ids '3-alfred' -> '3'
 		if($position = strpos($id, '-'))

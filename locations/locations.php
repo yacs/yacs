@@ -227,11 +227,11 @@ Class Locations {
 	 * @param int the id of the location
 	 * @return the resulting $item array, with at least keys: 'id', 'geo_place_name', etc.
 	 *
-	 * @see codes/codes.php
 	 * @see locations/delete.php
 	 * @see locations/edit.php
 	 * @see locations/map_on_earth.php
 	 * @see locations/view.php
+	 * @see shared/codes.php
 	 */
 	function &get($id) {
 		global $context;

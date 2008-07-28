@@ -18,8 +18,8 @@
  * - permission denied is the default
  *
  * Accept following invocations:
- * - accept.php/12/&lt;status&gt;
- * - accept.php?id=12&amp;status=&lt;status&gt;
+ * - accept.php/12/&lt;action&gt;
+ * - accept.php?id=12&amp;action=&lt;action&gt;
  *
  * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
@@ -42,12 +42,12 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // look for the status
-$status = NULL;
-if(isset($_REQUEST['status']))
-	$status = $_REQUEST['status'];
+$action = NULL;
+if(isset($_REQUEST['action']))
+	$action = $_REQUEST['action'];
 elseif(isset($context['arguments'][1]))
-	$status = $context['arguments'][1];
-$status = strip_tags($status);
+	$action = $context['arguments'][1];
+$action = strip_tags($action);
 
 // get the item from the database
 $item =& Actions::get($id);
@@ -104,14 +104,14 @@ if(!$item['id']) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('actions/accept.php?id='.$item['id'].'&status='.$status));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Actions::get_url($item['id'], 'accept', $action)));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // update the database
-} elseif($error = Actions::accept($item['id'], $status))
+} elseif($error = Actions::accept($item['id'], $action))
 	$context['text'] .= $error;
 
 // post-processing tasks
@@ -121,7 +121,7 @@ else {
 	if(!Surfer::is_logged()) {
 
 		// the new status
-		switch($status) {
+		switch($action) {
 		case 'on-going':
 			$label = i18n::s('On-going');
 			break;

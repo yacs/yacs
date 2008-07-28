@@ -761,8 +761,8 @@ Class Surfer {
 		if(Surfer::is_logged())
 			return NULL;
 
-		// build a random string --  l, o, O and 0 are confusing
-		$pool = 'abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
+		// build a random string --  1, l, o, O and 0 are confusing
+		$pool = 'abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ23456789';
 		$_SESSION['salt'] = $pool[mt_rand(0, strlen($pool)-1)]
 			.$pool[mt_rand(0, strlen($pool)-1)]
 			.$pool[mt_rand(0, strlen($pool)-1)]

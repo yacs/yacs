@@ -56,7 +56,7 @@ Class Layout_comments_as_boxesandarrows extends Layout_interface {
 			$icon = Comments::get_img($item['type']);
 
 			// link to comment permalink
-			$text .= '<p id="comment_'.$item['id'].'">'.Skin::build_link(Comments::get_url($item['id']), $icon, 'basic', i18n::s('Zoom on this comment'));
+			$text .= '<p id="comment_'.$item['id'].'">'.Skin::build_link(Comments::get_url($item['id']), $icon, 'basic', i18n::s('View this comment'));
 
 			// flag new comments
 			if($item['create_date'] >= $dead_line)

@@ -7,7 +7,7 @@
  *
  * Well, this script is the front page of a YACS server.
  *
- * If you are looking for general information about YACS, including design principles, please look at [script]help.php[/script].
+ * If you are looking for general information about YACS, including design principles, please look at [script]help/index.php[/script].
  *
  * Usually the front page is the most often visited page of a web site.
  * Therefore we have crafted it as carefully as possible, to allow for maximum flexibility and efficiency.
@@ -686,7 +686,7 @@ if(!$text =& Cache::get($cache_id)) {
 		// no article yet
 		$items = '<p>'.i18n::s('No article has been created yet!');
 		if(Surfer::is_associate())
-			$items .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+			$items .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 		$items .= '</p>';
 
 	}

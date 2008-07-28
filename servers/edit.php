@@ -159,11 +159,11 @@ if($with_form) {
 		.BR.'<input type="radio" name="active" value="R"';
 	if(isset($item['active']) && ($item['active'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Access is restricted to authenticated members.')
+	$input .= EOT.' '.i18n::s('Access is restricted to authenticated members')
 		.BR.'<input type="radio" name="active" value="N"';
 	if(isset($item['active']) && ($item['active'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Access is restricted to associates.')."\n";
+	$input .= EOT.' '.i18n::s('Access is restricted to associates')."\n";
 	$fields[] = array($label, $input);
 
 	// build the form

@@ -558,7 +558,7 @@ Class Sections {
 
 		// ensure proper unicode encoding
 		$id = (string)$id;
-		$id = utf8::to_unicode($id);
+		$id = utf8::encode($id);
 
 		// strip extra text from enhanced ids '3-section-title' -> '3'
 		if($position = strpos($id, '-'))
@@ -1074,9 +1074,9 @@ Class Sections {
 
 		// the rss feed for files --deprecated to files::get_url()
 		if($action == 'files') {
-			if($context['with_friendly_urls'] == 'R')
+			if($context['with_friendly_urls'] == 'Y')
 				return 'files/feed.php/section/'.rawurlencode($id);
-			elseif($context['with_friendly_urls'] == 'Y')
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'files/feed.php/section/'.rawurlencode($id);
 			else
 				return 'files/feed.php?anchor='.urlencode('section:'.$id);
@@ -1084,12 +1084,12 @@ Class Sections {
 
 		// the prefix for managing content
 		if($action == 'manage') {
-			if($context['with_friendly_urls'] == 'R') {
+			if($context['with_friendly_urls'] == 'Y') {
 				if($name)
 					return 'sections/manage.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
 				else
 					return 'sections/manage.php/'.rawurlencode($id);
-			} elseif($context['with_friendly_urls'] == 'Y') {
+			} elseif($context['with_friendly_urls'] == 'R') {
 				if($name)
 					return 'sections/manage.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
 				else
@@ -1104,9 +1104,9 @@ Class Sections {
 
 		// the prefix for navigation links --the parameter $name references the things to page, e.g., 'sections', 'comments', ...
 		if($action == 'navigate') {
-			if($context['with_friendly_urls'] == 'R')
+			if($context['with_friendly_urls'] == 'Y')
 				return 'sections/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			elseif($context['with_friendly_urls'] == 'Y')
+			elseif($context['with_friendly_urls'] == 'R')
 				return 'sections/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
 			else
 				return 'sections/view.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
@@ -1742,11 +1742,11 @@ Class Sections {
 
 		// protect from hackers
 		if(isset($fields['bullet_url']))
-			$fields['bullet_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['bullet_url']);
+			$fields['bullet_url'] =& encode_link($fields['bullet_url']);
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['icon_url']);
+			$fields['icon_url'] =& encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['thumbnail_url']);
+			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
 
 		// set default values for this editor
 		$fields = Surfer::check_default_editor($fields);
@@ -1900,11 +1900,11 @@ Class Sections {
 
 		// protect from hackers
 		if(isset($fields['bullet_url']))
-			$fields['bullet_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['bullet_url']);
+			$fields['bullet_url'] =& encode_link($fields['bullet_url']);
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['icon_url']);
+			$fields['icon_url'] =& encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['thumbnail_url']);
+			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
 
 		// set default values for this editor
 		$fields = Surfer::check_default_editor($fields);

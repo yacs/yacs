@@ -91,14 +91,14 @@
  * The generic bookmarking bookmarklet is proposed as a direct link to any authenticated member:
  * - at the control panel ([script]control/index.php[/script])
  * - at any user page ([script]users/view.php[/script])
- * - at the main help page ([script]help.php[/script])
+ * - at the main help page ([script]help/index.php[/script])
  *
  * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
  *
  * @see control/index.php
  * @see users/view.php
- * @see help.php
+ * @see help/index.php
  *
  * @author Bernard Paques
  * @author Vincent No&euml;l
@@ -210,13 +210,13 @@ if(!Surfer::is_logged() || !is_object($anchor)) {
 		$_SESSION['anchor_reference'] = 'section:'.$_REQUEST['section'];
 
 	if(isset($_REQUEST['link']) && $_REQUEST['link'])
-		$_SESSION['pasted_link'] = utf8::to_unicode($_REQUEST['link']);
+		$_SESSION['pasted_link'] = utf8::encode($_REQUEST['link']);
 
 	if(isset($_REQUEST['title']) && $_REQUEST['title'])
-		$_SESSION['pasted_title'] = utf8::to_unicode($_REQUEST['title']);
+		$_SESSION['pasted_title'] = utf8::encode($_REQUEST['title']);
 
 	if(isset($_REQUEST['text']) && $_REQUEST['text'])
-		$_SESSION['pasted_text'] = utf8::to_unicode($_REQUEST['text']);
+		$_SESSION['pasted_text'] = utf8::encode($_REQUEST['text']);
 }
 
 // always validate input syntax

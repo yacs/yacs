@@ -306,7 +306,7 @@ if($with_form) {
 		$input .= EOT.' '.i18n::s('This publication should be advertised at:').$list;
 
 	} else
-		$input = sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php?action=servers', i18n::s('Content Assistant'), 'shortcut'));
+		$input = sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php?action=servers', i18n::s('Content Assistant'), 'shortcut'));
 
 	$fields[] = array($label, $input);
 

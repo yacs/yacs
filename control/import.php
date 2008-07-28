@@ -183,7 +183,7 @@ function send_body() {
 
 			}
 
-			echo BR."\n".sprintf(i18n::s('%d users have been processed. Finished'), $count).'</p>';
+			echo BR."\n".sprintf(i18n::s('%d records have been processed. Finished'), $count).'</p>';
 		}
 
 		// import records in the sections table from the categories table
@@ -231,7 +231,7 @@ function send_body() {
 
 			}
 
-			echo BR."\n".sprintf(i18n::s('%d sections have been processed. Finished'), $count).'</p>';
+			echo BR."\n".sprintf(i18n::s('%d records have been processed. Finished'), $count).'</p>';
 		}
 
 		// import records in the articles table from the stories table
@@ -286,7 +286,7 @@ function send_body() {
 
 			}
 
-			echo BR."\n".sprintf(i18n::s('%d articles have been processed. Finished'), $count).'</p>';
+			echo BR."\n".sprintf(i18n::s('%d records have been processed. Finished'), $count).'</p>';
 		}
 
 		//
@@ -354,7 +354,7 @@ function send_body() {
 
 			}
 
-			echo BR."\n".sprintf(i18n::s('%d sections have been processed. Finished'), $count).'</p>';
+			echo BR."\n".sprintf(i18n::s('%d records have been processed. Finished'), $count).'</p>';
 		}
 
 		// import records in the categories table from the mod_document_themes table
@@ -404,7 +404,7 @@ function send_body() {
 
 			}
 
-			echo BR."\n".sprintf(i18n::s('%d categories have been processed. Finished'), $count).'</p>';
+			echo BR."\n".sprintf(i18n::s('%d records have been processed. Finished'), $count).'</p>';
 		}
 
 		// import records in the members table from the mod_document_members table
@@ -454,7 +454,7 @@ function send_body() {
 
 			}
 
-			echo BR."\n".sprintf(i18n::s('%d members have been processed. Finished'), $count).'</p>';
+			echo BR."\n".sprintf(i18n::s('%d records have been processed. Finished'), $count).'</p>';
 		}
 
 		// import records in the articles table from the mod_document_items table
@@ -521,7 +521,7 @@ function send_body() {
 
 			}
 
-			echo BR."\n".sprintf(i18n::s('%d articles have been processed. Finished'), $count).'</p>';
+			echo BR."\n".sprintf(i18n::s('%d records have been processed. Finished'), $count).'</p>';
 		}
 
 		// import records in the images table from the mod_document_inlines table
@@ -613,7 +613,7 @@ function send_body() {
 
 			}
 
-			echo BR."\n".sprintf(i18n::s('%d image descriptors have been processed. Finished'), $count).'</p>';
+			echo BR."\n".sprintf(i18n::s('%d records have been processed. Finished'), $count).'</p>';
 		}
 
 		// import records in the files table from the mod_document_attachments table
@@ -707,7 +707,7 @@ function send_body() {
 
 			}
 
-			echo BR."\n".sprintf(i18n::s('%d file descriptors have been processed. Finished'), $count).'</p>';
+			echo BR."\n".sprintf(i18n::s('%d records have been processed. Finished'), $count).'</p>';
 		}
 
 		// import records in the links table from the mod_document_links table
@@ -757,7 +757,7 @@ function send_body() {
 
 			}
 
-			echo BR."\n".sprintf(i18n::s('%d links have been processed. Finished'), $count).'</p>';
+			echo BR."\n".sprintf(i18n::s('%d records have been processed. Finished'), $count).'</p>';
 		}
 
 		//
@@ -836,7 +836,7 @@ function send_body() {
 
 			}
 
-			echo BR."\n".sprintf(i18n::s('%d articles have been processed. Finished'), $count).'</p>';
+			echo BR."\n".sprintf(i18n::s('%d records have been processed. Finished'), $count).'</p>';
 		}
 
 		// import records in the images table from the mod_partners_inlines table
@@ -928,7 +928,7 @@ function send_body() {
 
 			}
 
-			echo BR."\n".sprintf(i18n::s('%d image descriptors have been processed. Finished'), $count).'</p>';
+			echo BR."\n".sprintf(i18n::s('%d records have been processed. Finished'), $count).'</p>';
 		}
 
 	}

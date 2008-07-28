@@ -132,13 +132,13 @@ elseif(!Surfer::is_associate()) {
 
 	// display the existing reference script, if any
 	if($content = Safe::file_get_contents('reference/footprints.php'))
-		$context['text'] .= Skin::build_box(i18n::s('Current content of reference/footprints.php'), Safe::highlight_string($content), 'folder');
+		$context['text'] .= Skin::build_box(sprintf(i18n::s('Current content of %s'), 'reference/footprints.php'), Safe::highlight_string($content), 'folder');
 
 // no build in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
 
 	// remind the surfer
-	$context['text'] .= '<p>'.i18n::s('This instance of YACS runs in demonstration mode and can not act as a reference server.').'</p>';
+	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.').'</p>';
 
 // just do it
 } else {

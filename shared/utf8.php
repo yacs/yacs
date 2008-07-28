@@ -14,47 +14,25 @@
 Class Utf8 {
 
 	/**
-	 * transcode utf-8 to Unicode recursively
+	 * transcode HTML and ISO8859 to UTF-8
 	 *
-	 * This function extends [code]utf8_decode()[/code] to arrays and to Unicode entities.
-	 * I know, it's a hack...
-	 *
-	 * @param array of encoded fields
-	 * @return the transformed array
-	 *
-	 * @see services/shared.php
-	 * @see shared/global.php
+	 * @param string the original string
+	 * @return a UTF-8 encoded string
 	 */
-	function &decode_recursively(&$fields) {
-		if(!is_array($fields))
-			return $fields;
-		foreach($fields as $name => $value) {
-			if(is_array($value))
-				$fields[$name] =& Utf8::decode_recursively($value);
-			elseif(is_string($value))
-				$fields[$name] =& Utf8::to_unicode($value);
-		}
-		return $fields;
-	}
+	function &encode(&$input) {
 
-	/**
-	 * restore UTF-8 from HTML entities
-	 *
-	 * This function adds to [code]utf8::from_unicode()[/code] the capability
-	 * to decode HTML entities as well.
-	 *
-	 * @param string a string with a mix of HTML entities
-	 * @return an UTF-8 string
-	 */
-	function &from_entities(&$html) {
-		global $context;
+		// transcode explicit unicode entities %u2019 -> &#8217;
+		$output = preg_replace('/%u([0-9a-z]{4})/ise', "'&#'.hexdec('$1').';'", $input);
 
 		// transcode HTML entities to Unicode entities
-		$text =& utf8::transcode($html);
+		$output =& utf8::transcode($output);
 
-		// for unicode entities and extended iso8859-1
-		$text =& utf8::from_unicode($text);
-		return $text;
+		// translate everything, including ISO8859-1 chars, to utf-8
+		$output = utf8_encode($output);
+
+		// return the translated string
+		return $output;
+
 	}
 
 	/**
@@ -552,9 +530,14 @@ Class Utf8 {
 	 * @link http://www.evolt.org/article/A_Simple_Character_Entity_Chart/17/21234/ A Simple Character Entity Chart
 	 *
 	 * @param string the original UTF-8 string
-	 * @return a string acceptable in an ISO-8859-1 storage system (ie., PHP4 + MySQl 3)
+	 * @return a string acceptable in an ISO-8859-1 storage system (ie., PHP4 + MySQL 3)
 	 */
 	function &to_unicode(&$input) {
+		global $context;
+
+		// profiling mode
+		if($context['with_profile'] == 'Y')
+			logger::profile('utf8::to_unicode', 'start');
 
 		// scan the whole string
 		$output = '';
@@ -631,6 +614,10 @@ Class Utf8 {
 
 		// translate extended ISO8859-1 chars, if any, to utf-8
 		$output = utf8_encode($output);
+
+		// profiling mode
+		if($context['with_profile'] == 'Y')
+			logger::profile('utf8::to_unicode', 'stop');
 
 		// return the translated string
 		return $output;

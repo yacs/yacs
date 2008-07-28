@@ -88,16 +88,16 @@ elseif(!Surfer::is_associate()) {
 				$context['text'].=	"<br><font color=red>";
 				switch ($_FILES['userfile']['error']){
 				   case 1: // UPLOAD_ERR_INI_SIZE
-						$context['text'].= i18n::s('The size of this file is over PHP settings in php.ini file.');
+						$context['text'].= i18n::s('The size of this file is over limit.');
 				   break;
 				   case 2: // UPLOAD_ERR_FORM_SIZE
-						$context['text'].= i18n::s('The size of this file is over html form limit.');
+						$context['text'].= i18n::s('The size of this file is over limit.');
 				   break;
 				   case 3: // UPLOAD_ERR_PARTIAL
-						$context['text'].= i18n::s('The transfer of this file was interrupted.');
+						$context['text'].= i18n::s('No file has been transmitted.');
 				   break;
 				   case 4: // UPLOAD_ERR_NO_FILE
-						$context['text'].= i18n::s('This file is empty.');
+						$context['text'].= i18n::s('No file has been transmitted.');
 				   break;
 				  }
 				$context['text'].=	"</font><br>";

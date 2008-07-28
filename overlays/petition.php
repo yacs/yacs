@@ -227,15 +227,15 @@ class Petition extends Overlay {
 
 			// total number of votes
 			if($total)
-				$label .= sprintf(i18n::ns('1 signature', '%d signatures', $total), $total);
+				$label .= sprintf(i18n::ns('%d signature', '%d signatures', $total), $total);
 
 			// count of yes
 			if($yes)
-				$label .= ', '.sprintf(i18n::ns('1 approval', '%d approvals', $yes), $yes).' ('.(int)($yes*100/$total).'%)';
+				$label .= ', '.sprintf(i18n::ns('%d approval', '%d approvals', $yes), $yes).' ('.(int)($yes*100/$total).'%)';
 
 			// count of no
 			if($no)
-				$label .= ', '.sprintf(i18n::ns('1 reject', '%d rejects', $no), $no).' ('.(int)($no*100/$total).'%)';
+				$label .= ', '.sprintf(i18n::ns('%d reject', '%d rejects', $no), $no).' ('.(int)($no*100/$total).'%)';
 
 			// a link to ballots
 			$text .= '<p>'.Skin::build_link(Decisions::get_url('article:'.$this->attributes['id'], 'list'), $label, 'basic', i18n::s('See ballot papers')).'</p>';

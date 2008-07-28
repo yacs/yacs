@@ -349,21 +349,6 @@ class Logger {
 	}
 
 	/**
-	 * stamp some event
-	 *
-	 * [php]
-	 * logger::stamp('my_id');
-	 * [/php]
-	 *
-	 * @param string profiling context
-	 */
-	function stamp($id) {
-		global $context;
-
-		Logger::debug(get_micro_time() - $context['start_time'], $id);
-	}
-
-	/**
 	 * make a string out of something
 	 *
 	 * @param mixed something to be printed

@@ -105,7 +105,7 @@ Class Layout_sections extends Layout_interface {
 
 			// info on related sections
 			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1 section', '%d sections', $count), $count);
+				$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
 				$related_count += $count;
 
 				// add sub-sections
@@ -127,7 +127,7 @@ Class Layout_sections extends Layout_interface {
 
 			// info on related articles
 			if($count = Articles::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1 page', '%d pages', $count), $count);
+				$details[] = sprintf(i18n::ns('%d page', '%d pages', $count), $count);
 				$related_count += $count;
 
 				// add related articles if necessary
@@ -159,7 +159,7 @@ Class Layout_sections extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
+				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 				$related_count += $count;
 
 				// add related files if necessary
@@ -181,7 +181,7 @@ Class Layout_sections extends Layout_interface {
 
 			// info on related links
 			if($count = Links::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
+				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 				$related_count += $count;
 
 				// add related links if necessary
@@ -203,11 +203,11 @@ Class Layout_sections extends Layout_interface {
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('section:'.$item['id']))
-				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
+				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// give me more
 			if(count($details) && ($related_count > YAHOO_LIST_SIZE))
-				$content[Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name'])] = array('', i18n::s('More').MORE_IMG, '', 'more', '', i18n::s('Read the page'));
+				$content[Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name'])] = array('', i18n::s('More').MORE_IMG, '', 'more', '', i18n::s('View the section'));
 
 			// append details to the suffix
 			if(count($details))

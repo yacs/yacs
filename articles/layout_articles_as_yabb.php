@@ -147,7 +147,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 				$icon = THREAD_IMG;
 
 			// indicate the id in the hovering popup
-			$hover = i18n::s('Read the page');
+			$hover = i18n::s('View the page');
 			if(Surfer::is_member())
 				$hover .= ' [article='.$item['id'].']';
 

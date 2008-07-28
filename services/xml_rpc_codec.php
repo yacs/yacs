@@ -449,7 +449,7 @@ Class XML_RPC_Codec extends Codec {
 
 			// transcode to our internal charset, if unicode
 			if($context['charset'] == 'utf-8')
-				$this->cdata = utf8::to_unicode($this->cdata);
+				$this->cdata = utf8::encode($this->cdata);
 
 			return;
 		}

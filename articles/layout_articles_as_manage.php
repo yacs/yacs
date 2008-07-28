@@ -142,17 +142,17 @@ Class Layout_articles_as_manage extends Layout_interface {
 			// info on related files
 			$stats = Files::stat_for_anchor('article:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1 file', '%d files', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('%d file', '%d files', $stats['count']), $stats['count']);
 
 			// info on related links
 			$stats = Links::stat_for_anchor('article:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1 link', '%d links', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('%d link', '%d links', $stats['count']), $stats['count']);
 
 			// info on related comments
 			$stats = Comments::stat_for_anchor('article:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $stats['count']), $stats['count']);
 
 			// rating
 			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))

@@ -55,9 +55,9 @@ $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
 if(isset($item['full_name']) && $item['full_name'])
-	$context['page_title'] = sprintf(i18n::s('Password: %s'), $item['full_name']);
+	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Password'), $item['full_name']);
 elseif(isset($item['nick_name']))
-	$context['page_title'] = sprintf(i18n::s('Password: %s'), $item['nick_name']);
+	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Password'), $item['nick_name']);
 else
 	$context['page_title'] = i18n::s('Change password');
 
@@ -112,7 +112,7 @@ if(Surfer::is_crawler()) {
 	// the help message
 	$context['text'] .= '<p>'.sprintf(i18n::s('You may use the %s to ask for a password reset.'), Skin::build_link('query.php', i18n::s('query form'))).'</p>'
 		.'<p>'.i18n::s('Please provide your e-mail address and we will email your member name and password, and instructions for accessing your account.').'</p>'
-		.'<p>'.i18n::s('For the security of our members, you must make this request with the e-mail address you used when you registered. If your original e-mail address has expired or is no longer valid, please re-register. Unused accounts may be suppressed without notice.').'</p>';
+		.'<p>'.i18n::s('For the security of our members, you must make this request with the e-mail address you used when you registered. If your original e-mail address has expired or is no longer valid, please re-register. Unused accounts may be deleted without notice.').'</p>';
 
 // anonymous users are invited to log in or to register
 } elseif(!Surfer::is_logged()) {
@@ -150,7 +150,7 @@ if(Surfer::is_crawler()) {
 		$message .= "\n".i18n::s('Caution: This hyperlink contains your login credentials encrypted. Please be aware anyone who uses this link will have full access to your account.')."\n";
 
 		// bottom of the message
-		$message .= "\n".sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help.php')."\n"
+		$message .= "\n".sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help/')."\n"
 			."\n".sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
 
 		// post the confirmation message
@@ -169,7 +169,7 @@ if(Surfer::is_crawler()) {
 
 		$context['text'] .= '<p>'.sprintf(i18n::s('You may use the %s to ask for a password reset.'), Skin::build_link('query.php', i18n::s('query form'))).'</p>'
 			.'<p>'.i18n::s('Please provide your e-mail address and we will email your member name and password, and instructions for accessing your account.').'</p>'
-			.'<p>'.i18n::s('For the security of our members, you must make this request with the e-mail address you used when you registered. If your original e-mail address has expired or is no longer valid, please re-register. Unused accounts may be suppressed without notice.').'</p>';
+			.'<p>'.i18n::s('For the security of our members, you must make this request with the e-mail address you used when you registered. If your original e-mail address has expired or is no longer valid, please re-register. Unused accounts may be deleted without notice.').'</p>';
 
 	}
 
@@ -203,7 +203,7 @@ elseif($origin) {
 
 	// display the updated page
 	} else
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:''));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name']));
 
 // display the form on GET
 } else
@@ -250,7 +250,7 @@ if($with_form) {
 	// bottom commands
 	$context['text'] .= Skin::finalize_list(array(
 		Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's'),
-		Skin::build_link(Users::get_url($item['id'], 'view', isset($item['nick_name'])?$item['nick_name']:''), i18n::s('Cancel'), 'span')
+		Skin::build_link(Users::get_url($item['id'], 'view', $item['nick_name']), i18n::s('Cancel'), 'span')
 		), 'menu_bar');
 
 	// hidden field that have to be saved as well

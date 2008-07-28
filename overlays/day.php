@@ -284,7 +284,7 @@ class Day extends Overlay {
 				// count the number of dates in this section
 				$stats = Dates::stat_for_anchor($anchor);
 				if($stats['count'] > DATES_PER_PAGE)
-					$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('1 date', '%d dates', $stats['count']), $stats['count'])));
+					$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('%d date', '%d dates', $stats['count']), $stats['count'])));
 
 				// navigation commands for dates
 				$home = Sections::get_url(str_replace('section:', '', $anchor));
@@ -337,7 +337,7 @@ class Day extends Overlay {
 			// count the number of dates in this section
 			$stats = Dates::stat_past_for_anchor($anchor);
 			if($stats['count'] > DATES_PER_PAGE)
-				$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('1 date', '%d dates', $stats['count']), $stats['count'])));
+				$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('%d date', '%d dates', $stats['count']), $stats['count'])));
 
 			// navigation commands for dates
 			$home = Sections::get_url(str_replace('section:', '', $anchor));

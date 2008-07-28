@@ -8,9 +8,12 @@
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  *
- * @see codes/codes.php
+ * @see shared/codes.php
  */
 include_once '../shared/global.php';
+
+// load localized strings
+i18n::bind('codes');
 
 // load the skin
 load_skin('codes');

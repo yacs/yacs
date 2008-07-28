@@ -347,7 +347,7 @@ if(!isset($item['id'])) {
 			// count the number of articles for this user
 			$stats = Articles::stat_for_author($item['id']);
 			if($stats['count'] > ARTICLES_PER_PAGE)
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 page', '%d pages', $stats['count']), $stats['count'])));
+				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count'])));
 
 			// navigation commands for articles
 			$home = Users::get_url($item['id'], 'view', $item['nick_name']);
@@ -518,14 +518,14 @@ if(!isset($item['id'])) {
 				if($item['active'] == 'Y')
 					$box .= '<p>'.i18n::s('Anyone may read this profile.').'</p>';
 				elseif($item['active'] == 'R')
-					$box .= '<p>'.RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members.').'</p>';
+					$box .= '<p>'.RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members').'</p>';
 				elseif($item['active'] == 'N')
-					$box .= '<p>'.PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates.').'</p>';
+					$box .= '<p>'.PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates').'</p>';
 			}
 
 			// signature
 			if(isset($item['signature']) && $item['signature'])
-				$box .= '<p>'.sprintf(i18n::s('Signature: %s'), BR.Codes::beautify($item['signature'])).'</p>'."\n";
+				$box .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Signature'), BR.Codes::beautify($item['signature'])).'</p>'."\n";
 
 			// e-mail usage
 			if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
@@ -538,7 +538,7 @@ if(!isset($item['id'])) {
 
 				// receive alerts
 				if(!isset($item['without_alerts']) || ($item['without_alerts'] != 'Y'))
-					$items[] = i18n::s('Alert me when my articles are commented.');
+					$items[] = i18n::s('Alert me when my pages are commented.');
 
 				// receive private messages
 				if(!isset($item['without_messages']) || ($item['without_messages'] != 'Y'))
@@ -557,7 +557,7 @@ if(!isset($item['id'])) {
 
 			// preferred editor
 			if(isset($item['editor']) && ($item['editor'] == 'fckeditor'))
-				$label = Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKeditor'), 'external');
+				$label = Skin::build_link('http://www.fckeditor.net/', i18n::s('FCKEditor'), 'external');
 			elseif(isset($item['editor']) && ($item['editor'] == 'tinymce'))
 				$label = Skin::build_link('http://tinymce.moxiecode.com/', i18n::s('TinyMCE'), 'external');
 			else
@@ -585,9 +585,9 @@ if(!isset($item['id'])) {
 			// proxy
 			if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
 				if(isset($item['proxy_address']) && $item['proxy_address'])
-					$box .= '<p>'.sprintf(i18n::s('Network address: %s'), $item['proxy_address']).'</p>';
+					$box .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Network address'), $item['proxy_address']).'</p>';
 				elseif(isset($item['login_address']) && $item['login_address'])
-					$box.= '<p>'.sprintf(i18n::s('Network address: %s'), $item['login_address']).'</p>';
+					$box.= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Network address'), $item['login_address']).'</p>';
 			}
 
 			// display workstation time offset
@@ -785,7 +785,7 @@ if(!isset($item['id'])) {
 	if(count($lines))
 		$context['extra'] .= Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
 
-	// 'More information' box
+	// 'Information channels' box
 	//
 	$lines = array();
 
@@ -821,7 +821,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['extra'] .= Skin::build_box(i18n::s('More information'), join(BR, $lines), 'extra', 'feeds');
+		$context['extra'] .= Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
 
 	// most popular articles for this user
 	$cache_id = 'users/view.php?id='.$item['id'].'#popular_articles';

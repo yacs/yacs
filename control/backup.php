@@ -95,7 +95,7 @@ load_skin('control');
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Backup/restore the database');
+$context['page_title'] = i18n::s('Backup/Restore');
 
 // the user table should be empty, or the surfer has to be an associate, or the switch file has been deleted
 $query = "SELECT count(*) FROM ".SQL::table_name('users');
@@ -339,7 +339,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 } elseif(isset($_REQUEST['id']) || isset($context['arguments'][0])) {
 
 	// restoring the database
-	$context['text'] .= '<p>'.i18n::s('Restoring the database...')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('Updating the database...')."</p>\n";
 
 	$id = NULL;
 	if(isset($_REQUEST['id']))
@@ -373,7 +373,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'restore')) {
 
 	// restoring the database
-	$context['text'] .= '<p>'.i18n::s('Restoring the database...')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('Updating the database...')."</p>\n";
 
 	// no file has been uploaded
 	if(!$_FILES['upload']['name'] || ($_FILES['upload']['name'] == 'none'))
@@ -448,7 +448,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 			$paths[] = 'images/section';
 			$paths[] = 'images/user';
 
-			$context['text'] .= '<p>'.i18n::s('Purge of files and images...').'</p><ul>';
+			$context['text'] .= '<p>'.i18n::s('Purging...').'</p><ul>';
 			foreach($paths as $path) {
 				$context['text'] .= '<li>'.$path.'</li>';
 				delete_all($path);
@@ -583,7 +583,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'files')) {
 
 	// list files
-	$context['text'] .= '<p>'.i18n::s('Listing all files...').BR."\n";
+	$context['text'] .= '<p>'.i18n::s('Listing files...').BR."\n";
 
 	// locate files
 	include_once '../scripts/scripts.php';
@@ -652,7 +652,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'images')) {
 
 	// list images
-	$context['text'] .= '<p>'.i18n::s('Listing all images...').BR."\n";
+	$context['text'] .= '<p>'.i18n::s('Listing images...').BR."\n";
 
 	// locate images
 	include_once '../scripts/scripts.php';
@@ -750,7 +750,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'skin')) {
 
 	// list files
-	$context['text'] .= '<p>'.i18n::s('Listing all files of the current skin...').BR."\n";
+	$context['text'] .= '<p>'.i18n::s('Listing files...').BR."\n";
 
 	// locate skin
 	include_once '../scripts/scripts.php';
@@ -811,7 +811,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 } else {
 
 	// the splash label
-	$context['text'] .= '<p>'.i18n::s('Please select below the operation to perform.')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('Please select the action to perform.')."</p>\n";
 
 	// backup
 	$context['text'] .= Skin::build_block(i18n::s('Backup database content'), 'title');

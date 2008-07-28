@@ -55,7 +55,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_CHARS_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
 
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
@@ -153,7 +153,7 @@ if(Surfer::is_crawler()) {
 		$menu = array_merge($menu, array('articles/' => i18n::s('All pages')));
 		$menu = array_merge($menu, array('sections/' => i18n::s('Site map')));
 		$menu = array_merge($menu, array('search.php' => i18n::s('Search')));
-		$menu = array_merge($menu, array('help.php' => i18n::s('Help index')));
+		$menu = array_merge($menu, array('help/' => i18n::s('Help index')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 

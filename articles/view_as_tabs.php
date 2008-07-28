@@ -409,7 +409,7 @@ if(!isset($item['id'])) {
 			$text .= BR.sprintf(i18n::s('Code to reference this page: %s'), '[article='.$item['id'].']');
 
 			// the nick name
-			if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'])))
+			if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'], TRUE)))
 				$text .= BR.sprintf(i18n::s('Shortcut: %s'), $link);
 		}
 
@@ -600,7 +600,7 @@ if(!isset($item['id'])) {
 
 		// a navigation bar for these comments
 		if($count = Comments::count_for_anchor('article:'.$item['id'])) {
-			$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 comment', '%d comments', $count), $count)));
+			$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count)));
 
 			// list comments by date
 			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout);
@@ -662,7 +662,7 @@ if(!isset($item['id'])) {
 
 			// spread the list over several pages
 			if($stats['count'] > USERS_LIST_SIZE)
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 user', '%d users', $stats['count']), $stats['count'])));
+				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d user', '%d users', $stats['count']), $stats['count'])));
 
 			// navigation commands for users
 			$home = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
@@ -762,7 +762,7 @@ if(!isset($item['id'])) {
 
 		// attach a file, if upload is allowed
 		if(Files::are_allowed($anchor, $item))
-			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILE_TOOL_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Do not hesitate to attach files related to this page.'));
+			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILE_TOOL_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
 
 		// comment this page if anchor does not prevent it
 		if(Comments::are_allowed($anchor, $item))
@@ -798,15 +798,15 @@ if(!isset($item['id'])) {
 
 			// get a PDF version
 			Skin::define_img('PDF_TOOL_IMG', 'icons/tools/pdf.gif');
-			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_pdf'), PDF_TOOL_IMG.i18n::s('Save as PDF'), 'basic', i18n::s('Download this page as a PDF file.'));
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_pdf'), PDF_TOOL_IMG.i18n::s('Save as PDF'), 'basic', i18n::s('Save as PDF'));
 
 			// open in Word
 			Skin::define_img('MSWORD_TOOL_IMG', 'icons/tools/word.gif');
-			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_msword'), MSWORD_TOOL_IMG.i18n::s('Copy in MS-Word'), 'basic', i18n::s('Copy this page in Microsoft MS-Word.'));
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_msword'), MSWORD_TOOL_IMG.i18n::s('Copy in MS-Word'), 'basic', i18n::s('Copy in MS-Word'));
 
 			// get a palm version
 			Skin::define_img('PALM_TOOL_IMG', 'icons/tools/palm.gif');
-			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_for_palm'), PALM_TOOL_IMG.i18n::s('Save in Palm'), 'basic', i18n::s('Fetch this page as a Palm memo.'));
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_for_palm'), PALM_TOOL_IMG.i18n::s('Save in Palm'), 'basic', i18n::s('Save in Palm'));
 
 		}
 	}
@@ -827,7 +827,7 @@ if(!isset($item['id'])) {
 	if(count($lines))
 		$context['extra'] .= Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
 
-	// 'More information' box
+	// 'Information channels' box
 	//
 	$lines = array();
 
@@ -863,7 +863,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['extra'] .= Skin::build_box(i18n::s('More information'), join(BR, $lines), 'extra', 'feeds');
+		$context['extra'] .= Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
 
 	// cache content
 	$cache_id = 'articles/view_as_tabs.php?id='.$item['id'].'#extra#tail';

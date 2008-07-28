@@ -1424,9 +1424,9 @@ Class Links {
 	 * @param string any string, maybe with a local reference in it
 	 * @return an array($url, $title, $description) or NULL
 	 *
-	 * @see codes/codes.php
 	 * @see images/view.php
 	 * @see links/edit.php
+	 * @see shared/codes.php
 	 */
 	function transform_reference($text) {
 		global $context;

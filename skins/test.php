@@ -84,7 +84,7 @@ $context['navigation'] .= Skin::build_box(i18n::s('navigation'), Codes::beautify
 	.'[menu='.i18n::s('Site Map').']sections/[/menu]'."\n"
 	.'[submenu='.i18n::s('Categories').']categories/[/submenu]'."\n"
 	.'[submenu='.i18n::s('Users').']users/[/submenu]'."\n"
-	.'[submenu='.i18n::s('Help').']help.php[/submenu] Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum.'), 'navigation');
+	.'[submenu='.i18n::s('Help').']help/[/submenu] Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum.'), 'navigation');
 
 // $context['extra'] - extra boxes
 $context['extra'] .= Skin::build_box(i18n::s('extra').' 1', i18n::s('extra box').' 1 '.DUMMY_TEXT, 'extra');
@@ -207,7 +207,7 @@ $text .= "\n".'<p id="gadgets_prefix"> </p>'."\n"
 $text .= Skin::build_block(i18n::s('introduction block').' '.DUMMY_TEXT, 'introduction');
 
 // $context['text'] - basic content with links, etc.
-$text .= '[toc]'.i18n::s('the main content').' '.DUMMY_TEXT."\n"
+$text .= '[toc]'.DUMMY_TEXT."\n"
 	.'<ul>'."\n"
 	.'<li>[article=1]</li>'."\n"
 	.'<li>[section=1]</li>'."\n"
@@ -234,25 +234,25 @@ $text .= '[toc]'.i18n::s('the main content').' '.DUMMY_TEXT."\n"
 			.' [subtitle]'.i18n::s('level 2 title').'[/subtitle] '."\n".DUMMY_TEXT;
 
 // a sidebar
-$sidebar =& Skin::build_box(i18n::s('sidebar box'), i18n::s('sidebar content'), 'sidebar');
+$sidebar =& Skin::build_box(i18n::s('sidebar box'), DUMMY_TEXT, 'sidebar');
 
 // $context['text'] - section with sidebar box
 $text .= Skin::build_box(i18n::s('section with a sidebar box'), i18n::s('section box').' '.DUMMY_TEXT.$sidebar.DUMMY_TEXT);
 
 // a folded box
-$folder =& Skin::build_box(i18n::s('folded box'), i18n::s('folded content'), 'folder');
+$folder =& Skin::build_box(i18n::s('folded box'), DUMMY_TEXT, 'folder');
 
 // $context['text'] - section with folded box
 $text .= Skin::build_box(i18n::s('section with a folded box'), i18n::s('section box').' '.DUMMY_TEXT.$folder.DUMMY_TEXT);
 
 // a menu bar
-$menu_bar = array('skins/test.php' => i18n::s('Test script'), 'skins/' => i18n::s('Skins'), 'scripts/' => i18n::s('Server software'));;
+$menu_bar = array('skins/test.php' => i18n::s('Test page'), 'skins/' => i18n::s('Skins'), 'scripts/' => i18n::s('Server software'));;
 
 // $context['text'] - section with a menu bar
 $text .= Skin::build_box(i18n::s('section with a menu bar'), i18n::s('section box').' '.DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT);
 
 // page neighbours
-$neighbours = array('#previous', i18n::s('previous'), '#next', i18n::s('next'), '#', 'index');
+$neighbours = array('#previous', i18n::s('Previous'), '#next', i18n::s('Next'), '#', 'index');
 
 // $context['text'] - section with neighbours
 $text .= Skin::build_box(i18n::s('section with neighbours'), i18n::s('section box').' '.DUMMY_TEXT.Skin::neighbours($neighbours, 'slideshow'));

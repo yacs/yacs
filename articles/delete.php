@@ -194,11 +194,11 @@ else {
 	}
 
 	// count items related to this article
-	$context['text'] .= Anchors::stat_related_to('article:'.$item['id'], i18n::s('Following items are attached to this record and will be suppressed as well.'));
+	$context['text'] .= Anchors::stat_related_to('article:'.$item['id'], i18n::s('Following items are attached to this record and will be deleted as well.'));
 
 	// commands
 	$menu = array();
-	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to suppress this page'), NULL, NULL, 'confirmed');
+	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this page'), NULL, NULL, 'confirmed');
 	if(isset($item['id']))
 		$menu[] = Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
 

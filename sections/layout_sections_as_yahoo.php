@@ -74,9 +74,12 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 			}
 
+			// the url to view this item
+			$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+
 			// reset the rendering engine between items
 			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+				Codes::initialize($url);
 
 			// initialize variables
 			$prefix = $label = $suffix = $icon = '';
@@ -107,9 +110,9 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			// info on related sections
 			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
 				if($count > $maximum_items)
-					$details[] = sprintf(i18n::ns('1 section', '%d sections', $count), $count);
+					$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
 				elseif(Surfer::is_empowered())
-					$details[] = sprintf(i18n::ns('1 section', '%d sections', $count), $count);
+					$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
 				$related_count += $count;
 
 				// add sub-sections
@@ -132,9 +135,9 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			// info on related articles
 			if($count = Articles::count_for_anchor('section:'.$item['id'])) {
 				if($count > $maximum_items)
-					$details[] = sprintf(i18n::ns('1 page', '%d pages', $count), $count);
+					$details[] = sprintf(i18n::ns('%d page', '%d pages', $count), $count);
 				elseif(Surfer::is_empowered())
-					$details[] = sprintf(i18n::ns('1 page', '%d pages', $count), $count);
+					$details[] = sprintf(i18n::ns('%d page', '%d pages', $count), $count);
 				$related_count += $count;
 
 				// get the overlay for content of this section, if any
@@ -193,7 +196,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
+				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 				$related_count += $count;
 
 				// add related files if necessary
@@ -215,7 +218,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 			// info on related links
 			if($count = Links::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
+				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 				$related_count += $count;
 
 				// add related links if necessary
@@ -237,7 +240,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
+				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 				$related_count += $count;
 			}
 
@@ -255,7 +258,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 			// give me more
 			if(count($content) && ($related_count > $maximum_items))
-				$content[] = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('More').MORE_IMG, 'more', i18n::s('Read the page'));
+				$content[] = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('More').MORE_IMG, 'more', i18n::s('View the section'));
 
 			// layout details
 			if(count($content))
@@ -267,9 +270,6 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			// put the actual icon in the left column
 			if(isset($item['thumbnail_url']))
 				$icon = $item['thumbnail_url'];
-
-			// the url to view this item
-			$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 
 			// some hovering title for this section
 			$hover = i18n::s('View the section');

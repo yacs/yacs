@@ -72,7 +72,7 @@ if(!Surfer::is_associate()) {
 	// count images in the database
 	$stats = Images::stat();
 	if($stats['count'])
-		$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 image', '%d images', $stats['count']), $stats['count'])));
+		$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d image', '%d images', $stats['count']), $stats['count'])));
 
 	// navigation commands for images, if necessary
 	if($stats['count'] > IMAGES_PER_PAGE) {

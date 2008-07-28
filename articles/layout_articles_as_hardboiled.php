@@ -103,7 +103,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 					$icon = $anchor->get_thumbnail_url();
 				}
 				if($icon)
-					$text .= '<a href="'.$context['url_to_root'].$url.'" title="'.i18n::s('Read this page').'"><img src="'.$icon.'" class="left_image" alt=""'.EOT.'</a>';
+					$text .= '<a href="'.$context['url_to_root'].$url.'" title="'.i18n::s('View the page').'"><img src="'.$icon.'" class="left_image" alt=""'.EOT.'</a>';
 
 				$text .= $this->layout_newest($item, $anchor).'</div>'."\n";
 
@@ -144,7 +144,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 					// link to description, if any
 					if($item['description'])
-						$suffix .= ' '.Skin::build_link($url, MORE_IMG, 'more', i18n::s('Read more')).' ';
+						$suffix .= ' '.Skin::build_link($url, MORE_IMG, 'more', i18n::s('View the page')).' ';
 
 				// else use a teaser, if no overlay
 				} elseif(!is_object($overlay)) {
@@ -185,15 +185,15 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 				// info on related files
 				if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-					$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
+					$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 				// info on related links
 				if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-					$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
+					$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
 				// info on related comments
 				if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-					$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
+					$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 				// rating
 				if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
@@ -303,7 +303,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic', i18n::s('Rate this page'));
 
 		// use the title as a link to the page
-		$text .= $prefix.'<b>'.Skin::build_link($url, $title, 'basic', i18n::s('Read this page')).'</b>'.$suffix;
+		$text .= $prefix.'<b>'.Skin::build_link($url, $title, 'basic', i18n::s('View the page')).'</b>'.$suffix;
 
 		// details
 		$details = array();
@@ -335,15 +335,11 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$text .= $overlay->get_text('list', $item);
 
 		// read this article
-		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('Read this page'), 'basic');
+		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('View the page'), 'basic');
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-			$text .= ' ('.Skin::build_link($url.'#files', sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic').')';
-
-// 		// link to the anchor page
-// 		if(is_object($anchor))
-// 			$text .= BR.Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic', i18n::s('More similar pages in this section'));
+			$text .= ' ('.Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic').')';
 
 		// list up to three categories by title, if any
 		if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
@@ -352,7 +348,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			foreach($items as $id => $attributes) {
 				if(!$first_category)
 					$text .= ',';
-				$text .= ' '.Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'basic', i18n::s('More similar pages in this category'));
+				$text .= ' '.Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'basic', i18n::s('More pages'));
 				$first_category = FALSE;
 			}
 		}

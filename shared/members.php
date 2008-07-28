@@ -35,9 +35,6 @@
  * // break the association of one member with one anchor
  * Members::free($anchor, $member);
  *
- * // to get the list of members for one anchor, ordered by id
- * Members::list_members_for_anchor($anchor, $offset, $count);
- *
  * // to get ordered articles linked with some anchor
  * Members::list_articles_by_date_for_anchor($anchor, $offset, $count, $variant);
  * Members::list_articles_by_title_for_anchor($anchor, $offset, $count, $variant);
@@ -654,56 +651,6 @@ Class Members {
 	}
 
 	/**
-	 * list all members for one anchor
-	 *
-	 * This function is used for example to retrieve all users watching a given article.
-	 *
-	 *
-	 * @param mixed, either a string to the target anchor, or an array of anchors
-	 * @param the offset from the beginning of the list
-	 * @param the maximum size of the returned list
-	 * @return an array of member references
-	 *
-	 * @see users/users.php
-	 */
-	function list_members_for_anchor($anchor, $offset=0, $count=10) {
-		global $context;
-
-		// several anchors
-		if(is_array($anchor)) {
-			$items = array();
-			foreach($anchor as $token)
-				$items[] = "anchor LIKE '".SQL::escape($token)."'";
-			$where_anchor = join(' OR ', $items);
-
-		// or only one
-		} else
-			$where_anchor = "anchor LIKE '".SQL::escape($anchor)."'";
-
-		// the list of members
-		$query = "SELECT member FROM ".SQL::table_name('members')
-			." WHERE (".$where_anchor.")"
-			." ORDER BY member LIMIT ".$offset.','.$count;
-		if(!$result =& SQL::query($query))
-			return NULL;
-
-		// empty list
-		if(!SQL::count($result))
-			return array();
-
-		// build an array of ids
-		$members = array();
-		while($row =& SQL::fetch($result))
-			$members[] = $row['member'];
-
-		// ensure each member is represented only once
-		$members = array_unique($members);
-
-		// return the list of ids linked to this anchor
-		return $members;
-	}
-
-	/**
 	 * list alphabetically the sections related to any anchor
 	 *
 	 * Actually list sections by rank, then by title, then by date.
@@ -850,51 +797,6 @@ Class Members {
 			."	AND (users.capability = 'S')"
 			."	AND (".$where.")"
 			." ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
-
-		// use existing listing facility
-		$output =& Users::list_selected(SQL::query($query), $variant);
-		return $output;
-	}
-
-	/**
-	 * list alphabetically users related to a given anchor
-	 *
-	 * Only users matching following criteria are returned:
-	 * - user is visible (active='Y')
-	 * - user is restricted (active='R'), but surfer is a logged user
-	 * - user is restricted (active='N'), but surfer is an associate
-	 *
-	 * @param the target anchor
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string the list variant, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see categories/view.php
-	 */
-	function &list_users_for_anchor($anchor, $offset=0, $count=10, $variant=NULL) {
-		global $context;
-
-		// locate where we are
-		if(!$variant)
-			$variant = $anchor;
-
-		// limit the scope of the request
-		$where = "users.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR users.active='R'";
-		if(Surfer::is_associate())
-			$where .= " OR users.active='N'";
-		$where = '('.$where.')';
-
-		// the list of users
-		$query = "SELECT users.*	FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('users')." AS users"
-			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')"
-			."	AND (members.member_type LIKE 'user')"
-			."	AND (users.id = members.member_id)"
-			."	AND ".$where
-			." ORDER BY users.full_name, users.edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Users::list_selected(SQL::query($query), $variant);
@@ -1073,55 +975,6 @@ Class Members {
 	}
 
 	/**
-	 * set the associations with anchors for one member
-	 *
-	 * @param fields from a form
-	 * @return string either a null string, or some text describing an error to be inserted into the html response
-	**/
-	function set_anchors($fields) {
-		global $context;
-
-		// anchors cannot be empty
-		if(!is_array($fields['anchors']))
-			return i18n::s('No anchor has been found.');
-
-		// member cannot be empty
-		if(!$fields['member'])
-			return i18n::s('No member has been provided.');
-
-		// delete existing records for this member
-		Members::unlink_for_member($fields['member']);
-
-		// topics to clear
-		$topics = array($fields['member']);
-
-		// insert one new record per anchor
-		if(is_array($fields['anchors'])) {
-
-			// boost further queries
-			list($member_type, $member_id) = explode(':', $fields['member'], 2);
-
-			foreach($fields['anchors'] as $anchor) {
-				$query = "INSERT INTO ".SQL::table_name('members')." SET "
-					." anchor='".SQL::escape($anchor)."',"
-					." member='".SQL::escape($fields['member'])."',"
-					." member_type='".SQL::escape($member_type)."',"
-					." member_id='".SQL::escape($member_id)."',"
-					." edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
-				SQL::query($query);
-
-				$topics = $anchor;
-			}
-		}
-
-		// clear the cache
-		Cache::clear($topics);
-
-		// end of job
-		return NULL;
-	}
-
-	/**
 	 * create tables for members
 	 */
 	function setup() {
@@ -1198,24 +1051,6 @@ Class Members {
 			."	AND (members.member_type LIKE 'article')"
 			."	AND (articles.id = members.member_id)"
 			."	AND (".$where.")";
-
-		$output =& SQL::query_first($query);
-		return $output;
-	}
-
-	/**
-	 * get some statistics for one anchor
-	 *
-	 * @param the selected anchor (e.g., 'category:12')
-	 * @return the resulting ($count, $min_date, $max_date) array
-	 */
-	function &stat_for_anchor($anchor) {
-		global $context;
-
-		// select among available items
-		$query = "SELECT COUNT(*) as count, NULL as oldest_date, NULL as newest_date"
-			." FROM ".SQL::table_name('members')." AS members"
-			." WHERE (members.anchor LIKE '".SQL::escape($anchor)."')";
 
 		$output =& SQL::query_first($query);
 		return $output;
@@ -1398,39 +1233,6 @@ Class Members {
 
 		// end of job
 		return NULL;
-	}
-
-	/**
-	 * delete all members for a given anchor
-	 *
-	 * This function only delete the membership information. After the operation the items that were linked together
-	 * will still exist.
-	 *
-	 * @param the anchor to check
-	 */
-	function unlink_for_anchor($anchor) {
-		global $context;
-
-		// delete all matching records in the database
-		$query = "DELETE FROM ".SQL::table_name('members')
-			." WHERE (anchor LIKE '".SQL::escape($anchor)."')";
-		SQL::query($query);
-
-	}
-
-	/**
-	 * clear all anchor <-> member associations for one member
-	 *
-	 * @param the linked member
-	 */
-	function unlink_for_member($member) {
-		global $context;
-
-		// delete records in the database
-		$query = "DELETE FROM ".SQL::table_name('members')
-			." WHERE (member LIKE '".SQL::escape($member)."')";
-		SQL::query($query);
-
 	}
 
 	/**

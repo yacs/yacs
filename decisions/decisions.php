@@ -688,12 +688,12 @@ Class Decisions {
 				$items = array();
 				while($item =& SQL::fetch($result)) {
 
-					// reset the rendering engine between items
-					if(is_callable(array('Codes', 'initialize')))
-						Codes::initialize(Decisions::get_url($item['id']));
-
 					// url to read the full article
 					$url = Decisions::get_url($item['id']);
+
+					// reset the rendering engine between items
+					if(is_callable(array('Codes', 'initialize')))
+						Codes::initialize($url);
 
 					// format the resulting string depending on layout
 					$items[$url] = Skin::layout_decision($item, $layout);
@@ -783,7 +783,7 @@ Class Decisions {
 		if(isset($fields['edit_name']))
 			$fields['edit_name'] = preg_replace(FORBIDDEN_CHARS_IN_NAMES, '_', $fields['edit_name']);
 		if(isset($fields['edit_address']))
-			$fields['edit_address'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['edit_address']);
+			$fields['edit_address'] =& encode_link($fields['edit_address']);
 
 		// set default values for this editor
 		$fields = Surfer::check_default_editor($fields);

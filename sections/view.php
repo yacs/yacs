@@ -57,7 +57,7 @@
  * 'compact'|[script]sections/layout_sections_as_compact.php[/script]
  * 'decorated'|[script]sections/layout_sections.php[/script]
  * 'folded'|[script]sections/layout_sections_as_folded.php[/script]
- * 'freemind'|[script]codes/codes.php[/script]
+ * 'freemind'|[script]shared/codes.php[/script]
  * 'inline'|[script]sections/layout_sections_as_inline.php[/script]
  * 'jive'|[script]sections/layout_sections_as_jive.php[/script]
  * 'map' (also default value)|[script]sections/layout_sections_as_yahoo.php[/script]
@@ -654,7 +654,7 @@ if(!isset($item['id'])) {
 				$text .= BR.sprintf(i18n::s('Code to reference this page: %s'), '[section='.$item['id'].']');
 
 				// the nick name
-				if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'])))
+				if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'], TRUE)))
 					$text .= BR.sprintf(i18n::s('Shortcut: %s'), $link);
 			}
 
@@ -881,7 +881,7 @@ if(!isset($item['id'])) {
 				// count the number of subsections
 				if($count = Sections::count_for_anchor('section:'.$item['id'])) {
 					if($count > $items_per_page)
-						$box['bar'] = array('_count' => sprintf(i18n::ns('1 section', '%d sections', $count), $count));
+						$box['bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
 
 					// list items by title
 					$offset = ($zoom_index - 1) * $items_per_page;
@@ -1023,7 +1023,7 @@ if(!isset($item['id'])) {
 						// count the number of articles in this section
 						if($count = Articles::count_for_anchor('section:'.$item['id'])) {
 							if($count > $items_per_page)
-								$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 page', '%d pages', $count), $count)));
+								$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count)));
 
 							// navigation commands for articles
 							$home = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
@@ -1211,7 +1211,7 @@ if(!isset($item['id'])) {
 
 			// count the number of files in this section
 			if($count = Files::count_for_anchor('section:'.$item['id'])) {
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 file', '%d files', $count), $count)));
+				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count)));
 
 				// list files by date (default) or by title (option 'files_by_title')
 				$offset = ($zoom_index - 1) * FILES_PER_PAGE;
@@ -1374,7 +1374,7 @@ if(!isset($item['id'])) {
 
 			// a navigation bar for these links
 			if($count = Links::count_for_anchor('section:'.$item['id'])) {
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 link', '%d links', $count), $count)));
+				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d link', '%d links', $count), $count)));
 
 				// list links by date (default) or by title (option 'links_by_title')
 				$offset = ($zoom_index - 1) * LINKS_PER_PAGE;
@@ -1679,7 +1679,7 @@ if(!isset($item['id'])) {
 
 		// attach a file, if upload is allowed
 		if(Files::are_allowed($anchor, $item, TRUE))
-			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), FILE_TOOL_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Do not hesitate to attach files related to this page.'));
+			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), FILE_TOOL_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
 
 		// comment this page if anchor does not prevent it
 		if(Comments::are_allowed($anchor, $item, TRUE))
@@ -1716,7 +1716,7 @@ if(!isset($item['id'])) {
 	if(count($lines))
 		$context['extra'] .= Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
 
-	// 'More information' box
+	// 'Information channels' box
 	$lines = array();
 
 	// watch command is provided to logged surfers
@@ -1747,7 +1747,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['extra'] .= Skin::build_box(i18n::s('More information'), join(BR, $lines), 'extra', 'feeds');
+		$context['extra'] .= Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
 
 	// cache content
 	$cache_id = 'sections/view.php?id='.$item['id'].'#extra#tail';

@@ -47,7 +47,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		if(!SQL::count($result)) {
 			$output = '<p>'.i18n::s('No article has been published so far.');
 			if(Surfer::is_associate())
-				$output .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+				$output .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output .= '</p>';
 			return $output;
 		}
@@ -82,7 +82,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 		// build the list of other articles
 		if(@count($others))
-			$text .= Skin::build_box(i18n::s('Previous publications'), Skin::build_list($others, 'compact'));
+			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($others, 'compact'));
 
 		// end of processing
 		SQL::free($result);
@@ -146,7 +146,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			if($item['rating_count'])
 				$label = sprintf(i18n::s('Rating: %s'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])));
 			else
-				$label = i18n::s('Rate this page!');
+				$label = i18n::s('Rate this page');
 
 			// a link to let surfers rate this page
 			$text = Skin::build_link(Articles::get_url($item['id'], 'rate'), $label, 'basic').BR;
@@ -185,7 +185,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		// info on related comments
 		if($count = Comments::count_for_anchor('article:'.$item['id'])) {
 			$link = Comments::get_url('article:'.$item['id'], 'list');
-			$menu = array_merge($menu, array($link => sprintf(i18n::ns('1 comment', '%d comments', $count), $count)));
+			$menu = array_merge($menu, array($link => sprintf(i18n::ns('%d comment', '%d comments', $count), $count)));
 		}
 
 		// trackback
@@ -198,7 +198,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		// info on related links
 		include_once $context['path_to_root'].'links/links.php';
 		if($count = Links::count_for_anchor('article:'.$item['id']))
-			$menu = array_merge($menu, array($url.'#links' => sprintf(i18n::ns('1 link', '%d links', $count), $count)));
+			$menu = array_merge($menu, array($url.'#links' => sprintf(i18n::ns('%d link', '%d links', $count), $count)));
 
 		// attach a file
 		if(Surfer::is_member() && Surfer::may_upload()) {
@@ -212,7 +212,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		// see files attached to this article
 		include_once $context['path_to_root'].'files/files.php';
 		if($count = Files::count_for_anchor('article:'.$item['id']))
-			$menu = array_merge($menu, array($url.'#files' => sprintf(i18n::ns('1 file', '%d files', $count), $count)));
+			$menu = array_merge($menu, array($url.'#files' => sprintf(i18n::ns('%d file', '%d files', $count), $count)));
 
 		// modify this page
 		if(Surfer::is_associate())

@@ -88,7 +88,7 @@ Class Layout_comments_as_daily extends Layout_interface {
 			$text .= Users::get_link($item['create_name'], $item['create_address'], $item['create_id']);
 
 			// the icon is a link to comment permalink
-			$text .= ' '.Skin::build_link(Comments::get_url($item['id']), Comments::get_img($item['type']), 'basic', i18n::s('Zoom on this comment')).' ';
+			$text .= ' '.Skin::build_link(Comments::get_url($item['id']), Comments::get_img($item['type']), 'basic', i18n::s('View this comment')).' ';
 
 			// flag new comments
 			if($item['create_date'] >= $dead_line)

@@ -132,7 +132,7 @@ if(isset($context['debug_ping']) && ($context['debug_ping'] == 'Y'))
 
 // transcode to our internal charset
 if($context['charset'] == 'utf-8')
-	$HTTP_RAW_POST_DATA = utf8::to_unicode($HTTP_RAW_POST_DATA);
+	$HTTP_RAW_POST_DATA = utf8::encode($HTTP_RAW_POST_DATA);
 
 // load the adequate codec
 include_once 'codec.php';

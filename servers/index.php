@@ -59,7 +59,7 @@ $context['page_title'] = i18n::s('Servers');
 // count servers in the database
 $stats = Servers::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 server', '%d servers', $stats['count']), $stats['count'])));
+	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d server', '%d servers', $stats['count']), $stats['count'])));
 
 // navigation commands for servers, if necessary
 if($stats['count'] > SERVERS_PER_PAGE) {

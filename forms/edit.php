@@ -143,7 +143,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= Skin::build_box($title, $items, 'header1', 'regular_sections');
 
 	} else
-		$context['text'] .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>';
 
 	// also list special sections to associates
 	if(Surfer::is_associate()) {
@@ -173,7 +173,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_CHARS_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
 
 	// update an existing form
 	if(isset($item['id'])) {
@@ -475,7 +475,7 @@ if($with_form) {
 	if(isset($item['content']) && $item['content']) {
 		$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
 			.'// restore fields of the form'."\n"
-			.'Event.observe(window, "load", function() { Forms.fromJSON("form_panel", '.utf8::to_unicode($item['content']).') });'."\n"
+			.'Event.observe(window, "load", function() { Forms.fromJSON("form_panel", '.utf8::encode($item['content']).') });'."\n"
 			.'// ]]></script>'."\n";
 	}
 

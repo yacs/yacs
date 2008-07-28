@@ -169,7 +169,7 @@ if(!is_object($anchor)) {
 		include_once '../comments/comments.php';
 		if($count = Comments::count_for_anchor($anchor->get_reference())) {
 			if($count > 1) {
-				$box['bar'] = array_merge($box['bar'], array('_count' => $count.'&nbsp;'.$anchor->get_label('comments', 'count_many')));
+				$box['bar'] = array_merge($box['bar'], array('_count' => $count.' '.$anchor->get_label('comments', 'count_many')));
 			} elseif($count == 1) {
 				$box['bar'] = array_merge($box['bar'], array('_count' => '1 '.$anchor->get_label('comments', 'count_one')));
 			}

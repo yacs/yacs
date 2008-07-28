@@ -392,9 +392,9 @@ class Referrals {
 		$domain = preg_replace("/^www\./i", "", $domain);
 		$domain = preg_replace("/\/.*/i", "", $domain);
 
-		// transcode keywords from utf-8 to unicode, and make it a safe string to display
+		// transcode keywords, and make it a safe string to display
 		if($keywords)
-			$keywords = utf8::to_unicode(htmlspecialchars($keywords));
+			$keywords = utf8::encode(htmlspecialchars($keywords));
 
 		// return normalized elements
 		return array($link, trim($domain), trim($keywords));

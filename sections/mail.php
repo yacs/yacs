@@ -105,7 +105,7 @@ if(Surfer::is_crawler()) {
 // no mail in demo mode
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
-	$context['text'] .= '<p>'.i18n::s('This instance of YACS runs in demonstration mode. For security reasons mail messages cannot be actually sent in this mode.')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.')."</p>\n";
 
 // no recipient has been found
 } elseif((!$recipients = Members::list_users_by_posts_for_member('section:'.$item['id'], 0, 200, 'mail')) || !count($recipients))
@@ -260,7 +260,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		."\n"
 		.'	// body is mandatory'."\n"
 		.'	if(!container.message.value) {'."\n"
-		.'		alert("'.i18n::s('The message content can not be empty').'");'."\n"
+		.'		alert("'.i18n::s('Message content can not be empty').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"

@@ -330,8 +330,8 @@ class Scripts {
 	function &hdiff(&$original, &$updated) {
 		global $context;
 
-		// split original linespreserve HTML tags
-		$areas = preg_split('/<(\/*[a-zA-Z][^>]*)>/is', $original, -1, PREG_SPLIT_DELIM_CAPTURE);
+		// split original lines --preserve HTML tags
+		$areas = preg_split('/<(\/{0,1}[a-zA-Z][^>]*)>/is', $original, -1, PREG_SPLIT_DELIM_CAPTURE);
 		$text = '';
 		$index = 0;
 		foreach($areas as $area) {
@@ -348,7 +348,7 @@ class Scripts {
 		$original_lines = str_replace(array("\n\n\n\n", "\n\n\n", "\n\n"), "\n", $text);
 
 		// split updated lines
-		$areas = preg_split('/<(\/*[a-zA-Z][^>]*)>/is', $updated, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$areas = preg_split('/<(\/{0,1}[a-zA-Z][^>]*)>/is', $updated, -1, PREG_SPLIT_DELIM_CAPTURE);
 		$text = '';
 		$index = 0;
 		foreach($areas as $area) {

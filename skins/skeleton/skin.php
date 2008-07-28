@@ -30,12 +30,6 @@ Class Skin extends Skin_Skeleton {
 		// the bullet prefix for compact lists
 		define('COMPACT_LIST_ITEM_PREFIX', '&raquo;&nbsp;');
 
-		// the title for gadget boxes
-		define('GADGET_BOX_TITLE_PREFIX', '<span>');
-
-		// the title for gadget boxes
-		define('GADGET_BOX_TITLE_SUFFIX', '</span>');
-
 		// the HTML string used to prefix submenu items [submenu]
 		define('MENU_2_PREFIX', '&raquo;&nbsp;');
 

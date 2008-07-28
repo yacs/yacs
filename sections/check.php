@@ -88,7 +88,7 @@ if(!Surfer::is_associate()) {
 } else {
 
 	// the splash message
-	$context['text'] .= '<p>'.i18n::s('Please select below the check to perform.')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('Please select the action to perform.')."</p>\n";
 
 	// the form
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form">';

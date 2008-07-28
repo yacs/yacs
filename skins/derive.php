@@ -222,7 +222,7 @@ elseif(!Surfer::is_associate()) {
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array( 'control/configure.php?parameter=skin&value='.urlencode('skins/'.$directory) => i18n::s('Use this skin') ));
-		$menu = array_merge($menu, array( 'skins/test.php?skin='.urlencode($directory) => i18n::s('Test the new skin') ));
+		$menu = array_merge($menu, array( 'skins/test.php?skin='.urlencode($directory) => i18n::s('Test the skin') ));
 		$menu = array_merge($menu, array( 'skins/' => i18n::s('Skins') ));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
@@ -231,9 +231,6 @@ elseif(!Surfer::is_associate()) {
 
 
 } else {
-
-	// the splash message
-	$context['text'] .= '<p>'.i18n::s('Do not attempt to modify a reference skin directly, your changes would be overwritten on next software update. To get a skin of your own that you can use safely, use this script to derive a new skin from an existing one instead.').'</p>';
 
 	// start of the form
 	$context['text'] .= '<form method="get" action="'.$context['script_url'].'"><div>';
@@ -306,7 +303,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// general help on this form
-	$help = '<p>'.sprintf(i18n::s('For more information on YACS skins, visit %s'), Skin::build_link(i18n::s('http://www.yetanothercommunitysystem.com/'), 'the YACS web site', 'external')).'</p>';
+	$help = '<p>'.sprintf(i18n::s('For more information on skins, visit %s'), Skin::build_link(i18n::s('http://www.yetanothercommunitysystem.com/'), 'the YACS web site', 'external')).'</p>';
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }

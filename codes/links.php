@@ -53,11 +53,14 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
+// load localized strings
+i18n::bind('codes');
+
 // load the skin
 load_skin('codes');
 
 // the path to this page
-$context['path_bar'] = array( 'help.php' => i18n::s('Help index'),
+$context['path_bar'] = array( 'help/' => i18n::s('Help index'),
 	'codes/' => i18n::s('Formatting Codes') );
 
 // the title of the page
@@ -254,8 +257,8 @@ $context['text'] .= '[title]'.i18n::s('Decision shortcut').' [escape][decision=&
 $context['text'] .= '[title]'.i18n::s('Script shortcut').' [escape][script]&lt;path/script.php&gt;[/script][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape]'.i18n::s('You can access the documentation for the script [script]codes/codes.php[/script]').'[/escape]</td>'
-	.'<td>'.i18n::s('You can access the documentation for the script [script]codes/codes.php[/script]').'</td></tr>'
+	.'<tr><td class="sample">[escape]'.i18n::s('You can access the documentation for the script [script]shared/codes.php[/script]').'[/escape]</td>'
+	.'<td>'.i18n::s('You can access the documentation for the script [script]shared/codes.php[/script]').'</td></tr>'
 	.Skin::table_suffix();
 
 // [search=yacs]

@@ -1083,7 +1083,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		if($count = Articles::count_for_anchor('section:'.$item['id'])) {
 			if($count > min(5, $items_per_page))
-				$menu = array_merge($menu, array('_count' => sprintf(i18n::ns('1 page', '%d pages', $count), $count)));
+				$menu = array_merge($menu, array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count)));
 
 			// navigation commands for articles
 			$home = Sections::get_url($item['id'], 'manage');
@@ -1186,7 +1186,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		if($count = Sections::count_for_anchor('section:'.$item['id'])) {
 			if($count > min(5, $items_per_page))
-				$menu = array_merge($menu, array('_count' => sprintf(i18n::ns('1 section', '%d sections', $count), $count)));
+				$menu = array_merge($menu, array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count)));
 
 			// navigation commands for sections
 			$home = Sections::get_url($item['id'], 'manage');

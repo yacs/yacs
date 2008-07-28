@@ -126,25 +126,25 @@ if($item['id'] && Surfer::is_associate()) {
 
 	// feed submission
 	if($item['submit_feed'] == 'Y')
-		$context['text'] .= '<p>'.sprintf(i18n::s('News published at this server will be fetched periodically from <code>%s</code>'), $item['feed_url'])."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('News published at this server will be fetched periodically from %s'), $item['feed_url'])."</p>\n";
 	else
 		$context['text'] .= '<p>'.i18n::s('Do not check news from this server.')."</p>\n";
 
 	// ping submission
 	if($item['submit_ping'] == 'Y')
-		$context['text'] .= '<p>'.sprintf(i18n::s('This server has to be pinged on updates, by using XML-RPC calls <code>weblogUpdates.ping</code> at <code>%s</code>'), $item['ping_url'])."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('This server has to be pinged on updates, by using XML-RPC calls <code>weblogUpdates.ping</code> at %s'), $item['ping_url'])."</p>\n";
 	else
 		$context['text'] .= '<p>'.i18n::s('Updates are not transmitted to this server.')."</p>\n";
 
 	// monitoring
 	if($item['submit_monitor'] == 'Y')
-		$context['text'] .= '<p>'.sprintf(i18n::s('This server has to be polled, by using XML-RPC calls <code>monitor.ping</code> at <code>%s</code>'), $item['monitor_url'])."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('This server has to be polled, by using XML-RPC calls <code>monitor.ping</code> at %s'), $item['monitor_url'])."</p>\n";
 	else
 		$context['text'] .= '<p>'.i18n::s('Do not poll this server to check its state.')."</p>\n";
 
 	// search submission
 	if($item['submit_search'] == 'Y')
-		$context['text'] .= '<p>'.sprintf(i18n::s('This server has to be included into searches, by using REST calls at <code>%s</code>'), $item['search_url'])."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('This server has to be included into searches, by using REST calls at %s'), $item['search_url'])."</p>\n";
 	else
 		$context['text'] .= '<p>'.i18n::s('Do not submit search requests to this server.')."</p>\n";
 
@@ -153,19 +153,19 @@ if($item['id'] && Surfer::is_associate()) {
 
 	// ping processing
 	if($item['process_ping'] == 'Y')
-		$context['text'] .= '<p>'.sprintf(i18n::s('This server is allowed to advertise changes (<code>weblogUpdates.ping</code>) at <code>%s</code>'), $context['url_to_root'].'services/ping.php')."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('This server is allowed to advertise changes (<code>weblogUpdates.ping</code>) at %s'), $context['url_to_root'].'services/ping.php')."</p>\n";
 	else
 		$context['text'] .= '<p>'.i18n::s('This server is not allowed to advertise changes.')."</p>\n";
 
 	// monitoring
 	if($item['process_monitor'] == 'Y')
-		$context['text'] .= '<p>'.sprintf(i18n::s('This server is allowed to submit monitoring requests (<code>monitor.ping</code>) at <code>%s</code>'), $context['url_to_root'].'services/ping.php')."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('This server is allowed to submit monitoring requests (<code>monitor.ping</code>) at %s'), $context['url_to_root'].'services/ping.php')."</p>\n";
 	else
 		$context['text'] .= '<p>'.i18n::s('This server is not allowed to submit monitoring requests.')."</p>\n";
 
 	// search processing
 	if($item['process_search'] == 'Y')
-		$context['text'] .= '<p>'.sprintf(i18n::s('This server is allowed to submit search requests at <code>%s</code>'), $context['url_to_root'].'services/search.php')."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('This server is allowed to submit search requests at %s'), $context['url_to_root'].'services/search.php')."</p>\n";
 	else
 		$context['text'] .= '<p>'.i18n::s('This server is not allowed to submit search requests.')."</p>\n";
 

@@ -227,7 +227,7 @@ if($id) {
 	}
 
 	// general help on this form
-	$help = '<p>'.sprintf(i18n::s('For more information on YACS skins, go %s.'), Skin::build_link('http://www.yetanothercommunitysystem.com/scripts/view.php/skins/', i18n::s('here'), 'external')).'</p>';
+	$help = '<p>'.sprintf(i18n::s('For more information on skins, visit %s'), Skin::build_link(i18n::s('http://www.yetanothercommunitysystem.com/'), 'the YACS web site', 'external')).'</p>';
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }

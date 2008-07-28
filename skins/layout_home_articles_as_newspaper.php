@@ -52,7 +52,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		if(!SQL::count($result)) {
 			$label = i18n::s('No article has been published so far.');
 			if(Surfer::is_associate())
-				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
 			return $output;
 		}
@@ -219,7 +219,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		// the introductory text
 		if($item['introduction']) {
 			$text .= Codes::beautify($item['introduction'], $item['options'])
-				.' '.Skin::build_link($url, i18n::s('read more').MORE_IMG, 'basic');
+				.' '.Skin::build_link($url, i18n::s('More').MORE_IMG, 'basic');
 		} elseif(!is_object($overlay))
 			$text .= Skin::cap(Codes::beautify($item['description'], $item['options']), 70, $url);
 
@@ -231,17 +231,17 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$text .= $overlay->get_text('list', $item);
 
 		// read the article
-		$menu = array( $url => i18n::s('Read more') );
+		$menu = array( $url => i18n::s('View the page') );
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id']))
-			$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
+			$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 		// info on related comments
 		include_once $context['path_to_root'].'comments/comments.php';
 		$link = Comments::get_url('article:'.$item['id'], 'list');
 		if($count = Comments::count_for_anchor('article:'.$item['id']))
-			$menu[] = Skin::build_link($link, sprintf(i18n::ns('1 comment', '%d comments', $count), $count), 'basic');
+			$menu[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 		// discuss
 		if(Comments::are_allowed($anchor, $item))
@@ -249,7 +249,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id']))
-			$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('1 link', '%d links', $count), $count), 'basic');
+			$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 		// trackback
 		if($context['with_friendly_urls'] == 'Y')
@@ -336,7 +336,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$text .= $overlay->get_text('list', $item);
 
 		// read this article
-		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('Read this page'), 'basic');
+		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('View the page'), 'basic');
 
 		// discuss
 		if(Comments::are_allowed($anchor, $item))
@@ -346,7 +346,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		include_once $context['path_to_root'].'comments/comments.php';
 		if($count = Comments::count_for_anchor('article:'.$item['id'])) {
 			$link = Comments::get_url('article:'.$item['id'], 'list');
-			$text .= ' - '.Skin::build_link($link, sprintf(i18n::ns('1 comment', '%d comments', $count), $count), 'basic');
+			$text .= ' - '.Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 		}
 
 		// trackback
@@ -358,7 +358,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id']))
-			$text .= ' - '.Skin::build_link($url.'#links', sprintf(i18n::ns('1 link', '%d links', $count), $count), 'basic');
+			$text .= ' - '.Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 		// link to the anchor page
 		if(is_object($anchor)) {
@@ -420,7 +420,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// count comments
 		if($count = Comments::count_for_anchor('article:'.$item['id']))
-			$suffix .= ' -&nbsp;'.sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
+			$suffix .= ' -&nbsp;'.sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 		// end of details
 		$suffix .= '</span>';

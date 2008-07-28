@@ -56,7 +56,7 @@ Class Layout_comments extends Layout_interface {
 			$label = '_';
 
 			// the icon is a link to comment permalink
-			$suffix .= Skin::build_link(Comments::get_url($item['id']), Comments::get_img($item['type']), 'basic', i18n::s('Zoom on this comment'));
+			$suffix .= Skin::build_link(Comments::get_url($item['id']), Comments::get_img($item['type']), 'basic', i18n::s('View this comment'));
 
 			// a link to the user profile
 			if($item['create_name'])

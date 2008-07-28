@@ -23,11 +23,14 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
+// load localized strings
+i18n::bind('codes');
+
 // load the skin
 load_skin('codes');
 
 // the path to this page
-$context['path_bar'] = array( 'help.php' => i18n::s('Help index'),
+$context['path_bar'] = array( 'help/' => i18n::s('Help index'),
 	'codes/' => i18n::s('Formatting Codes') );
 
 // the title of the page

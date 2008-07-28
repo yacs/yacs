@@ -207,7 +207,7 @@ if($item['id']) {
 	$context['text'] .= Skin::table_suffix();
 
 	// count items related to this file
-	$context['text'] .= Anchors::stat_related_to('file:'.$item['id'], i18n::s('Following items are attached to this record and will be suppressed as well.'));
+	$context['text'] .= Anchors::stat_related_to('file:'.$item['id'], i18n::s('Following items are attached to this record and will be deleted as well.'));
 
 }
 

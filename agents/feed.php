@@ -146,7 +146,7 @@ if(!$permitted) {
 			// formatting patterns
 			$search = array(
 				"|\r\n|",
-				"|<br\s*/*>\n+|i",		/* don't insert additional \n after <br /> */
+				"|<br\s*/>\n+|i",		/* don't insert additional \n after <br /> */
 				"|\n\n+[ \t]*-\s+|i",	/* hard-coded lists with - */
 				"|\n[ \t]*-\s+|i",
 				"|\n\n+[ \t]*\.\s+|i",	/* hard-coded lists with . */

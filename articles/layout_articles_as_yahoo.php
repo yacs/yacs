@@ -97,19 +97,19 @@ Class Layout_articles_as_yahoo extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
-				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
+				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 				$related_count += $count;
 			}
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE)) {
-				$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
+				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 				$related_count += $count;
 			}
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
+				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// rank, for associates
 			if(($item['rank'] != 10000) && Surfer::is_empowered())
@@ -158,7 +158,7 @@ Class Layout_articles_as_yahoo extends Layout_interface {
 
 			// give me more
 			if(count($details) && ($related_count > YAHOO_LIST_SIZE))
-				$details[] = Skin::build_link($url, i18n::s('More').MORE_IMG, 'more', i18n::s('Read the page'));
+				$details[] = Skin::build_link($url, i18n::s('More').MORE_IMG, 'more', i18n::s('View the page'));
 
 			// layout details
 			if(count($details))
@@ -169,7 +169,7 @@ Class Layout_articles_as_yahoo extends Layout_interface {
 				$icon = $item['thumbnail_url'];
 
 			// some hovering title for this article
-			$hover = i18n::s('Read the page');
+			$hover = i18n::s('View the page');
 
 			// list all components for this item --use basic link style to avoid prefix or suffix images, if any
 			$items[$url] = array($prefix, $title, $suffix, 'basic', $icon, $hover);

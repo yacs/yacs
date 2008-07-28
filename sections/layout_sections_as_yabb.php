@@ -76,7 +76,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 				$prefix .= RESTRICTED_FLAG.' ';
 
 			// indicate the id in the hovering popup
-			$hover = i18n::s('Read the section');
+			$hover = i18n::s('View the section');
 			if(Surfer::is_member())
 				$hover .= ' [section='.$item['id'].']';
 

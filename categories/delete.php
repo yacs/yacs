@@ -100,7 +100,7 @@ else {
 
 	// the submit button
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-		.Skin::build_submit_button(i18n::s('Yes, I want to suppress this category'), NULL, NULL, 'confirmed')."\n"
+		.Skin::build_submit_button(i18n::s('Yes, I want to delete this category'), NULL, NULL, 'confirmed')."\n"
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";
@@ -136,7 +136,7 @@ else {
 		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 	// count items related to this category
-	$context['text'] .= Anchors::stat_related_to('category:'.$item['id'], i18n::s('Following items are attached to this record and will be suppressed as well.'));
+	$context['text'] .= Anchors::stat_related_to('category:'.$item['id'], i18n::s('Following items are attached to this record and will be deleted as well.'));
 
 }
 

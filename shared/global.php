@@ -457,26 +457,26 @@ if(isset($_REQUEST['text']) && $_REQUEST['text']) {
  * @param string some text to be encoded
  * @return the string to be displayed
  */
-function encode_field($text) {
+function &encode_field($text) {
 	global $context;
 
 	// encode special chars
-	$text = htmlspecialchars($text);
+	$output = htmlspecialchars($text);
 
 	// preserve unicode entities
-	$text = preg_replace(array('/&amp;#/i', '/&amp;u/i'), array('&#', '&u'), $text);
+	$output = preg_replace(array('/&amp;#/i', '/&amp;u/i'), array('&#', '&u'), $output);
 
 	// transcode HTML entities to unicode
-	$text =& utf8::transcode($text);
+	$output =& utf8::transcode($output);
 
 	// escape double quotes
 	if($context['charset'] == 'utf-8')
-		$text = str_replace(array('"', '&quot;', '&#34;'), '&quot;', $text);
+		$output = str_replace(array('"', '&quot;', '&#34;'), '&quot;', $output);
 	else
-		$text = str_replace(array('"', '&quot;', '&#34;'), "'", $text);
+		$output = str_replace(array('"', '&quot;', '&#34;'), "'", $output);
 
 	// done
-	return $text;
+	return $output;
 
 }
 
@@ -486,9 +486,13 @@ function encode_field($text) {
  * @param string a web reference to check
  * @return a clean string
  */
-function encode_link($link) {
+function &encode_link($link) {
+
+	// suppress invalid chars
+	$output = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', stripslashes($link));
+
 	// transform & to &amp;
-	$output = str_replace('&', '&amp;', $link);
+	$output = str_replace('&', '&amp;', $output);
 
 	// done
 	return $output;
@@ -686,7 +690,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	}
 
 	// the codes library
-	include_once $context['path_to_root'].'codes/codes.php';
+	include_once $context['path_to_root'].'shared/codes.php';
 
 	// the library of smileys
 	include_once $context['path_to_root'].'smileys/smileys.php';
@@ -970,7 +974,7 @@ function render_skin($stamp=0) {
 		$context['page_header'] .= $context['site_head']."\n";
 
 	// the title
-	$page_title = ucfirst(strip_tags(preg_replace('/\[(.*?)\]/s', '', $context['page_title'])));
+	$page_title = ucfirst(strip_tags($context['page_title']));
 	$context['page_header'] .= '<title>'.$page_title;
 	if($context['site_name'] && !preg_match('/'.str_replace('/', ' ', strip_tags($context['site_name'])).'/', strip_tags($context['page_title']))) {
 		if($page_title)
@@ -986,7 +990,7 @@ function render_skin($stamp=0) {
 	}
 
 	// a meta-link to our help page
-	$context['page_header'] .= '<link rel="help" href="'.$context['url_to_root'].'help.php" type="text/html"'.EOT."\n";
+	$context['page_header'] .= '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html"'.EOT."\n";
 
 	// the description of this page
 	if(isset($context['page_description']) && $context['page_description'])
@@ -1029,8 +1033,8 @@ function render_skin($stamp=0) {
 
 	// help Javascript scripts to locate files --in header, because of potential use by in-the-middle javascript snippet
 	$context['page_header'] .= '<script type="text/javascript">// <![CDATA['."\n"
-		.'	var url_to_root = \''.$context['url_to_home'].$context['url_to_root'].'\';'."\n"
-		.'	var url_to_skin = \''.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/\''."\n"
+		.'	var url_to_root = "'.$context['url_to_home'].$context['url_to_root'].'";'."\n"
+		.'	var url_to_skin = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/"'."\n"
 		.'// ]]></script>'."\n";
 
 	// activate tinyMCE, if available -- before prototype and scriptaculous
@@ -1194,10 +1198,6 @@ function render_skin($stamp=0) {
 		echo "\n</body>\n</html>";
 
 	}
-
-	// track surfer presence
-	if(is_callable(array('Surfer', 'click')))
-		Surfer::click();
 
 	// profiling mode
 	if($context['with_profile'] == 'Y')
@@ -1636,27 +1636,8 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 	if(isset($name))
 		$name = trim($name, '-');
 
-	// use rewriting engine to achieve pretty references, except if composed anchor -- look .htaccess
-	if(($context['with_friendly_urls'] == 'R') && (count($nouns) == 1)) {
-
-		// 'view' is a special case, else insert action in reference
-		if($action == 'view')
-			$link = $alternate.'-';
-		else
-			$link = $alternate.'-'.$action.'/';
-
-		// append target id
-		$link .= rawurlencode($id);
-
-		// append normalized name, if any, for comprehensive URL rewriting
-		if(isset($name) && $name)
-			$link .= '-'.rawurlencode($name);
-
-		// done
-		return $link;
-
 	// be cool with search engines
-	} elseif($context['with_friendly_urls'] == 'Y') {
+	if($context['with_friendly_urls'] == 'Y') {
 
 		// reference module and action in reference
 		$link = $module.'/'.$action.'.php/';
@@ -1672,6 +1653,25 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 		// append name, if any, for comprehensive URL rewriting
 		if(isset($name) && $name)
 			$link .= '/'.rawurlencode($name);
+
+		// done
+		return $link;
+
+	// use rewriting engine to achieve pretty references, except if composed anchor -- look .htaccess
+	} elseif(($context['with_friendly_urls'] == 'R') && (count($nouns) == 1)) {
+
+		// 'view' is a special case, else insert action in reference
+		if($action == 'view')
+			$link = $alternate.'-';
+		else
+			$link = $alternate.'-'.$action.'/';
+
+		// append target id
+		$link .= rawurlencode($id);
+
+		// append normalized name, if any, for comprehensive URL rewriting
+		if(isset($name) && $name)
+			$link .= '-'.rawurlencode($name);
 
 		// done
 		return $link;
@@ -1695,27 +1695,28 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
  * @param string page name
  * @return string related URL
  */
-function normalize_shortcut($id) {
+function normalize_shortcut($id, $with_prefix=FALSE) {
 	global $context;
 
 	// sanity check
 	if(!$id)
 		return NULL;
 
-	// use rewriting engine to achieve pretty references, except if composed anchor -- look .htaccess
-	if(($context['with_friendly_urls'] == 'R'))
-		$link = 'go/'.rawurlencode($id);
-
 	// be cool with search engines
-	elseif($context['with_friendly_urls'] == 'Y')
+	if($context['with_friendly_urls'] == 'Y')
 		$link = 'go.php/'.rawurlencode($id);
+
+	// use rewriting engine to achieve pretty references, except if composed anchor -- look .htaccess
+	elseif(($context['with_friendly_urls'] == 'R'))
+		$link = 'go/'.rawurlencode($id);
 
 	// generate a link safe at all systems
 	else
 		$link = 'go.php?id='.urlencode($id);
 
 	// link prefix
-	$link = $context['url_to_home'].$context['url_to_root'].$link;
+	if($with_prefix)
+		$link = $context['url_to_home'].$context['url_to_root'].$link;
 
 	// job done
 	return $link;

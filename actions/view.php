@@ -126,21 +126,10 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<p>'.i18n::s('Action is on-going');
 
 		// let action owner and associates change action status
-		if(($item['anchor'] == 'user:'.Surfer::get_id()) || Surfer::is_associate()) {
+		if(($item['anchor'] == 'user:'.Surfer::get_id()) || Surfer::is_associate())
+			$context['text'] .= ' '.Skin::build_link(Actions::get_url($item['id'], 'accept', 'completed'), i18n::s('Completed'), 'button')
+				.' '.Skin::build_link(Actions::get_url($item['id'], 'accept', 'rejected'), i18n::s('Rejected'), 'button');
 
-			if($context['with_friendly_urls'] == 'Y')
-				$complete_link = 'actions/accept.php/'.$item['id'].'/completed';
-			else
-				$complete_link = 'actions/accept.php?id='.$item['id'].'&status=completed';
-
-			if($context['with_friendly_urls'] == 'Y')
-				$reject_link = 'actions/accept.php/'.$item['id'].'/rejected';
-			else
-				$reject_link = 'actions/accept.php?id='.$item['id'].'&status=rejected';
-
-			$context['text'] .= ' '.Skin::build_link($complete_link, i18n::s('Completed'), 'button')
-				.' '.Skin::build_link($reject_link, i18n::s('Rejected'), 'button');
-		}
 		$context['text'] .= '</p>'."\n";
 		break;
 
@@ -149,15 +138,9 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<p>'.i18n::s('Action has been completed');
 
 		// let action owner and associates change action status
-		if(($item['anchor'] == 'user:'.Surfer::get_id()) || Surfer::is_associate()) {
+		if(($item['anchor'] == 'user:'.Surfer::get_id()) || Surfer::is_associate())
+			$context['text'] .= ' '.Skin::build_link(Actions::get_url($item['id'], 'accept', 'on-going'), i18n::s('Reset'), 'button');
 
-			if($context['with_friendly_urls'] == 'Y')
-				$reset_link = 'actions/accept.php/'.$item['id'].'/on-going';
-			else
-				$reset_link = 'actions/accept.php?id='.$item['id'].'&status=on-going';
-
-			$context['text'] .= ' '.Skin::build_link($reset_link, i18n::s('Reset'), 'button');
-		}
 		$context['text'] .= '</p>'."\n";
 		break;
 
@@ -166,15 +149,9 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<p>'.i18n::s('Action has been rejected');
 
 		// let action owner and associates change action status
-		if(($item['anchor'] == 'user:'.Surfer::get_id()) || Surfer::is_associate()) {
+		if(($item['anchor'] == 'user:'.Surfer::get_id()) || Surfer::is_associate())
+			$context['text'] .= ' '.Skin::build_link(Actions::get_url($item['id'], 'accept', 'on-going'), i18n::s('Reset'), 'button');
 
-			if($context['with_friendly_urls'] == 'Y')
-				$reset_link = 'actions/accept.php/'.$item['id'].'/on-going';
-			else
-				$reset_link = 'actions/accept.php?id='.$item['id'].'&status=on-going';
-
-			$context['text'] .= ' '.Skin::build_link($reset_link, i18n::s('Reset'), 'button');
-		}
 		$context['text'] .= '</p>'."\n";
 		break;
 

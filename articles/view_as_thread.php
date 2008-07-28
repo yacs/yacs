@@ -379,7 +379,7 @@ if(!isset($item['id'])) {
 			$text .= BR.sprintf(i18n::s('Code to reference this page: %s'), '[article='.$item['id'].']');
 
 			// the nick name
-			if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'])))
+			if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'], TRUE)))
 				$text .= BR.sprintf(i18n::s('Shortcut: %s'), $link);
 		}
 
@@ -716,15 +716,15 @@ if(!isset($item['id'])) {
 
 			// get a PDF version
 			Skin::define_img('PDF_TOOL_IMG', 'icons/tools/pdf.gif');
-			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_pdf'), PDF_TOOL_IMG.i18n::s('Save as PDF'), 'basic', i18n::s('Download this page as a PDF file.'));
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_pdf'), PDF_TOOL_IMG.i18n::s('Save as PDF'), 'basic', i18n::s('Save as PDF'));
 
 			// open in Word
 			Skin::define_img('MSWORD_TOOL_IMG', 'icons/tools/word.gif');
-			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_msword'), MSWORD_TOOL_IMG.i18n::s('Copy in MS-Word'), 'basic', i18n::s('Copy this page in Microsoft MS-Word.'));
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_msword'), MSWORD_TOOL_IMG.i18n::s('Copy in MS-Word'), 'basic', i18n::s('Copy in MS-Word'));
 
 			// get a palm version
 			Skin::define_img('PALM_TOOL_IMG', 'icons/tools/palm.gif');
-			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_for_palm'), PALM_TOOL_IMG.i18n::s('Save in Palm'), 'basic', i18n::s('Fetch this page as a Palm memo.'));
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_for_palm'), PALM_TOOL_IMG.i18n::s('Save in Palm'), 'basic', i18n::s('Save in Palm'));
 
 		}
 	}
@@ -745,7 +745,7 @@ if(!isset($item['id'])) {
 	if(count($lines))
 		$context['extra'] .= Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'export');
 
-	// 'More information' box
+	// 'Information channels' box
 	//
 	$lines = array();
 
@@ -779,7 +779,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$text .= Skin::build_box(i18n::s('More information'), join(BR, $lines), 'extra', 'feeds');
+		$text .= Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
 
 	// cache content
 	$cache_id = 'articles/view_as_thread.php?id='.$item['id'].'#extra#tail';
@@ -985,7 +985,7 @@ if(!isset($item['id'])) {
 			."\n"
 			.'	updateOnSuccess: function(transport) {'."\n"
 			.'		var response = transport.responseText.evalJSON(true);'."\n"
-			.'		$("thread_text_panel").innerHTML = "<div>" + response["items"] + "</div>";'."\n"
+			.'		$("thread_text_panel").update("<div>" + response["items"] + "</div>");'."\n"
 			.'		$("thread_text_panel").scrollTop = $("thread_text_panel").scrollHeight;'."\n"
 			.'		if(typeof this.windowOriginalTitle != "string")'."\n"
 			.'			this.windowOriginalTitle = document.title;'."\n"

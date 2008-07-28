@@ -618,7 +618,7 @@ if(Surfer::is_crawler()) {
 		.'		alert("'.i18n::s('You must provide a nick name or an email address.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
-		.'}'."\n"
+		.'	}'."\n"
 		."\n"
 		.'	// successful check'."\n"
 		.'	return true;'."\n"
@@ -626,6 +626,7 @@ if(Surfer::is_crawler()) {
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'$("login_name").focus();'."\n"
+		."\n"
 		.'// ]]></script>'."\n";
 
 	// a place holder for cookies activation
@@ -635,7 +636,7 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 		.'document.cookie = \'CookiesEnabled=1\';'."\n"
 		.'if((document.cookie == "") && document.getElementById) {'."\n"
-		."\t".'$("ask_for_cookies").innerHTML = \''.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'\';'."\n"
+		."\t".'$("ask_for_cookies").update("'.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'");'."\n"
 		."\t".'$("ask_for_cookies").style.display = \'block\';'."\n"
 		."\t".'$("login_button").disabled = true;'."\n"
 		.'}'."\n"

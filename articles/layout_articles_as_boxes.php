@@ -93,7 +93,7 @@ Class Layout_articles_as_boxes extends Layout_interface {
 					$parts[] = Codes::beautify($item['introduction'], $item['options']);
 
 					// add a link to the main page
-					$parts[] = Skin::build_link($url, i18n::s('More').MORE_IMG, 'basic', i18n::s('Read the page'));
+					$parts[] = Skin::build_link($url, i18n::s('More').MORE_IMG, 'basic', i18n::s('View the page'));
 
 
 				// no introduction, display article full content

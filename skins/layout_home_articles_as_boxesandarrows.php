@@ -52,7 +52,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 		if(!SQL::count($result)) {
 			$label = i18n::s('No article has been published so far.');
 			if(Surfer::is_associate())
-				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
 			return $output;
 		}
@@ -110,7 +110,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 					$icon = $anchor->get_thumbnail_url();
 				}
 				if($icon)
-					$text .= '<a href="'.$context['url_to_root'].$url.'" title="'.i18n::s('Read the page').'"><img src="'.$icon.'" class="left_image" alt=""'.EOT.'</a>';
+					$text .= '<a href="'.$context['url_to_root'].$url.'" title="'.i18n::s('View the page').'"><img src="'.$icon.'" class="left_image" alt=""'.EOT.'</a>';
 
 				$text .= $this->layout_newest($item, $anchor).'</div>'."\n";
 
@@ -166,11 +166,11 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 
 		// rating
 		if($item['rating_count']) {
-			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic', i18n::s('Rate this page!'));
+			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic', i18n::s('Rate this page'));
 		}
 
 		// use the title as a link to the page
-		$text .= $prefix.'<b>'.Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', i18n::s('Read this page')).'</b>'.$suffix;
+		$text .= $prefix.'<b>'.Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', i18n::s('View the page')).'</b>'.$suffix;
 
 		// details
 		$details = array();
@@ -201,11 +201,11 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 			$text .= $overlay->get_text('list', $item);
 
 		// read this article
-		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('Read the page'), 'basic');
+		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('View the page'), 'basic');
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id']))
-			$text .= ' ('.Skin::build_link($url.'#files', sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic').')';
+			$text .= ' ('.Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic').')';
 
 		// link to the anchor page
 		if(is_object($anchor))
@@ -269,10 +269,10 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 
 		// rating
 		if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic', i18n::s('Rate this article!'));
+			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic', i18n::s('Rate this page'));
 
 		// use the title as a link to the page
-		$text .= '<p id="article_'.$item['id'].'">'.$prefix.'<b>'.Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', i18n::s('Read this page')).'</b>'.$suffix;
+		$text .= '<p id="article_'.$item['id'].'">'.$prefix.'<b>'.Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', i18n::s('View the page')).'</b>'.$suffix;
 
 		// add details
 		$details = array();

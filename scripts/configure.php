@@ -119,7 +119,7 @@ elseif(!Surfer::is_associate()) {
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
 
 	// remind the surfer
-	$context['text'] .= '<p>'.i18n::s('This instance of YACS runs in demonstration mode. For security reasons configuration parameters cannot be changed in this mode.').'</p>';
+	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.').'</p>';
 
 // save updated parameters
 } else {

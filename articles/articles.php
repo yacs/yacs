@@ -358,42 +358,6 @@ Class Articles {
 	}
 
 	/**
-	 * delete articles by nick name
-	 *
-	 * @param the nick name of the article(s) to delete
-	 * @return an error message, if any
-	 */
-	function delete_for_nick_name($nick_name) {
-		global $context;
-
-		// sanity check
-		if(!$nick_name)
-			return NULL;
-		$nick_name = SQL::escape($nick_name);
-
-		// load the row
-		$item =& Articles::get($nick_name);
-		if(!$item['id'])
-			return i18n::s('No item has the provided id.');
-
-		// delete related items
-		Anchors::delete_related_to('article:'.$item['id']);
-
-		// delete the record in the database
-		$query = "DELETE FROM ".SQL::table_name('articles')." WHERE (nick_name LIKE '$nick_name')";
-		SQL::query($query);
-
-		// remember overlay deletion
-		include_once '../overlays/overlay.php';
-		if(isset($item['overlay']) && ($overlay = Overlay::load($item))) {
-			$overlay->remember('delete', $item);
-		}
-
-		// everything has gone fine
-		return NULL;
-	}
-
-	/**
 	 * duplicate all articles for a given anchor
 	 *
 	 * This function duplicates records in the database, and changes anchors
@@ -483,7 +447,7 @@ Class Articles {
 
 		// ensure proper unicode encoding
 		$id = (string)$id;
-		$id = utf8::to_unicode($id);
+		$id = utf8::encode($id);
 
 		// strip extra text from enhanced ids '3-page-title' -> '3'
 		if($position = strpos($id, '-'))
@@ -692,60 +656,6 @@ Class Articles {
 		// return url of the first item of the list
 		$next =& SQL::fetch($result);
 		return array(Articles::get_url($next['id'], 'view', $next['title'], $next['nick_name']), $next['title']);
-	}
-
-	/**
-	 * get articles as options of a &lt;SELECT&gt; field
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but surfer is a logged user
-	 * - article is protected (active='N'), but surfer is an associate, and we are not feeding someone
-	 * - article has been officially published
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
-	 * @return the HTML to insert in the page
-	 *
-	 * @see comments/edit.php
-	 */
-	function &get_options() {
-		global $context;
-
-		// select among active and restricted items
-		$where = "articles.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR articles.active='R'";
-
-		// associates can access hidden articles
-		if(Surfer::is_associate())
-			$where .= " OR articles.active='N'";
-
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// always only consider published articles
-		$where = "(".$where.") AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-			." AND (articles.publish_date < '".$now."')";
-
-		// only consider live articles
-		$where = "(".$where.") "
-			."AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
-
-		// the list of articles
-		$query = "SELECT articles.id, articles.title FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE (".$where.")"
-			." ORDER BY articles.publish_date DESC, articles.title LIMIT 0, 500";
-
-		if(!$result =& SQL::query($query))
-			return '';
-
-		// build options of the select field
-		$content = '';
-		while($result && list($option_id, $option_label) = SQL::fetch_row($result)) {
-			$content .= '<option value="article:'.$option_id.'">'.ucfirst($option_label)."</option>\n";
-		}
-		return $content;
 	}
 
 	/**
@@ -1228,7 +1138,6 @@ Class Articles {
 	 * @see index.php
 	 * @see actions/index.php
 	 * @see articles/index.php
-	 * @see codes/codes.php
 	 * @see comments/index.php
 	 * @see dates/day.php
 	 * @see dates/index.php
@@ -1239,6 +1148,7 @@ Class Articles {
 	 * @see images/index.php
 	 * @see letters/new.php
 	 * @see locations/index.php
+	 * @see shared/codes.php
 	 * @see tables/index.php
 	 */
 	function &list_by_date($offset=0, $count=10, $layout='full', $since=NULL) {
@@ -1292,10 +1202,10 @@ Class Articles {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see articles/review.php
-	 * @see codes/codes.php
 	 * @see index.php
 	 * @see letters/index.php
 	 * @see sections/view.php
+	 * @see shared/codes.php
 	 * @see skins/page.php
 	 */
 	function &list_by_date_for_anchor($anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
@@ -1407,7 +1317,6 @@ Class Articles {
 	 * @param boolean FALSE to include sticky pages, TRUE otherwise
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
-	 * @see codes/codes.php
 	 * @see index.php
 	 * @see sections/feed.php
 	 * @see sections/layout_sections.php
@@ -1419,6 +1328,7 @@ Class Articles {
 	 * @see sections/slideshow.php
 	 * @see sections/view.php
 	 * @see services/blog.php
+	 * @see shared/codes.php
 	 */
 	function &list_by_edition_date_for_anchor($anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
 		global $context;
@@ -1456,7 +1366,7 @@ Class Articles {
 	 *
 	 * @see index.php
 	 * @see articles/index.php
-	 * @see codes/codes.php
+	 * @see shared/codes.php
 	 */
 	function &list_by_hits($offset=0, $count=10, $layout='hits') {
 		global $context;
@@ -1485,7 +1395,7 @@ Class Articles {
 	 * @param boolean FALSE to include sticky pages, TRUE otherwise
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
-	 * @see codes/codes.php
+	 * @see shared/codes.php
 	 */
 	function &list_by_hits_for_anchor($anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
 		global $context;
@@ -1559,63 +1469,6 @@ Class Articles {
 
 		$output =& Articles::list_selected(SQL::query($query), $layout);
 		return $output;
-	}
-
-	/**
-	 * list articles by title for one anchor
-	 *
-	 * Actually list articles by rank, then by title, then by edition date.
-	 * If you select to not use the ranking system, articles will be ordered by title only.
-	 * Else articles with a low ranking mark will appear first,
-	 * and articles with a high ranking mark will be put at the end of the list.
-	 *
-	 * Example:
-	 * [php]
-	 * $items = Articles::list_by_title_for_anchor('section:12');
-	 * $context['text'] .= Skin::build_list($items, 'decorated');
-	 * [/php]
-	 *
-	 * Use the variant 'boxes' to fetch articles within boxes. This is the standard way
-	 * of displaying navigation and extra boxes in yacs.
-	 *
-	 * [php]
-	 * // load the navigation boxes, if any
-	 * $anchor = Sections::lookup('navigation_boxes');
-	 * if($items = Articles::list_by_title_for_anchor($anchor, 0, 5, 'boxes')) {
-	 *	 foreach($items as $title => $content)
-	 *	   echo "<p></p>\n".Skin::build_box($title, $content, 'navigation')."\n";
-	 * }
-	 * [/php]
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - article is protected (active='N'), but surfer is an associate, and we are not feeding someone
-	 * - surfer is anonymous or the variant is 'boxes', and article has been officially published
-	 * - logged surfers are restricted to their own articles, plus published articles
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
-	 * @param string the target anchor
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param mixed the layout, if any
-	 * @param boolean FALSE to include sticky pages, TRUE otherwise
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see sections/layout_sections_as_folded.php
-	 * @see sections/layout_sections_as_inline.php
-	 * @see sections/print.php
-	 * @see sections/slideshow.php
-	 * @see sections/view.php
-	 */
-	function &list_by_title_for_anchor($anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
-		global $context;
-
-		// order by rank, then by title
-		$result =& Articles::list_for_anchor_by('title', $anchor, $offset, $count, $layout, $without_sticky);
-		return $result;
-
 	}
 
 	/**
@@ -2165,9 +2018,9 @@ Class Articles {
 
 		// protect from hackers
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['icon_url']);
+			$fields['icon_url'] =& encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['thumbnail_url']);
+			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
 
 		// set default values for this editor
 		$fields = Surfer::check_default_editor($fields);
@@ -2876,7 +2729,7 @@ Class Articles {
 
 		// invalid date
 		else
-			return sprintf(i18n::s('"%s" is not a valid publication date'), $publication);
+			return sprintf(i18n::s('"%s" is not a valid date'), $publication);
 
 		// no expiration date
 		if(!isset($expiry) || !$expiry)
@@ -2901,7 +2754,7 @@ Class Articles {
 
 		// invalid date
 		else
-			return sprintf(i18n::s('"%s" is not a valid expiry date'), $expiry);
+			return sprintf(i18n::s('"%s" is not a valid date'), $expiry);
 
 		// review date
 		$review_stamp = 0;

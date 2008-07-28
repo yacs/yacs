@@ -335,7 +335,7 @@ if(!isset($item['id'])) {
 			$context['page_details'] .= BR.sprintf(i18n::s('Code to reference this page: %s'), '[category='.$item['id'].']');
 
 			// the nick name
-			if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'])))
+			if($item['nick_name'] && ($link = normalize_shortcut($item['nick_name'], TRUE)))
 				$context['page_details'] .= BR.sprintf(i18n::s('Shortcut: %s'), $link);
 		}
 
@@ -444,7 +444,7 @@ if(!isset($item['id'])) {
 			// count the number of sections in this category
 			$stats = Members::stat_sections_for_anchor('category:'.$item['id']);
 			if($stats['count'] > SECTIONS_PER_PAGE)
-				$box['bar'] = array('_count' => sprintf(i18n::ns('1 section', '%d sections', $stats['count']), $stats['count']));
+				$box['bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $stats['count']), $stats['count']));
 
 			// navigation commands for sections
 			$home = Categories::get_url($item['id'], 'view', $item['title']);
@@ -523,7 +523,7 @@ if(!isset($item['id'])) {
 			// count the number of articles in this category
 			$stats = Members::stat_articles_for_anchor('category:'.$item['id']);
 			if($stats['count'])
-				$box['bar'] = array('_count' => sprintf(i18n::ns('1 page', '%d pages', $stats['count']), $stats['count']));
+				$box['bar'] = array('_count' => sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count']));
 
 			// navigation commands for articles
 			$home = Categories::get_url($item['id'], 'view', $item['title']);
@@ -576,7 +576,7 @@ if(!isset($item['id'])) {
 			// count the number of files in this category
 			if($count = Files::count_for_anchor('category:'.$item['id'])) {
 				if($count > FILES_PER_PAGE)
-					$box['bar'] = array('_count' => sprintf(i18n::ns('1 file', '%d files', $count), $count));
+					$box['bar'] = array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 				// list files by date (default) or by title (option 'files_by_title')
 				$offset = ($zoom_index - 1) * FILES_PER_PAGE;
@@ -636,7 +636,7 @@ if(!isset($item['id'])) {
 				$url = Categories::get_url($item['id'], 'view', $item['title'], $item['nick_name']).'#comments';
 			if($count = Comments::count_for_anchor('category:'.$item['id'])) {
 				if($count > COMMENTS_PER_PAGE)
-					$box['bar'] = array('_count' => sprintf(i18n::ns('1 comment', '%d comments', $count), $count));
+					$box['bar'] = array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 				// list comments by date
 				$offset = ($zoom_index - 1) * COMMENTS_PER_PAGE;
@@ -692,7 +692,7 @@ if(!isset($item['id'])) {
 			// count the number of links in this category
 			if($count = Links::count_for_anchor('category:'.$item['id'])) {
 				if($count > LINKS_PER_PAGE)
-					$box['bar'] = array('_count' => sprintf(i18n::ns('1 link', '%d links', $count), $count));
+					$box['bar'] = array('_count' => sprintf(i18n::ns('%d link', '%d links', $count), $count));
 
 				// list items by date (default) or by title (option 'links_by_title')
 				$offset = ($zoom_index - 1) * LINKS_PER_PAGE;
@@ -781,7 +781,7 @@ if(!isset($item['id'])) {
 			// count the number of subcategories
 			$stats = Categories::stat_for_anchor('category:'.$item['id']);
 			if($stats['count'])
-				$box['bar'] = array('_count' => sprintf(i18n::ns('1 category', '%d categories', $stats['count']), $stats['count']));
+				$box['bar'] = array('_count' => sprintf(i18n::ns('%d category', '%d categories', $stats['count']), $stats['count']));
 
 			// list items by date (default) or by title (option 'categories_by_title')
 			$offset = ($zoom_index - 1) * $items_per_page;
@@ -844,7 +844,7 @@ if(!isset($item['id'])) {
 
 			// spread the list over several pages
 			if($stats['count'] > USERS_LIST_SIZE)
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 user', '%d users', $stats['count']), $stats['count'])));
+				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d user', '%d users', $stats['count']), $stats['count'])));
 
 			// navigation commands for users
 			$home = Categories::get_url($item['id'], 'view', $item['title']);
@@ -940,7 +940,7 @@ if(!isset($item['id'])) {
 
 		// attach a file, if upload is allowed
 		if(Files::are_allowed($anchor, $item, TRUE))
-			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), FILE_TOOL_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Do not hesitate to attach files related to this page.'));
+			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), FILE_TOOL_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
 
 		// comment this page if anchor does not prevent it
 		if(Comments::are_allowed($anchor, $item, TRUE))
@@ -1012,7 +1012,7 @@ if(!isset($item['id'])) {
 			if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
 				$content .= BR.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'feed'), $item['title']));
 
-			$text .= Skin::build_box(i18n::s('More information'), $content, 'extra', 'feeds');
+			$text .= Skin::build_box(i18n::s('Information channels'), $content, 'extra', 'feeds');
 		}
 
 		// list related servers, if any

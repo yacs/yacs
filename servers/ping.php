@@ -22,7 +22,7 @@ load_skin('servers');
 $context['path_bar'] = array( 'servers/' => i18n::s('Servers') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Ping other servers of the cloud');
+$context['page_title'] = i18n::s('Ping the cloud');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -66,7 +66,7 @@ elseif(!Surfer::is_associate()) {
 
 	// no server to ping
 	} else
-		$context['text'] .= '<p>'.sprintf(i18n::s('No server profile to ping! You should configure at least %s'), Skin::build_link('servers/populate.php', i18n::s('some common targets'), 'shortcut')).'</p>';
+		$context['text'] .= '<p>'.i18n::s('No server has been created yet.').'</p>';
 
 	// back to the index of servers
 	$menu = array('servers/' => i18n::s('Servers'));

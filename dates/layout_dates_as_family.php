@@ -83,7 +83,7 @@ Class Layout_dates_as_family extends Layout_interface {
 				$label = Skin::build_date($item['date_stamp'], 'standalone');
 
 			// indicate the id in the hovering popup
-			$hover = i18n::s('Read the page');
+			$hover = i18n::s('View the page');
 
 			// use the title as a link to the page
 			$title = Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', $hover);

@@ -26,7 +26,6 @@
  * - fstat() -- get file information
  * - get_cfg_var() -- get one parameter
  * - GetImageSize() -- analyze some image
- * - gettext() -- localize a string
  * - glob() -- list matching files
  * - header() -- change web response
  * - highlight_string() -- smart rendering of php snippet
@@ -417,38 +416,41 @@ class Safe {
 	function GetImageSize($file) {
 		global $context;
 
+		if($context['with_profile'] == 'Y')
+			logger::profile('GetImageSize', 'start');
+
 		// translate the path
 		$file = Safe::realpath($file);
 
-		// sanity check
-		if(!is_readable($file))
-			return FALSE;
+		// ensure call is allowed
+		if(is_readable($file) && is_callable('GetImageSize'))
+			$output = GetImageSize($file);
+		else
+			$output = FALSE;
 
 		if($context['with_profile'] == 'Y')
-			logger::profile('GetImageSize', 'count');
+			logger::profile('GetImageSize', 'stop');
 
-		// ensure call is allowed
-		if(is_callable('GetImageSize'))
-			return GetImageSize($file);
-
-		// tough luck
-		return FALSE;
+		// end of job
+		return $output;
 
 	}
 
 	/**
-	 * localize a string
+	 * list matching files
 	 *
-	 * @param string message to localize
+	 * @param string path and file pattern
+	 * @return array fi some files have been found, FALSE otherwise
 	 */
-	function gettext($text) {
+	function glob($pattern) {
 
-		// invoke the gettext library, if available
-		if(is_callable('gettext'))
-			return gettext($text);
+		// ensure call is allowed
+		if(is_callable('glob') && ($output = glob($pattern)) && is_array($output) && count($output))
+			return $output;
 
-		// else return native string
-		return $text;
+		// tough luck
+		return FALSE;
+
 	}
 
 	/**
@@ -605,23 +607,6 @@ class Safe {
 		// ensure call is allowed
 		if(is_callable('ini_set'))
 			return @ini_set($name, $value);
-
-		// tough luck
-		return FALSE;
-
-	}
-
-	/**
-	 * list matching files
-	 *
-	 * @param string path and file pattern
-	 * @return array fi some files have been found, FALSE otherwise
-	 */
-	function glob($pattern) {
-
-		// ensure call is allowed
-		if(is_callable('glob') && ($output = glob($pattern)) && is_array($output) && count($output))
-			return $output;
 
 		// tough luck
 		return FALSE;
@@ -795,27 +780,6 @@ class Safe {
 		// tough luck
 		return FALSE;
 
-	}
-
-	/**
-	 * localize a string in singular/plural form
-	 *
-	 * @param string singular message
-	 * @param string plural form
-	 * @param int number of items
-	 * @return a localized string
-	 */
-	function ngettext($singular, $plural, $count) {
-
-		// invoke the gettext library, if available
-		if(is_callable('ngettext'))
-			return ngettext($singular, $plural, $count);
-
-		// else return native string
-		elseif($count > 1)
-			return $plural;
-		else
-			return $singular;
 	}
 
 	/**
@@ -1043,26 +1007,6 @@ class Safe {
 	}
 
 	/**
-	 * set locale parameter
-	 *
-	 * Caution: only work with a fixed number of parameters
-	 *
-	 * @param string the target category, as anamed constant
-	 * @param string the locale to apply
-	 * @return a string or FALSE
-	 */
-	function setlocale($category, $locale) {
-
-		// ensure call is allowed
-		if(is_callable('setlocale'))
-			return setlocale($category, $locale);
-
-		// tough luck
-		return FALSE;
-
-	}
-
-	/**
 	 * delay execution for some time
 	 *
 	 * @param int number of seconds
@@ -1115,45 +1059,6 @@ class Safe {
 		// tough luck
 		return 0;
 
-	}
-
-	/**
-	 * execute a system command
-	 *
-	 * Caution: only work with one parameter
-	 *
-	 * @param string the command to execute
-	 * @return a status string, or FALSE
-	 */
-	function system($command) {
-
-		// ensure call is allowed
-		if(is_callable('system'))
-			return @system($command);
-
-		// tough luck
-		return FALSE;
-
-	}
-
-	/**
-	 * create a temporary file
-	 *
-	 * @param string target directory
-	 * @param string file prefix
-	 * @return string a temporary name, or FALSE on failure
-	 */
-	function tempnam($path, $prefix) {
-
-		// translate the path
-		$path = Safe::realpath($path);
-
-		// ensure target path exists
-		if(!is_callable('tempnam'))
-			return tempnam($path, $prefix);
-
-		// tough luck
-		return FALSE;
 	}
 
 	/**

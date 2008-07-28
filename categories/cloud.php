@@ -50,7 +50,7 @@ if(!$text =& Cache::get($cache_id)) {
 	// add an extra box with helpful links
 	$links = array('sections/' => i18n::s('Site map'),
 		'search.php' => i18n::s('Search on keyword'),
-		'help.php' => i18n::s('Help index'),
+		'help/' => i18n::s('Help index'),
 		'query.php' => i18n::s('Contact the webmaster'));
 	$text .= Skin::build_box(i18n::s('See also'), Skin::build_list($links, 'compact'), 'extra')."\n";
 

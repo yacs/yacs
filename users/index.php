@@ -79,7 +79,7 @@ $context['page_title'] = i18n::s('People');
 // count users in the database
 $stats = Users::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' =>sprintf(i18n::ns('1 user', '%d users', $stats['count']), $stats['count'])));
+	$context['page_menu'] = array_merge($context['page_menu'], array('_count' =>sprintf(i18n::ns('%d user', '%d users', $stats['count']), $stats['count'])));
 
 // navigation commands for users, if necessary
 if($stats['count'] > USERS_PER_PAGE) {
@@ -144,7 +144,7 @@ $context['page_tools'][] = Skin::build_link('users/review.php', i18n::s('Review 
 
 // side bar with the list of present users --don't cache, this will change on each request anyway
 include_once $context['path_to_root'].'users/visits.php';
-if($items = Visits::list_users(0, COMPACT_LIST_SIZE, 'compact')) {
+if($items = Users::list_present(0, COMPACT_LIST_SIZE, 'compact')) {
 
 	// also mention the total number of present users
 	$stat = Users::stat_present();

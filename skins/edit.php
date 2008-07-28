@@ -76,7 +76,7 @@ elseif(!Surfer::is_associate()) {
 
 	// warning if modification of some reference skin
 	if(isset($_REQUEST['content']) && $_REQUEST['content'] && preg_match('/^(boxesandarrows|digital|joi|skeleton)$/', $skin))
-		Skin::error(sprintf(i18n::s('Since you have modified a reference skin, your changes could be overwritten by next YACS updates. We highly suggest you to %s to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('derive a new skin'), 'shortcut')));
+		Skin::error(sprintf(i18n::s('Since you have modified a reference skin, your changes could be overwritten by next YACS updates. We highly suggest you to %s to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('derive a skin'), 'shortcut')));
 
 	// backup the old version, if any
 	Safe::unlink($context['path_to_root'].'skins/'.$skin.'/'.$file.'.bak');
@@ -93,7 +93,7 @@ elseif(!Surfer::is_associate()) {
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		$menu = array_merge($menu, array('skins/test.php?skin='.urlencode($skin) => i18n::s('Test the updated skin')));
+		$menu = array_merge($menu, array('skins/test.php?skin='.urlencode($skin) => i18n::s('Test the skin')));
 		$menu = array_merge($menu, array('skins/edit.php?skin='.urlencode($skin) => i18n::s('Edit a file of this skin')));
 		$menu = array_merge($menu, array('skins/' => i18n::s('Skins')));
 		$menu = array_merge($menu, array('skins/configure.php' => i18n::s('Configure the page factory')));
@@ -173,7 +173,7 @@ elseif(!Surfer::is_associate()) {
 
 		// load file content
 		if(!$content = Safe::file_get_contents('../skins/'.$skin.'/'.$file))
-			Skin::error(i18n::s('The file seems to be empty.'));
+			Skin::error(i18n::s('No file has been transmitted.'));
 
 		// textarea to edit the file
 		$context['text'] .= '<textarea name="content" rows="25" cols="50" accesskey="c">'.encode_field($content).'</textarea>';

@@ -178,11 +178,11 @@ Class Layout_articles_as_daily extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
+				$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id']))
-				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('1 comment', '%d comments', $count), $count), 'basic');
+				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 			// comment
 			if(Comments::are_allowed($anchor, $item))
@@ -190,7 +190,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('1 link', '%d links', $count), $count), 'basic');
+				$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 			// trackback
 			if($context['with_friendly_urls'] == 'Y')

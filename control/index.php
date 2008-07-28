@@ -109,7 +109,7 @@ if(!file_exists('../parameters/control.include.php')) {
 	$context['page_title'] = i18n::s('No access to the database server');
 
 	// splash screen
-	$context['text'] .= '<p>'.i18n::s('Impossible to connect to the database server mentioned in your configuration file. Please follow the link to check connection parameters.')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('Impossible to access the database mentioned in your configuration file. Please create a database, or follow the link to change the configuration file.')."</p>\n";
 
 	// link to the configuration page
 	$context['text'] .= '<p><a href="configure.php">'.i18n::s('Jump to the configuration page')."</a></p>\n";
@@ -588,7 +588,7 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// content assistant
 			if(Surfer::is_associate())
-				$commands[] = sprintf(i18n::s('%s - create blogs, wikis, forums, and more'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'basic'));
+				$commands[] = sprintf(i18n::s('%s - create blogs, wikis, forums, and more'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'basic'));
 
 			// change some global pages
 			if(Surfer::is_associate())
@@ -679,7 +679,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				$text .= '</ul>'."\n";
 
 				// the command to add a side panel
-				$text .= '<p>'.sprintf(i18n::s('If your browser supports side panels and javascript, click on the following link to %s'), '<a onclick="addSidePanel()">'.i18n::s('add a blogging panel').'</a>.').'</p>'."\n";
+				$text .= '<p>'.sprintf(i18n::s('If your browser supports side panels and javascript, click on the following link to %s.'), '<a onclick="addSidePanel()">'.i18n::s('add a blogging panel').'</a>.').'</p>'."\n";
 
 				// the actual javascript code to add a panel
 				$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
@@ -704,7 +704,7 @@ if(!file_exists('../parameters/control.include.php')) {
 					.'// ]]></script>'."\n";
 
 				// the command to install a bookmaklet into internet explorer
-				$text .= '<p>'.sprintf(i18n::s('If your are running Internet Explorer under Windows, click on the following link to %s triggered on right-click. Accept registry updates, and restart the browser afterwards.'), Skin::build_link('articles/ie_bookmarklet.php', i18n::s('add a contextual bookmarklet'))).'</p>'."\n";
+				$text .= '<p>'.sprintf(i18n::s('If you are running Internet Explorer under Windows, click on the following link to %s triggered on right-click. Accept registry updates, and restart the browser afterwards.'), Skin::build_link('articles/ie_bookmarklet.php', i18n::s('add a contextual bookmarklet'))).'</p>'."\n";
 
 			}
 
@@ -901,7 +901,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				$commands[] = sprintf(i18n::s('%s - phpinfo() and more'), '<a href="info.php">'.i18n::s('Run-time information').'</a>');
 			}
 			$commands[] = sprintf(i18n::s('%s - validate browser and server behaviors'), '<a href="test.php">'.i18n::s('System test page').'</a>');
-			$text .= Skin::build_box(i18n::s('More information'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'header1', 'more_information');
+			$text .= Skin::build_box(i18n::s('Information channels'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'header1', 'more_information');
 
 			// build another tab
 			if($text)
@@ -927,7 +927,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			if(is_callable(array('Hooks', 'link_scripts')) && ($more_links = Hooks::link_scripts('control/index.php#tools', 'array')))
 				$links = array_merge($links, $more_links);
 
-			$links[] = Skin::build_link('help.php', i18n::s('Help'), 'shortcut');
+			$links[] = Skin::build_link('help/', i18n::s('Help'), 'shortcut');
 
 			// list modules in an extra box
 			$context['extra'] .= Skin::build_box(i18n::s('See also'), Skin::finalize_list($links, 'compact'), 'extra', 'tools_box');

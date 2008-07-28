@@ -1050,7 +1050,7 @@ if(Surfer::is_crawler()) {
 	// follow-up commands
 	$menu = array();
 	$menu = array_merge($menu, array('sections/' => i18n::s('Check the updated Site Map')));
-	$menu = array_merge($menu, array('control/populate.php' => i18n::s('Launch the Content Assistant again')));
+	$menu = array_merge($menu, array('help/populate.php' => i18n::s('Launch the Content Assistant again')));
 	$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 	$context['text'] .= Skin::build_box(i18n::s('What do you want to do now?'), Skin::build_list($menu, 'page_menu'), 'page_bottom');
 

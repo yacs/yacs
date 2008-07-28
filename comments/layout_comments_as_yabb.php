@@ -96,7 +96,7 @@ Class Layout_comments_as_yabb extends Layout_interface {
 				$capability = i18n::s('Subscriber').', ';
 
 			// + posts
-			$author .= BR.$capability.sprintf(i18n::ns('1 post', '%d posts', $poster['posts']), $poster['posts']);
+			$author .= BR.$capability.sprintf(i18n::ns('%d post', '%d posts', $poster['posts']), $poster['posts']);
 
 			// show contact information
 			if(Surfer::may_contact()) {
@@ -170,7 +170,7 @@ Class Layout_comments_as_yabb extends Layout_interface {
 			$icon = Comments::get_img($item['type']);
 
 			// link to comment permalink
-			$text .= Skin::build_link(Comments::get_url($item['id']), $icon, 'basic', i18n::s('Zoom on this comment'));
+			$text .= Skin::build_link(Comments::get_url($item['id']), $icon, 'basic', i18n::s('View this comment'));
 
 			// link to the previous comment in thread, if any
 			if($item['previous_id'] && ($previous =& Comments::get($item['previous_id'])))

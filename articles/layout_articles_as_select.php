@@ -80,15 +80,15 @@ Class Layout_articles_as_select extends Layout_interface {
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-			$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
+			$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-			$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
+			$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
 		// info on related comments
 		if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-			$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
+			$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 		// append details to the suffix
 		if(count($details))

@@ -109,7 +109,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_CHARS_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
 
 	// let define a new id
 	unset($_REQUEST['id']);
@@ -148,7 +148,7 @@ if(Surfer::is_crawler()) {
 				if(isset($_FILES[$field['name']]['name']) && $_FILES[$field['name']]['name']) {
 
 					// $_FILES transcoding to utf8 is not automatic
-					$_FILES[$field['name']]['name'] = utf8::to_unicode($_FILES[$field['name']]['name']);
+					$_FILES[$field['name']]['name'] = utf8::encode($_FILES[$field['name']]['name']);
 
 					// enhance file name
 					$file_name = $_FILES[$field['name']]['name'];
@@ -279,23 +279,23 @@ if(Surfer::is_crawler()) {
 
 					// size exceeds php.ini settings -- UPLOAD_ERR_INI_SIZE
 					if(isset($_FILES[$field['name']]['error']) && ($_FILES[$field['name']]['error'] == 1))
-						Skin::error(i18n::s('The size of this file is over server limit (php.ini).'));
+						Skin::error(i18n::s('The size of this file is over limit.'));
 
 					// size exceeds form limit -- UPLOAD_ERR_FORM_SIZE
 					elseif(isset($_FILES[$field['name']]['error']) && ($_FILES[$field['name']]['error'] == 2))
-						Skin::error(i18n::s('The size of this file is over form limit.'));
+						Skin::error(i18n::s('The size of this file is over limit.'));
 
 					// partial transfer -- UPLOAD_ERR_PARTIAL
 					elseif(isset($_FILES[$field['name']]['error']) && ($_FILES[$field['name']]['error'] == 3))
-						Skin::error(i18n::s('File transfer has been interrupted.'));
+						Skin::error(i18n::s('No file has been transmitted.'));
 
 					// no file -- UPLOAD_ERR_NO_FILE
 					elseif(isset($_FILES[$field['name']]['error']) && ($_FILES[$field['name']]['error'] == 4))
-						Skin::error(i18n::s('No file has been transferred.'));
+						Skin::error(i18n::s('No file has been transmitted.'));
 
 					// zero bytes transmitted
 					elseif(!$_FILES[$field['name']]['size'])
-						Skin::error(sprintf(i18n::s('It is likely file size goes beyond the limit displayed in upload form. Nothing has been transmitted for %s.'), $_FILES[$field['name']]['name']));
+						Skin::error(i18n::s('No file has been transmitted.'));
 
 					// check provided upload name
 					elseif(!Safe::is_uploaded_file($_FILES[$field['name']]['tmp_name']))

@@ -198,7 +198,7 @@ $box['bar'] = array();
 if($cap > ARTICLES_PER_PAGE)
 	$box['bar'] = array('_count' => i18n::s('Results'));
 elseif($cap)
-	$box['bar'] = array('_count' => sprintf(i18n::ns('1 result', '%d results', count($items)), count($items)));
+	$box['bar'] = array('_count' => sprintf(i18n::ns('%d result', '%d results', count($items)), count($items)));
 $home = 'search.php?search='.urlencode($search);
 $prefix = $home.'&page=';
 if(($navigate = Skin::navigate($home, $prefix, $cap, ARTICLES_PER_PAGE, $page)) && @count($navigate))
@@ -317,7 +317,7 @@ if($search && ($page == 1)) {
 
 	// submit one token to our page locator
 	if(preg_match('/^([\S-]+)/', $search, $matches))
-		$context['page_tools'][] = Skin::build_link('go.php?id='.urlencode($matches[1]), i18n::s('Look for a named page'), 'basic');
+		$context['page_tools'][] = Skin::build_link(normalize_shortcut($matches[1]), i18n::s('Look for a named page'), 'basic');
 
 	// encode for urls, but preserve unicode chars
 	$search = urlencode(utf8::from_unicode($search));
@@ -355,7 +355,7 @@ $context['extra'] .= Skin::build_box(i18n::s('Help'), i18n::s('This search engin
 $lines = array();
 if($search)
 	$lines[] = Skin::build_link('services/search.php?search='.urlencode($search), i18n::s('Matching pages'), 'xml');
-$context['extra'] .= Skin::build_box(i18n::s('More information'), join(BR, $lines), 'extra', 'feeds');
+$context['extra'] .= Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
 
 // side bar with the list of most recent keywords
 $cache_id = 'search.php#keywords_by_date';

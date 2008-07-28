@@ -193,7 +193,7 @@ if(is_callable(array('Hooks', 'include_scripts')))
 // page tools
 if(Surfer::is_associate()) {
 	$context['page_tools'][] = Skin::build_link('sections/edit.php', i18n::s('Add a section'));
-	$context['page_tools'][] = Skin::build_link('control/populate.php', i18n::s('Content Assistant'));
+	$context['page_tools'][] = Skin::build_link('help/populate.php', i18n::s('Content Assistant'));
 	$context['page_tools'][] = Skin::build_link('sections/check.php', i18n::s('Maintenance'));
 }
 
@@ -205,7 +205,7 @@ if(!$text =& Cache::get($cache_id)) {
 	$lines = array();
 	$lines[] = Skin::build_link('categories/', i18n::s('Categories'));
 	$lines[] = Skin::build_link('search.php', i18n::s('Search on keyword'));
-	$lines[] = Skin::build_link('help.php', i18n::s('Help index'));
+	$lines[] = Skin::build_link('help/', i18n::s('Help index'));
 	$lines[] = Skin::build_link('query.php', i18n::s('Contact the webmaster'));
 	$text .= Skin::build_box(i18n::s('See also'), Skin::finalize_list($lines, 'compact'), 'extra');
 

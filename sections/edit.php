@@ -179,7 +179,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_CHARS_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
 
 	// associates are allowed to change overlay types -- see overlays/select.php
 	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'] && Surfer::is_associate())
@@ -1283,7 +1283,7 @@ if($with_form) {
 
 	// drive associates to the Content Assistant
 	if(Surfer::is_associate())
-		$help .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>'."\n";
+		$help .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>'."\n";
 
 	// in a side box
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');

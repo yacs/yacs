@@ -158,7 +158,7 @@ if(Surfer::is_crawler()) {
 	$next = $context['url_to_root'].$anchor->get_url();
 
 	// protect from hackers
-	$_REQUEST['target_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $_REQUEST['target_url']);
+	$_REQUEST['target_url'] =& encode_link($_REQUEST['target_url']);
 
 	// remember status changes only
 	if($item['status'] && ($item['status'] == $_REQUEST['status'])) {
@@ -212,7 +212,7 @@ if(Surfer::is_crawler()) {
 			$subject = sprintf(i18n::s('New to-do: %s'), strip_tags($_REQUEST['title']));
 
 			// message body
-			$message = sprintf(i18n::s("The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.\n\nSender: %s\n\n%s\n\n%s\n\n"), Surfer::get_name(), strip_tags(preg_replace('/<br *\/*>/i', "\n", Codes::beautify($_REQUEST['description']))), $context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']));
+			$message = sprintf(i18n::s("The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.\n\nSender: %s\n\n%s\n\n%s\n\n"), Surfer::get_name(), strip_tags(preg_replace('/<br *\/>/i', "\n", Codes::beautify($_REQUEST['description']))), $context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']));
 
 			// actual post - don't stop on error
 			include_once $context['path_to_root'].'shared/mailer.php';

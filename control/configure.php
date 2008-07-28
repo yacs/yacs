@@ -170,7 +170,7 @@ include_once '../shared/global.php';
 
 // if we have changed the url to root, consider it right now
 if(isset($_REQUEST['url_to_root']))
-	$context['url_to_root'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', strip_tags($_REQUEST['url_to_root']));
+	$context['url_to_root'] =& encode_link($_REQUEST['url_to_root']);
 
 // stop hackers
 if(isset($_REQUEST['value']))
@@ -229,7 +229,7 @@ if(!Surfer::is_associate()) {
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
 
 	// remind the surfer
-	$context['text'] .= '<p>'.i18n::s('This instance of YACS runs in demonstration mode. For security reasons configuration parameters cannot be displayed nor changed in this mode.')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.')."</p>\n";
 
 // display the input form, except if there is only one parameter to change
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'POST') && (!isset($_REQUEST['parameter']) || !isset($_REQUEST['value'])) ) {
@@ -463,12 +463,12 @@ if(!Surfer::is_associate()) {
 	if($context['with_friendly_urls'] == 'Y')
 		$input .= ' checked="checked"';
 	$input .= EOT.' '.i18n::s('Help search engines to index more pages.').' (<code>articles/view.php/123</code>)'
-		.' ('.Skin::build_link('control/test.php/123/456', i18n::s('test link'), 'external').')';
+		.' ('.Skin::build_link('control/test.php/123/456', i18n::s('test link'), 'help').')';
 	$input .= BR.'<input type="radio" name="with_friendly_urls" value="R"';
 	if($context['with_friendly_urls'] == 'R')
 		$input .= ' checked="checked"';
 	$input .= EOT.' '.i18n::s('Rewriting rules have been activated (in <code>.htaccess</code>) to support pretty references.').' (<code>article-123</code>)'
-		.' ('.Skin::build_link('rewrite_test/123', i18n::s('test link'), 'external').')';
+		.' ('.Skin::build_link('rewrite_test/123', i18n::s('test link'), 'help').')';
 	$fields[] = array($label, $input);
 
 	// web security
@@ -481,7 +481,7 @@ if(!Surfer::is_associate()) {
 	if(isset($context['with_https']) && ($context['with_https'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= EOT.' '.i18n::s('Redirect all non-secured requests to https.')
-		.' ('.Skin::build_link(str_replace('http:', 'https:', $context['url_to_home']).$context['url_to_root'].'control/test.php/123/456', i18n::s('test link'), 'external').')';
+		.' ('.Skin::build_link(str_replace('http:', 'https:', $context['url_to_home']).$context['url_to_root'].'control/test.php/123/456', i18n::s('test link'), 'help').')';
 	$fields[] = array($label, $input);
 
 	// web cache
@@ -860,7 +860,7 @@ if(!Surfer::is_associate()) {
 
 		// first installation
 		if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
-			$context['text'] .= '<p>'.i18n::s('Review provided information if you wish, then click on the button at the bottom of the page to move forward.')."</a></p>\n";
+			$context['text'] .= '<p>'.i18n::s('Review provided information and go to the bottom of the page to move forward.')."</a></p>\n";
 
 		// purge the cache
 		Cache::clear();
@@ -876,7 +876,7 @@ if(!Surfer::is_associate()) {
 
 	// display updated parameters
 	if(is_callable(array('skin', 'build_box')))
-		$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folder');
+		$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($content), 'folder');
 	else
 		$context['text'] .= Safe::highlight_string($content);
 

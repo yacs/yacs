@@ -115,15 +115,15 @@ Class Layout_articles_as_freemind extends Layout_interface {
 
 			// count related files, if any
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
+				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 			// count related comments, if any
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
+				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// count related links, if any
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
+				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
 			// append details
 			if(count($details)) {
@@ -142,7 +142,7 @@ Class Layout_articles_as_freemind extends Layout_interface {
 				.$freemind_article_bgcolor
 				.$freemind_article_color
 				.$freemind_article_style
-				.' TEXT="'.encode_field(utf8::to_hex('<html>'.i18n::s('more pages').'</html>')).'" FOLDED="true">'
+				.' TEXT="'.encode_field(utf8::to_hex('<html>'.i18n::s('More pages').'</html>')).'" FOLDED="true">'
 				.'<edge WIDTH="thin" />'."\n".'<font NAME="SansSerif" SIZE="12" />'."\n";
 
 				$stack++;

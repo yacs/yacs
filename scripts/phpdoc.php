@@ -565,6 +565,7 @@ class PhpDoc {
 		}
 
 		// locate php comments
+		$comment = array();
 		global $first_comment;
 		$first_comment = TRUE;
 		$in_comment = FALSE;
@@ -592,7 +593,6 @@ class PhpDoc {
 			// comment begins
 			} elseif(preg_match('/\s*\/\*{2,}/', $line)) {
 				$in_comment = TRUE;
-				$comment = array();
 
 			// class extension
 			} elseif(preg_match('/^\s*class\s+(\w+)\s+extends\s+(\w+)/i', $line, $matches)) {

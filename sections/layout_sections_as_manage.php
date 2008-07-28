@@ -122,27 +122,27 @@ Class Layout_sections_as_manage extends Layout_interface {
 			// info on related pages
 			$stats = Articles::stat_for_anchor('section:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1 page', '%d pages', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count']);
 
 			// info on related files
 			$stats = Files::stat_for_anchor('section:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1 file', '%d files', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('%d file', '%d files', $stats['count']), $stats['count']);
 
 			// info on related links
 			$stats = Links::stat_for_anchor('section:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1 link', '%d links', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('%d link', '%d links', $stats['count']), $stats['count']);
 
 			// info on related comments
 			$stats = Comments::stat_for_anchor('section:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $stats['count']), $stats['count']);
 
 			// info on related sections
 			$stats = Sections::stat_for_anchor('section:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1 section', '%d sections', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('%d section', '%d sections', $stats['count']), $stats['count']);
 
 			// combine in-line details
 			if(count($details))

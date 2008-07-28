@@ -320,7 +320,7 @@ Class Categories {
 
 		// ensure proper unicode encoding
 		$id = (string)$id;
-		$id = utf8::to_unicode($id);
+		$id = utf8::encode($id);
 
 		// strip extra text from enhanced ids '3-topic' -> '3'
 		if($position = strpos($id, '-'))
@@ -358,7 +358,7 @@ Class Categories {
 		global $context;
 
 		// ensure proper unicode encoding
-		$keyword = utf8::to_unicode($keyword);
+		$keyword = utf8::encode($keyword);
 
 		// select among available items
 		$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
@@ -378,7 +378,7 @@ Class Categories {
 		global $context;
 
 		// ensure proper unicode encoding
-		$title = utf8::to_unicode($title);
+		$title = utf8::encode($title);
 
 		// select among available items
 		$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
@@ -1069,7 +1069,7 @@ Class Categories {
 		$output = array();
 
 		// ensure proper unicode encoding
-		$prefix = utf8::to_unicode($prefix);
+		$prefix = utf8::encode($prefix);
 
 		// select among available items
 		$query = "SELECT keywords, introduction FROM ".SQL::table_name('categories')." AS categories"
@@ -1312,11 +1312,11 @@ Class Categories {
 
 		// protect from hackers
 		if(isset($fields['bullet_url']))
-			$fields['bullet_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['bullet_url']);
+			$fields['bullet_url'] =& encode_link($fields['bullet_url']);
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['icon_url']);
+			$fields['icon_url'] =& encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['thumbnail_url']);
+			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
 
 		// set default values
 		if(!isset($fields['active_set']))
@@ -1455,11 +1455,11 @@ Class Categories {
 
 		// protect from hackers
 		if(isset($fields['bullet_url']))
-			$fields['bullet_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['bullet_url']);
+			$fields['bullet_url'] =& encode_link($fields['bullet_url']);
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['icon_url']);
+			$fields['icon_url'] =& encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['thumbnail_url']);
+			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
 
 		// set default values for this editor
 		$fields = Surfer::check_default_editor($fields);

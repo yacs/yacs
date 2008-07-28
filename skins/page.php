@@ -56,7 +56,7 @@
 
 		// help page -- access key 0
 		if(is_callable(array('i18n', 's')))
-			echo '<a href="'.$context['url_to_root'].'help.php" accesskey="0">'.i18n::s('Help').'</a> ';
+			echo '<a href="'.$context['url_to_root'].'help/" accesskey="0">'.i18n::s('Help').'</a> ';
 
 		// control panel -- access key 9
 		if(is_callable(array('i18n', 's')))

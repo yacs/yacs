@@ -45,7 +45,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 		if(!SQL::count($result)) {
 			$label = i18n::s('No article has been published so far.');
 			if(Surfer::is_associate())
-				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
 			return $output;
 		}
@@ -95,7 +95,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 				$icon = $anchor->get_thumbnail_url();
 			}
 			if($icon)
-				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('Read more')).'" title="'.encode_field(i18n::s('Read more')).'"'.EOT.'</a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
@@ -154,11 +154,11 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id']))
-				$menu = array_merge($menu, array( $url.'#files' => sprintf(i18n::ns('1 file', '%d files', $count), $count) ));
+				$menu = array_merge($menu, array( $url.'#files' => sprintf(i18n::ns('%d file', '%d files', $count), $count) ));
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id']))
-				$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'list') => sprintf(i18n::ns('1 comment', '%d comments', $count), $count) ));
+				$menu = array_merge($menu, array( Comments::get_url('article:'.$item['id'], 'list') => sprintf(i18n::ns('%d comment', '%d comments', $count), $count) ));
 
 			// discuss
 			if(Comments::are_allowed($anchor, $item))
@@ -166,7 +166,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id']))
-				$menu = array_merge($menu, array( $url.'#links' => sprintf(i18n::ns('1 link', '%d links', $count), $count) ));
+				$menu = array_merge($menu, array( $url.'#links' => sprintf(i18n::ns('%d link', '%d links', $count), $count) ));
 
 			// trackback
 			if($context['with_friendly_urls'] == 'Y')

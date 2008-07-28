@@ -46,9 +46,12 @@ Class Layout_categories extends Layout_interface {
 		include_once $context['path_to_root'].'links/links.php';
 		while($item =& SQL::fetch($result)) {
 
+			// url to read the full category
+			$url = Categories::get_url($item['id'], 'view', $item['title']);
+
 			// initialize the rendering engine
 			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize(Categories::get_url($item['id'], 'view', $item['title']));
+				Codes::initialize($url);
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';
@@ -67,9 +70,6 @@ Class Layout_categories extends Layout_interface {
 			elseif($item['active'] == 'R')
 				$prefix .= RESTRICTED_FLAG;
 
-			// url to read the full category
-			$url = Categories::get_url($item['id'], 'view', $item['title']);
-
 			// use the title to label the link
 			$label = Skin::strip($item['title'], 10);
 
@@ -79,29 +79,29 @@ Class Layout_categories extends Layout_interface {
 			// info on related categories
 			$stats = Categories::stat_for_anchor('category:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1 category', '%d categories', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('%d category', '%d categories', $stats['count']), $stats['count']);
 
 			// info on related sections
 			$stats = Members::stat_sections_for_anchor('category:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1 section', '%d sections', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('%d section', '%d sections', $stats['count']), $stats['count']);
 
 			// info on related articles
 			$stats = Members::stat_articles_for_anchor('category:'.$item['id']);
 			if($stats['count'])
-				$details[] = sprintf(i18n::ns('1 page', '%d pages', $stats['count']), $stats['count']);
+				$details[] = sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count']);
 
 			// info on related files
 			if($count = Files::count_for_anchor('category:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
+				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 			// info on related links
 			if($count = Links::count_for_anchor('category:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
+				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('category:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
+				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// append details to the suffix
 			if(count($details))

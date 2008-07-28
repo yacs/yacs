@@ -80,11 +80,11 @@
  * This bookmarklet is proposed as a direct link to any authenticated member:
  * - at the control panel ([script]control/index.php[/script])
  * - at any user page ([script]users/view.php[/script])
- * - at the main help page ([script]help.php[/script])
+ * - at the main help page ([script]help/index.php[/script])
  *
  * @see control/index.php
  * @see users/view.php
- * @see help.php
+ * @see help/index.php
  *
  * If this article, or one of its anchor, specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
  * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
@@ -235,17 +235,17 @@ if(!Surfer::is_logged() || !is_object($anchor)) {
 	if(isset($_REQUEST['blogid']) && $_REQUEST['blogid'])
 		$_SESSION['pasted_blogid'] = $_REQUEST['blogid'];
 	if(isset($_REQUEST['introduction']) && $_REQUEST['introduction'])
-		$_SESSION['pasted_introduction'] = utf8::to_unicode($_REQUEST['introduction']);
+		$_SESSION['pasted_introduction'] = utf8::encode($_REQUEST['introduction']);
 	if(isset($_REQUEST['name']) && $_REQUEST['name'])
 		$_SESSION['pasted_name'] = $_REQUEST['name'];
 	if(isset($_REQUEST['section']) && $_REQUEST['section'])
 		$_SESSION['pasted_section'] = $_REQUEST['section'];
 	if(isset($_REQUEST['source']) && $_REQUEST['source'])
-		$_SESSION['pasted_source'] = utf8::to_unicode($_REQUEST['source']);
+		$_SESSION['pasted_source'] = utf8::encode($_REQUEST['source']);
 	if(isset($_REQUEST['text']) && $_REQUEST['text'])
-		$_SESSION['pasted_text'] = utf8::to_unicode($_REQUEST['text']);
+		$_SESSION['pasted_text'] = utf8::encode($_REQUEST['text']);
 	if(isset($_REQUEST['title']) && $_REQUEST['title'])
-		$_SESSION['pasted_title'] = utf8::to_unicode($_REQUEST['title']);
+		$_SESSION['pasted_title'] = utf8::encode($_REQUEST['title']);
 	if(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 		$_SESSION['pasted_variant'] = $_REQUEST['variant'];
 }
@@ -332,7 +332,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= Skin::build_box($title, $items, 'header1', 'regular_sections');
 
 	} else
-		$context['text'] .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>';
 
 	// also list special sections to associates
 	if(Surfer::is_associate()) {
@@ -373,7 +373,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['edit_name']))
 		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_CHARS_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
-		$_REQUEST['edit_address'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $_REQUEST['edit_address']);
+		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
 
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
@@ -1296,7 +1296,7 @@ if($with_form) {
 
 	// drive associates to the Content Assistant
 	if(Surfer::is_associate() && !isset($item['id']))
-		$help .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>'."\n";
+		$help .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>'."\n";
 
 	// in a side box
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');

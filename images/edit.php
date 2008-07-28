@@ -227,7 +227,7 @@ if(Surfer::is_crawler()) {
 		$file_upload = $_FILES['upload']['tmp_name'];
 
 		// $_FILES transcoding to utf8 is not automatic
-		$_FILES['upload']['name'] = utf8::to_unicode($_FILES['upload']['name']);
+		$_FILES['upload']['name'] = utf8::encode($_FILES['upload']['name']);
 
 		// enhance file name
 		$file_name = $_FILES['upload']['name'];
@@ -299,23 +299,23 @@ if(Surfer::is_crawler()) {
 
 		// size exceeds php.ini settings -- UPLOAD_ERR_INI_SIZE
 		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 1))
-			Skin::error(i18n::s('Please select a smaller image. The size of this image is over server limit (php.ini).'));
+			Skin::error(i18n::s('The size of this file is over limit.'));
 
 		// size exceeds form limit -- UPLOAD_ERR_FORM_SIZE
 		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 2))
-			Skin::error(i18n::s('Please select a smaller image. The size of this image is over limit mentioned in the form.'));
+			Skin::error(i18n::s('The size of this file is over limit.'));
 
 		// partial transfer -- UPLOAD_ERR_PARTIAL
 		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 3))
-			Skin::error(i18n::s('Image transfer has been interrupted.'));
+			Skin::error(i18n::s('No file has been transmitted.'));
 
 		// no file -- UPLOAD_ERR_NO_FILE
 		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 4))
-			Skin::error(i18n::s('No image has been transferred.'));
+			Skin::error(i18n::s('No file has been transmitted.'));
 
 		// zero bytes transmitted
 		elseif(!$_FILES['upload']['size'])
-			Skin::error(sprintf(i18n::s('It is likely file size goes beyond the limit displayed in upload form. Nothing has been transmitted for %s'), $_FILES['upload']['name']));
+			Skin::error(i18n::s('No file has been transmitted.'));
 
 		// an anchor is mandatory to put the file in the file system
 		elseif(!is_object($anchor))
@@ -403,7 +403,7 @@ if(Surfer::is_crawler()) {
 
 	// nothing has been posted
 	} elseif(!isset($_REQUEST['id']))
-		Skin::error(i18n::s('No file has been transferred. Check maximum file size.'));
+		Skin::error(i18n::s('No file has been transmitted.'));
 
 	// an error has already been encountered
 	if(count($context['error'])) {

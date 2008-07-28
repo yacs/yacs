@@ -88,10 +88,6 @@ Class rss_Codec extends Codec {
 		}
 		xml_parser_free($parser);
 
-		// transcode from utf8 to unicode
-		if($encoding == 'UTF-8')
-			$this->items = utf8::decode_recursively($this->items);
-
 		// return parsing result
 		return array(TRUE, $this->items);
 	}
@@ -218,7 +214,7 @@ Class rss_Codec extends Codec {
 		$label = preg_replace(array('/\[(.*?)\]/s', '/\[\/(.*?)\]/s'), ' ', $label);
 
 		// reintroduce new lines
-		$label = preg_replace('/<br\s*\/*>/i', "\n", $label);
+		$label = preg_replace('/<br\s*\/>/i', "\n", $label);
 
 		// make some room around titles, paragraphs, and divisions
 		$label = preg_replace('/<(code|div|h1|h2|h3|ol|li|p|pre|ul)>/i', ' <\\1>', $label);

@@ -72,7 +72,7 @@ Class Layout_articles_as_table extends Layout_interface {
 				$title .= RESTRICTED_FLAG.' ';
 
 			// indicate the id in the hovering popup
-			$hover = i18n::s('Read this page');
+			$hover = i18n::s('View the page');
 			if(Surfer::is_member())
 				$hover .= ' [article='.$item['id'].']';
 
@@ -114,15 +114,15 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = FILE_TOOL_IMG.' '.sprintf(i18n::ns('1 file', '%d files', $count), $count);
+				$details[] = FILE_TOOL_IMG.' '.sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = LINK_TOOL_IMG.' '.sprintf(i18n::ns('1 link', '%d links', $count), $count);
+				$details[] = LINK_TOOL_IMG.' '.sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
 			// comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), COMMENT_TOOL_IMG.' '.sprintf(i18n::ns('1 comment', '%d comments', $count), $count));
+				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), COMMENT_TOOL_IMG.' '.sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 			// describe attachments
 			if(count($details))

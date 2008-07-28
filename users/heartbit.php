@@ -54,7 +54,7 @@ if(!Surfer::get_id()) {
 	$fields['type'] = $_REQUEST['type'];
 
 	if(isset($_REQUEST['address']))
-		$fields['address'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $_REQUEST['address']);
+		$fields['address'] =& encode_link($_REQUEST['address']);
 	if(isset($_REQUEST['message']))
 		$fields['message'] = strip_tags($_REQUEST['message']);
 

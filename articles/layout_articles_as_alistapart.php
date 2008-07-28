@@ -265,7 +265,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		// count the number of files in this article
 		if($count = Files::count_for_anchor('article:'.$item['id'])) {
 			if($count > FILES_PER_PAGE)
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 file', '%d files', $count), $count)));
+				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count)));
 
 			// list files by date (default) or by title (option files_by_title)
 			include_once $context['path_to_root'].'files/files.php';
@@ -312,7 +312,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 		// info on related comments
 		if($count = Comments::count_for_anchor('article:'.$item['id']))
-			$menu = array_merge($menu, array(Comments::get_url('article:'.$item['id'], 'list') => sprintf(i18n::ns('1 comment', '%d comments', $count), $count)));
+			$menu = array_merge($menu, array(Comments::get_url('article:'.$item['id'], 'list') => sprintf(i18n::ns('%d comment', '%d comments', $count), $count)));
 
 		// new links are accepted at the index page and at the article level
 		if(is_object($anchor) && $anchor->has_option('with_links')
@@ -330,7 +330,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		// info on related links
 		include_once $context['path_to_root'].'links/links.php';
 		if($count = Links::count_for_anchor('article:'.$item['id']))
-			$menu = array_merge($menu, array($url.'#links' => sprintf(i18n::ns('1 link', '%d links', $count), $count)));
+			$menu = array_merge($menu, array($url.'#links' => sprintf(i18n::ns('%d link', '%d links', $count), $count)));
 
 		// new files are accepted at the index page and at the article level
 		if(is_object($anchor) && $anchor->has_option('with_files')

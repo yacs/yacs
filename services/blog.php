@@ -506,10 +506,6 @@ if(!isset($parameters) || !is_array($parameters) || !count($parameters) || !isse
 // dispatch the request
 else {
 
-//	// transcode to our internal charset
-//	if($context['charset'] == 'utf-8')
-//		$parameters = utf8::decode_recursively($parameters);
-
 	// remember parameters if debug mode
 	if($context['debug_blog'] == 'Y')
 		Logger::remember('services/blog.php', 'blog '.$parameters['methodName'], isset($parameters['params'])?$parameters['params']:'', 'debug');

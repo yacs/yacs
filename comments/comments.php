@@ -1129,12 +1129,12 @@ Class Comments {
 				$items = array();
 				while($item =& SQL::fetch($result)) {
 
-					// reset the rendering engine between items
-					if(is_callable(array('Codes', 'initialize')))
-						Codes::initialize(Comments::get_url($item['id']));
-
 					// url to read the full article
 					$url = Comments::get_url($item['id']);
+
+					// reset the rendering engine between items
+					if(is_callable(array('Codes', 'initialize')))
+						Codes::initialize($url);
 
 					// format the resulting string depending on layout
 					$items[$url] = Skin::layout_comment($item, $variant);

@@ -295,10 +295,10 @@ if(Surfer::is_crawler()) {
 						$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, maybe with some images and/or files'), '<a href="'.$context['url_to_root'].'articles/edit.php">'.i18n::s('Add a page').'</a>').'</li></ul>';
 
 					// edit profile
-					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, to let others have a better understanding of who I am'), '<a href="'.$context['url_to_root'].'users/edit.php?id='.$_REQUEST['id'].'">'.i18n::s('Edit my user profile').'</a>').'</li></ul>';
+					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, to let others have a better understanding of who I am'), '<a href="'.$context['url_to_root'].Users::get_url($_REQUEST['id'], 'view', $_REQUEST['nick_name']).'">'.i18n::s('Edit my user profile').'</a>').'</li></ul>';
 
 					// more help
-					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, and get basic directions'), '<a href="'.$context['url_to_root'].'help.php">'.i18n::s('Go the main help page').'</a>').'</li></ul>';
+					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s, and get basic directions'), '<a href="'.$context['url_to_root'].'help/">'.i18n::s('Go the main help page').'</a>').'</li></ul>';
 
 					// display on page bottom
 					$context['text'] .= Skin::build_block($follow_up, 'bottom');
@@ -559,11 +559,11 @@ if($with_form) {
 			.BR.'<input type="radio" name="active" value="R"';
 		if(isset($item['active']) && ($item['active'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= ' '.EOT.' '.i18n::s('Access is restricted to authenticated members.')
+		$input .= ' '.EOT.' '.i18n::s('Access is restricted to authenticated members')
 			.BR.'<input type="radio" name="active" value="N"';
 		if(isset($item['active']) && ($item['active'] == 'N'))
 			$input .= ' checked="checked"';
-		$input .= ' '.EOT.' '.i18n::s('Access is restricted to associates.')."\n";
+		$input .= ' '.EOT.' '.i18n::s('Access is restricted to associates')."\n";
 		$fields[] = array($label, $input);
 	}
 

@@ -112,9 +112,9 @@ if(Surfer::is_crawler()) {
 	// warns associates if not active
 	if(($item['active'] != 'Y') && Surfer::is_associate()) {
 		if($item['active'] == 'R')
-			$details[] = i18n::s('Access is restricted to authenticated members.');
+			$details[] = i18n::s('Access is restricted to authenticated members');
 		else
-			$details[] = i18n::s('Access is restricted to associates.');
+			$details[] = i18n::s('Access is restricted to associates');
 	}
 
 	// provide details
@@ -123,11 +123,11 @@ if(Surfer::is_crawler()) {
 
 	// the full name
 	if($item['full_name'])
-		$context['text'] .= '<p>'.sprintf(i18n::s('Full name: %s'), $item['full_name'])."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Full name'), $item['full_name'])."</p>\n";
 
 	// web address, if any
 	if(isset($item['web_address']) && $item['web_address'])
-		$context['text'] .= '<p>'.sprintf(i18n::s('Web address: %s'), Skin::build_link($item['web_address'], $item['web_address'], 'external'))."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Web address'), Skin::build_link($item['web_address'], $item['web_address'], 'external'))."</p>\n";
 
 	// email address - not showed to anonymous surfers for spam protection
 	if(isset($item['email']) && $item['email'] && Surfer::may_mail()) {

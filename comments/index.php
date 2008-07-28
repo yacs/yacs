@@ -44,7 +44,7 @@ $context['page_title'] = i18n::s('Threads');
 // count comments in the database
 $stats = Comments::stat_threads();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 thread', '%d threads', $stats['count']), $stats['count'])));
+	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d thread', '%d threads', $stats['count']), $stats['count'])));
 
 // navigation commands for comments, if necessary
 if($stats['count'] > THREADS_PER_PAGE) {
@@ -71,7 +71,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// query the database and layout that stuff
 	if(!$text = Comments::list_threads_by_date($offset, THREADS_PER_PAGE, $layout))
-		$context['text'] .= '<p>'.i18n::s('No comment has been transmitted yet.').'</p>';
+		$context['text'] .= '<p>'.i18n::s('No comment has been transmitted.').'</p>';
 
 	// we have an array to format
 	if(is_array($text))

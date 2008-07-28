@@ -233,7 +233,7 @@ if(Surfer::is_crawler()) {
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
-		$menu = array_merge($menu, array(Decisions::get_url($_REQUEST['id'], 'view') => i18n::s('View the decision')));
+		$menu = array_merge($menu, array(Decisions::get_url($_REQUEST['id'], 'view') => i18n::s('View this decision')));
 		$menu = array_merge($menu, array(Decisions::get_url($_REQUEST['id'], 'edit') => i18n::s('Edit the decision')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');

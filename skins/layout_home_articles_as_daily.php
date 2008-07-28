@@ -66,7 +66,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 		if(!SQL::count($result)) {
 			$label = i18n::s('No article has been published so far.');
 			if(Surfer::is_associate())
-				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', i18n::s('Content Assistant'), 'shortcut'));
+				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
 			return $output;
 		}
@@ -191,12 +191,12 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id']))
-				$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
+				$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'])) {
 				$link = Comments::get_url('article:'.$item['id'], 'list');
-				$menu[] = Skin::build_link($link, sprintf(i18n::ns('1 comment', '%d comments', $count), $count), 'basic');
+				$menu[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 			}
 
 			// comment
@@ -205,7 +205,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id']))
-				$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('1 link', '%d links', $count), $count), 'basic');
+				$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 			// trackback
 			if($context['with_friendly_urls'] == 'Y')

@@ -36,7 +36,7 @@ $context['page_title'] = i18n::s('Forms');
 // count forms in the database
 $stats = Forms::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 form', '%d forms', $stats['count']), $stats['count'])));
+	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d form', '%d forms', $stats['count']), $stats['count'])));
 
 // navigation commands for forms, if necessary
 if($stats['count'] > $items_per_page) {

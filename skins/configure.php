@@ -576,7 +576,7 @@ elseif(!Surfer::is_associate()) {
 		$context['skins_freemind_section_color'] = '';
 	if(!isset($context['skins_freemind_section_style']))
 		$context['skins_freemind_section_style'] = '';
-	$label = i18n::s('Section nodes');
+	$label = i18n::s('Sections');
 	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_section_color" size="8" value="'.encode_field($context['skins_freemind_section_color']).'" maxlength="8"'.EOT)
 		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_section_bgcolor" size="8" value="'.encode_field($context['skins_freemind_section_bgcolor']).'" maxlength="8"'.EOT)
 		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_section_style" size="8" value="'.encode_field($context['skins_freemind_section_style']).'" maxlength="8"'.EOT);
@@ -590,7 +590,7 @@ elseif(!Surfer::is_associate()) {
 		$context['skins_freemind_article_color'] = '';
 	if(!isset($context['skins_freemind_article_style']))
 		$context['skins_freemind_article_style'] = '';
-	$label = i18n::s('Article nodes');
+	$label = i18n::s('Articles');
 	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_article_color" size="8" value="'.encode_field($context['skins_freemind_article_color']).'" maxlength="8"'.EOT)
 		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_article_bgcolor" size="8" value="'.encode_field($context['skins_freemind_article_bgcolor']).'" maxlength="8"'.EOT)
 		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_article_style" size="8" value="'.encode_field($context['skins_freemind_article_style']).'" maxlength="8"'.EOT);
@@ -641,7 +641,7 @@ elseif(!Surfer::is_associate()) {
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
 
 	// remind the surfer
-	$context['text'] .= '<p>'.i18n::s('This instance of YACS runs in demonstration mode. For security reasons configuration parameters cannot be changed in this mode.')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.')."</p>\n";
 
 // save updated parameters
 } else {

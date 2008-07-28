@@ -167,7 +167,7 @@ if(Surfer::is_crawler()) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
 
 	// remind the surfer
-	$context['text'] .= '<p>'.i18n::s('This instance of YACS runs in demonstration mode. For security reasons mail messages cannot be actually sent in this mode.').'</p>'."\n";
+	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.').'</p>'."\n";
 
 // no recipient has been found
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && (!isset($_REQUEST['to']) || !$_REQUEST['to'])) {
@@ -382,7 +382,7 @@ if(Surfer::is_crawler()) {
 		."\n"
 		.'	// body is mandatory'."\n"
 		.'	if(!container.message.value) {'."\n"
-		.'		alert("'.i18n::s('The message content can not be empty.').'");'."\n"
+		.'		alert("'.i18n::s('Message content can not be empty.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"

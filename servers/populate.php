@@ -33,12 +33,12 @@
  * in order to maintain the list of (active) servers using YACS.
  * Based on a XML-RPC call to [code]weblogUpdates.ping[/code] when your site is updated.
  *
- * This script may be included in an other script, such as [script]control/populate.php[/script].
+ * This script may be included in an other script, such as [script]help/populate.php[/script].
  * A link is also added at [script]servers/index.php[/script], the index page of servers, to launch it directly.
  *
  * Only associates can proceed.
  *
- * @see control/populate.php
+ * @see help/populate.php
  * @see servers/index.php
  *
  * @author Bernard Paques

@@ -173,10 +173,10 @@ if(!isset($item['id'])) {
 		if(!headers_sent()) {
 
 			// generate some strong validator
-			$etag = '"'.md5($archive.':'.Surfer::get_capability()).'"';
+			$etag = '"'.md5($archive).'"';
 			Safe::header('ETag: '.$etag);
 
-			// validate the content if hash is ok - content depends on surfer capability
+			// validate the content if hash is ok
 			if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && is_array($if_none_match = explode(',', str_replace('\"', '"', $_SERVER['HTTP_IF_NONE_MATCH'])))) {
 				foreach($if_none_match as $target) {
 					if(trim($target) == $etag) {

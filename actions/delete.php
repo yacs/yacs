@@ -127,7 +127,7 @@ if(!isset($item['id'])) {
 
 	// the submit button
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-		.Skin::build_submit_button(i18n::s('Yes, I want to suppress this action'), NULL, NULL, 'confirmed')."\n"
+		.Skin::build_submit_button(i18n::s('Yes, I want to delete this action'), NULL, NULL, 'confirmed')."\n"
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";

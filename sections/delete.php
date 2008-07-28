@@ -122,11 +122,11 @@ if(!isset($item['id'])) {
 // the form
 else {
 
-	// all sub-sections have not been suppressed
+	// all sub-sections have not been deleted
 	if(($stats = Sections::stat_for_anchor('section:'.$item['id'])) && $stats['count'])
 		Skin::error(i18n::s('Warning: Sub-sections and related content will be definitely deleted as well.'));
 
-	// all articles have not been suppressed
+	// all articles have not been deleted
 	if($count = Articles::count_for_anchor('section:'.$item['id']))
 		Skin::error(i18n::s('Warning: Several pages will be deleted as well.'));
 
@@ -167,7 +167,7 @@ else {
 		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 	// count items related to this section
-	$context['text'] .= Anchors::stat_related_to('section:'.$item['id'], i18n::s('Following items are attached to this record and will be suppressed as well.'));
+	$context['text'] .= Anchors::stat_related_to('section:'.$item['id'], i18n::s('Following items are attached to this record and will be deleted as well.'));
 
 }
 

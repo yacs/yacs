@@ -344,7 +344,7 @@ if($with_form) {
 	$help .= '</select></p></form>';
 
 	if(Surfer::is_associate())
-		$help .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('control/populate.php', 'Content Assistant', 'shortcut')).'</p>'."\n";
+		$help .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', 'Content Assistant', 'shortcut')).'</p>'."\n";
 	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }

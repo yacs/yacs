@@ -66,7 +66,7 @@ $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
 if(isset($item['nick_name']))
-	$context['page_title'] = sprintf(i18n::s('Delete: %s'), $item['nick_name']);
+	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Delete'), $item['nick_name']);
 
 // not found
 if(!isset($item['id'])) {
@@ -83,7 +83,7 @@ if(!isset($item['id'])) {
 
 	// remind the surfer
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
-	$context['text'] .= '<p>'.i18n::s('This instance of YACS runs in demonstration mode. For security reasons user profiles cannot be actually deleted in this mode.')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.')."</p>\n";
 
 // deletion is confirmed
 } elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {
@@ -143,7 +143,7 @@ else {
 			$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
 
 	// count items related to this user
-	$context['text'] .= Anchors::stat_related_to('user:'.$item['id'], i18n::s('Following items are attached to this record and will be suppressed as well.'));
+	$context['text'] .= Anchors::stat_related_to('user:'.$item['id'], i18n::s('Following items are attached to this record and will be deleted as well.'));
 
 }
 

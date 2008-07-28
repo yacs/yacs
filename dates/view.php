@@ -80,7 +80,7 @@ if(!isset($item['id'])) {
 } else {
 
 	// initialize the rendering engine
-	Codes::initialize(dates::get_url($item['id']));
+	Codes::initialize(Dates::get_url($item['id']));
 
 	// information on uploader
 	if(Surfer::is_member() && $item['edit_name'])

@@ -516,15 +516,15 @@ Class Servers {
 
 		// protect from hackers
 		if(isset($fields['main_url']))
-			$fields['main_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['main_url']);
+			$fields['main_url'] =& encode_link($fields['main_url']);
 		if(isset($fields['feed_url']))
-			$fields['feed_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['feed_url']);
+			$fields['feed_url'] =& encode_link($fields['feed_url']);
 		if(isset($fields['ping_url']))
-			$fields['ping_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['ping_url']);
+			$fields['ping_url'] =& encode_link($fields['ping_url']);
 		if(isset($fields['search_url']))
-			$fields['search_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['search_url']);
+			$fields['search_url'] =& encode_link($fields['search_url']);
 		if(isset($fields['monitor_url']))
-			$fields['monitor_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['monitor_url']);
+			$fields['monitor_url'] =& encode_link($fields['monitor_url']);
 
 		// make a host name
 		if(!isset($fields['host_name']))

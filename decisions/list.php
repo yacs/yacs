@@ -170,7 +170,7 @@ if(!is_object($anchor)) {
 		include_once '../decisions/decisions.php';
 		$stats = Decisions::stat_for_anchor($anchor->get_reference());
 		if($stats['count'] > DECISIONS_PER_PAGE)
-			$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('1 decision', '%d decisions', $stats['count']), $stats['count'])));
+			$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d decision', '%d decisions', $stats['count']), $stats['count'])));
 
 		// list decisions by date
 		$items = Decisions::list_by_date_for_anchor($anchor->get_reference(), $offset, DECISIONS_PER_PAGE, $layout);

@@ -95,7 +95,7 @@ Class Layout_articles_as_news extends Layout_interface {
 				$suffix .= Codes::beautify($item['introduction'], $item['options']);
 
 				// add a link to the main page
-				$suffix .= BR.Skin::build_link($url, i18n::s('more').MORE_IMG, 'basic', i18n::s('Read the page'));
+				$suffix .= BR.Skin::build_link($url, i18n::s('More').MORE_IMG, 'basic', i18n::s('View the page'));
 
 			// else use a teaser, if no overlay
 			} elseif(!is_object($overlay)) {
@@ -117,15 +117,15 @@ Class Layout_articles_as_news extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
+				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
+				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
+				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// actually insert details
 			if($details)

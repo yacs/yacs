@@ -324,17 +324,13 @@ Class Article extends Anchor {
 				if(is_callable(array('Codes', 'beautify')))
 					$text = Codes::beautify($text, $this->item['options']);
 
-				// strip all pairing YACS codes (delete tables, etc.)
-				else
-					$text = preg_replace('/\[(.*?).*?\](.*?)\[\/\1\]/s', '${2}', $text);
-
 			}
 
 			// preserve HTML only for teasers
 			if($variant != 'teaser') {
 
 				// preserve breaks
-				$text = preg_replace('/<(br *\/*|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+				$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
 
 				// strip most html tags
 				$text = strip_tags($text, '<a><b><br><i><img><strong><u>');
@@ -368,10 +364,6 @@ Class Article extends Anchor {
 			if(is_callable(array('Codes', 'beautify')))
 				$text = Codes::beautify($text, $this->item['options']);
 
-			// strip all pairing YACS codes (delete tables, etc.)
-			else
-				$text = preg_replace('/\[(.*?).*?\](.*?)\[\/\1\]/s', '${2}', $text);
-
 		}
 
 		// turn html entities to unicode entities
@@ -385,7 +377,7 @@ Class Article extends Anchor {
 		default:
 
 			// preserve breaks
-			$text = preg_replace('/<(br *\/*|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
 
 			// strip every html tags
 			$text = strip_tags($text);
@@ -401,7 +393,7 @@ Class Article extends Anchor {
 		case 'hover':
 
 			// preserve breaks
-			$text = preg_replace('/<(br *\/*|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
 
 			// strip every html tags
 			$text = strip_tags($text);
@@ -412,7 +404,7 @@ Class Article extends Anchor {
 
 			// ensure we have some text
 			if(!$text)
-				$text = i18n::s('Read the page');
+				$text = i18n::s('View the page');
 
 			// mention shortcut to article
 			if(Surfer::is_associate())
@@ -425,7 +417,7 @@ Class Article extends Anchor {
 		case 'quote':
 
 			// preserve breaks
-			$text = preg_replace('/<(br *\/*|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
 
 			// strip most html tags
 			$text = strip_tags($text, '<a><b><br><i><img><strong><u>');

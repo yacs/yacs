@@ -64,7 +64,7 @@ Class Skin_Skeleton {
 	 * @param string a unique object id, if any
 	 * @return string the rendered text
 	 *
-	 * @see codes/codes.php
+	 * @see shared/codes.php
 	**/
 	function &build_block($text, $variant='', $id='') {
 		global $context;
@@ -112,11 +112,11 @@ Class Skin_Skeleton {
 			return Skin::build_error_block($text, $id);
 
 		case 'header1':
-			$text = '<h2'.$id.'>'.TITLE_PREFIX.Codes::beautify_title($text).TITLE_SUFFIX.'</h2>';
+			$text = '<h2'.$id.'><span>'.Codes::beautify_title($text).'</span></h2>';
 			return $text;
 
 		case 'header2':
-			$text = '<h3'.$id.'>'.SUBTITLE_PREFIX.Codes::beautify_title($text).SUBTITLE_SUFFIX.'</h3>';
+			$text = '<h3'.$id.'><span>'.Codes::beautify_title($text).'</span></h3>';
 			return $text;
 
 		case 'header3':
@@ -145,11 +145,11 @@ Class Skin_Skeleton {
 			return $text;
 
 		case 'page_title':
-			$text = '<h1'.$id.'>'.PAGE_TITLE_PREFIX.Codes::beautify_title($text).PAGE_TITLE_SUFFIX."</h1>\n";
+			$text = '<h1'.$id.'><span>'.Codes::beautify_title($text)."</span></h1>\n";
 			return $text;
 
 		case 'question':
-			$text = '<h2'.$id.'>'.QUESTION_PREFIX.Codes::beautify_title($text).QUESTION_SUFFIX.'</h2>';
+			$text = '<h2'.$id.' class="question"><span>'.Codes::beautify_title($text).'</span></h2>';
 			return $text;
 
 		case 'quote':
@@ -172,11 +172,11 @@ Class Skin_Skeleton {
 			return $text;
 
 		case 'subtitle':
-			$text = '<h3'.$id.'>'.SUBTITLE_PREFIX.Codes::beautify_title($text).SUBTITLE_SUFFIX.'</h3>';
+			$text = '<h3'.$id.'><span>'.Codes::beautify_title($text).'</span></h3>';
 			return $text;
 
 		case 'title':
-			$text = '<h2'.$id.'>'.TITLE_PREFIX.Codes::beautify($text).TITLE_SUFFIX.'</h2>';
+			$text = '<h2'.$id.'><span>'.Codes::beautify_title($text).'</span></h2>';
 			return $text;
 
 		default:
@@ -280,7 +280,7 @@ Class Skin_Skeleton {
 		global $context;
 
 		if(!$popup)
-			$popup = i18n::s('More information');
+			$popup = i18n::s('Information channels');
 		$text = $title.' '.Skin::build_link($url, TITLE_SHORTCUT, 'more', $popup);
 		return $text;
 	}
@@ -656,7 +656,7 @@ Class Skin_Skeleton {
 		$text = '<dl class="extra_box"'.$id.'>'."\n";
 
 		// always add a header
-		$text .= '<dt>'.EXTRA_BOX_TITLE_PREFIX.Skin::strip($title).EXTRA_BOX_TITLE_SUFFIX."</dt>\n";
+		$text .= '<dt><span>'.Skin::strip($title)."</span></dt>\n";
 
 		// box content
 		$text .= '<dd>'.$content.'</dd>';
@@ -686,7 +686,7 @@ Class Skin_Skeleton {
 		$text = '<dl class="floating_box"'.$id.'>'."\n";
 
 		// always add a header
-		$text .= '<dt>'.$title."</dt>\n";
+		$text .= '<dt><span>'.$title."</span></dt>\n";
 
 		// box content --add clear at the end to align images
 		$text .= '<dd>'.$content.'<br style="clear: both;" /></dd>';
@@ -729,10 +729,10 @@ Class Skin_Skeleton {
 		// maybe we have an image to enhance rendering
 		$img = '';
 		if(FOLDER_EXTEND_IMG_HREF)
-			$img = '<img src="'.FOLDER_EXTEND_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to fold or pack')).'" title="'.encode_field(i18n::s('Click to fold or pack')).'"'.EOT.' ';
+			$img = '<img src="'.FOLDER_EXTEND_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to fold/unfold')).'" title="'.encode_field(i18n::s('Click to fold/unfold')).'" :> ';
 
 		// Yacs.toggle_folder() is in shared/yacs.js
-		$text = '<div class="folder_box"'.$id.'><a class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.FOLDER_TITLE_PREFIX.$img.Skin::strip($title).FOLDER_TITLE_SUFFIX.'</a>'
+		$text = '<div class="folder_box"'.$id.'><a class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.Skin::strip($title).'</a>'
 			.'<div class="folder_body" style="display: none">'.$content."</div></div>\n";
 
 		// pass by reference
@@ -746,7 +746,7 @@ Class Skin_Skeleton {
 	 * @param string the variant: 'updated', 'new', etc.
 	 * @return string the rendered text
 	 *
-	 * @see codes/codes.php
+	 * @see shared/codes.php
 	**/
 	function &build_flag($variant) {
 		global $context;
@@ -862,7 +862,7 @@ Class Skin_Skeleton {
 		$text = '<dl class="gadget_box"'.$id.'>'."\n";
 
 		// always add a header
-		$text .= '<dt>'.GADGET_BOX_TITLE_PREFIX.Skin::strip($title).GADGET_BOX_TITLE_SUFFIX."</dt>\n";
+		$text .= '<dt><span>'.Skin::strip($title)."</span></dt>\n";
 
 		// box content --add clear at the end to align images
 		$text .= '<dd>'.$content.'<br style="clear: both;" /></dd>';
@@ -911,7 +911,7 @@ Class Skin_Skeleton {
 
 		// add a header, but only if there is a title
 		if($title =& Skin::strip($title))
-			$text .= '<'.$tag.'>'.HEADER_BOX_TITLE_PREFIX.$title.HEADER_BOX_TITLE_SUFFIX.'</'.$tag.">\n";
+			$text .= '<'.$tag.'><span>'.$title.'</span></'.$tag.">\n";
 
 		// box content
 		$text .= '<div>'.$content.'</div>';
@@ -1252,7 +1252,6 @@ Class Skin_Skeleton {
 		}
 
 		// open in a separate window if asked explicitly or on file download
-// 		if($new_window || preg_match('/\/file(s\/fetch\.php|-fetch\/)(?!.+detach$)/', $url) || preg_match('/\/file(s\/stream\.php|-stream\/)/', $url))
 		if($new_window || preg_match('/\/file(s\/stream\.php|-stream\/)/', $url))
 			$new_window = ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"';
 		else
@@ -1269,7 +1268,7 @@ Class Skin_Skeleton {
 
 			// a default title
 			if(!$href_title)
-				$href_title = ' title="'.encode_field(i18n::s('Read the page')).'"';
+				$href_title = ' title="'.encode_field(i18n::s('View the page')).'"';
 
 			$text = '<a href="'.$url.'"'.$href_title.' class="article"'.$new_window.'>'.$text.'</a>';
 			return $text;
@@ -1292,7 +1291,7 @@ Class Skin_Skeleton {
 
 			// a default title
 			if(!$href_title)
-				$href_title = ' title="'.encode_field(i18n::s('Browse the category')).'"';
+				$href_title = ' title="'.encode_field(i18n::s('View the category')).'"';
 
 			$text = '<a href="'.$url.'"'.$href_title.' class="category"'.$new_window.'>'.$text.'</a>';
 			return $text;
@@ -1301,7 +1300,7 @@ Class Skin_Skeleton {
 
 			// a default title
 			if(!$href_title)
-				$href_title = ' title="'.encode_field(i18n::s('Read this comment')).'"';
+				$href_title = ' title="'.encode_field(i18n::s('View this comment')).'"';
 
 			$text = '<a href="'.$url.'"'.$href_title.' class="comment"'.$new_window.'>'.$text.'</a>';
 			return $text;
@@ -1356,7 +1355,7 @@ Class Skin_Skeleton {
 
 			// a default title
 			if(!$href_title)
-				$href_title = ' title="'.encode_field(i18n::s('View file details')).'"';
+				$href_title = ' title="'.encode_field(i18n::s('Zoom')).'"';
 
 			$text = '<a href="'.$url.'"'.$href_title.' class="file"'.$new_window.'>'.$text.'</a>';
 			return $text;
@@ -1378,7 +1377,7 @@ Class Skin_Skeleton {
 
 			// a default title
 			if(!$href_title)
-				$href_title = ' title="'.encode_field(i18n::s('Browse this page')).'"';
+				$href_title = ' title="'.encode_field(i18n::s('View the page')).'"';
 
 			$text = '<a href="'.$url.'"'.$href_title.' class="external">'.$text.'</a>';
 			return $text;
@@ -1404,7 +1403,7 @@ Class Skin_Skeleton {
 
 			// a default title
 			if(!$href_title)
-				$href_title = ' title="'.encode_field(i18n::s('More to read...')).'"';
+				$href_title = ' title="'.encode_field(i18n::s('More')).'"';
 
 			$text = '<a href="'.$url.'"'.$href_title.$new_window.'>'.$text.'</a>';
 			return $text;
@@ -1417,7 +1416,7 @@ Class Skin_Skeleton {
 
 			// a default title
 			if(!$href_title)
-				$href_title = ' title="'.encode_field(i18n::s('Next page')).'"';
+				$href_title = ' title="'.encode_field(i18n::s('Next')).'"';
 
 			$text = '<a href="'.$url.'"'.$href_title.' class="next"'.$new_window.'>'.$text.'</a>';
 			return $text;
@@ -1430,7 +1429,7 @@ Class Skin_Skeleton {
 
 			// a default title
 			if(!$href_title)
-				$href_title = ' title="'.encode_field(i18n::s('Previous page')).'"';
+				$href_title = ' title="'.encode_field(i18n::s('Previous')).'"';
 
 			$text = '<a href="'.$url.'"'.$href_title.' class="previous"'.$new_window.'>'.$text.'</a>';
 			return $text;
@@ -1483,7 +1482,7 @@ Class Skin_Skeleton {
 
 			// a default title
 			if(!$href_title)
-				$href_title = ' title="'.encode_field(i18n::s('Read more')).'"';
+				$href_title = ' title="'.encode_field(i18n::s('View the page')).'"';
 
 			$text = '<a href="'.$url.'"'.$href_title.' class="section"'.$new_window.'>'.$text.'</a>';
 			return $text;
@@ -1718,9 +1717,8 @@ Class Skin_Skeleton {
 
 			// use the image as a link to the target page
 			if($icon) {
-
 				if(!$title)
-					$title = i18n::s('Read more');
+					$title = i18n::s('View the page');
 				$icon =& Skin::build_link($url, $icon, 'basic', $title, $new_window);
 			}
 
@@ -1760,7 +1758,7 @@ Class Skin_Skeleton {
 		$text = '<dl class="navigation_box"'.$id.'>'."\n";
 
 		// always add a header
-		$text .= '<dt>'.NAVIGATION_BOX_TITLE_PREFIX.Skin::strip($title).NAVIGATION_BOX_TITLE_SUFFIX."</dt>\n";
+		$text .= '<dt><span>'.Skin::strip($title)."</span></dt>\n";
 
 		// box content
 		$text .= '<dd>'.$content.'</dd>';
@@ -2135,7 +2133,7 @@ Class Skin_Skeleton {
 		$text = '<div class="sidebar_box"'.$id.'>'."\n";
 
 		// always add a header
-		$text .= '<h3>'.SIDEBAR_BOX_TITLE_PREFIX.Skin::strip($title).SIDEBAR_BOX_TITLE_SUFFIX."</h3>\n";
+		$text .= '<h3><span>'.Skin::strip($title)."</span></h3>\n";
 
 		// box content
 		$text .= '<div>'.$content.'</div>';
@@ -2412,7 +2410,7 @@ Class Skin_Skeleton {
 
 		// title is optional
 		if($title)
-			$text .= '<h3>'.TOC_BOX_TITLE_PREFIX.Skin::strip($title).TOC_BOX_TITLE_SUFFIX."</h3>\n";
+			$text .= '<h3><span>'.Skin::strip($title)."</span></h3>\n";
 
 		// box content has no div, it is already structured
 		$text .= $content;
@@ -2443,7 +2441,7 @@ Class Skin_Skeleton {
 
 		// title is optional
 		if($title)
-			$text .= '<h3>'.TOQ_BOX_TITLE_PREFIX.Skin::strip($title).TOQ_BOX_TITLE_SUFFIX."</h3>\n";
+			$text .= '<h3><span>'.Skin::strip($title)."</span></h3>\n";
 
 		// box content
 		$text .= '<div>'.$content.'</div>';
@@ -2900,7 +2898,7 @@ Class Skin_Skeleton {
 					$text .= $label;
 				}
 
-				$text = '<p id="crumbs">'.CRUMBS_PREFIX.preg_replace('/\[.+?\]/s', '', $text).CRUMBS_SUFFIX."</p>\n";
+				$text = '<p id="crumbs">'.CRUMBS_PREFIX.$text.CRUMBS_SUFFIX."</p>\n";
 				return $text;
 
 			// items are neatly aligned in a table; use css selectors: table.decorated, td.odd, td.even
@@ -3198,14 +3196,6 @@ Class Skin_Skeleton {
 		// the bullet used to prefix list items
 		Skin::define_img('BULLET_IMG', 'icons/bullet.gif', '¤', '-');
 
-		// the generic HTML to be inserted before a box title
-		if(!defined('BOX_TITLE_PREFIX'))
-			define('BOX_TITLE_PREFIX', '');
-
-		// the generic HTML to be appended to a box title
-		if(!defined('BOX_TITLE_SUFFIX'))
-			define('BOX_TITLE_SUFFIX', '');
-
 		// the HTML string inserted between categories
 		if(!defined('CATEGORY_PATH_SEPARATOR'))
 			define('CATEGORY_PATH_SEPARATOR', ' &gt; ');
@@ -3280,14 +3270,6 @@ Class Skin_Skeleton {
 			define('EXPIRED_FLAG', '<span class="expired flag"><span> ('.$text.') </span>&nbsp;</span>');
 		}
 
-		// the HTML to be inserted before a box title
-		if(!defined('EXTRA_BOX_TITLE_PREFIX'))
-			define('EXTRA_BOX_TITLE_PREFIX', BOX_TITLE_PREFIX);
-
-		// the HTML to be appended to a box title
-		if(!defined('EXTRA_BOX_TITLE_SUFFIX'))
-			define('EXTRA_BOX_TITLE_SUFFIX', BOX_TITLE_SUFFIX);
-
 		// the HTML to be inserted before section family
 		if(!defined('FAMILY_PREFIX'))
 			define('FAMILY_PREFIX', '');
@@ -3321,33 +3303,9 @@ Class Skin_Skeleton {
 				define('FOLDER_PACK_IMG_HREF', '');
 		}
 
-		// the HTML to be inserted before a box title
-		if(!defined('FOLDER_TITLE_PREFIX'))
-			define('FOLDER_TITLE_PREFIX', '');
-
-		// the HTML to be appended to a box title
-		if(!defined('FOLDER_TITLE_SUFFIX'))
-			define('FOLDER_TITLE_SUFFIX', '');
-
-		// the HTML to be inserted before a box title
-		if(!defined('GADGET_BOX_TITLE_PREFIX'))
-			define('GADGET_BOX_TITLE_PREFIX', BOX_TITLE_PREFIX);
-
-		// the HTML to be appended to a box title
-		if(!defined('GADGET_BOX_TITLE_SUFFIX'))
-			define('GADGET_BOX_TITLE_SUFFIX', BOX_TITLE_SUFFIX);
-
-		// the HTML to be inserted before a box title
-		if(!defined('HEADER_BOX_TITLE_PREFIX'))
-			define('HEADER_BOX_TITLE_PREFIX', BOX_TITLE_PREFIX);
-
-		// the HTML to be appended to a box title
-		if(!defined('HEADER_BOX_TITLE_SUFFIX'))
-			define('HEADER_BOX_TITLE_SUFFIX', BOX_TITLE_SUFFIX);
-
 		// the horizontal ruler
 		if(!defined('HORIZONTAL_RULER'))
-			define('HORIZONTAL_RULER', '<hr'.EOT);
+			define('HORIZONTAL_RULER', '<hr />');
 
 		// the prefix icon used for hot threads
 		Skin::define_img('HOT_THREAD_IMG', 'icons/articles/hot_thread.gif');
@@ -3398,14 +3356,6 @@ Class Skin_Skeleton {
 		if(!defined('MENU_2_SUFFIX'))
 			define('MENU_2_SUFFIX', BR);
 
-		// the HTML to be inserted before a menu box title
-		if(!defined('MENU_BOX_TITLE_PREFIX'))
-			define('MENU_BOX_TITLE_PREFIX', BOX_TITLE_PREFIX);
-
-		// the HTML to be appended to a menu box title
-		if(!defined('MENU_BOX_TITLE_SUFFIX'))
-			define('MENU_BOX_TITLE_SUFFIX', BOX_TITLE_SUFFIX);
-
 		// the HTML string used to prefix a menu
 		if(!defined('MENU_PREFIX'))
 			define('MENU_PREFIX', '');
@@ -3420,14 +3370,6 @@ Class Skin_Skeleton {
 
 		// the HTML used to append to a stripped text
 		Skin::define_img('MORE_IMG', 'icons/more.gif', ' &raquo;');
-
-		// the HTML to be inserted before a box title
-		if(!defined('NAVIGATION_BOX_TITLE_PREFIX'))
-			define('NAVIGATION_BOX_TITLE_PREFIX', BOX_TITLE_PREFIX);
-
-		// the HTML to be appended to a box title
-		if(!defined('NAVIGATION_BOX_TITLE_SUFFIX'))
-			define('NAVIGATION_BOX_TITLE_SUFFIX', BOX_TITLE_SUFFIX);
 
 		// the bullet used to signal new pages
 		if(!defined('NEW_FLAG')) {
@@ -3444,7 +3386,7 @@ Class Skin_Skeleton {
 
 		// the HTML string inserted between news items
 		if(!defined('NEWS_SEPARATOR'))
-			define('NEWS_SEPARATOR', '<hr/>');
+			define('NEWS_SEPARATOR', '<hr />');
 
 		// the HTML string appended to news
 		if(!defined('NEWS_SUFFIX'))
@@ -3465,14 +3407,6 @@ Class Skin_Skeleton {
 		// the HTML string appended to the main page menu
 		if(!defined('PAGE_MENU_SUFFIX'))
 			define('PAGE_MENU_SUFFIX', '');
-
-		// the HTML to be inserted before the main title of the page
-		if(!defined('PAGE_TITLE_PREFIX'))
-			define('PAGE_TITLE_PREFIX', '');
-
-		// the HTML to be appended to the main title of the page
-		if(!defined('PAGE_TITLE_SUFFIX'))
-			define('PAGE_TITLE_SUFFIX', '');
 
 		// the bullet used to signal popular pages
 		if(!defined('POPULAR_FLAG')) {
@@ -3501,14 +3435,6 @@ Class Skin_Skeleton {
 			$text = 'Q: ';
 		Skin::define_img('QUESTION_FLAG', 'icons/question.gif', $text, '?');
 
-		// the HTML to be inserted before a question
-		if(!defined('QUESTION_PREFIX'))
-			define('QUESTION_PREFIX', '');
-
-		// the HTML to be appended to a question
-		if(!defined('QUESTION_SUFFIX'))
-			define('QUESTION_SUFFIX', '');
-
 		// the bullet used to signal restricted pages
 		if(is_callable(array('i18n', 's')))
 			$text = i18n::s('restricted');
@@ -3530,14 +3456,6 @@ Class Skin_Skeleton {
 		if(!defined('SECTIONS_PER_PAGE'))
 			define('SECTIONS_PER_PAGE', 50);
 
-		// the HTML to be inserted before a box title
-		if(!defined('SIDEBAR_BOX_TITLE_PREFIX'))
-			define('SIDEBAR_BOX_TITLE_PREFIX', BOX_TITLE_PREFIX);
-
-		// the HTML to be appended to a box title
-		if(!defined('SIDEBAR_BOX_TITLE_SUFFIX'))
-			define('SIDEBAR_BOX_TITLE_SUFFIX', BOX_TITLE_SUFFIX);
-
 		// the HTML to be inserted before the site name
 		if(!defined('SITE_NAME_PREFIX'))
 			define('SITE_NAME_PREFIX', '');
@@ -3549,14 +3467,6 @@ Class Skin_Skeleton {
 		// the HTML used to signal sticky pages
 		if(!defined('STICKY_FLAG'))
 			define('STICKY_FLAG', '');
-
-		// the HTML to be inserted before a subtitle
-		if(!defined('SUBTITLE_PREFIX'))
-			define('SUBTITLE_PREFIX', '');
-
-		// the HTML to be appended to a subtitle
-		if(!defined('SUBTITLE_SUFFIX'))
-			define('SUBTITLE_SUFFIX', '');
 
 		// the HTML string appended to each item of the site bar
 		if(!defined('TABS_ITEM_SUFFIX'))
@@ -3585,33 +3495,9 @@ Class Skin_Skeleton {
 		if(!defined('THREADS_PER_PAGE'))
 			define('THREADS_PER_PAGE', 50);
 
-		// the HTML to be inserted before a title
-		if(!defined('TITLE_PREFIX'))
-			define('TITLE_PREFIX', '');
-
 		// the HTML to signal a shortcut after a title
 		if(!defined('TITLE_SHORTCUT'))
 			define('TITLE_SHORTCUT', '&raquo;');
-
-		// the HTML to be appended to a title
-		if(!defined('TITLE_SUFFIX'))
-			define('TITLE_SUFFIX', '');
-
-		// the HTML to be inserted before a toc box title
-		if(!defined('TOC_BOX_TITLE_PREFIX'))
-			define('TOC_BOX_TITLE_PREFIX', '');
-
-		// the HTML to be appended to a toc box title
-		if(!defined('TOC_BOX_TITLE_SUFFIX'))
-			define('TOC_BOX_TITLE_SUFFIX', '');
-
-		// the HTML to be inserted before a toq box title
-		if(!defined('TOQ_BOX_TITLE_PREFIX'))
-			define('TOQ_BOX_TITLE_PREFIX', '');
-
-		// the HTML to be appended to a toq box title
-		if(!defined('TOQ_BOX_TITLE_SUFFIX'))
-			define('TOQ_BOX_TITLE_SUFFIX', '');
 
 		// the img tag used with 2-columns list; either a folder icon, or equivalent to the bullet
 		Skin::define_img('TWO_COLUMNS_IMG', 'icons/folder.gif', BULLET_IMG);
@@ -3815,7 +3701,7 @@ Class Skin_Skeleton {
 
 		// append a link to the next page, if required -- # is to not overload the existing link
 		if($to_next_page)
-			$bar = array_merge($bar, array( $next_page.'#' => array('', i18n::s('Next page'), '', 'basic') ));
+			$bar = array_merge($bar, array( $next_page.'#' => array('', i18n::s('Next'), '', 'basic') ));
 
 		return $bar;
 	}
@@ -4247,7 +4133,7 @@ Class Skin_Skeleton {
 				$text .= ' ('.sprintf(i18n::s('%d words to read'), $overall).') ';
 
 			// add a link
-			$text .= ' '.Skin::build_link($url, MORE_IMG, 'more', i18n::s('Read more')).' ';
+			$text .= ' '.Skin::build_link($url, MORE_IMG, 'more', i18n::s('View the page')).' ';
 		}
 
 		return $text;

@@ -71,7 +71,7 @@ $context['page_title'] = i18n::s('All pages');
 // count articles in the database
 $stats = Articles::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('1 page', '%d pages', $stats['count']), $stats['count'])));
+	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count'])));
 
 // navigation commands for articles, if necessary
 if($stats['count'] > $items_per_page) {
@@ -102,12 +102,13 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// query the database and layout that stuff
 	$offset = ($page - 1) * $items_per_page;
-	if(!$text = Articles::list_by_date($offset, $items_per_page, $layout))
-		$text = '<p>'.i18n::s('Be the first one to add a page!').'</p>';
+	if($text = Articles::list_by_date($offset, $items_per_page, $layout)) {
 
-	// we have an array to format
-	if(is_array($text))
-		$text =& Skin::build_list($text, 'decorated');
+		// we have an array to format
+		if(is_array($text))
+			$text =& Skin::build_list($text, 'decorated');
+
+	}
 
 	// cache this to speed subsequent queries
 	Cache::put($cache_id, $text, 'articles');
@@ -121,7 +122,7 @@ if(Surfer::is_associate() || (Surfer::is_member() && (!isset($context['users_wit
 // other commands
 if(Surfer::is_associate()) {
 	$context['page_tools'][] = Skin::build_link('articles/review.php', i18n::s('Review queue'), 'basic');
-	$context['page_tools'][] = Skin::build_link('control/populate.php', i18n::s('Content Assistant'));
+	$context['page_tools'][] = Skin::build_link('help/populate.php', i18n::s('Content Assistant'));
 	$context['page_tools'][] = Skin::build_link('articles/import.php', i18n::s('Import articles'), 'basic');
 	$context['page_tools'][] = Skin::build_link('articles/check.php', i18n::s('Maintenance'), 'basic');
 }
@@ -138,7 +139,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// side bar with a rss feed, if this server is well populated
 	if($stats['count'] > $items_per_page) {
-		$text .= Skin::build_box(i18n::s('More information'), Skin::build_link(Feeds::get_url('rss'), i18n::s('Recent pages'), 'xml')
+		$text .= Skin::build_box(i18n::s('Information channels'), Skin::build_link(Feeds::get_url('rss'), i18n::s('Recent pages'), 'xml')
 			.BR.Skin::build_link(Feeds::get_url('articles'), i18n::s('Full content'), 'xml'), 'extra');
 	}
 

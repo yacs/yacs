@@ -121,7 +121,7 @@ if(!Surfer::is_associate()) {
 		if(file_exists($context['path_to_root'].'parameters/demo.flag')) {
 
 			// remind the surfer
-			$context['text'] .= '<p>'.i18n::s('This instance of YACS runs in demonstration mode. For security reasons PHP parameters cannot be displayed in this mode.')."</p>\n";
+			$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.')."</p>\n";
 
 		// call is disable
 		} elseif(!is_callable('phpinfo')) {
@@ -232,7 +232,7 @@ if(!Surfer::is_associate()) {
 } else {
 
 	// the splash message
-	$context['text'] .= '<p>'.i18n::s('Please select among available commands:').'</p>'
+	$context['text'] .= '<p>'.i18n::s('Please select the action to perform.').'</p>'
 		.'<ul>'
 		.'<li>'.sprintf(i18n::s('%s, to learn more about YACS run-time.'), '<a href="'.$context['url_to_root'].'control/info.php?subject=yacs">'.i18n::s('YACS').'</a>').'</li>'
 		.'<li>'.sprintf(i18n::s('%s, to know everything about PHP runtime at this server.'), '<a href="'.$context['url_to_root'].'control/info.php?subject=phpinfo">'.i18n::s('PhpInfo').'</a>').'</li>'

@@ -239,7 +239,7 @@ if(!Surfer::is_associate()) {
 		$context['text'] .= Skin::build_block(i18n::s('Deleted referrals'), 'title');
 
 		if(@count($broken)) {
-			$context['text'] .= i18n::s('Following referrals have been suppressed:').BR."\n";
+			$context['text'] .= i18n::s('Following referrals have been deleted:').BR."\n";
 
 			$context['text'] .= '<ul>';
 			foreach($broken as $url)
@@ -436,7 +436,7 @@ if(!Surfer::is_associate()) {
 // which check?
 } else {
 	// the splash message
-	$context['text'] .= '<p>'.i18n::s('Please select below the check to perform.')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('Please select the action to perform.')."</p>\n";
 
 	// the form
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form">';

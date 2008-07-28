@@ -56,14 +56,14 @@ foreach($items as $url => $label) {
 		$label = $label[1];
 
 	// strip codes
-	include_once '../../codes/codes.php';
+	include_once '../../shared/codes.php';
 	$label = Codes::strip($label);
 
 	// remove every html tag
 	$label = strip_tags(html_entity_decode($label));
 
-	// tranform utf8 to Unicode
-	$label = utf8::to_unicode($label);
+	// tranform utf8
+	$label = utf8::encode($label);
 
 	// make is iso8859-1 -- well, at least, utf-8
 	$label = utf8::to_iso8859($label);

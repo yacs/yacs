@@ -104,7 +104,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 				$icon = $anchor->get_thumbnail_url();
 			}
 			if($icon)
-				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('Read more')).'" title="'.encode_field(i18n::s('Read more')).'"'.EOT.'</a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'"'.EOT.'</a>';
 
 			// rating
 			if($item['rating_count'])
@@ -177,19 +177,19 @@ Class Layout_articles_as_digg extends Layout_interface {
 			$menu = array();
 
 			// read the article
-			$menu = array_merge($menu, array( $url => i18n::s('Read more') ));
+			$menu = array_merge($menu, array( $url => i18n::s('View the page') ));
 
 			// add a link to let surfer rate this item
 			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'rate') => i18n::s('Rate this page') ));
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('1 file', '%d files', $count), $count), 'basic');
+				$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
 				$link = Comments::get_url('article:'.$item['id'], 'list');
-				$menu = array_merge($menu, array( $link => sprintf(i18n::ns('1 comment', '%d comments', $count), $count) ));
+				$menu = array_merge($menu, array( $link => sprintf(i18n::ns('%d comment', '%d comments', $count), $count) ));
 			}
 
 			// discuss
@@ -198,7 +198,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$menu = array_merge($menu, array( $url.'#links' => sprintf(i18n::ns('1 link', '%d links', $count), $count) ));
+				$menu = array_merge($menu, array( $url.'#links' => sprintf(i18n::ns('%d link', '%d links', $count), $count) ));
 
 			// trackback
 			if($context['with_friendly_urls'] == 'Y')

@@ -219,7 +219,7 @@ Class Section extends Anchor {
 					return i18n::s('View the note');
 				if($this->has_layout('wiki'))
 					return i18n::s('View the note');
-				return i18n::s('View the comment');
+				return i18n::s('View this comment');
 
 			// page title to view a comment
 			case 'view_title':
@@ -460,7 +460,6 @@ Class Section extends Anchor {
 
 		// this section
 		$url = $this->get_url();
-		include_once $context['path_to_root'].'codes/codes.php';
 		$label = Codes::beautify_title($this->get_title());
 		$data = array_merge($parent, array($url => $label));
 
@@ -529,17 +528,13 @@ Class Section extends Anchor {
 				if(is_callable(array('Codes', 'beautify')))
 					$text =& Codes::beautify($text, $this->item['options']);
 
-				// strip all pairing YACS codes (delete tables, etc.)
-				else
-					$text = preg_replace('/\[(.*?).*?\](.*?)\[\/\1\]/s', '${2}', $text);
-
 			}
 
 			// preserve HTML
 			if($variant != 'teaser') {
 
 				// preserve breaks
-				$text = preg_replace('/<(br *\/*|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+				$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
 
 				// strip most html tags
 				$text = strip_tags($text, '<a><b><br><i><img><strong><u>');
@@ -572,18 +567,14 @@ Class Section extends Anchor {
 			if(is_callable(array('Codes', 'beautify')))
 				$text =& Codes::beautify($text, $this->item['options']);
 
-			// strip all pairing YACS codes (delete tables, etc.)
-			else
-				$text = preg_replace('/\[(.*?).*?\](.*?)\[\/\1\]/s', '${2}', $text);
-
 			// preserve breaks
-			$text = preg_replace('/<(br *\/*|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
 
 			// strip most html tags
 			$text = strip_tags($text, '<a><b><br><i><img><strong><u>');
 
 			// remove new lines after breaks
-			$text = preg_replace('/<(br *\/*)>\n*/i', "<\\1>", $text);
+			$text = preg_replace('/<(br *\/{0,1})>\n*/i', "<\\1>", $text);
 
 		}
 
@@ -598,7 +589,7 @@ Class Section extends Anchor {
 		default:
 
 			// preserve breaks
-			$text = preg_replace('/<(br *\/*|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
 
 			// strip every html tags
 			$text = strip_tags($text);
@@ -613,7 +604,7 @@ Class Section extends Anchor {
 		case 'hover':
 
 			// preserve breaks
-			$text = preg_replace('/<(br *\/*|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
 
 			// strip every html tags
 			$text = strip_tags($text);
@@ -623,7 +614,7 @@ Class Section extends Anchor {
 
 			// ensure we have some text
 			if(!$text)
-				$text = i18n::s('Read this section');
+				$text = i18n::s('View the page');
 
 			// mention shortcut to section
 			if(Surfer::is_associate())
@@ -636,7 +627,7 @@ Class Section extends Anchor {
 		case 'quote':
 
 			// preserve breaks
-			$text = preg_replace('/<(br *\/*|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
+			$text = preg_replace('/<(br *\/{0,1}|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|p|\/p|\/td)>/i', "<\\1>\n", $text);
 
 			// strip most html tags
 			$text = strip_tags($text, '<a><b><br><i><img><strong><u>');

@@ -94,12 +94,6 @@ Class i18n {
 		if(!isset($_SESSION['l10n_modules']))
 			$_SESSION['l10n_modules'] = array();
 
-		// ensure all cached modules are accurate on development machine
-		if($context['with_debug'] == 'Y') {
-			i18n::load('en', $module);
-			i18n::load('fr', $module);
-		}
-
 		// this module has already been loaded
 		if(isset($_SESSION['l10n_modules'][$module]))
 			return;
@@ -110,6 +104,12 @@ Class i18n {
 		// profiling mode
 		if($context['with_profile'] == 'Y')
 			Logger::profile('i18n::bind', 'start');
+
+		// ensure all cached modules are accurate on development machine
+		if($context['with_debug'] == 'Y') {
+			i18n::load('en', $module);
+			i18n::load('fr', $module);
+		}
 
 		// load strings according to surfer localization
 		i18n::load($context['language'], $module);
@@ -149,26 +149,15 @@ Class i18n {
 		if(!isset($_SESSION['l10n']) || !isset($_SESSION['l10n'][$locale]) || !is_array($_SESSION['l10n'][$locale]))
 			return $text;
 
-		// this is not a known original string
-		if(!array_key_exists($text, $_SESSION['l10n'][$locale])) {
-
-			// log information on development platform
-			if(($context['with_debug'] == 'Y') && file_exists($context['path_to_root'].'parameters/switch.on'))
-				logger::remember('i18n/i18n.php', $text.' is not defined for locale '.$locale, '', 'debug');
-
-			// degrade to provided string
-			return $text;
-		}
-
 		// provide the localized string
-		$text = $_SESSION['l10n'][$locale][$text];
+		$text =& i18n::lookup($_SESSION['l10n'][$locale], $text);
 		return $text;
 	}
 
 	/**
 	 * filter text provided to surfer
 	 *
-	 * @see codes/codes.php
+	 * @see shared/codes.php
 	 *
 	 * @param string some text
 	 * @param string the target language
@@ -770,314 +759,6 @@ Class i18n {
 	}
 
 	/**
-	 * the database of international phone codes
-	 *
-	 * @link http://www.kropla.com/dialcode.htm International dialing codes
-	 *
-	 * @return array of ($label => code)
-	 */
-	function &get_phone_codes() {
-
-		// initialize the table only once
-		static $codes;
-		if(!is_array($codes)) {
-
-			// alphabetical order of countries
-			$codes = array(
-				'AF'	=> '+93',		// Afghanistan
-				'AL'	=> '+355',		// Albania
-				'DZ'	=> '+213',		// Algeria
-				'AS'	=> '+1',		// American Samoa
-				'AD'	=> '+376',		// Andorra
-				'AO'	=> '+244',		// Angola
-				'AI'	=> '+1',		// Anguilla
-				'AQ'	=> '+672',		// Antarctica
-				'AG'	=> '+1',		// Antigua and Barbuda
-				'AR'	=> '+54',		// Argentina
-				'AM'	=> '+374',		// Armenia
-				'AW'	=> '+297',		// Aruba
-				'AU'	=> '+61',		// Australia
-				'AT'	=> '+43',		// Austria
-				'AZ'	=> '+994',		// Azerbaijan
-				'BS'	=> '+1',		// Bahamas
-				'BH'	=> '+973',		// Bahrain
-				'BD'	=> '+880',		// Bangladesh
-				'BB'	=> '+1',		// Barbados
-				'BY'	=> '+375',		// Belarus
-				'BE'	=> '+32',		// Belgium
-				'BZ'	=> '+501',		// Belize
-				'BJ'	=> '+229',		// Benin
-				'BM'	=> '+1',		// Bermuda
-				'BT'	=> '+975',		// Bhutan
-				'BO'	=> '+591',		// Bolivia
-				'BA'	=> '+387',		// Bosnia and Herzegovina
-				'BW'	=> '+267',		// Botswana
-//				'BV'	=> '',		// Bouvet Island
-				'BR'	=> '+55',		// Brazil
-				'IO'	=> '+246',		// British Indian Ocean Territory
-				'BN'	=> '+673',		// Brunei Darussalam
-				'BG'	=> '+359',		// Bulgaria
-				'BF'	=> '+226',		// Burkina Faso
-				'BI'	=> '+257',		// Burundi
-				'KH'	=> '+855',		// Cambodia
-				'CM'	=> '+237',		// Cameroon
-				'CA'	=> '+1',		// Canada
-				'CV'	=> '+238',		// Cape Verde
-				'KY'	=> '+1',		// Cayman Islands
-				'CF'	=> '+236',		// Central African Republic
-				'TD'	=> '+235',		// Chad
-				'CL'	=> '+56',		// Chile
-				'CN'	=> '+86',		// China
-				'CX'	=> '+672',		// Christmas Island
-				'CC'	=> '+672',		// Cocos (keeling) Islands
-				'CO'	=> '+57',		// Colombia
-				'KM'	=> '+269',		// Comoros
-				'CG'	=> '+242',		// Congo
-				'CD'	=> '+243',		// Congo, the Democratic Republic of the
-				'CK'	=> '+682',		// Cook Islands
-				'CR'	=> '+506',		// Costa Rica
-				'CI'	=> '+225',		// Cote D\'ivoire
-				'HR'	=> '+385',		// Croatia
-				'CU'	=> '+53',		// Cuba
-				'CY'	=> '+357',		// Cyprus
-				'CZ'	=> '+420',		// Czech Republic
-				'DK'	=> '+45',		// Denmark
-				'DJ'	=> '+253',		// Djibouti
-				'DM'	=> '+1',		// Dominica
-				'DO'	=> '+1',		// Dominican Republic
-				'TP'	=> '+670',		// East Timor
-				'EC'	=> '+593',		// Ecuador
-				'EG'	=> '+20',		// Egypt
-				'SV'	=> '+503',		// El Salvador
-				'GQ'	=> '+240',		// Equatorial Guinea
-				'ER'	=> '+291',		// Eritrea
-				'EE'	=> '+372',		// Estonia
-				'ET'	=> '+251',		// Ethiopia
-				'FK'	=> '+500',		// Falkland Islands (malvinas)
-				'FO'	=> '+298',		// Faroe Islands
-				'FJ'	=> '+679',		// Fiji
-				'FI'	=> '+358',		// Finland
-				'FR'	=> '+33',		// France
-				'GF'	=> '+594',		// French Guiana
-				'PF'	=> '+689',		// French Polynesia
-//				'TF'	=> '',		// French Southern Territories
-				'GA'	=> '+24',		// Gabon
-				'GM'	=> '+220',		// Gambia
-				'GE'	=> '+995',		// Georgia
-				'DE'	=> '+49',		// Germany
-				'GH'	=> '+233',		// Ghana
-				'GI'	=> '+350',		// Gibraltar
-				'GR'	=> '+30',		// Greece
-				'GL'	=> '+299',		// Greenland
-				'GD'	=> '+1',		// Grenada
-				'GP'	=> '+590',		// Guadeloupe
-				'GU'	=> '+1',		// Guam
-				'GT'	=> '+502',		// Guatemala
-				'GN'	=> '+224',		// Guinea
-				'GW'	=> '+245',		// Guinea-bissau
-				'GY'	=> '+592',		// Guyana
-				'HT'	=> '+509',		// Haiti
-				'HM'	=> '+672',		// Heard Island and Mcdonald Islands
-				'VA'	=> '+379',		// Holy See (vatican City State)
-				'HN'	=> '+504',		// Honduras
-				'HK'	=> '+852',		// Hong Kong
-				'HU'	=> '+36',		// Hungary
-				'IS'	=> '+354',		// Iceland
-				'IN'	=> '+91',		// India
-				'ID'	=> '+62',		// Indonesia
-				'IR'	=> '+98',		// Iran, Islamic Republic of
-				'IQ'	=> '+964',		// Iraq
-				'IE'	=> '+353',		// Ireland
-				'IL'	=> '+972',		// Israel
-				'IT'	=> '+39',		// Italy
-				'JM'	=> '+1',		// Jamaica
-				'JP'	=> '+81',		// Japan
-				'JO'	=> '+962',		// Jordan
-				'KZ'	=> '+7',		// Kazakstan
-				'KE'	=> '+254',		// Kenya
-				'KI'	=> '+686',		// Kiribati
-				'KP'	=> '+850',		// Korea, Democratic People's Republic of
-				'KR'	=> '+82',		// Korea, Republic of
-				'KW'	=> '+965',		// Kuwait
-				'KG'	=> '+996',		// Kyrgyzstan
-				'LA'	=> '+856',		// Lao People's Democratic Republic
-				'LV'	=> '+371',		// Latvia
-				'LB'	=> '+961',		// Lebanon
-				'LS'	=> '+266',		// Lesotho
-				'LR'	=> '+231',		// Liberia
-				'LY'	=> '+218',		// Libyan Arab Jamahiriya
-				'LI'	=> '+423',		// Liechtenstein
-				'LT'	=> '+370',		// Lithuania
-				'LU'	=> '+352',		// Luxembourg
-				'MO'	=> '+853',		// Macau
-				'MK'	=> '+389',		// Macedonia, the Former Yugoslav Republic of
-				'MG'	=> '+261',		// Madagascar
-				'MW'	=> '+265',		// Malawi
-				'MY'	=> '+60',		// Malaysia
-				'MV'	=> '+960',		// Maldives
-				'ML'	=> '+223',		// Mali
-				'MT'	=> '+356',		// Malta
-				'MH'	=> '+692',		// Marshall Islands
-				'MQ'	=> '+596',		// Martinique
-				'MR'	=> '+222',		// Mauritania
-				'MU'	=> '+230',		// Mauritius
-				'YT'	=> '+269',		// Mayotte
-				'MX'	=> '+52',		// Mexico
-				'FM'	=> '+691',		// Micronesia, Federated States of
-				'MD'	=> '+373',		// Moldova, Republic of
-				'MC'	=> '+377',		// Monaco
-				'MN'	=> '+976',		// Mongolia
-				'ME'	=> '+382',		// Montenegro
-				'MS'	=> '+1',		// Montserrat
-				'MA'	=> '+212',		// Morocco
-				'MZ'	=> '+258',		// Mozambique
-				'MM'	=> '+95',		// Myanmar
-				'NA'	=> '+264',		// Namibia
-				'NR'	=> '+674',		// Nauru
-				'NP'	=> '+977',		// Nepal
-				'NL'	=> '+31',		// Netherlands
-				'AN'	=> '+599',		// Netherlands Antilles
-				'NC'	=> '+687',		// New Caledonia
-				'NZ'	=> '+64',		// New Zealand
-				'NI'	=> '+505',		// Nicaragua
-				'NE'	=> '+227',		// Niger
-				'NG'	=> '+234',		// Nigeria
-				'NU'	=> '+683',		// Niue
-				'NF'	=> '+672',		// Norfolk Island
-				'MP'	=> '+1',		// Northern Mariana Islands
-				'NO'	=> '+47',		// Norway
-				'OM'	=> '+968',		// Oman
-				'PK'	=> '+92',		// Pakistan
-				'PW'	=> '+680',		// Palau
-				'PS'	=> '+970',		// Palestinian Territory, Occupied
-				'PA'	=> '+507',		// Panama
-				'PG'	=> '+675',		// Papua New Guinea
-				'PY'	=> '+595',		// Paraguay
-				'PE'	=> '+51',		// Peru
-				'PH'	=> '+63',		// Philippines
-				'PN'	=> '+649',		// Pitcairn
-				'PL'	=> '+48',		// Poland
-				'PT'	=> '+351',		// Portugal
-				'PR'	=> '+1',		// Puerto Rico
-				'QA'	=> '+974',		// Qatar
-				'RE'	=> '+262',		// Reunion
-				'RO'	=> '+40',		// Romania
-				'RU'	=> '+7',		// Russian Federation
-				'RW'	=> '+250',		// Rwanda
-				'SH'	=> '+290',		// Saint Helena
-				'KN'	=> '+1',		// Saint Kitts and Nevis
-				'LC'	=> '+1',		// Saint Lucia
-				'PM'	=> '+508',		// Saint Pierre and Miquelon
-				'VC'	=> '+1',		// Saint Vincent and the Grenadines
-				'WS'	=> '+685',		// Samoa
-				'SM'	=> '+378',		// San Marino
-				'ST'	=> '+239',		// Sao Tome and Principe
-				'SA'	=> '+966',		// Saudi Arabia
-				'SN'	=> '+221',		// Senegal
-				'RS'	=> '+381',		// Serbia
-				'SC'	=> '+248',		// Seychelles
-				'SL'	=> '+232',		// Sierra Leone
-				'SG'	=> '+65',		// Singapore
-				'SK'	=> '+421',		// Slovakia
-				'SI'	=> '+386',		// Slovenia
-				'SB'	=> '+677',		// Solomon Islands
-				'SO'	=> '+252',		// Somalia
-				'ZA'	=> '+27',		// South Africa
-//				'GS'	=> '',		// South Georgia and the South Sandwich Islands
-				'ES'	=> '+34',		// Spain
-				'LK'	=> '+94',		// Sri Lanka
-				'SD'	=> '+249',		// Sudan
-				'SR'	=> '+597',		// Suriname
-//				'SJ'	=> '',		// Svalbard and Jan Mayen
-				'SZ'	=> '+268',		// Swaziland
-				'SE'	=> '+46',		// Sweden
-				'CH'	=> '+41',		// Switzerland
-				'SY'	=> '+963',		// Syrian Arab Republic
-				'TW'	=> '+886',		// Taiwan, Province of China
-				'TJ'	=> '+992',		// Tajikistan
-				'TZ'	=> '+255',		// Tanzania, United Republic of
-				'TH'	=> '+66',		// Thailand
-				'TG'	=> '+228',		// Togo
-				'TK'	=> '+690',		// Tokelau
-				'TO'	=> '+676',		// Tonga
-				'TT'	=> '+1',		// Trinidad and Tobago
-				'TN'	=> '+216',		// Tunisia
-				'TR'	=> '+90',		// Turkey
-				'TM'	=> '+993',		// Turkmenistan
-				'TC'	=> '+1',		// Turks and Caicos Islands
-				'TV'	=> '+688',		// Tuvalu
-				'UG'	=> '+256',		// Uganda
-				'UA'	=> '+380',		// Ukraine
-				'AE'	=> '+971',		// United Arab Emirates
-				'GB'	=> '+44',		// United Kingdom
-				'US'	=> '+1',		// United States
-				'UM'	=> '+808',		// United States Minor Outlying Islands
-				'UY'	=> '+598',		// Uruguay
-				'UZ'	=> '+998',		// Uzbekistan
-				'VU'	=> '+678',		// Vanuatu
-				'VE'	=> '+58',		// Venezuela
-				'VN'	=> '+84',		// Viet Nam
-				'VG'	=> '+1',		// Virgin Islands, British
-				'VI'	=> '+1',		// Virgin Islands, U.s.
-				'WF'	=> '+681',		// Wallis and Futuna
-//				'EH'	=> '',		// Western Sahara
-				'YE'	=> '+967',		// Yemen
-				'ZM'	=> '+260',		// Zambia
-				'ZW'	=> '+263'		// Zimbabwe
-			);
-
-		}
-
-		// return the table
-		return $codes;
-	}
-
-	/**
-	 * get phone codes as options of a selectable list
-	 *
-	 * This function returns a full &lt;select&gt; tag with the name 'phone_code' and the id 'phone_code'.
-	 *
-	 * @param string the current phone code, if any
-	 * @param string alternate name and id of the returned tag
-	 * @return the HTML to insert in the page
-	 */
-	function &get_phone_codes_select($current=NULL, $id='phone_code') {
-		global $context;
-
-		// all options
-		$text = '<select name="'.$id.'" id="'.$id.'">'."\n";
-
-		// fetch the lists of codes
-		$countries =& i18n::get_countries();
-		$phones =& i18n::get_phone_codes();
-
-		// engage surfer
-		if(!$current)
-			$text .= '<option>'.i18n::s('Select a country')."</option>\n";
-
-		// all options
-		foreach($phones as $code => $label) {
-
-			// the code
-			$text .= '<option value="'.$code.'"';
-
-			// is this the current option?
-			if(strpos($current, $code) === 0)
-				$text .= ' selected="selected"';
-
-			// the label for this code
-			$text .= '>'.$countries[$code].' ('.$label.')'."</option>\n";
-
-		}
-
-		// return by reference
-		$text .= '</select>';
-
-		// job done
-		return $text;
-	}
-
-	/**
 	 * the database of time zones
 	 *
 	 * @return array of ($shift => $label)
@@ -1173,47 +854,19 @@ Class i18n {
 	}
 
 	/**
-	 * get time zones as options of a selectable list
+	 * hash a string
 	 *
-	 * This function returns a full &lt;select&gt; tag.
-	 *
-	 * @param string the current time zone, if any
-	 * @param string alternate name and id for the returned tag
-	 * @return the HTML to insert in the page
+	 * @param string original string
+	 * @return string hashed string
 	 */
-	function &get_time_zones_select($current=NULL, $id='time_zone') {
-		global $context;
+	function &hash($text) {
 
-		// all options
-		$text = '<select name="'.$id.'" id="'.$id.'">'."\n";
+		if(strlen($text) < 32)
+			$output = $text;
+		else
+			$output = md5($text);
 
-		// fetch the list of time zones
-		$zones =& i18n::get_time_zones();
-
-		// engage surfer
-		if(!$current)
-			$text .= '<option>'.i18n::s('Select a time zone')."</option>\n";
-
-		// all options
-		foreach($zones as $code => $label) {
-
-			// the code
-			$text .= '<option value="'.$code.'"';
-
-			// is this the current option?
-			if(strpos($current, $code) === 0)
-				$text .= ' selected="selected"';
-
-			// the label for this code
-			$text .= '>'.$label."</option>\n";
-
-		}
-
-		// return by reference
-		$text .= '</select>';
-
-		// job done
-		return $text;
+		return $output;
 	}
 
 	/**
@@ -1225,10 +878,8 @@ Class i18n {
 	function initialize() {
 		global $context;
 
-		//
-		// user language
-		//
-		if(isset($_SESSION['surfer_language']) && ($_SESSION['surfer_language'] != 'none'))
+		// user language is explicit
+		if(isset($_SESSION['surfer_language']) && $_SESSION['surfer_language'] && ($_SESSION['surfer_language'] != 'none'))
 			$context['language'] = $_SESSION['surfer_language'];
 
 		// guess surfer language
@@ -1284,11 +935,7 @@ Class i18n {
 			}
 		}
 
-		//
 		// set community language
-		//
-
-		// use configuration file
 		if(isset($context['preferred_language']))
 			;
 
@@ -1299,10 +946,6 @@ Class i18n {
 		// english is the default
 		else
 			$context['preferred_language'] = 'en';
-
-		//
-		// finalize surfer locale
-		//
 
 		// automatic detection has been disallowed
 		if(isset($context['without_language_detection']) && ($context['without_language_detection'] == 'Y'))
@@ -1360,6 +1003,39 @@ Class i18n {
 	}
 
 	/**
+	 * look for a localized string
+	 *
+	 * @param array the array containing localized strings
+	 * @param string the label identifying string
+	 * @return string the localized string, if any
+	 */
+	function &lookup($strings, $name) {
+		global $context;
+
+		// direct match
+		if(array_key_exists($name, $strings))
+			$text = $strings[ $name ];
+
+		// match on hashed name
+		elseif(($hash = i18n::hash($name)) && array_key_exists($hash, $strings))
+			$text = $strings[ $hash ];
+
+		// no match
+		else {
+
+			// log information on development platform
+			if(($context['with_debug'] == 'Y') && file_exists($context['path_to_root'].'parameters/switch.on'))
+				logger::remember('i18n/i18n.php', $name.' is not localized', '', 'debug');
+
+			// degrade to provided string
+			$text = $name;
+		}
+
+		// provide the localized string
+		return $text;
+	}
+
+	/**
 	 * load one .mo file
 	 *
 	 * This function attempts to include a cached version (actually, a .mo.php
@@ -1385,6 +1061,10 @@ Class i18n {
 	 */
 	function load($language, $module) {
 		global $context;
+
+		// sanity check
+		if(!$language)
+			return FALSE;
 
 		// expected location
 		$path = 'i18n/locale/'.$language.'/'.$module.'.mo';
@@ -1493,10 +1173,11 @@ Class i18n {
 				$translated = fread($handle, $length);
 
 			// transcode UTF-8 to Unicode
-			$translated = utf8::to_unicode($translated);
+// 			$translated = utf8::to_unicode($translated);
 
 			// save in memory
-			$_SESSION['l10n'][$language][$original] = $translated;
+			$hash =& i18n::hash($original);
+			$_SESSION['l10n'][$language][$hash] = $translated;
 
 			// escape original string
 			$original = str_replace('\000', "'.chr(0).'", addcslashes($original, "\0\\'"));
@@ -1506,7 +1187,7 @@ Class i18n {
 
 			// update cache file, if any
 			if($cache && $original)
-				$cache_content .= '$_SESSION[\'l10n\'][\''.$language.'\'][\''.$original.'\']=\''.$translated."';\n";
+				$cache_content .= '$_SESSION[\'l10n\'][\''.$language.'\'][\''.i18n::hash($original).'\']=\''.$translated."';\n";
 		}
 
 		// clean out
@@ -1698,20 +1379,8 @@ Class i18n {
 		if(!isset($_SESSION['l10n']) || !isset($_SESSION['l10n'][$locale]) || !is_array($_SESSION['l10n'][$locale]))
 			return $text;
 
-		// this is not a known original string
-		if(!array_key_exists($text, $_SESSION['l10n'][$locale])) {
-
-			// log information on development platform
-			if(($context['with_debug'] == 'Y') && file_exists($context['path_to_root'].'parameters/switch.on'))
-				logger::remember('i18n/i18n.php', $text.' is not defined for locale '.$locale, '', 'debug');
-
-			// degrade to provided string
-			return $text;
-
-		}
-
 		// provide the localized string
-		$text = $_SESSION['l10n'][$locale][$text];
+		$text =& i18n::lookup($_SESSION['l10n'][$locale], $text);
 		return $text;
 	}
 

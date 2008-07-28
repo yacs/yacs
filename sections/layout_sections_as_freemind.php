@@ -122,7 +122,7 @@ Class Layout_sections_as_freemind extends Layout_interface {
 
 			// count related articles, if any
 			if($count = Articles::count_for_anchor('section:'.$item['id'])) {
-				$details[] = sprintf(i18n::ns('1 page', '%d pages', $count), $count);
+				$details[] = sprintf(i18n::ns('%d page', '%d pages', $count), $count);
 
 				// if there are many articles, append a node to browse the section
 				if($count > $articles_per_page) {
@@ -157,15 +157,15 @@ Class Layout_sections_as_freemind extends Layout_interface {
 
 			// count related files, if any
 			if($count = Files::count_for_anchor('section:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1 file', '%d files', $count), $count);
+				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 			// count related comments, if any
 			if($count = Comments::count_for_anchor('section:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1 comment', '%d comments', $count), $count);
+				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// count related links, if any
 			if($count = Links::count_for_anchor('section:'.$item['id'], TRUE))
-				$details[] = sprintf(i18n::ns('1 link', '%d links', $count), $count);
+				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
 			// append details
 			if(count($details)) {
@@ -189,7 +189,7 @@ Class Layout_sections_as_freemind extends Layout_interface {
 					.$freemind_section_bgcolor
 					.$freemind_section_color
 					.$freemind_section_style
-					.' TEXT="'.encode_field(utf8::to_hex('<html>'.i18n::s('browse the section').'</html>')).'"'
+					.' TEXT="'.encode_field(utf8::to_hex('<html>'.i18n::s('View the section').'</html>')).'"'
 					.' LINK="'.encode_field($context['url_to_home'].$context['url_to_root'].$url).'">'."\n";
 				if($differentiate)
 					$content .= $various_attributes[$various_index][1];

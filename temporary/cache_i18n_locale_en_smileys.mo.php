@@ -3,25 +3,25 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 21, 2008, 7:50 pm GMT. Please do not modify it manually.
+ * on July 28, 2008, 10:32 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['Edited %s']='Edited %s';
 $_SESSION['l10n']['en']['Emotion']='Emotion';
 $_SESSION['l10n']['en']['Featured image']='Featured image';
 $_SESSION['l10n']['en']['Help index']='Help index';
-$_SESSION['l10n']['en']['Here is the list of codes that are automatically converted into images by this server.']='Here is the list of codes that are automatically converted into images by this server.';
+$_SESSION['l10n']['en']['fbcdb634789b1a0dc26cd32139230ac0']='Here is the list of codes that are automatically converted into images by this server.';
 $_SESSION['l10n']['en']['I am killed']='I am killed';
 $_SESSION['l10n']['en']['I want you']='I want you';
 $_SESSION['l10n']['en']['I would like to get it']='I would like to get it';
-$_SESSION['l10n']['en']['Let face it, sometimes words alone do not suffice. Adding a winking smilie, for instance, may help you clarify that you are joking.']='Let face it, sometimes words alone do not suffice. Adding a winking smilie, for instance, may help you clarify that you are joking.';
+$_SESSION['l10n']['en']['e6ef69399a84e48349e980587fd573b1']='Let face it, sometimes words alone do not suffice. Adding a winking smilie, for instance, may help you clarify that you are joking.';
 $_SESSION['l10n']['en']['Ok, i leave']='Ok, i leave';
 $_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Santa Claus']='Santa Claus';
 $_SESSION['l10n']['en']['Smileys']='Smileys';
-$_SESSION['l10n']['en']['Smileys are small graphical images that can be used to convey an emotion or feeling. If you have used email or Internet chat, you are likely familiar with the smilie concept.']='Smileys are small graphical images that can be used to convey an emotion or feeling. If you have used email or Internet chat, you are likely familiar with the smilie concept.';
+$_SESSION['l10n']['en']['afbff2832f64949ef35c8901a6120a58']='Smileys are small graphical images that can be used to convey an emotion or feeling. If you have used email or Internet chat, you are likely familiar with the smilie concept.';
 $_SESSION['l10n']['en']['Star wars']='Star wars';
 $_SESSION['l10n']['en']['The King']='The King';
-$_SESSION['l10n']['en']['Use your smilies sparingly, though -- if overused, smilies can be downright annoying.']='Use your smilies sparingly, though -- if overused, smilies can be downright annoying.';
+$_SESSION['l10n']['en']['96e88b57640c84ef5eb9808ef98922c5']='Use your smilies sparingly, though -- if overused, smilies can be downright annoying.';
 $_SESSION['l10n']['en']['What to type']='What to type';
 $_SESSION['l10n']['en']['a cup of coffee']='a cup of coffee';
 $_SESSION['l10n']['en']['a little nap']='a little nap';
@@ -61,7 +61,7 @@ $_SESSION['l10n']['en']['have a party']='have a party';
 $_SESSION['l10n']['en']['hip']='hip';
 $_SESSION['l10n']['en']['hot bounce']='hot bounce';
 $_SESSION['l10n']['en']['i am feeling so glad']='i am feeling so glad';
-$_SESSION['l10n']['en']['i want to be sure you are hearing me']='i want to be sure you are hearing me';
+$_SESSION['l10n']['en']['f4c20e65fe7113eb598fc66650f86bac']='i want to be sure you are hearing me';
 $_SESSION['l10n']['en']['i will kill you']='i will kill you';
 $_SESSION['l10n']['en']['i will shot you']='i will shot you';
 $_SESSION['l10n']['en']['idea']='idea';

@@ -90,7 +90,7 @@ if($HTTP_RAW_POST_DATA && isset($context['debug_comment']) && ($context['debug_c
 
 // transcode to our internal charset
 if($context['charset'] == 'utf-8')
-	$HTTP_RAW_POST_DATA = utf8::to_unicode($HTTP_RAW_POST_DATA);
+	$HTTP_RAW_POST_DATA = utf8::encode($HTTP_RAW_POST_DATA);
 
 // look for the anchor reference
 $anchor = NULL;

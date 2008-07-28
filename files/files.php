@@ -417,7 +417,7 @@ Class Files {
 
 		// ensure proper unicode encoding
 		$id = (string)$id;
-		$id = utf8::to_unicode($id);
+		$id = utf8::encode($id);
 
 		// strip extra text from enhanced ids '3-page-title' -> '3'
 		if($position = strpos($id, '-'))
@@ -1718,9 +1718,9 @@ Class Files {
 
 		// protect from hackers
 		if(isset($fields['icon_url']))
-			$fields['icon_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['icon_url']);
+			$fields['icon_url'] =& encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
-			$fields['thumbnail_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['thumbnail_url']);
+			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
 
 		// protect access from anonymous users
 		if(!isset($fields['active_set']))
@@ -1958,19 +1958,8 @@ Class Files {
 	function &stat() {
 		global $context;
 
-		// if not associate, restrict to files attached to published not expired pages
-		if(!Surfer::is_associate()) {
-			$where = ", ".SQL::table_name('articles')." AS articles "
-				." WHERE ((files.anchor_type LIKE 'article') AND (files.anchor_id = articles.id))"
-				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND ((articles.expiry_date is NULL)"
-				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmstrftime('%Y-%m-%d %H:%M:%S')."'))"
-				." AND ";
-		} else
-			$where = "WHERE ";
-
 		// limit the scope of the request
-		$where .= "(files.active='Y' OR files.active='X'";
+		$where = "(files.active='Y' OR files.active='X'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
@@ -1980,7 +1969,7 @@ Class Files {
 		// select among available items
 		$query = "SELECT COUNT(*) as count, MIN(files.edit_date) as oldest_date, MAX(files.edit_date) as newest_date"
 			.", SUM(file_size) as total_size"
-			." FROM ".SQL::table_name('files')." AS files ".$where;
+			." FROM ".SQL::table_name('files')." AS files WHERE ".$where;
 
 		$output =& SQL::query_first($query);
 		return $output;

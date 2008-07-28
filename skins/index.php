@@ -173,7 +173,7 @@ else {
 		$menu = array();
 
 		// test the skin
-		$menu = array_merge($menu, array('skins/test.php?skin='.substr($id, 6) => i18n::s('Test this skin')));
+		$menu = array_merge($menu, array('skins/test.php?skin='.substr($id, 6) => i18n::s('Test the skin')));
 
 		// commands for associates
 		if(Surfer::is_associate()) {
@@ -208,7 +208,7 @@ else {
 			// other surfers can test it
 			} else {
 				$link = 'skins/test.php?skin='.substr($id, 6);
-				$label = i18n::s('Test this skin');
+				$label = i18n::s('Test the skin');
 
 			}
 
@@ -235,7 +235,7 @@ if(Surfer::is_associate()) {
 
 // how to get a skin
 if(Surfer::is_associate()) {
-	$help = '<p>'.sprintf(i18n::s('Do not attempt to modify a reference skin directly, your changes would be overwritten on next software update. To get a skin of your own that you can use safely, %s instead.'), Skin::build_link('skins/derive.php', i18n::s('derive an existing skin'), 'shortcut')).'</p>';
+	$help = '<p>'.sprintf(i18n::s('Do not attempt to modify a reference skin directly, your changes would be overwritten on next software update. To get a skin of your own that you can use safely, %s instead.'), Skin::build_link('skins/derive.php', i18n::s('derive a skin'), 'shortcut')).'</p>';
 	$context['extra'] .= Skin::build_box(i18n::s('How to get a skin?'), $help, 'navigation', 'help');
 }
 

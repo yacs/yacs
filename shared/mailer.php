@@ -503,8 +503,6 @@ class Mailer {
 						// ensure enough execution time
 						Safe::set_time_limit(30);
 
-						// ease the pain of mail server
-						Safe::sleep(1);
 					}
 
 				}

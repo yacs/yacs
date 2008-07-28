@@ -813,7 +813,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 	// display the existing hooks configuration file, if any
 	$content = Safe::file_get_contents('../parameters/hooks.include.php');
 	if(strlen($content)) {
-		$context['text'] .= Skin::build_box(i18n::s('Current content of parameters/hooks.include.php'), Safe::highlight_string($content), 'folder');
+		$context['text'] .= Skin::build_box(sprintf(i18n::s('Current content of %s'), 'parameters/hooks.include.php'), Safe::highlight_string($content), 'folder');
 
 	}
 

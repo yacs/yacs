@@ -320,10 +320,10 @@ Class Users {
 	 *
 	 * @see agents/messages/php
 	 * @see articles/view.php
-	 * @see codes/codes.php
 	 * @see comments/layout_comments_as_yabb.php
 	 * @see links/edit.php
 	 * @see services/blog.php
+	 * @see shared/codes.php
 	 * @see users/delete.php
 	 * @see users/edit.php
 	 * @see users/feed.php
@@ -346,7 +346,7 @@ Class Users {
 
 		// ensure proper unicode encoding
 		$id = (string)$id;
-		$id = utf8::to_unicode($id);
+		$id = utf8::encode($id);
 
 		// strip extra text from enhanced ids '3-alfred' -> '3'
 		if(preg_match('/^([0-9]+)-.+/', $id, $matches))
@@ -1150,18 +1150,6 @@ Class Users {
 	}
 
 	/**
-	 * get the id of one user knowing his/her nick name
-	 *
-	 * @param string the nick name looked for
-	 * @return string either 'user:&lt;id&gt;', or NULL
-	 */
-	function lookup($nick_name) {
-		if($item =& Users::get($nick_name))
-			return 'user:'.$item['id'];
-		return NULL;
-	}
-
-	/**
 	 * post a new user profile
 	 *
 	 * @param array an array of fields
@@ -1227,7 +1215,7 @@ Class Users {
 
 		// protect from hackers
 		if(isset($fields['avatar_url']))
-			$fields['avatar_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['avatar_url']);
+			$fields['avatar_url'] =& encode_link($fields['avatar_url']);
 
 		// remember who is changing this record
 		$fields = Surfer::check_default_editor($fields);
@@ -1388,7 +1376,7 @@ Class Users {
 			}
 
 			// bottom of the message
-			$message .= "\n".sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help.php')."\n"
+			$message .= "\n".sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help/')."\n"
 				."\n".sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
 
 			// post the confirmation message
@@ -1451,7 +1439,7 @@ Class Users {
 			}
 
 			// nick_name may be already used
-			if(($used = Users::lookup($fields['nick_name'])) && ($used != 'user:'.$fields['id'])) {
+			if(($used =& Users::get($fields['nick_name'])) && ($used['id'] != $fields['id'])) {
 				Skin::error(i18n::s('Another member already has this nick name. Please select a different one.'));
 				return FALSE;
 			}
@@ -1460,7 +1448,7 @@ Class Users {
 
 		// protect from hackers
 		if(isset($fields['avatar_url']))
-			$fields['avatar_url'] = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', $fields['avatar_url']);
+			$fields['avatar_url'] =& encode_link($fields['avatar_url']);
 
 		// remember who is changing this record
 		$fields = Surfer::check_default_editor($fields);
@@ -1597,7 +1585,7 @@ Class Users {
 				.sprintf(i18n::s('Your nick name is %s'), $item['nick_name'])."\n"
 				.sprintf(i18n::s('Authenticate with password %s'), $fields['confirm'])."\n" 	// $fields['password'] has been hashed
 				."\n"
-				.sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help.php')."\n"
+				.sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help/')."\n"
 				.sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
 
 			// post the confirmation message
