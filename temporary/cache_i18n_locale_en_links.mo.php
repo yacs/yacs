@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:26 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d click'.chr(0).'%d clicks']='%d click'.chr(0).'%d clicks';
 $_SESSION['l10n']['en']['%d clicks']='%d clicks';
@@ -95,7 +95,7 @@ $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive
 $_SESSION['l10n']['en']['Trackback']='Trackback';
 $_SESSION['l10n']['en']['Trackback address:']='Trackback address:';
 $_SESSION['l10n']['en']['View the category']='View the category';
-$_SESSION['l10n']['en']['View the updated page']='View the updated page';
+$_SESSION['l10n']['en']['View the page']='View the page';
 $_SESSION['l10n']['en']['6898e1fc6d45aaf828a99328df174156']='We suggest you to cut and paste the following piece of text to reference this page:';
 $_SESSION['l10n']['en']['Web address']='Web address';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';

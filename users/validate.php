@@ -69,7 +69,7 @@ elseif(Users::validate($item['id'])) {
 	$menu = array();
 	$menu = array_merge($menu, array('users/login.php' => i18n::s('Login')));
 	$menu = array_merge($menu, array(Users::get_url($item['id'], 'view', $item['nick_name']) => i18n::s('My profile')));
-	$menu = array_merge($menu, array('index.php' => i18n::s('Front page')));
+	$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
 	$follow_up .= Skin::build_list($menu, 'page_menu');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 

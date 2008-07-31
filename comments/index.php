@@ -48,11 +48,11 @@ if($stats['count'])
 
 // navigation commands for comments, if necessary
 if($stats['count'] > THREADS_PER_PAGE) {
-	$home = 'comments/index.php';
+	$home = 'comments/';
 	if($context['with_friendly_urls'] == 'Y')
-		$prefix = $home.'/';
+		$prefix = $home.'index.php/';
 	elseif($context['with_friendly_urls'] == 'R')
-		$prefix = $home.'/';
+		$prefix = $home;
 	else
 		$prefix = $home.'?page=';
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], THREADS_PER_PAGE, $page));

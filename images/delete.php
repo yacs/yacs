@@ -135,8 +135,7 @@ else {
 		$context['text'] .= Skin::build_block($item['image_name'], 'title');
 
 	// display the full text
-	if($item['description'])
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	// build the path to the image file
 	list($anchor_type, $anchor_id) = explode(':', $item['anchor']);

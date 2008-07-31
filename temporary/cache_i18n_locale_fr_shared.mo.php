@@ -3,12 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 8:38 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:13 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['be362d7d53a1254f538bfda2a9b7b995']='Un membre est requis pour cette opération.';
+$_SESSION['l10n']['fr']['Access collection']='Voir la collection';
 $_SESSION['l10n']['fr']['Actions']='Actions';
 $_SESSION['l10n']['fr']['faa341f8a37d82ae539d923a0854a176']='Une ancre est requise pour cette opération.';
-$_SESSION['l10n']['fr']['Articles']='Articles';
+$_SESSION['l10n']['fr']['Browse this map with Freemind']='Charger cette carte dans Freemind';
 $_SESSION['l10n']['fr']['Categories']='Catégories';
 $_SESSION['l10n']['fr']['5eceff9c59d2bdcf158b449fba7cbcac']='Passer en revue les requêtes, publier les articles envoyés, vérifier les anciennes pages';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
@@ -26,6 +27,7 @@ $_SESSION['l10n']['fr']['fd674cf80651be8f2cc7d185d732b3ef']='Erreur pendant l\'e
 $_SESSION['l10n']['fr']['Files']='Fichiers';
 $_SESSION['l10n']['fr']['f02f5139e109a94dab487ef607873d8a']='Les balises XHTML suivantes sont acceptées : %s';
 $_SESSION['l10n']['fr']['70bbb2bb4b75ffa16e15a88da8357bde']='Si vous continuez, les éléments suivants seront aussi modifiés dans la base de données.';
+$_SESSION['l10n']['fr']['Full-size']='Pleine page';
 $_SESSION['l10n']['fr']['Images']='Images';
 $_SESSION['l10n']['fr']['Impossible to connect to %s.']='Impossible de se connecter à %s.';
 $_SESSION['l10n']['fr']['Impossible to extract files.']='Impossible d\'extraire les fichiers.';
@@ -39,11 +41,14 @@ $_SESSION['l10n']['fr']['Login']='Authentification';
 $_SESSION['l10n']['fr']['Logout']='Clore la session';
 $_SESSION['l10n']['fr']['Lost password']='Mot de passe perdu';
 $_SESSION['l10n']['fr']['My profile']='Mon profil';
+$_SESSION['l10n']['fr']['No item has been found.']='Aucun élément n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No message']='Le corps du message est vide';
 $_SESSION['l10n']['fr']['No subject']='Pas de sujet';
 $_SESSION['l10n']['fr']['PDF export created by YACS']='Export PDF créé par YACS';
 $_SESSION['l10n']['fr']['Page topic']='Sujet de la page';
+$_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['Password']='Mot de passe';
+$_SESSION['l10n']['fr']['Play in a separate window']='Jouer dans une autre fenêtre';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['b415a5c94f6a4a564921362b1e8516ac']='Merci d\'indiquer une adresse de réception.';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les données';
@@ -69,11 +74,13 @@ $_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Evitez les balises HT
 $_SESSION['l10n']['fr']['User']='Utilisateur';
 $_SESSION['l10n']['fr']['Versions']='Versions';
 $_SESSION['l10n']['fr']['6bb9e1aa16d4d6776927b05fc4fdb6f1']='Voir toutes les informations vous concernant';
+$_SESSION['l10n']['fr']['View this comment']='Voir ce commentaire';
+$_SESSION['l10n']['fr']['View this decision']='Voir cette décision';
 $_SESSION['l10n']['fr']['Visited']='Visites';
 $_SESSION['l10n']['fr']['XML error: %s at line %d']='Erreur XML : %s à la ligne %d';
 $_SESSION['l10n']['fr']['68e8557b5fa4d724688175816097ce17']='Vous pouvez envoyer du XHTML.';
 $_SESSION['l10n']['fr']['a38baa11f8dc11db9fde342db9db7f07']='Pour redevenir un surfeur anonyme';
-$_SESSION['l10n']['fr']['Your first contribution']='Votre première contribution';
+$_SESSION['l10n']['fr']['Your contribution']='Votre contribution';
 $_SESSION['l10n']['fr']['Your private pages']='Vos pages privées';
 $_SESSION['l10n']['fr']['Your private pages with %s']='Vos pages privées avec %s';
 $_SESSION['l10n']['fr']['and analyzed']='et analysée';

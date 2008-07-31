@@ -164,7 +164,6 @@ if(Servers::get($fields['host_name']))
 	$text .= sprintf(i18n::s('An entry already exists for server %s'), $fields['host_name']).BR."\n";
 else {
 	$fields['title'] = 'Technorati';
-	$fields['description'] = i18n::c('Search the World Live Web');
 	$fields['main_url'] = 'http://www.technorati.com/';
 	$fields['submit_feed'] = 'N';
 	$fields['feed_url'] = '';

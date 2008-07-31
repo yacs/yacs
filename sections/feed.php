@@ -156,7 +156,7 @@ if(!isset($item['id']) || !$item['id']) {
 		$values = array();
 		$values['channel'] = array();
 		$values['channel']['title'] = $item['title'];
-		$values['channel']['link'] = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$values['channel']['link'] = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
 		$values['channel']['description'] = $item['introduction'];
 
 		// the image for this channel

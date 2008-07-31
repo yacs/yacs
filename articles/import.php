@@ -176,7 +176,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	// the default section for new pages
 	$label = i18n::s('Default Section');
 	$input = '<select name="anchor">'.Sections::get_options(isset($_REQUEST['anchor']) ? $_REQUEST['anchor'] : '').'</select>';
-	$hint = i18n::s('Articles will be posted in this section by default');
+	$hint = i18n::s('Pages will be posted in this section by default');
 	$fields[] = array($label, $input, $hint);
 
 	// build the form

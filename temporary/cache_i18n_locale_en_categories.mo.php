@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 8:38 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['a0507e16b19aa7d4554d3ae0abcb89cf']='%d category'.chr(0).'%d categories';
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
@@ -32,8 +32,6 @@ $_SESSION['l10n']['en']['All the web']='All the web';
 $_SESSION['l10n']['en']['Anyone may read this category']='Anyone may read this category';
 $_SESSION['l10n']['en']['386980fc5327cd3e0b217ad44c09cb77']='Appears in list of categories near the title';
 $_SESSION['l10n']['en']['22b00309d120e415c07fd22cd2f15ae4']='Apply a specific skin (in skins/foo_bar) here';
-$_SESSION['l10n']['en']['aab1e554f0331170364e9f039c87851d']='Articles published during this month';
-$_SESSION['l10n']['en']['b50070c95c9a26e32ea6ba0399ae262a']='Articles published during this week';
 $_SESSION['l10n']['en']['Ask Jeeves']='Ask Jeeves';
 $_SESSION['l10n']['en']['Associate']='Associate';
 $_SESSION['l10n']['en']['Attach related files.']='Attach related files.';
@@ -52,7 +50,7 @@ $_SESSION['l10n']['en']['Cloud of tags']='Cloud of tags';
 $_SESSION['l10n']['en']['Code to reference this page: %s']='Code to reference this page: %s';
 $_SESSION['l10n']['en']['Comments']='Comments';
 $_SESSION['l10n']['en']['Complete tags']='Complete tags';
-$_SESSION['l10n']['en']['Contact the webmaster']='Contact the webmaster';
+$_SESSION['l10n']['en']['Contact']='Contact';
 $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
 $_SESSION['l10n']['en']['Content tree']='Content tree';
 $_SESSION['l10n']['en']['4158dec895b46349386efea0e7ee92a9']='Contribute to the web and link to relevant pages.';
@@ -128,7 +126,6 @@ $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['Parent category']='Parent category';
 $_SESSION['l10n']['en']['Persons']='Persons';
 $_SESSION['l10n']['en']['9f4692b25599584f9f5ce45a2428bb91']='Please carefully select a parent category.';
-$_SESSION['l10n']['en']['02923f4a5dc188869db40de3b9b7a3af']='Please describe the new category and hit the submit button. Then visit the %s and browse articles to assign them individually to this category.';
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
 $_SESSION['l10n']['en']['1e15bcb69dd742712c3a2af4431b476e']='Please review the new page carefully and fix possible errors rapidly.';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
@@ -153,8 +150,8 @@ $_SESSION['l10n']['en']['Scanning categories table...']='Scanning categories tab
 $_SESSION['l10n']['en']['Scanning table of members...']='Scanning table of members...';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Script used to %s this category']='Script used to %s this category';
+$_SESSION['l10n']['en']['Search']='Search';
 $_SESSION['l10n']['en']['Search for %s at:']='Search for %s at:';
-$_SESSION['l10n']['en']['Search on keyword']='Search on keyword';
 $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['Select a category']='Select a category';
@@ -162,10 +159,8 @@ $_SESSION['l10n']['en']['Select categories for this page']='Select categories fo
 $_SESSION['l10n']['en']['Send']='Send';
 $_SESSION['l10n']['en']['Send a message']='Send a message';
 $_SESSION['l10n']['en']['Send me a copy of this message.']='Send me a copy of this message.';
-$_SESSION['l10n']['en']['8a2f978b4747be79e6479f4d9fbf2642']='Set an image as the page thumbnail';
 $_SESSION['l10n']['en']['Share']='Share';
 $_SESSION['l10n']['en']['Shortcut: %s']='Shortcut: %s';
-$_SESSION['l10n']['en']['Site Map']='Site Map';
 $_SESSION['l10n']['en']['Site map']='Site map';
 $_SESSION['l10n']['en']['0ec8c5b9f02a2bbc9408e3636b37e110']='Sort files by title (and not by date)';
 $_SESSION['l10n']['en']['8b3e72b6a8790e6b9b1f5020d267c1c3']='Sort links by title (and not by date)';
@@ -205,6 +200,7 @@ $_SESSION['l10n']['en']['Upload a file']='Upload a file';
 $_SESSION['l10n']['en']['bf17c77b74c5350da902a6142f9a7a9d']='Upload a small image to illustrate this page when it is listed into parent page.';
 $_SESSION['l10n']['en']['43e5a74e454bb7711c71226172c18b85']='Upload an image file and integrate it into the page. Big images will be rendered as clickable thumbnails.';
 $_SESSION['l10n']['en']['895d2910ebcbd5ade6985c6559d44621']='Upload an image to be displayed at page top. This will also be the default icon image for items attached to this page.';
+$_SESSION['l10n']['en']['Use an image']='Use an image';
 $_SESSION['l10n']['en']['145c71768eada2e93397ec134c387b13']='Use codes to insert images in the page.';
 $_SESSION['l10n']['en']['Use only plain ASCII, no HTML.']='Use only plain ASCII, no HTML.';
 $_SESSION['l10n']['en']['Use the customized layout %s']='Use the customized layout %s';

@@ -210,8 +210,8 @@ class Referrals {
 		global $context;
 
 		// the front page is a special case
-		if(($url == '/') || ($url == '/index.php') || ($url == $context['url_to_root_parameter'].'index.php'))
-			$where = "(url LIKE '/') OR (url LIKE '/index.php') OR (url LIKE '".$context['url_to_root_parameter']."index.php')";
+		if(($url == '/') || ($url == $context['url_to_root']))
+			$where = "(url LIKE '/') OR (url LIKE '".$context['url_to_root']."')";
 		else
 			$where = "url LIKE '".SQL::escape($url)."'";
 

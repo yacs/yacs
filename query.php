@@ -53,7 +53,7 @@ if(Surfer::is_crawler()) {
 
 	// protect from hackers
 	if(isset($_REQUEST['edit_name']))
-		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_CHARS_IN_NAMES, '_', $_REQUEST['edit_name']);
+		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
 		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
 
@@ -203,7 +203,7 @@ if(Surfer::is_crawler()) {
 if($with_form) {
 
 	// splash message
-	$context['text'] .= i18n::s('<p>Please fill out the form and it will be sent automatically to the site managers. Be as precise as possible, and mention your e-mail address to let us a chance to contact you back.</p>')."\n";
+	$context['text'] .= '<p>'.i18n::s('Please fill out the form and it will be sent automatically to the site managers. Be as precise as possible, and mention your e-mail address to let us a chance to contact you back.')."</p>\n";
 
 	// the form to send a query
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';

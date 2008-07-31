@@ -63,11 +63,11 @@ if($stats['count'])
 
 // navigation commands for servers, if necessary
 if($stats['count'] > SERVERS_PER_PAGE) {
-	$home = 'servers/index.php';
+	$home = 'servers/';
 	if($context['with_friendly_urls'] == 'Y')
-		$prefix = $home.'/';
+		$prefix = $home.'index.php/';
 	elseif($context['with_friendly_urls'] == 'R')
-		$prefix = $home.'/';
+		$prefix = $home;
 	else
 		$prefix = $home.'?page=';
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], SERVERS_PER_PAGE, $page));

@@ -101,7 +101,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 
 // look in categories
 } elseif(($item =& Categories::get($id)) || ($item =& Categories::get_by_keyword($id))) {
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'view', $item['title']));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item));
 
 // look in articles
 } elseif($items =& Articles::list_for_name($id, NULL, 'full')) {

@@ -58,7 +58,7 @@ echo $context['page_header'];
 if($context['skin_variant'] != 'home') {
 
 	// insert the home link
-	$context['path_bar'] = array_merge(array('index.php' => i18n::s('Home')), $context['path_bar']);
+	$context['path_bar'] = array_merge(array($context['url_to_root'] => i18n::s('Home')), $context['path_bar']);
 
 	// at the head of the main panel
 	echo Skin::build_list($context['path_bar'], 'crumbs')."\n";

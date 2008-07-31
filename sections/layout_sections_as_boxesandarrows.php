@@ -62,7 +62,7 @@ Class Layout_sections_as_boxesandarrows extends Layout_interface {
 			$prefix = $label = $suffix = $icon = $details = '';
 
 			// the url to view this item
-			$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Sections::get_permalink($item);
 
 			// flag sections that are draft, dead, or created or updated very recently
 			if($item['activation_date'] >= $now)

@@ -142,8 +142,7 @@ if(!isset($item['id'])) {
 	$context['text'] .= Skin::build_block($item['title'], 'title');
 
 	// display the full text
-	if($item['description'])
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	// action status
 	switch($item['status']) {

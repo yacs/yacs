@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:29 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d result'.chr(0).'%d results']='%d result'.chr(0).'%d results';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
@@ -19,7 +19,6 @@ $_SESSION['l10n']['en']['e046015f21d8cd076ad7b508911e7175']='<p>At the moment no
 </ul>
 In normal conditions this will take only some minutes. If you have any problems, please consult <a href="http://www.yetanothercommunitysystem.com/">www.yetanothercommunitysystem.com</a> for additional support.<p>Thank you for having selected the YACS solution.</p>';
 $_SESSION['l10n']['en']['52c9506b1dddde1ff0ae84edb0d1e0fd']='<p>No page has been found. This will happen with very short words (less than %d letters), that are not fully indexed. This can happen as well if more than half of pages contain the searched words. Try to use most restrictive words and to suppress "noise" words.</p>';
-$_SESSION['l10n']['en']['5733e3c8341b9877b945b74b1b8bc50a']='<p>Please fill out the form and it will be sent automatically to the site managers. Be as precise as possible, and mention your e-mail address to let us a chance to contact you back.</p>';
 $_SESSION['l10n']['en']['62ff4cd968dae58bb9244caecd2a2fd2']='<p>Since basic configuration files exist on your server, it is likely that the installation has been achieved successfully. Click on the link below to modify the running parameters of your server.</p>';
 $_SESSION['l10n']['en']['6f5a40e34d995c5f5cff564f90b8cd8b']='<p>This section has been created automatically on query submission. It\'s aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>';
 $_SESSION['l10n']['en']['0a6f5d667c713b41794e85986fe6c937']='<p>Use this form to submit any kind of request you can have, from simple suggestions to complex questions.</p><p>Hearty discussion and unpopular viewpoints are welcome, but please keep queries civil. Flaming, trolling, and smarmy queries are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don\'t make us do it.</p>';
@@ -48,7 +47,6 @@ $_SESSION['l10n']['en']['Add a page']='Add a page';
 $_SESSION['l10n']['en']['Add a page with this name']='Add a page with this name';
 $_SESSION['l10n']['en']['All pages']='All pages';
 $_SESSION['l10n']['en']['All the web']='All the web';
-$_SESSION['l10n']['en']['Articles']='Articles';
 $_SESSION['l10n']['en']['Ask Jeeves']='Ask Jeeves';
 $_SESSION['l10n']['en']['At partner sites']='At partner sites';
 $_SESSION['l10n']['en']['Browse index pages']='Browse index pages';
@@ -101,7 +99,7 @@ $_SESSION['l10n']['en']['2ba8a15276ede1dfba8ed10242486a14']='Focus on the last p
 $_SESSION['l10n']['en']['b39cee3691a432dbfc74337b6ecd07f2']='Focus on the last two most recent articles, then list previous pages. Click on article titles to read full text.';
 $_SESSION['l10n']['en']['d54f67717785d1d21941a10414edbbc5']='Following elements can be added to the extra panel:';
 $_SESSION['l10n']['en']['a5418f9c069d37d860bf69daf67b18cc']='Following elements can be added to the main panel:';
-$_SESSION['l10n']['en']['4c5acfaa01754e40b3d5bd8ea20558e9']='Following layouts can be used for recent articles:';
+$_SESSION['l10n']['en']['dfe0ff095a76e76023af7a8a021ccda9']='Following layouts can be used for recent pages:';
 $_SESSION['l10n']['en']['c569cd794c704a747137d61c45cec63c']='Following layouts can be used for selected sections:';
 $_SESSION['l10n']['en']['For weblogs and blogmarks.']='For weblogs and blogmarks.';
 $_SESSION['l10n']['en']['Forbidden (403) at %s']='Forbidden (403) at %s';
@@ -142,7 +140,6 @@ $_SESSION['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields ar
 $_SESSION['l10n']['en']['Matching articles']='Matching articles';
 $_SESSION['l10n']['en']['Matching pages']='Matching pages';
 $_SESSION['l10n']['en']['May change configuration files']='May change configuration files';
-$_SESSION['l10n']['en']['More featured pages']='More featured pages';
 $_SESSION['l10n']['en']['More links']='More links';
 $_SESSION['l10n']['en']['More pages']='More pages';
 $_SESSION['l10n']['en']['Most HTML tags are removed.']='Most HTML tags are removed.';
@@ -153,8 +150,7 @@ $_SESSION['l10n']['en']['New query: %s']='New query: %s';
 $_SESSION['l10n']['en']['News']='News';
 $_SESSION['l10n']['en']['Nick name']='Nick name';
 $_SESSION['l10n']['en']['No']='No';
-$_SESSION['l10n']['en']['0ea21dbef60439586ee0789f61fde401']='No article has been created yet!';
-$_SESSION['l10n']['en']['f84c1c94da37a5cc8b71aeff95daa525']='No page has been attached to this category...';
+$_SESSION['l10n']['en']['No page to display.']='No page to display.';
 $_SESSION['l10n']['en']['6601018830e1fe22681935a255feda03']='Normally we are not using upper case letters, and no spacing sign.';
 $_SESSION['l10n']['en']['OK']='OK';
 $_SESSION['l10n']['en']['Options']='Options';
@@ -166,6 +162,8 @@ $_SESSION['l10n']['en']['Page not found (404) at %s']='Page not found (404) at %
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['Peers']='Peers';
 $_SESSION['l10n']['en']['People']='People';
+$_SESSION['l10n']['en']['Permissions']='Permissions';
+$_SESSION['l10n']['en']['ee000dc19f71134ce7edb91992abf0a7']='Please fill out the form and it will be sent automatically to the site managers. Be as precise as possible, and mention your e-mail address to let us a chance to contact you back.';
 $_SESSION['l10n']['en']['Please give your e-mail address']='Please give your e-mail address';
 $_SESSION['l10n']['en']['fca72c3af562cba7e6ca571491374387']='Please give your first and last names';
 $_SESSION['l10n']['en']['c39731557afab7cdc18067d593b4d02f']='Please indicate a nick name to look for.';
@@ -199,7 +197,6 @@ $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated i
 $_SESSION['l10n']['en']['Search']='Search';
 $_SESSION['l10n']['en']['Search in']='Search in';
 $_SESSION['l10n']['en']['Search in all sections']='Search in all sections';
-$_SESSION['l10n']['en']['Search this site']='Search this site';
 $_SESSION['l10n']['en']['Search: %s']='Search: %s';
 $_SESSION['l10n']['en']['Section']='Section';
 $_SESSION['l10n']['en']['Sections']='Sections';
@@ -246,7 +243,6 @@ $_SESSION['l10n']['en']['6214aa6c778c69428ff7146f8e56867a']='Warning: No script 
 $_SESSION['l10n']['en']['20f1a3bbb9b4a16bec24ed97aaad2eda']='We\'re sorry. The page you requested doesn\'t exist on this server %s';
 $_SESSION['l10n']['en']['754ef929427bad781b89b4a318ddcdf2']='We\'re sorry. You are not authorized to view %s';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';
-$_SESSION['l10n']['en']['Write permissions']='Write permissions';
 $_SESSION['l10n']['en']['XML']='XML';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['Yahoo!']='Yahoo!';

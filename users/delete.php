@@ -135,12 +135,10 @@ else {
 		$context['text'] .= '<p>'.$item['full_name']."</p>\n";
 
 	// introduction text, if any
-	if($item['introduction'])
-		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
+	$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 	// beautified description, which is the actual page body
-	if($item['description'])
-			$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	// count items related to this user
 	$context['text'] .= Anchors::stat_related_to('user:'.$item['id'], i18n::s('Following items are attached to this record and will be deleted as well.'));

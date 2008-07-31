@@ -138,13 +138,13 @@ class Scripts {
 		// read the original file
 		$stat = Safe::stat($context['path_to_root'].$original);
 		if(!is_array($stat))
-			return sprintf(i18n::s('Error: Impossible to read the script %s'), $original);
+			return sprintf(i18n::s('Impossible to read %s.'), $original);
 		$original_lines = Safe::file($context['path_to_root'].$original);
 
 		// read the updated file
 		$stat = Safe::stat($context['path_to_root'].$updated);
 		if(!is_array($stat))
-			return sprintf(i18n::s('Error: Impossible to read the script %s'), $updated);
+			return sprintf(i18n::s('Impossible to read %s.'), $updated);
 		$updated_lines = Safe::file($context['path_to_root'].$updated);
 
 		// compare the two sequences
@@ -176,14 +176,14 @@ class Scripts {
 		// read the original file
 		$stat = Safe::stat($context['path_to_root'].$original);
 		if(!is_array($stat))
-			return sprintf(i18n::s('Error: Impossible to read the script %s'), $original);
+			return sprintf(i18n::s('Impossible to read %s.'), $original);
 		$text = '--- '.$original."\t".str_replace('&nbsp;', ' ', Skin::build_date($stat[9]))."\n";
 		$original_lines = Safe::file($context['path_to_root'].$original);
 
 		// read the updated file
 		$stat = Safe::stat($context['path_to_root'].$updated);
 		if(!is_array($stat))
-			return sprintf(i18n::s('Error: Impossible to read the script %s'), $updated);
+			return sprintf(i18n::s('Impossible to read %s.'), $updated);
 		$text .= '+++ '.$updated."\t".str_replace('&nbsp;', ' ', Skin::build_date($stat[9]))."\n";
 		$updated_lines = Safe::file($context['path_to_root'].$updated);
 
@@ -534,13 +534,13 @@ class Scripts {
 
 		// read the original file
 		if(!is_array($original_lines = Safe::file($context['path_to_root'].$original))) {
-			echo sprintf(i18n::s('Error: Impossible to read the script %s'), $original).BR."\n";
+			echo sprintf(i18n::s('Impossible to read %s.'), $original).BR."\n";
 			return NULL;
 		}
 
 		// read the updated file
 		if(!is_array($updated_lines = Safe::file($context['path_to_root'].$updated))) {
-			echo sprintf(i18n::s('Error: Impossible to read the script %s'), $updated).BR."\n";
+			echo sprintf(i18n::s('Impossible to read %s.'), $updated).BR."\n";
 			return NULL;
 		}
 

@@ -93,18 +93,17 @@ if(Surfer::is_crawler()) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// put all sections at the same place
-	if(!($anchor =& Sections::get('personal_spaces'))) {
+	if(!($anchor =& Sections::get('personal'))) {
 
 		// dedicate a top-level section to personal spaces
 		$fields = array();
-		$fields['nick_name'] = 'personal_spaces';
+		$fields['nick_name'] = 'personal';
 		$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
 		$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
 		$fields['locked'] = 'Y'; // no direct contributions
 		$fields['home_panel'] = 'none'; // not mentioned at the home page
 		$fields['rank'] = 40000; // at the end of the list
-		$fields['title'] = i18n::c('Personal spaces');
-		$fields['description'] = i18n::c('Sections created by members');
+		$fields['title'] = i18n::c('Personal pages');
 		if(!$fields['id'] = Sections::post($fields)) {
 			Logger::remember('feeds/feeds.php', 'Impossible to add a section.');
 			return;
@@ -112,7 +111,7 @@ if(Surfer::is_crawler()) {
 		Sections::clear($fields);
 
 		// retrieve the new section
-		$anchor =& Sections::get('personal_spaces');
+		$anchor =& Sections::get('personal');
 
 	}
 
@@ -148,7 +147,7 @@ if(Surfer::is_crawler()) {
 		// reward the poster
 		$context['page_title'] = i18n::s('Congratulation, you have successfully extended your web space');
 
-		$context['text'] .= '<p>'.i18n::s('Please review this new web space carefully and fix possible errors rapidly.').'</p>';
+		$context['text'] .= '<p>'.i18n::s('Please review the new page carefully and fix possible errors rapidly.').'</p>';
 
 		// get the new item
 		$section = Anchors::get('section:'.$id);

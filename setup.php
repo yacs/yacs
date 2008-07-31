@@ -232,7 +232,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// check
-	$checks[] = array(i18n::s('Write permissions'), $value, $check);
+	$checks[] = array(i18n::s('Permissions'), $value, $check);
 
 	// report on prerequisite checks
 	$context['text'] .= '<h2>'.i18n::s('Pre-installation checks').'</h2>';

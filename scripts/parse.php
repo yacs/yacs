@@ -31,7 +31,7 @@ elseif(isset($context['arguments'][0])) {
 	if(isset($context['arguments'][3]))
 		$script .= '/'.$context['arguments'][3];
 }
-$script = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($script));
+$script = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($script));
 
 // map this name on the actual file system
 $translated = NULL;

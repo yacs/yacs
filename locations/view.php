@@ -199,8 +199,7 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Regional position: %s'), $item['geo_country'])."</p>\n";
 
 	// display the full text
-	if($item['description'])
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	// insert anchor suffix
 	if(is_object($anchor))

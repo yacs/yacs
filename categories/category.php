@@ -148,7 +148,7 @@ Class Category extends Anchor {
 	 */
 	function get_url($action='view') {
 		if(isset($this->item['id']))
-			return Categories::get_url($this->item['id'], $action, $this->item['title']);
+			return Categories::get_permalink($this->item);
 		return NULL;
 	}
 

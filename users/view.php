@@ -482,8 +482,7 @@ if(!isset($item['id'])) {
 			$information .= $overlay->get_text('view', $item);
 
 		// the full text
-		if(isset($item['description']) && $item['description'])
-			$information .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+		$information .= Skin::build_block($item['description'], 'description');
 
 		// birth date, if any
 		if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE))
@@ -927,7 +926,7 @@ if(!isset($item['id'])) {
 		// put at top of stack
 		if(!isset($_SESSION['visited']))
 			$_SESSION['visited'] = array();
-		$_SESSION['visited'] = array_merge(array(Users::get_url($item['id'], 'view', $item['nick_name']) => Codes::beautify($item['full_name']?$item['full_name']:$item['nick_name'])), $_SESSION['visited']);
+		$_SESSION['visited'] = array_merge(array(Users::get_url($item['id'], 'view', $item['nick_name']) => $item['full_name']?$item['full_name']:$item['nick_name']), $_SESSION['visited']);
 
 		// limit to 7 most recent pages
 		if(count($_SESSION['visited']) > 7)

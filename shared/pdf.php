@@ -83,7 +83,7 @@ Class PDF extends FPDF {
 							$link = '';
 
 						// make URL out of URI
-						elseif(preg_match('/^\//', $link))
+						elseif($link[0] == '/')
 							$link = $context['url_to_home'].$link;
 					}
 					break;

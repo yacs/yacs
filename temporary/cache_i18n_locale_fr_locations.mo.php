@@ -3,13 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:28 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:17 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['e29e3b62fd00388c3ca08004cce5a8c1']='%d emplacement'.chr(0).'%d emplacements';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['Add a location']='Ajouter un emplacement';
-$_SESSION['l10n']['fr']['Add another location']='Ajouter un autre emplacement';
 $_SESSION['l10n']['fr']['da9a0fd4ad6b4e693496e34f79ee7dcf']='Recherche de coordonnées géographiques';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['0ce40041c3b540b90a142d3c14a598ee']='A cause de nos réglages de sécurité, vous n\'êtes pas autorisé à consulter la liste des emplacements.';
@@ -72,7 +71,7 @@ $_SESSION['l10n']['fr']['f222ba4674db37aa398976c8f3056048']='Pour trouver les co
 $_SESSION['l10n']['fr']['0749c2e869a8f74bc91f87cc3643388e']='Trop d\'erreurs successives. Abandon';
 $_SESSION['l10n']['fr']['Unused: location %s']='Inutilisé : emplacement %s';
 $_SESSION['l10n']['fr']['b76e939953ed01db8e5a10a9a47bc9ad']='Utiliser le panneau de configuration des services web pour entrer votre clé d\'API Google.';
-$_SESSION['l10n']['fr']['View the updated page']='Voir la page mise à jour';
+$_SESSION['l10n']['fr']['View the page']='Voir la page';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';
 $_SESSION['l10n']['fr']['b901765eb64cb1d802aa05207e85ee67']='Oui, je veux supprimer cet emplacement';

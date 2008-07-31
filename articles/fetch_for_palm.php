@@ -215,7 +215,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= $anchor->get_suffix();
 
 	// link to the original page
-	$context['text'] .= '<p>'.sprintf(i18n::s('The original page is located at %s'), Skin::build_link($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), ''))."</p>\n";
+	$context['text'] .= '<p>'.sprintf(i18n::s('The original page is located at %s'), Skin::build_link($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item), ''))."</p>\n";
 
 	//
 	// special rendering if everything is ok

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:26 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:16 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d elements have been read']='%d éléments ont été obtenus';
 $_SESSION['l10n']['fr']['%d server'.chr(0).'%d servers']='%d serveur'.chr(0).'%d serveurs';
@@ -83,7 +83,6 @@ $_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Related to %s']='Attaché à %s';
 $_SESSION['l10n']['fr']['f29869af2b6e35819bc5a7c5872e8dca']='Les appels distants sont autorisés par défaut. Décocher les cases ci-dessous pour invalider un serveur indélicat en cas de besoin.';
 $_SESSION['l10n']['fr']['Search']='Recherches';
-$_SESSION['l10n']['fr']['Search the World Live Web']='Search the World Live Web';
 $_SESSION['l10n']['fr']['Server description']='Description de ce serveur';
 $_SESSION['l10n']['fr']['Servers']='Serveurs';
 $_SESSION['l10n']['fr']['Servers to be banned']='Serveurs à bannir';

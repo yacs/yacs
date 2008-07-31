@@ -84,11 +84,11 @@ elseif(is_object($anchor) && $anchor->is_assigned())
 elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
 	Surfer::empower();
 
-// link to contribute --minimal format will be expanded with credentials afterwards
+// link to contribute
 if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y'))
-	$link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id']);
+	$link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id']); // to be expanded to credentials
 else
-	$link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+	$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
 
 // message prefix
 if(isset($item['create_id']) && Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
@@ -131,7 +131,7 @@ if(is_object($anchor))
 else
 	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 if(isset($item['id']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
 
 // page title
 if(isset($item['title']))
@@ -273,7 +273,7 @@ if(Surfer::is_crawler()) {
 			$link = Users::get_url($credentials, 'credentials');
 
 			// translate strings to allow for one-click authentication
-			$actual_message = str_replace(Articles::get_url($item['id']), $link, $message);
+			$actual_message = str_replace(Articles::get_url($item['id']), $link, $message); // integrate credentials
 
 		// regular message
 		} else
@@ -291,7 +291,7 @@ if(Surfer::is_crawler()) {
 	// follow-up commands
 	$follow_up = i18n::s('What do you want to do now?');
 	$menu = array();
-	$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to main page')));
+	$menu = array_merge($menu, array(Articles::get_permalink($item) => i18n::s('Back to main page')));
 	$menu = array_merge($menu, array(Articles::get_url($item['id'], 'mail') => i18n::s('Invite people')));
 	$follow_up .= Skin::build_list($menu, 'page_menu');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
@@ -347,7 +347,7 @@ if(Surfer::is_crawler()) {
 
 	// cancel button
 	if(isset($item['id']))
-		$menu[] = Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
+		$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');

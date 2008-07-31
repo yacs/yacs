@@ -78,7 +78,7 @@ function send_body() {
 		echo '<p>'.i18n::s('All reference scripts are included, to show evidence of possible syntax errors.')."</p>\n";
 
 		// list running scripts
-		echo '<p>'.i18n::s('Listing all running PHP scripts...').BR."\n";
+		echo '<p>'.i18n::s('Listing files...').BR."\n";
 
 		// locate script files starting at root
 		$scripts = Scripts::list_scripts_at(NULL);

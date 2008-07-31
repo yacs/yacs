@@ -267,7 +267,7 @@ if(!$permitted) {
 		$fields = array();
 		$fields['nick_name'] = 'default';
 		$fields['title'] = i18n::c('Pages');
-		$fields['introduction'] = i18n::c('The default place to post new pages');
+		$fields['introduction'] = i18n::c('The default place for new pages');
 		$fields['description'] = '';
 		$fields['sections_layout'] = 'decorated';
 		if(Sections::post($fields))
@@ -284,7 +284,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'extra_boxes';
 		$fields['title'] = i18n::c('Extra boxes');
 		$fields['introduction'] = i18n::c('Boxes displayed aside the front page');
-		$fields['description'] = i18n::c('All [link=codes]codes/[/link] are available to format your boxes. Keep the content as compact as possible because of the small size of any single box. When ready, publish pages to have boxes actually displayed at the front page.');
+		$fields['description'] = i18n::c('All [link=codes]codes/[/link] are available to format boxes. Keep the content as compact as possible because of the small size of any single box. When ready, publish pages to actually show boxes to everybody.');
 		$fields['home_panel'] = 'extra_boxes'; // one extra box per article at the front page
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
@@ -303,7 +303,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'gadget_boxes';
 		$fields['title'] = i18n::c('Gadget boxes');
 		$fields['introduction'] = i18n::c('Boxes displayed in the middle of the front page');
-		$fields['description'] = i18n::c('All [link=codes]codes/[/link] are available to format your boxes. Keep the content as compact as possible because of the small size of any single box. When ready, publish pages to have boxes actually displayed at the front page.');
+		$fields['description'] = i18n::c('All [link=codes]codes/[/link] are available to format boxes. Keep the content as compact as possible because of the small size of any single box. When ready, publish pages to actually show boxes to everybody.');
 		$fields['home_panel'] = 'gadget_boxes'; // one gadget box per article at the front page
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
@@ -321,7 +321,6 @@ if(!$permitted) {
 		$fields = array();
 		$fields['nick_name'] = 'global';
 		$fields['title'] = i18n::c('Global pages');
-		$fields['introduction'] = i18n::c('Used from everywhere');
 		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
@@ -342,7 +341,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'navigation_boxes';
 		$fields['title'] = i18n::c('Navigation boxes');
 		$fields['introduction'] = i18n::c('Boxes displayed aside all pages');
-		$fields['description'] = i18n::c('All [link=codes]codes/[/link] are available to format your boxes. Keep the content as compact as possible because of the small size of any single box. When ready, publish pages to have boxes actually displayed at the front page.');
+		$fields['description'] = i18n::c('All [link=codes]codes/[/link] are available to format boxes. Keep the content as compact as possible because of the small size of any single box. When ready, publish pages to actually show boxes to everybody.');
 		$fields['home_panel'] = 'none'; // special processing everywhere -- see skins/<skin>/template.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
@@ -452,7 +451,7 @@ if(!$permitted) {
 		$fields['nick_name'] = i18n::c('featured');
 		$fields['title'] = i18n::c('Featured');
 		$fields['introduction'] = i18n::c('Pages to display at the front page');
-		$fields['description'] = i18n::c('This category is displayed at the front page as a compact list of featured pages. Attach to this category either important and permament pages to be displayed upfront. If you are publishing some articles on a regular basis, you can also describe explicitly the new content for the week or for the month.');
+		$fields['description'] = i18n::c('Pages attached to this category are featured at the front page in a compact list aside.');
 		$fields['active_set'] = 'N';
 		$fields['active'] = 'N';
 		$fields['options'] = 'no_links';
@@ -468,7 +467,6 @@ if(!$permitted) {
 		$fields['nick_name'] = i18n::c('monthly');
 		$fields['title'] = i18n::c('Publications by month');
 		$fields['introduction'] = '';
-		$fields['description'] = i18n::c('Articles published on this server are automatically referenced below.');
 		$fields['rank'] = 22000;
 		$fields['options'] = 'no_links';
 		if(Categories::post($fields))
@@ -483,7 +481,6 @@ if(!$permitted) {
 		$fields['nick_name'] = i18n::c('weekly');
 		$fields['title'] = i18n::c('Publications by week');
 		$fields['introduction'] = '';
-		$fields['description'] = i18n::c('Articles published on this server are automatically referenced below.');
 		$fields['rank'] = 21000;
 		$fields['options'] = 'no_links';
 		if(Categories::post($fields))
@@ -516,10 +513,10 @@ if(!$permitted) {
 			.'<tr><td>'.i18n::c('Owner').'</td><td>[parameter=site_owner]</td></tr>'."\n"
 			.'</table>'."\n"
 			.'<p>'.i18n::c('This site is powered by [link=YACS]http://www.yetanothercommunitysystem.com/[/link], [link=PHP]http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a fast, easy-to-use site that lets you access, review, and download information that matters for you.').'</p>'."\n"
-			.'[title]'.i18n::c('Contact Us').'[/title]'."\n"
+			.'[title]'.i18n::c('Contact').'[/title]'."\n"
 			.'<p>'.i18n::c('The preferred mean to join us is to use the general-purpose query form. This is a convenient tool for you and for us, because your request and related answers will be listed at a single place accessible from your web browser. Moreover, you will be informed by e-mail of any progressing step to your query.').'</p>'."\n"
 			.'<p class="indent">'.i18n::c('Query: [link=Use the on-line form]query.php[/link]').'</p>'."\n"
-			.'<p>'.i18n::c('It seems to be one of the Laws of the Internet that every site of any importance must have an email address for the webmaster. Far be it from us to break the trend; so, if you have something vitally important to tell the folks who designed this place, send a message at the following address.').'</p>'."\n"
+			.'<p>'.i18n::c('If you have something vitally important to tell us, send a message at the following address.').'</p>'."\n"
 			.'<p class="indent">'.i18n::c('Webmaster: [parameter=site_email]').'</p>'."\n"
 			.'[note]'.i18n::c('Due to the large amount of e-mail that we get, we can NOT guarantee a response! This is especially true if your e-mail concerns issues we can\'t really help you with.').'[/note]'."\n"
 			.'[title]'.i18n::c('How you can help').'[/title]'."\n"
@@ -584,9 +581,9 @@ if(!$permitted) {
 		$fields['introduction'] = '';
 		$fields['description'] = '[search]'."\n"
 			.'[menu='.i18n::c('Home').']'.$context['url_to_root'].'[/menu]'."\n"
-			.'[submenu='.i18n::c('Site Map').']sections/[/submenu]'."\n"
+			.'[submenu='.i18n::c('Site map').']sections/[/submenu]'."\n"
 			.'[submenu='.i18n::c('Categories').']categories/[/submenu]'."\n"
-			.'[submenu='.i18n::c('Users').']users/[/submenu]'."\n"
+			.'[submenu='.i18n::c('People').']users/[/submenu]'."\n"
 			.'[submenu='.i18n::c('Help').']help/[/submenu]'."\n";
 		$fields['locked'] = 'Y'; // only associates can change this page
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
@@ -628,7 +625,7 @@ if(!$permitted) {
 	}
 
 	// report to surfer
-	$context['text'] .= Skin::build_box(i18n::s('Articles'), $text);
+	$context['text'] .= Skin::build_box(i18n::s('Pages'), $text);
 
 	// the populate hook
 	if(is_callable(array('Hooks', 'include_scripts')) && ($text = Hooks::include_scripts('control/populate.php')))

@@ -126,8 +126,7 @@ else {
 		$context['text'] .= ucfirst(implode(', ', $details)).BR."\n";
 
 	// display the full text
-	if(isset($item['description']) && $item['description'])
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	// execute the query string to build the table
 	if(isset($item['query']) && $item['query'])

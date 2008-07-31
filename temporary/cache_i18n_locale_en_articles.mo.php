@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 8:37 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['"%s" is not a valid date']='"%s" is not a valid date';
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
@@ -45,8 +45,6 @@ $_SESSION['l10n']['en']['de5b7203b45b8660746f749207ab2a51']='Also complements th
 $_SESSION['l10n']['en']['Anyone may read this page']='Anyone may read this page';
 $_SESSION['l10n']['en']['22b00309d120e415c07fd22cd2f15ae4']='Apply a specific skin (in skins/foo_bar) here';
 $_SESSION['l10n']['en']['Article copy: %s']='Article copy: %s';
-$_SESSION['l10n']['en']['Article has expired %s']='Article has expired %s';
-$_SESSION['l10n']['en']['edde0a2a8656f6f040d93555f88986c4']='Articles will be posted in this section by default';
 $_SESSION['l10n']['en']['Assign']='Assign';
 $_SESSION['l10n']['en']['Assign categories']='Assign categories';
 $_SESSION['l10n']['en']['Attach related files.']='Attach related files.';
@@ -200,8 +198,10 @@ $_SESSION['l10n']['en']['Other sections']='Other sections';
 $_SESSION['l10n']['en']['Page']='Page';
 $_SESSION['l10n']['en']['Page bottom']='Page bottom';
 $_SESSION['l10n']['en']['ac091b148dae450770cf779088073647']='Page content exceeds 64,000 characters. Do you confirm you are intended to post a jumbo page?';
+$_SESSION['l10n']['en']['Page has expired %s']='Page has expired %s';
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['Pages under preparation']='Pages under preparation';
+$_SESSION['l10n']['en']['4d0b2356ea271e4a6e91187392381016']='Pages will be posted in this section by default';
 $_SESSION['l10n']['en']['5700db55198757763a877ab05d5c6542']='Parse links and trackback referenced pages';
 $_SESSION['l10n']['en']['Participants']='Participants';
 $_SESSION['l10n']['en']['Permalink']='Permalink';
@@ -306,7 +306,6 @@ $_SESSION['l10n']['en']['1191989b64153cc1569ba37769dff14b']='Text to be appended
 $_SESSION['l10n']['en']['6764b0a8938450609ea453947e83ee91']='Text to be inserted in the panel aside the page.';
 $_SESSION['l10n']['en']['Textarea']='Textarea';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
-$_SESSION['l10n']['en']['75ac2f0541de393ced305c8dbe249114']='The article has been stamped as being reviewed today.';
 $_SESSION['l10n']['en']['07952e6cca017e7cdff4505604da467f']='The deletion has not been confirmed.';
 $_SESSION['l10n']['en']['cf0bf2388077524d32612d7d6e913e03']='The duplication has not been confirmed.';
 $_SESSION['l10n']['en']['8ee01a298eb1c8116adde65c61a6aeae']='The expiry date has been removed.';
@@ -316,6 +315,7 @@ $_SESSION['l10n']['en']['98fdabae73800dc2aaab070de087a627']='The image displayed
 $_SESSION['l10n']['en']['a41202865c5326d9ba199205ac680c09']='The image that illustrates the page at parent level.';
 $_SESSION['l10n']['en']['26483fdaa783e62461e9f3a52ed12ba6']='The original page is located at %s';
 $_SESSION['l10n']['en']['The page has been duplicated.']='The page has been duplicated.';
+$_SESSION['l10n']['en']['42e194519739cba320c281e8e1f8dde4']='The page has been stamped as being reviewed today.';
 $_SESSION['l10n']['en']['c784dae7fc29d8c1f54a4f9497ebae2f']='The page has been successfully published.';
 $_SESSION['l10n']['en']['dc53dea909158c49e7708a6382eabdb8']='The publication date has been successfully changed.';
 $_SESSION['l10n']['en']['d8f916cadc17b7983d4a54bc98ef0972']='The text has been entirely tagged, and implicit transformations do not apply. YACS codes are processed as usual.';
@@ -377,7 +377,6 @@ $_SESSION['l10n']['en']['You are rating: %s']='You are rating: %s';
 $_SESSION['l10n']['en']['9ca8d2e9612efc220fe8fd01538f9e22']='You can upload a camera shot, a drawing, or any image file, to illustrate this page.';
 $_SESSION['l10n']['en']['a3a2b3bf813a809123d852d392cfb697']='You have already rated his page.';
 $_SESSION['l10n']['en']['d202c53d9ea1bb14a44814af246dbcf4']='You may combine several keywords:';
-$_SESSION['l10n']['en']['Your comments']='Your comments';
 $_SESSION['l10n']['en']['26d108ddac5f9af035390574928cd68d']='Your contribution has not been posted.';
 $_SESSION['l10n']['en']['Your e-mail address']='Your e-mail address';
 $_SESSION['l10n']['en']['82e1e4fa4163a6bb6fce5575a9d86438']='Your message is being transmitted to %s';

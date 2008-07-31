@@ -348,7 +348,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$id = $context['arguments'][0];
 
 	// fight against hackers
-	$id = basename(preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($id)));
+	$id = basename(preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($id)));
 
 	// scope is limited to the inbox
 	if($queries = SQL::process($context['path_to_root'].'inbox/database/'.$id)) {
@@ -459,7 +459,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 			global $deleted_nodes;
 			if($deleted_nodes) {
 				$time = round(get_micro_time() - $milestone, 2);
-				$context['text'] .= '<p>'.sprintf(i18n::s('%d files and images have been deleted from the file system in %.2f seconds.'), $deleted_nodes, $time).'</p>';
+				$context['text'] .= '<p>'.sprintf(i18n::s('%d items have been deleted'), $deleted_nodes).'</p>';
 			}
 
 		}

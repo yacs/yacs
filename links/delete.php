@@ -150,8 +150,7 @@ else {
 		$context['text'] .= '<p>'.$item['link_url']."</p>\n";
 
 	// display the full text
-	if($item['description'])
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 }
 

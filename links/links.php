@@ -141,24 +141,6 @@ Class Links {
 
 		return $label;
 
-// 			// use the title as a label
-// 			if($item['title'])
-// 				$label = Skin::strip($item['title'], 70);
-
-// 			// or try to make something out of the url
-// 			else {
-// 				$link_items = @parse_url($item['link_url']);
-// 				if(isset($link_items['path'])) {
-// 					$path = array_slice(explode('/', $link_items['path']), -3);
-// 					if(isset($link_items['host']))
-// 						array_unshift($path, $link_items['host']);
-// 					$label = str_replace('//', '/', join('/', $path));
-// 				} else
-// 					$label = $link_items['host'];
-// 				if((strlen($label) > 13) && (($variant == 'compact') || ($variant == 'hits')))
-// 					$label = '...'.substr($label, -13);
-// 			}
-
 	}
 
 	/**
@@ -471,8 +453,7 @@ Class Links {
 	 * In this case, skip the very first link in the list by using
 	 * [code]Links::list_by_date(1, 10)[/code].
 	 *
-	 * This function masks links fetched from external feeds, by ensuring the action code is not
-	 * '[code]link:feed[/code]'.
+	 * This function masks links fetched from external feeds.
 	 *
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
@@ -489,14 +470,14 @@ Class Links {
 		// if not associate, restrict to links attached to public published not expired pages
 		if(!Surfer::is_associate()) {
 			$where = ", ".SQL::table_name('articles')." AS articles "
-				." WHERE ((links.anchor LIKE 'article:%') AND (articles.id LIKE SUBSTRING(links.anchor, 9)))"
+				." WHERE ((links.anchor_type LIKE 'article') AND (links.anchor_id = articles.id))"
 				." AND (articles.active='Y')"
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
 				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmstrftime('%Y-%m-%d %H:%M:%S')."'))"
-				." AND (links.edit_action != 'link:feed')";
+				." AND (links.edit_id > 0)";
 		} else {
-			$where = "WHERE (links.edit_action != 'link:feed')";
+			$where = "WHERE (links.edit_id > 0)";
 		}
 
 		// the list of links
@@ -678,7 +659,6 @@ Class Links {
 	 * list links received from newsfeeders
 	 *
 	 * This function is used to show most recent news received from the net.
-	 * It restricts the lookup to links that have the action code '[code]link:feed[/code]'.
 	 *
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
@@ -692,7 +672,7 @@ Class Links {
 
 		// the list of links
 		$query = "SELECT links.* FROM ".SQL::table_name('links')." AS links "
-			." WHERE (links.edit_action = 'link:feed')"
+			." WHERE (links.edit_id = 0)"
 			." GROUP BY links.link_url"
 			." ORDER BY links.edit_date DESC, links.title LIMIT ".$offset.','.$count;
 
@@ -1099,7 +1079,6 @@ Class Links {
 	 * @param array an array of fields
 	 * @return the id of the new link, or FALSE on error
 	 *
-	 * @see control/import.php
 	 * @see feeds/feeds.php
 	 * @see links/edit.php
 	 * @see links/trackback.php
@@ -1107,6 +1086,9 @@ Class Links {
 	**/
 	function post(&$fields) {
 		global $context;
+
+		// suppress invalid chars, if any
+		$fields['link_url'] = trim(preg_replace(FORBIDDEN_IN_URLS, '_', $fields['link_url']), '_');
 
 		// no link
 		if(!$fields['link_url']) {
@@ -1158,16 +1140,9 @@ Class Links {
 	 * cap the number of news in the database
 	 *
 	 * This function deletes oldest entries going beyond the given threshold.
-	 * Links coming from feeders are located by the special value 'link:feed' in the field edit action.
-	 *
-	 * Note that if a link is collected from a feeder, and if it is modified
-	 * afterwards, then the edit-action field is changed to 'link:update',
-	 * meaning it is not condidered as some news anymore. This link won't appear
-	 * at the front page anymore, and won't be purged either.
-	 * Any change to a news link makes it become an ordinary and permanent link.
 	 *
 	 * @param int the maximum number of news entries to keep in the database
-	 * @return void
+	 * @return int count of deleted items
 	 *
 	 * @see feeds/configure.php
 	 * @see feeds/feeds.php
@@ -1177,24 +1152,25 @@ Class Links {
 
 		// lists oldest entries beyond the limit
 		$query = "SELECT links.* FROM ".SQL::table_name('links')." AS links "
-			." WHERE (links.edit_action = 'link:feed')"
-			." GROUP BY links.link_url"
-			." ORDER BY links.edit_date DESC, links.title LIMIT ".$limit.', 100';
+			." WHERE (links.edit_id = 0)"
+			." ORDER BY links.edit_date DESC, links.title LIMIT ".$limit.', 10000';
 
 		// no result
 		if(!$result =& SQL::query($query))
-			return;
+			return 0;
 
 		// empty list
 		if(!SQL::count($result))
-			return;
+			return 0;
 
 		// build an array of links
+		$count = 0;
 		while($item =& SQL::fetch($result)) {
 
 			// delete the record in the database
 			$query = "DELETE FROM ".SQL::table_name('links')." WHERE id = ".SQL::escape($item['id']);
 			SQL::query($query);
+			$count++;
 
 		}
 
@@ -1204,6 +1180,8 @@ Class Links {
 		// clear the cache for links
 		Cache::clear('links');
 
+		// job done
+		return $count;
 	}
 
 	/**
@@ -1359,14 +1337,14 @@ Class Links {
 		// if not associate, restrict to links attached to public published not expired pages
 		if(!Surfer::is_associate()) {
 			$where = ", ".SQL::table_name('articles')." AS articles "
-				." WHERE ((links.anchor LIKE 'article:%') AND (articles.id LIKE SUBSTRING(links.anchor, 9)))"
+				." WHERE ((links.anchor_type LIKE 'article') AND (links.anchor_id = articles.id))"
 				." AND (articles.active='Y')"
 				." AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND ((articles.expiry_date is NULL)"
 				."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmstrftime('%Y-%m-%d %H:%M:%S')."'))"
-				." AND (links.edit_action != 'link:feed')";
+				." AND (links.edit_id > 0)";
 		} else {
-			$where = "WHERE (links.edit_action != 'link:feed')";
+			$where = "WHERE (links.edit_id > 0)";
 		}
 
 		// select among available items
@@ -1439,13 +1417,13 @@ Class Links {
 			// article link
 			case 'article':
 				if($item =& Articles::get($matches[2]))
-					return array(Articles::get_url($matches[2]), $item['title'], $item['introduction']);
+					return array(Articles::get_permalink($item), $item['title'], $item['introduction']);
 				return array('', $text, '');
 
 			// section link
 			case 'section':
 				if($item =& Sections::get($matches[2]))
-					return array(Sections::get_url($matches[2]), $item['title'], $item['introduction']);
+					return array(Sections::get_permalink($item), $item['title'], $item['introduction']);
 				return array('', $text, '');
 
 			// file link
@@ -1466,7 +1444,7 @@ Class Links {
 			case 'category':
 				include_once $context['path_to_root'].'categories/categories.php';
 				if($item =& Categories::get($matches[2]))
-					return array(Categories::get_url($item['id'], 'view', $item['title']), $item['title'], $item['introduction']);
+					return array(Categories::get_permalink($item), $item['title'], $item['introduction']);
 				return array('', $text, '');
 
 			// user link

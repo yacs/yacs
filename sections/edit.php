@@ -110,7 +110,7 @@ else
 	$context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
 
 if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title']));
 
 // page title
 if(isset($item['title']))
@@ -177,7 +177,7 @@ if(Surfer::is_crawler()) {
 
 	// protect from hackers
 	if(isset($_REQUEST['edit_name']))
-		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_CHARS_IN_NAMES, '_', $_REQUEST['edit_name']);
+		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
 		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
 
@@ -199,7 +199,7 @@ if(Surfer::is_crawler()) {
 	// allow back-referencing from overlay
 	if($item['id']) {
 		$_REQUEST['self_reference'] = 'section:'.$item['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$_REQUEST['self_url'] = $context['url_to_root'].Sections::get_permalink($item);
 	}
 
 	// update an existing page
@@ -231,7 +231,7 @@ if(Surfer::is_crawler()) {
 			Sections::clear($_REQUEST);
 
 			// display the updated page
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
 		}
 
 	// create a new section
@@ -262,7 +262,7 @@ if(Surfer::is_crawler()) {
 		// reward the poster for new posts
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
-		$context['text'] .= i18n::s('<p>Please review the new page carefully and fix possible errors rapidly.</p>');
+		$context['text'] .= '<p>'.i18n::s('Please review the new page carefully and fix possible errors rapidly.').'</p>';
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
@@ -1165,7 +1165,7 @@ if($with_form) {
 
 	// cancel button
 	if(isset($item['id']))
-		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
+		$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Cancel'), 'span');
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');

@@ -43,7 +43,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 
 		// empty list
 		if(!SQL::count($result)) {
-			$label = i18n::s('No article has been published so far.');
+			$label = i18n::s('No page to display.');
 			if(Surfer::is_associate())
 				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
@@ -65,7 +65,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// permalink
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -198,7 +198,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 			include_once $context['path_to_root'].'categories/categories.php';
 			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 				foreach($items as $id => $attributes) {
-					$menu = array_merge($menu, array( Categories::get_url($attributes['id'], 'view', $attributes['title'], isset($attributes['nick_name'])?$attributes['nick_name']:'') => $attributes['title'] ));
+					$menu = array_merge($menu, array( Categories::get_permalink($attributes) => $attributes['title'] ));
 				}
 			}
 
@@ -220,7 +220,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 		include_once $context['path_to_root'].'categories/categories.php';
 		$anchor =& Categories::get(i18n::c('monthly'));
 		if(isset($anchor['id']) && ($items = Categories::list_by_date_for_anchor('category:'.$anchor['id'], 0, COMPACT_LIST_SIZE, 'compact')))
-			$text .= Skin::build_box(i18n::s('Past articles'), Skin::build_list($items, 'menu_bar'));
+			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($items, 'menu_bar'));
 
 		return $text;
 	}

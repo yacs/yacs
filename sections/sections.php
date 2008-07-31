@@ -838,18 +838,14 @@ Class Sections {
 
 		// only consider live sections
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$where = "(".$where.")"
-			." AND ((sections.activation_date is NULL)"
+		$where .= " AND ((sections.activation_date is NULL)"
 			."	OR (sections.activation_date <= '".$now."'))"
 			." AND ((sections.expiry_date is NULL)"
-			."	OR (sections.expiry_date < '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
-
-		// if the user is listing sections to write an article, only consider open sections, even for associates
-		$where .= ' AND (sections.locked NOT LIKE "Y")';
+			."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
 
 		// select among available sections
 		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE (".$where.")"
+			." WHERE ".$where
 			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 0, 1";
 		if($item =& SQL::query_first($query))
 			return $item['id'];
@@ -1039,6 +1035,17 @@ Class Sections {
 
 		// end of job
 		return $text;
+	}
+
+	/**
+	 * get permanent address
+	 *
+	 * @param array page attributes
+	 * @return string the permalink
+	 */
+	function &get_permalink($item) {
+		$output =& Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		return $output;
 	}
 
 	/**
@@ -1626,7 +1633,7 @@ Class Sections {
 				while($item =& SQL::fetch($result)) {
 
 					// url to read the full section
-					$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+					$url =& Sections::get_permalink($item);
 
 					// reset the rendering engine between items
 					if(is_callable(array('Codes', 'initialize')))
@@ -1703,7 +1710,6 @@ Class Sections {
 	 *
 	 * @see articles/populate.php
 	 * @see articles/review.php
-	 * @see control/import.php
 	 * @see index.php
 	 * @see letters/index.php
 	 * @see letters/new.php
@@ -1724,7 +1730,6 @@ Class Sections {
 	 * @param array an array of fields
 	 * @return the id of the new article, or FALSE on error
 	 *
-	 * @see control/import.php
 	 * @see sections/edit.php
 	 * @see sections/populate.php
 	 * @see letters/new.php

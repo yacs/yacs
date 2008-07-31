@@ -3,14 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:26 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
 $_SESSION['l10n']['fr']['ATOM 0.3 format']='Format ATOM 0.3';
 $_SESSION['l10n']['fr']['6d98e789fd5d4ae9a80538dee178d7f5']='Les bloggers avancés profiteront des fils RSS 2.0 "lourds" :';
 $_SESSION['l10n']['fr']['Aggregate this site']='Agrégez les nouvelles';
 $_SESSION['l10n']['fr']['15e88f3b3601560d8f8c9f72bedbcb2f']='Un nombre entier, en décimal ou en hexa, exemple : 0x11';
-$_SESSION['l10n']['fr']['Articles with full content']='Articles avec contenu intégral';
 $_SESSION['l10n']['fr']['ac77ef6a6501f885293f052c5fe6a3c6']='En tant qu\'associé, vous pouvez accéder à la log des %s (RSS 2.0).';
 $_SESSION['l10n']['fr']['Background Blue']='Fond bleu';
 $_SESSION['l10n']['fr']['Background Green']='Fond vert';
@@ -19,7 +18,7 @@ $_SESSION['l10n']['fr']['fe9b38a8ae54d3275c819e30e247f3f0']='Visitez la %s, chaq
 $_SESSION['l10n']['fr']['Channel description']='Description du fil d\'information';
 $_SESSION['l10n']['fr']['Channel image']='Image du canal';
 $_SESSION['l10n']['fr']['Channel title']='Titre du fil d\'information';
-$_SESSION['l10n']['fr']['Comments and reactions']='Commentaires et réactions';
+$_SESSION['l10n']['fr']['Comments']='Commentaires';
 $_SESSION['l10n']['fr']['c7b0caa70cdcdc624bdb2902405592e6']='A comparer à l\'échelle verticale interne ci-dessous';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configuration';
@@ -64,6 +63,7 @@ $_SESSION['l10n']['fr']['4c3fff56377afd39eeef44ea44511666']='Les nouvelles les p
 $_SESSION['l10n']['fr']['bbc47a9d202e7175fff1a16a04e5c6fd']='Il en va de même pour chacune des %s de classement des articles.';
 $_SESSION['l10n']['fr']['Outbound']='Envoi';
 $_SESSION['l10n']['fr']['Outbound feeds']='Connecteurs de sortie';
+$_SESSION['l10n']['fr']['Pages with full content']='Pages avec contenu intégral';
 $_SESSION['l10n']['fr']['Pick a feed']='Choisissez une source';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['RDF/RSS 1.0 format']='Format RDF/RSS 1.0';

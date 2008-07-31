@@ -334,7 +334,7 @@ if(Surfer::is_crawler()) {
 			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			if(is_object($anchor)) {
-				$menu = array_merge($menu, array($anchor->get_url().'#links' => i18n::s('View the updated page')));
+				$menu = array_merge($menu, array($anchor->get_url().'#links' => i18n::s('View the page')));
 				$menu = array_merge($menu, array('links/edit.php?anchor='.$anchor->get_reference() => i18n::s('Submit another link')));
 			}
 			$follow_up .= Skin::build_list($menu, 'page_menu');

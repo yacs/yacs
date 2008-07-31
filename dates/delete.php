@@ -119,7 +119,7 @@ else {
 		.'// ]]></script>'."\n";
 
 	// the date
-	$context['text'] .= '<p>'.sprintf(i18n::s('Target date: %s'), Skin::build_date($item['date_stamp'], 'full')).'</p>';
+	$context['text'] .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Target date'), Skin::build_date($item['date_stamp'], 'full')).'</p>';
 
 	// information on uploader
 	if(Surfer::is_member() && $item['edit_name'])

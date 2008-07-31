@@ -174,8 +174,7 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<p>'.ucfirst(implode(' ', $details))."</p>\n";
 
 	// display the full decision
-	if($item['description'])
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 
 	// insert anchor suffix

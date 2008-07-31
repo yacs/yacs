@@ -65,11 +65,11 @@ if($stats['count'])
 
 // navigation commands for files, if necessary
 if($stats['count'] > $items_per_page) {
-	$home = 'files/index.php';
+	$home = 'files/';
 	if($context['with_friendly_urls'] == 'Y')
-		$prefix = $home.'/';
+		$prefix = $home.'index.php/';
 	elseif($context['with_friendly_urls'] == 'R')
-		$prefix = $home.'/';
+		$prefix = $home;
 	else
 		$prefix = $home.'?page=';
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
@@ -121,7 +121,7 @@ if(!$text =& Cache::get($cache_id)) {
 		foreach($categories as $id => $attributes) {
 
 			// link to the category page from the box title
-			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_url($attributes['id'], 'view', $attributes['title']), i18n::s('View the category'));
+			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
 
 			// box content
 			if($items = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))

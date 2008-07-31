@@ -91,7 +91,7 @@ if(is_object($anchor))
 else
 	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 if(isset($item['id']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
 
 // page title
 if(isset($item['id']))
@@ -145,8 +145,7 @@ else {
 		$context['page_image'] = $anchor->get_icon_url();
 
 	// the introduction text, if any
-	if($item['introduction'])
-		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
+	$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 	// get text related to the overlay, if any
 	if(is_object($overlay))
@@ -159,7 +158,7 @@ else {
 		if(is_object($overlay) && ($label = $overlay->get_label('description')))
 			$context['text'] .= Skin::build_block($label, 'title');
 
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
+		$context['text'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
 	}
 
@@ -200,7 +199,7 @@ else {
 	$menu = array();
 	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this page'), NULL, NULL, 'confirmed');
 	if(isset($item['id']))
-		$menu[] = Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
+		$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
 
 	// render commands
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"

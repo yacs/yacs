@@ -184,7 +184,7 @@ elseif(!count($items)) {
 
 				// target will have to authenticate on his own
 				} else
-					$mail['message'] .= Articles::get_url($article['id'], 'view', $article['title']);
+					$mail['message'] .= Articles::get_permalink($article);
 
 				// target is known here
 				if(isset($item['id'])) {
@@ -200,7 +200,7 @@ elseif(!count($items)) {
 					$notification['nick_name'] = Surfer::get_name();
 					$notification['recipient'] = $item['id'];
 					$notification['type'] = 'hello';
-					$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_url($article['id'], 'view', $article['title']);
+					$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($article);
 					$notification['reference'] = 'article:'.$article['id'];
 
 					// alert the target user
@@ -228,7 +228,7 @@ elseif(!count($items)) {
 	// follow-up commands
 	$menu = array();
 	if(isset($article['id']))
-		$menu = array(Articles::get_url($article['id'], 'view', $article['title']) => i18n::s('View the page'));
+		$menu = array(Articles::get_permalink($article) => i18n::s('View the page'));
 	if((count($items) == 1) && ($item = $items[0]) && isset($item['id']))
 		$menu = array_merge($menu, array(Users::get_url($item['id'], 'view', $item['nick_name']) => sprintf(i18n::s('Back to %s'), $item['nick_name'])));
 	elseif(Surfer::get_id())

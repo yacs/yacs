@@ -51,7 +51,7 @@ class Authenticator {
 		global $context;
 
 		// stop hackers, if any
-		$type = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($type));
+		$type = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($type));
 
 		// remove side spaces
 		$type = trim($type);

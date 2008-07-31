@@ -1237,7 +1237,7 @@ class Messages {
 
 		// do not stop on error
 		include_once $context['path_to_root'].'images/image.php';
-		Image::shrink($file_path.$file_name, $file_path.$thumbnail_name, TRUE);
+		Image::shrink($file_path.$file_name, $file_path.$thumbnail_name, FALSE, FALSE);
 
 		// resize the image where applicable
 		if(Image::adjust($file_path.$file_name, FALSE))

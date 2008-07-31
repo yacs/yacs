@@ -75,7 +75,7 @@ Class Layout_articles_as_manual extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);

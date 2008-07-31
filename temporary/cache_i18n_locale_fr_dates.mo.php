@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:29 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:18 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
 $_SESSION['l10n']['fr']['%d date'.chr(0).'%d dates']='%d date'.chr(0).'%d dates';
@@ -11,8 +11,8 @@ $_SESSION['l10n']['fr']['%d file'.chr(0).'%d files']='%d fichier'.chr(0).'%d fic
 $_SESSION['l10n']['fr']['%d link'.chr(0).'%d links']='%d lien'.chr(0).'%d liens';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
+$_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['Add a date']='Ajouter une date';
-$_SESSION['l10n']['fr']['Add another date']='Ajouter une autre date';
 $_SESSION['l10n']['fr']['April']='Avril';
 $_SESSION['l10n']['fr']['August']='Août';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
@@ -42,7 +42,6 @@ $_SESSION['l10n']['fr']['b5dbc68e3397cbbe537f4a7c53b6fc4d']='Rien n\'a été enr
 $_SESSION['l10n']['fr']['November']='Novembre';
 $_SESSION['l10n']['fr']['October']='Octobre';
 $_SESSION['l10n']['fr']['Orphan: date %s']='Orphelin : date %s';
-$_SESSION['l10n']['fr']['Please mention a target date.']='Merci d\'indiquer une date.';
 $_SESSION['l10n']['fr']['Please provide a date.']='Merci d\'indiquer une date.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['Posted by']='Envoyé par';
@@ -55,16 +54,13 @@ $_SESSION['l10n']['fr']['September']='Septembre';
 $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Target date']='Date cible';
-$_SESSION['l10n']['fr']['Target date: %s']='Date cible : %s';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['The date has been saved.']='La date a été enregistrée.';
 $_SESSION['l10n']['fr']['270fe73e78407a1fe4ccf8eb9b9f99bb']='Effacement non confirmé';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
 $_SESSION['l10n']['fr']['0749c2e869a8f74bc91f87cc3643388e']='Trop d\'erreurs successives. Abandon';
 $_SESSION['l10n']['fr']['Unused: date %s']='Inutilisé : date %s';
-$_SESSION['l10n']['fr']['View some date']='Voir une date';
 $_SESSION['l10n']['fr']['View the page']='Voir la page';
-$_SESSION['l10n']['fr']['View the updated page']='Voir la page mise à jour';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';
 $_SESSION['l10n']['fr']['YYYY-MM-DD']='AAAA-MM-DD';

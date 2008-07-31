@@ -170,7 +170,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 		// back to the category page
 		$menu = array();
-		$menu[] = Skin::build_link(Categories::get_url($item['id'], 'view', $item['title'], $item['nick_name']), $item['title'], 'span');
+		$menu[] = Skin::build_link(Categories::get_permalink($item), $item['title'], 'span');
 		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	}
@@ -222,7 +222,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 	// cancel button
 	if(isset($item['id']))
-		$menu[] = Skin::build_link(Categories::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
+		$menu[] = Skin::build_link(Categories::get_permalink($item), i18n::s('Cancel'), 'span');
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');

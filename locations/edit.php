@@ -164,9 +164,8 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the updated page')));
+		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the page')));
 		$menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit the page')));
-		$menu = array_merge($menu, array('locations/edit.php?anchor='.$anchor->get_reference() => i18n::s('Add another location')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 

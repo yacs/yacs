@@ -3,15 +3,15 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:27 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:16 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['565268c8f67e6811cb636fce1233a9ac']='%d fichier a été téléchargé depuis le serveur de référence.'.chr(0).'%d fichiers ont été téléchargés depuis le serveur de référence.';
 $_SESSION['l10n']['fr']['341b51d0903352bdc690bd54123302d1']='%d fichier a été mis à jour.'.chr(0).'%d fichiers ont été mis à jour.';
 $_SESSION['l10n']['fr']['%d files have been extracted.']='%d fichiers ont été extraits.';
+$_SESSION['l10n']['fr']['%d files have been found.']='%d fichiers ont été trouvés.';
 $_SESSION['l10n']['fr']['%d files have been included.']='%d fichiers ont été inclus.';
 $_SESSION['l10n']['fr']['909efefe280bf8698001d78f51a5b341']='%d fichiers à traiter manuellement.';
 $_SESSION['l10n']['fr']['%d items have been purged']='%d éléments ont été supprimés';
-$_SESSION['l10n']['fr']['62e481eef7983a6fda8c09799e842165']='%d fichiers de référence ont été trouvés.';
 $_SESSION['l10n']['fr']['8315d51149f2995adda2adaa8307dc4e']='%d scripts de référence ont été copiés';
 $_SESSION['l10n']['fr']['c06c60caa762bf30846387d9525c864c']='%d script a été exécuté'.chr(0).'%d scripts ont été exécutés';
 $_SESSION['l10n']['fr']['09fef7ba25bc7a07c1e534f1cb3fd420']='%d script est en attente de mise à jour.'.chr(0).'%d scripts sont en attente de mise à jour.';
@@ -44,23 +44,17 @@ $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
 $_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
 $_SESSION['l10n']['fr']['d020262f882c464f052d7faa6e3bb07e']='Félicitations, le correctif a été appliqué.';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
-$_SESSION['l10n']['fr']['26e36e1dadbf046cdcdb9cb6f0289c80']='Copie des scripts de référence...';
+$_SESSION['l10n']['fr']['Copying files...']='Copie des fichiers ...';
 $_SESSION['l10n']['fr']['Current content of %s']='Contenu actuel de %s';
 $_SESSION['l10n']['fr']['Delta']='Delta';
 $_SESSION['l10n']['fr']['Diff']='Différences';
 $_SESSION['l10n']['fr']['Documentation:']='Documentation :';
 $_SESSION['l10n']['fr']['0921d24545886ddc275df7dbeb5f1f60']='Téléchargement des nouveaux scripts. Merci de patienter...';
 $_SESSION['l10n']['fr']['fb5b688a46f488433ccf03e8cd202ff8']='Télécharger les mises à jour';
+$_SESSION['l10n']['fr']['21bc65a56a523f1a5f5edad7e87bf2a8']='Erreur :  le fichier %s est corrompu.';
 $_SESSION['l10n']['fr']['6a2c769d729b50a589114cb6f3a6ca3b']='ERREUR : impossible d\'écrire dans le fichier %s. La configuration n\'a pas été sauvegardée.';
 $_SESSION['l10n']['fr']['98564239e79262aa70b133bc80f289ae']='Permettre aux serveurs distants de se synchroniser sur le nouveau référentiel.';
 $_SESSION['l10n']['fr']['Error while processing %s.']='Erreur pendant le traitement de %s.';
-$_SESSION['l10n']['fr']['792b1ee45949c5c4a024ac850363f317']='Erreur : le fichier %s est vide. La mise à jour est annulée.';
-$_SESSION['l10n']['fr']['f6d358b53a5a35e28dfb2f534eb11324']='Erreur :  le fichier %s est corrompu. La mise à jour est annulée.';
-$_SESSION['l10n']['fr']['d42a3a70bb4bc158ff5735e8fce31fa4']='Erreur : le fichier %s n\'a pas été téléchargé. La mise à jour sera incomplète.';
-$_SESSION['l10n']['fr']['2095b2398d7559b9016f7ca2293b8ab8']='Erreur : le fichier %s n\'a pas été téléchargé. La mise à jour est annulée.';
-$_SESSION['l10n']['fr']['023e7614398f714fbdba8d3ee680ec8d']='Erreur ! Impossible de créer le chemin vers %s';
-$_SESSION['l10n']['fr']['Error! Unable to update %s.']='ERREUR : impossible de mettre à jour le fichier %s';
-$_SESSION['l10n']['fr']['7b56156ac65d213d994ad81827f1e8d3']='ERREUR : impossible de lire le script %s';
 $_SESSION['l10n']['fr']['6cbee9d5e160a682215f32bd84f39d36']='A cause des erreurs rencontrées, vous ne pouvez pas continuer la mise à jour par le réseau.';
 $_SESSION['l10n']['fr']['c2894838835b4148cf032856000493b1']='Le temps de traitement ne peut pas être étendu sur ce serveur. En cas de problème, merci de télécharger manuellement chacun des fichiers contenus dans l\'archive vers le répertoire <code>scripts/staging</code>, par l\'outil FTP ou équivalent de votre choix. Puis, après cette opération, aller sur %s pour continuer la mise à jour.';
 $_SESSION['l10n']['fr']['Fetch']='Obtenir';
@@ -84,14 +78,12 @@ $_SESSION['l10n']['fr']['Incremental upgrades']='Mises à jour incrémentales';
 $_SESSION['l10n']['fr']['be4dd7fe739e6b8a49ea5b6e4f3b6130']='Indiquez seulement le nom DNS ou l\'adresse IP du serveur de référence. Ni plus, ni moins.';
 $_SESSION['l10n']['fr']['Install all hooks']='Recherche des extensions';
 $_SESSION['l10n']['fr']['Install release %s']='Installer la version %s';
-$_SESSION['l10n']['fr']['62d164e19dca5e986a2b9c853ba7a7f8']='Empreintes de référence invalides. La mise à jour est abandonnée.';
 $_SESSION['l10n']['fr']['1777ef3dc94382bc1f2d3b0789c8cd07']='Index invalide. L\'opération est abandonnée.';
 $_SESSION['l10n']['fr']['Last update took place on %s']='Date de mise à jour : %s';
 $_SESSION['l10n']['fr']['License:']='Licence :';
 $_SESSION['l10n']['fr']['Licenses']='Licences';
 $_SESSION['l10n']['fr']['Licenses for all those scripts']='Les licences d\'usage de ces scripts';
-$_SESSION['l10n']['fr']['Listing all reference files...']='Inventaire du référentiel...';
-$_SESSION['l10n']['fr']['9e7af0de649a81b734460836a4154f5a']='Inventaire des scripts PHP...';
+$_SESSION['l10n']['fr']['Listing files...']='Inventaire des fichiers ...';
 $_SESSION['l10n']['fr']['Merge']='Combiné';
 $_SESSION['l10n']['fr']['4ea01779754204c05e7b7e7c4b1c672c']='Les données ont été sauvées dans le fichier scripts/reference/footprints.php.';
 $_SESSION['l10n']['fr']['No archive has been found.']='Aucune archive n\'a été trouvée.';
@@ -156,7 +148,6 @@ $_SESSION['l10n']['fr']['Testers:']='Testeurs :';
 $_SESSION['l10n']['fr']['557e12336a208c73b9d8f78bae72b51c']='La documentation complète est disponible sur le serveur suivant :';
 $_SESSION['l10n']['fr']['671a80bc7e516973a52aa9fd2bea3aaf']='Le fichier scripts/reference/footprints.php n\'a pas été généré et les données du référentiel sont utilisables seulement pour test.';
 $_SESSION['l10n']['fr']['3513760fe3e0b14f2af4cc30a501d92a']='La configuration suivante a été enregistrée dans le fichier %s.';
-$_SESSION['l10n']['fr']['5522912c9dec5c466d69e607f779a9f3']='La base des scripts de référence est vide. Merci de la (re)construire.';
 $_SESSION['l10n']['fr']['b5d5d9a0b3a6832af6113b769c5270ca']='Les scripts de référence ont été reconstruits';
 $_SESSION['l10n']['fr']['c5b64cab449af0324e22fd245d95879d']='Le serveur a été fermé. Rouvrez-le dès que possible.';
 $_SESSION['l10n']['fr']['247dd0c6d529b7b985b0c679b9b28c96']='Le serveur a été arrêté.';

@@ -71,11 +71,11 @@ else {
 
 	// navigation commands for locations, if necessary
 	if($stats['count'] > LOCATIONS_PER_PAGE) {
-		$home = 'locations/index.php';
+		$home = 'locations/';
 		if($context['with_friendly_urls'] == 'Y')
-			$prefix = $home.'/';
+			$prefix = $home.'index.php/';
 		elseif($context['with_friendly_urls'] == 'R')
-			$prefix = $home.'/';
+			$prefix = $home;
 		else
 			$prefix = $home.'?page=';
 		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], LOCATIONS_PER_PAGE, $page));

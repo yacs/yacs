@@ -98,7 +98,7 @@ if(is_object($anchor))
 
 // the path to this page
 if(isset($item['id']))
-	$context['path_bar'] = array( Articles::get_url($item['id'], 'view', $item['title']) => $item['title'] );
+	$context['path_bar'] = array( Articles::get_permalink($item) => $item['title'] );
 else
 	$context['path_bar'] = array( 'files/' => i18n::s('Files') );
 

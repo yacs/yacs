@@ -32,7 +32,7 @@ Class Collections {
 		$id = strip_tags($id);
 
 		// suppress dangerous strings, namely, '../'
-		$id = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', $id);
+		$id = preg_replace(FORBIDDEN_IN_PATHS, '', $id);
 
 		// sanity check
 		if(!trim($id)) {

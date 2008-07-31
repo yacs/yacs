@@ -169,11 +169,11 @@ Class Layout_sections_as_folded extends Layout_interface {
 
 			// signal continuing sections
 			if(count($elements) > MAXIMUM_ITEMS_PER_SECTION)
-				$elements[] = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('More pages').MORE_IMG, 'basic');
+				$elements[] = Skin::build_link(Sections::get_permalink($item), i18n::s('More pages').MORE_IMG, 'basic');
 
 			// else allow to view the section anyway
 			else
-				$elements[] = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('View the section'), 'shortcut');
+				$elements[] = Skin::build_link(Sections::get_permalink($item), i18n::s('View the section'), 'shortcut');
 
 			// make a full list
 			if(count($elements))

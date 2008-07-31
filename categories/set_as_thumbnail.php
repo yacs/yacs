@@ -48,11 +48,9 @@ load_skin('categories');
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
-else
-	$context['path_bar'] = array( 'index.php' => i18n::s('Categories') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Set an image as the page thumbnail');
+$context['page_title'] = i18n::s('Use an image');
 
 // stop crawlers
 if(Surfer::is_crawler()) {

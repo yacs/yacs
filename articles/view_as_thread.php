@@ -153,7 +153,7 @@ if(!isset($item['id'])) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name'])));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_permalink($item)));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
@@ -185,7 +185,7 @@ if(!isset($item['id'])) {
 	}
 
 	// initialize the rendering engine
-	Codes::initialize(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+	Codes::initialize(Articles::get_permalink($item));
 
 	// add meta information, if any
 	if(isset($item['meta']) && $item['meta'])
@@ -267,7 +267,7 @@ if(!isset($item['id'])) {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if((Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()))
 				&& ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now)) {
-			$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Article has expired %s'), Skin::build_date($item['expiry_date']));
+			$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Page has expired %s'), Skin::build_date($item['expiry_date']));
 		}
 
 		// article editors, for associates and section editors
@@ -425,18 +425,15 @@ if(!isset($item['id'])) {
 	// the introduction text, if any
 	if(is_object($overlay))
 		$context['text'] .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
-	elseif(isset($item['introduction']) && trim($item['introduction']))
-		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 	else
-		$context['text'] .= BR;
+		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 	// get text related to the overlay, if any
 	if(is_object($overlay))
 		$context['text'] .= $overlay->get_text('view', $item);
 
 	// the beautified description, which is the actual page body
-	if(trim($item['description']))
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
 	// the poster profile, if any, at the bottom of the page
 	if(isset($poster['id']) && is_object($anchor))
@@ -548,7 +545,7 @@ if(!isset($item['id'])) {
 
 			// url of this page
 			if(isset($item['id']))
-				$menu = array('users/login.php?url='.urlencode(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']))=> i18n::s('Authenticate or register to contribute to this thread'));
+				$menu = array('users/login.php?url='.urlencode(Articles::get_permalink($item))=> i18n::s('Authenticate or register to contribute to this thread'));
 
 			// view thread history
 			$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), i18n::s('View history'), 'span');
@@ -871,7 +868,7 @@ if(!isset($item['id'])) {
 
 			// in a sidebar box
 			include_once '../agents/referrals.php';
-			if($content = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Articles::get_url($item['id'])))
+			if($content = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Articles::get_permalink($item)))
 				$text .= Skin::build_box(i18n::s('Referrals'), $content, 'navigation', 'referrals');
 
 		}
@@ -896,7 +893,7 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Articles::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml"'.EOT;
 
 	// implement the trackback interface
-	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
 	if($context['with_friendly_urls'] == 'Y')
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/article/'.$item['id'];
 	else
@@ -1028,7 +1025,7 @@ if(!isset($item['id'])) {
 		// put at top of stack
 		if(!isset($_SESSION['visited']))
 			$_SESSION['visited'] = array();
-		$_SESSION['visited'] = array_merge(array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => Codes::beautify($item['title'])), $_SESSION['visited']);
+		$_SESSION['visited'] = array_merge(array(Articles::get_permalink($item) => Codes::beautify_title($item['title'])), $_SESSION['visited']);
 
 		// limit to 7 most recent pages
 		if(count($_SESSION['visited']) > 7)

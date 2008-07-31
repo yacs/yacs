@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:29 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d result'.chr(0).'%d results']='%d résultat'.chr(0).'%d résultats';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
@@ -19,7 +19,6 @@ $_SESSION['l10n']['fr']['e046015f21d8cd076ad7b508911e7175']='<p>Aucun fichier de
 </ul>
 Normalement tout ceci dure seulement quelques minutes. En cas de problème, merci de consulter <a href="http://www.yetanothercommunitysystem.com/">www.yetanothercommunitysystem.com</a> pour obtenir du support.<p>Merci d\'avoir choisi la solution YACS.</p>';
 $_SESSION['l10n']['fr']['52c9506b1dddde1ff0ae84edb0d1e0fd']=' <p>Aucune page n\'a été trouvée. Ceci peut arriver avec des mots très courts (moins de %d lettres), qui ne sont pas indexés dans la base de données. Ceci peut aussi arriver si plus de la moitié des pages contiennent les mots recherchés. Essayez d\'employer des mots plus rectrictifs, et de supprimer les mots "parasites".</p>';
-$_SESSION['l10n']['fr']['5733e3c8341b9877b945b74b1b8bc50a']='<p>Merci de remplir le formulaire, qui sera envoyé automatiquement aux responsables du site. Soyez aussi précis que possible, et indiquez votre adresse de courrier électronique pour nous laissez une chance de vous recontacter.</p>';
 $_SESSION['l10n']['fr']['62ff4cd968dae58bb9244caecd2a2fd2']='<p>Les fichiers de configuration créés par l\'assistant d\'installation existent déjà. Cliquez sur le lien ci-dessous pour basculer vers le Panneau de Contrôle et modifier les paramètres du serveur.</p>';
 $_SESSION['l10n']['fr']['6f5a40e34d995c5f5cff564f90b8cd8b']='<p>Cette section contient les questions et réactions des surfeurs envoyées par le biais du formulaire de requête. Nous vous recommendons de déplacer ou d\'effacer les pages ci-dessous après leur traitement.</p>';
 $_SESSION['l10n']['fr']['0a6f5d667c713b41794e85986fe6c937']='<p>Utilisez ce formulaire pour nous transmettre tout type de requête, simple suggestion ou question complexe.</p><p>Nous acceptons les échanges passionnés ou surprenants, sous réserve de respect des personnes impliquées. Les attaques en règle, la diffamation, l\'agressivité gratuite ne mènent à rien, sinon à des messages effacés. Ne nous forcez pas à une telle extrémité.</p>';
@@ -48,7 +47,6 @@ $_SESSION['l10n']['fr']['Add a page']='Ajouter une page';
 $_SESSION['l10n']['fr']['Add a page with this name']='Ajouter une page avec ce nom';
 $_SESSION['l10n']['fr']['All pages']='Toutes les pages';
 $_SESSION['l10n']['fr']['All the web']='All the web';
-$_SESSION['l10n']['fr']['Articles']='Articles';
 $_SESSION['l10n']['fr']['Ask Jeeves']='Ask Jeeves';
 $_SESSION['l10n']['fr']['At partner sites']='Sites partenaires';
 $_SESSION['l10n']['fr']['Browse index pages']='Parcourez les index';
@@ -101,7 +99,7 @@ $_SESSION['l10n']['fr']['2ba8a15276ede1dfba8ed10242486a14']='Mettre en avant le 
 $_SESSION['l10n']['fr']['b39cee3691a432dbfc74337b6ecd07f2']='Mettre en avant les deux articles les plus récents, puis lister les articles précédents. Le texte intégral est accessible en cliquant sur les titres.';
 $_SESSION['l10n']['fr']['d54f67717785d1d21941a10414edbbc5']='Les éléments suivants peuvent être ajoutés au panneau extra :';
 $_SESSION['l10n']['fr']['a5418f9c069d37d860bf69daf67b18cc']='Les éléments suivants peuvent être ajoutés au panneau principal :';
-$_SESSION['l10n']['fr']['4c5acfaa01754e40b3d5bd8ea20558e9']='Les mises en page suivantes peuvent être utilisées pour les pages récentes :';
+$_SESSION['l10n']['fr']['dfe0ff095a76e76023af7a8a021ccda9']='Les mises en page suivantes peuvent être utilisées pour les pages récentes :';
 $_SESSION['l10n']['fr']['c569cd794c704a747137d61c45cec63c']='Les mises en page suivantes peuvent être utilisées :';
 $_SESSION['l10n']['fr']['For weblogs and blogmarks.']='Pour les weblogs et les blogmarks.';
 $_SESSION['l10n']['fr']['Forbidden (403) at %s']='Accès interdit (403) à %s';
@@ -142,7 +140,6 @@ $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='Les champs obligato
 $_SESSION['l10n']['fr']['Matching articles']='Pages trouvées';
 $_SESSION['l10n']['fr']['Matching pages']='Pages trouvées';
 $_SESSION['l10n']['fr']['May change configuration files']='Autorisé à modifier les fichiers de configuration';
-$_SESSION['l10n']['fr']['More featured pages']='Autres pages à la Une';
 $_SESSION['l10n']['fr']['More links']='Autres liens';
 $_SESSION['l10n']['fr']['More pages']='Autres pages';
 $_SESSION['l10n']['fr']['Most HTML tags are removed.']='La plupart des balises HTML sont retirées.';
@@ -153,8 +150,7 @@ $_SESSION['l10n']['fr']['New query: %s']='Nouvelles requête : %s';
 $_SESSION['l10n']['fr']['News']='Nouvelles';
 $_SESSION['l10n']['fr']['Nick name']='Surnom';
 $_SESSION['l10n']['fr']['No']='Non';
-$_SESSION['l10n']['fr']['0ea21dbef60439586ee0789f61fde401']='Aucun article n\'a été créé';
-$_SESSION['l10n']['fr']['f84c1c94da37a5cc8b71aeff95daa525']='Aucune page n\'a été attachée à cette catégorie...';
+$_SESSION['l10n']['fr']['No page to display.']='Aucune page à afficher.';
 $_SESSION['l10n']['fr']['6601018830e1fe22681935a255feda03']='Normalement nous préférons les caractères minuscules, et évitons les signes d\'espacement';
 $_SESSION['l10n']['fr']['OK']='OK';
 $_SESSION['l10n']['fr']['Options']='Options';
@@ -166,6 +162,8 @@ $_SESSION['l10n']['fr']['Page not found (404) at %s']='Page introuvable (404) à
 $_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['Peers']='Serveurs';
 $_SESSION['l10n']['fr']['People']='Personnes';
+$_SESSION['l10n']['fr']['Permissions']='Permissions';
+$_SESSION['l10n']['fr']['ee000dc19f71134ce7edb91992abf0a7']='Merci de remplir le formulaire, qui sera envoyé automatiquement aux responsables du site. Soyez aussi précis que possible, et indiquez votre adresse de courrier électronique pour nous laissez une chance de vous recontacter.';
 $_SESSION['l10n']['fr']['Please give your e-mail address']='Merci d\'indiquer votre adresse de courrier électronique';
 $_SESSION['l10n']['fr']['fca72c3af562cba7e6ca571491374387']='Merci d\'indiquer votre prénom et nom de famille';
 $_SESSION['l10n']['fr']['c39731557afab7cdc18067d593b4d02f']='Merci d\'indiquer le nom recherché.';
@@ -199,7 +197,6 @@ $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Exécution terminé
 $_SESSION['l10n']['fr']['Search']='Chercher';
 $_SESSION['l10n']['fr']['Search in']='Chercher dans';
 $_SESSION['l10n']['fr']['Search in all sections']='Rechercher dans toutes les sections';
-$_SESSION['l10n']['fr']['Search this site']='Cherchez sur le site';
 $_SESSION['l10n']['fr']['Search: %s']='Recherche : %s';
 $_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['Sections']='Sections';
@@ -246,7 +243,6 @@ $_SESSION['l10n']['fr']['6214aa6c778c69428ff7146f8e56867a']='Attention : Aucun s
 $_SESSION['l10n']['fr']['20f1a3bbb9b4a16bec24ed97aaad2eda']='Désolé. La page demandée n\'existe pas sur ce serveur %s';
 $_SESSION['l10n']['fr']['754ef929427bad781b89b4a318ddcdf2']='Nous sommes désolés. Vous n\'êtes pas autorisé à consulter %s';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
-$_SESSION['l10n']['fr']['Write permissions']='Permissions en écriture';
 $_SESSION['l10n']['fr']['XML']='XML';
 $_SESSION['l10n']['fr']['YACS codes']='les codes YACS';
 $_SESSION['l10n']['fr']['Yahoo!']='Yahoo!';

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:32 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:25 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%s at %s']='%s à %s';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
@@ -52,7 +52,7 @@ $_SESSION['l10n']['fr']['32f16b405d7ec3c7f7a2175487b60cc3']='Merci de vous enreg
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Sample blog client']='Exemple de client blog';
 $_SESSION['l10n']['fr']['Sample ping client']='Exemple de client ping';
-$_SESSION['l10n']['fr']['Search interface']='Interface de recherche';
+$_SESSION['l10n']['fr']['Search']='Chercher';
 $_SESSION['l10n']['fr']['Server address']='Adresse du serveur';
 $_SESSION['l10n']['fr']['Specification:']='Spécification :';
 $_SESSION['l10n']['fr']['Specifications:']='Spécifications :';

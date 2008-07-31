@@ -94,7 +94,7 @@ Class Layout_links extends Layout_interface {
 
 			// append details to the suffix
 			if(count($details))
-				$suffix .= '<p class="details">'.ucfirst(implode(', ', $details)).'</p>'."\n";
+				$suffix .= BR.'<span class="details">'.ucfirst(implode(', ', $details)).'</span>'."\n";
 
 			// build the actual link to check it
 			if($variant == 'review')

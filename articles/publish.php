@@ -90,7 +90,7 @@ if(is_object($anchor))
 else
 	$context['path_bar'] = array( 'articles/' => 'All pages' );
 if(isset($item['id']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
 
 // page title
 if(isset($item['id']))
@@ -229,7 +229,7 @@ if(Surfer::is_crawler()) {
 		// follow-up commands
 		$follow_up = i18n::s('Where do you want to go now?');
 		$menu = array();
-		$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to main page')));
+		$menu = array_merge($menu, array(Articles::get_permalink($item) => i18n::s('Back to main page')));
 		if(Surfer::is_associate())
 			$menu = array_merge($menu, array('articles/review.php' => i18n::s('Review queue')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
@@ -329,7 +329,7 @@ if($with_form) {
 	// submit or cancel
 	$menu = array();
 	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
-	$menu[] = Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
+	$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// article id and confirmation

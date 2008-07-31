@@ -86,7 +86,7 @@ elseif(!Surfer::is_associate()) {
 		$id = $context['arguments'][0];
 
 	// fight against hackers
-	$id = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($id));
+	$id = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($id));
 	$name = basename($id);
 
 	// scope is limited to the inbox

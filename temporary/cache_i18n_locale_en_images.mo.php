@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:26 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:15 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d bytes']='%d bytes';
 $_SESSION['l10n']['en']['%d image'.chr(0).'%d images']='%d image'.chr(0).'%d images';
@@ -104,7 +104,7 @@ $_SESSION['l10n']['en']['Unused: image %s']='Unused: image %s';
 $_SESSION['l10n']['en']['Update']='Update';
 $_SESSION['l10n']['en']['Update an image']='Update an image';
 $_SESSION['l10n']['en']['Use an image']='Use an image';
-$_SESSION['l10n']['en']['View the updated page']='View the updated page';
+$_SESSION['l10n']['en']['View the page']='View the page';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['c5a91e56b962af3d03d1c6dbfb7a72ee']='Yes, I want to suppress this image';

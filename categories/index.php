@@ -69,11 +69,11 @@ if($stats['count'] > CATEGORIES_PER_PAGE) {
 	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::s('%d&nbsp;categories'), $stats['count'])));
 
 	// navigation commands for categories, if necessary
-	$home = 'categories/index.php';
+	$home = 'categories/';
 	if($context['with_friendly_urls'] == 'Y')
-		$prefix = $home.'/';
+		$prefix = $home.'index.php/';
 	elseif($context['with_friendly_urls'] == 'R')
-		$prefix = $home.'/';
+		$prefix = $home;
 	else
 		$prefix = $home.'?page=';
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], CATEGORIES_PER_PAGE, $page));
@@ -134,9 +134,9 @@ if(!$text =& Cache::get($cache_id)) {
 	// see also
 	$links = array('categories/cloud.php' => i18n::s('Cloud of tags'),
 		'sections/' => i18n::s('Site map'),
-		'search.php' => i18n::s('Search on keyword'),
+		'search.php' => i18n::s('Search'),
 		'help/' => i18n::s('Help index'),
-		'query.php' => i18n::s('Contact the webmaster'));
+		'query.php' => i18n::s('Contact'));
 	$text .= Skin::build_box(i18n::s('See also'), Skin::build_list($links, 'compact'), 'extra');
 
 	// side bar with the list of most popular articles, if this server is well populated

@@ -67,7 +67,6 @@ Class Members {
 	 * @see articles/articles.php
 	 * @see categories/categories.php
 	 * @see categories/set_keyword.php
-	 * @see control/import.php
 	 * @see sections/select.php
 	 * @see services/blog.php
 	**/

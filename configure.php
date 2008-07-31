@@ -279,10 +279,10 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// recent articles
-	$label = i18n::s('Articles');
+	$label = i18n::s('Pages');
 
 	// splash message for articles layout
-	$input = i18n::s('Following layouts can be used for recent articles:').BR;
+	$input = i18n::s('Following layouts can be used for recent pages:').BR;
 
 	// default layout is to weblog
 	$custom_layout = '';

@@ -3,8 +3,9 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:32 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:25 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['318bb71a30c3dcd1476ae87d0e98cfdc']='Un calendrier des activités à venir';
 $_SESSION['l10n']['fr']['ee4c4307567fad8ef9e100aa3236eff8']='La catégorie "%s" a été créée.';
 $_SESSION['l10n']['fr']['A page "%s" already exists.']='La page "%s" existe déjà.';
@@ -109,10 +110,10 @@ $_SESSION['l10n']['fr']['Sample discussion places']='Démonstration des discussi
 $_SESSION['l10n']['fr']['Sample download section']='Exemple de section de téléchargement';
 $_SESSION['l10n']['fr']['Sample electronic book']='Livre électronique de démonstration';
 $_SESSION['l10n']['fr']['Sample jive thread']='Discussion jive de démonstration';
-$_SESSION['l10n']['fr']['Sample member profile']='Exemple de membre';
 $_SESSION['l10n']['fr']['Sample page of the blog']='Page exemple du blog de démonstration';
 $_SESSION['l10n']['fr']['Sample page of the manual']='Page exemple du manuel de démonstration';
 $_SESSION['l10n']['fr']['Sample page of the wiki']='Page exemple du wiki de démonstration';
+$_SESSION['l10n']['fr']['Sample person profile']='Exemple de membre';
 $_SESSION['l10n']['fr']['Sample plain category']='Catégorie de démonstration';
 $_SESSION['l10n']['fr']['Sample plain section']='Section de démonstration';
 $_SESSION['l10n']['fr']['Sample project web space']='Exemple d\'espace projet';
@@ -128,8 +129,9 @@ $_SESSION['l10n']['fr']['Submit']='Envoyer';
 $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['Tags cloud']='Nuage d\'étiquettes';
 $_SESSION['l10n']['fr']['d6367f713cada24d92c2ddb26ecea04a']='Faites une pause, et discutez de choses importantes';
+$_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['dca2fa65038c5d2238e149e36d226711']='L\'indice d\'inefficacité ne peut pas être calculé';
-$_SESSION['l10n']['fr']['db2d6c397f3ec0f0525a3c8413f1ce60']='Cette catégorie a été créée par le script de création de données à fins d\'expérimentations. Prenez le temps de modifier ce texte, d\'ajouter des images, de jouer avec les codes, etc. Avez-vous consulté l\'aide accessible par un lien sur le côté de cette page ? Lorsque vous vous sentirez à l\'aise avec la manipulation des catégories, vous effacerez celle-ci pour créer des dizaines d\'autres catégories de votre cru.';
+$_SESSION['l10n']['fr']['5ec564fcc3dec049c1add5cf479af645']='Cette catégorie a été créée à fins d\'expérimentations. Prenez le temps de modifier ce texte, d\'ajouter des images, de jouer avec les codes, etc. Avez-vous consulté l\'aide accessible par un lien sur le côté de cette page ? Lorsque vous vous sentirez à l\'aise avec la manipulation des catégories, vous effacerez celle-ci pour créer des dizaines d\'autres catégories de votre cru.';
 $_SESSION['l10n']['fr']['a66b0f5eced1df14d3a95c6798a098ca']='Ceci est une page privée qui fait partie des discussions internes au projet.';
 $_SESSION['l10n']['fr']['15bc1aa0a43d4236077b06c115c0ad02']='Ceci est une page publique de présentation du projet.';
 $_SESSION['l10n']['fr']['5afc74728d1941c7e9a49f8801fdbe96']='Ceci est un article de démonstration pour votre apprentissage.';
@@ -163,13 +165,10 @@ $_SESSION['l10n']['fr']['Wikis']='Wikis';
 $_SESSION['l10n']['fr']['Working overlay']='Travail en cours';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['a01ccb09a5852549ff121df0cfbd487c']='N\'utilisez ce script que pour des besoins d\'apprentissage, de démonstration ou de tests.';
-$_SESSION['l10n']['fr']['Your address: %s']='Votre adresse : %s';
+$_SESSION['l10n']['fr']['Your contribution']='Votre contribution';
 $_SESSION['l10n']['fr']['Your e-mail address']='Votre adresse E-mail';
 $_SESSION['l10n']['fr']['Your message']='Votre message';
 $_SESSION['l10n']['fr']['Your name']='Votre nom';
-$_SESSION['l10n']['fr']['Your name: %s']='Votre nom : %s';
-$_SESSION['l10n']['fr']['edd0fb4895b696117dffd6bcb5408c22']='Votre envoi a été enregistré et nous vous en remercions.';
-$_SESSION['l10n']['fr']['Your post: %s']='Votre envoi : %s';
 $_SESSION['l10n']['fr']['error while fetching %s']='Impossible d\'accéder à %s';
 $_SESSION['l10n']['fr']['or']='ou bien';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n>1);';

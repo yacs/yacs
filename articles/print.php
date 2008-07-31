@@ -122,7 +122,7 @@ if(Surfer::is_crawler()) {
 } else {
 
 	// initialize the rendering engine
-	Codes::initialize(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+	Codes::initialize(Articles::get_permalink($item));
 
 	// the article or the anchor icon, if any
 	if(isset($item['icon_url']) && $item['icon_url'])
@@ -159,7 +159,7 @@ if(Surfer::is_crawler()) {
 		if(is_object($overlay) && ($label = $overlay->get_label('description')))
 			$context['text'] .= Skin::build_block($label, 'title');
 
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
+		$context['text'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
 	}
 

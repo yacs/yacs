@@ -45,7 +45,7 @@ Class Layout_articles_as_feed extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -65,7 +65,7 @@ Class Layout_articles_as_feed extends Layout_interface {
 			// the section
 			$section = '';
 			if($item['anchor'] && ($anchor = Anchors::get($item['anchor'])))
-				$section = ucfirst(trim(strip_tags(Codes::beautify($anchor->get_title()))));
+				$section = ucfirst(trim(strip_tags(Codes::beautify_title($anchor->get_title()))));
 
 			// the icon to use
 			$icon = '';

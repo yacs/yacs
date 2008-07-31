@@ -136,7 +136,7 @@ if(Surfer::is_crawler()) {
 
 	// reference the anchor page
 	if(is_object($anchor) && $anchor->is_viewable())
-		$context['text'] .= '<p>'.sprintf(i18n::s('You are rating: %s'), Skin::build_link(Articles::get_url($item['id'], 'view', $item['title']), $item['title'], $item['nick_name']))."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('You are rating: %s'), Skin::build_link(Articles::get_permalink($item), $item['title']))."</p>\n";
 
 	// splash
 	$context['text'] .= '<p>'.i18n::s('What do you think of this page?')."</p>\n";
@@ -195,7 +195,7 @@ if(Surfer::is_crawler()) {
 
 		// go page to rated page
 		else
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
 
 	// ask for manual click
 	} else {
@@ -206,7 +206,7 @@ if(Surfer::is_crawler()) {
 
 		// link to the article, depending on access rights
 		if($permitted)
-			$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to main page')));
+			$menu = array_merge($menu, array(Articles::get_permalink($item) => i18n::s('Back to main page')));
 
 		// back to the front page
 		$menu = array_merge($menu, array('index.php#article_'.$item['id'] => i18n::s('Go to the front page')));

@@ -10,7 +10,7 @@
  * <?xml version="1.0" encoding="UTF-8"?>
  *	<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
  *		<rdf:Description rdf:about="http://127.0.0.1/yacs/categories/view.php/4310">
- *			<dc:title>Please this marvellous page</dc:title>
+ *			<dc:title>Please read this marvellous page</dc:title>
  *			<dc:description>It is really interesting</dc:description>
  *			<dc:date>2004-01-15</dc:date>
  *			<dc:format>text/html</dc:format>
@@ -112,7 +112,7 @@ if(Surfer::is_crawler()) {
 } else {
 
 	// compute the url for this category
-	$url = $context['url_to_home'].$context['url_to_root'].categories::get_url($item['id'], 'view', $item['title']);
+	$url = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
 
 	// get a description
 	if($item['introduction'])

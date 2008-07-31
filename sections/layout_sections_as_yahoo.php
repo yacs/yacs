@@ -75,7 +75,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			}
 
 			// the url to view this item
-			$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Sections::get_permalink($item);
 
 			// reset the rendering engine between items
 			if(is_callable(array('Codes', 'initialize')))
@@ -258,7 +258,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 			// give me more
 			if(count($content) && ($related_count > $maximum_items))
-				$content[] = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('More').MORE_IMG, 'more', i18n::s('View the section'));
+				$content[] = Skin::build_link(Sections::get_permalink($item), i18n::s('More').MORE_IMG, 'more', i18n::s('View the section'));
 
 			// layout details
 			if(count($content))

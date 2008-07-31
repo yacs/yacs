@@ -510,7 +510,7 @@ class Anchor {
 
 		// attempt to beautify this text
 		if(is_callable(array('codes', 'beautify')))
-			return Codes::beautify('<div class="prefix">'.$this->item['prefix'].'</div>');
+			return '<div class="prefix">'.Codes::beautify($this->item['prefix']).'</div>';
 
 		// else return raw string
 		return '<div class="prefix">'.$this->item['prefix'].'</div>';
@@ -559,7 +559,7 @@ class Anchor {
 
 		// attempt to beautify this text
 		if(is_callable(array('codes', 'beautify')))
-			return Codes::beautify('<div class="suffix">'.$this->item['suffix'].'</div>');
+			return '<div class="suffix">'.Codes::beautify($this->item['suffix']).'</div>';
 
 		// else return raw string
 		return '<div class="suffix">'.$this->item['suffix'].'</div>';

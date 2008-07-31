@@ -522,7 +522,7 @@ Class Section extends Anchor {
 			if($variant != 'hover') {
 
 				// remove toc and toq codes
-				$text = preg_replace(FORBIDDEN_CODES_IN_TEASERS, '', $text);
+				$text = preg_replace(FORBIDDEN_IN_TEASERS, '', $text);
 
 				// render all codes
 				if(is_callable(array('Codes', 'beautify')))
@@ -561,7 +561,7 @@ Class Section extends Anchor {
 			$in_description = TRUE;
 
 			// remove toc and toq codes
-			$text = preg_replace(FORBIDDEN_CODES_IN_TEASERS, '', $text);
+			$text = preg_replace(FORBIDDEN_IN_TEASERS, '', $text);
 
 			// render all codes
 			if(is_callable(array('Codes', 'beautify')))
@@ -716,7 +716,7 @@ Class Section extends Anchor {
 	 */
 	function get_url($action='view') {
 		if(isset($this->item['id']))
-			return Sections::get_url($this->item['id'], $action, $this->item['title'], $this->item['nick_name']);
+			return Sections::get_permalink($this->item);
 		return NULL;
 	}
 
@@ -1276,11 +1276,11 @@ Class Section extends Anchor {
 				// message to section watcher
 				$mail['message'] = sprintf(i18n::c('A page has been submitted by %s'), $surfer)
 					."\n\n".ucfirst(strip_tags($target['title']))
-					."\n".$context['url_to_home'].$context['url_to_root'].Articles::get_url($target['id'], 'view', $target['title'])
+					."\n".$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target)
 					."\n\n"
 					.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the following section, or its parent sections, and click on the Forget link.'), $context['site_name'])
 					."\n\n".ucfirst(strip_tags($this->item['title']))
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name'])
+					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item)
 					."\n\n";
 
 				// message to poster watcher
@@ -1288,7 +1288,7 @@ Class Section extends Anchor {
 
 					$mail2['message'] = sprintf(i18n::c('A page has been submitted by %s'), $surfer)
 						."\n\n".ucfirst(strip_tags($target['title']))
-						."\n".$context['url_to_home'].$context['url_to_root'].Articles::get_url($target['id'], 'view', $target['title'])
+						."\n".$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target)
 						."\n\n"
 						.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted by a user that is part of your watch list. If you wish to stop these automatic alerts please visit the following user profile and click on the Forget link.'), $context['site_name'])
 						."\n\n".ucfirst(strip_tags(Surfer::get_name()))
@@ -1298,7 +1298,7 @@ Class Section extends Anchor {
 				}
 
 				// notification content
-				$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_url($target['id'], 'view', $target['title']);
+				$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
 				$notification['title'] = utf8::to_unicode($target['title']);
 
 			// a file has been added to the section
@@ -1328,7 +1328,7 @@ Class Section extends Anchor {
 					."\n\n"
 					.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the following section, or its parent sections, and click on the Forget link.'), $context['site_name'])
 					."\n\n".ucfirst(strip_tags($this->item['title']))
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name'])
+					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item)
 					."\n\n";
 
 				// message to poster watcher
@@ -1369,7 +1369,7 @@ Class Section extends Anchor {
 					."\n\n"
 					.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the following section, or its parent sections, and click on the Forget link.'), $context['site_name'])
 					."\n\n".ucfirst(strip_tags($this->item['title']))
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name'])
+					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item)
 					."\n\n";
 
 				// message to poster watcher
@@ -1411,11 +1411,11 @@ Class Section extends Anchor {
 				// message body
 				$mail['message'] = i18n::c('A new item has been added to the following section').
 					"\n\n".sprintf(i18n::c('%s in %s'), $action, $title)
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name'])
+					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item)
 					."\n\n"
 					.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the following section, or its parent sections, and click on the Forget link.'), $context['site_name'])
 					."\n\n".$title
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name'])
+					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item)
 					."\n\n";
 
 				// message to poster watcher
@@ -1423,7 +1423,7 @@ Class Section extends Anchor {
 
 					$mail2['message'] = i18n::c('A new item has been added to the following section').
 						"\n\n".sprintf(i18n::c('%s in %s'), $action, $title)
-						."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name'])
+						."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item)
 						."\n\n"
 						.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted by a user that is part of your watch list. If you wish to stop these automatic alerts please visit the following user profile and click on the Forget link.'), $context['site_name'])
 						."\n\n".ucfirst(strip_tags(Surfer::get_name()))
@@ -1433,7 +1433,7 @@ Class Section extends Anchor {
 				}
 
 				// notification content
-				$notification['address'] = $context['url_to_home'].$context['url_to_root'].Sections::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name']);
+				$notification['address'] = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item);
 				$notification['title'] = utf8::to_unicode($title);
 
 			}

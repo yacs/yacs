@@ -95,7 +95,7 @@ else
 	$context['path_bar'] = array( 'categories/' => i18n::s('Categories') );
 
 if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Categories::get_url($item['id'], 'view', $item['title']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Categories::get_permalink($item) => $item['title']));
 
 // the title of the page
 if($item['title'])
@@ -187,7 +187,7 @@ if(Surfer::is_crawler()) {
 		// clear cache
 		Categories::clear($_REQUEST);
 
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Categories::get_url($_REQUEST['id'], 'view', $_REQUEST['title']));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item));
 	}
 
 // post a new category
@@ -785,7 +785,7 @@ if($with_form) {
 
 	// cancel button
 	if(isset($item['id']))
-		$menu[] = Skin::build_link(Categories::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
+		$menu[] = Skin::build_link(Categories::get_permalink($item), i18n::s('Cancel'), 'span');
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
@@ -859,10 +859,6 @@ if($with_form) {
 
 	// content of the help box
 	$help = '';
-
-	// splash message for new pages
-	if(!isset($item['id']) && !count($context['error']))
-		$help .= '<p>'.sprintf(i18n::s('Please describe the new category and hit the submit button. Then visit the %s and browse articles to assign them individually to this category.'), Skin::build_link('sections/', i18n::s('Site Map'), 'help')).'</p>';
 
 	// html and codes
 	$help .= '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';

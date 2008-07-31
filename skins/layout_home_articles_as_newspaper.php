@@ -50,7 +50,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// empty list
 		if(!SQL::count($result)) {
-			$label = i18n::s('No article has been published so far.');
+			$label = i18n::s('No page to display.');
 			if(Surfer::is_associate())
 				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
@@ -72,7 +72,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// permalink
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -177,7 +177,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$url =& Articles::get_permalink($item);
 
 		// get the related overlay, if any
 		include_once $context['path_to_root'].'overlays/overlay.php';
@@ -279,7 +279,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$url =& Articles::get_permalink($item);
 
 		// get the related overlay, if any
 		include_once $context['path_to_root'].'overlays/overlay.php';
@@ -383,7 +383,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$url =& Articles::get_permalink($item);
 
 		// reset everything
 		$prefix = $suffix = '';

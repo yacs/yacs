@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 8:42 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d action'.chr(0).'%d actions']='%d action'.chr(0).'%d actions';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
@@ -36,7 +36,6 @@ $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Navigation']='Navigation';
 $_SESSION['l10n']['en']['New action for %s']='New action for %s';
 $_SESSION['l10n']['en']['New to-do: %s']='New to-do: %s';
-$_SESSION['l10n']['en']['No action has been created yet!']='No action has been created yet!';
 $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.';
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
 $_SESSION['l10n']['en']['No title has been provided.']='No title has been provided.';

@@ -781,7 +781,7 @@ Class Decisions {
 
 		// protect from hackers
 		if(isset($fields['edit_name']))
-			$fields['edit_name'] = preg_replace(FORBIDDEN_CHARS_IN_NAMES, '_', $fields['edit_name']);
+			$fields['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $fields['edit_name']);
 		if(isset($fields['edit_address']))
 			$fields['edit_address'] =& encode_link($fields['edit_address']);
 

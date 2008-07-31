@@ -69,10 +69,10 @@ if(!$text =& Cache::get($cache_id)) {
 	$text .= '	<outline type="rss" title="'.encode_field($context['channel_title']).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('rss').'"'." />\n";
 
 	// full articles
-	$text .= '	<outline type="rss" title="'.encode_field(i18n::c('Articles with full content').$suffix).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('articles').'"'." />\n";
+	$text .= '	<outline type="rss" title="'.encode_field(i18n::c('Pages with full content').$suffix).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('articles').'"'." />\n";
 
 	// newest comments
-	$text .= '	<outline type="rss" title="'.encode_field(i18n::c('Comments and reactions').$suffix).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('comments').'"'." />\n";
+	$text .= '	<outline type="rss" title="'.encode_field(i18n::c('Comments').$suffix).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('comments').'"'." />\n";
 
 	// the file rss feed for podcasting, etc.
 	$text .= '	<outline type="rss" title="'.encode_field(i18n::c('Files and podcasts').$suffix).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('files').'"'." />\n";

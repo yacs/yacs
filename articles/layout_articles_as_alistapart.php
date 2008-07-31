@@ -63,7 +63,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -150,7 +150,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		$anchor = Anchors::get($item['anchor']);
 
 		// the url to view this item
-		$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$url =& Articles::get_permalink($item);
 
 		// reset the rendering engine between items
 		Codes::initialize($url);
@@ -232,7 +232,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		// the introduction text, if any
 		if(is_object($overlay))
 			$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
-		elseif(isset($item['introduction']) && trim($item['introduction']))
+		else
 			$text .= Skin::build_block($item['introduction'], 'introduction');
 
 		// insert overlay data, if any
@@ -240,13 +240,13 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 			$text .= $overlay->get_text('view', $item);
 
 		// the beautified description, which is the actual page body
-		if(trim($item['description'])) {
+		if($item['description']) {
 
 			// use adequate label
 			if(is_object($overlay) && ($label = $overlay->get_label('description')))
 				$context['text'] .= Skin::build_block($label, 'title');
 
-			$context['text'] .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
+			$context['text'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
 		}
 

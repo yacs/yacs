@@ -80,7 +80,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// permalink
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -147,7 +147,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 			// list up to three categories by title, if any
 			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 				foreach($items as $id => $attributes)
-					$details[] = Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'basic');
+					$details[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic');
 			}
 
 			// rating
@@ -159,16 +159,14 @@ Class Layout_articles_as_daily extends Layout_interface {
 				$box['content'] .= '<p class="details">'.implode(' ~ ', $details).'</p>'."\n";
 
 			// the introduction text, if any
-			if(trim($item['introduction']))
-				$box['content'] .= Skin::build_block($item['introduction'], 'introduction');
+			$box['content'] .= Skin::build_block($item['introduction'], 'introduction');
 
 			// insert overlay data, if any
 			if(is_object($overlay))
 				$box['content'] .= $overlay->get_text('list', $item);
 
 			// the description
-			if(trim($item['description']))
-				$box['content'] .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
+			$box['content'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
 			// build a menu
 			$menu = array();

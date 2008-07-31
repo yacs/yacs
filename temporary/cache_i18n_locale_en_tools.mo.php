@@ -3,8 +3,9 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:32 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:25 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['318bb71a30c3dcd1476ae87d0e98cfdc']='A calendar of planned activities';
 $_SESSION['l10n']['en']['ee4c4307567fad8ef9e100aa3236eff8']='A category "%s" has been created.';
 $_SESSION['l10n']['en']['A page "%s" already exists.']='A page "%s" already exists.';
@@ -109,10 +110,10 @@ $_SESSION['l10n']['en']['Sample discussion places']='Sample discussion places';
 $_SESSION['l10n']['en']['Sample download section']='Sample download section';
 $_SESSION['l10n']['en']['Sample electronic book']='Sample electronic book';
 $_SESSION['l10n']['en']['Sample jive thread']='Sample jive thread';
-$_SESSION['l10n']['en']['Sample member profile']='Sample member profile';
 $_SESSION['l10n']['en']['Sample page of the blog']='Sample page of the blog';
 $_SESSION['l10n']['en']['Sample page of the manual']='Sample page of the manual';
 $_SESSION['l10n']['en']['Sample page of the wiki']='Sample page of the wiki';
+$_SESSION['l10n']['en']['Sample person profile']='Sample person profile';
 $_SESSION['l10n']['en']['Sample plain category']='Sample plain category';
 $_SESSION['l10n']['en']['Sample plain section']='Sample plain section';
 $_SESSION['l10n']['en']['Sample project web space']='Sample project web space';
@@ -128,8 +129,9 @@ $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['Tags cloud']='Tags cloud';
 $_SESSION['l10n']['en']['d6367f713cada24d92c2ddb26ecea04a']='Take a break, and discuss important things';
+$_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['dca2fa65038c5d2238e149e36d226711']='The Fat Index cannot be computed';
-$_SESSION['l10n']['en']['db2d6c397f3ec0f0525a3c8413f1ce60']='This category has been created automatically by the populate script for experimentation purpose. Feel free to change this text, to add some images, to play with codes, etc. Have you checked the help link on the side of this page? Once you will feel more comfortable with the handling of categories, just delete this one and create other categories of your own.';
+$_SESSION['l10n']['en']['5ec564fcc3dec049c1add5cf479af645']='This category has been created for experimentation purpose. Feel free to change this text, to add some images, to play with codes, etc. Have you checked the help link on the side of this page? Once you will feel more comfortable with the handling of categories, just delete this one and create other categories of your own.';
 $_SESSION['l10n']['en']['a66b0f5eced1df14d3a95c6798a098ca']='This is a private page that is part of project internal discussions.';
 $_SESSION['l10n']['en']['15bc1aa0a43d4236077b06c115c0ad02']='This is a public page that describes the project.';
 $_SESSION['l10n']['en']['5afc74728d1941c7e9a49f8801fdbe96']='This is a sample article to let you learn and practice.';
@@ -163,13 +165,10 @@ $_SESSION['l10n']['en']['Wikis']='Wikis';
 $_SESSION['l10n']['en']['Working overlay']='Working overlay';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['a01ccb09a5852549ff121df0cfbd487c']='You should use this script only for learning, for demonstration or for testing purposes.';
-$_SESSION['l10n']['en']['Your address: %s']='Your address: %s';
+$_SESSION['l10n']['en']['Your contribution']='Your contribution';
 $_SESSION['l10n']['en']['Your e-mail address']='Your e-mail address';
 $_SESSION['l10n']['en']['Your message']='Your message';
 $_SESSION['l10n']['en']['Your name']='Your name';
-$_SESSION['l10n']['en']['Your name: %s']='Your name: %s';
-$_SESSION['l10n']['en']['edd0fb4895b696117dffd6bcb5408c22']='Your post has been recorded and we would like to thank you for it.';
-$_SESSION['l10n']['en']['Your post: %s']='Your post: %s';
 $_SESSION['l10n']['en']['error while fetching %s']='error while fetching %s';
 $_SESSION['l10n']['en']['or']='or';
 $_SESSION['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';

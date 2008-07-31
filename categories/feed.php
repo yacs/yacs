@@ -116,7 +116,7 @@ if(Surfer::is_crawler()) {
 		$values = array();
 		$values['channel'] = array();
 		$values['channel']['title'] = $item['title'];
-		$values['channel']['link'] = $context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'view', $item['title']);
+		$values['channel']['link'] = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
 		$values['channel']['description'] = $item['introduction'];
 
 		// the image for this channel

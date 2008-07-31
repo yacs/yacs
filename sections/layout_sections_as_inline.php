@@ -56,7 +56,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 			$box['title'] .= Skin::strip($item['title'], 50);
 
 			// the url to view this item
-			$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Sections::get_permalink($item);
 
 			// add a direct link to the section
 			$box['title'] .= '&nbsp;'.Skin::build_link($url, MORE_IMG, 'basic');
@@ -129,11 +129,11 @@ Class Layout_sections_as_inline extends Layout_interface {
 
 			// signal continuing sections
 			if(count($elements) > MAXIMUM_ITEMS_PER_SECTION)
-				$elements[] = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('More pages').MORE_IMG, 'basic');
+				$elements[] = Skin::build_link(Sections::get_permalink($item), i18n::s('More pages').MORE_IMG, 'basic');
 
 			// help associates to visit empty sections
 			elseif(!count($elements) && Surfer::is_associate())
-				$elements[] = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('View the section'), 'shortcut');
+				$elements[] = Skin::build_link(Sections::get_permalink($item), i18n::s('View the section'), 'shortcut');
 
 
 			// make a full list

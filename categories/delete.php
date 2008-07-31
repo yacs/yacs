@@ -55,7 +55,7 @@ if(is_object($anchor)&& $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'categories/' => i18n::s('Categories') );
 if(isset($item['id']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Categories::get_url($item['id'], 'view', $item['title']) => $item['title'] ));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Categories::get_permalink($item) => $item['title'] ));
 
 // the title of the page
 if(isset($item['title']))
@@ -128,12 +128,10 @@ else {
 		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// the introduction text, if any
-	if($item['introduction'])
-		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
+	$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 	// main text
-	if($item['description'])
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	// count items related to this category
 	$context['text'] .= Anchors::stat_related_to('category:'.$item['id'], i18n::s('Following items are attached to this record and will be deleted as well.'));

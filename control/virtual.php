@@ -32,7 +32,7 @@ if(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
 
 // avoid potential attacks
-$id = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($id));
+$id = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($id));
 
 // the action to perform
 $action = 'view';

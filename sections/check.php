@@ -28,7 +28,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= i18n::s('You are not allowed to perform this operation.');
 
 	// forward to the index page
-	$menu = array('sections/' => i18n::s('Site Map'));
+	$menu = array('sections/' => i18n::s('Site map'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // look for orphans
@@ -61,7 +61,7 @@ if(!Surfer::is_associate()) {
 
 			// check that the anchor exists, if any
 			if($row['anchor'] && !Anchors::get($row['anchor'])) {
-				$context['text'] .= sprintf(i18n::s('Orphan: section %s'), Skin::build_link(Sections::get_url($row['id']), $row['id'].' '.$row['title'], 'section')).BR."\n";
+				$context['text'] .= sprintf(i18n::s('Orphan: section %s'), Skin::build_link(Sections::get_permalink($row), $row['id'].' '.$row['title'], 'section')).BR."\n";
 				if(++$errors_count >= 5) {
 					$context['text'] .= i18n::s('Too many successive errors. Aborted').BR."\n";
 					break;
@@ -81,7 +81,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
 
 	// forward to the index page
-	$menu = array('sections/' => i18n::s('Site Map'));
+	$menu = array('sections/' => i18n::s('Site map'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // which check?

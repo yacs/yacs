@@ -53,8 +53,6 @@ else
 // the title of the page
 if(is_object($anchor))
 	$context['page_title'] = $anchor->get_title();
-elseif(isset($item['id']) && $item['id'])
-	$context['page_title'] = i18n::s('View some date');
 
 // back to the anchor page
 if(is_object($anchor))
@@ -96,7 +94,7 @@ if(!isset($item['id'])) {
 
 	// date
 	if($item['date_stamp']) {
-		$context['text'] .= '<p>'.sprintf(i18n::s( 'Target date: %s'), $item['date_stamp'])."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Target date'), Skin::build_date($item['date_stamp'], 'full'))."</p>\n";
 	}
 
 	// insert anchor suffix

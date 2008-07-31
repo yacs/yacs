@@ -139,7 +139,7 @@ if(Surfer::is_crawler()) {
 		// delete the comment and jump to the new article
 		if(Comments::delete($item['id'])) {
 			Comments::clear($item);
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($fields['id'], 'view', $fields['title'], ''));
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($fields));
 		}
 	}
 
@@ -184,8 +184,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// display the full comment
-	if($item['description'])
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 }
 

@@ -42,7 +42,7 @@ if(!isset($_REQUEST['q']) || !$_REQUEST['q']) {
 }
 
 // just for sanity
-$_REQUEST['q'] = preg_replace(FORBIDDEN_CHARS_IN_NAMES, '_', $_REQUEST['q']);
+$_REQUEST['q'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['q']);
 
 // we return some text
 $output = '';

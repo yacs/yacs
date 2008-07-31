@@ -47,7 +47,7 @@ Class Layout_categories_as_yahoo extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// url to read the full category
-			$url = Categories::get_url($item['id'], 'view', $item['title']);
+			$url =& Categories::get_permalink($item);
 
 			// initialize the rendering engine
 			if(is_callable(array('Codes', 'initialize')))
@@ -170,7 +170,7 @@ Class Layout_categories_as_yahoo extends Layout_interface {
 
 			// give me more
 			if(count($details) && ($related_count > YAHOO_LIST_SIZE))
-				$details[] = Skin::build_link(Categories::get_url($item['id'], 'view', $item['title']), i18n::s('More').MORE_IMG, 'more', i18n::s('View the category'));
+				$details[] = Skin::build_link(Categories::get_permalink($item), i18n::s('More').MORE_IMG, 'more', i18n::s('View the category'));
 
 			// layout details
 			if(count($details))

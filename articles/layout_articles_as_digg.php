@@ -76,7 +76,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -214,7 +214,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 			// list up to three categories by title, if any
 			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 				foreach($items as $id => $attributes) {
-					$menu = array_merge($menu, array( Categories::get_url($attributes['id'], 'view', $attributes['title']) => $attributes['title'] ));
+					$menu = array_merge($menu, array( Categories::get_permalink($attributes) => $attributes['title'] ));
 				}
 			}
 

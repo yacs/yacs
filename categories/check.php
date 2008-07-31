@@ -180,7 +180,7 @@ if(!Surfer::is_associate()) {
 
 			// check that the anchor exists, if any
 			if($item['anchor'] && !Anchors::get($item['anchor'])) {
-				$context['text'] .= sprintf(i18n::s('Orphan: category #%s'), Skin::build_link(categories::get_url($id), $id.' '.$label, 'category')).BR."\n";
+				$context['text'] .= sprintf(i18n::s('Orphan: category #%s'), Skin::build_link(Categories::get_permalink($item), $id.' '.$label, 'category')).BR."\n";
 				if(++$errors_count >= 5) {
 					$context['text'] .= i18n::s('Too many successive errors. Aborted').BR."\n";
 					break;

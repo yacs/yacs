@@ -81,7 +81,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 				$hover .= ' [section='.$item['id'].']';
 
 			// the url to view this item
-			$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Sections::get_permalink($item);
 
 			// use the title as a link to the page
 			$title =& Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', $hover);
@@ -144,7 +144,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 					$flag = '';
 
 				// title
-				$last_post = Skin::build_link(Articles::get_url($article['id'], 'view', $article['title'], $article['nick_name']), Codes::beautify_title($article['title']), 'article');
+				$last_post = Skin::build_link(Articles::get_permalink($article), Codes::beautify_title($article['title']), 'article');
 
 				// last editor
 				if($article['edit_date']) {

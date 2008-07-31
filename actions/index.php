@@ -70,11 +70,11 @@ if(!Surfer::is_associate()) {
 
 	// navigation commands for actions, if necessary
 	if($stats['count'] > $items_per_page) {
-		$home = 'actions/index.php';
+		$home = 'actions/';
 		if($context['with_friendly_urls'] == 'Y')
-			$prefix = $home.'/';
+			$prefix = $home.'index.php/';
 		elseif($context['with_friendly_urls'] == 'R')
-			$prefix = $home.'/';
+			$prefix = $home;
 		else
 			$prefix = $home.'?page=';
 		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
@@ -86,12 +86,13 @@ if(!Surfer::is_associate()) {
 
 		// query the database and layout that stuff
 		$offset = ($page - 1) * $items_per_page;
-		if(!$text = Actions::list_by_date($offset, $items_per_page, 'full'))
-			$text = '<p>'.i18n::s('No action has been created yet!').'</p>';
+		if($text = Actions::list_by_date($offset, $items_per_page, 'full')) {
 
-		// we have an array to format
-		if(is_array($text))
-			$text =& Skin::build_list($text, 'decorated');
+			// we have an array to format
+			if(is_array($text))
+				$text =& Skin::build_list($text, 'decorated');
+
+		}
 
 		// cache this to speed subsequent queries
 		Cache::put($cache_id, $text, 'actions');

@@ -348,7 +348,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// link to the cover page for associates
 			if(Surfer::is_associate())
-				$text =& Skin::build_box_title($text, Articles::get_url($cover_page['id'], 'view', $cover_page['title'], $cover_page['nick_name']), i18n::s('View the cover page alone'));
+				$text =& Skin::build_box_title($text, Articles::get_permalink($cover_page), i18n::s('View the cover page alone'));
 
 		}
 	}
@@ -416,7 +416,7 @@ if(!$text =& Cache::get($cache_id)) {
 			foreach($categories as $id => $attributes) {
 
 				// link to the category page from the box title
-				$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_url($attributes['id'], 'view', $attributes['title']), i18n::s('View the category'));
+				$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
 
 				// articles for this category
 				if($items = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1, 'compact')) {
@@ -426,7 +426,7 @@ if(!$text =& Cache::get($cache_id)) {
 						@array_splice($items, COMPACT_LIST_SIZE);
 
 						// link to the category page
-						$url = Categories::get_url($attributes['id'], 'view', $attributes['title']);
+						$url =& Categories::get_permalink($attributes);
 						$items[$url] = i18n::s('More pages').MORE_IMG;
 					}
 
@@ -441,15 +441,13 @@ if(!$text =& Cache::get($cache_id)) {
 						@array_splice($items, COMPACT_LIST_SIZE);
 
 						// link to the category page
-						$url = Categories::get_url($attributes['id'], 'view', $attributes['title']);
+						$url =& Categories::get_permalink($attributes);
 						$items[$url] = i18n::s('More links').MORE_IMG;
 					}
 
 					$gadget_boxes[] = array($label, Skin::build_list($items, 'compact'), '');
 
-				// empty category...
-				} else
-					$gadget_boxes[] = array($label, i18n::s('No page has been attached to this category...'), '');
+				}
 			}
 		}
 
@@ -684,7 +682,7 @@ if(!$text =& Cache::get($cache_id)) {
 	elseif(!$items =& Articles::list_(0, $items_per_page, $layout)) {
 
 		// no article yet
-		$items = '<p>'.i18n::s('No article has been created yet!');
+		$items = '<p>'.i18n::s('No page to display.');
 		if(Surfer::is_associate())
 			$items .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 		$items .= '</p>';
@@ -802,13 +800,13 @@ $context['text'] .= $text;
 if(Surfer::is_associate()) {
 	$context['page_tools'][] = Skin::build_link('configure.php', i18n::s('Configure'));
 	if(isset($cover_page['id']))
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($cover_page['id'], 'view', $cover_page['title'], $cover_page['nick_name']), i18n::s('Cover page'), 'basic');
+		$context['page_tools'][] = Skin::build_link(Articles::get_permalink($cover_page), i18n::s('Cover page'), 'basic');
 	if(($section = Sections::get('gadget_boxes')) && isset($section['id']))
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($section['id'], 'view', $section['title'], $section['nick_name']), i18n::s('Gadget boxes'), 'basic');
+		$context['page_tools'][] = Skin::build_link(Sections::get_permalink($section), i18n::s('Gadget boxes'), 'basic');
 	if(($section = Sections::get('extra_boxes')) && isset($section['id']))
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($section['id'], 'view', $section['title'], $section['nick_name']), i18n::s('Extra boxes'), 'basic');
+		$context['page_tools'][] = Skin::build_link(Sections::get_permalink($section), i18n::s('Extra boxes'), 'basic');
 	if(($section = Sections::get('navigation_boxes')) && isset($section['id']))
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($section['id'], 'view', $section['title'], $section['nick_name']), i18n::s('Navigation boxes'), 'basic');
+		$context['page_tools'][] = Skin::build_link(Sections::get_permalink($section['id']), i18n::s('Navigation boxes'), 'basic');
 }
 
 // save some database requests
@@ -827,15 +825,15 @@ if(!$text =& Cache::get($cache_id)) {
 		if($anchor['id'] && ($items = Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, ($context['root_featured_count']+1), 'news'))) {
 
 			// link to the category page from the box title
-			$title =& Skin::build_box_title($anchor['title'], Categories::get_url($anchor['id'], 'view', $anchor['title']), i18n::s('Featured pages'));
+			$title =& Skin::build_box_title($anchor['title'], Categories::get_permalink($anchor), i18n::s('Featured pages'));
 
 			// limit to seven links only
 			if(@count($items) > $context['root_featured_count']) {
 				@array_splice($items, $context['root_featured_count']);
 
 				// link to the category page
-				$url = Categories::get_url($anchor['id'], 'view', $anchor['title']);
-				$items[$url] = i18n::s('More featured pages').MORE_IMG;
+				$url = Categories::get_permalink($anchor);
+				$items[$url] = i18n::s('Featured pages').MORE_IMG;
 
 			}
 
@@ -993,7 +991,7 @@ if(!$text =& Cache::get($cache_id)) {
 		foreach($categories as $id => $attributes) {
 
 			// link to the category page from the box title
-			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_url($attributes['id'], 'view', $attributes['title']), i18n::s('View the category'));
+			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
 
 			// build a compact list
 			$box['list'] = array();
@@ -1015,7 +1013,7 @@ if(!$text =& Cache::get($cache_id)) {
 				@array_splice($box['list'], COMPACT_LIST_SIZE);
 
 				// link to the category page
-				$box['list'] = array_merge($box['list'], array(Categories::get_url($attributes['id'], 'view', $attributes['title']) => i18n::s('More pages').MORE_IMG));
+				$box['list'] = array_merge($box['list'], array(Categories::get_permalink($attributes) => i18n::s('More pages').MORE_IMG));
 			}
 
 			$text .= Skin::build_box($label, Skin::build_list($box['list'], 'compact'), 'extra')."\n";
@@ -1079,7 +1077,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 		// box content
 		include_once $context['path_to_root'].'agents/referrals.php';
-		if($items = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].'index.php'))
+		if($items = Referrals::list_by_hits_for_url($context['url_to_root']))
 			$text .= Skin::build_box(i18n::s('Referrals'), $items, 'navigation', 'referrals');
 
 	}

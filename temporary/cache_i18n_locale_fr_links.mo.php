@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:26 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d click'.chr(0).'%d clicks']='%d sélection'.chr(0).'%d sélections';
 $_SESSION['l10n']['fr']['%d clicks']='%d sélections';
@@ -95,7 +95,7 @@ $_SESSION['l10n']['fr']['0749c2e869a8f74bc91f87cc3643388e']='Trop d\'erreurs suc
 $_SESSION['l10n']['fr']['Trackback']='Trackback';
 $_SESSION['l10n']['fr']['Trackback address:']='Référencement (trackback) :';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
-$_SESSION['l10n']['fr']['View the updated page']='Voir la page mise à jour';
+$_SESSION['l10n']['fr']['View the page']='Voir la page';
 $_SESSION['l10n']['fr']['6898e1fc6d45aaf828a99328df174156']='Nous vous suggérons de copier-coller le texte suivant pour référencer cette page :';
 $_SESSION['l10n']['fr']['Web address']='Adresse web';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';

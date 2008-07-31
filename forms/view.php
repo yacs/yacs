@@ -107,7 +107,7 @@ if(Surfer::is_crawler()) {
 
 	// protect from hackers
 	if(isset($_REQUEST['edit_name']))
-		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_CHARS_IN_NAMES, '_', $_REQUEST['edit_name']);
+		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
 		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
 
@@ -421,8 +421,7 @@ if($with_form) {
 	if(!$text =& Cache::get($cache_id)) {
 
 		// show the description
-		if($item['description'])
-			$text .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+		$text .= Skin::build_block($item['description'], 'description');
 
 		// the form
 		$text .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';

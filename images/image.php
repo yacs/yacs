@@ -144,10 +144,11 @@ Class Image {
 	 *
 	 * @param string the full path to the original file
 	 * @param string the pull path to write the thumbnail
+	 * @param boolean TRUE to resize to 34x34
 	 * @param boolean TRUE to see error messages, if any
 	 * @return TRUE on success, FALSE on error
 	 */
-	function shrink($original, $target, $verbose=TRUE) {
+	function shrink($original, $target, $fixed=FALSE, $verbose=TRUE) {
 		global $context;
 
 		// get file name
@@ -183,15 +184,23 @@ Class Image {
 		$width = $image_information[0];
 
 		// standard width
-		if(!isset($context['thumbnail_width']) || ($context['thumbnail_width'] < 32))
-			$context['thumbnail_width'] = 60;
+		if($fixed)
+			$maximum_width = 34;
+		elseif(isset($context['thumbnail_width']) && ($context['thumbnail_width'] >= 32))
+			$maximum_width = $context['thumbnail_width'];
+		else
+			$maximum_width = 60;
 
 		// actual height
 		$height = $image_information[1];
 
 		// standard height
-		if(!isset($context['thumbnail_height']) || ($context['thumbnail_height'] < 32))
-			$context['thumbnail_height'] = 60;
+		if($fixed)
+			$maximum_height = 34;
+		elseif(isset($context['thumbnail_height']) && ($context['thumbnail_height'] >= 32))
+			$maximum_height = $context['thumbnail_height'];
+		else
+			$maximum_height = 60;
 
 		// assume resize is not necessary
 		$thumbnail_height = $height;
@@ -201,8 +210,8 @@ Class Image {
 		if($height > $width) {
 
 			// set the thumbnail size
-			if($height > $context['thumbnail_height']) {
-				$thumbnail_height = $context['thumbnail_height'];
+			if($height > $maximum_height) {
+				$thumbnail_height = $maximum_height;
 				$thumbnail_width = $width * $thumbnail_height / $height;
 			}
 
@@ -210,8 +219,8 @@ Class Image {
 		} else {
 
 			// set the thumbnail size
-			if($width > $context['thumbnail_width']) {
-				$thumbnail_width = $context['thumbnail_width'];
+			if($width > $maximum_width) {
+				$thumbnail_width = $maximum_width;
 				$thumbnail_height = $height * $thumbnail_width / $width;
 			}
 

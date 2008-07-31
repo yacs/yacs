@@ -590,7 +590,7 @@ elseif(!Surfer::is_associate()) {
 		$context['skins_freemind_article_color'] = '';
 	if(!isset($context['skins_freemind_article_style']))
 		$context['skins_freemind_article_style'] = '';
-	$label = i18n::s('Articles');
+	$label = i18n::s('Pages');
 	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_article_color" size="8" value="'.encode_field($context['skins_freemind_article_color']).'" maxlength="8"'.EOT)
 		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_article_bgcolor" size="8" value="'.encode_field($context['skins_freemind_article_bgcolor']).'" maxlength="8"'.EOT)
 		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_article_style" size="8" value="'.encode_field($context['skins_freemind_article_style']).'" maxlength="8"'.EOT);

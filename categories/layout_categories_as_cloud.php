@@ -36,7 +36,7 @@ Class Layout_categories_as_cloud extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// this will be sorted alphabetically
-			$items[ $item['title'] ] = array( 'importance' => (int)$item['importance'], 'href' => Categories::get_url($item['id'], 'view', $item['title']) );
+			$items[ $item['title'] ] = array( 'importance' => (int)$item['importance'], 'href' => Categories::get_permalink($item) );
 
 			// assess the scope
 			if($minimum > (int)$item['importance'])

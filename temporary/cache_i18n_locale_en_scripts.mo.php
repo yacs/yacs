@@ -3,15 +3,15 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:27 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:16 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['565268c8f67e6811cb636fce1233a9ac']='%d file has been downloaded from the reference server.'.chr(0).'%d files have been downloaded from the reference server.';
 $_SESSION['l10n']['en']['341b51d0903352bdc690bd54123302d1']='%d file has been updated.'.chr(0).'%d files have been updated.';
 $_SESSION['l10n']['en']['%d files have been extracted.']='%d files have been extracted.';
+$_SESSION['l10n']['en']['%d files have been found.']='%d files have been found.';
 $_SESSION['l10n']['en']['%d files have been included.']='%d files have been included.';
 $_SESSION['l10n']['en']['909efefe280bf8698001d78f51a5b341']='%d files to be checked manually.';
 $_SESSION['l10n']['en']['%d items have been purged']='%d items have been purged';
-$_SESSION['l10n']['en']['62e481eef7983a6fda8c09799e842165']='%d reference files have been found.';
 $_SESSION['l10n']['en']['8315d51149f2995adda2adaa8307dc4e']='%d reference scripts have been copied.';
 $_SESSION['l10n']['en']['c06c60caa762bf30846387d9525c864c']='%d script has been executed'.chr(0).'%d scripts have been executed';
 $_SESSION['l10n']['en']['09fef7ba25bc7a07c1e534f1cb3fd420']='%d script has to be updated.'.chr(0).'%d scripts have to be updated.';
@@ -44,23 +44,17 @@ $_SESSION['l10n']['en']['Configure again']='Configure again';
 $_SESSION['l10n']['en']['Configure: %s']='Configure: %s';
 $_SESSION['l10n']['en']['d020262f882c464f052d7faa6e3bb07e']='Congratulations, the patch has been applied.';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
-$_SESSION['l10n']['en']['26e36e1dadbf046cdcdb9cb6f0289c80']='Copying reference scripts to the reference store...';
+$_SESSION['l10n']['en']['Copying files...']='Copying files...';
 $_SESSION['l10n']['en']['Current content of %s']='Current content of %s';
 $_SESSION['l10n']['en']['Delta']='Delta';
 $_SESSION['l10n']['en']['Diff']='Diff';
 $_SESSION['l10n']['en']['Documentation:']='Documentation:';
 $_SESSION['l10n']['en']['0921d24545886ddc275df7dbeb5f1f60']='Download of updated scripts. Please wait...';
 $_SESSION['l10n']['en']['fb5b688a46f488433ccf03e8cd202ff8']='Download updates from the reference server';
+$_SESSION['l10n']['en']['21bc65a56a523f1a5f5edad7e87bf2a8']='ERROR: File %s is missing or corrupted.';
 $_SESSION['l10n']['en']['6a2c769d729b50a589114cb6f3a6ca3b']='ERROR: Impossible to write to the file %s. The configuration has not been saved.';
 $_SESSION['l10n']['en']['98564239e79262aa70b133bc80f289ae']='Enable remote servers to update from this reference store.';
 $_SESSION['l10n']['en']['Error while processing %s.']='Error while processing %s.';
-$_SESSION['l10n']['en']['792b1ee45949c5c4a024ac850363f317']='Error! Empty staging file %s. Update has been cancelled.';
-$_SESSION['l10n']['en']['f6d358b53a5a35e28dfb2f534eb11324']='Error! File %s has been corrupted. Update has been cancelled.';
-$_SESSION['l10n']['en']['d42a3a70bb4bc158ff5735e8fce31fa4']='Error! Missing staging file %s. This update will be partial only.';
-$_SESSION['l10n']['en']['2095b2398d7559b9016f7ca2293b8ab8']='Error! Missing staging file %s. Update has been cancelled.';
-$_SESSION['l10n']['en']['023e7614398f714fbdba8d3ee680ec8d']='Error! Unable to create path to %s.';
-$_SESSION['l10n']['en']['Error! Unable to update %s.']='Error! Unable to update %s.';
-$_SESSION['l10n']['en']['7b56156ac65d213d994ad81827f1e8d3']='Error: Impossible to read the script %s';
 $_SESSION['l10n']['en']['6cbee9d5e160a682215f32bd84f39d36']='Errors have been encountered, and you cannot proceed with the network update.';
 $_SESSION['l10n']['en']['c2894838835b4148cf032856000493b1']='Extended processing time is not allowed on this server. In case of trouble, please upload individual files manually to the <code>scripts/staging</code> directory, using your preferred FTP tool or equivalent. When this is completed, jump to %s to complete the software update.';
 $_SESSION['l10n']['en']['Fetch']='Fetch';
@@ -84,14 +78,12 @@ $_SESSION['l10n']['en']['Incremental upgrades']='Incremental upgrades';
 $_SESSION['l10n']['en']['be4dd7fe739e6b8a49ea5b6e4f3b6130']='Indicate only the DNS name or IP address of the reference server; nothing more, nothing less.';
 $_SESSION['l10n']['en']['Install all hooks']='Install all hooks';
 $_SESSION['l10n']['en']['Install release %s']='Install release %s';
-$_SESSION['l10n']['en']['62d164e19dca5e986a2b9c853ba7a7f8']='Invalid reference footprints. Update has been cancelled.';
 $_SESSION['l10n']['en']['1777ef3dc94382bc1f2d3b0789c8cd07']='Invalid reference index. Staging has been cancelled.';
 $_SESSION['l10n']['en']['Last update took place on %s']='Last update took place on %s';
 $_SESSION['l10n']['en']['License:']='License:';
 $_SESSION['l10n']['en']['Licenses']='Licenses';
 $_SESSION['l10n']['en']['Licenses for all those scripts']='Licenses for all those scripts';
-$_SESSION['l10n']['en']['Listing all reference files...']='Listing all reference files...';
-$_SESSION['l10n']['en']['9e7af0de649a81b734460836a4154f5a']='Listing all running PHP scripts...';
+$_SESSION['l10n']['en']['Listing files...']='Listing files...';
 $_SESSION['l10n']['en']['Merge']='Merge';
 $_SESSION['l10n']['en']['4ea01779754204c05e7b7e7c4b1c672c']='Meta data have been saved in scripts/reference/footprints.php.';
 $_SESSION['l10n']['en']['No archive has been found.']='No archive has been found.';
@@ -156,7 +148,6 @@ $_SESSION['l10n']['en']['Testers:']='Testers:';
 $_SESSION['l10n']['en']['557e12336a208c73b9d8f78bae72b51c']='The complete documentation is available at the following server:';
 $_SESSION['l10n']['en']['671a80bc7e516973a52aa9fd2bea3aaf']='The file scripts/reference/footprints.php has not been generated and the reference store can only be used for test purpose.';
 $_SESSION['l10n']['en']['3513760fe3e0b14f2af4cc30a501d92a']='The following configuration has been saved into the file %s.';
-$_SESSION['l10n']['en']['5522912c9dec5c466d69e607f779a9f3']='The reference repository is empty. Please (re)build it.';
 $_SESSION['l10n']['en']['b5d5d9a0b3a6832af6113b769c5270ca']='The reference store has been rebuilt';
 $_SESSION['l10n']['en']['c5b64cab449af0324e22fd245d95879d']='The server has been switched OFF. Switch it back on as soon as possible.';
 $_SESSION['l10n']['en']['247dd0c6d529b7b985b0c679b9b28c96']='The server has been switched off.';

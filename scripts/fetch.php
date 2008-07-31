@@ -48,7 +48,7 @@ elseif(isset($context['arguments'][0])) {
 }
 
 // fight hackers
-$script = trim(preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($script)));
+$script = trim(preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($script)));
 
 // distinguish between single and multiple requests
 if($script) {

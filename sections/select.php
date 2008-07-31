@@ -99,7 +99,7 @@ if(Surfer::is_crawler()) {
 			$section_id = str_replace('section:', '', $reference);
 
 			// make an url
-			$url = Sections::get_url($section_id);
+			$url = Sections::get_permalink($section);
 
 			// gather information on this section
 			$prefix = $suffix = $type = $icon = '';

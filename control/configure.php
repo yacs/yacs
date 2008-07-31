@@ -174,7 +174,7 @@ if(isset($_REQUEST['url_to_root']))
 
 // stop hackers
 if(isset($_REQUEST['value']))
-	$_REQUEST['value'] = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '_', strip_tags($_REQUEST['value']));
+	$_REQUEST['value'] = preg_replace(FORBIDDEN_IN_PATHS, '_', strip_tags($_REQUEST['value']));
 
 // if we are changing the skin
 if(isset($_REQUEST['parameter']) && ($_REQUEST['parameter'] == 'skin') && isset($_REQUEST['value']) && Surfer::is_associate())

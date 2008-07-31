@@ -131,7 +131,7 @@ case '404':
 		sprintf(i18n::s('It is likely that we have changed the content of this site without warning you. Thank you for browsing %s and to refresh your bookmark.'), Skin::build_link($context['url_to_root'], i18n::s('the site front page'), 'shortcut')));
 
 	// search the site
-	$context['text'] .= Skin::build_box(i18n::s('Search this site'),
+	$context['text'] .= Skin::build_box(i18n::s('Search'),
 		sprintf(i18n::s('Type one or several words in %s.'), Skin::build_link('search.php', i18n::s('the searching form'), 'shortcut')));
 
 	// browse recent posts

@@ -199,7 +199,7 @@ Class Surfer {
 		$fields[] = array($label, $input);
 
 		// thread first contribution
-		$label = i18n::s('Your first contribution');
+		$label = i18n::s('Your contribution');
 		$input = '<textarea name="message" rows="15" cols="50"></textarea>';
 		$hint = i18n::s('Use only plain ASCII, no HTML.');
 		$fields[] = array($label, $input, $hint);

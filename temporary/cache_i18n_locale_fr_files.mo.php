@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:26 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr'][' VLC media player']=' VLC media player';
 $_SESSION['l10n']['fr']['%d bytes']='%d  octets';
@@ -173,7 +173,6 @@ $_SESSION['l10n']['fr']['0a87d519ca53087ec9b9172752c10f89']='Puisque le fichier 
 $_SESSION['l10n']['fr']['Source']='Source';
 $_SESSION['l10n']['fr']['Source: %s']='Source : %s';
 $_SESSION['l10n']['fr']['Start']='Commencer';
-$_SESSION['l10n']['fr']['Start the show']='Commencer la session';
 $_SESSION['l10n']['fr']['Storage']='Rangement';
 $_SESSION['l10n']['fr']['Stream']='A la demande';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
@@ -192,17 +191,15 @@ $_SESSION['l10n']['fr']['99b62a743b6ba1090129424fbce8d64d']='L\'endroit où ce s
 $_SESSION['l10n']['fr']['bd4dc509bead225fd09ffc2a29b1e07a']='La taille du fichier dépasse la limite autorisée.';
 $_SESSION['l10n']['fr']['b912496983adb05d5a6cb563dacfde61']='Le fichier a été enregistré.';
 $_SESSION['l10n']['fr']['7604df7ab947daaf747a5e725bafadce']='Ce format de fichier autorise les interactions à travers le web. Si votre machine est capable de traiter les fichiers Flash, cliquez sur le lien pour lancer la présentation.';
-$_SESSION['l10n']['fr']['278d8532d1a93d97752a5b92c7ba2a1a']='Ce format de fichier autorise l\'accès à la demande, et vous n\'avez pas à attendre la fin du transfert pour profiter du contenu du fichier.';
 $_SESSION['l10n']['fr']['1776aecef24f2d097ff0f00b141bce7b']='Ce fichier a été assigné à %s %s, et une nouvelle version sera mise à disposition bientôt.';
 $_SESSION['l10n']['fr']['100229cfe97b886f2e3cea81dbd9d1ec']='Ce fichier vous a été assigné %s, et nous comptons sur vous pour %s dès que possible.';
+$_SESSION['l10n']['fr']['2d4b92c7af8bc664500b7a0599619a30']='Ce fichier est disponible à la demande. Pour cela, vous pourrez avoir besoin d\'un lecteur multimédia avancé tel que %s (logiciel libre) ou %s (gratuit).';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
 $_SESSION['l10n']['fr']['07a47d6b61cdd420b4cbd7ec824caf51']='Ce script va créer une nouvelle page pour le fichier transmis. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc sous le titre de page.';
 $_SESSION['l10n']['fr']['fb52e739654eb4d1981039c471bca260']='Ce type de fichier n\'est pas autorisé.';
 $_SESSION['l10n']['fr']['Thumbnail URL']='Adresse web de la vignette';
 $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la configuration, merci de copier et de coller les lignes suivantes dans le fichier %s :';
-$_SESSION['l10n']['fr']['bc05d8f2ecfb7d88da6f5b8eb7b3ecf3']='Pour recevoir des sons "au fil de l\'eau" et les entendre dès leur arrivvée sur votre machine, utilisez un lecteur multimédia avancé tel que %s.';
-$_SESSION['l10n']['fr']['2d4a2871ca9d90bbed31ba64712b41af']='Pour recevoir des sons "au fil de l\'eau" et les entendre dès leur arrivée sur votre machine, utilisez un lecteur multimédia avancé tel que %s (open source) ou %s (freeware).';
 $_SESSION['l10n']['fr']['0749c2e869a8f74bc91f87cc3643388e']='Trop d\'erreurs successives. Abandon';
 $_SESSION['l10n']['fr']['Unassign']='Dé-assigner';
 $_SESSION['l10n']['fr']['Update']='Modifier';

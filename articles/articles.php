@@ -323,7 +323,7 @@ Class Articles {
 		include_once '../overlays/overlay.php';
 		if(isset($item['overlay']) && ($overlay = Overlay::load($item))) {
 			$item['self_reference'] = 'article:'.$item['id'];
-			$item['self_url'] = Articles::get_url($item['id']); // -- no title, nor nick name here
+			$item['self_url'] = Articles::get_permalink($item);
 			$overlay->remember('delete', $item);
 		}
 
@@ -563,9 +563,9 @@ Class Articles {
 			$where .= " OR articles.active='N'";
 		$where = "(".$where.")";
 
-		// avoid sticky articles
-		if($without_sticky)
-			$where .= " AND (articles.rank >= 10000)";
+		// just get the newest page
+		if($anchor)
+			$where = "(articles.anchor LIKE '".SQL::escape($anchor)."') AND ".$where;
 
 		// current time
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
@@ -578,9 +578,13 @@ Class Articles {
 		$where .= " AND ((articles.expiry_date is NULL) "
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
 
+		// avoid sticky articles
+		if($without_sticky)
+			$where .= " AND (articles.rank >= 10000)";
+
 		// the list of articles
 		$query = "SELECT * FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$where.")"
+			." WHERE ".$where
 			." ORDER BY articles.rank, articles.edit_date DESC, articles.title LIMIT 0,1";
 
 		$output =& SQL::query_first($query);
@@ -654,8 +658,19 @@ Class Articles {
 			return NULL;
 
 		// return url of the first item of the list
-		$next =& SQL::fetch($result);
-		return array(Articles::get_url($next['id'], 'view', $next['title'], $next['nick_name']), $next['title']);
+		$item =& SQL::fetch($result);
+		return array(Articles::get_permalink($item), $next['title']);
+	}
+
+	/**
+	 * get permanent address
+	 *
+	 * @param array page attributes
+	 * @return string the permalink
+	 */
+	function &get_permalink($item) {
+		$output =& Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		return $output;
 	}
 
 	/**
@@ -725,8 +740,8 @@ Class Articles {
 			return NULL;
 
 		// return url of the first item of the list
-		$previous =& SQL::fetch($result);
-		return array(Articles::get_url($previous['id'], 'view', $previous['title'], $previous['nick_name']), $previous['title']);
+		$item =& SQL::fetch($result);
+		return array(Articles::get_permalink($item), $previous['title']);
 	}
 
 	/**
@@ -1919,11 +1934,11 @@ Class Articles {
 				while($item =& SQL::fetch($result)) {
 
 					// url to read the full article
-					$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+					$url =& Articles::get_permalink($item);
 
 					// reset the rendering engine between items
 					if(is_callable(array('Codes', 'initialize')))
-						Codes::initialize(Articles::get_url($url));
+						Codes::initialize($url);
 
 					// format the resulting string depending on layout
 					$items[$url] = Skin::layout_article($item, $variant);

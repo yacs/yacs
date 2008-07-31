@@ -97,12 +97,10 @@ if(Surfer::is_crawler()) {
 } else {
 
 	// the introduction text
-	if($item['introduction'])
-		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
+	$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 	// the beautified description, which is the actual page body
-	if($item['description'])
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 //	// date of last update
 //	$context['text'] .= i18n::s('Last update').' '.Skin::build_date($item['edit_date']);

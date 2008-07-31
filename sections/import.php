@@ -165,7 +165,7 @@ elseif(!Surfer::is_associate()) {
 			$context['text'] .= '<p>'.i18n::s('Congratulations, you have shared new content.').'</p>';
 
 			// display follow-up commands
-			$menu = array( Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => i18n::s('Back to the section') );
+			$menu = array( Sections::get_permalink($item) => i18n::s('Back to the section') );
 			$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		}

@@ -64,7 +64,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 
 		// empty list
 		if(!SQL::count($result)) {
-			$label = i18n::s('No article has been published so far.');
+			$label = i18n::s('No page to display.');
 			if(Surfer::is_associate())
 				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
@@ -88,7 +88,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// permalink
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -160,7 +160,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			// list up to three categories by title, if any
 			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 				foreach($items as $id => $attributes)
-					$details[] = Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title'], isset($attributes['nick_name'])?$attributes['nick_name']:''), $attributes['title'], 'basic');
+					$details[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic');
 			}
 
 			// rating
@@ -180,8 +180,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 				$box['content'] .= $overlay->get_text('list', $item).BR.BR."\n";
 
 			// the description
-			if(trim($item['description']))
-				$box['content'] .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
+			$box['content'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
 			// build a menu
 			$menu = array();
@@ -233,11 +232,11 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 		// add links to archives
 		$anchor =& Categories::get(i18n::c('monthly'));
 		if(isset($anchor['id']) && ($items = Categories::list_by_date_for_anchor('category:'.$anchor['id'], 0, COMPACT_LIST_SIZE, 'compact'))) {
-			$text .= '<p class="date">'.i18n::s('Past articles')."</p>\n";
+			$text .= '<p class="date">'.i18n::s('Previous pages')."</p>\n";
 			$tokens = array();
 			foreach($items as $url => $attributes)
 				$tokens[] = Skin::build_link($url, $attributes[1], 'basic');
-			$tokens[] = Skin::build_link(Categories::get_url($anchor['id'], 'view', $anchor['title'], isset($anchor['nick_name'])?$anchor['nick_name']:''), i18n::s('Archives'), 'basic');
+			$tokens[] = Skin::build_link(Categories::get_permalink($anchor), i18n::s('Archives'), 'basic');
 			$text .= '<p class="details">'.implode(' ~ ', $tokens)."</p>\n";
 		}
 

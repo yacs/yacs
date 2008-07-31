@@ -37,7 +37,7 @@ elseif(isset($context['arguments'][0])) {
 }
 
 // fight against hackers
-$script = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($script));
+$script = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($script));
 
 // get the actual page
 include_once 'scripts.php';
@@ -55,7 +55,7 @@ load_skin('scripts');
 // the path to this page
 $context['path_bar'] = array( 'scripts/' => i18n::s('Server software') );
 
-// the title of the page
+// page title
 if($script == 'todo')
 	$context['page_title'] = i18n::s('To-do list');
 elseif($script == 'authors')
@@ -94,11 +94,7 @@ if(!$script) {
 
 // the script has to be there
 } elseif(!$row) {
-	if(preg_match('/(todo|authors|testers|licenses)/i', $script))
-		Skin::error(i18n::s('The reference repository is empty. Please (re)build it.'));
-	else
-		Skin::error(i18n::s('Script does not exist'));
-
+	Skin::error(i18n::s('Script does not exist'));
 
 // display script content
 } else {

@@ -111,7 +111,7 @@ if(!Surfer::is_associate()) {
 	// rename the switch file
 	if(Safe::rename($context['path_to_root'].'parameters/switch.on', $context['path_to_root'].'parameters/switch.off')) {
 
-		Skin::error(i18n::s('The server has been switched OFF. Switch it back on as soon as possible. Keep your browser session open to do it, you would not be able to login again if you close it. In case of trouble you can manually rename the file <code>parameters/switch.off</code> to <code>parameters/switch.on</code>.'));
+		Skin::error(i18n::s('The server has been switched OFF. Switch it back on as soon as possible.'));
 
 		// remember the change
 		$label = i18n::c('The server has been switched off.');

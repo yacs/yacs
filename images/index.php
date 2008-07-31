@@ -76,11 +76,11 @@ if(!Surfer::is_associate()) {
 
 	// navigation commands for images, if necessary
 	if($stats['count'] > IMAGES_PER_PAGE) {
-		$home = 'images/index.php';
+		$home = 'images/';
 		if($context['with_friendly_urls'] == 'Y')
-			$prefix = $home.'/';
+		$prefix = $home.'index.php/';
 		elseif($context['with_friendly_urls'] == 'R')
-			$prefix = $home.'/';
+			$prefix = $home;
 		else
 			$prefix = $home.'?page=';
 		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], IMAGES_PER_PAGE, $page));

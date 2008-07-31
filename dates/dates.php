@@ -1010,7 +1010,7 @@ Class Dates {
 
 		// no date
 		if(!$fields['date_stamp']) {
-			Skin::error(i18n::s('Please mention a target date.'));
+			Skin::error(i18n::s('Please provide a date.'));
 			return 0;
 		}
 

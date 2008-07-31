@@ -195,7 +195,7 @@ Class Import {
 
 				// <$BlogItemArchiveFileName$>
 				$from = '/<\$BlogItemArchiveFileName\$>/i';
-				$to = '\'.$context[\'url_to_root\'].Articles::get_url($item[\'id\']).\'';
+				$to = '\'.$context[\'url_to_root\'].Articles::get_permalink($item).\'';
 				$area = preg_replace($from, $to, $area);
 
 				// <$BlogItemAuthor$>
@@ -263,7 +263,7 @@ Class Import {
 
 				// <$BlogItemPermalinkURL$>
 				$from = '/<\$BlogItemPermalinkURL\$>/i';
-				$to = '\'.$context[\'url_to_root\'].Articles::get_url($item[\'id\']).\'';
+				$to = '\'.$context[\'url_to_root\'].Articles::get_permalink($item).\'';
 				$area = preg_replace($from, $to, $area);
 
 				// <$BlogItemTitle$> -- it has to be the last one for this item

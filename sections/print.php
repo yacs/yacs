@@ -94,7 +94,7 @@ if(Surfer::is_crawler()) {
 } else {
 
 	// initialize the rendering engine
-	Codes::initialize(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+	Codes::initialize(Sections::get_permalink($item));
 
 	// the article or the anchor icon, if any
 	if(isset($item['icon_url']) && $item['icon_url'])
@@ -144,12 +144,10 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= $anchor->get_prefix();
 
 	// the introduction text, if any
-	if(isset($item['introduction']) && $item['introduction'])
-		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
+	$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 	// the description, which is the actual page body
-	if(isset($item['description']) && $item['description'])
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
 	//
 	// sub-sections, if any

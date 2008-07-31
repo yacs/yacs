@@ -1,8 +1,7 @@
 
 if(typeof Effect=='undefined')
 throw("controls.js requires including script.aculo.us' effects.js library");var Autocompleter={}
-Autocompleter.Base=Class.create({baseInitialize:function(element,update,options){element=$(element)
-this.element=element;this.update=$(update);this.hasFocus=false;this.changed=false;this.active=false;this.index=0;this.entryCount=0;this.oldElementValue=this.element.value;if(this.setOptions)
+Autocompleter.Base=Class.create({baseInitialize:function(element,update,options){element=$(element);this.element=element;this.update=$(update);this.hasFocus=false;this.changed=false;this.active=false;this.index=0;this.entryCount=0;this.oldElementValue=this.element.value;if(this.setOptions)
 this.setOptions(options);else
 this.options=options||{};this.options.paramName=this.options.paramName||this.element.name;this.options.tokens=this.options.tokens||[];this.options.frequency=this.options.frequency||0.4;this.options.minChars=this.options.minChars||1;this.options.onShow=this.options.onShow||function(element,update){if(!update.style.position||update.style.position=='absolute'){update.style.position='absolute';Position.clone(element,update,{setHeight:false,offsetTop:element.offsetHeight});}
 Effect.Appear(update,{duration:0.15});};this.options.onHide=this.options.onHide||function(element,update){new Effect.Fade(update,{duration:0.15})};if(typeof(this.options.tokens)=='string')

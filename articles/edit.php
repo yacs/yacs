@@ -220,7 +220,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
 
 // page title
 if(isset($item['id']))
@@ -371,7 +371,7 @@ if(Surfer::is_crawler()) {
 
 	// protect from hackers
 	if(isset($_REQUEST['edit_name']))
-		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_CHARS_IN_NAMES, '_', $_REQUEST['edit_name']);
+		$_REQUEST['edit_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', $_REQUEST['edit_name']);
 	if(isset($_REQUEST['edit_address']))
 		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
 
@@ -432,7 +432,7 @@ if(Surfer::is_crawler()) {
 
 		// allow back-referencing from overlay
 		$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_url($_REQUEST['id'], 'view', $_REQUEST['title'], $_REQUEST['nick_name']);
+		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
 
 		// remember the previous version
 		if($item['id']) {
@@ -464,7 +464,7 @@ if(Surfer::is_crawler()) {
 				Members::assign('article:'.$item['id'], 'user:'.Surfer::get_id());
 
 			// display the updated page
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
 		}
 
 
@@ -478,7 +478,7 @@ if(Surfer::is_crawler()) {
 
 		// allow back-referencing from overlay
 		$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_url($_REQUEST['id'], 'view', $_REQUEST['title'], $_REQUEST['nick_name']);
+		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
 
 		// post an overlay, with the new article id --don't stop on error
 		if(is_object($overlay))
@@ -1162,7 +1162,7 @@ if($with_form) {
 
 	// cancel button
 	if(isset($item['id']))
-		$menu[] = Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
+		$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');

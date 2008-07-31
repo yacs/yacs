@@ -234,7 +234,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Articles'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(i18n::s('Pages'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
 			// images
 			include_once '../images/images.php';
@@ -574,8 +574,30 @@ if(!file_exists('../parameters/control.include.php')) {
 			//
 			$text = '';
 
+			// surfer is not authenticated
+			if(!Surfer::is_logged()) {
+
+				$content = '<li>'.sprintf(i18n::s('Please %s to benefit from all contribution tools provided by this site.'), Skin::build_link('users/login.php', i18n::s('authenticate'), 'basic')).'</li>';
+
+				// offer a self-registration, if allowed
+				if(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y'))
+					$content .= '<li>'.sprintf(i18n::s('Registration is FREE and offers great benefits. %s if you are not yet a member of %s.'), Skin::build_link('users/edit.php', i18n::s('Click here to register'), 'basic'), $context['site_name'])."</li>\n";
+
+				// insert commands
+				$text .= Skin::build_box(i18n::s('Express yourself'), '<ul>'.$content.'</ul>', 'header1', 'express_yourself');
+
+			}
+
 			// available commands
 			$commands = array();
+
+			// review queue
+			if(Surfer::is_associate())
+				$commands[] = sprintf(i18n::s('%s - articles waiting for publication, pending requests'), Skin::build_link('articles/review.php', i18n::s('Review queue'), 'basic'));
+
+			// letters
+			if(Surfer::is_associate() && isset($context['with_email']) && ($context['with_email'] == 'Y'))
+				$commands[] = sprintf(i18n::s('%s - broadcast digests and announcements by e-mail'), Skin::build_link('letters/', i18n::s('Newsletters'), 'basic'));
 
 			// create a page
 			if(Surfer::is_associate()
@@ -590,7 +612,19 @@ if(!file_exists('../parameters/control.include.php')) {
 			if(Surfer::is_associate())
 				$commands[] = sprintf(i18n::s('%s - create blogs, wikis, forums, and more'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'basic'));
 
-			// change some global pages
+			// site map
+			if(Surfer::is_associate())
+				$commands[] = sprintf(i18n::s('%s - you may enhance %s of some sections'),
+					Skin::build_link('sections/', i18n::s('Site map')),
+					'<a href="../behaviors/">'.i18n::s('behaviors').'</a>');
+
+			// template pages
+			if(Surfer::is_associate())
+				$commands[] = sprintf(i18n::s('%s - some have %s'),
+					Skin::build_link(Sections::get_url('templates'), i18n::s('Template pages')),
+					'<a href="../overlays/">'.i18n::s('overlays').'</a>');
+
+			// global pages
 			if(Surfer::is_associate())
 				$commands[] = sprintf(i18n::s('%s, including: %s, %s, %s and %s'),
 					Skin::build_link(Sections::get_url('global'), i18n::s('Global pages')),
@@ -598,20 +632,6 @@ if(!file_exists('../parameters/control.include.php')) {
 					Skin::build_link(Articles::get_url('menu'), i18n::s('Menu')),
 					Skin::build_link(Articles::get_url('about'), i18n::s('About this site')),
 					Skin::build_link(Articles::get_url('privacy'), i18n::s('Privacy statement')));
-
-			if(Surfer::is_associate())
-				$commands[] = sprintf(i18n::s('%s - scripts to enhance articles and user profiles'), '<a href="../overlays/">'.i18n::s('Overlays').'</a>');
-
-			if(Surfer::is_associate())
-				$commands[] = sprintf(i18n::s('%s - scripts to enhance sections'), '<a href="../behaviors/">'.i18n::s('Behaviors').'</a>');
-
-			// letters
-			if(Surfer::is_associate() && isset($context['with_email']) && ($context['with_email'] == 'Y'))
-				$commands[] = sprintf(i18n::s('%s - broadcast digests and announcements by e-mail'), Skin::build_link('letters/', i18n::s('Newsletters'), 'basic'));
-
-			// review queue
-			if(Surfer::is_associate())
-				$commands[] = sprintf(i18n::s('%s - articles waiting for publication, pending requests'), Skin::build_link('articles/review.php', i18n::s('Review queue'), 'basic'));
 
 			// collections
 			$commands[] = sprintf(i18n::s('%s - shared directories and files'), Skin::build_link('collections/', i18n::s('File collections'), 'basic'));
@@ -630,14 +650,6 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// avatars
 			$commands[] = sprintf(i18n::s('%s - some avatars you may choose for your user profile'), Skin::build_link('skins/images/avatars/', i18n::s('Avatars'), 'basic'));
-
-			// usage information
-			if(Surfer::is_associate())
-				$commands[] = sprintf(i18n::s('%s - at the moment, only for people that are migrating from phpwebsite'), Skin::build_link('control/import.php', i18n::s('Import'), 'basic'));
-
-			// usage information
-			if(Surfer::is_associate())
-				$commands[] = sprintf(i18n::s('%s - import articles from a csv file'), Skin::build_link('control/import_csv.php', i18n::s('Import CSV'), 'basic'));
 
 			// usage information
 			if(Surfer::is_associate())
@@ -708,20 +720,6 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			}
 
-			// surfer is not authenticated
-			if(!Surfer::is_logged()) {
-
-				$content = '<li>'.sprintf(i18n::s('Please %s to benefit from all contribution tools provided by this site.'), Skin::build_link('users/login.php', i18n::s('authenticate'), 'basic')).'</li>';
-
-				// offer a self-registration, if allowed
-				if(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y'))
-					$content .= '<li>'.sprintf(i18n::s('Registration is FREE and offers great benefits. %s if you are not yet a member of %s.'), Skin::build_link('users/edit.php', i18n::s('Click here to register'), 'basic'), $context['site_name'])."</li>\n";
-
-				// insert commands
-				$text .= Skin::build_box(i18n::s('Express yourself'), '<ul>'.$content.'</ul>', 'header1', 'express_yourself');
-
-			}
-
 			// build another tab
 			$all_tabs = array_merge($all_tabs, array(array('content_tab', i18n::s('Content'), 'content_panel', $text)));
 
@@ -737,6 +735,10 @@ if(!file_exists('../parameters/control.include.php')) {
 				// configuration scripts that are part of the core -- some complex commands
 				if(Surfer::has_all())
 					$commands[] = sprintf(i18n::s('%s - configure database, security and other essential parameters'), Skin::build_link('control/configure.php', i18n::s('System parameters'), 'basic'));
+
+				// apache configuration -- some complex commands
+				if(Surfer::has_all())
+					$commands[] = sprintf(i18n::s('%s - build a customized configuration file'), Skin::build_link('control/htaccess/', i18n::s('Apache .htaccess'), 'basic'));
 
 				$commands[] = sprintf(i18n::s('%s - define permissions given to people'), Skin::build_link('users/configure.php', i18n::s('People'), 'basic'));
 
@@ -919,7 +921,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			//
 
 			$links = array();
-			$links[] = Skin::build_link('sections/', i18n::s('Site Map'), 'shortcut');
+			$links[] = Skin::build_link('sections/', i18n::s('Site map'), 'shortcut');
 			$links[] = Skin::build_link('categories/', i18n::s('Categories'), 'shortcut');
 			$links[] = Skin::build_link('users/', i18n::s('People'), 'shortcut');
 

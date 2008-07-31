@@ -378,7 +378,7 @@ class Anchors {
 		if(strpos($anchor, 'section:') === 0) {
 			if(($stats = Articles::stat_for_anchor($anchor)) && $stats['count']) {
 				$cells = array();
-				$cells[] = i18n::s('Articles');
+				$cells[] = i18n::s('Pages');
 				$cells[] = 'center='.$stats['count'];
 				$cells[] = 'center='.Skin::build_date($stats['oldest_date']);
 				$cells[] = 'center='.Skin::build_date($stats['newest_date']);

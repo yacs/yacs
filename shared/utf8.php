@@ -36,6 +36,24 @@ Class Utf8 {
 	}
 
 	/**
+	 * transcode from ISO 8859
+	 *
+	 * @param string a complex string using ISO8859 entities
+	 * @return a UTF-8 string
+	 */
+	function &from_iso8859($text) {
+
+		// iso-8859-15 + Microsoft extensions cp1252
+		list($iso_entities, $unicode_entities) = Utf8::get_iso8859();
+
+		// transcode ISO8859 to Unicode entities
+		$text = str_replace($iso_entities, $unicode_entities, $text);
+
+		// done
+		return $text;
+	}
+
+	/**
 	 * restore UTF-8 from HTML Unicode entities
 	 *
 	 * This function is triggered by the YACS handler during page rendering.
@@ -93,229 +111,6 @@ Class Utf8 {
 		}
 
 		// the updated string
-		return $text;
-	}
-
-	/**
-	 * transcode to US ASCII
-	 *
-	 * This function is primarily used to build strings matching RFC 2183 and RFC 822
-	 * requirements on MIME data.
-	 *
-	 * You should use it to build valid file names for downloads.
-	 * According to the RFC:
-	 * &quot;Current [RFC 2045] grammar restricts parameter values (and hence
-	 *	Content-Disposition filenames) to US-ASCII.&quot;
-	 *
-	 * @link http://www.ietf.org/rfc/rfc2183.txt The Content-Disposition Header Field
-	 *
-	 * For example:
-	 * [php]
-	 * // get a valid file name
-	 * $file_name = utf8::to_ascii($context['page_title'].'.xml');
-	 *
-	 * // suggest a download
-	 * Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
-	 * [/php]
-	 *
-	 * This function can also be used to enforce the ASCII character set in texts.
-	 * For this kind of usage it is recommended to add spaces to the optional parameters, like in:
-	 * [php]
-	 * // enforce ascii
-	 * $text = utf8::to_ascii($text, ' ');
-	 * [/php]
-	 *
-	 * @link http://www.bbsinc.com/iso8859.html ASCII - ISO 8859-1 (Latin-1) Table with HTML Entity Names
-	 *
-	 * @param string a complex string using HTML entities
-	 * @param string optional characters to accept
-	 * @return a US-ASCII string
-	 *
-	 * @see articles/export.php
-	 * @see articles/fetch_as_msword.php
-	 * @see articles/fetch_as_pdf.php
-	 * @see articles/fetch_for_palm.php
-	 * @see articles/ie_bookmarklet.php
-	 * @see files/edit.php
-	 * @see files/fetch.php
-	 * @see files/fetch_all.php
-	 * @see images/edit.php
-	 * @see tables/fetch_as_csv.php
-	 * @see tables/fetch_as_xml.php
-	 * @see users/fetch_vcard.php
-	 */
-	function &to_ascii($utf, $options='') {
-
-		// string can be native utf8
-		$utf =& Utf8::to_unicode($utf);
-
-		// from Unicode to iso-8859-1
-		$areas = preg_split('/&#(\d+);/', $utf, -1, PREG_SPLIT_DELIM_CAPTURE);
-		$text = '';
-		$index = 0;
-		foreach($areas as $area) {
-			switch($index%2) {
-			case 0: // before entity
-				$text .= $area;
-				break;
-			case 1: // the entity itself
-
-				// get the integer value
-				$unicode = intval($area);
-
-				// one ASCII byte
-				if($unicode < 0xFF)
-					$text .= chr($unicode);
-
-				// two or more bytes -- dash is safe to Google
-				 else
-					$text .= '-';
-
-				break;
-			}
-			$index++;
-		}
-
-		// iso-8859-15 + Microsoft extensions cp1252 -- initialize tables only once
-		static $iso_entities, $safe_entities;
-		if(!is_array($iso_entities)) {
-
-			// numerical order
-			$codes = array(
-				"\xA0"	=> ' ', // non-breaking space
-				"\xA1"	=> '!', // inverted exclamation mark
-				"\xA2"	=> 'c', // cent sign
-				"\xA3"	=> 'L', // pound sign
-				"\xA4"	=> 'e', // EURO SIGN
-				"\xA5"	=> 'y', // yen sign
-				"\xA6"	=> 'S', // LATIN CAPITAL LETTER S WITH CARON
-				"\xA7"	=> 's', // section sign
-				"\xA8"	=> 's', // LATIN SMALL LETTER S WITH CARON
-				"\xA9"	=> '(c)',	// copyright sign
-				"\xAA"	=> '°', // feminine ordinal indicator
-				"\xAB"	=> '"', // left-pointing double angle quotation mark
-				"\xAC"	=> '!', // not sign
-				"\xAD"	=> '-', // soft hyphen
-				"\xAE"	=> '(TM)',	// registered sign
-				"\xAF"	=> 'M', // macron
-				"\xB0"	=> '°', // degree sign
-				"\xB1"	=> '+', // plus-minus sign
-				"\xB2"	=> '2', // superscript two
-				"\xB3"	=> '3', // superscript three
-				"\xB4"	=> 'Z', // LATIN CAPITAL LETTER Z WITH CARON
-				"\xB5"	=> 'm', // micro sign
-				"\xB6"	=> ' ', // pilcrow sign
-				"\xB7"	=> '.', // middle dot
-				"\xB8"	=> 'z', // LATIN SMALL LETTER Z WITH CARON
-				"\xB9"	=> '1', // superscript one
-				"\xBA"	=> '°', // masculine ordinal indicator
-				"\xBB"	=> '"', // right-pointing double angle quotation mark
-				"\xBC"	=> 'OE',	// LATIN CAPITAL LIGATURE OE
-				"\xBD"	=> 'oe',	// LATIN SMALL LIGATURE OE
-				"\xBE"	=> 'Y', // LATIN CAPITAL LETTER Y WITH DIAERESIS
-				"\xBF"	=> '?', // inverted question mark
-				"\xC0"	=> 'A', // latin capital letter A with grave
-				"\xC1"	=> 'A', // latin capital letter A with acute
-				"\xC2"	=> 'A', // latin capital letter A with circumflex
-				"\xC3"	=> 'A', // latin capital letter A with tilde
-				"\xC4"	=> 'A', // latin capital letter A with diaeresis
-				"\xC5"	=> 'A', // latin capital letter A with ring above
-				"\xC6"	=> 'AE',	// latin capital letter AE
-				"\xC7"	=> 'C', // latin capital letter C with cedilla
-				"\xC8"	=> 'E', // latin capital letter E with grave
-				"\xC9"	=> 'E', // latin capital letter E with acute
-				"\xCA"	=> 'E', // latin capital letter E with circumflex
-				"\xCB"	=> 'E', // latin capital letter E with diaeresis
-				"\xCC"	=> 'I', // latin capital letter I with grave
-				"\xCD"	=> 'I', // latin capital letter I with acute
-				"\xCE"	=> 'I', // latin capital letter I with circumflex
-				"\xCF"	=> 'I', // latin capital letter I with diaeresis
-				"\xD0"	=> 'ETH',	// latin capital letter ETH
-				"\xD1"	=> 'N', // latin capital letter N with tilde
-				"\xD2"	=> 'O', // latin capital letter O with grave
-				"\xD3"	=> 'O', // latin capital letter O with acute
-				"\xD4"	=> 'O', // latin capital letter O with circumflex
-				"\xD5"	=> 'O', // latin capital letter O with tilde
-				"\xD6"	=> 'O', // latin capital letter O with diaeresis
-				"\xD7"	=> 'x', // multiplication sign
-				"\xD8"	=> 'O', // latin capital letter O with stroke
-				"\xD9"	=> 'U', // latin capital letter U with grave
-				"\xDA"	=> 'U', // latin capital letter U with acute
-				"\xDB"	=> 'U', // latin capital letter U with circumflex
-				"\xDC"	=> 'U', // latin capital letter U with diaeresis
-				"\xDD"	=> 'Y', // latin capital letter Y with acute
-				"\xDE"	=> 'Th',	// latin capital letter THORN
-				"\xDF"	=> 's', // latin small letter sharp s
-				"\xE0"	=> 'a', // latin small letter a with grave
-				"\xE1"	=> 'a', // latin small letter a with acute
-				"\xE2"	=> 'a', // latin small letter a with circumflex
-				"\xE3"	=> 'a', // latin small letter a with tilde
-				"\xE4"	=> 'a', // latin small letter a with diaeresis
-				"\xE5"	=> 'a', // latin small letter a with ring above
-				"\xE6"	=> 'ae',	// latin small letter ae
-				"\xE7"	=> 'c', // latin small letter c with cedilla
-				"\xE8"	=> 'e', // latin small letter e with grave
-				"\xE9"	=> 'e', // latin small letter e with acute
-				"\xEA"	=> 'e', // latin small letter e with circumflex
-				"\xEB"	=> 'e', // latin small letter e with diaeresis
-				"\xEC"	=> 'i', // latin small letter i with grave
-				"\xED"	=> 'i', // latin small letter i with acute
-				"\xEE"	=> 'i', // latin small letter i with circumflex
-				"\xEF"	=> 'i', // latin small letter i with diaeresis
-				"\xF0"	=> 'eth',	// latin small letter eth
-				"\xF1"	=> 'n', // latin small letter n with tilde
-				"\xF2"	=> 'o', // latin small letter o with grave
-				"\xF3"	=> 'o', // latin small letter o with acute
-				"\xF4"	=> 'o', // latin small letter o with circumflex
-				"\xF5"	=> 'o', // latin small letter o with tilde
-				"\xF6"	=> 'o', // latin small letter o with diaeresis
-				"\xF7"	=> '/', // division sign
-				"\xF8"	=> 'o', // latin small letter o with stroke
-				"\xF9"	=> 'u', // latin small letter u with grave
-				"\xFA"	=> 'u', // latin small letter u with acute
-				"\xFB"	=> 'u', // latin small letter u with circumflex
-				"\xFC"	=> 'u', // latin small letter u with diaeresis
-				"\xFD"	=> 'y', // latin small letter y with acute
-				"\xFE"	=> 'th',	// latin small letter thorn
-				"\xFF"	=> 'y'	// latin small letter y with diaeresis
-				);
-
-			// split entities for use in str_replace()
-			foreach($codes as  $iso_entity => $safe_entity) {
-				$iso_entities[] = $iso_entity;
-				$safe_entities[] = $safe_entity;
-			}
-		}
-
-		// transcode iso 8859 chars to safer ascii entities
-		$text = str_replace($iso_entities, $safe_entities, $text);
-
-		// turn invalid chars to dashes (for proper indexation by Google)
-		$text = preg_replace("/[^a-zA-Z_\d\.".preg_quote($options)."]+/i", '-', $text);
-
-		// compact dashes
-		$text = preg_replace('/-+/', '-', $text);
-
-		// done
-		return $text;
-	}
-
-	/**
-	 * transcode Unicode entities from decimal to hex
-	 *
-	 * This function is used in specific occasions, for example for better support
-	 * of Freemind Flash viewer.
-	 *
-	 * @param string a complex string using unicode entities
-	 * @return a transcoded string
-	 */
-	function &to_hex($utf) {
-		global $context;
-
-		// transcode all entities from decimal to hexa
-		$text = preg_replace('/&#([0-9]+);/se', "'&#x'.dechex('\\1').';'", $utf);
-
-		// job done
 		return $text;
 	}
 
@@ -442,20 +237,195 @@ Class Utf8 {
 	}
 
 	/**
-	 * transcode from ISO 8859
+	 * transcode to US ASCII
 	 *
-	 * @param string a complex string using ISO8859 entities
-	 * @return a UTF-8 string
+	 * This function is primarily used to build strings matching RFC 2183 and RFC 822
+	 * requirements on MIME data.
+	 *
+	 * You should use it to build valid file names for downloads.
+	 * According to the RFC:
+	 * &quot;Current [RFC 2045] grammar restricts parameter values (and hence
+	 *	Content-Disposition filenames) to US-ASCII.&quot;
+	 *
+	 * @link http://www.ietf.org/rfc/rfc2183.txt The Content-Disposition Header Field
+	 *
+	 * For example:
+	 * [php]
+	 * // get a valid file name
+	 * $file_name = utf8::to_ascii($context['page_title'].'.xml');
+	 *
+	 * // suggest a download
+	 * Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+	 * [/php]
+	 *
+	 * This function can also be used to enforce the ASCII character set in texts.
+	 * For this kind of usage it is recommended to add spaces to the optional parameters, like in:
+	 * [php]
+	 * // enforce ascii
+	 * $text = utf8::to_ascii($text, ' ');
+	 * [/php]
+	 *
+	 * @link http://www.bbsinc.com/iso8859.html ASCII - ISO 8859-1 (Latin-1) Table with HTML Entity Names
+	 *
+	 * @param string a complex string using HTML entities
+	 * @param string optional characters to accept
+	 * @return a US-ASCII string
+	 *
+	 * @see articles/export.php
+	 * @see articles/fetch_as_msword.php
+	 * @see articles/fetch_as_pdf.php
+	 * @see articles/fetch_for_palm.php
+	 * @see articles/ie_bookmarklet.php
+	 * @see files/edit.php
+	 * @see files/fetch.php
+	 * @see files/fetch_all.php
+	 * @see images/edit.php
+	 * @see tables/fetch_as_csv.php
+	 * @see tables/fetch_as_xml.php
+	 * @see users/fetch_vcard.php
 	 */
-	function &from_iso8859($text) {
+	function &to_ascii($utf, $options='') {
 
-		// iso-8859-15 + Microsoft extensions cp1252
-		list($iso_entities, $unicode_entities) = Utf8::get_iso8859();
+		// iso-8859-15 + Microsoft extensions cp1252 -- initialize tables only once
+		static $iso_entities, $safe_entities;
+		if(!is_array($iso_entities)) {
 
-		// transcode ISO8859 to Unicode entities
-		$text = str_replace($iso_entities, $unicode_entities, $text);
+			// numerical order
+			$codes = array(
+				"\xA0"	=> ' ', // non-breaking space
+				"\xA1"	=> '!', // inverted exclamation mark
+				"\xA2"	=> 'c', // cent sign
+				"\xA3"	=> 'L', // pound sign
+				"\xA4"	=> 'e', // EURO SIGN
+				"\xA5"	=> 'y', // yen sign
+				"\xA6"	=> 'S', // LATIN CAPITAL LETTER S WITH CARON
+				"\xA7"	=> 's', // section sign
+				"\xA8"	=> 's', // LATIN SMALL LETTER S WITH CARON
+				"\xA9"	=> '(c)',	// copyright sign
+				"\xAA"	=> '°', // feminine ordinal indicator
+				"\xAB"	=> '"', // left-pointing double angle quotation mark
+				"\xAC"	=> '!', // not sign
+				"\xAD"	=> '-', // soft hyphen
+				"\xAE"	=> '(TM)',	// registered sign
+				"\xAF"	=> 'M', // macron
+				"\xB0"	=> '°', // degree sign
+				"\xB1"	=> '+', // plus-minus sign
+				"\xB2"	=> '2', // superscript two
+				"\xB3"	=> '3', // superscript three
+				"\xB4"	=> 'Z', // LATIN CAPITAL LETTER Z WITH CARON
+				"\xB5"	=> 'm', // micro sign
+				"\xB6"	=> ' ', // pilcrow sign
+				"\xB7"	=> '.', // middle dot
+				"\xB8"	=> 'z', // LATIN SMALL LETTER Z WITH CARON
+				"\xB9"	=> '1', // superscript one
+				"\xBA"	=> '°', // masculine ordinal indicator
+				"\xBB"	=> '"', // right-pointing double angle quotation mark
+				"\xBC"	=> 'OE',	// LATIN CAPITAL LIGATURE OE
+				"\xBD"	=> 'oe',	// LATIN SMALL LIGATURE OE
+				"\xBE"	=> 'Y', // LATIN CAPITAL LETTER Y WITH DIAERESIS
+				"\xBF"	=> '?', // inverted question mark
+				"\xC0"	=> 'A', // latin capital letter A with grave
+				"\xC1"	=> 'A', // latin capital letter A with acute
+				"\xC2"	=> 'A', // latin capital letter A with circumflex
+				"\xC3"	=> 'A', // latin capital letter A with tilde
+				"\xC4"	=> 'A', // latin capital letter A with diaeresis
+				"\xC5"	=> 'A', // latin capital letter A with ring above
+				"\xC6"	=> 'AE',	// latin capital letter AE
+				"\xC7"	=> 'C', // latin capital letter C with cedilla
+				"\xC8"	=> 'E', // latin capital letter E with grave
+				"\xC9"	=> 'E', // latin capital letter E with acute
+				"\xCA"	=> 'E', // latin capital letter E with circumflex
+				"\xCB"	=> 'E', // latin capital letter E with diaeresis
+				"\xCC"	=> 'I', // latin capital letter I with grave
+				"\xCD"	=> 'I', // latin capital letter I with acute
+				"\xCE"	=> 'I', // latin capital letter I with circumflex
+				"\xCF"	=> 'I', // latin capital letter I with diaeresis
+				"\xD0"	=> 'ETH',	// latin capital letter ETH
+				"\xD1"	=> 'N', // latin capital letter N with tilde
+				"\xD2"	=> 'O', // latin capital letter O with grave
+				"\xD3"	=> 'O', // latin capital letter O with acute
+				"\xD4"	=> 'O', // latin capital letter O with circumflex
+				"\xD5"	=> 'O', // latin capital letter O with tilde
+				"\xD6"	=> 'O', // latin capital letter O with diaeresis
+				"\xD7"	=> 'x', // multiplication sign
+				"\xD8"	=> 'O', // latin capital letter O with stroke
+				"\xD9"	=> 'U', // latin capital letter U with grave
+				"\xDA"	=> 'U', // latin capital letter U with acute
+				"\xDB"	=> 'U', // latin capital letter U with circumflex
+				"\xDC"	=> 'U', // latin capital letter U with diaeresis
+				"\xDD"	=> 'Y', // latin capital letter Y with acute
+				"\xDE"	=> 'Th',	// latin capital letter THORN
+				"\xDF"	=> 's', // latin small letter sharp s
+				"\xE0"	=> 'a', // latin small letter a with grave
+				"\xE1"	=> 'a', // latin small letter a with acute
+				"\xE2"	=> 'a', // latin small letter a with circumflex
+				"\xE3"	=> 'a', // latin small letter a with tilde
+				"\xE4"	=> 'a', // latin small letter a with diaeresis
+				"\xE5"	=> 'a', // latin small letter a with ring above
+				"\xE6"	=> 'ae',	// latin small letter ae
+				"\xE7"	=> 'c', // latin small letter c with cedilla
+				"\xE8"	=> 'e', // latin small letter e with grave
+				"\xE9"	=> 'e', // latin small letter e with acute
+				"\xEA"	=> 'e', // latin small letter e with circumflex
+				"\xEB"	=> 'e', // latin small letter e with diaeresis
+				"\xEC"	=> 'i', // latin small letter i with grave
+				"\xED"	=> 'i', // latin small letter i with acute
+				"\xEE"	=> 'i', // latin small letter i with circumflex
+				"\xEF"	=> 'i', // latin small letter i with diaeresis
+				"\xF0"	=> 'eth',	// latin small letter eth
+				"\xF1"	=> 'n', // latin small letter n with tilde
+				"\xF2"	=> 'o', // latin small letter o with grave
+				"\xF3"	=> 'o', // latin small letter o with acute
+				"\xF4"	=> 'o', // latin small letter o with circumflex
+				"\xF5"	=> 'o', // latin small letter o with tilde
+				"\xF6"	=> 'o', // latin small letter o with diaeresis
+				"\xF7"	=> '/', // division sign
+				"\xF8"	=> 'o', // latin small letter o with stroke
+				"\xF9"	=> 'u', // latin small letter u with grave
+				"\xFA"	=> 'u', // latin small letter u with acute
+				"\xFB"	=> 'u', // latin small letter u with circumflex
+				"\xFC"	=> 'u', // latin small letter u with diaeresis
+				"\xFD"	=> 'y', // latin small letter y with acute
+				"\xFE"	=> 'th',	// latin small letter thorn
+				"\xFF"	=> 'y'	// latin small letter y with diaeresis
+				);
+
+			// split entities for use in str_replace()
+			foreach($codes as  $iso_entity => $safe_entity) {
+				$iso_entities[] = $iso_entity;
+				$safe_entities[] = $safe_entity;
+			}
+		}
+
+		// transcode iso 8859 chars to safer ascii entities
+		$text = str_replace($iso_entities, $safe_entities, $utf);
+
+		// turn invalid chars to dashes (for proper indexation by Google)
+		$text = preg_replace("/[^a-zA-Z_\d\.".preg_quote($options)."]+/i", '-', $text);
+
+		// compact dashes
+		$text = preg_replace('/-+/', '-', $text);
 
 		// done
+		return $text;
+	}
+
+	/**
+	 * transcode Unicode entities from decimal to hex
+	 *
+	 * This function is used in specific occasions, for example for better support
+	 * of Freemind Flash viewer.
+	 *
+	 * @param string a complex string using unicode entities
+	 * @return a transcoded string
+	 */
+	function &to_hex($utf) {
+		global $context;
+
+		// transcode all entities from decimal to hexa
+		$text = preg_replace('/&#([0-9]+);/se', "'&#x'.dechex('\\1').';'", $utf);
+
+		// job done
 		return $text;
 	}
 

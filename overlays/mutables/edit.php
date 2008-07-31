@@ -53,7 +53,7 @@ if(!Surfer::is_associate()) {
 
 				// store in the database
 				if(Articles::put($item))
-					$context['text'] .= sprintf(i18n::s('%s has been changed'), Skin::build_link(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), $item['title']));
+					$context['text'] .= sprintf(i18n::s('%s has been changed'), Skin::build_link(Articles::get_permalink($item), $item['title']));
 
 				// clear the cache
 				Articles::clear($item);

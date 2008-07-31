@@ -37,13 +37,13 @@ elseif(isset($context['arguments'][0])) {
 }
 
 // fight hackers
-$script = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($script));
+$script = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($script));
 
 // either in the reference or in the staging store
 $store = NULL;
 if(isset($_REQUEST['store']))
 	$store = $_REQUEST['store'];
-$store = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($store));
+$store = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($store));
 if(($store != 'reference') && ($store != 'staging'))
 	$store = 'reference';
 

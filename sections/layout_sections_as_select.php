@@ -112,7 +112,7 @@ Class Layout_sections_as_select extends Layout_interface {
 
 		// reset the rendering engine between items
 		if(is_callable(array('Codes', 'initialize')))
-			Codes::initialize(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+			Codes::initialize(Sections::get_permalink($item));
 
 		// initialize variables
 		$prefix = $suffix = $icon = '';

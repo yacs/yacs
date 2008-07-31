@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:26 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en'][' VLC media player']=' VLC media player';
 $_SESSION['l10n']['en']['%d bytes']='%d bytes';
@@ -173,7 +173,6 @@ $_SESSION['l10n']['en']['0a87d519ca53087ec9b9172752c10f89']='Since the file has 
 $_SESSION['l10n']['en']['Source']='Source';
 $_SESSION['l10n']['en']['Source: %s']='Source: %s';
 $_SESSION['l10n']['en']['Start']='Start';
-$_SESSION['l10n']['en']['Start the show']='Start the show';
 $_SESSION['l10n']['en']['Storage']='Storage';
 $_SESSION['l10n']['en']['Stream']='Stream';
 $_SESSION['l10n']['en']['Submit']='Submit';
@@ -192,17 +191,15 @@ $_SESSION['l10n']['en']['99b62a743b6ba1090129424fbce8d64d']='The place where sha
 $_SESSION['l10n']['en']['bd4dc509bead225fd09ffc2a29b1e07a']='The size of this file is over limit.';
 $_SESSION['l10n']['en']['b912496983adb05d5a6cb563dacfde61']='The upload has been successfully recorded.';
 $_SESSION['l10n']['en']['7604df7ab947daaf747a5e725bafadce']='This file allows for interactions over the web. If some Flash player has been installed at your workstation, click on the link to start the show.';
-$_SESSION['l10n']['en']['278d8532d1a93d97752a5b92c7ba2a1a']='This file format supports on-demand access, meaning you do not have to wait for the end of the download to benefit from file content.';
 $_SESSION['l10n']['en']['1776aecef24f2d097ff0f00b141bce7b']='This file has been assigned to %s %s, and it is likely that an updated version will be made available soon.';
 $_SESSION['l10n']['en']['100229cfe97b886f2e3cea81dbd9d1ec']='This file has been assigned to you %s, and you are encouraged to %s as soon as possible.';
+$_SESSION['l10n']['en']['2d4b92c7af8bc664500b7a0599619a30']='This file may be accessed on-demand. You may have to use an advanced media player such as %s (open source) or %s (free).';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
 $_SESSION['l10n']['en']['07a47d6b61cdd420b4cbd7ec824caf51']='This script will create a brand new page for the uploaded file. If you would like to attach a file to an existing page, browse the target page instead and use the adequate command from the menu below page title.';
 $_SESSION['l10n']['en']['fb52e739654eb4d1981039c471bca260']='This type of file is not allowed.';
 $_SESSION['l10n']['en']['Thumbnail URL']='Thumbnail URL';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
-$_SESSION['l10n']['en']['bc05d8f2ecfb7d88da6f5b8eb7b3ecf3']='To stream images over the network and to render them on arrival, use an advanced media player such as %s.';
-$_SESSION['l10n']['en']['2d4a2871ca9d90bbed31ba64712b41af']='To stream sounds over the network and to play them on arrival, use an advanced media player such as %s (open source) or %s (free).';
 $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive errors. Aborted';
 $_SESSION['l10n']['en']['Unassign']='Unassign';
 $_SESSION['l10n']['en']['Update']='Update';

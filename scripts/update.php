@@ -55,7 +55,7 @@ elseif(!Surfer::is_associate()) {
 
 // invalid staging index
 } elseif(!isset($generation['date']) || !$generation['date'] || !$generation['server'] || !is_array($footprints)) {
-		$context['text'] .= '<p>'.i18n::s('Invalid reference footprints. Update has been cancelled.')."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), 'scripts/staging/footprints.php')."</p>\n";
 
 		// forward to the index page
 		$menu = array('scripts/' => i18n::s('Server software'));
@@ -116,7 +116,7 @@ elseif(!Surfer::is_associate()) {
 
 		// report on the missing file
 		} else {
-			$context['text'] .= sprintf(i18n::s('Error! Missing staging file %s. This update will be partial only.'), $file).BR."\n";
+			$context['text'] .= sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), $file).BR."\n";
 			$missing_files++;
 			continue;
 		}
@@ -132,7 +132,7 @@ elseif(!Surfer::is_associate()) {
 
 			// failed update
 			} else {
-				$context['text'] .= sprintf(i18n::s('Error! Unable to update %s.'), '../index.php').BR."\n";
+				$context['text'] .= sprintf(i18n::s('Impossible to write to %s.'), '../index.php').BR."\n";
 				$failures++;
 			}
 
@@ -140,7 +140,7 @@ elseif(!Surfer::is_associate()) {
 
 		// ensure all folders exist
 		if(!Safe::make_path(dirname($file))) {
-			$context['text'] .= sprintf(i18n::s('Error! Unable to create path to %s.'), $file).BR."\n";
+			$context['text'] .= sprintf(i18n::s('Impossible to create path %s.'), dirname($file)).BR."\n";
 			$failures++;
 
 		// actual update
@@ -157,7 +157,7 @@ elseif(!Surfer::is_associate()) {
 
 			// failed update
 			} else {
-				$context['text'] .= sprintf(i18n::s('Error! Unable to update %s.'), $file).BR."\n";
+				$context['text'] .= sprintf(i18n::s('Impossible to write to %s.'), $file).BR."\n";
 				$failures++;
 			}
 
@@ -269,14 +269,14 @@ elseif(!Surfer::is_associate()) {
 
 		// we should have an updated file in the staging directory
 		if(!is_readable($context['path_to_root'].'scripts/staging/'.$file)) {
-			$box .= sprintf(i18n::s('Error! Missing staging file %s. Update has been cancelled.'), $file).BR."\n";
+			$box .= sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), $file).BR."\n";
 			$missing_files++;
 			continue;
 		}
 
 		// file should have some content --useful when space quota is full
 		if(!Safe::filesize($context['path_to_root'].'scripts/staging/'.$file)) {
-			$box .= sprintf(i18n::s('Error! Empty staging file %s. Update has been cancelled.'), $file).BR."\n";
+			$box .= sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), $file).BR."\n";
 			$missing_files++;
 			continue;
 		}
@@ -284,7 +284,7 @@ elseif(!Surfer::is_associate()) {
 		// ensure we have an exact copy
 		$result = Scripts::hash('scripts/staging/'.$file);
 		if(($attributes[1] != $result[1]) && (isset($attributes[2]) && ($attributes[2] != $result[3]))) {
-			$box .= sprintf(i18n::s('Error! File %s has been corrupted. Update has been cancelled.'), $file).BR."\n";
+			$box .= sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), $file).BR."\n";
 			$missing_files++;
 			continue;
 		}

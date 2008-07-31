@@ -192,7 +192,7 @@ if(!isset($item['id'])) {
 		// link to the poll, depending on access rights
 		$menu = array();
 		if($permitted)
-			$menu = array_merge($menu, array(Articles::get_url($item['id'], 'view', $item['title']) => i18n::s('View poll results')));
+			$menu = array_merge($menu, array(Articles::get_permalink($item) => i18n::s('View poll results')));
 
 		// back to the front page
 		$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));

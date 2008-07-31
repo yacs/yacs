@@ -55,7 +55,7 @@ Class Layout_dates extends Layout_interface {
 			$prefix = $suffix = $icon = '';
 
 			// the url to view this item
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			if(is_callable(array('Codes', 'initialize')))

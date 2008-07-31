@@ -64,7 +64,7 @@ if(!Surfer::is_associate()) {
 
 			// check that the anchor exists, if any
 			if($row['anchor'] && !Anchors::get($row['anchor'])) {
-				$context['text'] .= sprintf(i18n::s('Orphan: article %s'), Skin::build_link(Articles::get_url($row['id']), $row['id'].' '.$row['title'])).BR."\n";
+				$context['text'] .= sprintf(i18n::s('Orphan: article %s'), Skin::build_link(Articles::get_permalink($row), $row['id'].' '.$row['title'])).BR."\n";
 				if(++$errors_count >= 25) {
 					$context['text'] .= i18n::s('Too many successive errors. Aborted').BR."\n";
 					break;

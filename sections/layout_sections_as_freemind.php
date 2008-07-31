@@ -77,7 +77,7 @@ Class Layout_sections_as_freemind extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// the url to view this item
-			$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Sections::get_permalink($item);
 
 			// initialize variables
 			$prefix = $suffix = $rating = '';
@@ -130,7 +130,7 @@ Class Layout_sections_as_freemind extends Layout_interface {
 						.$freemind_section_bgcolor
 						.$freemind_section_color
 						.$freemind_section_style
-						.' TEXT="'.encode_field(utf8::to_hex('<html>'.i18n::s('more pages').'</html>')).'"'
+						.' TEXT="'.encode_field(utf8::to_hex('<html>'.i18n::s('More pages').'</html>')).'"'
 						.' LINK="'.encode_field($context['url_to_home'].$context['url_to_root'].$url).'">'."\n";
 					if($differentiate)
 						$follow_up_node .= $various_attributes[$various_index][1];
@@ -209,7 +209,7 @@ Class Layout_sections_as_freemind extends Layout_interface {
 				.$freemind_section_bgcolor
 				.$freemind_section_color
 				.$freemind_section_style
-				.' TEXT="'.encode_field(utf8::to_hex('<html>'.i18n::s('more pages').'</html>')).'" FOLDED="true">'."\n";
+				.' TEXT="'.encode_field(utf8::to_hex('<html>'.i18n::s('More pages').'</html>')).'" FOLDED="true">'."\n";
 				if($differentiate)
 					$text .= $various_attributes[$various_index][1];
 

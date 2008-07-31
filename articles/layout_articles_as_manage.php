@@ -71,7 +71,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -83,7 +83,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
 				$title = $overlay->get_live_title($item);
 			else
-				$title = ucfirst(Codes::beautify(strip_tags($item['title'], '<br><div><img><p><span>')));
+				$title = ucfirst(Codes::beautify_title(strip_tags($item['title'], '<br><div><img><p><span>')));
 
 			// initialize variables
 			$prefix = $suffix = $icon = '';
@@ -170,7 +170,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 			$anchors = array();
 			if($members = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
 				foreach($members as $id => $attributes)
-					$anchors[] = Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'category');
+					$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'category');
 			}
 			if(count($anchors))
 				$suffix .= BR.sprintf(i18n::s('In %s'), implode(' | ', $anchors));

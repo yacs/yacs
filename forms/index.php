@@ -40,11 +40,11 @@ if($stats['count'])
 
 // navigation commands for forms, if necessary
 if($stats['count'] > $items_per_page) {
-	$home = 'forms/index.php';
+	$home = 'forms/';
 	if($context['with_friendly_urls'] == 'Y')
-		$prefix = $home.'/';
+		$prefix = $home.'index.php/';
 	elseif($context['with_friendly_urls'] == 'R')
-		$prefix = $home.'/';
+		$prefix = $home;
 	else
 		$prefix = $home.'?page=';
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));

@@ -60,7 +60,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -127,16 +127,14 @@ Class Layout_articles_as_jive extends Layout_interface {
 				$content .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// the introductory text
-			if(trim($item['introduction']))
-				$content .= Codes::beautify($item['introduction'], $item['options']);
+			$content .= Codes::beautify($item['introduction'], $item['options']);
 
 			// insert overlay data, if any
 			if(is_object($overlay))
 				$content .= $overlay->get_text('list', $item);
 
 			// the description
-			if(trim($item['description']))
-				$content .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
+			$content .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
 			// attachment details
 			$details = array();

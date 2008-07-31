@@ -68,7 +68,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -216,7 +216,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 				if($members = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 					foreach($members as $id => $attributes) {
 						if($this->layout_variant != 'category:'.$id)
-							$anchors[] = Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'category');
+							$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'category');
 					}
 				}
 
@@ -278,7 +278,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 		$overlay = Overlay::load($item);
 
 		// the url to view this item
-		$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$url =& Articles::get_permalink($item);
 
 		// use the title to label the link
 		if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
@@ -348,7 +348,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			foreach($items as $id => $attributes) {
 				if(!$first_category)
 					$text .= ',';
-				$text .= ' '.Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'basic', i18n::s('More pages'));
+				$text .= ' '.Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic', i18n::s('More pages'));
 				$first_category = FALSE;
 			}
 		}

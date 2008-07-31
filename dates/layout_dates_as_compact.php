@@ -40,7 +40,7 @@ Class Layout_dates_as_compact extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// url to view the date
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// initialize variables
 			$prefix = $suffix = '';

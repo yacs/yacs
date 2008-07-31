@@ -83,7 +83,7 @@ Class Layout_sections_as_jive extends Layout_interface {
 				$hover .= ' [section='.$item['id'].']';
 
 			// the url to view this item
-			$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Sections::get_permalink($item);
 
 			// use the title as a link to the page
 			$title =& Skin::build_link($url, Codes::beautify_title($item['title']), 'basic', $hover);
@@ -128,7 +128,7 @@ Class Layout_sections_as_jive extends Layout_interface {
 						$flag = '';
 
 					// title
-					$title = Skin::build_link(Articles::get_url($article['id'], 'view', $article['nick_name']), Codes::beautify_title($article['title']), 'article');
+					$title = Skin::build_link(Articles::get_permalink($article), Codes::beautify_title($article['title']), 'article');
 
 					// poster
 					$poster = Users::get_link($article['create_name'], $article['create_address'], $article['create_id']);
@@ -169,12 +169,12 @@ Class Layout_sections_as_jive extends Layout_interface {
 
 			// link to the section index page
 			if($details)
-				$details = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), $details, 'basic');
+				$details = Skin::build_link(Sections::get_permalink($item), $details, 'basic');
 
 			// add a command for new post
 			$poster = '';
 			if(Surfer::is_empowered())
-				$poster = Skin::build_link('articles/edit.php?anchor='.urlencode('section:'.$item['id']), i18n::s('Write a page').'&nbsp;&raquo;', 'basic');
+				$poster = Skin::build_link('articles/edit.php?anchor='.urlencode('section:'.$item['id']), i18n::s('Add a page').'&nbsp;&raquo;', 'basic');
 
 			// insert details in a separate row
 			if($details || $poster)

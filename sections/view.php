@@ -404,7 +404,7 @@ if(!isset($item['id'])) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name'])));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_permalink($item)));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
@@ -431,7 +431,7 @@ if(!isset($item['id'])) {
 	}
 
 	// initialize the rendering engine
-	Codes::initialize(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+	Codes::initialize(Sections::get_permalink($item));
 
 	//
 	// set page image -- $context['page_image']
@@ -458,7 +458,7 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Sections::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml"'.EOT;
 
 	// implement the trackback interface
-	$permanent_link = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+	$permanent_link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
 	if($context['with_friendly_urls'] == 'Y')
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/section/'.$item['id'];
 	else
@@ -686,15 +686,11 @@ if(!isset($item['id'])) {
 			$text .= $anchor->get_prefix();
 
 		// display very few things if we are on a follow-up page (comments, files, etc.)
-		if($zoom_type) {
-
-			if(isset($item['introduction']) && $item['introduction'])
-				$text .= Codes::beautify($item['introduction'], $item['options']);
-			else
-				$text .= Skin::cap(Codes::beautify($item['description'], $item['options']), 50)."<p> </p>\n";
+		if($zoom_type)
+			$text .= Codes::beautify($item['introduction'], $item['options']);
 
 		// else expose full details
-		} else {
+		else {
 
 			// only at the first page
 			if($page == 1) {
@@ -731,12 +727,12 @@ if(!isset($item['id'])) {
 					$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
 
 				// beautify the target page
-				$text .= '<div class="description">'.Codes::beautify($description, $item['options'])."</div>\n";
+				$text .= Skin::build_block($description, 'description', '', $item['options']);
 
 				// if there are several pages, add navigation commands to browse them
 				if(count($pages) > 1) {
 					$page_menu = array( '_' => i18n::s('Pages') );
-					$home = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+					$home =& Sections::get_permalink($item);
 					$prefix = Sections::get_url($item['id'], 'navigate', 'pages');
 					$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
 
@@ -888,7 +884,7 @@ if(!isset($item['id'])) {
 					$items = Sections::list_by_title_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout);
 
 					// navigation commands for sections
-					$home = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+					$home =& Sections::get_permalink($item);
 					$prefix = Sections::get_url($item['id'], 'navigate', 'sections');
 					$box['bar'] = array_merge($box['bar'],
 						Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index));
@@ -945,7 +941,7 @@ if(!isset($item['id'])) {
 				$label = PLAY_IMG.' '.sprintf(i18n::s('Play %s'), str_replace('_', ' ', $item['title']));
 
 				// hovering the link
-				$title = i18n::s('Start the show');
+				$title = i18n::s('Start');
 
 				// use a definition list to enable customization of the download box
 				$text .= '<dl class="download">'
@@ -1026,7 +1022,7 @@ if(!isset($item['id'])) {
 								$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count)));
 
 							// navigation commands for articles
-							$home = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+							$home =& Sections::get_permalink($item);
 							$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
 							$box['bar'] = array_merge($box['bar'],
 								Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index));
@@ -1227,7 +1223,7 @@ if(!isset($item['id'])) {
 					$box['text'] .= $items;
 
 				// navigation commands for files
-				$home = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+				$home =& Sections::get_permalink($item);
 				$prefix = Sections::get_url($item['id'], 'navigate', 'files');
 				$box['bar'] = array_merge($box['bar'],
 					Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
@@ -1261,7 +1257,7 @@ if(!isset($item['id'])) {
 			if(is_object($anchor) && $anchor->is_viewable())
 				$title_label = ucfirst($anchor->get_label('comments', 'count_many'));
 			else
-				$title_label = i18n::s('Your comments');
+				$title_label = i18n::s('Comments');
 
 			// layout is defined in options
 			if($item['articles_layout'] == 'boxesandarrows') {
@@ -1390,7 +1386,7 @@ if(!isset($item['id'])) {
 					$box['text'] .= $items;
 
 				// navigation commands for links
-				$home = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+				$home =& Sections::get_permalink($item);
 				$prefix = Sections::get_url($item['id'], 'navigate', 'links');
 				$box['bar'] = array_merge($box['bar'],
 					Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index));
@@ -1877,7 +1873,7 @@ if(!isset($item['id'])) {
 			$content = Skin::build_link(Sections::get_url($item['id'], 'freemind', utf8::to_ascii($context['site_name'].' - '.strip_tags(Codes::beautify_title(trim($item['title']))).'.mm')), i18n::s('Freemind map'), 'basic');
 
 			// in a sidebar box
-			$text .= Skin::build_box(i18n::s('Download'), Codes::beautify($content), 'navigation');
+			$text .= Skin::build_box(i18n::s('Download'), $content, 'navigation');
 
 		}
 
@@ -1886,7 +1882,7 @@ if(!isset($item['id'])) {
 
 			// box content
 			include_once '../agents/referrals.php';
-			if($content = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name'])))
+			if($content = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Sections::get_permalink($item)))
 				$text .= Skin::build_box(i18n::s('Referrals'), $content, 'navigation', 'referrals');
 
 		}
@@ -1906,7 +1902,7 @@ if(!isset($item['id'])) {
 		// put at top of stack
 		if(!isset($_SESSION['visited']))
 			$_SESSION['visited'] = array();
-		$_SESSION['visited'] = array_merge(array(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => Codes::beautify($item['title'])), $_SESSION['visited']);
+		$_SESSION['visited'] = array_merge(array(Sections::get_permalink($item) => Codes::beautify_title($item['title'])), $_SESSION['visited']);
 
 		// limit to 7 most recent pages
 		if(count($_SESSION['visited']) > 7)

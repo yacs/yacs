@@ -114,7 +114,7 @@ if(Surfer::is_crawler()) {
 		foreach($categories as $category_id => $attributes) {
 
 			// make an url
-			$url = Categories::get_url($attributes['id'], 'view', $attributes['title']);
+			$url =& Categories::get_permalink($attributes);
 
 			// gather information on this category
 			$prefix = $suffix = $type = $icon = '';

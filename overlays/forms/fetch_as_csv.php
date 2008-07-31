@@ -124,7 +124,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 if(isset($item['id']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
 
 // the title of the page
 if(isset($item['title']) && $item['title'])
@@ -165,7 +165,7 @@ if(!isset($item['id'])) {
 		$text .= '"'.filter($item['title']).'"'."\n";
 
 	// add a link back to the web page
-	$text .= '"'.$context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']).'"'."\n\n";
+	$text .= '"'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'"'."\n\n";
 
 	// one row per field
 	foreach($overlay->attributes as $name => $field) {

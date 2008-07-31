@@ -17,13 +17,13 @@ include_once '../shared/global.php';
 $original = NULL;
 if(isset($_REQUEST['original']))
 	$original = $_REQUEST['original'];
-$original = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($original));
+$original = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($original));
 
 // updated script
 $updated = NULL;
 if(isset($_REQUEST['updated']))
 	$updated = $_REQUEST['updated'];
-$updated = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($updated));
+$updated = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($updated));
 
 // what to do
 $format = 'merge';

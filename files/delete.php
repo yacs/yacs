@@ -106,7 +106,7 @@ if(!isset($item['id'])) {
 if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'index.php' => i18n::s('Files') );
+	$context['path_bar'] = array( 'files/' => i18n::s('Files') );
 
 // the title of the page
 if(isset($item['file_name']))

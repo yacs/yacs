@@ -80,7 +80,7 @@ if(Surfer::is_crawler()) {
 
 	// anonymous users are invited to log in
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'unpublish')));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'unpublish')));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
@@ -96,7 +96,7 @@ else {
 	Articles::clear($item);
 
 	// display the updated page
-	Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+	Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
 }
 
 // clear the tab we are in, if any

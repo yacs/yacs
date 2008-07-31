@@ -277,7 +277,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// link to the original page
-	$context['text'] .= '<p>'.sprintf(i18n::s('The original page is located at %s'), Skin::build_link($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']), $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name'])))."</p>\n";
+	$context['text'] .= '<p>'.sprintf(i18n::s('The original page is located at %s'), Skin::build_link($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item), $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)))."</p>\n";
 
 	// insert anchor suffix
 	if(is_object($anchor))

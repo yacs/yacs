@@ -1155,7 +1155,6 @@ Class Users {
 	 * @param array an array of fields
 	 * @return the id of the new user profile, or FALSE on error
 	 *
-	 * @see control/import.php
 	 * @see control/populate.php
 	 * @see users/edit.php
 	 * @see users/populate.php
@@ -1575,7 +1574,7 @@ Class Users {
 			&& isset($fields['confirm']) && $fields['confirm'] && $item['email'] && ($item['without_confirmations'] != 'Y')) {
 
 			// message title
-			$subject = sprintf(i18n::s('Your profile at %s'), strip_tags($context['site_name']));
+			$subject = sprintf(i18n::s('Your account at %s'), strip_tags($context['site_name']));
 
 			// message body
 			$message = sprintf(i18n::s('This message has been automatically sent to you to confirm a change of your profile at %s.'), strip_tags($context['site_name']))."\n"

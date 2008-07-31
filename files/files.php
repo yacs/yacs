@@ -820,6 +820,38 @@ Class Files {
 	}
 
 	/**
+	 * get newest file
+	 *
+	 * @return the resulting $item array, with at least keys: 'id', 'file_name', etc.
+	 */
+	function &get_newest() {
+		global $context;
+
+		// restrict to files attached to published and not expired pages
+		$query = "SELECT files.* FROM ".SQL::table_name('articles')." AS articles "
+			."LEFT JOIN ".SQL::table_name('files')." AS files "
+			." ON ((files.anchor_type LIKE 'article') AND (files.anchor_id = articles.id))"
+			." WHERE NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			." AND ((articles.expiry_date is NULL)"
+			."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".gmstrftime('%Y-%m-%d %H:%M:%S')."'))"
+			." AND ";
+
+		// limit the scope of the request
+		$query .= "(files.active='Y' OR files.active='X'";
+		if(Surfer::is_member())
+			$query .= " OR files.active='R'";
+		if(Surfer::is_associate())
+			$query .= " OR files.active='N'";
+		$query .= ")";
+
+		// list freshest files
+		$query .= " ORDER BY files.edit_date DESC, files.title LIMIT 0, 1";
+
+		$output =& SQL::query_first($query);
+		return $output;
+	}
+
+	/**
 	 * get url of next file
 	 *
 	 * This function is used to build navigation bars.
@@ -1703,7 +1735,6 @@ Class Files {
 	 * @return the id of the new file, or FALSE on error
 	 *
 	 * @see agents/messages.php
-	 * @see control/import.php
 	 * @see files/author.php
 	 * @see files/edit.php
 	**/

@@ -121,7 +121,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
 		// the date
-		$context['text'] .= '<p>'.sprintf(i18n::s('Target date: %s'), Skin::build_date($item['date_stamp'], 'full')).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Target date'), Skin::build_date($item['date_stamp'], 'full')).'</p>';
 
 		// the action
 		$context['text'] .= '<p>'.i18n::s('The date has been saved.').'</p>';
@@ -135,9 +135,8 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the updated page')));
+		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the page')));
 		$menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit the page')));
-		$menu = array_merge($menu, array('dates/edit.php?anchor='.$anchor->get_reference() => i18n::s('Add another date')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 

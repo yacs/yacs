@@ -182,7 +182,7 @@ if(!isset($item['id'])) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Categories::get_url($item['id'], 'view', $item['title'])));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Categories::get_permalink($item)));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
@@ -205,7 +205,7 @@ if(!isset($item['id'])) {
 	}
 
 	// initialize the rendering engine
-	Codes::initialize(Categories::get_url($item['id'], 'view', $item['title']));
+	Codes::initialize(Categories::get_permalink($item));
 
 	//
 	// page image -- $context['page_image']
@@ -228,7 +228,7 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Categories::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml"'.EOT;
 
 	// implement the trackback interface
-	$permanent_link = $context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'view', $item['title']);
+	$permanent_link = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
 	if($context['with_friendly_urls'] == 'Y')
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/category/'.$item['id'];
 	else
@@ -372,16 +372,14 @@ if(!isset($item['id'])) {
 				$text .= $anchor->get_prefix();
 
 			// the introduction text, if any
-			if(isset($item['introduction']) && $item['introduction'])
-				$text .= Skin::build_block($item['introduction'], 'introduction');
+			$text .= Skin::build_block($item['introduction'], 'introduction');
 
 			// get text related to the overlay, if any
 			if(is_object($overlay))
 				$text .= $overlay->get_text('view', $item);
 
 			// the description, which is the actual page body
-			if(isset($item['description']) && $item['description'])
-				$text .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+			$text .= Skin::build_block($item['description'], 'description');
 
 			// save in cache if no dynamic element
 			if(!preg_match('/\[table=(.+?)\]/i', $item['description']))
@@ -447,7 +445,7 @@ if(!isset($item['id'])) {
 				$box['bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $stats['count']), $stats['count']));
 
 			// navigation commands for sections
-			$home = Categories::get_url($item['id'], 'view', $item['title']);
+			$home =& Categories::get_permalink($item);
 			$prefix = Categories::get_url($item['id'], 'navigate', 'sections');
 			$box['bar'] = array_merge($box['bar'],
 				Skin::navigate($home, $prefix, $stats['count'], SECTIONS_PER_PAGE, $zoom_index));
@@ -526,7 +524,7 @@ if(!isset($item['id'])) {
 				$box['bar'] = array('_count' => sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count']));
 
 			// navigation commands for articles
-			$home = Categories::get_url($item['id'], 'view', $item['title']);
+			$home =& Categories::get_permalink($item);
 			$prefix = Categories::get_url($item['id'], 'navigate', 'articles');
 			$box['bar'] = array_merge($box['bar'],
 				Skin::navigate($home, $prefix, $stats['count'], ARTICLES_PER_PAGE, $zoom_index));
@@ -588,7 +586,7 @@ if(!isset($item['id'])) {
 					$box['text'] .= Skin::build_list($items, 'decorated');
 
 				// navigation commands for files
-				$home = Categories::get_url($item['id'], 'view', $item['title']);
+				$home =& Categories::get_permalink($item);
 				$prefix = Categories::get_url($item['id'], 'navigate', 'files');
 				$box['bar'] = array_merge($box['bar'],
 					Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
@@ -633,7 +631,7 @@ if(!isset($item['id'])) {
 			if($zoom_type == 'comments')
 				$url = '_count';
 			 else
-				$url = Categories::get_url($item['id'], 'view', $item['title'], $item['nick_name']).'#comments';
+				$url = Categories::get_permalink($item).'#comments';
 			if($count = Comments::count_for_anchor('category:'.$item['id'])) {
 				if($count > COMMENTS_PER_PAGE)
 					$box['bar'] = array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
@@ -645,7 +643,7 @@ if(!isset($item['id'])) {
 					$box['text'] .= Skin::build_list($items, 'rows');
 
 				// navigation commands for comments
-				$home = Categories::get_url($item['id'], 'view', $item['title']);
+				$home =& Categories::get_permalink($item);
 				$prefix = Categories::get_url($item['id'], 'navigate', 'comments');
 				if($zoom_type == 'comments') {
 					$box['bar'] = array_merge($box['bar'],
@@ -704,7 +702,7 @@ if(!isset($item['id'])) {
 					$box['text'] .= Skin::build_list($items, 'decorated');
 
 				// navigation commands for links
-				$home = Categories::get_url($item['id'], 'view', $item['title']);
+				$home =& Categories::get_permalink($item);
 				$prefix = Categories::get_url($item['id'], 'navigate', 'links');
 				$box['bar'] = array_merge($box['bar'],
 					Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index));
@@ -791,7 +789,7 @@ if(!isset($item['id'])) {
 				$items = Categories::list_by_date_for_anchor('category:'.$item['id'], $offset, $items_per_page, $layout);
 
 			// navigation commands for categories
-			$home = Categories::get_url($item['id'], 'view', $item['title']);
+			$home =& Categories::get_permalink($item);
 			$prefix = Categories::get_url($item['id'], 'navigate', 'categories');
 			$box['bar'] = array_merge($box['bar'],
 				Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $zoom_index));
@@ -847,7 +845,7 @@ if(!isset($item['id'])) {
 				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d user', '%d users', $stats['count']), $stats['count'])));
 
 			// navigation commands for users
-			$home = Categories::get_url($item['id'], 'view', $item['title']);
+			$home =& Categories::get_permalink($item);
 			$prefix = Categories::get_url($item['id'], 'navigate', 'users');
 			$box['bar'] = array_merge($box['bar'],
 				Skin::navigate($home, $prefix, $stats['count'], USERS_LIST_SIZE, $zoom_index));
@@ -1069,7 +1067,7 @@ if(!isset($item['id'])) {
 
 			// in a sidebar box
 			include_once '../agents/referrals.php';
-			if($content = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Categories::get_url($item['id'])))
+			if($content = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Categories::get_permalink($item)))
 				$text .= Skin::build_box(i18n::s('Referrals'), $content, 'navigation', 'referrals');
 
 		}
@@ -1090,7 +1088,7 @@ if(!isset($item['id'])) {
 		// put at top of stack
 		if(!isset($_SESSION['visited']))
 			$_SESSION['visited'] = array();
-		$_SESSION['visited'] = array_merge(array(Categories::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => Codes::beautify($item['title'])), $_SESSION['visited']);
+		$_SESSION['visited'] = array_merge(array(Categories::get_permalink($item) => Codes::beautify_title($item['title'])), $_SESSION['visited']);
 
 		// limit to 7 most recent pages
 		if(count($_SESSION['visited']) > 7)

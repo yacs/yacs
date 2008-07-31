@@ -444,7 +444,7 @@ if(!isset($item['id'])) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name'])));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_permalink($item)));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 403 Forbidden', TRUE, 403);
@@ -476,7 +476,7 @@ if(!isset($item['id'])) {
 	}
 
 	// initialize the rendering engine
-	Codes::initialize(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+	Codes::initialize(Articles::get_permalink($item));
 
 	// neighbours information
 	$neighbours = NULL;
@@ -513,7 +513,7 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Articles::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml"'.EOT;
 
 	// implement the trackback interface
-	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
 	if($context['with_friendly_urls'] == 'Y')
 		$trackback_link = $context['url_to_home'].$context['url_to_root'].'links/trackback.php/article/'.$item['id'];
 	else
@@ -614,7 +614,7 @@ if(!isset($item['id'])) {
 			$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 			if((Surfer::is_associate() || Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_editable()))
 					&& ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now)) {
-				$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Article has expired %s'), Skin::build_date($item['expiry_date']));
+				$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Page has expired %s'), Skin::build_date($item['expiry_date']));
 			}
 
 			// article editors, for associates and section editors
@@ -758,15 +758,11 @@ if(!isset($item['id'])) {
 			$text .= $anchor->get_prefix();
 
 		// display very few things if we are on a follow-up page (comments, files, etc.)
-		if($zoom_type) {
-
-			if(isset($item['introduction']) && $item['introduction'])
-				$text .= Codes::beautify($item['introduction'], $item['options']);
-			else
-				$text .= '<div class="description">'.Skin::cap(Codes::beautify($item['description'], $item['options']), 50)."</div>\n";
+		if($zoom_type)
+			$text .= Codes::beautify($item['introduction'], $item['options']);
 
 		// else expose full details
-		} else {
+		else {
 
 			// buttons to display previous and next pages, if any
 			if(is_object($anchor) && $anchor->has_layout('manual'))
@@ -807,7 +803,7 @@ if(!isset($item['id'])) {
 				// the introduction text, if any
 				if(is_object($overlay))
 					$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
-				elseif(isset($item['introduction']) && trim($item['introduction']))
+				else
 					$text .= Skin::build_block($item['introduction'], 'introduction');
 
 				// get text related to the overlay, if any
@@ -836,12 +832,12 @@ if(!isset($item['id'])) {
 					$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
 
 				// beautify the target page
-				$text .= '<div class="description">'.Codes::beautify($description, $item['options'])."</div>\n";
+				$text .= Skin::build_block($description, 'description', '', $item['options']);
 
 				// if there are several pages, add navigation commands to browse them
 				if(count($pages) > 1) {
 					$page_menu = array( '_' => i18n::s('Pages') );
-					$home = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+					$home = Articles::get_permalink($item);
 					$prefix = Articles::get_url($item['id'], 'navigate', 'pages');
 					$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
 
@@ -884,7 +880,7 @@ if(!isset($item['id'])) {
 					$box['text'] .= $items;
 
 				// navigation commands for files
-				$home = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+				$home = Articles::get_permalink($item);
 				$prefix = Articles::get_url($item['id'], 'navigate', 'files');
 				$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
 
@@ -941,7 +937,7 @@ if(!isset($item['id'])) {
 			if(is_object($anchor) && $anchor->is_viewable())
 				$title_label = ucfirst($anchor->get_label('comments', 'count_many'));
 			else
-				$title_label = i18n::s('Your comments');
+				$title_label = i18n::s('Comments');
 
 //			// label for one comment
 //			if(is_object($anchor) && $anchor->is_viewable())
@@ -1075,7 +1071,7 @@ if(!isset($item['id'])) {
 					$box['text'] .= $items;
 
 				// navigation commands for links
-				$home = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+				$home = Articles::get_permalink($item);
 				$prefix = Articles::get_url($item['id'], 'navigate', 'links');
 				$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index));
 			}
@@ -1385,7 +1381,7 @@ if(!isset($item['id'])) {
 
 			// in a sidebar box
 			include_once '../agents/referrals.php';
-			if($content = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Articles::get_url($item['id'])))
+			if($content = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Articles::get_permalink($item)))
 				$text .= Skin::build_box(i18n::s('Referrals'), $content, 'navigation', 'referrals');
 
 		}
@@ -1454,7 +1450,7 @@ if(!isset($item['id'])) {
 		// put at top of stack
 		if(!isset($_SESSION['visited']))
 			$_SESSION['visited'] = array();
-		$_SESSION['visited'] = array_merge(array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => Codes::beautify($item['title'])), $_SESSION['visited']);
+		$_SESSION['visited'] = array_merge(array(Articles::get_permalink($item) => Codes::beautify_title($item['title'])), $_SESSION['visited']);
 
 		// limit to 7 most recent pages
 		if(count($_SESSION['visited']) > 7)

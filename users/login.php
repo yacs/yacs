@@ -311,7 +311,7 @@ if(Surfer::is_crawler()) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// protect from hackers
-	$name = preg_replace('/[\'"\{\}\[\]\(\)]/', ' ', strip_tags($_REQUEST['login_name']));
+	$name = preg_replace(FORBIDDEN_IN_NAMES, '_', strip_tags($_REQUEST['login_name']));
 
 	// the surfer has been authenticated
 	if($user = Users::login($name, $_REQUEST['login_password'])) {
@@ -349,7 +349,7 @@ if(Surfer::is_crawler()) {
 			if(isset($_REQUEST['login_forward']))
 				Safe::redirect($_REQUEST['login_forward']);
 			else
-				Safe::redirect($context['url_to_home'].$context['url_to_root'].'index.php');
+				Safe::redirect($context['url_to_home'].$context['url_to_root']);
 
 		}
 

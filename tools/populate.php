@@ -171,7 +171,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'Bobby';
 		$fields['password'] = 'test';
 		$fields['confirm'] = 'test';
-		$fields['introduction'] = i18n::c('Sample member profile');
+		$fields['introduction'] = i18n::c('Sample person profile');
 		$fields['capability'] = 'M';
 		if(Users::post($fields))
 			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
@@ -187,7 +187,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'Carol';
 		$fields['password'] = 'test';
 		$fields['confirm'] = 'test';
-		$fields['introduction'] = i18n::c('Sample member profile');
+		$fields['introduction'] = i18n::c('Sample person profile');
 		$fields['capability'] = 'M';
 		if(Users::post($fields))
 			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
@@ -945,7 +945,7 @@ if(Surfer::is_crawler()) {
 		$fields['nick_name'] = 'my_category';
 		$fields['title'] = i18n::c('My category');
 		$fields['introduction'] = i18n::c('Sample plain category');
-		$fields['description'] = i18n::c('This category has been created automatically by the populate script for experimentation purpose. Feel free to change this text, to add some images, to play with codes, etc. Have you checked the help link on the side of this page? Once you will feel more comfortable with the handling of categories, just delete this one and create other categories of your own.');
+		$fields['description'] = i18n::c('This category has been created for experimentation purpose. Feel free to change this text, to add some images, to play with codes, etc. Have you checked the help link on the side of this page? Once you will feel more comfortable with the handling of categories, just delete this one and create other categories of your own.');
 		if(Categories::post($fields))
 			$text .= sprintf(i18n::s('A category "%s" has been created.'), $fields['nick_name']).BR."\n";
 	}
@@ -959,7 +959,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor;
 		$fields['title'] = i18n::c('My sub-category');
 		$fields['introduction'] = i18n::c('Sample sub category');
-		$fields['description'] = i18n::c('This category has been created automatically by the populate script for experimentation purpose. Feel free to change this text, to add some images, to play with codes, etc. Have you checked the help link on the side of this page? Once you will feel more comfortable with the handling of categories, just delete this one and create other categories of your own.');
+		$fields['description'] = i18n::c('This category has been created for experimentation purpose. Feel free to change this text, to add some images, to play with codes, etc. Have you checked the help link on the side of this page? Once you will feel more comfortable with the handling of categories, just delete this one and create other categories of your own.');
 		if(Categories::post($fields))
 			$text .= sprintf(i18n::s('A category "%s" has been created.'), $fields['nick_name']).BR."\n";
 	}

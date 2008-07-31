@@ -136,7 +136,7 @@ if(!$item['id']) {
 
 // failed operation
 if(count($context['error']))
-	$context['text'] .= '<p>'.i18n::s('Operation has failed').'</p>';
+	$context['text'] .= '<p>'.i18n::s('Operation has failed.').'</p>';
 
 // render the skin
 render_skin();

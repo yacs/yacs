@@ -79,7 +79,7 @@ else
 	$context['path_bar'] = array( 'sections/' => i18n::s('Sections'));
 
 if($item['id'] && $item['title'])
-	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title'] ));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title'] ));
 
 // the title of the page
 if(isset($item['title']))
@@ -124,11 +124,11 @@ else {
 
 	// all sub-sections have not been deleted
 	if(($stats = Sections::stat_for_anchor('section:'.$item['id'])) && $stats['count'])
-		Skin::error(i18n::s('Warning: Sub-sections and related content will be definitely deleted as well.'));
+		Skin::error(i18n::s('Warning: related content will be deleted as well.'));
 
 	// all articles have not been deleted
 	if($count = Articles::count_for_anchor('section:'.$item['id']))
-		Skin::error(i18n::s('Warning: Several pages will be deleted as well.'));
+		Skin::error(i18n::s('Warning: related content will be deleted as well.'));
 
 	// the submit button
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
@@ -159,12 +159,10 @@ else {
 	$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details)).'</p>'.BR."\n";
 
 	// the introduction text, if any
-	if($item['introduction'])
-		$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
+	$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
 
 	// main text
-	if($item['description'])
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
 	// count items related to this section
 	$context['text'] .= Anchors::stat_related_to('section:'.$item['id'], i18n::s('Following items are attached to this record and will be deleted as well.'));

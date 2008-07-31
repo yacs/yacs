@@ -35,7 +35,7 @@ elseif(isset($context['arguments'][0]))
 $url = trim(str_replace('&amp;', '&', rawurldecode($url)));
 
 // avoid dangerous strings
-$url = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($url));
+$url = preg_replace(FORBIDDEN_IN_URLS, '', strip_tags($url));
 
 // fix relative path
 if($url && !preg_match('/^(\/|\w+:)/i', $url)) {

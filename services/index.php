@@ -72,7 +72,7 @@ $rows[] = array(i18n::s('Specifications:'), Skin::build_link('http://www.hixie.c
 $context['text'] .= Skin::table(NULL, $rows);
 
 // search.php
-$context['text'] .= Skin::build_block(i18n::s('Search interface'), 'title', 'search');
+$context['text'] .= Skin::build_block(i18n::s('Search'), 'title', 'search');
 
 $context['text'] .= '<p>'.i18n::s('Build a customised RSS feed based on any keyword').'</p>';
 

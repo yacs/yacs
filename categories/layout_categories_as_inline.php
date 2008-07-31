@@ -114,7 +114,7 @@ Class Layout_categories_as_inline extends Layout_interface {
 
 			// add a direct link to the category
 			if(Surfer::is_associate())
-				$box['title'] .= '&nbsp;'.Skin::build_link(Categories::get_url($item['id'], 'view', $item['title']), MORE_IMG, 'basic');
+				$box['title'] .= '&nbsp;'.Skin::build_link(Categories::get_permalink($item), MORE_IMG, 'basic');
 
 			// make a full list
 			if($box['text'])

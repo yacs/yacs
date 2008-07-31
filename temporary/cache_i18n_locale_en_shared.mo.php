@@ -3,13 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 8:38 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:13 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['be362d7d53a1254f538bfda2a9b7b995']='A member is required for this operation.';
 $_SESSION['l10n']['en']['Access collection']='Access collection';
 $_SESSION['l10n']['en']['Actions']='Actions';
 $_SESSION['l10n']['en']['faa341f8a37d82ae539d923a0854a176']='An anchor is required for this operation.';
-$_SESSION['l10n']['en']['Articles']='Articles';
 $_SESSION['l10n']['en']['Browse this map with Freemind']='Browse this map with Freemind';
 $_SESSION['l10n']['en']['Categories']='Categories';
 $_SESSION['l10n']['en']['5eceff9c59d2bdcf158b449fba7cbcac']='Check requests, publish submitted articles, review old pages';
@@ -47,6 +46,7 @@ $_SESSION['l10n']['en']['No message']='No message';
 $_SESSION['l10n']['en']['No subject']='No subject';
 $_SESSION['l10n']['en']['PDF export created by YACS']='PDF export created by YACS';
 $_SESSION['l10n']['en']['Page topic']='Page topic';
+$_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['Password']='Password';
 $_SESSION['l10n']['en']['Play in a separate window']='Play in a separate window';
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
@@ -80,7 +80,7 @@ $_SESSION['l10n']['en']['Visited']='Visited';
 $_SESSION['l10n']['en']['XML error: %s at line %d']='XML error: %s at line %d';
 $_SESSION['l10n']['en']['68e8557b5fa4d724688175816097ce17']='You are allowed to post any XHTML.';
 $_SESSION['l10n']['en']['a38baa11f8dc11db9fde342db9db7f07']='You will be considered as an anonymous surfer';
-$_SESSION['l10n']['en']['Your first contribution']='Your first contribution';
+$_SESSION['l10n']['en']['Your contribution']='Your contribution';
 $_SESSION['l10n']['en']['Your private pages']='Your private pages';
 $_SESSION['l10n']['en']['Your private pages with %s']='Your private pages with %s';
 $_SESSION['l10n']['en']['and analyzed']='and analyzed';

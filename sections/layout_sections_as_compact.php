@@ -53,7 +53,7 @@ Class Layout_sections_as_compact extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// the url to view this item
-			$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Sections::get_permalink($item);
 
 			// initialize variables
 			$prefix = $label = $suffix = '';

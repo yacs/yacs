@@ -96,11 +96,11 @@ if($count > $items_per_page) {
 	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::s('%d&nbsp;sections'), $count)));
 
 	// navigation commands for sections, if necessary
-	$home = 'sections/index.php';
+	$home = 'sections/';
 	if($context['with_friendly_urls'] == 'Y')
-		$prefix = $home.'/';
+		$prefix = $home.'index.php/';
 	elseif($context['with_friendly_urls'] == 'R')
-		$prefix = $home.'/';
+		$prefix = $home;
 	else
 		$prefix = $home.'?page=';
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $count, $items_per_page, $page));
@@ -137,7 +137,7 @@ if(!$text =& Cache::get($cache_id)) {
 	// the list of active sections
 	$offset = ($page - 1) * $items_per_page;
 	if(!$items = Sections::list_by_title_for_anchor(NULL, $offset, $items_per_page, $layout))
-		$items = '<p>'.i18n::s('No regular section has been created yet!').'</p>';
+		$items = '<p>'.i18n::s('No regular section has been created yet.').'</p>';
 
 	// we have an array to format
 	if(is_array($items))
@@ -204,9 +204,9 @@ if(!$text =& Cache::get($cache_id)) {
 	// see also
 	$lines = array();
 	$lines[] = Skin::build_link('categories/', i18n::s('Categories'));
-	$lines[] = Skin::build_link('search.php', i18n::s('Search on keyword'));
+	$lines[] = Skin::build_link('search.php', i18n::s('Search'));
 	$lines[] = Skin::build_link('help/', i18n::s('Help index'));
-	$lines[] = Skin::build_link('query.php', i18n::s('Contact the webmaster'));
+	$lines[] = Skin::build_link('query.php', i18n::s('Contact'));
 	$text .= Skin::build_box(i18n::s('See also'), Skin::finalize_list($lines, 'compact'), 'extra');
 
 	// list monthly publications in an extra box
@@ -222,7 +222,7 @@ if(!$text =& Cache::get($cache_id)) {
 		foreach($categories as $id => $attributes) {
 
 			// link to the category page from the box title
-			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_url($attributes['id'], 'view', $attributes['title']), i18n::s('View the category'));
+			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
 
 			// box content
 			if($items = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
@@ -237,7 +237,7 @@ if(!$text =& Cache::get($cache_id)) {
 		$content = Skin::build_link(Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name']).'.mm'), i18n::s('Freemind map'), 'basic');
 
 		// in a sidebar box
-		$text .= Skin::build_box(i18n::s('Download'), Codes::beautify($content), 'navigation');
+		$text .= Skin::build_box(i18n::s('Download'), $content, 'navigation');
 
 	}
 

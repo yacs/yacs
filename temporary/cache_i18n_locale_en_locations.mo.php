@@ -3,13 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:28 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:17 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['e29e3b62fd00388c3ca08004cce5a8c1']='%d location'.chr(0).'%d locations';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['Add a location']='Add a location';
-$_SESSION['l10n']['en']['Add another location']='Add another location';
 $_SESSION['l10n']['en']['da9a0fd4ad6b4e693496e34f79ee7dcf']='Address Map Coordinate (Lat/Long) Finder';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['0ce40041c3b540b90a142d3c14a598ee']='Because of our security policy you are not allowed to list locations.';
@@ -72,7 +71,7 @@ $_SESSION['l10n']['en']['f222ba4674db37aa398976c8f3056048']='To find coordinates
 $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive errors. Aborted';
 $_SESSION['l10n']['en']['Unused: location %s']='Unused: location %s';
 $_SESSION['l10n']['en']['b76e939953ed01db8e5a10a9a47bc9ad']='Use the configuration panel for web services to enter your Google API key.';
-$_SESSION['l10n']['en']['View the updated page']='View the updated page';
+$_SESSION['l10n']['en']['View the page']='View the page';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['b901765eb64cb1d802aa05207e85ee67']='Yes, I want to suppress this location';

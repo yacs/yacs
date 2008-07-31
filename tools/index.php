@@ -23,7 +23,7 @@ if ($dir = Safe::opendir($context['path_to_root'].'tools')) {
 
 	// every php script is an overlay, except index.php, overlay.php, and hooks
 	while(($file = Safe::readdir($dir)) !== FALSE) {
-		if($file == '.' || $file == '..' || is_dir($context['path_to_root'].'tools/'.$file))
+		if($file == '.' || $file == '..')
 			continue;
 		if($file == 'index.php')
 			continue;

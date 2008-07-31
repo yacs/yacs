@@ -30,11 +30,12 @@
  * You can select one of them and submit your change.
  *
  * [title]How to derive a skin?[/title]
- * Since reference skins are part of the YACS core set of files, they may be updated unattended in a future release.
- * Therefore, the best approach is to create a skin on your own, dedicated to your server.
- * You don't have to start from scratch for that. Look at all skins featured at your site, then click on the
- * 'Derive this skin' link. YACS will copy files of the selected skin to a new directory, where you will be able to safely
- * modify everything that has to be modified.
+ * Since reference skins are part of the YACS core set of files, they may be
+ * updated unattended in a future release. Therefore, the best approach is to
+ * create a skin on your own, dedicated to your server. You don't have to start
+ * from scratch for that. Look at all skins featured at your site, then derive
+ * one. YACS will copy files of the selected skin to a new directory, where you
+ * will be able to safely modify everything that has to be modified.
  *
  * @see skins/derive.php
  *
@@ -230,12 +231,12 @@ if(Surfer::is_associate()) {
 	$context['page_tools'][] = Skin::build_link('skins/configure.php', i18n::s('Configure'), 'basic');
 	$context['page_tools'][] = Skin::build_link('skins/test.php', i18n::s('Test page'), 'basic');
 	$context['page_tools'][] = Skin::build_link('skins/upload.php', i18n::s('Upload a skin'), 'basic');
-	$context['page_tools'][] = Skin::build_link('skins/derive.php', i18n::s('Derive to a new skin'), 'basic');
+	$context['page_tools'][] = Skin::build_link('skins/derive.php', i18n::s('Derive a skin'), 'basic');
 }
 
 // how to get a skin
 if(Surfer::is_associate()) {
-	$help = '<p>'.sprintf(i18n::s('Do not attempt to modify a reference skin directly, your changes would be overwritten on next software update. To get a skin of your own that you can use safely, %s instead.'), Skin::build_link('skins/derive.php', i18n::s('derive a skin'), 'shortcut')).'</p>';
+	$help = '<p>'.sprintf(i18n::s('Do not attempt to modify a reference skin directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('Derive a skin'), 'shortcut')).'</p>';
 	$context['extra'] .= Skin::build_box(i18n::s('How to get a skin?'), $help, 'navigation', 'help');
 }
 

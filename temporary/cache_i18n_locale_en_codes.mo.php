@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:28 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:17 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['A Rabbit Story']='A Rabbit Story';
@@ -35,13 +35,11 @@ $_SESSION['l10n']['en']['088ec19a964a67136facb92b15129bfa']='But where will this
 $_SESSION['l10n']['en']['Category shortcut']='Category shortcut';
 $_SESSION['l10n']['en']['Caution']='Caution';
 $_SESSION['l10n']['en']['Center']='Center';
-$_SESSION['l10n']['en']['0cc7a5762b0b842cda83d7969202d568']='Click to [download=2, download the file]';
+$_SESSION['l10n']['en']['Click to %s']='Click to %s';
 $_SESSION['l10n']['en']['91b3b37100530dbf05a8ef0a1e552c51']='Click to view the page of [action=2, this action]';
 $_SESSION['l10n']['en']['188b691e26683c9bfd2c1bc59a7107d1']='Click to view the page of [comment=2, this comment]';
 $_SESSION['l10n']['en']['83a7da8947c8e08dce8c819b358ef061']='Click to view the page of [decision=2, this decision]';
-$_SESSION['l10n']['en']['2fa6f55c7b0ed3a5d077e36a2f9e0beb']='Click to view the page of [file=2, this file]';
 $_SESSION['l10n']['en']['b5ec6fc932e2699065b41ab60e78cd21']='Click to view the page of [server=2, this server]';
-$_SESSION['l10n']['en']['0e4c7953fac25192163994cb0c106c19']='Click to view the page of [user=2]';
 $_SESSION['l10n']['en']['Cloud of tags']='Cloud of tags';
 $_SESSION['l10n']['en']['Code']='Code';
 $_SESSION['l10n']['en']['2c974b38006a111a885ce4f3614bd5d5']='Codes allow you to specify formatting rules for your text, even if you are not allowed to use HTML in your posts. BB codes, or UBB codes, originated from the forum software named PHPBB, and YACS has a special implementation of it.';
@@ -78,6 +76,7 @@ $_SESSION['l10n']['en']['f9b150ffa69dc098824ca7c515ff7d9d']='Follow the links be
 $_SESSION['l10n']['en']['Formatting Codes']='Formatting Codes';
 $_SESSION['l10n']['en']['Freshest threads']='Freshest threads';
 $_SESSION['l10n']['en']['Full Name']='Full Name';
+$_SESSION['l10n']['en']['Have a look at %s']='Have a look at %s';
 $_SESSION['l10n']['en']['Header level 1']='Header level 1';
 $_SESSION['l10n']['en']['Header level 2']='Header level 2';
 $_SESSION['l10n']['en']['Header level 3']='Header level 3';
@@ -160,7 +159,7 @@ $_SESSION['l10n']['en']['Sans-Serif']='Sans-Serif';
 $_SESSION['l10n']['en']['Script shortcut']='Script shortcut';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Scroller']='Scroller';
-$_SESSION['l10n']['en']['Search form']='Search form';
+$_SESSION['l10n']['en']['Search']='Search';
 $_SESSION['l10n']['en']['Second item']='Second item';
 $_SESSION['l10n']['en']['fb395bcab19bcae7f0f79f7a4a95eb2b']='Second item (after one empty line)';
 $_SESSION['l10n']['en']['Section shortcut']='Section shortcut';
@@ -234,12 +233,6 @@ $_SESSION['l10n']['en']['9f80cb81f1836e893377a5754597b5f3']='You can also browse
 $_SESSION['l10n']['en']['94f3c1716b226c10660346cffdf24674']='You can send a message at [email]webmaster@acme.com[/email]';
 $_SESSION['l10n']['en']['88c8f1151cc55ecdebed9bf4cd119abe']='You can send a message at webmaster@acme.com';
 $_SESSION['l10n']['en']['0cc217b44799b71fe26dc9446f035fe2']='You can send a message to our [email=support team]webmaster@acme.com[/email]';
-$_SESSION['l10n']['en']['f13f7fa683480e693b60ecf6e8e446fa']='You can take a look at [article=2, this article]';
-$_SESSION['l10n']['en']['7249c33e8fe07312713c227620220a0e']='You can take a look at [article=2]';
-$_SESSION['l10n']['en']['bc1d7922dea8ecd28035a28c2265ae90']='You can take a look at [category=featured]';
-$_SESSION['l10n']['en']['41957b06b5ab70575d35668b1161e4bf']='You can take a look at [next=2, next page]';
-$_SESSION['l10n']['en']['7858f6f5711af40e8985bec7d5b75ffa']='You can take a look at [previous=2, the previous page]';
-$_SESSION['l10n']['en']['46e989e2e47936bc0de88b5b101848b7']='You can take a look at [section=2, the manual]';
 $_SESSION['l10n']['en']['eea00a581df4ad0ba5a2989ee5b7fde5']='You can visit [button=Cisco On Line]www.cisco.com[/button]';
 $_SESSION['l10n']['en']['aca55e7e9fc28e93c965f0b6d460d2e9']='You can visit [link=Cisco On Line]www.cisco.com[/link]';
 $_SESSION['l10n']['en']['c47f633bd83faf4c5e26ec301fd65d72']='You can visit [link]codes/basic.php[/link] or [link]index.php[/link]';
@@ -248,6 +241,7 @@ $_SESSION['l10n']['en']['fa5d07d3ec64ed9ec20c5b5995c381d7']='You can visit www.c
 $_SESSION['l10n']['en']['e1977ad25eb1b5b3711ab4b81428e166']='[flag]important![/flag] Don\'t forget to give something to your cat today.';
 $_SESSION['l10n']['en']['a previous message']='a previous message';
 $_SESSION['l10n']['en']['another one']='another one';
+$_SESSION['l10n']['en']['download the file']='download the file';
 $_SESSION['l10n']['en']['e-mail address']='e-mail address';
 $_SESSION['l10n']['en']['foo.bar@foo.com']='foo.bar@foo.com';
 $_SESSION['l10n']['en']['hello']='hello';

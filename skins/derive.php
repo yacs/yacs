@@ -35,7 +35,7 @@ if(isset($context['arguments'][0]))
 	$skin = $context['arguments'][0];
 
 // avoid potential attacks
-$skin = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($skin));
+$skin = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($skin));
 
 // ensure there is a template.php
 if(!file_exists($context['path_to_root'].'skins/'.$skin.'/template.php'))
@@ -81,7 +81,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '<p>'.i18n::s('Please go to the end of this page to check results of the building process.')."</p>\n";
 
 	// list origin files
-	$context['text'] .= '<p>'.sprintf(i18n::s('Listing files of the originating skin %s...'), $skin).BR."\n";
+	$context['text'] .= '<p>'.i18n::s('Listing files...').BR."\n";
 
 	/**
 	 * list all files below a certain path
@@ -140,7 +140,7 @@ elseif(!Surfer::is_associate()) {
 
 	// create a path for the new skin
 	if(!Safe::make_path('skins/'.$directory)) {
-		$context['text'] .= sprintf(i18n::s('Error: Unable to create path skins/%s'), $directory)."</p>\n";
+		$context['text'] .= sprintf(i18n::s('Impossible to create path %s.'), 'skins/'.$directory)."</p>\n";
 		$errors++;
 
 	// move forward
@@ -148,7 +148,7 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= i18n::s('done.')."</p>\n";
 
 		// copy files
-		$context['text'] .= '<p>'.i18n::s('Copying files to the new skin...').BR."\n";
+		$context['text'] .= '<p>'.i18n::s('Copying files...').BR."\n";
 
 		// analyse each script
 		foreach($files as $file) {
@@ -199,7 +199,7 @@ elseif(!Surfer::is_associate()) {
 			// attempt to preserve the modification date of the origin file
 			} else {
 				Safe::touch($context['path_to_root'].$target, Safe::filemtime($context['path_to_root'].$origin));
-				$context['text'] .= sprintf(i18n::s('%s has been created'), $target).BR."\n";
+				$context['text'] .= sprintf(i18n::s('%s has been copied'), $target).BR."\n";
 			}
 
 			// this will be filtered by umask anyway
@@ -211,7 +211,7 @@ elseif(!Surfer::is_associate()) {
 
 	// some errors have occured
 	if($errors)
-		$context['text'] .= '<p>'.i18n::s('Some errors have occured and the skin has not been properly derived.')."</p>\n";
+		$context['text'] .= '<p>'.i18n::s('Operation has failed.')."</p>\n";
 
 	// congratulations
 	else {

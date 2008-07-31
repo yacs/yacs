@@ -22,7 +22,7 @@ if(isset($context['arguments'][0]))
 	$skin = $context['arguments'][0];
 
 // avoid potential attacks
-$skin = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($skin));
+$skin = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($skin));
 
 // back to current skin if there is no template.php
 if(!file_exists($context['path_to_root'].'skins/'.$skin.'/template.php'))
@@ -36,7 +36,7 @@ if(isset($context['arguments'][1]))
 	$file = $context['arguments'][1];
 
 // avoid potential attacks
-$file = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($file));
+$file = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($file));
 
 // load the skin
 load_skin('skins');
@@ -76,7 +76,7 @@ elseif(!Surfer::is_associate()) {
 
 	// warning if modification of some reference skin
 	if(isset($_REQUEST['content']) && $_REQUEST['content'] && preg_match('/^(boxesandarrows|digital|joi|skeleton)$/', $skin))
-		Skin::error(sprintf(i18n::s('Since you have modified a reference skin, your changes could be overwritten by next YACS updates. We highly suggest you to %s to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('derive a skin'), 'shortcut')));
+		Skin::error(sprintf(i18n::s('Do not attempt to modify a reference skin directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('Derive a skin'), 'shortcut')));
 
 	// backup the old version, if any
 	Safe::unlink($context['path_to_root'].'skins/'.$skin.'/'.$file.'.bak');
@@ -94,7 +94,7 @@ elseif(!Surfer::is_associate()) {
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array('skins/test.php?skin='.urlencode($skin) => i18n::s('Test the skin')));
-		$menu = array_merge($menu, array('skins/edit.php?skin='.urlencode($skin) => i18n::s('Edit a file of this skin')));
+		$menu = array_merge($menu, array('skins/edit.php?skin='.urlencode($skin) => i18n::s('Edit this skin')));
 		$menu = array_merge($menu, array('skins/' => i18n::s('Skins')));
 		$menu = array_merge($menu, array('skins/configure.php' => i18n::s('Configure the page factory')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
@@ -137,7 +137,7 @@ elseif(!Surfer::is_associate()) {
 	// list all cascaded style sheets and template.php for this skin
 	$context['text'] .= '<form method="get" action="'.$context['script_url'].'"><p>'
 		.'<input type="hidden" name="skin" value="'.encode_field($skin).'"'.EOT;
-	$context['text'] .= i18n::s('File to edit').' <select name="file">';
+	$context['text'] .= i18n::s('Files').' <select name="file">';
 	if ($dir = Safe::opendir("../skins/".$skin)) {
 
 		// list files in the skin directory

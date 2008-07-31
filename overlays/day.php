@@ -287,8 +287,9 @@ class Day extends Overlay {
 					$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('%d date', '%d dates', $stats['count']), $stats['count'])));
 
 				// navigation commands for dates
-				$home = Sections::get_url(str_replace('section:', '', $anchor));
-				$prefix = Sections::get_url(str_replace('section:', '', $anchor), 'navigate', 'articles');
+				$section = Anchor::get($anchor);
+				$home =& Sections::get_permalink($section);
+				$prefix = Sections::get_url($section['id'], 'navigate', 'articles');
 				$bar = array_merge($bar, Skin::navigate($home, $prefix, $stats['count'], DATES_PER_PAGE, $page));
 
 				// display the bar
@@ -340,8 +341,9 @@ class Day extends Overlay {
 				$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('%d date', '%d dates', $stats['count']), $stats['count'])));
 
 			// navigation commands for dates
-			$home = Sections::get_url(str_replace('section:', '', $anchor));
-			$prefix = Sections::get_url(str_replace('section:', '', $anchor), 'navigate', 'articles');
+			$section = Anchor::get($anchor);
+			$home =& Sections::get_permalink($section);
+			$prefix = Sections::get_url($section['id'], 'navigate', 'articles');
 			$bar = array_merge($bar, Skin::navigate($home, $prefix, $stats['count'], DATES_PER_PAGE, $page));
 
 			// display the bar

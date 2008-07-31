@@ -36,7 +36,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// the url to view this item
-			$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Sections::get_permalink($item);
 
 			// use the title to label the link
 			$title = Skin::strip($item['title'], 50);

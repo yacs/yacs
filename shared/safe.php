@@ -885,7 +885,7 @@ class Safe {
 			;
 
 		// an URI, or a MS-Windows drive
-		elseif(preg_match('/^\w+:/', $path))
+		elseif(preg_match('/^[a-zA-Z]+:/', $path))
 			;
 
 		// a network UNC

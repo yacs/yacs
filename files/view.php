@@ -335,8 +335,7 @@ if(!isset($item['id'])) {
 	}
 
 	// display the full text
-	if($item['description'])
-		$context['text'] .= '<div class="description">'.Codes::beautify($item['description'])."</div>\n";
+	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	//
 	// plugins
@@ -346,8 +345,7 @@ if(!isset($item['id'])) {
 	if(Files::is_audio_stream($item['file_name'])) {
 
 		// explain what streaming is about
-		$description = '<p>'.i18n::s('This file format supports on-demand access, meaning you do not have to wait for the end of the download to benefit from file content.').'</p>'
-			.'<p>'.sprintf(i18n::s('To stream sounds over the network and to play them on arrival, use an advanced media player such as %s (open source) or %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('www.winamp.com'), i18n::s('Winamp'), 'external')).'</p>';
+		$description = '<p>'.sprintf(i18n::s('This file may be accessed on-demand. You may have to use an advanced media player such as %s (open source) or %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('www.winamp.com'), i18n::s('Winamp'), 'external')).'</p>';
 
 		// the label
 		Skin::define_img('PLAY_IMG', 'icons/files/play.gif');
@@ -355,7 +353,7 @@ if(!isset($item['id'])) {
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
-			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'basic', i18n::s('Start the show')).'</dt>'
+			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'basic', i18n::s('Start')).'</dt>'
 			.'<dd>'.$description.'</dd></dl>'."\n";
 
 	}
@@ -364,8 +362,7 @@ if(!isset($item['id'])) {
 	if(Files::is_video_stream($item['file_name'])) {
 
 		// explain what streaming is about
-		$description = '<p>'.i18n::s('This file format supports on-demand access, meaning you do not have to wait for the end of the download to benefit from file content.').'</p>'
-			.'<p>'.sprintf(i18n::s('To stream images over the network and to render them on arrival, use an advanced media player such as %s.'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s(' VLC media player'), 'external')).'</p>';
+		$description = '<p>'.sprintf(i18n::s('This file may be accessed on-demand. You may have to use an advanced media player such as %s (open source) or %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('www.winamp.com'), i18n::s('Winamp'), 'external')).'</p>';
 
 		// the label
 		Skin::define_img('PLAY_IMG', 'icons/files/play.gif');
@@ -373,7 +370,7 @@ if(!isset($item['id'])) {
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
-			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'basic', i18n::s('Start the show')).'</dt>'
+			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'basic', i18n::s('Start')).'</dt>'
 			.'<dd>'.$description.'</dd></dl>'."\n";
 
 	}
@@ -393,7 +390,7 @@ if(!isset($item['id'])) {
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
-			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'help', i18n::s('Start the show')).'</dt>'
+			.'<dt>'.Skin::build_link(Files::get_url($item['id'], 'stream', $item['file_name']), $label, 'help', i18n::s('Start')).'</dt>'
 			.'<dd>'.$description.'</dd></dl>'."\n";
 
 	}

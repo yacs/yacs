@@ -318,7 +318,7 @@ Class Article extends Anchor {
 			if($variant != 'hover') {
 
 				// remove toc and toq codes
-				$text = preg_replace(FORBIDDEN_CODES_IN_TEASERS, '', $text);
+				$text = preg_replace(FORBIDDEN_IN_TEASERS, '', $text);
 
 				// render all codes
 				if(is_callable(array('Codes', 'beautify')))
@@ -358,7 +358,7 @@ Class Article extends Anchor {
 			$in_description = TRUE;
 
 			// remove toc and toq codes
-			$text = preg_replace(FORBIDDEN_CODES_IN_TEASERS, '', $text);
+			$text = preg_replace(FORBIDDEN_IN_TEASERS, '', $text);
 
 			// render all codes
 			if(is_callable(array('Codes', 'beautify')))
@@ -484,7 +484,7 @@ Class Article extends Anchor {
 
 		// regular link
 		if($action != 'discuss')
-			return Articles::get_url($this->item['id'], $action, $this->item['title'], $this->item['nick_name']);
+			return Articles::get_permalink($this->item);
 
 		// variants that start at the article page
 		if($this->is_interactive())
@@ -1002,7 +1002,7 @@ Class Article extends Anchor {
 			$notification = array();
 			$notification['type'] = 'alert';
 			$notification['action'] = $action;
-			$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name']);
+			$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
 			$notification['nick_name'] = Surfer::get_name();
 			$notification['title'] = utf8::to_unicode($this->item['title']);
 
@@ -1054,7 +1054,7 @@ Class Article extends Anchor {
 			//
 
 			// watchers don't have the secret handle
-			$mail['link'] =  $context['url_to_home'].$context['url_to_root'].Articles::get_url($this->item['id'], 'view', $this->item['title'], $this->item['nick_name']);
+			$mail['link'] =  $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
 
 			// poster benefits from the secret handle to access the article
 			$mail['message'] = sprintf($mail['template'], $mail['title'], $mail['link'], $mail['action'])

@@ -46,7 +46,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'confirm')) {
 
 	// list running scripts
-	$context['text'] .= '<p>'.i18n::s('Listing all running PHP scripts...').BR."\n";
+	$context['text'] .= '<p>'.i18n::s('Listing files...').BR."\n";
 
 	// locate script files starting at root
 	$scripts = Scripts::list_scripts_at(NULL);

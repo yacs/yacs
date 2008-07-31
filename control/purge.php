@@ -20,6 +20,8 @@
  *
  * [*] 'debug' - Kill the file temporary/debug.txt
  *
+ * [*] 'feeds' - Links received by newsfeed
+ *
  * [*] 'log' - Kill the file temporary/log.txt
  *
  * [*] 'overhead' - Recover lost disk space of the database
@@ -189,7 +191,7 @@ if(!Surfer::is_associate()) {
 	// ending message
 	global $deleted_nodes;
 	if($deleted_nodes > 1)
-		$context['text'] .= sprintf(i18n::s('%d files have been deleted'), $deleted_nodes).BR."\n";
+		$context['text'] .= sprintf(i18n::s('%d items have been deleted'), $deleted_nodes).BR."\n";
 
 	// display the execution time
 	$time_end = get_micro_time();
@@ -225,6 +227,25 @@ if(!Surfer::is_associate()) {
 
 	// suppress temporary/debug.txt
 	Safe::unlink($context['path_to_root'].'temporary/debug.txt');
+
+	// display the execution time
+	$time_end = get_micro_time();
+	$time = round($time_end - $context['start_time'], 2);
+	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
+
+	// forward to the control panel
+	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
+	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
+// delete links received via newsfeeds
+} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'feeds')) {
+
+	$context['text'] .= '<p>'.i18n::s('Deleting links received from newsfeeds...')."</p>\n";
+
+	// suppress records
+	include_once '../links/links.php';
+	if($count = Links::purge_old_news(0))
+		$context['text'] .= sprintf(i18n::s('%d items have been deleted'), $count);
 
 	// display the execution time
 	$time_end = get_micro_time();
@@ -293,7 +314,7 @@ if(!Surfer::is_associate()) {
 	// ending message
 	global $deleted_nodes;
 	if($deleted_nodes > 1)
-		$context['text'] .= sprintf(i18n::s('%d files have been deleted'), $deleted_nodes).BR."\n";
+		$context['text'] .= sprintf(i18n::s('%d items have been deleted'), $deleted_nodes).BR."\n";
 
 	// display the execution time
 	$time_end = get_micro_time();
@@ -352,7 +373,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form">';
 
 	// purge the cache
-	$context['text'] .= '<p><input type="radio" name="action" value="cache" checked="checked"'.EOT.' '.i18n::s('Purge the cache. Delete all cached items from the database').'</p>';
+	$context['text'] .= '<p><input type="radio" name="action" value="cache" checked="checked" /> '.i18n::s('Purge the cache. Delete all cached items from the database').'</p>';
 
 	// purge .bak scripts
 	$context['text'] .= '<p><input type="radio" name="action" value="bak" /> '.i18n::s('Purge previous versions of scripts. Delete all files with the suffix .php.bak').'</p>';
@@ -366,6 +387,9 @@ if(!Surfer::is_associate()) {
 
 	// purge debug data
 	$context['text'] .= '<p><input type="radio" name="action" value="debug" /> '.i18n::s('Delete file temporary/debug.txt to purge debug data.').'</p>';
+
+	// purge links received via newsfeeds
+	$context['text'] .= '<p><input type="radio" name="action" value="feeds" /> '.i18n::s('Purge links received via newsfeeds. These will be recreated progressively during future feeding.').'</p>';
 
 	// purge agents accounting
 	$context['text'] .= '<p><input type="radio" name="action" value="agents" /> '.i18n::s('Purge accounting data on user agents and browsers from the database. These will be recreated progressively during future browsing.').'</p>';

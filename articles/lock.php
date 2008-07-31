@@ -89,7 +89,7 @@ elseif(Articles::lock($item['id'], $item['locked'])) {
 	Articles::clear($item);
 
 	// redirect to the page
-	Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']));
+	Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item));
 }
 
 // clear the tab we are in, if any
@@ -102,7 +102,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
 
 // page title
 $context['page_title'] = i18n::s('Lock');

@@ -122,7 +122,7 @@ Class SQL {
 		$result = FALSE;
 
 		// on SELECT
-		if(preg_match('/^\s*SELECT\s/i', $query)) {
+		if(!strncmp($query, 'SELECT ', 7)) {
 
 			// statement cannot be explained
 			$query2 = 'EXPLAIN '.$query;
@@ -486,14 +486,14 @@ Class SQL {
 			$reached = mysql_ping($connection);
 
 		// also ping the database for users, if any
-		if(!isset($context['users_connection']) || !$context['users_connection'])
-			return $reached;
+		if(isset($context['users_connection']) && $context['users_connection'] && ($context['users_connection'] !== $connection)) {
 
-		// reopen a connection if database is not reachable anymore
-		if(is_callable('mysqli_ping'))
-			mysqli_ping($context['users_connection']);
-		else
-			mysql_ping($context['users_connection']);
+			if(is_callable('mysqli_ping'))
+				mysqli_ping($context['users_connection']);
+			else
+				mysql_ping($context['users_connection']);
+
+		}
 
 		// job done
 		return $reached;
@@ -667,10 +667,6 @@ Class SQL {
 	function &query(&$query, $silent=FALSE, $connection=NULL) {
 		global $context;
 
-		// profiling mode
-		if($context['with_profile'] == 'Y')
-			logger::profile('sql::query');
-
 		// allow for reference
 		$output = FALSE;
 
@@ -685,7 +681,7 @@ Class SQL {
 		}
 
 		// reopen a connection if database is not reachable anymore
-		if(!SQL::ping($connection)) {
+		if((get_micro_time() - $context['start_time'] > 1.0) && !SQL::ping($connection)) {
 
 			// remember the error, if any -- we may not have a skin yet
 			if(!$silent) {
@@ -707,8 +703,10 @@ Class SQL {
 		$query_stamp = get_micro_time();
 
 		// profiling mode
-		if($context['with_profile'] == 'Y')
+		if($context['with_profile'] == 'Y') {
+			logger::profile('sql::query', 'start');
 			logger::profile('sql::query('.$query.')', 'start');
+		}
 
 		// do the job
 		if(is_callable('mysqli_query'))
@@ -717,8 +715,10 @@ Class SQL {
 			$result = mysql_query($query, $connection);
 
 		// profiling mode
-		if($context['with_profile'] == 'Y')
+		if($context['with_profile'] == 'Y') {
+			logger::profile('sql::query', 'stop');
 			logger::profile('sql::query('.$query.')', 'stop');
+		}
 
 		// finalize result
 		if($result) {

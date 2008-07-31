@@ -43,20 +43,20 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == ''))
 	session_start();
 
 // default value for name filtering in forms (e.g. 'edit_name' filled by anonymous surfers)
-if(!defined('FORBIDDEN_CHARS_IN_NAMES'))
-	define('FORBIDDEN_CHARS_IN_NAMES', '/[^\s\w-:&#;\'"]+/');
-
-// default value for url filtering in forms
-if(!defined('FORBIDDEN_CHARS_IN_URLS'))
-	define('FORBIDDEN_CHARS_IN_URLS', '/[^\w~_:@\/\.&#;\,+%\?=-]+/');
+if(!defined('FORBIDDEN_IN_NAMES'))
+	define('FORBIDDEN_IN_NAMES', '/[^\s\w-:&#;\'"]+/');
 
 // default value for path filtering in forms -- ../ and \
-if(!defined('FORBIDDEN_STRINGS_IN_PATHS'))
-	define('FORBIDDEN_STRINGS_IN_PATHS', '/\.{2,}\//');
+if(!defined('FORBIDDEN_IN_PATHS'))
+	define('FORBIDDEN_IN_PATHS', '/\.{2,}\//');
 
 // default value for codes filtering for teasers
-if(!defined('FORBIDDEN_CODES_IN_TEASERS'))
-	define('FORBIDDEN_CODES_IN_TEASERS', '/\[(location=[^\]]+?|table=[^\]]+?|toc|toq)\]\s*/i');
+if(!defined('FORBIDDEN_IN_TEASERS'))
+	define('FORBIDDEN_IN_TEASERS', '/\[(location=[^\]]+?|table=[^\]]+?|toc|toq)\]\s*/i');
+
+// default value for url filtering in forms
+if(!defined('FORBIDDEN_IN_URLS'))
+	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\,+%\?=-]+/');
 
 // store attributes for this request, including global parameters and request-specific variables
 global $context;
@@ -352,10 +352,6 @@ if(isset($_SERVER['PATH_INFO']) && strlen($_SERVER['PATH_INFO']))
 elseif(isset($HTTP_SERVER_VARS['ORIG_PATH_INFO']) && $HTTP_SERVER_VARS['ORIG_PATH_INFO'])
 	$path_info = $HTTP_SERVER_VARS['ORIG_PATH_INFO'];
 
-// sometimes this also contains the script name, which is a PHP bug
-if(preg_match('/^.+?\.php/', $path_info, $matches))
-	$path_info = str_replace($matches[0], '', $path_info);
-
 // analyze script args (e.g. 'articles/view.php/123/3', where '123' is the article id, and '3' is the page number)
 if(strlen($path_info)) {
 
@@ -488,8 +484,8 @@ function &encode_field($text) {
  */
 function &encode_link($link) {
 
-	// suppress invalid chars
-	$output = preg_replace(FORBIDDEN_CHARS_IN_URLS, '_', stripslashes($link));
+	// suppress invalid chars, if any
+	$output = trim(preg_replace(FORBIDDEN_IN_URLS, '_', $link), ' _');
 
 	// transform & to &amp;
 	$output = str_replace('&', '&amp;', $output);
@@ -577,7 +573,7 @@ if(!defined('NO_MODEL_PRELOAD'))
 
 // skin variant is asked for explicitly
 if(isset($_REQUEST['variant']) && $_REQUEST['variant'])
-	$context['skin_variant'] = basename(preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '_', strip_tags($_REQUEST['variant'])));
+	$context['skin_variant'] = basename(preg_replace(FORBIDDEN_IN_PATHS, '_', strip_tags($_REQUEST['variant'])));
 
 // force the skin variant if polled by AvantGo
 if(!isset($context['skin_variant']) && is_callable('getenv') && base64_decode(getenv("HTTP_X_AVANTGO_DEVICEOS"))) {
@@ -1136,7 +1132,7 @@ function render_skin($stamp=0) {
 		$context['content_type'] = 'text/html';
 	Safe::header('Content-Type: '.$context['content_type'].'; charset='.$context['charset']);
 
-	// load the page library
+// load the page library
 	include_once $context['path_to_root'].'skins/page.php';
 
 	// load a template for this module -- php version
@@ -1617,9 +1613,8 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 			$alternate = $prefix[1];
 		else
 			$alternate = $module;
-	} else {
+	} else
 		$module = $alternate = $prefix;
-	}
 
 	// the id may be a composed anchor
 	$nouns = explode(':', $id, 2);

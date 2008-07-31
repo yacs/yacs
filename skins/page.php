@@ -153,12 +153,14 @@
 			$tags = explode(',', $context['page_tags']);
 			$line = '';
 			foreach($tags as $tag) {
-				if($category = Categories::get_by_keyword(trim($tag)))
-					$line .= Skin::build_link(Categories::get_url($category['id'], 'view', trim($tag)), trim($tag), 'basic').' ';
+				if(!$tag = trim($tag))
+					continue;
+				if($category = Categories::get_by_keyword($tag))
+					$line .= Skin::build_link(Categories::get_permalink($category), $tag, 'basic').' ';
 				else
-					$line .= trim($tag).' ';
+					$line .= $tag.' ';
 			}
-			$context['page_details'] = '<p class="tags">'.sprintf(i18n::s('Tags: %s'), trim($line)).'</p>'
+			$context['page_details'] = '<p class="tags">'.sprintf(i18n::s('Tags: %s'), rtrim($line, ' ')).'</p>'
 				.$context['page_details']."\n";
 		}
 
@@ -340,14 +342,10 @@
 		if(is_callable(array('Users', 'get_url')) && ($menu = Skin::build_user_menu('basic')) && is_callable(array('i18n', 's'))) {
 			if(Surfer::is_logged()) {
 				$box_title = Surfer::get_name();
-				$box_url = Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
-				$box_popup = i18n::s('See your user profile');
 			} else {
 				$box_title = i18n::s('User login');
-				$box_url = '';
-				$box_popup = '';
 			}
-			echo Skin::build_box($box_title, $menu, 'navigation', 'user_menu', $box_url, $box_popup)."\n";
+			echo Skin::build_box($box_title, $menu, 'navigation', 'user_menu')."\n";
 		}
 
 		// complementary information, if any and if required to do so
@@ -395,7 +393,7 @@
 
 					// link to the category page from box title
 					if(is_callable(array('i18n', 's')))
-						$label =& Skin::build_box_title($label, Categories::get_url($attributes['id'], 'view', $attributes['title']), i18n::s('View the category'));
+						$label =& Skin::build_box_title($label, Categories::get_permalink($attributes), i18n::s('View the category'));
 
 					// list sub categories
 					$items = Categories::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact');

@@ -71,7 +71,7 @@ else
 	$context['path_bar'] = array( 'sections/' => i18n::s('sections') );
 
 if($item['id'] && $item['title'])
-	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']) => $item['title'] ));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title'] ));
 
 // the title of the page
 $context['page_title'] .= i18n::s('Send a message');
@@ -180,7 +180,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 		// back to the section page
 		$menu = array();
-		$menu[] = Skin::build_link(sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), $item['title'], 'span');
+		$menu[] = Skin::build_link(Sections::get_permalink($item), $item['title'], 'span');
 		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	}
@@ -235,7 +235,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 	// cancel button
 	if(isset($item['id']))
-		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']), i18n::s('Cancel'), 'span');
+		$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Cancel'), 'span');
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');

@@ -50,7 +50,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 
 		// empty list
 		if(!SQL::count($result)) {
-			$label = i18n::s('No article has been published so far.');
+			$label = i18n::s('No page to display.');
 			if(Surfer::is_associate())
 				$label .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output = '<p>'.$label.'</p>';
@@ -69,7 +69,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// permalink
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -146,7 +146,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$url =& Articles::get_permalink($item);
 
 		// initialize variables
 		$prefix = $suffix = $text = '';
@@ -209,7 +209,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 
 		// link to the anchor page
 		if(is_object($anchor))
-			$text .= BR.Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic', i18n::s('More similar pages'));
+			$text .= BR.Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic', i18n::s('More pages'));
 
 		// list up to three categories by title, if any
 		include_once $context['path_to_root'].'categories/categories.php';
@@ -219,7 +219,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 			foreach($items as $id => $attributes) {
 				if(!$first_category)
 					$text .= ',';
-				$text .= ' '.Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'basic', i18n::s('More similar pages'));
+				$text .= ' '.Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic', i18n::s('More pages'));
 				$first_category = FALSE;
 			}
 		}
@@ -241,7 +241,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$url =& Articles::get_permalink($item);
 
 		// get the related overlay, if any
 		include_once $context['path_to_root'].'overlays/overlay.php';
@@ -310,7 +310,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 
 		// link to the anchor page
 		if(is_object($anchor))
-			$text .= Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic', i18n::s('More similar pages'));
+			$text .= Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic', i18n::s('More pages'));
 
 		// list up to three categories by title, if any
 		include_once $context['path_to_root'].'categories/categories.php';
@@ -320,7 +320,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 			foreach($items as $id => $attributes) {
 				if(!$first_category)
 					$text .= ',';
-				$text .= ' '.Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'basic', i18n::s('More similar pages'));
+				$text .= ' '.Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic', i18n::s('More pages'));
 				$first_category = FALSE;
 			}
 		}

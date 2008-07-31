@@ -63,7 +63,7 @@ Class Layout_sections extends Layout_interface {
 			elseif($this->layout_variant == 'select')
 				$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
 			else
-				$url = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+				$url =& Sections::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -207,7 +207,7 @@ Class Layout_sections extends Layout_interface {
 
 			// give me more
 			if(count($details) && ($related_count > YAHOO_LIST_SIZE))
-				$content[Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name'])] = array('', i18n::s('More').MORE_IMG, '', 'more', '', i18n::s('View the section'));
+				$content[Sections::get_permalink($item)] = array('', i18n::s('More').MORE_IMG, '', 'more', '', i18n::s('View the section'));
 
 			// append details to the suffix
 			if(count($details))

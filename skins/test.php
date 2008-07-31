@@ -37,6 +37,7 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 include_once '../shared/global.php';
+include_once '../files/files.php';
 
 // the skin under test
 $skin = '';
@@ -46,7 +47,7 @@ if(isset($context['arguments'][0]))
 	$skin = $context['arguments'][0];
 
 // avoid potential attacks
-$skin = preg_replace(FORBIDDEN_STRINGS_IN_PATHS, '', strip_tags($skin));
+$skin = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($skin));
 
 // accept it if there is a template.php
 if(file_exists($context['path_to_root'].'skins/'.$skin.'/template.php'))
@@ -66,29 +67,17 @@ define('COMPACT_LIST', Skin::build_list($items, 'compact'));
 
 // alphabetical order
 
-// $context['debug'] - for debugging purpose
-if($context['with_debug'] == 'Y')
-	$context['debug'][] = sprintf(i18n::s('debug data, put into %s'), '$context[\'debug\']');
-
 // // $context['error'] - to report run time errors
 if($context['with_debug'] == 'Y')
-	Skin::error(sprintf(i18n::s('error data, put into %s'), '$context[\'error\']'));
+	Skin::error(i18n::s('error messages, if any'));
 
 // $context['navigation'] - navigation boxes
-$context['navigation'] .= Skin::build_box(i18n::s('navigation'), Codes::beautify(i18n::s('menu box').' Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. [search]'."\n"
-	.'[menu='.i18n::s('Home').']index.php[/menu]'."\n"
-	.'[submenu='.i18n::s('Articles').']articles/[/submenu]'."\n"
-	.'[submenu='.i18n::s('Files').']files/[/submenu]'."\n"
-	.'[submenu='.i18n::s('Links').']links/[/submenu]'."\n"
-	.'[hidden][submenu='.i18n::s('Comments').']comments/[/submenu][/hidden]'."\n"
-	.'[menu='.i18n::s('Site Map').']sections/[/menu]'."\n"
-	.'[submenu='.i18n::s('Categories').']categories/[/submenu]'."\n"
-	.'[submenu='.i18n::s('Users').']users/[/submenu]'."\n"
-	.'[submenu='.i18n::s('Help').']help/[/submenu] Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum. Lorem ipsum sit dolor amum.'), 'navigation');
+$context['navigation'] .= Skin::build_box(i18n::s('navigation').' 1', DUMMY_TEXT, 'navigation');
+$context['navigation'] .= Skin::build_box(i18n::s('navigation').' 2', COMPACT_LIST, 'navigation');
 
 // $context['extra'] - extra boxes
-$context['extra'] .= Skin::build_box(i18n::s('extra').' 1', i18n::s('extra box').' 1 '.DUMMY_TEXT, 'extra');
-$context['extra'] .= Skin::build_box(i18n::s('extra').' 2', i18n::s('extra box').' 2 '.COMPACT_LIST, 'extra');
+$context['extra'] .= Skin::build_box(i18n::s('extra').' 1', DUMMY_TEXT, 'extra');
+$context['extra'] .= Skin::build_box(i18n::s('extra').' 2', COMPACT_LIST, 'extra');
 
 // $context['extra'] - a fake contextual menu
 $text = Skin::build_tree(array(array('#', '', i18n::s('menu').' 1', '', 'close'),
@@ -117,16 +106,8 @@ $text = Skin::build_tree(array(array('#', '', i18n::s('menu').' 1', '', 'close')
 	));
 $context['extra'] .= Skin::build_box(i18n::s('contextual menu'), $text, 'navigation', 'contextual_menu');
 
-// $context['extra'] - navigation boxes
-$context['extra'] .= Skin::build_box(i18n::s('navigation').' 1', i18n::s('navigation box').' 1 '.DUMMY_TEXT, 'navigation');
-$context['extra'] .= Skin::build_box(i18n::s('navigation').' 2', i18n::s('navigation box').' 2 '.COMPACT_LIST, 'navigation');
-
 // $context['page_author'] - the author
 $context['page_author'] = 'webmaestro, through some PHP script';
-
-// $context['page_image'] - the icon image of this page
-if(file_exists($context['path_to_root'].$context['skin'].'/icons/server.png'))
-	$context['page_image'] = $context['url_to_root'].$context['skin'].'/icons/server.png';
 
 // back to skin index
 $context['page_menu'] = array_merge($context['page_menu'], array( 'skins/' => i18n::s('Skins') ));
@@ -183,40 +164,47 @@ $context['prefix'] .= '</select> '.Skin::build_submit_button(' &raquo; ').'</p><
 // $context['prefix'] - some prefix data
 $context['prefix'] .= '<p>'.sprintf(i18n::s('Use this page while developing or checking a skin, then activate the skin and move to %s to finalize your work.'), Skin::build_link('codes/', i18n::s('help pages on YACS codes'), 'shortcut')).'</p>';
 
-// $context['suffix'] - some suffix data
-if($context['with_debug'] == 'Y')
-	$context['suffix'] = sprintf(i18n::s('suffix data, put into %s'), '$context[\'suffix\']');
-
 // will be derivated to $context['text'] after codes::beautify()
 $text = '';
 
-// $context['text'] - with cover page -- see index.php
-$text .= i18n::s('the cover page').' '.DUMMY_TEXT;
+// $context['text']
+$text .= DUMMY_TEXT;
 
 // $context['text'] - with gadgets -- see index.php and sections/view.php
 $text .= "\n".'<p id="gadgets_prefix"> </p>'."\n"
-	.Skin::build_box(i18n::s('gadget').' 1', i18n::s('gadget box').' 1 '.DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 2', i18n::s('gadget box').' 2 '.DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 3', i18n::s('gadget box').' 3 '.DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 4', i18n::s('gadget box').' 4 '.DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 5', i18n::s('gadget box').' 5 '.DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 6', i18n::s('gadget box').' 6 '.DUMMY_TEXT, 'gadget')
+	.Skin::build_box(i18n::s('gadget').' 1', DUMMY_TEXT, 'gadget')
+	.Skin::build_box(i18n::s('gadget').' 2', DUMMY_TEXT, 'gadget')
+	.Skin::build_box(i18n::s('gadget').' 3', DUMMY_TEXT, 'gadget')
+	.Skin::build_box(i18n::s('gadget').' 4', DUMMY_TEXT, 'gadget')
+	.Skin::build_box(i18n::s('gadget').' 5', DUMMY_TEXT, 'gadget')
+	.Skin::build_box(i18n::s('gadget').' 6', DUMMY_TEXT, 'gadget')
 	.'<p id="gadgets_suffix"> </p>'."\n";
 
 // $context['text'] - introduction
-$text .= Skin::build_block(i18n::s('introduction block').' '.DUMMY_TEXT, 'introduction');
+$text .= Skin::build_block(DUMMY_TEXT, 'introduction');
+
+// surfer profile
+if(!$user_id = Surfer::get_id())
+	$user_id = 1;
+
+// newest article
+$article_id = 1;
+if($item =& Articles::get_newest_for_anchor(NULL, TRUE))
+	$article_id = $item['id'];
+
+// newest file
+$file_id = 1;
+if($item =& Files::get_newest())
+	$file_id = $item['id'];
 
 // $context['text'] - basic content with links, etc.
 $text .= '[toc]'.DUMMY_TEXT."\n"
 	.'<ul>'."\n"
-	.'<li>[article=1]</li>'."\n"
-	.'<li>[section=1]</li>'."\n"
-	.'<li>[category=1]</li>'."\n"
-	.'<li>[user=1]</li>'."\n"
-	.'<li>[server=1]</li>'."\n"
-	.'<li>[file=1]</li>'."\n"
-	.'<li>[comment=1]</li>'."\n"
-	.'<li>[decision=1]</li>'."\n"
+	.'<li>[article='.$article_id.']</li>'."\n"
+	.'<li>[section='.Sections::get_default().']</li>'."\n"
+	.'<li>[category=featured]</li>'."\n"
+	.'<li>[user='.$user_id.']</li>'."\n"
+	.'<li>[download='.$file_id.']</li>'."\n"
 	.'<li>[email]foo@bar.com[/email]</li>'."\n"
 	.'<li>[link=Cisco]http://www.cisco.com/[/link]</li>'."\n"
 	.'<li>[script]skins/test.php[/script]</li>'."\n"
@@ -237,31 +225,31 @@ $text .= '[toc]'.DUMMY_TEXT."\n"
 $sidebar =& Skin::build_box(i18n::s('sidebar box'), DUMMY_TEXT, 'sidebar');
 
 // $context['text'] - section with sidebar box
-$text .= Skin::build_box(i18n::s('section with a sidebar box'), i18n::s('section box').' '.DUMMY_TEXT.$sidebar.DUMMY_TEXT);
+$text .= Skin::build_box(i18n::s('with a sidebar box'), $sidebar.DUMMY_TEXT);
 
 // a folded box
 $folder =& Skin::build_box(i18n::s('folded box'), DUMMY_TEXT, 'folder');
 
 // $context['text'] - section with folded box
-$text .= Skin::build_box(i18n::s('section with a folded box'), i18n::s('section box').' '.DUMMY_TEXT.$folder.DUMMY_TEXT);
+$text .= Skin::build_box(i18n::s('with a folded box'), DUMMY_TEXT.$folder.DUMMY_TEXT);
 
 // a menu bar
 $menu_bar = array('skins/test.php' => i18n::s('Test page'), 'skins/' => i18n::s('Skins'), 'scripts/' => i18n::s('Server software'));;
 
 // $context['text'] - section with a menu bar
-$text .= Skin::build_box(i18n::s('section with a menu bar'), i18n::s('section box').' '.DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT);
+$text .= Skin::build_box(i18n::s('with a menu bar'), DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT);
 
 // page neighbours
 $neighbours = array('#previous', i18n::s('Previous'), '#next', i18n::s('Next'), '#', 'index');
 
 // $context['text'] - section with neighbours
-$text .= Skin::build_box(i18n::s('section with neighbours'), i18n::s('section box').' '.DUMMY_TEXT.Skin::neighbours($neighbours, 'slideshow'));
+$text .= Skin::build_box(i18n::s('with neighbours'), DUMMY_TEXT.Skin::neighbours($neighbours, 'slideshow'));
 
 // user profile at page bottom
 $user = array();
-$user['id'] = 1;
+$user['id'] = $user_id;
 $user['nick_name'] = 'Geek101';
-$user['description'] = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+$user['introduction'] = DUMMY_TEXT;
 $text .= Skin::build_profile($user, 'suffix');
 
 // beautify everything and display the result

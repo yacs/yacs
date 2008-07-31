@@ -671,6 +671,17 @@ Class Categories {
 	}
 
 	/**
+	 * get permanent address
+	 *
+	 * @param array page attributes
+	 * @return string the permalink
+	 */
+	function &get_permalink($item) {
+		$output =& Categories::get_url($item['id'], 'view', $item['title']);
+		return $output;
+	}
+
+	/**
 	 * build a reference to a category
 	 *
 	 * Depending on parameter '[code]with_friendly_urls[/code]' and on action,
@@ -931,7 +942,7 @@ Class Categories {
 
 		// only consider live categories
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$where .= " AND ((categories.expiry_date is NULL) OR (categories.expiry_date <= '0000-00-01') OR (categories.expiry_date > '".$now."'))";
+		$where .= " AND ((categories.expiry_date is NULL) OR (categories.expiry_date <= '".NULL_DATE."') OR (categories.expiry_date > '".$now."'))";
 
 		// avoid weekly publications and keywords
 		$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
@@ -1299,7 +1310,6 @@ Class Categories {
 	 * @see categories/edit.php
 	 * @see categories/populate.php
 	 * @see categories/set_keyword.php
-	 * @see control/import.php
 	**/
 	function post(&$fields) {
 		global $context;
@@ -1609,7 +1619,6 @@ Class Categories {
 					$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', $week);
 					$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', $week);
 					$fields['title'] = sprintf(i18n::c('Week of&nbsp;%s'), date(i18n::c('m/d/y'), $week));
-					$fields['description'] = i18n::c('Articles published during this week');
 					$fields['options'] = 'no_links';
 					if($fields['id'] = Categories::post($fields)) {
 						Categories::clear($fields);
@@ -1634,7 +1643,6 @@ Class Categories {
 					$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', $month);
 					$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', $month);
 					$fields['title'] = Skin::build_date($month, 'month', $context['preferred_language']);
-					$fields['description'] = i18n::c('Articles published during this month');
 					$fields['options'] = 'no_links';
 					if($fields['id'] = Categories::post($fields)) {
 						Categories::clear($fields);

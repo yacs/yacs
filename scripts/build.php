@@ -151,7 +151,7 @@ elseif(!Surfer::is_associate()) {
 	Safe::unlink($context['path_to_root'].'scripts/reference/footprints.php');
 
 	// list running scripts
-	$context['text'] .= '<p>'.i18n::s('Listing all running PHP scripts...').BR."\n";
+	$context['text'] .= '<p>'.i18n::s('Listing files...').BR."\n";
 
 	// locate script files starting at root
 	$scripts = Scripts::list_scripts_at(NULL);
@@ -160,7 +160,7 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= "</p>\n";
 
 	// copying scripts to the reference store
-	$context['text'] .= '<p>'.i18n::s('Copying reference scripts to the reference store...').BR."\n";
+	$context['text'] .= '<p>'.i18n::s('Copying files...').BR."\n";
 
 	// analyse each script
 	$footprints = array();
@@ -237,12 +237,12 @@ elseif(!Surfer::is_associate()) {
 	$documentation->purge();
 
 	// list reference files
-	$context['text'] .= '<p>'.i18n::s('Listing all reference files...').BR."\n";
+	$context['text'] .= '<p>'.i18n::s('Listing files...').BR."\n";
 
 	// locate reference files
 	$references = Scripts::list_files_at('scripts/reference');
 	if(is_array($references))
-		$context['text'] .= BR.sprintf(i18n::s('%d reference files have been found.'), count($references))."\n";
+		$context['text'] .= BR.sprintf(i18n::s('%d files have been found.'), count($references))."\n";
 	$context['text'] .= "</p>\n";
 
 	// build documentation pages

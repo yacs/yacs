@@ -47,7 +47,7 @@ Class Layout_categories extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// url to read the full category
-			$url = Categories::get_url($item['id'], 'view', $item['title']);
+			$url =& Categories::get_permalink($item);
 
 			// initialize the rendering engine
 			if(is_callable(array('Codes', 'initialize')))

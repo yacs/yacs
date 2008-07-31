@@ -45,7 +45,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 		// empty list
 		if(!SQL::count($result)) {
-			$output = '<p>'.i18n::s('No article has been published so far.');
+			$output = '<p>'.i18n::s('No page to display.');
 			if(Surfer::is_associate())
 				$output .= ' '.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut'));
 			$output .= '</p>';
@@ -73,7 +73,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 			// layout recent articles
 			else
-				$others[Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name'])] = $item['title'];
+				$others[Articles::get_permalink($item)] = $item['title'];
 
 		}
 
@@ -99,7 +99,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		global $context;
 
 		// permalink
-		$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$url =& Articles::get_permalink($item);
 
 		// reset the rendering engine between items
 		Codes::initialize($url);
@@ -170,7 +170,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 			if(is_object($overlay) && ($label = $overlay->get_label('description')))
 				$text .= Skin::build_block($label, 'title');
 
-			$text .= '<div class="description">'.Codes::beautify($item['description'], $item['options'])."</div>\n";
+			$text .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
 		}
 

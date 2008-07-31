@@ -3,14 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 28, 2008, 10:26 pm GMT. Please do not modify it manually.
+ * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
 $_SESSION['l10n']['en']['ATOM 0.3 format']='ATOM 0.3 format';
 $_SESSION['l10n']['en']['6d98e789fd5d4ae9a80538dee178d7f5']='Advanced bloggers can also use (heavy) RSS 2.0 feeds:';
 $_SESSION['l10n']['en']['Aggregate this site']='Aggregate this site';
 $_SESSION['l10n']['en']['15e88f3b3601560d8f8c9f72bedbcb2f']='An integer value, in decimal or hexadecimal, eg, 0x11';
-$_SESSION['l10n']['en']['Articles with full content']='Articles with full content';
 $_SESSION['l10n']['en']['ac77ef6a6501f885293f052c5fe6a3c6']='As a an associate, you can also access the %s (RSS 2.0).';
 $_SESSION['l10n']['en']['Background Blue']='Background Blue';
 $_SESSION['l10n']['en']['Background Green']='Background Green';
@@ -19,7 +18,7 @@ $_SESSION['l10n']['en']['fe9b38a8ae54d3275c819e30e247f3f0']='Browse the %s; each
 $_SESSION['l10n']['en']['Channel description']='Channel description';
 $_SESSION['l10n']['en']['Channel image']='Channel image';
 $_SESSION['l10n']['en']['Channel title']='Channel title';
-$_SESSION['l10n']['en']['Comments and reactions']='Comments and reactions';
+$_SESSION['l10n']['en']['Comments']='Comments';
 $_SESSION['l10n']['en']['c7b0caa70cdcdc624bdb2902405592e6']='Compare to the internal vertical scale below';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
@@ -64,6 +63,7 @@ $_SESSION['l10n']['en']['4c3fff56377afd39eeef44ea44511666']='Oldest news entries
 $_SESSION['l10n']['en']['bbc47a9d202e7175fff1a16a04e5c6fd']='Or browse %s to get a more focused feed.';
 $_SESSION['l10n']['en']['Outbound']='Outbound';
 $_SESSION['l10n']['en']['Outbound feeds']='Outbound feeds';
+$_SESSION['l10n']['en']['Pages with full content']='Pages with full content';
 $_SESSION['l10n']['en']['Pick a feed']='Pick a feed';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['RDF/RSS 1.0 format']='RDF/RSS 1.0 format';

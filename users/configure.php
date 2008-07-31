@@ -354,11 +354,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_with_avatars" value="N"';
 	if(!isset($context['users_with_avatars']) || ($context['users_with_avatars'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Display the same icon for every member profile in user index.');
+	$input .= EOT.' '.i18n::s('Display the same icon for every person profile.');
 	$input .= BR.'<input type="radio" name="users_with_avatars" value="Y"';
 	if(isset($context['users_with_avatars']) && ($context['users_with_avatars'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Enhance the user index with member avatars.');
+	$input .= EOT.' '.i18n::s('Display individual avatars.');
 	$fields[] = array($label, $input);
 
 	// spam protection

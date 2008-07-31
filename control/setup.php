@@ -23,7 +23,6 @@
  * - [script]images/images.php[/script]
  * - [script]links/links.php[/script]
  * - [script]locations/locations.php[/script]
- * - [script]overlays/contact.php[/script]
  * - [script]overlays/issue.php[/script]
  * - [script]scripts/phpdoc.php[/script]
  * - [script]sections/sections.php[/script]
@@ -251,10 +250,6 @@ function send_body() {
 		echo PhpDoc::setup();
 
 		// tables for overlays
-
-		// contact information
-		include_once '../overlays/contact.php';
-		echo Contact::setup();
 
 		// issue information
 		include_once '../overlays/issue.php';

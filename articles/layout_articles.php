@@ -65,7 +65,7 @@ Class Layout_articles extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+			$url =& Articles::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -209,16 +209,6 @@ Class Layout_articles extends Layout_interface {
 			// the main anchor link
 			if(($this->layout_variant != 'no_anchor') && ($item['anchor'] != $this->layout_variant) && is_object($anchor))
 				$anchors[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section');
-
-			// list up to three categories by title, if any, and if not on a mobile
-// 			if($this->layout_variant != 'mobile') {
-// 				if($members = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
-// 					foreach($members as $id => $attributes) {
-// 						if($this->layout_variant != 'category:'.$id)
-// 							$anchors[] = Skin::build_link(Categories::get_url($attributes['id'], 'view', $attributes['title']), $attributes['title'], 'category');
-// 					}
-// 				}
-// 			}
 
 			// on mobile, the section is a header
 			if($this->layout_variant == 'mobile') {
