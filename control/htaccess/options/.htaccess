@@ -4,7 +4,7 @@ Options -Indexes
 
 # pre-requisite for acceptance of RewriteRule directives -- requires "AllowOverride Options" in main configuration file
 #
-Options FollowSymLinks
+#Options FollowSymLinks
 
 # provide pretty links
 #

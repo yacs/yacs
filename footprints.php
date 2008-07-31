@@ -1,6 +1,6 @@
 <?php
 // This file has been created by the building script scripts/build.php
-// on July 31, 2008, 6:15 pm GMT, for Bernard. Please do not modify it manually.
+// on July 31, 2008, 8:38 pm GMT, for Bernard. Please do not modify it manually.
 global $footprints;
 if(!isset($footprints)) $footprints = array();
 $footprints['actions/accept.php']=array(154, '091939247409bceb71fefd3e8742647c', 'c6abd5a47a1240f6e1c674e48ce3ff52');
@@ -601,7 +601,7 @@ $footprints['versions/versions.php']=array(495, '069e7abbeaa4e14d848495ec784642c
 $footprints['versions/view.php']=array(177, 'beb5ccabc42e57856efb5abfbf6cafe4', '6f222a369338026c9f07759f88b30c19');
 global $generation;
 if(!isset($generation)) $generation = array();
-$generation['date']='080731-18:15:03 GMT';
+$generation['date']='080731-20:38:17 GMT';
 $generation['server']='127.0.0.1';
 $generation['version']='8.6beta30.31';
 $generation['scripts']='596'; // number of reference scripts
