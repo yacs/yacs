@@ -1,0 +1,25 @@
+#
+# This file adds nice features to YACS
+#
+# More support at http://www.yetanothercommunitysystem.com/
+#
+
+# redirect to pretty error pages
+#
+ErrorDocument 401 !!url_to_root!!error.php?error=401
+ErrorDocument 403 !!url_to_root!!error.php?error=403
+ErrorDocument 404 !!url_to_root!!error.php?error=404
+
+# compress dynamic objects
+#
+<IfModule mod_deflate.c>
+
+	# enables the filter
+	SetOutputFilter DEFLATE
+
+	# non-textual entities should be already compressed
+	AddOutputFilterByType DEFLATE application/javascript
+	AddOutputFilterByType DEFLATE text/*
+
+</IfModule>
+

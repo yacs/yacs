@@ -1,0 +1,16 @@
+# set the default handler to index.php -- requires "AllowOverride Indexes" in main configuration file
+#
+DirectoryIndex index.php
+
+# cache static objects -- requires "AllowOverride Indexes" in main configuration file
+#
+<IfModule mod_expires.c>
+
+	# enable expiration
+	ExpiresActive On
+
+	# expire everything except dynamic pages
+	ExpiresDefault "access plus 3 days"
+	ExpiresByType text/html A1
+
+</IfModule>

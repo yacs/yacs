@@ -1,0 +1,33 @@
+root        ./*.php
+actions     actions/*.php
+agents      agents/*.php
+articles    articles/*.php
+behaviors   behaviors/*.php    behaviors/agreements/*.php
+categories  categories/*.php
+codes       codes/*.php
+collections collections/*.php
+comments    comments/*.php
+control     control/*.php	control/htaccess/*.php	control/htaccess/basic/*.php	control/htaccess/options/*.php	control/htaccess/indexes/*.php
+dates       dates/*.php
+decisions   decisions/*.php
+feeds       feeds/*.php       feeds/flash/*.php
+files       files/*.php
+forms       forms/*.php
+help        help/*.php
+i18n        i18n/*.php
+images      images/*.php
+letters     letters/*.php
+links       links/*.php
+locations   locations/*.php
+overlays    overlays/*.php    overlays/polls/*.php
+scripts     scripts/*.php
+sections    sections/*.php
+servers     servers/*.php
+services    services/*.php
+shared      shared/*.php
+skins       skins/*.php       skins/boxesandarrows/*.php
+smileys     smileys/*.php
+tools       tools/*.php
+tables      tables/*.php
+users       users/*.php       users/authenticators/*.php
+versions    versions/*.php

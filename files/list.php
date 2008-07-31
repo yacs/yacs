@@ -1,0 +1,171 @@
+<?php
+/**
+ * list files available for a given anchor
+ *
+ * Access is granted only if the surfer is allowed to view the anchor page.
+ *
+ * Accepted calls:
+ * - list.php?id=article:&lt;id&gt;
+ * - list.php/&lt;article&gt;/&lt;id&gt;
+ *
+ * If the anchor for this item specifies a specific skin (option keyword '[code]skin_xyz[/code]'),
+ * or a specific variant (option keyword '[code]variant_xyz[/code]'), they are used instead default values.
+ *
+ * @author Bernard Paques
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+
+// common definitions and initial processing
+include_once '../shared/global.php';
+include_once 'files.php';
+
+// look for the target anchor
+$id = NULL;
+if(isset($context['arguments'][0]) && isset($context['arguments'][1]))
+	$id = $context['arguments'][0].':'.$context['arguments'][1];
+elseif(isset($context['arguments'][0]))
+	$id = $context['arguments'][0];
+elseif(isset($_REQUEST['id']))
+	$id = $_REQUEST['id'];
+if(strpos($id, ':') === FALSE)
+	$id = 'article:'.$id;
+$id = strip_tags($id);
+
+// get the anchor
+$anchor = NULL;
+if($id)
+	$anchor = Anchors::get($id);
+
+// which page should be displayed
+if(isset($_REQUEST['page']))
+	$page = $_REQUEST['page'];
+if(!isset($page) && isset($context['arguments'][2]))
+	$page = $context['arguments'][2];
+if(!isset($page))
+	$page = 1;
+$page = strip_tags($page);
+
+// the anchor has to be viewable by this surfer
+if(!is_object($anchor) || $anchor->is_viewable())
+	$permitted = TRUE;
+else
+	$permitted = FALSE;
+
+// load the skin, maybe with a variant
+load_skin('files', $anchor);
+
+// clear the tab we are in, if any
+if(is_object($anchor))
+	$context['current_focus'] = $anchor->get_focus();
+
+// the path to this page
+if(is_object($anchor) && $anchor->is_viewable())
+	$context['path_bar'] = $anchor->get_path_bar();
+else
+	$context['path_bar'] = array( 'files/' => i18n::s('Files') );
+
+// the title of the page
+if(is_object($anchor) && ($title = $anchor->get_title()))
+	$context['page_title'] = sprintf(i18n::s('Files: %s'), $title);
+else
+	$context['page_title'] = i18n::s('Files');
+
+// an anchor is mandatory
+if(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Skin::error(i18n::s('No anchor has been found.'));
+
+// permission denied
+} elseif(!$permitted) {
+
+	// anonymous users are invited to log in or to register
+	if(!Surfer::is_logged())
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('files/list.php?id='.$anchor->get_reference()));
+
+	// permission denied to authenticated user
+	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+
+// display the index
+} else {
+
+	// insert anchor prefix and suffix, plus any available icon
+	$context['prefix'] .= $anchor->get_prefix();
+
+	include_once '../files/layout_files.php';
+	$layout =& new Layout_files();
+
+	// provide anthor information to layout
+	if(is_object($layout))
+		$layout->set_variant($anchor->get_reference());
+
+	// the maximum number of files per page
+	if(is_object($layout))
+		$items_per_page = $layout->items_per_page();
+	else
+		$items_per_page = FILES_PER_PAGE;
+
+	// the first file to list
+	$offset = ($page - 1) * $items_per_page;
+	if(is_object($layout) && method_exists($layout, 'set_offset'))
+		$layout->set_offset($offset);
+
+	// a navigation bar for these files
+	if($count = Files::count_for_anchor($anchor->get_reference())) {
+		$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count)));
+
+		// navigation commands for files
+		$prefix = Files::get_url($anchor->get_reference(), 'navigate');
+		$context['page_menu'] = array_merge($context['page_menu'],
+			Skin::navigate($anchor->get_url('discuss'), $prefix, $count, $items_per_page, $page, FALSE));
+
+		// list files by date or by title
+		if($anchor->has_option('files_by_title'))
+			$items = Files::list_by_title_for_anchor($anchor->get_reference(), $offset, $items_per_page, 'no_anchor');
+		else
+			$items = Files::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, 'no_anchor');
+
+		// actually render the html
+		if(is_array($items))
+			$context['text'] .= Skin::build_list($items, 'decorated');
+		elseif(is_string($items))
+			$context['text'] .= $items;
+
+	}
+
+	// insert anchor suffix
+	if(is_object($anchor))
+		$context['text'] .= $anchor->get_suffix();
+
+	// page menu
+	//
+
+	// the command to post a new file, if this is allowed
+	if(Files::are_allowed($anchor)) {
+		Skin::define_img('NEW_FILE_IMG', 'icons/files/new.gif');
+		$context['page_menu'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), NEW_FILE_IMG.' '.i18n::s('Upload a file'));
+	}
+
+	// command to go back
+	if(is_object($anchor) && $anchor->is_viewable())
+		$context['page_menu'][] = Skin::build_link($anchor->get_url(), i18n::s('Back to main page'), 'basic');
+
+	// side tools
+	//
+
+	// the command to post a new file, if this is allowed
+	if(Files::are_allowed($anchor)) {
+		Skin::define_img('NEW_FILE_IMG', 'icons/files/new.gif');
+		$context['page_tools'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), NEW_FILE_IMG.' '.i18n::s('Upload a file'));
+	}
+
+	// back to main page
+	$context['page_tools'][] = Skin::build_link($anchor->get_url(), i18n::s('Back to main page'));
+
+}
+
+// render the skin
+render_skin();
+
+?>
