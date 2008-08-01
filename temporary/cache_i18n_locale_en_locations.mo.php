@@ -3,13 +3,14 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:17 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 4:16 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['e29e3b62fd00388c3ca08004cce5a8c1']='%d location'.chr(0).'%d locations';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['Add a location']='Add a location';
 $_SESSION['l10n']['en']['da9a0fd4ad6b4e693496e34f79ee7dcf']='Address Map Coordinate (Lat/Long) Finder';
+$_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['0ce40041c3b540b90a142d3c14a598ee']='Because of our security policy you are not allowed to list locations.';
 $_SESSION['l10n']['en']['Coordinates']='Coordinates';
@@ -44,7 +45,7 @@ $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provide
 $_SESSION['l10n']['en']['95eeec18709a90fc951edc69a4187d66']='No location has been created yet.';
 $_SESSION['l10n']['en']['a9864baa813ec36afd9d1d510045645a']='Not capable to generate dynamic images.';
 $_SESSION['l10n']['en']['On page %s']='On page %s';
-$_SESSION['l10n']['en']['Orphan: location %s']='Orphan: location %s';
+$_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Place name']='Place name';
 $_SESSION['l10n']['en']['b7e4d1da92d8d2dbf79a14a8e486cd67']='Please add a geo_place_name for this location';
 $_SESSION['l10n']['en']['ad8b1071c8b63b8f765482c0520d756a']='Please browse %s to visualize any location that could be embedded.';
@@ -56,7 +57,6 @@ $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['cd99033b943f469c35ebe8ba9de394f2']='Reference a valid anchor, or all users.';
 $_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Regional position: %s']='Regional position: %s';
-$_SESSION['l10n']['en']['Scanning locations table...']='Scanning locations table...';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['Street address, city, country']='Street address, city, country';
@@ -69,7 +69,7 @@ $_SESSION['l10n']['en']['This address has not been found']='This address has not
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
 $_SESSION['l10n']['en']['f222ba4674db37aa398976c8f3056048']='To find coordinates of any emplacement you can visit following sites:';
 $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive errors. Aborted';
-$_SESSION['l10n']['en']['Unused: location %s']='Unused: location %s';
+$_SESSION['l10n']['en']['Unused: %s']='Unused: %s';
 $_SESSION['l10n']['en']['b76e939953ed01db8e5a10a9a47bc9ad']='Use the configuration panel for web services to enter your Google API key.';
 $_SESSION['l10n']['en']['View the page']='View the page';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:17 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 5:02 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['d2c50a2bcb2c12fa506be527379e7034']='%d decision'.chr(0).'%d decisions';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
@@ -11,6 +11,7 @@ $_SESSION['l10n']['en']['%d thread'.chr(0).'%d threads']='%d thread'.chr(0).'%d 
 $_SESSION['l10n']['en']['d09e6d8231070418cfe46f6f8984efd1']='%s approvals (%d%%), %s rejections (%d%%)';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['All pages']='All pages';
+$_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['Approval']='Approval';
 $_SESSION['l10n']['en']['Approved']='Approved';
 $_SESSION['l10n']['en']['Approved %s']='Approved %s';
@@ -48,7 +49,7 @@ $_SESSION['l10n']['en']['New decision: %s']='New decision: %s';
 $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.';
 $_SESSION['l10n']['en']['b96aca9f6d136363f1c15754d8da15df']='No decision has been recorded yet.';
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
-$_SESSION['l10n']['en']['Orphan: decision %s']='Orphan: decision %s';
+$_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Page to review']='Page to review';
 $_SESSION['l10n']['en']['87c663a3043f841f20b28627d553226a']='Please let me thank you for your kind support.';
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
@@ -65,7 +66,6 @@ $_SESSION['l10n']['en']['Reject']='Reject';
 $_SESSION['l10n']['en']['Rejected']='Rejected';
 $_SESSION['l10n']['en']['Rejected %s']='Rejected %s';
 $_SESSION['l10n']['en']['Rejected by %s %s']='Rejected by %s %s';
-$_SESSION['l10n']['en']['Scanning decisions table...']='Scanning decisions table...';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Send me a copy of this message.']='Send me a copy of this message.';
 $_SESSION['l10n']['en']['Start']='Start';

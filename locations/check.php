@@ -36,7 +36,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'unused')) {
 
 	// scan locations
-	$context['text'] .= Skin::build_block(i18n::s('Scanning locations table...'), 'subtitle');
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('locations')), 'subtitle');
 
 	// scan up to 10000 items
 	$count = 0;
@@ -68,7 +68,7 @@ if(!Surfer::is_associate()) {
 
 				// check that the description has a reference to this location, or that the location is either an icon or a thumbnail
 				if(!preg_match('/\[location='.$row['id'].'.*\]/', $article['description'])) {
-					$context['text'] .= sprintf(i18n::s('Unused: location %s'), Skin::build_link(Locations::get_url($row['id']), $row['id'].' '.$row['geo_place_name'])).BR."\n";
+					$context['text'] .= sprintf(i18n::s('Unused: %s'), 'location '.Skin::build_link(Locations::get_url($row['id']), $row['id'].' '.$row['geo_place_name'])).BR."\n";
 					if(++$errors_count >= 25) {
 						$context['text'] .= i18n::s('Too many successive errors. Aborted').BR."\n";
 						break;
@@ -95,7 +95,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'orphans')) {
 
 	// scan locations
-	$context['text'] .= Skin::build_block(i18n::s('Scanning locations table...'), 'subtitle');
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('locations')), 'subtitle');
 
 	// scan up to 10000 items
 	$count = 0;
@@ -124,7 +124,7 @@ if(!Surfer::is_associate()) {
 
 			// check that the anchor exists, if any
 			if($row['anchor'] && !Anchors::get($row['anchor'])) {
-				$context['text'] .= sprintf(i18n::s('Orphan: location %s'), Skin::build_link(Locations::get_url($row['id']), $row['id'].' '.$row['geo_place_name'])).BR."\n";
+				$context['text'] .= sprintf(i18n::s('Orphan: %s'), 'location '.Skin::build_link(Locations::get_url($row['id']), $row['id'].' '.$row['geo_place_name'])).BR."\n";
 				if(++$errors_count >= 5) {
 						$context['text'] .= i18n::s('Too many successive errors. Aborted').BR."\n";
 					break;

@@ -121,7 +121,7 @@ else {
 
 	// hits
 	if($item['hits'] > 1)
-		$details[] = sprintf(i18n::s('%d hits'), $item['hits']);
+		$details[] = Skin::build_number($item['hits'], i18n::s('hits'));
 
 	// all details
 	if(@count($details))

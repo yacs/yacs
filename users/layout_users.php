@@ -73,10 +73,13 @@ Class Layout_users extends Layout_interface {
 				$prefix .= EXPIRED_FLAG;
 
 			// item title
-			if($item['full_name'])
+			if($item['full_name']) {
 				$label = ucfirst(Skin::strip($item['full_name'], 10));
-			else
+				$hover = $item['nick_name'];
+			} else {
 				$label = ucfirst(Skin::strip($item['nick_name'], 10));
+				$hover = $item['full_name'];
+			}
 
 			// show contact information
 			if(Surfer::may_contact()) {
@@ -173,7 +176,7 @@ Class Layout_users extends Layout_interface {
 				$icon = $item['avatar_url'];
 
 			// list all components for this item
-			$items[$url] = array($prefix, $label, $suffix, $class, $icon);
+			$items[$url] = array($prefix, $label, $suffix, $class, $icon, $hover);
 
 		}
 

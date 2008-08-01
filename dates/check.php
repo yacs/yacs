@@ -36,7 +36,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'unused')) {
 
 	// scan dates
-	$context['text'] .= Skin::build_block(i18n::s('Scanning dates table...'), 'subtitle');
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('dates')), 'subtitle');
 
 	// scan up to 10000 items
 	$count = 0;
@@ -67,7 +67,7 @@ if(!Surfer::is_associate()) {
 
 				// check that the description has a reference to this date, or that overlay date has been used
 				if(!preg_match('/\[date='.$row['id'].'.*\]/', $article['description']) && !preg_match('/date_stamp/', $article['overlay'])) {
-					$context['text'] .= sprintf(i18n::s('Unused: date %s'), Skin::build_link(Dates::get_url($row['id']), $row['id'].' '.$row['date_stamp'])).BR."\n";
+					$context['text'] .= sprintf(i18n::s('Unused: %s'), 'date '.Skin::build_link(Dates::get_url($row['id']), $row['id'].' '.$row['date_stamp'])).BR."\n";
 					if(++$errors_count >= 25) {
 						$context['text'] .= i18n::s('Too many successive errors. Aborted').BR."\n";
 						break;
@@ -94,7 +94,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'orphans')) {
 
 	// scan dates
-	$context['text'] .= Skin::build_block(i18n::s('Scanning dates table...'), 'subtitle');
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('dates')), 'subtitle');
 
 	// scan up to 10000 items
 	$count = 0;
@@ -123,7 +123,7 @@ if(!Surfer::is_associate()) {
 
 			// check that the anchor exists, if any
 			if($row['anchor'] && !Anchors::get($row['anchor'])) {
-				$context['text'] .= sprintf(i18n::s('Orphan: date %s'), Skin::build_link(Dates::get_url($row['id']), $row['id'].' '.$row['date_stamp'])).BR."\n";
+				$context['text'] .= sprintf(i18n::s('Orphan: %s'), 'date '.Skin::build_link(Dates::get_url($row['id']), $row['id'].' '.$row['date_stamp'])).BR."\n";
 				if(++$errors_count >= 25) {
 					$context['text'] .= i18n::s('Too many successive errors. Aborted').BR."\n";
 					break;

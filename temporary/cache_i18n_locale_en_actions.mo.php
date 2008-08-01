@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 5:02 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d action'.chr(0).'%d actions']='%d action'.chr(0).'%d actions';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
@@ -16,6 +16,7 @@ $_SESSION['l10n']['en']['Action has been rejected']='Action has been rejected';
 $_SESSION['l10n']['en']['Action is on-going']='Action is on-going';
 $_SESSION['l10n']['en']['Actions']='Actions';
 $_SESSION['l10n']['en']['Add an action']='Add an action';
+$_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Be straigthforward']='Be straigthforward';
 $_SESSION['l10n']['en']['03a845156f3b239357d06bed4fbfc54c']='Because of our security policy you are not allowed to list actions. Please browse %s to visualize any action attached.';
@@ -31,7 +32,6 @@ $_SESSION['l10n']['en']['Edit: %s']='Edit: %s';
 $_SESSION['l10n']['en']['Edited by']='Edited by';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
-$_SESSION['l10n']['en']['1578ec9313417c091be9afe8bc83be37']='Looking for orphans in actions table...';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Navigation']='Navigation';
 $_SESSION['l10n']['en']['New action for %s']='New action for %s';
@@ -41,7 +41,7 @@ $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provide
 $_SESSION['l10n']['en']['No title has been provided.']='No title has been provided.';
 $_SESSION['l10n']['en']['On-going']='On-going';
 $_SESSION['l10n']['en']['On-going actions']='On-going actions';
-$_SESSION['l10n']['en']['Orphan: action %s']='Orphan: action %s';
+$_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Overview of your post:']='Overview of your post:';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $_SESSION['l10n']['en']['Posted by']='Posted by';

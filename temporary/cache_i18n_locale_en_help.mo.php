@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:19 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 5:03 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['1c215e423c027bdfb2bd09d45b93e517']='%s (and shortcuts, buttons, ...)';
 $_SESSION['l10n']['en']['%s (and table of content)']='%s (and table of content)';
@@ -134,7 +134,7 @@ $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['How to contribute?']='How to contribute?';
 $_SESSION['l10n']['en']['How to format text in pages?']='How to format text in pages?';
 $_SESSION['l10n']['en']['3dc352975fba2c115965839b6be6e5d2']='Ideal to express a broad support of some idea. Every signature can be commented.';
-$_SESSION['l10n']['en']['29ba32d1e5e13d46ef242d8e68e3c7d2']='If you are running Internet Explorer under Windows, click on the following link to %s triggered on right-click. Accept registry updates, and restart the browser afterwards.</p>';
+$_SESSION['l10n']['en']['7784d87340c4d0d8d8e7b2729c9b65ff']='If you are running Internet Explorer under Windows, click on the following link to %s triggered on right-click. Accept registry updates, and restart the browser afterwards.';
 $_SESSION['l10n']['en']['e1549f24c173711dc074c8cda8a11f70']='If your browser supports side panels and javascript, click on the following link to %s.';
 $_SESSION['l10n']['en']['In-line']='In-line';
 $_SESSION['l10n']['en']['3c3270c9c73750475f6a1f562fbcbea3']='Index of most recent %1$s, %2$s, %3$s and %4$s';

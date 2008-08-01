@@ -3,12 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['"%s" is not a valid date']='"%s" n\'est pas une date valide';
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
 $_SESSION['l10n']['fr']['%d file'.chr(0).'%d files']='%d fichier'.chr(0).'%d fichiers';
-$_SESSION['l10n']['fr']['%d hits']='%d lectures';
 $_SESSION['l10n']['fr']['%d link'.chr(0).'%d links']='%d lien'.chr(0).'%d liens';
 $_SESSION['l10n']['fr']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
 $_SESSION['l10n']['fr']['%d rate'.chr(0).'%d rates']='%d vote'.chr(0).'%d votes';
@@ -18,7 +17,6 @@ $_SESSION['l10n']['fr']['%s %s']='%s %s';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s by %s']='%s par %s';
 $_SESSION['l10n']['fr']['%s by %s %s']='%s par %s %s';
-$_SESSION['l10n']['fr']['%s hits']='%s lectures';
 $_SESSION['l10n']['fr']['%s vote'.chr(0).'%s votes']='%s vote'.chr(0).'%s votes';
 $_SESSION['l10n']['fr']['10000']='10000';
 $_SESSION['l10n']['fr']['55e83b787dae565a7d44016196d5382e']='<p>N\'oubliez pas de publier la nouvelle page un jour ou l\'autre. Editez la page, améliorer la, puis cliquez sur la commande Publier pour la rendre disponible à tous.</p>';
@@ -42,6 +40,7 @@ $_SESSION['l10n']['fr']['All pages']='Toutes les pages';
 $_SESSION['l10n']['fr']['e0505deafaddcb1c64c1fe609cab8361']='Les surfeurs anonymes peuvent changer le contenu';
 $_SESSION['l10n']['fr']['Allow members to edit content']='Les membres peuvent changer le contenu';
 $_SESSION['l10n']['fr']['de5b7203b45b8660746f749207ab2a51']='Complète le titre dans les listes où la page apparait';
+$_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Anyone may read this page']='Tout le monde peut lire cet article';
 $_SESSION['l10n']['fr']['22b00309d120e415c07fd22cd2f15ae4']='Appliquer un style spécifique (dans skins/foo_bar) ici';
 $_SESSION['l10n']['fr']['Article copy: %s']='Article copié : %s';
@@ -156,7 +155,6 @@ $_SESSION['l10n']['fr']['Locations']='Emplacements';
 $_SESSION['l10n']['fr']['Lock']='Verrouiller';
 $_SESSION['l10n']['fr']['Locked']='Verrouillé';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
-$_SESSION['l10n']['fr']['6465bbba577fa40757a2099a954734ec']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Manage your watch list']='Gérer votre liste de surveillance';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='* signale les champs obligatoires';
@@ -193,7 +191,7 @@ $_SESSION['l10n']['fr']['Oldest articles']='Articles anciens';
 $_SESSION['l10n']['fr']['One page of comments']='Une page de commentaires';
 $_SESSION['l10n']['fr']['Operation has failed.']='L\'opération a échoué.';
 $_SESSION['l10n']['fr']['Options']='Options';
-$_SESSION['l10n']['fr']['Orphan: article %s']='Orphelin : article %s';
+$_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Other sections']='Autres sections';
 $_SESSION['l10n']['fr']['Page']='Page';
 $_SESSION['l10n']['fr']['Page bottom']='Bas de page';
@@ -393,6 +391,7 @@ $_SESSION['l10n']['fr']['delete']='supprimer';
 $_SESSION['l10n']['fr']['edit']='modifier';
 $_SESSION['l10n']['fr']['edited']='modifié';
 $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
+$_SESSION['l10n']['fr']['hits']='lectures';
 $_SESSION['l10n']['fr']['imported']='importé';
 $_SESSION['l10n']['fr']['in %s']='dans %s';
 $_SESSION['l10n']['fr']['never']='jamais';

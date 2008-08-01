@@ -3,10 +3,8 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['fr']['%d click'.chr(0).'%d clicks']='%d sélection'.chr(0).'%d sélections';
-$_SESSION['l10n']['fr']['%d clicks']='%d sélections';
 $_SESSION['l10n']['fr']['%d link'.chr(0).'%d links']='%d lien'.chr(0).'%d liens';
 $_SESSION['l10n']['fr']['%d links have been processed.']='%d liens ont été analysés.';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
@@ -16,6 +14,7 @@ $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s p
 $_SESSION['l10n']['fr']['Add a link']='Ajouter un lien';
 $_SESSION['l10n']['fr']['All referrals are looking ok.']='Toutes les références semblent correctes.';
 $_SESSION['l10n']['fr']['d9c2adb24d34dc7d01d26a5d689ef31b']='Et prenez le temps de décrire votre envoi. Le champ de description est complètement indexé afin de faciliter les recherches plein texte.';
+$_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['519471e63694deb32693cdb1e9f0342c']='Ce champ étant indexé pour les recherches, pensez à soigner votre formulation';
 $_SESSION['l10n']['fr']['cb9f47eeba11304d17bfc1bd43c723b9']='Nous vous suggérons de copier-coller le texte suivant pour référencer cette page :';
 $_SESSION['l10n']['fr']['Blog name or section']='Nom de blog ou de section';
@@ -57,7 +56,7 @@ $_SESSION['l10n']['fr']['No link to check.']='Aucun lien à vérifier.';
 $_SESSION['l10n']['fr']['No resource to track back.']='La ressource à lier n\'est pas indiquée.';
 $_SESSION['l10n']['fr']['0fb9e6055d4a788a90ac09118a7e4653']='Normaliser les références extérieures. Les références provenant des moteurs de recherche seront simplifiées autant que possible. De plus, les mots-clés seront extraits pour usage ultérieur.';
 $_SESSION['l10n']['fr']['54e29b42a59e1e8727ac836e3f2bd4e6']='Ouvrir une fenêtre séparée pour les liens exterieurs';
-$_SESSION['l10n']['fr']['Orphan: link %s']='Orphelin : link %s';
+$_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Page address (permalink):']='Adresse de l\'article (permalink) :';
 $_SESSION['l10n']['fr']['61ab86a39172b19e7cd47a8dec28c0e1']='Choisissez l\'emplacement adéquat pour partager votre lien';
 $_SESSION['l10n']['fr']['5fe5e48f55363ee013cf40d603c317dd']='Merci de bloguer cette page, ou de la référencer (trackback).';
@@ -70,8 +69,6 @@ $_SESSION['l10n']['fr']['Popular']='Hit-Parade';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Reference: %s']='Référencer : %s';
 $_SESSION['l10n']['fr']['Referencing address']='Adresse de référencement';
-$_SESSION['l10n']['fr']['ae97935df65c13cd577e43d1affd704e']='Analyse des liens par blocs de %d. Merci de patienter...';
-$_SESSION['l10n']['fr']['Scanning links table...']='Analyse de la table des liens...';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['Start']='Commencer';
@@ -114,6 +111,7 @@ $_SESSION['l10n']['fr']['Your address']='Votre adresse';
 $_SESSION['l10n']['fr']['Your name']='Votre nom';
 $_SESSION['l10n']['fr']['at %s']='à %s';
 $_SESSION['l10n']['fr']['authenticate']='vous authentifier';
+$_SESSION['l10n']['fr']['clicks']='clics';
 $_SESSION['l10n']['fr']['74b5672945558b3b34f2599587f6c14c']='Adresse électronique, ou serveur web ; champ optionnel';
 $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
 $_SESSION['l10n']['fr']['in %s']='dans %s';

@@ -117,7 +117,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 				// add sub-sections
 				if($related =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, $maximum_items, 'compact')) {
-					foreach($related as $url => $label) {
+					foreach($related as $sub_url => $label) {
 						$sub_prefix = $sub_suffix = $sub_hover = '';
 						if(is_array($label)) {
 							$sub_prefix = $label[0];
@@ -126,7 +126,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 								$sub_hover = $label[5];
 							$label = $label[1];
 						}
-						$content[] = $sub_prefix.Skin::build_link($url, $label, 'section', $sub_hover).$sub_suffix;
+						$content[] = $sub_prefix.Skin::build_link($sub_url, $label, 'section', $sub_hover).$sub_suffix;
 					}
 				}
 
@@ -153,7 +153,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 				elseif(is_object($content_overlay) && is_callable(array($content_overlay, 'render_list_for_anchor'))) {
 
 					if($related = $content_overlay->render_list_for_anchor('section:'.$item['id'], $maximum_items - count($content))) {
-						foreach($related as $url => $label) {
+						foreach($related as $sub_url => $label) {
 							$sub_prefix = $sub_suffix = $sub_hover = '';
 							if(is_array($label)) {
 								$sub_prefix = $label[0];
@@ -162,7 +162,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 									$sub_hover = $label[5];
 								$label = $label[1];
 							}
-							$content[] = $sub_prefix.Skin::build_link($url, $label, 'basic', $sub_hover).$sub_suffix;
+							$content[] = $sub_prefix.Skin::build_link($sub_url, $label, 'basic', $sub_hover).$sub_suffix;
 						}
 					}
 
@@ -179,7 +179,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 					else
 						$order = 'date';
 					if($related =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, $maximum_items - count($content), 'compact')) {
-						foreach($related as $url => $label) {
+						foreach($related as $sub_url => $label) {
 							$sub_prefix = $sub_suffix = $sub_hover = '';
 							if(is_array($label)) {
 								$sub_prefix = $label[0];
@@ -188,7 +188,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 									$sub_hover = $label[5];
 								$label = $label[1];
 							}
-							$content[] = $sub_prefix.Skin::build_link($url, $label, 'article', $sub_hover).$sub_suffix;
+							$content[] = $sub_prefix.Skin::build_link($sub_url, $label, 'article', $sub_hover).$sub_suffix;
 						}
 					}
 				}
@@ -201,7 +201,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 				// add related files if necessary
 				if((count($content) < $maximum_items) && ($related = Files::list_by_date_for_anchor('section:'.$item['id'], 0, $maximum_items - count($content), 'compact'))) {
-					foreach($related as $url => $label) {
+					foreach($related as $sub_url => $label) {
 						$sub_prefix = $sub_suffix = $sub_hover = '';
 						if(is_array($label)) {
 							$sub_prefix = $label[0];
@@ -210,7 +210,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 								$sub_hover = $label[5];
 							$label = $label[1];
 						}
-						$content[] = $sub_prefix.Skin::build_link($url, $label, 'file', $sub_hover).$sub_suffix;
+						$content[] = $sub_prefix.Skin::build_link($sub_url, $label, 'file', $sub_hover).$sub_suffix;
 					}
 				}
 
@@ -223,7 +223,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 				// add related links if necessary
 				if((count($content) < $maximum_items) && ($related = Links::list_by_date_for_anchor('section:'.$item['id'], 0, $maximum_items - count($content), 'compact'))) {
-					foreach($related as $url => $label) {
+					foreach($related as $sub_url => $label) {
 						$sub_prefix = $sub_suffix = $sub_hover = '';
 						if(is_array($label)) {
 							$sub_prefix = $label[0];
@@ -232,7 +232,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 								$sub_hover = $label[5];
 							$label = $label[1];
 						}
-						$content[] = $sub_prefix.Skin::build_link($url, $label, 'link', $sub_hover).$sub_suffix;
+						$content[] = $sub_prefix.Skin::build_link($sub_url, $label, 'link', $sub_hover).$sub_suffix;
 					}
 				}
 

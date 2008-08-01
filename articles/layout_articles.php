@@ -115,7 +115,7 @@ Class Layout_articles extends Layout_interface {
 			// with hits
 			if($this->layout_variant == 'hits') {
 				if($item['hits'] > 1)
-					$suffix = ' '.sprintf(i18n::s('%d hits'), $item['hits']);
+					$suffix = ' '.Skin::build_number($item['hits'], i18n::s('hits'));
 
 				$items[$url] = array($prefix, Skin::strip($title, 30), $suffix, 'basic', NULL);
 				continue;
@@ -161,7 +161,7 @@ Class Layout_articles extends Layout_interface {
 
 				// the number of hits
 				if(Surfer::is_logged() && ($item['hits'] > 1))
-					$details[] = sprintf(i18n::s('%d hits'), $item['hits']);
+					$details[] = Skin::build_number($item['hits'], i18n::s('hits'));
 
 				// info on related files
 				if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))

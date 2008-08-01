@@ -239,6 +239,7 @@
  * @tester Guillaume Perez
  * @tester Fw_crocodile
  * @tester Lasares
+ * @tester Christian Piercot
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -458,7 +459,7 @@ Class Codes {
 				"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
 				"|\n[ \t]*>(\s*)|i",		/* quoted by > */
 				"|\n[ \t]*\|(\s*)|i",		/* quoted by | */
-				"#([\n\t ])(mailto:|)([a-z0-9_\-\.\~]+?)@([a-z0-9_\-\.\~]{3}[a-z0-9_\-\.\~]+)([\n\t ]*)#ie" /* mail address*/
+				"#([\n\t ])(mailto:|)([a-z0-9_\-\.\~]+?)@([a-z0-9_\-\.\~]+\.[a-z0-9_\-\.\~]+)([\n\t ]*)#ie" /* mail address*/
 				);
 
 			$replace = array(

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 5:02 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d action'.chr(0).'%d actions']='%d action'.chr(0).'%d actions';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
@@ -16,6 +16,7 @@ $_SESSION['l10n']['fr']['Action has been rejected']='L\'action a été rejetée'
 $_SESSION['l10n']['fr']['Action is on-going']='L\'action est en cours';
 $_SESSION['l10n']['fr']['Actions']='Actions';
 $_SESSION['l10n']['fr']['Add an action']='Ajouter une action';
+$_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['Be straigthforward']='Soyez clair et concis';
 $_SESSION['l10n']['fr']['03a845156f3b239357d06bed4fbfc54c']='Notre politique de sécurité ne vous donne pas accès à l\'index général des actions. Merci de consulter %s pour visualiser les actions attachées.';
@@ -31,7 +32,6 @@ $_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['Edited by']='Modifié par';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Look for orphan records']='Recherche des enregistrements orphelins';
-$_SESSION['l10n']['fr']['1578ec9313417c091be9afe8bc83be37']='Recherche des orphelins dans la table des actions...';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Navigation']='Navigation';
 $_SESSION['l10n']['fr']['New action for %s']='Nouvelle action pour %s';
@@ -41,7 +41,7 @@ $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['No title has been provided.']='Aucun titre n\'a été fourni.';
 $_SESSION['l10n']['fr']['On-going']='En cours';
 $_SESSION['l10n']['fr']['On-going actions']='Actions en cours';
-$_SESSION['l10n']['fr']['Orphan: action %s']='Orphelin : action %s';
+$_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Overview of your post:']='Aperçu de votre envoi :';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['Posted by']='Envoyé par';

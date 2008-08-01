@@ -42,7 +42,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'remember')) {
 
 	// scan categories
-	$context['text'] .= Skin::build_block(i18n::s('Scanning articles table...'), 'title');
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('articles')), 'title');
 
 	// scan only published articles
 	$where = 'NOT ((articles.publish_date is NULL) OR (articles.publish_date <= \'0000-00-00\'))';
@@ -102,7 +102,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'paths')) {
 
 	// scan categories
-	$context['text'] .= Skin::build_block(i18n::s('Scanning categories table...'), 'title');
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('categories')), 'title');
 
 	// scan up to 1000 categories (52 weekly + 12 monthly = 60 per year)
 	$count = 0;
@@ -158,7 +158,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'orphans')) {
 
 	// scan categories
-	$context['text'] .= Skin::build_block(i18n::s('Scanning categories table...'), 'title');
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('categories')), 'title');
 
 	// scan up to 10000 categories
 	$count = 0;
@@ -180,7 +180,7 @@ if(!Surfer::is_associate()) {
 
 			// check that the anchor exists, if any
 			if($item['anchor'] && !Anchors::get($item['anchor'])) {
-				$context['text'] .= sprintf(i18n::s('Orphan: category #%s'), Skin::build_link(Categories::get_permalink($item), $id.' '.$label, 'category')).BR."\n";
+				$context['text'] .= sprintf(i18n::s('Orphan: %s'), 'category '.Skin::build_link(Categories::get_permalink($item), $id.' '.$label, 'category')).BR."\n";
 				if(++$errors_count >= 5) {
 					$context['text'] .= i18n::s('Too many successive errors. Aborted').BR."\n";
 					break;
@@ -196,7 +196,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= sprintf(i18n::s('%d records have been processed'), $count).BR."\n";
 
 	// scan members
-	$context['text'] .= Skin::build_block(i18n::s('Scanning table of members...'), 'title');
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('members')), 'title');
 
 	// scan up to 50000 members
 	$count = 0;

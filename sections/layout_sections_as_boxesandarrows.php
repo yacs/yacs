@@ -97,10 +97,10 @@ Class Layout_sections_as_boxesandarrows extends Layout_interface {
 				// add sub-sections on index pages
 				if($related =& Sections::list_by_title_for_anchor('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'compact')) {
 					$sections = array();
-					foreach($related as $url => $sub_label) {
+					foreach($related as $sub_url => $sub_label) {
 						if(is_array($sub_label))
 							$sub_label = $sub_label[0].' '.$sub_label[1];
-						$sections[] = Skin::build_link($url, $sub_label, 'basic');
+						$sections[] = Skin::build_link($sub_url, $sub_label, 'basic');
 					}
 					$suffix .= '&raquo; '.implode(', ', $sections);
 				}

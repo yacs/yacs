@@ -3,13 +3,14 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:17 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 4:16 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['e29e3b62fd00388c3ca08004cce5a8c1']='%d emplacement'.chr(0).'%d emplacements';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['Add a location']='Ajouter un emplacement';
 $_SESSION['l10n']['fr']['da9a0fd4ad6b4e693496e34f79ee7dcf']='Recherche de coordonnées géographiques';
+$_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['0ce40041c3b540b90a142d3c14a598ee']='A cause de nos réglages de sécurité, vous n\'êtes pas autorisé à consulter la liste des emplacements.';
 $_SESSION['l10n']['fr']['Coordinates']='Coordonnées géographiques';
@@ -44,7 +45,7 @@ $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['95eeec18709a90fc951edc69a4187d66']='Aucun emplacement n\'a été créé.';
 $_SESSION['l10n']['fr']['a9864baa813ec36afd9d1d510045645a']='Impossible de créer une image dynamique';
 $_SESSION['l10n']['fr']['On page %s']='Sur la page %s';
-$_SESSION['l10n']['fr']['Orphan: location %s']='Orphelin : emplacement %s';
+$_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Place name']='Lieu géographique';
 $_SESSION['l10n']['fr']['b7e4d1da92d8d2dbf79a14a8e486cd67']='Merci d\'indiquer un titre pour cet emplacement';
 $_SESSION['l10n']['fr']['ad8b1071c8b63b8f765482c0520d756a']='Merci de naviguer sur les %s, y compris les emplacements qu\'elles peuvent contenir.';
@@ -56,7 +57,6 @@ $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
 $_SESSION['l10n']['fr']['cd99033b943f469c35ebe8ba9de394f2']='Indiquer une ancre ou un mot-clé valide.';
 $_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Regional position: %s']='Positionnement global : %s';
-$_SESSION['l10n']['fr']['Scanning locations table...']='Analyse de la table des emplacements...';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Street address, city, country']='Adresse, ville, pays';
@@ -69,7 +69,7 @@ $_SESSION['l10n']['fr']['This address has not been found']='Cette adresse n\'a p
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
 $_SESSION['l10n']['fr']['f222ba4674db37aa398976c8f3056048']='Pour trouver les coordonnées d\'un emplacement, visitez l\'un des sites suivants :';
 $_SESSION['l10n']['fr']['0749c2e869a8f74bc91f87cc3643388e']='Trop d\'erreurs successives. Abandon';
-$_SESSION['l10n']['fr']['Unused: location %s']='Inutilisé : emplacement %s';
+$_SESSION['l10n']['fr']['Unused: %s']='Inutilisé : %s';
 $_SESSION['l10n']['fr']['b76e939953ed01db8e5a10a9a47bc9ad']='Utiliser le panneau de configuration des services web pour entrer votre clé d\'API Google.';
 $_SESSION['l10n']['fr']['View the page']='Voir la page';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';

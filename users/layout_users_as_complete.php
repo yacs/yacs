@@ -32,7 +32,7 @@ Class Layout_users_as_complete extends Layout_interface {
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
 
-			// the e-mail address
+			// unique identifier
 			$key = $item['nick_name'];
 
 			// use the full name, if nick name is not part of it

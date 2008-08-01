@@ -197,7 +197,7 @@ if(!isset($item['id'])) {
 	}
 }
 
-$context['text'] .= '<p>'.i18n::s('Error while delivering the archive file.').'</p>';
+$context['text'] .= '<p>'.i18n::s('Operation has failed.').'</p>';
 
 // render the skin
 render_skin();

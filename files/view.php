@@ -261,11 +261,11 @@ if(!isset($item['id'])) {
 
 	// file size
 	if($item['file_size'] > 1)
-		$details[] = sprintf(i18n::s('%d&nbsp;bytes'), $item['file_size']);
+		$details[] = Skin::build_number($item['file_size'], i18n::s('bytes'));
 
 	// hits
 	if($item['hits'] > 1)
-		$details[] = sprintf(i18n::s('%d&nbsp;downloads'), $item['hits']);
+		$details[] = Skin::build_number($item['hits'], i18n::s('downloads'));
 
 	// file has been assigned
 	if(isset($item['assign_id']) && $item['assign_id'])

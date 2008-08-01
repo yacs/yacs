@@ -60,7 +60,7 @@ Class Layout_images_as_hits extends Layout_interface {
 
 			// with hits
 			if($item['hits'] > 1)
-				$suffix .= ' '.trim($item['hits']).'&nbsp;'.i18n::s('hits');
+				$suffix .= ' '.Skin::build_number($item['hits'], i18n::s('hits'));
 
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, 'basic', NULL);

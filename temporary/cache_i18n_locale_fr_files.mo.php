@@ -3,24 +3,18 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr'][' VLC media player']=' VLC media player';
 $_SESSION['l10n']['fr']['%d bytes']='%d  octets';
-$_SESSION['l10n']['fr']['%d downloads']='%d téléchargements';
 $_SESSION['l10n']['fr']['%d file'.chr(0).'%d files']='%d fichier'.chr(0).'%d fichiers';
-$_SESSION['l10n']['fr']['%d hits']='%d transmissions';
 $_SESSION['l10n']['fr']['0f5610d966046e70e5f5a171e8fd4d76']='%d entrées dans la liste des mots à ne pas considérer';
 $_SESSION['l10n']['fr']['%d minute(s) at %s']='%d minute(s) à %s';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['%d second(s) at %s']='%d seconde(s) à %s';
-$_SESSION['l10n']['fr']['%d&nbsp;bytes']='%d&nbsp;octets';
-$_SESSION['l10n']['fr']['%d&nbsp;downloads']='%d&nbsp;transferts';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s at %s']='%s à %s';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
-$_SESSION['l10n']['fr']['%s&nbsp;hits']='%s&nbsp;consultations';
-$_SESSION['l10n']['fr']['&lt;&nbsp;%s&nbsp;bytes']='&lt;&nbsp;%s&nbsp;octets';
 $_SESSION['l10n']['fr']['7-zip']='7-zip';
 $_SESSION['l10n']['fr']['16a5e32bfb6574ae5e6bd234b527b647']='Accès restreint aux associés et éditeurs.';
 $_SESSION['l10n']['fr']['71591a943ab0ff1e925f29270c9a6568']='Accès restreint aux membres authentifiés.';
@@ -37,7 +31,7 @@ $_SESSION['l10n']['fr']['All files']='Tous les fichiers';
 $_SESSION['l10n']['fr']['75b652e3c70511a910d5ba8fdfe88194']='Et prenez le temps de décrire votre envoi. Le champ de description est complètement indexé afin de faciliter les recherches plein texte.';
 $_SESSION['l10n']['fr']['Alternate link']='Lien alternatif';
 $_SESSION['l10n']['fr']['532321db0846e93e321be4e241054311']='Vous pouvez aussi télécharger ce fichier pour votre propre usage.';
-$_SESSION['l10n']['fr']['1d625f0850c4a3373cbfcff343a888b7']='Erreur pendant la suppression de l\'assignation.';
+$_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Anyone may download this file']='Tout le monde peut télécharger ce fichier';
 $_SESSION['l10n']['fr']['Apple web server']='serveur d\'Apple';
 $_SESSION['l10n']['fr']['Artist']='Artiste';
@@ -77,7 +71,6 @@ $_SESSION['l10n']['fr']['Duration']='Durée';
 $_SESSION['l10n']['fr']['6a2c769d729b50a589114cb6f3a6ca3b']='ERREUR : Impossible d\'écrire dans le fichier %s. La configuration n\'a pas été sauvegardée.';
 $_SESSION['l10n']['fr']['EasyGPS']='EasyGPS';
 $_SESSION['l10n']['fr']['Edit']='Modifier';
-$_SESSION['l10n']['fr']['26a6fa4467588ed6f22867377ec40a1a']='Erreur pendant la transmission du fichier.';
 $_SESSION['l10n']['fr']['Estimated download time:']='Durée estimée du téléchargement :';
 $_SESSION['l10n']['fr']['1af5ec71336204568c61feb93174a23f']='Référence existante (ftp://, http://, ...)';
 $_SESSION['l10n']['fr']['Extensions']='Extensions';
@@ -129,7 +122,6 @@ $_SESSION['l10n']['fr']['Navigation']='Navigation';
 $_SESSION['l10n']['fr']['New file in %s']='Nouveau fichier dans %s';
 $_SESSION['l10n']['fr']['Next image']='Image suivante';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
-$_SESSION['l10n']['fr']['No file found for this id']='Aucun fichier n\'a cet identifiant';
 $_SESSION['l10n']['fr']['No file has been transmitted.']='Aucun fichier n\'a été transmis.';
 $_SESSION['l10n']['fr']['No file has been uploaded yet.']='Aucun fichier n\'a été téléchargé';
 $_SESSION['l10n']['fr']['No item has been found.']='Aucun élément n\'a été trouvé.';
@@ -141,7 +133,8 @@ $_SESSION['l10n']['fr']['Open Office web server']='La fondation Open Office';
 $_SESSION['l10n']['fr']['Open Workbench']='Open Workbench';
 $_SESSION['l10n']['fr']['Open this map']='Ouvrir une carte';
 $_SESSION['l10n']['fr']['OpenOffice web server']='serveur d\'OpenOffice';
-$_SESSION['l10n']['fr']['Orphan: file %s']='Orphelin : fichier %s';
+$_SESSION['l10n']['fr']['Operation has failed.']='L\'opération a échoué.';
+$_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['1cdd6622263afc815074f3c7faed3a2c']='Coller ici la référence P2P (ed2k, torrent, etc.)';
 $_SESSION['l10n']['fr']['Play']='Jouer';
 $_SESSION['l10n']['fr']['7abd39f4bdad539867d6db43641caa51']='Choisissez une section représentative de votre fichier';
@@ -162,7 +155,6 @@ $_SESSION['l10n']['fr']['37ad9546a387c8d0623a2d297a553d2b']='Les logiciels adapt
 $_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Refresh from a local file']='Remplacer par un autre fichier local';
 $_SESSION['l10n']['fr']['Review files']='Fichiers à contrôler';
-$_SESSION['l10n']['fr']['Scanning files table...']='Analyse de la table des fichiers...';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['e38356c677eda6ec20dd764987901cff']='Choisir un autre fichier de remplacement';
@@ -280,6 +272,7 @@ $_SESSION['l10n']['fr']['Zoom']='Zoom';
 $_SESSION['l10n']['fr']['assigned to you %s']='vous a été assigné %s';
 $_SESSION['l10n']['fr']['bytes']='octets';
 $_SESSION['l10n']['fr']['detached by %s %s']='détaché par %s %s';
+$_SESSION['l10n']['fr']['downloads']='téléchargements';
 $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
 $_SESSION['l10n']['fr']['http://desktop.google.com/']='http://desktop.google.com/';
 $_SESSION['l10n']['fr']['56216b06e7ef172b81777732c0866353']='http://en.wikipedia.org/wiki/LaTeX';

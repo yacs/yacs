@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:18 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 5:02 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
 $_SESSION['l10n']['en']['%d date'.chr(0).'%d dates']='%d date'.chr(0).'%d dates';
@@ -13,6 +13,7 @@ $_SESSION['l10n']['en']['%d records have been processed']='%d records have been 
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['Add a date']='Add a date';
+$_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['April']='April';
 $_SESSION['l10n']['en']['August']='August';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
@@ -41,14 +42,13 @@ $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provide
 $_SESSION['l10n']['en']['b5dbc68e3397cbbe537f4a7c53b6fc4d']='Nothing has been recorded for this date.';
 $_SESSION['l10n']['en']['November']='November';
 $_SESSION['l10n']['en']['October']='October';
-$_SESSION['l10n']['en']['Orphan: date %s']='Orphan: date %s';
+$_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Please provide a date.']='Please provide a date.';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $_SESSION['l10n']['en']['Posted by']='Posted by';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['Referrals']='Referrals';
-$_SESSION['l10n']['en']['Scanning dates table...']='Scanning dates table...';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['September']='September';
 $_SESSION['l10n']['en']['Start']='Start';
@@ -59,7 +59,7 @@ $_SESSION['l10n']['en']['The date has been saved.']='The date has been saved.';
 $_SESSION['l10n']['en']['270fe73e78407a1fe4ccf8eb9b9f99bb']='The deletion has not been confirmed';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
 $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive errors. Aborted';
-$_SESSION['l10n']['en']['Unused: date %s']='Unused: date %s';
+$_SESSION['l10n']['en']['Unused: %s']='Unused: %s';
 $_SESSION['l10n']['en']['View the page']='View the page';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';

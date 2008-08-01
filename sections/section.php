@@ -715,8 +715,12 @@ Class Section extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function get_url($action='view') {
-		if(isset($this->item['id']))
-			return Sections::get_permalink($this->item);
+		if(isset($this->item['id'])) {
+			if($action == 'view')
+				return Sections::get_permalink($this->item);
+			else
+				return Sections::get_url($this->item['id'], $action, $this->item['title'], $this->item['nick_name']);
+		}
 		return NULL;
 	}
 

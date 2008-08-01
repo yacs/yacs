@@ -1044,7 +1044,7 @@ Class Sections {
 	 * @return string the permalink
 	 */
 	function &get_permalink($item) {
-		$output =& Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$output = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 		return $output;
 	}
 

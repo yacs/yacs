@@ -249,12 +249,16 @@ if(!isset($item['id']) || !$item['id']) {
 } elseif(isset($item['assign_id']) && ($item['assign_id'] >= 1) && ($action == 'clear') && (Surfer::is_empowered() || ($item['assign_id'] == Surfer::get_id()))) {
 
 	// clear assignment information
-	if(!Files::assign($item['id'], NULL))
-		Skin::error(i18n::s('An error has been encountered while clearing file assignment.'));
+	if(Files::assign($item['id'], NULL)) {
+		$context['text'] .= '<p>'.i18n::s('The assignment has been successfully cleared, and the file is again available for download.').'</p>';
+
+		// clear the cache for files
+		$topics = array('files', 'file:'.$item['id'], $item['anchor'], 'user:'.$item['assign_id']);
+		Cache::clear($topics);
 
 	// feed-back to surfer
-	else
-		$context['text'] .= '<p>'.i18n::s('The assignment has been successfully cleared, and the file is again available for download.').'</p>';
+	} else
+		Skin::error(i18n::s('Operation has failed.'));
 
 	// follow-up commands
 	$follow_up = '<p>'.i18n::s('Where do you want to go now?').'</p>';
@@ -316,8 +320,16 @@ if(!isset($item['id']) || !$item['id']) {
 
 	// assign the file to this surfer
 	$user = array('nick_name' => Surfer::get_name(), 'id' => Surfer::get_id(), 'email' => Surfer::get_email_address());
-	if(Files::assign($item['id'], $user))
+	if(Files::assign($item['id'], $user)) {
 		$context['text'] .= '<p>'.i18n::s('Since the file has been assigned to you, other surfers will be discouraged to download copies from the server until you upload an updated version.').'</p>'."\n";
+
+		// clear the cache for files
+		$topics = array('files', 'file:'.$item['id'], $item['anchor'], 'user:'.$user['id']);
+		Cache::clear($topics);
+
+	// feed-back to surfer
+	} else
+		Skin::error(i18n::s('Operation has failed.'));
 
 	// follow-up commands
 	$follow_up = '<p>'.i18n::s('Where do you want to go now?').'</p>';

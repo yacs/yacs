@@ -926,8 +926,13 @@ function render_skin($stamp=0) {
 			$content .= Safe::filemtime($context['path_to_root'].'parameters/control.include.php').':'
 				.Safe::filemtime($context['path_to_root'].'parameters/skins.include.php');
 
+			// not the same content for editors
 			if(is_callable(array('Surfer', 'get_capability')))
 				$content .= ':'.Surfer::get_capability();
+
+			// not the same content for associates
+			if(is_callable(array('Surfer', 'is_associate')) && Surfer::is_associate())
+				$content .= ':A';
 
 			// hash content to create the etag string
 			$etag = '"'.md5($content).'"';

@@ -259,12 +259,18 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
+		// use the compressed format if possible
+		if(file_exists($context['path_to_root'].'included/browser/swfobject.js.jsmin'))
+			$script = 'included/browser/swfobject.js.jsmin';
+		else
+			$script = 'included/browser/swfobject.js';
+
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
 			.'<html>'."\n"
 			.'<head>'."\n"
 			.'<title>'.$item['title'].'</title>'."\n"
-			.'<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/swfobject.js"></script>'."\n"
+			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
 			.'</head>'."\n"
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
 
@@ -297,6 +303,12 @@ if(!$item['id']) {
 			.'<head>'."\n"
 			.'<title>'.$title.'</title>'."\n";
 
+		// use the compressed format if possible
+		if(file_exists($context['path_to_root'].'included/browser/swfobject.js.jsmin'))
+			$script = 'included/browser/swfobject.js.jsmin';
+		else
+			$script = 'included/browser/swfobject.js';
+
 		// load javascript files from the skin directory -- e.g., Global Crossing js extensions, etc.
 		if(isset($context['skin'])) {
 
@@ -309,7 +321,7 @@ if(!$item['id']) {
 // 		if(isset($context['skin']))
 // 			$text .= '<link rel="stylesheet" href="'.$context['url_to_root'].$context['skin'].'/'.str_replace('skins/', '', $context['skin']).'.css" type="text/css" media="all" />'."\n";
 
-		$text .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/swfobject.js"></script>'."\n"
+		$text .= '<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
 			.'</head>'."\n"
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n"
 			.'<div id="live_flash">'."\n";

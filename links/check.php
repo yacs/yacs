@@ -71,7 +71,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'check')) {
 
 	// scan links
-	$context['text'] .= '<p>'.sprintf(i18n::s('Scanning links by chunks of %d. Please wait...'), CHUNK_SIZE)."</p>\n";
+	$context['text'] .= '<p>'.sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('links'))."</p>\n";
 
 	// process all links
 	$links_offset = 0;
@@ -165,7 +165,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'referrals')) {
 
 	// scan links
-	$context['text'] .= '<p>'.sprintf(i18n::s('Scanning links by chunks of %d. Please wait...'), CHUNK_SIZE)."</p>\n";
+	$context['text'] .= '<p>'.sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('links'))."</p>\n";
 
 	// avoid banned sources
 	include_once $context['path_to_root'].'servers/servers.php';
@@ -272,7 +272,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'normalize')) {
 
 	// scan links
-	$context['text'] .= '<p>'.sprintf(i18n::s('Scanning links by chunks of %d. Please wait...'), CHUNK_SIZE)."</p>\n";
+	$context['text'] .= '<p>'.sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('links'))."</p>\n";
 
 	// process all links, but stop after CHUNK_SIZE updates
 	$links_offset = 0;
@@ -381,7 +381,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'orphans')) {
 
 	// scan links
-	$context['text'] .= Skin::build_block(i18n::s('Scanning links table...'), 'title');
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('links')), 'title');
 
 	// scan many items
 	$count = 0;
@@ -410,7 +410,7 @@ if(!Surfer::is_associate()) {
 
 			// check that the anchor exists, if any
 			if($row['anchor'] && !Anchors::get($row['anchor'])) {
-				$context['text'] .= sprintf(i18n::s('Orphan: link %s'), Skin::build_link($row['link_url'], $row['id'].' '.$row['link_url'])).BR."\n";
+				$context['text'] .= sprintf(i18n::s('Orphan: %s'), 'link '.Skin::build_link($row['link_url'], $row['id'].' '.$row['link_url'])).BR."\n";
 				if(++$errors_count >= 5) {
 					$context['text'] .= i18n::s('Too many successive errors. Aborted').BR."\n";
 					break;

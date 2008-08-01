@@ -677,7 +677,7 @@ Class Categories {
 	 * @return string the permalink
 	 */
 	function &get_permalink($item) {
-		$output =& Categories::get_url($item['id'], 'view', $item['title']);
+		$output = Categories::get_url($item['id'], 'view', $item['title']);
 		return $output;
 	}
 

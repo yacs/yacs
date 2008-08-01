@@ -3,18 +3,16 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['a0507e16b19aa7d4554d3ae0abcb89cf']='%d catégorie'.chr(0).'%d catégories';
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
 $_SESSION['l10n']['fr']['%d file'.chr(0).'%d files']='%d fichier'.chr(0).'%d fichiers';
-$_SESSION['l10n']['fr']['%d hits']='%d lectures';
 $_SESSION['l10n']['fr']['%d link'.chr(0).'%d links']='%d lien'.chr(0).'%d liens';
 $_SESSION['l10n']['fr']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['%d section'.chr(0).'%d sections']='%d section'.chr(0).'%d sections';
 $_SESSION['l10n']['fr']['%d user'.chr(0).'%d users']='%d utilisateur'.chr(0).'%d utilisateurs';
-$_SESSION['l10n']['fr']['%d&nbsp;categories']='%d&nbsp;catégories';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s by %s %s']='%s par %s %s';
 $_SESSION['l10n']['fr']['-- Root level']='-- Niveau de base';
@@ -29,6 +27,7 @@ $_SESSION['l10n']['fr']['Add page icon']='Ajouter une icône de page';
 $_SESSION['l10n']['fr']['Add page thumbnail']='Ajouter une vignette de page';
 $_SESSION['l10n']['fr']['717b0d5012e8e4ce5a261c185245281d']='Toutes les catégories qui ont été associées à cette page :';
 $_SESSION['l10n']['fr']['All the web']='All the web';
+$_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Anyone may read this category']='Tout le monde peut lire cette catégorie';
 $_SESSION['l10n']['fr']['386980fc5327cd3e0b217ad44c09cb77']='Apparait dans les listes de catégories près du titre';
 $_SESSION['l10n']['fr']['22b00309d120e415c07fd22cd2f15ae4']='Appliquer un style spécifique (dans skins/foo_bar) ici';
@@ -121,7 +120,7 @@ $_SESSION['l10n']['fr']['No recipient has been defined.']='Aucun destinaire n\'a
 $_SESSION['l10n']['fr']['No title has been provided.']='Aucun titre n\'a été fourni.';
 $_SESSION['l10n']['fr']['b0f806749991a1314b97a00231ee673c']='Non, merci de ne pas gérer d\'extraits pour cette catégorie';
 $_SESSION['l10n']['fr']['Options']='Options';
-$_SESSION['l10n']['fr']['Orphan: category #%s']='Orphelin : catégorie #%s';
+$_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['Parent category']='Catégorie parente';
 $_SESSION['l10n']['fr']['Persons']='Personnes';
@@ -145,9 +144,6 @@ $_SESSION['l10n']['fr']['Related servers']='Voir aussi';
 $_SESSION['l10n']['fr']['Rendering']='Rendu';
 $_SESSION['l10n']['fr']['Request is invalid.']='La requête est invalide.';
 $_SESSION['l10n']['fr']['9dcd55ec867280d2a3afd1c82fd36aa7']='Analyser les articles et mémoriser les dates de publication';
-$_SESSION['l10n']['fr']['Scanning articles table...']='Analyse de la table des articles...';
-$_SESSION['l10n']['fr']['Scanning categories table...']='Analyse de la table des catégories...';
-$_SESSION['l10n']['fr']['Scanning table of members...']='Analyse de la table des membres...';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Script used to %s this category']='Script utilisé comme %s dans cette catégorie';
 $_SESSION['l10n']['fr']['Search']='Chercher';
@@ -230,6 +226,7 @@ $_SESSION['l10n']['fr']['at site map']='sur la carte du site';
 $_SESSION['l10n']['fr']['21bba8f9b0118df8d40223e2e199154e']='sur la page d\'accueil, parmi les boîtes extra';
 $_SESSION['l10n']['fr']['at users index']='sur l\'index des utilisateurs';
 $_SESSION['l10n']['fr']['70c052690de9189737835cc5ad18869e']='boxesandarrows - Cliquer sur les titres pour lire les articles';
+$_SESSION['l10n']['fr']['categories']='catégories';
 $_SESSION['l10n']['fr']['aa00cbbac581ee176441d1e92a17ee3e']='clouds - Lister les sous-catégories comme un nuage.';
 $_SESSION['l10n']['fr']['e7dd29c2c008dce9b7ed980a40e31858']='compact - Une liste compacte';
 $_SESSION['l10n']['fr']['643486a1b649b9edf77b84bdc56cc66e']='compact - Dans une liste compacte, comme DMOZ.';
@@ -243,6 +240,7 @@ $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
 $_SESSION['l10n']['fr']['featured']='une';
 $_SESSION['l10n']['fr']['17ced41a29990a6811cac473ed8d7acd']='folded - Construire une boîte pliée par section, avec le contenu.';
 $_SESSION['l10n']['fr']['8a40ce0f2553c50d4f95684527f186c6']='freemind - Visualiser une carte mentale interactive';
+$_SESSION['l10n']['fr']['hits']='lectures';
 $_SESSION['l10n']['fr']['f641bce5b6dc2dc3cedb05c6cf23952b']='au milieu de la page d\'accueil, parmi les autres boîtes gadget';
 $_SESSION['l10n']['fr']['55502eab5eb921c493794ca2ac204483']='inline - Lister les sections et les articles qu\'elles contiennent.';
 $_SESSION['l10n']['fr']['378dbc517423c4bc7b37121c9e0e0f94']='inline - Lister les sous-catégories et les articles associés.';

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:15 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 3:34 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d bytes']='%d  octets';
 $_SESSION['l10n']['fr']['%d image'.chr(0).'%d images']='%d image'.chr(0).'%d images';
@@ -13,6 +13,7 @@ $_SESSION['l10n']['fr']['%s at %s']='%s à %s';
 $_SESSION['l10n']['fr']['Add an image']='Ajouter une image';
 $_SESSION['l10n']['fr']['Advanced options']='Options avancées';
 $_SESSION['l10n']['fr']['3fc73c8fd903f88de3a2c9a21aef3585']='Toujours. Les utilisateurs cliqueront dessus pour visualiser l\'image agrandie.';
+$_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['5f06d8beed838647d20eadd205eeae4a']='Redimensionner l\'image si nécessaire';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['ae48d2a102ccc4268da0a6ce7c123bcf']='A cause de nos réglages de sécurité, vous n\'êtes pas autorisé à consulter la liste des images.';
@@ -57,7 +58,7 @@ $_SESSION['l10n']['fr']['No image information in %s.']='Aucune image valide dans
 $_SESSION['l10n']['fr']['No item has been found.']='Aucun élément n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['Operation has failed.']='Impossible de mener l\'opération à son terme';
-$_SESSION['l10n']['fr']['Orphan: image %s']='Orphelin : image %s';
+$_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['81d890bcab6ac4437d9b5146d0dd2cea']='Merci de naviguer sur les %s, y compris les images qu\'elles peuvent contenir.';
 $_SESSION['l10n']['fr']['92fdd78ee6bb759cae3b7d6e33a0552f']='Choisissez l\'emplacement adéquat pour partager votre image';
 $_SESSION['l10n']['fr']['88100f21e63a26d7ae6895199f0d7475']='Merci de sélectionner une image .png, ou .gif ou .jpg';
@@ -68,7 +69,6 @@ $_SESSION['l10n']['fr']['Press to select a local file']='Choisir un fichier loca
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
 $_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Rejected file type %s']='Type de fichier invalide %s';
-$_SESSION['l10n']['fr']['Scanning images table...']='Analyse de la table des images...';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['654258af44eda1cd82146682083f5376']='Choisissez une autre image pour remplacer l\'image courante';
@@ -100,7 +100,7 @@ $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['cca4373c7c256d01ae0c54448cb5e209']='Pour sauver l\'image sur votre disque dur tirer la souris au-dessus de l\'image et utiliser le bouton droit. Un menu contextuel devrait apparaître. Choisir la commande ad hoc pour sauver l\'image, en fonction du navigateur utilisé.';
 $_SESSION['l10n']['fr']['0749c2e869a8f74bc91f87cc3643388e']='Trop d\'erreurs successives. Abandon';
 $_SESSION['l10n']['fr']['Unknown image type in %s.']='Type d\'image inconnu dans %s.';
-$_SESSION['l10n']['fr']['Unused: image %s']='Inutilisée : image %s';
+$_SESSION['l10n']['fr']['Unused: %s']='Inutilisée : %s';
 $_SESSION['l10n']['fr']['Update']='Mettre à jour';
 $_SESSION['l10n']['fr']['Update an image']='Mettre une image à jour';
 $_SESSION['l10n']['fr']['Use an image']='Utiliser une image';

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:16 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 4:38 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['565268c8f67e6811cb636fce1233a9ac']='%d fichier a été téléchargé depuis le serveur de référence.'.chr(0).'%d fichiers ont été téléchargés depuis le serveur de référence.';
 $_SESSION['l10n']['fr']['341b51d0903352bdc690bd54123302d1']='%d fichier a été mis à jour.'.chr(0).'%d fichiers ont été mis à jour.';

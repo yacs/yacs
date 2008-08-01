@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:17 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 5:02 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['d2c50a2bcb2c12fa506be527379e7034']='%d décision'.chr(0).'%d décisions';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
@@ -11,6 +11,7 @@ $_SESSION['l10n']['fr']['%d thread'.chr(0).'%d threads']='%d discussion'.chr(0).
 $_SESSION['l10n']['fr']['d09e6d8231070418cfe46f6f8984efd1']='%s approbations (%d%%), %s rejets (%d%%)';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['All pages']='Toutes les pages';
+$_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Approval']='Acceptation';
 $_SESSION['l10n']['fr']['Approved']='Approuvé';
 $_SESSION['l10n']['fr']['Approved %s']='Approuvé %s';
@@ -48,7 +49,7 @@ $_SESSION['l10n']['fr']['New decision: %s']='Nouvelle décision : %s';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['b96aca9f6d136363f1c15754d8da15df']='Aucune décision n\'a été prise';
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
-$_SESSION['l10n']['fr']['Orphan: decision %s']='Orphelin : décision %s';
+$_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Page to review']='Page concernée';
 $_SESSION['l10n']['fr']['87c663a3043f841f20b28627d553226a']='Merci par avance de votre contribution.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
@@ -65,7 +66,6 @@ $_SESSION['l10n']['fr']['Reject']='Refus';
 $_SESSION['l10n']['fr']['Rejected']='Rejeté';
 $_SESSION['l10n']['fr']['Rejected %s']='Rejeté %s';
 $_SESSION['l10n']['fr']['Rejected by %s %s']='Rejeté par %s %s';
-$_SESSION['l10n']['fr']['Scanning decisions table...']='Analyse de la table des décisions...';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie de ce message.';
 $_SESSION['l10n']['fr']['Start']='Commencer';

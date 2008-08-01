@@ -3,13 +3,14 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:25 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 5:03 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['9d1dd3844462dd717f535edb3d78a4b6']='%d SQL statements have been processed in %.2f seconds.';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['%d table'.chr(0).'%d tables']='%d table'.chr(0).'%d tables';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['Add a table']='Add a table';
+$_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['519471e63694deb32693cdb1e9f0342c']='As this field may be searched by surfers, please choose adequate searchable words';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['d13ffed666898525c258864b3ddef094']='Because of our security policy you are not allowed to list tables.';
@@ -52,7 +53,7 @@ $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provide
 $_SESSION['l10n']['en']['No table has been created yet.']='No table has been created yet.';
 $_SESSION['l10n']['en']['32e6e19d13cb6d3f26684f277e28f802']='No table name has been provided.';
 $_SESSION['l10n']['en']['Nothing has been received.']='Nothing has been received.';
-$_SESSION['l10n']['en']['Orphan: table %s']='Orphan: table %s';
+$_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Pipe character "|"']='Pipe character "|"';
 $_SESSION['l10n']['en']['Please add some SQL query.']='Please add some SQL query.';
 $_SESSION['l10n']['en']['63171134cc5466c7a0a1dd93db93be41']='Please browse %s to visualize any table that could be embedded.';
@@ -69,7 +70,6 @@ $_SESSION['l10n']['en']['Query string']='Query string';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['SQL Query']='SQL Query';
-$_SESSION['l10n']['en']['Scanning tables table...']='Scanning tables table...';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Single quote character']='Single quote character';
 $_SESSION['l10n']['en']['Start']='Start';
@@ -85,7 +85,7 @@ $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked
 $_SESSION['l10n']['en']['8f9530ed279d7911ad4a48008be56b92']='This script allows for the upload of data to some table of the database.';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive errors. Aborted';
-$_SESSION['l10n']['en']['Unused: table %s']='Unused: table %s';
+$_SESSION['l10n']['en']['Unused: %s']='Unused: %s';
 $_SESSION['l10n']['en']['View a table']='View a table';
 $_SESSION['l10n']['en']['f1ce5d9609440ef5da411f7524e7c4e5']='When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.';
 $_SESSION['l10n']['en']['With index']='With index';

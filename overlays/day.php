@@ -287,7 +287,7 @@ class Day extends Overlay {
 					$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('%d date', '%d dates', $stats['count']), $stats['count'])));
 
 				// navigation commands for dates
-				$section = Anchor::get($anchor);
+				$section = Sections::get($anchor);
 				$home =& Sections::get_permalink($section);
 				$prefix = Sections::get_url($section['id'], 'navigate', 'articles');
 				$bar = array_merge($bar, Skin::navigate($home, $prefix, $stats['count'], DATES_PER_PAGE, $page));
@@ -341,7 +341,7 @@ class Day extends Overlay {
 				$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('%d date', '%d dates', $stats['count']), $stats['count'])));
 
 			// navigation commands for dates
-			$section = Anchor::get($anchor);
+			$section = Sections::get($anchor);
 			$home =& Sections::get_permalink($section);
 			$prefix = Sections::get_url($section['id'], 'navigate', 'articles');
 			$bar = array_merge($bar, Skin::navigate($home, $prefix, $stats['count'], DATES_PER_PAGE, $page));

@@ -265,8 +265,6 @@ Class Utf8 {
 	 * $text = utf8::to_ascii($text, ' ');
 	 * [/php]
 	 *
-	 * @link http://www.bbsinc.com/iso8859.html ASCII - ISO 8859-1 (Latin-1) Table with HTML Entity Names
-	 *
 	 * @param string a complex string using HTML entities
 	 * @param string optional characters to accept
 	 * @return a US-ASCII string
@@ -286,119 +284,91 @@ Class Utf8 {
 	 */
 	function &to_ascii($utf, $options='') {
 
-		// iso-8859-15 + Microsoft extensions cp1252 -- initialize tables only once
-		static $iso_entities, $safe_entities;
-		if(!is_array($iso_entities)) {
+		// http://jeppesn.dk/utf-8.html -- initialize tables only once
+		static $utf_entities, $safe_entities;
+		if(!is_array($utf_entities)) {
 
 			// numerical order
 			$codes = array(
-				"\xA0"	=> ' ', // non-breaking space
-				"\xA1"	=> '!', // inverted exclamation mark
-				"\xA2"	=> 'c', // cent sign
-				"\xA3"	=> 'L', // pound sign
-				"\xA4"	=> 'e', // EURO SIGN
-				"\xA5"	=> 'y', // yen sign
-				"\xA6"	=> 'S', // LATIN CAPITAL LETTER S WITH CARON
-				"\xA7"	=> 's', // section sign
-				"\xA8"	=> 's', // LATIN SMALL LETTER S WITH CARON
-				"\xA9"	=> '(c)',	// copyright sign
-				"\xAA"	=> '°', // feminine ordinal indicator
-				"\xAB"	=> '"', // left-pointing double angle quotation mark
-				"\xAC"	=> '!', // not sign
-				"\xAD"	=> '-', // soft hyphen
-				"\xAE"	=> '(TM)',	// registered sign
-				"\xAF"	=> 'M', // macron
-				"\xB0"	=> '°', // degree sign
-				"\xB1"	=> '+', // plus-minus sign
-				"\xB2"	=> '2', // superscript two
-				"\xB3"	=> '3', // superscript three
-				"\xB4"	=> 'Z', // LATIN CAPITAL LETTER Z WITH CARON
-				"\xB5"	=> 'm', // micro sign
-				"\xB6"	=> ' ', // pilcrow sign
-				"\xB7"	=> '.', // middle dot
-				"\xB8"	=> 'z', // LATIN SMALL LETTER Z WITH CARON
-				"\xB9"	=> '1', // superscript one
-				"\xBA"	=> '°', // masculine ordinal indicator
-				"\xBB"	=> '"', // right-pointing double angle quotation mark
-				"\xBC"	=> 'OE',	// LATIN CAPITAL LIGATURE OE
-				"\xBD"	=> 'oe',	// LATIN SMALL LIGATURE OE
-				"\xBE"	=> 'Y', // LATIN CAPITAL LETTER Y WITH DIAERESIS
-				"\xBF"	=> '?', // inverted question mark
-				"\xC0"	=> 'A', // latin capital letter A with grave
-				"\xC1"	=> 'A', // latin capital letter A with acute
-				"\xC2"	=> 'A', // latin capital letter A with circumflex
-				"\xC3"	=> 'A', // latin capital letter A with tilde
-				"\xC4"	=> 'A', // latin capital letter A with diaeresis
-				"\xC5"	=> 'A', // latin capital letter A with ring above
-				"\xC6"	=> 'AE',	// latin capital letter AE
-				"\xC7"	=> 'C', // latin capital letter C with cedilla
-				"\xC8"	=> 'E', // latin capital letter E with grave
-				"\xC9"	=> 'E', // latin capital letter E with acute
-				"\xCA"	=> 'E', // latin capital letter E with circumflex
-				"\xCB"	=> 'E', // latin capital letter E with diaeresis
-				"\xCC"	=> 'I', // latin capital letter I with grave
-				"\xCD"	=> 'I', // latin capital letter I with acute
-				"\xCE"	=> 'I', // latin capital letter I with circumflex
-				"\xCF"	=> 'I', // latin capital letter I with diaeresis
-				"\xD0"	=> 'ETH',	// latin capital letter ETH
-				"\xD1"	=> 'N', // latin capital letter N with tilde
-				"\xD2"	=> 'O', // latin capital letter O with grave
-				"\xD3"	=> 'O', // latin capital letter O with acute
-				"\xD4"	=> 'O', // latin capital letter O with circumflex
-				"\xD5"	=> 'O', // latin capital letter O with tilde
-				"\xD6"	=> 'O', // latin capital letter O with diaeresis
-				"\xD7"	=> 'x', // multiplication sign
-				"\xD8"	=> 'O', // latin capital letter O with stroke
-				"\xD9"	=> 'U', // latin capital letter U with grave
-				"\xDA"	=> 'U', // latin capital letter U with acute
-				"\xDB"	=> 'U', // latin capital letter U with circumflex
-				"\xDC"	=> 'U', // latin capital letter U with diaeresis
-				"\xDD"	=> 'Y', // latin capital letter Y with acute
-				"\xDE"	=> 'Th',	// latin capital letter THORN
-				"\xDF"	=> 's', // latin small letter sharp s
-				"\xE0"	=> 'a', // latin small letter a with grave
-				"\xE1"	=> 'a', // latin small letter a with acute
-				"\xE2"	=> 'a', // latin small letter a with circumflex
-				"\xE3"	=> 'a', // latin small letter a with tilde
-				"\xE4"	=> 'a', // latin small letter a with diaeresis
-				"\xE5"	=> 'a', // latin small letter a with ring above
-				"\xE6"	=> 'ae',	// latin small letter ae
-				"\xE7"	=> 'c', // latin small letter c with cedilla
-				"\xE8"	=> 'e', // latin small letter e with grave
-				"\xE9"	=> 'e', // latin small letter e with acute
-				"\xEA"	=> 'e', // latin small letter e with circumflex
-				"\xEB"	=> 'e', // latin small letter e with diaeresis
-				"\xEC"	=> 'i', // latin small letter i with grave
-				"\xED"	=> 'i', // latin small letter i with acute
-				"\xEE"	=> 'i', // latin small letter i with circumflex
-				"\xEF"	=> 'i', // latin small letter i with diaeresis
-				"\xF0"	=> 'eth',	// latin small letter eth
-				"\xF1"	=> 'n', // latin small letter n with tilde
-				"\xF2"	=> 'o', // latin small letter o with grave
-				"\xF3"	=> 'o', // latin small letter o with acute
-				"\xF4"	=> 'o', // latin small letter o with circumflex
-				"\xF5"	=> 'o', // latin small letter o with tilde
-				"\xF6"	=> 'o', // latin small letter o with diaeresis
-				"\xF7"	=> '/', // division sign
-				"\xF8"	=> 'o', // latin small letter o with stroke
-				"\xF9"	=> 'u', // latin small letter u with grave
-				"\xFA"	=> 'u', // latin small letter u with acute
-				"\xFB"	=> 'u', // latin small letter u with circumflex
-				"\xFC"	=> 'u', // latin small letter u with diaeresis
-				"\xFD"	=> 'y', // latin small letter y with acute
-				"\xFE"	=> 'th',	// latin small letter thorn
-				"\xFF"	=> 'y'	// latin small letter y with diaeresis
+				"\xC3\x80"	=> 'A',
+				"\xC3\x81"	=> 'A',
+				"\xC3\x82"	=> 'A',
+				"\xC3\x83"	=> 'A',
+				"\xC3\x84"	=> 'A',
+				"\xC3\x85"	=> 'A',
+				"\xC3\x86"	=> 'AE',
+				"\xC3\x87"	=> 'C',
+				"\xC3\x88"	=> 'E',
+				"\xC3\x89"	=> 'E',
+				"\xC3\x8A"	=> 'E',
+				"\xC3\x8B"	=> 'E',
+				"\xC3\x8C"	=> 'I',
+				"\xC3\x8D"	=> 'I',
+				"\xC3\x8E"	=> 'I',
+				"\xC3\x8F"	=> 'I',
+
+				"\xC3\x90"	=> 'D',
+				"\xC3\x91"	=> 'N',
+				"\xC3\x92"	=> 'O',
+				"\xC3\x93"	=> 'O',
+				"\xC3\x94"	=> 'O',
+				"\xC3\x95"	=> 'O',
+				"\xC3\x96"	=> 'O',
+				"\xC3\x97"	=> 'x',
+				"\xC3\x98"	=> 'O',
+				"\xC3\x99"	=> 'U',
+				"\xC3\x9A"	=> 'U',
+				"\xC3\x9B"	=> 'U',
+				"\xC3\x9C"	=> 'U',
+				"\xC3\x9D"	=> 'Y',
+				"\xC3\x9E"	=> '',
+				"\xC3\x9F"	=> '',
+
+				"\xC3\xA0"	=> 'a',
+				"\xC3\xA1"	=> 'a',
+				"\xC3\xA2"	=> 'a',
+				"\xC3\xA3"	=> 'a',
+				"\xC3\xA4"	=> 'a',
+				"\xC3\xA5"	=> 'a',
+				"\xC3\xA6"	=> 'ae',
+				"\xC3\xA7"	=> 'c',
+				"\xC3\xA8"	=> 'e',
+				"\xC3\xA9"	=> 'e',
+				"\xC3\xAA"	=> 'e',
+				"\xC3\xAB"	=> 'e',
+				"\xC3\xAC"	=> 'i',
+				"\xC3\xAD"	=> 'i',
+				"\xC3\xAE"	=> 'i',
+				"\xC3\xAF"	=> 'i',
+
+				"\xC3\xB0"	=> 'o',
+				"\xC3\xB1"	=> 'n',
+				"\xC3\xB2"	=> 'o',
+				"\xC3\xB3"	=> 'o',
+				"\xC3\xB4"	=> 'o',
+				"\xC3\xB5"	=> 'o',
+				"\xC3\xB6"	=> 'o',
+				"\xC3\xB7"	=> '',
+				"\xC3\xB8"	=> '',
+				"\xC3\xB9"	=> 'u',
+				"\xC3\xBA"	=> 'u',
+				"\xC3\xBB"	=> 'u',
+				"\xC3\xBC"	=> 'u',
+				"\xC3\xBD"	=> 'y',
+				"\xC3\xBE"	=> '',
+				"\xC3\xBF"	=> ''
+
 				);
 
 			// split entities for use in str_replace()
-			foreach($codes as  $iso_entity => $safe_entity) {
-				$iso_entities[] = $iso_entity;
+			foreach($codes as  $utf_entity => $safe_entity) {
+				$utf_entities[] = $utf_entity;
 				$safe_entities[] = $safe_entity;
 			}
 		}
 
 		// transcode iso 8859 chars to safer ascii entities
-		$text = str_replace($iso_entities, $safe_entities, $utf);
+		$text = str_replace($utf_entities, $safe_entities, $utf);
 
 		// turn invalid chars to dashes (for proper indexation by Google)
 		$text = preg_replace("/[^a-zA-Z_\d\.".preg_quote($options)."]+/i", '-', $text);

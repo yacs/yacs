@@ -48,7 +48,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'unused')) {
 
 	// scan images
-	$context['text'] .= Skin::build_block(i18n::s('Scanning images table...'), 'subtitle');
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('images')), 'subtitle');
 
 	// scan up to 10000 items
 	$count = 0;
@@ -84,7 +84,7 @@ if(!Surfer::is_associate()) {
 					&& !preg_match('/article\/'.$article['id'].'\/thumbs\/'.$row['image_name'].'/', $article['icon_url'])
 					&& !preg_match('/article\/'.$article['id'].'\/thumbs\/'.$row['image_name'].'/', $article['thumbnail_url'])
 					&& !preg_match('/article\/'.$article['id'].'\/'.$row['image_name'].'/', $article['thumbnail_url'])) {
-					$context['text'] .= sprintf(i18n::s('Unused: image %s'), Skin::build_link(Images::get_url($row['id']), $row['id'].' '.$row['image_name'])).BR."\n";
+					$context['text'] .= sprintf(i18n::s('Unused: %s'), 'image '.Skin::build_link(Images::get_url($row['id']), $row['id'].' '.$row['image_name'])).BR."\n";
 					if(++$errors_count >= 25) {
 						$context['text'] .= i18n::s('Too many successive errors. Aborted').BR."\n";
 						break;
@@ -111,7 +111,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'orphans')) {
 
 	// scan images
-	$context['text'] .= Skin::build_block(i18n::s('Scanning images table...'), 'subtitle');
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('images')), 'subtitle');
 
 	// scan up to 10000 items
 	$count = 0;
@@ -140,7 +140,7 @@ if(!Surfer::is_associate()) {
 
 			// check that the anchor exists, if any
 			if($row['anchor'] && !Anchors::get($row['anchor'])) {
-				$context['text'] .= sprintf(i18n::s('Orphan: image %s'), Skin::build_link(Images::get_url($row['id']), $row['id'].' '.$row['image_name'])).BR."\n";
+				$context['text'] .= sprintf(i18n::s('Orphan: %s'), 'image '.Skin::build_link(Images::get_url($row['id']), $row['id'].' '.$row['image_name'])).BR."\n";
 				if(++$errors_count >= 5) {
 					$context['text'] .= i18n::s('Too many successive errors. Aborted').BR."\n";
 					break;

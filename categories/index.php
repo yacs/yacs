@@ -66,7 +66,7 @@ $stats = Categories::stat_for_anchor(NULL);
 if($stats['count'] > CATEGORIES_PER_PAGE) {
 
 	// display the total count of categories
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::s('%d&nbsp;categories'), $stats['count'])));
+	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => Skin::build_number($stats['count'], i18n::s('categories'))));
 
 	// navigation commands for categories, if necessary
 	$home = 'categories/';

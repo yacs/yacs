@@ -561,7 +561,7 @@ if($with_form) {
 				.'<dd><input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
 				.'<input type="file" name="upload" id="upload" size="30" />';
 			$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
-			$input .= ' ('.sprintf(i18n::s('&lt;&nbsp;%s&nbsp;bytes'), $size_hint).')</dd>'."\n";
+			$input .= ' (&lt;&nbsp;'.Skin::build_number($size_hint, i18n::s('bytes')).')</dd>'."\n";
 
 			// or
 			$input .= '<dt>'.i18n::s('or').'</dt>';
@@ -588,7 +588,7 @@ if($with_form) {
 				.'<input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
 				.'<input type="file" name="upload" id="upload" size="30" />';
 			$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
-			$input .= ' ('.sprintf(i18n::s('&lt;&nbsp;%s&nbsp;bytes'), $size_hint).')'."\n";
+			$input .= ' (&lt;&nbsp;'.Skin::build_number($size_hint, i18n::s('bytes')).')'."\n";
 
 		}
 
@@ -607,7 +607,7 @@ if($with_form) {
 		// downloads and file size
 		$other_details = array();
 		if($item['hits'] > 1)
-			$other_details[] = sprintf(i18n::s('%d downloads'), $item['hits']);
+			$other_details[] = Skin::build_number($item['hits'], i18n::s('downloads'));
 		if(isset($item['file_size']) && ($item['file_size'] > 1))
 			$other_details[] = Skin::build_number($item['file_size'], i18n::s('bytes'));
 		if(count($other_details))
@@ -624,7 +624,7 @@ if($with_form) {
 			$input .= i18n::s('Select another file to replace the current one').BR
 				.'<input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
 				.'<input type="file" name="upload" id="upload" size="30" />'
-				.' ('.sprintf(i18n::s('&lt;&nbsp;%s&nbsp;bytes'), $size_hint).')'."\n";
+				.' (&lt;&nbsp;'.Skin::build_number($size_hint, i18n::s('bytes')).')'."\n";
 
 
 		}

@@ -71,10 +71,6 @@ Class Skin_Skeleton {
 	function &build_block($text, $variant='', $id='', $options=NULL) {
 		global $context;
 
-		// sanity check
-		if(!$text)
-			return $text;
-
 		if($context['with_profile'] == 'Y')
 			Logger::profile('Skin::build_block', 'start');
 
@@ -765,7 +761,7 @@ Class Skin_Skeleton {
 		// maybe we have an image to enhance rendering
 		$img = '';
 		if(FOLDER_EXTEND_IMG_HREF)
-			$img = '<img src="'.FOLDER_EXTEND_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to fold/unfold')).'" title="'.encode_field(i18n::s('Click to fold/unfold')).'" :> ';
+			$img = '<img src="'.FOLDER_EXTEND_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to fold/unfold')).'" title="'.encode_field(i18n::s('Click to fold/unfold')).'" /> ';
 
 		// Yacs.toggle_folder() is in shared/yacs.js
 		$text = '<div class="folder_box"'.$id.'><a class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.Skin::strip($title).'</a>'
@@ -1043,7 +1039,7 @@ Class Skin_Skeleton {
 		$image = '<span><img src="'.$href.'" alt="'.encode_field(strip_tags($alt)).'"  title="'.encode_field(strip_tags($hover)).'" /></span>';
 
 		// add a link
-		if($link && !preg_match('/\blarge\b/', $variant))
+		if($link && preg_match('/\.(gif|jpeg|jpg|png)$/', $link) && !preg_match('/\blarge\b/', $variant))
 			$text .= '<a href="'.$link.'" class="image_show">'.$image.'</a>';
 		elseif($link)
 			$text .= '<a href="'.$link.'">'.$image.'</a>';
@@ -1574,7 +1570,10 @@ Class Skin_Skeleton {
 			break;
 
 		default:
-			$text = '<a href="'.$url.'"'.$href_title.' class="'.$variant.'"'.$new_window.'>'.$text.'</a>';
+			if($variant)
+				$text = '<a href="'.$url.'"'.$href_title.' class="'.$variant.'"'.$new_window.'>'.$text.'</a>';
+			else
+				$text = '<a href="'.$url.'"'.$href_title.$new_window.'>'.$text.'</a>';
 			break;
 
 		}
@@ -1652,7 +1651,7 @@ Class Skin_Skeleton {
 			}
 
 			// align columns
-			$text = '<p id="columns_prefix" />';
+			$text = '<p class="columns_prefix" />';
 
 			// build the left column
 			$text .= Skin::build_list($column_1, 'column_1', TWO_COLUMNS_IMG, $new_window);
@@ -1662,7 +1661,7 @@ Class Skin_Skeleton {
 				$text .= Skin::build_list($column_2, 'column_2', TWO_COLUMNS_IMG, $new_window);
 
 			// clear text after columns
-			$text .= '<p id="columns_suffix" />';
+			$text .= '<p class="columns_suffix" />';
 
 			// done
 			return $text;
@@ -1688,7 +1687,8 @@ Class Skin_Skeleton {
 		foreach($items as $url => $label) {
 
 			// split $label as $prefix $label $suffix $type $icon $title
-			$prefix = $link = $suffix = $type = $icon = $title = NULL;
+			$prefix = $link = $suffix = $icon = $title = NULL;
+			$type = 'basic';
 			if(is_array($label) && isset($label[1])) {
 				if(isset($label[0]))
 					$prefix = $label[0];
@@ -1712,10 +1712,8 @@ Class Skin_Skeleton {
 
 			// pass elements ids of the site bar
 			$id = '';
-			if(($variant == 'tabs') && $type) {
+			if(($variant == 'tabs') && $type)
 				$id = ' id="tab_'.$type.'"';
-				$type = 'basic';
-			}
 
 			// clean labels at occasions --codes have already been transformed here
 			if(($variant == 'crumbs') || ($variant == 'tabs'))

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
 $_SESSION['l10n']['fr']['1fa29870e0d67260cf186d325428dd30']='<p>Voici la liste des événements récents à %s</p><p>Vous pouvez obtenir plus d\'information à l\'aide des raccourcis suivants :</p><ul><li><a href="%s">Allez à la page frontale (%s)</a></li><li><a href="%s">Allez sur le Panneau de contrôle (%s)</a></li></ul>';

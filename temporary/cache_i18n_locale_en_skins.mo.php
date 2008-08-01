@@ -3,14 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en'][' at %s%s']=' at %s%s';
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
 $_SESSION['l10n']['en']['%d file'.chr(0).'%d files']='%d file'.chr(0).'%d files';
 $_SESSION['l10n']['en']['%d files have been extracted.']='%d files have been extracted.';
 $_SESSION['l10n']['en']['%d files have been found.']='%d files have been found.';
-$_SESSION['l10n']['en']['%d hits']='%d hits';
 $_SESSION['l10n']['en']['%d link'.chr(0).'%d links']='%d link'.chr(0).'%d links';
 $_SESSION['l10n']['en']['%d rate'.chr(0).'%d rates']='%d rate'.chr(0).'%d rates';
 $_SESSION['l10n']['en']['%d words to read']='%d words to read';
@@ -285,6 +284,7 @@ $_SESSION['l10n']['en']['from %s']='from %s';
 $_SESSION['l10n']['en']['gadget']='gadget';
 $_SESSION['l10n']['en']['h:i a']='h:i a';
 $_SESSION['l10n']['en']['help pages on YACS codes']='help pages on YACS codes';
+$_SESSION['l10n']['en']['hits']='hits';
 $_SESSION['l10n']['en']['b1caf262006e4778c14ac09a28bea66d']='http://www.yetanothercommunitysystem.com/';
 $_SESSION['l10n']['en']['level 1 title']='level 1 title';
 $_SESSION['l10n']['en']['level 2 title']='level 2 title';

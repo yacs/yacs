@@ -428,11 +428,12 @@ Class Users {
 	 * @param string the email address, or a web address
 	 * @param string the user id
 	 * @param boolean TRUE to open the link in a new window, FALSE otherwise
+	 * @param string an optional hovering label
 	 * @return a pretty link to insert in the HTML page
 	 *
 	 * @see feeds/feeds.php
 	 */
-	function get_link($name, $email, $id, $new_window=FALSE) {
+	function get_link($name, $email, $id, $new_window=FALSE, $hover=NULL) {
 		global $context;
 
 		if(!$name)
@@ -441,13 +442,13 @@ Class Users {
 		$name = ucfirst($name);
 
 		if(($id > 0) && ($url = Users::get_url($id, 'view', $name)))
-			return Skin::build_link($url, $name, 'user', NULL, $new_window);
+			return Skin::build_link($url, $name, 'user', $hover, $new_window);
 		elseif(!Surfer::may_mail())
 			return $name;
 		elseif(preg_match('/@/', $email))
-			return Skin::build_link($email, $name, 'email');
+			return Skin::build_link($email, $name, 'email', $hover);
 		elseif(preg_match('/[:\/]/', $email))
-			return Skin::build_link($email, $name);
+			return Skin::build_link($email, $name, NULL, $hover);
 		else
 			return $name;
 	}

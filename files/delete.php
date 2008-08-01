@@ -175,7 +175,7 @@ if($item['id']) {
 
 	// hits
 	if($item['hits'] > 1) {
-		$cells = array(i18n::s('Downloads'), 'left='.sprintf(i18n::s('%d hits'), $item['hits']));
+		$cells = array(i18n::s('Downloads'), 'left='.Skin::build_number($item['hits'], i18n::s('downloads')));
 		$context['text'] .= Skin::table_row($cells, $lines++);
 	}
 

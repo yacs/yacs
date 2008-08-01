@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:13 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['be362d7d53a1254f538bfda2a9b7b995']='Un membre est requis pour cette opération.';
 $_SESSION['l10n']['fr']['Access collection']='Voir la collection';

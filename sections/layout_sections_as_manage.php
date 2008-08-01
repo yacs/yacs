@@ -173,7 +173,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 
 			// the number of hits
 			if(Surfer::is_logged() && ($item['hits'] > 1))
-				$details[] = sprintf(i18n::s('%d hits'), $item['hits']);
+				$details[] = Skin::build_number($item['hits'], i18n::s('hits'));
 
 			// signal locked sections
 			if(isset($item['locked']) && ($item['locked'] == 'Y'))

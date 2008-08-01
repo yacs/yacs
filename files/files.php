@@ -271,7 +271,7 @@ Class Files {
 		// load the row
 		$item =& Files::get($id);
 		if(!$item['id']) {
-			Skin::error(i18n::s('No file found for this id'));
+			Skin::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
 

@@ -220,7 +220,7 @@ else {
 		// table rows
 		$rows = array();
 		while($item =& SQL::fetch($result))
-			$rows[] = array('left='.Skin::build_link($item['referer'], $item['domain'], 'external'), 'left='.$item['hits']);
+			$rows[] = array('left='.Skin::build_link($item['referer'], $item['domain'], 'external'), 'left='.Skin::build_number($item['hits']));
 
 		// render the table
 		$referrals .= Skin::table($headers, $rows);
@@ -245,7 +245,7 @@ else {
 		// table rows
 		$rows = array();
 		while($item =& SQL::fetch($result))
-			$rows[] = array('left='.Skin::build_link($item['referer'], $item['keywords'], 'external'), 'left='.$item['hits']);
+			$rows[] = array('left='.Skin::build_link($item['referer'], $item['keywords'], 'external'), 'left='.Skin::build_number($item['hits']));
 
 		// render the table
 		$searches .= Skin::table($headers, $rows);

@@ -228,7 +228,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 				$item['comments_count'] = 0;
 
 			// this is another row of the output
-			$cells = array($title.$suffix, 'center='.$starter, 'center='.$item['comments_count'], 'center='.$item['hits'], $details);
+			$cells = array($title.$suffix, 'center='.$starter, 'center='.$item['comments_count'], 'center='.Skin::build_number($item['hits']), $details);
 			if(THREAD_IMG)
 				$cells = array_merge(array($icon), $cells);
 

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:17 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 5:02 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['A Rabbit Story']='Fable de La Fontaine';

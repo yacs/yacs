@@ -93,7 +93,7 @@ $count = Sections::count_for_anchor(NULL);
 if($count > $items_per_page) {
 
 	// display the total count of sections
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::s('%d&nbsp;sections'), $count)));
+	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => Skin::build_number($count, i18n::s('sections'))));
 
 	// navigation commands for sections, if necessary
 	$home = 'sections/';

@@ -153,7 +153,7 @@ else {
 
 	// hits
 	if($item['hits'] > 1)
-		$details[] = sprintf(i18n::s('%s hits'), number_format($item['hits']));
+		$details[] = Skin::build_number($item['hits'], i18n::s('hits'));
 
 	// all details
 	$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details)).'</p>'.BR."\n";

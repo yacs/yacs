@@ -122,9 +122,6 @@ if(Surfer::is_crawler()) {
 	// clear cache
 	Comments::clear($fields);
 
-	// we do not increment the post counter of the surfer during a chat
-//	Users::increment_posts(Surfer::get_id());
-
 	// thread update will trigger screen repaint through separate pending call of this script
 	die('OK');
 

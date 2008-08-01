@@ -537,7 +537,7 @@ if($with_form) {
 
 		// upload hint
 		$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
-		$hint = sprintf(i18n::s('You can upload a file of less than %s&nbsp;bytes'), $size_hint)."\n";
+		$hint = sprintf(i18n::s('You can upload a file of less than %s'), Skin::build_number($size_hint, i18n::s('bytes')))."\n";
 
 		$fields[] = array($label, $input, $hint);
 

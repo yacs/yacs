@@ -63,7 +63,7 @@ Class Layout_files_as_hits extends Layout_interface {
 
 			// with hits
 			if($item['hits'] > 1)
-				$suffix .= ' '.sprintf(i18n::s('%s&nbsp;hits'), trim($item['hits']));
+				$suffix .= ' '.Skin::build_number($item['hits'], i18n::s('downloads'));
 
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, 'basic', NULL);

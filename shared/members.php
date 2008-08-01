@@ -287,7 +287,7 @@ Class Members {
 
 		// include managed sections
 		if(count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section", $my_sections)."'";
+			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_sections)."'";
 
 		$where .= ")";
 
@@ -383,7 +383,7 @@ Class Members {
 
 		// include managed sections
 		if(count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section", $my_sections)."'";
+			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_sections)."'";
 
 		$where .= ")";
 
@@ -454,7 +454,7 @@ Class Members {
 
 		// include managed sections
 		if(count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section", $my_sections)."'";
+			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_sections)."'";
 
 		$where .= ")";
 
@@ -1027,7 +1027,7 @@ Class Members {
 
 		// include managed sections
 		if(count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section", $my_sections)."'";
+			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_sections)."'";
 
 		$where .= ")";
 

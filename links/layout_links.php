@@ -57,8 +57,8 @@ Class Layout_links extends Layout_interface {
 				$prefix = NEW_FLAG.$prefix;
 
 			// the number of clicks
-			if($item['hits'])
-				$suffix .= ' ('.sprintf(i18n::ns('%d click', '%d clicks', $item['hits']), $item['hits']).') ';
+			if($item['hits'] > 1)
+				$suffix .= ' ('.Skin::build_number($item['hits'], i18n::s('clicks')).') ';
 
 			// description
 			if($item['description'])

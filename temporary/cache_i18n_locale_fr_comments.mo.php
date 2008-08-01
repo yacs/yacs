@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:14 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d post'.chr(0).'%d posts']='%d envoi'.chr(0).'%d envois';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
@@ -14,6 +14,7 @@ $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['A question']='Une question';
 $_SESSION['l10n']['fr']['A suggestion']='Une suggestion';
 $_SESSION['l10n']['fr']['Add a comment']='Ajouter un commentaire';
+$_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Anonymous comment']='Commentaire anonyme';
 $_SESSION['l10n']['fr']['Associate']='Associé';
 $_SESSION['l10n']['fr']['Attention']='Important';
@@ -71,7 +72,6 @@ $_SESSION['l10n']['fr']['Recent comments at %s']='Commentaires à %s';
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
 $_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Reply']='Répondre';
-$_SESSION['l10n']['fr']['Scanning comments table...']='Analyse de la table des commentaires...';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['a05645e8bcb9d65916b93961e3239d97']='Vous postez anonymement ; toutes les balises HTLM et les adresses web seront supprimées.';
 $_SESSION['l10n']['fr']['Start']='Commencer';
@@ -99,7 +99,7 @@ $_SESSION['l10n']['fr']['6ea7b5a19127f511bec28a548295d614']='Oui, je veux suppri
 $_SESSION['l10n']['fr']['d3016a1561487b9f24ccb81618fea0e2']='Oui, je veux promouvoir ce commentaire en article';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['583547da9f1a19cbe30016004d2a0de2']='Vous pouvez copier et coller du texte à partir du champ ci-dessous pour construire votre envoi.';
-$_SESSION['l10n']['fr']['837dd8e6cc0c06383087228c93e134b3']='Vous pouvez envoyer un fichier de moins de %s&nbsp;octets';
+$_SESSION['l10n']['fr']['c7c4a684a777062b8169a76cb777532c']='Vous pouvez envoyer un fichier de moins de %s';
 $_SESSION['l10n']['fr']['Your address']='Votre adresse';
 $_SESSION['l10n']['fr']['Your contribution']='Votre contribution';
 $_SESSION['l10n']['fr']['26d108ddac5f9af035390574928cd68d']='Votre contribution n\'a pas été envoyée.';
@@ -109,7 +109,7 @@ $_SESSION['l10n']['fr']['Zoom on this note']='Zoomer sur cette annotation';
 $_SESSION['l10n']['fr']['anonymous']='anonyme';
 $_SESSION['l10n']['fr']['authenticate']='authentifier';
 $_SESSION['l10n']['fr']['by %s %s']='par %s %s';
-$_SESSION['l10n']['fr']['comment %s']='commentaire %s';
+$_SESSION['l10n']['fr']['bytes']='octets';
 $_SESSION['l10n']['fr']['delete']='supprimer';
 $_SESSION['l10n']['fr']['74b5672945558b3b34f2599587f6c14c']='Adresse de courrier électronique ou de serveur Internet. Champ optionnel';
 $_SESSION['l10n']['fr']['edit']='modifier';

@@ -36,7 +36,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'orphans')) {
 
 	// scan comments
-	$context['text'] .= Skin::build_block(i18n::s('Scanning comments table...'), 'title');
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('Analyzing table %s...'), SQL::table_name('comments')), 'title');
 
 	// scan up to 20000 items
 	$count = 0;
@@ -64,7 +64,7 @@ if(!Surfer::is_associate()) {
 
 			// check that the anchor exists, if any
 			if($row['anchor'] && !Anchors::get($row['anchor'])) {
-				$context['text'] .= sprintf(i18n::s('Orphan: %s'), Skin::build_link(Comments::get_url($row['id']), sprintf(i18n::s('comment %s'), $row['id']))).BR."\n";
+				$context['text'] .= sprintf(i18n::s('Orphan: %s'), 'comment '.Skin::build_link(Comments::get_url($row['id']), $row['id'])).BR."\n";
 				if(++$errors_count >= 5) {
 					$context['text'] .= i18n::s('Too many successive errors. Aborted').BR."\n";
 					break;

@@ -233,9 +233,9 @@ class Referrals {
 			// hack to make this compliant to XHTML
 			$url = str_replace('&', '&amp;', $row['referer']);
 			if(isset($row['keywords']) && $row['keywords'])
-				$items[$url] = array('', $row['keywords'], ' ('.$row['hits'].')', 'basic', '');
+				$items[$url] = array('', $row['keywords'], ' ('.Skin::build_number($row['hits']).')', 'basic', '');
 			else
-				$items[$url] = array('', $row['domain'], ' ('.$row['hits'].')', 'basic', '');
+				$items[$url] = array('', $row['domain'], ' ('.Skin::build_number($row['hits']).')', 'basic', '');
 		}
 		if(count($items))
 			return Skin::build_list($items, 'compact');
@@ -259,7 +259,7 @@ class Referrals {
 		if($result = SQL::query($query, $context['connection'])) {
 			while($row =& SQL::fetch($result)) {
 				$url = $row['referer'];
-				$items[$url] = $row['hits'];
+				$items[$url] = Skin::build_number($row['hits']);
 			}
 		}
 

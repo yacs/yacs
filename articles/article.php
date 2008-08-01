@@ -483,8 +483,11 @@ Class Article extends Anchor {
 			return $this->anchor->get_url();
 
 		// regular link
-		if($action != 'discuss')
+		if($action == 'view')
 			return Articles::get_permalink($this->item);
+
+		if($action != 'discuss')
+			return Articles::get_url($this->item['id'], $action, $this->item['title'], $this->item['nick_name']);
 
 		// variants that start at the article page
 		if($this->is_interactive())
@@ -496,7 +499,7 @@ Class Article extends Anchor {
 
 		// layouts that start at the article page
 		else
-			return $this->get_url().'#comments';
+			return Articles::get_permalink($this->item).'#comments';
 
 	}
 

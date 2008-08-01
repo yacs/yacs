@@ -53,6 +53,7 @@
  * @link http://www.campfirenow.com/
  *
  * @author Bernard Paques
+ * @tester NickR
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -351,11 +352,11 @@ if(!isset($item['id'])) {
 
 			// actually show numbers only to associates and editors
 			if(Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()) )
-				$details[] = $popular.sprintf(i18n::s('%d hits'), $item['hits']);
+				$details[] = $popular.Skin::build_number($item['hits'], i18n::s('hits'));
 
 			// show first hits
 			elseif($item['hits'] < 100)
-				$details[] = $popular.sprintf(i18n::s('%d hits'), $item['hits']);
+				$details[] = $popular.Skin::build_number($item['hits'], i18n::s('hits'));
 
 			// other surfers will benefit from a stable ETag
 			elseif($popular)

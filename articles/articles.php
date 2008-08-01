@@ -659,7 +659,7 @@ Class Articles {
 
 		// return url of the first item of the list
 		$item =& SQL::fetch($result);
-		return array(Articles::get_permalink($item), $next['title']);
+		return array(Articles::get_permalink($item), $item['title']);
 	}
 
 	/**
@@ -669,7 +669,7 @@ Class Articles {
 	 * @return string the permalink
 	 */
 	function &get_permalink($item) {
-		$output =& Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$output = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
 		return $output;
 	}
 
@@ -741,7 +741,7 @@ Class Articles {
 
 		// return url of the first item of the list
 		$item =& SQL::fetch($result);
-		return array(Articles::get_permalink($item), $previous['title']);
+		return array(Articles::get_permalink($item), $item['title']);
 	}
 
 	/**
@@ -1021,7 +1021,7 @@ Class Articles {
 
 		// include articles from managed sections
 		if(count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section", $my_sections)."'";
+			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_sections)."'";
 
 		$where .= ")";
 
@@ -1105,7 +1105,6 @@ Class Articles {
 				." FROM (".SQL::table_name('articles')." AS articles"
 				.", ".SQL::table_name('sections')." AS sections)"
 				." WHERE ((articles.anchor_type LIKE 'section') AND (articles.anchor_id = sections.id)) AND ".$where.$sections_where
-				." GROUP BY articles.id"
 				." ORDER BY ".$order." LIMIT ".$offset.','.$count;
 
 		// only select articles
@@ -2587,7 +2586,6 @@ Class Articles {
 			.", ".SQL::table_name('sections')." AS sections)"
 			." WHERE ((articles.anchor_type LIKE 'section') AND (articles.anchor_id = sections.id))"
 			."	AND (".$where.")".$match.$sections_where
-			." GROUP BY articles.id"
 			." ORDER BY articles.edit_date DESC"
 			." LIMIT ".$offset.','.$count;
 

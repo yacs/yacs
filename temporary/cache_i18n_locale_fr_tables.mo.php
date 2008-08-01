@@ -3,13 +3,14 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:25 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 5:03 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['9d1dd3844462dd717f535edb3d78a4b6']='%d ordres SQL ont été traités en %.2f secondes.';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['%d table'.chr(0).'%d tables']='%d table'.chr(0).'%d tables';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['Add a table']='Ajouter une table';
+$_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['519471e63694deb32693cdb1e9f0342c']='Ce champ étant indexé pour les recherches, pensez à soigner votre formulation';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['d13ffed666898525c258864b3ddef094']='A cause de nos réglages de sécurité, vous n\'êtes pas autorisé à consulter la liste des tables.';
@@ -52,7 +53,7 @@ $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['No table has been created yet.']='Aucune table n\'a été créée.';
 $_SESSION['l10n']['fr']['32e6e19d13cb6d3f26684f277e28f802']='Aucun nom de table n\'a été indiqué.';
 $_SESSION['l10n']['fr']['Nothing has been received.']='Rien n\'a été reçu.';
-$_SESSION['l10n']['fr']['Orphan: table %s']='Orphelin : table %s';
+$_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Pipe character "|"']='Caractère trait vertical "|"';
 $_SESSION['l10n']['fr']['Please add some SQL query.']='Merci d\'indiquer une requête SQL valide';
 $_SESSION['l10n']['fr']['63171134cc5466c7a0a1dd93db93be41']='Merci de naviguer sur les %s, y compris les tables qu\'elles peuvent contenir.';
@@ -69,7 +70,6 @@ $_SESSION['l10n']['fr']['Query string']='Requête d\'interrogation';
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
 $_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['SQL Query']='Commande SQL';
-$_SESSION['l10n']['fr']['Scanning tables table...']='Analyse de la table des tables...';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Single quote character']='Caractère \'';
 $_SESSION['l10n']['fr']['Start']='Commencer';
@@ -85,7 +85,7 @@ $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrou
 $_SESSION['l10n']['fr']['8f9530ed279d7911ad4a48008be56b92']='Ce script charge le contenu d\'une table de la base de données.';
 $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['0749c2e869a8f74bc91f87cc3643388e']='Trop d\'erreurs successives. Abandon';
-$_SESSION['l10n']['fr']['Unused: table %s']='Inutilisé : table %s';
+$_SESSION['l10n']['fr']['Unused: %s']='Inutilisé : %s';
 $_SESSION['l10n']['fr']['View a table']='Voir une table';
 $_SESSION['l10n']['fr']['f1ce5d9609440ef5da411f7524e7c4e5']='Le serveur sera sollicité dès votre clic sur le bouton. Toutefois, l\'ampleur des traitements à effectuer peut induire un temps de réponse assez long, jusqu\'à quelques minutes. Merci de votre patience.';
 $_SESSION['l10n']['fr']['With index']='Avec index';

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 31, 2008, 2:19 pm GMT. Please do not modify it manually.
+ * on August 1, 2008, 5:03 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['1c215e423c027bdfb2bd09d45b93e517']='%s (et raccourcis, boutons, ...)';
 $_SESSION['l10n']['fr']['%s (and table of content)']='%s (et table des matières)';
@@ -134,7 +134,7 @@ $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['How to contribute?']='Comment contribuer ?';
 $_SESSION['l10n']['fr']['How to format text in pages?']='Comment utiliser les codes YACS ?';
 $_SESSION['l10n']['fr']['3dc352975fba2c115965839b6be6e5d2']='Idéal pour faire exprimer un consensus large sur une idée. Chaque signature peut-être commentée.';
-$_SESSION['l10n']['fr']['29ba32d1e5e13d46ef242d8e68e3c7d2']='Si vous utilisez Internet Explorer sous Windows, cliquez sur le lien suivant pour %s accessible sur bouton droit. Acceptez les modifications de la base de registres, puis redémarrer le navigateur.';
+$_SESSION['l10n']['fr']['7784d87340c4d0d8d8e7b2729c9b65ff']='Si vous utilisez Internet Explorer sous Windows, cliquez sur le lien suivant pour %s accessible sur bouton droit. Acceptez les modifications de la base de registres, puis redémarrer le navigateur.';
 $_SESSION['l10n']['fr']['e1549f24c173711dc074c8cda8a11f70']='Si votre navigateur supporte les panneaux de côté et javascript, vous pouvez cliquer sur le lien qui suit pour %s.';
 $_SESSION['l10n']['fr']['In-line']='Codes de base';
 $_SESSION['l10n']['fr']['3c3270c9c73750475f6a1f562fbcbea3']='Index des %1$s, %2$s, %3$s et %4$s les plus récents';

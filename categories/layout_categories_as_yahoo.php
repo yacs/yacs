@@ -125,7 +125,7 @@ Class Layout_categories_as_yahoo extends Layout_interface {
 
 			// add sub-categories on index pages
 			if($related = Categories::list_by_date_for_anchor('category:'.$item['id'], 0, YAHOO_LIST_SIZE, 'compact')) {
-				foreach($related as $url => $label) {
+				foreach($related as $sub_url => $label) {
 					$sub_prefix = $sub_suffix = $sub_hover = '';
 					if(is_array($label)) {
 						$sub_prefix = $label[0];
@@ -134,13 +134,13 @@ Class Layout_categories_as_yahoo extends Layout_interface {
 							$sub_hover = $label[5];
 						$label = $label[1];
 					}
-					$details[] = $sub_prefix.Skin::build_link($url, $label, 'basic', $sub_hover).$sub_suffix;
+					$details[] = $sub_prefix.Skin::build_link($sub_url, $label, 'basic', $sub_hover).$sub_suffix;
 				}
 			}
 
 			// add related sections if necessary
 			if((count($details) < YAHOO_LIST_SIZE) && ($related = Members::list_sections_by_title_for_anchor('category:'.$item['id'], 0, YAHOO_LIST_SIZE - count($details), 'compact'))) {
-				foreach($related as $url => $label) {
+				foreach($related as $sub_url => $label) {
 					$sub_prefix = $sub_suffix = $sub_hover = '';
 					if(is_array($label)) {
 						$sub_prefix = $label[0];
@@ -149,13 +149,13 @@ Class Layout_categories_as_yahoo extends Layout_interface {
 							$sub_hover = $label[5];
 						$label = $label[1];
 					}
-					$details[] = $sub_prefix.Skin::build_link($url, $label, 'basic', $sub_hover).$sub_suffix;
+					$details[] = $sub_prefix.Skin::build_link($sub_url, $label, 'basic', $sub_hover).$sub_suffix;
 				}
 			}
 
 			// add related articles if necessary
 			if((count($details) < YAHOO_LIST_SIZE) && ($related = Members::list_articles_by_date_for_anchor('category:'.$item['id'], 0, YAHOO_LIST_SIZE - count($details), 'compact'))) {
-				foreach($related as $url => $label) {
+				foreach($related as $sub_url => $label) {
 					$sub_prefix = $sub_suffix = $sub_hover = '';
 					if(is_array($label)) {
 						$sub_prefix = $label[0];
@@ -164,7 +164,7 @@ Class Layout_categories_as_yahoo extends Layout_interface {
 							$sub_hover = $label[5];
 						$label = $label[1];
 					}
-					$details[] = $sub_prefix.Skin::build_link($url, $label, 'basic', $sub_hover).$sub_suffix;
+					$details[] = $sub_prefix.Skin::build_link($sub_url, $label, 'basic', $sub_hover).$sub_suffix;
 				}
 			}
 

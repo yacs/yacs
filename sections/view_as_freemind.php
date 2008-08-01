@@ -112,12 +112,18 @@ if($id && !isset($item['id'])) {
 	else
 		$target_href = $context['url_to_home'].$context['url_to_root'].Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name'].'.mm'));
 
+	// use the compressed format if possible
+	if(file_exists($context['path_to_root'].'included/browser/swfobject.js.jsmin'))
+		$script = 'included/browser/swfobject.js.jsmin';
+	else
+		$script = 'included/browser/swfobject.js';
+
 	// page preamble
 	$text = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'."\n"
 		.'<html xmlns="http://www.w3.org/1999/xhtml">'."\n"
 		.'<head>'."\n"
 			.'<title>'.$item['title'].'</title>'."\n"
-			.'<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/swfobject.js"></script>'."\n"
+			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
 		.'</head>'."\n"
 		.'<body>'."\n";
 

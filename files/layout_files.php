@@ -119,7 +119,7 @@ Class Layout_files extends Layout_interface {
 
 			// downloads
 			if($item['hits'] > 1)
-				$details[] = sprintf(i18n::s('%d downloads'), $item['hits']);
+				$details[] = Skin::build_number($item['hits'], i18n::s('downloads'));
 
 			if(count($details))
 				$suffix .= ' '.ucfirst(implode(', ', $details));

@@ -43,9 +43,13 @@ Class Layout_comments_as_thread extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// link to user profile -- open links in separate window to enable side browsing of participant profiles
-			if($item['create_name'])
-				$author = Users::get_link($item['create_name'], $item['create_address'], $item['create_id'], TRUE);
-			else
+			if($item['create_id']) {
+				if($user =& Users::get($item['create_id']) && $user['full_name'])
+					$hover = $user['full_name'];
+				else
+					$hover = NULL;
+				$author = Users::get_link($item['create_name'], $item['create_address'], $item['create_id'], TRUE, $hover);
+			} else
 				$author = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id'], TRUE);
 
 			// differentiate my posts from others
@@ -70,7 +74,7 @@ Class Layout_comments_as_thread extends Layout_interface {
 			}
 
 			// append this at the end of the comment
-			$stamp = ' <span style="font-size: x-small">'.Skin::build_link( Comments::get_url($item['id']), $stamp, 'basic').'</span>';
+			$stamp = ' <span style="font-size: x-small">'.Skin::build_link( Comments::get_url($item['id']), $stamp, 'basic', i18n::s('Edit')).'</span>';
 
 			// package everything --change order to get oldest first
 			$text = '<dt'.$style.'>'.$author.'</dt><dd'.$style.'>'.ucfirst(trim(Codes::beautify($item['description']))).$stamp.'</dd>'.$text;
