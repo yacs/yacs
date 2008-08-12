@@ -990,7 +990,7 @@ Class Article extends Anchor {
 			$mail['subject'] = sprintf(i18n::c('Update: %s'), strip_tags($this->item['title']));
 
 			// mail template -- title, link, action
-			$mail['template'] = i18n::c('The following page has been updated')."\n%s\n\n%s\n\n%s";
+			$mail['template'] = i18n::c('The following page has been updated')."\n\n%s\n%s\n\n%s";
 
 			// title comes first
 			$mail['title'] = strip_tags($this->item['title']);

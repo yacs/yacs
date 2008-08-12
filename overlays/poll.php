@@ -41,22 +41,22 @@ class Poll extends Overlay {
 			foreach($this->attributes['answers'] as $answer) {
 				list($text, $count) = $answer;
 				$label = i18n::s('Answer');
-				$input = '<input type="text" name="answer_texts[]" size="55" value="'.encode_field($text).'" maxlength="64"'.EOT;
+				$input = '<input type="text" name="answer_texts[]" size="55" value="'.encode_field($text).'" maxlength="64" />';
 				$hint = i18n::s('Delete to suppress');
 				$fields[] = array($label, $input, $hint);
 				$label = i18n::s('Count');
-				$input = '<input type="text" name="answer_counts[]" size="10" value="'.encode_field($count).'" maxlength="64"'.EOT;
+				$input = '<input type="text" name="answer_counts[]" size="10" value="'.encode_field($count).'" maxlength="64" />';
 				$fields[] = array($label, $input);
 			}
 		}
 
 		// append one answer
 		$label = i18n::s('Add an answer');
-		$input = '<input type="text" name="answer_texts[]" size="55" maxlength="64"'.EOT;
+		$input = '<input type="text" name="answer_texts[]" size="55" maxlength="64" />';
 		$hint = i18n::s('Check this is a valid answer to your question');
 		$fields[] = array($label, $input, $hint);
 		$label = i18n::s('Count');
-		$input = '<input type="text" name="answer_counts[]" size="10" value="0" maxlength="64"'.EOT;
+		$input = '<input type="text" name="answer_counts[]" size="10" value="0" maxlength="64" />';
 		$hint = i18n::s('Do not trick your polls; Start at zero');
 		$fields[] = array($label, $input, $hint);
 
@@ -205,19 +205,19 @@ class Poll extends Overlay {
 
 			// use images either from the skin, or from the polls directory
 			if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/images/poll_left.gif'))
-				$left_img = '<img src="'.$context['url_to_root'].$context['skin'].'/images/poll_left.gif" '.$size[3].' alt=""'.EOT;
+				$left_img = '<img src="'.$context['url_to_root'].$context['skin'].'/images/poll_left.gif" '.$size[3].' alt="" />';
 			elseif($size = Safe::GetImageSize($context['path_to_root'].'overlays/polls/bar_left.gif'))
-				$left_img = '<img src="'.$context['url_to_root'].'overlays/polls/bar_left.gif" '.$size[3].' alt=""'.EOT;
+				$left_img = '<img src="'.$context['url_to_root'].'overlays/polls/bar_left.gif" '.$size[3].' alt="" />';
 
 			if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/images/poll_main.gif'))
-				$main_img = '<img src="'.$context['url_to_root'].$context['skin'].'/images/poll_main.gif" '.$size[3].' alt=""'.EOT;
+				$main_img = '<img src="'.$context['url_to_root'].$context['skin'].'/images/poll_main.gif" '.$size[3].' alt="" />';
 			elseif($size = Safe::GetImageSize($context['path_to_root'].'overlays/polls/bar_main.gif'))
-				$main_img = '<img src="'.$context['url_to_root'].'overlays/polls/bar_main.gif" '.$size[3].' alt=""'.EOT;
+				$main_img = '<img src="'.$context['url_to_root'].'overlays/polls/bar_main.gif" '.$size[3].' alt="" />';
 
 			if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/images/poll_right.gif'))
-				$right_img = '<img src="'.$context['url_to_root'].$context['skin'].'/images/poll_right.gif" '.$size[3].' alt=""'.EOT;
+				$right_img = '<img src="'.$context['url_to_root'].$context['skin'].'/images/poll_right.gif" '.$size[3].' alt="" />';
 			elseif($size = Safe::GetImageSize($context['path_to_root'].'overlays/polls/bar_right.gif'))
-				$right_img = '<img src="'.$context['url_to_root'].'overlays/polls/bar_right.gif" '.$size[3].' alt=""'.EOT;
+				$right_img = '<img src="'.$context['url_to_root'].'overlays/polls/bar_right.gif" '.$size[3].' alt="" />';
 
 			// one row per answer
 			$index = 1;
@@ -227,7 +227,7 @@ class Poll extends Overlay {
 
 				$text .= '<dt>';
 				if($enable_votes)
-					$text .= '<input type="radio" name="vote" value="'.$index++.'"'.EOT;
+					$text .= '<input type="radio" name="vote" value="'.$index++.'" />';
 				$text .= $label.'</dt>';
 
 				if($total > 0) {
@@ -264,7 +264,7 @@ class Poll extends Overlay {
 		}
 
 		// end of the form
-		$text .= '<input type="hidden" name="id" value="'.$host['id'].'"'.EOT."\n"
+		$text .= '<input type="hidden" name="id" value="'.$host['id'].'" />'."\n"
 				.'</form>'."\n";
 		return $text;
 	}
@@ -291,19 +291,19 @@ class Poll extends Overlay {
 
 		// use images either from the skin, or from the polls directory
 		if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/images/poll_left.gif'))
-			$left_img = '<img src="'.$context['url_to_root'].$context['skin'].'/images/poll_left.gif" '.$size[3].' alt=""'.EOT;
+			$left_img = '<img src="'.$context['url_to_root'].$context['skin'].'/images/poll_left.gif" '.$size[3].' alt="" />';
 		elseif($size = Safe::GetImageSize($context['path_to_root'].'overlays/polls/bar_left.gif'))
-			$left_img = '<img src="'.$context['url_to_root'].'overlays/polls/bar_left.gif" '.$size[3].' alt=""'.EOT;
+			$left_img = '<img src="'.$context['url_to_root'].'overlays/polls/bar_left.gif" '.$size[3].' alt="" />';
 
 		if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/images/poll_main.gif'))
-			$main_img = '<img src="'.$context['url_to_root'].$context['skin'].'/images/poll_main.gif" '.$size[3].' alt=""'.EOT;
+			$main_img = '<img src="'.$context['url_to_root'].$context['skin'].'/images/poll_main.gif" '.$size[3].' alt="" />';
 		elseif($size = Safe::GetImageSize($context['path_to_root'].'overlays/polls/bar_main.gif'))
-			$main_img = '<img src="'.$context['url_to_root'].'overlays/polls/bar_main.gif" '.$size[3].' alt=""'.EOT;
+			$main_img = '<img src="'.$context['url_to_root'].'overlays/polls/bar_main.gif" '.$size[3].' alt="" />';
 
 		if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/images/poll_right.gif'))
-			$right_img = '<img src="'.$context['url_to_root'].$context['skin'].'/images/poll_right.gif" '.$size[3].' alt=""'.EOT;
+			$right_img = '<img src="'.$context['url_to_root'].$context['skin'].'/images/poll_right.gif" '.$size[3].' alt="" />';
 		elseif($size = Safe::GetImageSize($context['path_to_root'].'overlays/polls/bar_right.gif'))
-			$right_img = '<img src="'.$context['url_to_root'].'overlays/polls/bar_right.gif" '.$size[3].' alt=""'.EOT;
+			$right_img = '<img src="'.$context['url_to_root'].'overlays/polls/bar_right.gif" '.$size[3].' alt="" />';
 
 		// compute totals
 		$total = 0;
@@ -328,7 +328,7 @@ class Poll extends Overlay {
 
 			$text .= '<dt>';
 			if($enable_votes)
-				$text .= '<input type="radio" name="vote" value="'.$index++.'"'.EOT.' ';
+				$text .= '<input type="radio" name="vote" value="'.$index++.'" /> ';
 			$text .= $label.'</dt>'."\n";
 
 			$text .= '<dd>';
@@ -363,7 +363,7 @@ class Poll extends Overlay {
 		}
 
 		// end of the form
-		$text .= '<input type="hidden" name="id" value="'.$host['id'].'"'.EOT.'</form>'."\n";
+		$text .= '<input type="hidden" name="id" value="'.$host['id'].'" />'.'</form>'."\n";
 
 		return $text;
 	}
@@ -396,7 +396,7 @@ class Poll extends Overlay {
 			foreach($this->attributes['answers'] as $answer) {
 				list($label, $count) = $answer;
 				if($enable_votes)
-					$text .= '<input type="radio" name="vote" value="'.$index.'"'.EOT.' ';
+					$text .= '<input type="radio" name="vote" value="'.$index.'" /> ';
 				$text .= $label.BR;
 				$index++;
 			}
@@ -420,7 +420,7 @@ class Poll extends Overlay {
 		}
 
 		// end of the form
-		$text .= '<input type="hidden" name="id" value="'.$host['id'].'"'.EOT."\n"
+		$text .= '<input type="hidden" name="id" value="'.$host['id'].'" />'."\n"
 				.'</p></form>'."\n";
 
 		return $text;

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
+ * on August 12, 2008, 10:06 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
 $_SESSION['l10n']['fr']['%d comments']='%d commentaires';
@@ -446,6 +446,7 @@ $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
 $_SESSION['l10n']['fr']['8cb4e09444c573321ad89a48e992b66f']='folded - Construire une boîte pliée par section, avec le contenu.';
 $_SESSION['l10n']['fr']['8a40ce0f2553c50d4f95684527f186c6']='freemind - Visualiser une carte mentale interactive';
 $_SESSION['l10n']['fr']['hits']='lectures';
+$_SESSION['l10n']['fr']['in %s']='dans %s';
 $_SESSION['l10n']['fr']['36bf15f384c2faef4a8cbb7476484e2e']='inline - Lister les rubriques et les articles associés (une boîte par section).';
 $_SESSION['l10n']['fr']['2367cc975647ba107ba853e93a807607']='jive - Affiche le contenu de chaque article';
 $_SESSION['l10n']['fr']['jive - List 5 threads per board']='jive - Liste 5 fils de discussion à la fois';

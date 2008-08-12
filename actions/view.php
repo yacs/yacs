@@ -26,6 +26,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'actions.php';
+include_once '../links/links.php';	// target url
 
 // look for the id
 $id = NULL;
@@ -116,6 +117,25 @@ if(!isset($item['id'])) {
 
 	// display the full text
 	$context['text'] .= Skin::build_block($item['description'], 'description');
+
+	// related link
+	if($item['target_url']) {
+
+		// transform local references, if any
+		$attributes = Links::transform_reference($item['target_url']);
+
+		if(isset($attributes[1]))
+			$title = $attributes[1];
+		else
+			$title = $item['target_url'];
+
+		if(isset($attributes[0]))
+			$link = Skin::build_link($context['url_to_root'].$attributes[0], $title, 'basic');
+		else
+			$link = $item['target_url'];
+
+		$context['text'] .= sprintf(i18n::s('%s: %s'), i18n::s('Target address'), $link);
+	}
 
 	// action status
 	switch($item['status']) {

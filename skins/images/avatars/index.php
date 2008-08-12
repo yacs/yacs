@@ -69,7 +69,7 @@ if(!count($context['error'])) {
 				continue;
 
 			// display the image
-			$context['text'] .= ' <img src="'.$context['url_to_root'].$path.'/'.$item.'" alt="'.$item.'" style="padding: 4px 4px 4px 4px;"'.EOT.' ';
+			$context['text'] .= ' <img src="'.$context['url_to_root'].$path.'/'.$item.'" alt="'.$item.'" style="padding: 4px 4px 4px 4px;" /> ';
 
 		}
 		Safe::closedir($dir);

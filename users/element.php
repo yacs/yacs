@@ -149,32 +149,14 @@ if(!isset($item['id'])) {
 	// we return some HTML
 	$output = '';
 
-	// help surfer on their own profiles
-	if(Surfer::get_id() == $item['id'])
-		$output .= '<p>'.i18n::s('Click on the Watch link while browsing people, sections, or articles.').'</p>';
-
 	// list watched users by posts
-	if($items = Members::list_users_by_posts_for_member('user:'.$item['id'], 0, USERS_PER_PAGE, 'watch')) {
+	if($items =& Members::list_users_by_posts_for_member('user:'.$item['id'], 0, USERS_PER_PAGE, 'watch')) {
 		if(is_array($items))
 			$items = Skin::build_list($items, 'decorated');
 		$menu = array();
 		if(Surfer::is_associate() || (Surfer::get_id() == $item['id']))
 			$menu = array(Users::get_url('user:'.$item['id'], 'select') => i18n::s('Manage'));
-		$output .= Skin::build_box(i18n::s('Watched people'), Skin::build_list($menu, 'menu_bar').$items, 'header2', 'watched_users');
-	}
-
-	// list watched sections by date
-	if($items = Members::list_sections_by_date_for_member('user:'.$item['id'], 0, SECTIONS_PER_PAGE, 'compact')) {
-		if(is_array($items))
-			$items = Skin::build_list($items, 'compact');
-		$output .= Skin::build_box(i18n::s('Watched sections'), $items, 'folder', 'watched_sections');
-	}
-
-	// list watched articles by date
-	if($items = Members::list_articles_by_date_for_member('user:'.$item['id'], 0, ARTICLES_PER_PAGE, 'simple')) {
-		if(is_array($items))
-			$items = Skin::build_list($items, 'compact');
-		$output .= Skin::build_box(i18n::s('Watched pages'), $items, 'folder', 'watched_articles');
+		$output .= Skin::build_list($menu, 'menu_bar').$items;
 	}
 
 	// actual transmission except on a HEAD request

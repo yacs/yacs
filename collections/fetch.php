@@ -44,8 +44,8 @@ $item = Collections::get($id);
 
 // icons used to depict files and folders
 $icons = array();
-$icons['folder_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder.png" width="13" height="16" alt=""'.EOT;
-$icons['folder_up_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder_up.gif" width="15" height="16" alt=""'.EOT;
+$icons['folder_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder.png" width="13" height="16" alt="" />';
+$icons['folder_up_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder_up.gif" width="15" height="16" alt="" />';
 
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())
@@ -180,7 +180,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 		// this one may be blocked by anti-popup software
 		} else
-			$context['site_head'] .= '<meta http-equiv="Refresh" content="1;url='.$item['actual_url'].'"'.EOT."\n";
+			$context['site_head'] .= '<meta http-equiv="Refresh" content="1;url='.$item['actual_url'].'" />'."\n";
 
 		// help the surfer
 		$context['text'] .= '<p>'.i18n::s('You are requesting the following file:').'</p>'."\n";

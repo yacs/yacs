@@ -50,7 +50,7 @@ if($context['prefix'])
 
 // display the page image, if any
 if($context['page_image'])
-	echo ICON_PREFIX.'<img src="'.$context['page_image'].'" class="icon" alt=""'.EOT.ICON_SUFFIX;
+	echo ICON_PREFIX.'<img src="'.$context['page_image'].'" class="icon" alt="" />'.ICON_SUFFIX;
 
 // display the title
 if($context['page_title'])

@@ -42,7 +42,7 @@ Class Layout_articles extends Layout_interface {
 
 		// sanity check
 		if(!isset($this->layout_variant))
-			$this->layout_variant = 'full';
+			$this->layout_variant = 'decorated';
 
 		// flag articles updated recently
 		if($context['site_revisit_after'] < 1)
@@ -80,7 +80,7 @@ Class Layout_articles extends Layout_interface {
 			$prefix = $suffix = $icon = '';
 
 			// flag sticky pages
-			if(($item['rank'] < 10000) && !preg_match('/(compact|hits|mobile)/', $this->layout_variant))
+			if($item['rank'] < 10000)
 				$prefix .= STICKY_FLAG;
 
 			// not too many details on mobiles
@@ -115,7 +115,7 @@ Class Layout_articles extends Layout_interface {
 			// with hits
 			if($this->layout_variant == 'hits') {
 				if($item['hits'] > 1)
-					$suffix = ' '.Skin::build_number($item['hits'], i18n::s('hits'));
+					$suffix = ' <span class="details">- '.Skin::build_number($item['hits'], i18n::s('hits')).'</span>';
 
 				$items[$url] = array($prefix, Skin::strip($title, 30), $suffix, 'basic', NULL);
 				continue;
@@ -146,7 +146,7 @@ Class Layout_articles extends Layout_interface {
 			$details = array();
 
 			// display details only at the main index page, and also at anchor pages
-			if(($this->layout_variant == 'full') || preg_match('/\w:\d/', $this->layout_variant)) {
+			if(isset($this->layout_variant) && ($item['anchor'] != $this->layout_variant)) {
 
 				// the author
 				if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y')) {
@@ -207,7 +207,7 @@ Class Layout_articles extends Layout_interface {
 			$anchors = array();
 
 			// the main anchor link
-			if(($this->layout_variant != 'no_anchor') && ($item['anchor'] != $this->layout_variant) && is_object($anchor))
+			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
 				$anchors[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section');
 
 			// on mobile, the section is a header
@@ -245,7 +245,10 @@ Class Layout_articles extends Layout_interface {
 				} elseif(strpos(':', $this->layout_variant) && ($bulleted = Anchors::get($this->layout_variant))) {
 					$icon = $bulleted->get_bullet_url();
 
-				}
+				// use anchor thumbnail
+				} else
+					$icon = $anchor->get_thumbnail_url();
+
 			}
 
 			// list all components for this item

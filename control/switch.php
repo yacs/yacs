@@ -153,7 +153,7 @@ if(!Surfer::is_associate()) {
 		// the menu for this page
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><p>'
 			.Skin::build_submit_button(i18n::s('Yes, I do want to switch this server on'))
-			.'<input type="hidden" name="action" value="on"'.EOT
+			.'<input type="hidden" name="action" value="on" />'
 			.'</p></form>'."\n";
 
 	// else the server is currently switched on
@@ -168,7 +168,7 @@ if(!Surfer::is_associate()) {
 		// the menu for this page
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><div>'
 			.Skin::build_submit_button(i18n::s('Yes, I do want to switch this server off'))
-			.'<input type="hidden" name="action" value="off"'.EOT;
+			.'<input type="hidden" name="action" value="off" />';
 
 		// redirect
 		$label = i18n::s('Option: redirect requests to the following address');

@@ -206,7 +206,7 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('File');
 	$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
 	$input = '<input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
-		.'<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'"'.EOT
+		.'<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'" />'
 		.' (&lt;&nbsp;'.$size_hint.'&nbsp;'.i18n::s('bytes').')';
 	$hint = i18n::s('Please select a CSV file (.csv or .xls)');
 	$fields[] = array($label, $input, $hint);

@@ -168,7 +168,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 
 			// list up to three categories by title, if any, and if not on a mobile
 			$anchors = array();
-			if($members = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
+			if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
 				foreach($members as $id => $attributes)
 					$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'category');
 			}

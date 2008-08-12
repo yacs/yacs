@@ -68,14 +68,14 @@ $item = Collections::get($id);
 
 // icons used to depict files and folders
 $icons = array();
-$icons['folder_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder.png" width="13" height="16" alt=""'.EOT;
-$icons['folder_up_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder_up.gif" width="15" height="16" alt=""'.EOT;
+$icons['folder_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder.png" width="13" height="16" alt="" />';
+$icons['folder_up_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder_up.gif" width="15" height="16" alt="" />';
 
 // bullets used to describe streams and download
 $bullets = array();
-$bullets['download'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/qb_download.gif" width="11" height="11" alt=">>"'.EOT;
-$bullets['movie'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/qb_movie.gif" width="13" height="11" alt=">>"'.EOT;
-$bullets['sound'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/qb_sound.gif" width="11" height="11" alt=">>"'.EOT;
+$bullets['download'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/qb_download.gif" width="11" height="11" alt=">>" />';
+$bullets['movie'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/qb_movie.gif" width="13" height="11" alt=">>" />';
+$bullets['sound'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/qb_sound.gif" width="11" height="11" alt=">>" />';
 
 // check network credentials, if any
 if($user = Users::authenticate())

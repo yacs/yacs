@@ -205,8 +205,11 @@ Class Members {
 	 * @param the maximum size of the returned list
 	 * @return an array of members anchors
 	 */
-	function list_anchors_for_member($member, $offset=0, $count=500) {
+	function &list_anchors_for_member($member, $offset=0, $count=500) {
 		global $context;
+
+		// we return an array
+		$anchors = array();
 
 		// several members
 		if(is_array($member)) {
@@ -224,11 +227,11 @@ Class Members {
 			." WHERE ".$where
 			." ORDER BY anchor LIMIT ".$offset.','.$count;
 		if(!$result =& SQL::query($query))
-			return NULL;
+			return $anchors;
 
 		// empty list
 		if(!SQL::count($result))
-			return array();
+			return $anchors;
 
 		// build an array of ids
 		while($row =& SQL::fetch($result))
@@ -398,10 +401,6 @@ Class Members {
 		$where .= " AND ((articles.expiry_date is NULL) "
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
 
-		// avoid overlap with original articles in user profile
-		if(is_string($member) && preg_match('/user:(.+)$/i', $member, $matches))
-			$where .= " AND (articles.create_id NOT LIKE '".$matches[1]."') AND (articles.publish_id NOT LIKE '".$matches[1]."')";
-
 		// articles attached to this member
 		$query = "SELECT articles.*"
 			." FROM (".SQL::table_name('members')." AS members"
@@ -411,6 +410,58 @@ Class Members {
 			."	AND (articles.id = SUBSTRING(members.anchor, 9))"
 			."	AND ".$where
 			." ORDER BY articles.edit_date DESC, articles.title LIMIT ".$offset.','.$count;
+
+		// use existing listing facility
+		$output =& Articles::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
+	 * list articles watched by a user
+	 *
+	 * @param the target member
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 */
+	function &list_articles_by_hits_for_member($member, $offset=0, $count=10, $variant='full') {
+		global $context;
+
+		// limit the scope of the request
+		$where = "(articles.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR articles.active='R'";
+		if(Surfer::is_empowered('S'))
+			$where .= " OR articles.active='N'";
+
+		// include managed sections
+		if(count($my_sections = Surfer::assigned_sections()))
+			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_sections)."'";
+
+		$where .= ")";
+
+		// current time
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+
+		// show only published articles
+		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			." AND (articles.publish_date < '".$now."')";
+
+		// strip dead pages
+		$where .= " AND ((articles.expiry_date is NULL) "
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+
+		// articles attached to this member
+		$query = "SELECT articles.*"
+			." FROM (".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('articles')." AS articles)"
+			." WHERE (members.member LIKE '".SQL::escape($member)."')"
+			."	AND (members.anchor LIKE 'article:%')"
+			."	AND (articles.id = SUBSTRING(members.anchor, 9))"
+			."	AND ".$where
+			." ORDER BY articles.hits DESC, articles.edit_date DESC, articles.title LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Articles::list_selected(SQL::query($query), $variant);
@@ -720,7 +771,7 @@ Class Members {
 	 * @see users/print.php
 	 * @see users/view.php
 	 */
-	function &list_sections_by_date_for_member($member, $offset=0, $count=10, $variant='full') {
+	function &list_sections_by_date_for_user($user_id, $offset=0, $count=10, $variant='full') {
 		global $context;
 
 		// limit the scope of the request
@@ -747,9 +798,12 @@ Class Members {
 		$query = "SELECT sections.*"
 			."	FROM (".SQL::table_name('members')." AS members"
 			.", ".SQL::table_name('sections')." AS sections)"
-			." WHERE (members.member LIKE '".SQL::escape($member)."')"
+			." WHERE ( ((members.anchor LIKE 'user:".SQL::escape($user_id)."')"
+			."	AND (members.member_type LIKE 'section')"
+			."	AND (members.member_id LIKE sections.id))"
+			."  OR ((members.member LIKE 'user:".SQL::escape($user_id)."')"
 			."	AND (members.anchor LIKE 'section:%')"
-			."	AND (sections.id = SUBSTRING(members.anchor, 9))"
+			."	AND (sections.id = SUBSTRING(members.anchor, 9))) )"
 			."	AND ".$where
 			." ORDER BY sections.edit_date DESC, sections.title LIMIT ".$offset.','.$count;
 

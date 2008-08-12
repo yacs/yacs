@@ -77,7 +77,7 @@ Class Layout_comments_as_jive extends Layout_interface {
 
 			// avatar
 			if(isset($poster['avatar_url']) && $poster['avatar_url'])
-				$author_details[] = '<img src="'.$poster['avatar_url'].'" alt="avatar" title="avatar" class="avatar"'.EOT;
+				$author_details[] = '<img src="'.$poster['avatar_url'].'" alt="avatar" title="avatar" class="avatar" />';
 
 			// from where
 			if(isset($poster['from_where']) && $poster['from_where'])
@@ -197,7 +197,7 @@ Class Layout_comments_as_jive extends Layout_interface {
 			$text .= '</p>';
 
 			// clear on both sides
-			$text .= '<hr style="clear:both"'.EOT;
+			$text .= '<hr style="clear:both" />';
 
 			// the comment itself
 			$text .= ucfirst(trim(Codes::beautify($item['description'])))."\n";

@@ -126,7 +126,7 @@ if(isset($item['anchor']) && $item['anchor'])
 // get the related overlay, if any
 $overlay = NULL;
 include_once '../overlays/overlay.php';
-if(isset($item['overlay'])&&$item['overlay']!='')
+if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item);
 elseif(isset($item['overlay_id']))
 	$overlay = Overlay::bind($item['overlay_id']);
@@ -192,7 +192,7 @@ if(!isset($item['id'])) {
 } else {
 
 	// remember surfer visit
-	Surfer::click('category:'.$item['id'], $item['active']);
+	Surfer::is_visiting(Categories::get_permalink($item), Codes::beautify_title($item['title']), 'category:'.$item['id'], $item['active']);
 
 	// increment silently the hits counter if not associate, nor creator -- editors are taken into account
 	if(Surfer::is_associate())
@@ -222,10 +222,10 @@ if(!isset($item['id'])) {
 	//
 
 	// a meta link to a feeding page
-	$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Categories::get_url($item['id'], 'feed').'" title="RSS" type="application/rss+xml"'.EOT;
+	$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Categories::get_url($item['id'], 'feed').'" title="RSS" type="application/rss+xml" />';
 
 	// a meta link to a description page (actually, rdf)
-	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Categories::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml"'.EOT;
+	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Categories::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml" />';
 
 	// implement the trackback interface
 	$permanent_link = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item);
@@ -245,7 +245,7 @@ if(!isset($item['id'])) {
 		."\n".'-->';
 
 	// implement the pingback interface
-	$context['page_header'] .= "\n".'<link rel="pingback" href="'.$context['url_to_root'].'services/ping.php"'.EOT;
+	$context['page_header'] .= "\n".'<link rel="pingback" href="'.$context['url_to_root'].'services/ping.php" />';
 
 	// set specific headers
 	if(isset($item['introduction']) && $item['introduction'])
@@ -382,8 +382,7 @@ if(!isset($item['id'])) {
 			$text .= Skin::build_block($item['description'], 'description');
 
 			// save in cache if no dynamic element
-			if(!preg_match('/\[table=(.+?)\]/i', $item['description']))
-				Cache::put($cache_id, $text, 'category:'.$item['id']);
+			Cache::put($cache_id, $text, 'category:'.$item['id']);
 		}
 		$context['text'] .= $text;
 	}
@@ -452,7 +451,7 @@ if(!isset($item['id'])) {
 
 			// list items by date (default) or by title (option 'sections_by_title')
 			$offset = ($zoom_index - 1) * SECTIONS_PER_PAGE;
-			$items = Members::list_sections_by_title_for_anchor('category:'.$item['id'], $offset, SECTIONS_PER_PAGE, $layout_sections);
+			$items =& Members::list_sections_by_title_for_anchor('category:'.$item['id'], $offset, SECTIONS_PER_PAGE, $layout_sections);
 
 			// actually render the html for the section
 			if(is_array($items))
@@ -532,9 +531,9 @@ if(!isset($item['id'])) {
 			// list items by date (default) or by title (option 'articles_by_title')
 			$offset = ($zoom_index - 1) * ARTICLES_PER_PAGE;
 			if(isset($item['options']) && preg_match('/\barticles_by_title\b/i', $item['options']))
-				$items = Members::list_articles_by_title_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
+				$items =& Members::list_articles_by_title_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
 			else
-				$items = Members::list_articles_by_date_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
+				$items =& Members::list_articles_by_date_for_anchor('category:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout_articles);
 
 			// actually render the html for the section
 			if(is_array($items))
@@ -852,7 +851,7 @@ if(!isset($item['id'])) {
 
 			// list items by date (default) or by title (option 'users_by_title')
 			$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
-			$items = Members::list_users_by_posts_for_anchor('category:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch');
+			$items =& Members::list_users_by_posts_for_anchor('category:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch');
 
 			// actually render the html
 			if(is_array($box['bar']))
@@ -912,7 +911,7 @@ if(!isset($item['id'])) {
 
 		// add extra information from this item, if any
 		if(isset($item['extra']) && $item['extra'])
-			$text .= Codes::beautify($item['extra']);
+			$text .= Codes::beautify_extra($item['extra']);
 
 		// save in cache
 		Cache::put($cache_id, $text, 'category:'.$item['id']);
@@ -1079,22 +1078,6 @@ if(!isset($item['id'])) {
 
 	// update the extra panel
 	$context['extra'] .= $text;
-
-	//
-	// put this page in visited items
-	//
-	if(!isset($context['pages_without_history']) || ($context['pages_without_history'] != 'Y')) {
-
-		// put at top of stack
-		if(!isset($_SESSION['visited']))
-			$_SESSION['visited'] = array();
-		$_SESSION['visited'] = array_merge(array(Categories::get_permalink($item) => Codes::beautify_title($item['title'])), $_SESSION['visited']);
-
-		// limit to 7 most recent pages
-		if(count($_SESSION['visited']) > 7)
-			array_pop($_SESSION['visited']);
-
-	}
 
 }
 

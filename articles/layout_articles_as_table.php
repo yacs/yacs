@@ -106,7 +106,7 @@ Class Layout_articles_as_table extends Layout_interface {
 				$abstract .= $overlay->get_text('list', $item);
 
 			// make some abstract out of main text
-			if(!$item['introduction'])
+			if(!$item['introduction'] && ($context['skins_with_details'] == 'Y'))
 				$abstract .= Skin::cap(Codes::beautify($item['description'], $item['options']), 50);
 
 			// attachment details
@@ -130,7 +130,7 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// anchors
 			$anchors = array();
-			if($members = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+			if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 				foreach($members as $category_id => $attributes) {
 					$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'category');
 				}

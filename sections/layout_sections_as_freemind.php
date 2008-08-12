@@ -96,7 +96,7 @@ Class Layout_sections_as_freemind extends Layout_interface {
 			$title = Codes::beautify_title($item['title']);
 
 			// append page introduction ,if any
-			if(isset($item['introduction']) && $item['introduction']) {
+			if($item['introduction'] && ($context['skins_with_details'] == 'Y')) {
 
 				// wrap only outside X/HTML tags
 				$areas = preg_split('/(<[a-z\/].+?>)/i', trim(Codes::beautify($item['introduction'])), -1, PREG_SPLIT_DELIM_CAPTURE);

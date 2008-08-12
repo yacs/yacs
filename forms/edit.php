@@ -338,19 +338,19 @@ if($with_form) {
 	$input = '<input type="radio" name="active" value="Y" accesskey="v"';
 	if(!isset($item['active']) || ($item['active'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Anyone may read this form.').BR;
+	$input .= '/> '.i18n::s('Anyone may read this form.').BR;
 
 	// maybe a restricted page
 	$input .= '<input type="radio" name="active" value="R"';
 	if(isset($item['active']) && ($item['active'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Access is restricted to authenticated members').BR;
+	$input .= '/> '.i18n::s('Access is restricted to authenticated members').BR;
 
 	// or a hidden page
 	$input .= '<input type="radio" name="active" value="N"';
 	if(isset($item['active']) && ($item['active'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Access is restricted to associates')."\n";
+	$input .= '/> '.i18n::s('Access is restricted to associates')."\n";
 
 	$fields[] = array($label, $input);
 

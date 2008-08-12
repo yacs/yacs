@@ -155,15 +155,15 @@ if($with_form) {
 	$input = '<input type="radio" name="active" value="Y" accesskey="v"';
 	if(!isset($item['active']) || ($item['active'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Anyone may read this profile.')
+	$input .= '/> '.i18n::s('Anyone may read this profile.')
 		.BR.'<input type="radio" name="active" value="R"';
 	if(isset($item['active']) && ($item['active'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Access is restricted to authenticated members')
+	$input .= '/> '.i18n::s('Access is restricted to authenticated members')
 		.BR.'<input type="radio" name="active" value="N"';
 	if(isset($item['active']) && ($item['active'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Access is restricted to associates')."\n";
+	$input .= '/> '.i18n::s('Access is restricted to associates')."\n";
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -178,13 +178,13 @@ if($with_form) {
 	$input = '<input type="radio" name="submit_feed" value="N"';
 	if(!isset($item['submit_feed']) || ($item['submit_feed'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not read news from this server')
+	$input .= '/> '.i18n::s('Do not read news from this server')
 		.BR.'<input type="radio" name="submit_feed" value="Y"';
 	if(isset($item['submit_feed']) && ($item['submit_feed'] == 'Y'))
 		$input .= ' checked="checked"';
 	if(!isset($item['feed_url']) || !$item['feed_url'])
 		$item['feed_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/yacs/feeds/rss_2.0.php';
-	$input .= EOT.' '.sprintf(i18n::s('Aggregate news from this server by reading the XML feed at %s'), '<input type="text" name="feed_url" size="50" value="'.encode_field($item['feed_url']).'" />');
+	$input .= '/> '.sprintf(i18n::s('Aggregate news from this server by reading the XML feed at %s'), '<input type="text" name="feed_url" size="50" value="'.encode_field($item['feed_url']).'" />');
 
 	// set a default anchor
 	if(!isset($item['anchor']) || !$item['anchor']) {
@@ -221,13 +221,13 @@ if($with_form) {
 	$input = '<input type="radio" name="submit_ping" value="N"';
 	if(!isset($item['submit_ping']) || ($item['submit_ping'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not advertise our changes to this remote server')
+	$input .= '/> '.i18n::s('Do not advertise our changes to this remote server')
 		.BR.'<input type="radio" name="submit_ping" value="Y"';
 	if(isset($item['submit_ping']) && ($item['submit_ping'] == 'Y'))
 		$input .= ' checked="checked"';
 	if(!isset($item['ping_url']) || !$item['ping_url'])
 		$item['ping_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/yacs/services/ping.php';
-	$input .= EOT.' '.sprintf(i18n::s('On publication, submit XML-RPC call of <code>weblogUpdates.ping</code> at %s'), '<input type="text" name="ping_url" size="50" value="'.encode_field($item['ping_url']).'" />');
+	$input .= '/> '.sprintf(i18n::s('On publication, submit XML-RPC call of <code>weblogUpdates.ping</code> at %s'), '<input type="text" name="ping_url" size="50" value="'.encode_field($item['ping_url']).'" />');
 	$fields[] = array($label, $input);
 
 	// do we have to search this server?
@@ -235,13 +235,13 @@ if($with_form) {
 	$input = '<input type="radio" name="submit_search" value="N"';
 	if(!isset($item['submit_search']) || ($item['submit_search'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not extend searches to this server')
+	$input .= '/> '.i18n::s('Do not extend searches to this server')
 		.BR.'<input type="radio" name="submit_search" value="Y"';
 	if(isset($item['submit_search']) && ($item['submit_search'] == 'Y'))
 		$input .= ' checked="checked"';
 	if(!isset($item['search_url']) || !$item['search_url'])
 		$item['search_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/yacs/services/search.php';
-	$input .= EOT.' '.sprintf(i18n::s('Submit search queries to this server, by REST calls at %s'), '<input type="text" name="search_url" size="50" value="'.encode_field($item['search_url']).'" />');
+	$input .= '/> '.sprintf(i18n::s('Submit search queries to this server, by REST calls at %s'), '<input type="text" name="search_url" size="50" value="'.encode_field($item['search_url']).'" />');
 	$fields[] = array($label, $input);
 
 	// do we have to monitor this server?
@@ -249,13 +249,13 @@ if($with_form) {
 	$input = '<input type="radio" name="submit_monitor" value="N"';
 	if(!isset($item['submit_monitor']) || ($item['submit_monitor'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not monitor this server')
+	$input .= '/> '.i18n::s('Do not monitor this server')
 		.BR.'<input type="radio" name="submit_monitor" value="Y"';
 	if(isset($item['submit_monitor']) && ($item['submit_monitor'] == 'Y'))
 		$input .= ' checked="checked"';
 	if(!isset($item['monitor_url']) || !$item['monitor_url'])
 		$item['monitor_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/yacs/services/ping.php';
-	$input .= EOT.' '.sprintf(i18n::s('Submit periodic XML-RPC calls of <code>monitor.ping</code> at %s'), '<input type="text" name="monitor_url" size="50" value="'.encode_field($item['monitor_url']).'" />');
+	$input .= '/> '.sprintf(i18n::s('Submit periodic XML-RPC calls of <code>monitor.ping</code> at %s'), '<input type="text" name="monitor_url" size="50" value="'.encode_field($item['monitor_url']).'" />');
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -281,7 +281,7 @@ if($with_form) {
 	$input = '<input type="checkbox" name="process_ping" value="Y"';
 	if(!isset($item['process_ping']) || ($item['process_ping'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.sprintf(i18n::s('Accept and process advertisements (<code>weblogUpdates.ping</code>) transmitted by this server to %s'), Skin::build_link('services/index.php#ping', i18n::s('the ping interface'), 'shortcut'));
+	$input .= '/> '.sprintf(i18n::s('Accept and process advertisements (<code>weblogUpdates.ping</code>) transmitted by this server to %s'), Skin::build_link('services/index.php#ping', i18n::s('the ping interface'), 'shortcut'));
 	$fields[] = array($label, $input);
 
 	// do we allow search from this server?
@@ -289,7 +289,7 @@ if($with_form) {
 	$input = '<input type="checkbox" name="process_search" value="Y"';
 	if(!isset($item['process_search']) || ($item['process_search'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.sprintf(i18n::s('Accept and process search requests submitted by this server to %s'), Skin::build_link('services/index.php#search', i18n::s('the search interface'), 'shortcut'));
+	$input .= '/> '.sprintf(i18n::s('Accept and process search requests submitted by this server to %s'), Skin::build_link('services/index.php#search', i18n::s('the search interface'), 'shortcut'));
 	$fields[] = array($label, $input);
 
 	// do we allow monitoring from this server?
@@ -297,7 +297,7 @@ if($with_form) {
 	$input = '<input type="checkbox" name="process_monitor" value="Y"';
 	if(!isset($item['process_monitor']) || ($item['process_monitor'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.sprintf(i18n::s('Allow this server to poll us regularly (<code>monitor.ping</code>) at %s'), Skin::build_link('services/index.php#xml-rpc', i18n::s('the XML-RPC interface'), 'shortcut'));
+	$input .= '/> '.sprintf(i18n::s('Allow this server to poll us regularly (<code>monitor.ping</code>) at %s'), Skin::build_link('services/index.php#xml-rpc', i18n::s('the XML-RPC interface'), 'shortcut'));
 	$fields[] = array($label, $input);
 
 	// build the form

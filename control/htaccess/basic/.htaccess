@@ -18,8 +18,12 @@ ErrorDocument 404 !!url_to_root!!error.php?error=404
 	SetOutputFilter DEFLATE
 
 	# non-textual entities should be already compressed
+	AddOutputFilterByType DEFLATE text/css
+	AddOutputFilterByType DEFLATE text/javascript
+	AddOutputFilterByType DEFLATE text/html
+	AddOutputFilterByType DEFLATE text/xml
 	AddOutputFilterByType DEFLATE application/javascript
-	AddOutputFilterByType DEFLATE text/*
+	AddOutputFilterByType DEFLATE application/x-javascript
 
 </IfModule>
 

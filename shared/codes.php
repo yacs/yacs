@@ -78,6 +78,7 @@
  * Codes for links, demonstrated in [link]codes/links.php[/link]:
  * - &lt;url&gt; - &lt;a href="url">url&lt;/a> or &lt;a href="url" class="external">url&lt;/a>
  * - &#91;link]&lt;url&gt;[/link] - &lt;a href="url">url&lt;/a> or &lt;a href="url" class="external">url&lt;/a>
+ * - &#91;&lt;label&gt;|&lt;url&gt;] - &lt;a href="url">label&lt;/a> or &lt;a href="url" class="external">label&lt;/a>
  * - &#91;link=&lt;label&gt;]&lt;url&gt;[/link] - &lt;a href="url">label&lt;/a> or &lt;a href="url" class="external">label&lt;/a>
  * - &#91;url]&lt;url&gt;[/url] - deprecated by &#91;link]
  * - &#91;url=&lt;url&gt;]&lt;label&gt;[/url] - deprecated by &#91;link]
@@ -88,6 +89,7 @@
  * - &#91;go=&lt;name&gt;, &lt;label&gt;] - trigger the selector on 'name'
  * - &#91;article=&lt;id>] - use article title as link label
  * - &#91;article=&lt;id>, foo bar] - with label 'foo bar'
+ * - &#91;article.description=&lt;id>] - insert article description
  * - &#91;next=&lt;id>] - shortcut to next article
  * - &#91;next=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;previous=&lt;id>] - shortcut to previous article
@@ -96,6 +98,7 @@
  * - &#91;section=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;category=&lt;id>] - use category title as link label
  * - &#91;category=&lt;id>, foo bar] - with label 'foo bar'
+ * - &#91;category.description=&lt;id>] - insert category description
  * - &#91;decision=&lt;id>] - use decision id in link label
  * - &#91;decision=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;user=&lt;id>] - use nick name as link label
@@ -146,29 +149,39 @@
  * @see codes/tables.php
  *
  * Live codes, demonstrated in [link]codes/live.php[/link]:
+ * - &#91;sections] - site map
+ * - &#91;sections=section:&lt;id>] - sub-sections
+ * - &#91;sections=self] - sections assigned to current surfer
+ * - &#91;sections=user:&lt;id>] - sections assigned to given user
+ * - &#91;freemind] - a Freemind map of site content
+ * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
+ * - &#91;freemind=section:&lt;id>, width, height] - a Freemind map of a section and its content
+ * - &#91;categories] - category tree
+ * - &#91;categories=category:&lt;id>] - sub-categories
+ * - &#91;categories=self] - categories assigned to current surfer
+ * - &#91;categories=user:&lt;id>] - categories assigned to given user
  * - &#91;cloud] - the tags used at this site
  * - &#91;cloud=12] - maximum count of tags used at this site
- * - &#91;locations=all] - newest locations
- * - &#91;locations=users] - map user locations on Google maps
- * - &#91;location=latitude, longitude, label] - to build a dynamic map
- * - &#91;collections] - list available collections
  * - &#91;published] - most recent published pages, in a compact list
  * - &#91;published=section:&lt;id>] - articles published most recently in the given section
  * - &#91;published=category:&lt;id>] - articles published most recently in the given category
  * - &#91;published=user:&lt;id>] - articles published most recently created by given user
+ * - &#91;published.decorated=self, 20] - 20 most recent pages from current surfer, as a decorated list
+ * - &#91;updated] - most recent updated pages, in a compact list
+ * - &#91;updated=section:&lt;id>] - articles updated most recently in the given section
+ * - &#91;updated=category:&lt;id>] - articles updated most recently in the given category
+ * - &#91;updated=user:&lt;id>] - articles updated most recently created by given user
+ * - &#91;updated.simple=self, 12] - articles updated most recently created by current surfer, as a simple list
  * - &#91;read] - most read articles, in a compact list
  * - &#91;read=section:&lt;id>] - articles of fame in the given section
- * - &#91;edited] - most recent edited pages, in a compact list
- * - &#91;edited=section:&lt;id>] - articles edited most recently in the given section
- * - &#91;edited=category:&lt;id>] - articles edited most recently in the given category
- * - &#91;edited=user:&lt;id>] - articles edited most recently created by given user
- * - &#91;commented] - most fresh threads, in a compact list
- * - &#91;commented=section:&lt;id>] - articles commented most recently in the given section
- * - &#91;contributed] - most contributed articles, in a compact list
- * - &#91;contributed=section:&lt;id>] - most contributed articles in the given section
- * - &#91;freemind] - a Freemind map of site content
- * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
- * - &#91;freemind=section:&lt;id>, width, height] - a Freemind map of a section and its content
+ * - &#91;read=self] - personal hits
+ * - &#91;read=user:&lt;id>] - personal hits
+ * - &#91;calendar] - events for this month
+ * - &#91;calendar=section:&lt;id>] - dates in one section
+ * - &#91;locations=all] - newest locations
+ * - &#91;locations=users] - map user locations on Google maps
+ * - &#91;location=latitude, longitude, label] - to build a dynamic map
+ * - &#91;collections] - list available collections
  *
  * @see codes/live.php
  *
@@ -178,7 +191,6 @@
  * - ----... - line break
  * - &#91;---] or &#91;___] - horizontal rule
  * - &#91;new] - something new
- * - &#91;updated] - something updated
  * - &#91;popular] - people love it
  * - &#91;be] - country flag
  * - &#91;ca] - country flag
@@ -361,9 +373,6 @@ Class Codes {
 	function &beautify_extra($text) {
 		global $context;
 
-		// regular rendering
-		$text =& Codes::beautify($text);
-
 		$search = array();
 		$replace = array();
 
@@ -377,6 +386,10 @@ Class Codes {
 
 		// process all codes
 		$text = preg_replace($search, $replace, $text);
+
+		// regular rendering
+		$text =& Codes::beautify($text);
+
 		return $text;
 
 	}
@@ -467,14 +480,14 @@ Class Codes {
 				"</h2>",
 				"</h3>",
 				"</h4>",
-				"Codes::render_link('$1://$2', '$1://$2')",
-				"'$1'.Codes::render_link('$2://$3', '$2://$3')",
-				"'$1'.Codes::render_link('http://www.$2.$3$4', 'www.$2.$3$4')",
+				"Skin::build_link('$1://$2', '$1://$2')",
+				"'$1'.Skin::build_link('$2://$3', '$2://$3')",
+				"'$1'.Skin::build_link('http://www.$2.$3$4', 'www.$2.$3$4')",
 				"<ul><li>$2</li></ul>",
 				BR."$1:$2",
 				BR.">$1",
 				BR."|$1",
-				"'$1'.Codes::render_link('mailto:$3@$4', '$3@$4', 'email').'$5'"
+				"'$1'.Skin::build_link('mailto:$3@$4', '$3@$4', 'email').'$5'"
 				);
 		}
 
@@ -672,6 +685,9 @@ Class Codes {
 		// streamline newlines, even if this has been done elsewhere
 		$text = str_replace(array("\r\n", "\r"), "\n", $text);
 
+		// prevent wysiwyg editors to bracket our own tags
+		$text = preg_replace('/^<p>(\[.+\])<\/p>$/m', '\\1', $text);
+
 		// initialize only once
 		static $pattern;
 		if(!isset($pattern)) {
@@ -748,7 +764,6 @@ Class Codes {
 				'/\[u\](.*?)\[\/u\]/is',				// [u]...[/u]
 				'/\[color=([^\]]+?)\](.*?)\[\/color\]/is',	// [color=<color>]...[/color]
 				'/\[new\]/ie',							// [new]
-				'/\[updated\]/ie',						// [updated]
 				'/\[popular\]/ie',						// [popular]
 				'/\[flag=([^\]]+?)\]/ie',				// [flag=<flag>]
 				'/\[flag\](.*?)\[\/flag\]/ise', 		// [flag]...[/flag]
@@ -767,10 +782,12 @@ Class Codes {
 				'/\[flash=([^\]]+?)\]/ie',					// [flash=<id>, <width>, <height>, <params>] or [flash=<id>, window]
 				'/\[sound=([^\]]+?)\]/ie',					// [sound=<id>]
 				'/\[go=([^\]]+?)\]/ie', 					// [go=<name>]
+				'/\[article\.description=([^\]]+?)\]/ie',	// [article.description=<id>]
 				'/\[article=([^\]]+?)\]/ie',				// [article=<id>] or [article=<id>, title]
 				'/\[next=([^\]]+?)\]/ie',					// [next=<id>]
 				'/\[previous=([^\]]+?)\]/ie',				// [previous=<id>]
 				'/\[section=([^\]]+?)\]/ie',				// [section=<id>] or [section=<id>, title]
+				'/\[category\.description=([^\]]+?)\]\n*/ise',	// [category.description=<id>]
 				'/\[category=([^\]]+?)\]/ie',				// [category=<id>] or [category=<id>, title]
 				'/\[user=([^\]]+?)\]/ie',					// [user=<id>] or [user=<id>, title]
 				'/\[server=([^\]]+?)\]/ie', 				// [server=<id>]
@@ -780,44 +797,56 @@ Class Codes {
 				'/\[comment=([^\]]+?)\]/ie',				// [comment=<id>] or [comment=<id>, title]
 				'/\[decision=([^\]]+?)\]/ie',				// [decision=<id>] or [decision=<id>, title]
 				'/\[url=([^\]]+?)\](.*?)\[\/url\]/ise', 	// [url=url]label[/url] (deprecated by [link])
-				'/\[url\](.*?)\[\/url\]/ise',			// [url]url[/url] (deprecated by [link])
+				'/\[url\](.*?)\[\/url\]/ise',				// [url]url[/url] (deprecated by [link])
 				'/\[link=([^\]]+?)\](.*?)\[\/link\]/ise',	// [link=label]url[/link]
-				'/\[link\](.*?)\[\/link\]/ise', 		// [link]url[/link]
+				'/\[([^ ][^\]\|]+?[^ ])\|([^ ][^\]]+?[^ ])\]/ise',			// [label|url]
+				'/\[link\](.*?)\[\/link\]/ise', 			// [link]url[/link]
 				'/\[button=([^\]]+?)\](.*?)\[\/button\]/ise',	// [button=label]url[/button]
-				'/\[script\](.*?)\[\/script\]/ise', 	// [script]url[/script]
-				'/\[menu\](.*?)\[\/menu\]\n*/ise',		// [menu]url[/menu]
+				'/\[script\](.*?)\[\/script\]/ise', 		// [script]url[/script]
+				'/\[menu\](.*?)\[\/menu\]\n*/ise',			// [menu]url[/menu]
 				'/\[menu=([^\]]+?)\](.*?)\[\/menu\]\n{0,1}/ise',	// [menu=label]url[/menu]
 				'/\[submenu\](.*?)\[\/submenu\]\n{0,1}/ise',	// [submenu]url[/submenu]
 				'/\[submenu=([^\]]+?)\](.*?)\[\/submenu\]\n*/ise', // [submenu=label]url[/submenu]
 				'/\[email=([^\]]+?)\](.*?)\[\/email\]/ise', // [email=label]url[/email]
-				'/\[email\](.*?)\[\/email\]/ise',		// [email]url[/email]
-				'/\[question\](.*?)\[\/question\]\n*/ise', // [question]...[/question]
-				'/\[question\]/ise',					// [question]
-				'/\[answer\]/ise',						// [answer]
-				'/\[scroller\](.*?)\[\/scroller\]/ise', // [scroller]...[/scroller]
-				'/\[toq\]\n*/ise',						// [toq] (table of questions)
-				'/<p>\[title\](.*?)\[\/title\]<\/p>\n*/is', // a trick for FCKEditor
-				'/\[title\](.*?)\[\/title\]\n*/is', 	// [title]...[/title]
-				'/\[subtitle\](.*?)\[\/subtitle\]\n*/is', // [subtitle]...[/subtitle]
-				'/\[(header[1-5])\](.*?)\[\/\1\]\n*/ise', // [header1]...[/header1] ... [header5]...[/header5]
-				'/======(\S.*?\S)======/me',			// ======...====== level 5 headline
-				'/=====(\S.*?\S)=====/me',				// =====...===== level 4 headline
-				'/====(\S.*?\S)====/me',				// ====...==== level 3 headline
-				'/===(\S.*?\S)===/me',					// ===...=== level 2 headline
-				'/==(\S.*?\S)==/me',					// ==...== level 1 headline
-				'/\[toc\]\n*/ise',						// [toc] (table of content)
-				'/\[published\]\n*/ise',				// [published] (a compact list of recent publications)
-				'/\[published=(.+?)\]\n*/ise',			// [published=section:4029] (a compact list of recent publications)
-				'/\[read\]\n*/ise', 					// [read] (a compact list of hits)
-				'/\[read=([^\]]+?)\]\n*/ise',			// [read=section:4029] (a compact list of hits)
-				'/\[edited\]\n*/ise',					// [edited] (a compact list of recent updates)
-				'/\[edited=([^\]]+?)\]\n*/ise', 		// [edited=section:4029] (a compact list of recent updates)
-				'/\[commented\]\n*/ise',				// [commented] (a compact list of fresh threads)
-				'/\[commented=([^\]]+?)\]\n*/ise',		// [commented=section:4029] (a compact list of fresh threads)
-				'/\[contributed\]\n*/ise',				// [contributed] (a compact list of most active pages)
-				'/\[contributed=([^\]]+?)\]\n*/ise',	// [contributed=section:4029] (a compact list of active pages)
-				'/\[freemind\]\n*/ise', 				// [freemind] (a mind map of site content)
-				'/\[freemind=([^\]]+?)\]\n*/ise',		// [freemind=section:4029] (a mind map of section content)
+				'/\[email\](.*?)\[\/email\]/ise',			// [email]url[/email]
+				'/\[question\](.*?)\[\/question\]\n*/ise',	// [question]...[/question]
+				'/\[question\]/ise',						// [question]
+				'/\[answer\]/ise',							// [answer]
+				'/\[scroller\](.*?)\[\/scroller\]/ise', 	// [scroller]...[/scroller]
+				'/\[toq\]\n*/ise',							// [toq] (table of questions)
+				'/\[title\](.*?)\[\/title\]\n*/is', 		// [title]...[/title]
+				'/\[subtitle\](.*?)\[\/subtitle\]\n*/is',	// [subtitle]...[/subtitle]
+				'/\[(header[1-5])\](.*?)\[\/\1\]\n*/ise',	// [header1]...[/header1] ... [header5]...[/header5]
+				'/======(\S.*?\S)======/me',				// ======...====== level 5 headline
+				'/=====(\S.*?\S)=====/me',					// =====...===== level 4 headline
+				'/====(\S.*?\S)====/me',					// ====...==== level 3 headline
+				'/===(\S.*?\S)===/me',						// ===...=== level 2 headline
+				'/==(\S.*?\S)==/me',						// ==...== level 1 headline
+				'/\[toc\]\n*/ise',							// [toc] (table of content)
+				'/\[published\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [published.decorated=section:4029]
+				'/\[published\.([^\]]+?)\]\n*/ise',			// [published.decorated]
+				'/\[published=([^\]]+?)\]\n*/ise',			// [published=section:4029]
+				'/\[published\]\n*/ise',					// [published]
+				'/\[read\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [read.decorated=section:4029]
+				'/\[read\.([^\]]+?)\]\n*/ise',				// [read.decorated]
+				'/\[read=([^\]]+?)\]\n*/ise',				// [read=section:4029]
+				'/\[read\]\n*/ise', 						// [read]
+				'/\[updated\.([^\]=]+?)=([^\]]+?)\]\n*/ise', // [updated.simple=section:4029] (a list of recent updates)
+				'/\[updated\.([^\]]+?)\]\n*/ise', 			// [updated.simple] (a list of recent updates)
+				'/\[updated=([^\]]+?)\]\n*/ise', 			// [updated=section:4029] (a compact list of recent updates)
+				'/\[updated\]\n*/ise',						// [updated] (a compact list of recent updates)
+				'/\[freemind\]\n*/ise', 					// [freemind] (a mind map of site content)
+				'/\[freemind=([^\]]+?)\]\n*/ise',			// [freemind=section:4029] (a mind map of section content)
+				'/\[sections\]\n*/ise',						// [sections] (site map)
+				'/\[sections\.([^\]=]+?)\]\n*/ise',			// [sections.folded] (site map)
+				'/\[sections=([^\]]+?)\]\n*/ise',			// [sections=section:4029] (sub-sections)
+				'/\[sections\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [sections.simple=self] (assigned)
+				'/\[categories\]\n*/ise',					// [categories] (category tree)
+				'/\[categories\.([^\]=]+?)\]\n*/ise',		// [categories.folded] (category tree)
+				'/\[categories=([^\]]+?)\]\n*/ise',			// [categories=section:4029] (sub-categories)
+				'/\[categories\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [categories.simple=self] (assigned)
+				'/\[calendar\]\n*/ise',					// [calendar]
+				'/\[calendar=([^\]]+?)\]\n*/ise',		// [calendar=section:4029]
 				'/\[news=([^\]]+?)\]/ise',				// [news=flash]
 				'/\[table=([^\]]+?)\]/ise', 			// [table=<id>]
 				'/\[locations=([^\]]+?)\]/ise', 		// [locations=<id>]
@@ -891,7 +920,7 @@ Class Codes {
 				"HORIZONTAL_RULER", 											// [---], [___]
 				"HORIZONTAL_RULER", 											// ----
 				'<ins>\\1</ins>',												// [inserted]...[/inserted]
-				"preg_match('/^(BEGIN|END)/', '\\2')?'\\1--\\2--\\3':'\\1<del>\\2</del>\\3'",	// --...-- take care of PKCS headers
+				"preg_match('/^(BEGIN|END)/', '\\1')?'--\\1--':'<del>\\1</del>'",	// --...-- take care of PKCS headers
 				'<del>\\1</del>',												// [deleted]...[/deleted]
 				'<b>\\1</b>',													// **...**
 				'<b>\\1</b>',													// [b]...[/b]
@@ -901,7 +930,6 @@ Class Codes {
 				'<span style="text-decoration: underline">\\1</span>',			// [u]...[/u]
 				'<span style="color: \\1">\\2</span>',							// [color]...[/color]
 				"NEW_FLAG", 													// [new]
-				"UPDATED_FLAG", 												// [updated]
 				"POPULAR_FLAG", 												// [popular]
 				"Skin::build_flag('\\1')",										// [flag=....]
 				"Skin::build_flag('\\1')",										// [flag]...[/flag]
@@ -920,10 +948,12 @@ Class Codes {
 				"Codes::render_object('flash', stripslashes('$1'))",			// [flash=<id>, <width>, <height>, <params>]
 				"Codes::render_object('sound', stripslashes('$1'))",			// [sound=<id>]
 				"Codes::render_object('go', stripslashes('$1'))",				// [go=<name>]
+				"Codes::render_object('article.description', stripslashes('$1'))",	// [article.description=<id>]
 				"Codes::render_object('article', stripslashes('$1'))",			// [article=<id>]
 				"Codes::render_object('next', stripslashes('$1'))", 			// [next=<id>]
 				"Codes::render_object('previous', stripslashes('$1'))", 		// [previous=<id>]
 				"Codes::render_object('section', stripslashes('$1'))",			// [section=<id>]
+				"Codes::render_object('category.description', stripslashes('$1'))", // [category.description=<id>]
 				"Codes::render_object('category', stripslashes('$1'))", 		// [category=<id>]
 				"Codes::render_object('user', stripslashes('$1'))", 			// [user=<id>]
 				"Codes::render_object('server', stripslashes('$1'))",			// [server=<id>]
@@ -932,10 +962,11 @@ Class Codes {
 				"Codes::render_object('action', stripslashes('$1'))",			// [action=<id>]
 				"Codes::render_object('comment', stripslashes('$1'))",			// [comment=<id>] or [comment=<id>, title]
 				"Codes::render_object('decision', stripslashes('$1'))", 		// [decision=<id>] or [decision=<id>, title]
-				"Codes::render_link(encode_link('$1'), stripslashes('$2'))",		// [url=url]label[/link] (deprecated by [link])
-				"Codes::render_link(encode_link('$1'), NULL)",			// [url]url[/url] (deprecated by [link])
-				"Codes::render_link(encode_link('$2'), stripslashes('$1'))",		// [link=label]url[/link]
-				"Codes::render_link(encode_link('$1'), NULL)",			// [link]url[/link]
+				"Skin::build_link(encode_link('$1'), stripslashes('$2'))",		// [url=url]label[/link] (deprecated by [link])
+				"Skin::build_link(encode_link('$1'), NULL)",			// [url]url[/url] (deprecated by [link])
+				"Skin::build_link(encode_link('$2'), stripslashes('$1'))",		// [label|url]
+				"Skin::build_link(encode_link('$2'), stripslashes('$1'))",		// [link=label]url[/link]
+				"Skin::build_link(encode_link('$1'), NULL)",			// [link]url[/link]
 				"Skin::build_link(encode_link('$2'), stripslashes('$1'), 'button')",	// [button=label]url[/button]
 				"Skin::build_link(encode_link('$1'), stripslashes('$1'), 'script')",	// [script]url[/script]
 				"Skin::build_link(encode_link('$1'), stripslashes('$1'), 'menu_1')",	// [menu]url[/menu]
@@ -949,7 +980,6 @@ Class Codes {
 				"ANSWER_FLAG",													// [answer]
 				"Codes::render_animated(Codes::fix_tags(stripslashes('$1')), 'scroller')",		// [scroller]...[/scroller]
 				"Codes::render_table_of('questions')",							// [toq]
-				'[header1]\\1[/header1]',										// a trick for FCKEditor
 				'[header1]\\1[/header1]',										// [title]...[/title]
 				'[header2]\\1[/header2]',										// [subtitle]...[/subtitle]
 				"Codes::render_title(stripslashes('$2'), '$1')",				// [header1]...[/header1] ... [header5]...[/header5]
@@ -959,36 +989,48 @@ Class Codes {
 				"Codes::render_title(stripslashes('$1'), 'header2')",			// ===...=== level 2 header
 				"Codes::render_title(stripslashes('$1'), 'header1')",			// ==...== level 1 header
 				"Codes::render_table_of('content')",							// [toc]
-				"Codes::render_published('')",									// [published]
-				"Codes::render_published('$1')",								// [published=section:4029]
-				"Codes::render_read('')",										// [read]
-				"Codes::render_read('$1')", 									// [read=section:4029]
-				"Codes::render_updated('')",									// [edited]
-				"Codes::render_updated('$1')",									// [edited=section:4029]
-				"Codes::render_commented('')",									// [commented]
-				"Codes::render_commented('$1')",								// [commented=section:4029]
-				"Codes::render_contributed('')",								// [contributed]
-				"Codes::render_contributed('$1')",								// [contributed=section:4029]
+				"Codes::render_published('$2', '$1')",							// [published.decorated=section:4029]
+				"Codes::render_published('', '$1')",							// [published.decorated]
+				"Codes::render_published('$1', 'simple')",						// [published=section:4029]
+				"Codes::render_published('', 'simple')",						// [published]
+				"Codes::render_read('$2', '$1')",								// [read.decorated=section:4029]
+				"Codes::render_read('', '$1')",									// [read.decorated]
+				"Codes::render_read('$1', 'hits')",								// [read=section:4029]
+				"Codes::render_read('', 'hits')",								// [read]
+				"Codes::render_updated('$2', '$1')",							// [updated.simple=section:4029]
+				"Codes::render_updated('', '$1')",								// [updated.simple]
+				"Codes::render_updated('$1', 'simple')",						// [updated=section:4029]
+				"Codes::render_updated('', 'simple')",							// [updated]
 				"Codes::render_freemind('sections')",							// [freemind]
 				"Codes::render_freemind('$1')", 								// [freemind=section:4029] or [freemind=123]
+				"Codes::render_sections()", 									// [sections] (site map)
+				"Codes::render_sections('', '$1')",								// [sections.folded] (site map)
+				"Codes::render_sections('$1')", 								// [sections=section:4029] (sub-sections)
+				"Codes::render_sections('$2', '$1')",							// [sections.simple=self] (assigned)
+				"Codes::render_categories()", 									// [categories] (category tree)
+				"Codes::render_categories('', '$1')",							// [categories.folded] (category tree)
+				"Codes::render_categories('$1')", 								// [categories=category:4029] (sub-categories)
+				"Codes::render_categories('$2', '$1')",							// [categories.simple=self] (assigned)
+				"Codes::render_calendar()", 									// [calendar]
+				"Codes::render_calendar('$1')", 								// [calendar=section:4029]
 				"Codes::render_news('$1')", 									// [news=flash]
 				"Codes::render_table('', '$1')",								// [table=<id>]
 				"Codes::render_locations(stripslashes('$1'))",					// [locations=<id>]
 				"Codes::render_location(stripslashes('$1'))",					// [location=<id>]
 				"Codes::render_wikipedia(stripslashes('$1'))",					// [wikipedia=keyword] or [wikipedia=keyword, title]
-				' <img src="'.$context['url_to_root'].'skins/images/flags/be.gif" alt=""'.EOT.' ', // [be] belgian flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/ca.gif" alt=""'.EOT.' ', // [ca] canadian flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/ch.gif" alt=""'.EOT.' ', // [ch] swiss flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/de.gif" alt=""'.EOT.' ', // [de] german flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/gb.gif" alt=""'.EOT.' ', // [en] english flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/es.gif" alt=""'.EOT.' ', // [es] spanish flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/fr.gif" alt=""'.EOT.' ', // [fr] french flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/gb.gif" alt=""'.EOT.' ', // [gb] english flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/gr.gif" alt=""'.EOT.' ', // [gr] greek flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/it.gif" alt=""'.EOT.' ', // [it] italian flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/pt.gif" alt=""'.EOT.' ', // [pt] portuguese flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/us.gif" alt=""'.EOT.' ', // [us] us flag
-				' <br style="clear: both;"'.EOT.' ',					// [clear]
+				' <img src="'.$context['url_to_root'].'skins/images/flags/be.gif" alt="" /> ', // [be] belgian flag
+				' <img src="'.$context['url_to_root'].'skins/images/flags/ca.gif" alt="" /> ', // [ca] canadian flag
+				' <img src="'.$context['url_to_root'].'skins/images/flags/ch.gif" alt="" /> ', // [ch] swiss flag
+				' <img src="'.$context['url_to_root'].'skins/images/flags/de.gif" alt="" /> ', // [de] german flag
+				' <img src="'.$context['url_to_root'].'skins/images/flags/gb.gif" alt="" /> ', // [en] english flag
+				' <img src="'.$context['url_to_root'].'skins/images/flags/es.gif" alt="" /> ', // [es] spanish flag
+				' <img src="'.$context['url_to_root'].'skins/images/flags/fr.gif" alt="" /> ', // [fr] french flag
+				' <img src="'.$context['url_to_root'].'skins/images/flags/gb.gif" alt="" /> ', // [gb] english flag
+				' <img src="'.$context['url_to_root'].'skins/images/flags/gr.gif" alt="" /> ', // [gr] greek flag
+				' <img src="'.$context['url_to_root'].'skins/images/flags/it.gif" alt="" /> ', // [it] italian flag
+				' <img src="'.$context['url_to_root'].'skins/images/flags/pt.gif" alt="" /> ', // [pt] portuguese flag
+				' <img src="'.$context['url_to_root'].'skins/images/flags/us.gif" alt="" /> ', // [us] us flag
+				' <br style="clear: both;" /> ',					// [clear]
 				BR, 													// [nl]
 				BR														// [br] (deprecated by [nl])
 			);
@@ -1024,6 +1066,96 @@ Class Codes {
 	}
 
 	/**
+	 * render a calendar
+	 *
+	 * The provided anchor can reference:
+	 * - a section 'section:123'
+	 * - nothing
+	 *
+	 * @param string the anchor (e.g. 'section:123')
+	 * @return string the rendered text
+	**/
+	function &render_calendar($anchor='') {
+		global $context;
+
+		// a list of dates
+		include_once $context['path_to_root'].'dates/dates.php';
+
+		// sanity check
+		$anchor = trim($anchor);
+
+		// get records
+		if(strpos($anchor, 'section:') === 0)
+			$items =& Dates::list_for_prefix(NULL, 'links', $anchor);
+		else
+			$items =& Dates::list_for_prefix(NULL, 'links', NULL);
+
+		// build calendar for current month
+		$text =& Dates::build_months($items, FALSE, TRUE, FALSE, TRUE, gmstrftime('%Y'), gmstrftime('%m'), 'compact calendar');
+
+		// job done
+		return $text;
+	}
+
+	/**
+	 * render a list of categories
+	 *
+	 * The provided anchor can reference:
+	 * - a section 'category:123'
+	 * - a user 'user:789'
+	 * - 'self'
+	 * - nothing
+	 *
+	 * @param string the anchor (e.g. 'section:123')
+	 * @param string layout to use
+	 * @return string the rendered text
+	**/
+	function &render_categories($anchor='', $layout='compact') {
+		global $context;
+
+		// we return some text;
+		$text = '';
+
+		// number of items to display
+		$count = YAHOO_LIST_SIZE;
+		if(($position = strpos($anchor, ',')) !== FALSE) {
+			$count = (integer)trim(substr($anchor, $position+1));
+			if(!$count)
+				$count = YAHOO_LIST_SIZE;
+
+			$anchor = trim(substr($anchor, 0, $position));
+		}
+
+		// scope is limited to current surfer
+		if(($anchor == 'self') && Surfer::get_id()) {
+			$anchor = 'user:'.Surfer::get_id();
+
+			// refresh on every page load
+			Cache::poison();
+
+		}
+
+		// scope is limited to one category
+		if(strpos($anchor, 'category:') === 0)
+			$text =& Categories::list_by_title_for_anchor($anchor, 0, $count, $layout);
+
+		// scope is limited to one author
+		elseif(strpos($anchor, 'user:') === 0)
+			$text =& Members::list_categories_by_title_for_member($anchor, 0, $count, $layout);
+
+		// consider all pages
+		if(!$text)
+			$text =& Categories::list_by_title_for_anchor(NULL, 0, $count, $layout);
+
+		// we have an array to format
+		if(is_array($text))
+			$text =& Skin::build_list($text, $layout);
+
+		// job done
+		return $text;
+	}
+
+	/**
 	 * render the cloud of tags
 	 *
 	 * @param string the number of items to list
@@ -1037,7 +1169,7 @@ Class Codes {
 			$count = 40;
 
 		// query the database and layout that stuff
-		if(!$text = Members::list_categories_by_count_for_anchor(NULL, 0, $count, 'cloud'))
+		if(!$text =& Members::list_categories_by_count_for_anchor(NULL, 0, $count, 'cloud'))
 			$text = '<p>'.i18n::s('No item has been found.').'</p>';
 
 		// we have an array to format
@@ -1111,148 +1243,6 @@ Class Codes {
 		// job done
 		return $text;
 
-	}
-
-	/**
-	 * render a compact list of fresh threads
-	 *
-	 * @param string the anchor (e.g. 'section:123')
-	 * @return string the rendered text
-	**/
-	function &render_commented($anchor='') {
-		global $context;
-
-		// number of items to display
-		$count = COMPACT_LIST_SIZE;
-		if($position = strpos($anchor, ',')) {
-			$count = (integer)trim(substr($anchor, $position+1));
-			$anchor = substr($anchor, 0, $position);
-		}
-		if(!$count)
-			$count = COMPACT_LIST_SIZE;
-
-		// load the layout to use
-		$layout = 'compact';
-
-		// scope is limited to one section
-		if($anchor) {
-
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 50)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 50)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// query the database and layout that stuff
-			include_once $context['path_to_root'].'comments/comments.php';
-			if($text = Comments::list_threads_by_date_for_anchor($anchors, 0, $count, $layout)) {
-
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
-
-			}
-
-		// consider all threads
-		} else {
-
-			// query the database and layout that stuff
-			include_once $context['path_to_root'].'comments/comments.php';
-			if($text = Comments::list_threads_by_date(0, $count, $layout)) {
-
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
-
-			}
-		}
-
-		// job done
-		return $text;
-	}
-
-	/**
-	 * render a compact list of most active threads
-	 *
-	 * @param string the anchor (e.g. 'section:123')
-	 * @return string the rendered text
-	**/
-	function &render_contributed($anchor='') {
-		global $context;
-
-		// number of items to display
-		$count = COMPACT_LIST_SIZE;
-		if($position = strpos($anchor, ',')) {
-			$count = (integer)trim(substr($anchor, $position+1));
-			$anchor = substr($anchor, 0, $position);
-		}
-		if(!$count)
-			$count = COMPACT_LIST_SIZE;
-
-		// load the layout to use
-		$layout = 'compact';
-
-		// scope is limited to one section
-		if($anchor) {
-
-			// look at this level
-			$anchors = array($anchor);
-
-			// first level of depth
-			$topics =& Sections::get_children_of_anchor($anchor, 'main');
-			$anchors = array_merge($anchors, $topics);
-
-			// second level of depth
-			if(count($topics) && (count($anchors) < 50)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// third level of depth
-			if(count($topics) && (count($anchors) < 50)) {
-				$topics =& Sections::get_children_of_anchor($topics, 'main');
-				$anchors = array_merge($anchors, $topics);
-			}
-
-			// query the database and layout that stuff
-			include_once $context['path_to_root'].'comments/comments.php';
-			if($text = Comments::list_threads_by_count_for_anchor($anchors, 0, $count, $layout)) {
-
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
-
-			}
-
-		// consider all threads
-		} else {
-
-			// query the database and layout that stuff
-			include_once $context['path_to_root'].'comments/comments.php';
-			if($text = Comments::list_threads_by_count(0, $count, $layout)) {
-
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
-
-			}
-		}
-
-		// job done
-		return $text;
 	}
 
 	/**
@@ -1371,7 +1361,7 @@ Class Codes {
 			$menu = array_merge($menu, array(Sections::get_url('all', 'view_as_freemind', utf8::to_ascii($context['site_name'].'.mm')) => i18n::s('Full-size')));
 
 		// content of one section
-		} elseif(preg_match('/section:([0-9]+)/', $id, $matches)) {
+		} elseif(preg_match('/section:(\.+)$/', $id, $matches)) {
 
 			if(!$item =& Sections::get($matches[1])) {
 				$text = '[freemind='.$id.']';
@@ -1511,44 +1501,6 @@ Class Codes {
 	}
 
 	/**
-	 * render a web link
-	 *
-	 * This function applies following transformations, in order to better classify links:
-	 * - 'www.foo.bar' becomes 'http://www.foo.bar/'
-	 * - 'anything@foo.bar' becomes 'mailto:anything@foo.bar'
-	 *
-	 * @param string the url as typed by the surfer
-	 * @param string the related label, if any
-	 * @return string the rendered text
-	**/
-	function &render_link($url, $label=NULL) {
-		global $context;
-
-		// remove leading and trailing spaces
-		$url = trim($url);
-
-		// rewrite links if necessary
-		$from = array(
-			'/^www\.([^\W\.]+?)\.([^\W]+?)/i',
-			'/^([^:]+?)@([^\W\.]+?)\.([^\W]+?)/i'
-			);
-
-		$to = array(
-			'http://\\0',
-			'mailto:\\0'
-			);
-
-		$url = preg_replace($from, $to, $url);
-
-		// let the rendering engine guess the type of this link
-		if(is_callable(array('Skin', 'build_link')))
-			$output =& Skin::build_link($url, $label, NULL);
-		else
-			$output = '<a href="'.$url.'">'.($label?$label:$url).'</a>';
-		return $output;
-	}
-
-	/**
 	 * render a list
 	 *
 	 * @param string the list content
@@ -1653,7 +1605,7 @@ Class Codes {
 
 			// build a small dynamic image if we cannot use Google maps
 			if(!isset($context['google_api_key']) || !$context['google_api_key']) {
-				$output = BR.'<img src="'.$context['url_to_root'].'locations/map_on_earth.php?id='.$item['id'].'" width="310" height="155" alt="'.$item['geo_position'].'"'.EOT.BR;
+				$output = BR.'<img src="'.$context['url_to_root'].'locations/map_on_earth.php?id='.$item['id'].'" width="310" height="155" alt="'.$item['geo_position'].'" />'.BR;
 				return $output;
 			}
 
@@ -1844,6 +1796,53 @@ Class Codes {
 
 			return $output;
 
+		// insert article description
+		case 'article.description':
+
+			// maybe an alternate title has been provided
+			$attributes = preg_split("/\s*,\s*/", $id, 2);
+			$id = $attributes[0];
+
+			// load the record from the database
+			if(!$item =& Articles::get($id))
+				$output = '[article.description='.$id.']';
+
+			else {
+
+				// ensure we have a label for this link
+				if(isset($attributes[1])) {
+					$text = $attributes[1];
+					$type = 'basic';
+				} else
+					$text = Skin::strip($item['title']);
+
+				// make a link to the target page
+				$url =& Articles::get_permalink($item);
+
+				// return a complete anchor
+				$output =& Skin::build_link($url, $text, 'article');
+
+				// the introduction text, if any
+				$output .= BR.Codes::beautify($item['introduction']);
+
+				// load overlay, if any
+				if(isset($item['overlay']) && $item['overlay']) {
+					include_once '../overlays/overlay.php';
+					$overlay = Overlay::load($item);
+
+					// get text related to the overlay, if any
+					if(is_object($overlay))
+						$output .= $overlay->get_text('view', $item);
+
+				}
+
+				// the description, which is the actual page body
+				$output .= '<div>'.Codes::beautify($item['description']).'</div>';
+
+			}
+
+			return $output;
+
 		// link to a category
 		case 'category':
 			include_once $context['path_to_root'].'categories/categories.php';
@@ -1870,6 +1869,54 @@ Class Codes {
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);
+			}
+
+			return $output;
+
+		// insert category description
+		case 'category.description':
+			include_once $context['path_to_root'].'categories/categories.php';
+
+			// maybe an alternate title has been provided
+			$attributes = preg_split("/\s*,\s*/", $id, 2);
+			$id = $attributes[0];
+
+			// load the record from the database
+			if(!$item =& Categories::get($id))
+				$output = '[category.description='.$id.']';
+
+			else {
+
+				// ensure we have a label for this link
+				if(isset($attributes[1])) {
+					$text = $attributes[1];
+					$type = 'basic';
+				} else
+					$text = Skin::strip($item['title']);
+
+				// make a link to the target page
+				$url =& Categories::get_permalink($item);
+
+				// return a complete anchor
+				$output =& Skin::build_link($url, $text, 'category');
+
+				// the introduction text, if any
+				$output .= BR.Codes::beautify($item['introduction']);
+
+				// load overlay, if any
+				if(isset($item['overlay']) && $item['overlay']) {
+					include_once '../overlays/overlay.php';
+					$overlay = Overlay::load($item);
+
+					// get text related to the overlay, if any
+					if(is_object($overlay))
+						$output .= $overlay->get_text('view', $item);
+
+				}
+
+				// the description, which is the actual page body
+				$output .= '<div>'.Codes::beautify($item['description']).'</div>';
+
 			}
 
 			return $output;
@@ -2558,28 +2605,37 @@ Class Codes {
 	 * - a section 'section:123'
 	 * - a category 'category:456'
 	 * - a user 'user:789'
+	 * - 'self'
 	 * - nothing
 	 *
 	 * @param string the anchor (e.g. 'section:123')
+	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_published($anchor='') {
+	function &render_published($anchor='', $layout='compact') {
 		global $context;
+
+		// we return some text;
+		$text = '';
 
 		// number of items to display
 		$count = COMPACT_LIST_SIZE;
-		if($position = strpos($anchor, ',')) {
+		if($position = strrpos($anchor, ',')) {
 			$count = (integer)trim(substr($anchor, $position+1));
-			$anchor = substr($anchor, 0, $position);
+			if(!$count)
+				$count = COMPACT_LIST_SIZE;
+
+			$anchor = trim(substr($anchor, 0, $position));
 		}
-		if(!$count)
-			$count = COMPACT_LIST_SIZE;
 
-		// load the layout to use
-		$layout = 'compact';
+		// scope is limited to current surfer
+		if(($anchor == 'self') && Surfer::get_id()) {
+			$anchor = 'user:'.Surfer::get_id();
 
-		// sanity check
-		$anchor = trim($anchor);
+			// refresh on every page load
+			Cache::poison();
+
+		}
 
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
@@ -2604,13 +2660,7 @@ Class Codes {
 			}
 
 			// query the database and layout that stuff
-			if($text = Articles::list_by_date_for_anchor($anchors, 0, $count, $layout)) {
-
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
-
-			}
+			$text =& Articles::list_for_anchor_by('publication', $anchors, 0, $count, $layout);
 
 		// scope is limited to one category
 		} elseif(strpos($anchor, 'category:') === 0) {
@@ -2643,37 +2693,19 @@ Class Codes {
 			$anchors = array_unique($anchors);
 
 			// query the database and layout that stuff
-			if($text = Members::list_articles_by_date_for_anchor($anchors, 0, $count, $layout)) {
-
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
-
-			}
+			$text =& Members::list_articles_by_date_for_anchor($anchors, 0, $count, $layout);
 
 		// scope is limited to one author
-		} elseif(strpos($anchor, 'user:') === 0) {
+		} elseif(strpos($anchor, 'user:') === 0)
+			$text =& Articles::list_for_author_by('publication', str_replace('user:', '', $anchor), 0, $count, $layout);
 
-			// query the database and layout that stuff
-			if($text = Articles::list_by_date_for_author(str_replace('user:', '', $anchor), 0, $count, $layout)) {
-
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
-
-			}
 		// consider all pages
-		} else {
+		if(!$text)
+			$text =& Articles::list_by('publication', 0, $count, $layout);
 
-			// query the database and layout that stuff
-			if($text = Articles::list_by_date(0, $count, $layout)) {
-
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
-
-			}
-		}
+		// we have an array to format
+		if(is_array($text))
+			$text =& Skin::build_list($text, $layout);
 
 		// job done
 		return $text;
@@ -2683,25 +2715,36 @@ Class Codes {
 	 * render a compact list of hits
 	 *
 	 * @param string the anchor (e.g. 'section:123')
+	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_read($anchor='') {
+	function &render_read($anchor='', $layout='hits') {
 		global $context;
+
+		// we return some text;
+		$text = '';
 
 		// number of items to display
 		$count = COMPACT_LIST_SIZE;
-		if($position = strpos($anchor, ',')) {
+		if(($position = strpos($anchor, ',')) !== FALSE) {
 			$count = (integer)trim(substr($anchor, $position+1));
-			$anchor = substr($anchor, 0, $position);
-		}
-		if(!$count)
-			$count = COMPACT_LIST_SIZE;
+			if(!$count)
+				$count = COMPACT_LIST_SIZE;
 
-		// load the layout to use
-		$layout = 'compact';
+			$anchor = trim(substr($anchor, 0, $position));
+		}
+
+		// scope is limited to current surfer
+		if(($anchor == 'self') && Surfer::get_id()) {
+			$anchor = 'user:'.Surfer::get_id();
+
+			// refresh on every page load
+			Cache::poison();
+
+		}
 
 		// scope is limited to one section
-		if($anchor) {
+		if(strpos($anchor, 'section:') === 0) {
 
 			// look at this level
 			$anchors = array($anchor);
@@ -2723,26 +2766,77 @@ Class Codes {
 			}
 
 			// query the database and layout that stuff
-			if($text = Articles::list_by_hits_for_anchor($anchors, 0, $count, $layout)) {
+			$text =& Articles::list_for_anchor_by('hits', $anchors, 0, $count, $layout);
 
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
+		// scope is limited to pages watched by one surfer
+		} elseif(strpos($anchor, 'user:') === 0)
+			$text =& Members::list_articles_by_hits_for_member($anchor, 0, $count, $layout);
 
-			}
+		// consider all pages
+		if(!$text)
+			$text =& Articles::list_by('hits', 0, $count, $layout);
 
-		// consider all threads
-		} else {
+		// we have an array to format
+		if(is_array($text))
+			$text =& Skin::build_list($text, $layout);
 
-			// query the database and layout that stuff
-			if($text = Articles::list_by_hits(0, $count, $layout)) {
+		// job done
+		return $text;
+	}
 
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
+	/**
+	 * render a compact list of sections
+	 *
+	 * The provided anchor can reference:
+	 * - a section 'section:123'
+	 * - a user 'user:789'
+	 * - 'self'
+	 * - nothing
+	 *
+	 * @param string the anchor (e.g. 'section:123')
+	 * @param string layout to use
+	 * @return string the rendered text
+	**/
+	function &render_sections($anchor='', $layout='simple') {
+		global $context;
 
-			}
+		// we return some text;
+		$text = '';
+
+		// number of items to display
+		$count = YAHOO_LIST_SIZE;
+		if(($position = strpos($anchor, ',')) !== FALSE) {
+			$count = (integer)trim(substr($anchor, $position+1));
+			if(!$count)
+				$count = YAHOO_LIST_SIZE;
+
+			$anchor = trim(substr($anchor, 0, $position));
 		}
+
+		// scope is limited to current surfer
+		if(($anchor == 'self') && Surfer::get_id()) {
+			$anchor = 'user:'.Surfer::get_id();
+
+			// refresh on every page load
+			Cache::poison();
+
+		}
+
+		// scope is limited to one section
+		if(strpos($anchor, 'section:') === 0)
+			$text =& Sections::list_by_title_for_anchor($anchor, 0, $count, $layout);
+
+		// scope is limited to one author
+		elseif(strpos($anchor, 'user:') === 0)
+			$text =& Members::list_sections_by_date_for_user(str_replace('user:', '', $anchor), 0, $count, $layout);
+
+		// consider all pages
+		if(!$text)
+			$text =& Sections::list_by_title_for_anchor(NULL, 0, $count, $layout);
+
+		// we have an array to format
+		if(is_array($text))
+			$text =& Skin::build_list($text, $layout);
 
 		// job done
 		return $text;
@@ -2760,6 +2854,10 @@ Class Codes {
 
 		// render an inline table
 		if(!$content) {
+
+			// refresh on every page load
+			Cache::poison();
+
 			include_once $context['path_to_root'].'tables/tables.php';
 			$output =& Tables::build($variant, 'inline');
 			return $output;
@@ -2798,11 +2896,11 @@ Class Codes {
 				if(preg_match('/\[body\]/i', $row))
 					$in_body = true;
 				else
-					$text .= Skin::table_row(preg_split("/([\|\t]|	)/", $row), 'header');
+					$text .= Skin::table_row(preg_split("/([\|\t]| "." )/", $row), 'header');
 
 			// body row
 			} else
-				$text .= Skin::table_row(preg_split("/([\|\t]|	)/", $row), $count++);
+				$text .= Skin::table_row(preg_split("/([\|\t]| "." )/", $row), $count++);
 
 		}
 
@@ -2939,28 +3037,37 @@ Class Codes {
 	 * - a section 'section:123'
 	 * - a category 'category:456'
 	 * - a user 'user:789'
+	 * - 'self'
 	 * - nothing
 	 *
 	 * @param string the anchor (e.g. 'section:123')
+	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_updated($anchor='') {
+	function &render_updated($anchor='', $layout='compact') {
 		global $context;
+
+		// we return some text;
+		$text = '';
 
 		// number of items to display
 		$count = COMPACT_LIST_SIZE;
-		if($position = strpos($anchor, ',')) {
+		if(($position = strpos($anchor, ',')) !== FALSE) {
 			$count = (integer)trim(substr($anchor, $position+1));
-			$anchor = substr($anchor, 0, $position);
+			if(!$count)
+				$count = COMPACT_LIST_SIZE;
+
+			$anchor = trim(substr($anchor, 0, $position));
 		}
-		if(!$count)
-			$count = COMPACT_LIST_SIZE;
 
-		// load the layout to use
-		$layout = 'compact';
+		// scope is limited to current surfer
+		if(($anchor == 'self') && Surfer::get_id()) {
+			$anchor = 'user:'.Surfer::get_id();
 
-		// sanity check
-		$anchor = trim($anchor);
+			// refresh on every page load
+			Cache::poison();
+
+		}
 
 		// scope is limited to one section
 		if(strpos($anchor, 'section:') === 0) {
@@ -2985,13 +3092,7 @@ Class Codes {
 			}
 
 			// query the database and layout that stuff
-			if($text = Articles::list_by_edition_date_for_anchor($anchors, 0, $count, $layout)) {
-
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
-
-			}
+			$text =& Articles::list_for_anchor_by('edition', $anchors, 0, $count, $layout);
 
 		// scope is limited to one category
 		} elseif(strpos($anchor, 'category:') === 0) {
@@ -3024,37 +3125,19 @@ Class Codes {
 			$anchors = array_unique($anchors);
 
 			// query the database and layout that stuff
-			if($text = Members::list_articles_by_date_for_anchor($anchors, 0, $count, $layout)) {
+			$text =& Members::list_articles_by_date_for_anchor($anchors, 0, $count, $layout);
 
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
+		// scope is limited to pages watched by one surfer
+		} elseif(strpos($anchor, 'user:') === 0)
+			$text =& Members::list_articles_by_date_for_member($anchor, 0, $count, $layout);
 
-			}
-
-		// scope is limited to one author
-		} elseif(strpos($anchor, 'user:') === 0) {
-
-			// query the database and layout that stuff
-			if($text = Articles::list_by_date_for_author(str_replace('user:', '', $anchor), 0, $count, $layout)) {
-
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
-
-			}
 		// consider all pages
-		} else {
+		if(!$text)
+			$text =& Articles::list_by('edition', 0, $count, $layout);
 
-			// query the database and layout that stuff
-			if($text = Articles::list_by('edition', 0, $count, $layout)) {
-
-				// we have an array to format
-				if(is_array($text))
-					$text =& Skin::build_list($text, 'compact');
-
-			}
-		}
+		// we have an array to format
+		if(is_array($text))
+			$text =& Skin::build_list($text, $layout);
 
 		// job done
 		return $text;

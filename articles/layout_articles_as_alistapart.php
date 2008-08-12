@@ -213,7 +213,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 				$icon = $context['url_to_root'].$icon;
 
 			// flush the image on the right
-			$text .= '<img src="'.$icon.'" class="right_image" alt=""'.EOT;
+			$text .= '<img src="'.$icon.'" class="right_image" alt="" />';
 		}
 
 		// article rating, if the anchor allows for it

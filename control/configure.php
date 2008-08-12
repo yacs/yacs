@@ -95,6 +95,9 @@
  * (e.g;, [code]articles/view.php?id=123[/code]). In numerous cases you can activate friendly URLS
  * to let surfers and spiders reference your pages more easily (e.g;, [code]articles/view.php/123[/code]).
  *
+ * [*] [code]with_alternate_urls[/code] - By default yacs put titles in page addresses
+ * Set this parameter to 'Y' to use nick names instead.
+ *
  * [*] [code]with_given_host[/code] - By default yacs accepts any host name.
  * Set this parameter to 'Y' to redirect users to the right host name.
  *
@@ -360,11 +363,11 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="without_language_detection" value="N"';
 	if(!isset($context['without_language_detection']) || ($context['without_language_detection'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Attempt to adapt the interface to the language indicated by the browser.');
+	$input .= '/> '.i18n::s('Attempt to adapt the interface to the language indicated by the browser.');
 	$input .= BR.'<input type="radio" name="without_language_detection" value="Y"';
 	if(isset($context['without_language_detection']) && ($context['without_language_detection'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Stick to the preferred language selected above.');
+	$input .= '/> '.i18n::s('Stick to the preferred language selected above.');
 	$fields[] = array($label, $input);
 
 	// content compression
@@ -372,11 +375,11 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="with_compression" value="N"';
 	if(!isset($context['with_compression']) || ($context['with_compression'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not try to compress transmitted data. The web engine already does it.');
+	$input .= '/> '.i18n::s('Do not try to compress transmitted data. The web engine already does it.');
 	$input .= BR.'<input type="radio" name="with_compression" value="Y"';
 	if(isset($context['with_compression']) && ($context['with_compression'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Compress content (gzip) transmitted to user agents when possible.');
+	$input .= '/> '.i18n::s('Compress content (gzip) transmitted to user agents when possible.');
 	$fields[] = array($label, $input);
 
 	// rendering cache
@@ -384,11 +387,11 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="without_cache" value="N"';
 	if(!isset($context['without_cache']) || ($context['without_cache'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Cache computed elements to speed up rendering.');
+	$input .= '/> '.i18n::s('Cache computed elements to speed up rendering.');
 	$input .= BR.'<input type="radio" name="without_cache" value="Y"';
 	if(isset($context['without_cache']) && ($context['without_cache'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Compute all page elements.');
+	$input .= '/> '.i18n::s('Compute all page elements.');
 	$fields[] = array($label, $input);
 
 	// with_cron
@@ -396,11 +399,11 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="with_cron" value="N"';
 	if(!isset($context['with_cron']) || ($context['with_cron'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Add background processing at the end of page rendering.');
+	$input .= '/> '.i18n::s('Add background processing at the end of page rendering.');
 	$input .= BR.'<input type="radio" name="with_cron" value="Y"';
 	if(isset($context['with_cron']) && ($context['with_cron'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('The server launches cron.php on its own').' ('.sprintf(i18n::s('see sample %s'), Skin::build_link('tools/yacs_crontab', 'yacs_crontab', 'help')).')';
+	$input .= '/> '.i18n::s('The server launches cron.php on its own').' ('.sprintf(i18n::s('see sample %s'), Skin::build_link('tools/yacs_crontab', 'yacs_crontab', 'help')).')';
 	$fields[] = array($label, $input);
 
 	// file_mask and directory_mask
@@ -414,11 +417,11 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="with_debug" value="N"';
 	if($context['with_debug'] != 'Y')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Verbosity should be kept to a minimum (normal operation).');
+	$input .= '/> '.i18n::s('Verbosity should be kept to a minimum (normal operation).');
 	$input .= BR.'<input type="radio" name="with_debug" value="Y"';
 	if($context['with_debug'] == 'Y')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Provide as much information as possible (development server).');
+	$input .= '/> '.i18n::s('Provide as much information as possible (development server).');
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -439,11 +442,11 @@ if(!Surfer::is_associate()) {
 		.BR.'<input type="radio" name="with_given_host" value="N"';
 	if(!isset($context['with_given_host']) || ($context['with_given_host'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Accept all web requests.');
+	$input .= '/> '.i18n::s('Accept all web requests.');
 	$input .= BR.'<input type="radio" name="with_given_host" value="Y"';
 	if(isset($context['with_given_host']) && ($context['with_given_host'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Redirect to this server name if another name is used in request.');
+	$input .= '/> '.i18n::s('Redirect to this server name if another name is used in request.');
 	$fields[] = array($label, $input);
 
 	// url to root -- see shared/global.php to understand the usage of 'url_to_root_parameter'
@@ -458,17 +461,29 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="with_friendly_urls" value="N"';
 	if($context['with_friendly_urls'] != 'Y')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('This system does not support the mapping of args in the URL.').' (<code>articles/view.php?id=123</code>)';
+	$input .= '/> '.i18n::s('This system does not support the mapping of args in the URL.').' (<code>articles/view.php?id=123</code>)';
 	$input .= BR.'<input type="radio" name="with_friendly_urls" value="Y"';
 	if($context['with_friendly_urls'] == 'Y')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Help search engines to index more pages.').' (<code>articles/view.php/123</code>)'
+	$input .= '/> '.i18n::s('Help search engines to index more pages.').' (<code>articles/view.php/123</code>)'
 		.' ('.Skin::build_link('control/test.php/123/456', i18n::s('test link'), 'help').')';
 	$input .= BR.'<input type="radio" name="with_friendly_urls" value="R"';
 	if($context['with_friendly_urls'] == 'R')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Rewriting rules have been activated (in <code>.htaccess</code>) to support pretty references.').' (<code>article-123</code>)'
+	$input .= '/> '.i18n::s('Rewriting rules have been activated (in <code>.htaccess</code>) to support pretty references.').' (<code>article-123</code>)'
 		.' ('.Skin::build_link('rewrite_test/123', i18n::s('test link'), 'help').')';
+	$fields[] = array($label, $input);
+
+	// alternate urls
+	$label = i18n::s('URL optimization');
+	$input = '<input type="radio" name="with_alternate_urls" value="N"';
+	if($context['with_alternate_urls'] != 'Y')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Put page titles in web addresses.');
+	$input .= BR.'<input type="radio" name="with_alternate_urls" value="Y"';
+	if($context['with_alternate_urls'] == 'Y')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Use nick names instead.');
 	$fields[] = array($label, $input);
 
 	// web security
@@ -476,11 +491,11 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="with_https" value="N"';
 	if(!isset($context['with_https']) || ($context['with_https'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Accept all web requests.');
+	$input .= '/> '.i18n::s('Accept all web requests.');
 	$input .= BR.'<input type="radio" name="with_https" value="Y"';
 	if(isset($context['with_https']) && ($context['with_https'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Redirect all non-secured requests to https.')
+	$input .= '/> '.i18n::s('Redirect all non-secured requests to https.')
 		.' ('.Skin::build_link(str_replace('http:', 'https:', $context['url_to_home']).$context['url_to_root'].'control/test.php/123/456', i18n::s('test link'), 'help').')';
 	$fields[] = array($label, $input);
 
@@ -489,11 +504,11 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="without_http_cache" value="N"';
 	if(!isset($context['without_http_cache']) || ($context['without_http_cache'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Set HTTP headers to enable private caching and to ask for every page revalidation.');
+	$input .= '/> '.i18n::s('Set HTTP headers to enable private caching and to ask for every page revalidation.');
 	$input .= BR.'<input type="radio" name="without_http_cache" value="Y"';
 	if(isset($context['without_http_cache']) && ($context['without_http_cache'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('No cache management. Default settings of the PHP engine apply.');
+	$input .= '/> '.i18n::s('No cache management. Default settings of the PHP engine apply.');
 	$fields[] = array($label, $input);
 
 	// without Internet visibility
@@ -501,11 +516,11 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="without_internet_visibility" value="N"';
 	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Public content may be processed by web crawlers and news aggregators.');
+	$input .= '/> '.i18n::s('Public content may be processed by web crawlers and news aggregators.');
 	$input .= BR.'<input type="radio" name="without_internet_visibility" value="Y"';
 	if(isset($context['without_internet_visibility']) && ($context['without_internet_visibility'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('This server can not be reached from the Internet.');
+	$input .= '/> '.i18n::s('This server can not be reached from the Internet.');
 	$fields[] = array($label, $input);
 
 	// without outbound http
@@ -513,11 +528,11 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="without_outbound_http" value="N"';
 	if(!isset($context['without_outbound_http']) || ($context['without_outbound_http'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('This server uses the web for syndication, for pings or for other activities.');
+	$input .= '/> '.i18n::s('This server uses the web for syndication, for pings or for other activities.');
 	$input .= BR.'<input type="radio" name="without_outbound_http" value="Y"';
 	if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Prevent this server to connect to others.');
+	$input .= '/> '.i18n::s('Prevent this server to connect to others.');
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -562,11 +577,11 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="with_email" value="N"';
 	if(!isset($context['with_email']) || ($context['with_email'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('This system is not configured to send e-mail messages.');
+	$input .= '/> '.i18n::s('This system is not configured to send e-mail messages.');
 	$input .= BR.'<input type="radio" name="with_email" value="Y"';
 	if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Use below parameters to handle electronic mail messages.');
+	$input .= '/> '.i18n::s('Use below parameters to handle electronic mail messages.');
 	$fields[] = array($label, $input);
 
 	// smtp server
@@ -602,11 +617,11 @@ if(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="mail_encoding" value="base64"';
 	if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Transform messages using base64 encoding to ensure that only 7-bit ASCII entities are transmitted.');
+	$input .= '/> '.i18n::s('Transform messages using base64 encoding to ensure that only 7-bit ASCII entities are transmitted.');
 	$input .= BR.'<input type="radio" name="mail_encoding" value="8bit"';
 	if(isset($context['mail_encoding']) && ($context['mail_encoding'] == '8bit'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not transform bytes and assume proper transmission of 8-bit entities end-to-end.');
+	$input .= '/> '.i18n::s('Do not transform bytes and assume proper transmission of 8-bit entities end-to-end.');
 	$fields[] = array($label, $input);
 
 	// source address
@@ -808,6 +823,8 @@ if(!Surfer::is_associate()) {
 		$content .= '$context[\'skin\']=\''.addcslashes($_REQUEST['skin'], "\\'")."';\n";
 	if(isset($_REQUEST['url_to_root_parameter']))
 		$content .= '$context[\'url_to_root\']=\''.addcslashes($_REQUEST['url_to_root_parameter'], "\\'")."';\n";
+	if(isset($_REQUEST['with_alternate_urls']))
+		$content .= '$context[\'with_alternate_urls\']=\''.addcslashes($_REQUEST['with_alternate_urls'], "\\'")."';\n";
 	if(isset($_REQUEST['with_compression']))
 		$content .= '$context[\'with_compression\']=\''.addcslashes($_REQUEST['with_compression'], "\\'")."';\n";
 	if(isset($_REQUEST['with_cron']))

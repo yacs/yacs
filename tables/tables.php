@@ -81,7 +81,7 @@ Class Tables {
 			return FALSE;
 
 		// teasers are activated
-		if(!Surfer::is_logged() && (!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y')))
+		if(Surfer::is_teased())
 			return TRUE;
 
 		// the default is to not allow for new tables

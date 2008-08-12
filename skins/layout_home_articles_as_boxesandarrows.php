@@ -110,7 +110,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 					$icon = $anchor->get_thumbnail_url();
 				}
 				if($icon)
-					$text .= '<a href="'.$context['url_to_root'].$url.'" title="'.i18n::s('View the page').'"><img src="'.$icon.'" class="left_image" alt=""'.EOT.'</a>';
+					$text .= '<a href="'.$context['url_to_root'].$url.'" title="'.i18n::s('View the page').'"><img src="'.$icon.'" class="left_image" alt="" /></a>';
 
 				$text .= $this->layout_newest($item, $anchor).'</div>'."\n";
 
@@ -213,7 +213,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 
 		// list up to three categories by title, if any
 		include_once $context['path_to_root'].'categories/categories.php';
-		if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+		if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 			$text .= BR.i18n::s('See also');
 			$first_category = TRUE;
 			foreach($items as $id => $attributes) {
@@ -314,7 +314,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 
 		// list up to three categories by title, if any
 		include_once $context['path_to_root'].'categories/categories.php';
-		if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+		if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 			$text .= BR.i18n::s('See also');
 			$first_category = TRUE;
 			foreach($items as $id => $attributes) {

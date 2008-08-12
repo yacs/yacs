@@ -182,8 +182,22 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['edit_address'] =& encode_link($_REQUEST['edit_address']);
 
 	// associates are allowed to change overlay types -- see overlays/select.php
-	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'] && Surfer::is_associate())
+	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'] && Surfer::is_associate()) {
+
+		// delete the previous version, if any
+		if(is_object($overlay)) {
+
+			// allow back-referencing from overlay
+			if(isset($_REQUEST['id'])) {
+				$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
+				$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
+				$overlay->remember('delete', $_REQUEST);
+			}
+		}
+
+		// new version of page overlay
 		$overlay = Overlay::bind($_REQUEST['overlay_type']);
+	}
 
 	// when the page has been overlaid
 	if(is_object($overlay)) {
@@ -196,14 +210,14 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['overlay_id'] = $overlay->get_id();
 	}
 
-	// allow back-referencing from overlay
-	if($item['id']) {
-		$_REQUEST['self_reference'] = 'section:'.$item['id'];
-		$_REQUEST['self_url'] = $context['url_to_root'].Sections::get_permalink($item);
-	}
-
 	// update an existing page
 	if(isset($_REQUEST['id'])) {
+
+		// allow back-referencing from overlay
+		if($item['id']) {
+			$_REQUEST['self_reference'] = 'section:'.$_REQUEST['id'];
+			$_REQUEST['self_url'] = $context['url_to_root'].Sections::get_permalink($_REQUEST);
+		}
 
 		// remember the previous version
 		if($item['id']) {
@@ -211,8 +225,16 @@ if(Surfer::is_crawler()) {
 			Versions::save($item, 'section:'.$item['id']);
 		}
 
+		// change to another overlay
+		if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'] && Surfer::is_associate())
+			$action = 'insert';
+
+		// regular update
+		else
+			$action = 'update';
+
 		// stop on error
-		if(!Sections::put($_REQUEST) || (is_object($overlay) && !$overlay->remember('update', $_REQUEST))) {
+		if(!Sections::put($_REQUEST) || (is_object($overlay) && !$overlay->remember($action, $_REQUEST))) {
 			$item = $_REQUEST;
 			$with_form = TRUE;
 
@@ -241,6 +263,10 @@ if(Surfer::is_crawler()) {
 
 	// successful post
 	} else {
+
+		// allow back-referencing from overlay
+		$_REQUEST['self_reference'] = 'section:'.$_REQUEST['id'];
+		$_REQUEST['self_url'] = $context['url_to_root'].Sections::get_permalink($_REQUEST);
 
 		// post an overlay, with the new section id --don't stop on error
 		if(is_object($overlay))
@@ -335,9 +361,6 @@ if($with_form) {
 		// append editing fields for this overlay
 		$fields = array_merge($fields, $overlay->get_fields($item));
 
-		// remember the overlay type as well
-		$index .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'" />';
-
 	}
 
 	// the description label
@@ -413,7 +436,7 @@ if($with_form) {
 		$label = i18n::s('Sections');
 		if(!isset($item['sections_count']) || ($item['sections_count'] < 1))
 			$item['sections_count'] = SECTIONS_PER_PAGE;
-		$input = sprintf(i18n::s('List up to %s sub-sections with the following layout:'), '<input type="text" name="sections_count" value="'.encode_field($item['sections_count']).'" size="2"'.EOT).BR;
+		$input = sprintf(i18n::s('List up to %s sub-sections with the following layout:'), '<input type="text" name="sections_count" value="'.encode_field($item['sections_count']).'" size="2" />').BR;
 		$custom_layout = '';
 		if(!isset($item['sections_layout']))
 			$item['sections_layout'] = 'map';
@@ -424,47 +447,47 @@ if($with_form) {
 		$input .= '<input type="radio" name="sections_layout" value="decorated"';
 		if($item['sections_layout'] == 'decorated')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('decorated - As a decorated list.')
+		$input .= '/> '.i18n::s('decorated - As a decorated list.')
 			.BR.'<input type="radio" name="sections_layout" value="map"';
 		if($item['sections_layout'] == 'map')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('map - Map in two columns, like Yahoo!')
+		$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!')
 			.BR.'<input type="radio" name="sections_layout" value="freemind"';
 		if($item['sections_layout'] == 'freemind')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('freemind - Build an interactive mind map')
+		$input .= '/> '.i18n::s('freemind - Build an interactive mind map')
 			.BR.'<input type="radio" name="sections_layout" value="jive"';
 		if($item['sections_layout'] == 'jive')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('jive - List 5 threads per board')
+		$input .= '/> '.i18n::s('jive - List 5 threads per board')
 			.BR.'<input type="radio" name="sections_layout" value="yabb"';
 		if($item['sections_layout'] == 'yabb')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('yabb - A discussion forum')
+		$input .= '/> '.i18n::s('yabb - A discussion forum')
 			.BR.'<input type="radio" name="sections_layout" value="inline"';
 		if($item['sections_layout'] == 'inline')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('inline - List sub-sections and related articles.')
+		$input .= '/> '.i18n::s('inline - List sub-sections and related articles.')
 			.BR.'<input type="radio" name="sections_layout" value="folded"';
 		if($item['sections_layout'] == 'folded')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('folded - List sub-sections as folded boxes, with content (one box per section).')
+		$input .= '/> '.i18n::s('folded - List sub-sections as folded boxes, with content (one box per section).')
 			.BR.'<input type="radio" name="sections_layout" value="compact"';
 		if($item['sections_layout'] == 'compact')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('compact - In a compact list, like DMOZ.')
+		$input .= '/> '.i18n::s('compact - In a compact list, like DMOZ.')
 			.BR.'<input type="radio" name="sections_layout" value="titles"';
 		if($item['sections_layout'] == 'titles')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('titles - Use only titles and thumbnails.')
+		$input .= '/> '.i18n::s('titles - Use only titles and thumbnails.')
 			.BR.'<input type="radio" name="sections_layout" value="custom"';
 		if($item['sections_layout'] == 'custom')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32"'.EOT)
+		$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" />')
 			.BR.'<input type="radio" name="sections_layout" value="none"';
 		if($item['sections_layout'] == 'none')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Do not list sub-sections.');
+		$input .= '/> '.i18n::s('Do not list sub-sections.');
 		$fields[] = array($label, $input);
 
 		// layout for related articles
@@ -480,63 +503,63 @@ if($with_form) {
 		$input .= '<input type="radio" name="articles_layout" value="decorated"';
 		if($item['articles_layout'] == 'decorated')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('decorated - A decorated list of most recent pages');
+		$input .= '/> '.i18n::s('decorated - A decorated list of most recent pages');
 		$input .= BR.'<input type="radio" name="articles_layout" value="digg"';
 		if($item['articles_layout'] == 'digg')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('digg - To order pages by rating');
+		$input .= '/> '.i18n::s('digg - To order pages by rating');
 		$input .= BR.'<input type="radio" name="articles_layout" value="slashdot"';
 		if($item['articles_layout'] == 'slashdot')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('slashdot - List most recent pages equally');
+		$input .= '/> '.i18n::s('slashdot - List most recent pages equally');
 		$input .= BR.'<input type="radio" name="articles_layout" value="map"';
 		if($item['articles_layout'] == 'map')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('map - Map in two columns, like Yahoo!');
+		$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!');
 		$input .= BR.'<input type="radio" name="articles_layout" value="table"';
 		if($item['articles_layout'] == 'table')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('table - A table of recent pages');
+		$input .= '/> '.i18n::s('table - A table of recent pages');
 		$input .= BR.'<input type="radio" name="articles_layout" value="daily"';
 		if($item['articles_layout'] == 'daily')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('daily - A list of stamped pages (blog)');
+		$input .= '/> '.i18n::s('daily - A list of stamped pages (blog)');
 		$input .= BR.'<input type="radio" name="articles_layout" value="boxesandarrows"';
 		if($item['articles_layout'] == 'boxesandarrows')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('boxesandarrows - Click on titles to read articles');
+		$input .= '/> '.i18n::s('boxesandarrows - Click on titles to read articles');
 		$input .= BR.'<input type="radio" name="articles_layout" value="jive"';
 		if($item['articles_layout'] == 'jive')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('jive - Display most of articles content');
+		$input .= '/> '.i18n::s('jive - Display most of articles content');
 		$input .= BR.'<input type="radio" name="articles_layout" value="yabb"';
 		if($item['articles_layout'] == 'yabb')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('yabb - A discussion board');
+		$input .= '/> '.i18n::s('yabb - A discussion board');
 		$input .= BR.'<input type="radio" name="articles_layout" value="alistapart"';
 		if($item['articles_layout'] == 'alistapart')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('alistapart - Display entirely the last published page');
+		$input .= '/> '.i18n::s('alistapart - Display entirely the last published page');
 		$input .= BR.'<input type="radio" name="articles_layout" value="wiki"';
 		if($item['articles_layout'] == 'wiki')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('wiki - A set of editable and extensible pages');
+		$input .= '/> '.i18n::s('wiki - A set of editable and extensible pages');
 		$input .= BR.'<input type="radio" name="articles_layout" value="manual"';
 		if($item['articles_layout'] == 'manual')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('manual - A hierarchy of article titles');
+		$input .= '/> '.i18n::s('manual - A hierarchy of article titles');
 		$input .= BR.'<input type="radio" name="articles_layout" value="compact"';
 		if($item['articles_layout'] == 'compact')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('compact - A compact list of items');
+		$input .= '/> '.i18n::s('compact - A compact list of items');
 		$input .= BR.'<input type="radio" name="articles_layout" value="custom"';
 		if($item['articles_layout'] == 'custom')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32"'.EOT);
+		$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" />');
 		$input .= BR.'<input type="radio" name="articles_layout" value="none"';
 		if($item['articles_layout'] == 'none')
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Do not display articles.').BR;
+		$input .= '/> '.i18n::s('Do not display articles.').BR;
 		$fields[] = array($label, $input);
 
 		// rendering options
@@ -588,19 +611,19 @@ if($with_form) {
 		$input = '<input type="radio" name="index_news" value="static"';
 		if(!isset($item['index_news']) || !preg_match('/(rotate|scroll|none)/', $item['index_news']))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.sprintf(i18n::s('List up to %s news aside.'), '<input type="text" name="index_news_count" value="'.encode_field($item['index_news_count']).'" size="2"'.EOT);
+		$input .= '/> '.sprintf(i18n::s('List up to %s news aside.'), '<input type="text" name="index_news_count" value="'.encode_field($item['index_news_count']).'" size="2" />');
 		$input .= BR.'<input type="radio" name="index_news" value="scroll"';
 		if(isset($item['index_news']) && ($item['index_news'] == 'scroll'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Similar to the first option, except that displayed information is scrolling.');
+		$input .= '/> '.i18n::s('Similar to the first option, except that displayed information is scrolling.');
 		$input .= BR.'<input type="radio" name="index_news" value="rotate"';
 		if(isset($item['index_news']) && ($item['index_news'] == 'rotate'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Similar to the first option, except that news are rotated.');
+		$input .= '/> '.i18n::s('Similar to the first option, except that news are rotated.');
 		$input .= BR.'<input type="radio" name="index_news" value="none"';
 		if(isset($item['index_news']) && ($item['index_news'] == 'none'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Do not list news.');
+		$input .= '/> '.i18n::s('Do not list news.');
 		$fields[] = array($label, $input);
 
 		// append fields
@@ -775,11 +798,11 @@ if($with_form) {
 				.'<input type="radio" name="index_map" value="Y"';
 			if(!isset($item['index_map']) || ($item['index_map'] != 'N'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.sprintf(i18n::s('listed in the main panel, with the rank %s (default value is 10000).'), '<input type="text" name="rank" size="5" value="'.encode_field(isset($item['rank']) ? $item['rank'] : '10000').'" maxlength="5" />');
+			$input .= '/> '.sprintf(i18n::s('listed in the main panel, with the rank %s (default value is 10000).'), '<input type="text" name="rank" size="5" value="'.encode_field(isset($item['rank']) ? $item['rank'] : '10000').'" maxlength="5" />');
 			$input .= BR.'<input type="radio" name="index_map" value="N"';
 			if(isset($item['index_map']) && ($item['index_map'] == 'N'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('listed only to associates and editors, with other special sections').BR;
+			$input .= '/> '.i18n::s('listed only to associates and editors, with other special sections').BR;
 			$parent .= '<p>'.$label.BR.$input.'</p>';
 
 			$label = '';
@@ -787,39 +810,39 @@ if($with_form) {
 			$input .= '<input type="radio" name="index_panel" value="main"';
 			if(!isset($item['index_panel']) || ($item['index_panel'] == '') || ($item['index_panel'] == 'main'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('displayed in the main panel')
+			$input .= '/> '.i18n::s('displayed in the main panel')
 				.BR.'<input type="radio" name="index_panel" value="news"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'news'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('displayed in the area reserved to news')
+			$input .= '/> '.i18n::s('displayed in the area reserved to news')
 				.BR.'<input type="radio" name="index_panel" value="gadget"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'gadget'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('listed in the main panel, in a gadget box')
+			$input .= '/> '.i18n::s('listed in the main panel, in a gadget box')
 				.BR.'<input type="radio" name="index_panel" value="gadget_boxes"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'gadget_boxes'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('displayed in distinct gadget boxes')
+			$input .= '/> '.i18n::s('displayed in distinct gadget boxes')
 				.BR.'<input type="radio" name="index_panel" value="icon_top"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'icon_top'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('listed as thumbnails, at the top of the main panel')
+			$input .= '/> '.i18n::s('listed as thumbnails, at the top of the main panel')
 				.BR.'<input type="radio" name="index_panel" value="icon_bottom"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'icon_bottom'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('listed as thumbnails, at the bottom of the main panel')
+			$input .= '/> '.i18n::s('listed as thumbnails, at the bottom of the main panel')
 				.BR.'<input type="radio" name="index_panel" value="extra"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'extra'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('listed on page side, in an extra box')
+			$input .= '/> '.i18n::s('listed on page side, in an extra box')
 				.BR.'<input type="radio" name="index_panel" value="extra_boxes"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'extra_boxes'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('displayed in distinct extra boxes')
+			$input .= '/> '.i18n::s('displayed in distinct extra boxes')
 				.BR.'<input type="radio" name="index_panel" value="none"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'none'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('not displayed at the parent index page');
+			$input .= '/> '.i18n::s('not displayed at the parent index page');
 			$parent .= '<p>'.$label.BR.$input.'</p>';
 
 			// one for layout options
@@ -848,11 +871,11 @@ if($with_form) {
 				.'<input type="radio" name="index_map" value="Y"';
 			if(!isset($item['index_map']) || ($item['index_map'] != 'N'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.sprintf(i18n::s('listed in the main panel, with the rank %s (default value is 10000).'), '<input type="text" name="rank" size="5" value="'.encode_field(isset($item['rank']) ? $item['rank'] : '10000').'" maxlength="5" />');
+			$input .= '/> '.sprintf(i18n::s('listed in the main panel, with the rank %s (default value is 10000).'), '<input type="text" name="rank" size="5" value="'.encode_field(isset($item['rank']) ? $item['rank'] : '10000').'" maxlength="5" />');
 			$input .= BR.'<input type="radio" name="index_map" value="N"';
 			if(isset($item['index_map']) && ($item['index_map'] == 'N'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('listed only to associates, with other special sections, and never appears at the site front page').BR;
+			$input .= '/> '.i18n::s('listed only to associates, with other special sections, and never appears at the site front page').BR;
 			$parent .= '<p>'.$label.BR.$input.'</p>';
 
 			// one box for layout options
@@ -878,39 +901,39 @@ if($with_form) {
 		$input .= '<input type="radio" name="home_panel" value="main"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'main'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('displayed in the main panel')
+		$input .= '/> '.i18n::s('displayed in the main panel')
 			.BR.'<input type="radio" name="home_panel" value="news"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'news'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('displayed in the area reserved to news')
+		$input .= '/> '.i18n::s('displayed in the area reserved to news')
 			.BR.'<input type="radio" name="home_panel" value="gadget"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'gadget'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('listed in the main panel, in a gadget box')
+		$input .= '/> '.i18n::s('listed in the main panel, in a gadget box')
 			.BR.'<input type="radio" name="home_panel" value="gadget_boxes"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'gadget_boxes'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('displayed in distinct gadget boxes')
+		$input .= '/> '.i18n::s('displayed in distinct gadget boxes')
 			.BR.'<input type="radio" name="home_panel" value="icon_top"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'icon_top'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('listed as thumbnails, at the top of the main panel')
+		$input .= '/> '.i18n::s('listed as thumbnails, at the top of the main panel')
 			.BR.'<input type="radio" name="home_panel" value="icon_bottom"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'icon_bottom'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('listed as thumbnails, at the bottom of the main panel')
+		$input .= '/> '.i18n::s('listed as thumbnails, at the bottom of the main panel')
 			.BR.'<input type="radio" name="home_panel" value="extra"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'extra'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('listed on page side, in an extra box')
+		$input .= '/> '.i18n::s('listed on page side, in an extra box')
 			.BR.'<input type="radio" name="home_panel" value="extra_boxes"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'extra_boxes'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('displayed in distinct extra boxes')
+		$input .= '/> '.i18n::s('displayed in distinct extra boxes')
 			.BR.'<input type="radio" name="home_panel" value="none"';
 		if(!isset($item['home_panel']) || !preg_match('/^(extra|extra_boxes|gadget|gadget_boxes|icon_bottom|icon_top|main|news)$/', $item['home_panel']))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('not displayed at the front page');
+		$input .= '/> '.i18n::s('not displayed at the front page');
 
 		// one folded box for layout options
 		$content .= Skin::build_box(i18n::s('Contribution to the site front page'), $input, 'folder');
@@ -935,7 +958,7 @@ if($with_form) {
 		$label = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors'), 'basic');
 	else
 		$label = i18n::s('Editors');
-	if(isset($item['id']) && ($items = Members::list_editors_by_name_for_member('section:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
+	if(isset($item['id']) && ($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
 		$input =& Skin::build_list($items, 'comma');
 	else
 		$input = i18n::s('No editor has been assigned to this section.');
@@ -947,7 +970,7 @@ if($with_form) {
 
 	// readers
 	$label = i18n::s('Readers');
-	if(isset($item['id']) && ($items = Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 30, 'compact')))
+	if(isset($item['id']) && ($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 30, 'compact')))
 		$input =& Skin::build_list($items, 'comma');
 	else
 		$input = i18n::s('No reader has been assigned to this section.');
@@ -965,20 +988,20 @@ if($with_form) {
 		$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
 		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Anyone may read this section').BR;
+		$input .= '/> '.i18n::s('Anyone may read this section').BR;
 
 
 		// maybe a restricted page
 		$input .= '<input type="radio" name="active_set" value="R"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Access is restricted to authenticated members').BR;
+		$input .= '/> '.i18n::s('Access is restricted to authenticated members').BR;
 
 		// or a hidden page
 		$input .= '<input type="radio" name="active_set" value="N"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Access is restricted to associates and editors');
+		$input .= '/> '.i18n::s('Access is restricted to associates and editors');
 
 		$fields[] = array($label, $input);
 	}
@@ -988,11 +1011,11 @@ if($with_form) {
 	$input = '<input type="radio" name="locked" value="N"';
 	if(!isset($item['locked']) || ($item['locked'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('No - Contributions are accepted').' '
+	$input .= '/> '.i18n::s('No - Contributions are accepted').' '
 		.BR.'<input type="radio" name="locked" value="Y"';
 	if(isset($item['locked']) && ($item['locked'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Yes - Only associates and editors can modify content');
+	$input .= '/> '.i18n::s('Yes - Only associates and editors can modify content');
 	$fields[] = array($label, $input);
 
 	// the activation date
@@ -1030,7 +1053,7 @@ if($with_form) {
 	// the family
 	if(Surfer::is_empowered()) {
 		$label = i18n::s('Family');
-		$input = '<input type="text" name="family" size="50" value="'.encode_field(isset($item['family']) ? $item['family'] : '').'" maxlength="255"'.EOT;
+		$input = '<input type="text" name="family" size="50" value="'.encode_field(isset($item['family']) ? $item['family'] : '').'" maxlength="255" />';
 		$hint = i18n::s('Comes before the title; Used to categorized sections in forums');
 		$fields[] = array($label, $input, $hint);
 	}
@@ -1095,7 +1118,7 @@ if($with_form) {
 		$label = i18n::s('Change the overlay');
 		$input = '<select name="overlay_type">';
 		if($overlay_type) {
-			$input .= '<option value="">('.i18n::s('none').")</option>\n";
+			$input .= '<option value="none">('.i18n::s('none').")</option>\n";
 			$hint = i18n::s('If you change the overlay you may loose some data.');
 		} else {
 			$hint = i18n::s('No overlay has been selected yet.');
@@ -1131,7 +1154,9 @@ if($with_form) {
 		$input .= '</select>';
 		$fields[] = array($label, $input, $hint);
 
-	}
+	// remember the overlay type
+	} elseif(is_object($overlay))
+		$options .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'" />';
 
 	// add a folded box
 	if(count($fields)) {

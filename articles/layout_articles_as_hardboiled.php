@@ -103,7 +103,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 					$icon = $anchor->get_thumbnail_url();
 				}
 				if($icon)
-					$text .= '<a href="'.$context['url_to_root'].$url.'" title="'.i18n::s('View the page').'"><img src="'.$icon.'" class="left_image" alt=""'.EOT.'</a>';
+					$text .= '<a href="'.$context['url_to_root'].$url.'" title="'.i18n::s('View the page').'"><img src="'.$icon.'" class="left_image" alt="" /></a>';
 
 				$text .= $this->layout_newest($item, $anchor).'</div>'."\n";
 
@@ -213,7 +213,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 				// list up to three categories by title, if any
 				$anchors = array();
-				if($members = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+				if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 					foreach($members as $id => $attributes) {
 						if($this->layout_variant != 'category:'.$id)
 							$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'category');
@@ -342,7 +342,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$text .= ' ('.Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic').')';
 
 		// list up to three categories by title, if any
-		if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+		if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 			$text .= BR;
 			$first_category = TRUE;
 			foreach($items as $id => $attributes) {

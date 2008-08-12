@@ -150,18 +150,18 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.i18n::s('Please review the new page carefully and fix possible errors rapidly.').'</p>';
 
 		// get the new item
-		$section = Anchors::get('section:'.$id);
+		$section = Anchors::get('section:'.$_REQUEST['id']);
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
 		$menu = array_merge($menu, array($section->get_url() => i18n::s('View the section')));
 		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$id) => i18n::s('Add an image')));
+			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(preg_match('/\bwith_files\b/i', $section->item['options']) && Surfer::may_upload())
-			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$id) => i18n::s('Upload a file')));
+			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Upload a file')));
 		if(preg_match('/\bwith_links\b/i', $section->item['options']))
-			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('section:'.$id) => i18n::s('Add a link')));
+			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add a link')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -245,15 +245,15 @@ if($with_form) {
 	$input = '<input type="radio" name="active" value="Y" accesskey="v"';
 	if(!isset($item['active']) || ($item['active'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Anyone may read this section').' '
+	$input .= '/> '.i18n::s('Anyone may read this section').' '
 		.BR.'<input type="radio" name="active" value="R"';
 	if(isset($item['active']) && ($item['active'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Access is restricted to authenticated members').' '
+	$input .= '/> '.i18n::s('Access is restricted to authenticated members').' '
 		.BR.'<input type="radio" name="active" value="N"';
 	if(isset($item['active']) && ($item['active'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Access is restricted to me and associates');
+	$input .= '/> '.i18n::s('Access is restricted to me and associates');
 	$fields[] = array($label, $input);
 
 	// locked: Yes / No
@@ -261,11 +261,11 @@ if($with_form) {
 	$input = '<input type="radio" name="locked" value="N"';
 	if(!isset($item['locked']) || ($item['locked'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('No - Contributions are accepted').' '
+	$input .= '/> '.i18n::s('No - Contributions are accepted').' '
 		.BR.'<input type="radio" name="locked" value="Y"';
 	if(isset($item['locked']) && ($item['locked'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Yes - Only me and associates can add or modify content');
+	$input .= '/> '.i18n::s('Yes - Only me and associates can add or modify content');
 	$fields[] = array($label, $input);
 
 	// actually build the form

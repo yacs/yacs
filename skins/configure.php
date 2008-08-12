@@ -219,7 +219,7 @@ elseif(!Surfer::is_associate()) {
 
 	// site name
 	$label = i18n::s('Site name');
-	$input = '<input type="text" name="site_name" size="50" value="'.encode_field($context['site_name']).'" maxlength="255"'.EOT;
+	$input = '<input type="text" name="site_name" size="50" value="'.encode_field($context['site_name']).'" maxlength="255" />';
 	$hint = i18n::s('Short and meaningful title, such as "My little big server", used almost everywhere, and appended to the title of every page of this site');
 	$fields[] = array($label, $input, $hint);
 
@@ -227,7 +227,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['site_slogan']))
 		$context['site_slogan'] = '-- just do it. and do it right. and make it free. and let it be. and... (your turn)';
 	$label = i18n::s('Site slogan');
-	$input = '<input type="text" name="site_slogan" size="50" value="'.encode_field($context['site_slogan']).'" maxlength="255"'.EOT;
+	$input = '<input type="text" name="site_slogan" size="50" value="'.encode_field($context['site_slogan']).'" maxlength="255" />';
 	$hint = i18n::s('This tag line will be repeated at a number of pages');
 	$fields[] = array($label, $input, $hint);
 
@@ -241,7 +241,7 @@ elseif(!Surfer::is_associate()) {
 
 	// keywords
 	$label = i18n::s('Keywords');
-	$input = '<input type="text" name="site_keywords" size="40" value="'.encode_field(isset($context['site_keywords']) ? $context['site_keywords'] : '').'" maxlength="255"'.EOT;
+	$input = '<input type="text" name="site_keywords" size="40" value="'.encode_field(isset($context['site_keywords']) ? $context['site_keywords'] : '').'" maxlength="255" />';
 	$hint = i18n::s('Keywords separated with commas, inserted in the "keyword" meta field for search engines');
 	$fields[] = array($label, $input, $hint);
 
@@ -249,20 +249,20 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['site_email']) || !$context['site_email'])
 		$context['site_email'] = 'unknown_webmaster@acme.heaven';
 	$label = i18n::s('Contact mail address');
-	$input = '<input type="text" name="site_email" size="40" value="'.encode_field($context['site_email']).'" maxlength="255"'.EOT;
+	$input = '<input type="text" name="site_email" size="40" value="'.encode_field($context['site_email']).'" maxlength="255" />';
 	$hint = sprintf(i18n::s('May be subject to spam attacks; featured in the %s page and in RSS feeds, at least'),
 		Skin::build_link(Articles::get_url('about'), i18n::s('about'), 'shortcut'));
 	$fields[] = array($label, $input, $hint);
 
 	// copyright
 	$label = i18n::s('Copyright');
-	$input = '<input type="text" name="site_copyright" size="50" value="'.encode_field(isset($context['site_copyright']) ? $context['site_copyright'] : '').'" maxlength="255"'.EOT;
+	$input = '<input type="text" name="site_copyright" size="50" value="'.encode_field(isset($context['site_copyright']) ? $context['site_copyright'] : '').'" maxlength="255" />';
 	$hint = i18n::s('Example: "2002-2008, Acme incorporated"; inserted in the "copyright" meta field');
 	$fields[] = array($label, $input, $hint);
 
 	// site owner
 	$label = i18n::s('Site owner');
-	$input = '<input type="text" name="site_owner" size="50" value="'.encode_field(isset($context['site_owner']) ? $context['site_owner'] : '').'" maxlength="255"'.EOT;
+	$input = '<input type="text" name="site_owner" size="50" value="'.encode_field(isset($context['site_owner']) ? $context['site_owner'] : '').'" maxlength="255" />';
 	$hint = sprintf(i18n::s('The name of the site owner, e.g. "ACME and company"; Featured in the %s page and in ATOM feeds, at least'),
 		Skin::build_link(Articles::get_url('about'), i18n::s('about'), 'shortcut'));
 	$fields[] = array($label, $input, $hint);
@@ -271,13 +271,13 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['site_revisit_after']) || !$context['site_revisit_after'])
 		$context['site_revisit_after'] = 7;
 	$label = i18n::s('Usual delay between updates');
-	$input = '<input type="text" name="site_revisit_after" size="4" value="'.encode_field($context['site_revisit_after']).'" maxlength="4"'.EOT.' '.i18n::s('days');
+	$input = '<input type="text" name="site_revisit_after" size="4" value="'.encode_field($context['site_revisit_after']).'" maxlength="4" /> '.i18n::s('days');
 	$hint = i18n::s('Please be realistic here. Used to flag new and updated items. Also featured in "revisit-after" meta field.');
 	$fields[] = array($label, $input, $hint);
 
 	// position
 	$label = i18n::s('Geographical position');
-	$input = '<input type="text" name="site_position" size="40" value="'.encode_field(isset($context['site_position']) ? $context['site_position'] : '').'" maxlength="255"'.EOT;
+	$input = '<input type="text" name="site_position" size="40" value="'.encode_field(isset($context['site_position']) ? $context['site_position'] : '').'" maxlength="255" />';
 	$hint = sprintf(i18n::s('Latitude and longitude, separated by a comma, for example: 47.98481,-71.42124, featured as meta fields "geo.position" and "ICBM" at the front page. See %s or %s'),
 		Skin::build_link('http://geotags.com/', i18n::s('GeoTags Search Engine'), 'external'),
 		Skin::build_link('http://www.travelgis.com/geocode/Default.aspx', i18n::s('Geocoding Service'), 'external'));
@@ -291,7 +291,7 @@ elseif(!Surfer::is_associate()) {
 
 	// icon
 	$label = i18n::s('Icon');
-	$input = '<input type="text" name="site_icon" size="40" value="'.encode_field(isset($context['site_icon']) ? $context['site_icon'] : '').'" maxlength="255"'.EOT;
+	$input = '<input type="text" name="site_icon" size="40" value="'.encode_field(isset($context['site_icon']) ? $context['site_icon'] : '').'" maxlength="255" />';
 	$hint = i18n::s('The web address of the little image representing your site in favorites or bookmarks. Used to supplement the default "favicon.ico", if any');
 	$fields[] = array($label, $input, $hint);
 
@@ -314,7 +314,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['site_navigation_maximum']) || !$context['site_navigation_maximum'])
 		$context['site_navigation_maximum'] = 7;
 	$label = i18n::s('Maximum number of navigation boxes');
-	$input = '<input type="text" name="site_navigation_maximum" size="2" value="'.encode_field($context['site_navigation_maximum']).'" maxlength="2"'.EOT;
+	$input = '<input type="text" name="site_navigation_maximum" size="2" value="'.encode_field($context['site_navigation_maximum']).'" maxlength="2" />';
 	$hint = i18n::s('Navigation boxes are displayed on page side, at all pages of the site.');
 	$general .= '<p>'.$label.' '.$input.BR.'<span class="details">'.$hint."</span></p>\n";
 
@@ -322,7 +322,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['site_extra_maximum']) || !$context['site_extra_maximum'])
 		$context['site_extra_maximum'] = 7;
 	$label = i18n::s('Maximum number of extra boxes');
-	$input = '<input type="text" name="site_extra_maximum" size="2" value="'.encode_field($context['site_extra_maximum']).'" maxlength="2"'.EOT;
+	$input = '<input type="text" name="site_extra_maximum" size="2" value="'.encode_field($context['site_extra_maximum']).'" maxlength="2" />';
 	$hint = i18n::s('Extra boxes are displayed on the side of pages to which they have been associated.');
 	$general .= '<p>'.$label.' '.$input.BR.'<span class="details">'.$hint."</span></p>\n";
 
@@ -331,11 +331,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="with_author_information" value="N"';
 	if(!isset($context['with_author_information']) || ($context['with_author_information'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not display this item.');
+	$input .= '/> '.i18n::s('Do not display this item.');
 	$input .= BR.'<input type="radio" name="with_author_information" value="Y"';
 	if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Add links to author profiles in lists of articles');
+	$input .= '/> '.i18n::s('Add links to author profiles in lists of articles');
 	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
 
 	// feed
@@ -343,11 +343,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="skins_general_without_feed" value="N"';
 	if(!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('List RSS feeds in sections, categories, articles, and user profiles');
+	$input .= '/> '.i18n::s('List RSS feeds in sections, categories, articles, and user profiles');
 	$input .= BR.'<input type="radio" name="skins_general_without_feed" value="Y"';
 	if(isset($context['skins_general_without_feed']) && ($context['skins_general_without_feed'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not display this item.');
+	$input .= '/> '.i18n::s('Do not display this item.');
 	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
 
 	// bookmarklets
@@ -355,11 +355,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="pages_without_bookmarklets" value="N"';
 	if(!isset($context['pages_without_bookmarklets']) || ($context['pages_without_bookmarklets'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Add Javascript bookmarklets to enable further contributions');
+	$input .= '/> '.i18n::s('Add Javascript bookmarklets to enable further contributions');
 	$input .= BR.'<input type="radio" name="pages_without_bookmarklets" value="Y"';
 	if(isset($context['pages_without_bookmarklets']) && ($context['pages_without_bookmarklets'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not display this item.');
+	$input .= '/> '.i18n::s('Do not display this item.');
 	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
 
 	// visited pages
@@ -367,11 +367,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="pages_without_history" value="N"';
 	if(!isset($context['pages_without_history']) || ($context['pages_without_history'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('List pages visited during a session');
+	$input .= '/> '.i18n::s('List pages visited during a session');
 	$input .= BR.'<input type="radio" name="pages_without_history" value="Y"';
 	if(isset($context['pages_without_history']) && ($context['pages_without_history'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not display this item.');
+	$input .= '/> '.i18n::s('Do not display this item.');
 	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
 
 	// with referrals
@@ -379,23 +379,23 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="with_referrals" value="N"';
 	if(!isset($context['with_referrals']) || ($context['with_referrals'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('only to associates');
+	$input .= '/> '.i18n::s('only to associates');
 	$input .= BR.'<input type="radio" name="with_referrals" value="Y"';
 	if(isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('to everybody');
+	$input .= '/> '.i18n::s('to everybody');
 	$general .= '<p>'.$label.BR.$input."</p>\n";
 
 	// with details
 	$label = i18n::s('Level of details');
 	$input = '<input type="radio" name="skins_with_details" value="N"';
-	if(!isset($context['skins_with_details']) || ($context['skins_with_details'] != 'Y'))
+	if($context['skins_with_details'] != 'Y')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Compute page elements dynamically');
+	$input .= '/> '.i18n::s('Compute page elements dynamically');
 	$input .= BR.'<input type="radio" name="skins_with_details" value="Y"';
-	if(isset($context['skins_with_details']) && ($context['skins_with_details'] == 'Y'))
+	if($context['skins_with_details'] == 'Y')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Benefit from extended computing power to provide additional dynamic details');
+	$input .= '/> '.i18n::s('Benefit from extended computing power to provide additional dynamic details');
 	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
 
 	//
@@ -408,11 +408,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="content_without_details" value="N"';
 	if(!isset($context['content_without_details']) || ($context['content_without_details'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Display detailed information (author, date, ...) on all pages');
+	$input .= '/> '.i18n::s('Display detailed information (author, date, ...) on all pages');
 	$input .= BR.'<input type="radio" name="content_without_details" value="Y"';
 	if(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Details are displayed only in sections with option \'with_details\'');
+	$input .= '/> '.i18n::s('Details are displayed only in sections with option \'with_details\'');
 	$articles .= '<p>'.$label.BR.$input."</p>\n";
 
 	// export tools gobal control
@@ -420,11 +420,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="with_export_tools" value="N"';
 	if(!isset($context['with_export_tools']) || ($context['with_export_tools'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Export tools are displayed only in sections with option \'with_export_tools\'');
+	$input .= '/> '.i18n::s('Export tools are displayed only in sections with option \'with_export_tools\'');
 	$input .= BR.'<input type="radio" name="with_export_tools" value="Y"';
 	if(isset($context['with_export_tools']) && ($context['with_export_tools'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Display export tools on all pages');
+	$input .= '/> '.i18n::s('Display export tools on all pages');
 	$articles .= '<p>'.$label.BR.$input."</p>\n";
 
 	// export tools visibility
@@ -432,11 +432,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="with_anonymous_export_tools" value="N"';
 	if(!isset($context['with_anonymous_export_tools']) || ($context['with_anonymous_export_tools'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Export tools are shown only to members');
+	$input .= '/> '.i18n::s('Export tools are shown only to members');
 	$input .= BR.'<input type="radio" name="with_anonymous_export_tools" value="Y"';
 	if(isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Allow anonymous surfers to use export tools (recommended on intranets)');
+	$input .= '/> '.i18n::s('Allow anonymous surfers to use export tools (recommended on intranets)');
 	$articles .= '<p>'.$label.':'.BR.$input."</p>\n";
 
 	//
@@ -448,7 +448,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['standard_width']) || !$context['standard_width'])
 		$context['standard_width'] = 640;
 	$label = i18n::s('Standard width');
-	$input = '<input type="text" name="standard_width" size="5" value="'.encode_field($context['standard_width']).'" maxlength="5"'.EOT;
+	$input = '<input type="text" name="standard_width" size="5" value="'.encode_field($context['standard_width']).'" maxlength="5" />';
 	$hint = i18n::s('The maximum width for uploaded photos');
 	$fields[] = array($label, $input, $hint);
 
@@ -456,7 +456,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['standard_height']) || !$context['standard_height'])
 		$context['standard_height'] = 640;
 	$label = i18n::s('Standard height');
-	$input = '<input type="text" name="standard_height" size="5" value="'.encode_field($context['standard_height']).'" maxlength="5"'.EOT;
+	$input = '<input type="text" name="standard_height" size="5" value="'.encode_field($context['standard_height']).'" maxlength="5" />';
 	$hint = i18n::s('The maximum height for uploaded photos');
 	$fields[] = array($label, $input, $hint);
 
@@ -464,7 +464,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['avatar_width']) || !$context['avatar_width'])
 		$context['avatar_width'] = 80;
 	$label = i18n::s('Avatar width');
-	$input = '<input type="text" name="avatar_width" size="5" value="'.encode_field($context['avatar_width']).'" maxlength="5"'.EOT;
+	$input = '<input type="text" name="avatar_width" size="5" value="'.encode_field($context['avatar_width']).'" maxlength="5" />';
 	$hint = i18n::s('The maximum number of pixels for the width of avatars');
 	$fields[] = array($label, $input, $hint);
 
@@ -472,7 +472,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['avatar_height']) || !$context['avatar_height'])
 		$context['avatar_height'] = 80;
 	$label = i18n::s('Avatar height');
-	$input = '<input type="text" name="avatar_height" size="5" value="'.encode_field($context['avatar_height']).'" maxlength="5"'.EOT;
+	$input = '<input type="text" name="avatar_height" size="5" value="'.encode_field($context['avatar_height']).'" maxlength="5" />';
 	$hint = i18n::s('The maximum number of pixels for the height of avatars');
 	$fields[] = array($label, $input, $hint);
 
@@ -480,7 +480,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['thumbnail_threshold']) || !$context['thumbnail_threshold'])
 		$context['thumbnail_threshold'] = 20480;
 	$label = i18n::s('Thumbnail threshold');
-	$input = '<input type="text" name="thumbnail_threshold" size="10" value="'.encode_field($context['thumbnail_threshold']).'" maxlength="10"'.EOT;
+	$input = '<input type="text" name="thumbnail_threshold" size="10" value="'.encode_field($context['thumbnail_threshold']).'" maxlength="10" />';
 	$hint = i18n::s('The number of bytes to trigger the creation of a thumbnail');
 	$fields[] = array($label, $input, $hint);
 
@@ -488,7 +488,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['thumbnail_width']) || !$context['thumbnail_width'])
 		$context['thumbnail_width'] = 60;
 	$label = i18n::s('Thumbnail width');
-	$input = '<input type="text" name="thumbnail_width" size="5" value="'.encode_field($context['thumbnail_width']).'" maxlength="5"'.EOT;
+	$input = '<input type="text" name="thumbnail_width" size="5" value="'.encode_field($context['thumbnail_width']).'" maxlength="5" />';
 	$hint = i18n::s('The maximum number of pixels for the width of thumbnails');
 	$fields[] = array($label, $input, $hint);
 
@@ -496,7 +496,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['thumbnail_height']) || !$context['thumbnail_height'])
 		$context['thumbnail_height'] = 60;
 	$label = i18n::s('Thumbnail height');
-	$input = '<input type="text" name="thumbnail_height" size="5" value="'.encode_field($context['thumbnail_height']).'" maxlength="5"'.EOT;
+	$input = '<input type="text" name="thumbnail_height" size="5" value="'.encode_field($context['thumbnail_height']).'" maxlength="5" />';
 	$hint = i18n::s('The maximum number of pixels for the height of thumbnails');
 	$fields[] = array($label, $input, $hint);
 
@@ -505,11 +505,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="thumbnails_without_caption" value="N"';
 	if(!isset($context['thumbnails_without_caption']) || ($context['thumbnails_without_caption'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Use titles as captions below thumbnail images');
+	$input .= '/> '.i18n::s('Use titles as captions below thumbnail images');
 	$input .= BR.'<input type="radio" name="thumbnails_without_caption" value="Y"';
 	if(isset($context['thumbnails_without_caption']) && ($context['thumbnails_without_caption'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Only provide a hovering title, but no caption');
+	$input .= '/> '.i18n::s('Only provide a hovering title, but no caption');
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -526,11 +526,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="pages_without_freemind" value="N"';
 	if(!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Content of sections can be downloaded as Freemind maps');
+	$input .= '/> '.i18n::s('Content of sections can be downloaded as Freemind maps');
 	$input .= BR.'<input type="radio" name="pages_without_freemind" value="Y"';
 	if(isset($context['pages_without_freemind']) && ($context['pages_without_freemind'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not offer links to get Freemind maps');
+	$input .= '/> '.i18n::s('Do not offer links to get Freemind maps');
 	$fields[] = array($label, $input);
 
 	// freemind canvas
@@ -539,8 +539,8 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['skins_freemind_canvas_width']))
 		$context['skins_freemind_canvas_width'] = '100%';
 	$label = i18n::s('Canvas');
-	$input = sprintf(i18n::s('Width: %s'), '<input type="text" name="skins_freemind_canvas_width" size="8" value="'.encode_field($context['skins_freemind_canvas_width']).'" maxlength="10"'.EOT)
-		.' '.sprintf(i18n::s('Height: %s'), '<input type="text" name="skins_freemind_canvas_height" size="8" value="'.encode_field($context['skins_freemind_canvas_height']).'" maxlength="10"'.EOT);
+	$input = sprintf(i18n::s('Width: %s'), '<input type="text" name="skins_freemind_canvas_width" size="8" value="'.encode_field($context['skins_freemind_canvas_width']).'" maxlength="10" />')
+		.' '.sprintf(i18n::s('Height: %s'), '<input type="text" name="skins_freemind_canvas_height" size="8" value="'.encode_field($context['skins_freemind_canvas_height']).'" maxlength="10" />');
 	$hint = i18n::s('Width and height of Flash or Java canvas used for interactive browsing.');
 	$fields[] = array($label, $input, $hint);
 
@@ -552,9 +552,9 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['skins_freemind_edge_thickness']))
 		$context['skins_freemind_edge_thickness'] = '';
 	$label = i18n::s('Edges');
-	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_edge_color" size="8" value="'.encode_field($context['skins_freemind_edge_color']).'" maxlength="8"'.EOT)
-		.' '.sprintf(i18n::s('Thickness: %s'), '<input type="text" name="skins_freemind_edge_thickness" size="8" value="'.encode_field($context['skins_freemind_edge_thickness']).'" maxlength="8"'.EOT)
-		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_edge_style" size="12" value="'.encode_field($context['skins_freemind_edge_style']).'" maxlength="12"'.EOT);
+	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_edge_color" size="8" value="'.encode_field($context['skins_freemind_edge_color']).'" maxlength="8" />')
+		.' '.sprintf(i18n::s('Thickness: %s'), '<input type="text" name="skins_freemind_edge_thickness" size="8" value="'.encode_field($context['skins_freemind_edge_thickness']).'" maxlength="8" />')
+		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_edge_style" size="12" value="'.encode_field($context['skins_freemind_edge_style']).'" maxlength="12" />');
 	$hint = i18n::s('Use HTML codes for colors, numbers or "thin" for thickness, and "bezier" or "linear" for style.');
 	$fields[] = array($label, $input, $hint);
 
@@ -564,8 +564,8 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['skins_freemind_main_color']))
 		$context['skins_freemind_main_color'] = '';
 	$label = i18n::s('Main node');
-	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_main_color" size="8" value="'.encode_field($context['skins_freemind_main_color']).'" maxlength="8"'.EOT)
-		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_main_bgcolor" size="8" value="'.encode_field($context['skins_freemind_main_bgcolor']).'" maxlength="8"'.EOT);
+	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_main_color" size="8" value="'.encode_field($context['skins_freemind_main_color']).'" maxlength="8" />')
+		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_main_bgcolor" size="8" value="'.encode_field($context['skins_freemind_main_bgcolor']).'" maxlength="8" />');
 	$hint = i18n::s('Use HTML codes for colors.');
 	$fields[] = array($label, $input, $hint);
 
@@ -577,9 +577,9 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['skins_freemind_section_style']))
 		$context['skins_freemind_section_style'] = '';
 	$label = i18n::s('Sections');
-	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_section_color" size="8" value="'.encode_field($context['skins_freemind_section_color']).'" maxlength="8"'.EOT)
-		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_section_bgcolor" size="8" value="'.encode_field($context['skins_freemind_section_bgcolor']).'" maxlength="8"'.EOT)
-		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_section_style" size="8" value="'.encode_field($context['skins_freemind_section_style']).'" maxlength="8"'.EOT);
+	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_section_color" size="8" value="'.encode_field($context['skins_freemind_section_color']).'" maxlength="8" />')
+		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_section_bgcolor" size="8" value="'.encode_field($context['skins_freemind_section_bgcolor']).'" maxlength="8" />')
+		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_section_style" size="8" value="'.encode_field($context['skins_freemind_section_style']).'" maxlength="8" />');
 	$hint = i18n::s('Use HTML codes for colors, and "fork" or "bubble" for style.');
 	$fields[] = array($label, $input, $hint);
 
@@ -591,9 +591,9 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['skins_freemind_article_style']))
 		$context['skins_freemind_article_style'] = '';
 	$label = i18n::s('Pages');
-	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_article_color" size="8" value="'.encode_field($context['skins_freemind_article_color']).'" maxlength="8"'.EOT)
-		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_article_bgcolor" size="8" value="'.encode_field($context['skins_freemind_article_bgcolor']).'" maxlength="8"'.EOT)
-		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_article_style" size="8" value="'.encode_field($context['skins_freemind_article_style']).'" maxlength="8"'.EOT);
+	$input = sprintf(i18n::s('Color: %s'), '<input type="text" name="skins_freemind_article_color" size="8" value="'.encode_field($context['skins_freemind_article_color']).'" maxlength="8" />')
+		.' '.sprintf(i18n::s('Background color: %s'), '<input type="text" name="skins_freemind_article_bgcolor" size="8" value="'.encode_field($context['skins_freemind_article_bgcolor']).'" maxlength="8" />')
+		.' '.sprintf(i18n::s('Style: %s'), '<input type="text" name="skins_freemind_article_style" size="8" value="'.encode_field($context['skins_freemind_article_style']).'" maxlength="8" />');
 	$hint = i18n::s('Use HTML codes for colors, and "fork" or "bubble" for style.');
 	$fields[] = array($label, $input, $hint);
 

@@ -91,7 +91,7 @@ Class Layout_dates_as_family extends Layout_interface {
 			// also use a clickable thumbnail, if any
 			$thumbnail = DECORATED_IMG;
 			if($item['thumbnail_url'])
-				$thumbnail = Skin::build_link($url, '<img src="'.$item['thumbnail_url'].'" alt="" title="'.encode_field($hover).'" class="left_image"'.EOT, 'basic', $hover);
+				$thumbnail = Skin::build_link($url, '<img src="'.$item['thumbnail_url'].'" alt="" title="'.encode_field($hover).'" class="left_image" />', 'basic', $hover);
 
 			// board introduction
 			if($item['introduction'])

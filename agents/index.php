@@ -163,14 +163,14 @@ else {
 		if(@count($browsers)) {
 			$icons['bot']	= '';
 			$icons['HP-UX'] = '';
-			$icons['Konqueror'] = '<img src="../skins/images/user-agents/konqueror.gif" alt=""'.EOT;
-			$icons['Lynx']	= '<img src="../skins/images/user-agents/lynx.gif" alt=""'.EOT;
-			$icons['Mozilla']	= '<img src="../skins/images/user-agents/mozilla.gif" alt=""'.EOT;
-			$icons['MSIE']	= '<img src="../skins/images/user-agents/explorer.gif" alt=""'.EOT;
-			$icons['Netscape']	= '<img src="../skins/images/user-agents/netscape.gif" alt=""'.EOT;
-			$icons['Opera'] = '<img src="../skins/images/user-agents/opera.gif" alt=""'.EOT;
-			$icons['Other'] = '<img src="../skins/images/user-agents/question.gif" alt=""'.EOT;
-			$icons['WebTV'] = '<img src="../skins/images/user-agents/webtv.gif" alt=""'.EOT;
+			$icons['Konqueror'] = '<img src="../skins/images/user-agents/konqueror.gif" alt="" />';
+			$icons['Lynx']	= '<img src="../skins/images/user-agents/lynx.gif" alt="" />';
+			$icons['Mozilla']	= '<img src="../skins/images/user-agents/mozilla.gif" alt="" />';
+			$icons['MSIE']	= '<img src="../skins/images/user-agents/explorer.gif" alt="" />';
+			$icons['Netscape']	= '<img src="../skins/images/user-agents/netscape.gif" alt="" />';
+			$icons['Opera'] = '<img src="../skins/images/user-agents/opera.gif" alt="" />';
+			$icons['Other'] = '<img src="../skins/images/user-agents/question.gif" alt="" />';
+			$icons['WebTV'] = '<img src="../skins/images/user-agents/webtv.gif" alt="" />';
 			$agents .= Skin::table_prefix('grid');
 			$count = 1;
 			foreach($browsers as $name => $value)
@@ -183,16 +183,16 @@ else {
 		$agents .= Skin::build_block(i18n::s('Operating systems'), 'header2');
 
 		if(@count($os)) {
-			$icons['AIX']	= '<img src="../skins/images/user-agents/aix.gif" alt=""'.EOT;
-			$icons['BeOS']	= '<img src="../skins/images/user-agents/be.gif" alt=""'.EOT;
-			$icons['FreeBSD']	= '<img src="../skins/images/user-agents/bsd.gif" alt=""'.EOT;
-			$icons['IRIX']	= '<img src="../skins/images/user-agents/irix.gif" alt=""'.EOT;
-			$icons['Linux'] = '<img src="../skins/images/user-agents/linux.gif" alt=""'.EOT;
-			$icons['Mac']	= '<img src="../skins/images/user-agents/mac.gif" alt=""'.EOT;
-			$icons['Other'] = '<img src="../skins/images/user-agents/question.gif" alt=""'.EOT;
-			$icons['OS/2']	= '<img src="../skins/images/user-agents/os2.gif" alt=""'.EOT;
-			$icons['SunOS'] = '<img src="../skins/images/user-agents/sun.gif" alt=""'.EOT;
-			$icons['Windows']	= '<img src="../skins/images/user-agents/windows.gif" alt=""'.EOT;
+			$icons['AIX']	= '<img src="../skins/images/user-agents/aix.gif" alt="" />';
+			$icons['BeOS']	= '<img src="../skins/images/user-agents/be.gif" alt="" />';
+			$icons['FreeBSD']	= '<img src="../skins/images/user-agents/bsd.gif" alt="" />';
+			$icons['IRIX']	= '<img src="../skins/images/user-agents/irix.gif" alt="" />';
+			$icons['Linux'] = '<img src="../skins/images/user-agents/linux.gif" alt="" />';
+			$icons['Mac']	= '<img src="../skins/images/user-agents/mac.gif" alt="" />';
+			$icons['Other'] = '<img src="../skins/images/user-agents/question.gif" alt="" />';
+			$icons['OS/2']	= '<img src="../skins/images/user-agents/os2.gif" alt="" />';
+			$icons['SunOS'] = '<img src="../skins/images/user-agents/sun.gif" alt="" />';
+			$icons['Windows']	= '<img src="../skins/images/user-agents/windows.gif" alt="" />';
 			$agents .= Skin::table_prefix('grid');
 			$count = 1;
 			foreach($os as $name => $value)

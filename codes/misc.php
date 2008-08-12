@@ -10,7 +10,6 @@
  * - ----... - line break
  * - &#91;---] or &#91;___] - horizontal rule
  * - &#91;new] - something new
- * - &#91;updated] - something updated
  * - &#91;popular] - people love it
  * - &#91;be] - country flag
  * - &#91;ca] - country flag
@@ -72,9 +71,9 @@ $context['text'] .= '[title]'.i18n::s('Implicit formatting').'[/title]'
 	.'----'."\n"
 	."\n"
 	.'- '.i18n::s('http://www.cisco.com')."\n"
-	.' - '.i18n::s('one bulleted item')."\n"
+	.'- '.i18n::s('one bulleted item')."\n"
 	."\n"
-	.' - '.i18n::s('another one')."\n"
+	.'- '.i18n::s('another one')."\n"
 	.'- '.i18n::s('www.php.net')."\n"
 	."\n"
 	.'* '.i18n::s('foo.bar@foo.com')."\n"
@@ -91,9 +90,9 @@ $context['text'] .= '[title]'.i18n::s('Implicit formatting').'[/title]'
 	.'----'."\n"
 	."\n"
 	.'- '.i18n::s('http://www.cisco.com')."\n"
-	.' - '.i18n::s('one bulleted item')."\n"
+	.'- '.i18n::s('one bulleted item')."\n"
 	."\n"
-	.' - '.i18n::s('another one')."\n"
+	.'- '.i18n::s('another one')."\n"
 	.'- '.i18n::s('www.php.net')."\n"
 	."\n"
 	.'* '.i18n::s('foo.bar@foo.com')."\n"
@@ -134,14 +133,6 @@ $context['text'] .= '[title]'.i18n::s('New').' [escape]...[new]...[/escape][/tit
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Our newsletter has been published!').' [new][/escape]</td>'
 	.'<td>'.i18n::s('Our newsletter has been published!').' [new]</td></tr>'
-	.Skin::table_suffix();
-
-// [updated]
-$context['text'] .= '[title]'.i18n::s('Updated').' [escape]...[updated]...[/escape][/title]'
-	.Skin::table_prefix('100%')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape]'.i18n::s('Our newsletter has been corrected!').' [updated][/escape]</td>'
-	.'<td>'.i18n::s('Our newsletter has been corrected!').' [updated]</td></tr>'
 	.Skin::table_suffix();
 
 // [popular]

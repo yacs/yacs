@@ -169,7 +169,7 @@ Class Section extends Anchor {
 
 			// command to view the thread
 			case 'thread_command':
-				return i18n::s('Back to main page');
+				return i18n::s('View the page');
 
 			// page title to modify a comment
 			case 'edit_title':
@@ -1453,7 +1453,7 @@ Class Section extends Anchor {
 
 				// autorized users
 				$restricted = NULL;
-				if(($anchor->get_active() == 'N') && ($editors = Members::list_anchors_for_member($containers))) {
+				if(($anchor->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($containers))) {
 					foreach($editors as $editor)
 						if(strpos($editor, 'user:') === 0)
 							$restricted[] = substr($editor, strlen('user:'));

@@ -112,7 +112,7 @@ else
 
 // the title of the page
 if(isset($item['title']))
-	$context['page_title'] = sprintf(i18n::s('Edit: %s'), $item['title']);
+	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Edit'), $item['title']);
 else
 	$context['page_title'] = i18n::s('Add an action');
 
@@ -209,7 +209,7 @@ if(Surfer::is_crawler()) {
 		if(($to = $anchor->get_value('email')) && preg_match('/.+@.+/', $to)) {
 
 			// message subject
-			$subject = sprintf(i18n::s('New to-do: %s'), strip_tags($_REQUEST['title']));
+			$subject = sprintf(i18n::s('New action: %s'), strip_tags($_REQUEST['title']));
 
 			// message body
 			$message = sprintf(i18n::s("The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.\n\nSender: %s\n\n%s\n\n%s\n\n"), Surfer::get_name(), strip_tags(preg_replace('/<br *\/>/i', "\n", Codes::beautify($_REQUEST['description']))), $context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']));
@@ -237,7 +237,7 @@ if(Surfer::is_crawler()) {
 		Actions::clear($_REQUEST);
 
 		// forward to the updated anchor page
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#actions');
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].Actions::get_url($item['id']));
 	}
 
 // display the form on GET
@@ -308,15 +308,15 @@ if($with_form) {
 	$input = '<input type="radio" name="status" value="O"';
 	if(($item['status'] == 'O') || !$item['status'])
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('On-going').' ';
+	$input .= '/> '.i18n::s('On-going').' ';
 	$input .= '<input type="radio" name="status" value="C"';
 	if($item['status'] == 'C')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Completed').' ';
+	$input .= '/> '.i18n::s('Completed').' ';
 	$input .= '<input type="radio" name="status" value="R"';
 	if($item['status'] == 'R')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Rejected')."\n";
+	$input .= '/> '.i18n::s('Rejected')."\n";
 	$fields[] = array($label, $input);
 
 	// build the form

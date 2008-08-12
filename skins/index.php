@@ -214,7 +214,7 @@ else {
 			}
 
 			// display a clickable image
-			$img = '<img src="'.$context['url_to_root'].$id.'/'.$attributes['thumbnail'].'" alt="" title="'.encode_field($label).'"'.EOT;
+			$img = '<img src="'.$context['url_to_root'].$id.'/'.$attributes['thumbnail'].'" alt="" title="'.encode_field($label).'" />';
 			$text .= BR.Skin::build_link($link, $img);
 		}
 

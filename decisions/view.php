@@ -145,7 +145,7 @@ if(!isset($item['id'])) {
 
 		// a meta link to prefetch the next page
 		if(isset($data[2]) && $data[2])
-			$context['page_header'] .= "\n".'<link rel="next" href="'.$context['url_to_root'].$data[2].'" title="'.encode_field($data[3]).'"'.EOT;
+			$context['page_header'] .= "\n".'<link rel="next" href="'.$context['url_to_root'].$data[2].'" title="'.encode_field($data[3]).'" />';
 
 	}
 

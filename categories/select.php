@@ -105,7 +105,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= $anchor->get_prefix();
 
 	// the current list of linked categories
-	if(($categories = Members::list_categories_by_title_for_member($member, 0, CATEGORIES_LIST_SIZE, 'raw')) && count($categories)) {
+	if(($categories =& Members::list_categories_by_title_for_member($member, 0, CATEGORIES_LIST_SIZE, 'raw')) && count($categories)) {
 
 		// display attached categories with unlink buttons
 		$context['text'] .= '<p>'.i18n::s('All categories that have been associated to this page:').'</p>';

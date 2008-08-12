@@ -118,7 +118,7 @@ Class Comments {
 			return TRUE;
 
 		// teasers are activated
-		if(!Surfer::is_logged() && (!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y')))
+		if(Surfer::is_teased())
 			return TRUE;
 
 		// the default is to not allow for new comments
@@ -200,7 +200,7 @@ Class Comments {
 			return NULL;
 
 		// request the database only in hi-fi mode
-		if($optional && (!isset($context['skins_with_details']) || ($context['skins_with_details'] != 'Y')))
+		if($optional && ($context['skins_with_details'] != 'Y'))
 			return NULL;
 
 		// profiling mode
@@ -371,7 +371,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/images/comments/attention.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('ATTENTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt=""'.EOT.' ');
+					define('ATTENTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
 					define('ATTENTION_IMG', '');
 			}
@@ -386,7 +386,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/images/comments/done.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('DONE_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt=""'.EOT.' ');
+					define('DONE_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
 					define('DONE_IMG', '');
 			}
@@ -402,7 +402,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/images/comments/idea.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('IDEA_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt=""'.EOT.' ');
+					define('IDEA_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
 					define('IDEA_IMG', '');
 			}
@@ -417,7 +417,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/images/comments/information.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('INFORMATION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt=""'.EOT.' ');
+					define('INFORMATION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
 					define('INFORMATION_IMG', '');
 			}
@@ -432,7 +432,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/images/comments/question.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('QUESTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt=""'.EOT.' ');
+					define('QUESTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
 					define('QUESTION_IMG', '');
 			}
@@ -448,7 +448,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/images/comments/thumbs_down.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('THUMBS_DOWN_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt=""'.EOT.' ');
+					define('THUMBS_DOWN_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
 					define('THUMBS_DOWN_IMG', '');
 			}
@@ -464,7 +464,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/images/comments/thumbs_up.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('THUMBS_UP_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt=""'.EOT.' ');
+					define('THUMBS_UP_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
 					define('THUMBS_UP_IMG', '');
 			}
@@ -479,7 +479,7 @@ Class Comments {
 				// else use default image file
 				$file = 'skins/images/comments/warning.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('WARNING_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt=""'.EOT.' ');
+					define('WARNING_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
 					define('WARNING_IMG', '');
 			}
@@ -505,7 +505,7 @@ Class Comments {
 		// layout is defined in anchor
 		} elseif(is_object($anchor) && $anchor->has_layout('boxesandarrows')) {
 			include_once '../comments/layout_comments_as_boxesandarrows.php';
-			$layout =& new Layout_comments_as_daily();
+			$layout =& new Layout_comments_as_boxesandarrows();
 
 		} elseif(is_object($anchor) && $anchor->has_layout('daily')) {
 			include_once '../comments/layout_comments_as_daily.php';
@@ -1221,7 +1221,7 @@ Class Comments {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates, editors and readers may see everything
@@ -1346,7 +1346,7 @@ Class Comments {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates, editors and readers may see everything

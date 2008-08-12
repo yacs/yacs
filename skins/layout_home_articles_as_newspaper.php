@@ -101,7 +101,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 					$icon = $anchor->get_icon_url();
 				}
 				if($icon)
-					$text .= '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="left_image" alt=""'.EOT.'</a>';
+					$text .= '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="left_image" alt="" /></a>';
 
 				$text .= $this->layout_first($item, $anchor, $dead_line);
 
@@ -116,7 +116,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 					$icon = $anchor->get_thumbnail_url();
 				}
 				if($icon)
-					$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="left_image" alt=""'.EOT.'</a>';
+					$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="left_image" alt="" /></a>';
 
 				// the style to apply
 				switch($item_count) {

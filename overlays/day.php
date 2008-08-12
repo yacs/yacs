@@ -236,6 +236,7 @@ class Day extends Overlay {
 	/**
 	 * list dates at some anchor
 	 *
+	 * @param string type of replaced items
 	 * @param string the anchor to consider (e.g., 'section:123')
 	 * @param int page index
 	 * @return string to be inserted in resulting web page, or NULL
@@ -257,7 +258,7 @@ class Day extends Overlay {
 			$text = Skin::finalize_list($menu, 'menu_bar');
 		}
 
-		// we will build a list of dates
+		// a list of dates
 		include_once $context['path_to_root'].'dates/dates.php';
 
 		// the maximum number of articles per page

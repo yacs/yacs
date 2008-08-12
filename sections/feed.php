@@ -183,7 +183,7 @@ if(!isset($item['id']) || !$item['id']) {
 		}
 
 		// the list of newest pages
-		$values['items'] = Articles::list_by_edition_date_for_anchor($anchors, 0, 20, 'feeds');
+		$values['items'] =& Articles::list_for_anchor_by('edition', $anchors, 0, 20, 'feeds');
 
 		// make a text
 		include_once '../services/codec.php';

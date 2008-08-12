@@ -215,11 +215,11 @@ if($with_form) {
 	$input = '<input type="radio" name="with_zoom" value="Y"';
 	if(!isset($item['with_zoom']) || ($item['with_zoom'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('The first column links to a detail page')
+	$input .= '/> '.i18n::s('The first column links to a detail page')
 		.BR."\n".'<input type="radio" name="with_zoom" value="N"';
 	if(isset($item['with_zoom']) && ($item['with_zoom'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Everything may be downloaded as CSV')."\n";
+	$input .= '/> '.i18n::s('Everything may be downloaded as CSV')."\n";
 	$fields[] = array($label, $input);
 
 	// do we have to insert row numbers?
@@ -227,11 +227,11 @@ if($with_form) {
 	$input = '<input type="radio" name="with_number" value="N"';
 	if(!isset($item['with_number']) || ($item['with_number'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not display row numbers')
+	$input .= '/> '.i18n::s('Do not display row numbers')
 		.BR."\n".'<input type="radio" name="with_number" value="Y"';
 	if(isset($item['with_number']) && ($item['with_number'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Insert a column with row numbers')."\n";
+	$input .= '/> '.i18n::s('Insert a column with row numbers')."\n";
 	$fields[] = array($label, $input);
 
 	// the description

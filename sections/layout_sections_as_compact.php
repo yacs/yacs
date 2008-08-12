@@ -84,12 +84,16 @@ Class Layout_sections_as_compact extends Layout_interface {
 			$label .= ucfirst(Skin::strip($item['title'], 30));
 
 			// the hovering title
-			if($item['introduction'])
+			if($item['introduction'] && ($context['skins_with_details'] == 'Y'))
 				$hover = strip_tags(Codes::strip($item['introduction']));
 
 			// add a link to the main page
 			else
 				$hover = i18n::s('View the section');
+
+			// help members to reference this page
+			if(Surfer::is_member())
+				$hover .= ' [section='.$item['id'].']';
 
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, 'basic', NULL, $hover);

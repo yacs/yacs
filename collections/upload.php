@@ -48,8 +48,8 @@ $item = Collections::get($id);
 
 // icons used to depict files and folders
 $icons = array();
-$icons['folder_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder.png" width="13" height="16" alt=""'.EOT;
-$icons['folder_up_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder_up.gif" width="15" height="16" alt=""'.EOT;
+$icons['folder_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder.png" width="13" height="16" alt="" />';
+$icons['folder_up_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder_up.gif" width="15" height="16" alt="" />';
 
 // check network credentials, if any
 if($user = Users::authenticate())
@@ -200,7 +200,7 @@ elseif(!Surfer::is_associate()) {
 		$label = i18n::s('File');
 		$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
 		$input = '<input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
-			.'<input type="file" name="upload" id="focus" size="30"'.EOT
+			.'<input type="file" name="upload" id="focus" size="30" />'
 			.' (&lt;&nbsp;'.$size_hint.'&nbsp;'.i18n::s('bytes').')';
 		$hint = i18n::s('Select the file to upload');
 		$fields[] = array($label, $input, $hint);

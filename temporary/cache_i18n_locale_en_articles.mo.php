@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
+ * on August 12, 2008, 10:06 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['"%s" is not a valid date']='"%s" is not a valid date';
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
@@ -217,7 +217,6 @@ $_SESSION['l10n']['en']['a5a7c2b006f2fe940008621110c4ea54']='Please type the tex
 $_SESSION['l10n']['en']['Poor']='Poor';
 $_SESSION['l10n']['en']['Popular']='Popular';
 $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
-$_SESSION['l10n']['en']['Post a %s to this topic']='Post a %s to this topic';
 $_SESSION['l10n']['en']['52c228644224525af0bf54e9397fad52']='Post an XML file to import articles.';
 $_SESSION['l10n']['en']['Post to %s']='Post to %s';
 $_SESSION['l10n']['en']['Poster']='Poster';
@@ -403,7 +402,6 @@ $_SESSION['l10n']['en']['posted by %s %s']='posted by %s %s';
 $_SESSION['l10n']['en']['06af23447dcf50a877cd710b884633ec']='processed as usual, according to section settings';
 $_SESSION['l10n']['en']['published %s']='published %s';
 $_SESSION['l10n']['en']['published by %s %s']='published by %s %s';
-$_SESSION['l10n']['en']['reply']='reply';
 $_SESSION['l10n']['en']['reviewed %s']='reviewed %s';
 $_SESSION['l10n']['en']['smileys']='smileys';
 $_SESSION['l10n']['en']['sticky']='sticky';

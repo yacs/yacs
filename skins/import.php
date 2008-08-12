@@ -173,7 +173,7 @@ Class Import {
 					."\n"
 					.'// display the page image, if any'."\n"
 					.'if($context[\'page_image\'])'."\n"
-					.'	  echo \'<img src="\'.$context[\'page_image\'].\'" class="icon" alt=""'.EOT.'\';'."\n"
+					.'	  echo \'<img src="\'.$context[\'page_image\'].\'" class="icon" alt="" />\';'."\n"
 					."\n"
 					.'// the main part of the page'."\n"
 					.'echo $context[\'text\'];'."\n"

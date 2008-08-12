@@ -1,20 +1,19 @@
 <?php
 /**
- * layout articles as conversations
+ * layout sections
  *
  * This has more than compact, and less than decorated.
  *
- * @see articles/index.php
- * @see articles/articles.php
+ * @see sections/sections.php
  *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-Class Layout_articles_as_thread extends Layout_interface {
+Class Layout_sections_as_simple extends Layout_interface {
 
 	/**
-	 * list articles
+	 * list sections
 	 *
 	 * @param resource the SQL result
 	 * @return array of resulting items, or NULL
@@ -31,11 +30,7 @@ Class Layout_articles_as_thread extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
-		// sanity check
-		if(!isset($this->layout_variant))
-			$this->layout_variant = NULL;
-
-		// flag articles updated recently
+		// flag sections updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
@@ -56,7 +51,7 @@ Class Layout_articles_as_thread extends Layout_interface {
 			$anchor = Anchors::get($item['anchor']);
 
 			// the url to view this item
-			$url =& Articles::get_permalink($item);
+			$url =& Sections::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
@@ -71,20 +66,16 @@ Class Layout_articles_as_thread extends Layout_interface {
 			$prefix = $suffix = $icon = '';
 
 			// flag sticky pages
-			if(($item['rank'] < 10000) && !preg_match('/(compact|hits|mobile)/', $this->layout_variant))
+			if($item['rank'] < 10000)
 				$prefix .= STICKY_FLAG;
 
-			// signal articles to be published
-			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
-				$prefix .= DRAFT_FLAG;
-
-			// signal restricted and private articles
+			// signal restricted and private sections
 			if($item['active'] == 'N')
 				$prefix .= PRIVATE_FLAG;
 			elseif($item['active'] == 'R')
 				$prefix .= RESTRICTED_FLAG;
 
-			// flag articles that are dead, or created or updated very recently
+			// flag sections that are dead, or created or updated very recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
 				$prefix .= EXPIRED_FLAG;
 			elseif($item['create_date'] >= $dead_line)
@@ -92,44 +83,39 @@ Class Layout_articles_as_thread extends Layout_interface {
 			elseif($item['edit_date'] >= $dead_line)
 				$suffix .= UPDATED_FLAG;
 
-			// rating
-			if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
-				$suffix .= Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count']));
-
 			// info on related comments
-			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
+			if($count = Comments::count_for_anchor('section:'.$item['id'], TRUE))
 				$suffix .= ' ('.$count.')';
 
 			// details
 			$details = array();
 
+			// info on related sections
+			if($count = Sections::count_for_anchor('section:'.$item['id']))
+				$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
+
+			// info on related articles
+			if($count = Articles::count_for_anchor('section:'.$item['id']))
+				$details[] = sprintf(i18n::ns('%d page', '%d pages', $count), $count);
+
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
+			if($count = Files::count_for_anchor('section:'.$item['id'], TRUE))
 				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
 			// info on related links
-			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
+			if($count = Links::count_for_anchor('section:'.$item['id'], TRUE))
 				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
-			// flag popular pages
-			$popular = '';
-			if($item['hits'] > 300)
-				$details[] = POPULAR_FLAG;
-
-			// signal locked articles
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				$details[] = LOCKED_FLAG;
-
-			// page editors, except target surfer
-			if($friends =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact', $this->layout_variant))
-				$details[] = sprintf(i18n::s('with %s'), Skin::build_list($friends, 'comma'));
+			// the main anchor link
+			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
+				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section'));
 
 			// combine in-line details
 			if(count($details))
 				$suffix .= ' - <span class="details">'.trim(implode(', ', $details)).'</span>';
 
 			// list all components for this item
-			$items[$url] = array($prefix, $title, $suffix, 'article', $icon);
+			$items[$url] = array($prefix, $title, $suffix, 'section', $icon);
 
 		}
 

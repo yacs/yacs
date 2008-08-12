@@ -96,7 +96,7 @@ Class Layout_articles_as_compact extends Layout_interface {
 				$suffix .= UPDATED_FLAG;
 
 			// the hovering title
-			if($item['introduction'])
+			if($item['introduction'] && ($context['skins_with_details'] == 'Y'))
 				$hover = strip_tags(Codes::strip($item['introduction']));
 
 			// add a link to the main page

@@ -182,11 +182,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_registration" value="N"';
 	if(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Any anonymous surfer may apply.');
+	$input .= '/> '.i18n::s('Any anonymous surfer may apply.');
 	$input .= BR.'<input type="radio" name="users_without_registration" value="Y"';
 	if(isset($context['users_without_registration']) && ($context['users_without_registration'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Only associates can create new user profiles.');
+	$input .= '/> '.i18n::s('Only associates can create new user profiles.');
 	$fields[] = array($label, $input);
 
 	// e-mail control
@@ -194,11 +194,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_with_email_validation" value="N"';
 	if(!isset($context['users_with_email_validation']) || ($context['users_with_email_validation'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('New users are free to provide an e-mail address or not.');
+	$input .= '/> '.i18n::s('New users are free to provide an e-mail address or not.');
 	$input .= BR.'<input type="radio" name="users_with_email_validation" value="Y"';
 	if(isset($context['users_with_email_validation']) && ($context['users_with_email_validation'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Registrants become members after validation of their e-mail. When this option is activated, associates cannot validate membership anymore.');
+	$input .= '/> '.i18n::s('Registrants become members after validation of their e-mail. When this option is activated, associates cannot validate membership anymore.');
 	$fields[] = array($label, $input);
 
 	// membership control
@@ -206,11 +206,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_with_approved_members" value="N"';
 	if(!isset($context['users_with_approved_members']) || ($context['users_with_approved_members'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Self-registrating surfer will become a member (open community).');
+	$input .= '/> '.i18n::s('Self-registrating surfer will become a member (open community).');
 	$input .= BR.'<input type="radio" name="users_with_approved_members" value="Y"';
 	if(isset($context['users_with_approved_members']) && ($context['users_with_approved_members'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Associates have to validate membership (closed community).');
+	$input .= '/> '.i18n::s('Associates have to validate membership (closed community).');
 	$fields[] = array($label, $input);
 
 	// default editor
@@ -218,15 +218,15 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_default_editor" value="tinymce"';
 	if(!isset($context['users_default_editor']) || ($context['users_default_editor'] == 'tinymce'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('TinyMCE');
+	$input .= '/> '.i18n::s('TinyMCE');
 	$input .= BR.'<input type="radio" name="users_default_editor" value="fckeditor"';
 	if(isset($context['users_default_editor']) && ($context['users_default_editor'] == 'fckeditor'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('FCKEditor');
+	$input .= '/> '.i18n::s('FCKEditor');
 	$input .= BR.'<input type="radio" name="users_default_editor" value="yacs"';
 	if(isset($context['users_default_editor']) && ($context['users_default_editor'] == 'yacs'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Textarea');
+	$input .= '/> '.i18n::s('Textarea');
 	$input .= BR.'<input type="checkbox" name="force_editor_change" />'.i18n::s('Update all user profiles.');
 	$fields[] = array($label, $input);
 
@@ -243,11 +243,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_self_deletion" value="N"';
 	if(!isset($context['users_without_self_deletion']) || ($context['users_without_self_deletion'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Any registered surfer may delete his own profile.');
+	$input .= '/> '.i18n::s('Any registered surfer may delete his own profile.');
 	$input .= BR.'<input type="radio" name="users_without_self_deletion" value="Y"';
 	if(isset($context['users_without_self_deletion']) && ($context['users_without_self_deletion'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Only associates can delete user profiles.');
+	$input .= '/> '.i18n::s('Only associates can delete user profiles.');
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -264,11 +264,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_login_box" value="N"';
 	if(!isset($context['users_without_login_box']) || ($context['users_without_login_box'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Offer anonymous surfers to login.');
+	$input .= '/> '.i18n::s('Offer anonymous surfers to login.');
 	$input .= BR.'<input type="radio" name="users_without_login_box" value="Y"';
 	if(isset($context['users_without_login_box']) && ($context['users_without_login_box'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not display this item.');
+	$input .= '/> '.i18n::s('Do not display this item.');
 	$fields[] = array($label, $input);
 
 	// anti-robot
@@ -276,11 +276,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_robot_check" value="N"';
 	if(!isset($context['users_without_robot_check']) || ($context['users_without_robot_check'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Adds random data to forms and block spam (public site).');
+	$input .= '/> '.i18n::s('Adds random data to forms and block spam (public site).');
 	$input .= BR.'<input type="radio" name="users_without_robot_check" value="Y"';
 	if(isset($context['users_without_robot_check']) && ($context['users_without_robot_check'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Always accept anonymous input (intranet site).');
+	$input .= '/> '.i18n::s('Always accept anonymous input (intranet site).');
 	$fields[] = array($label, $input);
 
 	// default is to authenticate locally
@@ -296,11 +296,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_authenticator" value="local"';
 	if($context['users_authenticator'] == 'local')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Login information is checked locally.');
+	$input .= '/> '.i18n::s('Login information is checked locally.');
 	$input .= BR.'<input type="radio" name="users_authenticator" value="custom"';
 	if($context['users_authenticator'] != 'local')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.sprintf(i18n::s('Use the authenticator %s'), '<input type="text" name="users_custom_authenticator" value="'.encode_field($custom_authenticator).'" size="80"'.EOT);
+	$input .= '/> '.sprintf(i18n::s('Use the authenticator %s'), '<input type="text" name="users_custom_authenticator" value="'.encode_field($custom_authenticator).'" size="80" />');
 	$hint = i18n::s('Provide adequate parameters after authenticator type.');
 	$fields[] = array($label, $input, $hint);
 
@@ -309,11 +309,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_login_welcome" value="N"';
 	if(!isset($context['users_without_login_welcome']) || ($context['users_without_login_welcome'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Display welcome panel on successful authentication.');
+	$input .= '/> '.i18n::s('Display welcome panel on successful authentication.');
 	$input .= BR.'<input type="radio" name="users_without_login_welcome" value="Y"';
 	if(isset($context['users_without_login_welcome']) && ($context['users_without_login_welcome'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Redirect directly to protected page after authentication.');
+	$input .= '/> '.i18n::s('Redirect directly to protected page after authentication.');
 	$fields[] = array($label, $input);
 
 	// permanent authentication
@@ -321,11 +321,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_with_permanent_authentication" value="N"';
 	if(!isset($context['users_with_permanent_authentication']) || ($context['users_with_permanent_authentication'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Ask for authentication on every web session (public site).');
+	$input .= '/> '.i18n::s('Ask for authentication on every web session (public site).');
 	$input .= BR.'<input type="radio" name="users_with_permanent_authentication" value="Y"';
 	if(isset($context['users_with_permanent_authentication']) && ($context['users_with_permanent_authentication'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Set a long-lasting cookie on successful login and do not bother people afterwards (intranet site).');
+	$input .= '/> '.i18n::s('Set a long-lasting cookie on successful login and do not bother people afterwards (intranet site).');
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -342,11 +342,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_with_alerts" value="N"';
 	if(!isset($context['users_with_alerts']) || ($context['users_with_alerts'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Watchers are notified by e-mail.');
+	$input .= '/> '.i18n::s('Watchers are notified by e-mail.');
 	$input .= BR.'<input type="radio" name="users_with_alerts" value="Y"';
 	if(isset($context['users_with_alerts']) && ($context['users_with_alerts'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Users receive interactive popups when they are present.');
+	$input .= '/> '.i18n::s('Users receive interactive popups when they are present.');
 	$fields[] = array($label, $input);
 
 	// users_with_avatars
@@ -354,11 +354,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_with_avatars" value="N"';
 	if(!isset($context['users_with_avatars']) || ($context['users_with_avatars'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Display the same icon for every person profile.');
+	$input .= '/> '.i18n::s('Display the same icon for every person profile.');
 	$input .= BR.'<input type="radio" name="users_with_avatars" value="Y"';
 	if(isset($context['users_with_avatars']) && ($context['users_with_avatars'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Display individual avatars.');
+	$input .= '/> '.i18n::s('Display individual avatars.');
 	$fields[] = array($label, $input);
 
 	// spam protection
@@ -366,15 +366,15 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_with_email_display" value="N"';
 	if(!isset($context['users_with_email_display']) || ($context['users_with_email_display'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Protect mail addresses as much as possible (for Internet servers).');
+	$input .= '/> '.i18n::s('Protect mail addresses as much as possible (for Internet servers).');
 	$input .= BR.'<input type="radio" name="users_with_email_display" value="R"';
 	if(isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Show email addresses to authenticated members.');
+	$input .= '/> '.i18n::s('Show email addresses to authenticated members.');
 	$input .= BR.'<input type="radio" name="users_with_email_display" value="Y"';
 	if(isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Share email addresses as much as possible (for intranet servers).');
+	$input .= '/> '.i18n::s('Share email addresses as much as possible (for intranet servers).');
 	$fields[] = array($label, $input);
 
 	// without private pages
@@ -382,11 +382,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_private_pages" value="N"';
 	if(!isset($context['users_without_private_pages']) || ($context['users_without_private_pages'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Facilitate contacts between community members through shared private pages.');
+	$input .= '/> '.i18n::s('Facilitate contacts between community members through shared private pages.');
 	$input .= BR.'<input type="radio" name="users_without_private_pages" value="Y"';
 	if(isset($context['users_without_private_pages']) && ($context['users_without_private_pages'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Prevent members to create private pages.');
+	$input .= '/> '.i18n::s('Prevent members to create private pages.');
 	$fields[] = array($label, $input);
 
 	// users_maximum_managed_sections
@@ -402,11 +402,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_teasers" value="N"';
 	if(!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Anonymous surfers can see titles and teasers of restricted articles, and links to post content. They can move forward after authentication.');
+	$input .= '/> '.i18n::s('Anonymous surfers can see titles and teasers of restricted articles, and links to post content. They can move forward after authentication.');
 	$input .= BR.'<input type="radio" name="users_without_teasers" value="Y"';
 	if(isset($context['users_without_teasers']) && ($context['users_without_teasers'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Nothing from restricted pages and links to post is disclosed to non-members.');
+	$input .= '/> '.i18n::s('Nothing from restricted pages and links to post is disclosed to non-members.');
 	$fields[] = array($label, $input);
 
 	// auto-archiving
@@ -414,11 +414,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_archiving" value="N"';
 	if(!isset($context['users_without_archiving']) || ($context['users_without_archiving'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Published pages are automatically assigned to weekly and monthly categories.');
+	$input .= '/> '.i18n::s('Published pages are automatically assigned to weekly and monthly categories.');
 	$input .= BR.'<input type="radio" name="users_without_archiving" value="Y"';
 	if(isset($context['users_without_archiving']) && ($context['users_without_archiving'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Automatic archiving is disabled.');
+	$input .= '/> '.i18n::s('Automatic archiving is disabled.');
 	$fields[] = array($label, $input);
 
 	// build the form
@@ -441,11 +441,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_submission" value="N"';
 	if(!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Authenticated members are allowed to submit new articles.');
+	$input .= '/> '.i18n::s('Authenticated members are allowed to submit new articles.');
 	$input .= BR.'<input type="radio" name="users_without_submission" value="Y"';
 	if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Only associates are allowed to add pages. Members can post comments.');
+	$input .= '/> '.i18n::s('Only associates are allowed to add pages. Members can post comments.');
 	$fields[] = array($label, $input);
 
 	// content publishing
@@ -453,11 +453,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_with_auto_publish" value="N"';
 	if(!isset($context['users_with_auto_publish']) || ($context['users_with_auto_publish'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Members submit articles and associates publish them (review mode), except in sections configured with option <code>auto_publish</code>.');
+	$input .= '/> '.i18n::s('Members submit articles and associates publish them (review mode), except in sections configured with option <code>auto_publish</code>.');
 	$input .= BR.'<input type="radio" name="users_with_auto_publish" value="Y"';
 	if(isset($context['users_with_auto_publish']) && ($context['users_with_auto_publish'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Every post is published (Wiki mode).');
+	$input .= '/> '.i18n::s('Every post is published (Wiki mode).');
 	$fields[] = array($label, $input);
 
 	// revision control
@@ -465,11 +465,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_revision" value="N"';
 	if(!isset($context['users_without_revision']) || ($context['users_without_revision'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Authenticated members are allowed to modify articles they have posted.');
+	$input .= '/> '.i18n::s('Authenticated members are allowed to modify articles they have posted.');
 	$input .= BR.'<input type="radio" name="users_without_revision" value="Y"';
 	if(isset($context['users_without_revision']) && ($context['users_without_revision'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Revisions are forbidden after publication, except from associates.');
+	$input .= '/> '.i18n::s('Revisions are forbidden after publication, except from associates.');
 	$fields[] = array($label, $input);
 
 	// upload control
@@ -481,15 +481,15 @@ elseif(!Surfer::is_associate()) {
 		$input = '<input type="radio" name="users_without_uploads" value="N"';
 		if(!isset($context['users_without_uploads']) || ($context['users_without_uploads'] != 'Y'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Authenticated members are allowed to post images and files.');
+		$input .= '/> '.i18n::s('Authenticated members are allowed to post images and files.');
 		$input .= BR.'<input type="radio" name="users_without_uploads" value="R"';
 		if(isset($context['users_without_uploads']) && ($context['users_without_uploads'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Only associates are allowed to post images and files.');
+		$input .= '/> '.i18n::s('Only associates are allowed to post images and files.');
 		$input .= BR.'<input type="radio" name="users_without_uploads" value="Y"';
 		if(isset($context['users_without_uploads']) && ($context['users_without_uploads'] == 'Y'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('No upload is accepted.');
+		$input .= '/> '.i18n::s('No upload is accepted.');
 	}
 	$fields[] = array($label, $input);
 
@@ -498,11 +498,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_file_overloads" value="N"';
 	if(!isset($context['users_without_file_overloads']) || ($context['users_without_file_overloads'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Any member can update files posted by others.');
+	$input .= '/> '.i18n::s('Any member can update files posted by others.');
 	$input .= BR.'<input type="radio" name="users_without_file_overloads" value="R"';
 	if(isset($context['users_without_file_overloads']) && ($context['users_without_file_overloads'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Files can be modified only by their original authors, plus associates and editors.');
+	$input .= '/> '.i18n::s('Files can be modified only by their original authors, plus associates and editors.');
 	$fields[] = array($label, $input);
 
 	// with anonymous comments
@@ -510,11 +510,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_with_anonymous_comments" value="N"';
 	if(!isset($context['users_with_anonymous_comments']) || ($context['users_with_anonymous_comments'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Only authenticated surfers can send comments.');
+	$input .= '/> '.i18n::s('Only authenticated surfers can send comments.');
 	$input .= BR.'<input type="radio" name="users_with_anonymous_comments" value="Y"';
 	if(isset($context['users_with_anonymous_comments']) && ($context['users_with_anonymous_comments'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Allow anonymous surfers to post comments.');
+	$input .= '/> '.i18n::s('Allow anonymous surfers to post comments.');
 	$fields[] = array($label, $input);
 
 	// build the form

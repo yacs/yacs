@@ -44,7 +44,7 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == ''))
 
 // default value for name filtering in forms (e.g. 'edit_name' filled by anonymous surfers)
 if(!defined('FORBIDDEN_IN_NAMES'))
-	define('FORBIDDEN_IN_NAMES', '/[^\s\w-:&#;\'"]+/');
+	define('FORBIDDEN_IN_NAMES', '/[<>{}\(\)]+/');
 
 // default value for path filtering in forms -- ../ and \
 if(!defined('FORBIDDEN_IN_PATHS'))
@@ -56,7 +56,7 @@ if(!defined('FORBIDDEN_IN_TEASERS'))
 
 // default value for url filtering in forms
 if(!defined('FORBIDDEN_IN_URLS'))
-	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\,+%\?=-]+/');
+	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\,+%\?=\-\[\]]+/');
 
 // store attributes for this request, including global parameters and request-specific variables
 global $context;
@@ -157,6 +157,9 @@ $context['site_icon'] = '';
 // site slogan
 $context['site_slogan'] = '';
 
+// minimize CPU used by rendering engine --see skins/configure.php
+$context['skins_with_details'] = 'N';
+
 // we will use this at several places
 function get_micro_time() {
 	list($usec, $sec) = explode(" ",microtime(), 2);
@@ -177,6 +180,9 @@ $context['users_default_editor'] = 'tinymce';
 
 // path to files and images, for supported virtual hosts --see files/edit.php and images/edit.php
 $context['virtual_path'] = '';
+
+// use titles in address -- see control/configure.php
+$context['with_alternate_urls'] = 'N';
 
 // debug the execution of this script -- see control/configure.php
 $context['with_debug'] = 'N';
@@ -471,6 +477,9 @@ function &encode_field($text) {
 	else
 		$output = str_replace(array('"', '&quot;', '&#34;'), "'", $output);
 
+	// prevent codes rendering within encoded fields
+	$output = str_replace(array('[', ']'), array('&#91;', '&#93;'), $output);
+
 	// done
 	return $output;
 
@@ -513,20 +522,12 @@ if(!defined('NO_VIEW_PRELOAD')) {
 }
 
 //
-// Switch management
+// Access data
 //
-
-// redirect if the server has been switched off and if not in the control panel, nor in the scripts or users modules
-if(file_exists($context['path_to_root'].'parameters/switch.off') && !preg_match('/\/(control|included|scripts|users)\//i', $context['script_url']) && !preg_match('/\/configure\.php$/i', $context['script_url']))
-	Safe::redirect($context['url_to_home'].$context['url_to_root'].'control/closed.php');
 
 // if no parameters file, jump to the control panel, if not in it already
 if(!is_readable($context['path_to_root'].'parameters/control.include.php') && !preg_match('/(\/control\/|\/included\/|setup\.php)/i', $context['script_url']))
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'control/');
-
-//
-// Access data
-//
 
 // no need for data access
 if(!defined('NO_MODEL_PRELOAD')) {
@@ -552,8 +553,15 @@ if(!defined('NO_MODEL_PRELOAD'))
 	Safe::load('parameters/users.include.php');
 
 // our knowledge about current surfer -- after the definition of path_to_root parameter, and after the loading of user parameters
-if(!defined('NO_CONTROLLER_PRELOAD'))
-	include_once $context['path_to_root'].'shared/surfer.php';
+include_once $context['path_to_root'].'shared/surfer.php';
+
+//
+// Switch management
+//
+
+// redirect if the server has been switched off and if not in the control panel, nor in the scripts or users modules
+if(file_exists($context['path_to_root'].'parameters/switch.off') && !Surfer::is_associate() && !preg_match('/\/(control|included|scripts|users)\//i', $context['script_url']) && !preg_match('/\/configure\.php$/i', $context['script_url']))
+	Safe::redirect($context['url_to_home'].$context['url_to_root'].'control/closed.php');
 
 //
 // Content basic information -- articles and sections
@@ -986,51 +994,51 @@ function render_skin($stamp=0) {
 
 	// set icons for this site
 	if($context['site_icon']) {
-		$context['page_header'] .= '<link rel="icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon"'.EOT."\n"
-			.'<link rel="shortcut icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon"'.EOT."\n";
+		$context['page_header'] .= '<link rel="icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />'."\n"
+			.'<link rel="shortcut icon" href="'.$context['url_to_root'].$context['site_icon'].'" type="image/x-icon" />'."\n";
 	}
 
 	// a meta-link to our help page
-	$context['page_header'] .= '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html"'.EOT."\n";
+	$context['page_header'] .= '<link rel="help" href="'.$context['url_to_root'].'help/" type="text/html" />'."\n";
 
 	// the description of this page
 	if(isset($context['page_description']) && $context['page_description'])
-		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['page_description'])).'"'.EOT."\n";
+		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['page_description'])).'" />'."\n";
 	elseif(isset($context['site_description']) && $context['site_description'])
-		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'"'.EOT."\n";
+		$context['page_header'] .= '<meta name="description" content="'.encode_field(strip_tags($context['site_description'])).'" />'."\n";
 
 	// copyright
 	if(isset($context['site_copyright']) && $context['site_copyright'])
-		$context['page_header'] .= '<meta name="copyright" content="'.encode_field($context['site_copyright']).'"'.EOT."\n";
+		$context['page_header'] .= '<meta name="copyright" content="'.encode_field($context['site_copyright']).'" />'."\n";
 
 	// author
 	if(isset($context['page_author']) && $context['page_author'])
-		$context['page_header'] .= '<meta name="author" content="'.encode_field($context['page_author']).'"'.EOT."\n";
+		$context['page_header'] .= '<meta name="author" content="'.encode_field($context['page_author']).'" />'."\n";
 
 	// publisher
 	if(isset($context['page_publisher']) && $context['page_publisher'])
-		$context['page_header'] .= '<meta name="publisher" content="'.encode_field($context['page_publisher']).'"'.EOT."\n";
+		$context['page_header'] .= '<meta name="publisher" content="'.encode_field($context['page_publisher']).'" />'."\n";
 
 	// the keywords to be used for this page
 	if(isset($context['site_keywords']) && $context['site_keywords'])
-		$context['page_header'] .= '<meta name="keywords" content="'.encode_field($context['site_keywords']).'"'.EOT."\n";
+		$context['page_header'] .= '<meta name="keywords" content="'.encode_field($context['site_keywords']).'" />'."\n";
 
 	// revisit-after
 	if(!isset($context['site_revisit_after']))
 		;
 	elseif($context['site_revisit_after'] == 1)
-		$context['page_header'] .= '<meta name="revisit-after" content="1 day"'.EOT."\n";
+		$context['page_header'] .= '<meta name="revisit-after" content="1 day" />'."\n";
 	elseif($context['site_revisit_after'])
-		$context['page_header'] .= '<meta name="revisit-after" content="'.encode_field($context['site_revisit_after']).' days"'.EOT."\n";
+		$context['page_header'] .= '<meta name="revisit-after" content="'.encode_field($context['site_revisit_after']).' days" />'."\n";
 
 	// no Microsoft irruption in our pages
-	$context['page_header'] .= '<meta name="MSSmartTagsPreventParsing" content="TRUE"'.EOT."\n";
+	$context['page_header'] .= '<meta name="MSSmartTagsPreventParsing" content="TRUE" />'."\n";
 
 	// suppress awful hovering toolbar on images in IE
-	$context['page_header'] .= '<meta http-equiv="imagetoolbar" content="no"'.EOT."\n";
+	$context['page_header'] .= '<meta http-equiv="imagetoolbar" content="no" />'."\n";
 
 	// lead robots
-	$context['page_header'] .= '<meta name="robots" content="index,follow"'.EOT."\n";
+	$context['page_header'] .= '<meta name="robots" content="index,follow" />'."\n";
 
 	// help Javascript scripts to locate files --in header, because of potential use by in-the-middle javascript snippet
 	$context['page_header'] .= '<script type="text/javascript">// <![CDATA['."\n"
@@ -1190,11 +1198,11 @@ function render_skin($stamp=0) {
 
 		// render and display extra content, if any
 		if($context['extra'])
-			echo '<hr'.EOT."\n".$context['extra'];
+			echo '<hr />'."\n".$context['extra'];
 
 		// allow anonymous user to login
-		if(is_callable(array('Surfer', 'get_capability')) && !Surfer::is_logged())
-			echo '<hr'.EOT."\n".Skin::build_link('users/login.php', 'Login', 'basic');
+		if(is_callable(array('Surfer', 'is_logged')) && !Surfer::is_logged())
+			echo '<hr />'."\n".Skin::build_link('users/login.php', 'Login', 'basic');
 
 		echo "\n</body>\n</html>";
 

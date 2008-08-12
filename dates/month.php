@@ -71,7 +71,7 @@ if(!$text =& Cache::get($cache_id)) {
 	$items =& Dates::list_for_month($year, $month, 'links');
 
 	// draw one month - force an empty month
-	$text .= Dates::build_months($items, FALSE, FALSE, $year, $month);
+	$text .= Dates::build_months($items, FALSE, FALSE, TRUE, FALSE, $year, $month);
 
 	// cache, whatever change, for 5 minutes
 	Cache::put($cache_id, $text, 'stable', 300);
@@ -84,7 +84,7 @@ $cache_id = 'dates/month.php#extra';
 if(!$text =& Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
-	if($items = Articles::list_by_date(0, COMPACT_LIST_SIZE, 'compact'))
+	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
 		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'extra');
 
 	Cache::put($cache_id, $text, 'articles');

@@ -1059,17 +1059,17 @@ Class SQL {
 		// maybe we are looking for user records elsewhere
 		if($name == 'users') {
 			if(isset($context['users_table_prefix']) && $context['users_table_prefix'])
-				return '`'.$context['users_table_prefix'].$name.'`';
+				return $context['users_table_prefix'].$name;
 			elseif(isset($context['table_prefix']))
-				return '`'.$context['table_prefix'].$name.'`';
+				return $context['table_prefix'].$name;
 			else
-				return '`'.$name.'`';
+				return $name.'`';
 
 		// a regular table
 		} elseif(isset($context['table_prefix']))
-			return '`'.$context['table_prefix'].$name.'`';
+			return $context['table_prefix'].$name;
 		else
-			return '`'.$name.'`';
+			return $name;
 	}
 
 	/**

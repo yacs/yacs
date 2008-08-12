@@ -123,8 +123,7 @@ if(!Surfer::is_associate()) {
 		$context['title_suffix'] = '';
 
 	// the date
-	Safe::setlocale(LC_TIME, $context['preferred_language']);
-	$context['letter_body'] = gmstrftime('%x', time())."\n\n";
+// 	$context['letter_body'] = gmstrftime('%x', time())."\n\n";
 
 	// the letter prefix
 	if($context['letter_prefix'])
@@ -143,7 +142,7 @@ if(!Surfer::is_associate()) {
 
 	// the form to edit a letter
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'
-		.'<input type="hidden" name="action" value="send"'.EOT;
+		.'<input type="hidden" name="action" value="send" />';
 
 	// the letter title
 	$label = i18n::s('Title');
@@ -219,8 +218,7 @@ if(!Surfer::is_associate()) {
 		$context['title_suffix'] = '';
 
 	// the date
-	Safe::setlocale(LC_TIME, $context['preferred_language']);
-	$context['letter_body'] = gmstrftime('%x', time())."\n\n";
+// 	$context['letter_body'] = gmstrftime('%x', time())."\n\n";
 
 	// the letter prefix
 	if($context['letter_prefix'])
@@ -230,7 +228,7 @@ if(!Surfer::is_associate()) {
 	$digest_stamp = Values::get('letters.digest.stamp', NULL_DATE);
 
 	// build the content of the letter automatically
-	if($items = Articles::list_by_date(0, 100, 'digest', $digest_stamp)) {
+	if($items =& Articles::list_by('publication', 0, 100, 'digest', $digest_stamp)) {
 
 		// one slot per section
 		$slots = array();
@@ -294,8 +292,8 @@ if(!Surfer::is_associate()) {
 
 	// the form to edit a letter
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'
-		.'<input type="hidden" name="action" value="send"'.EOT
-		.'<input type="hidden" name="digest_stamp" value="'.encode_field($digest_stamp).'"'.EOT;
+		.'<input type="hidden" name="action" value="send" />'
+		.'<input type="hidden" name="digest_stamp" value="'.encode_field($digest_stamp).'" />';
 
 	// the letter title
 	$label = i18n::s('Title');
@@ -371,8 +369,7 @@ if(!Surfer::is_associate()) {
 		$context['title_suffix'] = '';
 
 	// the date
-	Safe::setlocale(LC_TIME, $context['preferred_language']);
-	$context['letter_body'] = gmstrftime('%x', time())."\n";
+// 	$context['letter_body'] = gmstrftime('%x', time())."\n";
 
 	// the letter prefix
 	if($context['letter_prefix'])
@@ -385,7 +382,7 @@ if(!Surfer::is_associate()) {
 	// the category used to assign featured pages
 	include_once '../categories/categories.php';
 	$anchor =& Categories::get(i18n::c('featured'));
-	if(isset($anchor['id']) && ($items = Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, $context['root_featured_count'], 'digest'))) {
+	if(isset($anchor['id']) && ($items =& Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, $context['root_featured_count'], 'digest'))) {
 
 		// scan each article
 		foreach($items as $url => $label) {
@@ -433,7 +430,7 @@ if(!Surfer::is_associate()) {
 
 	// the form to edit a letter
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'
-		.'<input type="hidden" name="action" value="send"'.EOT;
+		.'<input type="hidden" name="action" value="send" />';
 
 	// the letter title
 	$label = i18n::s('Title');

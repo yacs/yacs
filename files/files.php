@@ -133,7 +133,7 @@ Class Files {
 			return TRUE;
 
 		// teasers are activated
-		if(!Surfer::is_logged() && (!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y')))
+		if(Surfer::is_teased())
 			return TRUE;
 
 		// the default is to not allow for new files
@@ -237,7 +237,7 @@ Class Files {
 			return NULL;
 
 		// request the database only in hi-fi mode
-		if($optional && (!isset($context['skins_with_details']) || ($context['skins_with_details'] != 'Y')))
+		if($optional && ($context['skins_with_details'] != 'Y'))
 			return NULL;
 
 		// profiling mode

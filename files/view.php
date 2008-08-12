@@ -193,7 +193,7 @@ if(!isset($item['id'])) {
 } else {
 
 	// remember surfer visit
-	Surfer::click('file:'.$item['id'], $item['active']);
+	Surfer::is_visiting(Files::get_url($item['id'], 'view', $item['file_name']), Codes::beautify_title($item['title']), 'file:'.$item['id'], $item['active']);
 
 	// initialize the rendering engine
 	Codes::initialize(Files::get_url($item['id'], 'view', $item['file_name']));

@@ -75,11 +75,11 @@ elseif(!Surfer::is_associate()) {
 		$input = '<input type="radio" name="home_at_root" value="N"';
 		if(!isset($context['home_at_root']) || ($context['home_at_root'] != 'Y'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('No, the front page of this server is not managed by YACS.');
+		$input .= '/> '.i18n::s('No, the front page of this server is not managed by YACS.');
 		$input .= BR.'<input type="radio" name="home_at_root" value="Y"';
 		if(isset($context['home_at_root']) && ($context['home_at_root'] == 'Y'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Yes. If the script index.php is updated into the YACS directory, it will be duplicated at the upper directory as well');
+		$input .= '/> '.i18n::s('Yes. If the script index.php is updated into the YACS directory, it will be duplicated at the upper directory as well');
 		$context['text'] .= '<p>'.$label.BR.$input."</p>\n";
 
 	}

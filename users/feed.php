@@ -116,7 +116,7 @@ if(Surfer::is_crawler()) {
 			$values['channel']['image'] = $context['url_to_home'].$context['url_to_root'].$context['powered_by_image'];
 
 		// the list of newest pages
-		$values['items'] = (array)Articles::list_by_date_for_author($item['id'], 0, 50, 'feeds');
+		$values['items'] = (array)Articles::list_for_author_by('publication', $item['id'], 0, 50, 'feeds');
 
 		// make a text
 		include_once '../services/codec.php';

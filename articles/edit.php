@@ -391,8 +391,22 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['options'] .= ' hardcoded';
 
 	// associates are allowed to change overlay types -- see overlays/select.php
-	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'] && Surfer::is_associate())
+	if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'] && Surfer::is_associate()) {
+
+		// delete the previous version, if any
+		if(is_object($overlay)) {
+
+			// allow back-referencing from overlay
+			if(isset($_REQUEST['id'])) {
+				$_REQUEST['self_reference'] = 'article:'.$_REQUEST['id'];
+				$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
+				$overlay->remember('delete', $_REQUEST);
+			}
+		}
+
+		// new version of page overlay
 		$overlay = Overlay::bind($_REQUEST['overlay_type']);
+	}
 
 	// when the page has been overlaid
 	if(is_object($overlay)) {
@@ -440,8 +454,16 @@ if(Surfer::is_crawler()) {
 			Versions::save($item, 'article:'.$item['id']);
 		}
 
+		// change to another overlay
+		if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'] && Surfer::is_associate())
+			$action = 'insert';
+
+		// regular update
+		else
+			$action = 'update';
+
 		// stop on error
-		if(!Articles::put($_REQUEST) || (is_object($overlay) && !$overlay->remember('update', $_REQUEST))) {
+		if(!Articles::put($_REQUEST) || (is_object($overlay) && !$overlay->remember($action, $_REQUEST))) {
 			$item = $_REQUEST;
 			$with_form = TRUE;
 
@@ -606,7 +628,7 @@ if(Surfer::is_crawler()) {
 	$with_form = TRUE;
 
 // select among available templates
-} elseif(!isset($item['id']) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items = Articles::list_by_title_for_ids($templates, 'select'))) {
+} elseif(!isset($item['id']) && is_object($anchor) && ($templates = $anchor->get_templates_for('article')) && ($items =& Articles::list_by_title_for_ids($templates, 'select'))) {
 
 	// remember current anchor, it will not be part of next click
 	$_SESSION['anchor_reference'] = $anchor->get_reference();
@@ -700,9 +722,6 @@ if($with_form) {
 
 		// append editing fields for this overlay
 		$fields = array_merge($fields, $overlay->get_fields($item));
-
-		// remember the overlay type as well
-		$information .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'" />';
 
 	}
 
@@ -866,7 +885,7 @@ if($with_form) {
 		$hint = i18n::s('Please carefully select a section for your page.');
 		$fields[] = array($label, $input, $hint);
 	} elseif(is_object($anchor))
-		$content .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'"'.EOT;
+		$content .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 
 	// the source
 	$label = i18n::s('Source');
@@ -932,11 +951,11 @@ if($with_form) {
 		$front .= '<input type="radio" name="home_panel" value="main"';
 		if(!isset($item['home_panel']) || ($item['home_panel'] == '') || ($item['home_panel'] == 'main'))
 			$front .= ' checked="checked"';
-		$front .= EOT.' '.i18n::s('processed as usual, according to section settings')
+		$front .= '/> '.i18n::s('processed as usual, according to section settings')
 			.BR.'<input type="radio" name="home_panel" value="none"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'none'))
 			$front .= ' checked="checked"';
-		$front .= EOT.' '.i18n::s('not displayed at the front page').' ';
+		$front .= '/> '.i18n::s('not displayed at the front page').' ';
 
 	}
 
@@ -956,7 +975,7 @@ if($with_form) {
 			$label = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors'), 'basic');
 		else
 			$label = i18n::s('Editors');
-		if(isset($item['id']) && ($items = Members::list_editors_by_name_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
+		if(isset($item['id']) && ($items =& Members::list_editors_by_name_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
 			$input =& Skin::build_list($items, 'comma');
 		else
 			$input = i18n::s('Nobody has been assigned to this page.');
@@ -972,19 +991,19 @@ if($with_form) {
 		$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
 		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Anyone may read this page').BR;
+		$input .= '/> '.i18n::s('Anyone may read this page').BR;
 
 		// maybe a restricted page
 		$input .= '<input type="radio" name="active_set" value="R"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Access is restricted to authenticated members').BR;
+		$input .= '/> '.i18n::s('Access is restricted to authenticated members').BR;
 
 		// or a hidden page
 		$input .= '<input type="radio" name="active_set" value="N"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Access is restricted to associates and editors')."\n";
+		$input .= '/> '.i18n::s('Access is restricted to associates and editors')."\n";
 
 		$fields[] = array($label, $input);
 	}
@@ -994,11 +1013,11 @@ if($with_form) {
 	$input = '<input type="radio" name="locked" value="N"';
 	if(!isset($item['locked']) || ($item['locked'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('No - Contributions are accepted').' '
+	$input .= '/> '.i18n::s('No - Contributions are accepted').' '
 		.BR.'<input type="radio" name="locked" value="Y"';
 	if(isset($item['locked']) && ($item['locked'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Yes - Only associates and editors can modify content');
+	$input .= '/> '.i18n::s('Yes - Only associates and editors can modify content');
 	$fields[] = array($label, $input);
 
 	// the rank
@@ -1088,7 +1107,7 @@ if($with_form) {
 		$label = i18n::s('Change the overlay');
 		$input = '<select name="overlay_type">';
 		if($overlay_type) {
-			$input .= '<option value="none">'.i18n::s('none')."</option>\n";
+			$input .= '<option value="none">('.i18n::s('none').")</option>\n";
 			$hint = i18n::s('If you change the overlay you may loose some data.');
 		} else {
 			$hint = i18n::s('No overlay has been selected yet.');
@@ -1124,7 +1143,10 @@ if($with_form) {
 		$input .= '</select>';
 		$fields[] = array($label, $input, $hint);
 
-	}
+	// remember overlay type
+	} else
+		$options .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'" />';
+
 
 	// add a folded box
 	$options .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folder');

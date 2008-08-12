@@ -707,7 +707,7 @@ else {
 		// list articles
 		else {
 			$response = array();
-			$items = Articles::list_by_edition_date_for_anchor('section:'.$blogid, 0, min($numberOfPosts, 30), 'raw', $user['capability']);
+			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw', $user['capability']);
 			if(is_array($items)) {
 				foreach($items as $id => $item) {
 
@@ -1196,7 +1196,7 @@ else {
 			if(preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors']))
 				$user['capability'] = 'A';
 
-			$items = Articles::list_by_edition_date_for_anchor('section:'.$blogid, 0, min($numberOfPosts, 30), 'raw', $user['capability']);
+			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw', $user['capability']);
 			if(is_array($items)) {
 				foreach($items as $id => $item) {
 
@@ -1222,7 +1222,7 @@ else {
 						$entry['pubDate'] = $codec->encode($item['publish_date'], 'date');
 
 					// attached categories
-					$categories = Members::list_categories_by_title_for_member('article:'.$id, 0, 10, 'raw', $user['capability']);
+					$categories =& Members::list_categories_by_title_for_member('article:'.$id, 0, 10, 'raw', $user['capability']);
 					foreach($categories as $id => $attributes)
 						$entry['categories'][] = strip_tags($attributes['title']);
 
@@ -1484,7 +1484,7 @@ else {
 		else {
 			$response = array();
 
-			$items = Members::list_categories_by_title_for_member('article:'.$postid, 0, 7, 'raw', $user['capability']);
+			$items =& Members::list_categories_by_title_for_member('article:'.$postid, 0, 7, 'raw', $user['capability']);
 			if(is_array($items)) {
 
 				// one entry per category
@@ -1525,7 +1525,7 @@ else {
 			if(preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors']))
 				$user['capability'] = 'A';
 
-			$items = Articles::list_by_edition_date_for_anchor('section:'.$blogid, 0, min($numberOfPosts, 30), 'raw', $user['capability']);
+			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw', $user['capability']);
 			if(is_array($items)) {
 				foreach($items as $id => $item) {
 

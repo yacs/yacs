@@ -136,7 +136,7 @@ elseif(!Surfer::is_associate()) {
 
 	// list all cascaded style sheets and template.php for this skin
 	$context['text'] .= '<form method="get" action="'.$context['script_url'].'"><p>'
-		.'<input type="hidden" name="skin" value="'.encode_field($skin).'"'.EOT;
+		.'<input type="hidden" name="skin" value="'.encode_field($skin).'" />';
 	$context['text'] .= i18n::s('Files').' <select name="file">';
 	if ($dir = Safe::opendir("../skins/".$skin)) {
 
@@ -168,8 +168,8 @@ elseif(!Surfer::is_associate()) {
 
 		// start of the form
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><div>'
-			.'<input type="hidden" name="skin" value="'.encode_field($skin).'"'.EOT
-			.'<input type="hidden" name="file" value="'.encode_field($file).'"'.EOT;
+			.'<input type="hidden" name="skin" value="'.encode_field($skin).'" />'
+			.'<input type="hidden" name="file" value="'.encode_field($file).'" />';
 
 		// load file content
 		if(!$content = Safe::file_get_contents('../skins/'.$skin.'/'.$file))

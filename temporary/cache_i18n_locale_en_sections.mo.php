@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
+ * on August 12, 2008, 10:06 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
 $_SESSION['l10n']['en']['%d comments']='%d comments';
@@ -446,6 +446,7 @@ $_SESSION['l10n']['en']['edited by %s %s']='edited by %s %s';
 $_SESSION['l10n']['en']['8cb4e09444c573321ad89a48e992b66f']='folded - List sub-sections as folded boxes, with content (one box per section).';
 $_SESSION['l10n']['en']['8a40ce0f2553c50d4f95684527f186c6']='freemind - Build an interactive mind map';
 $_SESSION['l10n']['en']['hits']='hits';
+$_SESSION['l10n']['en']['in %s']='in %s';
 $_SESSION['l10n']['en']['36bf15f384c2faef4a8cbb7476484e2e']='inline - List sub-sections and related articles.';
 $_SESSION['l10n']['en']['2367cc975647ba107ba853e93a807607']='jive - Display most of articles content';
 $_SESSION['l10n']['en']['jive - List 5 threads per board']='jive - List 5 threads per board';

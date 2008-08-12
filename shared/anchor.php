@@ -468,18 +468,18 @@ class Anchor {
 		 // no user record has been found, use anchor data
 		 if(!isset($poster['id'])) {
 			 $poster = array();
-
-			 if(isset($this->item['create_name']))
-				$poster['nick_name'] = $this->item['create_name'];
-			 elseif(isset($this->item['edit_name']))
-				$poster['nick_name'] = $this->item['edit_name'];
-
 			 if(isset($this->item['create_address']))
 				$poster['email'] = $this->item['create_address'];
 			 elseif(isset($this->item['edit_address']))
 				$poster['email'] = $this->item['edit_address'];
 
 		 }
+
+		 // nick name may have changed over time
+		 if(isset($this->item['create_name']))
+			$poster['nick_name'] = $this->item['create_name'];
+		 elseif(isset($this->item['edit_name']))
+			$poster['nick_name'] = $this->item['edit_name'];
 
 		 // return poster atributes
 		 return $poster;

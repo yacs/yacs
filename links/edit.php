@@ -480,11 +480,11 @@ if($with_form) {
 	$input = '<input type="radio" name="link_target" value="B"';
 	if(!isset($item['link_target']) || ($item['link_target'] != 'I'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Open a separate window for external links')
+	$input .= '/> '.i18n::s('Open a separate window for external links')
 		.BR.'<input type="radio" name="link_target" value="I"';
 	if(isset($item['link_target']) && ($item['link_target'] == 'I'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Stay in same window on click')."\n";
+	$input .= '/> '.i18n::s('Stay in same window on click')."\n";
 	$fields[] = array($label, $input);
 
 	// the description

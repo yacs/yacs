@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
+ * on August 12, 2008, 10:06 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['"%s" is not a valid date']='"%s" n\'est pas une date valide';
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
@@ -217,7 +217,6 @@ $_SESSION['l10n']['fr']['a5a7c2b006f2fe940008621110c4ea54']='Merci de taper le t
 $_SESSION['l10n']['fr']['Poor']='Pauvre';
 $_SESSION['l10n']['fr']['Popular']='Hit-Parade';
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';
-$_SESSION['l10n']['fr']['Post a %s to this topic']='Poster une %s à ce sujet';
 $_SESSION['l10n']['fr']['52c228644224525af0bf54e9397fad52']='Envoyez un fichier XML pour importer des articles.';
 $_SESSION['l10n']['fr']['Post to %s']='Poster à %s';
 $_SESSION['l10n']['fr']['Poster']='Auteur';
@@ -403,7 +402,6 @@ $_SESSION['l10n']['fr']['posted by %s %s']='posté par %s %s';
 $_SESSION['l10n']['fr']['06af23447dcf50a877cd710b884633ec']='affichée normalement, en fonction des paramètres de la section';
 $_SESSION['l10n']['fr']['published %s']='publié %s';
 $_SESSION['l10n']['fr']['published by %s %s']='publié par %s %s';
-$_SESSION['l10n']['fr']['reply']='réponse';
 $_SESSION['l10n']['fr']['reviewed %s']='mis à jour %s';
 $_SESSION['l10n']['fr']['smileys']='les emoticons';
 $_SESSION['l10n']['fr']['sticky']='classées';

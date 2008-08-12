@@ -49,10 +49,6 @@ Class Layout_articles_as_digg extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// sanity check
-		if(!isset($this->layout_variant))
-			$this->layout_variant = 'full';
-
 		// flag articles updated recently
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if($context['site_revisit_after'] < 1)
@@ -104,7 +100,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 				$icon = $anchor->get_thumbnail_url();
 			}
 			if($icon)
-				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'"'.EOT.'</a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
 
 			// rating
 			if($item['rating_count'])
@@ -208,11 +204,11 @@ Class Layout_articles_as_digg extends Layout_interface {
 			$menu = array_merge($menu, array( $link => i18n::s('Reference this page') ));
 
 			// link to the anchor page
-			if(($this->layout_variant != 'no_anchor') && ($item['anchor'] != $this->layout_variant) && is_object($anchor))
+			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
 				$menu = array_merge($menu, array( $anchor->get_url() => $anchor->get_title() ));
 
 			// list up to three categories by title, if any
-			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 				foreach($items as $id => $attributes) {
 					$menu = array_merge($menu, array( Categories::get_permalink($attributes) => $attributes['title'] ));
 				}

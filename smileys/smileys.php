@@ -67,7 +67,7 @@ class Smileys {
 			$replace = array();
 
 			$prefix = ' <img src="'.$context['url_to_root'].'skins/images/smileys/';
-			$suffix = '" alt=""'.EOT.' ';
+			$suffix = '" alt="" /> ';
 
 			$pattern[] = ' >:(';
 			$replace[] = $prefix.'angry.gif'.$suffix;

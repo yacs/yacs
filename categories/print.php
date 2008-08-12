@@ -131,9 +131,9 @@ if(Surfer::is_crawler()) {
 
 	// list items by date (default) or by title (option articles_by_title)
 	if(preg_match('/\barticles_by_title\b/i', $item['options']))
-		$items = Members::list_articles_by_title_for_anchor('category:'.$item['id'], 0, 50);
+		$items =& Members::list_articles_by_title_for_anchor('category:'.$item['id'], 0, 50);
 	else
-		$items = Members::list_articles_by_date_for_anchor('category:'.$item['id'], 0, 50);
+		$items =& Members::list_articles_by_date_for_anchor('category:'.$item['id'], 0, 50);
 
 	// actually render the html for the section
 	if($items)

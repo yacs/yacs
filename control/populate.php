@@ -119,7 +119,7 @@ if(!$permitted) {
 
 	// the form to get user attributes
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" name="main_form"><div>'."\n"
-		.'<input type="hidden" name="action" value="associate"'.EOT;
+		.'<input type="hidden" name="action" value="associate" />';
 
 	// the nick name
 	$label = i18n::s('Nick name');

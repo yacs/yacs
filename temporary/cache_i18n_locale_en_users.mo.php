@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
+ * on August 12, 2008, 10:05 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['1bd98a189df2e6fa8f42845cb0f815e1']='%d active now'.chr(0).'%d active now';
 $_SESSION['l10n']['en']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
@@ -101,7 +101,6 @@ $_SESSION['l10n']['en']['Change password']='Change password';
 $_SESSION['l10n']['en']['Click here to register']='Click here to register';
 $_SESSION['l10n']['en']['ab006b2530195974908cd8ab59b711b9']='Click on codes to insert images in the page.';
 $_SESSION['l10n']['en']['3a5a68464c51fb255e04c1d8eff8e003']='Click on one image below to make it your new avatar. Instead of using the library you may prefer to %s.';
-$_SESSION['l10n']['en']['e63c52e2547c326d070a5e820d6abcbb']='Click on the Watch link while browsing people, sections, or articles.';
 $_SESSION['l10n']['en']['7fb096f01683499a98de8b53f0fdef56']='Click on the link below to activate your new account.';
 $_SESSION['l10n']['en']['Code to reference this user: %s']='Code to reference this user: %s';
 $_SESSION['l10n']['en']['Comments']='Comments';
@@ -190,6 +189,7 @@ $_SESSION['l10n']['en']['Improved interface']='Improved interface';
 $_SESSION['l10n']['en']['Information']='Information';
 $_SESSION['l10n']['en']['Information channels']='Information channels';
 $_SESSION['l10n']['en']['Instant messaging']='Instant messaging';
+$_SESSION['l10n']['en']['Interactions']='Interactions';
 $_SESSION['l10n']['en']['Interface']='Interface';
 $_SESSION['l10n']['en']['Introduction']='Introduction';
 $_SESSION['l10n']['en']['Invalid authenticator type.']='Invalid authenticator type.';
@@ -224,7 +224,6 @@ $_SESSION['l10n']['en']['Message title']='Message title';
 $_SESSION['l10n']['en']['Most recent members']='Most recent members';
 $_SESSION['l10n']['en']['Move forward']='Move forward';
 $_SESSION['l10n']['en']['My profile']='My profile';
-$_SESSION['l10n']['en']['My sections']='My sections';
 $_SESSION['l10n']['en']['Navigate']='Navigate';
 $_SESSION['l10n']['en']['Neighbours']='Neighbours';
 $_SESSION['l10n']['en']['Network address']='Network address';
@@ -264,6 +263,7 @@ $_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
 $_SESSION['l10n']['en']['Organization']='Organization';
 $_SESSION['l10n']['en']['aaa403124724a506bb1b2a6f198d3188']='Outbound HTTP is not authorized.';
 $_SESSION['l10n']['en']['PGP key or certificate']='PGP key or certificate';
+$_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['Password']='Password';
 $_SESSION['l10n']['en']['Password confirmation']='Password confirmation';
 $_SESSION['l10n']['en']['0907a526998e1cb6371e1510c92665f8']='Paste here the public key you would like to share with others.';
@@ -307,8 +307,6 @@ $_SESSION['l10n']['en']['Public key']='Public key';
 $_SESSION['l10n']['en']['Publications']='Publications';
 $_SESSION['l10n']['en']['57d933de5f2dc486ff81a41574fabb5b']='Published pages are automatically assigned to weekly and monthly categories.';
 $_SESSION['l10n']['en']['RSS feed']='RSS feed';
-$_SESSION['l10n']['en']['Recent files']='Recent files';
-$_SESSION['l10n']['en']['Recent links']='Recent links';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['c3b4a944458c8919e6c5a41963f83a8f']='Record this message and use the following link to authenticate to the site at any time:';
 $_SESSION['l10n']['en']['0b41ae15f9ba9399c54a4912bdcc6eeb']='Redirect directly to protected page after authentication.';
@@ -329,12 +327,11 @@ $_SESSION['l10n']['en']['3f198a683dbf9c5d9abee63865732cce']='Screen is not share
 $_SESSION['l10n']['en']['Screening']='Screening';
 $_SESSION['l10n']['en']['706d4aa7c88cd69343d72b2f59b6780a']='Script used to %s at this server';
 $_SESSION['l10n']['en']['Search']='Search';
+$_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['Select an avatar']='Select an avatar';
 $_SESSION['l10n']['en']['Select an avatar for %s']='Select an avatar for %s';
 $_SESSION['l10n']['en']['3d5270ae8629a643f9381efebc376d61']='Select an avatar from the library';
-$_SESSION['l10n']['en']['158c057fc144d7934a69b244a5f80480']='Select sections accessed by this person';
-$_SESSION['l10n']['en']['fc5b15e017157c38f41008dade8d7513']='Select sections managed by this person';
 $_SESSION['l10n']['en']['abbb7ad09d40d7272c30569b47a44199']='Select your preferred tool to edit text.';
 $_SESSION['l10n']['en']['Self-deletion']='Self-deletion';
 $_SESSION['l10n']['en']['c135a8dca58a3d9943aeac7d94451d30']='Self-registrating surfer will become a member (open community).';
@@ -411,9 +408,6 @@ $_SESSION['l10n']['en']['Visit user profile']='Visit user profile';
 $_SESSION['l10n']['en']['2470a7b84e0565efbfd25c51005b44b5']='Wait for one hour to recover from too many failed authentications.';
 $_SESSION['l10n']['en']['Watch']='Watch';
 $_SESSION['l10n']['en']['Watch list']='Watch list';
-$_SESSION['l10n']['en']['Watched pages']='Watched pages';
-$_SESSION['l10n']['en']['Watched people']='Watched people';
-$_SESSION['l10n']['en']['Watched sections']='Watched sections';
 $_SESSION['l10n']['en']['9a250442ef65262197f8895bf945b00f']='Watchers are notified by e-mail.';
 $_SESSION['l10n']['en']['e9932f48fae5ec1f75c182827065e4af']='We are only keeping a shadow record for this user profile. Please change the password for this account at %s';
 $_SESSION['l10n']['en']['5fb7f4ba102cedd23afff6754e57926e']='We recommend either 0 (members cannot extend their web space), or 3 (public, restricted, hidden).';

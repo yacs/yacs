@@ -225,42 +225,94 @@ if(!file_exists('../parameters/control.include.php')) {
 			$text .= Skin::table_row(array(i18n::s('Table'), i18n::s('Records'), 'center='.i18n::s('First record'), 'center='.i18n::s('Last record')), 'header');
 			$lines = 2;
 
+			// actions
+			if($row = SQL::table_stat('actions')) {
+				$cells = array();
+				$cells[] = Skin::build_link('actions/', SQL::table_name('actions'), 'basic');
+				$cells[] = 'center='.$row[0];
+				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
+				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
+				$text .= Skin::table_row($cells, $lines++);
+			} else
+				$text .= Skin::table_row(array(SQL::table_name('actions'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+
 			// articles
 			if($row = SQL::table_stat('articles')) {
 				$cells = array();
-				$cells[] = Skin::build_link('articles/', i18n::s('Pages'), 'shortcut');
+				$cells[] = Skin::build_link('articles/', SQL::table_name('articles'), 'basic');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Pages'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('articles'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// images
-			include_once '../images/images.php';
-			if($stats = Images::stat()) {
+			// cache
+			if($row = SQL::table_stat('cache')) {
 				$cells = array();
-				$size = '';
-				if($stats['total_size'])
-					$size = ' ('.Skin::build_number($stats['total_size']).')';
-				$cells[] = Skin::build_link('images/', i18n::s('Images'), 'shortcut').$size;
+				$cells[] = SQL::table_name('cache');
+				$cells[] = 'center='.$row[0];
+				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
+				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
+				$text .= Skin::table_row($cells, $lines++);
+			} else
+				$text .= Skin::table_row(array(SQL::table_name('cache'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+
+			// categories
+			if($row = SQL::table_stat('categories')) {
+				$cells = array();
+				$cells[] = Skin::build_link('categories/', SQL::table_name('categories'), 'basic');
+				$cells[] = 'center='.$row[0];
+				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
+				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
+				$text .= Skin::table_row($cells, $lines++);
+			} else
+				$text .= Skin::table_row(array(SQL::table_name('categories'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+
+			// comments
+			if($row = SQL::table_stat('comments')) {
+				$cells = array();
+				$cells[] = Skin::build_link('comments/', SQL::table_name('comments'), 'basic');
+				$cells[] = 'center='.$row[0];
+				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
+				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
+				$text .= Skin::table_row($cells, $lines++);
+			} else
+				$text .= Skin::table_row(array(SQL::table_name('comments'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+
+			// counters
+			include_once '../agents/browsers.php';
+			if($stats = Browsers::stat()) {
+				$cells = array();
+				$cells[] = SQL::table_name('counters');
 				$cells[] = 'center='.$stats['count'];
-				$cells[] = 'center='.($stats['oldest_date']?Skin::build_date($stats['oldest_date']):'--');
-				$cells[] = 'center='.($stats['newest_date']?Skin::build_date($stats['newest_date']):'--');
+				$cells[] = 'center=--';
+				$cells[] = 'center=--';
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Images'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('counters'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// tables
-			if($row = SQL::table_stat('tables')) {
+			// dates
+			if($row = SQL::table_stat('dates')) {
 				$cells = array();
-				$cells[] = Skin::build_link('tables/', i18n::s('Tables'), 'shortcut');
+				$cells[] = Skin::build_link('dates/', SQL::table_name('dates'), 'basic');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Tables'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('dates'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+
+			// decisions
+			if($row = SQL::table_stat('decisions')) {
+				$cells = array();
+				$cells[] = Skin::build_link('decisions/', SQL::table_name('decisions'), 'basic');
+				$cells[] = 'center='.$row[0];
+				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
+				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
+				$text .= Skin::table_row($cells, $lines++);
+			} else
+				$text .= Skin::table_row(array(SQL::table_name('decisions'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
 			// files
 			include_once '../files/files.php';
@@ -269,258 +321,206 @@ if(!file_exists('../parameters/control.include.php')) {
 				$size = '';
 				if($stats['total_size'])
 					$size = ' ('.Skin::build_number($stats['total_size']).')';
-				$cells[] = Skin::build_link('files/', i18n::s('Files'), 'shortcut').$size;
+				$cells[] = Skin::build_link('files/', SQL::table_name('files'), 'basic').$size;
 				$cells[] = 'center='.$stats['count'];
 				$cells[] = 'center='.($stats['oldest_date']?Skin::build_date($stats['oldest_date']):'--');
 				$cells[] = 'center='.($stats['newest_date']?Skin::build_date($stats['newest_date']):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Files'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
-			// links
-			if($row = SQL::table_stat('links')) {
-				$cells = array();
-				$cells[] = Skin::build_link('links/', i18n::s('Links'), 'shortcut');
-				$cells[] = 'center='.$row[0];
-				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
-				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(i18n::s('Links'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
-			// locations
-			if($row = SQL::table_stat('locations')) {
-				$cells = array();
-				$cells[] = Skin::build_link('locations/', i18n::s('Locations'), 'shortcut');
-				$cells[] = 'center='.$row[0];
-				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
-				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(i18n::s('Locations'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
-			// comments
-			if($row = SQL::table_stat('comments')) {
-				$cells = array();
-				$cells[] = sprintf(i18n::s('Comments in %s'), Skin::build_link('comments/', i18n::s('threads'), 'shortcut'));
-				$cells[] = 'center='.$row[0];
-				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
-				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(i18n::s('Comments'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
-			// decisions
-			if($row = SQL::table_stat('decisions')) {
-				$cells = array();
-				$cells[] = Skin::build_link('decisions/', i18n::s('Decisions'), 'shortcut');
-				$cells[] = 'center='.$row[0];
-				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
-				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(i18n::s('Decisions'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
-			// categories
-			if($row = SQL::table_stat('categories')) {
-				$cells = array();
-				$cells[] = Skin::build_link('categories/', i18n::s('Categories'), 'shortcut');
-				$cells[] = 'center='.$row[0];
-				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
-				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(i18n::s('Categories'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
-			// sections
-			if($row = SQL::table_stat('sections')) {
-				$cells = array();
-				$cells[] = Skin::build_link('sections/', i18n::s('Sections'), 'shortcut');
-				$cells[] = 'center='.$row[0];
-				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
-				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(i18n::s('Sections'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('files'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
 			// forms
 			if($row = SQL::table_stat('forms')) {
 				$cells = array();
-				$cells[] = Skin::build_link('forms/', i18n::s('Forms'), 'shortcut');
+				$cells[] = Skin::build_link('forms/', SQL::table_name('forms'), 'basic');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Forms'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('forms'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// users
-			if($row = SQL::table_stat('users')) {
+			// images
+			include_once '../images/images.php';
+			if($stats = Images::stat()) {
 				$cells = array();
-				$cells[] = Skin::build_link('users/', i18n::s('People'), 'shortcut');
-				$cells[] = 'center='.$row[0];
-				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
-				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
+				$size = '';
+				if($stats['total_size'])
+					$size = ' ('.Skin::build_number($stats['total_size']).')';
+				$cells[] = Skin::build_link('images/', SQL::table_name('images'), 'basic').$size;
+				$cells[] = 'center='.$stats['count'];
+				$cells[] = 'center='.($stats['oldest_date']?Skin::build_date($stats['oldest_date']):'--');
+				$cells[] = 'center='.($stats['newest_date']?Skin::build_date($stats['newest_date']):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Users'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('images'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// notifications
-			if($row = SQL::table_stat('notifications')) {
+			// links
+			if($row = SQL::table_stat('links')) {
 				$cells = array();
-				$cells[] = i18n::s('Notifications');
+				$cells[] = Skin::build_link('links/', SQL::table_name('links'), 'basic');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Notifications'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('links'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+
+			// locations
+			if($row = SQL::table_stat('locations')) {
+				$cells = array();
+				$cells[] = Skin::build_link('locations/', SQL::table_name('locations'), 'basic');
+				$cells[] = 'center='.$row[0];
+				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
+				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
+				$text .= Skin::table_row($cells, $lines++);
+			} else
+				$text .= Skin::table_row(array(SQL::table_name('locations'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+
+			// members
+			if($row = SQL::table_stat('members')) {
+				$cells = array();
+				$cells[] = SQL::table_name('members');
+				$cells[] = 'center='.$row[0];
+				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
+				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
+				$text .= Skin::table_row($cells, $lines++);
+			} else
+				$text .= Skin::table_row(array(SQL::table_name('members'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
 			// messages
 			if($row = SQL::table_stat('messages')) {
 				$cells = array();
-				$cells[] = i18n::s('Messages');
+				$cells[] = SQL::table_name('messages');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('messages'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('messages'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// visits
-			if($row = SQL::table_stat('visits')) {
+			// notifications
+			if($row = SQL::table_stat('notifications')) {
 				$cells = array();
-				$cells[] = i18n::s('Visits');
+				$cells[] = SQL::table_name('notifications');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Visits'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('notifications'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// actions
-			if($row = SQL::table_stat('actions')) {
+			// the php documentation
+			if($row = SQL::table_stat('phpdoc')) {
 				$cells = array();
-				$cells[] = Skin::build_link('actions/', i18n::s('Actions'), 'shortcut');
+				$cells[] = Skin::build_link('scripts/', SQL::table_name('phpdoc'), 'basic');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Actions'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
-			// dates
-			if($row = SQL::table_stat('dates')) {
-				$cells = array();
-				$cells[] = Skin::build_link('dates/', i18n::s('Dates'), 'shortcut');
-				$cells[] = 'center='.$row[0];
-				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
-				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(i18n::s('Dates'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
-			// servers
-			if($row = SQL::table_stat('servers')) {
-				$cells = array();
-				$cells[] = Skin::build_link('servers/', i18n::s('Servers'), 'shortcut');
-				$cells[] = 'center='.$row[0];
-				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
-				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(i18n::s('Servers'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
-			// referrals
-			include_once '../agents/referrals.php';
-			if($stats = Referrals::stat()) {
-				$cells = array();
-				$cells[] = i18n::s('Referrals');
-				$cells[] = 'center='.$stats['count'];
-				$cells[] = 'center=--';
-				$cells[] = 'center=--';
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(i18n::s('Referrals'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
-
-			// counters
-			include_once '../agents/browsers.php';
-			if($stats = Browsers::stat()) {
-				$cells = array();
-				$cells[] = i18n::s('Counters');
-				$cells[] = 'center='.$stats['count'];
-				$cells[] = 'center=--';
-				$cells[] = 'center=--';
-				$text .= Skin::table_row($cells, $lines++);
-			} else
-				$text .= Skin::table_row(array(i18n::s('Counters'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('phpdoc'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
 			// profiles
 			include_once '../agents/profiles.php';
 			if($stats = Profiles::stat()) {
 				$cells = array();
-				$cells[] = i18n::s('Profiles');
+				$cells[] = SQL::table_name('profiles');
 				$cells[] = 'center='.$stats['count'];
 				$cells[] = 'center=--';
 				$cells[] = 'center=--';
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Profiles'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('profiles'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// versions
-			if($row = SQL::table_stat('versions')) {
+			// referrals
+			include_once '../agents/referrals.php';
+			if($stats = Referrals::stat()) {
 				$cells = array();
-				$cells[] = i18n::s('Versions');
+				$cells[] = SQL::table_name('referrals');
+				$cells[] = 'center='.$stats['count'];
+				$cells[] = 'center=--';
+				$cells[] = 'center=--';
+				$text .= Skin::table_row($cells, $lines++);
+			} else
+				$text .= Skin::table_row(array(SQL::table_name('referrals'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+
+			// sections
+			if($row = SQL::table_stat('sections')) {
+				$cells = array();
+				$cells[] = Skin::build_link('sections/', SQL::table_name('sections'), 'basic');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Versions'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('sections'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// members
-			if($row = SQL::table_stat('members')) {
+			// servers
+			if($row = SQL::table_stat('servers')) {
 				$cells = array();
-				$cells[] = i18n::s('Members of...');
+				$cells[] = Skin::build_link('servers/', SQL::table_name('servers'), 'basic');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Members of...'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('servers'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+
+			// tables
+			if($row = SQL::table_stat('tables')) {
+				$cells = array();
+				$cells[] = Skin::build_link('tables/', SQL::table_name('tables'), 'basic');
+				$cells[] = 'center='.$row[0];
+				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
+				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
+				$text .= Skin::table_row($cells, $lines++);
+			} else
+				$text .= Skin::table_row(array(SQL::table_name('tables'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+
+			// users
+			if($row = SQL::table_stat('users')) {
+				$cells = array();
+				$cells[] = Skin::build_link('users/', SQL::table_name('users'), 'basic');
+				$cells[] = 'center='.$row[0];
+				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
+				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
+				$text .= Skin::table_row($cells, $lines++);
+			} else
+				$text .= Skin::table_row(array(SQL::table_name('users'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
 			// values
 			if($row = SQL::table_stat('values')) {
 				$cells = array();
-				$cells[] = i18n::s('Values');
+				$cells[] = SQL::table_name('values');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Values'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('values'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// cache
-			if($row = SQL::table_stat('cache')) {
+			// versions
+			if($row = SQL::table_stat('versions')) {
 				$cells = array();
-				$cells[] = i18n::s('Cache');
+				$cells[] = SQL::table_name('versions');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('Cache'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('versions'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
-			// the php documentation
-			if($row = SQL::table_stat('phpdoc')) {
+			// visits
+			if($row = SQL::table_stat('visits')) {
 				$cells = array();
-				$cells[] = Skin::build_link('scripts/', i18n::s('PHP documentation'), 'shortcut');
+				$cells[] = SQL::table_name('visits');
 				$cells[] = 'center='.$row[0];
 				$cells[] = 'center='.($row[1]?Skin::build_date($row[1]):'--');
 				$cells[] = 'center='.($row[2]?Skin::build_date($row[2]):'--');
 				$text .= Skin::table_row($cells, $lines++);
 			} else
-				$text .= Skin::table_row(array(i18n::s('PHP documentation'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
+				$text .= Skin::table_row(array(SQL::table_name('visits'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
 			// end of the table
 			$text .= Skin::table_suffix();

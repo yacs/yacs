@@ -102,7 +102,7 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.')."</p>\n";
 
 // no recipient has been found
-} elseif((!$recipients = Members::list_users_by_posts_for_anchor('category:'.$item['id'], 0, 200, 'mail')) || !count($recipients))
+} elseif((!$recipients =& Members::list_users_by_posts_for_anchor('category:'.$item['id'], 0, 200, 'mail')) || !count($recipients))
 	Skin::error(i18n::s('No recipient has been defined.'));
 
 // process submitted data

@@ -95,11 +95,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="files_on_ftp" id="files_on_ftp" value="N"';
 	if(!isset($context['files_on_ftp']) || ($context['files_on_ftp'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('No, all uploaded files are placed in the web space.').BR;
+	$input .= '/> '.i18n::s('No, all uploaded files are placed in the web space.').BR;
 	$input .= '<input type="radio" name="files_on_ftp" value="Y"';
 	if(isset($context['files_on_ftp']) && ($context['files_on_ftp'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Yes, and following parameters are used for the mapping to the FTP service.')."\n";
+	$input .= '/> '.i18n::s('Yes, and following parameters are used for the mapping to the FTP service.')."\n";
 	$fields[] = array($label, $input);
 
 	// the path prefix

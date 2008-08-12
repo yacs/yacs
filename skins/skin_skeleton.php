@@ -1104,7 +1104,7 @@ Class Skin_Skeleton {
 
 			// date stamps are handled in regular text fields
 			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="20" maxlength="255" />'
-				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'">';
+				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="" />';
 
 			// these are enhanced with jsCalendar, if present
 			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
@@ -1181,26 +1181,8 @@ Class Skin_Skeleton {
 		if(!$url || (strpos($url, '_') === 0))
 			return $label;
 
-		// cache previous answers
-		$cache_id = crc32($url.':'.$label.':'.$variant);
-		static $cache;
-		if(!is_array($cache))
-			$cache = array();
-
-		// cache hit
-		if(isset($cache[ $cache_id ]))
-			return $cache[ $cache_id ];
-
 		if($context['with_profile'] == 'Y')
 			Logger::profile('Skin::build_link', 'start');
-
-		// be sure to have a label
-		if(!$text = $label)
-			$text = basename(dirname($url)).'/'.basename($url);
-
-		// finalize the hovering title
-		if($href_title)
-			$href_title = ' title="'.encode_field(strip_tags($href_title)).'"';
 
 		// guess the type of this link
 		if(!$variant) {
@@ -1321,6 +1303,20 @@ Class Skin_Skeleton {
 		elseif(!strncmp($url, 'ftp:', 4) && strncmp($url, 'ftp://'.$context['host_name'], strlen('ftp://'.$context['host_name'])))
 			$variant = 'external';
 
+		// help crawlers and do not count clicks
+		if(is_callable(array('Surfer', 'is_crawler')) && Surfer::is_crawler()) {
+			$variant = 'basic';
+			$href_title = '';
+		}
+
+		// finalize the hovering title
+		if($href_title)
+			$href_title = ' title="'.encode_field(strip_tags($href_title)).'"';
+
+		// be sure to have a label
+		if(!$text = $label)
+			$text = basename($url);
+
 		// depending on variant
 		switch($variant) {
 
@@ -1385,8 +1381,7 @@ Class Skin_Skeleton {
 		case 'external':
 
 			// count external clicks, but not for robots
-			if(is_callable(array('Surfer', 'is_crawler')) && !Surfer::is_crawler())
-				$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
+			$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
 
 			// a default title
 			if(!$href_title)
@@ -1581,8 +1576,6 @@ Class Skin_Skeleton {
 		if($context['with_profile'] == 'Y')
 			Logger::profile('Skin::build_link', 'stop');
 
-		$cache[ $cache_id ] = $text;
-
 		// job done
 		return $text;
 	}
@@ -1636,7 +1629,7 @@ Class Skin_Skeleton {
 		}
 
 		// split the list in separate columns
-		if($variant == '2-columns') {
+		if(($variant == '2-columns') || ($variant == 'yahoo')) {
 
 			// split the list
 			$column_1 = array();
@@ -1729,19 +1722,22 @@ Class Skin_Skeleton {
 			if($label != '_')
 				$link =& Skin::build_link($url, $label, $type, $title, $new_window);
 
-
 			// this link comes with an attached image
-			if($icon) {
+			if(strpos($icon, '<img ') !== FALSE)
+				;
+
+			// we just have a link
+			elseif($icon) {
 
 				// fix relative path
 				if(!preg_match('/^(\/|http:|https:|ftp:)/', $icon))
 					$icon = $context['url_to_root'].$icon;
 
 				// build the complete HTML element
-				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($label).'" '.EOT;
+				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($label).'" />';
 
 			// use default icon if nothing to display
-			} elseif(!$icon)
+			} else
 				$icon = $default_icon;
 
 			// use the image as a link to the target page
@@ -2210,13 +2206,13 @@ Class Skin_Skeleton {
 		// an easy link to addthis bookmarks
 		if(file_exists($context['path_to_root'].'skins/images/feeds/addthis0-bm.gif'))
 			$items[] = '<a href="http://www.addthis.com/bookmark.php?pub='.urlencode($context['site_name']).'&amp;url='.urlencode($url).'&amp;title='.urlencode($title).'" onclick="window.open(this.href); return false;">'
-				.'<img src="'.$context['url_to_root'].'skins/images/feeds/addthis0-bm.gif" width="83" height="16" alt="AddThis Social Bookmark Button"'.EOT
+				.'<img src="'.$context['url_to_root'].'skins/images/feeds/addthis0-bm.gif" width="83" height="16" alt="AddThis Social Bookmark Button" />'
 				.'</a>';
 
 		// an easy link to addthis feeds
 		if(file_exists($context['path_to_root'].'skins/images/feeds/addthis0-fd.gif'))
 			$items[] = '<a href="http://www.addthis.com/feed.php?&amp;h1='.urlencode($url).'&amp;t1='.urlencode($title).'pub='.urlencode($context['site_name']).'" onclick="window.open(this.href); return false;">'
-				.'<img src="'.$context['url_to_root'].'skins/images/feeds/addthis0-fd.gif" width="83" height="16" alt="AddThis Feed Button"'.EOT
+				.'<img src="'.$context['url_to_root'].'skins/images/feeds/addthis0-fd.gif" width="83" height="16" alt="AddThis Feed Button" />'
 				.'</a>';
 
 		// job done
@@ -2750,9 +2746,9 @@ Class Skin_Skeleton {
 
 		// make an absolute path to image, in case of export (freemind, etc.)
 		if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/'.$file))
-			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'"'.EOT.' ');
+			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'" /> ');
 		elseif($size = Safe::GetImageSize($context['path_to_root'].'skins/images/'.$file))
-			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].'skins/images/'.$file.'" '.$size[3].' alt="'.$alternate.'"'.EOT.' ');
+			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].'skins/images/'.$file.'" '.$size[3].' alt="'.$alternate.'" /> ');
 		else
 			define($name, $default);
 	}
@@ -2895,6 +2891,8 @@ Class Skin_Skeleton {
 
 			// use css selector: ul.compact, or customize constants in skin.php -- icons are dropped, if any
 			case 'compact':
+			case 'hits':
+			case 'simple':
 
 				// basic rendering for hard printouts
 				if(isset($skin['variant']) && ($skin['variant'] == 'print')) {
@@ -3610,7 +3608,7 @@ Class Skin_Skeleton {
 
 		// the article icon, if any
 		if(isset($item['icon_url']) && $item['icon_url'])
-			$text .= ICON_PREFIX.'<img src="'.$item['icon_url'].'" class="icon" alt=""'.EOT.ICON_SUFFIX;
+			$text .= ICON_PREFIX.'<img src="'.$item['icon_url'].'" class="icon" alt="" />'.ICON_SUFFIX;
 
 		// the introduction text, if any
 		if(isset($item['introduction']) && $item['introduction'])

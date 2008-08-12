@@ -95,7 +95,7 @@ Class Locations {
 			return TRUE;
 
 		// teasers are activated
-		if(!Surfer::is_logged() && (!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y')))
+		if(Surfer::is_teased())
 			return TRUE;
 
 		// the default is to not allow for new locations
@@ -645,8 +645,7 @@ Class Locations {
 
 		// no capability to create an image
 		if(!isset($context['google_api_key']) || !$context['google_api_key']) {
-			if($verbose)
-				Skin::error(i18n::s('Use the configuration panel for web services to enter your Google API key.'));
+			Skin::error(i18n::s('Use the configuration panel for web services to enter your Google API key.'));
 			return $text;
 		}
 

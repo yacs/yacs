@@ -110,7 +110,7 @@ Class Layout_articles_as_news extends Layout_interface {
 
 			// the icon to put in the left column
 			if($item['thumbnail_url'])
-				$suffix .= BR.Skin::build_link($url, '<img src="'.$item['thumbnail_url'].'" alt="" title="'.encode_field($title).'"'.EOT, 'basic');
+				$suffix .= BR.Skin::build_link($url, '<img src="'.$item['thumbnail_url'].'" alt="" title="'.encode_field($title).'" />', 'basic');
 
 			// details
 			$details = array();

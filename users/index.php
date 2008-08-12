@@ -100,7 +100,7 @@ if(is_callable(array('Hooks', 'include_scripts')))
 // a search form for users
 $context['text'] .= '<form action="'.$context['url_to_root'].'users/search.php" method="get">'
 	.'<p>'
-	.'<input type="text" name="search" size="40" value="'.encode_field(i18n::s('Look for some user')).'" onfocus="this.value=\'\'" maxlength="128"'.EOT
+	.'<input type="text" name="search" size="40" value="'.encode_field(i18n::s('Look for some user')).'" onfocus="this.value=\'\'" maxlength="128" />'
 	.Skin::build_submit_button('&raquo;')
 	.'</p>'
 	."</form>\n";
@@ -170,7 +170,7 @@ if(!$text =& Cache::get($cache_id)) {
 			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
 
 			// box content
-			if($items = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
+			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
 				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'navigation')."\n";
 		}
 	}
@@ -185,7 +185,7 @@ $context['extra'] .= Skin::build_referrals('users/index.php');
 
 // a meta link to a feeding page
 include_once '../feeds/feeds.php';
-$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Feeds::get_url('rss').'" title="RSS" type="application/rss+xml"'.EOT;
+$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Feeds::get_url('rss').'" title="RSS" type="application/rss+xml" />';
 
 // render the skin
 render_skin();

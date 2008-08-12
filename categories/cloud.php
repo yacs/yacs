@@ -27,7 +27,7 @@ $cache_id = 'categories/cloud.php#content';
 if(!$text =& Cache::get($cache_id)) {
 
 	// query the database and layout that stuff
-	if(!$text = Members::list_categories_by_count_for_anchor(NULL, 0, 200, 'cloud'))
+	if(!$text =& Members::list_categories_by_count_for_anchor(NULL, 0, 200, 'cloud'))
 		$text = '<p>'.i18n::s('No item has been found.').'</p>';
 
 	// we have an array to format

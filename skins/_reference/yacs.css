@@ -434,10 +434,23 @@ div#extra_panel ul.compact li a.idle { /* user is present, yet idle */
  */
 
 table.calendar { /* one table per month */
-	margin-top: 1em;
+	margin: 0.5em 3px 0.5em 3px;
 }
 
-table.calendar caption { /* label for target month */
+table.compact caption { /* label for target month */
+	padding: 0 0 0 0.5em;
+	font-size: 1em;
+	text-align: left;
+}
+
+table.compact tr td,
+table.compact tr th { /* a cell in a compact calendar */
+	font-weight: normal;
+	padding: 0.3em;
+	text-align: center;
+}
+
+table.month caption { /* label for target month */
 	margin-top: 1em;
 	padding: 1em 0 0 0.5em;
 	font-size: 1.2em;
@@ -445,8 +458,8 @@ table.calendar caption { /* label for target month */
 	text-align: left;
 }
 
-table.calendar tr td,
-table.calendar tr th { /* an ordinary cell in a calendar table */
+table.month tr td,
+table.month tr th { /* an ordinary cell in a calendar table */
 	font-weight: normal;
 	width: 10em;
 }

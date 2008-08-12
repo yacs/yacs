@@ -42,7 +42,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 			$title = Skin::strip($item['title'], 50);
 
 			// the hovering title
-			if($item['introduction'])
+			if($item['introduction'] && ($context['skins_with_details'] == 'Y'))
 				$hover = strip_tags(Codes::strip($item['introduction']));
 
 			// add a link to the main page
@@ -60,7 +60,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 					$icon = $context['url_to_root'].$icon;
 
 				// build the complete HTML element
-				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($hover).'" '.EOT;
+				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($hover).'"  />';
 
 			// use default icon if nothing to display
 			} else

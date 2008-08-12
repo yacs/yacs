@@ -16,7 +16,7 @@ Class Dates {
 	/**
 	 * start a calendar for one month
 	 */
-	function &build_month_prefix($year, $month, $day, $caption=NULL) {
+	function &build_month_prefix($year, $month, $day, $style="month calendar", $caption=NULL, $with_headers=TRUE) {
 		global $context;
 
 		// cache labels for days
@@ -33,17 +33,19 @@ Class Dates {
 		}
 
 		// one table per month
-		$text = '<table class="month calendar">';
+		$text = '<table class="'.$style.'">';
 
 		// add caption
 		if($caption)
 			$text .= '<caption>'.$caption.'</caption>';
 
 		// display labels for days
-		$text .= '<tr>';
-		foreach($days as $index => $label)
-			$text .= '<th>'.ucfirst($label).'</th>';
-		$text .= '</tr>';
+		if($with_headers) {
+			$text .= '<tr>';
+			foreach($days as $index => $label)
+				$text .= '<th>'.ucfirst($label).'</th>';
+			$text .= '</tr>';
+		}
 
 		// first week
 		$text .= '<tr>';
@@ -100,17 +102,41 @@ Class Dates {
 		return $text;
 	}
 
+	function &build_day($day, $content, $panel_id, $compact) {
+		global $context;
+
+		// content of each day
+		static $day_content_index;
+		if(!isset($day_content_index))
+			$day_content_index = 1;
+
+		$content = join(BR, $content);
+
+		if($compact) {
+			$id = 'day_content_'.$day_content_index++;
+
+			$text = '<a href="#" onclick="$(\''.$panel_id.'\').update($(\''.$id.'\').innerHTML); new Effect.Highlight(\''.$panel_id.'\'); return false;">'.$day.'</a>'
+				.'<div id="'.$id.'" style="display: none">'.$content.'</div>';
+
+		} else
+			$text = $day.BR.$content;
+
+		return $text;
+	}
+
 	/**
 	 * produce monthly views for provided items
 	 *
 	 * @parameter array of $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 * @parameter boolean if TRUE, add links to yearly and monthly views
-	 * @parameter boolean if FALSE, do no display month captions
+	 * @parameter boolean if FALSE, do no display month caption
+	 * @parameter boolean if FALSE, do not label days in week
+	 * @parameter boolean if TRUE, display day content below the calendar
 	 * @parameter int forced year, in case no dates are provided
 	 * @parameter int forced month, in case no dates are provided
 	 * @return a string to be put in the web page
 	 */
-	function &build_months($dates, $with_zoom=FALSE, $with_caption=TRUE, $forced_year=NULL, $forced_month=NULL) {
+	function &build_months($dates, $with_zoom=FALSE, $with_caption=TRUE, $with_headers=TRUE, $compact=FALSE, $forced_year=NULL, $forced_month=NULL, $style="month calendar") {
 		global $context;
 
 		// we return some text
@@ -118,7 +144,13 @@ Class Dates {
 
 		// nothing done yet
 		$current_year = $current_month = $current_day = NULL;
-		$day_content = '';
+		$day_content = array();
+
+		// day details
+		static $day_panel_index;
+		if(!isset($day_panel_index))
+			$day_panel_index = 1;
+		$day_panel_id = 'day_panel_'.$day_panel_index++;
 
 		// process all dates
 		foreach($dates as $date_link => $date_attributes) {
@@ -131,17 +163,18 @@ Class Dates {
 
 			// flush previous day, if any
 			if($day_content && (($day != $current_day) || ($month != $current_month) || ($year != $current_year))) {
-				$text .= '<td class="spot">'.$current_day.$day_content.'</td>';
+
+				$text .= '<td class="spot">'.Dates::build_day($current_day, $day_content, $day_panel_id, $compact).'</td>';
 				$current_day++;
 				if(++$day_in_week >= 7) {
 					$day_in_week = 0;
 					$text .= '</tr><tr>';
 				}
-				$day_content = '';
+				$day_content = array();
 			}
 
 			// content for this date
-			$day_content .= BR.$prefix.Skin::build_link($date_link, $label, $type).$suffix;
+			$day_content[] = $prefix.Skin::build_link($date_link, $label, $type).$suffix;
 
 			// close current month
 			if($current_month && ($month != $current_month))
@@ -181,7 +214,7 @@ Class Dates {
 
 				// start a new month
 				$current_day = 1;
-				$text .= Dates::build_month_prefix($current_year, $current_month, $day_in_week, $title);
+				$text .= Dates::build_month_prefix($current_year, $current_month, $day_in_week, $style, $title, $with_headers);
 
 				// not yet at the target month, close an empty month
 				if($month != $current_month)
@@ -204,7 +237,7 @@ Class Dates {
 
 		// flush previous day
 		if($day_content)
-			$text .= '<td class="spot">'.$current_day++.$day_content.'</td>';
+			$text .= '<td class="spot">'.Dates::build_day($current_day++, $day_content, $day_panel_id, $compact).'</td>';
 
 		// close last month, if any
 		if($current_month)
@@ -229,15 +262,19 @@ Class Dates {
 
 				}
 
-				$text .= Dates::build_month_prefix($forced_year, $forced_month, -1, $title)
+				$text .= Dates::build_month_prefix($forced_year, $forced_month, -1, $style, $title, $with_headers)
 					.Dates::build_month_suffix($forced_year, $forced_month, 1);
 
 			}
 
 		}
 
+
 		// empty rows are not allowed
 		$text = str_replace('<tr></tr>', '', $text);
+
+		// an area to display date details
+		$text .= '<div id="'.$day_panel_id.'" class="day_panel" ></div>';
 
 		// done
 		return $text;
@@ -279,8 +316,7 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_member()
-			|| !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
@@ -606,8 +642,7 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_member()
-			|| !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
@@ -664,8 +699,7 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_member()
-			|| !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
@@ -734,12 +768,45 @@ Class Dates {
 	function &list_for_month($year, $month, $variant='links', $anchor=NULL) {
 		global $context;
 
+		// check the year
+		if($year < 1970)
+			$year = (int)strftime('%Y');
+
+		// check the month
+		if(($month >= 1) && ($month <= 12))
+			$prefix = strftime('%Y-%m-', mktime(0, 0, 0, $month, 1, $year));
+
+		// check the full year
+		else
+			$prefix = strftime('%Y-', mktime(0, 0, 0, 1, 1, $year));
+
+		// the list of dates
+		$output =& Dates::list_for_prefix($prefix, $variant, $anchor);
+		return $output;
+	}
+
+	/**
+	 * list all dates for one prefix
+	 *
+	 * Provide an anchor reference to limit the scope of the list.
+	 *
+	 * @param string prefix for matching stamps
+	 * @param string the list variant, if any
+	 * @param string reference an target anchor (e.g., 'section:123'), if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
+	 */
+	function &list_for_prefix($prefix=NULL, $variant='links', $anchor=NULL) {
+		global $context;
+
+		// default is current month
+		if(!$prefix)
+			$prefix = gmstrftime('%Y-%m-');
+
 		// select among active items
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_member()
-			|| !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
@@ -772,23 +839,11 @@ Class Dates {
 				." AND (articles.publish_date < '".$now."')))";
 		}
 
-		// check the year
-		if($year < 1970)
-			$year = (int)strftime('%Y');
-
-		// check the month
-		if(($month >= 1) && ($month <= 12))
-			$match = strftime('%Y-%m-', mktime(0, 0, 0, $month, 1, $year)).'%';
-
-		// check the full year
-		else
-			$match = strftime('%Y-', mktime(0, 0, 0, 1, 1, $year)).'%';
-
 		// the request
 		$query = "SELECT dates.date_stamp as date_stamp, articles.* FROM ".SQL::table_name('dates')." as dates"
 			.", ".SQL::table_name('articles')." AS articles"
 			." WHERE ((dates.anchor_type LIKE 'article') AND (dates.anchor_id = articles.id))"
-			."	AND (dates.date_stamp LIKE '".SQL::escape($match)."') AND ".$where
+			."	AND (dates.date_stamp LIKE '".SQL::escape($prefix)."%') AND ".$where
 			." ORDER BY dates.date_stamp LIMIT 1000";
 
 		// the list of dates
@@ -827,8 +882,7 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_member()
-			|| !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
@@ -892,8 +946,7 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_member()
-			|| !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
@@ -1148,8 +1201,7 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_member()
-			|| !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
@@ -1204,8 +1256,7 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_member()
-			|| !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything

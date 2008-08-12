@@ -150,11 +150,11 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
 // maybe posts are not allowed here
-elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered())
+elseif(($action != 'edit') && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered())
 	$permitted = FALSE;
 
 // only authenticated surfers can post new comments, except if anonymous posts have been allowed
-elseif(!isset($item['id']) && (Surfer::is_logged() || (isset($context['users_with_anonymous_comments']) && ($context['users_with_anonymous_comments'] == 'Y'))))
+elseif(($action != 'edit') && (Surfer::is_logged() || (isset($context['users_with_anonymous_comments']) && ($context['users_with_anonymous_comments'] == 'Y'))))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -367,7 +367,6 @@ if(Surfer::is_crawler()) {
 			$menu = array_merge($menu, array($anchor->get_url('discuss') => $anchor->get_label('comments', 'thread_command')));
 		if(Surfer::is_logged())
 			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $anchor->get_label('comments', 'edit_command')));
-		$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'view') => $anchor->get_label('comments', 'view_command')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -446,7 +445,7 @@ if($with_form) {
 
 	// reference the anchor page
 	if(is_object($anchor))
-		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" '.EOT;
+		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 
 	// display info on current version
 	if(isset($item['id']) && !preg_match('/(new|quote|reply)/', $action)) {

@@ -80,7 +80,7 @@ Class Visits {
 
 		// limit the scope of the request
 		$where = "visits.active='Y'";
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR visits.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR visits.active='N'";
@@ -322,7 +322,7 @@ Class Visits {
 
 		// limit the scope of the request
 		$where = "visits.active='Y'";
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR visits.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR visits.active='N'";

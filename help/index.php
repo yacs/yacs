@@ -171,7 +171,7 @@
  * list into several different pages.
  *
  * To make things clearer we have created static classes to support such queries. Do you want a list
- * of the newest articles? Call [code]Articles::list_by_date()[/code] and you will fetch a nice array of labels and related urls.
+ * of the newest articles? Call [code]Articles::list_()[/code] and you will fetch a nice array of labels and related urls.
  *
  * See: [script]articles/articles.php[/script],
  * [script]sections/sections.php[/script], [script]categories/categories.php[/script],

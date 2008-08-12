@@ -109,11 +109,11 @@ if(!$permitted) {
 
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="blog"'.EOT;
+			.'<input type="hidden" name="action" value="blog" />';
 
 		// the anchor
 		$label = i18n::s('Blog anchor');
-		$input = '<select name="anchor">'.'<option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
+		$input = '<select name="anchor"><option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
 		$hint = i18n::s('Please carefully select a parent section, if any');
 		$fields[] = array($label, $input, $hint);
 
@@ -137,24 +137,24 @@ if(!$permitted) {
 
 		// the contribution flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Contribution');
-		$input = '<input type="radio" name="contribution" value="N" accesskey="c" checked="checked"'.EOT.' '.i18n::s('Only associates and editors can contribute.').BR;
-		$input .= '<input type="radio" name="contribution" value="R"'.EOT.' '.i18n::s('Any authenticated member can contribute.');
+		$input = '<input type="radio" name="contribution" value="N" accesskey="c" checked="checked" /> '.i18n::s('Only associates and editors can contribute.').BR;
+		$input .= '<input type="radio" name="contribution" value="R" /> '.i18n::s('Any authenticated member can contribute.');
 		$fields[] = array($label, $input);
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read pages posted here').BR;
-		$input .= '<input type="radio" name="active" value="R"'.EOT.' '.i18n::s('Access is restricted to authenticated members').BR;
-		$input .= '<input type="radio" name="active" value="N"'.EOT.' '.i18n::s('Access is restricted to associates and editors');
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Anyone may read pages posted here').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Access is restricted to associates and editors');
 		$fields[] = array($label, $input);
 
 		// home panel
 		$label = i18n::s('Front page');
 		$input = i18n::s('Content of this section should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget"'.EOT.' '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed on page side, in an extra box').BR;
-		$input .= '<input type="radio" name="home_panel" value="none"'.EOT.' '.i18n::s('not displayed at the front page');
+		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
+		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
+		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
+		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
 
 		// build the form
@@ -256,11 +256,11 @@ if(!$permitted) {
 
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="book"'.EOT;
+			.'<input type="hidden" name="action" value="book" />';
 
 		// the anchor
 		$label = i18n::s('Book anchor');
-		$input = '<select name="anchor">'.'<option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
+		$input = '<select name="anchor"><option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
 		$hint = i18n::s('Please carefully select a parent section, if any');
 		$fields[] = array($label, $input, $hint);
 
@@ -296,7 +296,7 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block(sprintf(i18n::s('Section #%d'), $index), 'subtitle');
 
 			$label = i18n::s('Title');
-			$input = '<input type="text" name="titles[]" size="50" value=""'.EOT;
+			$input = '<input type="text" name="titles[]" size="50" value="" />';
 			$fields[] = array($label, $input);
 
 			$label = i18n::s('Introduction');
@@ -480,7 +480,7 @@ if(!$permitted) {
 
 			// a form to get collection parameters
 			$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-				.'<input type="hidden" name="action" value="collection"'.EOT;
+				.'<input type="hidden" name="action" value="collection" />';
 
 			// the name
 			$label = i18n::s('Collection nick name');
@@ -629,20 +629,20 @@ if(!$permitted) {
 
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="composite"'.EOT;
+			.'<input type="hidden" name="action" value="composite" />';
 
 		// section title
 		$context['text'] .= Skin::build_block(i18n::s('Section'), 'title');
 
 		// the anchor
 		$label = i18n::s('Section anchor');
-		$input = '<select name="anchor">'.'<option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
+		$input = '<select name="anchor"><option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
 		$hint = i18n::s('Please carefully select a parent section, if any');
 		$fields[] = array($label, $input, $hint);
 
 		// the title
 		$label = i18n::s('Section title');
-		$input = '<input type="text" id="main_title" name="main_title" size="50" accesskey="t" value="'.encode_field($item['title']).'"'.EOT;
+		$input = '<input type="text" id="main_title" name="main_title" size="50" accesskey="t" value="'.encode_field($item['title']).'" />';
 		$hint = i18n::s('Please provide a meaningful title.');
 		$fields[] = array($label, $input, $hint);
 
@@ -670,11 +670,11 @@ if(!$permitted) {
 		// scrolling news
 		$context['text'] .= Skin::build_block(i18n::s('Side news'), 'subtitle');
 
-		$input = '<input type="checkbox" name="news_check" checked="checked"'.EOT.' '.i18n::s('Add a companion section to post articles that will appear in the news panel of the parent section');
+		$input = '<input type="checkbox" name="news_check" checked="checked" /> '.i18n::s('Add a companion section to post articles that will appear in the news panel of the parent section');
 		$context['text'] .= '<p>'.$input.'</p>';
 
 		$label = i18n::s('Title');
-		$input = '<input type="text" name="news_title" size="50" value="'.encode_field(i18n::c('Flashy news')).'"'.EOT;
+		$input = '<input type="text" name="news_title" size="50" value="'.encode_field(i18n::c('Flashy news')).'" />';
 		$fields[] = array($label, $input);
 
 		$label = i18n::s('Introduction');
@@ -688,11 +688,11 @@ if(!$permitted) {
 		// gadget boxes
 		$context['text'] .= Skin::build_block(i18n::s('Gadget boxes'), 'subtitle');
 
-		$input = '<input type="checkbox" name="gadget_check" checked="checked"'.EOT.' '.i18n::s('Add a companion section to post articles that will appear in individual gadget boxes');
+		$input = '<input type="checkbox" name="gadget_check" checked="checked" /> '.i18n::s('Add a companion section to post articles that will appear in individual gadget boxes');
 		$context['text'] .= '<p>'.$input.'</p>';
 
 		$label = i18n::s('Title');
-		$input = '<input type="text" name="gadget_title" size="50" value="'.encode_field(i18n::c('Gadget boxes')).'"'.EOT;
+		$input = '<input type="text" name="gadget_title" size="50" value="'.encode_field(i18n::c('Gadget boxes')).'" />';
 		$fields[] = array($label, $input);
 
 		$label = i18n::s('Introduction');
@@ -706,11 +706,11 @@ if(!$permitted) {
 		// extra boxes
 		$context['text'] .= Skin::build_block(i18n::s('Extra boxes'), 'subtitle');
 
-		$input = '<input type="checkbox" name="extra_check" checked="checked"'.EOT.' '.i18n::s('Add a companion section to post articles that will appear in individual extra boxes');
+		$input = '<input type="checkbox" name="extra_check" checked="checked" /> '.i18n::s('Add a companion section to post articles that will appear in individual extra boxes');
 		$context['text'] .= '<p>'.$input.'</p>';
 
 		$label = i18n::s('Title');
-		$input = '<input type="text" name="extra_title" size="50" value="'.encode_field(i18n::c('Extra boxes')).'"'.EOT;
+		$input = '<input type="text" name="extra_title" size="50" value="'.encode_field(i18n::c('Extra boxes')).'" />';
 		$fields[] = array($label, $input);
 
 		$label = i18n::s('Introduction');
@@ -877,11 +877,11 @@ if(!$permitted) {
 
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="forum"'.EOT;
+			.'<input type="hidden" name="action" value="forum" />';
 
 		// the anchor
 		$label = i18n::s('Forum anchor');
-		$input = '<select name="anchor">'.'<option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
+		$input = '<select name="anchor"><option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
 		$hint = i18n::s('Please carefully select a parent section, if any');
 		$fields[] = array($label, $input, $hint);
 
@@ -917,11 +917,11 @@ if(!$permitted) {
 			$context['text'] .= Skin::build_block(sprintf(i18n::s('Board #%d'), $index), 'subtitle');
 
 			$label = i18n::s('Family');
-			$input = '<input type="text" name="families[]" size="50" value=""'.EOT;
+			$input = '<input type="text" name="families[]" size="50" value="" />';
 			$fields[] = array($label, $input, i18n::s('Repeat the same string in successive boards that have to be grouped in the forum.'));
 
 			$label = i18n::s('Title');
-			$input = '<input type="text" name="titles[]" size="50" value=""'.EOT;
+			$input = '<input type="text" name="titles[]" size="50" value="" />';
 			$fields[] = array($label, $input);
 
 			$label = i18n::s('Introduction');
@@ -1055,14 +1055,14 @@ if(!$permitted) {
 
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="links"'.EOT;
+			.'<input type="hidden" name="action" value="links" />';
 
 		// top category
 		$context['text'] .= Skin::build_block(i18n::s('Top section'), 'title');
 
 		// the title
 		$label = i18n::s('Section title');
-		$input = '<input type="text" id="main_title" name="main_title" size="50" accesskey="t" value="'.encode_field($item['title']).'"'.EOT;
+		$input = '<input type="text" id="main_title" name="main_title" size="50" accesskey="t" value="'.encode_field($item['title']).'" />';
 		$hint = i18n::s('Please provide a meaningful title.');
 		$fields[] = array($label, $input, $hint);
 
@@ -1090,7 +1090,7 @@ if(!$permitted) {
 		// loop
 		for($index = 1; $index <= 8; $index++) {
 			$label = sprintf(i18n::s('Section #%d'), $index);
-			$input = '<input type="text" name="titles[]" size="50" value=""'.EOT;
+			$input = '<input type="text" name="titles[]" size="50" value="" />';
 			$fields[] = array($label, $input);
 
 			$label = i18n::s('Introduction');
@@ -1187,11 +1187,11 @@ if(!$permitted) {
 
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="original"'.EOT;
+			.'<input type="hidden" name="action" value="original" />';
 
 		// the anchor
 		$label = i18n::s('Section anchor');
-		$input = '<select name="anchor">'.'<option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
+		$input = '<select name="anchor"><option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
 		$hint = i18n::s('Please carefully select a parent section, if any');
 		$fields[] = array($label, $input, $hint);
 
@@ -1215,25 +1215,25 @@ if(!$permitted) {
 
 		// author profile
 		$label = i18n::s('Author\'s profile');
-		$input = '<input type="radio" name="profile" value="prefix" checked="checked"'.EOT.' '.i18n::s('Below page title').BR;
-		$input .= '<input type="radio" name="profile" value="suffix"'.EOT.' '.i18n::s('At page bottom').BR;
-		$input .= '<input type="radio" name="profile" value="extra"'.EOT.' '.i18n::s('On page side').BR;
+		$input = '<input type="radio" name="profile" value="prefix" checked="checked" /> '.i18n::s('Below page title').BR;
+		$input .= '<input type="radio" name="profile" value="suffix" /> '.i18n::s('At page bottom').BR;
+		$input .= '<input type="radio" name="profile" value="extra" /> '.i18n::s('On page side').BR;
 		$fields[] = array($label, $input);
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read pages posted here').BR;
-		$input .= '<input type="radio" name="active" value="R"'.EOT.' '.i18n::s('Access is restricted to authenticated members').BR;
-		$input .= '<input type="radio" name="active" value="N"'.EOT.' '.i18n::s('Access is restricted to associates and editors');
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Anyone may read pages posted here').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Access is restricted to associates and editors');
 		$fields[] = array($label, $input);
 
 		// home panel
 		$label = i18n::s('Front page');
 		$input = i18n::s('Content of this section should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget"'.EOT.' '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed on page side, in an extra box').BR;
-		$input .= '<input type="radio" name="home_panel" value="none"'.EOT.' '.i18n::s('not displayed at the front page');
+		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
+		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
+		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
+		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
 
 		// build the form
@@ -1339,7 +1339,7 @@ if(!$permitted) {
 
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="partners"'.EOT;
+			.'<input type="hidden" name="action" value="partners" />';
 
 		// the title
 		$label = i18n::s('Section title');
@@ -1435,11 +1435,11 @@ if(!$permitted) {
 
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="polls"'.EOT;
+			.'<input type="hidden" name="action" value="polls" />';
 
 		// the anchor
 		$label = i18n::s('Section anchor');
-		$input = '<select name="anchor">'.'<option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
+		$input = '<select name="anchor"><option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
 		$hint = i18n::s('Please carefully select a parent section, if any');
 		$fields[] = array($label, $input, $hint);
 
@@ -1457,18 +1457,18 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read pages posted here').BR;
-		$input .= '<input type="radio" name="active" value="R"'.EOT.' '.i18n::s('Access is restricted to authenticated members').BR;
-		$input .= '<input type="radio" name="active" value="N"'.EOT.' '.i18n::s('Access is restricted to associates and editors');
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Anyone may read pages posted here').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Access is restricted to associates and editors');
 		$fields[] = array($label, $input);
 
 		// home panel
 		$label = i18n::s('Front page');
 		$input = i18n::s('Content of this section should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget"'.EOT.' '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed on page side, in an extra box').BR;
-		$input .= '<input type="radio" name="home_panel" value="none"'.EOT.' '.i18n::s('not displayed at the front page');
+		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
+		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
+		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
+		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
 
 		// build the form
@@ -1555,11 +1555,11 @@ if(!$permitted) {
 
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="recipes"'.EOT;
+			.'<input type="hidden" name="action" value="recipes" />';
 
 		// the anchor
 		$label = i18n::s('Section anchor');
-		$input = '<select name="anchor">'.'<option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
+		$input = '<select name="anchor"><option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
 		$hint = i18n::s('Please carefully select a parent section, if any');
 		$fields[] = array($label, $input, $hint);
 
@@ -1577,18 +1577,18 @@ if(!$permitted) {
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read pages posted here').BR;
-		$input .= '<input type="radio" name="active" value="R"'.EOT.' '.i18n::s('Access is restricted to authenticated members').BR;
-		$input .= '<input type="radio" name="active" value="N"'.EOT.' '.i18n::s('Access is restricted to associates and editors');
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Anyone may read pages posted here').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Access is restricted to associates and editors');
 		$fields[] = array($label, $input);
 
 		// home panel
 		$label = i18n::s('Front page');
 		$input = i18n::s('Content of this section should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget"'.EOT.' '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed on page side, in an extra box').BR;
-		$input .= '<input type="radio" name="home_panel" value="none"'.EOT.' '.i18n::s('not displayed at the front page');
+		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
+		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
+		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
+		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
 
 		// build the form
@@ -1673,8 +1673,8 @@ if(!$permitted) {
 
 		// the form to get confirmation
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="servers"'.EOT
-			.'<input type="hidden" name="confirmation" value="Y"'.EOT;
+			.'<input type="hidden" name="action" value="servers" />'
+			.'<input type="hidden" name="confirmation" value="Y" />';
 
 		// the submit button
 		$context['text'] .= '<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Start')).'</p>'."\n";
@@ -1742,21 +1742,21 @@ if(!$permitted) {
 
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="vote"'.EOT;
+			.'<input type="hidden" name="action" value="vote" />';
 
 		// vote
 		$label = i18n::s('Vote');
-		$input = '<input type="radio" name="type" value="vote" checked="checked"'.EOT.' '.i18n::s('The best way to formalize collective decisions. Every voter can expressed a Yes or No, and comment its ballot.');
+		$input = '<input type="radio" name="type" value="vote" checked="checked" /> '.i18n::s('The best way to formalize collective decisions. Every voter can expressed a Yes or No, and comment its ballot.');
 		$fields[] = array($label, $input);
 
 		// petition
 		$label = i18n::s('Petition');
-		$input = '<input type="radio" name="type" value="petition"'.EOT.' '.i18n::s('Ideal to express a broad support of some idea. Every signature can be commented.');
+		$input = '<input type="radio" name="type" value="petition" /> '.i18n::s('Ideal to express a broad support of some idea. Every signature can be commented.');
 		$fields[] = array($label, $input);
 
 		// poll
 		$label = i18n::s('Poll');
-		$input = '<input type="radio" name="type" value="poll"'.EOT.' '.i18n::s('The quickest way to identify trends. Any surfer can select among offered options, and YACS will sum up all clicks.');
+		$input = '<input type="radio" name="type" value="poll" /> '.i18n::s('The quickest way to identify trends. Any surfer can select among offered options, and YACS will sum up all clicks.');
 		$fields[] = array($label, $input);
 
 		// build the form
@@ -1788,11 +1788,11 @@ if(!$permitted) {
 
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
-			.'<input type="hidden" name="action" value="wiki"'.EOT;
+			.'<input type="hidden" name="action" value="wiki" />';
 
 		// the anchor
 		$label = i18n::s('Wiki anchor');
-		$input = '<select name="anchor">'.'<option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
+		$input = '<select name="anchor"><option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options('none', NULL).'</select>';
 		$hint = i18n::s('Please carefully select a parent section, if any');
 		$fields[] = array($label, $input, $hint);
 
@@ -1816,25 +1816,25 @@ if(!$permitted) {
 
 		// the contribution flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Contribution');
-		$input = '<input type="radio" name="contribution" value="Y" accesskey="c" checked="checked"'.EOT.' '.i18n::s('Anyone, including anonymous surfer, may contribute to this wiki.').BR;
-		$input .= '<input type="radio" name="contribution" value="R"'.EOT.' '.i18n::s('Any authenticated member can contribute.').BR;
-		$input .= '<input type="radio" name="contribution" value="N"'.EOT.' '.i18n::s('Only associates and editors can contribute.');
+		$input = '<input type="radio" name="contribution" value="Y" accesskey="c" checked="checked" /> '.i18n::s('Anyone, including anonymous surfer, may contribute to this wiki.').BR;
+		$input .= '<input type="radio" name="contribution" value="R" /> '.i18n::s('Any authenticated member can contribute.').BR;
+		$input .= '<input type="radio" name="contribution" value="N" /> '.i18n::s('Only associates and editors can contribute.');
 		$fields[] = array($label, $input);
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked"'.EOT.' '.i18n::s('Anyone may read pages posted here').BR;
-		$input .= '<input type="radio" name="active" value="R"'.EOT.' '.i18n::s('Access is restricted to authenticated members').BR;
-		$input .= '<input type="radio" name="active" value="N"'.EOT.' '.i18n::s('Access is restricted to associates and editors');
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Anyone may read pages posted here').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Access is restricted to associates and editors');
 		$fields[] = array($label, $input);
 
 		// home panel
 		$label = i18n::s('Front page');
 		$input = i18n::s('Content of this section should be:').BR;
-		$input .= '<input type="radio" name="home_panel" value="main" checked="checked"'.EOT.' '.i18n::s('displayed in the main panel').BR;
-		$input .= '<input type="radio" name="home_panel" value="gadget"'.EOT.' '.i18n::s('listed in the main panel, in a gadget box').BR;
-		$input .= '<input type="radio" name="home_panel" value="extra"'.EOT.' '.i18n::s('listed on page side, in an extra box').BR;
-		$input .= '<input type="radio" name="home_panel" value="none"'.EOT.' '.i18n::s('not displayed at the front page');
+		$input .= '<input type="radio" name="home_panel" value="main" checked="checked" /> '.i18n::s('displayed in the main panel').BR;
+		$input .= '<input type="radio" name="home_panel" value="gadget" /> '.i18n::s('listed in the main panel, in a gadget box').BR;
+		$input .= '<input type="radio" name="home_panel" value="extra" /> '.i18n::s('listed on page side, in an extra box').BR;
+		$input .= '<input type="radio" name="home_panel" value="none" /> '.i18n::s('not displayed at the front page');
 		$fields[] = array($label, $input);
 
 		// build the form

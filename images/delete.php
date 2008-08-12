@@ -140,7 +140,7 @@ else {
 	// build the path to the image file
 	list($anchor_type, $anchor_id) = explode(':', $item['anchor']);
 	$url = $anchor_type.'/'.$anchor_id.'/'.$item['image_name'];
-	$context['text'] .= "\n<p>".'<img src="'.$context['url_to_root'].$url.'" alt=""'.EOT.'</p>';
+	$context['text'] .= "\n<p>".'<img src="'.$context['url_to_root'].$url.'" alt="" /></p>';
 
 	// the image name, if it has not already been used as title
 	if($item['title'])

@@ -280,16 +280,16 @@ if(!isset($context['root_sections_layout']) || ($context['root_sections_layout']
 
 // a meta link to a feeding page
 include_once $context['path_to_root'].'feeds/feeds.php';
-$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('rss').'" title="RSS" type="application/rss+xml"'.EOT;
+$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('rss').'" title="RSS" type="application/rss+xml" />';
 
 // a meta link to our blogging interface
-$context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_home'].$context['url_to_root'].'services/describe.php" title="RSD" type="application/rsd+xml"'.EOT;
+$context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_home'].$context['url_to_root'].'services/describe.php" title="RSD" type="application/rsd+xml" />';
 
 // ICBM and geo.position
 if($context['site_position'] && !preg_match('/geo\.position/', $context['page_header'])) {
-	$context['page_header'] .= "\n".'<meta name="ICBM" content="'.$context['site_position'].'"'.EOT
-		."\n".'<meta name="geo.position" content="'.$context['site_position'].'"'.EOT
-		."\n".'<meta name="DC.title" content="'.encode_field(strip_tags($context['site_name'])).'"'.EOT;
+	$context['page_header'] .= "\n".'<meta name="ICBM" content="'.$context['site_position'].'" />'
+		."\n".'<meta name="geo.position" content="'.$context['site_position'].'" />'
+		."\n".'<meta name="DC.title" content="'.encode_field(strip_tags($context['site_name'])).'" />';
 }
 
 //
@@ -304,15 +304,8 @@ if(!$text =& Cache::get($cache_id)) {
 	if($anchors =& Sections::get_anchors_for_anchor(NULL, 'icon_top')) {
 
 		// up to 12 icons
-		$text = Articles::list_by_date_for_anchor($anchors, 0, 12, 'thumbnails');
-
-		// section body
-		if(is_array($text))
-			$text =& Skin::build_list($text, 'compact');
-
-		// make a section box with a frame of images
-		if($text)
-			$text = Skin::build_box('', '<br class="images_prefix"'.EOT.$text.'<br class="images_suffix"'.EOT, 'header1', 'top_icons');
+		if($text =& Articles::list_for_anchor_by('publication', $anchors, 0, 12, 'thumbnails'))
+			$text = Skin::build_box('', '<br class="images_prefix" />'.$text.'<br class="images_suffix" />', 'header1', 'top_icons');
 
 	}
 
@@ -402,7 +395,7 @@ if(!$text =& Cache::get($cache_id)) {
 		if($anchors =& Sections::get_anchors_for_anchor(NULL, 'gadget_boxes')) {
 
 			// up to 6 articles to be displayed as gadget boxes
-			if($items = Articles::list_by_date_for_anchor($anchors, 0, 6, 'boxes')) {
+			if($items =& Articles::list_for_anchor_by('publication', $anchors, 0, 6, 'boxes')) {
 				foreach($items as $title => $attributes)
 					$gadget_boxes[] = array($title, $attributes['content'], $attributes['id']);
 			}
@@ -419,7 +412,7 @@ if(!$text =& Cache::get($cache_id)) {
 				$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
 
 				// articles for this category
-				if($items = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1, 'compact')) {
+				if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1, 'compact')) {
 
 					// more at the category page
 					if(count($items) > COMPACT_LIST_SIZE) {
@@ -473,7 +466,7 @@ if(!$text =& Cache::get($cache_id)) {
 					$box['list'] = array_merge($box['list'], $items);
 
 				// add matching articles
-				if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Articles::list_by_date_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
+				if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items =& Articles::list_for_anchor_by('publication', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
 					$box['list'] = array_merge($box['list'], $items);
 
 				// add matching links, if any
@@ -772,15 +765,8 @@ if(!$text =& Cache::get($cache_id)) {
 	if($anchors =& Sections::get_anchors_for_anchor(NULL, 'icon_bottom')) {
 
 		// up to 12 icons
-		$items = Articles::list_by_date_for_anchor($anchors, 0, 12, 'thumbnails');
-
-		// turn a list to some text
-		if(is_array($items))
-			$items =& Skin::build_list($items, 'compact');
-
-		// make a section box with a frame of images
-		if($items)
-			$text .= Skin::build_box('', '<br class="images_prefix"'.EOT.$items.'<br class="images_suffix"'.EOT, 'header1', 'bottom_icons');
+		if($items =& Articles::list_for_anchor_by('publication', $anchors, 0, 12, 'thumbnails'))
+			$text .= Skin::build_box('', '<br class="images_prefix" />'.$items.'<br class="images_suffix" />', 'header1', 'bottom_icons');
 
 	}
 
@@ -822,7 +808,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 		// the category used to assign featured pages
 		$anchor =& Categories::get(i18n::c('featured'));
-		if($anchor['id'] && ($items = Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, ($context['root_featured_count']+1), 'news'))) {
+		if($anchor['id'] && ($items =& Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, ($context['root_featured_count']+1), 'news'))) {
 
 			// link to the category page from the box title
 			$title =& Skin::build_box_title($anchor['title'], Categories::get_permalink($anchor), i18n::s('Featured pages'));
@@ -875,7 +861,7 @@ if(!$text =& Cache::get($cache_id)) {
 				$context['root_news_count'] = 7;
 
 			// list articles by date
-			$items = Articles::list_by_date_for_anchor($anchors, 0, $context['root_news_count'], 'news');
+			$items =& Articles::list_for_anchor_by('publication', $anchors, 0, $context['root_news_count'], 'news');
 
 			// render html
 			if(is_array($items))
@@ -910,7 +896,7 @@ if(!$text =& Cache::get($cache_id)) {
 			$context['site_extra_maximum'] = 7;
 
 		// articles to be displayed as extra boxes
-		if($items = Articles::list_by_date_for_anchor($anchors, 0, $context['site_extra_maximum'], 'boxes')) {
+		if($items =& Articles::list_for_anchor_by('publication', $anchors, 0, $context['site_extra_maximum'], 'boxes')) {
 			foreach($items as $title => $attributes)
 				$text .= Skin::build_box($title, $attributes['content'], 'extra', $attributes['id'])."\n";
 		}
@@ -1001,7 +987,7 @@ if(!$text =& Cache::get($cache_id)) {
 				$box['list'] = array_merge($box['list'], $items);
 
 			// add matching articles, if any
-			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
+			if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
 				$box['list'] = array_merge($box['list'], $items);
 
 			// add matching links, if any
@@ -1059,7 +1045,7 @@ if(!$text =& Cache::get($cache_id)) {
 	// list older articles
 	if(isset($context['home_with_older_articles']) && ($context['home_with_older_articles'] == 'Y')) {
 
-		if($items = Articles::list_by_date($items_per_page, COMPACT_LIST_SIZE+1, 'compact')) {
+		if($items =& Articles::list_by('publication', $items_per_page, COMPACT_LIST_SIZE+1, 'compact')) {
 
 			// more at the index page
 			if(count($items) > COMPACT_LIST_SIZE) {
@@ -1106,7 +1092,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// list most popular articles
 	if(isset($context['home_with_top_articles']) && ($context['home_with_top_articles'] == 'Y')) {
-		if($items = Articles::list_by_hits(0, COMPACT_LIST_SIZE, 'compact'))
+		if($items =& Articles::list_by('hits', 0, COMPACT_LIST_SIZE, 'compact'))
 			$text .= Skin::build_box(i18n::s('Popular Pages'), Skin::build_list($items, 'compact'), 'navigation', 'popular_articles');
 	}
 
@@ -1126,7 +1112,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// list random articles
 	if(isset($context['home_with_random_articles']) && ($context['home_with_random_articles'] == 'Y')) {
-		if($items = Articles::list_by('random', 0, COMPACT_LIST_SIZE, 'compact'))
+		if($items =& Articles::list_by('random', 0, COMPACT_LIST_SIZE, 'compact'))
 			$text .= Skin::build_box(i18n::s('Random Pages'), Skin::build_list($items, 'compact'), 'navigation', 'random_articles');
 	}
 

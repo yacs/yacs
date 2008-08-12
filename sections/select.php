@@ -90,32 +90,55 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '<p>'.i18n::s('Use this page to select or to deselect some sections.').'</p>';
 
 	// the current list of linked sections
-	if(($sections = Members::list_sections_by_title_for_anchor($anchor->get_reference(), 0, SECTIONS_LIST_SIZE, 'references')) && count($sections)) {
+	if(($sections =& Members::list_sections_by_title_for_anchor($anchor->get_reference(), 0, SECTIONS_LIST_SIZE, 'raw')) && count($sections)) {
+
+		// flag sections updated recently
+		if($context['site_revisit_after'] < 1)
+			$context['site_revisit_after'] = 2;
+		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// browse the list
-		foreach($sections as $reference => $section) {
-
-			// extract the section id from the reference
-			$section_id = str_replace('section:', '', $reference);
+		foreach($sections as $id => $section) {
 
 			// make an url
 			$url = Sections::get_permalink($section);
 
 			// gather information on this section
 			$prefix = $suffix = $type = $icon = '';
-			if(is_array($section)) {
-				$prefix = $section[0];
-				$suffix = $section[2];
-				$type = $section[3];
-				$icon = $section[4];
-				$label = $section[1];
-			}
+
+			// flag sections that are draft, dead, or created or updated very recently
+			if($section['activation_date'] >= $now)
+				$prefix .= DRAFT_FLAG;
+			elseif(($section['expiry_date'] > NULL_DATE) && ($section['expiry_date'] <= $now))
+				$prefix .= EXPIRED_FLAG;
+			elseif($section['create_date'] >= $dead_line)
+				$suffix .= NEW_FLAG;
+			elseif($section['edit_date'] >= $dead_line)
+				$suffix .= UPDATED_FLAG;
+
+			// signal restricted and private sections
+			if($section['active'] == 'N')
+				$prefix .= PRIVATE_FLAG;
+			elseif($section['active'] == 'R')
+				$prefix .= RESTRICTED_FLAG;
+
+			// the introductory text
+			if($section['introduction'])
+				$suffix .= ' -&nbsp;'.Codes::beautify($section['introduction'], $section['options']);
+
+			// use the title to label the link
+			$label = Codes::beautify_title($section['title']);
+
+			// the icon to put in the left column
+			if($section['thumbnail_url'])
+				$icon = $section['thumbnail_url'];
 
 			// build a unlink button for this section
 			if(Surfer::is_associate()) {
 				$suffix .= BR.'<form method="post" action="'.$context['script_url'].'"><div>'
 					.'<input type="hidden" name="anchor" value="'.encode_field($anchor->get_reference()).'">'
-					.'<input type="hidden" name="member" value="section:'.$section_id.'">'
+					.'<input type="hidden" name="member" value="section:'.$section['id'].'">'
 					.'<input type="hidden" name="action" value="reset">'
 					.Skin::build_submit_button(i18n::s('Deselect'))
 					.'</div></form>';
@@ -130,7 +153,6 @@ if(Surfer::is_crawler()) {
 				$where .= " OR sections.active='N'";
 
 			// only consider live sections
-			$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 			$where = '('.$where.') '
 				.' AND ((sections.expiry_date is NULL)'
 				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
@@ -138,7 +160,7 @@ if(Surfer::is_crawler()) {
 			// limit the query to top level only
 			$query = "SELECT sections.id, sections.title "
 				." FROM ".SQL::table_name('sections')." AS sections "
-				." WHERE (".$where.") AND (sections.anchor='section:".$section_id."')"
+				." WHERE (".$where.") AND (sections.anchor='section:".$section['id']."')"
 				." ORDER BY sections.title";
 			$result =& SQL::query($query);
 			$sub_sections = array();

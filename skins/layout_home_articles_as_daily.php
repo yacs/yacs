@@ -124,7 +124,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 
 			// the icon to put aside - never use anchor images
 			if($item['icon_url'])
-				$box['content'] .= '<a href="'.$context['url_to_root'].$url.'"><img src="'.$item['icon_url'].'" class="left_image" alt=""'.EOT.'</a>';
+				$box['content'] .= '<a href="'.$context['url_to_root'].$url.'"><img src="'.$item['icon_url'].'" class="left_image" alt="" /></a>';
 
 			// details
 			$details = array();
@@ -158,7 +158,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 				$details[] = Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic');
 
 			// list up to three categories by title, if any
-			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 				foreach($items as $id => $attributes)
 					$details[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic');
 			}

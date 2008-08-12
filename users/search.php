@@ -99,7 +99,7 @@ if(!$search)
 	$search = i18n::s('Look for some user');
 $context['text'] .= '<form method="get" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form">'
 	.'<p>'
-	.'<input type="text" name="search" size="40" value="'.encode_field($search).'" onfocus="this.value=\'\'" maxlength="128"'.EOT
+	.'<input type="text" name="search" size="40" value="'.encode_field($search).'" onfocus="this.value=\'\'" maxlength="128" />'
 	.' '.Skin::build_submit_button('&raquo;')
 	.'</p>'
 	."</form>\n";

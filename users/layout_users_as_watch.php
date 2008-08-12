@@ -69,7 +69,7 @@ Class Layout_users_as_watch extends Layout_interface {
 				$suffix = UPDATED_FLAG.' ';
 
 			// get last posts for this author
-			$articles =& Articles::list_by_date_for_author($item['id'], 0, 5, 'simple');
+			$articles =& Articles::list_for_author_by('publication', $item['id'], 0, 5, 'simple');
 			if(is_array($articles))
 				$suffix .= Skin::build_list($articles, 'compact');
 

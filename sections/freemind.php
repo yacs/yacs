@@ -183,7 +183,7 @@ if($id && !isset($item['id'])) {
 			$suffix .= '<small>';
 
 			// append page introduction ,if any
-			if(isset($item['introduction']) && $item['introduction']) {
+			if($item['introduction'] && ($context['skins_with_details'] == 'Y')) {
 
 				// wrap only outside X/HTML tags
 				$areas = preg_split('/(<[a-z\/].+?>)/i', trim(Codes::beautify($item['introduction'])), -1, PREG_SPLIT_DELIM_CAPTURE);
@@ -253,7 +253,7 @@ if($id && !isset($item['id'])) {
 		$text .= Sections::list_by_title_for_anchor($anchor, 0, 50, 'freemind');
 
 		// add articles
-		$text .= Articles::list_by_date_for_anchor($anchor, 0, 50, 'freemind');
+		$text .= Articles::list_for_anchor_by('publication', $anchor, 0, 50, 'freemind');
 
 		// postamble
 		$text .= '</node>'."\n"

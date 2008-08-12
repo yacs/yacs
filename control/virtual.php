@@ -133,7 +133,7 @@ elseif($id && ($action == 'delete')) {
 	else {
 		// start of the form
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><div>'
-			.'<input type="hidden" name="id" value="'.encode_field($id).'"'.EOT;
+			.'<input type="hidden" name="id" value="'.encode_field($id).'" />';
 
 		// textarea to edit the file
 		$context['text'] .= '<textarea name="content" rows="25" cols="50" accesskey="c">'.encode_field($content).'</textarea>';

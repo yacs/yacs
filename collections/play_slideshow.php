@@ -138,11 +138,11 @@ if(!isset($item['collection']) || !$item['collection']) {
 			$context['text'] .= '</select>'."\n";
 
 			// slide controls -- use 'id' instead of 'names' for fields
-			$context['text'] .= '<input type="button" id="first_button" onclick="first_slide();" value="|<<" title="'.i18n::s('Beginning').'"'.EOT."\n";
-			$context['text'] .= '<input type="button" id="previous_button" onclick="previous_slide();" value="<<" title="'.i18n::s('Previous').'"'.EOT."\n";
-			$context['text'] .= '<input type="button" id="rotate_button" onclick="start_stop(this);" value="'.i18n::s('Start').'" title="'.i18n::s('Autoplay').'"'.EOT."\n";
-			$context['text'] .= '<input type="button" id="next_button" onclick="next_slide();" value=">>" title="'.i18n::s('Next').'"'.EOT."\n";
-			$context['text'] .= '<input type="button" id="last_button" onclick="last_slide();" value=">>|" title="'.i18n::s('Last').'"'.EOT."\n";
+			$context['text'] .= '<input type="button" id="first_button" onclick="first_slide();" value="|<<" title="'.i18n::s('Beginning').'" />'."\n";
+			$context['text'] .= '<input type="button" id="previous_button" onclick="previous_slide();" value="<<" title="'.i18n::s('Previous').'" />'."\n";
+			$context['text'] .= '<input type="button" id="rotate_button" onclick="start_stop(this);" value="'.i18n::s('Start').'" title="'.i18n::s('Autoplay').'" />'."\n";
+			$context['text'] .= '<input type="button" id="next_button" onclick="next_slide();" value=">>" title="'.i18n::s('Next').'" />'."\n";
+			$context['text'] .= '<input type="button" id="last_button" onclick="last_slide();" value=">>|" title="'.i18n::s('Last').'" />'."\n";
 
 			$context['text'] .= '</p>'."\n";
 
@@ -196,7 +196,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 				// make a div for this slide -- click on the image to get the full size version
 				$context['text'] .= '<div id="slide_'.$index.'" class="slide" style="display: none;">'
-					.'<a href="'.$url.'" title="'.sprintf(i18n::s('Click to view only the original image %s'), $file).'"><img src="'.$url.'" width="'.$adjusted_width.'" height="'.$adjusted_height.'" alt="'.$file.'"'.EOT.'</a>'
+					.'<a href="'.$url.'" title="'.sprintf(i18n::s('Click to view only the original image %s'), $file).'"><img src="'.$url.'" width="'.$adjusted_width.'" height="'.$adjusted_height.'" alt="'.$file.'" /></a>'
 					.'</div>'."\n";
 
 				// next slide

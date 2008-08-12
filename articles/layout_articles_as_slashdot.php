@@ -84,13 +84,13 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 			$content = $prefix = $label = $suffix = $icon = '';
 
 			// the icon to put aside
-			if($item['thumbnail_url']) {
+			if($item['thumbnail_url'])
 				$icon = $item['thumbnail_url'];
-			} elseif(is_object($anchor)) {
+			elseif(is_object($anchor))
 				$icon = $anchor->get_thumbnail_url();
-			}
+
 			if($icon)
-				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('More')).'" title="'.encode_field(i18n::s('More')).'"'.EOT.'</a>';
+				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('More')).'" title="'.encode_field(i18n::s('More')).'" /></a>';
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
@@ -175,7 +175,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 			$menu = array_merge($menu, array( $link => i18n::s('Reference this page') ));
 
 			// list up to three categories by title, if any
-			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 				foreach($items as $id => $attributes) {
 					$menu = array_merge($menu, array( Categories::get_permalink($attributes) => $attributes['title'] ));
 				}

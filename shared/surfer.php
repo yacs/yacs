@@ -87,10 +87,12 @@ Class Surfer {
 			return array();
 
 		// query the database only once
-		static $my_sections;
-		if(isset($my_sections))
-			return $my_sections;
-		$my_sections = array();
+		static $cache;
+		if(!isset($cache))
+			$cache = array();
+		if(isset($cache[ $id ]))
+			return $cache[ $id ];
+		$cache[ $id ] = array();
 
 		// only consider live sections
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
@@ -111,12 +113,12 @@ Class Surfer {
 
 			// build the list
 			while($row =& SQL::fetch($result))
-				$my_sections[] = $row['id'];
+				$cache[ $id ][] = $row['id'];
 
 		}
 
 		// done
-		return $my_sections;
+		return $cache[ $id ];
 
 	}
 
@@ -154,13 +156,13 @@ Class Surfer {
 			// i am looking at my own record
 			if(Surfer::get_id() == $user['id']) {
 
-				if($items = Articles::list_assigned_by_date_for_anchor($anchor, $user['id'], 0, 50, $layout, FALSE))
+				if($items =& Articles::list_assigned_by_date_for_anchor($anchor, $user['id'], 0, 50, $layout, FALSE))
 					$text .= '<p>'.i18n::s('Your private pages').'</p>'.Skin::build_list($items, 'compact').'<p> </p>';
 
 			// navigating another profile
 			} else {
 
-				if($items = Articles::list_assigned_by_date_for_anchor($anchor, $user['id'], 0, 50, $layout, TRUE))
+				if($items =& Articles::list_assigned_by_date_for_anchor($anchor, $user['id'], 0, 50, $layout, TRUE))
 					$text .= '<p>'.sprintf(i18n::s('Your private pages with %s'), $user['nick_name']).'</p>'.Skin::build_list($items, 'compact').'<p> </p>';
 
 			}
@@ -344,10 +346,8 @@ Class Surfer {
 
 			$content = '<form method="post" action="'.$context['url_to_root'].'users/login.php" id="login_form"><p>'."\n";
 
-			// use cookie, if any
+			// use cookie, if any -- don't populate the name to enable caching
 			$name = '';
-// 			if(isset($_COOKIE['surfer_name']))
-// 				$name = $_COOKIE['surfer_name'];
 
 			// the id or email field
 			$content .= i18n::s('User').BR.'<input type="text" name="login_name" size="10" maxlength="255" value="'.encode_field($name).'" />'.BR;
@@ -437,60 +437,6 @@ Class Surfer {
 	}
 
 	/**
-	 * stamp last click
-	 *
-	 * This function is used to track presence information.
-	 * Errors are not reported, if any
-	 *
-	 * @param string the target anchor, if any
-	 * @param string level of visibility for this anchor (e.g., 'Y', 'R' or 'N')
-	 * @return boolean TRUE on success, FALSE otherwise
-	 */
-	function click($anchor=NULL, $active='Y') {
-		global $context;
-
-		// this is allowed only once
-		static $fuse;
-		if(isset($fuse))
-			return TRUE;
-		$fuse = TRUE;
-
-		// ensure regular operation of the server
-		if(!file_exists($context['path_to_root'].'parameters/switch.on'))
-			return FALSE;
-
-		// nothing remembered for anonymous surfers
-		if(!Surfer::get_id())
-			return FALSE;
-
-		// we need more than a HEAD
-		if(!isset($_SERVER['REQUEST_METHOD']) || ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
-			return FALSE;
-
-		// Firefox pre-fetch is not a real visit
-		if(isset($_SERVER['HTTP_X_MOZ']) && ($_SERVER['HTTP_X_MOZ'] == 'prefetch'))
-			return FALSE;
-
-		// ensure the back-end is there
-		if(!is_callable(array('SQL', 'query')))
-			return FALSE;
-
-		// update the record of the surfer
-		$query = "UPDATE ".SQL::table_name('users')
-			." SET click_anchor='".SQL::escape($anchor)."', click_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'"
-			." WHERE id = ".SQL::escape(Surfer::get_id());
-		SQL::query($query, FALSE, $context['users_connection']);
-
-		// also update recent visits
-		include_once $context['path_to_root'].'users/visits.php';
-		Visits::track($anchor, $active);
-
-		// job done
-		return TRUE;
-
-	}
-
-	/**
 	 * extend capability for this request
 	 *
 	 * This function is used to flag editors, and any surfer which benefits from
@@ -544,10 +490,14 @@ Class Surfer {
 	 * This function returns highest setting of session and transaction
 	 * capability.
 	 *
-	 * @return char either 'A', 'M', 'S' or '?'
+	 * @return char either 'A', 'M', 'S', 'C' or '?'
 	 */
 	function get_capability() {
 		global $context;
+
+		// flag crawlers to the cache engine
+		if(Surfer::is_crawler())
+			return 'C';
 
 		// enforce session scope
 		if(isset($_SESSION['surfer_capability']) && isset($context['url_to_root']) && (!isset($_SESSION['server_id']) || ($_SESSION['server_id'] == $context['url_to_root']))) {
@@ -712,13 +662,13 @@ Class Surfer {
 	function get_name($default = '') {
 		global $context;
 
-		// use cookie
-		if(isset($_COOKIE['surfer_name']))
-			return $_COOKIE['surfer_name'];
-
 		// use session data
 		if(isset($_SESSION['surfer_name']))
 			return $_SESSION['surfer_name'];
+
+		// use cookie
+		if(isset($_COOKIE['surfer_name']))
+			return $_COOKIE['surfer_name'];
 
 		// surfer is unknown
 		return $default;
@@ -1010,6 +960,101 @@ Class Surfer {
 	}
 
 	/**
+	 * should we tease anonymous surfers?
+	 *
+	 * @return boolean TRUE if links to protected pages should be provided, FALSE otherwise
+	 */
+	function is_teased() {
+		global $context;
+
+		// sanity check
+		if(Surfer::is_logged())
+			return TRUE;
+
+		// never tease crawlers
+		if(Surfer::is_crawler())
+			return FALSE;
+
+		// use global parameter
+		if(isset($context['users_without_teasers']) && ($context['users_without_teasers'] == 'Y'))
+			return FALSE;
+
+		// suggest registrations
+		return TRUE;
+	}
+
+	/**
+	 * update surfer presence
+	 *
+	 * This function is used to track presence information.
+	 * Errors are not reported, if any
+	 *
+	 * @param string web address of visited page
+	 * @param string related title
+	 * @param string the target anchor, if any
+	 * @param string level of visibility for this anchor (e.g., 'Y', 'R' or 'N')
+	 */
+	function is_visiting($link, $label, $anchor=NULL, $active='Y') {
+		global $context;
+
+		// don't track crawlers
+		if(Surfer::is_crawler())
+			return;
+
+		// update the history stack
+		if(!isset($context['pages_without_history']) || ($context['pages_without_history'] != 'Y')) {
+
+			// put at top of stack
+			if(!isset($_SESSION['visited']))
+				$_SESSION['visited'] = array();
+			$_SESSION['visited'] = array_merge(array($link => $label), $_SESSION['visited']);
+
+			// limit to 7 most recent pages
+			if(count($_SESSION['visited']) > 7)
+				array_pop($_SESSION['visited']);
+
+		}
+
+		// no anchor to remember
+		if(!$anchor)
+			return;
+
+		// ensure regular operation of the server
+		if(!file_exists($context['path_to_root'].'parameters/switch.on'))
+			return;
+
+		// nothing remembered for anonymous surfers
+		if(!Surfer::get_id())
+			return;
+
+		// we need a GET
+		if(!isset($_SERVER['REQUEST_METHOD']) || ($_SERVER['REQUEST_METHOD'] != 'GET'))
+			return;
+
+		// Firefox pre-fetch is not a real visit
+		if(isset($_SERVER['HTTP_X_MOZ']) && ($_SERVER['HTTP_X_MOZ'] == 'prefetch'))
+			return;
+
+		// ensure the back-end is there
+		if(!is_callable(array('SQL', 'query')))
+			return;
+
+		// update the record of the surfer
+		$query = "UPDATE ".SQL::table_name('users')
+			." SET click_anchor='".SQL::escape($anchor)."', click_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'"
+			." WHERE id = ".SQL::escape(Surfer::get_id());
+		SQL::query($query, FALSE, $context['users_connection']);
+
+		// also update recent visits
+		include_once $context['path_to_root'].'users/visits.php';
+		Visits::track($anchor, $active);
+
+		// job done
+		return;
+
+	}
+
+	/**
 	 * check salt and pepper
 	 *
 	 * This function helps to stop robots, by checking outcome of user challenge.
@@ -1137,8 +1182,12 @@ Class Surfer {
 	 * @param string actual capability, for possible impersonation (see services/blog.php)
 	 * @return TRUE if the surfer is allowed to upload files, FALSE otherwise
 	 */
-	function may_upload($capability = '?') {
+	function may_upload($capability=NULL) {
 		global $context;
+
+		// sanity check
+		if(!$capability)
+			$capability = Surfer::get_capability();
 
 		// only authenticated members can upload files
 		if(!Surfer::is_member() && ($capability == '?'))

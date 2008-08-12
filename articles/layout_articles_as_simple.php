@@ -32,10 +32,6 @@ Class Layout_articles_as_simple extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
-		// sanity check
-		if(!isset($this->layout_variant))
-			$this->layout_variant = 'full';
-
 		// flag articles updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
@@ -72,7 +68,7 @@ Class Layout_articles_as_simple extends Layout_interface {
 			$prefix = $suffix = $icon = '';
 
 			// flag sticky pages
-			if(($item['rank'] < 10000) && !preg_match('/(compact|hits|mobile)/', $this->layout_variant))
+			if($item['rank'] < 10000)
 				$prefix .= STICKY_FLAG;
 
 			// signal articles to be published
@@ -122,7 +118,7 @@ Class Layout_articles_as_simple extends Layout_interface {
 				$details[] = LOCKED_FLAG;
 
 			// the main anchor link
-			if(($this->layout_variant != 'no_anchor') && is_object($anchor))
+			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section'));
 
 			// combine in-line details

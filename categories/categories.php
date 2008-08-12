@@ -357,7 +357,7 @@ Class Categories {
 	function &get_by_keyword($keyword) {
 		global $context;
 
-		// ensure proper unicode encoding
+		// ensure proper utf8 encoding
 		$keyword = utf8::encode($keyword);
 
 		// select among available items
@@ -1044,7 +1044,7 @@ Class Categories {
 		$where .= " AND (categories.active='Y'";
 
 		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR categories.active='R'";
 
 		// list hidden categories to associates and to editors

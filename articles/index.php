@@ -96,13 +96,13 @@ if(!$text =& Cache::get($cache_id)) {
 			$layout =& new Layout_articles_as_boxesandarrows();
 			break;
 		default:
-			$layout = 'full';
+			$layout = 'decorated';
 			break;
 	}
 
 	// query the database and layout that stuff
 	$offset = ($page - 1) * $items_per_page;
-	if($text = Articles::list_by_date($offset, $items_per_page, $layout)) {
+	if($text =& Articles::list_by('publication', $offset, $items_per_page, $layout)) {
 
 		// we have an array to format
 		if(is_array($text))
@@ -133,7 +133,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// side bar with the list of most popular articles, if this server is well populated
 	if($stats['count'] > $items_per_page) {
-		if($items = Articles::list_by_hits(0, COMPACT_LIST_SIZE, 'compact'))
+		if($items =& Articles::list_by('hits', 0, COMPACT_LIST_SIZE, 'compact'))
 			$text .= Skin::build_box(i18n::s('Popular'), Skin::build_list($items, 'compact'), 'extra');
 	}
 
@@ -151,7 +151,7 @@ if(!$text =& Cache::get($cache_id)) {
 			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
 
 			// box content
-			if($items = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
+			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
 				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'navigation')."\n";
 		}
 	}
@@ -165,7 +165,7 @@ $context['extra'] .= $text;
 $context['extra'] .= Skin::build_referrals('articles/index.php');
 
 // a meta link to a feeding page
-$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Feeds::get_url('rss').'" title="RSS" type="application/rss+xml"'.EOT;
+$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Feeds::get_url('rss').'" title="RSS" type="application/rss+xml" />';
 
 // render the skin
 render_skin();

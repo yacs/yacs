@@ -89,7 +89,7 @@ if(Surfer::is_crawler()) {
 
 		// the nick name
 		$label = i18n::s('Nick name');
-		$input = '<input type="text" name="id" size="40" '.EOT;
+		$input = '<input type="text" name="id" size="40" />';
 		$fields[] = array($label, $input);
 
 		// stop replay attacks and robots

@@ -1,6 +1,6 @@
 # set the default handler to index.php -- requires "AllowOverride Indexes" in main configuration file
 #
-DirectoryIndex index.php
+DirectoryIndex index.php index.html index.htm default.html default.htm
 
 # cache static objects -- requires "AllowOverride Indexes" in main configuration file
 #

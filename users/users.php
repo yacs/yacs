@@ -118,7 +118,7 @@ Class Users {
 		global $context;
 
 		// list watchers, including watchers of containers of this page
-		if($items = Members::list_watchers_by_posts_for_anchor($reference, 0, 500, 'raw', $restricted)) {
+		if($items =& Members::list_watchers_by_posts_for_anchor($reference, 0, 500, 'raw', $restricted)) {
 
 			// who is visiting this page
 			if(is_array($reference))
@@ -344,7 +344,7 @@ Class Users {
 			return $output;
 		}
 
-		// ensure proper unicode encoding
+		// ensure proper utf8 encoding
 		$id = (string)$id;
 		$id = utf8::encode($id);
 

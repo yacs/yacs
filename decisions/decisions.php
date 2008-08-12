@@ -223,7 +223,7 @@ Class Decisions {
 				// else use default image file
 				$file = 'skins/images/decisions/no.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('NO_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="No"'.EOT.' ');
+					define('NO_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="No" /> ');
 				else
 					define('NO_IMG', '');
 			}
@@ -239,7 +239,7 @@ Class Decisions {
 				// else use default image file
 				$file = 'skins/images/decisions/yes.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
-					define('YES_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt=""'.EOT.' ');
+					define('YES_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
 					define('YES_IMG', '');
 			}

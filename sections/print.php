@@ -119,10 +119,10 @@ if(Surfer::is_crawler()) {
 
 	// section editors
 	if(Surfer::is_empowered() && Surfer::is_member()) {
-		if($items = Members::list_editors_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
+		if($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
 			$details[] = sprintf(i18n::s('Editors: %s'), Skin::build_list($items, 'comma'));
 
-		if($items = Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
+		if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
 			$details[] = sprintf(i18n::s('Readers: %s'), Skin::build_list($items, 'comma'));
 	}
 
@@ -261,7 +261,7 @@ if(Surfer::is_crawler()) {
 		$box['text'] = '';
 
 		// list articles by publication date
-		$items = Articles::list_by_edition_date_for_anchor($anchors, 0, 50, 'full');
+		$items =& Articles::list_for_anchor_by('edition', $anchors, 0, 50, 'full');
 
 		// actually render the html for the section
 		if(is_array($items))

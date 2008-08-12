@@ -371,7 +371,7 @@
 			// navigation boxes from the dedicated section
 			$anchor = Sections::lookup('navigation_boxes');
 
-			if($anchor && ($rows = Articles::list_by_date_for_anchor($anchor, 0, $context['site_navigation_maximum'], 'boxes'))) {
+			if($anchor && ($rows =& Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_navigation_maximum'], 'boxes'))) {
 
 				// one box per article
 				foreach($rows as $title => $attributes)
@@ -400,7 +400,7 @@
 
 					// list linked articles
 					include_once $context['path_to_root'].'links/links.php';
-					if($articles = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
+					if($articles =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
 						if($items)
 							$items = array_merge($items, $articles);
 						else

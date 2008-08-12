@@ -162,7 +162,7 @@ if($id) {
 	$label = i18n::s('File');
 	$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
 	$input = '<input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
-		.'<input type="file" name="upload" id="focus" size="30"'.EOT
+		.'<input type="file" name="upload" id="focus" size="30" />'
 		.' (&lt;&nbsp;'.$size_hint.'&nbsp;'.i18n::s('bytes').')';
 	$hint = i18n::s('Select the file to upload');
 	$fields[] = array($label, $input, $hint);

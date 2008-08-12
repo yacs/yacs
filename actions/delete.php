@@ -79,7 +79,7 @@ else
 
 // the title of the page
 if(isset($item['title']))
-	$context['page_title'] = sprintf(i18n::s('Delete: %s'), $item['title']);
+	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Delete'), $item['title']);
 
 // cancel
 if($item['id'])

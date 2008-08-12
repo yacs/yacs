@@ -505,7 +505,7 @@ if(!isset($item['id']) || !$item['id']) {
 
 	// this one may be blocked by anti-popup software
 	} else
-		$context['site_head'] .= '<meta http-equiv="Refresh" content="1;url='.$target_href.'"'.EOT."\n";
+		$context['site_head'] .= '<meta http-equiv="Refresh" content="1;url='.$target_href.'" />'."\n";
 
 	// help the surfer
 	$context['text'] .= '<p>'.i18n::s('You are requesting the following file:').'</p>'."\n";

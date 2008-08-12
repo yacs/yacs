@@ -274,7 +274,7 @@ elseif(!Surfer::is_associate()) {
 
 	// the name for the new skin
 	$label = i18n::s('Skin name');
-	$input = '<input type="text" name="directory" value="'.encode_field(i18n::s('my_skin')).'" size="45" maxlength="255" accesskey="d"'.EOT;
+	$input = '<input type="text" name="directory" value="'.encode_field(i18n::s('my_skin')).'" size="45" maxlength="255" accesskey="d" />';
 	$hint = i18n::s('Also the name of the sub-directory for skin files');
 	$fields[] = array($label, $input, $hint);
 

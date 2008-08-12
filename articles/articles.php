@@ -107,6 +107,81 @@
 Class Articles {
 
 	/**
+	 * set SQL order
+	 *
+	 * @param string wanted
+	 * @param boolean TRUE is these are coming from several sections, FALSE, otherwise
+	 * @return string to be put in SQL statements
+	 */
+	function _get_order($order, $multiple_anchor=FALSE) {
+
+		switch($order) {
+		case 'draft':
+			$order = 'articles.edit_date DESC, articles.title';
+			break;
+
+		case 'edition': // order by rank, then by reverse date of modification
+
+			// avoid side effects of ranking across several sections
+			if($multiple_anchor)
+				$order = 'articles.edit_date DESC, articles.title';
+			else
+				$order = 'articles.rank, articles.edit_date DESC, articles.title';
+			break;
+
+		case 'hits':	// order by reverse number of hits, then by reverse date of publication
+
+			$order = 'hits DESC, articles.publish_date DESC';
+			break;
+
+		case 'overlay': // order by overlay_id, then by number of points
+
+			// avoid side effects of ranking across several sections
+			if($multiple_anchor)
+				$order = 'articles.overlay_id, rating_sum DESC, articles.publish_date DESC';
+			else
+				$order = 'articles.overlay_id, articles.rank, rating_sum DESC, articles.publish_date DESC';
+			break;
+
+		case 'publication': // order by rank, then by reverse date of publication
+		default:
+
+			// avoid side effects of ranking across several sections
+			if($multiple_anchor)
+				$order = 'articles.publish_date DESC, articles.title';
+			else
+				$order = 'articles.rank, articles.publish_date DESC, articles.title';
+			break;
+
+		case 'rating':	// order by rank, then by number of points
+
+			// avoid side effects of ranking across several sections
+			if($multiple_anchor)
+				$order = 'rating_sum DESC, articles.publish_date DESC';
+			else
+				$order = 'articles.rank, rating_sum DESC, articles.publish_date DESC';
+			break;
+
+		case 'reverse_rank':	// order by rank, then by date of publication
+
+			$order = 'articles.rank DESC, articles.publish_date DESC';
+			break;
+
+		case 'title':	// order by rank, then by title
+
+			// avoid side effects of ranking across several sections
+			if($multiple_anchor)
+				$order = 'articles.title';
+			else
+				$order = 'articles.rank, articles.title';
+			break;
+
+		}
+
+		return $order;
+	}
+
+	/**
 	 * check if new articles can be added
 	 *
 	 * This function returns TRUE if articles can be added to some place,
@@ -191,7 +266,7 @@ Class Articles {
 			return TRUE;
 
 		// teasers are activated
-		if(!Surfer::is_logged() && (!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y')))
+		if(Surfer::is_teased())
 			return TRUE;
 
 		// the default is to not allow for new articles
@@ -252,8 +327,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged()
-			|| !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates, editors and readers may see everything
@@ -497,7 +571,7 @@ Class Articles {
 		$active = "(articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$active .= " OR articles.active='R'";
 
 		// include hidden sections for associates
@@ -782,7 +856,7 @@ Class Articles {
 		global $context;
 
 		// use alternate name instead of regular name, if one is provided
-		if($alternate_name)
+		if($alternate_name && ($context['with_alternate_urls'] == 'Y'))
 			$name = str_replace('_', ' ', $alternate_name);
 
 		// the service to check for updates
@@ -871,7 +945,7 @@ Class Articles {
 	 * @param string stamp of the minimum publication date to be considered
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_($offset=0, $count=10, $layout='full', $since=NULL) {
+	function &list_($offset=0, $count=10, $layout='decorated', $since=NULL) {
 		global $context;
 
 		// define items order
@@ -882,28 +956,6 @@ Class Articles {
 
 		// ask for ordered articles
 		$output =& Articles::list_by($order, $offset, $count, $layout, $since);
-		return $output;
-	}
-
-	/**
-	 * list articles assigned to one surfer
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - or article is restricted (active='R'), but surfer is a logged user
-	 * - or article is hidden (active='N'), but surfer is an associate
-	 *
-	 * @param int surfer id
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 */
-	function &list_assigned_by_date($surfer_id, $offset=0, $count=20, $variant='full', $shared_page = FALSE) {
-		global $context;
-
-		// return by reference
-		$output =& Articles::list_assigned_by_date_for_anchor(NULL, $surfer_id, $offset, $count, $variant, $shared_page);
 		return $output;
 	}
 
@@ -919,19 +971,19 @@ Class Articles {
 	 * @param int surfer id
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
-	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
+	 * @param string 'decorated', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see users/view.php
 	 */
-	function &list_assigned_by_date_for_anchor($anchor, $surfer_id, $offset=0, $count=20, $variant='full', $shared_page = FALSE) {
+	function &list_assigned_by_date_for_anchor($anchor=NULL, $surfer_id, $offset=0, $count=20, $variant='decorated', $shared_page=FALSE) {
 		global $context;
 
 		// display active items
 		$where = "(articles.active='Y'";
 
 		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// list hidden articles to associates, editors and to readers
@@ -1005,14 +1057,14 @@ Class Articles {
 	 * @param string stamp of the minimum publication date to be considered
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_by($order=NULL, $offset=0, $count=10, $layout='full', $since=NULL) {
+	function &list_by($order=NULL, $offset=0, $count=10, $layout='decorated', $since=NULL) {
 		global $context;
 
 		// select among active items
 		$where = "(articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates can access hidden articles
@@ -1115,372 +1167,6 @@ Class Articles {
 				." ORDER BY ".$order." LIMIT ".$offset.','.$count;
 
 		// actual request to the database
-		$output =& Articles::list_selected(SQL::query($query), $layout);
-		return $output;
-	}
-
-	/**
-	 * list most recent articles
-	 *
-	 * Actually list articles by publishing date, then by title.
-	 *
-	 * To build a simple box of the newest articles in your main index page, just use:
-	 * [php]
-	 * $items = Articles::list_by_date(0, 10);
-	 * $context['text'] .= Skin::build_list($items, 'decorated');
-	 * [/php]
-	 *
-	 * You can also display the newest article separately, using [code]Articles::get_newest()[/code]
-	 * In this case, skip the very first article in the list by using
-	 * [code]Articles::list_by_date(1, 10)[/code]
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - article is protected (active='N'), but surfer is an associate, and we are not feeding someone
-	 * - article has been officially published
-	 * - an expiry date has not been defined, or is not yet passed
-	 * - related section is regularly displayed at the front page
-	 *
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param mixed the layout, if any
-	 * @param string stamp of the minimum publication date to be considered
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see index.php
-	 * @see actions/index.php
-	 * @see articles/index.php
-	 * @see comments/index.php
-	 * @see dates/day.php
-	 * @see dates/index.php
-	 * @see dates/month.php
-	 * @see dates/year.php
-	 * @see decisions/index.php
-	 * @see feeds/feeds.php
-	 * @see images/index.php
-	 * @see letters/new.php
-	 * @see locations/index.php
-	 * @see shared/codes.php
-	 * @see tables/index.php
-	 */
-	function &list_by_date($offset=0, $count=10, $layout='full', $since=NULL) {
-		global $context;
-
-		// order by reverse date of publication
-		$result =& Articles::list_by('publication', $offset, $count, $layout, $since);
-		return $result;
-	}
-
-	/**
-	 * list most recent publications for one anchor
-	 *
-	 * Actually list articles by rank, then by publishing date, then by title.
-	 * If you select to not use the ranking system, articles will be ordered by date only.
-	 * Else articles with a low ranking mark will appear first,
-	 * and articles with a high ranking mark will be put at the end of the list.
-	 *
-	 * Example:
-	 * [php]
-	 * $items = Articles::list_by_date_for_anchor('section:12');
-	 * $context['text'] .= Skin::build_list($items, 'decorated');
-	 * [/php]
-	 *
-	 * Use the variant 'boxes' to fetch articles within boxes. This is the standard way
-	 * of displaying navigation, gadgets and extra boxes in yacs.
-	 *
-	 * [php]
-	 * // load the navigation boxes, if any
-	 * $anchor = Sections::lookup('navigation_boxes');
-	 * if($items = Articles::list_by_date_for_anchor($anchor, 0, 5, 'boxes')) {
-	 *	 foreach($items as $title => $content)
-	 *	   echo "<p></p>\n".Skin::build_box($title, $content, 'navigation')."\n";
-	 * }
-	 * [/php]
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - article is protected (active='N'), but surfer is an associate, and we are not feeding someone
-	 * - surfer is anonymous, and article has been officially published
-	 * - logged surfers are restricted to their own articles, plus published articles
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
-	 * @param mixed, either a string the target anchor, or an array of anchors
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param mixed the layout, if any
-	 * @param boolean FALSE to include sticky pages, TRUE otherwise
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see articles/review.php
-	 * @see index.php
-	 * @see letters/index.php
-	 * @see sections/view.php
-	 * @see shared/codes.php
-	 * @see skins/page.php
-	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
-		global $context;
-
-		// order by rank, then by reverse date of publication
-		$result =& Articles::list_for_anchor_by('publication', $anchor, $offset, $count, $layout, $without_sticky);
-		return $result;
-	}
-
-	/**
-	 * list most recent articles for one author
-	 *
-	 * Articles are sorted by edition dates, to let updated articles appear at the top of lists
-	 * in user pages.
-	 *
-	 * Example:
-	 * [php]
-	 * $items = Articles::list_by_date_for_author(12, 0, 10);
-	 * $context['text'] .= Skin::build_list($items, 'decorated');
-	 * [/php]
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but surfer is a logged user
-	 * - article is not visible (active='N'), but surfer is an associate
-	 * - article has been officially published, or the surfer is a logged user
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
-	 * @param int the id of the author of the article
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param mixed the layout, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see users/view.php
-	 */
-	function &list_by_date_for_author($author_id, $offset=0, $count=10, $layout='no_author') {
-		global $context;
-
-		// sanity check
-		if(!$author_id)
-			return NULL;
-		$author_id = SQL::escape($author_id);
-
-		// select among active and restricted items
-		$where = "articles.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR articles.active='R'";
-
-		// show hidden articles to author and to associates only
-		if(is_string($layout) && ($layout == 'feeds'))
-			;
-		elseif(is_string($layout) && ($layout == 'contents'))
-			;
-		elseif(Surfer::is_associate() || (Surfer::get_id() && (Surfer::get_id() == $author_id)))
-			$where .= " OR articles.active='N'";
-
-		$where = '('.$where.')';
-
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// list only articles contributed by this author
-		$where .= " AND (articles.create_id LIKE '$author_id')";
-
-		// only original author and associates will see draft articles
-		if(!Surfer::is_member() || (!Surfer::is_associate() && (Surfer::get_id() != $author_id)))
-			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
-
-		// only consider live articles
-		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
-
-		// the list of articles
-		$query = "SELECT articles.*"
-			." FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE (".$where.")"
-			." ORDER BY articles.edit_date DESC, articles.title LIMIT ".$offset.','.$count;
-
-		$output =& Articles::list_selected(SQL::query($query), $layout);
-		return $output;
-	}
-
-	/**
-	 * list most recent updates for one anchor
-	 *
-	 * Actually list articles by rank, then by edition date, then by title.
-	 * If you select to not use the ranking system, articles will be ordered by date only.
-	 * Else articles with a low ranking mark will appear first,
-	 * and articles with a high ranking mark will be put at the end of the list.
-	 *
-	 * Using edition dates enables updated articles to appear at the top of list in sections.
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - article is protected (active='N'), but surfer is an associate, and we are not feeding someone
-	 * - surfer is anonymous, and article has been officially published
-	 * - logged surfers are restricted to their own articles, plus published articles
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
-	 * @param mixed, either a string the target anchor, or an array of anchors
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param mixed the layout, if any
-	 * @param boolean FALSE to include sticky pages, TRUE otherwise
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see index.php
-	 * @see sections/feed.php
-	 * @see sections/layout_sections.php
-	 * @see sections/layout_sections_as_folded.php
-	 * @see sections/layout_sections_as_inline.php
-	 * @see sections/layout_sections_as_jive.php
-	 * @see sections/layout_sections_as_yahoo.php
-	 * @see sections/print.php
-	 * @see sections/slideshow.php
-	 * @see sections/view.php
-	 * @see services/blog.php
-	 * @see shared/codes.php
-	 */
-	function &list_by_edition_date_for_anchor($anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
-		global $context;
-
-		// order by rank, then by reverse date of modification
-		$result =& Articles::list_for_anchor_by('edition', $anchor, $offset, $count, $layout, $without_sticky);
-		return $result;
-
-	}
-
-	/**
-	 * list most read articles
-	 *
-	 * To build a simple box of the most read articles in your main index page, just use:
-	 * [php]
-	 * $items = Articles::list_by_hits(0, COMPACT_LIST_SIZE);
-	 * $context['text'] .= Skin::build_list($items, 'compact');
-	 * [/php]
-	 *
-	 * You can also display the most read article separately, using Articles::get_most_read()
-	 * In this case, skip the very first article in the list by using
-	 * Articles::list_by_hits(1, 10)
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but surfer is a logged user
-	 * - article is not visible (active='N'), but surfer is an associate
-	 * - article has been officially published
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param mixed the layout, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see index.php
-	 * @see articles/index.php
-	 * @see shared/codes.php
-	 */
-	function &list_by_hits($offset=0, $count=10, $layout='hits') {
-		global $context;
-
-		// order by reverse count of hits
-		$result =& Articles::list_by('hits', $offset, $count, $layout);
-		return $result;
-	}
-
-	/**
-	 * list most read articles for one anchor
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - article is protected (active='N'), but surfer is an associate, and we are not feeding someone
-	 * - surfer is anonymous, and article has been officially published
-	 * - logged surfers are restricted to their own articles, plus published articles
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
-	 * @param mixed, either a string the target anchor, or an array of anchors
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param mixed the layout, if any
-	 * @param boolean FALSE to include sticky pages, TRUE otherwise
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see shared/codes.php
-	 */
-	function &list_by_hits_for_anchor($anchor, $offset=0, $count=10, $layout='no_anchor', $without_sticky=FALSE) {
-		global $context;
-
-		// order by reverse number of hits, then by reverse date of publication
-		$result =& Articles::list_for_anchor_by('hits', $anchor, $offset, $count, $layout, $without_sticky);
-		return $result;
-	}
-
-	/**
-	 * list most read articles for one author
-	 *
-	 * To build a simple box of the most read articles on the author page, just use:
-	 * [php]
-	 * $items = Articles::list_by_hits_for_author(12, 0, 10);
-	 * $context['text'] .= Skin::build_list($items, 'compact');
-	 * [/php]
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but surfer is a logged user
-	 * - article is not visible (active='N'), but surfer is an associate
-	 * - article has been officially published, or the surfer is a logged user
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
-	 * @param int the id of the author of the article
-	 * @param int the offset from the start of the list; usually, 0 or 1
-	 * @param int the number of items to display
-	 * @param mixed the layout, if any
-	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
-	 *
-	 * @see users/view.php
-	 */
-	function &list_by_hits_for_author($author_id, $offset=0, $count=10, $layout='no_author') {
-		global $context;
-
-		// select among active and restricted items
-		$where = "articles.active='Y'";
-		if(Surfer::is_logged())
-			$where .= " OR articles.active='R'";
-
-		// show hidden articles to author and to associates only
-		if(is_string($layout) && ($layout == 'feeds'))
-			;
-		elseif(is_string($layout) && ($layout == 'contents'))
-			;
-		elseif(Surfer::is_associate() || (Surfer::get_id() && (Surfer::get_id() == $author_id)))
-			$where .= " OR articles.active='N'";
-
-		$where = '('.$where.')';
-
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// anonymous surfers and subscribers will see only published articles
-		if(!Surfer::is_member())
-			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-				." AND (articles.publish_date < '".$now."')";
-
-		// list only articles contributed by this author
-		$where .= " AND (articles.create_id='".SQL::escape($author_id)."')";
-
-		// only consider live articles
-		$where .= " AND ((articles.expiry_date is NULL) "
-				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
-
-		// the list of articles
-		$query = "SELECT articles.* FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE (".$where.")"
-			." ORDER BY articles.hits DESC, articles.title LIMIT ".$offset.','.$count;
-
 		$output =& Articles::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
@@ -1609,8 +1295,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged()
-			|| !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates, editors and readers may see everything
@@ -1660,73 +1345,85 @@ Class Articles {
 			$where_anchor = "articles.anchor LIKE '".SQL::escape($anchor)."'";
 
 		// order items
-		switch($order) {
-		case 'draft':
-			$order = 'articles.edit_date DESC, articles.title';
-			break;
-
-		case 'edition': // order by rank, then by reverse date of modification
-
-			// avoid side effects of ranking across several sections
-			if(is_array($anchor) && (count($anchor) > 1))
-				$order = 'articles.edit_date DESC, articles.title';
-			else
-				$order = 'articles.rank, articles.edit_date DESC, articles.title';
-			break;
-
-		case 'hits':	// order by reverse number of hits, then by reverse date of publication
-
-			$order = 'hits DESC, articles.publish_date DESC';
-			break;
-
-		case 'overlay': // order by overlay_id, then by number of points
-
-			// avoid side effects of ranking across several sections
-			if(is_array($anchor) && (count($anchor) > 1))
-				$order = 'articles.overlay_id, rating_sum DESC, articles.publish_date DESC';
-			else
-				$order = 'articles.overlay_id, articles.rank, rating_sum DESC, articles.publish_date DESC';
-			break;
-
-		case 'publication': // order by rank, then by reverse date of publication
-		default:
-
-			// avoid side effects of ranking across several sections
-			if(is_array($anchor) && (count($anchor) > 1))
-				$order = 'articles.publish_date DESC, articles.title';
-			else
-				$order = 'articles.rank, articles.publish_date DESC, articles.title';
-			break;
-
-		case 'rating':	// order by rank, then by number of points
-
-			// avoid side effects of ranking across several sections
-			if(is_array($anchor) && (count($anchor) > 1))
-				$order = 'rating_sum DESC, articles.publish_date DESC';
-			else
-				$order = 'articles.rank, rating_sum DESC, articles.publish_date DESC';
-			break;
-
-		case 'reverse_rank':	// order by rank, then by date of publication
-
-			$order = 'articles.rank DESC, articles.publish_date DESC';
-			break;
-
-		case 'title':	// order by rank, then by title
-
-			// avoid side effects of ranking across several sections
-			if(is_array($anchor) && (count($anchor) > 1))
-				$order = 'articles.title';
-			else
-				$order = 'articles.rank, articles.title';
-			break;
-
-		}
+		$order = Articles::_get_order($order, (is_array($anchor) && (count($anchor) > 1)));
 
 		// the list of articles
 		$query = "SELECT articles.*"
 			." FROM ".SQL::table_name('articles')." AS articles"
 			." WHERE (".$where_anchor.") AND (".$where.")"
+			." ORDER BY ".$order." LIMIT ".$offset.','.$count;
+
+		$output =& Articles::list_selected(SQL::query($query), $layout);
+		return $output;
+	}
+
+	/**
+	 * list articles for one author
+	 *
+	 * Only articles matching following criteria are returned:
+	 * - article is visible (active='Y')
+	 * - article is restricted (active='R'), but surfer is a logged user
+	 * - article is not visible (active='N'), but surfer is an associate
+	 * - article has been officially published, or the surfer is a logged user
+	 * - an expiry date has not been defined, or is not yet passed
+	 *
+	 * @param string order of resulting set
+	 * @param int the id of the author of the article
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param mixed the layout, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 * @see users/view.php
+	 */
+	function &list_for_author_by($order, $author_id, $offset=0, $count=10, $layout='no_author') {
+		global $context;
+
+		// sanity check
+		if(!$author_id) {
+			$output = NULL;
+			return $output;
+		}
+		$author_id = SQL::escape($author_id);
+
+		// select among active items
+		$where = "articles.active='Y'";
+
+		// add restricted items to members, or if teasers are allowed
+		if(Surfer::is_teased())
+			$where .= " OR articles.active='R'";
+
+		// associates, editors, readers, and page authors may see everything
+		if(Surfer::is_empowered('S'))
+			$where .= " OR articles.active='N'";
+		elseif(Surfer::get_id() && (Surfer::get_id() == $author_id))
+			$where .= " OR articles.active='N'";
+
+		// a dynamic where clause
+		$where = '('.$where.')';
+
+		// current time
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+
+		// list only articles contributed by this author
+		$where .= " AND (articles.create_id LIKE '".$author_id."')";
+
+		// only original author and associates will see draft articles
+		if(!Surfer::is_member() || (!Surfer::is_associate() && (Surfer::get_id() != $author_id)))
+			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+				." AND (articles.publish_date < '".$now."')";
+
+		// only consider live articles
+		$where .= " AND ((articles.expiry_date is NULL) "
+				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+
+		// order items
+		$order = Articles::_get_order($order, TRUE);
+
+		// the list of articles
+		$query = "SELECT articles.*"
+			." FROM ".SQL::table_name('articles')." AS articles"
+			." WHERE (".$where.")"
 			." ORDER BY ".$order." LIMIT ".$offset.','.$count;
 
 		$output =& Articles::list_selected(SQL::query($query), $layout);
@@ -1761,7 +1458,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// add hidden items to associates, editors and readers
@@ -1820,7 +1517,7 @@ Class Articles {
 	 * character. For example: 'simple no_anchor' when listing private conversations.
 	 *
 	 * @param resource result of database query
-	 * @param mixed string e.g., 'full', or an instance of Layout_Interface
+	 * @param mixed string e.g., 'decorated', or an instance of Layout_Interface
 	 * @return NULL on error, else the outcome of the selected layout
 	 *
 	 * @see services/rss_codec.php
@@ -2478,7 +2175,7 @@ Class Articles {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &search($pattern, $offset=0, $count=50, $layout='full') {
+	function &search($pattern, $offset=0, $count=50, $layout='decorated') {
 		global $context;
 
 		return Articles::search_in_section(NULL, $pattern, $offset, $count, $layout);
@@ -2506,7 +2203,7 @@ Class Articles {
 	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &search_in_section($section_id, $pattern, $offset=0, $count=10, $layout='full') {
+	function &search_in_section($section_id, $pattern, $offset=0, $count=10, $layout='decorated') {
 		global $context;
 
 		// search is restricted to one section
@@ -2551,7 +2248,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates can access hidden articles
@@ -2831,7 +2528,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates can access hidden articles
@@ -2896,8 +2593,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_logged()
-			|| !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates, editors and readers may see everything

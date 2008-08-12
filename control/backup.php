@@ -831,7 +831,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 	// table prefix
 	if(isset($context['table_prefix']) && $context['table_prefix']) {
-		$context['text'] .= BR.'<input type="checkbox" name="backup_prefix" value="'.$context['table_prefix'].'" checked="checked"'.EOT.' '.sprintf(i18n::s('Consider only tables with the prefix %s'), $context['table_prefix']);
+		$context['text'] .= BR.'<input type="checkbox" name="backup_prefix" value="'.$context['table_prefix'].'" checked="checked" /> '.sprintf(i18n::s('Consider only tables with the prefix %s'), $context['table_prefix']);
 	}
 
 	// minimum data

@@ -28,7 +28,7 @@ Class Utf8 {
 		$output =& utf8::transcode($output);
 
 		// translate everything, including ISO8859-1 chars, to utf-8
-		$output = utf8_encode($output);
+// 		$output = utf8_encode($output);
 
 		// return the translated string
 		return $output;

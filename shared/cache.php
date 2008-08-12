@@ -180,6 +180,9 @@ Class Cache {
 		// return by reference
 		$output = NULL;
 
+		// recover from previous poisoining, if any
+		$context['cache_has_been_poisoned'] = FALSE;
+
 		// always disable cache when server is not switched on
 		if(!file_exists($context['path_to_root'].'parameters/switch.on'))
 			return $output;
@@ -241,6 +244,16 @@ Class Cache {
 	}
 
 	/**
+	 * poison the cache
+	 *
+	 * Call this function when some generated content is specific to one surfer.
+	 */
+	function poison() {
+		global $context;
+		$context['cache_has_been_poisoned'] = TRUE;
+	}
+
+	/**
 	 * purge some temporary files
 	 *
 	 * This function works in conjunction with Cache::hash().
@@ -274,6 +287,10 @@ Class Cache {
 
 		// maybe we don't have to cache
 		if(isset($context['without_cache']) && ($context['without_cache'] == 'Y'))
+			return;
+
+		// cache has been poisoned
+		if(isset($context['cache_has_been_poisoned']) && $context['cache_has_been_poisoned'])
 			return;
 
 		// the sql back-end may be not available during software updates or on NO_MODEL_PRELOAD

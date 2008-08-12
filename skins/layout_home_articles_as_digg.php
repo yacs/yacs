@@ -196,7 +196,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 
 			// list up to three categories by title, if any
 			include_once $context['path_to_root'].'categories/categories.php';
-			if($items = Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 				foreach($items as $id => $attributes) {
 					$menu = array_merge($menu, array( Categories::get_permalink($attributes) => $attributes['title'] ));
 				}

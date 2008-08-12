@@ -115,7 +115,7 @@ elseif(!$permitted) {
 
 	// the current list of linked users
 	$assigned_users = array();
-	if(($users = Members::list_users_by_posts_for_member($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
+	if(($users =& Members::list_users_by_posts_for_member($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 		// browse the list
 		foreach($users as $id => $user) {

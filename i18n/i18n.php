@@ -988,7 +988,7 @@ Class i18n {
 		else {
 			$text = $name;
 			if($context['with_debug'] == 'Y')
-				logger::remember('i18n/i18n.php', $name);
+				logger::remember('i18n/i18n.php', $name.' is not localized', '', 'debug');
 
 		}
 
@@ -1266,7 +1266,7 @@ Class i18n {
 			$locale = 'en';
 
 		// key in cache
-		$text = $singular.chr(0).$plural;
+		$text =& i18n::hash($singular.chr(0).$plural);
 
 		// do it manually
 		if(!isset($_SESSION['l10n']) || !is_array($_SESSION['l10n'][$locale]) || !array_key_exists($text, $_SESSION['l10n'][$locale]) || !array_key_exists('_plural', $_SESSION['l10n'][$locale])) {
@@ -1320,7 +1320,7 @@ Class i18n {
 			$locale = 'en';
 
 		// key in cache
-		$text = $singular.chr(0).$plural;
+		$text =& i18n::hash($singular.chr(0).$plural);
 
 		// do it manually
 		if(!isset($_SESSION['l10n']) || !isset($_SESSION['l10n'][$locale]) || !is_array($_SESSION['l10n'][$locale]) || !array_key_exists($text, $_SESSION['l10n'][$locale]) || !array_key_exists('_plural', $_SESSION['l10n'][$locale])) {

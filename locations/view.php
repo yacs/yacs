@@ -187,7 +187,7 @@ if(!isset($item['id'])) {
 			$map = '';
 			if( ($item['geo_position'] || ($item['longitude'] && $item['latitude']))
 				&& file_exists($context['path_to_root'].'locations/images/earth_310.jpg'))
-				$map .= BR.'<img src="'.$context['url_to_root'].Locations::get_url($item['id'], 'map_on_earth').'" width="310" height="155" alt="'.$item['geo_position'].'"'.EOT;
+				$map .= BR.'<img src="'.$context['url_to_root'].Locations::get_url($item['id'], 'map_on_earth').'" width="310" height="155" alt="'.$item['geo_position'].'" />';
 
 			$context['text'] .= '<p>'.sprintf(i18n::s('Geographical coordinates: %s'), $item['geo_position']).$map."</p>\n";
 		}

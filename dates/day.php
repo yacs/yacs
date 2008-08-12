@@ -79,9 +79,9 @@ $context['text'] .= $text;
 // side bar with the list of most recent pages
 $cache_id = 'dates/day.php/'.$target.'#extra';
 if(!$text =& Cache::get($cache_id)) {
-	if($items = Articles::list_by_date(0, COMPACT_LIST_SIZE, 'compact')) {
+	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
 		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'extra');
-	}
+
 	Cache::put($cache_id, $text, 'articles');
 }
 $context['extra'] .= $text;

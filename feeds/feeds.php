@@ -78,7 +78,7 @@ class Feeds {
 		global $context;
 
 		// list the newest published articles
-		return Articles::list_by_date(0, $count, $variant);
+		return Articles::list_by('publication', 0, $count, $variant);
 
 	}
 

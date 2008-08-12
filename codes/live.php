@@ -3,28 +3,39 @@
  * examples of live formatting codes
  *
  * Following codes are documented on this page:
+ * - &#91;sections] - site map
+ * - &#91;sections=section:&lt;id>] - sub-sections
+ * - &#91;sections=self] - sections assigned to current surfer
+ * - &#91;sections=user:&lt;id>] - sections assigned to given user
+ * - &#91;freemind] - a Freemind map of site content
+ * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
+ * - &#91;freemind=section:&lt;id>, width, height] - a Freemind map of a section and its content
+ * - &#91;categories] - category tree
+ * - &#91;categories=category:&lt;id>] - sub-categories
+ * - &#91;categories=self] - categories assigned to current surfer
+ * - &#91;categories=user:&lt;id>] - categories assigned to given user
  * - &#91;cloud] - the tags used at this site
- * - &#91;cloud=12] - the tags used at this site
- * - &#91;locations=all] - newest locations
- * - &#91;locations=users] - map user locations on Google maps
- * - &#91;location=latitude, longitude, label] - to build a map on-the-fly
- * - &#91;collections] - list available collections
- * - &#91;read] - most read articles, in a compact list
- * - &#91;read=section:&lt;id>] - articles of fame in the given section
+ * - &#91;cloud=12] - maximum count of tags used at this site
  * - &#91;published] - most recent published pages, in a compact list
  * - &#91;published=section:&lt;id>] - articles published most recently in the given section
  * - &#91;published=category:&lt;id>] - articles published most recently in the given category
  * - &#91;published=user:&lt;id>] - articles published most recently created by given user
- * - &#91;edited] - most recent edited pages, in a compact list
- * - &#91;edited=section:&lt;id>] - articles edited most recently in the given section
- * - &#91;edited=category:&lt;id>] - articles edited most recently in the given category
- * - &#91;edited=user:&lt;id>] - articles edited most recently created by given user
- * - &#91;commented] - most fresh threads, in a compact list
- * - &#91;commented=section:&lt;id>] - articles commented most recently in the given section
- * - &#91;contributed] - most contributed articles, in a compact list
- * - &#91;contributed=section:&lt;id>] - most contributed articles in the given section
- * - &#91;freemind] - a Freemind map of site content
- * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
+ * - &#91;published.decorated=self, 20] - 20 most recent pages from current surfer, as a decorated list
+ * - &#91;updated] - most recent updated pages, in a compact list
+ * - &#91;updated=section:&lt;id>] - articles updated most recently in the given section
+ * - &#91;updated=category:&lt;id>] - articles updated most recently in the given category
+ * - &#91;updated=user:&lt;id>] - articles updated most recently created by given user
+ * - &#91;updated.simple=self, 12] - articles updated most recently created by current surfer, as a simple list
+ * - &#91;read] - most read articles, in a compact list
+ * - &#91;read=section:&lt;id>] - articles of fame in the given section
+ * - &#91;read=self] - personal hits
+ * - &#91;read=user:&lt;id>] - personal hits
+ * - &#91;calendar] - events for this month
+ * - &#91;calendar=section:&lt;id>] - dates in one section
+ * - &#91;locations=all] - newest locations
+ * - &#91;locations=users] - map user locations on Google maps
+ * - &#91;location=latitude, longitude, label] - to build a dynamic map
+ * - &#91;collections] - list available collections
  *
  * @see codes/index.php
  *
@@ -59,29 +70,113 @@ $context['text'] .= '<p>'.i18n::s('On this page we are introducing codes related
 // add a toc
 $context['text'] .= "\n".'[toc]'."\n";
 
+// [sections]
+$context['text'] .= '[title]'.i18n::s('Sections').' [escape][sections] [sections=section:&lt;id&gt;][/escape][/title]'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][sections][/escape]</td>'
+	.'<td>[sections]</td></tr>'
+	.Skin::table_suffix();
+
+// [sections=self]
+$context['text'] .= '[title]'.i18n::s('Assigned sections').' [escape][sections=self] [sections=user:&lt;id&gt;][/escape][/title]'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][sections.folded=self][/escape]</td>'
+	.'<td>[sections.folded=self]</td></tr>'
+	.Skin::table_suffix();
+
+// [freemind]
+$context['text'] .= '[title]'.i18n::s('A dynamic Freemind map').' [escape][freemind] [freemind=section:&lt;id&gt;][/escape][/title]'
+	.'<p>'.i18n::s('Use the simplest form to navigate site content is a mind map, or limit the scope to one section and related sub-sections.').'</p>'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][freemind=section:default, 100%, 300px][/escape]</td>'
+	.'<td>[freemind=section:default, 100%, 300px]</td></tr>'
+	.Skin::table_suffix();
+
+// [categories]
+$context['text'] .= '[title]'.i18n::s('Categories').' [escape][categories] [categories=category:&lt;id&gt;][/escape][/title]'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][categories][/escape]</td>'
+	.'<td>[categories]</td></tr>'
+	.Skin::table_suffix();
+
+// [categories=self]
+$context['text'] .= '[title]'.i18n::s('Assigned categories').' [escape][categories=self] [categories=user:&lt;id&gt;][/escape][/title]'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][categories=self][/escape]</td>'
+	.'<td>[categories=self]</td></tr>'
+	.Skin::table_suffix();
+
 // [cloud]
-$context['text'] .= '[title]'.i18n::s('Cloud of tags').' [escape][cloud] or [cloud=&lt;40&gt;][/escape][/title]'
-	.i18n::s('Use the parameter to adjust the number of tags listed.')
+$context['text'] .= '[title]'.i18n::s('Cloud of tags').' [escape][cloud] [cloud=&lt;40&gt;][/escape][/title]'
+	.'<p>'.i18n::s('Use the parameter to adjust the number of tags listed.').'</p>'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][cloud][/escape]</td>'
 	.'<td>[cloud]</td></tr>'
 	.Skin::table_suffix();
 
-// [locations=all]
-$context['text'] .= '[title]'.i18n::s('Newest locations').' [escape][locations=all][/escape][/title]'
+// [published]
+$context['text'] .= '[title]'.i18n::s('Recent pages').' [escape][published] [published=section:&lt;id&gt;] [published=category:&lt;id&gt;][/escape][/title]'
+	.'<p>'.i18n::s('Use the simplest form to display a compact list of pages, or limit the scope.').'</p>'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][locations=all][/escape]</td>'
-	.'<td>[locations=all]</td></tr>'
+	.'<tr><td class="sample">[escape][published.decorated][/escape]</td>'
+	.'<td>[published.decorated]</td></tr>'
 	.Skin::table_suffix();
 
-// [locations=users]
-$context['text'] .= '[title]'.i18n::s('Newest locations').' [escape][locations=users][/escape][/title]'
+// [published=self]
+$context['text'] .= '[title]'.i18n::s('Personal pages').' [escape][published=self] [published=user:&lt;id&gt;][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][locations=users][/escape]</td>'
-	.'<td>[locations=users]</td></tr>'
+	.'<tr><td class="sample">[escape][published=self, 20][/escape]</td>'
+	.'<td>[published=self, 20]</td></tr>'
+	.Skin::table_suffix();
+
+// [updated]
+$context['text'] .= '[title]'.i18n::s('Recent updates').' [escape][updated] [updated=section:&lt;id&gt;] [updated=category:&lt;id&gt;][/escape][/title]'
+	.'<p>'.i18n::s('Use the simplest form to display a compact list of pages, or limit the scope.').'</p>'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][updated][/escape]</td>'
+	.'<td>[updated]</td></tr>'
+	.Skin::table_suffix();
+
+// [updated=self]
+$context['text'] .= '[title]'.i18n::s('Personal updates').' [escape][updated=self] [updated=user:&lt;id&gt;][/escape][/title]'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][updated=self, 12][/escape]</td>'
+	.'<td>[updated=self, 12]</td></tr>'
+	.Skin::table_suffix();
+
+// [read]
+$context['text'] .= '[title]'.i18n::s('Hall of fame').' [escape][read] [read=section:&lt;id&gt;][/escape][/title]'
+	.'<p>'.i18n::s('Use the simplest form to display a compact list of pages, or limit the scope.').'</p>'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][read][/escape]</td>'
+	.'<td>[read]</td></tr>'
+	.Skin::table_suffix();
+
+// [read=self]
+$context['text'] .= '[title]'.i18n::s('Personal hits').' [escape][read=self] [read=user:&lt;id&gt;][/escape][/title]'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][read=self][/escape]</td>'
+	.'<td>[read=self]</td></tr>'
+	.Skin::table_suffix();
+
+// [calendar]
+$context['text'] .= '[title]'.i18n::s('Events').' [escape][calendar][/escape][/title]'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][calendar][/escape]</td>'
+	.'<td>[calendar]</td></tr>'
 	.Skin::table_suffix();
 
 // [location=latitude, longitude, label]
@@ -93,66 +188,12 @@ $context['text'] .= '[title]'.i18n::s('Direct location').' [escape][location=lat
 	.Skin::table_suffix();
 
 // [collections]
-$context['text'] .= '[title]'.i18n::s('List of collections').' [escape][collections][/escape][/title]'
-	.i18n::s('Use the configuration panel for collections to create new collections of files.')
+$context['text'] .= '[title]'.i18n::s('Collections').' [escape][collections][/escape][/title]'
+	.'<p>'.i18n::s('Use the configuration panel for collections to create new collections of files.').'</p>'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][collections][/escape]</td>'
 	.'<td>[collections]</td></tr>'
-	.Skin::table_suffix();
-
-// [read]
-$context['text'] .= '[title]'.i18n::s('Most read articles').' [escape][read] or [read=section:&lt;id&gt;][/escape][/title]'
-	.i18n::s('Use the simplest form to display a compact list of articles of fame, or limit the scope to one section and related sub-sections.')
-	.Skin::table_prefix('100%')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][read][/escape]</td>'
-	.'<td>[read]</td></tr>'
-	.Skin::table_suffix();
-
-// [published]
-$context['text'] .= '[title]'.i18n::s('Most recent publications').' [escape][published] or [published=section:&lt;id&gt;][/escape][/title]'
-	.i18n::s('Use the simplest form to display a compact list of newest publications, or limit the scope to: one section and related sub-sections, one category, or one author.')
-	.Skin::table_prefix('100%')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][published][/escape]</td>'
-	.'<td>[published]</td></tr>'
-	.Skin::table_suffix();
-
-// [edited]
-$context['text'] .= '[title]'.i18n::s('Most recent updates').' [escape][edited] or [edited=section:&lt;id&gt;][/escape][/title]'
-	.i18n::s('Use the simplest form to display a compact list of edited pages, or limit the scope to : one section and related sub-sections, one category, or one author.')
-	.Skin::table_prefix('100%')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][edited][/escape]</td>'
-	.'<td>[edited]</td></tr>'
-	.Skin::table_suffix();
-
-// [commented]
-$context['text'] .= '[title]'.i18n::s('Freshest threads').' [escape][commented] or [commented=section:&lt;id&gt;][/escape][/title]'
-	.i18n::s('Use the simplest form to display a compact list of freshest threads, or limit the scope to one section and related sub-sections.')
-	.Skin::table_prefix('100%')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][commented][/escape]</td>'
-	.'<td>[commented]</td></tr>'
-	.Skin::table_suffix();
-
-// [contributed]
-$context['text'] .= '[title]'.i18n::s('Most active pages').' [escape][contributed] or [contributed=section:&lt;id&gt;][/escape][/title]'
-	.i18n::s('Use the simplest form to display a compact list of most contributed pages, or limit the scope to one section and related sub-sections.')
-	.Skin::table_prefix('100%')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][contributed][/escape]</td>'
-	.'<td>[contributed]</td></tr>'
-	.Skin::table_suffix();
-
-// [freemind]
-$context['text'] .= '[title]'.i18n::s('A dynamic Freemind map').' [escape][freemind] or [freemind=section:&lt;id&gt;][/escape][/title]'
-	.i18n::s('Use the simplest form to navigate site content is a mind map, or limit the scope to one section and related sub-sections.')
-	.Skin::table_prefix('100%')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][freemind=100%, 300px][/escape]</td>'
-	.'<td>[freemind=100%, 300px]</td></tr>'
 	.Skin::table_suffix();
 
 // transform the text

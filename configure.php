@@ -156,15 +156,15 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="root_cover_at_home" value="full"';
 	if(!isset($context['root_cover_at_home']) || !preg_match('/(body|none)/', $context['root_cover_at_home']))
 		$input .= ' checked="checked"';
-	$input .= ' '.EOT.' '.i18n::s('Display the cover article at the front page.');
+	$input .= ' /> '.i18n::s('Display the cover article at the front page.');
 	$input .= BR.'<input type="radio" name="root_cover_at_home" value="body"';
 	if(isset($context['root_cover_at_home']) && ($context['root_cover_at_home'] == 'body'))
 		$input .= ' checked="checked"';
-	$input .= ' '.EOT.' '.i18n::s('Display the main part of the cover article, but not the title.');
+	$input .= ' /> '.i18n::s('Display the main part of the cover article, but not the title.');
 	$input .= BR.'<input type="radio" name="root_cover_at_home" value="none"';
 	if(isset($context['root_cover_at_home']) && ($context['root_cover_at_home'] == 'none'))
 		$input .= ' checked="checked"';
-	$input .= ' '.EOT.' '.i18n::s('Do not use the cover article at the front page.');
+	$input .= ' /> '.i18n::s('Do not use the cover article at the front page.');
 	$fields[] = array($label, $input);
 
 	// parameters for rendering of sections at the front page
@@ -175,11 +175,11 @@ elseif(!Surfer::is_associate()) {
 		$context['root_sections_at_home'] = 'root';
 	if(!isset($context['root_sections_count_at_home']) || ($context['root_sections_count_at_home'] < 1))
 		$context['root_sections_count_at_home'] = 5;
-	$input = sprintf(i18n::s('List up to %s sections:'), '<input type="text" name="root_sections_count_at_home" value="'.encode_field($context['root_sections_count_at_home']).'" size="2"'.EOT)
+	$input = sprintf(i18n::s('List up to %s sections:'), '<input type="text" name="root_sections_count_at_home" value="'.encode_field($context['root_sections_count_at_home']).'" size="2" />')
 		.BR.'<input type="radio" name="root_sections_at_home" value="root"';
 	if($context['root_sections_at_home'] == 'root')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('List top-level sections.')
+	$input .= '/> '.i18n::s('List top-level sections.')
 		.BR.'<input type="radio" name="root_sections_at_home" value="id"';
 	if((int)$context['root_sections_at_home'] > 0) {
 		$input .= ' checked="checked"';
@@ -187,11 +187,11 @@ elseif(!Surfer::is_associate()) {
 	} else {
 		$value = 0;
 	}
-	$input .= EOT.' '.i18n::s('List only section with the following id').' <input type="text" name="section_id_at_home" value="'.encode_field($value).'" size="2"'.EOT
+	$input .= '/> '.i18n::s('List only section with the following id').' <input type="text" name="section_id_at_home" value="'.encode_field($value).'" size="2" />'
 		.BR.'<input type="radio" name="root_sections_at_home" value="none"';
 	if($context['root_sections_at_home'] == 'none')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not list sections explicitly -- Useful for skins that feature tabbed sections.').BR;
+	$input .= '/> '.i18n::s('Do not list sections explicitly -- Useful for skins that feature tabbed sections.').BR;
 
 	// root_sections_layout - which layout for sections
 	$input .= BR.i18n::s('Following layouts can be used for selected sections:');
@@ -209,47 +209,47 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="root_sections_layout" value="menu"';
 	if($context['root_sections_layout'] == 'menu')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('menu - List sections in the menu bar, right below page title.')
+	$input .= '/> '.i18n::s('menu - List sections in the menu bar, right below page title.')
 		.BR.'<input type="radio" name="root_sections_layout" value="decorated"';
 	if($context['root_sections_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('decorated - As a decorated list.')
+	$input .= '/> '.i18n::s('decorated - As a decorated list.')
 		.BR.'<input type="radio" name="root_sections_layout" value="map"';
 	if($context['root_sections_layout'] == 'map')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('map - Map in two columns, like Yahoo!')
+	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!')
 		.BR.'<input type="radio" name="root_sections_layout" value="freemind"';
 	if($context['root_sections_layout'] == 'freemind')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('freemind - Build an interactive mind map')
+	$input .= '/> '.i18n::s('freemind - Build an interactive mind map')
 		.BR.'<input type="radio" name="root_sections_layout" value="jive"';
 	if($context['root_sections_layout'] == 'jive')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('jive - List 5 threads per board')
+	$input .= '/> '.i18n::s('jive - List 5 threads per board')
 		.BR.'<input type="radio" name="root_sections_layout" value="yabb"';
 	if($context['root_sections_layout'] == 'yabb')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('yabb - A discussion forum')
+	$input .= '/> '.i18n::s('yabb - A discussion forum')
 		.BR.'<input type="radio" name="root_sections_layout" value="inline"';
 	if($context['root_sections_layout'] == 'inline')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('inline - List sub-sections and related articles.')
+	$input .= '/> '.i18n::s('inline - List sub-sections and related articles.')
 		.BR.'<input type="radio" name="root_sections_layout" value="folded"';
 	if($context['root_sections_layout'] == 'folded')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('folded - List sub-sections as folded boxes, with content (one box per section).')
+	$input .= '/> '.i18n::s('folded - List sub-sections as folded boxes, with content (one box per section).')
 		.BR.'<input type="radio" name="root_sections_layout" value="compact"';
 	if($context['root_sections_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('compact - In a compact list, like DMOZ.')
+	$input .= '/> '.i18n::s('compact - In a compact list, like DMOZ.')
 		.BR.'<input type="radio" name="root_sections_layout" value="titles"';
 	if($context['root_sections_layout'] == 'titles')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('titles - Use only titles and thumbnails.')
+	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails.')
 		.BR.'<input type="radio" name="root_sections_layout" value="custom"';
 	if($context['root_sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32"'.EOT);
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" />');
 	$fields[] = array($label, $input);
 
 	// use flash to animate recent pages
@@ -257,11 +257,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="root_flash_at_home" value="N"';
 	if(!isset($context['root_flash_at_home']) || ($context['root_flash_at_home'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not list recent articles in an animated Flash object.');
+	$input .= '/> '.i18n::s('Do not list recent articles in an animated Flash object.');
 	$input .= BR.'<input type="radio" name="root_flash_at_home" value="Y"';
 	if(isset($context['root_flash_at_home']) && ($context['root_flash_at_home'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.sprintf(i18n::s('List most recent pages in a dynamic and clickable Flash panel. Check this option only if the %s module has been installed. This is the case if you have some text displayed %s.'),
+	$input .= '/> '.sprintf(i18n::s('List most recent pages in a dynamic and clickable Flash panel. Check this option only if the %s module has been installed. This is the case if you have some text displayed %s.'),
 		Skin::build_link('http://ming.sourceforge.net/', 'Ming', 'external'),
 		'<a href="'.$context['url_to_root'].'feeds/flash/slashdot.php">'.i18n::s('here').'</a>');
 	$fields[] = array($label, $input);
@@ -271,11 +271,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="root_gadget_boxes_at_home" value="Y"';
 	if(!isset($context['root_gadget_boxes_at_home']) || ($context['root_gadget_boxes_at_home'] != 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.sprintf(i18n::s('Display up to 6 gadget boxes. Post articles in %s to add more boxes. You can also flag some sections or some categories to list their content in gadget boxes.'), Skin::build_link(Sections::get_url('gadget_boxes'), i18n::s('the section dedicated to gadget boxes'), 'shortcut'));
+	$input .= '/> '.sprintf(i18n::s('Display up to 6 gadget boxes. Post articles in %s to add more boxes. You can also flag some sections or some categories to list their content in gadget boxes.'), Skin::build_link(Sections::get_url('gadget_boxes'), i18n::s('the section dedicated to gadget boxes'), 'shortcut'));
 	$input .= BR.'<input type="radio" name="root_gadget_boxes_at_home" value="N"';
 	if(isset($context['root_gadget_boxes_at_home']) && ($context['root_gadget_boxes_at_home'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not show gadget boxes at the front page.');
+	$input .= '/> '.i18n::s('Do not show gadget boxes at the front page.');
 	$fields[] = array($label, $input);
 
 	// recent articles
@@ -297,60 +297,60 @@ elseif(!Surfer::is_associate()) {
 	$input .= '<input type="radio" name="root_articles_layout" value="daily"';
 	if($context['root_articles_layout'] == 'daily')
 		$input .= ' checked="checked"';
-	$input .= EOT.'daily - '.i18n::s('For weblogs and blogmarks.')
+	$input .= '/>daily - '.i18n::s('For weblogs and blogmarks.')
 		.' '.Skin::build_link('skins/layout_home_articles_as_daily.jpg', i18n::s('Preview'), 'help').BR;
 
 	// newspaper
 	$input .= '<input type="radio" name="root_articles_layout" value="newspaper"';
 	if($context['root_articles_layout'] == 'newspaper')
 		$input .= ' checked="checked"';
-	$input .= EOT.'newspaper - '.i18n::s('Focus on the last published article, and on the three articles published previously.')
+	$input .= '/>newspaper - '.i18n::s('Focus on the last published article, and on the three articles published previously.')
 		.' '.Skin::build_link('skins/layout_home_articles_as_newspaper.jpg', i18n::s('Preview'), 'help').BR;
 
 	// boxesandarrows
 	$input .= '<input type="radio" name="root_articles_layout" value="boxesandarrows"';
 	if($context['root_articles_layout'] == 'boxesandarrows')
 		$input .= ' checked="checked"';
-	$input .= EOT.'boxesandarrows - '.i18n::s('Focus on the last two most recent articles, then list previous pages. Click on article titles to read full text.')
+	$input .= '/>boxesandarrows - '.i18n::s('Focus on the last two most recent articles, then list previous pages. Click on article titles to read full text.')
 		.' '.Skin::build_link('skins/layout_home_articles_as_boxesandarrows.jpg', i18n::s('Preview'), 'help').BR;
 
 	// slashdot
 	$input .= '<input type="radio" name="root_articles_layout" value="slashdot"';
 	if($context['root_articles_layout'] == 'slashdot')
 		$input .= ' checked="checked"';
-	$input .= EOT.'slashdot - '.i18n::s('List most recent pages equally.')
+	$input .= '/>slashdot - '.i18n::s('List most recent pages equally.')
 		.' '.Skin::build_link('skins/layout_home_articles_as_slashdot.jpg', i18n::s('Preview'), 'help').BR;
 
 	// digg
 	$input .= '<input type="radio" name="root_articles_layout" value="digg"';
 	if($context['root_articles_layout'] == 'digg')
 		$input .= ' checked="checked"';
-	$input .= EOT.'digg - '.i18n::s('A decorated list of pages that have been most rated by community members.').BR;
+	$input .= '/>digg - '.i18n::s('A decorated list of pages that have been most rated by community members.').BR;
 
 	// decorated
 	$input .= '<input type="radio" name="root_articles_layout" value="decorated"';
 	if($context['root_articles_layout'] == 'decorated')
 		$input .= ' checked="checked"';
-	$input .= EOT.'decorated - '.i18n::s('A decorated list of most recent pages. This layout is suitable for sites with a long cover article at the front page.').BR;
+	$input .= '/>decorated - '.i18n::s('A decorated list of most recent pages. This layout is suitable for sites with a long cover article at the front page.').BR;
 
 	// compact
 	$input .= '<input type="radio" name="root_articles_layout" value="compact"';
 	if($context['root_articles_layout'] == 'compact')
 		$input .= ' checked="checked"';
-	$input .= EOT.'compact - '.i18n::s('A compact list of most recent pages. This layout is suitable for sites with a lot of items (gadget boxes, etc.) at the front page.').BR;
+	$input .= '/>compact - '.i18n::s('A compact list of most recent pages. This layout is suitable for sites with a lot of items (gadget boxes, etc.) at the front page.').BR;
 
 	// alistapart
 	$input .= '<input type="radio" name="root_articles_layout" value="alistapart"';
 	if($context['root_articles_layout'] == 'alistapart')
 		$input .= ' checked="checked"';
-	$input .= EOT.'alistapart - '.i18n::s('Display only the most recent published page. Previous articles may be accessed through a menu. This layout is suitable for sites with a low number of heavy publications.')
+	$input .= '/>alistapart - '.i18n::s('Display only the most recent published page. Previous articles may be accessed through a menu. This layout is suitable for sites with a low number of heavy publications.')
 		.' '.Skin::build_link('skins/layout_home_articles_as_alistapart.jpg', i18n::s('Preview'), 'help').BR;
 
 	// custom
 	$input .= '<input type="radio" name="root_articles_layout" value="custom"';
 	if($context['root_articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="home_custom_layout" value="'.encode_field($custom_layout).'" size="32"'.EOT).BR;
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="home_custom_layout" value="'.encode_field($custom_layout).'" size="32" />').BR;
 
 	// no article
 	$input .= '<p><input type="radio" name="root_articles_layout" value="no_articles"';
@@ -364,7 +364,7 @@ elseif(!Surfer::is_associate()) {
 	// number of entries at the front page
 	if(!isset($context['root_articles_count_at_home']))
 		$context['root_articles_count_at_home'] = '';
-	$input .= '<p>'.sprintf(i18n::s('Display %s articles at the front page. Put a number if you wish to override the default value for the selected layout.'), '<input type="text" name="root_articles_count_at_home" size="2" value="'.encode_field($context['root_articles_count_at_home']).'" maxlength="4"'.EOT).'</p>';
+	$input .= '<p>'.sprintf(i18n::s('Display %s articles at the front page. Put a number if you wish to override the default value for the selected layout.'), '<input type="text" name="root_articles_count_at_home" size="2" value="'.encode_field($context['root_articles_count_at_home']).'" maxlength="4" />').'</p>';
 
 	$fields[] = array($label, $input);
 
@@ -378,13 +378,13 @@ elseif(!Surfer::is_associate()) {
 	$checked = '';
 	if(isset($context['home_with_recent_files']) && ($context['home_with_recent_files'] == 'Y'))
 		$checked .= ' checked="checked"';
-	$input .= '<input type="checkbox" name="home_with_recent_files" value="Y" '.$checked.EOT.' '.i18n::s('Include the list of recent files').BR;
+	$input .= '<input type="checkbox" name="home_with_recent_files" value="Y" '.$checked.'/> '.i18n::s('Include the list of recent files').BR;
 
 	// with recent links
 	$checked = '';
 	if(isset($context['home_with_recent_links']) && ($context['home_with_recent_links'] == 'Y'))
 		$checked .= ' checked="checked"';
-	$input .= '<input type="checkbox" name="home_with_recent_links" value="Y" '.$checked.EOT.' '.i18n::s('Include the list of recent links').BR;
+	$input .= '<input type="checkbox" name="home_with_recent_links" value="Y" '.$checked.'/> '.i18n::s('Include the list of recent links').BR;
 
 	$fields[] = array($label, $input);
 
@@ -403,19 +403,19 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="root_featured_layout" value="static"';
 	if(!isset($context['root_featured_layout']) || !preg_match('/(rotate|scroll|none)/', $context['root_featured_layout']))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.sprintf(i18n::s('List up to %s featured pages aside.'), '<input type="text" name="root_featured_count" value="'.encode_field($context['root_featured_count']).'" size="2"'.EOT);
+	$input .= '/> '.sprintf(i18n::s('List up to %s featured pages aside.'), '<input type="text" name="root_featured_count" value="'.encode_field($context['root_featured_count']).'" size="2" />');
 	$input .= BR.'<input type="radio" name="root_featured_layout" value="scroll"';
 	if(isset($context['root_featured_layout']) && ($context['root_featured_layout'] == 'scroll'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Similar to the first option, except that displayed information is scrolling.');
+	$input .= '/> '.i18n::s('Similar to the first option, except that displayed information is scrolling.');
 	$input .= BR.'<input type="radio" name="root_featured_layout" value="rotate"';
 	if(isset($context['root_featured_layout']) && ($context['root_featured_layout'] == 'rotate'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Similar to the first option, except that featured are rotated.');
+	$input .= '/> '.i18n::s('Similar to the first option, except that featured are rotated.');
 	$input .= BR.'<input type="radio" name="root_featured_layout" value="none"';
 	if(isset($context['root_featured_layout']) && ($context['root_featured_layout'] == 'none'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not list featured pages.');
+	$input .= '/> '.i18n::s('Do not list featured pages.');
 	$fields[] = array($label, $input);
 
 	// news can be either a static or an animated list
@@ -425,19 +425,19 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="root_news_layout" value="static"';
 	if(!isset($context['root_news_layout']) || !preg_match('/(rotate|scroll|none)/', $context['root_news_layout']))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.sprintf(i18n::s('List up to %s news aside.'), '<input type="text" name="root_news_count" value="'.encode_field($context['root_news_count']).'" size="2"'.EOT);
+	$input .= '/> '.sprintf(i18n::s('List up to %s news aside.'), '<input type="text" name="root_news_count" value="'.encode_field($context['root_news_count']).'" size="2" />');
 	$input .= BR.'<input type="radio" name="root_news_layout" value="scroll"';
 	if(isset($context['root_news_layout']) && ($context['root_news_layout'] == 'scroll'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Similar to the first option, except that displayed information is scrolling.');
+	$input .= '/> '.i18n::s('Similar to the first option, except that displayed information is scrolling.');
 	$input .= BR.'<input type="radio" name="root_news_layout" value="rotate"';
 	if(isset($context['root_news_layout']) && ($context['root_news_layout'] == 'rotate'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Similar to the first option, except that news are rotated.');
+	$input .= '/> '.i18n::s('Similar to the first option, except that news are rotated.');
 	$input .= BR.'<input type="radio" name="root_news_layout" value="none"';
 	if(isset($context['root_news_layout']) && ($context['root_news_layout'] == 'none'))
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not list news.');
+	$input .= '/> '.i18n::s('Do not list news.');
 	$fields[] = array($label, $input);
 
 	// optional components in the extra panel
@@ -448,43 +448,43 @@ elseif(!Surfer::is_associate()) {
 	$checked = '';
 	if(isset($context['home_with_recent_poll']) && ($context['home_with_recent_poll'] == 'Y'))
 		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_recent_poll" value="Y" '.$checked.EOT.' '.i18n::s('Include the last recent poll');
+	$input .= BR.'<input type="checkbox" name="home_with_recent_poll" value="Y" '.$checked.'/> '.i18n::s('Include the last recent poll');
 
 	// with peering servers
 	$checked = '';
 	if(isset($context['home_with_peering_servers']) && ($context['home_with_peering_servers'] == 'Y'))
 		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_peering_servers" value="Y" '.$checked.EOT.' '.i18n::s('Include the list of servers that ping us');
+	$input .= BR.'<input type="checkbox" name="home_with_peering_servers" value="Y" '.$checked.'/> '.i18n::s('Include the list of servers that ping us');
 
 	// with older articles
 	$checked = '';
 	if(isset($context['home_with_older_articles']) && ($context['home_with_older_articles'] == 'Y'))
 		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_older_articles" value="Y" '.$checked.EOT.' '.i18n::s('List older articles as well');
+	$input .= BR.'<input type="checkbox" name="home_with_older_articles" value="Y" '.$checked.'/> '.i18n::s('List older articles as well');
 
 	// with top articles
 	$checked = '';
 	if(isset($context['home_with_top_articles']) && ($context['home_with_top_articles'] == 'Y'))
 		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_top_articles" value="Y" '.$checked.EOT.' '.i18n::s('Include the list of most read articles');
+	$input .= BR.'<input type="checkbox" name="home_with_top_articles" value="Y" '.$checked.'/> '.i18n::s('Include the list of most read articles');
 
 	// with top files
 	$checked = '';
 	if(isset($context['home_with_top_files']) && ($context['home_with_top_files'] == 'Y'))
 		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_top_files" value="Y" '.$checked.EOT.' '.i18n::s('Include the list of most popular files');
+	$input .= BR.'<input type="checkbox" name="home_with_top_files" value="Y" '.$checked.'/> '.i18n::s('Include the list of most popular files');
 
 	// with top links
 	$checked = '';
 	if(isset($context['home_with_top_links']) && ($context['home_with_top_links'] == 'Y'))
 		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_top_links" value="Y" '.$checked.EOT.' '.i18n::s('Include the list of most popular links');
+	$input .= BR.'<input type="checkbox" name="home_with_top_links" value="Y" '.$checked.'/> '.i18n::s('Include the list of most popular links');
 
 	// with random articles
 	$checked = '';
 	if(isset($context['home_with_random_articles']) && ($context['home_with_random_articles'] == 'Y'))
 		$checked = 'checked="checked" ';
-	$input .= BR.'<input type="checkbox" name="home_with_random_articles" value="Y" '.$checked.EOT.' '.i18n::s('Include a sample of random articles');
+	$input .= BR.'<input type="checkbox" name="home_with_random_articles" value="Y" '.$checked.'/> '.i18n::s('Include a sample of random articles');
 
 	$fields[] = array($label, $input);
 

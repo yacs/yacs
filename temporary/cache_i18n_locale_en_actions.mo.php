@@ -3,10 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 1, 2008, 5:02 pm GMT. Please do not modify it manually.
+ * on August 12, 2008, 10:27 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d action'.chr(0).'%d actions']='%d action'.chr(0).'%d actions';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
+$_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['f7023d9e1479b6ec8738a65cb7fd9706']='<p>If possible, describe the whole action in its title. The description field should be used for additional non-essentiel details.</p><p>%s and %s are available to enhance text rendering.</p><p>Use the target field to designate the main web resource involved in the action.</p>';
 $_SESSION['l10n']['en']['84a77bd6947f2b7aa1017b42f3e7f9c1']='<p>The following action has been flagged with the status:</p><p><b>%s</b></p>';
 $_SESSION['l10n']['en']['Accept: %s']='Accept: %s';
@@ -24,18 +25,16 @@ $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Completed']='Completed';
 $_SESSION['l10n']['en']['Completed actions']='Completed actions';
 $_SESSION['l10n']['en']['Delete']='Delete';
-$_SESSION['l10n']['en']['Delete: %s']='Delete: %s';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit the action']='Edit the action';
-$_SESSION['l10n']['en']['Edit: %s']='Edit: %s';
 $_SESSION['l10n']['en']['Edited by']='Edited by';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Navigation']='Navigation';
 $_SESSION['l10n']['en']['New action for %s']='New action for %s';
-$_SESSION['l10n']['en']['New to-do: %s']='New to-do: %s';
+$_SESSION['l10n']['en']['New action: %s']='New action: %s';
 $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.';
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
 $_SESSION['l10n']['en']['No title has been provided.']='No title has been provided.';

@@ -139,7 +139,7 @@ Class Layout_categories_as_yahoo extends Layout_interface {
 			}
 
 			// add related sections if necessary
-			if((count($details) < YAHOO_LIST_SIZE) && ($related = Members::list_sections_by_title_for_anchor('category:'.$item['id'], 0, YAHOO_LIST_SIZE - count($details), 'compact'))) {
+			if((count($details) < YAHOO_LIST_SIZE) && ($related =& Members::list_sections_by_title_for_anchor('category:'.$item['id'], 0, YAHOO_LIST_SIZE - count($details), 'compact'))) {
 				foreach($related as $sub_url => $label) {
 					$sub_prefix = $sub_suffix = $sub_hover = '';
 					if(is_array($label)) {
@@ -154,7 +154,7 @@ Class Layout_categories_as_yahoo extends Layout_interface {
 			}
 
 			// add related articles if necessary
-			if((count($details) < YAHOO_LIST_SIZE) && ($related = Members::list_articles_by_date_for_anchor('category:'.$item['id'], 0, YAHOO_LIST_SIZE - count($details), 'compact'))) {
+			if((count($details) < YAHOO_LIST_SIZE) && ($related =& Members::list_articles_by_date_for_anchor('category:'.$item['id'], 0, YAHOO_LIST_SIZE - count($details), 'compact'))) {
 				foreach($related as $sub_url => $label) {
 					$sub_prefix = $sub_suffix = $sub_hover = '';
 					if(is_array($label)) {

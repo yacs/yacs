@@ -567,7 +567,7 @@ if($with_form) {
 			$input .= i18n::s('Select another image to replace the current one').BR;
 		$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $image_maximum_size));
 		$input .= '<input type="hidden" name="MAX_FILE_SIZE" value="'.$image_maximum_size.'" />'
-			.'<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'"'.EOT
+			.'<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'" />'
 			.' (&lt;&nbsp;'.$size_hint.'&nbsp;'.i18n::s('bytes').')';
 		$hint = i18n::s('Please select a .png, .gif or .jpeg image.');
 
@@ -590,7 +590,7 @@ if($with_form) {
 
 		// the source
 		$label = i18n::s('Source');
-		$input = '<input type="text" name="source" size="45" value="'.encode_field(isset($item['source'])?$item['source']:'').'" maxlength="255" accesskey="u"'.EOT;
+		$input = '<input type="text" name="source" size="45" value="'.encode_field(isset($item['source'])?$item['source']:'').'" maxlength="255" accesskey="u" />';
 		$hint = i18n::s('If you have get this file from outside sources, please reference these sources here');
 		$fields[] = array($label, $input, $hint);
 
@@ -633,7 +633,7 @@ if($with_form) {
 		// the link url, but only for associates and authenticated editors
 		if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())) {
 			$label = i18n::s('Link');
-			$input = '<input type="text" name="link_url" size="50" value="'.encode_field(isset($item['link_url'])?$item['link_url']:'').'" maxlength="255" accesskey="l"'.EOT;
+			$input = '<input type="text" name="link_url" size="50" value="'.encode_field(isset($item['link_url'])?$item['link_url']:'').'" maxlength="255" accesskey="l" />';
 			$hint = i18n::s('You can make this image point to any web page if you wish');
 			$fields[] = array($label, $input, $hint);
 		}
@@ -641,9 +641,9 @@ if($with_form) {
 		// automatic processing
 		if(Surfer::is_associate()) {
 			$label = i18n::s('Image processing');
-			$fields[] = array($label, '<input type="checkbox" name="automatic_process" value="Y" checked="checked" '.EOT.' '.i18n::s('Automatically resize the image if necessary'));
+			$fields[] = array($label, '<input type="checkbox" name="automatic_process" value="Y" checked="checked" /> '.i18n::s('Automatically resize the image if necessary'));
 		} else {
-			$context['text'] .= '<input type="hidden" name="automatic_process" value="Y" '.EOT;
+			$context['text'] .= '<input type="hidden" name="automatic_process" value="Y"  />';
 		}
 
 		// how to use the thumbnail
@@ -652,15 +652,15 @@ if($with_form) {
 			$input = '<input type="radio" name="use_thumbnail" value="Y"';
 			if(!isset($item['use_thumbnail']) || ($item['use_thumbnail'] == 'Y'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('Instead of the embedded image, but only for large files (>20&nbsp;kbytes)').BR."\n";
+			$input .= '/> '.i18n::s('Instead of the embedded image, but only for large files (>20&nbsp;kbytes)').BR."\n";
 			$input .= '<input type="radio" name="use_thumbnail" value="A"';
 			if(isset($item['use_thumbnail']) && ($item['use_thumbnail'] == 'A'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('Always use the thumbnail. Users will click on it to see the full image.').BR."\n";
+			$input .= '/> '.i18n::s('Always use the thumbnail. Users will click on it to see the full image.').BR."\n";
 			$input .= '<input type="radio" name="use_thumbnail" value="N"';
 			if(isset($item['use_thumbnail']) && ($item['use_thumbnail'] == 'N'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('Never. Response times for surfers using modem links may be degraded on big images.')."\n";
+			$input .= '/> '.i18n::s('Never. Response times for surfers using modem links may be degraded on big images.')."\n";
 			$fields[] = array($label, $input);
 
 		}
@@ -683,15 +683,15 @@ if($with_form) {
 
 	// associates may decide to not stamp changes -- complex command
 	if(isset($item['id']) && $item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())) && Surfer::has_all())
-		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" '.EOT.' '.i18n::s('Do not change modification date of the main page.').'</p>';
+		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').'</p>';
 
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
-		$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'"'.EOT;
+		$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
 
 	// other hidden fields
 	if(is_object($anchor))
-		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'"'.EOT;
+		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 
 	// end of the form
 	$context['text'] .= '</div></form>';

@@ -68,11 +68,11 @@ elseif(!$original || !$updated) {
 	// select the output format
 	$label = i18n::s('Output');
 	$input = '<input type="radio" name="format" value="tabular" checked="checked"';
-	$input .= EOT.' '.i18n::s('tabular').' ';
+	$input .= '/> '.i18n::s('tabular').' ';
 	$input .= '<input type="radio" name="format" value="gdiff"';
-	$input .= EOT.' '.i18n::s('gdiff')."\n";
+	$input .= '/> '.i18n::s('gdiff')."\n";
 	$input .= '<input type="radio" name="format" value="merge"';
-	$input .= EOT.' '.i18n::s('merge')."\n";
+	$input .= '/> '.i18n::s('merge')."\n";
 	$fields[] = array($label, $input);
 
 	// the submit button
@@ -123,7 +123,7 @@ elseif(!$original || !$updated) {
 		$context['text'] .= Skin::build_submit_button(i18n::s('Merge'));
 		$context['text'] .= '</form></div>';
 
-		$context['text'] .= '<br style="clear:left;"'.EOT."\n";
+		$context['text'] .= '<br style="clear:left;" />'."\n";
 
 	} elseif($format == 'merge') {
 		$text = Scripts::merge($original, $updated);
@@ -144,7 +144,7 @@ elseif(!$original || !$updated) {
 		$context['text'] .= Skin::build_submit_button(i18n::s('gdiff'));
 		$context['text'] .= '</form></div>';
 
-		$context['text'] .= '<br style="clear:left;"'.EOT."\n";
+		$context['text'] .= '<br style="clear:left;" />'."\n";
 
 	} else {
 		$text = Scripts::gdiff($original, $updated);
@@ -165,7 +165,7 @@ elseif(!$original || !$updated) {
 		$context['text'] .= Skin::build_submit_button(i18n::s('Merge'));
 		$context['text'] .= '</form></div>';
 
-		$context['text'] .= '<br style="clear:left;"'.EOT."\n";
+		$context['text'] .= '<br style="clear:left;" />'."\n";
 
 	}
 	$context['text'] .= "\n<p><pre>\n".htmlspecialchars(str_replace("\t", '  ', $text))."\n</pre></p>\n";

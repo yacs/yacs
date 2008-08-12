@@ -88,7 +88,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 
 			// also use a clickable thumbnail, if any
 			if($item['thumbnail_url'])
-				$prefix = Skin::build_link($url, '<img src="'.$item['thumbnail_url'].'" alt="" title="'.encode_field($hover).'" class="left_image"'.EOT, 'basic', $hover)
+				$prefix = Skin::build_link($url, '<img src="'.$item['thumbnail_url'].'" alt="" title="'.encode_field($hover).'" class="left_image" />', 'basic', $hover)
 					.$prefix;
 
 			// flag sections updated recently
@@ -108,7 +108,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 			$more = array();
 
 			// board moderators
-			if($moderators = Members::list_editors_by_name_for_member('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'compact'))
+			if($moderators =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'compact'))
 				$more[] = sprintf(i18n::ns('Moderator: %s', 'Moderators: %s', count($moderators)), Skin::build_list($moderators, 'comma'));
 
 			// children boards

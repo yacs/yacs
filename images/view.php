@@ -203,7 +203,7 @@ if(!isset($item['id'])) {
 
 		// a meta link to prefetch the next page
 		if(isset($data[2]) && $data[2])
-			$context['page_header'] .= "\n".'<link rel="next" href="'.$context['url_to_root'].$data[2].'" title="'.encode_field($data[3]).'"'.EOT;
+			$context['page_header'] .= "\n".'<link rel="next" href="'.$context['url_to_root'].$data[2].'" title="'.encode_field($data[3]).'" />';
 
 	}
 
@@ -212,7 +212,7 @@ if(!isset($item['id'])) {
 
 	// build the path to the image file
 	$url = $context['url_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['image_name'];
-	$img = '<img src="'.$url.'" alt="'.$item['image_name'].'"'.EOT;
+	$img = '<img src="'.$url.'" alt="'.$item['image_name'].'" />';
 
 	// add an url, if any
 	if($item['link_url']) {

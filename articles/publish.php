@@ -274,11 +274,11 @@ if($with_form) {
 	$input = '<input type="radio" name="trackback_option" value="N"';
 	if(!$trackback_option)
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Do not contact referenced servers')
+	$input .= '/> '.i18n::s('Do not contact referenced servers')
 		.BR.'<input type="radio" name="trackback_option" value="Y"';
 	if($trackback_option)
 		$input .= ' checked="checked"';
-	$input .= EOT.' '.i18n::s('Parse links and trackback referenced pages');
+	$input .= '/> '.i18n::s('Parse links and trackback referenced pages');
 	$fields[] = array($label, $input);
 
 	// ping option
@@ -299,11 +299,11 @@ if($with_form) {
 		$input = '<input type="radio" name="ping_option" value="N"';
 		if(!$ping_option)
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('Do not contact aggregation servers')
+		$input .= '/> '.i18n::s('Do not contact aggregation servers')
 			.BR.'<input type="radio" name="ping_option" value="Y"';
 		if($ping_option)
 			$input .= ' checked="checked"';
-		$input .= EOT.' '.i18n::s('This publication should be advertised at:').$list;
+		$input .= '/> '.i18n::s('This publication should be advertised at:').$list;
 
 	} else
 		$input = sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php?action=servers', i18n::s('Content Assistant'), 'shortcut'));

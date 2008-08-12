@@ -463,7 +463,7 @@ if(!isset($item['id'])) {
 		$context['page_menu'] =& $behaviors->add_commands('articles/view.php', 'article:'.$item['id'], $context['page_menu']);
 
 	// remember surfer visit
-	Surfer::click('article:'.$item['id'], $item['active']);
+	Surfer::is_visiting(Articles::get_permalink($item), Codes::beautify_title($item['title']), 'article:'.$item['id'], $item['active']);
 
 	// increment silently the hits counter if not associate, nor creator, nor at follow-up page -- editors are taken into account
 	if(Surfer::is_associate())
@@ -503,14 +503,14 @@ if(!isset($item['id'])) {
 
 	// a meta link to prefetch the next page
 	if(isset($neighbours[2]) && $neighbours[2])
-		$context['page_header'] .= "\n".'<link rel="next" href="'.$context['url_to_root'].$neighbours[2].'" title="'.encode_field($neighbours[3]).'"'.EOT;
+		$context['page_header'] .= "\n".'<link rel="next" href="'.$context['url_to_root'].$neighbours[2].'" title="'.encode_field($neighbours[3]).'" />';
 
 	// a meta link to the section front page
 	if(is_object($anchor))
-		$context['page_header'] .= "\n".'<link rel="contents" href="'.$context['url_to_root'].$anchor->get_url().'" title="'.encode_field($anchor->get_title()).'" type="text/html"'.EOT;
+		$context['page_header'] .= "\n".'<link rel="contents" href="'.$context['url_to_root'].$anchor->get_url().'" title="'.encode_field($anchor->get_title()).'" type="text/html" />';
 
 	// a meta link to a description page (actually, rdf)
-	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Articles::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml"'.EOT;
+	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Articles::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml" />';
 
 	// implement the trackback interface
 	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
@@ -530,14 +530,14 @@ if(!isset($item['id'])) {
 		."\n".'-->';
 
 	// implement the pingback interface
-	$context['page_header'] .= "\n".'<link rel="pingback" href="'.$context['url_to_root'].'services/ping.php" title="Pingback Interface"'.EOT;
+	$context['page_header'] .= "\n".'<link rel="pingback" href="'.$context['url_to_root'].'services/ping.php" title="Pingback Interface" />';
 
 	// implement the Comment API interface
-	$context['page_header'] .= "\n".'<link rel="service.comment" href="'.$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'service.comment').'" title="Comment Interface" type="text/xml"'.EOT;
+	$context['page_header'] .= "\n".'<link rel="service.comment" href="'.$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'service.comment').'" title="Comment Interface" type="text/xml" />';
 
 	// show the secret handle at an invisible place, and only to associates
 	if(Surfer::is_associate() && $item['handle'])
-		$context['page_header'] .= "\n".'<meta name="handle" content="'.$item['handle'].'"'.EOT;
+		$context['page_header'] .= "\n".'<meta name="handle" content="'.$item['handle'].'" />';
 
 	// set specific headers
 	if(isset($item['introduction']) && $item['introduction'])
@@ -618,7 +618,7 @@ if(!isset($item['id'])) {
 			}
 
 			// article editors, for associates and section editors
-			if((Surfer::is_associate() || Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_editable())) && ($items = Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
+			if((Surfer::is_associate() || Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_editable())) && ($items =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
 				$details[] = sprintf(i18n::s('Editors: %s'), Skin::build_list($items, 'comma'));
 
 			// no more details
@@ -1302,7 +1302,7 @@ if(!isset($item['id'])) {
 			$box['text'] = '';
 
 			// list pages with same name
-			$items = Articles::list_for_name($item['nick_name'], $item['id'], 'compact');
+			$items =& Articles::list_for_name($item['nick_name'], $item['id'], 'compact');
 
 			// actually render the html for the section
 			if(is_array($items))
@@ -1350,7 +1350,7 @@ if(!isset($item['id'])) {
 
 			// list categories by title
 			$offset = ($zoom_index - 1) * CATEGORIES_PER_PAGE;
-			$items = Members::list_categories_by_title_for_member('article:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
+			$items =& Members::list_categories_by_title_for_member('article:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
 
 			// the command to change categories assignments
 			if(Categories::are_allowed($anchor, $item))
@@ -1442,29 +1442,10 @@ if(!isset($item['id'])) {
 		."\n"
 		.'// ]]></script>'."\n";
 
-	//
-	// put this page in visited items
-	//
-	if(!isset($context['pages_without_history']) || ($context['pages_without_history'] != 'Y')) {
-
-		// put at top of stack
-		if(!isset($_SESSION['visited']))
-			$_SESSION['visited'] = array();
-		$_SESSION['visited'] = array_merge(array(Articles::get_permalink($item) => Codes::beautify_title($item['title'])), $_SESSION['visited']);
-
-		// limit to 7 most recent pages
-		if(count($_SESSION['visited']) > 7)
-			array_pop($_SESSION['visited']);
-
-	}
-
 }
 
 // stamp the page
-if(isset($item['edit_date']) && $item['edit_date'] && !preg_match('/\[table=(.+?)\]/i', $item['description']))
-	$last_modified = SQL::strtotime($item['edit_date']);
-else
-	$last_modified = time();
+$last_modified = SQL::strtotime($item['edit_date']);
 
 // at the minimum, consider the date of the last configuration change
 if($last_configured = Safe::filemtime('../parameters/control.include.php'))

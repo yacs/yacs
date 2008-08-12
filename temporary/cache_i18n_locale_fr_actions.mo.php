@@ -3,10 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 1, 2008, 5:02 pm GMT. Please do not modify it manually.
+ * on August 12, 2008, 10:27 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d action'.chr(0).'%d actions']='%d action'.chr(0).'%d actions';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
+$_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['f7023d9e1479b6ec8738a65cb7fd9706']='<p>Essayez de décrire complètement l\'action dans son titre, et placez les éléments d\'information complémentaires dans le champ de description.</p><p>Utilisez %s et %s pour embellir le texte.</p><p>Renseignez l\'adresse cible si cette action est reliée à une ressource web particulière.</p>';
 $_SESSION['l10n']['fr']['84a77bd6947f2b7aa1017b42f3e7f9c1']='<p>L\'action suivante a maintenant l\'état :</p><p><b>%s</b></p>';
 $_SESSION['l10n']['fr']['Accept: %s']='Accepter : %s';
@@ -24,18 +25,16 @@ $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Completed']='Terminée';
 $_SESSION['l10n']['fr']['Completed actions']='Actions terminées';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
-$_SESSION['l10n']['fr']['Delete: %s']='Supprimer : %s';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit the action']='Modifier l\'action';
-$_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['Edited by']='Modifié par';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Look for orphan records']='Recherche des enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Navigation']='Navigation';
 $_SESSION['l10n']['fr']['New action for %s']='Nouvelle action pour %s';
-$_SESSION['l10n']['fr']['New to-do: %s']='Nouvelle action : %s';
+$_SESSION['l10n']['fr']['New action: %s']='Nouvelle action : %s';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['No title has been provided.']='Aucun titre n\'a été fourni.';

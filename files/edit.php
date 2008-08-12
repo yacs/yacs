@@ -742,7 +742,7 @@ if($with_form) {
 			$input .= '<input type="radio" name="active_set" value="X"';
 			if($item['active_set'] == 'X')
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('File can be downloaded from the anonymous ftp service').BR;
+			$input .= '/> '.i18n::s('File can be downloaded from the anonymous ftp service').BR;
 		}
 
 		// or from this server
@@ -750,15 +750,15 @@ if($with_form) {
 			$input .= '<input type="radio" name="active_set" value="Y" accesskey="v"';
 			if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('Anyone may download this file')
+			$input .= '/> '.i18n::s('Anyone may download this file')
 				.BR.'<input type="radio" name="active_set" value="R"';
 			if(isset($item['active_set']) && ($item['active_set'] == 'R'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('Access is restricted to authenticated members')
+			$input .= '/> '.i18n::s('Access is restricted to authenticated members')
 				.BR.'<input type="radio" name="active_set" value="N"';
 			if(isset($item['active_set']) && ($item['active_set'] == 'N'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('Access is restricted to associates and editors')."\n";
+			$input .= '/> '.i18n::s('Access is restricted to associates and editors')."\n";
 		}
 		$fields[] = array($label, $input);
 	}

@@ -418,7 +418,7 @@ if(!isset($item['id'])) {
 		$context['page_menu'] =& $behaviors->add_commands('sections/view.php', 'section:'.$item['id'], $context['page_menu']);
 
 	// remember surfer visit
-	Surfer::click('section:'.$item['id'], $item['active']);
+	Surfer::is_visiting(Sections::get_permalink($item), Codes::beautify_title($item['title']), 'section:'.$item['id'], $item['active']);
 
 	// increment silently the hits counter if not associate, nor creator -- editors are taken into account
 	if(Surfer::is_associate())
@@ -452,10 +452,10 @@ if(!isset($item['id'])) {
 		$context['page_header'] .= $item['meta'];
 
 	// a meta link to a feeding page
-	$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Sections::get_url($item['id'], 'feed').'" title="RSS" type="application/rss+xml"'.EOT;
+	$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Sections::get_url($item['id'], 'feed').'" title="RSS" type="application/rss+xml" />';
 
 	// a meta link to a description page (actually, rdf)
-	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Sections::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml"'.EOT;
+	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Sections::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml" />';
 
 	// implement the trackback interface
 	$permanent_link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
@@ -475,10 +475,10 @@ if(!isset($item['id'])) {
 		."\n".'-->';
 
 	// implement the pingback interface
-	$context['page_header'] .= "\n".'<link rel="pingback" href="'.$context['url_to_root'].'services/ping.php"'.EOT;
+	$context['page_header'] .= "\n".'<link rel="pingback" href="'.$context['url_to_root'].'services/ping.php" />';
 
 	// a meta link to our blogging interface
-	$context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_home'].$context['url_to_root'].'services/describe.php" title="RSD" type="application/rsd+xml"'.EOT;
+	$context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_home'].$context['url_to_root'].'services/describe.php" title="RSD" type="application/rsd+xml" />';
 
 	// set specific headers
 	if(isset($item['introduction']) && $item['introduction'])
@@ -494,7 +494,7 @@ if(!isset($item['id'])) {
 	if(!$text =& Cache::get($cache_id)) {
 
 		// top icons
-		if(!$zoom_type && ($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'icon_top')) && ($items = Articles::list_by_date_for_anchor($anchors, 0, 12, 'thumbnails'))) {
+		if(!$zoom_type && ($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'icon_top')) && ($items =& Articles::list_for_anchor_by('publication', $anchors, 0, 12, 'thumbnails'))) {
 
 			// generate HTML
 			if(is_array($items))
@@ -503,7 +503,7 @@ if(!isset($item['id'])) {
 				$content = (string)$items;
 
 			// insert thumbnails before page title
-			$text .= Skin::build_box('', '<br class="images_prefix"'.EOT.$content.'<br class="images_suffix"'.EOT, 'header1', 'top_icons');
+			$text .= Skin::build_box('', '<br class="images_prefix" />'.$content.'<br class="images_suffix" />', 'header1', 'top_icons');
 
 		}
 
@@ -594,10 +594,10 @@ if(!isset($item['id'])) {
 
 			// section editors and readers
 			if(Surfer::is_empowered() && Surfer::is_logged()) {
-				if($items = Members::list_editors_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
+				if($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
 					$details[] = sprintf(i18n::s('Editors: %s'), Skin::build_list($items, 'comma'));
 
-				if($items = Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
+				if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
 					$details[] = sprintf(i18n::s('Readers: %s'), Skin::build_list($items, 'comma'));
 			}
 
@@ -756,7 +756,7 @@ if(!isset($item['id'])) {
 			if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'gadget_boxes')) {
 
 				// up to 6 articles to be displayed as gadget boxes
-				if($items = Articles::list_by_edition_date_for_anchor($anchors, 0, 7, 'boxes')) {
+				if($items =& Articles::list_for_anchor_by('edition', $anchors, 0, 7, 'boxes')) {
 					foreach($items as $title => $attributes)
 						$content .= Skin::build_box($title, $attributes['content'], 'gadget', $attributes['id'])."\n";
 				}
@@ -786,7 +786,7 @@ if(!isset($item['id'])) {
 					}
 
 					// list matching articles
-					if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Articles::list_by_edition_date_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
+					if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items =& Articles::list_for_anchor_by('edition', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
 						$box['list'] = array_merge($box['list'], $items);
 
 					// add matching links, if any
@@ -1468,7 +1468,7 @@ if(!isset($item['id'])) {
 	if(!$text =& Cache::get($cache_id)) {
 
 		// bottom icons
-		if(!$zoom_type && ($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'icon_bottom')) && ($items = Articles::list_by_date_for_anchor($anchors, 0, 12, 'thumbnails'))) {
+		if(!$zoom_type && ($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'icon_bottom')) && ($items =& Articles::list_for_anchor_by('publication', $anchors, 0, 12, 'thumbnails'))) {
 
 			// generate HTML
 			if(is_array($items))
@@ -1477,7 +1477,7 @@ if(!isset($item['id'])) {
 				$text = (string)$items;
 
 			// make a box with a frame of images
-			$text .= Skin::build_box('', '<br class="images_prefix"'.EOT.$text.'<br class="images_suffix"'.EOT, 'header1', 'bottom_icons');
+			$text .= Skin::build_box('', '<br class="images_prefix" />'.$text.'<br class="images_suffix" />', 'header1', 'bottom_icons');
 
 		}
 
@@ -1513,7 +1513,7 @@ if(!isset($item['id'])) {
 					$item['index_news_count'] = 7;
 
 				// list articles by date
-				$items = Articles::list_by_date_for_anchor($anchors, 0, $item['index_news_count'], 'news');
+				$items =& Articles::list_for_anchor_by('publication', $anchors, 0, $item['index_news_count'], 'news');
 
 				// render html
 				if(is_array($items))
@@ -1546,7 +1546,7 @@ if(!isset($item['id'])) {
 
 		// add extra information from this item, if any
 		if(isset($item['extra']) && $item['extra'])
-			$text .= Codes::beautify($item['extra']);
+			$text .= Codes::beautify_extra($item['extra']);
 
 		// one extra box per article, from sub-sections
 		if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'extra_boxes')) {
@@ -1556,7 +1556,7 @@ if(!isset($item['id'])) {
 				$context['site_extra_maximum'] = 7;
 
 			// articles to be displayed as extra boxes
-			if($items = Articles::list_by_date_for_anchor($anchors, 0, $context['site_extra_maximum'], 'boxes')) {
+			if($items =& Articles::list_for_anchor_by('publication', $anchors, 0, $context['site_extra_maximum'], 'boxes')) {
 				foreach($items as $title => $attributes)
 					$text .= Skin::build_box($title, $attributes['content'], 'extra', $attributes['id'])."\n";
 			}
@@ -1581,7 +1581,7 @@ if(!isset($item['id'])) {
 				$box['list'] = array();
 
 				// list matching articles
-				if($items = Articles::list_by_edition_date_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1, 'compact'))
+				if($items =& Articles::list_for_anchor_by('edition', $anchor, 0, COMPACT_LIST_SIZE+1, 'compact'))
 					$box['list'] = array_merge($box['list'], $items);
 
 				// add matching links, if any
@@ -1796,7 +1796,7 @@ if(!isset($item['id'])) {
 
 			// list categories by title
 			$offset = ($zoom_index - 1) * CATEGORIES_PER_PAGE;
-			$items = Members::list_categories_by_title_for_member('section:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
+			$items =& Members::list_categories_by_title_for_member('section:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
 
 			// the command to change categories assignments
 			if(Categories::are_allowed($anchor, $item))
@@ -1893,22 +1893,6 @@ if(!isset($item['id'])) {
 
 	// update the extra panel
 	$context['extra'] .= $text;
-
-	//
-	// put this page in visited items
-	//
-	if(!isset($context['pages_without_history']) || ($context['pages_without_history'] != 'Y')) {
-
-		// put at top of stack
-		if(!isset($_SESSION['visited']))
-			$_SESSION['visited'] = array();
-		$_SESSION['visited'] = array_merge(array(Sections::get_permalink($item) => Codes::beautify_title($item['title'])), $_SESSION['visited']);
-
-		// limit to 7 most recent pages
-		if(count($_SESSION['visited']) > 7)
-			array_pop($_SESSION['visited']);
-
-	}
 
 }
 

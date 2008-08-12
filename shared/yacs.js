@@ -86,6 +86,7 @@ var Yacs = {
 			onSuccess: function(transport) {
 				var response = transport.responseText.evalJSON(true);
 				callBack(response);
+				response = null; // no memory leak
 			},
 			onFailure: function(transport) {
 				callBack(FALSE);
@@ -466,6 +467,8 @@ var Yacs = {
 		handle.onmouseout = function () { Yacs.mouseOut(this); return false; };
 		handle.onmouseover = function () { Yacs.mouseOver(this); return false; };
 
+		handle = null; // no memory leak
+
 	},
 
 	/**
@@ -474,6 +477,8 @@ var Yacs = {
 	mouseOut: function(handle) {
 		var nodes = handle.select('span.onHoverLeft', 'span.onHoverRight');
 		nodes.each(function (node) { Element.setStyle(node, { visibility: 'hidden' }); });
+
+		nodes = null; // no memory leak
 	},
 
 	/**
@@ -482,11 +487,15 @@ var Yacs = {
 	mouseOver: function(handle) {
 		var nodes = handle.select('span.onHoverLeft', 'span.onHoverRight');
 		nodes.each(function (node) { Element.setStyle(node, { visibility: 'visible' }); });
+
+		nodes = null; // no memory leak
 	},
 
 	toggleProperties: function(handle) {
 		var nodes = $(handle).select('.properties');
 		nodes.each(function (node) { new Effect.toggle(node, 'slide'); });
+
+		nodes = null; // no memory leak
 	},
 
 	/**
@@ -522,6 +531,8 @@ var Yacs = {
 			if(buttonType.toLowerCase().match('submit') && !Element.hasClassName(button, 'no_spin_on_click')) {
 				button.onclick = Yacs.startWorking;
 			}
+
+			button = null; // no memory leak
 		}
 
 		// on-demand headers
@@ -542,6 +553,8 @@ var Yacs = {
 			if(index+1 < anchors.length) {
 				anchor.nextAnchor = anchors[index + 1];
 			}
+
+			anchor = null; // no memory leak
 		}
 
 		// slow down notifications on window blur

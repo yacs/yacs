@@ -92,15 +92,15 @@ elseif(!Surfer::is_associate()) {
 			$input = '<input type="radio" name="collection_visibilities['.$name.']" value="Y"';
 			if(!isset($visibility) || !$visibility || ($visibility == 'Y'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('Anyone may browse this collection');
+			$input .= '/> '.i18n::s('Anyone may browse this collection');
 			$input .= BR.'<input type="radio" name="collection_visibilities['.$name.']" value="R"';
 			if(isset($visibility) && ($visibility == 'R'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('Access is restricted to authenticated members');
+			$input .= '/> '.i18n::s('Access is restricted to authenticated members');
 			$input .= BR.'<input type="radio" name="collection_visibilities['.$name.']" value="N"';
 			if(isset($visibility) && ($visibility == 'N'))
 				$input .= ' checked="checked"';
-			$input .= EOT.' '.i18n::s('Access is restricted to associates');
+			$input .= '/> '.i18n::s('Access is restricted to associates');
 			$fields[] = array($label, $input);
 
 			$label = i18n::s('Label');
@@ -156,11 +156,11 @@ elseif(!Surfer::is_associate()) {
 
 	$label = i18n::s('Visibility');
 	$input = '<input type="radio" name="collection_visibilities[]" value="Y" checked="checked"';
-	$input .= EOT.' '.i18n::s('Anyone may browse this collection');
+	$input .= '/> '.i18n::s('Anyone may browse this collection');
 	$input .= BR.'<input type="radio" name="collection_visibilities[]" value="R"';
-	$input .= EOT.' '.i18n::s('Access is restricted to authenticated members');
+	$input .= '/> '.i18n::s('Access is restricted to authenticated members');
 	$input .= BR.'<input type="radio" name="collection_visibilities[]" value="N"';
-	$input .= EOT.' '.i18n::s('Access is restricted to associates');
+	$input .= '/> '.i18n::s('Access is restricted to associates');
 	$fields[] = array($label, $input);
 
 	$label = i18n::s('Label');

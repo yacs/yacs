@@ -111,7 +111,7 @@ if($count > $items_per_page) {
 //
 
 // a meta link to our blogging interface
-$context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_home'].$context['url_to_root'].'services/describe.php" title="RSD" type="application/rsd+xml"'.EOT;
+$context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_home'].$context['url_to_root'].'services/describe.php" title="RSD" type="application/rsd+xml" />';
 
 // the prefix hook for the site map page
 if(is_callable(array('Hooks', 'include_scripts')))
@@ -136,7 +136,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// the list of active sections
 	$offset = ($page - 1) * $items_per_page;
-	if(!$items = Sections::list_by_title_for_anchor(NULL, $offset, $items_per_page, $layout))
+	if(!$items =& Sections::list_by_title_for_anchor(NULL, $offset, $items_per_page, $layout))
 		$items = '<p>'.i18n::s('No regular section has been created yet.').'</p>';
 
 	// we have an array to format
@@ -225,7 +225,7 @@ if(!$text =& Cache::get($cache_id)) {
 			$label =& Skin::build_box_title(Skin::strip($attributes['title']), Categories::get_permalink($attributes), i18n::s('View the category'));
 
 			// box content
-			if($items = Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
+			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
 				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'navigation')."\n";
 		}
 	}

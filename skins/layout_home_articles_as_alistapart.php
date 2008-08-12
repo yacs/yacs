@@ -128,7 +128,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 				$icon = $context['url_to_root'].$icon;
 
 			// flush the image on the right
-			$text .= '<img src="'.$icon.'" class="right_image" alt=""'.EOT;
+			$text .= '<img src="'.$icon.'" class="right_image" alt="" />';
 		}
 
 		// the author

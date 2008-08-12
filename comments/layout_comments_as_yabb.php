@@ -190,7 +190,7 @@ Class Layout_comments_as_yabb extends Layout_interface {
 			$text .= '</p>';
 
 			// clear on both sides
-			$text .= '<hr style="clear:both"'.EOT;
+			$text .= '<hr style="clear:both" />';
 
 			// the comment itself
 			$text .= ucfirst(trim(Codes::beautify($item['description'])))."\n";

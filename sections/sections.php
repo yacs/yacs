@@ -677,7 +677,7 @@ Class Sections {
 		$active = "(sections.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$active .= " OR sections.active='R'";
 
 		// include hidden sections for associates
@@ -764,7 +764,7 @@ Class Sections {
 		$active = "(sections.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$active .= " OR sections.active='R'";
 
 		// include hidden sections for associates
@@ -1067,17 +1067,17 @@ Class Sections {
 	 * @param int the id of the section to handle
 	 * @param string the expected action ('view', 'print', 'edit', 'delete', ...)
 	 * @param string additional data, such as section nick name, if any
-	 * @param string nick name, if any, to take over on previous parameter
+	 * @param string alternate name, if any, to take over on previous parameter
 	 * @return string a normalized reference
 	 *
 	 * @see control/configure.php
 	 */
-	function get_url($id, $action='view', $name=NULL, $nick_name=NULL) {
+	function get_url($id, $action='view', $name=NULL, $alternate_name=NULL) {
 		global $context;
 
 		// use nick name instead of regular name, if one is provided
-		if($nick_name)
-			$name = str_replace('_', ' ', $nick_name);
+		if($alternate_name && ($context['with_alternate_urls'] == 'Y'))
+			$name = str_replace('_', ' ', $alternate_name);
 
 		// the rss feed for files --deprecated to files::get_url()
 		if($action == 'files') {
@@ -1187,7 +1187,7 @@ Class Sections {
 		$where .= " AND (sections.active='Y'";
 
 		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
 		// list hidden sections to associates and to editors
@@ -1227,7 +1227,7 @@ Class Sections {
 		$where = "sections.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
 		// add hidden items to associates, editors and readers
@@ -1273,7 +1273,7 @@ Class Sections {
 		$where = "sections.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
 		// add hidden items to associates, editors and readers
@@ -1354,7 +1354,7 @@ Class Sections {
 		$where .= " AND (sections.active='Y'";
 
 		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
 		// list hidden sections to associates, editors and subscribers
@@ -1390,7 +1390,7 @@ Class Sections {
 			." WHERE ".$where
 			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT ".$offset.','.$count;
 
-		$output =& Sections::list_selected(SQL::query($query, $silent), $variant);
+		$output =& Sections::list_selected(SQL::query($query, $silent), $variant, $anchor);
 		return $output;
 	}
 
@@ -1419,7 +1419,7 @@ Class Sections {
 		$where .= " AND (sections.active='Y'";
 
 		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
 		// list hidden sections to associates, editors and subscribers
@@ -1559,18 +1559,20 @@ Class Sections {
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
+	 * @param string context to be used for the layout
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see skins/boxesandarrows/template.php
 	 */
-	function &list_selected(&$result, $variant='full') {
+	function &list_selected(&$result, $variant='full', $anchor=NULL) {
 		global $context;
 
+		// the result
+		$output = NULL;
+
 		// no result
-		if(!$result) {
-			$output = NULL;
+		if(!$result)
 			return $output;
-		}
 
 		// special layouts
 		if(is_object($variant)) {
@@ -1584,44 +1586,47 @@ Class Sections {
 		case 'compact':
 			include_once $context['path_to_root'].'sections/layout_sections_as_compact.php';
 			$layout =& new Layout_sections_as_compact();
-			$output =& $layout->layout($result);
-			return $output;
+			break;
+
+		case 'folded':
+			include_once $context['path_to_root'].'sections/layout_sections_as_folded.php';
+			$layout =& new Layout_sections_as_folded();
+			break;
 
 		case 'freemind':
 			include_once $context['path_to_root'].'sections/layout_sections_as_freemind.php';
 			$layout =& new Layout_sections_as_freemind();
-			$output =& $layout->layout($result);
-			return $output;
+			break;
 
 		case 'menu':
 			include_once $context['path_to_root'].'sections/layout_sections_as_menu.php';
 			$layout =& new Layout_sections_as_menu();
-			$output =& $layout->layout($result);
-			return $output;
+			break;
 
 		case 'raw':
 			include_once $context['path_to_root'].'sections/layout_sections_as_raw.php';
 			$layout =& new Layout_sections_as_raw();
-			$output =& $layout->layout($result);
-			return $output;
+			break;
+
+		case 'simple':
+			include_once $context['path_to_root'].'sections/layout_sections_as_simple.php';
+			$layout =& new Layout_sections_as_simple();
+			break;
 
 		case 'tabs':
 			include_once $context['path_to_root'].'sections/layout_sections_as_tabs.php';
 			$layout =& new Layout_sections_as_tabs();
-			$output =& $layout->layout($result);
-			return $output;
+			break;
 
 		case 'thumbnails':
 			include_once $context['path_to_root'].'sections/layout_sections_as_thumbnails.php';
 			$layout =& new Layout_sections_as_thumbnails();
-			$output =& $layout->layout($result);
-			return $output;
+			break;
 
 		case 'yahoo':
 			include_once $context['path_to_root'].'sections/layout_sections_as_yahoo.php';
 			$layout =& new Layout_sections_as_yahoo();
-			$output =& $layout->layout($result);
-			return $output;
+			break;
 
 		default:
 
@@ -1659,6 +1664,9 @@ Class Sections {
 
 		}
 
+		$layout->set_variant($anchor);
+		$output =& $layout->layout($result);
+		return $output;
 	}
 
 	/**
@@ -2214,7 +2222,7 @@ Class Sections {
 		$where = "sections.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_logged() || !isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
+		if(Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
 		if(Surfer::is_associate())

@@ -21,7 +21,6 @@ Class Layout_sections extends Layout_interface {
 	 *
 	 * Accept following variants:
 	 * - 'full' - include anchor information -- also the default value
-	 * - 'references' - like 'full', but urls are references to sections
 	 * - 'select' - like 'full', but urls are links to the article editor form - used at articles/edit.php
 	 *
 	 * @param resource the SQL result
@@ -32,11 +31,12 @@ Class Layout_sections extends Layout_interface {
 	function &layout(&$result) {
 		global $context;
 
+		// we return an array of ($url => $attributes)
+		$items = array();
+
 		// empty list
-		if(!SQL::count($result)) {
-			$output = array();
-			return $output;
-		}
+		if(!SQL::count($result))
+			return $items;
 
 		// sanity check
 		if(!isset($this->layout_variant))
@@ -48,9 +48,6 @@ Class Layout_sections extends Layout_interface {
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
-		// we return an array of ($url => $attributes)
-		$items = array();
-
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'files/files.php';
@@ -58,9 +55,7 @@ Class Layout_sections extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// the url to view this item
-			if($this->layout_variant == 'references')
-				$url = 'section:'.$item['id'];
-			elseif($this->layout_variant == 'select')
+			if($this->layout_variant == 'select')
 				$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
 			else
 				$url =& Sections::get_permalink($item);

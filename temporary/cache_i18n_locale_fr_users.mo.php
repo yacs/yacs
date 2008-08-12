@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 1, 2008, 3:33 pm GMT. Please do not modify it manually.
+ * on August 12, 2008, 10:05 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['1bd98a189df2e6fa8f42845cb0f815e1']='%d actif en ce momemt'.chr(0).'%d actifs en ce momemt';
 $_SESSION['l10n']['fr']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
@@ -101,7 +101,6 @@ $_SESSION['l10n']['fr']['Change password']='Changer le mot de passe';
 $_SESSION['l10n']['fr']['Click here to register']='Cliquez ici pour vous enregistrer';
 $_SESSION['l10n']['fr']['ab006b2530195974908cd8ab59b711b9']='Cliquer sur les codes pour insérer les images dans la page.';
 $_SESSION['l10n']['fr']['3a5a68464c51fb255e04c1d8eff8e003']='Cliquez sur l\'une des images ci-dessous pour en faire votre nouvel avatar. Vous pouvez préférer %s plutôt que d\'utiliser la librairie.';
-$_SESSION['l10n']['fr']['e63c52e2547c326d070a5e820d6abcbb']='Cliquer sur le lien Surveiller sur les profils d\'utilisateur, ou sur les autres pages.';
 $_SESSION['l10n']['fr']['7fb096f01683499a98de8b53f0fdef56']='Cliquez sur le lien ci-dessous pour activer votre compte.';
 $_SESSION['l10n']['fr']['Code to reference this user: %s']='Code pour référencer cette personne : %s';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
@@ -190,6 +189,7 @@ $_SESSION['l10n']['fr']['Improved interface']='Interface améliorée';
 $_SESSION['l10n']['fr']['Information']='Informations';
 $_SESSION['l10n']['fr']['Information channels']='Fils d\'informations';
 $_SESSION['l10n']['fr']['Instant messaging']='Messagerie instantanée';
+$_SESSION['l10n']['fr']['Interactions']='Interactions';
 $_SESSION['l10n']['fr']['Interface']='Interface';
 $_SESSION['l10n']['fr']['Introduction']='Introduction';
 $_SESSION['l10n']['fr']['Invalid authenticator type.']='Type d\'authentifieur invalide.';
@@ -224,7 +224,6 @@ $_SESSION['l10n']['fr']['Message title']='Titre du message';
 $_SESSION['l10n']['fr']['Most recent members']='Les membres les plus récents';
 $_SESSION['l10n']['fr']['Move forward']='Continuer';
 $_SESSION['l10n']['fr']['My profile']='Ma fiche';
-$_SESSION['l10n']['fr']['My sections']='Mes sections';
 $_SESSION['l10n']['fr']['Navigate']='Naviguer';
 $_SESSION['l10n']['fr']['Neighbours']='A proximité';
 $_SESSION['l10n']['fr']['Network address']='Adresse réseau';
@@ -264,6 +263,7 @@ $_SESSION['l10n']['fr']['Operation has failed.']='L\'opération à échoué.';
 $_SESSION['l10n']['fr']['Organization']='Organisation';
 $_SESSION['l10n']['fr']['aaa403124724a506bb1b2a6f198d3188']='Les requêtes vers l\'extérieur ne sont pas autorisées.';
 $_SESSION['l10n']['fr']['PGP key or certificate']='Clé PGP ou certificat';
+$_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['Password']='Mot de passe';
 $_SESSION['l10n']['fr']['Password confirmation']='Confirmation du mot de passe';
 $_SESSION['l10n']['fr']['0907a526998e1cb6371e1510c92665f8']='Coller ici la clé publique que vous souhaitez partager';
@@ -307,8 +307,6 @@ $_SESSION['l10n']['fr']['Public key']='Clé publique';
 $_SESSION['l10n']['fr']['Publications']='Publications';
 $_SESSION['l10n']['fr']['57d933de5f2dc486ff81a41574fabb5b']='Cataloguer automatiquement les pages publiées par semaine et par mois.';
 $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';
-$_SESSION['l10n']['fr']['Recent files']='Fichiers récents';
-$_SESSION['l10n']['fr']['Recent links']='Liens récents';
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
 $_SESSION['l10n']['fr']['c3b4a944458c8919e6c5a41963f83a8f']='Conservez ce message et utilisez le lien qui suit pour vous authentifier sur le site :';
 $_SESSION['l10n']['fr']['0b41ae15f9ba9399c54a4912bdcc6eeb']='Rediriger directement après authentification.';
@@ -329,12 +327,11 @@ $_SESSION['l10n']['fr']['3f198a683dbf9c5d9abee63865732cce']='L\'écran n\'est pa
 $_SESSION['l10n']['fr']['Screening']='Vérification';
 $_SESSION['l10n']['fr']['706d4aa7c88cd69343d72b2f59b6780a']='Pour ajouter de l\'information aux profils des utilisateurs, indiquer l\'un des %s disponibles.';
 $_SESSION['l10n']['fr']['Search']='Recherche';
+$_SESSION['l10n']['fr']['Sections']='Sections';
 $_SESSION['l10n']['fr']['See also']='Voir aussi';
 $_SESSION['l10n']['fr']['Select an avatar']='Sélectionner un avatar';
 $_SESSION['l10n']['fr']['Select an avatar for %s']='Choix d\'un avatar pour %s';
 $_SESSION['l10n']['fr']['3d5270ae8629a643f9381efebc376d61']='Utiliser l\'un des avatars disponibles';
-$_SESSION['l10n']['fr']['158c057fc144d7934a69b244a5f80480']='Sélectionner les sections accessibles par cette personne';
-$_SESSION['l10n']['fr']['fc5b15e017157c38f41008dade8d7513']='Sélectionner les sections gérées par cette personne';
 $_SESSION['l10n']['fr']['abbb7ad09d40d7272c30569b47a44199']='Choisissez votre outil préféré pour modifier les textes.';
 $_SESSION['l10n']['fr']['Self-deletion']='Auto-effacement';
 $_SESSION['l10n']['fr']['c135a8dca58a3d9943aeac7d94451d30']='Les surfeurs sont enregistrés comme membres (communauté ouverte).';
@@ -411,9 +408,6 @@ $_SESSION['l10n']['fr']['Visit user profile']='Voir le profil d\'utilisateur';
 $_SESSION['l10n']['fr']['2470a7b84e0565efbfd25c51005b44b5']='Attendez une heure avant de vous authentifier à nouveau.';
 $_SESSION['l10n']['fr']['Watch']='Surveiller';
 $_SESSION['l10n']['fr']['Watch list']='Pages surveillées';
-$_SESSION['l10n']['fr']['Watched pages']='Pages surveillées';
-$_SESSION['l10n']['fr']['Watched people']='Personnes surveillées';
-$_SESSION['l10n']['fr']['Watched sections']='Sections surveillées';
 $_SESSION['l10n']['fr']['9a250442ef65262197f8895bf945b00f']='Notifier les observateurs par courrier électronique.';
 $_SESSION['l10n']['fr']['e9932f48fae5ec1f75c182827065e4af']='Nous conservons seulement une copie de ce profil utilisateur. Merci de modifier le mot de passe pour ce compte sur le serveur %s.';
 $_SESSION['l10n']['fr']['5fb7f4ba102cedd23afff6754e57926e']='Nous recommendons 0 (pas d\'extension des espaces web) ou 3 (accès public, restreint aux membres, aux associés).';

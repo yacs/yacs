@@ -20,13 +20,11 @@ Class Layout_interface {
 	 * $layout = new MyOwn_Layout();
 	 *
 	 * // get records order
-	 * $order = $layout->items_order();
+	 * if(!$order = $layout->items_order())
+	 *    $order = 'publication';
 	 *
 	 * // query the database
-	 * if($order)
-	 *	  $items = Articles::list_for($order, $anchor, 0, 10, $layout);
-	 * else
-	 *	  $items = Articles::list_by_date_for_anchor($anchor, 0, 10, $layout);
+	 * $items =& Articles::list_for_anchor_by($order, $anchor, 0, 10, $layout);
 	 * [/php]
 	 *
 	 * @return string to be used in requests to the database

@@ -102,7 +102,7 @@ elseif(!isset($item['id'])) {
 
 // the current avatar, if any
 if(isset($item['avatar_url']) && $item['avatar_url'])
-	$context['text'] .= '<p>'.sprintf(i18n::s('Current avatar: %s'), BR.'<img src="'.$item['avatar_url'].'" alt="avatar" style="avatar"'.EOT).'</p>'."\n";
+	$context['text'] .= '<p>'.sprintf(i18n::s('Current avatar: %s'), BR.'<img src="'.$item['avatar_url'].'" alt="avatar" style="avatar" />').'</p>'."\n";
 
 // list available avatars, except on error
 if(!count($context['error'])) {
@@ -166,7 +166,7 @@ if(!count($context['error'])) {
 
 				// make clickable images
 				$text .= ' <a href="'.$context['url_to_root'].'users/select_avatar.php?id='.$id.'&avatar='.urlencode($context['url_to_root'].$path.'/'.$item).'">'
-					.'<img src="'.$context['url_to_root'].$path.'/'.$item.'" alt="'.$item.'" style="padding: 4px 4px 4px 4px;"'.EOT.'</a> ';
+					.'<img src="'.$context['url_to_root'].$path.'/'.$item.'" alt="'.$item.'" style="padding: 4px 4px 4px 4px;" /></a> ';
 
 			}
 			Safe::closedir($dir);

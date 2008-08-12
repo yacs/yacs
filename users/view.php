@@ -208,7 +208,7 @@ if(!isset($item['id'])) {
 } else {
 
 	// remember surfer visit
-	Surfer::click('user:'.$item['id'], $item['active']);
+	Surfer::is_visiting(Users::get_url($item['id'], 'view', $item['nick_name']), $item['full_name']?$item['full_name']:$item['nick_name'], 'user:'.$item['id'], $item['active']);
 
 	// initialize the rendering engine
 	Codes::initialize(Users::get_url($item['id'], 'view', $item['nick_name']));
@@ -218,10 +218,10 @@ if(!isset($item['id'])) {
 	//
 
 	// a meta link to a feeding page
-	$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Users::get_url($item['id'], 'feed').'" title="RSS" type="application/rss+xml"'.EOT;
+	$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Users::get_url($item['id'], 'feed').'" title="RSS" type="application/rss+xml" />';
 
 	// a meta link to a description page (actually, rdf)
-	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Users::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml"'.EOT;
+	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Users::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml" />';
 
 	// set specific headers
 	if(isset($item['introduction']) && $item['introduction'])
@@ -293,10 +293,10 @@ if(!isset($item['id'])) {
 
 	// the list of assigned sections
 	if(!$zoom_type) {
+		$content = '';
 
-		// list assigned sections, if any
-		if(!$items = Sections::list_assigned_by_title($item['id'], 0, 20, 'compact'))
-			$items = array();
+		// more commands
+		$menu = array();
 
 		// the maximum number of personal sections per user
 		if(!isset($context['users_maximum_managed_sections']))
@@ -305,27 +305,27 @@ if(!isset($item['id'])) {
 		// offer to extend personal spaces
 		$allowed = max($context['users_maximum_managed_sections'] - count(Surfer::personal_sections()), 0);
 		if(Surfer::is_member() && (Surfer::get_id() == $item['id']) && $allowed)
-			$items = array_merge($items, array('sections/new.php' => i18n::s('Add a blog, a discussion board, or another personal web space')));
+			$menu[] = Skin::build_link('sections/new.php', i18n::s('Add a blog, a discussion board, or another personal web space'), 'basic');
 
 		// associates can assign editors and readers
-		elseif(Surfer::is_associate()) {
+		elseif(Surfer::is_associate())
+			$menu[] = Skin::build_link('sections/select.php?anchor=user:'.$item['id'], i18n::s('Manage'), 'basic');
 
-			// members can become editors of some sections
-			if(($item['capability'] == 'M') || ($item['capability'] == 'A'))
-				$label = i18n::s('Select sections managed by this person');
+		if(count($menu))
+			$content .= Skin::finalize_list($menu, 'menu_bar');
 
-			// subscribers can become readers of some sections
+		// list assigned and watched sections by date
+		if($items =& Members::list_sections_by_date_for_user($item['id'], 0, 50, 'simple')) {
+			if(is_array($items))
+				$content .= Skin::build_list($items, 'compact');
 			else
-				$label = i18n::s('Select sections accessed by this person');
-
-			$items = array_merge($items, array('sections/select.php?anchor=user:'.$item['id'] => $label));
+				$content .= $items;
 		}
 
-		// one box for assigned sections
-		if(count($items)) {
-			$content = Skin::build_list($items, 'compact');
-			$contributions .= Skin::build_box(i18n::s('My sections'), $content, 'header1', 'assigned_sections');
-		}
+		// one box
+		if($content)
+			$contributions .= Skin::build_box(i18n::s('Sections'), $content, 'header1', 'assigned_sections');
+
 	}
 
 	// contributed articles
@@ -366,8 +366,8 @@ if(!isset($item['id'])) {
 			// compute offset from list beginning
 			$offset = ($zoom_index - 1) * ARTICLES_PER_PAGE;
 
-			// list articles by date
-			$items = Articles::list_by_date_for_author($item['id'], $offset, ARTICLES_PER_PAGE, 'simple');
+			// list watched pages by date, not only pages posted by this user
+			$items =& Members::list_articles_by_date_for_member('user:'.$item['id'], $offset, ARTICLES_PER_PAGE, 'simple');
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'compact');
 
@@ -377,7 +377,7 @@ if(!isset($item['id'])) {
 
 			// a complete box
 			if($box['text'])
-				$text =& Skin::build_box(i18n::s('Recent pages'), $box['text'], 'header1', 'contributed_articles');
+				$text =& Skin::build_box(i18n::s('Pages'), $box['text'], 'header1', 'contributed_articles');
 
 			// save in cache
 			Cache::put($cache_id, $text, 'articles');
@@ -412,7 +412,7 @@ if(!isset($item['id'])) {
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'compact');
 			if($box['text'])
-				$text =& Skin::build_box(i18n::s('Recent files'), $box['text'], 'header1', 'contributed_files');
+				$text =& Skin::build_box(i18n::s('Files'), $box['text'], 'header1', 'contributed_files');
 
 			// save in cache
 			Cache::put($cache_id, $text, 'files');
@@ -441,7 +441,7 @@ if(!isset($item['id'])) {
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'compact');
 			if($box['text'])
-				$text =& Skin::build_box(i18n::s('Recent links'), $box['text'], 'header1', 'contributed_links');
+				$text =& Skin::build_box(i18n::s('Links'), $box['text'], 'header1', 'contributed_links');
 
 			// save in cache
 			Cache::put($cache_id, $text, 'links');
@@ -456,56 +456,70 @@ if(!isset($item['id'])) {
 		$panels[] = array('contributions_tab', i18n::s('Contributions'), 'contributions_panel', $contributions);
 
 	//
-	// the information tab
+	// the interactions tab
 	//
-	$information = '';
+	$interactions = '';
 
 	// if not at another follow-up page
 	if(!$zoom_type) {
 
-		// local menu
-		$menu = array();
+		// shared private pages
+		$interactions .= Skin::build_user_contact($item);
 
-		// the command to post a new file
-		if((Surfer::is($item['id']) || Surfer::is_associate()) && Surfer::may_upload())
-			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], i18n::s('Upload a file'), 'span');
+		// permanent address
+		$box = array( 'bar' => array(), 'text' => '');
 
-		// the command to add a new link
-		if(Surfer::is($item['id']) || Surfer::is_associate())
-			$menu[] = Skin::build_link('links/edit.php?anchor=user:'.$item['id'], i18n::s('Add a link'), 'span');
+		// do not let robots steal addresses
+		if(Surfer::may_contact()) {
 
-		if(count($menu))
-			$information .= Skin::finalize_list($menu, 'menu_bar');
+			// put contact addresses in a table
+			$rows = array();
 
-		// get text related to the overlay, if any
-		if(is_object($overlay))
-			$information .= $overlay->get_text('view', $item);
+			// a clickable jabber address
+			if(isset($item['jabber_address']) && $item['jabber_address'])
+				$rows[] = array(Skin::build_presence($item['jabber_address'], 'jabber'), sprintf(i18n::s('%s: %s'), i18n::s('Jabber'), $item['jabber_address']));
 
-		// the full text
-		$information .= Skin::build_block($item['description'], 'description');
+			// a clickable skype address
+			if(isset($item['skype_address']) && $item['skype_address'])
+				$rows[] = array(Skin::build_presence($item['skype_address'], 'skype'), sprintf(i18n::s('%s: %s'), i18n::s('Skype'), $item['skype_address']));
 
-		// birth date, if any
-		if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE))
-			$information .= '<p>'.i18n::s('Birth date').' '.substr($item['birth_date'], 0, 10).'</p>';
+			// a clickable yahoo address -- the on-line status indicator requires to be connected to the Internet
+			if(isset($item['yahoo_address']) && $item['yahoo_address'])
+				$rows[] = array(Skin::build_presence($item['yahoo_address'], 'yahoo'), sprintf(i18n::s('%s: %s'), i18n::s('Yahoo! Messenger'), $item['yahoo_address'])
+				.' <img src="http://opi.yahoo.com/online?u='.$item['yahoo_address'].'&amp;m=g&amp;t=1" alt="Yahoo Online Status Indicator" />');
 
-		// list files
-		//
-		$items = Files::list_by_date_for_anchor('user:'.$item['id'], 0, FILES_PER_PAGE, 'no_author');
-		if(is_array($items))
-			$items = Skin::build_list($items, 'decorated');
-		if($items)
-			$information .= Skin::build_box(i18n::s('Files'), $items, 'folder', 'related_files');
+			// a clickable msn address
+			if(isset($item['msn_address']) && $item['msn_address'])
+				$rows[] = array(Skin::build_presence($item['msn_address'], 'msn'), sprintf(i18n::s('%s: %s'), i18n::s('Windows Live Messenger'), $item['msn_address']));
 
-		// list links
-		//
-		if(preg_match('/\blinks_by_title\b/i', $item['options']))
-			$items = Links::list_by_title_for_anchor('user:'.$item['id'], 0, LINKS_PER_PAGE, 'no_author');
-		else
-			$items = Links::list_by_date_for_anchor('user:'.$item['id'], 0, LINKS_PER_PAGE, 'no_author');
-		if(is_array($items))
-			$items = Skin::build_list($items, 'decorated');
-		if($items)
-			$information .= Skin::build_box(i18n::s('Links'), $items, 'folder', 'related_links');
+			// a clickable aim address
+			if(isset($item['aim_address']) && $item['aim_address'])
+				$rows[] = array(Skin::build_presence($item['aim_address'], 'aim'), sprintf(i18n::s('%s: %s'), i18n::s('AIM'), $item['aim_address']));
+
+			// a clickable irc address
+			if(isset($item['irc_address']) && $item['irc_address'])
+				$rows[] = array(Skin::build_presence($item['irc_address'], 'irc'), sprintf(i18n::s('%s: %s'), i18n::s('IRC'), $item['irc_address']));
+
+			// a clickable icq number
+			if(isset($item['icq_address']) && $item['icq_address'])
+				$rows[] = array(Skin::build_presence($item['icq_address'], 'icq'), sprintf(i18n::s('%s: %s'), i18n::s('ICQ'), $item['icq_address']));
+
+			if(count($rows))
+				$box['text'] .= Skin::table(NULL, $rows, 'form');
+
+		// motivate people to register
+		} elseif(!Surfer::is_logged())
+			$box['text'] .= '<p>'.i18n::s('Please authenticate to view e-mail and instant messaging contact information, for this user.')."</p>\n";
+
+		// a full box
+		if($box['text'])
+			$interactions .= Skin::build_box(i18n::s('Instant messaging'), $box['text'], 'folder');
+
+		// pgp key
+		if(isset($item['pgp_key']) && $item['pgp_key'])
+			$interactions .= Skin::build_box(i18n::s('Public key'), '<span style="font-size: 50%">'.$item['pgp_key'].'</span>', 'folder');
+
+	}
 
 		// show preferences only to related surfers and to associates
 		//
@@ -594,25 +608,66 @@ if(!isset($item['id'])) {
 				$box .= '<p>'.i18n::s('Browser GMT offset:').' UTC '.(($_COOKIE['TimeZone'] > 0) ? '+' : '-').$_COOKIE['TimeZone'].' '.i18n::s('hour(s)')."</p>\n";
 
 			if($box)
-				$information .= Skin::build_box(i18n::s('Preferences'), $box, 'folder');
+				$interactions .= Skin::build_box(i18n::s('Preferences'), $box, 'folder');
 
 		}
 	}
 
 	// in a separate tab
-	if($information)
-		$panels[] = array('information_tab', i18n::s('Information'), 'information_panel', $information);
+	if($interactions)
+		$panels[] = array('interactions_tab', i18n::s('Interactions'), 'interactions', $interactions);
 
 	//
-	// the contact tab
+	// the information tab
 	//
-	$contact = '';
+	$information = '';
 
 	// if not at another follow-up page
 	if(!$zoom_type) {
 
-		// shared private pages
-		$contact .= Skin::build_user_contact($item);
+		// local menu
+		$menu = array();
+
+		// the command to post a new file
+		if((Surfer::is($item['id']) || Surfer::is_associate()) && Surfer::may_upload())
+			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], i18n::s('Upload a file'), 'span');
+
+		// the command to add a new link
+		if(Surfer::is($item['id']) || Surfer::is_associate())
+			$menu[] = Skin::build_link('links/edit.php?anchor=user:'.$item['id'], i18n::s('Add a link'), 'span');
+
+		if(count($menu))
+			$information .= Skin::finalize_list($menu, 'menu_bar');
+
+		// get text related to the overlay, if any
+		if(is_object($overlay))
+			$information .= $overlay->get_text('view', $item);
+
+		// the full text
+		$information .= Skin::build_block($item['description'], 'description');
+
+		// birth date, if any
+		if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE))
+			$information .= '<p>'.i18n::s('Birth date').' '.substr($item['birth_date'], 0, 10).'</p>';
+
+		// list files
+		//
+		$items = Files::list_by_date_for_anchor('user:'.$item['id'], 0, FILES_PER_PAGE, 'no_author');
+		if(is_array($items))
+			$items = Skin::build_list($items, 'decorated');
+		if($items)
+			$information .= Skin::build_box(i18n::s('Files'), $items, 'folder', 'related_files');
+
+		// list links
+		//
+		if(preg_match('/\blinks_by_title\b/i', $item['options']))
+			$items = Links::list_by_title_for_anchor('user:'.$item['id'], 0, LINKS_PER_PAGE, 'no_author');
+		else
+			$items = Links::list_by_date_for_anchor('user:'.$item['id'], 0, LINKS_PER_PAGE, 'no_author');
+		if(is_array($items))
+			$items = Skin::build_list($items, 'decorated');
+		if($items)
+			$information .= Skin::build_box(i18n::s('Links'), $items, 'folder', 'related_links');
 
 		// business card
 		//
@@ -662,66 +717,11 @@ if(!isset($item['id'])) {
 		}
 
 		if(count($rows))
-			$contact .= Skin::build_box(i18n::s('Business card'), Skin::table(NULL, $rows, 'form'), 'folder');
-
-		// permanent address
-		$box = array( 'bar' => array(), 'text' => '');
-
-		// do not let robots steal addresses
-		if(Surfer::may_contact()) {
-
-			// put contact addresses in a table
-			$rows = array();
-
-			// a clickable jabber address
-			if(isset($item['jabber_address']) && $item['jabber_address'])
-				$rows[] = array(Skin::build_presence($item['jabber_address'], 'jabber'), sprintf(i18n::s('%s: %s'), i18n::s('Jabber'), $item['jabber_address']));
-
-			// a clickable skype address
-			if(isset($item['skype_address']) && $item['skype_address'])
-				$rows[] = array(Skin::build_presence($item['skype_address'], 'skype'), sprintf(i18n::s('%s: %s'), i18n::s('Skype'), $item['skype_address']));
-
-			// a clickable yahoo address -- the on-line status indicator requires to be connected to the Internet
-			if(isset($item['yahoo_address']) && $item['yahoo_address'])
-				$rows[] = array(Skin::build_presence($item['yahoo_address'], 'yahoo'), sprintf(i18n::s('%s: %s'), i18n::s('Yahoo! Messenger'), $item['yahoo_address'])
-				.' <img src="http://opi.yahoo.com/online?u='.$item['yahoo_address'].'&amp;m=g&amp;t=1" alt="Yahoo Online Status Indicator"'.EOT);
-
-			// a clickable msn address
-			if(isset($item['msn_address']) && $item['msn_address'])
-				$rows[] = array(Skin::build_presence($item['msn_address'], 'msn'), sprintf(i18n::s('%s: %s'), i18n::s('Windows Live Messenger'), $item['msn_address']));
-
-			// a clickable aim address
-			if(isset($item['aim_address']) && $item['aim_address'])
-				$rows[] = array(Skin::build_presence($item['aim_address'], 'aim'), sprintf(i18n::s('%s: %s'), i18n::s('AIM'), $item['aim_address']));
-
-			// a clickable irc address
-			if(isset($item['irc_address']) && $item['irc_address'])
-				$rows[] = array(Skin::build_presence($item['irc_address'], 'irc'), sprintf(i18n::s('%s: %s'), i18n::s('IRC'), $item['irc_address']));
-
-			// a clickable icq number
-			if(isset($item['icq_address']) && $item['icq_address'])
-				$rows[] = array(Skin::build_presence($item['icq_address'], 'icq'), sprintf(i18n::s('%s: %s'), i18n::s('ICQ'), $item['icq_address']));
-
-			if(count($rows))
-				$box['text'] .= Skin::table(NULL, $rows, 'form');
-
-		// motivate people to register
-		} elseif(!Surfer::is_logged())
-			$box['text'] .= '<p>'.i18n::s('Please authenticate to view e-mail and instant messaging contact information, for this user.')."</p>\n";
-
-		// a full box
-		if($box['text'])
-			$contact .= Skin::build_box(i18n::s('Instant messaging'), $box['text'], 'folder');
-
-		// pgp key
-		if(isset($item['pgp_key']) && $item['pgp_key'])
-			$contact .= Skin::build_box(i18n::s('Public key'), '<span style="font-size: 50%">'.$item['pgp_key'].'</span>', 'folder');
-
-	}
+			$information .= Skin::build_box(i18n::s('Business card'), Skin::table(NULL, $rows, 'form'), 'folder');
 
 	// in a separate tab
-	if($contact)
-		$panels[] = array('contact_tab', i18n::s('Contact'), 'contact', $contact);
+	if($information)
+		$panels[] = array('information_tab', i18n::s('Information'), 'information_panel', $information);
 
 	//
 	// assemble tabs
@@ -729,7 +729,7 @@ if(!isset($item['id'])) {
 	if(!$zoom_type && Surfer::is_member())
 		$panels[] = array('actions_tab', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'));
 	if(!$zoom_type)
-		$panels[] = array('watch_tab', i18n::s('Dashboard'), 'watch_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
+		$panels[] = array('watch_tab', i18n::s('People'), 'watch_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
 
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($panels);
@@ -747,7 +747,7 @@ if(!isset($item['id'])) {
 
 	// add extra information from this item, if any
 	if(isset($item['extra']) && $item['extra'])
-		$context['extra'] .= Codes::beautify($item['extra']);
+		$context['extra'] .= Codes::beautify_extra($item['extra']);
 
 	// page tools
 	//
@@ -825,7 +825,7 @@ if(!isset($item['id'])) {
 	// most popular articles for this user
 	$cache_id = 'users/view.php?id='.$item['id'].'#popular_articles';
 	if(!$text =& Cache::get($cache_id)) {
-		$items = Articles::list_by_hits_for_author($item['id'], 0, COMPACT_LIST_SIZE, 'hits');
+		$items =& Articles::list_for_author_by('hits', $item['id'], 0, COMPACT_LIST_SIZE, 'hits');
 		if(is_array($items) && count($items))
 			$text .= Skin::build_box(i18n::s('Top pages'), Skin::build_list($items, 'compact'), 'extra', 'top_articles');
 
@@ -855,7 +855,7 @@ if(!isset($item['id'])) {
 		$box['text'] = '';
 
 		// list categories by title
-		$items = Members::list_categories_by_title_for_member('user:'.$item['id'], 0, COMPACT_LIST_SIZE, 'sidebar');
+		$items =& Members::list_categories_by_title_for_member('user:'.$item['id'], 0, COMPACT_LIST_SIZE, 'sidebar');
 
 		// the command to change categories assignments
 		if(Categories::are_allowed(NULL, $item))
@@ -915,22 +915,6 @@ if(!isset($item['id'])) {
 
 		// in the extra panel
 		$context['extra'] .= $text;
-
-	}
-
-	//
-	// put this page in visited items
-	//
-	if(!isset($context['pages_without_history']) || ($context['pages_without_history'] != 'Y')) {
-
-		// put at top of stack
-		if(!isset($_SESSION['visited']))
-			$_SESSION['visited'] = array();
-		$_SESSION['visited'] = array_merge(array(Users::get_url($item['id'], 'view', $item['nick_name']) => $item['full_name']?$item['full_name']:$item['nick_name']), $_SESSION['visited']);
-
-		// limit to 7 most recent pages
-		if(count($_SESSION['visited']) > 7)
-			array_pop($_SESSION['visited']);
 
 	}
 

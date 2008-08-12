@@ -71,11 +71,11 @@ class Issue extends Overlay {
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:problem'))
 				$checked = 'checked="checked"';
-			$input .= '<input type="radio" name="status" value ="on-going:problem" '.$checked.EOT.'&nbsp;'.i18n::s('this has been recognized as a valid problem');
+			$input .= '<input type="radio" name="status" value ="on-going:problem" '.$checked.' />&nbsp;'.i18n::s('this has been recognized as a valid problem');
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:suspect'))
 				$checked = 'checked="checked"';
-			$input .= BR.'<input type="radio" name="status" value ="cancelled:suspect" '.$checked.EOT.'&nbsp;'.i18n::s('an immediate solution has been found').'</dd>';
+			$input .= BR.'<input type="radio" name="status" value ="cancelled:suspect" '.$checked.' />&nbsp;'.i18n::s('an immediate solution has been found').'</dd>';
 
 			// step 3 - analyzed
 			if(isset($this->attributes['analysis_date']))
@@ -85,11 +85,11 @@ class Issue extends Overlay {
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:issue'))
 				$checked = 'checked="checked"';
-			$input .= '<input type="radio" name="status" value ="on-going:issue" '.$checked.EOT.'&nbsp;'.i18n::s('the issue has been documented and root causes have been identified');
+			$input .= '<input type="radio" name="status" value ="on-going:issue" '.$checked.' />&nbsp;'.i18n::s('the issue has been documented and root causes have been identified');
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:problem'))
 				$checked = 'checked="checked"';
-			$input .= BR.'<input type="radio" name="status" value ="cancelled:problem" '.$checked.EOT.'&nbsp;'.i18n::s('the problem has not been reproduced').'</dd>';
+			$input .= BR.'<input type="radio" name="status" value ="cancelled:problem" '.$checked.' />&nbsp;'.i18n::s('the problem has not been reproduced').'</dd>';
 
 			// step 4 - solved
 			if(isset($this->attributes['resolution_date']))
@@ -99,11 +99,11 @@ class Issue extends Overlay {
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:solution'))
 				$checked = 'checked="checked"';
-			$input .= '<input type="radio" name="status" value ="on-going:solution" '.$checked.EOT.'&nbsp;'.i18n::s('a solution has been made available');
+			$input .= '<input type="radio" name="status" value ="on-going:solution" '.$checked.' />&nbsp;'.i18n::s('a solution has been made available');
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:issue'))
 				$checked = 'checked="checked"';
-			$input .= BR.'<input type="radio" name="status" value ="cancelled:issue" '.$checked.EOT.'&nbsp;'.i18n::s('solution development has been cancelled').'</dd>';
+			$input .= BR.'<input type="radio" name="status" value ="cancelled:issue" '.$checked.' />&nbsp;'.i18n::s('solution development has been cancelled').'</dd>';
 
 			// step 5 - closed
 			if(isset($this->attributes['close_date']))
@@ -112,11 +112,11 @@ class Issue extends Overlay {
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'completed:solution'))
 				$checked = 'checked="checked"';
-			$input .= '<input type="radio" name="status" value ="completed:solution" '.$checked.EOT.'&nbsp;'.i18n::s('solution has been fully integrated');
+			$input .= '<input type="radio" name="status" value ="completed:solution" '.$checked.' />&nbsp;'.i18n::s('solution has been fully integrated');
 			$checked = '';
 			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:solution'))
 				$checked = 'checked="checked"';
-			$input .= BR.'<input type="radio" name="status" value ="cancelled:solution" '.$checked.EOT.'&nbsp;'.i18n::s('solution integration has been cancelled').'</dd>';
+			$input .= BR.'<input type="radio" name="status" value ="cancelled:solution" '.$checked.' />&nbsp;'.i18n::s('solution integration has been cancelled').'</dd>';
 
 			$input .= '</dl>';
 
@@ -596,9 +596,8 @@ class Issue extends Overlay {
 			break;
 		}
 
-		// execute the query
-		if(isset($query) && !SQL::query($query))
-			return FALSE;
+		// execute the query --don't stop on error
+		SQL::query($query);
 
 		return TRUE;
 	}

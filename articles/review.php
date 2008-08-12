@@ -51,7 +51,7 @@ $context['page_menu'] = array( 'articles/' => i18n::s('All pages') );
 // list queries
 if(Surfer::is_associate()) {
 	$anchor = Sections::lookup('queries');
-	if($anchor && ($rows = Articles::list_by_date_for_anchor($anchor, 0, 5))) {
+	if($anchor && ($rows =& Articles::list_for_anchor_by('publication', $anchor, 0, 5))) {
 		if(is_array($rows))
 			$rows = Skin::build_list($rows, 'decorated');
 		$context['text'] .= Skin::build_box(i18n::s('Submitted queries'), $rows, 'header1', 'queries');
@@ -59,7 +59,7 @@ if(Surfer::is_associate()) {
 }
 
 // list draft articles
-if($rows = Articles::list_by('draft')) {
+if($rows =& Articles::list_by('draft')) {
 	// set a title to the section only if we have other sections
 	if(Surfer::is_associate())
 		$context['text'] .= Skin::build_block(i18n::s('Submitted articles'), 'title', 'submitted');
@@ -70,28 +70,28 @@ if($rows = Articles::list_by('draft')) {
 }
 
 // list future articles
-if(Surfer::is_associate() && ($rows = Articles::list_by('future', 0, 5))) {
+if(Surfer::is_associate() && ($rows =& Articles::list_by('future', 0, 5))) {
 	if(is_array($rows))
 		$rows = Skin::build_list($rows, 'decorated');
 	$context['text'] .= Skin::build_box(i18n::s('Future articles'), $rows, 'header1', 'future');
 }
 
 // list dead articles
-if(Surfer::is_associate() && ($rows = Articles::list_by('expiry', 0, 10, 'hits'))) {
+if(Surfer::is_associate() && ($rows =& Articles::list_by('expiry', 0, 10, 'hits'))) {
 	if(is_array($rows))
 		$rows = Skin::build_list($rows, 'decorated');
 	$context['text'] .= Skin::build_box(i18n::s('Dead articles'), $rows, 'header1', 'expired');
 }
 
 // list the oldest published articles, that have to be validated again
-if(Surfer::is_associate() && ($rows = Articles::list_by('review', 0, 10, 'review'))) {
+if(Surfer::is_associate() && ($rows =& Articles::list_by('review', 0, 10, 'review'))) {
 	if(is_array($rows))
 		$rows = Skin::build_list($rows, 'decorated');
 	$context['text'] .= Skin::build_box(i18n::s('Oldest articles'), $rows, 'header1', 'oldest');
 }
 
 // list articles with very few hits
-if(Surfer::is_associate() && ($rows = Articles::list_by('unread', 0, 10, 'hits'))) {
+if(Surfer::is_associate() && ($rows =& Articles::list_by('unread', 0, 10, 'hits'))) {
 	if(is_array($rows))
 		$rows = Skin::build_list($rows, 'decorated');
 	$context['text'] .= Skin::build_box(i18n::s('Less read articles'), $rows, 'header1', 'unread');
