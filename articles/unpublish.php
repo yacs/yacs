@@ -41,7 +41,7 @@ $item =& Articles::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // editors can do what they want on items anchored here
 if(Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())

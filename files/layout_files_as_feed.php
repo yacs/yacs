@@ -36,7 +36,7 @@ Class Layout_files_as_feed extends Layout_interface {
 
 			// get the anchor for this file
 			if($item['anchor'])
-				$anchor = Anchors::get($item['anchor']);
+				$anchor =& Anchors::get($item['anchor']);
 
 			// download the file directly
 			$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);

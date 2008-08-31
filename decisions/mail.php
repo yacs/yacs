@@ -50,7 +50,7 @@ $target_anchor = strip_tags($target_anchor);
 // get the anchor
 $anchor = NULL;
 if($target_anchor)
-	$anchor = Anchors::get($target_anchor);
+	$anchor =& Anchors::get($target_anchor);
 
 // get the related overlay, if any
 $overlay = NULL;

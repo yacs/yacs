@@ -452,7 +452,7 @@ if(!$text =& Cache::get($cache_id)) {
 				$box = array();
 
 				// sanity check
-				if(!$section = Anchors::get($anchor))
+				if(!$section =& Anchors::get($anchor))
 					continue;
 
 				// link to the section page from box title
@@ -911,7 +911,7 @@ if(!$text =& Cache::get($cache_id)) {
 			$box = array();
 
 			// sanity check
-			if(!$section = Anchors::get($anchor))
+			if(!$section =& Anchors::get($anchor))
 				continue;
 
 			// link to the section page from box title
@@ -1010,7 +1010,7 @@ if(!$text =& Cache::get($cache_id)) {
 	// show last poll, if any
 	if(isset($context['home_with_recent_poll']) && ($context['home_with_recent_poll'] == 'Y')) {
 
-		$anchor = Anchors::get('section:polls');
+		$anchor =& Anchors::get('section:polls');
 		if(is_object($anchor) && ($item =& Articles::get_newest_for_anchor($anchor->get_reference()))) {
 
 			// build a box

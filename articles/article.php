@@ -53,7 +53,7 @@ Class Article extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
+			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// the parent level
 		if(is_object($this->anchor))
@@ -239,7 +239,7 @@ Class Article extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
+			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// the parent level
 		$parent = array();
@@ -262,7 +262,7 @@ Class Article extends Anchor {
 	 * This function is used to retrieve a reference to be placed into the database.
 	 * For example:
 	 * [php]
-	 * $anchor = Anchors::get($article['anchor']);
+	 * $anchor =& Anchors::get($article['anchor']);
 	 * $context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 	 * [/php]
 	 *
@@ -476,7 +476,7 @@ Class Article extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
+			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// jump to parent page
 		if($action == 'parent')
@@ -544,7 +544,7 @@ Class Article extends Anchor {
 
 				// save requests
 				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor = Anchors::get($this->item['anchor']);
+					$this->anchor =& Anchors::get($this->item['anchor']);
 
 				if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
 					return $this->is_editable_cache = TRUE;
@@ -569,7 +569,7 @@ Class Article extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
+			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// section asks for threads
 		if(is_object($this->anchor) && $this->anchor->has_option('view_as_thread'))
@@ -650,7 +650,7 @@ Class Article extends Anchor {
 		$this->item['description'] = trim(preg_replace_callback('/<(.*?)>(.*?)<\/\\1>/is', array(&$this, 'parse_match'),  $text))."\n\n";
 
 		// text contains an implicit anchor to an article or to a section
-		if(preg_match('/##(article|section):([^#]+?)##/', $text, $matches) && ($anchor = Anchors::get($matches[1].':'.$matches[2])))
+		if(preg_match('/##(article|section):([^#]+?)##/', $text, $matches) && ($anchor =& Anchors::get($matches[1].':'.$matches[2])))
 			$this->item['anchor'] = $anchor->get_reference();
 
 		return $this->item;
@@ -974,7 +974,7 @@ Class Article extends Anchor {
 		// load the anchor, if any
 		$anchor = NULL;
 		if(isset($this->item['anchor']) && $this->item['anchor'])
-			$anchor = Anchors::get($this->item['anchor']);
+			$anchor =& Anchors::get($this->item['anchor']);
 
 		// no alerts on interactive pages
 		if($this->is_interactive())
@@ -1073,11 +1073,11 @@ Class Article extends Anchor {
 			Members::assign('article:'.$this->item['id'], 'user:'.Surfer::get_id());
 
 		// always clear the cache, even on no update
-		Cache::clear(array('articles', 'article:'.$this->item['id'], 'categories'));
+		Articles::clear($this->item);
 
 		// get the parent
 		if(!$this->anchor)
-			$this->anchor = Anchors::get($this->item['anchor']);
+			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))

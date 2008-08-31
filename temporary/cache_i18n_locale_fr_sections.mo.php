@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 12, 2008, 10:06 pm GMT. Please do not modify it manually.
+ * on August 27, 2008, 9:35 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
 $_SESSION['l10n']['fr']['%d comments']='%d commentaires';
@@ -373,7 +373,6 @@ $_SESSION['l10n']['fr']['Topics']='Sujets';
 $_SESSION['l10n']['fr']['f8bf5dcdd9714715ae047fbc19b0c035']='Les premiers articles sont affichés sur la page de la section parente, dans des boîtes extra différentes';
 $_SESSION['l10n']['fr']['Trailer']='Bas de page';
 $_SESSION['l10n']['fr']['3d95ce6c80d00bc9abd6f771d7d54bec']='Balises XHTML additionnelles à placer dans l\'en-tête de page.';
-$_SESSION['l10n']['fr']['Unknown section %s']='Section %s inconnue';
 $_SESSION['l10n']['fr']['Unlock']='Déverrouiller';
 $_SESSION['l10n']['fr']['Update a note']='Modifier une annotation';
 $_SESSION['l10n']['fr']['Update a reply']='Modifier une réponse';

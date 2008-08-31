@@ -47,7 +47,7 @@ Class Layout_comments extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// initialize variables
 			$prefix = $suffix = '';

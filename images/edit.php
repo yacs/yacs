@@ -116,11 +116,11 @@ $item =& Images::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 elseif(isset($_REQUEST['anchor']))
-	$anchor = Anchors::get($_REQUEST['anchor']);
+	$anchor =& Anchors::get($_REQUEST['anchor']);
 elseif(isset($context['arguments'][1]))
-	$anchor = Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
+	$anchor =& Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
 
 // editors can do what they want on items anchored here
 if(is_object($anchor) && $anchor->is_editable())
@@ -271,15 +271,8 @@ if(Surfer::is_crawler()) {
 
 			// create a hosting article for this image
 			if($fields['id'] = Articles::post($fields)) {
-				$anchor = Anchors::get('article:'.$fields['id']);
+				$anchor =& Anchors::get('article:'.$fields['id']);
 				$_REQUEST['anchor'] = $anchor->get_reference();
-
-				// purge section cache
-				if($section = Anchors::get($fields['anchor']))
-					$section->touch('article:create', $fields['id'], TRUE);
-
-				// clear the cache
-				Articles::clear($fields);
 			}
 			$fields = array();
 		}

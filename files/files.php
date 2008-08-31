@@ -177,7 +177,7 @@ Class Files {
 				." assign_id = ".SQL::escape($user['id']).","
 				." assign_address = '".SQL::escape(isset($user['email']) ? $user['email'] : '')."',"
 				." assign_date = '".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'"
-				." WHERE (id LIKE '".SQL::escape($id)."') AND (assign_id < 1)";
+				." WHERE (id  = ".SQL::escape($id).") AND (assign_id < 1)";
 
 		// clear the assignment
 		} else {
@@ -187,7 +187,7 @@ Class Files {
 				." assign_id = 0,"
 				." assign_address = '',"
 				." assign_date = '".SQL::escape(NULL_DATE)."'"
-				." WHERE (id LIKE '".SQL::escape($id)."')";
+				." WHERE (id = ".SQL::escape($id).")";
 
 		}
 
@@ -390,7 +390,7 @@ Class Files {
 			}
 
 			// transcode in anchor
-			if($anchor = Anchors::get($anchor_to))
+			if($anchor =& Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -434,7 +434,7 @@ Class Files {
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files"
-			." WHERE (files.id LIKE '".SQL::escape($id)."')";
+			." WHERE (files.id = ".SQL::escape($id).")";
 		$output =& SQL::query_first($query);
 
 		// save in cache
@@ -1033,7 +1033,7 @@ Class Files {
 			return;
 
 		// do the job
-		$query = "UPDATE ".SQL::table_name('files')." SET hits=hits+1 WHERE (id LIKE '$id')";
+		$query = "UPDATE ".SQL::table_name('files')." SET hits=hits+1 WHERE (id = ".SQL::escape($id).")";
 		SQL::query($query);
 
 	}
@@ -1338,7 +1338,7 @@ Class Files {
 
 		// the list of files
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-			." WHERE (files.edit_id LIKE '".SQL::escape($author_id)."') AND (".$where.")"
+			." WHERE (files.edit_id = ".SQL::escape($author_id).") AND (".$where.")"
 			." ORDER BY files.edit_date DESC, files.title LIMIT ".$offset.','.$count;
 
 		$output =& Files::list_selected(SQL::query($query), $variant);
@@ -1426,7 +1426,7 @@ Class Files {
 
 		// the list of files
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-			." WHERE (files.edit_id LIKE '".SQL::escape($author_id)."') AND (".$where.")"
+			." WHERE (files.edit_id = ".SQL::escape($author_id).") AND (".$where.")"
 			." ORDER BY files.hits DESC, files.edit_date DESC, files.title LIMIT ".$offset.','.$count;
 
 		$output =& Files::list_selected(SQL::query($query), $variant);
@@ -1742,7 +1742,7 @@ Class Files {
 		global $context;
 
 		// no anchor reference
-		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor = Anchors::get($fields['anchor']))) {
+		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
 			Skin::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
@@ -1817,9 +1817,6 @@ Class Files {
 			if(SQL::query($query) === FALSE)
 				return FALSE;
 
-			// remember record id
-			$id = $fields['id'];
-
 		// insert a new record
 		} elseif(isset($fields['file_name']) && $fields['file_name'] && isset($fields['file_size']) && $fields['file_size']) {
 
@@ -1860,7 +1857,7 @@ Class Files {
 				return FALSE;
 
 			// remember the id of the new item
-			$id = SQL::get_last_id($context['connection']);
+			$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// nothing done
 		} else {
@@ -1869,14 +1866,10 @@ Class Files {
 		}
 
 		// clear the cache for files
-		if(isset($fields['id']))
-			$topics = array('files', 'file:'.$fields['id']);
-		else
-			$topics = 'files';
-		Cache::clear($topics);
+		Files::clear($fields);
 
 		// end of job
-		return $id;
+		return $fields['id'];
 	}
 
 	/**

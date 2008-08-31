@@ -46,7 +46,7 @@ if(isset($_REQUEST['anchor']))
 	$anchor = $_REQUEST['anchor'];
 elseif(isset($context['arguments'][0]) && isset($context['arguments'][1]))
 	$anchor = $context['arguments'][0].':'.$context['arguments'][1];
-$anchor = Anchors::get(strip_tags($anchor));
+$anchor =& Anchors::get(strip_tags($anchor));
 
 // no anchor, look for an article id
 if(!$anchor) {
@@ -56,7 +56,7 @@ if(!$anchor) {
 	elseif(isset($context['arguments'][0]))
 		$id = $context['arguments'][0];
 	$id = strip_tags($id);
-	$anchor = Anchors::get('article:'.$id);
+	$anchor =& Anchors::get('article:'.$id);
 }
 
 // associates and editors can do what they want

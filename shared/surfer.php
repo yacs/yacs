@@ -266,7 +266,7 @@ Class Surfer {
 // 			} elseif(isset($user['click_date']) && ($user['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
 
 // 				// show place of last click
-// 				if(isset($user['click_anchor']) && ($anchor = Anchors::get($user['click_anchor'])))
+// 				if(isset($user['click_anchor']) && ($anchor =& Anchors::get($user['click_anchor'])))
 // 					$box['list'] = array_merge($box['list'], array($anchor->get_url() => $anchor->get_title()));
 
 // 			}
@@ -288,7 +288,7 @@ Class Surfer {
 // 			} elseif(isset($user['click_date']) && ($user['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
 
 // 				// show place of last click
-// 				if(isset($user['click_anchor']) && ($anchor = Anchors::get($user['click_anchor'])))
+// 				if(isset($user['click_anchor']) && ($anchor =& Anchors::get($user['click_anchor'])))
 // 					$box['list'] = array_merge($box['list'], array($anchor->get_url() => sprintf(i18n::s('Join %s at %s'), $user['nick_name'], $anchor->get_title())));
 
 // 			}

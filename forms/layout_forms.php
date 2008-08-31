@@ -41,7 +41,7 @@ Class Layout_forms extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the main anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url = Forms::get_url($item['id'], 'view', $item['title']);

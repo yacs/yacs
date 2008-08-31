@@ -43,7 +43,7 @@ class Move_on_article_access extends Behavior {
 			$tokens = explode(' ', $this->parameters, 2);
 
 			// load target section
-			if($section = Anchors::get('section:'.$tokens[0])) {
+			if($section =& Anchors::get('section:'.$tokens[0])) {
 
 				// make a label
 				if(count($tokens) < 2)

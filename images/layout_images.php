@@ -86,7 +86,7 @@ Class Layout_images extends Layout_interface {
 				$suffix .= ucfirst(implode(', ', $details)).BR;
 
 			// there is an anchor
-			if($item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
+			if($item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
 
 				// the image id to put as text in the left column
 				if($variant == $anchor->get_reference()) {

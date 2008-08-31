@@ -28,7 +28,7 @@ include_once '../shared/global.php';
 // users are assigned to this anchor, passed as member
 $anchor = NULL;
 if(isset($_REQUEST['member']))
-	$anchor = Anchors::get($_REQUEST['member']);
+	$anchor =& Anchors::get($_REQUEST['member']);
 
 // associates can do what they want
 if(Surfer::is_associate())

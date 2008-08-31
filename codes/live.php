@@ -30,6 +30,10 @@
  * - &#91;read=section:&lt;id>] - articles of fame in the given section
  * - &#91;read=self] - personal hits
  * - &#91;read=user:&lt;id>] - personal hits
+ * - &#91;voted] - most voted articles, in a compact list
+ * - &#91;voted=section:&lt;id>] - articles of fame in the given section
+ * - &#91;voted=self] - personal hits
+ * - &#91;voted=user:&lt;id>] - personal hits
  * - &#91;calendar] - events for this month
  * - &#91;calendar=section:&lt;id>] - dates in one section
  * - &#91;locations=all] - newest locations
@@ -169,6 +173,23 @@ $context['text'] .= '[title]'.i18n::s('Personal hits').' [escape][read=self] [re
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][read=self][/escape]</td>'
 	.'<td>[read=self]</td></tr>'
+	.Skin::table_suffix();
+
+// [voted]
+$context['text'] .= '[title]'.i18n::s('Hall of fame').' [escape][voted] [voted=section:&lt;id&gt;][/escape][/title]'
+	.'<p>'.i18n::s('Use the simplest form to display a compact list of pages, or limit the scope.').'</p>'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][voted][/escape]</td>'
+	.'<td>[voted]</td></tr>'
+	.Skin::table_suffix();
+
+// [voted=self]
+$context['text'] .= '[title]'.i18n::s('Personal hits').' [escape][voted=self] [voted=user:&lt;id&gt;][/escape][/title]'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][voted=self][/escape]</td>'
+	.'<td>[voted=self]</td></tr>'
 	.Skin::table_suffix();
 
 // [calendar]

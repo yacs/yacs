@@ -36,7 +36,7 @@ $item =& Articles::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -96,7 +96,7 @@ if($destination && is_object($anchor)) {
 }
 
 // load the target section, by id , or with a full reference
-$destination = Anchors::get($destination);
+$destination =& Anchors::get($destination);
 
 // clear the tab we are in, if any
 if(is_object($anchor))
@@ -161,9 +161,6 @@ elseif(!isset($item['id'])) {
 	// do the change
 	if(Articles::put_attributes($fields)) {
 
-		// touch the related anchor
-		$destination->touch('article:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
-
 		// add a comment to make the move explicit
 		include_once $context['path_to_root'].'comments/comments.php';
 		$fields = array();
@@ -171,8 +168,7 @@ elseif(!isset($item['id'])) {
 		$fields['description'] = sprintf(i18n::s('Moved by %s from %s to %s'), Surfer::get_name(), $anchor->get_title(), $destination->get_title());
 		Comments::post($fields);
 
-		// update the cache
-		Articles::clear($fields);
+		// update previous container
 		Cache::clear($anchor->get_reference());
 
 		// switch to the updated page

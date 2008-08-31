@@ -34,7 +34,7 @@ $item =& Sections::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
 if((isset($item['id']) && Sections::is_assigned($item['id']) && Surfer::is_member()) || (is_object($anchor) && $anchor->is_editable()))
@@ -96,8 +96,14 @@ if(Surfer::is_crawler()) {
 	;
 
 // do the toggle and redirect to the page
-elseif(Sections::lock($item['id'], $item['locked']))
+elseif(Sections::lock($item['id'], $item['locked'])) {
+
+	// clear the cache
+	Sections::clear($item);
+
+	// redirect to the page
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
+}
 
 // failed operation
 $context['text'] .= '<p>'.i18n::s('Operation has failed.').'</p>';

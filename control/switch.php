@@ -61,7 +61,7 @@ if(!Surfer::is_associate()) {
 		$context['text'] .= '<p>'.i18n::s('The server has been successfully switched on. Pages are provided normally to surfers.')."</p>\n";
 
 		// clear the cache, to avoid side effects of complex updates
-		$context['text'] .= Cache::clear();
+		Cache::clear();
 
 		// remember the change
 		$label = i18n::c('The server has been switched on.');

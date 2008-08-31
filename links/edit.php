@@ -140,15 +140,15 @@ $item =& Links::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($_REQUEST['anchor']))
-	$anchor = Anchors::get($_REQUEST['anchor']);
+	$anchor =& Anchors::get($_REQUEST['anchor']);
 elseif(isset($_REQUEST['category']) && $_REQUEST['category'])
-	$anchor = Anchors::get('category:'.$_REQUEST['category']);
+	$anchor =& Anchors::get('category:'.$_REQUEST['category']);
 elseif(isset($_REQUEST['section']) && $_REQUEST['section'])
-	$anchor = Anchors::get('section:'.$_REQUEST['section']);
+	$anchor =& Anchors::get('section:'.$_REQUEST['section']);
 elseif(isset($context['arguments'][1]))
-	$anchor = Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
+	$anchor =& Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
 elseif(isset($item['anchor']))
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // editors can do what they want on items anchored here
 if(is_object($anchor) && $anchor->is_editable())

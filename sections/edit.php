@@ -62,9 +62,9 @@ $item =& Sections::get($id);
 // get the related anchor, if any --use request first, because anchor can change
 $anchor = NULL;
 if(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor = Anchors::get($_REQUEST['anchor']);
+	$anchor =& Anchors::get($_REQUEST['anchor']);
 elseif(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -249,9 +249,6 @@ if(Surfer::is_crawler()) {
 			if(is_object($anchor))
 				$anchor->touch('section:update', $item['id'], TRUE);
 
-			// clear cache
-			Sections::clear($_REQUEST);
-
 			// display the updated page
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
 		}
@@ -276,14 +273,11 @@ if(Surfer::is_crawler()) {
 		if(is_object($anchor))
 			$anchor->touch('section:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
-		// clear cache
-		Sections::clear($_REQUEST);
-
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
 
 		// get the new item
-		$section = Anchors::get('section:'.$_REQUEST['id'], TRUE);
+		$section =& Anchors::get('section:'.$_REQUEST['id'], TRUE);
 
 		// reward the poster for new posts
 		$context['page_title'] = i18n::s('Thank you for your contribution');

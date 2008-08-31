@@ -78,7 +78,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 			$item_count += 1;
 
 			// get the anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// one box per article
 			$prefix = $suffix = '';

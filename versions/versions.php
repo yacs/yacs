@@ -168,7 +168,7 @@ Class Versions {
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('versions')." AS versions"
-			." WHERE (versions.id LIKE '".SQL::escape($id)."')";
+			." WHERE (versions.id = ".SQL::escape($id).")";
 
 		$output =& SQL::query_first($query);
 		return $output;
@@ -358,12 +358,12 @@ Class Versions {
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('versions')." AS versions"
-			." WHERE (versions.id LIKE '".SQL::escape($id)."')";
+			." WHERE (versions.id = ".SQL::escape($id).")";
 		if(!$item =& SQL::query_first($query))
 			return FALSE;
 
 		// retrieve the related anchor
-		$anchor = Anchors::get($item['anchor']);
+		$anchor =& Anchors::get($item['anchor']);
 		if(!is_object($anchor)) {
 			Skin::error(sprintf(i18n::s('Unknown anchor %s'), $item['anchor']));
 			return FALSE;

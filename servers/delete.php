@@ -35,7 +35,7 @@ $item =& Servers::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // load the skin
 load_skin('servers');

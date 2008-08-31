@@ -55,8 +55,6 @@ if(!Surfer::is_associate()) {
 				if(Articles::put($item))
 					$context['text'] .= sprintf(i18n::s('%s has been changed'), Skin::build_link(Articles::get_permalink($item), $item['title']));
 
-				// clear the cache
-				Articles::clear($item);
 			}
 		}
 

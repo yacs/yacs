@@ -32,7 +32,7 @@ Class File extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
+			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// the parent level
 		if(is_object($this->anchor))
@@ -136,7 +136,7 @@ Class File extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
+			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// the parent level
 		$parent = array();
@@ -236,7 +236,6 @@ Class File extends Anchor {
 	 * @param string one of the pre-defined action code
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE to not change the edit date of the file, default is FALSE
-	 * @return string either a null string, or some text describing an error to be inserted into the html response
 	 *
 	 * @see files/file.php
 	 * @see files/edit.php
@@ -343,10 +342,6 @@ Class File extends Anchor {
 			// do not remember minor changes
 			$silently = TRUE;
 
-			// clear the cache for anchor, because of the new thumbnail to be used in lists
-			if(isset($this->item['anchor']) && $this->item['anchor'])
-				Cache::clear($this->item['anchor']);
-
 		// append a new image, and set it as the file thumbnail
 		} elseif($action == 'image:set_as_both') {
 			if(!preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description']))
@@ -363,10 +358,6 @@ Class File extends Anchor {
 			// do not remember minor changes
 			$silently = TRUE;
 
-			// clear the cache for anchor, because of the new thumbnail to be used in lists
-			if(isset($this->item['anchor']) && $this->item['anchor'])
-				Cache::clear($this->item['anchor']);
-
 		}
 
 		// stamp the update
@@ -379,19 +370,25 @@ Class File extends Anchor {
 
 		// ensure we have a valid update query
 		if(!@count($query))
-			return NULL;
+			return;
 
 		// update the anchor file
 		$query = "UPDATE ".SQL::table_name('files')." SET ".implode(', ',$query)
 			." WHERE id = ".SQL::escape($this->item['id']);
 		if(SQL::query($query) === FALSE)
-			return NULL;
+			return;
 
-		// clear the cache for files
-		Cache::clear(array('files', 'file:'.$this->item['id'], 'sections'));
+		// always clear the cache, even on no update
+		Files::clear($this->item);
 
-		// end of job
-		return NULL;
+		// get the parent
+		if(!$this->anchor)
+			$this->anchor =& Anchors::get($this->item['anchor']);
+
+		// propagate the touch upwards silently -- we only want to purge the cache
+		if(is_object($this->anchor))
+			$this->anchor->touch('file:edit', $this->item['id'], TRUE);
+
 	}
 
 	/**
@@ -420,13 +417,13 @@ Class File extends Anchor {
 		$this->item['description'] = preg_replace($from, $to, $this->item['description']);
 
 		// update the database
-		$query = "UPDATE ".SQL::table_name('articles')." SET "
+		$query = "UPDATE ".SQL::table_name('files')." SET "
 			." description = '".SQL::escape($this->item['description'])."'"
 			." WHERE id = ".SQL::escape($this->item['id']);
 		SQL::query($query);
 
 		// always clear the cache, even on no update
-		Cache::clear(array('files', 'file:'.$this->item['id']));
+		Files::clear($this->item);
 
 	}
 

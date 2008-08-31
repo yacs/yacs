@@ -78,6 +78,10 @@ Class Dates {
 		// day in week for the current date
 		$day_in_week = (int)gmstrftime('%w', gmmktime(0, 0, 0, $month, $day, $year));
 
+		// start a new week on next row
+		if(($day_in_week == 0) && ($day <= $days_in_month))
+			$text .= '</tr><tr>';
+
 		// complement empty days for this month
 		for(; $day <= $days_in_month; $day++) {
 			$text .= '<td>'.$day.'</td>';
@@ -87,6 +91,7 @@ Class Dates {
 				$day_in_week = 0;
 				$text .= '</tr><tr>';
 			}
+
 		}
 
 		// draw empty cells at the end of the month
@@ -416,7 +421,7 @@ Class Dates {
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('dates')." as dates "
-			." WHERE (dates.id LIKE '".SQL::escape($id)."')";
+			." WHERE (dates.id = ".SQL::escape($id).")";
 
 		$output =& SQL::query_first($query);
 		return $output;
@@ -1103,9 +1108,6 @@ Class Dates {
 			if(SQL::query($query) === FALSE)
 				return 0;
 
-			// id of the modified record
-			$id = $fields['id'];
-
 		// insert a new record
 		} else {
 
@@ -1124,19 +1126,15 @@ Class Dates {
 				return 0;
 
 			// id of the new record
-			$id = SQL::get_last_id($context['connection']);
+			$fields['id'] = SQL::get_last_id($context['connection']);
 
 		}
 
 		// clear the cache for dates
-		if(isset($fields['id']))
-			$topics = array('dates', 'date:'.$fields['id']);
-		else
-			$topics = 'dates';
-		Cache::clear($topics);
+		Dates::clear($fields);
 
 		// end of job
-		return $id;
+		return $fields['id'];
 	}
 
 	/**

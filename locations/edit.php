@@ -64,9 +64,9 @@ $target_anchor = strip_tags($target_anchor);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 elseif($target_anchor)
-	$anchor = Anchors::get($target_anchor);
+	$anchor =& Anchors::get($target_anchor);
 
 // do not always show the edition form
 $with_form = FALSE;

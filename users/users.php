@@ -268,7 +268,7 @@ Class Users {
 	function clear(&$item) {
 
 		// where this item can be displayed
-		$topics = array('users');
+		$topics = array('users', 'categories');
 
 		// clear this page
 		if(isset($item['id']))
@@ -568,7 +568,7 @@ Class Users {
 		SQL::query($query, FALSE, $context['users_connection']);
 
 		// clear the cache for users
-		Cache::clear('users');
+		Cache::clear(array('user:'.$id, 'users'));
 	}
 
 	/**
@@ -1337,7 +1337,7 @@ Class Users {
 		Categories::remember('user:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
 		// clear the cache for users
-		Cache::clear('users', 'categories');
+		Users::clear($fields);
 
 		// send a confirmation message
 		if(isset($fields['email']) && trim($fields['email']) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
@@ -1568,7 +1568,8 @@ Class Users {
 		}
 
 		// clear all the cache on profile update, because of avatars, etc.
-		Cache::clear(array('users', 'user:'.$item['id'], 'categories'));
+		$fields['id'] = $item['id'];
+		Users::clear($fields);
 
 		// send a confirmation message on password change
 		if(isset($fields['email']) && $fields['email'] && isset($context['with_email']) && ($context['with_email'] == 'Y')

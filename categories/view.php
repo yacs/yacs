@@ -121,7 +121,7 @@ $item =& Categories::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -477,7 +477,8 @@ if(!isset($item['id'])) {
 	//
 
 	// the list of related articles if not at another follow-up page
-	if((!$zoom_type) || ($zoom_type == 'articles')) {
+	if(((!$zoom_type) || ($zoom_type == 'articles'))
+		&& (!isset($item['articles_layout']) || ($item['articles_layout'] != 'none'))) {
 
 		// cache the section
 		$cache_id = 'categories/view.php?id='.$item['id'].'#articles#'.$zoom_index;

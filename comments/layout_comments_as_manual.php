@@ -64,7 +64,7 @@ Class Layout_comments_as_manual extends Layout_interface {
 				$class = 'even';
 
 			// get the anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// include a link to comment permalink
 			$text .= '<dt class="'.$class.' details">';

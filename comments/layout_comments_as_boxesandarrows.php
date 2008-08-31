@@ -50,7 +50,7 @@ Class Layout_comments_as_boxesandarrows extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// get an icon for this comment
 			$icon = Comments::get_img($item['type']);

@@ -36,7 +36,7 @@ $id = strip_tags($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($id))
-	$anchor = Anchors::get($id);
+	$anchor =& Anchors::get($id);
 
 // load localized strings
 i18n::bind('behaviors');

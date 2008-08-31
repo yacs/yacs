@@ -90,9 +90,9 @@ $item =& Decisions::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 elseif($target_anchor)
-	$anchor = Anchors::get($target_anchor);
+	$anchor =& Anchors::get($target_anchor);
 
 // load the skin, maybe with a variant
 load_skin('decisions', $anchor);

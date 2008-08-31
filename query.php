@@ -64,7 +64,7 @@ if(Surfer::is_crawler()) {
 	$item = $_REQUEST;
 
 	// get a section for queries
-	if(!$anchor = Anchors::get('section:queries')) {
+	if(!$anchor =& Anchors::get('section:queries')) {
 		$fields = array();
 		$fields['nick_name'] = 'queries';
 		$fields['title'] =& i18n::c('Queries');
@@ -77,13 +77,8 @@ if(Surfer::is_crawler()) {
 		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 
 		// reference the new section
-		if($fields['id'] = Sections::post($fields)) {
-			Sections::clear($fields);
-
-			$context['text'] .= '<p>'.sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name'])."</p>\n";
-
-			$anchor = Anchors::get('section:'.$fields['id']);
-		}
+		if($fields['id'] = Sections::post($fields))
+			$anchor =& Anchors::get('section:'.$fields['id']);
 	}
 	$_REQUEST['anchor'] = $anchor->get_reference();
 
@@ -175,15 +170,8 @@ if(Surfer::is_crawler()) {
 
 		}
 
-		// touch the related anchor
-		if(is_object($anchor) && $_REQUEST['id'])
-			$anchor->touch('article:create', $_REQUEST['id'], TRUE);
-
-		// clear the cache
-		Articles::clear($_REQUEST);
-
 		// get the article back
-		$article = Anchors::get('article:'.$_REQUEST['id']);
+		$article =& Anchors::get('article:'.$_REQUEST['id']);
 
 		// log the query submission
 		if(is_object($article)) {

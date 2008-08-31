@@ -212,7 +212,7 @@ Class Locations {
 			}
 
 			// transcode in anchor
-			if($anchor = Anchors::get($anchor_to))
+			if($anchor =& Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -244,7 +244,7 @@ Class Locations {
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('locations')." AS locations "
-			." WHERE (locations.id LIKE '".SQL::escape($id)."')";
+			." WHERE (locations.id = ".SQL::escape($id).")";
 
 		$output =& SQL::query_first($query);
 		return $output;
@@ -357,7 +357,7 @@ Class Locations {
 
 		// limit the scope of the request
 		$query = "SELECT * FROM ".SQL::table_name('locations')." AS locations "
-			." WHERE (locations.edit_id LIKE '".SQL::escape($author_id)."') "
+			." WHERE (locations.edit_id = ".SQL::escape($author_id).")"
 			." ORDER BY locations.edit_date DESC, locations.geo_place_name LIMIT ".$offset.','.$count;
 
 		// the list of locations
@@ -590,7 +590,7 @@ Class Locations {
 				$description .= Codes::beautify($item['description']);
 
 			// use anchor information
-			if(isset($item['anchor']) && ($anchor = Anchors::get($item['anchor'])) && is_object($anchor)) {
+			if(isset($item['anchor']) && ($anchor =& Anchors::get($item['anchor'])) && is_object($anchor)) {
 
 				// insert thumbnail, if any
 				if($icon = $anchor->get_thumbnail_url())
@@ -766,11 +766,7 @@ Class Locations {
 			$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// clear the cache for locations
-		if(isset($fields['id']))
-			$topics = array('locations', 'location:'.$fields['id']);
-		else
-			$topics = 'locations';
-		Cache::clear($topics);
+		Locations::clear($fields);
 
 		// end of job
 		return $fields['id'];

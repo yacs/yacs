@@ -62,7 +62,7 @@ Class Layout_articles extends Layout_interface {
 			$overlay = Overlay::load($item);
 
 			// get the main anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url =& Articles::get_permalink($item);
@@ -242,7 +242,7 @@ Class Layout_articles extends Layout_interface {
 					$icon = $anchor->get_bullet_url();
 
 				// we are listing articles in a page that has a specific bullet - use it
-				} elseif(strpos(':', $this->layout_variant) && ($bulleted = Anchors::get($this->layout_variant))) {
+				} elseif(strpos(':', $this->layout_variant) && ($bulleted =& Anchors::get($this->layout_variant))) {
 					$icon = $bulleted->get_bullet_url();
 
 				// use anchor thumbnail

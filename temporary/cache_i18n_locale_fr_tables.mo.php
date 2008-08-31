@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 12, 2008, 9:48 pm GMT. Please do not modify it manually.
+ * on August 31, 2008, 10:38 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['9d1dd3844462dd717f535edb3d78a4b6']='%d ordres SQL ont été traités en %.2f secondes.';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';

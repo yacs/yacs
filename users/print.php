@@ -204,7 +204,7 @@ if(Surfer::is_crawler()) {
 	//
 
 	// list tracked articles by date
-	if($items =& Members::list_articles_by_date_for_member('user:'.$item['id'], 0, 20, 'compact'))
+	if($items =& Members::list_articles_for_member_by('edition', 'user:'.$item['id'], 0, 20, 'compact'))
 		$context['text'] .= Skin::build_box(i18n::s('Dashboard'), Skin::build_list($items, 'compact'));
 
 }

@@ -454,7 +454,7 @@ if(!isset($item['id'])) {
 			// one box per section
 			foreach($anchors as $anchor) {
 				// sanity check
-				if(!$section = Anchors::get($anchor))
+				if(!$section =& Anchors::get($anchor))
 					continue;
 
 				$box = array( 'title' => '', 'list' => array(), 'text' => '');
@@ -637,7 +637,7 @@ if(!isset($item['id'])) {
 								Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index));
 
 							// the command to post a new page
-							if(Articles::are_allowed($anchor, $item)) {
+							if(Articles::are_allowed($anchor, $item, TRUE)) {
 
 								Skin::define_img('NEW_THREAD_IMG', 'icons/articles/new_thread.gif');
 								$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
@@ -654,7 +654,7 @@ if(!isset($item['id'])) {
 							}
 
 							// the command to create a new poll, if no overlay nor template has been defined for content of this section
-							if((!isset($item['content_overlay']) || !trim($item['content_overlay'])) && (!isset($item['articles_templates']) || !trim($item['articles_templates'])) && (!is_object($anchor) || !$anchor->get_templates_for('article')) && Articles::are_allowed($anchor, $item)) {
+							if((!isset($item['content_overlay']) || !trim($item['content_overlay'])) && (!isset($item['articles_templates']) || !trim($item['articles_templates'])) && (!is_object($anchor) || !$anchor->get_templates_for('article')) && Articles::are_allowed($anchor, $item, TRUE)) {
 
 								$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;variant=poll';
 								Skin::define_img('POLL_IMG', 'icons/articles/poll.gif');
@@ -1284,7 +1284,7 @@ if(!isset($item['id'])) {
 	if(!$text =& Cache::get($cache_id)) {
 
 		// show creator profile, if required to do so
-		if(preg_match('/\bwith_creator_profile\b/', $item['options']) && ($poster = Users::get($item['create_id'])) && ($section = Anchors::get('section:'.$item['id'])))
+		if(preg_match('/\bwith_creator_profile\b/', $item['options']) && ($poster = Users::get($item['create_id'])) && ($section =& Anchors::get('section:'.$item['id'])))
 			$text .= $section->get_user_profile($poster, 'extra', Skin::build_date($item['create_date']));
 
 		// show news -- set in sections/edit.php
@@ -1360,7 +1360,7 @@ if(!isset($item['id'])) {
 				$box = array();
 
 				// sanity check
-				if(!$section = Anchors::get($anchor))
+				if(!$section =& Anchors::get($anchor))
 					continue;
 
 				// link to the section page from box title
@@ -1561,7 +1561,7 @@ if(!isset($item['id'])) {
 			&& isset($context['current_focus']) && ($menu =& Skin::build_contextual_menu($context['current_focus']))) {
 
 			// use title from topmost level
-			if(count($context['current_focus']) && ($anchor = Anchors::get($context['current_focus'][0]))) {
+			if(count($context['current_focus']) && ($anchor =& Anchors::get($context['current_focus'][0]))) {
 				$box_title = $anchor->get_title();
 				$box_url = $anchor->get_url();
 

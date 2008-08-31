@@ -47,7 +47,7 @@ $item =& Sections::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // editors of upper containers have associate-like capabilities
 if(is_object($anchor) && $anchor->is_editable())

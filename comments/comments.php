@@ -307,7 +307,7 @@ Class Comments {
 			}
 
 			// transcode in anchor
-			if($anchor = Anchors::get($anchor_to))
+			if($anchor =& Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -337,7 +337,7 @@ Class Comments {
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "
-			." WHERE (comments.id LIKE '".SQL::escape($id)."')";
+			." WHERE (comments.id = ".SQL::escape($id).")";
 
 		$output =& SQL::query_first($query);
 		return $output;
@@ -1010,7 +1010,7 @@ Class Comments {
 
 		// the list of comments
 		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "
-			." WHERE (comments.create_id LIKE '".SQL::escape($author_id)."')"
+			." WHERE (comments.create_id = ".SQL::escape($author_id).")"
 			." ORDER BY comments.create_date DESC LIMIT ".$offset.','.$count;
 
 		$output =& Comments::list_selected(SQL::query($query), $variant);
@@ -1057,8 +1057,8 @@ Class Comments {
 
 		// the list of comments
 		$query = "SELECT comments.* FROM ".SQL::table_name('comments')." AS comments "
-			." WHERE previous_id LIKE '".SQL::escape($id)."'"
-			." ORDER BY comments.create_date LIMIT 0,10";
+			." WHERE previous_id = ".SQL::escape($id)
+			." ORDER BY comments.create_date LIMIT 0,50";
 
 		$output =& Comments::list_selected(SQL::query($query), $variant);
 		return $output;
@@ -1438,7 +1438,7 @@ Class Comments {
 		}
 
 		// get the anchor
-		if(!$anchor = Anchors::get($fields['anchor'])) {
+		if(!$anchor =& Anchors::get($fields['anchor'])) {
 			Skin::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
@@ -1514,11 +1514,7 @@ Class Comments {
 			$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// clear the cache for comments
-		if(isset($fields['id']))
-			$topics = array('comments', 'comment:'.$fields['id']);
-		else
-			$topics = 'comments';
-		Cache::clear($topics);
+		Comments::clear($fields);
 
 		// end of job
 		return $fields['id'];
@@ -1601,7 +1597,7 @@ Class Comments {
 		// lists oldest entries beyond the limit
 		$query = "SELECT comments.id FROM ".SQL::table_name('comments')." AS comments "
 			." WHERE (comments.anchor LIKE '".SQL::escape($anchor)."')"
-			." ORDER BY comments.edit_date DESC LIMIT ".$limit.', 10';
+			." ORDER BY comments.edit_date DESC LIMIT ".$limit.', 100';
 
 		// no result
 		if(!$result =& SQL::query($query))
@@ -1614,7 +1610,7 @@ Class Comments {
 		// build an array of links
 		$ids = array();
 		while($item =& SQL::fetch($result))
-			$ids[] = "(id LIKE '".SQL::escape($item['id'])."')";
+			$ids[] = "(id = ".SQL::escape($item['id']).")";
 
 		// delete the record in the database
 		$query = "DELETE FROM ".SQL::table_name('comments')." WHERE ".implode(' OR ', $ids);

@@ -37,7 +37,7 @@ Class Layout_links_as_feed extends Layout_interface {
 
 			// get the anchor for this link
 			if($item['anchor'])
-				$anchor = Anchors::get($item['anchor']);
+				$anchor =& Anchors::get($item['anchor']);
 
 			// url is the link itself
 			$url = $item['link_url'];

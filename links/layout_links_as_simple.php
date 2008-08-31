@@ -40,7 +40,7 @@ Class Layout_links_as_simple extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the main anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// url is the link itself -- hack for xhtml compliance
 			$url = str_replace('&', '&amp;', $item['link_url']);

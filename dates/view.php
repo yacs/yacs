@@ -39,7 +39,7 @@ $item =& Dates::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // load the skin, maybe with a variant
 load_skin('dates', $anchor);

@@ -409,9 +409,6 @@ Class User extends Anchor {
 			}
 			$silently = TRUE;
 
-			// clear the cache for users, because of the new thumbnail to be used in lists
-			Cache::clear('users');
-
 		// append a new image
 		} elseif($action == 'image:set_as_both') {
 			if(!preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description']))
@@ -419,9 +416,6 @@ Class User extends Anchor {
 
 			// do not remember minor changes
 			$silently = TRUE;
-
-			// clear the cache for users, because of the new thumbnail to be used in lists
-			Cache::clear('users');
 
 		// add a reference to a location in the article description
 		} elseif($action == 'location:create' || $action == 'location:update') {
@@ -454,7 +448,7 @@ Class User extends Anchor {
 				."edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
 
 		// clear the cache for users, even for minor updates (e.g., image deletion)
-		Cache::clear(array('users', 'user:'.$this->item['id']));
+		Users::clear($this->item);
 
 		// ensure we have a valid update query
 		if(!@count($query))
@@ -496,14 +490,14 @@ Class User extends Anchor {
 		$this->item['description'] = preg_replace($from, $to, $this->item['description']);
 
 		// update the database
-		$query = "UPDATE ".SQL::table_name('articles')." SET "
+		$query = "UPDATE ".SQL::table_name('users')." SET "
 			." introduction = '".SQL::escape($this->item['introduction'])."',"
 			." description = '".SQL::escape($this->item['description'])."'"
 			." WHERE id = ".SQL::escape($this->item['id']);
-		SQL::query($query);
+		SQL::query($query, FALSE, $context['users_connection']);
 
 		// always clear the cache, even on no update
-		Cache::clear(array('users', 'user:'.$this->item['id']));
+		Users::clear($this->item);
 
 	}
 

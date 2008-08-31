@@ -405,7 +405,7 @@ Class Tables {
 			}
 
 			// transcode in anchor
-			if($anchor = Anchors::get($anchor_to))
+			if($anchor =& Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 			// clear the cache for tables
@@ -440,9 +440,18 @@ Class Tables {
 		if($position = strpos($id, '-'))
 			$id = substr($id, 0, $position);
 
-		// select among available items -- exact match -- 'AS tables' does not work because these are MySQL reserved words
-		$query = "SELECT * FROM ".SQL::table_name('tables')
-			." WHERE (id LIKE '".SQL::escape($id)."') OR (nick_name LIKE '".SQL::escape($id)."')";
+		// search by id
+		if(is_numeric($id))
+			$query = "SELECT * FROM ".SQL::table_name('tables')." AS tables"
+				." WHERE (tables.id = ".SQL::escape((integer)$id).")";
+
+		// or look for given name of handle
+		else
+			$query = "SELECT * FROM ".SQL::table_name('tables')." AS tables"
+				." WHERE (tables.nick_name LIKE '".SQL::escape($id)."')"
+				." ORDER BY edit_date DESC LIMIT 1";
+
+		// do the job
 		$output =& SQL::query_first($query);
 		return $output;
 	}
@@ -561,7 +570,7 @@ Class Tables {
 
 		// limit the scope of the request
 		$query = "SELECT * FROM ".SQL::table_name('tables')
-			." WHERE (edit_id LIKE '".SQL::escape($author_id)."') "
+			." WHERE (edit_id = ".SQL::escape($author_id).")"
 			." ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
 
 		// the list of tables
@@ -637,7 +646,7 @@ Class Tables {
 		}
 
 		// get the anchor
-		if(!isset($fields['anchor']) || (!$anchor = Anchors::get($fields['anchor']))) {
+		if(!isset($fields['anchor']) || (!$anchor =& Anchors::get($fields['anchor']))) {
 			Skin::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}

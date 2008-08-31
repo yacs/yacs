@@ -43,7 +43,7 @@ Class Section extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
+			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// the parent level
 		if(is_object($this->anchor))
@@ -239,7 +239,7 @@ Class Section extends Anchor {
 
 			// cache anchor
 			if(!$this->anchor)
-				$this->anchor = Anchors::get($this->item['anchor']);
+				$this->anchor =& Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor))
 				return $this->anchor->get_label($variant, $id);
@@ -436,7 +436,7 @@ Class Section extends Anchor {
 	 * the path bar has to mention the section. You can use following code
 	 * to do that:
 	 * [php]
-	 * $anchor = Anchors::get($article['anchor']);
+	 * $anchor =& Anchors::get($article['anchor']);
 	 * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
 	 * [/php]
 	 *
@@ -451,7 +451,7 @@ Class Section extends Anchor {
 
 		// get the parent
 		if(!isset($this->anchor))
-			$this->anchor = Anchors::get($this->item['anchor']);
+			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// the parent level
 		$parent = array();
@@ -672,7 +672,7 @@ Class Section extends Anchor {
 
 			// get the parent
 			if(!isset($this->anchor))
-				$this->anchor = Anchors::get($this->item['anchor']);
+				$this->anchor =& Anchors::get($this->item['anchor']);
 
 			// ask parent level
 			if(is_object($this->anchor))
@@ -863,7 +863,7 @@ Class Section extends Anchor {
 
 			// save requests
 			if(!$this->anchor)
-				$this->anchor = Anchors::get($this->item['anchor']);
+				$this->anchor =& Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor))
 				return $this->anchor->has_option($option, $leaf);
@@ -881,7 +881,7 @@ Class Section extends Anchor {
 	 * web site, he/she should be able to edit all articles in this section.
 	 * you can use following code to check that:
 	 * [php]
-	 * $anchor = Anchors::get($article['anchor']);
+	 * $anchor =& Anchors::get($article['anchor']);
 	 * if($anchor->is_editable() {
 	 *	 ...
 	 * }
@@ -909,7 +909,7 @@ Class Section extends Anchor {
 				return $this->is_editable_cache = FALSE;
 
 			// section has been locked
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			if(isset($this->item['locked']) && ($this->item['locked'] == 'Y'))
 				return $this->is_editable_cache = FALSE;
 
 			// anonymous edition is allowed
@@ -942,7 +942,7 @@ Class Section extends Anchor {
 
 				// save requests
 				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor = Anchors::get($this->item['anchor']);
+					$this->anchor =& Anchors::get($this->item['anchor']);
 
 				if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
 					return $this->is_editable_cache = TRUE;
@@ -978,7 +978,7 @@ Class Section extends Anchor {
 
 				// save requests
 				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor = Anchors::get($this->item['anchor']);
+					$this->anchor =& Anchors::get($this->item['anchor']);
 
 				if(is_object($this->anchor) && !$this->anchor->is_viewable())
 					return $this->is_public_cache = FALSE;
@@ -1028,7 +1028,7 @@ Class Section extends Anchor {
 
 				// cache requests
 				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor = Anchors::get($this->item['anchor']);
+					$this->anchor =& Anchors::get($this->item['anchor']);
 
 				// parent container has been assigned to this surfer
 				if(is_object($this->anchor) && $this->anchor->is_assigned())
@@ -1187,9 +1187,6 @@ Class Section extends Anchor {
 			}
 			$silently = TRUE;
 
-			// clear the cache for articles, because of the new bullet to be used in lists of articles
-			Cache::clear('articles');
-
 		// set an existing image as the section icon
 		} elseif($action == 'image:set_as_icon') {
 			include_once $context['path_to_root'].'images/images.php';
@@ -1252,7 +1249,7 @@ Class Section extends Anchor {
 		}
 
 		// send alerts on new item, except for pages in special sections
-		if(isset($item['index_map']) && ($item['index_map'] == 'Y') && preg_match('/:(create|insert)$/i', $action)) {
+		if(isset($this->item['index_map']) && ($this->item['index_map'] == 'Y') && preg_match('/:(create|insert)$/i', $action)) {
 
 			// poster name, if applicable
 			if(!$surfer = Surfer::get_name())
@@ -1443,7 +1440,7 @@ Class Section extends Anchor {
 			}
 
 			// look more precisely at this object
-			$anchor = Anchors::get('section:'.$this->item['id']);
+			$anchor =& Anchors::get('section:'.$this->item['id']);
 
 			// no watch in interactive threads
 			if(is_object($anchor) && !$anchor->has_option('view_as_thread')) {
@@ -1471,11 +1468,11 @@ Class Section extends Anchor {
 		}
 
 		// always clear the cache, even on no update
-		Cache::clear(array('sections', 'section:'.$this->item['id']));
+		Sections::clear($this->item);
 
 		// get the parent
 		if(!$this->anchor)
-			$this->anchor = Anchors::get($this->item['anchor']);
+			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))
@@ -1517,7 +1514,7 @@ Class Section extends Anchor {
 		SQL::query($query);
 
 		// always clear the cache, even on no update
-		Cache::clear(array('sections', 'section:'.$this->item['id']));
+		Sections::clear($this->item);
 
 	}
 

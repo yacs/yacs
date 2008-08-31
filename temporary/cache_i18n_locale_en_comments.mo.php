@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 12, 2008, 9:48 pm GMT. Please do not modify it manually.
+ * on August 27, 2008, 9:35 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d post'.chr(0).'%d posts']='%d post'.chr(0).'%d posts';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';

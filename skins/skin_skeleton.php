@@ -339,7 +339,7 @@ Class Skin_Skeleton {
 
 			// place children
 			foreach($children as $child) {
-				if($anchor = Anchors::get($child))
+				if($anchor =& Anchors::get($child))
 					$tree[] = array($anchor->get_url(), NULL, $anchor->get_title(), NULL, 'below', NULL, $anchor->get_teaser('hover'));
 
 			}
@@ -353,7 +353,7 @@ Class Skin_Skeleton {
 		}
 
 		// current level
-		if($anchor = Anchors::get($anchors[count($anchors)-1]))
+		if($anchor =& Anchors::get($anchors[count($anchors)-1]))
 			$tree = array(array_merge(array($anchor->get_url(), NULL, $anchor->get_title(), NULL, 'current', NULL, $anchor->get_teaser('hover')), array($tree)));
 
 		// upper levels
@@ -374,7 +374,7 @@ Class Skin_Skeleton {
 					}
 
 					// list nibble before or after the one that has he focus
-					if($anchor = Anchors::get($nibble)) {
+					if($anchor =& Anchors::get($nibble)) {
 						if($insert)
 							$prefix[] = array($anchor->get_url(), NULL, $anchor->get_title(), NULL, 'close', NULL, $anchor->get_teaser('hover'));
 						else
@@ -389,7 +389,7 @@ Class Skin_Skeleton {
 			}
 
 			// move up the contextual path
-			if(($index > 0) && ($anchor = Anchors::get($anchors[$index])))
+			if(($index > 0) && ($anchor =& Anchors::get($anchors[$index])))
 				$tree = array(array_merge(array($anchor->get_url(), NULL, $anchor->get_title(), NULL, 'open', NULL, $anchor->get_teaser('hover')), array($tree)));
 
 		}
@@ -2892,6 +2892,7 @@ Class Skin_Skeleton {
 			// use css selector: ul.compact, or customize constants in skin.php -- icons are dropped, if any
 			case 'compact':
 			case 'hits':
+			case 'rating':
 			case 'simple':
 
 				// basic rendering for hard printouts

@@ -163,7 +163,7 @@ Class Categories {
 	 * @return a string to be used in &lt;option&gt;
 	 */
 	function build_path($reference) {
-		$anchor = Anchors::get($reference);
+		$anchor =& Anchors::get($reference);
 		if(is_object($anchor)) {
 			if(preg_match('/category:(.+?)$/', $reference, $matches) && ($category =& Categories::get($matches[1])) && $category['anchor'] && ($category['anchor'] != $reference))
 				return Categories::build_path($category['anchor']).'|'.strip_tags($anchor->get_title());
@@ -179,7 +179,7 @@ Class Categories {
 	function clear(&$item) {
 
 		// where this item can be displayed
-		$topics = array('categories');
+		$topics = array('categories', 'sections', 'articles', 'users');
 
 		// clear anchor page
 		if(isset($item['anchor']))
@@ -293,7 +293,7 @@ Class Categories {
 			}
 
 			// transcode in anchor
-			if($anchor = Anchors::get($anchor_to))
+			if($anchor =& Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -335,9 +335,18 @@ Class Categories {
 		if(!$mutable && isset($cache[$id]))
 			return $cache[$id];
 
-		// select among available items -- exact match
-		$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
-			." WHERE (categories.id LIKE '".SQL::escape($id)."') OR (categories.nick_name LIKE '".SQL::escape($id)."')";
+		// search by id
+		if(is_numeric($id))
+			$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
+				." WHERE (categories.id = ".SQL::escape((integer)$id).")";
+
+		// or look for given name of handle
+		else
+			$query = "SELECT * FROM ".SQL::table_name('categories')." AS categories"
+				." WHERE (categories.nick_name LIKE '".SQL::escape($id)."')"
+				." ORDER BY edit_date DESC LIMIT 1";
+
+		// do the job
 		$output =& SQL::query_first($query);
 
 		// save in cache
@@ -1339,7 +1348,7 @@ Class Categories {
 		}
 
 		// cascade anchor access rights
-		if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
+		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
@@ -1437,13 +1446,13 @@ Class Categories {
 			return FALSE;
 
 		// remember the id of the new item
-		$id = SQL::get_last_id($context['connection']);
+		$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// clear the whole cache, because a rendering option for things anchored to this category could being changed
-		Cache::clear();
+		Categories::clear($fields);
 
 		// return the id of the new item
-		return $id;
+		return $fields['id'];
 	}
 
 	/**
@@ -1513,7 +1522,7 @@ Class Categories {
 			$fields['active_set'] = 'Y';
 
 		// cascade anchor access rights
-		if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
+		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
@@ -1570,7 +1579,7 @@ Class Categories {
 		SQL::query($query);
 
 		// clear the cache for categories
-		Cache::clear(array('categories', 'category:'.$fields['id'], 'articles', 'comments', 'files', 'links', 'sections', 'users'));
+		Categories::clear($fields);
 
 		// end of job
 		return NULL;

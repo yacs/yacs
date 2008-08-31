@@ -65,7 +65,7 @@ Class Layout_comments_as_daily extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// odd or even
 			if($count%2)

@@ -21,6 +21,7 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 // files to fetch, from root path
 unset($files);
 $files[] = 'included/browser/controls.js.jsmin';
+$files[] = 'included/browser/swfobject.js.jsmin';
 $files[] = 'temporary/cache_included_browser_minify.js';
 $files[] = 'tools/build_i18n.bat';
 $files[] = 'tools/check_i18n.bat';

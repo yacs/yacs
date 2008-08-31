@@ -73,9 +73,18 @@ Class Forms {
 			return $output;
 		}
 
-		// select among available items -- exact match
-		$query = 'SELECT * FROM '.SQL::table_name('forms')." AS forms"
-			." WHERE (forms.id LIKE '".SQL::escape($id)."') OR (forms.nick_name LIKE '".SQL::escape($id)."')";
+		// search by id
+		if(is_numeric($id))
+			$query = "SELECT * FROM ".SQL::table_name('forms')." AS forms"
+				." WHERE (forms.id = ".SQL::escape((integer)$id).")";
+
+		// or look for given name of handle
+		else
+			$query = "SELECT * FROM ".SQL::table_name('forms')." AS forms"
+				." WHERE (forms.nick_name LIKE '".SQL::escape($id)."')"
+				." ORDER BY edit_date DESC LIMIT 1";
+
+		// do the job
 		$output =& SQL::query_first($query);
 		return $output;
 	}
@@ -254,7 +263,7 @@ Class Forms {
 		}
 
 		// anchor cannot be empty
-		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor = Anchors::get($fields['anchor']))) {
+		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
 			Skin::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
@@ -300,12 +309,6 @@ Class Forms {
 			if(SQL::query($query) === FALSE)
 				return FALSE;
 
-			// remember the id of the new item
-			$id = $fields['id'];
-
-			// clear the cache for forms
-			Cache::clear(array('forms', 'form:'.$fields['id']));
-
 		// insert a new record
 		} else {
 
@@ -328,15 +331,15 @@ Class Forms {
 				return FALSE;
 
 			// remember the id of the new item
-			$id = SQL::get_last_id($context['connection']);
-
-			// clear the cache for forms
-			Cache::clear('forms');
+			$fields['id'] = SQL::get_last_id($context['connection']);
 
 		}
 
+		// clear the cache for forms
+		Forms::clear($fields);
+
 		// end of job
-		return $id;
+		return $fields['id'];
 	}
 
 	/**

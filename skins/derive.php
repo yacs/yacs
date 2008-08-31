@@ -5,7 +5,6 @@
  * This script allows any associate to copy an existing skin, before customizing it.
  *
  * An initial form is proposed to the surfer, to select the origin skin, and to name the target skin.
- * Optionnally, the new skin can be assigned specifically to one section.
  *
  * Then, files of the origin skin are parsed and copied to the new skin.
  *
@@ -20,6 +19,7 @@
  * @tester Dim
  * @tester Agnes
  * @tester Ghjmora
+ * @tester Belmond
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -276,13 +276,6 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Skin name');
 	$input = '<input type="text" name="directory" value="'.encode_field(i18n::s('my_skin')).'" size="45" maxlength="255" accesskey="d" />';
 	$hint = i18n::s('Also the name of the sub-directory for skin files');
-	$fields[] = array($label, $input, $hint);
-
-	// section, if any
-	$label = i18n::s('Section');
-	$input = '<select name="section"><option value="none" selected="selected">'.i18n::s('-- Do not assign any section to this skin').'</option>'
-		.Sections::get_options('none').'</select>';
-	$hint = i18n::s('As an option, you can assign this template to all pages anchored to one particular section');
 	$fields[] = array($label, $input, $hint);
 
 	// build the form

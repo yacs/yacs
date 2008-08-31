@@ -67,7 +67,7 @@ Class Category extends Anchor {
 	 * the path bar has to mention the category. You can use following code
 	 * to do that:
 	 * [php]
-	 * $anchor = Anchors::get($article['anchor']);
+	 * $anchor =& Anchors::get($article['anchor']);
 	 * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
 	 * [/php]
 	 *
@@ -82,7 +82,7 @@ Class Category extends Anchor {
 			return NULL;
 
 		// the parent level
-		$anchor = Anchors::get($this->item['anchor']);
+		$anchor =& Anchors::get($this->item['anchor']);
 		if(is_object($anchor))
 			$top_bar = $anchor->get_path_bar();
 		else
@@ -174,7 +174,6 @@ Class Category extends Anchor {
 	 * @param string the description of the last action
 	 * @param string the id of the item related to this update
 	 * @param boolean TRUE for a silent update
-	 * @return a string in case of error
 	 *
 	 * @see shared/anchor.php
 	 */
@@ -287,10 +286,6 @@ Class Category extends Anchor {
 			}
 			$silently = TRUE;
 
-			// clear the cache for anchor, because of the new thumbnail to be used in lists
-			if(isset($this->item['anchor']) && $this->item['anchor'])
-				Cache::clear($this->item['anchor']);
-
 		// append a new image, and set it as the article thumbnail
 		} elseif($action == 'image:set_as_both') {
 			if(!preg_match('/\[image='.preg_quote($origin, '/').'.*?\]/', $this->item['description']))
@@ -306,10 +301,6 @@ Class Category extends Anchor {
 
 			// do not remember minor changes
 			$silently = TRUE;
-
-			// clear the cache for anchor, because of the new thumbnail to be used in lists
-			if(isset($this->item['anchor']) && $this->item['anchor'])
-				Cache::clear($this->item['anchor']);
 
 		// add a reference to a new table in the category description
 		} elseif($action == 'table:create' || $action == 'table:update') {
@@ -331,20 +322,27 @@ Class Category extends Anchor {
 				."edit_action='$action',"
 				."edit_date='".strftime('%Y-%m-%d %H:%M:%S')."'";
 
-		// clear the cache for categories even for minor updates (e.g., image deletion)
-		Cache::clear(array('categories', 'category:'.$this->item['id']));
-
 		// ensure we have a valid update query
 		if(!@count($query))
-			return NULL;
+			return;
 
 		// update the anchor category
 		$query = "UPDATE ".SQL::table_name('categories')." SET ".implode(', ',$query)
 			." WHERE id = ".SQL::escape($this->item['id']);
-		SQL::query($query);
+		if(SQL::query($query) === FALSE)
+			return;
 
-		// end of job
-		return NULL;
+		// always clear the cache, even on no update
+		Categories::clear($this->item);
+
+		// get the parent
+		if(!$this->anchor)
+			$this->anchor =& Anchors::get($this->item['anchor']);
+
+		// propagate the touch upwards silently -- we only want to purge the cache
+		if(is_object($this->anchor))
+			$this->anchor->touch('category:edit', $this->item['id'], TRUE);
+
 	}
 
 	/**
@@ -381,7 +379,7 @@ Class Category extends Anchor {
 		SQL::query($query);
 
 		// always clear the cache, even on no update
-		Cache::clear(array('categories', 'category:'.$this->item['id']));
+		Categories::clear($this->item);
 
 	}
 

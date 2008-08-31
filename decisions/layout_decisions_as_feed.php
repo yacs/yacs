@@ -37,7 +37,7 @@ Class Layout_decisions_as_feed extends Layout_interface {
 			// get the anchor for this decision
 			$anchor = NULL;
 			if(isset($item['anchor']) && $item['anchor'])
-				$anchor = Anchors::get($item['anchor']);
+				$anchor =& Anchors::get($item['anchor']);
 
 			// url to read the full decision
 			$url = $context['url_to_home'].$context['url_to_root'].decisions::get_url($item['id']);

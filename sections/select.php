@@ -32,7 +32,7 @@ include_once '../shared/global.php';
 // find the target anchor in path args (e.g., http:.../sections/select.php?anchor=article:15)
 $anchor = NULL;
 if(isset($_REQUEST['anchor']))
-	$anchor = Anchors::get($_REQUEST['anchor']);
+	$anchor =& Anchors::get($_REQUEST['anchor']);
 
 // load the skin, maybe with a variant
 load_skin('sections', $anchor);

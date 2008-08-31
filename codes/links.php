@@ -20,6 +20,7 @@
  * - &#91;next=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;previous=&lt;id>] - shortcut to previous article
  * - &#91;previous=&lt;id>, foo bar] - with label 'foo bar'
+ * - &#91;random=&lt;section:id>] - pick up one page randomly
  * - &#91;section=&lt;id>] - use section title as link label
  * - &#91;section=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;category=&lt;id>] - use category title as link label
@@ -198,7 +199,7 @@ $context['text'] .= '[title]'.i18n::s('Page').' [escape][article.description=&lt
 	.Skin::table_suffix();
 
 // [previous=id]
-$context['text'] .= '[title]'.i18n::s('Previous page').' [escape][previous=&lt;id&gt;][/escape], [escape][previous=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Previous page').' [escape][previous=&lt;id&gt;] [previous=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][previous='.$article_id.'][/escape]</td>'
@@ -206,15 +207,23 @@ $context['text'] .= '[title]'.i18n::s('Previous page').' [escape][previous=&lt;i
 	.Skin::table_suffix();
 
 // [next=id]
-$context['text'] .= '[title]'.i18n::s('Next page').' [escape][next=&lt;id&gt;][/escape], [escape][next=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Next page').' [escape][next=&lt;id&gt;] [next=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][next='.$article_id.'][/escape]</td>'
 	.'<td>[next='.$article_id.']</td></tr>'
 	.Skin::table_suffix();
 
+// [random=section:id]
+$context['text'] .= '[title]'.i18n::s('Random').' [escape][random] [random=section:&lt;id&gt;][/escape][/title]'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][random] [random=section:'.$section_id.'][/escape]</td>'
+	.'<td>[random] [random=section:'.$section_id.']</td></tr>'
+	.Skin::table_suffix();
+
 // [section=id]
-$context['text'] .= '[title]'.i18n::s('Section shortcut').' [escape][section=&lt;id&gt;][/escape], [escape][section=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Section shortcut').' [escape][section=&lt;id&gt;] [section=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.sprintf(i18n::s('Have a look at %s'), '[section='.$section_id.']').'[/escape]</td>'
@@ -222,7 +231,7 @@ $context['text'] .= '[title]'.i18n::s('Section shortcut').' [escape][section=&lt
 	.Skin::table_suffix();
 
 // [category=id]
-$context['text'] .= '[title]'.i18n::s('Category shortcut').' [escape][category=&lt;id&gt;][/escape], [escape][category=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Category shortcut').' [escape][category=&lt;id&gt;] [category=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.sprintf(i18n::s('Have a look at %s'), '[category=featured]').'[/escape]</td>'
@@ -238,7 +247,7 @@ $context['text'] .= '[title]'.i18n::s('Category').' [escape][category.descriptio
 	.Skin::table_suffix();
 
 // [user=id]
-$context['text'] .= '[title]'.i18n::s('User shortcut').' [escape][user=&lt;id&gt;][/escape], [escape][user=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('User shortcut').' [escape][user=&lt;id&gt;] [user=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.sprintf(i18n::s('Have a look at %s'), '[user='.Surfer::get_id().']').'[/escape]</td>'
@@ -246,7 +255,7 @@ $context['text'] .= '[title]'.i18n::s('User shortcut').' [escape][user=&lt;id&gt
 	.Skin::table_suffix();
 
 // [server=id]
-$context['text'] .= '[title]'.i18n::s('Server shortcut').' [escape][server=&lt;id&gt;][/escape], [escape][server=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Server shortcut').' [escape][server=&lt;id&gt;] [server=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Click to view the page of [server=2, this server]').'[/escape]</td>'
@@ -254,7 +263,7 @@ $context['text'] .= '[title]'.i18n::s('Server shortcut').' [escape][server=&lt;i
 	.Skin::table_suffix();
 
 // [file=id]
-$context['text'] .= '[title]'.i18n::s('File shortcut').' [escape][file=&lt;id&gt;][/escape], [escape][file=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('File shortcut').' [escape][file=&lt;id&gt;] [file=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.sprintf(i18n::s('Have a look at %s'), '[file='.$file_id.']').'[/escape]</td>'
@@ -262,7 +271,7 @@ $context['text'] .= '[title]'.i18n::s('File shortcut').' [escape][file=&lt;id&gt
 	.Skin::table_suffix();
 
 // [download=id]
-$context['text'] .= '[title]'.i18n::s('Download shortcut').' [escape][download=&lt;id&gt;][/escape], [escape][download=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Download shortcut').' [escape][download=&lt;id&gt;] [download=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.sprintf(i18n::s('Click to %s'), '[download='.$file_id.', '.i18n::s('download the file').']').'[/escape]</td>'
@@ -270,7 +279,7 @@ $context['text'] .= '[title]'.i18n::s('Download shortcut').' [escape][download=&
 	.Skin::table_suffix();
 
 // [action=id]
-$context['text'] .= '[title]'.i18n::s('Action shortcut').' [escape][action=&lt;id&gt;][/escape], [escape][action=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Action shortcut').' [escape][action=&lt;id&gt;] [action=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Click to view the page of [action=2, this action]').'[/escape]</td>'
@@ -278,7 +287,7 @@ $context['text'] .= '[title]'.i18n::s('Action shortcut').' [escape][action=&lt;i
 	.Skin::table_suffix();
 
 // [comment=id]
-$context['text'] .= '[title]'.i18n::s('Comment shortcut').' [escape][comment=&lt;id&gt;][/escape], [escape][comment=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Comment shortcut').' [escape][comment=&lt;id&gt;] [comment=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Click to view the page of [comment=2, this comment]').'[/escape]</td>'
@@ -286,7 +295,7 @@ $context['text'] .= '[title]'.i18n::s('Comment shortcut').' [escape][comment=&lt
 	.Skin::table_suffix();
 
 // [decision=id]
-$context['text'] .= '[title]'.i18n::s('Decision shortcut').' [escape][decision=&lt;id&gt;][/escape], [escape][decision=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Decision shortcut').' [escape][decision=&lt;id&gt;] [decision=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Click to view the page of [decision=2, this decision]').'[/escape]</td>'
@@ -302,7 +311,7 @@ $context['text'] .= '[title]'.i18n::s('Script shortcut').' [escape][script]&lt;p
 	.Skin::table_suffix();
 
 // [search=yacs]
-$context['text'] .= '[title]'.i18n::s('Search').' [escape][search][/escape], [escape][search=&lt;words&gt;][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Search').' [escape][search] [search=&lt;words&gt;][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('All you want to know on [search=yacs]').'[/escape]</td>'
@@ -310,7 +319,7 @@ $context['text'] .= '[title]'.i18n::s('Search').' [escape][search][/escape], [es
 	.Skin::table_suffix();
 
 // [wikipedia=keyword, label]
-$context['text'] .= '[title]'.i18n::s('Wikipedia').' [escape][wikipedia=keyword][/escape], [escape][wikipedia=keyword, label][/escape][/title]'
+$context['text'] .= '[title]'.i18n::s('Wikipedia').' [escape][wikipedia=keyword] [wikipedia=keyword, label][/escape][/title]'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('All you want to know on [wikipedia=Web_2, the web 2.0]').'[/escape]</td>'

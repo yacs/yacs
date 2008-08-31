@@ -84,7 +84,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 			$overlay = Overlay::load($item);
 
 			// get the anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// one box per article
 			$prefix = $suffix = '';

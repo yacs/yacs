@@ -42,7 +42,7 @@ Class Layout_articles_as_feed extends Layout_interface {
 			$overlay = Overlay::load($item);
 
 			// get the anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url =& Articles::get_permalink($item);
@@ -64,14 +64,14 @@ Class Layout_articles_as_feed extends Layout_interface {
 
 			// the section
 			$section = '';
-			if($item['anchor'] && ($anchor = Anchors::get($item['anchor'])))
+			if($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])))
 				$section = ucfirst(trim(strip_tags(Codes::beautify_title($anchor->get_title()))));
 
 			// the icon to use
 			$icon = '';
 			if($item['thumbnail_url'])
 				$icon = $item['thumbnail_url'];
-			elseif($item['anchor'] && ($anchor = Anchors::get($item['anchor'])))
+			elseif($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])))
 				$icon = $anchor->get_thumbnail_url();
 			if($icon)
 				$icon = $context['url_to_home'].$context['url_to_home'].$icon;

@@ -94,6 +94,8 @@
  * - &#91;next=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;previous=&lt;id>] - shortcut to previous article
  * - &#91;previous=&lt;id>, foo bar] - with label 'foo bar'
+ * - &#91;random] - pick up one page randomly
+ * - &#91;random=&lt;section:id>] - one page in this section
  * - &#91;section=&lt;id>] - use section title as link label
  * - &#91;section=&lt;id>, foo bar] - with label 'foo bar'
  * - &#91;category=&lt;id>] - use category title as link label
@@ -176,6 +178,10 @@
  * - &#91;read=section:&lt;id>] - articles of fame in the given section
  * - &#91;read=self] - personal hits
  * - &#91;read=user:&lt;id>] - personal hits
+ * - &#91;voted] - most voted articles, in a compact list
+ * - &#91;voted=section:&lt;id>] - articles of fame in the given section
+ * - &#91;voted=self] - personal hits
+ * - &#91;voted=user:&lt;id>] - personal hits
  * - &#91;calendar] - events for this month
  * - &#91;calendar=section:&lt;id>] - dates in one section
  * - &#91;locations=all] - newest locations
@@ -786,6 +792,9 @@ Class Codes {
 				'/\[article=([^\]]+?)\]/ie',				// [article=<id>] or [article=<id>, title]
 				'/\[next=([^\]]+?)\]/ie',					// [next=<id>]
 				'/\[previous=([^\]]+?)\]/ie',				// [previous=<id>]
+				'/\[random\]/ie',							// [random]
+				'/\[random\.description=([^\]]+?)\]/ie',	// [random.description=section:<id>]
+				'/\[random=([^\]]+?)\]/ie',					// [random=section:<id>] or [random=category:<id>]
 				'/\[section=([^\]]+?)\]/ie',				// [section=<id>] or [section=<id>, title]
 				'/\[category\.description=([^\]]+?)\]\n*/ise',	// [category.description=<id>]
 				'/\[category=([^\]]+?)\]/ie',				// [category=<id>] or [category=<id>, title]
@@ -835,6 +844,10 @@ Class Codes {
 				'/\[updated\.([^\]]+?)\]\n*/ise', 			// [updated.simple] (a list of recent updates)
 				'/\[updated=([^\]]+?)\]\n*/ise', 			// [updated=section:4029] (a compact list of recent updates)
 				'/\[updated\]\n*/ise',						// [updated] (a compact list of recent updates)
+				'/\[voted\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [voted.decorated=section:4029]
+				'/\[voted\.([^\]]+?)\]\n*/ise',				// [voted.decorated]
+				'/\[voted=([^\]]+?)\]\n*/ise',				// [voted=section:4029]
+				'/\[voted\]\n*/ise', 						// [voted]
 				'/\[freemind\]\n*/ise', 					// [freemind] (a mind map of site content)
 				'/\[freemind=([^\]]+?)\]\n*/ise',			// [freemind=section:4029] (a mind map of section content)
 				'/\[sections\]\n*/ise',						// [sections] (site map)
@@ -952,6 +965,9 @@ Class Codes {
 				"Codes::render_object('article', stripslashes('$1'))",			// [article=<id>]
 				"Codes::render_object('next', stripslashes('$1'))", 			// [next=<id>]
 				"Codes::render_object('previous', stripslashes('$1'))", 		// [previous=<id>]
+				"Codes::render_random()",										// [random]
+				"Codes::render_random(stripslashes('$1'), 'description')",		// [random.description=section:<id>]
+				"Codes::render_random(stripslashes('$1'))",						// [random=section:<id>]
 				"Codes::render_object('section', stripslashes('$1'))",			// [section=<id>]
 				"Codes::render_object('category.description', stripslashes('$1'))", // [category.description=<id>]
 				"Codes::render_object('category', stripslashes('$1'))", 		// [category=<id>]
@@ -1001,6 +1017,10 @@ Class Codes {
 				"Codes::render_updated('', '$1')",								// [updated.simple]
 				"Codes::render_updated('$1', 'simple')",						// [updated=section:4029]
 				"Codes::render_updated('', 'simple')",							// [updated]
+				"Codes::render_voted('$2', '$1')",								// [voted.decorated=section:4029]
+				"Codes::render_voted('', '$1')",								// [voted.decorated]
+				"Codes::render_voted('$1', 'rating')",							// [voted=section:4029]
+				"Codes::render_voted('', 'rating')",							// [voted]
 				"Codes::render_freemind('sections')",							// [freemind]
 				"Codes::render_freemind('$1')", 								// [freemind=section:4029] or [freemind=123]
 				"Codes::render_sections()", 									// [sections] (site map)
@@ -2712,6 +2732,113 @@ Class Codes {
 	}
 
 	/**
+	 * select a random page
+	 *
+	 * The provided anchor can reference:
+	 * - a section 'section:123'
+	 * - a category 'category:456'
+	 * - a user 'user:789'
+	 * - 'self'
+	 * - nothing
+	 *
+	 * @param string the anchor (e.g. 'section:123')
+	 * @param string layout to use
+	 * @return string the rendered text
+	**/
+	function &render_random($anchor='', $layout='') {
+		global $context;
+
+		// we return some text;
+		$text = '';
+
+		// number of items to display
+		$label = '';
+		if($position = strrpos($anchor, ',')) {
+			$label = trim(substr($anchor, $position+1));
+			$anchor = trim(substr($anchor, 0, $position));
+		}
+
+		// scope is limited to current surfer
+		if(($anchor == 'self') && Surfer::get_id()) {
+			$anchor = 'user:'.Surfer::get_id();
+
+			// refresh on every page load
+			Cache::poison();
+
+		}
+
+		// scope is limited to one section
+		if(strpos($anchor, 'section:') === 0) {
+
+			// look at this level
+			$anchors = array($anchor);
+
+			// first level of depth
+			$topics =& Sections::get_children_of_anchor($anchor, 'main');
+			$anchors = array_merge($anchors, $topics);
+
+			// second level of depth
+			if(count($topics) && (count($anchors) < 50)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// third level of depth
+			if(count($topics) && (count($anchors) < 50)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// query the database and layout that stuff
+			$text =& Articles::list_for_anchor_by('random', $anchors, 0, 1, 'raw');
+
+		// scope is limited to one author
+		} elseif(strpos($anchor, 'user:') === 0)
+			$text =& Articles::list_for_author_by('random', str_replace('user:', '', $anchor), 0, 1, 'raw');
+
+		// consider all pages
+		if(!$text)
+			$text =& Articles::list_by('random', 0, 1, 'raw');
+
+		// we have an array to format
+ 		if(is_array($text)) {
+	 		foreach($text as $id => $item) {
+
+				// make a link to the target page
+		 		$link =& Articles::get_permalink($item);
+		 		if(!$label)
+		 			$label = Skin::strip($item['title']);
+	 			$text =& Skin::build_link($link, $label, 'article');
+
+	 			if($layout == 'description') {
+
+					// the introduction text, if any
+					$text .= BR.Codes::beautify($item['introduction']);
+
+					// load overlay, if any
+					if(isset($item['overlay']) && $item['overlay']) {
+						include_once '../overlays/overlay.php';
+						$overlay = Overlay::load($item);
+
+						// get text related to the overlay, if any
+						if(is_object($overlay))
+							$text .= $overlay->get_text('view', $item);
+
+					}
+
+					// the description, which is the actual page body
+					$text .= '<div>'.Codes::beautify($item['description']).'</div>';
+
+		 		}
+		 		break;
+	 		}
+ 		}
+
+		// job done
+		return $text;
+	}
+
+	/**
 	 * render a compact list of hits
 	 *
 	 * @param string the anchor (e.g. 'section:123')
@@ -2770,7 +2897,7 @@ Class Codes {
 
 		// scope is limited to pages watched by one surfer
 		} elseif(strpos($anchor, 'user:') === 0)
-			$text =& Members::list_articles_by_hits_for_member($anchor, 0, $count, $layout);
+			$text =& Members::list_articles_for_member_by('hits', $anchor, 0, $count, $layout);
 
 		// consider all pages
 		if(!$text)
@@ -2828,7 +2955,7 @@ Class Codes {
 
 		// scope is limited to one author
 		elseif(strpos($anchor, 'user:') === 0)
-			$text =& Members::list_sections_by_date_for_user(str_replace('user:', '', $anchor), 0, $count, $layout);
+			$text =& Members::list_sections_for_user(str_replace('user:', '', $anchor), 0, $count, $layout);
 
 		// consider all pages
 		if(!$text)
@@ -3129,11 +3256,84 @@ Class Codes {
 
 		// scope is limited to pages watched by one surfer
 		} elseif(strpos($anchor, 'user:') === 0)
-			$text =& Members::list_articles_by_date_for_member($anchor, 0, $count, $layout);
+			$text =& Members::list_articles_for_member_by('edition', $anchor, 0, $count, $layout);
 
 		// consider all pages
 		if(!$text)
 			$text =& Articles::list_by('edition', 0, $count, $layout);
+
+		// we have an array to format
+		if(is_array($text))
+			$text =& Skin::build_list($text, $layout);
+
+		// job done
+		return $text;
+	}
+
+	/**
+	 * render a compact list of voted pages
+	 *
+	 * @param string the anchor (e.g. 'section:123')
+	 * @param string layout to use
+	 * @return string the rendered text
+	**/
+	function &render_voted($anchor='', $layout='rating') {
+		global $context;
+
+		// we return some text;
+		$text = '';
+
+		// number of items to display
+		$count = COMPACT_LIST_SIZE;
+		if(($position = strpos($anchor, ',')) !== FALSE) {
+			$count = (integer)trim(substr($anchor, $position+1));
+			if(!$count)
+				$count = COMPACT_LIST_SIZE;
+
+			$anchor = trim(substr($anchor, 0, $position));
+		}
+
+		// scope is limited to current surfer
+		if(($anchor == 'self') && Surfer::get_id()) {
+			$anchor = 'user:'.Surfer::get_id();
+
+			// refresh on every page load
+			Cache::poison();
+
+		}
+
+		// scope is limited to one section
+		if(strpos($anchor, 'section:') === 0) {
+
+			// look at this level
+			$anchors = array($anchor);
+
+			// first level of depth
+			$topics =& Sections::get_children_of_anchor($anchor, 'main');
+			$anchors = array_merge($anchors, $topics);
+
+			// second level of depth
+			if(count($topics) && (count($anchors) < 50)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// third level of depth
+			if(count($topics) && (count($anchors) < 50)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// query the database and layout that stuff
+			$text =& Articles::list_for_anchor_by('rating', $anchors, 0, $count, $layout);
+
+		// scope is limited to pages watched by one surfer
+		} elseif(strpos($anchor, 'user:') === 0)
+			$text =& Members::list_articles_for_member_by('rating', $anchor, 0, $count, $layout);
+
+		// consider all pages
+		if(!$text)
+			$text =& Articles::list_by('rating', 0, $count, $layout);
 
 		// we have an array to format
 		if(is_array($text))

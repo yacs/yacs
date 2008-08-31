@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 12, 2008, 10:26 pm GMT. Please do not modify it manually.
+ * on August 25, 2008, 9:55 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d result'.chr(0).'%d results']='%d result'.chr(0).'%d results';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
@@ -40,7 +40,6 @@ $_SESSION['l10n']['en']['7ba883ac892a1b2f08c0cf103474ab7b']='<p>Your query will 
 $_SESSION['l10n']['en']['992503b2fb62c9c97a31d6ce8e71758e']='A compact list of most recent pages. This layout is suitable for sites with a lot of items (gadget boxes, etc.) at the front page.';
 $_SESSION['l10n']['en']['ad677f0d9c431772d2107a46318cbc19']='A decorated list of most recent pages. This layout is suitable for sites with a long cover article at the front page.';
 $_SESSION['l10n']['en']['2b0dd86a832a950fdf658419be572d7a']='A decorated list of pages that have been most rated by community members.';
-$_SESSION['l10n']['en']['65bef34af7002e4930f9e15aa6ae63bd']='A section "%s" has been created.';
 $_SESSION['l10n']['en']['Absent']='Absent';
 $_SESSION['l10n']['en']['2e3b37537befb872712056f0298cecfb']='Access to this page is forbidden (403)';
 $_SESSION['l10n']['en']['Add a page']='Add a page';

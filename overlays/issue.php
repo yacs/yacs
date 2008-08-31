@@ -156,7 +156,7 @@ class Issue extends Overlay {
 			return NULL;
 
 		$query = "SELECT * FROM ".SQL::table_name('issues')." AS issues "
-			." WHERE (issues.id LIKE '".SQL::escape($id)."')";
+			." WHERE (issues.id = ".SQL::escape($id).")";
 
 		// fetch the first row
 		if(!$row =& SQL::query_first($query))

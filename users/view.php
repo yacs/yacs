@@ -6,7 +6,6 @@
  * @todo we have live profiles!
  * @todo your workspaces/your watchlist http://www.socialtext.com/products/overview
  * @todo list assigned files
- * @todo list assigned articles (along assigned sections) (Agnes)
  * @todo add 10 preferred blogs/links
  *
  * This script displays one user profile. Depending on who the surfer is, more or less information is provided.
@@ -305,17 +304,17 @@ if(!isset($item['id'])) {
 		// offer to extend personal spaces
 		$allowed = max($context['users_maximum_managed_sections'] - count(Surfer::personal_sections()), 0);
 		if(Surfer::is_member() && (Surfer::get_id() == $item['id']) && $allowed)
-			$menu[] = Skin::build_link('sections/new.php', i18n::s('Add a blog, a discussion board, or another personal web space'), 'basic');
+			$menu[] = Skin::build_link('sections/new.php', i18n::s('Add a blog, a discussion board, or another personal web space'), 'span');
 
 		// associates can assign editors and readers
 		elseif(Surfer::is_associate())
-			$menu[] = Skin::build_link('sections/select.php?anchor=user:'.$item['id'], i18n::s('Manage'), 'basic');
+			$menu[] = Skin::build_link('sections/select.php?anchor=user:'.$item['id'], i18n::s('Manage'), 'span');
 
 		if(count($menu))
 			$content .= Skin::finalize_list($menu, 'menu_bar');
 
 		// list assigned and watched sections by date
-		if($items =& Members::list_sections_by_date_for_user($item['id'], 0, 50, 'simple')) {
+		if($items =& Members::list_sections_for_user($item['id'], 0, 50, 'simple')) {
 			if(is_array($items))
 				$content .= Skin::build_list($items, 'compact');
 			else
@@ -367,7 +366,7 @@ if(!isset($item['id'])) {
 			$offset = ($zoom_index - 1) * ARTICLES_PER_PAGE;
 
 			// list watched pages by date, not only pages posted by this user
-			$items =& Members::list_articles_by_date_for_member('user:'.$item['id'], $offset, ARTICLES_PER_PAGE, 'simple');
+			$items =& Members::list_articles_for_member_by('edition', 'user:'.$item['id'], $offset, ARTICLES_PER_PAGE, 'simple');
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'compact');
 

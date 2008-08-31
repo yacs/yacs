@@ -92,7 +92,7 @@ $item =& Sections::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // which action?
 $action = NULL;
@@ -799,6 +799,9 @@ if(Surfer::is_crawler()) {
 				$count++;
 		}
 
+		// clear cache for origin container
+		Sections::clear($item);
+
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been moved to %s.', '%d pages have been moved to %s.', $count),
 			$count, Skin::build_link($destination->get_url(), $destination->get_title(), 'section')).'</p>';
@@ -822,6 +825,9 @@ if(Surfer::is_crawler()) {
 			if(Sections::put_attributes($attributes))
 				$count++;
 		}
+
+		// clear cache for origin container
+		Sections::clear($item);
 
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been moved to %s.', '%d pages have been moved to %s.', $count),

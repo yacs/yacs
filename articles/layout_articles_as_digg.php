@@ -69,7 +69,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 			$overlay = Overlay::load($item);
 
 			// get the anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url =& Articles::get_permalink($item);
@@ -111,8 +111,13 @@ Class Layout_articles_as_digg extends Layout_interface {
 			// present results
 			$digg = '<div class="digg"><div class="votes">'.$rating_label.'</div>';
 
-			// add a link to let surfer rate this item --don't use cookies, this is cached
-			$digg .= '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>';
+			// a rating has already been registered
+			if(isset($_COOKIE['rating_'.$item['id']]))
+				Cache::poison();
+
+			// where the surfer can rate this item
+			else
+				$digg .= '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>';
 
 			// close digg-like area
 			$digg .= '</div>';

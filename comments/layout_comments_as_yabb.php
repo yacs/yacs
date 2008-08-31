@@ -62,7 +62,7 @@ Class Layout_comments_as_yabb extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// get the anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// poster name
 			if($item['create_name'])

@@ -76,9 +76,18 @@ Class Servers {
 			return $output;
 		}
 
-		// select among available items -- exact match
-		$query = 'SELECT * FROM '.SQL::table_name('servers')." AS servers"
-			." WHERE (servers.id LIKE '".SQL::escape($id)."') OR (servers.host_name LIKE '".SQL::escape($id)."')";
+		// search by id
+		if(is_numeric($id))
+			$query = "SELECT * FROM ".SQL::table_name('servers')." AS servers"
+				." WHERE (servers.id = ".SQL::escape((integer)$id).")";
+
+		// or look for given name of handle
+		else
+			$query = "SELECT * FROM ".SQL::table_name('servers')." AS servers"
+				." WHERE (servers.host_name LIKE '".SQL::escape($id)."')"
+				." ORDER BY edit_date DESC LIMIT 1";
+
+		// do the job
 		$output =& SQL::query_first($query);
 		return $output;
 	}
@@ -725,7 +734,7 @@ Class Servers {
 		// update the record of authenticated user
 		$query = "UPDATE ".SQL::table_name('servers')
 			." SET stamp_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'"
-			." WHERE id LIKE ".SQL::escape($id)."";
+			." WHERE id = ".SQL::escape($id);
 
 		// do not report on error
 		SQL::query($query, TRUE);

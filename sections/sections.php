@@ -403,7 +403,7 @@ Class Sections {
 
 		// include managed sections
 		if(count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR sections.id LIKE ".join(" OR sections.id LIKE ", $my_sections);
+			$where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
 
 		$where .= ")";
 
@@ -531,7 +531,7 @@ Class Sections {
 			}
 
 			// transcode in anchor
-			if($anchor = Anchors::get($anchor_to))
+			if($anchor =& Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -573,9 +573,18 @@ Class Sections {
 		if(!$mutable && isset($cache[$id]))
 			return $cache[$id];
 
-		// select among available items -- exact match
-		$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE (sections.id LIKE '".SQL::escape($id)."') OR (sections.nick_name LIKE '".SQL::escape($id)."')";
+		// search by id
+		if(is_numeric($id))
+			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
+				." WHERE (sections.id = ".SQL::escape((integer)$id).")";
+
+		// or look for given name of handle
+		else
+			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
+				." WHERE (sections.nick_name LIKE '".SQL::escape($id)."')"
+				." ORDER BY edit_date DESC LIMIT 1";
+
+		// do the job
 		$output =& SQL::query_first($query);
 
 		// save in cache
@@ -828,12 +837,12 @@ Class Sections {
 
 		// include managed sections
 		if(is_callable(array('surfer', 'assigned_sections')) && count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR sections.id LIKE ".join(" OR sections.id LIKE ", $my_sections);
+			$where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
 
 		// end of scope
 		$where .= ")";
 
-		// hide sections removed from index maps
+		// hide sections removed from site map
 		$where .= " AND ((sections.index_map IS NULL) OR (sections.index_map != 'N'))";
 
 		// only consider live sections
@@ -894,7 +903,7 @@ Class Sections {
 
 // 				// one option per assigned section
 // 				foreach($assigned as $assigned_id) {
-// 					if($section = Anchors::get('section:'.$assigned_id))
+// 					if($section =& Anchors::get('section:'.$assigned_id))
 // 						$text .= '<option value="'.$section->get_reference().'">'.Skin::strip($section->get_title())."</option>\n";
 // 				}
 
@@ -1044,7 +1053,7 @@ Class Sections {
 	 * @return string the permalink
 	 */
 	function &get_permalink($item) {
-		$output = Sections::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$output = Sections::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 		return $output;
 	}
 
@@ -1363,7 +1372,7 @@ Class Sections {
 
 		// include managed sections
 		if(count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR sections.id LIKE ".join(" OR sections.id LIKE ", $my_sections);
+			$where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
 
 		// end of scope
 		$where .= ")";
@@ -1428,7 +1437,7 @@ Class Sections {
 
 		// include managed sections
 		if(count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR sections.id LIKE ".join(" OR sections.id LIKE ", $my_sections);
+			$where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
 
 		// end of scope
 		$where .= ')';
@@ -1493,7 +1502,7 @@ Class Sections {
 			$where = "(sections.anchor='' OR sections.anchor is NULL)";
 
 		// display everything if no sub-section is laid out in parent section
-		if($anchor && ($parent = Anchors::get($anchor)) && $parent->has_value('sections_layout', 'none'))
+		if($anchor && ($parent =& Anchors::get($anchor)) && $parent->has_value('sections_layout', 'none'))
 			;
 
 		// only inactive sections have to be displayed
@@ -1811,7 +1820,7 @@ Class Sections {
 		}
 
 		// cascade anchor access rights
-		if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
+		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
@@ -1879,13 +1888,13 @@ Class Sections {
 			return FALSE;
 
 		// remember the id of the new item
-		$id = SQL::get_last_id($context['connection']);
+		$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// clear the cache
-		Cache::clear(array('sections', 'categories'));
+		Sections::clear($fields);
 
 		// return the id of the new item
-		return $id;
+		return $fields['id'];
 	}
 
 	/**
@@ -1967,7 +1976,7 @@ Class Sections {
 		}
 
 		// cascade anchor access rights
-		if(isset($fields['anchor']) && ($anchor = Anchors::get($fields['anchor'])))
+		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
@@ -2034,7 +2043,7 @@ Class Sections {
 			return FALSE;
 
 		// clear the cache
-		Cache::clear(array('section:'.$fields['id'], 'sections', 'categories'));
+		Sections::clear($fields);
 
 		// end of job
 		return TRUE;
@@ -2062,11 +2071,8 @@ Class Sections {
 		$query = array();
 
 		// anchor this page to another place
-		if(isset($fields['anchor'])) {
+		if(isset($fields['anchor']))
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
-			$query[] = "anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1)";
-			$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
-		}
 		if(isset($fields['prefix']) && Surfer::is_associate())
 			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
 		if(isset($fields['suffix']) && Surfer::is_associate())
@@ -2132,6 +2138,9 @@ Class Sections {
 		if(!SQL::query($query))
 			return FALSE;
 
+		// clear the cache
+		Sections::clear($fields);
+
 		// end of job
 		return TRUE;
 	}
@@ -2163,7 +2172,7 @@ Class Sections {
 
 		// load section attributes
 		if(!$item =& Sections::get($id))
-			return sprintf(i18n::s('Unknown section %s'), $id);
+			return i18n::s('No item has the provided id.');
 
 		// locate the new skin
 		if(!$directory)
@@ -2193,7 +2202,7 @@ Class Sections {
 		SQL::query($query);
 
 		// clear the cache because of the new rendering
-		Cache::clear(array('sections', 'section:'.$id, 'categories'));
+		Sections::clear(array('sections', 'section:'.$id, 'categories'));
 
 	}
 
@@ -2274,7 +2283,7 @@ Class Sections {
 			return;
 
 		// do the job
-		$query = "UPDATE ".SQL::table_name('sections')." SET hits=hits+1 WHERE id LIKE '".SQL::escape($id)."'";
+		$query = "UPDATE ".SQL::table_name('sections')." SET hits=hits+1 WHERE id = ".SQL::escape($id);
 		SQL::query($query);
 
 	}

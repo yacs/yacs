@@ -37,7 +37,7 @@ Class Layout_articles_as_thumbnails extends Layout_interface {
 				continue;
 
 			// get the anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url =& Articles::get_permalink($item);

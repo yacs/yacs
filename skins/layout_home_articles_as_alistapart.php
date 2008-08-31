@@ -108,7 +108,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		$text = Skin::build_block($item['title'], 'page_title', 'article_'.$item['id']);
 
 		// get the anchor
-		$anchor = Anchors::get($item['anchor']);
+		$anchor =& Anchors::get($item['anchor']);
 
 		// get the related overlay, if any
 		include_once $context['path_to_root'].'overlays/overlay.php';
@@ -117,7 +117,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		// if this article has a specific icon, use it
 		if($item['icon_url'])
 			$icon = $item['icon_url'];
-		elseif($item['anchor'] && ($anchor = Anchors::get($item['anchor'])))
+		elseif($item['anchor'] && ($anchor =& Anchors::get($item['anchor'])))
 			$icon = $anchor->get_icon_url();
 
 		// if we have a valid image

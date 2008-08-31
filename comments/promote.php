@@ -42,7 +42,7 @@ $item =& Comments::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // actual capability of this surfer
 if(is_object($anchor) && $anchor->is_editable())
@@ -127,20 +127,10 @@ if(Surfer::is_crawler()) {
 	if(!$fields['id'] = Articles::post($fields))
 		Skin::error(i18n::s('Impossible to add a page.'));
 
-	else {
-
-		// touch the new anchor
-		if($anchor = Anchors::get($fields['anchor']))
-			$anchor->touch('article:create', $fields['id'], TRUE);
-
-		// clear the cache
-		Articles::clear($fields);
-
-		// delete the comment and jump to the new article
-		if(Comments::delete($item['id'])) {
-			Comments::clear($item);
-			Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($fields));
-		}
+	// delete the comment and jump to the new article
+	elseif(Comments::delete($item['id'])) {
+		Comments::clear($item);
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($fields));
 	}
 
 // promotion has to be confirmed

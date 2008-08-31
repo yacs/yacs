@@ -362,7 +362,6 @@ class Feeds {
 						Logger::remember('feeds/feeds.php', 'Impossible to add a section.');
 						return;
 					}
-					Sections::clear($fields);
 					$anchor = 'section:'.$fields['id'];
 				}
 			}

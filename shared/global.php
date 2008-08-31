@@ -1100,7 +1100,7 @@ function render_skin($stamp=0) {
 		$context['page_footer'] .= $context['site_trailer']."\n";
 
 	// activate jsCalendar, if available
-	if(isset($context['javascript']['calendar']) && file_exists($context['path_to_root'].'included/jscalendar/calendar.js')) {
+	if(isset($context['javascript']['calendar']) && (file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js'))) {
 
 		// load the skin
 		$context['page_header'] .= "\t".'<link rel="stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/skins/aqua/theme.css" title="jsCalendar - Aqua" />'."\n";

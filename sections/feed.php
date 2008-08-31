@@ -79,7 +79,7 @@ $item =& Sections::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // check network credentials, if any -- used by winamp and other media players
 if($user = Users::authenticate())

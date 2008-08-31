@@ -153,6 +153,10 @@ Class Articles {
 				$order = 'articles.rank, articles.publish_date DESC, articles.title';
 			break;
 
+		case 'random':
+			$order = 'RAND()';
+			break;
+
 		case 'rating':	// order by rank, then by number of points
 
 			// avoid side effects of ranking across several sections
@@ -202,9 +206,10 @@ Class Articles {
 	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
+	 * @param boolean TRUE if associates and editors are processed as regular users, FALSE otherwise
 	 * @return TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL) {
+	function are_allowed($anchor=NULL, $item=NULL, $no_empowerment = FALSE) {
 		global $context;
 
 		// articles are prevented in anchor
@@ -220,7 +225,7 @@ Class Articles {
 			return FALSE;
 
 		// surfer is an associate
-		if(Surfer::is_associate())
+		if(Surfer::is_associate() && !$no_empowerment)
 			return TRUE;
 
 		// submissions have been disallowed
@@ -228,7 +233,7 @@ Class Articles {
 			return FALSE;
 
 		// surfer has special privileges
-		if(Surfer::is_empowered())
+		if(Surfer::is_empowered() && !$no_empowerment)
 			return TRUE;
 
 		// no regular articles in this section
@@ -277,15 +282,12 @@ Class Articles {
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes
+	 * @param boolean TRUE if article is new, FALSE otherwise
 	 */
-	function clear(&$item) {
+	function clear(&$item, $is_new = FALSE) {
 
 		// where this item can be displayed
 		$topics = array('articles', 'sections', 'categories', 'users');
-
-		// clear anchor page
-		if(isset($item['anchor']))
-			$topics[] = $item['anchor'];
 
 		// clear this page
 		if(isset($item['id']))
@@ -293,6 +295,15 @@ Class Articles {
 
 		// clear the cache
 		Cache::clear($topics);
+
+		// touch the related anchor
+		if(isset($item['id']) && isset($item['anchor']) && ($anchor =& Anchors::get($item['anchor']))) {
+			if($is_new)
+				$anchor->touch('article:create', $item['id'], isset($item['silent']) && ($item['silent'] == 'Y'));
+			else
+				$anchor->touch('article:update', $item['id'], isset($item['silent']) && ($item['silent'] == 'Y'));
+		}
+
 
 	}
 
@@ -481,7 +492,7 @@ Class Articles {
 			}
 
 			// transcode in anchor
-			if($anchor = Anchors::get($anchor_to))
+			if($anchor =& Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -743,7 +754,7 @@ Class Articles {
 	 * @return string the permalink
 	 */
 	function &get_permalink($item) {
-		$output = Articles::get_url($item['id'], 'view', $item['title'], $item['nick_name']);
+		$output = Articles::get_url($item['id'], 'view', $item['title'], isset($item['nick_name']) ? $item['nick_name'] : '');
 		return $output;
 	}
 
@@ -877,6 +888,16 @@ Class Articles {
 				return 'articles/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
 			else
 				return 'articles/view.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
+		}
+
+		// rate this page
+		if($action == 'rate') {
+			if($context['with_friendly_urls'] == 'Y')
+				return 'articles/rate.php/'.rawurlencode($id).'?rating=5&amp;referer='.urlencode($context['self_url']);
+			elseif($context['with_friendly_urls'] == 'R')
+				return 'article-rate/'.rawurlencode($id).'?rating=5&amp;referer='.urlencode($context['self_url']);
+			else
+				return 'articles/rate.php?id='.urlencode($id).'&amp;rating=5&amp;referer='.urlencode($context['self_url']);
 		}
 
 		// check the target action
@@ -1268,6 +1289,7 @@ Class Articles {
 	 * - 'hits' - order by reverse number of hits, then by reverse date of publication
 	 * - 'overlay' - order by overlay_id
 	 * - 'publication' - order by rank, then by reverse date of publication
+	 * - 'random' - use random order
 	 * - 'rating' - order by rank, then by reverse number of points
 	 * - 'title' - order by rank, then by titles
 	 *
@@ -1406,7 +1428,7 @@ Class Articles {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// list only articles contributed by this author
-		$where .= " AND (articles.create_id LIKE '".$author_id."')";
+		$where .= " AND (articles.create_id = ".$author_id.")";
 
 		// only original author and associates will see draft articles
 		if(!Surfer::is_member() || (!Surfer::is_associate() && (Surfer::get_id() != $author_id)))
@@ -1606,6 +1628,7 @@ Class Articles {
 			break;
 
 		case 'simple':
+		case 'rating':
 			include_once $context['path_to_root'].'articles/layout_articles_as_simple.php';
 			$layout =& new Layout_articles_as_simple();
 			break;
@@ -1687,6 +1710,7 @@ Class Articles {
 		$query = "UPDATE ".SQL::table_name('articles')." SET locked='".SQL::escape($status)."' WHERE id = ".SQL::escape($id);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
+
 		return TRUE;
 	}
 
@@ -1722,7 +1746,7 @@ Class Articles {
 		}
 
 		// anchor cannot be empty
-		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor = Anchors::get($fields['anchor']))) {
+		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
 			Skin::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
@@ -1849,18 +1873,21 @@ Class Articles {
 			return FALSE;
 
 		// remember the id of the new item
-		$id = SQL::get_last_id($context['connection']);
+		$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// assign the page to related categories
 		include_once $context['path_to_root'].'categories/categories.php';
-		Categories::remember('article:'.$id, isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
 		// turn author to page editor
 		if(isset($fields['edit_id']) && $fields['edit_id'])
-			Members::assign('user:'.$fields['edit_id'], 'article:'.$id);
+			Members::assign('user:'.$fields['edit_id'], 'article:'.$fields['id']);
+
+		// clear the cache
+		Articles::clear($fields, TRUE);
 
 		// return the id of the new item
-		return $id;
+		return $fields['id'];
 	}
 
 	/**
@@ -1921,7 +1948,7 @@ Class Articles {
 		}
 
 		// anchor cannot be empty
-		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor = Anchors::get($fields['anchor']))) {
+		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
 			Skin::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
@@ -2017,6 +2044,9 @@ Class Articles {
 		// list the article in categories
 		include_once $context['path_to_root'].'categories/categories.php';
 		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
+
+		// clear the cache
+		Articles::clear($fields);
 
 		// end of job
 		return TRUE;
@@ -2127,6 +2157,9 @@ Class Articles {
 		if(!SQL::query($query))
 			return FALSE;
 
+		// clear the cache
+		Articles::clear($fields);
+
 		// end of job
 		return TRUE;
 	}
@@ -2209,7 +2242,7 @@ Class Articles {
 		// search is restricted to one section
 		$sections_where = '';
 		if($section_id) {
-			$sections_where = "sections.id LIKE '".SQL::escape($section_id)."'";
+			$sections_where = "sections.id = ".SQL::escape($section_id);
 
 			// look for children
 			$anchors = array();
@@ -2232,11 +2265,11 @@ Class Articles {
 
 			// extend the search clause
 			foreach($anchors as $reference)
-				$sections_where .= " OR sections.id LIKE '".str_replace('section:', '', $reference)."'";
+				$sections_where .= " OR sections.id = ".str_replace('section:', '', $reference);
 
 			//include managed sections
 			if(count($my_sections = Surfer::assigned_sections()))
-				$sections_where .= " OR sections.id LIKE ".join(" OR sections.id LIKE ", $my_sections);
+				$sections_where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
 
 		}
 
@@ -2671,7 +2704,7 @@ Class Articles {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// list only articles contributed by this author
-		$where .= " AND (articles.create_id LIKE '$author_id')";
+		$where .= " AND (articles.create_id = ".SQL::escape($author_id).")";
 
 		// only original author and associates will see draft articles
 		if(!Surfer::is_member() || (!Surfer::is_associate() && (Surfer::get_id() != $author_id)))

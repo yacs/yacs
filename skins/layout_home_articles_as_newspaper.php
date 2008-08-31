@@ -78,7 +78,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			Codes::initialize($url);
 
 			// get the anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// next item
 			$item_count += 1;

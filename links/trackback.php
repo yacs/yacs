@@ -99,7 +99,7 @@ $anchor = strip_tags($anchor);
 
 // get the related anchor, if any
 if($anchor)
-	$anchor = Anchors::get($anchor);
+	$anchor =& Anchors::get($anchor);
 
 // load the skin, maybe with a variant
 load_skin('links', $anchor);

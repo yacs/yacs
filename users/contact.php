@@ -216,13 +216,6 @@ elseif(!count($items)) {
 		} else
 			Skin::error(i18n::s('No notification has been sent. Please share the address of the new page by yourself.'));
 
-		// purge section cache
-		if($section = Anchors::get($article['anchor']))
-			$section->touch('article:create', $article['id'], TRUE);
-
-		// clear the cache
-		Articles::clear($article);
-
 	}
 
 	// follow-up commands

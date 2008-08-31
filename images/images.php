@@ -253,7 +253,7 @@ Class Images {
 			}
 
 			// transcode in anchor
-			if($anchor = Anchors::get($anchor_to))
+			if($anchor =& Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -279,7 +279,7 @@ Class Images {
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('images')." AS images "
-			." WHERE (images.id LIKE '".SQL::escape($id)."')";
+			." WHERE (images.id = ".SQL::escape($id).")";
 
 		$output =& SQL::query_first($query);
 		return $output;
@@ -470,7 +470,7 @@ Class Images {
 
 		// limit the scope of the request
 		$query = "SELECT * FROM ".SQL::table_name('images')." AS images "
-			." WHERE (images.edit_id LIKE '".SQL::escape($author_id)."') "
+			." WHERE (images.edit_id = ".SQL::escape($author_id).")"
 			." ORDER BY images.edit_date DESC, images.title LIMIT ".$offset.','.$count;
 
 		// the list of images
@@ -592,7 +592,7 @@ Class Images {
 		}
 
 		// get the anchor
-		if(!$anchor = Anchors::get($fields['anchor'])) {
+		if(!$anchor =& Anchors::get($fields['anchor'])) {
 			Skin::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
@@ -634,9 +634,6 @@ Class Images {
 			if(SQL::query($query) === FALSE)
 				return FALSE;
 
-			// remember the id of the updated item
-			$id = $fields['id'];
-
 		// insert a new record
 		} elseif(isset($fields['image_name']) && $fields['image_name'] && isset($fields['image_size']) && $fields['image_size']) {
 
@@ -660,7 +657,7 @@ Class Images {
 				return FALSE;
 
 			// remember the id of the new item
-			$id = SQL::get_last_id($context['connection']);
+			$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// nothing done
 		} else {
@@ -668,11 +665,11 @@ Class Images {
 			return FALSE;
 		}
 
-		// clear the cache, the image can appear anywhere
-		Cache::clear();
+		// clear the cache
+		Images::clear($fields);
 
 		// end of job
-		return $id;
+		return $fields['id'];
 	}
 
 	/**

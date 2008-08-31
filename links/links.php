@@ -218,10 +218,8 @@ Class Links {
 				$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 
 				// reference the new section
-				if($fields['id'] = Sections::post($fields)) {
-					Sections::clear($fields);
+				if($fields['id'] = Sections::post($fields))
 					$anchor = 'section:'.$fields['id'];
-				}
 
 			}
 
@@ -373,10 +371,18 @@ Class Links {
 			return $output;
 		}
 
-		// select among available items -- exact match
-		$query = "SELECT * FROM ".SQL::table_name('links')." AS links "
-			." WHERE (links.id LIKE '".SQL::escape($id)."') OR (links.link_url LIKE '".SQL::escape($id)."')";
+		// search by id
+		if(is_numeric($id))
+			$query = "SELECT * FROM ".SQL::table_name('links')." AS links"
+				." WHERE (links.id = ".SQL::escape((integer)$id).")";
 
+		// or look for given name of handle
+		else
+			$query = "SELECT * FROM ".SQL::table_name('links')." AS links"
+				." WHERE (links.link_url LIKE '".SQL::escape($id)."')"
+				." ORDER BY edit_date DESC LIMIT 1";
+
+		// do the job
 		$output =& SQL::query_first($query);
 		return $output;
 	}
@@ -547,7 +553,7 @@ Class Links {
 
 		// the list of links
 		$query = "SELECT * FROM ".SQL::table_name('links')." AS links "
-			." WHERE (links.edit_id LIKE '".SQL::escape($author_id)."')"
+			." WHERE (links.edit_id = ".SQL::escape($author_id).")"
 			." ORDER BY links.edit_date DESC, links.title LIMIT ".$offset.','.$count;
 
 		$output =& Links::list_selected(SQL::query($query), $variant);
@@ -610,7 +616,7 @@ Class Links {
 
 		// the list of links
 		$query = "SELECT * FROM ".SQL::table_name('links')." AS links"
-			." WHERE (links.edit_id LIKE '".SQL::escape($author_id)."')"
+			." WHERE (links.edit_id = ".SQL::escape($author_id).")"
 			." ORDER BY links.hits DESC, links.title LIMIT ".$offset.','.$count;
 
 		$output =& Links::list_selected(SQL::query($query), $variant);
@@ -878,7 +884,7 @@ Class Links {
 		}
 
 		// locate the anchor object for this text, we need its url
-		$anchor = Anchors::get($anchor);
+		$anchor =& Anchors::get($anchor);
 		if(!is_object($anchor))
 			return;
 
@@ -887,7 +893,7 @@ Class Links {
 
 		// find blog name for anchor
 		if($parent = $anchor->get_value('anchor')) {
-			$blog = Anchors::get($parent);
+			$blog =& Anchors::get($parent);
 			if(is_object($blog))
 				$blog_name = $blog->get_title();
 		}
@@ -1130,7 +1136,7 @@ Class Links {
 		$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// clear the cache for links
-		Cache::clear('links');
+		Links::clear($fields);
 
 		// end of job
 		return $fields['id'];
@@ -1178,7 +1184,7 @@ Class Links {
 		SQL::free($result);
 
 		// clear the cache for links
-		Cache::clear('links');
+		Cache::clear();
 
 		// job done
 		return $count;
@@ -1211,9 +1217,6 @@ Class Links {
 			return FALSE;
 		}
 
-		// clear the cache for links
-		Cache::clear(array('links', 'link:'.$fields['id']));
-
 		// set default values for this editor
 		$fields = Surfer::check_default_editor($fields);
 
@@ -1244,6 +1247,9 @@ Class Links {
 		// do the job
 		if(!SQL::query($query))
 			return FALSE;
+
+		// clear the cache for links
+		Links::clear($fields);
 
 		// report on result
 		return TRUE;

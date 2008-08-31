@@ -116,7 +116,7 @@ Class Layout_decisions extends Layout_interface {
 					$suffix .= ' '.$description;
 
 			// show an anchor decision
-			if(($variant != 'no_anchor') && $item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
+			if(($variant != 'no_anchor') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
 				$anchor_url = $anchor->get_url();
 				$anchor_label = ucfirst($anchor->get_title());
 				$suffix .= BR.sprintf(i18n::s('In %s'), Skin::build_link($anchor_url, $anchor_label, 'shortcut'))."\n";

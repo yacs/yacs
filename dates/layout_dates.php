@@ -102,7 +102,7 @@ Class Layout_dates extends Layout_interface {
 				$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 // 			// show an anchor date
-// 			if(($variant != 'no_anchor') && ($variant != 'no_author') && $item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
+// 			if(($variant != 'no_anchor') && ($variant != 'no_author') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
 // 				$anchor_url = $anchor->get_url();
 // 				$anchor_label = ucfirst($anchor->get_title());
 // 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));

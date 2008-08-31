@@ -103,7 +103,7 @@ Class Visits {
 		while($item =& SQL::fetch($result)) {
 
 			// identify the visited page
-			if(!$anchor = Anchors::get($item['anchor']))
+			if(!$anchor =& Anchors::get($item['anchor']))
 				continue;
 
 			// ensure this one is visible

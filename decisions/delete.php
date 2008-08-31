@@ -38,7 +38,7 @@ $item =& Decisions::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // only associates can delete decisions
 if(Surfer::is_associate())

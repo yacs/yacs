@@ -42,9 +42,9 @@ $item =& Forms::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 elseif(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor = Anchors::get($_REQUEST['anchor']);
+	$anchor =& Anchors::get($_REQUEST['anchor']);
 
 // do not always show the edition form
 $with_form = FALSE;

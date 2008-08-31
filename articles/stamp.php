@@ -45,7 +45,7 @@ $item =& Articles::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // do not always show the edition form
 $with_form = FALSE;

@@ -137,9 +137,9 @@ $item =& Comments::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 elseif($target_anchor)
-	$anchor = Anchors::get($target_anchor);
+	$anchor =& Anchors::get($target_anchor);
 
 // associates and authenticated editors can modify any comment
 if(isset($item['id']) && Comments::are_editable($anchor, $item))
@@ -148,6 +148,10 @@ if(isset($item['id']) && Comments::are_editable($anchor, $item))
 // the anchor has to be viewable by this surfer
 elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
+
+// surfer created the comment
+elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
+	$permitted = TRUE;
 
 // maybe posts are not allowed here
 elseif(($action != 'edit') && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered())

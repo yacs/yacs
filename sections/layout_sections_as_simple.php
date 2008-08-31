@@ -48,7 +48,7 @@ Class Layout_sections_as_simple extends Layout_interface {
 			$overlay = Overlay::load($item);
 
 			// get the main anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// the url to view this item
 			$url =& Sections::get_permalink($item);

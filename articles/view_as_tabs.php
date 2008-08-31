@@ -445,9 +445,18 @@ if(!isset($item['id'])) {
 		else
 			$rating_label = i18n::s('No vote');
 
-		// present results
+		// a rating has already been registered
+		$digg = '';
+		if(isset($_COOKIE['rating_'.$item['id']]))
+			Cache::poison();
+
+		// where the surfer can rate this item
+		else
+			$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>';
+
+		// rendering
 		$information .= '<div class="digg"><div class="votes">'.$rating_label.'</div>'
-			.'<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>'
+			.$digg
 			.'</div>';
 
 		// signal DIGG
@@ -899,7 +908,7 @@ if(!isset($item['id'])) {
 			&& isset($context['current_focus']) && ($menu =& Skin::build_contextual_menu($context['current_focus']))) {
 
 			// use title from topmost level
-			if(count($context['current_focus']) && ($top_anchor = Anchors::get($context['current_focus'][0]))) {
+			if(count($context['current_focus']) && ($top_anchor =& Anchors::get($context['current_focus'][0]))) {
 				$box_title = $top_anchor->get_title();
 				$box_url = $top_anchor->get_url();
 

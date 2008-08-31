@@ -110,6 +110,7 @@ if(!$permitted) {
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
 			.'<input type="hidden" name="action" value="blog" />';
+		$fields = array();
 
 		// the anchor
 		$label = i18n::s('Blog anchor');
@@ -257,6 +258,7 @@ if(!$permitted) {
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
 			.'<input type="hidden" name="action" value="book" />';
+		$fields = array();
 
 		// the anchor
 		$label = i18n::s('Book anchor');
@@ -360,7 +362,7 @@ if(!$permitted) {
 			for($index = 0; $index < count($_REQUEST['titles']); $index++) {
 
 				$sub_section = array();
-				$sub_section['anchor'] = 'section:'.$sub_section['id'];
+				$sub_section['anchor'] = 'section:'.$fields['id'];
 				$sub_section['title'] = $_REQUEST['titles'][$index];
 				$sub_section['introduction'] = $_REQUEST['introductions'][$index];
 				$sub_section['home_panel'] = 'none'; // not pushed to the front page
@@ -481,6 +483,7 @@ if(!$permitted) {
 			// a form to get collection parameters
 			$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
 				.'<input type="hidden" name="action" value="collection" />';
+			$fields = array();
 
 			// the name
 			$label = i18n::s('Collection nick name');
@@ -630,6 +633,7 @@ if(!$permitted) {
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
 			.'<input type="hidden" name="action" value="composite" />';
+		$fields = array();
 
 		// section title
 		$context['text'] .= Skin::build_block(i18n::s('Section'), 'title');
@@ -777,13 +781,12 @@ if(!$permitted) {
 				$section['id'] = Sections::post($section);
 
 			// add one sample article
-			if($section['id']) {
+			if(isset($section['id'])) {
 				$article = array();
 				$article['anchor'] = 'section:'.$section['id'];
 				$article['title'] = i18n::c('sample');
 				$article['description'] = i18n::c('This is a sample scrolling news.');
 				$article['id'] = Articles::post($article);
-				Articles::clear($article);
 			}
 
 		}
@@ -810,7 +813,6 @@ if(!$permitted) {
 				$article['title'] = i18n::c('Gadget box');
 				$article['description'] = i18n::c('This is a sample gadget box.');
 				$article['id'] = Articles::post($article);
-				Articles::clear($article);
 			}
 
 		}
@@ -837,7 +839,6 @@ if(!$permitted) {
 				$article['title'] = i18n::c('Sample box');
 				$article['description'] = i18n::c('This is a sample extra box.');
 				$article['id'] = Articles::post($article);
-				Articles::clear($article);
 			}
 
 		}
@@ -878,6 +879,7 @@ if(!$permitted) {
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
 			.'<input type="hidden" name="action" value="forum" />';
+		$fields = array();
 
 		// the anchor
 		$label = i18n::s('Forum anchor');
@@ -984,7 +986,7 @@ if(!$permitted) {
 			for($index = 0; $index < count($_REQUEST['titles']); $index++) {
 
 				$sub_section = array();
-				$sub_section['anchor'] = 'section:'.$sub_section['id'];
+				$sub_section['anchor'] = 'section:'.$fields['id'];
 				$sub_section['family'] = $_REQUEST['families'][$index];
 				$sub_section['title'] = $_REQUEST['titles'][$index];
 				$sub_section['introduction'] = $_REQUEST['introductions'][$index];
@@ -1041,8 +1043,7 @@ if(!$permitted) {
 		$item['description'] = i18n::c('This section, and related sub-sections, lists links submitted by authenticated members.');
 		$item['sections_layout'] = 'yahoo';
 		$item['locked'] = 'Y';
-		if($fields['id'] = Sections::post($item))
-			$item['id'] = $fields['id'];
+		$item['id'] = Sections::post($item);
 
 	}
 
@@ -1056,6 +1057,7 @@ if(!$permitted) {
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
 			.'<input type="hidden" name="action" value="links" />';
+		$fields = array();
 
 		// top category
 		$context['text'] .= Skin::build_block(i18n::s('Top section'), 'title');
@@ -1188,6 +1190,7 @@ if(!$permitted) {
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
 			.'<input type="hidden" name="action" value="original" />';
+		$fields = array();
 
 		// the anchor
 		$label = i18n::s('Section anchor');
@@ -1340,6 +1343,7 @@ if(!$permitted) {
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
 			.'<input type="hidden" name="action" value="partners" />';
+		$fields = array();
 
 		// the title
 		$label = i18n::s('Section title');
@@ -1436,6 +1440,7 @@ if(!$permitted) {
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
 			.'<input type="hidden" name="action" value="polls" />';
+		$fields = array();
 
 		// the anchor
 		$label = i18n::s('Section anchor');
@@ -1556,6 +1561,7 @@ if(!$permitted) {
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
 			.'<input type="hidden" name="action" value="recipes" />';
+		$fields = array();
 
 		// the anchor
 		$label = i18n::s('Section anchor');
@@ -1743,6 +1749,7 @@ if(!$permitted) {
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>'."\n"
 			.'<input type="hidden" name="action" value="vote" />';
+		$fields = array();
 
 		// vote
 		$label = i18n::s('Vote');
@@ -1789,6 +1796,7 @@ if(!$permitted) {
 		// a form to get section parameters
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>'."\n"
 			.'<input type="hidden" name="action" value="wiki" />';
+		$fields = array();
 
 		// the anchor
 		$label = i18n::s('Wiki anchor');

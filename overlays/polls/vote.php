@@ -60,7 +60,7 @@ $item =& Articles::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // get poll data
 include_once '../overlay.php';
@@ -181,12 +181,10 @@ if(!isset($item['id'])) {
 
 	// jump automatically to the next page, if any
 	elseif($next && !headers_sent()) {
-		Articles::clear($item);
 		Safe::redirect($next);
 
 	// ask for manual click
 	} else {
-		Articles::clear($item);
 		$context['text'] .= '<p>'.i18n::s('Thank you for your contribution')."</p>\n";
 
 		// link to the poll, depending on access rights

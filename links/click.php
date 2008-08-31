@@ -70,7 +70,7 @@ $item =& Links::get($url);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // the anchor has to be viewable by this surfer
 if(is_object($anchor) && !$anchor->is_viewable())

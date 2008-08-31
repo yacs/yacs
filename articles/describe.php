@@ -63,7 +63,7 @@ $item =& Articles::get($id);
 // get the related anchor
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // maybe this anonymous surfer is allowed to handle this item
 if(isset($item['handle']) && Surfer::may_handle($item['handle']))

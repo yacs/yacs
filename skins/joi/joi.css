@@ -1196,7 +1196,7 @@ dl.gadget_box { /* container of one gadget box -- also see #gadget_1, etc. -- fr
     float: left;
 }
 
-dl.gadget_box dd { /* body ofone gadget box */
+dl.gadget_box dd { /* body of one gadget box */
 	margin-left: 0;
 }
 

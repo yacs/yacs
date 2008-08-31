@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 12, 2008, 10:05 pm GMT. Please do not modify it manually.
+ * on August 27, 2008, 9:35 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['5a869f8f456ffaa0b75fcddc641e6185']='<p>(français) Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>';
 $_SESSION['l10n']['fr']['Afghanistan']='Afghanistan';

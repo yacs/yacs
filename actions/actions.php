@@ -276,7 +276,7 @@ Class Actions {
 			}
 
 			// transcode in anchor
-			if($anchor = Anchors::get($anchor_to))
+			if($anchor =& Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -302,7 +302,7 @@ Class Actions {
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('actions')." AS actions "
-			." WHERE (actions.id LIKE '".SQL::escape($id)."')";
+			." WHERE (actions.id = ".SQL::escape($id).")";
 		$output =& SQL::query_first($query);
 		return $output;
 	}
@@ -493,7 +493,7 @@ Class Actions {
 
 		// limit the scope of the request
 		$query = "SELECT * FROM ".SQL::table_name('actions')." AS actions "
-			." WHERE (actions.edit_id LIKE '".SQL::escape($author_id)."') "
+			." WHERE (actions.edit_id = ".SQL::escape($author_id).") "
 			." ORDER BY actions.edit_date DESC, actions.title LIMIT ".$offset.','.$count;
 
 		// the list of actions
@@ -681,11 +681,7 @@ Class Actions {
 			$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// clear the cache for actions
-		if(isset($fields['id']))
-			$topics = array('actions', 'action:'.$fields['id']);
-		else
-			$topics = 'actions';
-		Cache::clear($topics);
+		Actions::clear($fields);
 
 		// end of job
 		return $fields['id'];

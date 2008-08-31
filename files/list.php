@@ -35,7 +35,7 @@ $id = strip_tags($id);
 // get the anchor
 $anchor = NULL;
 if($id)
-	$anchor = Anchors::get($id);
+	$anchor =& Anchors::get($id);
 
 // which page should be displayed
 if(isset($_REQUEST['page']))

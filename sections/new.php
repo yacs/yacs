@@ -108,7 +108,6 @@ if(Surfer::is_crawler()) {
 			Logger::remember('feeds/feeds.php', 'Impossible to add a section.');
 			return;
 		}
-		Sections::clear($fields);
 
 		// retrieve the new section
 		$anchor =& Sections::get('personal');
@@ -138,9 +137,6 @@ if(Surfer::is_crawler()) {
 		if(is_object($anchor))
 			$anchor->touch('section:create', $_REQUEST['id'], isset($_REQUEST['active']) && ($_REQUEST['active'] != 'Y'));
 
-		// clear cache
-		Sections::clear($_REQUEST);
-
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
 
@@ -150,7 +146,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.i18n::s('Please review the new page carefully and fix possible errors rapidly.').'</p>';
 
 		// get the new item
-		$section = Anchors::get('section:'.$_REQUEST['id']);
+		$section =& Anchors::get('section:'.$_REQUEST['id']);
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');

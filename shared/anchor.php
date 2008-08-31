@@ -81,7 +81,7 @@
  *
  * [php]
  * // get an anchor (an article, a section, etc.)
- * $anchor = Anchors::get('article:123');
+ * $anchor =& Anchors::get('article:123');
  *
  * // show the path bar
  * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
@@ -243,7 +243,7 @@ class Anchor {
 
 		// get the parent
 		if(!$this->anchor && isset($this->item['anchor']))
-			$this->anchor = Anchors::get($this->item['anchor']);
+			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// the parent level
 		$text = '';
@@ -311,7 +311,7 @@ class Anchor {
 	 * For example, if you are displaying a thread related to an article,
 	 * you can display at the top of the page the article icon with the following code:
 	 * [php]
-	 * $anchor = Anchors::get($thread['anchor']);
+	 * $anchor =& Anchors::get($thread['anchor']);
 	 * if($icon = $anchor->get_icon_url())
 	 *	 $context['text'] .= '<img src="'.$icon.'" alt="" />';
 	 * [/php]
@@ -343,7 +343,7 @@ class Anchor {
 
 			// cache anchor
 			if(!$this->anchor)
-				$this->anchor = Anchors::get($this->item['anchor']);
+				$this->anchor =& Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor))
 				return $this->anchor->get_label($variant, $id, $title);
@@ -424,7 +424,7 @@ class Anchor {
 	 * the path bar has to mention the section. You can use following code
 	 * to do that:
 	 * [php]
-	 * $anchor = Anchors::get($article['anchor']);
+	 * $anchor =& Anchors::get($article['anchor']);
 	 * $context['path_bar'] = array_merge($context['path_bar'], $anchor->get_path_bar());
 	 * [/php]
 	 *
@@ -492,7 +492,7 @@ class Anchor {
 	 * an anchor. For example, a thread item can have a neat text, coming from the
 	 * anchor, to introduce it:
 	 * [php]
-	 * $anchor = Anchors::get($thread['anchor']);
+	 * $anchor =& Anchors::get($thread['anchor']);
 	 * $context['text'] .= $anchor->get_prefix('thread');
 	 * [/php]
 	 *
@@ -522,7 +522,7 @@ class Anchor {
 	 * This function is used to retrieve a reference to be placed into the database.
 	 * For example:
 	 * [php]
-	 * $anchor = Anchors::get($article['anchor']);
+	 * $anchor =& Anchors::get($article['anchor']);
 	 * $context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 	 * [/php]
 	 *
@@ -541,7 +541,7 @@ class Anchor {
 	 * an anchor. For example, a thread item can have a neat text, coming from the
 	 * anchor, to conclude the page:
 	 * [php]
-	 * $anchor = Anchors::get($thread['anchor']);
+	 * $anchor =& Anchors::get($thread['anchor']);
 	 * $context['text'] .= $anchor->get_suffix('thread');
 	 * [/php]
 	 *
@@ -633,7 +633,7 @@ class Anchor {
 	 * you will use the title of the article as the general page title.
 	 * You can use following code to do that:
 	 * [php]
-	 * $anchor = Anchors::get($thread['anchor']);
+	 * $anchor =& Anchors::get($thread['anchor']);
 	 * $context['page_title'] = $anchor->get_title();
 	 * [/php]
 	 *
@@ -654,7 +654,7 @@ class Anchor {
 	 * For example, if you are displaying a thread related to an article,
 	 * you can add a link to display the article with the following code:
 	 * [php]
-	 * $anchor = Anchors::get($thread['anchor']);
+	 * $anchor =& Anchors::get($thread['anchor']);
 	 * $context['text'] .= '<a href="'.$anchor->get_url().'">'.i18n::s('Back').'</a>';
 	 * [/php]
 	 *
@@ -707,7 +707,7 @@ class Anchor {
 
 			// save requests
 			if(!$this->anchor)
-				$this->anchor = Anchors::get($this->item['anchor']);
+				$this->anchor =& Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor))
 				return $this->anchor->has_layout($option);
@@ -728,7 +728,7 @@ class Anchor {
 	 * For example, the layout of a thread may vary from one section to another.
 	 * To check that, you can use following code:
 	 * [php]
-	 * $anchor = Anchors::get($thread['anchor']);
+	 * $anchor =& Anchors::get($thread['anchor']);
 	 * if($anchor->option('with_thread_alternate_layout') {
 	 *	 ...
 	 * } else {
@@ -740,7 +740,7 @@ class Anchor {
 	 * For example, if the options field has been set with the value 'variant_red_background',
 	 * the variant can be retrieved from anchored items with the following code:
 	 * [php]
-	 * $anchor = Anchors::get($thread['anchor']);
+	 * $anchor =& Anchors::get($thread['anchor']);
 	 * if($variant = $anchor->option('variant') {
 	 *	 load_skin($variant);
 	 * } else {
@@ -786,7 +786,7 @@ class Anchor {
 
 			// save requests
 			if(!$this->anchor)
-				$this->anchor = Anchors::get($this->item['anchor']);
+				$this->anchor =& Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor))
 				return $this->anchor->has_option($option, $leaf);
@@ -843,7 +843,7 @@ class Anchor {
 
 				// save requests
 				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor = Anchors::get($this->item['anchor']);
+					$this->anchor =& Anchors::get($this->item['anchor']);
 
 				if(is_object($this->anchor) && $this->anchor->is_assigned())
 					return $this->is_assigned_cache = TRUE;
@@ -864,7 +864,7 @@ class Anchor {
 	 * web site, he/she should be able to edit all articles in this section.
 	 * you can use following code to check that:
 	 * [php]
-	 * $anchor = Anchors::get($article['anchor']);
+	 * $anchor =& Anchors::get($article['anchor']);
 	 * if($anchor->is_editable() {
 	 *	 ...
 	 * }
@@ -910,7 +910,7 @@ class Anchor {
 
 				// save requests
 				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor = Anchors::get($this->item['anchor']);
+					$this->anchor =& Anchors::get($this->item['anchor']);
 
 				if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
 					return $this->is_editable_cache = TRUE;
@@ -943,7 +943,7 @@ class Anchor {
 
 			// save requests
 			if(!$this->anchor)
-				$this->anchor = Anchors::get($this->item['anchor']);
+				$this->anchor =& Anchors::get($this->item['anchor']);
 
 			if(is_object($this->anchor) && !$this->anchor->is_public())
 				return FALSE;
@@ -997,7 +997,7 @@ class Anchor {
 
 				// save requests
 				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor = Anchors::get($this->item['anchor']);
+					$this->anchor =& Anchors::get($this->item['anchor']);
 
 				// parent container has been assigned to this surfer
 				if(is_object($this->anchor) && $this->anchor->is_assigned())
@@ -1072,7 +1072,7 @@ class Anchor {
 	 * For example, if a thread is linked to a section, one update of this thread
 	 * will be considered as an update of the section itself.
 	 * [php]
-	 * $anchor = Anchors::get($thread['anchor']);
+	 * $anchor =& Anchors::get($thread['anchor']);
 	 * $anchor->touch('thread:update');
 	 * [/php]
 	 *

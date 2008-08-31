@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 12, 2008, 10:31 pm GMT. Please do not modify it manually.
+ * on August 31, 2008, 10:35 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['A Rabbit Story']='A Rabbit Story';
@@ -154,6 +154,7 @@ $_SESSION['l10n']['en']['Quote']='Quote';
 $_SESSION['l10n']['en']['Rabbit']='Rabbit';
 $_SESSION['l10n']['en']['Rabbit and Turtle']='Rabbit and Turtle';
 $_SESSION['l10n']['en']['Rabbit|Turtle']='Rabbit|Turtle';
+$_SESSION['l10n']['en']['Random']='Random';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['Recent updates']='Recent updates';
 $_SESSION['l10n']['en']['Rendering']='Rendering';

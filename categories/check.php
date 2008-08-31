@@ -55,9 +55,7 @@ if(!Surfer::is_associate()) {
 
 	// list up to 10000 most recent articles from active sections
 	$query = "SELECT articles.id, articles.publish_date FROM ".SQL::table_name('articles')." AS articles"
-		.", ".SQL::table_name('sections')." AS sections"
-		." WHERE ((articles.anchor_type LIKE 'section') AND (articles.anchor_id = sections.id))"
-		."	AND (".$where.") AND (sections.active='Y')"
+		." WHERE ".$where
 		." ORDER BY articles.rank, articles.edit_date DESC LIMIT 0, 10000";
 	if($result =& SQL::query($query)) {
 
@@ -222,7 +220,7 @@ if(!Surfer::is_associate()) {
 			}
 
 			// fetch the member
-			if($row['member'] && !$item = Anchors::get($row['member'])) {
+			if($row['member'] && !$item =& Anchors::get($row['member'])) {
 
 				// delete this entry
 				$query = "DELETE FROM ".SQL::table_name('members')." WHERE id = ".SQL::escape($row['id']);

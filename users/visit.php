@@ -49,7 +49,7 @@ if($anchor && !strpos($anchor, ':'))
 
 // get the related anchor, if any
 if($anchor)
-	$anchor = Anchors::get($anchor);
+	$anchor =& Anchors::get($anchor);
 
 // required to format the roster
 load_skin('users');

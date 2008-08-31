@@ -226,7 +226,7 @@ if(isset($item['content_overlay']))
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // get related behaviors, if any
 $behaviors = NULL;
@@ -768,7 +768,7 @@ if(!isset($item['id'])) {
 				// one box per section
 				foreach($anchors as $anchor) {
 					// sanity check
-					if(!$section = Anchors::get($anchor))
+					if(!$section =& Anchors::get($anchor))
 						continue;
 
 					$box = array( 'title' => '', 'list' => array(), 'text' => '');
@@ -1029,25 +1029,20 @@ if(!isset($item['id'])) {
 
 						}
 
-						// some articles have been attached to this page
-						if(@count($items) > 0) {
+						// the command to post a new page
+						if(Articles::are_allowed($anchor, $item, TRUE)) {
 
-							// the command to post a new page
-							if(Articles::are_allowed($anchor, $item)) {
-
-								Skin::define_img('NEW_THREAD_IMG', 'icons/articles/new_thread.gif');
-								$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
-								if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
-									;
-								elseif($item['articles_layout'] == 'jive')
-									$label = NEW_THREAD_IMG.' '.i18n::s('Start a new topic');
-								elseif($item['articles_layout'] == 'yabb')
-									$label = NEW_THREAD_IMG.' '.i18n::s('Start a new topic');
-								else
-									$label = i18n::s('Add a page');
-								$box['bar'] = array_merge($box['bar'], array( $url => $label ));
-
-							}
+							Skin::define_img('NEW_THREAD_IMG', 'icons/articles/new_thread.gif');
+							$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
+							if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
+								;
+							elseif($item['articles_layout'] == 'jive')
+								$label = NEW_THREAD_IMG.' '.i18n::s('Start a new topic');
+							elseif($item['articles_layout'] == 'yabb')
+								$label = NEW_THREAD_IMG.' '.i18n::s('Start a new topic');
+							else
+								$label = i18n::s('Add a page');
+							$box['bar'] = array_merge($box['bar'], array( $url => $label ));
 
 						}
 					}
@@ -1060,6 +1055,10 @@ if(!isset($item['id'])) {
 					elseif(is_string($items))
 						$box['text'] .= $items;
 
+					// show commands
+					if(@count($box['bar']) && ($context['skin_variant'] != 'mobile'))
+						$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
+
 					// part of the main content
 					if($box['text']) {
 
@@ -1067,10 +1066,6 @@ if(!isset($item['id'])) {
 						$title = '';
 						if(preg_match('/<h2>|<h3>/', $context['text'].$text))
 							$title = i18n::s('Recent pages');
-
-						// show commands
-						if(@count($box['bar']) && ($context['skin_variant'] != 'mobile'))
-							$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 
 						// insert a full box
 						$box['text'] =& Skin::build_box($title, $box['text'], 'header1', 'articles');
@@ -1495,7 +1490,7 @@ if(!isset($item['id'])) {
 	if(!$text =& Cache::get($cache_id)) {
 
 		// show creator profile, if required to do so
-		if(preg_match('/\bwith_creator_profile\b/', $item['options']) && ($poster = Users::get($item['create_id'])) && ($section = Anchors::get('section:'.$item['id'])))
+		if(preg_match('/\bwith_creator_profile\b/', $item['options']) && ($poster = Users::get($item['create_id'])) && ($section =& Anchors::get('section:'.$item['id'])))
 			$text .= $section->get_user_profile($poster, 'extra', Skin::build_date($item['create_date']));
 
 		// show news -- set in sections/edit.php
@@ -1571,7 +1566,7 @@ if(!isset($item['id'])) {
 				$box = array();
 
 				// sanity check
-				if(!$section = Anchors::get($anchor))
+				if(!$section =& Anchors::get($anchor))
 					continue;
 
 				// link to the section page from box title
@@ -1772,7 +1767,7 @@ if(!isset($item['id'])) {
 			&& isset($context['current_focus']) && ($menu =& Skin::build_contextual_menu($context['current_focus']))) {
 
 			// use title from topmost level
-			if(count($context['current_focus']) && ($anchor = Anchors::get($context['current_focus'][0]))) {
+			if(count($context['current_focus']) && ($anchor =& Anchors::get($context['current_focus'][0]))) {
 				$box_title = $anchor->get_title();
 				$box_url = $anchor->get_url();
 

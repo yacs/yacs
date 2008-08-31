@@ -206,7 +206,7 @@ if(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'cache')) {
 
 	$context['text'] .= '<p>'.i18n::s('Deleting all cached items...')."</p>\n";
-	$context['text'] .= Cache::clear();
+	Cache::clear();
 
 	// refresh javascript libraries
 	Cache::purge('js');

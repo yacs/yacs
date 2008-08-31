@@ -605,12 +605,7 @@ else {
 				$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to update record of postid %s'), $postid) );
 
 			else {
-				Articles::clear($fields);
 				$response = TRUE;
-
-				// purge section cache
-				if($parent = Anchors::get($fields['anchor']))
-					$parent->touch('article:update', $fields['id'], TRUE);
 
 				// if the page has been published
 				if($fields['publish_date'] > NULL_DATE) {
@@ -819,51 +814,30 @@ else {
 			// list assigned sections, if any
 			if(($assigned = Surfer::assigned_sections($user['id'], 9)) && count($assigned)) {
 				foreach($assigned as $assigned_id) {
-					if($section = Anchors::get('section:'.$assigned_id)) {
+					if($section =& Anchors::get('section:'.$assigned_id)) {
 						$response[] = array(
 							'isAdmin' => '<boolean>1</boolean>',
 							'url' => '<string>'.$context['url_to_home'].$context['url_to_root'].$section->get_url().'</string>',
 							'blogid' => '<string>'.(string)$assigned_id.'</string>',
-							'blogName' => $codec->encode(sprintf('%1d ', $index).strip_tags($section->get_title()), 'string')
+							'blogName' => $codec->encode($index.' '.strip_tags($section->get_title()), 'string')
 						);
 						$index++;
 					}
 				}
-			}
 
-			// can the surfer change the template?
-			if(Surfer::is_associate() || ($user['capability'] == 'A'))
-				$isAdmin = 1;
-			else
-				$isAdmin = 0;
-
-			// list top level sections of the site map
-			if(($index < 10) && ($items = Sections::list_by_title_for_anchor(NULL, 0, 10-$index, 'raw', $user['capability'])) && is_array($items)) {
-				foreach($items as $id => $attributes) {
+			// provide default section
+			} elseif($default_id = Sections::get_default()) {
+				if($section =& Anchors::get('section:'.$default_id)) {
 					$response[] = array(
-						'isAdmin' => '<boolean>'.$isAdmin.'</boolean>',
-						'url' => '<string>'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($attributes).'</string>',
-						'blogid' => '<string>'.(string)$id.'</string>',
-						'blogName' => $codec->encode(sprintf('%1d ', $index).strip_tags($attributes['title']), 'string')
+						'isAdmin' => '<boolean>0</boolean>',
+						'url' => '<string>'.$context['url_to_home'].$context['url_to_root'].$section->get_url().'</string>',
+						'blogid' => '<string>'.(string)$default_id.'</string>',
+						'blogName' => $codec->encode(strip_tags($section->get_title()), 'string')
 					);
-
-					// add sub-sections, if any
-					if($subs =& Sections::list_by_title_for_anchor('section:'.$id, 0, 9, 'raw', $user['capability'])) {
-						$sub_index = 1;
-						foreach($subs as $sub_id => $attributes) {
-							$response[] = array(
-								'isAdmin' => '<boolean>'.$isAdmin.'</boolean>',
-								'url' => '<string>'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($attributes).'</string>',
-								'blogid' => '<string>'.(string)$sub_id.'</string>',
-								'blogName' => $codec->encode(sprintf('%1d.%1d ', $index, $sub_index++).strip_tags($attributes['title']), 'string')
-							);
-						}
-					}
-
-					// next section
 					$index++;
 				}
 			}
+
 		}
 		break;
 
@@ -927,13 +901,6 @@ else {
 
 				// one post more for this user
 				Users::increment_posts($user['id']);
-
-				// purge section cache
-				if($parent = Anchors::get($fields['anchor']))
-					$parent->touch('article:create', $fields['id'], TRUE);
-
-				// clear the cache
-				Articles::clear($fields);
 
 				// if the page has been published
 				if($fields['publish_date'] > NULL_DATE) {
@@ -1060,12 +1027,7 @@ else {
 				$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to update record of postid %s'), $postid) );
 
 			else {
-				Articles::clear($fields);
 				$response = TRUE;
-
-				// purge section cache
-				if($parent = Anchors::get($fields['anchor']))
-					$parent->touch('article:update', $fields['id'], TRUE);
 
 				// if the page has been published
 				if($fields['publish_date'] > NULL_DATE) {
@@ -1390,13 +1352,6 @@ else {
 
 				// increment the post counter of the surfer
 				Users::increment_posts($user['id']);
-
-				// purge section cache
-				if($parent = Anchors::get($fields['anchor']))
-					$parent->touch('article:create', $fields['id'], TRUE);
-
-				// clear the cache
-				Articles::clear($fields);
 
 				// if the page has been published
 				if($fields['publish_date'] > NULL_DATE) {

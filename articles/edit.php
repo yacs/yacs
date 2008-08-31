@@ -132,15 +132,15 @@ $item =& Articles::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 elseif(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-	$anchor = Anchors::get($_REQUEST['anchor']);
+	$anchor =& Anchors::get($_REQUEST['anchor']);
 elseif(isset($_REQUEST['section']) && $_REQUEST['section'])
-	$anchor = Anchors::get('section:'.$_REQUEST['section']);
+	$anchor =& Anchors::get('section:'.$_REQUEST['section']);
 elseif(isset($_REQUEST['blogid']) && $_REQUEST['blogid'])
-	$anchor = Anchors::get('section:'.$_REQUEST['blogid']);
+	$anchor =& Anchors::get('section:'.$_REQUEST['blogid']);
 elseif(isset($_SESSION['anchor_reference']) && $_SESSION['anchor_reference'])
-	$anchor = Anchors::get($_SESSION['anchor_reference']);
+	$anchor =& Anchors::get($_SESSION['anchor_reference']);
 
 // get the related overlay, if any
 $overlay = NULL;
@@ -474,13 +474,6 @@ if(Surfer::is_crawler()) {
 			if($_REQUEST['active'] != $item['active'])
 				Anchors::cascade('article:'.$item['id'], $_REQUEST['active']);
 
-			// touch the related anchor
-			if(is_object($anchor))
-				$anchor->touch('article:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
-
-			// clear cache
-			Articles::clear($_REQUEST);
-
 			// add this page to poster watch list
 			if(Surfer::get_id())
 				Members::assign('article:'.$item['id'], 'user:'.Surfer::get_id());
@@ -506,12 +499,6 @@ if(Surfer::is_crawler()) {
 		if(is_object($overlay))
 			$overlay->remember('insert', $_REQUEST);
 
-		// touch the related anchor
-		$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
-
-		// clear cache
-		Articles::clear($_REQUEST);
-
 		// if poster is a registered user
 		if(Surfer::get_id()) {
 
@@ -524,7 +511,7 @@ if(Surfer::is_crawler()) {
 		}
 
 		// get the new item
-		$article = Anchors::get('article:'.$_REQUEST['id'], TRUE);
+		$article =& Anchors::get('article:'.$_REQUEST['id'], TRUE);
 
 		// page title
 		$context['page_title'] = i18n::s('Thank you for your contribution');
@@ -593,7 +580,7 @@ if(Surfer::is_crawler()) {
 } elseif(!isset($item['id']) && is_object($anchor) && isset($_REQUEST['template']) && ($item = Articles::get($_REQUEST['template']))) {
 
 	// ensure we are not duplicating outside regular templates
-	if((!$templates = Anchors::get($item['anchor'])) || ($templates->get_nick_name() != 'templates')) {
+	if((!$templates =& Anchors::get($item['anchor'])) || ($templates->get_nick_name() != 'templates')) {
 		Safe::header('Status: 403 Forbidden', TRUE, 403);
 		die(i18n::s('You are not allowed to perform this operation.'));
 	}
@@ -1144,7 +1131,7 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 
 	// remember overlay type
-	} else
+	} elseif(is_object($overlay))
 		$options .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'" />';
 
 

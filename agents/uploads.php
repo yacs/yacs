@@ -136,20 +136,13 @@ class Uploads {
 		// the anchor
 		if(!$fields['anchor'] && $context['uploads_anchor'])
 			$fields['anchor'] = $context['uploads_anchor'];
-		$anchor = Anchors::get($fields['anchor']);
+		$anchor =& Anchors::get($fields['anchor']);
 
 		// post a page
 		$fields['id'] = Articles::post($fields);
 
 		// increment the post counter of the surfer
 		Users::increment_posts($user['id']);
-
-		// touch the related anchor
-		if(is_object($anchor) && isset($fields['id']))
-			$anchor->touch('article:create', $fields['id'], TRUE);
-
-		// clear the cache
-		Articles::clear($fields);
 
 		// if the page has been published
 		if($fields['publish_date'] > NULL_DATE) {

@@ -136,7 +136,7 @@ Class Decisions {
 			}
 
 			// transcode in anchor
-			if($anchor = Anchors::get($anchor_to))
+			if($anchor =& Anchors::get($anchor_to))
 				$anchor->transcode($transcoded);
 
 		}
@@ -166,7 +166,7 @@ Class Decisions {
 
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('decisions')." AS decisions "
-			." WHERE (decisions.id LIKE '".SQL::escape($id)."')";
+			." WHERE (decisions.id = ".SQL::escape($id).")";
 
 		$output =& SQL::query_first($query);
 		return $output;
@@ -187,12 +187,12 @@ Class Decisions {
 		$anchor = SQL::escape($anchor);
 
 		// sanity check, again
-		if(!Surfer::is_logged())
+		if(!Surfer::get_id())
 			return NULL;
 
 		// select among available items -- exact match
 		$query = "SELECT id FROM ".SQL::table_name('decisions')." AS decisions "
-			." WHERE (decisions.anchor LIKE '".$anchor."') AND (decisions.create_id LIKE '".SQL::escape(Surfer::get_id())."')";
+			." WHERE (decisions.anchor LIKE '".$anchor."') AND (decisions.create_id = ".SQL::escape(Surfer::get_id()).")";
 
 		// a link to the existing ballot
 		if($row =& SQL::query_first($query))
@@ -634,7 +634,7 @@ Class Decisions {
 
 		// the list of decisions
 		$query = "SELECT * FROM ".SQL::table_name('decisions')." AS decisions "
-			." WHERE (decisions.create_id LIKE '".SQL::escape($author_id)."')"
+			." WHERE (decisions.create_id = ".SQL::escape($author_id).")"
 			." ORDER BY decisions.create_date DESC LIMIT ".$offset.','.$count;
 
 		$output =& Decisions::list_selected(SQL::query($query), $variant);
@@ -774,7 +774,7 @@ Class Decisions {
 		}
 
 		// get the anchor
-		if(!$anchor = Anchors::get($fields['anchor'])) {
+		if(!$anchor =& Anchors::get($fields['anchor'])) {
 			Skin::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
@@ -849,11 +849,7 @@ Class Decisions {
 			$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// clear the cache for decisions
-		if(isset($fields['id']))
-			$topics = array('decisions', 'decision:'.$fields['id']);
-		else
-			$topics = 'decisions';
-		Cache::clear($topics);
+		Decisions::clear($fields);
 
 		// end of job
 		return $fields['id'];

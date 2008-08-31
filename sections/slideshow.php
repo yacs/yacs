@@ -37,7 +37,7 @@ $item =& Sections::get($id);
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
-	$anchor = Anchors::get($item['anchor']);
+	$anchor =& Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
 if((isset($item['id']) && Sections::is_assigned($item['id'])) || (is_object($anchor) && $anchor->is_editable()))
@@ -154,7 +154,7 @@ if(!isset($item['id'])) {
 	//
 
 	// back link
-	if(isset($item['anchor']) && ($anchor = Anchors::get($item['anchor'])))
+	if(isset($item['anchor']) && ($anchor =& Anchors::get($item['anchor'])))
 		$link = $anchor->get_url();
 	else
 		$link =& Sections::get_permalink($item);

@@ -73,7 +73,7 @@ Class Layout_home_articles_as_slashdot extends Layout_interface {
 			Codes::initialize($url);
 
 			// get the anchor
-			$anchor = Anchors::get($item['anchor']);
+			$anchor =& Anchors::get($item['anchor']);
 
 			// get the related overlay, if any
 			$overlay = Overlay::load($item);

@@ -86,7 +86,7 @@ Class Layout_links extends Layout_interface {
 			}
 
 			// show an anchor link
-			if(($variant != 'no_anchor') && ($variant != 'no_author') && $item['anchor'] && ($anchor = Anchors::get($item['anchor']))) {
+			if(($variant != 'no_anchor') && ($variant != 'no_author') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
 				$anchor_url = $anchor->get_url();
 				$anchor_label = ucfirst($anchor->get_title());
 				$details[] = ' '.sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));

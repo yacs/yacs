@@ -181,9 +181,6 @@ elseif(!Surfer::is_associate()) {
 
 		$context['text'] .= '<p>'.sprintf(i18n::s('The following configuration has been saved into the file %s.'), 'parameters/letters.include.php')."</p>\n";
 
-		// purge the cache
-		Cache::clear('articles');
-
 		// remember the change
 		$label = sprintf(i18n::c('%s has been updated'), 'parameters/letters.include.php');
 		Logger::remember('letters/configure.php', $label);
