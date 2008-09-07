@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 31, 2008, 10:28 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['565268c8f67e6811cb636fce1233a9ac']='%d file has been downloaded from the reference server.'.chr(0).'%d files have been downloaded from the reference server.';
 $_SESSION['l10n']['en']['341b51d0903352bdc690bd54123302d1']='%d file has been updated.'.chr(0).'%d files have been updated.';
@@ -103,7 +103,6 @@ $_SESSION['l10n']['en']['On-line Documentation']='On-line Documentation';
 $_SESSION['l10n']['en']['Original script']='Original script';
 $_SESSION['l10n']['en']['Out-of-band staging']='Out-of-band staging';
 $_SESSION['l10n']['en']['Output']='Output';
-$_SESSION['l10n']['en']['Patch']='Patch';
 $_SESSION['l10n']['en']['23c0e258bccdc30697a9879f43ccde0e']='Please go to the end of this page to check results of the building process.';
 $_SESSION['l10n']['en']['Please indicate a script name.']='Please indicate a script name.';
 $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';

@@ -63,12 +63,12 @@ else
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // we are using an external authenticator
 } elseif(isset($context['users_authenticator']) && $context['users_authenticator']) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no user id has been provided

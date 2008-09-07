@@ -106,7 +106,7 @@ $action = strip_tags($action);
 $id = NULL;
 if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
-elseif(isset($context['arguments'][0]))
+elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 	$id = $context['arguments'][0];
 $id = strip_tags($id);
 
@@ -184,7 +184,7 @@ if(isset($_REQUEST['description']))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
@@ -204,12 +204,12 @@ if(Surfer::is_crawler()) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // maybe posts are not allowed here
 } elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('This page has been locked.'));
 
 // an error occured
@@ -558,10 +558,8 @@ if($with_form) {
 
 		if(isset($item['id']))
 			$input .= i18n::s('Select another image to replace the current one').BR;
-		$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $image_maximum_size));
-		$input .= '<input type="hidden" name="MAX_FILE_SIZE" value="'.$image_maximum_size.'" />'
-			.'<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'" />'
-			.' (&lt;&nbsp;'.$size_hint.'&nbsp;'.i18n::s('bytes').')';
+		$input .= '<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'" />'
+			.' (&lt;&nbsp;'.Skin::build_number($image_maximum_size, i18n::s('bytes')).')';
 		$hint = i18n::s('Please select a .png, .gif or .jpeg image.');
 
 	}

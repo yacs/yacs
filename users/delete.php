@@ -75,14 +75,14 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no deletion in demo mode
 } elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
 
 	// remind the surfer
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.')."</p>\n";
 
 // deletion is confirmed

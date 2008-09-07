@@ -54,10 +54,10 @@ Class rss_Codec extends Codec {
 		global $context;
 
 		// create a parser with proper character encoding
-		$encoding = 'ISO-8859-1';
+		$this->encoding = 'ISO-8859-1';
 		if(preg_match('/^<\?xml .+ encoding="utf-8".*\?>/i', $data))
-			$encoding = 'UTF-8';
-		$parser = xml_parser_create($encoding);
+			$this->encoding = 'UTF-8';
+		$parser = xml_parser_create($this->encoding);
 
 		// parser setup
 		xml_set_object($parser, $this);
@@ -94,7 +94,9 @@ Class rss_Codec extends Codec {
 
 	function parse_cdata($parser, $text) {
 
-//		echo $text.BR;
+		// transcode non-UTF-8 data
+		if($this->encoding != 'UTF-8')
+			$text = utf8::from_iso8859($text);
 
 		// skip item, channel, items first time we see them
 		if($this->elements_stack[0] == $this->current_field or !$this->current_field)

@@ -180,7 +180,7 @@ class Safe {
 	function file($path) {
 
 		// translate the path
-		$file = Safe::realpath($file);
+		$path = Safe::realpath($path);
 
 		// sanity check
 		if(!file_exists($path))

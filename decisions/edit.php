@@ -151,7 +151,7 @@ if(isset($_REQUEST['description']))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
@@ -167,12 +167,12 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('decisions/edit.php?'.$login_hook));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // maybe posts are not allowed here
 } elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('This page has been locked.'));
 
 // an error occured

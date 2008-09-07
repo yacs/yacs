@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 31, 2008, 10:28 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['565268c8f67e6811cb636fce1233a9ac']='%d fichier a été téléchargé depuis le serveur de référence.'.chr(0).'%d fichiers ont été téléchargés depuis le serveur de référence.';
 $_SESSION['l10n']['fr']['341b51d0903352bdc690bd54123302d1']='%d fichier a été mis à jour.'.chr(0).'%d fichiers ont été mis à jour.';
@@ -103,7 +103,6 @@ $_SESSION['l10n']['fr']['On-line Documentation']='Documentation en ligne';
 $_SESSION['l10n']['fr']['Original script']='Script original';
 $_SESSION['l10n']['fr']['Out-of-band staging']='Chargement indirect';
 $_SESSION['l10n']['fr']['Output']='Format';
-$_SESSION['l10n']['fr']['Patch']='Corriger';
 $_SESSION['l10n']['fr']['23c0e258bccdc30697a9879f43ccde0e']='Merci d\'aller jusqu\'à la fin de cette page pour vérifier les résultats de la construction du nouveau référentiel.';
 $_SESSION['l10n']['fr']['Please indicate a script name.']='Merci de désigner le script à envoyer.';
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'attaque sur le fichier.';

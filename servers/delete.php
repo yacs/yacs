@@ -53,7 +53,7 @@ if(!isset($item['id'])) {
 
 // deletion is restricted to associates
 } elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // deletion is confirmed
@@ -119,7 +119,7 @@ if($item['id'] && Surfer::is_associate()) {
 
 	// the related anchor
 	if(is_object($anchor))
-		$text .= '<p>'.sprintf(i18n::s('Related to %s'), Skin::build_link($anchor->get_url(), $anchor->get_title(), 'category'))."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('Related to %s'), Skin::build_link($anchor->get_url(), $anchor->get_title(), 'category'))."</p>\n";
 
 	// a section for remote services
 	$context['text'] .= Skin::build_block(i18n::s('Services accessed remotely'), 'subtitle');
@@ -176,7 +176,7 @@ if($item['id'] && Surfer::is_associate()) {
 		$context['text'] .= Skin::build_block(i18n::s('Server description'), 'subtitle');
 
 		// beautify the text
-		$context['text'] = Skin::build_block($item['description'], 'description');
+		$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	}
 

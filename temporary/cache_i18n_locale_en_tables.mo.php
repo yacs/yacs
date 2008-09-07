@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 31, 2008, 10:38 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 10:06 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['9d1dd3844462dd717f535edb3d78a4b6']='%d SQL statements have been processed in %.2f seconds.';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
@@ -64,6 +64,7 @@ $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the a
 $_SESSION['l10n']['en']['Please type a valid SQL query.']='Please type a valid SQL query.';
 $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
 $_SESSION['l10n']['en']['Posted by']='Posted by';
+$_SESSION['l10n']['en']['Press [e] to edit']='Press [e] to edit';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Press to select a local file']='Press to select a local file';
 $_SESSION['l10n']['en']['Query string']='Query string';

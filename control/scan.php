@@ -219,7 +219,7 @@ $scanned = array('', 'agents', 'articles', 'categories', 'control', 'included', 
 if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))) {
 
 	// prevent access to this script
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel

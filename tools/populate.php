@@ -120,7 +120,7 @@ $context['page_title'] = i18n::s('Content Assistant');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
@@ -131,7 +131,7 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('tools/populate.php?action='.$action));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
@@ -303,7 +303,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Coffee machine');
 		$fields['introduction'] = i18n::c('Take a break, and discuss important things');
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$fields['options'] = 'view_as_thread';
+		$fields['options'] = 'view_as_chat';
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
@@ -394,7 +394,7 @@ if(Surfer::is_crawler()) {
 		$fields['index_map'] = 'Y'; // listed with regular sections
 		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		$fields['articles_layout'] = 'map'; // list threads appropriately
-		$fields['content_options'] = 'view_as_thread'; // change the rendering script for articles
+		$fields['content_options'] = 'view_as_chat'; // change the rendering script for articles
 		$fields['maximum_items'] = 1000; // limit the overall number of threads
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";

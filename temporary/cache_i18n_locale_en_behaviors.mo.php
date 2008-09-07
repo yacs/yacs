@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 31, 2008, 10:35 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['Access has been denied']='Access has been denied';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';

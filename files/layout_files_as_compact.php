@@ -37,8 +37,13 @@ Class Layout_files_as_compact extends Layout_interface {
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
 
-			// download the file directly
-			$url = Files::get_url($item['id'], 'fetch', $item['file_name']);
+			// play freemind maps and flash files in separate windows
+			if(preg_match('/\.(mm|swf)$/i', $item['file_name']))
+				$url = Files::get_url($item['id'], 'stream', $item['file_name']);
+
+			// else download the file
+			else
+				$url = Files::get_url($item['id'], 'fetch', $item['file_name']);
 
 			// initialize variables
 			$prefix = $suffix = '';

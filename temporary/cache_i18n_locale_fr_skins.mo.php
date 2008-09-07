@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 27, 2008, 9:35 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr'][' at %s%s']=' à %s%s';
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
@@ -16,7 +16,6 @@ $_SESSION['l10n']['fr']['%d words to read']='encore %d mots';
 $_SESSION['l10n']['fr']['%s has been copied']='%s a été copié';
 $_SESSION['l10n']['fr']['%s has been transcoded']='%s a été transcodé';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
-$_SESSION['l10n']['fr']['ffe33c9b969322f41e37847653e333fd']='-- Ne pas assigner ce style à une section particulière';
 $_SESSION['l10n']['fr']['<b>Note:</b> ']='<b>Note :</b> ';
 $_SESSION['l10n']['fr']['<b>Warning:</b> ']='<b>Attention :</b> ';
 $_SESSION['l10n']['fr']['A: ']='R:';
@@ -31,7 +30,6 @@ $_SESSION['l10n']['fr']['664091c33185385f001d99258ec5fee0']='Autoriser les surfe
 $_SESSION['l10n']['fr']['b184c85e0555848d347be3a07dfd7b69']='C\'est aussi le nom du sous-répertoire où placer les fichiers pour ce style';
 $_SESSION['l10n']['fr']['008a899690918a0b90e75b58d987f5d7']='Ce script sait aussi traiter les archives placées dans le répertoire <code>inbox/skins</code>.';
 $_SESSION['l10n']['fr']['Archives']='Archives';
-$_SESSION['l10n']['fr']['4eb13ba70fc824a3a7eafb1aa955f15b']='Vous pouvez, si vous le désirez, assigner ce style à toutes les pages associées à une section particulière';
 $_SESSION['l10n']['fr']['Author information']='Information sur l\'auteur';
 $_SESSION['l10n']['fr']['Avatar height']='Hauteur d\'avatar';
 $_SESSION['l10n']['fr']['Avatar width']='Largeur d\'un avatar';
@@ -173,7 +171,6 @@ $_SESSION['l10n']['fr']['Reference this page']='Référencer cette page';
 $_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['8e8eb648edb57efc53bb3a619f5bd494']='Contrôler l\'information fournie et utiliser le bouton en bas de page pour continuer.';
 $_SESSION['l10n']['fr']['Search...']='Chercher...';
-$_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['Sections']='Sections';
 $_SESSION['l10n']['fr']['See also']='Voir aussi';
 $_SESSION['l10n']['fr']['See server profile']='Voir le profil de serveur';

@@ -103,6 +103,11 @@ Class Layout_categories extends Layout_interface {
 			if($count = Comments::count_for_anchor('category:'.$item['id'], TRUE))
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
+			// info on related users
+			$stats = Members::stat_users_for_anchor('category:'.$item['id']);
+			if($stats['count'])
+				$details[] = sprintf(i18n::ns('%d user', '%d users', $stats['count']), $stats['count']);
+
 			// append details to the suffix
 			if(count($details))
 				$suffix .= "\n".'<span class="details">('.implode(', ', $details).')</span>';

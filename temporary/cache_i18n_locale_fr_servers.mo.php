@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 27, 2008, 9:36 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 9:53 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d elements have been read']='%d éléments ont été obtenus';
 $_SESSION['l10n']['fr']['%d server'.chr(0).'%d servers']='%d serveur'.chr(0).'%d serveurs';
@@ -100,7 +100,7 @@ $_SESSION['l10n']['fr']['9804b26c70b94a3e363f18a8a1e1e3e6']='Puis configurez et 
 $_SESSION['l10n']['fr']['413967c6175ec737ff1ce9626aca5474']='Ce script va avertir (<code>weblogUpdates.ping</code>) tous les serveurs configuré pour faire partie de votre "nuage". Normalement, le script de publication fait ceci automatiquement. Cependant, il n\'y a pas d\'avertissement pour les articles envoyés par XML-RPC ou par email. Lancez ce script au moins une fois par mois pour être sûr que tout le monde connait votre site.';
 $_SESSION['l10n']['fr']['e44f3d9f909a0b4589bb0375046fd439']='Inclure ce serveur dans les recherches distribuées par appel REST de %s';
 $_SESSION['l10n']['fr']['688da3d7c1057f15b24d44401c04cfcc']='Transmettre un \'ping\' à ce serveur lors des mises à jour, par appel XML-RPC de <code>weblogUpdates.ping</code> à %s';
-$_SESSION['l10n']['fr']['d8cd2a3e72166362991ee960a63fd7c8']='Vérifier périodiquement le fonctionnement de ce serveur, par appel XML-RPC de de [code]monitor.ping[/code] à %s';
+$_SESSION['l10n']['fr']['d8cd2a3e72166362991ee960a63fd7c8']='Vérifier périodiquement le fonctionnement de ce serveur, par appel XML-RPC de de <code>monitor.ping</code> à %s';
 $_SESSION['l10n']['fr']['f78c82fae29bc815a01b253534f1388b']='Ce serveur est autorisé à signaler les mises à jour (<code>weblogUpdates.ping</code>) à %';
 $_SESSION['l10n']['fr']['986e728e0ebb621b45268dbe8598aae9']='Ce serveur est autorisé à signaler les mises à jour (<code>weblogUpdates.ping</code>) à %s';
 $_SESSION['l10n']['fr']['e8944f696538088838dfc6dee9295702']='Ce serveur est autorisé à soumettre des requêtes de surveillance (<code>monitor.ping</code>) à %s';

@@ -186,7 +186,7 @@ if(!isset($item['id'])) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Files::get_url($item['id'])));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the page that describes the file
@@ -869,7 +869,7 @@ if(!isset($item['id'])) {
 	if($editable) {
 
 		// modify this page
-		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('Update this file'), 'basic');
+		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('Update this file'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed
 		if(Images::are_allowed($anchor, $item)) {

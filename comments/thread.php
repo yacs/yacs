@@ -2,7 +2,7 @@
 /**
  * manage contributions to a thread
  *
- * @see articles/view_as_thread.php
+ * @see articles/view_as_chat.php
  *
  * Accept following invocations:
  * - thread.php/12 (visit article #12)
@@ -51,7 +51,7 @@ load_skin('comments');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
@@ -63,17 +63,17 @@ if(Surfer::is_crawler()) {
 
 // the anchor has to be viewable by this surfer
 } elseif(is_object($anchor) && !$anchor->is_viewable()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // robots cannot contribute
 } elseif(isset($_REQUEST['message']) && Surfer::may_be_a_robot()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // this anchor does not accept contributions
 } elseif(isset($_REQUEST['message']) && is_object($anchor) && !Comments::are_allowed($anchor)) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // a new contribution has been submitted

@@ -116,6 +116,11 @@ Class Layout_categories_as_yahoo extends Layout_interface {
 				$related_count += $stats['count'];
 			}
 
+			// info on related users
+			$stats = Members::stat_users_for_anchor('category:'.$item['id']);
+			if($stats['count'])
+				$details[] = sprintf(i18n::ns('%d user', '%d users', $stats['count']), $stats['count']);
+
 			// append details to the suffix
 			if(count($details))
 				$suffix .= "\n".'<span class="details">('.implode(', ', $details).')</span>';

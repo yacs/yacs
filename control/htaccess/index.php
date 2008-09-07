@@ -21,7 +21,7 @@ $context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Configure'), i18n::
 
 // this is reserved to associates
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // build a customized .htaccess

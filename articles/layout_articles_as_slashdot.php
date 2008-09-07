@@ -151,7 +151,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+				$menu = array_merge($menu, array( $url.'#files' => sprintf(i18n::ns('%d file', '%d files', $count), $count) ));
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {

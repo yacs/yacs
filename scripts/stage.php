@@ -62,9 +62,9 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 	$context['reference_server'] = i18n::s('www.yetanothercommunitysystem.com');
 
 // the maximum size for uploads
-$file_maximum_size = str_replace('M', '000000', Safe::get_cfg_var('upload_max_filesize'));
-if(!$file_maximum_size || $file_maximum_size > 10000000)
-	$file_maximum_size = 10000000;
+$file_maximum_size = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
+if(!$file_maximum_size)
+	$file_maximum_size = '2 M';
 
 // no local file at the moment
 $id = NULL;
@@ -127,7 +127,7 @@ if(!Surfer::is_logged())
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
@@ -388,10 +388,8 @@ if($id) {
 
 	// the file
 	$label = i18n::s('File');
-	$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
-	$input = '<input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
-		.'<input type="file" name="upload" id="focus" size="30" />'
-		.' (&lt;&nbsp;'.$size_hint.'&nbsp;'.i18n::s('bytes').')';
+	$input = '<input type="file" name="upload" id="focus" size="30" />'
+		.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')';
 	$fields[] = array($label, $input);
 
 	// build the form

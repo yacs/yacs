@@ -176,8 +176,8 @@ if(isset($_SERVER['HTTP_ACCEPT_CHARSET']) && preg_match('/^iso-8859-1/i', $_SERV
 
 // page within a page
 $page = 1;
-if(isset($_REQUEST['pages']))
-	$page = $_REQUEST['pages'];
+if(isset($_REQUEST['articles']))
+	$page = $_REQUEST['articles'];
 $page = strip_tags($page);
 
 // no follow-up page yet
@@ -208,7 +208,10 @@ elseif(isset($_REQUEST['links']) && ($zoom_index = $_REQUEST['links']))
 elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_type = $context['arguments'][1];
 	$zoom_index = $context['arguments'][2];
-}
+
+// view.php/12/files-2
+} elseif(isset($context['arguments'][1]))
+	list($zoom_type, $zoom_index) = explode('-', $context['arguments'][1], 2);
 
 // get the item from the database
 $item =& Sections::get($id);
@@ -407,7 +410,7 @@ if(!isset($item['id'])) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_permalink($item)));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the section
@@ -733,7 +736,7 @@ if(!isset($item['id'])) {
 				if(count($pages) > 1) {
 					$page_menu = array( '_' => i18n::s('Pages') );
 					$home =& Sections::get_permalink($item);
-					$prefix = Sections::get_url($item['id'], 'navigate', 'pages');
+					$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
 					$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
 
 					$text .= Skin::build_list($page_menu, 'menu_bar');
@@ -1660,7 +1663,7 @@ if(!isset($item['id'])) {
 		Skin::define_img('EDIT_SECTION_IMG', 'icons/sections/edit.gif');
 		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
 			$label = i18n::s('Edit this page');
-		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), EDIT_SECTION_IMG.$label, 'basic', i18n::s('Update the content of this page'));
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), EDIT_SECTION_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed
 		if(Images::are_allowed($anchor, $item)) {

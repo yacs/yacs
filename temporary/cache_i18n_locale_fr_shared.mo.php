@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 27, 2008, 9:35 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['be362d7d53a1254f538bfda2a9b7b995']='Un membre est requis pour cette opération.';
 $_SESSION['l10n']['fr']['Access collection']='Voir la collection';
@@ -12,6 +12,7 @@ $_SESSION['l10n']['fr']['faa341f8a37d82ae539d923a0854a176']='Une ancre est requi
 $_SESSION['l10n']['fr']['Browse this map with Freemind']='Charger cette carte dans Freemind';
 $_SESSION['l10n']['fr']['Categories']='Catégories';
 $_SESSION['l10n']['fr']['5eceff9c59d2bdcf158b449fba7cbcac']='Passer en revue les requêtes, publier les articles envoyés, vérifier les anciennes pages';
+$_SESSION['l10n']['fr']['Co-browsing']='Co-navigation';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
 $_SESSION['l10n']['fr']['cd18fb0e02dd6f7b80bf22c3c8133841']='La connexion à la base de données a été perdue';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
@@ -33,6 +34,7 @@ $_SESSION['l10n']['fr']['Impossible to connect to %s.']='Impossible de se connec
 $_SESSION['l10n']['fr']['Impossible to extract files.']='Impossible d\'extraire les fichiers.';
 $_SESSION['l10n']['fr']['Impossible to read %s.']='Impossible de lire %s.';
 $_SESSION['l10n']['fr']['Invite people']='Personnes invitées';
+$_SESSION['l10n']['fr']['Join %s at %s']='Rejoindre %s à %s';
 $_SESSION['l10n']['fr']['Last edition']='Dernière modification';
 $_SESSION['l10n']['fr']['Last stacking element: %s']='Dernier élément de pile : %s';
 $_SESSION['l10n']['fr']['Links']='Liens';
@@ -81,11 +83,11 @@ $_SESSION['l10n']['fr']['XML error: %s at line %d']='Erreur XML : %s à la ligne
 $_SESSION['l10n']['fr']['68e8557b5fa4d724688175816097ce17']='Vous pouvez envoyer du XHTML.';
 $_SESSION['l10n']['fr']['a38baa11f8dc11db9fde342db9db7f07']='Pour redevenir un surfeur anonyme';
 $_SESSION['l10n']['fr']['Your contribution']='Votre contribution';
-$_SESSION['l10n']['fr']['Your private pages']='Vos pages privées';
 $_SESSION['l10n']['fr']['Your private pages with %s']='Vos pages privées avec %s';
 $_SESSION['l10n']['fr']['and analyzed']='et analysée';
 $_SESSION['l10n']['fr']['and optimized']='et optimisée';
 $_SESSION['l10n']['fr']['commented']='commenté';
+$_SESSION['l10n']['fr']['created']='créé';
 $_SESSION['l10n']['fr']['edited']='modifié';
 $_SESSION['l10n']['fr']['file updated']='fichier modifié';
 $_SESSION['l10n']['fr']['file uploaded']='fichier attaché';
@@ -102,12 +104,10 @@ $_SESSION['l10n']['fr']['location updated']='emplacement modifié';
 $_SESSION['l10n']['fr']['monthly']='mensuel';
 $_SESSION['l10n']['fr']['new message']='nouveau message';
 $_SESSION['l10n']['fr']['new user']='nouvel utilisateur';
-$_SESSION['l10n']['fr']['page created']='page créée';
-$_SESSION['l10n']['fr']['page edited']='page modifiée';
-$_SESSION['l10n']['fr']['page published']='page publiée';
-$_SESSION['l10n']['fr']['page reviewed']='page vérifiée';
 $_SESSION['l10n']['fr']['page updated']='page créée';
 $_SESSION['l10n']['fr']['profile updated']='profil modifié';
+$_SESSION['l10n']['fr']['published']='publié';
+$_SESSION['l10n']['fr']['reviewed']='vérifié';
 $_SESSION['l10n']['fr']['section created']='section créée';
 $_SESSION['l10n']['fr']['section updated']='section modifiée';
 $_SESSION['l10n']['fr']['table posted']='table ajoutée';

@@ -49,7 +49,7 @@ if(is_object($anchor))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
@@ -59,7 +59,7 @@ if(Surfer::is_crawler()) {
 
 // surfer has to be an associate
 } elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // build a form to assign some sections to this item

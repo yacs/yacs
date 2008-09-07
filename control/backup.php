@@ -103,7 +103,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	&& (file_exists($context['path_to_root'].'parameters/switch.on') || file_exists($context['path_to_root'].'parameters/switch.off'))) {
 
 	// prevent access to this script
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
@@ -859,15 +859,13 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		.'<input type="hidden" name="action" value="restore" />';
 
 	// the maximum size for uploads
-	$file_maximum_size = str_replace('M', '000000', Safe::get_cfg_var('upload_max_filesize'));
-	if(!$file_maximum_size || ($file_maximum_size > 50000000))
-		$file_maximum_size = 5000000;
+	$file_maximum_size = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
+	if(!$file_maximum_size)
+		$file_maximum_size = '2 M';
 
 	// select a file
-	$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
 	$context['text'] .= '<p>'.i18n::s('Select the file to upload')
-		.' (&lt;&nbsp;'.$size_hint.'&nbsp;'.i18n::s('bytes').')'.BR
-		.' <input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
+		.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')'.BR
 		.'<input type="file" name="upload" size="30" /></p>';
 
 	// find available database files
@@ -886,7 +884,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 				continue;
 
 			// skip non-archive files
-			if(!preg_match('/(\.sql|\.sql.gz)/i', $file))
+			if(!preg_match('/(\.dump|\.sql|\.sql.gz)/i', $file))
 				continue;
 
 			// this is an archive to consider

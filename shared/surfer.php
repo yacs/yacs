@@ -157,7 +157,7 @@ Class Surfer {
 			if(Surfer::get_id() == $user['id']) {
 
 				if($items =& Articles::list_assigned_by_date_for_anchor($anchor, $user['id'], 0, 50, $layout, FALSE))
-					$text .= '<p>'.i18n::s('Your private pages').'</p>'.Skin::build_list($items, 'compact').'<p> </p>';
+					$text .= Skin::build_list($items, 'compact');
 
 			// navigating another profile
 			} else {
@@ -250,54 +250,30 @@ Class Surfer {
 			.'Event.observe(window, "load", function() { new Ajax.Autocompleter("id", "id_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
 			.'// ]]></script>';
 
-// 		// current presence
-// 		//
-// 		$box = array( 'list' => array(), 'text' => '');
+		// co-browsing
+		if(Surfer::get_id() && (Surfer::get_id() != $user['id'])) {
+			$box = array( 'list' => array(), 'text' => '');
 
-// 		// i am looking at my own record
-// 		if(Surfer::get_id() && (Surfer::get_id() == $user['id'])) {
+			// some page or thread has been visited recently
+			include_once $context['path_to_root'].'users/visits.php';
+			if($items = Visits::list_for_user($user['id'])) {
+				foreach($items as $url => $label)
+					$box['list'] = array_merge($box['list'], array($url => sprintf(i18n::s('Join %s at %s'), $user['nick_name'], $label)));
 
-// 			// some page or thread has been visited recently
-// 			include_once $context['path_to_root'].'users/visits.php';
-// 			if($items = Visits::list_for_user($user['id'])) {
-// 				$box['list'] = array_merge($box['list'], $items);
+			// user is present if active during last 10 minutes (10*60 = 600), but not at some thread
+			} elseif(isset($user['click_date']) && ($user['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
 
-// 			// user is present if active during last 10 minutes (10*60 = 600), but not at some thread
-// 			} elseif(isset($user['click_date']) && ($user['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
+				// show place of last click
+				if(isset($user['click_anchor']) && ($anchor =& Anchors::get($user['click_anchor'])))
+					$box['list'] = array_merge($box['list'], array($anchor->get_url() => sprintf(i18n::s('Join %s at %s'), $user['nick_name'], $anchor->get_title())));
 
-// 				// show place of last click
-// 				if(isset($user['click_anchor']) && ($anchor =& Anchors::get($user['click_anchor'])))
-// 					$box['list'] = array_merge($box['list'], array($anchor->get_url() => $anchor->get_title()));
+			}
 
-// 			}
+			// make a box
+			if(count($box['list']))
+				$text .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'folder', 'co_browsing');
 
-// 			// make a box
-// 			if(count($box['list']))
-// 				$text .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'folder', 'co_browsing');
-
-// 		// navigating another profile
-// 		} else {
-
-// 			// some page or thread has been visited recently
-// 			include_once $context['path_to_root'].'users/visits.php';
-// 			if($items = Visits::list_for_user($user['id'])) {
-// 				foreach($items as $url => $label)
-// 					$box['list'] = array_merge($box['list'], array($url => sprintf(i18n::s('Join %s at %s'), $user['nick_name'], $label)));
-
-// 			// user is present if active during last 10 minutes (10*60 = 600), but not at some thread
-// 			} elseif(isset($user['click_date']) && ($user['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
-
-// 				// show place of last click
-// 				if(isset($user['click_anchor']) && ($anchor =& Anchors::get($user['click_anchor'])))
-// 					$box['list'] = array_merge($box['list'], array($anchor->get_url() => sprintf(i18n::s('Join %s at %s'), $user['nick_name'], $anchor->get_title())));
-
-// 			}
-
-// 			// make a box
-// 			if(count($box['list']))
-// 				$text .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'folder', 'co_browsing');
-
-// 		}
+		}
 
 		// return by reference
 		return $text;

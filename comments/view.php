@@ -116,7 +116,7 @@ if(!isset($item['id'])) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Comments::get_url($item['id'])));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the comment
@@ -214,7 +214,7 @@ if(!isset($item['id'])) {
 			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'quote'), i18n::s('Quote'), 'basic');
 
 			if(Surfer::is_associate())
-				$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'edit'), i18n::s('Edit'), 'basic' );
+				$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'edit'), i18n::s('Edit'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		}
 	}

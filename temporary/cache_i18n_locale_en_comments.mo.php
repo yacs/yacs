@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 27, 2008, 9:35 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d post'.chr(0).'%d posts']='%d post'.chr(0).'%d posts';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
@@ -59,6 +59,7 @@ $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the a
 $_SESSION['l10n']['en']['Please type a valid comment']='Please type a valid comment';
 $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
 $_SESSION['l10n']['en']['Posted by']='Posted by';
+$_SESSION['l10n']['en']['Press [e] to edit']='Press [e] to edit';
 $_SESSION['l10n']['en']['Press [p] for preview']='Press [p] for preview';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Preview']='Preview';
@@ -99,7 +100,6 @@ $_SESSION['l10n']['en']['6ea7b5a19127f511bec28a548295d614']='Yes, I want to dele
 $_SESSION['l10n']['en']['d3016a1561487b9f24ccb81618fea0e2']='Yes, I want to promote this comment to an article';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['583547da9f1a19cbe30016004d2a0de2']='You can cut and paste some text from the field below to shape your post.';
-$_SESSION['l10n']['en']['c7c4a684a777062b8169a76cb777532c']='You can upload a file of less than %s';
 $_SESSION['l10n']['en']['Your address']='Your address';
 $_SESSION['l10n']['en']['Your contribution']='Your contribution';
 $_SESSION['l10n']['en']['26d108ddac5f9af035390574928cd68d']='Your contribution has not been posted.';

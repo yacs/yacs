@@ -14,9 +14,9 @@
 include_once '../shared/global.php';
 
 // the maximum size for uploads
-$file_maximum_size = str_replace('M', '000000', Safe::get_cfg_var('upload_max_filesize'));
-if(!$file_maximum_size || $file_maximum_size > 50000000)
-	$file_maximum_size = 5000000;
+$file_maximum_size = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
+if(!$file_maximum_size)
+	$file_maximum_size = '2 M';
 
 // do not always show the edition form
 $with_form = FALSE;
@@ -166,10 +166,8 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 	// the file
 	$label = i18n::s('File');
-	$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
-	$input = '<input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
-		.'<input type="file" name="upload" id="upload" size="30" />'
-		.' (&lt;&nbsp;'.Skin::build_number($size_hint, i18n::s('bytes')).')';
+	$input = '<input type="file" name="upload" id="upload" size="30" />'
+		.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')';
 	$hint = i18n::s('Select the file to upload');
 	$fields[] = array($label, $input, $hint);
 

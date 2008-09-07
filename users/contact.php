@@ -37,6 +37,8 @@ if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
 	$id = $context['arguments'][0];
+elseif(Surfer::get_id())
+	$id = Surfer::get_id();
 if($id)
 	$id = explode(',', strip_tags($id));
 
@@ -74,7 +76,9 @@ if(isset($item['id']))
 	$context['path_bar'] = array_merge($context['path_bar'], array( Users::get_url($item['id'], 'view', $item['nick_name']) => $item['full_name']?$item['full_name']:$item['nick_name'] ));
 
 // page title
-if(isset($item['nick_name']))
+if(isset($item['id']) && Surfer::is($item['id']))
+	$context['page_title'] .= i18n::s('Private pages');
+elseif(isset($item['nick_name']))
 	$context['page_title'] .= sprintf(i18n::s('Contact %s'), $item['full_name']?$item['full_name']:$item['nick_name']);
 else
 	$context['page_title'] .= i18n::s('Contact');
@@ -90,12 +94,12 @@ elseif(!count($items)) {
 
 // private pages are disallowed
 } elseif(isset($context['users_without_private_pages']) && ($context['users_without_private_pages'] == 'Y')) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
 } elseif(!Surfer::is_member()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // the place for private pages

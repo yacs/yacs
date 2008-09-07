@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 31, 2008, 10:37 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 10:04 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['28c17c53fb37663d2b2193884152e9d5']='%d invalid addresses have been skipped';
 $_SESSION['l10n']['en']['9e7b9305b0ae8cf576d14aa2fd99a9a5']='%d letters have been transmitted.';

@@ -139,12 +139,12 @@ if(!isset($item['id'])) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_permalink($item)));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // stop crawlers on non-published pages
 } elseif((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && !Surfer::is_logged()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display page content
@@ -246,7 +246,7 @@ if(!isset($item['id'])) {
 		$context['page_tags'] = $item['tags'];
 
 	// cache page details
-	$cache_id = 'articles/view_as_thread.php?id='.$item['id'].'#page_details';
+	$cache_id = 'articles/view_as_tabs.php?id='.$item['id'].'#page_details';
 	if(!$text =& Cache::get($cache_id)) {
 
 		// one detail per line
@@ -760,7 +760,7 @@ if(!isset($item['id'])) {
 		Skin::define_img('EDIT_ARTICLE_IMG', 'icons/articles/edit.gif');
 		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
 			$label = i18n::s('Edit this page');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), EDIT_ARTICLE_IMG.$label, 'basic', i18n::s('Update the content of this page'));
+		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), EDIT_ARTICLE_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed
 		if(Images::are_allowed($anchor, $item)) {

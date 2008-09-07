@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 27, 2008, 9:35 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['"%s" is not a valid date']='"%s" is not a valid date';
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
@@ -222,6 +222,7 @@ $_SESSION['l10n']['en']['Post to %s']='Post to %s';
 $_SESSION['l10n']['en']['Poster']='Poster';
 $_SESSION['l10n']['en']['Prefix']='Prefix';
 $_SESSION['l10n']['en']['b22b9084b729824388a110fec16ea4eb']='Preserve carriage returns and newlines.';
+$_SESSION['l10n']['en']['Press [e] to edit']='Press [e] to edit';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['ac506d9554ef66a27577b5e283846816']='Prevent the addition of comments';
 $_SESSION['l10n']['en']['a253cb1655b359aa0d471d43af35e555']='Prevent the addition of related links';

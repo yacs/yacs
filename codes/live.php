@@ -146,8 +146,8 @@ $context['text'] .= '[title]'.i18n::s('Recent updates').' [escape][updated] [upd
 	.'<p>'.i18n::s('Use the simplest form to display a compact list of pages, or limit the scope.').'</p>'
 	.Skin::table_prefix('100%')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][updated][/escape]</td>'
-	.'<td>[updated]</td></tr>'
+	.'<tr><td class="sample">[escape][updated.timeline][/escape]</td>'
+	.'<td>[updated.timeline]</td></tr>'
 	.Skin::table_suffix();
 
 // [updated=self]

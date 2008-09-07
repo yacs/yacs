@@ -148,7 +148,7 @@ if(!isset($item['id'])) {
 
 // a vote has already been registered
 } elseif(isset($_COOKIE['poll_'.$id])) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You have already voted'));
 
 // record the vote

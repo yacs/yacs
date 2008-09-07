@@ -136,6 +136,7 @@
  * @tester Jan Boen
  * @tester ThierryP
  * @tester Canardo69
+ * @tester Vincent
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -159,7 +160,7 @@ if(!Surfer::is_logged())
 
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the input form
@@ -499,7 +500,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['users_without_file_overloads']) || ($context['users_without_file_overloads'] != 'Y'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Any member can update files posted by others.');
-	$input .= BR.'<input type="radio" name="users_without_file_overloads" value="R"';
+	$input .= BR.'<input type="radio" name="users_without_file_overloads" value="Y"';
 	if(isset($context['users_without_file_overloads']) && ($context['users_without_file_overloads'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Files can be modified only by their original authors, plus associates and editors.');

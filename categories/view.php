@@ -113,7 +113,10 @@ elseif(isset($_REQUEST['links']) && ($zoom_index = $_REQUEST['links']))
 elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_type = $context['arguments'][1];
 	$zoom_index = $context['arguments'][2];
-}
+
+// view.php/12/categories-2
+} elseif(isset($context['arguments'][1]))
+	list($zoom_type, $zoom_index) = explode('-', $context['arguments'][1], 2);
 
 // get the item from the database
 $item =& Categories::get($id);
@@ -185,7 +188,7 @@ if(!isset($item['id'])) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Categories::get_permalink($item)));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the category
@@ -928,7 +931,7 @@ if(!isset($item['id'])) {
 	if(!$zoom_type && Surfer::is_associate()) {
 
 		// modify this page
-		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'edit'), i18n::s('Edit this page'), 'basic', i18n::s('Update the content of this page'));
+		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'edit'), i18n::s('Edit this page'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed
 		if(Images::are_allowed($anchor, $item)) {

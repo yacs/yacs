@@ -1549,7 +1549,7 @@ Class Files {
 		// list items attached to this anchor, or to articles anchored to this anchor, or to articles anchored to sub-sections of this anchor
 		if($anchor && ($variant == 'feeds')) {
 
-				// files attached directly to this anchor
+			// files attached directly to this anchor
 			$query = "(SELECT files.* FROM ".SQL::table_name('files')." AS files"
 				." WHERE (files.anchor LIKE '".SQL::escape($anchor)."') AND (".$where."))"
 

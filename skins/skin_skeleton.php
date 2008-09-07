@@ -1171,9 +1171,10 @@ Class Skin_Skeleton {
 	 * @param string an optional variant, as described above
 	 * @param string an optional title to add to the link
 	 * @param boolean open the link in a separate page if TRUE
+	 * @param string to access this link with keyboard only
 	 * @return string the rendered text, or the bare url if $variant = 'raw'
 	**/
-	function &build_link($url, $label=NULL, $variant=NULL, $href_title=NULL, $new_window=FALSE)
+	function &build_link($url, $label=NULL, $variant=NULL, $href_title=NULL, $new_window=FALSE, $access_key=NULL)
 	{
 		global $context;
 
@@ -1250,11 +1251,15 @@ Class Skin_Skeleton {
 
 		}
 
-		// open in a separate window if asked explicitly or on file download
-		if($new_window || !strncmp($url, 'files/stream.php', 16) || !strncmp($url, 'file-stream/', 12))
-			$new_window = ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"';
+		// open in a separate window if asked explicitly or on file streaming
+		if($new_window || (strpos($url, 'files/stream.php') !== FALSE) || (strpos($url, 'file-stream/') !== FALSE))
+			$attributes = ' onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"';
 		else
-			$new_window = '';
+			$attributes = '';
+
+		// access key
+		if($access_key)
+			$attributes .= ' accesskey="'.$access_key.'"';
 
 		// malformed url '//server/path' --> 'http://server/path'
 		if(!strncmp($url, '//', 2))
@@ -1326,17 +1331,17 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('View the page')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="article"'.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="article"'.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'basic':
 
-			$text = '<a href="'.$url.'"'.$href_title.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'button':
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="this.blur();"'.$new_window.'><span>'.$text.'</span></a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="this.blur();"'.$attributes.'><span>'.$text.'</span></a>';
 			break;
 
 		case 'category':
@@ -1345,7 +1350,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('View the category')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="category"'.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="category"'.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'comment':
@@ -1354,7 +1359,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('View this comment')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="comment"'.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="comment"'.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'day':
@@ -1363,7 +1368,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Daily calendar')).'"';
 
-			$text = ' <a href="'.$url.'"'.$href_title.' class="day"'.$new_window.'>'.$text.'</a> ';
+			$text = ' <a href="'.$url.'"'.$href_title.' class="day"'.$attributes.'>'.$text.'</a> ';
 			break;
 
 		case 'email':
@@ -1375,7 +1380,7 @@ Class Skin_Skeleton {
 				$href_title = ' title="'.encode_field(i18n::s('Send a message')).'"';
 
 			// use obfuscated reference
-			$text = '<a href="'.$url.'"'.$href_title.' class="email"'.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="email"'.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'external':
@@ -1392,7 +1397,7 @@ Class Skin_Skeleton {
 
 		case 'file':
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="file"'.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="file"'.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'help':
@@ -1414,11 +1419,11 @@ Class Skin_Skeleton {
 			break;
 
 		case 'menu_1':
-			$text = MENU_1_PREFIX.'<a href="'.$url.'"'.$href_title.' class="menu_1"'.$new_window.'>'.$text.'</a>'.MENU_1_SUFFIX;
+			$text = MENU_1_PREFIX.'<a href="'.$url.'"'.$href_title.' class="menu_1"'.$attributes.'>'.$text.'</a>'.MENU_1_SUFFIX;
 			break;
 
 		case 'menu_2':
-			$text = MENU_2_PREFIX.'<a href="'.$url.'"'.$href_title.' class="menu_2"'.$new_window.'>'.$text.'</a>'.MENU_2_SUFFIX;
+			$text = MENU_2_PREFIX.'<a href="'.$url.'"'.$href_title.' class="menu_2"'.$attributes.'>'.$text.'</a>'.MENU_2_SUFFIX;
 			break;
 
 		case 'month':
@@ -1427,7 +1432,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Monthly calendar')).'"';
 
-			$text = ' <a href="'.$url.'"'.$href_title.' class="month"'.$new_window.'>'.$text.'</a> ';
+			$text = ' <a href="'.$url.'"'.$href_title.' class="month"'.$attributes.'>'.$text.'</a> ';
 			break;
 
 		case 'more':
@@ -1436,7 +1441,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('More')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'next':
@@ -1449,7 +1454,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Next')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="next"'.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="next"'.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'previous':
@@ -1462,7 +1467,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Previous')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="previous"'.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="previous"'.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'raw':
@@ -1498,7 +1503,7 @@ Class Skin_Skeleton {
 				$href_title = ' title="'.encode_field(i18n::s('Go to the documentation page')).'"';
 
 			// a link to the phpdoc page
-			$text = '<a href="'.$url.'"'.$href_title.' class="script"'.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="script"'.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'section':
@@ -1507,7 +1512,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('View the page')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="section"'.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="section"'.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'server':
@@ -1516,7 +1521,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('See server profile')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="server"'.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="server"'.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'shortcut':
@@ -1525,12 +1530,12 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Shortcut')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="shortcut"'.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="shortcut"'.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'span':
 
-			$text = '<a href="'.$url.'"'.$href_title.$new_window.'><span>'.$text.'</span></a>';
+			$text = '<a href="'.$url.'"'.$href_title.$attributes.'><span>'.$text.'</span></a>';
 			break;
 
 		case 'idle user':
@@ -1540,7 +1545,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('View person profile')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="'.$variant.'"'.$new_window.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="'.$variant.'"'.$attributes.'>'.$text.'</a>';
 			break;
 
 		case 'xml':
@@ -1561,14 +1566,14 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Yearly calendar')).'"';
 
-			$text = ' <a href="'.$url.'"'.$href_title.' class="year"'.$new_window.'>'.$text.'</a> ';
+			$text = ' <a href="'.$url.'"'.$href_title.' class="year"'.$attributes.'>'.$text.'</a> ';
 			break;
 
 		default:
 			if($variant)
-				$text = '<a href="'.$url.'"'.$href_title.' class="'.$variant.'"'.$new_window.'>'.$text.'</a>';
+				$text = '<a href="'.$url.'"'.$href_title.' class="'.$variant.'"'.$attributes.'>'.$text.'</a>';
 			else
-				$text = '<a href="'.$url.'"'.$href_title.$new_window.'>'.$text.'</a>';
+				$text = '<a href="'.$url.'"'.$href_title.$attributes.'>'.$text.'</a>';
 			break;
 
 		}

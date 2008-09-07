@@ -45,7 +45,7 @@ function send_body() {
 
 	// only associates can proceed
 	if(!Surfer::is_associate()) {
-		Safe::header('Status: 403 Forbidden', TRUE, 403);
+		Safe::header('Status: 401 Forbidden', TRUE, 401);
 		echo '<p>'.i18n::s('You are not allowed to perform this operation.')."</p>\n";
 
 		// forward to the index page

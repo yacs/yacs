@@ -1530,7 +1530,7 @@ Class Comments {
 	 * @param string timestamp of previous update
 	 * @return array attributes including new comments and a timestamp
 	 *
-	 * @see articles/view_as_thread.php
+	 * @see articles/view_as_chat.php
 	 * @see comments/thread.php
 	 */
 	function &pull($anchor, $stamp, $count=100) {

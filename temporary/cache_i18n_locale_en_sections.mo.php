@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 27, 2008, 9:35 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
 $_SESSION['l10n']['en']['%d comments']='%d comments';
@@ -278,6 +278,7 @@ $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
 $_SESSION['l10n']['en']['Poster']='Poster';
 $_SESSION['l10n']['en']['Prefix']='Prefix';
 $_SESSION['l10n']['en']['Prefix separator']='Prefix separator';
+$_SESSION['l10n']['en']['Press [e] to edit']='Press [e] to edit';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['c0df1f223de6a16ea0b417f65a0ca2af']='Prevent YACS to add links to previous and next pages in the same section';
 $_SESSION['l10n']['en']['Previous']='Previous';

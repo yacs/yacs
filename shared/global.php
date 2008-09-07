@@ -1506,16 +1506,16 @@ function get_action_label($action) {
 
 	switch($action) {
 	case 'article:create':
-		return i18n::s('page created');
+		return i18n::s('created');
 
 	case 'article:update':
-		return i18n::s('page edited');
+		return i18n::s('edited');
 
 	case 'article:publish':
-		return i18n::s('page published');
+		return i18n::s('published');
 
 	case 'article:review':
-		return i18n::s('page reviewed');
+		return i18n::s('reviewed');
 
 	case 'section:create':
 		return i18n::s('section created');
@@ -1634,7 +1634,7 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 
 	// ensure a safe name
 	if(isset($name))
-		$name = str_replace(array(' ', '.', ',', ';', ':', '!', '?', '<', '>', '/', '_'), '-', strtolower(utf8::to_ascii(trim($name))));
+		$name = str_replace(array(' ', '..', ',', ';', ':', '!', '?', '<', '>', '/', '_'), '-', strtolower(utf8::to_ascii(trim($name))));
 
 	// do not fool rewriting, just in case alternate name would be put in title
 	if(isset($name))
@@ -1662,14 +1662,18 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 		if(isset($name) && $name)
 			$link .= '/'.rawurlencode($name);
 
+		// a prefix for navigation links
+		if($action == 'navigate')
+			$link .= '-';
+
 		// done
 		return $link;
 
 	// use rewriting engine to achieve pretty references, except if composed anchor -- look .htaccess
 	} elseif(($context['with_friendly_urls'] == 'R') && (count($nouns) == 1)) {
 
-		// 'view' is a special case, else insert action in reference
-		if($action == 'view')
+		// 'view' and 'navigate' are special cases, else insert action in reference
+		if(($action == 'view') || ($action == 'navigate'))
 			$link = $alternate.'-';
 		else
 			$link = $alternate.'-'.$action.'/';
@@ -1677,8 +1681,12 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 		// append target id
 		$link .= rawurlencode($id);
 
+		// a prefix for navigation links
+		if($action == 'navigate')
+			$link .= '/'.rawurlencode($name).'-';
+
 		// append normalized name, if any, for comprehensive URL rewriting
-		if(isset($name) && $name)
+		elseif(isset($name) && $name)
 			$link .= '-'.rawurlencode($name);
 
 		// done
@@ -1688,8 +1696,12 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 	} else {
 		$link = $module.'/'.$action.'.php?id='.urlencode($id);
 
+		// a prefix for navigation links
+		if($action == 'navigate')
+			$link .= '&amp;'.rawurlencode($name).'=';
+
 		// append name, if any, for comprehensive URL rewriting -- use '&' and not '&amp;' else users/element.php is killed
-		if(isset($name) && $name)
+		elseif(isset($name) && $name)
 			$link .= '&action='.urlencode($name);
 
 		// done

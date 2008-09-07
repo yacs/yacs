@@ -65,7 +65,7 @@ if(!is_object($anchor))
 
 // permission denied
 elseif(!$permitted) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // build a form to associates some users to this item

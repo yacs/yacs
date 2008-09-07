@@ -564,6 +564,8 @@ Class Article extends Anchor {
 	function is_interactive() {
 
 		// article has been configured to be viewed as a thread
+		if(isset($this->item['options']) && preg_match('/\bview_as_chat\b/i', $this->item['options']))
+			return TRUE;
 		if(isset($this->item['options']) && preg_match('/\bview_as_thread\b/i', $this->item['options']))
 			return TRUE;
 
@@ -572,6 +574,8 @@ Class Article extends Anchor {
 			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// section asks for threads
+		if(is_object($this->anchor) && $this->anchor->has_option('view_as_chat'))
+			return TRUE;
 		if(is_object($this->anchor) && $this->anchor->has_option('view_as_thread'))
 			return TRUE;
 

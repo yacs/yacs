@@ -123,7 +123,10 @@ elseif(!isset($zoom_index) && isset($_REQUEST['bookmarks']) && ($zoom_index = $_
 elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_type = $context['arguments'][1];
 	$zoom_index = $context['arguments'][2];
-}
+
+// view.php/12/files-2
+} elseif(isset($context['arguments'][1]))
+	list($zoom_type, $zoom_index) = explode('-', $context['arguments'][1], 2);
 
 // get the item from the database
 $item =& Users::get($id);
@@ -166,7 +169,7 @@ $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
 if(isset($item['full_name']) && $item['full_name']) {
-	if(strpos($item['full_name'], $item['nick_name']) === FALSE)
+	if($item['full_name'] != $item['nick_name'])
 		$context['page_title'] = $item['full_name'].' <span style="font-size: smaller;">- '.$item['nick_name'].'</span>';
 	else
 		$context['page_title'] = $item['full_name'];
@@ -200,7 +203,7 @@ if(!isset($item['id'])) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Users::get_url($item['id'])));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the user profile
@@ -518,8 +521,6 @@ if(!isset($item['id'])) {
 		if(isset($item['pgp_key']) && $item['pgp_key'])
 			$interactions .= Skin::build_box(i18n::s('Public key'), '<span style="font-size: 50%">'.$item['pgp_key'].'</span>', 'folder');
 
-	}
-
 		// show preferences only to related surfers and to associates
 		//
 		if((Surfer::get_id() == $item['id']) || Surfer::is_associate()) {
@@ -718,6 +719,8 @@ if(!isset($item['id'])) {
 		if(count($rows))
 			$information .= Skin::build_box(i18n::s('Business card'), Skin::table(NULL, $rows, 'form'), 'folder');
 
+	}
+
 	// in a separate tab
 	if($information)
 		$panels[] = array('information_tab', i18n::s('Information'), 'information_panel', $information);
@@ -756,7 +759,7 @@ if(!isset($item['id'])) {
 
 		// modify this page
 		Skin::define_img('EDIT_USER_IMG', 'icons/users/edit.gif');
-		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), EDIT_USER_IMG.i18n::s('Edit this page'), 'basic');
+		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), EDIT_USER_IMG.i18n::s('Edit this page'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// change avatar
 		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Change avatar'), 'basic');

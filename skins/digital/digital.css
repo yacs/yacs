@@ -2042,7 +2042,8 @@ tr.odd td.sorted {
 
 .tiny, /* smaller than .small -- [tiny]...[/tiny] */
 table.tiny tr td { /* [table=tiny]...[/table] */
-	font-size: 0.7em;
+	font-family: sans-serif;
+	font-size: 9px;
 }
 
 .toc_box { /* table of content -- [toc] */

@@ -67,9 +67,9 @@ include_once '../shared/xml.php';	// input validation
 include_once 'comments.php';
 
 // the maximum size for uploads
-$file_maximum_size = str_replace('M', '000000', Safe::get_cfg_var('upload_max_filesize'));
-if(!$file_maximum_size || ($file_maximum_size > 50000000))
-	$file_maximum_size = 5000000;
+$file_maximum_size = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
+if(!$file_maximum_size)
+	$file_maximum_size = '2 M';
 
 // what should we do?
 $action = '';
@@ -192,7 +192,7 @@ if(isset($_REQUEST['description']))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
@@ -208,7 +208,7 @@ if(Surfer::is_crawler()) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('comments/edit.php?'.$login_hook));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an error occured
@@ -535,14 +535,10 @@ if($with_form) {
 
 		// an upload entry
 		$input = '<input type="hidden" name="file_type" value="upload" />'
-			.'<input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
-			.'<input type="file" name="upload" size="30" />';
+			.'<input type="file" name="upload" size="30" />'
+			.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')';
 
-		// upload hint
-		$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
-		$hint = sprintf(i18n::s('You can upload a file of less than %s'), Skin::build_number($size_hint, i18n::s('bytes')))."\n";
-
-		$fields[] = array($label, $input, $hint);
+		$fields[] = array($label, $input);
 
 	}
 

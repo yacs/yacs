@@ -1381,9 +1381,9 @@ Class Codes {
 			$menu = array_merge($menu, array(Sections::get_url('all', 'view_as_freemind', utf8::to_ascii($context['site_name'].'.mm')) => i18n::s('Full-size')));
 
 		// content of one section
-		} elseif(preg_match('/section:(\.+)$/', $id, $matches)) {
+		} elseif(($position = strpos($id, 'section:')) !== FALSE) {
 
-			if(!$item =& Sections::get($matches[1])) {
+			if(!$item =& Sections::get(substr($id, $position + strlen('section:')))) {
 				$text = '[freemind='.$id.']';
 				return $text;
 			}
@@ -2072,7 +2072,9 @@ Class Codes {
 
 			// stream in a separate page
 			if(isset($attributes[1]) && preg_match('/window/i', $attributes[1])) {
-				$output = '<a href="'.Files::get_url($id, 'stream', $item['file_name']).'" onclick="window.open(this.href); return false;" class="button"><span>'.i18n::s('Play in a separate window').'</span></a>';
+				if(!isset($attributes[2]))
+					$attributes[2] = i18n::s('Play in a separate window');
+				$output = '<a href="'.Files::get_url($id, 'stream', $item['file_name']).'" onclick="window.open(this.href); return false;" class="button"><span>'.$attributes[2].'</span></a>';
 				return $output;
 			}
 

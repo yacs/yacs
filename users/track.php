@@ -57,12 +57,12 @@ if(!$item['id']) {
 
 // operation is restricted to logged users
 } elseif(!Surfer::get_id()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // you cannot watch yourself
 } elseif($track == 'user:'.Surfer::get_id()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // toggle membership status

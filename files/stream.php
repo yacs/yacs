@@ -14,7 +14,7 @@
  * - [code].au[/code] (through a [code].m3u[/code] redirector)
  * - [code].avi[/code] (through a [code].m3u[/code] redirector)
  * - [code].divx[/code] (through a [code].m3u[/code] redirector)
- * - [code].flv[/code]
+ * - [code].flv[/code] (load a flash player in full screen)
  * - [code].mm[/code] (load a flash or java player)
  * - [code].mov[/code] (through a [code].m3u[/code] redirector)
  * - [code].mp3[/code] (through a [code].m3u[/code] redirector)
@@ -177,7 +177,7 @@ if(!$item['id']) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // do provide the file
@@ -308,6 +308,7 @@ if(!$item['id']) {
 			$script = 'included/browser/swfobject.js.jsmin';
 		else
 			$script = 'included/browser/swfobject.js';
+		$text .= '<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n";
 
 		// load javascript files from the skin directory -- e.g., Global Crossing js extensions, etc.
 		if(isset($context['skin'])) {
@@ -321,8 +322,8 @@ if(!$item['id']) {
 // 		if(isset($context['skin']))
 // 			$text .= '<link rel="stylesheet" href="'.$context['url_to_root'].$context['skin'].'/'.str_replace('skins/', '', $context['skin']).'.css" type="text/css" media="all" />'."\n";
 
-		$text .= '<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
-			.'</head>'."\n"
+		// full screen
+		$text .= '</head>'."\n"
 			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n"
 			.'<div id="live_flash">'."\n";
 

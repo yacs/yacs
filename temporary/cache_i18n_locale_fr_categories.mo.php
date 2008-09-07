@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 27, 2008, 9:35 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['a0507e16b19aa7d4554d3ae0abcb89cf']='%d catégorie'.chr(0).'%d catégories';
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
@@ -130,6 +130,7 @@ $_SESSION['l10n']['fr']['1e15bcb69dd742712c3a2af4431b476e']='Merci de contrôler
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['Popular']='Hit-Parade';
 $_SESSION['l10n']['fr']['Prefix']='Préfixe';
+$_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Print this page']='Imprimer cette page';
 $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';
@@ -191,7 +192,6 @@ $_SESSION['l10n']['fr']['Trailer']='Bas de page';
 $_SESSION['l10n']['fr']['8dba3e281bee8eeab2f14d6e4c0f5548']='Ancrage inconnu %s, l\'enregistrement a été supprimé';
 $_SESSION['l10n']['fr']['e0d8b6d765ad12a441a66eeaa6e77e71']='Membre inconnu %s, l\'enregistrement a été supprimé';
 $_SESSION['l10n']['fr']['Unlink']='Délier';
-$_SESSION['l10n']['fr']['Update the content of this page']='Changer le contenu de cette page';
 $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['bf17c77b74c5350da902a6142f9a7a9d']='Téléverser une petite image pour illustrer cette page au niveau de son parent.';
 $_SESSION['l10n']['fr']['43e5a74e454bb7711c71226172c18b85']='Téléverser une image et l\'intégrer dans la page. Les grandes images seront transformées en vignettes cliquables.';

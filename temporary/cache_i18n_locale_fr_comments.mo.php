@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 27, 2008, 9:35 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d post'.chr(0).'%d posts']='%d envoi'.chr(0).'%d envois';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
@@ -59,6 +59,7 @@ $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\
 $_SESSION['l10n']['fr']['Please type a valid comment']='Merci de taper un commentaire valide';
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';
 $_SESSION['l10n']['fr']['Posted by']='Envoyé par';
+$_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [p] for preview']='Appuyer sur [p] pour l\'aperçu';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Preview']='Aperçu';
@@ -99,7 +100,6 @@ $_SESSION['l10n']['fr']['6ea7b5a19127f511bec28a548295d614']='Oui, je veux suppri
 $_SESSION['l10n']['fr']['d3016a1561487b9f24ccb81618fea0e2']='Oui, je veux promouvoir ce commentaire en article';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['583547da9f1a19cbe30016004d2a0de2']='Vous pouvez copier et coller du texte à partir du champ ci-dessous pour construire votre envoi.';
-$_SESSION['l10n']['fr']['c7c4a684a777062b8169a76cb777532c']='Vous pouvez envoyer un fichier de moins de %s';
 $_SESSION['l10n']['fr']['Your address']='Votre adresse';
 $_SESSION['l10n']['fr']['Your contribution']='Votre contribution';
 $_SESSION['l10n']['fr']['26d108ddac5f9af035390574928cd68d']='Votre contribution n\'a pas été envoyée.';

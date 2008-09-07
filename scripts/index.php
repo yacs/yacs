@@ -165,7 +165,7 @@ $context['text'] .= Skin::build_box(i18n::s('On-line Documentation'), $text);
 if(Surfer::is_associate()) {
 
 	// patch the server
-	$context['page_tools'][] = Skin::build_link('scripts/upload.php', i18n::s('Patch'), 'basic');
+	$context['page_tools'][] = Skin::build_link('scripts/upload.php', i18n::s('Apply a patch'), 'basic');
 
 	// signal scripts to run once, if any
 	if(Safe::glob($context['path_to_root'].'scripts/run_once/*.php') !== FALSE)

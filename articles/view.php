@@ -96,8 +96,8 @@
  * - view.php/12/nick_name (add nick name to regular id, for URL rewriting)
  * - view.php?id=12 (view the first page of the article document)
  * - view.php?id=12&variant=mobile (mobile edition)
- * - view.php/12/pages/1 (view the page 1 of the main content)
- * - view.php?id=12&pages=1 (view the page 1 of the main content)
+ * - view.php/12/articles/1 (view the page 1 of the main content)
+ * - view.php?id=12&articles=1 (view the page 1 of the main content)
  * - view.php/12/categories/1 (view the page 1 of the list of related categories)
  * - view.php?id=12&categories=1 (view the page 1 of the list of related categories)
  * - view.php/12/comments/1 (view the page 1 of the list of related comments)
@@ -154,8 +154,8 @@ if(isset($_SERVER['HTTP_ACCEPT_CHARSET']) && preg_match('/^iso-8859-1/i', $_SERV
 
 // page within a page
 $page = 1;
-if(isset($_REQUEST['pages']))
-	$page = $_REQUEST['pages'];
+if(isset($_REQUEST['articles']))
+	$page = $_REQUEST['articles'];
 $page = strip_tags($page);
 
 // no follow-up page yet
@@ -178,15 +178,14 @@ elseif(isset($_REQUEST['files']) && ($zoom_index = $_REQUEST['files']))
 elseif(isset($_REQUEST['links']) && ($zoom_index = $_REQUEST['links']))
 	$zoom_type = 'links';
 
-// view.php/12/pages/2
-elseif(isset($context['arguments'][1]) && ($context['arguments'][1] == 'pages') && isset($context['arguments'][2]))
-	$page = $context['arguments'][2];
-
 // view.php/12/files/2
 elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_type = $context['arguments'][1];
 	$zoom_index = $context['arguments'][2];
-}
+
+// view.php/12/files-2
+} elseif(isset($context['arguments'][1]))
+	list($zoom_type, $zoom_index) = explode('-', $context['arguments'][1], 2);
 
 // view.php/12/nick name induces no particular processing
 
@@ -447,12 +446,12 @@ if(!isset($item['id'])) {
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_permalink($item)));
 
 	// permission denied to authenticated user
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // stop crawlers on non-published pages
 } elseif((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && !Surfer::is_logged()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the article
@@ -847,7 +846,7 @@ if(!isset($item['id'])) {
 				if(count($pages) > 1) {
 					$page_menu = array( '_' => i18n::s('Pages') );
 					$home = Articles::get_permalink($item);
-					$prefix = Articles::get_url($item['id'], 'navigate', 'pages');
+					$prefix = Articles::get_url($item['id'], 'navigate', 'articles');
 					$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
 
 					$text .= Skin::build_list($page_menu, 'menu_bar');
@@ -1187,7 +1186,7 @@ if(!isset($item['id'])) {
 		Skin::define_img('EDIT_ARTICLE_IMG', 'icons/articles/edit.gif');
 		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
 			$label = i18n::s('Edit this page');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), EDIT_ARTICLE_IMG.$label, 'basic', i18n::s('Update the content of this page'));
+		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), EDIT_ARTICLE_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed
 		if(Images::are_allowed($anchor, $item)) {

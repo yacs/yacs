@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 27, 2008, 9:35 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%d bytes']='%d  octets';
 $_SESSION['l10n']['fr']['%d image'.chr(0).'%d images']='%d image'.chr(0).'%d images';
@@ -64,6 +64,7 @@ $_SESSION['l10n']['fr']['92fdd78ee6bb759cae3b7d6e33a0552f']='Choisissez l\'empla
 $_SESSION['l10n']['fr']['88100f21e63a26d7ae6895199f0d7475']='Merci de sélectionner une image .png, ou .gif ou .jpg';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';
+$_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Press to select a local file']='Choisir un fichier local';
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';

@@ -496,16 +496,6 @@ Class Users {
 				return 'users/login.php?credentials='.urlencode($id);
 		}
 
-		// the prefix for navigation links --name references things that are navigated
-		if($action == 'navigate') {
-			if($context['with_friendly_urls'] == 'Y')
-				return 'users/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			elseif($context['with_friendly_urls'] == 'R')
-				return 'users/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			else
-				return 'users/view.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
-		}
-
 		// track something -- the id has to be an anchor (e.g., 'article:15')
 		if($action == 'track') {
 			if($context['with_friendly_urls'] == 'Y')
@@ -521,7 +511,7 @@ Class Users {
 			return 'users/select.php?member='.urlencode($id);
 
 		// check the target action
-		if(!preg_match('/^(contact|delete|describe|edit|element|feed|fetch_vcard|mail|password|print|select_avatar|share|validate|view|visit)$/', $action))
+		if(!preg_match('/^(contact|delete|describe|edit|element|feed|fetch_vcard|mail|navigate|password|print|select_avatar|share|validate|view|visit)$/', $action))
 			$action = 'view';
 
 // 		// view user profile --use only the nick name, since it is unique

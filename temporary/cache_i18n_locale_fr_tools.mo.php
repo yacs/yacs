@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 31, 2008, 10:38 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 10:06 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['318bb71a30c3dcd1476ae87d0e98cfdc']='Un calendrier des activités à venir';

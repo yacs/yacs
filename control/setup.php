@@ -118,7 +118,7 @@ function send_body() {
 	// check that the user is an admin, but only if there is at least one user record
 	$query = "SELECT count(*) FROM ".SQL::table_name('users');
 	if(!Surfer::is_associate() && (SQL::query($query) !== FALSE)) {
-		Safe::header('Status: 403 Forbidden', TRUE, 403);
+		Safe::header('Status: 401 Forbidden', TRUE, 401);
 		echo '<p>'.i18n::s('You are not allowed to perform this operation.')."</p>\n";
 		return;
 	}

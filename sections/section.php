@@ -1443,7 +1443,7 @@ Class Section extends Anchor {
 			$anchor =& Anchors::get('section:'.$this->item['id']);
 
 			// no watch in interactive threads
-			if(is_object($anchor) && !$anchor->has_option('view_as_thread')) {
+			if(is_object($anchor) && !$anchor->has_option('view_as_chat') && !$anchor->has_option('view_as_thread')) {
 
 				// the path of containers to this item
 				$containers = $anchor->get_focus();

@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 27, 2008, 9:35 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['1bd98a189df2e6fa8f42845cb0f815e1']='%d actif en ce momemt'.chr(0).'%d actifs en ce momemt';
 $_SESSION['l10n']['fr']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
@@ -289,6 +289,7 @@ $_SESSION['l10n']['fr']['Please register or log in']='Merci de vous faire conna�
 $_SESSION['l10n']['fr']['12fc8d23e0da8141d00630c0f2779650']='Merci d\'indiquer les mots recherchés';
 $_SESSION['l10n']['fr']['Preferences']='Préférences';
 $_SESSION['l10n']['fr']['Present users']='Présents sur le site';
+$_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['18e11d87e695c096c6a2701f7cf31efa']='Empêcher la création de pages privées.';
 $_SESSION['l10n']['fr']['Previous action']='Précédente';

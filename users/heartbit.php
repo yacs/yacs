@@ -41,7 +41,7 @@ Safe::header("Pragma: no-cache");
 if(!Surfer::get_id()) {
 	Logger::profile_dump();
 
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	die(i18n::s('You are not allowed to perform this operation.'));
 
 // a new notification has been submitted

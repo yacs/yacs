@@ -710,22 +710,12 @@ Class Categories {
 	function get_url($id, $action='view', $name=NULL) {
 		global $context;
 
-		// the prefix for navigation links --name references the things to page
-		if($action == 'navigate') {
-			if($context['with_friendly_urls'] == 'Y')
-				return 'categories/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			elseif($context['with_friendly_urls'] == 'R')
-				return 'categories/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			else
-				return 'categories/view.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
-		}
-
 		// select a category for an anchor
 		if($action == 'select')
 			return 'categories/select.php?anchor='.urlencode($id);
 
 		// check the target action
-		if(!preg_match('/^(delete|describe|edit|feed|mail|print|view)$/', $action))
+		if(!preg_match('/^(delete|describe|edit|feed|mail|navigate|print|view)$/', $action))
 			$action = 'view';
 
 		// normalize the link

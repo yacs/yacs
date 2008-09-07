@@ -82,15 +82,15 @@ include_once '../shared/xml.php';	// input validation
 include_once 'files.php';
 
 // the maximum size for uploads
-$file_maximum_size = str_replace('M', '000000', Safe::get_cfg_var('upload_max_filesize'));
-if(!$file_maximum_size || ($file_maximum_size > 50000000))
-	$file_maximum_size = 5000000;
+$file_maximum_size = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
+if(!$file_maximum_size)
+	$file_maximum_size = '2 M';
 
 // look for the id
 $id = NULL;
 if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
-elseif(isset($context['arguments'][0]))
+elseif(isset($context['arguments'][0]) && !isset($context['arguments'][1]))
 	$id = $context['arguments'][0];
 $id = strip_tags($id);
 
@@ -126,20 +126,16 @@ elseif(isset($item['id']) && Surfer::is_empowered())
 elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
+// authenticated members can post new items if submission is allowed
+elseif(!isset($item['id']) && Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y')))
+	$permitted = TRUE;
+
+// the original poster can change the file
+elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
+	$permitted = TRUE;
+
 // authenticated members are allowed to modify files from others
 elseif(isset($item['id']) && Surfer::is_member() && (!isset($context['users_without_file_overloads']) || ($context['users_without_file_overloads'] != 'Y')))
-	$permitted = TRUE;
-
-// surfer created the item
-elseif(isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
-	$permitted = TRUE;
-
-// authenticated members can add files to existing pages
-elseif(Surfer::is_member() && is_object($anchor))
-	$permitted = TRUE;
-
-// authenticated members can post new items if submission is allowed
-elseif(Surfer::is_member() && !isset($item['id']) && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y')))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -176,7 +172,7 @@ if(isset($_REQUEST['description']))
 
 // stop crawlers
 if(Surfer::is_crawler()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
@@ -196,17 +192,17 @@ if(Surfer::is_crawler()) {
 	}
 
 	// permission denied to authenticated user
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // maybe posts are not allowed here
 } elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('This page has been locked.'));
 
 // extension is not allowed
 } elseif(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && !Files::is_authorized($_FILES['upload']['name'])) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('This type of file is not allowed.'));
 
 // an error occured
@@ -545,10 +541,8 @@ if($with_form) {
 
 			// an upload entry
 			$input .= '<dt><input type="radio" name="file_type" value="upload" checked="checked" />'.i18n::s('Upload a file').'</dt>'
-				.'<dd><input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
-				.'<input type="file" name="upload" id="upload" size="30" />';
-			$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
-			$input .= ' (&lt;&nbsp;'.Skin::build_number($size_hint, i18n::s('bytes')).')</dd>'."\n";
+				.'<dd><input type="file" name="upload" id="upload" size="30" />'
+				.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')</dd>'."\n";
 
 			// or
 			$input .= '<dt>'.i18n::s('or').'</dt>';
@@ -572,10 +566,8 @@ if($with_form) {
 
 			// an upload entry
 			$input = '<input type="hidden" name="file_type" value="upload" />'
-				.'<input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
-				.'<input type="file" name="upload" id="upload" size="30" />';
-			$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
-			$input .= ' (&lt;&nbsp;'.Skin::build_number($size_hint, i18n::s('bytes')).')'."\n";
+				.'<input type="file" name="upload" id="upload" size="30" />'
+				.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')'."\n";
 
 		}
 
@@ -607,11 +599,9 @@ if($with_form) {
 		if(Surfer::may_upload()) {
 
 			// refresh the file
-			$size_hint = preg_replace('/000$/', 'k', preg_replace('/000000$/', 'M', $file_maximum_size));
 			$input .= i18n::s('Select another file to replace the current one').BR
-				.'<input type="hidden" name="MAX_FILE_SIZE" value="'.$file_maximum_size.'" />'
 				.'<input type="file" name="upload" id="upload" size="30" />'
-				.' (&lt;&nbsp;'.Skin::build_number($size_hint, i18n::s('bytes')).')'."\n";
+				.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')'."\n";
 
 
 		}

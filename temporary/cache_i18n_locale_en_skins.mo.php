@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 27, 2008, 9:35 pm GMT. Please do not modify it manually.
+ * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en'][' at %s%s']=' at %s%s';
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
@@ -16,7 +16,6 @@ $_SESSION['l10n']['en']['%d words to read']='%d words to read';
 $_SESSION['l10n']['en']['%s has been copied']='%s has been copied';
 $_SESSION['l10n']['en']['%s has been transcoded']='%s has been transcoded';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
-$_SESSION['l10n']['en']['ffe33c9b969322f41e37847653e333fd']='-- Do not assign any section to this skin';
 $_SESSION['l10n']['en']['<b>Note:</b> ']='<b>Note:</b> ';
 $_SESSION['l10n']['en']['<b>Warning:</b> ']='<b>Warning:</b> ';
 $_SESSION['l10n']['en']['A: ']='A: ';
@@ -31,7 +30,6 @@ $_SESSION['l10n']['en']['664091c33185385f001d99258ec5fee0']='Allow anonymous sur
 $_SESSION['l10n']['en']['b184c85e0555848d347be3a07dfd7b69']='Also the name of the sub-directory for skin files';
 $_SESSION['l10n']['en']['008a899690918a0b90e75b58d987f5d7']='Alternatively, this script is able to handle archives that have been put in the directory <code>inbox/skins</code>.';
 $_SESSION['l10n']['en']['Archives']='Archives';
-$_SESSION['l10n']['en']['4eb13ba70fc824a3a7eafb1aa955f15b']='As an option, you can assign this template to all pages anchored to one particular section';
 $_SESSION['l10n']['en']['Author information']='Author information';
 $_SESSION['l10n']['en']['Avatar height']='Avatar height';
 $_SESSION['l10n']['en']['Avatar width']='Avatar width';
@@ -173,7 +171,6 @@ $_SESSION['l10n']['en']['Reference this page']='Reference this page';
 $_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['8e8eb648edb57efc53bb3a619f5bd494']='Review provided information and go to the bottom of the page to move forward.';
 $_SESSION['l10n']['en']['Search...']='Search...';
-$_SESSION['l10n']['en']['Section']='Section';
 $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['See server profile']='See server profile';

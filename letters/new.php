@@ -96,17 +96,17 @@ if(!isset($context['letter_reply_to']) || !$context['letter_reply_to'])
 
 // restrictions: for associates only
 if(!Surfer::is_associate()) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('You are not allowed to perform this operation.'));
 
 // e-mail has not been enabled
 } elseif(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(i18n::s('E-mail has not been activated on this system.'));
 
 // no post account
 } elseif((!isset($context['mail_from']) || !$context['mail_from']) && (!isset($context['letter_reply_to']) || !$context['letter_reply_to'])) {
-	Safe::header('Status: 403 Forbidden', TRUE, 403);
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Skin::error(sprintf(i18n::s('No account to post the letter. Please %s.'), Skin::build_link('letters/configure.php', i18n::s('configure one'))));
 
 // prepare some announcement

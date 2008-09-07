@@ -1118,18 +1118,8 @@ Class Sections {
 			}
 		}
 
-		// the prefix for navigation links --the parameter $name references the things to page, e.g., 'sections', 'comments', ...
-		if($action == 'navigate') {
-			if($context['with_friendly_urls'] == 'Y')
-				return 'sections/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			elseif($context['with_friendly_urls'] == 'R')
-				return 'sections/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			else
-				return 'sections/view.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
-		}
-
 		// check the target action
-		if(!preg_match('/^(delete|describe|duplicate|edit|feed|freemind|import|lock|mail|print|slideshow|view|view_as_freemind)$/', $action))
+		if(!preg_match('/^(delete|describe|duplicate|edit|feed|freemind|import|lock|mail|navigate|print|slideshow|view|view_as_freemind)$/', $action))
 			$action = 'view';
 
 		// normalize the link

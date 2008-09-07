@@ -113,7 +113,7 @@ Class Articles {
 	 * @param boolean TRUE is these are coming from several sections, FALSE, otherwise
 	 * @return string to be put in SQL statements
 	 */
-	function _get_order($order, $multiple_anchor=FALSE) {
+	function _get_order($order, $multiple_anchor=TRUE) {
 
 		switch($order) {
 		case 'draft':
@@ -880,16 +880,6 @@ Class Articles {
 				return 'services/check.php?id='.urlencode('article:'.$id);
 		}
 
-		// the prefix for navigation links --name references the things to page
-		if($action == 'navigate') {
-			if($context['with_friendly_urls'] == 'Y')
-				return 'articles/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			elseif($context['with_friendly_urls'] == 'R')
-				return 'articles/view.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-			else
-				return 'articles/view.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
-		}
-
 		// rate this page
 		if($action == 'rate') {
 			if($context['with_friendly_urls'] == 'Y')
@@ -901,7 +891,7 @@ Class Articles {
 		}
 
 		// check the target action
-		if(!preg_match('/^(delete|describe|duplicate|edit|export|fetch_as_msword|fetch_as_pdf|fetch_for_palm|lock|mail|move|print|publish|rate|stamp|unpublish|view)$/', $action))
+		if(!preg_match('/^(delete|describe|duplicate|edit|export|fetch_as_msword|fetch_as_pdf|fetch_for_palm|lock|mail|move|navigate|print|publish|rate|stamp|unpublish|view)$/', $action))
 			$action = 'view';
 
 		// normalize the link
@@ -1440,7 +1430,7 @@ Class Articles {
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
 
 		// order items
-		$order = Articles::_get_order($order, TRUE);
+		$order = Articles::_get_order($order);
 
 		// the list of articles
 		$query = "SELECT articles.*"
@@ -1641,6 +1631,11 @@ Class Articles {
 		case 'thumbnails':
 			include_once $context['path_to_root'].'articles/layout_articles_as_thumbnails.php';
 			$layout =& new Layout_articles_as_thumbnails();
+			break;
+
+		case 'timeline':
+			include_once $context['path_to_root'].'articles/layout_articles_as_timeline.php';
+			$layout =& new Layout_articles_as_timeline();
 			break;
 
 		default:

@@ -21,17 +21,15 @@ Class Layout_categories_as_tabs extends Layout_interface {
 	function &layout(&$result) {
 		global $context;
 
+		// we return an array of ($url => $attributes)
+		$items = array();
+
 		// empty list
-		if(!SQL::count($result)) {
-			$output = array();
-			return $output;
-		}
+		if(!SQL::count($result))
+			return $items;
 
 		// no hovering label, because nicetitle may kill the effect
 		$href_title = '';
-
-		// we return an array of ($url => $attributes)
-		$items = array();
 
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {

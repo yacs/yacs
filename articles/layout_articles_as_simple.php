@@ -109,7 +109,6 @@ Class Layout_articles_as_simple extends Layout_interface {
 				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
 			// flag popular pages
-			$popular = '';
 			if($item['hits'] > 300)
 				$details[] = POPULAR_FLAG;
 
