@@ -113,10 +113,7 @@ elseif(isset($_REQUEST['links']) && ($zoom_index = $_REQUEST['links']))
 elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_type = $context['arguments'][1];
 	$zoom_index = $context['arguments'][2];
-
-// view.php/12/categories-2
-} elseif(isset($context['arguments'][1]))
-	list($zoom_type, $zoom_index) = explode('-', $context['arguments'][1], 2);
+}
 
 // get the item from the database
 $item =& Categories::get($id);

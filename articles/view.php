@@ -182,10 +182,7 @@ elseif(isset($_REQUEST['links']) && ($zoom_index = $_REQUEST['links']))
 elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_type = $context['arguments'][1];
 	$zoom_index = $context['arguments'][2];
-
-// view.php/12/files-2
-} elseif(isset($context['arguments'][1]))
-	list($zoom_type, $zoom_index) = explode('-', $context['arguments'][1], 2);
+}
 
 // view.php/12/nick name induces no particular processing
 

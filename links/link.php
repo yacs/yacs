@@ -24,12 +24,15 @@ Class Link {
 	function fetch($url, $headers='', $data='', $debug='', $cookie='') {
 		global $context;
 
+		// target content
+		$body = FALSE;
+
 		// advanced and optimized download
 		if(is_callable('curl_init'))
 			$body = Link::fetch_using_curl($url, $headers, $data, $debug, $cookie);
 
-		// plan B
-		else
+		// plan B, in case curl has not done the job properly
+		if(!$body)
 			$body = Link::fetch_directly($url, $headers, $data, $debug, $cookie);
 
 		// compensate for network time

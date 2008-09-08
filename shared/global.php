@@ -1664,7 +1664,7 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 
 		// a prefix for navigation links
 		if($action == 'navigate')
-			$link .= '-';
+			$link .= '';
 
 		// done
 		return $link;
