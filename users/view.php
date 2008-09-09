@@ -100,23 +100,23 @@ $zoom_type = '';
 $zoom_index = 1;
 
 // view.php?id=12&actions=2
-if(!isset($zoom_index) && isset($_REQUEST['actions']) && ($zoom_index = $_REQUEST['actions']))
+if(isset($_REQUEST['actions']) && ($zoom_index = $_REQUEST['actions']))
 	$zoom_type = 'actions';
 
 // view.php?id=12&articles=2
-elseif(!isset($zoom_index) && isset($_REQUEST['articles']) && ($zoom_index = $_REQUEST['articles']))
+elseif(isset($_REQUEST['articles']) && ($zoom_index = $_REQUEST['articles']))
 	$zoom_type = 'articles';
 
 // view.php?id=12&files=2
-elseif(!isset($zoom_index) && isset($_REQUEST['files']) && ($zoom_index = $_REQUEST['files']))
+elseif(isset($_REQUEST['files']) && ($zoom_index = $_REQUEST['files']))
 	$zoom_type = 'files';
 
 // view.php?id=12&links=2
-elseif(!isset($zoom_index) && isset($_REQUEST['links']) && ($zoom_index = $_REQUEST['links']))
+elseif(isset($_REQUEST['links']) && ($zoom_index = $_REQUEST['links']))
 	$zoom_type = 'links';
 
 // view.php?id=12&bookmarks=2
-elseif(!isset($zoom_index) && isset($_REQUEST['bookmarks']) && ($zoom_index = $_REQUEST['bookmarks']))
+elseif(isset($_REQUEST['bookmarks']) && ($zoom_index = $_REQUEST['bookmarks']))
 	$zoom_type = 'bookmarks';
 
 // view.php/12/files/2
@@ -334,8 +334,6 @@ if(!isset($item['id'])) {
 	if(!$zoom_type || ($zoom_type == 'articles')) {
 
 		// cache the section
-		if(!isset($zoom_index))
-			$zoom_index = 1;
 		$cache_id = 'users/view.php?id='.$item['id'].'#contributed_articles#'.$zoom_index;
 		if(!$text =& Cache::get($cache_id)) {
 
@@ -390,8 +388,6 @@ if(!isset($item['id'])) {
 	if(!$zoom_type) {
 
 		// cache the section
-		if(!isset($zoom_index))
-			$zoom_index = 1;
 		$cache_id = 'users/view.php?id='.$item['id'].'#contributed_files#'.$zoom_index;
 		if(!$text =& Cache::get($cache_id)) {
 
@@ -425,8 +421,6 @@ if(!isset($item['id'])) {
 	if(!$zoom_type) {
 
 		// cache the section
-		if(!isset($zoom_index))
-			$zoom_index = 1;
 		$cache_id = 'users/view.php?id='.$item['id'].'#contributed_links#'.$zoom_index;
 		if(!$text =& Cache::get($cache_id)) {
 

@@ -1,6 +1,6 @@
 <?php
 // This file has been created by the building script scripts/build.php
-// on September 8, 2008, 11:01 pm GMT, for Bernard. Please do not modify it manually.
+// on September 8, 2008, 11:48 pm GMT, for Bernard. Please do not modify it manually.
 global $footprints;
 if(!isset($footprints)) $footprints = array();
 $footprints['actions/accept.php']=array(154, '05c76772028d3e0cf03176a320755452', '487e2ba2943811cdf2337fd832eb8437');
@@ -474,7 +474,7 @@ $footprints['shared/anchor.php']=array(1119, 'ccfdcf93b52cce624f8dbbc6aa208687',
 $footprints['shared/anchors.php']=array(531, '3cb840fbb7eb6c5d63e2733fadbd769d', '0a9e7ac95a5920d95150eb2948dbb166');
 $footprints['shared/cache.php']=array(349, '6bae8d1f4637c77a5b785a2936bdac31', '0ae7f4985bc7df0b1533b61a2d777878');
 $footprints['shared/codes.php']=array(3404, 'f2e6af2a51174907979d3ebfe2edddd9', 'e7979666a9fca797520c74d83680e0de');
-$footprints['shared/global.php']=array(1749, '64687591913d257587ef07f0ed32bbd1', '308ddfc7afa77e8e3a603c01eeb512f2');
+$footprints['shared/global.php']=array(1757, '1f78a4ad6c4451787ee432afbd5c6f08', 'f53a6e585d2f3eae95ac638f4c4b8da7');
 $footprints['shared/index.php']=array(14, '412d88b3dd623e433033d2e29e4b9162', '87056f67a542ef44bb8e9adef84e470a');
 $footprints['shared/logger.php']=array(374, '5f660830409785bdd9d19efa94256275', 'e87cef16436ef0c225aa8f2b4980b6a2');
 $footprints['shared/mailer.php']=array(529, '207913ab451c6467f6fb1ed748cd117e', '9521d785a85bdd4ff84b8643efaa9191');
@@ -597,7 +597,7 @@ $footprints['users/track.php']=array(144, '0e605a2b4ea941a80df51975974bbedf', '4
 $footprints['users/user.php']=array(506, '91157c174722c63b7e0558f3d2b65e68', '0c982e2d9f3a1272a5df17a75bd801cb');
 $footprints['users/users.php']=array(1830, '7a20e22308500ca650699fbf563469c0', 'b6041bec031f544c5cff8feb7516d429');
 $footprints['users/validate.php']=array(83, '19d76a79dda7b94058b37f06ca132500', '912ed20943f0da89a41410aa44e697d5');
-$footprints['users/view.php']=array(925, 'f37adafe3980aea0b7b7eeb1a4e59e8b', '8f0267bc922114b99f8c64c444c9fa46');
+$footprints['users/view.php']=array(919, '11caf6681723fcdadba9b409c52c14e3', '5771a80df7f96f0f7880307bd0fbf105');
 $footprints['users/visit.php']=array(91, '0b9d977ce040d5809c8a8be14828bde8', 'ea191cdfe1261fd161095137bc7db234');
 $footprints['users/visits.php']=array(393, '5ec056c5ebf308f8b800b5d1c8c7fa7c', 'cfba8e6c9d6c42c8b63b3426d044fd9a');
 $footprints['versions/layout_versions.php']=array(86, '3f68c1c9959a5ca0527ebbe061cca6ac', 'f2acaa290fd730d72a984f268ed1892c');
@@ -607,9 +607,9 @@ $footprints['versions/versions.php']=array(495, '704f721aa5d46893417a315ee41b5f5
 $footprints['versions/view.php']=array(177, '92025b16c919a1942ed2acc86600a468', 'b85ac6b2c56b180013824170c18e5194');
 global $generation;
 if(!isset($generation)) $generation = array();
-$generation['date']='080908-23:01:25 GMT';
+$generation['date']='080908-23:48:41 GMT';
 $generation['server']='127.0.0.1';
 $generation['version']='8.6beta30.31.31.8';
 $generation['scripts']='602'; // number of reference scripts
-$generation['lines']='174348'; // lines of code
+$generation['lines']='174350'; // lines of code
 ?>

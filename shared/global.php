@@ -1648,7 +1648,10 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 	if($context['with_friendly_urls'] == 'Y') {
 
 		// reference module and action in reference
-		$link = $module.'/'.$action.'.php/';
+		if($action == 'navigate')
+			$link = $module.'/view.php/';
+		else
+			$link = $module.'/'.$action.'.php/';
 
 		// 'section:123' -> 'section/123'
 		if(count($nouns) == 2)
@@ -1658,13 +1661,13 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 		else
 			$link .= rawurlencode($id);
 
-		// append name, if any, for comprehensive URL rewriting
-		if(isset($name) && $name)
-			$link .= '/'.rawurlencode($name);
-
 		// a prefix for navigation links
 		if($action == 'navigate')
-			$link .= '';
+			$link .= '?'.urlencode($name).'=';
+
+		// append name, if any, for comprehensive URL rewriting
+		elseif(isset($name) && $name)
+			$link .= '/'.rawurlencode($name);
 
 		// done
 		return $link;
@@ -1694,15 +1697,20 @@ function normalize_url($prefix, $action, $id, $name=NULL) {
 
 	// generate a link safe at all systems
 	} else {
-		$link = $module.'/'.$action.'.php?id='.urlencode($id);
 
 		// a prefix for navigation links
 		if($action == 'navigate')
-			$link .= '&amp;'.rawurlencode($name).'=';
+			$link = $module.'/view.php?id='.urlencode($id).'&amp;'.rawurlencode($name).'=';
 
-		// append name, if any, for comprehensive URL rewriting -- use '&' and not '&amp;' else users/element.php is killed
-		elseif(isset($name) && $name)
-			$link .= '&action='.urlencode($name);
+		// regular case
+		else {
+			$link = $module.'/'.$action.'.php?id='.urlencode($id);
+
+			// append name, if any, for comprehensive URL rewriting -- use '&' and not '&amp;' else users/element.php is killed
+			if(isset($name) && $name)
+				$link .= '&action='.urlencode($name);
+
+		}
 
 		// done
 		return $link;
