@@ -56,7 +56,7 @@ class Uploads {
 			while(($node = Safe::readdir($handle)) !== FALSE) {
 
 				// skip trivial entries
-				if($node == '.' || $node == '..')
+				if($node[0] == '.')
 					continue;
 
 				// skip processed entries
