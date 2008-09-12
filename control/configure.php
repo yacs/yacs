@@ -672,7 +672,7 @@ if(!Surfer::is_associate()) {
 		// valid skins have a template.php file
 		$skins = array();
 		while(($file = Safe::readdir($dir)) !== FALSE) {
-			if($file == '.' || $file == '..' || !is_dir('../skins/'.$file))
+			if(($file[0] == '.') || !is_dir('../skins/'.$file))
 				continue;
 			if(!file_exists('../skins/'.$file.'/template.php'))
 				continue;
@@ -905,7 +905,7 @@ if(!Surfer::is_associate()) {
 
 			// valid skins have a template.php file
 			while(($skin = Safe::readdir($skins)) !== FALSE) {
-				if($skin == '.' || $skin == '..' || !is_dir('../skins/'.$skin))
+				if(($skin[0] == '.') || !is_dir('../skins/'.$skin))
 					continue;
 				if(!file_exists('../skins/'.$skin.'/template.php'))
 					continue;

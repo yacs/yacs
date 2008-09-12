@@ -81,7 +81,7 @@ function delete_backup($path) {
 
 		while(($node = Safe::readdir($handle)) !== FALSE) {
 
-			if($node == '.' || $node == '..')
+			if($node[0] == '.')
 				continue;
 
 			// make a real name
@@ -125,7 +125,7 @@ function delete_reference($path) {
 
 		while(($node = Safe::readdir($handle)) !== FALSE) {
 
-			if($node == '.' || $node == '..')
+			if($node[0] == '.')
 				continue;
 
 			// make a real name

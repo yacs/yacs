@@ -130,7 +130,7 @@ $context['page_title'] = i18n::s('Skins');
 $skins = array();
 if($dir = Safe::opendir(".")) {
 	while(($item = Safe::readdir($dir)) !== FALSE) {
-		if($item == '.' || $item == '..' || !is_dir($item))
+		if(($item[0] == '.') || !is_dir($item))
 			continue;
 		if(is_readable($item.'/manifest.php'))
 			include_once $item.'/manifest.php';

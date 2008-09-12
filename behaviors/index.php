@@ -29,7 +29,7 @@ if ($dir = Safe::opendir($context['path_to_root'].'behaviors')) {
 
 	// every php script is a behavior, except index.php, behavior.php and behaviors.php
 	while(($file = Safe::readdir($dir)) !== FALSE) {
-		if($file == '.' || $file == '..' || is_dir($context['path_to_root'].'behaviors/'.$file))
+		if(($file[0] == '.') || is_dir($context['path_to_root'].'behaviors/'.$file))
 			continue;
 		if($file == 'index.php')
 			continue;

@@ -24,7 +24,7 @@ if ($dir = Safe::opendir($context['path_to_root'].'users/authenticators')) {
 
 	// every php script is an authenticator, except index.php and hooks
 	while(($file = Safe::readdir($dir)) !== FALSE) {
-		if($file == '.' || $file == '..' || is_dir($context['path_to_root'].'authenticators/'.$file))
+		if(($file[0] == '.') || is_dir($context['path_to_root'].'authenticators/'.$file))
 			continue;
 		if($file == 'index.php')
 			continue;

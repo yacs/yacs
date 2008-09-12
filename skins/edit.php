@@ -114,7 +114,7 @@ elseif(!Surfer::is_associate()) {
 		// valid skins have a template.php
 		$items = array();
 		while(($item = Safe::readdir($dir)) !== FALSE) {
-			if($item == '.' || $item == '..' || !is_dir('../skins/'.$item))
+			if(($item[0] == '.') || !is_dir('../skins/'.$item))
 				continue;
 			if(!file_exists('../skins/'.$item.'/template.php'))
 				continue;
@@ -143,7 +143,7 @@ elseif(!Surfer::is_associate()) {
 		// list files in the skin directory
 		$items = array();
 		while(($item = Safe::readdir($dir)) !== FALSE) {
-			if($item == '.' || $item == '..' || is_dir('../skins/'.$item.'/'.$file))
+			if(($item[0] == '.') || is_dir('../skins/'.$item.'/'.$file))
 				continue;
 			if(!preg_match('/(\.css|template.php)$/i', $item))
 				continue;

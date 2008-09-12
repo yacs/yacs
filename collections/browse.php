@@ -156,10 +156,6 @@ if(!isset($item['collection']) || !$item['collection']) {
 			$with_slideshow = FALSE;
 			while(($node = Safe::readdir($dir)) !== FALSE) {
 
-				// skip special directory entries
-				if($node == '.' || $node == '..')
-					continue;
-
 				// skip protected files
 				if(($node[0] == '.') || ($node[0] == '~'))
 					continue;

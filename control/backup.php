@@ -414,7 +414,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 					while(($node = Safe::readdir($handle)) !== FALSE) {
 
-						if($node == '.' || $node == '..')
+						if($node[0] == '.')
 							continue;
 
 						// make a real name
@@ -874,10 +874,6 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 		// scan the file system
 		while(($file = Safe::readdir($dir)) !== FALSE) {
-
-			// skip special entries
-			if($file == '.' || $file == '..')
-				continue;
 
 			// skip special files
 			if(($file[0] == '.') || ($file[0] == '~'))

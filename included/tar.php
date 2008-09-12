@@ -869,7 +869,7 @@ class Archive_Tar
 				continue;
 			}
 			while (false !== ($p_hitem = Safe::readdir($p_hdir))) {
-				if (($p_hitem != '.') && ($p_hitem != '..')) {
+				if ($p_hitem[0] != '.') {
 					if ($v_filename != ".")
 						$p_temp_list[0] = $v_filename.'/'.$p_hitem;
 					else

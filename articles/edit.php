@@ -1104,7 +1104,7 @@ if($with_form) {
 
 			// every php script is an overlay, except index.php, overlay.php, and hooks
 			while(($file = Safe::readdir($dir)) !== FALSE) {
-				if($file == '.' || $file == '..' || is_dir($context['path_to_root'].'overlays/'.$file))
+				if(($file[0] == '.') || is_dir($context['path_to_root'].'overlays/'.$file))
 					continue;
 				if($file == 'index.php')
 					continue;

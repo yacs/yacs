@@ -154,7 +154,7 @@ if(!count($context['error'])) {
 			while(($item = Safe::readdir($dir)) !== FALSE) {
 
 				// skip some files
-				if($item == '.' || $item == '..')
+				if($item[0] == '.')
 					continue;
 
 				if(is_dir($context['path_to_root'].$path.'/'.$item))

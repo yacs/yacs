@@ -191,9 +191,8 @@ function include_hook($path) {
 	while(($item = Safe::readdir($dir)) !== FALSE) {
 
 		// skip some files
-		if($item == '.' || $item == '..') {
+		if($item[0] == '.')
 			continue;
-		}
 
 		// load any 'hook.php', or any file which names ends with 'hook.php'
 		$actual_item = str_replace('//', '/', $path.'/'.$item);

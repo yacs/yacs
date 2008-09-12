@@ -100,7 +100,7 @@ elseif(!Surfer::is_associate()) {
 
 			while(($node = Safe::readdir($handle)) !== FALSE) {
 
-				if($node == '.' || $node == '..')
+				if($node[0] == '.')
 					continue;
 
 				// skip transient files
@@ -243,7 +243,7 @@ elseif(!Surfer::is_associate()) {
 
 		// valid skins have a template.php
 		while(($file = Safe::readdir($dir)) !== FALSE) {
-			if($file == '.' || $file == '..' || !is_dir('../skins/'.$file))
+			if(($file[0] == '.') || !is_dir('../skins/'.$file))
 				continue;
 			if(!file_exists('../skins/'.$file.'/template.php'))
 				continue;

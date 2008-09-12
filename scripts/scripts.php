@@ -397,7 +397,7 @@ class Scripts {
 			while(($node = Safe::readdir($handle)) !== FALSE) {
 
 				// skip special nodes
-				if($node == '.' || $node == '..')
+				if($node[0] == '.')
 					continue;
 
 				// make a real name
@@ -470,7 +470,7 @@ class Scripts {
 
 			while(($node = Safe::readdir($handle)) !== FALSE) {
 
-				if($node == '.' || $node == '..')
+				if($node[0] == '.')
 					continue;
 
 				// avoid listing of special directories
@@ -580,7 +580,7 @@ class Scripts {
 			while(($node = Safe::readdir($handle)) !== FALSE) {
 
 				// skip special entries
-				if($node == '.' || $node == '..')
+				if($node[0] == '.')
 					continue;
 
 				// we are only interested in php scripts

@@ -1227,7 +1227,7 @@ Class i18n {
 		// one directory per locale
 		if($dir = Safe::opendir($context['path_to_root'].'i18n/locale')) {
 			while(($item = Safe::readdir($dir)) !== FALSE) {
-				if($item == '.' || $item == '..' || !is_dir($context['path_to_root'].'i18n/locale/'.$item))
+				if(($item[0] == '.') || !is_dir($context['path_to_root'].'i18n/locale/'.$item))
 					continue;
 
 				// remember locale

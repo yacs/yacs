@@ -98,7 +98,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 		while(($node = Safe::readdir($dir)) !== FALSE) {
 
 			// skip some files
-			if($node == '.' || $node == '..')
+			if($node[0] == '.')
 				continue;
 
 			// skip directories

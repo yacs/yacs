@@ -105,7 +105,7 @@ else {
 	while(($item = Safe::readdir($dir)) !== FALSE) {
 
 		// skip some files
-		if($item == '.' || $item == '..')
+		if($item[0] == '.')
 			continue;
 
 		// do not execute twins, to ensure scripts are ran only once

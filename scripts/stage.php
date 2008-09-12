@@ -95,7 +95,7 @@ function delete_all($path) {
 
 		while(($node = Safe::readdir($handle)) !== FALSE) {
 
-			if($node == '.' || $node == '..')
+			if($node[0] == '.')
 				continue;
 
 			// make a real name
@@ -416,10 +416,6 @@ if($id) {
 
 		// scan the file system
 		while(($file = Safe::readdir($dir)) !== FALSE) {
-
-			// skip special entries
-			if($file == '.' || $file == '..')
-				continue;
 
 			// skip special files
 			if(($file[0] == '.') || ($file[0] == '~'))
