@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-10-31 22:04+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: English
+';
 $_SESSION['l10n']['en']['be362d7d53a1254f538bfda2a9b7b995']='A member is required for this operation.';
 $_SESSION['l10n']['en']['Access collection']='Access collection';
 $_SESSION['l10n']['en']['Actions']='Actions';
@@ -71,11 +85,14 @@ $_SESSION['l10n']['en']['Table']='Table';
 $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['The table']='The table';
 $_SESSION['l10n']['en']['3e5db4a2ca0b72619890b0a6317167b5']='This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.';
+$_SESSION['l10n']['en']['Tools']='Tools';
 $_SESSION['l10n']['en']['b14e57cf6aea5bcf8b57974ce6a1545d']='Type exactly the following 5 chars:';
 $_SESSION['l10n']['en']['Use only plain ASCII, no HTML.']='Use only plain ASCII, no HTML.';
 $_SESSION['l10n']['en']['User']='User';
+$_SESSION['l10n']['en']['User login']='User login';
 $_SESSION['l10n']['en']['Versions']='Versions';
 $_SESSION['l10n']['en']['6bb9e1aa16d4d6776927b05fc4fdb6f1']='View all data this site knows about you';
+$_SESSION['l10n']['en']['View the category']='View the category';
 $_SESSION['l10n']['en']['View this comment']='View this comment';
 $_SESSION['l10n']['en']['View this decision']='View this decision';
 $_SESSION['l10n']['en']['Visited']='Visited';

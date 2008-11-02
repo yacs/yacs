@@ -97,17 +97,17 @@ if(!isset($context['letter_reply_to']) || !$context['letter_reply_to'])
 // restrictions: for associates only
 if(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // e-mail has not been enabled
 } elseif(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('E-mail has not been activated on this system.'));
+	Logger::error(i18n::s('E-mail has not been activated on this system.'));
 
 // no post account
 } elseif((!isset($context['mail_from']) || !$context['mail_from']) && (!isset($context['letter_reply_to']) || !$context['letter_reply_to'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(sprintf(i18n::s('No account to post the letter. Please %s.'), Skin::build_link('letters/configure.php', i18n::s('configure one'))));
+	Logger::error(sprintf(i18n::s('No account to post the letter. Please %s.'), Skin::build_link('letters/configure.php', i18n::s('configure one'))));
 
 // prepare some announcement
 } elseif(isset($action) && ($action == 'announcement')) {
@@ -641,7 +641,7 @@ if(!Surfer::is_associate()) {
 		// reports on error
 		$recipients_errors = $recipients_processed - $recipients_ok;
 		if($recipients_errors || count($context['error'])) {
-			$context['text'] .= Skin::error_pop().BR."\n";
+			$context['text'] .= Logger::error_pop().BR."\n";
 
 			$context['text'] .= '<b>'.i18n::s('Error has been encountered while sending the letter.')."</b>".BR."\n";
 		}

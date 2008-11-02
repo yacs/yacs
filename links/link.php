@@ -58,9 +58,10 @@ Class Link {
 	 * @param mixed optional data to send
 	 * @param string the name of the calling script to be debugged (eg, 'scripts/stage.php')
 	 * @param string cookie, if any
+	 * @param int to manage a maximum number of redirections
 	 * @return the actual content, of FALSE on error
 	 */
-	function fetch_directly($url, $headers='', $data='', $debug='', $cookie='') {
+	function fetch_directly($url, $headers='', $data='', $debug='', $cookie='', $limit=3) {
 		global $context;
 
 		// remember errors, if any
@@ -77,6 +78,14 @@ Class Link {
 		// sometime parse_url() adds a '_'
 		$host = rtrim($host, '_');
 
+		// set target host
+		if(strpos($headers, 'Host: ') === FALSE)
+			$headers .= 'Host: '.$host."\015\012";
+
+		// set user agent
+		if(strpos($headers, 'User-Agent: ') === FALSE)
+			$headers .= 'User-Agent: yacs'."\015\012";
+			
 		// no port, assume the standard
 		if(isset($items['port']) && $items['port'])
 			$port = $items['port'];
@@ -103,7 +112,7 @@ Class Link {
 
 		// set request date, RFC822 format
 		if(strpos($headers, 'Date: ') === FALSE)
-			$headers .= 'Date :'.gmdate('D, d M Y H:i:s T')."\015\012";
+			$headers .= 'Date: '.gmdate('D, d M Y H:i:s T')."\015\012";
 
 		// pool of connections
 		static $handles;
@@ -155,9 +164,7 @@ Class Link {
 			$request = 'POST';
 		else
 			$request = 'GET';
-		$request .= ' '.$path." HTTP/1.1\015\012"
-			.'Host: '.$host."\015\012"
-			."User-Agent: YACS (www.yetanothercommunitysystem.com)\015\012";
+		$request .= ' '.$path." HTTP/1.1\015\012";
 
 		// use the connection pool
 		$request .= "Connection: keep-alive\015\012";
@@ -179,14 +186,14 @@ Class Link {
 		}
 
 		// ensure we have a valid HTTP status line
-		if(!preg_match('/^HTTP\/[0-9\.]+ 20\d /', $status)) {
+		if(!preg_match('/^HTTP\/[0-9\.]+ (\d\d\d) /', $status, $matches)) {
 			$link_internal_error = 'Unexpected HTTP status "'.$status.'" from '.$url;
 			return FALSE;
 		}
 
 		// read response headers, up to 5120k
-		$headers = '';
-		while(!feof($handle) && (strlen($headers) < 5242880)) {
+		$r_headers = '';
+		while(!feof($handle) && (strlen($r_headers) < 5242880)) {
 
 			// one header at a time
 			if(!$header = fgets($handle, 10240))
@@ -197,23 +204,35 @@ Class Link {
 				break;
 
 			// remember this header
-			$headers .= $header;
+			$r_headers .= $header;
 		}
 
+		// redirect to another place
+		if(preg_match('/^Location: (\w.+?)/', $r_headers, $matches)) {
+		
+			if(--$limit <= 0) {
+				$link_internal_error = 'Too many redirections';
+				return FALSE;
+			}
+			
+			return Link::fetch_directly($url, $headers, $data, $debug, $cookie, $limit);
+			
+		}
+		
 		// remember headers for later reference
 		global $http_headers;
-		$http_headers = $headers;
+		$http_headers = $r_headers;
 
 		// remember stamping
-		Link::callback_headers('*dummy*', $headers);
+		Link::callback_headers('*dummy*', $r_headers);
 
 		// get content length, if provided in header --maximum is 5120k
 		$length = 5242880;
-		if(preg_match('/Content-Length:\s+([0-9]+)\s+/', $headers, $matches))
+		if(preg_match('/Content-Length:\s+([0-9]+)\s+/', $r_headers, $matches))
 			$length = $matches[1];
 
 		// maybe a chunked element -- get size from body
-		if(preg_match('/Transfer-Encoding:\s+chunked\s+/', $headers) && ($header = fgets($handle, 10240))) {
+		if(preg_match('/Transfer-Encoding:\s+chunked\s+/', $r_headers) && ($header = fgets($handle, 10240))) {
 
 			// decodes from hexa to decimal
 			if(preg_match('/^([0-9a-f]+)/i', $header, $matches))
@@ -226,11 +245,11 @@ Class Link {
 			$body .= fread($handle, min($length-strlen($body), 10240));
 
 		// uncompress payload if necessary --sometimes gzinflate produces errors
-		if($body && preg_match('/Content-Encoding: \s*gzip/i', $headers)&& is_callable('gzinflate'))
+		if($body && preg_match('/Content-Encoding: \s*gzip/i', $r_headers)&& is_callable('gzinflate'))
 			$body = gzinflate(substr($body, 10));
 
 		// server asks for closing
-		if(preg_match('/Connection: \s+close\s+/', $headers))
+		if(preg_match('/Connection: \s+close\s+/', $r_headers))
 			fclose($handle);
 
 		// put in pool for future use
@@ -322,9 +341,11 @@ Class Link {
 		// no ending NULL char
 		curl_setopt($handle, CURLOPT_BINARYTRANSFER, TRUE);
 
-//		// up to one redirection --stop working in 4.4 in safe mode, etc.
-//		curl_setopt($handle, CURLOPT_FOLLOWLOCATION, TRUE);
-//		curl_setopt($handle, CURLOPT_MAXREDIRS, 1);
+		// redirect if necessary -- does not work if safe mode
+		if(!ini_get("safe_mode")) {
+			curl_setopt($handle, CURLOPT_FOLLOWLOCATION, TRUE);
+			curl_setopt($handle, CURLOPT_MAXREDIRS, 3);
+		}
 
 		// set timeouts
 		curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 10);

@@ -388,7 +388,7 @@ if(!Surfer::is_associate()) {
 	$query = "SELECT id, anchor, link_url, title FROM ".SQL::table_name('links')
 		." ORDER BY anchor LIMIT 0, 20000";
 	if(!($result =& SQL::query($query))) {
-		$context['text'] .= Skin::error_pop().BR."\n";
+		$context['text'] .= Logger::error_pop().BR."\n";
 		return;
 
 	// parse the whole list

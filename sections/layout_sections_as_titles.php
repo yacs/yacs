@@ -43,7 +43,7 @@ Class Layout_sections_as_titles extends Layout_interface {
 
 			// the hovering title
 			if($item['introduction'] && ($context['skins_with_details'] == 'Y'))
-				$hover = strip_tags(Codes::strip($item['introduction']));
+				$hover = strip_tags(Codes::beautify_introduction($item['introduction']));
 
 			// add a link to the main page
 			else

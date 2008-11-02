@@ -90,7 +90,7 @@ Class Layout_articles_as_boxes extends Layout_interface {
 				if($item['introduction']) {
 
 					// the content of this box
-					$parts[] = Codes::beautify($item['introduction'], $item['options']);
+					$parts[] = Codes::beautify_introduction($item['introduction']);
 
 					// add a link to the main page
 					$parts[] = Skin::build_link($url, i18n::s('More').MORE_IMG, 'basic', i18n::s('View the page'));
@@ -116,7 +116,7 @@ Class Layout_articles_as_boxes extends Layout_interface {
 
 				// use the introduction, if any
 				if($item['introduction'])
-					$parts[] = Codes::beautify($item['introduction'], $item['options']);
+					$parts[] = Codes::beautify_introduction($item['introduction']);
 
 				// get the related overlay, if any
 				$overlay = Overlay::load($item);

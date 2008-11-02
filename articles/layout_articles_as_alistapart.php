@@ -246,7 +246,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 			if(is_object($overlay) && ($label = $overlay->get_label('description')))
 				$context['text'] .= Skin::build_block($label, 'title');
 
-			$context['text'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
+			$text .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
 		}
 

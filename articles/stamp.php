@@ -70,12 +70,12 @@ if(isset($item['title']))
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
 } elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // publication is restricted to associates and editors
 } elseif(!Surfer::is_associate() && (!Surfer::is_member() || !is_object($anchor) || !$anchor->is_editable())) {
@@ -86,14 +86,14 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // review is confirmed
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'review')) {
 
 	// update the database
 	if($error = Articles::stamp($item['id']))
-		Skin::error($error);
+		Logger::error($error);
 
 	// post-processing tasks
 	else {
@@ -133,7 +133,7 @@ if(Surfer::is_crawler()) {
 
 	// update the database
 	} elseif($error = Articles::stamp($item['id'], NULL, $_REQUEST['expiry_date']))
-		Skin::error($error);
+		Logger::error($error);
 
 	else
 		$context['text'] .= '<p>'.i18n::s('The expiry date has been successfully changed.')."</p>\n";
@@ -162,11 +162,11 @@ if(Surfer::is_crawler()) {
 
 	// invalid date
 	if(!isset($_REQUEST['publish_date']) || ($_REQUEST['publish_date'] <= '0000-00-00')) {
-		Skin::error(i18n::s('Publication date is invalid.'));
+		Logger::error(i18n::s('Publication date is invalid.'));
 
 	// update the database
 	} elseif($error = Articles::stamp($item['id'], $_REQUEST['publish_date']))
-		Skin::error($error);
+		Logger::error($error);
 
 	// post-processing tasks
 	else {

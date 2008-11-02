@@ -687,7 +687,7 @@ Class SQL {
 			// remember the error, if any -- we may not have a skin yet
 			if(!$silent) {
 				if(is_callable(array('Skin', 'error')))
-					Skin::error(i18n::s('Connection to the database has been lost'));
+					Logger::error(i18n::s('Connection to the database has been lost'));
 				else
 					die(i18n::s('Connection to the database has been lost'));
 			}
@@ -747,7 +747,7 @@ Class SQL {
 			// display some error message
 			if(!$silent) {
 				if(is_callable(array('Skin', 'error')))
-					Skin::error($query.'<br />'.SQL::error($connection));
+					Logger::error($query.'<br />'.SQL::error($connection));
 				else
 					die($query.'<br />'.SQL::error($connection));
 			}
@@ -935,7 +935,7 @@ Class SQL {
 			// analyse table structure
 			$query2 = "DESCRIBE ".SQL::table_name($table);
 			if(!$result =& SQL::query($query2))
-				return '<p>'.Skin::error_pop()."</p>\n";
+				return '<p>'.Logger::error_pop()."</p>\n";
 
 			// build the list of fields
 			while($row =& SQL::fetch($result))
@@ -959,7 +959,7 @@ Class SQL {
 			// list existing indexes
 			$query2 = "SHOW INDEX FROM ".SQL::table_name($table);
 			if(!$result =& SQL::query($query2))
-				return '<p>'.Skin::error_pop()."</p>\n";
+				return '<p>'.Logger::error_pop()."</p>\n";
 
 			// drop other indexes
 			while($row =& SQL::fetch($result)) {

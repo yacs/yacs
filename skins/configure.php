@@ -58,7 +58,7 @@
  * This is useful to integrate various javascript libraries (page tracking, etc).
  *
  *
- * General rendering options:
+ * Components:
  *
  * [*] [code]site_navigation_maximum[/code] - The maximum number of navigation boxes to display on page side.
  * Default value is 7. This parameter should be used in template file.
@@ -66,15 +66,24 @@
  * [*] [code]site_extra_maximum[/code] - The maximum number of extra boxes to display on page side.
  * Default value is 7. This parameter is used in various scripts.
  *
+ * [*] [code]skins_extra_components[/code] - The list of side components to put in the extra panel.
+ *
+ *
+ * Options:
+ *
+ * [*] [code]with_export_tools[/code] - Display, or not, conversion tools
+ *
+ * [*] [code]with_anonymous_export_tools[/code] - Spread published information more largely
+ *
  * [*] [code]with_author_information[/code] - Add links to author pages in lists of articles.
  * By default this information is available only at article pages.
  *
  * [*] [code]with_referrals[/code] - if set to Yes, show referrals to everybody.
  * Else show referrals only to associates.
  *
- * [*] [code]skins_general_without_feed[/code] - Do not list feeds in sections, categories, and articles
+ * [*] [code]skins_general_without_feed[/code] - Do not offer feeds in sections, categories, and articles
  *
- * [*] [code]pages_without_bookmarklets[/code] - Do not display javascript tools
+ * [*] [code]pages_without_bookmarklets[/code] - Do not offer javascript tools
  *
  * [*] [code]pages_without_history[/code] - To avoid the display of visited pages
  *
@@ -82,13 +91,6 @@
  * When this parameter is set to 'Y', many additional requests are submitted
  * to the database server to count files, comments and links attached to sections
  * and to articles.
- *
- *
- * Parameters for articles:
- *
- * [*] [code]with_export_tools[/code] - Display, or not, conversion tools
- *
- * [*] [code]with_anonymous_export_tools[/code] - Spread published information more largely
  *
  *
  * Parameters for image processing:
@@ -188,7 +190,7 @@ load_skin('skins');
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = sprintf(i18n::s('Configure: %s'), i18n::s('Page factory'));
+$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Configure'), i18n::s('Page factory'));
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -197,7 +199,7 @@ if(!Surfer::is_logged())
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the input form
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'POST')) {
@@ -306,9 +308,44 @@ elseif(!Surfer::is_associate()) {
 	$fields = array();
 
 	//
-	// general rendering options
+	// components
 	//
-	$general = '';
+	$components = '';
+
+	// search delegation
+	$label = i18n::s('Search');
+	$input = '<input type="radio" name="skins_delegate_search" value="N"';
+	if(!isset($context['skins_delegate_search']) || ($context['skins_delegate_search'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= ' onclick="$(skins_search_form).disabled=1"/> '.i18n::s('Process search requests internally, by requesting the back-end database');
+	$input .= BR.'<input type="radio" name="skins_delegate_search" value="Y"';
+	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= ' onclick="$(skins_search_form).disabled=0"/> '.i18n::s('Use the following form to delegate search requests');
+	
+	// default to Google appliance
+	if(!isset($context['skins_search_form']))
+		$context['skins_search_form'] = '<form method="GET" action="http://search.mycompany.com/search">'."\n"
+			.'   <input type="text" name="q" size="10" maxlength="256" value="%s">'."\n"
+			.'   <input type="submit" name="btnG" value="&amp;raquo;">'."\n"
+			.'   <input type="hidden" name="site" value="default_collection">'."\n"
+			.'   <input type="hidden" name="client" value="default_frontend">'."\n"
+			.'   <input type="hidden" name="output" value="xml_no_dtd">'."\n"
+			.'   <input type="hidden" name="proxystylesheet" value="default_frontend">'."\n"
+			.'</form>';
+	$input .= BR.'<textarea name="skins_search_form" id="skins_search_form"cols="60" rows="3">'.encode_field($context['skins_search_form']).'</textarea>';
+	$components .= '<p>'.$label.BR.$input."</p>\n";
+
+	// components to put in the navigation panel
+	$label = i18n::s('Order of navigation components');
+	$input = '<textarea name="skins_navigation_components" id="skins_navigation_components"cols="60" rows="3">'.encode_field($context['skins_navigation_components']).'</textarea>';
+	$keywords = array();
+	$keywords[] = 'menu - '.i18n::s('Site menu');
+	$keywords[] = 'user - '.i18n::s('User menu');
+	$keywords[] = 'extra - '.i18n::s('Include the extra panel in a 2-column layout');
+	$keywords[] = 'navigation - '.i18n::s('Dynamic navigation boxes, if any');
+	$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
+	$components .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
 
 	// maximum number of navigation boxes
 	if(!isset($context['site_navigation_maximum']) || !$context['site_navigation_maximum'])
@@ -316,7 +353,30 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Maximum number of navigation boxes');
 	$input = '<input type="text" name="site_navigation_maximum" size="2" value="'.encode_field($context['site_navigation_maximum']).'" maxlength="2" />';
 	$hint = i18n::s('Navigation boxes are displayed on page side, at all pages of the site.');
-	$general .= '<p>'.$label.' '.$input.BR.'<span class="details">'.$hint."</span></p>\n";
+	$components .= '<p>'.$label.' '.$input.BR.'<span class="details">'.$hint."</span></p>\n";
+
+	// components to put in the extra panel
+	$label = i18n::s('Order of extra components');
+	$input = '<textarea name="skins_extra_components" id="skins_extra_components"cols="60" rows="3">'.encode_field($context['skins_extra_components']).'</textarea>';
+	$keywords = array();
+	$keywords[] = 'profile - '.i18n::s('User profile, if activated');
+	$keywords[] = 'tools - '.i18n::s('Page tools');
+	$keywords[] = 'news - '.i18n::s('Side news, if any');
+	$keywords[] = 'overlay - '.i18n::s('Overlay data, if any');
+	$keywords[] = 'boxes - '.i18n::s('Extra boxes, if any');
+	$keywords[] = 'share - '.i18n::s('Commands to share the page, if any');
+	$keywords[] = 'channels - '.i18n::s('Commands to stay informed, if any');
+	$keywords[] = 'twins - '.i18n::s('Pages with the same name, if any');
+	$keywords[] = 'neighbours - '.i18n::s('Next and previous, if any');
+	$keywords[] = 'contextual - '.i18n::s('Sections around, if any');
+	$keywords[] = 'categories - '.i18n::s('Assign categories, for associates');
+	$keywords[] = 'bookmarklets - '.i18n::s('Links to contribute, if any');
+	$keywords[] = 'servers - '.i18n::s('Feeding servers, for associates');
+	$keywords[] = 'download - '.i18n::s('Get section content as a Freemind map');
+	$keywords[] = 'referrals - '.i18n::s('Links to this page, if any');
+	$keywords[] = 'visited - '.i18n::s('Visited pages, if any');
+	$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
+	$components .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
 
 	// maximum number of extra boxes
 	if(!isset($context['site_extra_maximum']) || !$context['site_extra_maximum'])
@@ -324,84 +384,12 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Maximum number of extra boxes');
 	$input = '<input type="text" name="site_extra_maximum" size="2" value="'.encode_field($context['site_extra_maximum']).'" maxlength="2" />';
 	$hint = i18n::s('Extra boxes are displayed on the side of pages to which they have been associated.');
-	$general .= '<p>'.$label.' '.$input.BR.'<span class="details">'.$hint."</span></p>\n";
-
-	// author information
-	$label = i18n::s('Author information');
-	$input = '<input type="radio" name="with_author_information" value="N"';
-	if(!isset($context['with_author_information']) || ($context['with_author_information'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not display this item.');
-	$input .= BR.'<input type="radio" name="with_author_information" value="Y"';
-	if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Add links to author profiles in lists of articles');
-	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
-
-	// feed
-	$label = i18n::s('Side box for RSS feeds');
-	$input = '<input type="radio" name="skins_general_without_feed" value="N"';
-	if(!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('List RSS feeds in sections, categories, articles, and user profiles');
-	$input .= BR.'<input type="radio" name="skins_general_without_feed" value="Y"';
-	if(isset($context['skins_general_without_feed']) && ($context['skins_general_without_feed'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not display this item.');
-	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
-
-	// bookmarklets
-	$label = i18n::s('Side box for bookmarklets');
-	$input = '<input type="radio" name="pages_without_bookmarklets" value="N"';
-	if(!isset($context['pages_without_bookmarklets']) || ($context['pages_without_bookmarklets'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Add Javascript bookmarklets to enable further contributions');
-	$input .= BR.'<input type="radio" name="pages_without_bookmarklets" value="Y"';
-	if(isset($context['pages_without_bookmarklets']) && ($context['pages_without_bookmarklets'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not display this item.');
-	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
-
-	// visited pages
-	$label = i18n::s('Side box for visited pages');
-	$input = '<input type="radio" name="pages_without_history" value="N"';
-	if(!isset($context['pages_without_history']) || ($context['pages_without_history'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('List pages visited during a session');
-	$input .= BR.'<input type="radio" name="pages_without_history" value="Y"';
-	if(isset($context['pages_without_history']) && ($context['pages_without_history'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not display this item.');
-	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
-
-	// with referrals
-	$label = i18n::s('Display referrals:');
-	$input = '<input type="radio" name="with_referrals" value="N"';
-	if(!isset($context['with_referrals']) || ($context['with_referrals'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('only to associates');
-	$input .= BR.'<input type="radio" name="with_referrals" value="Y"';
-	if(isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('to everybody');
-	$general .= '<p>'.$label.BR.$input."</p>\n";
-
-	// with details
-	$label = i18n::s('Level of details');
-	$input = '<input type="radio" name="skins_with_details" value="N"';
-	if($context['skins_with_details'] != 'Y')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Compute page elements dynamically');
-	$input .= BR.'<input type="radio" name="skins_with_details" value="Y"';
-	if($context['skins_with_details'] == 'Y')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Benefit from extended computing power to provide additional dynamic details');
-	$general .= '<p>'.$label.':'.BR.$input."</p>\n";
+	$components .= '<p>'.$label.' '.$input.BR.'<span class="details">'.$hint."</span></p>\n";
 
 	//
-	// handling articles
+	// optionss
 	//
-	$articles = '';
+	$options = '';
 
 	// with details
 	$label = i18n::s('Details visibility:');
@@ -413,9 +401,9 @@ elseif(!Surfer::is_associate()) {
 	if(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Details are displayed only in sections with option \'with_details\'');
-	$articles .= '<p>'.$label.BR.$input."</p>\n";
+	$options .= '<p>'.$label.BR.$input."</p>\n";
 
-	// export tools gobal control
+	// export tools global control
 	$label = i18n::s('Export tools convert pages to an alternate format or media (pdf, palm, word):');
 	$input = '<input type="radio" name="with_export_tools" value="N"';
 	if(!isset($context['with_export_tools']) || ($context['with_export_tools'] != 'Y'))
@@ -425,7 +413,7 @@ elseif(!Surfer::is_associate()) {
 	if(isset($context['with_export_tools']) && ($context['with_export_tools'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Display export tools on all pages');
-	$articles .= '<p>'.$label.BR.$input."</p>\n";
+	$options .= '<p>'.$label.BR.$input."</p>\n";
 
 	// export tools visibility
 	$label = i18n::s('Export tools visibility');
@@ -437,7 +425,79 @@ elseif(!Surfer::is_associate()) {
 	if(isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Allow anonymous surfers to use export tools (recommended on intranets)');
-	$articles .= '<p>'.$label.':'.BR.$input."</p>\n";
+	$options .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input)."</p>\n";
+
+	// author information
+	$label = i18n::s('Author information');
+	$input = '<input type="radio" name="with_author_information" value="N"';
+	if(!isset($context['with_author_information']) || ($context['with_author_information'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Do not display this item.');
+	$input .= BR.'<input type="radio" name="with_author_information" value="Y"';
+	if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Add links to author profiles in lists of articles');
+	$options .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input)."</p>\n";
+
+	// feed
+	$label = i18n::s('Side box for RSS feeds');
+	$input = '<input type="radio" name="skins_general_without_feed" value="N"';
+	if(!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('List RSS feeds in sections, categories, articles, and user profiles');
+	$input .= BR.'<input type="radio" name="skins_general_without_feed" value="Y"';
+	if(isset($context['skins_general_without_feed']) && ($context['skins_general_without_feed'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Do not display this item.');
+	$options .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input)."</p>\n";
+
+	// bookmarklets
+	$label = i18n::s('Side box for bookmarklets');
+	$input = '<input type="radio" name="pages_without_bookmarklets" value="N"';
+	if(!isset($context['pages_without_bookmarklets']) || ($context['pages_without_bookmarklets'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Add Javascript bookmarklets to enable further contributions');
+	$input .= BR.'<input type="radio" name="pages_without_bookmarklets" value="Y"';
+	if(isset($context['pages_without_bookmarklets']) && ($context['pages_without_bookmarklets'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Do not display this item.');
+	$options .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input)."</p>\n";
+
+	// visited pages
+	$label = i18n::s('Side box for visited pages');
+	$input = '<input type="radio" name="pages_without_history" value="N"';
+	if(!isset($context['pages_without_history']) || ($context['pages_without_history'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('List pages visited during a session');
+	$input .= BR.'<input type="radio" name="pages_without_history" value="Y"';
+	if(isset($context['pages_without_history']) && ($context['pages_without_history'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Do not display this item.');
+	$options .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input)."</p>\n";
+
+	// with referrals
+	$label = i18n::s('Display referrals:');
+	$input = '<input type="radio" name="with_referrals" value="N"';
+	if(!isset($context['with_referrals']) || ($context['with_referrals'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('only to associates');
+	$input .= BR.'<input type="radio" name="with_referrals" value="Y"';
+	if(isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('to everybody');
+	$options .= '<p>'.$label.BR.$input."</p>\n";
+
+	// with details
+	$label = i18n::s('Level of details');
+	$input = '<input type="radio" name="skins_with_details" value="N"';
+	if($context['skins_with_details'] != 'Y')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Compute page elements dynamically');
+	$input .= BR.'<input type="radio" name="skins_with_details" value="Y"';
+	if($context['skins_with_details'] == 'Y')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Benefit from extended computing power to provide additional dynamic details');
+	$options .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input)."</p>\n";
 
 	//
 	// handling images
@@ -606,8 +666,8 @@ elseif(!Surfer::is_associate()) {
 	//
 	$all_tabs = array(
 		array('meta_tab', i18n::s('Meta-information'), 'meta_panel', $meta),
-		array('general_tab', i18n::s('General'), 'general_panel', $general),
-		array('articles_tab', i18n::s('Pages'), 'articles_panel', $articles),
+		array('components_tab', i18n::s('Components'), 'components_panel', $components),
+		array('options_tab', i18n::s('Options'), 'options_panel', $options),
 		array('images_tab', i18n::s('Images'), 'images_panel', $images),
 		array('freemind_tab', i18n::s('Freemind'), 'freemind_panel', $freemind)
 		);
@@ -629,7 +689,7 @@ elseif(!Surfer::is_associate()) {
 
 	// all skins
 	if(file_exists('../parameters/skins.include.php'))
-		$menu[] = Skin::build_link('skins/', i18n::s('Skins'), 'span');
+		$menu[] = Skin::build_link('skins/', i18n::s('Themes'), 'span');
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
@@ -691,8 +751,12 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'thumbnails_without_caption\']=\''.addcslashes($_REQUEST['thumbnails_without_caption'], "\\'")."';\n";
 	if(isset($_REQUEST['with_anonymous_export_tools']))
 		$content .= '$context[\'with_anonymous_export_tools\']=\''.addcslashes($_REQUEST['with_anonymous_export_tools'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_delegate_search']) && $_REQUEST['skins_delegate_search'])
+		$content .= '$context[\'skins_delegate_search\']=\''.addcslashes($_REQUEST['skins_delegate_search'], "\\'")."';\n";
 	if(isset($_REQUEST['with_export_tools']))
 		$content .= '$context[\'with_export_tools\']=\''.addcslashes($_REQUEST['with_export_tools'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_extra_components']) && $_REQUEST['skins_extra_components'])
+		$content .= '$context[\'skins_extra_components\']=\''.addcslashes($_REQUEST['skins_extra_components'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_freemind_article_bgcolor']) && $_REQUEST['skins_freemind_article_bgcolor'])
 		$content .= '$context[\'skins_freemind_article_bgcolor\']=\''.addcslashes($_REQUEST['skins_freemind_article_bgcolor'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_freemind_article_color']) && $_REQUEST['skins_freemind_article_color'])
@@ -719,6 +783,10 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'skins_freemind_section_color\']=\''.addcslashes($_REQUEST['skins_freemind_section_color'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_freemind_section_style']) && $_REQUEST['skins_freemind_section_style'])
 		$content .= '$context[\'skins_freemind_section_style\']=\''.addcslashes($_REQUEST['skins_freemind_section_style'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_search_form']) && $_REQUEST['skins_search_form'])
+		$content .= '$context[\'skins_search_form\']=\''.addcslashes($_REQUEST['skins_search_form'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_navigation_components']) && $_REQUEST['skins_navigation_components'])
+		$content .= '$context[\'skins_navigation_components\']=\''.addcslashes($_REQUEST['skins_navigation_components'], "\\'")."';\n";
 	$content .= '$context[\'standard_width\']=\''.addcslashes($_REQUEST['standard_width'], "\\'")."';\n"
 		.'$context[\'standard_height\']=\''.addcslashes($_REQUEST['standard_height'], "\\'")."';\n"
 		.'$context[\'avatar_width\']=\''.addcslashes($_REQUEST['avatar_width'], "\\'")."';\n"
@@ -735,7 +803,7 @@ elseif(!Surfer::is_associate()) {
 	// update the parameters file
 	if(!Safe::file_put_contents('parameters/skins.include.php', $content)) {
 
-		Skin::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/skins.include.php'));
+		Logger::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/skins.include.php'));
 
 		// allow for a manual update
 		$context['text'] .= '<p style="text-decoration: blink;">'.sprintf(i18n::s('To actually change the configuration, please copy and paste following lines by yourself in file %s.'), 'parameters/skins.include.php')."</p>\n";
@@ -772,7 +840,7 @@ elseif(!Surfer::is_associate()) {
 		// follow-up commands
 		$follow_up = i18n::s('Where do you want to go now?');
 		$menu = array();
-		$menu = array_merge($menu, array( 'skins/' => i18n::s('Skins') ));
+		$menu = array_merge($menu, array( 'skins/' => i18n::s('Themes') ));
 		$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
 		$menu = array_merge($menu, array( 'skins/configure.php' => i18n::s('Configure again') ));
 		$follow_up .= Skin::build_list($menu, 'page_menu');

@@ -39,12 +39,13 @@ include_once '../shared/global.php';
 include_once 'servers.php';
 
 // which page should be displayed
-$page = 1;
 if(isset($_REQUEST['page']))
 	$page = $_REQUEST['page'];
 elseif(isset($context['arguments'][0]))
 	$page = $context['arguments'][0];
-$page = strip_tags($page);
+else
+	$page = 1;
+$page = max(1,intval($page));
 
 // load the skin
 load_skin('servers');
@@ -100,7 +101,7 @@ if(Surfer::is_associate()) {
 }
 
 // referrals, if any
-$context['extra'] .= Skin::build_referrals('servers/index.php');
+$context['aside']['referrals'] = Skin::build_referrals('servers/index.php');
 
 // render the skin
 render_skin();

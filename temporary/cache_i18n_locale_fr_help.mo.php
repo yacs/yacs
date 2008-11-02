@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:04 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-24 17:07+0200
+PO-Revision-Date: 2008-10-17 18:53+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: French
+';
 $_SESSION['l10n']['fr']['1c215e423c027bdfb2bd09d45b93e517']='%s (et raccourcis, boutons, ...)';
 $_SESSION['l10n']['fr']['%s (and table of content)']='%s (et table des matières)';
 $_SESSION['l10n']['fr']['%s (bold, underline, ...)']='%s (gras, souligné, ...)';
@@ -23,8 +37,8 @@ $_SESSION['l10n']['fr']['b0c1292e0aee02a3e28ef478df6608ee']='%s pour être recon
 $_SESSION['l10n']['fr']['e27ac0bf156d0df8c502142b8de9e05d']='%s pour obtenir du support en ligne';
 $_SESSION['l10n']['fr']['%s to publish them']='%s avant de les publier';
 $_SESSION['l10n']['fr']['1d66342d01ffa6a6ae60316036acfb62']='%s, pour piloter ce serveur.';
-$_SESSION['l10n']['fr']['26faa8ec1cd927aa757409e50c7fd4c9']='%s. Appelez ceci \'une entrée de blog\' si vous préférez.';
-$_SESSION['l10n']['fr']['0f6650bce53e7fadbac3c16d8110f6f2']='%s. Certains diraient \'un nouveau blog\'.';
+$_SESSION['l10n']['fr']['ca83e655f9f14de68a9ee58460e88b09']='%s. Appelez ceci \'une entrée de blog\' si vous préférez.';
+$_SESSION['l10n']['fr']['2e19a41c63893f0aa851f4ba1d1460f2']='%s. Certains diraient \'un nouveau blog\'.';
 $_SESSION['l10n']['fr']['-- Root level']='-- Niveau de base';
 $_SESSION['l10n']['fr']['443aaeccec01cd06ff22d57c23fce186']='<p>Pour faciliter la production de texte riche YACS offre des codes de mise en page. Ces codes sont décrits dans les pages listées ci-dessous. Vous y trouverez aussi des exemples concrets d\'utilisation.</p>';
 $_SESSION['l10n']['fr']['988eb9cc577ab296ec4e7a4695c61480']='<p>Pour installer les signets actifs suivants, utilisez le bouton droit de la souris pour les ranger avec les autres signets. Pour les utiliser, rappelez-les pendant votre navigation sur Internet afin d\'ajouter du contenu sur ce site.</p>';
@@ -168,7 +182,7 @@ $_SESSION['l10n']['fr']['Polls']='Sondages';
 $_SESSION['l10n']['fr']['542790429b2fa442dd03a32969e16fa1']='Poster ici les articles qui apparaîtront individuellement dans des boîtes extra, sur le côté de l\'index de la section parente';
 $_SESSION['l10n']['fr']['625a6f45bec6099fd9303ee12b6768ac']='Poster ici les articles qui apparaîtront individuellement dans des boîtes gadget, au milieu de l\'index de la section parente';
 $_SESSION['l10n']['fr']['2fd9da646f08bfdbab3369b223919131']='Poster ici les articles qui apparaîtront dans la zone des nouvelles de la section parente';
-$_SESSION['l10n']['fr']['d4806835bccb75c766a016f923dd7e71']='Publier des originaux -- dans une section qui présente les profils des auteurs.';
+$_SESSION['l10n']['fr']['81eb7b907d022a63a8401e4090f21641']='Publier des originaux -- dans une section qui présente les profils des auteurs.';
 $_SESSION['l10n']['fr']['Post your brand new ideas here!']='La meilleure place pour exprimer vos idées';
 $_SESSION['l10n']['fr']['6ee289163f01468f3861f7131b961100']='Inséré devant le chemin d\'accès aux fichiers de la collection. Court de préférence';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
@@ -239,7 +253,7 @@ $_SESSION['l10n']['fr']['Visibility']='Visibilité';
 $_SESSION['l10n']['fr']['Vote']='Vote';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['Where to look for information?']='Où rechercher de l\'information ?';
-$_SESSION['l10n']['fr']['ad93270eab012ea42b103540698f15e5']='Pendant votre navigation, n\'hésitez pas à commenter les pages visitées, à ajouter images et fichiers, ou à partager les adresses web intéressantes.';
+$_SESSION['l10n']['fr']['94f97d397e935f910a2a78d8019fe99b']='Pendant votre navigation, n\'hésitez pas à commenter les pages visitées, à ajouter images et fichiers, ou à partager les adresses web intéressantes.';
 $_SESSION['l10n']['fr']['Wiki Title']='Titre du wiki';
 $_SESSION['l10n']['fr']['Wiki anchor']='Point d\'ancrage';
 $_SESSION['l10n']['fr']['a811fc34530c214a895b4aad8f65d948']='Avec YACS, un livre électronique est une hiérarchie de rubriques et de pages.';

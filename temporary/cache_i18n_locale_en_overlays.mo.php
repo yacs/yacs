@@ -3,15 +3,31 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['en']['1a90b52c670e73e7d242b2cd5a2489e6']='%d approval'.chr(0).'%d approvals';
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-10-21 17:06+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: English
+';
+$_SESSION['l10n']['en']['%d approval'.chr(0).'%d approvals']='%d approval'.chr(0).'%d approvals';
 $_SESSION['l10n']['en']['%d date'.chr(0).'%d dates']='%d date'.chr(0).'%d dates';
+$_SESSION['l10n']['en']['98474a5bd04c0bd2280e59b1e05eb961']='%d page has been processed.'.chr(0).'%d pages have been processed.';
 $_SESSION['l10n']['en']['%d reject'.chr(0).'%d rejects']='%d reject'.chr(0).'%d rejects';
-$_SESSION['l10n']['en']['61d74a08eb949864acccf7a592699891']='%d signature'.chr(0).'%d signatures';
+$_SESSION['l10n']['en']['%d signature'.chr(0).'%d signatures']='%d signature'.chr(0).'%d signatures';
 $_SESSION['l10n']['en']['%d vote'.chr(0).'%d votes']='%d vote'.chr(0).'%d votes';
-$_SESSION['l10n']['en']['15d762d699502ddd46a4eeac2039e7e8']='%d vote so far'.chr(0).'%d votes so far';
+$_SESSION['l10n']['en']['%d vote so far'.chr(0).'%d votes so far']='%d vote so far'.chr(0).'%d votes so far';
 $_SESSION['l10n']['en']['%d votes up to now']='%d votes up to now';
+$_SESSION['l10n']['en']['%s has been changed']='%s has been changed';
 $_SESSION['l10n']['en']['(to be defined)']='(to be defined)';
 $_SESSION['l10n']['en']['508b20ca4f8ac036f229430fe3ff9f44']='A solution has been made available';
 $_SESSION['l10n']['en']['Add a poll']='Add a poll';
@@ -23,6 +39,7 @@ $_SESSION['l10n']['en']['Additional information']='Additional information';
 $_SESSION['l10n']['en']['All members of the community']='All members of the community';
 $_SESSION['l10n']['en']['b92f5afd651986b45d14e3f4d3f3078a']='All members of the community are allowed to sign';
 $_SESSION['l10n']['en']['e1a0abbb6a700d35ad41223bb6b67e4b']='All members of the community are allowed to vote';
+$_SESSION['l10n']['en']['All pages']='All pages';
 $_SESSION['l10n']['en']['Allowed: ']='Allowed: ';
 $_SESSION['l10n']['en']['Analysis']='Analysis';
 $_SESSION['l10n']['en']['Analyzed']='Analyzed';
@@ -33,15 +50,17 @@ $_SESSION['l10n']['en']['Answer 3']='Answer 3';
 $_SESSION['l10n']['en']['Associates only']='Associates only';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['CSV']='CSV';
+$_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Cancelled']='Cancelled';
 $_SESSION['l10n']['en']['Cast your vote']='Cast your vote';
 $_SESSION['l10n']['en']['Cause has been identified']='Cause has been identified';
+$_SESSION['l10n']['en']['Change named overlays']='Change named overlays';
+$_SESSION['l10n']['en']['c057dffeda886ec48ea24ee561d6ba1e']='Changing all overlays with name %s';
 $_SESSION['l10n']['en']['be46e552419e9ea48f4a8c004e568b26']='Check this is a valid answer to your question';
 $_SESSION['l10n']['en']['Closing']='Closing';
 $_SESSION['l10n']['en']['Cooking time: %s']='Cooking time: %s';
 $_SESSION['l10n']['en']['Count']='Count';
 $_SESSION['l10n']['en']['Creation']='Creation';
-$_SESSION['l10n']['en']['Dates as YYYY-MM-DD']='Dates as YYYY-MM-DD';
 $_SESSION['l10n']['en']['Day']='Day';
 $_SESSION['l10n']['en']['Delete a poll']='Delete a poll';
 $_SESSION['l10n']['en']['Delete a recipe']='Delete a recipe';
@@ -68,6 +87,7 @@ $_SESSION['l10n']['en']['Export data']='Export data';
 $_SESSION['l10n']['en']['Export to XML']='Export to XML';
 $_SESSION['l10n']['en']['Express your vote']='Express your vote';
 $_SESSION['l10n']['en']['Extra box']='Extra box';
+$_SESSION['l10n']['en']['Fetch as CSV']='Fetch as CSV';
 $_SESSION['l10n']['en']['Following people:']='Following people:';
 $_SESSION['l10n']['en']['f32f190bf2aad383db1b708f172da303']='For example, if you want to apply the overlay <code>foo</code>, go to the %s, and select a target section, or add one.';
 $_SESSION['l10n']['en']['Front page']='Front page';
@@ -77,7 +97,6 @@ $_SESSION['l10n']['en']['Impossible to update date %s']='Impossible to update da
 $_SESSION['l10n']['en']['3255269415cd8f6dd43d89ca6baf94d0']='In the form used to edit the section, type the keyword <code>foo</code> in the overlay field, then save changes.';
 $_SESSION['l10n']['en']['Ingredients']='Ingredients';
 $_SESSION['l10n']['en']['Ingredients: %s']='Ingredients: %s';
-$_SESSION['l10n']['en']['Issue Status']='Issue Status';
 $_SESSION['l10n']['en']['Issue description']='Issue description';
 $_SESSION['l10n']['en']['0985e124a45dcdf669edf50555f0141b']='Keep your polls as simple to understand as possible.';
 $_SESSION['l10n']['en']['Navigation box']='Navigation box';
@@ -93,7 +112,10 @@ $_SESSION['l10n']['en']['Not a valid poll']='Not a valid poll';
 $_SESSION['l10n']['en']['Not a valid vote']='Not a valid vote';
 $_SESSION['l10n']['en']['cd646f812add3d9df050188c10cba5fe']='Only associates are allowed to sign';
 $_SESSION['l10n']['en']['f88b8653acc48a5cfa31d1944ca8a875']='Only associates are allowed to vote';
+$_SESSION['l10n']['en']['Overlay content']='Overlay content';
+$_SESSION['l10n']['en']['Overlay extra']='Overlay extra';
 $_SESSION['l10n']['en']['Overlay identifier']='Overlay identifier';
+$_SESSION['l10n']['en']['Overlay trailer']='Overlay trailer';
 $_SESSION['l10n']['en']['Overlays']='Overlays';
 $_SESSION['l10n']['en']['3dc503593a3195b9e277f5f6e3972aec']='Overlays listed below can be used to customise articles attached to some sections.';
 $_SESSION['l10n']['en']['Past dates']='Past dates';
@@ -104,11 +126,12 @@ $_SESSION['l10n']['en']['Petition has been closed.']='Petition has been closed.'
 $_SESSION['l10n']['en']['Petition has ended on %s']='Petition has ended on %s';
 $_SESSION['l10n']['en']['Petition is currently open']='Petition is currently open';
 $_SESSION['l10n']['en']['Petition is open until %s']='Petition is open until %s';
+$_SESSION['l10n']['en']['fbfec63a77f8d801db1c826c3bf28a8d']='Please provide an overlay identifier';
 $_SESSION['l10n']['en']['Preparation steps']='Preparation steps';
+$_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Problem has been recorded']='Problem has been recorded';
 $_SESSION['l10n']['en']['25198a808cce51d35165ff8dd17efdc9']='Problem is valid and may be repeated';
 $_SESSION['l10n']['en']['Qualification']='Qualification';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Reproduced']='Reproduced';
 $_SESSION['l10n']['en']['Resolution']='Resolution';
 $_SESSION['l10n']['en']['Scope']='Scope';
@@ -125,15 +148,18 @@ $_SESSION['l10n']['en']['b1d87c49ce4377b835742c928b8a5c9d']='Step 2 - Qualificat
 $_SESSION['l10n']['en']['f0abdf24e412568a5091a150dbde18fa']='Step 3 - Analysis has ended on %s';
 $_SESSION['l10n']['en']['3f625d1dcb7e8ab53188e31092744748']='Step 4 - Resolution has been finalized on %s';
 $_SESSION['l10n']['en']['f2c6946659a2753d6e5226f415bae994']='Step 5 - Issue has been closed on %s';
+$_SESSION['l10n']['en']['Submit']='Submit';
+$_SESSION['l10n']['en']['ca890a6df52e17d60c1d80dbc28e345f']='Text appended at the bottom of the page.';
+$_SESSION['l10n']['en']['0ead4a6bd1cc4d5c3c31e67efe431e7f']='Text inserted after page introduction.';
+$_SESSION['l10n']['en']['d4c256f3d024b21a7fa4a4c8472998fc']='Text inserted in the side panel.';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['This page has no overlay']='This page has no overlay';
 $_SESSION['l10n']['en']['Time to cook']='Time to cook';
 $_SESSION['l10n']['en']['Time to prepare']='Time to prepare';
 $_SESSION['l10n']['en']['Time to prepare: %s']='Time to prepare: %s';
 $_SESSION['l10n']['en']['890ffe5c11bf21303b56697857faba1e']='Try to standardize your recipes for four people';
-$_SESSION['l10n']['en']['49004845e4669dc486ee04361c17f5e7']='Type each ingredient on one separate line starting with a \'-\' character';
+$_SESSION['l10n']['en']['00c16f5cb5d95c3294b2b0ece2252ee1']='Type each ingredient on one separate line starting with a \'-\' character';
 $_SESSION['l10n']['en']['Use format YYYY-MM-DD']='Use format YYYY-MM-DD';
-$_SESSION['l10n']['en']['Use the first name or nick name']='Use the first name or nick name';
 $_SESSION['l10n']['en']['View poll results']='View poll results';
 $_SESSION['l10n']['en']['View results']='View results';
 $_SESSION['l10n']['en']['View your ballot']='View your ballot';
@@ -153,9 +179,11 @@ $_SESSION['l10n']['en']['Voters']='Voters';
 $_SESSION['l10n']['en']['Voters:']='Voters:';
 $_SESSION['l10n']['en']['250fe802ec02ecd45326259e3a1c2677']='We are trying to standardize recipes for 4 people.';
 $_SESSION['l10n']['en']['YYYY-MM-AA HH:MM']='YYYY-MM-AA HH:MM';
+$_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['You have already signed']='You have already signed';
 $_SESSION['l10n']['en']['You have already voted']='You have already voted';
 $_SESSION['l10n']['en']['7b788a7306ddeb706b4bd083a706a82d']='You have to wait for end of vote to list ballots';
+$_SESSION['l10n']['en']['03f4ec8b939b65c4961805f376336a6e']='You will change some attributes of a named overlay.';
 $_SESSION['l10n']['en']['a0ec7c5d0004b7a1b7b2fae7e1f9c937']='a solution has been made available';
 $_SESSION['l10n']['en']['f2aff1bbeedc515b67d5bdd23d14939c']='an immediate solution has been found';
 $_SESSION['l10n']['en']['now']='now';

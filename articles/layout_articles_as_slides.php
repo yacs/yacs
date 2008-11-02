@@ -110,7 +110,7 @@ Class Layout_articles_as_slides extends Layout_interface {
 
 			// beautify the target page
 			if($item['introduction'])
-				$text .= Codes::beautify($item['introduction'], $item['options']).BR.BR."\n";
+				$text .= Codes::beautify_introduction($item['introduction']).BR.BR."\n";
 			$text .= Codes::beautify($item['description'], $item['options'])."\n";
 
 			// end of slide content

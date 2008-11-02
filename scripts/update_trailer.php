@@ -73,8 +73,6 @@ if(!isset($context['script_url']))
 	$context['script_url'] = '';
 
 // version 8.6 - new page components
-if(!isset($context['extra_prefix']))
-	$context['extra_prefix'] = '';
 if(!isset($context['page_tags']))
 	$context['page_tags'] = '';
 if(!isset($_SESSION['surfer_interface']))

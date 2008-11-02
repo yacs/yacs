@@ -121,7 +121,7 @@ $context['page_title'] = i18n::s('Content Assistant');
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -132,7 +132,7 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
 	$menu = array('tools/' => i18n::s('Tools'));
@@ -159,7 +159,7 @@ if(Surfer::is_crawler()) {
 		if(Users::post($fields))
 			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'Bobby' is a member
@@ -176,7 +176,7 @@ if(Surfer::is_crawler()) {
 		if(Users::post($fields))
 			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'Carol' is a member
@@ -192,7 +192,7 @@ if(Surfer::is_crawler()) {
 		if(Users::post($fields))
 			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'Sophie' is a subscriber
@@ -208,7 +208,7 @@ if(Surfer::is_crawler()) {
 		if(Users::post($fields))
 			$text .= sprintf(i18n::s('A user profile "%s" has been created, with the password "%s".'), $fields['nick_name'], $fields['confirm']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// distribute names
@@ -233,7 +233,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'gadget_cloud' article
@@ -251,7 +251,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'gadget_collections' article
@@ -269,7 +269,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'navigation_box' article
@@ -286,7 +286,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// global pages
@@ -307,7 +307,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// calendar
@@ -333,7 +333,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'event_template' article
@@ -356,7 +356,7 @@ if(Surfer::is_crawler()) {
 			$overlay->remember('insert', $fields);
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		} else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// forums
@@ -377,7 +377,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'channels' section
@@ -399,7 +399,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'support_chat' article
@@ -415,7 +415,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'yabb_board' section
@@ -433,7 +433,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'yabb_thread' article
@@ -450,7 +450,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// add sample comments to 'yabb_thread'
@@ -465,7 +465,7 @@ if(Surfer::is_crawler()) {
 				$fields['description'] = sprintf(i18n::c('Comment #%d'), $index);
 				$fields['edit_name'] = $names[ rand(0, 2) ];
 				if(!Comments::post($fields)) {
-					$text .= Skin::error_pop().BR."\n";
+					$text .= Logger::error_pop().BR."\n";
 					break;
 				}
 			}
@@ -489,7 +489,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'jive_thread' article
@@ -506,7 +506,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// add sample comments to 'jive_thread'
@@ -521,7 +521,7 @@ if(Surfer::is_crawler()) {
 				$fields['description'] = sprintf(i18n::c('Reply #%d'), $index);
 				$fields['edit_name'] = $names[ rand(0, 2) ];
 				if(!Comments::post($fields)) {
-					$text .= Skin::error_pop().BR."\n";
+					$text .= Logger::error_pop().BR."\n";
 					break;
 				}
 			}
@@ -550,7 +550,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'blog_page' article
@@ -567,7 +567,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// add sample comments to 'blog_page'
@@ -582,7 +582,7 @@ if(Surfer::is_crawler()) {
 				$fields['description'] = sprintf(i18n::c('Comment #%d'), $index);
 				$fields['edit_name'] = $names[ rand(0, 2) ];
 				if(!Comments::post($fields)) {
-					$text .= Skin::error_pop().BR."\n";
+					$text .= Logger::error_pop().BR."\n";
 					break;
 				}
 			}
@@ -617,7 +617,7 @@ if(Surfer::is_crawler()) {
 				Members::assign('user:'.$user['id'], 'section:'.$id);
 
 		} else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'project_public_page' article
@@ -633,7 +633,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'project_private' section
@@ -653,7 +653,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'project_private_page' article
@@ -669,7 +669,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// publication
@@ -691,7 +691,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'book_chapter' section
@@ -708,7 +708,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'book_page' article
@@ -725,7 +725,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// add sample comments to 'book_page'
@@ -740,7 +740,7 @@ if(Surfer::is_crawler()) {
 				$fields['description'] = sprintf(i18n::c('Note #%d'), $index);
 				$fields['edit_name'] = $names[ rand(0, 2) ];
 				if(!Comments::post($fields)) {
-					$text .= Skin::error_pop().BR."\n";
+					$text .= Logger::error_pop().BR."\n";
 					break;
 				}
 			}
@@ -769,7 +769,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'wiki_anonymous ' section
@@ -787,7 +787,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'wiki_anonymous_page' article
@@ -804,7 +804,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// add sample comments to 'wiki_anonymous_page'
@@ -819,7 +819,7 @@ if(Surfer::is_crawler()) {
 				$fields['description'] = sprintf(i18n::c("Note #%d\nfoo bar"), $index);
 				$fields['edit_name'] = $names[ rand(0, 2) ];
 				if(!Comments::post($fields)) {
-					$text .= Skin::error_pop().BR."\n";
+					$text .= Logger::error_pop().BR."\n";
 					break;
 				}
 			}
@@ -844,7 +844,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'wiki_members_page' article
@@ -861,7 +861,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'wiki_template' article
@@ -877,7 +877,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// sections
@@ -898,7 +898,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'links' section
@@ -915,7 +915,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'my_section' section
@@ -930,7 +930,7 @@ if(Surfer::is_crawler()) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// categories
@@ -997,7 +997,7 @@ if(Surfer::is_crawler()) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// comments
@@ -1013,7 +1013,7 @@ if(Surfer::is_crawler()) {
 		if(Comments::post($fields))
 			$text .= sprintf(i18n::s('Comments have been added to "%s".'), 'my_article').BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// tables
@@ -1041,7 +1041,7 @@ if(Surfer::is_crawler()) {
 		if(Tables::post($fields))
 			$text .= sprintf(i18n::s('A table "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// job done

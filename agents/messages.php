@@ -1046,7 +1046,7 @@ class Messages {
 		// create a file record in the database
 		include_once $context['path_to_root'].'files/files.php';
 		if(!$item['id'] = Files::post($item)) {
-			Logger::remember('agents/messages.php', Skin::error_pop());
+			Logger::remember('agents/messages.php', Logger::error_pop());
 			return;
 		}
 		if($context['debug_messages'] == 'Y')
@@ -1475,7 +1475,7 @@ class Messages {
 			// insert comment in the database
 			include_once $context['path_to_root'].'comments/comments.php';
 			if(!$entry_fields['id'] = Comments::post($entry_fields)) {
-				Logger::remember('agents/messages.php', Skin::error_pop());
+				Logger::remember('agents/messages.php', Logger::error_pop());
 				return NULL;
 			}
 
@@ -1518,7 +1518,7 @@ class Messages {
 
 			// save in the database
 			if(!$entry_fields['id'] = Articles::post($entry_fields)) {
-				Logger::remember('agents/messages.php', Skin::error_pop());
+				Logger::remember('agents/messages.php', Logger::error_pop());
 				return NULL;
 			}
 

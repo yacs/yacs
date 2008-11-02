@@ -94,6 +94,12 @@ Class i18n {
 		if(!isset($_SESSION['l10n_modules']))
 			$_SESSION['l10n_modules'] = array();
 
+		// ensure all cached modules are accurate on development machine
+		if($context['with_debug'] == 'Y') {
+			i18n::load('en', $module);
+			i18n::load('fr', $module);
+		}
+
 		// this module has already been loaded
 		if(isset($_SESSION['l10n_modules'][$module]))
 			return;
@@ -104,12 +110,6 @@ Class i18n {
 		// profiling mode
 		if($context['with_profile'] == 'Y')
 			Logger::profile('i18n::bind', 'start');
-
-		// ensure all cached modules are accurate on development machine
-		if($context['with_debug'] == 'Y') {
-			i18n::load('en', $module);
-			i18n::load('fr', $module);
-		}
 
 		// load strings according to surfer localization
 		i18n::load($context['language'], $module);
@@ -1180,14 +1180,14 @@ Class i18n {
 			$_SESSION['l10n'][$language][$hash] = $translated;
 
 			// escape original string
-			$original = str_replace('\000', "'.chr(0).'", addcslashes($original, "\0\\'"));
+			$hash = str_replace('\000', "'.chr(0).'", addcslashes($hash, "\0\\'"));
 
 			// escape translated string
 			$translated = str_replace('\000', "'.chr(0).'", addcslashes($translated, "\0\\'"));
 
 			// update cache file, if any
-			if($cache && $original)
-				$cache_content .= '$_SESSION[\'l10n\'][\''.$language.'\'][\''.i18n::hash($original).'\']=\''.$translated."';\n";
+			if($cache)
+				$cache_content .= '$_SESSION[\'l10n\'][\''.$language.'\'][\''.$hash.'\']=\''.$translated."';\n";
 		}
 
 		// clean out
@@ -1197,7 +1197,7 @@ Class i18n {
 		if(preg_match('/plural-forms: ([^\n]*)\n/i', $_SESSION['l10n'][$language][''], $matches) && strcmp($matches[1], 'nplurals=INTEGER; plural=EXPRESSION;'))
 			$plural = $matches[1];
 		else
-			$plural = 'nplurals=2; plural=n == 1 ? 0 : 1';
+			$plural = 'nplurals=2; plural=(n != 1)';
 
 		// save it in cache as well
 		$_SESSION['l10n'][$language]['_plural'] = $plural;

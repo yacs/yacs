@@ -38,7 +38,7 @@ Class Xml_rpc extends Authenticator {
 
 		// we need some parameters
 		if(!isset($this->attributes['authenticator_parameters']) || !$this->attributes['authenticator_parameters']) {
-			Skin::error(i18n::s('Please provide parameters to the authenticator.'));
+			Logger::error(i18n::s('Please provide parameters to the authenticator.'));
 			return FALSE;
 		}
 
@@ -48,7 +48,7 @@ Class Xml_rpc extends Authenticator {
 
 		// invalid result
 		if(!$result || (@count($result) < 2)) {
-			Skin::error(sprintf(i18n::s('Impossible to complete XML-RPC call to %s.'), $this->attributes['authenticator_parameters']));
+			Logger::error(sprintf(i18n::s('Impossible to complete XML-RPC call to %s.'), $this->attributes['authenticator_parameters']));
 			return FALSE;
 		}
 

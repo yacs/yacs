@@ -102,12 +102,6 @@ else
 // load a skin
 load_skin('files');
 
-// stop crawlers
-if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	die(i18n::s('You are not allowed to perform this operation.'));
-}
-
 // path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
@@ -131,7 +125,7 @@ if(!$permitted) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display feed content
 } else {

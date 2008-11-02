@@ -1068,13 +1068,13 @@ Class Dates {
 
 		// no date
 		if(!$fields['date_stamp']) {
-			Skin::error(i18n::s('Please provide a date.'));
+			Logger::error(i18n::s('Please provide a date.'));
 			return 0;
 		}
 
 		// no anchor reference
 		if(!$fields['anchor']) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return 0;
 		}
 
@@ -1086,7 +1086,7 @@ Class Dates {
 
 			// id cannot be empty
 			if(!isset($fields['id']) || !is_numeric($fields['id'])) {
-				Skin::error(i18n::s('No item has the provided id.'));
+				Logger::error(i18n::s('No item has the provided id.'));
 				return FALSE;
 			}
 

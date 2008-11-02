@@ -94,10 +94,40 @@ Class Files {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// surfer has special privileges
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N')) {
+		
+			// filter editors
+			if(!Surfer::is_empowered())
+				return FALSE;
+				
+			// editors will have to unlock the container to contribute
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		// container is restricted
+		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
+		
+			// filter members
+			if(!Surfer::is_member())
+				return FALSE;
+				
+			// editors can proceed
+			if(Surfer::is_empowered())
+				return TRUE;
+				
+			// members can contribute except if container is locked
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		}
+
+		// editors can always upload files to public containers
 		if(Surfer::is_empowered())
 			return TRUE;
-
+			
 		// item has been locked
 		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
@@ -106,30 +136,20 @@ Class Files {
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// surfer created the page
-		if(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
-			return TRUE;
-
-		// surfer screening
-		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
-			return FALSE;
-		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
 		// authenticated members are allowed to add files
 		if(Surfer::is_member())
 			return TRUE;
 
-		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
-			return TRUE;
-
-		// anonymous contributions are allowed for this section
+		// anonymous contributions are allowed for this container
 		if(isset($item['content_options']) && preg_match('/\banonymous_edit\b/i', $item['content_options']))
 			return TRUE;
 
-		// anonymous contributions are allowed for this item
+		// anonymous contributions are allowed for this container
 		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+			return TRUE;
+
+		// anonymous contributions are allowed for this anchor
+		if(is_object($anchor) && $anchor->is_editable())
 			return TRUE;
 
 		// teasers are activated
@@ -271,7 +291,7 @@ Class Files {
 		// load the row
 		$item =& Files::get($id);
 		if(!$item['id']) {
-			Skin::error(i18n::s('No item has the provided id.'));
+			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
 
@@ -346,7 +366,7 @@ Class Files {
 			// create target folders
 			$file_path = 'files/'.$context['virtual_path'].str_replace(':', '/', $anchor_to);
 			if(!Safe::make_path($file_path))
-				Skin::error(sprintf(i18n::s('Impossible to create path %s.'), $file_path));
+				Logger::error(sprintf(i18n::s('Impossible to create path %s.'), $file_path));
 			$file_path = $context['path_to_root'].$file_path.'/';
 
 			// the list of transcoded strings
@@ -358,7 +378,7 @@ Class Files {
 				// duplicate file
 				if(!copy($context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['file_name'],
 					$file_path.$item['file_name'])) {
-					Skin::error(sprintf(i18n::s('Impossible to copy file %s.'), $item['file_name']));
+					Logger::error(sprintf(i18n::s('Impossible to copy file %s.'), $item['file_name']));
 					continue;
 				}
 
@@ -1743,7 +1763,7 @@ Class Files {
 
 		// no anchor reference
 		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
@@ -1772,7 +1792,7 @@ Class Files {
 
 			// id cannot be empty
 			if(!isset($fields['id']) || !is_numeric($fields['id'])) {
-				Skin::error(i18n::s('No item has the provided id.'));
+				Logger::error(i18n::s('No item has the provided id.'));
 				return FALSE;
 			}
 
@@ -1861,7 +1881,7 @@ Class Files {
 
 		// nothing done
 		} else {
-			Skin::error(i18n::s('Nothing has been received. Ensure you are below size limits set for this server.'));
+			Logger::error(i18n::s('Nothing has been received. Ensure you are below size limits set for this server.'));
 			return FALSE;
 		}
 

@@ -3,12 +3,27 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:09+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: English
+';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
+$_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['1fa29870e0d67260cf186d325428dd30']='<p>This is the list of most recent events at %s</p><p>You can also use following shortcuts to get more information for this server:</p><ul><li><a href="%s">Go to the front page (%s)</a></li><li><a href="%s">Go to the control panel (%s)</a></li></ul>';
-$_SESSION['l10n']['en']['176c196963e5f0c3e7a380e4a7d01a4e']='A list of e-mail addresses allowed to post to this queue, or \'any_member\', \'any_subscriber\', or \'anyone\' (do not replicate associates addresses)';
-$_SESSION['l10n']['en']['41057cb7d366039fcba3b1e2ba146ae9']='A regularity expression to be matched by incoming messages to be accepted (e.g., \'X-Originating-IP:  [21.18.33.9]\')';
+$_SESSION['l10n']['en']['83e6e48752cf497b046199e45dd354ed']='A list of e-mail addresses allowed to post to this queue, or \'any_member\', \'any_subscriber\', or \'anyone\' (do not replicate associates addresses)';
+$_SESSION['l10n']['en']['65f61dbb9945e97556e5d3b7e4526662']='A regularity expression to be matched by incoming messages to be accepted (e.g., \'X-Originating-IP:  [21.18.33.9]\')';
 $_SESSION['l10n']['en']['Account name']='Account name';
 $_SESSION['l10n']['en']['Add a mail queue']='Add a mail queue';
 $_SESSION['l10n']['en']['Allowed senders']='Allowed senders';
@@ -17,8 +32,8 @@ $_SESSION['l10n']['en']['Average time']='Average time';
 $_SESSION['l10n']['en']['Background processing']='Background processing';
 $_SESSION['l10n']['en']['Browsers']='Browsers';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
+$_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
-$_SESSION['l10n']['en']['Configure: %s']='Configure: %s';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Count']='Count';
 $_SESSION['l10n']['en']['e830ce46b14c68dfc2f692498feffa2e']='Debug mail protocol in temporary/debug.txt, and file each message processed by agents/messages.php. Use this option for troubleshooting only.';
@@ -42,7 +57,7 @@ $_SESSION['l10n']['en']['Messages']='Messages';
 $_SESSION['l10n']['en']['Minimum time']='Minimum time';
 $_SESSION['l10n']['en']['New submission: %s']='New submission: %s';
 $_SESSION['l10n']['en']['Nick name']='Nick name';
-$_SESSION['l10n']['en']['591d79b094ede1c2dcd80d292260f72d']='Nickname or id of the default section for new pages (e.g., \'45\')';
+$_SESSION['l10n']['en']['c5ca4820ba3d0beb8ff07061d5feebb3']='Nickname or id of the default section for new pages (e.g., \'45\')';
 $_SESSION['l10n']['en']['No data to display']='No data to display';
 $_SESSION['l10n']['en']['No event has been logged']='No event has been logged';
 $_SESSION['l10n']['en']['Operating systems']='Operating systems';
@@ -68,22 +83,22 @@ $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['The POP3 password']='The POP3 password';
 $_SESSION['l10n']['en']['The POP3 user name']='The POP3 user name';
-$_SESSION['l10n']['en']['6f7b1b688a68fe7bc5ea5dbbb5dd0995']='The boundary used to locate signatures (e.g., \'___\' for Yahoo mail)';
+$_SESSION['l10n']['en']['b7112832e54441549cb9b3531ff53657']='The boundary used to locate signatures (e.g., \'___\' for Yahoo mail)';
 $_SESSION['l10n']['en']['3513760fe3e0b14f2af4cc30a501d92a']='The following configuration has been saved into the file %s.';
-$_SESSION['l10n']['en']['cabf3f54ca91bd9a8bf190042db9218e']='The page received by e-mail has been posted.
+$_SESSION['l10n']['en']['450e8f27237a8670a67656322ed91e8b']='The page received by e-mail has been posted.
 Don\'t forget to read it online. Then click on the Publish command to make it publicly available.
 ';
 $_SESSION['l10n']['en']['cf0b11099660e4750c9499f08e97b617']='The page received by e-mail has been successfully published.
 Please review it now to ensure that it reflects your mind.
 ';
-$_SESSION['l10n']['en']['bb9f3321cf7766bc53fd09a81f9fa882']='The section to post new pages (e.g., \'section:2343\')';
+$_SESSION['l10n']['en']['37e9184187437711aaa070624ba60528']='The section to post new pages (e.g., \'section:2343\')';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
 $_SESSION['l10n']['en']['946f1d0811c618fdbe17d8a92a15c312']='To get the full list of events, please download %s.';
 $_SESSION['l10n']['en']['1383f6f5672d0db6b925ba06d845f5fb']='To impersonate the default user that has uploaded a file';
 $_SESSION['l10n']['en']['Total time']='Total time';
 $_SESSION['l10n']['en']['Uploads']='Uploads';
 $_SESSION['l10n']['en']['Use a short nick name']='Use a short nick name';
-$_SESSION['l10n']['en']['c3adb2fb02e59db2c95819e13ac8a8bc']='Use either the network name (e.g., \'pop.foo.bar\') or the IP address of the mail server';
+$_SESSION['l10n']['en']['e5ea1213c84de0fbfefae57699b62922']='Use either the network name (e.g., \'pop.foo.bar\') or the IP address of the mail server';
 $_SESSION['l10n']['en']['96f48e26fa2408d133d1e07a9997d4cf']='Use this page to configure agents, that is, scripts executed in the background without any human interaction.';
 $_SESSION['l10n']['en']['Values']='Values';
 $_SESSION['l10n']['en']['What?']='What?';

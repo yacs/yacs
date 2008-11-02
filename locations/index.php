@@ -39,12 +39,13 @@ include_once '../shared/global.php';
 include_once 'locations.php';
 
 // which page should be displayed
-$page = 1;
 if(isset($_REQUEST['page']))
 	$page = $_REQUEST['page'];
 elseif(isset($context['arguments'][0]))
 	$page = $context['arguments'][0];
-$page = strip_tags($page);
+else
+	$page = 1;
+$page = max(1,intval($page));
 
 // load the skin
 load_skin('locations');
@@ -115,10 +116,10 @@ if(!$text =& Cache::get($cache_id)) {
 
 	Cache::put($cache_id, $text, 'articles');
 }
-$context['extra'] .= $text;
+$context['aside']['boxes'] = $text;
 
 // referrals, if any
-$context['extra'] .= Skin::build_referrals('locations/index.php');
+$context['aside']['referrals'] = Skin::build_referrals('locations/index.php');
 
 // render the skin
 render_skin();

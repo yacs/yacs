@@ -64,7 +64,7 @@ if(isset($_REQUEST['description']))
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
 } elseif(!Surfer::is_logged())
@@ -73,7 +73,7 @@ if(Surfer::is_crawler()) {
 // associates only
 elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -85,7 +85,7 @@ elseif(!Surfer::is_associate()) {
 
 	// display the form on error
 	if($error = Servers::post($_REQUEST)) {
-		Skin::error($error);
+		Logger::error($error);
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -342,7 +342,7 @@ if($with_form) {
 		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
 		.'<p>'.i18n::s('Then configure and trigger web services that we will use remotely.').'</p>'
 		.'<p>'.i18n::s('Also, uncheck web services that we should not provide to the target server.').'</p>';
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:06 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-07-31 16:10+0100
+Last-Translator: Paques, Bernard
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['318bb71a30c3dcd1476ae87d0e98cfdc']='Un calendrier des activités à venir';
 $_SESSION['l10n']['fr']['ee4c4307567fad8ef9e100aa3236eff8']='La catégorie "%s" a été créée.';
@@ -96,7 +110,6 @@ $_SESSION['l10n']['fr']['Publication']='Publication';
 $_SESSION['l10n']['fr']['Raw Bytes: %d bytes']='Taille du contenu : %d octets';
 $_SESSION['l10n']['fr']['Raw Input: %s']='Contenu analysé : %s';
 $_SESSION['l10n']['fr']['Real-time collaboration']='Collaboration en temps réel';
-$_SESSION['l10n']['fr']['Referrals']='Références';
 $_SESSION['l10n']['fr']['Reply #%d']='Réponse numéro %d';
 $_SESSION['l10n']['fr']['Restricted wiki']='Wiki restreint';
 $_SESSION['l10n']['fr']['Sample article']='Article de démonstration';

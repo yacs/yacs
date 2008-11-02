@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: Yacs
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-24 19:10+0200
+PO-Revision-Date: 2008-10-24 19:20+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['A Rabbit Story']='Fable de La Fontaine';
 $_SESSION['l10n']['fr']['A dynamic Freemind map']='Une carte Freemind dynamique';
@@ -29,9 +43,9 @@ $_SESSION['l10n']['fr']['Bold']='Mise en gras';
 $_SESSION['l10n']['fr']['Bulleted list']='Liste à points';
 $_SESSION['l10n']['fr']['0546ab2e19789096451424274c736664']='Mais où est donc passée Mirza ?';
 $_SESSION['l10n']['fr']['35255370793bd44aaf826522bc1d288f']='Mais où sera ce lapin dans quelques minutes ?';
-$_SESSION['l10n']['fr']['c459d78085879d781ea429f47f3b59aa']='Mais où sera ce lapin dans quelques minutes ? Je ne sais pas, mais ça dépendra aussi de la vitesse de la tortue...';
-$_SESSION['l10n']['fr']['3acd56c558c46cbae15dd5821fce547a']='Mais où sera ce lapin dans quelques minutes ?[---]Je ne sais pas, mais ça dépendra aussi de la vitesse de la tortue...';
-$_SESSION['l10n']['fr']['088ec19a964a67136facb92b15129bfa']='Mais où sera ce lapin dans quelques minutes ? [nl]Je ne sais pas, mais ça dépendra aussi de la vitesse de la tortue..';
+$_SESSION['l10n']['fr']['31b2ba4256685441eff03955d6660c67']='Mais où sera ce lapin dans quelques minutes ? Je ne sais pas, mais ça dépendra aussi de la vitesse de la tortue...';
+$_SESSION['l10n']['fr']['17a21d0f5e8249cf5428fecb7de3e85e']='Mais où sera ce lapin dans quelques minutes ?[---]Je ne sais pas, mais ça dépendra aussi de la vitesse de la tortue...';
+$_SESSION['l10n']['fr']['789e7c86acd70fae448742c4ae2712e8']='Mais où sera ce lapin dans quelques minutes ? [nl]Je ne sais pas, mais ça dépendra aussi de la vitesse de la tortue..';
 $_SESSION['l10n']['fr']['Categories']='Catégories';
 $_SESSION['l10n']['fr']['Category']='Catégorie';
 $_SESSION['l10n']['fr']['Category shortcut']='Catégorie';
@@ -186,14 +200,15 @@ $_SESSION['l10n']['fr']['Table']='Table';
 $_SESSION['l10n']['fr']['Table of Questions']='Liste de questions';
 $_SESSION['l10n']['fr']['Table of content']='Table des matières';
 $_SESSION['l10n']['fr']['00f1329544eb7baf764f072f97567cd5']='Tables (avec en-têtes, à grille, import CSV...)';
+$_SESSION['l10n']['fr']['Theme test']='Test de thème';
 $_SESSION['l10n']['fr']['8715f28cefd96bdbbc3613787304e522']='Troisième élément';
 $_SESSION['l10n']['fr']['This is really //meaningful//!']='Ceci est //remarquable// !';
 $_SESSION['l10n']['fr']['5607131550283b87b9d0002968cca809']='Ceci est [big]remarquable[/big] !';
 $_SESSION['l10n']['fr']['19b72ed90e4f9b5c25363aef1fec752f']='Ceci est [i]remarquable[/i] !';
 $_SESSION['l10n']['fr']['0e014dce7af8b38fec686da56919047b']='Ceci est [small]petit[/small] !';
 $_SESSION['l10n']['fr']['a42b1237b6137f33525bd976010b463f']='Ceci est [tiny]minuscule[/tiny] !';
-$_SESSION['l10n']['fr']['306ca7b6c7d6df8f41bc44b3922ebf59']='Ceci est très **important**, n\'est-ce pas ?';
-$_SESSION['l10n']['fr']['4abc2b37ac92197b28ec83bcb54412b9']='Ceci est très [b]important[/b], n\'est-ce pas ?';
+$_SESSION['l10n']['fr']['cb79f894cc4c3d0a12af167ba6a1db0b']='Ceci est très **important**, n\'est-ce pas ?';
+$_SESSION['l10n']['fr']['0146f5357e46c99c4203e7a2b7609e10']='Ceci est très [b]important[/b], n\'est-ce pas ?';
 $_SESSION['l10n']['fr']['00e2078797681d249b9d24d17739cb96']='Ce texte a ++été inséré++.';
 $_SESSION['l10n']['fr']['This text --has been deleted--.']='Ce texte a --été supprimé--.';
 $_SESSION['l10n']['fr']['1841ac8d34047be7fb50aa69d7f0a16d']='Ce texte a [deleted]été supprimé[/deleted].';
@@ -230,7 +245,7 @@ $_SESSION['l10n']['fr']['Wikipedia']='Wikipedia';
 $_SESSION['l10n']['fr']['9567f58f61c1ba637b6c3fcd70d60b76']='Avec les codes vous utilisez des "balises" de formattage de votre texte. Chaque balise doit être placée entre les caractères [ et ]. Chaque région particulière de votre texte sera marquée d\'une balise d\'ouverture et de fermeture. Les balises de fermeture commencent par la séquence [/ , comme le montrent les exemples des pages suivantes. Si vous vous trompez de balise ou oubliez la fermeture, le rendu visuel ne sera pas celui attendu.';
 $_SESSION['l10n']['fr']['7435b80de8532446b77a00ca63fea01e']='YACS s\'appuye sur des standards internationaux, tels que [hint=eXtended Markup Language]XML[/hint].';
 $_SESSION['l10n']['fr']['520d28a62581d2f221a66b37c241cced']='Vous pouvez consulter la documentation du script [script]shared/codes.php[/script]';
-$_SESSION['l10n']['fr']['9f80cb81f1836e893377a5754597b5f3']='Vous pouvez aussi naviguer sur les liens ci-dessus pour vérifier le style courant, en complément de %s.';
+$_SESSION['l10n']['fr']['373197b234d186954990d90c20a60a94']='Vous pouvez aussi naviguer sur les liens ci-dessus en complément de %s.';
 $_SESSION['l10n']['fr']['94f3c1716b226c10660346cffdf24674']='Vous pouvez envoyer un message à l\'adresse suivante : [email]webmaster@acme.com[/email]';
 $_SESSION['l10n']['fr']['88c8f1151cc55ecdebed9bf4cd119abe']='Vous pouvez envoyer un message à l\'adresse suivante : webmaster@acme.com';
 $_SESSION['l10n']['fr']['0cc217b44799b71fe26dc9446f035fe2']='Vous pouvez envoyer un message à l\'[email=équipe de support]webmaster@acme.com[/email]';
@@ -240,7 +255,7 @@ $_SESSION['l10n']['fr']['aca55e7e9fc28e93c965f0b6d460d2e9']='Vous pouvez visiter
 $_SESSION['l10n']['fr']['c47f633bd83faf4c5e26ec301fd65d72']='Vous pouvez visiter [link]codes/basic.php[/link] ou [link]index.php[/link]';
 $_SESSION['l10n']['fr']['78bd8c1de20db3f6bb92c282fd10d94b']='Vous pouvez visiter [link]www.cisco.com[/link] ou [link]http://www.nortel.com[/link], ou discuter à [link]irc://irc.eu.be.ofloo.net/[/link]';
 $_SESSION['l10n']['fr']['fa5d07d3ec64ed9ec20c5b5995c381d7']='Vous pouvez visiter www.cisco.com ou http://www.nortel.com, ou discuter à irc://irc.eu.be.ofloo.net/';
-$_SESSION['l10n']['fr']['e1977ad25eb1b5b3711ab4b81428e166']='[flag]important![/flag] N\'oubliez pas de donner quelque chose à votre chat aujourd\'hui.';
+$_SESSION['l10n']['fr']['9e11eaa0e66c78f102a768ddbdbaf325']='[flag]important![/flag] N\'oubliez pas de donner quelque chose à votre chat aujourd\'hui.';
 $_SESSION['l10n']['fr']['a previous message']='précédent';
 $_SESSION['l10n']['fr']['another one']='un autre';
 $_SESSION['l10n']['fr']['download the file']='télécharger le fichier';
@@ -252,7 +267,6 @@ $_SESSION['l10n']['fr']['http://www.cisco.com']='http://www.cisco.com';
 $_SESSION['l10n']['fr']['one bulleted item']='un élément à puce';
 $_SESSION['l10n']['fr']['quoted from']='cité d\'un message';
 $_SESSION['l10n']['fr']['skin']='style';
-$_SESSION['l10n']['fr']['the skin test page']='la page de test des styles';
 $_SESSION['l10n']['fr']['64de267770dc55e7ac33e45ae07708ff']=' ';
 $_SESSION['l10n']['fr']['world']='le monde';
 $_SESSION['l10n']['fr']['www.php.net']='www.php.net';

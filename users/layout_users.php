@@ -127,11 +127,11 @@ Class Layout_users extends Layout_interface {
 
 			// capability
 			if(Surfer::is_associate() && ($item['capability'] == 'A'))
-				$details[] = i18n::s('associate');
+				$details[] = i18n::s('Associate');
 			elseif($item['capability'] == 'S')
-				$details[] = i18n::s('subscriber');
+				$details[] = i18n::s('Subscriber');
 			else
-				$details[] = i18n::s('member');
+				$details[] = i18n::s('Member');
 
 			// creation date
 			if($item['create_date'])

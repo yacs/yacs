@@ -176,7 +176,7 @@ if(isset($item['full_name']) && $item['full_name']) {
 // anyone can modify his own profile; associates can do what they want
 if(isset($item['id']) && !$zoom_type && Surfer::is_empowered()) {
 	Skin::define_img('EDIT_USER_IMG', 'icons/users/edit.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Users::get_url($item['id'], 'edit') => EDIT_USER_IMG.i18n::s('Edit this page') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Users::get_url($item['id'], 'edit') => EDIT_USER_IMG.i18n::s('Edit this profile') ));
 }
 
 // only associates can delete user profiles; self-deletion may also be allowed
@@ -190,7 +190,7 @@ if(isset($item['id']) && !$zoom_type && $permitted
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -201,10 +201,15 @@ if(!isset($item['id'])) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the user profile
 } else {
+
+	// allow back-referencing from overlay
+	$item['self_reference'] = 'user:'.$item['id'];
+	$item['self_url'] = $context['url_to_root'].Users::get_url($item['id']);
+
 
 	// remember surfer visit
 	Surfer::is_visiting(Users::get_url($item['id'], 'view', $item['nick_name']), $item['full_name']?$item['full_name']:$item['nick_name'], 'user:'.$item['id'], $item['active']);
@@ -224,7 +229,7 @@ if(!isset($item['id'])) {
 
 	// set specific headers
 	if(isset($item['introduction']) && $item['introduction'])
-		$context['page_description'] = $item['introduction'];
+		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['create_name']) && $item['create_name'])
 		$context['page_author'] = $item['create_name'];
 
@@ -637,8 +642,8 @@ if(!isset($item['id'])) {
 		// the full text
 		$information .= Skin::build_block($item['description'], 'description');
 
-		// birth date, if any
-		if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE))
+		// birth date, if any, and only for authenticated memebers
+		if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE) && Surfer::is_logged())
 			$information .= '<p>'.i18n::s('Birth date').' '.substr($item['birth_date'], 0, 10).'</p>';
 
 		// list files
@@ -716,7 +721,11 @@ if(!isset($item['id'])) {
 	if($information)
 		$panels[] = array('information_tab', i18n::s('Information'), 'information_panel', $information);
 
+	// append tabs from the overlay, if any
 	//
+	if(is_object($overlay) && ($more_tabs = $overlay->get_tabs('view', $item)))
+ 		$panels = array_merge($panels, $more_tabs);
+	
 	// assemble tabs
 	//
 	if(!$zoom_type && Surfer::is_member())
@@ -731,17 +740,6 @@ if(!isset($item['id'])) {
 	// populate the extra panel
 	//
 
-	// user profile aside
-	$context['extra'] .= Skin::build_profile($item, 'extra');
-
-	// add extra information from the overlay, if any
-	if(is_object($overlay))
-		$context['extra'] .= $overlay->get_text('extra', $item);
-
-	// add extra information from this item, if any
-	if(isset($item['extra']) && $item['extra'])
-		$context['extra'] .= Codes::beautify_extra($item['extra']);
-
 	// page tools
 	//
 
@@ -750,7 +748,7 @@ if(!isset($item['id'])) {
 
 		// modify this page
 		Skin::define_img('EDIT_USER_IMG', 'icons/users/edit.gif');
-		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), EDIT_USER_IMG.i18n::s('Edit this page'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), EDIT_USER_IMG.i18n::s('Edit this profile'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// change avatar
 		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Change avatar'), 'basic');
@@ -760,6 +758,17 @@ if(!isset($item['id'])) {
 			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'password'), i18n::s('Change password'), 'basic');
 
 	}
+
+	// user profile aside
+	$context['aside']['profile'] = Skin::build_profile($item, 'extra');
+
+	// add extra information from the overlay, if any
+	if(is_object($overlay))
+		$context['aside']['overlay'] = $overlay->get_text('extra', $item);
+
+	// add extra information from this item, if any
+	if(isset($item['extra']) && $item['extra'])
+		$context['aside']['boxes'] = Codes::beautify_extra($item['extra']);
 
 	// 'Share' box
 	//
@@ -775,7 +784,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['extra'] .= Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
+		$context['aside']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
 
 	// 'Information channels' box
 	//
@@ -813,8 +822,11 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['extra'] .= Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
+		$context['aside']['channels'] = Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
 
+	// more boxes
+	$context['aside']['boxes'] = '';
+		
 	// most popular articles for this user
 	$cache_id = 'users/view.php?id='.$item['id'].'#popular_articles';
 	if(!$text =& Cache::get($cache_id)) {
@@ -825,7 +837,7 @@ if(!isset($item['id'])) {
 		// save in cache
 		Cache::put($cache_id, $text, 'articles');
 	}
-	$context['extra'] .= $text;
+	$context['aside']['boxes'] .= $text;
 
 	//most popular files from this user
 	$cache_id = 'users/view.php?id='.$item['id'].'#popular_files';
@@ -837,7 +849,7 @@ if(!isset($item['id'])) {
 		// save in cache
 		Cache::put($cache_id, $text, 'files');
 	}
-	$context['extra'] .= $text;
+	$context['aside']['boxes'] .= $text;
 
 	// categories attached to this item, if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'categories')) {
@@ -860,56 +872,12 @@ if(!isset($item['id'])) {
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		if($box['text'])
-			$context['extra'] .= Skin::build_box(i18n::s('See also'), $box['text'], 'navigation', 'categories');
+			$context['aside']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'navigation', 'categories');
 
-	}
-
-	// neighbours, if any
-	if(!$zoom_type) {
-
-		// cache the section
-		$cache_id = 'users/view.php?id='.$item['id'].'#neighbours#';
-		if(!$text =& Cache::get($cache_id)) {
-
-			// locate up to 5 neighbours
-			$items = Locations::list_by_distance_for_anchor('user:'.$item['id'], 0, 5);
-			if(is_array($items))
-				$text .= Skin::build_box(i18n::s('Neighbours'), Skin::build_list($items, 'compact'), 'extra', 'locations');
-
-			// avoid subsequent queries
-			else
-				$text = ' ';
-
-			Cache::put($cache_id, $text, 'locations');
-
-		}
-		$context['extra'] .= $text;
 	}
 
 	// referrals, if any
-	if(!$zoom_type && (Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y')))) {
-
-		// cache the box
-		$cache_id = 'users/view.php?id='.$item['id'].'#referrals#';
-		if(!$text =& Cache::get($cache_id)) {
-
-			// box content
-			include_once '../agents/referrals.php';
-			$text = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Users::get_url($item['id']));
-
-			// in a sidebar box
-			if($text)
-				$text =& Skin::build_box(i18n::s('Referrals'), $text, 'navigation', 'referrals');
-
-			// save in cache for one hour 60 * 60 = 3600
-			Cache::put($cache_id, $text, 'referrals', 3600);
-
-		}
-
-		// in the extra panel
-		$context['extra'] .= $text;
-
-	}
+	$context['aside']['referrals'] =& Skin::build_referrals(Users::get_url($item['id']));
 
 }
 

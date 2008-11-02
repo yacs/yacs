@@ -180,13 +180,13 @@ if(!file_exists('../parameters/control.include.php')) {
 		} elseif(!file_exists('../parameters/skins.include.php')) {
 
 			// title
-			$context['page_title'] = i18n::s('Please configure the skin of your server');
+			$context['page_title'] = i18n::s('Please configure your server');
 
 			// splash screen
-			$context['text'] .= '<p>'.i18n::s('No configuration file has been found for the skin of your server. If you are installing a brand new server, follow the link to create one.')."</p>\n";
+			$context['text'] .= '<p>'.i18n::s('A configuration file is missing. If you are installing a brand new server, follow the link to create one.')."</p>\n";
 
 			// link to the configuration page
-			$context['text'] .= '<p><a href="../skins/configure.php">'.sprintf(i18n::s('Configure: %s'), i18n::s('Page factory'))."</a></p>\n";
+			$context['text'] .= '<p><a href="../skins/configure.php">'.sprintf(i18n::s('%s: %s'), i18n::s('Configure'), i18n::s('Page factory'))."</a></p>\n";
 
 		// end of verifications
 		} else {
@@ -198,7 +198,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			if(file_exists($context['path_to_root'].'parameters/switch.off')) {
 
 				// title
-				Skin::error(i18n::s('The server is currently switched off. All users are redirected to the closed page.'));
+				Logger::error(i18n::s('The server is currently switched off. All users are redirected to the closed page.'));
 
 				// link to the switch page
 				if(Surfer::is_associate())
@@ -210,7 +210,7 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// server is running on demonstration mode
 			if(file_exists($context['path_to_root'].'parameters/demo.flag'))
-				Skin::error(i18n::s('The server is running in demonstration mode, and restrictions apply, even to associates.'));
+				Logger::error(i18n::s('The server is running in demonstration mode, and restrictions apply, even to associates.'));
 
 			// this is a tabbed page
 			$all_tabs = array();
@@ -528,7 +528,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			// total size of the database
 			$query = "SHOW TABLE STATUS";
 			if(!$result =& SQL::query($query)) {
-				$context['text'] .= Skin::error_pop().BR."\n";
+				$context['text'] .= Logger::error_pop().BR."\n";
 			} else {
 
 				// consolidate numbers
@@ -747,7 +747,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				$commands[] = sprintf(i18n::s('%s - change meta-information, etc.'), Skin::build_link('skins/configure.php', i18n::s('Page factory'), 'basic'));
 
 				if(Surfer::has_all())
-					$commands[] = sprintf(i18n::s('%s - select and test skins available at this server'), Skin::build_link('skins/', i18n::s('Skins'), 'basic'));
+					$commands[] = sprintf(i18n::s('%s - select and test themes available at this server'), Skin::build_link('skins/', i18n::s('Themes'), 'basic'));
 
 				if(Surfer::has_all())
 					$commands[] = sprintf(i18n::s('%s - to change rendering of dynamic Flash objects'), Skin::build_link('feeds/flash/configure.php', i18n::s('Flash'), 'basic'));
@@ -851,7 +851,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				if(isset($generation['version']))
 					$cells[] = $generation['version'].', '.$generation['date'].', '.$generation['server'];
 				else
-					$cells[] = '< 6.3';
+					$cells[] = '---';
 				$text .= Skin::table_row($cells, $lines++);
 
 				// php version
@@ -899,11 +899,11 @@ if(!file_exists('../parameters/control.include.php')) {
 			$commands = array();
 			if(Surfer::is_associate()) {
 				$commands[] = sprintf(i18n::s('%s - operation summary'), '<a href="../agents/">'.i18n::s('Background processing').'</a>');
-				$commands[] = sprintf(i18n::s('%s - check a lot of styles used by YACS'), '<a href="../skins/test.php">'.i18n::s('Skin test page').'</a>');
+				$commands[] = sprintf(i18n::s('%s - check styles used by YACS'), '<a href="../skins/test.php">'.i18n::s('Skin test page').'</a>');
 				$commands[] = sprintf(i18n::s('%s - phpinfo() and more'), '<a href="info.php">'.i18n::s('Run-time information').'</a>');
 			}
 			$commands[] = sprintf(i18n::s('%s - validate browser and server behaviors'), '<a href="test.php">'.i18n::s('System test page').'</a>');
-			$text .= Skin::build_box(i18n::s('Information channels'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'header1', 'more_information');
+			$text .= Skin::build_box(i18n::s('More information'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'header1', 'more_information');
 
 			// build another tab
 			if($text)
@@ -932,7 +932,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			$links[] = Skin::build_link('help/', i18n::s('Help'), 'shortcut');
 
 			// list modules in an extra box
-			$context['extra'] .= Skin::build_box(i18n::s('See also'), Skin::finalize_list($links, 'compact'), 'extra', 'tools_box');
+			$context['aside']['boxes'] = Skin::build_box(i18n::s('See also'), Skin::finalize_list($links, 'compact'), 'extra', 'tools_box');
 
 			// list modules if a skin has been defined -- complex command
 			if(class_exists('Skin') && Surfer::has_all()) {
@@ -981,7 +981,7 @@ if(!file_exists('../parameters/control.include.php')) {
 					$links = array_merge($links, $more_links);
 
 				// list modules in an extra box
-				$context['extra'] .= Skin::build_box(i18n::s('Modules'), Skin::finalize_list($links, 'compact'), 'extra');
+				$context['aside']['boxes'] .= Skin::build_box(i18n::s('Modules'), Skin::finalize_list($links, 'compact'), 'extra');
 
 			}
 

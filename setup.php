@@ -81,7 +81,7 @@ $context['page_title'] = i18n::s('Setup assistant');
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // first installation
 } elseif($missing == 3) {
@@ -93,7 +93,7 @@ if(Surfer::is_crawler()) {
 	if(version_compare(phpversion(),'4.3','<')) {
 
 		// provide instructions
-		Skin::error(sprintf(i18n::s('ERROR: YACS requires at least PHP version 4.3. The server runs version %s.'), phpversion()));
+		Logger::error(sprintf(i18n::s('ERROR: YACS requires at least PHP version 4.3. The server runs version %s.'), phpversion()));
 
 		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check PHP version again')."</a></p>\n";
 
@@ -110,7 +110,7 @@ if(Surfer::is_crawler()) {
 	if(!SQL::check()) {
 
 		// provide instructions
-		Skin::error(i18n::s('ERROR: YACS requires the MySQL PHP extension.'));
+		Logger::error(i18n::s('ERROR: YACS requires the MySQL PHP extension.'));
 
 		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check the MySQL PHP extension again')."</a></p>\n";
 
@@ -130,7 +130,7 @@ if(Surfer::is_crawler()) {
 	if(!is_callable('xml_parser_create')) {
 
 		// provide instructions
-		Skin::error(i18n::s('ERROR: YACS requires the XML PHP extension.'));
+		Logger::error(i18n::s('ERROR: YACS requires the XML PHP extension.'));
 
 		$context['text'] .= '<p class="details"><a href="setup.php">'.i18n::s('Check the XML PHP extension again')."</a></p>\n";
 
@@ -254,7 +254,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<h2>'.i18n::s('Ready to start the installation').'</h2>';
 
 		// splash screen
-		$context['text'] .= i18n::s("<p>At the moment no configuration file has been found. You will now have to pass through several steps in order to achieve the setup of your server:</p>\n<ul>\n<li>Configure parameters related to the database.</li>\n<li>Load extension hooks.</li>\n<li>Create tables in the database.</li>\n<li>Add one user profile and populate the database.</li>\n<li>Configure the skin of your server.</li>\n</ul>\nIn normal conditions this will take only some minutes. If you have any problems, please consult <a href=\"http://www.yetanothercommunitysystem.com/\">www.yetanothercommunitysystem.com</a> for additional support.<p>Thank you for having selected the YACS solution.</p>")."\n";
+		$context['text'] .= i18n::s("<p>At the moment no configuration file has been found. You will now have to pass through several steps in order to achieve the setup of your server:</p>\n<ul>\n<li>Configure parameters related to the database.</li>\n<li>Load extension hooks.</li>\n<li>Create tables in the database.</li>\n<li>Add one user profile and populate the database.</li>\n<li>Configure the theme of your server.</li>\n</ul>\nIn normal conditions this will take only some minutes. If you have any problems, please consult <a href=\"http://www.yetanothercommunitysystem.com/\">www.yetanothercommunitysystem.com</a> for additional support.<p>Thank you for having selected the YACS solution.</p>")."\n";
 
 		// add a button to start the installation process
 		$context['text'] .= '<form method="get" action="control/configure.php" id="main_form">'."\n"
@@ -302,7 +302,7 @@ if(Surfer::is_crawler()) {
 	if(!Safe::file_put_contents('parameters/switch.on', $content)) {
 
 		// not enough rights to write the file
-		Skin::error(i18n::s('ERROR: YACS cannot create the file parameters/switch.on to activate the server.'));
+		Logger::error(i18n::s('ERROR: YACS cannot create the file parameters/switch.on to activate the server.'));
 
 		// allow for a manual update
 		$context['text'] .= '<p style="text-decoration: blink;">'.sprintf(i18n::s('To actually switch on the server, please copy and paste following lines by yourself in file %s.'), 'parameters/switch.on')."</p>\n";

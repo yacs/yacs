@@ -85,7 +85,7 @@ class xml {
 
 		// return parsing result
 		if($text) {
-			Skin::error($text);
+			Logger::error($text);
 			return FALSE;
 		}
 		return TRUE;

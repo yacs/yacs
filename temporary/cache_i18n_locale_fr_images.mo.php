@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-09-07 00:33+0100
+Last-Translator: Paques, Bernard
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['fr']['%d bytes']='%d  octets';
 $_SESSION['l10n']['fr']['%d image'.chr(0).'%d images']='%d image'.chr(0).'%d images';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
@@ -68,7 +82,6 @@ $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Press to select a local file']='Choisir un fichier local';
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Rejected file type %s']='Type de fichier invalide %s';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Section']='Section';

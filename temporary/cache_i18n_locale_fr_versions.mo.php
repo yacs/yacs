@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
+ * on October 21, 2008, 5:34 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: yacs 7.1 versions
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-07-27 00:00+0200
+PO-Revision-Date: 2008-07-29 00:22+0100
+Last-Translator: Paques, Bernard
+Language-Team: agnes, bernard
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['fr']['%d version'.chr(0).'%d versions']='%d version'.chr(0).'%d versions';
 $_SESSION['l10n']['fr']['%s by %s %s']='%s par %s %s';
 $_SESSION['l10n']['fr']['Back to current version']='Retour à la dernière version';

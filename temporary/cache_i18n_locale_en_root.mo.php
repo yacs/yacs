@@ -3,25 +3,40 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:17+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-Language: English
+';
 $_SESSION['l10n']['en']['%d result'.chr(0).'%d results']='%d result'.chr(0).'%d results';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
+$_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['(anonymous)']='(anonymous)';
 $_SESSION['l10n']['en']['-- All sections']='-- All sections';
-$_SESSION['l10n']['en']['e046015f21d8cd076ad7b508911e7175']='<p>At the moment no configuration file has been found. You will now have to pass through several steps in order to achieve the setup of your server:</p>
+$_SESSION['l10n']['en']['cc919cf2b4a5b9ebd5adad3318348ba5']='<p>At the moment no configuration file has been found. You will now have to pass through several steps in order to achieve the setup of your server:</p>
 <ul>
 <li>Configure parameters related to the database.</li>
 <li>Load extension hooks.</li>
 <li>Create tables in the database.</li>
 <li>Add one user profile and populate the database.</li>
-<li>Configure the skin of your server.</li>
+<li>Configure the theme of your server.</li>
 </ul>
 In normal conditions this will take only some minutes. If you have any problems, please consult <a href="http://www.yetanothercommunitysystem.com/">www.yetanothercommunitysystem.com</a> for additional support.<p>Thank you for having selected the YACS solution.</p>';
 $_SESSION['l10n']['en']['52c9506b1dddde1ff0ae84edb0d1e0fd']='<p>No page has been found. This will happen with very short words (less than %d letters), that are not fully indexed. This can happen as well if more than half of pages contain the searched words. Try to use most restrictive words and to suppress "noise" words.</p>';
 $_SESSION['l10n']['en']['62ff4cd968dae58bb9244caecd2a2fd2']='<p>Since basic configuration files exist on your server, it is likely that the installation has been achieved successfully. Click on the link below to modify the running parameters of your server.</p>';
-$_SESSION['l10n']['en']['6f5a40e34d995c5f5cff564f90b8cd8b']='<p>This section has been created automatically on query submission. It\'s aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>';
-$_SESSION['l10n']['en']['0a6f5d667c713b41794e85986fe6c937']='<p>Use this form to submit any kind of request you can have, from simple suggestions to complex questions.</p><p>Hearty discussion and unpopular viewpoints are welcome, but please keep queries civil. Flaming, trolling, and smarmy queries are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don\'t make us do it.</p>';
+$_SESSION['l10n']['en']['cc3b94acde89bcd45333eb4691394d49']='<p>This section has been created automatically on query submission. It\'s aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>';
+$_SESSION['l10n']['en']['fda2fa2ea0b35bcabe9b1b0927a6e6fb']='<p>Use this form to submit any kind of request you can have, from simple suggestions to complex questions.</p><p>Hearty discussion and unpopular viewpoints are welcome, but please keep queries civil. Flaming, trolling, and smarmy queries are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don\'t make us do it.</p>';
 $_SESSION['l10n']['en']['d68d16f57b1691465a98f0642d426ab9']='<p>You can check the status of your query at the following address:</p>';
 $_SESSION['l10n']['en']['16d18000837807153a6003a63f72cbbf']='<p>You have passed through the several installation steps.</p>
 What do you want to do now?<ul>
@@ -63,7 +78,6 @@ $_SESSION['l10n']['en']['5602b30e920dfb6e577881348ad309cf']='Configuration files
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
-$_SESSION['l10n']['en']['Configure: %s']='Configure: %s';
 $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Cover article']='Cover article';
@@ -108,7 +122,6 @@ $_SESSION['l10n']['en']['Google']='Google';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Help index']='Help index';
 $_SESSION['l10n']['en']['ae398ca20f4b2870885e0aa55ec45fd2']='If you paste some existing HTML content and want to avoid the implicit formatting insert the code <code>[formatted]</code> at the very beginning of the description field.';
-$_SESSION['l10n']['en']['Impossible to read %s.']='Impossible to read %s.';
 $_SESSION['l10n']['en']['Impossible to write to %s.']='Impossible to write to %s.';
 $_SESSION['l10n']['en']['e3c40f19ac4a7cf2f76f261c4fefa12d']='Include a sample of random articles';
 $_SESSION['l10n']['en']['Include the last recent poll']='Include the last recent poll';
@@ -188,11 +201,9 @@ $_SESSION['l10n']['en']['Recent links']='Recent links';
 $_SESSION['l10n']['en']['Recent searches']='Recent searches';
 $_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Remember this search']='Remember this search';
-$_SESSION['l10n']['en']['Reset']='Reset';
 $_SESSION['l10n']['en']['Results']='Results';
 $_SESSION['l10n']['en']['8e8eb648edb57efc53bb3a619f5bd494']='Review provided information and go to the bottom of the page to move forward.';
 $_SESSION['l10n']['en']['Safe mode']='Safe mode';
-$_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Search']='Search';
 $_SESSION['l10n']['en']['Search in']='Search in';
 $_SESSION['l10n']['en']['Search in all sections']='Search in all sections';
@@ -220,7 +231,7 @@ $_SESSION['l10n']['en']['0457bda18a285d6eb56e18be21f73447']='The description sho
 $_SESSION['l10n']['en']['3513760fe3e0b14f2af4cc30a501d92a']='The following configuration has been saved into the file %s.';
 $_SESSION['l10n']['en']['The main object of your query']='The main object of your query';
 $_SESSION['l10n']['en']['0cb5c62b610440d2b2bba1a2ffbf738b']='The permanent address for your query';
-$_SESSION['l10n']['en']['466f2e6063c29dd23107f3421e955afd']='This search engine only display pages that have all words in it. <p>Also, only exact matches will be listed. Therefore "category" and "categories" won\'t give the same results. Note that "red" and "reds" may also give different results.</p>';
+$_SESSION['l10n']['en']['7224852c4fadab62a39880877647ccf4']='This search engine only display pages that have all words in it. <p>Also, only exact matches will be listed. Therefore "category" and "categories" won\'t give the same results. Note that "red" and "reds" may also give different results.</p>';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
 $_SESSION['l10n']['en']['f1c6aae2de003977b902156f04713e51']='To actually switch on the server, please copy and paste following lines by yourself in file %s.';
@@ -239,8 +250,8 @@ $_SESSION['l10n']['en']['a2584ebd70083c26c12ecbb14d577f93']='WARNING: This serve
 $_SESSION['l10n']['en']['8172ea95a8fa2e9ba16b0dafbebc0d99']='WARNING: YACS cannot write to files. If you are running some Unix, please ensure that permissions have been properly set. This issue can also be due to server running in safe mode.';
 $_SESSION['l10n']['en']['2aa5ecdad08cffdb7a4d26402ab3a9bc']='WARNING: You will not be able to upload zip files.';
 $_SESSION['l10n']['en']['6214aa6c778c69428ff7146f8e56867a']='Warning: No script exists for the customized layout %s';
-$_SESSION['l10n']['en']['20f1a3bbb9b4a16bec24ed97aaad2eda']='We\'re sorry. The page you requested doesn\'t exist on this server %s';
-$_SESSION['l10n']['en']['754ef929427bad781b89b4a318ddcdf2']='We\'re sorry. You are not authorized to view %s';
+$_SESSION['l10n']['en']['a4c86a20e4b33fa20218dc6e29d6c1c8']='We\'re sorry. The page you requested doesn\'t exist on this server %s';
+$_SESSION['l10n']['en']['d4beee65d040bfeab885bc1265d0fa2c']='We\'re sorry. You are not authorized to view %s';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';
 $_SESSION['l10n']['en']['XML']='XML';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';

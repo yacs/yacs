@@ -150,7 +150,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 
 				// the introductory text
 				if($item['introduction']) {
-					$suffix .= ' -&nbsp;'.Codes::beautify($item['introduction'], $item['options']);
+					$suffix .= ' -&nbsp;'.Codes::beautify_introduction($item['introduction']);
 
 					// link to description, if any
 					if($item['description'])
@@ -341,7 +341,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 		// the introductory text
 		$introduction = '';
 		if($item['introduction'])
-			$introduction .= Codes::beautify($item['introduction'], $item['options']);
+			$introduction .= Codes::beautify_introduction($item['introduction']);
 		elseif(!is_object($overlay))
 			$introduction .= Skin::cap(Codes::beautify($item['description'], $item['options']), 70);
 		if($introduction)

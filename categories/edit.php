@@ -118,7 +118,7 @@ if(isset($_REQUEST['expiry_date']))
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -138,7 +138,7 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -169,7 +169,7 @@ if(Surfer::is_crawler()) {
 	// display the form on error
 	if(($error = Categories::put($_REQUEST))
 			|| (is_object($overlay) && !$overlay->remember('update', $_REQUEST))) {
-		Skin::error($error);
+		Logger::error($error);
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -549,8 +549,8 @@ if($with_form) {
 	$keywords[] = '<a onclick="append_to_options(\'with_links\')" style="cursor: pointer;">with_links</a> - '.i18n::s('Links can be added to the index page');
 	$keywords[] = '<a onclick="append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
 	$keywords[] = '<a onclick="append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread');
-	$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific skin (in skins/foo_bar) here');
-	$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular skin template');
+	$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
+	$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
 	$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
 	$fields[] = array($label, $input, $hint);
 
@@ -563,7 +563,7 @@ if($with_form) {
 	// extra information
 	$label = i18n::s('Extra');
 	$input = '<textarea name="extra" rows="6" cols="50">'.encode_field(isset($item['extra']) ? $item['extra'] : '').'</textarea>';
-	$hint = i18n::s('Text to be inserted in the panel aside the page.');
+	$hint = i18n::s('Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.');
 	$fields[] = array($label, $input, $hint);
 
 	// append fields
@@ -883,7 +883,7 @@ if($with_form) {
 	$help .= '</select></p></form>';
 
 	// in a side box
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

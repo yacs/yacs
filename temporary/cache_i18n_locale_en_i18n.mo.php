@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-09-10 22:56+0200
+PO-Revision-Date: 2008-03-28 14:18+0100
+Last-Translator: Bernard Paques <bernard.paques@bigfoot.com>
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['en']['5a869f8f456ffaa0b75fcddc641e6185']='<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>';
 $_SESSION['l10n']['en']['Afghanistan']='Afghanistan';
 $_SESSION['l10n']['en']['Albania']='Albania';
@@ -119,11 +133,11 @@ $_SESSION['l10n']['en']['Jordan']='Jordan';
 $_SESSION['l10n']['en']['Kazakstan']='Kazakstan';
 $_SESSION['l10n']['en']['Kenya']='Kenya';
 $_SESSION['l10n']['en']['Kiribati']='Kiribati';
-$_SESSION['l10n']['en']['cb8e2fedc17eb31aeb21be63702bb42f']='Korea, Democratic People\'s Republic of';
+$_SESSION['l10n']['en']['da86f1ce896f0a9a03c0c12202e9b355']='Korea, Democratic People\'s Republic of';
 $_SESSION['l10n']['en']['Korea, Republic of']='Korea, Republic of';
 $_SESSION['l10n']['en']['Kuwait']='Kuwait';
 $_SESSION['l10n']['en']['Kyrgyzstan']='Kyrgyzstan';
-$_SESSION['l10n']['en']['43473e98f58fcdca1c3ea9f72008df20']='Lao People\'s Democratic Republic';
+$_SESSION['l10n']['en']['81a6b6e5e6a1d60ce3bac4eee20444eb']='Lao People\'s Democratic Republic';
 $_SESSION['l10n']['en']['Latvia']='Latvia';
 $_SESSION['l10n']['en']['Lebanon']='Lebanon';
 $_SESSION['l10n']['en']['Lesotho']='Lesotho';
@@ -223,7 +237,7 @@ $_SESSION['l10n']['en']['Tajikistan']='Tajikistan';
 $_SESSION['l10n']['en']['Tanzania, United Republic of']='Tanzania, United Republic of';
 $_SESSION['l10n']['en']['Test i18n']='Test i18n';
 $_SESSION['l10n']['en']['Thailand']='Thailand';
-$_SESSION['l10n']['en']['49c0a28a2a6160f136db9832c3b42c4d']='There is %d item'.chr(0).'There are %d items';
+$_SESSION['l10n']['en']['91164f42295743f5f7f6440d2d7532ac']='There is %d item'.chr(0).'There are %d items';
 $_SESSION['l10n']['en']['6d66fe0ff029c691063ff2c1f484b30c']='This is a simple label, according to community preference';
 $_SESSION['l10n']['en']['dff7ef2daa914173b70122f10de9722d']='This is a simple label, according to user preference';
 $_SESSION['l10n']['en']['f1e2e0cc30d9aa59907aa87585e4d0d0']='This string, using community language, allows for argument reordering: %2$s %1$s';

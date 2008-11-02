@@ -36,14 +36,14 @@ if(!Surfer::is_logged())
 
 // only associates can use this tool
 elseif(!Surfer::is_associate())
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
 elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// no file has been uploaded
 	if(!$_FILES['upload']['name'] || ($_FILES['upload']['name'] == 'none')) {
-		Skin::error(i18n::s('Nothing has been received.'));
+		Logger::error(i18n::s('Nothing has been received.'));
 
 	// process the temporary file
 	} else {
@@ -54,15 +54,15 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		// zero bytes transmitted
 		$_REQUEST['file_size'] = $_FILES['upload']['size'];
 		if(!$_FILES['upload']['size'])
-			Skin::error(i18n::s('Nothing has been received.'));
+			Logger::error(i18n::s('Nothing has been received.'));
 
 		// check provided upload name
 		elseif(!Safe::is_uploaded_file($file_upload))
-			Skin::error(i18n::s('Possible file attack.'));
+			Logger::error(i18n::s('Possible file attack.'));
 
 		// no content
 		elseif(!$content = Safe::file_get_contents($file_upload))
-			Skin::error(sprintf(i18n::s('Impossible to read %s.'), $file_upload));
+			Logger::error(sprintf(i18n::s('Impossible to read %s.'), $file_upload));
 
 		// process the file
 		else {
@@ -113,7 +113,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 			// parse data
 			if(!xml_parse($parser, $content)) {
-				Skin::error('Parsing error: '.xml_error_string(xml_get_error_code($parser)).' at line '.xml_get_current_line_number($parser));
+				Logger::error('Parsing error: '.xml_error_string(xml_get_error_code($parser)).' at line '.xml_get_current_line_number($parser));
 			} else {
 
 				$context['text'] = '<p>'.i18n::s('Following articles have been processed:')."</p>\n";

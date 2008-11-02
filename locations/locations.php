@@ -24,19 +24,6 @@ Class Locations {
 	 * This function returns TRUE if locations can be added to some place,
 	 * and FALSE otherwise.
 	 *
-	 * The function prevents the creation of new locations when:
-	 * - the global parameter 'users_without_submission' has been set to 'Y'
-	 * - provided item has been locked
-	 * - item has some option 'no_locations' that prevents new locations
-	 * - the anchor has some option 'no_locations' that prevents new locations
-	 *
-	 * Then the function allows for new locations when:
-	 * - surfer has been authenticated as a valid member
-	 * - or parameter 'users_without_teasers' has not been set to 'Y'
-	 *
-	 * Then, ultimately, the default is not allow for the creation of new
-	 * locations.
-	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
 	 * @return TRUE or FALSE
@@ -44,12 +31,12 @@ Class Locations {
 	function are_allowed($anchor=NULL, $item=NULL) {
 		global $context;
 
-		// locations are prevented in anchor
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_locations'))
-			return FALSE;
-
 		// locations are prevented in item
 		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_locations\b/i', $item['options']))
+			return FALSE;
+
+		// locations are prevented in anchor
+		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_locations'))
 			return FALSE;
 
 		// surfer is an associate
@@ -59,6 +46,36 @@ Class Locations {
 		// submissions have been disallowed
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
+
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N')) {
+		
+			// filter editors
+			if(!Surfer::is_empowered())
+				return FALSE;
+				
+			// editors will have to unlock the container to contribute
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		// container is restricted
+		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
+		
+			// filter members
+			if(!Surfer::is_member())
+				return FALSE;
+				
+			// editors can proceed
+			if(Surfer::is_empowered())
+				return TRUE;
+				
+			// members can contribute except if container is locked
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		}
 
 		// surfer has special privileges
 		if(Surfer::is_empowered())
@@ -72,18 +89,8 @@ Class Locations {
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// surfer screening
-		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
-			return FALSE;
-		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
 		// authenticated members are allowed to add locations
 		if(Surfer::is_member())
-			return TRUE;
-
-		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
 			return TRUE;
 
 		// anonymous contributions are allowed for this section
@@ -92,6 +99,10 @@ Class Locations {
 
 		// anonymous contributions are allowed for this item
 		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+			return TRUE;
+
+		// anonymous contributions are allowed for this anchor
+		if(is_object($anchor) && $anchor->is_editable())
 			return TRUE;
 
 		// teasers are activated
@@ -645,7 +656,7 @@ Class Locations {
 
 		// no capability to create an image
 		if(!isset($context['google_api_key']) || !$context['google_api_key']) {
-			Skin::error(i18n::s('Use the configuration panel for web services to enter your Google API key.'));
+			Logger::error(i18n::s('Use the configuration panel for web services to enter your Google API key.'));
 			return $text;
 		}
 
@@ -692,13 +703,13 @@ Class Locations {
 
 		// no geo_place_name
 		if(!$fields['geo_place_name']) {
-			Skin::error(i18n::s('Please add a geo_place_name for this location'));
+			Logger::error(i18n::s('Please add a geo_place_name for this location'));
 			return FALSE;
 		}
 
 		// no anchor reference
 		if(!$fields['anchor']) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
@@ -714,7 +725,7 @@ Class Locations {
 
 			// id cannot be empty
 			if(!isset($fields['id']) || !is_numeric($fields['id'])) {
-				Skin::error(i18n::s('No item has the provided id.'));
+				Logger::error(i18n::s('No item has the provided id.'));
 				return FALSE;
 			}
 

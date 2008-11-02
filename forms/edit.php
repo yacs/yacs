@@ -74,7 +74,7 @@ if(!Surfer::is_associate() || (isset($_REQUEST['option_validate']) && ($_REQUEST
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
 } elseif(!Surfer::is_logged()) {
@@ -91,7 +91,7 @@ if(Surfer::is_crawler()) {
 // only associates can add or change a form
 } elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an anchor is mandatory
 } elseif(!is_object($anchor) && !isset($item['id'])) {
@@ -465,7 +465,7 @@ if($with_form) {
 	$help .= '</select></p></form>';
 
 	// in a sidebar box
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 	// the AJAX part
 	//

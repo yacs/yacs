@@ -3,10 +3,25 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:04 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: Yacs
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:17+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: English
+';
 $_SESSION['l10n']['en']['%d form'.chr(0).'%d forms']='%d form'.chr(0).'%d forms';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
+$_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['7959b059e4d93392b6cb781e9d9eaffc']='A new page has been created with submitted data. This will be reviewed by people in charge.';
 $_SESSION['l10n']['en']['21c58f77450af6e7fc86a17ada969ac2']='Access is restricted to associates';
 $_SESSION['l10n']['en']['71591a943ab0ff1e925f29270c9a6568']='Access is restricted to authenticated members';
@@ -21,7 +36,6 @@ $_SESSION['l10n']['en']['Capture']='Capture';
 $_SESSION['l10n']['en']['Content']='Content';
 $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
 $_SESSION['l10n']['en']['Delete']='Delete';
-$_SESSION['l10n']['en']['Delete: %s']='Delete: %s';
 $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit again']='Edit again';
 $_SESSION['l10n']['en']['Edit: %s']='Edit: %s';
@@ -55,7 +69,6 @@ $_SESSION['l10n']['en']['Post processing']='Post processing';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Processing']='Processing';
 $_SESSION['l10n']['en']['474f9f13dfabde8542ecef34bd170aec']='Put your e-mail address to receive feed-back';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Regular sections']='Regular sections';
 $_SESSION['l10n']['en']['Related to %s']='Related to %s';
 $_SESSION['l10n']['en']['7e8b45fdf21bc9b2bf4e435de14283b7']='Select below the section to capture this form';

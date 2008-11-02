@@ -47,7 +47,7 @@ else
 
 // only associates can go further
 if(!Surfer::is_associate())
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no script has been provided
 elseif(!$original || !$updated) {
@@ -93,11 +93,11 @@ elseif(!$original || !$updated) {
 
 // the original script has to be there
 } elseif(!file_exists($context['path_to_root'].$original)) {
-	Skin::error(sprintf(i18n::s('Script %s does not exist'), $original));
+	Logger::error(sprintf(i18n::s('Script %s does not exist'), $original));
 
 // the updatred script has to be there
 } elseif(!file_exists($context['path_to_root'].$updated)) {
-	Skin::error(sprintf(i18n::s('Script %s does not exist'), $updated));
+	Logger::error(sprintf(i18n::s('Script %s does not exist'), $updated));
 
 // analyze two scripts
 } else {

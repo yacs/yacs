@@ -46,10 +46,10 @@ $context['text'] .= '<p>'.i18n::s('Codes allow you to specify formatting rules f
 	.'<p>'.i18n::s('With codes you use "tags" to add formatting to your text. Every  tag is enclosed in [ and ]. If you want to mark some region in your text, you need to use an opening tag and a closing tag. Closing tags start with [/, as you will see in the examples at the next pages. If you mistype a tag or forget to close it, you will not get the desired formatting.').'</p>'
 	.'<p>'.i18n::s('Follow the links below to get more information on codes implemented on this server.').'</p>'
 	.Skin::build_list($help_links, 'bullets')
-	.'<p>'.sprintf(i18n::s('You can also browse links above while checking the site skin, in complement to %s.'), Skin::build_link('skins/test.php', i18n::s('the skin test page'), 'shortcut')).'</p>';
+	.'<p>'.sprintf(i18n::s('You can also browse links above in complement to the %s.'), Skin::build_link('skins/test.php', i18n::s('Theme test'), 'shortcut')).'</p>';
 
 // referrals, if any
-$context['extra'] .= Skin::build_referrals('codes/index.php');
+$context['aside']['referrals'] = Skin::build_referrals('codes/index.php');
 
 // render the skin
 render_skin();

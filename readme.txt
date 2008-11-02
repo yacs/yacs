@@ -54,14 +54,22 @@ Requirements for running YACS
 
 If you don't know what we are talking about, ask your system administrator.
 
+Web server:
+	Yacs is used with the Apache web server most of the time.
+	Following modules are recommanded:
+	- mod_deflate for page compression over the wire
+	- mod_rewrite for nice URLs, along rules set in .htaccess files
+	- mod_expire for optimized caching of dynamic objects
+	
 Run-time:
    - PHP (version 4.3 or higher) with XML parser
-   - If the GD module is available, YACS will build nice thumbnails
-   - If the MING module is available, you may benefit from dynamic Flash news
-   - If the zip module is activated, you will be able to upload .zip files
-   - If the improved MySQL extension is available, YACS will use it
-   - If the CURL extension is available, YACS will use it to browse the web
+   - The imap extension is necessary for mail integration (SMTP and POP3)
    - The LDAP PHP extension is required for LDAP user authentication
+   - If the GD extension is available, YACS will resize uploaded images and build thumbnails
+   - If the MING extension is available, you may benefit from dynamic Flash news
+   - If the zip extension is activated, you will be able to upload .zip files
+   - If the improved MySQL extension is available, YACS will use it
+   - If the CURL extension is available, YACS will use it to parse external RSS feeds
 
 Database:
    A database connection is needed for YACS to function correctly since most of
@@ -72,7 +80,7 @@ Database:
 Permissions:
    YACS has to write to any PHP script (for example, during the update process),
    and to other places as well (for example, to write configuration files).
-   It is assumed that the web daemon properly impersonates you FTP account, or
+   It is assumed that the web daemon properly impersonates your FTP account, or
    that you have the ability to alter your directory permissions.
    Sample instructions are provided below to fix common permission issues.
    Also, you may be in trouble with servers running in safe mode.
@@ -283,8 +291,8 @@ Enjoy!
 GNU Lesser General Public License
 =================================
 
-YACS: PHP/MySQL Weblog CMS (http://www.yetanothercommunitysystem.com/)
-Copyright (C) 2003-2006 Paxer Conseil
+YACS: PHP/MySQL Community and Content Management System (http://www.yetanothercommunitysystem.com/)
+Copyright (C) 2003-2008 Paxer Conseil
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free

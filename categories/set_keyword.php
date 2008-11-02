@@ -41,23 +41,23 @@ if(!$root_category = Categories::lookup('keywords')) {
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // ensure we have a valid category to host keywords
 } elseif(!$root_category)
-	Skin::error(i18n::s('No item has been found.'));
+	Logger::error(i18n::s('No item has been found.'));
 
 // operation is restricted to members
 elseif(!Surfer::is_member())
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // ensure we have a keyword
 elseif(!$search)
-	Skin::error(i18n::s('No keyword to search for.'));
+	Logger::error(i18n::s('No keyword to search for.'));
 
 // search in articles
 elseif(!$articles = Articles::search($search, 0, 50, 'raw')) {
-	Skin::error(i18n::s('No item has been found.'));
+	Logger::error(i18n::s('No item has been found.'));
 
 // create a category for this keyword if none exists yet
 } elseif(!$category =& Categories::get_by_keyword($search)) {
@@ -73,14 +73,14 @@ elseif(!$articles = Articles::search($search, 0, 50, 'raw')) {
 
 // ensure we have a valid category for found articles
 if(isset($articles) && (!isset($category) || !$category))
-	Skin::error(i18n::s('No item has been found.'));
+	Logger::error(i18n::s('No item has been found.'));
 
 // link articles to this category
 elseif(isset($articles) && is_array($articles)) {
 
 	foreach($articles as $id => $not_used)
 		if($error = Members::assign('category:'.$category['id'], 'article:'.$id)) {
-			Skin::error($error);
+			Logger::error($error);
 			break;
 		}
 

@@ -47,10 +47,11 @@ if(preg_match('/^(chercher|search)/i', $search))
 	$search = '';
 
 // which page should be displayed
-$page = 1;
 if(isset($_REQUEST['page']))
 	$page = $_REQUEST['page'];
-$page = strip_tags($page);
+else
+	$page = 1;
+$page = max(1,intval($page));
 
 // minimum size for any search token - depends of mySQL setup
 $query = "SHOW VARIABLES LIKE 'ft_min_word_len'";
@@ -176,7 +177,7 @@ if($no_result && $search)
 	$context['text'] .= '<p>'.sprintf(i18n::s('No item has been found. This will happen with very short words (less than %s letters), that are not fully indexed. This can happen as well if more than half of pages contain the searched words. Try to use most restrictive words and to suppress "noise" words.'), MINIMUM_TOKEN_SIZE)."</p>\n";
 
 // general help on this page
-$context['extra'] .= Skin::build_box(i18n::s('Help'), i18n::s('This search engine only display pages that have all words in it. Also, only exact matches will be listed.'), 'navigation', 'help');
+$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), i18n::s('This search engine only display pages that have all words in it. Also, only exact matches will be listed.'), 'navigation', 'help');
 
 // render the skin
 render_skin();

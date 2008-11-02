@@ -3,9 +3,23 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['fr']['a0507e16b19aa7d4554d3ae0abcb89cf']='%d catégorie'.chr(0).'%d catégories';
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:20+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
+$_SESSION['l10n']['fr']['%d category'.chr(0).'%d categories']='%d catégorie'.chr(0).'%d catégories';
 $_SESSION['l10n']['fr']['%d comment'.chr(0).'%d comments']='%d commentaire'.chr(0).'%d commentaires';
 $_SESSION['l10n']['fr']['%d file'.chr(0).'%d files']='%d fichier'.chr(0).'%d fichiers';
 $_SESSION['l10n']['fr']['%d link'.chr(0).'%d links']='%d lien'.chr(0).'%d liens';
@@ -15,6 +29,7 @@ $_SESSION['l10n']['fr']['%d section'.chr(0).'%d sections']='%d section'.chr(0).'
 $_SESSION['l10n']['fr']['%d user'.chr(0).'%d users']='%d utilisateur'.chr(0).'%d utilisateurs';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s by %s %s']='%s par %s %s';
+$_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['-- Root level']='-- Niveau de base';
 $_SESSION['l10n']['fr']['A message has been sent to:']='Un message a été envoyé à :';
 $_SESSION['l10n']['fr']['21c58f77450af6e7fc86a17ada969ac2']='Accès restreint aux associés';
@@ -30,15 +45,15 @@ $_SESSION['l10n']['fr']['All the web']='All the web';
 $_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Anyone may read this category']='Tout le monde peut lire cette catégorie';
 $_SESSION['l10n']['fr']['386980fc5327cd3e0b217ad44c09cb77']='Apparait dans les listes de catégories près du titre';
-$_SESSION['l10n']['fr']['22b00309d120e415c07fd22cd2f15ae4']='Appliquer un style spécifique (dans skins/foo_bar) ici';
+$_SESSION['l10n']['fr']['b4cb4dc2b17ff4ce51ca65cb8dcc7e98']='Appliquer un thème spécifique (dans skins/foo_bar)';
 $_SESSION['l10n']['fr']['Ask Jeeves']='Ask Jeeves';
-$_SESSION['l10n']['fr']['Associate']='Associer';
 $_SESSION['l10n']['fr']['Attach related files.']='Attacher les fichiers en rapport avec cette page.';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['Bullet URL']='Adresse web de la puce';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Categories']='Catégories';
 $_SESSION['l10n']['fr']['Categories for: %s']='Catégories pour : %s';
+$_SESSION['l10n']['fr']['Categorize']='Classer';
 $_SESSION['l10n']['fr']['Category has expired %s']='La catégorie a expirée %s';
 $_SESSION['l10n']['fr']['Category overlay']='Overlay de catégorie';
 $_SESSION['l10n']['fr']['Change page icon']='Changer l\'icône de page';
@@ -54,7 +69,6 @@ $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['Content tree']='Contenu';
 $_SESSION['l10n']['fr']['4158dec895b46349386efea0e7ee92a9']='Participez à l\'extension du web et indiquez les autres pages pertinentes.';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
-$_SESSION['l10n']['fr']['Delete: %s']='Supprimer : %s';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['1a358d29caf897e54396073d4f58b0f6']='Ne pas changer la date de modification.';
 $_SESSION['l10n']['fr']['Do not display articles.']='Ne pas afficher les articles';
@@ -138,10 +152,8 @@ $_SESSION['l10n']['fr']['Rank']='Rang';
 $_SESSION['l10n']['fr']['Rebuild title paths']='Reconstruire les chemins de titrage';
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
 $_SESSION['l10n']['fr']['Reference this page']='Référencer cette page';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['9847ddc65a65e0caa0a0fe5b0df09857']='Les catégories standards ont un rang égal à 10000.';
 $_SESSION['l10n']['fr']['Related categories']='Catégories associées';
-$_SESSION['l10n']['fr']['Related servers']='Voir aussi';
 $_SESSION['l10n']['fr']['Rendering']='Rendu';
 $_SESSION['l10n']['fr']['Request is invalid.']='La requête est invalide.';
 $_SESSION['l10n']['fr']['9dcd55ec867280d2a3afd1c82fd36aa7']='Analyser les articles et mémoriser les dates de publication';
@@ -169,7 +181,7 @@ $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Suffix']='Suffixe';
 $_SESSION['l10n']['fr']['Technorati']='Technorati';
 $_SESSION['l10n']['fr']['1191989b64153cc1569ba37769dff14b']='Texte à ajouter en bas de page, après tous les éléments attachés à cette page.';
-$_SESSION['l10n']['fr']['6764b0a8938450609ea453947e83ee91']='Texte inséré dans le panneau extra, sur le côté de la page.';
+$_SESSION['l10n']['fr']['15b447c7a95325a403b1ed99b405e008']='Texte inséré dans le panneau extra, sur le côté de la page. Utiliser [box.extra=titre]contenu[/box] ou des balises HTML.';
 $_SESSION['l10n']['fr']['Textarea']='Textarea';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['The cloud of tags']='Le nuage d\'étiquettes';
@@ -185,7 +197,7 @@ $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['d8ef00288000f0f98aafef9b53c2e08d']='Inséré vers le bas des pages associées.';
 $_SESSION['l10n']['fr']['c1966a9db995dd0212d9febf7be757e0']='Inséré vers le haut des pages associées.';
 $_SESSION['l10n']['fr']['To designate a category by name']='Pour désigner une catégorie par son nom';
-$_SESSION['l10n']['fr']['d2f1fce9469994f5fbb3f5d6f3f18b45']='Pour charger template_foo_bar.php en lieu et place du modèle normal du style';
+$_SESSION['l10n']['fr']['74a19ba83faf8108003e4f4acf426719']='Pour charger template_foo_bar.php à la place du modèle normal';
 $_SESSION['l10n']['fr']['9e9dfd283bcf9e91034d1f81ac4b04aa']='Pour associer un motif de recherche à cette catégorie';
 $_SESSION['l10n']['fr']['0749c2e869a8f74bc91f87cc3643388e']='Trop d\'erreurs successives. Abandon';
 $_SESSION['l10n']['fr']['Trailer']='Bas de page';

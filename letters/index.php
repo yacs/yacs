@@ -37,7 +37,7 @@ if(Surfer::is_associate()) {
 }
 
 // referrals, if any
-$context['extra'] .= Skin::build_referrals('letters/index.php');
+$context['aside']['referrals'] = Skin::build_referrals('letters/index.php');
 
 // render the skin
 render_skin();

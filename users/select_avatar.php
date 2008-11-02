@@ -71,7 +71,7 @@ if(isset($item['id']))
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
 } elseif(!Surfer::is_logged())
@@ -80,12 +80,12 @@ if(Surfer::is_crawler()) {
 // not found
 elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
 } elseif(!$permitted) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // the avatar has been changed
 } elseif(isset($_REQUEST['avatar'])) {
@@ -142,7 +142,7 @@ if(!count($context['error'])) {
 
 		// browse the path to list directories and files
 		if(!$dir = Safe::opendir($context['path_to_root'].$path))
-			Skin::error(sprintf(i18n::s('The directory %s does not exist.'), $path));
+			Logger::error(sprintf(i18n::s('The directory %s does not exist.'), $path));
 
 		// list images
 		else {

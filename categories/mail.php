@@ -73,17 +73,17 @@ $context['page_title'] .= i18n::s('Send a message');
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
 } elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // e-mail has not been enabled
 } elseif(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('E-mail has not been enabled on this system.'));
+	Logger::error(i18n::s('E-mail has not been enabled on this system.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -94,7 +94,7 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no mail in demo mode
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
@@ -103,7 +103,7 @@ if(Surfer::is_crawler()) {
 
 // no recipient has been found
 } elseif((!$recipients =& Members::list_users_by_posts_for_anchor('category:'.$item['id'], 0, 200, 'mail')) || !count($recipients))
-	Skin::error(i18n::s('No recipient has been defined.'));
+	Logger::error(i18n::s('No recipient has been defined.'));
 
 // process submitted data
 elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {

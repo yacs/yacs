@@ -121,7 +121,7 @@ if(is_object($anchor) && ($title = $anchor->get_title()))
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
@@ -190,7 +190,7 @@ if(Surfer::is_crawler()) {
 			$fields['anchor'] = $anchor->get_reference();
 			$fields['link_url'] = $source;
 			if(!$fields['id'] = Links::post($fields))
-				$response = array('faultCode' => 1, 'faultString' => Skin::error_pop());
+				$response = array('faultCode' => 1, 'faultString' => Logger::error_pop());
 			else
 				Links::clear($fields);
 		}
@@ -201,7 +201,7 @@ if(Surfer::is_crawler()) {
 
 		// an error has been encountered
 		if(is_array($response))
-			Skin::error($response['faultString'].' ('.$response['faultCode'].')');
+			Logger::error($response['faultString'].' ('.$response['faultCode'].')');
 
 		// everything's going fine
 		else
@@ -241,7 +241,7 @@ if(Surfer::is_crawler()) {
 // we don't know which resource is tracked back
 } elseif(!$anchor || !is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No resource to track back.'));
+	Logger::error(i18n::s('No resource to track back.'));
 
 // we have a valid reference, collect other information
 } else {
@@ -385,7 +385,7 @@ if(Surfer::is_crawler()) {
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('This server supports the %s created by Ben Trott and Mena Trott. Please note that any %s system attempts to trackback up to seven links from each published page.'), Skin::build_link('http://www.movabletype.org/docs/mttrackback.html', i18n::s('trackback specification'), 'external'), Skin::build_link('http://www.yetanothercommunitysystem.com/', i18n::s('YACS'), 'external')).'</p>'
 		.'<p>'.i18n::s('You can use this form to manually trackback your pages to this site.').'</p>';
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

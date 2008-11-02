@@ -112,12 +112,6 @@ else
 // load a skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
-// stop crawlers
-if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	die(i18n::s('You are not allowed to perform this operation.'));
-}
-
 // path to this page
 $context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
 
@@ -127,7 +121,7 @@ $context['page_title'] = i18n::s('RSS feed');
 // not found
 if(!isset($item['id']) || !$item['id']) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // access denied
 } elseif(!$permitted) {
@@ -140,7 +134,7 @@ if(!isset($item['id']) || !$item['id']) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the section
 } else {

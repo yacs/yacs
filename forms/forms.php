@@ -258,13 +258,13 @@ Class Forms {
 
 		// title cannot be empty
 		if(!isset($fields['title']) || !$fields['title']) {
-			Skin::error(i18n::s('No title has been provided.'));
+			Logger::error(i18n::s('No title has been provided.'));
 			return FALSE;
 		}
 
 		// anchor cannot be empty
 		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
@@ -280,7 +280,7 @@ Class Forms {
 
 			// id cannot be empty
 			if(!is_numeric($fields['id'])) {
-				Skin::error(i18n::s('No item has the provided id.'));
+				Logger::error(i18n::s('No item has the provided id.'));
 				return FALSE;
 			}
 

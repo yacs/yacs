@@ -190,7 +190,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 		// the introductory text
 		$introduction = '';
 		if($item['introduction'])
-			$introduction .= Codes::beautify($item['introduction'], $item['options']);
+			$introduction .= Codes::beautify_introduction($item['introduction']);
 		elseif(!is_object($overlay))
 			$introduction .= Skin::cap(Codes::beautify($item['description'], $item['options']), 70);
 		if($introduction)
@@ -295,7 +295,7 @@ Class Layout_home_articles_as_boxesandarrows extends Layout_interface {
 		// the introductory text
 		$introduction = '';
 		if($item['introduction'])
-			$introduction .= Codes::beautify($item['introduction'], $item['options']);
+			$introduction .= Codes::beautify_introduction($item['introduction']);
 		elseif(!is_object($overlay))
 			$introduction .= Skin::cap(Codes::beautify($item['description'], $item['options']), 70);
 		if($introduction)

@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:53 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-10-24 19:13+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['en']['9d1dd3844462dd717f535edb3d78a4b6']='%d SQL statements have been processed in %.2f seconds.';
 $_SESSION['l10n']['en']['4ac7e427dbd03f83175cb53d1a381cf1']='%d directories have been scanned.';
 $_SESSION['l10n']['en']['%d files have been found.']='%d files have been found.';
@@ -24,8 +38,8 @@ $_SESSION['l10n']['en']['a892dc3970b448cfc76d52438ea362a6']='%s - change paramet
 $_SESSION['l10n']['en']['1517dc5500dbad63fd98fd8d2462016a']='%s - change permissions of script files';
 $_SESSION['l10n']['en']['0bd6a54d02de3cc75d33fbbdd6f2f529']='%s - change the reference server used for software updates';
 $_SESSION['l10n']['en']['fc5f3cb643e203f84e92025cd00e6045']='%s - change the template used for newsletters';
-$_SESSION['l10n']['en']['bf47847ed015a5bbd2ac8cbabca2a2e3']='%s - check a lot of styles used by YACS';
 $_SESSION['l10n']['en']['%s - check for software updates']='%s - check for software updates';
+$_SESSION['l10n']['en']['%s - check styles used by YACS']='%s - check a lot of styles used by YACS';
 $_SESSION['l10n']['en']['2e819d81cafe33f8aefcb328d53113f6']='%s - check the database structure; also optimize data tables and update index';
 $_SESSION['l10n']['en']['d799f76258e68e8e7c770d6fe0947d2b']='%s - clear the cache or delete what can be safely deleted';
 $_SESSION['l10n']['en']['92a2c6e80630fa4909d6853d7cf85122']='%s - codes you can use to beautify your pages';
@@ -43,7 +57,7 @@ $_SESSION['l10n']['en']['%s - phpinfo() and more']='%s - phpinfo() and more';
 $_SESSION['l10n']['en']['ea559186e2e55b4ccbcc53c073de1144']='%s - review and setup YACS hooking pieces of software';
 $_SESSION['l10n']['en']['c0777e534eeabca5d20bf0668cd45359']='%s - select a section and type some text, then add images, files and links';
 $_SESSION['l10n']['en']['dd42f91a0a88d3aa6e0365f6f6d3fdf1']='%s - select and configure building blocks for the front page';
-$_SESSION['l10n']['en']['64d93fdf37b6b3749ea0e55cbe90ca5d']='%s - select and test skins available at this server';
+$_SESSION['l10n']['en']['7089f81acbd6a98e5327ad40520e1090']='%s - select and test themes available at this server';
 $_SESSION['l10n']['en']['aabc0967626adb06becb52f1d111ee19']='%s - shared directories and files';
 $_SESSION['l10n']['en']['63c82f286cf6a3295558a5f47bf5dc6a']='%s - shut the server down, or fire it up again';
 $_SESSION['l10n']['en']['8aa717dbf86d0e44261682c8f01aa966']='%s - smileys available for your posts';
@@ -71,6 +85,7 @@ $_SESSION['l10n']['en']['*** undefined label']='*** undefined label';
 $_SESSION['l10n']['en']['A category "%s" already exists.']='A category "%s" already exists.';
 $_SESSION['l10n']['en']['ee4c4307567fad8ef9e100aa3236eff8']='A category "%s" has been created.';
 $_SESSION['l10n']['en']['A complex POST test']='A complex POST test';
+$_SESSION['l10n']['en']['39442430beff9d5a0558913806fbcab2']='A configuration file is missing. If you are installing a brand new server, follow the link to create one.';
 $_SESSION['l10n']['en']['A more complex GET test']='A more complex GET test';
 $_SESSION['l10n']['en']['A page "%s" already exists.']='A page "%s" already exists.';
 $_SESSION['l10n']['en']['A page "%s" has been created.']='A page "%s" has been created.';
@@ -89,7 +104,7 @@ $_SESSION['l10n']['en']['a9208dbdacab805a18a581b5dcca21d5']='All [link=codes]cod
 $_SESSION['l10n']['en']['1ccf7f400198c806d44f70a7f04c1bdc']='All content, including but not limited to user reviews, application listings and information contained therein, is owned by [parameter=site_owner] and may not be copied without permission. However, the above content my be freely modified and/or removed by the person or persons responsible for submitting it.';
 $_SESSION['l10n']['en']['All indexes will be (re)built.']='All indexes will be (re)built.';
 $_SESSION['l10n']['en']['b3e8ce8c7a8ed8373c4db7d6cdbc9f0f']='All other trademarks, icons, and logos, shown or mentioned, are the property of their respective owners, including those associated with any solutions listed in [parameter=site_name]. Although [parameter=site_owner] does not own and is not responsible for all of the content on the site, we reserve the right to edit or remove any content at any time in any way we deem necessary, without any notification whatselver to the owner(s) of that content, to keep it better in line with our stated and/or unstated policies. [parameter=site_owner] is not responsible for any copyright laws violated by the applications listed herein, although we will do everything we can do resolve any disputes that may arise in this area.';
-$_SESSION['l10n']['en']['9ed42bc7dc0c8a8678137fe7cffae528']='Although some Internet users think cookies are a serious privacy issue, as web designers we think that they come in darned handy. This site uses cookies for basic account identification purposes, but that\'s as far as we go. We won\'t use any information from cookies to track your browsing sessions, attempt to extract personal information from them that we wouldn\'t otherwise have access to, or do any other naughty things with your cookies. If you don\'t agree with our use of cookies, you can configure most web browsers not to accept them. Even without a cookie, a significant part of this server will still be accessible to you (although you will lose the ability to do anything that requires you to be logged into the server).';
+$_SESSION['l10n']['en']['3601ebb2d1f7a4183e047d58ee8fb3cc']='Although some Internet users think cookies are a serious privacy issue, as web designers we think that they come in darned handy. This site uses cookies for basic account identification purposes, but that\'s as far as we go. We won\'t use any information from cookies to track your browsing sessions, attempt to extract personal information from them that we wouldn\'t otherwise have access to, or do any other naughty things with your cookies. If you don\'t agree with our use of cookies, you can configure most web browsers not to accept them. Even without a cookie, a significant part of this server will still be accessible to you (although you will lose the ability to do anything that requires you to be logged into the server).';
 $_SESSION['l10n']['en']['Apache .htaccess']='Apache .htaccess';
 $_SESSION['l10n']['en']['1ffbc6125d4d724ceaf9fc2f5a78ef72']='Apache has been configured with %s.';
 $_SESSION['l10n']['en']['Apply these SQL statements']='Apply these SQL statements';
@@ -102,7 +117,7 @@ $_SESSION['l10n']['en']['Backup/Restore']='Backup/Restore';
 $_SESSION['l10n']['en']['Bad hook type %s to %s for %s']='Bad hook type %s to %s for %s';
 $_SESSION['l10n']['en']['Bad hook:']='Bad hook:';
 $_SESSION['l10n']['en']['Basic (compression)']='Basic (compression)';
-$_SESSION['l10n']['en']['c8c6312d6d5eae1411fd0a9d5d7f65d1']='Be nice to other people, don\'t spam them, and don\'t do anything bad with any information you might get from this site.';
+$_SESSION['l10n']['en']['7c7584646a45022892369731654dc1e1']='Be nice to other people, don\'t spam them, and don\'t do anything bad with any information you might get from this site.';
 $_SESSION['l10n']['en']['Blog at %s']='Blog at %s';
 $_SESSION['l10n']['en']['Blogging tools']='Blogging tools';
 $_SESSION['l10n']['en']['Bookmark at %s']='Bookmark at %s';
@@ -133,7 +148,6 @@ $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
 $_SESSION['l10n']['en']['Configure the page factory']='Configure the page factory';
-$_SESSION['l10n']['en']['Configure: %s']='Configure: %s';
 $_SESSION['l10n']['en']['Configured virtual hosts']='Configured virtual hosts';
 $_SESSION['l10n']['en']['f1a31b689349f4dea5cd4b6502631e59']='Congratulations, one associate profile %s has been created with the password %s';
 $_SESSION['l10n']['en']['3e74311bb397360085e4752fda05c3d5']='Consider only tables with the prefix %s';
@@ -159,11 +173,13 @@ $_SESSION['l10n']['en']['Database server name']='Database server name';
 $_SESSION['l10n']['en']['30a65351c6432b075d77162e1b2a2a37']='Database server that hosts user information';
 $_SESSION['l10n']['en']['Debug mail services']='Debug mail services';
 $_SESSION['l10n']['en']['Default masks']='Default masks';
+$_SESSION['l10n']['en']['59d0a123c2edc371fa37c0bda4c117ae']='Delete all files with the suffix .bak.';
 $_SESSION['l10n']['en']['3e1636f1b82413b28dc7d683484b135b']='Delete all referrals from the database. These will be recreated progressively during future browsing. You may prefer to %s.';
 $_SESSION['l10n']['en']['a50856932f2ca6adf29629db38c81847']='Delete file temporary/debug.txt to purge debug data.';
 $_SESSION['l10n']['en']['3efa475535a405bddcd6869c96df5536']='Delete file temporary/log.txt to purge events data.';
 $_SESSION['l10n']['en']['14c8caaf14b958b24a660726cdf697a7']='Delete files and images related to previous database content';
-$_SESSION['l10n']['en']['e85a54df8b521307b74a598784e7d88c']='Delete the repository of reference scripts and related documentation. This can be rebuild from the scripts index page';
+$_SESSION['l10n']['en']['5d550c63ac22681e216bff41ec398eab']='Delete files staged during software update.';
+$_SESSION['l10n']['en']['61559f5eeea195c38508efff60e63304']='Delete the repository of reference scripts and related documentation. This can be rebuild from the scripts index page.';
 $_SESSION['l10n']['en']['Deleting %s']='Deleting %s';
 $_SESSION['l10n']['en']['Deleting agents data...']='Deleting agents data...';
 $_SESSION['l10n']['en']['Deleting all cached items...']='Deleting all cached items...';
@@ -173,6 +189,7 @@ $_SESSION['l10n']['en']['Deleting log data...']='Deleting log data...';
 $_SESSION['l10n']['en']['fd120c9370fcd9ce1050e6193d808379']='Deleting previous versions of scripts...';
 $_SESSION['l10n']['en']['Deleting referall data...']='Deleting referall data...';
 $_SESSION['l10n']['en']['Deleting scripts data...']='Deleting scripts data...';
+$_SESSION['l10n']['en']['Deleting staging files...']='Deleting staging files...';
 $_SESSION['l10n']['en']['e3107ae5a02d556ed31961280fefccc3']='Deleting the documentation pages...';
 $_SESSION['l10n']['en']['3ba9d28263b44fe1f7c433530bfdd694']='Deleting the reference repository...';
 $_SESSION['l10n']['en']['Description']='Description';
@@ -181,7 +198,7 @@ $_SESSION['l10n']['en']['Disabling extension %s']='Disabling extension %s';
 $_SESSION['l10n']['en']['fad30612d408b40e0cc124f7911619e9']='Do not transform bytes and assume proper transmission of 8-bit entities end-to-end.';
 $_SESSION['l10n']['en']['d439e9863c1ec160af48834bc7a4c614']='Do not try to compress transmitted data. The web engine already does it.';
 $_SESSION['l10n']['en']['Done']='Done';
-$_SESSION['l10n']['en']['909b921ddddf61553745cf2e8972699f']='Due to the large amount of e-mail that we get, we can NOT guarantee a response! This is especially true if your e-mail concerns issues we can\'t really help you with.';
+$_SESSION['l10n']['en']['e69eddc8001d51c8e5c2f0335019f77d']='Due to the large amount of e-mail that we get, we can NOT guarantee a response! This is especially true if your e-mail concerns issues we can\'t really help you with.';
 $_SESSION['l10n']['en']['6a2c769d729b50a589114cb6f3a6ca3b']='ERROR: Impossible to write to the file %s. The configuration has not been saved.';
 $_SESSION['l10n']['en']['d99776debd3d2959fe4de12593f7b175']='ERROR: Unsuccessful connection to the database. Please check lines below and <a href="configure.php">configure again</a>.';
 $_SESSION['l10n']['en']['306fc14245c8cfb0befbe2babb9af0b0']='Else follow the link below to load the configuration form.';
@@ -226,7 +243,7 @@ $_SESSION['l10n']['en']['cb8b6b98f013a916d3f71b1232bc0f73']='Impossible to retri
 $_SESSION['l10n']['en']['59163a66875f75923780d8ae420ceb93']='Impossible to retrieve user/group of this script.';
 $_SESSION['l10n']['en']['Impossible to write to %s.']='Impossible to write to %s.';
 $_SESSION['l10n']['en']['3bb915e7bf9f3a389df462e72f5b0129']='In order to make certain parts of this server work, some sections of the site require you to give us your e-mail address and/or other types of personal information (or may do so in the future). We do not sell, rent, loan, trade, or lease any personal information collected at our site, including survey forms or email lists. In other words, your information is safe with us.';
-$_SESSION['l10n']['en']['e5ecb77ad5d67de24c817365bdb5ee49']='In some cases we will use your email address internally, both for identification purposes and to email you updates related to your pages. Your explicit approval is required to mail you our periodic newsletter. At any time you can easily configure your account to enable or to disable such mailings. We <i>may</i>, in certain cases, send you email updates you haven\'t specifically requested to receive; if and when we do this, we won\'t do it without a good reason (and this certainly won\'t serve as our excuse to spam you.)';
+$_SESSION['l10n']['en']['245d20e62fee3230a660cad161dee1b4']='In some cases we will use your email address internally, both for identification purposes and to email you updates related to your pages. Your explicit approval is required to mail you our periodic newsletter. At any time you can easily configure your account to enable or to disable such mailings. We <i>may</i>, in certain cases, send you email updates you haven\'t specifically requested to receive; if and when we do this, we won\'t do it without a good reason (and this certainly won\'t serve as our excuse to spam you.)';
 $_SESSION['l10n']['en']['Included files']='Included files';
 $_SESSION['l10n']['en']['Including hook %s for %s']='Including hook %s for %s';
 $_SESSION['l10n']['en']['Including hooks']='Including hooks';
@@ -267,6 +284,7 @@ $_SESSION['l10n']['en']['Messages encoding']='Messages encoding';
 $_SESSION['l10n']['en']['8d706527cec6425ce288c51c4c20571e']='Missing tables will be created, if necessary.';
 $_SESSION['l10n']['en']['Models to be duplicated']='Models to be duplicated';
 $_SESSION['l10n']['en']['Modules']='Modules';
+$_SESSION['l10n']['en']['More information']='More information';
 $_SESSION['l10n']['en']['8eac81642d35b7c08fa7b81603826259']='Name of database that contains user information';
 $_SESSION['l10n']['en']['Navigation boxes']='Navigation boxes';
 $_SESSION['l10n']['en']['Network']='Network';
@@ -276,7 +294,6 @@ $_SESSION['l10n']['en']['Nick name']='Nick name';
 $_SESSION['l10n']['en']['e8a4fd3df02c584d7cbab5cd38182e70']='No access to the database server';
 $_SESSION['l10n']['en']['c5fa24ba64596538edbb0cf8236486e8']='No cache management. Default settings of the PHP engine apply.';
 $_SESSION['l10n']['en']['58bc12ecac7988dc8967be952a7b45a0']='No configuration file for extensions has been found. If you are installing a brand new server, follow the link to create one.';
-$_SESSION['l10n']['en']['9570c79f41de274be3bd90aeb5b0c7ef']='No configuration file has been found for the skin of your server. If you are installing a brand new server, follow the link to create one.';
 $_SESSION['l10n']['en']['00cb3f098d28e004551a0cd959568220']='No configuration file has been found for this virtual host.';
 $_SESSION['l10n']['en']['6a9093e953b3488468be05de9991717d']='No configuration file has been found. If you are installing a brand new server, follow the link below to create one.';
 $_SESSION['l10n']['en']['No file have been found.']='No file have been found.';
@@ -314,7 +331,6 @@ $_SESSION['l10n']['en']['10c3c7b67fa69b358ebc50520eae59b2']='Please %s to benefi
 $_SESSION['l10n']['en']['cf03c8382d9265434e707d082b43d8bc']='Please activate the GD module, else YACS can not resize images.';
 $_SESSION['l10n']['en']['a2a244d170d15cb5859ef06ecac6c638']='Please carefully select a meaningful nick name.';
 $_SESSION['l10n']['en']['52609f36af990d3a21ca779eaad8d292']='Please configure software extensions';
-$_SESSION['l10n']['en']['e26478eddc9fa3be2f1aa9871a146c8f']='Please configure the skin of your server';
 $_SESSION['l10n']['en']['Please configure your server']='Please configure your server';
 $_SESSION['l10n']['en']['Please create a database']='Please create a database';
 $_SESSION['l10n']['en']['Please create tables']='Please create tables';
@@ -323,12 +339,12 @@ $_SESSION['l10n']['en']['Please populate tables']='Please populate tables';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
 $_SESSION['l10n']['en']['Posted material']='Posted material';
-$_SESSION['l10n']['en']['3ae33c82939a197afa1db4ccc751332a']='Posted material is, of course, not private; several persons can look at them. But this is as good a time as any to point out that we own and retain control of whatever records you enter into the system. This means that we reserve the right to view and modify your articles, files, links, comments, etc. and we exercise this right. Most of the time we do this to fix trivial things; for example, if you post a page into an incorrect section, made a really obvious typo, or put in something really inappropriate, then we might modify it. But in any case, you should be aware that this could happen. FYI, <i>we</i> get to decide what\'s inappropriate, but you should all know your netiquette by now, right?  :-)';
+$_SESSION['l10n']['en']['c4dfe569892ff534df1e35897d793538']='Posted material is, of course, not private; several persons can look at them. But this is as good a time as any to point out that we own and retain control of whatever records you enter into the system. This means that we reserve the right to view and modify your articles, files, links, comments, etc. and we exercise this right. Most of the time we do this to fix trivial things; for example, if you post a page into an incorrect section, made a really obvious typo, or put in something really inappropriate, then we might modify it. But in any case, you should be aware that this could happen. FYI, <i>we</i> get to decide what\'s inappropriate, but you should all know your netiquette by now, right?  :-)';
 $_SESSION['l10n']['en']['Prefix for table names']='Prefix for table names';
 $_SESSION['l10n']['en']['Prefix for the users table']='Prefix for the users table';
 $_SESSION['l10n']['en']['Press [f] to save files']='Press [f] to save files';
 $_SESSION['l10n']['en']['Press [i] to save images']='Press [i] to save images';
-$_SESSION['l10n']['en']['Press [k] to save the skin']='Press [k] to save the skin';
+$_SESSION['l10n']['en']['Press [k] to save the theme']='Press [k] to save the theme';
 $_SESSION['l10n']['en']['Press [p] to save parameters']='Press [p] to save parameters';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['02aa4479d8bc853b63099204452e4186']='Prevent this server to connect to others.';
@@ -347,9 +363,8 @@ $_SESSION['l10n']['en']['Purge']='Purge';
 $_SESSION['l10n']['en']['cb50d489116ddb65e0cd84ae23bf4de5']='Purge accounting data on user agents and browsers from the database. These will be recreated progressively during future browsing.';
 $_SESSION['l10n']['en']['Purge again']='Purge again';
 $_SESSION['l10n']['en']['a9dec11a8d3aa02ac8dfab6e7e3f892e']='Purge links received via newsfeeds. These will be recreated progressively during future feeding.';
-$_SESSION['l10n']['en']['ce24a6b6ca4fc5d17f9065d6b0a54daf']='Purge previous versions of scripts. Delete all files with the suffix .php.bak';
 $_SESSION['l10n']['en']['d83c342f0d4f69c901f181dd333d57a8']='Purge script performance data from the database. These will be recreated progressively during future browsing.';
-$_SESSION['l10n']['en']['b826df4fdc8d81f0e559b3ed37f734d5']='Purge the cache. Delete all cached items from the database';
+$_SESSION['l10n']['en']['Purge the server cache.']='Purge the server cache.';
 $_SESSION['l10n']['en']['Purging...']='Purging...';
 $_SESSION['l10n']['en']['2877dbe34446fa49b87a1104ba739da8']='Put page titles in web addresses.';
 $_SESSION['l10n']['en']['Queries']='Queries';
@@ -401,7 +416,6 @@ $_SESSION['l10n']['en']['Site map']='Site map';
 $_SESSION['l10n']['en']['Site name']='Site name';
 $_SESSION['l10n']['en']['Skin']='Skin';
 $_SESSION['l10n']['en']['Skin test page']='Skin test page';
-$_SESSION['l10n']['en']['Skins']='Skins';
 $_SESSION['l10n']['en']['43cf4e3f828cddc02c9faa65691fef86']='Skip transient data and minimize size of backup file';
 $_SESSION['l10n']['en']['Smileys']='Smileys';
 $_SESSION['l10n']['en']['f8fa0a75804e151404d7f853baac1243']='Some columns may be created or converted if their type has evolved.';
@@ -450,11 +464,12 @@ $_SESSION['l10n']['en']['df3cdecf1977397d7fd3f5b6448d5109']='The target file %s 
 $_SESSION['l10n']['en']['The test page']='The test page';
 $_SESSION['l10n']['en']['7f1a7f8a6556adc99db785551adf36c6']='The top page here is also displayed at the front page';
 $_SESSION['l10n']['en']['305e053a669ed7708ba55090018d22d2']='The user table is currently empty. Please follow the link to populate the database.';
+$_SESSION['l10n']['en']['Themes']='Themes';
 $_SESSION['l10n']['en']['965ffacfaccee38ffb337c4126f8deb0']='This script will check the structure of the database and optimize data storage:';
 $_SESSION['l10n']['en']['93eed22ad43c35187ca4f7e6bb12c493']='This script will generate SQL statements necessary to rebuild your database from scratch. Please file it at your computer for backup purpose.';
 $_SESSION['l10n']['en']['0b3706ee5e95f20f5f550bcdd86cd747']='This script will scan your php scripts to install software hooks.';
 $_SESSION['l10n']['en']['7116086cf86bd5bdacffcaaa495cb423']='This server can not be reached from the Internet.';
-$_SESSION['l10n']['en']['753b318bfa1cb9d97a7d054d108850ed']='This server requires you to define and enter passwords to access certain areas of the site. In case this conjures up images of crackers breaking into our databases and getting your passwords, you don\'t have to worry about it. Passwords are stored in an encrypted format, so that <i>we</i> can\'t even look at them. This encryption <i>is</i> breakable, but it takes a lot of effort and computing time (days or weeks to crack a single password) so for all intents and purposes, your passwords are safe here. The downside to this, of course, is that if you lose or forget your password we can\'t get it back for you. We\'ve provided a method to reset your password if this happens, but as with any other password, it\'s best not to forget in the first place.';
+$_SESSION['l10n']['en']['d75427984001efa74e01f6b1d9f6a71e']='This server requires you to define and enter passwords to access certain areas of the site. In case this conjures up images of crackers breaking into our databases and getting your passwords, you don\'t have to worry about it. Passwords are stored in an encrypted format, so that <i>we</i> can\'t even look at them. This encryption <i>is</i> breakable, but it takes a lot of effort and computing time (days or weeks to crack a single password) so for all intents and purposes, your passwords are safe here. The downside to this, of course, is that if you lose or forget your password we can\'t get it back for you. We\'ve provided a method to reset your password if this happens, but as with any other password, it\'s best not to forget in the first place.';
 $_SESSION['l10n']['en']['c2883a13a53575308a41010403e41c2f']='This server uses the web for syndication, for pings or for other activities.';
 $_SESSION['l10n']['en']['b77fe780bf16aa35fd39ffe61cc9e26f']='This site is powered by [link=YACS]http://www.yetanothercommunitysystem.com/[/link], [link=PHP]http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a fast, easy-to-use site that lets you access, review, and download information that matters for you.';
 $_SESSION['l10n']['en']['06c9d7fc993053f7b3b01351d1b9fce8']='This system does not support the mapping of args in the URL.';
@@ -486,7 +501,7 @@ $_SESSION['l10n']['en']['3bd7563584cc7fba6d908b268d7309c5']='Verbosity should be
 $_SESSION['l10n']['en']['View the configuration file']='View the configuration file';
 $_SESSION['l10n']['en']['Virtual hosts']='Virtual hosts';
 $_SESSION['l10n']['en']['Visibility']='Visibility';
-$_SESSION['l10n']['en']['bf336ccfa4a75b7c79c536d774e291aa']='We are proud of this server, but it certainly isn\'t perfect. We\'re always looking for ways to improve the site. So, if you\'ve got any great ideas, then please let us know about them. Or, if you know of some important information that isn\'t listed here, email the author and tell them you want it listed on this site! It\'ll help make this server a better site for the whole community - and that\'s who we\'re here to serve.';
+$_SESSION['l10n']['en']['8e844f1ff4be21b4f092b3b793b7dded']='We are proud of this server, but it certainly isn\'t perfect. We\'re always looking for ways to improve the site. So, if you\'ve got any great ideas, then please let us know about them. Or, if you know of some important information that isn\'t listed here, email the author and tell them you want it listed on this site! It\'ll help make this server a better site for the whole community - and that\'s who we\'re here to serve.';
 $_SESSION['l10n']['en']['08483ca3dc1546ff5f403980ff422216']='We occasionally analyzes our website logs to constantly improve the value of the content available on our website. Our website logs are not personally identifiable, and we make no attempt to link them with the individuals that actually browse the site.';
 $_SESSION['l10n']['en']['841032d165945524632244aa2847b9fd']='We recommend at least 4 letters, two digits, and a punctuation sign - in any order';
 $_SESSION['l10n']['en']['7a617fb54d24e0f40c6a6e22952148ad']='We respect your privacy! Any and all information collected at this site will be kept strictly confidential and will not be sold, reused, rented, loaned or otherwise disclosed. Any information you give to us will be held with the utmost care, and will not be used in ways that you have not consented to. Read on for more specific information.';
@@ -515,7 +530,7 @@ $_SESSION['l10n']['en']['8010715ea1f24acd0530914cbbf05cfa']='Yes, I want to down
 $_SESSION['l10n']['en']['Yes, I want to download files']='Yes, I want to download files';
 $_SESSION['l10n']['en']['Yes, I want to download images']='Yes, I want to download images';
 $_SESSION['l10n']['en']['4caf52c3a6808c4ea60b716aba28f71c']='Yes, I want to download parameter files';
-$_SESSION['l10n']['en']['d4b075cc0d78ec4ee5f04a3565334e85']='Yes, I want to download the current skin';
+$_SESSION['l10n']['en']['00aaa0922c4235ea18818f24397e86c7']='Yes, I want to download the current theme';
 $_SESSION['l10n']['en']['300fee8b621fb5d1ddd92a7002043a7d']='You are about to apply jsmin to Javascript files of this server. Are you sure?';
 $_SESSION['l10n']['en']['3ce09e6df3d12286388e42e20d582412']='You are about to chmod(%d) all running scripts of this server. Are you sure?';
 $_SESSION['l10n']['en']['7d3675f083789cd48af9aa41d1fafde6']='You are about to close the server. Are you sure?';

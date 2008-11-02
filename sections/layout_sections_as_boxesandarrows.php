@@ -85,7 +85,7 @@ Class Layout_sections_as_boxesandarrows extends Layout_interface {
 
 			// introduction
 			if($item['introduction'])
-				$suffix = strip_tags(Codes::beautify(trim($item['introduction'])), '<a><br><img><li><ol><ul>');
+				$suffix =& Codes::beautify_introduction($item['introduction']);
 
 			// details
 			$details = array();

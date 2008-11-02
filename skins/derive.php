@@ -45,7 +45,7 @@ if(!file_exists($context['path_to_root'].'skins/'.$skin.'/template.php'))
 load_skin('skins');
 
 // the path to this page
-$context['path_bar'] = array( 'skins/' => i18n::s('Skins') );
+$context['path_bar'] = array( 'skins/' => i18n::s('Themes') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Derive a new skin from an existing one');
@@ -53,7 +53,7 @@ $context['page_title'] = i18n::s('Derive a new skin from an existing one');
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
 } elseif(!Surfer::is_logged())
@@ -62,12 +62,12 @@ if(Surfer::is_crawler()) {
 // only associates can use this tool
 elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // it is not allowed to rewrite one reference template
 } elseif(isset($_REQUEST['directory']) && preg_match('/^(boxesandarrows|digital|images|joi|skeleton)$/', $_REQUEST['directory'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // do the job
 } elseif(isset($_REQUEST['directory']) && $_REQUEST['directory']) {
@@ -215,15 +215,15 @@ elseif(!Surfer::is_associate()) {
 
 	// congratulations
 	else {
-		$context['text'] .= '<p>'.i18n::s('Congratulations, the skins directory has been updated.').'</p>'
+		$context['text'] .= '<p>'.i18n::s('Congratulations, themes have been updated.').'</p>'
 			.'<p>'.sprintf(i18n::s('Feel free to change and adjust files at skins/%s to better suit your needs.'), $directory).'</p>';
 
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		$menu = array_merge($menu, array( 'control/configure.php?parameter=skin&value='.urlencode('skins/'.$directory) => i18n::s('Use this skin') ));
-		$menu = array_merge($menu, array( 'skins/test.php?skin='.urlencode($directory) => i18n::s('Test the skin') ));
-		$menu = array_merge($menu, array( 'skins/' => i18n::s('Skins') ));
+		$menu = array_merge($menu, array( 'control/configure.php?parameter=skin&value='.urlencode('skins/'.$directory) => i18n::s('Use this theme') ));
+		$menu = array_merge($menu, array( 'skins/test.php?skin='.urlencode($directory) => i18n::s('Test this theme') ));
+		$menu = array_merge($menu, array( 'skins/' => i18n::s('Themes') ));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -237,8 +237,8 @@ elseif(!Surfer::is_associate()) {
 
 	// step 1 - select an available skin
 	$box = array();
-	$box['title'] = i18n::s('Step 1- Select the skin you want to use');
-	$box['text'] = '<p>'.i18n::s('Make your choice among available skins at this server:').' <select name="skin">';
+	$box['title'] = i18n::s('Step 1- Select the theme you want to use');
+	$box['text'] = '<p>'.i18n::s('Make your choice among available themes at this server:').' <select name="skin">';
 	if ($dir = Safe::opendir("../skins")) {
 
 		// valid skins have a template.php
@@ -297,7 +297,7 @@ elseif(!Surfer::is_associate()) {
 
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('For more information on skins, visit %s'), Skin::build_link(i18n::s('http://www.yetanothercommunitysystem.com/'), 'the YACS web site', 'external')).'</p>';
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

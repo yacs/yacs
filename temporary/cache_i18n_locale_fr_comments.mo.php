@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-09-07 00:32+0100
+Last-Translator: Paques, Bernard
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: French
+';
 $_SESSION['l10n']['fr']['%d post'.chr(0).'%d posts']='%d envoi'.chr(0).'%d envois';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['%d thread'.chr(0).'%d threads']='%d discussion'.chr(0).'%d discussions';
@@ -34,7 +48,7 @@ $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit your post below']='Modifiez votre texte ci-dessous';
 $_SESSION['l10n']['fr']['Edited by']='Modifié par';
 $_SESSION['l10n']['fr']['FCKEditor']='FCKEditor';
-$_SESSION['l10n']['fr']['d8369d2b68b9502eca73f6751a5759d3']='Les commentaires passionnés sont les bienvenus. Attention toutefois de ne pas trop s\'écarter du sujet principal et de rester courtois. Nous supprimerons sans hésiter tout commentaire mal placé ou blessant. Merci de ne pas nous contraindre à de telles extrémités.';
+$_SESSION['l10n']['fr']['4bb33a5f640ed9b688aede2807e169fc']='Les commentaires passionnés sont les bienvenus. Attention toutefois de ne pas trop s\'écarter du sujet principal et de rester courtois. Nous supprimerons sans hésiter tout commentaire mal placé ou blessant. Merci de ne pas nous contraindre à de telles extrémités.';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['I don\'t like...']='Je n\'aime pas...';
 $_SESSION['l10n']['fr']['I like...']='J\'aime...';
@@ -71,7 +85,6 @@ $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';
 $_SESSION['l10n']['fr']['React to this post']='Réagir à cet envoi';
 $_SESSION['l10n']['fr']['Recent comments at %s']='Commentaires à %s';
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Reply']='Répondre';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['a05645e8bcb9d65916b93961e3239d97']='Vous postez anonymement ; toutes les balises HTLM et les adresses web seront supprimées.';

@@ -170,15 +170,20 @@ Class Skin_Skeleton {
 			$text = '<div'.$id.' style="text-align: right;">'.$text.'</div>';
 			break;
 
-		case 'search':
-			if(!$text)
-				$text = i18n::s('Search...');
-			$text = '<form action="'.$context['url_to_root'].'search.php" method="get">'
-				.'<p style="margin: 0; padding: 0;">'
-				.'<input type="text" name="search" size="10" value="'.encode_field($text).'" onfocus="this.value=\'\'" maxlength="128" />'
-				.Skin::build_submit_button('&raquo;')
-				.'</p>'
-				.'</form>';
+		case 'search':				
+			if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'Y') && isset($context['skins_search_form']) && $context['skins_search_form'])
+				$text = str_replace('%s', encode_field($text), $context['skins_search_form']);
+			else {
+				if(!$text)
+					$text = i18n::s('Search...');
+					
+				$text = '<form action="'.$context['url_to_root'].'search.php" method="get">'
+					.'<p style="margin: 0; padding: 0;">'
+					.'<input type="text" name="search" size="10" value="'.encode_field($text).'" onfocus="this.value=\'\'" maxlength="128" />'
+					.Skin::build_submit_button('&raquo;')
+					.'</p>'
+					.'</form>';
+			}
 			break;
 
 		case 'subtitle':
@@ -688,7 +693,7 @@ Class Skin_Skeleton {
 		$text = '<dl class="extra_box"'.$id.'>'."\n";
 
 		// always add a header
-		$text .= '<dt><span>'.Skin::strip($title)."</span></dt>\n";
+		$text .= '<dt><span>'.$title."</span></dt>\n";
 
 		// box content
 		$text .= '<dd>'.$content.'</dd>';
@@ -764,7 +769,7 @@ Class Skin_Skeleton {
 			$img = '<img src="'.FOLDER_EXTEND_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to fold/unfold')).'" title="'.encode_field(i18n::s('Click to fold/unfold')).'" /> ';
 
 		// Yacs.toggle_folder() is in shared/yacs.js
-		$text = '<div class="folder_box"'.$id.'><a class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.Skin::strip($title).'</a>'
+		$text = '<div class="folder_box"'.$id.'><a class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.$title.'</a>'
 			.'<div class="folder_body" style="display: none">'.$content."</div></div>\n";
 
 		// pass by reference
@@ -894,7 +899,7 @@ Class Skin_Skeleton {
 		$text = '<dl class="gadget_box"'.$id.'>'."\n";
 
 		// always add a header
-		$text .= '<dt><span>'.Skin::strip($title)."</span></dt>\n";
+		$text .= '<dt><span>'.$title."</span></dt>\n";
 
 		// box content --add clear at the end to align images
 		$text .= '<dd>'.$content.'<br style="clear: both;" /></dd>';
@@ -942,7 +947,7 @@ Class Skin_Skeleton {
 			$tag = 'h2';
 
 		// add a header, but only if there is a title
-		if($title =& Skin::strip($title))
+		if($title)
 			$text .= '<'.$tag.'><span>'.$title.'</span></'.$tag.">\n";
 
 		// box content
@@ -1081,6 +1086,10 @@ Class Skin_Skeleton {
 		switch($type) {
 		case 'date':
 
+			// do not display 0s on screen
+			if($value <= '0000-00-00')
+				$value = '';
+
 			// date stamps are handled in regular text fields
 			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" />';
 
@@ -1101,6 +1110,10 @@ Class Skin_Skeleton {
 			return $text;
 
 		case 'date_time':
+		
+			// do not display 0s on screen
+			if($value <= '0000-00-00 00:00:00')
+				$value = '';
 
 			// date stamps are handled in regular text fields
 			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="20" maxlength="255" />'
@@ -1184,6 +1197,10 @@ Class Skin_Skeleton {
 
 		if($context['with_profile'] == 'Y')
 			Logger::profile('Skin::build_link', 'start');
+
+		// be sure to have a label
+		if(!$label)
+			$label = basename($url);
 
 		// guess the type of this link
 		if(!$variant) {
@@ -1298,29 +1315,47 @@ Class Skin_Skeleton {
 
 		}
 
-		// flag external links
-		if($variant)
-			;
-		elseif(!strncmp($url, 'http:', 5) && strncmp($url, 'http://'.$context['host_name'], strlen('http://'.$context['host_name'])))
-			$variant = 'external';
-		elseif(!strncmp($url, 'https:', 6) && strncmp($url, 'https://'.$context['host_name'], strlen('https://'.$context['host_name'])))
-			$variant = 'external';
-		elseif(!strncmp($url, 'ftp:', 4) && strncmp($url, 'ftp://'.$context['host_name'], strlen('ftp://'.$context['host_name'])))
-			$variant = 'external';
-
 		// help crawlers and do not count clicks
 		if(is_callable(array('Surfer', 'is_crawler')) && Surfer::is_crawler()) {
 			$variant = 'basic';
 			$href_title = '';
+			
+		// format for a human being
+		} else {
+		
+			// flag external links
+			$external = ($variant == 'external');
+			if(!strncmp($url, 'http:', 5) && strncmp($url, 'http://'.$context['host_name'], strlen('http://'.$context['host_name'])))
+				$external = TRUE;
+			elseif(!strncmp($url, 'https:', 6) && strncmp($url, 'https://'.$context['host_name'], strlen('https://'.$context['host_name'])))
+				$external = TRUE;
+			elseif(!strncmp($url, 'ftp:', 4) && strncmp($url, 'ftp://'.$context['host_name'], strlen('ftp://'.$context['host_name'])))
+				$external = TRUE;
+			
+			// default tagging for external links
+			if(!$variant && $external)
+				$variant = 'external';
+
+			// default processing for external links
+			if($external) {
+			
+				// count external clicks
+				$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
+
+				// a default title
+				if(!$href_title)
+					$href_title = ' title="'.encode_field(i18n::s('Browse in a separate window')).'"';
+				
+			// internal link
+			} else {
+			
+				// finalize the hovering title
+				if($href_title)
+					$href_title = ' title="'.encode_field(strip_tags($href_title)).'"';
+
+			}
+
 		}
-
-		// finalize the hovering title
-		if($href_title)
-			$href_title = ' title="'.encode_field(strip_tags($href_title)).'"';
-
-		// be sure to have a label
-		if(!$text = $label)
-			$text = basename($url);
 
 		// depending on variant
 		switch($variant) {
@@ -1331,17 +1366,24 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('View the page')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="article"'.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="article"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'basic':
 
-			$text = '<a href="'.$url.'"'.$href_title.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'button':
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="this.blur();"'.$attributes.'><span>'.$text.'</span></a>';
+			// always open external links in a separate window
+			if($external)
+				$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;">'.$label.'</a>';
+				
+			// stay in the same window
+			else
+				$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="this.blur();"'.$attributes.'><span>'.$label.'</span></a>';
+				
 			break;
 
 		case 'category':
@@ -1350,7 +1392,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('View the category')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="category"'.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="category"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'comment':
@@ -1359,7 +1401,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('View this comment')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="comment"'.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="comment"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'day':
@@ -1368,7 +1410,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Daily calendar')).'"';
 
-			$text = ' <a href="'.$url.'"'.$href_title.' class="day"'.$attributes.'>'.$text.'</a> ';
+			$text = ' <a href="'.$url.'"'.$href_title.' class="day"'.$attributes.'>'.$label.'</a> ';
 			break;
 
 		case 'email':
@@ -1380,30 +1422,23 @@ Class Skin_Skeleton {
 				$href_title = ' title="'.encode_field(i18n::s('Send a message')).'"';
 
 			// use obfuscated reference
-			$text = '<a href="'.$url.'"'.$href_title.' class="email"'.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="email"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'external':
 
-			// count external clicks, but not for robots
-			$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
-
-			// a default title
-			if(!$href_title)
-				$href_title = ' title="'.encode_field(i18n::s('Browse in a separate window')).'"';
-
-			$text = '<a href="'.$url.'"'.$href_title.' class="external" onclick="window.open(this.href); return false;">'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="external" onclick="window.open(this.href); return false;">'.$label.'</a>';
 			break;
 
 		case 'file':
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="file"'.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="file"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'help':
 			$text = '<a href="'.$url.'"'.$href_title.' class="help"'
 				.' onclick="window.open(this.href); return false;"'
-				.' onkeypress="window.open(this.href); return false;"><span>'.$text.'</span></a>';
+				.' onkeypress="window.open(this.href); return false;"><span>'.$label.'</span></a>';
 			break;
 
 		case 'internal': // like external, but stay in the same window
@@ -1415,15 +1450,15 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('View the page')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="external">'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="external">'.$label.'</a>';
 			break;
 
 		case 'menu_1':
-			$text = MENU_1_PREFIX.'<a href="'.$url.'"'.$href_title.' class="menu_1"'.$attributes.'>'.$text.'</a>'.MENU_1_SUFFIX;
+			$text = MENU_1_PREFIX.'<a href="'.$url.'"'.$href_title.' class="menu_1"'.$attributes.'>'.$label.'</a>'.MENU_1_SUFFIX;
 			break;
 
 		case 'menu_2':
-			$text = MENU_2_PREFIX.'<a href="'.$url.'"'.$href_title.' class="menu_2"'.$attributes.'>'.$text.'</a>'.MENU_2_SUFFIX;
+			$text = MENU_2_PREFIX.'<a href="'.$url.'"'.$href_title.' class="menu_2"'.$attributes.'>'.$label.'</a>'.MENU_2_SUFFIX;
 			break;
 
 		case 'month':
@@ -1432,7 +1467,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Monthly calendar')).'"';
 
-			$text = ' <a href="'.$url.'"'.$href_title.' class="month"'.$attributes.'>'.$text.'</a> ';
+			$text = ' <a href="'.$url.'"'.$href_title.' class="month"'.$attributes.'>'.$label.'</a> ';
 			break;
 
 		case 'more':
@@ -1441,33 +1476,33 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('More')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'next':
 
 			// add an icon, except if there is already an image
-			if(!preg_match('/<img/i', $text) && defined('NEXT_IMG'))
-				$text .= NEXT_IMG;
+			if(!preg_match('/<img/i', $label) && defined('NEXT_IMG'))
+				$label .= NEXT_IMG;
 
 			// a default title
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Next')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="next"'.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="next"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'previous':
 
 			// add an icon, except if there is already an image
-			if(!preg_match('/<img/i', $text) && defined('PREVIOUS_IMG'))
-				$text = PREVIOUS_IMG.$text;
+			if(!preg_match('/<img/i', $label) && defined('PREVIOUS_IMG'))
+				$label = PREVIOUS_IMG.$label;
 
 			// a default title
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Previous')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="previous"'.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="previous"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'raw':
@@ -1503,7 +1538,7 @@ Class Skin_Skeleton {
 				$href_title = ' title="'.encode_field(i18n::s('Go to the documentation page')).'"';
 
 			// a link to the phpdoc page
-			$text = '<a href="'.$url.'"'.$href_title.' class="script"'.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="script"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'section':
@@ -1512,7 +1547,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('View the page')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="section"'.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="section"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'server':
@@ -1521,7 +1556,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('See server profile')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="server"'.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="server"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'shortcut':
@@ -1530,12 +1565,12 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Shortcut')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="shortcut"'.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="shortcut"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'span':
 
-			$text = '<a href="'.$url.'"'.$href_title.$attributes.'><span>'.$text.'</span></a>';
+			$text = '<a href="'.$url.'"'.$href_title.$attributes.'><span>'.$label.'</span></a>';
 			break;
 
 		case 'idle user':
@@ -1545,7 +1580,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('View person profile')).'"';
 
-			$text = '<a href="'.$url.'"'.$href_title.' class="'.$variant.'"'.$attributes.'>'.$text.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="'.$variant.'"'.$attributes.'>'.$label.'</a>';
 			break;
 
 		case 'xml':
@@ -1557,7 +1592,7 @@ Class Skin_Skeleton {
 			Skin::define_img('XML_IMG', 'icons/xml.gif');
 			$text = '<a href="'.$url.'"'.$href_title.' class="xml"'
 				.' onclick="window.open(this.href); return false;"'
-				.' onkeypress="window.open(this.href); return false;">'.XML_IMG.$text.'</a>';
+				.' onkeypress="window.open(this.href); return false;">'.XML_IMG.$label.'</a>';
 			break;
 
 		case 'year':
@@ -1566,14 +1601,14 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Yearly calendar')).'"';
 
-			$text = ' <a href="'.$url.'"'.$href_title.' class="year"'.$attributes.'>'.$text.'</a> ';
+			$text = ' <a href="'.$url.'"'.$href_title.' class="year"'.$attributes.'>'.$label.'</a> ';
 			break;
 
 		default:
 			if($variant)
-				$text = '<a href="'.$url.'"'.$href_title.' class="'.$variant.'"'.$attributes.'>'.$text.'</a>';
+				$text = '<a href="'.$url.'"'.$href_title.' class="'.$variant.'"'.$attributes.'>'.$label.'</a>';
 			else
-				$text = '<a href="'.$url.'"'.$href_title.$attributes.'>'.$text.'</a>';
+				$text = '<a href="'.$url.'"'.$href_title.$attributes.'>'.$label.'</a>';
 			break;
 
 		}
@@ -1632,7 +1667,7 @@ Class Skin_Skeleton {
 			$output = '';
 			return $output;
 		}
-
+		
 		// split the list in separate columns
 		if(($variant == '2-columns') || ($variant == 'yahoo')) {
 
@@ -1792,7 +1827,7 @@ Class Skin_Skeleton {
 		$text = '<dl class="navigation_box"'.$id.'>'."\n";
 
 		// always add a header
-		$text .= '<dt><span>'.Skin::strip($title)."</span></dt>\n";
+		$text .= '<dt><span>'.$title."</span></dt>\n";
 
 		// box content
 		$text .= '<dd>'.$content.'</dd>';
@@ -2143,8 +2178,8 @@ Class Skin_Skeleton {
 				if($items = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].$script))
 					$output =& Skin::build_box(i18n::s('Referrals'), $items, 'navigation', 'referrals');
 
-				// save in cache for one hour 60 * 60 = 3600
-				Cache::put($cache_id, $output, 'stable', 3600);
+				// save in cache for 5 minutes 60 * 5 = 300
+				Cache::put($cache_id, $output, 'stable', 300);
 
 			}
 		}
@@ -2177,7 +2212,7 @@ Class Skin_Skeleton {
 		$text = '<div class="sidebar_box"'.$id.'>'."\n";
 
 		// always add a header
-		$text .= '<h3><span>'.Skin::strip($title)."</span></h3>\n";
+		$text .= '<h3><span>'.$title."</span></h3>\n";
 
 		// box content
 		$text .= '<div>'.$content.'</div>';
@@ -2454,7 +2489,7 @@ Class Skin_Skeleton {
 
 		// title is optional
 		if($title)
-			$text .= '<h3><span>'.Skin::strip($title)."</span></h3>\n";
+			$text .= '<h3><span>'.$title."</span></h3>\n";
 
 		// box content has no div, it is already structured
 		$text .= $content;
@@ -2485,7 +2520,7 @@ Class Skin_Skeleton {
 
 		// title is optional
 		if($title)
-			$text .= '<h3><span>'.Skin::strip($title)."</span></h3>\n";
+			$text .= '<h3><span>'.$title."</span></h3>\n";
 
 		// box content
 		$text .= '<div>'.$content.'</div>';
@@ -2761,45 +2796,84 @@ Class Skin_Skeleton {
 	/**
 	 * add some error message
 	 *
+	 * @obsolete
 	 * @param string the additional error message
 	 *
 	 */
 	function error($line) {
-		global $context;
-
-		// sanity check
-		if(!$line)
-			return;
-
-		// don't repeat error messages
-		if(in_array($line, $context['error']))
-			return;
-
-		// stack the error
-		$context['error'][] = $line;
+		Logger::error($line);
 	}
 
 	/**
 	 * pop last error message
 	 *
+	 * @obsolete
 	 * @return string most recent error message, or NULL
 	 */
 	function error_pop() {
-		global $context;
-
-		// no stack
-		if(!is_array($context['error']))
-			return NULL;
-
-		// empty stack
-		if(!count($context['error']))
-			return NULL;
-
-		// remove last item, and return it
-		return array_pop($context['error']);
-
+		return Logger::error_pop();
 	}
 
+	/**
+	 * finalize context before page rendering
+	 *
+	 * This function is used to finalize the $context array before actual page rendering.
+	 * You can overlay this function in your skin to add content to $context['aside'] and then
+	 * change configuration parameters skins_extra_components and skins_navigation_components
+	 * to have these components taken into account by the rendering engine.
+	 *
+	 */
+	function finalize_context() {
+		global $context;
+		
+	}
+	
+	/**
+	 * finalize content of the extra panel
+	 *
+	 * This function assembles several attributes of current context into the one that is
+	 * displayed in the extra panel.
+	 *
+	 * @param mixed the list of components to include in the extra panel
+	 */
+	function finalize_extra($parameters) {
+		global $context;
+		
+		// make an array of components
+		if(is_string($parameters))
+			$parameters = explode(' ', $parameters);
+			
+		// do the job
+		foreach($parameters as $parameter) {
+			if(isset($context['aside'][ $parameter ]))
+				$context['extra'] .= $context['aside'][ $parameter ];
+		}
+			
+	}
+	
+	/**
+	 * finalize content of the navigation panel
+	 *
+	 * This function assembles several attributes of current context into the one that is
+	 * displayed in the navigation panel.
+	 *
+	 * @param mixed the list of components to include in the navigation panel
+	 */
+	function finalize_navigation($parameters) {
+		global $context;
+		
+		// make an array of components
+		if(is_string($parameters))
+			$parameters = explode(' ', $parameters);
+			
+		// do the job
+		foreach($parameters as $parameter) {
+			if(isset($context['aside'][ $parameter ]))
+				$context['navigation'] .= $context['aside'][ $parameter ];
+		}
+			
+	}
+	
 	/**
 	 * finalize a list
 	 *

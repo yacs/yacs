@@ -49,10 +49,6 @@ include_once $context['path_to_root'].'servers/servers.php';
 if(isset($_SERVER['REMOTE_HOST']) && ($server =& Servers::get($_SERVER['REMOTE_HOST']) && ($server['process_search'] != 'Y')))
 	exit('Access denied');
 
-// stop crawlers
-if(Surfer::is_crawler())
-	exit('Access denied');
-
 // look for words
 $search = '';
 if(isset($_REQUEST['search']))

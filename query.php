@@ -46,7 +46,7 @@ $context['page_title'] = i18n::s('Help');
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // post a new query
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
@@ -106,7 +106,7 @@ if(Surfer::is_crawler()) {
 
 	// stop robots
 	if(Surfer::may_be_a_robot()) {
-		Skin::error(i18n::s('Please prove you are not a robot.'));
+		Logger::error(i18n::s('Please prove you are not a robot.'));
 		$with_form = TRUE;
 
 	// display the form on error
@@ -302,7 +302,7 @@ if($with_form) {
 	// locate mandatory fields
 	$text .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
 
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $text, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $text, 'navigation', 'help');
 
 }
 

@@ -3,13 +3,28 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:22+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n > 1);
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: French
+';
 $_SESSION['l10n']['fr']['%d result'.chr(0).'%d results']='%d résultat'.chr(0).'%d résultats';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
+$_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['(anonymous)']='(anonyme)';
 $_SESSION['l10n']['fr']['-- All sections']='-- Toutes les sections';
-$_SESSION['l10n']['fr']['e046015f21d8cd076ad7b508911e7175']='<p>Aucun fichier de configuration n\'a été trouvé. Vous allez à présent passer à travers les différentes étapes de l\'installation :</p>
+$_SESSION['l10n']['fr']['cc919cf2b4a5b9ebd5adad3318348ba5']='<p>Aucun fichier de configuration n\'a été trouvé. Vous allez à présent passer à travers les différentes étapes de l\'installation :</p>
 <ul>
 <li>Indiquer les paramètres système et l\'accès à la base de données.</li>
 <li>Recherche des extensions de logiciel.</li>
@@ -20,8 +35,8 @@ $_SESSION['l10n']['fr']['e046015f21d8cd076ad7b508911e7175']='<p>Aucun fichier de
 Normalement tout ceci dure seulement quelques minutes. En cas de problème, merci de consulter <a href="http://www.yetanothercommunitysystem.com/">www.yetanothercommunitysystem.com</a> pour obtenir du support.<p>Merci d\'avoir choisi la solution YACS.</p>';
 $_SESSION['l10n']['fr']['52c9506b1dddde1ff0ae84edb0d1e0fd']=' <p>Aucune page n\'a été trouvée. Ceci peut arriver avec des mots très courts (moins de %d lettres), qui ne sont pas indexés dans la base de données. Ceci peut aussi arriver si plus de la moitié des pages contiennent les mots recherchés. Essayez d\'employer des mots plus rectrictifs, et de supprimer les mots "parasites".</p>';
 $_SESSION['l10n']['fr']['62ff4cd968dae58bb9244caecd2a2fd2']='<p>Les fichiers de configuration créés par l\'assistant d\'installation existent déjà. Cliquez sur le lien ci-dessous pour basculer vers le Panneau de Contrôle et modifier les paramètres du serveur.</p>';
-$_SESSION['l10n']['fr']['6f5a40e34d995c5f5cff564f90b8cd8b']='<p>Cette section contient les questions et réactions des surfeurs envoyées par le biais du formulaire de requête. Nous vous recommendons de déplacer ou d\'effacer les pages ci-dessous après leur traitement.</p>';
-$_SESSION['l10n']['fr']['0a6f5d667c713b41794e85986fe6c937']='<p>Utilisez ce formulaire pour nous transmettre tout type de requête, simple suggestion ou question complexe.</p><p>Nous acceptons les échanges passionnés ou surprenants, sous réserve de respect des personnes impliquées. Les attaques en règle, la diffamation, l\'agressivité gratuite ne mènent à rien, sinon à des messages effacés. Ne nous forcez pas à une telle extrémité.</p>';
+$_SESSION['l10n']['fr']['cc3b94acde89bcd45333eb4691394d49']='<p>Cette section contient les questions et réactions des surfeurs envoyées par le biais du formulaire de requête. Nous vous recommendons de déplacer ou d\'effacer les pages ci-dessous après leur traitement.</p>';
+$_SESSION['l10n']['fr']['fda2fa2ea0b35bcabe9b1b0927a6e6fb']='<p>Utilisez ce formulaire pour nous transmettre tout type de requête, simple suggestion ou question complexe.</p><p>Nous acceptons les échanges passionnés ou surprenants, sous réserve de respect des personnes impliquées. Les attaques en règle, la diffamation, l\'agressivité gratuite ne mènent à rien, sinon à des messages effacés. Ne nous forcez pas à une telle extrémité.</p>';
 $_SESSION['l10n']['fr']['d68d16f57b1691465a98f0642d426ab9']='<p>Vous pouvez suivre l\'avancement de votre requête à l\'adresse suivante :</p>';
 $_SESSION['l10n']['fr']['16d18000837807153a6003a63f72cbbf']='<p>Vous êtes passé par les différentes étapes de l\'installation.</p>
 Que voulez-vous faire à présent ?<ul>
@@ -63,7 +78,6 @@ $_SESSION['l10n']['fr']['5602b30e920dfb6e577881348ad309cf']='Les fichiers de con
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
-$_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
 $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Cover article']='Article de couverture';
@@ -108,7 +122,6 @@ $_SESSION['l10n']['fr']['Google']='Google';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Help index']='Index de l\'aide';
 $_SESSION['l10n']['fr']['ae398ca20f4b2870885e0aa55ec45fd2']='Si vous collez du texte contenant des balises HTML et voulez éviter le formatage implicite insérez le code <code>[formatted]</code> au tout début du champ de description.';
-$_SESSION['l10n']['fr']['Impossible to read %s.']='Impossible de lire %s.';
 $_SESSION['l10n']['fr']['Impossible to write to %s.']='Impossible d\'écrire dans %s.';
 $_SESSION['l10n']['fr']['e3c40f19ac4a7cf2f76f261c4fefa12d']='Inclure un échantillon aléatoire d\'articles';
 $_SESSION['l10n']['fr']['Include the last recent poll']='Inclure le sondage le plus récent';
@@ -188,11 +201,9 @@ $_SESSION['l10n']['fr']['Recent links']='Liens récents';
 $_SESSION['l10n']['fr']['Recent searches']='Recherches récentes';
 $_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Remember this search']='Mémoriser cette recherche';
-$_SESSION['l10n']['fr']['Reset']='Recommencer';
 $_SESSION['l10n']['fr']['Results']='Résultats';
 $_SESSION['l10n']['fr']['8e8eb648edb57efc53bb3a619f5bd494']='Contrôler l\'information fournie et utiliser le bouton en bas de page pour continuer.';
 $_SESSION['l10n']['fr']['Safe mode']='Mode safe';
-$_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Exécution terminée en %.2f secondes.';
 $_SESSION['l10n']['fr']['Search']='Chercher';
 $_SESSION['l10n']['fr']['Search in']='Chercher dans';
 $_SESSION['l10n']['fr']['Search in all sections']='Rechercher dans toutes les sections';
@@ -220,7 +231,7 @@ $_SESSION['l10n']['fr']['0457bda18a285d6eb56e18be21f73447']='Le champ de descrip
 $_SESSION['l10n']['fr']['3513760fe3e0b14f2af4cc30a501d92a']='La configuration suivante a été enregistrée dans le fichier %s.';
 $_SESSION['l10n']['fr']['The main object of your query']='La raison principale de votre envoi';
 $_SESSION['l10n']['fr']['0cb5c62b610440d2b2bba1a2ffbf738b']='L\'adresse permanente de votre requête';
-$_SESSION['l10n']['fr']['466f2e6063c29dd23107f3421e955afd']='Cet engin de recherche indique seulement les pages qui contiennent tous les mots recherchés.<p>De plus, il faut une correspondance exacte des termes recherchés. Par exemple "section" et "sections" donneront des résultats différents.</p>';
+$_SESSION['l10n']['fr']['7224852c4fadab62a39880877647ccf4']='Cet engin de recherche indique seulement les pages qui contiennent tous les mots recherchés.<p>De plus, il faut une correspondance exacte des termes recherchés. Par exemple "section" et "sections" donneront des résultats différents.</p>';
 $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la configuration, merci de copier les lignes ci-dessous, et de les mettre par vous-même dans le fichier %s :';
 $_SESSION['l10n']['fr']['f1c6aae2de003977b902156f04713e51']='Pour activer le serveur, merci de copier les lignes ci-dessous, et de les coller par vous-même dans le fichier %s :';
@@ -239,8 +250,8 @@ $_SESSION['l10n']['fr']['a2584ebd70083c26c12ecbb14d577f93']='AVERTISSEMENT : Le 
 $_SESSION['l10n']['fr']['8172ea95a8fa2e9ba16b0dafbebc0d99']='AVERTISSEMENT : YACS ne peut pas écrire dans les fichiers. Sous Unix, assurez-vous que les permissions ont été positionnées correctement. Ce problème peut provenir de l\'exécution de PHP en mode safe.';
 $_SESSION['l10n']['fr']['2aa5ecdad08cffdb7a4d26402ab3a9bc']='ATTENTION : Vous ne pourrez pas envoyer d\'archive au format zip.';
 $_SESSION['l10n']['fr']['6214aa6c778c69428ff7146f8e56867a']='Attention : Aucun script ne correspond à la mise en page %s';
-$_SESSION['l10n']['fr']['20f1a3bbb9b4a16bec24ed97aaad2eda']='Désolé. La page demandée n\'existe pas sur ce serveur %s';
-$_SESSION['l10n']['fr']['754ef929427bad781b89b4a318ddcdf2']='Nous sommes désolés. Vous n\'êtes pas autorisé à consulter %s';
+$_SESSION['l10n']['fr']['a4c86a20e4b33fa20218dc6e29d6c1c8']='Désolé. La page demandée n\'existe pas sur ce serveur %s';
+$_SESSION['l10n']['fr']['d4beee65d040bfeab885bc1265d0fa2c']='Nous sommes désolés. Vous n\'êtes pas autorisé à consulter %s';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
 $_SESSION['l10n']['fr']['XML']='XML';
 $_SESSION['l10n']['fr']['YACS codes']='les codes YACS';

@@ -179,13 +179,13 @@ class Behaviors {
 
 				// bad script content
 				elseif(is_callable(array('Skin', 'error')))
-					Skin::error(sprintf(i18n::s('No behavior %s has been found.'), $behavior));
+					Logger::error(sprintf(i18n::s('No behavior %s has been found.'), $behavior));
 				else
 					die(sprintf(i18n::s('No behavior %s has been found.'), $behavior));
 
 			// bad behavior declaration
 			} elseif(is_callable(array('Skin', 'error')))
-				Skin::error(sprintf(i18n::s('No behavior %s has been found.'), $behavior));
+				Logger::error(sprintf(i18n::s('No behavior %s has been found.'), $behavior));
 			else
 				die(sprintf(i18n::s('No behavior %s has been found.'), $behavior));
 

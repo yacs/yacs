@@ -61,7 +61,7 @@ if(!Surfer::is_logged())
 
 // only associates can use this tool
 elseif(!Surfer::is_associate())
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // give information
 else {
@@ -108,7 +108,7 @@ else {
 
 	$query = "SELECT * FROM ".SQL::table_name('values')." ORDER BY id";
 	if(!$result =& SQL::query($query)) {
-		$values .= Skin::error_pop().BR."\n";
+		$values .= Logger::error_pop().BR."\n";
 	} else {
 		$values .= Skin::table_prefix('grid');
 		while($row =& SQL::fetch($result)) {
@@ -264,7 +264,7 @@ else {
 }
 
 // referrals, if any
-$context['extra'] .= Skin::build_referrals('agents/index.php');
+$context['aside']['referrals'] = Skin::build_referrals('agents/index.php');
 
 // render the skin
 render_skin();

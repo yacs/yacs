@@ -54,7 +54,12 @@
 
 // include the global declarations
 include_once '../shared/global.php';
+include_once '../scripts/scripts.php';	// we handle many files
 
+// the place to build the reference repository
+if(!isset($context['path_to_reference']))
+	$context['path_to_reference'] = preg_replace('|/[^/]+/\.\./|', '/', $context['path_to_root'].'../yacs.reference/');
+		
 // load localized strings
 i18n::bind('control');
 
@@ -92,8 +97,8 @@ function delete_backup($path) {
 			if(is_dir($target_translated))
 				delete_backup($target);
 
-			// delete a backed up file: .css, .gif, .htm, .html, .js, .mo, .php, .po, .swf, .txt or .xml
-			elseif(preg_match('/\.(css|gif|htm|html|js|mo|php|po|swf|txt|xml)\.bak$/i', $target_translated)) {
+			// delete a backed up file
+			elseif(preg_match('/\.bak$/i', $target_translated)) {
 				$context['text'] .= sprintf(i18n::s('Deleting %s'), $target_translated).BR."\n";
 				Safe::unlink($target_translated);
 				global $deleted_nodes;
@@ -117,10 +122,7 @@ function delete_backup($path) {
 function delete_reference($path) {
 	global $context;
 
-	// utilities to locate reference files
-	include_once '../scripts/scripts.php';
-
-	$path_translated = str_replace('//', '/', $context['path_to_root'].'/scripts/reference'.$path);
+	$path_translated = str_replace('//', '/', $context['path_to_reference'].$path);
 	if($handle = Safe::opendir($path_translated)) {
 
 		while(($node = Safe::readdir($handle)) !== FALSE) {
@@ -137,8 +139,50 @@ function delete_reference($path) {
 				delete_reference($target);
 
 			// delete only files that are part of the reference set
-			elseif(Scripts::hash('/scripts/reference'.$target)) {
-				$context['text'] .= sprintf(i18n::s('Deleting %s'), $target_translated).BR."\n";
+			elseif(Scripts::hash($context['path_to_reference'].$target)) {
+				$context['text'] .= sprintf(i18n::s('Deleting %s'), substr($target, 1)).BR."\n";
+				Safe::unlink($target_translated);
+				global $deleted_nodes;
+				$deleted_nodes++;
+			}
+
+			// ensure we have enough time
+			Safe::set_time_limit(30);
+		}
+		Safe::closedir($handle);
+	}
+
+}
+
+/**
+ * delete staging files
+ *
+ * @param string the directory to start with
+ * @see scripts/update.php
+ */
+function delete_staging($path) {
+	global $context;
+
+	$path_translated = str_replace('//', '/', $context['path_to_root'].'/scripts/staging'.$path);
+	if($handle = Safe::opendir($path_translated)) {
+
+		while(($node = Safe::readdir($handle)) !== FALSE) {
+
+			if(($node == '.') || ($node == '..'))
+				continue;
+
+			// make a real name
+			$target = str_replace('//', '/', $path.'/'.$node);
+			$target_translated = str_replace('//', '/', $path_translated.'/'.$node);
+
+			// delete sub directory content
+			if(is_dir($target_translated)) {
+				delete_staging($target);
+				Safe::rmdir($target_translated);
+
+			// delete all files
+			} else {
+				$context['text'] .= sprintf(i18n::s('Deleting %s'), '/scripts/staging'.$target).BR."\n";
 				Safe::unlink($target_translated);
 				global $deleted_nodes;
 				$deleted_nodes++;
@@ -157,7 +201,7 @@ if(!Surfer::is_associate()) {
 
 	// prevent access to this script
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
 	$menu = array('control/' => i18n::s('Control Panel'));
@@ -171,7 +215,7 @@ if(!Surfer::is_associate()) {
 	// suppress records
 	$query = "DELETE FROM ".SQL::table_name('counters');
 	if(SQL::query($query) === FALSE)
-		$context['text'] .= Skin::error_pop().BR."\n";
+		$context['text'] .= Logger::error_pop().BR."\n";
 
 	// display the execution time
 	$time_end = get_micro_time();
@@ -299,17 +343,38 @@ if(!Surfer::is_associate()) {
 	// suppressing documentation pages in the database
 	$query = "DELETE FROM ".SQL::table_name('phpdoc');
 	if(SQL::query($query) === FALSE)
-		$context['text'] .= Skin::error_pop().BR."\n";
+		$context['text'] .= Logger::error_pop().BR."\n";
 
 	// delete reference files
 	$context['text'] .= '<p>'.i18n::s('Deleting the reference repository...')."</p>\n";
-	if(file_exists($context['path_to_root'].'scripts/reference/footprints.php')) {
-		$context['text'] .= sprintf(i18n::s('Deleting %s'), $context['path_to_root'].'scripts/reference/footprints.php').BR."\n";
-		if(Safe::unlink($context['path_to_root'].'scripts/reference/footprints.php'))
+	if(file_exists($context['path_to_reference'].'footprints.php')) {
+		$context['text'] .= sprintf(i18n::s('Deleting %s'), $context['path_to_reference'].'footprints.php').BR."\n";
+		if(Safe::unlink($context['path_to_reference'].'footprints.php'))
 			$deleted_nodes = 1;
 	}
 	delete_reference('/');
-	Safe::rmdir($context['path_to_root'].'scripts/reference');
+
+	// ending message
+	global $deleted_nodes;
+	if($deleted_nodes > 1)
+		$context['text'] .= sprintf(i18n::s('%d items have been deleted'), $deleted_nodes).BR."\n";
+
+	// display the execution time
+	$time_end = get_micro_time();
+	$time = round($time_end - $context['start_time'], 2);
+	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';
+
+	// forward to the control panel
+	$menu = array('control/' => i18n::s('Control Panel'), 'control/purge.php' => i18n::s('Purge again'));
+	$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
+// delete staging scripts
+} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'staging')) {
+
+	// delete staging files
+	$context['text'] .= '<p>'.i18n::s('Deleting staging files...')."</p>\n";
+	delete_staging('/');
+	Safe::rmdir($context['path_to_root'].'scripts/staging');
 
 	// ending message
 	global $deleted_nodes;
@@ -333,7 +398,7 @@ if(!Surfer::is_associate()) {
 	// suppress records
 	$query = "DELETE FROM ".SQL::table_name('referrals');
 	if(SQL::query($query) === FALSE)
-		$context['text'] .= Skin::error_pop().BR."\n";
+		$context['text'] .= Logger::error_pop().BR."\n";
 
 	// display the execution time
 	$time_end = get_micro_time();
@@ -352,7 +417,7 @@ if(!Surfer::is_associate()) {
 	// suppress records
 	$query = "DELETE FROM ".SQL::table_name('profiles');
 	if(SQL::query($query) === FALSE)
-		$context['text'] .= Skin::error_pop().BR."\n";
+		$context['text'] .= Logger::error_pop().BR."\n";
 
 	// display the execution time
 	$time_end = get_micro_time();
@@ -373,20 +438,18 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form">';
 
 	// purge the cache
-	$context['text'] .= '<p><input type="radio" name="action" value="cache" checked="checked" /> '.i18n::s('Purge the cache. Delete all cached items from the database').'</p>';
+	$context['text'] .= '<p><input type="radio" name="action" value="cache" checked="checked" /> '.i18n::s('Purge the server cache.').'</p>';
 
 	// purge .bak scripts
-	$context['text'] .= '<p><input type="radio" name="action" value="bak" /> '.i18n::s('Purge previous versions of scripts. Delete all files with the suffix .php.bak').'</p>';
+	$context['text'] .= '<p><input type="radio" name="action" value="bak" /> '.i18n::s('Delete all files with the suffix .bak.').'</p>';
 
-	// recover overhead from the database
-	$context['text'] .= '<p><input type="radio" name="action" value="overhead" /> '.i18n::s('Recover overhead disk space from the database.').'</p>';
-
-	// purge reference scripts
-	if(file_exists($context['path_to_root'].'scripts/reference/footprints.php'))
-		$context['text'] .= '<p><input type="radio" name="action" value="reference" /> '.i18n::s('Delete the repository of reference scripts and related documentation. This can be rebuild from the scripts index page').'</p>';
+	// purge staging files
+	if(file_exists($context['path_to_root'].'scripts/staging/footprints.php'))
+		$context['text'] .= '<p><input type="radio" name="action" value="staging" /> '.i18n::s('Delete files staged during software update.').'</p>';
 
 	// purge debug data
-	$context['text'] .= '<p><input type="radio" name="action" value="debug" /> '.i18n::s('Delete file temporary/debug.txt to purge debug data.').'</p>';
+	if(file_exists($context['path_to_root'].'temporary/debug.txt'))
+		$context['text'] .= '<p><input type="radio" name="action" value="debug" /> '.i18n::s('Delete file temporary/debug.txt to purge debug data.').'</p>';
 
 	// purge links received via newsfeeds
 	$context['text'] .= '<p><input type="radio" name="action" value="feeds" /> '.i18n::s('Purge links received via newsfeeds. These will be recreated progressively during future feeding.').'</p>';
@@ -401,7 +464,15 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '<p><input type="radio" name="action" value="scripts" /> '.i18n::s('Purge script performance data from the database. These will be recreated progressively during future browsing.').'</p>';
 
 	// purge log data
-	$context['text'] .= '<p><input type="radio" name="action" value="log" /> '.i18n::s('Delete file temporary/log.txt to purge events data.').'</p>';
+	if(file_exists($context['path_to_root'].'temporary/log.txt'))
+		$context['text'] .= '<p><input type="radio" name="action" value="log" /> '.i18n::s('Delete file temporary/log.txt to purge events data.').'</p>';
+
+	// recover overhead from the database
+	$context['text'] .= '<p><input type="radio" name="action" value="overhead" /> '.i18n::s('Recover overhead disk space from the database.').'</p>';
+
+	// purge reference scripts
+	if(file_exists($context['path_to_reference'].'footprints.php'))
+		$context['text'] .= '<p><input type="radio" name="action" value="reference" /> '.i18n::s('Delete the repository of reference scripts and related documentation. This can be rebuild from the scripts index page.').'</p>';
 
 	// the submit button
 	$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Start'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";

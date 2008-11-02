@@ -3,9 +3,23 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['fr']['d2c50a2bcb2c12fa506be527379e7034']='%d décision'.chr(0).'%d décisions';
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-10-31 08:13+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
+$_SESSION['l10n']['fr']['%d decision'.chr(0).'%d decisions']='%d décision'.chr(0).'%d décisions';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['%d thread'.chr(0).'%d threads']='%d discussion'.chr(0).'%d discussions';
 $_SESSION['l10n']['fr']['d09e6d8231070418cfe46f6f8984efd1']='%s approbations (%d%%), %s rejets (%d%%)';
@@ -20,6 +34,7 @@ $_SESSION['l10n']['fr']['Ask for a decision']='Demander une décision';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['Browse in a separate window']='Lire dans une autre fenêtre';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
+$_SESSION['l10n']['fr']['Copy: %s']='Copie : %s';
 $_SESSION['l10n']['fr']['Decide: %s']='Décider : %s';
 $_SESSION['l10n']['fr']['Decision']='Décision';
 $_SESSION['l10n']['fr']['Decision: %s']='Décision : %s';
@@ -38,7 +53,7 @@ $_SESSION['l10n']['fr']['22574ae3fe08b2cb5e911bab84f9ed13']='Entrez les noms ou 
 $_SESSION['l10n']['fr']['fd674cf80651be8f2cc7d185d732b3ef']='Erreur pendant la transmission du message vers %s';
 $_SESSION['l10n']['fr']['9404597745d93a6898e464cbbc52c4dc']='Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur pourra alors positionner votre nom et votre adresse automatiquement dans les champs ci-dessous.';
 $_SESSION['l10n']['fr']['In %s']='Dans %s';
-$_SESSION['l10n']['fr']['Invite people']='Personnes invitées';
+$_SESSION['l10n']['fr']['Invite people']='Inviter d\'autres personnes';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Message content']='Contenu du message';
@@ -61,7 +76,6 @@ $_SESSION['l10n']['fr']['Preview of your post:']='Aperçu de votre envoi :';
 $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';
 $_SESSION['l10n']['fr']['Recent decisions at %s']='Décisions à %s';
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Reject']='Refus';
 $_SESSION['l10n']['fr']['Rejected']='Rejeté';
 $_SESSION['l10n']['fr']['Rejected %s']='Rejeté %s';

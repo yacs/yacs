@@ -175,7 +175,7 @@ if((!$zoom_type) && (Surfer::is_associate() || (is_object($anchor) && $anchor->i
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -186,7 +186,7 @@ if(!isset($item['id'])) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the category
 } else {
@@ -249,7 +249,7 @@ if(!isset($item['id'])) {
 
 	// set specific headers
 	if(isset($item['introduction']) && $item['introduction'])
-		$context['page_description'] = $item['introduction'];
+		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['create_name']) && $item['create_name'])
 		$context['page_author'] = $item['create_name'];
 
@@ -422,7 +422,7 @@ if(!isset($item['id'])) {
 
 				// useful warning for associates
 				if(Surfer::is_associate())
-					Skin::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['sections_layout']));
+					Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['sections_layout']));
 
 				include_once '../sections/layout_sections.php';
 				$layout_sections =& new Layout_sections();
@@ -509,7 +509,7 @@ if(!isset($item['id'])) {
 
 				// useful warning for associates
 				if(Surfer::is_associate())
-					Skin::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['articles_layout']));
+					Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['articles_layout']));
 
 				include_once '../articles/layout_articles.php';
 				$layout_articles =& new Layout_articles();
@@ -760,7 +760,7 @@ if(!isset($item['id'])) {
 
 				// useful warning for associates
 				if(Surfer::is_associate())
-					Skin::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['categories_layout']));
+					Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['categories_layout']));
 
 				include_once '../categories/layout_categories.php';
 				$layout =& new Layout_categories();
@@ -899,27 +899,8 @@ if(!isset($item['id'])) {
 		$context['text'] .= $anchor->get_suffix();
 
 	//
-	// extra panel -- most content is cached, except commands specific to current surfer
+	// extra panel
 	//
-
-	// cache content
-	$cache_id = 'categories/view.php?id='.$item['id'].'#extra#head';
-	if(!$text =& Cache::get($cache_id)) {
-
-		// add extra information from the overlay, if any
-		if(is_object($overlay))
-			$text .= $overlay->get_text('extra', $item);
-
-		// add extra information from this item, if any
-		if(isset($item['extra']) && $item['extra'])
-			$text .= Codes::beautify_extra($item['extra']);
-
-		// save in cache
-		Cache::put($cache_id, $text, 'category:'.$item['id']);
-	}
-
-	// update the extra panel
-	$context['extra'] .= $text;
 
 	// page tools
 	//
@@ -954,6 +935,15 @@ if(!isset($item['id'])) {
 
 	}
 
+	// add extra information from the overlay, if any
+	if(is_object($overlay))
+		$context['aside']['overlay'] = $overlay->get_text('extra', $item);
+
+	// add extra information from this item, if any
+	$context['aside']['boxes'] = '';
+	if(isset($item['extra']) && $item['extra'])
+		$context['aside']['boxes'] = Codes::beautify_extra($item['extra']);
+
 	// 'Share' box
 	//
 	$lines = array();
@@ -978,11 +968,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['extra'] .= Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
-
-	// cache content
-	$cache_id = 'categories/view.php?id='.$item['id'].'#extra#tail';
-	if(!$text =& Cache::get($cache_id)) {
+		$context['aside']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
 
 // 		// twin pages
 // 		if(isset($item['nick_name']) && $item['nick_name']) {
@@ -997,88 +983,66 @@ if(!isset($item['id'])) {
 // 			if(is_array($items))
 // 				$box['text'] .= Skin::build_list($items, 'compact');
 // 			if($box['text'])
-// 				$text .= Skin::build_box(i18n::s('Related'), $box['text'], 'extra', 'twins');
+// 				$context['aside']['twins'] = Skin::build_box(i18n::s('Related'), $box['text'], 'extra', 'twins');
 
 // 		}
 
-		// get news from rss
-		if(isset($item['id']) && (!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {
+	// get news from rss
+	if(isset($item['id']) && (!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {
 
-			$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'feed'), i18n::s('Recent pages'), 'xml');
+		$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'feed'), i18n::s('Recent pages'), 'xml');
 
-			// public aggregators
-			if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
-				$content .= BR.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'feed'), $item['title']));
+		// public aggregators
+		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+			$content .= BR.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'feed'), $item['title']));
 
-			$text .= Skin::build_box(i18n::s('Information channels'), $content, 'extra', 'feeds');
-		}
+		$context['aside']['channels'] = Skin::build_box(i18n::s('Information channels'), $content, 'extra', 'feeds');
+	}
 
-		// list related servers, if any
-		if($content = Servers::list_by_date_for_anchor('category:'.$item['id'])) {
-			if(is_array($content))
-				$content =& Skin::build_list($content, 'compact');
-			$text .= Skin::build_box(i18n::s('Related servers'), $content, 'navigation', 'servers');
-		}
+	// search on keyword, if any
+	if($item['keywords']) {
 
-		// search on keyword, if any
-		if($item['keywords']) {
+		// internal search
+		$label = sprintf(i18n::s('Maybe some new pages or additional material can be found by submitting the following keyword to our search engine. Give it a try. %s'), Codes::beautify('[search='.$item['keywords'].']'));
+		$content .= Skin::build_box(i18n::s('Internal search'), $label, 'navigation');
 
-			// internal search
-			$label = sprintf(i18n::s('Maybe some new pages or additional material can be found by submitting the following keyword to our search engine. Give it a try. %s'), Codes::beautify('[search='.$item['keywords'].']'));
-			$content .= Skin::build_box(i18n::s('Internal search'), $label, 'navigation');
+		// external search
+		$content = '<p>'.sprintf(i18n::s('Search for %s at:'), $item['keywords']).' ';
 
-			// external search
-			$content = '<p>'.sprintf(i18n::s('Search for %s at:'), $item['keywords']).' ';
+		// encode for urls, but preserve unicode chars
+		$search = urlencode(utf8::from_unicode($item['keywords']));
 
-			// encode for urls, but preserve unicode chars
-			$search = urlencode(utf8::from_unicode($item['keywords']));
+		// Google
+		$link = 'http://www.google.com/search?q='.$search.'&amp;ie=utf-8';
+		$content .= Skin::build_link($link, i18n::s('Google'), 'external').', ';
 
-			// Google
-			$link = 'http://www.google.com/search?q='.$search.'&amp;ie=utf-8';
-			$content .= Skin::build_link($link, i18n::s('Google'), 'external').', ';
+		// Yahoo!
+		$link = 'http://search.yahoo.com/search?p='.$search.'&amp;ei=utf-8';
+		$content .= Skin::build_link($link, i18n::s('Yahoo!'), 'external').', ';
 
-			// Yahoo!
-			$link = 'http://search.yahoo.com/search?p='.$search.'&amp;ei=utf-8';
-			$content .= Skin::build_link($link, i18n::s('Yahoo!'), 'external').', ';
+		// Ask Jeeves
+		$link = 'http://web.ask.com/web?q='.$search;
+		$content .= Skin::build_link($link, i18n::s('Ask Jeeves'), 'external').', ';
 
-			// Ask Jeeves
-			$link = 'http://web.ask.com/web?q='.$search;
-			$content .= Skin::build_link($link, i18n::s('Ask Jeeves'), 'external').', ';
+		// All the web
+		$link = 'http://alltheweb.com/search?q='.$search.'&amp;cs=utf8';
+		$content .= Skin::build_link($link, i18n::s('All the web'), 'external').', ';
 
-			// All the web
-			$link = 'http://alltheweb.com/search?q='.$search.'&amp;cs=utf8';
-			$content .= Skin::build_link($link, i18n::s('All the web'), 'external').', ';
+		// Feedster
+		$link = 'http://www.feedster.com/search.php?q='.$search;
+		$content .= Skin::build_link($link, i18n::s('Feedster'), 'external').', ';
 
-			// Feedster
-			$link = 'http://www.feedster.com/search.php?q='.$search;
-			$content .= Skin::build_link($link, i18n::s('Feedster'), 'external').', ';
+		// Technorati
+		$link = 'http://www.technorati.com/cosmos/search.html?rank=&url='.$search;
+		$content .= Skin::build_link($link, i18n::s('Technorati'), 'external').'.';
 
-			// Technorati
-			$link = 'http://www.technorati.com/cosmos/search.html?rank=&url='.$search;
-			$content .= Skin::build_link($link, i18n::s('Technorati'), 'external').'.';
-
-			$content .= "</p>\n";
-			$text .= Skin::build_box(i18n::s('External search'), $content, 'navigation');
-
-		}
-
-		// referrals, if any
-		if(!$zoom_type && (Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y')))) {
-
-			// in a sidebar box
-			include_once '../agents/referrals.php';
-			if($content = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Categories::get_permalink($item)))
-				$text .= Skin::build_box(i18n::s('Referrals'), $content, 'navigation', 'referrals');
-
-		}
-
-		// save in cache
-		Cache::put($cache_id, $text, 'category:'.$item['id']);
+		$content .= "</p>\n";
+		$context['aside']['boxes'] .= Skin::build_box(i18n::s('External search'), $content, 'navigation');
 
 	}
 
-	// update the extra panel
-	$context['extra'] .= $text;
+	// referrals, if any
+	$context['aside']['referrals'] =& Skin::build_referrals(Categories::get_permalink($item));
 
 }
 

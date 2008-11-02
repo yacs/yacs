@@ -70,17 +70,17 @@ if(is_object($anchor))
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
 } elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // an anchor is mandatory
 } elseif(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No anchor has been found.'));
+	Logger::error(i18n::s('No anchor has been found.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -91,7 +91,7 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // restoration is confirmed
 } elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {
@@ -116,7 +116,7 @@ if(Surfer::is_crawler()) {
 
 // restoration has to be confirmed
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
-	Skin::error(i18n::s('The restoration has not been confirmed.'));
+	Logger::error(i18n::s('The restoration has not been confirmed.'));
 
 // ask for confirmation
 else {

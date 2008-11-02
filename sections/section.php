@@ -802,7 +802,7 @@ Class Section extends Anchor {
 	 * This function recursively invokes upstream anchors, if any.
 	 * For example, if the option 'skin_boxes' is set at the section level,
 	 * all articles, but also all attached files and images of these articles,
-	 * will feature the skin 'boxes'.
+	 * will feature the theme 'boxes'.
 	 *
 	 * @param string the option we are looking for
 	 * @param boolean TRUE if coming from content leaf, FALSE if coming from content branch
@@ -874,7 +874,7 @@ Class Section extends Anchor {
 	}
 
 	/**
-	 * check that the surfer is an editor of an anchor
+	 * check that the surfer can edit this section
 	 *
 	 * This function is used to control the authority delegation from the anchor.
 	 * For example, if some editor is assigned to a complete section of the
@@ -886,8 +886,6 @@ Class Section extends Anchor {
 	 *	 ...
 	 * }
 	 * [/php]
-	 *
-	 * A logged member is always considered as an editor if he has created the target item.
 	 *
 	 * Compared to the original member function in shared/anchor.php, this one also
 	 * checks rights of managing editors, and allows for anonymous changes.
@@ -906,27 +904,19 @@ Class Section extends Anchor {
 
 			// associates can always do what they want
 			if(Surfer::is_associate())
-				return $this->is_editable_cache = FALSE;
-
-			// section has been locked
-			if(isset($this->item['locked']) && ($this->item['locked'] == 'Y'))
-				return $this->is_editable_cache = FALSE;
+				return $this->is_editable_cache = TRUE;
 
 			// anonymous edition is allowed
-			if($this->has_option('anonymous_edit'))
+			if(($this->item['active'] == 'Y') && $this->has_option('anonymous_edit'))
 				return $this->is_editable_cache = TRUE;
 
 			// members edition is allowed
-			if(Surfer::is_member() && $this->has_option('members_edit'))
+			if(($this->item['active'] == 'Y') && Surfer::is_member() && $this->has_option('members_edit'))
 				return $this->is_editable_cache = TRUE;
 
 			// id of requesting user
 			if(!$user_id && Surfer::get_id())
 				$user_id = Surfer::get_id();
-
-			// maybe the logged surfer is the creator
-//			if($this->item['create_id'] && $user_id && ($this->item['create_id'] == $user_id))
-//				return $this->is_editable_cache = TRUE;
 
 			// authenticated subscriptors cannot contribute
 			if(!Surfer::is_logged() || Surfer::is_member()) {
@@ -950,6 +940,7 @@ Class Section extends Anchor {
 			}
 
 		}
+		
 		// sorry
 		return $this->is_editable_cache = FALSE;
 	 }

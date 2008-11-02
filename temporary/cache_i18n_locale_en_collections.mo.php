@@ -3,10 +3,25 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:04 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:13+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['en']['%d files have been extracted.']='%d files have been extracted.';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
+$_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['4818dbf386b7133e0bca919a733f1329']='A pleasant way to watch photos and artwork';
 $_SESSION['l10n']['en']['21c58f77450af6e7fc86a17ada969ac2']='Access is restricted to associates';
 $_SESSION['l10n']['en']['71591a943ab0ff1e925f29270c9a6568']='Access is restricted to authenticated members';
@@ -23,7 +38,6 @@ $_SESSION['l10n']['en']['Collections']='Collections';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
-$_SESSION['l10n']['en']['Configure: %s']='Configure: %s';
 $_SESSION['l10n']['en']['8c68013ff17b0314c06d5fcacd1a5eda']='Congratulations, you have shared new content.';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Delete to suppress']='Delete to suppress';

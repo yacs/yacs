@@ -3,9 +3,23 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['fr']['e29e3b62fd00388c3ca08004cce5a8c1']='%d emplacement'.chr(0).'%d emplacements';
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-08-01 11:56+0100
+Last-Translator: Paques, Bernard
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
+$_SESSION['l10n']['fr']['%d location'.chr(0).'%d locations']='%d emplacement'.chr(0).'%d emplacements';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['Add a location']='Ajouter un emplacement';
@@ -37,7 +51,6 @@ $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrement
 $_SESSION['l10n']['fr']['Look for unused locations']='Détecter les emplacements inutilisés';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Navigation']='Navigation';
-$_SESSION['l10n']['fr']['Neighbours']='A proximité';
 $_SESSION['l10n']['fr']['New location in %s']='Nouvel emplacement dans %s';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No image to use as a map.']='Pas d\'image de fond de carte.';
@@ -55,7 +68,6 @@ $_SESSION['l10n']['fr']['Posted by']='Envoyé par';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
 $_SESSION['l10n']['fr']['cd99033b943f469c35ebe8ba9de394f2']='Indiquer une ancre ou un mot-clé valide.';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Regional position: %s']='Positionnement global : %s';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Start']='Commencer';

@@ -52,12 +52,13 @@ include_once '../categories/categories.php'; // categories displayed here
 include_once '../feeds/feeds.php'; // some links to newsfeeds
 
 // which page should be displayed
-$page = 1;
 if(isset($_REQUEST['page']))
 	$page = $_REQUEST['page'];
 elseif(isset($context['arguments'][0]))
 	$page = $context['arguments'][0];
-$page = strip_tags($page);
+else
+	$page = 1;
+$page = max(1,intval($page));
 
 // load the skin
 load_skin('articles');
@@ -159,10 +160,10 @@ if(!$text =& Cache::get($cache_id)) {
 	// cache it, whatever change, for 1 minute
 	Cache::put($cache_id, $text, 'stable', 60);
 }
-$context['extra'] .= $text;
+$context['aside']['boxes'] = $text;
 
 // referrals, if any
-$context['extra'] .= Skin::build_referrals('articles/index.php');
+$context['aside']['referrals'] = Skin::build_referrals('articles/index.php');
 
 // a meta link to a feeding page
 $context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Feeds::get_url('rss').'" title="RSS" type="application/rss+xml" />';

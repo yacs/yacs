@@ -3,13 +3,28 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:04 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:22+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['fr']['28c17c53fb37663d2b2193884152e9d5']='%d adresse invalides ont été rencontrées.';
 $_SESSION['l10n']['fr']['9e7b9305b0ae8cf576d14aa2fd99a9a5']='%d lettres ont été transmises.';
 $_SESSION['l10n']['fr']['e6e6bb4b8f56f6eefd1515aadb1db465']='%d destinataires ont été traités.';
 $_SESSION['l10n']['fr']['62736f9620d6a2552d17673322dd8154']='%d erreurs de transmission ont eu lieu';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
+$_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['A message has been sent to:']='Un message a été envoyé à :';
 $_SESSION['l10n']['fr']['c2b9add33af4dfe1ccec4832c979cd19']='Tous les souscripteurs de la communauté';
 $_SESSION['l10n']['fr']['Archived letters']='Toutes les lettres';
@@ -19,7 +34,6 @@ $_SESSION['l10n']['fr']['By %s']='Par %s';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
-$_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
 $_SESSION['l10n']['fr']['Content']='Contenu de la lettre';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['b8aba8120e48ef0b32aedde9fdc6f20c']='Création d\'une section pour les lettres archivées';

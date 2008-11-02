@@ -65,13 +65,13 @@ if(!Surfer::is_logged())
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // the collection has to exist
 } elseif(!isset($item['collection']) || !$item['collection']) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	$context['page_title'] = i18n::s('Unknown collection');
-	Skin::error(i18n::s('The collection asked for is unknown.'));
+	Logger::error(i18n::s('The collection asked for is unknown.'));
 
 // manage the upload
 } else {
@@ -108,7 +108,7 @@ elseif(!Surfer::is_associate()) {
 
 		// nothing has been uploaded
 		if(!$_FILES['upload']['name'] || ($_FILES['upload']['name'] == 'none'))
-			Skin::error(i18n::s('Nothing has been received.'));
+			Logger::error(i18n::s('Nothing has been received.'));
 
 		// a file has been uploaded
 		else {
@@ -120,18 +120,18 @@ elseif(!Surfer::is_associate()) {
 			// zero bytes transmitted
 			$_REQUEST['file_size'] = $_FILES['upload']['size'];
 			if(!$_FILES['upload']['size'])
-				Skin::error(i18n::s('Nothing has been received.'));
+				Logger::error(i18n::s('Nothing has been received.'));
 
 			// check provided upload name
 			elseif(!Safe::is_uploaded_file($temporary))
-				Skin::error(i18n::s('Possible file attack.'));
+				Logger::error(i18n::s('Possible file attack.'));
 
 			// not yet a success
 			$success = FALSE;
 
 			// ensure file exists
 			if(!is_readable($temporary))
-				Skin::error(sprintf(i18n::s('Impossible to read %s.'), basename($temporary)));
+				Logger::error(sprintf(i18n::s('Impossible to read %s.'), basename($temporary)));
 
 			// move regular files
 			elseif(!preg_match('/\.(bz2*|tar\.gz|tgz|zip)$/i', $name))
@@ -147,11 +147,11 @@ elseif(!Surfer::is_associate()) {
 					$context['text'] .= '<p>'.sprintf(i18n::s('%d files have been extracted.'), $count)."</p>\n";
 					$success = TRUE;
 				} else
-					Skin::error(sprintf(i18n::s('Nothing has been extracted from %s.'), $name));
+					Logger::error(sprintf(i18n::s('Nothing has been extracted from %s.'), $name));
 
 			// ensure we have the external library to explode other kinds of archives
 			} elseif(!is_readable('../included/tar.php'))
-					Skin::error(i18n::s('Impossible to extract files.'));
+					Logger::error(i18n::s('Impossible to extract files.'));
 
 			// explode the archive
 			else {
@@ -161,7 +161,7 @@ elseif(!Surfer::is_associate()) {
 				if($handle->extract($item['actual_path']))
 					$success = TRUE;
 				else
-					Skin::error(sprintf(i18n::s('Error while processing %s.'), isset($name)?$name:basename($temporary)));
+					Logger::error(sprintf(i18n::s('Error while processing %s.'), isset($name)?$name:basename($temporary)));
 
 			}
 

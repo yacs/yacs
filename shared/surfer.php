@@ -1318,7 +1318,12 @@ Class Surfer {
 
 		$_SESSION['surfer_language'] = isset($fields['language'])?$fields['language']:'';
 
-		$_SESSION['surfer_name'] = isset($fields['nick_name'])?$fields['nick_name']:'';
+		if(isset($fields['full_name']) && $fields['full_name'])
+			$_SESSION['surfer_name'] = $fields['full_name'];
+		elseif(isset($fields['nick_name']) && $fields['nick_name'])
+			$_SESSION['surfer_name'] = $fields['nick_name'];
+		else
+			$_SESSION['surfer_name'] = '';
 
 		$_SESSION['surfer_email_address'] = isset($fields['email'])?$fields['email']:'';
 

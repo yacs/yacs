@@ -165,7 +165,7 @@ if($item['id'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_
 // not found
 if(!$item['id']) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -178,7 +178,7 @@ if(!$item['id']) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // do provide the file
 } else {
@@ -377,7 +377,7 @@ if(!$item['id']) {
 
 	// default
 	default:
-		Skin::error(i18n::s('Do not know how to stream this file type'));
+		Logger::error(i18n::s('Do not know how to stream this file type'));
 		break;
 
 	}

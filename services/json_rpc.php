@@ -69,7 +69,7 @@ if(!isset($HTTP_RAW_POST_DATA))
    $HTTP_RAW_POST_DATA = file_get_contents("php://input");
 
 // save the raw request if debug mode
-if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
+//if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
 	Logger::remember('services/json_rpc.php', 'json_rpc request', rawurldecode($HTTP_RAW_POST_DATA), 'debug');
 
 // transcode to our internal charset

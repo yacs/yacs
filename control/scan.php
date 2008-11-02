@@ -219,7 +219,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 
 	// prevent access to this script
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
 	$menu = array('control/' => i18n::s('Control Panel'));
@@ -284,16 +284,20 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 				// form item
 				$input = '<input type="checkbox" name="'.$id.'" value="Y" checked="checked" />';
 
+				// description
+				if($description = i18n::l($hook, 'description'))
+					$description .= BR;
+					
 				// user information
-				$text = '<dt>'.$input.' <b>'.i18n::l($hook, 'label').'</b></dt><dd>'.i18n::l($hook, 'description').BR."\n";
+				$text = '<dt>'.$input.' <b>'.i18n::l($hook, 'label').'</b></dt><dd>'.$description."\n";
 
-				if(isset($hook['id']))
+				if(isset($hook['id']) && $hook['id'])
 					$text .= '- '.sprintf(i18n::s('identifier: %s'), $hook['id']).BR."\n";
 
-				if(isset($hook['script']))
+				if(isset($hook['script']) && $hook['script'])
 					$text .= '- '.sprintf(i18n::s('script: %s'), $hook['script']).BR."\n";
 
-				if(isset($hook['source']))
+				if(isset($hook['source']) && $hook['source'])
 					$text .= '- '.sprintf(i18n::s('source: %s'), $hook['source']).BR."\n";
 
 				$text .= "</dd>\n\n";
@@ -308,19 +312,23 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 				// form item
 				$input = '<input type="checkbox" name="'.$id.'" value="Y" checked="checked" />';
 
+				// description
+				if($description = i18n::l($hook, 'description'))
+					$description .= BR;
+					
 				// user information
-				$text = '<dt>'.$input.' <b>'.i18n::l($hook, 'label').'</b></dt><dd>'.i18n::l($hook, 'description').BR."\n";
+				$text = '<dt>'.$input.' <b>'.i18n::l($hook, 'label').'</b></dt><dd>'.$description."\n";
 
-				if(isset($hook['id']))
+				if(isset($hook['id']) && $hook['id'])
 					$text .= '- '.sprintf(i18n::s('identifier: %s'), $hook['id']).BR."\n";
 
-				if(isset($hook['script']))
+				if(isset($hook['script']) && $hook['script'])
 					$text .= '- '.sprintf(i18n::s('script: %s'), $hook['script']).BR."\n";
 
-				if(isset($hook['function']))
+				if(isset($hook['function']) && $hook['function'])
 					$text .= '- '.sprintf(i18n::s('function: %s'), $hook['function']).BR."\n";
 
-				if(isset($hook['source']))
+				if(isset($hook['source']) && $hook['source'])
 					$text .= '- '.sprintf(i18n::s('source: %s'), $hook['source']).BR."\n";
 
 				$text .= "</dd>\n\n";
@@ -335,16 +343,20 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 				// form item
 				$input = '<input type="checkbox" name="'.$id.'" value="Y" checked="checked" />';
 
+				// description
+				if($description = i18n::l($hook, 'description'))
+					$description .= BR;
+					
 				// user information
-				$text = '<dt>'.$input.' <b>'.i18n::l($hook, 'label').'</b></dt><dd>'.i18n::l($hook, 'description').BR."\n";
+				$text = '<dt>'.$input.' <b>'.i18n::l($hook, 'label').'</b></dt><dd>'.$description."\n";
 
-				if(isset($hook['service']))
+				if(isset($hook['service']) && $hook['service'])
 					$text .= '- '.sprintf(i18n::s('service: %s'), $hook['service']).BR."\n";
 
-				if(isset($hook['link']))
+				if(isset($hook['link']) && $hook['link'])
 					$text .= '- '.sprintf(i18n::s('link: %s'), $hook['link']).BR."\n";
 
-				if(isset($hook['source']))
+				if(isset($hook['source']) && $hook['source'])
 					$text .= '- '.sprintf(i18n::s('source: %s'), $hook['source']).BR."\n";
 
 				$text .= "</dd>\n\n";
@@ -359,19 +371,23 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 				// form item
 				$input = '<input type="checkbox" name="'.$id.'" value="Y" checked="checked" />';
 
+				// description
+				if($description = i18n::l($hook, 'description'))
+					$description .= BR;
+					
 				// user information
-				$text = '<dt>'.$input.' <b>'.i18n::l($hook, 'label').'</b></dt><dd>'.i18n::l($hook, 'description').BR."\n";
+				$text = '<dt>'.$input.' <b>'.i18n::l($hook, 'label').'</b></dt><dd>'.$description."\n";
 
-				if(isset($hook['id']))
+				if(isset($hook['id']) && $hook['id'])
 					$text .= '- '.sprintf(i18n::s('service: %s'), $hook['id']).BR."\n";
 
-				if(isset($hook['script']))
+				if(isset($hook['script']) && $hook['script'])
 					$text .= '- '.sprintf(i18n::s('script: %s'), $hook['script']).BR."\n";
 
-				if($hook['function'])
+				if($hook['function'] && $hook['function'])
 					$text .= '- '.sprintf(i18n::s('function: %s'), $hook['function']).BR."\n";
 
-				if(isset($hook['source']))
+				if(isset($hook['source']) && $hook['source'])
 					$text .= '- '.sprintf(i18n::s('source: %s'), $hook['source']).BR."\n";
 
 				$text .= "</dd>\n\n";

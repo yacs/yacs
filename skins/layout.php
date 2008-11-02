@@ -46,7 +46,7 @@ Class Layout_interface {
 	 * layout one set of results
 	 *
 	 * @param resource the SQL result of some query
-	 * @return string the rendered text
+	 * @return mixed the rendered text, or an array to be further formatted
 	 */
 	function layout($result) {
 		return 'Obviously, this has not been overlaid';

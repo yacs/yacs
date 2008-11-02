@@ -187,13 +187,13 @@ class zipfile {
 
 		// ensure we can invoke functions we need
 		if(!is_callable('zip_open') || !is_callable('zip_read') || !is_callable('zip_entry_name') || !is_callable('zip_entry_open') || !is_callable('zip_entry_read') || !is_callable('zip_entry_filesize')) {
-			Skin::error(i18n::c('Impossible to extract files.'));
+			Logger::error(i18n::c('Impossible to extract files.'));
 			return 0;
 		}
 
 		// incorrect file
 		if(!$handle = zip_open($archive)) {
-			Skin::error(sprintf(i18n::c('Impossible to read %s.'), $archive));
+			Logger::error(sprintf(i18n::c('Impossible to read %s.'), $archive));
 			return 0;
 		}
 
@@ -220,13 +220,18 @@ class zipfile {
 			// read entry content
 			if(!zip_entry_open($handle, $item, 'rb'))
 				continue;
-			$content = zip_entry_read($item, zip_entry_filesize($item));
-			if(is_callable('zip_entry_close'))
-				zip_entry_close($item);
-
+			if($size = zip_entry_filesize($item))
+				$content = zip_entry_read($item, $size);
+			else
+				$content = '';
+				
 			// write the extracted file
 			if(Safe::file_put_contents($path.$name, $content))
 				$count++;
+
+			// make room for next item
+			if(is_callable('zip_entry_close'))
+				zip_entry_close($item);
 
 		}
 

@@ -53,7 +53,7 @@ $text = '';
 // 	if(Tables::post($fields))
 // 		$text .= sprintf(i18n::s('A table "%s" has been created.'), $fields['title']).BR."\n";
 // 	else
-// 		$text .= Skin::error_pop().BR."\n";
+// 		$text .= Logger::error_pop().BR."\n";
 // }
 
 // print error message, if any

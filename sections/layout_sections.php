@@ -89,7 +89,7 @@ Class Layout_sections extends Layout_interface {
 
 			// the introductory text
 			if($item['introduction'])
-				$suffix .= ' -&nbsp;'.Codes::beautify($item['introduction'], $item['options']);
+				$suffix .= ' -&nbsp;'.Codes::beautify_introduction($item['introduction']);
 
 			// details and content
 			$details = array();

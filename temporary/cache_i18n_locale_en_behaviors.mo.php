@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-07-07 19:00+0100
+Last-Translator: Paques, Bernard
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['en']['Access has been denied']='Access has been denied';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['da67a82467c2f4fcf09c2d72e8371b04']='Bad parameter to behavior <code>%s %s</code>';
@@ -20,7 +34,6 @@ $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.'
 $_SESSION['l10n']['en']['No behavior %s has been found.']='No behavior %s has been found.';
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
 $_SESSION['l10n']['en']['614c6463818719e073fb0932f2215525']='No parameter has been provided to %s';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Yes']='Yes';
 $_SESSION['l10n']['en']['3487ae0aa6ed0bdd7ecc67de9093cd40']='Your agreement has been recorded.';
 $_SESSION['l10n']['en']['c01e1a3fe47daac09949712b6af2ec93']='Your agreement is required to access the target page. Sorry for any inconvenience.';

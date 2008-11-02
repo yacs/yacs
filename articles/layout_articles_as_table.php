@@ -99,7 +99,7 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// the introductory text
 			if($item['introduction'])
-				$abstract .= Codes::beautify($item['introduction'], $item['options']);
+				$abstract .= Codes::beautify_introduction($item['introduction']);
 
 			// insert overlay data, if any
 			if(is_object($overlay))

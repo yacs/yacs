@@ -60,7 +60,7 @@ if(is_array($id)) {
 			$items[] = array( 'email' => $target );
 
 		else
-			Skin::error(sprintf(i18n::s('%s is unknown.'), $target));
+			Logger::error(sprintf(i18n::s('%s is unknown.'), $target));
 
 	}
 
@@ -90,22 +90,22 @@ if(count($context['error']))
 // not found
 elseif(!count($items)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // private pages are disallowed
 } elseif(isset($context['users_without_private_pages']) && ($context['users_without_private_pages'] == 'Y')) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
 } elseif(!Surfer::is_member()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // the place for private pages
 } elseif(!$anchor = Sections::lookup('private')) {
 	header('Status: 500 Internal Error', TRUE, 500);
-	Skin::error(i18n::s('Impossible to add a page.'));
+	Logger::error(i18n::s('Impossible to add a page.'));
 
 // process submitted data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
@@ -119,7 +119,7 @@ elseif(!count($items)) {
 
 	// post the new thread
 	if(!$article['id'] = Articles::post($article))
-		Skin::error(i18n::s('Impossible to add a page.'));
+		Logger::error(i18n::s('Impossible to add a page.'));
 
 	// ensure all surfers will be allowed to access this page
 	else {
@@ -209,16 +209,16 @@ elseif(!count($items)) {
 
 					// alert the target user
 					if(!Users::alert($item, $mail, $notification))
-						Skin::error(sprintf(i18n::s('Impossible to send a message to %s.'), $item['nick_name']));
+						Logger::error(sprintf(i18n::s('Impossible to send a message to %s.'), $item['nick_name']));
 
 				// we only have a recipient address
 				} elseif($item['email'] && !Mailer::notify($item['email'], $mail['subject'], $mail['message']))
-					Skin::error(sprintf(i18n::s('Impossible to send a message to %s.'), $item['email']));
+					Logger::error(sprintf(i18n::s('Impossible to send a message to %s.'), $item['email']));
 
 			}
 
 		} else
-			Skin::error(i18n::s('No notification has been sent. Please share the address of the new page by yourself.'));
+			Logger::error(i18n::s('No notification has been sent. Please share the address of the new page by yourself.'));
 
 	}
 

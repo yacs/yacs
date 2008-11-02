@@ -67,10 +67,11 @@ if(isset($_REQUEST['anchor']) && (strpos($_REQUEST['anchor'], 'section:') === 0)
 $section_id = strip_tags($section_id);
 
 // which page should be displayed
-$page = 1;
 if(isset($_REQUEST['page']))
 	$page = $_REQUEST['page'];
-$page = strip_tags($page);
+else
+	$page = 1;
+$page = max(1,intval($page));
 
 // minimum size for any search token - depends of mySQL setup
 $query = "SHOW VARIABLES LIKE 'ft_min_word_len'";
@@ -349,13 +350,13 @@ if($search && ($page == 1)) {
 }
 
 // general help on this page
-$context['extra'] .= Skin::build_box(i18n::s('Help'), i18n::s('This search engine only display pages that have all words in it. <p>Also, only exact matches will be listed. Therefore "category" and "categories" won\'t give the same results. Note that "red" and "reds" may also give different results.</p>'), 'navigation', 'help');
+$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), i18n::s('This search engine only display pages that have all words in it. <p>Also, only exact matches will be listed. Therefore "category" and "categories" won\'t give the same results. Note that "red" and "reds" may also give different results.</p>'), 'navigation', 'help');
 
 // how to stay tuned
 $lines = array();
 if($search)
 	$lines[] = Skin::build_link('services/search.php?search='.urlencode($search), i18n::s('Matching pages'), 'xml');
-$context['extra'] .= Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
+$context['aside']['boxes'] .= Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
 
 // side bar with the list of most recent keywords
 $cache_id = 'search.php#keywords_by_date';
@@ -365,7 +366,7 @@ if(!$text =& Cache::get($cache_id)) {
 		$text =& Skin::build_box(i18n::s('Recent searches'), Skin::build_list($items, 'compact'), 'extra');
 	Cache::put($cache_id, $text, 'categories');
 }
-$context['extra'] .= $text;
+$context['aside']['boxes'] .= $text;
 
 // render the skin
 render_skin();

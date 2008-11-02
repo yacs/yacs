@@ -161,7 +161,7 @@ Class Layout_sections_as_jive extends Layout_interface {
 
 			// board introduction
 			if($item['introduction'])
-				$details = Codes::beautify($item['introduction']);
+				$details .= Codes::beautify_introduction($item['introduction']);
 
 			// indicate the total number of threads here
 			if(($count = Articles::count_for_anchor('section:'.$item['id'])) && ($count >= 5))

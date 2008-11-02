@@ -50,7 +50,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 
 		// table headers
 		$main = '<input type="checkbox" class="row_selector" onchange="cascade_selection_to_all_article_rows(this);" />';
-		$cells = array($main, i18n::s('Page'), i18n::s('Ranking'));
+		$cells = array($main, i18n::s('Page'), i18n::s('Rank'));
 		$text .= Skin::table_row($cells, 'header');
 
 		// process all items in the list
@@ -77,7 +77,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 			Codes::initialize($url);
 
 			// column to select the row
-			$cells[] = '<input type="checkbox" name="articles[]" class="row_selector" value="'.$item['id'].'" />';
+			$cells[] = '<input type="checkbox" name="selected_articles[]" class="row_selector" value="'.$item['id'].'" />';
 
 			// use the title to label the link
 			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
@@ -112,7 +112,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 
 			// the introductory text
 			if($item['introduction'])
-				$suffix .= BR.Codes::beautify($item['introduction'], $item['options']);
+				$suffix .= BR.Codes::beautify_introduction($item['introduction']);
 
 			// insert overlay data, if any
 			if(is_object($overlay))

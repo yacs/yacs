@@ -143,7 +143,7 @@ if(isset($_REQUEST['description']))
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -151,11 +151,11 @@ if(Surfer::is_crawler()) {
 
 	// registration is not allowed to anonymous surfers
 	if(!isset($item['id']) && !Surfer::is_logged())
-		Skin::error(sprintf(i18n::s('Self-registration is not allowed. Use the %s to submit your application.'), Skin::build_link('query.php', i18n::s('query form'), 'shortcut')));
+		Logger::error(sprintf(i18n::s('Self-registration is not allowed. Use the %s to submit your application.'), Skin::build_link('query.php', i18n::s('query form'), 'shortcut')));
 
 	// permission denied to authenticated user
 	else
-		Skin::error(i18n::s('You are not allowed to perform this operation.'));
+		Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -169,8 +169,8 @@ if(Surfer::is_crawler()) {
 	$_REQUEST['nick_name'] = preg_replace(FORBIDDEN_IN_NAMES, '_', strip_tags($_REQUEST['nick_name']));
 
 	// build the full name for new users
-	if(isset($_REQUEST['first_name']) || isset($_REQUEST['last_name']))
-		$_REQUEST['full_name'] = trim(ucfirst($_REQUEST['last_name']).' '.ucfirst($_REQUEST['first_name']));
+	if(isset($_REQUEST['first_name']) && isset($_REQUEST['last_name']))
+		$_REQUEST['full_name'] = trim(ucfirst($_REQUEST['first_name']).' '.ucfirst($_REQUEST['last_name']));
 
 	// when the page has been overlaid
 	if(is_object($overlay)) {
@@ -230,13 +230,13 @@ if(Surfer::is_crawler()) {
 
 		// passwords have to be confirmed
 		if($item['confirm'] && ($item['confirm'] != $item['password'])) {
-			Skin::error(i18n::s('Please confirm your password.'));
+			Logger::error(i18n::s('Please confirm your password.'));
 			$item = $_REQUEST;
 			$with_form = TRUE;
 
 		// stop robots
 		} elseif(Surfer::may_be_a_robot()) {
-			Skin::error(i18n::s('Please prove you are not a robot.'));
+			Logger::error(i18n::s('Please prove you are not a robot.'));
 			$item = $_REQUEST;
 			$with_form = TRUE;
 
@@ -246,6 +246,7 @@ if(Surfer::is_crawler()) {
 			// on error display the form again
 			$with_form = TRUE;
 			$item = $_REQUEST;
+			unset($item['id']);
 
 		// successful post
 		} else {
@@ -618,12 +619,8 @@ if($with_form) {
 	$panels['information'] = '';
 
 	// include overlay fields, if any
-	if(is_object($overlay)) {
-
-		// append editing fields for this overlay
+	if(is_object($overlay))
 		$fields = array_merge($fields, $overlay->get_fields($item));
-
-	}
 
 	// the description
 	$label = i18n::s('Description');
@@ -804,6 +801,11 @@ if($with_form) {
 		array('information_tab', i18n::s('Information'), 'information_panel', $panels['information']),
 		);
 
+	// append tabs from the overlay, if any
+	//
+	if(is_object($overlay) && ($more_tabs = $overlay->get_tabs('edit', $item)))
+ 		$all_tabs = array_merge($all_tabs, $more_tabs);
+
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($all_tabs);
 
@@ -935,7 +937,7 @@ if($with_form) {
 	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
 	$help .= '</select></p></form>';
 
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

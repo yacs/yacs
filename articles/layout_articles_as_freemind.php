@@ -96,7 +96,7 @@ Class Layout_articles_as_freemind extends Layout_interface {
 			if($item['introduction'] && ($context['skins_with_details'] == 'Y')) {
 
 				// wrap only outside X/HTML tags
-				$areas = preg_split('/(<[a-z\/].+?>)/i', trim(Codes::beautify($item['introduction'])), -1, PREG_SPLIT_DELIM_CAPTURE);
+				$areas = preg_split('/(<[a-z\/].+?>)/i', trim(Codes::beautify_introduction($item['introduction'])), -1, PREG_SPLIT_DELIM_CAPTURE);
 				$index = 0;
 				foreach($areas as $area) {
 					if((++$index)%2)

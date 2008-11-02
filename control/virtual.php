@@ -63,7 +63,7 @@ if(!Surfer::is_logged())
 
 // only associates can use this tool
 elseif(!Surfer::is_associate())
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // delete one configuration file
 elseif($id && ($action == 'delete')) {
@@ -71,11 +71,11 @@ elseif($id && ($action == 'delete')) {
 	// file has to exist
 	$file = 'parameters/virtual_'.$id.'.include.php';
 	if(!file_exists($context['path_to_root'].$file))
-		Skin::error(i18n::s('No configuration file has been found for this virtual host.'));
+		Logger::error(i18n::s('No configuration file has been found for this virtual host.'));
 
 	// can not delete it
 	elseif(!Safe::unlink($file))
-		Skin::error(i18n::s('The configuration file cannot be deleted.'));
+		Logger::error(i18n::s('The configuration file cannot be deleted.'));
 
 	// confirmation
 	else {
@@ -104,7 +104,7 @@ elseif($id && ($action == 'delete')) {
 
 	// actual save
 	if(Safe::file_put_contents('parameters/virtual_'.$id.'.included.php', $_REQUEST['content']) != strlen($_REQUEST['content']))
-		Skin::error(sprintf(i18n::s('The target file %s may have been corrupted. Please check file content manually, and revert to the backup file, with the extension .bak, if necessary.'), 'parameters/virtual_'.$id.'.included.php'));
+		Logger::error(sprintf(i18n::s('The target file %s may have been corrupted. Please check file content manually, and revert to the backup file, with the extension .bak, if necessary.'), 'parameters/virtual_'.$id.'.included.php'));
 
 	// congratulations
 	else {
@@ -127,7 +127,7 @@ elseif($id && ($action == 'delete')) {
 	// file has to exist
 	$file = 'parameters/virtual_'.$id.'.include.php';
 	if(!$content = Safe::file_get_contents($context['path_to_root'].$file))
-		Skin::error(i18n::s('No configuration file has been found for this virtual host.'));
+		Logger::error(i18n::s('No configuration file has been found for this virtual host.'));
 
 	// offer to change file content
 	else {
@@ -150,11 +150,11 @@ elseif($id && ($action == 'delete')) {
 	$source = 'parameters/control.include.php';
 	$target = 'parameters/virtual_'.$id.'.include.php';
 	if(!file_exists($context['path_to_root'].$source))
-		Skin::error(i18n::s('No configuration file has been found for this virtual host.'));
+		Logger::error(i18n::s('No configuration file has been found for this virtual host.'));
 
 	// can not create a new file
 	elseif(!Safe::copy($source, $target))
-		Skin::error(i18n::s('The configuration file cannot be created.'));
+		Logger::error(i18n::s('The configuration file cannot be created.'));
 
 	// confirmation
 	else {
@@ -181,7 +181,7 @@ elseif($id && ($action == 'delete')) {
 	// file has to exist
 	$file = 'parameters/virtual_'.$id.'.include.php';
 	if(!$content = Safe::file_get_contents($context['path_to_root'].$file))
-		Skin::error(i18n::s('No configuration file has been found for this virtual host.'));
+		Logger::error(i18n::s('No configuration file has been found for this virtual host.'));
 
 	// display its content
 	elseif(file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))

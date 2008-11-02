@@ -116,7 +116,7 @@ Class Layout_articles_as_boxesandarrows extends Layout_interface {
 
 			// the introductory text
 			if($item['introduction'])
-				$text .= Codes::beautify($item['introduction'], $item['options']);
+				$text .= Codes::beautify_introduction($item['introduction']);
 
 			// insert overlay data, if any
 			if(is_object($overlay))

@@ -250,7 +250,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 			// introduction
 			if($item['introduction'])
-				$suffix .= ' '.strip_tags(Codes::strip(trim($item['introduction'])), '<a><br><img><li><ol><ul>');
+				$suffix .= ' '.Codes::beautify_introduction($item['introduction']);
 
 			// append details to the suffix
 			if(count($details))

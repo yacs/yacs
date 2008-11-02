@@ -48,96 +48,6 @@ class Issue extends Overlay {
 		// form fields
 		$fields = array();
 
-		// only associates and editors can change the status
-		if(Surfer::is_empowered()) {
-
-			// the status
-			$label = i18n::s('Issue Status');
-			$input = '<dl style="margin: 0;">'."\n";
-
-			$now = strftime('%Y-%m-%d %H:%M:%S', time() + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
-
-			// step 1 - created
-			if(!isset($host['create_date']) || !$host['create_date'])
-				$host['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-			$host['create_date'] = Surfer::from_GMT($host['create_date']);
-			$input .= '<dt style="margin-bottom: 1em;">'.sprintf(i18n::s('Step 1 - Record has been created on %s'), Skin::build_input('create_date', $host['create_date'], 'date_time').' <a onclick="$(\'create_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'</dt>';
-
-			// step 2 - qualified
-			if(isset($this->attributes['qualification_date']))
-				$this->attributes['qualification_date'] = Surfer::from_GMT($this->attributes['qualification_date']);
-			$input .= '<dt>'.sprintf(i18n::s('Step 2 - Qualification has taken place on %s'), Skin::build_input('qualification_date', isset($this->attributes['qualification_date'])?$this->attributes['qualification_date']:'', 'date_time').' <a onclick="$(\'qualification_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'</dt>'
-				.'<dd style="margin-bottom: 1em;">';
-			$checked = '';
-			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:problem'))
-				$checked = 'checked="checked"';
-			$input .= '<input type="radio" name="status" value ="on-going:problem" '.$checked.' />&nbsp;'.i18n::s('this has been recognized as a valid problem');
-			$checked = '';
-			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:suspect'))
-				$checked = 'checked="checked"';
-			$input .= BR.'<input type="radio" name="status" value ="cancelled:suspect" '.$checked.' />&nbsp;'.i18n::s('an immediate solution has been found').'</dd>';
-
-			// step 3 - analyzed
-			if(isset($this->attributes['analysis_date']))
-				$this->attributes['analysis_date'] = Surfer::from_GMT($this->attributes['analysis_date']);
-			$input .= '<dt>'.sprintf(i18n::s('Step 3 - Analysis has ended on %s'), Skin::build_input('analysis_date', isset($this->attributes['analysis_date'])?$this->attributes['analysis_date']:'', 'date_time').' <a onclick="$(\'analysis_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'</dt>'
-				.'<dd style="margin-bottom: 1em;">';
-			$checked = '';
-			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:issue'))
-				$checked = 'checked="checked"';
-			$input .= '<input type="radio" name="status" value ="on-going:issue" '.$checked.' />&nbsp;'.i18n::s('the issue has been documented and root causes have been identified');
-			$checked = '';
-			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:problem'))
-				$checked = 'checked="checked"';
-			$input .= BR.'<input type="radio" name="status" value ="cancelled:problem" '.$checked.' />&nbsp;'.i18n::s('the problem has not been reproduced').'</dd>';
-
-			// step 4 - solved
-			if(isset($this->attributes['resolution_date']))
-				$this->attributes['resolution_date'] = Surfer::from_GMT($this->attributes['resolution_date']);
-			$input .= '<dt>'.sprintf(i18n::s('Step 4 - Resolution has been finalized on %s'), Skin::build_input('resolution_date', isset($this->attributes['resolution_date'])?$this->attributes['resolution_date']:'', 'date_time').' <a onclick="$(\'resolution_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'</dt>'
-				.'<dd style="margin-bottom: 1em;">';
-			$checked = '';
-			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:solution'))
-				$checked = 'checked="checked"';
-			$input .= '<input type="radio" name="status" value ="on-going:solution" '.$checked.' />&nbsp;'.i18n::s('a solution has been made available');
-			$checked = '';
-			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:issue'))
-				$checked = 'checked="checked"';
-			$input .= BR.'<input type="radio" name="status" value ="cancelled:issue" '.$checked.' />&nbsp;'.i18n::s('solution development has been cancelled').'</dd>';
-
-			// step 5 - closed
-			if(isset($this->attributes['close_date']))
-				$this->attributes['close_date'] = Surfer::from_GMT($this->attributes['close_date']);
-			$input .= '<dt>'.sprintf(i18n::s('Step 5 - Issue has been closed on %s'), Skin::build_input('close_date', isset($this->attributes['close_date'])?$this->attributes['close_date']:'', 'date_time').' <a onclick="$(\'close_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'</dt><dd>';
-			$checked = '';
-			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'completed:solution'))
-				$checked = 'checked="checked"';
-			$input .= '<input type="radio" name="status" value ="completed:solution" '.$checked.' />&nbsp;'.i18n::s('solution has been fully integrated');
-			$checked = '';
-			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:solution'))
-				$checked = 'checked="checked"';
-			$input .= BR.'<input type="radio" name="status" value ="cancelled:solution" '.$checked.' />&nbsp;'.i18n::s('solution integration has been cancelled').'</dd>';
-
-			$input .= '</dl>';
-
-			$hint = i18n::s('Dates as YYYY-MM-DD');
-			$fields[] = array($label, $input, $hint);
-
-		}
-
-		// no solution manager on initial form -- only associates and editors can change the solution manager
-		if(isset($host['id']) && Surfer::is_empowered()) {
-
-			// solution manager
-			if(!isset($this->attributes['manager']) || !$this->attributes['manager'])
-				$this->attributes['manager'] = Surfer::get_name();
-			$label = i18n::s('Solution Manager');
-			$input = '<input type="text" name="manager" value ="'.encode_field($this->attributes['manager']).'" size="25" maxlength="32" />';
-			$hint = i18n::s('Use the first name or nick name');
-			$fields[] = array($label, $input, $hint);
-
-		}
-
 		// job done
 		return $fields;
 	}
@@ -145,18 +55,18 @@ class Issue extends Overlay {
 	/**
 	 * build the history for this issue
 	 *
-	 * @param int the id of the issue
+	 * @param string anchor for the issue
 	 * @return string an unnumbered list of dates
 	 */
-	function get_history($id) {
+	function get_history($anchor) {
 		global $context;
 
 		// sanity check
-		if(!$id)
+		if(!$anchor)
 			return NULL;
 
 		$query = "SELECT * FROM ".SQL::table_name('issues')." AS issues "
-			." WHERE (issues.id = ".SQL::escape($id).")";
+			." WHERE (issues.anchor LIKE '".SQL::escape($anchor)."')";
 
 		// fetch the first row
 		if(!$row =& SQL::query_first($query))
@@ -368,29 +278,149 @@ class Issue extends Overlay {
 	}
 
 	/**
-	 * display the content of one issue
+	 * add some tabs
+	 *
+	 * Display additional information in panels.
+	 *
+	 * Accepted action codes:
+	 * - 'view' - embedded into the main viewing page
+	 * - 'edit' - embedded into the main form page
 	 *
 	 * @see overlays/overlay.php
 	 *
+	 * @param string the on-going action
 	 * @param array the hosting record
+	 * @return an array of array('tab_id', 'tab_label', 'panel_id', 'panel_content') or NULL
+	 */
+	function &get_tabs($variant='view', $host=NULL) {
+		global $context, $local;
+
+		// returned tabs
+		$tabs = array();
+
+		$now = strftime('%Y-%m-%d %H:%M:%S', time() + ((Surfer::get_gmt_offset() - intval($context['gmt_offset'])) * 3600));
+
+		// trackings
+		//
+		$tracking = '';
+
+		// display items
+		if($variant == 'view') {
+
+			// build a link to the solution manager page, if any
+			if(!isset($this->attributes['manager']) || !$this->attributes['manager'])
+				;
+			elseif($user =& Users::get($this->attributes['manager']))
+				$tracking .= '<p>'.i18n::s('Solution Manager:').' '.Users::get_link($this->attributes['manager'], NULL, $user['id']).'</p>';
+			else
+				$tracking .= '<p>'.i18n::s('Solution Manager:').' '.ucfirst($this->attributes['manager']).'</p>';
+	
+			// the status and history
+			$history = '';
+			if(isset($host['self_reference']))
+				$history = Issue::get_history($host['self_reference']);
+			$tracking .= Issue::get_status_label($this->attributes['status']).$history;
+	
+		// only associates and editors can change the status
+		} elseif(($variant == 'edit') && Surfer::is_empowered()) {
+
+			// no solution manager on initial form
+			if(isset($host['id'])) {
+	
+				// solution manager
+				if(!isset($this->attributes['manager']) || !$this->attributes['manager'])
+					$this->attributes['manager'] = '';
+				$tracking .= '<div style="margin-bottom: 1em;">'.i18n::s('Solution Manager')
+					.' <input type="text" name="manager" id="manager" value ="'.encode_field($this->attributes['manager']).'" size="25" maxlength="32" />'
+					.'<div id="manager_choice" class="autocomplete"></div>'
+					.BR.'<span class="small">'.i18n::user('Type some letters of the name and select in the list').'</span></div>';
+		
+				// append the script used for autocompletion
+				$tracking .= '<script type="text/javascript">// <![CDATA['."\n"
+					.'// enable autocompletion for user names'."\n"
+					.'Event.observe(window, "load", function() { new Ajax.Autocompleter("manager", "manager_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
+					.'// ]]></script>';
+	
+			}
+	
+			// step 1 - created
+			if(!isset($host['create_date']) || !$host['create_date'])
+				$host['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+			$host['create_date'] = Surfer::from_GMT($host['create_date']);
+			$tracking .= '<div class="bottom">'.sprintf(i18n::s('Step 1 - Record has been created on %s'), Skin::build_input('create_date', $host['create_date'], 'date_time').' <a onclick="$(\'create_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'</div>';
+
+			// step 2 - qualified
+			if(isset($this->attributes['qualification_date']))
+				$this->attributes['qualification_date'] = Surfer::from_GMT($this->attributes['qualification_date']);
+			$tracking .= '<div class="bottom">'.sprintf(i18n::s('Step 2 - Qualification has taken place on %s'), Skin::build_input('qualification_date', isset($this->attributes['qualification_date'])?$this->attributes['qualification_date']:'', 'date_time').' <a onclick="$(\'qualification_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+			$checked = '';
+			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:problem'))
+				$checked = 'checked="checked"';
+			$tracking .= '<input type="radio" name="status" value ="on-going:problem" '.$checked.' />&nbsp;'.i18n::s('this has been recognized as a valid problem');
+			$checked = '';
+			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:suspect'))
+				$checked = 'checked="checked"';
+			$tracking .= BR.'<input type="radio" name="status" value ="cancelled:suspect" '.$checked.' />&nbsp;'.i18n::s('an immediate solution has been found').'</p></div>';
+
+			// step 3 - analyzed
+			if(isset($this->attributes['analysis_date']))
+				$this->attributes['analysis_date'] = Surfer::from_GMT($this->attributes['analysis_date']);
+			$tracking .= '<div class="bottom">'.sprintf(i18n::s('Step 3 - Analysis has ended on %s'), Skin::build_input('analysis_date', isset($this->attributes['analysis_date'])?$this->attributes['analysis_date']:'', 'date_time').' <a onclick="$(\'analysis_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+			$checked = '';
+			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:issue'))
+				$checked = 'checked="checked"';
+			$tracking .= '<input type="radio" name="status" value ="on-going:issue" '.$checked.' />&nbsp;'.i18n::s('the issue has been documented and root causes have been identified');
+			$checked = '';
+			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:problem'))
+				$checked = 'checked="checked"';
+			$tracking .= BR.'<input type="radio" name="status" value ="cancelled:problem" '.$checked.' />&nbsp;'.i18n::s('the problem has not been reproduced').'</p></div>';
+
+			// step 4 - solved
+			if(isset($this->attributes['resolution_date']))
+				$this->attributes['resolution_date'] = Surfer::from_GMT($this->attributes['resolution_date']);
+			$tracking .= '<div class="bottom">'.sprintf(i18n::s('Step 4 - Resolution has been finalized on %s'), Skin::build_input('resolution_date', isset($this->attributes['resolution_date'])?$this->attributes['resolution_date']:'', 'date_time').' <a onclick="$(\'resolution_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+			$checked = '';
+			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'on-going:solution'))
+				$checked = 'checked="checked"';
+			$tracking .= '<input type="radio" name="status" value ="on-going:solution" '.$checked.' />&nbsp;'.i18n::s('a solution has been made available');
+			$checked = '';
+			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:issue'))
+				$checked = 'checked="checked"';
+			$tracking .= BR.'<input type="radio" name="status" value ="cancelled:issue" '.$checked.' />&nbsp;'.i18n::s('solution development has been cancelled').'</p></div>';
+
+			// step 5 - closed
+			if(isset($this->attributes['close_date']))
+				$this->attributes['close_date'] = Surfer::from_GMT($this->attributes['close_date']);
+			$tracking .= '<div class="bottom">'.sprintf(i18n::s('Step 5 - Issue has been closed on %s'), Skin::build_input('close_date', isset($this->attributes['close_date'])?$this->attributes['close_date']:'', 'date_time').' <a onclick="$(\'close_date\').value = \''.$now.'\'" style="cursor: pointer;" class="details">'.i18n::s('now').'</a>').'<p>';
+			$checked = '';
+			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'completed:solution'))
+				$checked = 'checked="checked"';
+			$tracking .= '<input type="radio" name="status" value ="completed:solution" '.$checked.' />&nbsp;'.i18n::s('solution has been fully integrated');
+			$checked = '';
+			if(isset($this->attributes['status']) && ($this->attributes['status'] == 'cancelled:solution'))
+				$checked = 'checked="checked"';
+			$tracking .= BR.'<input type="radio" name="status" value ="cancelled:solution" '.$checked.' />&nbsp;'.i18n::s('solution integration has been cancelled').'</p></div>';
+
+		}
+
+		// finalize this tab
+		if($tracking)
+			$tabs[] = array('tracking_tab', i18n::user('Tracking'), 'tracking_panel', $tracking);
+
+		// add these tabs
+		return $tabs;
+	}
+
+	/**
+	 * display content of main panel
+	 *
+	 * Everything is in a separate panel
+	 *
+	 * @param array the hosting record, if any
 	 * @return some HTML to be inserted into the resulting page
 	 */
 	function &get_view_text($host=NULL) {
-		global $context;
-
-		// the status and history
-		$history = Issue::get_history($this->attributes['id']);
-		$text = Issue::get_status_label($this->attributes['status']).$history;
-
-		// build a link to the solution manager page, if any
-		if(!isset($this->attributes['manager']) || !$this->attributes['manager'])
-			;
-		elseif($user =& Users::get($this->attributes['manager']))
-			$text .= '<p>'.i18n::s('Solution Manager:').' '.Users::get_link($this->attributes['manager'], NULL, $user['id']).'</p>';
-		else
-			$text .= '<p>'.i18n::s('Solution Manager:').' '.ucfirst($this->attributes['manager']).'</p>';
-
-		// return by reference
+		$text = '';
 		return $text;
 	}
 
@@ -478,7 +508,7 @@ class Issue extends Overlay {
 			if(Surfer::is_empowered()) {
 
 				$query = "INSERT INTO ".SQL::table_name('issues')." SET \n"
-//					."id='".SQL::escape($host['id'])."', \n"
+//					."id=".SQL::escape($host['id']).", \n"
 					."anchor='".SQL::escape(isset($host['self_reference']) ? $host['self_reference'] : '')."', \n"
 					."anchor_url='".SQL::escape(isset($host['self_url']) ? $host['self_url'] : '')."', \n"
 					."status='".SQL::escape($this->attributes['status'])."', \n"
@@ -502,7 +532,7 @@ class Issue extends Overlay {
 			} else {
 
 				$query = "INSERT INTO ".SQL::table_name('issues')." SET \n"
-//					."id='".SQL::escape($host['id'])."', \n"
+//					."id=".SQL::escape($host['id']).", \n"
 					."anchor='".SQL::escape(isset($host['self_reference']) ? $host['self_reference'] : '')."', \n"
 					."anchor_url='".SQL::escape(isset($host['self_url']) ? $host['self_url'] : '')."', \n"
 					."status='on-going:suspect', \n"
@@ -597,7 +627,8 @@ class Issue extends Overlay {
 		}
 
 		// execute the query --don't stop on error
-		SQL::query($query);
+		if(isset($query) && $query)
+			SQL::query($query);
 
 		return TRUE;
 	}

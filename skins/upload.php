@@ -34,7 +34,7 @@ $name = NULL;
 load_skin('skins');
 
 // the path to this page
-$context['path_bar'] = array( 'skins/' => i18n::s('Skins') );
+$context['path_bar'] = array( 'skins/' => i18n::s('Themes') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Upload a skin');
@@ -42,7 +42,7 @@ $context['page_title'] = i18n::s('Upload a skin');
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
 } elseif(!Surfer::is_logged())
@@ -51,14 +51,14 @@ if(Surfer::is_crawler()) {
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// nothing has been uploaded
 	if(!$_FILES['upload']['name'] || ($_FILES['upload']['name'] == 'none'))
-		Skin::error(i18n::s('Nothing has been received.'));
+		Logger::error(i18n::s('Nothing has been received.'));
 
 	// a file has been uploaded
 	else {
@@ -70,11 +70,11 @@ elseif(!Surfer::is_associate()) {
 		// zero bytes transmitted
 		$_REQUEST['file_size'] = $_FILES['upload']['size'];
 		if(!$_FILES['upload']['size'])
-			Skin::error(i18n::s('Nothing has been received.'));
+			Logger::error(i18n::s('Nothing has been received.'));
 
 		// check provided upload name
 		elseif(!Safe::is_uploaded_file($id))
-			Skin::error(i18n::s('Possible file attack.'));
+			Logger::error(i18n::s('Possible file attack.'));
 
 	}
 
@@ -102,7 +102,7 @@ if($id) {
 
 	// ensure file exists
 	if(!is_readable($id))
-		Skin::error(sprintf(i18n::s('Impossible to read %s.'), basename($id)));
+		Logger::error(sprintf(i18n::s('Impossible to read %s.'), basename($id)));
 
 	// explode a .zip file
 	elseif(isset($name) && preg_match('/\.zip$/i', $name)) {
@@ -114,11 +114,11 @@ if($id) {
 			$context['text'] .= '<p>'.sprintf(i18n::s('%d files have been extracted.'), $count)."</p>\n";
 			$success = TRUE;
 		} else
-			Skin::error(sprintf(i18n::s('Nothing has been extracted from %s.'), $name));
+			Logger::error(sprintf(i18n::s('Nothing has been extracted from %s.'), $name));
 
 	// ensure we have the external library to explode other kinds of archives
 	} elseif(!is_readable('../included/tar.php'))
-			Skin::error(i18n::s('Impossible to extract files.'));
+			Logger::error(i18n::s('Impossible to extract files.'));
 
 	// explode the archive
 	else {
@@ -128,17 +128,17 @@ if($id) {
 		if($handle->extract($context['path_to_root'].'skins'))
 			$success = TRUE;
 		else
-			Skin::error(sprintf(i18n::s('Error while processing %s.'), isset($name)?$name:basename($id)));
+			Logger::error(sprintf(i18n::s('Error while processing %s.'), isset($name)?$name:basename($id)));
 
 	}
 
 	// everything went fine
 	if($success) {
-		$context['text'] .= '<p>'.i18n::s('Congratulations, the skins directory has been updated.').'</p>'
-			.'<p>'.i18n::s('You can now visit the skins directory to test the behaviour of available skins, and to select the one you wish.').'</p>';
+		$context['text'] .= '<p>'.i18n::s('Congratulations, themes have been updated.').'</p>'
+			.'<p>'.i18n::s('You can now visit the index of themes, and select the one you prefer.').'</p>';
 
 		// display follow-up commands
-		$menu = array( 'skins/' => i18n::s('Skins') );
+		$menu = array( 'skins/' => i18n::s('Themes') );
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 	}
@@ -222,7 +222,7 @@ if($id) {
 
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('For more information on skins, visit %s'), Skin::build_link(i18n::s('http://www.yetanothercommunitysystem.com/'), 'the YACS web site', 'external')).'</p>';
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

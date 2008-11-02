@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:05 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-06-28 10:39+0100
+Last-Translator: Paques, Bernard
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['en']['Edited %s']='Edited %s';
 $_SESSION['l10n']['en']['Emotion']='Emotion';
 $_SESSION['l10n']['en']['Featured image']='Featured image';
@@ -15,7 +29,6 @@ $_SESSION['l10n']['en']['I want you']='I want you';
 $_SESSION['l10n']['en']['I would like to get it']='I would like to get it';
 $_SESSION['l10n']['en']['e6ef69399a84e48349e980587fd573b1']='Let face it, sometimes words alone do not suffice. Adding a winking smilie, for instance, may help you clarify that you are joking.';
 $_SESSION['l10n']['en']['Ok, i leave']='Ok, i leave';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Santa Claus']='Santa Claus';
 $_SESSION['l10n']['en']['Smileys']='Smileys';
 $_SESSION['l10n']['en']['afbff2832f64949ef35c8901a6120a58']='Smileys are small graphical images that can be used to convey an emotion or feeling. If you have used email or Internet chat, you are likely familiar with the smilie concept.';

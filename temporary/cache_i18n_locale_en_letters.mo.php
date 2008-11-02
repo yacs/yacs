@@ -3,13 +3,28 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:04 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:17+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['en']['28c17c53fb37663d2b2193884152e9d5']='%d invalid addresses have been skipped';
 $_SESSION['l10n']['en']['9e7b9305b0ae8cf576d14aa2fd99a9a5']='%d letters have been transmitted.';
 $_SESSION['l10n']['en']['e6e6bb4b8f56f6eefd1515aadb1db465']='%d recipients have been processed';
 $_SESSION['l10n']['en']['62736f9620d6a2552d17673322dd8154']='%d transmission errors have been encountered.';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
+$_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['A message has been sent to:']='A message has been sent to:';
 $_SESSION['l10n']['en']['c2b9add33af4dfe1ccec4832c979cd19']='All subscribers of the community';
 $_SESSION['l10n']['en']['Archived letters']='Archived letters';
@@ -19,7 +34,6 @@ $_SESSION['l10n']['en']['By %s']='By %s';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
-$_SESSION['l10n']['en']['Configure: %s']='Configure: %s';
 $_SESSION['l10n']['en']['Content']='Content';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['b8aba8120e48ef0b32aedde9fdc6f20c']='Creating a section for archived letters';

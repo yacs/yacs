@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-09-10 22:56+0200
+PO-Revision-Date: 2008-03-28 14:31+0100
+Last-Translator: Bernard Paques <bernard.paques@bigfoot.com>
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n > 1);
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: French
+';
 $_SESSION['l10n']['fr']['5a869f8f456ffaa0b75fcddc641e6185']='<p>(français) Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>';
 $_SESSION['l10n']['fr']['Afghanistan']='Afghanistan';
 $_SESSION['l10n']['fr']['Albania']='Albanie';
@@ -119,11 +133,11 @@ $_SESSION['l10n']['fr']['Jordan']='Jordanie';
 $_SESSION['l10n']['fr']['Kazakstan']='Kazakstan';
 $_SESSION['l10n']['fr']['Kenya']='Kenya';
 $_SESSION['l10n']['fr']['Kiribati']='Kiribati';
-$_SESSION['l10n']['fr']['cb8e2fedc17eb31aeb21be63702bb42f']='Corée, République populaire démocratique de';
+$_SESSION['l10n']['fr']['da86f1ce896f0a9a03c0c12202e9b355']='Corée, République populaire démocratique de';
 $_SESSION['l10n']['fr']['Korea, Republic of']='Corée, République de';
 $_SESSION['l10n']['fr']['Kuwait']='Koweit';
 $_SESSION['l10n']['fr']['Kyrgyzstan']='Kirghizistan';
-$_SESSION['l10n']['fr']['43473e98f58fcdca1c3ea9f72008df20']='Laos (République populaire démocratique du Lao)';
+$_SESSION['l10n']['fr']['81a6b6e5e6a1d60ce3bac4eee20444eb']='Laos (République populaire démocratique du Lao)';
 $_SESSION['l10n']['fr']['Latvia']='Lettonie';
 $_SESSION['l10n']['fr']['Lebanon']='Liban';
 $_SESSION['l10n']['fr']['Lesotho']='Lesotho';
@@ -223,7 +237,7 @@ $_SESSION['l10n']['fr']['Tajikistan']='Tadjikistan';
 $_SESSION['l10n']['fr']['Tanzania, United Republic of']='Tanzanie, République unie de';
 $_SESSION['l10n']['fr']['Test i18n']='Test d\'internationalisation';
 $_SESSION['l10n']['fr']['Thailand']='Thaïlande';
-$_SESSION['l10n']['fr']['49c0a28a2a6160f136db9832c3b42c4d']='Il y a %d élément'.chr(0).'Il y a %d éléments';
+$_SESSION['l10n']['fr']['91164f42295743f5f7f6440d2d7532ac']='Il y a %d élément'.chr(0).'Il y a %d éléments';
 $_SESSION['l10n']['fr']['6d66fe0ff029c691063ff2c1f484b30c']='Ceci est un label simple, localisé dans le langage de la communauté';
 $_SESSION['l10n']['fr']['dff7ef2daa914173b70122f10de9722d']='Ceci est un label simple, localisé dans le langage du surfeur';
 $_SESSION['l10n']['fr']['f1e2e0cc30d9aa59907aa87585e4d0d0']='Cette chaîne, localisée dans le langage de la communauté, autorise le réordonnancement des arguments : %2$s %1$s';

@@ -88,27 +88,27 @@ else
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
 } elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // e-mail has not been enabled
 } elseif(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('E-mail has not been enabled on this system.'));
+	Logger::error(i18n::s('E-mail has not been enabled on this system.'));
 
 // user does not accept private messages
 } elseif(isset($item['without_messages']) && ($item['without_messages'] == 'Y')) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('This member does not accept e-mail messages.'));
+	Logger::error(i18n::s('This member does not accept e-mail messages.'));
 
 // you are not allowed to mail yourself
 } elseif(Surfer::get_id() && (Surfer::get_id() == $item['id'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -119,7 +119,7 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no mail in demo mode
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
@@ -130,7 +130,7 @@ if(Surfer::is_crawler()) {
 
 // no recipient has been found
 } elseif(!isset($item['email']) || !$item['email'])
-	Skin::error(i18n::s('This user profile has no email address.'));
+	Logger::error(i18n::s('This user profile has no email address.'));
 
 // process submitted data
 elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {

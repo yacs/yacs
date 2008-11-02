@@ -73,6 +73,10 @@
 include_once '../shared/global.php';
 include_once 'scripts.php';
 
+// the place to build the reference repository
+if(!isset($context['path_to_reference']))
+	$context['path_to_reference'] = preg_replace('|/[^/]+/\.\./|', '/', $context['path_to_root'].'../yacs.reference/');
+		
 // load localized strings
 i18n::bind('scripts');
 
@@ -131,8 +135,8 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .=  '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.').'</p>';
 
 	// display the existing reference script, if any
-	if($content = Safe::file_get_contents('reference/footprints.php'))
-		$context['text'] .= Skin::build_box(sprintf(i18n::s('Current content of %s'), 'reference/footprints.php'), Safe::highlight_string($content), 'folder');
+	if($content = Safe::file_get_contents($context['path_to_reference'].'footprints.php'))
+		$context['text'] .= Skin::build_box(sprintf(i18n::s('Current content of %s'), $context['path_to_reference'].'footprints.php'), Safe::highlight_string($content), 'folder');
 
 // no build in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
@@ -148,7 +152,7 @@ elseif(!Surfer::is_associate()) {
 
 	// suppress the footprints file to disable remote updates
 	$context['text'] .= '<p>'.i18n::s('Suppressing the footprints file to disable remote updates...')."</p>\n";
-	Safe::unlink($context['path_to_root'].'scripts/reference/footprints.php');
+	Safe::unlink($context['path_to_reference'].'footprints.php');
 
 	// list running scripts
 	$context['text'] .= '<p>'.i18n::s('Listing files...').BR."\n";
@@ -193,24 +197,24 @@ elseif(!Surfer::is_associate()) {
 			$content = $footprint[2];
 
 		// ensure a clean reference store
-		Safe::unlink($context['path_to_root'].'scripts/reference/'.$file);
-
+		Safe::unlink($context['path_to_reference'].$file);
+		
 		// create adequate path
-		if(!Safe::make_path('scripts/reference/'.dirname($file)))
-			$context['text'] .= sprintf(i18n::s('Impossible to create path %s.'), 'scripts/reference/'.dirname($file)).BR."\n";
+		if(!Safe::make_path($context['path_to_reference'].dirname($file)))
+			$context['text'] .= sprintf(i18n::s('Impossible to create path %s.'), $context['path_to_reference'].dirname($file)).BR."\n";
 
 		// copy file content into the reference store
-		elseif(!Safe::file_put_contents($context['path_to_root'].'scripts/reference/'.$file, $content))
+		elseif(!Safe::file_put_contents($context['path_to_reference'].$file, $content))
 			$context['text'] .= sprintf(i18n::s('Impossible to copy file %s.'), $file).BR."\n";
 
 		// post-processing
 		else {
 
 			// try to preserve the modification date
-			Safe::touch($context['path_to_root'].'scripts/reference/'.$file, Safe::filemtime($context['path_to_root'].$file));
+			Safe::touch($context['path_to_reference'].$file, Safe::filemtime($context['path_to_root'].$file));
 
 			// this will be filtered by umask anyway
-			Safe::chmod($context['path_to_root'].'scripts/reference/'.$file, $context['file_mask']);
+			Safe::chmod($context['path_to_reference'].$file, $context['file_mask']);
 
 		}
 
@@ -239,8 +243,8 @@ elseif(!Surfer::is_associate()) {
 	// list reference files
 	$context['text'] .= '<p>'.i18n::s('Listing files...').BR."\n";
 
-	// locate reference files
-	$references = Scripts::list_files_at('scripts/reference');
+	// locate reference files --include special nodes
+	$references = Scripts::list_files_at($context['path_to_reference'], TRUE, $context['path_to_reference'], '.htaccess');
 	if(is_array($references))
 		$context['text'] .= BR.sprintf(i18n::s('%d files have been found.'), count($references))."\n";
 	$context['text'] .= "</p>\n";
@@ -254,7 +258,6 @@ elseif(!Surfer::is_associate()) {
 
 		// use file content
 		list($module, $name) = $reference;
-		$module = str_replace(array('scripts/reference/', 'scripts/reference'), '', $module);
 		if($module)
 			$file = $module.'/'.$name;
 		else
@@ -265,7 +268,7 @@ elseif(!Surfer::is_associate()) {
 			continue;
 
 		// look at phpDoc blocks
-		if($text = $documentation->parse($file, 'scripts/reference/'))
+		if($text = $documentation->parse($file, $context['path_to_reference']))
 			$context['text'] .= $text.BR."\n";
 		elseif(isset($documentation->index[$file]) && $documentation->index[$file])
 			$context['text'] .= $documentation->index[$file].BR."\n";
@@ -273,9 +276,9 @@ elseif(!Surfer::is_associate()) {
 			$context['text'] .= sprintf(i18n::s('*** %s has no documentation block'), $file).BR."\n";
 
 		// update footprints
-		if(!isset($footprints[$file]) && ($footprint = Scripts::hash('scripts/reference/'.$file)))
+		if(!isset($footprints[$file]) && ($footprint = Scripts::hash($context['path_to_reference'].$file)))
 			$footprints[$file] = array($footprint[0], $footprint[1], $footprint[3]);
-
+			
 		// ensure we have enough time to process next script
 		Safe::set_time_limit(30);
 
@@ -342,25 +345,25 @@ elseif(!Surfer::is_associate()) {
 
 	// stop here
 	if(!isset($_REQUEST['enable_footprints']) || ($_REQUEST['enable_footprints'] != 'Y')) {
-		$context['text'] .= '<p>'.i18n::s('The file scripts/reference/footprints.php has not been generated and the reference store can only be used for test purpose.')."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('The file %s has not been generated and the reference store can only be used for test purpose.'), $context['path_to_reference'].'footprints.php')."</p>\n";
 
 	// file cannot be saved
-	} elseif(!Safe::file_put_contents('scripts/reference/footprints.php', $content)) {
-		$context['text'] .= '<p>'.sprintf(i18n::s('Impossible to write to %s.'), 'file scripts/reference/footprints.php')."</p>\n";
+	} elseif(!Safe::file_put_contents($context['path_to_reference'].'footprints.php', $content)) {
+		$context['text'] .= '<p>'.sprintf(i18n::s('Impossible to write to %s.'), $context['path_to_reference'].'footprints.php')."</p>\n";
 
 	// follow-up
 	} else {
-		$context['text'] .= '<p>'.i18n::s('Meta data have been saved in scripts/reference/footprints.php.')."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('Meta data have been saved in %s'), $context['path_to_reference'].'footprints.php')."</p>\n";
 
 		// also put the file in the archive
-		$references[] = array('scripts/reference/', 'footprints.php');
+		$references[] = array('', 'footprints.php');
 
 	}
 
 	// splash message
 	$context['text'] .= '<p>'.i18n::s('On-going archive preparation...')."\n";
 
-	// start the archive file
+	// start the zip file
 	include_once '../shared/zipfile.php';
 	$zipfile =& new zipfile();
 
@@ -368,15 +371,12 @@ elseif(!Surfer::is_associate()) {
 	$zipfile->store('yacs/', 0);
 
 	// process every reference file
-	$file_path = $context['path_to_root'].'scripts/reference/';
+	$file_path = $context['path_to_reference'];
 	$index = 0;
 	foreach($references as $reference) {
 
 		// let's go
 		list($path, $file) = $reference;
-		if($file == 'yacs.zip')
-			continue;
-		$path = str_replace(array('scripts/reference/', 'scripts/reference'), '', $path);
 		if(strlen(trim($path)) > 0)
 			$file = $path.'/'.$file;
 
@@ -390,7 +390,8 @@ elseif(!Surfer::is_associate()) {
 			// store binary data
 			else
 				$zipfile->store('yacs/'.$file, Safe::filemtime($file_path.$file), $content);
-		}
+		} else
+			$context['text'] .= BR.'cannot read '.$file_path.$file;
 
 		// avoid timeouts
 		if(!(($index++)%50)) {

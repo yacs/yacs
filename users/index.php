@@ -59,12 +59,13 @@ include_once '../shared/global.php';
 include_once '../locations/locations.php';
 
 // which page should be displayed
-$page = 1;
 if(isset($_REQUEST['page']))
 	$page = $_REQUEST['page'];
 elseif(isset($context['arguments'][0]))
 	$page = $context['arguments'][0];
-$page = strip_tags($page);
+else
+	$page = 1;
+$page = max(1,intval($page));
 
 // load the skin
 load_skin('users');
@@ -143,6 +144,7 @@ if(isset($context['google_api_key']) && $context['google_api_key'])
 $context['page_tools'][] = Skin::build_link('users/review.php', i18n::s('Review profiles'));
 
 // side bar with the list of present users --don't cache, this will change on each request anyway
+$context['aside']['boxes'] = '';
 include_once $context['path_to_root'].'users/visits.php';
 if($items = Users::list_present(0, COMPACT_LIST_SIZE, 'compact')) {
 
@@ -150,7 +152,7 @@ if($items = Users::list_present(0, COMPACT_LIST_SIZE, 'compact')) {
 	$stat = Users::stat_present();
 	if($stat['count'] > 1)
 		$items = array_merge($items, array('_' => sprintf(i18n::ns('%d active now', '%d active now', $stat['count']), $stat['count'])));
-	$context['extra'] .= Skin::build_box(i18n::s('Present users'), Skin::build_list($items, 'compact'), 'extra');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Present users'), Skin::build_list($items, 'compact'), 'extra');
 }
 
 // page extra content
@@ -178,10 +180,10 @@ if(!$text =& Cache::get($cache_id)) {
 	// cache, whatever change, for 5 minutes
 	Cache::put($cache_id, $text, 'stable', 300);
 }
-$context['extra'] .= $text;
+$context['aside']['boxes'] .= $text;
 
 // referrals, if any
-$context['extra'] .= Skin::build_referrals('users/index.php');
+$context['aside']['referrals'] = Skin::build_referrals('users/index.php');
 
 // a meta link to a feeding page
 include_once '../feeds/feeds.php';

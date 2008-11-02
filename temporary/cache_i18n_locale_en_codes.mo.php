@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-24 19:10+0200
+PO-Revision-Date: 2008-10-24 19:12+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['A Rabbit Story']='A Rabbit Story';
 $_SESSION['l10n']['en']['A dynamic Freemind map']='A dynamic Freemind map';
@@ -29,9 +43,9 @@ $_SESSION['l10n']['en']['Bold']='Bold';
 $_SESSION['l10n']['en']['Bulleted list']='Bulleted list';
 $_SESSION['l10n']['en']['0546ab2e19789096451424274c736664']='But where is this rabbit right now?';
 $_SESSION['l10n']['en']['35255370793bd44aaf826522bc1d288f']='But where will this rabbit be in some minutes?';
-$_SESSION['l10n']['en']['c459d78085879d781ea429f47f3b59aa']='But where will this rabbit be in some minutes? I don\'t know, but it depends also on the turtle speed...';
-$_SESSION['l10n']['en']['3acd56c558c46cbae15dd5821fce547a']='But where will this rabbit be in some minutes?[---]I don\'t know, but it depends also on the turtle speed...';
-$_SESSION['l10n']['en']['088ec19a964a67136facb92b15129bfa']='But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...';
+$_SESSION['l10n']['en']['31b2ba4256685441eff03955d6660c67']='But where will this rabbit be in some minutes? I don\'t know, but it depends also on the turtle speed...';
+$_SESSION['l10n']['en']['17a21d0f5e8249cf5428fecb7de3e85e']='But where will this rabbit be in some minutes?[---]I don\'t know, but it depends also on the turtle speed...';
+$_SESSION['l10n']['en']['789e7c86acd70fae448742c4ae2712e8']='But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...';
 $_SESSION['l10n']['en']['Categories']='Categories';
 $_SESSION['l10n']['en']['Category']='Category';
 $_SESSION['l10n']['en']['Category shortcut']='Category shortcut';
@@ -186,14 +200,15 @@ $_SESSION['l10n']['en']['Table']='Table';
 $_SESSION['l10n']['en']['Table of Questions']='Table of Questions';
 $_SESSION['l10n']['en']['Table of content']='Table of content';
 $_SESSION['l10n']['en']['00f1329544eb7baf764f072f97567cd5']='Tables (with headers, with grids, use CSV data, ...)';
+$_SESSION['l10n']['en']['Theme test']='Theme test';
 $_SESSION['l10n']['en']['8715f28cefd96bdbbc3613787304e522']='Third item (next the previous one)';
 $_SESSION['l10n']['en']['This is really //meaningful//!']='This is really //meaningful//!';
 $_SESSION['l10n']['en']['5607131550283b87b9d0002968cca809']='This is really [big]meaningful[/big]';
 $_SESSION['l10n']['en']['19b72ed90e4f9b5c25363aef1fec752f']='This is really [i]meaningful[/i]!';
 $_SESSION['l10n']['en']['0e014dce7af8b38fec686da56919047b']='This is really [small]small![/small]';
 $_SESSION['l10n']['en']['a42b1237b6137f33525bd976010b463f']='This is really [tiny]tiny![/tiny]';
-$_SESSION['l10n']['en']['306ca7b6c7d6df8f41bc44b3922ebf59']='This is very **important**, isn\'t it?';
-$_SESSION['l10n']['en']['4abc2b37ac92197b28ec83bcb54412b9']='This is very [b]important[/b], isn\'t it?';
+$_SESSION['l10n']['en']['cb79f894cc4c3d0a12af167ba6a1db0b']='This is very **important**, isn\'t it?';
+$_SESSION['l10n']['en']['0146f5357e46c99c4203e7a2b7609e10']='This is very [b]important[/b], isn\'t it?';
 $_SESSION['l10n']['en']['00e2078797681d249b9d24d17739cb96']='This text ++has been inserted++.';
 $_SESSION['l10n']['en']['This text --has been deleted--.']='This text --has been deleted--.';
 $_SESSION['l10n']['en']['1841ac8d34047be7fb50aa69d7f0a16d']='This text [deleted]has been deleted[/deleted].';
@@ -230,7 +245,7 @@ $_SESSION['l10n']['en']['Wikipedia']='Wikipedia';
 $_SESSION['l10n']['en']['9567f58f61c1ba637b6c3fcd70d60b76']='With codes you use "tags" to add formatting to your text. Every  tag is enclosed in [ and ]. If you want to mark some region in your text, you need to use an opening tag and a closing tag. Closing tags start with [/, as you will see in the examples at the next pages. If you mistype a tag or forget to close it, you will not get the desired formatting.';
 $_SESSION['l10n']['en']['7435b80de8532446b77a00ca63fea01e']='YACS is based on international standards, including [hint=eXtended Markup Language]XML[/hint].';
 $_SESSION['l10n']['en']['520d28a62581d2f221a66b37c241cced']='You can access the documentation for the script [script]shared/codes.php[/script]';
-$_SESSION['l10n']['en']['9f80cb81f1836e893377a5754597b5f3']='You can also browse links above while checking the site skin, in complement to %s.';
+$_SESSION['l10n']['en']['373197b234d186954990d90c20a60a94']='You can also browse links above in complement to the %s.';
 $_SESSION['l10n']['en']['94f3c1716b226c10660346cffdf24674']='You can send a message at [email]webmaster@acme.com[/email]';
 $_SESSION['l10n']['en']['88c8f1151cc55ecdebed9bf4cd119abe']='You can send a message at webmaster@acme.com';
 $_SESSION['l10n']['en']['0cc217b44799b71fe26dc9446f035fe2']='You can send a message to our [email=support team]webmaster@acme.com[/email]';
@@ -240,7 +255,7 @@ $_SESSION['l10n']['en']['aca55e7e9fc28e93c965f0b6d460d2e9']='You can visit [link
 $_SESSION['l10n']['en']['c47f633bd83faf4c5e26ec301fd65d72']='You can visit [link]codes/basic.php[/link] or [link]index.php[/link]';
 $_SESSION['l10n']['en']['78bd8c1de20db3f6bb92c282fd10d94b']='You can visit [link]www.cisco.com[/link] or [link]http://www.nortel.com[/link], or have a chat at [link]irc://irc.eu.be.ofloo.net/[/link]';
 $_SESSION['l10n']['en']['fa5d07d3ec64ed9ec20c5b5995c381d7']='You can visit www.cisco.com or http://www.nortel.com, or have a chat at irc://irc.eu.be.ofloo.net/';
-$_SESSION['l10n']['en']['e1977ad25eb1b5b3711ab4b81428e166']='[flag]important![/flag] Don\'t forget to give something to your cat today.';
+$_SESSION['l10n']['en']['9e11eaa0e66c78f102a768ddbdbaf325']='[flag]important![/flag] Don\'t forget to give something to your cat today.';
 $_SESSION['l10n']['en']['a previous message']='a previous message';
 $_SESSION['l10n']['en']['another one']='another one';
 $_SESSION['l10n']['en']['download the file']='download the file';
@@ -252,7 +267,6 @@ $_SESSION['l10n']['en']['http://www.cisco.com']='http://www.cisco.com';
 $_SESSION['l10n']['en']['one bulleted item']='one bulleted item';
 $_SESSION['l10n']['en']['quoted from']='quoted from';
 $_SESSION['l10n']['en']['skin']='skin';
-$_SESSION['l10n']['en']['the skin test page']='the skin test page';
 $_SESSION['l10n']['en']['64de267770dc55e7ac33e45ae07708ff']='this one - should not create bullets. not one, nor two';
 $_SESSION['l10n']['en']['world']='world';
 $_SESSION['l10n']['en']['www.php.net']='www.php.net';

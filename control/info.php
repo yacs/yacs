@@ -55,7 +55,7 @@ if(Surfer::is_associate()) {
 // the user has to be an associate
 if(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
 	$menu = array('control/' => i18n::s('Control Panel'));
@@ -159,7 +159,7 @@ if(!Surfer::is_associate()) {
 		// 'SHOW STATUS'
 		$query = "SHOW STATUS";
 		if(!$result =& SQL::query($query)) {
-			$content = Skin::error_pop().BR."\n";
+			$content = Logger::error_pop().BR."\n";
 		} else {
 			$content = "<table>\n";
 			while($row =& SQL::fetch($result)) {
@@ -172,7 +172,7 @@ if(!Surfer::is_associate()) {
 		// 'SHOW VARIABLES'
 		$query = "SHOW VARIABLES";
 		if(!$result =& SQL::query($query)) {
-			$content = Skin::error_pop().BR."\n";
+			$content = Logger::error_pop().BR."\n";
 		} else {
 			$content = "<table>\n";
 			while($row =& SQL::fetch($result)) {
@@ -185,7 +185,7 @@ if(!Surfer::is_associate()) {
 		// 'SHOW CHARACTER SET'
 		$query = "SHOW CHARACTER SET";
 		if(!$result =& SQL::query($query)) {
-			$content = Skin::error_pop().BR."\n";
+			$content = Logger::error_pop().BR."\n";
 		} else {
 			$content = "<table>\n";
 			while($row =& SQL::fetch($result)) {

@@ -46,7 +46,7 @@ load_skin('agreements', $anchor);
 
 // no subject
 if(!$id)
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // update session data
 else {

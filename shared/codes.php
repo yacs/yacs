@@ -579,6 +579,25 @@ Class Codes {
 	}
 
 	/**
+	 * format an introduction
+	 *
+	 * @param string raw introduction
+	 * @return string finalized title
+	 */
+	function &beautify_introduction($text) {
+
+		// render codes
+		$output =& Codes::render($text);
+
+		// render smileys after codes, else it will break escaped strings
+		if(is_callable(array('Smileys', 'render_smileys')))
+			$output =& Smileys::render_smileys($output);
+
+		// return by reference
+		return $output;
+	}
+
+	/**
 	 * format a title
 	 *
 	 * New lines and images are the only things accepted in titles.
@@ -3391,12 +3410,13 @@ Class Codes {
 		global $context;
 
 		// suppress pairing codes
-		$output = preg_replace('/\[(.*?).*?\](.*?)\[\/\1\]/s', '${2}', $text);
+		$output = preg_replace('/\[(\w+?)[^\]]*\](.*?)\[\/\1\]/s', '${2}', $text);
+		preg_match('/\[(\w+?)[^\]]*\](.*?)\[\/\1\]/s', $text, $matches);
 
 		// suppress bracketed words
 		if($suppress_all_brackets)
 			$output = trim(preg_replace('/\[(.+?)\]/s', ' ', $output));
-
+			
 		return $output;
 	}
 }

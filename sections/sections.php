@@ -118,7 +118,7 @@
  * Usually only the variant '[code]sections[/code]' is used throughout sections.
  * This can be changed to '[code]xxxx[/code]' by using the option [code]variant_&lt;xxxx&gt;[/code].
  * Then the underlying skin may adapt to this code by looking at [code]$context['skin_variant'][/code].
- * Basically, use variants to change the rendering of individual articles of your site, if the skin allows it.
+ * Basically, use variants to change the rendering of individual articles of your site, if the theme allows it.
  *
  * [*] [code]with_comments[/code] - The section index page is a thread, and can be commented.
  * By default YACS allows comments only in content pages.
@@ -283,12 +283,12 @@ Class Sections {
 	function are_allowed($anchor=NULL, $item=NULL) {
 		global $context;
 
-		// sections are prevented in anchor
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_sections', FALSE))
-			return FALSE;
-
 		// sections are prevented in item
 		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_sections\b/i', $item['options']))
+			return FALSE;
+
+		// sections are prevented in anchor
+		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_sections', FALSE))
 			return FALSE;
 
 		// sections are prevented in this item through layout
@@ -303,6 +303,36 @@ Class Sections {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N')) {
+		
+			// filter editors
+			if(!Surfer::is_empowered())
+				return FALSE;
+				
+			// editors will have to unlock the container to contribute
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		// container is restricted
+		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
+		
+			// filter members
+			if(!Surfer::is_member())
+				return FALSE;
+				
+			// editors can proceed
+			if(Surfer::is_empowered())
+				return TRUE;
+				
+			// members can contribute except if container is locked
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		}
+
 		// surfer has special privileges
 		if(Surfer::is_empowered())
 			return TRUE;
@@ -315,22 +345,16 @@ Class Sections {
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// surfer screening
-		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
-			return FALSE;
-		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
+// anonymous contributions are allowed for this section
+// 		if(isset($item['content_options']) && preg_match('/\banonymous_edit\b/i', $item['content_options']))
+// 			return TRUE;
+// 
+// anonymous contributions are allowed for this item
+// 		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+// 			return TRUE;
+// 
 		// anonymous contributions are allowed for this anchor
 		if(is_object($anchor) && $anchor->is_editable())
-			return TRUE;
-
-		// anonymous contributions are allowed for this section
-		if(isset($item['content_options']) && preg_match('/\banonymous_edit\b/i', $item['content_options']))
-			return TRUE;
-
-		// anonymous contributions are allowed for this item
-		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
 			return TRUE;
 
 		// the default is to not allow for new sections
@@ -441,7 +465,7 @@ Class Sections {
 		// load the row
 		$item =& Sections::get($id);
 		if(!$item['id']) {
-			Skin::error(i18n::s('No item has the provided id.'));
+			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
 
@@ -1680,7 +1704,7 @@ Class Sections {
 
 		// id cannot be empty
 		if(!$id || !is_numeric($id)) {
-			Skin::error(i18n::s('No item has the provided id.'));
+			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
 
@@ -1748,7 +1772,7 @@ Class Sections {
 
 		// title cannot be empty
 		if(!isset($fields['title']) || !trim($fields['title'])) {
-			Skin::error(i18n::s('No title has been provided.'));
+			Logger::error(i18n::s('No title has been provided.'));
 			return FALSE;
 		}
 
@@ -1880,6 +1904,12 @@ Class Sections {
 		// remember the id of the new item
 		$fields['id'] = SQL::get_last_id($context['connection']);
 
+		// turn author to page editor and update author's watch list
+		if(isset($fields['edit_id']) && $fields['edit_id']) {
+			Members::assign('user:'.$fields['edit_id'], 'section:'.$fields['id']);
+			Members::assign('section:'.$fields['id'], 'user:'.$fields['edit_id']);
+		}
+
 		// clear the cache
 		Sections::clear($fields);
 
@@ -1900,13 +1930,13 @@ Class Sections {
 
 		// id cannot be empty
 		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
-			Skin::error(i18n::s('No item has the provided id.'));
+			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
 
 		// title cannot be empty
 		if(!isset($fields['title']) || !trim($fields['title'])) {
-			Skin::error(i18n::s('No title has been provided.'));
+			Logger::error(i18n::s('No title has been provided.'));
 			return FALSE;
 		}
 
@@ -2050,7 +2080,7 @@ Class Sections {
 
 		// id cannot be empty
 		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
-			Skin::error(i18n::s('No item has the provided id.'));
+			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
 
@@ -2142,7 +2172,7 @@ Class Sections {
 	 *
 	 * Also, it attempts to translate it as a valid YACS skin made
 	 * of [code]template.php[/code] and [code]skin.php[/code].
-	 * The skin name is [code]section_&lt;id&gt;[/code].
+	 * The theme name is [code]section_&lt;id&gt;[/code].
 	 *
 	 * Lastly, it updates the options field to actually use the template for pages of this section.
 	 *

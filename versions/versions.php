@@ -365,13 +365,13 @@ Class Versions {
 		// retrieve the related anchor
 		$anchor =& Anchors::get($item['anchor']);
 		if(!is_object($anchor)) {
-			Skin::error(sprintf(i18n::s('Unknown anchor %s'), $item['anchor']));
+			Logger::error(sprintf(i18n::s('Unknown anchor %s'), $item['anchor']));
 			return FALSE;
 		}
 
 		// restore the anchor
 		if(!$anchor->restore(Safe::unserialize($item['content']))) {
-			Skin::error(i18n::s('Impossible to restore the previous version.'));
+			Logger::error(i18n::s('Impossible to restore the previous version.'));
 			return FALSE;
 		}
 
@@ -402,7 +402,7 @@ Class Versions {
 
 		// anchor cannot be empty
 		if(!isset($anchor) || !$anchor) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 

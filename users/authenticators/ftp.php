@@ -34,7 +34,7 @@ Class Ftp extends Authenticator {
 
 		// we need some parameters
 		if(!isset($this->attributes['authenticator_parameters']) || !$this->attributes['authenticator_parameters']) {
-			Skin::error(i18n::s('Please provide parameters to the authenticator.'));
+			Logger::error(i18n::s('Please provide parameters to the authenticator.'));
 			return FALSE;
 		}
 
@@ -47,14 +47,14 @@ Class Ftp extends Authenticator {
 
 		// open network socket
 		if(!$handle = Safe::fsockopen($server, $port)) {
-			Skin::error(sprintf(i18n::s('Impossible to connect to %.'), $this->attributes['authenticator_parameters']));
+			Logger::error(sprintf(i18n::s('Impossible to connect to %.'), $this->attributes['authenticator_parameters']));
 			return FALSE;
 		}
 
 		// read welcome banner
 		if((!$line = fgets($handle, 256)) || !strstr($line, '2')) {
 			fclose($handle);
-			Skin::error(sprintf(i18n::s('Invalid banner message from %s.'), $this->attributes['authenticator_parameters']));
+			Logger::error(sprintf(i18n::s('Invalid banner message from %s.'), $this->attributes['authenticator_parameters']));
 			return FALSE;
 		}
 
@@ -62,7 +62,7 @@ Class Ftp extends Authenticator {
 		fputs($handle, "USER $username\r\n");
 		if((!$line = fgets($handle, 256)) || !strstr($line, '3')) {
 			fclose($handle);
-			Skin::error(sprintf(i18n::s('Impossible to submit name to %s.'), $this->attributes['authenticator_parameters']));
+			Logger::error(sprintf(i18n::s('Impossible to submit name to %s.'), $this->attributes['authenticator_parameters']));
 			return FALSE;
 		}
 
@@ -70,7 +70,7 @@ Class Ftp extends Authenticator {
 		fputs($handle, "PASS $password\r\n");
 		if((!$line = fgets($handle, 256)) || !strstr($line, '2')) {
 			fclose($handle);
-			Skin::error(sprintf(i18n::s('Impossible to submit password to %s.'), $this->attributes['authenticator_parameters']));
+			Logger::error(sprintf(i18n::s('Impossible to submit password to %s.'), $this->attributes['authenticator_parameters']));
 			return FALSE;
 		}
 

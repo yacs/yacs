@@ -69,7 +69,7 @@ define('COMPACT_LIST', Skin::build_list($items, 'compact'));
 
 // // $context['error'] - to report run time errors
 if($context['with_debug'] == 'Y')
-	Skin::error(i18n::s('error messages, if any'));
+	Logger::error(i18n::s('error messages, if any'));
 
 // $context['navigation'] - navigation boxes
 $context['navigation'] .= Skin::build_box(i18n::s('navigation').' 1', DUMMY_TEXT, 'navigation');
@@ -104,37 +104,37 @@ $text = Skin::build_tree(array(array('#', '', i18n::s('menu').' 1', '', 'close')
 	array('#', '', i18n::s('menu').' 3', '', 'close'),
 	array('#', '', i18n::s('menu').' 4', '', 'close')
 	));
-$context['extra'] .= Skin::build_box(i18n::s('contextual menu'), $text, 'navigation', 'contextual_menu');
+$context['extra']['contextual'] = Skin::build_box(i18n::s('contextual menu'), $text, 'navigation', 'contextual_menu');
 
 // $context['page_author'] - the author
 $context['page_author'] = 'webmaestro, through some PHP script';
 
 // back to skin index
-$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/' => i18n::s('Skins') ));
+$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/' => i18n::s('Themes') ));
 
 // edit this skin
 if(isset($skin) && Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/edit.php?skin='.$skin => i18n::s('Edit this skin') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/edit.php?skin='.$skin => i18n::s('Edit this theme') ));
 
 // validate at w3c
 $context['page_menu'] = array_merge($context['page_menu'], array( 'http://validator.w3.org/check?uri=referer' => array('', i18n::s('Validate at w3c'), '', 'external') ));
 
 // use this skin for the site
 if(isset($skin) && Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array('control/configure.php?parameter=skin&amp;value=skins/'.$skin => i18n::s('Use this skin')));
+	$context['page_menu'] = array_merge($context['page_menu'], array('control/configure.php?parameter=skin&amp;value=skins/'.$skin => i18n::s('Use this theme')));
 
 // derive this skin
 if(isset($skin) && Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array('skins/derive.php?skin='.$skin => i18n::s('Derive this skin')));
+	$context['page_menu'] = array_merge($context['page_menu'], array('skins/derive.php?skin='.$skin => i18n::s('Derive this theme')));
 
 // $context['page_publisher'] - the publisher
 $context['page_publisher'] = 'webmaestro again, still through some PHP script';
 
 // $context['page_title'] - the title of the page
-$context['page_title'] = i18n::s('Skin test page');
+$context['page_title'] = i18n::s('Theme test');
 
 // $context['path_bar'] - back to other sections
-$context['path_bar'] = array( 'skins/' => i18n::s('Skins'));
+$context['path_bar'] = array( 'skins/' => i18n::s('Themes'));
 
 // $context['prefix'] - also list skins available on this system
 $context['prefix'] .= '<form method="get" action="'.$context['script_url'].'"><p>';
@@ -162,7 +162,7 @@ if ($dir = Safe::opendir("../skins")) {
 $context['prefix'] .= '</select> '.Skin::build_submit_button(' &raquo; ').'</p></form>';
 
 // $context['prefix'] - some prefix data
-$context['prefix'] .= '<p>'.sprintf(i18n::s('Use this page while developing or checking a skin, then activate the skin and move to %s to finalize your work.'), Skin::build_link('codes/', i18n::s('help pages on YACS codes'), 'shortcut')).'</p>';
+$context['prefix'] .= '<p>'.sprintf(i18n::s('Use this page while developing or checking a theme, then activate the theme and move to %s to finalize your work.'), Skin::build_link('codes/', i18n::s('help pages on YACS codes'), 'shortcut')).'</p>';
 
 // will be derivated to $context['text'] after codes::beautify()
 $text = '';
@@ -234,7 +234,7 @@ $folder =& Skin::build_box(i18n::s('folded box'), DUMMY_TEXT, 'folder');
 $text .= Skin::build_box(i18n::s('with a folded box'), DUMMY_TEXT.$folder.DUMMY_TEXT);
 
 // a menu bar
-$menu_bar = array('skins/test.php' => i18n::s('Test page'), 'skins/' => i18n::s('Skins'), 'scripts/' => i18n::s('Server software'));;
+$menu_bar = array('skins/test.php' => i18n::s('Test page'), 'skins/' => i18n::s('Themes'), 'scripts/' => i18n::s('Server software'));;
 
 // $context['text'] - section with a menu bar
 $text .= Skin::build_box(i18n::s('with a menu bar'), DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT);

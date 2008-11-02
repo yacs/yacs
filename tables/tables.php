@@ -26,19 +26,6 @@ Class Tables {
 	 * This function returns TRUE if tables can be added to some place,
 	 * and FALSE otherwise.
 	 *
-	 * The function prevents the creation of new tables when:
-	 * - the global parameter 'users_without_submission' has been set to 'Y'
-	 * - provided item has been locked
-	 * - item has some option 'no_tables' that prevents new tables
-	 * - the anchor has some option 'no_tables' that prevents new tables
-	 *
-	 * Then the function allows for new tables when:
-	 * - surfer has been authenticated as a valid member
-	 * - or parameter 'users_without_teasers' has not been set to 'Y'
-	 *
-	 * Then, ultimately, the default is not allow for the creation of new
-	 * tables.
-	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
 	 * @return TRUE or FALSE
@@ -46,42 +33,16 @@ Class Tables {
 	function are_allowed($anchor=NULL, $item=NULL) {
 		global $context;
 
-		// tables are prevented in anchor
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_tables'))
-			return FALSE;
-
 		// tables are prevented in item
 		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_tables\b/i', $item['options']))
 			return FALSE;
 
+		// tables are prevented in anchor
+		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_tables'))
+			return FALSE;
+
 		// surfer is an associate
 		if(Surfer::is_associate())
-			return TRUE;
-
-		// submissions have been disallowed
-		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
-			return FALSE;
-
-		// surfer has special privileges
-		if(Surfer::is_empowered())
-			return TRUE;
-
-		// item has been locked
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
-			return FALSE;
-
-		// anchor has been locked --only used when there is no item provided
-		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
-			return FALSE;
-
-		// surfer screening
-		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
-			return FALSE;
-		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
-		// teasers are activated
-		if(Surfer::is_teased())
 			return TRUE;
 
 		// the default is to not allow for new tables
@@ -108,7 +69,7 @@ Class Tables {
 			return NULL;
 
 		if(!$rows =& SQL::query($table['query'])) {
-			Skin::error(sprintf(i18n::s('Error in table query %s'), $id).BR.htmlspecialchars($table['query']).BR.SQL::error());
+			Logger::error(sprintf(i18n::s('Error in table query %s'), $id).BR.htmlspecialchars($table['query']).BR.SQL::error());
 			return NULL;
 		}
 
@@ -635,19 +596,19 @@ Class Tables {
 
 		// no query
 		if(!isset($fields['query']) || !trim($fields['query'])) {
-			Skin::error(i18n::s('Please add some SQL query.'));
+			Logger::error(i18n::s('Please add some SQL query.'));
 			return FALSE;
 		}
 
 		// no anchor reference
 		if(!isset($fields['anchor']) || !trim($fields['anchor'])) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
 		// get the anchor
 		if(!isset($fields['anchor']) || (!$anchor =& Anchors::get($fields['anchor']))) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
@@ -665,7 +626,7 @@ Class Tables {
 
 			// id cannot be empty
 			if(!isset($fields['id']) || !is_numeric($fields['id'])) {
-				Skin::error(i18n::s('No item has the provided id.'));
+				Logger::error(i18n::s('No item has the provided id.'));
 				return FALSE;
 			}
 

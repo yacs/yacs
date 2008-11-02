@@ -173,7 +173,7 @@ if(isset($_REQUEST['description']))
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -193,17 +193,17 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // maybe posts are not allowed here
 } elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('This page has been locked.'));
+	Logger::error(i18n::s('This page has been locked.'));
 
 // extension is not allowed
 } elseif(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && !Files::is_authorized($_FILES['upload']['name'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('This type of file is not allowed.'));
+	Logger::error(i18n::s('This type of file is not allowed.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -281,35 +281,35 @@ if(Surfer::is_crawler()) {
 
 		// uploads are not allowed
 		if(!Surfer::may_upload())
-			Skin::error(i18n::s('You are not allowed to perform this operation.'));
+			Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 		// size exceeds php.ini settings -- UPLOAD_ERR_INI_SIZE
 		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 1))
-			Skin::error(i18n::s('The size of this file is over limit.'));
+			Logger::error(i18n::s('The size of this file is over limit.'));
 
 		// size exceeds form limit -- UPLOAD_ERR_FORM_SIZE
 		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 2))
-			Skin::error(i18n::s('The size of this file is over limit.'));
+			Logger::error(i18n::s('The size of this file is over limit.'));
 
 		// partial transfer -- UPLOAD_ERR_PARTIAL
 		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 3))
-			Skin::error(i18n::s('No file has been transmitted.'));
+			Logger::error(i18n::s('No file has been transmitted.'));
 
 		// no file -- UPLOAD_ERR_NO_FILE
 		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 4))
-			Skin::error(i18n::s('No file has been transmitted.'));
+			Logger::error(i18n::s('No file has been transmitted.'));
 
 		// zero bytes transmitted
 		elseif(!$_FILES['upload']['size'])
-			Skin::error(i18n::s('No file has been transmitted.'));
+			Logger::error(i18n::s('No file has been transmitted.'));
 
 		// an anchor is mandatory to put the file in the file system
 		elseif(!is_object($anchor))
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 
 		// check provided upload name
 		elseif(!Safe::is_uploaded_file($file_upload))
-			Skin::error(i18n::s('Possible file attack.'));
+			Logger::error(i18n::s('Possible file attack.'));
 
 		// put the file into the anonymous ftp space
 		elseif(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'X')) {
@@ -325,7 +325,7 @@ if(Surfer::is_crawler()) {
 
 			// move the uploaded file
 			if(!Safe::move_uploaded_file($file_upload, $file_path.$file_name))
-				Skin::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
+				Logger::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
 
 			// this will be filtered by umask anyway
 			else
@@ -343,7 +343,7 @@ if(Surfer::is_crawler()) {
 
 			// move the uploaded file
 			if(!Safe::move_uploaded_file($file_upload, $file_path.$file_name))
-				Skin::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
+				Logger::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
 
 			// this will be filtered by umask anyway
 			else
@@ -402,7 +402,7 @@ if(Surfer::is_crawler()) {
 
 	// nothing has been posted
 	} elseif(!isset($_REQUEST['id'])) {
-		Skin::error(i18n::s('No file has been transmitted.'));
+		Logger::error(i18n::s('No file has been transmitted.'));
 
 	}
 
@@ -800,7 +800,7 @@ if($with_form) {
 		.'<p>'.i18n::s('Also, take the time to describe your post. This field is fully indexed for searches.').'</p>'
 		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
 		.'<p>'.i18n::s('Lastly, indicate the original source of the file if you know it, either with a name or, better, with a web address.').'</p>';
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

@@ -40,11 +40,11 @@ if($id)
 // which page should be displayed
 if(isset($_REQUEST['page']))
 	$page = $_REQUEST['page'];
-if(!isset($page) && isset($context['arguments'][2]))
+elseif(isset($context['arguments'][2]))
 	$page = $context['arguments'][2];
-if(!isset($page))
+else
 	$page = 1;
-$page = strip_tags($page);
+$page = max(1,intval($page));
 
 // the anchor has to be viewable by this surfer
 if(!is_object($anchor) || $anchor->is_viewable())
@@ -74,7 +74,7 @@ else
 // an anchor is mandatory
 if(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No anchor has been found.'));
+	Logger::error(i18n::s('No anchor has been found.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -85,7 +85,7 @@ if(!is_object($anchor)) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the index
 } else {

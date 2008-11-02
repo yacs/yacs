@@ -96,8 +96,10 @@ if(isset($item['anchor']) && $item['anchor'])
 
 // which action?
 $action = NULL;
-if(isset($_REQUEST['action']) && $_REQUEST['action'])
-	$action = $_REQUEST['action'];
+if(isset($_REQUEST['act_on_articles']) && $_REQUEST['act_on_articles'])
+	$action = $_REQUEST['act_on_articles'];
+elseif(isset($_REQUEST['act_on_sections']) && $_REQUEST['act_on_sections'])
+	$action = $_REQUEST['act_on_sections'];
 $action = strip_tags($action);
 
 // editors of upper containers have associate-like capabilities
@@ -125,7 +127,7 @@ load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
 // list selected pages
 $selected_articles = '';
-if(isset($_REQUEST['articles']) && ($count = @count($_REQUEST['articles']))) {
+if(isset($_REQUEST['selected_articles']) && ($count = @count($_REQUEST['selected_articles']))) {
 
 	// if more than 10 pages, list the first five, else display all
 	if($count >= 10)
@@ -134,13 +136,12 @@ if(isset($_REQUEST['articles']) && ($count = @count($_REQUEST['articles']))) {
 		$bucket = $count;
 
 	$items = array();
-	foreach($_REQUEST['articles'] as $dummy => $id) {
-		if($article = Articles::get($id)) {
-			$items[] = Skin::build_link(Articles::get_permalink($article), $article['title'], 'article');
-			$selected_articles .= '<input type="hidden" name="articles[]" value="'.$article['id'].'" />';
-		}
-		if($bucket-- <= 0)
-			break;
+	foreach($_REQUEST['selected_articles'] as $dummy => $id) {
+		if($article =& Articles::get($id)) {
+			if($bucket-- >= 0)
+				$items[] = Skin::build_link(Articles::get_permalink($article), $article['title'], 'article');
+			$selected_articles .= '<input type="hidden" name="selected_articles[]" value="'.$article['id'].'" />';
+		}		
 	}
 
 	// a hint on non-listed pages
@@ -154,7 +155,7 @@ if(isset($_REQUEST['articles']) && ($count = @count($_REQUEST['articles']))) {
 
 // list selected sections
 $selected_sections = '';
-if(isset($_REQUEST['sections']) && ($count = @count($_REQUEST['sections']))) {
+if(isset($_REQUEST['selected_sections']) && ($count = @count($_REQUEST['selected_sections']))) {
 
 	// if more than 10 pages, list the first five, else display all
 	if($count >= 10)
@@ -163,13 +164,12 @@ if(isset($_REQUEST['sections']) && ($count = @count($_REQUEST['sections']))) {
 		$bucket = $count;
 
 	$items = array();
-	foreach($_REQUEST['sections'] as $dummy => $id) {
-		if($section = Sections::get($id)) {
-			$items[] = Skin::build_link(Sections::get_permalink($section), $section['title'], 'article');
-			$selected_sections .= '<input type="hidden" name="sections[]" value="'.$section['id'].'" />';
+	foreach($_REQUEST['selected_sections'] as $dummy => $id) {
+		if($section =& Sections::get($id)) {
+			if($bucket-- >= 0)
+				$items[] = Skin::build_link(Sections::get_permalink($section), $section['title'], 'article');
+			$selected_sections .= '<input type="hidden" name="selected_sections[]" value="'.$section['id'].'" />';
 		}
-		if($bucket-- <= 0)
-			break;
 	}
 
 	// a hint on non-listed pages
@@ -202,12 +202,12 @@ else
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
 } elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // access denied
 } elseif(!$permitted) {
@@ -218,13 +218,13 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // associate selected pages
 } elseif($action == 'associate_articles') {
 
 	// articles
-	if(isset($_REQUEST['articles'])) {
+	if(isset($_REQUEST['selected_articles'])) {
 
 		// actually a form
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
@@ -239,7 +239,7 @@ if(Surfer::is_crawler()) {
 
 		// follow-up commands
 		$menu = array();
-		$menu[] = Skin::build_submit_button(i18n::s('Associate'));
+		$menu[] = Skin::build_submit_button(i18n::s('Categorize'));
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Cancel', 'span');
 		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
@@ -247,13 +247,13 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No page has been selected.'));
+		Logger::error(i18n::s('No page has been selected.'));
 
 // associate selected pages
 } elseif($action == 'associate_sections') {
 
 	// sections
-	if(isset($_REQUEST['sections'])) {
+	if(isset($_REQUEST['selected_sections'])) {
 		// actually a form
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
 			.'<input type="hidden" name="action" value="associate_confirmed" />'."\n"
@@ -267,7 +267,7 @@ if(Surfer::is_crawler()) {
 
 		// follow-up commands
 		$menu = array();
-		$menu[] = Skin::build_submit_button(i18n::s('Associate'));
+		$menu[] = Skin::build_submit_button(i18n::s('Categorize'));
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Cancel', 'span');
 		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
@@ -275,20 +275,20 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No section has been selected.'));
+		Logger::error(i18n::s('No section has been selected.'));
 
 // actual association
 } elseif($action == 'associate_confirmed') {
 
 	// nothing to do
 	if(!isset($_REQUEST['associate_to']) || (!$destination =& Anchors::get($_REQUEST['associate_to'])))
-		Skin::error(i18n::s('Bad request.'));
+		Logger::error(i18n::s('Bad request.'));
 
 	// articles
-	elseif(isset($_REQUEST['articles'])) {
+	elseif(isset($_REQUEST['selected_articles'])) {
 
 		$count = 0;
-		foreach($_REQUEST['articles'] as $dummy => $id) {
+		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 			if(!$error = Members::assign($_REQUEST['associate_to'], 'article:'.$id))
 				$count++;
 		}
@@ -306,10 +306,10 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// sections
-	} elseif(isset($_REQUEST['sections'])) {
+	} elseif(isset($_REQUEST['selected_sections'])) {
 
 		$count = 0;
-		foreach($_REQUEST['sections'] as $dummy => $id) {
+		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 			if(!$error = Members::assign($_REQUEST['associate_to'], 'section:'.$id))
 				$count++;
 		}
@@ -328,13 +328,13 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No page has been selected.'));
+		Logger::error(i18n::s('No page has been selected.'));
 
 // delete selected pages
 } elseif($action == 'delete_articles') {
 
 	// articles
-	if(isset($_REQUEST['articles'])) {
+	if(isset($_REQUEST['selected_articles'])) {
 
 		// splash
 		$context['text'] .= '<p>'.i18n::s('Please confirm that you want to delete following pages.').'</p>';
@@ -355,13 +355,13 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No page has been selected.'));
+		Logger::error(i18n::s('No page has been selected.'));
 
 // delete selected pages
 } elseif($action == 'delete_sections') {
 
 	// sections
-	if(isset($_REQUEST['sections'])) {
+	if(isset($_REQUEST['selected_sections'])) {
 
 		// splash
 		$context['text'] .= '<p>'.i18n::s('Please confirm that you want to delete following pages.').'</p>';
@@ -382,16 +382,16 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No section has been selected.'));
+		Logger::error(i18n::s('No section has been selected.'));
 
 // actual deletion
 } elseif($action == 'delete_confirmed') {
 
 	// articles
-	if(isset($_REQUEST['articles'])) {
+	if(isset($_REQUEST['selected_articles'])) {
 
 		$count = 0;
-		foreach($_REQUEST['articles'] as $dummy => $id) {
+		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 			if(Articles::delete($id))
 				$count++;
 		}
@@ -408,10 +408,10 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// sections
-	} elseif(isset($_REQUEST['sections'])) {
+	} elseif(isset($_REQUEST['selected_sections'])) {
 
 		$count = 0;
-		foreach($_REQUEST['sections'] as $dummy => $id) {
+		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 			if(Sections::delete($id))
 				$count++;
 		}
@@ -429,16 +429,16 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No page has been selected.'));
+		Logger::error(i18n::s('No page has been selected.'));
 
 // draft pages
 } elseif($action == 'draft_articles') {
 
 	// articles
-	if(isset($_REQUEST['articles'])) {
+	if(isset($_REQUEST['selected_articles'])) {
 
 		$count = 0;
-		foreach($_REQUEST['articles'] as $dummy => $id) {
+		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// the article to de-publish
 			if(($article =& Articles::get($id)) && ($article['publish_date'] > NULL_DATE)) {
@@ -465,13 +465,13 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No page has been selected.'));
+		Logger::error(i18n::s('No page has been selected.'));
 
 // duplicate selected pages
 } elseif($action == 'duplicate_articles') {
 
 	// articles
-	if(isset($_REQUEST['articles'])) {
+	if(isset($_REQUEST['selected_articles'])) {
 
 		// actually a form
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
@@ -494,13 +494,13 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No page has been selected.'));
+		Logger::error(i18n::s('No page has been selected.'));
 
 // duplicate selected pages
 } elseif($action == 'duplicate_sections') {
 
 	// sections
-	if(isset($_REQUEST['sections'])) {
+	if(isset($_REQUEST['selected_sections'])) {
 
 		// actually a form
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
@@ -523,20 +523,20 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No section has been selected.'));
+		Logger::error(i18n::s('No section has been selected.'));
 
 // actual duplication
 } elseif($action == 'duplicate_confirmed') {
 
 	// nothing to do
 	if(!isset($_REQUEST['duplicate_to']) || (!$destination =& Anchors::get($_REQUEST['duplicate_to'])))
-		Skin::error(i18n::s('Bad request.'));
+		Logger::error(i18n::s('Bad request.'));
 
 	// articles
-	elseif(isset($_REQUEST['articles'])) {
+	elseif(isset($_REQUEST['selected_articles'])) {
 
 		$count = 0;
-		foreach($_REQUEST['articles'] as $dummy => $id) {
+		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// the article to duplicate
 			if($article =& Articles::get($id)) {
@@ -589,10 +589,10 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// sections
-	} elseif(isset($_REQUEST['sections'])) {
+	} elseif(isset($_REQUEST['selected_sections'])) {
 
 		$count = 0;
-		foreach($_REQUEST['sections'] as $dummy => $id) {
+		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 
 			// the section to duplicate
 			if($section =& Sections::get($id)) {
@@ -646,16 +646,16 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No page has been selected.'));
+		Logger::error(i18n::s('No page has been selected.'));
 
 // lock pages
 } elseif($action == 'lock_articles') {
 
 	// articles
-	if(isset($_REQUEST['articles'])) {
+	if(isset($_REQUEST['selected_articles'])) {
 
 		$count = 0;
-		foreach($_REQUEST['articles'] as $dummy => $id) {
+		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// an article to lock
 			if(($article =& Articles::get($id)) && ($article['locked'] != 'Y')) {
@@ -683,16 +683,16 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No page has been selected.'));
+		Logger::error(i18n::s('No page has been selected.'));
 
 // lock pages
 } elseif($action == 'lock_sections') {
 
 	// sections
-	if(isset($_REQUEST['sections'])) {
+	if(isset($_REQUEST['selected_sections'])) {
 
 		$count = 0;
-		foreach($_REQUEST['sections'] as $dummy => $id) {
+		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 
 			// an section to lock
 			if(($section =& Sections::get($id)) && ($section['locked'] != 'Y')) {
@@ -720,13 +720,13 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No section has been selected.'));
+		Logger::error(i18n::s('No section has been selected.'));
 
 // move selected pages
 } elseif($action == 'move_articles') {
 
 	// articles
-	if(isset($_REQUEST['articles'])) {
+	if(isset($_REQUEST['seleced_articles'])) {
 
 		// actually a form
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
@@ -749,13 +749,13 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No page has been selected.'));
+		Logger::error(i18n::s('No page has been selected.'));
 
 // move selected pages
 } elseif($action == 'move_sections') {
 
 	// sections
-	if(isset($_REQUEST['sections'])) {
+	if(isset($_REQUEST['selected_sections'])) {
 
 		// actually a form
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
@@ -778,20 +778,20 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No page has been selected.'));
+		Logger::error(i18n::s('No page has been selected.'));
 
 // actual move
 } elseif($action == 'move_confirmed') {
 
 	// nothing to do
 	if(!isset($_REQUEST['move_to']) || (!$destination =& Anchors::get($_REQUEST['move_to'])))
-		Skin::error(i18n::s('Bad request.'));
+		Logger::error(i18n::s('Bad request.'));
 
 	// articles
-	elseif(isset($_REQUEST['articles'])) {
+	elseif(isset($_REQUEST['selected_articles'])) {
 
 		$count = 0;
-		foreach($_REQUEST['articles'] as $dummy => $id) {
+		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 			$attributes = array();
 			$attributes['id'] = $id;
 			$attributes['anchor'] = $_REQUEST['move_to'];
@@ -815,10 +815,10 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// sections
-	} elseif(isset($_REQUEST['sections'])) {
+	} elseif(isset($_REQUEST['selected_sections'])) {
 
 		$count = 0;
-		foreach($_REQUEST['sections'] as $dummy => $id) {
+		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 			$attributes = array();
 			$attributes['id'] = $id;
 			$attributes['anchor'] = $_REQUEST['move_to'];
@@ -843,16 +843,16 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No page has been selected.'));
+		Logger::error(i18n::s('No page has been selected.'));
 
 // publish pages
 } elseif($action == 'publish_articles') {
 
 	// articles
-	if(isset($_REQUEST['articles'])) {
+	if(isset($_REQUEST['selected_articles'])) {
 
 		$count = 0;
-		foreach($_REQUEST['articles'] as $dummy => $id) {
+		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// the article to publish
 			if(($article =& Articles::get($id)) && ($article['publish_date'] <= NULL_DATE)) {
@@ -876,7 +876,7 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No page has been selected.'));
+		Logger::error(i18n::s('No page has been selected.'));
 
 // update rankings
 } elseif(($action == 'rank_articles') || ($action == 'rank_sections')) {
@@ -917,10 +917,10 @@ if(Surfer::is_crawler()) {
 } elseif($action == 'unlock_articles') {
 
 	// articles
-	if(isset($_REQUEST['articles'])) {
+	if(isset($_REQUEST['selected_articles'])) {
 
 		$count = 0;
-		foreach($_REQUEST['articles'] as $dummy => $id) {
+		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 
 			// an article to lock
 			if(($article =& Articles::get($id)) && ($article['locked'] == 'Y')) {
@@ -948,16 +948,16 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No page has been selected.'));
+		Logger::error(i18n::s('No page has been selected.'));
 
 // unlock pages
 } elseif($action == 'unlock_sections') {
 
 	// sections
-	if(isset($_REQUEST['sections'])) {
+	if(isset($_REQUEST['selected_sections'])) {
 
 		$count = 0;
-		foreach($_REQUEST['sections'] as $dummy => $id) {
+		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 
 			// an section to lock
 			if(($section =& Sections::get($id)) && ($section['locked'] == 'Y')) {
@@ -985,7 +985,7 @@ if(Surfer::is_crawler()) {
 
 	// nothing to do
 	} else
-		Skin::error(i18n::s('No section has been selected.'));
+		Logger::error(i18n::s('No section has been selected.'));
 
 // which operation?
 } else {
@@ -1038,50 +1038,57 @@ if(Surfer::is_crawler()) {
 			.'	return count;'."\n"
 			.'}'."\n"
 			."\n"
-			.'function submit_selected_articles(action) {'."\n"
+			.'function submit_selected_articles() {'."\n"
 			.'	if(count_selected_articles() < 1) {'."\n"
 			.'		alert("'.i18n::s('No page has been selected.').'");'."\n"
+			.'		return FALSE;'."\n"
 			.'	} else {'."\n"
-			.'		$("action").value = action;'."\n"
 			.'		$("main_form").submit();'."\n"
 			.'	}'."\n"
 			.'}'."\n"
 			."\n"
 			.'// ]]></script>'."\n";
 
-		// all commands
-		$menu = array();
-
+		// a list of commands
+		$options = '<select name="act_on_articles" id="act_on_articles"><option>-- '.i18n::s('Action').'</option>';
+		
 		// categorize selected pages
-		$menu[] = '<a href="#" class="button" onclick="submit_selected_articles(\'associate_articles\'); return false;"><span>'.i18n::s('Associate').'</span></a>';
+		$options .= '<option value="associate_articles">'.i18n::s('Categorize').'</option>';
 
 		// publish selected pages
-		$menu[] = '<a href="#" class="button" onclick="submit_selected_articles(\'publish_articles\'); return false;"><span>'.i18n::s('Publish').'</span></a>';
+		$options .= '<option value="publish_articles">'.i18n::s('Publish').'</option>';
 
 		// draft selected pages
-		$menu[] = '<a href="#" class="button" onclick="submit_selected_articles(\'draft_articles\'); return false;"><span>'.i18n::s('Draft').'</span></a>';
+		$options .= '<option value="draft_articles">'.i18n::s('Draft').'</option>';
 
 		// lock selected pages
-		$menu[] = '<a href="#" class="button" onclick="submit_selected_articles(\'lock_articles\'); return false;"><span>'.i18n::s('Lock').'</span></a>';
+		$options .= '<option value="lock_articles">'.i18n::s('Lock').'</option>';
 
 		// unlock selected pages
-		$menu[] = '<a href="#" class="button" onclick="submit_selected_articles(\'unlock_articles\'); return false;"><span>'.i18n::s('Unlock').'</span></a>';
+		$options .= '<option value="unlock_articles">'.i18n::s('Unlock').'</option>';
 
 		// duplicate selected pages
-		$menu[] = '<a href="#" class="button" onclick="submit_selected_articles(\'duplicate_articles\'); return false;"><span>'.i18n::s('Duplicate').'</span></a>';
+		$options .= '<option value="duplicate_articles">'.i18n::s('Duplicate').'</option>';
 
 		// move selected pages
-		$menu[] = '<a href="#" class="button" onclick="submit_selected_articles(\'move_articles\'); return false;"><span>'.i18n::s('Move').'</span></a>';
+		$options .= '<option value="move_articles">'.i18n::s('Move').'</option>';
 
 		// delete selected pages
-		$menu[] = '<a href="#" class="button" onclick="submit_selected_articles(\'delete_articles\'); return false;"><span>'.i18n::s('Delete').'</span></a>';
+		$options .= '<option value="delete_articles">'.i18n::s('Delete').'</option>';
 
 		// order pages
-		$menu[] = '<a href="#" class="button" onclick="$(\'action\').value = \'rank_articles\'; $(\'main_form\').submit(); return false;"><span>'.i18n::s('Update rankings').'</span></a>';
+		$options .= '<option value="rank_articles">'.i18n::s('Order').'</options>';
+
+		// end of options
+		$options .= '</select> <a href="#" class="button" onclick="return submit_selected_articles();"><span>&raquo;</span></a> ';
+
+		// all commands
+		$menu = array();
+		$menu[] = $options;
 
 		// back to section
 		$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Cancel'), 'span');
-
+		
 		// finalize the menu
 		$text .= BR.Skin::finalize_list($menu, 'page_menu');
 
@@ -1147,41 +1154,48 @@ if(Surfer::is_crawler()) {
 			.'	return count;'."\n"
 			.'}'."\n"
 			."\n"
-			.'function submit_selected_sections(action) {'."\n"
+			.'function submit_selected_sections() {'."\n"
 			.'	if(count_selected_sections() < 1) {'."\n"
 			.'		alert("'.i18n::s('No section has been selected.').'");'."\n"
+			.'		return FALSE;'."\n"
 			.'	} else {'."\n"
-			.'		$("action").value = action;'."\n"
 			.'		$("main_form").submit();'."\n"
 			.'	}'."\n"
 			.'}'."\n"
 			."\n"
 			.'// ]]></script>'."\n";
 
-		// all commands
-		$menu = array();
-
+		// a list of commands
+		$options = '<select name="act_on_sections" id="act_on_sections"><option>-- '.i18n::s('Action').'</option>';
+		
 		// categorize selected pages
-		$menu[] = '<a href="#" class="button" onclick="submit_selected_sections(\'associate_sections\'); return false;">'.i18n::s('Associate').'</a>';
+		$options .= '<option value="associate_sections">'.i18n::s('Categorize').'</option>';
 
 		// lock selected pages
-		$menu[] = '<a href="#" class="button" onclick="submit_selected_sections(\'lock_sections\'); return false;">'.i18n::s('Lock').'</a>';
+		$options .= '<option value="lock_sections">'.i18n::s('Lock').'</option>';
 
 		// unlock selected pages
-		$menu[] = '<a href="#" class="button" onclick="submit_selected_sections(\'unlock_sections\'); return false;">'.i18n::s('Unlock').'</a>';
+		$options .= '<option value="unlock_sections">'.i18n::s('Unlock').'</option>';
 
 		// duplicate selected pages
-//		$menu[] = '<a href="#" class="button" onclick="submit_selected_sections(\'duplicate_sections\'); return false;">'.i18n::s('Duplicate').'</a>';
+//		$options .= '<option value="duplicate_sections">'.i18n::s('Duplicate').'</option>';
 
 		// move selected pages
-		$menu[] = '<a href="#" class="button" onclick="submit_selected_sections(\'move_sections\'); return false;">'.i18n::s('Move').'</a>';
+		$options .= '<option value="move_sections">'.i18n::s('Move').'</option>';
 
 		// delete selected pages
-		$menu[] = '<a href="#" class="button" onclick="submit_selected_sections(\'delete_sections\'); return false;">'.i18n::s('Delete').'</a>';
+		$options .= '<option value="delete_sections">'.i18n::s('Delete').'</option>';
 
 		// order pages
-		$menu[] = '<a href="#" class="button" onclick="$(\'action\').value = \'rank_sections\'; $(\'main_form\').submit(); return false;">'.i18n::s('Update rankings').'</a>';
+		$options .= '<option value="rank_sections">'.i18n::s('Order').'</option>';
+		
+		// end of options
+		$options .= '</select> <a href="#" class="button" onclick="return submit_selected_sections();"><span>&raquo;</span></a> ';
 
+		// all commands
+		$menu = array();
+		$menu[] = $options;
+		
 		// back to section
 		$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Cancel'), 'span');
 
@@ -1218,9 +1232,6 @@ if(Surfer::is_crawler()) {
 
 	// the target section
 	$context['text'] .= '<input type="hidden" name="id" value="'.encode_field($item['id']).'" />';
-
-	// the action to proceed
-	$context['text'] .= '<input type="hidden" name="action" id="action" />';
 
 	// end of the form
 	$context['text'] .= '</div></form>';

@@ -55,22 +55,22 @@ $context['page_title'] = i18n::s('Use an image');
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
 } elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has been found.'));
+	Logger::error(i18n::s('No item has been found.'));
 
 // no anchor
 } elseif(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No anchor has been found.'));
+	Logger::error(i18n::s('No anchor has been found.'));
 
 // operation is restricted to associates and editors
 } elseif(!Surfer::is_associate() && !$anchor->is_editable()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // set this image as the anchor thumbnail
 } else {
@@ -81,7 +81,7 @@ if(Surfer::is_crawler()) {
 		// back to the anchor page
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
 	}
-	Skin::error($error);
+	Logger::error($error);
 }
 
 // failed operation

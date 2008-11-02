@@ -85,12 +85,12 @@ if(Surfer::is_associate()) {
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
 } elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -101,7 +101,7 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the server profile
 } else {
@@ -135,7 +135,7 @@ if(Surfer::is_crawler()) {
 
 	// no feed url
 	if(!$item['feed_url'])
-		Skin::error(i18n::s('No feed url has been configured for this server profile.'));
+		Logger::error(i18n::s('No feed url has been configured for this server profile.'));
 
 	// test the provided url
 	else {

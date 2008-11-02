@@ -157,7 +157,7 @@ $context['page_title'] = i18n::s('Authentication');
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // use provided credentials
 } elseif($credentials) {
@@ -167,19 +167,19 @@ if(Surfer::is_crawler()) {
 
 		// get an anchor
 		if(!isset($credentials[1]) || (!$anchor =& Anchors::get($credentials[1])))
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 
 		// retrieve poster attributes
 		elseif((!$poster = $anchor->get_poster()) || !isset($poster['nick_name']))
-			Skin::error(i18n::s('Request is invalid.'));
+			Logger::error(i18n::s('Request is invalid.'));
 
 		// we need some salted secret
 		elseif(!isset($credentials[2]))
-			Skin::error(i18n::s('Request is invalid.'));
+			Logger::error(i18n::s('Request is invalid.'));
 
 		// check salted secret against nick name --also as lower case
 		elseif(strcmp($credentials[2], sprintf('%u', crc32($poster['nick_name'].':'.$anchor->get_handle()))) && strcmp($credentials[2], sprintf('%u', crc32(strtolower($poster['nick_name']).':'.$anchor->get_handle()))))
-			Skin::error(i18n::s('Request is invalid.'));
+			Logger::error(i18n::s('Request is invalid.'));
 
 		// authenticate and redirect
 		else {
@@ -205,15 +205,15 @@ if(Surfer::is_crawler()) {
 
 		// get user profile
 		if(!isset($credentials[1]) || (!$user = Users::get($credentials[1])))
-			Skin::error('No item has the provided id.');
+			Logger::error('No item has the provided id.');
 
 		// random string
 		elseif(!isset($credentials[2]) || !$credentials[2])
-			Skin::error(i18n::s('Request is invalid.'));
+			Logger::error(i18n::s('Request is invalid.'));
 
 		// check salted secret
 		elseif(!isset($credentials[3]) || strcmp($credentials[3], sprintf('%u', crc32($credentials[2].':'.$user['handle']))))
-			Skin::error(i18n::s('Request is invalid.'));
+			Logger::error(i18n::s('Request is invalid.'));
 
 		// authenticate and offer to change the password
 		else {
@@ -249,15 +249,15 @@ if(Surfer::is_crawler()) {
 
 		// get an anchor
 		if(!isset($credentials[1]) || (!$anchor =& Anchors::get($credentials[1])))
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 
 		// visitor email address
 		elseif(!isset($credentials[2]) || !$credentials[2])
-			Skin::error(i18n::s('Request is invalid.'));
+			Logger::error(i18n::s('Request is invalid.'));
 
 		// we need some salted secret
 		elseif(!isset($credentials[3]) || strcmp($credentials[3], sprintf('%u', crc32($credentials[2].':'.$anchor->get_handle()))))
-			Skin::error(i18n::s('Request is invalid.'));
+			Logger::error(i18n::s('Request is invalid.'));
 
 		// authenticate and redirect
 		else {
@@ -305,7 +305,7 @@ if(Surfer::is_crawler()) {
 		}
 
 	} else
-		Skin::error(i18n::s('Request is invalid.'));
+		Logger::error(i18n::s('Request is invalid.'));
 
 // some data have been posted
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
@@ -475,8 +475,11 @@ if(Surfer::is_crawler()) {
 		//
 
 		// user profile aside
-		$context['extra'] .= Skin::build_profile($user, 'extra');
+		$context['aside']['profile'] = Skin::build_profile($user, 'extra');
 
+		// more boxes
+		$context['aside']['boxes'] = '';
+		
 		// contribution links, in an extra box
 		if(Surfer::is_member()) {
 			$links = array();
@@ -488,7 +491,7 @@ if(Surfer::is_crawler()) {
 				$links = array_merge($links, array( 'users/edit.php' => i18n::s('Add a user') ));
 			}
 
-			$context['extra'] .= Skin::build_box(i18n::s('Contribute'), Skin::build_list($links, 'compact'), 'navigation');
+			$context['aside']['boxes'] .= Skin::build_box(i18n::s('Contribute'), Skin::build_list($links, 'compact'), 'navigation');
 		}
 
 		// navigation links, in an extra box
@@ -499,7 +502,7 @@ if(Surfer::is_crawler()) {
 		$links = array_merge($links, array( 'categories/' => i18n::s('Categories') ));
 		$links = array_merge($links, array( 'search.php' => i18n::s('Search') ));
 
-		$context['extra'] .= Skin::build_box(i18n::s('Navigate'), Skin::build_list($links, 'compact'), 'navigation');
+		$context['aside']['boxes'] .= Skin::build_box(i18n::s('Navigate'), Skin::build_list($links, 'compact'), 'navigation');
 
 	// failed authentication
 	} else {
@@ -510,7 +513,7 @@ if(Surfer::is_crawler()) {
 		// reset the current session
 		Surfer::reset();
 
-		Skin::error(i18n::s('Failed authentication'));
+		Logger::error(i18n::s('Failed authentication'));
 
 		// follow-up commands
 		$follow_up = i18n::s('Where do you want to go now?');
@@ -645,7 +648,7 @@ if(Surfer::is_crawler()) {
 	// the help panel
 	$help = '<p>'.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'</p>'
 		.'<p>'.sprintf(i18n::s('If you already are a registered member, but do not remember your username and/or password, %s.'), Skin::build_link('users/password.php', i18n::s('click here'))).'</p>';
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

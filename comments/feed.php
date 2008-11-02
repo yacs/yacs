@@ -75,15 +75,10 @@ else
 // page title
 $context['page_title'] = i18n::s('RSS feed');
 
-// stop crawlers
-if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
-
 // permission denied
-} elseif(!$permitted) {
+if(!$permitted) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display feed content
 } else {
@@ -115,11 +110,11 @@ if(Surfer::is_crawler()) {
 		if(isset($context['powered_by_image']) && $context['powered_by_image'])
 			$values['channel']['image'] = $context['url_to_home'].$context['url_to_root'].$context['powered_by_image'];
 
-		// list comments from the database -- 2000 is the limit set in Comments::purge_for_anchor()
+		// list comments from the database -- no more than 100 at a time
 		if(is_object($anchor))
-			$values['items'] = Comments::list_by_date_for_anchor($anchor->get_reference(), 0, 2000, 'feeds');
+			$values['items'] = Comments::list_by_date_for_anchor($anchor->get_reference(), 0, 100, 'feeds');
 		else
-			$values['items'] = Comments::list_by_date(0, 2000, 'feeds');
+			$values['items'] = Comments::list_by_date(0, 100, 'feeds');
 
 		// make a text
 		include_once '../services/codec.php';

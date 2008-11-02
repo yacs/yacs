@@ -53,7 +53,7 @@ load_skin('panel');
 $context['page_title'] = i18n::s('New page');
 
 // the form to edit an article
-$context['text'] .= '<form id="edit_form" method="post"'
+$context['text'] .= '<form method="post"'
 	.' action="'.$context['url_to_root'].'articles/edit.php" target="'.htmlspecialchars($target).'" id="main_form">';
 
 // the section
@@ -77,8 +77,7 @@ $context['text'] .= '<p>'.i18n::s('Page content').BR
 	.'</p>'."\n";
 
 // the submit and reset buttons
-$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', NULL, 'no_spin_on_click')
-	.' <input type="reset" value="'.encode_field(i18n::s('Reset')).'" accesskey="r" title="'.encode_field(i18n::s('Reset')).'" /></p>'."\n";
+$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', NULL, 'no_spin_on_click').'</p>'."\n";
 
 // end of the form
 $context['text'] .= '</form>';
@@ -90,8 +89,16 @@ render_raw();
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
 
+// add language information, if known
+if(isset($context['page_language']))
+	$language = ' xml:lang="'.$context['page_language'].'" ';
+else
+	$language = '';
+
 // do our own rendering
-echo "<html>\n<head>\n";
+echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'."\n"
+	.'<html '.$language.' xmlns="http://www.w3.org/1999/xhtml">'."\n"
+	.'<head>'."\n";
 
 // the title
 if(isset($context['page_title']))

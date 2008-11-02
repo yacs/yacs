@@ -3,23 +3,38 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['fr']['565268c8f67e6811cb636fce1233a9ac']='%d fichier a été téléchargé depuis le serveur de référence.'.chr(0).'%d fichiers ont été téléchargés depuis le serveur de référence.';
-$_SESSION['l10n']['fr']['341b51d0903352bdc690bd54123302d1']='%d fichier a été mis à jour.'.chr(0).'%d fichiers ont été mis à jour.';
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:08+0100
+PO-Revision-Date: 2008-11-02 23:22+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
+$_SESSION['l10n']['fr']['dcd21e522fbc94ded6a8e8b87a3e9462']='%d fichier a été téléchargé depuis le serveur de référence.'.chr(0).'%d fichiers ont été téléchargés depuis le serveur de référence.';
+$_SESSION['l10n']['fr']['7ad856d3f100e5b830e9dea5d1332045']='%d fichier a été mis à jour.'.chr(0).'%d fichiers ont été mis à jour.';
 $_SESSION['l10n']['fr']['%d files have been extracted.']='%d fichiers ont été extraits.';
 $_SESSION['l10n']['fr']['%d files have been found.']='%d fichiers ont été trouvés.';
 $_SESSION['l10n']['fr']['%d files have been included.']='%d fichiers ont été inclus.';
 $_SESSION['l10n']['fr']['909efefe280bf8698001d78f51a5b341']='%d fichiers à traiter manuellement.';
 $_SESSION['l10n']['fr']['%d items have been purged']='%d éléments ont été supprimés';
 $_SESSION['l10n']['fr']['8315d51149f2995adda2adaa8307dc4e']='%d scripts de référence ont été copiés';
-$_SESSION['l10n']['fr']['c06c60caa762bf30846387d9525c864c']='%d script a été exécuté'.chr(0).'%d scripts ont été exécutés';
-$_SESSION['l10n']['fr']['09fef7ba25bc7a07c1e534f1cb3fd420']='%d script est en attente de mise à jour.'.chr(0).'%d scripts sont en attente de mise à jour.';
+$_SESSION['l10n']['fr']['171c1e53aa099715842cc46a54df9dc7']='%d script a été exécuté'.chr(0).'%d scripts ont été exécutés';
+$_SESSION['l10n']['fr']['d8866eb4798f61a4806150e0c4c3018c']='%d script est en attente de mise à jour.'.chr(0).'%d scripts sont en attente de mise à jour.';
 $_SESSION['l10n']['fr']['%d scripts have been found.']='%d scripts ont été trouvés.';
 $_SESSION['l10n']['fr']['%d scripts have been parsed.']='%d scripts ont été analysés.';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
 $_SESSION['l10n']['fr']['%s has no readable content.']='%s n\'a pas de contenu';
 $_SESSION['l10n']['fr']['%s is not a reference script']='%s n\'est pas un script du référentiel';
+$_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['57a91a00a0090847fa77bc330b8d0048']='***%s n\'a pas de bloc de documentation';
 $_SESSION['l10n']['fr']['d7c33da221e415774d9998a7b72a6894']='Tous les scripts de référence sont inclus afin de mettre en évidence les erreurs de syntaxe potentielles.';
 $_SESSION['l10n']['fr']['0849802468e0c6d722eec053818e29fd']='Ce script sait aussi traiter les archives placées dans le répertoire %s.';
@@ -41,7 +56,6 @@ $_SESSION['l10n']['fr']['Compress reference PHP scripts.']='Compresser les scrip
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
-$_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
 $_SESSION['l10n']['fr']['d020262f882c464f052d7faa6e3bb07e']='Félicitations, le correctif a été appliqué.';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Copying files...']='Copie des fichiers ...';
@@ -85,7 +99,7 @@ $_SESSION['l10n']['fr']['Licenses']='Licences';
 $_SESSION['l10n']['fr']['Licenses for all those scripts']='Les licences d\'usage de ces scripts';
 $_SESSION['l10n']['fr']['Listing files...']='Inventaire des fichiers ...';
 $_SESSION['l10n']['fr']['Merge']='Combiné';
-$_SESSION['l10n']['fr']['4ea01779754204c05e7b7e7c4b1c672c']='Les données ont été sauvées dans le fichier scripts/reference/footprints.php.';
+$_SESSION['l10n']['fr']['Meta data have been saved in %s']='Les méta-données ont été sauvées dans le fichier %s.';
 $_SESSION['l10n']['fr']['No archive has been found.']='Aucune archive n\'a été trouvée.';
 $_SESSION['l10n']['fr']['No comments to report on!']='Aucun commentaire à rapporter !';
 $_SESSION['l10n']['fr']['a7eebcca25b9c52515bb5006fd7a9894']='Aucun fichier n\'a été téléchargé. Les scripts sur votre serveur sont à jour par rapport au serveur de référence.';
@@ -112,7 +126,6 @@ $_SESSION['l10n']['fr']['58307fee2eb36a82781084c561fff62d']='Suppression des pag
 $_SESSION['l10n']['fr']['c8bd10c743f6ae1fcc217ae36a860434']='L\'archive de référence a été sauvée dans le fichier %s.';
 $_SESSION['l10n']['fr']['Reference script: %s']='Script de référence : %s';
 $_SESSION['l10n']['fr']['17f3d5f530a5076c5820d9b50f3474db']='Ensemble de référence de %d fichiers créé le %s sur le serveur %s';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Review']='Visualiser';
 $_SESSION['l10n']['fr']['5bf3b809e693a9ac0b4dcf5e6e4e028a']='Contrôler les nouveaux scripts avant la mise à jour';
 $_SESSION['l10n']['fr']['Run once']='Exécution unique';
@@ -145,7 +158,7 @@ $_SESSION['l10n']['fr']['Testers']='Testeurs';
 $_SESSION['l10n']['fr']['Testers of all those scripts']='Les testeurs de ces scripts';
 $_SESSION['l10n']['fr']['Testers:']='Testeurs :';
 $_SESSION['l10n']['fr']['557e12336a208c73b9d8f78bae72b51c']='La documentation complète est disponible sur le serveur suivant :';
-$_SESSION['l10n']['fr']['671a80bc7e516973a52aa9fd2bea3aaf']='Le fichier scripts/reference/footprints.php n\'a pas été généré et les données du référentiel sont utilisables seulement pour test.';
+$_SESSION['l10n']['fr']['7eaa17f005abe041b85b63d6c2519241']='Le fichier %s n\'a pas été généré et les données du référentiel sont utilisables seulement pour test.';
 $_SESSION['l10n']['fr']['3513760fe3e0b14f2af4cc30a501d92a']='La configuration suivante a été enregistrée dans le fichier %s.';
 $_SESSION['l10n']['fr']['b5d5d9a0b3a6832af6113b769c5270ca']='Les scripts de référence ont été reconstruits';
 $_SESSION['l10n']['fr']['c5b64cab449af0324e22fd245d95879d']='Le serveur a été fermé. Rouvrez-le dès que possible.';

@@ -15,7 +15,7 @@ global $skins;
 $skins['skins/digital'] = array(
 	'label_en' => 'digital',
 	'label_fr' => 'digital',
-	'description_en' => 'This skin is coming from the Digital Web Magazine, at http://www.digital-web.com/ and'
+	'description_en' => 'This theme is coming from the Digital Web Magazine, at http://www.digital-web.com/ and'
 		.' it features a fluid 3-column layout and dynamic/fixed navigation tabs.'
 		.' Left column has a fixed size, and the optional 3rd column may be sized according to the page displayed.',
 	'description_fr' => 'Ce style est inspir&eacute; de celui de Digital Web Magazine, &agrave; http://www.digital-web.com/ et'

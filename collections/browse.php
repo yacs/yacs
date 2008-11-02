@@ -88,7 +88,7 @@ $context['path_bar'] = array( 'collections/' => i18n::s('File collections') );
 if(!isset($item['collection']) || !$item['collection']) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	$context['page_title'] = i18n::s('Unknown collection');
-	Skin::error(i18n::s('The collection asked for is unknown.'));
+	Logger::error(i18n::s('The collection asked for is unknown.'));
 
 // access is prohibited
 } elseif((($item['collection_visibility'] == 'N') && !Surfer::is_empowered())
@@ -103,7 +103,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	$context['page_title'] = i18n::s('Restricted access');
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // browse this place
 } else {
@@ -452,7 +452,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 	// general help
 	$help = '<p>'.i18n::s('Click on file names to transfer them to your workstation, or to start a Play-on-demand session.').'</p>'
 		.'<p>'.sprintf(i18n::s('If you are looking for a good piece of software to manage streaming music and video, download %s or %s.'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('http://www.winamp.com/'), i18n::s('Winamp player'), 'external')).'</p>';
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

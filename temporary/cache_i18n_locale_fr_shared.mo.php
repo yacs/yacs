@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-11-02 23:25+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n > 1);
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: French
+';
 $_SESSION['l10n']['fr']['be362d7d53a1254f538bfda2a9b7b995']='Un membre est requis pour cette opération.';
 $_SESSION['l10n']['fr']['Access collection']='Voir la collection';
 $_SESSION['l10n']['fr']['Actions']='Actions';
@@ -33,7 +47,7 @@ $_SESSION['l10n']['fr']['Images']='Images';
 $_SESSION['l10n']['fr']['Impossible to connect to %s.']='Impossible de se connecter à %s.';
 $_SESSION['l10n']['fr']['Impossible to extract files.']='Impossible d\'extraire les fichiers.';
 $_SESSION['l10n']['fr']['Impossible to read %s.']='Impossible de lire %s.';
-$_SESSION['l10n']['fr']['Invite people']='Personnes invitées';
+$_SESSION['l10n']['fr']['Invite people']='Inviter d\'autres personnes';
 $_SESSION['l10n']['fr']['Join %s at %s']='Rejoindre %s à %s';
 $_SESSION['l10n']['fr']['Last edition']='Dernière modification';
 $_SESSION['l10n']['fr']['Last stacking element: %s']='Dernier élément de pile : %s';
@@ -71,11 +85,14 @@ $_SESSION['l10n']['fr']['Table']='Table';
 $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['The table']='La table';
 $_SESSION['l10n']['fr']['3e5db4a2ca0b72619890b0a6317167b5']='Ce message a été généré automatiquement par %s. Pour arrêter ces alertes dynamiques vous pouvez suivre le lien suivant et retirer votre adresse des destinaires des événements système.';
+$_SESSION['l10n']['fr']['Tools']='Outils';
 $_SESSION['l10n']['fr']['b14e57cf6aea5bcf8b57974ce6a1545d']='Tapez exactement les 5 caractères suivants :';
 $_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Evitez les balises HTML.';
 $_SESSION['l10n']['fr']['User']='Utilisateur';
+$_SESSION['l10n']['fr']['User login']='Authentification';
 $_SESSION['l10n']['fr']['Versions']='Versions';
 $_SESSION['l10n']['fr']['6bb9e1aa16d4d6776927b05fc4fdb6f1']='Voir toutes les informations vous concernant';
+$_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
 $_SESSION['l10n']['fr']['View this comment']='Voir ce commentaire';
 $_SESSION['l10n']['fr']['View this decision']='Voir cette décision';
 $_SESSION['l10n']['fr']['Visited']='Visites';

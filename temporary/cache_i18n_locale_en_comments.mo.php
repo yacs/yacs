@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-09-07 00:28+0100
+Last-Translator: Paques, Bernard
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['en']['%d post'.chr(0).'%d posts']='%d post'.chr(0).'%d posts';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['%d thread'.chr(0).'%d threads']='%d thread'.chr(0).'%d threads';
@@ -34,7 +48,7 @@ $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit your post below']='Edit your post below';
 $_SESSION['l10n']['en']['Edited by']='Edited by';
 $_SESSION['l10n']['en']['FCKEditor']='FCKEditor';
-$_SESSION['l10n']['en']['d8369d2b68b9502eca73f6751a5759d3']='Hearty discussion and unpopular viewpoints are welcome, but please keep comments on-category and civil. Flaming, trolling, and smarmy comments are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don\'t make us do it.';
+$_SESSION['l10n']['en']['4bb33a5f640ed9b688aede2807e169fc']='Hearty discussion and unpopular viewpoints are welcome, but please keep comments on-category and civil. Flaming, trolling, and smarmy comments are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don\'t make us do it.';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['I don\'t like...']='I don\'t like...';
 $_SESSION['l10n']['en']['I like...']='I like...';
@@ -71,7 +85,6 @@ $_SESSION['l10n']['en']['RSS feed']='RSS feed';
 $_SESSION['l10n']['en']['React to this post']='React to this post';
 $_SESSION['l10n']['en']['Recent comments at %s']='Recent comments at %s';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Reply']='Reply';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['a05645e8bcb9d65916b93961e3239d97']='Since you are posting anonymously, most HTML tags and web addresses are removed.';

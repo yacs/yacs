@@ -64,12 +64,12 @@ else
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // we are using an external authenticator
 } elseif(isset($context['users_authenticator']) && $context['users_authenticator']) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no user id has been provided
 } elseif(!isset($item['id']) || !$item['id']) {
@@ -120,7 +120,7 @@ if(Surfer::is_crawler()) {
 
 	// stop robots
 	if(Surfer::may_be_a_robot()) {
-		Skin::error(i18n::s('Please prove you are not a robot.'));
+		Logger::error(i18n::s('Please prove you are not a robot.'));
 
 	// we have a target address, which is the correct one, and mail has been activated
 	} elseif(isset($item['email']) && trim($item['email']) && !strcmp($id, $item['nick_name']) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
@@ -175,24 +175,24 @@ if(Surfer::is_crawler()) {
 
 // restrictions: anyone can modify its own profile; associates can modify everything
 } elseif(($id != Surfer::get_id()) && !Surfer::is_associate())
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // redirect to the origin server
 elseif($origin) {
-	Skin::error(sprintf(i18n::s('We are only keeping a shadow record for this user profile. Please change the password for this account at %s'), Skin::build_link('http://'.$origin, $origin, 'external')));
+	Logger::error(sprintf(i18n::s('We are only keeping a shadow record for this user profile. Please change the password for this account at %s'), Skin::build_link('http://'.$origin, $origin, 'external')));
 
 // some data have been posted
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// passwords have to be confirmed
 	if(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] != $_REQUEST['password'])) {
-		Skin::error(i18n::s('Please confirm your new password.'));
+		Logger::error(i18n::s('Please confirm your new password.'));
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
 	// stop robots and replay attacks
 	} elseif(Surfer::may_be_a_robot()) {
-		Skin::error(i18n::s('Please prove you are not a robot.'));
+		Logger::error(i18n::s('Please prove you are not a robot.'));
 		$item = $_REQUEST;
 		$with_form = TRUE;
 

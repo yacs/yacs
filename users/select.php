@@ -61,12 +61,12 @@ if(is_object($anchor)) {
 
 // an anchor is mandatory
 if(!is_object($anchor))
-	Skin::error(i18n::s('No anchor has been found.'));
+	Logger::error(i18n::s('No anchor has been found.'));
 
 // permission denied
 elseif(!$permitted) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // build a form to associates some users to this item
 } else {

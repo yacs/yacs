@@ -89,7 +89,7 @@ if($item['id'] && Surfer::is_associate())
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -100,7 +100,7 @@ if(!isset($item['id'])) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the decision
 } else {
@@ -184,24 +184,7 @@ if(!isset($item['id'])) {
 	//
 	// the referrals, if any, in a sidebar
 	//
-	if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))) {
-
-		$cache_id = 'decisions/view.php?id='.$item['id'].'#referrals';
-		if(!$text =& Cache::get($cache_id)) {
-
-			// box content in a sidebar box
-			include_once '../agents/referrals.php';
-			if($text = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].decisions::get_url($item['id'])))
-				$text =& Skin::build_box(i18n::s('Referrals'), $text, 'navigation', 'referrals');
-
-			// save in cache for one hour 60 * 60 = 3600
-			Cache::put($cache_id, $text, 'referrals', 3600);
-
-		}
-
-		// in the extra panel
-		$context['extra'] .= $text;
-	}
+	$context['aside']['referrals'] =& Skin::build_referrals(Decisions::get_url($item['id']));
 
 }
 

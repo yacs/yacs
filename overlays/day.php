@@ -192,7 +192,7 @@ class Day extends Overlay {
 
 				// update the database
 				if(!$fields['id'] = Dates::post($fields)) {
-					Skin::error(i18n::s('Impossible to add an item.'));
+					Logger::error(i18n::s('Impossible to add an item.'));
 					return FALSE;
 				}
 
@@ -214,14 +214,14 @@ class Day extends Overlay {
 					// update the record
 					$fields['id'] = $date['id'];
 					if(!$id = Dates::post($fields)) {
-						Skin::error(sprintf(i18n::s('Impossible to update date %s'), $this->attributes['date_stamp']));
+						Logger::error(sprintf(i18n::s('Impossible to update date %s'), $this->attributes['date_stamp']));
 						return FALSE;
 					}
 
 				// create a record instead of raising an error, we are smart y'a'know
 				} else {
 					if(!$fields['id'] = Dates::post($fields)) {
-						Skin::error(i18n::s('Impossible to add an item.'));
+						Logger::error(i18n::s('Impossible to add an item.'));
 						return FALSE;
 					}
 				}

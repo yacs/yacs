@@ -41,6 +41,8 @@
  *
  * The script ensures a minimum delay of 5 minutes between successive ticks.
  *
+ * This script is not localized, and always provides result in English. 
+ *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -93,13 +95,9 @@ if(!file_exists($context['path_to_root'].'parameters/switch.on'))
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
 
-// stop crawlers
-if(Surfer::is_crawler())
-	return;
-
 // load for hooks --see control/scan.php
 if(!is_callable(array('Hooks', 'include_scripts')))
-	exit(sprintf(i18n::s('Impossible to read %s.'), 'parameters/hooks.include.php'));
+	exit(sprintf('Impossible to read %s.', 'parameters/hooks.include.php'));
 
 // get date of last tick
 $record = Values::get_record('cron.tick', NULL_DATE);
@@ -133,6 +131,6 @@ Logger::profile_dump();
 
 // all done
 $time = round(get_micro_time() - $context['start_time'], 2);
-exit(sprintf(i18n::s('Script terminated in %.2f seconds.'), $time));
+exit(sprintf('Script terminated in %.2f seconds.', $time));
 
 ?>

@@ -3,23 +3,38 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['en']['565268c8f67e6811cb636fce1233a9ac']='%d file has been downloaded from the reference server.'.chr(0).'%d files have been downloaded from the reference server.';
-$_SESSION['l10n']['en']['341b51d0903352bdc690bd54123302d1']='%d file has been updated.'.chr(0).'%d files have been updated.';
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:08+0100
+PO-Revision-Date: 2008-11-02 23:18+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
+$_SESSION['l10n']['en']['dcd21e522fbc94ded6a8e8b87a3e9462']='%d file has been downloaded from the reference server.'.chr(0).'%d files have been downloaded from the reference server.';
+$_SESSION['l10n']['en']['7ad856d3f100e5b830e9dea5d1332045']='%d file has been updated.'.chr(0).'%d files have been updated.';
 $_SESSION['l10n']['en']['%d files have been extracted.']='%d files have been extracted.';
 $_SESSION['l10n']['en']['%d files have been found.']='%d files have been found.';
 $_SESSION['l10n']['en']['%d files have been included.']='%d files have been included.';
 $_SESSION['l10n']['en']['909efefe280bf8698001d78f51a5b341']='%d files to be checked manually.';
 $_SESSION['l10n']['en']['%d items have been purged']='%d items have been purged';
 $_SESSION['l10n']['en']['8315d51149f2995adda2adaa8307dc4e']='%d reference scripts have been copied.';
-$_SESSION['l10n']['en']['c06c60caa762bf30846387d9525c864c']='%d script has been executed'.chr(0).'%d scripts have been executed';
-$_SESSION['l10n']['en']['09fef7ba25bc7a07c1e534f1cb3fd420']='%d script has to be updated.'.chr(0).'%d scripts have to be updated.';
+$_SESSION['l10n']['en']['171c1e53aa099715842cc46a54df9dc7']='%d script has been executed'.chr(0).'%d scripts have been executed';
+$_SESSION['l10n']['en']['d8866eb4798f61a4806150e0c4c3018c']='%d script has to be updated.'.chr(0).'%d scripts have to be updated.';
 $_SESSION['l10n']['en']['%d scripts have been found.']='%d scripts have been found.';
 $_SESSION['l10n']['en']['%d scripts have been parsed.']='%d scripts have been parsed.';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
 $_SESSION['l10n']['en']['%s has no readable content.']='%s has no readable content.';
 $_SESSION['l10n']['en']['%s is not a reference script']='%s is not a reference script';
+$_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['57a91a00a0090847fa77bc330b8d0048']='*** %s has no documentation block';
 $_SESSION['l10n']['en']['d7c33da221e415774d9998a7b72a6894']='All reference scripts are included, to show evidence of possible syntax errors.';
 $_SESSION['l10n']['en']['0849802468e0c6d722eec053818e29fd']='Alternatively, this script is able to handle archives that have been put in the directory %s.';
@@ -41,7 +56,6 @@ $_SESSION['l10n']['en']['Compress reference PHP scripts.']='Compress reference P
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
-$_SESSION['l10n']['en']['Configure: %s']='Configure: %s';
 $_SESSION['l10n']['en']['d020262f882c464f052d7faa6e3bb07e']='Congratulations, the patch has been applied.';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Copying files...']='Copying files...';
@@ -85,7 +99,7 @@ $_SESSION['l10n']['en']['Licenses']='Licenses';
 $_SESSION['l10n']['en']['Licenses for all those scripts']='Licenses for all those scripts';
 $_SESSION['l10n']['en']['Listing files...']='Listing files...';
 $_SESSION['l10n']['en']['Merge']='Merge';
-$_SESSION['l10n']['en']['4ea01779754204c05e7b7e7c4b1c672c']='Meta data have been saved in scripts/reference/footprints.php.';
+$_SESSION['l10n']['en']['Meta data have been saved in %s']='Meta data have been saved in %s';
 $_SESSION['l10n']['en']['No archive has been found.']='No archive has been found.';
 $_SESSION['l10n']['en']['No comments to report on!']='No comments to report on!';
 $_SESSION['l10n']['en']['a7eebcca25b9c52515bb5006fd7a9894']='No file has been staged. Scripts on your server are exact copies of the reference set.';
@@ -112,7 +126,6 @@ $_SESSION['l10n']['en']['58307fee2eb36a82781084c561fff62d']='Purging the documen
 $_SESSION['l10n']['en']['c8bd10c743f6ae1fcc217ae36a860434']='Reference archive has been saved in %s.';
 $_SESSION['l10n']['en']['Reference script: %s']='Reference script: %s';
 $_SESSION['l10n']['en']['17f3d5f530a5076c5820d9b50f3474db']='Reference set of %d files built on %s on server %s';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Review']='Review';
 $_SESSION['l10n']['en']['5bf3b809e693a9ac0b4dcf5e6e4e028a']='Review downloaded scripts before the update';
 $_SESSION['l10n']['en']['Run once']='Run once';
@@ -145,7 +158,7 @@ $_SESSION['l10n']['en']['Testers']='Testers';
 $_SESSION['l10n']['en']['Testers of all those scripts']='Testers of all those scripts';
 $_SESSION['l10n']['en']['Testers:']='Testers:';
 $_SESSION['l10n']['en']['557e12336a208c73b9d8f78bae72b51c']='The complete documentation is available at the following server:';
-$_SESSION['l10n']['en']['671a80bc7e516973a52aa9fd2bea3aaf']='The file scripts/reference/footprints.php has not been generated and the reference store can only be used for test purpose.';
+$_SESSION['l10n']['en']['7eaa17f005abe041b85b63d6c2519241']='The file %s has not been generated and the reference store can only be used for test purpose.';
 $_SESSION['l10n']['en']['3513760fe3e0b14f2af4cc30a501d92a']='The following configuration has been saved into the file %s.';
 $_SESSION['l10n']['en']['b5d5d9a0b3a6832af6113b769c5270ca']='The reference store has been rebuilt';
 $_SESSION['l10n']['en']['c5b64cab449af0324e22fd245d95879d']='The server has been switched OFF. Switch it back on as soon as possible.';

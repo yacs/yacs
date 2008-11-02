@@ -36,7 +36,7 @@ class Petition extends Overlay {
 		// block if this surfer has already voted
 		include_once $context['path_to_root'].'decisions/decisions.php';
 		if(isset($this->attributes['id']) && ($ballot = Decisions::get_ballot('article:'.$this->attributes['id']))) {
-			Skin::error(i18n::s('You have already signed'));
+			Logger::error(i18n::s('You have already signed'));
 			return FALSE;
 		}
 
@@ -56,7 +56,7 @@ class Petition extends Overlay {
 
 		// wait a minute
 		if(!$open) {
-			Skin::error(i18n::s('Petition has been closed.'));
+			Logger::error(i18n::s('Petition has been closed.'));
 			return FALSE;
 		}
 

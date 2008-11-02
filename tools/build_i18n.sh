@@ -38,20 +38,15 @@ function build_module ()
 }
 
 # goes 1 directory up
-olddir=`pwd`
-BASEDIR=${0%/*}
-if test "$BASEDIR" = "$0" ; then
-    BASEDIR="$(which $0)"
-    BASEDIR=${BASEDIR%/*}
-fi
-cd "$BASEDIR"/../
+
+cd ..
 
 # Main program
 
 echo --- Building all language files
 while read module files; do 
   build_module $module $files
-done < $olddir/srcfiles.txt 
+done < tools/srcfiles.txt 
 
 # CWD back to origin value
-cd "$olddir"
+cd "tools"

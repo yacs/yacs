@@ -769,13 +769,13 @@ Class Decisions {
 
 		// no anchor reference
 		if(!$fields['anchor']) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
 		// get the anchor
 		if(!$anchor =& Anchors::get($fields['anchor'])) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
@@ -797,7 +797,7 @@ Class Decisions {
 
 			// id cannot be empty
 			if(!is_numeric($fields['id'])) {
-				Skin::error(i18n::s('No item has the provided id.'));
+				Logger::error(i18n::s('No item has the provided id.'));
 				return FALSE;
 			}
 

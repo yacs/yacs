@@ -22,7 +22,7 @@ $context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Configure'), i18n::
 // this is reserved to associates
 if(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // build a customized .htaccess
 } elseif(isset($_REQUEST['build'])) {
@@ -30,14 +30,14 @@ if(!Surfer::is_associate()) {
 
 	// path to error script
 	if(!$chunk = Safe::file_get_contents('control/htaccess/basic/.htaccess'))
-		Skin::error(sprintf(i18n::s('Impossible to read %s.'), 'control/htaccess/basic/.htaccess'));
+		Logger::error(sprintf(i18n::s('Impossible to read %s.'), 'control/htaccess/basic/.htaccess'));
 	else
 		$content = str_replace('!!url_to_root!!', $context['url_to_root'], $chunk);
 
 	// with Options
 	if(isset($_SESSION['htaccess']['options'])) {
 		if(!$chunk = Safe::file_get_contents('control/htaccess/options/.htaccess'))
-			Skin::error(sprintf(i18n::s('Impossible to read %s.'), 'control/htaccess/options/.htaccess'));
+			Logger::error(sprintf(i18n::s('Impossible to read %s.'), 'control/htaccess/options/.htaccess'));
 		else
 			$content .= $chunk;
 	}
@@ -45,7 +45,7 @@ if(!Surfer::is_associate()) {
 	// with Indexes
 	if(isset($_SESSION['htaccess']['indexes'])) {
 		if(!$chunk = Safe::file_get_contents('control/htaccess/indexes/.htaccess'))
-			Skin::error(sprintf(i18n::s('Impossible to read %s.'), 'control/htaccess/indexes/.htaccess'));
+			Logger::error(sprintf(i18n::s('Impossible to read %s.'), 'control/htaccess/indexes/.htaccess'));
 		else
 			$content .= $chunk;
 	}
@@ -60,7 +60,7 @@ if(!Surfer::is_associate()) {
 		// update the parameters file
 		if(!Safe::file_put_contents($context['path_to_root'].'.htaccess', $content)) {
 
-			Skin::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), $context['path_to_root'].'.htaccess'));
+			Logger::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), $context['path_to_root'].'.htaccess'));
 
 			// allow for a manual update
 			$context['text'] .= '<p style="text-decoration: blink;">'.sprintf(i18n::s('To actually change the configuration, please copy and paste following lines by yourself in file %s.'), $context['path_to_root'].'.htaccess')."</p>\n";

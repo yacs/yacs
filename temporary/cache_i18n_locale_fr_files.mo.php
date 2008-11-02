@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:21+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['fr'][' VLC media player']=' VLC media player';
 $_SESSION['l10n']['fr']['%d bytes']='%d  octets';
 $_SESSION['l10n']['fr']['%d file'.chr(0).'%d files']='%d fichier'.chr(0).'%d fichiers';
@@ -15,6 +29,7 @@ $_SESSION['l10n']['fr']['%d second(s) at %s']='%d seconde(s) à %s';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s at %s']='%s à %s';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
+$_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['7-zip']='7-zip';
 $_SESSION['l10n']['fr']['16a5e32bfb6574ae5e6bd234b527b647']='Accès restreint aux associés et éditeurs.';
 $_SESSION['l10n']['fr']['71591a943ab0ff1e925f29270c9a6568']='Accès restreint aux membres authentifiés.';
@@ -50,10 +65,8 @@ $_SESSION['l10n']['fr']['Close']='Fermer';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
-$_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
-$_SESSION['l10n']['fr']['Delete: %s']='Supprimer : %s';
 $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['Detach']='Détacher';
 $_SESSION['l10n']['fr']['fef235d2bce5b36e1ebea93dd696c943']='Détacher le fichier si vous souhaitez modifier son contenu';
@@ -153,7 +166,6 @@ $_SESSION['l10n']['fr']['Previous edition by %s %s']='Modification précédente 
 $_SESSION['l10n']['fr']['Previous image']='Image précédente';
 $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';
 $_SESSION['l10n']['fr']['37ad9546a387c8d0623a2d297a553d2b']='Les logiciels adaptés sont indiqués au moments du téléchargement.';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Refresh from a local file']='Remplacer par un autre fichier local';
 $_SESSION['l10n']['fr']['Review files']='Fichiers à contrôler';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';

@@ -3,14 +3,28 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:53 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:08+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: English
+';
 $_SESSION['l10n']['en']['%d action'.chr(0).'%d actions']='%d action'.chr(0).'%d actions';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['f7023d9e1479b6ec8738a65cb7fd9706']='<p>If possible, describe the whole action in its title. The description field should be used for additional non-essentiel details.</p><p>%s and %s are available to enhance text rendering.</p><p>Use the target field to designate the main web resource involved in the action.</p>';
 $_SESSION['l10n']['en']['84a77bd6947f2b7aa1017b42f3e7f9c1']='<p>The following action has been flagged with the status:</p><p><b>%s</b></p>';
-$_SESSION['l10n']['en']['Accept: %s']='Accept: %s';
+$_SESSION['l10n']['en']['Accept']='Accept';
 $_SESSION['l10n']['en']['Action assigned to: %s']='Action assigned to: %s';
 $_SESSION['l10n']['en']['Action has been completed']='Action has been completed';
 $_SESSION['l10n']['en']['Action has been rejected']='Action has been rejected';
@@ -46,7 +60,6 @@ $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the a
 $_SESSION['l10n']['en']['Posted by']='Posted by';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Rejected']='Rejected';
 $_SESSION['l10n']['en']['Rejected actions']='Rejected actions';
 $_SESSION['l10n']['en']['Reset']='Reset';

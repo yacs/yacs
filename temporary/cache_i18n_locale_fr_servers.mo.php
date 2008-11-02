@@ -3,12 +3,27 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:53 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:08+0100
+PO-Revision-Date: 2008-11-02 23:23+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['fr']['%d elements have been read']='%d éléments ont été obtenus';
 $_SESSION['l10n']['fr']['%d server'.chr(0).'%d servers']='%d serveur'.chr(0).'%d serveurs';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
+$_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['e65ecdbceaab96361e9cabd171db6222']='Un enregistrement a été créé pour le serveur %s';
 $_SESSION['l10n']['fr']['29ae395fb6ee23f2ca2c70c124ddf2c0']='Accepter et traiter les mises à jour (<code>weblogUpdates.ping</code>) envoyées par ce serveur à %s';
 $_SESSION['l10n']['fr']['94a464898c7a931eb5d53f1420cdc3d4']='Accepter et traiter les requêtes de recherche envoyées par ce serveur à %s';
@@ -29,7 +44,6 @@ $_SESSION['l10n']['fr']['ab29426eac97a8fac53f1263996c2dc2']='Vérification à ch
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configuration';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
-$_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
 $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
@@ -52,7 +66,7 @@ $_SESSION['l10n']['fr']['Empty item!']='Entrée vide !';
 $_SESSION['l10n']['fr']['External News']='Nouvelles du monde';
 $_SESSION['l10n']['fr']['Feed']='Feed';
 $_SESSION['l10n']['fr']['Feed URL: %s']='Les nouveautés : %s';
-$_SESSION['l10n']['fr']['Feed test']='Test :';
+$_SESSION['l10n']['fr']['Feed test']='Test de fil de nouvelles';
 $_SESSION['l10n']['fr']['dc06ae54549465e3b2aaa6e53962ab0f']='Les sites suivants ont été contactés :';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Host name']='Nom de machine';
@@ -79,7 +93,6 @@ $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoye
 $_SESSION['l10n']['fr']['47b78f39e64497e39883fac579c63f84']='Services autorisés pour ce serveur';
 $_SESSION['l10n']['fr']['RSS Test']='Test RSS';
 $_SESSION['l10n']['fr']['Received from feeding servers']='Les informations transmises par les autres serveurs';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Related to %s']='Attaché à %s';
 $_SESSION['l10n']['fr']['f29869af2b6e35819bc5a7c5872e8dca']='Les appels distants sont autorisés par défaut. Décocher les cases ci-dessous pour invalider un serveur indélicat en cas de besoin.';
 $_SESSION['l10n']['fr']['Search']='Recherches';

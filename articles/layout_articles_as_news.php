@@ -92,7 +92,7 @@ Class Layout_articles_as_news extends Layout_interface {
 
 			// the introductory text
 			if($item['introduction']) {
-				$suffix .= Codes::beautify($item['introduction'], $item['options']);
+				$suffix .= Codes::beautify_introduction($item['introduction']);
 
 				// add a link to the main page
 				$suffix .= BR.Skin::build_link($url, i18n::s('More').MORE_IMG, 'basic', i18n::s('View the page'));

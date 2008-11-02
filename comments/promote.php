@@ -78,12 +78,12 @@ else
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
 } elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -94,7 +94,7 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // deletion is confirmed
 } elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {
@@ -112,7 +112,7 @@ if(Surfer::is_crawler()) {
 		$fields['anchor'] = $anchor->get_parent();
 
 	// a title
-	$fields['title'] = Skin::strip($item['description'], 10);
+	$fields['title'] = Skin::strip($item['description'], 10, NULL, '');
 
 	// a body
 	$fields['description'] = $item['description'];
@@ -125,7 +125,7 @@ if(Surfer::is_crawler()) {
 
 	// make an article
 	if(!$fields['id'] = Articles::post($fields))
-		Skin::error(i18n::s('Impossible to add a page.'));
+		Logger::error(i18n::s('Impossible to add a page.'));
 
 	// delete the comment and jump to the new article
 	elseif(Comments::delete($item['id'])) {
@@ -135,7 +135,7 @@ if(Surfer::is_crawler()) {
 
 // promotion has to be confirmed
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
-	Skin::error(i18n::s('The promotion has not been confirmed.'));
+	Logger::error(i18n::s('The promotion has not been confirmed.'));
 
 // ask for confirmation
 } else {

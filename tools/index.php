@@ -43,24 +43,7 @@ if ($dir = Safe::opendir($context['path_to_root'].'tools')) {
 $context['text'] .= '</ul>';
 
 // referrals, if any
-if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))) {
-
-	$cache_id = 'tools/index.php#referrals#';
-	if(!$text =& Cache::get($cache_id)) {
-
-		// box content in a sidebar box
-		include_once '../agents/referrals.php';
-		if($text = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].'tools/index.php'))
-			$text =& Skin::build_box(i18n::s('Referrals'), $text, 'navigation', 'referrals');
-
-		// save in cache for one hour 60 * 60 = 3600
-		Cache::put($cache_id, $text, 'referrals', 3600);
-
-	}
-
-	// in the extra panel
-	$context['extra'] .= $text;
-}
+$context['aside']['referrals'] =& Skin::build_referrals('tools/index.php');
 
 // render the skin
 render_skin();

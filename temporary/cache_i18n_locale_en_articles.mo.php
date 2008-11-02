@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:09+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: English
+';
 $_SESSION['l10n']['en']['"%s" is not a valid date']='"%s" is not a valid date';
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
 $_SESSION['l10n']['en']['%d file'.chr(0).'%d files']='%d file'.chr(0).'%d files';
@@ -18,8 +32,9 @@ $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are avail
 $_SESSION['l10n']['en']['%s by %s']='%s by %s';
 $_SESSION['l10n']['en']['%s by %s %s']='%s by %s %s';
 $_SESSION['l10n']['en']['%s vote'.chr(0).'%s votes']='%s vote'.chr(0).'%s votes';
+$_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['10000']='10000';
-$_SESSION['l10n']['en']['55e83b787dae565a7d44016196d5382e']='<p>Don\'t forget to publish the new page someday. Review the page, enhance it and then click on the Publish command to make it publicly available.</p>';
+$_SESSION['l10n']['en']['0ca45ffa169a38619afd4a1a16c62332']='<p>Don\'t forget to publish the new page someday. Review the page, enhance it and then click on the Publish command to make it publicly available.</p>';
 $_SESSION['l10n']['en']['18d7b1ad712e8d2c1d84e48d9ed1b103']='<p>The new page has been successfully published. Please review it now to ensure that it reflects your mind.</p>';
 $_SESSION['l10n']['en']['75f7fa82ced121791f3dc2124599df75']='<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>';
 $_SESSION['l10n']['en']['c8e8765c2b28f43d6edb308e5dab306e']='A comma-separated list of keywords';
@@ -42,7 +57,7 @@ $_SESSION['l10n']['en']['Allow members to edit content']='Allow members to edit 
 $_SESSION['l10n']['en']['de5b7203b45b8660746f749207ab2a51']='Also complements the title in lists featuring this page';
 $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['Anyone may read this page']='Anyone may read this page';
-$_SESSION['l10n']['en']['22b00309d120e415c07fd22cd2f15ae4']='Apply a specific skin (in skins/foo_bar) here';
+$_SESSION['l10n']['en']['b4cb4dc2b17ff4ce51ca65cb8dcc7e98']='Apply a specific theme (in skins/foo_bar)';
 $_SESSION['l10n']['en']['Article copy: %s']='Article copy: %s';
 $_SESSION['l10n']['en']['Assign']='Assign';
 $_SESSION['l10n']['en']['Assign categories']='Assign categories';
@@ -74,7 +89,6 @@ $_SESSION['l10n']['en']['Copy of %s']='Copy of %s';
 $_SESSION['l10n']['en']['Dead articles']='Dead articles';
 $_SESSION['l10n']['en']['Default Section']='Default Section';
 $_SESSION['l10n']['en']['Delete']='Delete';
-$_SESSION['l10n']['en']['Delete: %s']='Delete: %s';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['Details']='Details';
 $_SESSION['l10n']['en']['Discuss']='Discuss';
@@ -125,11 +139,9 @@ $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['History']='History';
 $_SESSION['l10n']['en']['3482364243c0c367e9481e1eb819366d']='Hit the submit button and post images afterwards.';
 $_SESSION['l10n']['en']['Home']='Home';
-$_SESSION['l10n']['en']['Hot thread (10 replies)']='Hot thread (10 replies)';
 $_SESSION['l10n']['en']['3ecb5d5cd1f2a3084e06e875ebcfafe3']='I confirm that the article looks ok';
 $_SESSION['l10n']['en']['28d7cc70ab433227b4d58e2f5c10b04d']='I have created a web page and would like you to check it, at the following address.';
 $_SESSION['l10n']['en']['Icon URL']='Icon URL';
-$_SESSION['l10n']['en']['Icons']='Icons';
 $_SESSION['l10n']['en']['98b2e1b34b14f94d2493eb4999e0fd72']='If you change the overlay you may loose some data.';
 $_SESSION['l10n']['en']['9404597745d93a6898e464cbbc52c4dc']='If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.';
 $_SESSION['l10n']['en']['Image %d of %d']='Image %d of %d';
@@ -143,6 +155,7 @@ $_SESSION['l10n']['en']['da6508b71f51c8a4aa3fffe798c7c921']='Indicate a date (YY
 $_SESSION['l10n']['en']['Information']='Information';
 $_SESSION['l10n']['en']['Information channels']='Information channels';
 $_SESSION['l10n']['en']['Introduction']='Introduction';
+$_SESSION['l10n']['en']['Invitation: %s']='Invitation: %s';
 $_SESSION['l10n']['en']['Invite people']='Invite people';
 $_SESSION['l10n']['en']['Language']='Language';
 $_SESSION['l10n']['en']['Last post']='Last post';
@@ -173,7 +186,6 @@ $_SESSION['l10n']['en']['Most recent comments']='Most recent comments';
 $_SESSION['l10n']['en']['Move a page']='Move a page';
 $_SESSION['l10n']['en']['Moved by %s from %s to %s']='Moved by %s from %s to %s';
 $_SESSION['l10n']['en']['Navigation']='Navigation';
-$_SESSION['l10n']['en']['Neighbours']='Neighbours';
 $_SESSION['l10n']['en']['New page: %s']='New page: %s';
 $_SESSION['l10n']['en']['New submission: %s']='New submission: %s';
 $_SESSION['l10n']['en']['Next']='Next';
@@ -185,7 +197,6 @@ $_SESSION['l10n']['en']['22ce3d88217e83036f3285bba141bfe3']='No overlay has been
 $_SESSION['l10n']['en']['No title has been provided.']='No title has been provided.';
 $_SESSION['l10n']['en']['No vote']='No vote';
 $_SESSION['l10n']['en']['eade49618563da311f01c557b52f763a']='Nobody has been assigned to this page.';
-$_SESSION['l10n']['en']['Normal thread']='Normal thread';
 $_SESSION['l10n']['en']['Nothing has been received.']='Nothing has been received.';
 $_SESSION['l10n']['en']['Oldest articles']='Oldest articles';
 $_SESSION['l10n']['en']['One page of comments']='One page of comments';
@@ -239,7 +250,6 @@ $_SESSION['l10n']['en']['Publish the page']='Publish the page';
 $_SESSION['l10n']['en']['Publish: %s']='Publish: %s';
 $_SESSION['l10n']['en']['474f9f13dfabde8542ecef34bd170aec']='Put your e-mail address to receive feed-back';
 $_SESSION['l10n']['en']['Rank']='Rank';
-$_SESSION['l10n']['en']['Ranking']='Ranking';
 $_SESSION['l10n']['en']['Rate it']='Rate it';
 $_SESSION['l10n']['en']['Rate this page']='Rate this page';
 $_SESSION['l10n']['en']['Rate: %s']='Rate: %s';
@@ -250,7 +260,6 @@ $_SESSION['l10n']['en']['Recent files']='Recent files';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['a3445da79bf93565826b0fa4e67a63e2']='Recipient addresses are used only once, to send your message, and are not stored afterwards.';
 $_SESSION['l10n']['en']['Reference this page']='Reference this page';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Regular sections']='Regular sections';
 $_SESSION['l10n']['en']['Related']='Related';
 $_SESSION['l10n']['en']['Related topics']='Related topics';
@@ -291,7 +300,6 @@ $_SESSION['l10n']['en']['Spread the word']='Spread the word';
 $_SESSION['l10n']['en']['Stamp']='Stamp';
 $_SESSION['l10n']['en']['Stamp: %s']='Stamp: %s';
 $_SESSION['l10n']['en']['Start']='Start';
-$_SESSION['l10n']['en']['Sticky thread']='Sticky thread';
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['65c9b8000583ba183c3bbf5158616941']='Submit text when Enter is pressed.';
 $_SESSION['l10n']['en']['Submitted articles']='Submitted articles';
@@ -301,7 +309,7 @@ $_SESSION['l10n']['en']['Tabbed panels']='Tabbed panels';
 $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['Tags']='Tags';
 $_SESSION['l10n']['en']['1191989b64153cc1569ba37769dff14b']='Text to be appended at the bottom of the page, after all other elements attached to this page.';
-$_SESSION['l10n']['en']['6764b0a8938450609ea453947e83ee91']='Text to be inserted in the panel aside the page.';
+$_SESSION['l10n']['en']['15b447c7a95325a403b1ed99b405e008']='Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.';
 $_SESSION['l10n']['en']['Textarea']='Textarea';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['07952e6cca017e7cdff4505604da467f']='The deletion has not been confirmed.';
@@ -332,7 +340,7 @@ $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['d8ef00288000f0f98aafef9b53c2e08d']='To be inserted at the bottom of related pages.';
 $_SESSION['l10n']['en']['c1966a9db995dd0212d9febf7be757e0']='To be inserted at the top of related pages.';
 $_SESSION['l10n']['en']['d71e084b875b85c3ed2dacd4f82a5199']='To designate a page by its name in the %s';
-$_SESSION['l10n']['en']['d2f1fce9469994f5fbb3f5d6f3f18b45']='To load template_foo_bar.php instead of the regular skin template';
+$_SESSION['l10n']['en']['74a19ba83faf8108003e4f4acf426719']='To load template_foo_bar.php instead of the regular template';
 $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive errors. Aborted';
 $_SESSION['l10n']['en']['Topic']='Topic';
 $_SESSION['l10n']['en']['Trackback']='Trackback';
@@ -352,7 +360,6 @@ $_SESSION['l10n']['en']['36ab5b5ac398b5cfe4feb817d68c45f1']='Use the %s to popul
 $_SESSION['l10n']['en']['c6bd39974265c03828921dc8415bb6da']='Use this field to limit the life time of published pages.';
 $_SESSION['l10n']['en']['Validate']='Validate';
 $_SESSION['l10n']['en']['7095a3461ba51a372774ee8a1ce5d15b']='Various means to link to this page';
-$_SESSION['l10n']['en']['Very hot thread (20 replies)']='Very hot thread (20 replies)';
 $_SESSION['l10n']['en']['View history']='View history';
 $_SESSION['l10n']['en']['View the category']='View the category';
 $_SESSION['l10n']['en']['View the page']='View the page';
@@ -367,7 +374,6 @@ $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['a4cc7498b9e35789e3e277efb346358c']='Yes - Only associates and editors can modify content';
 $_SESSION['l10n']['en']['Yes, I want to delete this page']='Yes, I want to delete this page';
 $_SESSION['l10n']['en']['04146ec8fe89237f264f39cfdcc6a395']='Yes, I want to duplicate this page';
-$_SESSION['l10n']['en']['You are invited by %s']='You are invited by %s';
 $_SESSION['l10n']['en']['08c45ec2009b953b316933e075906922']='You are invited personally to check the following page.';
 $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed to perform this operation in demonstration mode.';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';

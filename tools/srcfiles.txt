@@ -19,13 +19,13 @@ images      images/*.php
 letters     letters/*.php
 links       links/*.php
 locations   locations/*.php
-overlays    overlays/*.php    overlays/polls/*.php
+overlays    overlays/*.php    overlays/forms/*.php    overlays/mutables/*.php    overlays/polls/*.php
 scripts     scripts/*.php
 sections    sections/*.php
 servers     servers/*.php
 services    services/*.php
 shared      shared/*.php
-skins       skins/*.php       skins/boxesandarrows/*.php
+skins       skins/*.php       skins/boxesandarrows/*.php       skins/digital/*.php       skins/images/avatars/*.php       skins/joi/*.php       skins/skeleton/*.php
 smileys     smileys/*.php
 tools       tools/*.php
 tables      tables/*.php

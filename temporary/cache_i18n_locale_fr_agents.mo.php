@@ -3,12 +3,27 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:19+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n > 1);
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: French
+';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
+$_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['1fa29870e0d67260cf186d325428dd30']='<p>Voici la liste des événements récents à %s</p><p>Vous pouvez obtenir plus d\'information à l\'aide des raccourcis suivants :</p><ul><li><a href="%s">Allez à la page frontale (%s)</a></li><li><a href="%s">Allez sur le Panneau de contrôle (%s)</a></li></ul>';
-$_SESSION['l10n']['fr']['176c196963e5f0c3e7a380e4a7d01a4e']='Liste des adresses autorisées, ou \'any_member\', \'any_subscriber\' ou \'anyone\'. Les associés ont toujours le droit de poster des messages, il est inutile de répéter leurs adresses.';
-$_SESSION['l10n']['fr']['41057cb7d366039fcba3b1e2ba146ae9']='Une expression régulière qui doit correspondre aux messages reçus pour qu\'ils soient acceptés (exemple : \'X-Originating-IP:  [21.18.33.9]\')';
+$_SESSION['l10n']['fr']['83e6e48752cf497b046199e45dd354ed']='Liste des adresses autorisées, ou \'any_member\', \'any_subscriber\' ou \'anyone\'. Les associés ont toujours le droit de poster des messages, il est inutile de répéter leurs adresses.';
+$_SESSION['l10n']['fr']['65f61dbb9945e97556e5d3b7e4526662']='Une expression régulière qui doit correspondre aux messages reçus pour qu\'ils soient acceptés (exemple : \'X-Originating-IP:  [21.18.33.9]\')';
 $_SESSION['l10n']['fr']['Account name']='Intitulé du compte';
 $_SESSION['l10n']['fr']['Add a mail queue']='Ajouter un compte';
 $_SESSION['l10n']['fr']['Allowed senders']='Emetteurs autorisés';
@@ -17,8 +32,8 @@ $_SESSION['l10n']['fr']['Average time']='Temps moyen';
 $_SESSION['l10n']['fr']['Background processing']='Traitements d\'arrière-plan';
 $_SESSION['l10n']['fr']['Browsers']='Navigateurs';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
+$_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
-$_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Count']='Nombre';
 $_SESSION['l10n']['fr']['e830ce46b14c68dfc2f692498feffa2e']='Mode de mise au point. Enregistrer les éléments de protocole dans temporary/debug.txt, et faire un fichier de chaque message reçu.';
@@ -42,7 +57,7 @@ $_SESSION['l10n']['fr']['Messages']='Messages';
 $_SESSION['l10n']['fr']['Minimum time']='Temps minimum';
 $_SESSION['l10n']['fr']['New submission: %s']='Nouvel envoi : %s';
 $_SESSION['l10n']['fr']['Nick name']='Surnom';
-$_SESSION['l10n']['fr']['591d79b094ede1c2dcd80d292260f72d']='Surnom ou identifiant de la section utilisée pour les nouveaux messages (exemple : 45)';
+$_SESSION['l10n']['fr']['c5ca4820ba3d0beb8ff07061d5feebb3']='Surnom ou identifiant de la section utilisée pour les nouveaux messages (exemple : 45)';
 $_SESSION['l10n']['fr']['No data to display']='Rien à afficher';
 $_SESSION['l10n']['fr']['No event has been logged']='Aucun événement n\'a été enregistré';
 $_SESSION['l10n']['fr']['Operating systems']='Systèmes d\'exploitation';
@@ -68,22 +83,22 @@ $_SESSION['l10n']['fr']['Submit']='Envoyer';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['The POP3 password']='Le mot de passe POP3';
 $_SESSION['l10n']['fr']['The POP3 user name']='Le nom POP3 de la boîte aux lettres de réception';
-$_SESSION['l10n']['fr']['6f7b1b688a68fe7bc5ea5dbbb5dd0995']='Le séparateur de signature (par exemple, \'___\' pour les messages Yahoo)';
+$_SESSION['l10n']['fr']['b7112832e54441549cb9b3531ff53657']='Le séparateur de signature (par exemple, \'___\' pour les messages Yahoo)';
 $_SESSION['l10n']['fr']['3513760fe3e0b14f2af4cc30a501d92a']='La configuration suivante a été enregistrée dans le fichier %s.';
-$_SESSION['l10n']['fr']['cabf3f54ca91bd9a8bf190042db9218e']='La page reçue par courrier électronique a été enregistrée.
+$_SESSION['l10n']['fr']['450e8f27237a8670a67656322ed91e8b']='La page reçue par courrier électronique a été enregistrée.
 Vous pouvez la consulter en ligne. Elle sera accessible publiquement après publication.
 ';
 $_SESSION['l10n']['fr']['cf0b11099660e4750c9499f08e97b617']='La page reçue par courrier électronique a été publiée avec succès.
 Merci de la passer en revue maintenant.
 ';
-$_SESSION['l10n']['fr']['bb9f3321cf7766bc53fd09a81f9fa882']='L\'endroit où placer les nouvelles pages (exemple \'section:2343\')';
+$_SESSION['l10n']['fr']['37e9184187437711aaa070624ba60528']='L\'endroit où placer les nouvelles pages (exemple \'section:2343\')';
 $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour modifier la configuration, merci de copier les lignes ci-dessous et de les placer par vous-même dans le fichier %s :';
 $_SESSION['l10n']['fr']['946f1d0811c618fdbe17d8a92a15c312']='Téléchargez %s pour obtenir la liste complète des événements.';
 $_SESSION['l10n']['fr']['1383f6f5672d0db6b925ba06d845f5fb']='Pour donner un auteur aux pages créées par envoi de fichier';
 $_SESSION['l10n']['fr']['Total time']='Temps total';
 $_SESSION['l10n']['fr']['Uploads']='Téléversements';
 $_SESSION['l10n']['fr']['Use a short nick name']='Utilisez un nom court';
-$_SESSION['l10n']['fr']['c3adb2fb02e59db2c95819e13ac8a8bc']='Utilisez soit le nom (exemple : \'pop.foo.bar\') ou l\'adresse IP du serveur de messagerie';
+$_SESSION['l10n']['fr']['e5ea1213c84de0fbfefae57699b62922']='Utilisez soit le nom (exemple : \'pop.foo.bar\') ou l\'adresse IP du serveur de messagerie';
 $_SESSION['l10n']['fr']['96f48e26fa2408d133d1e07a9997d4cf']='Utilisez cette page pour configurer les agents, c\'est-à-dire les scripts qui s\'exécutent en tâche de fond, sans intervention humaine.';
 $_SESSION['l10n']['fr']['Values']='Valeurs';
 $_SESSION['l10n']['fr']['What?']='Quoi ?';

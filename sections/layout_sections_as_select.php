@@ -160,7 +160,7 @@ Class Layout_sections_as_select extends Layout_interface {
 
 		// introduction
 		if($item['introduction'])
-			$suffix .= ' '.Codes::beautify(trim($item['introduction']));
+			$suffix .= ' '.Codes::beautify_introduction(trim($item['introduction']));
 
 		// add a head list of related links
 		$subs = array();

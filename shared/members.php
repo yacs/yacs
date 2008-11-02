@@ -460,9 +460,10 @@ Class Members {
 		// current time
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
-		// show only published articles
-		$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
-			." AND (articles.publish_date < '".$now."')";
+		// show only published articles if not looking at self record
+		if(!Surfer::get_id() || ($member != 'user:'.Surfer::get_id())) 
+			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+				." AND (articles.publish_date < '".$now."')";
 
 		// strip dead pages
 		$where .= " AND ((articles.expiry_date is NULL) "

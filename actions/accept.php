@@ -92,7 +92,7 @@ else
 
 // the title of the page
 if(isset($item['title']))
-	$context['page_title'] = sprintf(i18n::s('Accept: %s'), $item['title']);
+	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Accept'), $item['title']);
 
 // not found
 if(!$item['id']) {

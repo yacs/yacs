@@ -57,30 +57,10 @@ if(!$text =& Cache::get($cache_id)) {
 	// save for later use
 	Cache::put($cache_id, $text, 'articles');
 }
-$context['extra'] .= $text;
+$context['aside']['boxes'] = $text;
 
 // referrals, if any
-if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))) {
-
-	$cache_id = 'categories/cloud.php#referrals#';
-	if(!$text =& Cache::get($cache_id)) {
-
-		// box content
-		include_once '../agents/referrals.php';
-		$text = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].'categories/cloud.php');
-
-		// in a sidebar box
-		if($text)
-			$text = Skin::build_box(i18n::s('Referrals'), $text, 'navigation', 'referrals');
-
-		// save in cache for one hour 60 * 60 = 3600
-		Cache::put($cache_id, $text, 'referrals', 3600);
-
-	}
-
-	// in the extra panel
-	$context['extra'] .= $text;
-}
+$context['aside']['referrals'] =& Skin::build_referrals('categories/cloud.php');
 
 // render the skin
 render_skin();

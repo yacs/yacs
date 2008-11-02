@@ -97,11 +97,11 @@ $context['page_title'] = $url;
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // do we have something?
 } elseif(!$url)
-	Skin::error(i18n::s('No link URL has been provided.'));
+	Logger::error(i18n::s('No link URL has been provided.'));
 
 // do not record click not coming from this site
 elseif(!isset($_SERVER['HTTP_REFERER']) || !preg_match('/^'.preg_quote($context['url_to_home'], '/').'\b/', $_SERVER['HTTP_REFERER']))
@@ -109,7 +109,7 @@ elseif(!isset($_SERVER['HTTP_REFERER']) || !preg_match('/^'.preg_quote($context[
 
 // increment hits for this link and redirect if no error
 else if($error = Links::click($url))
-	Skin::error($error);
+	Logger::error($error);
 else
 	Safe::redirect($url);
 

@@ -3,10 +3,25 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:05 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:08+0100
+PO-Revision-Date: 2008-11-02 23:23+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['fr']['%s at %s']='%s à %s';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
+$_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['Back-end services']='Services distribués';
 $_SESSION['l10n']['fr']['Blogging interface']='Interface pour le webblogging';
 $_SESSION['l10n']['fr']['0c8d5a7365a5761e04f27e7c2dac47f0']='Liée aux scripts de service';
@@ -14,7 +29,6 @@ $_SESSION['l10n']['fr']['c0ccde3ba07ca4ee6dd86de92c1bd748']='Pour bâtir un fil 
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configuration';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
-$_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['5ce66149f67e5a6de682eef4da0b9182']='Sauver les paquets envoyés et reçus par comments/post.php dans le fichier temporary/debug.txt';
 $_SESSION['l10n']['fr']['00882556621314b26d58a0c117b6bd7d']='Sauver les paquets envoyés et reçus par links/trackback.php dans le fichier temporary/debug.txt';

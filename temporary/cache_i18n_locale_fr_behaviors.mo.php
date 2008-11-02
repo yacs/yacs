@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: Yacs 7.1 behaviors
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-07-07 19:05+0100
+Last-Translator: Paques, Bernard
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['fr']['Access has been denied']='Accès refusé';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['da67a82467c2f4fcf09c2d72e8371b04']='Mauvais paramètre pour le comportement <code>%s %s</code>';
@@ -20,7 +34,6 @@ $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été t
 $_SESSION['l10n']['fr']['No behavior %s has been found.']='Aucun comportement %s n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No item has the provided id.']='Aucun élément n\'a été trouvé.';
 $_SESSION['l10n']['fr']['614c6463818719e073fb0932f2215525']='Aucun paramètre n\'a été fourni pour %s';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Yes']='Oui';
 $_SESSION['l10n']['fr']['3487ae0aa6ed0bdd7ecc67de9093cd40']='Votre accord a été enregistré.';
 $_SESSION['l10n']['fr']['c01e1a3fe47daac09949712b6af2ec93']='Votre accord est nécessaire pour accèder à la page désirée.';

@@ -22,20 +22,6 @@ Class Images {
 	 * This function returns TRUE if images can be added to some place,
 	 * and FALSE otherwise.
 	 *
-	 * The function prevents the creation of new images when:
-	 * - surfer cannot upload
-	 * - the global parameter 'users_without_submission' has been set to 'Y'
-	 * - provided item has been locked
-	 * - item has some option 'no_images' that prevents new images
-	 * - the anchor has some option 'no_images' that prevents new images
-	 *
-	 * Then the function allows for new images when:
-	 * - surfer has been authenticated as a valid member
-	 * - or parameter 'users_without_teasers' has not been set to 'Y'
-	 *
-	 * Then, ultimately, the default is not allow for the creation of new
-	 * images.
-	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
 	 * @return TRUE or FALSE
@@ -59,6 +45,36 @@ Class Images {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N')) {
+		
+			// filter editors
+			if(!Surfer::is_empowered())
+				return FALSE;
+				
+			// editors will have to unlock the container to contribute
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		// container is restricted
+		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
+		
+			// filter members
+			if(!Surfer::is_member())
+				return FALSE;
+				
+			// editors can proceed
+			if(Surfer::is_empowered())
+				return TRUE;
+				
+			// members can contribute except if container is locked
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		}
+
 		// surfer has special privileges
 		if(Surfer::is_empowered())
 			return TRUE;
@@ -71,18 +87,8 @@ Class Images {
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// surfer screening
-		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
-			return FALSE;
-		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
 		// authenticated members can always add images
 		if(Surfer::is_member())
-			return TRUE;
-
-		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
 			return TRUE;
 
 		// anonymous contributions are allowed for this section
@@ -91,6 +97,10 @@ Class Images {
 
 		// anonymous contributions are allowed for this item
 		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+			return TRUE;
+
+		// anonymous contributions are allowed for this anchor
+		if(is_object($anchor) && $anchor->is_editable())
 			return TRUE;
 
 		// teasers are activated
@@ -136,7 +146,7 @@ Class Images {
 		// load the row
 		$item =& Images::get($id);
 		if(!$item['id']) {
-			Skin::error(i18n::s('No item has been found.'));
+			Logger::error(i18n::s('No item has been found.'));
 			return FALSE;
 		}
 
@@ -204,7 +214,7 @@ Class Images {
 			// create target folders
 			$file_path = 'images/'.$context['virtual_path'].str_replace(':', '/', $anchor_to);
 			if(!Safe::make_path($file_path.'/thumbs'))
-				Skin::error(sprintf(i18n::s('Impossible to create path %s.'), $file_path.'/thumbs'));
+				Logger::error(sprintf(i18n::s('Impossible to create path %s.'), $file_path.'/thumbs'));
 
 			$file_path = $context['path_to_root'].$file_path.'/';
 
@@ -217,7 +227,7 @@ Class Images {
 				// duplicate image file
 				if(!copy($context['path_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $anchor_from).'/'.$item['image_name'],
 					$file_path.$item['image_name'])) {
-					Skin::error(sprintf(i18n::s('Impossible to copy file %s.'), $item['image_name']));
+					Logger::error(sprintf(i18n::s('Impossible to copy file %s.'), $item['image_name']));
 					continue;
 				}
 
@@ -587,13 +597,13 @@ Class Images {
 
 		// no anchor reference
 		if(!isset($fields['anchor']) || !$fields['anchor']) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
 		// get the anchor
 		if(!$anchor =& Anchors::get($fields['anchor'])) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
@@ -609,7 +619,7 @@ Class Images {
 
 			// id cannot be empty
 			if(!isset($fields['id']) || !is_numeric($fields['id'])) {
-				Skin::error(i18n::s('No item has the provided id.'));
+				Logger::error(i18n::s('No item has the provided id.'));
 				return FALSE;
 			}
 
@@ -661,7 +671,7 @@ Class Images {
 
 		// nothing done
 		} else {
-			Skin::error(i18n::s('No image has been uploaded.'));
+			Logger::error(i18n::s('No image has been uploaded.'));
 			return FALSE;
 		}
 

@@ -3,9 +3,23 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['fr']['1bd98a189df2e6fa8f42845cb0f815e1']='%d actif en ce momemt'.chr(0).'%d actifs en ce momemt';
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:08+0100
+PO-Revision-Date: 2008-11-02 23:28+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n > 1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
+$_SESSION['l10n']['fr']['%d active now'.chr(0).'%d active now']='%d actif en ce momemt'.chr(0).'%d actifs en ce momemt';
 $_SESSION['l10n']['fr']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
 $_SESSION['l10n']['fr']['%d posts']='%d contributions';
 $_SESSION['l10n']['fr']['%d result'.chr(0).'%d results']='%d résultat'.chr(0).'%d résultats';
@@ -106,8 +120,8 @@ $_SESSION['l10n']['fr']['Code to reference this user: %s']='Code pour référenc
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
 $_SESSION['l10n']['fr']['Complex interface']='Interface complexe';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
+$_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
-$_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
 $_SESSION['l10n']['fr']['Confirm every password change.']='Confirmer les changements de mot de passe.';
 $_SESSION['l10n']['fr']['4a802475b92059f2d0e19d1d7577c3bc']='Confirmer l\'enregistrement et le mot de passe.';
 $_SESSION['l10n']['fr']['Contact']='Contact';
@@ -136,7 +150,7 @@ $_SESSION['l10n']['fr']['E-mail usage']='Courrier électronique';
 $_SESSION['l10n']['fr']['6a2c769d729b50a589114cb6f3a6ca3b']='ERREUR : Impossible d\'écrire dans le fichier %s. La configuration n\'a pas été sauvegardée.';
 $_SESSION['l10n']['fr']['bf256c2edd87d2cf4ffdacb940af77a6']='Chaque utilisateur peut auto-gérer jusqu\'à %s espaces personnels.';
 $_SESSION['l10n']['fr']['Edit my user profile']='Modifier votre profil';
-$_SESSION['l10n']['fr']['Edit this page']='Modifier cette page';
+$_SESSION['l10n']['fr']['Edit this profile']='Modifier ce profil';
 $_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['Editor: %s']='Editeur : %s';
 $_SESSION['l10n']['fr']['f7921c934b2fc657cfe6ef95511b471d']='Tout envoi est publié (mode wiki).';
@@ -225,7 +239,6 @@ $_SESSION['l10n']['fr']['Most recent members']='Les membres les plus récents';
 $_SESSION['l10n']['fr']['Move forward']='Continuer';
 $_SESSION['l10n']['fr']['My profile']='Ma fiche';
 $_SESSION['l10n']['fr']['Navigate']='Naviguer';
-$_SESSION['l10n']['fr']['Neighbours']='A proximité';
 $_SESSION['l10n']['fr']['Network address']='Adresse réseau';
 $_SESSION['l10n']['fr']['New associate: %s']='Nouvel associé : %s';
 $_SESSION['l10n']['fr']['New member: %s']='Nouveau membre : %s';
@@ -311,7 +324,6 @@ $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
 $_SESSION['l10n']['fr']['c3b4a944458c8919e6c5a41963f83a8f']='Conservez ce message et utilisez le lien qui suit pour vous authentifier sur le site :';
 $_SESSION['l10n']['fr']['0b41ae15f9ba9399c54a4912bdcc6eeb']='Rediriger directement après authentification.';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Register']='Enregistrez-vous';
 $_SESSION['l10n']['fr']['Register on this server']='S\'enregistrer sur ce serveur';
 $_SESSION['l10n']['fr']['Registered %s']='Enregistré %s';
@@ -349,7 +361,7 @@ $_SESSION['l10n']['fr']['Side information']='Informations de côté';
 $_SESSION['l10n']['fr']['Signature']='Signature';
 $_SESSION['l10n']['fr']['Site map']='Carte du site';
 $_SESSION['l10n']['fr']['Skype']='Skype';
-$_SESSION['l10n']['fr']['c636b998fb822d26b4d75decc20f3ade']='Pour aider à vous localiser (par exemple : \'Paris\', \'le fond du jardin\', \'le rayon des jouets-pour-bilieux\'...)';
+$_SESSION['l10n']['fr']['3f9fc69b76b166aa79071c4080371ea9']='Pour aider à vous localiser (par exemple : \'Paris\', \'le fond du jardin\', \'le rayon des jouets-pour-bilieux\'...)';
 $_SESSION['l10n']['fr']['Spam']='Pourriels';
 $_SESSION['l10n']['fr']['Submission']='Contribution';
 $_SESSION['l10n']['fr']['Submissions']='Soumissions';
@@ -367,7 +379,7 @@ $_SESSION['l10n']['fr']['3513760fe3e0b14f2af4cc30a501d92a']='La configuration su
 $_SESSION['l10n']['fr']['31236255c8239cb2f992178fb8872cb8']='L\'adresse réseau pour atteindre votre ordinateur, si ce n\'est pas %s';
 $_SESSION['l10n']['fr']['59f14effabdef43524d654af0196c3eb']='Le surnom doit être unique parmi les utilisateurs de ce serveur.';
 $_SESSION['l10n']['fr']['44a4d985054ef8844e8835e907c1548c']='La page a été ajoutée à votre liste de surveillance. Vous serez averti par courrier électronique de ses futurs changements.';
-$_SESSION['l10n']['fr']['6d3343e025a87572ac7d64651edcfd17']='La page a été supprimée de votre liste de surveillance. Vous ne recevrez plus de message électronique à son sujet.';
+$_SESSION['l10n']['fr']['629bd7ed75c38be4a100ccacd8ce3176']='La page a été supprimée de votre liste de surveillance. Vous ne recevrez plus de message électronique à son sujet.';
 $_SESSION['l10n']['fr']['e447dd31e3be3b3e2dfc44dda8ea6723']='La page demandée est accessible aux seuls utilisateurs enregistrés.';
 $_SESSION['l10n']['fr']['1b2418de79ecd1f466b8f8191180c9df']='L\'utilisateur a été ajouté à votre liste de surveillance. Cette liste fait partie de votre profil d\'utilisateur.';
 $_SESSION['l10n']['fr']['d3e225b4897435a9635e77d129101676']='L\'utilisateur a été retiré de votre liste de surveillance.';
@@ -413,7 +425,7 @@ $_SESSION['l10n']['fr']['9a250442ef65262197f8895bf945b00f']='Notifier les observ
 $_SESSION['l10n']['fr']['e9932f48fae5ec1f75c182827065e4af']='Nous conservons seulement une copie de ce profil utilisateur. Merci de modifier le mot de passe pour ce compte sur le serveur %s.';
 $_SESSION['l10n']['fr']['5fb7f4ba102cedd23afff6754e57926e']='Nous recommendons 0 (pas d\'extension des espaces web) ou 3 (accès public, restreint aux membres, aux associés).';
 $_SESSION['l10n']['fr']['8eb4650f62d1155f4ebd825daf0bbc28']='De préférence au moins 4 chiffres, 2 lettres et 1 signe de ponctuation';
-$_SESSION['l10n']['fr']['5402413148964126b214727ee67ab1ed']='Nous conservons l\'information fournie et ne la partageons en aucune façon.';
+$_SESSION['l10n']['fr']['97696bdc35f03f28bcec5cd1e4f89f2c']='Nous conservons l\'information fournie et ne la partageons en aucune façon.';
 $_SESSION['l10n']['fr']['Web address']='Adresse web';
 $_SESSION['l10n']['fr']['Welcome']='Bienvenue';
 $_SESSION['l10n']['fr']['Welcome!']='Bienvenue !';
@@ -455,7 +467,6 @@ $_SESSION['l10n']['fr']['639f349aeaa83b3365738412411dc182']='Votre surnom, ou vo
 $_SESSION['l10n']['fr']['3c0f4eba7ce79541a1d7959fc09a6521']='Votre occupation, votre devise, ou quelque mots bien sentis';
 $_SESSION['l10n']['fr']['Your personal record']='Votre fiche personnelle';
 $_SESSION['l10n']['fr']['04b4fe47bea72943a5b082fbbb097307']='Votre liste de surveillance a été mise à jour';
-$_SESSION['l10n']['fr']['associate']='associé';
 $_SESSION['l10n']['fr']['click here']='cliquez ici';
 $_SESSION['l10n']['fr']['configuration panel for users']='panneau de configuration des utilisateurs';
 $_SESSION['l10n']['fr']['gravatar']='gravatar';
@@ -463,14 +474,12 @@ $_SESSION['l10n']['fr']['hour(s)']='heure(s)';
 $_SESSION['l10n']['fr']['last login %s']='authentifié %s';
 $_SESSION['l10n']['fr']['last post %s']='dernier envoi %s';
 $_SESSION['l10n']['fr']['lrp has logged in']='lrp s\'est signé';
-$_SESSION['l10n']['fr']['member']='membre';
 $_SESSION['l10n']['fr']['no login']='aucune authentification';
 $_SESSION['l10n']['fr']['overlay user profiles']='overlay de profil d\'utilisateurs';
 $_SESSION['l10n']['fr']['privacy statement']='protection de la vie privée';
 $_SESSION['l10n']['fr']['query form']='formulaire de requête';
 $_SESSION['l10n']['fr']['registered %s']='enregistré %s';
 $_SESSION['l10n']['fr']['smileys']='emoticons';
-$_SESSION['l10n']['fr']['subscriber']='souscripteur';
 $_SESSION['l10n']['fr']['unassign']='retirer';
 $_SESSION['l10n']['fr']['upload your own avatar']='envoyer votre avatar';
 $_SESSION['l10n']['fr']['would like to use it']='voudrait l\'utiliser';

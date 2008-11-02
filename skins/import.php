@@ -299,13 +299,13 @@ Class Import {
 
 		// create a new skin file
 		if(!$skin)
-			Skin::error(i18n::s('No blogging block has been found.'));
+			Logger::error(i18n::s('No blogging block has been found.'));
 
 		elseif(!Safe::make_path('skins/'.$directory))
-			Skin::error(sprintf(i18n::s('Impossible to create path %s.'), 'skins/'.$directory));
+			Logger::error(sprintf(i18n::s('Impossible to create path %s.'), 'skins/'.$directory));
 
 		elseif(!$handle = Safe::fopen($context['path_to_root'].'skins/'.$directory.'/skin.php', 'wb'))
-			Skin::error(sprintf(i18n::s('Impossible to write to %s.'), $context['path_to_root'].'skins/'.$directory.'/skin.php'));
+			Logger::error(sprintf(i18n::s('Impossible to write to %s.'), $context['path_to_root'].'skins/'.$directory.'/skin.php'));
 
 		// write to it
 		else {
@@ -316,17 +316,17 @@ Class Import {
 		// backup the old template, if any
 		Safe::unlink($context['path_to_root'].'skins/'.$directory.'/template.php.bak');
 		if(!$template)
-			Skin::error(i18n::s('Empty template file'));
+			Logger::error(i18n::s('Empty template file'));
 
 		else
 			Safe::rename($context['path_to_root'].'skins/'.$directory.'/template.php', $context['path_to_root'].'skins/'.$directory.'/template.php.bak');
 
 		// create a new template file
 		if(!Safe::make_path('skins/'.$directory))
-			Skin::error(sprintf(i18n::s('Impossible to create path %s.'), 'skins/'.$directory));
+			Logger::error(sprintf(i18n::s('Impossible to create path %s.'), 'skins/'.$directory));
 
 		elseif(!$handle = Safe::fopen($context['path_to_root'].'skins/'.$directory.'/template.php', 'wb'))
-			Skin::error(sprintf(i18n::s('Impossible to write to %s.'), $context['path_to_root'].'skins/'.$directory.'/template.php'));
+			Logger::error(sprintf(i18n::s('Impossible to write to %s.'), $context['path_to_root'].'skins/'.$directory.'/template.php'));
 
 		// write to it
 		else {

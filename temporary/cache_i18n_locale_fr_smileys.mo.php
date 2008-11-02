@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:05 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: yacs 7.1 smileys
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-06-28 10:47+0100
+Last-Translator: Paques, Bernard
+Language-Team: agnes, bernard, gnapz
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['fr']['Edited %s']='Mis à jour %s';
 $_SESSION['l10n']['fr']['Emotion']='Emotion';
 $_SESSION['l10n']['fr']['Featured image']='Image générée';
@@ -15,7 +29,6 @@ $_SESSION['l10n']['fr']['I want you']='c\'est tout de suite';
 $_SESSION['l10n']['fr']['I would like to get it']='une terrible envie';
 $_SESSION['l10n']['fr']['e6ef69399a84e48349e980587fd573b1']='Il faut bien reconnaître que les mots à eux seuls ne permettent pas toujours de s\'exprimer avec justesse. Par exemple, ajouter un clin d\'oeil peut aider à faire comprendre que vous êtes en train de plaisanter.';
 $_SESSION['l10n']['fr']['Ok, i leave']='Ok, je sors';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Santa Claus']='Père Noël';
 $_SESSION['l10n']['fr']['Smileys']='Emoticons';
 $_SESSION['l10n']['fr']['afbff2832f64949ef35c8901a6120a58']='Les emoticons sont des petites images qui peuvent être employées pour véhiculer une émotion ou un sentiment. Si vous avez déjà utilisé le courrier électronique ou les babillards Internet, vous connaissez probablement déjà le concept d\'emoticon.';

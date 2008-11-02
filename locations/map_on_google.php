@@ -63,11 +63,11 @@ elseif($id == 'users')
 
 // not found
 if(!is_object($anchor) && ($id != 'all') && ($id != 'users'))
-	Skin::error(i18n::s('Reference a valid anchor, or all users.'));
+	Logger::error(i18n::s('Reference a valid anchor, or all users.'));
 
 // no capability to create an image
 elseif(!isset($context['google_api_key']) || !$context['google_api_key'])
-	Skin::error(i18n::s('Use the configuration panel for web services to enter your Google API key.'));
+	Logger::error(i18n::s('Use the configuration panel for web services to enter your Google API key.'));
 
 // display the map
 else {

@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:06 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-10-21 18:33+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['en']['9d1dd3844462dd717f535edb3d78a4b6']='%d SQL statements have been processed in %.2f seconds.';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['%d table'.chr(0).'%d tables']='%d table'.chr(0).'%d tables';
@@ -28,8 +42,8 @@ $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit a table']='Edit a table';
 $_SESSION['l10n']['en']['Error in table query %s']='Error in table query %s';
 $_SESSION['l10n']['en']['da0357c97db9a18255b418e583fa8f36']='Everything may be downloaded as CSV';
-$_SESSION['l10n']['en']['Fetch a table as CSV']='Fetch a table as CSV';
-$_SESSION['l10n']['en']['Fetch a table as XML']='Fetch a table as XML';
+$_SESSION['l10n']['en']['Fetch as CSV']='Fetch as CSV';
+$_SESSION['l10n']['en']['Fetch as XML']='Fetch as XML';
 $_SESSION['l10n']['en']['Field delimiter']='Field delimiter';
 $_SESSION['l10n']['en']['Field enclosure']='Field enclosure';
 $_SESSION['l10n']['en']['File']='File';
@@ -69,7 +83,6 @@ $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Press to select a local file']='Press to select a local file';
 $_SESSION['l10n']['en']['Query string']='Query string';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['SQL Query']='SQL Query';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Single quote character']='Single quote character';

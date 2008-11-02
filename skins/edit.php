@@ -42,7 +42,7 @@ $file = preg_replace(FORBIDDEN_IN_PATHS, '', strip_tags($file));
 load_skin('skins');
 
 // the path to this page
-$context['path_bar'] = array( 'skins/' => i18n::s('Skins') );
+$context['path_bar'] = array( 'skins/' => i18n::s('Themes') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Skin editor');
@@ -50,7 +50,7 @@ $context['page_title'] = i18n::s('Skin editor');
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // anonymous users are invited to log in or to register
 } elseif(!Surfer::is_logged())
@@ -59,24 +59,24 @@ if(Surfer::is_crawler()) {
 // only associates can use this tool
 elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // only *.css and template.php can be modified
 } elseif($file && !preg_match('/(\.css|template\.php)$/i', $file)) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // ensure the file already exists
 } elseif($file && !file_exists($context['path_to_root'].'skins/'.$skin.'/'.$file)) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // save the content of an updated file
 } elseif(isset($_REQUEST['content']) && $_REQUEST['content']) {
 
 	// warning if modification of some reference skin
 	if(isset($_REQUEST['content']) && $_REQUEST['content'] && preg_match('/^(boxesandarrows|digital|joi|skeleton)$/', $skin))
-		Skin::error(sprintf(i18n::s('Do not attempt to modify a reference skin directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('Derive a skin'), 'shortcut')));
+		Logger::error(sprintf(i18n::s('Do not attempt to modify a reference skin directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('Derive a skin'), 'shortcut')));
 
 	// backup the old version, if any
 	Safe::unlink($context['path_to_root'].'skins/'.$skin.'/'.$file.'.bak');
@@ -84,7 +84,7 @@ elseif(!Surfer::is_associate()) {
 
 	// actual save
 	if(Safe::file_put_contents('skins/'.$skin.'/'.$file, $_REQUEST['content']) != strlen($_REQUEST['content']))
-		Skin::error(sprintf(i18n::s('The target file %s may have been corrupted. Please check file content manually, and revert to the backup file, with the extension .bak, if necessary.'), 'skins/'.$skin.'/'.$file));
+		Logger::error(sprintf(i18n::s('The target file %s may have been corrupted. Please check file content manually, and revert to the backup file, with the extension .bak, if necessary.'), 'skins/'.$skin.'/'.$file));
 
 	// congratulations
 	else {
@@ -93,9 +93,9 @@ elseif(!Surfer::is_associate()) {
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		$menu = array_merge($menu, array('skins/test.php?skin='.urlencode($skin) => i18n::s('Test the skin')));
-		$menu = array_merge($menu, array('skins/edit.php?skin='.urlencode($skin) => i18n::s('Edit this skin')));
-		$menu = array_merge($menu, array('skins/' => i18n::s('Skins')));
+		$menu = array_merge($menu, array('skins/test.php?skin='.urlencode($skin) => i18n::s('Test this theme')));
+		$menu = array_merge($menu, array('skins/edit.php?skin='.urlencode($skin) => i18n::s('Edit this theme')));
+		$menu = array_merge($menu, array('skins/' => i18n::s('Themes')));
 		$menu = array_merge($menu, array('skins/configure.php' => i18n::s('Configure the page factory')));
 		$follow_up .= Skin::build_list($menu, 'page_menu');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
@@ -173,7 +173,7 @@ elseif(!Surfer::is_associate()) {
 
 		// load file content
 		if(!$content = Safe::file_get_contents('../skins/'.$skin.'/'.$file))
-			Skin::error(i18n::s('No file has been transmitted.'));
+			Logger::error(i18n::s('No file has been transmitted.'));
 
 		// textarea to edit the file
 		$context['text'] .= '<textarea name="content" rows="25" cols="50" accesskey="c">'.encode_field($content).'</textarea>';

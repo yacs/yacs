@@ -293,7 +293,7 @@ class Scripts {
 			return NULL;
 
 		// read the file
-		if(!$content = Safe::file_get_contents(str_replace('//', '/', $context['path_to_root'].$file)))
+		if(!$content = Safe::file_get_contents($file))
 			return NULL;
 		$content = trim($content);
 
@@ -372,43 +372,55 @@ class Scripts {
 	/**
 	 * list all files below a certain path
 	 *
-	 * This function is called during the creation of the archive file.
-	 * It is aiming to scan the reference store and to list every file in it, whether it is a reference PHP script or not.
+	 * Also print '.' and '!' while scanning the path to animate the resulting screen, 
+	 * if the verbose parameter is set to TRUE.
 	 *
-	 * Also print '.' and '!' while scanning the path to animate the resulting screen, if the third parameter is TRUE.
+	 * Node names starting with a '.' character are skipped, except if they match the last parameter.
 	 *
-	 * @param string the path to scan - 'scripts/reference', most often
+	 * @param string the absolute path to scan
 	 * @param boolean TRUE to animate the screen, FALSE to stay silent
+	 * @param string prefix to strip in path returned to caller
+	 * @param string to accept special names (e.g., '.htaccess')
 	 * @return an array of array(path, file name)
 	 *
 	 * @see scripts/build.php
 	 */
-	function list_files_at($path, $verbose=TRUE) {
+	function list_files_at($path, $verbose=TRUE, $stripped='', $special=NULL) {
 		global $context, $script_count;
 
 		// the list that is returned
 		$files = array();
 
+		// sanity check
+		$path = rtrim($path, '/');
+		
 		// make a real path
-		$path_translated = str_replace('//', '/', $context['path_to_root'].'/'.$path);
-		if($handle = Safe::opendir($path_translated)) {
+		if($handle = Safe::opendir($path)) {
 
 			// list all nodes
 			while(($node = Safe::readdir($handle)) !== FALSE) {
 
-				// skip special nodes
-				if($node[0] == '.')
+				// special directory names
+				if(($node == '.') || ($node == '..'))
 					continue;
+					
+				// process special nodes
+				if($node[0] == '.') {
+				
+					// skip this item
+					if(!$special || (strpos($node, $special) === FALSE))
+						continue;
+					
+				}
 
 				// make a real name
-				$target = str_replace('//', '/', $path.'/'.$node);
-				$target_translated = str_replace('//', '/', $path_translated.'/'.$node);
+				$target = $path.'/'.$node;
 
 				// scan a sub directory
-				if(is_dir($target_translated)) {
+				if(is_dir($target)) {
 
 					// extend the list recursively
-					$files = array_merge($files, Scripts::list_files_at($target));
+					$files = array_merge($files, Scripts::list_files_at($target, $verbose, $stripped, $special));
 
 					// animate the screen
 					if($verbose)
@@ -420,10 +432,18 @@ class Scripts {
 					}
 
 				// scan a file
-				} elseif(is_readable($target_translated)) {
+				} elseif(is_readable($target)) {
 
-					// append the file to the list
-					$files[] = array($path, $node);
+					// remove prefix, if any
+					if($stripped && (strpos($path, $stripped) === 0))
+						$relative = substr($path, strlen($stripped));
+					elseif($stripped && (strpos($stripped, $path) === 0))
+						$relative = '';
+					else
+						$relative = $path;
+					
+					// append the item to the list
+					$files[] = array($relative, $node);
 
 					// animate the screen
 					if($verbose)
@@ -488,7 +508,11 @@ class Scripts {
 				if(is_dir($target_translated)) {
 
 					// skip files and images, because of so many sub directories
-					if(preg_match('/(files|images)/', $path))
+					if(preg_match('/(files|images)\//', $path))
+						continue;
+
+					// already included
+					if(preg_match('/included\//', $path))
 						continue;
 
 					// extend the list recursively

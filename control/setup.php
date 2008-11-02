@@ -23,7 +23,6 @@
  * - [script]images/images.php[/script]
  * - [script]links/links.php[/script]
  * - [script]locations/locations.php[/script]
- * - [script]overlays/issue.php[/script]
  * - [script]scripts/phpdoc.php[/script]
  * - [script]sections/sections.php[/script]
  * - [script]servers/servers.php[/script]
@@ -248,12 +247,6 @@ function send_body() {
 		// create tables for the php documentation
 		include_once '../scripts/phpdoc.php';
 		echo PhpDoc::setup();
-
-		// tables for overlays
-
-		// issue information
-		include_once '../overlays/issue.php';
-		echo Issue::setup();
 
 		// the setup hook
 		if(is_callable(array('Hooks', 'include_scripts')))

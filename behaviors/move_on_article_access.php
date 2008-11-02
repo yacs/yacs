@@ -32,11 +32,11 @@ class Move_on_article_access extends Behavior {
 
 		// sanity check
 		if(!$anchor)
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 
 		// which agreement?
 		elseif(!$this->parameters)
-			Skin::error(sprintf(i18n::s('No parameter has been provided to %s'), 'behaviors/move_on_article_access'));
+			Logger::error(sprintf(i18n::s('No parameter has been provided to %s'), 'behaviors/move_on_article_access'));
 
 		// parse parameters
 		else {

@@ -1315,7 +1315,7 @@ Class Categories {
 
 		// title cannot be empty
 		if(!isset($fields['title']) || !$fields['title']) {
-			Skin::error(i18n::s('No title has been provided.'));
+			Logger::error(i18n::s('No title has been provided.'));
 			return FALSE;
 		}
 
@@ -1628,7 +1628,7 @@ Class Categories {
 				// link the reference to this weekly category
 				if($category) {
 					if($error = Members::assign($category, $reference))
-						Skin::error($error);
+						Logger::error($error);
 				}
 
 				// months are starting on day 1
@@ -1652,7 +1652,7 @@ Class Categories {
 				// link the reference to this monthly category
 				if($category) {
 					if($error = Members::assign($category, $reference))
-						Skin::error($error);
+						Logger::error($error);
 				}
 			}
 		}

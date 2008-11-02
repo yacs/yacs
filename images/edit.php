@@ -185,7 +185,7 @@ if(isset($_REQUEST['description']))
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -205,12 +205,12 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // maybe posts are not allowed here
 } elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('This page has been locked.'));
+	Logger::error(i18n::s('This page has been locked.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -288,43 +288,43 @@ if(Surfer::is_crawler()) {
 
 		// uploads are not allowed
 		if(!Surfer::may_upload())
-			Skin::error(i18n::s('You are not allowed to perform this operation.'));
+			Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 		// size exceeds php.ini settings -- UPLOAD_ERR_INI_SIZE
 		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 1))
-			Skin::error(i18n::s('The size of this file is over limit.'));
+			Logger::error(i18n::s('The size of this file is over limit.'));
 
 		// size exceeds form limit -- UPLOAD_ERR_FORM_SIZE
 		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 2))
-			Skin::error(i18n::s('The size of this file is over limit.'));
+			Logger::error(i18n::s('The size of this file is over limit.'));
 
 		// partial transfer -- UPLOAD_ERR_PARTIAL
 		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 3))
-			Skin::error(i18n::s('No file has been transmitted.'));
+			Logger::error(i18n::s('No file has been transmitted.'));
 
 		// no file -- UPLOAD_ERR_NO_FILE
 		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 4))
-			Skin::error(i18n::s('No file has been transmitted.'));
+			Logger::error(i18n::s('No file has been transmitted.'));
 
 		// zero bytes transmitted
 		elseif(!$_FILES['upload']['size'])
-			Skin::error(i18n::s('No file has been transmitted.'));
+			Logger::error(i18n::s('No file has been transmitted.'));
 
 		// an anchor is mandatory to put the file in the file system
 		elseif(!is_object($anchor))
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 
 		// check provided upload name
 		elseif(!Safe::is_uploaded_file($file_upload))
-			Skin::error(i18n::s('Possible file attack.'));
+			Logger::error(i18n::s('Possible file attack.'));
 
 		// we accept only valid images
 		elseif(!$image_information = Safe::GetImageSize($file_upload))
-			Skin::error(sprintf(i18n::s('No image information in %s'), $file_name));
+			Logger::error(sprintf(i18n::s('No image information in %s'), $file_name));
 
 		// we accept only gif, jpeg and png
 		elseif(($image_information[2] != 1) && ($image_information[2] != 2) && ($image_information[2] != 3))
-			Skin::error(sprintf(i18n::s('Rejected file type %s'), $file_name));
+			Logger::error(sprintf(i18n::s('Rejected file type %s'), $file_name));
 
 		// save the image into the web space
 		else {
@@ -335,7 +335,7 @@ if(Surfer::is_crawler()) {
 
 			// move the uploaded file
 			if(!Safe::move_uploaded_file($file_upload, $file_path.$file_name))
-				Skin::error(sprintf(i18n::s('Impossible to move the upload file to %s'), $file_path.$file_name));
+				Logger::error(sprintf(i18n::s('Impossible to move the upload file to %s'), $file_path.$file_name));
 
 			// this will be filtered by umask anyway
 			else
@@ -399,7 +399,7 @@ if(Surfer::is_crawler()) {
 
 	// nothing has been posted
 	} elseif(!isset($_REQUEST['id']))
-		Skin::error(i18n::s('No file has been transmitted.'));
+		Logger::error(i18n::s('No file has been transmitted.'));
 
 	// an error has already been encountered
 	if(count($context['error'])) {
@@ -700,7 +700,7 @@ if($with_form) {
 		$help = '<p>'.i18n::s('Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By clicking on thumbnails people can access full-sized pictures. The title is visible while the mouse is over the thumbnail. The description and the source information are displayed along the full-sized picture.').'</p>'
 			.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
 			.'<p>'.i18n::s('Smaller files are embedded as-is. The description and the source fields are more or less useless in this case.').'</p>';
-		$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+		$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 	}
 

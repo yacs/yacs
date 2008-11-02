@@ -218,7 +218,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// the introductory text
 		if($item['introduction']) {
-			$text .= Codes::beautify($item['introduction'], $item['options'])
+			$text .= Codes::beautify_introduction($item['introduction'])
 				.' '.Skin::build_link($url, i18n::s('More').MORE_IMG, 'basic');
 		} elseif(!is_object($overlay))
 			$text .= Skin::cap(Codes::beautify($item['description'], $item['options']), 70, $url);
@@ -324,7 +324,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// the introductory text
 		if($item['introduction'])
-			$text .= Codes::beautify($item['introduction'], $item['options']);
+			$text .= Codes::beautify_introduction($item['introduction']);
 		elseif(!is_object($overlay))
 			$text .= Skin::cap(Codes::beautify($item['description'], $item['options']), 25, $url);
 
@@ -406,7 +406,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 
 		// the introductory text
 		if(isset($item['introduction']) && $item['introduction'])
-			$suffix .= ' -&nbsp;'.Codes::beautify($item['introduction'], $item['options']);
+			$suffix .= ' -&nbsp;'.Codes::beautify_introduction($item['introduction']);
 		elseif(isset($item['decription']) && $item['decription'])
 			$suffix .= ' -&nbsp;'.Skin::cap(Codes::beautify($item['description'], $item['options']), 25);
 

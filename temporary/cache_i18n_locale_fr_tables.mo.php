@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:06 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-10-21 18:35+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['fr']['9d1dd3844462dd717f535edb3d78a4b6']='%d ordres SQL ont été traités en %.2f secondes.';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['%d table'.chr(0).'%d tables']='%d table'.chr(0).'%d tables';
@@ -28,8 +42,8 @@ $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit a table']='Modifier une table';
 $_SESSION['l10n']['fr']['Error in table query %s']='Erreur dans la requête de la table %s';
 $_SESSION['l10n']['fr']['da0357c97db9a18255b418e583fa8f36']='Tout peut être téléchargé en CSV';
-$_SESSION['l10n']['fr']['Fetch a table as CSV']='Récupérer une table au format CSV';
-$_SESSION['l10n']['fr']['Fetch a table as XML']='Récupérer une table au format XML';
+$_SESSION['l10n']['fr']['Fetch as CSV']='Transférer en CSV';
+$_SESSION['l10n']['fr']['Fetch as XML']='Transférer en XML';
 $_SESSION['l10n']['fr']['Field delimiter']='Délimiteur de champ';
 $_SESSION['l10n']['fr']['Field enclosure']='Délimiteur de contenu';
 $_SESSION['l10n']['fr']['File']='Fichier';
@@ -69,7 +83,6 @@ $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoye
 $_SESSION['l10n']['fr']['Press to select a local file']='Choisir un fichier local';
 $_SESSION['l10n']['fr']['Query string']='Requête d\'interrogation';
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['SQL Query']='Commande SQL';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Single quote character']='Caractère \'';

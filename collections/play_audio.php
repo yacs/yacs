@@ -74,7 +74,7 @@ $context['path_bar'] = array( 'collections/' => i18n::s('File collections') );
 if(!isset($item['collection']) || !$item['collection']) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	$context['page_title'] = i18n::s('Unknown collection');
-	Skin::error(i18n::s('The collection asked for is unknown.'));
+	Logger::error(i18n::s('The collection asked for is unknown.'));
 
 // access is prohibited
 } elseif((($item['collection_visibility'] == 'N') && !Surfer::is_empowered())
@@ -89,7 +89,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	$context['page_title'] = i18n::s('Restricted access');
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // play files in this location
 } else {

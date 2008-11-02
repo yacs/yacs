@@ -3,14 +3,28 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:53 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:18+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n > 1);
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: French
+';
 $_SESSION['l10n']['fr']['%d action'.chr(0).'%d actions']='%d action'.chr(0).'%d actions';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['f7023d9e1479b6ec8738a65cb7fd9706']='<p>Essayez de décrire complètement l\'action dans son titre, et placez les éléments d\'information complémentaires dans le champ de description.</p><p>Utilisez %s et %s pour embellir le texte.</p><p>Renseignez l\'adresse cible si cette action est reliée à une ressource web particulière.</p>';
 $_SESSION['l10n']['fr']['84a77bd6947f2b7aa1017b42f3e7f9c1']='<p>L\'action suivante a maintenant l\'état :</p><p><b>%s</b></p>';
-$_SESSION['l10n']['fr']['Accept: %s']='Accepter : %s';
+$_SESSION['l10n']['fr']['Accept']='Accepter';
 $_SESSION['l10n']['fr']['Action assigned to: %s']='Action assignée à %s';
 $_SESSION['l10n']['fr']['Action has been completed']='L\'action est terminée';
 $_SESSION['l10n']['fr']['Action has been rejected']='L\'action a été rejetée';
@@ -46,7 +60,6 @@ $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\
 $_SESSION['l10n']['fr']['Posted by']='Envoyé par';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Rejected']='Rejetée';
 $_SESSION['l10n']['fr']['Rejected actions']='Actions rejetées';
 $_SESSION['l10n']['fr']['Reset']='Ré-initialiser';

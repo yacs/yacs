@@ -121,16 +121,12 @@ function send_body() {
 			if(preg_match('/run_once\//i', $file))
 				continue;
 
+			// should have been already loaded
+			if(preg_match('/minify.php$/i', $file))
+				continue;
+
 			// don't include ourself
 			if($file == 'scripts/validate.php')
-				continue;
-
-			// shared files will be loaded anyway
-			if(preg_match('/shared\//i', $file))
-				continue;
-
-			// included files will be loaded anyway
-			if(preg_match('/included\//i', $file))
 				continue;
 
 			// process only reference scripts

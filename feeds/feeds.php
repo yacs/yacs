@@ -164,10 +164,10 @@ class Feeds {
 		// select a codec
 		include_once $context['path_to_root'].'services/codec.php';
 
-		// decode slashdot
-		if(preg_match('/<backslash/i', $content)) {
-			include_once $context['path_to_root'].'services/slashdot_codec.php';
-			$codec =& new slashdot_Codec();
+		// decode from atom
+		if(strpos($content, '<feed ')) {
+			include_once $context['path_to_root'].'services/atom_codec.php';
+			$codec =& new atom_Codec();
 
 		// the default is to decode as RSS
 		} else {
@@ -409,7 +409,7 @@ class Feeds {
 
 				// save link in the database
 				if(!Links::post($fields))
-					Logger::remember('feeds/feeds.php', 'Impossible to save feed link: '.Skin::error_pop());
+					Logger::remember('feeds/feeds.php', 'Impossible to save feed link: '.Logger::error_pop());
 			}
 
 			// one feed has been processed

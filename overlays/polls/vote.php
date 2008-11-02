@@ -132,24 +132,24 @@ if(isset($_SERVER['HTTP_REFERER']))
 // no subject
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // no overlay
 } elseif(!is_object($overlay)) {
-	Skin::error(i18n::s('This page has no overlay'));
+	Logger::error(i18n::s('This page has no overlay'));
 
 // not a valid poll
 } elseif(!@count($overlay->attributes['answers'])) {
-	Skin::error(i18n::s('Not a valid poll'));
+	Logger::error(i18n::s('Not a valid poll'));
 
 // not a valid vote
 } elseif(($vote < 1 ) || ($vote > @count($overlay->attributes['answers']))) {
-	Skin::error(i18n::s('Not a valid vote'));
+	Logger::error(i18n::s('Not a valid vote'));
 
 // a vote has already been registered
 } elseif(isset($_COOKIE['poll_'.$id])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You have already voted'));
+	Logger::error(i18n::s('You have already voted'));
 
 // record the vote
 } else {

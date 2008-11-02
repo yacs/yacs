@@ -152,7 +152,7 @@ load_skin('users');
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = sprintf(i18n::s('Configure: %s'), i18n::s('People'));
+$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Configure'), i18n::s('People'));
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -161,7 +161,7 @@ if(!Surfer::is_logged())
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the input form
 } elseif($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -433,7 +433,7 @@ elseif(!Surfer::is_associate()) {
 
 	// allowed tags
 	$label = i18n::s('Allowed Tags');
-	$input = '<input type="text" name="users_allowed_tags" size="65" value="'.encode_field($context['users_allowed_tags']).'" maxlength="128" />';
+	$input = '<input type="text" name="users_allowed_tags" size="65" value="'.encode_field($context['users_allowed_tags']).'" maxlength="255" />';
 	$hint = i18n::s('List HTML tags allowed to members.').BR.'&lt;a&gt;&lt;abbr&gt;&lt;acronym&gt;&lt;b&gt;&lt;big&gt;&lt;br&gt;&lt;code&gt;&lt;dd&gt;&lt;del&gt;&lt;dfn&gt;&lt;dl&gt;&lt;dt&gt;&lt;em&gt;&lt;i&gt;&lt;img&gt;&lt;ins&gt;&lt;li&gt;&lt;ol&gt;&lt;p&gt;&lt;q&gt;&lt;small&gt;&lt;span&gt;&lt;strong&gt;&lt;sub&gt;&lt;sup&gt;&lt;tt&gt;&lt;u&gt;&lt;ul&gt;';
 	$fields[] = array($label, $input, $hint);
 
@@ -640,7 +640,7 @@ elseif(!Surfer::is_associate()) {
 	// update the parameters file
 	if(!Safe::file_put_contents('parameters/users.include.php', $content)) {
 
-		Skin::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/users.include.php'));
+		Logger::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/users.include.php'));
 
 		// allow for a manual update
 		$context['text'] .= '<p style="text-decoration: blink;">'.sprintf(i18n::s('To actually change the configuration, please copy and paste following lines by yourself in file %s.'), 'parameters/users.include.php')."</p>\n";

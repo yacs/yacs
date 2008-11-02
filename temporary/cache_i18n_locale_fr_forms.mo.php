@@ -3,10 +3,25 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:04 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: Yacs
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:21+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n > 1);
+X-Poedit-Language: French
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['fr']['%d form'.chr(0).'%d forms']='%d formulaire'.chr(0).'%d formulaires';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
+$_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['7959b059e4d93392b6cb781e9d9eaffc']='Une nouvelle page a été créée avec les informations fournies. Elle va être traitée dans les plus brefs délais.';
 $_SESSION['l10n']['fr']['21c58f77450af6e7fc86a17ada969ac2']='Accès restreint aux associés';
 $_SESSION['l10n']['fr']['71591a943ab0ff1e925f29270c9a6568']='Accès restreint aux membres authentifiés';
@@ -21,7 +36,6 @@ $_SESSION['l10n']['fr']['Capture']='Enregistrement';
 $_SESSION['l10n']['fr']['Content']='Contenu';
 $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
-$_SESSION['l10n']['fr']['Delete: %s']='Supprimer : %s';
 $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit again']='Modifier de nouveau';
 $_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
@@ -55,7 +69,6 @@ $_SESSION['l10n']['fr']['Post processing']='Traitement de cet envoi';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les données';
 $_SESSION['l10n']['fr']['Processing']='Traitement';
 $_SESSION['l10n']['fr']['474f9f13dfabde8542ecef34bd170aec']='Pour être notifié des réactions';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Regular sections']='Sections normales';
 $_SESSION['l10n']['fr']['Related to %s']='Attaché à %s';
 $_SESSION['l10n']['fr']['7e8b45fdf21bc9b2bf4e435de14283b7']='Choisissez ci-dessous la section où placer les formulaires saisis';

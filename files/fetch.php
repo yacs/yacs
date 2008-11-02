@@ -148,7 +148,7 @@ if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/fetc
 // not found
 if(!isset($item['id']) || !$item['id']) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has been found.'));
+	Logger::error(i18n::s('No item has been found.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -161,7 +161,7 @@ if(!isset($item['id']) || !$item['id']) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // enable remote updates through webDAV
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')) {
@@ -169,7 +169,7 @@ if(!isset($item['id']) || !$item['id']) {
 	// file has to be mapped locally
 	if((isset($item['file_href']) && $item['file_href']) || (isset($item['active']) && ($item['active'] == 'X'))) {
 		Safe::header('412 Precondition Failed');
-		Skin::error('Cannot read file locally');
+		Logger::error('Cannot read file locally');
 
 	// describe our capabilities
 	} else {
@@ -191,22 +191,22 @@ if(!isset($item['id']) || !$item['id']) {
 	// file has to be mapped locally
 	if((isset($item['file_href']) && $item['file_href']) || (isset($item['active']) && ($item['active'] == 'X'))) {
 		Safe::header('412 Precondition Failed');
-		Skin::error('Cannot read file locally');
+		Logger::error('Cannot read file locally');
 
 	// no content
 	} elseif(!$input_handle = Safe::fopen("php://input", "rb")) {
 		Safe::header('400 Client Error');
-		Skin::error('Nothing to process');
+		Logger::error('Nothing to process');
 
 	// ensure same MIME type
 	} elseif(isset($_SERVER["CONTENT_TYPE"]) && ($_SERVER["CONTENT_TYPE"] != Files::get_mime_type($item['file_name']))) {
 		Safe::header('409 Conflict');
-		Skin::error('Unexpected Content-Type');
+		Logger::error('Unexpected Content-Type');
 
 	// not allowed to write
 	} elseif(!$output_handle = Safe::fopen($context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']), "wb")) {
 		Safe::header('500 Internal Server Error');
-		Skin::error('Not allowed to write to local file');
+		Logger::error('Not allowed to write to local file');
 
 	// do the write
 	} else {
@@ -224,7 +224,7 @@ if(!isset($item['id']) || !$item['id']) {
 			// write it
 			if(!fwrite($output_handle, $buffer)) {
 				Safe::header('500 Internal Server Error');
-				Skin::error('Impossible to write to local file');
+				Logger::error('Impossible to write to local file');
 				break;
 			}
 
@@ -258,7 +258,7 @@ if(!isset($item['id']) || !$item['id']) {
 
 	// feed-back to surfer
 	} else
-		Skin::error(i18n::s('Operation has failed.'));
+		Logger::error(i18n::s('Operation has failed.'));
 
 	// follow-up commands
 	$follow_up = '<p>'.i18n::s('Where do you want to go now?').'</p>';
@@ -329,7 +329,7 @@ if(!isset($item['id']) || !$item['id']) {
 
 	// feed-back to surfer
 	} else
-		Skin::error(i18n::s('Operation has failed.'));
+		Logger::error(i18n::s('Operation has failed.'));
 
 	// follow-up commands
 	$follow_up = '<p>'.i18n::s('Where do you want to go now?').'</p>';

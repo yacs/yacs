@@ -209,7 +209,7 @@ if(!file_exists('../parameters/control.include.php') || !$connection ) {
 		$fields['email'] = '';
 		$fields['capability'] = 'A';
 		Surfer::set($fields);
-		Skin::error(i18n::s('You are considered temporarily as an associate, with specific rights on this server. Please do not close your browser until the end of the configuration.'));
+		Logger::error(i18n::s('You are considered temporarily as an associate, with specific rights on this server. Please do not close your browser until the end of the configuration.'));
 	}
 }
 
@@ -217,12 +217,12 @@ if(!file_exists('../parameters/control.include.php') || !$connection ) {
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = sprintf(i18n::s('Configure: %s'), i18n::s('System parameters'));
+$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Configure'), i18n::s('System parameters'));
 
 // ensure we have an associate
 if(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
 	$menu = array('control/' => i18n::s('Control Panel'));
@@ -723,7 +723,7 @@ if(!Surfer::is_associate()) {
 
 	// all skins
 	if(file_exists('../parameters/control.include.php'))
-		$menu[] = Skin::build_link('skins/', i18n::s('Skins'), 'span');
+		$menu[] = Skin::build_link('skins/', i18n::s('Themes'), 'span');
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
@@ -742,7 +742,7 @@ if(!Surfer::is_associate()) {
 
 		// return to the skins index if we are coming from there
 		if($_REQUEST['parameter'] == 'skin') {
-			$context['followup_label'] = i18n::s('Skins');
+			$context['followup_label'] = i18n::s('Themes');
 			$context['followup_link'] = 'skins/';
 		}
 
@@ -860,12 +860,12 @@ if(!Surfer::is_associate()) {
 	// alert the end user if we are not able to connect to the database
 	if(!$handle =& SQL::connect($_REQUEST['database_server'], $_REQUEST['database_user'], $_REQUEST['database_password'], $_REQUEST['database'])) {
 
-		Skin::error(i18n::s('ERROR: Unsuccessful connection to the database. Please check lines below and <a href="configure.php">configure again</a>.'));
+		Logger::error(i18n::s('ERROR: Unsuccessful connection to the database. Please check lines below and <a href="configure.php">configure again</a>.'));
 
 	// update the parameters file
 	} elseif(!Safe::file_put_contents('parameters/control.include.php', $content)) {
 
-		Skin::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/control.include.php'));
+		Logger::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/control.include.php'));
 
 		// allow for a manual update
 		$context['text'] .= '<p style="text-decoration: blink;">'.sprintf(i18n::s('To actually change the configuration, please copy and paste following lines by yourself in file %s.'), 'parameters/control.include.php')."</p>\n";

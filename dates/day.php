@@ -84,10 +84,10 @@ if(!$text =& Cache::get($cache_id)) {
 
 	Cache::put($cache_id, $text, 'articles');
 }
-$context['extra'] .= $text;
+$context['aside']['boxes'] = $text;
 
 // referrals, if any
-$context['extra'] .= Skin::build_referrals('dates/day.php/'.$target);
+$context['aside']['referrals'] = Skin::build_referrals('dates/day.php/'.$target);
 
 // render the skin
 render_skin();

@@ -135,7 +135,7 @@ if(isset($_REQUEST['expiry_date']) && $_REQUEST['expiry_date'])
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // access denied
 } elseif(!$permitted) {
@@ -155,17 +155,17 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // maybe posts are not allowed here
 } elseif(!isset($item['id']) && (is_object($anchor) && $anchor->has_option('locked')) && !Surfer::is_empowered()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('This web space has been locked, and you cannot submit a new page.'));
+	Logger::error(i18n::s('This web space has been locked, and you cannot submit a new page.'));
 
 // maybe this page cannot be modified anymore
 } elseif(isset($item['locked']) && ($item['locked'] == 'Y') && !Surfer::is_empowered()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('This page has been locked and you are not allowed to modify it.'));
+	Logger::error(i18n::s('This page has been locked and you are not allowed to modify it.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -580,8 +580,8 @@ if($with_form) {
 		$keywords[] = '<a onclick="javascript:append_to_options(\'with_slideshow\')" style="cursor: pointer;">with_slideshow</a> - '.i18n::s('Display content as a S5 slideshow');
 		$keywords[] = '<a onclick="javascript:append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
 		$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'sections/view_as_foo_bar.php');
-		$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific skin (in skins/foo_bar) here');
-		$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular skin template');
+		$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
+		$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
 		$keywords[] = '<a onclick="javascript:append_to_options(\'no_contextual_menu\')" style="cursor: pointer;">no_contextual_menu</a> - '.i18n::s('No information about surrounding sections');
 		$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
 		$fields[] = array($label, $input, $hint);
@@ -595,7 +595,7 @@ if($with_form) {
 		// extra information
 		$label = i18n::s('Extra');
 		$input = '<textarea name="extra" rows="6" cols="50">'.encode_field(isset($item['extra']) ? $item['extra'] : '').'</textarea>';
-		$hint = i18n::s('Text to be inserted in the panel aside the page.');
+		$hint = i18n::s('Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.');
 		$fields[] = array($label, $input, $hint);
 
 		// news can be either a static or an animated list
@@ -1048,7 +1048,7 @@ if($with_form) {
 	if(Surfer::is_empowered()) {
 		$label = i18n::s('Family');
 		$input = '<input type="text" name="family" size="50" value="'.encode_field(isset($item['family']) ? $item['family'] : '').'" maxlength="255" />';
-		$hint = i18n::s('Comes before the title; Used to categorized sections in forums');
+		$hint = i18n::s('Comes before the title; Used to categorize sections in forums');
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1305,7 +1305,7 @@ if($with_form) {
 		$help .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>'."\n";
 
 	// in a side box
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

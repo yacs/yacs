@@ -90,7 +90,7 @@ if($destination && is_object($anchor)) {
 	$behaviors = $anchor->get_behaviors();
 	if(!preg_match('/move_on_article_access\s+'.preg_quote($destination, '/').'/i', $behaviors)) {
 		Safe::header('Status: 400 Bad Request', TRUE, 400);
-		Skin::error(i18n::s('Request is invalid.'));
+		Logger::error(i18n::s('Request is invalid.'));
 		$destination = NULL;
 	}
 }
@@ -116,7 +116,7 @@ $context['page_title'] = i18n::s('Move a page');
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // an error has occured
 } elseif(count($context['error']))
@@ -125,12 +125,12 @@ if(Surfer::is_crawler()) {
 // not found
 elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // a destination anchor is mandatory
 } elseif(!is_object($destination)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No anchor has been found.'));
+	Logger::error(i18n::s('No anchor has been found.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -143,12 +143,12 @@ elseif(!isset($item['id'])) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // maybe this article cannot be modified anymore
 } elseif(isset($item['locked']) && ($item['locked'] == 'Y') && !Surfer::is_empowered()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('This page has been locked and you are not allowed to modify it.'));
+	Logger::error(i18n::s('This page has been locked and you are not allowed to modify it.'));
 
 // do the job
 } else {

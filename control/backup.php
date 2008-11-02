@@ -104,7 +104,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 	// prevent access to this script
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
 	$menu = array('control/' => i18n::s('Control Panel'));
@@ -185,7 +185,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		// read all lines
 		$query = "SELECT * FROM $table_name";
 		if(!$result =& SQL::query($query)) {
-			$context['text'] .= Skin::error_pop().BR."\n";
+			$context['text'] .= Logger::error_pop().BR."\n";
 			continue;
 		}
 
@@ -361,7 +361,8 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		Cache::clear();
 
 		// recreates index as well
-		$menu = array('control/setup.php?action=build' => i18n::s('Reindex tables and optimize data storage'));
+		$menu = array('control/setup.php?action=build' => i18n::s('Reindex tables and optimize data storage'),
+			'control/backup.php' => i18n::s('Backup/Restore'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
@@ -468,7 +469,8 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		Cache::clear();
 
 		// recreates index as well
-		$menu = array('control/setup.php?action=build' => i18n::s('Reindex tables and optimize data storage'));
+		$menu = array('control/setup.php?action=build' => i18n::s('Reindex tables and optimize data storage'),
+			'control/backup.php' => i18n::s('Backup/Restore'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
@@ -571,7 +573,8 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 		$context['text'] .= '<p>'.sprintf(i18n::s('%d SQL statements have been processed in %.2f seconds.'), $queries, $time).'</p>';
 
 		// recreates indes as well
-		$menu = array('control/setup.php' => i18n::s('Reindex tables and optimize data storage'));
+		$menu = array('control/setup.php?action=build' => i18n::s('Reindex tables and optimize data storage'),
+			'control/backup.php' => i18n::s('Backup/Restore'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 		// remember this in log as well
@@ -587,8 +590,9 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 	// locate files
 	include_once '../scripts/scripts.php';
-	$file_path = 'files/';
-	$datafiles = Scripts::list_files_at($file_path);
+	$file_path = $context['path_to_root'].'files/';
+	$file_prefix = $context['path_to_root'];
+	$datafiles = Scripts::list_files_at($file_path, TRUE, $file_prefix);
 
 	if(is_array($datafiles)) {
 		$context['text'] .= BR.sprintf(i18n::s('%d files have been found.'), count($datafiles)).'</p>'."\n";
@@ -606,7 +610,6 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 			// let's go
 			list($path, $filename) = $datafile;
-			$path = str_replace(array('files/', 'file'), '', $path);
 			if($path)
 				$file = $path.'/'.$filename;
 			else
@@ -621,10 +624,10 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 				continue;
 
 			// read file content
-			if(($content = Safe::file_get_contents('../'.$file_path.$file)) !== FALSE) {
+			if(($content = Safe::file_get_contents($file_prefix.$file)) !== FALSE) {
 
 				// store binary data
-				$zipfile->store('files/'.$file, Safe::filemtime('../'.$file_path.$file), $content);
+				$zipfile->store('files/'.$file, Safe::filemtime($file_prefix.$file), $content);
 
 				// avoid timeouts
 				if(!(($index++)%50)) {
@@ -656,8 +659,9 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 	// locate images
 	include_once '../scripts/scripts.php';
-	$file_path = 'images/';
-	$datafiles = Scripts::list_files_at($file_path);
+	$file_path = $context['path_to_root'].'images/';
+	$file_prefix = $context['path_to_root'];
+	$datafiles = Scripts::list_files_at($file_path, TRUE, $file_prefix);
 
 	if(is_array($datafiles)) {
 		$context['text'] .= BR.sprintf(i18n::s('%d images have been found.'), count($datafiles)).'</p>'."\n";
@@ -675,7 +679,6 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 			// let's go
 			list($path, $filename) = $datafile;
-			$path = str_replace(array('images/', 'images'), '', $path);
 			if($path)
 				$file = $path.'/'.$filename;
 			else
@@ -686,10 +689,10 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 				continue;
 
 			// read file content
-			if(($content = Safe::file_get_contents('../'.$file_path.$file)) !== FALSE) {
+			if(($content = Safe::file_get_contents($file_prefix.$file)) !== FALSE) {
 
 				// store binary data
-				$zipfile->store('images/'.$file, Safe::filemtime('../'.$file_path.$file), $content);
+				$zipfile->store('images/'.$file, Safe::filemtime($file_prefix.$file), $content);
 
 				// avoid timeouts
 				if(!(($index++)%50)) {
@@ -754,8 +757,9 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 	// locate skin
 	include_once '../scripts/scripts.php';
-	$file_path = $context['skin'];
-	$datafiles = Scripts::list_files_at($file_path.'/');
+	$file_path = $context['path_to_root'].$context['skin'];
+	$file_prefix = $context['path_to_root'].'skins/';
+	$datafiles = Scripts::list_files_at($file_path, TRUE, $file_prefix);
 
 	if(is_array($datafiles)) {
 		$context['text'] .= BR.sprintf(i18n::s('%d files have been found.'), count($datafiles)).'</p>'."\n";
@@ -773,17 +777,16 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 			// let's go
 			list($path, $filename) = $datafile;
-			$path = str_replace(array($file_path.'/', $file_path), '', $path);
 			if($path)
 				$file = $path.'/'.$filename;
 			else
 				$file = $filename;
 
 			// read file content
-			if(($content = Safe::file_get_contents('../'.$file_path.'/'.$file)) !== FALSE) {
+			if(($content = Safe::file_get_contents($file_prefix.$file)) !== FALSE) {
 
 				// store binary data
-				$zipfile->store($file, Safe::filemtime('../'.$file_path.'/'.$file), $content);
+				$zipfile->store($file, Safe::filemtime($file_prefix.$file), $content);
 
 				// avoid timeouts
 				if(!(($index++)%50)) {
@@ -972,7 +975,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'">';
 	$context['text'] .= '<p>'
 		.'<input type="hidden" name="action" value="skin" />'
-		.Skin::build_submit_button(i18n::s('Yes, I want to download the current skin'), i18n::s('Press [k] to save the skin'), 'k', NULL, 'no_spin_on_click')
+		.Skin::build_submit_button(i18n::s('Yes, I want to download the current theme'), i18n::s('Press [k] to save the theme'), 'k', NULL, 'no_spin_on_click')
 		.'</p>'."\n".'</form>';
 
 	// this may take several minutes

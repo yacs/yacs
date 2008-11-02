@@ -10,7 +10,7 @@
 // splash message
 global $local;
 $local['label_en'] = 'Update Apache configuration tool';
-$local['label_fr'] = 'Mise &acute; jour du configurateur Apache';
+$local['label_fr'] = 'Mise &agrave; jour du configurateur Apache';
 echo i18n::user('label')."<br />\n";
 
 // the reference server to use

@@ -59,7 +59,7 @@ $context['page_title'] = i18n::s('Actions');
 
 // this page is really only for associates
 if(!Surfer::is_associate()) {
-	Skin::error(sprintf(i18n::s('Because of our security policy you are not allowed to list actions. Please browse %s to visualize any action attached.'), Skin::build_link('articles/', i18n::s('pages'), 'basic')));
+	Logger::error(sprintf(i18n::s('Because of our security policy you are not allowed to list actions. Please browse %s to visualize any action attached.'), Skin::build_link('articles/', i18n::s('pages'), 'basic')));
 
 // display the index
 } else {
@@ -114,10 +114,10 @@ if(!$text =& Cache::get($cache_id)) {
 
 	Cache::put($cache_id, $text, 'articles');
 }
-$context['extra'] .= $text;
+$context['aside']['boxes'] = $text;
 
 // referrals, if any
-$context['extra'] .= Skin::build_referrals('actions/index.php');
+$context['aside']['referrals'] = Skin::build_referrals('actions/index.php');
 
 // render the skin
 render_skin();

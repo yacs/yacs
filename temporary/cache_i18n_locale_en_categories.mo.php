@@ -3,9 +3,23 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:52 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['en']['a0507e16b19aa7d4554d3ae0abcb89cf']='%d category'.chr(0).'%d categories';
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-11-02 23:13+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: English
+';
+$_SESSION['l10n']['en']['%d category'.chr(0).'%d categories']='%d category'.chr(0).'%d categories';
 $_SESSION['l10n']['en']['%d comment'.chr(0).'%d comments']='%d comment'.chr(0).'%d comments';
 $_SESSION['l10n']['en']['%d file'.chr(0).'%d files']='%d file'.chr(0).'%d files';
 $_SESSION['l10n']['en']['%d link'.chr(0).'%d links']='%d link'.chr(0).'%d links';
@@ -15,6 +29,7 @@ $_SESSION['l10n']['en']['%d section'.chr(0).'%d sections']='%d section'.chr(0).'
 $_SESSION['l10n']['en']['%d user'.chr(0).'%d users']='%d user'.chr(0).'%d users';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s by %s %s']='%s by %s %s';
+$_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['-- Root level']='-- Root level';
 $_SESSION['l10n']['en']['A message has been sent to:']='A message has been sent to:';
 $_SESSION['l10n']['en']['21c58f77450af6e7fc86a17ada969ac2']='Access is restricted to associates';
@@ -30,15 +45,15 @@ $_SESSION['l10n']['en']['All the web']='All the web';
 $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['Anyone may read this category']='Anyone may read this category';
 $_SESSION['l10n']['en']['386980fc5327cd3e0b217ad44c09cb77']='Appears in list of categories near the title';
-$_SESSION['l10n']['en']['22b00309d120e415c07fd22cd2f15ae4']='Apply a specific skin (in skins/foo_bar) here';
+$_SESSION['l10n']['en']['b4cb4dc2b17ff4ce51ca65cb8dcc7e98']='Apply a specific theme (in skins/foo_bar)';
 $_SESSION['l10n']['en']['Ask Jeeves']='Ask Jeeves';
-$_SESSION['l10n']['en']['Associate']='Associate';
 $_SESSION['l10n']['en']['Attach related files.']='Attach related files.';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Bullet URL']='Bullet URL';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Categories']='Categories';
 $_SESSION['l10n']['en']['Categories for: %s']='Categories for: %s';
+$_SESSION['l10n']['en']['Categorize']='Categorize';
 $_SESSION['l10n']['en']['Category has expired %s']='Category has expired %s';
 $_SESSION['l10n']['en']['Category overlay']='Category overlay';
 $_SESSION['l10n']['en']['Change page icon']='Change page icon';
@@ -54,7 +69,6 @@ $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
 $_SESSION['l10n']['en']['Content tree']='Content tree';
 $_SESSION['l10n']['en']['4158dec895b46349386efea0e7ee92a9']='Contribute to the web and link to relevant pages.';
 $_SESSION['l10n']['en']['Delete']='Delete';
-$_SESSION['l10n']['en']['Delete: %s']='Delete: %s';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['1a358d29caf897e54396073d4f58b0f6']='Do not change modification date.';
 $_SESSION['l10n']['en']['Do not display articles.']='Do not display articles.';
@@ -138,10 +152,8 @@ $_SESSION['l10n']['en']['Rank']='Rank';
 $_SESSION['l10n']['en']['Rebuild title paths']='Rebuild title paths';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['Reference this page']='Reference this page';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['9847ddc65a65e0caa0a0fe5b0df09857']='Regular categories are ranked at 10000.';
 $_SESSION['l10n']['en']['Related categories']='Related categories';
-$_SESSION['l10n']['en']['Related servers']='Related servers';
 $_SESSION['l10n']['en']['Rendering']='Rendering';
 $_SESSION['l10n']['en']['Request is invalid.']='Request is invalid.';
 $_SESSION['l10n']['en']['9dcd55ec867280d2a3afd1c82fd36aa7']='Scan pages and remember publication dates';
@@ -169,7 +181,7 @@ $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Suffix']='Suffix';
 $_SESSION['l10n']['en']['Technorati']='Technorati';
 $_SESSION['l10n']['en']['1191989b64153cc1569ba37769dff14b']='Text to be appended at the bottom of the page, after all other elements attached to this page.';
-$_SESSION['l10n']['en']['6764b0a8938450609ea453947e83ee91']='Text to be inserted in the panel aside the page.';
+$_SESSION['l10n']['en']['15b447c7a95325a403b1ed99b405e008']='Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.';
 $_SESSION['l10n']['en']['Textarea']='Textarea';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['The cloud of tags']='The cloud of tags';
@@ -185,7 +197,7 @@ $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['d8ef00288000f0f98aafef9b53c2e08d']='To be inserted at the bottom of related pages.';
 $_SESSION['l10n']['en']['c1966a9db995dd0212d9febf7be757e0']='To be inserted at the top of related pages.';
 $_SESSION['l10n']['en']['To designate a category by name']='To designate a category by name';
-$_SESSION['l10n']['en']['d2f1fce9469994f5fbb3f5d6f3f18b45']='To load template_foo_bar.php instead of the regular skin template';
+$_SESSION['l10n']['en']['74a19ba83faf8108003e4f4acf426719']='To load template_foo_bar.php instead of the regular template';
 $_SESSION['l10n']['en']['9e9dfd283bcf9e91034d1f81ac4b04aa']='To relate this category to some search pattern';
 $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive errors. Aborted';
 $_SESSION['l10n']['en']['Trailer']='Trailer';

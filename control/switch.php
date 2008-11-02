@@ -44,7 +44,7 @@ if(!Surfer::is_associate()) {
 
 	// prevent access to this script
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// back to the control panel
 	$menu = array('control/' => i18n::s('Control Panel'));
@@ -73,7 +73,7 @@ if(!Surfer::is_associate()) {
 
 	// failure
 	} else {
-		Skin::error(i18n::s('The server has NOT been switched on successfully. Please rename the file parameters/switch.off to parameters/switch.on.'));
+		Logger::error(i18n::s('The server has NOT been switched on successfully. Please rename the file parameters/switch.off to parameters/switch.on.'));
 	}
 
 	// back to the control panel
@@ -98,7 +98,7 @@ if(!Surfer::is_associate()) {
 	if(!Safe::file_put_contents('parameters/switch.include.php', $content)) {
 
 		// not enough rights to write the file
-		Skin::error(sprintf(i18n::s('Impossible to write to %s.'), 'parameters/switch.include.php.'));
+		Logger::error(sprintf(i18n::s('Impossible to write to %s.'), 'parameters/switch.include.php.'));
 
 		// allow for a manual update
 		$context['text'] .= '<p style="text-decoration: blink;">'.sprintf(i18n::s('To actually change the configuration, please copy and paste following lines by yourself in file %s.'), 'parameters/switch.include.php')."</p>\n";
@@ -111,7 +111,7 @@ if(!Surfer::is_associate()) {
 	// rename the switch file
 	if(Safe::rename($context['path_to_root'].'parameters/switch.on', $context['path_to_root'].'parameters/switch.off')) {
 
-		Skin::error(i18n::s('The server has been switched OFF. Switch it back on as soon as possible.'));
+		Logger::error(i18n::s('The server has been switched OFF. Switch it back on as soon as possible.'));
 
 		// remember the change
 		$label = i18n::c('The server has been switched off.');
@@ -119,11 +119,11 @@ if(!Surfer::is_associate()) {
 
 	// if the server is currently switched off
 	} elseif(file_exists($context['path_to_root'].'parameters/switch.off'))
-		Skin::error(i18n::s('The server is currently switched off. All users are redirected to the closed page.'));
+		Logger::error(i18n::s('The server is currently switched off. All users are redirected to the closed page.'));
 
 	// failure
 	else
-		Skin::error(i18n::s('Impossible to rename the file parameters/switch.on to parameters/switch.off. Do it yourself manually if you like.'));
+		Logger::error(i18n::s('Impossible to rename the file parameters/switch.on to parameters/switch.off. Do it yourself manually if you like.'));
 
 	// follow-up commands
 	$menu = array();
@@ -145,7 +145,7 @@ if(!Surfer::is_associate()) {
 	if(file_exists($context['path_to_root'].'parameters/switch.off')) {
 
 		// server status
-		Skin::error(i18n::s('The server is currently switched off. All users are redirected to the closed page.'));
+		Logger::error(i18n::s('The server is currently switched off. All users are redirected to the closed page.'));
 
 		// the confirmation question
 		$context['text'] .= '<b>'.i18n::s('You are about to open the server again. Are you sure?')."</b>\n";

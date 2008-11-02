@@ -32,7 +32,7 @@ Class Image {
 		// ensure this is a valid file
 		if(!$image_information = Safe::GetImageSize($original)) {
 			if($verbose)
-				Skin::error(sprintf(i18n::s('No image information in %s.'), $file_name));
+				Logger::error(sprintf(i18n::s('No image information in %s.'), $file_name));
 			return FALSE;
 		}
 
@@ -51,7 +51,7 @@ Class Image {
 		// sanity check
 		if(!isset($image)) {
 			if($verbose)
-				Skin::error(sprintf(i18n::s('No GD support, or unknown image type in %s.'), $file_name));
+				Logger::error(sprintf(i18n::s('No GD support, or unknown image type in %s.'), $file_name));
 			return FALSE;
 		}
 
@@ -115,7 +115,7 @@ Class Image {
 		// sanity check
 		if(!$adjusted) {
 			if($verbose)
-				Skin::error(sprintf(i18n::s('Impossible to adjust image %s.'), $file_name));
+				Logger::error(sprintf(i18n::s('Impossible to adjust image %s.'), $file_name));
 			return FALSE;
 		}
 
@@ -129,7 +129,7 @@ Class Image {
 			ImagePNG($adjusted, $original);
 		else {
 			if($verbose)
-				Skin::error(sprintf(i18n::s('Cannot write adjusted image to %s.'), $target));
+				Logger::error(sprintf(i18n::s('Cannot write adjusted image to %s.'), $target));
 			return FALSE;
 		}
 
@@ -157,7 +157,7 @@ Class Image {
 		// ensure this is a valid file
 		if(!$image_information = Safe::GetImageSize($original)) {
 			if($verbose)
-				Skin::error(sprintf(i18n::s('No image information in %s'), $file_name));
+				Logger::error(sprintf(i18n::s('No image information in %s'), $file_name));
 			return FALSE;
 		}
 
@@ -176,7 +176,7 @@ Class Image {
 		// sanity check
 		if(!isset($image)) {
 			if($verbose)
-				Skin::error(sprintf(i18n::s('Unknown image type in %s.'), $file_name));
+				Logger::error(sprintf(i18n::s('Unknown image type in %s.'), $file_name));
 			return FALSE;
 		}
 
@@ -232,7 +232,7 @@ Class Image {
 			// copy file content to the thumbnail
 			if(!copy($original, $target)) {
 				if($verbose)
-					Skin::error(sprintf(i18n::s('Cannot copy image to %s'), $target));
+					Logger::error(sprintf(i18n::s('Cannot copy image to %s'), $target));
 				return FALSE;
 			}
 
@@ -256,7 +256,7 @@ Class Image {
 		// sanity check
 		if(!$thumbnail) {
 			if($verbose)
-				Skin::error(sprintf(i18n::s('Impossible to skrink image %s'), $file_name));
+				Logger::error(sprintf(i18n::s('Impossible to skrink image %s'), $file_name));
 			return FALSE;
 		}
 
@@ -270,7 +270,7 @@ Class Image {
 			ImagePNG($thumbnail, $target);
 		else {
 			if($verbose)
-				Skin::error(sprintf(i18n::s('Impossible to write to %s.'), $target));
+				Logger::error(sprintf(i18n::s('Impossible to write to %s.'), $target));
 			return FALSE;
 		}
 

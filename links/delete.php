@@ -84,12 +84,12 @@ $context['page_title'] = i18n::s('Delete a link');
 // not found
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
 } elseif(!$permitted) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // deletion is confirmed
 } elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {
@@ -109,7 +109,7 @@ if(!isset($item['id'])) {
 
 // deletion has to be confirmed
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
-	Skin::error(i18n::s('The deletion has not been confirmed.'));
+	Logger::error(i18n::s('The deletion has not been confirmed.'));
 
 // ask for confirmation
 else {

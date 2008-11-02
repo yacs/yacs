@@ -894,7 +894,7 @@ else {
 
 			// post the article
 			if(!$fields['id'] = Articles::post($fields))
-				$response = array( 'faultCode' => -32500, 'faultString' => Skin::error_pop());
+				$response = array( 'faultCode' => -32500, 'faultString' => Logger::error_pop());
 
 			else {
 				$response = '<string>'.$fields['id'].'</string>';
@@ -1254,7 +1254,7 @@ else {
 
 				// create a file entry in the database, if not a thumbnail
 				if(!preg_match('/_tn\./i', $file_name) && (!$fields['id'] = Files::post($fields)))
-					$response = array( 'faultCode' => -32500, 'faultString' => Skin::error_pop());
+					$response = array( 'faultCode' => -32500, 'faultString' => Logger::error_pop());
 
 				// provide some file information in response
 				else {
@@ -1345,7 +1345,7 @@ else {
 
 			// post the article
 			if(!$fields['id'] = Articles::post($fields))
-				$response = array( 'faultCode' => -32500, 'faultString' => Skin::error_pop());
+				$response = array( 'faultCode' => -32500, 'faultString' => Logger::error_pop());
 
 			else {
 				$response = '<string>'.$fields['id'].'</string>';

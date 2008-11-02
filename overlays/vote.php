@@ -69,13 +69,13 @@ class Vote extends Overlay {
 			// block if this surfer has already voted
 			include_once $context['path_to_root'].'decisions/decisions.php';
 			if(isset($this->attributes['id']) && ($ballot = Decisions::get_ballot('article:'.$this->attributes['id']))) {
-				Skin::error(i18n::s('You have already voted'));
+				Logger::error(i18n::s('You have already voted'));
 				return FALSE;
 			}
 
 			// wait a minute
 			if(!$open) {
-				Skin::error(i18n::s('Vote is not open'));
+				Logger::error(i18n::s('Vote is not open'));
 				return FALSE;
 			}
 
@@ -86,7 +86,7 @@ class Vote extends Overlay {
 
 			// wait a minute
 			if($open) {
-				Skin::error(i18n::s('You have to wait for end of vote to list ballots'));
+				Logger::error(i18n::s('You have to wait for end of vote to list ballots'));
 				return FALSE;
 			}
 

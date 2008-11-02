@@ -231,6 +231,7 @@
  * @tester Timster
  * @tester Mordread Wallas
  * @tester ThierryP
+ * @tester Lasares
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -264,7 +265,7 @@ else
 	load_skin('home');
 
 // the menu bar may be made of sections
-if(!isset($context['root_sections_layout']) || ($context['root_sections_layout'] == 'menu')) {
+if(isset($context['root_sections_at_home']) && ($context['root_sections_at_home'] != 'none') && isset($context['root_sections_layout']) && ($context['root_sections_layout'] == 'menu')) {
 
 	// default number of sections to list
 	if(!isset($context['root_sections_count_at_home']) || ($context['root_sections_count_at_home'] < 1))
@@ -551,7 +552,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 				// useful warning for associates
 				if(Surfer::is_associate())
-					Skin::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_sections_layout']));
+					Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_sections_layout']));
 
 				// load default layout
 				include_once $context['path_to_root'].'sections/layout_sections_as_yahoo.php';
@@ -632,7 +633,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 				// useful warning for associates
 				if(Surfer::is_associate())
-					Skin::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_articles_layout']));
+					Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_articles_layout']));
 
 				// load default layout
 				include_once $context['path_to_root'].'skins/layout_home_articles_as_daily.php';

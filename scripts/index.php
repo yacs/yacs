@@ -138,7 +138,7 @@ if($item) {
 	// the list of licenses
 	$items[] = Skin::build_link(Scripts::get_url('licenses'), i18n::s('Licenses'), 'basic');
 
-	$context['extra'] .= Skin::build_box(i18n::s('See also'), Skin::finalize_list($items, 'tools'), 'extra');
+	$context['aside']['tools'] = Skin::build_box(i18n::s('See also'), Skin::finalize_list($items, 'tools'), 'extra');
 
 	// splash message
 	$text = '<p>'.i18n::s('Click on any link below to access the documentation extracted from each script (phpDoc).')."</p>\n";
@@ -186,7 +186,7 @@ if(Surfer::is_associate()) {
 }
 
 // referrals, if any
-$context['extra'] .= Skin::build_referrals('scripts/index.php');
+$context['aside']['referrals'] = Skin::build_referrals('scripts/index.php');
 
 // render the skin
 render_skin();

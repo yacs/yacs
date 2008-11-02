@@ -96,7 +96,7 @@ Class Layout_articles_as_select extends Layout_interface {
 
 		// introduction
 		if($item['introduction'])
-			$suffix .= ' '.Codes::beautify(trim($item['introduction']));
+			$suffix .= ' '.Codes::beautify_introduction($item['introduction']);
 
 		// add a head list of related links
 		$subs = array();

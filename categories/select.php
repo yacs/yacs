@@ -66,12 +66,12 @@ else
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
 } elseif(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has been found.'));
+	Logger::error(i18n::s('No item has been found.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -82,7 +82,7 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // build a form to associates some categories to this item
 } else {
@@ -92,7 +92,7 @@ if(Surfer::is_crawler()) {
 
 		// on error display the form again
 		if($error = Members::toggle($_REQUEST['anchor'], $_REQUEST['member'], isset($_REQUEST['father']) ? $_REQUEST['father'] : ''))
-			Skin::error($error);
+			Logger::error($error);
 
 	}
 
@@ -189,7 +189,7 @@ if(Surfer::is_crawler()) {
 	if(!is_array($categories) || (count($categories) < CATEGORIES_LIST_SIZE)) {
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><div>'
 			.i18n::s('Select a category').' <select name="anchor">'.Categories::get_options($categories).'</select>'
-			.' '.Skin::build_submit_button(i18n::s('Associate'))
+			.' '.Skin::build_submit_button(i18n::s('Categorize'))
 			.'<input type="hidden" name="member" value="'.encode_field($member).'">'
 			.'</div></form>'."\n";
 	}

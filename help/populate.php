@@ -88,7 +88,7 @@ if(!$permitted) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
 	$menu = array('control/' => i18n::s('Control Panel'));
@@ -583,7 +583,7 @@ if(!$permitted) {
 		// update the parameters file
 		if(!Safe::file_put_contents('parameters/collections.include.php', $content)) {
 
-			Skin::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/collections.include.php'));
+			Logger::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/collections.include.php'));
 
 			// allow for a manual update
 			$context['text'] .= '<p style="text-decoration: blink;">'.sprintf(i18n::s('To actually change the configuration, please copy and paste following lines by yourself in file %s.'), 'parameters/collections.include.php')."</p>\n";
@@ -2002,7 +2002,7 @@ if(!$permitted) {
 	// the help panel
 	$help = '<p>'.i18n::s('Turn any regular section to a photo album by adding images to posted pages.').'</p>'
 		.'<p>'.i18n::s('YACS creates weekly and monthly archives automatically. No specific action is required to create these.').'</p>';
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 	// contribution shortcuts
 	if(Surfer::is_member()) {
@@ -2018,7 +2018,7 @@ if(!$permitted) {
 
 		$label .= '</ul>'."\n";
 
-		$context['extra'] .= Skin::build_box(i18n::s('Shortcuts'), $label, 'navigation');
+		$context['aside']['boxes'] .= Skin::build_box(i18n::s('Shortcuts'), $label, 'navigation');
 	}
 
 }

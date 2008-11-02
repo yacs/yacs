@@ -68,7 +68,7 @@ if(!Surfer::is_associate()) {
 
 	// bottom commands
 	$menu = array();
-	$menu[] = Skin::build_link('overlays/mutables/edit.php', i18n::s('Edit again'), 'basic');
+	$menu[] = Skin::build_link('overlays/mutables/edit.php', i18n::s('Change named overlays'), 'basic');
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 // the form

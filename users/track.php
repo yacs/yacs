@@ -53,21 +53,21 @@ $context['page_title'] = i18n::s('Watch list');
 // not found
 if(!$item['id']) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.').' ('.$track.')');
+	Logger::error(i18n::s('No item has the provided id.').' ('.$track.')');
 
 // operation is restricted to logged users
 } elseif(!Surfer::get_id()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // you cannot watch yourself
 } elseif($track == 'user:'.Surfer::get_id()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // toggle membership status
 } elseif($error = Members::toggle($track, 'user:'.Surfer::get_id())) {
-	Skin::error($error);
+	Logger::error($error);
 
 // post-processing tasks
 } else {

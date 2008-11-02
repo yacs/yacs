@@ -559,7 +559,7 @@ class PhpDoc {
 		$this->titles[$script] = $script;
 
 		// read the file
-		if(!$handle = Safe::fopen($context['path_to_root'].$path.$script, 'rb')) {
+		if(!$handle = Safe::fopen($path.$script, 'rb')) {
 			$this->comments[$script] = sprintf(i18n::s('Impossible to read %s.'), $script);
 			return sprintf(i18n::s('Impossible to read %s.'), $context['path_to_root'].$path.$script);
 		}

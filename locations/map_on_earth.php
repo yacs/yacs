@@ -40,15 +40,15 @@ if(isset($item['geo_place_name']))
 
 // not found
 if(!isset($item['id']))
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // no capability to create an image
 elseif(!is_callable('ImageCreateFromJpeg'))
-	Skin::error(i18n::s('Not capable to generate dynamic images.'));
+	Logger::error(i18n::s('Not capable to generate dynamic images.'));
 
 // we need a file to draw the map
 elseif(!file_exists($context['path_to_root'].'locations/images/earth_310.jpg'))
-	Skin::error(i18n::s('No image to use as a map.'));
+	Logger::error(i18n::s('No image to use as a map.'));
 
 // display the map for this location
 else {

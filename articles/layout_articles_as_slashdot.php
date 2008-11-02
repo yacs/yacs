@@ -130,7 +130,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 
 			// the full introductory text
 			if($item['introduction'])
-				$content .= Codes::beautify($item['introduction'], $item['options']);
+				$content .= Codes::beautify_introduction($item['introduction']);
 
 			// else ask for a teaser
 			elseif(!is_object($overlay)) {

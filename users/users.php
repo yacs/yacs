@@ -293,7 +293,7 @@ Class Users {
 		// load the record
 		$item =& Users::get($id);
 		if(!isset($item['id']) || !$item['id']) {
-			Skin::error(i18n::s('No item has the provided id.'));
+			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
 
@@ -1094,9 +1094,9 @@ Class Users {
 					." WHERE id = ".$item['id'];
 
 				if($item['authenticate_failures'] >= 2)
-					Skin::error(i18n::s('Wait for one hour to recover from too many failed authentications.'));
+					Logger::error(i18n::s('Wait for one hour to recover from too many failed authentications.'));
 				elseif($item['authenticate_failures'] == 1)
-					Skin::error(i18n::s('You have 1 grace authentication attempt.'));
+					Logger::error(i18n::s('You have 1 grace authentication attempt.'));
 
 			// first failure in a row
 			} else {
@@ -1105,7 +1105,7 @@ Class Users {
 					.", authenticate_failures=1"
 					." WHERE id = ".$item['id'];
 
-				Skin::error(i18n::s('You have 2 grace authentication attempts.'));
+				Logger::error(i18n::s('You have 2 grace authentication attempts.'));
 			}
 
 			// update target record
@@ -1156,7 +1156,7 @@ Class Users {
 
 		// nick_name is required
 		if(!isset($fields['nick_name']) || !trim($fields['nick_name'])) {
-			Skin::error(i18n::s('Please indicate a nick name.'));
+			Logger::error(i18n::s('Please indicate a nick name.'));
 			return FALSE;
 		}
 
@@ -1172,13 +1172,13 @@ Class Users {
 
 		// nickname may be already used
 		if(Users::get($fields['nick_name'])) {
-			Skin::error(i18n::s('Another member already has this nick name. Please select a different one.'));
+			Logger::error(i18n::s('Another member already has this nick name. Please select a different one.'));
 			return FALSE;
 		}
 
 		// password is required
 		if(!isset($fields['password']) || !trim($fields['password'])) {
-			Skin::error(i18n::s('Please indicate a password.'));
+			Logger::error(i18n::s('Please indicate a password.'));
 			return FALSE;
 		}
 
@@ -1403,7 +1403,7 @@ Class Users {
 		// load the record
 		$item =& Users::get($fields['id']);
 		if(!isset($item['id']) || !$item['id']) {
-			Skin::error(i18n::s('No item has the provided id.'));
+			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
 
@@ -1412,7 +1412,7 @@ Class Users {
 
 			// hash password if coming from a human facing a form
 			if(!isset($fields['confirm']) || ($fields['confirm'] != $fields['password'])) {
-				Skin::error(i18n::s('New password has to be confirmed.'));
+				Logger::error(i18n::s('New password has to be confirmed.'));
 				return FALSE;
 			}
 
@@ -1424,13 +1424,13 @@ Class Users {
 
 			// nick_name is required
 			if(!isset($fields['nick_name']) || !trim($fields['nick_name'])) {
-				Skin::error(i18n::s('Please indicate a nick name.'));
+				Logger::error(i18n::s('Please indicate a nick name.'));
 				return FALSE;
 			}
 
 			// nick_name may be already used
 			if(($used =& Users::get($fields['nick_name'])) && ($used['id'] != $fields['id'])) {
-				Skin::error(i18n::s('Another member already has this nick name. Please select a different one.'));
+				Logger::error(i18n::s('Another member already has this nick name. Please select a different one.'));
 				return FALSE;
 			}
 

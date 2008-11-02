@@ -3,10 +3,25 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:05 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:08+0100
+PO-Revision-Date: 2008-11-02 23:18+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['en']['%s at %s']='%s at %s';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
+$_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['Back-end services']='Back-end services';
 $_SESSION['l10n']['en']['Blogging interface']='Blogging interface';
 $_SESSION['l10n']['en']['0c8d5a7365a5761e04f27e7c2dac47f0']='Bound to hooked back-end scripts';
@@ -14,7 +29,6 @@ $_SESSION['l10n']['en']['c0ccde3ba07ca4ee6dd86de92c1bd748']='Build a customised 
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
-$_SESSION['l10n']['en']['Configure: %s']='Configure: %s';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['5ce66149f67e5a6de682eef4da0b9182']='Copy network packets sent and received by comments/post.php in temporary/debug.txt';
 $_SESSION['l10n']['en']['00882556621314b26d58a0c117b6bd7d']='Copy network packets sent and received by links/trackback.php in temporary/debug.txt';

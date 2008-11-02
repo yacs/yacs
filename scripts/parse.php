@@ -62,11 +62,11 @@ if($script) {
 
 // no script has been provided
 if(!$script) {
-	Skin::error(i18n::s('No script has been provided.'));
+	Logger::error(i18n::s('No script has been provided.'));
 
 // the script has to be there
 } elseif(!file_exists($translated))
-	Skin::error(i18n::s('Script does not exist.'));
+	Logger::error(i18n::s('Script does not exist.'));
 
 // display script content
 else {

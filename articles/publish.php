@@ -99,12 +99,12 @@ if(isset($item['id']))
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
 } elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // publication is not available to everybody
 } elseif(!$permitted) {
@@ -115,12 +115,12 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // page has already been published
 } elseif(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // publication is confirmed
 } elseif(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
@@ -132,7 +132,7 @@ if(Surfer::is_crawler()) {
 
 	// update the database
 	if($error = Articles::stamp($item['id'], $_REQUEST['publish_date'], isset($_REQUEST['expiry_date']) ? $_REQUEST['expiry_date'] : ''))
-		Skin::error($error);
+		Logger::error($error);
 
 	// post-processing tasks
 	else {
@@ -245,7 +245,7 @@ if(Surfer::is_crawler()) {
 if($with_form) {
 
 	// the form
-	$context['text'] .= '<form id="edit_form" method="post" action="'.$context['script_url'].'"><div>';
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';
 
 	// encode fields
 	$fields = array();

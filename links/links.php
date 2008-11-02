@@ -18,24 +18,6 @@ Class Links {
 	 * This function returns TRUE if links can be added to some place,
 	 * and FALSE otherwise.
 	 *
-	 * The function prevents the creation of new links when:
-	 * - the global parameter 'users_without_submission' has been set to 'Y'
-	 * - provided item has been locked
-	 * - item has some option 'no_links' that prevents new links
-	 * - the anchor has some option 'no_links' that prevents new links
-	 *
-	 * Then the function allows for new links when:
-	 * - surfer has been authenticated as a valid member
-	 * - or parameter 'users_without_teasers' has not been set to 'Y'
-	 *
-	 * Then, ultimately, the default is not allow for the creation of new
-	 * links.
-	 *
-	 * The type parameter is used to distinguish between regular items, such as
-	 * articles, that accept links, except on option 'no_links', and other
-	 * items, such as sections, where links are disallowed except on option
-	 * 'with_links'.
-	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
 	 * @param boolean TRUE to ask for option 'with_links'
@@ -43,10 +25,6 @@ Class Links {
 	 */
 	function are_allowed($anchor=NULL, $item=NULL, $explicit=FALSE) {
 		global $context;
-
-		// links are prevented in anchor
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_links'))
-			return FALSE;
 
 		// links are prevented in item
 		if(!$explicit && isset($item['options']) && is_string($item['options']) && preg_match('/\bno_links\b/i', $item['options']))
@@ -56,6 +34,10 @@ Class Links {
 		if($explicit && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_links\b/i', $item['options']))
 			return FALSE;
 
+		// links are prevented in anchor
+		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_links'))
+			return FALSE;
+
 		// surfer is an associate
 		if(Surfer::is_associate())
 			return TRUE;
@@ -63,6 +45,36 @@ Class Links {
 		// submissions have been disallowed
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
+
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N')) {
+		
+			// filter editors
+			if(!Surfer::is_empowered())
+				return FALSE;
+				
+			// editors will have to unlock the container to contribute
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		// container is restricted
+		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
+		
+			// filter members
+			if(!Surfer::is_member())
+				return FALSE;
+				
+			// editors can proceed
+			if(Surfer::is_empowered())
+				return TRUE;
+				
+			// members can contribute except if container is locked
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		}
 
 		// surfer has special privileges
 		if(Surfer::is_empowered())
@@ -76,22 +88,8 @@ Class Links {
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// surfer created the page
-		if(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
-			return TRUE;
-
-		// surfer screening
-		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
-			return FALSE;
-		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
 		// authenticated members are allowed to submit links
 		if(Surfer::is_member())
-			return TRUE;
-
-		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
 			return TRUE;
 
 		// anonymous contributions are allowed for this section
@@ -100,6 +98,10 @@ Class Links {
 
 		// anonymous contributions are allowed for this item
 		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+			return TRUE;
+
+		// anonymous contributions are allowed for this anchor
+		if(is_object($anchor) && $anchor->is_editable())
 			return TRUE;
 
 		// teasers are activated
@@ -1098,13 +1100,13 @@ Class Links {
 
 		// no link
 		if(!$fields['link_url']) {
-			Skin::error(i18n::s('No link URL has been provided.'));
+			Logger::error(i18n::s('No link URL has been provided.'));
 			return FALSE;
 		}
 
 		// no anchor reference
 		if(!$fields['anchor']) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
@@ -1201,19 +1203,19 @@ Class Links {
 
 		// id cannot be empty
 		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
-			Skin::error(i18n::s('No item has the provided id.'));
+			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
 
 		// no link
 		if(!$fields['link_url']) {
-			Skin::error(i18n::s('No link URL has been provided.'));
+			Logger::error(i18n::s('No link URL has been provided.'));
 			return FALSE;
 		}
 
 		// no anchor reference
 		if(!$fields['anchor']) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 

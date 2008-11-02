@@ -33,20 +33,6 @@ Class Comments {
 	 * This function returns TRUE if comments can be added to some place,
 	 * and FALSE otherwise.
 	 *
-	 * The function prevents the creation of new comments when:
-	 * - the global parameter 'users_without_submission' has been set to 'Y'
-	 * - provided item has been locked
-	 * - item has some option 'no_comments' that prevents new comments
-	 * - the anchor has some option 'no_comments' that prevents new comments
-	 *
-	 * Then the function allows for new comments when:
-	 * - surfer has been authenticated as a valid member
-	 * - or parameter 'users_with_anonymous_comments' has been set to 'Y'
-	 * - or parameter 'users_without_teasers' has not been set to 'Y'
-	 *
-	 * Then, ultimately, the default is not allow for the creation of new
-	 * comments.
-	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
 	 * @param boolean TRUE to ask for option 'with_comments'
@@ -55,16 +41,16 @@ Class Comments {
 	function are_allowed($anchor=NULL, $item=NULL, $explicit=FALSE) {
 		global $context;
 
-		// comments are prevented in anchor
-		if(is_object($anchor) && $anchor->has_option('no_comments'))
-			return FALSE;
-
 		// comments are prevented in item
 		if(!$explicit && isset($item['options']) && is_string($item['options']) && preg_match('/\bno_comments\b/i', $item['options']))
 			return FALSE;
 
 		// comments are not explicitly activated in item
 		if($explicit && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_comments\b/i', $item['options']))
+			return FALSE;
+
+		// comments are prevented in anchor
+		if(is_object($anchor) && $anchor->has_option('no_comments'))
 			return FALSE;
 
 		// surfer is an associate
@@ -75,11 +61,45 @@ Class Comments {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// surfer has special privileges
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N')) {
+		
+			// filter editors
+			if(!Surfer::is_empowered())
+				return FALSE;
+				
+			// editors will have to unlock the container to contribute
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		// container is restricted
+		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
+		
+			// filter members
+			if(!Surfer::is_member())
+				return FALSE;
+				
+			// editors can proceed
+			if(Surfer::is_empowered())
+				return TRUE;
+				
+			// members can contribute except if container is locked
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		}
+
+		// editors can always comment public pages
 		if(Surfer::is_empowered())
 			return TRUE;
+			
+		// surfer created the page
+		if(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
+			return TRUE;
 
-		// item has been locked
+		// container has been locked
 		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
 
@@ -87,34 +107,24 @@ Class Comments {
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// surfer created the page
-		if(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
-			return TRUE;
-
-		// surfer screening
-		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
-			return FALSE;
-		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
 		// authenticated members and subscribers are allowed to add comments
 		if(Surfer::is_logged())
 			return TRUE;
 
-		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
+		// anonymous surfers are allowed to contribute
+		if(isset($context['users_with_anonymous_comments']) && ($context['users_with_anonymous_comments'] == 'Y'))
 			return TRUE;
 
-		// anonymous contributions are allowed for this section
+		// anonymous contributions are allowed for this container
 		if(isset($item['content_options']) && preg_match('/\banonymous_edit\b/i', $item['content_options']))
 			return TRUE;
 
-		// anonymous contributions are allowed for this item
+		// anonymous contributions are allowed for this container
 		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
 			return TRUE;
 
-		// anonymous surfers are allowed to contribute
-		if(isset($context['users_with_anonymous_comments']) && ($context['users_with_anonymous_comments'] == 'Y'))
+		// anonymous contributions are allowed for this anchor
+		if(is_object($anchor) && $anchor->is_editable())
 			return TRUE;
 
 		// teasers are activated
@@ -1427,19 +1437,19 @@ Class Comments {
 
 		// no comment
 		if(!$fields['description']) {
-			Skin::error(i18n::s('No comment has been transmitted.'));
+			Logger::error(i18n::s('No comment has been transmitted.'));
 			return FALSE;
 		}
 
 		// no anchor reference
 		if(!$fields['anchor']) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
 		// get the anchor
 		if(!$anchor =& Anchors::get($fields['anchor'])) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
@@ -1456,7 +1466,7 @@ Class Comments {
 
 			// id cannot be empty
 			if(!isset($fields['id']) || !is_numeric($fields['id'])) {
-				Skin::error(i18n::s('No item has the provided id.'));
+				Logger::error(i18n::s('No item has the provided id.'));
 				return FALSE;
 			}
 

@@ -93,18 +93,6 @@ Class Actions {
 	 * This function returns TRUE if actions can be added to some place,
 	 * and FALSE otherwise.
 	 *
-	 * The function prevents the creation of new actions when:
-	 * - the global parameter 'users_without_submission' has been set to 'Y'
-	 * - provided item has been locked
-	 * - item has some option 'no_actions' that prevents new actions
-	 * - the anchor has some option 'no_actions' that prevents new actions
-	 *
-	 * Then the function allows for new actions when:
-	 * - surfer has been authenticated as a valid member
-	 *
-	 * Then, ultimately, the default is not allow for the creation of new
-	 * actions.
-	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
 	 * @return TRUE or FALSE
@@ -112,12 +100,12 @@ Class Actions {
 	function are_allowed($anchor=NULL, $item=NULL) {
 		global $context;
 
-		// actions are prevented in anchor
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_actions'))
-			return FALSE;
-
 		// actions are prevented in item
 		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_actions\b/i', $item['options']))
+			return FALSE;
+
+		// actions are prevented in anchor
+		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_actions'))
 			return FALSE;
 
 		// surfer is an associate
@@ -128,11 +116,41 @@ Class Actions {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// surfer has special privileges
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N')) {
+		
+			// filter editors
+			if(!Surfer::is_empowered())
+				return FALSE;
+				
+			// editors will have to unlock the container to contribute
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		// container is restricted
+		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
+		
+			// filter members
+			if(!Surfer::is_member())
+				return FALSE;
+				
+			// editors can proceed
+			if(Surfer::is_empowered())
+				return TRUE;
+				
+			// members can contribute except if container is locked
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		}
+
+		// editors can always add actions to public containers
 		if(Surfer::is_empowered())
 			return TRUE;
-
-		// item has been locked
+			
+		// container has been locked
 		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
 
@@ -140,26 +158,20 @@ Class Actions {
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// surfer screening
-		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
-			return FALSE;
-		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
 		// authenticated members are allowed to add actions
 		if(Surfer::is_member())
 			return TRUE;
 
-		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
-			return TRUE;
-
-		// anonymous contributions are allowed for this section
+		// anonymous contributions are allowed for this container
 		if(isset($item['content_options']) && preg_match('/\banonymous_edit\b/i', $item['content_options']))
 			return TRUE;
 
-		// anonymous contributions are allowed for this item
+		// anonymous contributions are allowed for this container
 		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+			return TRUE;
+
+		// anonymous contributions are allowed for this anchor
+		if(is_object($anchor) && $anchor->is_editable())
 			return TRUE;
 
 		// the default is to not allow for new actions
@@ -419,11 +431,11 @@ Class Actions {
 		}
 
 		// check the target action
-		if(!preg_match('/^(delete|edit|view)$/', $action))
+		if(!preg_match('/^(accept|delete|edit|view)$/', $action))
 			$action = 'view';
 
 		// normalize the link
-		return normalize_url(array('actions', 'action'), $action, $id);
+		return normalize_url(array('actions', 'action'), $action, $id, $name);
 	}
 
 	/**
@@ -600,13 +612,13 @@ Class Actions {
 
 		// no title
 		if(!isset($fields['title']) || !trim($fields['title'])) {
-			Skin::error(i18n::s('No title has been provided.'));
+			Logger::error(i18n::s('No title has been provided.'));
 			return FALSE;
 		}
 
 		// no anchor reference
 		if(!isset($fields['anchor']) || !trim($fields['anchor'])) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 

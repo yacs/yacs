@@ -48,6 +48,48 @@ class Logger {
 	}
 
 	/**
+	 * add some error message
+	 *
+	 * @param string the additional error message
+	 *
+	 */
+	function error($line) {
+		global $context;
+
+		// sanity check
+		if(!$line)
+			return;
+
+		// don't repeat error messages
+		if(in_array($line, $context['error']))
+			return;
+
+		// stack the error
+		$context['error'][] = $line;
+	}
+
+	/**
+	 * pop last error message
+	 *
+	 * @return string most recent error message, or NULL
+	 */
+	function error_pop() {
+		global $context;
+
+		// no stack
+		if(!is_array($context['error']))
+			return NULL;
+
+		// empty stack
+		if(!count($context['error']))
+			return NULL;
+
+		// remove last item, and return it
+		return array_pop($context['error']);
+
+	}
+
+	/**
 	 * get the latest events
 	 *
 	 * @param int the number of events - default is 20

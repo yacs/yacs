@@ -3,9 +3,23 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['en']['d2c50a2bcb2c12fa506be527379e7034']='%d decision'.chr(0).'%d decisions';
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-10-17 18:37+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
+$_SESSION['l10n']['en']['%d decision'.chr(0).'%d decisions']='%d decision'.chr(0).'%d decisions';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['%d thread'.chr(0).'%d threads']='%d thread'.chr(0).'%d threads';
 $_SESSION['l10n']['en']['d09e6d8231070418cfe46f6f8984efd1']='%s approvals (%d%%), %s rejections (%d%%)';
@@ -20,6 +34,7 @@ $_SESSION['l10n']['en']['Ask for a decision']='Ask for a decision';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Browse in a separate window']='Browse in a separate window';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
+$_SESSION['l10n']['en']['Copy: %s']='Copy: %s';
 $_SESSION['l10n']['en']['Decide: %s']='Decide: %s';
 $_SESSION['l10n']['en']['Decision']='Decision';
 $_SESSION['l10n']['en']['Decision: %s']='Decision: %s';
@@ -61,7 +76,6 @@ $_SESSION['l10n']['en']['Preview of your post:']='Preview of your post:';
 $_SESSION['l10n']['en']['RSS feed']='RSS feed';
 $_SESSION['l10n']['en']['Recent decisions at %s']='Recent decisions at %s';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Reject']='Reject';
 $_SESSION['l10n']['en']['Rejected']='Rejected';
 $_SESSION['l10n']['en']['Rejected %s']='Rejected %s';

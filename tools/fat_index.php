@@ -67,7 +67,7 @@ if(isset($_REQUEST['reference']) && strlen($_REQUEST['reference'])) {
 	if(!$input = Link::fetch($reference, '', '', 'tools/fat_index.php', $cookie)) {
 
 		// the standard way to localize string throughout YACS is to invoke i18n::s() -- see i18n/i18n.php
-		Skin::error(sprintf(i18n::s('error while fetching %s'), $reference).' ('.Link::get_error().')');
+		Logger::error(sprintf(i18n::s('error while fetching %s'), $reference).' ('.Link::get_error().')');
 	}
 
 // the user has submitted some content to crunch
@@ -85,7 +85,7 @@ $context['text'] .= '<p>'.i18n::s('This script strips tags and white space to ev
 // we at least ask for registration
 // look at shared/surfer.php for more information on the YACS security model
 if(!Surfer::is_logged())
-	Skin::error(i18n::s('This script can be used only by an authenticated user of this server.'));
+	Logger::error(i18n::s('This script can be used only by an authenticated user of this server.'));
 
 // user is allowed to use this tool
 else {

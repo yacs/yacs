@@ -51,7 +51,7 @@ if(!Surfer::is_logged())
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // invalid staging index
 } elseif(!isset($generation['date']) || !$generation['date'] || !$generation['server'] || !is_array($footprints)) {

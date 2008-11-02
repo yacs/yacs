@@ -104,7 +104,7 @@ if(!$permitted) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the control panel
 	$menu = array('control/' => i18n::s('Control Panel'));
@@ -257,7 +257,7 @@ if(!$permitted) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'default' section
@@ -273,7 +273,7 @@ if(!$permitted) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'extra_boxes' section
@@ -292,7 +292,7 @@ if(!$permitted) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'gadget_boxes' section
@@ -311,7 +311,7 @@ if(!$permitted) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'global' section
@@ -330,7 +330,7 @@ if(!$permitted) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'navigation_boxes' section
@@ -349,7 +349,7 @@ if(!$permitted) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'processed_queries' section
@@ -370,7 +370,7 @@ if(!$permitted) {
 		if($processed_id = Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'private' section
@@ -391,7 +391,7 @@ if(!$permitted) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'queries' section --after processed_queries
@@ -414,7 +414,7 @@ if(!$permitted) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'templates' section
@@ -434,7 +434,7 @@ if(!$permitted) {
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// report to surfer
@@ -531,7 +531,7 @@ if(!$permitted) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'cover' article - basic data
@@ -547,7 +547,7 @@ if(!$permitted) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'extra_rss' article - basic data
@@ -566,7 +566,7 @@ if(!$permitted) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'menu' article - basic data
@@ -590,7 +590,7 @@ if(!$permitted) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// 'privacy' article
@@ -621,7 +621,7 @@ if(!$permitted) {
 		if(Articles::post($fields))
 			$text .= sprintf(i18n::s('A page "%s" has been created.'), $fields['title']).BR."\n";
 		else
-			$text .= Skin::error_pop().BR."\n";
+			$text .= Logger::error_pop().BR."\n";
 	}
 
 	// report to surfer

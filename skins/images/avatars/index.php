@@ -41,7 +41,7 @@ if(!count($context['error'])) {
 
 	// browse the path to list directories and files
 	if(!$dir = Safe::opendir ($context['path_to_root'].$path))
-		Skin::error(sprintf(i18n::s('The directory %s does not exist.'), $path));
+		Logger::error(sprintf(i18n::s('The directory %s does not exist.'), $path));
 
 	// list directories and files separately
 	else {

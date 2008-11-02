@@ -76,17 +76,17 @@ $with_form = FALSE;
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
 } elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // no anchor
 }elseif(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No anchor has been found.'));
+	Logger::error(i18n::s('No anchor has been found.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -97,7 +97,7 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
@@ -248,7 +248,7 @@ if(Surfer::is_crawler()) {
 
 	// stop robots
 	if(Surfer::may_be_a_robot()) {
-		Skin::error(i18n::s('Please prove you are not a robot.'));
+		Logger::error(i18n::s('Please prove you are not a robot.'));
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
@@ -279,31 +279,31 @@ if(Surfer::is_crawler()) {
 
 					// size exceeds php.ini settings -- UPLOAD_ERR_INI_SIZE
 					if(isset($_FILES[$field['name']]['error']) && ($_FILES[$field['name']]['error'] == 1))
-						Skin::error(i18n::s('The size of this file is over limit.'));
+						Logger::error(i18n::s('The size of this file is over limit.'));
 
 					// size exceeds form limit -- UPLOAD_ERR_FORM_SIZE
 					elseif(isset($_FILES[$field['name']]['error']) && ($_FILES[$field['name']]['error'] == 2))
-						Skin::error(i18n::s('The size of this file is over limit.'));
+						Logger::error(i18n::s('The size of this file is over limit.'));
 
 					// partial transfer -- UPLOAD_ERR_PARTIAL
 					elseif(isset($_FILES[$field['name']]['error']) && ($_FILES[$field['name']]['error'] == 3))
-						Skin::error(i18n::s('No file has been transmitted.'));
+						Logger::error(i18n::s('No file has been transmitted.'));
 
 					// no file -- UPLOAD_ERR_NO_FILE
 					elseif(isset($_FILES[$field['name']]['error']) && ($_FILES[$field['name']]['error'] == 4))
-						Skin::error(i18n::s('No file has been transmitted.'));
+						Logger::error(i18n::s('No file has been transmitted.'));
 
 					// zero bytes transmitted
 					elseif(!$_FILES[$field['name']]['size'])
-						Skin::error(i18n::s('No file has been transmitted.'));
+						Logger::error(i18n::s('No file has been transmitted.'));
 
 					// check provided upload name
 					elseif(!Safe::is_uploaded_file($_FILES[$field['name']]['tmp_name']))
-						Skin::error(i18n::s('Possible file attack.'));
+						Logger::error(i18n::s('Possible file attack.'));
 
 					// move the uploaded file
 					elseif(!Safe::move_uploaded_file($_FILES[$field['name']]['tmp_name'], $file_path.$file_name))
-						Skin::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
+						Logger::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
 
 					// this will be filtered by umask anyway
 					else {
@@ -586,24 +586,7 @@ if($with_form) {
 	$context['text'] .= $text;
 
 	// referrals, if any
-	if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))) {
-
-		$cache_id = 'forms/view.php?id='.$item['id'].'#referrals#';
-		if(!$text =& Cache::get($cache_id)) {
-
-			// box content in a sidebar box
-			include_once '../agents/referrals.php';
-			if($text = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Forms::get_url($item['id'])))
-				$text =& Skin::build_box(i18n::s('Referrals'), $text, 'navigation', 'referrals');
-
-			// save in cache for one hour 60 * 60 = 3600
-			Cache::put($cache_id, $text, 'referrals', 3600);
-
-		}
-
-		// in the extra panel
-		$context['extra'] .= $text;
-	}
+	$context['aside']['referrals'] =& Skin::build_referrals(Forms::get_url($item['id']));
 }
 
 // render the skin

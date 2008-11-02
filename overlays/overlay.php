@@ -181,7 +181,7 @@ class Overlay {
 			return $overlay;
 		}
 
-		// houston, we've got a problem -- Skin::error() is buggy here
+		// houston, we've got a problem -- Logger::error() is buggy here
 		if($context['with_debug'] == 'Y')
 			Logger::remember('overlays/overlay.php', 'overlay::bind() unknown overlay type', $type, 'debug');
 		return NULL;
@@ -529,7 +529,7 @@ class Overlay {
 	 * @param int page
 	 * @return mixed some text, or NULL
 	 *
-	 * @see articles/view.php
+	 * @see sections/view.php
 	 */
 	function render($type, $reference, $page=1) {
 		return NULL;

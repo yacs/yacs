@@ -58,7 +58,7 @@ class Authenticator {
 
 		// sanity check
 		if(!$type) {
-			Skin::error(i18n::s('Invalid authenticator type.'));
+			Logger::error(i18n::s('Invalid authenticator type.'));
 			return NULL;
 		}
 
@@ -87,7 +87,7 @@ class Authenticator {
 		}
 
 		// houston, we've got a problem
-		Skin::error(sprintf(i18n::s('Unknown authenticator type %s'), $type));
+		Logger::error(sprintf(i18n::s('Unknown authenticator type %s'), $type));
 		return NULL;
 	}
 

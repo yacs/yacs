@@ -40,7 +40,7 @@ load_skin('scripts');
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = sprintf(i18n::s('Configure: %s'), i18n::s('Server software'));
+$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Configure'), i18n::s('Server software'));
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -49,7 +49,7 @@ if(!Surfer::is_logged())
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // get the input parameters
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'POST')) {
@@ -139,7 +139,7 @@ elseif(!Surfer::is_associate()) {
 	// update the parameters file
 	if(!Safe::file_put_contents('parameters/scripts.include.php', $content)) {
 
-		Skin::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/scripts.include.php'));
+		Logger::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/scripts.include.php'));
 
 		// allow for a manual update
 		$context['text'] .= '<p style="text-decoration: blink;">'.sprintf(i18n::s('To actually change the configuration, please copy and paste following lines by yourself in file %s.'), 'parameters/scripts.include.php')."</p>\n";

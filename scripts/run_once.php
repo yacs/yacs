@@ -94,11 +94,11 @@ $context['page_title'] = i18n::s('Run one-time scripts');
 $query = "SELECT count(*) FROM ".SQL::table_name('users');
 if((SQL::query($query) !== FALSE) && !Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // open the directory
 } elseif(!$dir = Safe::opendir($context['path_to_root'].'scripts/run_once'))
-	Skin::error(sprintf(i18n::s('Impossible to read %s.'), $context['path_to_run_once_scripts']));
+	Logger::error(sprintf(i18n::s('Impossible to read %s.'), $context['path_to_run_once_scripts']));
 
 // browse the directory
 else {

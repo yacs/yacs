@@ -568,14 +568,14 @@ class Archive_Tar
 	// {{{ _error()
 	function _error($p_message)
 	{
-		Skin::error($p_message);
+		Logger::error($p_message);
 	}
 	// }}}
 
 	// {{{ _warning()
 	function _warning($p_message)
 	{
-		Skin::error($p_message);
+		Logger::error($p_message);
 	}
 	// }}}
 
@@ -1452,6 +1452,7 @@ class Archive_Tar
 		  else
 			$v_header['filename'] = $p_path.'/'.$v_header['filename'];
 		}
+
 		if (file_exists($v_header['filename'])) {
 		  if (	 (@is_dir($v_header['filename']))
 			  && ($v_header['typeflag'] == '')) {
@@ -1474,7 +1475,7 @@ class Archive_Tar
 			// To be completed : An error or silent no replace ?
 		  }
 		}
-
+		
 		// ----- Check the directory availability and create it if necessary
 		elseif (($v_result
 				 = $this->_dirCheck(($v_header['typeflag'] == "5"
@@ -1671,6 +1672,9 @@ class Archive_Tar
 	 */
 	function _dirCheck($p_dir)
 	{
+		// dirname() can have weird effects
+		$p_dir = preg_replace('/\/\.\/$/', '', $p_dir);
+		
 		if ((@is_dir($p_dir)) || ($p_dir == ''))
 			return true;
 

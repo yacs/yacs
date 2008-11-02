@@ -82,7 +82,7 @@ if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // display the location full size
 } else {
@@ -228,51 +228,12 @@ if(!isset($item['id'])) {
 		// save in cache
 		Cache::put($cache_id, $text, 'locations');
 	}
-	$context['extra'] .= $text;
-
-	//
-	// neighbours, if any
-	//
-	$cache_id = 'locations/view.php?id='.$item['id'].'#neighbours';
-	if(!$text =& Cache::get($cache_id)) {
-
-		// locate up to 5 neighbours
-		$items = Locations::list_by_distance($item['latitude'], $item['longitude'], 1, COMPACT_LIST_SIZE);
-		if(@count($items)) {
-			$text .= Skin::build_box(i18n::s('Neighbours'), Skin::build_list($items, 'compact'), 'extra');
-
-		// avoid subsequent queries
-		} else
-			$text = ' ';
-
-
-		// save in cache for one hour 60 * 60 = 3600
-		Cache::put($cache_id, $text, 'referrals', 3600);
-
-	}
-	$context['extra'] .= $text;
+	$context['aside']['neighbours'] = $text;
 
 	//
 	// the referrals, if any, in a sidebar
 	//
-	if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))) {
-
-		$cache_id = 'locations/view.php?id='.$item['id'].'#referrals';
-		if(!$text =& Cache::get($cache_id)) {
-
-			// box content in a sidebar box
-			include_once '../agents/referrals.php';
-			if($text = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Locations::get_url($item['id'])))
-				$text =& Skin::build_box(i18n::s('Referrals'), $text, 'navigation', 'referrals');
-
-			// save in cache for one hour 60 * 60 = 3600
-			Cache::put($cache_id, $text, 'referrals', 3600);
-
-		}
-
-		// in the extra panel
-		$context['extra'] .= $text;
-	}
+	$context['aside']['referrals'] =& Skin::build_referrals(Locations::get_url($item['id']));
 
 }
 

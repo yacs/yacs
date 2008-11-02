@@ -3,9 +3,23 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 10:03 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['en']['e29e3b62fd00388c3ca08004cce5a8c1']='%d location'.chr(0).'%d locations';
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-10-31 22:00+0100
+PO-Revision-Date: 2008-08-01 11:47+0100
+Last-Translator: Paques, Bernard
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
+$_SESSION['l10n']['en']['%d location'.chr(0).'%d locations']='%d location'.chr(0).'%d locations';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['Add a location']='Add a location';
@@ -37,7 +51,6 @@ $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Look for unused locations']='Look for unused locations';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Navigation']='Navigation';
-$_SESSION['l10n']['en']['Neighbours']='Neighbours';
 $_SESSION['l10n']['en']['New location in %s']='New location in %s';
 $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.';
 $_SESSION['l10n']['en']['No image to use as a map.']='No image to use as a map.';
@@ -55,7 +68,6 @@ $_SESSION['l10n']['en']['Posted by']='Posted by';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['cd99033b943f469c35ebe8ba9de394f2']='Reference a valid anchor, or all users.';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Regional position: %s']='Regional position: %s';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Start']='Start';

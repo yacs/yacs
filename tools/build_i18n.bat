@@ -616,7 +616,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=overlays
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php %MODULE%/polls/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php %MODULE%/forms/*.php %MODULE%/mutables/*.php %MODULE%/polls/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
 
 if exist i18n/locale/en/%MODULE%.po goto update_overlays_en
 echo --- locale/en/%MODULE%.po generation

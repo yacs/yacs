@@ -140,17 +140,17 @@ if(isset($item['title']))
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // not found
 } elseif(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // e-mail has not been enabled
 } elseif(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('E-mail has not been enabled on this system.'));
+	Logger::error(i18n::s('E-mail has not been enabled on this system.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -161,7 +161,7 @@ if(Surfer::is_crawler()) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no mail in demo mode
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
@@ -172,7 +172,7 @@ if(Surfer::is_crawler()) {
 // no recipient has been found
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && (!isset($_REQUEST['to']) || !$_REQUEST['to'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('Please provide a recipient address.'));
+	Logger::error(i18n::s('Please provide a recipient address.'));
 
 // process submitted data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
@@ -235,21 +235,29 @@ if(Surfer::is_crawler()) {
 	// process every recipient
 	include_once $context['path_to_root'].'shared/mailer.php';
 	$posts = 0;
+	$actual_names = array();
 	foreach($to as $recipient) {
 		$recipient = trim($recipient);
 
-		// if this is not a valid address
-		if(!preg_match('/\w+@\w+\.\w+/', $recipient)) {
+		// we have a valid e-mail address
+		if(preg_match('/\w+@\w+\.\w+/', $recipient)) {
+			if(strcmp($recipient, $from))
+				$actual_names[] = $recipient;
+		
+		// look for a user with this nick name
+		} elseif(($user =& Users::get($recipient)) && $user['email']) {
+			$recipient = $user['email'];
+			if(!strcmp($user['email'], $from))
+				;
+			elseif($user['full_name'])
+				$actual_names[] = $user['full_name'];
+			else
+				$actual_names[] = $user['nick_name'];
 
-			// look for a user with this nick name
-			if(($user =& Users::get($recipient)) && $user['email'])
-				$recipient = $user['email'];
-
-			// skip this recipient
-			else {
-				Skin::error(sprintf(i18n::s('Error while sending the message to %s'), $recipient));
-				continue;
-			}
+		// skip this recipient
+		} else {
+			Logger::error(sprintf(i18n::s('Error while sending the message to %s'), $recipient));
+			continue;
 		}
 
 		// clean the provided string
@@ -280,8 +288,9 @@ if(Surfer::is_crawler()) {
 			$actual_message = $message;
 
 		// change content for message poster
-		if(!strcmp($recipient, $from))
-			$actual_message = i18n::s('This is a copy of the message you have sent, for your own record.')."\n".'-------'."\n\n".$actual_message;
+		if(!strcmp($recipient, $from)) {
+			$actual_message = i18n::s('This is a copy of the message you have sent, for your own record.')."\n".'-------'."\n".join(', ', $actual_names)."\n".'-------'."\n\n".$actual_message;
+		}
 
 		// post in debug mode, to get messages, if any
 		if(Mailer::post($from, $actual_recipient, $subject, $actual_message, $headers, 'articles/mail.php'))
@@ -324,7 +333,7 @@ if(Surfer::is_crawler()) {
 	$label = i18n::s('Message title');
 	$title = '';
 	if($name = Surfer::get_name())
-		$title = sprintf(i18n::s('You are invited by %s'), $name);
+		$title = sprintf(i18n::s('Invitation: %s'), $item['title']);
 	$input = '<input type="text" name="subject" size="50" maxlength="255" value="'.encode_field($title).'" />';
 	$fields[] = array($label, $input);
 
@@ -408,7 +417,7 @@ if(Surfer::is_crawler()) {
 
 	// help message
 	$help = '<p>'.i18n::s('Recipient addresses are used only once, to send your message, and are not stored afterwards.').'</p>';
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 }
 

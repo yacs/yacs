@@ -191,33 +191,19 @@ Class Articles {
 	 * This function returns TRUE if articles can be added to some place,
 	 * and FALSE otherwise.
 	 *
-	 * The function prevents the creation of new articles when:
-	 * - the global parameter 'users_without_submission' has been set to 'Y'
-	 * - provided item has been locked --but not its parent anchor!
-	 * - item has some option 'no_articles' that prevents new articles
-	 * - the anchor has some option 'no_articles' that prevents new articles
-	 *
-	 * Then the function allows for new articles when:
-	 * - surfer has been authenticated as a valid member
-	 * - or parameter 'users_without_teasers' has not been set to 'Y'
-	 *
-	 * Then, ultimately, the default is not allow for the creation of new
-	 * articles.
-	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
-	 * @param boolean TRUE if associates and editors are processed as regular users, FALSE otherwise
 	 * @return TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL, $no_empowerment = FALSE) {
+	function are_allowed($anchor=NULL, $item=NULL) {
 		global $context;
-
-		// articles are prevented in anchor
-		if(is_object($anchor) && $anchor->has_option('no_articles'))
-			return FALSE;
 
 		// articles are prevented in item
 		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_articles\b/i', $item['options']))
+			return FALSE;
+
+		// articles are prevented in anchor
+		if(is_object($anchor) && $anchor->has_option('no_articles'))
 			return FALSE;
 
 		// articles are prevented in item, through layout
@@ -225,28 +211,48 @@ Class Articles {
 			return FALSE;
 
 		// surfer is an associate
-		if(Surfer::is_associate() && !$no_empowerment)
+		if(Surfer::is_associate())
 			return TRUE;
 
 		// submissions have been disallowed
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// surfer has special privileges
-		if(Surfer::is_empowered() && !$no_empowerment)
+		// container is hidden
+		if(isset($item['active']) && ($item['active'] == 'N')) {
+		
+			// filter editors
+			if(!Surfer::is_empowered())
+				return FALSE;
+				
+			// editors will have to unlock the container to contribute
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
 			return TRUE;
+			
+		// container is restricted
+		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
+		
+			// filter members
+			if(!Surfer::is_member())
+				return FALSE;
+				
+			// editors can proceed
+			if(Surfer::is_empowered())
+				return TRUE;
+				
+			// members can contribute except if container is locked
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				return FALSE;
+			return TRUE;
+			
+		}
 
-		// no regular articles in this section
-		if(isset($item['articles_layout']) && ($item['articles_layout'] == 'none'))
-			return FALSE;
-
-		// surfer screening
-		if(isset($item['active']) && ($item['active'] == 'N') && !Surfer::is_empowered())
-			return FALSE;
-		if(isset($item['active']) && ($item['active'] == 'R') && !Surfer::is_logged())
-			return FALSE;
-
-		// item has been locked
+		// editors can always add pages to public sections
+		if(Surfer::is_empowered())
+			return TRUE;
+			
+		// container has been locked
 		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
 
@@ -258,16 +264,16 @@ Class Articles {
 		if(Surfer::is_member())
 			return TRUE;
 
-		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
-			return TRUE;
-
-		// anonymous contributions are allowed for this section
+		// anonymous contributions are allowed in this container
 		if(isset($item['content_options']) && preg_match('/\banonymous_edit\b/i', $item['content_options']))
 			return TRUE;
 
-		// anonymous contributions are allowed for this item
+		// anonymous contributions are allowed in this container
 		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
+			return TRUE;
+
+		// anonymous contributions are allowed for this anchor
+		if(is_object($anchor) && $anchor->is_editable())
 			return TRUE;
 
 		// teasers are activated
@@ -282,9 +288,18 @@ Class Articles {
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes
-	 * @param boolean TRUE if article is new, FALSE otherwise
+	 * @param boolean TRUE if page is new, FALSE otherwise
 	 */
 	function clear(&$item, $is_new = FALSE) {
+
+		// touch the related anchor
+		if(isset($item['id']) && isset($item['anchor']) && ($anchor =& Anchors::get($item['anchor']))) {
+			if($is_new)
+				$anchor->touch('article:create', $item['id'], isset($item['silent']) && ($item['silent'] == 'Y'));
+			else
+				$anchor->touch('article:update', $item['id'], isset($item['silent']) && ($item['silent'] == 'Y'));
+		}
+
 
 		// where this item can be displayed
 		$topics = array('articles', 'sections', 'categories', 'users');
@@ -295,15 +310,6 @@ Class Articles {
 
 		// clear the cache
 		Cache::clear($topics);
-
-		// touch the related anchor
-		if(isset($item['id']) && isset($item['anchor']) && ($anchor =& Anchors::get($item['anchor']))) {
-			if($is_new)
-				$anchor->touch('article:create', $item['id'], isset($item['silent']) && ($item['silent'] == 'Y'));
-			else
-				$anchor->touch('article:update', $item['id'], isset($item['silent']) && ($item['silent'] == 'Y'));
-		}
-
 
 	}
 
@@ -392,7 +398,7 @@ Class Articles {
 		// load the record
 		$item =& Articles::get($id);
 		if(!isset($item['id']) || !$item['id']) {
-			Skin::error(i18n::s('No item has the provided id.'));
+			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
 
@@ -1736,13 +1742,13 @@ Class Articles {
 
 		// title cannot be empty
 		if(!isset($fields['title']) || !$fields['title']) {
-			Skin::error(i18n::s('No title has been provided.'));
+			Logger::error(i18n::s('No title has been provided.'));
 			return FALSE;
 		}
 
 		// anchor cannot be empty
 		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
@@ -1874,11 +1880,13 @@ Class Articles {
 		include_once $context['path_to_root'].'categories/categories.php';
 		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
-		// turn author to page editor
-		if(isset($fields['edit_id']) && $fields['edit_id'])
+		// turn author to page editor and update author's watch list
+		if(isset($fields['edit_id']) && $fields['edit_id']) {
 			Members::assign('user:'.$fields['edit_id'], 'article:'.$fields['id']);
+			Members::assign('article:'.$fields['id'], 'user:'.$fields['edit_id']);
+		}
 
-		// clear the cache
+		// clear the cache, and touch the anchor
 		Articles::clear($fields, TRUE);
 
 		// return the id of the new item
@@ -1932,19 +1940,19 @@ Class Articles {
 
 		// id cannot be empty
 		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
-			Skin::error(i18n::s('No item has the provided id.'));
+			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
 
 		// title cannot be empty
 		if(!isset($fields['title']) || !$fields['title']) {
-			Skin::error(i18n::s('No title has been provided.'));
+			Logger::error(i18n::s('No title has been provided.'));
 			return FALSE;
 		}
 
 		// anchor cannot be empty
 		if(!isset($fields['anchor']) || !$fields['anchor'] || (!$anchor =& Anchors::get($fields['anchor']))) {
-			Skin::error(i18n::s('No anchor has been found.'));
+			Logger::error(i18n::s('No anchor has been found.'));
 			return FALSE;
 		}
 
@@ -2058,7 +2066,7 @@ Class Articles {
 
 		// id cannot be empty
 		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
-			Skin::error(i18n::s('No item has the provided id.'));
+			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
 

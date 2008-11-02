@@ -123,7 +123,7 @@ Class Layout_articles extends Layout_interface {
 
 			// the introductory text
 			if($item['introduction']) {
-				$suffix .= ' -&nbsp;'.Codes::strip($item['introduction']);
+				$suffix .= ' -&nbsp;'.Codes::beautify_introduction($item['introduction']);
 
 				// link to description, if any
 				if($item['description'])

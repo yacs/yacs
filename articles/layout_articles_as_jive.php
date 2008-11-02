@@ -127,7 +127,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 				$content .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 			// the introductory text
-			$content .= Codes::beautify($item['introduction'], $item['options']);
+			$content .= Codes::beautify_introduction($item['introduction']);
 
 			// insert overlay data, if any
 			if(is_object($overlay))

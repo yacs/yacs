@@ -53,12 +53,6 @@ include_once '../shared/global.php';
 // load a skin engine
 load_skin('articles');
 
-// stop crawlers
-if(Surfer::is_crawler()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	die(i18n::s('You are not allowed to perform this operation.'));
-}
-
 // get the list from the cache, if possible
 $cache_id = 'articles/feed.php#content';
 if(!$text =& Cache::get($cache_id)) {

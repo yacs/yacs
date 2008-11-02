@@ -185,7 +185,7 @@ $context['page_title'] = i18n::s('Comment service');
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
@@ -256,7 +256,7 @@ if(Surfer::is_crawler()) {
 
 			// save in the database
 			if(!$fields['id'] = Comments::post($fields))
-				$response = array('faultCode' => 1, 'faultString' => Skin::error_pop());
+				$response = array('faultCode' => 1, 'faultString' => Logger::error_pop());
 
 			// post-processing
 			else {
@@ -308,7 +308,7 @@ if(Surfer::is_crawler()) {
 } else {
 
 	// detail usage rule
-	Skin::error(i18n::s('This script supports Comment API and Post-It updates through HTTP POST requests.'));
+	Logger::error(i18n::s('This script supports Comment API and Post-It updates through HTTP POST requests.'));
 
 }
 

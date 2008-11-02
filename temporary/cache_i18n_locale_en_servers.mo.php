@@ -3,12 +3,27 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:53 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:08+0100
+PO-Revision-Date: 2008-11-02 23:18+0100
+Last-Translator: Bernard Paques
+Language-Team: Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n != 1);
+X-Poedit-Language: English
+X-Poedit-Country: UNITED KINGDOM
+X-Poedit-SourceCharset: utf-8
+';
 $_SESSION['l10n']['en']['%d elements have been read']='%d elements have been read';
 $_SESSION['l10n']['en']['%d server'.chr(0).'%d servers']='%d server'.chr(0).'%d servers';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
+$_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['e65ecdbceaab96361e9cabd171db6222']='A record has been created for server %s';
 $_SESSION['l10n']['en']['29ae395fb6ee23f2ca2c70c124ddf2c0']='Accept and process advertisements (<code>weblogUpdates.ping</code>) transmitted by this server to %s';
 $_SESSION['l10n']['en']['94a464898c7a931eb5d53f1420cdc3d4']='Accept and process search requests submitted by this server to %s';
@@ -29,7 +44,6 @@ $_SESSION['l10n']['en']['ab29426eac97a8fac53f1263996c2dc2']='Checked on each ser
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
-$_SESSION['l10n']['en']['Configure: %s']='Configure: %s';
 $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Delete']='Delete';
@@ -79,7 +93,6 @@ $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['47b78f39e64497e39883fac579c63f84']='Processing of queries received from this server';
 $_SESSION['l10n']['en']['RSS Test']='RSS Test';
 $_SESSION['l10n']['en']['Received from feeding servers']='Received from feeding servers';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Related to %s']='Related to %s';
 $_SESSION['l10n']['en']['f29869af2b6e35819bc5a7c5872e8dca']='Remote calls are allowed by default. Uncheck boxes below to ban this server if necessary.';
 $_SESSION['l10n']['en']['Search']='Search';

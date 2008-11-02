@@ -3,8 +3,22 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 7, 2008, 9:53 pm GMT. Please do not modify it manually.
+ * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
  */
+$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+Report-Msgid-Bugs-To: 
+POT-Creation-Date: 2008-11-02 23:07+0100
+PO-Revision-Date: 2008-10-24 19:21+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Plural-Forms: nplurals=2; plural=(n>1);
+X-Poedit-Country: FRANCE
+X-Poedit-SourceCharset: utf-8
+X-Poedit-Language: French
+';
 $_SESSION['l10n']['fr']['9d1dd3844462dd717f535edb3d78a4b6']='%d commandes SQL ont été traitées en %.2f secondes.';
 $_SESSION['l10n']['fr']['4ac7e427dbd03f83175cb53d1a381cf1']='%d répertoires ont été analysés';
 $_SESSION['l10n']['fr']['%d files have been found.']='%d fichiers ont été trouvés.';
@@ -24,8 +38,8 @@ $_SESSION['l10n']['fr']['a892dc3970b448cfc76d52438ea362a6']='%s - modifier le co
 $_SESSION['l10n']['fr']['1517dc5500dbad63fd98fd8d2462016a']='%s - changer les permissions des fichiers de script';
 $_SESSION['l10n']['fr']['0bd6a54d02de3cc75d33fbbdd6f2f529']='%s - définir le serveur de référence utilisé pour les mises à jour de logiciel';
 $_SESSION['l10n']['fr']['fc5f3cb643e203f84e92025cd00e6045']='%s - modifier le modèle utilisé pour préparer les nouvelles lettres';
-$_SESSION['l10n']['fr']['bf47847ed015a5bbd2ac8cbabca2a2e3']='%s - valider un grand nombre des styles utilisés par YACS';
 $_SESSION['l10n']['fr']['%s - check for software updates']='%s - pour obtenir la version la plus récente du logiciel';
+$_SESSION['l10n']['fr']['%s - check styles used by YACS']='%s - valider les styles utilisés par YACS';
 $_SESSION['l10n']['fr']['2e819d81cafe33f8aefcb328d53113f6']='%s - vérifie et optimise la structure de la base de données';
 $_SESSION['l10n']['fr']['d799f76258e68e8e7c770d6fe0947d2b']='%s - vider le cache ou supprimer l\'inutile';
 $_SESSION['l10n']['fr']['92a2c6e80630fa4909d6853d7cf85122']='%s - les codes que vous pouvez utiliser dans vos pages';
@@ -43,7 +57,7 @@ $_SESSION['l10n']['fr']['%s - phpinfo() and more']='%s - phpinfo() et autres';
 $_SESSION['l10n']['fr']['ea559186e2e55b4ccbcc53c073de1144']='%s - liste et installe les logiciels intégrés à YACS';
 $_SESSION['l10n']['fr']['c0777e534eeabca5d20bf0668cd45359']='%s - selectionnez une section et tapez un peu de texte, puis ajoutez des images, des fichiers et des liens';
 $_SESSION['l10n']['fr']['dd42f91a0a88d3aa6e0365f6f6d3fdf1']='%s - choisir et configurer les composants de la page d\'accueil';
-$_SESSION['l10n']['fr']['64d93fdf37b6b3749ea0e55cbe90ca5d']='%s - choisissez et testez les styles installés sur ce serveur';
+$_SESSION['l10n']['fr']['7089f81acbd6a98e5327ad40520e1090']='%s - choisissez et testez les thèmes installés sur ce serveur';
 $_SESSION['l10n']['fr']['aabc0967626adb06becb52f1d111ee19']='%s - répertoires et fichiers partagés';
 $_SESSION['l10n']['fr']['63c82f286cf6a3295558a5f47bf5dc6a']='%s - stopper et redémarrer votre serveur';
 $_SESSION['l10n']['fr']['8aa717dbf86d0e44261682c8f01aa966']='%s - les émoticons pour exprimer vos sentiments';
@@ -71,6 +85,7 @@ $_SESSION['l10n']['fr']['*** undefined label']='*** pas de libellé';
 $_SESSION['l10n']['fr']['A category "%s" already exists.']='Une catégorie "%s" existe déjà.';
 $_SESSION['l10n']['fr']['ee4c4307567fad8ef9e100aa3236eff8']='Une catégorie "%s" a été créée.';
 $_SESSION['l10n']['fr']['A complex POST test']='Un test de POST complexe';
+$_SESSION['l10n']['fr']['39442430beff9d5a0558913806fbcab2']='Un fichier de configuration est absent. Si vous êtes en train d\'installer un nouveau serveur, suivez le lien ci-dessous.';
 $_SESSION['l10n']['fr']['A more complex GET test']='Un test de GET plus compliqué';
 $_SESSION['l10n']['fr']['A page "%s" already exists.']='La page "%s" existe déjà.';
 $_SESSION['l10n']['fr']['A page "%s" has been created.']='Une page "%s" a été créée.';
@@ -89,7 +104,7 @@ $_SESSION['l10n']['fr']['a9208dbdacab805a18a581b5dcca21d5']='Les [link=codes]cod
 $_SESSION['l10n']['fr']['1ccf7f400198c806d44f70a7f04c1bdc']='L\'ensemble du contenu, y compris les apports ou commentaires des membres de la communauté, ou tout autre type d\'information publiée, est la propriété de [parameter=site_owner] et ne peut être reproduit sans permission. Toutefois, ces informations peuvent être modifiées ou supprimées librement par leurs créateurs.';
 $_SESSION['l10n']['fr']['All indexes will be (re)built.']='Tous les index seront reconstruits.';
 $_SESSION['l10n']['fr']['b3e8ce8c7a8ed8373c4db7d6cdbc9f0f']='Les marques ou images montrées ou mentionnées restent la propriété de leurs propriétaires respectifs, y compris ceux associés aux solutions listées sur [parameter=site_name]. [parameter=site_owner] se réserve le droit de corriger ou supprimer tout contenu à chaque fois que cela sera nécessaire, sans devoir notifier l\'auteur initial de l\'information concernée. [parameter=site_owner] ne saurait être tenu pour responsable des violations de droit d\'auteur initié par des membres de la communauté, même si tout sera mis en oeuvre pour résoudre les problèmes éventuels.';
-$_SESSION['l10n']['fr']['9ed42bc7dc0c8a8678137fe7cffae528']='Ce site utilise les cookies comme mécanisme standard de gestion de session. Nous n\'utilisons pas les cookies pour suivre les sessions de navigation individuelles, ni pour faire d\'autres choses indélicates. Si vous n\'êtes pas d\'accord avec cette politique, merci de configurer votre navigateur pour ne pas accepter les cookies de ce site. Une partie significative de ce site vous restera accessible, même si vous perdrez la faculté de vous authentifier et de contribuer.';
+$_SESSION['l10n']['fr']['3601ebb2d1f7a4183e047d58ee8fb3cc']='Ce site utilise les cookies comme mécanisme standard de gestion de session. Nous n\'utilisons pas les cookies pour suivre les sessions de navigation individuelles, ni pour faire d\'autres choses indélicates. Si vous n\'êtes pas d\'accord avec cette politique, merci de configurer votre navigateur pour ne pas accepter les cookies de ce site. Une partie significative de ce site vous restera accessible, même si vous perdrez la faculté de vous authentifier et de contribuer.';
 $_SESSION['l10n']['fr']['Apache .htaccess']='Apache .htaccess';
 $_SESSION['l10n']['fr']['1ffbc6125d4d724ceaf9fc2f5a78ef72']='Apache a été configuré avec %s.';
 $_SESSION['l10n']['fr']['Apply these SQL statements']='Exécuter les commandes SQL';
@@ -102,7 +117,7 @@ $_SESSION['l10n']['fr']['Backup/Restore']='Sauvegarde/Restauration';
 $_SESSION['l10n']['fr']['Bad hook type %s to %s for %s']='Extension de type inconnu %s vers %s pour %s.';
 $_SESSION['l10n']['fr']['Bad hook:']='Extension invalide :';
 $_SESSION['l10n']['fr']['Basic (compression)']='Fondamentaux (compression)';
-$_SESSION['l10n']['fr']['c8c6312d6d5eae1411fd0a9d5d7f65d1']='Soyez gentils avec les autres, ne leur envoyez pas de courrier éléctronique non-sollicité, et ne faites pas d\'usage frauduleux des informations collectés sur ce site.';
+$_SESSION['l10n']['fr']['7c7584646a45022892369731654dc1e1']='Soyez gentils avec les autres, ne leur envoyez pas de courrier éléctronique non-sollicité, et ne faites pas d\'usage frauduleux des informations collectés sur ce site.';
 $_SESSION['l10n']['fr']['Blog at %s']='Blog à %s';
 $_SESSION['l10n']['fr']['Blogging tools']='Outils de blog';
 $_SESSION['l10n']['fr']['Bookmark at %s']='Enregistrer le signet à %s';
@@ -133,7 +148,6 @@ $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuratio
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
 $_SESSION['l10n']['fr']['Configure the page factory']='Configurer la fabrication des pages';
-$_SESSION['l10n']['fr']['Configure: %s']='Configurer : %s';
 $_SESSION['l10n']['fr']['Configured virtual hosts']='Serveurs virtuels configurés';
 $_SESSION['l10n']['fr']['f1a31b689349f4dea5cd4b6502631e59']='Félicitations, un nouveau profil d\'associé %s a été créé avec le mot de passe %s';
 $_SESSION['l10n']['fr']['3e74311bb397360085e4752fda05c3d5']='Prendre en compte seulement les tables avec le préfixe %s';
@@ -159,11 +173,13 @@ $_SESSION['l10n']['fr']['Database server name']='Nom du serveur de données';
 $_SESSION['l10n']['fr']['30a65351c6432b075d77162e1b2a2a37']='Serveur de données qui abrite l\'information utilisateur';
 $_SESSION['l10n']['fr']['Debug mail services']='Mode de mise au point';
 $_SESSION['l10n']['fr']['Default masks']='Masques par défaut';
+$_SESSION['l10n']['fr']['59d0a123c2edc371fa37c0bda4c117ae']='Suppression des fichiers dont le nom se termine par ".bak"';
 $_SESSION['l10n']['fr']['3e1636f1b82413b28dc7d683484b135b']='Effacement de toutes les références extérieures (referrals). Elles seront recréées au fur et à mesure des prochaines visites sur le site. Une alternative est de %s.';
 $_SESSION['l10n']['fr']['a50856932f2ca6adf29629db38c81847']='Supprimer le fichier temporary/debug.txt pour purger les informations de mise au point.';
 $_SESSION['l10n']['fr']['3efa475535a405bddcd6869c96df5536']='Supprimer le fichier temporary/log.txt pour purger les informations relatives aux évènements.';
 $_SESSION['l10n']['fr']['14c8caaf14b958b24a660726cdf697a7']='Effacer les fichiers et les images associés au contenu précédent de la base de données';
-$_SESSION['l10n']['fr']['e85a54df8b521307b74a598784e7d88c']='Effacement des scripts de référence et de la documentation associée. Le référentiel peut être reconstruit depuis la page d\'index des scripts.';
+$_SESSION['l10n']['fr']['5d550c63ac22681e216bff41ec398eab']='Supprimer les fichiers temporaires ajoutés pendant les mises à jour.';
+$_SESSION['l10n']['fr']['61559f5eeea195c38508efff60e63304']='Effacement des scripts de référence et de la documentation associée. Le référentiel peut être reconstruit depuis la page d\'index des scripts.';
 $_SESSION['l10n']['fr']['Deleting %s']='Effacement de %s';
 $_SESSION['l10n']['fr']['Deleting agents data...']='Suppression des données concernant les agents et navigateurs...';
 $_SESSION['l10n']['fr']['Deleting all cached items...']='Suppression des éléments en cache...';
@@ -173,6 +189,7 @@ $_SESSION['l10n']['fr']['Deleting log data...']='Suppression de la base des év�
 $_SESSION['l10n']['fr']['fd120c9370fcd9ce1050e6193d808379']='Suppression des scripts obsolètes...';
 $_SESSION['l10n']['fr']['Deleting referall data...']='Suppression des références extérieures...';
 $_SESSION['l10n']['fr']['Deleting scripts data...']='Suppression des données concernant les scripts...';
+$_SESSION['l10n']['fr']['Deleting staging files...']='Suppression des fichiers temporaires de mise à jour ...';
 $_SESSION['l10n']['fr']['e3107ae5a02d556ed31961280fefccc3']='Suppression des pages de documentation...';
 $_SESSION['l10n']['fr']['3ba9d28263b44fe1f7c433530bfdd694']='Suppression des scripts de référence...';
 $_SESSION['l10n']['fr']['Description']='Description';
@@ -181,7 +198,7 @@ $_SESSION['l10n']['fr']['Disabling extension %s']='Désactivation de l\'extensio
 $_SESSION['l10n']['fr']['fad30612d408b40e0cc124f7911619e9']='Ne pas transformer les octets, en faisant l\'hypothèse que la transmission d\'entités sur 8 bits s\'effectue correctement de bout en bout.';
 $_SESSION['l10n']['fr']['d439e9863c1ec160af48834bc7a4c614']='Ne pas compresser les pages web. Le moteur web le fait par ailleurs.';
 $_SESSION['l10n']['fr']['Done']='Terminé';
-$_SESSION['l10n']['fr']['909b921ddddf61553745cf2e8972699f']='L\'afflux de messages que nous recevons est tel que nous ne pouvons pas vous garantir une réponse. Et bien évidemment, nous préférons répondre en priorité aux messages proches de nos centres d\'expertise.';
+$_SESSION['l10n']['fr']['e69eddc8001d51c8e5c2f0335019f77d']='L\'afflux de messages que nous recevons est tel que nous ne pouvons pas vous garantir une réponse. Et bien évidemment, nous préférons répondre en priorité aux messages proches de nos centres d\'expertise.';
 $_SESSION['l10n']['fr']['6a2c769d729b50a589114cb6f3a6ca3b']='ERREUR : Impossible d\'écrire dans le fichier %s. La configuration n\'a pas été sauvegardée.';
 $_SESSION['l10n']['fr']['d99776debd3d2959fe4de12593f7b175']='ERREUR : Impossible de se connecter à la base de données. Merci de vérifier les lignes ci-dessous, puis de <a href="configure.php">configurer de nouveau</a>.';
 $_SESSION['l10n']['fr']['306fc14245c8cfb0befbe2babb9af0b0']='Sinon, suivez le lien ci-dessous pour charger le formulaire de configuration.';
@@ -226,7 +243,7 @@ $_SESSION['l10n']['fr']['cb8b6b98f013a916d3f71b1232bc0f73']='Impossible de retro
 $_SESSION['l10n']['fr']['59163a66875f75923780d8ae420ceb93']='Impossible de retrouver les informations utilisateur/groupe de ce script.';
 $_SESSION['l10n']['fr']['Impossible to write to %s.']='Impossible d\'écrire dans %s';
 $_SESSION['l10n']['fr']['3bb915e7bf9f3a389df462e72f5b0129']='Pour mieux faire fonctionner ce site nous vous demandons de nous confier votre adresse de courrier électronique ou d\'autres informations personnelles. Nous ne divulguons pas ces informations sous quelque forme que ce soit. En résumé, vous pouvez nous faire confiance.';
-$_SESSION['l10n']['fr']['e5ecb77ad5d67de24c817365bdb5ee49']='Dans certains cas nous utilisons les adresses électroniques pour l\'identification de nos membres, ou pour vous envoyer des mises à jour par courrier. Nous envoyons périodiquement des lettres d\'information, mais seulement à ceux qui nous l\'ont demandé. A tout instant vous pouvez changer cette option sur votre profil d\'utilisateur. Il est possible que nous vous envoyons un courrier non-sollicité, mais si nous le faisons, ce sera toujours pour un motif valable, et jamais avec une excuse pour vous spammer.';
+$_SESSION['l10n']['fr']['245d20e62fee3230a660cad161dee1b4']='Dans certains cas nous utilisons les adresses électroniques pour l\'identification de nos membres, ou pour vous envoyer des mises à jour par courrier. Nous envoyons périodiquement des lettres d\'information, mais seulement à ceux qui nous l\'ont demandé. A tout instant vous pouvez changer cette option sur votre profil d\'utilisateur. Il est possible que nous vous envoyons un courrier non-sollicité, mais si nous le faisons, ce sera toujours pour un motif valable, et jamais avec une excuse pour vous spammer.';
 $_SESSION['l10n']['fr']['Included files']='Fichiers inclus';
 $_SESSION['l10n']['fr']['Including hook %s for %s']='Inclusion de l\'extension %s pour %s';
 $_SESSION['l10n']['fr']['Including hooks']='Extensions par inclusion';
@@ -267,6 +284,7 @@ $_SESSION['l10n']['fr']['Messages encoding']='Encodage des messages';
 $_SESSION['l10n']['fr']['8d706527cec6425ce288c51c4c20571e']='Les tables manquantes seront créées.';
 $_SESSION['l10n']['fr']['Models to be duplicated']='Modèles pour les nouvelles pages';
 $_SESSION['l10n']['fr']['Modules']='Modules';
+$_SESSION['l10n']['fr']['More information']='Plus d\'informations';
 $_SESSION['l10n']['fr']['8eac81642d35b7c08fa7b81603826259']='Base de données qui contient l\'information utilisateur';
 $_SESSION['l10n']['fr']['Navigation boxes']='Boîtes de navigation';
 $_SESSION['l10n']['fr']['Network']='Communication';
@@ -276,7 +294,6 @@ $_SESSION['l10n']['fr']['Nick name']='Surnom ou diminutif';
 $_SESSION['l10n']['fr']['e8a4fd3df02c584d7cbab5cd38182e70']='Pas d\'accès au serveur de données';
 $_SESSION['l10n']['fr']['c5fa24ba64596538edbb0cf8236486e8']='Pas de gestion du cache. Les paramètres de PHP s\'appliquent.';
 $_SESSION['l10n']['fr']['58bc12ecac7988dc8967be952a7b45a0']='Aucun fichier de configuration des extensions n\'a été trouvé. Si vous êtes en train d\'installer un nouveau serveur, suivez le lien ci-dessous.';
-$_SESSION['l10n']['fr']['9570c79f41de274be3bd90aeb5b0c7ef']='Aucun fichier de configuration n\'a été trouvé pour le rendu de votre serveur. Si vous êtes en train d\'installer un nouveau serveur, suivez le lien ci-dessus.';
 $_SESSION['l10n']['fr']['00cb3f098d28e004551a0cd959568220']='Aucun fichier de configuration n\'a été trouvé pour ce serveur virtuel.';
 $_SESSION['l10n']['fr']['6a9093e953b3488468be05de9991717d']='Aucun fichier de configuration n\'a été trouvé. Si vous êtes en train d\'installer un nouveau serveur, suivez le lien ci-dessous.';
 $_SESSION['l10n']['fr']['No file have been found.']='Aucun fichier n\'a été trouvé.';
@@ -314,7 +331,6 @@ $_SESSION['l10n']['fr']['10c3c7b67fa69b358ebc50520eae59b2']='Merci de %s pour ac
 $_SESSION['l10n']['fr']['cf03c8382d9265434e707d082b43d8bc']='Merci d\'activer le module GD, sinon YACS ne peut pas retailler les images.';
 $_SESSION['l10n']['fr']['a2a244d170d15cb5859ef06ecac6c638']='Choisissez un surnom significatif.';
 $_SESSION['l10n']['fr']['52609f36af990d3a21ca779eaad8d292']='Merci de configurer les extensions.';
-$_SESSION['l10n']['fr']['e26478eddc9fa3be2f1aa9871a146c8f']='Merci de configurer le rendu visuel de votre serveur';
 $_SESSION['l10n']['fr']['Please configure your server']='Merci de configurer votre serveur';
 $_SESSION['l10n']['fr']['Please create a database']='Merci de créer une base de données';
 $_SESSION['l10n']['fr']['Please create tables']='Merci de créer la structure des données';
@@ -323,12 +339,12 @@ $_SESSION['l10n']['fr']['Please populate tables']='Merci d\'initialiser la base 
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';
 $_SESSION['l10n']['fr']['Posted material']='Informations partagées';
-$_SESSION['l10n']['fr']['3ae33c82939a197afa1db4ccc751332a']='Les informations partagées, par définition, ne peuvent pas rester publiques. Plusieurs personnes peuvent toujours les consulter. En particulier, les associés exercent leur droit de contrôle pour relire et modifier toutes les pages et fichiers publiées par les membres de la communauté. La plupart du temps il s\'agit de corriger une faute de frappe, ou de déplacer une page d\'une section à une autre. Quelquefois un associé ou un éditeur peut aller jusqu\'à supprimer un élément d\'information sans justification particulière.';
+$_SESSION['l10n']['fr']['c4dfe569892ff534df1e35897d793538']='Les informations partagées, par définition, ne peuvent pas rester publiques. Plusieurs personnes peuvent toujours les consulter. En particulier, les associés exercent leur droit de contrôle pour relire et modifier toutes les pages et fichiers publiées par les membres de la communauté. La plupart du temps il s\'agit de corriger une faute de frappe, ou de déplacer une page d\'une section à une autre. Quelquefois un associé ou un éditeur peut aller jusqu\'à supprimer un élément d\'information sans justification particulière.';
 $_SESSION['l10n']['fr']['Prefix for table names']='Préfixe des noms de table';
 $_SESSION['l10n']['fr']['Prefix for the users table']='Préfixe de la table des utilisateurs';
 $_SESSION['l10n']['fr']['Press [f] to save files']='Appuyer sur [f] pour sauver les fichiers';
 $_SESSION['l10n']['fr']['Press [i] to save images']='Appuyer sur [i] pour sauver les images';
-$_SESSION['l10n']['fr']['Press [k] to save the skin']='Appuyer sur [k] pour sauver les fichiers';
+$_SESSION['l10n']['fr']['Press [k] to save the theme']='Appuyer sur [k] pour sauver le thème';
 $_SESSION['l10n']['fr']['Press [p] to save parameters']='Appuyer sur [p] pour sauver les paramètres';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['02aa4479d8bc853b63099204452e4186']='Empêcher ce serveur de se connecter à d\'autres.';
@@ -347,9 +363,8 @@ $_SESSION['l10n']['fr']['Purge']='Purge';
 $_SESSION['l10n']['fr']['cb50d489116ddb65e0cd84ae23bf4de5']='Purge des données concernant les agents utilisateur et navigateurs. Elles seront recréées au fur et à mesure des prochaines visites sur le site.';
 $_SESSION['l10n']['fr']['Purge again']='Purger de nouveau';
 $_SESSION['l10n']['fr']['a9dec11a8d3aa02ac8dfab6e7e3f892e']='Purge des liens reçus par les fils d\'information. Ils seront recréés au fur et à mesure des prochaines mises à jour.';
-$_SESSION['l10n']['fr']['ce24a6b6ca4fc5d17f9065d6b0a54daf']='Purge des anciens scripts. Suppression des fichiers dont le nom se termine par ".php.bak"';
 $_SESSION['l10n']['fr']['d83c342f0d4f69c901f181dd333d57a8']='Purge des données concernant les performances d\'exécution des scripts. Elles seront recréées au fur et à mesure des prochaines visites sur le site.';
-$_SESSION['l10n']['fr']['b826df4fdc8d81f0e559b3ed37f734d5']='Purge du cache. Suppression de tous les éléments cachés de la base de données';
+$_SESSION['l10n']['fr']['Purge the server cache.']='Purger le cache côté serveur.';
 $_SESSION['l10n']['fr']['Purging...']='Purge ...';
 $_SESSION['l10n']['fr']['2877dbe34446fa49b87a1104ba739da8']='Insérer les titres de page dans les adresses.';
 $_SESSION['l10n']['fr']['Queries']='Requêtes';
@@ -362,7 +377,7 @@ $_SESSION['l10n']['fr']['fe98b273e7b37b449b1faa5c950616ea']='Récupération de l
 $_SESSION['l10n']['fr']['2a0e06c5669dda6f4248c2978c4760c7']='Rediriger toutes les requêtes non sécurisées vers https.';
 $_SESSION['l10n']['fr']['55e646c7deee8ded80c85a4c990933fb']='Rediriger vers ce nom de serveur si un autre nom est mentionné dans la requête.';
 $_SESSION['l10n']['fr']['de62c4ef1a9f55d11e8667356299ce6c']='L\'enregistrement est gratuit et est intéresante à plus d\'un titre. %s si vous n\'êtes pas encore un membre de %s.';
-$_SESSION['l10n']['fr']['1904e0f7e1403eb493c44a2c71f099c4']='Réindexation des tables et optimisation de la base de données.';
+$_SESSION['l10n']['fr']['1904e0f7e1403eb493c44a2c71f099c4']='Réindexer les tables et optimiser la base de données';
 $_SESSION['l10n']['fr']['Rendering cache']='Mémorisation des éléments de page';
 $_SESSION['l10n']['fr']['Restore %s']='Restaurer %s';
 $_SESSION['l10n']['fr']['Restore database content']='Restauration de la base de données';
@@ -401,7 +416,6 @@ $_SESSION['l10n']['fr']['Site map']='Carte du site';
 $_SESSION['l10n']['fr']['Site name']='Nom du site';
 $_SESSION['l10n']['fr']['Skin']='Style';
 $_SESSION['l10n']['fr']['Skin test page']='La page de test de rendu visuel';
-$_SESSION['l10n']['fr']['Skins']='Styles';
 $_SESSION['l10n']['fr']['43cf4e3f828cddc02c9faa65691fef86']='Eviter les données temporaires et minimiser le fichier de sauvegarde';
 $_SESSION['l10n']['fr']['Smileys']='Emoticons';
 $_SESSION['l10n']['fr']['f8fa0a75804e151404d7f853baac1243']='Certaines colonnes peuvent être converties si leur type a évolué.';
@@ -450,11 +464,12 @@ $_SESSION['l10n']['fr']['df3cdecf1977397d7fd3f5b6448d5109']='Le fichier %s est p
 $_SESSION['l10n']['fr']['The test page']='La page de test';
 $_SESSION['l10n']['fr']['7f1a7f8a6556adc99db785551adf36c6']='La première page de cette section apparait sur la page d\'accueil';
 $_SESSION['l10n']['fr']['305e053a669ed7708ba55090018d22d2']='La table des utilisateurs est vide. Suivez le lien ci-dessous pour créer les enregistrements de départ de la base de données.';
+$_SESSION['l10n']['fr']['Themes']='Thèmes';
 $_SESSION['l10n']['fr']['965ffacfaccee38ffb337c4126f8deb0']='Ce script va analyser la structure de la base de données et optimiser le stockage des informations :';
 $_SESSION['l10n']['fr']['93eed22ad43c35187ca4f7e6bb12c493']='Ce script va générer les commandes SQL permettant de reconstruire la base de données. Sauvez le résultat dans un fichier sur votre machine.';
 $_SESSION['l10n']['fr']['0b3706ee5e95f20f5f550bcdd86cd747']='Ce script va analyser vos scripts php pour installer les extensions logicielles.';
 $_SESSION['l10n']['fr']['7116086cf86bd5bdacffcaaa495cb423']='Ce serveur n\'est pas accessible depuis Internet.';
-$_SESSION['l10n']['fr']['753b318bfa1cb9d97a7d054d108850ed']='Certaines parties de ce site sont protégées par un mot de passe d\'authentification. Les mots de passe sont chiffrés dans la base de données, et nous ne pouvons pas les déchiffrer. Ce chiffrement peut être cassé, mais ceci requière beaucoup d\'effort et de temps de calcul, et nous considérons donc que vos mots de passe sont en sécurité sur ce site. L\'inconvénient, c\'est que si vous oubliez votre mot de passe nous ne pourrons pas vous aiserà le retrouver. Une procédure est disponible pour obtenir un nouveau mot de passe, mais il est toujours mieux de prendre ses précautions pour ne pas faire d\'oubli.';
+$_SESSION['l10n']['fr']['d75427984001efa74e01f6b1d9f6a71e']='Certaines parties de ce site sont protégées par un mot de passe d\'authentification. Les mots de passe sont chiffrés dans la base de données, et nous ne pouvons pas les déchiffrer. Ce chiffrement peut être cassé, mais ceci requière beaucoup d\'effort et de temps de calcul, et nous considérons donc que vos mots de passe sont en sécurité sur ce site. L\'inconvénient, c\'est que si vous oubliez votre mot de passe nous ne pourrons pas vous aiserà le retrouver. Une procédure est disponible pour obtenir un nouveau mot de passe, mais il est toujours mieux de prendre ses précautions pour ne pas faire d\'oubli.';
 $_SESSION['l10n']['fr']['c2883a13a53575308a41010403e41c2f']='Ce serveur utilise le web, par exemple pour lire les nouvelles RSS.';
 $_SESSION['l10n']['fr']['b77fe780bf16aa35fd39ffe61cc9e26f']='Ce site est propulsé par [link=YACS]http://www.yetanothercommunitysystem.com/[/link], [link=PHP]http://www.php.net/[/link], et [link=MySQL]http://"www.mysql.com/[/link] - un site rapide, facile d\'utilisation, qui vous permet de consulter, de lire et de télécharger l\'information qui vous intéresse.';
 $_SESSION['l10n']['fr']['06c9d7fc993053f7b3b01351d1b9fce8']='Ce système ne supporte pas l\'insertion des paramètres dans le chemin d\'accès.';
@@ -486,7 +501,7 @@ $_SESSION['l10n']['fr']['3bd7563584cc7fba6d908b268d7309c5']='Niveau minimum de v
 $_SESSION['l10n']['fr']['View the configuration file']='Voir la configuration';
 $_SESSION['l10n']['fr']['Virtual hosts']='Serveurs virtuels';
 $_SESSION['l10n']['fr']['Visibility']='Visibilité';
-$_SESSION['l10n']['fr']['bf336ccfa4a75b7c79c536d774e291aa']='Nous sommes fiers de ce site, malgré ses imperfections. Nous essayons d\'être à l\'écoute de toute suggestion constructive qui permettrait de l\'améliorer. N\'hésitez donc pas à partager vos bonnes idées avec nous. Ou si vous pensez qu\'il manque quelque élément d\'information, faites-nous le savoir ! Chaque amélioration bénéficie à l\'ensemble de la communauté - vous, moi, tous les gens intéressés.';
+$_SESSION['l10n']['fr']['8e844f1ff4be21b4f092b3b793b7dded']='Nous sommes fiers de ce site, malgré ses imperfections. Nous essayons d\'être à l\'écoute de toute suggestion constructive qui permettrait de l\'améliorer. N\'hésitez donc pas à partager vos bonnes idées avec nous. Ou si vous pensez qu\'il manque quelque élément d\'information, faites-nous le savoir ! Chaque amélioration bénéficie à l\'ensemble de la communauté - vous, moi, tous les gens intéressés.';
 $_SESSION['l10n']['fr']['08483ca3dc1546ff5f403980ff422216']='Nous analysons occasionnellement les archives de consultation pour améliorer la valeur du contenu disponible sur notre site. Ces analyses sont toujours statistiques et non-nominatives,et nous ne tentons pas de les corréler aux individus qui ont navigué sur le site.';
 $_SESSION['l10n']['fr']['841032d165945524632244aa2847b9fd']='De préférence au moins 4 chiffres, 2 lettres et 1 signe de ponctuation';
 $_SESSION['l10n']['fr']['7a617fb54d24e0f40c6a6e22952148ad']='Nous respectons votre vie privée ! Sauf exception dûment documentée, les informations collectées sur ce site ne sont ni revendues, louées ou partagées. Nous prenons le plus grand soins des informations que vous nous confiez.';
@@ -515,7 +530,7 @@ $_SESSION['l10n']['fr']['8010715ea1f24acd0530914cbbf05cfa']='Oui, je veux obteni
 $_SESSION['l10n']['fr']['Yes, I want to download files']='Oui, je veux télécharger les fichiers';
 $_SESSION['l10n']['fr']['Yes, I want to download images']='Oui, je veux télécharger les images';
 $_SESSION['l10n']['fr']['4caf52c3a6808c4ea60b716aba28f71c']='Oui, je veux sauver les fichiers de configuration';
-$_SESSION['l10n']['fr']['d4b075cc0d78ec4ee5f04a3565334e85']='Oui, je veux télécharger le style courant';
+$_SESSION['l10n']['fr']['00aaa0922c4235ea18818f24397e86c7']='Oui, je veux télécharger le thème courant';
 $_SESSION['l10n']['fr']['300fee8b621fb5d1ddd92a7002043a7d']='Vous êtes sur le point d\'appliquer jsmin aux fichiers Javascript de ce serveur. Etes-vous sûr ?';
 $_SESSION['l10n']['fr']['3ce09e6df3d12286388e42e20d582412']='Vous êtes sur le point d\'appliquer chmod(%d) aux scripts opérationnels de ce serveur. Etes-vous sûr ?';
 $_SESSION['l10n']['fr']['7d3675f083789cd48af9aa41d1fafde6']='Vous êtes sur le point de fermer le serveur. Etes-vous sûr ?';

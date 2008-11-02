@@ -70,6 +70,9 @@ $context['accepted_methods'] = 'GET,HEAD,OPTIONS,POST,PUT';
 // parameters of the scripts passed in the URL, if any
 $context['arguments'] = array();
 
+// pre-built extra and navigation boxes
+$context['aside'] = array();
+
 // type of object produced by YACS
 $context['content_type'] = 'text/html';
 
@@ -87,9 +90,6 @@ $context['error'] = array();
 
 // content of the extra panel
 $context['extra'] = '';
-
-// prefix of the extra panel
-$context['extra_prefix'] = '';
 
 // default mask to be used on chmod -- see control/configure.php
 $context['file_mask'] = 0644;
@@ -156,6 +156,12 @@ $context['site_icon'] = '';
 
 // site slogan
 $context['site_slogan'] = '';
+
+// components to put in the extra panel --see skins/configure.php
+$context['skins_extra_components'] = 'profile tools news overlay boxes share channels twins neighbours contextual categories bookmarklets servers download referrals visited';
+
+// components to put in the side panel --see skins/configure.php
+$context['skins_navigation_components'] = 'menu user navigation';
 
 // minimize CPU used by rendering engine --see skins/configure.php
 $context['skins_with_details'] = 'N';
@@ -224,9 +230,11 @@ include_once $context['path_to_root'].'shared/cache.php';
 Safe::load('parameters/control.include.php');
 
 // maximize level of error reporting on development servers
-if($context['with_debug'] == 'Y')
+if($context['with_debug'] == 'Y') {
+	Safe::ini_set('display_errors','1');
+	Safe::ini_set('display_startup_errors','1');
 	$level = E_ALL;
-else
+} else
 	$level = E_ALL ^ (E_NOTICE | E_USER_NOTICE | E_WARNING);
 Safe::error_reporting($level);
 
@@ -677,6 +685,10 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	Safe::load('parameters/skins.include.php');
 	Safe::load('parameters/root.include.php'); // to support Page::tabs()
 
+	// ensure tools are accessible
+	if(strpos($context['skins_extra_components'], 'tools') === FALSE)
+		$context['skins_extra_components'] = 'tools '.$context['skins_extra_components'];
+		
 	// load skin basic library
 	include_once $context['path_to_root'].'skins/skin_skeleton.php';
 
@@ -852,6 +864,12 @@ function render_skin($stamp=0) {
 				$text = '{user_menu}';
 				return $text;
 			}
+			
+			function &finalize_list($list, $kind) {
+				$text = '{list}';
+				return $text;
+			}
+
 		}
 
 		define('BR', '<br />');
@@ -862,7 +880,169 @@ function render_skin($stamp=0) {
 
 	// don't do this on second rendering phase
 	if(!isset($context['embedded']) || ($context['embedded'] != 'suffix')) {
+	
+		// menu - common menu across pages
+		if(file_exists($context['path_to_root'].'parameters/switch.on')) {
+		
+			// cache the site menu for performance
+			$cache_id = 'shared/global.php#render_skin#menu';
+			if((!$text =& Cache::get($cache_id)) && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
+				if($item =& Articles::get('menu'))
+					$text =& Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'main_menu');
+				Cache::put($cache_id, $text, 'articles');
+			}
+			$context['aside']['user'] = $text;
+		}
+				
+		// navigation - navigation boxes
+		if(file_exists($context['path_to_root'].'parameters/switch.on')) {
+		
+			// cache dynamic boxes for performance, and if the database can be accessed
+			$cache_id = 'shared/global.php#render_skin#navigation';
+			if((!$text =& Cache::get($cache_id)) && !defined('NO_MODEL_PRELOAD')) {
+	
+				// navigation boxes in cache
+				global $global_navigation_box_index;
+				if(!isset($global_navigation_box_index))
+					$global_navigation_box_index = 20;
+				else
+					$global_navigation_box_index += 20;
+	
+				// the maximum number of boxes is a global parameter
+				if(!isset($context['site_navigation_maximum']) || !$context['site_navigation_maximum'])
+					$context['site_navigation_maximum'] = 7;
+	
+				// navigation boxes from the dedicated section
+				$anchor = Sections::lookup('navigation_boxes');
+	
+				if($anchor && ($rows =& Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_navigation_maximum'], 'boxes'))) {
+	
+					// one box per article
+					foreach($rows as $title => $attributes)
+						$text .= "\n".Skin::build_box($title, $attributes['content'], 'navigation', $attributes['id'])."\n";
+	
+					// cap the total number of navigation boxes
+					$context['site_navigation_maximum'] -= count($rows);
+				}
+	
+				// navigation boxes made from categories
+				include_once $context['path_to_root'].'categories/categories.php';
+				if($categories = Categories::list_by_date_for_display('site:all', 0, $context['site_navigation_maximum'], 'raw')) {
+	
+					// one box per category
+					foreach($categories as $id => $attributes) {
+	
+						// box title
+						$label = Skin::strip($attributes['title']);
+	
+						// link to the category page from box title
+						if(is_callable(array('i18n', 's')))
+							$label =& Skin::build_box_title($label, Categories::get_permalink($attributes), i18n::s('View the category'));
+	
+						// list sub categories
+						$items = Categories::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact');
+	
+						// list linked articles
+						include_once $context['path_to_root'].'links/links.php';
+						if($articles =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
+							if($items)
+								$items = array_merge($items, $articles);
+							else
+								$items = $articles;
+	
+						// else list links
+						} elseif($links = Links::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
+							if($items)
+								$items = array_merge($items, $links);
+							else
+								$items = $links;
+						}
+	
+						// display what has to be displayed
+						if($items)
+							$text .= Skin::build_box($label, Skin::build_list($items, 'articles'), 'navigation')."\n";
+	
+					}
+				}
+	
+				// save on requests
+				Cache::put($cache_id, $text, 'various');
+	
+			}
+			$context['aside']['navigation'] = $text;
+		}
+			
+		
+		// tools - finalize page tools
+		if(count($context['page_tools']) > 0)
+			$context['aside']['tools'] = Skin::build_box(i18n::s('Tools'), Skin::finalize_list($context['page_tools'], 'tools'), 'extra', 'page_tools');
 
+		// user - user menu
+		if(is_callable(array('Users', 'get_url')) && ($menu = Skin::build_user_menu('basic')) && is_callable(array('i18n', 's'))) {
+			if(Surfer::is_logged()) {
+				$box_title = Surfer::get_name();
+			} else {
+				$box_title = i18n::s('User login');
+			}
+			$context['aside']['user'] = Skin::build_box($box_title, $menu, 'navigation', 'user_menu');
+		}
+
+		// visited - list pages visited previously at this site, if any
+		if(isset($_SESSION['visited']) && count($_SESSION['visited']) && is_callable(array('i18n', 's'))) {
+	
+			// box title
+			$title = i18n::s('Visited');
+	
+			// box content as a compact list
+			$text =& Skin::build_list($_SESSION['visited'], 'compact');
+	
+			// the list of recent pages
+			$context['aside']['visited'] = Skin::build_box($title, $text, 'navigation', 'visited_pages');
+		}
+
+		// finalize page context
+		if(is_callable(array('Skin', 'finalize_context')))
+			Skin::finalize_context();
+
+		// list extra components --before navigation components
+		$parameters = explode(' ', $context['skins_extra_components']);
+			
+		// populate the extra panel
+		foreach($parameters as $parameter) {
+			if(isset($context['aside'][ $parameter ]))
+				$context['extra'] .= $context['aside'][ $parameter ];
+		}
+			
+		// list navigation components
+		$parameters = explode(' ', $context['skins_navigation_components']);
+			
+		// populate the navigation panel
+		foreach($parameters as $parameter) {
+		
+			// part of context
+			if(isset($context['aside'][ $parameter ]))
+				$context['navigation'] .= $context['aside'][ $parameter ];
+				
+			// include the full extra panel
+			elseif($parameter == 'extra')
+				$context['navigation'] .= $context['extra'];
+				
+			// a named page, but only during regular operation
+			elseif(file_exists($context['path_to_root'].'parameters/switch.on')) {
+			
+				// cache the item for performance
+				$cache_id = 'shared/global.php#render_skin#'.$parameter;
+				if((!$text =& Cache::get($cache_id)) && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
+					if($item =& Articles::get($parameter))
+						$text =& Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'box_'.$parameter);
+					Cache::put($cache_id, $text, 'articles');
+				}
+				$context['navigation'] .= $text;
+				
+			}
+	
+		}
+			
 		// ensure adequate HTTP answer
 		if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] && !preg_match('/\b('.str_replace(',', '|', $context['accepted_methods']).')\b/', $_SERVER['REQUEST_METHOD'])) {
 			Safe::header('405 Method not allowed');
@@ -1049,22 +1229,15 @@ function render_skin($stamp=0) {
 	// activate tinyMCE, if available -- before prototype and scriptaculous
 	if(isset($context['javascript']['tinymce']) && file_exists($context['path_to_root'].'included/tiny_mce/tiny_mce.js')) {
 
-		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce_gzip.js"></script>'."\n"
+		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce.js"></script>'."\n"
 			.'<script type="text/javascript">// <![CDATA['."\n"
-			.'	tinyMCE_GZ.init({'."\n"
-			.'		plugins : "safari,table,advhr,advimage,advlink,emotions,insertdatetime,media,searchreplace,contextmenu,paste,directionality,fullscreen,visualchars",'."\n"
-			.'		languages : "fr",'."\n"
-			.'		disk_cache : false,'."\n"
-			.'		theme : "advanced",'."\n"
-			.'		debug : false });'."\n"
-			.'</script>'."\n"
-			.'<!-- Needs to be seperate script tags! -->'."\n"
-			.'<script type="text/javascript">'."\n"
 			.'	tinyMCE.init({'."\n"
 			.'		mode : "textareas",'."\n"
 			.'		theme : "advanced",'."\n"
 			.'		editor_selector : "tinymce",'."\n"
-			.'		plugins : "safari,table,advhr,advimage,advlink,emotions,insertdatetime,media,searchreplace,contextmenu,paste,directionality,fullscreen,visualchars",'."\n"
+			.'		languages : "fr",'."\n"
+			.'		disk_cache : false,'."\n"
+			.'		plugins : "safari,table,advhr,advimage,advlink,emotions,insertdatetime,searchreplace,paste,directionality,fullscreen,visualchars",'."\n"
 			.'		theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,formatselect,fontselect,fontsizeselect",'."\n"
 			.'		theme_advanced_buttons2 : "bold,italic,underline,strikethrough,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,removeformat",'."\n"
 			.'		theme_advanced_buttons3 : "charmap,emotions,advhr,|,sub,sup,|,insertdate,inserttime,|,link,unlink,anchor,image,|,ltr,rtl,|,undo,redo,|,fullscreen",'."\n"
@@ -1075,8 +1248,8 @@ function render_skin($stamp=0) {
 			.'		theme_advanced_resizing : true,'."\n"
 			.'		extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",'."\n"
 			.'		template_external_list_url : "example_template_list.js",'."\n"
-			.'		use_native_selects : true'."\n"
-			.'	});'."\n"
+			.'		use_native_selects : true,'."\n"
+			.'		debug : false	});'."\n"
 			.'// ]]></script>'."\n";
 
 	}
@@ -1120,19 +1293,6 @@ function render_skin($stamp=0) {
 			.'if(typeof urchinTracker != "undefined") { urchinTracker(); };'."\n"
 			.'// ]]></script>'."\n";
 
-	}
-
-	// list pages visited previously at this site, if any
-	if(isset($_SESSION['visited']) && count($_SESSION['visited']) && is_callable(array('i18n', 's'))) {
-
-		// box title
-		$title = i18n::s('Visited');
-
-		// box content as a compact list
-		$text =& Skin::build_list($_SESSION['visited'], 'compact');
-
-		// the list of recent pages
-		$context['extra'] .= Skin::build_box($title, $text, 'navigation', 'visited_pages');
 	}
 
 	// handle the output correctly

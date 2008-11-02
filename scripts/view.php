@@ -90,11 +90,11 @@ if($script) {
 // no script has been provided -- help web crawlers
 if(!$script) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No script has been provided'));
+	Logger::error(i18n::s('No script has been provided'));
 
 // the script has to be there
 } elseif(!$row) {
-	Skin::error(i18n::s('Script does not exist'));
+	Logger::error(i18n::s('Script does not exist'));
 
 // display script content
 } else {
@@ -102,24 +102,7 @@ if(!$script) {
 	$context['text'] = Codes::beautify($row['content']);
 
 	// referrals, if any
-	if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))) {
-
-		$cache_id = 'scripts/view.php?script='.$script.'#referrals#';
-		if(!$text =& Cache::get($cache_id)) {
-
-			// box content in a sidebar box
-			include_once '../agents/referrals.php';
-			if($text = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Scripts::get_url($script)))
-				$text =& Skin::build_box(i18n::s('Referrals'), $text, 'navigation', 'referrals');
-
-			// save in cache for one hour 60 * 60 = 3600
-			Cache::put($cache_id, $text, 'referrals', 3600);
-
-		}
-
-		// in the extra panel
-		$context['extra'] .= $text;
-	}
+	$context['aside']['referrals'] =& Skin::build_referrals(Scripts::get_url($script));
 
 }
 

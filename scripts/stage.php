@@ -128,7 +128,7 @@ if(!Surfer::is_logged())
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
@@ -145,11 +145,11 @@ elseif(!Surfer::is_associate()) {
 		// zero bytes transmitted
 		$_REQUEST['file_size'] = $_FILES['upload']['size'];
 		if(!$_FILES['upload']['size'])
-			Skin::error(i18n::s('Nothing has been received.'));
+			Logger::error(i18n::s('Nothing has been received.'));
 
 		// check provided upload name
 		elseif(!Safe::is_uploaded_file($id))
-			Skin::error(i18n::s('Possible file attack.'));
+			Logger::error(i18n::s('Possible file attack.'));
 
 	}
 
@@ -177,7 +177,7 @@ if($id) {
 
 	// ensure file exists
 	if(!is_readable($id))
-		Skin::error(sprintf(i18n::s('Impossible to read %s.'), basename($id)));
+		Logger::error(sprintf(i18n::s('Impossible to read %s.'), basename($id)));
 
 	// explode a .zip file
 	elseif(isset($external_id) && preg_match('/\.zip$/i', $external_id)) {
@@ -189,11 +189,11 @@ if($id) {
 			$context['text'] .= '<p>'.sprintf(i18n::s('%d files have been extracted.'), $count)."</p>\n";
 			$success = TRUE;
 		} else
-			Skin::error(sprintf(i18n::s('Nothing has been extracted from %s.'), $external_id));
+			Logger::error(sprintf(i18n::s('Nothing has been extracted from %s.'), $external_id));
 
 	// ensure we have the external library to explode other kinds of archives
 	} elseif(!is_readable('../included/tar.php'))
-		Skin::error(i18n::s('Impossible to extract files.'));
+		Logger::error(i18n::s('Impossible to extract files.'));
 
 	// explode the archive
 	else {
@@ -203,7 +203,7 @@ if($id) {
 		if($handle->extractModify($context['path_to_root'].'scripts/staging', 'yacs'))
 			$success = TRUE;
 		else
-			Skin::error(sprintf(i18n::s('Impossible to complete update of the staging store from %s'), basename($external_id)));
+			Logger::error(sprintf(i18n::s('Impossible to complete update of the staging store from %s'), basename($external_id)));
 	}
 
 	// everything went fine
@@ -375,7 +375,7 @@ if($id) {
 
 	// warning if safe mode of limited time
 	if(Safe::ini_get('safe_mode') || !is_callable('set_time_limit'))
-		Skin::error(sprintf(i18n::s('Extended processing time is not allowed on this server. In case of trouble, please upload individual files manually to the <code>scripts/staging</code> directory, using your preferred FTP tool or equivalent. When this is completed, jump to %s to complete the software update.'), Skin::build_link('scripts/update.php', i18n::s('the update script'), 'basic')));
+		Logger::error(sprintf(i18n::s('Extended processing time is not allowed on this server. In case of trouble, please upload individual files manually to the <code>scripts/staging</code> directory, using your preferred FTP tool or equivalent. When this is completed, jump to %s to complete the software update.'), Skin::build_link('scripts/update.php', i18n::s('the update script'), 'basic')));
 
 	// option #1 - in-band upload
 	$context['text'] .= Skin::build_block(i18n::s('Staging uploaded archive'), 'title');

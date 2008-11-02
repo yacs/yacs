@@ -35,13 +35,9 @@
 		if($context['skin_variant'])
 			$id = ' id="'.$context['skin_variant'].'"';
 
-		// page tools
-		if(count($context['page_tools']) > 0)
-			$context['extra_prefix'] .= Skin::build_box(i18n::s('Tools'), Skin::finalize_list($context['page_tools'], 'tools'), 'extra', 'page_tools');
-
 		// we do have some extra content to render
 		$class = '';
-		if($context['extra_prefix'] || $context['extra'])
+		if($context['extra'])
 			$class = ' class="extra"';
 
 		// start the body
@@ -116,61 +112,125 @@
 	/**
 	 * send the main content of the page
 	 *
-	 * @param boolean TRUE to display the page menu, FALSE otherwise
+	 * This function can be passed a list of elements to include, with following tokens:
+	 * - 'details' - page details, if any
+	 * - 'error' - the error block, if any
+	 * - 'icon' - page icon, if any
+	 * - 'menu' - page menu
+	 * - 'tags' - page tags, if any
+	 * - 'text' - main content area
+	 * - 'title' - page title
+	 * - any value from $context array
+	 *
+	 * For example, call Page::content('title special tags error icon text details menu') to 
+	 * embed $context['special'] string below page title, and to display tags towards top of page.
+	 *
+	 * The parameter can also have a boolean value, which is equivalent to the following:
+	 * - TRUE = 'title error icon text tags details menu'
+	 * - FALSE = 'title error icon text tags details'
+	 *
+	 * @param mixed a string of tokens, or a boolean
 	 */
-	function content($with_page_menu=TRUE) {
+	function content($parameters=TRUE) {
 		global $context;
 
 		// display the prefix, if any
 		if(isset($context['prefix']) && $context['prefix'])
 			echo $context['prefix']."\n";
 
-		// display the title
-		if(isset($context['page_title']) && $context['page_title'])
-			echo Skin::build_block($context['page_title'], 'page_title');
+		// turn a boolean to a string
+		if(is_bool($parameters)) {
+			if($parameters)
+				$parameters = 'title error icon text tags details menu';
+			else
+				$parameters = 'title error icon text tags details';
+				
+		// ensure we have something
+		} elseif(!$parameters)
+			$parameters = 'title error icon text tags details menu';
+			
+		// make an array
+		if(is_string($parameters))
+			$parameters = explode(' ', $parameters);
+			
+		// do the job
+		foreach($parameters as $parameter) {
+		
+			switch($parameter) {
 
-		// display error messages, if any
-		if(is_callable(array('Skin', 'build_error_block')))
-			echo Skin::build_error_block();
+			// page details
+			case 'details':
+				if(isset($context['page_details']) && $context['page_details'])
+					echo '<div id="page_details">'.$context['page_details']."</div>\n";
+				break;
+			
+			// error block
+			case 'error':
+				if(is_callable(array('Skin', 'build_error_block')))
+					echo Skin::build_error_block();
+				break;
+			
+			// page icon
+			case 'icon':
+				if(isset($context['page_image']) && $context['page_image'])
+					echo ICON_PREFIX.'<img src="'.$context['page_image'].'" class="icon" alt="" />'.ICON_SUFFIX;
+				break;
+			
+			// page menu
+			case 'menu':
+				if(isset($context['page_menu']) && (@count($context['page_menu']) > 0))
+					echo Skin::build_list($context['page_menu'], 'page_menu');
+				break;
+			
+			// page tags
+			case 'tags':
 
-		// display the page image, if any
-		if(isset($context['page_image']) && $context['page_image'])
-			echo ICON_PREFIX.'<img src="'.$context['page_image'].'" class="icon" alt="" />'.ICON_SUFFIX;
+				if($context['page_tags']) {
+					$tags = explode(',', $context['page_tags']);
+					$line = '';
+					foreach($tags as $tag) {
+						if(!$tag = trim($tag))
+							continue;
+						if($category = Categories::get_by_keyword($tag))
+							$line .= Skin::build_link(Categories::get_permalink($category), $tag, 'basic').' ';
+						else
+							$line .= $tag.' ';
+					}
+					echo '<p class="tags">'.sprintf(i18n::s('Tags: %s'), rtrim($line, ' ')).'</p>'."\n";
+				}
+		
+				break;
+			
+			// page main content
+			case 'text':
+			
+				// render and display the content, if any
+				echo $context['text'];
+				$context['text'] = '';
+		
+				// display the dynamic content, if any
+				if(is_callable('send_body'))
+					send_body();
+		
+				// maybe some additional text has been created in send_body()
+				echo $context['text'];
+		
+				break;
+			
+			// page title
+			case 'title':
+				if(isset($context['page_title']) && $context['page_title'])
+					echo Skin::build_block($context['page_title'], 'page_title');
+				break;
 
-		// render and display the content, if any
-		echo $context['text'];
-		$context['text'] = '';
-
-		// display the dynamic content, if any
-		if(is_callable('send_body'))
-			send_body();
-
-		// maybe some additional text has been created in send_body()
-		echo $context['text'];
-
-		// tags, if any
-		if($context['page_tags']) {
-			$tags = explode(',', $context['page_tags']);
-			$line = '';
-			foreach($tags as $tag) {
-				if(!$tag = trim($tag))
-					continue;
-				if($category = Categories::get_by_keyword($tag))
-					$line .= Skin::build_link(Categories::get_permalink($category), $tag, 'basic').' ';
-				else
-					$line .= $tag.' ';
+			// any variable from context
+			default:
+				if(isset($context[ $parameter ]))
+					echo $context[ $parameter ];
+				break;
+				
 			}
-			$context['page_details'] = '<p class="tags">'.sprintf(i18n::s('Tags: %s'), rtrim($line, ' ')).'</p>'
-				.$context['page_details']."\n";
 		}
-
-		// display page details, if any
-		if(isset($context['page_details']) && $context['page_details'])
-			echo '<div id="page_details">'.$context['page_details']."</div>\n";
-
-		// display the menu bar
-		if($with_page_menu && isset($context['page_menu']) && (@count($context['page_menu']) > 0))
-			echo Skin::build_list($context['page_menu'], 'page_menu');
 
 		// display the suffix, if any
 		if(isset($context['suffix']) && $context['suffix'])
@@ -190,8 +250,8 @@
 		global $context;
 
 		// display complementary information, if any
-		if($context['extra_prefix'] || $context['extra'])
-			echo '<div id="extra_panel">'.$context['extra_prefix'].$context['extra']."</div>\n";
+		if($context['extra'])
+			echo '<div id="extra_panel">'.$context['extra']."</div>\n";
 
 	}
 
@@ -322,115 +382,14 @@
 
 	/**
 	 * show the side panel of the page
-	 *
-	 * @param boolean TRUE to also include extra information, FALSE otherwise
 	 */
-	function side($with_extra=FALSE) {
+	function side($dummy=TRUE) {
 		global $context;
-
-		// the dynamic menu is displayed at all pages, on regular usage
-		$cache_id = 'skins/page.php#menu';
-		$text = '';
-		if(file_exists($context['path_to_root'].'parameters/switch.on') && (!$text =& Cache::get($cache_id)) && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
-			if($item =& Articles::get('menu'))
-				$text =& Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'main_menu');
-			Cache::put($cache_id, $text, 'articles');
-		}
-		echo $text;
-
-		// the user menu, in a navigation box
-		if(is_callable(array('Users', 'get_url')) && ($menu = Skin::build_user_menu('basic')) && is_callable(array('i18n', 's'))) {
-			if(Surfer::is_logged()) {
-				$box_title = Surfer::get_name();
-			} else {
-				$box_title = i18n::s('User login');
-			}
-			echo Skin::build_box($box_title, $menu, 'navigation', 'user_menu')."\n";
-		}
-
-		// complementary information, if any and if required to do so
-		if($with_extra && ($context['extra_prefix'] || $context['extra']))
-			echo $context['extra_prefix'].$context['extra']."\n";
-
-		// categories to display among navigation boxes, after end of setup, and if we have access to the database
-		$cache_id = 'skins/page.php#navigation';
-		$text = '';
-		if(file_exists($context['path_to_root'].'parameters/switch.on') && (!$text =& Cache::get($cache_id)) && !defined('NO_MODEL_PRELOAD')) {
-
-			// navigation boxes in cache
-			global $global_navigation_box_index;
-			if(!isset($global_navigation_box_index))
-				$global_navigation_box_index = 20;
-			else
-				$global_navigation_box_index += 20;
-
-			// the maximum number of boxes is a global parameter
-			if(!isset($context['site_navigation_maximum']) || !$context['site_navigation_maximum'])
-				$context['site_navigation_maximum'] = 7;
-
-			// navigation boxes from the dedicated section
-			$anchor = Sections::lookup('navigation_boxes');
-
-			if($anchor && ($rows =& Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_navigation_maximum'], 'boxes'))) {
-
-				// one box per article
-				foreach($rows as $title => $attributes)
-					$text .= "\n".Skin::build_box($title, $attributes['content'], 'navigation', $attributes['id'])."\n";
-
-				// cap the total number of navigation boxes
-				$context['site_navigation_maximum'] -= count($rows);
-			}
-
-			// navigation boxes made from categories
-			include_once $context['path_to_root'].'categories/categories.php';
-			if($categories = Categories::list_by_date_for_display('site:all', 0, $context['site_navigation_maximum'], 'raw')) {
-
-				// one box per category
-				foreach($categories as $id => $attributes) {
-
-					// box title
-					$label = Skin::strip($attributes['title']);
-
-					// link to the category page from box title
-					if(is_callable(array('i18n', 's')))
-						$label =& Skin::build_box_title($label, Categories::get_permalink($attributes), i18n::s('View the category'));
-
-					// list sub categories
-					$items = Categories::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact');
-
-					// list linked articles
-					include_once $context['path_to_root'].'links/links.php';
-					if($articles =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
-						if($items)
-							$items = array_merge($items, $articles);
-						else
-							$items = $articles;
-
-					// else list links
-					} elseif($links = Links::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
-						if($items)
-							$items = array_merge($items, $links);
-						else
-							$items = $links;
-					}
-
-					// display what has to be displayed
-					if($items)
-						$text .= Skin::build_box($label, Skin::build_list($items, 'articles'), 'navigation')."\n";
-
-				}
-			}
-
-			// save on requests
-			Cache::put($cache_id, $text, 'various');
-
-		}
-		echo $text;
 
 		// append other items to the navigation panel
 		if($context['navigation'])
 			echo $context['navigation']."\n";
-
+			
 	}
 
 	/**

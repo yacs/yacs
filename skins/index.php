@@ -69,7 +69,7 @@
  * $skins['skins/sita_marketing'] = array(
  *	'label_en' => 'The ACME Marketing skin',
  *	'label_fr' => 'Le style ACME Marketing',
- *	'description_en' => 'This skin has been build after the original marketing web site.'
+ *	'description_en' => 'This theme has been build after the original marketing web site.'
  *		.' To be used only on web servers inside the ACME intranet.',
  *	'description_fr' => 'Ce style a &eacute;t&eacute; d&eacute;velopp&eacute; d\'apr&egrave;s le site du d&eacute;partement marketing.'
  *		.' A utiliser seulement sur des serveurs web &agrave; l\'int&eacute;rieur de l\'intranet ACME.',
@@ -124,7 +124,7 @@ include_once '../shared/global.php';
 load_skin('skins');
 
 // the title of the page
-$context['page_title'] = i18n::s('Skins');
+$context['page_title'] = i18n::s('Themes');
 
 // read all manifest.php files to list skins
 $skins = array();
@@ -140,14 +140,14 @@ if($dir = Safe::opendir(".")) {
 
 // no skin is shared on this server
 if(!count($skins))
-	$context['text'] .= '<p>'.i18n::s('No skin is currently shared on this server.')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('No theme is currently shared on this server.')."</p>\n";
 
 // lists shared skins
 else {
 
 	// splash message to associates
 	if(Surfer::is_associate())
-		$context['text'] .= '<p>'.i18n::s('Click on any thumbnail image below to change the current skin of this server.')."</p>\n";
+		$context['text'] .= '<p>'.i18n::s('Click on any thumbnail image below to change the current theme.')."</p>\n";
 
 	// rank by id
 	ksort($skins);
@@ -174,20 +174,20 @@ else {
 		$menu = array();
 
 		// test the skin
-		$menu = array_merge($menu, array('skins/test.php?skin='.substr($id, 6) => i18n::s('Test the skin')));
+		$menu = array_merge($menu, array('skins/test.php?skin='.substr($id, 6) => i18n::s('Test this theme')));
 
 		// commands for associates
 		if(Surfer::is_associate()) {
 
 			// this skin is not yet used
 			if($context['skin'] != $id)
-				$menu = array_merge($menu, array('control/configure.php?parameter=skin&value='.$id => i18n::s('Use this skin')));
+				$menu = array_merge($menu, array('control/configure.php?parameter=skin&value='.$id => i18n::s('Use this theme')));
 
 			// edit this skin
-			$menu = array_merge($menu, array('skins/edit.php?skin='.substr($id, 6) => i18n::s('Edit this skin')));
+			$menu = array_merge($menu, array('skins/edit.php?skin='.substr($id, 6) => i18n::s('Edit this theme')));
 
 			// derive this skin
-			$menu = array_merge($menu, array('skins/derive.php?skin='.substr($id, 6) => i18n::s('Derive this skin')));
+			$menu = array_merge($menu, array('skins/derive.php?skin='.substr($id, 6) => i18n::s('Derive this theme')));
 		}
 
 		// where this skin comes from
@@ -204,12 +204,12 @@ else {
 			// associates can change the skin
 			if(Surfer::is_associate()) {
 				$link = 'control/configure.php?parameter=skin&value='.$id;
-				$label = i18n::s('Use this skin');
+				$label = i18n::s('Use this theme');
 
 			// other surfers can test it
 			} else {
 				$link = 'skins/test.php?skin='.substr($id, 6);
-				$label = i18n::s('Test the skin');
+				$label = i18n::s('Test this theme');
 
 			}
 
@@ -229,7 +229,7 @@ else {
 // page tools
 if(Surfer::is_associate()) {
 	$context['page_tools'][] = Skin::build_link('skins/configure.php', i18n::s('Configure'), 'basic');
-	$context['page_tools'][] = Skin::build_link('skins/test.php', i18n::s('Test page'), 'basic');
+	$context['page_tools'][] = Skin::build_link('skins/test.php', i18n::s('Theme test'), 'basic');
 	$context['page_tools'][] = Skin::build_link('skins/upload.php', i18n::s('Upload a skin'), 'basic');
 	$context['page_tools'][] = Skin::build_link('skins/derive.php', i18n::s('Derive a skin'), 'basic');
 }
@@ -237,28 +237,11 @@ if(Surfer::is_associate()) {
 // how to get a skin
 if(Surfer::is_associate()) {
 	$help = '<p>'.sprintf(i18n::s('Do not attempt to modify a reference skin directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('Derive a skin'), 'shortcut')).'</p>';
-	$context['extra'] .= Skin::build_box(i18n::s('How to get a skin?'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('How to get a skin?'), $help, 'navigation', 'help');
 }
 
 // referrals, if any
-if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))) {
-
-	$cache_id = 'skins/index.php#referrals#';
-	if(!$text =& Cache::get($cache_id)) {
-
-		// box content in a sidebar box
-		include_once '../agents/referrals.php';
-		if($text = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].'skins/index.php'))
-			$text =& Skin::build_box(i18n::s('Referrals'), $text, 'navigation', 'referrals');
-
-		// save in cache for one hour 60 * 60 = 3600
-		Cache::put($cache_id, $text, 'referrals', 3600);
-
-	}
-
-	// in the extra panel
-	$context['extra'] .= $text;
-}
+$context['aside']['referrals'] =& Skin::build_referrals('skins/index.php');
 
 // render the skin
 render_skin();

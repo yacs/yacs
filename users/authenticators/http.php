@@ -40,7 +40,7 @@ Class Http extends Authenticator {
 
 		// we need some parameters
 		if(!isset($this->attributes['authenticator_parameters']) || !$this->attributes['authenticator_parameters']) {
-			Skin::error(i18n::s('Please provide parameters to the authenticator.'));
+			Logger::error(i18n::s('Please provide parameters to the authenticator.'));
 			return FALSE;
 		}
 
@@ -49,13 +49,13 @@ Class Http extends Authenticator {
 
 		// ensure a minimum number of parameters
 		if(count($parameters) != 3) {
-			Skin::error(i18n::s('Provide expected parameters to the REST POST authenticator.'));
+			Logger::error(i18n::s('Provide expected parameters to the REST POST authenticator.'));
 			return FALSE;
 		}
 
 		// parse URL format
 		if(!($url = $parameters[0])) {
-			Skin::error(i18n::s('Wrong format of the URL target for the HTTP authenticator.'));
+			Logger::error(i18n::s('Wrong format of the URL target for the HTTP authenticator.'));
 			return(FALSE);
 		}
 
@@ -88,13 +88,13 @@ Class Http extends Authenticator {
 
 		// outbound web is not authorized
 		if(isset($context['without_outbound_http']) && ($context['without_outbound_http'] == 'Y')) {
-			Skin::error(i18n::s('Outbound HTTP is not authorized.'));
+			Logger::error(i18n::s('Outbound HTTP is not authorized.'));
 			return FALSE;
 		}
 
 		// connect to the server
 		if(!$handle = Safe::fsockopen($host, $port, $errno, $errstr, 30)) {
-			Skin::error(sprintf(i18n::s('Impossible to connect to %.'), $items['host'].':'.$items['port']));
+			Logger::error(sprintf(i18n::s('Impossible to connect to %.'), $items['host'].':'.$items['port']));
 			return FALSE;
 		}
 

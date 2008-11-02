@@ -82,7 +82,7 @@ Class Ldap extends Authenticator {
 
 		// we need some parameters
 		if(!isset($this->attributes['authenticator_parameters']) || !$this->attributes['authenticator_parameters']) {
-			Skin::error(i18n::s('Please provide parameters to the authenticator.'));
+			Logger::error(i18n::s('Please provide parameters to the authenticator.'));
 			return FALSE;
 		}
 
@@ -118,7 +118,7 @@ Class Ldap extends Authenticator {
 
 		// ensure a minimum number of parameters
 		if(count($parameters) < 1) {
-			Skin::error(i18n::s('Provide at least server name to the LDAP authenticator.'));
+			Logger::error(i18n::s('Provide at least server name to the LDAP authenticator.'));
 			return FALSE;
 		}
 
@@ -215,7 +215,7 @@ Class Ldap extends Authenticator {
 
 				// print any error message raised while parsing the option
 				if($argerror) {
-					Skin::error($argerror_s);
+					Logger::error($argerror_s);
 					if($context['with_debug'] == 'Y')
 						Logger::remember('users/authenticators/ldap.php', $argerror_c, '', 'debug');
 					return(FALSE);
@@ -225,7 +225,7 @@ Class Ldap extends Authenticator {
 
 		// ensure we can move forward
 		if(!is_callable('ldap_connect')) {
-			Skin::error(i18n::s('Please activate the LDAP library.'));
+			Logger::error(i18n::s('Please activate the LDAP library.'));
 			if($context['with_debug'] == 'Y')
 				Logger::remember('users/authenticators/ldap.php', i18n::c('Please activate the LDAP library.'), '', 'debug');
 			return FALSE;
@@ -233,7 +233,7 @@ Class Ldap extends Authenticator {
 
 		// open network socket
 		if(!$handle = @ldap_connect($server, $port)) {
-			Skin::error(sprintf(i18n::s('Impossible to connect to %.'), $server));
+			Logger::error(sprintf(i18n::s('Impossible to connect to %.'), $server));
 			if($context['with_debug'] == 'Y')
 				Logger::remember('users/authenticators/ldap.php', sprintf(i18n::c('Impossible to connect to %.'), $server.':'.$port), '', 'debug');
 			return FALSE;
@@ -251,7 +251,7 @@ Class Ldap extends Authenticator {
 		elseif(!$bind_dn && @ldap_bind($handle))
 			;
 		else {
-			Skin::error(sprintf(i18n::s('Impossible to bind to LDAP server %s.'), $server).BR.ldap_errno($handle).': '.ldap_error($handle));
+			Logger::error(sprintf(i18n::s('Impossible to bind to LDAP server %s.'), $server).BR.ldap_errno($handle).': '.ldap_error($handle));
 			if($context['with_debug'] == 'Y')
 				Logger::remember('users/authenticators/ldap.php', sprintf(i18n::c('Impossible to bind to LDAP server %s.'), $server.' '.$bind_dn.' '.$bind_password), ldap_errno($handle).': '.ldap_error($handle), 'debug');
 			ldap_close($handle);
@@ -266,7 +266,7 @@ Class Ldap extends Authenticator {
 
 		// search the directory
 		if(!$result = @call_user_func($opt_ldap_search_func, $handle, $search_dn, $search_filter, array('cn'))) {
-			Skin::error(sprintf(i18n::s('Impossible to search in LDAP server %s.'), $server).BR.ldap_errno($handle).': '.ldap_error($handle));
+			Logger::error(sprintf(i18n::s('Impossible to search in LDAP server %s.'), $server).BR.ldap_errno($handle).': '.ldap_error($handle));
 			if($context['with_debug'] == 'Y')
 				Logger::remember('users/authenticators/ldap.php', sprintf(i18n::c('Impossible to search in LDAP server %s.'), $server), ldap_errno($handle).': '.ldap_error($handle), 'debug');
 			ldap_close($handle);

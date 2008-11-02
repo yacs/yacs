@@ -89,7 +89,7 @@ if(!$permitted) {
 
 	// permission denied, or user hit the Cancel button of the authentication box
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // provide requested data
 } else {

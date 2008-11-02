@@ -52,7 +52,7 @@ load_skin('collections');
 $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 
 // the title of the page
-$context['page_title'] = sprintf(i18n::s('Configure: %s'), i18n::s('File collections'));
+$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Configure'), i18n::s('File collections'));
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())
@@ -61,7 +61,7 @@ if(!Surfer::is_logged())
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the input form
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'POST')) {
@@ -233,7 +233,7 @@ elseif(!Surfer::is_associate()) {
 
 	// general help on this form
 	$help = '<p>'.i18n::s('Use this form to give remote access to selected folders.')."</p>\n";
-	$context['extra'] .= Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
@@ -275,7 +275,7 @@ elseif(!Surfer::is_associate()) {
 	// update the parameters file
 	if(!Safe::file_put_contents('parameters/collections.include.php', $content)) {
 
-		Skin::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/collections.include.php'));
+		Logger::error(sprintf(i18n::s('ERROR: Impossible to write to the file %s. The configuration has not been saved.'), 'parameters/collections.include.php'));
 
 		// allow for a manual update
 		$context['text'] .= '<p style="text-decoration: blink;">'.sprintf(i18n::s('To actually change the configuration, please copy and paste following lines by yourself in file %s.'), 'parameters/collections.include.php')."</p>\n";

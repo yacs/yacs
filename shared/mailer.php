@@ -116,32 +116,32 @@ class Mailer {
 
 		// email services have to be activated
 		if(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
-			Skin::error(i18n::s('E-mail has not been enabled on this system.'));
+			Logger::error(i18n::s('E-mail has not been enabled on this system.'));
 			return 0;
 
 		// email services are not allowed
 		} elseif(!is_callable('mail')) {
-			Skin::error(i18n::s('E-mail has not been enabled on this system.'));
+			Logger::error(i18n::s('E-mail has not been enabled on this system.'));
 			return 0;
 
 		// check sender address
 		} elseif(!$from) {
-			Skin::error(i18n::s('Empty sender address'));
+			Logger::error(i18n::s('Empty sender address'));
 			return 0;
 
 		// check recipient address
 		} elseif(!$to) {
-			Skin::error(i18n::s('Empty recipient address'));
+			Logger::error(i18n::s('Empty recipient address'));
 			return 0;
 
 		// check mail subject
 		} elseif(!$subject) {
-			Skin::error(i18n::s('No subject'));
+			Logger::error(i18n::s('No subject'));
 			return 0;
 
 		// check mail content
 		} elseif(!$message) {
-			Skin::error(i18n::s('No message'));
+			Logger::error(i18n::s('No message'));
 			return 0;
 		}
 

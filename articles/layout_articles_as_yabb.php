@@ -47,32 +47,6 @@ Class Layout_articles_as_yabb extends Layout_interface {
 		if(!SQL::count($result))
 			return $text;
 
-		// add a help box, but only once
-		static $fuse;
-		if(!isset($fuse)) {
-
-			// describe icons
-			$help = '';
-			if(defined('THREAD_IMG'))
-				$help .= THREAD_IMG.' '.i18n::s('Normal thread').BR."\n";
-
-			if(defined('HOT_THREAD_IMG'))
-				$help .= HOT_THREAD_IMG.' '.i18n::s('Hot thread (10 replies)').BR."\n";
-
-			Skin::define_img('VERY_HOT_THREAD_IMG', 'icons/articles/very_hot_thread.gif');
-			$help .= VERY_HOT_THREAD_IMG.' '.i18n::s('Very hot thread (20 replies)').BR."\n";
-
-			Skin::define_img('STICKY_THREAD_IMG', 'icons/articles/sticky_thread.gif');
-			$help .= STICKY_THREAD_IMG.' '.i18n::s('Sticky thread').BR."\n";
-
-			if($help)
-				$context['extra'] .= Skin::build_box(i18n::s('Icons'), $help, 'navigation', 'help');
-
-			// do not do it again
-			$fuse = TRUE;
-		}
-
-
 		// flag articles updated recently
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if($context['site_revisit_after'] < 1)
@@ -158,7 +132,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 
 			// the introductory text
 			if(trim($item['introduction']))
-				$suffix .= BR.Codes::beautify($item['introduction'], $item['options']);
+				$suffix .= BR.Codes::beautify_introduction($item['introduction']);
 
 			// page size for comments
 			$layout =& new Layout_comments_as_yabb();
@@ -244,7 +218,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 		if(THREAD_IMG)
 			$headers = array_merge(array(''), $headers);
 
-		// return a sortable table
+		// make a sortable table
 		$output = Skin::table($headers, $rows, 'yabb');
 		return $output;
 	}

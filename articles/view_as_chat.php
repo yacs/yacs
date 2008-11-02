@@ -147,7 +147,7 @@ if(isset($item['id']) && $editable) {
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Skin::error(i18n::s('No item has the provided id.'));
+	Logger::error(i18n::s('No item has the provided id.'));
 
 // permission denied
 } elseif(!$permitted) {
@@ -158,12 +158,12 @@ if(!isset($item['id'])) {
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // stop crawlers on non-published pages
 } elseif((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && !Surfer::is_logged()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Skin::error(i18n::s('You are not allowed to perform this operation.'));
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the thread
 } else {
@@ -194,7 +194,7 @@ if(!isset($item['id'])) {
 
 	// set specific headers
 	if(isset($item['introduction']) && $item['introduction'])
-		$context['page_description'] = $item['introduction'];
+		$context['page_description'] = strip_tags(Codes::beautify_introduction($item['introduction']));
 	if(isset($item['create_name']) && $item['create_name'])
 		$context['page_author'] = $item['create_name'];
 	if(isset($item['publish_name']) && $item['publish_name'])
@@ -594,9 +594,27 @@ if(!isset($item['id'])) {
 	// extra panel -- most content is cached, except commands specific to current surfer
 	//
 
+	// page tools
+	//
+	if(!$zoom_type && $editable) {
+
+		// modify this page
+		Skin::define_img('EDIT_ARTICLE_IMG', 'icons/articles/edit.gif');
+		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
+			$label = i18n::s('Edit this page');
+		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), EDIT_ARTICLE_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+
+		// post an image, if upload is allowed
+		if(Images::are_allowed($anchor, $item)) {
+			Skin::define_img('IMAGE_TOOL_IMG', 'icons/tools/image.gif');
+			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGE_TOOL_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or any image file, to illustrate this page.'));
+		}
+
+	}
+
 	// the poster profile, if any, aside
 	if(isset($poster['id']) && is_object($anchor))
-		$context['extra_prefix'] .= $anchor->get_user_profile($poster, 'extra', Skin::build_date($item['create_date']));
+		$context['aside']['profile'] = $anchor->get_user_profile($poster, 'extra', Skin::build_date($item['create_date']));
 
 	// cache content
 	$cache_id = 'articles/view_as_chat.php?id='.$item['id'].'#extra#head';
@@ -684,25 +702,7 @@ if(!isset($item['id'])) {
 	}
 
 	// update the extra panel
-	$context['extra'] .= $text;
-
-	// page tools
-	//
-	if(!$zoom_type && $editable) {
-
-		// modify this page
-		Skin::define_img('EDIT_ARTICLE_IMG', 'icons/articles/edit.gif');
-		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
-			$label = i18n::s('Edit this page');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), EDIT_ARTICLE_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
-
-		// post an image, if upload is allowed
-		if(Images::are_allowed($anchor, $item)) {
-			Skin::define_img('IMAGE_TOOL_IMG', 'icons/tools/image.gif');
-			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGE_TOOL_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or any image file, to illustrate this page.'));
-		}
-
-	}
+	$context['aside']['boxes'] = $text;
 
 	// 'Share' box
 	//
@@ -750,7 +750,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['extra'] .= Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'export');
+		$context['aside']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'export');
 
 	// 'Information channels' box
 	//
@@ -786,110 +786,81 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$text .= Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
+		$context['aside']['channels'] = Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
 
-	// cache content
-	$cache_id = 'articles/view_as_chat.php?id='.$item['id'].'#extra#tail';
-	if(!$text =& Cache::get($cache_id)) {
+	// twin pages
+	if(isset($item['nick_name']) && $item['nick_name']) {
 
-		// twin pages
-		if(isset($item['nick_name']) && $item['nick_name']) {
+		// build a complete box
+		$box['text'] = '';
 
-			// build a complete box
-			$box['text'] = '';
+		// list pages with same name
+		$items =& Articles::list_for_name($item['nick_name'], $item['id'], 'compact');
 
-			// list pages with same name
-			$items =& Articles::list_for_name($item['nick_name'], $item['id'], 'compact');
-
-			// actually render the html for the section
-			if(is_array($items))
-				$box['text'] .= Skin::build_list($items, 'compact');
-			if($box['text'])
-				$text .= Skin::build_box(i18n::s('Related'), $box['text'], 'extra', 'twins');
-
-		}
-
-		// links to previous and next pages in this section, if any
-		if(is_object($anchor) && !$anchor->has_option('no_neighbours') && ($context['skin_variant'] != 'mobile')) {
-
-			// build a nice sidebar box
-			if(isset($neighbours) && ($content = Skin::neighbours($neighbours, 'sidebar')))
-				$text .= Skin::build_box(i18n::s('Navigation'), $content, 'navigation', 'neighbours');
-
-		}
-
-		// the contextual menu, in a navigation box, if this has not been disabled
-		if( (!is_object($anchor) || !$anchor->has_option('no_contextual_menu'))
-			&& isset($context['current_focus']) && ($menu =& Skin::build_contextual_menu($context['current_focus']))) {
-
-			// use title from topmost level
-			if(count($context['current_focus']) && ($top_anchor =& Anchors::get($context['current_focus'][0]))) {
-				$box_title = $top_anchor->get_title();
-				$box_url = $top_anchor->get_url();
-
-			// generic title
-			} else {
-				$box_title = i18n::s('Navigation');
-				$box_url = '';
-			}
-
-			// in a navigation box
-			$box_popup = '';
-			$text .= Skin::build_box($box_title, $menu, 'navigation', 'contextual_menu', $box_url, $box_popup);
-		}
-
-		// categories attached to this article, if not at another follow-up page
-		if(!$zoom_type || ($zoom_type == 'categories')) {
-
-			// build a complete box
-			$box['bar'] = array();
-			$box['text'] = '';
-
-			// list categories by title
-			$offset = ($zoom_index - 1) * CATEGORIES_PER_PAGE;
-			$items =& Members::list_categories_by_title_for_member('article:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
-
-			// the command to change categories assignments
-			if(Categories::are_allowed($anchor, $item))
-				$items = array_merge($items, array( Categories::get_url('article:'.$item['id'], 'select') => i18n::s('Assign categories') ));
-
-			// actually render the html for the section
-			if(is_array($box['bar']))
-				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-			if(is_array($items))
-				$box['text'] .= Skin::build_list($items, 'compact');
-			if($box['text'])
-				$text .= Skin::build_box(i18n::s('See also'), $box['text'], 'navigation', 'categories');
-
-		}
-
-		// nearby locations, if any
-		if(!$zoom_type) {
-
-			// locate up to 5 neighbours
-			$items = Locations::list_by_distance_for_anchor('article:'.$item['id'], 0, COMPACT_LIST_SIZE);
-			if(@count($items))
-				$text .= Skin::build_box(i18n::s('Neighbours'), Skin::build_list($items, 'compact'), 'navigation', 'locations');
-
-		}
-
-		// referrals, if any
-		if(!$zoom_type && (Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y')))) {
-
-			// in a sidebar box
-			include_once '../agents/referrals.php';
-			if($content = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].Articles::get_permalink($item)))
-				$text .= Skin::build_box(i18n::s('Referrals'), $content, 'navigation', 'referrals');
-
-		}
-
-		// save in cache
-		Cache::put($cache_id, $text, 'article:'.$item['id']);
+		// actually render the html
+		if(is_array($items))
+			$box['text'] .= Skin::build_list($items, 'compact');
+		if($box['text'])
+			$context['aside']['twins'] = Skin::build_box(i18n::s('Related'), $box['text'], 'extra', 'twins');
 
 	}
 
-	// update the extra panel
-	$context['extra'] .= $text;
+	// links to previous and next pages in this section, if any
+	if(is_object($anchor) && !$anchor->has_option('no_neighbours') && ($context['skin_variant'] != 'mobile')) {
+
+		// build a nice sidebar box
+		if(isset($neighbours) && ($content = Skin::neighbours($neighbours, 'sidebar')))
+			$context['aside']['neighbours'] = Skin::build_box(i18n::s('Navigation'), $content, 'navigation', 'neighbours');
+
+	}
+
+	// the contextual menu, in a navigation box, if this has not been disabled
+	if( (!is_object($anchor) || !$anchor->has_option('no_contextual_menu'))
+		&& isset($context['current_focus']) && ($menu =& Skin::build_contextual_menu($context['current_focus']))) {
+
+		// use title from topmost level
+		if(count($context['current_focus']) && ($top_anchor =& Anchors::get($context['current_focus'][0]))) {
+			$box_title = $top_anchor->get_title();
+			$box_url = $top_anchor->get_url();
+
+		// generic title
+		} else {
+			$box_title = i18n::s('Navigation');
+			$box_url = '';
+		}
+
+		// in a navigation box
+		$box_popup = '';
+		$context['aside']['contextual'] = Skin::build_box($box_title, $menu, 'navigation', 'contextual_menu', $box_url, $box_popup);
+	}
+
+	// categories attached to this article, if not at another follow-up page
+	if(!$zoom_type || ($zoom_type == 'categories')) {
+
+		// build a complete box
+		$box['bar'] = array();
+		$box['text'] = '';
+
+		// list categories by title
+		$offset = ($zoom_index - 1) * CATEGORIES_PER_PAGE;
+		$items =& Members::list_categories_by_title_for_member('article:'.$item['id'], $offset, CATEGORIES_PER_PAGE, 'sidebar');
+
+		// the command to change categories assignments
+		if(Categories::are_allowed($anchor, $item))
+			$items = array_merge($items, array( Categories::get_url('article:'.$item['id'], 'select') => i18n::s('Assign categories') ));
+
+		// actually render the html
+		if(is_array($box['bar']))
+			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
+		if(is_array($items))
+			$box['text'] .= Skin::build_list($items, 'compact');
+		if($box['text'])
+			$context['aside']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'navigation', 'categories');
+
+	}
+
+	// referrals, if any
+	$context['aside']['referrals'] =& Skin::build_referrals(Articles::get_permalink($item));
 
 	//
 	// meta information
