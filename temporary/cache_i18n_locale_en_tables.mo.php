@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
+ * on November 3, 2008, 11:25 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-10-31 22:00+0100
+POT-Creation-Date: 2008-11-04 00:13+0100
 PO-Revision-Date: 2008-10-21 18:33+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -27,7 +27,6 @@ $_SESSION['l10n']['en']['Add a table']='Add a table';
 $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['519471e63694deb32693cdb1e9f0342c']='As this field may be searched by surfers, please choose adequate searchable words';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
-$_SESSION['l10n']['en']['d13ffed666898525c258864b3ddef094']='Because of our security policy you are not allowed to list tables.';
 $_SESSION['l10n']['en']['CSV (Excel)']='CSV (Excel)';
 $_SESSION['l10n']['en']['Colon character ";"']='Colon character ";"';
 $_SESSION['l10n']['en']['Comma character ","']='Comma character ","';
@@ -70,7 +69,6 @@ $_SESSION['l10n']['en']['Nothing has been received.']='Nothing has been received
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Pipe character "|"']='Pipe character "|"';
 $_SESSION['l10n']['en']['Please add some SQL query.']='Please add some SQL query.';
-$_SESSION['l10n']['en']['63171134cc5466c7a0a1dd93db93be41']='Please browse %s to visualize any table that could be embedded.';
 $_SESSION['l10n']['en']['d27b4d70f739c8a4622a9245a9f10769']='Please ensure you are using a compliant and complete SQL SELECT statement.';
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
 $_SESSION['l10n']['en']['bb0b1fac369e6921df318dc3f2e37850']='Please select a CSV file (.csv or .xls)';
@@ -111,7 +109,6 @@ $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed
 $_SESSION['l10n']['en']['Zoom']='Zoom';
 $_SESSION['l10n']['en']['bytes']='bytes';
 $_SESSION['l10n']['en']['edited by %s %s']='edited by %s %s';
-$_SESSION['l10n']['en']['published pages']='published pages';
 $_SESSION['l10n']['en']['smileys']='smileys';
 $_SESSION['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

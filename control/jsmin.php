@@ -44,7 +44,7 @@ if(!Surfer::is_logged())
 // only associates can proceed when a switch file exists
 elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parameters/switch.on') || file_exists($context['path_to_root'].'parameters/switch.off'))) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation.')."</p>\n";
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the index page
 	$menu = array('control/' => i18n::s('Control Panel'));

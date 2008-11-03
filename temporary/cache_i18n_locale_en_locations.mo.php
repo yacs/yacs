@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
+ * on November 3, 2008, 11:20 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-10-31 22:00+0100
+POT-Creation-Date: 2008-11-04 00:13+0100
 PO-Revision-Date: 2008-08-01 11:47+0100
 Last-Translator: Paques, Bernard
 Language-Team: Bernard Paques
@@ -26,7 +26,6 @@ $_SESSION['l10n']['en']['Add a location']='Add a location';
 $_SESSION['l10n']['en']['da9a0fd4ad6b4e693496e34f79ee7dcf']='Address Map Coordinate (Lat/Long) Finder';
 $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
-$_SESSION['l10n']['en']['0ce40041c3b540b90a142d3c14a598ee']='Because of our security policy you are not allowed to list locations.';
 $_SESSION['l10n']['en']['Coordinates']='Coordinates';
 $_SESSION['l10n']['en']['Country']='Country';
 $_SESSION['l10n']['en']['Delete']='Delete';
@@ -61,7 +60,6 @@ $_SESSION['l10n']['en']['On page %s']='On page %s';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Place name']='Place name';
 $_SESSION['l10n']['en']['b7e4d1da92d8d2dbf79a14a8e486cd67']='Please add a geo_place_name for this location';
-$_SESSION['l10n']['en']['ad8b1071c8b63b8f765482c0520d756a']='Please browse %s to visualize any location that could be embedded.';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $_SESSION['l10n']['en']['c6826496c79ea9fee535d0cfb3db34fc']='Please type some geographical coordinates.';
 $_SESSION['l10n']['en']['Posted by']='Posted by';
@@ -94,7 +92,6 @@ $_SESSION['l10n']['en']['edited by %s %s']='edited by %s %s';
 $_SESSION['l10n']['en']['af07702d856f3a572f10639acdf23048']='http://www.batchgeocode.com/lookup/';
 $_SESSION['l10n']['en']['9007f0cfcc8e9a136b2878e857bfcf0c']='http://www.travelgis.com/geocode/Default.aspx';
 $_SESSION['l10n']['en']['in %s']='in %s';
-$_SESSION['l10n']['en']['pages']='pages';
 $_SESSION['l10n']['en']['smileys']='smileys';
 $_SESSION['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

@@ -118,39 +118,17 @@ $context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_ho
 if(is_callable(array('Hooks', 'include_scripts')))
 	$context['text'] .= Hooks::include_scripts('sections/index.php#prefix');
 
-// page main content
-$cache_id = 'sections/index.php#text#'.$page;
-if(!$text =& Cache::get($cache_id)) {
+// stop hackers
+if($page > 10) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-	// load the layout to use
-	switch($context['root_articles_layout']) {
-		case 'boxesandarrows':
-			include_once 'layout_sections_as_boxesandarrows.php';
-			$layout =& new Layout_sections_as_boxesandarrows();
-			break;
-		default:
-			include_once 'layout_sections_as_yahoo.php';
-			$layout =& new Layout_sections_as_yahoo();
-			$layout->set_variant(20); // show more elements at the site map
-			break;
-	}
+} else {
 
-	// the list of active sections
-	$offset = ($page - 1) * $items_per_page;
-	if(!$items =& Sections::list_by_title_for_anchor(NULL, $offset, $items_per_page, $layout))
-		$items = '<p>'.i18n::s('No regular section has been created yet.').'</p>';
-
-	// we have an array to format
-	if(is_array($items))
-		$items =& Skin::build_list($items, '2-columns');
-
-	// make a box
-	if($items)
-		$text .= Skin::build_box('', $items, 'header1', 'sections');
-
-	// associates may list specific sections as well
-	if(($page == 1) && Surfer::is_associate()) {
-
+	// page main content
+	$cache_id = 'sections/index.php#text#'.$page;
+	if(!$text =& Cache::get($cache_id)) {
+	
 		// load the layout to use
 		switch($context['root_articles_layout']) {
 			case 'boxesandarrows':
@@ -163,29 +141,60 @@ if(!$text =& Cache::get($cache_id)) {
 				$layout->set_variant(20); // show more elements at the site map
 				break;
 		}
-
-		// query the database and layout that stuff
-		if($items = Sections::list_inactive_by_title_for_anchor(NULL, 0, 50, $layout)) {
-
-			// splash
-			$content = '<p>'.i18n::s('Only associates can access following sections.').'</p>';
-
-			// we have an array to format
-			if(is_array($items))
-				$content .= Skin::build_list($items, '2-columns');
-			else
-				$content .= (string)$items;
-
-			// displayed as another page section
-			$text .= Skin::build_box(i18n::s('Other sections'), $content, 'header1', 'other_sections');
-
+	
+		// the list of active sections
+		$offset = ($page - 1) * $items_per_page;
+		if(!$items =& Sections::list_by_title_for_anchor(NULL, $offset, $items_per_page, $layout))
+			$items = '<p>'.i18n::s('No regular section has been created yet.').'</p>';
+	
+		// we have an array to format
+		if(is_array($items))
+			$items =& Skin::build_list($items, '2-columns');
+	
+		// make a box
+		if($items)
+			$text .= Skin::build_box('', $items, 'header1', 'sections');
+	
+		// associates may list specific sections as well
+		if(($page == 1) && Surfer::is_associate()) {
+	
+			// load the layout to use
+			switch($context['root_articles_layout']) {
+				case 'boxesandarrows':
+					include_once 'layout_sections_as_boxesandarrows.php';
+					$layout =& new Layout_sections_as_boxesandarrows();
+					break;
+				default:
+					include_once 'layout_sections_as_yahoo.php';
+					$layout =& new Layout_sections_as_yahoo();
+					$layout->set_variant(20); // show more elements at the site map
+					break;
+			}
+	
+			// query the database and layout that stuff
+			if($items = Sections::list_inactive_by_title_for_anchor(NULL, 0, 50, $layout)) {
+	
+				// splash
+				$content = '<p>'.i18n::s('Only associates can access following sections.').'</p>';
+	
+				// we have an array to format
+				if(is_array($items))
+					$content .= Skin::build_list($items, '2-columns');
+				else
+					$content .= (string)$items;
+	
+				// displayed as another page section
+				$text .= Skin::build_box(i18n::s('Other sections'), $content, 'header1', 'other_sections');
+	
+			}
 		}
+	
+		// cache this to speed subsequent queries
+		Cache::put($cache_id, $text, 'sections');
 	}
+	$context['text'] .= $text;
 
-	// cache this to speed subsequent queries
-	Cache::put($cache_id, $text, 'sections');
 }
-$context['text'] .= $text;
 
 // the suffix hook for the site map page
 if(is_callable(array('Hooks', 'include_scripts')))

@@ -230,9 +230,8 @@ if(!Surfer::is_associate()) {
 
 // nothing more in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
-
-	// remind the surfer
-	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.')."</p>\n";
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // display the input form, except if there is only one parameter to change
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'POST') && (!isset($_REQUEST['parameter']) || !isset($_REQUEST['value'])) ) {

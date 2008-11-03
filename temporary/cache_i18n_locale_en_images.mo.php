@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
+ * on November 3, 2008, 11:20 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-10-31 22:00+0100
+POT-Creation-Date: 2008-11-04 00:13+0100
 PO-Revision-Date: 2008-09-07 00:28+0100
 Last-Translator: Paques, Bernard
 Language-Team: Bernard Paques
@@ -30,7 +30,6 @@ $_SESSION['l10n']['en']['3fc73c8fd903f88de3a2c9a21aef3585']='Always use the thum
 $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['5f06d8beed838647d20eadd205eeae4a']='Automatically resize the image if necessary';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
-$_SESSION['l10n']['en']['ae48d2a102ccc4268da0a6ce7c123bcf']='Because of our security policy you are not allowed to list images.';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Cannot copy image to %s']='Cannot copy image to %s';
 $_SESSION['l10n']['en']['c156e2550e8cfa17dd2a0eb590ef4664']='Cannot write adjusted image to %s.';
@@ -73,7 +72,6 @@ $_SESSION['l10n']['en']['No item has been found.']='No item has been found.';
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
 $_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
-$_SESSION['l10n']['en']['81d890bcab6ac4437d9b5146d0dd2cea']='Please browse %s to visualize any image that could be embedded.';
 $_SESSION['l10n']['en']['92fdd78ee6bb759cae3b7d6e33a0552f']='Please carefully select a section for your image';
 $_SESSION['l10n']['en']['88100f21e63a26d7ae6895199f0d7475']='Please select a .png, .gif or .jpeg image.';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
@@ -127,7 +125,6 @@ $_SESSION['l10n']['en']['2874b33587f5b94cb21dbe46c62c39f3']='You can make this i
 $_SESSION['l10n']['en']['bytes']='bytes';
 $_SESSION['l10n']['en']['edited by %s %s']='edited by %s %s';
 $_SESSION['l10n']['en']['hits']='hits';
-$_SESSION['l10n']['en']['pages']='pages';
 $_SESSION['l10n']['en']['posted by %s %s']='posted by %s %s';
 $_SESSION['l10n']['en']['smileys']='smileys';
 $_SESSION['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';

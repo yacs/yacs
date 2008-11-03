@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 2, 2008, 10:45 pm GMT. Please do not modify it manually.
+ * on November 3, 2008, 11:20 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-02 23:07+0100
+POT-Creation-Date: 2008-11-04 00:13+0100
 PO-Revision-Date: 2008-11-02 23:08+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -34,7 +34,6 @@ $_SESSION['l10n']['en']['Add an action']='Add an action';
 $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Be straigthforward']='Be straigthforward';
-$_SESSION['l10n']['en']['03a845156f3b239357d06bed4fbfc54c']='Because of our security policy you are not allowed to list actions. Please browse %s to visualize any action attached.';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Completed']='Completed';
 $_SESSION['l10n']['en']['Completed actions']='Completed actions';
@@ -93,7 +92,6 @@ $_SESSION['l10n']['en']['actions']='actions';
 $_SESSION['l10n']['en']['delete']='delete';
 $_SESSION['l10n']['en']['edit']='edit';
 $_SESSION['l10n']['en']['edited by %s %s']='edited by %s %s';
-$_SESSION['l10n']['en']['pages']='pages';
 $_SESSION['l10n']['en']['posted by %s %s']='posted by %s %s';
 $_SESSION['l10n']['en']['smileys']='smileys';
 $_SESSION['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';

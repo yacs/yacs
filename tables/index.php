@@ -62,12 +62,12 @@ if(!defined('TABLES_PER_PAGE'))
 $context['page_title'] = i18n::s('Tables');
 
 // this page is really only for associates
-if(!Surfer::is_associate())
-	$context['text'] .= '<p>'.i18n::s('Because of our security policy you are not allowed to list tables.').'</p>'
-		.'<p>'.sprintf(i18n::s('Please browse %s to visualize any table that could be embedded.'), Skin::build_link('articles/index.php', i18n::s('published pages'), 'basic')).'</p>'."\n";
+if(!Surfer::is_associate()) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the index
-else {
+} else {
 
 	// count tables in the database
 	$stats = Tables::stat();

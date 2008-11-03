@@ -46,11 +46,12 @@ else
 	$context['page_title'] = i18n::s('Script comparison');
 
 // only associates can go further
-if(!Surfer::is_associate())
+if(!Surfer::is_associate()) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // no script has been provided
-elseif(!$original || !$updated) {
+} elseif(!$original || !$updated) {
 
 	// the form to get script names
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';

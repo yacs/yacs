@@ -174,11 +174,12 @@ if(Surfer::is_crawler()) {
 	}
 
 // restrictions: anyone can modify its own profile; associates can modify everything
-} elseif(($id != Surfer::get_id()) && !Surfer::is_associate())
+} elseif(($id != Surfer::get_id()) && !Surfer::is_associate()) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // redirect to the origin server
-elseif($origin) {
+} elseif($origin) {
 	Logger::error(sprintf(i18n::s('We are only keeping a shadow record for this user profile. Please change the password for this account at %s'), Skin::build_link('http://'.$origin, $origin, 'external')));
 
 // some data have been posted

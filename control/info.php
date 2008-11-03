@@ -119,9 +119,7 @@ if(!Surfer::is_associate()) {
 
 		// nothing more in demo mode
 		if(file_exists($context['path_to_root'].'parameters/demo.flag')) {
-
-			// remind the surfer
-			$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.')."</p>\n";
+			Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 		// call is disable
 		} elseif(!is_callable('phpinfo')) {

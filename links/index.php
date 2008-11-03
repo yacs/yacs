@@ -64,34 +64,43 @@ if($stats['count'] > $items_per_page) {
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
 }
 
-// page main content
-$cache_id = 'links/index.php#text#'.$page;
-if(!$text =& Cache::get($cache_id)) {
+// stop hackers
+if($page * $items_per_page > $stats['count']) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-	// load the layout to use
-	switch($context['root_articles_layout']) {
-		case 'daily':
-			include 'layout_links_as_daily.php';
-			$layout =& new Layout_links_as_daily();
-			break;
-		default:
-			$layout = 'full';
-			break;
+} else {
+
+	// page main content
+	$cache_id = 'links/index.php#text#'.$page;
+	if(!$text =& Cache::get($cache_id)) {
+	
+		// load the layout to use
+		switch($context['root_articles_layout']) {
+			case 'daily':
+				include 'layout_links_as_daily.php';
+				$layout =& new Layout_links_as_daily();
+				break;
+			default:
+				$layout = 'full';
+				break;
+		}
+	
+		// query the database and layout that stuff
+		$offset = ($page - 1) * $items_per_page;
+		if(!$text = Links::list_by_date($offset, $items_per_page, $layout))
+			$text = '<p>'.i18n::s('No link has been recorded yet.').'</p>';
+	
+		// we have an array to format
+		if(is_array($text))
+			$text =& Skin::build_list($text, 'decorated');
+	
+		// cache this to speed subsequent queries
+		Cache::put($cache_id, $text, 'links');
 	}
-
-	// query the database and layout that stuff
-	$offset = ($page - 1) * $items_per_page;
-	if(!$text = Links::list_by_date($offset, $items_per_page, $layout))
-		$text = '<p>'.i18n::s('No link has been recorded yet.').'</p>';
-
-	// we have an array to format
-	if(is_array($text))
-		$text =& Skin::build_list($text, 'decorated');
-
-	// cache this to speed subsequent queries
-	Cache::put($cache_id, $text, 'links');
+	$context['text'] .= $text;
+	
 }
-$context['text'] .= $text;
 
 // page tools
 if(Surfer::is_associate()) {

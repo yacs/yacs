@@ -96,7 +96,7 @@ if(!Surfer::is_logged())
 // only associates can proceed
 elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation.')."</p>\n";
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the index page
 	$menu = array('scripts/' => i18n::s('Server software'));
@@ -140,9 +140,8 @@ elseif(!Surfer::is_associate()) {
 
 // no build in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
-
-	// remind the surfer
-	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.').'</p>';
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // just do it
 } else {

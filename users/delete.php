@@ -80,10 +80,8 @@ if(!isset($item['id'])) {
 
 // no deletion in demo mode
 } elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes') && file_exists($context['path_to_root'].'parameters/demo.flag')) {
-
-	// remind the surfer
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation in demonstration mode.')."</p>\n";
+	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // deletion is confirmed
 } elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {

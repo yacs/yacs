@@ -62,11 +62,12 @@ if(!Surfer::is_logged())
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode('control/virtual.php'));
 
 // only associates can use this tool
-elseif(!Surfer::is_associate())
+elseif(!Surfer::is_associate()) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // delete one configuration file
-elseif($id && ($action == 'delete')) {
+} elseif($id && ($action == 'delete')) {
 
 	// file has to exist
 	$file = 'parameters/virtual_'.$id.'.include.php';

@@ -28,7 +28,7 @@ $context['page_title'] = i18n::s('Maintenance');
 // the user has to be an associate
 if(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	$context['text'] .= '<p>'.i18n::s('You are not allowed to perform this operation.')."</p>\n";
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	// forward to the index page
 	$menu = array('articles/' => i18n::s('All pages'));

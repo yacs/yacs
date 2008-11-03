@@ -159,6 +159,10 @@ else
 	$page = 1;
 $page = max(1,intval($page));
 
+// stop hackers
+if($page > 10)
+	$page = 10;
+
 // no follow-up page yet
 $zoom_type = '';
 $zoom_index = 1;

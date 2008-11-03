@@ -57,25 +57,34 @@ if($stats['count'] > THREADS_PER_PAGE) {
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], THREADS_PER_PAGE, $page));
 }
 
-// page main content
-$cache_id = 'decisions/index.php#text#'.$page;
-if(!$text =& Cache::get($cache_id)) {
+// stop hackers
+if($page * THREADS_PER_PAGE > $stats['count']) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-	// the first decision to list
-	$offset = ($page - 1) * THREADS_PER_PAGE;
+} else {
 
-	// query the database and layout that stuff
-	if(!$text = Decisions::list_threads_by_date($offset, THREADS_PER_PAGE, 'decorated'))
-		$text = '<p>'.i18n::s('No decision has been recorded yet.').'</p>';
+	// page main content
+	$cache_id = 'decisions/index.php#text#'.$page;
+	if(!$text =& Cache::get($cache_id)) {
+	
+		// the first decision to list
+		$offset = ($page - 1) * THREADS_PER_PAGE;
+	
+		// query the database and layout that stuff
+		if(!$text = Decisions::list_threads_by_date($offset, THREADS_PER_PAGE, 'decorated'))
+			$text = '<p>'.i18n::s('No decision has been recorded yet.').'</p>';
+	
+		// we have an array to format
+		elseif(is_array($text))
+			$text =& Skin::build_list($text, 'rows');
+	
+		// cache, whatever change, for 1 minute
+		Cache::put($cache_id, $text, 'stable', 60);
+	}
+	$context['text'] .= $text;
 
-	// we have an array to format
-	elseif(is_array($text))
-		$text =& Skin::build_list($text, 'rows');
-
-	// cache, whatever change, for 1 minute
-	Cache::put($cache_id, $text, 'stable', 60);
 }
-$context['text'] .= $text;
 
 // page tools
 if(Surfer::is_associate())

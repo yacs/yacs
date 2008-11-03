@@ -33,40 +33,54 @@ load_skin('dates');
 // the title of the page
 $context['page_title'] = $year;
 
-// page main content
-$cache_id = 'dates/year.php#text#'.$year;
-if(!$text =& Cache::get($cache_id)) {
+// no more than three years difference with now
+if(abs(mktime(0, 0, 0, 1, 1, $year) - time()) > (31536000 * 3)) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-	// previous year
-	$previous = $year-1;
+} else {
 
-	// next year
-	$next = $year+1;
-
-	// neighbours
-	$neighbours = array(Dates::get_url($previous, 'year'), $previous,
-		Dates::get_url($next, 'year'), $next,
-		NULL, NULL);
-
-	// links to display previous and next years
-	$text .= Skin::neighbours($neighbours, 'slideshow');
-
-	// one calendar per month
-	for($index = 1; $index <= 12; $index++) {
-
-		// items for this month
-		$items =& Dates::list_for_month($year, $index, 'links');
-
-		// draw all months - force empty months
-		$text .= Dates::build_months($items, TRUE, TRUE, TRUE, FALSE, $year, $index);
-
+	// page main content
+	$cache_id = 'dates/year.php#text#'.$year;
+	if(!$text =& Cache::get($cache_id)) {
+	
+		// robots cannot navigate
+		if(!Surfer::is_crawler()) {
+		
+			// previous year
+			$previous = $year-1;
+		
+			// next year
+			$next = $year+1;
+		
+			// neighbours
+			$neighbours = array(Dates::get_url($previous, 'year'), $previous,
+				Dates::get_url($next, 'year'), $next,
+				NULL, NULL);
+		
+			// links to display previous and next years
+			$text .= Skin::neighbours($neighbours, 'slideshow');
+	
+		}
+		
+		// one calendar per month
+		for($index = 1; $index <= 12; $index++) {
+	
+			// items for this month
+			$items =& Dates::list_for_month($year, $index, 'links');
+	
+			// draw all months - force empty months
+			$text .= Dates::build_months($items, TRUE, TRUE, TRUE, FALSE, $year, $index);
+	
+		}
+	
+		// cache, whatever change, for 5 minutes
+		Cache::put($cache_id, $text, 'stable', 300);
 	}
-
-	// cache, whatever change, for 5 minutes
-	Cache::put($cache_id, $text, 'stable', 300);
+	$context['text'] .= $text;
+	
 }
-$context['text'] .= $text;
-
+	
 // page extra content
 $cache_id = 'dates/year.php#extra';
 if(!$text =& Cache::get($cache_id)) {

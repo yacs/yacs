@@ -80,46 +80,55 @@ if($stats['count'] > CATEGORIES_PER_PAGE) {
 	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], CATEGORIES_PER_PAGE, $page));
 }
 
-// page main content
-$cache_id = 'categories/index.php#text#'.$page;
-if(!$text =& Cache::get($cache_id)) {
+// stop hackers
+if($page * CATEGORIES_PER_PAGE > $stats['count']) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-	// do it the Yahoo! style
-	include_once '../categories/layout_categories_as_yahoo.php';
-	$layout =& new Layout_categories_as_yahoo();
+} else {
 
-	// the list of active categories
-	$offset = ($page - 1) * CATEGORIES_PER_PAGE;
-	if(!$text = Categories::list_by_title_for_anchor(NULL, $offset, CATEGORIES_PER_PAGE, $layout))
-		$text = '<p>'.i18n::s('No category has been created yet.').'</p>';
-
-	// we have an array to format
-	if(is_array($text))
-		$text =& Skin::build_list($text, '2-columns');
-
-	// make a box
-	if($text)
-		$text =& Skin::build_box('', $text, 'header1', 'categories');
-
-	// associates may list specific categories as well
-	if(($page == 1) && Surfer::is_associate()) {
-
-		// query the database and layout that stuff
-		if($items = Categories::list_inactive_by_title(0,25)) {
-
-			// we have an array to format
-			if(is_array($items))
-				$items = Skin::build_list($items, '2-columns');
-
-			// displayed as another page section
-			$text .= Skin::build_box(i18n::s('Special categories'), $items, 'header1', 'inactive_categories');
+	// page main content
+	$cache_id = 'categories/index.php#text#'.$page;
+	if(!$text =& Cache::get($cache_id)) {
+	
+		// do it the Yahoo! style
+		include_once '../categories/layout_categories_as_yahoo.php';
+		$layout =& new Layout_categories_as_yahoo();
+	
+		// the list of active categories
+		$offset = ($page - 1) * CATEGORIES_PER_PAGE;
+		if(!$text = Categories::list_by_title_for_anchor(NULL, $offset, CATEGORIES_PER_PAGE, $layout))
+			$text = '<p>'.i18n::s('No category has been created yet.').'</p>';
+	
+		// we have an array to format
+		if(is_array($text))
+			$text =& Skin::build_list($text, '2-columns');
+	
+		// make a box
+		if($text)
+			$text =& Skin::build_box('', $text, 'header1', 'categories');
+	
+		// associates may list specific categories as well
+		if(($page == 1) && Surfer::is_associate()) {
+	
+			// query the database and layout that stuff
+			if($items = Categories::list_inactive_by_title(0,25)) {
+	
+				// we have an array to format
+				if(is_array($items))
+					$items = Skin::build_list($items, '2-columns');
+	
+				// displayed as another page section
+				$text .= Skin::build_box(i18n::s('Special categories'), $items, 'header1', 'inactive_categories');
+			}
 		}
+	
+		// cache this to speed subsequent queries
+		Cache::put($cache_id, $text, 'categories');
 	}
+	$context['text'] .= $text;
 
-	// cache this to speed subsequent queries
-	Cache::put($cache_id, $text, 'categories');
 }
-$context['text'] .= $text;
 
 // page tools
 if(Surfer::is_associate()) {

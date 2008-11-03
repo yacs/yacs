@@ -110,23 +110,32 @@ $context['text'] .= '<form action="'.$context['url_to_root'].'users/search.php" 
 // if($stats['count'] && isset($context['google_api_key']) && $context['google_api_key'])
 // 	$context['text'] .= '<p>'.Skin::build_link(Locations::get_url('users', 'map_on_google'), i18n::s('Map users at Google Maps')).'</p>';
 
-// look up the database to find the list of users
-$cache_id = 'users/index.php#text#'.$page;
-if(!$text =& Cache::get($cache_id)) {
+// stop hackers
+if($page * USERS_PER_PAGE > $stats['count']) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-	// query the database and layout that stuff
-	$offset = ($page - 1) * USERS_PER_PAGE;
-	if(!$text = Users::list_by_posts($offset, USERS_PER_PAGE, 'full'))
-		$text = '<p>'.i18n::s('No item has been found.').'</p>';
+} else {
 
-	// we have an array to format
-	if(is_array($text))
-		$text =& Skin::build_list($text, 'decorated');
+	// look up the database to find the list of users
+	$cache_id = 'users/index.php#text#'.$page;
+	if(!$text =& Cache::get($cache_id)) {
+	
+		// query the database and layout that stuff
+		$offset = ($page - 1) * USERS_PER_PAGE;
+		if(!$text = Users::list_by_posts($offset, USERS_PER_PAGE, 'full'))
+			$text = '<p>'.i18n::s('No item has been found.').'</p>';
+	
+		// we have an array to format
+		if(is_array($text))
+			$text =& Skin::build_list($text, 'decorated');
+	
+		// cache this to speed subsequent queries
+		Cache::put($cache_id, $text, 'users');
+	}
+	$context['text'] .= $text;
 
-	// cache this to speed subsequent queries
-	Cache::put($cache_id, $text, 'users');
 }
-$context['text'] .= $text;
 
 // the suffix hook for the index of members
 if(is_callable(array('Hooks', 'include_scripts')))

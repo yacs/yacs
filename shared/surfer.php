@@ -836,6 +836,7 @@ Class Surfer {
 			'spider',
 			'surveybot',
 			'teoma',				// ask jeeves
+			'webreaper',			// WebReaper
 			'yahoo-verticalcrawler',// old yahoo bot
 			'yahoo! slurp', 		// new yahoo bot
 			'yahoo-mm', 			// another yahoo bot

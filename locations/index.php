@@ -58,12 +58,12 @@ if(!defined('LOCATIONS_PER_PAGE'))
 $context['page_title'] = i18n::s('Locations');
 
 // this page is really only for associates
-if(!Surfer::is_associate())
-	$context['text'] .= '<p>'.i18n::s('Because of our security policy you are not allowed to list locations.').'</p>'
-		.'<p>'.sprintf(i18n::s('Please browse %s to visualize any location that could be embedded.'), Skin::build_link('articles/', i18n::s('pages'), 'basic')).'</p>'."\n";
+if(!Surfer::is_associate()) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // display the index
-else {
+} else {
 
 	// count locations in the database
 	$stats = Locations::stat();

@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
+ * on November 3, 2008, 11:20 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-10-31 22:00+0100
+POT-Creation-Date: 2008-11-04 00:13+0100
 PO-Revision-Date: 2008-08-01 11:56+0100
 Last-Translator: Paques, Bernard
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -26,7 +26,6 @@ $_SESSION['l10n']['fr']['Add a location']='Ajouter un emplacement';
 $_SESSION['l10n']['fr']['da9a0fd4ad6b4e693496e34f79ee7dcf']='Recherche de coordonnées géographiques';
 $_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
-$_SESSION['l10n']['fr']['0ce40041c3b540b90a142d3c14a598ee']='A cause de nos réglages de sécurité, vous n\'êtes pas autorisé à consulter la liste des emplacements.';
 $_SESSION['l10n']['fr']['Coordinates']='Coordonnées géographiques';
 $_SESSION['l10n']['fr']['Country']='Pays';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
@@ -61,7 +60,6 @@ $_SESSION['l10n']['fr']['On page %s']='Sur la page %s';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Place name']='Lieu géographique';
 $_SESSION['l10n']['fr']['b7e4d1da92d8d2dbf79a14a8e486cd67']='Merci d\'indiquer un titre pour cet emplacement';
-$_SESSION['l10n']['fr']['ad8b1071c8b63b8f765482c0520d756a']='Merci de naviguer sur les %s, y compris les emplacements qu\'elles peuvent contenir.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['c6826496c79ea9fee535d0cfb3db34fc']='Merci d\'indiquer des coordonnées géographiques.';
 $_SESSION['l10n']['fr']['Posted by']='Envoyé par';
@@ -94,7 +92,6 @@ $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
 $_SESSION['l10n']['fr']['af07702d856f3a572f10639acdf23048']='http://www.batchgeocode.com/lookup/';
 $_SESSION['l10n']['fr']['9007f0cfcc8e9a136b2878e857bfcf0c']='http://www.travelgis.com/geocode/Default.aspx';
 $_SESSION['l10n']['fr']['in %s']='dans %s';
-$_SESSION['l10n']['fr']['pages']='pages';
 $_SESSION['l10n']['fr']['smileys']='emoticons';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n>1);';
 ?>

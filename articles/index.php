@@ -74,47 +74,56 @@ $stats = Articles::stat();
 if($stats['count'])
 	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count'])));
 
-// navigation commands for articles, if necessary
-if($stats['count'] > $items_per_page) {
-	$home = 'articles/';
-	if($context['with_friendly_urls'] == 'Y')
-		$prefix = $home.'index.php/';
-	elseif($context['with_friendly_urls'] == 'R')
-		$prefix = $home;
-	else
-		$prefix = $home.'?page=';
-	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
-}
+// stop hackers
+if($page * $items_per_page > $stats['count']) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-// page main content
-$cache_id = 'articles/index.php#text#'.$page;
-if(!$text =& Cache::get($cache_id)) {
+} else {
 
-	// load the layout to use
-	switch($context['root_articles_layout']) {
-		case 'boxesandarrows':
-			include_once 'layout_articles_as_boxesandarrows.php';
-			$layout =& new Layout_articles_as_boxesandarrows();
-			break;
-		default:
-			$layout = 'decorated';
-			break;
+	// navigation commands for articles, if necessary
+	if($stats['count'] > $items_per_page) {
+		$home = 'articles/';
+		if($context['with_friendly_urls'] == 'Y')
+			$prefix = $home.'index.php/';
+		elseif($context['with_friendly_urls'] == 'R')
+			$prefix = $home;
+		else
+			$prefix = $home.'?page=';
+		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
 	}
-
-	// query the database and layout that stuff
-	$offset = ($page - 1) * $items_per_page;
-	if($text =& Articles::list_by('publication', $offset, $items_per_page, $layout)) {
-
-		// we have an array to format
-		if(is_array($text))
-			$text =& Skin::build_list($text, 'decorated');
-
+	
+	// page main content
+	$cache_id = 'articles/index.php#text#'.$page;
+	if(!$text =& Cache::get($cache_id)) {
+	
+		// load the layout to use
+		switch($context['root_articles_layout']) {
+			case 'boxesandarrows':
+				include_once 'layout_articles_as_boxesandarrows.php';
+				$layout =& new Layout_articles_as_boxesandarrows();
+				break;
+			default:
+				$layout = 'decorated';
+				break;
+		}
+	
+		// query the database and layout that stuff
+		$offset = ($page - 1) * $items_per_page;
+		if($text =& Articles::list_by('publication', $offset, $items_per_page, $layout)) {
+	
+			// we have an array to format
+			if(is_array($text))
+				$text =& Skin::build_list($text, 'decorated');
+	
+		}
+	
+		// cache this to speed subsequent queries
+		Cache::put($cache_id, $text, 'articles');
 	}
-
-	// cache this to speed subsequent queries
-	Cache::put($cache_id, $text, 'articles');
+	$context['text'] .= $text;
+	
 }
-$context['text'] .= $text;
 
 // add a page
 if(Surfer::is_associate() || (Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y'))) )

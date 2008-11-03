@@ -46,38 +46,60 @@ load_skin('dates');
 // the title of the page
 $context['page_title'] = ucfirst(Dates::get_month_label($target));
 
-// page main content
-$cache_id = 'dates/month.php#text#'.$target;
-if(!$text =& Cache::get($cache_id)) {
+// we do need 7 chars
+if(strlen($target) != 7) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation.'));
+
+// parse the provided parameter
+} else {
 
 	// which month?
 	list($year, $month) = explode('/', $target, 2);
 
-	// previous month
-	$previous = gmstrftime('%Y/%m', gmmktime(0, 0, 0, $month-1, 1, $year));
+	// no more than two years difference with now
+	if(abs(mktime(0, 0, 0, $month, 1, $year) - time()) > (31536000 * 2)) {
+		Safe::header('Status: 401 Forbidden', TRUE, 401);
+		Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-	// next month
-	$next = gmstrftime('%Y/%m', gmmktime(0, 0, 0, $month+1, 1, $year));
+	} else {
+	
+		// page main content
+		$cache_id = 'dates/month.php#text#'.$target;
+		if(!$text =& Cache::get($cache_id)) {
+	
+			// robots cannot navigate
+			if(!Surfer::is_crawler()) {
+			
+				// previous month
+				$previous = gmstrftime('%Y/%m', gmmktime(0, 0, 0, $month-1, 1, $year));
+			
+				// next month
+				$next = gmstrftime('%Y/%m', gmmktime(0, 0, 0, $month+1, 1, $year));
+			
+				// neighbours
+				$neighbours = array(Dates::get_url($previous, 'month'), Dates::get_month_label($previous),
+					Dates::get_url($next, 'month'), Dates::get_month_label($next),
+					Dates::get_url($year, 'year'), $year);
+			
+				// links to display previous and next months
+				$text .= Skin::neighbours($neighbours, 'slideshow');
 
-	// neighbours
-	$neighbours = array(Dates::get_url($previous, 'month'), Dates::get_month_label($previous),
-		Dates::get_url($next, 'month'), Dates::get_month_label($next),
-		Dates::get_url($year, 'year'), $year);
-
-	// links to display previous and next months
-	$text .= Skin::neighbours($neighbours, 'slideshow');
-
-	// get items for this month
-	$items =& Dates::list_for_month($year, $month, 'links');
-
-	// draw one month - force an empty month
-	$text .= Dates::build_months($items, FALSE, FALSE, TRUE, FALSE, $year, $month);
-
-	// cache, whatever change, for 5 minutes
-	Cache::put($cache_id, $text, 'stable', 300);
-
+			}
+			
+			// get items for this month
+			$items =& Dates::list_for_month($year, $month, 'links');
+		
+			// draw one month - force an empty month
+			$text .= Dates::build_months($items, FALSE, FALSE, TRUE, FALSE, $year, $month);
+		
+			// cache, whatever change, for 5 minutes
+			Cache::put($cache_id, $text, 'stable', 300);
+		
+		}
+		$context['text'] .= $text;
+	}
 }
-$context['text'] .= $text;
 
 // page extra content
 $cache_id = 'dates/month.php#extra';

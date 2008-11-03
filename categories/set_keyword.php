@@ -48,11 +48,12 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('No item has been found.'));
 
 // operation is restricted to members
-elseif(!Surfer::is_member())
+elseif(!Surfer::is_member()) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // ensure we have a keyword
-elseif(!$search)
+} elseif(!$search)
 	Logger::error(i18n::s('No keyword to search for.'));
 
 // search in articles

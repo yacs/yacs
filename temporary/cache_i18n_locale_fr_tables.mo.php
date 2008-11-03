@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 2, 2008, 10:46 pm GMT. Please do not modify it manually.
+ * on November 3, 2008, 11:25 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-10-31 22:00+0100
+POT-Creation-Date: 2008-11-04 00:13+0100
 PO-Revision-Date: 2008-10-21 18:35+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -27,7 +27,6 @@ $_SESSION['l10n']['fr']['Add a table']='Ajouter une table';
 $_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['519471e63694deb32693cdb1e9f0342c']='Ce champ étant indexé pour les recherches, pensez à soigner votre formulation';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
-$_SESSION['l10n']['fr']['d13ffed666898525c258864b3ddef094']='A cause de nos réglages de sécurité, vous n\'êtes pas autorisé à consulter la liste des tables.';
 $_SESSION['l10n']['fr']['CSV (Excel)']='CSV (Excel)';
 $_SESSION['l10n']['fr']['Colon character ";"']='Caractère point-virgule ";"';
 $_SESSION['l10n']['fr']['Comma character ","']='Caractère virgule ","';
@@ -70,7 +69,6 @@ $_SESSION['l10n']['fr']['Nothing has been received.']='Rien n\'a été reçu.';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Pipe character "|"']='Caractère trait vertical "|"';
 $_SESSION['l10n']['fr']['Please add some SQL query.']='Merci d\'indiquer une requête SQL valide';
-$_SESSION['l10n']['fr']['63171134cc5466c7a0a1dd93db93be41']='Merci de naviguer sur les %s, y compris les tables qu\'elles peuvent contenir.';
 $_SESSION['l10n']['fr']['d27b4d70f739c8a4622a9245a9f10769']='Assurez-vous de fournir une commande MySQL SELECT correcte et complète.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['bb0b1fac369e6921df318dc3f2e37850']='Merci de choisir un fichier CSV (.csv ou .xls)';
@@ -111,7 +109,6 @@ $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas a
 $_SESSION['l10n']['fr']['Zoom']='Zoom';
 $_SESSION['l10n']['fr']['bytes']='octets';
 $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
-$_SESSION['l10n']['fr']['published pages']='pages publiées';
 $_SESSION['l10n']['fr']['smileys']='emoticons';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n>1);';
 ?>
