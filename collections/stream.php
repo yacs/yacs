@@ -56,6 +56,10 @@
 include_once '../shared/global.php';
 include_once 'collections.php';
 
+// check network credentials, if any
+if($user = Users::authenticate())
+	Surfer::empower($user['capability']);
+
 // load the skin -- do it before loading the collection
 load_skin('collections');
 
@@ -76,10 +80,6 @@ $item = Collections::get($id);
 $icons = array();
 $icons['folder_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder.png" width="13" height="16" alt="" />';
 $icons['folder_up_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder_up.gif" width="15" height="16" alt="" />';
-
-// check network credentials, if any
-if($user = Users::authenticate())
-	Surfer::empower($user['capability']);
 
 // the path to this page
 $context['path_bar'] = array( 'collections/' => i18n::s('File collections') );

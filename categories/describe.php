@@ -44,6 +44,10 @@
 include_once '../shared/global.php';
 include_once 'categories.php';
 
+// check network credentials, if any
+if($user = Users::authenticate())
+	Surfer::empower($user['capability']);
+
 // look for the id
 $id = NULL;
 if(isset($_REQUEST['id']))
@@ -100,6 +104,14 @@ if(!isset($item['id'])) {
 
 // permission denied
 } elseif(!$permitted) {
+
+	// give anonymous surfers a chance for HTTP authentication
+	if(!Surfer::is_logged()) {
+		Safe::header('WWW-Authenticate: Basic realm="'.utf8::to_iso8859($context['site_name']).'"');
+		Safe::header('Status: 401 Unauthorized', TRUE, 401);
+	}
+
+	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 

@@ -75,7 +75,7 @@ if($stats['count'])
 	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count'])));
 
 // stop hackers
-if($page * $items_per_page > $stats['count']) {
+if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 

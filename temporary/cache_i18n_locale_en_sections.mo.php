@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 3, 2008, 11:20 pm GMT. Please do not modify it manually.
+ * on November 4, 2008, 10:32 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-04 00:13+0100
+POT-Creation-Date: 2008-11-04 23:32+0100
 PO-Revision-Date: 2008-10-31 22:02+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -268,7 +268,6 @@ $_SESSION['l10n']['en']['bc9e1ae097aa296b3e304e2d12888466']='Nothing has been ex
 $_SESSION['l10n']['en']['Nothing has been received.']='Nothing has been received.';
 $_SESSION['l10n']['en']['One %s per line']='One %s per line';
 $_SESSION['l10n']['en']['0036d35feb7fd2c4c6545c79b7e41cf4']='One or several %s. This setting overrides the overlay setting.';
-$_SESSION['l10n']['en']['499349cc7918b937d0fcbafa63757937']='Only associates can access following sections.';
 $_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
 $_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Order']='Order';

@@ -50,6 +50,10 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
+// check network credentials, if any
+if($user = Users::authenticate())
+	Surfer::empower($user['capability']);
+
 // load a skin engine
 load_skin('articles');
 

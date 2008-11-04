@@ -91,25 +91,6 @@ $context['page_title'] = i18n::s('Site map');
 
 // count public root sections in the database
 $count = Sections::count_for_anchor(NULL);
-if($count > $items_per_page) {
-
-	// display the total count of sections
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => Skin::build_number($count, i18n::s('sections'))));
-
-	// navigation commands for sections, if necessary
-	$home = 'sections/';
-	if($context['with_friendly_urls'] == 'Y')
-		$prefix = $home.'index.php/';
-	elseif($context['with_friendly_urls'] == 'R')
-		$prefix = $home;
-	else
-		$prefix = $home.'?page=';
-	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $count, $items_per_page, $page));
-}
-
-//
-// meta information
-//
 
 // a meta link to our blogging interface
 $context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_home'].$context['url_to_root'].'services/describe.php" title="RSD" type="application/rsd+xml" />';
@@ -151,6 +132,25 @@ if($page > 10) {
 		if(is_array($items))
 			$items =& Skin::build_list($items, '2-columns');
 	
+		// navigation commands for sections, if necessary
+		if($count > $items_per_page) {
+		
+			$menu = array('_count' => Skin::build_number($count, i18n::s('sections')));
+		
+			$home = 'sections/';
+			if($context['with_friendly_urls'] == 'Y')
+				$prefix = $home.'index.php/';
+			elseif($context['with_friendly_urls'] == 'R')
+				$prefix = $home;
+			else
+				$prefix = $home.'?page=';
+			$menu = array_merge($menu, Skin::navigate($home, $prefix, $count, $items_per_page, $page));
+			
+			// add a menu at the bottom
+			$text .= Skin::build_list($menu, 'menu_bar');
+	
+		}
+
 		// make a box
 		if($items)
 			$text .= Skin::build_box('', $items, 'header1', 'sections');
@@ -174,17 +174,12 @@ if($page > 10) {
 			// query the database and layout that stuff
 			if($items = Sections::list_inactive_by_title_for_anchor(NULL, 0, 50, $layout)) {
 	
-				// splash
-				$content = '<p>'.i18n::s('Only associates can access following sections.').'</p>';
-	
 				// we have an array to format
 				if(is_array($items))
-					$content .= Skin::build_list($items, '2-columns');
-				else
-					$content .= (string)$items;
+					$items = Skin::build_list($items, '2-columns');
 	
 				// displayed as another page section
-				$text .= Skin::build_box(i18n::s('Other sections'), $content, 'header1', 'other_sections');
+				$text .= Skin::build_box(i18n::s('Other sections'), $items, 'header1', 'other_sections');
 	
 			}
 		}

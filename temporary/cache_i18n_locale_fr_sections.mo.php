@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 3, 2008, 11:20 pm GMT. Please do not modify it manually.
+ * on November 4, 2008, 10:32 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-04 00:13+0100
+POT-Creation-Date: 2008-11-04 23:32+0100
 PO-Revision-Date: 2008-11-02 23:23+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -268,7 +268,6 @@ $_SESSION['l10n']['fr']['bc9e1ae097aa296b3e304e2d12888466']='Rien n\'a été ext
 $_SESSION['l10n']['fr']['Nothing has been received.']='Rien n\'a été reçu.';
 $_SESSION['l10n']['fr']['One %s per line']='Un %s par ligne';
 $_SESSION['l10n']['fr']['0036d35feb7fd2c4c6545c79b7e41cf4']='Une ou plusieurs %s. Ce réglage annule la définition d\'overlay.';
-$_SESSION['l10n']['fr']['499349cc7918b937d0fcbafa63757937']='Seuls les associés peuvent accéder aux sections ci-dessous.';
 $_SESSION['l10n']['fr']['Operation has failed.']='L\'opération a échoué.';
 $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Order']='Trier';

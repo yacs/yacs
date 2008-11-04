@@ -40,6 +40,10 @@
 include_once '../shared/global.php';
 include_once 'decisions.php';
 
+// check network credentials, if any -- used by winamp and other media players
+if($user = Users::authenticate())
+	Surfer::empower($user['capability']);
+
 // look for the anchor as a string
 $anchor = '';
 if(isset($_REQUEST['anchor']))
@@ -90,13 +94,10 @@ $context['page_title'] = i18n::s('RSS feed');
 // permission denied
 if(!$permitted) {
 
-	// anonymous users are invited to log in or to register
+	// give anonymous surfers a chance for HTTP authentication
 	if(!Surfer::is_logged()) {
-		if(is_object($anchor))
-			$link = $context['url_to_home'].$context['url_to_root'].'decisions/feed.php?anchor='.$anchor->get_reference();
-		else
-			$link = $context['url_to_home'].$context['url_to_root'].'decisions/feed.php';
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.htmlspecialchars(urlencode($link)));
+		Safe::header('WWW-Authenticate: Basic realm="'.utf8::to_iso8859($context['site_name']).'"');
+		Safe::header('Status: 401 Unauthorized', TRUE, 401);
 	}
 
 	// permission denied to authenticated user

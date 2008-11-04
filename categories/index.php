@@ -64,24 +64,9 @@ $context['page_title'] = i18n::s('Categories');
 
 // count categories in the database
 $stats = Categories::stat_for_anchor(NULL);
-if($stats['count'] > CATEGORIES_PER_PAGE) {
-
-	// display the total count of categories
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => Skin::build_number($stats['count'], i18n::s('categories'))));
-
-	// navigation commands for categories, if necessary
-	$home = 'categories/';
-	if($context['with_friendly_urls'] == 'Y')
-		$prefix = $home.'index.php/';
-	elseif($context['with_friendly_urls'] == 'R')
-		$prefix = $home;
-	else
-		$prefix = $home.'?page=';
-	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], CATEGORIES_PER_PAGE, $page));
-}
 
 // stop hackers
-if($page * CATEGORIES_PER_PAGE > $stats['count']) {
+if(($page > 1) && (($page - 1) * CATEGORIES_PER_PAGE > $stats['count'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
@@ -103,7 +88,26 @@ if($page * CATEGORIES_PER_PAGE > $stats['count']) {
 		// we have an array to format
 		if(is_array($text))
 			$text =& Skin::build_list($text, '2-columns');
+			
+		// navigation commands for categories, if necessary
+		if($stats['count'] > CATEGORIES_PER_PAGE) {
+		
+			$menu = array('_count' => Skin::build_number($stats['count'], i18n::s('categories')));
+			
+			$home = 'categories/';
+			if($context['with_friendly_urls'] == 'Y')
+				$prefix = $home.'index.php/';
+			elseif($context['with_friendly_urls'] == 'R')
+				$prefix = $home;
+			else
+				$prefix = $home.'?page=';
+			$menu = array_merge($menu, Skin::navigate($home, $prefix, $stats['count'], CATEGORIES_PER_PAGE, $page));
+			
+			// add a menu at the bottom
+			$text .= Skin::build_list($menu, 'menu_bar');
 	
+		}
+
 		// make a box
 		if($text)
 			$text =& Skin::build_box('', $text, 'header1', 'categories');

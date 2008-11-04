@@ -82,40 +82,40 @@ $stats = Users::stat();
 if($stats['count'])
 	$context['page_menu'] = array_merge($context['page_menu'], array('_count' =>sprintf(i18n::ns('%d user', '%d users', $stats['count']), $stats['count'])));
 
-// navigation commands for users, if necessary
-if($stats['count'] > USERS_PER_PAGE) {
-	$home = 'users/';
-	if($context['with_friendly_urls'] == 'Y')
-		$prefix = $home.'index.php/';
-	elseif($context['with_friendly_urls'] == 'R')
-		$prefix = $home;
-	else
-		$prefix = $home.'?page=';
-	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], USERS_PER_PAGE, $page));
-}
-
 // the prefix hook for the index of members
 if(is_callable(array('Hooks', 'include_scripts')))
 	$context['text'] .= Hooks::include_scripts('users/index.php#prefix');
 
-// a search form for users
-$context['text'] .= '<form action="'.$context['url_to_root'].'users/search.php" method="get">'
-	.'<p>'
-	.'<input type="text" name="search" size="40" value="'.encode_field(i18n::s('Look for some user')).'" onfocus="this.value=\'\'" maxlength="128" />'
-	.Skin::build_submit_button('&raquo;')
-	.'</p>'
-	."</form>\n";
-
-// // map users on Google Maps
-// if($stats['count'] && isset($context['google_api_key']) && $context['google_api_key'])
-// 	$context['text'] .= '<p>'.Skin::build_link(Locations::get_url('users', 'map_on_google'), i18n::s('Map users at Google Maps')).'</p>';
-
 // stop hackers
-if($page * USERS_PER_PAGE > $stats['count']) {
+if(($page > 1) && (($page - 1) * USERS_PER_PAGE > $stats['count'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {
+
+	// navigation commands for users, if necessary
+	if($stats['count'] > USERS_PER_PAGE) {
+		$home = 'users/';
+		if($context['with_friendly_urls'] == 'Y')
+			$prefix = $home.'index.php/';
+		elseif($context['with_friendly_urls'] == 'R')
+			$prefix = $home;
+		else
+			$prefix = $home.'?page=';
+		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], USERS_PER_PAGE, $page));
+	}
+	
+	// a search form for users
+	$context['text'] .= '<form action="'.$context['url_to_root'].'users/search.php" method="get">'
+		.'<p>'
+		.'<input type="text" name="search" size="40" value="'.encode_field(i18n::s('Look for some user')).'" onfocus="this.value=\'\'" maxlength="128" />'
+		.Skin::build_submit_button('&raquo;')
+		.'</p>'
+		."</form>\n";
+
+// // map users on Google Maps
+// if($stats['count'] && isset($context['google_api_key']) && $context['google_api_key'])
+// 	$context['text'] .= '<p>'.Skin::build_link(Locations::get_url('users', 'map_on_google'), i18n::s('Map users at Google Maps')).'</p>';
 
 	// look up the database to find the list of users
 	$cache_id = 'users/index.php#text#'.$page;

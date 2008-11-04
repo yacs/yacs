@@ -65,6 +65,10 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
+// check network credentials, if any -- used by winamp and other media players
+if($user = Users::authenticate())
+	Surfer::empower($user['capability']);
+
 // look for the id
 $id = NULL;
 if(isset($_REQUEST['id']))
@@ -80,10 +84,6 @@ $item =& Sections::get($id);
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
-
-// check network credentials, if any -- used by winamp and other media players
-if($user = Users::authenticate())
-	Surfer::empower($user['capability']);
 
 // editors have associate-like capabilities
 if(Surfer::is_empowered('M') && (isset($item['id']) && isset($user['id']) && (Sections::is_assigned($item['id'], $user['id']))) || (is_object($anchor) && $anchor->is_editable()))

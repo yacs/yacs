@@ -62,6 +62,10 @@
 include_once '../shared/global.php';
 include_once 'files.php';
 
+// check network credentials, if any -- used by winamp and other media players
+if($user = Users::authenticate())
+	Surfer::empower($user['capability']);
+
 // look for the id
 $id = NULL;
 if(isset($_REQUEST['id']))
@@ -83,10 +87,6 @@ $behaviors = NULL;
 include_once '../behaviors/behaviors.php';
 if(isset($item['id']))
 	$behaviors =& new Behaviors($item, $anchor);
-
-// check network credentials, if any -- used by winamp and other media players
-if($user = Users::authenticate())
-	Surfer::empower($user['capability']);
 
 // associates and editors can do what they want
 if(Surfer::is_empowered() || (is_object($anchor) && $anchor->is_editable()))

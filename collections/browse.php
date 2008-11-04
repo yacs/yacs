@@ -50,6 +50,10 @@ include_once '../shared/global.php';
 include_once '../files/files.php';
 include_once 'collections.php';
 
+// check network credentials, if any
+if($user = Users::authenticate())
+	Surfer::empower($user['capability']);
+
 // load the skin -- before loading the collection
 load_skin('collections');
 
@@ -76,10 +80,6 @@ $bullets = array();
 $bullets['download'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/qb_download.gif" width="11" height="11" alt=">>" />';
 $bullets['movie'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/qb_movie.gif" width="13" height="11" alt=">>" />';
 $bullets['sound'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/qb_sound.gif" width="11" height="11" alt=">>" />';
-
-// check network credentials, if any
-if($user = Users::authenticate())
-	Surfer::empower($user['capability']);
 
 // the path to this page
 $context['path_bar'] = array( 'collections/' => i18n::s('File collections') );

@@ -39,6 +39,10 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
+// check network credentials, if any -- used by winamp and other media players
+if($user = Users::authenticate())
+	Surfer::empower($user['capability']);
+
 // look for the id
 $id = NULL;
 if(isset($_REQUEST['id']))

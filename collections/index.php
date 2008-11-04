@@ -31,15 +31,15 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 
+// check network credentials, if any
+if($user = Users::authenticate())
+	Surfer::empower($user['capability']);
+
 // load localized strings
 i18n::bind('collections');
 
 // load the skin
 load_skin('collections');
-
-// check network credentials, if any
-if($user = Users::authenticate())
-	Surfer::empower($user['capability']);
 
 // the title of the page
 $context['page_title'] = i18n::s('Collections');

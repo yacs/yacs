@@ -28,6 +28,10 @@
 include_once '../shared/global.php';
 include_once 'collections.php';
 
+// check network credentials, if any
+if($user = Users::authenticate())
+	Surfer::empower($user['capability']);
+
 // load the skin -- before loading the collection
 load_skin('slideshow');
 
@@ -43,10 +47,6 @@ $id = strip_tags($id);
 
 // bind the virtual item to something real
 $item = Collections::get($id);
-
-// check network credentials, if any
-if($user = Users::authenticate())
-	Surfer::empower($user['capability']);
 
 // the path to this page
 $context['path_bar'] = array( 'collections/' => i18n::s('File collections') );

@@ -64,24 +64,24 @@ $stats = Files::stat();
 if($stats['count'])
 	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d file', '%d files', $stats['count']), $stats['count'])));
 
-// navigation commands for files, if necessary
-if($stats['count'] > $items_per_page) {
-	$home = 'files/';
-	if($context['with_friendly_urls'] == 'Y')
-		$prefix = $home.'index.php/';
-	elseif($context['with_friendly_urls'] == 'R')
-		$prefix = $home;
-	else
-		$prefix = $home.'?page=';
-	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
-}
-
 // stop hackers
-if($page * $items_per_page > $stats['count']) {
+if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {
+
+	// navigation commands for files, if necessary
+	if($stats['count'] > $items_per_page) {
+		$home = 'files/';
+		if($context['with_friendly_urls'] == 'Y')
+			$prefix = $home.'index.php/';
+		elseif($context['with_friendly_urls'] == 'R')
+			$prefix = $home;
+		else
+			$prefix = $home.'?page=';
+		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
+	}
 
 	// page main content
 	$cache_id = 'files/index.php#text#'.$page;

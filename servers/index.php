@@ -62,25 +62,25 @@ $stats = Servers::stat();
 if($stats['count'])
 	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d server', '%d servers', $stats['count']), $stats['count'])));
 
-// navigation commands for servers, if necessary
-if($stats['count'] > SERVERS_PER_PAGE) {
-	$home = 'servers/';
-	if($context['with_friendly_urls'] == 'Y')
-		$prefix = $home.'index.php/';
-	elseif($context['with_friendly_urls'] == 'R')
-		$prefix = $home;
-	else
-		$prefix = $home.'?page=';
-	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], SERVERS_PER_PAGE, $page));
-}
-
 // stop hackers
-if($page * SERVERS_PER_PAGE > $stats['count']) {
+if(($page > 1) && (($page - 1) * SERVERS_PER_PAGE > $stats['count'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {
 
+	// navigation commands for servers, if necessary
+	if($stats['count'] > SERVERS_PER_PAGE) {
+		$home = 'servers/';
+		if($context['with_friendly_urls'] == 'Y')
+			$prefix = $home.'index.php/';
+		elseif($context['with_friendly_urls'] == 'R')
+			$prefix = $home;
+		else
+			$prefix = $home.'?page=';
+		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], SERVERS_PER_PAGE, $page));
+	}
+	
 	// seek the database
 	$cache_id = 'servers/index.php#text#'.$page;
 	if(!$text =& Cache::get($cache_id)) {

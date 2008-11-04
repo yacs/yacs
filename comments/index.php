@@ -47,24 +47,24 @@ $stats = Comments::stat_threads();
 if($stats['count'])
 	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d thread', '%d threads', $stats['count']), $stats['count'])));
 
-// navigation commands for comments, if necessary
-if($stats['count'] > THREADS_PER_PAGE) {
-	$home = 'comments/';
-	if($context['with_friendly_urls'] == 'Y')
-		$prefix = $home.'index.php/';
-	elseif($context['with_friendly_urls'] == 'R')
-		$prefix = $home;
-	else
-		$prefix = $home.'?page=';
-	$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], THREADS_PER_PAGE, $page));
-}
-
 // stop hackers
-if($page * THREADS_PER_PAGE > $stats['count']) {
+if(($page > 1) && (($page - 1) * THREADS_PER_PAGE > $stats['count'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 } else {
+
+	// navigation commands for comments, if necessary
+	if($stats['count'] > THREADS_PER_PAGE) {
+		$home = 'comments/';
+		if($context['with_friendly_urls'] == 'Y')
+			$prefix = $home.'index.php/';
+		elseif($context['with_friendly_urls'] == 'R')
+			$prefix = $home;
+		else
+			$prefix = $home.'?page=';
+		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], THREADS_PER_PAGE, $page));
+	}
 
 	// page main content
 	$cache_id = 'comments/index.php#text#'.$page;
