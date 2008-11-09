@@ -218,7 +218,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu = array_merge($menu, array(Forms::get_url($form['id'], 'view', $form['title']) => i18n::s('Use the form')));
 		$menu = array_merge($menu, array(Forms::get_url($form['id'], 'edit') => i18n::s('Edit again')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the creation of a new form

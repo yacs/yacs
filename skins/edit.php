@@ -97,7 +97,7 @@ elseif(!Surfer::is_associate()) {
 		$menu = array_merge($menu, array('skins/edit.php?skin='.urlencode($skin) => i18n::s('Edit this theme')));
 		$menu = array_merge($menu, array('skins/' => i18n::s('Themes')));
 		$menu = array_merge($menu, array('skins/configure.php' => i18n::s('Configure the page factory')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}

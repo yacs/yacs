@@ -263,7 +263,7 @@ if(Surfer::is_crawler()) {
 	$menu = array();
 	$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
 	$menu = array_merge($menu, array($context['script_url'] => i18n::s('Invite people')));
-	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // a form to send an invitation to several people

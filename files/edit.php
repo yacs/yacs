@@ -462,7 +462,7 @@ if(Surfer::is_crawler()) {
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('file:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(is_object($anchor) && Surfer::may_upload())
 			$menu = array_merge($menu, array('files/edit.php?anchor='.$anchor->get_reference() => i18n::s('Upload another file')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the submission of a new file by a non-associate

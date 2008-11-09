@@ -236,7 +236,7 @@ if(!$text =& Cache::get($cache_id)) {
 	}
 
 	// download content
-	if(Surfer::is_member() && (!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y')) ) {
+	if(Surfer::is_associate() && (!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y')) ) {
 
 		// box content
 		$content = Skin::build_link(Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name']).'.mm'), i18n::s('Freemind map'), 'basic');

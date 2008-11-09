@@ -166,7 +166,7 @@ elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
 		$menu = array();
 		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the page')));
 		$menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit the page')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the submission by a non-associate

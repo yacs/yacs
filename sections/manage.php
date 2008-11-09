@@ -302,7 +302,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// sections
@@ -323,7 +323,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// nothing to do
@@ -404,7 +404,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// sections
@@ -424,7 +424,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// nothing to do
@@ -460,7 +460,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// nothing to do
@@ -585,7 +585,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// sections
@@ -641,7 +641,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// nothing to do
@@ -678,7 +678,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// nothing to do
@@ -715,7 +715,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// nothing to do
@@ -811,7 +811,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// sections
@@ -838,7 +838,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// nothing to do
@@ -871,7 +871,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// nothing to do
@@ -910,7 +910,7 @@ if(Surfer::is_crawler()) {
 	$menu = array();
 	$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 	$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-	$follow_up .= Skin::finalize_list($menu, 'page_menu');
+	$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // unlock pages
@@ -943,7 +943,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// nothing to do
@@ -980,7 +980,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu[] = Skin::build_link(Sections::get_permalink($item), 'View the section', 'span');
 		$menu[] = Skin::build_link(Sections::get_url($item['id'], 'manage'), 'Manage it', 'span');
-		$follow_up .= Skin::finalize_list($menu, 'page_menu');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	// nothing to do
@@ -1090,7 +1090,7 @@ if(Surfer::is_crawler()) {
 		$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Cancel'), 'span');
 		
 		// finalize the menu
-		$text .= BR.Skin::finalize_list($menu, 'page_menu');
+		$text .= BR.Skin::finalize_list($menu, 'menu_bar');
 
 		// count the number of articles in this section
 		$menu = array();
@@ -1200,7 +1200,7 @@ if(Surfer::is_crawler()) {
 		$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Cancel'), 'span');
 
 		// finalize the menu
-		$text .= Skin::finalize_list($menu, 'page_menu');
+		$text .= Skin::finalize_list($menu, 'menu_bar');
 
 		// count the number of articles in this section
 		$menu = array();

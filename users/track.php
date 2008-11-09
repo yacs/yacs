@@ -129,7 +129,7 @@ if(!$item['id']) {
 
 	// follow-up commands
 	$follow_up = i18n::s('What do you want to do now?');
-	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 }

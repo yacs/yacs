@@ -111,14 +111,14 @@ if(Surfer::is_associate()) {
 	$context['page_tools'][] = Skin::build_link('files/check.php', i18n::s('Maintenance'), 'basic');
 }
 
+// get news from rss
+$title = i18n::s('Podcast');
+$label = sprintf(i18n::s('You can list new public files through RSS by going %s'), Skin::build_link(Feeds::get_url('files'), 'here', 'xml'));
+$context['aside']['channels'] = Skin::build_box($title, $label, 'extra');
+
 // page extra content
 $cache_id = 'files/index.php#extra';
 if(!$text =& Cache::get($cache_id)) {
-
-	// get news from rss
-	$title = i18n::s('Podcast');
-	$label = sprintf(i18n::s('You can list new public files through RSS by going %s'), Skin::build_link(Feeds::get_url('files'), 'here', 'xml'));
-	$text .= Skin::build_box($title, $label, 'extra');
 
 	// side bar with the list of most popular files
 	if($items = Files::list_by_hits(0, COMPACT_LIST_SIZE, 'compact')) {

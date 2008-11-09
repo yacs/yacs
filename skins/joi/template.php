@@ -121,8 +121,8 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 	// the side panel
 	echo '<div id="side_panel">'."\n";
 
-	// display side content, including extra data
-	Page::side(TRUE);
+	// display side content
+	Page::side();
 
 	// end of the side panel
 	echo '</div>'."\n";

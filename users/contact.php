@@ -231,7 +231,7 @@ elseif(!count($items)) {
 	elseif(Surfer::get_id())
 		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => sprintf(i18n::s('Back to %s'), Surfer::get_name())));
 	if(count($menu))
-		$context['text'] .= Skin::build_block(i18n::s('Where do you want to go now?').Skin::build_list($menu, 'page_menu'), 'bottom');
+		$context['text'] .= Skin::build_block(i18n::s('Where do you want to go now?').Skin::build_list($menu, 'menu_bar'), 'bottom');
 
 // layout the available contact options
 } else

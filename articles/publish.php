@@ -232,7 +232,7 @@ if(Surfer::is_crawler()) {
 		$menu = array_merge($menu, array(Articles::get_permalink($item) => i18n::s('Back to main page')));
 		if(Surfer::is_associate())
 			$menu = array_merge($menu, array('articles/review.php' => i18n::s('Review queue')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}

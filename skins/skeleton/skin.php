@@ -42,6 +42,9 @@ Class Skin extends Skin_Skeleton {
 		// the HTML used to prefix a question
 		define('QUESTION_FLAG', '<img src="'.$context['url_to_root'].$context['skin'].'/images/question.gif" width="16" height="15" alt="" /> ');
 
+		// ensure extra boxes are displayed in this 2-columns layout
+		if(strpos($context['skins_navigation_components'], 'extra') === FALSE)
+			$context['skins_navigation_components'] = str_replace('navigation', 'extra navigation', $context['skins_navigation_components']);
 	}
 }
 

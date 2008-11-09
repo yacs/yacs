@@ -163,8 +163,8 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 	// the side panel
 	echo '<div id="side_panel">'."\n";
 
-	// display side content, including extra data
-	Page::side(TRUE);
+	// display side content
+	Page::side();
 
 	// link to yacs if we are at the front page
 	if(($context['skin_variant'] == 'home') && is_callable(array('i18n', 's')))

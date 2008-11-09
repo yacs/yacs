@@ -797,7 +797,7 @@ if(Surfer::is_associate()) {
 }
 
 // save some database requests
-$cache_id = 'index.php#extra';
+$cache_id = 'index.php#extra_news';
 if(!$text =& Cache::get($cache_id)) {
 
 	// show featured articles -- set in configure.php
@@ -888,6 +888,17 @@ if(!$text =& Cache::get($cache_id)) {
 			}
 		}
 	}
+
+	// save in cache, whatever change, for 5 minutes
+	Cache::put($cache_id, $text, 'stable', 300);
+}
+
+// news
+$context['aside']['news'] = $text;
+
+// save some database requests
+$cache_id = 'index.php#extra';
+if(!$text =& Cache::get($cache_id)) {
 
 	// list extra boxes
 	if($anchors =& Sections::get_anchors_for_anchor(NULL, 'extra_boxes')) {
@@ -1059,22 +1070,16 @@ if(!$text =& Cache::get($cache_id)) {
 		}
 	}
 
-	// referrals, if any
-	if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y'))) {
-
-		// box content
-		include_once $context['path_to_root'].'agents/referrals.php';
-		if($items = Referrals::list_by_hits_for_url($context['url_to_root']))
-			$text .= Skin::build_box(i18n::s('Referrals'), $items, 'navigation', 'referrals');
-
-	}
-
 	// save in cache, whatever change, for 5 minutes
 	Cache::put($cache_id, $text, 'stable', 300);
 }
 
 // page extra content
-$context['extra'] .= $text;
+$context['aside']['boxes'] = $text;
+
+// referrals, if any
+if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y')))
+	$context['aside']['referrals'] =& Skin::build_referrals('index.php');
 
 //
 // compute navigation information -- $context['navigation']

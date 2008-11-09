@@ -2829,52 +2829,6 @@ Class Skin_Skeleton {
 	}
 	
 	/**
-	 * finalize content of the extra panel
-	 *
-	 * This function assembles several attributes of current context into the one that is
-	 * displayed in the extra panel.
-	 *
-	 * @param mixed the list of components to include in the extra panel
-	 */
-	function finalize_extra($parameters) {
-		global $context;
-		
-		// make an array of components
-		if(is_string($parameters))
-			$parameters = explode(' ', $parameters);
-			
-		// do the job
-		foreach($parameters as $parameter) {
-			if(isset($context['aside'][ $parameter ]))
-				$context['extra'] .= $context['aside'][ $parameter ];
-		}
-			
-	}
-	
-	/**
-	 * finalize content of the navigation panel
-	 *
-	 * This function assembles several attributes of current context into the one that is
-	 * displayed in the navigation panel.
-	 *
-	 * @param mixed the list of components to include in the navigation panel
-	 */
-	function finalize_navigation($parameters) {
-		global $context;
-		
-		// make an array of components
-		if(is_string($parameters))
-			$parameters = explode(' ', $parameters);
-			
-		// do the job
-		foreach($parameters as $parameter) {
-			if(isset($context['aside'][ $parameter ]))
-				$context['navigation'] .= $context['aside'][ $parameter ];
-		}
-			
-	}
-	
-	/**
 	 * finalize a list
 	 *
 	 * This function is called at the end of ##Skin::build_list## to assemble

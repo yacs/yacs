@@ -93,7 +93,7 @@ elseif(!Surfer::is_associate()) {
 	$menu = array();
 	$menu = array_merge($menu, array('control/virtual.php' => i18n::s('Manage virtual hosts')));
 	$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // save the content of an updated file
@@ -117,7 +117,7 @@ elseif(!Surfer::is_associate()) {
 		$menu = array_merge($menu, array('control/virtual.php?id='.urlencode($id) => i18n::s('View the configuration file')));
 		$menu = array_merge($menu, array('control/virtual.php' => i18n::s('Manage virtual hosts')));
 		$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}
@@ -173,7 +173,7 @@ elseif(!Surfer::is_associate()) {
 	$menu = array_merge($menu, array('control/virtual.php?id='.urlencode($id) => i18n::s('View the configuration file')));
 	$menu = array_merge($menu, array('control/virtual.php' => i18n::s('Manage virtual hosts')));
 	$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // view one configuration file
@@ -196,7 +196,7 @@ elseif(!Surfer::is_associate()) {
 	$menu = array_merge($menu, array('control/virtual.php?id='.urlencode($id).'&action=edit' => i18n::s('Configure again')));
 	$menu = array_merge($menu, array('control/virtual.php' => i18n::s('Manage virtual hosts')));
 	$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // no action has been
@@ -221,7 +221,7 @@ elseif(!Surfer::is_associate()) {
 	$menu = array_merge($menu, array('control/virtual.php?id='.urlencode($id).'&action=edit' => i18n::s('Configure again')));
 	$menu = array_merge($menu, array('control/virtual.php' => i18n::s('Manage virtual hosts')));
 	$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 }

@@ -296,7 +296,7 @@ if(Surfer::is_crawler()) {
 			$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add a link')));
 		if(is_object($anchor) && Surfer::is_empowered())
 			$menu = array_merge($menu, array('sections/edit.php?anchor='.urlencode($anchor->get_reference()) => i18n::s('Add another section')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the creation of a new section

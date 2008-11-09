@@ -122,8 +122,8 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 	// the side panel is displayed on all pages; it includes the menu and other navigation boxes
 	echo '<td id="side_panel">'."\n";
 
-	// display side content, including extra data
-	Page::side(TRUE);
+	// display side content
+	Page::side();
 
 	// end of the navigation panel
 	echo '</td></tr></table>'."\n";

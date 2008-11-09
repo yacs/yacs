@@ -224,7 +224,7 @@ elseif(!Surfer::is_associate()) {
 		$menu = array_merge($menu, array( 'control/configure.php?parameter=skin&value='.urlencode('skins/'.$directory) => i18n::s('Use this theme') ));
 		$menu = array_merge($menu, array( 'skins/test.php?skin='.urlencode($directory) => i18n::s('Test this theme') ));
 		$menu = array_merge($menu, array( 'skins/' => i18n::s('Themes') ));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}

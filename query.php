@@ -149,7 +149,7 @@ if(Surfer::is_crawler()) {
 		$menu = array_merge($menu, array('sections/' => i18n::s('Site map')));
 		$menu = array_merge($menu, array('search.php' => i18n::s('Search')));
 		$menu = array_merge($menu, array('help/' => i18n::s('Help index')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// send a confirmation message to the surfer

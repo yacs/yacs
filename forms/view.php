@@ -357,7 +357,7 @@ if(Surfer::is_crawler()) {
 			$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
 		else
 			$menu = array_merge($menu, array($article->get_url() => i18n::s('View the page')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the creation of a new page

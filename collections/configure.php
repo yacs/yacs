@@ -302,7 +302,7 @@ elseif(!Surfer::is_associate()) {
 	$menu = array_merge($menu, array( 'collections/' => i18n::s('File collections') ));
 	$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
 	$menu = array_merge($menu, array( 'collections/configure.php' => i18n::s('Configure again') ));
-	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 }

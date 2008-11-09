@@ -239,7 +239,7 @@ if(Surfer::is_crawler()) {
 			$menu = array();
 			$menu = array_merge($menu, array('users/password.php' => i18n::s('Change password')));
 			$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('My profile')));
-			$follow_up .= Skin::build_list($menu, 'page_menu');
+			$follow_up .= Skin::build_list($menu, 'menu_bar');
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		}
@@ -467,7 +467,7 @@ if(Surfer::is_crawler()) {
 		if(Surfer::is_member() && isset($_REQUEST['login_forward']) && !preg_match('/^articles\/edit.php/', $_REQUEST['login_forward']))
 			$menu = array_merge($menu, array('articles/edit.php' => i18n::s('Add a page')));
 		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('My profile')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		//
@@ -532,7 +532,7 @@ if(Surfer::is_crawler()) {
 		$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
 
 		// display the menu
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 	}
@@ -600,7 +600,7 @@ if(Surfer::is_crawler()) {
 	$menu[] = Skin::build_link('users/password.php', i18n::s('Lost password'), 'span');
 
 	// insert the menu in the page
-	$context['text'] .= Skin::finalize_list($menu, 'page_menu');
+	$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
 
 	// save the forwarding url as well
 	if(isset($_REQUEST['url']))

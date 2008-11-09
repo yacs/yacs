@@ -266,7 +266,7 @@ if(!isset($item['id']) || !$item['id']) {
 	if(is_object($anchor))
 		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
 	$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download page')));
-	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // file has not been assigned, and surfer has not confirmed the detach yet
@@ -337,7 +337,7 @@ if(!isset($item['id']) || !$item['id']) {
 	if(is_object($anchor))
 		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
 	$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download page')));
-	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // file has been detached, and download has not been confirmed, and surfer is not owner
@@ -356,7 +356,7 @@ if(!isset($item['id']) || !$item['id']) {
 	if(is_object($anchor))
 		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
 	$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download page')));
-	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // actual transfer

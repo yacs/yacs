@@ -468,7 +468,7 @@ if(Surfer::is_crawler()) {
 		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the page')));
 		$menu = array_merge($menu, array($anchor->get_url('edit') => i18n::s('Edit the page')));
 		$menu = array_merge($menu, array('images/edit.php?anchor='.$anchor->get_reference() => i18n::s('Submit another image')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the submission by a non-associate

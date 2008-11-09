@@ -174,7 +174,7 @@ if(!isset($item['id'])) {
 			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode($article->get_reference()) => i18n::s('Upload a file')));
 		}
 		$menu = array_merge($menu, array('links/edit.php?anchor='.urlencode($article->get_reference()) => i18n::s('Add a link')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the creation of a new article

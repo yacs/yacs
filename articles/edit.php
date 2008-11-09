@@ -540,7 +540,7 @@ if(Surfer::is_crawler()) {
 			$menu = array_merge($menu, array(Articles::get_url($_REQUEST['id'], 'mail') => i18n::s('Invite people')));
 		if(is_object($anchor) && Surfer::is_empowered())
 			$menu = array_merge($menu, array('articles/edit.php?anchor='.urlencode($anchor->get_reference()) => i18n::s('Add another page')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the creation of a new page
@@ -956,8 +956,7 @@ if($with_form) {
 			$input =& Skin::build_list($items, 'comma');
 		else
 			$input = i18n::s('Nobody has been assigned to this page.');
-		$hint = i18n::s('Invite people');
-		$fields[] = array($label, $input, $hint);
+		$fields[] = array($label, $input);
 	}
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards

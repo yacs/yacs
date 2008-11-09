@@ -235,7 +235,7 @@ if(Surfer::is_crawler()) {
 		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
 		$menu = array_merge($menu, array(Decisions::get_url($_REQUEST['id'], 'view') => i18n::s('View this decision')));
 		$menu = array_merge($menu, array(Decisions::get_url($_REQUEST['id'], 'edit') => i18n::s('Edit the decision')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// log the submission of a new decision by a non-associate

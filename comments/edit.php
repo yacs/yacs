@@ -371,7 +371,7 @@ if(Surfer::is_crawler()) {
 			$menu = array_merge($menu, array($anchor->get_url('discuss') => $anchor->get_label('comments', 'thread_command')));
 		if(Surfer::is_logged())
 			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $anchor->get_label('comments', 'edit_command')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// comment author

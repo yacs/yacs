@@ -291,7 +291,7 @@ elseif(!Surfer::is_associate()) {
 	$menu = array_merge($menu, array( 'feeds/' => i18n::s('Information channels') ));
 	$menu = array_merge($menu, array( 'control/' => i18n::s('Control Panel') ));
 	$menu = array_merge($menu, array( 'feeds/configure.php' => i18n::s('Configure again') ));
-	$follow_up .= Skin::build_list($menu, 'page_menu');
+	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 }

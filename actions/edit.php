@@ -202,7 +202,7 @@ if(Surfer::is_crawler()) {
 		if(is_object($anchor))
 			$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
 		$menu = array_merge($menu, array(Actions::get_url($_REQUEST['id'], 'edit') => i18n::s('Edit the action')));
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		// send an e-mail message to the target end user, if any

@@ -217,7 +217,7 @@ if(!isset($item['id'])) {
 		// save in cache
 		Cache::put($cache_id, $text, 'actions');
 	}
-	$context['aside']['boxes'] = $text;
+	$context['aside']['neighbours'] = $text;
 
 	//
 	// referrals, if any, in a sidebar

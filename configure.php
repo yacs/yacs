@@ -664,7 +664,7 @@ elseif(!Surfer::is_associate()) {
 		$menu = array_merge($menu, array( 'configure.php' => i18n::s('Configure again') ));
 
 		// display follow-up commands
-		$follow_up .= Skin::build_list($menu, 'page_menu');
+		$follow_up .= Skin::build_list($menu, 'menu_bar');
 
 		// at page bottom
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');

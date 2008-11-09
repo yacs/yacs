@@ -36,6 +36,9 @@ Class Skin extends Skin_Skeleton {
 		// the HTML used to append to a stripped text
 		define('MORE_IMG', '<img src="'.$context['url_to_root'].$context['skin'].'/icons/zoom.png" width="15" height="11" alt="" />');
 
+		// ensure extra boxes are displayed in this 2-columns layout
+		if(strpos($context['skins_navigation_components'], 'extra') === FALSE)
+			$context['skins_navigation_components'] = str_replace('navigation', 'extra navigation', $context['skins_navigation_components']);
 	}
 }
 ?>
