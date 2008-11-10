@@ -51,7 +51,7 @@ elseif(isset($context['users_without_self_deletion']) && ($context['users_withou
 	$permitted = FALSE;
 
 // the surfer is allowed to delete its own profile
-elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
+elseif(isset($item['id']) && Surfer::is($item['id']))
 	$permitted = TRUE;
 
 // the default is to disallow access

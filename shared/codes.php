@@ -250,13 +250,12 @@
  * @author Bernard Paques
  * @author Mordread Wallas
  * @author GnapZ
- * @author Lasares
+ * @author Alain Lesage (Lasares)
  * @tester Viviane Zaniroli
  * @tester Agnes
  * @tester Pat
  * @tester Guillaume Perez
  * @tester Fw_crocodile
- * @tester Lasares
  * @tester Christian Piercot
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

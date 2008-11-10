@@ -257,8 +257,8 @@ if(!isset($item['id'])) {
 	// page details -- $context['page_details']
 	//
 
-	// do not mention details at follow-up pages
-	if(!$zoom_type) {
+	// do not mention details at follow-up pages, nor to crawlers
+	if(!$zoom_type && !Surfer::is_crawler()) {
 
 		// one detail per line
 		$context['page_details'] = '<p class="details">';

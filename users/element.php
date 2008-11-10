@@ -149,11 +149,6 @@ if(!isset($item['id'])) {
 	// we return some HTML
 	$output = '';
 
-	$menu = array();
-	if(Surfer::is_associate() || (Surfer::get_id() == $item['id']))
-		$menu = array(Users::get_url('user:'.$item['id'], 'select') => i18n::s('Manage'));
-	$output .= Skin::build_list($menu, 'menu_bar');
-	
 	// list watched users by posts
 	if($items =& Members::list_users_by_posts_for_member('user:'.$item['id'], 0, USERS_PER_PAGE, 'watch')) {
 		if(is_array($items))
@@ -161,6 +156,12 @@ if(!isset($item['id'])) {
 		$output .= $items;
 	}
 
+	// manage command
+	$menu = array();
+	if(Surfer::is_associate() || (Surfer::get_id() == $item['id']))
+		$menu = array(Users::get_url('user:'.$item['id'], 'select') => i18n::s('Manage'));
+	$output .= Skin::build_list($menu, 'menu_bar');
+	
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 		echo $output;

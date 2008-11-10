@@ -10,17 +10,6 @@
 Class Layout_articles_as_slashdot extends Layout_interface {
 
 	/**
-	 * the preferred order for items
-	 *
-	 * @return string to be used in requests to the database
-	 *
-	 * @see skins/layout.php
-	 */
-	function items_order() {
-		return 'publication';
-	}
-
-	/**
 	 * the preferred number of items for this layout
 	 *
 	 * @return 10
@@ -92,6 +81,10 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 			if($icon)
 				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('More')).'" title="'.encode_field(i18n::s('More')).'" /></a>';
 
+			// signal articles to be published
+			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > $now))
+				$prefix .= DRAFT_FLAG;
+
 			// signal restricted and private articles
 			if($item['active'] == 'N')
 				$prefix .= PRIVATE_FLAG.' ';
@@ -122,7 +115,12 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 			}
 
 			// the publish date
-			$details[] = Skin::build_date($item['publish_date']);
+			if($item['publish_date'] > NULL_DATE)
+				$details[] = Skin::build_date($item['publish_date']);
+
+			// signal locked articles
+			if(isset($item['locked']) && ($item['locked'] == 'Y'))
+				$details[] = LOCKED_FLAG;
 
 			// details
 			if(count($details))
@@ -182,7 +180,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 			}
 
 			// append a menu
-			$content .= Skin::build_list($menu, 'menu_bar');
+			$content .= '<p class="details">'.Skin::build_list($menu, 'menu').'</p>';
 
 			// insert a complete box
 			$text .= Skin::build_box($icon.$prefix.$title.$suffix, $content, 'header1', 'article_'.$item['id']);

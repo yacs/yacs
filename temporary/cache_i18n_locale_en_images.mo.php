@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 9, 2008, 11:21 pm GMT. Please do not modify it manually.
+ * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-04 00:13+0100
-PO-Revision-Date: 2008-09-07 00:28+0100
-Last-Translator: Paques, Bernard
+POT-Creation-Date: 2008-11-10 16:04+0100
+PO-Revision-Date: 2008-11-10 16:57+0100
+Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -106,7 +106,7 @@ $_SESSION['l10n']['en']['13ce4a67266be09f717a339e084c1fc3']='The image has been 
 $_SESSION['l10n']['en']['bd4dc509bead225fd09ffc2a29b1e07a']='The size of this file is over limit.';
 $_SESSION['l10n']['en']['dd5d3d8719d8abaf68ea9d57da282d79']='This has become the thumbnail image of the page.';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
-$_SESSION['l10n']['en']['7d2b807a6d80dba59cd5a4edfb0c0ad0']='This script will create a brand new page for the uploaded file. If you would like to add an image to an existing page, browse the target page instead and use the adequate command from the menu below page title.';
+$_SESSION['l10n']['en']['e90988ff1c028ea95de8bf1298d3eb58']='This script will create a brand new page for the uploaded file. If you would like to add an image to an existing page, browse the target page instead and use the adequate command from the menu bar.';
 $_SESSION['l10n']['en']['Thumbnail']='Thumbnail';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['cca4373c7c256d01ae0c54448cb5e209']='To save this image on your hard drive, drag the mouse above the image and use the right button. A contextual pop-up menu should appear. Select the adequate command depending on the browser used.';

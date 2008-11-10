@@ -30,30 +30,44 @@ class Move_on_article_access extends Behavior {
 		if(!preg_match('/articles\/view/', $script))
 			return $menu;
 
-		// sanity check
+		// surfer has to be authenticated
+		if(!Surfer::is_logged())
+			return $menu;
+			
+		// sanity checks
 		if(!$anchor)
+			Logger::error(i18n::s('No anchor has been found.'));
+		elseif(!$target =&  Anchors::get($anchor))
 			Logger::error(i18n::s('No anchor has been found.'));
 
 		// which agreement?
 		elseif(!$this->parameters)
 			Logger::error(sprintf(i18n::s('No parameter has been provided to %s'), 'behaviors/move_on_article_access'));
 
-		// parse parameters
+		// parameters have been validated
 		else {
-			$tokens = explode(' ', $this->parameters, 2);
 
-			// load target section
-			if($section =& Anchors::get('section:'.$tokens[0])) {
+			// look at parent container if possible		
+			if(!$origin =&  Anchors::get($target->get_parent()))
+				$origin = $target;
 
-				// make a label
-				if(count($tokens) < 2)
-					$tokens[1] = sprintf(i18n::s('Move to %s'), $section->get_title());
-
-				// the target link to move the page
-				$link = Articles::get_url(str_replace('article:', '', $anchor), 'move', str_replace('section:', '', $section->get_reference()));
-
-				// make a sub-menu
-				$menu = array_merge(array($link => array('', $tokens[1], '', 'button')), $menu);
+			// only container editors can proceed
+			if($origin->is_editable()) {
+				
+				// load target section
+				$tokens = explode(' ', $this->parameters, 2);
+				if($section =& Anchors::get('section:'.$tokens[0])) {
+	
+					// make a label
+					if(count($tokens) < 2)
+						$tokens[1] = sprintf(i18n::s('Move to %s'), $section->get_title());
+	
+					// the target link to move the page
+					$link = Articles::get_url(str_replace('article:', '', $anchor), 'move', str_replace('section:', '', $section->get_reference()));
+	
+					// make a sub-menu
+					$menu = array_merge(array($link => array('', $tokens[1], '', 'button')), $menu);
+				}
 			}
 		}
 

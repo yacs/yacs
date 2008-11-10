@@ -28,7 +28,7 @@
  * @author Bernard Paques
  * @author GnapZ
  * @tester Pafois
- * @tester Lasares
+ * @tester Alain Lesage (Lasares)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -139,8 +139,8 @@ if(!isset($item['id'])) {
 	//
 	$context['page_details'] .= '<p class="details">';
 
-	// display the source, if any
-	if($item['source']) {
+	// display the source, if any, but only to authenticated surfers
+	if($item['source'] && Surfer::is_logged()) {
 		if(preg_match('/http:\/\/([^\s]+)/', $item['source'], $matches))
 			$item['source'] = Skin::build_link($matches[0], $matches[0], 'external');
 		else {

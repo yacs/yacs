@@ -11,7 +11,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
- * @tester ThierryP
+ * @tester Thierry Pinelli (ThierryP)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

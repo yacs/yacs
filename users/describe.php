@@ -125,7 +125,8 @@ if(!isset($item['id'])) {
 	// prepare the response
 	$text = '<?xml version="1.0" encoding="'.$context['charset'].'"?>'."\n"
 		.'<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'."\n"
-		.'		   xmlns:foaf="http://xmlns.com/foaf/0.1/">'."\n"
+		.'		   xmlns:foaf="http://xmlns.com/foaf/0.1/"'."\n"
+		.'         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">'."\n"
 		.'	<foaf:Person>'."\n";
 
 	// full name
@@ -143,10 +144,28 @@ if(!isset($item['id'])) {
 	// the web address
 	if($item['web_address'])
 		$text .= '		<foaf:homepage rdf:resource="'.encode_field($item['web_address']).'" />'."\n";
+	else
+		$text .= '		<foaf:homepage rdf:resource="'.encode_field($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name'])).'" />'."\n";
 
 	// the user avatar
-	if($item['avatar_url'])
+	if($item['avatar_url']) {
+		if($item['avatar_url'][0] == '/')
+			$item['avatar_url'] = str_replace('//', '/', $context['url_to_home'].$context['url_to_root'].$item['avatar_url']);
 		$text .= '		<foaf:img rdf:resource="'.encode_field($item['avatar_url']).'" />'."\n";
+	}
+		
+	// list watched users by posts
+	if($items =& Members::list_users_by_posts_for_member('user:'.$item['id'], 0, USERS_PER_PAGE, 'raw')) {
+		foreach($items as $id => $attributes)
+			$text .= '	<foaf:knows>'."\n"
+				.'		<foaf:Person>'."\n"
+				.'			<foaf:name>'.encode_field($attributes['full_name']).'</foaf:name>'."\n"
+				.'			<rdfs:seeAlso rdf:resource="'.encode_field($context['url_to_home'].$context['url_to_root'].Users::get_url($id, 'describe')).'"/>'."\n"
+				.'		</foaf:Person>'."\n"
+				.'	</foaf:knows>'."\n";
+	}
+
+	
 
 	$text .= '	</foaf:Person>'."\n"
 		.'</rdf:RDF>';

@@ -21,6 +21,13 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 // files to fetch, from root path
 unset($files);
 $files[] = 'readme.txt';
+$files[] = 'control/htaccess/options/.htaccess';
+$files[] = 'skins/_reference/yacs.css';
+$files[] = 'skins/_reference/yacs.css';
+$files[] = 'skins/boxesandarrows/boxesandarrows.css';
+$files[] = 'skins/digital/digital.css';
+$files[] = 'skins/joi/joi.css';
+$files[] = 'skins/skeleton/skeleton.css';
 $files[] = 'tools/build_i18n.bat';
 $files[] = 'tools/srcfiles.txt';
 

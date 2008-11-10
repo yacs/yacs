@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 9, 2008, 11:21 pm GMT. Please do not modify it manually.
+ * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-10 00:21+0100
-PO-Revision-Date: 2008-11-02 23:17+0100
+POT-Creation-Date: 2008-11-10 16:04+0100
+PO-Revision-Date: 2008-11-10 16:58+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -291,7 +291,7 @@ $_SESSION['l10n']['en']['b1caf262006e4778c14ac09a28bea66d']='http://www.yetanoth
 $_SESSION['l10n']['en']['36bf15f384c2faef4a8cbb7476484e2e']='inline - List sub-sections and related articles.';
 $_SESSION['l10n']['en']['jive - List 5 threads per board']='jive - List 5 threads per board';
 $_SESSION['l10n']['en']['1fbdafb2d8ef4dedac9dd6b5957b5afc']='map - Map in two columns, like Yahoo!';
-$_SESSION['l10n']['en']['ef2605b698738265029fa0988824d5d2']='menu - List sections in the menu bar, right below page title.';
+$_SESSION['l10n']['en']['e35b42f9905d22b1370f621d7068e6ab']='menu - List sections in the menu bar.';
 $_SESSION['l10n']['en']['pages']='pages';
 $_SESSION['l10n']['en']['people']='people';
 $_SESSION['l10n']['en']['readme.txt']='readme.txt';

@@ -11,7 +11,7 @@
  * @link http://www.artfulsoftware.com/infotree/queries.php Common queries in MySQL 5
  *
  * @author Bernard Paques
- * @tester ThierryP
+ * @tester Thierry Pinelli (ThierryP)
  * @tester Neige1963
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

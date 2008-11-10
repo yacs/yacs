@@ -170,7 +170,7 @@ change this to use another server if you wish. IT managers will appreciate.
 
 The update process is not automatic. Once a month, or to benefit unattended from
 a new YACS feature exposed at http//www.yetanothercommunitysystem.com, go to the
-Configuration Panel and, in commands below page title, select to Upgrade.
+Configuration Panel, select the System tab, then the Server software link.
 
 
 Preparing a local MySQL server for YACS

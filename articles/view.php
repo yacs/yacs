@@ -123,7 +123,7 @@
  * @tester Guillaume Perez
  * @tester Cyril Blondin
  * @tester NickR
- * @tester ThierryP
+ * @tester Thierry Pinelli (ThierryP)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -560,8 +560,8 @@ if(!isset($item['id'])) {
 	// set page details -- $context['page_details']
 	//
 
-	// do not mention details at follow-up pages
-	if(!$zoom_type) {
+	// do not mention details at follow-up pages, nor to crawlers
+	if(!$zoom_type && !Surfer::is_crawler()) {
 
 		// tags, if any
 		if(isset($item['tags']) && $item['tags'])
@@ -628,7 +628,7 @@ if(!isset($item['id'])) {
 
 			// article editors, for associates and section editors
 			if((Surfer::is_associate() || Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_editable())) && ($items =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
-				$details[] = sprintf(i18n::s('Editors: %s'), Skin::build_list($items, 'comma'));
+				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), Skin::build_list($items, 'comma'));
 
 			// no more details
 			if(count($details))

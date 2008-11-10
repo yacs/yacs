@@ -109,7 +109,7 @@
  * @author Bernard Paques
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
- * @tester ThierryP
+ * @tester Thierry Pinelli (ThierryP)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

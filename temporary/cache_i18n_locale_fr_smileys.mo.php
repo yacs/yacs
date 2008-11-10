@@ -3,7 +3,7 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 9, 2008, 11:22 pm GMT. Please do not modify it manually.
+ * on November 10, 2008, 7:31 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['']='Project-Id-Version: yacs 7.1 smileys
 Report-Msgid-Bugs-To: 

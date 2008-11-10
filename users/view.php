@@ -2,12 +2,6 @@
 /**
  * view one user profile
  *
- * @todo share information with stds http://www.dataportability.org/graphsync/
- * @todo we have live profiles!
- * @todo your workspaces/your watchlist http://www.socialtext.com/products/overview
- * @todo list assigned files
- * @todo add 10 preferred blogs/links
- *
  * This script displays one user profile. Depending on who the surfer is, more or less information is provided.
  * - surfer is the user: view any detail, may edit the page
  * - surfer is associate: view any detail, may edit and delete the page
@@ -34,17 +28,16 @@
  * The extra panel has following components:
  * - An extra box with shortcuts to contribute to the server, including bookmarklets, if this is the surfer profile
  * - A link to the related rss feed, as an extra box
- * - The list of most popular articles, if any, as an extra box
- * - The list of most popular files, if any, as an extra box
  * - The nearest locations, if any, into an extra box
  * - Means to reference this page, into a sidebar box
  * - Top popular referrals, if any
- * - Browser time shift information, if this is the surfer profile
  *
  * Several HTTP headers, or &lt;meta&gt; attributes of the displayed page, are set dynamically here
  * to help advanced web usage. This includes:
  * - a link to a RSS feed for this user profile (e.g., '&lt;link rel="alternate" href="http://127.0.0.1/yacs/users/feed.php/4038" title="RSS" type="application/rss+xml" /&gt;')
- * - a link to a RDF description of this page (e.g., '&lt;link rel="meta" href="http://127.0.0.1/yacs/users/describe.php/4310" title="rdf" type="application/rdf+xml" /&gt;')
+ * - a link to a RDF/FOAF description of this page (e.g., '&lt;link rel="meta" href="http://127.0.0.1/yacs/users/describe.php/4310" title="FOAF" type="application/rdf+xml" /&gt;')
+ *
+ * @link http://wiki.foaf-project.org/Autodiscovery FOAF Autodiscovery
  *
  * Restrictions apply on this page:
  * - associates are allowed to move forward
@@ -225,7 +218,7 @@ if(!isset($item['id'])) {
 	$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Users::get_url($item['id'], 'feed').'" title="RSS" type="application/rss+xml" />';
 
 	// a meta link to a description page (actually, rdf)
-	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Users::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml" />';
+	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Users::get_url($item['id'], 'describe').'" title="FOAF" type="application/rdf+xml" />';
 
 	// set specific headers
 	if(isset($item['introduction']) && $item['introduction'])
@@ -237,50 +230,55 @@ if(!isset($item['id'])) {
 	// page details -- $context['page_details']
 	//
 
-	// tags, if any
-	if(isset($item['tags']) && $item['tags'])
-		$context['page_tags'] = $item['tags'];
+	// do not mention details to crawlers
+	if(!Surfer::is_crawler()) {
 
-	// one detail per line
-	$context['page_details'] .= '<p class="details">';
-	$details = array();
-
-	// the capability field is displayed only to logged users
-	if(!Surfer::is_logged())
-		;
-	elseif($item['capability'] == 'A')
-		$details[] = i18n::s('Associate');
-
-	elseif($item['capability'] == 'M')
-		$details[] = i18n::s('Member');
-
-	elseif($item['capability'] == 'S')
-		$details[] = i18n::s('Subscriber');
-
-	elseif($item['capability'] == '?')
-			$details[] = EXPIRED_FLAG.i18n::s('Banned');
-
-	// the number of posts
-	if(isset($item['posts']) && ($item['posts'] > 1))
-		$details[] = sprintf(i18n::s('%d posts'), $item['posts']);
-
-	// the date of last login
-	if(Surfer::is_associate() && isset($item['login_date']) && $item['login_date'])
-		$details[] = sprintf(i18n::s('last login %s'), Skin::build_date($item['login_date']));
-
-	// the date of registration
-	if(isset($item['create_date']) && $item['create_date'])
-		$details[] = sprintf(i18n::s('registered %s'), Skin::build_date($item['create_date']));
-
-	// combine these three items into one
-	if(count($details))
-		$context['page_details'] .= ucfirst(implode(', ', $details));
-
-	// reference this item
-	if(Surfer::is_member())
-		$context['page_details'] .= BR.sprintf(i18n::s('Code to reference this user: %s'), '[user='.$item['nick_name'].']');
-
-	$context['page_details'] .= '</p>';
+		// tags, if any
+		if(isset($item['tags']) && $item['tags'])
+			$context['page_tags'] = $item['tags'];
+	
+		// one detail per line
+		$context['page_details'] .= '<p class="details">';
+		$details = array();
+	
+		// the capability field is displayed only to logged users
+		if(!Surfer::is_logged())
+			;
+		elseif($item['capability'] == 'A')
+			$details[] = i18n::s('Associate');
+	
+		elseif($item['capability'] == 'M')
+			$details[] = i18n::s('Member');
+	
+		elseif($item['capability'] == 'S')
+			$details[] = i18n::s('Subscriber');
+	
+		elseif($item['capability'] == '?')
+				$details[] = EXPIRED_FLAG.i18n::s('Banned');
+	
+		// the number of posts
+		if(isset($item['posts']) && ($item['posts'] > 1))
+			$details[] = sprintf(i18n::s('%d posts'), $item['posts']);
+	
+		// the date of last login
+		if(Surfer::is_associate() && isset($item['login_date']) && $item['login_date'])
+			$details[] = sprintf(i18n::s('last login %s'), Skin::build_date($item['login_date']));
+	
+		// the date of registration
+		if(isset($item['create_date']) && $item['create_date'])
+			$details[] = sprintf(i18n::s('registered %s'), Skin::build_date($item['create_date']));
+	
+		// combine these three items into one
+		if(count($details))
+			$context['page_details'] .= ucfirst(implode(', ', $details));
+	
+		// reference this item
+		if(Surfer::is_member())
+			$context['page_details'] .= BR.sprintf(i18n::s('Code to reference this user: %s'), '[user='.$item['nick_name'].']');
+	
+		$context['page_details'] .= '</p>';
+		
+	}
 
 	//
 	// tabbed panels
@@ -298,6 +296,14 @@ if(!isset($item['id'])) {
 	// the list of assigned sections
 	if(!$zoom_type) {
 		$content = '';
+
+		// list assigned and watched sections by date
+		if($items =& Members::list_sections_for_user($item['id'], 0, 50, 'simple')) {
+			if(is_array($items))
+				$content .= Skin::build_list($items, 'compact');
+			else
+				$content .= $items;
+		}
 
 		// more commands
 		$menu = array();
@@ -317,14 +323,6 @@ if(!isset($item['id'])) {
 
 		if(count($menu))
 			$content .= Skin::finalize_list($menu, 'menu_bar');
-
-		// list assigned and watched sections by date
-		if($items =& Members::list_sections_for_user($item['id'], 0, 50, 'simple')) {
-			if(is_array($items))
-				$content .= Skin::build_list($items, 'compact');
-			else
-				$content .= $items;
-		}
 
 		// one box
 		if($content)
@@ -621,20 +619,6 @@ if(!isset($item['id'])) {
 	// if not at another follow-up page
 	if(!$zoom_type) {
 
-		// local menu
-		$menu = array();
-
-		// the command to post a new file
-		if((Surfer::is($item['id']) || Surfer::is_associate()) && Surfer::may_upload())
-			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], i18n::s('Upload a file'), 'span');
-
-		// the command to add a new link
-		if(Surfer::is($item['id']) || Surfer::is_associate())
-			$menu[] = Skin::build_link('links/edit.php?anchor=user:'.$item['id'], i18n::s('Add a link'), 'span');
-
-		if(count($menu))
-			$information .= Skin::finalize_list($menu, 'menu_bar');
-
 		// get text related to the overlay, if any
 		if(is_object($overlay))
 			$information .= $overlay->get_text('view', $item);
@@ -714,6 +698,20 @@ if(!isset($item['id'])) {
 
 		if(count($rows))
 			$information .= Skin::build_box(i18n::s('Business card'), Skin::table(NULL, $rows, 'form'), 'folder');
+
+		// local menu
+		$menu = array();
+
+		// the command to post a new file
+		if((Surfer::is($item['id']) || Surfer::is_associate()) && Surfer::may_upload())
+			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], i18n::s('Upload a file'), 'span');
+
+		// the command to add a new link
+		if(Surfer::is($item['id']) || Surfer::is_associate())
+			$menu[] = Skin::build_link('links/edit.php?anchor=user:'.$item['id'], i18n::s('Add a link'), 'span');
+
+		if(count($menu))
+			$information .= Skin::finalize_list($menu, 'menu_bar');
 
 	}
 

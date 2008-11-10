@@ -31,7 +31,7 @@
  * @author GnapZ
  * @tester Olivier
  * @tester Pat
- * @tester Lasares
+ * @tester Alain Lesage (Lasares)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

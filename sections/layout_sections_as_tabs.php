@@ -6,8 +6,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
- * @author Thierry Pinelli [email]contact@vdp-digital.com[/email]
- * @tester ThierryP
+ * @author Thierry Pinelli (ThierryP)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

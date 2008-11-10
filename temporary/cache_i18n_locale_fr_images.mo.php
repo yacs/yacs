@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 9, 2008, 11:21 pm GMT. Please do not modify it manually.
+ * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-04 00:13+0100
-PO-Revision-Date: 2008-09-07 00:33+0100
-Last-Translator: Paques, Bernard
+POT-Creation-Date: 2008-11-10 16:04+0100
+PO-Revision-Date: 2008-11-10 17:01+0100
+Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -106,7 +106,7 @@ $_SESSION['l10n']['fr']['13ce4a67266be09f717a339e084c1fc3']='L\'image servira de
 $_SESSION['l10n']['fr']['bd4dc509bead225fd09ffc2a29b1e07a']='La taille du fichier dépasse la limite autorisée.';
 $_SESSION['l10n']['fr']['dd5d3d8719d8abaf68ea9d57da282d79']='L\'image sera utilisée comme vignette de page.';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
-$_SESSION['l10n']['fr']['7d2b807a6d80dba59cd5a4edfb0c0ad0']='Ce script va créer une nouvelle page pour l\'image transmise. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc sous le titre de page.';
+$_SESSION['l10n']['fr']['e90988ff1c028ea95de8bf1298d3eb58']='Ce script va créer une nouvelle page pour l\'image transmise. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc dans la barre de menu.';
 $_SESSION['l10n']['fr']['Thumbnail']='Vignette';
 $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['cca4373c7c256d01ae0c54448cb5e209']='Pour sauver l\'image sur votre disque dur tirer la souris au-dessus de l\'image et utiliser le bouton droit. Un menu contextuel devrait apparaître. Choisir la commande ad hoc pour sauver l\'image, en fonction du navigateur utilisé.';

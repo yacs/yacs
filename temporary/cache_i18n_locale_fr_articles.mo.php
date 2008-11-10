@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 9, 2008, 11:21 pm GMT. Please do not modify it manually.
+ * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-10 00:21+0100
-PO-Revision-Date: 2008-11-02 23:20+0100
+POT-Creation-Date: 2008-11-10 16:51+0100
+PO-Revision-Date: 2008-11-10 16:59+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -106,7 +106,6 @@ $_SESSION['l10n']['fr']['Edit the page']='Modifier la page';
 $_SESSION['l10n']['fr']['Edit this page']='Modifier cette page';
 $_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['Editors']='Editeurs';
-$_SESSION['l10n']['fr']['Editors: %s']='Editeurs : %s';
 $_SESSION['l10n']['fr']['afb7b68bf930c793832d36380219bfff']='Vérifier que le contenu est du XHTML valide.';
 $_SESSION['l10n']['fr']['22574ae3fe08b2cb5e911bab84f9ed13']='Entrez les noms ou les adresses, séparés par des virgules.';
 $_SESSION['l10n']['fr']['fd674cf80651be8f2cc7d185d732b3ef']='Erreur pendant la transmission du message vers %s';
@@ -169,6 +168,7 @@ $_SESSION['l10n']['fr']['Lock']='Verrouiller';
 $_SESSION['l10n']['fr']['Locked']='Verrouillé';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
+$_SESSION['l10n']['fr']['Manage']='Gérer';
 $_SESSION['l10n']['fr']['Manage your watch list']='Gérer votre liste de surveillance';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='* signale les champs obligatoires';
 $_SESSION['l10n']['fr']['5a9f3b330e478d3c950654fa94cf9897']='Cacher l\'article aux visiteurs ordinaires après le %s';

@@ -69,7 +69,7 @@
  *
  *
  * @author Bernard Paques
- * @tester Lasares
+ * @tester Alain Lesage (Lasares)
  * @tester Agnes
  * @tester Moi-meme
  * @reference

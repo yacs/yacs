@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 9, 2008, 11:21 pm GMT. Please do not modify it manually.
+ * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-10 00:21+0100
-PO-Revision-Date: 2008-11-02 23:09+0100
+POT-Creation-Date: 2008-11-10 16:51+0100
+PO-Revision-Date: 2008-11-10 16:55+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -106,7 +106,6 @@ $_SESSION['l10n']['en']['Edit the page']='Edit the page';
 $_SESSION['l10n']['en']['Edit this page']='Edit this page';
 $_SESSION['l10n']['en']['Edit: %s']='Edit: %s';
 $_SESSION['l10n']['en']['Editors']='Editors';
-$_SESSION['l10n']['en']['Editors: %s']='Editors: %s';
 $_SESSION['l10n']['en']['afb7b68bf930c793832d36380219bfff']='Ensure this post is valid XHTML.';
 $_SESSION['l10n']['en']['22574ae3fe08b2cb5e911bab84f9ed13']='Enter nick names, or email addresses, separated by commas.';
 $_SESSION['l10n']['en']['fd674cf80651be8f2cc7d185d732b3ef']='Error while sending the message to %s';
@@ -169,6 +168,7 @@ $_SESSION['l10n']['en']['Lock']='Lock';
 $_SESSION['l10n']['en']['Locked']='Locked';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
+$_SESSION['l10n']['en']['Manage']='Manage';
 $_SESSION['l10n']['en']['Manage your watch list']='Manage your watch list';
 $_SESSION['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields are marked with a *';
 $_SESSION['l10n']['en']['5a9f3b330e478d3c950654fa94cf9897']='Mask the article to ordinary surfers after the %s';

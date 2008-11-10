@@ -53,10 +53,10 @@
  * @tester GnapZ
  * @tester Manuel López Gallego
  * @tester Eoin
- * @tester ThierryP
+ * @tester Thierry Pinelli (ThierryP)
  * @tester Agnes
  * @tester Macnana
- * @tester Lasares
+ * @tester Alain Lesage (Lasares)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

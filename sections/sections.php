@@ -1905,10 +1905,10 @@ Class Sections {
 		$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// turn author to page editor and update author's watch list
-		if(isset($fields['edit_id']) && $fields['edit_id']) {
-			Members::assign('user:'.$fields['edit_id'], 'section:'.$fields['id']);
-			Members::assign('section:'.$fields['id'], 'user:'.$fields['edit_id']);
-		}
+// 		if(isset($fields['edit_id']) && $fields['edit_id']) {
+// 			Members::assign('user:'.$fields['edit_id'], 'section:'.$fields['id']);
+// 			Members::assign('section:'.$fields['id'], 'user:'.$fields['edit_id']);
+// 		}
 
 		// clear the cache
 		Sections::clear($fields);

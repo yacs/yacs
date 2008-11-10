@@ -43,7 +43,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
- * @tester Lasares
+ * @tester Alain Lesage (Lasares)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -202,52 +202,57 @@ if(!isset($item['id'])) {
 	if(isset($item['icon_url']) && $item['icon_url'])
 		$context['page_image'] = $item['icon_url'];
 
-	// display the source, if any
-	if($item['source']) {
-		if(preg_match('/http:\/\/([^\s]+)/', $item['source'], $matches))
-			$item['source'] = Skin::build_link($matches[0], $matches[0], 'external');
-		else {
-			if($attributes = Links::transform_reference($item['source'])) {
-				list($link, $title, $description) = $attributes;
-				$item['source'] = Skin::build_link($link, $title);
+	// do not mention details to crawlers
+	if(!Surfer::is_crawler()) {
+
+		// display the source, if any, but only to authenticated surfers
+		if($item['source']) {
+			if(preg_match('/http:\/\/([^\s]+)/', $item['source'], $matches))
+				$item['source'] = Skin::build_link($matches[0], $matches[0], 'external');
+			else {
+				if($attributes = Links::transform_reference($item['source'])) {
+					list($link, $title, $description) = $attributes;
+					$item['source'] = Skin::build_link($link, $title);
+				}
 			}
+			$context['page_details'] .= '<p>'.sprintf(i18n::s('Source: %s'), $item['source'])."</p>\n";
 		}
-		$context['page_details'] .= '<p>'.sprintf(i18n::s('Source: %s'), $item['source'])."</p>\n";
+	
+		// all details
+		$context['page_details'] .= '<p class="details">';
+	
+		// warns associate, poster and editor if not active
+		if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()) || Surfer::is($item['create_id'])) {
+	
+			// restricted to logged members
+			if($item['active'] == 'R')
+				$context['page_details'] .= RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members').BR."\n";
+	
+			// restricted to associates
+			elseif($item['active'] == 'N')
+				$context['page_details'] .= PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates and editors').BR."\n";
+	
+		}
+	
+		$details = array();
+	
+		// information on upload
+		if(Surfer::is_logged())
+			$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+		else
+			$details[] = Skin::build_date($item['edit_date']);
+	
+		// all details
+		$context['page_details'] .= ucfirst(implode(', ', $details));
+	
+		// reference this item
+		if(Surfer::is_member())
+			$context['page_details'] .= BR.sprintf(i18n::s('Use following codes to reference this item: %s'), '[file='.$item['id'].'] or [download='.$item['id'].']');
+	
+		// end of details
+		$context['page_details'] .= '</p>';
+		
 	}
-
-	// all details
-	$context['page_details'] .= '<p class="details">';
-
-	// warns associate, poster and editor if not active
-	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()) || Surfer::is($item['create_id'])) {
-
-		// restricted to logged members
-		if($item['active'] == 'R')
-			$context['page_details'] .= RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members').BR."\n";
-
-		// restricted to associates
-		elseif($item['active'] == 'N')
-			$context['page_details'] .= PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates and editors').BR."\n";
-
-	}
-
-	$details = array();
-
-	// information on upload
-	if(Surfer::is_logged())
-		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
-	else
-		$details[] = Skin::build_date($item['edit_date']);
-
-	// all details
-	$context['page_details'] .= ucfirst(implode(', ', $details));
-
-	// reference this item
-	if(Surfer::is_member())
-		$context['page_details'] .= BR.sprintf(i18n::s('Use following codes to reference this item: %s'), '[file='.$item['id'].'] or [download='.$item['id'].']');
-
-	// end of details
-	$context['page_details'] .= '</p>';
 
 	// file details
 	$context['text'] .= '<p>';

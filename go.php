@@ -51,7 +51,7 @@
  * strictly equivalent to the Cisco's GO link.
  *
  * @author Bernard Paques
- * @tester ThierryP
+ * @tester Thierry Pinelli (ThierryP)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  *

@@ -2,10 +2,9 @@
 /**
  * move an article to another section
  *
- * The permission assessment is based upon following rules applied in the provided orders:
- * - the anchor is editable and the surfer has been authenticated
- * - the anchor is viewable and the target section is mentioned in behaviors of source section
- * - permission denied is the default
+ * Surfer is allowed to proceed only if he can edit the container of the target page.
+ *
+ * Also, the target section has to be mentioned in behaviour of the origin section.
  *
  * Accepted calls:
  * - move.php/article_id/target_section_id;
@@ -44,32 +43,13 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item);
 
-// maybe this anonymous surfer is allowed to handle this item
-if(isset($item['handle']) && Surfer::may_handle($item['handle']))
-	Surfer::empower();
-
-// editors can do what they want on items anchored here
-elseif(isset($item['id']) && Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_editable()))
+// authenticated editors can do what they want on items anchored here
+if(Surfer::is_logged() && is_object($anchor) && $anchor->is_editable())
 	Surfer::empower();
 
 // associates and editors can do what they want
 if(Surfer::is_empowered())
 	$permitted = TRUE;
-
-// surfer created the page and the page has not been published
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())
-	&& (!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) )
-	$permitted = TRUE;
-
-// surfer has created the published page and revisions are allowed
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())
-	&& isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)
-	&& (!isset($context['users_without_revision']) || ($context['users_without_revision'] != 'Y')) )
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
 
 // the default is to disallow access
 else

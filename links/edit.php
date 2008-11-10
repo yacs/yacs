@@ -385,7 +385,7 @@ if($with_form) {
 	if(!$anchor) {
 
 		// a splash message for new users
-		$context['text'] .= Skin::build_block(i18n::s('This script will add this page to one of the sections listed below. If you would like to add a link to an existing page, browse the target page instead and use the adequate command from the menu below page title.'), 'caution')."\n";
+		$context['text'] .= Skin::build_block(i18n::s('This script will add this page to one of the sections listed below. If you would like to add a link to an existing page, browse the target page instead and use the adequate command from the menu bar.'), 'caution')."\n";
 
 		$label = i18n::s('Section');
 		$input = '<select name="anchor">'.Sections::get_options(NULL, 'bookmarks').'</select>';

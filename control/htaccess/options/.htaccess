@@ -21,6 +21,7 @@ Options -Indexes
 
 	# actions
 	#
+	RewriteRule action-([a-zA-Z_]+)/([0-9]+)-([^/]+)$	actions/$1.php?id=$2&action=$3  [QSA,L]
 	RewriteRule action-([a-zA-Z_]+)/([0-9a-zA-Z:]+)$  actions/$1.php?id=$2	[QSA,L]
 	RewriteRule action-([0-9]+)$  actions/view.php?id=$1  [QSA,L]
 	RewriteRule actions/([0-9]+)$  actions/index.php?page=$1  [QSA,L]

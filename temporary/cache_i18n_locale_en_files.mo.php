@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 9, 2008, 11:21 pm GMT. Please do not modify it manually.
+ * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-10 00:21+0100
-PO-Revision-Date: 2008-11-02 23:17+0100
+POT-Creation-Date: 2008-11-10 16:04+0100
+PO-Revision-Date: 2008-11-10 16:57+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -200,7 +200,7 @@ $_SESSION['l10n']['en']['1776aecef24f2d097ff0f00b141bce7b']='This file has been 
 $_SESSION['l10n']['en']['100229cfe97b886f2e3cea81dbd9d1ec']='This file has been assigned to you %s, and you are encouraged to %s as soon as possible.';
 $_SESSION['l10n']['en']['2d4b92c7af8bc664500b7a0599619a30']='This file may be accessed on-demand. You may have to use an advanced media player such as %s (open source) or %s (free).';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
-$_SESSION['l10n']['en']['07a47d6b61cdd420b4cbd7ec824caf51']='This script will create a brand new page for the uploaded file. If you would like to attach a file to an existing page, browse the target page instead and use the adequate command from the menu below page title.';
+$_SESSION['l10n']['en']['dcab6f2f578808f42f61663a4f3beb9c']='This script will create a brand new page for the uploaded file. If you would like to attach a file to an existing page, browse the target page instead and use the adequate command from the menu bar.';
 $_SESSION['l10n']['en']['fb52e739654eb4d1981039c471bca260']='This type of file is not allowed.';
 $_SESSION['l10n']['en']['Thumbnail URL']='Thumbnail URL';
 $_SESSION['l10n']['en']['Title']='Title';

@@ -532,8 +532,8 @@ if(!isset($item['id'])) {
 	// set page details -- $context['page_details']
 	//
 
-	// do not mention details at follow-up pages
-	if(!$zoom_type) {
+	// do not mention details at follow-up pages, nor to crawlers
+	if(!$zoom_type && !Surfer::is_crawler()) {
 
 		// cache this component
 		$cache_id = 'sections/view.php?id='.$item['id'].'#page_details';
@@ -611,7 +611,7 @@ if(!isset($item['id'])) {
 			// section editors and readers
 			if(Surfer::is_empowered() && Surfer::is_logged()) {
 				if($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
-					$details[] = sprintf(i18n::s('Editors: %s'), Skin::build_list($items, 'comma'));
+					$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors')), Skin::build_list($items, 'comma'));
 
 				if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
 					$details[] = sprintf(i18n::s('Readers: %s'), Skin::build_list($items, 'comma'));

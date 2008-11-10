@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 9, 2008, 11:21 pm GMT. Please do not modify it manually.
+ * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-10 00:21+0100
-PO-Revision-Date: 2008-11-02 23:21+0100
+POT-Creation-Date: 2008-11-10 16:04+0100
+PO-Revision-Date: 2008-11-10 17:00+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -200,7 +200,7 @@ $_SESSION['l10n']['fr']['1776aecef24f2d097ff0f00b141bce7b']='Ce fichier a été 
 $_SESSION['l10n']['fr']['100229cfe97b886f2e3cea81dbd9d1ec']='Ce fichier vous a été assigné %s, et nous comptons sur vous pour %s dès que possible.';
 $_SESSION['l10n']['fr']['2d4b92c7af8bc664500b7a0599619a30']='Ce fichier est disponible à la demande. Pour cela, vous pourrez avoir besoin d\'un lecteur multimédia avancé tel que %s (logiciel libre) ou %s (gratuit).';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
-$_SESSION['l10n']['fr']['07a47d6b61cdd420b4cbd7ec824caf51']='Ce script va créer une nouvelle page pour le fichier transmis. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc sous le titre de page.';
+$_SESSION['l10n']['fr']['dcab6f2f578808f42f61663a4f3beb9c']='Ce script va créer une nouvelle page pour le fichier transmis. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc dans la barre de menu.';
 $_SESSION['l10n']['fr']['fb52e739654eb4d1981039c471bca260']='Ce type de fichier n\'est pas autorisé.';
 $_SESSION['l10n']['fr']['Thumbnail URL']='Adresse web de la vignette';
 $_SESSION['l10n']['fr']['Title']='Titre';

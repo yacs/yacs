@@ -1234,6 +1234,41 @@ Class Members {
 	}
 
 	/**
+	 * get some statistics for users linked to one member
+	 *
+	 * Only users matching following criteria are returned:
+	 * - user is visible (active='Y')
+	 * - user is restricted (active='R'), but surfer is a logged user
+	 * - user is restricted (active='N'), but surfer is an associate
+	 *
+	 * @param the selected member (e.g., 'category:12')
+	 * @return the resulting ($count, $min_date, $max_date) array
+	 *
+	 * @see sections/view_as_tabs.php
+	 */
+	function &stat_users_for_member($member) {
+		global $context;
+
+		// limit the scope of the request
+		$where = "users.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR users.active='R'";
+		if(Surfer::is_associate())
+			$where .= " OR users.active='N'";
+
+		// select among available items
+		$query = "SELECT COUNT(*) as count, MIN(users.edit_date) as oldest_date, MAX(users.edit_date) as newest_date"
+			." FROM ".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('users')." AS users"
+			." WHERE (members.member LIKE '".SQL::escape($member)."')"
+			."	AND (members.anchor LIKE 'user:%')"
+			."	AND (users.id = SUBSTRING(members.anchor, 6))"
+			."	AND (".$where.")";
+		$output =& SQL::query_first($query);
+		return $output;
+	}
+
+	/**
 	 * toggle a membership
 	 *
 	 * The father parameter is used to specialize a membership to a sub-category.

@@ -26,7 +26,7 @@
  * @tester Pierre Robert
  * @tester Anatoly
  * @tester NickR
- * @tester ThierryP
+ * @tester Thierry Pinelli (ThierryP)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

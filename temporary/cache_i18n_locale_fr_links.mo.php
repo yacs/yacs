@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 9, 2008, 11:21 pm GMT. Please do not modify it manually.
+ * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-04 23:32+0100
-PO-Revision-Date: 2008-08-01 11:55+0100
-Last-Translator: Paques, Bernard
+POT-Creation-Date: 2008-11-10 16:04+0100
+PO-Revision-Date: 2008-11-10 17:01+0100
+Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -97,7 +97,7 @@ $_SESSION['l10n']['fr']['bb76e300225d0626f317e27811fb1737']='L\'adresse distante
 $_SESSION['l10n']['fr']['The title of your page']='Le titre de votre page';
 $_SESSION['l10n']['fr']['18d140b9af759b4ec502696d7172360b']='Champ optionnel.';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
-$_SESSION['l10n']['fr']['f364ad5c7d1934593c535e55ef0abd9f']='Ce scritp va ajouter un nouveau lien à l\'une des sections ci-dessous. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc sous le titre de page.';
+$_SESSION['l10n']['fr']['c7630d058107f3f2d2e0d13c96c80ef2']='Ce scritp va ajouter un nouveau lien à l\'une des sections ci-dessous. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc dans la barre de menu.';
 $_SESSION['l10n']['fr']['7d3b8663e49511737554c31b7e3bebdd']='Ce serveur respecte la %s telle qu\'annoncée par Ben et Mena Trott. A ce sujet, veuillez noter que tout serveur %s utilise le trackback pour référencer jusqu\'à sept liens lors de la publication d\'un article.';
 $_SESSION['l10n']['fr']['a3dec8fa1135b7cdbc8b08e8958d4e03']='Ce qui apparaît près du lien lorsque la souris est placée au-dessus';
 $_SESSION['l10n']['fr']['Title']='Titre';

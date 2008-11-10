@@ -220,8 +220,8 @@ if(!isset($item['id'])) {
 	// set page details -- $context['page_details']
 	//
 
-	// do not mention details at follow-up pages
-	if(!$zoom_type) {
+	// do not mention details at follow-up pages, nor to crawlers
+	if(!$zoom_type && !Surfer::is_crawler()) {
 
 		// cache this component
 		$cache_id = 'sections/view.php?id='.$item['id'].'#page_details';
@@ -1188,11 +1188,15 @@ if(!isset($item['id'])) {
 			$box = array('bar' => array(), 'text' => '');
 
 			// count the number of users
-			$stats = Members::stat_users_for_anchor('section:'.$item['id']);
+			$stats = Members::stat_users_for_member('section:'.$item['id']);
 
 			// send a message to a section
 			if(($stats['count'] > 1) && Surfer::is_empowered() && Surfer::is_logged())
 				$box['bar'] = array_merge($box['bar'], array(Sections::get_url($item['id'], 'mail') => i18n::s('Send a message')));
+
+			// assign command provided to associates and authenticated editors
+			if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))
+				$box['bar'] = array_merge($box['bar'], array(Users::get_url('section:'.$item['id'], 'select') => i18n::s('Manage')));
 
 			// spread the list over several pages
 			if($stats['count'] > USERS_LIST_SIZE)
@@ -1209,13 +1213,11 @@ if(!isset($item['id'])) {
 			$items =& Members::list_editors_by_name_for_member('section:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch');
 
 			// actually render the html
-			if(is_array($box['bar']))
-				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 			if(is_array($items))
 				$box['text'] .= Skin::build_list($items, 'decorated');
 			elseif(is_string($items))
 				$box['text'] .= $items;
-			if(is_array($box['bar']) && (($stats['count'] - $offset) > 5))
+			if(is_array($box['bar']))
 				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 			if($box['text'])
 				$text =$box['text'];

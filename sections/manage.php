@@ -40,6 +40,7 @@
  *
  * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @tester Alain Lesage (Lasares)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -287,6 +288,7 @@ if(Surfer::is_crawler()) {
 	// articles
 	elseif(isset($_REQUEST['selected_articles'])) {
 
+		// do the action, and clear the cache
 		$count = 0;
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 			if(!$error = Members::assign($_REQUEST['associate_to'], 'article:'.$id))
@@ -308,6 +310,7 @@ if(Surfer::is_crawler()) {
 	// sections
 	} elseif(isset($_REQUEST['selected_sections'])) {
 
+		// do it, and clear the cache
 		$count = 0;
 		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 			if(!$error = Members::assign($_REQUEST['associate_to'], 'section:'.$id))
@@ -396,6 +399,9 @@ if(Surfer::is_crawler()) {
 				$count++;
 		}
 
+		// clear the cache for this section
+		Sections::clear($item);
+		
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been deleted.', '%d pages have been deleted.', $count), $count).'</p>';
 
@@ -416,6 +422,9 @@ if(Surfer::is_crawler()) {
 				$count++;
 		}
 
+		// clear the cache for this section
+		Sections::clear($item);
+		
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been deleted.', '%d pages have been deleted.', $count), $count).'</p>';
 
@@ -452,6 +461,9 @@ if(Surfer::is_crawler()) {
 			}
 		}
 
+		// clear the cache for this section
+		Sections::clear($item);
+		
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been changed to draft mode.', '%d pages have been changed to draft mode.', $count), $count).'</p>';
 
@@ -670,6 +682,9 @@ if(Surfer::is_crawler()) {
 			}
 		}
 
+		// clear the cache for this section
+		Sections::clear($item);
+		
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been locked.', '%d pages have been locked.', $count), $count).'</p>';
 
@@ -707,6 +722,9 @@ if(Surfer::is_crawler()) {
 			}
 		}
 
+		// clear the cache for this section
+		Sections::clear($item);
+		
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been locked.', '%d pages have been locked.', $count), $count).'</p>';
 
@@ -794,13 +812,13 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_articles'] as $dummy => $id) {
 			$attributes = array();
 			$attributes['id'] = $id;
-			$attributes['anchor'] = $_REQUEST['move_to'];
+			$attributes['anchor'] = $destination->get_reference();
 			if(Articles::put_attributes($attributes))
 				$count++;
 		}
 
-		// clear cache for origin container
-		Sections::clear($item);
+		// clear cache for origin and destination containers
+		Cache::clear(array($item, $destination->get_reference()));
 
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been moved to %s.', '%d pages have been moved to %s.', $count),
@@ -821,13 +839,13 @@ if(Surfer::is_crawler()) {
 		foreach($_REQUEST['selected_sections'] as $dummy => $id) {
 			$attributes = array();
 			$attributes['id'] = $id;
-			$attributes['anchor'] = $_REQUEST['move_to'];
+			$attributes['anchor'] = $destination->get_reference();
 			if(Sections::put_attributes($attributes))
 				$count++;
 		}
 
-		// clear cache for origin container
-		Sections::clear($item);
+		// clear cache for origin and destination containers
+		Cache::clear(array($item, $destination->get_reference()));
 
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been moved to %s.', '%d pages have been moved to %s.', $count),
@@ -862,6 +880,9 @@ if(Surfer::is_crawler()) {
 
 			}
 		}
+
+		// clear cache for containing section
+		Sections::clear($item);
 
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been published.', '%d pages have been published.', $count), $count).'</p>';
@@ -902,6 +923,9 @@ if(Surfer::is_crawler()) {
 		}
 	}
 
+	// clear cache for containing section
+	Sections::clear($item);
+
 	// report on results
 	$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been updated.', '%d pages have been updated.', $count), $count).'</p>';
 
@@ -934,6 +958,9 @@ if(Surfer::is_crawler()) {
 
 			}
 		}
+
+		// clear cache for containing section
+		Sections::clear($item);
 
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been unlocked.', '%d pages have been unlocked.', $count), $count).'</p>';
@@ -971,6 +998,9 @@ if(Surfer::is_crawler()) {
 
 			}
 		}
+
+		// clear cache for containing section
+		Sections::clear($item);
 
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been unlocked.', '%d pages have been unlocked.', $count), $count).'</p>';

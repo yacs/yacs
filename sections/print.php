@@ -120,7 +120,7 @@ if(Surfer::is_crawler()) {
 	// section editors
 	if(Surfer::is_empowered() && Surfer::is_member()) {
 		if($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
-			$details[] = sprintf(i18n::s('Editors: %s'), Skin::build_list($items, 'comma'));
+			$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Editors'), Skin::build_list($items, 'comma'));
 
 		if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
 			$details[] = sprintf(i18n::s('Readers: %s'), Skin::build_list($items, 'comma'));

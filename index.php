@@ -230,8 +230,8 @@
  * @tester Anatoly
  * @tester Timster
  * @tester Mordread Wallas
- * @tester ThierryP
- * @tester Lasares
+ * @tester Thierry Pinelli (ThierryP)
+ * @tester Alain Lesage (Lasares)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

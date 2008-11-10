@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 9, 2008, 11:21 pm GMT. Please do not modify it manually.
+ * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-04 23:32+0100
+POT-Creation-Date: 2008-11-10 16:51+0100
 PO-Revision-Date: 2008-11-02 23:23+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -167,7 +167,6 @@ $_SESSION['l10n']['fr']['Edit this page']='Modifier cette page';
 $_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['Editors']='Editeurs';
 $_SESSION['l10n']['fr']['6c49f41e1b81e6ebcbfec6b6ff006c47']='Les pages peuvent être supprimées par les éditeurs';
-$_SESSION['l10n']['fr']['Editors: %s']='Editeurs : %s';
 $_SESSION['l10n']['fr']['End of the presentation']='fin de la présentation';
 $_SESSION['l10n']['fr']['afb7b68bf930c793832d36380219bfff']='Vérifier que le contenu est du XHTML valide.';
 $_SESSION['l10n']['fr']['Error while processing %s.']='Erreur pendant le traitement de %s.';

@@ -209,7 +209,7 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="root_sections_layout" value="menu"';
 	if($context['root_sections_layout'] == 'menu')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('menu - List sections in the menu bar, right below page title.')
+	$input .= '/> '.i18n::s('menu - List sections in the menu bar.')
 		.BR.'<input type="radio" name="root_sections_layout" value="decorated"';
 	if($context['root_sections_layout'] == 'decorated')
 		$input .= ' checked="checked"';

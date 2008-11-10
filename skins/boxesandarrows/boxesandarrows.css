@@ -627,7 +627,7 @@ p#header_title  a { /* a link to the home page */
 	height: 0px;
 }
 
-p#page_menu { /* an horizontal menu of commands below page title -- see template script */
+p#page_menu { /* an horizontal menu of commands */
 	display: inline; /* we are part of a div.dotted */
 	margin: 0 0 8px 0;
 	font-family: sans-serif;

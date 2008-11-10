@@ -134,7 +134,7 @@
  * @tester NickR
  * @tester Lucrecius
  * @tester Jan Boen
- * @tester ThierryP
+ * @tester Thierry Pinelli (ThierryP)
  * @tester Canardo69
  * @tester Vincent
  * @reference

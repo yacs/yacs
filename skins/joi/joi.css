@@ -635,7 +635,7 @@ dl#news hr { /* simple rule between items */
 	height: 0px;
 }
 
-p#page_menu { /* an horizontal menu of commands below page title -- see template script */
+p#page_menu { /* an horizontal menu of commands -- see template script */
 	font-family: sans-serif;
 	font-size: 7pt; /* we accept IE don't resize */
 	font-weight: normal;
@@ -1380,7 +1380,7 @@ dl.manual_comments dt.even {
 .menu_bar { /* an horizontal menu of commands, below a section title */
 	clear: left;
 	font-family: sans-serif;
-	font-size: 7pt; /* we accept IE don't resize */
+	font-size: 1em;
 	font-weight: normal;
 	margin: 4px 0 10px 0;
 	padding: 0;
