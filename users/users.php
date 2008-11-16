@@ -1159,6 +1159,9 @@ Class Users {
 			Logger::error(i18n::s('Please indicate a nick name.'));
 			return FALSE;
 		}
+		
+		// some weird users put spaces around
+		$fields['nick_name'] = trim($fields['nick_name']);
 
 		// names used on shadow records are quite long (eg, tom@foo.bar.com)
 		if(preg_match('/^(.+)@(.+)$/', $fields['nick_name'], $matches)) {
@@ -1428,6 +1431,9 @@ Class Users {
 				return FALSE;
 			}
 
+			// some weird users put spaces around
+			$fields['nick_name'] = trim($fields['nick_name']);
+	
 			// nick_name may be already used
 			if(($used =& Users::get($fields['nick_name'])) && ($used['id'] != $fields['id'])) {
 				Logger::error(i18n::s('Another member already has this nick name. Please select a different one.'));

@@ -930,12 +930,12 @@ var Yacs = {
 		var handle = document.getElementById(id);
 
 		// on first sort set up an array of reverse sort flags
-		if (handle.reverseSort === null) {
+		if(!handle.reverseSort || (handle.reverseSort === null)) {
 			handle.reverseSort = [];
 		}
 
-		// set the initial sort direction.
-		if (handle.reverseSort[column] === null) {
+		// set the initial sort direction
+		if(!handle.reverseSort[column] || (handle.reverseSort[column] === null)) {
 			handle.reverseSort[column] = rev;
 		}
 

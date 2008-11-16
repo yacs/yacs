@@ -76,7 +76,7 @@ elseif(!Surfer::is_associate()) {
 
 	// warning if modification of some reference skin
 	if(isset($_REQUEST['content']) && $_REQUEST['content'] && preg_match('/^(boxesandarrows|digital|joi|skeleton)$/', $skin))
-		Logger::error(sprintf(i18n::s('Do not attempt to modify a reference skin directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('Derive a skin'), 'shortcut')));
+		Logger::error(sprintf(i18n::s('Do not attempt to modify a reference theme directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('Derive a theme'), 'shortcut')));
 
 	// backup the old version, if any
 	Safe::unlink($context['path_to_root'].'skins/'.$skin.'/'.$file.'.bak');
@@ -108,7 +108,7 @@ elseif(!Surfer::is_associate()) {
 	// allow to edit another skin
 	$context['text'] .= '<form method="get" action="'.$context['script_url'].'"><p>';
 
-	$context['text'] .= i18n::s('Select a skin').' <select name="skin">';
+	$context['text'] .= i18n::s('Select a theme').' <select name="skin">';
 	if ($dir = Safe::opendir("../skins")) {
 
 		// valid skins have a template.php

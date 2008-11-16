@@ -3,18 +3,18 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
+ * on November 16, 2008, 9:55 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['fr']['']='Project-Id-Version: Yacs 7.1 behaviors
+$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: Yacs
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2008-11-10 16:04+0100
-PO-Revision-Date: 2008-07-07 19:05+0100
-Last-Translator: Paques, Bernard
+PO-Revision-Date: 2008-11-16 21:49+0100
+Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Plural-Forms: nplurals=2; plural=(n>1);
+Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: French
 X-Poedit-Country: FRANCE
 X-Poedit-SourceCharset: utf-8
@@ -38,5 +38,5 @@ $_SESSION['l10n']['fr']['Yes']='Oui';
 $_SESSION['l10n']['fr']['3487ae0aa6ed0bdd7ecc67de9093cd40']='Votre accord a été enregistré.';
 $_SESSION['l10n']['fr']['c01e1a3fe47daac09949712b6af2ec93']='Votre accord est nécessaire pour accèder à la page désirée.';
 $_SESSION['l10n']['fr']['site map']='carte du site';
-$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n>1);';
+$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

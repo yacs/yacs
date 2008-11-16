@@ -74,6 +74,7 @@
  * @tester Manuel López Gallego
  * @tester J&eacute;r&ocirc;me Douill&eacute;
  * @tester Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @tester Mathieu Favez
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -370,7 +371,7 @@ if($with_form) {
 	if(isset($item['full_name']) && $item['full_name']) {
 		$label = i18n::s('Full name');
 		$input = '<input type="text" name="full_name" id="full_name" size="50" value="'.encode_field($item['full_name']).'" />';
-		$hint = i18n::s('Last name followed by other names you may have');
+		$hint = i18n::s('First names followed by last names');
 		$fields[] = array($label, $input, $hint);
 	} else {
 		$label = i18n::s('First name(s)');

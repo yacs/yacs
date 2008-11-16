@@ -62,7 +62,7 @@ Class Surfer {
 			$_SESSION['surfer_handles'][] = $handle;
 
 	}
-
+	
 	/**
 	 * list sections assigned to this surfer
 	 *

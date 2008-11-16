@@ -1161,7 +1161,7 @@ Class i18n {
 			// read original string
 			fseek($handle, $original_table[$index * 2 + 2]);
 			if(!$length = $original_table[$index * 2 + 1])
-				$original = '';
+				$original = '_headers';
 			else
 				$original = fread($handle, $length);
 
@@ -1194,7 +1194,7 @@ Class i18n {
 		fclose($handle);
 
 		// look for plural string
-		if(preg_match('/plural-forms: ([^\n]*)\n/i', $_SESSION['l10n'][$language][''], $matches) && strcmp($matches[1], 'nplurals=INTEGER; plural=EXPRESSION;'))
+		if(preg_match('/plural-forms: ([^\n]*)\n/i', $_SESSION['l10n'][$language]['_headers'], $matches) && strcmp($matches[1], 'nplurals=INTEGER; plural=EXPRESSION;'))
 			$plural = $matches[1];
 		else
 			$plural = 'nplurals=2; plural=(n != 1)';

@@ -47,7 +47,15 @@ class Mutable extends Overlay {
 		// item identifier
 		if(!isset($this->attributes['overlay_id']))
 			$this->attributes['overlay_id'] = '';
-		$input = '<input type="text" name="overlay_id" value="'.encode_field($this->attributes['overlay_id']).'" />';
+			
+		// only associates can change the overlay id
+		if(Surfer::is_associate()) { // isset($host['anchor']) && ($parent =&  Anchors::get($host['anchor'])) && $parent->is_editable()) {
+			$label = i18n::s('Overlay identifier');
+			$input = '<input type="text" name="overlay_id" value="'.encode_field($this->attributes['overlay_id']).'" />';
+		} else {
+			$label = 'hidden';
+			$input = '<input type="hidden" name="overlay_id" value="'.encode_field($this->attributes['overlay_id']).'" />';
+		}
 
 		// hidden attributes
 		foreach($this->attributes as $name => $value) {
@@ -56,7 +64,7 @@ class Mutable extends Overlay {
 		}
 
 		// we do have something to preserve
-		$fields[] = array(i18n::s('Overlay identifier'), $input);
+		$fields[] = array($label, $input);
 
 		// job done
 		return $fields;
@@ -96,7 +104,7 @@ class Mutable extends Overlay {
 		// display main content, if any
 		$text = '';
 		if(isset($this->attributes['trailer_content']))
-			$text = $this->attributes['trailer_content'];
+			$text =& Codes::beautify($this->attributes['trailer_content']);
 
 		return $text;
 
@@ -116,7 +124,7 @@ class Mutable extends Overlay {
 		// display main content, if any
 		$text = '';
 		if(isset($this->attributes['view_content']))
-			$text = $this->attributes['view_content'];
+			$text =& Codes::beautify($this->attributes['view_content']);
 
 		return $text;
 

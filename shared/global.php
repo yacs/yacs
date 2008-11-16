@@ -891,7 +891,7 @@ function render_skin($stamp=0) {
 					$text =& Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'main_menu');
 				Cache::put($cache_id, $text, 'articles');
 			}
-			$context['aside']['user'] = $text;
+			$context['aside']['menu'] = $text;
 		}
 				
 		// navigation - navigation boxes

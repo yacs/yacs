@@ -3,18 +3,18 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
+ * on November 16, 2008, 9:55 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2008-11-10 16:04+0100
-PO-Revision-Date: 2008-11-10 17:01+0100
+PO-Revision-Date: 2008-11-16 21:55+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Plural-Forms: nplurals=2; plural=(n > 1);
+Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Country: FRANCE
 X-Poedit-SourceCharset: utf-8
 X-Poedit-Language: French
@@ -305,5 +305,5 @@ $_SESSION['l10n']['fr']['user profile']='profil utilisateur';
 $_SESSION['l10n']['fr']['51abe58991b363939dc9ec19dabd19f6']='www.yetanothercommunitysystem.com';
 $_SESSION['l10n']['fr']['yabb - A discussion forum']='yabb - Un forum de discussion';
 $_SESSION['l10n']['fr']['zip']='zip';
-$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n > 1);';
+$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

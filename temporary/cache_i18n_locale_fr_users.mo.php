@@ -3,18 +3,18 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
+ * on November 16, 2008, 9:55 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-10 16:04+0100
-PO-Revision-Date: 2008-11-02 23:28+0100
+POT-Creation-Date: 2008-11-16 21:07+0100
+PO-Revision-Date: 2008-11-16 21:58+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Plural-Forms: nplurals=2; plural=(n > 1);
+Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: French
 X-Poedit-Country: FRANCE
 X-Poedit-SourceCharset: utf-8
@@ -161,6 +161,7 @@ $_SESSION['l10n']['fr']['Failed authentication']='Erreur d\'authentification';
 $_SESSION['l10n']['fr']['Files']='Fichiers';
 $_SESSION['l10n']['fr']['2e3a5a5400dcb9378c4c32a61a21989b']='Les fichiers peuvent être modifiés seulement par leurs auteurs, plus les associés et les éditeurs.';
 $_SESSION['l10n']['fr']['First name(s)']='Prénom(s)';
+$_SESSION['l10n']['fr']['1169885c9e3a40bebae7aeb820ae460e']='Prénom suivi du nom de famille';
 $_SESSION['l10n']['fr']['c4ee000af107ab80885b2ac1b34a715b']='Les éléments suivants vont aussi être supprimés.';
 $_SESSION['l10n']['fr']['77e189517520ef55c530da2fd2835384']='Par exemple, pour utiliser l\'uathentificateur <code>foo</code>, placez ce mot-clé dans le %s.';
 $_SESSION['l10n']['fr']['f4b772fbe3570851c2d16880d8e6e38f']='Pour la sécurité de nos utilisateurs, votre requête doit mentionner l\'adresse électronique indiquée dans votre fiche lors de sa création. Si cette adresse n\'est plus valide, alors enregistrez-vous de nouveau. Les comptes inutilisés sont purgés périodiquement.';
@@ -212,7 +213,6 @@ $_SESSION['l10n']['fr']['Jabber']='Jabber';
 $_SESSION['l10n']['fr']['LDAP %s: bad value \'%s\'.']='LDAP %s : valeur incorrecte \'%s\'.';
 $_SESSION['l10n']['fr']['Language']='Langue';
 $_SESSION['l10n']['fr']['Last login']='Dernière visite';
-$_SESSION['l10n']['fr']['4e55e2fab3531c7a021de1cf17e71ff7']='Nom de famille suivi de vos prénoms';
 $_SESSION['l10n']['fr']['Last name(s)']='Nom de famille';
 $_SESSION['l10n']['fr']['Links']='Liens';
 $_SESSION['l10n']['fr']['0b8cd519dd337044da7ac8644d610983']='Lister les balises HTML permises aux membres.';
@@ -483,5 +483,5 @@ $_SESSION['l10n']['fr']['smileys']='emoticons';
 $_SESSION['l10n']['fr']['unassign']='retirer';
 $_SESSION['l10n']['fr']['upload your own avatar']='envoyer votre avatar';
 $_SESSION['l10n']['fr']['would like to use it']='voudrait l\'utiliser';
-$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n > 1);';
+$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

@@ -656,7 +656,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				$commands[] = sprintf(i18n::s('%s - learn about your visitors'), Skin::build_link('agents/', i18n::s('Background processing'), 'basic'));
 
 			// insert commands
-			$text .= Skin::build_box(i18n::s('Content Management'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'header1', 'content_management');
+			$text .= Skin::build_box(i18n::s('Content management'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'header1', 'content_management');
 
 			// members can use additional tools
 			if(Surfer::is_member()) {
@@ -793,43 +793,6 @@ if(!file_exists('../parameters/control.include.php')) {
 			//
 			$text = '';
 
-			// commands for associates -- complex command
-			if(Surfer::is_associate() && Surfer::has_all()) {
-
-				$commands = array();
-
-				$commands[] = sprintf(i18n::s('%s - the safety tool; also useful to submit bulk SQL statements'), '<a href="backup.php">'.i18n::s('Backup/Restore').'</a>');
-
-				$commands[] = sprintf(i18n::s('%s - check the database structure; also optimize data tables and update index'), '<a href="setup.php">'.i18n::s('Database maintenance').'</a>');
-
-				$commands[] = sprintf(i18n::s('%s - clear the cache or delete what can be safely deleted'), '<a href="purge.php">'.i18n::s('Purge').'</a>');
-
-				$commands[] = sprintf(i18n::s('%s - shut the server down, or fire it up again'), '<a href="switch.php">'.i18n::s('Switch').'</a>');
-
-				// signal scripts to run once, if any
-				if(Safe::glob($context['path_to_root'].'scripts/run_once/*.php') !== FALSE) {
-					$commands[] = sprintf(i18n::s('%s - some upgrades are waiting for execution'), '<a href="../scripts/run_once.php">'.i18n::s('Run once').'</a>');
-				}
-
-				// refresh if there is a reference repository
-				if(file_exists($context['path_to_root'].'scripts/reference/footprints.php')) {
-					$commands[] = sprintf(i18n::s('%s - this server shares a reference store for remote updates'), '<a href="../scripts/">'.i18n::s('Server software').'</a>');
-
-				// upgrade if there is no reference repository
-				} else
-					$commands[] = sprintf(i18n::s('%s - check for software updates'), '<a href="../scripts/">'.i18n::s('Server software').'</a>');
-
-				$commands[] = sprintf(i18n::s('%s - review and setup YACS hooking pieces of software'), '<a href="scan.php">'.i18n::s('Extensions').'</a>');
-
-				$commands[] = sprintf(i18n::s('%s - change permissions of script files'), '<a href="chmod.php">'.i18n::s('Permissions').'</a>');
-
-				$commands[] = sprintf(i18n::s('%s - compress Javascript files'), '<a href="jsmin.php">'.i18n::s('JSmin').'</a>');
-
-				// insert commands
-				$text .= Skin::build_box(i18n::s('System Management'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'header1', 'system_management');
-
-			}
-
 			// display a system overview if not a crawler
 			if(!Surfer::is_crawler()) {
 
@@ -895,15 +858,52 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			}
 
-			// more information to associates
+			// available commands for system management
 			$commands = array();
+
+			// more information to associates
 			if(Surfer::is_associate()) {
-				$commands[] = sprintf(i18n::s('%s - operation summary'), '<a href="../agents/">'.i18n::s('Background processing').'</a>');
-				$commands[] = sprintf(i18n::s('%s - check styles used by YACS'), '<a href="../skins/test.php">'.i18n::s('Skin test page').'</a>');
 				$commands[] = sprintf(i18n::s('%s - phpinfo() and more'), '<a href="info.php">'.i18n::s('Run-time information').'</a>');
+				$commands[] = sprintf(i18n::s('%s - operation summary'), '<a href="../agents/">'.i18n::s('Background processing').'</a>');
 			}
-			$commands[] = sprintf(i18n::s('%s - validate browser and server behaviors'), '<a href="test.php">'.i18n::s('System test page').'</a>');
-			$text .= Skin::build_box(i18n::s('More information'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'header1', 'more_information');
+
+			// commands for associates -- complex command
+			if(Surfer::is_associate() && Surfer::has_all()) {
+
+				$commands[] = sprintf(i18n::s('%s - the safety tool; also useful to submit bulk SQL statements'), '<a href="backup.php">'.i18n::s('Backup/Restore').'</a>');
+
+				$commands[] = sprintf(i18n::s('%s - check the database structure; also optimize data tables and update index'), '<a href="setup.php">'.i18n::s('Database maintenance').'</a>');
+
+				$commands[] = sprintf(i18n::s('%s - clear the cache or delete what can be safely deleted'), '<a href="purge.php">'.i18n::s('Purge').'</a>');
+
+				$commands[] = sprintf(i18n::s('%s - shut the server down, or fire it up again'), '<a href="switch.php">'.i18n::s('Switch').'</a>');
+
+				// signal scripts to run once, if any
+				if(Safe::glob($context['path_to_root'].'scripts/run_once/*.php') !== FALSE) {
+					$commands[] = sprintf(i18n::s('%s - some upgrades are waiting for execution'), '<a href="../scripts/run_once.php">'.i18n::s('Run once').'</a>');
+				}
+
+				// refresh if there is a reference repository
+				if(file_exists($context['path_to_root'].'scripts/reference/footprints.php')) {
+					$commands[] = sprintf(i18n::s('%s - this server shares a reference store for remote updates'), '<a href="../scripts/">'.i18n::s('Server software').'</a>');
+
+				// upgrade if there is no reference repository
+				} else
+					$commands[] = sprintf(i18n::s('%s - check for software updates'), '<a href="../scripts/">'.i18n::s('Server software').'</a>');
+
+				$commands[] = sprintf(i18n::s('%s - review and setup YACS hooking pieces of software'), '<a href="scan.php">'.i18n::s('Extensions').'</a>');
+
+				$commands[] = sprintf(i18n::s('%s - change permissions of script files'), '<a href="chmod.php">'.i18n::s('Permissions').'</a>');
+
+				$commands[] = sprintf(i18n::s('%s - compress Javascript files'), '<a href="jsmin.php">'.i18n::s('JSmin').'</a>');
+
+				$commands[] = sprintf(i18n::s('%s - other interesting stuff'), '<a href="../tools/">'.i18n::s('Tools').'</a>');
+
+			}
+
+			// insert commands
+			if(count($commands))
+				$text .= Skin::build_box(i18n::s('System management'), '<ul><li>'.join('</li><li>', $commands).'</li></ul>', 'header1', 'system_management');
 
 			// build another tab
 			if($text)

@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
+ * on November 16, 2008, 9:55 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+$_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-10 00:21+0100
-PO-Revision-Date: 2008-10-31 22:05+0100
+POT-Creation-Date: 2008-11-16 22:26+0100
+PO-Revision-Date: 2008-11-16 22:28+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -81,7 +81,7 @@ $_SESSION['l10n']['en']['Copyright']='Copyright';
 $_SESSION['l10n']['en']['03ce04dabde98f8a4b0f57a290f45a1d']='Creating the directory for the new skin %s...';
 $_SESSION['l10n']['en']['Daily calendar']='Daily calendar';
 $_SESSION['l10n']['en']['90bfe28804835ffbdaf979b8bcd0cce9']='Derive a new skin from an existing one';
-$_SESSION['l10n']['en']['Derive a skin']='Derive a skin';
+$_SESSION['l10n']['en']['Derive a theme']='Derive a theme';
 $_SESSION['l10n']['en']['Derive this theme']='Derive this theme';
 $_SESSION['l10n']['en']['dd2793302dfbca76ddfa5ac889ac45aa']='Details are displayed only in sections with option \'with_details\'';
 $_SESSION['l10n']['en']['Details visibility:']='Details visibility:';
@@ -89,7 +89,7 @@ $_SESSION['l10n']['en']['Discuss']='Discuss';
 $_SESSION['l10n']['en']['1a1ba79db684ae33904023983669e8bd']='Display detailed information (author, date, ...) on all pages';
 $_SESSION['l10n']['en']['baa9d790a8207a9b0484fb42958c4f86']='Display export tools on all pages';
 $_SESSION['l10n']['en']['Display referrals:']='Display referrals:';
-$_SESSION['l10n']['en']['9c833b40a1875ef7593c8865c812d372']='Do not attempt to modify a reference skin directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.';
+$_SESSION['l10n']['en']['a89b4c84880e8bda201cb11bf755f594']='Do not attempt to modify a reference theme directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.';
 $_SESSION['l10n']['en']['Do not display this item.']='Do not display this item.';
 $_SESSION['l10n']['en']['d97c62965b0ceb848500786010a8d06a']='Do not offer links to get Freemind maps';
 $_SESSION['l10n']['en']['Download']='Download';
@@ -123,7 +123,7 @@ $_SESSION['l10n']['en']['Head']='Head';
 $_SESSION['l10n']['en']['Height: %s']='Height: %s';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Home']='Home';
-$_SESSION['l10n']['en']['How to get a skin?']='How to get a skin?';
+$_SESSION['l10n']['en']['How to get a theme?']='How to get a theme?';
 $_SESSION['l10n']['en']['Icon']='Icon';
 $_SESSION['l10n']['en']['212786e329e0d4338b0da314b5c38e77']='If AOL Instant Messenger has been installed, click to open a session';
 $_SESSION['l10n']['en']['b262d1776765ac6ce21594ad0de108f9']='If ICQ has been installed, click to open a session';
@@ -208,7 +208,7 @@ $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['Sections around, if any']='Sections around, if any';
 $_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['See server profile']='See server profile';
-$_SESSION['l10n']['en']['Select a skin']='Select a skin';
+$_SESSION['l10n']['en']['Select a theme']='Select a theme';
 $_SESSION['l10n']['en']['57c4e35328db5b95afd3a49c16072cca']='Select the archive file that you want to install remotely.';
 $_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
 $_SESSION['l10n']['en']['Send a message']='Send a message';
@@ -261,18 +261,18 @@ $_SESSION['l10n']['en']['7492243287d3faab7bab5792c4945c0c']='This is the list of
 $_SESSION['l10n']['en']['This item has been updated']='This item has been updated';
 $_SESSION['l10n']['en']['c0f71f9198ac29742788b3ccf318c4be']='This item is a draft, and is not publicly visible';
 $_SESSION['l10n']['en']['This item is new']='This item is new';
-$_SESSION['l10n']['en']['23c18a6b53f84d967ae99d38e7a99c87']='This script allows you to install or update a skin package to your YACS server.';
+$_SESSION['l10n']['en']['d6b075de74bfd8969ee12b01b2e30a70']='This script allows you to install or update a theme for your YACS server.';
 $_SESSION['l10n']['en']['732264ed4e4dab9d8000a44832895dc1']='This tag line will be repeated at a number of pages';
 $_SESSION['l10n']['en']['Thumbnail caption']='Thumbnail caption';
 $_SESSION['l10n']['en']['Thumbnail height']='Thumbnail height';
 $_SESSION['l10n']['en']['Thumbnail threshold']='Thumbnail threshold';
 $_SESSION['l10n']['en']['Thumbnail width']='Thumbnail width';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
-$_SESSION['l10n']['en']['a4990f68e61da04973e58fab8a290d0d']='To check or change your avatar, go to the %s.';
+$_SESSION['l10n']['en']['0fdab512b3743dec3652a301a896e92a']='To check or change your avatar, go to %s.';
 $_SESSION['l10n']['en']['Trailer']='Trailer';
 $_SESSION['l10n']['en']['8addb3b5e126c5905fc1f9c4c81aa4c0']='Up to two lines of text, used in the "description" meta field to help search engines';
 $_SESSION['l10n']['en']['Upload a file']='Upload a file';
-$_SESSION['l10n']['en']['Upload a skin']='Upload a skin';
+$_SESSION['l10n']['en']['Upload a theme']='Upload a theme';
 $_SESSION['l10n']['en']['39bea6edbd8e2b492554ecb2316dd544']='Use HTML codes for colors, and "fork" or "bubble" for style.';
 $_SESSION['l10n']['en']['9d7e73c835199c02d166b1038aedac4a']='Use HTML codes for colors, numbers or "thin" for thickness, and "bezier" or "linear" for style.';
 $_SESSION['l10n']['en']['Use HTML codes for colors.']='Use HTML codes for colors.';
@@ -338,6 +338,7 @@ $_SESSION['l10n']['en']['privacy statement']='privacy statement';
 $_SESSION['l10n']['en']['private']='private';
 $_SESSION['l10n']['en']['restricted']='restricted';
 $_SESSION['l10n']['en']['sidebar box']='sidebar box';
+$_SESSION['l10n']['en']['the avatar selection page']='the avatar selection page';
 $_SESSION['l10n']['en']['to everybody']='to everybody';
 $_SESSION['l10n']['en']['to publish']='to publish';
 $_SESSION['l10n']['en']['updated']='updated';

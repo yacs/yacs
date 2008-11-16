@@ -325,7 +325,7 @@ elseif(isset($context['users_with_auto_publish']) && ($context['users_with_auto_
 	$publishable = TRUE;
 elseif(is_object($anchor) && $anchor->has_option('auto_publish'))
 	$publishable = TRUE;
-elseif(Surfer::is_empowered())
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
 	$publishable = TRUE;
 else
 	$publishable = FALSE;
@@ -426,13 +426,13 @@ if(isset($item['id']) && !$zoom_type && Surfer::is_associate()) {
 }
 
 // review command provided to associates and section editors
-if(isset($item['id']) && !$zoom_type && $editable) {
+if(isset($item['id']) && !$zoom_type && Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
 	Skin::define_img('STAMP_ARTICLE_IMG', 'icons/articles/stamp.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'stamp') => STAMP_ARTICLE_IMG.i18n::s('Stamp') ));
 }
 
 // delete command provided to associates and section editors
-if(isset($item['id']) && !$zoom_type && $editable) {
+if(isset($item['id']) && !$zoom_type && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))) {
 	Skin::define_img('DELETE_ARTICLE_IMG', 'icons/articles/delete.gif');
 	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'delete') => DELETE_ARTICLE_IMG.i18n::s('Delete') ));
 }

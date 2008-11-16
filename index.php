@@ -1080,7 +1080,7 @@ $context['aside']['boxes'] = $text;
 // referrals, if any
 if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y')))
 	$context['aside']['referrals'] =& Skin::build_referrals('index.php');
-
+	
 //
 // compute navigation information -- $context['navigation']
 //

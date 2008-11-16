@@ -333,8 +333,7 @@ Class Members {
 			." FROM ".SQL::table_name('articles')." AS articles"
 			." WHERE (".join(' OR ', $sections_where).")"
 			."	AND ".$where
-			." ORDER BY articles.edit_date DESC, articles.title LIMIT ".$offset.','.$count.")"
-			." UNION (";
+			.") UNION (";
 		}
 
 		// articles attached to categories
@@ -344,11 +343,12 @@ Class Members {
 			." WHERE (".join(' OR ', $categories_where).")"
 			."	AND (members.member_type LIKE 'article')"
 			."	AND (articles.id = members.member_id)"
-			."	AND ".$where
-			." ORDER BY articles.edit_date DESC, articles.title LIMIT ".$offset.','.$count;
+			."	AND ".$where;
 
 		if(count($sections_where))
 			$query .= ")";
+			
+		$query .= " ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Articles::list_selected(SQL::query($query), $variant);
@@ -415,7 +415,7 @@ Class Members {
 			."	AND (members.member_type LIKE 'article')"
 			."	AND (articles.id = members.member_id)"
 			."	AND ".$where
-			." ORDER BY articles.title, articles.edit_date DESC LIMIT ".$offset.','.$count;
+			." ORDER BY title, edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Articles::list_selected(SQL::query($query), $variant);
@@ -432,6 +432,7 @@ Class Members {
 	 * - article has been officially published
 	 * - an expiry date has not been defined, or is not yet passed
 	 *
+	 * @param string passed to _get_order()
 	 * @param the target member
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
@@ -452,8 +453,8 @@ Class Members {
 			$where .= " OR articles.active='N'";
 
 		// include managed sections
-		if(count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_sections)."'";
+		if(count($my_items = Surfer::assigned_sections()))
+			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_items)."'";
 
 		$where .= ")";
 
@@ -479,8 +480,7 @@ Class Members {
 			$query = "SELECT articles.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'article:%')) AS ids"
 				.", ".SQL::table_name('articles')." AS articles"
 				." WHERE (articles.id = ids.target)"
-				."	AND ".$where
-				." ORDER BY ".$order." LIMIT ".$offset.','.$count;
+				."	AND ".$where;
 
 		// use joined queries
 		} else {
@@ -492,10 +492,18 @@ Class Members {
 				." WHERE (members.member LIKE '".SQL::escape($member)."')"
 				."	AND (members.anchor LIKE 'article:%')"
 				."	AND (articles.id = SUBSTRING(members.anchor, 9))"
-				."	AND ".$where
-				." ORDER BY ".$order." LIMIT ".$offset.','.$count;
+				."	AND ".$where;
 
 		}
+		
+		// include managed articles at self record
+		if((Surfer::is_associate() || (Surfer::get_id() && ($member == 'user:'.Surfer::get_id()))) 
+			&& count($my_items = Articles::list_assigned_by_date_for_anchor(NULL, str_replace('user:', '', $member), 0, 20, 'ids')))
+			$query = "(SELECT articles.* FROM ".SQL::table_name('articles')." AS articles"
+				." WHERE (articles.id=".join(") OR (articles.id=", $my_items)."))"
+				." UNION (".$query.")";
+
+		$query .= " ORDER BY ".$order." LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		$output =& Articles::list_selected(SQL::query($query), $variant);
@@ -551,7 +559,7 @@ Class Members {
 			."	AND (".$where.")"
 			."	AND (categories.id = SUBSTRING(members.anchor, 10))"
 			." GROUP BY members.anchor"
-			." ORDER BY importance DESC, categories.title, categories.edit_date DESC LIMIT ".$offset.','.$count;
+			." ORDER BY importance DESC, title, edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
 		include_once $context['path_to_root'].'categories/categories.php';
@@ -616,7 +624,7 @@ Class Members {
 				.", ".SQL::table_name('categories')." AS categories"
 				." WHERE (categories.id = ids.target)"
 				."	AND ".$where
-				." ORDER BY categories.rank, categories.title, categories.edit_date DESC LIMIT ".$offset.','.$count;
+				." ORDER BY rank, title, edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use joined queries
 		} else {
@@ -628,7 +636,7 @@ Class Members {
 				."	AND (members.anchor LIKE 'category:%')"
 				."	AND (categories.id = SUBSTRING(members.anchor, 10))"
 				."	AND (".$where.")"
-				." ORDER BY categories.rank, categories.title, categories.edit_date DESC LIMIT ".$offset.','.$count;
+				." ORDER BY rank, title, edit_date DESC LIMIT ".$offset.','.$count;
 
 		}
 
@@ -676,7 +684,7 @@ Class Members {
 				." WHERE (users.id = ids.target)"
 				."	AND ((users.capability = 'M') OR (users.capability = 'A'))"
 				."	AND (".$where.")"
-				." ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
+				." ORDER BY nick_name, edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use joined queries
 		} else {

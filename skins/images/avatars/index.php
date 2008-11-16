@@ -48,7 +48,7 @@ if(!count($context['error'])) {
 
 		// offers to change the avatar
 		if(Surfer::is_logged()) {
-			$context['text'] .= '<p>'.sprintf(i18n::s('To check or change your avatar, go to the %s.'), Skin::build_link('users/select_avatar.php', 'avatar selection page', 'shortcut')).'</p>'."\n";
+			$context['text'] .= '<p>'.sprintf(i18n::s('To check or change your avatar, go to %s.'), Skin::build_link('users/select_avatar.php', i18n::s('the avatar selection page'), 'shortcut')).'</p>'."\n";
 		}
 
 		// splash

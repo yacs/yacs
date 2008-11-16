@@ -3,18 +3,18 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
+ * on November 16, 2008, 9:55 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2008-11-04 00:13+0100
-PO-Revision-Date: 2008-11-02 23:19+0100
+PO-Revision-Date: 2008-11-16 21:48+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Plural-Forms: nplurals=2; plural=(n > 1);
+Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Country: FRANCE
 X-Poedit-SourceCharset: utf-8
 X-Poedit-Language: French
@@ -110,5 +110,5 @@ $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas a
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['86fee25fdd0b88074eb6fe265d24acba']='Cliquez sur les en-têtes de colonnes pour trier la table.';
 $_SESSION['l10n']['fr']['d202c53d9ea1bb14a44814af246dbcf4']='Vous pouvez combiner plusieurs mots-clés :';
-$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n > 1);';
+$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

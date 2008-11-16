@@ -3,18 +3,18 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
+ * on November 16, 2008, 9:55 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-10 00:21+0100
-PO-Revision-Date: 2008-11-02 23:28+0100
+POT-Creation-Date: 2008-11-16 22:26+0100
+PO-Revision-Date: 2008-11-16 22:32+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Plural-Forms: nplurals=2; plural=(n>1);
+Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: French
 X-Poedit-Country: FRANCE
 X-Poedit-SourceCharset: utf-8
@@ -81,7 +81,7 @@ $_SESSION['l10n']['fr']['Copyright']='Copyright';
 $_SESSION['l10n']['fr']['03ce04dabde98f8a4b0f57a290f45a1d']='Création du répertoire du nouveau style %s...';
 $_SESSION['l10n']['fr']['Daily calendar']='Calendrier de ce jour';
 $_SESSION['l10n']['fr']['90bfe28804835ffbdaf979b8bcd0cce9']='Créer un nouveau style à partir d\'un style existant';
-$_SESSION['l10n']['fr']['Derive a skin']='Dériver un style';
+$_SESSION['l10n']['fr']['Derive a theme']='Dériver un thème';
 $_SESSION['l10n']['fr']['Derive this theme']='Dériver ce thème';
 $_SESSION['l10n']['fr']['dd2793302dfbca76ddfa5ac889ac45aa']='Afficher les détails seulement dans les sections avec l\'option \'with_details\'';
 $_SESSION['l10n']['fr']['Details visibility:']='Affichage des détails :';
@@ -89,7 +89,7 @@ $_SESSION['l10n']['fr']['Discuss']='Commenter';
 $_SESSION['l10n']['fr']['1a1ba79db684ae33904023983669e8bd']='Afficher les détails (auteur, date...) sur toutes les pages';
 $_SESSION['l10n']['fr']['baa9d790a8207a9b0484fb42958c4f86']='Afficher les outils d\'export sur toutes les pages';
 $_SESSION['l10n']['fr']['Display referrals:']='Afficher les références externes :';
-$_SESSION['l10n']['fr']['9c833b40a1875ef7593c8865c812d372']='Attention de ne pas modifier un style de référence, vos changements seraient écrasés à la prochaine mise à jour du logiciel. %s pour obtenir un style de votre cru.';
+$_SESSION['l10n']['fr']['a89b4c84880e8bda201cb11bf755f594']='Attention de ne pas modifier un thème de référence, vos changements seraient écrasés à la prochaine mise à jour du logiciel. %s pour préserver votre travail.';
 $_SESSION['l10n']['fr']['Do not display this item.']='Ne pas afficher cet élément.';
 $_SESSION['l10n']['fr']['d97c62965b0ceb848500786010a8d06a']='Ne pas ajouter de liens vers les cartes Freemind';
 $_SESSION['l10n']['fr']['Download']='Télécharger';
@@ -123,7 +123,7 @@ $_SESSION['l10n']['fr']['Head']='En-tête (Head)';
 $_SESSION['l10n']['fr']['Height: %s']='Hauteur : %s';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Home']='Accueil';
-$_SESSION['l10n']['fr']['How to get a skin?']='Comment obtenir un style ?';
+$_SESSION['l10n']['fr']['How to get a theme?']='Comment obtenir un thème ?';
 $_SESSION['l10n']['fr']['Icon']='Icône';
 $_SESSION['l10n']['fr']['212786e329e0d4338b0da314b5c38e77']='Si le logiciel AOL Instant Messenger est installé, cliquez pour ouvrir une session';
 $_SESSION['l10n']['fr']['b262d1776765ac6ce21594ad0de108f9']='Si le logiciel ICQ est installé, cliquez pour ouvrir une session';
@@ -208,7 +208,7 @@ $_SESSION['l10n']['fr']['Sections']='Sections';
 $_SESSION['l10n']['fr']['Sections around, if any']='Sections environnantes, si présentes';
 $_SESSION['l10n']['fr']['See also']='Voir aussi';
 $_SESSION['l10n']['fr']['See server profile']='Voir le profil de serveur';
-$_SESSION['l10n']['fr']['Select a skin']='Choix d\'un style';
+$_SESSION['l10n']['fr']['Select a theme']='Choisir un thème';
 $_SESSION['l10n']['fr']['57c4e35328db5b95afd3a49c16072cca']='Choisissez le fichier archive à installer sur le serveur.';
 $_SESSION['l10n']['fr']['Select the file to upload']='Choisissez le fichier à transmettre';
 $_SESSION['l10n']['fr']['Send a message']='Envoyer un message';
@@ -261,18 +261,18 @@ $_SESSION['l10n']['fr']['7492243287d3faab7bab5792c4945c0c']='Voici la liste des 
 $_SESSION['l10n']['fr']['This item has been updated']='Cet élément a été mis à jour';
 $_SESSION['l10n']['fr']['c0f71f9198ac29742788b3ccf318c4be']='Cet élément est un brouillon, et n\'est pas visible publiquement';
 $_SESSION['l10n']['fr']['This item is new']='Nouvel élément';
-$_SESSION['l10n']['fr']['23c18a6b53f84d967ae99d38e7a99c87']='Ce script vous permet d\'installer ou de mettre à jour un style de mise en page pour votre serveur YACS.';
+$_SESSION['l10n']['fr']['d6b075de74bfd8969ee12b01b2e30a70']='Ce script vous permet d\'installer ou de mettre à jour un thème pour votre serveur YACS.';
 $_SESSION['l10n']['fr']['732264ed4e4dab9d8000a44832895dc1']='Ceci est répété sur plusieurs pages';
 $_SESSION['l10n']['fr']['Thumbnail caption']='Titre de vignette';
 $_SESSION['l10n']['fr']['Thumbnail height']='Hauteur de vignette';
 $_SESSION['l10n']['fr']['Thumbnail threshold']='Seuil d\'utilisation des vignettes';
 $_SESSION['l10n']['fr']['Thumbnail width']='Largeur de vignette';
 $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la configuration, merci de copier les lignes ci-dessous, et de les mettre par vous-même dans le fichier %s :';
-$_SESSION['l10n']['fr']['a4990f68e61da04973e58fab8a290d0d']='Pour vérifier ou changer votre avatar, visitez le %s.';
+$_SESSION['l10n']['fr']['0fdab512b3743dec3652a301a896e92a']='Pour vérifier ou changer votre avatar, visitez %s.';
 $_SESSION['l10n']['fr']['Trailer']='Bas de page';
 $_SESSION['l10n']['fr']['8addb3b5e126c5905fc1f9c4c81aa4c0']='Jusqu\'à deux lignes de texte, utilisé dans le champ "description" pour aider les moteurs de recherche';
 $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
-$_SESSION['l10n']['fr']['Upload a skin']='Télécharger un nouveau style';
+$_SESSION['l10n']['fr']['Upload a theme']='Téléverser un thème';
 $_SESSION['l10n']['fr']['39bea6edbd8e2b492554ecb2316dd544']='utilisez les codes HTML pour les couleurs, et "fork" ou "bubble" pour le style.';
 $_SESSION['l10n']['fr']['9d7e73c835199c02d166b1038aedac4a']='Utilisez les codes HTML pour les couleurs, des nombres ou "thin" pour l\'épaisseur, et "bezier" ou "linear" pour le style.';
 $_SESSION['l10n']['fr']['Use HTML codes for colors.']='Utilisez les codes HTML pour les couleurs.';
@@ -338,6 +338,7 @@ $_SESSION['l10n']['fr']['privacy statement']='protection de la vie privée';
 $_SESSION['l10n']['fr']['private']='privé';
 $_SESSION['l10n']['fr']['restricted']='Protégé';
 $_SESSION['l10n']['fr']['sidebar box']='pavé de détails';
+$_SESSION['l10n']['fr']['the avatar selection page']='la page de sélection d\'avatar';
 $_SESSION['l10n']['fr']['to everybody']='à tout le monde';
 $_SESSION['l10n']['fr']['to publish']='à publier';
 $_SESSION['l10n']['fr']['updated']='mis à jour';
@@ -347,5 +348,5 @@ $_SESSION['l10n']['fr']['with a sidebar box']='avec une boîte de côté';
 $_SESSION['l10n']['fr']['with neighbours']='avec voisinage';
 $_SESSION['l10n']['fr']['51abe58991b363939dc9ec19dabd19f6']='www.yetanothercommunitysystem.com';
 $_SESSION['l10n']['fr']['yacs']='yacs';
-$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n>1);';
+$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

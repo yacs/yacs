@@ -230,14 +230,14 @@ else {
 if(Surfer::is_associate()) {
 	$context['page_tools'][] = Skin::build_link('skins/configure.php', i18n::s('Configure'), 'basic');
 	$context['page_tools'][] = Skin::build_link('skins/test.php', i18n::s('Theme test'), 'basic');
-	$context['page_tools'][] = Skin::build_link('skins/upload.php', i18n::s('Upload a skin'), 'basic');
-	$context['page_tools'][] = Skin::build_link('skins/derive.php', i18n::s('Derive a skin'), 'basic');
+	$context['page_tools'][] = Skin::build_link('skins/upload.php', i18n::s('Upload a theme'), 'basic');
+	$context['page_tools'][] = Skin::build_link('skins/derive.php', i18n::s('Derive a theme'), 'basic');
 }
 
 // how to get a skin
 if(Surfer::is_associate()) {
-	$help = '<p>'.sprintf(i18n::s('Do not attempt to modify a reference skin directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('Derive a skin'), 'shortcut')).'</p>';
-	$context['aside']['boxes'] = Skin::build_box(i18n::s('How to get a skin?'), $help, 'navigation', 'help');
+	$help = '<p>'.sprintf(i18n::s('Do not attempt to modify a reference theme directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('Derive a theme'), 'shortcut')).'</p>';
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('How to get a theme?'), $help, 'navigation', 'help');
 }
 
 // referrals, if any

@@ -68,9 +68,6 @@ if(!Surfer::is_associate()) {
 
 	case 'yacs':	// yacs run-time
 
-		// the title of the page
-		$context['page_title'] = i18n::s('Information on YACS run-time');
-
 		// included files
 		if($included_files = get_included_files()) {
 			$text = '<ul>';
@@ -114,9 +111,6 @@ if(!Surfer::is_associate()) {
 
 	case 'phpinfo': // phpinfo(), no more, no less
 
-		// the title of the page
-		$context['page_title'] = i18n::s('Information on PHP');
-
 		// nothing more in demo mode
 		if(file_exists($context['path_to_root'].'parameters/demo.flag')) {
 			Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
@@ -140,9 +134,6 @@ if(!Surfer::is_associate()) {
 		break;
 
 	case 'sql': // display SQL run-time information
-
-		// the title of the page
-		$context['page_title'] = i18n::s('Information on SQL run-time');
 
 		// basic or improved engine?
 		if(is_callable('mysqli_connect'))
@@ -196,9 +187,6 @@ if(!Surfer::is_associate()) {
 		break;
 
 	case 'images':	// support of graphics
-
-		// the title of the page
-		$context['page_title'] = i18n::s('Information on images support');
 
 		// GD has not been activated at all
 		if(!is_callable('ImageTypes')) {

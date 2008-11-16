@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on October 21, 2008, 5:34 pm GMT. Please do not modify it manually.
+ * on November 16, 2008, 9:55 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+$_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-07-27 00:00+0200
+POT-Creation-Date: 2008-11-16 21:18+0100
 PO-Revision-Date: 2008-07-28 23:20+0100
 Last-Translator: Paques, Bernard
 Language-Team: Core team
@@ -28,7 +28,6 @@ $_SESSION['l10n']['en']['List versions']='List versions';
 $_SESSION['l10n']['en']['Navigation']='Navigation';
 $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.';
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
-$_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['Restore this version']='Restore this version';
 $_SESSION['l10n']['en']['Restore: %s']='Restore: %s';
 $_SESSION['l10n']['en']['3365bc6876241fd59bc4cd93dc9946d7']='The page has been successfully restored.';

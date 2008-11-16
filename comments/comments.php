@@ -156,10 +156,6 @@ Class Comments {
 		if(Surfer::is_member() && isset($item['anchor']) && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
 			return TRUE;
 
-		// you cannot modify comments of others persons
-		if(!Surfer::is_empowered() || !Surfer::get_id())
-			return FALSE;
-
 		// you can handle your own comments
 		if(isset($item['create_id']) && Surfer::is($item['create_id']))
 			return TRUE;

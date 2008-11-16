@@ -37,7 +37,7 @@ load_skin('skins');
 $context['path_bar'] = array( 'skins/' => i18n::s('Themes') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Upload a skin');
+$context['page_title'] = i18n::s('Upload a theme');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -150,7 +150,7 @@ if($id) {
 } elseif(!count($context['error'])) {
 
 	// the splash message
-	$context['text'] .= '<p>'.i18n::s('This script allows you to install or update a skin package to your YACS server.')."</p>\n";
+	$context['text'] .= '<p>'.i18n::s('This script allows you to install or update a theme for your YACS server.')."</p>\n";
 
 	// the form to post an file
 	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" id="main_form"><div>';

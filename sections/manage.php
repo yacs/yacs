@@ -101,6 +101,8 @@ if(isset($_REQUEST['act_on_articles']) && $_REQUEST['act_on_articles'])
 	$action = $_REQUEST['act_on_articles'];
 elseif(isset($_REQUEST['act_on_sections']) && $_REQUEST['act_on_sections'])
 	$action = $_REQUEST['act_on_sections'];
+elseif(isset($_REQUEST['action']) && $_REQUEST['action'])
+	$action = $_REQUEST['action'];
 $action = strip_tags($action);
 
 // editors of upper containers have associate-like capabilities

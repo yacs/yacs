@@ -3,18 +3,18 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
+ * on November 16, 2008, 9:55 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['fr']['']='Project-Id-Version: YACS
+$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-04 00:13+0100
-PO-Revision-Date: 2008-10-31 22:45+0100
+POT-Creation-Date: 2008-11-11 15:55+0100
+PO-Revision-Date: 2008-11-16 21:54+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Plural-Forms: nplurals=2; plural=(n>1);
+Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: French
 X-Poedit-Country: FRANCE
 X-Poedit-SourceCharset: utf-8
@@ -194,5 +194,5 @@ $_SESSION['l10n']['fr']['cd7b7f915e5924985dc9b06d2e6e6181']='l\'intégration a �
 $_SESSION['l10n']['fr']['64a67381ad95070994a35b50b0efb2b4']='le problème a été documenté et ses causes ont été identifiées';
 $_SESSION['l10n']['fr']['7c113dbb3009d0d4c4334955fd5f8f24']='le problème n\'a pas été reproduit';
 $_SESSION['l10n']['fr']['ff9a277d98f75d0d25e80d6b7bbfe798']='ceci a été reconnu comme un problème effectif';
-$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n>1);';
+$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

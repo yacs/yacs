@@ -470,8 +470,8 @@ Class Codes {
 				"|</h2>\n+|i",
 				"|</h3>\n+|i",
 				"|</h4>\n+|i",
-				"#^([a-z]+?)://([^ <>{}\r\n]+)#ie", /* make URL clickable */
-				"#([\n\t ])([a-z]+?)://([^ <>{}\r\n]+)#ie", /* make URL clickable */
+				"#^([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
+				"#([\n\t ])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
 				"/^(-|\*|¤|\•)\s+(.+)$/im", /* lists hard-coded with -, *, ¤, or • -- no space ahead */
 				"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
@@ -2096,11 +2096,11 @@ Class Codes {
 				return $output;
 			}
 
-			// otherwise, we need at least the mandatory parameters
-			if(@count($attributes) < 3) {
-				$output = '[flash=id, width, height]';
-				return $output;
-			}
+			// set a default size
+			if(!isset($attributes[1]))
+				$attributes[1] = 320;
+			if(!isset($attributes[2]))
+				$attributes[1] = 240;
 
 			// object attributes
 			$width = $attributes[1];
@@ -2140,9 +2140,9 @@ Class Codes {
 
 				// pass parameters to the player
 				if($flashvars)
-					$flashvars .= 'file='.$url.'&'.$flashvars;
+					$flashvars = 'file='.$url.'&'.$flashvars;
 				else
-					$flashvars .= 'file='.$url;
+					$flashvars = 'file='.$url;
 
 				// the full object is built in Javascript
 				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"

@@ -117,30 +117,30 @@ Class Articles {
 
 		switch($order) {
 		case 'draft':
-			$order = 'articles.edit_date DESC, articles.title';
+			$order = 'edit_date DESC, title';
 			break;
 
 		case 'edition': // order by rank, then by reverse date of modification
 
 			// avoid side effects of ranking across several sections
 			if($multiple_anchor)
-				$order = 'articles.edit_date DESC, articles.title';
+				$order = 'edit_date DESC, title';
 			else
-				$order = 'articles.rank, articles.edit_date DESC, articles.title';
+				$order = 'rank, edit_date DESC, title';
 			break;
 
 		case 'hits':	// order by reverse number of hits, then by reverse date of publication
 
-			$order = 'hits DESC, articles.publish_date DESC';
+			$order = 'hits DESC, publish_date DESC';
 			break;
 
 		case 'overlay': // order by overlay_id, then by number of points
 
 			// avoid side effects of ranking across several sections
 			if($multiple_anchor)
-				$order = 'articles.overlay_id, rating_sum DESC, articles.publish_date DESC';
+				$order = 'overlay_id, rating_sum DESC, publish_date DESC';
 			else
-				$order = 'articles.overlay_id, articles.rank, rating_sum DESC, articles.publish_date DESC';
+				$order = 'overlay_id, rank, rating_sum DESC, publish_date DESC';
 			break;
 
 		case 'publication': // order by rank, then by reverse date of publication
@@ -148,9 +148,9 @@ Class Articles {
 
 			// avoid side effects of ranking across several sections
 			if($multiple_anchor)
-				$order = 'articles.publish_date DESC, articles.title';
+				$order = 'publish_date DESC, title';
 			else
-				$order = 'articles.rank, articles.publish_date DESC, articles.title';
+				$order = 'rank, publish_date DESC, title';
 			break;
 
 		case 'random':
@@ -161,23 +161,23 @@ Class Articles {
 
 			// avoid side effects of ranking across several sections
 			if($multiple_anchor)
-				$order = 'rating_sum DESC, articles.publish_date DESC';
+				$order = 'rating_sum DESC, publish_date DESC';
 			else
-				$order = 'articles.rank, rating_sum DESC, articles.publish_date DESC';
+				$order = 'rank, rating_sum DESC, publish_date DESC';
 			break;
 
 		case 'reverse_rank':	// order by rank, then by date of publication
 
-			$order = 'articles.rank DESC, articles.publish_date DESC';
+			$order = 'rank DESC, publish_date DESC';
 			break;
 
 		case 'title':	// order by rank, then by title
 
 			// avoid side effects of ranking across several sections
 			if($multiple_anchor)
-				$order = 'articles.title';
+				$order = 'title';
 			else
-				$order = 'articles.rank, articles.title';
+				$order = 'rank, title';
 			break;
 
 		}
@@ -977,7 +977,7 @@ Class Articles {
 	}
 
 	/**
-	 * list articles assigned to one surfer in one anchor
+	 * list articles assigned to one surfer
 	 *
 	 * Only articles matching following criteria are returned:
 	 * - article is visible (active='Y')
@@ -989,6 +989,7 @@ Class Articles {
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string 'decorated', etc or object, i.e., an instance of Layout_Interface
+	 * @param boolean TRUE to list only pages shared with this surfer, FALSE otherwise
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see users/view.php
@@ -1596,6 +1597,11 @@ Class Articles {
 		case 'freemind':
 			include_once $context['path_to_root'].'articles/layout_articles_as_freemind.php';
 			$layout =& new Layout_articles_as_freemind();
+			break;
+
+		case 'ids':
+			include_once $context['path_to_root'].'articles/layout_articles_as_ids.php';
+			$layout =& new Layout_articles_as_ids();
 			break;
 
 		case 'news':

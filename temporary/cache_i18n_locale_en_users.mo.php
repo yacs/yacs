@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 10, 2008, 7:30 pm GMT. Please do not modify it manually.
+ * on November 16, 2008, 9:55 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['en']['']='Project-Id-Version: YACS
+$_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-10 16:04+0100
-PO-Revision-Date: 2008-11-02 23:18+0100
+POT-Creation-Date: 2008-11-16 21:07+0100
+PO-Revision-Date: 2008-11-16 21:11+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -161,6 +161,7 @@ $_SESSION['l10n']['en']['Failed authentication']='Failed authentication';
 $_SESSION['l10n']['en']['Files']='Files';
 $_SESSION['l10n']['en']['2e3a5a5400dcb9378c4c32a61a21989b']='Files can be modified only by their original authors, plus associates and editors.';
 $_SESSION['l10n']['en']['First name(s)']='First name(s)';
+$_SESSION['l10n']['en']['1169885c9e3a40bebae7aeb820ae460e']='First names followed by last names';
 $_SESSION['l10n']['en']['c4ee000af107ab80885b2ac1b34a715b']='Following items are attached to this record and will be deleted as well.';
 $_SESSION['l10n']['en']['77e189517520ef55c530da2fd2835384']='For example, if you want to apply the authenticator <code>foo</code>, put that keyword in the %s.';
 $_SESSION['l10n']['en']['f4b772fbe3570851c2d16880d8e6e38f']='For the security of our members, you must make this request with the e-mail address you used when you registered. If your original e-mail address has expired or is no longer valid, please re-register. Unused accounts may be deleted without notice.';
@@ -212,7 +213,6 @@ $_SESSION['l10n']['en']['Jabber']='Jabber';
 $_SESSION['l10n']['en']['LDAP %s: bad value \'%s\'.']='LDAP %s: bad value \'%s\'.';
 $_SESSION['l10n']['en']['Language']='Language';
 $_SESSION['l10n']['en']['Last login']='Last login';
-$_SESSION['l10n']['en']['4e55e2fab3531c7a021de1cf17e71ff7']='Last name followed by other names you may have';
 $_SESSION['l10n']['en']['Last name(s)']='Last name(s)';
 $_SESSION['l10n']['en']['Links']='Links';
 $_SESSION['l10n']['en']['0b8cd519dd337044da7ac8644d610983']='List HTML tags allowed to members.';

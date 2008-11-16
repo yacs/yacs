@@ -3,18 +3,18 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on October 21, 2008, 5:34 pm GMT. Please do not modify it manually.
+ * on November 16, 2008, 9:55 pm GMT. Please do not modify it manually.
  */
-$_SESSION['l10n']['fr']['']='Project-Id-Version: yacs 7.1 versions
+$_SESSION['l10n']['fr']['_headers']='Project-Id-Version: yacs
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-07-27 00:00+0200
-PO-Revision-Date: 2008-07-29 00:22+0100
-Last-Translator: Paques, Bernard
-Language-Team: agnes, bernard
+POT-Creation-Date: 2008-11-16 21:18+0100
+PO-Revision-Date: 2008-11-16 21:58+0100
+Last-Translator: Bernard Paques
+Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Plural-Forms: nplurals=2; plural=(n>1);
+Plural-Forms: nplurals=2; plural=(n != 1);
 X-Poedit-Language: French
 X-Poedit-Country: FRANCE
 X-Poedit-SourceCharset: utf-8
@@ -28,7 +28,6 @@ $_SESSION['l10n']['fr']['List versions']='Toutes les versions';
 $_SESSION['l10n']['fr']['Navigation']='Navigation';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
-$_SESSION['l10n']['fr']['Referrals']='Références externes';
 $_SESSION['l10n']['fr']['Restore this version']='Restaurer cette version';
 $_SESSION['l10n']['fr']['Restore: %s']='Restaurer : %s';
 $_SESSION['l10n']['fr']['3365bc6876241fd59bc4cd93dc9946d7']='La page a été correctement restaurée.';
@@ -44,5 +43,5 @@ $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas a
 $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
 $_SESSION['l10n']['fr']['restore']='restaurer';
 $_SESSION['l10n']['fr']['view']='voir';
-$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n>1);';
+$_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>
