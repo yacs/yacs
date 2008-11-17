@@ -1124,22 +1124,22 @@ Class Sections {
 
 		// the prefix for managing content
 		if($action == 'manage') {
-			if($context['with_friendly_urls'] == 'Y') {
-				if($name)
-					return 'sections/manage.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-				else
-					return 'sections/manage.php/'.rawurlencode($id);
-			} elseif($context['with_friendly_urls'] == 'R') {
-				if($name)
-					return 'sections/manage.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-				else
-					return 'sections/manage.php/'.rawurlencode($id);
-			} else {
+// 			if($context['with_friendly_urls'] == 'Y') {
+// 				if($name)
+// 					return 'sections/manage.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
+// 				else
+// 					return 'sections/manage.php/'.rawurlencode($id);
+// 			} elseif($context['with_friendly_urls'] == 'R') {
+// 				if($name)
+// 					return 'sections/manage.php/'.rawurlencode($id).'/'.rawurlencode($name).'-';
+// 				else
+// 					return 'sections/manage.php/'.rawurlencode($id);
+// 			} else {
 				if($name)
 					return 'sections/manage.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
 				else
 					return 'sections/manage.php?id='.urlencode($id);
-			}
+//			}
 		}
 
 		// check the target action

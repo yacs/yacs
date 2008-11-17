@@ -1,6 +1,6 @@
 <?php
 // This file has been created by the building script scripts/build.php
-// on November 16, 2008, 10:01 pm GMT, for Paques, Bernard. Please do not modify it manually.
+// on November 17, 2008, 6:57 am GMT, for Paques, Bernard. Please do not modify it manually.
 global $footprints;
 if(!isset($footprints)) $footprints = array();
 $footprints['actions/accept.php']=array(154, 'b4e65b6301cb3efe9f25391433552360', '051b4f9d7be147b6ef9165468ba9ccd9');
@@ -436,7 +436,7 @@ $footprints['sections/manage.php']=array(1276, '1da41825f1bdfd01ab05f5af8a0dbe5c
 $footprints['sections/new.php']=array(350, '78cd74fd3b7cfdd07c7e7527b005f9e1', '2cee3e706695e64887463e5efe0653ad');
 $footprints['sections/print.php']=array(375, '5cde35435742be36dad3533ca12577bd', 'be3f2d67d8f28a5e930adc61497e37d9');
 $footprints['sections/section.php']=array(1518, '618f0e615177075ce0ec030d1f0c0e56', 'dfde29321b2fa3c4ac8a8dfaedeb38bc');
-$footprints['sections/sections.php']=array(2474, '4b8c60441cc4ce7a540f4aa6f9215f2c', '0731076b21730eebd26461eada86d21c');
+$footprints['sections/sections.php']=array(2474, 'c173b552f2c3e587a95eba11e8bb4904', '2281b5f215569ab2ce133a6ecff6fb86');
 $footprints['sections/select.php']=array(199, 'd7b4a8263c08a180159f9c4f09d528e9', '6718aa2b1cf9320eb40dc358d5865821');
 $footprints['sections/slideshow.php']=array(173, 'a5e751feb878031050a72b5fa43ff503', '153a24c542044e5517f7b0836f283e32');
 $footprints['sections/view.php']=array(1881, 'be496e62caaae0fbb51bd5f196fc7e98', 'ecb24180dd0a5526ed6139d67b3db4c3');
@@ -616,9 +616,9 @@ $footprints['versions/versions.php']=array(495, 'af223d1cb3ea1063e38a254c2f5f9db
 $footprints['versions/view.php']=array(159, 'db74af21b763aa3bcf5512595ed747af', '2730bbcd424622a58a45837f375fdd60');
 global $generation;
 if(!isset($generation)) $generation = array();
-$generation['date']='081116-22:01:48 GMT';
+$generation['date']='081117-06:57:15 GMT';
 $generation['server']='127.0.0.1';
-$generation['version']='8.11beta16';
+$generation['version']='8.11beta17';
 $generation['scripts']='611'; // number of reference scripts
 $generation['lines']='175555'; // lines of code
 ?>
