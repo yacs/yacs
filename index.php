@@ -1054,7 +1054,7 @@ if(!$text =& Cache::get($cache_id)) {
 		}
 	}
 
-	// list older articles
+	// list recent pages
 	if(isset($context['home_with_older_articles']) && ($context['home_with_older_articles'] == 'Y')) {
 
 		if($items =& Articles::list_by('publication', $items_per_page, COMPACT_LIST_SIZE+1, 'compact')) {

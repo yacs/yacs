@@ -103,16 +103,10 @@ Class Layout_sections_as_jive extends Layout_interface {
 			$count = 1;
 
 			// get last posts for this board --avoid sticky pages
-			if(preg_match('/\barticles_by_title\b/i', $item['options']))
-				$order = 'title';
-			elseif(preg_match('/\barticles_by_publication\b/i', $item['options']))
-				$order = 'publication';
-			elseif(preg_match('/\barticles_by_rating\b/i', $item['options']))
-				$order = 'rating';
-			elseif(preg_match('/\barticles_by_reverse_rank\b/i', $item['options']))
-				$order = 'reverse_rank';
+			if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
+				$order = $matches[1];
 			else
-				$order = 'date';
+				$order = 'edition';
 			if($articles =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, 5, 'raw', TRUE)) {
 
 				foreach($articles as $id => $article) {

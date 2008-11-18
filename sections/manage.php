@@ -746,7 +746,7 @@ if(Surfer::is_crawler()) {
 } elseif($action == 'move_articles') {
 
 	// articles
-	if(isset($_REQUEST['seleced_articles'])) {
+	if(isset($_REQUEST['selected_articles'])) {
 
 		// actually a form
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"

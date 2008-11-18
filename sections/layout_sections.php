@@ -126,16 +126,10 @@ Class Layout_sections extends Layout_interface {
 				$related_count += $count;
 
 				// add related articles if necessary
-				if(preg_match('/\barticles_by_title\b/i', $item['options']))
-					$order = 'title';
-				elseif(preg_match('/\barticles_by_publication\b/i', $item['options']))
-					$order = 'publication';
-				elseif(preg_match('/\barticles_by_rating\b/i', $item['options']))
-					$order = 'rating';
-				elseif(preg_match('/\barticles_by_reverse_rank\b/i', $item['options']))
-					$order = 'reverse_rank';
+				if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
+					$order = $matches[1];
 				else
-					$order = 'date';
+					$order = 'edition';
 				if((count($details) < YAHOO_LIST_SIZE) && ($related =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, YAHOO_LIST_SIZE - count($details), 'compact'))) {
 					foreach($related as $link => $label) {
 						$sub_prefix = $sub_suffix = $sub_hover = '';

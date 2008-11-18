@@ -121,6 +121,7 @@ Class Articles {
 			break;
 
 		case 'edition': // order by rank, then by reverse date of modification
+		default:
 
 			// avoid side effects of ranking across several sections
 			if($multiple_anchor)
@@ -144,7 +145,6 @@ Class Articles {
 			break;
 
 		case 'publication': // order by rank, then by reverse date of publication
-		default:
 
 			// avoid side effects of ranking across several sections
 			if($multiple_anchor)
@@ -169,6 +169,15 @@ Class Articles {
 		case 'reverse_rank':	// order by rank, then by date of publication
 
 			$order = 'rank DESC, publish_date DESC';
+			break;
+
+		case 'reverse_title':	// order by rank, then by reverse title
+
+			// avoid side effects of ranking across several sections
+			if($multiple_anchor)
+				$order = 'title DESC';
+			else
+				$order = 'rank, title DESC';
 			break;
 
 		case 'title':	// order by rank, then by title

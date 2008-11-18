@@ -131,7 +131,7 @@ if(Surfer::is_crawler()) {
 	 	$_REQUEST['expiry_date'] = Surfer::to_GMT($_REQUEST['expiry_date']);
 
 	// update the database
-	if($error = Articles::stamp($item['id'], $_REQUEST['publish_date'], isset($_REQUEST['expiry_date']) ? $_REQUEST['expiry_date'] : ''))
+	if($error = Articles::stamp($item['id'], $_REQUEST['publish_date'], isset($_REQUEST['expiry_date']) ? $_REQUEST['expiry_date'] : NULL_DATE))
 		Logger::error($error);
 
 	// post-processing tasks

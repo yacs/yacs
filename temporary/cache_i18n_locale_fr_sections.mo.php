@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 16, 2008, 9:55 pm GMT. Please do not modify it manually.
+ * on November 17, 2008, 11:08 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-16 21:07+0100
-PO-Revision-Date: 2008-11-16 21:55+0100
+POT-Creation-Date: 2008-11-17 15:47+0100
+PO-Revision-Date: 2008-11-17 15:50+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -240,7 +240,7 @@ $_SESSION['l10n']['fr']['Moderator: %s'.chr(0).'Moderators: %s']='Modérateur : 
 $_SESSION['l10n']['fr']['More']='La suite';
 $_SESSION['l10n']['fr']['More content']='Plus de contenu';
 $_SESSION['l10n']['fr']['More options']='Plus d\'options';
-$_SESSION['l10n']['fr']['More pages']='Plus d\'informations';
+$_SESSION['l10n']['fr']['More pages']='Autres pages';
 $_SESSION['l10n']['fr']['More spaces']='Plus d\'espaces web';
 $_SESSION['l10n']['fr']['Move']='Déplacer';
 $_SESSION['l10n']['fr']['Move following pages to']='Déplacer les pages suivantes vers';
@@ -346,6 +346,7 @@ $_SESSION['l10n']['fr']['0ec8c5b9f02a2bbc9408e3636b37e110']='Trier les fichiers 
 $_SESSION['l10n']['fr']['8b3e72b6a8790e6b9b1f5020d267c1c3']='Trier les liens par titre (et non par date)';
 $_SESSION['l10n']['fr']['Sort pages by publication date']='Trier les articles par date de publication';
 $_SESSION['l10n']['fr']['Sort pages by rating']='Trier les pages par votes';
+$_SESSION['l10n']['fr']['f34e5dbd8866016b47fa59985e3726f2']='Trier les pages par ordre inverse des titres';
 $_SESSION['l10n']['fr']['Sort pages by reverse rank']='Trier les pages par ordre inverse de priorité';
 $_SESSION['l10n']['fr']['Sort pages by title']='Trier les pages par titre';
 $_SESSION['l10n']['fr']['Start']='Commencer';

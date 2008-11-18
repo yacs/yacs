@@ -233,16 +233,11 @@ if(Surfer::is_crawler()) {
 		$items_per_page = ARTICLES_PER_PAGE;
 
 	// list articles by date (default) or by title (option 'articles_by_title')
-	if(preg_match('/\barticles_by_title\b/i', $item['options']))
-		$items =& Articles::list_for_anchor_by('title', 'section:'.$item['id'], 0, $items_per_page, $layout);
-	elseif(preg_match('/\barticles_by_publication\b/i', $item['options']))
-		$items =& Articles::list_for_anchor_by('publication', 'section:'.$item['id'], 0, $items_per_page, $layout);
-	elseif(preg_match('/\barticles_by_rating\b/i', $item['options']))
-		$items =& Articles::list_for_anchor_by('rating', 'section:'.$item['id'], 0, $items_per_page, $layout);
-	elseif(preg_match('/\barticles_by_reverse_rank\b/i', $item['options']))
-		$items =& Articles::list_for_anchor_by('reverse_rank', 'section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
+	if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
+		$order = $matches[1];
 	else
-		$items =& Articles::list_for_anchor('section:'.$item['id'], 0, $items_per_page, $layout);
+		$order = 'edition';
+	$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
 
 	// actually render the html
 	$box['text'] = '';

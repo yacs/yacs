@@ -407,10 +407,13 @@
 	function tabs($with_home=TRUE, $with_reverse=FALSE, $prefix=NULL, $suffix=NULL) {
 		global $context;
 
-		// cache where possible, and only on a live server
+		// only for live servers
+		if(!file_exists($context['path_to_root'].'parameters/switch.on'))
+			return;
+		
+		// cache this across requests
 		$cache_id = 'skins/page.php#tabs';
-		$text = '';
-		if(file_exists($context['path_to_root'].'parameters/switch.on') && (!$text =& Cache::get($cache_id))) {
+		if(!$text =& Cache::get($cache_id)) {
 
 			// an array of tabs
 			$site_bar = array();
@@ -427,8 +430,8 @@
 			if(!isset($context['root_sections_count_at_home']) || ($context['root_sections_count_at_home'] < 1))
 				$context['root_sections_count_at_home'] = 5;
 
-			// query the database to get dynamic tabs; do not report on error
-			if(is_callable(array('Sections', 'list_by_title_for_anchor')) && ($items = Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'tabs', NULL, TRUE)))
+			// query the database to get dynamic tabs
+			if(is_callable(array('Sections', 'list_by_title_for_anchor')) && ($items =& Sections::list_by_title_for_anchor(NULL, 0, $context['root_sections_count_at_home'], 'tabs')))
 				$site_bar = array_merge($site_bar, $items);
 
 			// suffix tabs, if any

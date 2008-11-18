@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 16, 2008, 9:55 pm GMT. Please do not modify it manually.
+ * on November 17, 2008, 11:09 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-16 22:26+0100
-PO-Revision-Date: 2008-11-16 22:32+0100
+POT-Creation-Date: 2008-11-17 15:47+0100
+PO-Revision-Date: 2008-11-17 15:43+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -160,7 +160,7 @@ $_SESSION['l10n']['fr']['Meta-information']='Méta-information';
 $_SESSION['l10n']['fr']['Monthly calendar']='Calendrier de ce mois';
 $_SESSION['l10n']['fr']['More']='Suite';
 $_SESSION['l10n']['fr']['More in %s']='Plus d\'infos à %s';
-$_SESSION['l10n']['fr']['More pages']='Tous les articles';
+$_SESSION['l10n']['fr']['More pages']='Autres pages';
 $_SESSION['l10n']['fr']['362a7539279b60ab610db4e8ba909b2c']='Les boîtes de navigation sont affichées sur le côté de toutes les pages';
 $_SESSION['l10n']['fr']['Next']='Suivant';
 $_SESSION['l10n']['fr']['Next and previous, if any']='Suivant et précédent, si présents';

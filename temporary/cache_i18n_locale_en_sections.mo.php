@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 16, 2008, 9:55 pm GMT. Please do not modify it manually.
+ * on November 17, 2008, 11:08 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-16 21:07+0100
-PO-Revision-Date: 2008-10-31 22:02+0100
+POT-Creation-Date: 2008-11-17 15:47+0100
+PO-Revision-Date: 2008-11-17 15:48+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -346,6 +346,7 @@ $_SESSION['l10n']['en']['0ec8c5b9f02a2bbc9408e3636b37e110']='Sort files by title
 $_SESSION['l10n']['en']['8b3e72b6a8790e6b9b1f5020d267c1c3']='Sort links by title (and not by date)';
 $_SESSION['l10n']['en']['Sort pages by publication date']='Sort pages by publication date';
 $_SESSION['l10n']['en']['Sort pages by rating']='Sort pages by rating';
+$_SESSION['l10n']['en']['f34e5dbd8866016b47fa59985e3726f2']='Sort pages by reverse order of titles';
 $_SESSION['l10n']['en']['Sort pages by reverse rank']='Sort pages by reverse rank';
 $_SESSION['l10n']['en']['Sort pages by title']='Sort pages by title';
 $_SESSION['l10n']['en']['Start']='Start';

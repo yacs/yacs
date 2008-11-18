@@ -1007,15 +1007,26 @@ function render_skin($stamp=0) {
 		// list extra components --before navigation components
 		$parameters = explode(' ', $context['skins_extra_components']);
 			
+		// shift extra content to the end - step 1
+		$tail = $context['extra'];
+		$context['extra'] = '';
+		
 		// populate the extra panel
 		foreach($parameters as $parameter) {
 			if(isset($context['aside'][ $parameter ]))
 				$context['extra'] .= $context['aside'][ $parameter ];
 		}
 			
+		// shift extra content to the end - step 2
+		$context['extra'] .= $tail;
+		
 		// list navigation components
 		$parameters = explode(' ', $context['skins_navigation_components']);
 			
+		// shift navigation content to the end - step 1
+		$tail = $context['navigation'];
+		$context['navigation'] = '';
+		
 		// populate the navigation panel
 		foreach($parameters as $parameter) {
 		
@@ -1043,6 +1054,9 @@ function render_skin($stamp=0) {
 	
 		}
 			
+		// shift navigation content to the end - step 2
+		$context['navigation'] .= $tail;
+		
 		// ensure adequate HTTP answer
 		if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] && !preg_match('/\b('.str_replace(',', '|', $context['accepted_methods']).')\b/', $_SERVER['REQUEST_METHOD'])) {
 			Safe::header('405 Method not allowed');

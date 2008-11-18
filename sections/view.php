@@ -1016,19 +1016,14 @@ if(!isset($item['id'])) {
 					// create a box
 					$box = array('bar' => array(), 'text' => '');
 
-					// list articles by date (default) or by title (option 'articles_by_title')
+					// sort and list articles
 					$offset = ($zoom_index - 1) * $items_per_page;
-					if(preg_match('/\barticles_by_title\b/i', $item['options']))
-						$items =& Articles::list_for_anchor_by('title', 'section:'.$item['id'], $offset, $items_per_page, $layout);
-					elseif(preg_match('/\barticles_by_publication\b/i', $item['options']))
-						$items =& Articles::list_for_anchor_by('publication', 'section:'.$item['id'], $offset, $items_per_page, $layout);
-					elseif(preg_match('/\barticles_by_rating\b/i', $item['options']))
-						$items =& Articles::list_for_anchor_by('rating', 'section:'.$item['id'], $offset, $items_per_page, $layout);
-					elseif(preg_match('/\barticles_by_reverse_rank\b/i', $item['options']))
-						$items =& Articles::list_for_anchor_by('reverse_rank', 'section:'.$item['id'], $offset, $items_per_page, $layout);
+					if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
+						$order = $matches[1];
 					else
-						$items =& Articles::list_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout);
-
+						$order = 'edition';
+					$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
+						
 					// no navigation bar with alistapart
 					if(!isset($item['articles_layout']) || ($item['articles_layout'] != 'alistapart')) {
 
@@ -1132,14 +1127,11 @@ if(!isset($item['id'])) {
 						if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'main')) {
 
 							// use ordering options set for the section
-							if(preg_match('/\barticles_by_title\b/i', $item['options']))
-								$items =& Articles::list_for_anchor_by('title', $anchors, 0, $items_per_page, $layout);
-							elseif(preg_match('/\barticles_by_publication\b/i', $item['options']))
-								$items =& Articles::list_for_anchor_by('publication', $anchors, 0, $items_per_page, $layout);
-							elseif(preg_match('/\barticles_by_rating\b/i', $item['options']))
-								$items =& Articles::list_for_anchor_by('rating', $anchors, 0, $items_per_page, $layout);
+							if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
+								$order = $matches[1];
 							else
-								$items =& Articles::list_for_anchor($anchors, 0, $items_per_page, $layout);
+								$order = 'edition';
+							$items =& Articles::list_for_anchor_by($order, $anchors, 0, $items_per_page, $layout);
 
 							// actually render the html for the section
 							$content = '';
@@ -1179,16 +1171,11 @@ if(!isset($item['id'])) {
 
 			// list articles by date (default) or by title (option 'articles_by_title')
 			$offset = ($zoom_index - 1) * $items_per_page;
-			if(preg_match('/\barticles_by_title\b/i', $item['options']))
-				$items =& Articles::list_for_anchor_by('title', 'section:'.$item['id'], $offset, $items_per_page, $layout);
-			elseif(preg_match('/\barticles_by_publication\b/i', $item['options']))
-				$items =& Articles::list_for_anchor_by('publication', 'section:'.$item['id'], $offset, $items_per_page, $layout);
-			elseif(preg_match('/\barticles_by_rating\b/i', $item['options']))
-				$items =& Articles::list_for_anchor_by('rating', 'section:'.$item['id'], $offset, $items_per_page, $layout);
-			elseif(preg_match('/\barticles_by_reverse_rank\b/i', $item['options']))
-				$items =& Articles::list_for_anchor_by('reverse_rank', 'section:'.$item['id'], $offset, $items_per_page, $layout);
+			if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
+				$order = $matches[1];
 			else
-				$items =& Articles::list_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout);
+				$order = 'edition';
+			$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
 
 			// actually render the html for the box
 			$content = '';

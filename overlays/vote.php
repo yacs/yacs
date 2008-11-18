@@ -380,13 +380,13 @@ class Vote extends Overlay {
 
 		$this->attributes['voters'] = isset($fields['voters']) ? $fields['voters'] : '';
 		$this->attributes['voter_list'] = isset($fields['voter_list']) ? $fields['voter_list'] : '';
-		$this->attributes['start_date'] = isset($fields['start_date']) ? $fields['start_date'] : '';
+		$this->attributes['start_date'] = isset($fields['start_date']) ? $fields['start_date'] : NULL_DATE;
 
 		// adjust date from surfer time zone to UTC time zone
 		if(isset($fields['start_date']) && $fields['start_date'])
 			$this->attributes['start_date'] = Surfer::to_GMT($fields['start_date']);
 
-		$this->attributes['end_date'] = isset($fields['end_date']) ? $fields['end_date'] : '';
+		$this->attributes['end_date'] = isset($fields['end_date']) ? $fields['end_date'] : NULL_DATE;
 
 		// adjust date from surfer time zone to UTC time zone
 		if(isset($fields['end_date']) && $fields['end_date'])

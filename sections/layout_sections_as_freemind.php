@@ -141,16 +141,10 @@ Class Layout_sections_as_freemind extends Layout_interface {
 					$articles_layout->set_variant('');
 
 				// preserve natural order of articles
-				if(preg_match('/\barticles_by_title\b/i', $item['options']))
-					$order = 'title';
-				elseif(preg_match('/\barticles_by_publication\b/i', $item['options']))
-					$order = 'publication';
-				elseif(preg_match('/\barticles_by_rating\b/i', $item['options']))
-					$order = 'rating';
-				elseif(preg_match('/\barticles_by_reverse_rank\b/i', $item['options']))
-					$order = 'reverse_rank';
+				if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
+					$order = $matches[1];
 				else
-					$order = 'date';
+					$order = 'edition';
 				$content .= Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, 50, $articles_layout);
 
 			}

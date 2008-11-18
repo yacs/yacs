@@ -78,16 +78,11 @@ Class Layout_sections_as_folded extends Layout_interface {
 			}
 
 			// info on related articles
-			if(preg_match('/\barticles_by_title\b/i', $item['options']))
-				$items =& Articles::list_for_anchor_by('title', 'section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
-			elseif(preg_match('/\barticles_by_publication\b/i', $item['options']))
-				$items =& Articles::list_for_anchor_by('publication', 'section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
-			elseif(preg_match('/\barticles_by_rating\b/i', $item['options']))
-				$items =& Articles::list_for_anchor_by('rating', 'section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
-			elseif(preg_match('/\barticles_by_reverse_rank\b/i', $item['options']))
-				$items =& Articles::list_for_anchor_by('reverse_rank', 'section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
+			if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
+				$order = $matches[1];
 			else
-				$items =& Articles::list_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
+				$order = 'edition';
+			$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
 
 			if(@count($items)) {
 

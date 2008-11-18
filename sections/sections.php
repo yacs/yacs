@@ -1351,7 +1351,6 @@ Class Sections {
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
-	 * @param boolean TRUE to not report on SQL error, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see articles/edit.php
@@ -1362,7 +1361,7 @@ Class Sections {
 	 * @see sections/layout_sections_as_yahoo.php
 	 * @see sections/view.php
 	 */
-	function &list_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full', $silent=FALSE) {
+	function &list_by_title_for_anchor($anchor, $offset=0, $count=20, $variant='full') {
 		global $context;
 
 		// limit the query to one level
@@ -1391,6 +1390,9 @@ Class Sections {
 		// end of scope
 		$where .= ")";
 
+		// limit to regular sections
+		$where .= " AND (sections.index_panel LIKE 'main')";
+
 		// hide sections removed from index maps
 		$where .= " AND ((sections.index_map IS NULL) OR (sections.index_map != 'N'))";
 
@@ -1413,6 +1415,13 @@ Class Sections {
 			." WHERE ".$where
 			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT ".$offset.','.$count;
 
+		// don't stop on error if we are building tabs
+		if(is_string($variant) && ($variant == '$tabs'))
+			$silent = TRUE;
+		else
+			$silent = FALSE;
+			
+		// do the job
 		$output =& Sections::list_selected(SQL::query($query, $silent), $variant, $anchor);
 		return $output;
 	}
@@ -1529,6 +1538,9 @@ Class Sections {
 			$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 			$where .= "(sections.activation_date >= '".$now."')"
 				." OR ((sections.expiry_date > '".NULL_DATE."') AND (sections.expiry_date <= '".$now."'))";
+
+			// add sections not listed in main panel
+			$where .= " OR (sections.index_panel != 'main')";
 
 			// add sections removed from normal index map
 			$where .= " OR (sections.index_map = 'N')";

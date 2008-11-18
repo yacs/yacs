@@ -81,6 +81,10 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 			if($icon)
 				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('More')).'" title="'.encode_field(i18n::s('More')).'" /></a>';
 
+			// flag sticky pages
+			if($item['rank'] < 10000)
+				$prefix .= STICKY_FLAG;
+
 			// signal articles to be published
 			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > $now))
 				$prefix .= DRAFT_FLAG;
@@ -189,7 +193,6 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 
 		// end of processing
 		SQL::free($result);
-
 		return $text;
 	}
 }

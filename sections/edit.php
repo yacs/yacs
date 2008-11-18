@@ -569,6 +569,7 @@ if($with_form) {
 		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_publication\')" style="cursor: pointer;">articles_by_publication</a> - '.i18n::s('Sort pages by publication date');
 		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_rating\')" style="cursor: pointer;">articles_by_rating</a> - '.i18n::s('Sort pages by rating');
 		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_title\')" style="cursor: pointer;">articles_by_title</a> - '.i18n::s('Sort pages by title');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_reverse_title\')" style="cursor: pointer;">articles_by_reverse_title</a> - '.i18n::s('Sort pages by reverse order of titles');
 		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_reverse_rank\')" style="cursor: pointer;">articles_by_reverse_rank</a> - '.i18n::s('Sort pages by reverse rank');
 		$keywords[] = '<a onclick="javascript:append_to_options(\'no_new_articles\')" style="cursor: pointer;">no_new_articles</a> - '.i18n::s('Do not list recent pages from sub-sections');
 		$keywords[] = '<a onclick="javascript:append_to_options(\'with_files\')" style="cursor: pointer;">with_files</a> - '.i18n::s('Files can be added to the index page');

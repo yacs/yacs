@@ -273,14 +273,8 @@ Class Section extends Anchor {
 		if($type == 'article') {
 
 			// determine on-going order
-			if(preg_match('/\barticles_by_title\b/i', $this->item['options']))
-				$order = 'title';
-			elseif(preg_match('/\barticles_by_publication\b/i', $this->item['options']))
-				$order = 'publication';
-			elseif(preg_match('/\barticles_by_rating\b/i', $this->item['options']))
-				$order = 'rating';
-			elseif(preg_match('/\barticles_by_reverse_rank\b/i', $this->item['options']))
-				$order = 'reverse_rank';
+			if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
+				$order = $matches[1];
 			else
 				$order = 'edition';
 
