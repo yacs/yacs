@@ -191,32 +191,6 @@ if(!isset($item['id'])) {
 		$context['page_author'] = $item['create_name'];
 
 	//
-	// before page title -- $context['prefix']
-	//
-
-	$cache_id = 'sections/view_as_tabs.php?id='.$item['id'].'#prefix';
-	if(!$text =& Cache::get($cache_id)) {
-
-		// top icons
-		if(!$zoom_type && ($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'icon_top')) && ($items =& Articles::list_for_anchor_by('publication', $anchors, 0, 12, 'thumbnails'))) {
-
-			// generate HTML
-			if(is_array($items))
-				$content =& Skin::build_list($items, 'compact');
-			else
-				$content = (string)$items;
-
-			// insert thumbnails before page title
-			$text .= Skin::build_box('', '<br class="images_prefix" />'.$content.'<br class="images_suffix" />', 'header1', 'top_icons');
-
-		}
-
-		// cache, whatever change, for 5 minutes
-		Cache::put($cache_id, $text, 'stable', 300);
-	}
-	$context['prefix'] .= $text;
-
-	//
 	// set page details -- $context['page_details']
 	//
 
@@ -253,10 +227,6 @@ if(!isset($item['id'])) {
 						$details[] = i18n::s('Is displayed in the middle of the parent section page, among other gadget boxes.');
 					elseif(isset($item['index_panel']) && ($item['index_panel'] == 'gadget_boxes'))
 						$details[] = i18n::s('First articles are displayed at the parent section page in distinct gadget boxes.');
-					elseif(isset($item['index_panel']) && ($item['index_panel'] == 'icon_bottom'))
-						$details[] = i18n::s('Article thumbnails are displayed at the bottom of the parent section page.');
-					elseif(isset($item['index_panel']) && ($item['index_panel'] == 'icon_top'))
-						$details[] = i18n::s('Article thumbnails are displayed at the top of the parent section page.');
 					elseif(isset($item['index_panel']) && ($item['index_panel'] == 'news'))
 						$details[] = i18n::s('Articles are listed at the parent section page, in the area reserved to flashy news.');
 
@@ -279,10 +249,6 @@ if(!isset($item['id'])) {
 					$details[] = i18n::s('Is displayed in the middle of the front page, among other gadget boxes.');
 				elseif(isset($item['home_panel']) && ($item['home_panel'] == 'gadget_boxes'))
 					$details[] = i18n::s('First articles are displayed at the front page in distinct gadget boxes.');
-				elseif(isset($item['home_panel']) && ($item['home_panel'] == 'icon_bottom'))
-					$details[] = i18n::s('Article thumbnails are displayed at the bottom of the front page.');
-				elseif(isset($item['home_panel']) && ($item['home_panel'] == 'icon_top'))
-					$details[] = i18n::s('Article thumbnails are displayed at the top of the front page.');
 				elseif(isset($item['home_panel']) && ($item['home_panel'] == 'news'))
 					$details[] = i18n::s('Articles are listed at the front page, in the area reserved to recent news.');
 			}
@@ -1227,32 +1193,6 @@ if(!isset($item['id'])) {
 	// assemble all tabs
 	//
 	$context['text'] .= Skin::build_tabs($panels);
-
-	//
-	// after everything else -- $context['suffix']
-	//
-
-	$cache_id = 'sections/view_as_tabs.php?id='.$item['id'].'#suffix';
-	if(!$text =& Cache::get($cache_id)) {
-
-		// bottom icons
-		if(!$zoom_type && ($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'icon_bottom')) && ($items =& Articles::list_for_anchor_by('publication', $anchors, 0, 12, 'thumbnails'))) {
-
-			// generate HTML
-			if(is_array($items))
-				$text =& Skin::build_list($items, 'compact');
-			else
-				$text = (string)$items;
-
-			// make a box with a frame of images
-			$text .= Skin::build_box('', '<br class="images_prefix" />'.$text.'<br class="images_suffix" />', 'header1', 'bottom_icons');
-
-		}
-
-		// cache, whatever change, for 5 minutes
-		Cache::put($cache_id, $text, 'stable', 300);
-	}
-	$context['suffix'] .= $text;
 
 	//
 	// the extra panel -- most content is cached, except commands specific to current surfer

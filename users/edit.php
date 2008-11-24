@@ -67,11 +67,11 @@
  * @author Vincent No&euml;l
  * @author GnapZ
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
- * @tester Cloubech
+ * @tester Christian Loubechine
  * @tester Dakoon
  * @tester Fw_crocodile
  * @tester GnapZ
- * @tester Manuel López Gallego
+ * @tester Manuel Lopez Gallego
  * @tester J&eacute;r&ocirc;me Douill&eacute;
  * @tester Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Mathieu Favez

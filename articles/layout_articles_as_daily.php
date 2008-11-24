@@ -168,6 +168,21 @@ Class Layout_articles_as_daily extends Layout_interface {
 			// the description
 			$box['content'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
+			// a compact list of attached files
+			if($count = Files::count_for_anchor('article:'.$item['id'])) {
+	
+				// list files by date (default) or by title (option files_by_title)
+				if(preg_match('/\bfiles_by_title\b/i', $item['options']))
+					$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'compact');
+				else
+					$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'compact');
+				if(is_array($items))
+					$items = Skin::build_list($items, 'compact');
+	
+				if($items)
+					$box['content'] .= Skin::build_box(i18n::s('Files'), $items, 'header2');
+			}
+	
 			// build a menu
 			$menu = array();
 

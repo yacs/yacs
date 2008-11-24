@@ -1378,7 +1378,7 @@ Class Skin_Skeleton {
 
 			// always open external links in a separate window
 			if($external)
-				$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;">'.$label.'</a>';
+				$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
 				
 			// stay in the same window
 			else
@@ -1753,7 +1753,7 @@ Class Skin_Skeleton {
 				$label = strip_tags($label, '<img>');
 
 			// ease the handling of css, but only for links
-			if(($variant == 'tabs') || ($variant == 'menu_bar') || ($variant == 'page_menu'))
+			if(($variant == 'tabs') || ($variant == 'menu_bar') || (($type == 'basic') && ($variant == 'page_menu')))
 				if($url[0] != '_')
 					$label = '<span>'.$label.'</span>';
 

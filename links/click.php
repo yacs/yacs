@@ -32,7 +32,7 @@ elseif(isset($context['arguments'][0]))
 	$url = $context['arguments'][0];
 
 // decode the target url
-$url = trim(str_replace('&amp;', '&', rawurldecode($url)));
+$url = trim(str_replace('&amp;', '&', $url));
 
 // avoid dangerous strings
 $url = preg_replace(FORBIDDEN_IN_URLS, '', strip_tags($url));

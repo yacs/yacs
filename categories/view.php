@@ -115,6 +115,10 @@ elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_index = $context['arguments'][2];
 }
 
+// sanity check
+if($zoom_index < 1)
+	$zoom_index = 1;
+	
 // get the item from the database
 $item =& Categories::get($id);
 
@@ -1023,14 +1027,6 @@ if(!isset($item['id'])) {
 		// Ask Jeeves
 		$link = 'http://web.ask.com/web?q='.$search;
 		$content .= Skin::build_link($link, i18n::s('Ask Jeeves'), 'external').', ';
-
-		// All the web
-		$link = 'http://alltheweb.com/search?q='.$search.'&amp;cs=utf8';
-		$content .= Skin::build_link($link, i18n::s('All the web'), 'external').', ';
-
-		// Feedster
-		$link = 'http://www.feedster.com/search.php?q='.$search;
-		$content .= Skin::build_link($link, i18n::s('Feedster'), 'external').', ';
 
 		// Technorati
 		$link = 'http://www.technorati.com/cosmos/search.html?rank=&url='.$search;

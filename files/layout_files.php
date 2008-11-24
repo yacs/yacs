@@ -124,46 +124,36 @@ Class Layout_files extends Layout_interface {
 			if(count($details))
 				$suffix .= ' '.ucfirst(implode(', ', $details));
 
-			// description
-			if(trim($item['description']))
-				$suffix .= BR.Codes::beautify($item['description']);
-
 			$suffix = ' '.ucfirst(trim($suffix));
 
-			// append details to the suffix
-			$suffix .= BR.'<span class="details">';
-
-			// file poster and last action
-			if($variant != 'no_author')
-				$suffix .= ucfirst(sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date'])));
-			else
-				$suffix .= ucfirst(Skin::build_date($item['edit_date']));
-
+			// append details
+			$details = array();
+			
 			// anchor link
 			if(($variant != 'no_anchor') && ($variant != 'no_author') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
 				$anchor_url = $anchor->get_url();
 				$anchor_label = ucfirst($anchor->get_title());
-				$suffix .= ' '.sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));
+				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));
 			}
+
+			// file poster and last action
+			if($variant != 'no_author')
+				$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+			else
+				$details[] = Skin::build_date($item['edit_date']);
 
 			// file has been detached
 			if(isset($item['assign_id']) && $item['assign_id']) {
 
 				// who has been assigned?
 				if($item['assign_id'] == Surfer::get_id())
-					$suffix .= ', '.sprintf(i18n::s('assigned to you %s'), Skin::build_date($item['assign_date']));
+					$details[] = sprintf(i18n::s('assigned to you %s'), Skin::build_date($item['assign_date']));
 				else
-					$suffix .= ', '.sprintf(i18n::s('detached by %s %s'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date']));
+					$details[] = sprintf(i18n::s('detached by %s %s'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date']));
 			}
 
-			// end of details
-			$suffix .= '</span>';
-
-			// menu bar
-			$menu = array();
-
 			// view the file
-			$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Zoom')));
+			$details[] = Skin::build_link(Files::get_url($item['id'], 'view', $item['file_name']), i18n::s('Zoom'), 'span');
 
 			// detach or edit the file
 			if((Surfer::is_empowered() && Surfer::is_member())
@@ -171,22 +161,26 @@ Class Layout_files extends Layout_interface {
 				|| (Surfer::is_member() && (!isset($context['users_without_file_overloads']) || ($context['users_without_file_overloads'] != 'Y'))) ) {
 
 				if(!isset($item['assign_id']) || ($item['assign_id'] < 1))
-					$menu = array_merge($menu, array( Files::get_url($item['id'], 'detach') => i18n::s('Detach') ));
+					$details[] = Skin::build_link(Files::get_url($item['id'], 'detach'), i18n::s('Detach'), 'span');
 
-				$menu = array_merge($menu, array( Files::get_url($item['id'], 'edit') => i18n::s('Update') ));
+				$details[] = Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('Update'), 'span');
 			}
 
 			// clear assignment
 			if(isset($item['assign_id']) && $item['assign_id'] && Surfer::is_associate())
-				$menu = array_merge($menu, array( Files::get_url($item['id'], 'clear') => array('', i18n::s('Unassign'), '', 'basic') ));
+				$details[] = Skin::build_link(Files::get_url($item['id'], 'clear'), i18n::s('Unassign'), 'span');
 
 			// delete the file
 			if((Surfer::is_empowered() && Surfer::is_member()) || Surfer::is($item['create_id']))
-				$menu = array_merge($menu, array( Files::get_url($item['id'], 'delete') => i18n::s('Delete') ));
+				$details[] = Skin::build_link(Files::get_url($item['id'], 'delete'), i18n::s('Delete'), 'span');
 
 			// append the menu, if any
-			if(count($menu))
-				$suffix .= BR.Skin::build_list($menu, 'menu');
+			if(count($details))
+				$suffix .= BR.Skin::finalize_list($details, 'menu');
+
+			// description
+			if(trim($item['description']))
+				$suffix .= BR.Codes::beautify($item['description']);
 
 			// explicit icon
 			if($item['thumbnail_url'])

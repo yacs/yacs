@@ -432,7 +432,7 @@ Class Images {
 	 * include_once 'images/images.php';
 	 * $items = Images::list_by_date_for_anchor('section:12', 0, 10);
 	 * $context['text'] .= Skin::build_list($items, 'compact');
-	 * [/code]
+	 * [/php]
 	 *
 	 * @param string the anchor (e.g., 'article:123')
 	 * @param int the offset from the start of the list; usually, 0 or 1

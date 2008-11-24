@@ -87,6 +87,10 @@ elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_index = $context['arguments'][2];
 }
 
+// sanity check
+if($zoom_index < 1)
+	$zoom_index = 1;
+	
 // get the item from the database
 $item =& Sections::get($id);
 

@@ -1257,6 +1257,9 @@ Class Users {
 				$_SESSION['l10n_modules'] = array();
 			}
 		}
+		
+		if(!isset($fields['birth_date']) || !$fields['birth_date'])
+			$fields['birth_date'] = NULL_DATE;
 
 		// create a handle for this user
 		if(!isset($fields['handle']) || !trim($fields['handle']))
@@ -1271,7 +1274,7 @@ Class Users {
 			."aim_address='".SQL::escape(isset($fields['aim_address']) ? $fields['aim_address'] : '')."', "
 			."alternate_number='".SQL::escape(isset($fields['alternate_number']) ? $fields['alternate_number'] : '')."', "
 			."avatar_url='".SQL::escape(isset($fields['avatar_url']) ? $fields['avatar_url'] : '')."', "
-			."birth_date='".SQL::escape(isset($fields['birth_date']) ? $fields['birth_date'] : NULL_DATE)."', "
+			."birth_date='".SQL::escape($fields['birth_date'])."', "
 			."capability='".SQL::escape($fields['capability'])."', "
 			."create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."', "
 			."create_id='".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id'])."', "
@@ -1470,6 +1473,9 @@ Class Users {
 		if(!isset($fields['without_messages']) || ($fields['without_messages'] != 'N'))
 			$fields['without_messages'] = 'Y';
 
+		if(!isset($fields['birth_date']) || !$fields['birth_date'])
+			$fields['birth_date'] = NULL_DATE;
+			
 		// clean provided tags
 		if(isset($fields['tags']))
 			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
@@ -1501,7 +1507,7 @@ Class Users {
 				."aim_address='".SQL::escape(isset($fields['aim_address']) ? $fields['aim_address'] : '')."', "
 				."alternate_number='".SQL::escape(isset($fields['alternate_number']) ? $fields['alternate_number'] : '')."', "
 				."avatar_url='".SQL::escape(isset($fields['avatar_url']) ? $fields['avatar_url'] : '')."', "
-				."birth_date='".SQL::escape(isset($fields['birth_date']) ? $fields['birth_date'] : NULL_DATE)."', "
+				."birth_date='".SQL::escape($fields['birth_date'])."', "
 				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."', "
 				."editor='".SQL::escape($fields['editor'])."', "
 				."from_where='".SQL::escape(isset($fields['from_where']) ? $fields['from_where'] : '')."', "
@@ -1679,7 +1685,7 @@ Class Users {
 		$fields['from_where']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['icq_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['interface']	= "ENUM('N','C') DEFAULT 'N' NOT NULL";
+		$fields['interface']	= "ENUM('I','C') DEFAULT 'I' NOT NULL";
 		$fields['introduction'] = "TEXT NOT NULL";
 		$fields['irc_address']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['jabber_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";

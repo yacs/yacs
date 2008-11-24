@@ -2,7 +2,7 @@
 /**
  * extends articles functionality with overlays
  *
- * @todo create a 'task' overlay (cloubech)
+ * @todo create a 'task' overlay (Christian Loubechine)
  *
  * Overlays are a mean to extend the functionality of articles without having to copy the whole
  * package over and over.

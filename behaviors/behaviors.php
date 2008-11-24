@@ -94,9 +94,10 @@ class Behaviors {
 		global $context;
 
 		// check every behavior in sequence
-		foreach($this->items as $behavior) {
+		for($index = count($this->items) -1; $index >= 0; $index--) {
 
 			// extend the menu
+			$behavior = $this->items[$index];
 			$menu =& $behavior->add_commands($script, $anchor, $menu);
 
 		}
@@ -148,7 +149,7 @@ class Behaviors {
 
 		// one behavior per line
 		$lines = explode("\n", $text);
-
+		
 		// parse each line
 		include_once $context['path_to_root'].'behaviors/behavior.php';
 		foreach($lines as $line) {
@@ -173,9 +174,9 @@ class Behaviors {
 			if(is_readable($script)) {
 				include_once $script;
 
-				// bind one behavior and insert it in the list -- latest invocation will take over
+				// append the behavior at the end of the list
 				if(class_exists($behavior))
-					$this->items[$behavior] =& new $behavior($parameters);
+					$this->items[] = new $behavior($parameters);
 
 				// bad script content
 				elseif(is_callable(array('Skin', 'error')))
@@ -193,7 +194,7 @@ class Behaviors {
 
 		// strip behavior ids
 		$this->items = array_values($this->items);
-
+		
 	}
 
 }

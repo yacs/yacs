@@ -182,12 +182,6 @@
  *
  * [*] '[code]gadget_boxes[/code]' - Same as the previous one, except that YACS creates one gadget box per article.
  *
- * [*] '[code]icon_bottom[/code]' - List thumbnails of related articles at the bottom of the page.
- * Useful to feature logos of partners on index pages.
- *
- * [*] '[code]icon_top[/code]' - List thumbnails of related articles at the top of the page.
- * Useful to feature logos of partners on index pages.
- *
  * [*] '[code]news[/code]' - List articles in the area dedicated to flashy news
  *
  * [*] '[code]none[/code]' - Do not list section content at the front page.
@@ -633,8 +627,6 @@ Class Sections {
 	 * It accepts following variants:
 	 * - 'extra' - one extra box per section
 	 * - 'extra_boxes' - one extra box per article
-	 * - 'icon_bottom' - list thumbnails at the bottom of the page
-	 * - 'icon_top' - list thumbnails at the top of the page
 	 * - 'gadget' - one gadget box per section
 	 * - 'gadget_boxes' - one gadget box per article
 	 * - 'main' - the main part of the index page
@@ -681,14 +673,6 @@ Class Sections {
 
 		case 'gadget_boxes':
 			$criteria[] = "(sections.".$target." = 'gadget_boxes')";
-			break;
-
-		case 'icon_bottom':
-			$criteria[] = "(sections.".$target." = 'icon_bottom')";
-			break;
-
-		case 'icon_top':
-			$criteria[] = "(sections.".$target." = 'icon_top')";
 			break;
 
 		case 'main':

@@ -118,6 +118,10 @@ elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_index = $context['arguments'][2];
 }
 
+// sanity check
+if($zoom_index < 1)
+	$zoom_index = 1;
+	
 // get the item from the database
 $item =& Users::get($id);
 
@@ -318,7 +322,7 @@ if(!isset($item['id'])) {
 			$menu[] = Skin::build_link('sections/new.php', i18n::s('Add a blog, a discussion board, or another personal web space'), 'span');
 
 		// associates can assign editors and readers
-		elseif(Surfer::is_associate())
+		if(Surfer::is_associate())
 			$menu[] = Skin::build_link('sections/select.php?anchor=user:'.$item['id'], i18n::s('Manage'), 'span');
 
 		if(count($menu))

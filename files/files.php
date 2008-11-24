@@ -1827,6 +1827,7 @@ Class Files {
 			// regular fields
 			$query .= "title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."',"
 				."alternate_href='".SQL::escape(isset($fields['alternate_href']) ? $fields['alternate_href'] : '')."',"
+				."behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."',"
 				."file_href='".SQL::escape(isset($fields['file_href']) ? $fields['file_href'] : '')."',"
 				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
 				."keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."',"
@@ -1848,6 +1849,7 @@ Class Files {
 				."file_size='".SQL::escape($fields['file_size'])."',"
 				."title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."',"
 				."alternate_href='".SQL::escape(isset($fields['alternate_href']) ? $fields['alternate_href'] : '')."',"
+				."behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."',"
 				."file_href='".SQL::escape(isset($fields['file_href']) ? $fields['file_href'] : '')."',"
 				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
 				."keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."',"

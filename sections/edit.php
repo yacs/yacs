@@ -818,14 +818,6 @@ if($with_form) {
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'gadget_boxes'))
 				$input .= ' checked="checked"';
 			$input .= '/> '.i18n::s('displayed in distinct gadget boxes')
-				.BR.'<input type="radio" name="index_panel" value="icon_top"';
-			if(isset($item['index_panel']) && ($item['index_panel'] == 'icon_top'))
-				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('listed as thumbnails, at the top of the main panel')
-				.BR.'<input type="radio" name="index_panel" value="icon_bottom"';
-			if(isset($item['index_panel']) && ($item['index_panel'] == 'icon_bottom'))
-				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('listed as thumbnails, at the bottom of the main panel')
 				.BR.'<input type="radio" name="index_panel" value="extra"';
 			if(isset($item['index_panel']) && ($item['index_panel'] == 'extra'))
 				$input .= ' checked="checked"';
@@ -909,14 +901,6 @@ if($with_form) {
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'gadget_boxes'))
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('displayed in distinct gadget boxes')
-			.BR.'<input type="radio" name="home_panel" value="icon_top"';
-		if(isset($item['home_panel']) && ($item['home_panel'] == 'icon_top'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('listed as thumbnails, at the top of the main panel')
-			.BR.'<input type="radio" name="home_panel" value="icon_bottom"';
-		if(isset($item['home_panel']) && ($item['home_panel'] == 'icon_bottom'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('listed as thumbnails, at the bottom of the main panel')
 			.BR.'<input type="radio" name="home_panel" value="extra"';
 		if(isset($item['home_panel']) && ($item['home_panel'] == 'extra'))
 			$input .= ' checked="checked"';
@@ -926,7 +910,7 @@ if($with_form) {
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('displayed in distinct extra boxes')
 			.BR.'<input type="radio" name="home_panel" value="none"';
-		if(!isset($item['home_panel']) || !preg_match('/^(extra|extra_boxes|gadget|gadget_boxes|icon_bottom|icon_top|main|news)$/', $item['home_panel']))
+		if(!isset($item['home_panel']) || !preg_match('/^(extra|extra_boxes|gadget|gadget_boxes|main|news)$/', $item['home_panel']))
 			$input .= ' checked="checked"';
 		$input .= '/> '.i18n::s('not displayed at the front page');
 

@@ -257,6 +257,7 @@
  * @tester Guillaume Perez
  * @tester Fw_crocodile
  * @tester Christian Piercot
+ * @tester Christian Loubechine
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -684,6 +685,7 @@ Class Codes {
 		global $codes_base;
 		if($main_target)
 			$codes_base = $context['url_to_root'].$main_target;
+			
 	}
 
 	/**
@@ -2740,7 +2742,7 @@ Class Codes {
 			$text =& Articles::list_for_author_by('publication', str_replace('user:', '', $anchor), 0, $count, $layout);
 
 		// consider all pages
-		if(!$text)
+		else
 			$text =& Articles::list_by('publication', 0, $count, $layout);
 
 		// we have an array to format
@@ -2817,7 +2819,7 @@ Class Codes {
 			$text =& Articles::list_for_author_by('random', str_replace('user:', '', $anchor), 0, 1, 'raw');
 
 		// consider all pages
-		if(!$text)
+		else
 			$text =& Articles::list_by('random', 0, 1, 'raw');
 
 		// we have an array to format
@@ -2978,7 +2980,7 @@ Class Codes {
 			$text =& Members::list_sections_for_user(str_replace('user:', '', $anchor), 0, $count, $layout);
 
 		// consider all pages
-		if(!$text)
+		else
 			$text =& Sections::list_by_title_for_anchor(NULL, 0, $count, $layout);
 
 		// we have an array to format
@@ -3063,55 +3065,99 @@ Class Codes {
 	 * @return string the rendered text
 	**/
 	function &render_table_of($variant) {
-		global $codes_toc, $codes_toq;
+		global $context;
 
+		// nothing to return yet
+		$output = '';
+		
 		// list of questions for a FAQ
 		if($variant == 'questions') {
 
-			// to be rendered by css, using selector .toq_box ul, etc.
-			$text = '<ul>'."\n";
-			foreach($codes_toq as $link)
-				$text .= '<li>'.$link.'</li>'."\n";
-			$text .= '</ul>'."\n";
-
-			$output =& Skin::build_box('', $text, 'toq');
-			return $output;
+			// only if the table is not empty
+			global $codes_toq;
+			if(isset($codes_toq) && $codes_toq) {
+				
+				// to be rendered by css, using selector .toq_box ul, etc.
+				$text = '<ul>'."\n";
+				foreach($codes_toq as $link)
+					$text .= '<li>'.$link.'</li>'."\n";
+				$text .= '</ul>'."\n";
+	
+				$output =& Skin::build_box('', $text, 'toq');
+				
+			}
 
 		// list of titles
 		} else {
 
-			// to be rendered by css, using selector .toc_box ul, etc.
-			// <ul>
-			// <li>1. link</li> 		0 -> 1
-			// <li>1. link				1 -> 1
-			//		<ul>
-			//		<li>2. link</li>	1 -> 2
-			//		<li>2. link</li>	2 -> 2
-			//		</ul></li>
-			// <li>1. link</li> 		2 -> 1
-			// </ul>
-			$text ='';
-			$previous_level = 0;
-			foreach($codes_toc as $attributes) {
-				list($level, $link) = $attributes;
-				if($level > $previous_level)
-					$text .= '<ul>'."\n";
-				elseif($level < $previous_level)
-					$text .= '</li></ul></li>'."\n";
-				elseif($previous_level)
-					$text .= '</li>'."\n";
-
-				$text .= '<li>'.$link;
-
-				$previous_level = $level;
+			// only if the table is not empty
+			global $codes_toc;
+			if(isset($codes_toc) && $codes_toc) {
+			
+				// to be rendered by css, using selector .toc_box ul, etc.
+				// <ul>
+				// <li>1. link</li> 		0 -> 1
+				// <li>1. link				1 -> 1
+				//		<ul>
+				//		<li>2. link</li>	1 -> 2
+				//		<li>2. link</li>	2 -> 2
+				//		</ul></li>
+				// <li>1. link		 		2 -> 1
+				//		<ul>
+				//		<li>2. link</li>	1 -> 2
+				//		<li>2. link</li>	2 -> 2
+				//		</ul></li>
+				// </ul>
+				$text ='';
+				$previous_level = 0;
+				foreach($codes_toc as $attributes) {
+					list($level, $link) = $attributes;
+					
+					if($previous_level == $level)
+						$text .= '</li>'."\n";
+					
+					else {
+					
+						if($previous_level < $level) {
+							$text .= '<ul>'; 
+							$previous_level++;
+							while($previous_level < $level) {
+								$text .= '<li><ul>'."\n";
+								$previous_level++;
+							}
+						}
+							
+						if($previous_level > $level) {
+							$text .= '</li>'; 
+							while($previous_level > $level) {
+								$text .= '</ul></li>'."\n";
+								$previous_level--;
+							}
+						}
+					}
+	
+					$text .= '<li>'.$link;
+	
+				}
+	
+				if($previous_level > 0) {
+					$text .= '</li>'; 
+					while($previous_level > 0) {
+						if($previous_level > 1)
+							$text .= '</ul></li>'."\n";
+						else
+							$text .= '</ul>'."\n";
+						$previous_level--;
+					}
+				}
+	
+				$output =& Skin::build_box('', $text, 'toc');
+				
 			}
 
-			while($previous_level-- > 0)
-				$text .= '</li></ul>'."\n";
-
-			$output =& Skin::build_box('', $text, 'toc');
-			return $output;
 		}
+		
+		return $output;
 	}
 
 	/**
@@ -3279,7 +3325,7 @@ Class Codes {
 			$text =& Members::list_articles_for_member_by('edition', $anchor, 0, $count, $layout);
 
 		// consider all pages
-		if(!$text)
+		else
 			$text =& Articles::list_by('edition', 0, $count, $layout);
 
 		// we have an array to format
@@ -3352,7 +3398,7 @@ Class Codes {
 			$text =& Members::list_articles_for_member_by('rating', $anchor, 0, $count, $layout);
 
 		// consider all pages
-		if(!$text)
+		else
 			$text =& Articles::list_by('rating', 0, $count, $layout);
 
 		// we have an array to format

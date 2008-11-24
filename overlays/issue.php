@@ -333,7 +333,7 @@ class Issue extends Overlay {
 				$tracking .= '<div style="margin-bottom: 1em;">'.i18n::s('Solution Manager')
 					.' <input type="text" name="manager" id="manager" value ="'.encode_field($this->attributes['manager']).'" size="25" maxlength="32" />'
 					.'<div id="manager_choice" class="autocomplete"></div>'
-					.BR.'<span class="small">'.i18n::user('Type some letters of the name and select in the list').'</span></div>';
+					.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
 		
 				// append the script used for autocompletion
 				$tracking .= '<script type="text/javascript">// <![CDATA['."\n"
@@ -405,7 +405,7 @@ class Issue extends Overlay {
 
 		// finalize this tab
 		if($tracking)
-			$tabs[] = array('tracking_tab', i18n::user('Tracking'), 'tracking_panel', $tracking);
+			$tabs[] = array('tracking_tab', i18n::s('Tracking'), 'tracking_panel', $tracking);
 
 		// add these tabs
 		return $tabs;

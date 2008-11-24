@@ -321,7 +321,7 @@ if($search && ($page == 1)) {
 		$context['page_tools'][] = Skin::build_link(normalize_shortcut($matches[1]), i18n::s('Look for a named page'), 'basic');
 
 	// encode for urls, but preserve unicode chars
-	$search = urlencode(utf8::from_unicode($search));
+	$search = urlencode($search);
 
 	// Google
 	$link = 'http://www.google.com/search?q='.$search.'&ie=utf-8';
@@ -334,14 +334,6 @@ if($search && ($page == 1)) {
 	// Ask Jeeves
 	$link = 'http://web.ask.com/web?q='.$search;
 	$context['page_tools'][] = Skin::build_link($link, i18n::s('Ask Jeeves'), 'external');
-
-	// All the web
-	$link = 'http://alltheweb.com/search?q='.$search.'&cs=utf8';
-	$context['page_tools'][] = Skin::build_link($link, i18n::s('All the web'), 'external');
-
-	// Feedster
-	$link = 'http://www.feedster.com/search.php?q='.$search;
-	$context['page_tools'][] = Skin::build_link($link, i18n::s('Feedster'), 'external');
 
 	// Technorati
 	$link = 'http://www.technorati.com/cosmos/search.html?rank=&url='.$search;

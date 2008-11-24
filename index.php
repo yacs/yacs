@@ -221,7 +221,7 @@
  *
  * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
- * @tester Cloubech
+ * @tester Christian Loubechine
  * @tester Pat
  * @tester Olivier
  * @tester Agnes
@@ -251,9 +251,6 @@ else
 // load libraries used in this script
 include_once $context['path_to_root'].'categories/categories.php';
 include_once $context['path_to_root'].'links/links.php';
-
-// we don't have a cover page yet
-$cover_page = NULL;
 
 // load localized strings
 i18n::bind('root');
@@ -294,89 +291,47 @@ if($context['site_position'] && !preg_match('/geo\.position/', $context['page_he
 }
 
 //
-// compute page meta-information -- $context['prefix']
+// load the cover page
 //
 
-// save some database requests
-$cache_id = 'index.php#prefix';
-if(!$text =& Cache::get($cache_id)) {
-
-	// list top icons
-	if($anchors =& Sections::get_anchors_for_anchor(NULL, 'icon_top')) {
-
-		// up to 12 icons
-		if($text =& Articles::list_for_anchor_by('publication', $anchors, 0, 12, 'thumbnails'))
-			$text = Skin::build_box('', '<br class="images_prefix" />'.$text.'<br class="images_suffix" />', 'header1', 'top_icons');
-
-	}
-
-	// save in cache, whatever change, for 5 minutes
-	Cache::put($cache_id, $text, 'stable', 300);
-}
-
-// insert this at the very beginning
-$context['prefix'] = $text.$context['prefix'];
+// lookup a named page
+if($cover_page =& Articles::get('cover'))
+	;
+elseif($anchor = Sections::lookup('covers'))
+	$cover_page =& Articles::get_newest_for_anchor($anchor);
 
 //
 // compute page title -- $context['page_title']
 //
 
-// save some database requests
-$cache_id = 'index.php#page_title';
-if(!$text =& Cache::get($cache_id)) {
+if(isset($cover_page['title'])) {
+	$text = $cover_page['title'];
 
-	// the cover article is not displayed on a mobile device
-	if(($context['skin_variant'] != 'mobile') && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] == 'full'))) {
+	// link to the cover page for associates
+	if(Surfer::is_associate())
+		$text =& Skin::build_box_title($text, Articles::get_permalink($cover_page), i18n::s('View the cover page alone'));
 
-		// load the cover page
-		if(!$cover_page) {
-			if($anchor = Sections::lookup('covers'))
-				$cover_page =& Articles::get_newest_for_anchor($anchor);
-			else
-				$cover_page =& Articles::get('cover');
-		}
-
-		// use cover page
-		if(isset($cover_page['id'])) {
-			$text = $cover_page['title'];
-
-			// link to the cover page for associates
-			if(Surfer::is_associate())
-				$text =& Skin::build_box_title($text, Articles::get_permalink($cover_page), i18n::s('View the cover page alone'));
-
-		}
-	}
-
-	// save in cache, whatever change, for 1 minute
-	Cache::put($cache_id, $text, 'stable', 60);
+	// the new page title
+	$context['page_title'] = $text;
+	
 }
-
-// the new page title
-$context['page_title'] = $text;
 
 //
 // compute main panel -- $context['text']
 //
 
+// the cover article is not displayed on a mobile device
+if(($context['skin_variant'] != 'mobile') && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
+
+	// load the cover page --  may be changed in skin.php if necessary
+	if(isset($cover_page['id']))
+		$context['text'] .= Skin::layout_cover_article($cover_page);
+
+}
+
 // save some database requests
 $cache_id = 'index.php#text';
 if(!$text =& Cache::get($cache_id)) {
-
-	// the cover article is not displayed on a mobile device
-	if(($context['skin_variant'] != 'mobile') && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
-
-		// load the cover page
-		if(!$cover_page) {
-			if($anchor = Sections::lookup('covers'))
-				$cover_page =& Articles::get_newest_for_anchor($anchor);
-			else
-				$cover_page =& Articles::get('cover');
-		}
-
-		// may be changed in skin.php if necessary
-		$text .= Skin::layout_cover_article($cover_page);
-
-	}
 
 	// the prefix hook
 	if(is_callable(array('Hooks', 'include_scripts')))
@@ -745,38 +700,21 @@ if(!$text =& Cache::get($cache_id)) {
 	if(is_callable(array('Hooks', 'include_scripts')))
 		$text .= Hooks::include_scripts('index.php#suffix');
 
-	// the cover article is not displayed on a mobile device
-	if(($context['skin_variant'] != 'mobile') && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
-
-		// load the cover page
-		if(!$cover_page) {
-			if($anchor = Sections::lookup('covers'))
-				$cover_page =& Articles::get_newest_for_anchor($anchor);
-			else
-				$cover_page =& Articles::get('cover');
-		}
-
-		// may be changed in skin.php if necessary
-		if(isset($cover_page['trailer']))
-			$text .= Codes::beautify($cover_page['trailer']);
-
-	}
-
-	// list trailing icons
-	if($anchors =& Sections::get_anchors_for_anchor(NULL, 'icon_bottom')) {
-
-		// up to 12 icons
-		if($items =& Articles::list_for_anchor_by('publication', $anchors, 0, 12, 'thumbnails'))
-			$text .= Skin::build_box('', '<br class="images_prefix" />'.$items.'<br class="images_suffix" />', 'header1', 'bottom_icons');
-
-	}
-
 	// save in cache, whatever change, for 1 minute
 	Cache::put($cache_id, $text, 'stable', 60);
 }
 
 // page content
 $context['text'] .= $text;
+
+// the cover article is not displayed on a mobile device
+if(($context['skin_variant'] != 'mobile') && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
+
+	// may be changed in skin.php if necessary
+	if(isset($cover_page['trailer']))
+		$context['text'] .= Codes::beautify($cover_page['trailer']);
+
+}
 
 //
 // compute extra information -- $context['extra']

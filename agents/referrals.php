@@ -331,13 +331,8 @@ class Referrals {
 		// link options, if any
 		$suffix = '';
 
-		// coming from all the web
-		if(preg_match('/\balltheweb\b.+/', $link) && isset($attributes['q'])) {
-			$attributes = array( 'q' => $attributes['q'] );
-			$keywords = $attributes['q'];
-
 		// coming from altavista
-		} elseif(preg_match('/\baltavista\b.+/', $link) && isset($attributes['q'])) {
+		if(preg_match('/\baltavista\b.+/', $link) && isset($attributes['q'])) {
 			$attributes = array( 'q' => $attributes['q'] );
 			$keywords = $attributes['q'];
 
@@ -348,11 +343,6 @@ class Referrals {
 
 		// coming from ask
 		} elseif(preg_match('/\bask\b.+/', $link) && isset($attributes['q'])) {
-			$attributes = array( 'q' => $attributes['q'] );
-			$keywords = $attributes['q'];
-
-		// coming from feedster
-		} elseif(preg_match('/\bfeedster\b.+/', $link) && isset($attributes['q'])) {
 			$attributes = array( 'q' => $attributes['q'] );
 			$keywords = $attributes['q'];
 

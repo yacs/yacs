@@ -191,6 +191,10 @@ elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 
 // view.php/12/nick name induces no particular processing
 
+// sanity check
+if($zoom_index < 1)
+	$zoom_index = 1;
+	
 // get the item from the database
 $item =& Articles::get($id);
 
