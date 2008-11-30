@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 17, 2008, 11:08 pm GMT. Please do not modify it manually.
+ * on November 30, 2008, 9:40 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-17 15:47+0100
+POT-Creation-Date: 2008-11-30 22:33+0100
 PO-Revision-Date: 2008-11-17 15:50+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -84,10 +84,6 @@ $_SESSION['l10n']['fr']['9d83de40ae122a7fb75e78ab801804ae']='Apparaît sur la ca
 $_SESSION['l10n']['fr']['2958d1a81937ecdca99b2bfd543039e0']='Décrire l\'auteur sur le côté de la page (pour les weblogs)';
 $_SESSION['l10n']['fr']['6e0757015942aa1e30fe10e04e85ea9b']='Ajouter quelques détails sur l\'auteur en bas de page';
 $_SESSION['l10n']['fr']['b4cb4dc2b17ff4ce51ca65cb8dcc7e98']='Appliquer un thème spécifique (dans skins/foo_bar)';
-$_SESSION['l10n']['fr']['1b13f1725b19cec2f45be8214a6c07e9']='Les vignettes des articles sont affichés à la fin de la page d\'accueil';
-$_SESSION['l10n']['fr']['f152546cc6283c148b3d87f205a88547']='Les vignettes des articles sont affichées à la fin de la page de la section parente';
-$_SESSION['l10n']['fr']['da88cb8b714252912c50a5f2015b9c7d']='Les vignettes des articles sont affichées au début de la page d\'accueil';
-$_SESSION['l10n']['fr']['1d4c198fdf1682c81c4cc5ede4aba7fd']='Les vignettes des articles sont affichées au début de la page de la section parente';
 $_SESSION['l10n']['fr']['fe2d9ddbe1196558ceec85389e94ac2c']='Les articles sont listé sur la page d\'accueil, dans la zone réservée aux dernières nouvelles';
 $_SESSION['l10n']['fr']['0dd6439a054a9b376f3f0208c7a28e00']='Les articles sont listés sur la page de la section parente, dans la zone réservée aux nouvelles';
 $_SESSION['l10n']['fr']['Ask explicitly for more votes']='Etre encore plus explicite sur les demandes de vote';
@@ -461,8 +457,6 @@ $_SESSION['l10n']['fr']['in %s']='dans %s';
 $_SESSION['l10n']['fr']['36bf15f384c2faef4a8cbb7476484e2e']='inline - Lister les rubriques et les articles associés (une boîte par section).';
 $_SESSION['l10n']['fr']['2367cc975647ba107ba853e93a807607']='jive - Affiche le contenu de chaque article';
 $_SESSION['l10n']['fr']['jive - List 5 threads per board']='jive - Liste 5 fils de discussion à la fois';
-$_SESSION['l10n']['fr']['020f6816ea7194336fbc98baff097b65']='afficher les vignettes associées, à la fin de la zone principale';
-$_SESSION['l10n']['fr']['b0b960a6b9354b63d418b4293c028d72']='afficher les vignettes associées, au début de la zone principale';
 $_SESSION['l10n']['fr']['9e5d16839a0d4a82181dde11b301fb84']='listé dans la zone principale, dans une boîte gadget';
 $_SESSION['l10n']['fr']['3d28b912a644df28c674a6fff364d052']='Listée dans la zone principale, avec l\'ordre d\'apparition %s . La valeur par défaut est 10000.';
 $_SESSION['l10n']['fr']['60ae7435729cd38498d178c25ed9036c']='listé sur le côté de la page, dans une boîte extra';

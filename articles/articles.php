@@ -2286,8 +2286,10 @@ Class Articles {
 				$sections_where .= " OR sections.id = ".str_replace('section:', '', $reference);
 
 			//include managed sections
-			if(count($my_sections = Surfer::assigned_sections()))
+			if(count($my_sections = Surfer::assigned_sections())) {
 				$sections_where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
+				$sections_where .= " OR sections.anchor LIKE 'section:".join("' OR sections.anchor LIKE 'section:", $my_sections)."'";
+			}
 
 		}
 

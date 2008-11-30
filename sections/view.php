@@ -521,6 +521,10 @@ if(!isset($item['id'])) {
 			$text = '<p class="details">';
 			$details = array();
 
+			// add details from the overlay, if any
+			if(is_object($overlay) && ($more = $overlay->get_text('details', $item)))
+				$details[] = $more;
+		
 			// restricted to logged members
 			if($item['active'] == 'R')
 				$details[] = RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members');
@@ -724,6 +728,10 @@ if(!isset($item['id'])) {
 
 					$text .= Skin::build_list($page_menu, 'menu_bar');
 				}
+
+				// add trailer information from the overlay, if any
+				if(is_object($overlay))
+					$text .= $overlay->get_text('trailer', $item);
 
 			}
 		}
@@ -1404,10 +1412,6 @@ if(!isset($item['id'])) {
 		//
 		// trailer information
 		//
-
-		// add trailer information from the overlay, if any
-		if(is_object($overlay))
-			$text .= $overlay->get_text('trailer', $item);
 
 		// add trailer information from this item, if any
 		if(isset($item['trailer']) && trim($item['trailer']))

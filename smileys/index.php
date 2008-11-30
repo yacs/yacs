@@ -55,37 +55,37 @@ $cells[] = i18n::s('Featured image');
 $context['text'] .= Skin::table_row($cells, 'header');
 $lines = 2;
 
-// 8) 8-) :cool:
+// 8-) :cool:
 $cells = array();
-$cells[] = '[escape]8&#41; 8-&#41; :cool:[/escape]';
+$cells[] = '[escape]8-&#41; :cool:[/escape]';
 $cells[] = i18n::s('sunglass dude');
 $cells[] = '8-)';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
-// :) :-) :smile:
+// :-) :smile:
 $cells = array();
-$cells[] = '[escape]:&#41; :-&#41; :smile:[/escape]';
+$cells[] = '[escape]:-&#41; :smile:[/escape]';
 $cells[] = i18n::s('smile');
 $cells[] = ':-)';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
-// ::) ::-) :rolleyes:
+// ::-) :rolleyes:
 $cells = array();
-$cells[] = '[escape]::&#41; ::-&#41; :rolleyes:[/escape]';
+$cells[] = '[escape]::-&#41; :rolleyes:[/escape]';
 $cells[] = i18n::s('roll eyes');
 $cells[] = '::-)';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
-// ;) ;-) :wink:
+// ;-) :wink:
 $cells = array();
-$cells[] = '[escape];&#41; ;-&#41; :wink:[/escape]';
+$cells[] = '[escape];-&#41; :wink:[/escape]';
 $cells[] = i18n::s('wink/sarcasm');
 $cells[] = ';-)';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
-// :D :-D :cheesy:
+// :-D :cheesy:
 $cells = array();
-$cells[] = '[escape]:D :-D :cheesy:[/escape]';
+$cells[] = '[escape]:-D :cheesy:[/escape]';
 $cells[] = i18n::s('cheesy');
 $cells[] = ':-D';
 $context['text'] .= Skin::table_row($cells, $lines++);
@@ -97,25 +97,25 @@ $cells[] = i18n::s('rolling on the floor, laughing');
 $cells[] = ':lol:';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
-// :P :-P :tongue:
+// :-P :tongue:
 $cells = array();
-$cells[] = '[escape]:P :-P :tongue:[/escape]';
+$cells[] = '[escape]:-P :tongue:[/escape]';
 $cells[] = i18n::s('tongue');
 $cells[] = ':-P';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
-// :( :-( :frown:
+// :-( :frown:
 $cells = array();
-$cells[] = '[escape] :( :-( :frown:[/escape]';
+$cells[] = '[escape]:-( :frown:[/escape]';
 $cells[] = i18n::s('frown');
 $cells[] = ':-(';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
-// >:( >:-( :angry:
+// >:( :angry:
 $cells = array();
-$cells[] = '[escape] >:( >:-( :angry:[/escape]';
+$cells[] = '[escape] >:( :angry:[/escape]';
 $cells[] = i18n::s('angry');
-$cells[] = '>:-(';
+$cells[] = '>:(';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
 // :basket:
@@ -167,9 +167,9 @@ $cells[] = i18n::s('cry');
 $cells[] = ':\'-(';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
-// :o :-o :shocked:
+// :-o :shocked:
 $cells = array();
-$cells[] = '[escape] :o :-o :shocked:[/escape]';
+$cells[] = '[escape] :-o :shocked:[/escape]';
 $cells[] = i18n::s('shocked');
 $cells[] = ':-o';
 $context['text'] .= Skin::table_row($cells, $lines++);
@@ -181,9 +181,9 @@ $cells[] = i18n::s('ekk/horror!');
 $cells[] = ':horror:';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
-// :X :-X :sealed:
+// :-X :sealed:
 $cells = array();
-$cells[] = '[escape] :X :-X :sealed:[/escape]';
+$cells[] = '[escape]:-X :sealed:[/escape]';
 $cells[] = i18n::s('sealed');
 $cells[] = ':-X';
 $context['text'] .= Skin::table_row($cells, $lines++);
@@ -202,16 +202,16 @@ $cells[] = i18n::s('confused');
 $cells[] = '???';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
-// :/ :-/ :undecided:
+// :-/ :undecided:
 $cells = array();
-$cells[] = '[escape] :/ :-/ :undecided:[/escape]';
+$cells[] = '[escape]:-/ :undecided:[/escape]';
 $cells[] = i18n::s('undecided');
 $cells[] = ':-/';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
-// :[ :-[ :embarassed:
+// :-[ :embarassed:
 $cells = array();
-$cells[] = '[escape] :[ :-[ :embarassed:[/escape]';
+$cells[] = '[escape]:-[ :embarassed:[/escape]';
 $cells[] = i18n::s('embarassed');
 $cells[] = ':-[';
 $context['text'] .= Skin::table_row($cells, $lines++);
@@ -617,16 +617,16 @@ $context['text'] .= Skin::table_row($cells, $lines++);
 
 // :+ :up:
 $cells = array();
-$cells[] = '[escape]:+ :up:[/escape]';
+$cells[] = '[escape]:up:[/escape]';
 $cells[] = i18n::s('good');
-$cells[] = ' :+';
+$cells[] = ':up:';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
 // :- :down:
 $cells = array();
-$cells[] = '[escape]:- :down:[/escape]';
+$cells[] = '[escape]:down:[/escape]';
 $cells[] = i18n::s('bad');
-$cells[] = ' :-';
+$cells[] = ':down:';
 $context['text'] .= Skin::table_row($cells, $lines++);
 
 // :peace:
@@ -659,7 +659,7 @@ $context['text'] .= Skin::table_row($cells, $lines++);
 
 // :* :-* :kiss:
 $cells = array();
-$cells[] = '[escape]:* :kiss:[/escape]';
+$cells[] = '[escape]:-* :kiss:[/escape]';
 $cells[] = i18n::s('kiss');
 $cells[] = ':-*';
 $context['text'] .= Skin::table_row($cells, $lines++);

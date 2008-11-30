@@ -420,8 +420,10 @@ Class Sections {
 			$where .= " OR sections.active='N'";
 
 		// include managed sections
-		if(count($my_sections = Surfer::assigned_sections()))
+		if(count($my_sections = Surfer::assigned_sections())) {
 			$where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
+			$where .= " OR sections.anchor LIKE 'section:".join("' OR sections.anchor LIKE 'section:", $my_sections)."'";
+		}
 
 		$where .= ")";
 
@@ -844,8 +846,10 @@ Class Sections {
 			$where .= " OR sections.active='R'";
 
 		// include managed sections
-		if(is_callable(array('surfer', 'assigned_sections')) && count($my_sections = Surfer::assigned_sections()))
+		if(is_callable(array('surfer', 'assigned_sections')) && count($my_sections = Surfer::assigned_sections())) {
 			$where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
+			$where .= " OR sections.anchor LIKE 'section:".join("' OR sections.anchor LIKE 'section:", $my_sections)."'";
+		}
 
 		// end of scope
 		$where .= ")";
@@ -1368,8 +1372,10 @@ Class Sections {
 			$where .= " OR sections.active='N'";
 
 		// include managed sections
-		if(count($my_sections = Surfer::assigned_sections()))
+		if(count($my_sections = Surfer::assigned_sections())) {
 			$where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
+			$where .= " OR sections.anchor LIKE 'section:".join("' OR sections.anchor LIKE 'section:", $my_sections)."'";
+		}
 
 		// end of scope
 		$where .= ")";
@@ -1443,8 +1449,10 @@ Class Sections {
 			$where .= " OR sections.active='N'";
 
 		// include managed sections
-		if(count($my_sections = Surfer::assigned_sections()))
+		if(count($my_sections = Surfer::assigned_sections())) {
 			$where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
+			$where .= " OR sections.anchor LIKE 'section:".join("' OR sections.anchor LIKE 'section:", $my_sections)."'";
+		}
 
 		// end of scope
 		$where .= ')';

@@ -223,6 +223,10 @@ if(!isset($item['id'])) {
 			$text .= '<p class="details">';
 			$details = array();
 	
+			// add details from the overlay, if any
+			if(is_object($overlay) && ($more = $overlay->get_text('details', $item)))
+				$details[] = $more;
+		
 			// article rating, if the anchor allows for it, and if no rating has already been registered
 			if(is_object($anchor) && !$anchor->has_option('without_rating') && !$anchor->has_option('rate_as_digg')) {
 	
@@ -450,6 +454,10 @@ if(!isset($item['id'])) {
 	// the beautified description, which is the actual page body
 	$context['text'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
+	// add trailer information from the overlay, if any
+	if(is_object($overlay))
+		$context['text'] .= $overlay->get_text('trailer', $item);
+
 	// the poster profile, if any, at the bottom of the page
 	if(isset($poster['id']) && is_object($anchor))
 		$context['text'] .= $anchor->get_user_profile($poster, 'suffix', Skin::build_date($item['create_date']));
@@ -582,10 +590,6 @@ if(!isset($item['id'])) {
 	//
 	// trailer information
 	//
-
-	// add trailer information from the overlay, if any
-	if(is_object($overlay))
-		$context['text'] .= $overlay->get_text('trailer', $item);
 
 	// add trailer information from this item, if any
 	if(isset($item['trailer']) && trim($item['trailer']))

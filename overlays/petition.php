@@ -65,6 +65,62 @@ class Petition extends Overlay {
 	}
 
 	/**
+	 * text to come in page details
+	 *
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function &get_details_text($host=NULL) {
+		global $context;
+
+		include_once $context['path_to_root'].'decisions/decisions.php';
+
+		// feed-back to surfer
+		$information = array();
+		
+		// no end date
+		if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE)) {
+
+			$information[] = i18n::s('Petition is currently open.');
+			$open = TRUE;
+
+		// not ended yet
+		} elseif($this->attributes['end_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')) {
+
+			$information[] = sprintf(i18n::s('Petition is open until %s.'), Skin::build_date($this->attributes['end_date'], 'standalone'));
+			$open = TRUE;
+
+		// petition is over
+		} else {
+
+			$information[] = sprintf(i18n::s('Petition has ended on %s.'), Skin::build_date($this->attributes['end_date'], 'standalone'));
+			$open = FALSE;
+
+		}
+
+		// voters, only before vote end
+		if($open) {
+
+			if(!isset($this->attributes['voters']) || ($this->attributes['voters'] == 'members'))
+				$information[] = i18n::s('All members of the community are allowed to sign.');
+	
+			elseif($this->attributes['voters'] == 'editors')
+				$information[] = i18n::s('Editors of this section are allowed to sign.');
+	
+			elseif($this->attributes['voters'] == 'associates')
+				$information[] = i18n::s('Only associates are allowed to sign.');
+	
+			elseif($this->attributes['voters'] == 'custom')
+				$information[] = sprintf(i18n::s('Allowed: %s'), (isset($this->attributes['voter_list']) && trim($this->attributes['voter_list'])) ? $this->attributes['voter_list'] : i18n::s('(to be defined)') );
+			
+		}
+
+		// introduce the petition
+		$text = join(' ', $information);
+		return $text;
+	}
+
+	/**
 	 * build the list of fields for one overlay
 	 *
 	 * @see overlays/overlay.php
@@ -132,10 +188,6 @@ class Petition extends Overlay {
 		// the target label
 		switch($name) {
 
-		// description label
-		case 'description':
-			return i18n::s('Petition description');
-
 		// page title
 		case 'page_title':
 
@@ -161,6 +213,54 @@ class Petition extends Overlay {
 		// no match
 		return NULL;
 	}
+	
+	/**
+	 * text to come after page description
+	 *
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function &get_trailer_text($host=NULL) {
+		global $context;
+
+		include_once $context['path_to_root'].'decisions/decisions.php';
+
+		// the text
+		$text = '';
+
+		// actually, a menu of commands		
+		$menu = array();
+		
+		// list of all signatures
+		if($label = Decisions::get_results_label_for_anchor('article:'.$this->attributes['id']))
+			$menu[] = Skin::build_link(Decisions::get_url('article:'.$this->attributes['id'], 'list'), $label, 'basic', i18n::s('See ballot papers'));
+
+		// no end date
+		if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE))
+			$open = TRUE;
+
+		// not ended yet
+		elseif($this->attributes['end_date'] > gmstrftime('%Y-%m-%d %H:%M:%S'))
+			$open = TRUE;
+
+		// petition is over
+		else
+			$open = FALSE;
+
+		// different for each surfer
+		Cache::poison();
+		
+		// get ballot
+		if($ballot = Decisions::get_ballot('article:'.$this->attributes['id']))
+			$menu[] = Skin::build_link(Decisions::get_url($ballot), i18n::s('View your signature'), 'shortcut');
+
+		// link to vote
+		elseif($open && Surfer::is_member())
+			$menu[] = Skin::build_link(Decisions::get_url('article:'.$this->attributes['id'], 'decision'), i18n::s('Sign this petition'), 'shortcut');
+
+		$text = Skin::finalize_list($menu, 'menu_bar');
+		return $text;
+	}
 
 	/**
 	 * display the content of one petition
@@ -171,100 +271,7 @@ class Petition extends Overlay {
 	 * @return some HTML to be inserted into the resulting page
 	 */
 	function &get_view_text($host=NULL) {
-		global $context;
-
-		include_once $context['path_to_root'].'decisions/decisions.php';
-
-		// the text
 		$text = '';
-
-		// get ballot
-		$vote = NULL;
-		if($ballot = Decisions::get_ballot('article:'.$this->attributes['id'])) {
-
-			// link to ballot page
-			if($variant == 'view')
-				$text .= '<p>'.Skin::build_link(Decisions::get_url($ballot), i18n::s('View your signature'), 'shortcut').'</p>';
-
-		// link to vote
-		} elseif(Surfer::is_member())
-			$vote = ' '.Skin::build_link(Decisions::get_url('article:'.$this->attributes['id'], 'decision'), i18n::s('Sign this petition'), 'shortcut').' ';
-
-		// vote is open
-		$open = FALSE;
-
-		// current time
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-		// no end date
-		if(!isset($this->attributes['end_date']) || ($this->attributes['end_date'] <= NULL_DATE)) {
-
-			$text .= '<p>'.i18n::s('Petition is currently open').$vote.'</p>';
-
-			$open = TRUE;
-
-		// not ended yet
-		} elseif($now < $this->attributes['end_date']) {
-
-			$text .= '<p>'.sprintf(i18n::s('Petition is open until %s'), Skin::build_date($this->attributes['end_date'], 'standalone').$vote).'</p>';
-
-			$open = TRUE;
-
-		// petition is over
-		} else {
-
-			$text .= '<p>'.sprintf(i18n::s('Petition has ended on %s'), Skin::build_date($this->attributes['end_date'], 'standalone')).'</p>';
-
-		}
-
-		// decisions for this vote
-		list($total, $yes, $no) = Decisions::get_results_for_anchor('article:'.$this->attributes['id']);
-
-		// show results
-		if($total) {
-
-			$label = '';
-
-			// total number of votes
-			if($total)
-				$label .= sprintf(i18n::ns('%d signature', '%d signatures', $total), $total);
-
-			// count of yes
-			if($yes)
-				$label .= ', '.sprintf(i18n::ns('%d approval', '%d approvals', $yes), $yes).' ('.(int)($yes*100/$total).'%)';
-
-			// count of no
-			if($no)
-				$label .= ', '.sprintf(i18n::ns('%d reject', '%d rejects', $no), $no).' ('.(int)($no*100/$total).'%)';
-
-			// a link to ballots
-			$text .= '<p>'.Skin::build_link(Decisions::get_url('article:'.$this->attributes['id'], 'list'), $label, 'basic', i18n::s('See ballot papers')).'</p>';
-
-		}
-
-		// voters, only before vote end
-		$text .= '<p>';
-
-		if(!isset($this->attributes['voters']) || ($this->attributes['voters'] == 'members'))
-			$text .= i18n::s('All members of the community are allowed to sign');
-
-		elseif($this->attributes['voters'] == 'editors')
-			$text .= i18n::s('Editors of this section are allowed to sign');
-
-		elseif($this->attributes['voters'] == 'associates')
-			$text .= i18n::s('Only associates are allowed to sign');
-
-		elseif($this->attributes['voters'] == 'custom') {
-			$text .= i18n::s('Allowed: ');
-			if(!isset($this->attributes['voter_list']) || !trim($this->attributes['voter_list'])) {
-				$text .= i18n::s('(to be defined)');
-			} else
-				$text .= $this->attributes['voter_list'];
-		}
-
-		$text .= '</p>';
-
-		$text = '<div class="overlay">'.Codes::beautify($text).'</div>';
 		return $text;
 	}
 

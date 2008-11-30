@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 17, 2008, 11:08 pm GMT. Please do not modify it manually.
+ * on November 30, 2008, 9:40 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-17 15:47+0100
+POT-Creation-Date: 2008-11-30 22:33+0100
 PO-Revision-Date: 2008-11-17 15:48+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -84,10 +84,6 @@ $_SESSION['l10n']['en']['9d83de40ae122a7fb75e78ab801804ae']='Appears at the site
 $_SESSION['l10n']['en']['2958d1a81937ecdca99b2bfd543039e0']='Append some poster details aside the page (adequate to most weblogs)';
 $_SESSION['l10n']['en']['6e0757015942aa1e30fe10e04e85ea9b']='Append some poster details at the bottom of the page';
 $_SESSION['l10n']['en']['b4cb4dc2b17ff4ce51ca65cb8dcc7e98']='Apply a specific theme (in skins/foo_bar)';
-$_SESSION['l10n']['en']['1b13f1725b19cec2f45be8214a6c07e9']='Article thumbnails are displayed at the bottom of the front page.';
-$_SESSION['l10n']['en']['f152546cc6283c148b3d87f205a88547']='Article thumbnails are displayed at the bottom of the parent section page.';
-$_SESSION['l10n']['en']['da88cb8b714252912c50a5f2015b9c7d']='Article thumbnails are displayed at the top of the front page.';
-$_SESSION['l10n']['en']['1d4c198fdf1682c81c4cc5ede4aba7fd']='Article thumbnails are displayed at the top of the parent section page.';
 $_SESSION['l10n']['en']['fe2d9ddbe1196558ceec85389e94ac2c']='Articles are listed at the front page, in the area reserved to recent news.';
 $_SESSION['l10n']['en']['0dd6439a054a9b376f3f0208c7a28e00']='Articles are listed at the parent section page, in the area reserved to flashy news.';
 $_SESSION['l10n']['en']['Ask explicitly for more votes']='Ask explicitly for more votes';
@@ -461,8 +457,6 @@ $_SESSION['l10n']['en']['in %s']='in %s';
 $_SESSION['l10n']['en']['36bf15f384c2faef4a8cbb7476484e2e']='inline - List sub-sections and related articles.';
 $_SESSION['l10n']['en']['2367cc975647ba107ba853e93a807607']='jive - Display most of articles content';
 $_SESSION['l10n']['en']['jive - List 5 threads per board']='jive - List 5 threads per board';
-$_SESSION['l10n']['en']['020f6816ea7194336fbc98baff097b65']='listed as thumbnails, at the bottom of the main panel';
-$_SESSION['l10n']['en']['b0b960a6b9354b63d418b4293c028d72']='listed as thumbnails, at the top of the main panel';
 $_SESSION['l10n']['en']['9e5d16839a0d4a82181dde11b301fb84']='listed in the main panel, in a gadget box';
 $_SESSION['l10n']['en']['3d28b912a644df28c674a6fff364d052']='listed in the main panel, with the rank %s (default value is 10000).';
 $_SESSION['l10n']['en']['60ae7435729cd38498d178c25ed9036c']='listed on page side, in an extra box';

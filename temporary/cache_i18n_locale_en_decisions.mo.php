@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 17, 2008, 11:09 pm GMT. Please do not modify it manually.
+ * on November 30, 2008, 9:40 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-04 23:32+0100
-PO-Revision-Date: 2008-10-17 18:37+0100
+POT-Creation-Date: 2008-11-30 22:33+0100
+PO-Revision-Date: 2008-11-30 22:34+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -20,9 +20,10 @@ X-Poedit-Country: UNITED KINGDOM
 X-Poedit-SourceCharset: utf-8
 ';
 $_SESSION['l10n']['en']['%d decision'.chr(0).'%d decisions']='%d decision'.chr(0).'%d decisions';
+$_SESSION['l10n']['en']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
-$_SESSION['l10n']['en']['%d thread'.chr(0).'%d threads']='%d thread'.chr(0).'%d threads';
-$_SESSION['l10n']['en']['d09e6d8231070418cfe46f6f8984efd1']='%s approvals (%d%%), %s rejections (%d%%)';
+$_SESSION['l10n']['en']['%d signature'.chr(0).'%d signatures']='%d signature'.chr(0).'%d signatures';
+$_SESSION['l10n']['en']['%d%% yes, %d%% no']='%d%% yes, %d%% no';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['All pages']='All pages';
 $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';

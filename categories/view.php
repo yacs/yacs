@@ -268,6 +268,10 @@ if(!isset($item['id'])) {
 		$context['page_details'] = '<p class="details">';
 		$details = array();
 
+		// add details from the overlay, if any
+		if(is_object($overlay) && ($more = $overlay->get_text('details', $item)))
+			$details[] = $more;
+	
 		// restricted to logged members
 		if($item['active'] == 'R')
 			$details[] = RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members');
@@ -384,6 +388,10 @@ if(!isset($item['id'])) {
 
 			// the description, which is the actual page body
 			$text .= Skin::build_block($item['description'], 'description');
+
+			// add trailer information from the overlay, if any
+			if(is_object($overlay))
+				$text .= $overlay->get_text('trailer', $item);
 
 			// save in cache if no dynamic element
 			Cache::put($cache_id, $text, 'category:'.$item['id']);
@@ -889,10 +897,6 @@ if(!isset($item['id'])) {
 	//
 	// trailer
 	//
-
-	// add trailer information from the overlay, if any
-	if(is_object($overlay))
-		$context['text'] .= $overlay->get_text('trailer', $item);
 
 	// add trailer information from this item, if any
 	if(isset($item['trailer']) && trim($item['trailer']))

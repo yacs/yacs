@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 17, 2008, 11:09 pm GMT. Please do not modify it manually.
+ * on November 30, 2008, 9:44 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-04 00:13+0100
+POT-Creation-Date: 2008-11-30 22:33+0100
 PO-Revision-Date: 2008-11-16 21:55+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques

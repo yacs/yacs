@@ -69,13 +69,9 @@ class Smileys {
 			$prefix = ' <img src="'.$context['url_to_root'].'skins/images/smileys/';
 			$suffix = '" alt="" /> ';
 
-			$pattern[] = ' >:(';
-			$replace[] = $prefix.'angry.gif'.$suffix;
-			$pattern[] = '>:-\(';
+			$pattern[] = '>:(';
 			$replace[] = $prefix.'angry.gif'.$suffix;
 
-			$pattern[] = ' :D';
-			$replace[] = $prefix.'cheesy.gif'.$suffix;
 			$pattern[] = ':-D';
 			$replace[] = $prefix.'cheesy.gif'.$suffix;
 
@@ -84,34 +80,24 @@ class Smileys {
 			$pattern[] = ":'-(";
 			$replace[] = $prefix.'cry.gif'.$suffix;
 
-			$pattern[] = ' 8)';
-			$replace[] = $prefix.'cool.gif'.$suffix;
 			$pattern[] = '8-)';
 			$replace[] = $prefix.'cool.gif'.$suffix;
 
-			$pattern[] = ' :(';
-			$replace[] = $prefix.'frown.gif'.$suffix;
 			$pattern[] = ':-(';
 			$replace[] = $prefix.'frown.gif'.$suffix;
 
 			$pattern[] = '???';
 			$replace[] = $prefix.'confused.gif'.$suffix;
 
-			$pattern[] = ' :[';
-			$replace[] = $prefix.'embarassed.gif'.$suffix;
 			$pattern[] = ':-[';
 			$replace[] = $prefix.'embarassed.gif'.$suffix;
 
 			$pattern[] = ':blush:';
 			$replace[] = $prefix.'blushing.gif'.$suffix;
 
-			$pattern[] = ' :X';
-			$replace[] = $prefix.'sealed.gif'.$suffix;
 			$pattern[] = ':-X';
 			$replace[] = $prefix.'sealed.gif'.$suffix;
 
-			$pattern[] = ' :P';
-			$replace[] = $prefix.'tongue.gif'.$suffix;
 			$pattern[] = ':-P';
 			$replace[] = $prefix.'tongue.gif'.$suffix;
 
@@ -121,8 +107,6 @@ class Smileys {
 			$pattern[] = ':half_medal:';
 			$replace[] = $prefix.'medal_half.gif'.$suffix;
 
-			$pattern[] = ' ::)';
-			$replace[] = $prefix.'rolleyes.gif'.$suffix;
 			$pattern[] = '::-)';
 			$replace[] = $prefix.'rolleyes.gif'.$suffix;
 
@@ -131,8 +115,6 @@ class Smileys {
 			$pattern[] = ':-)';
 			$replace[] = $prefix.'smile.gif'.$suffix;
 
-			$pattern[] = ' :o';
-			$replace[] = $prefix.'shocked.gif'.$suffix;
 			$pattern[] = ':-o';
 			$replace[] = $prefix.'shocked.gif'.$suffix;
 

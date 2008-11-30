@@ -124,6 +124,7 @@
  * @tester Cyril Blondin
  * @tester NickR
  * @tester Thierry Pinelli (ThierryP)
+ * @tester Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -579,6 +580,10 @@ if(!isset($item['id'])) {
 			$text .= '<p class="details">';
 			$details = array();
 
+			// add details from the overlay, if any
+			if(is_object($overlay) && ($more = $overlay->get_text('details', $item)))
+				$details[] = $more;
+		
 			// article rating, if the anchor allows for it, and if no rating has already been registered
 			if(is_object($anchor) && !$anchor->has_option('without_rating') && !$anchor->has_option('rate_as_digg')) {
 
@@ -860,7 +865,7 @@ if(!isset($item['id'])) {
 				if(count($pages) > 1) {
 					$page_menu = array( '_' => i18n::s('Pages') );
 					$home = Articles::get_permalink($item);
-					$prefix = Articles::get_url($item['id'], 'navigate', 'articles');
+					$prefix = Articles::get_url($item['id'], 'navigate', 'page');
 					$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
 
 					$text .= Skin::build_list($page_menu, 'menu_bar');
@@ -868,6 +873,10 @@ if(!isset($item['id'])) {
 
 			}
 
+			// add trailer information from the overlay, if any
+			if(is_object($overlay))
+				$text .= $overlay->get_text('trailer', $item);
+	
 			// the poster profile, if any, at the end of the page
 			if(isset($poster['id']) && is_object($anchor))
 				$text .= $anchor->get_user_profile($poster, 'suffix', Skin::build_date($item['create_date']));
@@ -1135,10 +1144,6 @@ if(!isset($item['id'])) {
 		//
 		// trailer information
 		//
-
-		// add trailer information from the overlay, if any
-		if(is_object($overlay))
-			$text .= $overlay->get_text('trailer', $item);
 
 		// add trailer information from this item, if any
 		if(isset($item['trailer']) && trim($item['trailer']))

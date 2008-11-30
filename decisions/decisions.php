@@ -436,6 +436,39 @@ Class Decisions {
 	}
 
 	/**
+	 * sum up all decisions for one anchor
+	 *
+	 * @param the selected anchor (e.g., 'article:12')
+	 * @return string some text to summarize decisions
+	 */
+	function &get_results_label_for_anchor($anchor) {
+		global $context;
+		
+		// no text yet
+		$text = '';
+		
+		// decisions for this vote
+		if(!$results = Decisions::get_results_for_anchor($anchor))
+			return $text;
+			
+		list($total, $yes, $no) = $results;
+		if(!$total)
+			return $text;
+
+		// total number of votes
+		$text .= sprintf(i18n::ns('%d signature', '%d signatures', $total), $total);
+
+		// balanced signatures
+		if($yes * $no)
+			$text .= ' ('.sprintf(i18n::s('%d%% yes, %d%% no'), (int)($yes*100/$total), (int)($no*100/$total)).')';
+
+		// done
+		return $text;
+
+	}
+
+	
+	/**
 	 * get a default title from the type selected
 	 *
 	 * @param the type ('suggestion', etc.')
@@ -807,7 +840,9 @@ Class Decisions {
 
 			// maybe another anchor
 			if($fields['anchor'])
-				$query .= ", anchor='".SQL::escape($fields['anchor'])."'";
+				$query .= ", anchor='".SQL::escape($fields['anchor'])."', "
+					."anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1), "
+					."anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
 
 			// maybe a silent update
 			if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
@@ -826,6 +861,8 @@ Class Decisions {
 
 			$query = "INSERT INTO ".SQL::table_name('decisions')." SET "
 				."anchor='".SQL::escape($fields['anchor'])."', "
+				."anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1), "
+				."anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1), "
 				."type='".SQL::escape(isset($fields['type']) ? $fields['type'] : 'attention')."', "
 				."description='".SQL::escape($fields['description'])."', "
 				."create_name='".SQL::escape($fields['edit_name'])."', "

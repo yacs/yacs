@@ -250,6 +250,10 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 		}
 
+		// insert overlay data, if any
+		if(is_object($overlay))
+			$text .= $overlay->get_text('trailer', $item);
+
 		//
 		// list related files
 		//
@@ -293,10 +297,6 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		// actually render the html for this box
 		if($box['text'])
 			$text .= Skin::build_box(i18n::s('Files'), $box['text'], 'header1', 'files');
-
-		// insert overlay data, if any
-		if(is_object($overlay))
-			$text .= $overlay->get_text('trailer', $item);
 
 		//
 		// bottom page menu

@@ -245,6 +245,10 @@ if(!isset($item['id'])) {
 		$context['page_details'] .= '<p class="details">';
 		$details = array();
 	
+		// add details from the overlay, if any
+		if(is_object($overlay) && ($more = $overlay->get_text('details', $item)))
+			$details[] = $more;
+		
 		// the capability field is displayed only to logged users
 		if(!Surfer::is_logged())
 			;

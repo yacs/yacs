@@ -304,17 +304,8 @@ elseif($anchor = Sections::lookup('covers'))
 // compute page title -- $context['page_title']
 //
 
-if(isset($cover_page['title'])) {
-	$text = $cover_page['title'];
-
-	// link to the cover page for associates
-	if(Surfer::is_associate())
-		$text =& Skin::build_box_title($text, Articles::get_permalink($cover_page), i18n::s('View the cover page alone'));
-
-	// the new page title
-	$context['page_title'] = $text;
-	
-}
+if(isset($cover_page['title']))
+	$context['page_title'] = $cover_page['title'];
 
 //
 // compute main panel -- $context['text']

@@ -897,7 +897,7 @@ if(!file_exists('../parameters/control.include.php')) {
 
 				$commands[] = sprintf(i18n::s('%s - compress Javascript files'), '<a href="jsmin.php">'.i18n::s('JSmin').'</a>');
 
-				$commands[] = sprintf(i18n::s('%s - other interesting stuff'), '<a href="../tools/">'.i18n::s('Tools').'</a>');
+				$commands[] = sprintf(i18n::s('%s - other commands'), '<a href="../tools/">'.i18n::s('Tools').'</a>');
 
 			}
 

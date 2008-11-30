@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 17, 2008, 11:09 pm GMT. Please do not modify it manually.
+ * on November 30, 2008, 9:40 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-11 15:55+0100
-PO-Revision-Date: 2008-11-16 21:54+0100
+POT-Creation-Date: 2008-11-30 22:33+0100
+PO-Revision-Date: 2008-11-30 22:39+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -23,7 +23,6 @@ $_SESSION['l10n']['fr']['%d approval'.chr(0).'%d approvals']='%d approbation'.ch
 $_SESSION['l10n']['fr']['%d date'.chr(0).'%d dates']='%d date'.chr(0).'%d dates';
 $_SESSION['l10n']['fr']['98474a5bd04c0bd2280e59b1e05eb961']='%d page a été traitée.'.chr(0).'%d pages ont été traitées.';
 $_SESSION['l10n']['fr']['%d reject'.chr(0).'%d rejects']='%d rejet'.chr(0).'%d rejets';
-$_SESSION['l10n']['fr']['%d signature'.chr(0).'%d signatures']='%d signature'.chr(0).'%d signatures';
 $_SESSION['l10n']['fr']['%d vote'.chr(0).'%d votes']='%d vote'.chr(0).'%d votes';
 $_SESSION['l10n']['fr']['%d vote so far'.chr(0).'%d votes so far']='%d vote jusqu\'à présent'.chr(0).'%d votes jusqu\'à présent';
 $_SESSION['l10n']['fr']['%d votes up to now']='%d votes à ce jour';
@@ -37,10 +36,10 @@ $_SESSION['l10n']['fr']['Add an event']='Ajouter un événement';
 $_SESSION['l10n']['fr']['Add an issue']='Ajouter un problème';
 $_SESSION['l10n']['fr']['Additional information']='Information complémentaire';
 $_SESSION['l10n']['fr']['All members of the community']='Tous les membres de la communauté';
-$_SESSION['l10n']['fr']['b92f5afd651986b45d14e3f4d3f3078a']='Tous les membres de la communauté peuvent signer.';
+$_SESSION['l10n']['fr']['105c9bbc916246192e58d48e0fa8c7bd']='Tous les membres de la communauté peuvent signer.';
 $_SESSION['l10n']['fr']['e1a0abbb6a700d35ad41223bb6b67e4b']='Tous les membres de la communauté sont autorisé à voter';
 $_SESSION['l10n']['fr']['All pages']='Toutes les pages';
-$_SESSION['l10n']['fr']['Allowed: ']='Autorisés :';
+$_SESSION['l10n']['fr']['Allowed: %s']='Autorisés : %s';
 $_SESSION['l10n']['fr']['Analysis']='Analyse';
 $_SESSION['l10n']['fr']['Analyzed']='Analysé';
 $_SESSION['l10n']['fr']['Answer']='Réponse';
@@ -80,7 +79,7 @@ $_SESSION['l10n']['fr']['Edit petition record']='Modifier une pétition';
 $_SESSION['l10n']['fr']['Edit this event']='Modifier cet événement';
 $_SESSION['l10n']['fr']['Edit vote record']='Editer un vote';
 $_SESSION['l10n']['fr']['Editors of this section']='Les éditeurs de cette section';
-$_SESSION['l10n']['fr']['87956d11ca784537cc0713ac6517a904']='Les éditeurs de cette section peuvent signer';
+$_SESSION['l10n']['fr']['72dd7146984597567b26a39f53414753']='Les éditeurs de cette section peuvent signer.';
 $_SESSION['l10n']['fr']['e26a8eba9b60b1603a6b7c0b195e720e']='Les éditeurs de cette section sont autorisés à voter';
 $_SESSION['l10n']['fr']['End date']='Fermeture des votes';
 $_SESSION['l10n']['fr']['Export data']='Exporter les données';
@@ -110,7 +109,7 @@ $_SESSION['l10n']['fr']['No way to analyze the problem']='Aucun moyen d\'analyse
 $_SESSION['l10n']['fr']['Non-integrated']='Non-intégré';
 $_SESSION['l10n']['fr']['Not a valid poll']='Ceci n\'est pas un sondage valide';
 $_SESSION['l10n']['fr']['Not a valid vote']='Ceci n\'est pas un vote valide';
-$_SESSION['l10n']['fr']['cd646f812add3d9df050188c10cba5fe']='Seuls les associés peuvent signer';
+$_SESSION['l10n']['fr']['cc429a9fcfaa13c797002002ff9e4c36']='Seuls les associés peuvent signer.';
 $_SESSION['l10n']['fr']['f88b8653acc48a5cfa31d1944ca8a875']='Seuls les associés peuvent voter';
 $_SESSION['l10n']['fr']['Overlay content']='Contenu de l\'overlay';
 $_SESSION['l10n']['fr']['Overlay extra']='Panneau extra géré par l\'overlay';
@@ -123,9 +122,9 @@ $_SESSION['l10n']['fr']['People to be served: %s']='Nombre de parts : %s';
 $_SESSION['l10n']['fr']['Persons to be served']='Nombre de convives';
 $_SESSION['l10n']['fr']['Petition description']='Description de la pétition';
 $_SESSION['l10n']['fr']['Petition has been closed.']='La pétition est fermée.';
-$_SESSION['l10n']['fr']['Petition has ended on %s']='La pétition est fermée depuis le %s';
-$_SESSION['l10n']['fr']['Petition is currently open']='La pétition est ouverte';
-$_SESSION['l10n']['fr']['Petition is open until %s']='La pétition est ouverte jusqu\'au %s';
+$_SESSION['l10n']['fr']['Petition has ended on %s.']='La pétition est fermée depuis le %s.';
+$_SESSION['l10n']['fr']['Petition is currently open.']='La pétition est ouverte.';
+$_SESSION['l10n']['fr']['Petition is open until %s.']='La pétition est ouverte jusqu\'au %s.';
 $_SESSION['l10n']['fr']['fbfec63a77f8d801db1c826c3bf28a8d']='Merci d\'indiquer un identifiant d\'overlay';
 $_SESSION['l10n']['fr']['Preparation steps']='Etapes de la recette';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les données';
@@ -157,8 +156,10 @@ $_SESSION['l10n']['fr']['This page has no overlay']='Cette page n\'a pas d\'over
 $_SESSION['l10n']['fr']['Time to cook']='Temps de cuisson';
 $_SESSION['l10n']['fr']['Time to prepare']='Temps de préparation';
 $_SESSION['l10n']['fr']['Time to prepare: %s']='Temps de préparation : %s';
+$_SESSION['l10n']['fr']['Tracking']='Suivi';
 $_SESSION['l10n']['fr']['890ffe5c11bf21303b56697857faba1e']='Autant que possible, prévoyez des recettes pour quatre personnes';
 $_SESSION['l10n']['fr']['00c16f5cb5d95c3294b2b0ece2252ee1']='Indiquez chaque ingrédient sur une ligne séparée démarrant par le caractère \'-\'';
+$_SESSION['l10n']['fr']['1332b5f7285e153996889f39a5475a45']='Indiquez les premières lettres du nom et choisissez dans la liste';
 $_SESSION['l10n']['fr']['Use format YYYY-MM-DD']='Indiquer la date au format AAAA-MM-JJ';
 $_SESSION['l10n']['fr']['View poll results']='Voir les résultats';
 $_SESSION['l10n']['fr']['View results']='Voir les résultats';

@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 17, 2008, 11:09 pm GMT. Please do not modify it manually.
+ * on November 30, 2008, 9:40 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-04 23:32+0100
+POT-Creation-Date: 2008-11-30 22:33+0100
 PO-Revision-Date: 2008-11-16 21:49+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -41,7 +41,6 @@ $_SESSION['l10n']['fr']['Add an image']='Ajouter une image';
 $_SESSION['l10n']['fr']['Add page icon']='Ajouter une icône de page';
 $_SESSION['l10n']['fr']['Add page thumbnail']='Ajouter une vignette de page';
 $_SESSION['l10n']['fr']['717b0d5012e8e4ce5a261c185245281d']='Toutes les catégories qui ont été associées à cette page :';
-$_SESSION['l10n']['fr']['All the web']='All the web';
 $_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Anyone may read this category']='Tout le monde peut lire cette catégorie';
 $_SESSION['l10n']['fr']['386980fc5327cd3e0b217ad44c09cb77']='Apparait dans les listes de catégories près du titre';
@@ -84,7 +83,6 @@ $_SESSION['l10n']['fr']['2480805cbd3d7c7d80050e8d3d437c1b']='Exprimez-vous, et d
 $_SESSION['l10n']['fr']['External search']='Recherche externe';
 $_SESSION['l10n']['fr']['Extra']='Extra';
 $_SESSION['l10n']['fr']['FCKEditor']='FCKEditor';
-$_SESSION['l10n']['fr']['Feedster']='Feedster';
 $_SESSION['l10n']['fr']['Files']='Fichiers';
 $_SESSION['l10n']['fr']['7efd589a07b5a43045349bb95b1d12c8']='Des fichiers peuvent être ajoutés à la page d\'index';
 $_SESSION['l10n']['fr']['c4ee000af107ab80885b2ac1b34a715b']='Les éléments suivants vont aussi être supprimés.';

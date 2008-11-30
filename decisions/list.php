@@ -129,26 +129,11 @@ if(!is_object($anchor)) {
 	// insert anchor prefix and suffix
 	$context['prefix'] .= $anchor->get_prefix();
 
-	// overall results
-	$cache_id = 'decisions/list.php?anchor='.$target_anchor.'#results';
-	if(!$text =& Cache::get($cache_id)) {
-
-		// get results from the database
-		list($total, $yes, $no) = Decisions::get_results_for_anchor($anchor->get_reference());
-
-		// show results as percentage
-		if($total)
-			$text = sprintf(i18n::s('%s approvals (%d%%), %s rejections (%d%%)'), $yes, (int)($yes*100/$total), $no, (int)($no*100/$total));
-
-
-		// cache this to speed subsequent queries
-		Cache::put($cache_id, $text, 'decisions');
-	}
-	$context['text'] .= '<p>'.$text.'</p>';
-
-
 	// some introductory text to the anchor
 	$context['text'] .= $anchor->get_teaser('teaser');
+
+	if($label = Decisions::get_results_label_for_anchor($anchor->get_reference()))
+		$context['text'] .= '<p>'.$label.'</p>';
 
 	// cache the section
 	$cache_id = 'decisions/list.php?anchor='.$target_anchor.'#'.$page;

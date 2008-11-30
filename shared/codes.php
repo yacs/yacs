@@ -3008,7 +3008,7 @@ Class Codes {
 			Cache::poison();
 
 			include_once $context['path_to_root'].'tables/tables.php';
-			$output =& Tables::build($variant, 'inline');
+			$output = Tables::build($variant, 'inline');
 			return $output;
 		}
 

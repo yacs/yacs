@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 17, 2008, 11:09 pm GMT. Please do not modify it manually.
+ * on November 30, 2008, 9:40 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-16 21:41+0100
-PO-Revision-Date: 2008-11-16 21:08+0100
+POT-Creation-Date: 2008-11-29 23:07+0100
+PO-Revision-Date: 2008-11-30 17:51+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -52,7 +52,7 @@ $_SESSION['l10n']['en']['101ea3de053fb1ab6c2460f07c044629']='%s - fill pre-defin
 $_SESSION['l10n']['en']['974ac36c1f13e18d696266525cd2259c']='%s - for incoming messages and files';
 $_SESSION['l10n']['en']['%s - learn about your visitors']='%s - learn about your visitors';
 $_SESSION['l10n']['en']['%s - operation summary']='%s - operation summary';
-$_SESSION['l10n']['en']['%s - other interesting stuff']='%s - other interesting stuff';
+$_SESSION['l10n']['en']['%s - other commands']='%s - other commands';
 $_SESSION['l10n']['en']['%s - phpinfo() and more']='%s - phpinfo() and more';
 $_SESSION['l10n']['en']['ea559186e2e55b4ccbcc53c073de1144']='%s - review and setup YACS hooking pieces of software';
 $_SESSION['l10n']['en']['c0777e534eeabca5d20bf0668cd45359']='%s - select a section and type some text, then add images, files and links';

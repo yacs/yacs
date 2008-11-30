@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 17, 2008, 11:09 pm GMT. Please do not modify it manually.
+ * on November 30, 2008, 9:45 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-10 16:04+0100
+POT-Creation-Date: 2008-11-29 23:07+0100
 PO-Revision-Date: 2008-11-10 16:58+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -60,7 +60,6 @@ $_SESSION['l10n']['en']['2e3b37537befb872712056f0298cecfb']='Access to this page
 $_SESSION['l10n']['en']['Add a page']='Add a page';
 $_SESSION['l10n']['en']['Add a page with this name']='Add a page with this name';
 $_SESSION['l10n']['en']['All pages']='All pages';
-$_SESSION['l10n']['en']['All the web']='All the web';
 $_SESSION['l10n']['en']['Ask Jeeves']='Ask Jeeves';
 $_SESSION['l10n']['en']['At partner sites']='At partner sites';
 $_SESSION['l10n']['en']['Browse index pages']='Browse index pages';
@@ -105,7 +104,6 @@ $_SESSION['l10n']['en']['Extra']='Extra';
 $_SESSION['l10n']['en']['Extra boxes']='Extra boxes';
 $_SESSION['l10n']['en']['Featured']='Featured';
 $_SESSION['l10n']['en']['Featured pages']='Featured pages';
-$_SESSION['l10n']['en']['Feedster']='Feedster';
 $_SESSION['l10n']['en']['Files']='Files';
 $_SESSION['l10n']['en']['Flash']='Flash';
 $_SESSION['l10n']['en']['2ba8a15276ede1dfba8ed10242486a14']='Focus on the last published article, and on the three articles published previously.';
@@ -242,7 +240,6 @@ $_SESSION['l10n']['en']['Update your bookmark']='Update your bookmark';
 $_SESSION['l10n']['en']['36ab5b5ac398b5cfe4feb817d68c45f1']='Use the %s to populate this server.';
 $_SESSION['l10n']['en']['Use the customized layout %s']='Use the customized layout %s';
 $_SESSION['l10n']['en']['View the category']='View the category';
-$_SESSION['l10n']['en']['View the cover page alone']='View the cover page alone';
 $_SESSION['l10n']['en']['View the section']='View the section';
 $_SESSION['l10n']['en']['WARNING']='WARNING';
 $_SESSION['l10n']['en']['a2584ebd70083c26c12ecbb14d577f93']='WARNING: This server runs in safe mode, and YACS may be prevented to perform a number of key operations.';

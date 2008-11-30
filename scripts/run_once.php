@@ -90,6 +90,10 @@ $context['path_bar'] = array( 'control/' => i18n::s('Control Panel') );
 // the title of the page
 $context['page_title'] = i18n::s('Run one-time scripts');
 
+// the list of script to take into account
+global $scripts;
+$scripts= array();
+
 // if the user table exists, check that the user is an admin
 $query = "SELECT count(*) FROM ".SQL::table_name('users');
 if((SQL::query($query) !== FALSE) && !Surfer::is_associate()) {
@@ -103,7 +107,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()) {
 // browse the directory
 else {
 	while(($item = Safe::readdir($dir)) !== FALSE) {
-
+	
 		// skip some files
 		if($item[0] == '.')
 			continue;

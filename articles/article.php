@@ -800,34 +800,52 @@ Class Article extends Anchor {
 
 		// a new file has been attached
 		} elseif(($action == 'file:create') || ($action == 'file:update')) {
+		
+			// identify specific files
+			$label = '';
+			if($item =& Files::get($origin)) {
+			
+				// a flash video
+				if(isset($item['file_name']) && preg_match('/\.flv/i', $item['file_name']))
+					$label = '[flash='.$origin.', 320, 240]';
+					
+				
+			}
 
 			// we are in some interactive thread
 			if($this->is_interactive()) {
 
+				// default is to download the file
+				if(!$label)
+					$label = '[download='.$origin.']';
+				
 				// this is the first contribution to the thread
 				include_once $context['path_to_root'].'comments/comments.php';
 				if(!$comment = Comments::get_newest_for_anchor('article:'.$this->item['id'])) {
 					$fields = array();
 					$fields['anchor'] = 'article:'.$this->item['id'];
-					$fields['description'] = '[download='.$origin.']';
+					$fields['description'] = $label;
 
 				// this is a continuated contribution from this authenticated surfer
 				} elseif(Surfer::get_id() && (isset($comment['create_id']) && (Surfer::get_id() == $comment['create_id']))) {
-					$comment['description'] .= BR.'[download='.$origin.']';
+					$comment['description'] .= BR.$label;
 					$fields = $comment;
 
 				// else process the contribution as a new comment
 				} else {
 					$fields = array();
 					$fields['anchor'] = 'article:'.$this->item['id'];
-					$fields['description'] = '[download='.$origin.']';
+					$fields['description'] = $label;
 
 				}
 
 				// actual creation in the database, but silently
 				Comments::post($fields);
 
-			}
+			// include flash videos in a regular page
+			} elseif($label)
+				$query[] = "description = '".SQL::escape($this->item['description'].' '.$label)."'";
+			
 
 		// append a reference to a new image to the description
 		} elseif($action == 'image:create') {
