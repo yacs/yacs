@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 30, 2008, 9:40 pm GMT. Please do not modify it manually.
+ * on December 6, 2008, 10:38 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2008-11-30 22:33+0100
-PO-Revision-Date: 2008-11-30 22:37+0100
+PO-Revision-Date: 2008-12-05 23:24+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -54,7 +54,7 @@ $_SESSION['l10n']['fr']['22574ae3fe08b2cb5e911bab84f9ed13']='Entrez les noms ou 
 $_SESSION['l10n']['fr']['fd674cf80651be8f2cc7d185d732b3ef']='Erreur pendant la transmission du message vers %s';
 $_SESSION['l10n']['fr']['9404597745d93a6898e464cbbc52c4dc']='Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur pourra alors positionner votre nom et votre adresse automatiquement dans les champs ci-dessous.';
 $_SESSION['l10n']['fr']['In %s']='Dans %s';
-$_SESSION['l10n']['fr']['Invite people']='Inviter d\'autres personnes';
+$_SESSION['l10n']['fr']['Invite people']='Inviter des personnes';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Message content']='Contenu du message';

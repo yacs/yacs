@@ -304,7 +304,7 @@ elseif($anchor = Sections::lookup('covers'))
 // compute page title -- $context['page_title']
 //
 
-if(isset($cover_page['title']))
+if(isset($cover_page['title']) && ($context['skin_variant'] != 'mobile') && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] == 'full')))
 	$context['page_title'] = $cover_page['title'];
 
 //

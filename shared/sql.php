@@ -365,6 +365,40 @@ Class SQL {
 	}
 
 	/**
+	 * check if a table exists
+	 *
+	 * @param string the name of the table to setup
+	 * @return boolean TRUE or FALSE
+	 */
+	function has_table($table) {
+		global $context;
+
+		// sanity check
+		if(!$table)
+			return FALSE;
+
+		// build the tables list only once
+		static $tables;
+		if(!isset($tables)) {
+			$tables = array();
+			$query = 'SHOW TABLES';
+			if(!$rows = SQL::query($query))
+				return '<p>'.SQL::error().'</p>';
+			while($row =& SQL::fetch_row($rows))
+				$tables[] = strtolower($row[0]);
+			SQL::free($rows);
+		}
+		
+		// if the table does exist
+		$target = strtolower($context['table_prefix'].$table);
+		if(count($tables) && in_array($target, $tables))
+			return TRUE;
+			
+		// no table yet
+		return FALSE;
+	}
+
+	/**
 	 * initialize connections to the database
 	 *
 	 * @return TRUE on success, FALSE on failure
@@ -895,21 +929,8 @@ Class SQL {
 		if(!$table)
 			return '';
 
-		// build the tables list only once
-		static $tables;
-		if(!isset($tables)) {
-			$tables = array();
-			$query = 'SHOW TABLES';
-			if(!$rows = SQL::query($query))
-				return '<p>'.SQL::error().'</p>';
-			while($row =& SQL::fetch_row($rows))
-				$tables[] = $row[0];
-			SQL::free($rows);
-		}
-
 		// if the table does not exist
-		$target = $context['table_prefix'].$table;
-		if(!count($tables) || !in_array($target, $tables)) {
+		if(!SQL::has_table($table)) {
 
 			// create it
 			$query = "CREATE TABLE ".SQL::table_name($table)." ( ";

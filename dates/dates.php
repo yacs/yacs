@@ -479,7 +479,9 @@ Class Dates {
 			return '***';
 
 		// labels for months
-		static $months = array();
+		static $months;
+		if(!isset($months))
+			$months = array();
 
 		// define only once
 		if(!isset($months[1])) {

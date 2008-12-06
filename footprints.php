@@ -1,6 +1,6 @@
 <?php
 // This file has been created by the building script scripts/build.php
-// on November 30, 2008, 9:48 pm GMT, for Bernard Paques. Please do not modify it manually.
+// on December 6, 2008, 11:04 pm GMT, for Bernard Paques. Please do not modify it manually.
 global $footprints;
 if(!isset($footprints)) $footprints = array();
 $footprints['actions/accept.php']=array(154, 'b4e65b6301cb3efe9f25391433552360', '051b4f9d7be147b6ef9165468ba9ccd9');
@@ -177,7 +177,7 @@ $footprints['control/test.php']=array(318, 'abc5298a20a2084bc1e7099669dd6e13', '
 $footprints['control/virtual.php']=array(232, '0489f20421cf07f420d33b70a5b1c283', 'fe719f46ed85f63ec0f1bf05b610a6f3');
 $footprints['cron.php']=array(136, 'de49cffb5e54d4d7dde56366bbf8478b', '33fc5d8b880fa012bb9f114ab90b35d2');
 $footprints['dates/check.php']=array(180, 'c38b8c75849b6ff3eb946e2d708e56bc', 'abc2223980ec40ff37e2c1375ef119e9');
-$footprints['dates/dates.php']=array(1305, '407c9179efa4ee6370dec23501cf8c90', '4fcc1cc5f97c49476f6d0ee5f57e21fc');
+$footprints['dates/dates.php']=array(1307, '9c1f8e52e1dc27789154cf309ccca708', 'a5197f9bc4a55420c17e68b05965a97f');
 $footprints['dates/day.php']=array(120, '3a718e43fb67a9fdc54aa63ab179691d', 'eef77647e2e2665a858720e3c9811274');
 $footprints['dates/delete.php']=array(136, '7db9e8cdc22bd408be9b307f82682ea1', '2aca6c84841bcf2ce4d84751ebbc574e');
 $footprints['dates/edit.php']=array(245, '4b86285ba972efeb5f2b2c2cf35b80bd', 'c643eeff29f991bfb095fa4784cecc4e');
@@ -245,7 +245,7 @@ $footprints['forms/view.php']=array(595, 'b206d0a46076d4d197540304cc85382c', 'bd
 $footprints['go.php']=array(191, 'b7ffc2fd3abc6bd60a3d04b1f714b051', '6fb331b7ce6c70b3f5499e63d43c5128');
 $footprints['help/index.php']=array(436, '5a7a2344bc43f849e63eecf510a8674e', '5193ad9a3fceda26ccd78933cb7da442');
 $footprints['help/populate.php']=array(2032, '6f9307ae494c165b77d3152867423523', '8f77d7fc6adbb53a9d375e87a058c842');
-$footprints['i18n/i18n.php']=array(1459, '90ccab11852062a635be59fb45d08958', 'cf2a077b8c6367361cd477e7405a44e1');
+$footprints['i18n/i18n.php']=array(1459, '0dd8aee5f3336e5cd0c81a0140f73f72', 'bc299169bbca721aefcab270da570fdd');
 $footprints['i18n/locale/en/manifest.php']=array(15, '97c96fb2263450dbc276179baddfb4b4', '5c349d8de6ca8cdda002a6b01e01df95');
 $footprints['i18n/locale/fr/manifest.php']=array(15, 'd33e46058dff2d8c95d926d75b62e473', '4d31573efbfca13fdb1ccc7b0689c57d');
 $footprints['i18n/test.php']=array(66, 'f51bc2382195c10033b3994f8416c1a7', 'daf573672c558c6a755754191dd058fd');
@@ -285,7 +285,7 @@ $footprints['included/php-pdb.php']=array(1138, 'f048f62f5a26c77fa163e88fa5ab3be
 $footprints['included/php-pdb_doc.php']=array(543, '8738ca1331695d4ae1a8474b579d1988', '8e49b60abc4ac480c2e1aa5bfce5cdb6');
 $footprints['included/php-pdb_html.php']=array(296, 'cce3053d6f5b2872e9923e3d2ded2599', '54afec0886c63c6d9e1fcc8fc48945a1');
 $footprints['included/tar.php']=array(1768, '859b5f97445eb4aed844b7c39223f043', 'ec254deb177dba3327058867afef3e84');
-$footprints['index.php']=array(1064, '2f24b963fb9c6653349740440b665be1', 'a9bea1aa6e81da4130cc70ed6463ff54');
+$footprints['index.php']=array(1064, '88c72b544c29f19e92875e59567133ee', '02a734ea2cc27f88eceaa1a37d1f9fe1');
 $footprints['letters/configure.php']=array(206, '25bc6afefbcc46cd1f11e07606e93350', '97c9e572f08bab3dfae36fab75f68bc5');
 $footprints['letters/index.php']=array(45, 'f40a030dadf99b58b537a7c65add6c12', 'b9db123e02d473bf2b238cfac77ab137');
 $footprints['letters/new.php']=array(720, '2a3034beb2df0b4c234324c27d0dd15d', 'bfab33f6204dba9e8a3d81e170abcbfc');
@@ -396,7 +396,7 @@ $footprints['scripts/run_once/081021_obsolete_misc.php']=array(48, 'fcd77594f9fc
 $footprints['scripts/run_once/081110_misc_update.php']=array(100, '81dc261268aa7b9686d624ba60a11a6a', 'b105937f7d064eb78a8d93f8a758df78');
 $footprints['scripts/run_once/081116_misc_update.php']=array(92, '8881ebb363c4286b4f119af3154d0cb8', '8562c7d393de2fbd347c699da1767ddd');
 $footprints['scripts/run_once/081130_fix_decisions_anchors.php']=array(27, '0d8dbbeca48626697810a518c8f05dda', 'd8ed4f823b0de4da31ecf967a5196069');
-$footprints['scripts/run_once/081130_i18n_update.php']=array(157, '284df8016fbaf8fc0b8d03065a73bcbb', '46417cfa77570df07828b7141154c385');
+$footprints['scripts/run_once/081206_i18n_update.php']=array(157, '284df8016fbaf8fc0b8d03065a73bcbb', '46417cfa77570df07828b7141154c385');
 $footprints['scripts/scripts.php']=array(676, '475831e5834b3b4d928b7e00199e3c53', '17f200b791c974b944ee5f3872ee665d');
 $footprints['scripts/stage.php']=array(486, '850e7df591d57f500525148338b15cdc', '15d58313f52a8adec147dfd0fd1ed007');
 $footprints['scripts/update.php']=array(343, '2cb9b21c25ff77052a9247ce5976464c', 'cb5cafd3c358d5d0f1926a2a5c0e8ff4');
@@ -492,7 +492,7 @@ $footprints['shared/mailer_hook.php']=array(27, '8bc28cc06577483d2edabbc7b5aa4c4
 $footprints['shared/members.php']=array(1391, '7fe978ca7679f8543eae9504a638b923', '5f0d7374518aead8c2af720c415e7079');
 $footprints['shared/pdf.php']=array(350, 'a07acf2e2a97f615094a101a71180fa5', '66203b590d82188b241c1ee7dfed9f2a');
 $footprints['shared/safe.php']=array(1148, '37566b2c1cb5ff0e852cd5ae4dc53dad', '7824dcb0ddecc70487283eaeaca28175');
-$footprints['shared/sql.php']=array(1145, 'a33e28b7b1c24f070cfa2629a53f7a40', '19d14e81ed712e7dfecea887df35c628');
+$footprints['shared/sql.php']=array(1166, '6030b2af660872b536d329242ce62e1e', '96072593d07448021a704b5c7137eb1d');
 $footprints['shared/sql_hook.php']=array(29, '8e7ef72da43f19967f6d3f598508a0a3', '6854c1763b071236eb894a12bbab6505');
 $footprints['shared/surfer.php']=array(1550, 'e8636c27834d2d833c3b1c4d64c6c753', '1df8db72757c68ae74aebd11e81b69b1');
 $footprints['shared/utf8.php']=array(861, '958c506dfc5c335c18145dc855942253', '1b01c75e63297eaba688cd7e72d03042');
@@ -543,7 +543,7 @@ $footprints['skins/skeleton/template_mobile.php']=array(65, '21d3adc576867c3a9ae
 $footprints['skins/skeleton/template_print.php']=array(59, 'a0559290d9fb3da48198a4cd199797f1', '250fc97ad24d8279812d6b47cdd72ce1');
 $footprints['skins/skeleton/template_s5.php']=array(113, 'e26b8a58cc058a3a5de4fe5648a08825', 'ff88050847f04644ade7accca8832c9d');
 $footprints['skins/skeleton/template_slideshow.php']=array(109, '09d3ac9bfea10a2afe7ce5044a5cf1d6', '07df5c1aee0a0726bb6a4c9b6de1e014');
-$footprints['skins/skin_skeleton.php']=array(4433, 'dbb062a342e989c4aa43ab1a759bbe78', '2d997516bb08d1504857b7e48b696cd4');
+$footprints['skins/skin_skeleton.php']=array(4447, 'a81249c955b3d932ca70a8f2881299d4', '2c9e5a91509d32638b424ac1628f4213');
 $footprints['skins/test.php']=array(261, 'b2420b13af54b9184977decc96ae9f08', '2c0dbd8a1a1225309151f51c56d004c2');
 $footprints['skins/upload.php']=array(232, '6fd60378c1212d3c4974989272c975b9', 'de7667af004b097eebf40b043e7223f9');
 $footprints['smileys/index.php']=array(777, 'b7b8366f89356964db79f023e24a14e1', '681f6b997269eb4ae823f72746c37d57');
@@ -617,9 +617,9 @@ $footprints['versions/versions.php']=array(495, 'af223d1cb3ea1063e38a254c2f5f9db
 $footprints['versions/view.php']=array(159, 'db74af21b763aa3bcf5512595ed747af', '2730bbcd424622a58a45837f375fdd60');
 global $generation;
 if(!isset($generation)) $generation = array();
-$generation['date']='081130-21:48:08 GMT';
-$generation['server']='localhost';
-$generation['version']='8.11beta30';
+$generation['date']='081206-23:04:21 GMT';
+$generation['server']='127.0.0.1';
+$generation['version']='8.12beta6';
 $generation['scripts']='612'; // number of reference scripts
-$generation['lines']='175478'; // lines of code
+$generation['lines']='175515'; // lines of code
 ?>

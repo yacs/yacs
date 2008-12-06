@@ -1331,7 +1331,7 @@ Class i18n {
 		}
 
 		// use cached plural definition
-		$plural = $_SESSION['l10n'][$locale]['_plural'];
+		$plural = 'nplurals=2; plural=(n != 1);'; // $_SESSION['l10n'][$locale]['_plural'];
 
 		// make a PHP statement out of it
 		$plural = str_replace('nplurals','$total', $plural);

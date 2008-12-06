@@ -685,7 +685,9 @@ Class Skin_Skeleton {
 
 		// else create our own unique id
 		else {
-			static $global_extra_box_index = 0;
+			static $global_extra_box_index;
+			if(!isset($global_extra_box_index))
+				$global_extra_box_index = 0;
 			$id = ' id="extra_'.++$global_extra_box_index.'" ';
 		}
 
@@ -891,7 +893,9 @@ Class Skin_Skeleton {
 
 		// else create our own unique id
 		else {
-			static $global_gadget_box_index = 0;
+			static $global_gadget_box_index;
+			if(!isset($global_gadget_box_index))
+				$global_gadget_box_index = 0;
 			$id = ' id="gadget_'.++$global_gadget_box_index.'" ';
 		}
 
@@ -931,7 +935,9 @@ Class Skin_Skeleton {
 
 		// else create our own unique id
 		else {
-			static $box_index = 0;
+			static $box_index;
+			if(!isset($box_index))
+				$box_index = 0;
 			$id = ' id="header_box_'.++$box_index.'" ';
 		}
 
@@ -2204,7 +2210,9 @@ Class Skin_Skeleton {
 
 		// else create our own unique id
 		else {
-			static $global_sidebar_box_index = 0;
+			static $global_sidebar_box_index;
+			if(!isset($global_sidebar_box_index))
+				$global_sidebar_box_index = 0;
 			$id = ' id="sidebar_'.++$global_sidebar_box_index.'" ';
 		}
 
@@ -3076,7 +3084,9 @@ Class Skin_Skeleton {
 						$label .= BR.$icon;
 
 					// create a unique id for each news item
-					static $global_news_index = 0;
+					static $global_news_index;
+					if(!isset($global_news_index))
+						$global_news_index = 0;
 					$id = 'id="news_'.++$global_news_index.'"';
 
 					// separator between items
@@ -3165,7 +3175,9 @@ Class Skin_Skeleton {
 						$label = $list[$index];
 
 					// create a unique id for each stack item
-					static $global_stack_index = 0;
+					static $global_stack_index;
+					if(!isset($global_stack_index))
+						$global_stack_index = 0;
 					$id = 'id="stack_'.++$global_stack_index.'"';
 
 					// one division per item
@@ -4039,7 +4051,9 @@ Class Skin_Skeleton {
 		}
 
 		// get a unique id for this object
-		static $scroller_id = 0;
+		static $scroller_id;
+		if(!isset($scroller_id))
+			$scroller_id = 0;
 		$scroller_id += 1;
 
 		// build a scroller

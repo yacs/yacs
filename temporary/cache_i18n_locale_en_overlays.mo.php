@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 30, 2008, 9:40 pm GMT. Please do not modify it manually.
+ * on December 6, 2008, 10:38 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-30 22:33+0100
+POT-Creation-Date: 2008-12-06 23:37+0100
 PO-Revision-Date: 2008-11-30 22:35+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -120,7 +120,6 @@ $_SESSION['l10n']['en']['3dc503593a3195b9e277f5f6e3972aec']='Overlays listed bel
 $_SESSION['l10n']['en']['Past dates']='Past dates';
 $_SESSION['l10n']['en']['People to be served: %s']='People to be served: %s';
 $_SESSION['l10n']['en']['Persons to be served']='Persons to be served';
-$_SESSION['l10n']['en']['Petition description']='Petition description';
 $_SESSION['l10n']['en']['Petition has been closed.']='Petition has been closed.';
 $_SESSION['l10n']['en']['Petition has ended on %s.']='Petition has ended on %s.';
 $_SESSION['l10n']['en']['Petition is currently open.']='Petition is currently open.';
