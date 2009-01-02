@@ -144,7 +144,7 @@ if($credentials && ($credentials = base64_decode($credentials))) {
 
 	// json is more efficient, but we may have to fall-back to php serialization
 	if(!$credentials = Safe::json_decode($credentials))
-		$credentials = unserialize($credentials);
+		$credentials = Safe::unserialize($credentials);
 
 }
 

@@ -905,7 +905,7 @@ Class Section extends Anchor {
 				return $this->is_editable_cache = TRUE;
 
 			// members edition is allowed
-			if(($this->item['active'] == 'Y') && Surfer::is_member() && $this->has_option('members_edit'))
+			if(($this->item['active'] == 'Y') && Surfer::is_empowered('M') && $this->has_option('members_edit'))
 				return $this->is_editable_cache = TRUE;
 
 			// id of requesting user
@@ -913,7 +913,7 @@ Class Section extends Anchor {
 				$user_id = Surfer::get_id();
 
 			// authenticated subscriptors cannot contribute
-			if(!Surfer::is_logged() || Surfer::is_member()) {
+			if(!$user_id || Surfer::is_empowered('M')) {
 
 				// maybe the current surfer has been explicitly defined as a managing editor
 				if($user_id && Members::check('user:'.$user_id, 'section:'.$this->item['id']))
@@ -932,7 +932,6 @@ Class Section extends Anchor {
 					return $this->is_editable_cache = TRUE;
 
 			}
-
 		}
 		
 		// sorry
@@ -985,9 +984,10 @@ Class Section extends Anchor {
 	 *
 	 * This function is used to control the authority delegation from the anchor.
 	 *
+	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
 	 */
-	 function is_viewable() {
+	 function is_viewable($user_id=NULL) {
 		global $context;
 
 		// cache the answer
@@ -996,16 +996,20 @@ Class Section extends Anchor {
 
 		if(isset($this->item['id'])) {
 
+			// id of requesting user
+			if(!$user_id && Surfer::get_id())
+				$user_id = Surfer::get_id();
+
 			// associates and editors can do what they want
-			if(Surfer::is_associate() || $this->is_editable())
+			if(Surfer::is_associate() || $this->is_editable($user_id))
 				return $this->is_viewable_cache = TRUE;
 
 			// maybe the logged surfer is the creator
-			if($this->item['create_id'] && Surfer::get_id() && ($this->item['create_id'] == Surfer::get_id()))
+			if($this->item['create_id'] && $user_id && ($this->item['create_id'] == $user_id))
 				return $this->is_viewable_cache = TRUE;
 
 			// section has been assigned to this logged user
-			if(Sections::is_assigned($this->item['id']))
+			if(Sections::is_assigned($this->item['id'], $user_id))
 				return $this->is_viewable_cache = TRUE;
 
 			// ensure the container can be viewed
@@ -1015,18 +1019,18 @@ Class Section extends Anchor {
 				if(!isset($this->anchor) || !$this->anchor)
 					$this->anchor =& Anchors::get($this->item['anchor']);
 
-				// parent container has been assigned to this surfer
-				if(is_object($this->anchor) && $this->anchor->is_assigned())
+				// parent container is editable
+				if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
 					return $this->is_viewable_cache = TRUE;
 
 				// parent container is not visible
-				if(is_object($this->anchor) && !$this->anchor->is_viewable())
+				if(is_object($this->anchor) && !$this->anchor->is_viewable($user_id))
 					return $this->is_viewable_cache = FALSE;
 
 			}
 
 			// access is restricted to authenticated surfers
-			if(($this->item['active'] == 'R') && Surfer::is_logged())
+			if(($this->item['active'] == 'R') && $user_id)
 				return $this->is_viewable_cache = TRUE;
 
 			// public access to the anchor is allowed

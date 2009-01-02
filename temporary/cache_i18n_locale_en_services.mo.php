@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on December 6, 2008, 10:39 pm GMT. Please do not modify it manually.
+ * on January 2, 2009, 10:26 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-04 00:13+0100
+POT-Creation-Date: 2009-01-02 23:24+0100
 PO-Revision-Date: 2008-11-02 23:18+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -60,7 +60,6 @@ $_SESSION['l10n']['en']['Message']='Message';
 $_SESSION['l10n']['en']['Name of the updated server']='Name of the updated server';
 $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.';
 $_SESSION['l10n']['en']['No file data has been received.']='No file data has been received.';
-$_SESSION['l10n']['en']['5673b12e569034c481140edd888bd21c']='Only the main template can be changed';
 $_SESSION['l10n']['en']['Ping interface']='Ping interface';
 $_SESSION['l10n']['en']['32f16b405d7ec3c7f7a2175487b60cc3']='Please register at %s before blogging';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
@@ -94,13 +93,8 @@ $_SESSION['l10n']['en']['User password']='User password';
 $_SESSION['l10n']['en']['Web service test']='Web service test';
 $_SESSION['l10n']['en']['Web services']='Web services';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';
-$_SESSION['l10n']['en']['700b4be81f8356ec86375da6a38852da']='You are not allowed to change blog %s at %s';
-$_SESSION['l10n']['en']['6fd8007aaf06d921ad2ab14abd16d60d']='You are not allowed to delete post %s at %s';
-$_SESSION['l10n']['en']['e8b7ace42805908799d71e3de3e095de']='You are not allowed to get template for blog %s at %s';
 $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed to perform this operation in demonstration mode.';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
-$_SESSION['l10n']['en']['c6083d29a3b6a400608eec8ef67866c3']='You are not allowed to post in blog %s at %s';
-$_SESSION['l10n']['en']['cc944568dd2521f129aad7695818f531']='You are not allowed to upload files.';
 $_SESSION['l10n']['en']['apply for a key']='apply for a key';
 $_SESSION['l10n']['en']['a1d3a86cb66f6642e23c2f5f12323187']='configuration panel for services';
 $_SESSION['l10n']['en']['6889e5b8e03c320d08c3687b4e284a3e']='http://www.google-analytics.com/';

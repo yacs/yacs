@@ -33,7 +33,7 @@ $target = '';
 if(isset($_REQUEST['target']))
 	$target = $_REQUEST['target'];
 elseif(isset($context['host_name']))
-	$target = $context['host_name'];
+	$target = $context['host_name'].'/yacs';
 $user_name = isset($_REQUEST['user_name']) ? $_REQUEST['user_name'] : '';
 $user_password = isset($_REQUEST['user_password']) ? $_REQUEST['user_password'] : '';
 

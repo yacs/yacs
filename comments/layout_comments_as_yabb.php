@@ -88,7 +88,9 @@ Class Layout_comments_as_yabb extends Layout_interface {
 
 			// guest/member/associate
 			$capability = '';
-			if($poster['capability'] == 'A')
+			if(!isset($poster['capability']))
+				;
+			elseif($poster['capability'] == 'A')
 				$capability = i18n::s('Associate').', ';
 			elseif($poster['capability'] == 'M')
 				;
@@ -96,7 +98,8 @@ Class Layout_comments_as_yabb extends Layout_interface {
 				$capability = i18n::s('Subscriber').', ';
 
 			// + posts
-			$author .= BR.$capability.sprintf(i18n::ns('%d post', '%d posts', $poster['posts']), $poster['posts']);
+			if(isset($poster['posts']))
+				$author .= BR.$capability.sprintf(i18n::ns('%d post', '%d posts', $poster['posts']), $poster['posts']);
 
 			// show contact information
 			if(Surfer::may_contact()) {

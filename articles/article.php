@@ -506,8 +506,6 @@ Class Article extends Anchor {
 	/**
 	 * check that the surfer is an editor of an article
 	 *
-	 * A logged member is always considered as an editor if he has created the target item.
-	 *
 	 * An anonymous surfer is considered as an editor if he has provided the secret handle.
 	 *
 	 * @param int optional reference to some user profile
@@ -526,10 +524,6 @@ Class Article extends Anchor {
 			// id of requesting user
 			if(!$user_id && Surfer::get_id())
 				$user_id = Surfer::get_id();
-
-			// maybe the logged surfer is the creator
-//			if($user_id && $this->item['create_id'] && ($user_id == $this->item['create_id']))
-//				return $this->is_editable_cache = TRUE;
 
 			// anonymous surfer has provided the secret handle
 			if(isset($this->item['handle']) && Surfer::may_handle($this->item['handle']))
@@ -552,6 +546,7 @@ Class Article extends Anchor {
 			}
 
 		}
+		
 		// sorry
 		return $this->is_editable_cache = FALSE;
 	 }

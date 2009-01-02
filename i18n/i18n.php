@@ -1259,6 +1259,11 @@ Class i18n {
 	function &nc($singular, $plural, $count) {
 		global $context;
 
+		// sanity check
+		$count = intval($count);
+		if($count < 1)
+			$count = 1;
+			
 		// select language used by community
 		if(isset($context['preferred_language']))
 			$locale = $context['preferred_language'];
@@ -1313,6 +1318,11 @@ Class i18n {
 	function &ns($singular, $plural, $count) {
 		global $context;
 
+		// sanity check
+		$count = intval($count);
+		if($count < 1)
+			$count = 1;
+			
 		// select language used by surfer
 		if(isset($context['language']))
 			$locale = $context['language'];
@@ -1331,7 +1341,7 @@ Class i18n {
 		}
 
 		// use cached plural definition
-		$plural = 'nplurals=2; plural=(n != 1);'; // $_SESSION['l10n'][$locale]['_plural'];
+		$plural = $_SESSION['l10n'][$locale]['_plural'];
 
 		// make a PHP statement out of it
 		$plural = str_replace('nplurals','$total', $plural);

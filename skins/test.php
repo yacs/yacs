@@ -117,7 +117,7 @@ if(isset($skin) && Surfer::is_associate())
 	$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/edit.php?skin='.$skin => i18n::s('Edit this theme') ));
 
 // validate at w3c
-$context['page_menu'] = array_merge($context['page_menu'], array( 'http://validator.w3.org/check?uri=referer' => array('', i18n::s('Validate at w3c'), '', 'external') ));
+$context['page_menu'] = array_merge($context['page_menu'], array( 'http://validator.w3.org/check?uri=referer' => array('', i18n::s('Validate at w3c'), '', 'span') ));
 
 // use this skin for the site
 if(isset($skin) && Surfer::is_associate())

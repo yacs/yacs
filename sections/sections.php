@@ -1100,6 +1100,16 @@ Class Sections {
 		if($alternate_name && ($context['with_alternate_urls'] == 'Y'))
 			$name = str_replace('_', ' ', $alternate_name);
 
+		// the RSD link
+		if($action == 'EditURI') {
+			if($context['with_friendly_urls'] == 'Y')
+				return 'services/describe.php/'.rawurlencode($id);
+			elseif($context['with_friendly_urls'] == 'R')
+				return 'services/describe.php/'.rawurlencode($id);
+			else
+				return 'services/describe.php?anchor='.urlencode($id);
+		}
+
 		// the rss feed for files --deprecated to files::get_url()
 		if($action == 'files') {
 			if($context['with_friendly_urls'] == 'Y')

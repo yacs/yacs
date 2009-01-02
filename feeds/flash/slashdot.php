@@ -62,12 +62,6 @@ foreach($items as $url => $label) {
 	// remove every html tag
 	$label = strip_tags(html_entity_decode($label));
 
-	// tranform utf8
-	$label = utf8::encode($label);
-
-	// make is iso8859-1 -- well, at least, utf-8
-	$label = utf8::to_iso8859($label);
-
 	// make an absolute reference
 	$url = $context['url_to_home'].$context['url_to_root'].$url;
 
@@ -179,7 +173,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD')) 
 		$x[$i] = 5;
 		$y[$i] = ($height - $font_height)/2;
 		$t->moveTo($x[$i], $y[$i]);
-		$t->addString($titles[$i]);
+		$t->addUTF8String($titles[$i]);
 
 		$buttons[$i] =& new SWFButton();
 		$buttons[$i]->addShape($hit, SWFBUTTON_HIT);

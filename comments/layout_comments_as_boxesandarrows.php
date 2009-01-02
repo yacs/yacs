@@ -76,7 +76,8 @@ Class Layout_comments_as_boxesandarrows extends Layout_interface {
 			$text .= '<div class="'.$class.' comment">';
 
 			// a link to the user profile
-			$text .= sprintf(i18n::s('posted by %s %s'), $item['create_name'], Skin::build_date($item['create_date']));
+			if(isset($item['create_name']))
+				$text .= sprintf(i18n::s('posted by %s %s'), $item['create_name'], Skin::build_date($item['create_date']));
 
 			// the creation date
 			$text .= ' '.Skin::build_date($item['create_date']);

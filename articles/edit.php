@@ -2,6 +2,7 @@
 /**
  * create a new article or edit an existing one
  *
+ * @todo allow for the upload of one file on page creation
  * @todo add a toggle to not display the introduction in the main page
  * @todo add some hook to validate posts (TheAlchemist)
  *

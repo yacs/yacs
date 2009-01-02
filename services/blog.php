@@ -6,8 +6,6 @@
  * @todo implement Wordpress API, as in http://trac.wordpress.org/browser/trunk/xmlrpc.php
  * @todo improve support of Windows Live Writer as in http://www.andrewgrant.org/keyword-tags
  * @todo implement WLW manifest as described in http://msdn2.microsoft.com/en-us/library/bb463266.aspx
- * @todo restrict the list of blogs to assigned sections, plus the default section
- * @todo use section.php for editors
  *
  * This script interfaces YACS with popular weblog client software.
  *
@@ -452,6 +450,7 @@ include_once '../articles/article.php';
 include_once '../categories/categories.php';
 include_once '../files/files.php';
 include_once '../links/links.php';
+include_once '../sections/section.php';
 include_once '../versions/versions.php';
 
 // at the moment, do not send utf-8 to w.bloggar -- keep unicode entities as-is
@@ -507,7 +506,7 @@ if(!isset($parameters) || !is_array($parameters) || !count($parameters) || !isse
 else {
 
 	// remember parameters if debug mode
-	if($context['debug_blog'] == 'Y')
+	if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
 		Logger::remember('services/blog.php', 'blog '.$parameters['methodName'], isset($parameters['params'])?$parameters['params']:'', 'debug');
 
 	// depending on method name
@@ -520,28 +519,42 @@ else {
 
 		// get items from the database
 		if($item =& Articles::get($postid))
-			$section = Sections::get(str_replace('section:', '', $item['anchor']));
+			$anchor =& Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
-		// check the article exists
+		// check if article exists
 		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown postid %s at %s'), $postid, $context['url_to_home']) );
 
-		// restrict deletions
-		elseif(($user['capability'] != 'A') && !($section && preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to delete post %s at %s'), $postid, $context['url_to_home']));
-
-		// delete the article
-		elseif(!Articles::delete($item['id']))
-			$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to delete record of postid %s'), $postid) );
-
 		else {
-			Cache::clear();
-			$response = TRUE;
+		
+			// surfer may be an associate
+			Surfer::empower($user['capability']);
+		
+			// surfer is a section editor
+			if(Surfer::is_member($user['capability']) && is_object($anchor) && $anchor->is_editable($user['id']))
+				Surfer::empower();
+			
+			// surfer is a page editor
+			elseif(Articles::is_assigned($item['id'], $user['id']) && is_object($anchor) && $anchor->has_option('with_deletions'))
+				Surfer::empower();
+			
+			// operation is restricted
+			if(!Surfer::is_empowered())
+				$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
+
+			// delete the article
+			elseif(!Articles::delete($item['id']))
+				$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to delete record of postid %s'), $postid) );
+	
+			else {
+				Cache::clear();
+				$response = TRUE;
+			}
 		}
 		break;
 
@@ -551,88 +564,92 @@ else {
 
 		// get items from the database
 		if($item =& Articles::get($postid))
-			$section = Sections::get(str_replace('section:', '', $item['anchor']));
+			$anchor =& Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// ensure the article actually exists
-		elseif(!$item)
+		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown postid %s at %s'), $postid, $context['url_to_home']) );
 
-		// restrict posts in protected section
-		elseif($section && ($section['active'] == 'N')
-			&& ($user['capability'] != 'A') && (!preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to post in blog %s at %s'), $blogid, $context['url_to_home']) );
-
-		// restrict changes after publication, if not an associate and not in wiki mode
-		elseif(($item['publish_date'] > NULL_DATE) && ($user['capability'] != 'A') && !($section && preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])) && !($context['users_with_auto_publish'] == 'Y'))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to change blog %s at %s'), $blogid, $context['url_to_home']));
-
 		else {
-			// remember the previous page version
-			if($item['id'])
-				Versions::save($item, 'article:'.$item['id']);
-
-			// ensure we are limiting html to non-associates
-			if($user['capability'] != 'A')
-				$content = strip_tags($content, '<a><b><div><font><i><img><u><strike>'
-					.'<introduction><source><title>');
-
-			// parse article content
-			$article =& new Article();
-			$fields = $article->parse($content, $item);
-
-			// publish if in wiki mode, or if section is configured for auto-publishing,
-			// or if the surfer asks for it and add sufficient rights
-			if( ($context['users_with_auto_publish'] == 'Y')
-				|| ($section && preg_match('/\bauto_publish\b/i', $section['options']))
-				|| ($publish && (($user['capability'] == 'A') || ($section && preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))) ) {
-				$fields['publish_name'] = $user['nick_name'];
-				$fields['publish_id'] = $user['id'];
-				$fields['publish_address'] = $user['email'];
-				$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-			}
-			$fields['edit_name'] = $user['nick_name'];
-			$fields['edit_id'] = $user['id'];
-			$fields['edit_address'] = $user['email'];
-			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-			// update the article
-			if(!Articles::put($fields, $user['capability']))
-				$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to update record of postid %s'), $postid) );
+		
+			// surfer may be an associate
+			Surfer::empower($user['capability']);
+		
+			// surfer is a section editor
+			if(Surfer::is_member($user['capability']) && is_object($anchor) && $anchor->is_editable($user['id']))
+				Surfer::empower();
+			
+			// surfer is a page editor
+			elseif(Articles::is_assigned($item['id'], $user['id']))
+				Surfer::empower();
+			
+			// operation is restricted
+			if(!Surfer::is_empowered())
+				$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 			else {
-				$response = TRUE;
-
-				// if the page has been published
-				if($fields['publish_date'] > NULL_DATE) {
-
-					// advertise public pages
-					if(($section['active'] == 'Y') && ($item['active'] == 'Y')) {
-
-						// pingback, if any
-						Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$postid);
-
-					}
-
-					// 'publish' hook
-					if(is_callable(array('Hooks', 'include_scripts')))
-						Hooks::include_scripts('publish', $item['id']);
-
+			
+				// remember the previous version
+				Versions::save($item, 'article:'.$item['id']);
+	
+				// parse article content
+				$article =& new Article();
+				$fields = $article->parse($content, $item);
+	
+				// publish if in wiki mode, or if section is configured for auto-publishing,
+				// or if the surfer asks for it and add sufficient rights
+				if( ($context['users_with_auto_publish'] == 'Y')
+					|| (is_object($anchor) && $anchor->has_option('auto_publish'))
+					|| ($publish && (($user['capability'] == 'A') || (is_object($anchor) && $anchor->is_editable($user['id'])))) ) {
+					$fields['publish_name'] = $user['nick_name'];
+					$fields['publish_id'] = $user['id'];
+					$fields['publish_address'] = $user['email'];
+					$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 				}
-
-				// list the article in categories
-				$keywords = '';
-				if(isset($fields['tags']))
-					$keywords = $fields['tags'];
-				if(isset($content['mt_keywords']))
-					$keywords .= ', '.$content['mt_keywords'];
-				$keywords = trim($keywords, ', ');
-				Categories::remember('article:'.$item['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
-
+				$fields['edit_name'] = $user['nick_name'];
+				$fields['edit_id'] = $user['id'];
+				$fields['edit_address'] = $user['email'];
+				$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+	
+				// update the article
+				if(!Articles::put($fields))
+					$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to update record of postid %s'), $postid) );
+	
+				else {
+					$response = TRUE;
+	
+					// if the page has been published
+					if($fields['publish_date'] > NULL_DATE) {
+	
+						// advertise public pages
+						if(($section['active'] == 'Y') && ($item['active'] == 'Y')) {
+	
+							// pingback, if any
+							Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$postid);
+	
+						}
+	
+						// 'publish' hook
+						if(is_callable(array('Hooks', 'include_scripts')))
+							Hooks::include_scripts('publish', $item['id']);
+	
+					}
+	
+					// list the article in categories
+					$keywords = '';
+					if(isset($fields['tags']))
+						$keywords = $fields['tags'];
+					if(isset($content['mt_keywords']))
+						$keywords .= ', '.$content['mt_keywords'];
+					$keywords = trim($keywords, ', ');
+					Categories::remember('article:'.$item['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
+	
+				}
 			}
 		}
 		break;
@@ -641,68 +658,112 @@ else {
 	case 'blogger.getPost':
 		list($ignored_appkey, $postid, $username, $password) = $parameters['params'];
 
-		// get items from the database
+		// get item from the database
 		if($item =& Articles::get($postid))
-			$section=Sections::get(str_replace('section:', '', $item['anchor']));
+			$anchor =& Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// check the article actually exists
-		elseif(!$item)
+		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown postid %s at %s'), $postid, $context['url_to_home']) );
 
-		// restrict gets in protected section
-		elseif($section && ($section['active'] == 'N')
-			&& ($user['capability'] != 'A') && (!preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to post in blog %s at %s'), $blogid, $context['url_to_home']));
+		// unknown anchor
+		elseif(!is_object($anchor))
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
+		
+			// surfer may be an associate
+			Surfer::empower($user['capability']);
+		
+			// surfer is an associate
+			if($user['capability'] == 'A')
+				$permitted = TRUE;
+				
+			// public page
+			elseif(($item['active'] == 'Y') && $anchor->is_viewable($user['id']))
+				$permitted = TRUE;
+			
+			// restricted page
+			elseif(($item['active'] == 'R') && $anchor->is_viewable($user['id']))
+				$permitted = TRUE;
+			
+			// hidden page
+			elseif(($item['active'] == 'N') && $anchor->is_editable($user['id']))
+				$permitted = TRUE;
+				
+			// assigned page
+			elseif(Articles::is_assigned($item['id'], $user['id']))
+				$permitted = TRUE;
+				
+			// sorry
+			else
+				$permitted = FALSE;
+			
+			// restrict gets in protected section
+			if(!$permitted)
+				$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
-			// page title - don't put a carriage return at the end, w.bloggar will keep it
-			$content = '<title>'.$item['title'].'</title>';
-
-			// edit the introduction if one exists
-			if($item['introduction'])
-				$content .= '<introduction>'.$item['introduction']."</introduction>\n";
-
-			// edit the source if one exists
-			if($item['source'])
-				$content .= '<source>'.$item['source']."</source>\n";
-
-			// page content
-			$content .= $item['description'];
-
-			// build the complete response
-			$response = array();
-			$response[] = array(
-				'dateCreated' => $codec->encode($item['edit_date'], 'date'),
-				'userid' => $codec->encode($item['edit_id'], 'string'),
-				'postid' => $codec->encode((string)$id, 'string'),
-				'content' =>  $codec->encode($content, 'string')
-			);
+			else {
+	
+				// page title - don't put a carriage return at the end, w.bloggar will keep it
+				$content = '<title>'.$item['title'].'</title>';
+	
+				// edit the introduction if one exists
+				if($item['introduction'])
+					$content .= '<introduction>'.$item['introduction']."</introduction>\n";
+	
+				// edit the source if one exists
+				if($item['source'])
+					$content .= '<source>'.$item['source']."</source>\n";
+	
+				// page content
+				$content .= $item['description'];
+	
+				// build the complete response
+				$response = array();
+				$response[] = array(
+					'dateCreated' => $codec->encode($item['edit_date'], 'date'),
+					'userid' => $codec->encode($item['edit_id'], 'string'),
+					'postid' => $codec->encode((string)$id, 'string'),
+					'content' =>  $codec->encode($content, 'string')
+				);
+			}
 		}
 		break;
 
-	// return a list of the most recent posts in the system
+	// return a list of the most recent posts in a blog
 	case 'blogger.getRecentPosts':
 		list($ignored_appkey, $blogid, $username, $password, $numberOfPosts) = $parameters['params'];
 
+		// get item from the database
+		if($item =& Sections::get($blogid)) {
+			$section = new Section();
+			$section->load_by_content($item);
+		}
+
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// check the section id
-		elseif(!Sections::get($blogid))
+		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown blog %s at %s'), $blogid, $context['url_to_home']) );
+
+		// not accessible
+		elseif(($user['capability'] != 'A') && !$section->is_viewable($user['id']))
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// list articles
 		else {
+		
 			$response = array();
-			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw', $user['capability']);
+			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw');
 			if(is_array($items)) {
 				foreach($items as $id => $item) {
 
@@ -737,18 +798,24 @@ else {
 	case 'metaWeblog.getTemplate':
 		list($ignored_appkey, $blogid, $username, $password, $type) = $parameters['params'];
 
+		// get item from the database
+		if($item =& Sections::get($blogid)) {
+			$section = new Section();
+			$section->load_by_content($item);
+		}
+
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// check the section id
-		elseif(!$section =& Sections::get($blogid))
+		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown blog %s at %s'), $blogid, $context['url_to_home']) );
 
 		// restrict access to associates and editors
-		elseif(($user['capability'] != 'A') && (!preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to get template for blog %s at %s'), $blogid, $context['url_to_home']));
+		elseif(($user['capability'] != 'A') && !$section->is_editable($user['id']))
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// provide the existing template
 		elseif($section['template'])
@@ -770,7 +837,7 @@ else {
 
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		else {
@@ -801,7 +868,7 @@ else {
 
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// list blogs
@@ -819,14 +886,15 @@ else {
 							'isAdmin' => '<boolean>1</boolean>',
 							'url' => '<string>'.$context['url_to_home'].$context['url_to_root'].$section->get_url().'</string>',
 							'blogid' => '<string>'.(string)$assigned_id.'</string>',
-							'blogName' => $codec->encode($index.' '.strip_tags($section->get_title()), 'string')
+							'blogName' => $codec->encode(strip_tags($section->get_title()), 'string')
 						);
 						$index++;
 					}
 				}
+			}
 
 			// provide default section
-			} elseif($default_id = Sections::get_default()) {
+			if($default_id = Sections::get_default()) {
 				if($section =& Anchors::get('section:'.$default_id)) {
 					$response[] = array(
 						'isAdmin' => '<boolean>0</boolean>',
@@ -845,32 +913,41 @@ else {
 	case 'blogger.newPost':
 		list($ignored_appkey, $blogid, $username, $password, $content, $publish) = $parameters['params'];
 
+		// get item from the database
+		if($item =& Sections::get($blogid)) {
+			$section = new Section();
+			$section->load_by_content($item);
+		}
+
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// check the section id
-		elseif(!$section =& Sections::get($blogid))
+		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown blog %s at %s'), $blogid, $context['url_to_home']) );
 
-		// restrict posts in protected section
-		elseif((($section['active'] == 'N') || ($section['locked'] == 'Y'))
-			&& ($user['capability'] != 'A') && (!preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to post in blog %s at %s'), $blogid, $context['url_to_home']));
+		// not accessible
+		elseif(($user['capability'] != 'A') && !$section->is_viewable($user['id']))
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
+
+		// hidden section
+		elseif(($user['capability'] != 'A') && ($item['active'] == 'N') && !$section->is_editable($user['id']))
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
+
+		// locked section
+		elseif($item['locked'] == 'Y')
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
-			// ensure we are limiting html to non-associates
-			if($user['capability'] != 'A')
-				$content = strip_tags($content, '<a><b><div><font><i><img><u><strike>'
-					.'<introduction><source><title>');
-
+		
 			// parse article content
 			$article =& new Article();
 			$fields = $article->parse($content, $content);
 
 			// build fields
-			$fields['anchor'] = 'section:'.$blogid;
+			$fields['anchor'] = 'section:'.$item['id'];
 			$fields['source'] = 'blog';
 			$fields['create_name'] = $user['nick_name'];
 			$fields['create_id'] = $user['id'];
@@ -880,8 +957,8 @@ else {
 			// publish if in wiki mode, or if section is configured for auto-publishing,
 			// or if the surfer asks for it and add sufficient rights
 			if( ($context['users_with_auto_publish'] == 'Y')
-				|| ($section && preg_match('/\bauto_publish\b/i', $section['options']))
-				|| ($publish && (($user['capability'] == 'A') || ($section && preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))) ) {
+				|| (is_object($section) && $section->has_option('auto_publish'))
+				|| ($publish && (($user['capability'] == 'A') || (is_object($section) && $section->is_editable($user['id'])))) ) {
 				$fields['publish_name'] = $user['nick_name'];
 				$fields['publish_id'] = $user['id'];
 				$fields['publish_address'] = $user['email'];
@@ -906,7 +983,7 @@ else {
 				if($fields['publish_date'] > NULL_DATE) {
 
 					// advertise public pages
-					if($section['active'] == 'Y') {
+					if($section->is_public()) {
 
 						// pingback, if any
 						Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$fields['id']);
@@ -937,22 +1014,28 @@ else {
 	case 'metaWeblog.setTemplate':
 		list($ignored_appkey, $blogid, $username, $password, $template, $type) = $parameters['params'];
 
+		// get item from the database
+		if($item =& Sections::get($blogid)) {
+			$section = new Section();
+			$section->load_by_content($item);
+		}
+
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// check the section id
-		elseif(!$section =& Sections::get($blogid))
+		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown blog %s at %s'), $blogid, $context['url_to_home']) );
 
 		// restrict access to associates and editors
-		elseif(($user['capability'] != 'A') && (!preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to change blog %s at %s'), $blogid, $context['url_to_home']));
+		elseif(($user['capability'] != 'A') && !$section->is_editable($user['id']))
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// we actually process only 'main' type
 		elseif($type != 'main')
-			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('Only the main template can be changed'));
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.'));
 
 		// do the update
 		elseif($response = Sections::put_template($blogid, $template))
@@ -967,93 +1050,94 @@ else {
 
 		// get items from the database
 		if($item =& Articles::get($postid))
-			$section =& Sections::get(str_replace('section:', '', $item['anchor']));
+			$anchor =& Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// check the article actually exists
-		elseif(!$item)
+		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown postid %s at %s'), $postid, $context['url_to_home']) );
 
-		// restrict posts in protected section
-		elseif($section && ($section['active'] == 'N')
-			&& ($user['capability'] != 'A') && (!preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to post in blog %s at %s'), $blogid, $context['url_to_home']));
-
-		// restrict changes after publication
-		elseif(($item['publish_date'] > NULL_DATE) && ($user['capability'] != 'A') && !($section && preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors']) && ($context['users_with_auto_publish'] != 'Y')))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to change blog %s at %s'), $blogid, $context['url_to_home']));
-
 		else {
-			// remember the previous page version
-			if($item['id'])
-				Versions::save($item, 'article:'.$item['id']);
-
-			// ensure we are limiting html to non-associates
-			if($user['capability'] != 'A') {
-				$content['description'] = strip_tags($content['description'], '<a><b><div><font><i><img><u><strike>'
-					.'<introduction><source><title>');
-				$content['title'] = strip_tags($content['title'], '<a><b><div><font><i><img><u><strike>'
-					.'<introduction><source><title>');
-			}
-
-			// parse article content
-			$article =& new Article();
-			$fields = $article->parse($content['description'], $item);
-
-			if($content['title'])
-				$fields['title'] = $content['title'];
-
-			// publish if in wiki mode, or if section is configured for auto-publishing,
-			// or if the surfer asks for it and add sufficient rights
-			if( ($context['users_with_auto_publish'] == 'Y')
-				|| ($section && preg_match('/\bauto_publish\b/i', $section['options']))
-				|| ($publish && (($user['capability'] == 'A') || ($section && preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))) ) {
-				$fields['publish_name'] = $user['nick_name'];
-				$fields['publish_id'] = $user['id'];
-				$fields['publish_address'] = $user['email'];
-				$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-			}
-			$fields['edit_name'] = $user['nick_name'];
-			$fields['edit_id'] = $user['id'];
-			$fields['edit_address'] = $user['email'];
-			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-			// update the article
-			if(!Articles::put($fields, $user['capability']))
-				$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to update record of postid %s'), $postid) );
+		
+			// surfer may be an associate
+			Surfer::empower($user['capability']);
+		
+			// surfer is a section editor
+			if(Surfer::is_member($user['capability']) && is_object($anchor) && $anchor->is_editable($user['id']))
+				Surfer::empower();
+			
+			// surfer is a page editor
+			elseif(Articles::is_assigned($item['id'], $user['id']))
+				Surfer::empower();
+			
+			// operation is restricted
+			if(!Surfer::is_empowered())
+				$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 			else {
-				$response = TRUE;
-
-				// if the page has been published
-				if($fields['publish_date'] > NULL_DATE) {
-
-					// advertise public pages
-					if(($section['active'] == 'Y') && ($item['active'] == 'Y')) {
-
-						// pingback, if any
-						Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$postid);
-					}
-
-					// 'publish' hook
-					if(is_callable(array('Hooks', 'include_scripts')))
-						Hooks::include_scripts('publish', $item['id']);
-
+			
+				// remember the previous page version
+				Versions::save($item, 'article:'.$item['id']);
+	
+				// parse article content
+				$article =& new Article();
+				$fields = $article->parse($content['description'], $item);
+	
+				if($content['title'])
+					$fields['title'] = $content['title'];
+	
+				// publish if in wiki mode, or if section is configured for auto-publishing,
+				// or if the surfer asks for it and add sufficient rights
+				if( ($context['users_with_auto_publish'] == 'Y')
+					|| (is_object($anchor) && $anchor->has_option('auto_publish'))
+					|| ($publish && (($user['capability'] == 'A') || (is_object($anchor) && $anchor->is_editable($user['id'])))) ) {
+					$fields['publish_name'] = $user['nick_name'];
+					$fields['publish_id'] = $user['id'];
+					$fields['publish_address'] = $user['email'];
+					$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 				}
-
-				// list the article in categories
-				$keywords = '';
-				if(isset($fields['tags']))
-					$keywords = $fields['tags'];
-				if(isset($content['mt_keywords']))
-					$keywords .= ', '.$content['mt_keywords'];
-				$keywords = trim($keywords, ', ');
-				Categories::remember('article:'.$item['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
-
+				$fields['edit_name'] = $user['nick_name'];
+				$fields['edit_id'] = $user['id'];
+				$fields['edit_address'] = $user['email'];
+				$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+	
+				// update the article
+				if(!Articles::put($fields))
+					$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to update record of postid %s'), $postid) );
+	
+				else {
+					$response = TRUE;
+	
+					// if the page has been published
+					if($fields['publish_date'] > NULL_DATE) {
+	
+						// advertise public pages
+						if($anchor->is_public() && ($item['active'] == 'Y')) {
+	
+							// pingback, if any
+							Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$postid);
+						}
+	
+						// 'publish' hook
+						if(is_callable(array('Hooks', 'include_scripts')))
+							Hooks::include_scripts('publish', $item['id']);
+	
+					}
+	
+					// list the article in categories
+					$keywords = '';
+					if(isset($fields['tags']))
+						$keywords = $fields['tags'];
+					if(isset($content['mt_keywords']))
+						$keywords .= ', '.$content['mt_keywords'];
+					$keywords = trim($keywords, ', ');
+					Categories::remember('article:'.$item['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
+	
+				}
 			}
 		}
 		break;
@@ -1064,14 +1148,14 @@ else {
 
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// list categories
 		else {
 			$response = array();
 
-			$items = Categories::list_by_path(0, 50, 'raw', $user['capability']);
+			$items = Categories::list_by_path(0, 50, 'raw');
 			if(is_array($items)) {
 
 				// one entry per category
@@ -1102,38 +1186,71 @@ else {
 
 		// get items from the database
 		if($item =& Articles::get($postid))
-			$section =& Sections::get(str_replace('section:', '', $item['anchor']));
+			$anchor =& Anchors::get($item['anchor']);
 
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// check the article actually exists
-		elseif(!$item)
+		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown postid %s at %s'), $postid, $context['url_to_home']) );
 
-		// restrict gets in protected section
-		elseif($section && ($section['active'] == 'N')
-			&& ($user['capability'] != 'A') && (!preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to post in blog %s at %s'), $blogid, $context['url_to_home']));
+		// unknown anchor
+		elseif(!is_object($anchor))
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
-		// fetch the page
 		else {
-			$response = array();
-			$response[] = array(
-				'title' =>	$codec->encode($item['title'], 'string'),
-				'link' =>  $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item),
-				'permaLink' =>	$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item),
-				'description' => $codec->encode('<introduction>'.$item['introduction']."</introduction>\n"
-						.'<source>'.$item['source']."</source>\n"
-						.$item['description'], 'string'),
-				'author' => $codec->encode($item['create_address']),
-				'comments' =>  $context['url_to_home'].$context['url_to_root'].'comments/edit.php?anchor='.urlencode('article:'.$postid),
-				'dateCreated' => $codec->encode($item['edit_date'], 'date'),
-				'userid' => (string)$item['edit_id'],
-				'postid' => (string)$postid
-				);
+		
+			// surfer may be an associate
+			Surfer::empower($user['capability']);
+		
+			// surfer is an associate
+			if($user['capability'] == 'A')
+				$permitted = TRUE;
+				
+			// public page
+			elseif(($item['active'] == 'Y') && $anchor->is_viewable($user['id']))
+				$permitted = TRUE;
+			
+			// restricted page
+			elseif(($item['active'] == 'R') && $anchor->is_viewable($user['id']))
+				$permitted = TRUE;
+			
+			// hidden page
+			elseif(($item['active'] == 'N') && $anchor->is_editable($user['id']))
+				$permitted = TRUE;
+				
+			// assigned page
+			elseif(Articles::is_assigned($item['id'], $user['id']))
+				$permitted = TRUE;
+				
+			// sorry
+			else
+				$permitted = FALSE;
+			
+			// restrict gets in protected section
+			if(!$permitted)
+				$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
+
+			// fetch the page
+			else {
+				$response = array();
+				$response[] = array(
+					'title' =>	$codec->encode($item['title'], 'string'),
+					'link' =>  $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item),
+					'permaLink' =>	$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item),
+					'description' => $codec->encode('<introduction>'.$item['introduction']."</introduction>\n"
+							.'<source>'.$item['source']."</source>\n"
+							.$item['description'], 'string'),
+					'author' => $codec->encode($item['create_address']),
+					'comments' =>  $context['url_to_home'].$context['url_to_root'].'comments/edit.php?anchor='.urlencode('article:'.$postid),
+					'dateCreated' => $codec->encode($item['edit_date'], 'date'),
+					'userid' => (string)$item['edit_id'],
+					'postid' => (string)$postid
+					);
+			}
 		}
 		break;
 
@@ -1141,24 +1258,30 @@ else {
 	case 'metaWeblog.getRecentPosts':
 		list($blogid, $username, $password, $numberOfPosts) = $parameters['params'];
 
+		// get item from the database
+		if($item =& Sections::get($blogid)) {
+			$section = new Section();
+			$section->load_by_content($item);
+		}
+
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// check the section id
-		elseif(!$section =& Sections::get($blogid))
+		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown blog %s at %s'), $blogid, $context['url_to_home']) );
+
+		// not accessible
+		elseif(($user['capability'] != 'A') && !$section->is_viewable($user['id']))
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// lists posts
 		else {
+		
 			$response = array();
-
-			// consider editors as associates
-			if(preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors']))
-				$user['capability'] = 'A';
-
-			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw', $user['capability']);
+			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw');
 			if(is_array($items)) {
 				foreach($items as $id => $item) {
 
@@ -1184,7 +1307,7 @@ else {
 						$entry['pubDate'] = $codec->encode($item['publish_date'], 'date');
 
 					// attached categories
-					$categories =& Members::list_categories_by_title_for_member('article:'.$id, 0, 10, 'raw', $user['capability']);
+					$categories =& Members::list_categories_by_title_for_member('article:'.$id, 0, 10, 'raw');
 					foreach($categories as $id => $attributes)
 						$entry['categories'][] = strip_tags($attributes['title']);
 
@@ -1200,33 +1323,45 @@ else {
 	case 'metaWeblog.newMediaObject':
 		list($blogid, $username, $password, $content) = $parameters['params'];
 
+		// get item from the database
+		if($item =& Sections::get($blogid)) {
+			$section = new Section();
+			$section->load_by_content($item);
+		}
+
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// ensure uploads are allowed
 		elseif(!Surfer::may_upload($user['capability']))
-			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to upload files.') );
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// we need some actual content
 		elseif(!isset($content['name']) || !$content['name'] || !isset($content['bits']) || !$content['bits'])
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('No file data has been received.') );
 
 		// check the section id
-		elseif(!$section =& Sections::get($blogid))
+		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown blog %s at %s'), $blogid, $context['url_to_home']) );
 
-		// restrict posts in protected section
-		elseif((($section['active'] == 'N') || ($section['locked'] == 'Y'))
-			&& ($user['capability'] != 'A') && (!preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to post in blog %s at %s'), $blogid, $context['url_to_home']));
+		// not accessible
+		elseif(($user['capability'] != 'A') && !$section->is_viewable($user['id']))
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
-		// ready to save the file
+		// hidden section
+		elseif(($user['capability'] != 'A') && ($item['active'] == 'N') && !$section->is_editable($user['id']))
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
+
+		// locked section
+		elseif($item['locked'] == 'Y')
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
+
 		else {
-
+		
 			// get a safe path
-			$file_path = 'files/'.$context['virtual_path'].'section/'.$section['id'];
+			$file_path = 'files/'.$context['virtual_path'].'section/'.$item['id'];
 
 			// get a safe file name
 			$file_name = utf8::to_ascii(basename($content['name']));
@@ -1242,7 +1377,7 @@ else {
 				// build fields
 				$fields['file_name'] = $file_name;
 				$fields['file_size'] = strlen($content['bits']);
-				$fields['anchor'] = 'section:'.$blogid;
+				$fields['anchor'] = 'section:'.$item['id'];
 				$fields['create_name'] = $user['nick_name'];
 				$fields['create_id'] = $user['id'];
 				$fields['create_address'] = $user['email'];
@@ -1278,29 +1413,35 @@ else {
 	case 'metaWeblog.newPost':
 		list($blogid, $username, $password, $content, $publish) = $parameters['params'];
 
+		// get item from the database
+		if($item =& Sections::get($blogid)) {
+			$section = new Section();
+			$section->load_by_content($item);
+		}
+
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// check the section id
-		elseif(!$section =& Sections::get($blogid))
+		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown blog %s at %s'), $blogid, $context['url_to_home']) );
 
-		// restrict posts in protected section
-		elseif((($section['active'] == 'N') || ($section['locked'] == 'Y'))
-			&& ($user['capability'] != 'A') && (!preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))
-			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('You are not allowed to post in blog %s at %s'), $blogid, $context['url_to_home']));
+		// not accessible
+		elseif(($user['capability'] != 'A') && !$section->is_viewable($user['id']))
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
+
+		// hidden section
+		elseif(($user['capability'] != 'A') && ($item['active'] == 'N') && !$section->is_editable($user['id']))
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
+
+		// locked section
+		elseif($item['locked'] == 'Y')
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
-			// ensure we are limiting html to non-associates
-			if($user['capability'] != 'A') {
-				$content['description'] = strip_tags($content['description'], '<a><b><div><font><i><img><u><strike>'
-					.'<introduction><source><title>');
-				$content['title'] = strip_tags($content['title'], '<a><b><div><font><i><img><u><strike>'
-					.'<introduction><source><title>');
-			}
-
+		
 			// parse article content
 			$article =& new Article();
 			$fields = $article->parse($content['description'], $content);
@@ -1313,7 +1454,7 @@ else {
 
 			// build fields
 			$fields['title'] = $content['title'];
-			$fields['anchor'] = 'section:'.$blogid;
+			$fields['anchor'] = 'section:'.$item['id'];
 			$fields['create_name'] = $user['nick_name'];
 			$fields['create_id'] = $user['id'];
 			$fields['create_address'] = $user['email'];
@@ -1331,8 +1472,8 @@ else {
 			// publish if in wiki mode, or if section is configured for auto-publishing,
 			// or if the surfer asks for it and add sufficient rights
 			if( ($context['users_with_auto_publish'] == 'Y')
-				|| ($section && preg_match('/\bauto_publish\b/i', $section['options']))
-				|| ($publish && (($user['capability'] == 'A') || ($section && preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors'])))) ) {
+				|| (is_object($section) && $section->has_option('auto_publish'))
+				|| ($publish && (($user['capability'] == 'A') || (is_object($section) && $section->is_editable($user['id'])))) ) {
 				$fields['publish_name'] = $user['nick_name'];
 				$fields['publish_id'] = $user['id'];
 				$fields['publish_address'] = $user['email'];
@@ -1357,7 +1498,7 @@ else {
 				if($fields['publish_date'] > NULL_DATE) {
 
 					// advertise public pages
-					if($section['active'] == 'Y') {
+					if($section->is_public()) {
 
 						// places to look for references
 						$to_be_parsed = '';
@@ -1397,14 +1538,14 @@ else {
 
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// list categories
 		else {
 			$response = array();
 
-			$items = Categories::list_by_path(0, 50, 'raw', $user['capability']);
+			$items = Categories::list_by_path(0, 50, 'raw');
 			if(is_array($items)) {
 
 				// one entry per category
@@ -1432,14 +1573,14 @@ else {
 
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// list categories
 		else {
 			$response = array();
 
-			$items =& Members::list_categories_by_title_for_member('article:'.$postid, 0, 7, 'raw', $user['capability']);
+			$items =& Members::list_categories_by_title_for_member('article:'.$postid, 0, 7, 'raw');
 			if(is_array($items)) {
 
 				// one entry per category
@@ -1463,24 +1604,30 @@ else {
 	case 'mt.getRecentPostTitles':
 		list($blogid, $username, $password, $numberOfPosts) = $parameters['params'];
 
+		// get item from the database
+		if($item =& Sections::get($blogid)) {
+			$section = new Section();
+			$section->load_by_content($item);
+		}
+
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// check the section id
-		elseif(!$section =& Sections::get($blogid))
+		elseif(!isset($item['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown blog %s at %s'), $blogid, $context['url_to_home']) );
+
+		// not accessible
+		elseif(($user['capability'] != 'A') && !$section->is_viewable($user['id']))
+			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// lists posts
 		else {
+		
 			$response = array();
-
-			// consider editors as associates
-			if(preg_match('/\b('.$user['id'].'|'.$user['nick_name'].')\b/i', $section['editors']))
-				$user['capability'] = 'A';
-
-			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw', $user['capability']);
+			$items =& Articles::list_for_anchor_by('edition', 'section:'.$item['id'], 0, min($numberOfPosts, 30), 'raw');
 			if(is_array($items)) {
 				foreach($items as $id => $item) {
 
@@ -1517,7 +1664,7 @@ else {
 
 		// check user
 		$user = Users::login($username, $password);
-		if(!$user || !$user['id'])
+		if(!isset($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Please register at %s before blogging'), $context['url_to_home']) );
 
 		// set categories

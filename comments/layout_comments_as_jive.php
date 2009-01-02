@@ -84,7 +84,9 @@ Class Layout_comments_as_jive extends Layout_interface {
 				$author_details[] = sprintf(i18n::s('from %s'), Codes::beautify($poster['from_where']));
 
 			// guest/member/associate
-			if($poster['capability'] == 'A')
+			if(!isset($poster['capability']))
+				;
+			elseif($poster['capability'] == 'A')
 				$author_details[] = i18n::s('Associate');
 			elseif($poster['capability'] == 'M')
 				$author_details[] = i18n::s('Member');
@@ -92,11 +94,11 @@ Class Layout_comments_as_jive extends Layout_interface {
 				$author_details[] = i18n::s('Subscriber');
 
 			// posts
-			if($poster['posts'])
+			if(isset($poster['posts']))
 				$author_details[] = sprintf(i18n::ns('%d post', '%d posts', $poster['posts']), $poster['posts']);
 
 			// registration date
-			if($poster['create_date'])
+			if(isset($poster['create_date']))
 				$author_details[] = sprintf(i18n::s('registered %s'), Skin::build_date($poster['create_date'], 'no_hour', $context['language']));
 
 			// show contact information

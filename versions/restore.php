@@ -140,7 +140,7 @@ else {
 
 	// display details for this version
 	$context['text'] .= '<dl class="version">'."\n";
-	if(($attributes = unserialize($item['content'])) && @count($attributes)) {
+	if(($attributes = Safe::unserialize($item['content'])) && @count($attributes)) {
 		foreach($attributes as $name => $value) {
 			if(is_string($value) && $value && preg_match('/(active|anchor|description|introduction|rank|title)/', $name))
 				$context['text'] .= '<dt>'.$name.'</dt>'."\n".'<dd>'.$value.'</dd>'."\n";

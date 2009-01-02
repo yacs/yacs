@@ -2,14 +2,19 @@
 /**
  * describe blogging API in RSD format
  *
- * @todo set blogID as in http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=2872362&SiteID=1
- *
  * Really Simple Discovery (RSD) is a way to help client software find the
  * services needed to read, edit, or "work with" weblogging software.
  *
  * @link http://cyber.law.harvard.edu/blogs/gems/tech/rsd.html RSD 1.0 specification
  *
- * This script is referenced from the front page, to help locate the blogging interface.
+ * This script helps to locate the blogging interface from any section, and from the front page. 
+ * To trigger the auto-discovery feature, visit the target section, and enter its web address
+ * into your blogging tool.
+ *
+ * The BlogId provided at section pages is the identification number of the respective section.
+ *
+ * The BlogID used from the front page is the identification number of the default section,
+ * which is the section named 'default', if any, or the first public section of the site map.
  *
  * If following features are enabled, this script will use them:
  * - compression - Using gzip, if accepted by user agent
@@ -22,6 +27,21 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+
+// look for the id
+$id = NULL;
+if(isset($_REQUEST['id']))
+	$id = $_REQUEST['id'];
+elseif(isset($context['arguments'][0]))
+	$id = $context['arguments'][0];
+$id = strip_tags($id);
+
+// ensure we have a default section to use
+if(!$id)
+	$id = Sections::get_default();
+
+// get the item from the database
+$item =& Sections::get($id);
 
 // load a skin engine
 load_skin('services');
@@ -38,13 +58,17 @@ $text .= '	<engineName>YACS</engineName>'."\n"
 	.'<engineLink>http://www.yetanothercommunitysystem.com/</engineLink>'."\n";
 
 // blog home page
-$text .= '	<homePageLink>'.$context['url_to_home'].$context['url_to_root'].'</homePageLink>'."\n";
+if(isset($item['id']))
+	$link = Sections::get_permalink($item);
+else
+	$link = '';
+$text .= '	<homePageLink>'.$context['url_to_home'].$context['url_to_root'].$link.'</homePageLink>'."\n";
 
 // available blogging api
 $text .= '	<apis>'."\n"
-	.'		<api name="Movable Type" preferred="true" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="" />'."\n"
-	.'		<api name="MetaWeblog" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="" />'."\n"
-	.'		<api name="Blogger" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="" />'."\n"
+	.'		<api name="Movable Type" preferred="true" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
+	.'		<api name="MetaWeblog" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
+	.'		<api name="Blogger" preferred="false" apiLink="'.$context['url_to_home'].$context['url_to_root'].'services/blog.php" blogID="'.encode_field($id).'" />'."\n"
 	.'	</apis>'."\n";
 
 // the postamble

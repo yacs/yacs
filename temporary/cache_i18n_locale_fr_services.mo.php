@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on December 6, 2008, 10:39 pm GMT. Please do not modify it manually.
+ * on January 2, 2009, 10:26 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-04 00:13+0100
+POT-Creation-Date: 2009-01-02 23:24+0100
 PO-Revision-Date: 2008-11-16 21:56+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -60,7 +60,6 @@ $_SESSION['l10n']['fr']['Message']='Message';
 $_SESSION['l10n']['fr']['Name of the updated server']='Nom du serveur mis à jour';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No file data has been received.']='Aucun fichier n\'a été transmis.';
-$_SESSION['l10n']['fr']['5673b12e569034c481140edd888bd21c']='Seul le style principal peut être changé';
 $_SESSION['l10n']['fr']['Ping interface']='Interface Ping';
 $_SESSION['l10n']['fr']['32f16b405d7ec3c7f7a2175487b60cc3']='Merci de vous enregistrer à l\'adresse %s avant de  blogger';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
@@ -94,13 +93,8 @@ $_SESSION['l10n']['fr']['User password']='Mot de passe';
 $_SESSION['l10n']['fr']['Web service test']='Test de service web';
 $_SESSION['l10n']['fr']['Web services']='Services web';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
-$_SESSION['l10n']['fr']['700b4be81f8356ec86375da6a38852da']='Vous n\'êtes pas autorisé à modifier le blog %s à l\'adresse %s';
-$_SESSION['l10n']['fr']['6fd8007aaf06d921ad2ab14abd16d60d']='Vous n\'êtes pas autorisé à effacer l\'envoi %s à l\'adresse %s';
-$_SESSION['l10n']['fr']['e8b7ace42805908799d71e3de3e095de']='Vous n\'êtes pas autorisé à obtenir le modèle de page du blog %s à l\'adresse %s';
 $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas autorisé à faire cette opération en mode démonstration.';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
-$_SESSION['l10n']['fr']['c6083d29a3b6a400608eec8ef67866c3']='Vous n\'êtes pas autorisé à poster dans le blog %s à l\'adresse %s';
-$_SESSION['l10n']['fr']['cc944568dd2521f129aad7695818f531']='Vous n\'êtes pas autorisé à envoyer des fichiers.';
 $_SESSION['l10n']['fr']['apply for a key']='demandez une clé';
 $_SESSION['l10n']['fr']['a1d3a86cb66f6642e23c2f5f12323187']='le panneau de configuration des services';
 $_SESSION['l10n']['fr']['6889e5b8e03c320d08c3687b4e284a3e']='http://www.google-analytics.com/';

@@ -845,7 +845,7 @@ class Anchor {
 				if(!isset($this->anchor) || !$this->anchor)
 					$this->anchor =& Anchors::get($this->item['anchor']);
 
-				if(is_object($this->anchor) && $this->anchor->is_assigned())
+				if(is_object($this->anchor) && $this->anchor->is_assigned($cascade))
 					return $this->is_assigned_cache = TRUE;
 
 			}
@@ -893,15 +893,7 @@ class Anchor {
 			if(!$user_id && Surfer::get_id())
 				$user_id = Surfer::get_id();
 
-			// maybe the logged surfer is the creator
-//			if($this->item['create_id'] && $user_id && ($this->item['create_id'] == $user_id))
-//				return $this->is_editable_cache = TRUE;
-
-			// section has been assigned to this member
-			if(Sections::is_assigned($this->item['id']) && Surfer::is_member())
-				return $this->is_editable_cache = TRUE;
-
-			// anonymous surfer has provided the secret handle
+			// surfer has provided the secret handle
 			if(isset($this->item['handle']) && Surfer::may_handle($this->item['handle']))
 				return $this->is_editable_cache = TRUE;
 
@@ -916,8 +908,8 @@ class Anchor {
 					return $this->is_editable_cache = TRUE;
 
 			}
-
 		}
+		
 		// sorry
 		return $this->is_editable_cache = FALSE;
 	 }
@@ -969,9 +961,10 @@ class Anchor {
 	 *
 	 * To be overloaded into derivated class if field has a different name
 	 *
+	 * @param int optional reference to some user profile
 	 * @return TRUE or FALSE
 	 */
-	 function is_viewable() {
+	 function is_viewable($user_id=NULL) {
 		global $context;
 
 		// cache the answer
@@ -980,12 +973,16 @@ class Anchor {
 
 		if(is_array($this->item)) {
 
+			// id of requesting user
+			if(!$user_id && Surfer::get_id())
+				$user_id = Surfer::get_id();
+
 			// associates and editors can do what they want
-			if(Surfer::is_associate() || $this->is_editable())
+			if(Surfer::is_associate() || $this->is_editable($user_id))
 				return $this->is_viewable_cache = TRUE;
 
 			// maybe the logged surfer is the creator
-			if($this->item['create_id'] && Surfer::get_id() && ($this->item['create_id'] == Surfer::get_id()))
+			if($this->item['create_id'] && $user_id && ($this->item['create_id'] == $user_id))
 				return $this->is_viewable_cache = TRUE;
 
 			// anonymous surfer has provided the secret handle
@@ -1000,17 +997,17 @@ class Anchor {
 					$this->anchor =& Anchors::get($this->item['anchor']);
 
 				// parent container has been assigned to this surfer
-				if(is_object($this->anchor) && $this->anchor->is_assigned())
+				if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
 					return $this->is_viewable_cache = TRUE;
 
 				// parent container is not visible
-				if(is_object($this->anchor) && !$this->anchor->is_viewable())
+				if(is_object($this->anchor) && !$this->anchor->is_viewable($user_id))
 					return $this->is_viewable_cache = FALSE;
 
 			}
 
 			// access is restricted to logged surfers
-			if(($this->item['active'] == 'R') && Surfer::is_logged())
+			if(($this->item['active'] == 'R') && $user_id)
 				return $this->is_viewable_cache = TRUE;
 
 			// public access to the anchor is allowed

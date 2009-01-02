@@ -209,7 +209,7 @@ class Mailer {
 
 		// ensure utf-8
 		$encoded_message = utf8::from_unicode($message);
-
+		
 		// Content-Type: header
 		if(!preg_match('/^Content-Type: /im', $headers))
 			$headers .= "\n".'Content-Type: text/plain; charset=utf-8';

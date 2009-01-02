@@ -21,6 +21,9 @@
 include_once '../shared/global.php';
 include_once 'scripts.php';
 
+define('FAILURE_PREFIX', '<span style="color: red;">');
+define('FAILURE_SUFFIX', '</span>');
+		
 // what to do
 $action = '';
 if(isset($_REQUEST['action']))
@@ -132,7 +135,7 @@ elseif(!Surfer::is_associate()) {
 
 			// failed update
 			} else {
-				$context['text'] .= sprintf(i18n::s('Impossible to write to %s.'), '../index.php').BR."\n";
+				$context['text'] .= FAILURE_PREFIX.sprintf(i18n::s('Impossible to write to %s.'), '../index.php').FAILURE_SUFFIX.BR."\n";
 				$failures++;
 			}
 
@@ -140,7 +143,7 @@ elseif(!Surfer::is_associate()) {
 
 		// ensure all folders exist
 		if(!Safe::make_path(dirname($file))) {
-			$context['text'] .= sprintf(i18n::s('Impossible to create path %s.'), dirname($file)).BR."\n";
+			$context['text'] .= FAILURE_PREFIX.sprintf(i18n::s('Impossible to create path %s.'), dirname($file)).FAILURE_SUFFIX.BR."\n";
 			$failures++;
 
 		// actual update
@@ -157,7 +160,7 @@ elseif(!Surfer::is_associate()) {
 
 			// failed update
 			} else {
-				$context['text'] .= sprintf(i18n::s('Impossible to write to %s.'), $file).BR."\n";
+				$context['text'] .= FAILURE_PREFIX.sprintf(i18n::s('Impossible to write to %s.'), $file).FAILURE_SUFFIX.BR."\n";
 				$failures++;
 			}
 
@@ -214,11 +217,11 @@ elseif(!Surfer::is_associate()) {
 
 	// report on failures, if any
 	if($failures)
-		$context['text'] .= '<p>'.i18n::s('Warning! Some files have not been updated.')."</p>\n";
+		$context['text'] .= '<p>'.FAILURE_PREFIX.i18n::s('Warning! Some files have not been updated.').FAILURE_SUFFIX."</p>\n";
 
 	// report on missing files, if any
 	if($missing_files) {
-		$context['text'] .= '<p>'.i18n::s('Some updated files are missing. Please check the reference server below.')."</p>\n";
+		$context['text'] .= '<p>'.FAILURE_PREFIX.i18n::s('Some updated files are missing. Please check the reference server below.').FAILURE_SUFFIX."</p>\n";
 
 		// forward to the staging script
 		$menu = array('scripts/stage.php' => i18n::s('Download updates from the reference server'));

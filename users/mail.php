@@ -186,11 +186,11 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	if(Mailer::post($from, $to, $subject, $message, $headers, 'users/mail.php')) {
 
 		// feed-back to the sender
-		$context['text'] = '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), strip_tags($item['email'])).'</p>';
+		$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), strip_tags($item['email'])).'</p>';
 
 		// signal that a copy has been forwarded as well
 		if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y'))
-			$context['text'] = '<p>'.sprintf(i18n::s('At your request, a copy was also sent to %s'), $from).'</p>';
+			$context['text'] .= '<p>'.sprintf(i18n::s('At your request, a copy was also sent to %s'), $from).'</p>';
 
 	}
 

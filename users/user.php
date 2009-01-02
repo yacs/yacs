@@ -292,11 +292,20 @@ Class User extends Anchor {
 	 * @param int optional reference to some user profile
 	 * @return TRUE if the surfer is browsing his/her own profile
 	 *
+	 * @param int optional reference to some user profile
+	 * @return TRUE or FALSE
+	 *
 	 * @see shared/anchor.php
 	 */
-	 function is_editable($user_id = NULL) {
-		if(isset($this->item['id']) && Surfer::is($this->item['id']))
+	 function is_editable($user_id=NULL) {
+	 
+		// id of requesting user
+		if(!$user_id && Surfer::get_id())
+			$user_id = Surfer::get_id();
+
+		if(isset($this->item['id']) && ($user_id == $this->item['id']))
 			return TRUE;
+			
 		return FALSE;
 	 }
 
