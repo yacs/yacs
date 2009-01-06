@@ -998,6 +998,8 @@ if(!isset($item['id'])) {
 					$offset = ($zoom_index - 1) * $items_per_page;
 					if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
 						$order = $matches[1];
+					elseif(is_callable(array($layout, 'items_order')))
+						$order = $layout->items_order();
 					else
 						$order = 'edition';
 					$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);

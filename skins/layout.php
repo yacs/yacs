@@ -30,7 +30,7 @@ Class Layout_interface {
 	 * @return string to be used in requests to the database
 	 */
 	function items_order() {
-		return NULL;
+		return 'edition';
 	}
 
 	/**

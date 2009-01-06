@@ -72,6 +72,7 @@
  * @tester Natice
  * @tester Vincent Weber
  * @tester Manuel López Gallego
+ * @tester Christian Loubechine
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -364,8 +365,8 @@ if(Surfer::is_crawler()) {
 	// we are posting a reference
 	} elseif(isset($_REQUEST['file_href']) && $_REQUEST['file_href']) {
 
-		// protect from hackers
-		$_REQUEST['file_href'] =& encode_link($_REQUEST['file_href']);
+		// protect from hackers -- encode_link() would introduce &amp;
+		$_REQUEST['file_href'] = trim(preg_replace(FORBIDDEN_IN_URLS, '_', $_REQUEST['file_href']), ' _');
 
 		// ensure we have a title
 		if(!$_REQUEST['title'])

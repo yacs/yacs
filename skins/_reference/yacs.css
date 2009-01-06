@@ -24,6 +24,14 @@
  */
 
 /**
+ * standard tags
+ */
+ 
+pre {
+	overflow: auto; /* add an horizontal bar to browse long lines of code, if necessary */
+}
+
+/**
  * scriptaculous autocomplete
  *
  * @link http://wiki.script.aculo.us/scriptaculous/show/Ajax.Autocompleter

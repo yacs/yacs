@@ -130,6 +130,10 @@ Class Articles {
 				$order = 'rank, edit_date DESC, title';
 			break;
 
+		case 'expiry': // order by expiry date
+			$order = 'expiry_date DESC, edit_date DESC, title';
+			break;
+
 		case 'hits':	// order by reverse number of hits, then by reverse date of publication
 
 			$order = 'hits DESC, publish_date DESC';
@@ -145,6 +149,7 @@ Class Articles {
 			break;
 
 		case 'publication': // order by rank, then by reverse date of publication
+		case 'future': // obsoleted?
 
 			// avoid side effects of ranking across several sections
 			if($multiple_anchor)
@@ -167,8 +172,11 @@ Class Articles {
 			break;
 
 		case 'reverse_rank':	// order by rank, then by date of publication
-
 			$order = 'rank DESC, publish_date DESC';
+			break;
+
+		case 'review':	// order by date of last review
+			$order = 'stamp, title';
 			break;
 
 		case 'reverse_title':	// order by rank, then by reverse title
@@ -187,6 +195,10 @@ Class Articles {
 				$order = 'title';
 			else
 				$order = 'rank, title';
+			break;
+
+		case 'unread':	// locate unused pages
+			$order = 'hits, edit_date';
 			break;
 
 		}
@@ -1145,38 +1157,13 @@ Class Articles {
 				." AND (articles.home_panel LIKE 'main')";
 		}
 
-		// order of the resulting set
+		// composite fields
 		$more_fields = '';
-		switch($order) {
-		case 'draft':
-		case 'edition':
-			$order = 'articles.edit_date DESC, articles.title';
-			break;
-		case 'expiry':
-			$order = 'articles.expiry_date DESC, articles.edit_date DESC, articles.title';
-			break;
-		case 'future':
-		case 'publication':
-		default:
-			$order = 'articles.publish_date DESC, articles.title';
-			break;
-		case 'hits':
-			$order = 'articles.hits DESC, articles.title';
-			break;
-		case 'random':
-			$order = 'RAND()';
-			break;
-		case 'rating':
-			$order = 'rating_sum DESC, articles.publish_date DESC, articles.title';
-			break;
-		case 'review':
+		if($order == 'review')
 			$more_fields = ', GREATEST(articles.edit_date, articles.review_date) AS stamp';
-			$order = 'stamp, articles.title';
-			break;
-		case 'unread':
-			$order = 'articles.hits, articles.edit_date DESC, articles.title';
-			break;
-		}
+			
+		// order of the resulting set
+		$order = Articles::_get_order($order);
 
 		// reference sections
 		if($sections_where)
@@ -1297,6 +1284,8 @@ Class Articles {
 	 * - 'publication' - order by rank, then by reverse date of publication
 	 * - 'random' - use random order
 	 * - 'rating' - order by rank, then by reverse number of points
+	 * - 'reverse_rank'
+	 * - 'reverse_title'
 	 * - 'title' - order by rank, then by titles
 	 *
 	 * Only articles matching following criteria are returned:

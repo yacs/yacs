@@ -515,10 +515,6 @@ if(!isset($item['id']) || !$item['id']) {
 	// automatic or not
 	$context['text'] .= '<p>'.i18n::s('The download should start automatically within seconds. Else hit the provided link to trigger it manually.').'</p>'."\n";
 
-	// file has been detached
-	if($file_has_been_detached)
-		$context['text'] .= '<p>'.i18n::s('Since the file has been assigned to you, other surfers will be discouraged to download copies from the server until you upload an updated version.').'</p>'."\n";
-
 }
 
 // render the skin

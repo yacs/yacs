@@ -490,15 +490,8 @@ class Safe {
 	 */
 	function highlight_string($text) {
 
-		// poor man highlight
-		if(!is_callable('ob_start') || !is_callable('ob_get_contents') || !is_callable('ob_end_clean'))
-			return str_replace("\n", BR, $text);
-
 		// actual highlight
-		ob_start();
-		highlight_string($text);
-		$result = '<p>'.ob_get_contents().'</p>'."\n";
-		ob_end_clean();
+		$result = highlight_string($text, TRUE);
 		return $result;
 	}
 

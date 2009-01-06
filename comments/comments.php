@@ -160,8 +160,8 @@ Class Comments {
 		if(isset($item['create_id']) && Surfer::is($item['create_id']))
 			return TRUE;
 
-		// we need an assignment at the upper level
-		if(is_object($anchor) && !$anchor->is_assigned(FALSE))
+		// you have been assigned to the upper level
+		if(is_object($anchor) && $anchor->is_assigned(FALSE))
 			return TRUE;
 
 		// the default is to not allow modifications

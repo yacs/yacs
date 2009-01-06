@@ -188,6 +188,7 @@
  * - &#91;locations=users] - map user locations on Google maps
  * - &#91;location=latitude, longitude, label] - to build a dynamic map
  * - &#91;collections] - list available collections
+ * - &#91;users=present] - list of users present on site
  *
  * @see codes/live.php
  *
@@ -649,6 +650,9 @@ Class Codes {
 		// also fix broken img tags, if any
 		$text = preg_replace('/\<(img[^\<\/]+)\>/i', '<\\1 />', $text);
 
+		// remove slashes added by preg_replace -- only for double quotes
+		$text = str_replace('\"', '"', $text);
+		
 		// done
 		return $text;
 	}
@@ -713,8 +717,8 @@ Class Codes {
 
 		// prevent wysiwyg editors to bracket our own tags
 		$text = preg_replace('/^<p>(\[.+\])<\/p>$/m', '\\1', $text);
-
-		// initialize only once
+		
+ 		// initialize only once
 		static $pattern;
 		if(!isset($pattern)) {
 
@@ -737,11 +741,11 @@ Class Codes {
 				'/\[escape\](.*?)\[\/escape\]/ise', 	// [escape]...[/escape] (before everything)
 				'/\[php\](.*?)\[\/php\]/ise',			// [php]...[/php]
 				'/\[snippet\](.*?)\[\/snippet\]/ise',	// [snippet]...[/snippet]
-				'/(\[page\].*)$/is',				// [page] (provide only the first one)
+				'/(\[page\].*)$/is',					// [page] (provide only the first one)
 				'/\[hidden\](.*?)\[\/hidden\]/ise', 	// [hidden]...[/hidden] (save some cycles if at the beginning)
 				'/\[restricted\](.*?)\[\/restricted\]/ise', // [restricted]...[/restricted] (save some cycles if at the beginning)
 				'/\[anonymous\](.*?)\[\/anonymous\]/ise', // [anonymous]...[/anonymous] (save some cycles if at the beginning)
-				'/\[parameter=([^\]]+?)\]/ise', 			// [parameter=<name>]
+				'/\[parameter=([^\]]+?)\]/ise', 		// [parameter=<name>]
 				'/\[lang=([^\]]+?)\](.*?)\[\/lang\]/ise',		// [lang=xy]...[/lang]
 				'/\[csv=(.)\](.*?)\[\/csv\]/ise',		// [csv=;]...[/csv] (before [table])
 				'/\[csv\](.*?)\[\/csv\]/ise',			// [csv]...[/csv] (before [table])
@@ -846,11 +850,16 @@ Class Codes {
 				'/\[title\](.*?)\[\/title\]\n*/is', 		// [title]...[/title]
 				'/\[subtitle\](.*?)\[\/subtitle\]\n*/is',	// [subtitle]...[/subtitle]
 				'/\[(header[1-5])\](.*?)\[\/\1\]\n*/ise',	// [header1]...[/header1] ... [header5]...[/header5]
-				'/======(\S.*?\S)======/me',				// ======...====== level 5 headline
-				'/=====(\S.*?\S)=====/me',					// =====...===== level 4 headline
-				'/====(\S.*?\S)====/me',					// ====...==== level 3 headline
-				'/===(\S.*?\S)===/me',						// ===...=== level 2 headline
-				'/==(\S.*?\S)==/me',						// ==...== level 1 headline
+				'/^======(\S.*?\S)======/me',				// ======...====== level 5 headline
+				'/<p>======(\S.*?\S)======<\/p>/me',		// ======...====== level 5 headline
+				'/^=====(\S.*?\S)=====/me',					// =====...===== level 4 headline
+				'/<p>=====(\S.*?\S)=====<\/p>/me',			// =====...===== level 4 headline
+				'/^====(\S.*?\S)====/me',					// ====...==== level 3 headline
+				'/<p>====(\S.*?\S)====<\/p>/me',			// ====...==== level 3 headline
+				'/^===(\S.*?\S)===/me',						// ===...=== level 2 headline
+				'/<p>===(\S.*?\S)===<\/p>/me',				// ===...=== level 2 headline
+				'/^==(\S.*?\S)==/me',						// ==...== level 1 headline
+				'/<p>==(\S.*?\S)==<\/p>/me',				// ==...== level 1 headline
 				'/\[toc\]\n*/ise',							// [toc] (table of content)
 				'/\[published\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [published.decorated=section:4029]
 				'/\[published\.([^\]]+?)\]\n*/ise',			// [published.decorated]
@@ -880,6 +889,7 @@ Class Codes {
 				'/\[categories\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [categories.simple=self] (assigned)
 				'/\[calendar\]\n*/ise',					// [calendar]
 				'/\[calendar=([^\]]+?)\]\n*/ise',		// [calendar=section:4029]
+				'/\[users=([^\]]+?)\]/ie',					// [users=present]
 				'/\[news=([^\]]+?)\]/ise',				// [news=flash]
 				'/\[table=([^\]]+?)\]/ise', 			// [table=<id>]
 				'/\[locations=([^\]]+?)\]/ise', 		// [locations=<id>]
@@ -907,157 +917,163 @@ Class Codes {
 		static $replace;
 		if(!isset($replace)) {
 			$replace = array(
-				"Codes::render_escaped(Codes::fix_tags(stripslashes('$1')))",					// [escape]...[/escape]
-				"Codes::render_pre(Codes::fix_tags(stripslashes('$1')), 'php')",				// [php]...[/php]
-				"Codes::render_pre(Codes::fix_tags(stripslashes('$1')), 'snippet')",			// [snippet]...[/snippet]
-				'', 																			// [page]
-				"Codes::render_hidden(Codes::fix_tags(stripslashes('$1')), 'hidden')",			// [hidden]...[/hidden]
-				"Codes::render_hidden(Codes::fix_tags(stripslashes('$1')), 'restricted')",		// [restricted]...[/restricted]
-				"Codes::render_hidden(Codes::fix_tags(stripslashes('$1')), 'anonymous')",		// [anonymous]...[/anonymous]
-				"Codes::get_parameter('\\1')",													// [parameter=<name>]
-				"i18n::filter(stripslashes('$2'), stripslashes('$1'))", 						// [lang=xy]...[/lang]
-				"utf8::encode(str_replace('$1', '|', utf8::from_unicode(stripslashes('$2'))))", // [csv=;]...[/csv]
-				"str_replace(',', '|', stripslashes('$1'))",					// [csv]...[/csv]
-				"Codes::render_table(Codes::fix_tags(stripslashes('$2')), '$1')",				// [table=variant]...[/table]
-				"Codes::render_table(Codes::fix_tags(stripslashes('$1')), '')", 				// [table]...[/table]
-				'<code>\\1</code>', 															// ##...##
-				'<code>\\1</code>', 															// [code]...[/code]
-				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'indent')", 			// [indent]...[indent]
-				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'quote')",				// [quote]...[/quote]
-				"Skin::build_box(stripslashes('$1'), Codes::fix_tags(stripslashes('$2')), 'folder')",	// [folder=title]...[/folder]
-				"Skin::build_box(NULL, Codes::fix_tags(stripslashes('$1')), 'folder')", 		// [folder]...[/folder]
-				"Skin::build_box(stripslashes('$1'), Codes::fix_tags(stripslashes('$2')), 'sidebar')",	// [sidebar=title]...[/sidebar]
-				"Skin::build_box(NULL, Codes::fix_tags(stripslashes('$1')), 'sidebar')",		// [sidebar]...[/sidebar]
-				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'note')",				// [note]...[/note]
-				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'caution')",			// [caution]...[/caution]
-				"Skin::build_block(stripslashes('$1'), 'search')",				// [search=<words>]
-				"Skin::build_block(NULL, 'search')",							// [search]
-				"Codes::render_cloud('$1')",									// [cloud=12]
-				"Codes::render_cloud(20)",										// [cloud]
-				"Codes::render_collections()",									// [collections]
-				'', 															// [login=<words>] --obsoleted
-				'', 															// [login] --obsoleted
-				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'center')", 			// [center]...[/center]
-				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'right')",				// [right]...[/right]
-				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'decorated')",			// [decorated]...[/decorated]
-				"Skin::build_block(Codes::fix_tags(stripslashes('$2')), '$1')", 				// [style=variant]...[/style]
-				'<acronym title="\\1">\\2</acronym>',											// [hint=help]...[/hint]
-				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'caption')",			// [caption]...[/caption]
-				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'tiny')",				// [tiny]...[/tiny]
-				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'small')",				// [small]...[/small]
-				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'big')",				// [big]...[/big]
-				"Skin::build_block(Codes::fix_tags(stripslashes('$1')), 'huge')",				// [huge]...[/huge]
-				'<sub>\\1</sub>',												// [subscript]...[/subscript]
-				'<sup>\\1</sup>',												// [superscript]...[/superscript]
-				'<ins>\\1</ins>',												// ++...++
-				"HORIZONTAL_RULER", 											// [---], [___]
-				"HORIZONTAL_RULER", 											// ----
-				'<ins>\\1</ins>',												// [inserted]...[/inserted]
+				"Codes::render_escaped(Codes::fix_tags('$1'))",						// [escape]...[/escape]
+				"Codes::render_pre(Codes::fix_tags('$1'), 'php')",					// [php]...[/php]
+				"Codes::render_pre(Codes::fix_tags('$1'), 'snippet')",				// [snippet]...[/snippet]
+				'', 																// [page]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'hidden')",			// [hidden]...[/hidden]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'restricted')",		// [restricted]...[/restricted]
+				"Codes::render_hidden(Codes::fix_tags('$1'), 'anonymous')",			// [anonymous]...[/anonymous]
+				"Codes::get_parameter('\\1')",										// [parameter=<name>]
+				"i18n::filter(Codes::fix_tags('$2'), '$1')", 						// [lang=xy]...[/lang]
+				"utf8::encode(str_replace('$1', '|', utf8::from_unicode(Codes::fix_tags('$2'))))",	// [csv=;]...[/csv]
+				"str_replace(',', '|', Codes::fix_tags('$1'))",						// [csv]...[/csv]
+				"Codes::render_table(Codes::fix_tags('$2'), '$1')",					// [table=variant]...[/table]
+				"Codes::render_table(Codes::fix_tags('$1'), '')", 					// [table]...[/table]
+				'<code>\\1</code>', 												// ##...##
+				'<code>\\1</code>', 												// [code]...[/code]
+				"Skin::build_block(Codes::fix_tags('$1'), 'indent')", 				// [indent]...[indent]
+				"Skin::build_block(Codes::fix_tags('$1'), 'quote')",				// [quote]...[/quote]
+				"Skin::build_box('$1', Codes::fix_tags('$2'), 'folder')",			// [folder=title]...[/folder]
+				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'folder')", 			// [folder]...[/folder]
+				"Skin::build_box('$1', Codes::fix_tags('$2'), 'sidebar')",			// [sidebar=title]...[/sidebar]
+				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'sidebar')",			// [sidebar]...[/sidebar]
+				"Skin::build_block(Codes::fix_tags('$1'), 'note')",					// [note]...[/note]
+				"Skin::build_block(Codes::fix_tags('$1'), 'caution')",				// [caution]...[/caution]
+				"Skin::build_block('$1', 'search')",								// [search=<words>]
+				"Skin::build_block(NULL, 'search')",								// [search]
+				"Codes::render_cloud('$1')",										// [cloud=12]
+				"Codes::render_cloud(20)",											// [cloud]
+				"Codes::render_collections()",										// [collections]
+				'', 																// [login=<words>] --obsoleted
+				'', 																// [login] --obsoleted
+				"Skin::build_block(Codes::fix_tags('$1'), 'center')", 				// [center]...[/center]
+				"Skin::build_block(Codes::fix_tags('$1'), 'right')",				// [right]...[/right]
+				"Skin::build_block(Codes::fix_tags('$1'), 'decorated')",			// [decorated]...[/decorated]
+				"Skin::build_block(Codes::fix_tags('$2'), '$1')", 					// [style=variant]...[/style]
+				'<acronym title="\\1">\\2</acronym>',								// [hint=help]...[/hint]
+				"Skin::build_block(Codes::fix_tags('$1'), 'caption')",				// [caption]...[/caption]
+				"Skin::build_block(Codes::fix_tags('$1'), 'tiny')",					// [tiny]...[/tiny]
+				"Skin::build_block(Codes::fix_tags('$1'), 'small')",				// [small]...[/small]
+				"Skin::build_block(Codes::fix_tags('$1'), 'big')",					// [big]...[/big]
+				"Skin::build_block(Codes::fix_tags('$1'), 'huge')",					// [huge]...[/huge]
+				'<sub>\\1</sub>',													// [subscript]...[/subscript]
+				'<sup>\\1</sup>',													// [superscript]...[/superscript]
+				'<ins>\\1</ins>',													// ++...++
+				"HORIZONTAL_RULER", 												// [---], [___]
+				"HORIZONTAL_RULER", 												// ----
+				'<ins>\\1</ins>',													// [inserted]...[/inserted]
 				"preg_match('/^(BEGIN|END)/', '\\1')?'--\\1--':'<del>\\1</del>'",	// --...-- take care of PKCS headers
-				'<del>\\1</del>',												// [deleted]...[/deleted]
-				'<b>\\1</b>',													// **...**
-				'<b>\\1</b>',													// [b]...[/b]
-				'<i>\\1</i>',													// //...//
-				'<i>\\1</i>',													// [i]...[/i]
-				'<span style="text-decoration: underline">\\1</span>',			// __...__
-				'<span style="text-decoration: underline">\\1</span>',			// [u]...[/u]
-				'<span style="color: \\1">\\2</span>',							// [color]...[/color]
-				"NEW_FLAG", 													// [new]
-				"POPULAR_FLAG", 												// [popular]
-				"Skin::build_flag('\\1')",										// [flag=....]
-				"Skin::build_flag('\\1')",										// [flag]...[/flag]
-				"Codes::render_list(Codes::fix_tags(stripslashes('$1')), NULL)",				// [list]...[/list]
-				"Codes::render_list(Codes::fix_tags(stripslashes('$2')), '$1')",				// [list=?]...[/list]
-				"BR.BR.BULLET_IMG.'&nbsp;'",									// standalone [*]
+				'<del>\\1</del>',													// [deleted]...[/deleted]
+				'<b>\\1</b>',														// **...**
+				'<b>\\1</b>',														// [b]...[/b]
+				'<i>\\1</i>',														// //...//
+				'<i>\\1</i>',														// [i]...[/i]
+				'<span style="text-decoration: underline">\\1</span>',				// __...__
+				'<span style="text-decoration: underline">\\1</span>',				// [u]...[/u]
+				'<span style="color: \\1">\\2</span>',								// [color]...[/color]
+				"NEW_FLAG", 														// [new]
+				"POPULAR_FLAG", 													// [popular]
+				"Skin::build_flag('\\1')",											// [flag=....]
+				"Skin::build_flag('\\1')",											// [flag]...[/flag]
+				"Codes::render_list(Codes::fix_tags('$1'), NULL)",					// [list]...[/list]
+				"Codes::render_list(Codes::fix_tags('$2'), '$1')",					// [list=?]...[/list]
+				"BR.BR.BULLET_IMG.'&nbsp;'",										// standalone [*]
 				"BR.BULLET_IMG.'&nbsp;'",
-				'<li>\\1</li>', 												// [li]...[/li]
-				"Codes::render_object('images', stripslashes('$1'))",			// [images=<ids>]
+				'<li>\\1</li>', 													// [li]...[/li]
+				"Codes::render_object('images', '$1')",								// [images=<ids>]
 				"'<div class=\"external_image\"><img src=\"'.encode_link('$1').'\" alt=\"\" /></div>'",	// [image]src[/image]
 				"'<div class=\"external_image\"><img src=\"'.encode_link('$2').'\" alt=\"'.encode_link('$1').'\" /></div>'", // [image=alt]src[/image]
 				"'<div class=\"external_image\"><img src=\"'.encode_link('$1').'\" alt=\"\" /></div>'",	// [img]src[/img]
 				"'<div class=\"external_image\"><img src=\"'.encode_link('$2').'\" alt=\"'.encode_link('$1').'\" /></div>'", // [img=alt]src[/img]
-				"Codes::render_object('image', stripslashes('$1'))",			// [image=<id>]
-				"Codes::render_object('image', stripslashes('$1'))",			// [image<id>] (deprecated)
-				"Codes::render_object('flash', stripslashes('$1'))",			// [flash=<id>, <width>, <height>, <params>]
-				"Codes::render_object('sound', stripslashes('$1'))",			// [sound=<id>]
-				"Codes::render_object('go', stripslashes('$1'))",				// [go=<name>]
-				"Codes::render_object('article.description', stripslashes('$1'))",	// [article.description=<id>]
-				"Codes::render_object('article', stripslashes('$1'))",			// [article=<id>]
-				"Codes::render_object('next', stripslashes('$1'))", 			// [next=<id>]
-				"Codes::render_object('previous', stripslashes('$1'))", 		// [previous=<id>]
-				"Codes::render_random()",										// [random]
-				"Codes::render_random(stripslashes('$1'), 'description')",		// [random.description=section:<id>]
-				"Codes::render_random(stripslashes('$1'))",						// [random=section:<id>]
-				"Codes::render_object('section', stripslashes('$1'))",			// [section=<id>]
-				"Codes::render_object('category.description', stripslashes('$1'))", // [category.description=<id>]
-				"Codes::render_object('category', stripslashes('$1'))", 		// [category=<id>]
-				"Codes::render_object('user', stripslashes('$1'))", 			// [user=<id>]
-				"Codes::render_object('server', stripslashes('$1'))",			// [server=<id>]
-				"Codes::render_object('file', stripslashes('$1'))", 			// [file=<id>] or [file=<id>, title]
-				"Codes::render_object('download', stripslashes('$1'))", 		// [download=<id>] or [download=<id>, title]
-				"Codes::render_object('action', stripslashes('$1'))",			// [action=<id>]
-				"Codes::render_object('comment', stripslashes('$1'))",			// [comment=<id>] or [comment=<id>, title]
-				"Codes::render_object('decision', stripslashes('$1'))", 		// [decision=<id>] or [decision=<id>, title]
-				"Skin::build_link(encode_link('$1'), stripslashes('$2'))",		// [url=url]label[/link] (deprecated by [link])
-				"Skin::build_link(encode_link('$1'), NULL)",			// [url]url[/url] (deprecated by [link])
-				"Skin::build_link(encode_link('$2'), stripslashes('$1'))",		// [label|url]
-				"Skin::build_link(encode_link('$2'), stripslashes('$1'))",		// [link=label]url[/link]
-				"Skin::build_link(encode_link('$1'), NULL)",			// [link]url[/link]
-				"Skin::build_link(encode_link('$2'), stripslashes('$1'), 'button')",	// [button=label]url[/button]
-				"Skin::build_link(encode_link('$1'), stripslashes('$1'), 'script')",	// [script]url[/script]
-				"Skin::build_link(encode_link('$1'), stripslashes('$1'), 'menu_1')",	// [menu]url[/menu]
-				"Skin::build_link(encode_link('$2'), stripslashes('$1'), 'menu_1')",	// [menu=label]url[/menu]
-				"Skin::build_link(encode_link('$1'), stripslashes('$1'), 'menu_2')",	// [submenu]url[/submenu]
-				"Skin::build_link(encode_link('$2'), stripslashes('$1'), 'menu_2')",	// [submenu=label]url[/submenu]
-				"Codes::render_email(encode_link('$2'), stripslashes('$1'))", // [email=label]url[/email]
-				"Codes::render_email(encode_link('$1'), stripslashes('$1'))", // [email]url[/email]
-				"Codes::render_title(Codes::fix_tags(stripslashes('$1')), 'question')", 		// [question]...[/question]
-				"QUESTION_FLAG",												// [question]
-				"ANSWER_FLAG",													// [answer]
-				"Codes::render_animated(Codes::fix_tags(stripslashes('$1')), 'scroller')",		// [scroller]...[/scroller]
-				"Codes::render_table_of('questions')",							// [toq]
-				'[header1]\\1[/header1]',										// [title]...[/title]
-				'[header2]\\1[/header2]',										// [subtitle]...[/subtitle]
-				"Codes::render_title(stripslashes('$2'), '$1')",				// [header1]...[/header1] ... [header5]...[/header5]
-				"Codes::render_title(stripslashes('$1'), 'header5')",			// ======...====== level 5 header
-				"Codes::render_title(stripslashes('$1'), 'header4')",			// =====...===== level 4 header
-				"Codes::render_title(stripslashes('$1'), 'header3')",			// ====...==== level 3 header
-				"Codes::render_title(stripslashes('$1'), 'header2')",			// ===...=== level 2 header
-				"Codes::render_title(stripslashes('$1'), 'header1')",			// ==...== level 1 header
-				"Codes::render_table_of('content')",							// [toc]
-				"Codes::render_published('$2', '$1')",							// [published.decorated=section:4029]
-				"Codes::render_published('', '$1')",							// [published.decorated]
-				"Codes::render_published('$1', 'simple')",						// [published=section:4029]
-				"Codes::render_published('', 'simple')",						// [published]
-				"Codes::render_read('$2', '$1')",								// [read.decorated=section:4029]
-				"Codes::render_read('', '$1')",									// [read.decorated]
-				"Codes::render_read('$1', 'hits')",								// [read=section:4029]
-				"Codes::render_read('', 'hits')",								// [read]
-				"Codes::render_updated('$2', '$1')",							// [updated.simple=section:4029]
-				"Codes::render_updated('', '$1')",								// [updated.simple]
-				"Codes::render_updated('$1', 'simple')",						// [updated=section:4029]
-				"Codes::render_updated('', 'simple')",							// [updated]
-				"Codes::render_voted('$2', '$1')",								// [voted.decorated=section:4029]
-				"Codes::render_voted('', '$1')",								// [voted.decorated]
-				"Codes::render_voted('$1', 'rating')",							// [voted=section:4029]
-				"Codes::render_voted('', 'rating')",							// [voted]
-				"Codes::render_freemind('sections')",							// [freemind]
-				"Codes::render_freemind('$1')", 								// [freemind=section:4029] or [freemind=123]
-				"Codes::render_sections()", 									// [sections] (site map)
-				"Codes::render_sections('', '$1')",								// [sections.folded] (site map)
-				"Codes::render_sections('$1')", 								// [sections=section:4029] (sub-sections)
-				"Codes::render_sections('$2', '$1')",							// [sections.simple=self] (assigned)
-				"Codes::render_categories()", 									// [categories] (category tree)
-				"Codes::render_categories('', '$1')",							// [categories.folded] (category tree)
-				"Codes::render_categories('$1')", 								// [categories=category:4029] (sub-categories)
-				"Codes::render_categories('$2', '$1')",							// [categories.simple=self] (assigned)
-				"Codes::render_calendar()", 									// [calendar]
-				"Codes::render_calendar('$1')", 								// [calendar=section:4029]
-				"Codes::render_news('$1')", 									// [news=flash]
-				"Codes::render_table('', '$1')",								// [table=<id>]
-				"Codes::render_locations(stripslashes('$1'))",					// [locations=<id>]
-				"Codes::render_location(stripslashes('$1'))",					// [location=<id>]
-				"Codes::render_wikipedia(stripslashes('$1'))",					// [wikipedia=keyword] or [wikipedia=keyword, title]
+				"Codes::render_object('image', Codes::fix_tags('$1'))",				// [image=<id>]
+				"Codes::render_object('image', Codes::fix_tags('$1'))",				// [image<id>] (deprecated)
+				"Codes::render_object('flash', Codes::fix_tags('$1'))",				// [flash=<id>, <width>, <height>, <params>]
+				"Codes::render_object('sound', Codes::fix_tags('$1'))",				// [sound=<id>]
+				"Codes::render_object('go', Codes::fix_tags('$1'))",				// [go=<name>]
+				"Codes::render_object('article.description', Codes::fix_tags('$1'))",// [article.description=<id>]
+				"Codes::render_object('article', Codes::fix_tags('$1'))",			// [article=<id>]
+				"Codes::render_object('next', Codes::fix_tags('$1'))",				// [next=<id>]
+				"Codes::render_object('previous', Codes::fix_tags('$1'))",			// [previous=<id>]
+				"Codes::render_random()",											// [random]
+				"Codes::render_random('$1', 'description')",						// [random.description=section:<id>]
+				"Codes::render_random('$1')",										// [random=section:<id>]
+				"Codes::render_object('section', Codes::fix_tags('$1'))",			// [section=<id>]
+				"Codes::render_object('category.description', '$1')", 				// [category.description=<id>]
+				"Codes::render_object('category', Codes::fix_tags('$1'))",	 		// [category=<id>]
+				"Codes::render_object('user', Codes::fix_tags('$1'))",				// [user=<id>]
+				"Codes::render_object('server', Codes::fix_tags('$1'))",			// [server=<id>]
+				"Codes::render_object('file', Codes::fix_tags('$1'))",				// [file=<id>] or [file=<id>, title]
+				"Codes::render_object('download', Codes::fix_tags('$1'))",			// [download=<id>] or [download=<id>, title]
+				"Codes::render_object('action', Codes::fix_tags('$1'))",			// [action=<id>]
+				"Codes::render_object('comment', Codes::fix_tags('$1'))",			// [comment=<id>] or [comment=<id>, title]
+				"Codes::render_object('decision', Codes::fix_tags('$1'))", 			// [decision=<id>] or [decision=<id>, title]
+				"Skin::build_link(encode_link('$1'), '$2')",						// [url=url]label[/link] (deprecated by [link])
+				"Skin::build_link(encode_link('$1'), NULL)",						// [url]url[/url] (deprecated by [link])
+				"Skin::build_link(encode_link('$2'), '$1')",						// [label|url]
+				"Skin::build_link(encode_link('$2'), '$1')",						// [link=label]url[/link]
+				"Skin::build_link(encode_link('$1'), NULL)",						// [link]url[/link]
+				"Skin::build_link(encode_link('$2'), '$1', 'button')",				// [button=label]url[/button]
+				"Skin::build_link(encode_link('$1'), '$1', 'script')",				// [script]url[/script]
+				"Skin::build_link(encode_link('$1'), '$1', 'menu_1')",				// [menu]url[/menu]
+				"Skin::build_link(encode_link('$2'), '$1', 'menu_1')",				// [menu=label]url[/menu]
+				"Skin::build_link(encode_link('$1'), '$1', 'menu_2')",				// [submenu]url[/submenu]
+				"Skin::build_link(encode_link('$2'), '$1', 'menu_2')",				// [submenu=label]url[/submenu]
+				"Codes::render_email(encode_link('$2'), '$1')", 					// [email=label]url[/email]
+				"Codes::render_email(encode_link('$1'), '$1')",						// [email]url[/email]
+				"Codes::render_title(Codes::fix_tags('$1'), 'question')", 			// [question]...[/question]
+				"QUESTION_FLAG",													// [question]
+				"ANSWER_FLAG",														// [answer]
+				"Codes::render_animated(Codes::fix_tags('$1'), 'scroller')",		// [scroller]...[/scroller]
+				"Codes::render_table_of('questions')",								// [toq]
+				'[header1]\\1[/header1]',											// [title]...[/title]
+				'[header2]\\1[/header2]',											// [subtitle]...[/subtitle]
+				"Codes::render_title(Codes::fix_tags('$2'), '$1')",					// [header1]...[/header1] ... [header5]...[/header5]
+				"Codes::render_title(Codes::fix_tags('$1'), 'header5')",			// ======...====== level 5 header
+				"Codes::render_title(Codes::fix_tags('$1'), 'header5')",			// ======...====== level 5 header
+				"Codes::render_title(Codes::fix_tags('$1'), 'header4')",			// =====...===== level 4 header
+				"Codes::render_title(Codes::fix_tags('$1'), 'header4')",			// =====...===== level 4 header
+				"Codes::render_title(Codes::fix_tags('$1'), 'header3')",			// ====...==== level 3 header
+				"Codes::render_title(Codes::fix_tags('$1'), 'header3')",			// ====...==== level 3 header
+				"Codes::render_title(Codes::fix_tags('$1'), 'header2')",			// ===...=== level 2 header
+				"Codes::render_title(Codes::fix_tags('$1'), 'header2')",			// ===...=== level 2 header
+				"Codes::render_title(Codes::fix_tags('$1'), 'header1')",			// ==...== level 1 header
+				"Codes::render_title(Codes::fix_tags('$1'), 'header1')",			// ==...== level 1 header
+				"Codes::render_table_of('content')",								// [toc]
+				"Codes::render_published('$2', '$1')",								// [published.decorated=section:4029]
+				"Codes::render_published('', '$1')",								// [published.decorated]
+				"Codes::render_published('$1', 'simple')",							// [published=section:4029]
+				"Codes::render_published('', 'simple')",							// [published]
+				"Codes::render_read('$2', '$1')",									// [read.decorated=section:4029]
+				"Codes::render_read('', '$1')",										// [read.decorated]
+				"Codes::render_read('$1', 'hits')",									// [read=section:4029]
+				"Codes::render_read('', 'hits')",									// [read]
+				"Codes::render_updated('$2', '$1')",								// [updated.simple=section:4029]
+				"Codes::render_updated('', '$1')",									// [updated.simple]
+				"Codes::render_updated('$1', 'simple')",							// [updated=section:4029]
+				"Codes::render_updated('', 'simple')",								// [updated]
+				"Codes::render_voted('$2', '$1')",									// [voted.decorated=section:4029]
+				"Codes::render_voted('', '$1')",									// [voted.decorated]
+				"Codes::render_voted('$1', 'rating')",								// [voted=section:4029]
+				"Codes::render_voted('', 'rating')",								// [voted]
+				"Codes::render_freemind('sections')",								// [freemind]
+				"Codes::render_freemind('$1')", 									// [freemind=section:4029] or [freemind=123]
+				"Codes::render_sections()", 										// [sections] (site map)
+				"Codes::render_sections('', '$1')",									// [sections.folded] (site map)
+				"Codes::render_sections('$1')", 									// [sections=section:4029] (sub-sections)
+				"Codes::render_sections('$2', '$1')",								// [sections.simple=self] (assigned)
+				"Codes::render_categories()", 										// [categories] (category tree)
+				"Codes::render_categories('', '$1')",								// [categories.folded] (category tree)
+				"Codes::render_categories('$1')", 									// [categories=category:4029] (sub-categories)
+				"Codes::render_categories('$2', '$1')",								// [categories.simple=self] (assigned)
+				"Codes::render_calendar()", 										// [calendar]
+				"Codes::render_calendar('$1')", 									// [calendar=section:4029]
+				"Codes::render_users('$1')", 										// [users=present]
+				"Codes::render_news('$1')", 										// [news=flash]
+				"Codes::render_table('', '$1')",									// [table=<id>]
+				"Codes::render_locations('$1')",									// [locations=<id>]
+				"Codes::render_location('$1')",										// [location=<id>]
+				"Codes::render_wikipedia(Codes::fix_tags('$1'))",					// [wikipedia=keyword] or [wikipedia=keyword, title]
 				' <img src="'.$context['url_to_root'].'skins/images/flags/be.gif" alt="" /> ', // [be] belgian flag
 				' <img src="'.$context['url_to_root'].'skins/images/flags/ca.gif" alt="" /> ', // [ca] canadian flag
 				' <img src="'.$context['url_to_root'].'skins/images/flags/ch.gif" alt="" /> ', // [ch] swiss flag
@@ -1070,9 +1086,9 @@ Class Codes {
 				' <img src="'.$context['url_to_root'].'skins/images/flags/it.gif" alt="" /> ', // [it] italian flag
 				' <img src="'.$context['url_to_root'].'skins/images/flags/pt.gif" alt="" /> ', // [pt] portuguese flag
 				' <img src="'.$context['url_to_root'].'skins/images/flags/us.gif" alt="" /> ', // [us] us flag
-				' <br style="clear: both;" /> ',					// [clear]
-				BR, 													// [nl]
-				BR														// [br] (deprecated by [nl])
+				' <br style="clear: both;" /> ',									// [clear]
+				BR, 																// [nl]
+				BR																	// [br] (deprecated by [nl])
 			);
 		}
 
@@ -2598,17 +2614,14 @@ Class Codes {
 	function &render_pre($text, $variant='snippet') {
 
 		// change new lines
-		$text = trim(str_replace(array('<br><br>', '<br /><br />', '<br>', '<br\s*?/>'), array("\n\n", "\n\n", "\n", "\n"), str_replace("\r", '', $text)));
+		$text = trim(str_replace("\r", '', str_replace(array("<br>\n", "<br/>\n", "<br />\n", '<br>', '<br/>', '<br />'), "\n", $text)));
 
-		// wrap long lines in code
-		if($variant == 'php') {
-			if($lines = split("\n", $text)) {
-				$text = '';
-				foreach($lines as $line)
-					$text .= wordwrap($line, 75, "\n	", 1)."\n";
-			}
+		// caught from tinymce		
+		if(preg_match('/<p>(.*)<\/p>$/s', $text, $matches)) {
+			$text = $matches[1];
+			$text = str_replace(array('&amp;', '<p>', '</p>'), array('&', '', "\n"), $text);
 		}
-
+		
 		// match some php code
 		$explicit = FALSE;
 		if(preg_match('/<\?php\s/', $text))
@@ -2617,12 +2630,21 @@ Class Codes {
 			$text = '<?'.'php'."\n".$text."\n".'?'.'>';
 			$explicit = TRUE;
 		}
-
+		
 		// highlight php code, if any
 		if($variant == 'php') {
 
+			// fix some chars set by wysiwig editors
+			$text = str_replace(array('&lt;', '&gt;', '&nbsp;', '&quot;'), array('<', '>', ' ', '"'), $text);
+
+			// wrap long lines if necessary
+// 			$lines = explode("\n", $text);
+// 			$text = '';
+// 			foreach($lines as $line)
+// 				$text .= wordwrap($line, 100, " \n", 0)."\n";
+	
 			// handle newlines and indentations properly
-			$text = str_replace(array("\n	 ", "\n<span", "\n</code", "\n</pre", "\n</span"), array("\n&nbsp;&nbsp;&nbsp;&nbsp;", '<span', '</code', '</pre', '</span'), Safe::highlight_string($text));
+			$text = str_replace(array("\n<span", "\n</code", "\n</pre", "\n</span"), array('<span', '</code', '</pre', '</span'), Safe::highlight_string($text));
 
 			// remove explicit php prefix and suffix -- dependant of highlight_string() evolution
 			if($explicit)
@@ -2632,10 +2654,11 @@ Class Codes {
 		} else
 			$text = str_replace(array('<', "\n"), array('&lt;', '<br/>'), $text);
 
-		// disable further codes and smilies transformations
-		$search = array(	'[',		']',		':',		'//',	'<p>',	'</p>');
-		$replace = array(	'&#91;',	'&#93;',	'&#58;',	'&#47;&#47;',	'', 	'');
+		// prevent additional transformations
+		$search = array(	'[',		']',		':',		'//',			'##',			'**',			'++',			'--',			'__');
+		$replace = array(	'&#91;',	'&#93;',	'&#58;',	'&#47;&#47;',	'&#35;&#35;',	'&#42;&#42;',	'&#43;&#43;',	'&#45;&#45;',	'&#95;&#95;');
 		$output = '<pre>'.str_replace($search, $replace, $text).'</pre>';
+		
 		return $output;
 
 	}
@@ -3331,6 +3354,44 @@ Class Codes {
 		// we have an array to format
 		if(is_array($text))
 			$text =& Skin::build_list($text, $layout);
+
+		// job done
+		return $text;
+	}
+
+	/**
+	 * render a compact list of users present on site
+	 *
+	 * @param string the anchor (e.g. 'present')
+	 * @return string the rendered text
+	**/
+	function &render_users($anchor='') {
+		global $context;
+
+		// we return some text;
+		$text = '';
+
+		// number of items to display
+		$count = COMPACT_LIST_SIZE;
+		if(($position = strpos($anchor, ',')) !== FALSE) {
+			$count = (integer)trim(substr($anchor, $position+1));
+			if(!$count)
+				$count = COMPACT_LIST_SIZE;
+
+			$anchor = trim(substr($anchor, 0, $position));
+		}
+
+	    //  the list of users present on the site
+    	$text = Users::list_present(0, $count, 'compact');
+
+	  	// also mention the total number of users present, if larger than the number of users displayed
+  		$stat = Users::stat_present();
+	  	if($stat['count'] > $count)
+  			$text = array_merge($text, array('_' => sprintf(i18n::ns('%d active now', '%d active now', $stat['count']), $stat['count'])));
+
+		// we have an array to format
+		if(is_array($text))
+			$text =& Skin::build_list($text, 'compact');
 
 		// job done
 		return $text;

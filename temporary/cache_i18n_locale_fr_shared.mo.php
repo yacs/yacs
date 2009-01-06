@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on January 2, 2009, 10:24 pm GMT. Please do not modify it manually.
+ * on January 5, 2009, 8:19 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-12-06 23:37+0100
-PO-Revision-Date: 2008-12-05 23:24+0100
+POT-Creation-Date: 2009-01-05 21:05+0100
+PO-Revision-Date: 2009-01-04 23:00+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -19,6 +19,7 @@ X-Poedit-Country: FRANCE
 X-Poedit-SourceCharset: utf-8
 X-Poedit-Language: French
 ';
+$_SESSION['l10n']['fr']['%d active now'.chr(0).'%d active now']='%d actif maintenant'.chr(0).'%d actifs maintenant';
 $_SESSION['l10n']['fr']['be362d7d53a1254f538bfda2a9b7b995']='Un membre est requis pour cette opération.';
 $_SESSION['l10n']['fr']['Access collection']='Voir la collection';
 $_SESSION['l10n']['fr']['Actions']='Actions';

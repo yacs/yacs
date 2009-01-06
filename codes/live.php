@@ -40,6 +40,7 @@
  * - &#91;locations=users] - map user locations on Google maps
  * - &#91;location=latitude, longitude, label] - to build a dynamic map
  * - &#91;collections] - list available collections
+ * - &#91;users=present] - list of users present on site
  *
  * @see codes/index.php
  *
@@ -215,6 +216,14 @@ $context['text'] .= '[title]'.i18n::s('Collections').' [escape][collections][/es
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][collections][/escape]</td>'
 	.'<td>[collections]</td></tr>'
+	.Skin::table_suffix();
+
+// [users=present]
+$context['text'] .= '[title]'.i18n::s('Present users').' [escape][users=present][/escape][/title]'
+	.Skin::table_prefix('100%')
+	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
+	.'<tr><td class="sample">[escape][users=present][/escape]</td>'
+	.'<td>[users=present]</td></tr>'
 	.Skin::table_suffix();
 
 // transform the text

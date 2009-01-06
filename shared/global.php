@@ -17,6 +17,7 @@
  *
  * @author Bernard Paques
  * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
+ * @author Alain Lesage (Lasares)
  * @tester Olivier
  * @tester Arioch
  * @tester Fernand Le Chien
@@ -686,7 +687,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	Safe::load('parameters/root.include.php'); // to support Page::tabs()
 
 	// ensure tools are accessible
-	if(strpos($context['skins_extra_components'], 'tools') === FALSE)
+	if((strpos($context['skins_extra_components'], 'tools') === FALSE) && (strpos($context['skins_navigation_components'], 'tools') === FALSE))
 		$context['skins_extra_components'] = 'tools '.$context['skins_extra_components'];
 		
 	// load skin basic library

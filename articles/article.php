@@ -13,6 +13,7 @@ defined('YACS') or exit('Script must be included');
  * @author GnapZ
  * @tester Guillaume Perez
  * @tester Dobliu
+ * $tester Christian Loubechine
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -952,7 +953,7 @@ Class Article extends Anchor {
 			$silently = TRUE;
 
 		// add a reference to a location in the article description
-		} elseif($action == 'location:create' || $action == 'location:update') {
+		} elseif($action == 'location:create') {
 			if(!preg_match('/\[location='.preg_quote($origin, '/').'\]/', $this->item['description']))
 				$query[] = "description = '".SQL::escape($this->item['description'].' [location='.$origin.']')."'";
 
@@ -962,7 +963,7 @@ Class Article extends Anchor {
 				$query[] = "description = '".SQL::escape(preg_replace('/\[location='.$origin.'\]/', '', $this->item['description']))."'";
 
 		// add a reference to a new table in the article description
-		} elseif($action == 'table:create' || $action == 'table:update') {
+		} elseif($action == 'table:create') {
 			if(!preg_match('/\[table='.preg_quote($origin, '/').'\]/', $this->item['description']))
 				$query[] = "description = '".SQL::escape($this->item['description']."\n".'[table='.$origin.']'."\n")."'";
 
