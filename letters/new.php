@@ -217,8 +217,8 @@ if(!Surfer::is_associate()) {
 	if(!isset($context['title_suffix']))
 		$context['title_suffix'] = '';
 
-	// the date
-// 	$context['letter_body'] = gmstrftime('%x', time())."\n\n";
+	// letter content
+ 	$context['letter_body'] = '';
 
 	// the letter prefix
 	if($context['letter_prefix'])

@@ -147,7 +147,7 @@ class Mailer {
 
 		// authenticate to a pop3 server if necessary
 		if(!isset($context['mail_pop3_handle'])
-			&& isset($context['mail_pop3_server']) && isset($context['mail_pop3_user']) && isset($context['mail_pop3_password'])
+			&& isset($context['mail_pop3_server']) && trim($context['mail_pop3_server']) && isset($context['mail_pop3_user']) && isset($context['mail_pop3_password'])
 			&& is_callable('imap_open'))
 			$context['mail_pop3_handle'] = @imap_open('{'.$context['mail_pop3_server'].':110/pop3}INBOX', $context['mail_pop3_user'], $context['mail_pop3_password']);
 
@@ -463,6 +463,10 @@ class Mailer {
 
 			// leak is maximum after one hour
 			$leak = intval($context['mail_hourly_maximum'] * ( time() - $stamp ) / 3600);
+			
+			// preserve previous value until actual leak
+			if($leak < 1)
+				return;
 
 			// actual leak
 			$bucket['value'] = max(0, $bucket['value'] - $leak);
@@ -520,6 +524,8 @@ class Mailer {
 			return 'shared/mailer.php: '.$count.' messages have been processed ('.$time.' seconds)'.BR;
 		elseif($count == 1)
 			return 'shared/mailer.php: 1 message has been processed ('.$time.' seconds)'.BR;
+		elseif($bucket['value'])
+			return 'shared/mailer.php: delaying messages ('.$time.' seconds)'.BR;
 		else
 			return 'shared/mailer.php: nothing to do ('.$time.' seconds)'.BR;
 	}

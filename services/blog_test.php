@@ -142,6 +142,7 @@ if(isset($_REQUEST['target'])) {
 	$data = @$result[1];
 
 	// display call result
+	$postid = 1;
 	if(!$status)
 		$context['text'] .= $data;
 	elseif(is_array($data) && isset($data['faultString']) && $data['faultString'])
@@ -156,7 +157,33 @@ if(isset($_REQUEST['target'])) {
 					$context['text'] .= $name.': '.$value.BR."\n";
 			}
 			$context['text'] .= "</p>\n";
+			if(isset($item['postid']) && ($postid == 1))
+				$postid = $item['postid'];
 		}
+	} else
+		$context['text'] .= $data;
+
+	// blogger.getPost
+	$context['text'] .= Skin::build_block('blogger.getPost', 'title');
+	$parameters = array('dummy_appkey', $postid, $user_name, $user_password);
+	$result = Call::invoke($url, 'blogger.getPost', $parameters, 'XML-RPC');
+	$status = @$result[0];
+	$data = @$result[1];
+
+	// display call result
+	if(!$status)
+		$context['text'] .= $data;
+	elseif(is_array($data) && isset($data['faultString']) && $data['faultString'])
+		$context['text'] .= $data['faultString'];
+	elseif(is_array($data)) {
+		$context['text'] .= "<p>";
+		foreach($data as $name => $value) {
+			if($name == 'dateCreated')
+				$context['text'] .= $name.': '.Skin::build_date($value).BR."\n";
+			else
+				$context['text'] .= $name.': '.$value.BR."\n";
+		}
+		$context['text'] .= "</p>\n";
 	} else
 		$context['text'] .= $data;
 
@@ -183,6 +210,30 @@ if(isset($_REQUEST['target'])) {
 			}
 			$context['text'] .= "</p>\n";
 		}
+	} else
+		$context['text'] .= $data;
+
+	// metaWeblog.getPost
+	$context['text'] .= Skin::build_block('metaWeblog.getPost', 'title');
+	$parameters = array($postid, $user_name, $user_password);
+	$result = Call::invoke($url, 'metaWeblog.getPost', $parameters, 'XML-RPC');
+	$status = @$result[0];
+	$data = @$result[1];
+
+	// display call result
+	if(!$status)
+		$context['text'] .= $data;
+	elseif(is_array($data) && isset($data['faultString']) && $data['faultString'])
+		$context['text'] .= $data['faultString'];
+	elseif(is_array($data)) {
+		$context['text'] .= "<p>";
+		foreach($data as $name => $value) {
+			if($name == 'dateCreated')
+				$context['text'] .= $name.': '.Skin::build_date($value).BR."\n";
+			else
+				$context['text'] .= $name.': '.$value.BR."\n";
+		}
+		$context['text'] .= "</p>\n";
 	} else
 		$context['text'] .= $data;
 

@@ -1,6 +1,6 @@
 <?php
 // This file has been created by the building script scripts/build.php
-// on January 6, 2009, 10:18 pm GMT, for Bernard Paques. Please do not modify it manually.
+// on January 14, 2009, 10:43 pm GMT, for Bernard Paques. Please do not modify it manually.
 global $footprints;
 if(!isset($footprints)) $footprints = array();
 $footprints['actions/accept.php']=array(154, 'b4e65b6301cb3efe9f25391433552360', '051b4f9d7be147b6ef9165468ba9ccd9');
@@ -288,7 +288,7 @@ $footprints['included/tar.php']=array(1768, '859b5f97445eb4aed844b7c39223f043', 
 $footprints['index.php']=array(1064, '88c72b544c29f19e92875e59567133ee', '02a734ea2cc27f88eceaa1a37d1f9fe1');
 $footprints['letters/configure.php']=array(206, '25bc6afefbcc46cd1f11e07606e93350', '97c9e572f08bab3dfae36fab75f68bc5');
 $footprints['letters/index.php']=array(45, 'f40a030dadf99b58b537a7c65add6c12', 'b9db123e02d473bf2b238cfac77ab137');
-$footprints['letters/new.php']=array(720, '2a3034beb2df0b4c234324c27d0dd15d', 'bfab33f6204dba9e8a3d81e170abcbfc');
+$footprints['letters/new.php']=array(720, '106b3fc7153513913b9bb3a957afaa48', 'beda9afe02af9b6dffbb79213f066d99');
 $footprints['links/check.php']=array(471, 'f50c5c60fc5a465ce037c9323b3e2aae', '587822c18c1b0ae43d185f96831caa58');
 $footprints['links/click.php']=array(122, 'caeae2afc10492610543335c86e3df06', 'a8aeca4f5d169912bc93fbfb48831b14');
 $footprints['links/delete.php']=array(160, 'c992fc527622c439224232fac707ef09', '3eeba3efc227ad0c404c77635dca8642');
@@ -457,8 +457,8 @@ $footprints['servers/servers.php']=array(774, 'ceb3cb6e198a515cf0d5b95813e3c55e'
 $footprints['servers/test.php']=array(221, '71dbf8b5dd22c7b37f8583477d84fef2', 'f2955ddf27b275126913f0236586ce1a');
 $footprints['servers/view.php']=array(223, 'baa03145f9fe88cc8325da7ecd839d0a', '2e064718de8b39fa4022bdfe138bd534');
 $footprints['services/atom_codec.php']=array(434, '87de87c4ca01d4266304c46231bdaf02', '1e7a5b8a8b5a28020eccce1a7df36cfe');
-$footprints['services/blog.php']=array(1759, '77f1013e5e05e8d7722e3cfb74dbd651', '009834b52c50cc9444d389443638a53e');
-$footprints['services/blog_test.php']=array(485, '6b6c461feda7131849caaab428486d02', '64728602157ae82da39f7b2370790bb5');
+$footprints['services/blog.php']=array(1779, 'cfbe1e2f2e169b215e5b8494f94bf3c9', '35e184fb0af1decfccb6df1a82ddfbfa');
+$footprints['services/blog_test.php']=array(536, 'f56d7a8f13a51a03241b03831504871a', '0a742d8fcb77df72fc0673de94c811c0');
 $footprints['services/call.php']=array(338, '584875180f38186a8477035af9734ef9', '35fdb4e1dfceb540502816f3c721518c');
 $footprints['services/check.php']=array(84, '399f467c245e9a80ca81a4eec5179980', '1ca65db7243bdc3e2e45d5fd717acdf7');
 $footprints['services/codec.php']=array(104, '8e75ec77a4fc6f34ec50910ec865543b', '4cf8e75e4d9063cd16ae49d30b512aa8');
@@ -484,11 +484,11 @@ $footprints['setup.php']=array(356, '9616d7ff3c84b290ad9330eff2508895', '681cd0b
 $footprints['shared/anchor.php']=array(1116, '1d97b37ae2f4345881d383cb136ad2e2', 'cfb81de0f617f12422157ae9cc5d2dc8');
 $footprints['shared/anchors.php']=array(531, '3cb840fbb7eb6c5d63e2733fadbd769d', '0a9e7ac95a5920d95150eb2948dbb166');
 $footprints['shared/cache.php']=array(349, '6bae8d1f4637c77a5b785a2936bdac31', '0ae7f4985bc7df0b1533b61a2d777878');
-$footprints['shared/codes.php']=array(3530, '202630a34f5554ed5e22f9e6ee773ced', '674e350603d7b91eb977a86f56c614d2');
+$footprints['shared/codes.php']=array(3532, 'ac5c9685c54bf808ad4316a64eb4ef78', 'dfc19fce45d9c760237fbe274ea90357');
 $footprints['shared/global.php']=array(1932, '16bb1636211c08518371bf418fc2af76', 'b3f514d221f6aff5ddafc2362964dfc8');
 $footprints['shared/index.php']=array(14, '412d88b3dd623e433033d2e29e4b9162', '87056f67a542ef44bb8e9adef84e470a');
 $footprints['shared/logger.php']=array(416, '19343cc25a85ac6a3333d7f7d3352d49', '4dd9351856210a7683c789db47883b13');
-$footprints['shared/mailer.php']=array(529, '0c526272c31af8742ed9a405a7f745c3', '1ee4b4770081bcf28b1d3470ce8db004');
+$footprints['shared/mailer.php']=array(535, 'fafae86503d5169f3de9f00107689444', '0f7cbbd4585b0007f15529d48b7cc40e');
 $footprints['shared/mailer_hook.php']=array(27, '8bc28cc06577483d2edabbc7b5aa4c46', 'a68764d0d4985b206de506dfaf7ee995');
 $footprints['shared/members.php']=array(1391, '7fe978ca7679f8543eae9504a638b923', '5f0d7374518aead8c2af720c415e7079');
 $footprints['shared/pdf.php']=array(350, 'a07acf2e2a97f615094a101a71180fa5', '66203b590d82188b241c1ee7dfed9f2a');
@@ -618,9 +618,9 @@ $footprints['versions/versions.php']=array(495, 'af223d1cb3ea1063e38a254c2f5f9db
 $footprints['versions/view.php']=array(159, 'db74af21b763aa3bcf5512595ed747af', '2730bbcd424622a58a45837f375fdd60');
 global $generation;
 if(!isset($generation)) $generation = array();
-$generation['date']='090106-22:18:43 GMT';
+$generation['date']='090114-22:43:49 GMT';
 $generation['server']='127.0.0.1';
-$generation['version']='9.1beta6';
+$generation['version']='9.1beta14';
 $generation['scripts']='613'; // number of reference scripts
-$generation['lines']='175862'; // lines of code
+$generation['lines']='175941'; // lines of code
 ?>

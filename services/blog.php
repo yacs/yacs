@@ -725,11 +725,10 @@ else {
 				$content .= $item['description'];
 	
 				// build the complete response
-				$response = array();
-				$response[] = array(
+				$response = array(
 					'dateCreated' => $codec->encode($item['edit_date'], 'date'),
 					'userid' => $codec->encode($item['edit_id'], 'string'),
-					'postid' => $codec->encode((string)$id, 'string'),
+					'postid' => $codec->encode((string)$item['id'], 'string'),
 					'content' =>  $codec->encode($content, 'string')
 				);
 			}
@@ -762,6 +761,17 @@ else {
 		// list articles
 		else {
 		
+			// surfer may be an associate
+			Surfer::empower($user['capability']);
+		
+			// surfer is a section editor
+			if(Surfer::is_member($user['capability']) && is_object($section) && $section->is_editable($user['id']))
+				Surfer::empower();
+			
+			// surfer is a page editor
+			elseif(Articles::is_assigned($item['id'], $user['id']))
+				Surfer::empower();
+			
 			$response = array();
 			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw');
 			if(is_array($items)) {
@@ -1236,8 +1246,7 @@ else {
 
 			// fetch the page
 			else {
-				$response = array();
-				$response[] = array(
+				$response = array(
 					'title' =>	$codec->encode($item['title'], 'string'),
 					'link' =>  $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item),
 					'permaLink' =>	$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item),
@@ -1280,6 +1289,17 @@ else {
 		// lists posts
 		else {
 		
+			// surfer may be an associate
+			Surfer::empower($user['capability']);
+		
+			// surfer is a section editor
+			if(Surfer::is_member($user['capability']) && is_object($section) && $section->is_editable($user['id']))
+				Surfer::empower();
+			
+			// surfer is a page editor
+			elseif(Articles::is_assigned($item['id'], $user['id']))
+				Surfer::empower();
+			
 			$response = array();
 			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw');
 			if(is_array($items)) {

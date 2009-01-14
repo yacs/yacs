@@ -6,7 +6,6 @@
  * @todo &#91;files=section:&lt;id>] - files attached in the given section
  * @todo &#91;links] - most recent links, in a compact list
  * @todo &#91;links=section:&lt;id>] - links attached in the given section
- * @todo code [label|link]
  * @todo for [read, add hits aside
  * @todo add a code to build sparklines out of tables requests http://sourceforge.net/projects/sparkline/
  * @todo add a code to link images with clickable maps
@@ -215,7 +214,7 @@
  * @see codes/misc.php
  *
  * In-line elements:
- * - &#91;flash=&lt;id>, width, height, flashparams] - play a Flash object
+ * - &#91;flash=&lt;id>, &lt;width>, &lt;height>, &lt;flashparams>] - play a Flash object
  * - &#91;flash=&lt;id>, window] - play a Flash object in a separate window
  * - &#91;freemind=&lt;id>] - a Freemind map out of given file
  * - &#91;sound=&lt;id>] - play a sound
@@ -751,6 +750,12 @@ Class Codes {
 				'/\[csv\](.*?)\[\/csv\]/ise',			// [csv]...[/csv] (before [table])
 				'/\[table=([^\]]+?)\](.*?)\[\/table\]/ise', // [table=variant]...[/table]
 				'/\[table\](.*?)\[\/table\]/ise',		// [table]...[/table]
+				'/\[images=([^\]]+?)\]/ie', 				// [images=<ids>] (before other links)
+				'/\[image\](.*?)\[\/image\]/ise',		// [image]src[/image]
+				'/\[image=([^\]]+?)\](.*?)\[\/image\]/ise', // [image=alt]src[/image]
+				'/\[img\](.*?)\[\/img\]/ise',			// [img]src[/img]
+				'/\[img=([^\]]+?)\](.*?)\[\/img\]/ise', 	// [img=alt]src[/img]
+				'/\[image=([^\]]+?)\]/ie',					// [image=<id>]
 				'/##(\S.*?\S)##/is',					// ##...##
 				'/\[code\](.*?)\[\/code\]/is',			// [code]...[/code]
 				'/\[indent\](.*?)\[\/indent\]/ise', 	// [indent]...[/indent]
@@ -802,13 +807,6 @@ Class Codes {
 				'/\n\n+[ \t]*\[\*\][ \t]*/ie',			// [*] (outside [list]...[/list])
 				'/\n?[ \t]*\[\*\][ \t]*/ie',
 				'/\[li\](.*?)\[\/li\]/is',				// [li]...[/li] (outside [list]...[/list])
-				'/\[images=([^\]]+?)\]/ie', 				// [images=<ids>] (before other links)
-				'/\[image\](.*?)\[\/image\]/ise',		// [image]src[/image]
-				'/\[image=([^\]]+?)\](.*?)\[\/image\]/ise', // [image=alt]src[/image]
-				'/\[img\](.*?)\[\/img\]/ise',			// [img]src[/img]
-				'/\[img=([^\]]+?)\](.*?)\[\/img\]/ise', 	// [img=alt]src[/img]
-				'/\[image=([^\]]+?)\]/ie',					// [image=<id>]
-				'/\[image([^\]]+?)\]/ie',					// [image<id>] (deprecated)
 				'/\[flash=([^\]]+?)\]/ie',					// [flash=<id>, <width>, <height>, <params>] or [flash=<id>, window]
 				'/\[sound=([^\]]+?)\]/ie',					// [sound=<id>]
 				'/\[go=([^\]]+?)\]/ie', 					// [go=<name>]
@@ -930,6 +928,12 @@ Class Codes {
 				"str_replace(',', '|', Codes::fix_tags('$1'))",						// [csv]...[/csv]
 				"Codes::render_table(Codes::fix_tags('$2'), '$1')",					// [table=variant]...[/table]
 				"Codes::render_table(Codes::fix_tags('$1'), '')", 					// [table]...[/table]
+				"Codes::render_object('images', '$1')",								// [images=<ids>]
+				"'<div class=\"external_image\"><img src=\"'.encode_link('$1').'\" alt=\"\" /></div>'",	// [image]src[/image]
+				"'<div class=\"external_image\"><img src=\"'.encode_link('$2').'\" alt=\"'.encode_link('$1').'\" /></div>'", // [image=alt]src[/image]
+				"'<div class=\"external_image\"><img src=\"'.encode_link('$1').'\" alt=\"\" /></div>'",	// [img]src[/img]
+				"'<div class=\"external_image\"><img src=\"'.encode_link('$2').'\" alt=\"'.encode_link('$1').'\" /></div>'", // [img=alt]src[/img]
+				"Codes::render_object('image', Codes::fix_tags('$1'))",				// [image=<id>]
 				'<code>\\1</code>', 												// ##...##
 				'<code>\\1</code>', 												// [code]...[/code]
 				"Skin::build_block(Codes::fix_tags('$1'), 'indent')", 				// [indent]...[indent]
@@ -981,13 +985,6 @@ Class Codes {
 				"BR.BR.BULLET_IMG.'&nbsp;'",										// standalone [*]
 				"BR.BULLET_IMG.'&nbsp;'",
 				'<li>\\1</li>', 													// [li]...[/li]
-				"Codes::render_object('images', '$1')",								// [images=<ids>]
-				"'<div class=\"external_image\"><img src=\"'.encode_link('$1').'\" alt=\"\" /></div>'",	// [image]src[/image]
-				"'<div class=\"external_image\"><img src=\"'.encode_link('$2').'\" alt=\"'.encode_link('$1').'\" /></div>'", // [image=alt]src[/image]
-				"'<div class=\"external_image\"><img src=\"'.encode_link('$1').'\" alt=\"\" /></div>'",	// [img]src[/img]
-				"'<div class=\"external_image\"><img src=\"'.encode_link('$2').'\" alt=\"'.encode_link('$1').'\" /></div>'", // [img=alt]src[/img]
-				"Codes::render_object('image', Codes::fix_tags('$1'))",				// [image=<id>]
-				"Codes::render_object('image', Codes::fix_tags('$1'))",				// [image<id>] (deprecated)
 				"Codes::render_object('flash', Codes::fix_tags('$1'))",				// [flash=<id>, <width>, <height>, <params>]
 				"Codes::render_object('sound', Codes::fix_tags('$1'))",				// [sound=<id>]
 				"Codes::render_object('go', Codes::fix_tags('$1'))",				// [go=<name>]
@@ -1008,18 +1005,18 @@ Class Codes {
 				"Codes::render_object('action', Codes::fix_tags('$1'))",			// [action=<id>]
 				"Codes::render_object('comment', Codes::fix_tags('$1'))",			// [comment=<id>] or [comment=<id>, title]
 				"Codes::render_object('decision', Codes::fix_tags('$1'))", 			// [decision=<id>] or [decision=<id>, title]
-				"Skin::build_link(encode_link('$1'), '$2')",						// [url=url]label[/link] (deprecated by [link])
+				"Skin::build_link(encode_link('$1'), Codes::fix_tags('$2'))",		// [url=url]label[/link] (deprecated by [link])
 				"Skin::build_link(encode_link('$1'), NULL)",						// [url]url[/url] (deprecated by [link])
-				"Skin::build_link(encode_link('$2'), '$1')",						// [label|url]
-				"Skin::build_link(encode_link('$2'), '$1')",						// [link=label]url[/link]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'))",		// [label|url]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'))",		// [link=label]url[/link]
 				"Skin::build_link(encode_link('$1'), NULL)",						// [link]url[/link]
-				"Skin::build_link(encode_link('$2'), '$1', 'button')",				// [button=label]url[/button]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'button')",	// [button=label]url[/button]
 				"Skin::build_link(encode_link('$1'), '$1', 'script')",				// [script]url[/script]
 				"Skin::build_link(encode_link('$1'), '$1', 'menu_1')",				// [menu]url[/menu]
-				"Skin::build_link(encode_link('$2'), '$1', 'menu_1')",				// [menu=label]url[/menu]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'menu_1')",	// [menu=label]url[/menu]
 				"Skin::build_link(encode_link('$1'), '$1', 'menu_2')",				// [submenu]url[/submenu]
-				"Skin::build_link(encode_link('$2'), '$1', 'menu_2')",				// [submenu=label]url[/submenu]
-				"Codes::render_email(encode_link('$2'), '$1')", 					// [email=label]url[/email]
+				"Skin::build_link(encode_link('$2'), Codes::fix_tags('$1'), 'menu_2')",	// [submenu=label]url[/submenu]
+				"Codes::render_email(encode_link('$2'), Codes::fix_tags('$1'))",	// [email=label]url[/email]
 				"Codes::render_email(encode_link('$1'), '$1')",						// [email]url[/email]
 				"Codes::render_title(Codes::fix_tags('$1'), 'question')", 			// [question]...[/question]
 				"QUESTION_FLAG",													// [question]
@@ -1309,12 +1306,17 @@ Class Codes {
 	 * @return string the rendered text
 	**/
 	function &render_email($address, $text) {
+	
 		// be sure to display something
 		if(!$text)
 			$text = $address;
 
+		// specify a scheme if not done yet
+		if(!preg_match('/^[a-z]+:/i', $address))
+			$address = 'mailto:'.$address;
+			
 		// return a complete anchor
-		$output = Skin::build_link('mailto:'.$address, $text, 'email');
+		$output = Skin::build_link($address, $text, 'email');
 		return $output;
 	}
 
