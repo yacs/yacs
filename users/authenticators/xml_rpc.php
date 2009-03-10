@@ -7,7 +7,7 @@
  *
  * Example configuration:
  * [snippet]
- * xml_rpc http://www.yetanothercommunitysystem.com/yacs/services/xml_rpc.php
+ * xml_rpc http://www.yacs.fr/yacs/services/xml_rpc.php
  * [/snippet]
  *
  * @author Bernard Paques

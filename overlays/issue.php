@@ -2,6 +2,8 @@
 /**
  * describe one issue
  *
+ * @todo add a field to scope the case: cosmetic (issue with the interface), behaviour (functional issue), system-wide (critical issue)  
+ *
  * This overlay is aiming to track status of various kinds of issue, as per following workflow:
  * [snippet]
  * on-going:suspect (create_date)

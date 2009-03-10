@@ -29,7 +29,7 @@ $hooks[] = array(
 	'label_fr'	=> 'Authentification &agrave; distance (comme Drupal)',
 	'description_en' => 'The most simple authentication mechanism one can think of.',
 	'description_fr' => 'Le m&eacute;canisme d\'authentification le plus simple auquel on puisse penser',
-	'source' => 'http://www.yetanothercommunitysystem.com/'
+	'source' => 'http://www.yacs.fr/'
 );
 
 class Drupal {

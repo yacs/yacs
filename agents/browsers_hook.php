@@ -21,7 +21,7 @@ $hooks[] = array(
 	'label_fr'	=> 'Cr&eacute;ation des tables pour les statistiques sur les navigateurs',
 	'description_en' => 'Stats on user agents',
 	'description_fr' => 'Statistiques sur les navigateurs',
-	'source' => 'http://www.yetanothercommunitysystem.com/' );
+	'source' => 'http://www.yacs.fr/' );
 
 // trigger the post-processing function
 $hooks[] = array(
@@ -33,6 +33,6 @@ $hooks[] = array(
 	'label_fr'	=> 'Mise &agrave; jour des statistiques sur les navigateurs',
 	'description_en' => 'Stats on user agents',
 	'description_fr' => 'Statistiques sur les navigateurs',
-	'source' => 'http://www.yetanothercommunitysystem.com/' );
+	'source' => 'http://www.yacs.fr/' );
 
 ?>

@@ -112,7 +112,7 @@ if(Surfer::is_associate() && !file_exists('reference/footprints.php')) {
 
 	// ensure we have a reference server
 	if(!isset($context['reference_server']) || !$context['reference_server'])
-		$context['reference_server'] = i18n::s('www.yetanothercommunitysystem.com');
+		$context['reference_server'] = i18n::s('www.yacs.fr');
 
 	// offer to upgrade
 	$context['text'] .= '<p>'.Skin::build_link('scripts/stage.php', i18n::s('Update scripts'))."</p>\n";
@@ -153,7 +153,7 @@ if($item) {
 
 	// link to the existing reference server, or to the original server
 	if(!isset($context['reference_server']) || !$context['reference_server'])
-		$context['reference_server'] = i18n::s('www.yetanothercommunitysystem.com');
+		$context['reference_server'] = i18n::s('www.yacs.fr');
 	$text .= '<p>'.Skin::build_link('http://'.$context['reference_server'].'/', $context['reference_server'], 'external')."</p>\n";
 
 }

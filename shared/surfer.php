@@ -422,7 +422,7 @@ Class Surfer {
 	 */
 	function empower($capability='A') {
 		global $context;
-
+		
 		if(($capability == '?') || ($capability == 'S') || ($capability == 'M') || ($capability == 'A'))
 			$context['empowered'] = $capability;
 	}
@@ -1483,7 +1483,7 @@ if(isset($_SERVER['REMOTE_ADDR'])) {
 // retrieve session data, but not if run from the command line, and not from robot nor spider
 if(isset($_SERVER['REMOTE_ADDR']) && !Surfer::is_crawler() && !headers_sent()) {
 
-	// switch to another instance on same host
+	// we have moved to another instance on the same host
 	if(isset($_SESSION['server_id']) && isset($_SESSION['url_to_root']) && strcmp($_SESSION['server_id'], $context['url_to_root']))
 		Surfer::reset();
 

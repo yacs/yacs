@@ -46,7 +46,7 @@ such as polls or cooking recipes
 - ...
 
 A more complete list of features is available at
-http://www.yetanothercommunitysystem.com/go/features
+http://www.yacs.fr/go/features
 
 
 Requirements for running YACS
@@ -96,7 +96,7 @@ First installation of YACS
 
 0. To get the most recent stable archive, visit
 
-	http://www.yetanothercommunitysystem.com/go/download
+	http://www.yacs.fr/go/download
 
 1. Explode all files of the archive to a directory of your computer.
    Make sure that path names are preserved during the operation.
@@ -163,13 +163,13 @@ and to check periodically for updated and new scripts.
 
 To get more information on this feature visit
 
-	http://www.yetanothercommunitysystem.com/go/upgrades
+	http://www.yacs.fr/go/upgrades
 
-The default reference server is www.yetanothercommunitysystem.com, but you can
+The default reference server is www.yacs.fr, but you can
 change this to use another server if you wish. IT managers will appreciate.
 
 The update process is not automatic. Once a month, or to benefit unattended from
-a new YACS feature exposed at http//www.yetanothercommunitysystem.com, go to the
+a new YACS feature exposed at http//www.yacs.fr, go to the
 Configuration Panel, select the System tab, then the Server software link.
 
 
@@ -283,7 +283,7 @@ Example allowed only to root users:
 For every other need
 ====================
 
-Please look at http://www.yetanothercommunitysystem.com/
+Please look at http://www.yacs.fr/
 
 Enjoy!
 
@@ -291,7 +291,7 @@ Enjoy!
 GNU Lesser General Public License
 =================================
 
-YACS: PHP/MySQL Community and Content Management System (http://www.yetanothercommunitysystem.com/)
+YACS: PHP/MySQL Community and Content Management System (http://www.yacs.fr/)
 Copyright (C) 2003-2008 Paxer Conseil
 
 This program is free software; you can redistribute it and/or modify it under

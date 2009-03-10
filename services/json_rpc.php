@@ -27,7 +27,7 @@
  *	'label_fr'	=> 'Recherche distante',
  *	'description_en' => 'Example of remote search configuration.',
  *	'description_fr' => 'Exemple de configuration pour recherche distante.',
- *	'source' => 'http://www.yetanothercommunitysystem.com/'
+ *	'source' => 'http://www.yacs.fr/'
  * );
  * [/php]
  *

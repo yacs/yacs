@@ -88,7 +88,7 @@
  * Example: [code]&lt;section&gt;news&lt;/section&gt;[/code].
  *
  * [*] '[code]source[/code]' - reference link for this blog entry
- * Example: [code]&lt;source&gt;http://www.yetanothercommunitysystem.com/yacs/index.php&lt;/source&gt;[/code].
+ * Example: [code]&lt;source&gt;http://www.yacs.fr/yacs/index.php&lt;/source&gt;[/code].
  *
  * [*] '[code]title[/code]' - the title to use for this entry
  * Example: [code]&lt;title&gt;What'up doc?&lt;/title&gt;[/code].

@@ -828,7 +828,7 @@ class Anchor {
 		if(isset($this->is_assigned_cache))
 			return $this->is_assigned_cache;
 
-		if(is_array($this->item)) {
+		if(isset($this->item['id'])) {
 
 			// article has been assigned to this logged user
 			if(Articles::is_assigned($this->item['id']))
@@ -849,7 +849,6 @@ class Anchor {
 					return $this->is_assigned_cache = TRUE;
 
 			}
-
 		}
 
 		// sorry

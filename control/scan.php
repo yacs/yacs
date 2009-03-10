@@ -113,7 +113,7 @@
  *	'label_fr'	=> 'Assignations',
  *	'description_en' => 'Create tables for assignments.',
  *	'description_fr' => 'Cr&eacute;ation des tables pour les assignations.',
- *	'source' => 'http://www.yetanothercommunitysystem.com/' );
+ *	'source' => 'http://www.yacs.fr/' );
  * [/php]
  *
  * [title]How to install a hook?[/title]

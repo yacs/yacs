@@ -62,7 +62,7 @@ elseif(!Surfer::is_associate()) {
 
 	// the reference server
 	if(!isset($context['reference_server']))
-		$context['reference_server'] = i18n::s('www.yetanothercommunitysystem.com');
+		$context['reference_server'] = i18n::s('www.yacs.fr');
 	$label = i18n::s('If you are using some reference server to download updated pieces of software, please type its address below (name or IP address)');
 	$input = '<input type="text" name="reference_server" id="reference_server" size="45" value="'.encode_field($context['reference_server']).'" maxlength="255" />';
 	$context['text'] .= '<p>'.$label.BR.$input."</p>\n";

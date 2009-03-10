@@ -254,7 +254,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<h2>'.i18n::s('Ready to start the installation').'</h2>';
 
 		// splash screen
-		$context['text'] .= i18n::s("<p>At the moment no configuration file has been found. You will now have to pass through several steps in order to achieve the setup of your server:</p>\n<ul>\n<li>Configure parameters related to the database.</li>\n<li>Load extension hooks.</li>\n<li>Create tables in the database.</li>\n<li>Add one user profile and populate the database.</li>\n<li>Configure the theme of your server.</li>\n</ul>\nIn normal conditions this will take only some minutes. If you have any problems, please consult <a href=\"http://www.yetanothercommunitysystem.com/\">www.yetanothercommunitysystem.com</a> for additional support.<p>Thank you for having selected the YACS solution.</p>")."\n";
+		$context['text'] .= i18n::s("<p>At the moment no configuration file has been found. You will now have to pass through several steps in order to achieve the setup of your server:</p>\n<ul>\n<li>Configure parameters related to the database.</li>\n<li>Load extension hooks.</li>\n<li>Create tables in the database.</li>\n<li>Add one user profile and populate the database.</li>\n<li>Configure the theme of your server.</li>\n</ul>\nIn normal conditions this will take only some minutes. If you have any problems, please consult <a href=\"http://www.yacs.fr/\">www.yacs.fr</a> for additional support.<p>Thank you for having selected the YACS solution.</p>")."\n";
 
 		// add a button to start the installation process
 		$context['text'] .= '<form method="get" action="control/configure.php" id="main_form">'."\n"
@@ -323,7 +323,7 @@ if(Surfer::is_crawler()) {
 			.'// This file has been created by the setup script setup.php'."\n"
 			.'// on '.gmdate("F j, Y, g:i a").' GMT, for '.Surfer::get_name().'. Please do not modify it manually.'."\n"
 			.'$context[\'home_at_root\']=\'Y\';'."\n"
-			.'$context[\'reference_server\']=\''.addcslashes(i18n::s('www.yetanothercommunitysystem.com'), "\\'")."';\n"
+			.'$context[\'reference_server\']=\''.addcslashes(i18n::s('www.yacs.fr'), "\\'")."';\n"
 			.'?>'."\n";
 		Safe::file_put_contents('parameters/scripts.include.php', $content);
 
@@ -338,7 +338,7 @@ if(Surfer::is_crawler()) {
 		Skin::build_link('users/view.php', i18n::s('user profile')),
 		Skin::build_link('articles/edit.php', i18n::s('Add a page')),
 		Skin::build_link('help/', i18n::s('Help index')),
-		Skin::build_link(i18n::s('http://www.yetanothercommunitysystem.com/'), i18n::s('www.yetanothercommunitysystem.com'), 'external'))."\n";
+		Skin::build_link(i18n::s('http://www.yacs.fr/'), i18n::s('www.yacs.fr'), 'external'))."\n";
 
 // no need for installation
 } else {

@@ -457,7 +457,7 @@ Class Link {
 		// send an HTTP request
 		fputs($handle, 'HEAD '.$path." HTTP/1.0\015\012"
 			.'Host: '.$host."\015\012"
-			."User-Agent: YACS (www.yetanothercommunitysystem.com)\015\012"
+			."User-Agent: YACS (www.yacs.fr)\015\012"
 			."Connection: close\015\012"
 			."\015\012");
 

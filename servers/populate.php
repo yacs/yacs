@@ -29,7 +29,7 @@
  * To get your YACS site listed, Yahoo! must be informed about your site's updates.
  * Based on a XML-RPC call to [code]weblogUpdates.ping[/code] when your site is updated.
  *
- * [*] [link=yetanothercommunitysystem]http://www.yetanothercommunitysystem.com/[/link] is advertised as well,
+ * [*] [link=yetanothercommunitysystem]http://www.yacs.fr/[/link] is advertised as well,
  * in order to maintain the list of (active) servers using YACS.
  * Based on a XML-RPC call to [code]weblogUpdates.ping[/code] when your site is updated.
  *
@@ -202,23 +202,23 @@ else {
 		$text .= sprintf(i18n::s('A record has been created for server %s'), $fields['host_name']).BR."\n";
 }
 
-// 'www.yetanothercommunitysystem.com' server
+// 'www.yacs.fr' server
 $fields = array();
-$fields['host_name'] = i18n::s('www.yetanothercommunitysystem.com');
+$fields['host_name'] = i18n::s('www.yacs.fr');
 if(Servers::get($fields['host_name']))
 	$text .= sprintf(i18n::s('An entry already exists for server %s'), $fields['host_name']).BR."\n";
 else {
 	$fields['title'] = 'Yet Another Community System';
 	$fields['description'] = i18n::c('The origin server for the YACS system');
-	$fields['main_url'] = 'http://www.yetanothercommunitysystem.com/';
+	$fields['main_url'] = 'http://www.yacs.fr/';
 	$fields['submit_feed'] = 'Y';
-	$fields['feed_url'] = 'http://www.yetanothercommunitysystem.com/yacs/feeds/rss_2.0.php';
+	$fields['feed_url'] = 'http://www.yacs.fr/yacs/feeds/rss_2.0.php';
 	$fields['submit_ping'] = 'Y';
-	$fields['ping_url'] = 'http://www.yetanothercommunitysystem.com/yacs/services/ping.php';
+	$fields['ping_url'] = 'http://www.yacs.fr/yacs/services/ping.php';
 	$fields['submit_search'] = 'N';
-	$fields['search_url'] = 'http://www.yetanothercommunitysystem.com/yacs/services/search.php';
+	$fields['search_url'] = 'http://www.yacs.fr/yacs/services/search.php';
 	$fields['submit_monitor'] = 'N';
-	$fields['monitor_url'] = 'http://www.yetanothercommunitysystem.com/yacs/services/ping.php';
+	$fields['monitor_url'] = 'http://www.yacs.fr/yacs/services/ping.php';
 	if($error = Servers::post($fields))
 		$text .= $error;
 	else

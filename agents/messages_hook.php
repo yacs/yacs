@@ -22,6 +22,6 @@ $hooks[] = array(
 	'label_fr'	=> 'Traitement d\'arri&egrave;re-plan des messages re&ccedil;us',
 	'description_en' => 'To integrate messages into the database',
 	'description_fr' => 'Pour int&eacute;gration dans la base de donn&eacute;es',
-	'source' => 'http://www.yetanothercommunitysystem.com/' );
+	'source' => 'http://www.yacs.fr/' );
 
 ?>

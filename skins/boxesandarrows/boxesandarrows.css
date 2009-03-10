@@ -190,11 +190,13 @@ input[type="password"],
 input[type="text"] { /* change form elements */
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
+	color: black:
 	background-color: #EFEFEF;
 	border: 1px solid #000000;
 }
 
 input:focus { /* help to locate the current field */
+	color: black:
 }
 
 input[type="submit"] { /* change button appearance */
@@ -249,6 +251,16 @@ sub { /* shifted down -- [subscript]...[/subscript] */
 sup { /* shifted up -- [superscript]...[/superscript] */
 }
 
+select {
+	color: black:
+	background-color: white;
+}
+
+select:focus { /* help to locate the current field */
+	color: black:
+	background-color: #dedede;
+}
+
 table { /* an ordinary table -- [table]...[/table] */
 	border-spacing: 2px;
 	border-collapse: separate;
@@ -267,10 +279,13 @@ td { /* an ordinary table cell -- cells in [table]headers[body]content[/table] *
 }
 
 textarea { /* change form elements */
+	color: black:
+	background-color: white;
 	border: #26a solid 1px;
 }
 
 textarea:focus { /* signal current input area */
+	color: black;
 	background-color: #dedede;
 }
 

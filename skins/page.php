@@ -296,8 +296,8 @@
 			echo ' - '.Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic').' ';
 
 		// a reference to YACS
-		if(is_callable(array('i18n', 's')) && ($context['host_name'] != 'www.yetanothercommunitysystem.com'))
-			echo ' - '.sprintf(i18n::s('powered by %s'), Skin::build_link(i18n::s('http://www.yetanothercommunitysystem.com/'), i18n::s('yacs'), 'external'));
+		if(is_callable(array('i18n', 's')) && ($context['host_name'] != 'www.yacs.fr'))
+			echo ' - '.sprintf(i18n::s('powered by %s'), Skin::build_link(i18n::s('http://www.yacs.fr/'), i18n::s('yacs'), 'external'));
 
 		// all our feeds
 		if(is_callable(array('i18n', 's')))

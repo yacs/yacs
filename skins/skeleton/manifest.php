@@ -20,5 +20,5 @@ $skins['skins/skeleton'] = array(
 	'description_en' => 'As its name implies, the skeleton skin is quite simple. It may be used as a good starting point by skin designers.',
 	'description_fr' => 'Comme son nom l\'indique, ce style est assez simple. Suffisamment pour servir de point de d&eacute;part aux concepteurs de style en tout cas.',
 	'thumbnail' => 'preview.jpg',
-	'home_url' => 'http://www.yetanothercommunitysystem.com/' );
+	'home_url' => 'http://www.yacs.fr/' );
 ?>

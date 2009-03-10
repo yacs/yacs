@@ -99,6 +99,14 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 if(!is_callable(array('Hooks', 'include_scripts')))
 	exit(sprintf('Impossible to read %s.', 'parameters/hooks.include.php'));
 
+// here we go
+echo 'Starting cron...'.BR;
+
+//
+// one tick every 5 minutes
+//
+echo 'Checking ticks...'.BR;
+
 // get date of last tick
 $record = Values::get_record('cron.tick', NULL_DATE);
 
@@ -110,27 +118,65 @@ else
 
 // request to be delayed
 if($target > time())
-	exit('Wait until '.gmdate('r', $target).' GMT');
+	echo 'Wait until '.gmdate('r', $target).' GMT'.BR;
+	
+// remember tick date and avoid racing conditions
+else {
+	Values::set('cron.tick', 'running...');
+
+	// do the job and provide feed-back to user
+	$context['cron_text'] = Hooks::include_scripts('tick');
+	echo $context['cron_text'];
+	
+	// remember tick date and resulting text
+	Values::set('cron.tick', $context['cron_text']);
+	
+	// log outcome of script execution in debug mode
+	if($context['with_debug'] == 'Y')
+		Logger::remember('cron.php', 'tick processing', $context['cron_text'], 'debug');
+
+}
+
+//
+// hourly jobs
+//
+echo 'Checking hourly jobs...'.BR;
+
+// get date of last run
+$record = Values::get_record('cron.hourly', NULL_DATE);
+
+// wait at least 1 hour = 3600 seconds between runs
+if(isset($record['edit_date']))
+	$target = SQL::strtotime($record['edit_date']) + 3600;
+else
+	$target = time();
+
+// request to be delayed
+if($target > time())
+	echo 'Wait until '.gmdate('r', $target).' GMT'.BR;
 
 // remember tick date and avoid racing conditions
-Values::set('cron.tick', 'running...');
+else {
+	Values::set('cron.hourly', 'running...');
 
-// do the job and provide feed-back to user
-$context['cron_text'] = Hooks::include_scripts('tick');
-echo $context['cron_text'];
+	// do the job and provide feed-back to user
+	$context['text'] = Hooks::include_scripts('hourly');
+	echo $context['text'];
+	
+	// remember tick date and resulting text
+	Values::set('cron.hourly', $context['text']);
+	
+	// log outcome of script execution in debug mode
+	if($context['with_debug'] == 'Y')
+		Logger::remember('cron.php', 'hourly processing', $context['text'], 'debug');
 
-// remember tick date and resulting text
-Values::set('cron.tick', $context['cron_text']);
-
-// log outcome of script execution in debug mode
-if($context['with_debug'] == 'Y')
-	Logger::remember('cron.php', 'background processing', $context['cron_text'], 'debug');
+}
 
 // dump profile data
 Logger::profile_dump();
 
 // all done
 $time = round(get_micro_time() - $context['start_time'], 2);
-exit(sprintf('Script terminated in %.2f seconds.', $time));
+exit(sprintf('Script terminated in %.2f seconds.', $time).BR);
 
 ?>

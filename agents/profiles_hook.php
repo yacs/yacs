@@ -21,7 +21,7 @@ $hooks[] = array(
 	'label_fr'	=> 'Cr&eacute;ation des tables pour les statistiques de performance',
 	'description_en' => 'To compute script profile',
 	'description_fr' => 'Pour le suivi des temps de r&eacute;ponse',
-	'source' => 'http://www.yetanothercommunitysystem.com/' );
+	'source' => 'http://www.yacs.fr/' );
 
 // trigger the post-processing function
 $hooks[] = array(
@@ -33,6 +33,6 @@ $hooks[] = array(
 	'label_fr'	=> 'Mise &agrave; jour des statistiques sur les performances',
 	'description_en' => 'To compute script profile',
 	'description_fr' => 'Pour le suivi des temps de r&eacute;ponse',
-	'source' => 'http://www.yetanothercommunitysystem.com/' );
+	'source' => 'http://www.yacs.fr/' );
 
 ?>

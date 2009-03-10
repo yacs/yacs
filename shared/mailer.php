@@ -11,6 +11,8 @@
  * - 'mailer.last.posted' - subject of last message actually posted
  * - 'mailer.last.queued' - subject of last message queued
  *
+ * If the parameter 'with_email' is not set to 'Y', pending messages are not processed at all.
+ *
  * If the parameter 'debug_mail' is set, then a copy of every posted message
  * is saved in the file temporary/debug.txt for further review.
  *
@@ -145,20 +147,6 @@ class Mailer {
 			return 0;
 		}
 
-		// authenticate to a pop3 server if necessary
-		if(!isset($context['mail_pop3_handle'])
-			&& isset($context['mail_pop3_server']) && trim($context['mail_pop3_server']) && isset($context['mail_pop3_user']) && isset($context['mail_pop3_password'])
-			&& is_callable('imap_open'))
-			$context['mail_pop3_handle'] = @imap_open('{'.$context['mail_pop3_server'].':110/pop3}INBOX', $context['mail_pop3_user'], $context['mail_pop3_password']);
-
-		// set the SMTP server
-		if(isset($context['mail_smtp_server']) && $context['mail_smtp_server'])
-			Safe::ini_set('SMTP', $context['mail_smtp_server']);
-
-		// set the SMTP sender
-		if(isset($context['mail_from']) && $context['mail_from'])
-			Safe::ini_set('sendmail_from', $context['mail_from']);
-
 		// no new line nor HTML tag in title
 		if(!$subject)
 			$subject = '***';
@@ -290,6 +278,8 @@ class Mailer {
 	/**
 	 * actual transmission of a mail message
 	 *
+	 * This function should be called only by Mailer::tick_hook()
+	 *
 	 * @param string the target address
 	 * @param string message subject
 	 * @param string message content
@@ -315,18 +305,18 @@ class Mailer {
 
 		// post in debug mode, to get messages, if any
 		if(($context['with_debug'] == 'Y') && mail($recipient, $subject, $message, $headers))
-			;
+			return TRUE;
 
 		// regular post
 		elseif(($context['with_debug'] != 'Y') && @mail($recipient, $subject, $message, $headers))
-			;
+			return TRUE;
 
 		// an error has been encountered
 		elseif(isset($context['debug_mail']) && ($context['debug_mail'] == 'Y'))
 			Logger::remember('shared/mailer.php', sprintf(i18n::s('Error while sending the message to %s'), $decoded_recipient), $decoded_subject, 'debug');
 		elseif($context['with_debug'] == 'Y')
 			Logger::remember('shared/mailer.php', sprintf(i18n::s('Error while sending the message to %s'), $decoded_recipient), $decoded_subject, 'debug');
-
+		return FALSE;
 	}
 
 	/**
@@ -436,6 +426,10 @@ class Mailer {
 	function tick_hook() {
 		global $context;
 
+		// email services have to be activated
+		if(!isset($context['with_email']) || ($context['with_email'] != 'Y'))
+			return;
+
 		// useless if we don't have a valid database connection
 		if(!$context['connection'])
 			return;
@@ -488,6 +482,20 @@ class Mailer {
 				." ORDER BY edit_date LIMIT 0, ".$slice;
 			if($result = SQL::query($query)) {
 
+				// authenticate to a pop3 server if necessary
+				if(!isset($context['mail_pop3_handle'])
+					&& isset($context['mail_pop3_server']) && trim($context['mail_pop3_server']) && isset($context['mail_pop3_user']) && isset($context['mail_pop3_password'])
+					&& is_callable('imap_open'))
+					$context['mail_pop3_handle'] = @imap_open('{'.$context['mail_pop3_server'].':110/pop3}INBOX', $context['mail_pop3_user'], $context['mail_pop3_password']);
+			
+				// set the SMTP server
+				if(isset($context['mail_smtp_server']) && $context['mail_smtp_server'])
+					Safe::ini_set('SMTP', $context['mail_smtp_server']);
+			
+				// set the SMTP sender
+				if(isset($context['mail_from']) && $context['mail_from'])
+					Safe::ini_set('sendmail_from', $context['mail_from']);
+			
 				// process every message
 				while($item =& SQL::fetch($result)) {
 

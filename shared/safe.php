@@ -1000,6 +1000,29 @@ class Safe {
 	}
 
 	/**
+	 * invoke system shell
+	 *
+	 * On a Linux system, you can launch background processing with the following call:
+	 *
+	 * [php]
+	 * Safe::shell_exec("/path/to/program > /dev/null &");
+	 * [/php]
+	 *
+	 * @param string command
+	 * @return the output of the command, or NULL
+	 */
+	function shell_exec($text) {
+
+		// ensure call is allowed
+		if(!is_callable('shell_exec'))
+			return NULL;
+
+		// do the job	
+		$outcome = shell_exec($text);
+		return $outcome;
+	}
+
+	/**
 	 * delay execution for some time
 	 *
 	 * @param int number of seconds

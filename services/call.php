@@ -38,7 +38,7 @@
  *	'label_fr'	=> 'Recherche distante',
  *	'description_en' => 'Example of remote search configuration.',
  *	'description_fr' => 'Exemple de configuration pour recherche distante.',
- *	'source' => 'http://www.yetanothercommunitysystem.com/'
+ *	'source' => 'http://www.yacs.fr/'
  * );
  * [/php]
  *
@@ -177,7 +177,7 @@ Class Call {
 		$request = "POST ".$path." HTTP/1.0\015\012"
 			.'Host: '.$host."\015\012"
 			."Accept-Encoding: gzip\015\012"
-			."User-Agent: YACS (www.yetanothercommunitysystem.com)\015\012"
+			."User-Agent: YACS (www.yacs.fr)\015\012"
 			."Connection: close\015\012"
 			.$headers."\015\012".$result[1];
 
@@ -280,7 +280,7 @@ Class Call {
 		$request = "POST ".$path." HTTP/1.0\015\012"
 			.'Host: '.$host."\015\012"
 			."Accept-Encoding: gzip\015\012"
-			."User-Agent: YACS (www.yetanothercommunitysystem.com)\015\012"
+			."User-Agent: YACS (www.yacs.fr)\015\012"
 			."Connection: close\015\012"
 			.$headers."\015\012".$data;
 

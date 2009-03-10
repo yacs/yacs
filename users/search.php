@@ -157,7 +157,7 @@ if($cap > USERS_PER_PAGE)
 	$box['bar'] = array('_count' => i18n::s('Results'));
 elseif($cap)
 	$box['bar'] = array('_count' => sprintf(i18n::ns('%d result', '%d results', $cap), $cap));
-$home = 'search.php?search='.urlencode($search);
+$home = 'users/search.php?search='.urlencode($search);
 $prefix = $home.'&page=';
 if(($navigate = Skin::navigate($home, $prefix, $cap, USERS_PER_PAGE, $page)) && @count($navigate))
 	$box['bar'] = array_merge($box['bar'], $navigate);

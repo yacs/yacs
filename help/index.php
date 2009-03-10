@@ -406,7 +406,7 @@ if(file_exists($context['path_to_root'].'scripts/reference/footprints.php'))
 elseif(isset($context['reference_server']) && $context['reference_server'])
 	$target = 'http://'.$context['reference_server'].'/';
 else
-	$target = 'http://www.yetanothercommunitysystem.com/';
+	$target = 'http://www.yacs.fr/';
 
 // where is the documentation
 include_once '../scripts/scripts.php';
@@ -426,7 +426,7 @@ if(is_callable(array('Hooks', 'include_scripts')))
 $context['text'] .= Skin::build_block(i18n::s('Not satisfied yet?'), 'title')
 	.'<ul>'
 	.'<li>'.sprintf(i18n::s('Use the %s to ask for help'), Skin::build_link('query.php', i18n::s('query form'))).'</li>'
-	.'<li>'.sprintf(i18n::s('%s to look for additional support'), Skin::build_link('http://www.yetanothercommunitysystem.com/', i18n::s('Browse yetanothercommunitysystem.com'))).'</li>'
+	.'<li>'.sprintf(i18n::s('%s to look for additional support'), Skin::build_link('http://www.yacs.fr/', i18n::s('Browse yetanothercommunitysystem.com'))).'</li>'
 	.'<li>'.Skin::build_link('http://www.google.com/', i18n::s('Search at Google')).'</li>'
 	.'</ul>';
 

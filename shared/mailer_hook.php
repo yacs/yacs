@@ -22,6 +22,6 @@ $hooks[] = array(
 	'label_fr'	=> 'Traitement d\'arri&egrave;re-plan des messages envoy&eacute;s',
 	'description_en' => 'To advertise the world',
 	'description_fr' => 'Pour avertir le monde entier',
-	'source' => 'http://www.yetanothercommunitysystem.com/' );
+	'source' => 'http://www.yacs.fr/' );
 
 ?>

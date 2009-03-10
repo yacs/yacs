@@ -68,7 +68,7 @@ Class Http extends Authenticator {
 		$request = "POST ".$url." HTTP/1.0\015\012"
 			.'Host: '.$host."\015\012"
 			."Accept-Encoding: gzip\015\012"
-			."User-Agent: YACS (www.yetanothercommunitysystem.com)\015\012"
+			."User-Agent: YACS (www.yacs.fr)\015\012"
 			."Connection: close\015\012"
 			."Content-Type: application/x-www-form-urlencoded\015\012"
 			."Content-Length: ".strlen($payload)."\015\012"

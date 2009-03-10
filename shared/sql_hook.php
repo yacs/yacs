@@ -20,7 +20,7 @@ $hooks[] = array(
 	'label_fr'	=> 'Purge de la base de donn&eacute;es',
 	'description_en' => 'Recover the unused disk space',
 	'description_fr' => 'Restitution de l\'espace disque inutilis&eacute;',
-	'source' => 'http://www.yetanothercommunitysystem.com/'
+	'source' => 'http://www.yacs.fr/'
 );
 
 // stop hackers

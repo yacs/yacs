@@ -810,7 +810,7 @@ if(!file_exists('../parameters/control.include.php')) {
 				if(!isset($generation['version']))
 					Safe::load('scripts/staging/footprints.php');		// last update
 				$cells = array();
-				$cells[] = Skin::build_link('http://www.yetanothercommunitysystem.com/', 'YACS');
+				$cells[] = Skin::build_link('http://www.yacs.fr/', 'YACS');
 				if(isset($generation['version']))
 					$cells[] = $generation['version'].', '.$generation['date'].', '.$generation['server'];
 				else

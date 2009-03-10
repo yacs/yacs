@@ -40,7 +40,7 @@
  * <?xml version="1.0" encoding="iso-8859-15"?>
  * <item>
  *	<title>RE: How to create a button from an image?  </title>
- *	<link>http://www.yetanothercommunitysystem.com/</link>
+ *	<link>http://www.yacs.fr/</link>
  *	<pubDate>Mon, 04 Oct 2004 12:21:52 GMT</pubDate>
  *	<description><![CDATA[hello world ]]></description>
  *	<author>foo.bar@acme.com (Foo)</author>

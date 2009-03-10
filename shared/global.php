@@ -77,6 +77,10 @@ $context['aside'] = array();
 // type of object produced by YACS
 $context['content_type'] = 'text/html';
 
+// these will be updated if GEOPIP has been installed
+$context['country'] = 'N/A';
+$context['country_code'] = '--';
+
 // where developers can add debugging messages --one string per row
 $context['debug'] = array();
 
@@ -1080,7 +1084,7 @@ function render_skin($stamp=0) {
 		logger::profile('render_skin', 'start');
 
 	// yes, we are proud of this piece of software
-	Safe::header('X-Powered-By: YACS (http://www.yetanothercommunitysystem.com/)');
+	Safe::header('X-Powered-By: YACS (http://www.yacs.fr/)');
 
 	// provide P3P compact policy, if any
 	if(isset($context['p3p_compact_policy']))

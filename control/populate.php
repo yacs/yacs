@@ -512,7 +512,7 @@ if(!$permitted) {
 			.'<tr><td>'.i18n::c('Copyright').'</td><td>[parameter=site_copyright]</td></tr>'."\n"
 			.'<tr><td>'.i18n::c('Owner').'</td><td>[parameter=site_owner]</td></tr>'."\n"
 			.'</table>'."\n"
-			.'<p>'.i18n::c('This site is powered by [link=YACS]http://www.yetanothercommunitysystem.com/[/link], [link=PHP]http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a fast, easy-to-use site that lets you access, review, and download information that matters for you.').'</p>'."\n"
+			.'<p>'.i18n::c('This site is powered by [link=YACS]http://www.yacs.fr/[/link], [link=PHP]http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a fast, easy-to-use site that lets you access, review, and download information that matters for you.').'</p>'."\n"
 			.'[title]'.i18n::c('Contact').'[/title]'."\n"
 			.'<p>'.i18n::c('The preferred mean to join us is to use the general-purpose query form. This is a convenient tool for you and for us, because your request and related answers will be listed at a single place accessible from your web browser. Moreover, you will be informed by e-mail of any progressing step to your query.').'</p>'."\n"
 			.'<p class="indent">'.i18n::c('Query: [link=Use the on-line form]query.php[/link]').'</p>'."\n"

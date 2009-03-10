@@ -2,6 +2,8 @@
 /**
  * the configuration panel for the front page
  *
+ * @todo add a textfield for tickers put at the home page
+ *
  * This configuration panel manages following parameters:
  *
  * [*] [code]root_cover_at_home[/code] - Either 'full', 'body' or 'none'.

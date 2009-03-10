@@ -13,7 +13,8 @@ defined('YACS') or exit('Script must be included');
  * @author GnapZ
  * @tester Guillaume Perez
  * @tester Dobliu
- * $tester Christian Loubechine
+ * @tester Christian Loubechine
+ * @tester Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -636,7 +637,7 @@ Class Article extends Anchor {
 		$items = explode("\015\012\015\012", $text, 2);
 		$headers = $items[0];
 		if(isset($items[1]))
-			$body = "\n\n".$body;
+			$body = "\n\n".$item[1];
 		else
 			$body = '';
 

@@ -214,10 +214,13 @@ img { /* a standard image */
 
 input[type="password"],
 input[type="text"] { /* change form elements */
+	color: black:
+	background-color: white;
 	border: #26a solid 1px;
 }
 
 input:focus { /* help to locate the current field */
+	color: black:
 	background-color:#dedede;
 }
 
@@ -266,6 +269,16 @@ pre { /* a block of sample lines -- [php]...[/php], [snippet]...[/snippet] */
 	white-space: pre;
 }
 
+select {
+	color: black:
+	background-color: white;
+}
+
+select:focus { /* help to locate the current field */
+	color: black:
+	background-color: #dedede;
+}
+
 sub { /* shifted down -- [subscript]...[/subscript] */
 }
 
@@ -289,10 +302,13 @@ td { /* an ordinary cell */
 }
 
 textarea { /* change form elements */
+	color: black:
+	background-color: white;
 	border: #26a solid 1px;
 }
 
 textarea:focus { /* signal current input area */
+	color: black;
 	background-color: #dedede;
 }
 

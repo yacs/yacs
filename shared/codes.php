@@ -2,6 +2,7 @@
 /**
  * Transform some text containing UBB-like code sequences.
  *
+ * @todo CDATA for proxy http://javascript.about.com/library/blxhtml.htm
  * @todo &#91;files] - most recent files, in a compact list
  * @todo &#91;files=section:&lt;id>] - files attached in the given section
  * @todo &#91;links] - most recent links, in a compact list
@@ -789,11 +790,11 @@ Class Codes {
 				'/\[(---+|___+)\]\s*/ise',				// [---], [___] --- before inserted
 				'/^-----*/me',							// ----
 				'/\[inserted\](.*?)\[\/inserted\]/is',	// [inserted]...[/inserted]
-				'/--(\S.*?\S)--/ise',					// --...--
+//				'/--(\S.*?\S)--/ise',					// --...--
 				'/\[deleted\](.*?)\[\/deleted\]/is',	// [deleted]...[/deleted]
 				'/\*\*(\S.*?\S)\*\*/is',				// **...**
 				'/\[b\](.*?)\[\/b\]/is',				// [b]...[/b]
-				'/\/\/(\S.*?\w)\/\//is',				// //...//
+//				'/\/\/(\S.*?\w)\/\//is',				// //...//
 				'/\[i\](.*?)\[\/i\]/is',				// [i]...[/i]
 				'/__(\S.*?\S)__/is',					// __...__
 				'/\[u\](.*?)\[\/u\]/is',				// [u]...[/u]
@@ -893,6 +894,7 @@ Class Codes {
 				'/\[locations=([^\]]+?)\]/ise', 		// [locations=<id>]
 				'/\[location=([^\]]+?)\]/ise',			// [location=<id>]
 				'/\[wikipedia=([^\]]+?)\]/ise', 		// [wikipedia=keyword] or [wikipedia=keyword, title]
+				'/\[digraph\](.*?)\[\/digraph\]/ise',	// [digraph]url[/digraph]
 				'/\[be\]/i',							// [be] belgian flag
 				'/\[ca\]/i',							// [ca] canadian flag
 				'/\[ch\]/i',							// [ch] swiss flag
@@ -967,11 +969,11 @@ Class Codes {
 				"HORIZONTAL_RULER", 												// [---], [___]
 				"HORIZONTAL_RULER", 												// ----
 				'<ins>\\1</ins>',													// [inserted]...[/inserted]
-				"preg_match('/^(BEGIN|END)/', '\\1')?'--\\1--':'<del>\\1</del>'",	// --...-- take care of PKCS headers
+//				"preg_match('/^(BEGIN|END)/', '\\1')?'--\\1--':'<del>\\1</del>'",	// --...-- take care of PKCS headers
 				'<del>\\1</del>',													// [deleted]...[/deleted]
 				'<b>\\1</b>',														// **...**
 				'<b>\\1</b>',														// [b]...[/b]
-				'<i>\\1</i>',														// //...//
+//				'<i>\\1</i>',														// //...//
 				'<i>\\1</i>',														// [i]...[/i]
 				'<span style="text-decoration: underline">\\1</span>',				// __...__
 				'<span style="text-decoration: underline">\\1</span>',				// [u]...[/u]
@@ -1071,6 +1073,7 @@ Class Codes {
 				"Codes::render_locations('$1')",									// [locations=<id>]
 				"Codes::render_location('$1')",										// [location=<id>]
 				"Codes::render_wikipedia(Codes::fix_tags('$1'))",					// [wikipedia=keyword] or [wikipedia=keyword, title]
+				"Codes::render_graphviz('$1', 'digraph')",							// [digraph]...[/digraph]
 				' <img src="'.$context['url_to_root'].'skins/images/flags/be.gif" alt="" /> ', // [be] belgian flag
 				' <img src="'.$context['url_to_root'].'skins/images/flags/ca.gif" alt="" /> ', // [ca] canadian flag
 				' <img src="'.$context['url_to_root'].'skins/images/flags/ch.gif" alt="" /> ', // [ch] swiss flag
@@ -1521,6 +1524,74 @@ Class Codes {
 		// job done
 		return $text;
 
+	}
+
+	/**
+	 * render a graphviz
+	 *
+	 * @param string the text
+	 * @param string the variant
+	 * @return string the rendered text
+	**/
+	function &render_graphviz($text, $variant='digraph') {
+		global $context;
+
+		// sanity check
+		if(!$text)
+			$text = 'Hello->World!';
+			
+		// remove tags put by WYSIWYG editors
+		$text = strip_tags(str_replace(array('&gt;', '&lt;', '&amp;', '&quot;', '\"'), array('>', '<', '&', '"', '"'), str_replace(array('<br />', '</p>'), "\n", $text)));
+		
+		// build the .dot content
+		switch($variant) {
+		case 'digraph':
+		default:
+			$text = 'digraph G { '.$text.' }'."\n";
+			break;
+		}
+			
+		// id for this object
+		$hash = md5($text);
+		
+		// path to cached files
+		$path = $context['path_to_root'].'temporary/graphviz.';
+		
+		// we cache content
+		if($content = Safe::file_get_contents($path.$hash.'.html'))
+			return $content;
+			
+		// build a .dot file
+		if(!Safe::file_put_contents($path.$hash.'.dot', $text)) {
+			$content = '[error writing .dot file]';
+			return $content;
+		}
+		
+		// process the .dot file
+		if(isset($context['dot.command']))
+			$command = $context['dot.command'];
+		else
+			$command = 'dot';
+//		$font = '"/System/Library/Fonts/Times.dfont"';
+//		$command = '/sw/bin/dot -v -Nfontname='.$font
+		$command .= ' -Tcmapx -o "'.$path.$hash.'.map"'
+			.' -Tpng -o "'.$path.$hash.'.png"'
+			.' "'.$path.$hash.'.dot"';
+
+		if(Safe::shell_exec($command) == NULL) {
+			$content = '[error while using graphviz]';
+			return $content;
+		}
+
+		// produce the HTML
+		$content = '<img src="'.$context['url_to_root'].'temporary/graphviz.'.$hash.'.png" usemap="#mainmap" />';
+		$content .= Safe::file_get_contents($path.$hash.'.map');
+
+		// put in cache
+		Safe::file_put_contents($path.$hash.'.html', $content);
+
+		// done
+		return $content;
 	}
 
 

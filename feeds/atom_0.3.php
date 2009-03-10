@@ -56,7 +56,7 @@ if(!$text =& Cache::get($cache_id)) {
 		.'	<author><name>'.encode_field($context['site_owner']).'</name></author>'."\n"
 		.'	<tagline type="text/plain" mode="escaped">'.encode_field($context['channel_description']).'</tagline>'."\n"
 		.'	<modified>'.gmdate('Y-m-d\TG:i:s\Z').'</modified>'."\n"
-		.'	<generator url="http://www.yetanothercommunitysystem.com/">YACS</generator>'."\n";
+		.'	<generator url="http://www.yacs.fr/">YACS</generator>'."\n";
 
 	// get local news
 	include_once 'feeds.php';

@@ -12,6 +12,9 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
+// stop hackers
+defined('YACS') or exit('Script must be included');
+
 // do not move forward on validation
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;

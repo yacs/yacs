@@ -6,7 +6,7 @@
  *
  * @see scripts/index.php
  *
- * The reference store can be a remote server, usually, www.yetanothercommunitysystem.com.
+ * The reference store can be a remote server, usually, www.yacs.fr.
  * Server name can be changed from the configuration panel for scripts.
  *
  * Or staging files can be provided in a local archive containing all files of some YACS release.
@@ -59,7 +59,7 @@ Safe::load('parameters/scripts.include.php');
 
 // ensure we have a default reference server
 if(!isset($context['reference_server']) || !$context['reference_server'])
-	$context['reference_server'] = i18n::s('www.yetanothercommunitysystem.com');
+	$context['reference_server'] = i18n::s('www.yacs.fr');
 
 // the maximum size for uploads
 $file_maximum_size = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));

@@ -171,6 +171,10 @@ echo '<p>'.i18n::s('Global YACS variables:').BR."\n"
 	.'$context[\'script_url\']='.$context['script_url'].BR."\n"
 	.'$context[\'self_url\']='.$context['self_url'].BR."\n"
 	.'$context[\'self_script\']='.$context['self_script'].BR."\n";
+if($context['country_code'])
+	echo '$context[\'country_code\']='.$context['country_code'].BR."\n";
+if($context['country'])
+	echo '$context[\'country\']='.$context['country'].BR."\n";
 if(Surfer::is_associate()) {
 	echo '$context[\'path_to_root\']='.$context['path_to_root'].BR."\n";
 	echo '$context[\'directory_mask\']='.sprintf('0%o', $context['directory_mask']).BR."\n";

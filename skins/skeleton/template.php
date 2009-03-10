@@ -168,7 +168,7 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 
 	// link to yacs if we are at the front page
 	if(($context['skin_variant'] == 'home') && is_callable(array('i18n', 's')))
-		echo Skin::build_box(NULL, '<p>'.sprintf(i18n::s('Powered by %s'), Skin::build_link(i18n::s('http://www.yetanothercommunitysystem.com/'), i18n::s('yacs'), 'external')).'</p>', 'extra');
+		echo Skin::build_box(NULL, '<p>'.sprintf(i18n::s('Powered by %s'), Skin::build_link(i18n::s('http://www.yacs.fr/'), i18n::s('yacs'), 'external')).'</p>', 'extra');
 
 	// end of the side panel
 	echo '</div>'."\n";

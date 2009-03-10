@@ -188,7 +188,13 @@ img { /* a standard image */
 
 input[type="password"],
 input[type="text"] { /* ensure form fields fit in the layout */
+	color: black:
+	background-color: white;
 	max-width: 300px;
+}
+
+input:focus { /* help to locate the current field */
+	color: black:
 }
 
 ins { /* inserted -- [inserted]...[/inserted] */
@@ -227,6 +233,16 @@ pre { /* a block of sample lines -- [php]...[/php], [snippet]...[/snippet] */
 	overflow: auto;
 }
 
+select {
+	color: black:
+	background-color: white;
+}
+
+select:focus { /* help to locate the current field */
+	color: black:
+	background-color: #dedede;
+}
+
 sub { /* shifted down -- [subscript]...[/subscript] */
 }
 
@@ -254,7 +270,14 @@ td { /* an ordinary cell */
 }
 
 textarea { /* ensure form fields fit in the layout */
+	color: black:
+	background-color: white;
 	max-width: 400px;
+}
+
+textarea:focus { /* signal current input area */
+	color: black;
+	background-color: #dedede;
 }
 
 th { /* an ordinary table header -- headers in [table]headers[body]content[/table] */

@@ -82,6 +82,11 @@ Class Skin_Skeleton {
 			$text = $concatenated;
 		}
 
+		// do not put a block on empty content
+		$text = trim($text);
+		if(!$text)
+			return $text;
+			
 		// make the id explicit
 		if($id)
 			$id = ' id="'.$id.'" ';
@@ -1530,14 +1535,14 @@ Class Skin_Skeleton {
 				include_once $context['path_to_root'].'parameters/scripts.include.php';
 
 				if(!$context['reference_server'])
-					$context['reference_server'] = i18n::s('www.yetanothercommunitysystem.com');
+					$context['reference_server'] = i18n::s('www.yacs.fr');
 
 				// reference server have to be installed at the root
 				$url = 'http://'.$context['reference_server'].'/scripts/view.php?script='.$url;
 
 			// or, ultimately, check our origin server -- reference server have to be installed at the root
 			} else
-				$url = 'http://www.yetanothercommunitysystem.com/scripts/view.php/'.$url;
+				$url = 'http://www.yacs.fr/scripts/view.php/'.$url;
 
 			// a default title
 			if(!$href_title)

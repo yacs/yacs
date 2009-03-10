@@ -321,7 +321,7 @@ Class PDF extends FPDF {
 
 		// we are proud of it
 		$this->SetTextColor(0,0,180);
-		$this->Cell(0, 4, utf8::to_iso8859(utf8::transcode(i18n::s('PDF export created by YACS'), TRUE)), 0, 0, 'C', 0, 'http://www.yetanothercommunitysystem.com/');
+		$this->Cell(0, 4, utf8::to_iso8859(utf8::transcode(i18n::s('PDF export created by YACS'), TRUE)), 0, 0, 'C', 0, 'http://www.yacs.fr/');
 	}
 
 	/**

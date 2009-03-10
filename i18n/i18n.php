@@ -181,6 +181,8 @@ Class i18n {
 	/**
 	 * the database of country codes
 	 *
+	 * @link http://www.videoscash.info/countrycodes.html Mod GeoIP country codes
+	 *
 	 * @return array of ($label => code)
 	 */
 	function &get_countries() {
@@ -198,11 +200,13 @@ Class i18n {
 				'AD'	=> i18n::s('Andorra'),
 				'AO'	=> i18n::s('Angola'),
 				'AI'	=> i18n::s('Anguilla'),
+				'A1'	=> i18n::s('Anonymous Proxy'),
 				'AQ'	=> i18n::s('Antarctica'),
 				'AG'	=> i18n::s('Antigua and Barbuda'),
 				'AR'	=> i18n::s('Argentina'),
 				'AM'	=> i18n::s('Armenia'),
 				'AW'	=> i18n::s('Aruba'),
+				'AP'	=> i18n::s('Asia/Pacific'),	// GeoIP
 				'AU'	=> i18n::s('Australia'),
 				'AT'	=> i18n::s('Austria'),
 				'AZ'	=> i18n::s('Azerbaijan'),
@@ -252,9 +256,11 @@ Class i18n {
 				'DJ'	=> i18n::s('Djibouti'),
 				'DM'	=> i18n::s('Dominica'),
 				'DO'	=> i18n::s('Dominican Republic'),
-				'TP'	=> i18n::s('East Timor'),
+				'TL'	=> i18n::s('East Timor'),	// GeoIP
+				'TP'	=> i18n::s('East Timor'),	// ISO
 				'EC'	=> i18n::s('Ecuador'),
 				'EG'	=> i18n::s('Egypt'),
+				'EU'	=> i18n::s('Europe'),	// GeoIP
 				'SV'	=> i18n::s('El Salvador'),
 				'GQ'	=> i18n::s('Equatorial Guinea'),
 				'ER'	=> i18n::s('Eritrea'),
@@ -265,6 +271,7 @@ Class i18n {
 				'FJ'	=> i18n::s('Fiji'),
 				'FI'	=> i18n::s('Finland'),
 				'FR'	=> i18n::s('France'),
+				'FX'	=> i18n::s('France, Metropolitan'),	// GeoIP
 				'GF'	=> i18n::s('French Guiana'),
 				'PF'	=> i18n::s('French Polynesia'),
 				'TF'	=> i18n::s('French Southern Territories'),
@@ -379,6 +386,7 @@ Class i18n {
 				'WS'	=> i18n::s('Samoa'),
 				'SM'	=> i18n::s('San Marino'),
 				'ST'	=> i18n::s('Sao Tome and Principe'),
+				'A2'	=> i18n::s('Satellite Provider'),
 				'SA'	=> i18n::s('Saudi Arabia'),
 				'SN'	=> i18n::s('Senegal'),
 				'RS'	=> i18n::s('Serbia'),
@@ -430,6 +438,7 @@ Class i18n {
 				'EH'	=> i18n::s('Western Sahara'),
 				'YE'	=> i18n::s('Yemen'),
 				'ZM'	=> i18n::s('Zambia'),
+				'ZR'	=> i18n::s('Zaire'),	// GeoIP
 				'ZW'	=> i18n::s('Zimbabwe')
 			);
 
@@ -954,6 +963,12 @@ Class i18n {
 		// english is the default
 		elseif(!isset($context['language']))
 			$context['language'] = 'en';
+			
+		// set the country, if known
+		if(isset($_SERVER['GEOIP_COUNTRY_CODE'])) {
+			$context['country_code'] = $_SERVER['GEOIP_COUNTRY_CODE'];
+			$context['country'] = i18n::get_country_label($_SERVER['GEOIP_COUNTRY_CODE']);
+		}	
 
 	}
 

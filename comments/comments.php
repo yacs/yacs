@@ -153,15 +153,15 @@ Class Comments {
 			return TRUE;
 
 		// the item is anchored to the profile of this member
-		if(Surfer::is_member() && isset($item['anchor']) && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
-			return TRUE;
+// 		if(Surfer::is_member() && isset($item['anchor']) && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
+// 			return TRUE;
 
 		// you can handle your own comments
 		if(isset($item['create_id']) && Surfer::is($item['create_id']))
 			return TRUE;
 
 		// you have been assigned to the upper level
-		if(is_object($anchor) && $anchor->is_assigned(FALSE))
+		if(is_object($anchor) && $anchor->is_assigned())
 			return TRUE;
 
 		// the default is to not allow modifications

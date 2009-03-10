@@ -22,5 +22,5 @@ $skins['skins/joi'] = array(
 	'description_fr' => 'Un joli style centr&eacute; &agrave; 2 colonnes, d\'apr&egrave;s le site web de Joi Ito ([link]http://joi.ito.com[/link]).'
 		.' Inspirez-vous de ce style et modifiez le CSS pour cr&eacute;er votre propre site.',
 	'thumbnail' => 'preview.jpg',
-	'home_url' => 'http://www.yetanothercommunitysystem.com/' );
+	'home_url' => 'http://www.yacs.fr/' );
 ?>

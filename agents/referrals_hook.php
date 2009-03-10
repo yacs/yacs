@@ -22,7 +22,7 @@ $hooks[] = array(
 	'label_fr'	=> 'Cr&eacute;ation des tables pour les statistiques de r&eacute;f&eacute;rencement',
 	'description_en' => 'To list back links',
 	'description_fr' => 'Pour le suivi des liens de retour',
-	'source' => 'http://www.yetanothercommunitysystem.com/' );
+	'source' => 'http://www.yacs.fr/' );
 
 // trigger the post-processing function
 $hooks[] = array(
@@ -34,6 +34,6 @@ $hooks[] = array(
 	'label_fr'	=> 'Mise &agrave; jour des statistiques sur les r&eacute;f&eacute;rencements',
 	'description_en' => 'To list back links',
 	'description_fr' => 'Pour le suivi des liens de retour',
-	'source' => 'http://www.yetanothercommunitysystem.com/' );
+	'source' => 'http://www.yacs.fr/' );
 
 ?>

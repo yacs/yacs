@@ -22,7 +22,7 @@ $hooks[] = array(
 	'label_fr'	=> 'Service de renvoi',
 	'description_en' => 'A very simple web service.',
 	'description_fr' => 'Un service web simpliste.',
-	'source' => 'http://www.yetanothercommunitysystem.com/'
+	'source' => 'http://www.yacs.fr/'
 );
 
 class RPC_Echo {

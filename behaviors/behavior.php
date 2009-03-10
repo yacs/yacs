@@ -2,6 +2,8 @@
 /**
  * Programmable extensions of sections, articles, and files
  *
+ * @todo add a click-through behavior to mail content owner when required
+ *
  * Behaviors are software extensions used from within sections to change YACS basic behavior on key event, such as:
  *
  * - Content creation - to allow for controlled article creation or file attachment (tel2pay, etc.)

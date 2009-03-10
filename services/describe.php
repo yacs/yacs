@@ -55,7 +55,7 @@ $text .= '<service>'."\n";
 
 // name and link for the engine
 $text .= '	<engineName>YACS</engineName>'."\n"
-	.'<engineLink>http://www.yetanothercommunitysystem.com/</engineLink>'."\n";
+	.'<engineLink>http://www.yacs.fr/</engineLink>'."\n";
 
 // blog home page
 if(isset($item['id']))

@@ -22,5 +22,5 @@ $skins['skins/digital'] = array(
 		.' il est offre jusqu\'&agrave; trois colonnes variables, ainsi que des onglets de navigation.'
 		.' La colonne de gauche a une taille fixe, tandis que la troisi&egrave;me colonne, optionnelle, peut s\'ajuster &agrave; la page affich&eacute;e.',
 	'thumbnail' => 'preview.jpg',
-	'home_url' => 'http://www.yetanothercommunitysystem.com/' );
+	'home_url' => 'http://www.yacs.fr/' );
 ?>
