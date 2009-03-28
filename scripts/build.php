@@ -25,7 +25,7 @@
  * This option is useful during integration phases, when the content of the
  * reference store has to be checked before official release.
  *
- * If the file [code]demo.flag[/code] exists, the script assumes that this instance
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode and forbids the build.
  *
  * The building process is made of several successive steps:

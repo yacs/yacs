@@ -56,7 +56,7 @@ $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// call blog web service
-	$url = 'http://'.$_REQUEST['target'].'/yacs/services/xml_rpc.php';
+	$url = 'http://'.$_REQUEST['target'].'/services/xml_rpc.php';
 
 	// drupal.login
 	$context['text'] .= Skin::build_block('drupal.login', 'title');

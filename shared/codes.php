@@ -711,7 +711,7 @@ Class Codes {
 	 */
 	function &render($text) {
 		global $context;
-
+		
 		// streamline newlines, even if this has been done elsewhere
 		$text = str_replace(array("\r\n", "\r"), "\n", $text);
 
@@ -2191,7 +2191,7 @@ Class Codes {
 			if(!isset($attributes[1]))
 				$attributes[1] = 320;
 			if(!isset($attributes[2]))
-				$attributes[1] = 240;
+				$attributes[2] = 240;
 
 			// object attributes
 			$width = $attributes[1];
@@ -2200,24 +2200,28 @@ Class Codes {
 			if(isset($attributes[3]))
 				$flashvars = $attributes[3];
 
-			// where to get the file
-			if(isset($item['file_href']) && $item['file_href'])
-				$url = $item['file_href'];
-			else
-				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
-
 			// several ways to play flash
-			switch(strtolower(substr(strrchr($url, '.'), 1))) {
+			switch(strtolower(substr($item['file_name'], -3))) {
 
 			// native flash
 			case 'swf':
+			
+				// where to get the file
+				if(isset($item['file_href']) && $item['file_href'])
+					$url = $item['file_href'];
+					
+				// we provide the native file because of basename
+				else
+					$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+
 				$output = '<div id="swf_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.'<script type="text/javascript">// <![CDATA['."\n"
 					.'var params = {};'."\n"
 					.'params.base = "'.dirname($url).'/";'."\n"
 					.'params.quality = "high";'."\n"
 					.'params.wmode = "transparent";'."\n"
-					.'params.menu = "false";'."\n"
+					.'params.allowfullscreen = "true";'."\n"
+					.'params.allowscriptaccess = "always";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$url.'", "swf_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
 					.'// ]]></script>'."\n";
@@ -2229,20 +2233,29 @@ Class Codes {
 				// a flash player to stream a flash video
 				$flvplayer_url = $context['url_to_root'].'included/browser/flvplayer.swf';
 
+				// file is elsewhere
+				if(isset($item['file_href']) && $item['file_href'])
+					$url = 'file='.$item['file_href'];
+					
+				// prevent leeching (the flv player will provide session cookie, etc)
+				else
+					$url = 'file='.$context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
+
 				// pass parameters to the player
 				if($flashvars)
-					$flashvars = 'file='.$url.'&'.$flashvars;
+					$flashvars = $url.'&'.$flashvars;
 				else
-					$flashvars = 'file='.$url;
+					$flashvars = $url;
+				$flashvars .= '&width='.$width.'&height='.$height.'&controlbar=over';
 
 				// the full object is built in Javascript
 				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.'<script type="text/javascript">// <![CDATA['."\n"
 					.'var params = {};'."\n"
-					.'params.base = "'.dirname($url).'/";'."\n"
 					.'params.quality = "high";'."\n"
 					.'params.wmode = "transparent";'."\n"
-					.'params.menu = "false";'."\n"
+					.'params.allowfullscreen = "true";'."\n"
+					.'params.allowscriptaccess = "always";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
 					.'// ]]></script>'."\n";

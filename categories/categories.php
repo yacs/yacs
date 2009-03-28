@@ -631,9 +631,10 @@ Class Categories {
 		$where .= " AND (categories.nick_name NOT LIKE 'week%') AND (categories.nick_name NOT LIKE '".i18n::c('weekly')."')"
 			." AND (categories.nick_name NOT LIKE 'month%') AND (categories.nick_name NOT LIKE '".i18n::c('monthly')."')";
 
-		// the folksonomy will be too huge as wel
+		// the folksonomy will be too huge as well
  		$where .= " AND (categories.nick_name NOT LIKE 'keywords%')";
- 		$where .= " AND (categories.anchor NOT LIKE '".Categories::lookup('keywords')."')";;
+		if($keywords_category = Categories::lookup('keywords'))
+			$where .= " AND (categories.anchor NOT LIKE '".$keywords_category."')";
 
 		// avoid featured if accessed remotely
 		$where .= " AND (categories.nick_name NOT LIKE '".i18n::c('featured')."')";

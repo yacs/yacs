@@ -820,7 +820,7 @@ Class Files {
 				'texinfo' => 'application/x-texinfo',
 				'tif' => 'image/tiff',
 				'tiff' => 'image/tiff',
-				'tgz' => 'application/x-compressed',
+				'tgz' => 'application/x-gzip',
 				'txt' => 'text/plain',
 				'vob' => 'application/download',
 				'vsd' => 'application/visio',

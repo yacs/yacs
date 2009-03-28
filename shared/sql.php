@@ -46,11 +46,12 @@ Class SQL {
 
 		// regular connection --mask warning that popups in safe mode
 		if(is_callable('mysqli_connect'))
-			$handle = @mysqli_connect($host, $user, $password, $database);
+			$handle = mysqli_connect($host, $user, $password, $database);
 		elseif(is_callable('mysql_connect')) {
-			if(($handle = @mysql_connect($host, $user, $password)) && !mysql_select_db($database, $handle))
+			if(($handle = mysql_connect($host, $user, $password)) && !mysql_select_db($database, $handle))
 				$handle = FALSE;
-		}
+		} else
+			exit('no support for MySQL'.BR);
 
 		// end of job
 		return $handle;
@@ -307,9 +308,10 @@ Class SQL {
 	/**
 	 * get the id of the most recent item
 	 *
+	 * @param resource the database connection to look at
 	 * @return int or FALSE
 	 */
-	function get_last_id() {
+	function get_last_id($connection) {
 		global $context;
 
 		// use the default connection

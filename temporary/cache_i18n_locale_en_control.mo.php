@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on January 5, 2009, 8:19 pm GMT. Please do not modify it manually.
+ * on March 28, 2009, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-29 23:07+0100
-PO-Revision-Date: 2008-11-30 17:51+0100
+POT-Creation-Date: 2009-03-20 23:10+0100
+PO-Revision-Date: 2009-03-20 23:12+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -93,6 +93,8 @@ $_SESSION['l10n']['en']['65bef34af7002e4930f9e15aa6ae63bd']='A section "%s" has 
 $_SESSION['l10n']['en']['A self-referencing POST test']='A self-referencing POST test';
 $_SESSION['l10n']['en']['About this site']='About this site';
 $_SESSION['l10n']['en']['Accept all web requests.']='Accept all web requests.';
+$_SESSION['l10n']['en']['Account name']='Account name';
+$_SESSION['l10n']['en']['Account password']='Account password';
 $_SESSION['l10n']['en']['7d944c9a10b250bcf290abc2506c4453']='Activate the following Apache module to allow URL rewriting: %s';
 $_SESSION['l10n']['en']['5a60a67e1929abe2ce1d3e974f5a5e99']='Activate the following Apache module to allow cache by expiration: %s';
 $_SESSION['l10n']['en']['e7cd8749e7de3e9703d63b67319535a4']='Activate the following Apache module to allow dynamic compression: %s';
@@ -107,7 +109,9 @@ $_SESSION['l10n']['en']['3601ebb2d1f7a4183e047d58ee8fb3cc']='Although some Inter
 $_SESSION['l10n']['en']['Apache .htaccess']='Apache .htaccess';
 $_SESSION['l10n']['en']['1ffbc6125d4d724ceaf9fc2f5a78ef72']='Apache has been configured with %s.';
 $_SESSION['l10n']['en']['Apply these SQL statements']='Apply these SQL statements';
+$_SESSION['l10n']['en']['Architecture']='Architecture';
 $_SESSION['l10n']['en']['61c49b8e6d3d365eb7781e3d47d1b58d']='Attempt to adapt the interface to the language indicated by the browser.';
+$_SESSION['l10n']['en']['87657a91dfb28b59182e2c0477647fb8']='Authenticate using POP3 before sending messages with SMTP.';
 $_SESSION['l10n']['en']['Avatars']='Avatars';
 $_SESSION['l10n']['en']['Background processing']='Background processing';
 $_SESSION['l10n']['en']['Backup data']='Backup data';
@@ -212,6 +216,7 @@ $_SESSION['l10n']['en']['First record']='First record';
 $_SESSION['l10n']['en']['Flash']='Flash';
 $_SESSION['l10n']['en']['adaee044121addf6d3c8da46446dd2d5']='Following hooks have been detected and integrated into the file parameters/hooks.include.php';
 $_SESSION['l10n']['en']['a70352bea3305cc427af218bf51b2e14']='Following parameters may be provided by your Internet Service Provider (ISP), or by some database manager. If you manage your own server, the database should have been created before moving forward. You may check the %s file for further information.';
+$_SESSION['l10n']['en']['For example: %s']='For example: %s';
 $_SESSION['l10n']['en']['3344c36c5e8420204233380005970834']='For on-demand conversations and groups';
 $_SESSION['l10n']['en']['Front page']='Front page';
 $_SESSION['l10n']['en']['GIF support is NOT enabled']='GIF support is NOT enabled';
@@ -276,6 +281,7 @@ $_SESSION['l10n']['en']['a0a138f7c7a0a568136d4b42b292cc36']='Maximum of outbound
 $_SESSION['l10n']['en']['Memory']='Memory';
 $_SESSION['l10n']['en']['Menu']='Menu';
 $_SESSION['l10n']['en']['Messages encoding']='Messages encoding';
+$_SESSION['l10n']['en']['a4c286ab3a3ba22f7bb2bb80d4e031d9']='Messages will not be queued if this is set to 0';
 $_SESSION['l10n']['en']['8d706527cec6425ce288c51c4c20571e']='Missing tables will be created, if necessary.';
 $_SESSION['l10n']['en']['Models to be duplicated']='Models to be duplicated';
 $_SESSION['l10n']['en']['Modules']='Modules';
@@ -306,9 +312,6 @@ $_SESSION['l10n']['en']['Output handlers:']='Output handlers:';
 $_SESSION['l10n']['en']['Overview']='Overview';
 $_SESSION['l10n']['en']['Owner']='Owner';
 $_SESSION['l10n']['en']['PNG support is enabled']='PNG support is enabled';
-$_SESSION['l10n']['en']['POP3 account']='POP3 account';
-$_SESSION['l10n']['en']['POP3 password']='POP3 password';
-$_SESSION['l10n']['en']['d2d38bcee045c488e952120f28cfde71']='POP3 server used for authentication';
 $_SESSION['l10n']['en']['Page compression']='Page compression';
 $_SESSION['l10n']['en']['Page factory']='Page factory';
 $_SESSION['l10n']['en']['Pages']='Pages';
@@ -372,6 +375,7 @@ $_SESSION['l10n']['en']['2a0e06c5669dda6f4248c2978c4760c7']='Redirect all non-se
 $_SESSION['l10n']['en']['55e646c7deee8ded80c85a4c990933fb']='Redirect to this server name if another name is used in request.';
 $_SESSION['l10n']['en']['de62c4ef1a9f55d11e8667356299ce6c']='Registration is FREE and offers great benefits. %s if you are not yet a member of %s.';
 $_SESSION['l10n']['en']['1904e0f7e1403eb493c44a2c71f099c4']='Reindex tables and optimize data storage';
+$_SESSION['l10n']['en']['44c78e81859c77bb0c6970fbac14cd08']='Rely on PHP and system settings for the transmission of messages.';
 $_SESSION['l10n']['en']['Rendering cache']='Rendering cache';
 $_SESSION['l10n']['en']['Restore %s']='Restore %s';
 $_SESSION['l10n']['en']['Restore database content']='Restore database content';
@@ -382,7 +386,7 @@ $_SESSION['l10n']['en']['49a3512e15cc6db8eb799414450092c4']='Rewriting rules hav
 $_SESSION['l10n']['en']['Run once']='Run once';
 $_SESSION['l10n']['en']['044a33e096b8f88e3f0e5478d62407bb']='Run one-time scripts and go to the Control Panel';
 $_SESSION['l10n']['en']['Run-time information']='Run-time information';
-$_SESSION['l10n']['en']['0af0f57b9fcb62f1d6c1f1dd9e001a2b']='SMTP server (if blank, use php.ini)';
+$_SESSION['l10n']['en']['SMTP server']='SMTP server';
 $_SESSION['l10n']['en']['SQL']='SQL';
 $_SESSION['l10n']['en']['SQL status']='SQL status';
 $_SESSION['l10n']['en']['SQL variables']='SQL variables';
@@ -463,7 +467,7 @@ $_SESSION['l10n']['en']['0b3706ee5e95f20f5f550bcdd86cd747']='This script will sc
 $_SESSION['l10n']['en']['7116086cf86bd5bdacffcaaa495cb423']='This server can not be reached from the Internet.';
 $_SESSION['l10n']['en']['d75427984001efa74e01f6b1d9f6a71e']='This server requires you to define and enter passwords to access certain areas of the site. In case this conjures up images of crackers breaking into our databases and getting your passwords, you don\'t have to worry about it. Passwords are stored in an encrypted format, so that <i>we</i> can\'t even look at them. This encryption <i>is</i> breakable, but it takes a lot of effort and computing time (days or weeks to crack a single password) so for all intents and purposes, your passwords are safe here. The downside to this, of course, is that if you lose or forget your password we can\'t get it back for you. We\'ve provided a method to reset your password if this happens, but as with any other password, it\'s best not to forget in the first place.';
 $_SESSION['l10n']['en']['c2883a13a53575308a41010403e41c2f']='This server uses the web for syndication, for pings or for other activities.';
-$_SESSION['l10n']['en']['b77fe780bf16aa35fd39ffe61cc9e26f']='This site is powered by [link=YACS]http://www.yetanothercommunitysystem.com/[/link], [link=PHP]http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a fast, easy-to-use site that lets you access, review, and download information that matters for you.';
+$_SESSION['l10n']['en']['019194adbb411721ef0122376d178444']='This site is powered by [link=YACS]http://www.yacs.fr/[/link], [link=PHP]http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a fast, easy-to-use site that lets you access, review, and download information that matters for you.';
 $_SESSION['l10n']['en']['06c9d7fc993053f7b3b01351d1b9fce8']='This system does not support the mapping of args in the URL.';
 $_SESSION['l10n']['en']['0af91edfa726acd4cf2f04676fe5dabf']='This system is not configured to send e-mail messages.';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
@@ -484,6 +488,7 @@ $_SESSION['l10n']['en']['Updating the database...']='Updating the database...';
 $_SESSION['l10n']['en']['Use a form']='Use a form';
 $_SESSION['l10n']['en']['3241fbb4d5ac7366f2ab22648b42d7b4']='Use below parameters to handle electronic mail messages.';
 $_SESSION['l10n']['en']['Use nick names instead.']='Use nick names instead.';
+$_SESSION['l10n']['en']['9c3d935b6f2b7499c9297ed3399da557']='Use the mail server described below, and authenticate with SMTP if necessary.';
 $_SESSION['l10n']['en']['6ebe3d9c1b28a65d21eb5e47e6dfe965']='Use this script to download archives of all files, images, parameters or current skin. Please file them at your computer for backup purpose.';
 $_SESSION['l10n']['en']['6207ec7a36b59e3ccad693f699bc93ee']='Use this script to upload and process a set of SQL statements. WARNING!!! If you upload a backup file existing data will be destroyed prior the restauration.';
 $_SESSION['l10n']['en']['User Information']='User Information';

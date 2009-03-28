@@ -150,7 +150,7 @@ Class Image {
 	 */
 	function shrink($original, $target, $fixed=FALSE, $verbose=TRUE) {
 		global $context;
-
+		
 		// get file name
 		$file_name = basename($original);
 

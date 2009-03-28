@@ -28,7 +28,7 @@
  * - public access is allowed ('active' field == 'Y'), and the surfer has been authenticated
  * - permission denied is the default
  *
- * If the file [code]demo.flag[/code] exists, the script assumes that this instance
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and no message is actually posted.
  *
  * Accepted calls:
@@ -224,9 +224,6 @@ if(Surfer::is_crawler()) {
 
 	}
 
-	// additional headers
-	$headers = array();
-
 	// make an array of recipients
 	if(!is_array($to))
 		$to = explode(',', $to);
@@ -291,10 +288,11 @@ if(Surfer::is_crawler()) {
 			$actual_message = i18n::s('This is a copy of the message you have sent, for your own record.')."\n".'-------'."\n".join(', ', $actual_names)."\n".'-------'."\n\n".$actual_message;
 		}
 
-		// post in debug mode, to get messages, if any
-		if(Mailer::post($from, $actual_recipient, $subject, $actual_message, $headers, 'articles/mail.php'))
+		// post it
+		if(Mailer::post($from, $actual_recipient, $subject, $actual_message))
 			$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), strip_tags($recipient)).'</p>';
 	}
+	Mailer::close();
 
 	// follow-up commands
 	$follow_up = i18n::s('What do you want to do now?');

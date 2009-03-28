@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on January 5, 2009, 8:19 pm GMT. Please do not modify it manually.
+ * on March 28, 2009, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-29 23:07+0100
-PO-Revision-Date: 2008-11-10 16:58+0100
+POT-Creation-Date: 2009-03-10 23:58+0100
+PO-Revision-Date: 2009-03-11 00:02+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -24,7 +24,7 @@ $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['(anonymous)']='(anonymous)';
 $_SESSION['l10n']['en']['-- All sections']='-- All sections';
-$_SESSION['l10n']['en']['cc919cf2b4a5b9ebd5adad3318348ba5']='<p>At the moment no configuration file has been found. You will now have to pass through several steps in order to achieve the setup of your server:</p>
+$_SESSION['l10n']['en']['221d31d92e214a7713b873b0780ac60c']='<p>At the moment no configuration file has been found. You will now have to pass through several steps in order to achieve the setup of your server:</p>
 <ul>
 <li>Configure parameters related to the database.</li>
 <li>Load extension hooks.</li>
@@ -32,7 +32,7 @@ $_SESSION['l10n']['en']['cc919cf2b4a5b9ebd5adad3318348ba5']='<p>At the moment no
 <li>Add one user profile and populate the database.</li>
 <li>Configure the theme of your server.</li>
 </ul>
-In normal conditions this will take only some minutes. If you have any problems, please consult <a href="http://www.yetanothercommunitysystem.com/">www.yetanothercommunitysystem.com</a> for additional support.<p>Thank you for having selected the YACS solution.</p>';
+In normal conditions this will take only some minutes. If you have any problems, please consult <a href="http://www.yacs.fr/">www.yacs.fr</a> for additional support.<p>Thank you for having selected the YACS solution.</p>';
 $_SESSION['l10n']['en']['52c9506b1dddde1ff0ae84edb0d1e0fd']='<p>No page has been found. This will happen with very short words (less than %d letters), that are not fully indexed. This can happen as well if more than half of pages contain the searched words. Try to use most restrictive words and to suppress "noise" words.</p>';
 $_SESSION['l10n']['en']['62ff4cd968dae58bb9244caecd2a2fd2']='<p>Since basic configuration files exist on your server, it is likely that the installation has been achieved successfully. Click on the link below to modify the running parameters of your server.</p>';
 $_SESSION['l10n']['en']['cc3b94acde89bcd45333eb4691394d49']='<p>This section has been created automatically on query submission. It\'s aiming to capture feedback directly from surfers. It is highly recommended to delete pages below after their processing. Of course you can edit submitted queries to assign them to other sections if necessary.</p>';
@@ -284,7 +284,7 @@ $_SESSION['l10n']['en']['8a40ce0f2553c50d4f95684527f186c6']='freemind - Build an
 $_SESSION['l10n']['en']['front page']='front page';
 $_SESSION['l10n']['en']['gadget boxes']='gadget boxes';
 $_SESSION['l10n']['en']['here']='here';
-$_SESSION['l10n']['en']['b1caf262006e4778c14ac09a28bea66d']='http://www.yetanothercommunitysystem.com/';
+$_SESSION['l10n']['en']['http://www.yacs.fr/']='http://www.yacs.fr/';
 $_SESSION['l10n']['en']['36bf15f384c2faef4a8cbb7476484e2e']='inline - List sub-sections and related articles.';
 $_SESSION['l10n']['en']['jive - List 5 threads per board']='jive - List 5 threads per board';
 $_SESSION['l10n']['en']['1fbdafb2d8ef4dedac9dd6b5957b5afc']='map - Map in two columns, like Yahoo!';
@@ -299,7 +299,7 @@ $_SESSION['l10n']['en']['the site front page']='the site front page';
 $_SESSION['l10n']['en']['the site map']='the site map';
 $_SESSION['l10n']['en']['eb485c9b646eb69dd5d906801b4a1480']='titles - Use only titles and thumbnails.';
 $_SESSION['l10n']['en']['user profile']='user profile';
-$_SESSION['l10n']['en']['51abe58991b363939dc9ec19dabd19f6']='www.yetanothercommunitysystem.com';
+$_SESSION['l10n']['en']['www.yacs.fr']='www.yacs.fr';
 $_SESSION['l10n']['en']['yabb - A discussion forum']='yabb - A discussion forum';
 $_SESSION['l10n']['en']['zip']='zip';
 $_SESSION['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';

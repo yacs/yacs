@@ -30,7 +30,7 @@
  * The file [code]parameters/feeds.flash.include.php.bak[/code] can be used to restore
  * the active configuration before the last change, if necessary.
  *
- * If the file [code]demo.flag[/code] exists, the script assumes that this instance
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode.
  * In this mode the edit form is displayed, but parameters are not saved in the configuration file.
  *

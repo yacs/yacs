@@ -29,7 +29,7 @@
  *
  * The RFC explicitly allows for building URLs including the name and the password, as in the following example:
  * [snippet]
- * http://my_name:my_password@my_site/yacs/agents/feed.php
+ * http://my_name:my_password@my_site/agents/feed.php
  * [/snippet]
  *
  * Such links can be used in user agents (i.e., a lot of poorly written news readers) that do not handle HTTP authentication properly.

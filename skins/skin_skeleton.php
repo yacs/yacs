@@ -82,10 +82,8 @@ Class Skin_Skeleton {
 			$text = $concatenated;
 		}
 
-		// do not put a block on empty content
+		// sanity check
 		$text = trim($text);
-		if(!$text)
-			return $text;
 			
 		// make the id explicit
 		if($id)
@@ -95,87 +93,107 @@ Class Skin_Skeleton {
 		switch($variant) {
 
 		case 'bottom':
-			$text = '<div class="bottom"'.$id.'>'.$text.'</div>';
+			if($text)
+				$text = '<div class="bottom"'.$id.'>'.$text.'</div>';
 			break;
 
 		case 'caution':
 			Skin::define_img('CAUTION_FLAG', 'icons/codes/caution.gif', i18n::s('<b>Warning:</b> '), '!!!');
-			$text = '<p class="caution"'.$id.'>'.CAUTION_FLAG.$text.'</p>';
+			if($text)
+				$text = '<p class="caution"'.$id.'>'.CAUTION_FLAG.$text.'</p>';
 			break;
 
 		case 'center':
-			$text = '<p style="text-align: center;" '.$id.'>'.$text.'</p>';
+			if($text)
+				$text = '<p style="text-align: center;" '.$id.'>'.$text.'</p>';
 			break;
 
 		case 'code':
-			$text = '<pre'.$id.'>'.$text.'</pre>';
+			if($text)
+				$text = '<pre'.$id.'>'.$text.'</pre>';
 			break;
 
 		case 'decorated':
-			$text = '<table class="decorated"'.$id.'><tr>'
+			if($text)
+				$text = '<table class="decorated"'.$id.'><tr>'
 				.'<td class="image">'.DECORATED_IMG.'</td>'
 				.'<td class="content">'.$text.'</td>'
 				."</tr></table>\n";
 			break;
 
 		case 'description':
-			$text = '<div class="description"'.$id.'>'.Codes::beautify($text, $options).'</div>'."\n";
+			if($text)
+				$text = '<div class="description"'.$id.'>'.Codes::beautify($text, $options).'</div>'."\n";
 			break;
 
 		case 'error':
-			$text = Skin::build_error_block($text, $id);
+			if($text)
+				$text = Skin::build_error_block($text, $id);
 			break;
 
 		case 'header1':
-			$text = '<h2'.$id.'><span>'.Codes::beautify_title($text).'</span></h2>';
+			if($text)
+				$text = '<h2'.$id.'><span>'.Codes::beautify_title($text).'</span></h2>';
 			break;
 
 		case 'header2':
-			$text = '<h3'.$id.'><span>'.Codes::beautify_title($text).'</span></h3>';
+			if($text)
+				$text = '<h3'.$id.'><span>'.Codes::beautify_title($text).'</span></h3>';
 			break;
 
 		case 'header3':
-			$text = '<h4'.$id.'>'.Codes::beautify_title($text).'</h4>';
+			if($text)
+				$text = '<h4'.$id.'>'.Codes::beautify_title($text).'</h4>';
 			break;
 
 		case 'header4':
-			$text = '<h5'.$id.'>'.Codes::beautify_title($text).'</h5>';
+			if($text)
+				$text = '<h5'.$id.'>'.Codes::beautify_title($text).'</h5>';
 			break;
 
 		case 'header5':
-			$text = '<h6'.$id.'>'.Codes::beautify_title($text).'</h6>';
+			if($text)
+				$text = '<h6'.$id.'>'.Codes::beautify_title($text).'</h6>';
 			break;
 
 		case 'indent':
-			$text = '<div class="indent"'.$id.'>'.$text.'</div>';
+			if($text)
+				$text = '<div class="indent"'.$id.'>'.$text.'</div>';
 			break;
 
 		case 'introduction':
-			$text = '<div class="introduction"'.$id.'>'.Codes::beautify($text, $options).'</div>'."\n";
+			if($text)
+				$text = '<div class="introduction"'.$id.'>'.Codes::beautify($text, $options).'</div>'."\n";
 			break;
 
 		case 'note':
 			Skin::define_img('NOTICE_FLAG', 'icons/codes/note.gif', i18n::s('<b>Note:</b> '));
-			$text = '<p class="note"'.$id.'>'.NOTICE_FLAG.$text.'</p>'."\n";
+			if($text)
+				$text = '<p class="note"'.$id.'>'.NOTICE_FLAG.$text.'</p>'."\n";
 			break;
 
 		case 'page_title':
-			$text = '<h1'.$id.'><span>'.Codes::beautify_title($text)."</span></h1>\n";
+			if($text)
+				$text = '<h1'.$id.'><span>'.Codes::beautify_title($text)."</span></h1>\n";
 			break;
 
 		case 'question':
-			$text = '<h2'.$id.' class="question"><span>'.Codes::beautify_title($text).'</span></h2>';
+			if($text)
+				$text = '<h2'.$id.' class="question"><span>'.Codes::beautify_title($text).'</span></h2>';
 			break;
 
 		case 'quote':
-			$text =& Skin::build_quote_block($text);
+			if($text)
+				$text =& Skin::build_quote_block($text);
 			break;
 
 		case 'right':
-			$text = '<div'.$id.' style="text-align: right;">'.$text.'</div>';
+			if($text)
+				$text = '<div'.$id.' style="text-align: right;">'.$text.'</div>';
 			break;
 
-		case 'search':				
+		case 'search':	
+		
 			if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'Y') && isset($context['skins_search_form']) && $context['skins_search_form'])
 				$text = str_replace('%s', encode_field($text), $context['skins_search_form']);
 			else {
@@ -188,19 +206,22 @@ Class Skin_Skeleton {
 					.Skin::build_submit_button('&raquo;')
 					.'</p>'
 					.'</form>';
+					
 			}
 			break;
 
 		case 'subtitle':
-			$text = '<h3'.$id.'><span>'.Codes::beautify_title($text).'</span></h3>';
+			if($text)
+				$text = '<h3'.$id.'><span>'.Codes::beautify_title($text).'</span></h3>';
 			break;
 
 		case 'title':
-			$text = '<h2'.$id.'><span>'.Codes::beautify_title($text).'</span></h2>';
+			if($text)
+				$text = '<h2'.$id.'><span>'.Codes::beautify_title($text).'</span></h2>';
 			break;
 
 		default:
-			if($variant)
+			if($variant && $text)
 				$text = '<span class="'.$variant.'"'.$id.'>'.$text.'</span>';
 			break;
 
@@ -1198,8 +1219,7 @@ Class Skin_Skeleton {
 	 * @param string to access this link with keyboard only
 	 * @return string the rendered text, or the bare url if $variant = 'raw'
 	**/
-	function &build_link($url, $label=NULL, $variant=NULL, $href_title=NULL, $new_window=FALSE, $access_key=NULL)
-	{
+	function &build_link($url, $label=NULL, $variant=NULL, $href_title=NULL, $new_window=FALSE, $access_key=NULL) {
 		global $context;
 
 		// don't create a link if there is no url - strip everything that begins with '_'
@@ -1211,7 +1231,13 @@ Class Skin_Skeleton {
 
 		// be sure to have a label
 		if(!$label)
-			$label = basename($url);
+			$label = $url;
+			
+		// limit the size of labels when they are links
+		if(!strncmp($label, 'http:', 5) || !strncmp($label, 'https:', 6) || !strncmp($label, 'ftp:', 4)) {
+			if(strlen($label) > 50)
+				$label = substr_replace($label, '.....', 30, -10);
+		}
 
 		// guess the type of this link
 		if(!$variant) {

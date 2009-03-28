@@ -2,6 +2,10 @@
 /**
  * build .htaccess
  *
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
+ * of YACS runs in demonstration mode.
+ * In this mode the edit form is displayed, but parameters are not saved in the configuration file.
+ *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -23,6 +27,11 @@ $context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Configure'), i18n::
 if(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
+
+// no modifications in demo mode
+} elseif(isset($_REQUEST['build']) && file_exists($context['path_to_root'].'parameters/demo.flag')) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // build a customized .htaccess
 } elseif(isset($_REQUEST['build'])) {

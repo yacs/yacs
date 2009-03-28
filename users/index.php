@@ -28,7 +28,7 @@
  *
  *
  * This script secretely features a link to the main RSS feeder for this site, namely:
- * [code]&lt;link rel="alternate" href="http://.../yacs/feeds/rss_2.0.php" title="RSS" type="application/rss+xml" /&gt;[/code]
+ * [code]&lt;link rel="alternate" href="http://.../feeds/rss_2.0.php" title="RSS" type="application/rss+xml" /&gt;[/code]
  *
  * The prefix hook is used to invoke any software extension bound as follows:
  * - id: 'users/index.php#prefix'

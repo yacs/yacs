@@ -14,9 +14,6 @@ ErrorDocument 404 !!url_to_root!!error.php?error=404
 #
 <IfModule mod_deflate.c>
 
-	# enables the filter
-	SetOutputFilter DEFLATE
-
 	# non-textual entities should be already compressed
 	AddOutputFilterByType DEFLATE text/css
 	AddOutputFilterByType DEFLATE text/javascript

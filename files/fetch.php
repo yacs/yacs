@@ -393,15 +393,26 @@ if(!isset($item['id']) || !$item['id']) {
 			// maybe we will pass the file through
 			if(!headers_sent() && ($handle = Safe::fopen($context['path_to_root'].$path, "rb")) && ($stat = Safe::fstat($handle))) {
 
+				// serve the right type
+				Safe::header('Content-Type: '.Files::get_mime_type($item['file_name']));
+
 				// suggest a name for the saved file
 				$file_name = str_replace('_', ' ', utf8::to_ascii($item['file_name']));
 				Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
 
+				// stream FLV files if required to do so
+// 				if((substr($item['file_name'], -4) == '.flv') && isset($_REQUEST['position']) && ($_REQUEST['position'] > 0) && ($_REQUEST['position'] < $stat['size'])) {
+// 					Safe::header('Content-Length: '.($stat['size']-$_REQUEST['position']+13));
+// 
+// 					echo 'FLV'.pack('C', 1).pack('C', 1).pack('N', 9).pack('N', 9);
+// 					fseek($handle, $_REQUEST['position']);
+// 					echo fread($handle, ($stat['size']-$_REQUEST['position']));
+// 					fclose($handle);
+// 					return;
+// 				}
+
 				// file size
 				Safe::header('Content-Length: '.$stat['size']);
-
-				// serve the right type
-				Safe::header('Content-Type: '.Files::get_mime_type($item['file_name']));
 
 				// load some file parser if one is available
 				$analyzer = NULL;

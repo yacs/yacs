@@ -637,7 +637,7 @@ Class Article extends Anchor {
 		$items = explode("\015\012\015\012", $text, 2);
 		$headers = $items[0];
 		if(isset($items[1]))
-			$body = "\n\n".$item[1];
+			$body = "\n\n".$items[1];
 		else
 			$body = '';
 
@@ -651,8 +651,8 @@ Class Article extends Anchor {
 		$this->item['description'] = trim(preg_replace_callback('/<(.*?)>(.*?)<\/\\1>/is', array(&$this, 'parse_match'),  $text))."\n\n";
 
 		// text contains an implicit anchor to an article or to a section
-		if(preg_match('/##(article|section):([^#]+?)##/', $text, $matches) && ($anchor =& Anchors::get($matches[1].':'.$matches[2])))
-			$this->item['anchor'] = $anchor->get_reference();
+// 		if(preg_match('/##(article|section):([^#]+?)##/', $text, $matches) && ($anchor =& Anchors::get($matches[1].':'.$matches[2])))
+// 			$this->item['anchor'] = $anchor->get_reference();
 
 		return $this->item;
 

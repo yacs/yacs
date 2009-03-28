@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on January 5, 2009, 8:19 pm GMT. Please do not modify it manually.
+ * on March 28, 2009, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-09-10 22:56+0200
-PO-Revision-Date: 2008-03-28 14:18+0100
-Last-Translator: Bernard Paques <bernard.paques@bigfoot.com>
+POT-Creation-Date: 2009-03-10 23:58+0100
+PO-Revision-Date: 2009-03-11 00:01+0100
+Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -27,11 +27,13 @@ $_SESSION['l10n']['en']['American Samoa']='American Samoa';
 $_SESSION['l10n']['en']['Andorra']='Andorra';
 $_SESSION['l10n']['en']['Angola']='Angola';
 $_SESSION['l10n']['en']['Anguilla']='Anguilla';
+$_SESSION['l10n']['en']['Anonymous Proxy']='Anonymous Proxy';
 $_SESSION['l10n']['en']['Antarctica']='Antarctica';
 $_SESSION['l10n']['en']['Antigua and Barbuda']='Antigua and Barbuda';
 $_SESSION['l10n']['en']['Argentina']='Argentina';
 $_SESSION['l10n']['en']['Armenia']='Armenia';
 $_SESSION['l10n']['en']['Aruba']='Aruba';
+$_SESSION['l10n']['en']['Asia/Pacific']='Asia/Pacific';
 $_SESSION['l10n']['en']['Australia']='Australia';
 $_SESSION['l10n']['en']['Austria']='Austria';
 $_SESSION['l10n']['en']['Azerbaijan']='Azerbaijan';
@@ -90,11 +92,13 @@ $_SESSION['l10n']['en']['Equatorial Guinea']='Equatorial Guinea';
 $_SESSION['l10n']['en']['Eritrea']='Eritrea';
 $_SESSION['l10n']['en']['Estonia']='Estonia';
 $_SESSION['l10n']['en']['Ethiopia']='Ethiopia';
+$_SESSION['l10n']['en']['Europe']='Europe';
 $_SESSION['l10n']['en']['Falkland Islands (malvinas)']='Falkland Islands (malvinas)';
 $_SESSION['l10n']['en']['Faroe Islands']='Faroe Islands';
 $_SESSION['l10n']['en']['Fiji']='Fiji';
 $_SESSION['l10n']['en']['Finland']='Finland';
 $_SESSION['l10n']['en']['France']='France';
+$_SESSION['l10n']['en']['France, Metropolitan']='France, Metropolitan';
 $_SESSION['l10n']['en']['French Guiana']='French Guiana';
 $_SESSION['l10n']['en']['French Polynesia']='French Polynesia';
 $_SESSION['l10n']['en']['French Southern Territories']='French Southern Territories';
@@ -209,6 +213,7 @@ $_SESSION['l10n']['en']['c6f5008606ccd26c840a52657d671c4b']='Saint Vincent and t
 $_SESSION['l10n']['en']['Samoa']='Samoa';
 $_SESSION['l10n']['en']['San Marino']='San Marino';
 $_SESSION['l10n']['en']['Sao Tome and Principe']='Sao Tome and Principe';
+$_SESSION['l10n']['en']['Satellite Provider']='Satellite Provider';
 $_SESSION['l10n']['en']['Saudi Arabia']='Saudi Arabia';
 $_SESSION['l10n']['en']['Select a country']='Select a country';
 $_SESSION['l10n']['en']['Select a language']='Select a language';
@@ -269,6 +274,7 @@ $_SESSION['l10n']['en']['Virgin Islands, U.s.']='Virgin Islands, U.s.';
 $_SESSION['l10n']['en']['Wallis and Futuna']='Wallis and Futuna';
 $_SESSION['l10n']['en']['Western Sahara']='Western Sahara';
 $_SESSION['l10n']['en']['Yemen']='Yemen';
+$_SESSION['l10n']['en']['Zaire']='Zaire';
 $_SESSION['l10n']['en']['Zambia']='Zambia';
 $_SESSION['l10n']['en']['Zimbabwe']='Zimbabwe';
 $_SESSION['l10n']['en']['abkhazian']='abkhazian';

@@ -42,7 +42,7 @@
  *
  * [*] The output handlers, if any
  *
- * If the file [code]demo.flag[/code] exists, the script assumes that this instance
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and does not provide the content
  * of [code]$_SERVER[/code] nor of [code]$_ENV[/code].
  *

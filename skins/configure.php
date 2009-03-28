@@ -164,7 +164,7 @@
  * The file [code]parameters/skins.include.php.bak[/code] can be used to restore
  * the active configuration before the last change.
  *
- * If the file [code]demo.flag[/code] exists, the script assumes that this instance
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode.
  * In this mode the edit form is displayed, but parameters are not saved in the configuration file.
  *
@@ -327,7 +327,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['skins_search_form']))
 		$context['skins_search_form'] = '<form method="GET" action="http://search.mycompany.com/search">'."\n"
 			.'   <input type="text" name="q" size="10" maxlength="256" value="%s">'."\n"
-			.'   <input type="submit" name="btnG" value="&amp;raquo;">'."\n"
+			.'   <input type="submit" name="btnG" value="&raquo;">'."\n"
 			.'   <input type="hidden" name="site" value="default_collection">'."\n"
 			.'   <input type="hidden" name="client" value="default_frontend">'."\n"
 			.'   <input type="hidden" name="output" value="xml_no_dtd">'."\n"

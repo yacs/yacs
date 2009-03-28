@@ -43,7 +43,7 @@
  *
  * This page can only be used by associates.
  *
- * If the file [code]demo.flag[/code] exists, the script assumes that this instance
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and no message is actually posted.
  *
  * @author Bernard Paques
@@ -611,9 +611,6 @@ if(!Surfer::is_associate()) {
 	// the message itself
 	$message = $_REQUEST['letter_body'];
 
-	// more headers
-	$headers = array();
-
 	// reply-to: from the letters configuration file
 	if(isset($context['letter_reply_to']) && $context['letter_reply_to'])
 		$headers[] = 'Reply-To: '.$context['letter_reply_to'];
@@ -635,7 +632,8 @@ if(!Surfer::is_associate()) {
 	// do the job
 	if($recipients_processed) {
 		include_once '../shared/mailer.php';
-		$recipients_ok = Mailer::post($from, $to, $subject, $message, $headers, 'letters/new.php');
+		$recipients_ok = Mailer::post($from, $to, $subject, $message);
+		Mailer::close();
 
 		// reports on error
 		$recipients_errors = $recipients_processed - $recipients_ok;

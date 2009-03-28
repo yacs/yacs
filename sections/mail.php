@@ -18,7 +18,7 @@
  * At the moment only associates and section editor are allowed to send messages
  * to section editors.
  *
- * If the file [code]demo.flag[/code] exists, the script assumes that this instance
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and the message is not actually posted.
  *
  * Accepted calls:
@@ -165,12 +165,9 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 	}
 
-	// additional headers
-	$headers = array();
-
 	// send the message
 	include_once $context['path_to_root'].'shared/mailer.php';
-	if(Mailer::post($from, $to, $subject, $message, $headers, 'users/mail.php')) {
+	if(Mailer::post($from, $to, $subject, $message)) {
 
 		// feed-back to the sender
 		$context['text'] .= '<p>'.i18n::s('A message has been sent to:')."</p>\n".'<ul>'."\n";
@@ -184,6 +181,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	}
+	Mailer::close();
 
 // display the form
 } else {

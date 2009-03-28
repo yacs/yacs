@@ -49,7 +49,7 @@ $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// call json back-end
-	$url = 'http://'.$_REQUEST['target'].'/yacs/services/json_rpc.php';
+	$url = 'http://'.$_REQUEST['target'].'/services/json_rpc.php';
 
 	// echo
 	$context['text'] .= Skin::build_block('echo', 'title');

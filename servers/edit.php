@@ -183,7 +183,7 @@ if($with_form) {
 	if(isset($item['submit_feed']) && ($item['submit_feed'] == 'Y'))
 		$input .= ' checked="checked"';
 	if(!isset($item['feed_url']) || !$item['feed_url'])
-		$item['feed_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/yacs/feeds/rss_2.0.php';
+		$item['feed_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/feeds/rss_2.0.php';
 	$input .= '/> '.sprintf(i18n::s('Aggregate news from this server by reading the XML feed at %s'), '<input type="text" name="feed_url" size="50" value="'.encode_field($item['feed_url']).'" />');
 
 	// set a default anchor
@@ -224,7 +224,7 @@ if($with_form) {
 	if(isset($item['submit_ping']) && ($item['submit_ping'] == 'Y'))
 		$input .= ' checked="checked"';
 	if(!isset($item['ping_url']) || !$item['ping_url'])
-		$item['ping_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/yacs/services/ping.php';
+		$item['ping_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/services/ping.php';
 	$input .= '/> '.sprintf(i18n::s('On publication, submit XML-RPC call of <code>weblogUpdates.ping</code> at %s'), '<input type="text" name="ping_url" size="50" value="'.encode_field($item['ping_url']).'" />');
 	$fields[] = array($label, $input);
 
@@ -238,7 +238,7 @@ if($with_form) {
 	if(isset($item['submit_search']) && ($item['submit_search'] == 'Y'))
 		$input .= ' checked="checked"';
 	if(!isset($item['search_url']) || !$item['search_url'])
-		$item['search_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/yacs/services/search.php';
+		$item['search_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/services/search.php';
 	$input .= '/> '.sprintf(i18n::s('Submit search queries to this server, by REST calls at %s'), '<input type="text" name="search_url" size="50" value="'.encode_field($item['search_url']).'" />');
 	$fields[] = array($label, $input);
 
@@ -252,7 +252,7 @@ if($with_form) {
 	if(isset($item['submit_monitor']) && ($item['submit_monitor'] == 'Y'))
 		$input .= ' checked="checked"';
 	if(!isset($item['monitor_url']) || !$item['monitor_url'])
-		$item['monitor_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/yacs/services/ping.php';
+		$item['monitor_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/services/ping.php';
 	$input .= '/> '.sprintf(i18n::s('Submit periodic XML-RPC calls of <code>monitor.ping</code> at %s'), '<input type="text" name="monitor_url" size="50" value="'.encode_field($item['monitor_url']).'" />');
 	$fields[] = array($label, $input);
 

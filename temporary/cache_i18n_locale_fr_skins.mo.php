@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on January 5, 2009, 8:19 pm GMT. Please do not modify it manually.
+ * on March 28, 2009, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-12-06 23:37+0100
-PO-Revision-Date: 2008-11-17 15:43+0100
+POT-Creation-Date: 2009-03-28 23:03+0100
+PO-Revision-Date: 2009-03-11 00:06+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -321,7 +321,7 @@ $_SESSION['l10n']['fr']['gadget']='gadget';
 $_SESSION['l10n']['fr']['h:i a']='H:i';
 $_SESSION['l10n']['fr']['help pages on YACS codes']='pages d\'aides consacrées aux codes YACS';
 $_SESSION['l10n']['fr']['hits']='lectures';
-$_SESSION['l10n']['fr']['b1caf262006e4778c14ac09a28bea66d']='http://www.yetanothercommunitysystem.com/';
+$_SESSION['l10n']['fr']['http://www.yacs.fr/']='http://www.yacs.fr/';
 $_SESSION['l10n']['fr']['level 1 title']='titre de niveau 1';
 $_SESSION['l10n']['fr']['level 2 title']='titre de niveau 2';
 $_SESSION['l10n']['fr']['login']='S\'authentifier';
@@ -346,7 +346,7 @@ $_SESSION['l10n']['fr']['with a folded box']='avec une boîte pliable';
 $_SESSION['l10n']['fr']['with a menu bar']='avec une barre de menu';
 $_SESSION['l10n']['fr']['with a sidebar box']='avec une boîte de côté';
 $_SESSION['l10n']['fr']['with neighbours']='avec voisinage';
-$_SESSION['l10n']['fr']['51abe58991b363939dc9ec19dabd19f6']='www.yetanothercommunitysystem.com';
+$_SESSION['l10n']['fr']['www.yacs.fr']='www.yacs.fr';
 $_SESSION['l10n']['fr']['yacs']='yacs';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

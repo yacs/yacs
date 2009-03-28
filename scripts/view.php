@@ -69,10 +69,25 @@ elseif($script)
 else
 	$context['page_title'] = i18n::s('View PHP documentation');
 
-// menu bar
-if($script) {
+// no script has been provided -- help web crawlers
+if(!$script) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Logger::error(i18n::s('No script has been provided'));
 
-	// a regular script
+// the script has to be there
+} elseif(!$row) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Logger::error(i18n::s('Script does not exist'));
+
+// display script content
+} else {
+
+	$context['text'] = Codes::beautify($row['content']);
+
+	// referrals, if any
+	$context['aside']['referrals'] =& Skin::build_referrals(Scripts::get_url($script));
+
+	// update the menu bar
 	if(($script != 'todo') && ($script != 'authors') && ($script != 'testers') && ($script != 'licenses')) {
 
 		// browsing is safe
@@ -85,25 +100,6 @@ if($script) {
 
 	// back to the index
 	$context['page_menu'] = array_merge($context['page_menu'], array( 'scripts/' => i18n::s('Server software') ));
-}
-
-// no script has been provided -- help web crawlers
-if(!$script) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No script has been provided'));
-
-// the script has to be there
-} elseif(!$row) {
-	Logger::error(i18n::s('Script does not exist'));
-
-// display script content
-} else {
-
-	$context['text'] = Codes::beautify($row['content']);
-
-	// referrals, if any
-	$context['aside']['referrals'] =& Skin::build_referrals(Scripts::get_url($script));
-
 }
 
 // render the skin

@@ -43,7 +43,7 @@
  *
  * @see control/configure.php
  *
- * If the file [code]demo.flag[/code] exists, the script assumes that this instance
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and associates profiles cannot be degraded.
  *
  * The creation hook is used to invoke any software extension bound as follows:
@@ -247,6 +247,7 @@ if(Surfer::is_crawler()) {
 			// on error display the form again
 			$with_form = TRUE;
 			$item = $_REQUEST;
+			$item['password'] = $item['confirm']; // password has been md5 in Users::post()
 			unset($item['id']);
 
 		// successful post

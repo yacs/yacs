@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on January 5, 2009, 8:20 pm GMT. Please do not modify it manually.
+ * on March 28, 2009, 10:25 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-01-02 23:24+0100
-PO-Revision-Date: 2008-11-16 21:55+0100
+POT-Creation-Date: 2009-03-20 23:10+0100
+PO-Revision-Date: 2009-03-11 00:05+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -207,6 +207,6 @@ $_SESSION['l10n']['fr']['script %s has been executed']='le script %s a été ex�
 $_SESSION['l10n']['fr']['tabular']='tabulaire';
 $_SESSION['l10n']['fr']['the update script']='le script de mise à jour';
 $_SESSION['l10n']['fr']['update process']='la mise à jour';
-$_SESSION['l10n']['fr']['51abe58991b363939dc9ec19dabd19f6']='www.yetanothercommunitysystem.com';
+$_SESSION['l10n']['fr']['www.yacs.fr']='www.yacs.fr';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

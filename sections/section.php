@@ -229,7 +229,7 @@ Class Section extends Anchor {
 					return sprintf(i18n::s('Note: %s'), $title);
 				if($this->has_layout('wiki'))
 					return sprintf(i18n::s('Note: %s'), $title);
-				return sprintf(i18n::s('Comment: %s'), $title);
+				return $title;
 			}
 
 		}

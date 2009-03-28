@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on January 5, 2009, 8:19 pm GMT. Please do not modify it manually.
+ * on March 28, 2009, 10:24 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-04 23:32+0100
-PO-Revision-Date: 2008-11-16 21:56+0100
+POT-Creation-Date: 2009-03-10 23:58+0100
+PO-Revision-Date: 2009-03-11 00:06+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -143,6 +143,6 @@ $_SESSION['l10n']['fr']['the search interface']='notre interface de recherche';
 $_SESSION['l10n']['fr']['the target server is banned']='Le serveur correspondant est banni';
 $_SESSION['l10n']['fr']['44ba145d1beb0088de5691251b8f4419']='ce lien existe dans la base de données';
 $_SESSION['l10n']['fr']['0e6c6d19d2825277c32dd42a3ae594af']='ce lien n\'a pas encore été créé dans la base de données';
-$_SESSION['l10n']['fr']['51abe58991b363939dc9ec19dabd19f6']='www.yetanothercommunitysystem.com';
+$_SESSION['l10n']['fr']['www.yacs.fr']='www.yacs.fr';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

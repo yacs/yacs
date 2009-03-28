@@ -23,7 +23,7 @@
  *
  * This script prevents mail when the target surfer has disallowed private messages.
  *
- * If the file [code]demo.flag[/code] exists, the script assumes that this instance
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and the message is not actually posted.
  *
  * Accepted calls:
@@ -178,12 +178,9 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 	}
 
-	// additional headers
-	$headers = array();
-
 	// send the message
 	include_once $context['path_to_root'].'shared/mailer.php';
-	if(Mailer::post($from, $to, $subject, $message, $headers, 'users/mail.php')) {
+	if(Mailer::post($from, $to, $subject, $message)) {
 
 		// feed-back to the sender
 		$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), strip_tags($item['email'])).'</p>';
@@ -193,6 +190,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 			$context['text'] .= '<p>'.sprintf(i18n::s('At your request, a copy was also sent to %s'), $from).'</p>';
 
 	}
+	Mailer::close();
 
 // display the form
 } else {

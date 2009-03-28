@@ -117,6 +117,11 @@ Class Utf8 {
 	/**
 	 * get ISO 8859 transcoding table
 	 *
+	 * Actually, the iso-8859-15 encoding table, extended with windows-1252 for control chars
+	 *
+	 * @link http://www.unicode.org/Public/MAPPINGS/ISO8859/8859-15.TXT
+	 * @link http://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/WINDOWS/CP1252.TXT
+	 *
 	 * @return ISO 8859 transcoding arrays
 	 */
 	function get_iso8859() {
@@ -127,6 +132,40 @@ Class Utf8 {
 
 			// numerical order
 			$codes = array(
+				// the 27 differeces from windows-1252 to iso-8859-1
+				"\x80"	=> '&#x20AC;',	// &euro;
+//				"\x81"	=> '',	// 
+				"\x82"	=> '&#x201A;',	// &sbquo;
+				"\x83"	=> '&#x192;',	// &fnof;
+				"\x84"	=> '&#x201E;',	// &bdquo;
+				"\x85"	=> '&#x2026;',	// &hellip;
+				"\x86"	=> '&#x2020;',	// &dagger;
+				"\x87"	=> '&#x2021;',	// &Dagger;
+				"\x88"	=> '&#x2C6;',	// &circ;
+				"\x89"	=> '&#x2030;',	// &permil;
+				"\x8A"	=> '&#x160;',	// &Scaron;
+				"\x8B"	=> '&#x2039;',	// &lsaquo;
+				"\x8C"	=> '&#x152;',	// &OElig;
+//				"\x8D"	=> '',	// 
+				"\x8D"	=> '&#x17D;',	// &#x17D;
+//				"\x8F"	=> '',	// 
+//				"\x90"	=> '',	// 
+				"\x91"	=> '&#x2018;',	// &lsquo;
+				"\x92"	=> '&#x2019;',	// &rsquo;
+				"\x93"	=> '&#x201C;',	// &ldquo;
+				"\x94"	=> '&#x201D;',	// &rdquo;
+				"\x95"	=> '&#x2022;',	// &bull;
+				"\x96"	=> '&#x2013;',	// &ndash;
+				"\x97"	=> '&#x2014;',	// &mdash;
+				"\x98"	=> '&#x2DC;',	// &tilde;
+				"\x99"	=> '&#x2122;',	// &trade;
+				"\x9A"	=> '&#x161;',	// &scaron;
+				"\x9B"	=> '&#x203A;',	// &rsaquo;
+				"\x9C"	=> '&#x153;',	// &oelig;
+//				"\x9D"	=> '',	// 
+				"\x9E"	=> '&#x17E;',	// &#x17E;
+				"\x9F"	=> '&#x178;',	// &Yuml;
+				
 				"\xA0"	=> '&#160;',	// non-breaking space
 				"\xA1"	=> '&#161;',	// inverted exclamation mark
 				"\xA2"	=> '&#162;',	// cent sign

@@ -15,7 +15,7 @@
  * The file [code]parameters/control.include.php.bak[/code] can be used to restore
  * the active configuration before the last change.
  *
- * If the file [code]demo.flag[/code] exists, the script assumes that this instance
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode.
  * In this mode the edit form is not displayed at all to protect database passwords.
  *
@@ -120,7 +120,11 @@
  * [*] [code]with_email[/code] - the sending of e-mail messages has to be explicitly activated.
  * By default YACS does not send messages.
  *
- * [*] [code]mail_smtp_server[/code] - host name or IP address of the server that will process our SMTP requests.
+ * [*] [code]mail_variant[/code] - if set to 'smtp', authenticate during the SMTP session.
+ * If set to 'pop3', perform POP3 authentication before starting the SMTP session. Else
+ * rely to PHP and system default settings to transmit messages.
+ *
+ * [*] [code]mail_server[/code] - host name or IP address of the server that will process SMTP requests.
  * There is no default value.
  *
  * [*] [code]mail_encoding[/code] - either '8bit' or 'base64'.
@@ -132,10 +136,8 @@
  * [*] [code]mail_logger_recipient[/code] - one address, or a comma-separated list of addresses,
  * that will receive event messages. There is no default value.
  *
- * [*] [code]mail_pop3_server[/code], [code]mail_pop3_user[/code],
- * and [code]mail_pop3_password[/code] - data used for POP3 authentication
+ * [*] [code]mail_account[/code] and [code]mail_password[/code] - data used for authentication
  * before SMTP sending. There is no default values.
- * These are required at ovh for SMTP to take place.
  *
  * [*] [code]mail_hourly_maximum[/code] - the maximum number of outbound
  * messages per hour. The default value is 50 messages per hour, which is safe
@@ -583,32 +585,45 @@ if(!Surfer::is_associate()) {
 	$input .= '/> '.i18n::s('Use below parameters to handle electronic mail messages.');
 	$fields[] = array($label, $input);
 
+	// mail variant
+	$label = i18n::s('Architecture');
+	$input = '<input type="radio" name="mail_variant" value="local"';
+	if(!isset($context['mail_variant']) || ($context['mail_variant'] == 'local'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Rely on PHP and system settings for the transmission of messages.');
+	$input .= BR.'<input type="radio" name="mail_variant" value="smtp"';
+	if(isset($context['mail_variant']) && ($context['mail_variant'] == 'smtp'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Use the mail server described below, and authenticate with SMTP if necessary.');
+	$input .= BR.'<input type="radio" name="mail_variant" value="pop3"';
+	if(isset($context['mail_variant']) && ($context['mail_variant'] == 'pop3'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Authenticate using POP3 before sending messages with SMTP.');
+	$fields[] = array($label, $input);
+
 	// smtp server
-	$label = i18n::s('SMTP server (if blank, use php.ini)');
-	if(!isset($context['mail_smtp_server']))
-		$context['mail_smtp_server'] = '';
-	$input = '<input type="text" name="mail_smtp_server" size="45" value="'.encode_field($context['mail_smtp_server']).'" maxlength="255" />';
+ 	$label = i18n::s('SMTP server');
+ 	if(!isset($context['mail_server']))
+ 		$context['mail_server'] = '';
+ 	$input = '<input type="text" name="mail_server" size="45" value="'.encode_field($context['mail_server']).'" maxlength="255" />';
+ 	$examples = 'smtp.free.fr';
+	if(is_callable('extension_loaded') && extension_loaded('openssl'))
+		$examples .= ', ssl:/'.'/smtp.gmail.com:465';
+ 	$hint = sprintf(i18n::s('For example: %s'), $examples);
+ 	$fields[] = array($label, $input, $hint);
+
+	// account name
+	$label = i18n::s('Account name');
+	if(!isset($context['mail_account']))
+		$context['mail_account'] = '';
+	$input = '<input type="text" name="mail_account" size="45" value="'.encode_field($context['mail_account']).'" maxlength="255" />';
 	$fields[] = array($label, $input);
 
-	// pop3 server
-	$label = i18n::s('POP3 server used for authentication');
-	if(!isset($context['mail_pop3_server']))
-		$context['mail_pop3_server'] = '';
-	$input = '<input type="text" name="mail_pop3_server" size="45" value="'.encode_field($context['mail_pop3_server']).'" maxlength="255" />';
-	$fields[] = array($label, $input);
-
-	// pop3 user name
-	$label = i18n::s('POP3 account');
-	if(!isset($context['mail_pop3_user']))
-		$context['mail_pop3_user'] = '';
-	$input = '<input type="text" name="mail_pop3_user" size="45" value="'.encode_field($context['mail_pop3_user']).'" maxlength="255" />';
-	$fields[] = array($label, $input);
-
-	// pop3 password
-	$label = i18n::s('POP3 password');
-	if(!isset($context['mail_pop3_password']))
-		$context['mail_pop3_password'] = '';
-	$input = '<input type="password" name="mail_pop3_password" size="45" value="'.encode_field($context['mail_pop3_password']).'" maxlength="255" />';
+	// account password
+	$label = i18n::s('Account password');
+	if(!isset($context['mail_password']))
+		$context['mail_password'] = '';
+	$input = '<input type="password" name="mail_password" size="45" value="'.encode_field($context['mail_password']).'" maxlength="255" />';
 	$fields[] = array($label, $input);
 
 	// mail encoding
@@ -632,10 +647,11 @@ if(!Surfer::is_associate()) {
 
 	// maximum outbound messages per hour
 	$label = i18n::s('Maximum of outbound messages per hour');
-	if(!isset($context['mail_hourly_maximum']) || ($context['mail_hourly_maximum'] < 5))
+	if(!isset($context['mail_hourly_maximum']))
 		$context['mail_hourly_maximum'] = 50;
 	$input = '<input type="text" name="mail_hourly_maximum" size="5" value="'.encode_field($context['mail_hourly_maximum']).'" maxlength="10" />';
-	$fields[] = array($label, $input);
+	$hint = i18n::s('Messages will not be queued if this is set to 0');
+	$fields[] = array($label, $input, $hint);
 
 	// target recipients for logged events
 	$label = i18n::s('Recipients of system events');
@@ -792,22 +808,22 @@ if(!Surfer::is_associate()) {
 		$content .= '$context[\'users_database\']=\''.addcslashes($_REQUEST['users_database'], "\\'")."';\n";
 	if(isset($_REQUEST['users_table_prefix']))
 		$content .= '$context[\'users_table_prefix\']=\''.addcslashes($_REQUEST['users_table_prefix'], "\\'")."';\n";
-	if(isset($_REQUEST['mail_smtp_server']))
-		$content .= '$context[\'mail_smtp_server\']=\''.addcslashes($_REQUEST['mail_smtp_server'], "\\'")."';\n";
+	if(isset($_REQUEST['mail_server']))
+		$content .= '$context[\'mail_server\']=\''.addcslashes($_REQUEST['mail_server'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_encoding']))
 		$content .= '$context[\'mail_encoding\']=\''.addcslashes($_REQUEST['mail_encoding'], "\\'")."';\n";
 	if(isset($_REQUEST['mail_from']))
 		$content .= '$context[\'mail_from\']=\''.addcslashes($_REQUEST['mail_from'], "\\'")."';\n";
-	if(isset($_REQUEST['mail_hourly_maximum']) && (intval($_REQUEST['mail_hourly_maximum']) >= 5))
+	if(isset($_REQUEST['mail_hourly_maximum']))
 		$content .= '$context[\'mail_hourly_maximum\']='.intval($_REQUEST['mail_hourly_maximum']).";\n";
 	if(isset($_REQUEST['mail_logger_recipient']))
 		$content .= '$context[\'mail_logger_recipient\']=\''.addcslashes($_REQUEST['mail_logger_recipient'], "\\'")."';\n";
-	if(isset($_REQUEST['mail_pop3_server']))
-		$content .= '$context[\'mail_pop3_server\']=\''.addcslashes($_REQUEST['mail_pop3_server'], "\\'")."';\n";
-	if(isset($_REQUEST['mail_pop3_user']))
-		$content .= '$context[\'mail_pop3_user\']=\''.addcslashes($_REQUEST['mail_pop3_user'], "\\'")."';\n";
-	if(isset($_REQUEST['mail_pop3_password']))
-		$content .= '$context[\'mail_pop3_password\']=\''.addcslashes($_REQUEST['mail_pop3_password'], "\\'")."';\n";
+	if(isset($_REQUEST['mail_account']))
+		$content .= '$context[\'mail_account\']=\''.addcslashes($_REQUEST['mail_account'], "\\'")."';\n";
+	if(isset($_REQUEST['mail_password']))
+		$content .= '$context[\'mail_password\']=\''.addcslashes($_REQUEST['mail_password'], "\\'")."';\n";
+	if(isset($_REQUEST['mail_variant']))
+		$content .= '$context[\'mail_variant\']=\''.addcslashes($_REQUEST['mail_variant'], "\\'")."';\n";
 	if(isset($_REQUEST['proxy_server']))
 		$content .= '$context[\'proxy_server\']=\''.addcslashes($_REQUEST['proxy_server'], "\\'")."';\n";
 	if(isset($_REQUEST['proxy_user']))

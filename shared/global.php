@@ -58,6 +58,9 @@ if(!defined('FORBIDDEN_IN_TEASERS'))
 // default value for url filtering in forms
 if(!defined('FORBIDDEN_IN_URLS'))
 	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\,+%\?=\-\[\]]+/');
+	
+if(!defined('CRLF'))
+	define('CRLF', "\015\012");	
 
 // store attributes for this request, including global parameters and request-specific variables
 global $context;
@@ -368,8 +371,15 @@ if(isset($_SERVER['PATH_INFO']) && strlen($_SERVER['PATH_INFO']))
 	$path_info = $_SERVER['PATH_INFO'];
 
 // a tricky way to set path info correctly at some sites
-elseif(isset($HTTP_SERVER_VARS['ORIG_PATH_INFO']) && $HTTP_SERVER_VARS['ORIG_PATH_INFO'])
-	$path_info = $HTTP_SERVER_VARS['ORIG_PATH_INFO'];
+elseif(isset($_SERVER['ORIG_PATH_INFO']) && $_SERVER['ORIG_PATH_INFO']) {
+
+	// sometimes this is corrupted by CGI interface (e.g., 1and1) and ORIG_PATH_INFO takes the value of ORIG_SCRIPT_NAME
+	if(isset($_SERVER['ORIG_SCRIPT_NAME']) && !strcmp($_SERVER['ORIG_PATH_INFO'], $_SERVER['ORIG_SCRIPT_NAME']))
+		;
+		
+	else
+		$path_info = $_SERVER['ORIG_PATH_INFO'];
+}
 
 // analyze script args (e.g. 'articles/view.php/123/3', where '123' is the article id, and '3' is the page number)
 if(strlen($path_info)) {
@@ -1079,6 +1089,10 @@ function render_skin($stamp=0) {
 
 	}
 
+	// close pending connections
+	if(is_callable(array('Mailer', 'close')))
+		Mailer::close();
+		
 	// profiling mode
 	if($context['with_profile'] == 'Y')
 		logger::profile('render_skin', 'start');

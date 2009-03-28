@@ -12,7 +12,7 @@
  *
  * @see agents/index.php
  *
- * If the file [code]demo.flag[/code] exists, the script assumes that this instance
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and declines to provide phpInfo().
  *
  * @author Bernard Paques
@@ -25,12 +25,12 @@
 include_once '../shared/global.php';
 
 // locate the information source
-$subject = NULL;
+$id = NULL;
 if(isset($_REQUEST['subject']))
-	$subject = $_REQUEST['subject'];
-if(isset($context['arguments'][0]))
-	$subject = $context['arguments'][0];
-$subject = strip_tags($subject);
+	$id = $_REQUEST['subject'];
+if(isset($context['arguments'][0]) && $context['arguments'][0])
+	$id = $context['arguments'][0];
+$id = strip_tags($id);
 
 // load localized strings
 i18n::bind('control');
@@ -46,10 +46,10 @@ $context['page_title'] = i18n::s('Run-time information');
 
 // commands for associates
 if(Surfer::is_associate()) {
-	$context['page_tools'][] = Skin::build_link('control/info.php?subject=yacs', i18n::s('yacs'));
-	$context['page_tools'][] = Skin::build_link('control/info.php?subject=phpinfo', i18n::s('phpinfo()'));
-	$context['page_tools'][] = Skin::build_link('control/info.php?subject=sql', i18n::s('SQL'));
-	$context['page_tools'][] = Skin::build_link('control/info.php?subject=images', i18n::s('images'));
+	$context['page_tools'][] = Skin::build_link('control/info.php?id=yacs', i18n::s('yacs'));
+	$context['page_tools'][] = Skin::build_link('control/info.php?id=phpinfo', i18n::s('phpinfo()'));
+	$context['page_tools'][] = Skin::build_link('control/info.php?id=sql', i18n::s('SQL'));
+	$context['page_tools'][] = Skin::build_link('control/info.php?id=images', i18n::s('images'));
 }
 
 // the user has to be an associate
@@ -62,9 +62,9 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 // give information
-} elseif(isset($subject) && $subject) {
+} elseif(isset($id) && $id) {
 
-	switch($subject) {
+	switch($id) {
 
 	case 'yacs':	// yacs run-time
 
@@ -220,10 +220,10 @@ if(!Surfer::is_associate()) {
 	// the splash message
 	$context['text'] .= '<p>'.i18n::s('Please select the action to perform.').'</p>'
 		.'<ul>'
-		.'<li>'.sprintf(i18n::s('%s, to learn more about YACS run-time.'), '<a href="'.$context['url_to_root'].'control/info.php?subject=yacs">'.i18n::s('YACS').'</a>').'</li>'
-		.'<li>'.sprintf(i18n::s('%s, to know everything about PHP runtime at this server.'), '<a href="'.$context['url_to_root'].'control/info.php?subject=phpinfo">'.i18n::s('PhpInfo').'</a>').'</li>'
-		.'<li>'.sprintf(i18n::s('%s, to get run-time parameters of the SQL engine.'), '<a href="'.$context['url_to_root'].'control/info.php?subject=sql">'.i18n::s('SQL').'</a>').'</li>'
-		.'<li>'.sprintf(i18n::s('%s, to understand image support at this site.'), '<a href="'.$context['url_to_root'].'control/info.php?subject=images">'.i18n::s('Images').'</a>').'</li>'
+		.'<li>'.sprintf(i18n::s('%s, to learn more about YACS run-time.'), '<a href="'.$context['url_to_root'].'control/info.php?id=yacs">'.i18n::s('YACS').'</a>').'</li>'
+		.'<li>'.sprintf(i18n::s('%s, to know everything about PHP runtime at this server.'), '<a href="'.$context['url_to_root'].'control/info.php?id=phpinfo">'.i18n::s('PhpInfo').'</a>').'</li>'
+		.'<li>'.sprintf(i18n::s('%s, to get run-time parameters of the SQL engine.'), '<a href="'.$context['url_to_root'].'control/info.php?id=sql">'.i18n::s('SQL').'</a>').'</li>'
+		.'<li>'.sprintf(i18n::s('%s, to understand image support at this site.'), '<a href="'.$context['url_to_root'].'control/info.php?id=images">'.i18n::s('Images').'</a>').'</li>'
 		.'</ul>';
 
 }

@@ -212,13 +212,13 @@ else {
 	$fields['description'] = i18n::c('The origin server for the YACS system');
 	$fields['main_url'] = 'http://www.yacs.fr/';
 	$fields['submit_feed'] = 'Y';
-	$fields['feed_url'] = 'http://www.yacs.fr/yacs/feeds/rss_2.0.php';
+	$fields['feed_url'] = 'http://www.yacs.fr/feeds/rss_2.0.php';
 	$fields['submit_ping'] = 'Y';
-	$fields['ping_url'] = 'http://www.yacs.fr/yacs/services/ping.php';
+	$fields['ping_url'] = 'http://www.yacs.fr/services/ping.php';
 	$fields['submit_search'] = 'N';
-	$fields['search_url'] = 'http://www.yacs.fr/yacs/services/search.php';
+	$fields['search_url'] = 'http://www.yacs.fr/services/search.php';
 	$fields['submit_monitor'] = 'N';
-	$fields['monitor_url'] = 'http://www.yacs.fr/yacs/services/ping.php';
+	$fields['monitor_url'] = 'http://www.yacs.fr/services/ping.php';
 	if($error = Servers::post($fields))
 		$text .= $error;
 	else

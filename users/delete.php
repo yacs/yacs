@@ -4,7 +4,7 @@
  *
  * This script calls for confirmation, then it actually deletes the user.
  *
- * If the file [code]demo.flag[/code] exists, the script assumes that this instance
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and user profiles are not actually deleted.
  *
  * Restrictions apply on this page:

@@ -33,7 +33,7 @@ $context['page_title'] = i18n::s('Sample ping client');
 if(isset($_REQUEST['target'])) {
 
 	// call blog web service
-	$url = 'http://'.$_REQUEST['target'].'/yacs/services/ping.php';
+	$url = 'http://'.$_REQUEST['target'].'/services/ping.php';
 
 	// pingback.ping
 	if($_REQUEST['action'] == 'pingback.ping') {

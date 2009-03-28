@@ -52,7 +52,7 @@
  *
  * [title]How to install a new skin?[/title]
  * First, select among available skins at some reference site.
- * You may start at [link]http://www.yacs.fr/yacs/skins/index.php[/link].
+ * You may start at [link]http://www.yacs.fr/skins/[/link].
  * On private installations within a large company, the ideal solution is to have a reference server to publish all recommended skins for intranet servers.
  *
  * Second, create a subdirectory under the 'skins' directory, and name it after the skin name.

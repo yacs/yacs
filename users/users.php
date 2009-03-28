@@ -1327,7 +1327,10 @@ Class Users {
 			return FALSE;
 
 		// remember the id of the new item
-		$fields['id'] = SQL::get_last_id($context['connection']);
+		if(!$fields['id'] = SQL::get_last_id($context['users_connection'])) {
+			logger::remember('users/users.php', 'unable to retrieve id of new record');
+			return FALSE;
+		}
 
 		// list the user in categories
 		include_once $context['path_to_root'].'categories/categories.php';
