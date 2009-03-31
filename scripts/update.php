@@ -11,6 +11,9 @@
  * If some file has been actually updated, the script attempts to include the special file [code]scripts/update_trailer.php[/code].
  * This file, which may be part of the update, bridges the old and the new set of scripts.
  *
+ * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
+ * of YACS runs in demonstration mode, and no update can be performed.
+ *
  * @author Bernard Paques
  * @author GnapZ
  * @reference
@@ -63,6 +66,11 @@ elseif(!Surfer::is_associate()) {
 		// forward to the index page
 		$menu = array('scripts/' => i18n::s('Server software'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
+// no modifications in demo mode
+} elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // actual update
 } elseif($action == 'confirmed') {

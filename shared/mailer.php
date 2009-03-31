@@ -564,27 +564,27 @@ class Mailer {
 
 		// make some text out of an array
 		if(is_array($headers))
-			$headers = implode(CRLF, $headers);
+			$headers = implode("\n", $headers);
 
 		// From: header
 		if(!preg_match('/^From: /im', $headers))
-			$headers .= CRLF.'From: '.$from;
+			$headers .= "\n".'From: '.$from;
 
 		// Reply-To: header
 		if(!preg_match('/^Reply-To: /im', $headers))
-			$headers .= CRLF.'Reply-To: '.$from;
+			$headers .= "\n".'Reply-To: '.$from;
 
 		// Return-Path: header --to process errors
 		if(!preg_match('/^Return-Path: /im', $headers))
-			$headers .= CRLF.'Return-Path: '.$from;
+			$headers .= "\n".'Return-Path: '.$from;
 
 		// Message-ID: header --helps to avoid spam filters
 		if(!preg_match('/^Message-ID: /im', $headers))
-			$headers .= CRLF.'Message-ID: <'.time().'@'.$context['host_name'].'>';
+			$headers .= "\n".'Message-ID: <'.time().'@'.$context['host_name'].'>';
 
 		// MIME-Version: header
 		if(!preg_match('/^MIME-Version: /im', $headers))
-			$headers .= CRLF.'MIME-Version: 1.0';
+			$headers .= "\n".'MIME-Version: 1.0';
 
 		// arrays are easier to manage
 		if(is_string($message)) {
@@ -649,19 +649,19 @@ class Mailer {
 					$content_type = 'multipart/alternative; boundary="'.$boundary.'-internal"';
 			
 				if(!$body)
-					$body = 'This is a multi-part message in MIME format.'.CRLF;
+					$body = 'This is a multi-part message in MIME format.'."\n";
 					
-				$body .= CRLF.'--'.$boundary.'-internal'
-					.CRLF.'Content-Type: '.$type
-					.CRLF.'Content-Transfer-Encoding: '.$content_encoding
-					.CRLF.CRLF.$part."\n";
+				$body .= "\n".'--'.$boundary.'-internal'
+					."\n".'Content-Type: '.$type
+					."\n".'Content-Transfer-Encoding: '.$content_encoding
+					."\n\n".$part."\n";
 					
 			}
 		}
 		
 		// finalize the body
 		if(count($message) > 1)
-			$body .= CRLF.'--'.$boundary.'-internal--';
+			$body .= "\n".'--'.$boundary.'-internal--';
 
 		// a mix of things
 		if(count($attachments)) {
@@ -670,13 +670,13 @@ class Mailer {
 				if(!strncmp($content_type, 'multipart/', 10))
 					$content_encoding = '';
 				else
-					$content_encoding = CRLF.'Content-Transfer-Encoding: '.$content_encoding;
+					$content_encoding = "\n".'Content-Transfer-Encoding: '.$content_encoding;
 					
-				$body = 'This is a multi-part message in MIME format.'.CRLF
-					.CRLF.'--'.$boundary.'-external'
-					.CRLF.'Content-Type: '.$content_type
+				$body = 'This is a multi-part message in MIME format.'."\n"
+					."\n".'--'.$boundary.'-external'
+					."\n".'Content-Type: '.$content_type
 					.$content_encoding
-					.CRLF.CRLF.$body.CRLF;
+					."\n\n".$body."\n";
 					
 				$content_type = 'multipart/mixed; boundary="'.$boundary.'-external"';
 				$content_encoding = '';
@@ -693,28 +693,28 @@ class Mailer {
 					$basename = basename($name);
 					$type = Files::get_mime_type($basename);
 					
-					$body .= CRLF.'--'.$boundary.'-external'
-						.CRLF.'Content-Type: '.$type.'; name="'.$basename.'"'
-						.CRLF.'Content-Transfer-Encoding: base64'
-						.CRLF.CRLF.chunk_split(base64_encode($content)).CRLF;
+					$body .= "\n".'--'.$boundary.'-external'
+						."\n".'Content-Type: '.$type.'; name="'.$basename.'"'
+						."\n".'Content-Transfer-Encoding: base64'
+						."\n\n".chunk_split(base64_encode($content))."\n";
 
 				}
-				$body .= CRLF.'--'.$boundary.'-external--';
+				$body .= "\n".'--'.$boundary.'-external--';
 
 		}
 		
 		
 		// Content-Type: header
 		if($content_type && !preg_match('/^Content-Type: /im', $headers))
-			$headers .= CRLF.'Content-Type: '.$content_type;
+			$headers .= "\n".'Content-Type: '.$content_type;
 
 		// Content-Transfer-Encoding: header
 		if(!isset($boundary) && $content_encoding && !preg_match('/^Content-Transfer-Encoding: /im', $headers))
-			$headers .= CRLF.'Content-Transfer-Encoding: '.$content_encoding;
+			$headers .= "\n".'Content-Transfer-Encoding: '.$content_encoding;
 
 		// X-Mailer: header --helps to avoid spam filters
 		if(!preg_match('/^X-Mailer: /im', $headers))
-			$headers .= CRLF.'X-Mailer: yacs';
+			$headers .= "\n".'X-Mailer: yacs';
 
 		// strip leading spaces and newlines
 		$headers = trim($headers);
@@ -872,21 +872,21 @@ class Mailer {
 	
 			// make some text out of an array
 			if(is_array($headers))
-				$headers = implode(CRLF, $headers);
+				$headers = implode("\n", $headers);
 	
 			// From: header
 			if(!preg_match('/^From: /im', $headers))
-				$headers .= CRLF.'From: '.$from;
+				$headers .= "\n".'From: '.$from;
 
 			// To: header
 			if(!preg_match('/^To: /im', $headers))
-				$headers .= CRLF.'To: '.$recipient;
+				$headers .= "\n".'To: '.$recipient;
 
 			// prepare message headers
-			$request = $headers.CRLF.'Subject: '.$subject.CRLF;
+			$request = trim($headers."\n".'Subject: '.$subject)."\n";
 			
 			// append message body
-			$request .= CRLF.trim($message).CRLF.'.'.CRLF;
+			$request .= "\n".trim($message)."\n.\n";
 			
 			// actual post
 			fputs($handle, $request);
