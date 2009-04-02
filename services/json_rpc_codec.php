@@ -85,7 +85,7 @@ Class JSON_RPC_Codec extends Codec {
 	/**
 	 * parse a request on server side
 	 *
-	 * @param array the received $HTTP_RAW_POST_DATA
+	 * @param string raw data received
 	 * @return an array of which the first value indicates call success or failure
 	 */
 	function import_request($data) {

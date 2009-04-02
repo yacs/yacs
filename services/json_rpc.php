@@ -63,24 +63,22 @@ include_once '../shared/global.php';
 // load a skin engine
 load_skin('services');
 
-// ensure we have some raw content
-global $HTTP_RAW_POST_DATA;
-if(!isset($HTTP_RAW_POST_DATA))
-   $HTTP_RAW_POST_DATA = file_get_contents("php://input");
+// process raw content
+$raw_data = file_get_contents("php://input");
 
 // save the raw request if debug mode
 //if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-	Logger::remember('services/json_rpc.php', 'json_rpc request', rawurldecode($HTTP_RAW_POST_DATA), 'debug');
+	Logger::remember('services/json_rpc.php', 'json_rpc request', rawurldecode($raw_data), 'debug');
 
 // transcode to our internal charset
 if($context['charset'] == 'utf-8')
-	$HTTP_RAW_POST_DATA = utf8::from_unicode($HTTP_RAW_POST_DATA);
+	$raw_data = utf8::from_unicode($raw_data);
 
 // decode request components -- use rawurldecode() instead urldecode(), else you will loose + signs
-$parameters = Safe::json_decode(rawurldecode($HTTP_RAW_POST_DATA));
+$parameters = Safe::json_decode(rawurldecode($raw_data));
 
 // nothing to parse
-if(empty($HTTP_RAW_POST_DATA)) {
+if(empty($raw_data)) {
 	$response = array('result' => NULL, 'error' => 'Empty request, please retry');
 
 // not a valid request

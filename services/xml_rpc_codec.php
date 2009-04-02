@@ -47,7 +47,7 @@ Class XML_RPC_Codec extends Codec {
 	 * - &lt;array&gt;: push '-1' (list of anonymous stems)
 	 * - &lt;/array&gt;: pop index
 	 *
-	 * @param array the received $HTTP_RAW_POST_DATA
+	 * @param string raw data received
 	 * @return array a status code (TRUE is ok) and the parsing result
 	 */
 	function decode($data) {
@@ -278,7 +278,7 @@ Class XML_RPC_Codec extends Codec {
 	/**
 	 * parse a XML request according to the XML-RPC specification
 	 *
-	 * @param array the received $HTTP_RAW_POST_DATA
+	 * @param string raw data received
 	 * @return an array of which the first value indicates call success or failure
 	 */
 	function import_request($data) {

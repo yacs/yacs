@@ -335,8 +335,8 @@ if(Surfer::is_crawler()) {
 			Safe::setcookie('screening', $token, time()+60*60*24*500, $context['url_to_root']);
 
 			// also set cookies used in leading index.php
-			if(isset($_ENV['YACS_HOME']))
-				Safe::setcookie('screening', $token, time()+60*60*24*500, $_ENV['YACS_HOME'].'/');
+			if($home = getenv('YACS_HOME'))
+				Safe::setcookie('screening', $token, time()+60*60*24*500, $home.'/');
 			if($context['url_to_root'] == '/yacs/')
 				Safe::setcookie('screening', $token, time()+60*60*24*500, '/');
 

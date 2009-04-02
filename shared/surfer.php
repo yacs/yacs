@@ -1281,8 +1281,8 @@ Class Surfer {
 			Safe::setcookie('screening', '', time()-3600, $context['url_to_root']);
 
 			// also clear cookies used in leading index.php
-			if(isset($_ENV['YACS_HOME']))
-				Safe::setcookie('screening', '', time()-3600, $_ENV['YACS_HOME'].'/');
+			if($home = getenv('YACS_HOME'))
+				Safe::setcookie('screening', '', time()-3600, $home.'/');
 			if($context['url_to_root'] != '/')
 				Safe::setcookie('screening', '', time()-3600, '/');
 	   }

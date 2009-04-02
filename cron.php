@@ -52,8 +52,8 @@
 if(!isset($_SERVER['REMOTE_ADDR'])) {
 
 	// use environment
-	if(isset($_ENV['YACS_HOME']) && is_callable('chdir'))
-		chdir($_ENV['YACS_HOME']);
+	if(($home = getenv('YACS_HOME')) && is_callable('chdir'))
+		chdir($home);
 
 	// else jump to where this file is executed from --SCRIPT_FILENAME may be buggy
 	elseif(is_callable('chdir'))

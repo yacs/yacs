@@ -68,18 +68,16 @@ include_once '../shared/global.php';
 // load a skin engine
 load_skin('services');
 
-// ensure we have some raw content
-global $HTTP_RAW_POST_DATA;
-if(!isset($HTTP_RAW_POST_DATA))
-   $HTTP_RAW_POST_DATA = file_get_contents("php://input");
+// process raw content
+$raw_data = file_get_contents("php://input");
 
 // save the raw request if debug mode
 if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-	Logger::remember('services/xml_rpc.php', 'xml_rpc request', rawurldecode($HTTP_RAW_POST_DATA), 'debug');
+	Logger::remember('services/xml_rpc.php', 'xml_rpc request', rawurldecode($raw_data), 'debug');
 
 // transcode to our internal charset
 if($context['charset'] == 'utf-8')
-	$HTTP_RAW_POST_DATA = utf8::encode($HTTP_RAW_POST_DATA);
+	$raw_data = utf8::encode($raw_data);
 
 // load the adequate codec
 include_once 'codec.php';
@@ -87,12 +85,12 @@ include_once 'xml_rpc_codec.php';
 $codec =& new xml_rpc_Codec();
 
 // parse xml parameters -- use rawurldecode() instead urldecode(), else you will loose + signs
-$result = $codec->import_request(rawurldecode($HTTP_RAW_POST_DATA));
+$result = $codec->import_request(rawurldecode($raw_data));
 $status = @$result[0];
 $parameters = @$result[1];
 
 // nothing to parse
-if(!$HTTP_RAW_POST_DATA) {
+if(!$raw_data) {
 	$response = array('faultCode' => 1, 'faultString' => 'Empty request, please retry');
 
 // parse has failed

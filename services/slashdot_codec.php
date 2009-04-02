@@ -154,7 +154,7 @@ Class slashdot_Codec extends Codec {
 	/**
 	 * parse a XML request
 	 *
-	 * @param array the received $HTTP_RAW_POST_DATA
+	 * @param string raw data received
 	 * @return array the service called and the related input parameters
 	 */
 	function import_request($data) {

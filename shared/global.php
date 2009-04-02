@@ -212,8 +212,8 @@ $context['with_profile'] = 'N';
 //
 
 // get our position from the environment --always end the string with a slash
-if(isset($_ENV['YACS_HOME']))
-	$context['path_to_root'] = str_replace('//', '/', $_ENV['YACS_HOME'].'/');
+if($home = getenv('YACS_HOME'))
+	$context['path_to_root'] = str_replace('//', '/', $home.'/');
 
 // get our position from run-time
 else
@@ -241,6 +241,7 @@ Safe::load('parameters/control.include.php');
 if($context['with_debug'] == 'Y') {
 	Safe::ini_set('display_errors','1');
 	Safe::ini_set('display_startup_errors','1');
+	Safe::ini_set('allow_call_time_pass_reference','0');
 	$level = E_ALL;
 } else
 	$level = E_ALL ^ (E_NOTICE | E_USER_NOTICE | E_WARNING);

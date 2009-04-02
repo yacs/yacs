@@ -38,7 +38,7 @@ Class Atom_Codec extends Codec {
 	/**
 	 * parse some news
 	 *
-	 * @param array the received $HTTP_RAW_POST_DATA
+	 * @param string raw data received
 	 * @return array a status code (TRUE is ok) and the parsing result
 	 */
 	function decode($data) {
@@ -406,7 +406,7 @@ Class Atom_Codec extends Codec {
 	/**
 	 * parse a XML submitted packet according to the atom specification
 	 *
-	 * @param array the received $HTTP_RAW_POST_DATA
+	 * @param string raw data received
 	 * @return array the service called and the related input parameters
 	 */
 	function import_request($data) {

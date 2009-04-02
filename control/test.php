@@ -34,8 +34,6 @@
  * [code]$_SERVER['PATH'][/code], [code]$_SERVER['SCRIPT_FILENAME'][/code],
  * [code]$_SERVER['SystemRoot'][/code], [code]$_SERVER['WINDIR'][/code].
  *
- * [*] Environment attributes (to associates only) -- the content of [code]$_ENV[/code]
- *
  * [*] Time offset, as expressed by the browser, if any -- based on Javascript, and by the server -- based on PHP
  *
  * @link http://www.olate.com/articles/254 Use PHP and JavaScript to Display Local Time
@@ -44,7 +42,7 @@
  *
  * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and does not provide the content
- * of [code]$_SERVER[/code] nor of [code]$_ENV[/code].
+ * of [code]$_SERVER[/code].
  *
  * @author Bernard Paques
  * @author GnapZ
@@ -211,14 +209,6 @@ if(@count($_SERVER) && !file_exists($context['path_to_root'].'parameters/demo.fl
 	echo "</p>\n";
 }
 
-// environment dump for associates -- not in demonstration mode
-if(@count($_ENV) && Surfer::is_associate() && !file_exists($context['path_to_root'].'parameters/demo.flag')) {
-	echo '<p>'.i18n::s('System environment:').BR."\n";
-	foreach($_ENV as $name => $value)
-		echo '$_ENV[\''.$name.'\']='.$value.BR."\n";
-	echo "</p>\n";
-}
-
 // display workstation time offset
 echo '<script type="text/javascript">// <![CDATA['."\n"
 	.'now = new Date();'."\n"
@@ -309,9 +299,11 @@ if(Surfer::is_associate() && !file_exists($context['path_to_root'].'parameters/d
 		// display gathered information
 		echo '<p>'.i18n::s('user/group of this process:').' '.$ulabel.'/'.$glabel."</p>\n";
 
-	} else {
+	} else
 		echo '<p>'.i18n::s('Impossible to retrieve user/group of this process.')."</p>\n";
-	}
+
+	// attempt to execute a shell command
+	echo '<p>ls -la<br /><tt>'.nl2br(Safe::shell_exec('ls -la'))."</tt></p>\n";
 }
 
 // end of the page

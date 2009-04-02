@@ -26,8 +26,8 @@ include_once '../shared/global.php';
 
 // locate the information source
 $id = NULL;
-if(isset($_REQUEST['subject']))
-	$id = $_REQUEST['subject'];
+if(isset($_REQUEST['id']))
+	$id = $_REQUEST['id'];
 if(isset($context['arguments'][0]) && $context['arguments'][0])
 	$id = $context['arguments'][0];
 $id = strip_tags($id);

@@ -79,18 +79,16 @@
 include_once '../shared/global.php';
 include_once 'comments.php';
 
-// ensure we have some raw content
-global $HTTP_RAW_POST_DATA;
-if(!isset($HTTP_RAW_POST_DATA))
-   $HTTP_RAW_POST_DATA = file_get_contents("php://input");
+// get input data
+$raw_data = file_get_contents("php://input");
 
 // save the request if debug mode
-if($HTTP_RAW_POST_DATA && isset($context['debug_comment']) && ($context['debug_comment'] == 'Y'))
-	Logger::remember('comments/post.php', 'comments post request', $HTTP_RAW_POST_DATA, 'debug');
+if($raw_data && isset($context['debug_comment']) && ($context['debug_comment'] == 'Y'))
+	Logger::remember('comments/post.php', 'comments post request', $raw_data, 'debug');
 
 // transcode to our internal charset
 if($context['charset'] == 'utf-8')
-	$HTTP_RAW_POST_DATA = utf8::encode($HTTP_RAW_POST_DATA);
+	$raw_data = utf8::encode($raw_data);
 
 // look for the anchor reference
 $anchor = NULL;
@@ -111,22 +109,22 @@ if(isset($_SERVER['CONTENT_TYPE']) && ($_SERVER['CONTENT_TYPE'] == 'text/xml')) 
 
 	// description -- escaped or not
 	$comment = '';
-	if(preg_match('/<description><!\[CDATA\[(.+)\]\]><\/description>/is', $HTTP_RAW_POST_DATA, $matches))
+	if(preg_match('/<description><!\[CDATA\[(.+)\]\]><\/description>/is', $raw_data, $matches))
 		$comment = $matches[1];
-	elseif(preg_match('/<description>(.+)<\/description>/is', $HTTP_RAW_POST_DATA, $matches))
+	elseif(preg_match('/<description>(.+)<\/description>/is', $raw_data, $matches))
 		$comment = $matches[1];
 
 	// creator
 	$name = '';
-	if(preg_match('/<creator[^>]*>(.+)<\/creator>/is', $HTTP_RAW_POST_DATA, $matches))
+	if(preg_match('/<creator[^>]*>(.+)<\/creator>/is', $raw_data, $matches))
 		$name = $matches[1];
 
 	// dc:creator
-	elseif(preg_match('/<dc:creator[^>]*>(.+)<\/dc:creator>/is', $HTTP_RAW_POST_DATA, $matches))
+	elseif(preg_match('/<dc:creator[^>]*>(.+)<\/dc:creator>/is', $raw_data, $matches))
 		$name = $matches[1];
 
 	// title
-	if(preg_match('/<title>(.+)<\/title>/is', $HTTP_RAW_POST_DATA, $matches)) {
+	if(preg_match('/<title>(.+)<\/title>/is', $raw_data, $matches)) {
 
 		// only if we are not repeating page title again and again
 		if($anchor) {
@@ -138,12 +136,12 @@ if(isset($_SERVER['CONTENT_TYPE']) && ($_SERVER['CONTENT_TYPE'] == 'text/xml')) 
 
 	// link
 	$source = '';
-	if(preg_match('/<link>(.+)<\/link>/is', $HTTP_RAW_POST_DATA, $matches))
+	if(preg_match('/<link>(.+)<\/link>/is', $raw_data, $matches))
 		$source = $matches[1];
 
 	// author
 	if(!$source)
-		if(preg_match('/<author>(.+)<\/author>/is', $HTTP_RAW_POST_DATA, $matches))
+		if(preg_match('/<author>(.+)<\/author>/is', $raw_data, $matches))
 			$source = $matches[1];
 
 // the Post-It API

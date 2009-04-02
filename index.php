@@ -237,8 +237,8 @@
  */
 
 // load global definitions
-if(isset($_ENV['YACS_HOME']))
-	include_once str_replace('//', '/', $_ENV['YACS_HOME'].'/').'shared/global.php';
+if($home = getenv('YACS_HOME'))
+	include_once str_replace('//', '/', $home.'/').'shared/global.php';
 elseif(is_readable('yacs.home') && is_callable('file_get_contents') && ($content = trim(file_get_contents('yacs.home'), " \t\n\r\0\x0B\\/.")) && is_readable($content.'/shared/global.php'))
 	include_once $content.'/shared/global.php';
 elseif(is_readable('shared/global.php'))
