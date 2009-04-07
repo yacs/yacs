@@ -945,7 +945,7 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// locked section
-		elseif($item['locked'] == 'Y')
+		elseif(($item['locked'] == 'Y') && ($user['capability'] != 'A') && !$section->is_editable($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
@@ -1373,7 +1373,7 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// locked section
-		elseif($item['locked'] == 'Y')
+		elseif(($item['locked'] == 'Y') && ($user['capability'] != 'A') && !$section->is_editable($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
@@ -1455,7 +1455,7 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// locked section
-		elseif($item['locked'] == 'Y')
+		elseif(($item['locked'] == 'Y') && ($user['capability'] != 'A') && !$section->is_editable($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {

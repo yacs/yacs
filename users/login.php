@@ -436,14 +436,14 @@ if(Surfer::is_crawler()) {
 			$information .= '<p>'.i18n::s('As a subscriber of this community, you may freely access most pages of this server.').'</p>';
 
 		// display in a separate panel
-		$panels[] = array('information_tab', i18n::s('You'), 'information_panel', $information);
+		$panels[] = array('information', i18n::s('You'), 'information_panel', $information);
 
 		// on-going actions, if any
 		include_once '../actions/actions.php';
 		if($items = Actions::list_by_date_for_anchor('user:'.Surfer::get_id(), 0, ACTIONS_PER_PAGE)) {
 			if(is_array($items) && @count($items))
 				$items = Skin::build_list($items, 'decorated');
-			$panels[] = array('actions_tab', i18n::s('Actions'), 'actions', $items);
+			$panels[] = array('actions', i18n::s('Actions'), 'actions', $items);
 		}
 
 		//

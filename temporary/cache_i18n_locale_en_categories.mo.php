@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on March 28, 2009, 10:24 pm GMT. Please do not modify it manually.
+ * on April 7, 2009, 1:38 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-03-20 23:10+0100
+POT-Creation-Date: 2009-04-07 12:56+0200
 PO-Revision-Date: 2008-11-02 23:13+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -74,7 +74,7 @@ $_SESSION['l10n']['en']['Do not display articles.']='Do not display articles.';
 $_SESSION['l10n']['en']['Do not list sections.']='Do not list sections.';
 $_SESSION['l10n']['en']['Do not list sub-categories.']='Do not list sub-categories.';
 $_SESSION['l10n']['en']['fb0d9333cb60f25b5b1a13b04db64697']='E-mail has not been enabled on this system.';
-$_SESSION['l10n']['en']['Edit this page']='Edit this page';
+$_SESSION['l10n']['en']['Edit this category']='Edit this category';
 $_SESSION['l10n']['en']['Edit: %s']='Edit: %s';
 $_SESSION['l10n']['en']['afb7b68bf930c793832d36380219bfff']='Ensure this post is valid XHTML.';
 $_SESSION['l10n']['en']['Excerpts']='Excerpts';

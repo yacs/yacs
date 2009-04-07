@@ -133,7 +133,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// display in a separate panel
 	if(trim($outbound))
-		$panels[] = array('outbound_tab', i18n::s('Outbound feeds'), 'outbound_panel', $outbound);
+		$panels[] = array('outbound', i18n::s('Outbound feeds'), 'outbound_panel', $outbound);
 
 	// inbound feeds
 	//
@@ -166,7 +166,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// display in a separate panel
 	if(trim($inbound))
-		$panels[] = array('inbound_tab', i18n::s('Inbound feeds'), 'inbound_panel', $inbound);
+		$panels[] = array('inbound', i18n::s('Inbound feeds'), 'inbound_panel', $inbound);
 
 	// assemble all tabs
 	//

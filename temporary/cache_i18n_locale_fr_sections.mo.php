@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on March 28, 2009, 10:24 pm GMT. Please do not modify it manually.
+ * on April 7, 2009, 1:37 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-03-20 23:10+0100
-PO-Revision-Date: 2008-11-17 15:50+0100
+POT-Creation-Date: 2009-04-07 12:56+0200
+PO-Revision-Date: 2009-04-07 15:36+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -117,7 +117,6 @@ $_SESSION['l10n']['fr']['ab006b2530195974908cd8ab59b711b9']='Cliquer sur les cod
 $_SESSION['l10n']['fr']['d2f5055c19065da8b2fecb3ff8567533']='Cliquez sur le lien suivant pour lire le nouveau commentaire';
 $_SESSION['l10n']['fr']['Code to reference this page: %s']='Code pour référencer cette page : %s';
 $_SESSION['l10n']['fr']['5cb4a37477ac11b8572c1f97c42ec259']='Vient avant le titre. Pour catégoriser les sections dans les forums';
-$_SESSION['l10n']['fr']['Comment: %s']='Commentaire : %s';
 $_SESSION['l10n']['fr']['Comments']='Commentaires';
 $_SESSION['l10n']['fr']['Compact title']='Titre compact';
 $_SESSION['l10n']['fr']['30ca048e4f2b284723125df404049949']='Félicitations, vous avez étendu votre espace web avec succès';
@@ -159,7 +158,7 @@ $_SESSION['l10n']['fr']['Edit the new comment']='Modifier le nouveau commentaire
 $_SESSION['l10n']['fr']['Edit the new note']='Modifier la nouvelle annotation';
 $_SESSION['l10n']['fr']['Edit the new reply']='Modifier la nouvelle réponse';
 $_SESSION['l10n']['fr']['Edit this note']='Modifier cette annotation';
-$_SESSION['l10n']['fr']['Edit this page']='Modifier cette page';
+$_SESSION['l10n']['fr']['Edit this section']='Modifier cette section';
 $_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['Editors']='Editeurs';
 $_SESSION['l10n']['fr']['6c49f41e1b81e6ebcbfec6b6ff006c47']='Les pages peuvent être supprimées par les éditeurs';

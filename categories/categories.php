@@ -1723,6 +1723,12 @@ Class Categories {
 	function &search($pattern, $offset=0, $count=50, $variant='search') {
 		global $context;
 
+		// sanity check
+		if(!$pattern = trim($pattern)) {
+			$output = NULL;
+			return $output;
+		}
+		
 		// limit the scope of the request
 		$where = "categories.active='Y'";
 		if(Surfer::is_member())

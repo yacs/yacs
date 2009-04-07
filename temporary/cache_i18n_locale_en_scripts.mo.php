@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on March 28, 2009, 10:25 pm GMT. Please do not modify it manually.
+ * on April 7, 2009, 1:38 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-03-20 23:10+0100
-PO-Revision-Date: 2009-03-11 00:02+0100
+POT-Creation-Date: 2009-04-07 12:53+0200
+PO-Revision-Date: 2009-04-07 12:58+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -60,6 +60,7 @@ $_SESSION['l10n']['en']['d020262f882c464f052d7faa6e3bb07e']='Congratulations, th
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Copying files...']='Copying files...';
 $_SESSION['l10n']['en']['Current content of %s']='Current content of %s';
+$_SESSION['l10n']['en']['Database maintenance']='Database maintenance';
 $_SESSION['l10n']['en']['Delta']='Delta';
 $_SESSION['l10n']['en']['Diff']='Diff';
 $_SESSION['l10n']['en']['Documentation:']='Documentation:';
@@ -71,6 +72,7 @@ $_SESSION['l10n']['en']['98564239e79262aa70b133bc80f289ae']='Enable remote serve
 $_SESSION['l10n']['en']['Error while processing %s.']='Error while processing %s.';
 $_SESSION['l10n']['en']['6cbee9d5e160a682215f32bd84f39d36']='Errors have been encountered, and you cannot proceed with the network update.';
 $_SESSION['l10n']['en']['c2894838835b4148cf032856000493b1']='Extended processing time is not allowed on this server. In case of trouble, please upload individual files manually to the <code>scripts/staging</code> directory, using your preferred FTP tool or equivalent. When this is completed, jump to %s to complete the software update.';
+$_SESSION['l10n']['en']['Extensions']='Extensions';
 $_SESSION['l10n']['en']['Fetch']='Fetch';
 $_SESSION['l10n']['en']['Fetch the script file']='Fetch the script file';
 $_SESSION['l10n']['en']['File']='File';

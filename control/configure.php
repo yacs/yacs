@@ -714,11 +714,11 @@ if(!Surfer::is_associate()) {
 	// assemble all tabs
 	//
 	$all_tabs = array(
-		array('database_tab', i18n::s('Database'), 'database_panel', $database),
-		array('system_tab', i18n::s('System'), 'system_panel', $system),
-		array('http_tab', i18n::s('Network'), 'http_panel', $http),
-		array('mail_tab', i18n::s('Mail'), 'mail_panel', $mail),
-		array('skin_tab', i18n::s('Skin'), 'skin_panel', $skin)
+		array('database', i18n::s('Database'), 'database_panel', $database),
+		array('system', i18n::s('System'), 'system_panel', $system),
+		array('http', i18n::s('Network'), 'http_panel', $http),
+		array('mail', i18n::s('Mail'), 'mail_panel', $mail),
+		array('skin', i18n::s('Skin'), 'skin_panel', $skin)
 		);
 
 	// let YACS do the hard job

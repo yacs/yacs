@@ -567,7 +567,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			}
 
 			// build another tab
-			$all_tabs = array_merge($all_tabs, array(array('overview_tab', i18n::s('Overview'), 'overview_panel', $text)));
+			$all_tabs = array_merge($all_tabs, array(array('overview', i18n::s('Overview'), 'overview_panel', $text)));
 
 			//
 			// Content Management tab
@@ -721,7 +721,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			}
 
 			// build another tab
-			$all_tabs = array_merge($all_tabs, array(array('content_tab', i18n::s('Content'), 'content_panel', $text)));
+			$all_tabs = array_merge($all_tabs, array(array('content', i18n::s('Content'), 'content_panel', $text)));
 
 			//
 			// the Configuration Panels tab is reserved to associates
@@ -784,7 +784,7 @@ if(!file_exists('../parameters/control.include.php')) {
 					$text .= '<ul>'.$links.'</ul>';
 
 				// build another tab
-				$all_tabs = array_merge($all_tabs, array(array('configuration_tab', i18n::s('Configuration'), 'configuration_panel', $text)));
+				$all_tabs = array_merge($all_tabs, array(array('configuration', i18n::s('Configuration'), 'configuration_panel', $text)));
 			}
 
 
@@ -907,7 +907,7 @@ if(!file_exists('../parameters/control.include.php')) {
 
 			// build another tab
 			if($text)
-				$all_tabs = array_merge($all_tabs, array(array('system_tab', i18n::s('System'), 'system_panel', $text)));
+				$all_tabs = array_merge($all_tabs, array(array('system', i18n::s('System'), 'system_panel', $text)));
 
 			//
 			// show all tabs

@@ -100,7 +100,7 @@ elseif(!Surfer::is_associate()) {
 
 	// display in a separate panel
 	if(trim($events))
-		$panels[] = array('events_tab', i18n::s('Events'), 'events_panel', $events);
+		$panels[] = array('events', i18n::s('Events'), 'events_panel', $events);
 
 	//
 	// values updated in the background
@@ -120,7 +120,7 @@ elseif(!Surfer::is_associate()) {
 
 	// display in a separate panel
 	if(trim($values))
-		$panels[] = array('values_tab', i18n::s('Values'), 'values_panel', $values);
+		$panels[] = array('values', i18n::s('Values'), 'values_panel', $values);
 
 	//
 	// script profiles
@@ -141,7 +141,7 @@ elseif(!Surfer::is_associate()) {
 
 	// display in a separate panel
 	if(trim($profiles))
-		$panels[] = array('profiles_tab', i18n::s('Performance'), 'profiles_panel', $profiles);
+		$panels[] = array('performance', i18n::s('Performance'), 'performance_panel', $profiles);
 
 	//
 	// stats on user agents
@@ -205,7 +205,7 @@ elseif(!Surfer::is_associate()) {
 
 	// display in a separate panel
 	if(trim($agents))
-		$panels[] = array('agents_tab', i18n::s('Browsers'), 'agents_panel', $agents);
+		$panels[] = array('browsers', i18n::s('Browsers'), 'browsers_panel', $agents);
 
 	//
 	// display referer information
@@ -230,7 +230,7 @@ elseif(!Surfer::is_associate()) {
 
 	// display in a separate panel
 	if(trim($referrals))
-		$panels[] = array('referrals_tab', i18n::s('Referrals'), 'referrals_panel', $referrals);
+		$panels[] = array('referrals', i18n::s('Referrals'), 'referrals_panel', $referrals);
 
 	//
 	// requests from search engines
@@ -255,7 +255,7 @@ elseif(!Surfer::is_associate()) {
 
 	// display in a separate panel
 	if(trim($searches))
-		$panels[] = array('searches_tab', i18n::s('Searches'), 'searches_panel', $searches);
+		$panels[] = array('searches', i18n::s('Searches'), 'searches_panel', $searches);
 
 	//
 	// assemble all tabs

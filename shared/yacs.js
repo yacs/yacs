@@ -1047,12 +1047,84 @@ var Yacs = {
 
 		Yacs.tabs_list = tabs;
 		Yacs.tabs_args = args;
+		Yacs.tabs_current = null;
 
 		// react to clicks
 		var id;
 		for(id in tabs) {
 			if(tabs.hasOwnProperty(id)) {
-				Event.observe($(id), 'click', Yacs.tabs_event);
+			
+				// instrument this tab
+				Event.observe($(id), 'click', Yacs.tabsEvent);
+				
+				// we are on first tab
+				if(!Yacs.tabs_current) {
+					Yacs.tabs_current = id;
+				}
+			}
+		}
+		
+		// move to the right tab
+		new PeriodicalExecuter(function(pe) {
+
+			// where are we?
+			if(window.location.hash.length > 1) {
+				var hash = document.location.hash.substr(1,document.location.hash.length);
+				
+				// are we already there?
+				if(Yacs.tabs_current == hash)
+					return;
+					
+				// change to this tab
+				for(id in tabs) {
+					if(id == hash) {
+						Yacs.tabsDisplay(id);
+						break;
+					}
+				}
+				
+				// wait until next change of hash
+				Yacs.tabs_current = hash;
+			}
+
+		}, 0.5);
+
+		
+		// move to the right tab
+	},
+
+	/**
+	 * display given tab
+	 */
+	tabsDisplay: function(id) {
+
+		// activate the clicked tab -- see skins/_reference/ajax.css
+		var iterator;
+		for(iterator in Yacs.tabs_list) {
+			if(id == $(iterator).id) {
+			
+				// remember our state
+				window.location.hash = id;
+				Yacs.tabs_current = id;
+				
+				// update the tab
+				$(iterator).className = 'tab-foreground';
+				
+				// update the panel
+				$(Yacs.tabs_list[iterator][0]).className = 'panel-foreground';
+
+				// load panel content, if necessary
+				if(Yacs.tabs_list[iterator].length > 1) {
+					Yacs.updateOnce(Yacs.tabs_list[iterator][0], Yacs.tabs_list[iterator][1], Yacs.tabs_args);
+				}
+
+			} else {
+			
+				// update the tab
+				$(iterator).className = 'tab-background';
+				
+				// update the panel
+				$(Yacs.tabs_list[iterator][0]).className = 'panel-background';
 			}
 		}
 	},
@@ -1060,7 +1132,7 @@ var Yacs = {
 	/**
 	 * click on a tab
 	 */
-	tabs_event: function(e) {
+	tabsEvent: function(e) {
 
 		// target the clicked tab
 		var clicked = Event.element(e);
@@ -1075,31 +1147,9 @@ var Yacs = {
 			Yacs.tabs_args.onClick(clicked);
 		}
 
-		// activate the clicked tab -- see skins/_reference/ajax.css
-		var iterator;
-		for(iterator in Yacs.tabs_list) {
-			if(clicked.id == $(iterator).id) {
-				$(iterator).className = 'tab-foreground';
-			} else {
-				$(iterator).className = 'tab-background';
-			}
-		}
-
-		// activate the related panel -- see skins/_reference/ajax.css
-		for(iterator in Yacs.tabs_list) {
-			if(clicked.id == $(iterator).id) {
-				$(Yacs.tabs_list[iterator][0]).className = 'panel-foreground';
-
-				// load panel content, if any
-				if(Yacs.tabs_list[iterator].length > 1) {
-					Yacs.updateOnce(Yacs.tabs_list[iterator][0], Yacs.tabs_list[iterator][1], Yacs.tabs_args);
-				}
-
-			} else {
-				$(Yacs.tabs_list[iterator][0]).className = 'panel-background';
-			}
-		}
-
+		// display the target tab
+		Yacs.tabsDisplay(clicked.id);
+		
 		// do not propagate event
 		Event.stop(e);
 	},

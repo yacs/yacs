@@ -387,7 +387,7 @@ if(isset($item['id']) && !$zoom_type && $has_content && $editable) {
 if(isset($item['id']) && !$zoom_type && $editable) {
 	Skin::define_img('EDIT_SECTION_IMG', 'icons/sections/edit.gif');
 	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
-		$label = i18n::s('Edit this page');
+		$label = i18n::s('Edit this section');
 	$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url($item['id'], 'edit') => array('', EDIT_SECTION_IMG.$label, '', 'basic', '', i18n::s('Update the content of this page')) ));
 }
 
@@ -1474,7 +1474,7 @@ if(!isset($item['id'])) {
 		// modify this page
 		Skin::define_img('EDIT_SECTION_IMG', 'icons/sections/edit.gif');
 		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
-			$label = i18n::s('Edit this page');
+			$label = i18n::s('Edit this section');
 		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), EDIT_SECTION_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed

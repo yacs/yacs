@@ -1911,12 +1911,19 @@ Class Files {
 	function &search($pattern, $offset=0, $count=50, $variant='search') {
 		global $context;
 
+		// sanity check
+		if(!$pattern = trim($pattern)) {
+			$output = NULL;
+			return $output;
+		}
+		
 		// limit the scope of the request
 		$where = "files.active='Y' OR files.active='X'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR files.active='N'";
+		$where = '('.$where.')';
 
 		// match
 		$match = '';
@@ -1929,7 +1936,7 @@ Class Files {
 
 		// the list of files
 		$query = "SELECT * FROM ".SQL::table_name('files')." AS files "
-			." WHERE (".$where.") AND $match"
+			." WHERE ".$where." AND $match"
 			." ORDER BY files.edit_date DESC"
 			." LIMIT ".$offset.','.$count;
 

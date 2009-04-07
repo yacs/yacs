@@ -245,8 +245,8 @@ elseif(!Surfer::is_associate()) {
 	// assemble all tabs
 	//
 	$all_tabs = array(
-		array('messages_tab', i18n::s('Messages'), 'messages_panel', $messages),
-		array('uploads_tab', i18n::s('Uploads'), 'uploads_panel', $uploads)
+		array('messages', i18n::s('Messages'), 'messages_panel', $messages),
+		array('uploads', i18n::s('Uploads'), 'uploads_panel', $uploads)
 		);
 
 	// let YACS do the hard job

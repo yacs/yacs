@@ -526,10 +526,10 @@ elseif(!Surfer::is_associate()) {
 	// assemble all tabs
 	//
 	$all_tabs = array(
-		array('registration_tab', i18n::s('Registration'), 'registration_panel', $registration),
-		array('authentication_tab', i18n::s('Authentication'), 'authentication_panel', $authentication),
-		array('content_tab', i18n::s('Content'), 'content_panel', $content),
-		array('submission_tab', i18n::s('Submission'), 'submission_panel', $submission)
+		array('registration', i18n::s('Registration'), 'registration_panel', $registration),
+		array('authentication', i18n::s('Authentication'), 'authentication_panel', $authentication),
+		array('content', i18n::s('Content'), 'content_panel', $content),
+		array('submission', i18n::s('Submission'), 'submission_panel', $submission)
 		);
 
 	// let YACS do the hard job

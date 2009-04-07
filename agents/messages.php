@@ -656,11 +656,11 @@ class Messages {
 			return 0;
 		}
 		if($context['debug_messages'] == 'Y')
-			Logger::remember('agents/messages.php', 'POP <-', $reply, 'debug');
+			Logger::remember('agents/messages.php', 'POP <-', rtrim($reply), 'debug');
 
 		// expecting an OK
 		if(strncmp($reply, '+OK', 3)) {
-			Logger::remember('agents/messages.php', 'Mail service is closed at '.$server, $reply);
+			Logger::remember('agents/messages.php', 'Mail service is closed at '.$server, rtrim($reply));
 			fclose($handle);
 			return 0;
 		}
@@ -680,8 +680,8 @@ class Messages {
 			$hash = md5($stamp.$password);
 
 			// send user name and hash
-			$request = 'APOP '.$account.' '.$hash.CRLF;
-			fputs($handle, $request);
+			$request = 'APOP '.$account.' '.$hash;
+			fputs($handle, $request.CRLF);
 			if($context['debug_messages'] == 'Y')
 				Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
 
@@ -692,10 +692,10 @@ class Messages {
 				return 0;
 			}
 			if($context['debug_messages'] == 'Y')
-				Logger::remember('agents/messages.php', 'POP <-', $reply, 'debug');
+				Logger::remember('agents/messages.php', 'POP <-', rtrim($reply), 'debug');
 
 			if(strncmp($reply, '+OK', 3)) {
-				Logger::remember('agents/messages.php', 'Impossible to authenticate account '.$account.' at '.$server, $reply);
+				Logger::remember('agents/messages.php', 'Impossible to authenticate account '.$account.' at '.$server, rtrim($reply));
 			} else
 				$authenticated = TRUE;
 
@@ -705,8 +705,8 @@ class Messages {
 		if(!$authenticated) {
 
 			// send user name
-			$request = 'USER '.$account.CRLF;
-			fputs($handle, $request);
+			$request = 'USER '.$account;
+			fputs($handle, $request.CRLF);
 			if($context['debug_messages'] == 'Y')
 				Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
 
@@ -717,17 +717,17 @@ class Messages {
 				return 0;
 			}
 			if($context['debug_messages'] == 'Y')
-				Logger::remember('agents/messages.php', 'POP <-', $reply, 'debug');
+				Logger::remember('agents/messages.php', 'POP <-', rtrim($reply), 'debug');
 
 			if(strncmp($reply, '+OK', 3)) {
-				Logger::remember('agents/messages.php', 'Unknown account '.$account.' at '.$server, $reply);
+				Logger::remember('agents/messages.php', 'Unknown account '.$account.' at '.$server, rtrim($reply));
 				fclose($handle);
 				return 0;
 			}
 
 			// send password
-			$request = 'PASS '.$password.CRLF;
-			fputs($handle, $request);
+			$request = 'PASS '.$password;
+			fputs($handle, $request.CRLF);
 			if($context['debug_messages'] == 'Y')
 				Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
 
@@ -738,18 +738,18 @@ class Messages {
 				return 0;
 			}
 			if($context['debug_messages'] == 'Y')
-				Logger::remember('agents/messages.php', 'POP <-', $reply, 'debug');
+				Logger::remember('agents/messages.php', 'POP <-', rtrim($reply), 'debug');
 
 			if(strncmp($reply, '+OK', 3)) {
-				Logger::remember('agents/messages.php', 'Invalid password for account '.$account.' at '.$server, $reply);
+				Logger::remember('agents/messages.php', 'Invalid password for account '.$account.' at '.$server, rtrim($reply));
 				fclose($handle);
 				return 0;
 			}
 		}
 
 		// ask for information
-		$request = 'STAT'.CRLF;
-		fputs($handle, $request);
+		$request = 'STAT';
+		fputs($handle, $request.CRLF);
 		if($context['debug_messages'] == 'Y')
 			Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
 
@@ -760,7 +760,7 @@ class Messages {
 			return 0;
 		}
 		if(strncmp($reply, '+OK', 3)) {
-			Logger::remember('agents/messages.php', 'Rejected command STAT at '.$server, 'reply="'.$reply.'"');
+			Logger::remember('agents/messages.php', 'Rejected command STAT at '.$server, 'reply="'.rtrim($reply).'"');
 			fclose($handle);
 			return 0;
 		}
@@ -768,7 +768,7 @@ class Messages {
 		// evaluate queue size
 		$tokens = explode(' ', $reply);
 		if($context['debug_messages'] == 'Y')
-			Logger::remember('agents/messages.php', 'POP <-', $reply, 'debug');
+			Logger::remember('agents/messages.php', 'POP <-', rtrim($reply), 'debug');
 		$queue_size = @$tokens[1];
 
 		// nothing to do
@@ -785,8 +785,8 @@ class Messages {
 		for($index = 1; $index <= $queue_size; $index++) {
 
 			// ask for the message
-			$request = 'RETR '.$index.CRLF;
-			fputs($handle, $request);
+			$request = 'RETR '.$index;
+			fputs($handle, $request.CRLF);
 			if($context['debug_messages'] == 'Y')
 				Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
 
@@ -797,7 +797,7 @@ class Messages {
 				return ($index-1);
 			}
 			if(strncmp($reply, '+OK', 3)) {
-				Logger::remember('agents/messages.php', 'Rejected command RETR at '.$server, $reply);
+				Logger::remember('agents/messages.php', 'Rejected command RETR at '.$server, rtrim($reply));
 				fclose($handle);
 				return ($index-1);
 			}
@@ -823,8 +823,8 @@ class Messages {
 			}
 
 			// suppress the message from the mailbox before entering into the database
-			$request = 'DELE '.$index.CRLF;
-			fputs($handle, $request);
+			$request = 'DELE '.$index;
+			fputs($handle, $request.CRLF);
 			if($context['debug_messages'] == 'Y')
 				Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
 
@@ -832,7 +832,7 @@ class Messages {
 			if(($reply = fgets($handle)) === FALSE)
 				Logger::remember('agents/messages.php', 'No reply to DELE command at '.$server);
 			elseif(strncmp($reply, '+OK', 3))
-				Logger::remember('agents/messages.php', 'Rejected command DELE at '.$server, $reply);
+				Logger::remember('agents/messages.php', 'Rejected command DELE at '.$server, rtrim($reply));
 
 			// file the message if in debug mode
 			if(($context['debug_messages'] == 'Y') && Safe::make_path('temporary/agents'))
@@ -844,8 +844,8 @@ class Messages {
 		}
 
 		// close the session to actually purge the queue
-		$request = 'QUIT'.CRLF;
-		fputs($handle, $request);
+		$request = 'QUIT';
+		fputs($handle, $request.CRLF);
 		if($context['debug_messages'] == 'Y')
 			Logger::remember('agents/messages.php', 'POP ->', $request, 'debug');
 
@@ -853,7 +853,7 @@ class Messages {
 		if(($reply = fgets($handle)) === FALSE)
 			Logger::remember('agents/messages.php', 'No reply to QUIT command at '.$server);
 		elseif(strncmp($reply, '+OK', 3))
-			Logger::remember('agents/messages.php', 'Rejected command QUIT at '.$server, $reply);
+			Logger::remember('agents/messages.php', 'Rejected command QUIT at '.$server, rtrim($reply));
 
 		if($queue_size > 0)
 			Logger::remember('agents/messages.php', $queue_size.' message(s) have been processed from '.$server);

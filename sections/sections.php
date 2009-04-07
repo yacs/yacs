@@ -2261,6 +2261,12 @@ Class Sections {
 	function &search($pattern, $offset=0, $count=50, $variant='full') {
 		global $context;
 
+		// sanity check
+		if(!$pattern = trim($pattern)) {
+			$output = NULL;
+			return $output;
+		}
+		
 		// limit the scope of the request
 		$where = "sections.active='Y'";
 

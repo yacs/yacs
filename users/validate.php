@@ -64,10 +64,15 @@ elseif(Users::validate($item['id'])) {
 	// congratulations
 	$context['text'] .= sprintf(i18n::s('<p>%s,</p><p>Your e-mail address has been validated, and you are now an active member of this community.</p>'), ucfirst($item['nick_name']));
 
+	// set permanent name shown from top level
+	Safe::setcookie('surfer_name', $user['nick_name'], time()+60*60*24*500, '/');
+
+	// save surfer profile in session context
+	Surfer::set($item);
+
 	// follow-up commands
 	$follow_up = i18n::s('Where do you want to go now?');
 	$menu = array();
-	$menu = array_merge($menu, array('users/login.php' => i18n::s('Login')));
 	$menu = array_merge($menu, array(Users::get_url($item['id'], 'view', $item['nick_name']) => i18n::s('My profile')));
 	$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
 	$follow_up .= Skin::build_list($menu, 'menu_bar');

@@ -126,8 +126,8 @@ elseif(!Surfer::is_associate()) {
 	// assemble all tabs
 	//
 	$all_tabs = array(
-		array('extensions_tab', i18n::s('Extensions'), 'extensions_panel', $extensions),
-		array('store_tab', i18n::s('Storage'), 'store_panel', $store)
+		array('extensions', i18n::s('Extensions'), 'extensions_panel', $extensions),
+		array('store', i18n::s('Storage'), 'store_panel', $store)
 		);
 
 	// let YACS do the hard job

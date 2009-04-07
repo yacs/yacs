@@ -498,8 +498,8 @@ elseif(!Surfer::is_associate()) {
 	// assemble all tabs
 	//
 	$all_tabs = array(
-		array('main_tab', i18n::s('Main panel'), 'main_content', $main),
-		array('extra_tab', i18n::s('Side panel'), 'extra_content', $extra)
+		array('main', i18n::s('Main panel'), 'main_content', $main),
+		array('extra', i18n::s('Side panel'), 'extra_content', $extra)
 		);
 
 	// let YACS do the hard job

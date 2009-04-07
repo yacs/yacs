@@ -60,7 +60,7 @@ if(!defined('FORBIDDEN_IN_URLS'))
 	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\,+%\?=\-\[\]]+/');
 	
 if(!defined('CRLF'))
-	define('CRLF', "\015\012");	
+	define('CRLF', "\x0D\x0A");	
 
 // store attributes for this request, including global parameters and request-specific variables
 global $context;

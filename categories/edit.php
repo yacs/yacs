@@ -767,9 +767,9 @@ if($with_form) {
 	// assemble all tabs
 	//
 	$all_tabs = array(
-		array('index_tab', i18n::s('Index page'), 'index_panel', $index),
-		array('content_tab', i18n::s('Content tree'), 'content_panel', $content),
-		array('options_tab', i18n::s('Options'), 'options_panel', $options)
+		array('index', i18n::s('Index page'), 'index_panel', $index),
+		array('content', i18n::s('Content tree'), 'content_panel', $content),
+		array('options', i18n::s('Options'), 'options_panel', $options)
 		);
 
 	// let YACS do the hard job

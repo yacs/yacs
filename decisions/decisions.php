@@ -905,6 +905,12 @@ Class Decisions {
 	function &search($pattern, $offset=0, $count=30, $variant='search') {
 		global $context;
 
+		// sanity check
+		if(!$pattern = trim($pattern)) {
+			$output = NULL;
+			return $output;
+		}
+		
 		// match
 		$match = '';
 		$words = preg_split('/\s/', $pattern);

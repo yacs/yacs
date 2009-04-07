@@ -172,7 +172,7 @@ elseif(isset($item['title']) && $item['title'])
 
 // modify this page
 if((!$zoom_type) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))) {
-	$context['page_menu'] = array_merge($context['page_menu'], array( Categories::get_url($id, 'edit') => i18n::s('Edit this page') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Categories::get_url($id, 'edit') => i18n::s('Edit this category') ));
 	$context['page_menu'] = array_merge($context['page_menu'], array( Categories::get_url($id, 'delete') => i18n::s('Delete') ));
 }
 
@@ -481,7 +481,7 @@ if(!isset($item['id'])) {
 
 		// in a separate panel
 		if(trim($text))
-			$panels[] = array('sections_tab', i18n::s('Sections'), 'sections_panel', $text);
+			$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', $text);
 	}
 
 	//
@@ -564,7 +564,7 @@ if(!isset($item['id'])) {
 
 		// in a separate panel
 		if(trim($text))
-			$panels[] = array('articles_tab', i18n::s('Pages'), 'articles_panel', $text);
+			$panels[] = array('articles', i18n::s('Pages'), 'articles_panel', $text);
 	}
 
 
@@ -621,7 +621,7 @@ if(!isset($item['id'])) {
 
 		// in a separate panel
 		if(trim($text))
-			$panels[] = array('files_tab', i18n::s('Files'), 'files_panel', $text);
+			$panels[] = array('files', i18n::s('Files'), 'files_panel', $text);
 	}
 
 	//
@@ -681,7 +681,7 @@ if(!isset($item['id'])) {
 
 		// in a separate panel
 		if(trim($text))
-			$panels[] = array('comments_tab', i18n::s('Comments'), 'comments_panel', $text);
+			$panels[] = array('comments', i18n::s('Comments'), 'comments_panel', $text);
 	}
 
 	//
@@ -738,7 +738,7 @@ if(!isset($item['id'])) {
 
 		// in a separate panel
 		if(trim($text))
-			$panels[] = array('links_tab', i18n::s('Links'), 'links_panel', $text);
+			$panels[] = array('links', i18n::s('Links'), 'links_panel', $text);
 	}
 
 	//
@@ -828,7 +828,7 @@ if(!isset($item['id'])) {
 
 		// in a separate panel
 		if(trim($text))
-			$panels[] = array('categories_tab', i18n::s('Categories'), 'categories_panel', $text);
+			$panels[] = array('categories', i18n::s('Categories'), 'categories_panel', $text);
 	}
 
 	//
@@ -884,7 +884,7 @@ if(!isset($item['id'])) {
 
 		// in a separate panel
 		if(trim($text))
-			$panels[] = array('users_tab', i18n::s('Persons'), 'users_panel', $text);
+			$panels[] = array('users', i18n::s('Persons'), 'users_panel', $text);
 	}
 
 	//
@@ -917,7 +917,7 @@ if(!isset($item['id'])) {
 	if(!$zoom_type && Surfer::is_associate()) {
 
 		// modify this page
-		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'edit'), i18n::s('Edit this page'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'edit'), i18n::s('Edit this category'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed
 		if(Images::are_allowed($anchor, $item)) {

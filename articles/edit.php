@@ -1135,7 +1135,7 @@ if($with_form) {
 
 	// front-end tabs
 	$all_tabs = array(
-		array('information_tab', i18n::s('Information'), 'information_panel', $information)
+		array('information', i18n::s('Information'), 'information_panel', $information)
 		);
 
 	// append tabs from the overlay, if any
@@ -1144,8 +1144,8 @@ if($with_form) {
 
 	// back-end tabs
 	$all_tabs = array_merge($all_tabs, array(
-		array('content_tab', i18n::s('Content tree'), 'content_panel', $content),
-		array('options_tab', i18n::s('Options'), 'options_panel', $options)
+		array('content', i18n::s('Content tree'), 'content_panel', $content),
+		array('options', i18n::s('Options'), 'options_panel', $options)
 		));
 
 	// let YACS do the hard job

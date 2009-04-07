@@ -144,8 +144,8 @@ Class Layout_articles_as_daily extends Layout_interface {
 			elseif($item['active'] == 'R')
 				$details[] = RESTRICTED_FLAG;
 
-			// list up to three categories by title, if any
-			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+			// list up to five categories by title, if any
+			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
 				foreach($items as $id => $attributes)
 					$details[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic');
 			}

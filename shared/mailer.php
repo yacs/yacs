@@ -614,14 +614,11 @@ class Mailer {
 			$content_encoding = '8bit';
 			if(!strncmp($type, 'text/plain', 10)) {
 
-				// Unix-style newlines only
-				$part = str_replace("\r\n", "\n", $part);
-		
 				// wrap the message if necessary
 				$lines = explode("\n", $part);
 				$part = '';
 				foreach($lines as $line)
-					$part .= wordwrap($line, WRAPPING_LENGTH, " \n", 0)."\n";
+					$part .= wordwrap($line, WRAPPING_LENGTH, ' '.CRLF, 0).CRLF;
 		
 				// ensure utf-8
 				$part = utf8::from_unicode($part);
@@ -649,19 +646,19 @@ class Mailer {
 					$content_type = 'multipart/alternative; boundary="'.$boundary.'-internal"';
 			
 				if(!$body)
-					$body = 'This is a multi-part message in MIME format.'."\n";
+					$body = 'This is a multi-part message in MIME format.'.CRLF;
 					
-				$body .= "\n".'--'.$boundary.'-internal'
-					."\n".'Content-Type: '.$type
-					."\n".'Content-Transfer-Encoding: '.$content_encoding
-					."\n\n".$part."\n";
+				$body .= CRLF.'--'.$boundary.'-internal'
+					.CRLF.'Content-Type: '.$type
+					.CRLF.'Content-Transfer-Encoding: '.$content_encoding
+					.CRLF.CRLF.$part."\n";
 					
 			}
 		}
 		
 		// finalize the body
 		if(count($message) > 1)
-			$body .= "\n".'--'.$boundary.'-internal--';
+			$body .= CRLF.'--'.$boundary.'-internal--';
 
 		// a mix of things
 		if(count($attachments)) {
@@ -670,13 +667,13 @@ class Mailer {
 				if(!strncmp($content_type, 'multipart/', 10))
 					$content_encoding = '';
 				else
-					$content_encoding = "\n".'Content-Transfer-Encoding: '.$content_encoding;
+					$content_encoding = CRLF.'Content-Transfer-Encoding: '.$content_encoding;
 					
-				$body = 'This is a multi-part message in MIME format.'."\n"
-					."\n".'--'.$boundary.'-external'
-					."\n".'Content-Type: '.$content_type
+				$body = 'This is a multi-part message in MIME format.'.CRLF
+					.CRLF.'--'.$boundary.'-external'
+					.CRLF.'Content-Type: '.$content_type
 					.$content_encoding
-					."\n\n".$body."\n";
+					.CRLF.CRLF.$body."\n";
 					
 				$content_type = 'multipart/mixed; boundary="'.$boundary.'-external"';
 				$content_encoding = '';
@@ -693,13 +690,13 @@ class Mailer {
 					$basename = basename($name);
 					$type = Files::get_mime_type($basename);
 					
-					$body .= "\n".'--'.$boundary.'-external'
-						."\n".'Content-Type: '.$type.'; name="'.$basename.'"'
-						."\n".'Content-Transfer-Encoding: base64'
-						."\n\n".chunk_split(base64_encode($content))."\n";
+					$body .= CRLF.'--'.$boundary.'-external'
+						.CRLF.'Content-Type: '.$type.'; name="'.$basename.'"'
+						.CRLF.'Content-Transfer-Encoding: base64'
+						.CRLF.CRLF.chunk_split(base64_encode($content))."\n";
 
 				}
-				$body .= "\n".'--'.$boundary.'-external--';
+				$body .= CRLF.'--'.$boundary.'-external--';
 
 		}
 		
@@ -883,10 +880,13 @@ class Mailer {
 				$headers .= "\n".'To: '.$recipient;
 
 			// prepare message headers
-			$request = trim($headers."\n".'Subject: '.$subject)."\n";
+			$headers = trim($headers."\n".'Subject: '.$subject)."\n";
+			
+			// reenforce SMTP specification
+			$headers = str_replace("\n", CRLF, $headers);
 			
 			// append message body
-			$request .= "\n".trim($message)."\n.\n";
+			$request = $headers.CRLF.$message.CRLF.'.'.CRLF;
 			
 			// actual post
 			fputs($handle, $request);

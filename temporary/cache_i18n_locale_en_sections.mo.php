@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on March 28, 2009, 10:24 pm GMT. Please do not modify it manually.
+ * on April 7, 2009, 1:37 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-03-20 23:10+0100
+POT-Creation-Date: 2009-04-07 12:56+0200
 PO-Revision-Date: 2008-11-17 15:48+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -117,7 +117,6 @@ $_SESSION['l10n']['en']['ab006b2530195974908cd8ab59b711b9']='Click on codes to i
 $_SESSION['l10n']['en']['d2f5055c19065da8b2fecb3ff8567533']='Click on the following link to read the new comment';
 $_SESSION['l10n']['en']['Code to reference this page: %s']='Code to reference this page: %s';
 $_SESSION['l10n']['en']['5cb4a37477ac11b8572c1f97c42ec259']='Comes before the title; Used to categorize sections in forums';
-$_SESSION['l10n']['en']['Comment: %s']='Comment: %s';
 $_SESSION['l10n']['en']['Comments']='Comments';
 $_SESSION['l10n']['en']['Compact title']='Compact title';
 $_SESSION['l10n']['en']['30ca048e4f2b284723125df404049949']='Congratulation, you have successfully extended your web space';
@@ -159,7 +158,7 @@ $_SESSION['l10n']['en']['Edit the new comment']='Edit the new comment';
 $_SESSION['l10n']['en']['Edit the new note']='Edit the new note';
 $_SESSION['l10n']['en']['Edit the new reply']='Edit the new reply';
 $_SESSION['l10n']['en']['Edit this note']='Edit this note';
-$_SESSION['l10n']['en']['Edit this page']='Edit this page';
+$_SESSION['l10n']['en']['Edit this section']='Edit this section';
 $_SESSION['l10n']['en']['Edit: %s']='Edit: %s';
 $_SESSION['l10n']['en']['Editors']='Editors';
 $_SESSION['l10n']['en']['6c49f41e1b81e6ebcbfec6b6ff006c47']='Editors are allowed to delete pages';

@@ -213,7 +213,7 @@ if(@count($items))
 elseif(is_string($items))
 	$box['text'] .= $items;
 if($box['text'])
-	$panels[] = array('articles_tab', i18n::s('Pages'), 'articles_panel', $box['text']);
+	$panels[] = array('articles', i18n::s('Pages'), 'articles_panel', $box['text']);
 
 // on first page, and if search is not constrained
 if(($page == 1) && !$section_id) {
@@ -221,26 +221,26 @@ if(($page == 1) && !$section_id) {
 	// search in categories
 	include_once $context['path_to_root'].'categories/categories.php';
 	if($rows = Categories::search($search)) {
-		$panels[] = array('categories_tab', i18n::s('Categories'), 'categories_panel', Skin::build_list($rows, 'decorated'));
+		$panels[] = array('categories', i18n::s('Categories'), 'categories_panel', Skin::build_list($rows, 'decorated'));
 		$no_result = FALSE;
 	}
 
 	// search in files
 	include_once $context['path_to_root'].'files/files.php';
 	if($rows = Files::search($search)) {
-		$panels[] = array('files_tab', i18n::s('Files'), 'files_panel', Skin::build_list($rows, 'decorated'));
+		$panels[] = array('files', i18n::s('Files'), 'files_panel', Skin::build_list($rows, 'decorated'));
 		$no_result = FALSE;
 	}
 
 	// search in sections
 	if($rows = Sections::search($search)) {
-		$panels[] = array('sections_tab', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
+		$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
 		$no_result = FALSE;
 	}
 
 	// search in users
 	if($rows = Users::search($search)) {
-		$panels[] = array('users_tab', i18n::s('People'), 'users_panel', Skin::build_list($rows, 'decorated'));
+		$panels[] = array('users', i18n::s('People'), 'users_panel', Skin::build_list($rows, 'decorated'));
 		$no_result = FALSE;
 	}
 

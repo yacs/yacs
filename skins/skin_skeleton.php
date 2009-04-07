@@ -2386,14 +2386,14 @@ Class Skin_Skeleton {
 		foreach($tabs as $tab) {
 
 			// populate tabs
-			$tabs_text .= '<li id="'.$tab[0].'"';
+			$tabs_text .= '<li id="~'.$tab[0].'"';
 
 			if(!$index)
 				$tabs_text .= ' class="tab-foreground"';
 			else
 				$tabs_text .= ' class="tab-background"';
 
-			$tabs_text .= '><a href="#'.$tab[2].'">'.$tab[1].'</a></li>'."\n";
+			$tabs_text .= '><a href="#~'.$tab[0].'">'.$tab[1].'</a></li>'."\n";
 
 			// populate panels
 			$panels_text .= '<div id="'.$tab[2].'"';
@@ -2412,9 +2412,9 @@ Class Skin_Skeleton {
 
 			// populate the javascript loader
 			if(isset($tab[4]))
-				$js_lines[] = "'".$tab[0]."': [ '".$tab[2]."', '".$context['url_to_home'].$context['url_to_root'].$tab[4]."' ]";
+				$js_lines[] = "'~".$tab[0]."': [ '".$tab[2]."', '".$context['url_to_home'].$context['url_to_root'].$tab[4]."' ]";
 			else
-				$js_lines[] = "'".$tab[0]."': [ '".$tab[2]."' ]";
+				$js_lines[] = "'~".$tab[0]."': [ '".$tab[2]."' ]";
 
 			// next tab
 			$index++;

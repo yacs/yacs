@@ -369,9 +369,9 @@ if($with_form) {
 	// show all tabs
 	//
 	$all_tabs = array(
-		array('information_tab', i18n::s('Information'), 'information_panel', $panels['information']),
-		array('content_tab', i18n::s('Content'), 'content_panel', $panels['content']),
-		array('processing_tab', i18n::s('Processing'), 'processing_panel', $panels['processing'])
+		array('information', i18n::s('Information'), 'information_panel', $panels['information']),
+		array('content', i18n::s('Content'), 'content_panel', $panels['content']),
+		array('processing', i18n::s('Processing'), 'processing_panel', $panels['processing'])
 		);
 
 	// let YACS do the hard job

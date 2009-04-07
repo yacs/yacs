@@ -117,6 +117,8 @@ elseif(!Surfer::is_associate()) {
 
 				// display follow-up commands
 				$menu = array( 'scripts/' => i18n::s('Server software') );
+				$menu = array( 'control/scan.php' => i18n::s('Extensions') );
+				$menu = array( 'control/setup.php' => i18n::s('Database maintenance') );
 				$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
 			}

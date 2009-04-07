@@ -718,7 +718,7 @@ if(!isset($item['id'])) {
 	$all_tabs = array();
 
 	if(trim($information))
-		$all_tabs[] = array('information_tab', i18n::s('Information'), 'information_panel', $information);
+		$all_tabs[] = array('information', i18n::s('Information'), 'information_panel', $information);
 
 	// append tabs from the overlay, if any -- they have been captured in articles/view.php
 	if(is_array($context['tabs']))
@@ -726,9 +726,9 @@ if(!isset($item['id'])) {
 
  	// append related tabs
  	if(trim($discussion))
-		$all_tabs[] = array('discussion_tab', i18n::s('Discussion'), 'discussion_panel', $discussion);
+		$all_tabs[] = array('discussion', i18n::s('Discussion'), 'discussion_panel', $discussion);
 	if($users)
-		$all_tabs[] = array('users_tab', i18n::s('Persons'), 'users_panel', $users);
+		$all_tabs[] = array('users', i18n::s('Persons'), 'users_panel', $users);
 
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($all_tabs);

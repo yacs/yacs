@@ -2218,7 +2218,8 @@ Class Articles {
 	function &search($pattern, $offset=0, $count=50, $layout='decorated') {
 		global $context;
 
-		return Articles::search_in_section(NULL, $pattern, $offset, $count, $layout);
+		$output =& Articles::search_in_section(NULL, $pattern, $offset, $count, $layout);
+		return $output;
 	}
 
 	/**
@@ -2246,6 +2247,12 @@ Class Articles {
 	function &search_in_section($section_id, $pattern, $offset=0, $count=10, $layout='decorated') {
 		global $context;
 
+		// sanity check
+		if(!$pattern = trim($pattern)) {
+			$output = NULL;
+			return $output;
+		}
+		
 		// search is restricted to one section
 		$sections_where = '';
 		if($section_id) {

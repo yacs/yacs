@@ -407,7 +407,7 @@ class Issue extends Overlay {
 
 		// finalize this tab
 		if($tracking)
-			$tabs[] = array('tracking_tab', i18n::s('Tracking'), 'tracking_panel', $tracking);
+			$tabs[] = array('tracking', i18n::s('Tracking'), 'tracking_panel', $tracking);
 
 		// add these tabs
 		return $tabs;

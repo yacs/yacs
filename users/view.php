@@ -457,7 +457,7 @@ if(!isset($item['id'])) {
 
 	// in a separate panel
 	if(trim($contributions))
-		$panels[] = array('contributions_tab', i18n::s('Contributions'), 'contributions_panel', $contributions);
+		$panels[] = array('contributions', i18n::s('Contributions'), 'contributions_panel', $contributions);
 
 	//
 	// the interactions tab
@@ -617,7 +617,7 @@ if(!isset($item['id'])) {
 
 	// in a separate tab
 	if($interactions)
-		$panels[] = array('interactions_tab', i18n::s('Interactions'), 'interactions', $interactions);
+		$panels[] = array('interactions', i18n::s('Interactions'), 'interactions', $interactions);
 
 	//
 	// the information tab
@@ -725,7 +725,7 @@ if(!isset($item['id'])) {
 
 	// in a separate tab
 	if($information)
-		$panels[] = array('information_tab', i18n::s('Information'), 'information_panel', $information);
+		$panels[] = array('information', i18n::s('Information'), 'information_panel', $information);
 
 	// append tabs from the overlay, if any
 	//
@@ -735,9 +735,9 @@ if(!isset($item['id'])) {
 	// assemble tabs
 	//
 	if(!$zoom_type && Surfer::is_member())
-		$panels[] = array('actions_tab', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'));
+		$panels[] = array('actions', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'));
 	if(!$zoom_type)
-		$panels[] = array('watch_tab', i18n::s('People'), 'watch_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
+		$panels[] = array('watch', i18n::s('People'), 'watch_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
 
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($panels);

@@ -850,15 +850,15 @@ Class Codes {
 				'/\[subtitle\](.*?)\[\/subtitle\]\n*/is',	// [subtitle]...[/subtitle]
 				'/\[(header[1-5])\](.*?)\[\/\1\]\n*/ise',	// [header1]...[/header1] ... [header5]...[/header5]
 				'/^======(\S.*?\S)======/me',				// ======...====== level 5 headline
-				'/<p>======(\S.*?\S)======<\/p>/me',		// ======...====== level 5 headline
+				'/<(br \/|p)>======(\S.*?\S)======<(br \/|\/p)>/me',		// ======...====== level 5 headline
 				'/^=====(\S.*?\S)=====/me',					// =====...===== level 4 headline
-				'/<p>=====(\S.*?\S)=====<\/p>/me',			// =====...===== level 4 headline
+				'/<(br \/|p)>=====(\S.*?\S)=====<(br \/|\/p)>/me',			// =====...===== level 4 headline
 				'/^====(\S.*?\S)====/me',					// ====...==== level 3 headline
-				'/<p>====(\S.*?\S)====<\/p>/me',			// ====...==== level 3 headline
+				'/<(br \/|p)>====(\S.*?\S)====<(br \/|\/p)>/me',			// ====...==== level 3 headline
 				'/^===(\S.*?\S)===/me',						// ===...=== level 2 headline
-				'/<p>===(\S.*?\S)===<\/p>/me',				// ===...=== level 2 headline
+				'/<(br \/|p)>===(\S.*?\S)===<(br \/|\/p)>/me',				// ===...=== level 2 headline
 				'/^==(\S.*?\S)==/me',						// ==...== level 1 headline
-				'/<p>==(\S.*?\S)==<\/p>/me',				// ==...== level 1 headline
+				'/<(br \/|p)>==(\S.*?\S)==<(br \/|\/p)>/me',				// ==...== level 1 headline
 				'/\[toc\]\n*/ise',							// [toc] (table of content)
 				'/\[published\.([^\]=]+?)=([^\]]+?)\]\n*/ise',	// [published.decorated=section:4029]
 				'/\[published\.([^\]]+?)\]\n*/ise',			// [published.decorated]
@@ -1029,15 +1029,15 @@ Class Codes {
 				'[header2]\\1[/header2]',											// [subtitle]...[/subtitle]
 				"Codes::render_title(Codes::fix_tags('$2'), '$1')",					// [header1]...[/header1] ... [header5]...[/header5]
 				"Codes::render_title(Codes::fix_tags('$1'), 'header5')",			// ======...====== level 5 header
-				"Codes::render_title(Codes::fix_tags('$1'), 'header5')",			// ======...====== level 5 header
+				"Codes::render_title(Codes::fix_tags('$2'), 'header5')",			// ======...====== level 5 header
 				"Codes::render_title(Codes::fix_tags('$1'), 'header4')",			// =====...===== level 4 header
-				"Codes::render_title(Codes::fix_tags('$1'), 'header4')",			// =====...===== level 4 header
+				"Codes::render_title(Codes::fix_tags('$2'), 'header4')",			// =====...===== level 4 header
 				"Codes::render_title(Codes::fix_tags('$1'), 'header3')",			// ====...==== level 3 header
-				"Codes::render_title(Codes::fix_tags('$1'), 'header3')",			// ====...==== level 3 header
+				"Codes::render_title(Codes::fix_tags('$2'), 'header3')",			// ====...==== level 3 header
 				"Codes::render_title(Codes::fix_tags('$1'), 'header2')",			// ===...=== level 2 header
-				"Codes::render_title(Codes::fix_tags('$1'), 'header2')",			// ===...=== level 2 header
+				"Codes::render_title(Codes::fix_tags('$2'), 'header2')",			// ===...=== level 2 header
 				"Codes::render_title(Codes::fix_tags('$1'), 'header1')",			// ==...== level 1 header
-				"Codes::render_title(Codes::fix_tags('$1'), 'header1')",			// ==...== level 1 header
+				"Codes::render_title(Codes::fix_tags('$2'), 'header1')",			// ==...== level 1 header
 				"Codes::render_table_of('content')",								// [toc]
 				"Codes::render_published('$2', '$1')",								// [published.decorated=section:4029]
 				"Codes::render_published('', '$1')",								// [published.decorated]

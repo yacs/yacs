@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on March 28, 2009, 10:25 pm GMT. Please do not modify it manually.
+ * on April 7, 2009, 1:38 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-03-20 23:10+0100
-PO-Revision-Date: 2009-03-11 00:05+0100
+POT-Creation-Date: 2009-04-07 12:53+0200
+PO-Revision-Date: 2009-04-07 15:35+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -60,6 +60,7 @@ $_SESSION['l10n']['fr']['d020262f882c464f052d7faa6e3bb07e']='Félicitations, le 
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Copying files...']='Copie des fichiers ...';
 $_SESSION['l10n']['fr']['Current content of %s']='Contenu actuel de %s';
+$_SESSION['l10n']['fr']['Database maintenance']='Maintenance de la base de données';
 $_SESSION['l10n']['fr']['Delta']='Delta';
 $_SESSION['l10n']['fr']['Diff']='Différences';
 $_SESSION['l10n']['fr']['Documentation:']='Documentation :';
@@ -71,6 +72,7 @@ $_SESSION['l10n']['fr']['98564239e79262aa70b133bc80f289ae']='Permettre aux serve
 $_SESSION['l10n']['fr']['Error while processing %s.']='Erreur pendant le traitement de %s.';
 $_SESSION['l10n']['fr']['6cbee9d5e160a682215f32bd84f39d36']='A cause des erreurs rencontrées, vous ne pouvez pas continuer la mise à jour par le réseau.';
 $_SESSION['l10n']['fr']['c2894838835b4148cf032856000493b1']='Le temps de traitement ne peut pas être étendu sur ce serveur. En cas de problème, merci de télécharger manuellement chacun des fichiers contenus dans l\'archive vers le répertoire <code>scripts/staging</code>, par l\'outil FTP ou équivalent de votre choix. Puis, après cette opération, aller sur %s pour continuer la mise à jour.';
+$_SESSION['l10n']['fr']['Extensions']='Extensions';
 $_SESSION['l10n']['fr']['Fetch']='Obtenir';
 $_SESSION['l10n']['fr']['Fetch the script file']='Obtenir ce script';
 $_SESSION['l10n']['fr']['File']='Fichier';

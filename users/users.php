@@ -364,13 +364,12 @@ Class Users {
 
 		$query = array();
 
-		if($int_value = intval($id))
-			$query[] = "(users.id = ".SQL::escape($int_value).")";
-
 		if(strpos($id, '@'))
 			$query[] = "(users.email LIKE '".SQL::escape($id)."')";
 		elseif(preg_match('/[0-9a-fA-F]{32}/', $id))
 			$query[] = "(users.handle LIKE '".SQL::escape($id)."')";
+		elseif($int_value = intval($id))
+			$query[] = "(users.id = ".SQL::escape($int_value).")";
 		else
 			$query[] = "(users.nick_name LIKE '".SQL::escape($id)."')";
 
@@ -1623,6 +1622,12 @@ Class Users {
 	function &search($pattern, $offset=0, $count=50, $variant='decorated') {
 		global $context;
 
+		// sanity check
+		if(!$pattern = trim($pattern)) {
+			$output = NULL;
+			return $output;
+		}
+		
 		// limit the scope of the request
 		$where = "users.active='Y'";
 		if(Surfer::is_logged())
@@ -1828,13 +1833,14 @@ Class Users {
 		// do the job
 		$query = "UPDATE ".SQL::table_name('users')
 			." SET capability='M'"
-			." WHERE id = ".$id;
+			." WHERE (id = ".$id.") AND (capability != 'A')";
 		$result =& SQL::query($query, FALSE, $context['users_connection']);
 
 		// clear the cache for users
 		Cache::clear(array('users', 'user:'.$id, 'categories'));
 
-		return $result;
+		// maybe it was already set
+		return 1;
 	}
 
 }

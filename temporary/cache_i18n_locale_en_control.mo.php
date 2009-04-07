@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on March 28, 2009, 10:24 pm GMT. Please do not modify it manually.
+ * on April 7, 2009, 1:38 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-03-20 23:10+0100
+POT-Creation-Date: 2009-04-07 12:53+0200
 PO-Revision-Date: 2009-03-20 23:12+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -427,7 +427,6 @@ $_SESSION['l10n']['en']['Switch']='Switch';
 $_SESSION['l10n']['en']['Switch on']='Switch on';
 $_SESSION['l10n']['en']['Switch the server on again']='Switch the server on again';
 $_SESSION['l10n']['en']['System']='System';
-$_SESSION['l10n']['en']['System environment:']='System environment:';
 $_SESSION['l10n']['en']['System management']='System management';
 $_SESSION['l10n']['en']['System overview']='System overview';
 $_SESSION['l10n']['en']['System parameters']='System parameters';

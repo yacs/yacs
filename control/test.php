@@ -302,6 +302,16 @@ if(Surfer::is_associate() && !file_exists($context['path_to_root'].'parameters/d
 	} else
 		echo '<p>'.i18n::s('Impossible to retrieve user/group of this process.')."</p>\n";
 
+	// provide xcache stats, if any
+//	if(is_callable('xcache_info')) {
+//		$info = xcache_info(XC_TYPE_PHP, 0);
+//		logger::debug($info, 'cache information');
+//		echo "<p>\n";
+//		echo sprintf('Cache Hits: %s', $info['hits']).BR;
+//		echo sprintf('Cache Misses: %s', $info['misses']);
+//		echo "</p>\n";
+//	}
+		
 	// attempt to execute a shell command
 	echo '<p>ls -la<br /><tt>'.nl2br(Safe::shell_exec('ls -la'))."</tt></p>\n";
 }

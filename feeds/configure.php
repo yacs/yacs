@@ -183,8 +183,8 @@ elseif(!Surfer::is_associate()) {
 	// assemble all tabs
 	//
 	$all_tabs = array(
-		array('outbound_tab', i18n::s('Outbound'), 'outbound_panel', $outbound),
-		array('inbound_tab', i18n::s('Inbound'), 'inbound_panel', $inbound)
+		array('outbound', i18n::s('Outbound'), 'outbound_panel', $outbound),
+		array('inbound', i18n::s('Inbound'), 'inbound_panel', $inbound)
 		);
 
 	// let YACS do the hard job

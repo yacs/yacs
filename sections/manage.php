@@ -1147,7 +1147,7 @@ if(Surfer::is_crawler()) {
 
 	// diplay in a separate panel
 	if(trim($text))
-		$panels[] = array('articles_tab', i18n::s('Pages'), 'articles_panel', $text);
+		$panels[] = array('articles', i18n::s('Pages'), 'articles_panel', $text);
 
 	// one tab for sections
 	//
@@ -1257,7 +1257,7 @@ if(Surfer::is_crawler()) {
 
 	// display in a separate panel
 	if(trim($text))
-		$panels[] = array('sections_tab', i18n::s('Sections'), 'sections_panel', $text);
+		$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', $text);
 
 	// assemble all tabs
 	//

@@ -665,11 +665,11 @@ elseif(!Surfer::is_associate()) {
 	// assemble all tabs
 	//
 	$all_tabs = array(
-		array('meta_tab', i18n::s('Meta-information'), 'meta_panel', $meta),
-		array('components_tab', i18n::s('Components'), 'components_panel', $components),
-		array('options_tab', i18n::s('Options'), 'options_panel', $options),
-		array('images_tab', i18n::s('Images'), 'images_panel', $images),
-		array('freemind_tab', i18n::s('Freemind'), 'freemind_panel', $freemind)
+		array('meta', i18n::s('Meta-information'), 'meta_panel', $meta),
+		array('components', i18n::s('Components'), 'components_panel', $components),
+		array('options', i18n::s('Options'), 'options_panel', $options),
+		array('images', i18n::s('Images'), 'images_panel', $images),
+		array('freemind', i18n::s('Freemind'), 'freemind_panel', $freemind)
 		);
 
 	// let YACS do the hard job

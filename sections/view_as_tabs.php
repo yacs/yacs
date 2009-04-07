@@ -71,7 +71,7 @@ if(isset($item['id']) && !$zoom_type && $has_content && $editable) {
 if(isset($item['id']) && !$zoom_type && $editable) {
 	Skin::define_img('EDIT_SECTION_IMG', 'icons/sections/edit.gif');
 	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
-		$label = i18n::s('Edit this page');
+		$label = i18n::s('Edit this section');
 	$context['page_menu'] = array_merge($context['page_menu'], array( Sections::get_url($item['id'], 'edit') => array('', EDIT_SECTION_IMG.$label, '', 'basic', '', i18n::s('Update the content of this page')) ));
 }
 
@@ -495,7 +495,7 @@ if(!isset($item['id'])) {
 
 	// display in a separate panel
 	if(trim($text))
-		$panels[] = array('information_tab', i18n::s('Information'), 'information_panel', $text);
+		$panels[] = array('information', i18n::s('Information'), 'information_panel', $text);
 
 	//
 	// articles related to this section, or to sub-sections
@@ -692,7 +692,7 @@ if(!isset($item['id'])) {
 
 		// diplay in a separate panel
 		if(trim($text))
-			$panels[] = array('articles_tab', i18n::s('Pages'), 'articles_panel', $text);
+			$panels[] = array('articles', i18n::s('Pages'), 'articles_panel', $text);
 	}
 
 	//
@@ -861,7 +861,7 @@ if(!isset($item['id'])) {
 
 	// display in a separate panel
 	if(trim($attachments))
-		$panels[] = array('attachments_tab', i18n::s('Attachments'), 'attachments_panel', $attachments);
+		$panels[] = array('attachments', i18n::s('Attachments'), 'attachments_panel', $attachments);
 
 	//
 	// comments
@@ -983,7 +983,7 @@ if(!isset($item['id'])) {
 
 		// display in a separate panel
 		if(trim($text))
-			$panels[] = array('comments_tab', i18n::s('Discussion'), 'comments_panel', $text);
+			$panels[] = array('comments', i18n::s('Discussion'), 'comments_panel', $text);
 
 	}
 
@@ -1132,7 +1132,7 @@ if(!isset($item['id'])) {
 
 		// display in a separate panel
 		if(trim($text))
-			$panels[] = array('sections_tab', i18n::s('Sections'), 'sections_panel', $text);
+			$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', $text);
 	}
 
 	//
@@ -1191,7 +1191,7 @@ if(!isset($item['id'])) {
 
 		// display in a separate panel
 		if(trim($text))
-			$panels[] = array('users_tab', i18n::s('Persons'), 'users_panel', $text);
+			$panels[] = array('users', i18n::s('Persons'), 'users_panel', $text);
 
 	}
 
@@ -1242,7 +1242,7 @@ if(!isset($item['id'])) {
 		// modify this page
 		Skin::define_img('EDIT_SECTION_IMG', 'icons/sections/edit.gif');
 		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
-			$label = i18n::s('Edit this page');
+			$label = i18n::s('Edit this section');
 		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'edit'), EDIT_SECTION_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed

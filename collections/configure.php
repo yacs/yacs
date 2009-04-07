@@ -202,7 +202,7 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Add a collection');
 	$panel = Skin::build_form($fields);
 	$fields = array();
-	$all_tabs[] = array('new_tab', $label, 'new_panel', $panel);
+	$all_tabs[] = array('new', $label, 'new_panel', $panel);
 
 	//
 	// assemble all tabs

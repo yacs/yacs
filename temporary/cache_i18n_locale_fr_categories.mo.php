@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on March 28, 2009, 10:24 pm GMT. Please do not modify it manually.
+ * on April 7, 2009, 1:38 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-03-20 23:10+0100
-PO-Revision-Date: 2008-11-16 21:49+0100
+POT-Creation-Date: 2009-04-07 12:56+0200
+PO-Revision-Date: 2009-04-07 15:32+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -74,7 +74,7 @@ $_SESSION['l10n']['fr']['Do not display articles.']='Ne pas afficher les article
 $_SESSION['l10n']['fr']['Do not list sections.']='Ne pas lister les sections.';
 $_SESSION['l10n']['fr']['Do not list sub-categories.']='Ne pas lister les sous-catégories.';
 $_SESSION['l10n']['fr']['fb0d9333cb60f25b5b1a13b04db64697']='Ce système n\'est pas configuré pour l\'envoi de messages électroniques.';
-$_SESSION['l10n']['fr']['Edit this page']='Modifier cette page';
+$_SESSION['l10n']['fr']['Edit this category']='Modifier cette catégorie';
 $_SESSION['l10n']['fr']['Edit: %s']='Edition : %s';
 $_SESSION['l10n']['fr']['afb7b68bf930c793832d36380219bfff']='Vérifier que le contenu est du XHTML valide.';
 $_SESSION['l10n']['fr']['Excerpts']='Extraits';

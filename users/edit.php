@@ -799,8 +799,8 @@ if($with_form) {
 	// show all tabs
 	//
 	$all_tabs = array(
-		array('contact_tab', i18n::s('Interactions'), 'contact_panel', $panels['contact']),
-		array('information_tab', i18n::s('Information'), 'information_panel', $panels['information']),
+		array('contact', i18n::s('Interactions'), 'contact_panel', $panels['contact']),
+		array('information', i18n::s('Information'), 'information_panel', $panels['information']),
 		);
 
 	// append tabs from the overlay, if any
