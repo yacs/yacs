@@ -126,7 +126,7 @@ if(!isset($item['id'])) {
 		// retrieve information from cache, if any
 		$cache_id = 'decisions/view.php?id='.$item['id'].'#navigation';
 		if($data =& Cache::get($cache_id))
-			$data = unserialize($data);
+			$data = Safe::unserialize($data);
 
 		// build information from the database
 		else {

@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on April 7, 2009, 1:37 pm GMT. Please do not modify it manually.
+ * on April 9, 2009, 4:19 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-04-07 12:53+0200
-PO-Revision-Date: 2008-11-10 16:55+0100
+POT-Creation-Date: 2009-04-09 17:45+0200
+PO-Revision-Date: 2009-04-09 17:46+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -135,7 +135,6 @@ $_SESSION['l10n']['en']['Get a paper copy of this page.']='Get a paper copy of t
 $_SESSION['l10n']['en']['Go to the front page']='Go to the front page';
 $_SESSION['l10n']['en']['Good']='Good';
 $_SESSION['l10n']['en']['Help']='Help';
-$_SESSION['l10n']['en']['History']='History';
 $_SESSION['l10n']['en']['3482364243c0c367e9481e1eb819366d']='Hit the submit button and post images afterwards.';
 $_SESSION['l10n']['en']['Home']='Home';
 $_SESSION['l10n']['en']['3ecb5d5cd1f2a3084e06e875ebcfafe3']='I confirm that the article looks ok';
@@ -240,7 +239,6 @@ $_SESSION['l10n']['en']['a253cb1655b359aa0d471d43af35e555']='Prevent the additio
 $_SESSION['l10n']['en']['Prevent the upload of new files']='Prevent the upload of new files';
 $_SESSION['l10n']['en']['Previous']='Previous';
 $_SESSION['l10n']['en']['Previous pages']='Previous pages';
-$_SESSION['l10n']['en']['Previous versions of this page']='Previous versions of this page';
 $_SESSION['l10n']['en']['Print this page']='Print this page';
 $_SESSION['l10n']['en']['Publication']='Publication';
 $_SESSION['l10n']['en']['Publication date']='Publication date';
@@ -267,6 +265,7 @@ $_SESSION['l10n']['en']['Remove the expiry date']='Remove the expiry date';
 $_SESSION['l10n']['en']['Rendering']='Rendering';
 $_SESSION['l10n']['en']['Replies']='Replies';
 $_SESSION['l10n']['en']['Request is invalid.']='Request is invalid.';
+$_SESSION['l10n']['en']['ebd0c9b97dd4fa2b5e2da8afd29eef24']='Restore a previous version if necessary';
 $_SESSION['l10n']['en']['Restricted to members']='Restricted to members';
 $_SESSION['l10n']['en']['Review queue']='Review queue';
 $_SESSION['l10n']['en']['Save as PDF']='Save as PDF';
@@ -360,6 +359,7 @@ $_SESSION['l10n']['en']['36ab5b5ac398b5cfe4feb817d68c45f1']='Use the %s to popul
 $_SESSION['l10n']['en']['c6bd39974265c03828921dc8415bb6da']='Use this field to limit the life time of published pages.';
 $_SESSION['l10n']['en']['Validate']='Validate';
 $_SESSION['l10n']['en']['7095a3461ba51a372774ee8a1ce5d15b']='Various means to link to this page';
+$_SESSION['l10n']['en']['Versions']='Versions';
 $_SESSION['l10n']['en']['View history']='View history';
 $_SESSION['l10n']['en']['View the category']='View the category';
 $_SESSION['l10n']['en']['View the page']='View the page';

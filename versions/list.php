@@ -85,10 +85,6 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['page_title'] = i18n::s('List versions');
 
-// command to go back
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array( $anchor->get_url() => i18n::s('Back to current version') );
-
 // an anchor is mandatory
 if(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -151,8 +147,7 @@ if(!is_object($anchor)) {
 
 			// we have an array to format
 			if(@count($items)) {
-				$suffix = ' '.sprintf(i18n::s('%s by %s %s'), get_action_label($anchor->get_value('edit_action')), ucfirst($anchor->get_value('edit_name')), Skin::build_date($anchor->get_value('edit_date')));
-				$items = array_merge(array($anchor->get_url() => array('', i18n::s('Current version'), $suffix, 'basic')), $items);
+				$items = array_merge(array('_' => sprintf(i18n::s('edited by %s %s'), ucfirst($anchor->get_value('edit_name')), Skin::build_date($anchor->get_value('edit_date')))), $items);
 				$box['text'] .= Skin::build_list($items, 'decorated');
 			}
 
@@ -168,9 +163,18 @@ if(!is_object($anchor)) {
 	}
 	$context['text'] .= $text;
 
+	// back to the anchor page
+	$links = array();
+	$links[] = Skin::build_link($anchor->get_url(), i18n::s('Latest version'), 'button');
+	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
+
 	// insert anchor suffix
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_suffix();
+
+	// page help
+	$help = '<p>'.i18n::s('Select a version to check differences with the current page. Only the last modification for any given date is saved in the database.').'</p>';
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

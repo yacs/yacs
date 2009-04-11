@@ -155,7 +155,7 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 
 	// a reference to YACS
 	if(is_callable(array('i18n', 's')))
-		echo BR.sprintf(i18n::s('Powered by %s'), Skin::build_link(i18n::s('http://www.yacs.fr/'), i18n::s('YACS'), 'external'));
+		echo BR.sprintf(i18n::s('Powered by %s'), Skin::build_link(i18n::s('http://www.yacs.fr/'), 'Yacs', 'external'));
 
 	// end of the footer panel
 	echo '</div>'."\n";

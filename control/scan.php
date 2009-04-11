@@ -201,7 +201,7 @@ function include_hook($path) {
 			$context['text'] .= sprintf(i18n::s('Hook %s has been included'), $actual_item).BR."\n";
 
 		// scan any sub dir except at server root
-		} elseif(($path != $context['path_to_root']) && is_dir($actual_item))
+		} elseif(is_dir($actual_item) && ($path != $context['path_to_root']) && !strpos($path, '/files/'))
 			include_hook($actual_item);
 	}
 
@@ -212,7 +212,7 @@ function include_hook($path) {
 global $hooks, $action;
 
 // scan only selected sub-directories
-$scanned = array('', 'agents', 'articles', 'categories', 'control', 'included', 'overlays', 'parameters', 'sections', 'services', 'shared', 'tools', 'users');
+$scanned = array('', 'agents', 'articles', 'categories', 'control', 'files', 'included', 'overlays', 'parameters', 'sections', 'services', 'shared', 'tools', 'users');
 
 // ensure that the user is an associate, except on first install
 if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))) {

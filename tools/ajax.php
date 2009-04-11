@@ -47,7 +47,7 @@ $context['text'] .= '<p><a href="#" onclick="Yacs.handleAlertNotification({ titl
 $context['text'] .= '<p><a href="http://www.google.com/" onclick="Yacs.popup( { url: this.href, width: \'100%\', height: \'100%\' } ); return false;" class="button"><span>'.i18n::s('Google').'</span></a> - '.i18n::s('Click on the button to trigger the popup window').'</p>'."\n";
 
 // a JSON-RPC call
-$context['text'] .= '<p><a href="#" onclick="Yacs.call( { method: \'echo\', params: { message: \'hello world\' } }, function(s) { if(s.message) { alert(s.message.toString()); } else { alert(\'failed!\'); } } ); return false;" class="button"><span>JSON-RPC</span></a> - '.i18n::s('Click on the button to trigger the popup window').'</p>'."\n";
+$context['text'] .= '<p><a href="#" onclick="Yacs.call( { method: \'echo\', params: { message: \''.i18n::s('AJAX demonstration').'\' } }, function(s) { if(s.message) { alert(s.message.toString()); } else { alert(\'failed!\'); } } ); return false;" class="button"><span>JSON-RPC</span></a> - '.i18n::s('Click on the button to trigger the popup window').'</p>'."\n";
 
 // a popup box with content
 $context['text'] .= '<p><a href="#" onclick="Yacs.popup( { content: \'<html><head><title>Popup</title></head><body><p>'.i18n::s('Hello world').'</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,<br />sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><p><a href=&quot;javascript:self.close()&quot;>'.i18n::s('Close').'</a></p></body></html>\' } ); return false;" class="button"><span>'.i18n::s('Hello world').'</span></a> - '.i18n::s('Click on the button to trigger the popup window').'</p>'."\n";

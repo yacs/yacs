@@ -1060,20 +1060,29 @@ Class Skin_Skeleton {
 
 		// split components of the variant
 		if($position = strpos($variant, ' ')) {
-			$complement = ' class="'.encode_field(substr($variant, 0, $position)).'"';
+			$complement = substr($variant, 0, $position);
 			$variant = substr($variant, $position+1);
 		} else
 			$complement = '';
 
 		// wrapper begins --don't use div, because of surrounding link
-		$text = "\n".'<span class="'.$variant.'_image">';
+		$text = "\n".'<span class="'.encode_field($variant).'_image">';
 
 		// styling freedom --outside anchor, which is inline
 		if($complement)
-			$text .= '<span'.$complement.'>';
+			$text .= '<span class="'.$complement.'">';
 
+		// configured styles
+		$more_styles = '';
+		if(($complement == 'large') && isset($context['classes_for_large_images']) && $context['classes_for_large_images'])
+			$more_styles = ' class="'.encode_field($context['classes_for_large_images']).'"';
+		elseif(($variant == 'thumbnail') && isset($context['classes_for_thumbnail_images']) && $context['classes_for_thumbnail_images'])
+			$more_styles = ' class="'.encode_field($context['classes_for_thumbnail_images']).'"';
+		elseif(($variant == 'avatar') && isset($context['classes_for_avatar_images']) && $context['classes_for_avatar_images'])
+			$more_styles = ' class="'.encode_field($context['classes_for_avatar_images']).'"';
+			
 		// the image itself
-		$image = '<span><img src="'.$href.'" alt="'.encode_field(strip_tags($alt)).'"  title="'.encode_field(strip_tags($hover)).'" /></span>';
+		$image = '<span><img src="'.$href.'" alt="'.encode_field(strip_tags($alt)).'"  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' /></span>';
 
 		// add a link
 		if($link && preg_match('/\.(gif|jpeg|jpg|png)$/', $link) && !preg_match('/\blarge\b/', $variant))
@@ -2011,6 +2020,11 @@ Class Skin_Skeleton {
 		// link to the user profile
 		$url = Users::get_url($user['id'], 'view', $user['nick_name']);
 
+		// configured styles
+		$more_styles = '';
+		if(isset($context['classes_for_avatar_images']) && $context['classes_for_avatar_images'])
+			$more_styles = ' '.encode_field($context['classes_for_avatar_images']);
+			
 		// depending of what we want to do
 		switch($variant) {
 
@@ -2021,7 +2035,7 @@ Class Skin_Skeleton {
 			// avatar
 			$avatar = '';
 			if(isset($user['avatar_url']) && $user['avatar_url'])
-				$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image" />', 'basic');
+				$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
 
 			// several items
 			$details = array();
@@ -2055,7 +2069,7 @@ Class Skin_Skeleton {
 			// avatar
 			$avatar = '';
 			if(isset($user['avatar_url']) && $user['avatar_url'])
-				$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image" />', 'basic');
+				$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
 
 			// date of post
 			if($more)
@@ -2084,7 +2098,7 @@ Class Skin_Skeleton {
 
 			// avatar
 			if(isset($user['avatar_url']) && $user['avatar_url'])
-				$details[] =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar" />', 'basic');
+				$details[] =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar'.$more_styles.'" />', 'basic');
 
 			// a link to the user profile
 			$details[] =& Skin::build_link($url, $user['nick_name'], 'user');

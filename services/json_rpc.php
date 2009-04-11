@@ -52,7 +52,7 @@
  *
  * @see control/scan.php
  *
- * @link http://json-rpc.org/wiki/specification JSON-RPC Specification
+ * @link http://groups.google.com/group/json-rpc/web/json-rpc-1-2-proposal JSON-RPC Specification
  *
  * @author Bernard Paques
  * @reference
@@ -79,15 +79,16 @@ $parameters = Safe::json_decode(rawurldecode($raw_data));
 
 // nothing to parse
 if(empty($raw_data)) {
-	$response = array('result' => NULL, 'error' => 'Empty request, please retry');
+	$response = array('result' => NULL, 'error' => array('code' => -32600, 'message' => 'Empty request, please retry'));
 
 // not a valid request
 } elseif(empty($parameters['method']) || empty($parameters['params'])) {
-	$response = array('result' => NULL, 'error' => 'Impossible to parse parameters');
+	$response = array('result' => NULL, 'error' => array('code' => -32600, 'message' => 'Impossible to parse parameters'));
 
 // dispatch the request
 } else {
 	$response = array();
+	$response['jsonrpc'] = '2.0';
 
 	// remember parameters if debug mode
 	if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
@@ -97,20 +98,21 @@ if(empty($raw_data)) {
 	if(is_callable(array('Hooks', 'serve_scripts')))
 		$response['result'] = Hooks::serve_scripts($parameters['method'], $parameters['params']);
 	else
-		$response['result'] = NULL;
+		unset($response['result']);
 
 	// unknown method
-	if(empty($response['result'])) {
-		$response['error'] = 'Do not know how to process '.$parameters['method'];
+	if(!isset($response['result']) || !$response['result']) {
+		unset($response['result']);
+		$response['error'] = array('code' => -32601, 'message' => 'Do not know how to process '.$parameters['method']);
 		if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
 			Logger::remember('services/json_rpc.php', 'json_rpc unsupported method '.$parameters['method'], NULL, 'debug');
 	} else
-		$response['error'] = NULL;
+		unset($response['error']);
 }
 
 // copy request id in response, if any
 if(empty($parameters['id']))
-	$response['id'] = NULL;
+	unset($response['id']);
 else
 	$response['id'] = $parameters['id'];
 

@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on April 7, 2009, 1:37 pm GMT. Please do not modify it manually.
+ * on April 9, 2009, 4:19 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-03-20 23:10+0100
-PO-Revision-Date: 2008-11-16 21:58+0100
+POT-Creation-Date: 2009-04-09 17:45+0200
+PO-Revision-Date: 2009-04-08 23:13+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -47,7 +47,6 @@ $_SESSION['l10n']['fr']['71591a943ab0ff1e925f29270c9a6568']='Accès restreint au
 $_SESSION['l10n']['fr']['Actions']='Actions';
 $_SESSION['l10n']['fr']['ed07aee5506a3edef13ffe43f08ac382']='Ajouter un espace web personnel (blog, forum, etc.)';
 $_SESSION['l10n']['fr']['Add a category']='Ajouter une catégorie';
-$_SESSION['l10n']['fr']['Add a link']='Ajouter un lien';
 $_SESSION['l10n']['fr']['Add a location']='Ajouter un emplacement';
 $_SESSION['l10n']['fr']['Add a page']='Ajouter une page';
 $_SESSION['l10n']['fr']['Add a section']='Ajouter une section';
@@ -126,6 +125,8 @@ $_SESSION['l10n']['fr']['Confirm every password change.']='Confirmer les changem
 $_SESSION['l10n']['fr']['4a802475b92059f2d0e19d1d7577c3bc']='Confirmer l\'enregistrement et le mot de passe.';
 $_SESSION['l10n']['fr']['Contact']='Contact';
 $_SESSION['l10n']['fr']['Contact %s']='Contacter %s';
+$_SESSION['l10n']['fr']['Contacts']='Contacts';
+$_SESSION['l10n']['fr']['Contacts of %s']='Contacts de %s';
 $_SESSION['l10n']['fr']['Content']='Contenu';
 $_SESSION['l10n']['fr']['Contribute']='Contribuer';
 $_SESSION['l10n']['fr']['Contributions']='Contributions';
@@ -153,6 +154,7 @@ $_SESSION['l10n']['fr']['Edit my user profile']='Modifier votre profil';
 $_SESSION['l10n']['fr']['Edit this profile']='Modifier ce profil';
 $_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['Editor: %s']='Editeur : %s';
+$_SESSION['l10n']['fr']['Editors of %s']='Editeurs de %s';
 $_SESSION['l10n']['fr']['f7921c934b2fc657cfe6ef95511b471d']='Tout envoi est publié (mode wiki).';
 $_SESSION['l10n']['fr']['Extension']='Extension';
 $_SESSION['l10n']['fr']['FCKEditor']='FCKEditor';
@@ -237,6 +239,7 @@ $_SESSION['l10n']['fr']['45b0a300ae44fcf8ec94980438933ae9']='Le corps du message
 $_SESSION['l10n']['fr']['Message title']='Titre du message';
 $_SESSION['l10n']['fr']['Most recent members']='Les membres les plus récents';
 $_SESSION['l10n']['fr']['Move forward']='Continuer';
+$_SESSION['l10n']['fr']['My contacts']='Mes contacts';
 $_SESSION['l10n']['fr']['My profile']='Ma fiche';
 $_SESSION['l10n']['fr']['Navigate']='Naviguer';
 $_SESSION['l10n']['fr']['Network address']='Adresse réseau';
@@ -281,8 +284,6 @@ $_SESSION['l10n']['fr']['Password']='Mot de passe';
 $_SESSION['l10n']['fr']['Password confirmation']='Confirmation du mot de passe';
 $_SESSION['l10n']['fr']['0907a526998e1cb6371e1510c92665f8']='Coller ici la clé publique que vous souhaitez partager';
 $_SESSION['l10n']['fr']['People']='Personnes';
-$_SESSION['l10n']['fr']['People assigned to %s']='Personnes assignées à %s';
-$_SESSION['l10n']['fr']['People watched by %s']='Personnes surveillées par %s';
 $_SESSION['l10n']['fr']['Personal']='Gestion';
 $_SESSION['l10n']['fr']['Phone number']='Numéro de téléphone';
 $_SESSION['l10n']['fr']['Physical address']='Adresse postale';

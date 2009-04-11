@@ -857,11 +857,10 @@ if($with_form) {
 	//
 
 	// the section, if one has not been defined yet or when an associate may move one
-	if(!is_object($anchor) || (isset($item['id']) && Surfer::is_associate())) {
+	if(!is_object($anchor) || isset($item['id'])) {
 		$label = i18n::s('Section');
-		$input = '<select name="anchor">'.Sections::get_options($item['anchor'] ? $item['anchor'] : $_REQUEST['anchor']).'</select>';
-		$hint = i18n::s('Please carefully select a section for your page.');
-		$fields[] = array($label, $input, $hint);
+		$input = Sections::get_radio_buttons($item['anchor'] ? $item['anchor'] : $_REQUEST['anchor']);
+		$fields[] = array($label, $input);
 	} elseif(is_object($anchor))
 		$content .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 

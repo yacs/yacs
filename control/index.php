@@ -805,10 +805,6 @@ if(!file_exists('../parameters/control.include.php')) {
 				// yacs version
 				if(!isset($generation['version']))
 					Safe::load('footprints.php');						// initial archive, or current version
-				if(!isset($generation['version']))
-					Safe::load('scripts/reference/footprints.php'); 	// on-going development
-				if(!isset($generation['version']))
-					Safe::load('scripts/staging/footprints.php');		// last update
 				$cells = array();
 				$cells[] = Skin::build_link('http://www.yacs.fr/', 'YACS');
 				if(isset($generation['version']))
@@ -861,6 +857,8 @@ if(!file_exists('../parameters/control.include.php')) {
 			// available commands for system management
 			$commands = array();
 
+			$commands[] = sprintf(i18n::s('%s - basic view of the system'), '<a href="test.php">'.i18n::s('Test').'</a>');
+
 			// more information to associates
 			if(Surfer::is_associate()) {
 				$commands[] = sprintf(i18n::s('%s - phpinfo() and more'), '<a href="info.php">'.i18n::s('Run-time information').'</a>');
@@ -883,19 +881,11 @@ if(!file_exists('../parameters/control.include.php')) {
 					$commands[] = sprintf(i18n::s('%s - some upgrades are waiting for execution'), '<a href="../scripts/run_once.php">'.i18n::s('Run once').'</a>');
 				}
 
-				// refresh if there is a reference repository
-				if(file_exists($context['path_to_root'].'scripts/reference/footprints.php')) {
-					$commands[] = sprintf(i18n::s('%s - this server shares a reference store for remote updates'), '<a href="../scripts/">'.i18n::s('Server software').'</a>');
+				$commands[] = sprintf(i18n::s('%s - server software'), '<a href="../scripts/">Yacs</a>');
 
-				// upgrade if there is no reference repository
-				} else
-					$commands[] = sprintf(i18n::s('%s - check for software updates'), '<a href="../scripts/">'.i18n::s('Server software').'</a>');
+				$commands[] = sprintf(i18n::s('%s - plugins and other pieces of software hooked into yacs'), '<a href="scan.php">'.i18n::s('Extensions').'</a>');
 
-				$commands[] = sprintf(i18n::s('%s - review and setup YACS hooking pieces of software'), '<a href="scan.php">'.i18n::s('Extensions').'</a>');
-
-				$commands[] = sprintf(i18n::s('%s - change permissions of script files'), '<a href="chmod.php">'.i18n::s('Permissions').'</a>');
-
-				$commands[] = sprintf(i18n::s('%s - compress Javascript files'), '<a href="jsmin.php">'.i18n::s('JSmin').'</a>');
+				$commands[] = sprintf(i18n::s('%s - change permissions of files'), '<a href="chmod.php">'.i18n::s('Permissions').'</a>');
 
 				$commands[] = sprintf(i18n::s('%s - other commands'), '<a href="../tools/">'.i18n::s('Tools').'</a>');
 

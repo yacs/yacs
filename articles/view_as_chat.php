@@ -99,7 +99,7 @@ if(isset($item['id']) && $editable) {
 // access previous versions, if any
 if(isset($item['id']) && $editable && $has_versions) {
 	Skin::define_img('HISTORY_TOOL_IMG', 'icons/tools/history.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url('article:'.$item['id'], 'list') => array('', HISTORY_TOOL_IMG.i18n::s('History'), '', 'basic', '', i18n::s('Previous versions of this page')) ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url('article:'.$item['id'], 'list') => array('', HISTORY_TOOL_IMG.i18n::s('Versions'), '', 'basic', '', i18n::s('Restore a previous version if necessary')) ));
 }
 
 // publish, for associates and authenticated editors

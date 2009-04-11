@@ -26,7 +26,18 @@
 /**
  * standard tags
  */
- 
+
+del {
+	color: #644;
+	background-color: #f88;
+}
+	
+ins {
+	color: #644;
+	background-color: #bbf;
+	text-decoration: none;
+}
+
 pre {
 	overflow: auto; /* add an horizontal bar to browse long lines of code, if necessary */
 }
@@ -394,7 +405,7 @@ p.tags a {
 	color:	#666666;
 	background: transparent url("tag_bg.gif") top left no-repeat;
 	border-right: 1px solid #c2c2c1;
-	padding: 0 5px 1px 15px;
+	padding: 1px 5px 2px 15px;
 	margin: 0;
 	text-transform:	none;
 	text-decoration:	none;

@@ -638,25 +638,6 @@ if(!isset($item['id'])) {
 		if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE) && Surfer::is_logged())
 			$information .= '<p>'.i18n::s('Birth date').' '.substr($item['birth_date'], 0, 10).'</p>';
 
-		// list files
-		//
-		$items = Files::list_by_date_for_anchor('user:'.$item['id'], 0, FILES_PER_PAGE, 'no_author');
-		if(is_array($items))
-			$items = Skin::build_list($items, 'decorated');
-		if($items)
-			$information .= Skin::build_box(i18n::s('Files'), $items, 'folder', 'related_files');
-
-		// list links
-		//
-		if(preg_match('/\blinks_by_title\b/i', $item['options']))
-			$items = Links::list_by_title_for_anchor('user:'.$item['id'], 0, LINKS_PER_PAGE, 'no_author');
-		else
-			$items = Links::list_by_date_for_anchor('user:'.$item['id'], 0, LINKS_PER_PAGE, 'no_author');
-		if(is_array($items))
-			$items = Skin::build_list($items, 'decorated');
-		if($items)
-			$information .= Skin::build_box(i18n::s('Links'), $items, 'folder', 'related_links');
-
 		// business card
 		//
 		$rows = array();
@@ -682,14 +663,16 @@ if(!isset($item['id'])) {
 			$rows[] = array(i18n::s('Alternate number'), $item['alternate_number']);
 
 		// email address - not showed to anonymous surfers for spam protection
-		if(isset($item['email']) && $item['email'] && Surfer::may_mail()) {
+		if(isset($item['email']) && $item['email'] && (Surfer::is($item['id']) || Surfer::may_contact($item['id']))) {
 
-			if(isset($context['with_email']) && ($context['with_email'] == 'Y'))
-				$url = $context['url_to_root'].Users::get_url($id, 'mail');
+			if(Surfer::is($item['id']))
+				$label = $item['email'];
+			elseif(isset($context['with_email']) && ($context['with_email'] == 'Y'))
+				$label = Skin::build_link($context['url_to_root'].Users::get_url($id, 'mail'), $item['email'], 'email');
 			else
-				$url = 'mailto:'.$item['email'];
+				$label = Skin::build_link('mailto:'.$item['email'], $item['email'], 'email');
 
-			$rows[] = array(i18n::s('E-mail address'), Skin::build_link($url, $item['email'], 'email'));
+			$rows[] = array(i18n::s('E-mail address'), $label);
 		}
 
 		// web address, if any
@@ -705,7 +688,13 @@ if(!isset($item['id'])) {
 		}
 
 		if(count($rows))
-			$information .= Skin::build_box(i18n::s('Business card'), Skin::table(NULL, $rows, 'form'), 'folder');
+			$information .= Skin::build_box(i18n::s('Business card'), Skin::table(NULL, $rows, 'form'));
+
+		// list files
+		//
+		$items = Files::list_by_date_for_anchor('user:'.$item['id'], 0, FILES_PER_PAGE, 'no_author');
+		if(is_array($items))
+			$items = Skin::build_list($items, 'decorated');
 
 		// local menu
 		$menu = array();
@@ -714,12 +703,11 @@ if(!isset($item['id'])) {
 		if((Surfer::is($item['id']) || Surfer::is_associate()) && Surfer::may_upload())
 			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], i18n::s('Upload a file'), 'span');
 
-		// the command to add a new link
-		if(Surfer::is($item['id']) || Surfer::is_associate())
-			$menu[] = Skin::build_link('links/edit.php?anchor=user:'.$item['id'], i18n::s('Add a link'), 'span');
-
 		if(count($menu))
-			$information .= Skin::finalize_list($menu, 'menu_bar');
+			$items .= Skin::finalize_list($menu, 'menu_bar');
+
+		if($items)
+			$information .= Skin::build_box(i18n::s('Files'), $items);
 
 	}
 
@@ -737,7 +725,7 @@ if(!isset($item['id'])) {
 	if(!$zoom_type && Surfer::is_member())
 		$panels[] = array('actions', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'));
 	if(!$zoom_type)
-		$panels[] = array('watch', i18n::s('People'), 'watch_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
+		$panels[] = array('contacts', i18n::s('Contacts'), 'contacts_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
 
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($panels);

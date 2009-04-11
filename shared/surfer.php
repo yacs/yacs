@@ -1075,13 +1075,17 @@ Class Surfer {
 	}
 
 	/**
-	 * can this surfer contact other users?
+	 * can this surfer contact another user?
 	 *
 	 * @return TRUE if alowed, FALSE otherwise
 	 */
-	function may_contact() {
+	function may_contact($id=NULL) {
 		global $context;
 
+		// self mailing is not authorized
+		if($id && Surfer::is($id))
+			return FALSE;
+			
 		// associate can always do it
 		if(Surfer::is_associate())
 			return TRUE;

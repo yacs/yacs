@@ -1289,7 +1289,7 @@ function render_skin($stamp=0) {
 	}
 
 	// load a bunch of included scripts in one step, including prototype --we are doing that in the header, because of Event.observe(window, "load", ... in $context['text']
-	$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/minify.php"></script>'."\n";
+	$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/library.js"></script>'."\n";
 
 // 	// load the google library
 // 	if(isset($context['google_api_key']) && $context['google_api_key'])

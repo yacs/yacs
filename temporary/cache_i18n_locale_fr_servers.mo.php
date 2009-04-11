@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on April 7, 2009, 1:38 pm GMT. Please do not modify it manually.
+ * on April 9, 2009, 4:19 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-03-10 23:58+0100
-PO-Revision-Date: 2009-03-11 00:06+0100
+POT-Creation-Date: 2009-04-08 23:01+0200
+PO-Revision-Date: 2009-04-08 23:12+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -91,7 +91,6 @@ $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer u
 $_SESSION['l10n']['fr']['Populate']='Peupler les serveurs';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['47b78f39e64497e39883fac579c63f84']='Services autorisés pour ce serveur';
-$_SESSION['l10n']['fr']['RSS Test']='Test RSS';
 $_SESSION['l10n']['fr']['Received from feeding servers']='Les informations transmises par les autres serveurs';
 $_SESSION['l10n']['fr']['Related to %s']='Attaché à %s';
 $_SESSION['l10n']['fr']['f29869af2b6e35819bc5a7c5872e8dca']='Les appels distants sont autorisés par défaut. Décocher les cases ci-dessous pour invalider un serveur indélicat en cas de besoin.';
@@ -103,7 +102,7 @@ $_SESSION['l10n']['fr']['Services accessed remotely']='Services distants utilis�
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['62533653dfc1015ddcfc5c356a6497a1']='Envoyer périodiquement des requêtes XML-RPC de <code>monitor.ping</code> à l\'adresse %s';
 $_SESSION['l10n']['fr']['5ec9e6d4a0ddc6ce82848a3e9f4b097f']='Rechercher sur ce serveur, par apple REST de l\'adresse %s';
-$_SESSION['l10n']['fr']['Test']='Tester';
+$_SESSION['l10n']['fr']['Test feed']='Tester RSS';
 $_SESSION['l10n']['fr']['07952e6cca017e7cdff4505604da467f']='Effacement non confirmé';
 $_SESSION['l10n']['fr']['The famous pinging gateway']='Le distributeur de ping';
 $_SESSION['l10n']['fr']['3513760fe3e0b14f2af4cc30a501d92a']='La configuration suivante a été enregistrée dans le fichier %s.';

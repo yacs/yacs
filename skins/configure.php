@@ -95,6 +95,14 @@
  *
  * Parameters for image processing:
  *
+ * [*] classes_for_avatar_images - styling information to be added to avatars
+ *
+ * [*] classes_for_icon_images - styling information to be added to page incons
+ *
+ * [*] classes_for_large_images - styling information to be added to large images
+ *
+ * [*] classes_for_thumbnail_images - styling information to be added to small images
+ *
  * [*] [code]standard_width[/code] - the maximum width, in pixels, for images that have to be resized.
  * Default value is 640 pixels.
  *
@@ -387,7 +395,7 @@ elseif(!Surfer::is_associate()) {
 	$components .= '<p>'.$label.' '.$input.BR.'<span class="details">'.$hint."</span></p>\n";
 
 	//
-	// optionss
+	// options
 	//
 	$options = '';
 
@@ -503,6 +511,23 @@ elseif(!Surfer::is_associate()) {
 	// handling images
 	//
 	$images = '<p>'.i18n::s('YACS uses the GD module of PHP to automatically resize submitted images when they are very large, and to build thumbnail images as well.')."</p>\n";
+
+	// additional classes for images
+	if(!isset($context['classes_for_avatar_images']) || !$context['classes_for_avatar_images'])
+		$context['classes_for_avatar_images'] = '';
+	if(!isset($context['classes_for_icon_images']) || !$context['classes_for_icon_images'])
+		$context['classes_for_icon_images'] = '';
+	if(!isset($context['classes_for_large_images']) || !$context['classes_for_large_images'])
+		$context['classes_for_large_images'] = '';
+	if(!isset($context['classes_for_thumbnail_images']) || !$context['classes_for_thumbnail_images'])
+		$context['classes_for_thumbnail_images'] = '';
+	$label = i18n::s('Styles');
+	$input = i18n::s('Avatars').'&nbsp;<input type="text" name="classes_for_avatar_images" size="10" value="'.encode_field($context['classes_for_avatar_images']).'" maxlength="255" />'
+		.' '.i18n::s('Icons').'&nbsp;<input type="text" name="classes_for_icon_images" size="10" value="'.encode_field($context['classes_for_icon_images']).'" maxlength="255" />'
+		.' '.i18n::s('Large').'&nbsp;<input type="text" name="classes_for_large_images" size="10" value="'.encode_field($context['classes_for_large_images']).'" maxlength="255" />'
+		.' '.i18n::s('Small').'&nbsp;<input type="text" name="classes_for_thumbnail_images" size="10" value="'.encode_field($context['classes_for_thumbnail_images']).'" maxlength="255" />';
+	$hint = i18n::s('Additional CSS classes to be used by Yacs. Example: "reflect"');
+	$fields[] = array($label, $input, $hint);
 
 	// standard width
 	if(!isset($context['standard_width']) || !$context['standard_width'])
@@ -730,6 +755,14 @@ elseif(!Surfer::is_associate()) {
 		.'$context[\'site_slogan\']=\''.addcslashes($_REQUEST['site_slogan'], "\\'")."';\n"
 		.'$context[\'site_position\']=\''.addcslashes($_REQUEST['site_position'], "\\'")."';\n"
 		.'$context[\'site_trailer\']=\''.addcslashes($_REQUEST['site_trailer'], "\\'")."';\n";
+	if(isset($_REQUEST['classes_for_avatar_images']))
+		$content .= '$context[\'classes_for_avatar_images\']=\''.addcslashes($_REQUEST['classes_for_avatar_images'], "\\'")."';\n";
+	if(isset($_REQUEST['classes_for_icon_images']))
+		$content .= '$context[\'classes_for_icon_images\']=\''.addcslashes($_REQUEST['classes_for_icon_images'], "\\'")."';\n";
+	if(isset($_REQUEST['classes_for_large_images']))
+		$content .= '$context[\'classes_for_large_images\']=\''.addcslashes($_REQUEST['classes_for_large_images'], "\\'")."';\n";
+	if(isset($_REQUEST['classes_for_thumbnail_images']))
+		$content .= '$context[\'classes_for_thumbnail_images\']=\''.addcslashes($_REQUEST['classes_for_thumbnail_images'], "\\'")."';\n";
 	if(isset($_REQUEST['content_without_details']))
 		$content .= '$context[\'content_without_details\']=\''.addcslashes($_REQUEST['content_without_details'], "\\'")."';\n";
 	if(isset($_REQUEST['pages_without_bookmarklets']))

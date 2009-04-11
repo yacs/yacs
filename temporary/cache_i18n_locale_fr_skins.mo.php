@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on April 7, 2009, 1:38 pm GMT. Please do not modify it manually.
+ * on April 9, 2009, 4:19 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-03-28 23:03+0100
-PO-Revision-Date: 2009-03-11 00:06+0100
+POT-Creation-Date: 2009-04-09 13:11+0200
+PO-Revision-Date: 2009-04-09 13:16+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -39,6 +39,7 @@ $_SESSION['l10n']['fr']['71591a943ab0ff1e925f29270c9a6568']='Accès restreint au
 $_SESSION['l10n']['fr']['36c0c18db67904b2f6cfeb54c02162f3']='Ajouter des bookmarklets pour faciliter de futures contributions';
 $_SESSION['l10n']['fr']['Add a comment']='Ajouter un commentaire';
 $_SESSION['l10n']['fr']['3bfbe71c51726d4b15304eeb0ca68255']='Ajouter des liens vers les pages des auteurs dans les listes d\'articles';
+$_SESSION['l10n']['fr']['b806ae6371651317705f356917784cb0']='Classes CSS insérées par Yacs. Exemple : "reflect"';
 $_SESSION['l10n']['fr']['9f1f1b8b8d31243820fba114a2da47a8']='Texte additionnel inséré à la fin de chaque page générée par YACS. Coller ici les balises &lt;script&gt; utilisées pour le suivi statistique des navigations.';
 $_SESSION['l10n']['fr']['All pages']='Toutes les pages';
 $_SESSION['l10n']['fr']['664091c33185385f001d99258ec5fee0']='Autoriser les surfeurs anonymes à utiliser les outils d\'export (recommandé sur les intranets)';
@@ -49,6 +50,7 @@ $_SESSION['l10n']['fr']['27b1ea2f34a3a90761981df7a162a350']='Catégoriser, pour 
 $_SESSION['l10n']['fr']['Author information']='Information sur l\'auteur';
 $_SESSION['l10n']['fr']['Avatar height']='Hauteur d\'avatar';
 $_SESSION['l10n']['fr']['Avatar width']='Largeur d\'un avatar';
+$_SESSION['l10n']['fr']['Avatars']='Avatars';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['Background color: %s']='Couleur d\'arrière-plan : %s';
 $_SESSION['l10n']['fr']['604ecdde0ea43146e0f8e89e2f63fe63']='La puissance du serveur permet de fournir plus de détails';
@@ -125,6 +127,7 @@ $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Home']='Accueil';
 $_SESSION['l10n']['fr']['How to get a theme?']='Comment obtenir un thème ?';
 $_SESSION['l10n']['fr']['Icon']='Icône';
+$_SESSION['l10n']['fr']['Icons']='Icônes';
 $_SESSION['l10n']['fr']['212786e329e0d4338b0da314b5c38e77']='Si le logiciel AOL Instant Messenger est installé, cliquez pour ouvrir une session';
 $_SESSION['l10n']['fr']['b262d1776765ac6ce21594ad0de108f9']='Si le logiciel ICQ est installé, cliquez pour ouvrir une session';
 $_SESSION['l10n']['fr']['a41c18752669bfaaeee08053fd03b8ba']='Si le logiciel Skype est installé, cliquez pour ouvrir une session';
@@ -144,6 +147,7 @@ $_SESSION['l10n']['fr']['Information channels']='Fils d\'information';
 $_SESSION['l10n']['fr']['Install skin %s']='Installer le style %s';
 $_SESSION['l10n']['fr']['Keywords']='Mots-clés';
 $_SESSION['l10n']['fr']['8962bcb765ae897c885bcd0cd1506038']='Mots-clés séparés par des virgules, placés dans le champ "keyword" pour les moteurs de recherche';
+$_SESSION['l10n']['fr']['Large']='Large';
 $_SESSION['l10n']['fr']['8d4eacdb85ee087e973e5165a9f801b3']='Latitude et longitude separées par une virgule, comme par exemple : 47.98481,-71.42124. Information placée dans les méta-champs "geo.position" et "ICBM" sur la page d\'accueil. Voir %s ou %s';
 $_SESSION['l10n']['fr']['Level of details']='Niveau de détails';
 $_SESSION['l10n']['fr']['Links to contribute, if any']='Liens pour contribuuer, si présents';
@@ -228,12 +232,14 @@ $_SESSION['l10n']['fr']['Skin editor']='Editeur de style';
 $_SESSION['l10n']['fr']['Skin name']='Nom du nouveau style';
 $_SESSION['l10n']['fr']['Skin to test']='Style à tester';
 $_SESSION['l10n']['fr']['Skip to main content']='Aller au contenu principal';
+$_SESSION['l10n']['fr']['Small']='Vignette';
 $_SESSION['l10n']['fr']['Standard height']='Hauteur standard';
 $_SESSION['l10n']['fr']['Standard width']='Largeur standard';
 $_SESSION['l10n']['fr']['8416146ff57ddc1d7f11a6d1a9c66466']='Etape 1 - Choix du thème à utiliser';
 $_SESSION['l10n']['fr']['Step 2- Name the new skin']='Etape 2 - Nommer le nouveau style';
 $_SESSION['l10n']['fr']['Step 3- Do the job']='Etape 3 - Copier les fichiers';
 $_SESSION['l10n']['fr']['Style: %s']='Style : %s';
+$_SESSION['l10n']['fr']['Styles']='Styles';
 $_SESSION['l10n']['fr']['Submit']='Envoyer';
 $_SESSION['l10n']['fr']['Switch the server on']='Mettre le serveur en route';
 $_SESSION['l10n']['fr']['Tags: %s']='Etiquettes : %s';
@@ -295,7 +301,6 @@ $_SESSION['l10n']['fr']['What\'s New?']='Quoi de neuf ?';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
 $_SESSION['l10n']['fr']['a72113e9ac1ae12cd54e4476d7ffac42']='Dimensions du canevas Flash ou Java utilisé pour la visualisation.';
 $_SESSION['l10n']['fr']['Width: %s']='Largeur: %s';
-$_SESSION['l10n']['fr']['YACS']='YACS';
 $_SESSION['l10n']['fr']['537960f1859dabfc52b793574a82a3a1']='YACS utilise l\'extension GD de PHP pour retailler les images trop grandes, et aussi pour créer les vignettes.';
 $_SESSION['l10n']['fr']['Yearly calendar']='Calendrier de l\'année';
 $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas autorisé à faire cette opération en mode démonstration.';
@@ -347,6 +352,5 @@ $_SESSION['l10n']['fr']['with a menu bar']='avec une barre de menu';
 $_SESSION['l10n']['fr']['with a sidebar box']='avec une boîte de côté';
 $_SESSION['l10n']['fr']['with neighbours']='avec voisinage';
 $_SESSION['l10n']['fr']['www.yacs.fr']='www.yacs.fr';
-$_SESSION['l10n']['fr']['yacs']='yacs';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

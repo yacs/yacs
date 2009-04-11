@@ -74,7 +74,7 @@ if($item['title'])
 
 // test links
 if($item['submit_feed'] == 'Y')
-	$context['page_menu'] = array_merge($context['page_menu'], array( Servers::get_url($id, 'test') => i18n::s('Test') ));
+	$context['page_menu'] = array_merge($context['page_menu'], array( Servers::get_url($id, 'test') => i18n::s('Test feed') ));
 
 // commands for associates
 if(Surfer::is_associate()) {
@@ -141,7 +141,7 @@ if(!$item['id']) {
 
 		// feed submission
 		if($item['submit_feed'] == 'Y') {
-			$menu = array(Servers::get_url($item['id'], 'test') => i18n::s('RSS Test') );
+			$menu = array(Servers::get_url($item['id'], 'test') => i18n::s('Test feed') );
 			$label = sprintf(i18n::s('News published at this server at %s - %s are fetched periodically'), Skin::build_link($item['feed_url'], NULL, 'external'), Skin::build_list($menu, 'menu'));
 			if(is_object($anchor))
 				$label .= BR.sprintf(i18n::s('and aggregated locally at %s'), Skin::build_link($anchor->get_url(), $anchor->get_title(), 'section'));

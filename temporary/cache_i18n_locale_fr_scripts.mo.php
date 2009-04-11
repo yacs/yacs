@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on April 7, 2009, 1:38 pm GMT. Please do not modify it manually.
+ * on April 9, 2009, 4:20 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-04-07 12:53+0200
+POT-Creation-Date: 2009-04-09 17:45+0200
 PO-Revision-Date: 2009-04-07 15:35+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -125,7 +125,6 @@ $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'attaque sur le
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Purging old staging files...']='Suppression des mises à jour précédentes...';
 $_SESSION['l10n']['fr']['58307fee2eb36a82781084c561fff62d']='Suppression des pages de documentation...';
-$_SESSION['l10n']['fr']['c8bd10c743f6ae1fcc217ae36a860434']='L\'archive de référence a été sauvée dans le fichier %s.';
 $_SESSION['l10n']['fr']['Reference script: %s']='Script de référence : %s';
 $_SESSION['l10n']['fr']['17f3d5f530a5076c5820d9b50f3474db']='Ensemble de référence de %d fichiers créé le %s sur le serveur %s';
 $_SESSION['l10n']['fr']['Review']='Visualiser';

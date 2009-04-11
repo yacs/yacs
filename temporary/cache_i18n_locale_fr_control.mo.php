@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on April 7, 2009, 1:38 pm GMT. Please do not modify it manually.
+ * on April 9, 2009, 4:19 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-04-07 12:53+0200
-PO-Revision-Date: 2009-03-20 23:18+0100
+POT-Creation-Date: 2009-04-09 13:11+0200
+PO-Revision-Date: 2009-04-08 23:11+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -31,18 +31,17 @@ $_SESSION['l10n']['fr']['f3c5d54d03dcdff70644b296255f628e']='%d tables et %d enr
 $_SESSION['l10n']['fr']['81989d25fcd6d262ae52e4845521c3f5']='%s - tous les fils de nouvelles (RSS, ATOM)';
 $_SESSION['l10n']['fr']['98d039bc866fdeef5282cafdbc1eefc3']='%s - pages à publier, requêtes en attente';
 $_SESSION['l10n']['fr']['%s - ban spamming hosts']='%s - bloquer les spammeurs en tout genre';
+$_SESSION['l10n']['fr']['%s - basic view of the system']='%s - les éléments de base du système';
 $_SESSION['l10n']['fr']['59175aa31a7b7528d2c3215d494c55d4']='%s - envoyer des résumés et des annonces par courrier électronique';
 $_SESSION['l10n']['fr']['eea098dd1386d57ece8b47111753fb3f']='%s - construire un fichier adapté à votre serveur';
 $_SESSION['l10n']['fr']['9d040f7354d59b16016e9c4ed737bf71']='%s - changer les meta-informations, etc.';
 $_SESSION['l10n']['fr']['a892dc3970b448cfc76d52438ea362a6']='%s - modifier le comportement des services web';
-$_SESSION['l10n']['fr']['1517dc5500dbad63fd98fd8d2462016a']='%s - changer les permissions des fichiers de script';
+$_SESSION['l10n']['fr']['6e817874b6c4c8a7dd014cbb65f51972']='%s - changer les permissions des fichiers';
 $_SESSION['l10n']['fr']['0bd6a54d02de3cc75d33fbbdd6f2f529']='%s - définir le serveur de référence utilisé pour les mises à jour de logiciel';
 $_SESSION['l10n']['fr']['fc5f3cb643e203f84e92025cd00e6045']='%s - modifier le modèle utilisé pour préparer les nouvelles lettres';
-$_SESSION['l10n']['fr']['%s - check for software updates']='%s - pour obtenir la version la plus récente du logiciel';
 $_SESSION['l10n']['fr']['2e819d81cafe33f8aefcb328d53113f6']='%s - vérifie et optimise la structure de la base de données';
 $_SESSION['l10n']['fr']['d799f76258e68e8e7c770d6fe0947d2b']='%s - vider le cache ou supprimer l\'inutile';
 $_SESSION['l10n']['fr']['92a2c6e80630fa4909d6853d7cf85122']='%s - les codes que vous pouvez utiliser dans vos pages';
-$_SESSION['l10n']['fr']['%s - compress Javascript files']='%s - compresser les fichiers Javascript';
 $_SESSION['l10n']['fr']['eb5c2c7da7205df0bcd6067d2d0c95ca']='%s - configuration de la base de données et d\'autres paramètres essentiels';
 $_SESSION['l10n']['fr']['d0de950b57151d0e808234e9cea1b90e']='%s - connecter les ordinateurs distants par XML-RPC ou REST';
 $_SESSION['l10n']['fr']['5036e894fe3a3460115f8d4d342916a3']='%s - crée des blogs, des wikis, des forums, et bien d\'autres choses';
@@ -54,10 +53,11 @@ $_SESSION['l10n']['fr']['%s - learn about your visitors']='%s - en savoir plus s
 $_SESSION['l10n']['fr']['%s - operation summary']='%s - résumé des actions effectuées';
 $_SESSION['l10n']['fr']['%s - other commands']='%s - autres commandes';
 $_SESSION['l10n']['fr']['%s - phpinfo() and more']='%s - phpinfo() et autres';
-$_SESSION['l10n']['fr']['ea559186e2e55b4ccbcc53c073de1144']='%s - liste et installe les logiciels intégrés à YACS';
+$_SESSION['l10n']['fr']['51bd3dc03b6d2169a949d3556841c53a']='%s - plugins et autres éléments intégrés dans Yacs';
 $_SESSION['l10n']['fr']['c0777e534eeabca5d20bf0668cd45359']='%s - selectionnez une section et tapez un peu de texte, puis ajoutez des images, des fichiers et des liens';
 $_SESSION['l10n']['fr']['dd42f91a0a88d3aa6e0365f6f6d3fdf1']='%s - choisir et configurer les composants de la page d\'accueil';
 $_SESSION['l10n']['fr']['7089f81acbd6a98e5327ad40520e1090']='%s - choisissez et testez les thèmes installés sur ce serveur';
+$_SESSION['l10n']['fr']['%s - server software']='%s - gestionnaire du serveur';
 $_SESSION['l10n']['fr']['aabc0967626adb06becb52f1d111ee19']='%s - répertoires et fichiers partagés';
 $_SESSION['l10n']['fr']['63c82f286cf6a3295558a5f47bf5dc6a']='%s - stopper et redémarrer votre serveur';
 $_SESSION['l10n']['fr']['8aa717dbf86d0e44261682c8f01aa966']='%s - les émoticons pour exprimer vos sentiments';
@@ -65,7 +65,6 @@ $_SESSION['l10n']['fr']['86f3cc4446bed89e486a0c1ea3b2471c']='%s - les avatars pa
 $_SESSION['l10n']['fr']['%s - some have %s']='%s - certaines ont des %s';
 $_SESSION['l10n']['fr']['be836c9c173ea40cff6ba90868f205a7']='%s - il y a des mises à jour en attente';
 $_SESSION['l10n']['fr']['3ce5395cbcf2e9990bc30dec981da951']='%s - l\'outil de sécurité indispensable';
-$_SESSION['l10n']['fr']['72b72256b65fdb417f5ba0a5a2b46e33']='%s - ce serveur partage un référentiel pour les mises à jour distantes';
 $_SESSION['l10n']['fr']['7fb8bdb871d74deeb64f9fbaf9eda641']='%s - pour modifier le rendu visuel des objets Flash dynamiques';
 $_SESSION['l10n']['fr']['3ce7abe06263d5fe79f484e7bc5eb48e']='%s - pour ajouter des extensions et rendre les fichiers accessibles par FTP';
 $_SESSION['l10n']['fr']['dd2c532fa9b8be8ad88e6e2cc7c6a2c8']='%s - pour partager des répertoires existants';
@@ -76,7 +75,7 @@ $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
 $_SESSION['l10n']['fr']['12a445f97d35c3c6b46064691a6be8f8']='%s, y compris %s, %s, %s et %s';
 $_SESSION['l10n']['fr']['6215b8a7004d14581454f83c9075bc83']='%s, pour obtenir les paramètres d\'exécution de SQL.';
 $_SESSION['l10n']['fr']['318c33cdf3687811972fcf31ec134607']='%s, pour tout savoir de l\'environnement PHP sur ce serveur.';
-$_SESSION['l10n']['fr']['af65a8e204143cfba7ccdf76c118e1ab']='%s, pour mieux connaître l\'environnement d\'exécution de YACS.';
+$_SESSION['l10n']['fr']['ebb3b6364c32802bb71c6405dd80e55b']='%s, pour mieux connaître l\'environnement d\'exécution de Yacs.';
 $_SESSION['l10n']['fr']['0380899d64bbd378aeb965a4cd4244ae']='%s, pour décrire le support des images sur ce serveur.';
 $_SESSION['l10n']['fr']['%s: %s']='%s: %s';
 $_SESSION['l10n']['fr']['99bb226626a516acb3ab4c7c6ade2209']='(%soctets de données, %soctets d\'index, %soctets inutilisés)';
@@ -141,9 +140,7 @@ $_SESSION['l10n']['fr']['ce4433a46e56c75290b3bc45d03e84b1']='Utilisez les liens 
 $_SESSION['l10n']['fr']['Client hooks']='Extensions d\'appel';
 $_SESSION['l10n']['fr']['Codes']='Codes';
 $_SESSION['l10n']['fr']['Community language']='Langage communautaire';
-$_SESSION['l10n']['fr']['Compress Javascript files']='Compresser les fichiers Javascript';
 $_SESSION['l10n']['fr']['9b3a1da9e6da26be6629c3a14b570e2d']='Compresser le contenu (gzip) envoyé aux navigateurs si possible.';
-$_SESSION['l10n']['fr']['Compressing Javascript files...']='Compression des fichiers Javascript ...';
 $_SESSION['l10n']['fr']['d683a0570e9cfed5b750483a900add41']='La compression dynamique des pages est disponible.';
 $_SESSION['l10n']['fr']['Compute all page elements.']='Recalculer tous les éléments de pages.';
 $_SESSION['l10n']['fr']['Configuration']='Configuration';
@@ -255,7 +252,6 @@ $_SESSION['l10n']['fr']['Indexes (expiration cache)']='Indexes (cache par expira
 $_SESSION['l10n']['fr']['Information channels']='Fils d\'information';
 $_SESSION['l10n']['fr']['Initialize the database']='Initialiser la base de données';
 $_SESSION['l10n']['fr']['JPG support is enabled']='Le format JPG est supporté';
-$_SESSION['l10n']['fr']['JSmin']='JSmin';
 $_SESSION['l10n']['fr']['Jump to the configuration page']='Aller à la page de configuration';
 $_SESSION['l10n']['fr']['Jump to the installation page']='Aller à la page d\'installation';
 $_SESSION['l10n']['fr']['Jump to the populate page']='Créer les données de base';
@@ -433,6 +429,7 @@ $_SESSION['l10n']['fr']['System parameters']='Paramètres système';
 $_SESSION['l10n']['fr']['Table']='Table';
 $_SESSION['l10n']['fr']['Template pages']='Pages modèles';
 $_SESSION['l10n']['fr']['Templates']='Pages modèles';
+$_SESSION['l10n']['fr']['Test']='Test';
 $_SESSION['l10n']['fr']['bebe2fbe0537bc0188c59f37d9bdcda2']='Le fichier de configuration ne peut être créé.';
 $_SESSION['l10n']['fr']['023577094a1da75ce1ed6f78dc0ee01e']='Le fichier de configuration ne peut pas être supprimé.';
 $_SESSION['l10n']['fr']['a73d0ab46308044df3be40d7fca5ef21']='Le fichier de configuration du serveur virtuel %s a été créé.';
@@ -519,7 +516,6 @@ $_SESSION['l10n']['fr']['72ffd4bbbe87b43cc16e417b8360aaeb']='YACS enregistre les
 $_SESSION['l10n']['fr']['0bf5c047e61528a1411aec5e2caf30c5']='YACS utilise l\'extension PHP MySQL améliorée.';
 $_SESSION['l10n']['fr']['YACS version %s']='YACS version %s';
 $_SESSION['l10n']['fr']['b32e1a113790a224b53df9984cbdee87']='Oui, je veux changer les permissions des scripts opérationnels';
-$_SESSION['l10n']['fr']['9e0765a2efb78a0957c62a9b9528f630']='Oui, je veux compresser les fichiers Javascript';
 $_SESSION['l10n']['fr']['f95c0f00be11dfdc341cd1bff79797ad']='Oui, je veux arrêter le serveur';
 $_SESSION['l10n']['fr']['f443104c597726650a57c3fbd6b76651']='Oui, je veux démarrer ce serveur';
 $_SESSION['l10n']['fr']['f5d17dd381abaf65b76ec8df206d8344']='Oui, je veux (re)construire le fichier des prises d\'extension';
@@ -528,7 +524,6 @@ $_SESSION['l10n']['fr']['Yes, I want to download files']='Oui, je veux télécha
 $_SESSION['l10n']['fr']['Yes, I want to download images']='Oui, je veux télécharger les images';
 $_SESSION['l10n']['fr']['4caf52c3a6808c4ea60b716aba28f71c']='Oui, je veux sauver les fichiers de configuration';
 $_SESSION['l10n']['fr']['00aaa0922c4235ea18818f24397e86c7']='Oui, je veux télécharger le thème courant';
-$_SESSION['l10n']['fr']['300fee8b621fb5d1ddd92a7002043a7d']='Vous êtes sur le point d\'appliquer jsmin aux fichiers Javascript de ce serveur. Etes-vous sûr ?';
 $_SESSION['l10n']['fr']['3ce09e6df3d12286388e42e20d582412']='Vous êtes sur le point d\'appliquer chmod(%d) aux scripts opérationnels de ce serveur. Etes-vous sûr ?';
 $_SESSION['l10n']['fr']['7d3675f083789cd48af9aa41d1fafde6']='Vous êtes sur le point de fermer le serveur. Etes-vous sûr ?';
 $_SESSION['l10n']['fr']['7038f5859e75a6225ce22dfcae83c99d']='Vous êtes sur le point de rouvrir le serveur. Etes-vous sûr ?';
@@ -554,7 +549,6 @@ $_SESSION['l10n']['fr']['hour'.chr(0).'hours']='heure'.chr(0).'heure';
 $_SESSION['l10n']['fr']['hour(s)']='heure(s)';
 $_SESSION['l10n']['fr']['identifier: %s']='identifiant : %s';
 $_SESSION['l10n']['fr']['images']='images';
-$_SESSION['l10n']['fr']['cded1d25d8d935520352c8b79c60b236']='jsmin a été appliqué aux fichiers Javascript';
 $_SESSION['l10n']['fr']['link: %s']='lien : %s';
 $_SESSION['l10n']['fr']['monthly']='mensuel';
 $_SESSION['l10n']['fr']['a9e7e7fb870a8edb4049b690db04f2d3']='ob_list_handlers() ne peut pas être appelée';
@@ -574,6 +568,5 @@ $_SESSION['l10n']['fr']['unknown or empty table']='table inexistante ou vide';
 $_SESSION['l10n']['fr']['user/group of this process:']='utilisateur/groupe de ce process :';
 $_SESSION['l10n']['fr']['user/group of this script:']='utilisateur/groupe de ce script :';
 $_SESSION['l10n']['fr']['weekly']='hebdomadaire';
-$_SESSION['l10n']['fr']['yacs']='yacs';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

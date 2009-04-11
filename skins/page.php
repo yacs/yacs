@@ -172,8 +172,15 @@
 			
 			// page icon
 			case 'icon':
-				if(isset($context['page_image']) && $context['page_image'])
-					echo ICON_PREFIX.'<img src="'.$context['page_image'].'" class="icon" alt="" />'.ICON_SUFFIX;
+				if(isset($context['page_image']) && $context['page_image']) {
+				
+					// configured styles
+					$more_styles = '';
+					if(isset($context['classes_for_icon_images']) && $context['classes_for_icon_images'])
+						$more_styles = ' '.encode_field($context['classes_for_icon_images']);
+			
+					echo ICON_PREFIX.'<img src="'.$context['page_image'].'" class="icon'.$more_styles.'" alt="" />'.ICON_SUFFIX;
+				}
 				break;
 			
 			// page menu
@@ -297,7 +304,7 @@
 
 		// a reference to YACS
 		if(is_callable(array('i18n', 's')) && ($context['host_name'] != 'www.yacs.fr'))
-			echo ' - '.sprintf(i18n::s('powered by %s'), Skin::build_link(i18n::s('http://www.yacs.fr/'), i18n::s('yacs'), 'external'));
+			echo ' - '.sprintf(i18n::s('powered by %s'), Skin::build_link(i18n::s('http://www.yacs.fr/'), 'Yacs', 'external'));
 
 		// all our feeds
 		if(is_callable(array('i18n', 's')))

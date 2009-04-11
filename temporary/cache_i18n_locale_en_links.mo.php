@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on April 7, 2009, 1:38 pm GMT. Please do not modify it manually.
+ * on April 9, 2009, 4:19 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-10 16:04+0100
+POT-Creation-Date: 2009-04-08 23:07+0200
 PO-Revision-Date: 2008-11-10 16:57+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -110,7 +110,6 @@ $_SESSION['l10n']['en']['View the page']='View the page';
 $_SESSION['l10n']['en']['6898e1fc6d45aaf828a99328df174156']='We suggest you to cut and paste the following piece of text to reference this page:';
 $_SESSION['l10n']['en']['Web address']='Web address';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
-$_SESSION['l10n']['en']['YACS']='YACS';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['ed1a1469554e9abea3b271c74351349f']='YACS ties automatically external links to this section on use. Therefore, you will have below a global picture of external sites that are referenced through your site.';
 $_SESSION['l10n']['en']['c4aa1be7823a997c37b1d50e98e0d2e1']='Yes, I want to suppress this link';

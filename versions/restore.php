@@ -93,8 +93,8 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-// restoration is confirmed
-} elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {
+// restoration
+} else {
 
 	// update the database
 	if(Versions::restore($item['id'])) {
@@ -103,50 +103,12 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.i18n::s('The page has been successfully restored.').'</p>';
 
 		// follow-up commands
-		$follow_up = i18n::s('What do you want to do now?');
-		$menu = array();
-		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('View the restored page')));
-		$follow_up .= Skin::build_list($menu, 'menu_bar');
-		$context['text'] .= Skin::build_block($follow_up, 'bottom');
+		$context['text'] .= Skin::build_link($anchor->get_url(), i18n::s('Done'), 'button');
 
 		// clear the cache; the article may be listed at many places
 		Cache::clear();
 
 	}
-
-// restoration has to be confirmed
-} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
-	Logger::error(i18n::s('The restoration has not been confirmed.'));
-
-// ask for confirmation
-else {
-
-	// the submit button
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-		.Skin::build_submit_button(i18n::s('Yes, I want to restore this version'), NULL, NULL, 'confirmed')."\n"
-		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
-		.'<input type="hidden" name="confirm" value="yes" />'."\n"
-		.'</p></form>'."\n";
-
-	// set the focus
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
-		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
-		.'// ]]></script>'."\n";
-
-	// information to members
-	if(Surfer::is_member())
-		$context['text'] .= '<p>'.sprintf(i18n::s('This version has been posted by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']))."</p>\n";
-
-	// display details for this version
-	$context['text'] .= '<dl class="version">'."\n";
-	if(($attributes = Safe::unserialize($item['content'])) && @count($attributes)) {
-		foreach($attributes as $name => $value) {
-			if(is_string($value) && $value && preg_match('/(active|anchor|description|introduction|rank|title)/', $name))
-				$context['text'] .= '<dt>'.$name.'</dt>'."\n".'<dd>'.$value.'</dd>'."\n";
-		}
-	}
-	$context['text'] .= '</dl>'."\n";
 
 }
 

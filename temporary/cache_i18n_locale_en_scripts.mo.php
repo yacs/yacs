@@ -3,11 +3,11 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on April 7, 2009, 1:38 pm GMT. Please do not modify it manually.
+ * on April 9, 2009, 4:20 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-04-07 12:53+0200
+POT-Creation-Date: 2009-04-09 17:45+0200
 PO-Revision-Date: 2009-04-07 12:58+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -125,7 +125,6 @@ $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Purging old staging files...']='Purging old staging files...';
 $_SESSION['l10n']['en']['58307fee2eb36a82781084c561fff62d']='Purging the documentation pages...';
-$_SESSION['l10n']['en']['c8bd10c743f6ae1fcc217ae36a860434']='Reference archive has been saved in %s.';
 $_SESSION['l10n']['en']['Reference script: %s']='Reference script: %s';
 $_SESSION['l10n']['en']['17f3d5f530a5076c5820d9b50f3474db']='Reference set of %d files built on %s on server %s';
 $_SESSION['l10n']['en']['Review']='Review';

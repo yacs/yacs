@@ -63,25 +63,10 @@ if(is_object($anchor))
 // the path to this page
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
-// else
-//	   $context['path_bar'] = array( 'versions/' => i18n::s('Versions') );
 
 // the title of the page
 if(is_object($anchor))
 	$context['page_title'] = sprintf(i18n::s('Version: %s'), $anchor->get_title());
-
-// back to the anchor page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Back to current version') ));
-
-// index of available versions
-if((is_object($anchor) && $anchor->is_editable()))
-	$context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url($anchor->get_reference(), 'list') => i18n::s('List versions') ));
-
-// restore command
-if($item['id'] && (Surfer::is_associate()
-	|| (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())))
-	$context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url($item['id'], 'restore') => i18n::s('Restore this version') ));
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
@@ -105,26 +90,47 @@ if(!isset($item['id'])) {
 	// initialize the rendering engine
 //	Codes::initialize(Versions::get_url($item['id']));
 
-	// information to members
-	if(Surfer::is_member())
-		$context['text'] .= '<p>'.sprintf(i18n::s('This version has been posted by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']))."</p>\n";
-
 	// display details for this version
 	$context['text'] .= '<dl class="version">'."\n";
 	if(($attributes = Safe::unserialize($item['content'])) && @count($attributes)) {
-		foreach($attributes as $name => $value) {
-
-			// display changes to the main description field
-			if(($name == 'description') && is_object($anchor)) {
-				$context['text'] .= '<dt>'.$name.'</dt>'."\n".'<dd>'.$anchor->diff($name, $value).'</dd>'."\n";
-
-			// display previous attribute value
-			} elseif(is_string($value) && $value && preg_match('/(active|anchor|description|introduction|rank|title)$/', $name)) {
-				$context['text'] .= '<dt>'.$name.'</dt>'."\n".'<dd>'.$value.'</dd>'."\n";
-			}
-		}
+	
+		if(isset($attributes['introduction']))
+			$context['text'] .= Skin::build_block($anchor->diff('introduction', $attributes['introduction']), 'introduction');
+			
+		if(isset($attributes['description']))
+			$context['text'] .= Skin::build_block($anchor->diff('description', $attributes['description']), 'description');
+		
+// 		$rows = array();
+// 		foreach($attributes as $name => $value) {
+// 			if(is_string($value) && $value && preg_match('/(active|anchor|locked|rank|title)$/', $name))
+// 				$rows[] = array($name, $value);
+// 		}
+// 		if($rows)
+// 			$context['text'] .= Skin::table(NULL, $rows);
 	}
-	$context['text'] .= '</dl>'."\n";
+
+	// back to the anchor page
+	$links = array();
+	if(is_object($anchor) && $anchor->is_viewable())
+		$links[] = Skin::build_link($anchor->get_url(), i18n::s('No change'), 'button');
+	if($item['id'] && (Surfer::is_associate()
+		|| (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())))
+		$links[] = Skin::build_link(Versions::get_url($item['id'], 'restore'), i18n::s('Restore this version'), 'basic', i18n::s('Caution: restoration can not be reversed!'));
+	if((is_object($anchor) && $anchor->is_editable()))
+		$links[] = Skin::build_link(Versions::get_url($anchor->get_reference(), 'list'), i18n::s('Versions'), 'basic');
+	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
+
+	// page help
+	$help = '';
+
+	// information to members
+	if(Surfer::is_member())
+		$help .= '<p>'.sprintf(i18n::s('This version has been posted by %s %s.'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']))."</p>\n";
+
+	$help .= '<p><ins>'.i18n::s('Text inserted in the current page.').'</ins></p>'
+		.'<p><del>'.i18n::s('Text suppressed from the previous version.').'</del></p>'
+		.'<p>'.i18n::s('Caution: restoration can not be reversed!').'</p>';
+	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 	//
 	// the navigation sidebar

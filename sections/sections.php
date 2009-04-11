@@ -1070,6 +1070,151 @@ Class Sections {
 	}
 
 	/**
+	 * get sections as radio buttons
+	 *
+	 * This allow to move a page to a parent section, or to a child section
+	 *
+	 * @param string the current anchor to an existing section (e.g., 'section:12')
+	 * @return the HTML to insert in the page
+	 *
+	 * @see articles/edit.php
+	 * @see articles/import.php
+	 * @see files/edit.php
+	 * @see images/edit.php
+	 * @see links/edit.php
+	 * @see panel.php
+	 * @see skins/upload.php
+	 */
+	function &get_radio_buttons($current=NULL) {
+		global $context;
+
+		$text = '';
+		
+		if(!$current)
+			return $text;
+			
+		if(!strncmp($current, 'section:', 8))
+			$current = substr($current, 8);
+			
+		if(!$item = Sections::get($current))
+			return $text;
+			
+		
+		// list everything to associates
+		if(Surfer::is_associate())
+			$where = " AND (sections.active='Y' OR sections.active='R' OR sections.active='N'";
+
+		// list unlocked sections
+		else {
+		
+			// display active items
+			$where = " AND ((sections.active='Y' AND sections.locked='N')";
+	
+			// add restricted items to logged members, or if teasers are allowed
+			if(Surfer::is_teased())
+				$where .= " OR (sections.active='R' AND sections.locked='N')";
+				
+		}
+		
+		// include managed sections for editors
+		if(count($my_sections = Surfer::assigned_sections())) {
+			$where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
+			$where .= " OR sections.anchor LIKE 'section:".join("' OR sections.anchor LIKE 'section:", $my_sections)."'";
+		}
+
+		// end of scope
+		$where .= ")";
+	
+		// list children sections
+		$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
+			." WHERE (anchor LIKE 'section:".$item['id']."')".$where
+			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
+		if($result =& SQL::query($query)) {
+
+			// process all matching sections
+			$children = '';
+			while($row =& SQL::fetch($result)) {
+				if($children)
+					$children .= BR;
+				$children .= '<input type="radio" name="anchor" value="section:'.$row['id'].'" /> '.Skin::build_link(Sections::get_permalink($row), Codes::beautify_title($row['title']));
+			}
+			if($children)
+				$text .= '<input type="radio" name="anchor" value="section:'.$item['id'].'" checked="checked" /> '.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title']))
+					.'<div style="margin: 0 0 0 3em">'.$children.'</div>';
+		}
+		
+		// list sections at the same level
+		if(isset($item['anchor']) && ($parent =& Anchors::get($item['anchor']))) {
+
+			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
+				." WHERE (anchor LIKE '".$item['anchor']."')".$where
+				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
+			if($result =& SQL::query($query)) {
+	
+				// brothers and sisters
+				$family = '';
+				while($row =& SQL::fetch($result)) {
+
+					if($family && strncmp(substr($family, -6), '</div>', 6))
+						$family .= BR;
+						
+					if($row['id'] == $item['id']) {
+					
+						if($text)
+							$family .= $text;
+						else
+							$family .= '<input type="radio" name="anchor" value="section:'.$item['id'].'" checked="checked" /> '.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title']));
+							
+					} else 
+						$family .= '<input type="radio" name="anchor" value="section:'.$row['id'].'" /> '.Skin::build_link(Sections::get_permalink($row), Codes::beautify_title($row['title']));
+				}
+				if($family)
+					$text = $family;
+			}
+		
+			if(!$text)
+				$text .= '<input type="radio" name="anchor" value="section:'.$item['id'].'" checked="checked" /> '.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title']));
+
+			// move to parent
+			if($parent->is_editable() || !$parent->has_option('locked'))
+				$text = '<input type="radio" name="anchor" value="'.$parent->get_reference().'" /> '.Skin::build_link($parent->get_url(), $parent->get_title())
+					.'<div style="margin: 0 0 0 3em">'.$text.'</div>';
+
+		// list top-level sections
+		} else {
+		
+			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
+				." WHERE (sections.anchor='' OR sections.anchor IS NULL)".$where." AND ((sections.index_map IS NULL) OR (sections.index_map != 'N'))"
+				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
+			if($result =& SQL::query($query)) {
+	
+				// process all matching sections
+				$family = '';
+				while($row =& SQL::fetch($result)) {
+						
+					if($row['id'] == $item['id']) {
+					
+						if($text)
+							$family .= $text;
+						else
+							$family .= '<input type="radio" name="anchor" value="section:'.$item['id'].'" checked="checked" /> '.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title'])).BR;
+							
+					} else 
+						$family .= '<input type="radio" name="anchor" value="section:'.$row['id'].'" /> '.Skin::build_link(Sections::get_permalink($row), Codes::beautify_title($row['title'])).BR;
+				}
+				$text = $family;
+			}
+		
+		}
+
+		// at least show where we are
+		if(!$text)
+			$text .= '<input type="hidden" name="anchor" value="section:'.$row['id'].'" />'.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title']));
+
+		return $text;
+	}
+
+	/**
 	 * build a reference to a section
 	 *
 	 * Depending on parameter '[code]with_friendly_urls[/code]' and on action,
@@ -2490,5 +2635,5 @@ Class Sections {
 // load localized strings
 if(is_callable(array('i18n', 'bind')))
 	i18n::bind('sections');
-
+	
 ?>

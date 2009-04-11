@@ -209,8 +209,9 @@ class Anchor {
 		include_once $context['path_to_root'].'scripts/scripts.php';
 		$output =& Scripts::hdiff($value, $current);
 		return $output;
-	}
 
+	}
+		
 	/**
 	 * get the active attribute
 	 *

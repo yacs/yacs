@@ -401,9 +401,7 @@ if(!Surfer::is_logged() || Surfer::is_member()) {
 
 // locate a reference server
 Safe::load('parameters/scripts.include.php');
-if(file_exists($context['path_to_root'].'scripts/reference/footprints.php'))
-	$target = '';
-elseif(isset($context['reference_server']) && $context['reference_server'])
+if(isset($context['reference_server']) && $context['reference_server'])
 	$target = 'http://'.$context['reference_server'].'/';
 else
 	$target = 'http://www.yacs.fr/';

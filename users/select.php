@@ -53,10 +53,13 @@ else
 
 // the title of the page
 if(is_object($anchor)) {
-	if(preg_match('/^user:/', $anchor->get_reference()))
-		$context['page_title'] = sprintf(i18n::s('People watched by %s'), $anchor->get_title());
-	else
-		$context['page_title'] = sprintf(i18n::s('People assigned to %s'), $anchor->get_title());
+	if(!strncmp($anchor->get_reference(), 'user:', 5)) {
+		if(Surfer::is(intval(substr($anchor->get_reference(), 5))))
+			$context['page_title'] = i18n::s('My contacts');
+		else
+			$context['page_title'] = sprintf(i18n::s('Contacts of %s'), $anchor->get_title());
+	} else
+		$context['page_title'] = sprintf(i18n::s('Editors of %s'), $anchor->get_title());
 }
 
 // an anchor is mandatory

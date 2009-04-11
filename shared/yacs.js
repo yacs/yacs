@@ -91,17 +91,21 @@ var Yacs = {
 			requestHeaders: {Accept: 'application/json'},
 			onSuccess: function(transport) {
 				var response = transport.responseText.evalJSON(true);
-				if(response.error) {
-					callBack(FALSE);
-				} else if(response.result) {
-					callBack(response.result);
-				} else {
-					callBack(FALSE);
+				if(typeof callBack == 'function') {
+					if(response.error) {
+						callBack(FALSE);
+					} else if(response.result) {
+						callBack(response.result);
+					} else {
+						callBack(FALSE);
+					}
 				}
 				response = null; // no memory leak
 			},
 			onFailure: function(transport) {
-				callBack(FALSE);
+				if(typeof callBack == 'function') {
+					callBack(FALSE);
+				}
 			}
 		});
 	},

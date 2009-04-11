@@ -24,10 +24,12 @@
  */
 
 // no decision, no extension
-define('NO_CONTROLLER_PRELOAD', TRUE);
+if(!defined('NO_CONTROLLER_PRELOAD'))
+	define('NO_CONTROLLER_PRELOAD', TRUE);
 
 // no need for access to the database
-define('NO_MODEL_PRELOAD', TRUE);
+if(!defined('NO_MODEL_PRELOAD'))
+	define('NO_MODEL_PRELOAD', TRUE);
 
 // common definitions and initial processing
 include_once '../../shared/global.php';

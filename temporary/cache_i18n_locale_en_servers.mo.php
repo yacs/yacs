@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on April 7, 2009, 1:38 pm GMT. Please do not modify it manually.
+ * on April 9, 2009, 4:19 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-03-10 23:58+0100
-PO-Revision-Date: 2009-03-11 00:02+0100
+POT-Creation-Date: 2009-04-08 23:01+0200
+PO-Revision-Date: 2009-04-08 23:08+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -91,7 +91,6 @@ $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a me
 $_SESSION['l10n']['en']['Populate']='Populate';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['47b78f39e64497e39883fac579c63f84']='Processing of queries received from this server';
-$_SESSION['l10n']['en']['RSS Test']='RSS Test';
 $_SESSION['l10n']['en']['Received from feeding servers']='Received from feeding servers';
 $_SESSION['l10n']['en']['Related to %s']='Related to %s';
 $_SESSION['l10n']['en']['f29869af2b6e35819bc5a7c5872e8dca']='Remote calls are allowed by default. Uncheck boxes below to ban this server if necessary.';
@@ -103,7 +102,7 @@ $_SESSION['l10n']['en']['Services accessed remotely']='Services accessed remotel
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['62533653dfc1015ddcfc5c356a6497a1']='Submit periodic XML-RPC calls of <code>monitor.ping</code> at %s';
 $_SESSION['l10n']['en']['5ec9e6d4a0ddc6ce82848a3e9f4b097f']='Submit search queries to this server, by REST calls at %s';
-$_SESSION['l10n']['en']['Test']='Test';
+$_SESSION['l10n']['en']['Test feed']='Test feed';
 $_SESSION['l10n']['en']['07952e6cca017e7cdff4505604da467f']='The deletion has not been confirmed.';
 $_SESSION['l10n']['en']['The famous pinging gateway']='The famous pinging gateway';
 $_SESSION['l10n']['en']['3513760fe3e0b14f2af4cc30a501d92a']='The following configuration has been saved into the file %s.';

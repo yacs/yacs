@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on April 7, 2009, 1:37 pm GMT. Please do not modify it manually.
+ * on April 9, 2009, 4:19 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-04-07 12:53+0200
-PO-Revision-Date: 2008-12-05 23:23+0100
+POT-Creation-Date: 2009-04-09 17:45+0200
+PO-Revision-Date: 2009-04-09 17:48+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -135,7 +135,6 @@ $_SESSION['l10n']['fr']['Get a paper copy of this page.']='Obtenir une copie pap
 $_SESSION['l10n']['fr']['Go to the front page']='Aller à la page d\'accueil';
 $_SESSION['l10n']['fr']['Good']='Bien';
 $_SESSION['l10n']['fr']['Help']='Aide';
-$_SESSION['l10n']['fr']['History']='Historique';
 $_SESSION['l10n']['fr']['3482364243c0c367e9481e1eb819366d']='Cliquer sur le bouton d\'envoi pour pouvoir attacher des images.';
 $_SESSION['l10n']['fr']['Home']='Accueil';
 $_SESSION['l10n']['fr']['3ecb5d5cd1f2a3084e06e875ebcfafe3']='Je confirme que l\'article est valide';
@@ -240,7 +239,6 @@ $_SESSION['l10n']['fr']['a253cb1655b359aa0d471d43af35e555']='Empêcher l\'ajout 
 $_SESSION['l10n']['fr']['Prevent the upload of new files']='Empêcher l\'envoi de fichiers';
 $_SESSION['l10n']['fr']['Previous']='Précédent';
 $_SESSION['l10n']['fr']['Previous pages']='Pages précédentes';
-$_SESSION['l10n']['fr']['Previous versions of this page']='Versions précédentes de cette page';
 $_SESSION['l10n']['fr']['Print this page']='Imprimer cette page';
 $_SESSION['l10n']['fr']['Publication']='Publication';
 $_SESSION['l10n']['fr']['Publication date']='Date de publication';
@@ -267,6 +265,7 @@ $_SESSION['l10n']['fr']['Remove the expiry date']='Supprimer la date d\'échéan
 $_SESSION['l10n']['fr']['Rendering']='Rendu';
 $_SESSION['l10n']['fr']['Replies']='Réactions';
 $_SESSION['l10n']['fr']['Request is invalid.']='La requête est invalide.';
+$_SESSION['l10n']['fr']['ebd0c9b97dd4fa2b5e2da8afd29eef24']='Restaurer une version précédente si nécessaire';
 $_SESSION['l10n']['fr']['Restricted to members']='Accès restreint aux membres authentifiés';
 $_SESSION['l10n']['fr']['Review queue']='Pages en attente';
 $_SESSION['l10n']['fr']['Save as PDF']='Sauver en PDF';
@@ -360,6 +359,7 @@ $_SESSION['l10n']['fr']['36ab5b5ac398b5cfe4feb817d68c45f1']='Utilisez l\'%s pour
 $_SESSION['l10n']['fr']['c6bd39974265c03828921dc8415bb6da']='Utilisez ce champ pour limiter la durée de vie des pages publiées.';
 $_SESSION['l10n']['fr']['Validate']='Valider';
 $_SESSION['l10n']['fr']['7095a3461ba51a372774ee8a1ce5d15b']='Différents moyens de lier cette page';
+$_SESSION['l10n']['fr']['Versions']='Versions';
 $_SESSION['l10n']['fr']['View history']='Lister toutes les contributions';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
 $_SESSION['l10n']['fr']['View the page']='Voir la page';

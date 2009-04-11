@@ -359,18 +359,24 @@ elseif(!Surfer::is_associate()) {
 
 	}
 
+	// also update our own version
+	Safe::file_put_contents($context['path_to_root'].'footprints.php', $content);
+	
 	// splash message
 	$context['text'] .= '<p>'.i18n::s('On-going archive preparation...')."\n";
+
+	$file_path = $context['path_to_reference'];
+	$file_name = 'temporary/'.gmdate("Ymd").'_yacs_'.trim($_REQUEST['version']);
 
 	// start the zip file
 	include_once '../shared/zipfile.php';
 	$zipfile =& new zipfile();
-
+	
 	// place all files into a single directory --fixed time to allow cacheability
 	$zipfile->store('yacs/', 0);
 
 	// process every reference file
-	$file_path = $context['path_to_reference'];
+	$all_files = array();
 	$index = 0;
 	foreach($references as $reference) {
 
@@ -389,6 +395,10 @@ elseif(!Surfer::is_associate()) {
 			// store binary data
 			else
 				$zipfile->store('yacs/'.$file, Safe::filemtime($file_path.$file), $content);
+				
+			// to be included in tar file as well
+			$all_files[] = $file_path.$file;
+			
 		} else
 			$context['text'] .= BR.'cannot read '.$file_path.$file;
 
@@ -401,12 +411,20 @@ elseif(!Surfer::is_associate()) {
 	}
 
 	// save the zipfile
-	$file_name = 'temporary/'.gmdate("Ymd").'_yacs_'.trim($_REQUEST['version']).'.zip';
-	if($handle = Safe::fopen($context['path_to_root'].$file_name, 'wb')) {
+	if($handle = Safe::fopen($context['path_to_root'].$file_name.'.zip', 'wb')) {
 		fwrite($handle, $zipfile->get());
 		fclose($handle);
-		$context['text'] .= BR.sprintf(i18n::s('Reference archive has been saved in %s.'), Skin::build_link($file_name, $file_name, 'basic'));
+		$context['text'] .= BR.Skin::build_link($file_name.'.zip', $file_name.'.zip', 'basic');
 	}
+
+	// start the tar file
+	include_once '../included/tar.php';
+	$tarfile =& new Archive_Tar($context['path_to_root'].$file_name.'.tgz');
+
+	// extend the tar file as well
+	if($tarfile->createModify($all_files, '', $file_path))
+		$context['text'] .= BR.Skin::build_link($file_name.'.tgz', $file_name.'.tgz', 'basic');
+			
 	$context['text'] .= "</p>\n";
 
 	// display the execution time

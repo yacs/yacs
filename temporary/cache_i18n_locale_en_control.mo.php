@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on April 7, 2009, 1:38 pm GMT. Please do not modify it manually.
+ * on April 9, 2009, 4:19 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-04-07 12:53+0200
-PO-Revision-Date: 2009-03-20 23:12+0100
+POT-Creation-Date: 2009-04-09 13:11+0200
+PO-Revision-Date: 2009-04-08 23:08+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -31,18 +31,17 @@ $_SESSION['l10n']['en']['f3c5d54d03dcdff70644b296255f628e']='%d tables and %d re
 $_SESSION['l10n']['en']['81989d25fcd6d262ae52e4845521c3f5']='%s - all feeds available (RSS, ATOM)';
 $_SESSION['l10n']['en']['98d039bc866fdeef5282cafdbc1eefc3']='%s - articles waiting for publication, pending requests';
 $_SESSION['l10n']['en']['%s - ban spamming hosts']='%s - ban spamming hosts';
+$_SESSION['l10n']['en']['%s - basic view of the system']='%s - basic view of the system';
 $_SESSION['l10n']['en']['59175aa31a7b7528d2c3215d494c55d4']='%s - broadcast digests and announcements by e-mail';
 $_SESSION['l10n']['en']['eea098dd1386d57ece8b47111753fb3f']='%s - build a customized configuration file';
 $_SESSION['l10n']['en']['9d040f7354d59b16016e9c4ed737bf71']='%s - change meta-information, etc.';
 $_SESSION['l10n']['en']['a892dc3970b448cfc76d52438ea362a6']='%s - change parameters for back-end services';
-$_SESSION['l10n']['en']['1517dc5500dbad63fd98fd8d2462016a']='%s - change permissions of script files';
+$_SESSION['l10n']['en']['6e817874b6c4c8a7dd014cbb65f51972']='%s - change permissions of files';
 $_SESSION['l10n']['en']['0bd6a54d02de3cc75d33fbbdd6f2f529']='%s - change the reference server used for software updates';
 $_SESSION['l10n']['en']['fc5f3cb643e203f84e92025cd00e6045']='%s - change the template used for newsletters';
-$_SESSION['l10n']['en']['%s - check for software updates']='%s - check for software updates';
 $_SESSION['l10n']['en']['2e819d81cafe33f8aefcb328d53113f6']='%s - check the database structure; also optimize data tables and update index';
 $_SESSION['l10n']['en']['d799f76258e68e8e7c770d6fe0947d2b']='%s - clear the cache or delete what can be safely deleted';
 $_SESSION['l10n']['en']['92a2c6e80630fa4909d6853d7cf85122']='%s - codes you can use to beautify your pages';
-$_SESSION['l10n']['en']['%s - compress Javascript files']='%s - compress Javascript files';
 $_SESSION['l10n']['en']['eb5c2c7da7205df0bcd6067d2d0c95ca']='%s - configure database, security and other essential parameters';
 $_SESSION['l10n']['en']['d0de950b57151d0e808234e9cea1b90e']='%s - connect remote computers through XML-RPC or REST';
 $_SESSION['l10n']['en']['5036e894fe3a3460115f8d4d342916a3']='%s - create blogs, wikis, forums, and more';
@@ -54,10 +53,11 @@ $_SESSION['l10n']['en']['%s - learn about your visitors']='%s - learn about your
 $_SESSION['l10n']['en']['%s - operation summary']='%s - operation summary';
 $_SESSION['l10n']['en']['%s - other commands']='%s - other commands';
 $_SESSION['l10n']['en']['%s - phpinfo() and more']='%s - phpinfo() and more';
-$_SESSION['l10n']['en']['ea559186e2e55b4ccbcc53c073de1144']='%s - review and setup YACS hooking pieces of software';
+$_SESSION['l10n']['en']['51bd3dc03b6d2169a949d3556841c53a']='%s - plugins and other pieces of software hooked into yacs';
 $_SESSION['l10n']['en']['c0777e534eeabca5d20bf0668cd45359']='%s - select a section and type some text, then add images, files and links';
 $_SESSION['l10n']['en']['dd42f91a0a88d3aa6e0365f6f6d3fdf1']='%s - select and configure building blocks for the front page';
 $_SESSION['l10n']['en']['7089f81acbd6a98e5327ad40520e1090']='%s - select and test themes available at this server';
+$_SESSION['l10n']['en']['%s - server software']='%s - server software';
 $_SESSION['l10n']['en']['aabc0967626adb06becb52f1d111ee19']='%s - shared directories and files';
 $_SESSION['l10n']['en']['63c82f286cf6a3295558a5f47bf5dc6a']='%s - shut the server down, or fire it up again';
 $_SESSION['l10n']['en']['8aa717dbf86d0e44261682c8f01aa966']='%s - smileys available for your posts';
@@ -65,7 +65,6 @@ $_SESSION['l10n']['en']['86f3cc4446bed89e486a0c1ea3b2471c']='%s - some avatars y
 $_SESSION['l10n']['en']['%s - some have %s']='%s - some have %s';
 $_SESSION['l10n']['en']['be836c9c173ea40cff6ba90868f205a7']='%s - some upgrades are waiting for execution';
 $_SESSION['l10n']['en']['3ce5395cbcf2e9990bc30dec981da951']='%s - the safety tool; also useful to submit bulk SQL statements';
-$_SESSION['l10n']['en']['72b72256b65fdb417f5ba0a5a2b46e33']='%s - this server shares a reference store for remote updates';
 $_SESSION['l10n']['en']['7fb8bdb871d74deeb64f9fbaf9eda641']='%s - to change rendering of dynamic Flash objects';
 $_SESSION['l10n']['en']['3ce7abe06263d5fe79f484e7bc5eb48e']='%s - to extend accepted types and to make uploaded files available from FTP';
 $_SESSION['l10n']['en']['dd2c532fa9b8be8ad88e6e2cc7c6a2c8']='%s - to share and stream existing directories and files';
@@ -76,7 +75,7 @@ $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
 $_SESSION['l10n']['en']['12a445f97d35c3c6b46064691a6be8f8']='%s, including: %s, %s, %s and %s';
 $_SESSION['l10n']['en']['6215b8a7004d14581454f83c9075bc83']='%s, to get run-time parameters of the SQL engine.';
 $_SESSION['l10n']['en']['318c33cdf3687811972fcf31ec134607']='%s, to know everything about PHP runtime at this server.';
-$_SESSION['l10n']['en']['af65a8e204143cfba7ccdf76c118e1ab']='%s, to learn more about YACS run-time.';
+$_SESSION['l10n']['en']['ebb3b6364c32802bb71c6405dd80e55b']='%s, to learn more about Yacs run-time.';
 $_SESSION['l10n']['en']['0380899d64bbd378aeb965a4cd4244ae']='%s, to understand image support at this site.';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['99bb226626a516acb3ab4c7c6ade2209']='(%sbytes data, %sbytes index, %sbytes unused)';
@@ -141,9 +140,7 @@ $_SESSION['l10n']['en']['ce4433a46e56c75290b3bc45d03e84b1']='Click on following 
 $_SESSION['l10n']['en']['Client hooks']='Client hooks';
 $_SESSION['l10n']['en']['Codes']='Codes';
 $_SESSION['l10n']['en']['Community language']='Community language';
-$_SESSION['l10n']['en']['Compress Javascript files']='Compress Javascript files';
 $_SESSION['l10n']['en']['9b3a1da9e6da26be6629c3a14b570e2d']='Compress content (gzip) transmitted to user agents when possible.';
-$_SESSION['l10n']['en']['Compressing Javascript files...']='Compressing Javascript files...';
 $_SESSION['l10n']['en']['d683a0570e9cfed5b750483a900add41']='Compression of dynamic pages is available.';
 $_SESSION['l10n']['en']['Compute all page elements.']='Compute all page elements.';
 $_SESSION['l10n']['en']['Configuration']='Configuration';
@@ -255,7 +252,6 @@ $_SESSION['l10n']['en']['Indexes (expiration cache)']='Indexes (expiration cache
 $_SESSION['l10n']['en']['Information channels']='Information channels';
 $_SESSION['l10n']['en']['Initialize the database']='Initialize the database';
 $_SESSION['l10n']['en']['JPG support is enabled']='JPG support is enabled';
-$_SESSION['l10n']['en']['JSmin']='JSmin';
 $_SESSION['l10n']['en']['Jump to the configuration page']='Jump to the configuration page';
 $_SESSION['l10n']['en']['Jump to the installation page']='Jump to the installation page';
 $_SESSION['l10n']['en']['Jump to the populate page']='Jump to the populate page';
@@ -433,6 +429,7 @@ $_SESSION['l10n']['en']['System parameters']='System parameters';
 $_SESSION['l10n']['en']['Table']='Table';
 $_SESSION['l10n']['en']['Template pages']='Template pages';
 $_SESSION['l10n']['en']['Templates']='Templates';
+$_SESSION['l10n']['en']['Test']='Test';
 $_SESSION['l10n']['en']['bebe2fbe0537bc0188c59f37d9bdcda2']='The configuration file cannot be created.';
 $_SESSION['l10n']['en']['023577094a1da75ce1ed6f78dc0ee01e']='The configuration file cannot be deleted.';
 $_SESSION['l10n']['en']['a73d0ab46308044df3be40d7fca5ef21']='The configuration file for virtual host %s has been created.';
@@ -519,7 +516,6 @@ $_SESSION['l10n']['en']['72ffd4bbbe87b43cc16e417b8360aaeb']='YACS saves data usi
 $_SESSION['l10n']['en']['0bf5c047e61528a1411aec5e2caf30c5']='YACS uses the improved MySQL PHP extension.';
 $_SESSION['l10n']['en']['YACS version %s']='YACS version %s';
 $_SESSION['l10n']['en']['b32e1a113790a224b53df9984cbdee87']='Yes, I do want to change permissions of running scripts';
-$_SESSION['l10n']['en']['9e0765a2efb78a0957c62a9b9528f630']='Yes, I do want to compress Javascript files';
 $_SESSION['l10n']['en']['f95c0f00be11dfdc341cd1bff79797ad']='Yes, I do want to switch this server off';
 $_SESSION['l10n']['en']['f443104c597726650a57c3fbd6b76651']='Yes, I do want to switch this server on';
 $_SESSION['l10n']['en']['f5d17dd381abaf65b76ec8df206d8344']='Yes, I want to (re)build the set of hooks';
@@ -528,7 +524,6 @@ $_SESSION['l10n']['en']['Yes, I want to download files']='Yes, I want to downloa
 $_SESSION['l10n']['en']['Yes, I want to download images']='Yes, I want to download images';
 $_SESSION['l10n']['en']['4caf52c3a6808c4ea60b716aba28f71c']='Yes, I want to download parameter files';
 $_SESSION['l10n']['en']['00aaa0922c4235ea18818f24397e86c7']='Yes, I want to download the current theme';
-$_SESSION['l10n']['en']['300fee8b621fb5d1ddd92a7002043a7d']='You are about to apply jsmin to Javascript files of this server. Are you sure?';
 $_SESSION['l10n']['en']['3ce09e6df3d12286388e42e20d582412']='You are about to chmod(%d) all running scripts of this server. Are you sure?';
 $_SESSION['l10n']['en']['7d3675f083789cd48af9aa41d1fafde6']='You are about to close the server. Are you sure?';
 $_SESSION['l10n']['en']['7038f5859e75a6225ce22dfcae83c99d']='You are about to open the server again. Are you sure?';
@@ -554,7 +549,6 @@ $_SESSION['l10n']['en']['hour'.chr(0).'hours']='hour'.chr(0).'hours';
 $_SESSION['l10n']['en']['hour(s)']='hour(s)';
 $_SESSION['l10n']['en']['identifier: %s']='identifier: %s';
 $_SESSION['l10n']['en']['images']='images';
-$_SESSION['l10n']['en']['cded1d25d8d935520352c8b79c60b236']='jsmin has been applied to Javascript files';
 $_SESSION['l10n']['en']['link: %s']='link: %s';
 $_SESSION['l10n']['en']['monthly']='monthly';
 $_SESSION['l10n']['en']['a9e7e7fb870a8edb4049b690db04f2d3']='ob_list_handlers() cannot be invoked';
@@ -574,6 +568,5 @@ $_SESSION['l10n']['en']['unknown or empty table']='unknown or empty table';
 $_SESSION['l10n']['en']['user/group of this process:']='user/group of this process:';
 $_SESSION['l10n']['en']['user/group of this script:']='user/group of this script:';
 $_SESSION['l10n']['en']['weekly']='weekly';
-$_SESSION['l10n']['en']['yacs']='yacs';
 $_SESSION['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

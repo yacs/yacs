@@ -57,19 +57,9 @@ Class Layout_versions extends Layout_interface {
 			// version description
 			$label = sprintf(i18n::s('edited by %s %s'), ucfirst($item['edit_name']), Skin::build_date($item['edit_date']));
 
-			// the menu bar
-			$menu = array();
-
 			// if option 'anonymous_edit', anonymous surfers may view versions
 			if(Surfer::is_empowered() || Surfer::is($item['edit_id']))
-				$menu = array_merge($menu, array( Versions::get_url($item['id'], 'view') => i18n::s('view') ));
-
-			// authenticated associates and editors may restore a version
-			if((Surfer::is_empowered() && Surfer::is_member()) || Surfer::is($item['edit_id']))
-				$menu = array_merge($menu, array( Versions::get_url($item['id'], 'restore') => i18n::s('restore') ));
-
-			if(count($menu))
-				$suffix .= ' '.Skin::build_list($menu, 'menu');
+				$suffix .= ' '.Skin::build_link(Versions::get_url($item['id'], 'view'), i18n::s('view'), 'button');
 
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, 'version', $icon);

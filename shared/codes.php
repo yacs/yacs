@@ -2251,13 +2251,10 @@ Class Codes {
 				// the full object is built in Javascript
 				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.'<script type="text/javascript">// <![CDATA['."\n"
-					.'var params = {};'."\n"
-					.'params.quality = "high";'."\n"
-					.'params.wmode = "transparent";'."\n"
-					.'params.allowfullscreen = "true";'."\n"
-					.'params.allowscriptaccess = "always";'."\n"
-					.'params.flashvars = "'.$flashvars.'";'."\n"
-					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
+					.'var flashvars = { '.str_replace(array('&', '='), array('", ', ': "'), $flashvars).'" }'."\n"
+					.'var params = { quality: "high", wmode: "transparent", allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
+					.'var attributes = { id: "file_'.$item['id'].'", name: "file_'.$item['id'].'"}'."\n"
+					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params, attributes);'."\n"
 					.'// ]]></script>'."\n";
 				return $output;
 

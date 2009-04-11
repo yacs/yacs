@@ -54,6 +54,9 @@
 // include global declarations
 include_once '../shared/global.php';
 
+// should generate an error message if something has already been output
+header('X-Scramble-Detection', 'scramble detection');
+
 // if it was a HEAD request, stop here
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))
 	return;
@@ -68,7 +71,8 @@ if(Surfer::is_crawler()) {
 }
 
 // no skin for this page
-define('BR', '<br>');
+if(!defined('BR'))
+	define('BR', '<br>');
 
 // add language information, if known
 if(isset($context['page_language']))
@@ -148,10 +152,6 @@ else
 echo '<p>'.sprintf(i18n::s('Session variables are stored correctly if the counter increments on page reload: %s'), $_SESSION['test_hits']).'</p>'."\n";
 
 // yacs version
-if(!isset($generation['version']))
-	Safe::load('scripts/reference/footprints.php'); 	// on-going development
-if(!isset($generation['version']))
-	Safe::load('scripts/staging/footprints.php');		// last update
 if(!isset($generation['version']))
 	Safe::load('footprints.php');						// initial archive
 if(isset($generation['version'])) {

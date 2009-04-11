@@ -20,7 +20,10 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 unset($files);
+$files[] = 'included/browser/flvplayer.swf';
+$files[] = 'included/browser/library.js';
 $files[] = 'shared/yacs.js';
+$files[] = 'skins/_reference/yacs.css';
 
 // process every file
 $count = 0;

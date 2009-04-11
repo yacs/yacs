@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on April 7, 2009, 1:37 pm GMT. Please do not modify it manually.
+ * on April 9, 2009, 4:19 pm GMT. Please do not modify it manually.
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-04-07 12:56+0200
-PO-Revision-Date: 2009-04-07 15:36+0100
+POT-Creation-Date: 2009-04-09 17:45+0200
+PO-Revision-Date: 2009-04-09 17:49+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -185,7 +185,6 @@ $_SESSION['l10n']['fr']['Get a paper copy of this page.']='Obtenir une copie pap
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Help index']='Index de l\'aide';
 $_SESSION['l10n']['fr']['Hidden pages']='Pages masquées';
-$_SESSION['l10n']['fr']['History']='Historique';
 $_SESSION['l10n']['fr']['3482364243c0c367e9481e1eb819366d']='Cliquer sur le bouton d\'envoi pour pouvoir attacher des images.';
 $_SESSION['l10n']['fr']['Icon URL']='Adresse web de l\'icône';
 $_SESSION['l10n']['fr']['98b2e1b34b14f94d2493eb4999e0fd72']='Vous pouvez perdre des informations si vous changez l\'overlay.';
@@ -290,7 +289,6 @@ $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['c0df1f223de6a16ea0b417f65a0ca2af']='Ne pas insérer de liens vers les pages suivantes et précédentes de la même section';
 $_SESSION['l10n']['fr']['Previous']='Précédent';
-$_SESSION['l10n']['fr']['Previous versions of this page']='Versions précédentes de cette page';
 $_SESSION['l10n']['fr']['Print this page']='Imprimer cette page';
 $_SESSION['l10n']['fr']['Promote a comment']='Promouvoir un commentaire';
 $_SESSION['l10n']['fr']['Promote a note']='Promouvoir une annotation';
@@ -311,6 +309,7 @@ $_SESSION['l10n']['fr']['Rendering']='Rendu';
 $_SESSION['l10n']['fr']['Replies: %s']='Réponses : %s';
 $_SESSION['l10n']['fr']['Reply to this post']='Répondre à cet envoi';
 $_SESSION['l10n']['fr']['Reply: %s']='Réponse : %s';
+$_SESSION['l10n']['fr']['ebd0c9b97dd4fa2b5e2da8afd29eef24']='Restaurer une version précédente si nécessaire';
 $_SESSION['l10n']['fr']['S5']='S5';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['2b9541b77bbbfba3f2d8868fa698edd1']='Script utilisé comme %s dans cette section';
@@ -395,6 +394,7 @@ $_SESSION['l10n']['fr']['36ab5b5ac398b5cfe4feb817d68c45f1']='Utilisez l\'%s pour
 $_SESSION['l10n']['fr']['Use the customized layout %s']='Utiliser la mise en page spéciale %s';
 $_SESSION['l10n']['fr']['705448ec5fb15a32b84a6999b5bcbf1f']='Utilisez cette page pour sélectionner ou pour déselectionner certaines sections';
 $_SESSION['l10n']['fr']['7095a3461ba51a372774ee8a1ce5d15b']='Différents moyens de lier cette page';
+$_SESSION['l10n']['fr']['Versions']='Versions';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
 $_SESSION['l10n']['fr']['View the note']='Voir l\'annotation';
 $_SESSION['l10n']['fr']['View the page']='Voir la page';

@@ -169,9 +169,13 @@ Class Versions {
 		// select among available items -- exact match
 		$query = "SELECT * FROM ".SQL::table_name('versions')." AS versions"
 			." WHERE (versions.id = ".SQL::escape($id).")";
+		$item =& SQL::query_first($query);
 
-		$output =& SQL::query_first($query);
-		return $output;
+		// inflate the serialized object if necessary
+		if(isset($item['content']) && strncmp($item['content'], 'a:', 2))
+			$item['content'] = gzuncompress(base64_decode($item['content']));
+			
+		return $item;
 	}
 
 	/**
@@ -369,6 +373,10 @@ Class Versions {
 			return FALSE;
 		}
 
+		// inflate the serialized object if necessary
+		if(strncmp($item['content'], 'a:', 2))
+			$item['content'] = gzuncompress(base64_decode($item['content']));
+			
 		// restore the anchor
 		if(!$anchor->restore(Safe::unserialize($item['content']))) {
 			Logger::error(i18n::s('Impossible to restore the previous version.'));
@@ -408,6 +416,10 @@ Class Versions {
 
 		// pack arrays, etc.
 		$content = serialize($fields);
+		
+		// save database space
+		if(strlen($content) > 128)
+			$content = base64_encode(gzcompress($content, 6));
 
 		// versioning date
 		$versioning_date = isset($fields['edit_date']) ? $fields['edit_date'] : gmstrftime('%Y-%m-%d %H:%M:%S');
