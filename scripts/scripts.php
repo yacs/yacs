@@ -321,6 +321,66 @@ class Scripts {
 	}
 
 	/**
+	 * turn an HTML string to tokens
+	 *
+	 * @param string original content
+	 * @return array the set of tokens
+	 */
+	function &hbreak(&$text) {
+		global $context;
+
+		
+		// locate pre-formatted areas
+		$areas = preg_split('/<(code|pre)>(.*?)<\/\1>/is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
+
+		// format only adequate areas
+		$output = array();
+		$index = 0;
+		$tag = '';
+		foreach($areas as $area) {
+
+			switch($index%3) {
+			case 0: // area to be formatted
+
+				// do not rewrite tags
+				$items = preg_split('/<(\/{0,1}[a-zA-Z!\-][^>]*)>/is', $area, -1, PREG_SPLIT_DELIM_CAPTURE);
+				$where = 0;
+				foreach($items as $item) {
+
+					switch($where%2) {
+
+					case 0: // outside a tag -- break on space
+						$tokens = explode(' ', $item);
+						foreach($tokens as $token)
+							$output[] = $token;
+						break;
+
+					case 1: // inside a tag -- left untouched
+						$output[] = '<'.$item.'>';
+						break;
+
+					}
+					$where++;
+				}
+				break;
+
+			case 1: // area boundary
+				$tag = $area;
+				break;
+
+			case 2: // pre-formatted area - left unmodified
+				$output[] = '<'.$tag.'>'.$area.'</'.$tag.'>';
+				break;
+
+			}
+			$index++;
+		}
+
+		// job done
+		return $output;
+	}
+
+	/**
 	 * compare two HTML strings
 	 *
 	 * @param string original content
@@ -330,42 +390,12 @@ class Scripts {
 	function &hdiff(&$original, &$updated) {
 		global $context;
 
-		// split original lines --preserve HTML tags
-		$areas = preg_split('/<(\/{0,1}[a-zA-Z][^>]*)>/is', $original, -1, PREG_SPLIT_DELIM_CAPTURE);
-		$text = '';
-		$index = 0;
-		foreach($areas as $area) {
-			switch($index++) {
-			case 0;
-				$text .= str_replace(array(' ', "\t"), "\n", trim($area))."\n";
-				break;
-			case 1;
-				$text .= '<'.$area.">\n";
-				break;
-			}
-			$index = $index%2;
-		}
-		$original_lines = str_replace(array("\n\n\n\n", "\n\n\n", "\n\n"), "\n", $text);
-
-		// split updated lines
-		$areas = preg_split('/<(\/{0,1}[a-zA-Z][^>]*)>/is', $updated, -1, PREG_SPLIT_DELIM_CAPTURE);
-		$text = '';
-		$index = 0;
-		foreach($areas as $area) {
-			switch($index++) {
-			case 0;
-				$text .= str_replace(array(' ', "\t"), "\n", trim($area))."\n";
-				break;
-			case 1;
-				$text .= '<'.$area.">\n";
-				break;
-			}
-			$index = $index%2;
-		}
-		$updated_lines = str_replace(array("\n\n\n\n", "\n\n\n", "\n\n"), "\n", $text);
-
+		// preserve HTML tags
+		$old_tokens = self::hbreak($original);
+		$new_tokens = self::hbreak($updated);
+		
 		// do the job
-		$output =& Scripts::sdiff($original_lines, $updated_lines);
+		$output =& Scripts::sdiff($old_tokens, $new_tokens);
 		return $output;
 	}
 
@@ -654,13 +684,17 @@ class Scripts {
 			list($tag, $left, $right) = $item;
 
 			//comment out suppressed lines
-			if($tag == '-')
-				$text .= '<del>'.$left.'</del> ';
+			if($tag == '-') {
+				if(strncmp($left, '<', 1))
+					$text .= '<del>'.$left.'</del> ';
 
-			elseif($tag == '+')
-				$text .= '<ins>'.$right.'</ins> ';
+			} elseif($tag == '+') {
+				if(strncmp($right, '<', 1))
+					$text .= '<ins>'.$right.'</ins> ';
+				else
+					$text .= $right.' ';
 
-			else
+			} else
 				$text .= $right.' ';
 		}
 
