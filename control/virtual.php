@@ -186,7 +186,7 @@ elseif(!Surfer::is_associate()) {
 
 	// display its content
 	elseif(file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))
-		$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($content), 'folder');
+		$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($content), 'folded');
 	else
 		$context['text'] .= Safe::highlight_string($content);
 

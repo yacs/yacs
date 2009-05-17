@@ -22,7 +22,7 @@ Class Layout_users_as_compact extends Layout_interface {
 		global $context;
 
 		// empty list
-		if(!SQL::count($result)) {
+		if(!$delta = SQL::count($result)) {
 			$output = array();
 			return $output;
 		}
@@ -39,6 +39,7 @@ Class Layout_users_as_compact extends Layout_interface {
 		$idle = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600);
 
 		// process all items in the list
+		$count = 0;
 		while($item =& SQL::fetch($result)) {
 
 			// url to view the user
@@ -75,10 +76,27 @@ Class Layout_users_as_compact extends Layout_interface {
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, $class, NULL, $hover);
 
+			// limit to one page of results
+			if(++$count >= USERS_PER_PAGE)
+				break;
 		}
 
 		// end of processing
 		SQL::free($result);
+
+		// turn this to some text
+		$items = Skin::build_list($items, 'compact');
+		
+		// some indications on the number of connections
+		if($delta -= $count) {
+			if($delta < 100)
+				$label = sprintf(i18n::ns('and %d other connection', 'and %d other connections', $delta), $delta);
+			else
+				$label = i18n::s('and many more connections');
+
+			$items .= '<p>'.$label.'</p>';
+		}
+		
 		return $items;
 	}
 

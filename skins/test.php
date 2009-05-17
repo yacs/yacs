@@ -228,7 +228,7 @@ $sidebar =& Skin::build_box(i18n::s('sidebar box'), DUMMY_TEXT, 'sidebar');
 $text .= Skin::build_box(i18n::s('with a sidebar box'), $sidebar.DUMMY_TEXT);
 
 // a folded box
-$folder =& Skin::build_box(i18n::s('folded box'), DUMMY_TEXT, 'folder');
+$folder =& Skin::build_box(i18n::s('folded box'), DUMMY_TEXT, 'folded');
 
 // $context['text'] - section with folded box
 $text .= Skin::build_box(i18n::s('with a folded box'), DUMMY_TEXT.$folder.DUMMY_TEXT);

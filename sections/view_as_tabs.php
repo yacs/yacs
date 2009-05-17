@@ -372,15 +372,21 @@ if(!isset($item['id'])) {
 
 		}
 
+		// filter description, if necessary
+		if(is_object($overlay))
+			$description = $overlay->get_text('description', $item);
+		else
+			$description = $item['description'];
+				
 		// the beautified description, which is the actual page body
-		if(trim($item['description'])) {
+		if($description) {
 
 			// use adequate label
 			if(is_object($overlay) && ($label = $overlay->get_label('description')))
 				$text .= Skin::build_block($label, 'title');
 
 			// provide only the requested page
-			$pages = preg_split('/\s*\[page\]\s*/is', $item['description']);
+			$pages = preg_split('/\s*\[page\]\s*/is', $description);
 			if($page > count($pages))
 				$page = count($pages);
 			if($page < 1)
@@ -1138,10 +1144,33 @@ if(!isset($item['id'])) {
 	//
 	// users
 	//
+	$users = '';
 
 	// the list of related users if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'users')) {
 
+		// all followers
+		$followers = '';
+		
+		// the list of followers
+		if($items =& Members::list_watchers_by_posts_for_anchor('section:'.$item['id'], 0, 500, 'compact')) {
+			if(is_array($items))
+				$items = Skin::build_list($items, 'compact');
+			$followers .= '<p>'.i18n::s('Following persons are watching this page:').'</p>'.$items;				
+		}
+		
+		// suggest to watch this page --$in_watch_list is set in articles/view.php
+		if(Surfer::get_id() && !$in_watch_list) {
+	
+			Skin::define_img('WATCH_TOOL_IMG', 'icons/tools/watch.gif');
+			$followers .= '<p style="margin: 1em 0;">'.Skin::build_link(Sections::get_permalink($item), WATCH_TOOL_IMG.i18n::s('Watch this page'), 'button', i18n::s('To be notified when this page is changed')).'</p>';
+	
+		}
+	
+		// put followers in a sidebar
+		if($followers)		
+			$users .= Skin::build_box(NULL, $followers, 'sidebar');
+				
 		// cache panel content
 		$cache_id = 'sections/view_as_tabs.php?id='.$item['id'].'#users#'.$zoom_index;
 		if(!$text =& Cache::get($cache_id)) {
@@ -1188,12 +1217,14 @@ if(!isset($item['id'])) {
 
 		// save in cache
 		Cache::put($cache_id, $text, 'users');
-
-		// display in a separate panel
-		if(trim($text))
-			$panels[] = array('users', i18n::s('Persons'), 'users_panel', $text);
+		$users .= $text;
 
 	}
+
+	// display in a separate panel
+	if(trim($text))
+		$panels[] = array('users', i18n::s('Persons'), 'users_panel', $users);
+
 
 	//
 	// assemble all tabs

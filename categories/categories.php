@@ -148,9 +148,9 @@ Class Categories {
 		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_categories'))
 			return FALSE;
 
-		// submissions have been disallowed globally
-		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
-			return FALSE;
+//		// submissions have been disallowed globally
+//		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
+//			return FALSE;
 
 		// ok, all tests have been passed
 		return TRUE;
@@ -322,9 +322,9 @@ Class Categories {
 		$id = (string)$id;
 		$id = utf8::encode($id);
 
-		// strip extra text from enhanced ids '3-topic' -> '3'
-		if($position = strpos($id, '-'))
-			$id = substr($id, 0, $position);
+//		// strip extra text from enhanced ids '3-topic' -> '3'
+//		if($position = strpos($id, '-'))
+//			$id = substr($id, 0, $position);
 
 		// cache previous answers
 		static $cache;
@@ -350,7 +350,7 @@ Class Categories {
 		$output =& SQL::query_first($query);
 
 		// save in cache
-		if(isset($output['id']))
+		if(!$mutable && isset($output['id']))
 			$cache[$id] = $output;
 
 		// return by reference

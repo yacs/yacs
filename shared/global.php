@@ -1313,8 +1313,23 @@ function render_skin($stamp=0) {
 		$context['page_header'] .= "\t".'<link rel="stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/skins/aqua/theme.css" title="jsCalendar - Aqua" />'."\n";
 		$context['page_header'] .= "\t".'<link rel="alternate stylesheet" type="text/css" media="all" href="'.$context['url_to_root'].'included/jscalendar/calendar-system.css" title="jsCalendar - system" />'."\n";
 
-		// load the scripts
-		$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/minify.php"></script>'."\n";
+		// use the compressed version if it's available
+		if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js'.'.jsmin'))
+			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/calendar.js'.'.jsmin"></script>'."\n";
+		else
+			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/calendar.js"></script>'."\n";
+	
+		if(file_exists($context['path_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js')) {
+			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js"></script>'."\n";
+		} else {
+			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/lang/calendar-en.js"></script>'."\n";
+		}
+	
+		if(file_exists($context['path_to_root'].'included/jscalendar/calendar-setup.js'.'.jsmin'))
+			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/calendar-setup.js'.'.jsmin"></script>'."\n";
+		else
+			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/calendar-setup.js"></script>'."\n";
+
 
 	}
 

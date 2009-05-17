@@ -111,16 +111,16 @@ Class Layout_sections_as_boxesandarrows extends Layout_interface {
 			if($count = Articles::count_for_anchor('section:'.$item['id']))
 				$details[] = sprintf(i18n::ns('%d page', '%d pages', $count), $count);
 
-			// info on related files
-			if($count = Files::count_for_anchor('section:'.$item['id']))
+			// info on related files, if we have enough power
+			if($count = Files::count_for_anchor('section:'.$item['id'], TRUE))
 				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 
-			// info on related links
-			if($count = Links::count_for_anchor('section:'.$item['id']))
+			// info on related links, if we have enough power
+			if($count = Links::count_for_anchor('section:'.$item['id'], TRUE))
 				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
-			// info on related comments
-			if($count = Comments::count_for_anchor('section:'.$item['id']))
+			// info on related comments, if we have enough power
+			if($count = Comments::count_for_anchor('section:'.$item['id'], TRUE))
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 
 			// actually insert details

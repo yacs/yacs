@@ -687,7 +687,7 @@ if($with_form) {
 
 		// in a folded box
 		if($box)
-			$context['text'] .= Skin::build_box(i18n::s('Images'), $box, 'folder');
+			$context['text'] .= Skin::build_box(i18n::s('Images'), $box, 'folded');
 
 	}
 
@@ -765,7 +765,7 @@ if($with_form) {
 	}
 
 	// add a folded box
-	$context['text'] .= Skin::build_box(i18n::s('Advanced options'), Skin::build_form($fields), 'folder');
+	$context['text'] .= Skin::build_box(i18n::s('Advanced options'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	// bottom commands

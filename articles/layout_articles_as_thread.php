@@ -121,7 +121,7 @@ Class Layout_articles_as_thread extends Layout_interface {
 				$details[] = LOCKED_FLAG;
 
 			// page editors, except target surfer
-			if($friends =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact', $this->layout_variant))
+			if($friends =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma', $this->layout_variant))
 				$details[] = sprintf(i18n::s('with %s'), Skin::build_list($friends, 'comma'));
 
 			// combine in-line details

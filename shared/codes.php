@@ -56,8 +56,10 @@
  * - &#91;php]...[/php] - a snippet of php
  * - &#91;snippet]...[/snippet] - a snippet of fixed font data
  * - &#91;quote]...[/quote] - a block of quoted text
- * - &#91;folder]...[/folder] - click to view its content, or to fold it away
- * - &#91;folder=foo bar]...[/folder] - with title 'foo bar'
+ * - &#91;folded]...[/folded] - click to view its content, or to fold it away
+ * - &#91;folded=foo bar]...[/folded] - with title 'foo bar'
+ * - &#91;unfolded]...[/unfolded] - click to fold
+ * - &#91;unfolded=foo bar]...[/unfolded] - with title 'foo bar'
  * - &#91;sidebar]...[/sidebar] - a nice box aside
  * - &#91;sidebar=foo bar]...[/sidebar] - with title 'foo bar'
  * - &#91;scroller]...[/scroller] - some scrolling text
@@ -761,8 +763,12 @@ Class Codes {
 				'/\[code\](.*?)\[\/code\]/is',			// [code]...[/code]
 				'/\[indent\](.*?)\[\/indent\]/ise', 	// [indent]...[/indent]
 				'/\[quote\](.*?)\[\/quote\]/ise',		// [quote]...[/quote]
-				'/\[folder=([^\]]+?)\](.*?)\[\/folder\]\s*/ise',	// [folder=...]...[/folder]
-				'/\[folder\](.*?)\[\/folder\]\s*/ise',	// [folder]...[/folder]
+				'/\[folded=([^\]]+?)\](.*?)\[\/folded\]\s*/ise',	// [folded=...]...[/folded]
+				'/\[folded\](.*?)\[\/folded\]\s*/ise',	// [folded]...[/folded]
+				'/\[folder=([^\]]+?)\](.*?)\[\/folder\]\s*/ise',	// [folder=...]...[/folder] --obsolete to be removed by end 2009
+				'/\[folder\](.*?)\[\/folder\]\s*/ise',	// [folder]...[/folder] --obsolete to be removed by end 2009
+				'/\[unfolded=([^\]]+?)\](.*?)\[\/unfolded\]\s*/ise',	// [unfolded=...]...[/unfolded]
+				'/\[unfolded\](.*?)\[\/unfolded\]\s*/ise',	// [unfolded]...[/unfolded]
 				'/\[sidebar=([^\]]+?)\](.*?)\[\/sidebar\]\s*/ise',	// [sidebar=...]...[/sidebar]
 				'/\[sidebar\](.*?)\[\/sidebar\]\s*/ise',	// [sidebar]...[/sidebar]
 				'/\[note\](.*?)\[\/note\]\s*/ise',		// [note]...[/note]
@@ -940,8 +946,12 @@ Class Codes {
 				'<code>\\1</code>', 												// [code]...[/code]
 				"Skin::build_block(Codes::fix_tags('$1'), 'indent')", 				// [indent]...[indent]
 				"Skin::build_block(Codes::fix_tags('$1'), 'quote')",				// [quote]...[/quote]
-				"Skin::build_box('$1', Codes::fix_tags('$2'), 'folder')",			// [folder=title]...[/folder]
-				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'folder')", 			// [folder]...[/folder]
+				"Skin::build_box('$1', Codes::fix_tags('$2'), 'folded')",			// [folded=title]...[/folded]
+				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'folded')", 			// [folded]...[/folded]
+				"Skin::build_box('$1', Codes::fix_tags('$2'), 'folded')",			// [folder=title]...[/folder]
+				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'folded')", 			// [folder]...[/folder]
+				"Skin::build_box('$1', Codes::fix_tags('$2'), 'unfolded')",			// [unfolded=title]...[/unfolded]
+				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'unfolded')", 		// [unfolded]...[/unfolded]
 				"Skin::build_box('$1', Codes::fix_tags('$2'), 'sidebar')",			// [sidebar=title]...[/sidebar]
 				"Skin::build_box(NULL, Codes::fix_tags('$1'), 'sidebar')",			// [sidebar]...[/sidebar]
 				"Skin::build_block(Codes::fix_tags('$1'), 'note')",					// [note]...[/note]
@@ -2227,31 +2237,35 @@ Class Codes {
 					.'// ]]></script>'."\n";
 				return $output;
 
-			// stream a flash video
+			// stream a video
+			case '3gp':
 			case 'flv':
+			case 'm4v':
+			case 'mov':
+			case 'mp4':
 
 				// a flash player to stream a flash video
-				$flvplayer_url = $context['url_to_root'].'included/browser/flvplayer.swf';
+				$flvplayer_url = $context['url_to_root'].'included/browser/player_flv_maxi.swf';
 
 				// file is elsewhere
 				if(isset($item['file_href']) && $item['file_href'])
-					$url = 'file='.$item['file_href'];
+					$url = 'flv='.$item['file_href'];
 					
 				// prevent leeching (the flv player will provide session cookie, etc)
 				else
-					$url = 'file='.$context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
+					$url = 'flv='.$context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 
 				// pass parameters to the player
 				if($flashvars)
-					$flashvars = $url.'&'.$flashvars;
+					$flashvars = $url.'&'.str_replace('autostart=true', 'autoplay=1', $flashvars);
 				else
 					$flashvars = $url;
-				$flashvars .= '&width='.$width.'&height='.$height.'&controlbar=over';
+				$flashvars .= '&width='.$width.'&height='.$height;
 
-				// the full object is built in Javascript
+				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
 				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.'<script type="text/javascript">// <![CDATA['."\n"
-					.'var flashvars = { '.str_replace(array('&', '='), array('", ', ': "'), $flashvars).'" }'."\n"
+					.'var flashvars = { '.str_replace(array('&', '='), array('", ', ': "'), $flashvars).'", autoload:1, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"autohide", ondoubleclick:"fullscreen" }'."\n"
 					.'var params = { quality: "high", wmode: "transparent", allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
 					.'var attributes = { id: "file_'.$item['id'].'", name: "file_'.$item['id'].'"}'."\n"
 					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params, attributes);'."\n"

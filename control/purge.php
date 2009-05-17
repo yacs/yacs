@@ -81,7 +81,7 @@ $context['page_title'] = i18n::s('Purge');
 function delete_backup($path) {
 	global $context;
 
-	$path_translated = str_replace('//', '/', $context['path_to_root'].'/'.$path);
+	$path_translated = $context['path_to_root'].$path;
 	if($handle = Safe::opendir($path_translated)) {
 
 		while(($node = Safe::readdir($handle)) !== FALSE) {
@@ -94,7 +94,7 @@ function delete_backup($path) {
 			$target_translated = str_replace('//', '/', $path_translated.'/'.$node);
 
 			// delete a sub directory
-			if(is_dir($target_translated))
+			if(is_dir($target_translated) && !strpos($path_translated, '/files/') && !strpos($path_translated, '/images/'))
 				delete_backup($target);
 
 			// delete a backed up file

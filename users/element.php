@@ -150,18 +150,56 @@ if(!isset($item['id'])) {
 	$output = '';
 
 	// list watched users by posts
-	if($items =& Members::list_users_by_posts_for_member('user:'.$item['id'], 0, USERS_PER_PAGE, 'watch')) {
+	if($items =& Members::list_connections_for_user('user:'.$item['id'], 0, 200, 'watch')) {
 		if(is_array($items))
 			$items = Skin::build_list($items, 'decorated');
 		$output .= $items;
-	}
+	} elseif(Surfer::get_id() == $item['id'])
+		$output .= '<p>'.i18n::s('Click on the button below to add new connections.').'</p>';
+	else
+		$output .= '<p>'.sprintf(i18n::s('%s has not yet connected to other persons.'), $item['full_name']).'</p>';
 
 	// manage command
 	$menu = array();
 	if(Surfer::is_associate() || (Surfer::get_id() == $item['id']))
-		$menu = array(Users::get_url('user:'.$item['id'], 'select') => i18n::s('Manage'));
-	$output .= Skin::build_list($menu, 'menu_bar');
+		$menu[] = Skin::build_link(Users::get_url('user:'.$item['id'], 'select'), i18n::s('Manage connections'), 'button');
+	$output .= Skin::finalize_list($menu, 'menu_bar');
 	
+	// all followers
+	$followers = '';
+	
+	// the list of followers
+	if($items =& Members::list_watchers_by_posts_for_anchor('user:'.$item['id'], 0, 500, 'compact')) {
+		if(is_array($items))
+			$items = Skin::build_list($items, 'compact');
+		if(Surfer::get_id() == $item['id'])
+			$followers .= '<p>'.i18n::s('Following persons are connected to you:').'</p>'.$items;
+		else
+			$followers .= '<p>'.sprintf(i18n::s('Following persons are connected to %s:'), $item['full_name']).'</p>'.$items;
+			
+	}
+	
+	// connect to people
+	if(Surfer::get_id() && (Surfer::get_id() != $item['id'])) {
+
+		// a link to toggle the connection
+		$link = Users::get_url('user:'.$item['id'], 'track');
+
+		// is the item on user watch list?
+		$in_watch_list = FALSE;
+		if(isset($item['id']) && Surfer::get_id())
+			$in_watch_list = Members::check('user:'.$item['id'], 'user:'.Surfer::get_id());
+
+		// suggest a new connection
+		if(!$in_watch_list)
+			$followers .= '<p style="margin: 1em 0;">'.Skin::build_link($link, sprintf(i18n::s('Connect to %s'), $item['full_name']), 'button', i18n::s('Add this person to your connections')).'</p>';
+
+	}
+
+	// put followers in a sidebar
+	if($followers)		
+		$output = Skin::build_box(NULL, $followers, 'sidebar').$output;
+			
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 		echo $output;

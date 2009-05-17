@@ -77,7 +77,7 @@ $context['text'] .= "\n".'[toc]'."\n";
 
 // [sections]
 $context['text'] .= '[title]'.i18n::s('Sections').' [escape][sections] [sections=section:&lt;id&gt;][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][sections][/escape]</td>'
 	.'<td>[sections]</td></tr>'
@@ -85,7 +85,7 @@ $context['text'] .= '[title]'.i18n::s('Sections').' [escape][sections] [sections
 
 // [sections=self]
 $context['text'] .= '[title]'.i18n::s('Assigned sections').' [escape][sections=self] [sections=user:&lt;id&gt;][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][sections.folded=self][/escape]</td>'
 	.'<td>[sections.folded=self]</td></tr>'
@@ -94,7 +94,7 @@ $context['text'] .= '[title]'.i18n::s('Assigned sections').' [escape][sections=s
 // [freemind]
 $context['text'] .= '[title]'.i18n::s('A dynamic Freemind map').' [escape][freemind] [freemind=section:&lt;id&gt;][/escape][/title]'
 	.'<p>'.i18n::s('Use the simplest form to navigate site content is a mind map, or limit the scope to one section and related sub-sections.').'</p>'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][freemind=section:default, 100%, 300px][/escape]</td>'
 	.'<td>[freemind=section:default, 100%, 300px]</td></tr>'
@@ -102,7 +102,7 @@ $context['text'] .= '[title]'.i18n::s('A dynamic Freemind map').' [escape][freem
 
 // [categories]
 $context['text'] .= '[title]'.i18n::s('Categories').' [escape][categories] [categories=category:&lt;id&gt;][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][categories][/escape]</td>'
 	.'<td>[categories]</td></tr>'
@@ -110,7 +110,7 @@ $context['text'] .= '[title]'.i18n::s('Categories').' [escape][categories] [cate
 
 // [categories=self]
 $context['text'] .= '[title]'.i18n::s('Assigned categories').' [escape][categories=self] [categories=user:&lt;id&gt;][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][categories=self][/escape]</td>'
 	.'<td>[categories=self]</td></tr>'
@@ -119,7 +119,7 @@ $context['text'] .= '[title]'.i18n::s('Assigned categories').' [escape][categori
 // [cloud]
 $context['text'] .= '[title]'.i18n::s('Cloud of tags').' [escape][cloud] [cloud=&lt;40&gt;][/escape][/title]'
 	.'<p>'.i18n::s('Use the parameter to adjust the number of tags listed.').'</p>'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][cloud][/escape]</td>'
 	.'<td>[cloud]</td></tr>'
@@ -128,7 +128,7 @@ $context['text'] .= '[title]'.i18n::s('Cloud of tags').' [escape][cloud] [cloud=
 // [published]
 $context['text'] .= '[title]'.i18n::s('Recent pages').' [escape][published] [published=section:&lt;id&gt;] [published=category:&lt;id&gt;][/escape][/title]'
 	.'<p>'.i18n::s('Use the simplest form to display a compact list of pages, or limit the scope.').'</p>'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][published.decorated][/escape]</td>'
 	.'<td>[published.decorated]</td></tr>'
@@ -136,7 +136,7 @@ $context['text'] .= '[title]'.i18n::s('Recent pages').' [escape][published] [pub
 
 // [published=self]
 $context['text'] .= '[title]'.i18n::s('Personal pages').' [escape][published=self] [published=user:&lt;id&gt;][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][published=self, 20][/escape]</td>'
 	.'<td>[published=self, 20]</td></tr>'
@@ -145,7 +145,7 @@ $context['text'] .= '[title]'.i18n::s('Personal pages').' [escape][published=sel
 // [updated]
 $context['text'] .= '[title]'.i18n::s('Recent updates').' [escape][updated] [updated=section:&lt;id&gt;] [updated=category:&lt;id&gt;][/escape][/title]'
 	.'<p>'.i18n::s('Use the simplest form to display a compact list of pages, or limit the scope.').'</p>'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][updated.timeline][/escape]</td>'
 	.'<td>[updated.timeline]</td></tr>'
@@ -153,7 +153,7 @@ $context['text'] .= '[title]'.i18n::s('Recent updates').' [escape][updated] [upd
 
 // [updated=self]
 $context['text'] .= '[title]'.i18n::s('Personal updates').' [escape][updated=self] [updated=user:&lt;id&gt;][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][updated=self, 12][/escape]</td>'
 	.'<td>[updated=self, 12]</td></tr>'
@@ -162,7 +162,7 @@ $context['text'] .= '[title]'.i18n::s('Personal updates').' [escape][updated=sel
 // [read]
 $context['text'] .= '[title]'.i18n::s('Hall of fame').' [escape][read] [read=section:&lt;id&gt;][/escape][/title]'
 	.'<p>'.i18n::s('Use the simplest form to display a compact list of pages, or limit the scope.').'</p>'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][read][/escape]</td>'
 	.'<td>[read]</td></tr>'
@@ -170,7 +170,7 @@ $context['text'] .= '[title]'.i18n::s('Hall of fame').' [escape][read] [read=sec
 
 // [read=self]
 $context['text'] .= '[title]'.i18n::s('Personal hits').' [escape][read=self] [read=user:&lt;id&gt;][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][read=self][/escape]</td>'
 	.'<td>[read=self]</td></tr>'
@@ -179,7 +179,7 @@ $context['text'] .= '[title]'.i18n::s('Personal hits').' [escape][read=self] [re
 // [voted]
 $context['text'] .= '[title]'.i18n::s('Hall of fame').' [escape][voted] [voted=section:&lt;id&gt;][/escape][/title]'
 	.'<p>'.i18n::s('Use the simplest form to display a compact list of pages, or limit the scope.').'</p>'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][voted][/escape]</td>'
 	.'<td>[voted]</td></tr>'
@@ -187,7 +187,7 @@ $context['text'] .= '[title]'.i18n::s('Hall of fame').' [escape][voted] [voted=s
 
 // [voted=self]
 $context['text'] .= '[title]'.i18n::s('Personal hits').' [escape][voted=self] [voted=user:&lt;id&gt;][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][voted=self][/escape]</td>'
 	.'<td>[voted=self]</td></tr>'
@@ -195,7 +195,7 @@ $context['text'] .= '[title]'.i18n::s('Personal hits').' [escape][voted=self] [v
 
 // [calendar]
 $context['text'] .= '[title]'.i18n::s('Events').' [escape][calendar][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][calendar][/escape]</td>'
 	.'<td>[calendar]</td></tr>'
@@ -203,7 +203,7 @@ $context['text'] .= '[title]'.i18n::s('Events').' [escape][calendar][/escape][/t
 
 // [location=latitude, longitude, label]
 $context['text'] .= '[title]'.i18n::s('Direct location').' [escape][location=latitude, longitude, label][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][location=48.871264, 2.307558, Paris][/escape]</td>'
 	.'<td>[location=48.871264, 2.307558, Paris]</td></tr>'
@@ -212,7 +212,7 @@ $context['text'] .= '[title]'.i18n::s('Direct location').' [escape][location=lat
 // [collections]
 $context['text'] .= '[title]'.i18n::s('Collections').' [escape][collections][/escape][/title]'
 	.'<p>'.i18n::s('Use the configuration panel for collections to create new collections of files.').'</p>'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][collections][/escape]</td>'
 	.'<td>[collections]</td></tr>'
@@ -220,7 +220,7 @@ $context['text'] .= '[title]'.i18n::s('Collections').' [escape][collections][/es
 
 // [users=present]
 $context['text'] .= '[title]'.i18n::s('Present users').' [escape][users=present][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][users=present][/escape]</td>'
 	.'<td>[users=present]</td></tr>'

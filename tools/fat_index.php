@@ -74,6 +74,9 @@ if(isset($_REQUEST['reference']) && strlen($_REQUEST['reference'])) {
 } elseif(isset($_REQUEST['input']) && strlen($_REQUEST['input']))
 	$input = $_REQUEST['input'];
 
+// the path to this page
+$context['path_bar'] = array( 'tools/' => i18n::s('Tools') );
+
 // the title of the page
 // in YACS templates, it is placed into $context['title']
 $context['page_title'] = i18n::s('Fat Index');

@@ -73,31 +73,36 @@ if(!$item['id']) {
 } else {
 
 	// successful operation reflected into page title
-	$context['page_title'] = i18n::s('Your watch list has been successfully updated');
-
-	// reference the anchor page
-	if(is_object($anchor) && $anchor->is_viewable())
-		$context['text'] .= '<p>'.Skin::build_link($anchor->get_url(), $anchor->get_title())."</p>\n";
+	if(!strncmp($track, 'user:', 5))
+		$context['page_title'] = i18n::s('You have been connected');
+	else
+		$context['page_title'] = i18n::s('Your watch list has been updated');
 
 	// follow-up commands
 	$menu = array();
 	if(is_object($anchor) && $anchor->is_viewable())
-		$menu = array($anchor->get_url() => i18n::s('Back to main page'));
+		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Done'), 'button');
 
 	// the page now appears in the watch list
 	if(Members::check($track, 'user:'.Surfer::get_id())) {
 
 		// we are tracking a user
-		if(substr($track, 0, 5) == 'user:') {
-			$context['text'] .= '<p>'.i18n::s('The user has been added to your watch list. This list is reflected at your own user profile.')."</p>\n";
+		if(!strncmp($track, 'user:', 5)) {
+		
+			$context['text'] .= '<p>'.sprintf(i18n::s('You have been connected to %s.'), Skin::build_link($anchor->get_url(), $anchor->get_title()))."</p>\n";
 
-			$menu = array_merge($menu, array(Users::get_url($track, 'track') => i18n::s('I have changed my mind, forget this user')));
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind, disconnect me from this user.'), 'basic');
 
 		// we are tracking a page
 		} else {
+		
+			// reference the anchor page
+			if(is_object($anchor) && $anchor->is_viewable())
+				$context['text'] .= '<p>'.Skin::build_link($anchor->get_url(), $anchor->get_title())."</p>\n";
+
 			$context['text'] .= '<p>'.i18n::s('The page has been added to your watch list. You will receive electronic messages to warn you on each future update.')."</p>\n";
 
-			$menu = array_merge($menu, array(Users::get_url($track, 'track') => i18n::s('I have changed my mind, forget this page')));
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind, forget this page'), 'basic');
 
 		}
 
@@ -105,13 +110,19 @@ if(!$item['id']) {
 	} else {
 
 		// we are tracking a user
-		if(substr($track, 0, 5) == 'user:') {
-			$context['text'] .= '<p>'.i18n::s('The user has been removed from your watch list.')."</p>\n";
+		if(!strncmp($track, 'user:', 5)) {
 
-			$menu = array_merge($menu, array(Users::get_url($track, 'track') => i18n::s('I have changed my mind, watch this user')));
+			$context['text'] .= '<p>'.sprintf(i18n::s('You are not connected to %s anymore.'), Skin::build_link($anchor->get_url(), $anchor->get_title()))."</p>\n";
+
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind, connect me to this user'), 'basic');
 
 		// we are tracking a page
 		} else {
+
+			// reference the anchor page
+			if(is_object($anchor) && $anchor->is_viewable())
+				$context['text'] .= '<p>'.Skin::build_link($anchor->get_url(), $anchor->get_title())."</p>\n";
+
 			$context['text'] .= '<p>'.i18n::s('The page has been removed from your watch list. You won\'t receive any message about it anymore.')."</p>\n";
 
 			$menu = array_merge($menu, array(Users::get_url($track, 'track') => i18n::s('I have changed my mind, watch this page')));
@@ -121,16 +132,19 @@ if(!$item['id']) {
 	}
 
 	// subscription can be automatic
-	if(substr($track, 0, 5) != 'user:')
-		$context['text'] .= '<p>'.i18n::s('Please note that pages automatically appear in your watch list if you modify them either directly or by posting new pieces of information (e.g., comment, image, or file).')."</p>\n";
+	if(!strncmp($track, 'article:', 8))
+		$context['text'] .= '<p>'.i18n::s('Please note that when you contribute to a page it is added automatically to your watch list.')."</p>\n";
 
-	if(Surfer::get_id())
-		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id()).'#watch_list' => i18n::s('Watch list')));
+	// check the watch list
+	if(Surfer::get_id()) {
+		if(!strncmp($track, 'user:', 5))
+			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()).'#~connections', i18n::s('My connections'), 'basic');
+		else
+			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()), i18n::s('My Profile'), 'basic');
+	}
 
 	// follow-up commands
-	$follow_up = i18n::s('What do you want to do now?');
-	$follow_up .= Skin::build_list($menu, 'menu_bar');
-	$context['text'] .= Skin::build_block($follow_up, 'bottom');
+	$context['text'] .= Skin::build_list($menu, 'assistant_bar');
 
 }
 

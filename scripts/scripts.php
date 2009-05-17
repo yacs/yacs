@@ -705,6 +705,57 @@ class Scripts {
 		return $text;
 	}
 
+	/**
+	 * walk all files below a certain path
+	 *
+	 * @param string the absolute path to scan
+	 * @param function the function to call back with the file found
+	 *
+	 * @see scripts/check.php
+	 */
+	function walk_files_at($path, $call_back=NULL) {
+		global $context, $script_count;
+
+		// sanity check
+		$path = rtrim($path, '/');
+		
+		// list all files at this level
+		$directories = array();
+		if($handle = Safe::opendir($path)) {
+
+			// list all nodes
+			while(($node = Safe::readdir($handle)) !== FALSE) {
+
+				// special directory names
+				if(($node == '.') || ($node == '..'))
+					continue;
+					
+				// process special nodes
+				if($node[0] == '.')
+					continue;
+					
+				// make a real name
+				$target = $path.'/'.$node;
+				
+				// scan a sub directory
+				if(is_dir($target))
+					$directories[] = $target;
+
+				// scan a file
+				elseif(is_readable($target))
+					$call_back($target);
+
+			}
+			Safe::closedir($handle);
+		}
+
+		// walk sub-directories as well
+		foreach($directories as $directory)
+			self::walk_files_at($directory, $call_back);
+			
+	}
+
+
 }
 
 ?>

@@ -111,43 +111,43 @@ if(!isset($item['id'])) {
 		$names = $matches[2].';'.$matches[1];
 
 	// build the vCard
-	$text = 'BEGIN:VCARD'."\x0D\x0A"
-		.'VERSION:2.1'."\x0D\x0A"
-		.'FN:'.$item['full_name']."\x0D\x0A"
-		.'N:'.$names."\x0D\x0A"
-		.'NICKNAME:'.$item['nick_name']."\x0D\x0A";
+	$text = 'BEGIN:VCARD'.CRLF
+		.'VERSION:2.1'.CRLF
+		.'FN:'.$item['full_name'].CRLF
+		.'N:'.$names.CRLF
+		.'NICKNAME:'.$item['nick_name'].CRLF;
 
 	// organization, if any
 	if(isset($item['vcard_organization']) && $item['vcard_organization'])
-		$text .= 'ORG:'.$item['vcard_organization']."\x0D\x0A";
+		$text .= 'ORG:'.$item['vcard_organization'].CRLF;
 
 	// title, if any
 	if(isset($item['vcard_title']) && $item['vcard_title'])
-		$text .= 'TITLE:'.$item['vcard_title']."\x0D\x0A";
+		$text .= 'TITLE:'.$item['vcard_title'].CRLF;
 
 	// physical address, if any
 	if(isset($item['vcard_label']) && $item['vcard_label'])
-		$text .= 'LABEL:'.str_replace(array("\r", "\n"), array('', ';'), $item['vcard_label'])."\x0D\x0A";
+		$text .= 'LABEL:'.str_replace(array("\r", "\n"), array('', ';'), $item['vcard_label']).CRLF;
 
 	// phone number, if any
 	if(isset($item['phone_number']) && $item['phone_number'])
-		$text .= 'TEL;PREF:'.$item['phone_number']."\x0D\x0A";
+		$text .= 'TEL;PREF:'.$item['phone_number'].CRLF;
 
 	// alternate number, if any
 	if(isset($item['alternate_number']) && $item['alternate_number'])
-		$text .= 'TEL;MSG:'.$item['alternate_number']."\x0D\x0A";
+		$text .= 'TEL;MSG:'.$item['alternate_number'].CRLF;
 
 	// web mail, if any
 	if(isset($item['email']) && $item['email'])
-		$text .= 'EMAIL;PREF;INTERNET:'.$item['email']."\x0D\x0A";
+		$text .= 'EMAIL;PREF;INTERNET:'.$item['email'].CRLF;
 
 	// web address, if any
 	if(isset($item['web_address']) && $item['web_address'])
-		$text .= 'ORG:'.$item['web_address']."\x0D\x0A";
+		$text .= 'ORG:'.$item['web_address'].CRLF;
 
 	// birth date, if any
 	if(isset($item['birth_date']) && $item['birth_date'])
-		$text .= 'BDAY:'.substr($item['birth_date'], 0, 10)."\x0D\x0A";
+		$text .= 'BDAY:'.substr($item['birth_date'], 0, 10).CRLF;
 
 	// agent, if any -- not accepted by Palm Desktop :-(
 // 	if(isset($item['vcard_agent']) && $item['vcard_agent'] && ($agent =& Users::get($item['vcard_agent']))) {
@@ -173,8 +173,8 @@ if(!isset($item['id'])) {
 // 	}
 
 	// date of last update
-	$text .= 'REV:'.date('Ymd\THis\Z', SQL::strtotime($item['edit_date']))."\x0D\x0A"
-		.'END:VCARD'."\x0D\x0A";
+	$text .= 'REV:'.date('Ymd\THis\Z', SQL::strtotime($item['edit_date'])).CRLF
+		.'END:VCARD'.CRLF;
 
 	//
 	// transfer to the user agent

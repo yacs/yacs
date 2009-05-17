@@ -313,7 +313,7 @@ elseif(!Surfer::is_associate()) {
 
 	// make a folded box
 	if($box)
-		$context['text'] .= Skin::build_box(i18n::s('Staging scripts'), $box, 'folder');
+		$context['text'] .= Skin::build_box(i18n::s('Staging scripts'), $box, 'folded');
 
 	// missing files
 	if($missing_files) {

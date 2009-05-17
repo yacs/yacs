@@ -136,7 +136,7 @@ elseif(!Surfer::is_associate()) {
 
 	// display the existing reference script, if any
 	if($content = Safe::file_get_contents($context['path_to_reference'].'footprints.php'))
-		$context['text'] .= Skin::build_box(sprintf(i18n::s('Current content of %s'), $context['path_to_reference'].'footprints.php'), Safe::highlight_string($content), 'folder');
+		$context['text'] .= Skin::build_box(sprintf(i18n::s('Current content of %s'), $context['path_to_reference'].'footprints.php'), Safe::highlight_string($content), 'folded');
 
 // no build in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {
@@ -176,8 +176,8 @@ elseif(!Surfer::is_associate()) {
 		else
 			$file = $name;
 
-		// silently skip parameters and localization files
-		if(preg_match('/\.(include|mo)\.php$/', $file))
+		// silently skip configuration files
+		if(preg_match('/\.(include)\.php$/', $file))
 			continue;
 
 		// process only reference scripts

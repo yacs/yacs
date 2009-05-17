@@ -18,6 +18,9 @@ i18n::bind('tools');
 // load the skin -- parameter enables to load an alternate template, if any -- see function definition in shared/global.php
 load_skin('hello');
 
+// the path to this page
+$context['path_bar'] = array( 'tools/' => i18n::s('Tools') );
+
 // populate page attributes -- attributes used by YACS are described in skins/test.php
 $context['page_title'] = i18n::s('Hello world');
 $context['text'] .= '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'

@@ -128,7 +128,7 @@ if(Surfer::is_crawler()) {
 
 // no recipient has been found
 } elseif(!isset($item['email']) || !$item['email'])
-	Logger::error(i18n::s('This user profile has no email address.'));
+	Logger::error(i18n::s('No email address has been provided for this person.'));
 
 // process submitted data
 elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {

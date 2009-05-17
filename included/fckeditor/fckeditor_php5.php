@@ -23,6 +23,8 @@
  *
  * It defines the FCKeditor class that can be used to create editor
  * instances in PHP pages on server side.
+ *
+ * @reference
  */
 
 /**
@@ -255,3 +257,4 @@ class FCKeditor
 		return strtr( $valueToEncode,  $chars ) ;
 	}
 }
+?>

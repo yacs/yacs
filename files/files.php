@@ -2,6 +2,9 @@
 /**
  * the database abstraction layer for files
  *
+ * @todo allow for one-time download files
+ * @todo allow for a limited period of time for sharing
+ * @todo allow for password-control files
  * @todo support .m4v for iPod videos video/x-m4v
  * @todo support KOffice file extensions
  * @todo support .dia for Dia http://live.gnome.org/Dia
@@ -439,9 +442,9 @@ Class Files {
 		$id = (string)$id;
 		$id = utf8::encode($id);
 
-		// strip extra text from enhanced ids '3-page-title' -> '3'
-		if($position = strpos($id, '-'))
-			$id = substr($id, 0, $position);
+//		// strip extra text from enhanced ids '3-page-title' -> '3'
+//		if($position = strpos($id, '-'))
+//			$id = substr($id, 0, $position);
 
 		// cache previous answers
 		static $cache;
@@ -458,7 +461,7 @@ Class Files {
 		$output =& SQL::query_first($query);
 
 		// save in cache
-		if(isset($output['id']))
+		if(!$mutable && isset($output['id']))
 			$cache[$id] = $output;
 
 		// return by reference

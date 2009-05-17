@@ -179,7 +179,7 @@ Class Layout_sections_as_folded extends Layout_interface {
 				$box['title'] .= ' ('.join(', ', $details).')';
 
 			// always make a box
-			$text .= Skin::build_box($box['title'], $box['text'], 'folder');
+			$text .= Skin::build_box($box['title'], $box['text'], 'folded');
 
 		}
 

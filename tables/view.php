@@ -131,7 +131,7 @@ if(!isset($item['id'])) {
 
 	// display the query string to associates and editors
 	if(isset($item['query']) && $item['query'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())))
-		$context['text'] .= Skin::build_box(i18n::s('Query string'), Skin::build_block(encode_field($item['query']), 'code'), 'folder');
+		$context['text'] .= Skin::build_box(i18n::s('Query string'), Skin::build_block(encode_field($item['query']), 'code'), 'folded');
 
 	// insert anchor suffix
 	if(is_object($anchor))

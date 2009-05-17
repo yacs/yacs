@@ -337,6 +337,7 @@ if($with_form) {
 	// copy this as compact title on initial edit
 	if((!isset($item['index_title']) || !$item['index_title']) && isset($item['title']))
 		$item['index_title'] = $item['title'];
+		
 	$input = '<textarea name="index_title" id="index_title" rows="2" cols="50" accesskey="t">'.encode_field(isset($item['index_title']) ? $item['index_title'] : '').'</textarea>'
 		.'<input type="hidden" id="shadow_title" value="'.encode_field(isset($item['index_title']) ? $item['index_title'] : '').'" />';
 	if(!is_object($overlay) || !($hint = $overlay->get_label('title_hint', isset($item['id'])?'edit':'new')))
@@ -344,18 +345,16 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// the introduction
-	$label = i18n::s('Introduction');
+	if(!is_object($overlay) || !($label = $overlay->get_label('introduction', isset($item['id'])?'edit':'new')))
+		$label = i18n::s('Introduction');
 	$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field(isset($item['introduction']) ? $item['introduction'] : '').'</textarea>';
-	$hint = i18n::s('Appears at the site map, near section title');
+	if(!is_object($overlay) || !($hint = $overlay->get_label('introduction_hint', isset($item['id'])?'edit':'new')))
+		$hint = i18n::s('Appears at the site map, near section title');
 	$fields[] = array($label, $input, $hint);
 
 	// include overlay fields, if any
-	if(is_object($overlay)) {
-
-		// append editing fields for this overlay
+	if(is_object($overlay))
 		$fields = array_merge($fields, $overlay->get_fields($item));
-
-	}
 
 	// the description label
 	if(!is_object($overlay) || !($label = $overlay->get_label('description', isset($item['id'])?'edit':'new')))
@@ -363,7 +362,9 @@ if($with_form) {
 
 	// use the editor if possible
 	$input = Surfer::get_editor('description', isset($item['description'])?$item['description']:'');
-	$fields[] = array($label, $input);
+	if(!is_object($overlay) || !($hint = $overlay->get_label('description_hint', isset($item['id'])?'edit':'new')))
+		$hint = '';
+	$fields[] = array($label, $input, $hint);
 
 	// append regular fields
 	$index .= Skin::build_form($fields);
@@ -419,7 +420,7 @@ if($with_form) {
 
 		// in a folded box
 		if($box)
-			$index .= Skin::build_box(i18n::s('Images'), $box, 'folder', 'edit_images');
+			$index .= Skin::build_box(i18n::s('Images'), $box, 'folded', 'edit_images');
 
 	}
 
@@ -622,7 +623,7 @@ if($with_form) {
 		$fields[] = array($label, $input);
 
 		// append fields
-		$index .= Skin::build_box(i18n::s('More content'), Skin::build_form($fields), 'folder');
+		$index .= Skin::build_box(i18n::s('More content'), Skin::build_form($fields), 'folded');
 		$fields = array();
 
 	// preserve previous settings
@@ -652,22 +653,16 @@ if($with_form) {
 	//
 
 	// the parent section
-	if(Surfer::is_associate()) {
-		$label = i18n::s('Parent section');
-
-		$to_select = 'none';
+	if(!is_object($anchor) || isset($item['id'])) {
+		$label = i18n::s('Section');
 		if(isset($item['anchor']) && $item['anchor'])
-			$to_select = $item['anchor'];
+			$anchor_reference = $item['anchor'];
 		elseif(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-			$to_select = $_REQUEST['anchor'];
-		$to_avoid = '';
-		if(isset($item['id']))
-			$to_avoid = 'section:'.$item['id'];
-		$input = '<select name="anchor">'.'<option value="">'.i18n::s('-- Root level')."</option>\n".Sections::get_options($to_select, $to_avoid).'</select>';
-
-		$hint = i18n::s('Please carefully select a parent section.');
-
-		$fields[] = array($label, $input, $hint);
+			$anchor_reference = $_REQUEST['anchor'];
+		else
+			$anchor_reference = NULL;
+		$input = Sections::get_radio_buttons($anchor_reference);
+		$fields[] = array($label, $input);
 	} elseif(is_object($anchor))
 		$content .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 
@@ -702,7 +697,7 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 
 		// append fields
-		$content .= Skin::build_box(i18n::s('Sub-sections'), Skin::build_form($fields), 'folder');
+		$content .= Skin::build_box(i18n::s('Sub-sections'), Skin::build_form($fields), 'folded');
 		$fields = array();
 
 	}
@@ -771,7 +766,7 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 
 		// append fields
-		$content .= Skin::build_box(i18n::s('Pages'), Skin::build_form($fields), 'folder');
+		$content .= Skin::build_box(i18n::s('Pages'), Skin::build_form($fields), 'folded');
 		$fields = array();
 
 	}
@@ -833,7 +828,7 @@ if($with_form) {
 			$parent .= '<p>'.$label.BR.$input.'</p>';
 
 			// one for layout options
-			$content .= Skin::build_box(sprintf(i18n::s('Contribution to "%s"'), $anchor->get_title()), $parent, 'folder');
+			$content .= Skin::build_box(sprintf(i18n::s('Contribution to "%s"'), $anchor->get_title()), $parent, 'folded');
 			$fields = array();
 
 		// preserve previous settings
@@ -866,7 +861,7 @@ if($with_form) {
 			$parent .= '<p>'.$label.BR.$input.'</p>';
 
 			// one box for layout options
-			$content .= Skin::build_box(i18n::s('Appearance at the site map'), $parent, 'folder');
+			$content .= Skin::build_box(i18n::s('Appearance at the site map'), $parent, 'folded');
 			$fields = array();
 
 		// preserve previous settings
@@ -915,7 +910,7 @@ if($with_form) {
 		$input .= '/> '.i18n::s('not displayed at the front page');
 
 		// one folded box for layout options
-		$content .= Skin::build_box(i18n::s('Contribution to the site front page'), $input, 'folder');
+		$content .= Skin::build_box(i18n::s('Contribution to the site front page'), $input, 'folded');
 
 	// preserve previous settings
 	} else {
@@ -937,7 +932,7 @@ if($with_form) {
 		$label = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors'), 'basic');
 	else
 		$label = i18n::s('Editors');
-	if(isset($item['id']) && ($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
+	if(isset($item['id']) && ($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
 		$input =& Skin::build_list($items, 'comma');
 	else
 		$input = i18n::s('No editor has been assigned to this section.');
@@ -949,7 +944,7 @@ if($with_form) {
 
 	// readers
 	$label = i18n::s('Readers');
-	if(isset($item['id']) && ($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 30, 'compact')))
+	if(isset($item['id']) && ($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 30, 'comma')))
 		$input =& Skin::build_list($items, 'comma');
 	else
 		$input = i18n::s('No reader has been assigned to this section.');
@@ -1139,7 +1134,7 @@ if($with_form) {
 
 	// add a folded box
 	if(count($fields)) {
-		$options .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folder');
+		$options .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folded');
 		$fields = array();
 	}
 

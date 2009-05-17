@@ -584,12 +584,16 @@ if(!isset($item['id'])) {
 
 			// section editors and readers
 			if(Surfer::is_empowered() && Surfer::is_logged()) {
-				if($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
+				if($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, 50, 'comma'))
 					$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors')), Skin::build_list($items, 'comma'));
 
-				if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'compact'))
+				if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'comma'))
 					$details[] = sprintf(i18n::s('Readers: %s'), Skin::build_list($items, 'comma'));
 			}
+
+			// page watchers
+			if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor('section:'.$item['id'], 0, 50, 'comma')))
+				$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Watchers'), Skin::build_list($items, 'comma'));
 
 			// display details, if any
 			if(count($details))
@@ -697,15 +701,21 @@ if(!isset($item['id'])) {
 
 			}
 
+			// filter description, if necessary
+			if(is_object($overlay))
+				$description = $overlay->get_text('description', $item);
+			else
+				$description = $item['description'];
+				
 			// the beautified description, which is the actual page body
-			if(trim($item['description'])) {
+			if($description) {
 
 				// use adequate label
 				if(is_object($overlay) && ($label = $overlay->get_label('description')))
 					$text .= Skin::build_block($label, 'title');
 
 				// provide only the requested page
-				$pages = preg_split('/\s*\[page\]\s*/is', $item['description']);
+				$pages = preg_split('/\s*\[page\]\s*/is', $description);
 				if($page > count($pages))
 					$page = count($pages);
 				if($page < 1)
@@ -729,11 +739,12 @@ if(!isset($item['id'])) {
 					$text .= Skin::build_list($page_menu, 'menu_bar');
 				}
 
-				// add trailer information from the overlay, if any
-				if(is_object($overlay))
-					$text .= $overlay->get_text('trailer', $item);
-
 			}
+
+			// add trailer information from the overlay, if any
+			if(is_object($overlay))
+				$text .= $overlay->get_text('trailer', $item);
+
 		}
 
 		//

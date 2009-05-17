@@ -333,7 +333,7 @@ if(!Surfer::is_associate()) {
 	$fields = array();
 
 	// in a folded box
-	$database .= Skin::build_box(i18n::s('Custom storage of user information'), $text, 'folder');
+	$database .= Skin::build_box(i18n::s('Custom storage of user information'), $text, 'folded');
 
 	//
 	// system parameters
@@ -562,7 +562,7 @@ if(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// build the form
-	$http .= Skin::build_box(i18n::s('Proxy settings'), Skin::build_form($fields), 'folder');
+	$http .= Skin::build_box(i18n::s('Proxy settings'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	//
@@ -908,7 +908,7 @@ if(!Surfer::is_associate()) {
 
 	// display updated parameters
 	if(is_callable(array('skin', 'build_box')))
-		$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($content), 'folder');
+		$context['text'] .= Skin::build_box(i18n::s('Configuration'), Safe::highlight_string($content), 'folded');
 	else
 		$context['text'] .= Safe::highlight_string($content);
 

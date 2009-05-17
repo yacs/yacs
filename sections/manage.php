@@ -1077,7 +1077,6 @@ if(Surfer::is_crawler()) {
 			.'function submit_selected_articles() {'."\n"
 			.'	if(count_selected_articles() < 1) {'."\n"
 			.'		alert("'.i18n::s('No page has been selected.').'");'."\n"
-			.'		return FALSE;'."\n"
 			.'	} else {'."\n"
 			.'		$("main_form").submit();'."\n"
 			.'	}'."\n"
@@ -1116,7 +1115,7 @@ if(Surfer::is_crawler()) {
 		$options .= '<option value="rank_articles">'.i18n::s('Order').'</options>';
 
 		// end of options
-		$options .= '</select> <a href="#" class="button" onclick="return submit_selected_articles();"><span>&raquo;</span></a> ';
+		$options .= '</select> <a href="#" class="button" onclick="submit_selected_articles(); return false;"><span>&raquo;</span></a> ';
 
 		// all commands
 		$menu = array();
@@ -1193,7 +1192,6 @@ if(Surfer::is_crawler()) {
 			.'function submit_selected_sections() {'."\n"
 			.'	if(count_selected_sections() < 1) {'."\n"
 			.'		alert("'.i18n::s('No section has been selected.').'");'."\n"
-			.'		return FALSE;'."\n"
 			.'	} else {'."\n"
 			.'		$("main_form").submit();'."\n"
 			.'	}'."\n"
@@ -1226,7 +1224,7 @@ if(Surfer::is_crawler()) {
 		$options .= '<option value="rank_sections">'.i18n::s('Order').'</option>';
 		
 		// end of options
-		$options .= '</select> <a href="#" class="button" onclick="return submit_selected_sections();"><span>&raquo;</span></a> ';
+		$options .= '</select> <a href="#" class="button" onclick="submit_selected_sections(); return false;"><span>&raquo;</span></a> ';
 
 		// all commands
 		$menu = array();

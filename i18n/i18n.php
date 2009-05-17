@@ -1091,7 +1091,7 @@ Class i18n {
 			$_SESSION['l10n'][$language] = array();
 
 		// load PHP version, if it exists, and if it is fresher than the original
-		$hash = Cache::hash($path.'.php');
+		$hash = $context['path_to_root'].$path.'.php';
 		if(is_readable($hash) && is_readable($context['path_to_root'].$path) && (filemtime($hash) > filemtime($context['path_to_root'].$path))) {
 			include_once $hash;
 			return TRUE;
@@ -1159,13 +1159,14 @@ Class i18n {
 		// no cache if we are not allowed to write files
 		if($cache = Safe::fopen($hash, 'w')) {
 
-			// start the cache file
+			// start the cache file --make it a reference file to ensure it is integrated into yacs built
 			$cache_content = '<?php'."\n"
 				.'/**'."\n"
 				.' * cache localized strings'."\n"
 				.' *'."\n"
 				.' * This file has been created by the script i18n/i18n.php'."\n"
 				.' * on '.gmdate("F j, Y, g:i a").' GMT. Please do not modify it manually.'."\n"
+				.' * @reference'."\n"
 				.' */'."\n";
 
 		}
@@ -1219,7 +1220,7 @@ Class i18n {
 
 		// finalize cache file, if any
 		if($cache) {
-			$cache_content .= '$_SESSION[\'l10n\'][\''.$language.'\'][\'_plural\']=\''.addcslashes($plural, "\\'")."';\n".'?>'."\n";
+			$cache_content .= '$_SESSION[\'l10n\'][\''.$language.'\'][\'_plural\']=\''.addcslashes($plural, "\\'")."';\n".'?>';
 			fwrite($cache, $cache_content);
 			fclose($cache);
 		}

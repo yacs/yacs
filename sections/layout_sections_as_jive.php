@@ -48,7 +48,7 @@ Class Layout_sections_as_jive extends Layout_interface {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// layout in a table
-		$text = Skin::table_prefix('wide');
+		$text = Skin::table_prefix('wide grid');
 
 		// 'even' is used for title rows, 'odd' for detail rows
 		$class_title = 'odd';
@@ -178,7 +178,7 @@ Class Layout_sections_as_jive extends Layout_interface {
 			$more = array();
 
 			// board moderators
-			if($moderators =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'compact'))
+			if($moderators =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, COMPACT_LIST_SIZE, 'comma'))
 				$more[] = sprintf(i18n::ns('Moderator: %s', 'Moderators: %s', count($moderators)), Skin::build_list($moderators, 'comma'));
 
 			// children boards

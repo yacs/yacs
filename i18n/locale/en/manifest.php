@@ -1,5 +1,7 @@
 <?php
 /**
+ * localization in English
+ *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

@@ -483,8 +483,44 @@ if(!isset($item['id'])) {
 	if(is_object($overlay))
 		$information .= $overlay->get_text('view', $item);
 
+	// filter description, if necessary
+	if(is_object($overlay))
+		$description = $overlay->get_text('description', $item);
+	else
+		$description = $item['description'];
+				
 	// the beautified description, which is the actual page body
-	$information .= Skin::build_block($item['description'], 'description', '', $item['options']);
+	if($description) {
+
+		// use adequate label
+		if(is_object($overlay) && ($label = $overlay->get_label('description')))
+			$information .= Skin::build_block($label, 'title');
+
+		// provide only the requested page
+		$pages = preg_split('/\s*\[page\]\s*/is', $description);
+		if($page > count($pages))
+			$page = count($pages);
+		if($page < 1)
+			$page = 1;
+		$description = $pages[ $page-1 ];
+
+		// if there are several pages, remove toc and toq codes
+		if(count($pages) > 1)
+			$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
+
+		// beautify the target page
+		$information .= Skin::build_block($description, 'description', '', $item['options']);
+
+		// if there are several pages, add navigation commands to browse them
+		if(count($pages) > 1) {
+			$page_menu = array( '_' => i18n::s('Pages') );
+			$home =& Sections::get_permalink($item);
+			$prefix = Sections::get_url($item['id'], 'navigate', 'pages');
+			$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
+
+			$information .= Skin::build_list($page_menu, 'menu_bar');
+		}
+	}
 
 	// add trailer information from the overlay, if any
 	if(is_object($overlay))
@@ -664,6 +700,28 @@ if(!isset($item['id'])) {
 	// the list of related users if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'users')) {
 
+		// all followers
+		$followers = '';
+		
+		// the list of followers
+		if($items =& Members::list_watchers_by_posts_for_anchor('article:'.$item['id'], 0, 500, 'compact')) {
+			if(is_array($items))
+				$items = Skin::build_list($items, 'compact');
+			$followers .= '<p>'.i18n::s('Following persons are watching this page:').'</p>'.$items;				
+		}
+		
+		// suggest to watch this page --$in_watch_list is set in articles/view.php
+		if(Surfer::get_id() && !$in_watch_list) {
+	
+			Skin::define_img('WATCH_TOOL_IMG', 'icons/tools/watch.gif');
+			$followers .= '<p style="margin: 1em 0;">'.Skin::build_link(Articles::get_permalink($item), WATCH_TOOL_IMG.i18n::s('Watch this page'), 'button', i18n::s('To be notified when this page is changed')).'</p>';
+	
+		}
+	
+		// put followers in a sidebar
+		if($followers)		
+			$users .= Skin::build_box(NULL, $followers, 'sidebar');
+				
 		// cache panel content
 		$cache_id = 'articles/view_as_tabs.php?id='.$item['id'].'#users#'.$zoom_index;
 		if(!$text =& Cache::get($cache_id)) {
@@ -700,7 +758,7 @@ if(!isset($item['id'])) {
 			if(is_array($box['bar']))
 				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 			if($box['text'])
-				$text =$box['text'];
+				$text = $box['text'];
 
 		}
 

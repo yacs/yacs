@@ -115,6 +115,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Christophe Battarel [email]christophe.battarel@altairis.fr[/email]
  * @tester Ghjmora
  * @tester Eoin
  * @tester Mark
@@ -635,9 +636,13 @@ if(!isset($item['id'])) {
 				$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Page has expired %s'), Skin::build_date($item['expiry_date']));
 			}
 
-			// article editors, for associates and section editors
-			if((Surfer::is_associate() || Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_editable())) && ($items =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
+			// page editors, for associates and section editors
+			if(Surfer::is_empowered() && Surfer::is_logged() && ($items =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
 				$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), Skin::build_list($items, 'comma'));
+
+			// page watchers
+			if(Surfer::is_logged() && ($items =& Members::list_watchers_by_posts_for_anchor('article:'.$item['id'], 0, 50, 'comma')))
+				$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Watchers'), Skin::build_list($items, 'comma'));
 
 			// no more details
 			if(count($details))
@@ -839,15 +844,21 @@ if(!isset($item['id'])) {
 
 			}
 
+			// filter description, if necessary
+			if(is_object($overlay))
+				$description = $overlay->get_text('description', $item);
+			else
+				$description = $item['description'];
+				
 			// the beautified description, which is the actual page body
-			if(trim($item['description'])) {
+			if($description) {
 
 				// use adequate label
 				if(is_object($overlay) && ($label = $overlay->get_label('description')))
 					$text .= Skin::build_block($label, 'title');
 
 				// provide only the requested page
-				$pages = preg_split('/\s*\[page\]\s*/is', $item['description']);
+				$pages = preg_split('/\s*\[page\]\s*/is', $description);
 				if($page > count($pages))
 					$page = count($pages);
 				if($page < 1)

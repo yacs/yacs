@@ -240,7 +240,7 @@ Class Skin_Skeleton {
 	 * Accept following variants:
 	 * - 'extra' for a flashy box on page side
 	 * - 'floating' for a box floated to the left
-	 * - 'folder' for a folded box with content
+	 * - 'folded' for a folded box with content
 	 * - 'gadget' for additional content in the main part of the page
 	 * - 'header1' with a level 1 title
 	 * - 'header2' with a level 2 title
@@ -249,6 +249,7 @@ Class Skin_Skeleton {
 	 * - 'sidebar' for some extra information in the main part of the page
 	 * - 'toc' for a table of content
 	 * - 'toq' for a table of questions
+	 * - 'unfolded' for a folded box with content
 	 *
 	 * @param string the box title, if any
 	 * @param string the box content
@@ -280,8 +281,9 @@ Class Skin_Skeleton {
 			$output =& Skin::build_floating_box($title, $content, $id);
 			break;
 
-		case 'folder':
-			$output =& Skin::build_folder_box($title, $content, $id);
+		case 'folded':
+		case 'folder': // obsoleted
+			$output =& Skin::build_folded_box($title, $content, $id);
 			break;
 
 		case 'gadget':
@@ -313,6 +315,10 @@ Class Skin_Skeleton {
 
 		case 'toq':
 			$output =& Skin::build_toq_box($title, $content, $id);
+			break;
+
+		case 'unfolded':
+			$output =& Skin::build_unfolded_box($title, $content, $id);
 			break;
 
 		}
@@ -765,7 +771,7 @@ Class Skin_Skeleton {
 	}
 
 	/**
-	 * build a folder box
+	 * build a folded box
 	 *
 	 * Based on DHTML and DOM. The Javascript [code]toggle_folder()[/code] code
 	 * is inserted at the bottom of the page in [script]shared/global.php[/script]
@@ -781,7 +787,7 @@ Class Skin_Skeleton {
 	 * @see sections/edit.php
 	 * @see users/edit.php
 	 */
-	function &build_folder_box($title, &$content, $id='') {
+	function &build_folded_box($title, &$content, $id='') {
 		global $context;
 
 		// we need a clickable title
@@ -1245,7 +1251,7 @@ Class Skin_Skeleton {
 		// limit the size of labels when they are links
 		if(!strncmp($label, 'http:', 5) || !strncmp($label, 'https:', 6) || !strncmp($label, 'ftp:', 4)) {
 			if(strlen($label) > 50)
-				$label = substr_replace($label, '.....', 30, -10);
+				$label = substr_replace($label, '...', 30, -15);
 		}
 
 		// guess the type of this link
@@ -1468,7 +1474,7 @@ Class Skin_Skeleton {
 				$href_title = ' title="'.encode_field(i18n::s('Send a message')).'"';
 
 			// use obfuscated reference
-			$text = '<a href="'.$url.'"'.$href_title.' class="email"'.$attributes.'>'.$label.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="email"'.$attributes.' rel="nofollow">'.$label.'</a>';
 			break;
 
 		case 'external':
@@ -1484,7 +1490,7 @@ Class Skin_Skeleton {
 		case 'help':
 			$text = '<a href="'.$url.'"'.$href_title.' class="help"'
 				.' onclick="window.open(this.href); return false;"'
-				.' onkeypress="window.open(this.href); return false;"><span>'.$label.'</span></a>';
+				.' onkeypress="window.open(this.href); return false;" rel="nofollow"><span>'.$label.'</span></a>';
 			break;
 
 		case 'internal': // like external, but stay in the same window
@@ -1584,7 +1590,7 @@ Class Skin_Skeleton {
 				$href_title = ' title="'.encode_field(i18n::s('Go to the documentation page')).'"';
 
 			// a link to the phpdoc page
-			$text = '<a href="'.$url.'"'.$href_title.' class="script"'.$attributes.'>'.$label.'</a>';
+			$text = '<a href="'.$url.'"'.$href_title.' class="script"'.$attributes.' rel="nofollow">'.$label.'</a>';
 			break;
 
 		case 'section':
@@ -1638,7 +1644,7 @@ Class Skin_Skeleton {
 			Skin::define_img('XML_IMG', 'icons/xml.gif');
 			$text = '<a href="'.$url.'"'.$href_title.' class="xml"'
 				.' onclick="window.open(this.href); return false;"'
-				.' onkeypress="window.open(this.href); return false;">'.XML_IMG.$label.'</a>';
+				.' onkeypress="window.open(this.href); return false;" rel="nofollow">'.XML_IMG.$label.'</a>';
 			break;
 
 		case 'year':
@@ -2683,6 +2689,47 @@ Class Skin_Skeleton {
 			Logger::profile('Skin::build_tree', 'stop');
 
 		return $text;
+	}
+
+	/**
+	 * build a unfolded box
+	 *
+	 * Based on DHTML and DOM. The Javascript [code]toggle_folder()[/code] code
+	 * is inserted at the bottom of the page in [script]shared/global.php[/script]
+	 *
+	 * @link http://www.dddekerf.dds.nl/DHTML_Treeview/DHTML_Treeview.htm Easy DHTML TreeView
+	 *
+	 * @param string the box title, if any
+	 * @param string the box content
+	 * @param string an optional unique id for this box
+	 * @return the HTML to display
+	 *
+	 * @see articles/edit.php
+	 * @see sections/edit.php
+	 * @see users/edit.php
+	 */
+	function &build_unfolded_box($title, &$content, $id='') {
+		global $context;
+
+		// we need a clickable title
+		if(!$title)
+			$title = i18n::s('Click to fold/unfold');
+
+		if($id)
+			$id = ' id="'.$id.'"';
+
+		// maybe we have an image to enhance rendering
+		$img = '';
+		if(FOLDER_PACK_IMG_HREF)
+			$img = '<img src="'.FOLDER_PACK_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to fold/unfold')).'" title="'.encode_field(i18n::s('Click to fold/unfold')).'" /> ';
+
+		// Yacs.toggle_folder() is in shared/yacs.js
+		$text = '<div class="folder_box"'.$id.'><a class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.$title.'</a>'
+			.'<div class="folder_body" style="display: block">'.$content."</div></div>\n";
+
+		// pass by reference
+		return $text;
+
 	}
 
 	/**
@@ -3783,6 +3830,7 @@ Class Skin_Skeleton {
 		// links to previous pages
 		$pages = range(1, $page_index);
 		$last = 0;
+		$skipped = FALSE;
 		foreach($pages as $index) {
 
 			// this page
@@ -3809,15 +3857,29 @@ Class Skin_Skeleton {
 					$label = $first.'-'.$last;
 				else
 					$label = $first;
+					
+				if(($index != 1) && ($index < $page_index - 2)) {
+					if(!$skipped) {
+						$url = '_';
+						$label = '...';
+						$skipped = TRUE;
+					} else
+						continue;
+				}
+
 			}
 			$bar = array_merge($bar, array( $url => array('', $label, '', 'basic') ));
 		}
 
-		// commands to see next page
+		// commands to see next pages
 		if($range > $last+1) {
 
+			$count = 0;
 			while($range > $last) {
 				$page_index++;
+				if(!$next_page)
+					$next_page = $prefix.$page_index;
+
 				$first = ($page_size * ($page_index-1)) + 1;
 				$last = $first + $page_size - 1;
 				if($last > $range)
@@ -3830,17 +3892,21 @@ Class Skin_Skeleton {
 
 				$bar = array_merge($bar, array( $prefix.$page_index => array('', $label, '', 'basic') ));
 
-				if(!$next_page)
-					$next_page = $prefix.$page_index;
+				if(++$count >= 2)
+					break;
 			}
+
+			if($range > $last)
+				$bar[] = '...';
 
 		// link to next page
 		} elseif($range == $last+1) {
 			$page_index++;
-			$bar = array_merge($bar, array( $prefix.$page_index => array('', i18n::s('More'), '', 'basic') ));
-
 			if(!$next_page)
 				$next_page = $prefix.$page_index;
+
+			$bar = array_merge($bar, array( $prefix.$page_index => array('', i18n::s('More'), '', 'basic') ));
+
 		}
 
 		// append a link to the next page, if required -- # is to not overload the existing link
@@ -4332,6 +4398,7 @@ Class Skin_Skeleton {
 			$text = '<table class="grid">'."\n";
 			break;
 		case '100%':
+		case 'wide':
 			$text = '<table class="wide">'."\n";
 			break;
 		default:

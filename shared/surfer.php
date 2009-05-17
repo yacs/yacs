@@ -146,7 +146,7 @@ Class Surfer {
 
 		// on-going pages
 		//
-		if($anchor = Sections::lookup('private')) {
+		if($anchor = Sections::get('private')) {
 
 			// do not link to this user profile
 			include_once $context['path_to_root'].'articles/layout_articles_as_thread.php';
@@ -156,99 +156,21 @@ Class Surfer {
 			// i am looking at my own record
 			if(Surfer::get_id() == $user['id']) {
 
-				if($items =& Articles::list_assigned_by_date_for_anchor($anchor, $user['id'], 0, 50, $layout, FALSE))
+				if($items =& Articles::list_assigned_by_date_for_anchor('section:'.$anchor['id'], $user['id'], 0, 50, $layout, FALSE))
 					$text .= Skin::build_list($items, 'compact');
 
 			// navigating another profile
 			} else {
 
-				if($items =& Articles::list_assigned_by_date_for_anchor($anchor, $user['id'], 0, 50, $layout, TRUE))
-					$text .= '<p>'.sprintf(i18n::s('Your private pages with %s'), $user['nick_name']).'</p>'.Skin::build_list($items, 'compact').'<p> </p>';
+				if($items =& Articles::list_assigned_by_date_for_anchor('section:'.$anchor['id'], $user['id'], 0, 50, $layout, TRUE))
+					$text .= '<p>'.sprintf(i18n::s('Your private pages with %s'), $user['full_name']).'</p>'.Skin::build_list($items, 'compact').'<p> </p>';
 
 			}
+			
+			// link to all private pages
+			$text .= '<p>'.Skin::build_link(Sections::get_permalink($anchor), i18n::s('All threads'), 'basic').'</p>';
 
 		}
-
-		// only members can create private pages
-		if(!Surfer::is_member())
-			return $text;
-
-		// new private pages cannot be created
-		if(isset($context['users_without_private_pages']) && ($context['users_without_private_pages'] == 'Y'))
-			return $text;
-
-		// start a new private page
-		//
-		$box = '<form method="post" action="'.$context['url_to_root'].'users/contact.php" onsubmit="return validateDocumentPost(this)" ><div>';
-		$fields = array();
-
-		// on my page, engage with anybody
-		if(Surfer::get_id() == $user['id']) {
-
-			// recipients
-			$label = i18n::s('Invite people').' *';
-			$input = '<textarea name="id" id="id" rows="3" cols="50"></textarea><div id="id_choice" class="autocomplete"></div>';
-			$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');
-			$fields[] = array($label, $input, $hint);
-
-		// engage the browsed surfer
-		} else
-			$box .= '<input type="hidden" name="id" value="'.$user['id'].'" />';
-
-		// thread title
-		$label = i18n::s('Page topic').' *';
-		$input = '<input type="text" name="title" size="50" maxlength="255" />';
-		$fields[] = array($label, $input);
-
-		// thread first contribution
-		$label = i18n::s('Your contribution');
-		$input = '<textarea name="message" rows="15" cols="50"></textarea>';
-		$hint = i18n::s('Use only plain ASCII, no HTML.');
-		$fields[] = array($label, $input, $hint);
-
-		// build the form
-		$box .= Skin::build_form($fields);
-
-		// bottom commands
-		$menu = array();
-		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
-		$box .= Skin::finalize_list($menu, 'menu_bar');
-
-		// end of the form
-		$box .= '</div></form>';
-
-		// in a folded box
-		if(Surfer::get_id() == $user['id'])
-			$text .= Skin::build_box(i18n::s('Start a private page'), $box, 'folder');
-		else
-			$text .= Skin::build_box(sprintf(i18n::s('Start a private page with %s'), $user['nick_name']), $box, 'folder');
-
-		// append the script used for data checking on the browser
-		$text .= '<script type="text/javascript">// <![CDATA['."\n"
-			.'// check that main fields are not empty'."\n"
-			.'func'.'tion validateDocumentPost(container) {'."\n"
-			."\n"
-			.'	// id is mandatory'."\n"
-			.'	if(!container.id.value) {'."\n"
-			.'		alert("'.i18n::s('Please provide a recipient address.').'");'."\n"
-			.'		Yacs.stopWorking();'."\n"
-			.'		return false;'."\n"
-			.'	}'."\n"
-			."\n"
-			.'	// title is mandatory'."\n"
-			.'	if(!container.title.value) {'."\n"
-			.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
-			.'		Yacs.stopWorking();'."\n"
-			.'		return false;'."\n"
-			.'	}'."\n"
-			."\n"
-			.'	// successful check'."\n"
-			.'	return true;'."\n"
-			.'}'."\n"
-			."\n"
-			.'// enable autocompletion'."\n"
-			.'Event.observe(window, "load", function() { new Ajax.Autocompleter("id", "id_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
-			.'// ]]></script>';
 
 		// co-browsing
 		if(Surfer::get_id() && (Surfer::get_id() != $user['id'])) {
@@ -271,7 +193,7 @@ Class Surfer {
 
 			// make a box
 			if(count($box['list']))
-				$text .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'folder', 'co_browsing');
+				$text .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'folded', 'co_browsing');
 
 		}
 

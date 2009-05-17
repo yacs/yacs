@@ -658,7 +658,7 @@ if($with_form) {
 
 		// add a folded box
 		if(count($fields)) {
-			$context['text'] .= Skin::build_box(i18n::s('Advanced options'), Skin::build_form($fields), 'folder');
+			$context['text'] .= Skin::build_box(i18n::s('Advanced options'), Skin::build_form($fields), 'folded');
 			$fields = array();
 		}
 

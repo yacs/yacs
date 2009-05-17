@@ -55,9 +55,9 @@ else
 if(is_object($anchor)) {
 	if(!strncmp($anchor->get_reference(), 'user:', 5)) {
 		if(Surfer::is(intval(substr($anchor->get_reference(), 5))))
-			$context['page_title'] = i18n::s('My contacts');
+			$context['page_title'] = i18n::s('My connections');
 		else
-			$context['page_title'] = sprintf(i18n::s('Contacts of %s'), $anchor->get_title());
+			$context['page_title'] = sprintf(i18n::s('Connections of %s'), $anchor->get_title());
 	} else
 		$context['page_title'] = sprintf(i18n::s('Editors of %s'), $anchor->get_title());
 }
@@ -81,13 +81,13 @@ elseif(!$permitted) {
 	// assign a user, and also update his watch list
 	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set') && isset($_REQUEST['anchor']) && isset($_REQUEST['member'])) {
 		Members::assign($_REQUEST['anchor'], $_REQUEST['member']);
-		if(!preg_match('/^user:/', $_REQUEST['anchor']))
+		if(!preg_match('/^user:/', $_REQUEST['member']))
 			Members::assign($_REQUEST['member'], $_REQUEST['anchor']);
 
 	// break an assignment, and also purge the watch list
 	} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'reset') && isset($_REQUEST['anchor']) && isset($_REQUEST['member'])) {
 		Members::free($_REQUEST['anchor'], $_REQUEST['member']);
-		if(!preg_match('/^user:/', $_REQUEST['anchor']))
+		if(!preg_match('/^user:/', $_REQUEST['member']))
 			Members::free($_REQUEST['member'], $_REQUEST['anchor']);
 
 	}
@@ -97,11 +97,11 @@ elseif(!$permitted) {
 		$context['text'] .= $anchor->get_prefix();
 
 	// splash
-	$context['text'] .= '<p>'.i18n::s('Type some letters to look for some name, then select one user at a time.').'</p>';
+	$context['text'] .= '<p>'.i18n::s('Type some letters to look for some name, then select one person at a time.').'</p>';
 
 	// the form to link additional users
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
-		.i18n::s('Assign').' <input type="text" name="assigned_name" id="name" size="45" maxlength="255" /><div id="name_choices" class="autocomplete"></div> <span id="ajax_spinner" style="display: none"><img src="'.$context['url_to_root'].'skins/_reference/ajax_completer.gif" alt="Working..." /></span>'
+		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" /><div id="name_choices" class="autocomplete"></div> <span id="ajax_spinner" style="display: none"><img src="'.$context['url_to_root'].'skins/_reference/ajax_completer.gif" alt="Working..." /></span>'
 		.'<input type="hidden" name="member" value="'.encode_field($anchor->get_reference()).'">'
 		.'<input type="hidden" name="action" value="set">'
 		.'</p></form>'."\n";
@@ -118,7 +118,7 @@ elseif(!$permitted) {
 
 	// the current list of linked users
 	$assigned_users = array();
-	if(($users =& Members::list_users_by_posts_for_member($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
+	if(($users =& Members::list_connections_for_user($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 		// browse the list
 		foreach($users as $id => $user) {
@@ -152,7 +152,10 @@ elseif(!$permitted) {
 
 	// back to the anchor page
 	$links = array();
-	$links[] = Skin::build_link($anchor->get_url(), i18n::s('Done'), 'button');
+	$url = $anchor->get_url();
+	if(!strncmp($anchor->get_reference(), 'user:', 5))
+		$url .= '#~connections';
+	$links[] = Skin::build_link($url, i18n::s('Done'), 'button');
 	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
 
 	// insert anchor suffix

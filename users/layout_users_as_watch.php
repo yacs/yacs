@@ -27,7 +27,7 @@ Class Layout_users_as_watch extends Layout_interface {
 		$items = array();
 
 		// empty list
-		if(!SQL::count($result))
+		if(!$delta = SQL::count($result))
 			return $items;
 
 		// flag users updated recently
@@ -37,6 +37,7 @@ Class Layout_users_as_watch extends Layout_interface {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// build a list of users
+		$count = 0;
 		while($item =& SQL::fetch($result)) {
 
 			// reset everything
@@ -49,7 +50,7 @@ Class Layout_users_as_watch extends Layout_interface {
 				$prefix .= RESTRICTED_FLAG.' ';
 
 			// indicate the id in the hovering popup
-			$hover = i18n::s('Visit user profile');
+			$hover = i18n::s('View profile');
 			if(Surfer::is_member())
 				$hover .= ' [user='.$item['id'].']';
 
@@ -58,7 +59,7 @@ Class Layout_users_as_watch extends Layout_interface {
 
 			// use full name, then nick name
 			if(isset($item['full_name']) && $item['full_name']) {
-				$title = $item['full_name'].' <span style="font-size: smaller;">- '.$item['nick_name'].'</span>';
+				$title = $item['full_name'].' ('.$item['nick_name'].')';
 			} elseif(isset($item['nick_name']))
 				$title = $item['nick_name'];
 
@@ -72,6 +73,8 @@ Class Layout_users_as_watch extends Layout_interface {
 			$articles =& Members::list_articles_for_member_by('edition', 'user:'.$item['id'], 0, 5, 'simple');
 			if(is_array($articles))
 				$suffix .= Skin::build_list($articles, 'compact');
+			else
+				$suffix .= $articles;
 
 			// use the avatar, if any
 			if(isset($item['avatar_url']))
@@ -80,11 +83,27 @@ Class Layout_users_as_watch extends Layout_interface {
 			// list all components for this item --use basic link style to avoid prefix or suffix images, if any
 			$items[$url] = array($prefix, $title, $suffix, 'basic', $icon, $hover);
 
+			// limit to one page of results
+			if(++$count >= USERS_PER_PAGE)
+				break;
 		}
 
 		// end of processing
 		SQL::free($result);
 
+		// turn this to some text
+		$items = Skin::build_list($items, 'decorated');
+		
+		// some indications on the number of connections
+		if($delta -= $count) {
+			if($delta < 100)
+				$label = sprintf(i18n::ns('and %d other connection', 'and %d other connections', $delta), $delta);
+			else
+				$label = i18n::s('and many more connections');
+
+			$items .= '<p>'.$label.'</p>';
+		}
+		
 		return $items;
 	}
 }

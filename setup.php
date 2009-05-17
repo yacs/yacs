@@ -330,12 +330,12 @@ if(Surfer::is_crawler()) {
 	}
 
 	// the splash message
-	$context['text'] .= sprintf(i18n::s("<p>You have passed through the several installation steps.</p>\nWhat do you want to do now?<ul>\n<li>Select %s for your site.</li>\n<li>Populate your site with the %s.</li>\n<li>Manage everything from the %s.</li>\n<li>Check the %s of this site.</li>\n<li>Review your %s.</li>\n<li>%s.</li>\n<li>Look at the %s.</li>\n<li>Visit %s to learn more.</li>\n</ul>\n<p>Thank you for having selected to use YACS for your web site.</p>\n"),
+	$context['text'] .= sprintf(i18n::s("<p>You have passed through the several installation steps.</p>\nWhat do you want to do now?<ul>\n<li>Select %s for your site.</li>\n<li>Populate your site with the %s.</li>\n<li>Manage everything from the %s.</li>\n<li>Check the %s of this site.</li>\n<li>Review %s.</li>\n<li>%s.</li>\n<li>Look at the %s.</li>\n<li>Visit %s to learn more.</li>\n</ul>\n<p>Thank you for having selected to use YACS for your web site.</p>\n"),
 		Skin::build_link('skins/', i18n::s('another skin')),
 		Skin::build_link('help/populate.php', i18n::s('Content Assistant')),
 		Skin::build_link('control/', i18n::s('Control Panel')),
 		Skin::build_link($context['url_to_root'], i18n::s('front page')),
-		Skin::build_link('users/view.php', i18n::s('user profile')),
+		Skin::build_link('users/view.php', i18n::s('your profile')),
 		Skin::build_link('articles/edit.php', i18n::s('Add a page')),
 		Skin::build_link('help/', i18n::s('Help index')),
 		Skin::build_link(i18n::s('http://www.yacs.fr/'), i18n::s('www.yacs.fr'), 'external'))."\n";

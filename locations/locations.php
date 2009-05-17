@@ -536,9 +536,11 @@ Class Locations {
 	 *
 	 * @param array a list of locations
 	 * @param int the scale to use
+	 * @param string object width
+	 * @param string object height
 	 * @return string suitable XHTML to be sent to the browser
 	 */
-	function &map_on_google($items, $scale=5) {
+	function &map_on_google($items, $scale=5, $width='500px', $height='300px') {
 		global $context;
 
 		// we return some text
@@ -560,7 +562,7 @@ Class Locations {
 		}
 
 		// a place holder for the dynamic map
-		$text .= '<div id="'.$handle.'" style="border: 1px solid #979797; background-color: #e5e3df; width: 500px; height: 300px; margin-right: auto; margin-top: 2em; margin-bottom: 2em">'."\n"
+		$text .= '<div id="'.$handle.'" style="border: 1px solid #979797; background-color: #e5e3df; width: '.$width.'; height: '.$height.'; margin-right: auto; margin-top: 2em; margin-bottom: 2em">'."\n"
 			.'	<div style="padding: 1em; color: gray">'.i18n::s('Loading...').'</div>'."\n"
 			.'</div>'."\n";
 

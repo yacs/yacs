@@ -647,6 +647,54 @@ Class Members {
 	}
 
 	/**
+	 * list connections of one user
+	 *
+	 * Only users matching following criteria are returned:
+	 * - user is visible (active='Y')
+	 * - user is restricted (active='R'), but surfer is a logged user
+	 * - user is restricted (active='N'), but surfer is an associate
+	 *
+	 * @param string reference to the associated item
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 * @see users/select.php
+	 */
+	function &list_connections_for_user($member, $offset=0, $count=10, $variant='compact') {
+		global $context;
+
+		// return by reference
+		$output = NULL;
+
+		// display active and restricted items
+		$where = "users.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR users.active='R'";
+		if(Surfer::is_empowered())
+			$where .= " OR users.active='N'";
+		$where = '('.$where.')';
+
+		// only include users who want to receive mail messages
+		if($variant == 'mail')
+			$where .= " AND (without_messages != 'Y')";
+
+		// the list of users
+		$query = "SELECT users.* FROM ".SQL::table_name('users')." AS users"
+			.", ".SQL::table_name('members')." AS members"
+			." WHERE (members.member LIKE '".SQL::escape($member)."')"
+			."	AND (members.anchor like 'user:%')"
+			."  AND (users.id = CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED))"
+			."	AND ".$where
+			." ORDER BY members.edit_date DESC LIMIT ".$offset.','.$count;
+
+		// use existing listing facility
+		$output =& Users::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
 	 * list alphabetically the editors assigned to a given member
 	 *
 	 * Actually list users by title, then by date.
@@ -956,7 +1004,7 @@ Class Members {
 	}
 
 	/**
-	 * list alphabetically users with some member
+	 * list users with some member
 	 *
 	 * Only users matching following criteria are returned:
 	 * - user is visible (active='Y')
@@ -994,6 +1042,10 @@ Class Members {
 		$ids = array();
 		while($row =& SQL::fetch($result)) {
 
+			// not me
+			if(Surfer::get_id() && ($row['anchor'] == 'user:'.Surfer::get_id()))
+				continue;
+				
 			// avoid this one
 			if($to_avoid && ($row['anchor'] == 'user:'.$to_avoid))
 				continue;

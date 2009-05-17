@@ -10,6 +10,107 @@
 class xml {
 
 	/**
+	 * prepare a PHP variable
+	 *
+	 * @param mixed an array of variables
+	 * @param we escape strings only at level 1
+	 * @return string the corresponding XML string
+	 */
+	function &encode($content, $level=0) {
+	
+		// the new representation
+		$text = '';
+		
+
+		// a string
+		if(is_string($content))
+			$text .= $content;
+			
+		// a number
+		elseif(is_int($content))
+			$text .= $content;
+			
+		// an array
+		elseif(is_array($content)) {
+			foreach($content as $name => $value) {
+				$name = str_replace('/', 'j', encode_field($name));
+				$text .= "\t".'<'.$name.'>'.self::encode($value, $level+1).'</'.$name.'>'."\n";
+			}
+		}
+		
+		// we need to escape the string
+		if(($level == 1) && ((strpos($text, '<') !== FALSE) || (strpos($text, '>') !== FALSE)))
+			$text = str_replace(array('<', '>'), array('&lt;', '&gt;'), $text);
+
+		// job done
+		return $text;
+
+	}
+	
+	/**
+	 * turn a PHP array to an XML string
+	 *
+	 * @param array the PHP variable
+	 * @return string its XML representation
+	 */
+	function &encode_array($content) {
+	
+		$text = '<?xml version="1.0" encoding="UTF-8"?>'."\n"
+			.'<data>'."\n"
+			.self::encode($content)
+			."\n".'</data>';
+			
+		return $text;
+	}
+	
+	/**
+	 * turn a PHP array to a DOMDocument
+	 *
+	 * @param array the PHP variable
+	 * @return DOMDocument the related DOM representation, or FALSE on error
+	 */
+	function &load_array($content) {
+		$output = FALSE;
+		if(method_exists('DOMDocument', 'loadXML')) {
+			$output = new DOMDocument();
+			$output->loadXML(self::encode_array($content), LIBXML_NOERROR);
+		}
+		return $output;
+	}
+		
+	/**
+	 * transform some XML data
+	 *
+	 * [php]
+	 * $data =& xml::load_array($context);
+	 * $styles =& simplexml_load_file("template.xsl");
+	 * $text =& xml::transform($data, $styles);
+	 * [/php]
+	 *
+	 * @param DOMDocument input data
+	 * @param DOMDocument the XSL declarations
+	 * @return string the resulting XML, or FALSE on error
+	 */
+	function &transform($data, $styles) {
+
+		$text = FALSE;	
+		if(method_exists('XSLTProcessor', 'importStyleSheet')) {
+		
+			// load the XSLT engine
+			$engine = new XSLTProcessor();
+			
+			// set the style sheet to use
+			$engine->importStyleSheet($styles);
+				
+			// do the job
+			$text = $engine->transformToXML($data);
+
+		}
+		return $text;
+
+	}
+		
+	/**
 	 * check HTML/XHTML syntax
 	 *
 	 * This function uses some PHP XML parser to validate the provided string.

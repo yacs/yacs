@@ -561,9 +561,9 @@ Class Articles {
 		$id = (string)$id;
 		$id = utf8::encode($id);
 
-		// strip extra text from enhanced ids '3-page-title' -> '3'
-		if($position = strpos($id, '-'))
-			$id = substr($id, 0, $position);
+//		// strip extra text from enhanced ids '3-page-title' -> '3'
+//		if($position = strpos($id, '-'))
+//			$id = substr($id, 0, $position);
 
 		// cache previous answers
 		static $cache;
@@ -588,8 +588,8 @@ Class Articles {
 		// do the job
 		$output =& SQL::query_first($query);
 
-		// save in cache
-		if(isset($output['id']))
+		// save in cache, but only on generic request
+		if(!$mutable && isset($output['id']) && ($attributes == '*'))
 			$cache[$id] = $output;
 
 		// return by reference
@@ -1011,11 +1011,12 @@ Class Articles {
 	 * @param int the number of items to display
 	 * @param string 'decorated', etc or object, i.e., an instance of Layout_Interface
 	 * @param boolean TRUE to list only pages shared with this surfer, FALSE otherwise
+	 * @param boolean TRUE to list live pages, or FALSE to list locked and archived pages
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see users/view.php
 	 */
-	function &list_assigned_by_date_for_anchor($anchor=NULL, $surfer_id, $offset=0, $count=20, $variant='decorated', $shared_page=FALSE) {
+	function &list_assigned_by_date_for_anchor($anchor=NULL, $surfer_id, $offset=0, $count=20, $variant='decorated', $shared_page=FALSE, $live=TRUE) {
 		global $context;
 
 		// display active items
@@ -1047,6 +1048,12 @@ Class Articles {
 		} elseif($anchor)
 			$where = "(articles.anchor LIKE '".SQL::escape($anchor)."') AND ".$where;
 
+		// only live pages
+		if($live)
+			$where .= " AND (articles.locked != 'Y')";
+		else
+			$where .= " AND (articles.locked = 'Y')";
+		
 		// limit to pages shared with this surfer
 		if($shared_page)
 			$query = "SELECT articles.*"

@@ -156,7 +156,7 @@ if(!Surfer::is_associate()) {
 			}
 			$content .= "</table>\n";
 		}
-		$context['text'] .= Skin::build_box(i18n::s('SQL status'), $content, 'folder');
+		$context['text'] .= Skin::build_box(i18n::s('SQL status'), $content, 'folded');
 
 		// 'SHOW VARIABLES'
 		$query = "SHOW VARIABLES";
@@ -169,7 +169,7 @@ if(!Surfer::is_associate()) {
 			}
 			$content .= "</table>\n";
 		}
-		$context['text'] .= Skin::build_box(i18n::s('SQL variables'), $content, 'folder');
+		$context['text'] .= Skin::build_box(i18n::s('SQL variables'), $content, 'folded');
 
 		// 'SHOW CHARACTER SET'
 		$query = "SHOW CHARACTER SET";
@@ -182,7 +182,7 @@ if(!Surfer::is_associate()) {
 			}
 			$content .= "</table>\n";
 		}
-		$context['text'] .= Skin::build_box(i18n::s('Supported charsets'), $content, 'folder');
+		$context['text'] .= Skin::build_box(i18n::s('Supported charsets'), $content, 'folded');
 
 		break;
 

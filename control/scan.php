@@ -201,7 +201,7 @@ function include_hook($path) {
 			$context['text'] .= sprintf(i18n::s('Hook %s has been included'), $actual_item).BR."\n";
 
 		// scan any sub dir except at server root
-		} elseif(is_dir($actual_item) && ($path != $context['path_to_root']) && !strpos($path, '/files/'))
+		} elseif(is_dir($actual_item) && ($path != $context['path_to_root']) && !strpos($path, '/files/') && !strpos($path, '/images/'))
 			include_hook($actual_item);
 	}
 
@@ -828,7 +828,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 	// display the existing hooks configuration file, if any
 	$content = Safe::file_get_contents('../parameters/hooks.include.php');
 	if(strlen($content)) {
-		$context['text'] .= Skin::build_box(sprintf(i18n::s('Current content of %s'), 'parameters/hooks.include.php'), Safe::highlight_string($content), 'folder');
+		$context['text'] .= Skin::build_box(sprintf(i18n::s('Current content of %s'), 'parameters/hooks.include.php'), Safe::highlight_string($content), 'folded');
 
 	}
 

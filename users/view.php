@@ -287,7 +287,7 @@ if(!isset($item['id'])) {
 		$context['page_details'] .= '</p>';
 		
 	}
-
+	
 	//
 	// tabbed panels
 	//
@@ -344,6 +344,14 @@ if(!isset($item['id'])) {
 	// the list of contributed articles if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'articles')) {
 
+		// most popular articles for this user
+		if(!$zoom_type && $items =& Articles::list_for_author_by('hits', $item['id'], 0, COMPACT_LIST_SIZE, 'hits')) {
+			if(is_array($items) && count($items))
+				$items = Skin::build_list($items, 'compact');
+			if($items)
+				$contributions .= Skin::build_box(i18n::s('Popular pages'), $items, 'sidebar', 'top_articles');
+		}
+	
 		// cache the section
 		$cache_id = 'users/view.php?id='.$item['id'].'#contributed_articles#'.$zoom_index;
 		if(!$text =& Cache::get($cache_id)) {
@@ -398,6 +406,14 @@ if(!isset($item['id'])) {
 	// the list of contributed files if not at another follow-up page
 	if(!$zoom_type) {
 
+		//most popular files from this user
+		if($items = Files::list_by_hits_for_author($item['id'], 0, COMPACT_LIST_SIZE)) {
+			if(is_array($items) && count($items))
+				$items = Skin::build_list($items, 'compact');
+			if($items)
+				$contributions .= Skin::build_box(i18n::s('Popular files'), $items, 'sidebar', 'top_files');
+		}
+	
 		// cache the section
 		$cache_id = 'users/view.php?id='.$item['id'].'#contributed_files#'.$zoom_index;
 		if(!$text =& Cache::get($cache_id)) {
@@ -467,13 +483,84 @@ if(!isset($item['id'])) {
 	// if not at another follow-up page
 	if(!$zoom_type) {
 
-		// shared private pages
-		$interactions .= Skin::build_user_contact($item);
+		// the sidebar
+		$sidebar = '';
+		
+		// only members can create private pages, and private pages are allowed
+		if(Surfer::is_member() && (!isset($context['users_without_private_pages']) || ($context['users_without_private_pages'] != 'Y'))) {
 
-		// permanent address
-		$box = array( 'bar' => array(), 'text' => '');
+			// start a new private page
+			//
+			$box = '<form method="post" action="'.$context['url_to_root'].'users/contact.php" onsubmit="return validateDocumentPost(this)" ><div>';
+			$fields = array();
+	
+			// on my page, engage with anybody
+			if(Surfer::get_id() == $item['id']) {
+	
+				// recipients
+				$label = i18n::s('Invite people');
+				$input = '<textarea name="id" id="id" rows="3" cols="40"></textarea><div id="id_choice" class="autocomplete"></div>';
+				$box .= '<p>'.$label.BR.$input.'</p>';
+	
+			// engage the browsed surfer
+			} else
+				$box .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
+	
+			// thread title
+			$label = i18n::s('Page topic');
+			$input = '<input type="text" name="title" size="40" maxlength="255" />';
+			$box .= '<p>'.$label.BR.$input.'</p>';
+	
+			// thread first contribution
+			$label = i18n::s('Your contribution');
+			$input = '<textarea name="message" rows="15" cols="40"></textarea>';
+			$box .= '<p>'.$label.BR.$input.'</p>';
+	
+			// bottom commands
+			$menu = array();
+			$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+			$box .= Skin::finalize_list($menu, 'menu_bar');
+	
+			// end of the form
+			$box .= '</div></form>';
+	
+			// in a folded box
+			if(Surfer::get_id() == $item['id'])
+				$sidebar .= Skin::build_box(i18n::s('Start a private page'), $box, 'folded');
+			else
+				$sidebar .= Skin::build_box(sprintf(i18n::s('Start a private page with %s'), $item['full_name']), $box, 'folded');
+	
+			// append the script used for data checking on the browser
+			$sidebar .= '<script type="text/javascript">// <![CDATA['."\n"
+				.'// check that main fields are not empty'."\n"
+				.'func'.'tion validateDocumentPost(container) {'."\n"
+				."\n"
+				.'	// id is mandatory'."\n"
+				.'	if(!container.id.value) {'."\n"
+				.'		alert("'.i18n::s('Please provide a recipient address.').'");'."\n"
+				.'		Yacs.stopWorking();'."\n"
+				.'		return false;'."\n"
+				.'	}'."\n"
+				."\n"
+				.'	// title is mandatory'."\n"
+				.'	if(!container.title.value) {'."\n"
+				.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
+				.'		Yacs.stopWorking();'."\n"
+				.'		return false;'."\n"
+				.'	}'."\n"
+				."\n"
+				.'	// successful check'."\n"
+				.'	return true;'."\n"
+				.'}'."\n"
+				."\n"
+				.'// enable autocompletion'."\n"
+				.'Event.observe(window, "load", function() { new Ajax.Autocompleter("id", "id_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
+				.'// ]]></script>';
 
+		}
+		
 		// do not let robots steal addresses
+		$box = array( 'bar' => array(), 'text' => '');
 		if(Surfer::may_contact()) {
 
 			// put contact addresses in a table
@@ -481,47 +568,151 @@ if(!isset($item['id'])) {
 
 			// a clickable jabber address
 			if(isset($item['jabber_address']) && $item['jabber_address'])
-				$rows[] = array(Skin::build_presence($item['jabber_address'], 'jabber'), sprintf(i18n::s('%s: %s'), i18n::s('Jabber'), $item['jabber_address']));
+				$rows[] = array(i18n::s('Jabber'), Skin::build_presence($item['jabber_address'], 'jabber').' '.$item['jabber_address']);
 
 			// a clickable skype address
 			if(isset($item['skype_address']) && $item['skype_address'])
-				$rows[] = array(Skin::build_presence($item['skype_address'], 'skype'), sprintf(i18n::s('%s: %s'), i18n::s('Skype'), $item['skype_address']));
+				$rows[] = array(i18n::s('Skype'), Skin::build_presence($item['skype_address'], 'skype').' '.$item['skype_address']);
 
 			// a clickable yahoo address -- the on-line status indicator requires to be connected to the Internet
 			if(isset($item['yahoo_address']) && $item['yahoo_address'])
-				$rows[] = array(Skin::build_presence($item['yahoo_address'], 'yahoo'), sprintf(i18n::s('%s: %s'), i18n::s('Yahoo! Messenger'), $item['yahoo_address'])
+				$rows[] = array(i18n::s('Yahoo! Messenger'), Skin::build_presence($item['yahoo_address'], 'yahoo').' '.$item['yahoo_address']
 				.' <img src="http://opi.yahoo.com/online?u='.$item['yahoo_address'].'&amp;m=g&amp;t=1" alt="Yahoo Online Status Indicator" />');
 
 			// a clickable msn address
 			if(isset($item['msn_address']) && $item['msn_address'])
-				$rows[] = array(Skin::build_presence($item['msn_address'], 'msn'), sprintf(i18n::s('%s: %s'), i18n::s('Windows Live Messenger'), $item['msn_address']));
+				$rows[] = array(i18n::s('Windows Live Messenger'), Skin::build_presence($item['msn_address'], 'msn').' '.$item['msn_address']);
 
 			// a clickable aim address
 			if(isset($item['aim_address']) && $item['aim_address'])
-				$rows[] = array(Skin::build_presence($item['aim_address'], 'aim'), sprintf(i18n::s('%s: %s'), i18n::s('AIM'), $item['aim_address']));
+				$rows[] = array(i18n::s('AIM'), Skin::build_presence($item['aim_address'], 'aim').' '.$item['aim_address']);
 
 			// a clickable irc address
 			if(isset($item['irc_address']) && $item['irc_address'])
-				$rows[] = array(Skin::build_presence($item['irc_address'], 'irc'), sprintf(i18n::s('%s: %s'), i18n::s('IRC'), $item['irc_address']));
+				$rows[] = array(i18n::s('IRC'), Skin::build_presence($item['irc_address'], 'irc').' '.$item['irc_address']);
 
 			// a clickable icq number
 			if(isset($item['icq_address']) && $item['icq_address'])
-				$rows[] = array(Skin::build_presence($item['icq_address'], 'icq'), sprintf(i18n::s('%s: %s'), i18n::s('ICQ'), $item['icq_address']));
+				$rows[] = array(i18n::s('ICQ'), Skin::build_presence($item['icq_address'], 'icq').' '.$item['icq_address']);
 
+			// phone number, if any
+			if(isset($item['phone_number']) && $item['phone_number'])
+				$rows[] = array(i18n::s('Phone number'), $item['phone_number']);
+	
+			// alternate number, if any
+			if(isset($item['alternate_number']) && $item['alternate_number'])
+				$rows[] = array(i18n::s('Alternate number'), $item['alternate_number']);
+	
+			// email address - not showed to anonymous surfers for spam protection
+			if(isset($item['email']) && $item['email'] && (Surfer::is($item['id']) || Surfer::may_contact($item['id']))) {
+	
+				if(Surfer::is($item['id']))
+					$label = $item['email'];
+				elseif(isset($context['with_email']) && ($context['with_email'] == 'Y'))
+					$label = Skin::build_link($context['url_to_root'].Users::get_url($id, 'mail'), $item['email'], 'email');
+				else
+					$label = Skin::build_link('mailto:'.$item['email'], $item['email'], 'email');
+	
+				$rows[] = array(i18n::s('E-mail address'), $label);
+			}
+	
+			// web address, if any
+			if(isset($item['web_address']) && $item['web_address'])
+				$rows[] = array(i18n::s('Web address'), Skin::build_link($item['web_address'], $item['web_address'], 'external'));
+	
 			if(count($rows))
 				$box['text'] .= Skin::table(NULL, $rows, 'form');
 
 		// motivate people to register
 		} elseif(!Surfer::is_logged())
-			$box['text'] .= '<p>'.i18n::s('Please authenticate to view e-mail and instant messaging contact information, for this user.')."</p>\n";
+			$box['text'] .= '<p>'.i18n::s('Please authenticate to view contact information.')."</p>\n";
 
 		// a full box
 		if($box['text'])
-			$interactions .= Skin::build_box(i18n::s('Instant messaging'), $box['text'], 'folder');
+			$sidebar .= Skin::build_box(i18n::s('Contact information'), $box['text'], 'unfolded');
 
 		// pgp key
 		if(isset($item['pgp_key']) && $item['pgp_key'])
-			$interactions .= Skin::build_box(i18n::s('Public key'), '<span style="font-size: 50%">'.$item['pgp_key'].'</span>', 'folder');
+			$sidebar .= Skin::build_box(i18n::s('Public key'), '<span style="font-size: 50%">'.$item['pgp_key'].'</span>', 'folded');
+
+		// finalize the sidebar
+		if($sidebar)
+			$interactions .= Skin::build_box(NULL, $sidebar, 'sidebar');
+
+		// shared private pages
+		if($threads = Skin::build_user_contact($item))
+			$interactions .= $threads;
+		else
+			$interactions .= '<p>'.i18n::s('Please authenticate to view contact information.').'</p>';
+
+	}
+
+	// in a separate tab
+	if($interactions)
+		$panels[] = array('interactions', i18n::s('Interactions'), 'interactions', $interactions);
+
+	//
+	// the information tab
+	//
+	$information = '';
+
+	// if not at another follow-up page
+	if(!$zoom_type) {
+
+		// the sidebar
+		$sidebar = '';
+		
+		// business card
+		//
+		$rows = array();
+
+		// title, if any
+		if(isset($item['vcard_title']) && $item['vcard_title'])
+			$rows[] = array(i18n::s('Title'), $item['vcard_title']);
+
+		// organization, if any
+		if(isset($item['vcard_organization']) && $item['vcard_organization'])
+			$rows[] = array(i18n::s('Organization'), $item['vcard_organization']);
+
+		// physical address, if any
+		if(isset($item['vcard_label']) && $item['vcard_label'])
+			$rows[] = array(i18n::s('Physical address'), str_replace("\n", BR, $item['vcard_label']));
+
+		// phone number, if any
+		if(isset($item['phone_number']) && $item['phone_number'])
+			$rows[] = array(i18n::s('Phone number'), $item['phone_number']);
+
+		// alternate number, if any
+		if(isset($item['alternate_number']) && $item['alternate_number'])
+			$rows[] = array(i18n::s('Alternate number'), $item['alternate_number']);
+
+		// email address - not showed to anonymous surfers for spam protection
+		if(isset($item['email']) && $item['email'] && (Surfer::is($item['id']) || Surfer::may_contact($item['id']))) {
+
+			if(Surfer::is($item['id']))
+				$label = $item['email'];
+			elseif(isset($context['with_email']) && ($context['with_email'] == 'Y'))
+				$label = Skin::build_link($context['url_to_root'].Users::get_url($id, 'mail'), $item['email'], 'email');
+			else
+				$label = Skin::build_link('mailto:'.$item['email'], $item['email'], 'email');
+
+			$rows[] = array(i18n::s('E-mail address'), $label);
+		}
+
+		// web address, if any
+		if(isset($item['web_address']) && $item['web_address'])
+			$rows[] = array(i18n::s('Web address'), Skin::build_link($item['web_address'], $item['web_address'], 'external'));
+
+		// agent, if any
+		if(isset($item['vcard_agent']) && $item['vcard_agent']) {
+			if($agent =& Users::get($item['vcard_agent']))
+				$rows[] = array(i18n::s('Alternate contact'), Skin::build_link(Users::get_url($agent['id'], 'view', $agent['nick_name'], $agent['full_name']), $agent['full_name']?$agent['full_name']:$agent['nick_name'], 'user'));
+			else
+				$rows[] = array(i18n::s('Alternate contact'), $item['vcard_agent']);
+		}
+
+		if(count($rows))
+			$sidebar .= Skin::build_box(i18n::s('Business card'), Skin::table(NULL, $rows, 'form'), 'unfolded');
 
 		// show preferences only to related surfers and to associates
 		//
@@ -610,23 +801,14 @@ if(!isset($item['id'])) {
 				$box .= '<p>'.i18n::s('Browser GMT offset:').' UTC '.(($_COOKIE['TimeZone'] > 0) ? '+' : '-').$_COOKIE['TimeZone'].' '.i18n::s('hour(s)')."</p>\n";
 
 			if($box)
-				$interactions .= Skin::build_box(i18n::s('Preferences'), $box, 'folder');
+				$sidebar .= Skin::build_box(i18n::s('Preferences'), $box, 'folded');
 
 		}
-	}
-
-	// in a separate tab
-	if($interactions)
-		$panels[] = array('interactions', i18n::s('Interactions'), 'interactions', $interactions);
-
-	//
-	// the information tab
-	//
-	$information = '';
-
-	// if not at another follow-up page
-	if(!$zoom_type) {
-
+		
+		// finalize the sidebar
+		if($sidebar)
+			$information .= Skin::build_box(NULL, $sidebar, 'sidebar');
+			
 		// get text related to the overlay, if any
 		if(is_object($overlay))
 			$information .= $overlay->get_text('view', $item);
@@ -637,58 +819,6 @@ if(!isset($item['id'])) {
 		// birth date, if any, and only for authenticated memebers
 		if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE) && Surfer::is_logged())
 			$information .= '<p>'.i18n::s('Birth date').' '.substr($item['birth_date'], 0, 10).'</p>';
-
-		// business card
-		//
-		$rows = array();
-
-		// organization, if any
-		if(isset($item['vcard_organization']) && $item['vcard_organization'])
-			$rows[] = array(i18n::s('Organization'), $item['vcard_organization']);
-
-		// title, if any
-		if(isset($item['vcard_title']) && $item['vcard_title'])
-			$rows[] = array(i18n::s('Title'), $item['vcard_title']);
-
-		// physical address, if any
-		if(isset($item['vcard_label']) && $item['vcard_label'])
-			$rows[] = array(i18n::s('Physical address'), str_replace("\n", BR, $item['vcard_label']));
-
-		// phone number, if any
-		if(isset($item['phone_number']) && $item['phone_number'])
-			$rows[] = array(i18n::s('Phone number'), $item['phone_number']);
-
-		// alternate number, if any
-		if(isset($item['alternate_number']) && $item['alternate_number'])
-			$rows[] = array(i18n::s('Alternate number'), $item['alternate_number']);
-
-		// email address - not showed to anonymous surfers for spam protection
-		if(isset($item['email']) && $item['email'] && (Surfer::is($item['id']) || Surfer::may_contact($item['id']))) {
-
-			if(Surfer::is($item['id']))
-				$label = $item['email'];
-			elseif(isset($context['with_email']) && ($context['with_email'] == 'Y'))
-				$label = Skin::build_link($context['url_to_root'].Users::get_url($id, 'mail'), $item['email'], 'email');
-			else
-				$label = Skin::build_link('mailto:'.$item['email'], $item['email'], 'email');
-
-			$rows[] = array(i18n::s('E-mail address'), $label);
-		}
-
-		// web address, if any
-		if(isset($item['web_address']) && $item['web_address'])
-			$rows[] = array(i18n::s('Web address'), Skin::build_link($item['web_address'], $item['web_address'], 'external'));
-
-		// agent, if any
-		if(isset($item['vcard_agent']) && $item['vcard_agent']) {
-			if($agent =& Users::get($item['vcard_agent']))
-				$rows[] = array(i18n::s('Alternate contact'), Skin::build_link(Users::get_url($agent['id'], 'view', $agent['nick_name'], $agent['full_name']), $agent['full_name']?$agent['full_name']:$agent['nick_name'], 'user'));
-			else
-				$rows[] = array(i18n::s('Alternate contact'), $item['vcard_agent']);
-		}
-
-		if(count($rows))
-			$information .= Skin::build_box(i18n::s('Business card'), Skin::table(NULL, $rows, 'form'));
 
 		// list files
 		//
@@ -722,10 +852,10 @@ if(!isset($item['id'])) {
 	
 	// assemble tabs
 	//
+	if(!$zoom_type)
+		$panels[] = array('connections', i18n::s('Connections'), 'connections_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
 	if(!$zoom_type && Surfer::is_member())
 		$panels[] = array('actions', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'));
-	if(!$zoom_type)
-		$panels[] = array('contacts', i18n::s('Contacts'), 'contacts_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
 
 	// let YACS do the hard job
 	$context['text'] .= Skin::build_tabs($panels);
@@ -784,25 +914,6 @@ if(!isset($item['id'])) {
 	//
 	$lines = array();
 
-	// watch command is provided to logged surfers
-	if(Surfer::get_id() && (Surfer::get_id() != $item['id']) && !$zoom_type) {
-
-		$link = Users::get_url('user:'.$item['id'], 'track');
-
-		// is the item on user watch list?
-		$in_watch_list = FALSE;
-		if(isset($item['id']) && Surfer::get_id())
-			$in_watch_list = Members::check('user:'.$item['id'], 'user:'.Surfer::get_id());
-
-		if($in_watch_list)
-			$label = i18n::s('Forget');
-		else
-			$label = i18n::s('Watch');
-
-		Skin::define_img('WATCH_TOOL_IMG', 'icons/tools/watch.gif');
-		$lines[] = Skin::build_link($link, WATCH_TOOL_IMG.$label, 'basic', i18n::s('Manage your watch list'));
-	}
-
 	// get news from rss
 	if(isset($item['capability']) && (($item['capability'] == 'A') || ($item['capability'] == 'M')) && (!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {
 
@@ -821,30 +932,6 @@ if(!isset($item['id'])) {
 	// more boxes
 	$context['aside']['boxes'] = '';
 		
-	// most popular articles for this user
-	$cache_id = 'users/view.php?id='.$item['id'].'#popular_articles';
-	if(!$text =& Cache::get($cache_id)) {
-		$items =& Articles::list_for_author_by('hits', $item['id'], 0, COMPACT_LIST_SIZE, 'hits');
-		if(is_array($items) && count($items))
-			$text .= Skin::build_box(i18n::s('Top pages'), Skin::build_list($items, 'compact'), 'extra', 'top_articles');
-
-		// save in cache
-		Cache::put($cache_id, $text, 'articles');
-	}
-	$context['aside']['boxes'] .= $text;
-
-	//most popular files from this user
-	$cache_id = 'users/view.php?id='.$item['id'].'#popular_files';
-	if(!$text =& Cache::get($cache_id)) {
-		$items = Files::list_by_hits_for_author($item['id'], 0, COMPACT_LIST_SIZE);
-		if(is_array($items) && count($items))
-			$text .= Skin::build_box(i18n::s('Top files'), Skin::build_list($items, 'compact'), 'extra', 'top_files');
-
-		// save in cache
-		Cache::put($cache_id, $text, 'files');
-	}
-	$context['aside']['boxes'] .= $text;
-
 	// categories attached to this item, if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'categories')) {
 

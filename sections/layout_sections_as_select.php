@@ -183,7 +183,7 @@ Class Layout_sections_as_select extends Layout_interface {
 
 				// expose sub-sub-sections as well
 				if(count($leaves) > YAHOO_LIST_SIZE)
-					$subs[$url] = array('', $attributes['title'], Skin::build_box(i18n::s('More spaces'), Skin::build_list($leaves, 'compact'), 'folder'));
+					$subs[$url] = array('', $attributes['title'], Skin::build_box(i18n::s('More spaces'), Skin::build_list($leaves, 'compact'), 'folded'));
 
 				// expose sub-sub-sections as well
 				elseif(count($leaves))

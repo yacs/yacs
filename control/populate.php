@@ -230,7 +230,7 @@ if(!$permitted) {
 		if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
 			$context['text'] .= Skin::build_block(i18n::s('Users'), 'subtitle');
 
-		$context['text'] .= '<p>'.sprintf(i18n::s('Congratulations, one associate profile %s has been created with the password %s'), $user['nick_name'], $_REQUEST['password'])."</p>\n";
+		$context['text'] .= '<p>'.sprintf(i18n::s('One associate profile "%s" has been created.'), $user['nick_name'])."</p>\n";
 
 		// impersonate the new created user profile on first installation
 		if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))

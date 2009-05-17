@@ -15,6 +15,9 @@ include_once '../shared/global.php';
 // load localized strings -- see i18n/i18n.php for more information on internationalization and localization in YACS
 i18n::bind('tools');
 
+// the path to this page
+$context['path_bar'] = array( 'tools/' => i18n::s('Tools') );
+
 // let YACS start the page
 embed_yacs_prefix();
 

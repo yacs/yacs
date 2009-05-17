@@ -383,11 +383,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_private_pages" value="N"';
 	if(!isset($context['users_without_private_pages']) || ($context['users_without_private_pages'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Facilitate contacts between community members through shared private pages.');
+	$input .= '/> '.i18n::s('Support on-demand interactions between people with private pages.');
 	$input .= BR.'<input type="radio" name="users_without_private_pages" value="Y"';
 	if(isset($context['users_without_private_pages']) && ($context['users_without_private_pages'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Prevent members to create private pages.');
+	$input .= '/> '.i18n::s('Prevent members from creating private pages.');
 	$fields[] = array($label, $input);
 
 	// users_maximum_managed_sections
@@ -659,7 +659,7 @@ elseif(!Surfer::is_associate()) {
 	}
 
 	// display updated parameters
-	$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folder');
+	$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), Safe::highlight_string($content), 'folded');
 
 	// follow-up commands
 	$follow_up = i18n::s('Where do you want to go now?');

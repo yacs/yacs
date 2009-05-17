@@ -189,7 +189,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			}
 
 			// info on related files
-			if($count = Files::count_for_anchor('section:'.$item['id'])) {
+			if($count = Files::count_for_anchor('section:'.$item['id'], TRUE)) {
 				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
 				$related_count += $count;
 
@@ -211,7 +211,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			}
 
 			// info on related links
-			if($count = Links::count_for_anchor('section:'.$item['id'])) {
+			if($count = Links::count_for_anchor('section:'.$item['id'], TRUE)) {
 				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
 				$related_count += $count;
 
@@ -233,7 +233,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			}
 
 			// info on related comments
-			if($count = Comments::count_for_anchor('section:'.$item['id'])) {
+			if($count = Comments::count_for_anchor('section:'.$item['id'], TRUE)) {
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
 				$related_count += $count;
 			}

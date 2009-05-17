@@ -451,8 +451,44 @@ if(!isset($item['id'])) {
 	if(is_object($overlay))
 		$context['text'] .= $overlay->get_text('view', $item);
 
+	// filter description, if necessary
+	if(is_object($overlay))
+		$description = $overlay->get_text('description', $item);
+	else
+		$description = $item['description'];
+			
 	// the beautified description, which is the actual page body
-	$context['text'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
+	if($description) {
+
+		// use adequate label
+		if(is_object($overlay) && ($label = $overlay->get_label('description')))
+			$context['text'] .= Skin::build_block($label, 'title');
+
+		// provide only the requested page
+		$pages = preg_split('/\s*\[page\]\s*/is', $description);
+		if($page > count($pages))
+			$page = count($pages);
+		if($page < 1)
+			$page = 1;
+		$description = $pages[ $page-1 ];
+
+		// if there are several pages, remove toc and toq codes
+		if(count($pages) > 1)
+			$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
+
+		// beautify the target page
+		$context['text'] .= Skin::build_block($description, 'description', '', $item['options']);
+
+		// if there are several pages, add navigation commands to browse them
+		if(count($pages) > 1) {
+			$page_menu = array( '_' => i18n::s('Pages') );
+			$home =& Sections::get_permalink($item);
+			$prefix = Sections::get_url($item['id'], 'navigate', 'pages');
+			$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
+
+			$context['text'] .= Skin::build_list($page_menu, 'menu_bar');
+		}
+	}
 
 	// add trailer information from the overlay, if any
 	if(is_object($overlay))
@@ -764,18 +800,6 @@ if(!isset($item['id'])) {
 	// 'Information channels' box
 	//
 	$lines = array();
-
-	// watch command is provided to logged surfers
-	if(Surfer::get_id() && !$zoom_type) {
-
-		$link = Users::get_url('article:'.$item['id'], 'track');
-
-		if($in_watch_list) {
-			$label = i18n::s('Forget');
-			Skin::define_img('WATCH_TOOL_IMG', 'icons/tools/watch.gif');
-			$lines[] = Skin::build_link($link, WATCH_TOOL_IMG.$label, 'basic', i18n::s('Manage your watch list'));
-		}
-	}
 
 	// get news from rss
 	if(isset($item['id']) && (!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {

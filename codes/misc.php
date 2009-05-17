@@ -61,7 +61,7 @@ $context['text'] .= "\n".'[toc]'."\n";
 
 // implicit formating
 $context['text'] .= '[title]'.i18n::s('Implicit formatting').'[/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('hello')."\n"
 	.i18n::s('world')."\n"
@@ -105,7 +105,7 @@ $context['text'] .= '[title]'.i18n::s('Implicit formatting').'[/title]'
 
 // [hint=help]...[/hint]
 $context['text'] .= '[title]'.i18n::s('Hint').' [escape][hint=&lt;help popup&gt;]...[/hint][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('YACS is based on international standards, including [hint=eXtended Markup Language]XML[/hint].').'[/escape]</td>'
 	.'<td>'.i18n::s('YACS is based on international standards, including [hint=eXtended Markup Language]XML[/hint].').'</td></tr>'
@@ -113,7 +113,7 @@ $context['text'] .= '[title]'.i18n::s('Hint').' [escape][hint=&lt;help popup&gt;
 
 // [nl]
 $context['text'] .= '[title]'.i18n::s('Newline').' [escape]...[nl]...[/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape]</td>'
 	.'<td>'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'</td></tr>'
@@ -121,7 +121,7 @@ $context['text'] .= '[title]'.i18n::s('Newline').' [escape]...[nl]...[/escape][/
 
 // [---]
 $context['text'] .= '[title]'.i18n::s('Ruler').' [escape]...[---] or [___]...[/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[---]I don\'t know, but it depends also on the turtle speed...').'[/escape]</td>'
 	.'<td>'.i18n::s('But where will this rabbit be in some minutes?[---]I don\'t know, but it depends also on the turtle speed...').'</td></tr>'
@@ -129,7 +129,7 @@ $context['text'] .= '[title]'.i18n::s('Ruler').' [escape]...[---] or [___]...[/e
 
 // [new]
 $context['text'] .= '[title]'.i18n::s('New').' [escape]...[new]...[/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Our newsletter has been published!').' [new][/escape]</td>'
 	.'<td>'.i18n::s('Our newsletter has been published!').' [new]</td></tr>'
@@ -137,7 +137,7 @@ $context['text'] .= '[title]'.i18n::s('New').' [escape]...[new]...[/escape][/tit
 
 // [popular]
 $context['text'] .= '[title]'.i18n::s('Popular').' [escape]...[popular]...[/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Numerous surfers like this section of our site').' [popular][/escape]</td>'
 	.'<td>'.i18n::s('Numerous surfers like this section of our site').' [popular]</td></tr>'
@@ -145,7 +145,7 @@ $context['text'] .= '[title]'.i18n::s('Popular').' [escape]...[popular]...[/esca
 
 // flags
 $context['text'] .= '[title]'.i18n::s('Flags').' [escape][be] [ca] [ch] [de] [en] [es] [fr] [gb] [gr] [it] [pt] [us][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][be] [ca] [ch] [de] [en] [es] [fr] [gb] [gr] [it] [pt] [us][/escape]</td>'
 	.'<td>[be] [ca] [ch] [de] [en] [es] [fr] [gb] [gr] [it] [pt] [us]</td></tr>'

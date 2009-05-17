@@ -48,7 +48,7 @@ $context['text'] .= "\n".'[toc]'."\n";
 
 // [*]
 $context['text'] .= '[title]'.i18n::s('List item').' [escape][*][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('A simple list:')."\n\n".'[*]'.i18n::s('First item')."\n\n".'[*]'.i18n::s('Second item (after one empty line)')."\n".'[*]'.i18n::s('Third item (next the previous one)').'[/escape]</td>'
 	.'<td>'.i18n::s('A simple list:')."\n\n".'[*]'.i18n::s('First item')."\n\n".'[*]'.i18n::s('Second item (after one empty line)')."\n".'[*]'.i18n::s('Third item (next the previous one)').'</td></tr>'
@@ -56,7 +56,7 @@ $context['text'] .= '[title]'.i18n::s('List item').' [escape][*][/escape][/title
 
 // [list]...[/list]
 $context['text'] .= '[title]'.i18n::s('Bulleted list').' [escape][list]...[/list][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('A list with bulleted items:')."\n".'[list]'."\n".'[*]'.i18n::s('First item')."\n".'[*]'.i18n::s('Second item')."\n".'[/list][/escape]</td>'
 	.'<td>'.i18n::s('A list with bulleted items:')."\n".'[list]'."\n".'[*]'.i18n::s('First item')."\n".'[*]'.i18n::s('Second item')."\n".'[/list]</td></tr>'
@@ -64,7 +64,7 @@ $context['text'] .= '[title]'.i18n::s('Bulleted list').' [escape][list]...[/list
 
 // [list=1]...[/list]
 $context['text'] .= '[title]'.i18n::s('Numbered list').' [escape][list=1]...[/list][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('A list with numbered items:')."\n".'[list=1]'."\n".'[*]'.i18n::s('First item')."\n".'[*]'.i18n::s('Second item')."\n".'[/list][/escape]</td>'
 	.'<td>'.i18n::s('A list with numbered items:')."\n".'[list=1]'."\n".'[*]'.i18n::s('First item')."\n".'[*]'.i18n::s('Second item')."\n".'[/list]</td></tr>'
@@ -72,7 +72,7 @@ $context['text'] .= '[title]'.i18n::s('Numbered list').' [escape][list=1]...[/li
 
 // [list=a]...[/list]
 $context['text'] .= '[title]'.i18n::s('Numbered list').' [escape][list=a]...[/list][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('A list with alphabetically numbered items:')."\n".'[list=a]'."\n".'[*]'.i18n::s('First item')."\n".'[*]'.i18n::s('Second item')."\n".'[/list][/escape]</td>'
 	.'<td>'.i18n::s('A list with alphabetically numbered items:')."\n".'[list=a]'."\n".'[*]'.i18n::s('First item')."\n".'[*]'.i18n::s('Second item')."\n".'[/list]</td></tr>'
@@ -80,7 +80,7 @@ $context['text'] .= '[title]'.i18n::s('Numbered list').' [escape][list=a]...[/li
 
 // [list=A]...[/list]
 $context['text'] .= '[title]'.i18n::s('Numbered list').' [escape][list=A]...[/list][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Another list with alphabetically numbered items:')."\n".'[list=A]'."\n".'[*]'.i18n::s('First item')."\n".'[*]'.i18n::s('Second item')."\n".'[/list][/escape]</td>'
 	.'<td>'.i18n::s('Another list with alphabetically numbered items:')."\n".'[list=A]'."\n".'[*]'.i18n::s('First item')."\n".'[*]'.i18n::s('Second item')."\n".'[/list]</td></tr>'
@@ -88,7 +88,7 @@ $context['text'] .= '[title]'.i18n::s('Numbered list').' [escape][list=A]...[/li
 
 // [list=i]...[/list]
 $context['text'] .= '[title]'.i18n::s('Numbered list').' [escape][list=i]...[/list][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('A list with roman numbers:')."\n".'[list=i]'."\n".'[*]'.i18n::s('First item')."\n".'[*]'.i18n::s('Second item')."\n".'[/list][/escape]</td>'
 	.'<td>'.i18n::s('A list with roman numbers:')."\n".'[list=i]'."\n".'[*]'.i18n::s('First item')."\n".'[*]'.i18n::s('Second item')."\n".'[/list]</td></tr>'
@@ -96,7 +96,7 @@ $context['text'] .= '[title]'.i18n::s('Numbered list').' [escape][list=i]...[/li
 
 // [list=I]...[/list]
 $context['text'] .= '[title]'.i18n::s('Numbered list').' [escape][list=I]...[/list][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Another list with roman numbers:')."\n".'[list=I]'."\n".'[*]'.i18n::s('First item')."\n".'[*]'.i18n::s('Second item')."\n".'[/list][/escape]</td>'
 	.'<td>'.i18n::s('Another list with roman numbers:')."\n".'[list=I]'."\n".'[*]'.i18n::s('First item')."\n".'[*]'.i18n::s('Second item')."\n".'[/list]</td></tr>'

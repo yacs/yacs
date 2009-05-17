@@ -104,7 +104,7 @@ if(!$text =& Cache::get($cache_id)) {
 	$outbound .= '<p>'.i18n::s('More specific outbound feeds are also available. Look for the XML button at other places:').'</p>'."\n<ul>\n"
 		.'<li>'.sprintf(i18n::s('Browse the %s; each section has its own feed.'), Skin::build_link('sections/', i18n::s('site map'), 'shortcut')).'</li>'
 		.'<li>'.sprintf(i18n::s('Or browse %s to get a more focused feed.'), Skin::build_link('categories/', i18n::s('categories'), 'shortcut')).'</li>'
-		.'<li>'.sprintf(i18n::s('Visit any of the available %s to list articles from your preferred author.'), Skin::build_link('users/', i18n::s('user profiles'), 'shortcut')).'</li>'
+		.'<li>'.sprintf(i18n::s('Visit %s, each one has a feed to monitor contributions from one person.'), Skin::build_link('users/', i18n::s('user profiles'), 'shortcut')).'</li>'
 		.'<li>'.sprintf(i18n::s('You can even use our %s to build one customised feed.'), Skin::build_link('search.php', i18n::s('search engine'), 'shortcut')).'</li>';
 
 	// help Google

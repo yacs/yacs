@@ -688,23 +688,21 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// the introduction
-	$label = i18n::s('Introduction');
+	if(!is_object($overlay) || !($label = $overlay->get_label('introduction', isset($item['id'])?'edit':'new')))
+		$label = i18n::s('Introduction');
 	$value = '';
 	if(isset($item['introduction']) && $item['introduction'])
 		$value = $item['introduction'];
 	elseif(isset($_SESSION['pasted_introduction']))
 		$value = $_SESSION['pasted_introduction'];
 	$input = '<textarea name="introduction" rows="3" cols="50" accesskey="i">'.encode_field($value).'</textarea>';
-	$hint = i18n::s('Also complements the title in lists featuring this page');
+	if(!is_object($overlay) || !($hint = $overlay->get_label('introduction_hint', isset($item['id'])?'edit':'new')))
+		$hint = i18n::s('Also complements the title in lists featuring this page');
 	$fields[] = array($label, $input, $hint);
 
 	// include overlay fields, if any
-	if(is_object($overlay)) {
-
-		// append editing fields for this overlay
+	if(is_object($overlay))
 		$fields = array_merge($fields, $overlay->get_fields($item));
-
-	}
 
 	// the description label
 	if(!is_object($overlay) || !($label = $overlay->get_label('description', isset($item['id'])?'edit':'new')))
@@ -717,7 +715,9 @@ if($with_form) {
 	elseif(isset($_SESSION['pasted_text']))
 		$value = $_SESSION['pasted_text'];
 	$input = Surfer::get_editor('description', $value);
-	$fields[] = array($label, $input);
+	if(!is_object($overlay) || !($hint = $overlay->get_label('description_hint', isset($item['id'])?'edit':'new')))
+		$hint = '';
+	$fields[] = array($label, $input, $hint);
 
 	// tags
 	$label = i18n::s('Tags');
@@ -780,7 +780,7 @@ if($with_form) {
 
 		// in a folded box
 		if($box)
-			$information .= Skin::build_box(i18n::s('Images'), $box, 'folder', 'edit_images');
+			$information .= Skin::build_box(i18n::s('Images'), $box, 'folded', 'edit_images');
 
 	}
 
@@ -792,7 +792,7 @@ if($with_form) {
 		if(Locations::are_allowed($anchor, $item)) {
 			$menu = array( 'locations/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a location') );
 			$items = Locations::list_by_date_for_anchor('article:'.$item['id'], 0, 50, NULL);
-			$information .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folder');
+			$information .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
 		}
 
 		// tables are reserved to associates
@@ -800,7 +800,7 @@ if($with_form) {
 		if(Tables::are_allowed($anchor, $item)) {
 			$menu = array( 'tables/edit.php?anchor='.urlencode('article:'.$item['id']) => i18n::s('Add a table') );
 			$items = Tables::list_by_date_for_anchor('article:'.$item['id'], 0, 50, NULL);
-			$information .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folder');
+			$information .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
 		}
 
 	}
@@ -845,7 +845,7 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// add a folded box
-	$information .= Skin::build_box(i18n::s('More content'), Skin::build_form($fields), 'folder');
+	$information .= Skin::build_box(i18n::s('More content'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	//
@@ -853,10 +853,7 @@ if($with_form) {
 	//
 	$content = '';
 
-	// this page
-	//
-
-	// the section, if one has not been defined yet or when an associate may move one
+	// the section
 	if(!is_object($anchor) || isset($item['id'])) {
 		$label = i18n::s('Section');
 		$input = Sections::get_radio_buttons($item['anchor'] ? $item['anchor'] : $_REQUEST['anchor']);
@@ -918,7 +915,7 @@ if($with_form) {
 
 	// add a folded box
 	if(count($fields))
-		$content .= Skin::build_box(i18n::s('Attachments'), Skin::build_form($fields), 'folder');
+		$content .= Skin::build_box(i18n::s('Attachments'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	// home panel
@@ -938,7 +935,7 @@ if($with_form) {
 
 	// add a folded box
 	if($front)
-		$content .= Skin::build_box(i18n::s('Contribution to the site front page'), $front, 'folder');
+		$content .= Skin::build_box(i18n::s('Contribution to the site front page'), $front, 'folded');
 	$fields = array();
 
 	//
@@ -952,7 +949,7 @@ if($with_form) {
 			$label = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors'), 'basic');
 		else
 			$label = i18n::s('Editors');
-		if(isset($item['id']) && ($items =& Members::list_editors_by_name_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'compact')))
+		if(isset($item['id']) && ($items =& Members::list_editors_by_name_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
 			$input =& Skin::build_list($items, 'comma');
 		else
 			$input = i18n::s('Nobody has been assigned to this page.');
@@ -1125,7 +1122,7 @@ if($with_form) {
 
 
 	// add a folded box
-	$options .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folder');
+	$options .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	//

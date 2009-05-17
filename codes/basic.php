@@ -67,7 +67,7 @@ $context['text'] .= "\n".'[toc]'."\n";
 
 // **...**
 $context['text'] .= '[title]'.i18n::s('Wiki bold').' [escape]**...**[/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('This is very **important**, isn\'t it?').'[/escape]</td>'
 	.'<td>'.i18n::s('This is very **important**, isn\'t it?').'</td></tr>'
@@ -76,7 +76,7 @@ $context['text'] .= '[title]'.i18n::s('Wiki bold').' [escape]**...**[/escape][/t
 
 // [b]...[/b]
 $context['text'] .= '[title]'.i18n::s('Bold').' [escape][b]...[/b][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('This is very [b]important[/b], isn\'t it?').'[/escape]</td>'
 	.'<td>'.i18n::s('This is very [b]important[/b], isn\'t it?').'</td></tr>'
@@ -84,7 +84,7 @@ $context['text'] .= '[title]'.i18n::s('Bold').' [escape][b]...[/b][/escape][/tit
 
 // //...//
 $context['text'] .= '[title]'.i18n::s('Wiki italics').'  [escape]//...//[/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('This is really //meaningful//!').'[/escape]</td>'
 	.'<td>'.i18n::s('This is really //meaningful//!').'</td></tr>'
@@ -92,7 +92,7 @@ $context['text'] .= '[title]'.i18n::s('Wiki italics').'  [escape]//...//[/escape
 
 // [i]...[/i]
 $context['text'] .= '[title]'.i18n::s('Italics').'	[escape][i]...[/i][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('This is really [i]meaningful[/i]!').'[/escape]</td>'
 	.'<td>'.i18n::s('This is really [i]meaningful[/i]!').'</td></tr>'
@@ -100,7 +100,7 @@ $context['text'] .= '[title]'.i18n::s('Italics').'	[escape][i]...[/i][/escape][/
 
 // __...__
 $context['text'] .= '[title]'.i18n::s('Wiki underline').'  [escape]__...__[/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('I would like to __insist__ on this point...').'[/escape]</td>'
 	.'<td>'.i18n::s('I would like to __insist__ on this point...').'</td></tr>'
@@ -108,7 +108,7 @@ $context['text'] .= '[title]'.i18n::s('Wiki underline').'  [escape]__...__[/esca
 
 // [u]...[/u]
 $context['text'] .= '[title]'.i18n::s('Underlined').'  [escape][u]...[/u][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('I would like to [u]insist[/u] on this point...').'[/escape]</td>'
 	.'<td>'.i18n::s('I would like to [u]insist[/u] on this point...').'</td></tr>'
@@ -116,7 +116,7 @@ $context['text'] .= '[title]'.i18n::s('Underlined').'  [escape][u]...[/u][/escap
 
 // ##...##
 $context['text'] .= '[title]'.i18n::s('Wiki monospace').'  [escape]##...##[/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Type ##cwd ../foo/bar## to visit an interesting directory.').'[/escape]</td>'
 	.'<td>'.i18n::s('Type ##cwd ../foo/bar## to visit an interesting directory.').'</td></tr>'
@@ -124,7 +124,7 @@ $context['text'] .= '[title]'.i18n::s('Wiki monospace').'  [escape]##...##[/esca
 
 // [code]...[/code]
 $context['text'] .= '[title]'.i18n::s('Code').'  [escape][code]...[/code][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Type [code]cwd ../foo/bar[/code] to visit an interesting directory.').'[/escape]</td>'
 	.'<td>'.i18n::s('Type [code]cwd ../foo/bar[/code] to visit an interesting directory.').'</td></tr>'
@@ -132,7 +132,7 @@ $context['text'] .= '[title]'.i18n::s('Code').'  [escape][code]...[/code][/escap
 
 // [color]...[/color]
 $context['text'] .= '[title]'.i18n::s('Color').'  [escape][color]...[/color][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Here is some text in [color=red]red[/color] and some text in [color=green]green[/color]').'[/escape]</td>'
 	.'<td>'.i18n::s('Here is some text in [color=red]red[/color] and some text in [color=green]green[/color]').'</td></tr>'
@@ -140,7 +140,7 @@ $context['text'] .= '[title]'.i18n::s('Color').'  [escape][color]...[/color][/es
 
 // [tiny]...[/tiny]
 $context['text'] .= '[title]'.i18n::s('Tiny').' [escape][tiny]...[/tiny][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('This is really [tiny]tiny![/tiny]').'[/escape]</td>'
 	.'<td>'.i18n::s('This is really [tiny]tiny![/tiny]').'</td></tr>'
@@ -148,7 +148,7 @@ $context['text'] .= '[title]'.i18n::s('Tiny').' [escape][tiny]...[/tiny][/escape
 
 // [small]...[/small]
 $context['text'] .= '[title]'.i18n::s('Small').' [escape][small]...[/small][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('This is really [small]small![/small]').'[/escape]</td>'
 	.'<td>'.i18n::s('This is really [small]small![/small]').'</td></tr>'
@@ -156,7 +156,7 @@ $context['text'] .= '[title]'.i18n::s('Small').' [escape][small]...[/small][/esc
 
 // [big]...[/big]
 $context['text'] .= '[title]'.i18n::s('Big').' [escape][big]...[/big][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('This is really [big]meaningful[/big]').'[/escape]</td>'
 	.'<td>'.i18n::s('This is really [big]meaningful[/big]').'</td></tr>'
@@ -164,7 +164,7 @@ $context['text'] .= '[title]'.i18n::s('Big').' [escape][big]...[/big][/escape][/
 
 // [huge]...[/huge]
 $context['text'] .= '[title]'.i18n::s('Huge').' [escape][huge]...[/huge][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('I would like to [huge]insist[/huge] on this point...').'[/escape]</td>'
 	.'<td>'.i18n::s('I would like to [huge]insist[/huge] on this point...').'</td></tr>'
@@ -172,7 +172,7 @@ $context['text'] .= '[title]'.i18n::s('Huge').' [escape][huge]...[/huge][/escape
 
 // [superscript]...[/superscript]
 $context['text'] .= '[title]'.i18n::s('Superscript').' [escape][superscript]...[/superscript][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('This text is [superscript]superscript[/superscript]. Interesting...').'[/escape]</td>'
 	.'<td>'.i18n::s('This text is [superscript]superscript[/superscript]. Interesting...').'</td></tr>'
@@ -180,7 +180,7 @@ $context['text'] .= '[title]'.i18n::s('Superscript').' [escape][superscript]...[
 
 // [subscript]...[/subscript]
 $context['text'] .= '[title]'.i18n::s('Subscript').' [escape][subscript]...[/subscript][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('This text is [subscript]subscript[/subscript]. Interesting...').'[/escape]</td>'
 	.'<td>'.i18n::s('This text is [subscript]subscript[/subscript]. Interesting...').'</td></tr>'
@@ -188,7 +188,7 @@ $context['text'] .= '[title]'.i18n::s('Subscript').' [escape][subscript]...[/sub
 
 // ++...++
 $context['text'] .= '[title]'.i18n::s('Wiki insertion').' [escape]++...++[/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('This text ++has been inserted++.').'[/escape]</td>'
 	.'<td>'.i18n::s('This text ++has been inserted++.').'</td></tr>'
@@ -196,7 +196,7 @@ $context['text'] .= '[title]'.i18n::s('Wiki insertion').' [escape]++...++[/escap
 
 // [inserted]...[/inserted]
 $context['text'] .= '[title]'.i18n::s('Inserted').' [escape][inserted]...[/inserted][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('This text [inserted]has been inserted[/inserted].').'[/escape]</td>'
 	.'<td>'.i18n::s('This text [inserted]has been inserted[/inserted].').'</td></tr>'
@@ -204,7 +204,7 @@ $context['text'] .= '[title]'.i18n::s('Inserted').' [escape][inserted]...[/inser
 
 // --...--
 $context['text'] .= '[title]'.i18n::s('Wiki deletion').' [escape]--...--[/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('This text --has been deleted--.').'[/escape]</td>'
 	.'<td>'.i18n::s('This text --has been deleted--.').'</td></tr>'
@@ -212,7 +212,7 @@ $context['text'] .= '[title]'.i18n::s('Wiki deletion').' [escape]--...--[/escape
 
 // [deleted]...[/deleted]
 $context['text'] .= '[title]'.i18n::s('Deleted').' [escape][deleted]...[/deleted][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('This text [deleted]has been deleted[/deleted].').'[/escape]</td>'
 	.'<td>'.i18n::s('This text [deleted]has been deleted[/deleted].').'</td></tr>'
@@ -220,7 +220,7 @@ $context['text'] .= '[title]'.i18n::s('Deleted').' [escape][deleted]...[/deleted
 
 // [flag]...[/flag]
 $context['text'] .= '[title]'.i18n::s('Flag').' [escape][flag]...[/flag][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('[flag]important![/flag] Don\'t forget to give something to your cat today.').'[/escape]</td>'
 	.'<td>'.i18n::s('[flag]important![/flag] Don\'t forget to give something to your cat today.').'</td></tr>'
@@ -228,7 +228,7 @@ $context['text'] .= '[title]'.i18n::s('Flag').' [escape][flag]...[/flag][/escape
 
 // [lang=xy]...[/lang]
 $context['text'] .= '[title]'.i18n::s('Language').' [escape][lang=xy]...[/lang][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][lang=en]This is in English[/lang][lang=fr]Ceci est en fran&ccedil;ais[/lang][/escape]</td>'
 	.'<td>[lang=en]This is in English[/lang][lang=fr]Ceci est en fran&ccedil;ais[/lang]</td></tr>'
@@ -236,7 +236,7 @@ $context['text'] .= '[title]'.i18n::s('Language').' [escape][lang=xy]...[/lang][
 
 // [style=serif]...[/style]
 $context['text'] .= '[title]'.i18n::s('Serif').' [escape][style=serif]...[/style][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][style=serif]'.i18n::s('This text is in Serif.').'[/style][/escape]</td>'
 	.'<td>[style=serif]'.i18n::s('This text is in Serif.').'[/style]</td></tr>'
@@ -244,7 +244,7 @@ $context['text'] .= '[title]'.i18n::s('Serif').' [escape][style=serif]...[/style
 
 // [style=sans-serif]...[/style]
 $context['text'] .= '[title]'.i18n::s('Sans-Serif').' [escape][style=sans-serif]...[/style][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][style=sans-serif]'.i18n::s('This text is in Sans-Serif.').'[/style][/escape]</td>'
 	.'<td>[style=sans-serif]'.i18n::s('This text is in Sans-Serif.').'[/style]</td></tr>'
@@ -252,7 +252,7 @@ $context['text'] .= '[title]'.i18n::s('Sans-Serif').' [escape][style=sans-serif]
 
 // [style=cursive]...[/style]
 $context['text'] .= '[title]'.i18n::s('Cursive').' [escape][style=cursive]...[/style][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][style=cursive]'.i18n::s('This text is in Cursive.').'[/style][/escape]</td>'
 	.'<td>[style=cursive]'.i18n::s('This text is in Cursive.').'[/style]</td></tr>'
@@ -260,7 +260,7 @@ $context['text'] .= '[title]'.i18n::s('Cursive').' [escape][style=cursive]...[/s
 
 // [style=fantasy]...[/style]
 $context['text'] .= '[title]'.i18n::s('Fantasy').' [escape][style=fantasy]...[/style][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][style=fantasy]'.i18n::s('This text is in Fantasy.').'[/style][/escape]</td>'
 	.'<td>[style=fantasy]'.i18n::s('This text is in Fantasy.').'[/style]</td></tr>'
@@ -268,7 +268,7 @@ $context['text'] .= '[title]'.i18n::s('Fantasy').' [escape][style=fantasy]...[/s
 
 // [style=comic]...[/style]
 $context['text'] .= '[title]'.i18n::s('Comic').' [escape][style=comic]...[/style][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][style=comic]'.i18n::s('This text is in Comic.').'[/style][/escape]</td>'
 	.'<td>[style=comic]'.i18n::s('This text is in Comic.').'[/style]</td></tr>'
@@ -276,7 +276,7 @@ $context['text'] .= '[title]'.i18n::s('Comic').' [escape][style=comic]...[/style
 
 // [style]...[/style]
 $context['text'] .= '[title]'.i18n::s('Use any style').' [escape][style=&lt;style name&gt;]...[/style][/escape][/title]'
-	.Skin::table_prefix('100%')
+	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][style=my_style]'.i18n::s('But where will this rabbit be in some minutes? I don\'t know, but it depends also on the turtle speed...').'[/style][/escape]</td>'
 	.'<td>[style=my_style]'.i18n::s('But where will this rabbit be in some minutes? I don\'t know, but it depends also on the turtle speed...').'[/style]</td></tr>'

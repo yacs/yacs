@@ -18,6 +18,9 @@ i18n::bind('tools');
 // load the skin -- parameter enables to load template_form.php if it exists
 load_skin('form');
 
+// the path to this page
+$context['path_bar'] = array( 'tools/' => i18n::s('Tools') );
+
 // page title
 $context['page_title'] = i18n::s('Form');
 

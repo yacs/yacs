@@ -743,7 +743,7 @@ class Safe {
 
 			// create an index file to avoid browsing --direct call of file_put_contents because of absolute path
 			if(is_callable('file_put_contents'))
-				file_put_contents($path_name.'/index.php', '<?php echo "Browsing is not allowed here."; ?>');
+				file_put_contents($path_name.'/index.php', Safe::mkdir_index_content());
 
 			// mkdir has been successful
 			return TRUE;
@@ -752,6 +752,15 @@ class Safe {
 		// tough luck
 		return FALSE;
 
+	}
+	
+	/**
+	 * content of index.php created by yacs
+	 *
+	 * @return string
+	 */
+	function mkdir_index_content() {
+		return '<?php echo "Browsing is not allowed here."; ?>';
 	}
 
 	/**

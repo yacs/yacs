@@ -397,9 +397,9 @@ Class Tables {
 		$id = (string)$id;
 		$id = utf8::encode($id);
 
-		// strip extra text from enhanced ids '3-alfred' -> '3'
-		if($position = strpos($id, '-'))
-			$id = substr($id, 0, $position);
+//		// strip extra text from enhanced ids '3-alfred' -> '3'
+//		if($position = strpos($id, '-'))
+//			$id = substr($id, 0, $position);
 
 		// search by id
 		if(is_numeric($id))

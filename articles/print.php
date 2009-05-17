@@ -188,7 +188,7 @@ if(Surfer::is_crawler()) {
 	$items = Comments::list_by_date_for_anchor('article:'.$item['id'], 0, 500, 'excerpt');
 
 	// actually list items
-	if(count($items))
+	if(is_array($items))
 		$context['text'] .= Skin::build_box(i18n::s('Comments'), Skin::build_list($items, 'rows'));
 
 	//

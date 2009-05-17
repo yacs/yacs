@@ -897,6 +897,12 @@ Class Users {
 		// one of regular layouts
 		switch($layout) {
 
+		case 'comma':
+			include_once $context['path_to_root'].'users/layout_users_as_comma.php';
+			$variant =& new Layout_users_as_comma();
+			$output =& $variant->layout($result);
+			return $output;
+
 		case 'compact':
 			include_once $context['path_to_root'].'users/layout_users_as_compact.php';
 			$variant =& new Layout_users_as_compact();

@@ -86,7 +86,7 @@ if(!Surfer::is_associate()) {
 		}
 
 		// display updated parameters
-		$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), str_replace("\n", BR, htmlspecialchars($content)), 'folder');
+		$context['text'] .= Skin::build_box(i18n::s('Configuration parameters'), str_replace("\n", BR, htmlspecialchars($content)), 'folded');
 
 		// follow-up commands
 		$follow_up = i18n::s('Where do you want to go now?');

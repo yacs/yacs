@@ -95,7 +95,7 @@ Class XML_RPC_Codec extends Codec {
 	 *
 	 * @param mixed the parameter to encode
 	 * @param type, if any
-	 * @return some XML
+	 * @return string some XML
 	 */
 	function encode($parameter, $type='') {
 

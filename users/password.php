@@ -114,7 +114,7 @@ if(Surfer::is_crawler()) {
 		.'<p>'.i18n::s('Please provide your e-mail address and we will email your member name and password, and instructions for accessing your account.').'</p>'
 		.'<p>'.i18n::s('For the security of our members, you must make this request with the e-mail address you used when you registered. If your original e-mail address has expired or is no longer valid, please re-register. Unused accounts may be deleted without notice.').'</p>';
 
-// anonymous users are invited to log in or to register
+// anonymous surfers that are recovering from lost password
 } elseif(!Surfer::is_logged()) {
 	$context['page_title'] = i18n::s('Lost password');
 
@@ -163,7 +163,7 @@ if(Surfer::is_crawler()) {
 		// go to the login form
 		$menu = array('users/login.php' => i18n::s('Login'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
-
+		
 	// an on-line help message
 	} else {
 
@@ -174,13 +174,13 @@ if(Surfer::is_crawler()) {
 	}
 
 // restrictions: anyone can modify its own profile; associates can modify everything
-} elseif(($id != Surfer::get_id()) && !Surfer::is_associate()) {
+} elseif(($item['id'] != Surfer::get_id()) && !Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // redirect to the origin server
 } elseif($origin) {
-	Logger::error(sprintf(i18n::s('We are only keeping a shadow record for this user profile. Please change the password for this account at %s'), Skin::build_link('http://'.$origin, $origin, 'external')));
+	Logger::error(sprintf(i18n::s('We are only keeping a shadow record for this profile. Please change the password for this account at %s'), Skin::build_link('http://'.$origin, $origin, 'external')));
 
 // some data have been posted
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {

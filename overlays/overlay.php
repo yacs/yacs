@@ -331,6 +331,19 @@ class Overlay {
 	}
 
 	/**
+	 * display a live description
+	 *
+	 * To be overloaded into derivated class
+	 *
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function &get_live_description($host=NULL) {
+		$text = $host['description'];
+		return $text;
+	}
+
+	/**
 	 * display a live introduction
 	 *
 	 * To be overloaded into derivated class
@@ -380,6 +393,7 @@ class Overlay {
 	 * display the content of one overlay
 	 *
 	 * Accepted variant codes:
+	 * - 'description' - as a live description
 	 * - 'details' - details at page bottom
 	 * - 'extra' - displayed aside
 	 * - 'introduction' - as a live introduction
@@ -397,7 +411,12 @@ class Overlay {
 	function &get_text($variant='view', $host=NULL) {
 		switch($variant) {
 
-		// samll details
+		// live description
+		case 'description':
+			$text =& $this->get_live_description($host);
+			return $text;
+
+		// small details
 		case 'details':
 			$text =& $this->get_details_text($host);
 			return $text;

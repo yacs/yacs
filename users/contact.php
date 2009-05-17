@@ -80,8 +80,6 @@ if(isset($item['id']) && Surfer::is($item['id']))
 	$context['page_title'] .= i18n::s('Private pages');
 elseif(isset($item['nick_name']))
 	$context['page_title'] .= sprintf(i18n::s('Contact %s'), $item['full_name']?$item['full_name']:$item['nick_name']);
-else
-	$context['page_title'] .= i18n::s('Contact');
 
 // an error occured
 if(count($context['error']))
@@ -195,7 +193,7 @@ elseif(!count($items)) {
 
 					// suggest to change user preferences if applicable
 					$mail['message'] .= "\n\n"
-						.i18n::c('To prevent other surfers from contacting you, please visit your user profile at the following address, and change preferences.')
+						.i18n::c('To prevent other surfers from contacting you, please visit your profile at the following address, and change preferences.')
 						."\n\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name'])
 						."\n\n";
 

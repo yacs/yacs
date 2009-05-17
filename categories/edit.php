@@ -351,7 +351,7 @@ if($with_form) {
 
 		// in a folded box
 		if($box)
-			$index .= Skin::build_box(i18n::s('Images'), $box, 'folder', 'edit_images');
+			$index .= Skin::build_box(i18n::s('Images'), $box, 'folded', 'edit_images');
 
 	}
 
@@ -567,7 +567,7 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// append fields
-	$index .= Skin::build_box(i18n::s('More content'), Skin::build_form($fields), 'folder');
+	$index .= Skin::build_box(i18n::s('More content'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	//
@@ -630,7 +630,7 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// sub-categories
-	$content .= Skin::build_box(i18n::s('Sub-categories'), Skin::build_form($fields), 'folder');
+	$content .= Skin::build_box(i18n::s('Sub-categories'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	// excerpts
@@ -674,7 +674,7 @@ if($with_form) {
 		$input .= '/> '.i18n::s('No, thank you to not handle excerpts for this category').' ';
 
 		// excerpts
-		$content .= Skin::build_box(i18n::s('Excerpts'), $input, 'folder');
+		$content .= Skin::build_box(i18n::s('Excerpts'), $input, 'folded');
 	}
 
 	//
@@ -759,8 +759,60 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 	}
 
+	// associates can change the overlay --complex interface
+	if(Surfer::is_associate() && Surfer::has_all()) {
+
+		// current type
+		$overlay_type = '';
+		if(is_object($overlay))
+			$overlay_type = $overlay->get_type();
+
+		// list overlays available on this system
+		$label = i18n::s('Change the overlay');
+		$input = '<select name="overlay_type">';
+		if($overlay_type) {
+			$input .= '<option value="none">('.i18n::s('none').")</option>\n";
+			$hint = i18n::s('If you change the overlay you may loose some data.');
+		} else {
+			$hint = i18n::s('No overlay has been selected yet.');
+			$input .= '<option value="" selected="selected">('.i18n::s('none').")</option>\n";
+		}
+		if ($dir = Safe::opendir($context['path_to_root'].'overlays')) {
+
+			// every php script is an overlay, except index.php, overlay.php, and hooks
+			while(($file = Safe::readdir($dir)) !== FALSE) {
+				if(($file[0] == '.') || is_dir($context['path_to_root'].'overlays/'.$file))
+					continue;
+				if($file == 'index.php')
+					continue;
+				if($file == 'overlay.php')
+					continue;
+				if(preg_match('/hook\.php$/i', $file))
+					continue;
+				if(!preg_match('/(.*)\.php$/i', $file, $matches))
+					continue;
+				$overlays[] = $matches[1];
+			}
+			Safe::closedir($dir);
+			if(@count($overlays)) {
+				sort($overlays);
+				foreach($overlays as $overlay_name) {
+					$selected = '';
+					if($overlay_name == $overlay_type)
+						$selected = ' selected="selected"';
+					$input .= '<option value="'.$overlay_name.'"'.$selected.'>'.$overlay_name."</option>\n";
+				}
+			}
+		}
+		$input .= '</select>';
+		$fields[] = array($label, $input, $hint);
+
+	// remember the overlay type
+	} elseif(is_object($overlay))
+		$options .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'" />';
+
 	// more options
-	$options .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folder');
+	$options .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	//

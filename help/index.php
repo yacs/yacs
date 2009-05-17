@@ -267,7 +267,7 @@ if(is_callable(array('Hooks', 'include_scripts')))
 if(Surfer::is_member()) {
 	$context['text'] .= Skin::build_block(i18n::s('Selected shortcuts'), 'title')
 		.'<ul>'."\n"
-		.'<li>'.sprintf(i18n::s('%s and change it if you like.'), Skin::build_link('users/view.php', i18n::s('Review your user profile'), 'shortcut')).'</li>'."\n";
+		.'<li>'.sprintf(i18n::s('%s and change it if you like.'), Skin::build_link('users/view.php', i18n::s('Review your profile'), 'shortcut')).'</li>'."\n";
 	if(Surfer::is_associate())
 		$context['text'] .= '<li>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</li>'."\n"
 			.'<li>'.sprintf(i18n::s('%s. Some people would say \'a new blog\'.'), Skin::build_link('sections/edit.php', i18n::s('Add a section'), 'shortcut')).'</li>'."\n";
@@ -424,7 +424,7 @@ if(is_callable(array('Hooks', 'include_scripts')))
 $context['text'] .= Skin::build_block(i18n::s('Not satisfied yet?'), 'title')
 	.'<ul>'
 	.'<li>'.sprintf(i18n::s('Use the %s to ask for help'), Skin::build_link('query.php', i18n::s('query form'))).'</li>'
-	.'<li>'.sprintf(i18n::s('%s to look for additional support'), Skin::build_link('http://www.yacs.fr/', i18n::s('Browse yetanothercommunitysystem.com'))).'</li>'
+	.'<li>'.sprintf(i18n::s('Browse %s to look for additional support'), Skin::build_link('http://www.yacs.fr/')).'</li>'
 	.'<li>'.Skin::build_link('http://www.google.com/', i18n::s('Search at Google')).'</li>'
 	.'</ul>';
 
