@@ -217,7 +217,9 @@
  * @see codes/misc.php
  *
  * In-line elements:
+ * - &#91;video=&lt;id>, &lt;width>, &lt;height>, &lt;flashparams>] - play a Flash object
  * - &#91;flash=&lt;id>, &lt;width>, &lt;height>, &lt;flashparams>] - play a Flash object
+ * - &#91;videao=&lt;id>, window] - play a Flash object in a separate window
  * - &#91;flash=&lt;id>, window] - play a Flash object in a separate window
  * - &#91;freemind=&lt;id>] - a Freemind map out of given file
  * - &#91;sound=&lt;id>] - play a sound
@@ -814,6 +816,7 @@ Class Codes {
 				'/\n\n+[ \t]*\[\*\][ \t]*/ie',			// [*] (outside [list]...[/list])
 				'/\n?[ \t]*\[\*\][ \t]*/ie',
 				'/\[li\](.*?)\[\/li\]/is',				// [li]...[/li] (outside [list]...[/list])
+				'/\[video=([^\]]+?)\]/ie',					// [video=<id>, <width>, <height>, <params>] or [flash=<id>, window]
 				'/\[flash=([^\]]+?)\]/ie',					// [flash=<id>, <width>, <height>, <params>] or [flash=<id>, window]
 				'/\[sound=([^\]]+?)\]/ie',					// [sound=<id>]
 				'/\[go=([^\]]+?)\]/ie', 					// [go=<name>]
@@ -997,6 +1000,7 @@ Class Codes {
 				"BR.BR.BULLET_IMG.'&nbsp;'",										// standalone [*]
 				"BR.BULLET_IMG.'&nbsp;'",
 				'<li>\\1</li>', 													// [li]...[/li]
+				"Codes::render_object('flash', Codes::fix_tags('$1'))",				// [video=<id>, <width>, <height>, <params>]
 				"Codes::render_object('flash', Codes::fix_tags('$1'))",				// [flash=<id>, <width>, <height>, <params>]
 				"Codes::render_object('sound', Codes::fix_tags('$1'))",				// [sound=<id>]
 				"Codes::render_object('go', Codes::fix_tags('$1'))",				// [go=<name>]
@@ -2245,7 +2249,7 @@ Class Codes {
 			case 'mp4':
 
 				// a flash player to stream a flash video
-				$flvplayer_url = $context['url_to_root'].'included/browser/player_flv_maxi.swf';
+				$flvplayer_url = $context['url_to_root'].'included/browser/player_flv_maxi.swf?t='.time();
 
 				// file is elsewhere
 				if(isset($item['file_href']) && $item['file_href'])
@@ -2265,10 +2269,10 @@ Class Codes {
 				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
 				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.'<script type="text/javascript">// <![CDATA['."\n"
-					.'var flashvars = { '.str_replace(array('&', '='), array('", ', ': "'), $flashvars).'", autoload:1, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"autohide", ondoubleclick:"fullscreen" }'."\n"
-					.'var params = { quality: "high", wmode: "transparent", allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
+					.'var flashvars = { '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:"1", margin:"1", showiconplay:"1", playeralpha:"50", iconplaybgalpha:"30", showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
 					.'var attributes = { id: "file_'.$item['id'].'", name: "file_'.$item['id'].'"}'."\n"
-					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params, attributes);'."\n"
+					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
 					.'// ]]></script>'."\n";
 				return $output;
 

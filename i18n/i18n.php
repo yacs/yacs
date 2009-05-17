@@ -915,7 +915,7 @@ Class i18n {
 
 				// ensure full locale availability
 				$path = 'i18n/locale/'.$locale.'/i18n.mo';
-				if(file_exists($context['path_to_root'].$path) || file_exists(Cache::hash($path.'.php'))) {
+				if(file_exists($context['path_to_root'].$path) || file_exists($context['path_to_root'].$path.'.php')) {
 
 						// this is guessed surfer locale
 						$context['language'] = $locale;
@@ -932,7 +932,7 @@ Class i18n {
 				// check for availability of basic language file
 				$locale = substr($locale, 0, $position);
 				$path = 'i18n/locale/'.$locale.'/i18n.mo';
-				if(file_exists($context['path_to_root'].$path) || file_exists(Cache::hash($path.'.php'))) {
+				if(file_exists($context['path_to_root'].$path) || file_exists($context['path_to_root'].$path.'.php')) {
 
 						// this is guessed surfer locale
 						$context['language'] = $locale;
@@ -1027,12 +1027,8 @@ Class i18n {
 	function &lookup($strings, $name) {
 		global $context;
 
-		// direct match
-		if(array_key_exists($name, $strings))
-			$text = $strings[ $name ];
-
 		// match on hashed name
-		elseif(($hash = i18n::hash($name)) && array_key_exists($hash, $strings))
+		if(($hash = i18n::hash($name)) && array_key_exists($hash, $strings))
 			$text = $strings[ $hash ];
 
 		// no match
