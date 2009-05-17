@@ -13,7 +13,7 @@
  *
  * [*] [b]sticky notes[/b] - Any member may create, edit, and accept action records for his own eyes.
  * On-going actions are listed at login time, and this proves to be an efficient way to remind things to do.
- * New actions can be created from the user profile. Click on 'My Page' once authenticated.
+ * New actions can be created from the user profile. Click on 'My Profile' once authenticated.
  *
  * [*] [b]team working[/b] - Since YACS is intended to support communities, it is likely that several associates will
  * have to collaborate. By posting actions to a peer, any associate may ask another person to contribute explicitly.
