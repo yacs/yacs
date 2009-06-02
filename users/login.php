@@ -612,7 +612,7 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for data checking on the browser
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -630,20 +630,20 @@ if(Surfer::is_crawler()) {
 		.'// set the focus on first form field'."\n"
 		.'$("login_name").focus();'."\n"
 		."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 	// a place holder for cookies activation
 	$context['text'] .= '<p id="ask_for_cookies" style="display: none; color: red; text-decoration: blink;"></p>';
 
 	// the script used to check that cookies are activated
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'document.cookie = \'CookiesEnabled=1\';'."\n"
 		.'if((document.cookie == "") && document.getElementById) {'."\n"
 		."\t".'$("ask_for_cookies").update("'.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'");'."\n"
 		."\t".'$("ask_for_cookies").style.display = \'block\';'."\n"
 		."\t".'$("login_button").disabled = true;'."\n"
 		.'}'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 	// the help panel
 	$help = '<p>'.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'</p>'

@@ -1570,7 +1570,6 @@ dl.manual_comments dt.even {
 }
 
 .menu { /* a small inline menu, almost anywhere */
-	display: inline;
 	margin: 0;
 	padding: 0;
 	font-size: 0.8em;
@@ -1891,9 +1890,8 @@ table.tiny tr td { /* [table=tiny]...[/table] */
 }
 
 .toc_box { /* table of content -- [toc] */
-	background-color: #F5F5F5;
 	font-size: 0.7em;;
-	padding: 9px;
+	padding: 0px;
 	margin-top: 0.5em;
 	margin-bottom: 1em;
 }

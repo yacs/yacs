@@ -87,10 +87,10 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// set the focus
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
 		.'$("original").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 // the original script has to be there
 } elseif(!file_exists($context['path_to_root'].$original)) {

@@ -560,12 +560,12 @@ if($with_form) {
 		// rendering options
 		$label = i18n::s('Rendering');
 		$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
-			.'<script type="text/javascript">// <![CDATA['."\n"
+			.JS_PREFIX
 			.'function append_to_options(keyword) {'."\n"
 			.'	var target = $("options");'."\n"
 			.'	target.value = target.value + " " + keyword;'."\n"
 			.'}'."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX."\n";
 		$keywords = array();
 		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_publication\')" style="cursor: pointer;">articles_by_publication</a> - '.i18n::s('Sort pages by publication date');
 		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_rating\')" style="cursor: pointer;">articles_by_rating</a> - '.i18n::s('Sort pages by rating');
@@ -709,12 +709,12 @@ if($with_form) {
 		// content options
 		$label = i18n::s('Options');
 		$input = '<input type="text" name="content_options" id="content_options" size="55" value="'.encode_field(isset($item['content_options']) ? $item['content_options'] : '').'" maxlength="255" accesskey="o" />'
-			.'<script type="text/javascript">// <![CDATA['."\n"
+			.JS_PREFIX
 			.'function append_to_content_options(keyword) {'."\n"
 			.'	var target = $("content_options");'."\n"
 			.'	target.value = target.value + " " + keyword;'."\n"
 			.'}'."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX."\n";
 		$keywords = array();
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'anonymous_edit\')" style="cursor: pointer;">anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to change content');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'members_edit\')" style="cursor: pointer;">members_edit</a> - '.i18n::s('Allow members to change content');
@@ -1192,7 +1192,7 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['page_footer'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -1249,7 +1249,7 @@ if($with_form) {
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'$("index_title").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 	// content of the help box
 	$help = '';

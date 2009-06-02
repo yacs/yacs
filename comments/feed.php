@@ -124,9 +124,9 @@ if(!$permitted) {
 
 		// list comments from the database -- no more than 100 at a time
 		if(is_object($anchor))
-			$values['items'] = Comments::list_by_date_for_anchor($anchor->get_reference(), 0, 100, 'feeds');
+			$values['items'] = Comments::list_by_date_for_anchor($anchor->get_reference(), 0, 100, 'feed');
 		else
-			$values['items'] = Comments::list_by_date(0, 100, 'feeds');
+			$values['items'] = Comments::list_by_date(0, 100, 'feed');
 
 		// make a text
 		include_once '../services/codec.php';
@@ -156,29 +156,14 @@ if(!$permitted) {
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download
-	if(!headers_sent()) {
-		Safe::header('Expires: '.gmdate("D, d M Y H:i:s", time() + 1800).' GMT');
-		Safe::header("Cache-Control: max-age=1800, public");
-		Safe::header("Pragma: ");
-	}
+	http::expire(1800);
 
-	// strong validation
-	if((!isset($context['without_http_cache']) || ($context['without_http_cache'] != 'Y')) && !headers_sent()) {
-
-		// generate some strong validator
-		$etag = '"'.md5($text).'"';
-		Safe::header('ETag: '.$etag);
-
-		// validate the content if hash is ok
-		if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && is_array($if_none_match = explode(',', str_replace('\"', '"', $_SERVER['HTTP_IF_NONE_MATCH'])))) {
-			foreach($if_none_match as $target) {
-				if(trim($target) == $etag) {
-					Safe::header('Status: 304 Not Modified', TRUE, 304);
-					return;
-				}
-			}
-		}
-	}
+	// strong validator
+	$etag = '"'.md5($text).'"';
+	
+	// manage web cache
+	if(http::validate(NULL, $etag))
+		return;
 
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

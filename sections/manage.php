@@ -1062,7 +1062,7 @@ if(Surfer::is_crawler()) {
 		$text .= $items;
 
 		// some script to actually do the job
-		$text .= '<script type="text/javascript">// <![CDATA['."\n"
+		$text .= JS_PREFIX
 			.'function count_selected_articles() {'."\n"
 			.'	var count = 0;'."\n"
 			.'	var checkers = $$("div#articles_panel input[type=\'checkbox\'].row_selector");'."\n"
@@ -1082,7 +1082,7 @@ if(Surfer::is_crawler()) {
 			.'	}'."\n"
 			.'}'."\n"
 			."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX."\n";
 
 		// a list of commands
 		$options = '<select name="act_on_articles" id="act_on_articles"><option>-- '.i18n::s('Action').'</option>';
@@ -1177,7 +1177,7 @@ if(Surfer::is_crawler()) {
 		$text .= $items;
 
 		// some script to actually do the job
-		$text .= '<script type="text/javascript">// <![CDATA['."\n"
+		$text .= JS_PREFIX
 			.'function count_selected_sections() {'."\n"
 			.'	var count = 0;'."\n"
 			.'	var checkers = $$("div#sections_panel input[type=\'checkbox\'].row_selector");'."\n"
@@ -1197,7 +1197,7 @@ if(Surfer::is_crawler()) {
 			.'	}'."\n"
 			.'}'."\n"
 			."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX."\n";
 
 		// a list of commands
 		$options = '<select name="act_on_sections" id="act_on_sections"><option>-- '.i18n::s('Action').'</option>';

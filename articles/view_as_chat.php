@@ -939,7 +939,7 @@ if(!isset($item['id'])) {
 
 	if(!isset($item['locked']) || ($item['locked'] != 'Y')) {
 
-		$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
+		$context['page_footer'] .= JS_PREFIX
 			."\n"
 			.'var Comments = {'."\n"
 			."\n"
@@ -1027,7 +1027,7 @@ if(!isset($item['id'])) {
 				.'Event.observe(\'contribution\', \'keypress\', Comments.keypress);'."\n";
 
 		// end of the AJAX part
-		$context['page_footer'] .= '// ]]></script>'."\n";
+		$context['page_footer'] .= JS_SUFFIX;
 	}
 
 }

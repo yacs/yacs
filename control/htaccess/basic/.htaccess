@@ -1,7 +1,7 @@
 #
 # This file adds nice features to YACS
 #
-# More support at http://www.yetanothercommunitysystem.com/
+# More support at http://www.yacs.fr/
 #
 
 # redirect to pretty error pages
@@ -14,13 +14,15 @@ ErrorDocument 404 !!url_to_root!!error.php?error=404
 #
 <IfModule mod_deflate.c>
 
-	# non-textual entities should be already compressed
+	# compress common textual entities
+	AddOutputFilterByType DEFLATE application/javascript
+	AddOutputFilterByType DEFLATE application/x-javascript
+	AddOutputFilterByType DEFLATE text/calendar
 	AddOutputFilterByType DEFLATE text/css
 	AddOutputFilterByType DEFLATE text/javascript
 	AddOutputFilterByType DEFLATE text/html
+	AddOutputFilterByType DEFLATE text/plain
 	AddOutputFilterByType DEFLATE text/xml
-	AddOutputFilterByType DEFLATE application/javascript
-	AddOutputFilterByType DEFLATE application/x-javascript
 
 </IfModule>
 

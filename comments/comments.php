@@ -110,7 +110,7 @@ Class Comments {
 		// authenticated members and subscribers are allowed to add comments
 		if(Surfer::is_logged())
 			return TRUE;
-
+			
 		// anonymous surfers are allowed to contribute
 		if(isset($context['users_with_anonymous_comments']) && ($context['users_with_anonymous_comments'] == 'Y'))
 			return TRUE;
@@ -1078,7 +1078,7 @@ Class Comments {
 	 * - 'full' - include anchor information
 	 * - 'search' - include anchor information
 	 * - 'thread' - for real-time chat
-	 * - 'feeds'
+	 * - 'feed'
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
@@ -1099,69 +1099,37 @@ Class Comments {
 			return $output;
 		}
 
-		// build an array of links
-		switch($variant) {
+		// no layout yet
+		$layout = NULL;
+		
+		// separate options from layout name
+		$attributes = explode(' ', $variant, 2);
 
-		case 'compact':
-			include_once $context['path_to_root'].'comments/layout_comments_as_compact.php';
-			$layout =& new Layout_comments_as_compact();
-			$output =& $layout->layout($result);
-			return $output;
+		// instanciate the provided name
+		if($attributes[0]) {
+			$name = 'layout_comments_as_'.$attributes[0];
+			if(is_readable($context['path_to_root'].'comments/'.$name.'.php')) {
+				include_once $context['path_to_root'].'comments/'.$name.'.php';
+				$layout =& new $name;
 
-		case 'excerpt':
-			include_once $context['path_to_root'].'comments/layout_comments_as_excerpt.php';
-			$layout =& new Layout_comments_as_excerpt();
-			$output =& $layout->layout($result);
-			return $output;
-
-		case 'feeds':
-			include_once $context['path_to_root'].'comments/layout_comments_as_feed.php';
-			$layout =& new Layout_comments_as_feed();
-			$output =& $layout->layout($result);
-			return $output;
-
-		case 'thread':
-			include_once $context['path_to_root'].'comments/layout_comments_as_thread.php';
-			$layout =& new Layout_comments_as_thread();
-			$output =& $layout->layout($result);
-			return $output;
-
-		default:
-
-			// allow for overload in skin -- see skins/import.php
-			if(is_callable(array('skin', 'layout_comment'))) {
-
-				// build an array of links
-				$items = array();
-				while($item =& SQL::fetch($result)) {
-
-					// url to read the full article
-					$url = Comments::get_url($item['id']);
-
-					// reset the rendering engine between items
-					if(is_callable(array('Codes', 'initialize')))
-						Codes::initialize($url);
-
-					// format the resulting string depending on layout
-					$items[$url] = Skin::layout_comment($item, $variant);
-
-				}
-
-				// end of processing
-				SQL::free($result);
-				return $items;
-
-			// else use an external layout
-			} else {
-				include_once $context['path_to_root'].'comments/layout_comments.php';
-				$layout =& new Layout_comments();
-				$layout->set_variant($variant);
-				$output =& $layout->layout($result);
-				return $output;
+				// provide parameters to the layout
+				if(isset($attributes[1]))
+					$layout->set_variant($attributes[1]);
+		
 			}
-
 		}
 
+		// use default layout
+		if(!$layout) {
+			include_once $context['path_to_root'].'comments/layout_comments.php';
+			$layout =& new Layout_comments();
+			$layout->set_variant($variant);
+		}
+
+		// do the job
+		$output =& $layout->layout($result);
+		return $output;
+		
 	}
 
 	/**

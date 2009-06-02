@@ -536,12 +536,12 @@ if($with_form) {
 	// options
 	$label = i18n::s('Rendering');
 	$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
-		.'<script type="text/javascript">// <![CDATA['."\n"
+		.JS_PREFIX
 		.'function append_to_options(keyword) {'."\n"
 		.'	var target = $("options");'."\n"
 		.'	target.value = target.value + " " + keyword;'."\n"
 		.'}'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX;
 	$keywords = array();
 	$keywords[] = '<a onclick="append_to_options(\'articles_by_title\')" style="cursor: pointer;">articles_by_title</a> - '.i18n::s('Sort pages by title');
 	$keywords[] = '<a onclick="append_to_options(\'with_files\')" style="cursor: pointer;">with_files</a> - '.i18n::s('Files can be added to the index page');
@@ -865,7 +865,7 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['page_footer'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -907,7 +907,7 @@ if($with_form) {
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'$("title").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX;
 
 	// content of the help box
 	$help = '';

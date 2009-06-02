@@ -252,7 +252,7 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['page_footer'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -289,7 +289,7 @@ if($with_form) {
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'$("edit_name").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 	// general help on this form
 	$text = i18n::s('<p>Use this form to submit any kind of request you can have, from simple suggestions to complex questions.</p><p>Hearty discussion and unpopular viewpoints are welcome, but please keep queries civil. Flaming, trolling, and smarmy queries are discouraged and may be deleted. In fact, we reserve the right to delete any post for any reason. Don\'t make us do it.</p>');

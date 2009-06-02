@@ -1259,6 +1259,64 @@ var Yacs = {
 	},
 
 	/**
+	 * slide a panel
+	 *
+	 * @param the clicked item
+	 * @param string URL of the extending icon
+	 * @param string URL of the collapsing icon
+	 */
+	slide_panel: function(handle, down_href, up_href) {
+
+		// align to the parent container
+		var container = handle.up();
+		Element.setStyle(container, {position: 'relative'});
+
+		// the panel to slide
+		var panel = handle.next('div');
+		
+		// the sliding panel is positioned below the handle
+		var leftTop = Element.cumulativeOffset(container);
+//		console.log('handle', leftTop);
+//		console.log('scroll', Element.cumulativeScrollOffset(handle));
+//		console.log('ancestors', Element.ancestors(handle));
+//		var leftEdge   = leftTop.left + container.getWidth() - ;
+
+		// the menu is visible on screen
+		if(leftTop.left + handle.getWidth() - panel.getWidth() > 0) {
+			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', right: '0px', zIndex: 20});
+		
+		// align on the left side instead
+		} else {
+			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', left: '0px', zIndex: 20});		
+		}
+		
+		// display the panel if it is not visible
+		if(panel.style.display == 'none') {
+		
+			new Effect.SlideDown(panel, {duration:.5, scaleContent:false});
+
+			// change the image (if there is an image)
+			var icon = handle.down('img');
+			if(icon && up_href) {
+				icon.src = up_href;
+			}
+
+		// collapse the panel if it is visible
+		} else {
+		
+			new Effect.SlideUp(panel, {duration:.5, scaleContent:false});
+			
+			// change the image (if there is an image)
+			var icon = handle.down('img');
+			if(icon && down_href) {
+				icon.src = down_href;
+			}
+
+		}
+
+	},
+
+	/**
 	 * update content asynchronously
 	 *
 	 * This function displays a nice spinning image while loading the page.

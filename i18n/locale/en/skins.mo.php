@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on May 16, 2009, 8:01 pm GMT. Please do not modify it manually.
+ * on May 29, 2009, 11:48 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-14 23:14+0200
-PO-Revision-Date: 2009-04-09 13:13+0100
+POT-Creation-Date: 2009-05-29 13:33+0200
+PO-Revision-Date: 2009-05-29 13:38+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -74,6 +74,7 @@ $_SESSION['l10n']['en']['Configure again']='Configure again';
 $_SESSION['l10n']['en']['Configure the page factory']='Configure the page factory';
 $_SESSION['l10n']['en']['4930118894d6683ec6a58335ed846ba1']='Congratulations, themes have been updated.';
 $_SESSION['l10n']['en']['Contact mail address']='Contact mail address';
+$_SESSION['l10n']['en']['Content']='Content';
 $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
 $_SESSION['l10n']['en']['ac401adc11996ead19ea7430b43471ce']='Content of sections can be downloaded as Freemind maps';
 $_SESSION['l10n']['en']['Contribute']='Contribute';
@@ -200,6 +201,7 @@ $_SESSION['l10n']['en']['Previous pages']='Previous pages';
 $_SESSION['l10n']['en']['2911c36b2184f7af42772a0c11761838']='Process search requests internally, by requesting the back-end database';
 $_SESSION['l10n']['en']['e1a228a54807b30b1336e2bf2d37560e']='Provide this link to specialized software, such as a RSS news reader';
 $_SESSION['l10n']['en']['Q: ']='Q: ';
+$_SESSION['l10n']['en']['Questions']='Questions';
 $_SESSION['l10n']['en']['Rate this page']='Rate this page';
 $_SESSION['l10n']['en']['Rating: %s']='Rating: %s';
 $_SESSION['l10n']['en']['Read more']='Read more';

@@ -1142,13 +1142,13 @@ Class Skin_Skeleton {
 
 			// these are enhanced with jsCalendar, if present
 			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
-				$text .= '<script type="text/javascript">// <![CDATA['."\n"
+				$text .= JS_PREFIX
 					.'Event.observe(window, "load", function() { Calendar.setup({'."\n"
 					.'	inputField	:	"'.$name.'",'."\n"
 					.'	displayArea :	"'.$name.'",'."\n"
 					.'	ifFormat	:	"%Y-%m-%d"'."\n"
 					.'}); });'."\n"
-					.'// ]]></script>'."\n";
+					.JS_SUFFIX."\n";
 
 				// load the jscalendar library
 				$context['javascript']['calendar'] = TRUE;
@@ -1168,7 +1168,7 @@ Class Skin_Skeleton {
 
 			// these are enhanced with jsCalendar, if present
 			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
-				$text .= '<script type="text/javascript">// <![CDATA['."\n"
+				$text .= JS_PREFIX
 					.'Event.observe(window, "load", function() { Calendar.setup({'."\n"
 					.'	inputField	:	"'.$name.'",'."\n"
 					.'	ifFormat	:	"%Y-%m-%d %H:%M",'."\n"
@@ -1178,7 +1178,7 @@ Class Skin_Skeleton {
 					.'	align		:	 "CC",'."\n"
 					.'	singleClick :	 true'."\n"
 					.'}); });'."\n"
-					.'// ]]></script>'."\n";
+					.JS_SUFFIX."\n";
 
 				// load the jscalendar library
 				$context['javascript']['calendar'] = TRUE;
@@ -2406,14 +2406,14 @@ Class Skin_Skeleton {
 		foreach($tabs as $tab) {
 
 			// populate tabs
-			$tabs_text .= '<li id="~'.$tab[0].'"';
+			$tabs_text .= '<li id="_'.$tab[0].'"';
 
 			if(!$index)
 				$tabs_text .= ' class="tab-foreground"';
 			else
 				$tabs_text .= ' class="tab-background"';
 
-			$tabs_text .= '><a href="#~'.$tab[0].'">'.$tab[1].'</a></li>'."\n";
+			$tabs_text .= '><a href="#_'.$tab[0].'">'.$tab[1].'</a></li>'."\n";
 
 			// populate panels
 			$panels_text .= '<div id="'.$tab[2].'"';
@@ -2432,9 +2432,9 @@ Class Skin_Skeleton {
 
 			// populate the javascript loader
 			if(isset($tab[4]))
-				$js_lines[] = "'~".$tab[0]."': [ '".$tab[2]."', '".$context['url_to_home'].$context['url_to_root'].$tab[4]."' ]";
+				$js_lines[] = "'_".$tab[0]."': [ '".$tab[2]."', '".$context['url_to_home'].$context['url_to_root'].$tab[4]."' ]";
 			else
-				$js_lines[] = "'~".$tab[0]."': [ '".$tab[2]."' ]";
+				$js_lines[] = "'_".$tab[0]."': [ '".$tab[2]."' ]";
 
 			// next tab
 			$index++;
@@ -2447,12 +2447,12 @@ Class Skin_Skeleton {
 		$panels_text = "\n".'<div id="tabs_panels">'."\n".$panels_text.'</div>'."\n";
 
 		// finalize javascript loader
-		$js_text .= "\n".'<script type="text/javascript">// <![CDATA['."\n"
+		$js_text .= "\n".JS_PREFIX
 			.'// use the YACS AJAX library to manage tabs'."\n"
 			."Event.observe(window, 'load', function() { Yacs.tabs({"."\n"
 			."\t".implode(",\n\t", $js_lines)."}, {})\n"
 			."\t});"."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX."\n";
 
 		// package all components together
 		$text = "\n".$tabs_text.$panels_text.$js_text."\n";
@@ -2539,6 +2539,10 @@ Class Skin_Skeleton {
 	function &build_toc_box($title, &$content, $id) {
 		global $context;
 
+		// we need a clickable title
+		if(!$title)
+			$title = i18n::s('Content');
+
 		// this box has a unique id
 		if($id)
 			$id = ' id="'.$id.'" ';
@@ -2546,12 +2550,16 @@ Class Skin_Skeleton {
 		// external div boundary
 		$text = '<div class="toc_box"'.$id.'>'."\n";
 
+		// an image to enhance rendering
+		$img = '';
+		if(SLIDE_DOWN_IMG_HREF)
+			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to fold/unfold')).'" title="'.encode_field(i18n::s('Click to fold/unfold')).'" /> ';
+
 		// title is optional
-		if($title)
-			$text .= '<h3><span>'.$title."</span></h3>\n";
+		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slide_panel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\'); return false;">'.$title.$img.'</a>';
 
 		// box content has no div, it is already structured
-		$text .= $content;
+		$text .= '<div class="panel" style="display: none;">'.$content.'</div>';
 
 		// external div boundary
 		$text .= '</div>'."\n";
@@ -2570,6 +2578,10 @@ Class Skin_Skeleton {
 	function &build_toq_box($title, &$content, $id) {
 		global $context;
 
+		// we need a clickable title
+		if(!$title)
+			$title = i18n::s('Questions');
+
 		// this box has a unique id
 		if($id)
 			$id = ' id="'.$id.'" ';
@@ -2579,10 +2591,10 @@ Class Skin_Skeleton {
 
 		// title is optional
 		if($title)
-			$text .= '<h3><span>'.$title."</span></h3>\n";
+			$text .= '<h3 class="handle"><span>'.$title."</span></h3>\n";
 
 		// box content
-		$text .= '<div>'.$content.'</div>';
+		$text .= '<div class="content">'.$content.'</div>';
 
 		// external div boundary
 		$text .= '</div>'."\n";
@@ -3513,7 +3525,7 @@ Class Skin_Skeleton {
 
 		// the HTML string used to prefix an in-line menu
 		if(!defined('INLINE_MENU_PREFIX'))
-			define('INLINE_MENU_PREFIX', '<span class="tiny">');
+			define('INLINE_MENU_PREFIX', '<span class="details menu">');
 
 		// the HTML string inserted between items of an in-line menu
 		if(!defined('INLINE_MENU_SEPARATOR'))
@@ -3656,6 +3668,24 @@ Class Skin_Skeleton {
 		// the HTML to be appended to the site name
 		if(!defined('SITE_NAME_SUFFIX'))
 			define('SITE_NAME_SUFFIX', '');
+
+		// the icon used to slide down
+		if(!defined('SLIDE_DOWN_IMG_HREF')) {
+			$file = 'skins/_reference/down.gif';
+			if(file_exists($context['path_to_root'].$file))
+				define('SLIDE_DOWN_IMG_HREF', $context['url_to_root'].$file);
+			else
+				define('SLIDE_DOWN_IMG_HREF', '');
+		}
+
+		// the icon used to slide up
+		if(!defined('SLIDE_UP_IMG_HREF')) {
+			$file = 'skins/_reference/up.gif';
+			if(file_exists($context['path_to_root'].$file))
+				define('SLIDE_UP_IMG_HREF', $context['url_to_root'].$file);
+			else
+				define('SLIDE_UP_IMG_HREF', '');
+		}
 
 		// the HTML used to signal sticky pages
 		if(!defined('STICKY_FLAG'))
@@ -4101,7 +4131,7 @@ Class Skin_Skeleton {
 			return $text;
 
 		// append some javascript in-line, to cache it correctly -- do not use $context['page_footer']
-		$text .= '<script type="text/javascript">// <![CDATA['."\n";
+		$text .= JS_PREFIX;
 
 		// hide every news item, except the first one
 		$text .= '// hide every news item, except the first one'."\n";
@@ -4129,7 +4159,7 @@ Class Skin_Skeleton {
 			.'setTimeout("rotate_'.$matches[1][0].'()",5000)'."\n";
 
 		// end of javascript
-		$text .= '// ]]></script>'."\n";
+		$text .= JS_SUFFIX."\n";
 
 		return $text;
 	}
@@ -4174,7 +4204,7 @@ Class Skin_Skeleton {
 			.'</div></div>'."\n";
 
 		// embed javascript here to correctly cache it -- do not use $context['page_footer']
-		$text .= '<script type="text/javascript">// <![CDATA['."\n"
+		$text .= JS_PREFIX
 			."\n"
 			.'// the scrolling speed'."\n"
 			.'var scroller_'.$scroller_id.'_speed = 3;'."\n"
@@ -4214,7 +4244,7 @@ Class Skin_Skeleton {
 			."\n"
 			.'}'."\n"
 			."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX."\n";
 
 		return $text;
 	}

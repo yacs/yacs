@@ -577,7 +577,7 @@ Class Actions {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $layout='compact') {
+	function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -587,15 +587,15 @@ Class Actions {
 		}
 
 		// special layout
-		if(is_object($layout)) {
-			$output =& $layout->layout($result);
+		if(is_object($variant)) {
+			$output =& $variant->layout($result);
 			return $output;
 		}
 
 		// regular layout
 		include_once $context['path_to_root'].'actions/layout_actions.php';
-		$variant =& new Layout_actions();
-		$output =& $variant->layout($result, $layout);
+		$layout =& new Layout_actions();
+		$output =& $layout->layout($result);
 		return $output;
 	}
 

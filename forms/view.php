@@ -563,7 +563,7 @@ if($with_form) {
 		$text .= '</div></form>';
 
 		// the script used for form handling at the browser
-		$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
+		$context['page_footer'] .= JS_PREFIX
 			.'// check that main fields are not empty'."\n"
 			.'func'.'tion validateDocumentPost(container) {'."\n"
 			."\n"
@@ -578,7 +578,7 @@ if($with_form) {
 			.'	return true;'."\n"
 			.'}'."\n"
 			."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX."\n";
 
 		// save in cache
 		Cache::put($cache_id, $text, 'form:'.$item['id']);

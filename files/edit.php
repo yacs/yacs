@@ -791,10 +791,10 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
 		.'$("upload").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 	// general help on this form
 	$help = '<p>'.i18n::s('Please set a meaningful title to be used instead of the file name in lists of files.').'</p>'

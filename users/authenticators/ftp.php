@@ -15,7 +15,7 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-Class Ftp extends Authenticator {
+Class Ftp_Authenticator extends Authenticator {
 
 	/**
 	 * login

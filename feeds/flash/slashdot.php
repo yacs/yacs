@@ -78,28 +78,20 @@ if(!headers_sent() && (isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_M
 	Safe::header('Content-Type: application/x-shockwave-flash');
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download
-	Safe::header('Expires: '.gmdate("D, d M Y H:i:s", time() + 1800).' GMT');
-	Safe::header("Cache-Control: max-age=1800, public");
-	Safe::header("Pragma:");
+	http::expire(1800);
 
 	// the original content
 	$page = '';
 	for($index = 0; $index < $count; $index++)
 		$page .= $titles[$index].':'.$links[$index].':';
 
-	// handle the etag
+	// strong validator
 	$etag = '"'.md5($page).'"';
-	Safe::header('ETag: '.$etag);
+	
+	// manage web cache
+	if(http::validate(NULL, $etag))
+		return;
 
-	// validate the content if input has not been changed
-	if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && is_array($if_none_match = explode(',', str_replace('\"', '"', $_SERVER['HTTP_IF_NONE_MATCH'])))) {
-		foreach($if_none_match as $target) {
-			if(trim($target) == $etag) {
-				Safe::header('Status: 304 Not Modified', TRUE, 304);
-				return;
-			}
-		}
-	}
 }
 
 include_once 'infuncs.php';

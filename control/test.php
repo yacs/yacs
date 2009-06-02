@@ -210,11 +210,11 @@ if(@count($_SERVER) && !file_exists($context['path_to_root'].'parameters/demo.fl
 }
 
 // display workstation time offset
-echo '<script type="text/javascript">// <![CDATA['."\n"
+echo JS_PREFIX
 	.'now = new Date();'."\n"
 	.'offset = (-now.getTimezoneOffset() / 60);'."\n"
 	.'document.write("<p>'.i18n::s('Browser GMT offset:').' UTC " + ((offset > 0) ? "+" : "") + offset + " '.i18n::s('hour(s)').'</p>");'."\n"
-	.'// ]]></script>'."\n";
+	.JS_SUFFIX;
 
 // display server time offset
 $offset = intval((strtotime(date('M d Y H:i:s')) - strtotime(gmdate('M d Y H:i:s'))) / 3600);

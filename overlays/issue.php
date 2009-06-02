@@ -338,10 +338,10 @@ class Issue extends Overlay {
 					.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
 		
 				// append the script used for autocompletion
-				$tracking .= '<script type="text/javascript">// <![CDATA['."\n"
+				$tracking .= JS_PREFIX
 					.'// enable autocompletion for user names'."\n"
 					.'Event.observe(window, "load", function() { new Ajax.Autocompleter("manager", "manager_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
-					.'// ]]></script>';
+					.JS_SUFFIX;
 	
 			}
 	

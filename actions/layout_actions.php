@@ -17,12 +17,11 @@ Class Layout_actions extends Layout_interface {
 	 * list actions
 	 *
 	 * @param resource the SQL result
-	 * @param string a variant, if any
 	 * @return string the rendered text
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result, $variant='full') {
+	function &layout(&$result) {
 		global $context;
 
 		// empty list
@@ -57,13 +56,8 @@ Class Layout_actions extends Layout_interface {
 			$label = $item['title'];
 
 			// description
-			if($description = ucfirst(trim(Codes::beautify($item['description']))) ) {
-
-				if($variant == 'compact')
-					$suffix .= ' - '.Skin::strip($description, 10);
-				else
-					$suffix .= ' - '.Skin::cap($description, 70);
-			}
+			if($description = ucfirst(trim(Codes::beautify($item['description']))) )
+				$suffix .= ' - '.Skin::cap($description, 70);
 
 			// the edition date
 			if($item['create_date'])

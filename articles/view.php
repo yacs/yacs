@@ -1396,7 +1396,7 @@ if(!isset($item['id'])) {
 	// the AJAX part
 	//
 
-	$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['page_footer'] .= JS_PREFIX
 		."\n"
 		.'// reload this page on update'."\n"
 		.'var PeriodicalCheck = {'."\n"
@@ -1438,7 +1438,7 @@ if(!isset($item['id'])) {
 		.'// look for some page update'."\n"
 		.'setTimeout("PeriodicalCheck.subscribe()", 120000);'."\n"
 		."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX;
 
 }
 

@@ -67,6 +67,22 @@ $context['text'] .= $text;
 // page tools
 if(Surfer::is_associate())
 	$context['page_tools'][] = Skin::build_link('dates/check.php', i18n::s('Maintenance'), 'basic');
+	
+// subscribe to this calendar
+if((!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {
+
+	$lines = array();
+
+	$lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].'dates/fetch_ics.php', i18n::s('Get calendar'), 'basic');
+	
+	// public aggregators
+	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+		$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].'dates/fetch_ics.php', $context['site_name']));
+		
+	$context['aside']['channels'] = Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
+
+}
+
 
 // page extra information
 $cache_id = 'dates/index.php#extra';

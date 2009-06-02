@@ -682,13 +682,13 @@ Class Decisions {
 	 * - 'no_anchor' - to build detailed lists in an anchor page
 	 * - 'full' - include anchor information
 	 * - 'search' - include anchor information
-	 * - 'feeds'
+	 * - 'feed'
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return an array of $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $layout='compact') {
+	function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -698,55 +698,42 @@ Class Decisions {
 		}
 
 		// use an external layout
-		if(is_object($layout)) {
-			$output =& $layout->layout($result);
-			return $output;
-		}
-
-		// build an array of links
-		switch($layout) {
-
-		case 'feeds':
-			include_once $context['path_to_root'].'decisions/layout_decisions_as_feed.php';
-			$variant =& new Layout_decisions_as_feed();
+		if(is_object($variant)) {
 			$output =& $variant->layout($result);
 			return $output;
-
-		default:
-
-			// allow for overload in skin -- see skins/import.php
-			if(is_callable(array('skin', 'layout_decision'))) {
-
-				// build an array of links
-				$items = array();
-				while($item =& SQL::fetch($result)) {
-
-					// url to read the full article
-					$url = Decisions::get_url($item['id']);
-
-					// reset the rendering engine between items
-					if(is_callable(array('Codes', 'initialize')))
-						Codes::initialize($url);
-
-					// format the resulting string depending on layout
-					$items[$url] = Skin::layout_decision($item, $layout);
-
-				}
-
-				// end of processing
-				SQL::free($result);
-				return $items;
-
-			// else use an external layout
-			} else {
-				include_once $context['path_to_root'].'decisions/layout_decisions.php';
-				$variant =& new Layout_decisions();
-				$output =& $variant->layout($result, $layout);
-				return $output;
-			}
-
 		}
 
+		// no layout yet
+		$layout = NULL;
+		
+		// separate options from layout name
+		$attributes = explode(' ', $variant, 2);
+
+		// instanciate the provided name
+		if($attributes[0]) {
+			$name = 'layout_decisions_as_'.$attributes[0];
+			if(is_readable($context['path_to_root'].'decisions/'.$name.'.php')) {
+				include_once $context['path_to_root'].'decisions/'.$name.'.php';
+				$layout =& new $name;
+
+				// provide parameters to the layout
+				if(isset($attributes[1]))
+					$layout->set_variant($attributes[1]);
+		
+			}
+		}
+
+		// use default layout
+		if(!$layout) {
+			include_once $context['path_to_root'].'decisions/layout_decisions.php';
+			$layout =& new Layout_decisions();
+			$layout->set_variant($variant);
+		}
+
+		// do the job
+		$output =& $layout->layout($result);
+		return $output;
+		
 	}
 
 	/**

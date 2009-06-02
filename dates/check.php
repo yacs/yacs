@@ -168,9 +168,9 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</form>';
 
 	// set the focus on the button
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'$("action").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX;
 
 }
 

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on May 16, 2009, 7:54 pm GMT. Please do not modify it manually.
+ * on May 29, 2009, 12:54 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-12-06 23:37+0100
-PO-Revision-Date: 2008-11-16 21:51+0100
+POT-Creation-Date: 2009-05-28 16:27+0200
+PO-Revision-Date: 2009-05-28 16:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -41,9 +41,11 @@ $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit a date']='Modifier une date';
 $_SESSION['l10n']['fr']['Edit the page']='Modifier la page';
 $_SESSION['l10n']['fr']['February']='Février';
+$_SESSION['l10n']['fr']['Get calendar']='Obtenir le calendrier';
 $_SESSION['l10n']['fr']['Help']='Aide';
+$_SESSION['l10n']['fr']['Information channels']='Fils d\'information';
 $_SESSION['l10n']['fr']['January']='Janvier';
-$_SESSION['l10n']['fr']['Juillet']='Juillet';
+$_SESSION['l10n']['fr']['July']='Juillet';
 $_SESSION['l10n']['fr']['June']='Juin';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Look for unused dates']='Détecter les dates non-utilisées';

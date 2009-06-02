@@ -299,10 +299,10 @@ if(!isset($item['id']) || !$item['id']) {
 		.'</div></form>'."\n";
 
 	// set the focus
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
 		.'$("confirmed").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 // file has not been assigned, and surfer has confirmed the detach
 } elseif((!isset($item['assign_id']) || !$item['assign_id']) && ($action == 'confirm') && Surfer::is_member()) {
@@ -401,15 +401,15 @@ if(!isset($item['id']) || !$item['id']) {
 				Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
 
 				// stream FLV files if required to do so
-// 				if((substr($item['file_name'], -4) == '.flv') && isset($_REQUEST['position']) && ($_REQUEST['position'] > 0) && ($_REQUEST['position'] < $stat['size'])) {
-// 					Safe::header('Content-Length: '.($stat['size']-$_REQUEST['position']+13));
-// 
-// 					echo 'FLV'.pack('C', 1).pack('C', 1).pack('N', 9).pack('N', 9);
-// 					fseek($handle, $_REQUEST['position']);
-// 					echo fread($handle, ($stat['size']-$_REQUEST['position']));
-// 					fclose($handle);
-// 					return;
-// 				}
+ 				if((substr($item['file_name'], -4) == '.flv') && isset($_REQUEST['position']) && ($_REQUEST['position'] > 0) && ($_REQUEST['position'] < $stat['size'])) {
+ 					Safe::header('Content-Length: '.($stat['size']-$_REQUEST['position']+13));
+ 
+ 					echo 'FLV'.pack('C', 1).pack('C', 1).pack('N', 9).pack('N', 9);
+ 					fseek($handle, $_REQUEST['position']);
+ 					echo fread($handle, ($stat['size']-$_REQUEST['position']));
+ 					fclose($handle);
+ 					return;
+ 				}
 
 				// file size
 				Safe::header('Content-Length: '.$stat['size']);
@@ -458,40 +458,12 @@ if(!isset($item['id']) || !$item['id']) {
 
 				}
 
-				// ETag will be weak if modification is too recent
-				if(time() < $stat['mtime'] + 5)
-					$weak = 'W/';
-				else
-					$weak = '';
-
-				// an ETag similar to what Apache is doing -- http://search.cpan.org/src/TBONE/Apache-File-Resumable-1.1.1.1/Resumable.pm
-				if($stat['mode'] != 0)
-					$etag = sprintf('%s"%x-%x-%x"', $weak, $stat['ino'], $stat['size'], $stat['mtime']);
-				else
-					$etag = sprintf('%s"%x"', $weak, $stat['mtime']);
-				Safe::header('ETag: '.$etag);
-
-				// validate the content if hash is ok
-				if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && is_array($if_none_match = explode(',', str_replace('\"', '"', $_SERVER['HTTP_IF_NONE_MATCH'])))) {
-					foreach($if_none_match as $target) {
-						if(trim($target) == $etag) {
-							Safe::header('Status: 304 Not Modified', TRUE, 304);
-							return;
-						}
-					}
-				}
-
 				// weak validator
 				$last_modified = gmdate('D, d M Y H:i:s', $stat['mtime']).' GMT';
-				Safe::header('Last-Modified: '.$last_modified);
 
-				// validate the content if date of last modification is the same
-				if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && ($if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']))) {
-					if(($if_modified_since == $last_modified) && !isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
-						Safe::header('Status: 304 Not Modified', TRUE, 304);
-						return;
-					}
-				}
+				// validate content in cache
+				if(http::validate($last_modified))
+					return;
 
 				// actual transmission except on a HEAD request
 				if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

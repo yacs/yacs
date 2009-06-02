@@ -127,9 +127,9 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '</p></form>';
 
 	// set the focus on the button
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'$("confirmed").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 	// this may take several minutes
 	$context['text'] .=  '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.').'</p>';

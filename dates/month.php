@@ -46,8 +46,8 @@ load_skin('dates');
 // the title of the page
 $context['page_title'] = ucfirst(Dates::get_month_label($target));
 
-// we do need 7 chars
-if(strlen($target) != 7) {
+// we do need 6 or 7 chars
+if((strlen($target) < 6) && (strlen($target) > 7)) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 

@@ -844,9 +844,9 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	$context['text'] .= '</p></div></form>';
 
 	// set the focus on the backup button
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'$("go").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_PREFIX;
 
 	// this may take several minutes
 	$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.')."</p>\n";

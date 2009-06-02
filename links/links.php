@@ -705,7 +705,7 @@ Class Links {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return an array of $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $layout='compact') {
+	function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -715,39 +715,42 @@ Class Links {
 		}
 
 		// special layouts
-		if(is_object($layout)) {
-			$output =& $layout->layout($result);
+		if(is_object($variant)) {
+			$output =& $variant->layout($result);
 			return $output;
 		}
 
-		// one of regular layouts
-		switch($layout) {
+		// no layout yet
+		$layout = NULL;
+		
+		// separate options from layout name
+		$attributes = explode(' ', $variant, 2);
 
-		case 'compact':
-			include_once $context['path_to_root'].'links/layout_links_as_compact.php';
-			$variant =& new Layout_links_as_compact();
-			$output =& $variant->layout($result);
-			return $output;
+		// instanciate the provided name
+		if($attributes[0]) {
+			$name = 'layout_links_as_'.$attributes[0];
+			if(is_readable($context['path_to_root'].'links/'.$name.'.php')) {
+				include_once $context['path_to_root'].'links/'.$name.'.php';
+				$layout =& new $name;
 
-		case 'feeds':
-			include_once $context['path_to_root'].'links/layout_links_as_feed.php';
-			$variant =& new Layout_links_as_feed();
-			$output =& $variant->layout($result);
-			return $output;
+				// provide parameters to the layout
+				if(isset($attributes[1]))
+					$layout->set_variant($attributes[1]);
+		
+			}
+		}
 
-		case 'simple':
-			include_once $context['path_to_root'].'links/layout_links_as_simple.php';
-			$variant =& new Layout_links_as_simple();
-			$output =& $variant->layout($result);
-			return $output;
-
-		default:
+		// use default layout
+		if(!$layout) {
 			include_once $context['path_to_root'].'links/layout_links.php';
-			$variant =& new Layout_links();
-			$output =& $variant->layout($result, $layout);
-			return $output;
-
+			$layout =& new Layout_links();
+			$layout->set_variant($variant);
 		}
+
+		// do the job
+		$output =& $layout->layout($result);
+		return $output;
+		
 	}
 
 	/**

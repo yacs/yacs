@@ -21,7 +21,7 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-Class Http extends Authenticator {
+Class Http_Authenticator extends Authenticator {
 
 	/**
 	 * login

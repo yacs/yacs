@@ -512,10 +512,10 @@ if($with_form) {
 	$fields = array();
 
 	// append the script used for data checking on the browser
-	$panels['contact'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$panels['contact'] .= JS_PREFIX
 		.'// enable autocompletion for user names'."\n"
 		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("vcard_agent", "vcard_agent_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
-		.'// ]]></script>';
+		.JS_SUFFIX;
 
 	// pgp key
 	$label = i18n::s('PGP key or certificate');
@@ -846,7 +846,7 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -912,7 +912,7 @@ if($with_form) {
 	 		."\n";
 	$context['text'] .= '// enable tags autocompletion'."\n"
 		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("tags", "tags_choices", "'.$context['url_to_root'].'categories/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
-		.'// ]]></script>';
+		.JS_SUFFIX;
 
 	// the help panel
 	$help = '<p>'.i18n::s('The nick name has to be unique throughout the database of users.').'</p>';

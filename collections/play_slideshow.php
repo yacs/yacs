@@ -206,7 +206,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 			// js under ie requires iso8859!!
 			// the javascript engine
-			$context['text'] .= '<script type="text/javascript" >// <![CDATA['."\n"
+			$context['text'] .= JS_PREFIX
 				.'// index of the current slide'."\n"
 				.'var current = 0;'."\n"
 				."\n"
@@ -233,7 +233,6 @@ if(!isset($item['collection']) || !$item['collection']) {
 				.'	if(handle = $(\'slide_\'+current))'."\n"
 				.'		handle.style.display = \'block\';'."\n"
 				.'}'."\n"
-				."\n"
 				."\n"
 				.'// display the very first slide of the list'."\n"
 				.'function first_slide() {'."\n"
@@ -387,7 +386,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 				.'	// chain to next rotation'."\n"
 				.'	rotation_timer = window.setTimeout("rotate_slide()", rotation_delay);'."\n"
 				.'}'."\n"
-				.'// ]]></script>'."\n";
+				.JS_SUFFIX;
 
 		}
 	}

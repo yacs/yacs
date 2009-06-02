@@ -133,8 +133,7 @@ if(!isset($item['id'])) {
 			// do the job
 			$context['page_footer'] .= '	  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$context['google_api_key'].'"'."\n"
 				.'			  type="text/javascript"></script>'."\n"
-				.'	  <script type="text/javascript">'."\n"
-				.'	  //<![CDATA['."\n"
+				.JS_PREFIX
 				."\n"
 				.'	  var iconBlue = new GIcon();'."\n"
 				.'	  iconBlue.image = \'http://labs.google.com/ridefinder/images/mm_20_blue.png\';'."\n"
@@ -179,8 +178,7 @@ if(!isset($item['id'])) {
 				.'		});'."\n"
 				.'		return marker;'."\n"
 				.'	  }'."\n"
-				.'	  //]]>'."\n"
-				.'	</script>'."\n";
+				.JS_SUFFIX;
 
 		// or use a small dynamic image
 		} else {

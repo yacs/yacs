@@ -269,11 +269,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download
-	if(!headers_sent()) {
-		Safe::header('Expires: '.gmdate("D, d M Y H:i:s", time() + 1800).' GMT');
-		Safe::header("Cache-Control: max-age=1800, public");
-		Safe::header("Pragma: ");
-	}
+	http::expire(1800);
 
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

@@ -145,7 +145,7 @@ $context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('
 $context['text'] .= '</div></form>';
 
 // the script used for form handling at the browser
-$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+$context['text'] .= JS_PREFIX
 	.'	// check that main fields are not empty'."\n"
 	.'	func'.'tion validateDocumentPost(container) {'."\n"
 	."\n"
@@ -162,7 +162,7 @@ $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 	."\n"
 	.'// set the focus on first form field'."\n"
 	.'$("search").focus();'."\n"
-	.'// ]]></script>'."\n";
+	.JS_SUFFIX."\n";
 
 // nothing found yet
 $no_result = TRUE;

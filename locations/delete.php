@@ -120,10 +120,10 @@ if(!isset($item['id'])) {
 		.'</p></form>'."\n";
 
 	// set the focus
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
 		.'$("confirmed").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 	// the geo_place_name of the location
 	$context['text'] .= Skin::build_block($item['geo_place_name'], 'title');

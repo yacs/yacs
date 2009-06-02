@@ -63,7 +63,7 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
-Class Ldap extends Authenticator {
+Class Ldap_Authenticator extends Authenticator {
 
 	/**
 	 * login

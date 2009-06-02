@@ -1394,7 +1394,6 @@ dl.manual_comments dt.even {
 }
 
 .menu { /* a small inline menu, almost anywhere */
-    display: inline;
     text-align: left;
 	font-family: sans-serif;
 	font-size: 7pt; /* not rezisable by IE PC */
@@ -1740,10 +1739,8 @@ table.tiny tr td { /* [table=tiny]...[/table] */
 	font-weight: normal;
 	font-size: 8pt;
 	line-height: 1.2em;
-	background-color: #eee;
 	margin: 6px 0 5px 0;
-	padding: 6px;
-	border: 1px solid #bfbfbf;
+	padding: 0px;
 }
 
 #main_panel div.toc_box ul { /* first level of the toc */

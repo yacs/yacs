@@ -113,10 +113,10 @@ else {
 		.'</p></form>'."\n";
 
 	// set the focus
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
 		.'$("confirmed").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX;
 
 	// the date
 	$context['text'] .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Target date'), Skin::build_date($item['date_stamp'], 'full')).'</p>';

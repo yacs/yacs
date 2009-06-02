@@ -809,12 +809,12 @@ if($with_form) {
 	if(Surfer::is_empowered() && Surfer::is_member()) {
 		$label = i18n::s('Rendering');
 		$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
-			.'<script type="text/javascript">// <![CDATA['."\n"
+			.JS_PREFIX
 			.'function append_to_options(keyword) {'."\n"
 			.'	var target = $("options");'."\n"
 			.'	target.value = target.value + " " + keyword;'."\n"
 			.'}'."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX;
 		$keywords = array();
 		$keywords[] = '<a onclick="append_to_options(\'anonymous_edit\')" style="cursor: pointer;">anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to edit content');
 		$keywords[] = '<a onclick="append_to_options(\'members_edit\')" style="cursor: pointer;">members_edit</a> - '.i18n::s('Allow members to edit content');
@@ -1197,7 +1197,7 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['page_footer'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -1244,7 +1244,7 @@ if($with_form) {
 		."\n"
 		.'// enable tags autocompletion'."\n"
 		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("tags", "tags_choices", "'.$context['url_to_root'].'categories/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX;
 
 	// clear session data now that we have populated the form
 	unset($_SESSION['anchor_reference']);

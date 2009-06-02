@@ -491,7 +491,7 @@ Class Dates {
 			$months[4] = i18n::s('April');
 			$months[5] = i18n::s('May');
 			$months[6] = i18n::s('June');
-			$months[7] = i18n::s('Juillet');
+			$months[7] = i18n::s('July');
 			$months[8] = i18n::s('August');
 			$months[9] = i18n::s('September');
 			$months[10] = i18n::s('October');
@@ -1010,7 +1010,7 @@ Class Dates {
 	 * @param string 'full', etc or object, i.e., an instance of the layout interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_selected(&$result, $layout='compact') {
+	function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -1020,39 +1020,42 @@ Class Dates {
 		}
 
 		// special layouts
-		if(is_object($layout)) {
-			$output =& $layout->layout($result);
+		if(is_object($variant)) {
+			$output =& $variant->layout($result);
 			return $output;
 		}
 
-		// one of regular layouts
-		switch($layout) {
+		// no layout yet
+		$layout = NULL;
+		
+		// separate options from layout name
+		$attributes = explode(' ', $variant, 2);
 
-		case 'family':
-			include_once $context['path_to_root'].'dates/layout_dates_as_family.php';
-			$variant =& new Layout_dates_as_family();
-			$output =& $variant->layout($result);
-			return $output;
+		// instanciate the provided name
+		if($attributes[0]) {
+			$name = 'layout_dates_as_'.$attributes[0];
+			if(is_readable($context['path_to_root'].'dates/'.$name.'.php')) {
+				include_once $context['path_to_root'].'dates/'.$name.'.php';
+				$layout =& new $name;
 
-		case 'compact':
-			include_once $context['path_to_root'].'dates/layout_dates_as_compact.php';
-			$variant =& new Layout_dates_as_compact();
-			$output =& $variant->layout($result);
-			return $output;
+				// provide parameters to the layout
+				if(isset($attributes[1]))
+					$layout->set_variant($attributes[1]);
+		
+			}
+		}
 
-		case 'links':
-			include_once $context['path_to_root'].'dates/layout_dates_as_links.php';
-			$variant =& new Layout_dates_as_links();
-			$output =& $variant->layout($result);
-			return $output;
-
-		default:
+		// use default layout
+		if(!$layout) {
 			include_once $context['path_to_root'].'dates/layout_dates.php';
-			$variant =& new Layout_dates();
-			$output =& $variant->layout($result, $layout);
-			return $output;
-
+			$layout =& new Layout_dates();
+			$layout->set_variant($variant);
 		}
+
+		// do the job
+		$output =& $layout->layout($result);
+		return $output;
+		
 	}
 
 	/**

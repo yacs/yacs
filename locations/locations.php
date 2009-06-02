@@ -467,7 +467,7 @@ Class Locations {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $layout='compact') {
+	function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -477,33 +477,42 @@ Class Locations {
 		}
 
 		// special layouts
-		if(is_object($layout)) {
-			$output =& $layout->layout($result);
+		if(is_object($variant)) {
+			$output =& $variant->layout($result);
 			return $output;
 		}
 
-		// one of regular layouts
-		switch($layout) {
+		// no layout yet
+		$layout = NULL;
+		
+		// separate options from layout name
+		$attributes = explode(' ', $variant, 2);
 
-		case 'compact':
-			include_once $context['path_to_root'].'locations/layout_locations_as_compact.php';
-			$variant =& new Layout_locations_as_compact();
-			$output =& $variant->layout($result);
-			return $output;
+		// instanciate the provided name
+		if($attributes[0]) {
+			$name = 'layout_locations_as_'.$attributes[0];
+			if(is_readable($context['path_to_root'].'locations/'.$name.'.php')) {
+				include_once $context['path_to_root'].'locations/'.$name.'.php';
+				$layout =& new $name;
 
-		case 'raw':
-			include_once $context['path_to_root'].'locations/layout_locations_as_raw.php';
-			$variant =& new Layout_locations_as_raw();
-			$output =& $variant->layout($result);
-			return $output;
+				// provide parameters to the layout
+				if(isset($attributes[1]))
+					$layout->set_variant($attributes[1]);
+		
+			}
+		}
 
-		default:
+		// use default layout
+		if(!$layout) {
 			include_once $context['path_to_root'].'locations/layout_locations.php';
-			$variant =& new Layout_locations();
-			$output =& $variant->layout($result, $layout);
-			return $output;
-
+			$layout =& new Layout_locations();
+			$layout->set_variant($variant);
 		}
+
+		// do the job
+		$output =& $layout->layout($result);
+		return $output;
+		
 	}
 
 	/**
@@ -567,7 +576,7 @@ Class Locations {
 			.'</div>'."\n";
 
 		// create this map
-		$text .= '<script type="text/javascript">//<![CDATA['."\n"
+		$text .= JS_PREFIX
 			.'if((typeof GBrowserIsCompatible != "undefined") && (GBrowserIsCompatible())) {'."\n"
 			.'	var map = new GMap2($("'.$handle.'"));'."\n"
 			.'	map.addControl(new GSmallMapControl());'."\n"
@@ -633,7 +642,7 @@ Class Locations {
 
 		// the postamble
 		$text .= '}'."\n"
-			.'//]]></script>'."\n";
+			.JS_SUFFIX;
 
 		// job done
 		return $text;
@@ -666,7 +675,7 @@ Class Locations {
 		$text .= '<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key='.$context['google_api_key'].'"></script>'."\n";
 
 		// load some icons from Google
-		$text .= '<script type="text/javascript">// <![CDATA['."\n"
+		$text .= JS_PREFIX
 			.'if(typeof GIcon != "undefined") {'."\n"
 			.'	var iconBlue = new GIcon();'."\n"
 			.'	iconBlue.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png";'."\n"
@@ -684,7 +693,7 @@ Class Locations {
 			.'	iconRed.iconAnchor = new GPoint(6, 20);'."\n"
 			.'	iconRed.infoWindowAnchor = new GPoint(5, 1);'."\n"
 			.'}'."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX."\n";
 
 		// done
 		return $text;

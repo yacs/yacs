@@ -298,7 +298,7 @@ if(!isset($item['id'])) {
 
 		// parse file content, and streamline information
 		$data = array();
-		if(is_object($analyzer) && (Files::is_audio_stream($item['file_name']) || Files::is_video_stream($item['file_name'])) ) {
+		if(is_object($analyzer) && Files::is_stream($item['file_name']) ) {
 			$data = $analyzer->analyze($path);
 			getid3_lib::CopyTagsToComments($data);
 		}
@@ -440,7 +440,7 @@ if(!isset($item['id'])) {
 //		// webdav access to the file
 //		$path = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'author');
 
-//		$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+//		$context['text'] .= JS_PREFIX
 //				.'// only for Windows users, sorry'."\n"
 //				.'if(window.ActiveXObject)'."\n"
 //				.'{'."\n"
@@ -465,7 +465,7 @@ if(!isset($item['id'])) {
 //				.'	document.write(\'<dt><a onclick="edit_in_word()" title="'.addcslashes($title, "'").'">'.addcslashes($label, "'").'</a></dt>\');'."\n"
 //				.'	document.write(\'<dd>'.addcslashes($description, "'").'</dd></dl>\');'."\n"
 //			.'}'."\n"
-//			.'// ]]></script>'."\n";
+//			.JS_SUFFIX."\n";
 
 //	}
 

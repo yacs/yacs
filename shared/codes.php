@@ -217,10 +217,8 @@
  * @see codes/misc.php
  *
  * In-line elements:
- * - &#91;video=&lt;id>, &lt;width>, &lt;height>, &lt;flashparams>] - play a Flash object
- * - &#91;flash=&lt;id>, &lt;width>, &lt;height>, &lt;flashparams>] - play a Flash object
- * - &#91;videao=&lt;id>, window] - play a Flash object in a separate window
- * - &#91;flash=&lt;id>, window] - play a Flash object in a separate window
+ * - &#91;embed=&lt;id>, &lt;width>, &lt;height>, &lt;flashparams>] - embed a multimedia file
+ * - &#91;embed=&lt;id>, window] - render a multimedia file in a separate window
  * - &#91;freemind=&lt;id>] - a Freemind map out of given file
  * - &#91;sound=&lt;id>] - play a sound
  * - &#91;image=&lt;id>] - an inline image
@@ -798,11 +796,11 @@ Class Codes {
 				'/\[(---+|___+)\]\s*/ise',				// [---], [___] --- before inserted
 				'/^-----*/me',							// ----
 				'/\[inserted\](.*?)\[\/inserted\]/is',	// [inserted]...[/inserted]
-//				'/--(\S.*?\S)--/ise',					// --...--
+				'/ --(\S.*?\S)--/is',					// --...--
 				'/\[deleted\](.*?)\[\/deleted\]/is',	// [deleted]...[/deleted]
 				'/\*\*(\S.*?\S)\*\*/is',				// **...**
 				'/\[b\](.*?)\[\/b\]/is',				// [b]...[/b]
-//				'/\/\/(\S.*?\w)\/\//is',				// //...//
+				'/ \/\/(\S.*?\w)\/\//is',				// //...//
 				'/\[i\](.*?)\[\/i\]/is',				// [i]...[/i]
 				'/__(\S.*?\S)__/is',					// __...__
 				'/\[u\](.*?)\[\/u\]/is',				// [u]...[/u]
@@ -816,7 +814,7 @@ Class Codes {
 				'/\n\n+[ \t]*\[\*\][ \t]*/ie',			// [*] (outside [list]...[/list])
 				'/\n?[ \t]*\[\*\][ \t]*/ie',
 				'/\[li\](.*?)\[\/li\]/is',				// [li]...[/li] (outside [list]...[/list])
-				'/\[video=([^\]]+?)\]/ie',					// [video=<id>, <width>, <height>, <params>] or [flash=<id>, window]
+				'/\[embed=([^\]]+?)\]/ie',					// [embed=<id>, <width>, <height>, <params>] or [embed=<id>, window]
 				'/\[flash=([^\]]+?)\]/ie',					// [flash=<id>, <width>, <height>, <params>] or [flash=<id>, window]
 				'/\[sound=([^\]]+?)\]/ie',					// [sound=<id>]
 				'/\[go=([^\]]+?)\]/ie', 					// [go=<name>]
@@ -982,11 +980,11 @@ Class Codes {
 				"HORIZONTAL_RULER", 												// [---], [___]
 				"HORIZONTAL_RULER", 												// ----
 				'<ins>\\1</ins>',													// [inserted]...[/inserted]
-//				"preg_match('/^(BEGIN|END)/', '\\1')?'--\\1--':'<del>\\1</del>'",	// --...-- take care of PKCS headers
+				' <del>\\1</del>',													// --...-- 
 				'<del>\\1</del>',													// [deleted]...[/deleted]
 				'<b>\\1</b>',														// **...**
 				'<b>\\1</b>',														// [b]...[/b]
-//				'<i>\\1</i>',														// //...//
+				' <i>\\1</i>',														// //...//
 				'<i>\\1</i>',														// [i]...[/i]
 				'<span style="text-decoration: underline">\\1</span>',				// __...__
 				'<span style="text-decoration: underline">\\1</span>',				// [u]...[/u]
@@ -1000,8 +998,8 @@ Class Codes {
 				"BR.BR.BULLET_IMG.'&nbsp;'",										// standalone [*]
 				"BR.BULLET_IMG.'&nbsp;'",
 				'<li>\\1</li>', 													// [li]...[/li]
-				"Codes::render_object('flash', Codes::fix_tags('$1'))",				// [video=<id>, <width>, <height>, <params>]
-				"Codes::render_object('flash', Codes::fix_tags('$1'))",				// [flash=<id>, <width>, <height>, <params>]
+				"Codes::render_object('embed', Codes::fix_tags('$1'))",				// [embed=<id>, <width>, <height>, <params>]
+				"Codes::render_object('embed', Codes::fix_tags('$1'))",				// [flash=<id>, <width>, <height>, <params>]
 				"Codes::render_object('sound', Codes::fix_tags('$1'))",				// [sound=<id>]
 				"Codes::render_object('go', Codes::fix_tags('$1'))",				// [go=<name>]
 				"Codes::render_object('article.description', Codes::fix_tags('$1'))",// [article.description=<id>]
@@ -1067,8 +1065,8 @@ Class Codes {
 				"Codes::render_updated('', 'simple')",								// [updated]
 				"Codes::render_voted('$2', '$1')",									// [voted.decorated=section:4029]
 				"Codes::render_voted('', '$1')",									// [voted.decorated]
-				"Codes::render_voted('$1', 'rating')",								// [voted=section:4029]
-				"Codes::render_voted('', 'rating')",								// [voted]
+				"Codes::render_voted('$1', 'simple')",								// [voted=section:4029]
+				"Codes::render_voted('', 'simple')",								// [voted]
 				"Codes::render_freemind('sections')",								// [freemind]
 				"Codes::render_freemind('$1')", 									// [freemind=section:4029] or [freemind=123]
 				"Codes::render_sections()", 										// [sections] (site map)
@@ -1501,7 +1499,7 @@ Class Codes {
 		$flashvars = 'initLoadFile='.$target_href.'&openUrl=_self';
 
 		$text = '<div id="freemind_viewer_'.$freemind_viewer_index.'">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-			.'<script type="text/javascript">// <![CDATA['."\n"
+			.JS_PREFIX
 			.'var params = {};'."\n"
 			.'params.base = "'.dirname($url).'/";'."\n"
 			.'params.quality = "high";'."\n"
@@ -1526,7 +1524,7 @@ Class Codes {
 //			.'	var handle = $("freemind_viewer_'.$freemind_viewer_index.'");'."\n"
 //			.'	handle.replaceChild(applet, handle.childNodes[0]);'."\n"
 //			.'}'."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX."\n";
 
 		// offer to download a copy of the map
 		$menu = array_merge($menu, array($target_href => i18n::s('Browse this map with Freemind')));
@@ -1827,7 +1825,7 @@ Class Codes {
 				$url = $context['url_to_home'].$context['url_to_root'].'feeds/flash/slashdot.php';
 				$flashvars = '';
 				$text = '<div id="local_news" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.'<script type="text/javascript">// <![CDATA['."\n"
+					.JS_PREFIX
 					.'var params = {};'."\n"
 					.'params.base = "'.dirname($url).'/";'."\n"
 					.'params.quality = "high";'."\n"
@@ -1835,7 +1833,7 @@ Class Codes {
 					.'params.menu = "false";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$url.'", "local_news", "80%", "50", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.'// ]]></script>'."\n";
+					.JS_SUFFIX;
 			}
 
 			return $text;
@@ -2179,8 +2177,8 @@ Class Codes {
 			}
 			return $output;
 
-		// render a flash object
-		case 'flash':
+		// render a multimedia file
+		case 'embed':
 			include_once $context['path_to_root'].'files/files.php';
 
 			// split parameters
@@ -2189,7 +2187,7 @@ Class Codes {
 
 			// get the file
 			if(!$item =& Files::get($id)) {
-				$output = '[flash='.$id.']';
+				$output = '[embed='.$id.']';
 				return $output;
 			}
 
@@ -2229,7 +2227,7 @@ Class Codes {
 					$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
 				$output = '<div id="swf_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.'<script type="text/javascript">// <![CDATA['."\n"
+					.JS_PREFIX
 					.'var params = {};'."\n"
 					.'params.base = "'.dirname($url).'/";'."\n"
 					.'params.quality = "high";'."\n"
@@ -2238,7 +2236,7 @@ Class Codes {
 					.'params.allowscriptaccess = "always";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$url.'", "swf_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.'// ]]></script>'."\n";
+					.JS_SUFFIX."\n";
 				return $output;
 
 			// stream a video
@@ -2249,31 +2247,31 @@ Class Codes {
 			case 'mp4':
 
 				// a flash player to stream a flash video
-				$flvplayer_url = $context['url_to_root'].'included/browser/player_flv_maxi.swf?t='.time();
+				$flvplayer_url = $context['url_to_home'].$context['url_to_root'].'included/browser/player_flv_maxi.swf';
 
 				// file is elsewhere
 				if(isset($item['file_href']) && $item['file_href'])
-					$url = 'flv='.$item['file_href'];
+					$url = $item['file_href'];
 					
 				// prevent leeching (the flv player will provide session cookie, etc)
 				else
-					$url = 'flv='.$context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
+					$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 
 				// pass parameters to the player
 				if($flashvars)
-					$flashvars = $url.'&'.str_replace('autostart=true', 'autoplay=1', $flashvars);
+					$flashvars = 'flv='.$url.'&'.str_replace('autostart=true', 'autoplay=1', $flashvars);
 				else
-					$flashvars = $url;
+					$flashvars = 'flv='.$url;
 				$flashvars .= '&width='.$width.'&height='.$height;
 
 				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
 				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.'<script type="text/javascript">// <![CDATA['."\n"
-					.'var flashvars = { '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:"1", margin:"1", showiconplay:"1", playeralpha:"50", iconplaybgalpha:"30", showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+					.JS_PREFIX
+					.'var flashvars = { '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:1, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
 					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
 					.'var attributes = { id: "file_'.$item['id'].'", name: "file_'.$item['id'].'"}'."\n"
-					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
-					.'// ]]></script>'."\n";
+					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
+					.JS_SUFFIX."\n";
 				return $output;
 
 			// link to file page
@@ -2640,7 +2638,7 @@ Class Codes {
 					$flashvars = 'son='.$url;
 
 				$output = '<div id="sound_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.'<script type="text/javascript">// <![CDATA['."\n"
+					.JS_PREFIX
 					.'var params = {};'."\n"
 					.'params.base = "'.dirname($url).'/";'."\n"
 					.'params.quality = "high";'."\n"
@@ -2648,7 +2646,7 @@ Class Codes {
 					.'params.menu = "false";'."\n"
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$dewplayer_url.'", "sound_'.$item['id'].'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.'// ]]></script>'."\n";
+					.JS_SUFFIX."\n";
 				return $output;
 
 			// link to file page
@@ -3505,7 +3503,7 @@ Class Codes {
 	 * @param string layout to use
 	 * @return string the rendered text
 	**/
-	function &render_voted($anchor='', $layout='rating') {
+	function &render_voted($anchor='', $layout='simple') {
 		global $context;
 
 		// we return some text;

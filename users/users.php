@@ -879,7 +879,7 @@ Class Users {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $layout='compact') {
+	function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -889,64 +889,42 @@ Class Users {
 		}
 
 		// special layout
-		if(is_object($layout)) {
-			$output =& $layout->layout($result);
+		if(is_object($variant)) {
+			$output =& $variant->layout($result);
 			return $output;
 		}
 
-		// one of regular layouts
-		switch($layout) {
+		// no layout yet
+		$layout = NULL;
+		
+		// separate options from layout name
+		$attributes = explode(' ', $variant, 2);
 
-		case 'comma':
-			include_once $context['path_to_root'].'users/layout_users_as_comma.php';
-			$variant =& new Layout_users_as_comma();
-			$output =& $variant->layout($result);
-			return $output;
+		// instanciate the provided name
+		if($attributes[0]) {
+			$name = 'layout_users_as_'.$attributes[0];
+			if(is_readable($context['path_to_root'].'users/'.$name.'.php')) {
+				include_once $context['path_to_root'].'users/'.$name.'.php';
+				$layout =& new $name;
 
-		case 'compact':
-			include_once $context['path_to_root'].'users/layout_users_as_compact.php';
-			$variant =& new Layout_users_as_compact();
-			$output =& $variant->layout($result);
-			return $output;
+				// provide parameters to the layout
+				if(isset($attributes[1]))
+					$layout->set_variant($attributes[1]);
+		
+			}
+		}
 
-		case 'complete':
-			include_once $context['path_to_root'].'users/layout_users_as_complete.php';
-			$variant =& new Layout_users_as_complete();
-			$output =& $variant->layout($result);
-			return $output;
-
-		case 'feed':
-			include_once $context['path_to_root'].'users/layout_users_as_feed.php';
-			$variant =& new Layout_users_as_feed();
-			$output =& $variant->layout($result);
-			return $output;
-
-		case 'mail':
-			include_once $context['path_to_root'].'users/layout_users_as_mail.php';
-			$variant =& new Layout_users_as_mail();
-			$output =& $variant->layout($result);
-			return $output;
-
-		case 'raw': // see feeds/describe.php
-			include_once $context['path_to_root'].'users/layout_users_as_raw.php';
-			$variant =& new Layout_users_as_raw();
-			$output =& $variant->layout($result);
-			return $output;
-
-		case 'watch': // see users/element.php
-			include_once $context['path_to_root'].'users/layout_users_as_watch.php';
-			$variant =& new Layout_users_as_watch();
-			$output =& $variant->layout($result);
-			return $output;
-
-		default:
+		// use default layout
+		if(!$layout) {
 			include_once $context['path_to_root'].'users/layout_users.php';
-			$variant =& new Layout_users();
-			$output =& $variant->layout($result, $layout);
-			return $output;
-
+			$layout =& new Layout_users();
+			$layout->set_variant($variant);
 		}
 
+		// do the job
+		$output =& $layout->layout($result);
+		return $output;
+		
 	}
 
 	/**

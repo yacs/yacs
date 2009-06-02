@@ -71,10 +71,10 @@ class Feeds {
 	 * Actually, this function lists most recent published articles.
 	 *
 	 * @param int the number of items to list
-	 * @param 'feeds' to get a regular feed, or 'contents' to get everything
+	 * @param 'feed' to get a regular feed, or 'contents' to get everything
 	 * @return an array of array($time, $title, $author, $section, $image, $description)
 	 */
-	function get_local_news($count=20, $variant='feeds') {
+	function get_local_news($count=20, $variant='feed') {
 		global $context;
 
 		// list the newest published articles

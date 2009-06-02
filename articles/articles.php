@@ -1114,7 +1114,7 @@ Class Articles {
 			$where .= " OR articles.active='R'";
 
 		// associates can access hidden articles
-		if(Surfer::is_associate() && !( is_string($layout) && (($layout == 'feeds') || ($layout == 'contents')) ) )
+		if(Surfer::is_associate() && !( is_string($layout) && (($layout == 'feed') || ($layout == 'contents')) ) )
 			$where .= " OR articles.active='N'";
 
 		// include articles from managed sections
@@ -1527,7 +1527,7 @@ Class Articles {
 	 * - 'contents' - an array of $url => array($time, $label, $author, $section, $icon, $introduction, $content, $trackback) for feeds and search
 	 * - 'daily' - for blogs
 	 * - 'digest' - for newsletters
-	 * - 'feeds' - an array of $url => array($time, $label, $author, $section, $icon, $introduction, $content, $trackback) for feeds and search
+	 * - 'feed' - an array of $url => array($time, $label, $author, $section, $icon, $introduction, $content, $trackback) for feeds and search
 	 * - 'freemind' - to create Freemind maps
 	 * - 'news' - to build a list of news or of featured pages
 	 * - 'raw'
@@ -1563,135 +1563,32 @@ Class Articles {
 			return $output;
 		}
 
+		// no layout yet
+		$layout = NULL;
+		
 		// separate options from layout name
 		$attributes = explode(' ', $variant, 2);
 
-		// select a suitable layout
-		switch($attributes[0]) {
+		// instanciate the provided name
+		if($attributes[0]) {
+			$name = 'layout_articles_as_'.$attributes[0];
+			if(is_readable($context['path_to_root'].'articles/'.$name.'.php')) {
+				include_once $context['path_to_root'].'articles/'.$name.'.php';
+				$layout =& new $name;
 
-		case 'boxes':
-			include_once $context['path_to_root'].'articles/layout_articles_as_boxes.php';
-			$layout =& new Layout_articles_as_boxes();
-			break;
-
-		case 'compact':
-			include_once $context['path_to_root'].'articles/layout_articles_as_compact.php';
-			$layout =& new Layout_articles_as_compact();
-			break;
-
-		case 'contents':
-			include_once $context['path_to_root'].'articles/layout_articles_as_contents.php';
-			$layout =& new Layout_articles_as_contents();
-			break;
-
-		case 'daily':
-			include_once $context['path_to_root'].'articles/layout_articles_as_daily.php';
-			$layout =& new Layout_articles_as_daily();
-			break;
-
-		case 'digest':
-			include_once $context['path_to_root'].'articles/layout_articles_as_digest.php';
-			$layout =& new Layout_articles_as_digest();
-			break;
-
-		case 'feeds':
-			include_once $context['path_to_root'].'articles/layout_articles_as_feed.php';
-			$layout =& new Layout_articles_as_feed();
-			break;
-
-		case 'freemind':
-			include_once $context['path_to_root'].'articles/layout_articles_as_freemind.php';
-			$layout =& new Layout_articles_as_freemind();
-			break;
-
-		case 'ids':
-			include_once $context['path_to_root'].'articles/layout_articles_as_ids.php';
-			$layout =& new Layout_articles_as_ids();
-			break;
-
-		case 'news':
-			include_once $context['path_to_root'].'articles/layout_articles_as_news.php';
-			$layout =& new Layout_articles_as_news();
-			break;
-
-		case 'raw':
-			include_once $context['path_to_root'].'articles/layout_articles_as_raw.php';
-			$layout =& new Layout_articles_as_raw();
-			break;
-
-		case 'review':
-			include_once $context['path_to_root'].'articles/layout_articles_as_review.php';
-			$layout =& new Layout_articles_as_review();
-			break;
-
-		case 'rpc':
-			include_once $context['path_to_root'].'articles/layout_articles_as_rpc.php';
-			$layout =& new Layout_articles_as_rpc();
-			break;
-
-		case 'select':
-			include_once $context['path_to_root'].'articles/layout_articles_as_select.php';
-			$layout =& new Layout_articles_as_select();
-			break;
-
-		case 'simple':
-		case 'rating':
-			include_once $context['path_to_root'].'articles/layout_articles_as_simple.php';
-			$layout =& new Layout_articles_as_simple();
-			break;
-
-		case 'thread':
-			include_once $context['path_to_root'].'articles/layout_articles_as_thread.php';
-			$layout =& new Layout_articles_as_thread();
-			break;
-
-		case 'thumbnails':
-			include_once $context['path_to_root'].'articles/layout_articles_as_thumbnails.php';
-			$layout =& new Layout_articles_as_thumbnails();
-			break;
-
-		case 'timeline':
-			include_once $context['path_to_root'].'articles/layout_articles_as_timeline.php';
-			$layout =& new Layout_articles_as_timeline();
-			break;
-
-		default:
-
-			// allow for overload in skin
-			if(is_callable(array('skin', 'layout_article'))) {
-
-				// build an array of links
-				$items = array();
-				while($item =& SQL::fetch($result)) {
-
-					// url to read the full article
-					$url =& Articles::get_permalink($item);
-
-					// reset the rendering engine between items
-					if(is_callable(array('Codes', 'initialize')))
-						Codes::initialize($url);
-
-					// format the resulting string depending on layout
-					$items[$url] = Skin::layout_article($item, $variant);
-
-				}
-
-				// end of processing
-				SQL::free($result);
-				return $items;
-
-			// else use an external layout
-			} else {
-				include_once $context['path_to_root'].'articles/layout_articles.php';
-				$layout =& new Layout_articles();
-				$layout->set_variant($variant);
+				// provide parameters to the layout
+				if(isset($attributes[1]))
+					$layout->set_variant($attributes[1]);
+		
 			}
-
 		}
 
-		// set variant, if any
-		if(isset($attributes[1]))
-			$layout->set_variant($attributes[1]);
+		// use default layout
+		if(!$layout) {
+			include_once $context['path_to_root'].'articles/layout_articles.php';
+			$layout =& new Layout_articles();
+			$layout->set_variant($variant);
+		}
 
 		// do the job
 		$output =& $layout->layout($result);
@@ -2308,7 +2205,7 @@ Class Articles {
 			$where .= " OR articles.active='R'";
 
 		// associates can access hidden articles
-		if(is_string($layout) && ($layout == 'feeds'))
+		if(is_string($layout) && ($layout == 'feed'))
 			;
 		elseif(Surfer::is_associate())
 			$where .= " OR articles.active='N'";

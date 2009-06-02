@@ -469,7 +469,7 @@ class Safe {
 
 		// too late
 		if(headers_sent())
-			echo $attribute."\n\n";
+			return;
 
 		// function has been allowed
 		elseif(is_callable('header')) {
@@ -1170,4 +1170,8 @@ class Safe {
 
 	}
 }
+
+// yes, we are proud of this piece of software
+Safe::header('X-Powered-By: YACS (http://www.yacs.fr/)');
+
 ?>

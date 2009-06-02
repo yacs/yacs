@@ -88,10 +88,10 @@ $context['text'] .= '<input type="hidden" name="action" value="weblogUpdates.pin
 $context['text'] .= '</div></form>';
 
 // the script used for form handling at the browser
-$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+$context['text'] .= JS_PREFIX
 	.'// set the focus on first form field'."\n"
 	.'$("target").focus();'."\n"
-	.'// ]]></script>'."\n";
+	.JS_SUFFIX."\n";
 
 // test pingback.ping
 $context['text'] .= Skin::build_block(i18n::s('Test pingback.ping'), 'title');

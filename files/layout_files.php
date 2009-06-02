@@ -77,7 +77,7 @@ Class Layout_files extends Layout_interface {
 
 				// combine the two in a single object
 				$prefix .= '<div id="mp3_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.'<script type="text/javascript">// <![CDATA['."\n"
+					.JS_PREFIX
 			        .'var params = {};'."\n"
 			        .'params.base = "'.dirname($mp3_url).'/";'."\n"
 			        .'params.quality = "high";'."\n"
@@ -85,7 +85,7 @@ Class Layout_files extends Layout_interface {
 			        .'params.menu = "false";'."\n"
 			        .'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$dewplayer_url.'", "mp3_'.$item['id'].'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.'// ]]></script>'.BR."\n";
+					.JS_SUFFIX.BR."\n";
 
 			}
 
@@ -124,7 +124,7 @@ Class Layout_files extends Layout_interface {
 			if(count($details))
 				$suffix .= ' '.ucfirst(implode(', ', $details));
 
-			$suffix = ' '.ucfirst(trim($suffix));
+			$suffix = ' <span class="details">- '.ucfirst(trim($suffix)).'</span>';
 
 			// append details
 			$details = array();

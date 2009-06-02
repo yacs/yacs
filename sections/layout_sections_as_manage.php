@@ -35,14 +35,14 @@ Class Layout_sections_as_manage extends Layout_interface {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// the script used to check all pages at once
-		$text .= '<script type="text/javascript">// <![CDATA['."\n"
+		$text .= JS_PREFIX
 			.'function cascade_selection_to_all_section_rows(handle) {'."\n"
 			.'	var checkers = $$("div#sections_panel input[type=\'checkbox\'].row_selector");'."\n"
 			.'	for(var index=0; index < checkers.length; index++) {'."\n"
 			.'		checkers[index].checked = handle.checked;'."\n"
 			.'	}'."\n"
 			.'}'."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX."\n";
 
 		// table prefix
 		$text .= Skin::table_prefix('grid');

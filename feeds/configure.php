@@ -213,10 +213,10 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// set the focus
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
 		.'$("channel_title").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('To ban some hosts or domains, go to the %s.'), Skin::build_link('servers/configure.php', i18n::s('configuration panel for servers'), 'shortcut')).'</p>';

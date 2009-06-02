@@ -391,8 +391,8 @@ class Scripts {
 		global $context;
 
 		// preserve HTML tags
-		$old_tokens = self::hbreak($original);
-		$new_tokens = self::hbreak($updated);
+		$old_tokens = Scripts::hbreak($original);
+		$new_tokens = Scripts::hbreak($updated);
 		
 		// do the job
 		$output =& Scripts::sdiff($old_tokens, $new_tokens);
@@ -751,7 +751,7 @@ class Scripts {
 
 		// walk sub-directories as well
 		foreach($directories as $directory)
-			self::walk_files_at($directory, $call_back);
+			Scripts::walk_files_at($directory, $call_back);
 			
 	}
 

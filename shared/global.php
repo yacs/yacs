@@ -43,6 +43,10 @@ if(is_callable('session_cache_limiter'))
 if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == ''))
 	session_start();
 
+// used in many technical specifications
+if(!defined('CRLF'))
+	define('CRLF', "\x0D\x0A");	
+	
 // default value for name filtering in forms (e.g. 'edit_name' filled by anonymous surfers)
 if(!defined('FORBIDDEN_IN_NAMES'))
 	define('FORBIDDEN_IN_NAMES', '/[<>{}\(\)]+/');
@@ -59,8 +63,11 @@ if(!defined('FORBIDDEN_IN_TEASERS'))
 if(!defined('FORBIDDEN_IN_URLS'))
 	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\,+%\?=\-\[\]]+/');
 	
-if(!defined('CRLF'))
-	define('CRLF', "\x0D\x0A");	
+// the right way to integrate javascript code
+if(!defined('JS_PREFIX'))
+	define('JS_PREFIX', '<script type="text/javascript">//<![CDATA['."\n");
+if(!defined('JS_SUFFIX'))
+	define('JS_SUFFIX', '// ]]></script>'."\n");
 
 // store attributes for this request, including global parameters and request-specific variables
 global $context;
@@ -224,6 +231,9 @@ $context['path_to_root'] = str_replace('\\', '/', $context['path_to_root']);
 
 // sanity checks - /foo/bar/.././ -> /foo/
 $context['path_to_root'] = preg_replace(array('|/([^/]*)/\.\./|', '|/\./|'), '/', $context['path_to_root']);
+
+// the http library
+include_once $context['path_to_root'].'shared/http.php';
 
 // the safe library
 include_once $context['path_to_root'].'shared/safe.php';
@@ -1098,9 +1108,6 @@ function render_skin($stamp=0) {
 	if($context['with_profile'] == 'Y')
 		logger::profile('render_skin', 'start');
 
-	// yes, we are proud of this piece of software
-	Safe::header('X-Powered-By: YACS (http://www.yacs.fr/)');
-
 	// provide P3P compact policy, if any
 	if(isset($context['p3p_compact_policy']))
 		Safe::header('P3P: CP="'.$context['p3p_compact_policy'].'"');
@@ -1111,12 +1118,11 @@ function render_skin($stamp=0) {
 	// handle web cache
 	if(($stamp >= 0) && !(isset($context['without_http_cache']) && ($context['without_http_cache'] == 'Y')) && !headers_sent()) {
 
-		// ask for revalidation in any case - 'no-cache' is mandatory for IE6 !!!
-		Safe::header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
-		Safe::header('Cache-Control: private, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0');
-		Safe::header('Pragma:');
+		// ask for revalidation
+		http::expire(0);
 
 		// validate the content if hash is ok - content depends also on configuration files and on surfer capability
+		$etag = NULL;
 		if($context['text'] && !is_callable('send_body')) {
 
 			// concatenate significant content
@@ -1159,29 +1165,18 @@ function render_skin($stamp=0) {
 			// hash content to create the etag string
 			$etag = '"'.md5($content).'"';
 
-			// always sent, even in case of 304, according to RFC2616
-			Safe::header('ETag: '.$etag);
-			if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && is_array($if_none_match = explode(',', str_replace('\"', '"', $_SERVER['HTTP_IF_NONE_MATCH'])))) {
-				foreach($if_none_match as $target) {
-					if(trim($target) == $etag) {
-						Safe::header('Status: 304 Not Modified', TRUE, 304);
-						return;
-					}
-				}
-			}
 		}
 
 		// validate the content if stamp is ok
-		if($stamp > 1000000) {
+		$last_modified = NULL;
+		if($stamp > 1000000)
 			$last_modified = gmdate('D, d M Y H:i:s', $stamp).' GMT';
-			Safe::header('Last-Modified: '.$last_modified);
-			if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && ($if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']))) {
-				if(($if_modified_since == $last_modified) && !isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
-					Safe::header('Status: 304 Not Modified', TRUE, 304);
-					return;
-				}
-			}
-		}
+		
+		// manage web cache
+		if(http::validate($last_modified, $etag))
+			return;
+
+		
 	}
 
 	// if it was a HEAD request, stop here
@@ -1255,16 +1250,16 @@ function render_skin($stamp=0) {
 	$context['page_header'] .= '<meta name="robots" content="index,follow" />'."\n";
 
 	// help Javascript scripts to locate files --in header, because of potential use by in-the-middle javascript snippet
-	$context['page_header'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['page_header'] .= JS_PREFIX
 		.'	var url_to_root = "'.$context['url_to_home'].$context['url_to_root'].'";'."\n"
 		.'	var url_to_skin = "'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/"'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 	// activate tinyMCE, if available -- before prototype and scriptaculous
 	if(isset($context['javascript']['tinymce']) && file_exists($context['path_to_root'].'included/tiny_mce/tiny_mce.js')) {
 
 		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/tiny_mce/tiny_mce.js"></script>'."\n"
-			.'<script type="text/javascript">// <![CDATA['."\n"
+			.JS_PREFIX
 			.'	tinyMCE.init({'."\n"
 			.'		mode : "textareas",'."\n"
 			.'		theme : "advanced",'."\n"
@@ -1284,7 +1279,7 @@ function render_skin($stamp=0) {
 			.'		template_external_list_url : "example_template_list.js",'."\n"
 			.'		use_native_selects : true,'."\n"
 			.'		debug : false	});'."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX."\n";
 
 	}
 
@@ -1337,10 +1332,10 @@ function render_skin($stamp=0) {
 	if(isset($context['google_urchin_account']) && $context['google_urchin_account']) {
 
 		$context['page_footer'] .= '<script type="text/javascript" src="http://www.google-analytics.com/urchin.js"></script>'."\n"
-			.'<script type="text/javascript">//<![CDATA['."\n"
+			.JS_PREFIX
 			.'_uacct = "'.$context['google_urchin_account'].'";'."\n"
 			.'if(typeof urchinTracker != "undefined") { urchinTracker(); };'."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX."\n";
 
 	}
 

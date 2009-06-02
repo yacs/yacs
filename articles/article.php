@@ -802,9 +802,9 @@ Class Article extends Anchor {
 			$label = '';
 			if($item =& Files::get($origin)) {
 			
-				// a flash video
-				if(isset($item['file_name']) && preg_match('/\.flv/i', $item['file_name']))
-					$label = '[flash='.$origin.', 320, 240]';
+				// give it to the Flash player
+				if(isset($item['file_name']) && Files::is_embeddable($item['file_name']))
+					$label = '[embed='.$origin.', 320, 240]';
 					
 				
 			}

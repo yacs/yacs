@@ -178,7 +178,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'	// check that main fields are not empty'."\n"
 		.'	func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -202,7 +202,7 @@ if(!Surfer::is_associate()) {
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'document.main_form.letter_title.focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 // prepare a digest
 } elseif(isset($action) && ($action == 'digest')) {
@@ -329,7 +329,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -353,7 +353,7 @@ if(!Surfer::is_associate()) {
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'document.main_form.letter_title.focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 // list featured pages
 } elseif(isset($action) && ($action == 'featured')) {
@@ -466,7 +466,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -490,7 +490,7 @@ if(!Surfer::is_associate()) {
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'document.main_form.letter_title.focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 // no mail in demo mode
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && file_exists($context['path_to_root'].'parameters/demo.flag')) {

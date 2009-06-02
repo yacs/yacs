@@ -410,7 +410,7 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 //	// the script used for form handling at the browser
-//	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+//	$context['text'] .= JS_PREFIX
 //		.'// check that main fields are not empty'."\n"
 //		.'func'.'tion validateDocumentPost(container) {'."\n"
 //		."\n"
@@ -425,7 +425,7 @@ if($with_form) {
 //		.'	return true;'."\n"
 //		.'}'."\n"
 //		."\n"
-//		.'// ]]></script>'."\n";
+//		.JS_SUFFIX;
 
 }
 

@@ -442,11 +442,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_submission" value="N"';
 	if(!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Authenticated members are allowed to submit new articles.');
+	$input .= '/> '.i18n::s('Authenticated members are allowed to submit new content.');
 	$input .= BR.'<input type="radio" name="users_without_submission" value="Y"';
 	if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Only associates are allowed to add pages. Members can post comments.');
+	$input .= '/> '.i18n::s('Only associates are allowed to add content.');
 	$fields[] = array($label, $input);
 
 	// content publishing

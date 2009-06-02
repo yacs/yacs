@@ -18,12 +18,11 @@ Class Layout_servers extends Layout_interface {
 	 * list servers
 	 *
 	 * @param resource the SQL result
-	 * @param string a variant, if any
 	 * @return string the rendered text
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result, $variant='full') {
+	function &layout(&$result) {
 		global $context;
 
 		// empty list

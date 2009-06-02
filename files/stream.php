@@ -259,11 +259,8 @@ if(!$item['id']) {
 		$type = '';
 		$mime = 'text/html';
 
-		// use the compressed format if possible
-		if(file_exists($context['path_to_root'].'included/browser/swfobject.js.jsmin'))
-			$script = 'included/browser/swfobject.js.jsmin';
-		else
-			$script = 'included/browser/swfobject.js';
+		// load the full library
+		$script = 'included/browser/library.js';
 
 		// page preamble
 		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
@@ -303,11 +300,8 @@ if(!$item['id']) {
 			.'<head>'."\n"
 			.'<title>'.$title.'</title>'."\n";
 
-		// use the compressed format if possible
-		if(file_exists($context['path_to_root'].'included/browser/swfobject.js.jsmin'))
-			$script = 'included/browser/swfobject.js.jsmin';
-		else
-			$script = 'included/browser/swfobject.js';
+		// load the full library
+		$script = 'included/browser/library.js';
 		$text .= '<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n";
 
 		// load javascript files from the skin directory -- e.g., Global Crossing js extensions, etc.
@@ -402,29 +396,14 @@ if(!$item['id']) {
 		}
 
 		// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download
-		if(!headers_sent()) {
-			Safe::header('Expires: '.gmdate("D, d M Y H:i:s", time() + 1800).' GMT');
-			Safe::header("Cache-Control: max-age=1800, public");
-			Safe::header("Pragma: ");
-		}
+		http::expire(1800);
 
-		// strong validation
-		if((!isset($context['without_http_cache']) || ($context['without_http_cache'] != 'Y')) && !headers_sent()) {
-
-			// generate some strong validator
-			$etag = '"'.md5($text).'"';
-			Safe::header('ETag: '.$etag);
-
-			// validate the content if hash is ok
-			if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && is_array($if_none_match = explode(',', str_replace('\"', '"', $_SERVER['HTTP_IF_NONE_MATCH'])))) {
-				foreach($if_none_match as $target) {
-					if(trim($target) == $etag) {
-						Safe::header('Status: 304 Not Modified', TRUE, 304);
-						return;
-					}
-				}
-			}
-		}
+		// strong validator
+		$etag = '"'.md5($text).'"';
+	
+		// manage web cache
+		if(http::validate(NULL, $etag))
+			return;
 
 		// actual transmission except on a HEAD request
 		if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

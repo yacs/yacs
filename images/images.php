@@ -520,7 +520,7 @@ Class Images {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $layout='compact') {
+	function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -530,52 +530,42 @@ Class Images {
 		}
 
 		// special layouts
-		if(is_object($layout)) {
-			$output =& $layout->layout($result);
+		if(is_object($variant)) {
+			$output =& $variant->layout($result);
 			return $output;
 		}
 
-		// one of regular layouts
-		switch($layout) {
+		// no layout yet
+		$layout = NULL;
+		
+		// separate options from layout name
+		$attributes = explode(' ', $variant, 2);
 
-		case 'compact':
-			include_once $context['path_to_root'].'images/layout_images_as_compact.php';
-			$variant =& new Layout_images_as_compact();
-			$output =& $variant->layout($result);
-			return $output;
+		// instanciate the provided name
+		if($attributes[0]) {
+			$name = 'layout_images_as_'.$attributes[0];
+			if(is_readable($context['path_to_root'].'images/'.$name.'.php')) {
+				include_once $context['path_to_root'].'images/'.$name.'.php';
+				$layout =& new $name;
 
-		case 'dates':
-			include_once $context['path_to_root'].'images/layout_images_as_dates.php';
-			$variant =& new Layout_images_as_dates();
-			$output =& $variant->layout($result);
-			return $output;
+				// provide parameters to the layout
+				if(isset($attributes[1]))
+					$layout->set_variant($attributes[1]);
+		
+			}
+		}
 
-		case 'feeds':
-			include_once $context['path_to_root'].'images/layout_images_as_feed.php';
-			$variant =& new Layout_images_as_feed();
-			$output =& $variant->layout($result);
-			return $output;
-
-		case 'hits':
-			include_once $context['path_to_root'].'images/layout_images_as_hits.php';
-			$variant =& new Layout_images_as_hits();
-			$output =& $variant->layout($result);
-			return $output;
-
-		case 'raw':
-			include_once $context['path_to_root'].'images/layout_images_as_raw.php';
-			$variant =& new Layout_images_as_raw();
-			$output =& $variant->layout($result);
-			return $output;
-
-		default:
+		// use default layout
+		if(!$layout) {
 			include_once $context['path_to_root'].'images/layout_images.php';
-			$variant =& new Layout_images();
-			$output =& $variant->layout($result, $layout);
-			return $output;
-
+			$layout =& new Layout_images();
+			$layout->set_variant($variant);
 		}
 
+		// do the job
+		$output =& $layout->layout($result);
+		return $output;
+		
 	}
 
 	/**

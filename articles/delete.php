@@ -209,10 +209,10 @@ else {
 		.'</p></form>'."\n";
 
 	// set the focus
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
 		.'$("confirmed").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX;
 
 }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * layout articles as a compact list
+ * layout articles as a very compact list
  *
  * @see articles/articles.php
  *

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on May 16, 2009, 8:01 pm GMT. Please do not modify it manually.
+ * on May 29, 2009, 11:48 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-14 23:14+0200
-PO-Revision-Date: 2009-04-09 13:16+0100
+POT-Creation-Date: 2009-05-29 13:33+0200
+PO-Revision-Date: 2009-05-29 13:40+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -74,6 +74,7 @@ $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
 $_SESSION['l10n']['fr']['Configure the page factory']='Configurer la fabrication des pages';
 $_SESSION['l10n']['fr']['4930118894d6683ec6a58335ed846ba1']='Félicitations, les thèmes ont été mis à jour.';
 $_SESSION['l10n']['fr']['Contact mail address']='Adresse de contact électronique';
+$_SESSION['l10n']['fr']['Content']='Contenu';
 $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['ac401adc11996ead19ea7430b43471ce']='Autoriser le téléchargement des sections sous forme de carte mentale Freemind';
 $_SESSION['l10n']['fr']['Contribute']='Exprimez-vous';
@@ -200,6 +201,7 @@ $_SESSION['l10n']['fr']['Previous pages']='Pages précédentes';
 $_SESSION['l10n']['fr']['2911c36b2184f7af42772a0c11761838']='Utiliser la base de données interne pour traiter les demandes de recherche';
 $_SESSION['l10n']['fr']['e1a228a54807b30b1336e2bf2d37560e']='Indiquer ce lien à un logiciel spécialisé, par exemple un lecteur de nouvelles RSS';
 $_SESSION['l10n']['fr']['Q: ']='Q: ';
+$_SESSION['l10n']['fr']['Questions']='Questions';
 $_SESSION['l10n']['fr']['Rate this page']='Votez pour cette page';
 $_SESSION['l10n']['fr']['Rating: %s']='Notation : %s';
 $_SESSION['l10n']['fr']['Read more']='En savoir plus';

@@ -1542,7 +1542,6 @@ dl.manual_comments dt.even {
 }
 
 .menu { /* a small inline menu, almost anywhere */
-	display: inline;
 	margin: 0;
 	padding: 0;
 	font-size: 0.8em;

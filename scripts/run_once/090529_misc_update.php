@@ -21,10 +21,17 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 // files to fetch, from root path
 unset($files);
 $files[] = 'control/htaccess/basic/.htaccess';
+$files[] = 'control/htaccess/indexes/.htaccess';
 $files[] = 'included/browser/player_flv_maxi.swf';
 $files[] = 'included/browser/library.js';
-//$files[] = 'shared/yacs.js';
-//$files[] = 'skins/_reference/yacs.css';
+$files[] = 'shared/yacs.js';
+$files[] = 'skins/_reference/down.gif';
+$files[] = 'skins/_reference/yacs.css';
+$files[] = 'skins/_reference/up.gif';
+$files[] = 'skins/boxesandarrows/boxesandarrows.css';
+$files[] = 'skins/digital/digital.css';
+$files[] = 'skins/joi/joi.css';
+$files[] = 'skins/skeleton/skeleton.css';
 
 // process every file
 $count = 0;

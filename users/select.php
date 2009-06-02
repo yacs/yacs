@@ -107,14 +107,14 @@ elseif(!$permitted) {
 		.'</p></form>'."\n";
 
 	// enable autocompletion
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'Event.observe(window, "load", function() { $("name").focus() });'."\n"
 		."\n"
 		.'// enable tags autocompletion'."\n"
 		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("name", "name_choices", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: ",", afterUpdateElement: function(text, li) { $("ajax_spinner").style.display = "inline"; $("main_form").submit() }, indicator: "ajax_spinner" }); });'."\n"
-		.'// ]]></script>';
+		.JS_SUFFIX;
 
 	// the current list of linked users
 	$assigned_users = array();

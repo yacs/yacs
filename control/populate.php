@@ -149,7 +149,7 @@ if(!$permitted) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -180,7 +180,7 @@ if(!$permitted) {
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'$("nick_name").focus();'."\n"
-		.'// ]]></script>';
+		.JS_SUFFIX;
 
 	// this may take some time
 	$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.')."</p>\n";

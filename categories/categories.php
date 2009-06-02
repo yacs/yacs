@@ -1234,7 +1234,7 @@ Class Categories {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $layout='compact') {
+	function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -1244,46 +1244,41 @@ Class Categories {
 		}
 
 		// special layouts
-		if(is_object($layout)) {
-			$output =& $layout->layout($result);
+		if(is_object($variant)) {
+			$output =& $variant->layout($result);
 			return $output;
 		}
 
-		// build an array of categories
-		switch($layout) {
+		// no layout yet
+		$layout = NULL;
+		
+		// separate options from layout name
+		$attributes = explode(' ', $variant, 2);
 
-		case 'cloud':
-			include_once $context['path_to_root'].'categories/layout_categories_as_cloud.php';
-			$variant =& new Layout_categories_as_cloud();
-			$output =& $variant->layout($result);
-			return $output;
+		// instanciate the provided name
+		if($attributes[0]) {
+			$name = 'layout_categories_as_'.$attributes[0];
+			if(is_readable($context['path_to_root'].'categories/'.$name.'.php')) {
+				include_once $context['path_to_root'].'categories/'.$name.'.php';
+				$layout =& new $name;
 
-		case 'compact':
-			include_once $context['path_to_root'].'categories/layout_categories_as_compact.php';
-			$variant =& new Layout_categories_as_compact();
-			$output =& $variant->layout($result);
-			return $output;
+				// provide parameters to the layout
+				if(isset($attributes[1]))
+					$layout->set_variant($attributes[1]);
+		
+			}
+		}
 
-		case 'raw':
-		case 'rpc':
-			include_once $context['path_to_root'].'categories/layout_categories_as_raw.php';
-			$variant =& new Layout_categories_as_raw();
-			$output =& $variant->layout($result);
-			return $output;
-
-		case 'tabs':
-			include_once $context['path_to_root'].'categories/layout_categories_as_tabs.php';
-			$layout =& new Layout_categories_as_tabs();
-			$output =& $layout->layout($result);
-			return $output;
-
-		default:
+		// use default layout
+		if(!$layout) {
 			include_once $context['path_to_root'].'categories/layout_categories.php';
-			$variant =& new Layout_categories();
-			$output =& $variant->layout($result, $layout);
-			return $output;
-
+			$layout =& new Layout_categories();
+			$layout->set_variant($variant);
 		}
+
+		// do the job
+		$output =& $layout->layout($result);
+		return $output;
 
 	}
 

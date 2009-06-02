@@ -106,7 +106,7 @@ $context['text'] .= '<form method="get" action="'.$context['script_url'].'" onsu
 	."</form>\n";
 
 // the script used for form handling at the browser
-$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+$context['text'] .= JS_PREFIX
 	.'	// check that main fields are not empty'."\n"
 	.'	func'.'tion validateDocumentPost(container) {'."\n"
 	."\n"
@@ -123,7 +123,7 @@ $context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
 	."\n"
 	.'// set the focus on first form field'."\n"
 	.'$("search").focus();'."\n"
-	.'// ]]></script>'."\n";
+	.JS_SUFFIX."\n";
 
 // nothing found yet
 $no_result = TRUE;

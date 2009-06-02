@@ -874,6 +874,46 @@ Class Sections {
 		return NULL;
 	}
 
+	function &get_layout($variant='full') {
+		global $context;
+
+		// special layouts
+		if(is_object($variant)) {
+			$output = $variant;
+			return $output;
+		}
+
+		// no layout yet
+		$layout = NULL;
+		
+		// separate options from layout name
+		$attributes = explode(' ', $variant, 2);
+
+		// instanciate the provided name
+		if($attributes[0]) {
+			$name = 'layout_sections_as_'.$attributes[0];
+			if(is_readable($context['path_to_root'].'sections/'.$name.'.php')) {
+				include_once $context['path_to_root'].'sections/'.$name.'.php';
+				$layout =& new $name;
+
+				// provide parameters to the layout
+				if(isset($attributes[1]))
+					$layout->set_variant($attributes[1]);
+		
+			}
+		}
+
+		// use default layout
+		if(!$layout) {
+			include_once $context['path_to_root'].'sections/layout_sections.php';
+			$layout =& new Layout_sections();
+			$layout->set_variant($variant);
+		}
+
+		// do the job
+		return $layout;
+	}
+
 	/**
 	 * get sections as options of a &lt;SELECT&gt; field
 	 *
@@ -1099,7 +1139,6 @@ Class Sections {
 		if(!$item = Sections::get($current))
 			return $text;
 			
-		
 		// list everything to associates
 		if(Surfer::is_associate())
 			$where = " AND (sections.active='Y' OR sections.active='R' OR sections.active='N'";
@@ -1108,11 +1147,11 @@ Class Sections {
 		else {
 		
 			// display active items
-			$where = " AND ((sections.active='Y' AND sections.locked='N')";
+			$where = " AND ((sections.active='Y')";
 	
 			// add restricted items to logged members, or if teasers are allowed
 			if(Surfer::is_teased())
-				$where .= " OR (sections.active='R' AND sections.locked='N')";
+				$where .= " OR (sections.active='R')";
 				
 		}
 		
@@ -1184,8 +1223,12 @@ Class Sections {
 		} else {
 		
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE (sections.anchor='' OR sections.anchor IS NULL)".$where." AND ((sections.index_map IS NULL) OR (sections.index_map != 'N'))"
-				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
+				." WHERE (sections.anchor='' OR sections.anchor IS NULL)".$where;
+				
+			if(!Surfer::is_associate())
+				$query .= " AND ((sections.index_map IS NULL) OR (sections.index_map != 'N'))";
+				
+			$query .= " ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
 			if($result =& SQL::query($query)) {
 	
 				// process all matching sections
@@ -1565,9 +1608,14 @@ Class Sections {
 			$silent = TRUE;
 		else
 			$silent = FALSE;
+		
+		// provide context to layout
+		$layout =& Sections::get_layout($variant);
+		if($anchor)
+			$layout->set_variant($anchor);
 			
 		// do the job
-		$output =& Sections::list_selected(SQL::query($query, $silent), $variant, $anchor);
+		$output =& Sections::list_selected(SQL::query($query, $silent), $layout);
 		return $output;
 	}
 
@@ -1741,20 +1789,18 @@ Class Sections {
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
-	 * @param string context to be used for the layout
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see skins/boxesandarrows/template.php
 	 */
-	function &list_selected(&$result, $variant='full', $anchor=NULL) {
+	function &list_selected(&$result, $variant='full') {
 		global $context;
 
-		// the result
-		$output = NULL;
-
 		// no result
-		if(!$result)
+		if(!$result) {
+			$output = NULL;
 			return $output;
+		}
 
 		// special layouts
 		if(is_object($variant)) {
@@ -1762,91 +1808,10 @@ Class Sections {
 			return $output;
 		}
 
-		// build an array of links
-		switch($variant) {
-
-		case 'compact':
-			include_once $context['path_to_root'].'sections/layout_sections_as_compact.php';
-			$layout =& new Layout_sections_as_compact();
-			break;
-
-		case 'folded':
-			include_once $context['path_to_root'].'sections/layout_sections_as_folded.php';
-			$layout =& new Layout_sections_as_folded();
-			break;
-
-		case 'freemind':
-			include_once $context['path_to_root'].'sections/layout_sections_as_freemind.php';
-			$layout =& new Layout_sections_as_freemind();
-			break;
-
-		case 'menu':
-			include_once $context['path_to_root'].'sections/layout_sections_as_menu.php';
-			$layout =& new Layout_sections_as_menu();
-			break;
-
-		case 'raw':
-			include_once $context['path_to_root'].'sections/layout_sections_as_raw.php';
-			$layout =& new Layout_sections_as_raw();
-			break;
-
-		case 'simple':
-			include_once $context['path_to_root'].'sections/layout_sections_as_simple.php';
-			$layout =& new Layout_sections_as_simple();
-			break;
-
-		case 'tabs':
-			include_once $context['path_to_root'].'sections/layout_sections_as_tabs.php';
-			$layout =& new Layout_sections_as_tabs();
-			break;
-
-		case 'thumbnails':
-			include_once $context['path_to_root'].'sections/layout_sections_as_thumbnails.php';
-			$layout =& new Layout_sections_as_thumbnails();
-			break;
-
-		case 'yahoo':
-			include_once $context['path_to_root'].'sections/layout_sections_as_yahoo.php';
-			$layout =& new Layout_sections_as_yahoo();
-			break;
-
-		default:
-
-			// allow for overload in skin -- see skins/import.php
-			if(is_callable(array('skin', 'layout_section'))) {
-
-				// build an array of links
-				$items = array();
-				while($item =& SQL::fetch($result)) {
-
-					// url to read the full section
-					$url =& Sections::get_permalink($item);
-
-					// reset the rendering engine between items
-					if(is_callable(array('Codes', 'initialize')))
-						Codes::initialize($url);
-
-					// format the resulting string depending on variant
-					$items[$url] = Skin::layout_section($item, $variant);
-
-				}
-
-				// end of processing
-				SQL::free($result);
-				return $items;
-
-			// else use an external layout
-			} else {
-				include_once $context['path_to_root'].'sections/layout_sections.php';
-				$layout =& new Layout_sections();
-				$layout->set_variant($variant);
-				$output =& $layout->layout($result);
-				return $output;
-			}
-
-		}
-
-		$layout->set_variant($anchor);
+		// get a layout
+		$layout =& Sections::get_layout($variant);
+		
+		// do the job
 		$output =& $layout->layout($result);
 		return $output;
 	}

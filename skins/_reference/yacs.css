@@ -301,6 +301,10 @@ div#tabs_panels div.panel-foreground {
 	max-width: 3000px; /* avoid overlap between tabbed panels in FF */
 }
 
+div#tabs_panels div.panel-background div.sidebar_box { /* show sidebars in visible tabs */
+	display: block;
+}
+	
 div#tabs_panels div.panel-background {
 /*	display: none;  do not hide tab content, this may kill Google Maps */
 	position: absolute;
@@ -308,6 +312,10 @@ div#tabs_panels div.panel-background {
 	max-width: 3000px; /* avoid overlap between tabbed panels in FF */
 }
 
+div#tabs_panels div.panel-background div.sidebar_box { /* mask sidebars in hidden tabs */
+	display: none;
+}
+	
 /**
  * styles for threads
  *
@@ -403,8 +411,6 @@ p.tags a {
 	font-weight:	400;
 	font-style:	normal;
 	color:	#666666;
-	background: transparent url("tag_bg.gif") top left no-repeat;
-	border-right: 1px solid #c2c2c1;
 	padding: 1px 5px 2px 15px;
 	margin: 0;
 	text-transform:	none;
@@ -414,6 +420,15 @@ p.tags a {
 	line-height:	16px;
 	text-align:	start;
 	vertical-align:	baseline;
+}
+
+@media screen { /* only on screen */
+
+	p.tags a {
+		background: transparent url("tag_bg.gif") top left no-repeat;
+		border-right: 1px solid #c2c2c1;
+	}
+
 }
 
 /**
@@ -614,3 +629,36 @@ table.jive,
 table.yabb { /* align comments below thumbnails in main content */
 	clear: left;
 }
+
+div.toc_box div.panel { /* content of sliding panels */
+	opacity: 0.9;
+	background-color: #eee;
+	padding: 1em;
+	width: 40em;
+}
+
+/* do not print commands */
+
+@media print { /* things to not print */
+
+	.daily_menu, 		/* used in blogs */
+	.menu, 				/* an inline menu */
+	.menu_bar,			/* a line of commands */
+	.no_print,			/* something to be only displayed */
+	.page_menu,			/* the main line of commands for this page */
+	.path,				/* bread crumbs */
+	.toc_box,			/* table of content */
+	#extra_panel,		/* side content */
+	#footer_panel,		/* nothing to be printed there */
+	#header_panel,		/* nothing to be printed here */
+	#navigation_panel {	/* repeated across pages */
+		display: none;
+	}
+	
+	#main_panel { margin: 0px 0px 20px 0px; } /* no margin please */
+
+
+}
+
+
+

@@ -175,10 +175,10 @@ if($id) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
 		.'$("focus").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 	// use an available archive
 	$context['text'] .= '<p>'.i18n::s('Alternatively, this script is able to handle archives that have been put in the directory <code>inbox/skins</code>.').'</p>';

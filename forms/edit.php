@@ -398,7 +398,7 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['page_footer'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -441,7 +441,7 @@ if($with_form) {
 		.'// set the focus on first form field'."\n"
 		.'Event.observe(window, "load", function() { $("title").focus() });'."\n"
 		."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 	// content of the help box
 	$help = '<p>';
@@ -473,10 +473,10 @@ if($with_form) {
 
 	// the script used to restore previous state
 	if(isset($item['content']) && $item['content']) {
-		$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
+		$context['page_footer'] .= JS_PREFIX
 			.'// restore fields of the form'."\n"
 			.'Event.observe(window, "load", function() { Forms.fromJSON("form_panel", '.utf8::encode($item['content']).') });'."\n"
-			.'// ]]></script>'."\n";
+			.JS_SUFFIX."\n";
 	}
 
 }

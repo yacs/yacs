@@ -340,7 +340,7 @@ if($with_form) {
 		$context['text'] .= $anchor->get_suffix();
 
 	// the script used for form handling at the browser
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'	// check that main fields are not empty'."\n"
 		.'	func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -357,7 +357,7 @@ if($with_form) {
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'$("title").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX;
 
 	// general help on this form
 	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'),

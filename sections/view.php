@@ -1057,19 +1057,6 @@ if(!isset($item['id'])) {
 					if(@count($box['bar']) && ($context['skin_variant'] != 'mobile'))
 						$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 
-					// part of the main content
-					if($box['text']) {
-
-						// add a title in case of complex page
-						$title = '';
-						if(preg_match('/<h2>|<h3>/', $context['text'].$text))
-							$title = i18n::s('Recent pages');
-
-						// insert a full box
-						$box['text'] =& Skin::build_box($title, $box['text'], 'header1', 'articles');
-
-					}
-
 					// there is some box content
 					if(trim($box['text']))
 						$text .= $box['text'];
@@ -1318,24 +1305,17 @@ if(!isset($item['id'])) {
 				$title = '';
 				if(preg_match('/(<h1|<h2|<h3|<table|\[title|\[subtitle)/i', $context['text'].$text) || (strlen($context['text'].$text) > 2048))
 					$title = $title_label;
-
-				// show commands
-				if(count($box['bar']) && ($context['skin_variant'] != 'mobile')) {
-
-					// shortcut to last comment in page
-					if(is_object($layout) && ($stats['count'] > 7)) {
-						$box['text'] = Skin::build_list(array('#last_comment' => i18n::s('Page bottom')), 'menu_bar').$box['text'];
-						$box['text'] .= '<span id="last_comment" />';
-					}
-
-					// append the menu bar at the end
-					$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-
-				}
-
-				// insert a full box
-				$box['text'] =& Skin::build_box($title, $box['text'], 'header1', 'comments');
+					
 			}
+
+			// show commands
+			if(count($box['bar']) && ($context['skin_variant'] != 'mobile'))
+				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
+
+			// insert a full box
+			if($box['text'])
+				$box['text'] =& Skin::build_box($title, $box['text'], 'header1', 'comments');
+
 
 			// there is some box content
 			if(trim($box['text']))

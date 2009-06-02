@@ -51,6 +51,10 @@ Class Layout_dates_as_compact extends Layout_interface {
 
 			// build a valid label
 			$label = Codes::beautify_title($item['title']);
+			
+			// append the date of the event
+			if(isset($item['date_stamp']) && $item['date_stamp'])
+				$label .= ' ['.date('Ymd', SQL::strtotime($item['date_stamp'])).']';
 
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, 'basic', NULL);

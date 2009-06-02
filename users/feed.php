@@ -115,7 +115,7 @@ if(!isset($item['id'])) {
 			$values['channel']['image'] = $context['url_to_home'].$context['url_to_root'].$context['powered_by_image'];
 
 		// the list of newest pages
-		$values['items'] = (array)Articles::list_for_author_by('publication', $item['id'], 0, 50, 'feeds');
+		$values['items'] = (array)Articles::list_for_author_by('publication', $item['id'], 0, 50, 'feed');
 
 		// make a text
 		include_once '../services/codec.php';
@@ -142,29 +142,14 @@ if(!isset($item['id'])) {
 	}
 
 	// enable 30-minute caching (30*60 = 1800), even through https, to help IE6 on download
-	if(!headers_sent()) {
-		Safe::header('Expires: '.gmdate("D, d M Y H:i:s", time() + 1800).' GMT');
-		Safe::header("Cache-Control: max-age=1800, public");
-		Safe::header("Pragma: ");
-	}
+	http::expire(1800);
 
-	// strong validation
-	if((!isset($context['without_http_cache']) || ($context['without_http_cache'] != 'Y')) && !headers_sent()) {
-
-		// generate some strong validator
-		$etag = '"'.md5($text).'"';
-		Safe::header('ETag: '.$etag);
-
-		// validate the content if hash is ok
-		if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && is_array($if_none_match = explode(',', str_replace('\"', '"', $_SERVER['HTTP_IF_NONE_MATCH'])))) {
-			foreach($if_none_match as $target) {
-				if(trim($target) == $etag) {
-					Safe::header('Status: 304 Not Modified', TRUE, 304);
-					return;
-				}
-			}
-		}
-	}
+	// strong validator
+	$etag = '"'.md5($text).'"';
+	
+	// manage web cache
+	if(http::validate(NULL, $etag))
+		return;
 
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

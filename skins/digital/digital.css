@@ -1731,7 +1731,6 @@ dl.manual_comments dt.even {
 }
 
 .menu { /* a small inline menu, almost anywhere */
-	display: inline;
 	margin: 0;
 	padding: 0;
 	font-size: 0.8em;
@@ -2067,8 +2066,9 @@ table.tiny tr td { /* [table=tiny]...[/table] */
 	background-color: #F5F5F5;
 	font-size: 0.7em;;
 	padding: 9px;
-	margin-top: 0.5em;
-	margin-bottom: 1em;
+	margin: 0 0 2em 2em;
+	float: right;
+	max-width: 30em;
 }
 
 #main_panel div.toc_box ul { /* first level of the toc */

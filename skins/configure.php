@@ -332,15 +332,15 @@ elseif(!Surfer::is_associate()) {
 	$input .= ' onclick="$(skins_search_form).disabled=0"/> '.i18n::s('Use the following form to delegate search requests');
 	
 	// default to Google appliance
-	if(!isset($context['skins_search_form']))
-		$context['skins_search_form'] = '<form method="GET" action="http://search.mycompany.com/search">'."\n"
-			.'   <input type="text" name="q" size="10" maxlength="256" value="%s">'."\n"
-			.'   <input type="submit" name="btnG" value="&raquo;">'."\n"
-			.'   <input type="hidden" name="site" value="default_collection">'."\n"
-			.'   <input type="hidden" name="client" value="default_frontend">'."\n"
-			.'   <input type="hidden" name="output" value="xml_no_dtd">'."\n"
-			.'   <input type="hidden" name="proxystylesheet" value="default_frontend">'."\n"
-			.'</form>';
+	if(!isset($context['skins_search_form']) || !$context['skins_search_form'])
+		$context['skins_search_form'] = '<form method="get" action="http://search.mycompany.com/search"><div>'."\n"
+			.'   <input type="text" name="q" size="10" maxlength="256" value="%s" />'."\n"
+			.'   <input type="submit" name="btnG" value="&raquo;" />'."\n"
+			.'   <input type="hidden" name="site" value="default_collection" />'."\n"
+			.'   <input type="hidden" name="client" value="default_frontend" />'."\n"
+			.'   <input type="hidden" name="output" value="xml_no_dtd" />'."\n"
+			.'   <input type="hidden" name="proxystylesheet" value="default_frontend" />'."\n"
+			.'</div></form>';
 	$input .= BR.'<textarea name="skins_search_form" id="skins_search_form"cols="60" rows="3">'.encode_field($context['skins_search_form']).'</textarea>';
 	$components .= '<p>'.$label.BR.$input."</p>\n";
 

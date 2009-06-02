@@ -572,7 +572,7 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -612,7 +612,7 @@ if($with_form) {
 		.'// observe changes in form'."\n"
 		.'Event.observe(window, "load", detectChanges);'."\n"
 		."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX;
 
 	// reply or quote
 	if(isset($reference_item['description']) && $reference_item['description'] && (($action == 'quote') || ($action == 'reply'))) {

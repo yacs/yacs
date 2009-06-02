@@ -106,7 +106,7 @@ if(!file_exists($context['path_to_root'].$html_name)
 		.'	}'."\n"
 		."\n"
 		.'}'."\n"
-		.'// ]]></script>'."\n"
+		.JS_SUFFIX."\n"
 		.'</html>'."\n";
 
 	// save into the file system

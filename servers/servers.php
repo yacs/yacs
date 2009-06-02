@@ -362,7 +362,7 @@ Class Servers {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => array ($prefix, $label, $suffix, $type, $icon)
 	 */
-	function &list_selected(&$result, $layout='compact') {
+	function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -372,24 +372,24 @@ Class Servers {
 		}
 
 		// special layouts
-		if(is_object($layout)) {
-			$output =& $layout->layout($result);
+		if(is_object($variant)) {
+			$output =& $variant->layout($result);
 			return $output;
 		}
 
 		// one of regular layouts
-		switch($layout) {
+		switch($variant) {
 
 		case 'compact':
 			include_once $context['path_to_root'].'servers/layout_servers_as_compact.php';
-			$variant =& new Layout_servers_as_compact();
-			$output =& $variant->layout($result);
+			$layout =& new Layout_servers_as_compact();
+			$output =& $layout->layout($result);
 			return $output;
 
 		case 'dates':
 			include_once $context['path_to_root'].'servers/layout_servers_as_dates.php';
-			$variant =& new Layout_servers_as_dates();
-			$output =& $variant->layout($result);
+			$layout =& new Layout_servers_as_dates();
+			$output =& $layout->layout($result);
 			return $output;
 
 		case 'feed':
@@ -431,8 +431,8 @@ Class Servers {
 
 		default:
 			include_once $context['path_to_root'].'servers/layout_servers.php';
-			$variant =& new Layout_servers();
-			$output =& $variant->layout($result, $layout);
+			$layout =& new Layout_servers();
+			$output =& $layout->layout($result);
 			return $output;
 
 		}

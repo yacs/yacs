@@ -107,10 +107,10 @@ elseif(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// set the focus
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
 		.'$("reference_server").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 	// general help on this form
 	$help = '<p>'.i18n::s('Indicate only the DNS name or IP address of the reference server; nothing more, nothing less.').'</p>';

@@ -123,7 +123,7 @@ if(!Surfer::is_associate()) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['page_footer'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['page_footer'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -140,7 +140,7 @@ if(!Surfer::is_associate()) {
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'$("id").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 }
 

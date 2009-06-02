@@ -546,7 +546,7 @@ Class Tables {
 	 * @variant string 'compact' or nothing
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &list_selected(&$result, $layout='compact') {
+	function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -556,24 +556,24 @@ Class Tables {
 		}
 
 		// special layout
-		if(is_object($layout)) {
-			$output =& $layout->layout($result);
+		if(is_object($variant)) {
+			$output =& $variant->layout($result);
 			return $output;
 		}
 
 		// a regular layout
-		switch($layout) {
+		switch($variant) {
 
 		case 'compact':
 			include_once $context['path_to_root'].'tables/layout_tables_as_compact.php';
-			$variant =& new Layout_tables_as_compact();
-			$output =& $variant->layout($result);
+			$layout =& new Layout_tables_as_compact();
+			$output =& $layout->layout($result);
 			return $output;
 
 		default:
 			include_once $context['path_to_root'].'tables/layout_tables.php';
-			$variant =& new Layout_tables();
-			$output =& $variant->layout($result, $layout);
+			$layout =& new Layout_tables();
+			$output =& $layout->layout($result, $variant);
 			return $output;
 
 		}

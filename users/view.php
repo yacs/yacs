@@ -500,7 +500,7 @@ if(!isset($item['id'])) {
 				// recipients
 				$label = i18n::s('Invite people');
 				$input = '<textarea name="id" id="id" rows="3" cols="40"></textarea><div id="id_choice" class="autocomplete"></div>';
-				$box .= '<p>'.$label.BR.$input.'</p>';
+				$box .= '<div>'.$label.'</div>'.$input;
 	
 			// engage the browsed surfer
 			} else
@@ -531,7 +531,7 @@ if(!isset($item['id'])) {
 				$sidebar .= Skin::build_box(sprintf(i18n::s('Start a private page with %s'), $item['full_name']), $box, 'folded');
 	
 			// append the script used for data checking on the browser
-			$sidebar .= '<script type="text/javascript">// <![CDATA['."\n"
+			$sidebar .= JS_PREFIX
 				.'// check that main fields are not empty'."\n"
 				.'func'.'tion validateDocumentPost(container) {'."\n"
 				."\n"
@@ -555,7 +555,7 @@ if(!isset($item['id'])) {
 				."\n"
 				.'// enable autocompletion'."\n"
 				.'Event.observe(window, "load", function() { new Ajax.Autocompleter("id", "id_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
-				.'// ]]></script>';
+				.JS_SUFFIX;
 
 		}
 		
@@ -621,7 +621,7 @@ if(!isset($item['id'])) {
 				$rows[] = array(i18n::s('Web address'), Skin::build_link($item['web_address'], $item['web_address'], 'external'));
 	
 			if(count($rows))
-				$box['text'] .= Skin::table(NULL, $rows, 'form');
+				$box['text'] .= Skin::table(NULL, $rows, 'wide');
 
 		// motivate people to register
 		} elseif(!Surfer::is_logged())
@@ -712,7 +712,7 @@ if(!isset($item['id'])) {
 		}
 
 		if(count($rows))
-			$sidebar .= Skin::build_box(i18n::s('Business card'), Skin::table(NULL, $rows, 'form'), 'unfolded');
+			$sidebar .= Skin::build_box(i18n::s('Business card'), Skin::table(NULL, $rows, 'wide'), 'unfolded');
 
 		// show preferences only to related surfers and to associates
 		//
@@ -927,7 +927,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['aside']['channels'] = Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
+		$context['aside']['channels'] = Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feed');
 
 	// more boxes
 	$context['aside']['boxes'] = '';

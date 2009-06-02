@@ -262,7 +262,7 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// append the script used for data checking on the browser
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -273,7 +273,7 @@ if($with_form) {
 		.'// set the focus on first form field'."\n"
 		.'$("password").focus();'."\n"
 		."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 }
 
 // render the skin

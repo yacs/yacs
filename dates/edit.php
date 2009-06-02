@@ -214,7 +214,7 @@ if($with_form) {
 	$context['text'] .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$context['text'] .= '<script type="text/javascript">// <![CDATA['."\n"
+	$context['text'] .= JS_PREFIX
 		.'	// check that main fields are not empty'."\n"
 		.'	func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -231,7 +231,7 @@ if($with_form) {
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'$("date").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX;
 
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';

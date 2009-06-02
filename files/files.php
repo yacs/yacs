@@ -399,8 +399,9 @@ Class Files {
 				if($new_id = Files::post($item)) {
 
 					// more pairs of strings to transcode
+					$transcoded[] = array('/\[embed='.preg_quote($old_id, '/').'/i', '[embed='.$new_id);
 					$transcoded[] = array('/\[file='.preg_quote($old_id, '/').'/i', '[file='.$new_id);
-					$transcoded[] = array('/\[flash='.preg_quote($old_id, '/').'/i', '[flash='.$new_id);
+					$transcoded[] = array('/\[flash='.preg_quote($old_id, '/').'/i', '[flash='.$new_id); // obsolete, to be removed by end 2009
 					$transcoded[] = array('/\[download='.preg_quote($old_id, '/').'/i', '[download='.$new_id);
 					$transcoded[] = array('/\[sound='.preg_quote($old_id, '/').'/i', '[sound='.$new_id);
 
@@ -1132,6 +1133,24 @@ Class Files {
 	}
 
 	/**
+	 * the file can be embedded in a page
+	 *
+	 * This function returns TRUE for following file types:
+	 * - flv
+	 * - m4v
+	 * - mov
+	 * - mp4
+	 * - swf
+	 *
+	 * @param string file name, including extension
+	 * @return TRUE or FALSE
+	 *
+	 */
+	function is_embeddable($name) {
+		return preg_match('/\.(flv|mov|m4v|mp4|swf)$/i', $name);
+	}
+
+	/**
 	 * should this file be streamed?
 	 *
 	 * @param string file name, including extension
@@ -1273,7 +1292,7 @@ Class Files {
 			$where .= " OR files.active='N'";
 
 		// list items attached to this anchor, or to articles anchored to this anchor, or to articles anchored to sub-sections of this anchor
-		if($anchor && ($variant == 'feeds')) {
+		if($anchor && ($variant == 'feed')) {
 
 				// files attached directly to this anchor
 			$query = "(SELECT files.* FROM ".SQL::table_name('files')." AS files"
@@ -1570,7 +1589,7 @@ Class Files {
 			$where .= " OR files.active='N'";
 
 		// list items attached to this anchor, or to articles anchored to this anchor, or to articles anchored to sub-sections of this anchor
-		if($anchor && ($variant == 'feeds')) {
+		if($anchor && ($variant == 'feed')) {
 
 			// files attached directly to this anchor
 			$query = "(SELECT files.* FROM ".SQL::table_name('files')." AS files"
@@ -1648,7 +1667,7 @@ Class Files {
 	 * @see skins/skin_skeleton.php
 	 * @see files/fetch_all.php
 	 */
-	function &list_selected(&$result, $layout='compact') {
+	function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -1658,58 +1677,42 @@ Class Files {
 		}
 
 		// special layout
-		if(is_object($layout)) {
-			$output =& $layout->layout($result);
+		if(is_object($variant)) {
+			$output =& $variant->layout($result);
 			return $output;
 		}
 
-		// one of regular layouts
-		switch($layout) {
+		// no layout yet
+		$layout = NULL;
+		
+		// separate options from layout name
+		$attributes = explode(' ', $variant, 2);
 
-		case 'compact':
-			include_once $context['path_to_root'].'files/layout_files_as_compact.php';
-			$variant =& new Layout_files_as_compact();
-			$output =& $variant->layout($result);
-			return $output;
+		// instanciate the provided name
+		if($attributes[0]) {
+			$name = 'layout_files_as_'.$attributes[0];
+			if(is_readable($context['path_to_root'].'files/'.$name.'.php')) {
+				include_once $context['path_to_root'].'files/'.$name.'.php';
+				$layout =& new $name;
 
-		case 'dates':
-			include_once $context['path_to_root'].'files/layout_files_as_dates.php';
-			$variant =& new Layout_files_as_dates();
-			$output =& $variant->layout($result);
-			return $output;
+				// provide parameters to the layout
+				if(isset($attributes[1]))
+					$layout->set_variant($attributes[1]);
+		
+			}
+		}
 
-		case 'feeds':
-			include_once $context['path_to_root'].'files/layout_files_as_feed.php';
-			$variant =& new Layout_files_as_feed();
-			$output =& $variant->layout($result);
-			return $output;
-
-		case 'hits':
-			include_once $context['path_to_root'].'files/layout_files_as_hits.php';
-			$variant =& new Layout_files_as_hits();
-			$output =& $variant->layout($result);
-			return $output;
-
-		case 'raw':
-			include_once $context['path_to_root'].'files/layout_files_as_raw.php';
-			$variant =& new Layout_files_as_raw();
-			$output =& $variant->layout($result);
-			return $output;
-
-		case 'simple':
-			include_once $context['path_to_root'].'files/layout_files_as_simple.php';
-			$variant =& new Layout_files_as_simple();
-			$output =& $variant->layout($result);
-			return $output;
-
-		default:
+		// use default layout
+		if(!$layout) {
 			include_once $context['path_to_root'].'files/layout_files.php';
-			$variant =& new Layout_files();
-			$output =& $variant->layout($result, $layout);
-			return $output;
-
+			$layout =& new Layout_files();
+			$layout->set_variant($variant);
 		}
 
+		// do the job
+		$output =& $layout->layout($result);
+		return $output;
+		
 	}
 
 	/**

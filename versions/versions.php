@@ -268,14 +268,13 @@ Class Versions {
 	 *
 	 * Accept following layouts:
 	 * - 'compact' - to build short lists in boxes and sidebars (this is the default)
-	 * - 'feeds' - an array of $url => array($time, $label, $author, $section, $icon, $introduction, $content, $trackback) for feeds and search
 	 *
 	 * @param resource result of database query
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $key => ($prefix, $label, $suffix, $type, $icon)
 	 *
 	 */
-	function &list_selected(&$result, $layout='compact') {
+	function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -285,58 +284,25 @@ Class Versions {
 		}
 
 		// special layouts
-		if(is_object($layout)) {
-			$output =& $layout->layout($result);
+		if(is_object($variant)) {
+			$output =& $variant->layout($result);
 			return $output;
 		}
 
 		// build an array of links
-		switch($layout) {
+		switch($variant) {
 
 		case 'compact':
 			include_once $context['path_to_root'].'versions/layout_versions_as_compact.php';
-			$variant =& new Layout_versions_as_compact();
-			$output =& $variant->layout($result);
+			$layout =& new Layout_versions_as_compact();
+			$output =& $layout->layout($result);
 			return $output;
 
-//		case 'feeds':
-//			include_once $context['path_to_root'].'versions/layout_versions_as_feed.php';
-//			$variant =& new Layout_versions_as_feed();
-//			$output =& $variant->layout($result);
-//			return $output;
-
 		default:
-
-			// allow for overload in skin
-			if(is_callable(array('skin', 'layout_version'))) {
-
-				// build an array of links
-				$items = array();
-				while($item =& SQL::fetch($result)) {
-
-					// reset the rendering engine between items
-					if(is_callable(array('Codes', 'initialize')))
-						Codes::initialize(versions::get_url($item['id']));
-
-					// url to read the full version
-					$url = versions::get_url($item['id']);
-
-					// format the resulting string depending on layout
-					$items[$url] = Skin::layout_version($item, $layout);
-
-				}
-
-				// end of processing
-				SQL::free($result);
-				return $items;
-
-			// else use an external layout
-			} else {
-				include_once $context['path_to_root'].'versions/layout_versions.php';
-				$variant =& new Layout_versions();
-				$output =& $variant->layout($result, $layout);
-				return $output;
-			}
+			include_once $context['path_to_root'].'versions/layout_versions.php';
+			$layout =& new Layout_versions();
+			$output =& $layout->layout($result);
+			return $output;
 
 		}
 

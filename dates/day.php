@@ -44,8 +44,8 @@ load_skin('dates');
 // the title of the page
 $context['page_title'] = ucfirst(Skin::build_date($target, 'day'));
 
-// we do need 10 chars
-if(strlen($target) != 10) {
+// we do need between 8 and 10 chars
+if((strlen($target) < 8) || (strlen($target) > 10)) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 

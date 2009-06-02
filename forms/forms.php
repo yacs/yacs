@@ -211,7 +211,7 @@ Class Forms {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => array ($prefix, $label, $suffix, $type, $icon)
 	 */
-	function &list_selected(&$result, $layout='compact') {
+	function &list_selected(&$result, $variant='compact') {
 		global $context;
 
 		// no result
@@ -221,28 +221,42 @@ Class Forms {
 		}
 
 		// special layouts
-		if(is_object($layout)) {
-			$output =& $layout->layout($result);
-			return $output;
-		}
-
-		// one of regular layouts
-		switch($layout) {
-
-		case 'compact':
-			include_once $context['path_to_root'].'forms/layout_forms_as_compact.php';
-			$variant =& new Layout_forms_as_compact();
+		if(is_object($variant)) {
 			$output =& $variant->layout($result);
 			return $output;
-
-		default:
-			include_once $context['path_to_root'].'forms/layout_forms.php';
-			$variant =& new Layout_forms();
-			$output =& $variant->layout($result, $layout);
-			return $output;
-
 		}
 
+		// no layout yet
+		$layout = NULL;
+		
+		// separate options from layout name
+		$attributes = explode(' ', $variant, 2);
+
+		// instanciate the provided name
+		if($attributes[0]) {
+			$name = 'layout_forms_as_'.$attributes[0];
+			if(is_readable($context['path_to_root'].'forms/'.$name.'.php')) {
+				include_once $context['path_to_root'].'forms/'.$name.'.php';
+				$layout =& new $name;
+
+				// provide parameters to the layout
+				if(isset($attributes[1]))
+					$layout->set_variant($attributes[1]);
+		
+			}
+		}
+
+		// use default layout
+		if(!$layout) {
+			include_once $context['path_to_root'].'forms/layout_forms.php';
+			$layout =& new Layout_forms();
+			$layout->set_variant($variant);
+		}
+
+		// do the job
+		$output =& $layout->layout($result);
+		return $output;
+		
 	}
 
 	/**

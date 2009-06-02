@@ -135,8 +135,8 @@ Class Layout_articles_as_daily extends Layout_interface {
 				$detaisl[] = UPDATED_FLAG;
 
 			// publication hour
-			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-				$details[] = Skin::build_time($item['publish_date']);
+// 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
+// 				$details[] = Skin::build_time($item['publish_date']);
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')

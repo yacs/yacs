@@ -335,7 +335,7 @@ if(Surfer::is_crawler()) {
 	$text .= '</div></form>';
 
 	// the script used for form handling at the browser
-	$text .= '<script type="text/javascript">// <![CDATA['."\n"
+	$text .= JS_PREFIX
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
@@ -373,7 +373,7 @@ if(Surfer::is_crawler()) {
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'$("url").focus();'."\n"
-		.'// ]]></script>'."\n";
+		.JS_SUFFIX."\n";
 
 	// trackback link
 	$label = i18n::s('Trackback address:');

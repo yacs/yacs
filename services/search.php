@@ -99,30 +99,30 @@ switch($type) {
 	default:
 	case 'articles':
 	case 'images':
-		$values['items'] = Articles::search($search, 0, 30, 'feeds');
+		$values['items'] = Articles::search($search, 0, 30, 'feed');
 		break;
 
 	// search in comments
 	case 'comments':
 		include_once $context['path_to_root'].'comments/comments.php';
-		$values['items'] = Comments::search($search, 0, 30, 'feeds');
+		$values['items'] = Comments::search($search, 0, 30, 'feed');
 		break;
 
 	// search in files
 	case 'files':
 		include_once $context['path_to_root'].'files/files.php';
-		$values['items'] = Files::search($search, 0, 30, 'feeds');
+		$values['items'] = Files::search($search, 0, 30, 'feed');
 		break;
 
 	// search in links
 	case 'links':
 		include_once $context['path_to_root'].'links/links.php';
-		$values['items'] = Links::search($search, 0, 30, 'feeds');
+		$values['items'] = Links::search($search, 0, 30, 'feed');
 		break;
 
 	// search in users
 	case 'users':
-		$values['items'] = Users::search($search, 0, 30, 'feeds');
+		$values['items'] = Users::search($search, 0, 30, 'feed');
 		break;
 
 }
