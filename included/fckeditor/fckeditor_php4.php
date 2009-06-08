@@ -260,3 +260,4 @@ class FCKeditor
 		return strtr( $valueToEncode,  $chars ) ;
 	}
 }
+?>

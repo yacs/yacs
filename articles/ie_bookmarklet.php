@@ -56,7 +56,7 @@ if(!file_exists($context['path_to_root'].$html_name)
 	|| (Safe::filemtime($context['path_to_root'].'articles/ie_bookmarklet.php') > Safe::filemtime($context['path_to_root'].$html_name))) {
 
 	$content = '<html>'."\n"
-		.'<script language="javascript" defer>// <![CDATA['."\n"
+		.JS_PREFIX."\n"
 		.'// ensure we can rely on an adequate object model'."\n"
 		.'if(typeof(external) == "undefined") {'."\n"
 		."\n"

@@ -1093,9 +1093,19 @@ Class Skin_Skeleton {
 		// add a link
 		if($link && preg_match('/\.(gif|jpeg|jpg|png)$/', $link) && !preg_match('/\blarge\b/', $variant))
 			$text .= '<a href="'.$link.'" class="image_show">'.$image.'</a>';
-		elseif($link)
-			$text .= '<a href="'.$link.'">'.$image.'</a>';
-		else
+		elseif($link) {
+			$external = FALSE;
+			if(!strncmp($link, 'http:', 5) && strncmp($link, 'http://'.$context['host_name'], strlen('http://'.$context['host_name'])))
+				$external = TRUE;
+			elseif(!strncmp($link, 'https:', 6) && strncmp($link, 'https://'.$context['host_name'], strlen('https://'.$context['host_name'])))
+				$external = TRUE;
+				
+			if($external)
+				$text = '<a href="'.$link.'" onclick="window.open(this.href); return false;">'.$image.'</a>';
+			else
+				$text .= '<a href="'.$link.'">'.$image.'</a>';
+			
+		} else
 			$text .= $image;
 
 		// make the title visible as a caption
@@ -1757,7 +1767,7 @@ Class Skin_Skeleton {
 
 		// a bare reference to an image
 		if($default_icon && strncmp($default_icon, '<img ', 5))
-			$default_icon = '<img src="'.$default_icon.'" alt="" />';
+			$default_icon = '<img src="'.$default_icon.'" alt="" class="reflect" />';
 		elseif($default_icon)
 			;
 
@@ -1825,9 +1835,14 @@ Class Skin_Skeleton {
 				if(!preg_match('/^(\/|http:|https:|ftp:)/', $icon))
 					$icon = $context['url_to_root'].$icon;
 
+				// adjust the class
+				$class= '';
+				if(($variant == 'column_1') || ($variant == 'column_2'))
+					$class = 'class="reflect" ';
+					
 				// build the complete HTML element
-				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($label).'" />';
-
+				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($label).'" '.$class.'/>';
+				
 			// use default icon if nothing to display
 			} else
 				$icon = $default_icon;

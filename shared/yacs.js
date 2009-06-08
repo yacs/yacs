@@ -1268,21 +1268,17 @@ var Yacs = {
 	slide_panel: function(handle, down_href, up_href) {
 
 		// align to the parent container
-		var container = handle.up();
+		var container = Element.up(handle);
 		Element.setStyle(container, {position: 'relative'});
 
 		// the panel to slide
-		var panel = handle.next('div');
+		var panel = Element.next(handle, 'div');
 		
 		// the sliding panel is positioned below the handle
 		var leftTop = Element.cumulativeOffset(container);
-//		console.log('handle', leftTop);
-//		console.log('scroll', Element.cumulativeScrollOffset(handle));
-//		console.log('ancestors', Element.ancestors(handle));
-//		var leftEdge   = leftTop.left + container.getWidth() - ;
 
 		// the menu is visible on screen
-		if(leftTop.left + handle.getWidth() - panel.getWidth() > 0) {
+		if(leftTop.left + Element.getWidth(handle) - Element.getWidth(panel) > 0) {
 			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', right: '0px', zIndex: 20});
 		
 		// align on the left side instead
@@ -1296,7 +1292,7 @@ var Yacs = {
 			new Effect.SlideDown(panel, {duration:.5, scaleContent:false});
 
 			// change the image (if there is an image)
-			var icon = handle.down('img');
+			var icon = Element.down(handle, 'img');
 			if(icon && up_href) {
 				icon.src = up_href;
 			}
@@ -1307,7 +1303,7 @@ var Yacs = {
 			new Effect.SlideUp(panel, {duration:.5, scaleContent:false});
 			
 			// change the image (if there is an image)
-			var icon = handle.down('img');
+			var icon = Element.down(handle, 'img');
 			if(icon && down_href) {
 				icon.src = down_href;
 			}

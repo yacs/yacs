@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on May 29, 2009, 11:45 am GMT. Please do not modify it manually.
+ * on June 4, 2009, 7:51 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2009-05-15 10:11+0100
+POT-Creation-Date: 2009-06-04 21:46+0200
+PO-Revision-Date: 2009-06-04 21:51+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -92,7 +92,7 @@ $_SESSION['l10n']['fr']['Authenticate with password %s']='Mot de passe %s';
 $_SESSION['l10n']['fr']['Authenticated externally.']='Authentifiés extérieurement.';
 $_SESSION['l10n']['fr']['ab70f618778ee6c8fa452521c94b9f0d']='Tout membre authentifié est autorisé à modifier ses propres articles.';
 $_SESSION['l10n']['fr']['6021d3dd0571ef65b5bcf61d2cd09cbc']='Tout membre authentifié est autorisé à envoyer des images ou des fichiers.';
-$_SESSION['l10n']['fr']['a40d38a7b2c7c958f9bd6331354042b6']='Tout membre authentifié est autorisé à poster de nouveaux articles.';
+$_SESSION['l10n']['fr']['816c9a402dbb6753bef8bde81ebdecc3']='Tout membre authentifié est autorisé à ajouter du contenu nouveau.';
 $_SESSION['l10n']['fr']['Authentication']='Authentification';
 $_SESSION['l10n']['fr']['Authenticators']='Authentification';
 $_SESSION['l10n']['fr']['41fc857c53b5476eb325975632e3c0f4']='Les authenticateurs ci-dessous facilitent l\'intégration de votre serveur à un gestionnaire d\'utilisateurs existant.';
@@ -276,7 +276,7 @@ $_SESSION['l10n']['fr']['3ab2035d9b42ae68e4f9df44b65f31ce']='Présenter une boî
 $_SESSION['l10n']['fr']['Oldest logins']='Les authentifications les plus anciennes';
 $_SESSION['l10n']['fr']['Oldest posts']='Les contributions les plus anciennes';
 $_SESSION['l10n']['fr']['On-line help is available at %s']='Une aide en ligne est disponible à l\'adresse %s';
-$_SESSION['l10n']['fr']['250a06e0f4860782f00191be00e1402b']='Seuls les associés peuvent ajouter des pages. Les membres peuvent envoyer des commentaires.';
+$_SESSION['l10n']['fr']['9f16e67e3fa0460ff16bf6ee3d333f9c']='Seuls les associés peuvent ajouter du contenu.';
 $_SESSION['l10n']['fr']['203ef10289352e9e5e6a555c7e9eebe8']='Seuls les associés peuvent envoyer des images ou des fichiers.';
 $_SESSION['l10n']['fr']['35c333a96614afc5811cba9c5e714c15']='Seuls les associés peuvent créer de nouveaux profils d\'utilisateur.';
 $_SESSION['l10n']['fr']['fdea2b0a05052ee4383effa32a81c795']='Seuls les associés peuvent effacer des profils d\'utilisateur.';

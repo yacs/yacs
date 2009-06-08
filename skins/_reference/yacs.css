@@ -42,6 +42,11 @@ pre {
 	overflow: auto; /* add an horizontal bar to browse long lines of code, if necessary */
 }
 
+table {
+	clear: none;	/* IE6 clears tables */
+	width: 99%;		/* else IE6 may put tables below floating divs */
+}
+
 /**
  * scriptaculous autocomplete
  *

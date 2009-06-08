@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2008 Frederico Caldeira Knabben
  *
@@ -24,7 +24,6 @@
  * It defines the FCKeditor class that can be used to create editor
  * instances in PHP pages on server side.
  *
- * @reference
  */
 
 /**

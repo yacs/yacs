@@ -1051,7 +1051,7 @@ a.button:active span, span.button:focus button {
 
 table.calendar { /* add bottom and right borders to the table*/
 	border-spacing: 0;
-	border-collapse: separate;
+	border-collapse: collapse;
 	border-bottom: 1px solid #bfbfbf;
 	border-right: 1px solid #bfbfbf;
 	margin-top: 0;
@@ -1554,7 +1554,7 @@ dl.gadget_box dt { /* header of one gadget box */
 
 table.grid { /* add bottom and right borders to the table*/
 	border-spacing: 0;
-	border-collapse: separate;
+	border-collapse: collapse;
 	border-bottom: 1px solid #bfbfbf;
 	border-right: 1px solid #bfbfbf;
 }
@@ -2197,7 +2197,7 @@ table.tiny tr td { /* [table=tiny]...[/table] */
 table.wide { /* to introduce threads and comments -- see articles/layout_articles_as_jive.php */
 	width: 80%;
 	max-width: 700px;
-	margin: 0px;
+	margin: 1px;
 	border: 1px solid #ccc;
 }
 

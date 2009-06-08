@@ -24,7 +24,6 @@
  * It loads the correct integration file based on the PHP version (avoiding
  * strict error messages with PHP 5).
  *
- * @reference
  */
 
 if ( !function_exists('version_compare') || version_compare( phpversion(), '5', '<' ) )

@@ -842,7 +842,7 @@ a:hover.button { /* hover a button */
 
 table.calendar { /* add bottom and right borders to the table*/
 	border-spacing: 0;
-	border-collapse: separate;
+	border-collapse: collapse;
 	border-bottom: 1px solid #bfbfbf;
 	border-right: 1px solid #bfbfbf;
 	margin-top: 0;
@@ -1349,7 +1349,7 @@ dl.gadget_box dt { /* header of one gadget box */
 
 table.grid { /* add bottom and right borders to the table*/
 	border-spacing: 0;
-	border-collapse: separate;
+	border-collapse: collapse;
 	border-bottom: 1px solid #bfbfbf;
 	border-right: 1px solid #bfbfbf;
 }
@@ -2007,8 +2007,8 @@ div.metadata {
 }
 
 table.wide { /* to introduce threads and comments -- see articles/layout_articles_as_jive.php */
-	width: 100%;
-	margin: 0px;
+	width: 99%;
+	margin: 1px;
 }
 
 dl.wiki_comments { /* to list comments in a wiki -- see comments/layout_comments_as_wiki.php */

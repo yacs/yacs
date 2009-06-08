@@ -429,7 +429,7 @@ ul { /* an ordinary list -- [list]...[/list] */
 		background: #fff url("images/yacs_background.png") repeat-y 25% 0%; /*	*/
 		margin: 0;
 		padding: 0;
-		width: 100%;
+		width: 99%;
 		max-width: 90em;
 	}
 
@@ -740,7 +740,7 @@ body#slideshow h1 { /* title for slideshows */
 		font-size: 3px; /* for IE */
 		margin: 0;
 		padding: 0 0 5px 0;
-		width: 100%;
+		width: 99%;
 	}
 
 	#wrapper_suffix { /* bottom decoration */
@@ -749,7 +749,7 @@ body#slideshow h1 { /* title for slideshows */
 		font-size: 3px; /* for IE */
 		margin: 0;
 		padding: 5px 0 0 0;
-		width: 100%;
+		width: 99%;
 	}
 
 }
@@ -882,7 +882,7 @@ p.away { /* not visible for ordinary browsers -- accessibility tweak */
 
 table.calendar { /* add bottom and right borders to the table*/
 	border-spacing: 0;
-	border-collapse: separate;
+	border-collapse: collapse;
 	border-bottom: 1px solid #bfbfbf;
 	border-right: 1px solid #bfbfbf;
 	margin-bottom: 1em;
@@ -1101,7 +1101,7 @@ p.date { /* date of a post, above its title -- articles/layout_articles_as_daily
 	margin-top: 1.5em;
 	margin-bottom: 0;
 	padding-bottom: 4px;
-	width: 100%;
+	width: 99%;
 	border-bottom: 1px solid #ddd;
 	text-align: right;
 }
@@ -1387,7 +1387,7 @@ dl.gadget_box dt span { /* header of one gadget box */
 
 table.grid { /* add bottom and right borders to the table*/
 	border-spacing: 0;
-	border-collapse: separate;
+	border-collapse: collapse;
 	border-bottom: 1px solid #bfbfbf;
 	border-right: 1px solid #bfbfbf;
 }
@@ -2011,8 +2011,8 @@ table.tiny tr td { /* [table=tiny]...[/table] */
 }
 
 table.wide { /* to introduce threads and comments -- see articles/layout_articles_as_jive.php */
-	width: 100%;
-	margin: 0px;
+	width: 99%;
+	margin: 1px;
 	border: 1px solid #ccc;
 }
 
@@ -2048,7 +2048,7 @@ dl.wiki_comments dt.even {
 }
 
 table.yabb { /* to introduce threads and comments -- see articles/layout_articles_as_yabb.php */
-	width: 100%;
+	width: 99%;
 	margin: 0px;
 	border: 1px solid #ccc;
 }

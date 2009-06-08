@@ -765,8 +765,8 @@ Class Codes {
 				'/\[quote\](.*?)\[\/quote\]/ise',		// [quote]...[/quote]
 				'/\[folded=([^\]]+?)\](.*?)\[\/folded\]\s*/ise',	// [folded=...]...[/folded]
 				'/\[folded\](.*?)\[\/folded\]\s*/ise',	// [folded]...[/folded]
-				'/\[folder=([^\]]+?)\](.*?)\[\/folder\]\s*/ise',	// [folder=...]...[/folder] --obsolete to be removed by end 2009
-				'/\[folder\](.*?)\[\/folder\]\s*/ise',	// [folder]...[/folder] --obsolete to be removed by end 2009
+				'/\[folder=([^\]]+?)\](.*?)\[\/folder\]\s*/ise',	// [folder=...]...[/folder]
+				'/\[folder\](.*?)\[\/folder\]\s*/ise',	// [folder]...[/folder]
 				'/\[unfolded=([^\]]+?)\](.*?)\[\/unfolded\]\s*/ise',	// [unfolded=...]...[/unfolded]
 				'/\[unfolded\](.*?)\[\/unfolded\]\s*/ise',	// [unfolded]...[/unfolded]
 				'/\[sidebar=([^\]]+?)\](.*?)\[\/sidebar\]\s*/ise',	// [sidebar=...]...[/sidebar]

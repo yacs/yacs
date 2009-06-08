@@ -24,6 +24,11 @@ $files[] = 'control/htaccess/basic/.htaccess';
 $files[] = 'control/htaccess/indexes/.htaccess';
 $files[] = 'included/browser/player_flv_maxi.swf';
 $files[] = 'included/browser/library.js';
+$files[] = 'included/fckeditor/editor/dialog/fck_spellerpages/spellerpages/blank.html';
+$files[] = 'included/fckeditor/editor/dialog/fck_spellerpages/spellerpages/server-scripts/spellchecker.php';
+$files[] = 'included/fckeditor/fckeditor.php';
+$files[] = 'included/fckeditor/fckeditor_php4.php';
+$files[] = 'included/fckeditor/fckeditor_php5.php';
 $files[] = 'shared/yacs.js';
 $files[] = 'skins/_reference/down.gif';
 $files[] = 'skins/_reference/yacs.css';
@@ -32,6 +37,7 @@ $files[] = 'skins/boxesandarrows/boxesandarrows.css';
 $files[] = 'skins/digital/digital.css';
 $files[] = 'skins/joi/joi.css';
 $files[] = 'skins/skeleton/skeleton.css';
+$files[] = 'tools/transform.xsl';
 
 // process every file
 $count = 0;

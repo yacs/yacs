@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on May 29, 2009, 11:45 am GMT. Please do not modify it manually.
+ * on June 4, 2009, 7:51 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2009-05-15 10:04+0100
+POT-Creation-Date: 2009-06-04 21:46+0200
+PO-Revision-Date: 2009-06-04 21:49+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -92,7 +92,7 @@ $_SESSION['l10n']['en']['Authenticate with password %s']='Authenticate with pass
 $_SESSION['l10n']['en']['Authenticated externally.']='Authenticated externally.';
 $_SESSION['l10n']['en']['ab70f618778ee6c8fa452521c94b9f0d']='Authenticated members are allowed to modify articles they have posted.';
 $_SESSION['l10n']['en']['6021d3dd0571ef65b5bcf61d2cd09cbc']='Authenticated members are allowed to post images and files.';
-$_SESSION['l10n']['en']['a40d38a7b2c7c958f9bd6331354042b6']='Authenticated members are allowed to submit new articles.';
+$_SESSION['l10n']['en']['816c9a402dbb6753bef8bde81ebdecc3']='Authenticated members are allowed to submit new content.';
 $_SESSION['l10n']['en']['Authentication']='Authentication';
 $_SESSION['l10n']['en']['Authenticators']='Authenticators';
 $_SESSION['l10n']['en']['41fc857c53b5476eb325975632e3c0f4']='Authenticators listed below can be used to link this server to an existing list of users.';
@@ -276,7 +276,7 @@ $_SESSION['l10n']['en']['3ab2035d9b42ae68e4f9df44b65f31ce']='Offer anonymous sur
 $_SESSION['l10n']['en']['Oldest logins']='Oldest logins';
 $_SESSION['l10n']['en']['Oldest posts']='Oldest posts';
 $_SESSION['l10n']['en']['On-line help is available at %s']='On-line help is available at %s';
-$_SESSION['l10n']['en']['250a06e0f4860782f00191be00e1402b']='Only associates are allowed to add pages. Members can post comments.';
+$_SESSION['l10n']['en']['9f16e67e3fa0460ff16bf6ee3d333f9c']='Only associates are allowed to add content.';
 $_SESSION['l10n']['en']['203ef10289352e9e5e6a555c7e9eebe8']='Only associates are allowed to post images and files.';
 $_SESSION['l10n']['en']['35c333a96614afc5811cba9c5e714c15']='Only associates can create new user profiles.';
 $_SESSION['l10n']['en']['fdea2b0a05052ee4383effa32a81c795']='Only associates can delete user profiles.';
