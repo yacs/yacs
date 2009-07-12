@@ -41,9 +41,9 @@ Class Users {
 	/**
 	 * alert one user
 	 *
-	 * This script send either a real-time notification or an asynchronous
-	 * e-mail message. The notification is preferred if the end-user is present
-	 * at the site, else the e-mail message is used.
+	 * This script sends an e-mail message.
+	 *
+	 * @todo use the notification to create an action?
 	 *
 	 * This function will ensure that only one alert is send to a user,
 	 * by maintaining an internal list of ids that have been processed.
@@ -75,17 +75,6 @@ Class Users {
 
 		// remember this recipient
 		$already_processed[] = $user['id'];
-
-		// interactive alerts have not been activated, send an e-mail
-		if(!isset($context['users_with_alerts']) || ($context['users_with_alerts'] != 'Y'))
-			;
-
-		// send a notification if the user is present
-		elseif(Users::check_presence_of($user) && isset($notification['type'])) {
-			$notification['recipient'] = $user['id'];
-			include_once $context['path_to_root'].'users/notifications.php';
-			return Notifications::post($notification);
-		}
 
 		// a valid address is required for e-mail...
 		if(!isset($user['email']) || !$user['email'])
@@ -512,7 +501,7 @@ Class Users {
 
 		// check the target action
 		if(!preg_match('/^(contact|delete|describe|edit|element|feed|fetch_vcard|mail|navigate|password|print|select_avatar|share|validate|view|visit)$/', $action))
-			$action = 'view';
+			return 'users/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 // 		// view user profile --use only the nick name, since it is unique
 // 		if(($action == 'view') && $name) {

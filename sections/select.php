@@ -11,7 +11,7 @@
  * - can assign a sub-section, if any exists
  * - can reuse the section thumbnail in the article, if any
  *
- * Only associates can use this script. This means that editors cannot delegate their power to someone else.
+ * Associates can use this script to assign editors across the content tree.
  *
  * Accept following invocations:
  * - select.php?anchor=user:12
@@ -44,7 +44,7 @@ else
 	$context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
 
 // the title of the page
-if(is_object($anchor))
+if(is_object($anchor) && $anchor->is_viewable())
 	$context['page_title'] = sprintf(i18n::s('Sections for %s'), $anchor->get_title());
 
 // stop crawlers
@@ -57,7 +57,7 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Logger::error(i18n::s('No anchor has been found.'));
 
-// surfer has to be an associate
+// security screening
 } elseif(!Surfer::is_associate()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
@@ -78,9 +78,6 @@ if(Surfer::is_crawler()) {
 			Members::free($_REQUEST['member'], $_REQUEST['anchor']);
 
 	}
-
-	// back to the anchor page
-	$context['page_menu'] = array($anchor->get_url() => i18n::s('Back to main page'));
 
 	// insert anchor prefix
 	if(is_object($anchor))
@@ -186,6 +183,11 @@ if(Surfer::is_crawler()) {
 			.'<input type="hidden" name="action" value="set">'
 			.'</p></form>'."\n";
 	}
+
+	// back to the anchor page
+	$links = array();
+	$links[] = Skin::build_link($anchor->get_url(), i18n::s('Done'), 'button');
+	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
 
 	// insert anchor suffix
 	if(is_object($anchor))

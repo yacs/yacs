@@ -105,7 +105,7 @@ elseif(isset($item['active']) && ($item['active'] == 'N') && Surfer::is_empowere
 	$permitted = TRUE;
 
 // public access is allowed
-elseif(($item['active'] == 'Y') || ($item['active'] == 'X'))
+elseif($item['active'] == 'Y')
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -148,19 +148,19 @@ if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/stre
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url().'#files' => i18n::s('Back to main page') ));
+	$context['page_menu'] += array( $anchor->get_url().'#files' => i18n::s('Back to main page') );
 
 // download command
 if($item['id'] && $permitted)
-	$context['page_menu'] = array_merge($context['page_menu'], array( Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download') ));
+	$context['page_menu'] += array( Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download') );
 
 // edit command, if allowed to do so
 if($item['id'] && $editable)
-	$context['page_menu'] = array_merge($context['page_menu'], array( Files::get_url($item['id'], 'edit') => i18n::s('Edit') ));
+	$context['page_menu'] += array( Files::get_url($item['id'], 'edit') => i18n::s('Edit') );
 
 // delete command provided to associates and editors
 if($item['id'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())))
-	$context['page_menu'] = array_merge($context['page_menu'], array( Files::get_url($item['id'], 'delete') => i18n::s('Delete') ));
+	$context['page_menu'] += array( Files::get_url($item['id'], 'delete') => i18n::s('Delete') );
 
 // not found
 if(!$item['id']) {
@@ -199,15 +199,8 @@ if(!$item['id']) {
 		// where the file is
 		$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
-		// map the file on the ftp server
-		if($item['active'] == 'X') {
-			Safe::load('parameters/files.include.php');
-			$url_prefix = str_replace('//', '/', $context['files_url'].'/');
-
-		// or map the file on the regular web space
-		} else
-			$url_prefix = $context['url_to_home'].$context['url_to_root'];
-
+		// map the file on the regular web space
+		$url_prefix = $context['url_to_home'].$context['url_to_root'];
 
 		// redirect to the actual file
 		$target_href = $url_prefix.$path;
@@ -322,7 +315,7 @@ if(!$item['id']) {
 			.'<div id="live_flash">'."\n";
 
 		// render object full size
-		$text .= Codes::render_object('flash', $item['id'].', 100%, 90%');
+		$text .= Codes::render_object('embed', $item['id'].', 100%, 90%');
 
 		// add a link to close the window
 		$text .= '</div>'."\n"

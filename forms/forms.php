@@ -111,7 +111,7 @@ Class Forms {
 
 		// check the target action
 		if(!preg_match('/^(delete|edit|view)$/', $action))
-			$action = 'view';
+			return 'forms/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
 		return normalize_url(array('forms', 'form'), $action, $id, $name);

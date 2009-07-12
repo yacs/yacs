@@ -432,7 +432,7 @@ Class Actions {
 
 		// check the target action
 		if(!preg_match('/^(accept|delete|edit|view)$/', $action))
-			$action = 'view';
+			return 'actions/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
 		return normalize_url(array('actions', 'action'), $action, $id, $name);

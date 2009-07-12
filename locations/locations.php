@@ -283,7 +283,7 @@ Class Locations {
 
 		// check the target action
 		if(!preg_match('/^(delete|edit|map_on_earth|map_on_google|view)$/', $action))
-			$action = 'view';
+			return 'locations/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
 		return normalize_url(array('locations', 'location'), $action, $id, $name);

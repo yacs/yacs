@@ -316,10 +316,6 @@ Class Collections {
 		if(($action == 'fetch') && ($context['with_friendly_urls'] == 'Y'))
 			return 'collections/'.$action.'.php/?id='.urlencode($id);
 
-		// check the target action
-		if(!preg_match('/^(delete|edit|fetch|stream|view)$/', $action))
-			$action = 'view';
-
 		// be cool with search engines
 		if($context['with_friendly_urls'] == 'Y')
 			return 'collections/'.$action.'.php/'.rawurlencode($id);

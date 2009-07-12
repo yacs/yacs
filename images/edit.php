@@ -87,7 +87,9 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../shared/xml.php';	// input validation
+include_once 'image.php';	// image processing
 include_once 'images.php';
+include_once '../files/files.php'; //file upload
 
 // the maximum size for uploads
 $image_maximum_size = str_replace('M', '000000', Safe::get_cfg_var('upload_max_filesize'));
@@ -220,181 +222,65 @@ if(Surfer::is_crawler()) {
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
+	// create an anchor if none has been provided
+	if(!is_object($anchor)) {
+
+		// set the title
+		if(isset($_REQUEST['title']) && $_REQUEST['title'])
+			$fields['title'] = ucfirst(strip_tags($_REQUEST['title']));
+		else
+			$fields['title'] = ucfirst(strip_tags($file_name));
+
+		// most of time, it is more pertinent to move the description to the article itself
+		$fields['description'] = $_REQUEST['description'];
+		$_REQUEST['description'] = '';
+
+		$fields['source'] = $_REQUEST['source'];
+		$_REQUEST['source'] = '';
+
+		// use the provided section
+		if($_REQUEST['section'])
+			$fields['anchor'] = $_REQUEST['section'];
+
+		// or select the default section
+		else
+			$fields['anchor'] = 'section:'.Sections::get_default();
+
+		// create a hosting article for this image
+		if($fields['id'] = Articles::post($fields)) {
+			$anchor =& Anchors::get('article:'.$fields['id']);
+			$_REQUEST['anchor'] = $anchor->get_reference();
+		}
+		$fields = array();
+	}
+
 	// a file has been uploaded
 	if(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
 
-		// access the temporary uploaded file
-		$file_upload = $_FILES['upload']['tmp_name'];
+		// where to put this file
+		$file_path = 'images/'.$context['virtual_path'].str_replace(':', '/', $_REQUEST['anchor']);
+		
+		// attach some file
+		if($file_name = Files::upload($_FILES['upload'], $file_path, array('Image', 'upload')))
+			$_REQUEST['image_name'] = $file_name;
 
-		// $_FILES transcoding to utf8 is not automatic
-		$_FILES['upload']['name'] = utf8::encode($_FILES['upload']['name']);
-
-		// enhance file name
-		$file_name = $_FILES['upload']['name'];
-		$file_extension = '';
-		$position = strrpos($_FILES['upload']['name'], '.');
-		if($position !== FALSE) {
-			$file_name = substr($_FILES['upload']['name'], 0, $position);
-			$file_extension = strtolower(substr($_FILES['upload']['name'], $position+1));
-		}
-		$_FILES['upload']['name'] = str_replace(array('.', '_', '%20'), ' ', $file_name);
-		if($file_extension)
-			$_FILES['upload']['name'] .= '.'.$file_extension;
-
-		// ensure we have a file name
-		$file_name = utf8::to_ascii($_FILES['upload']['name']);
-		$_REQUEST['image_name'] = $file_name;
-
-		// create an anchor if none has been provided
-		if(!is_object($anchor)) {
-
-			// set the title
-			if(isset($_REQUEST['title']) && $_REQUEST['title'])
-				$fields['title'] = ucfirst(strip_tags($_REQUEST['title']));
-			else
-				$fields['title'] = ucfirst(strip_tags($file_name));
-
-			// most of time, it is more pertinent to move the description to the article itself
-			$fields['description'] = $_REQUEST['description'];
-			$_REQUEST['description'] = '';
-
-			$fields['source'] = $_REQUEST['source'];
-			$_REQUEST['source'] = '';
-
-			// use the provided section
-			if($_REQUEST['section'])
-				$fields['anchor'] = $_REQUEST['section'];
-
-			// or select the default section
-			else
-				$fields['anchor'] = 'section:'.Sections::get_default();
-
-			// create a hosting article for this image
-			if($fields['id'] = Articles::post($fields)) {
-				$anchor =& Anchors::get('article:'.$fields['id']);
-				$_REQUEST['anchor'] = $anchor->get_reference();
-			}
-			$fields = array();
-		}
-
+//		logger::error($file_name.' is ok');
+		
 		// maybe this image has already been uploaded for this anchor
-		if(isset($_REQUEST['anchor'])) {
-			$existing_row =& Images::get_by_anchor_and_name($_REQUEST['anchor'], $file_name);
-			if($existing_row['id']) {
-				$item = $existing_row;
-				$_REQUEST['id'] = $item['id'];
-			}
+		if(isset($_REQUEST['anchor']) && ($match =& Images::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
+
+			// if yes, switch to the matching record (and forget the record fetched previously, if any)
+			$_REQUEST['id'] = $match['id'];
+			$item = $match;
 		}
 
-		// uploads are not allowed
-		if(!Surfer::may_upload())
-			Logger::error(i18n::s('You are not allowed to perform this operation.'));
+		// remember file size
+		$_REQUEST['image_size'] = $_FILES['upload']['size'];
 
-		// size exceeds php.ini settings -- UPLOAD_ERR_INI_SIZE
-		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 1))
-			Logger::error(i18n::s('The size of this file is over limit.'));
-
-		// size exceeds form limit -- UPLOAD_ERR_FORM_SIZE
-		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 2))
-			Logger::error(i18n::s('The size of this file is over limit.'));
-
-		// partial transfer -- UPLOAD_ERR_PARTIAL
-		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 3))
-			Logger::error(i18n::s('No file has been transmitted.'));
-
-		// no file -- UPLOAD_ERR_NO_FILE
-		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 4))
-			Logger::error(i18n::s('No file has been transmitted.'));
-
-		// zero bytes transmitted
-		elseif(!$_FILES['upload']['size'])
-			Logger::error(i18n::s('No file has been transmitted.'));
-
-		// an anchor is mandatory to put the file in the file system
-		elseif(!is_object($anchor))
-			Logger::error(i18n::s('No anchor has been found.'));
-
-		// check provided upload name
-		elseif(!Safe::is_uploaded_file($file_upload))
-			Logger::error(i18n::s('Possible file attack.'));
-
-		// we accept only valid images
-		elseif(!$image_information = Safe::GetImageSize($file_upload))
-			Logger::error(sprintf(i18n::s('No image information in %s'), $file_name));
-
-		// we accept only gif, jpeg and png
-		elseif(($image_information[2] != 1) && ($image_information[2] != 2) && ($image_information[2] != 3))
-			Logger::error(sprintf(i18n::s('Rejected file type %s'), $file_name));
-
-		// save the image into the web space
-		else {
-
-			// create folders
-			$file_path = $context['path_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $_REQUEST['anchor']).'/';
-			Safe::make_path($file_path.'thumbs');
-
-			// move the uploaded file
-			if(!Safe::move_uploaded_file($file_upload, $file_path.$file_name))
-				Logger::error(sprintf(i18n::s('Impossible to move the upload file to %s'), $file_path.$file_name));
-
-			// this will be filtered by umask anyway
-			else
-				Safe::chmod($file_path.$file_name, $context['file_mask']);
-
-			// remember file size
-			$_REQUEST['image_size'] = $_FILES['upload']['size'];
-
-			// silently delete the previous image if the name has changed
-			if($item['image_name'] && $file_name && ($item['image_name'] != $file_name)) {
-				$file_path = $context['path_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/';
-				Safe::unlink($file_path.$item['image_name']);
-				Safe::unlink($file_path.$item['thumbnail_name']);
-			}
-
-			// build a thumbnail
-			$_REQUEST['thumbnail_name'] = 'thumbs/'.$file_name;
-
-			// do not stop on error
-			include_once $context['path_to_root'].'images/image.php';
-			if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar'))
-				Image::shrink($file_path.$file_name, $file_path.$_REQUEST['thumbnail_name'], TRUE, TRUE);
-			else
-				Image::shrink($file_path.$file_name, $file_path.$_REQUEST['thumbnail_name'], FALSE, TRUE);
-
-			// always limit the size of avatar images
-			if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar')) {
-				if(Image::adjust($file_path.$file_name, TRUE, 'avatar'))
-					$_REQUEST['image_size'] = Safe::filesize($file_path.$file_name);
-
-			// resize the image where applicable
-			} elseif(isset($_REQUEST['automatic_process'])) {
-				if(Image::adjust($file_path.$file_name, TRUE, 'standard'))
-					$_REQUEST['image_size'] = Safe::filesize($file_path.$file_name);
-
-			}
-
-			// all details
-			$details = array();
-
-			// extract exif information from JPEG files, if any -- BUGGY function !!!
-//			if(($image_information[2] == 2) && is_callable('read_exif_data') && ($attributes = read_exif_data($file_path.$file_name))) {
-//				foreach($attributes as $name => $value) {
-//					if(preg_match('/^(ApertureFNumber|CameraMake|CameraModel|DateTime|ExposureTime|FocalLength|ISOspeed)$/i', $name))
-//						$details[] = $name.': '.$value;
-//				}
-//			}
-
-			// image size
-			if($image_information = Safe::GetImageSize($file_path.$file_name)) {
-				$details[] = sprintf(i18n::c('Size: %s x %s'), $image_information[0], $image_information[1]);
-			}
-
-			// update image description
-			if(!isset($_REQUEST['description']))
-				$_REQUEST['description'] = '';
-			if((@count($details)) || ($_REQUEST['description'] == ''))
-				$_REQUEST['description'] .= "\n\n".'<p class="details">'.implode(BR."\n", $details)."</p>\n";
-
+		// silently delete the previous file if the name has changed
+		if($item['image_name'] && $file_name && ($item['image_name'] != $file_name) && isset($file_path)) {
+			Safe::unlink($file_path.'/'.$item['file_name']);
+			Safe::unlink($file_path.'/'.$item['thumbnail_name']);
 		}
 
 	// nothing has been posted
@@ -441,7 +327,7 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= '<p>'.i18n::s('The image has become the page icon.').'</p>';
 		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar')) {
 			$action = 'image:set_as_avatar';
-			$context['text'] .= '<p>'.i18n::s('The image has become the user avatar.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('The image has become the profile avatar.').'</p>';
 		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_thumbnail')) {
 			$action = 'image:set_as_thumbnail';
 			$context['text'] .= '<p>'.i18n::s('This has become the thumbnail image of the page.').'</p>';
@@ -515,9 +401,13 @@ if($with_form) {
 
 	// the form to edit an image
 	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" id="main_form"><div>';
+	$fields = array();
 
-	// the section, for direct uploads
-	if(!$anchor) {
+	// the section
+	if($anchor)
+		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
+
+	else {
 
 		// a splash message for new users
 		$context['text'] .= Skin::build_block(i18n::s('This script will create a brand new page for the uploaded file. If you would like to add an image to an existing page, browse the target page instead and use the adequate command from the menu bar.'), 'caution')."\n";
@@ -679,10 +569,6 @@ if($with_form) {
 	// transmit the id as a hidden field
 	if(isset($item['id']) && $item['id'])
 		$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
-
-	// other hidden fields
-	if(is_object($anchor))
-		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 
 	// end of the form
 	$context['text'] .= '</div></form>';

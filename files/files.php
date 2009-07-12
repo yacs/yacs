@@ -123,6 +123,7 @@ Class Files {
 			// members can contribute except if container is locked
 			if(isset($item['locked']) && ($item['locked'] == 'Y'))
 				return FALSE;
+
 			return TRUE;
 			
 		}
@@ -153,10 +154,6 @@ Class Files {
 
 		// anonymous contributions are allowed for this anchor
 		if(is_object($anchor) && $anchor->is_editable())
-			return TRUE;
-
-		// teasers are activated
-		if(Surfer::is_teased())
 			return TRUE;
 
 		// the default is to not allow for new files
@@ -268,7 +265,7 @@ Class Files {
 			logger::profile('files::count_for_anchor');
 
 		// limit the scope of the request
-		$where = "files.active='Y' OR files.active='X'";
+		$where = "files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
@@ -297,15 +294,6 @@ Class Files {
 			Logger::error(i18n::s('No item has the provided id.'));
 			return FALSE;
 		}
-
-		// the file is in the external space
-		if($item['active'] == 'X') {
-			Safe::load('parameters/files.include.php');
-			$file_path = $context['files_path'].'/';
-
-		// or in the web space
-		} else
-			$file_path = $context['path_to_root'];
 
 		// actual deletion of the file
 		list($anchor_type, $anchor_id) = explode(':', $item['anchor'], 2);
@@ -861,7 +849,7 @@ Class Files {
 			." AND ";
 
 		// limit the scope of the request
-		$query .= "(files.active='Y' OR files.active='X'";
+		$query .= "(files.active='Y'";
 		if(Surfer::is_member())
 			$query .= " OR files.active='R'";
 		if(Surfer::is_associate())
@@ -895,7 +883,7 @@ Class Files {
 			return $item;
 
 		// limit the scope of the request
-		$where = "files.active='Y' OR files.active='X'";
+		$where = "files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
@@ -946,7 +934,7 @@ Class Files {
 			return $item;
 
 		// limit the scope of the request
-		$where = "files.active='Y' OR files.active='X'";
+		$where = "files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
@@ -1038,7 +1026,7 @@ Class Files {
 
 		// check the target action
 		if(!preg_match('/^(author|delete|edit|fetch|list|stream|thread|view)$/', $action))
-			$action = 'view';
+			return 'files/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
 		return normalize_url(array('files', 'file'), $action, $id, $name);
@@ -1082,6 +1070,137 @@ Class Files {
 	 * @return TRUE or FALSE
 	 *
 	 */
+	/**
+	 * integrate some player for the file, if any
+	 *
+	 * @param array the file to look at
+	 * @param int width for video player
+	 * @param int height of video player
+	 * @return string tags to be put in the HTML flow, or an empty string
+	 */
+	function interact($item, $width=320, $height=240, $flashvars='', $with_icon=TRUE) {
+		global $context;
+		
+		static $counter;
+		if(!isset($counter))
+			$counter = 1;
+		else
+			$counter++;
+			
+		// several ways to play flash
+		switch(strtolower(substr($item['file_name'], -3))) {
+
+		// audio file handled by dewplayer
+		case 'mp3':
+		
+			// only if the player is available
+			if(file_exists($context['path_to_root'].'included/browser/dewplayer.swf')) {
+	
+				// the player
+				$dewplayer_url = $context['url_to_root'].'included/browser/dewplayer.swf';
+	
+				// the mp3 file
+				if(isset($item['file_href']) && $item['file_href'])
+					$mp3_url = $item['file_href'];
+				else
+					$mp3_url = $context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
+				$flashvars = 'son='.$mp3_url;
+	
+				// combine the two in a single object
+				return '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+					.JS_PREFIX
+					.'var params = {};'."\n"
+					.'params.base = "'.dirname($mp3_url).'/";'."\n"
+					.'params.quality = "high";'."\n"
+					.'params.wmode = "transparent";'."\n"
+					.'params.menu = "false";'."\n"
+					.'params.flashvars = "'.$flashvars.'";'."\n"
+					.'swfobject.embedSWF("'.$dewplayer_url.'", "interact_'.$counter.'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
+					.JS_SUFFIX.BR."\n";
+	
+			}
+
+		// native flash
+		case 'swf':
+		
+			// where to get the file
+			if(isset($item['file_href']) && $item['file_href'])
+				$url = $item['file_href'];
+				
+			// we provide the native file because of basename
+			else
+				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
+
+			$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+				.JS_PREFIX
+				.'var params = {};'."\n"
+				.'params.base = "'.dirname($url).'/";'."\n"
+				.'params.quality = "high";'."\n"
+				.'params.wmode = "transparent";'."\n"
+				.'params.allowfullscreen = "true";'."\n"
+				.'params.allowscriptaccess = "always";'."\n"
+				.'params.flashvars = "'.$flashvars.'";'."\n"
+				.'swfobject.embedSWF("'.$url.'", "interact_'.$counter.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
+				.JS_SUFFIX;
+			return $output;
+
+		// stream a video
+		case '3gp':
+		case 'flv':
+		case 'm4v':
+		case 'mov':
+		case 'mp4':
+
+			// a flash player to stream a flash video
+			$flvplayer_url = $context['url_to_home'].$context['url_to_root'].'included/browser/player_flv_maxi.swf';
+
+			// file is elsewhere
+			if(isset($item['file_href']) && $item['file_href'])
+				$url = $item['file_href'];
+				
+			// prevent leeching (the flv player will provide session cookie, etc)
+			else
+				$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
+
+			// pass parameters to the player
+			if($flashvars)
+				$flashvars = str_replace('autostart=true', 'autoplay=1', $flashvars).'&';
+			$flashvars .= 'width='.$width.'&height='.$height;
+
+			// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
+			$output = '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+				.JS_PREFIX
+				.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:1, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+				.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
+				.'var attributes = { id: "interact_'.$counter.'", name: "file_'.$item['id'].'"}'."\n"
+				.'swfobject.embedSWF("'.$flvplayer_url.'", "interact_'.$counter.'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"
+				.JS_SUFFIX."\n";
+			return $output;
+
+		}
+
+		if(!$with_icon)
+			return '';
+			
+		// explicit icon
+		if($item['thumbnail_url'])
+			$icon = $item['thumbnail_url'];
+
+		// or reinforce file type
+		else
+			$icon = $context['url_to_root'].Files::get_icon_url($item['file_name']);
+
+		// a clickable image to download the file
+		if($icon) {
+			$icon = '<img src="'.$icon.'" />';
+			return Skin::build_link(Files::get_url($item['id'], Files::is_stream($item['file_name'])?'stream':'fetch', $item['file_name']), $icon, 'basic').BR;
+		}
+			
+		// nothing special
+		return '';
+		
+	}
+
 	function is_audio_stream($name) {
 		return preg_match('/\.(aif|aiff|au|mka|mp2|mp3|ra|snd|wav|wma)$/i', $name);
 	}
@@ -1229,7 +1348,7 @@ Class Files {
 				."WHERE ";
 
 		// limit the scope of the request
-		$query .= "(files.active='Y' OR files.active='X'";
+		$query .= "(files.active='Y'";
 		if(Surfer::is_member())
 			$query .= " OR files.active='R'";
 		if(Surfer::is_associate())
@@ -1285,7 +1404,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y' OR files.active='X'";
+		$where = "files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
@@ -1372,7 +1491,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y' OR files.active='X'";
+		$where = "files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
@@ -1423,7 +1542,7 @@ Class Files {
 			$where = "WHERE ";
 
 		// limit the scope of the request
-		$where .= "(files.active='Y' OR files.active='X'";
+		$where .= "(files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
@@ -1460,7 +1579,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y' OR files.active='X'";
+		$where = "files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
@@ -1492,7 +1611,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y' OR files.active='X'";
+		$where = "files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
@@ -1532,7 +1651,7 @@ Class Files {
 			$where = "WHERE ";
 
 		// limit the scope of the request
-		$where .= "(files.active='Y' OR files.active='X'";
+		$where .= "(files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
@@ -1582,7 +1701,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "files.active='Y' OR files.active='X'";
+		$where = "files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
@@ -1738,7 +1857,7 @@ Class Files {
 			$where = "WHERE ";
 
 		// limit the scope of the request - hidden files are never listed here
-		$where .= "(files.active='Y' OR files.active='X'";
+		$where .= "(files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		$where .= ")";
@@ -1901,6 +2020,132 @@ Class Files {
 	}
 
 	/**
+	 * process uploaded file
+	 *
+	 * @param array usually, $_FILES['upload']
+	 * @param string target location for the file
+	 * @param mixed reference to the target anchor, of a function to parse every file individually
+	 * @return mixed actual file name if everything went fine, FALSE if an error has occured
+	 */
+	function upload($input, $file_path, $target=NULL) {
+		global $context, $_FILES, $_REQUEST;
+		
+		// attach file from member, if any
+		if(!Surfer::is_member() || !isset($input['name']) || !$input['name'] || ($input['name'] == 'none'))
+			return FALSE;
+
+		// access the temporary uploaded file
+		$file_upload = $input['tmp_name'];
+
+		// $_FILES transcoding to utf8 is not automatic
+		$input['name'] = utf8::encode($input['name']);
+
+		// enhance file name
+		$file_name = $input['name'];
+		$file_extension = '';
+		$position = strrpos($input['name'], '.');
+		if($position !== FALSE) {
+			$file_name = substr($input['name'], 0, $position);
+			$file_extension = strtolower(substr($input['name'], $position+1));
+		}
+		$input['name'] = str_replace(array('.', '_', '%20'), ' ', $file_name);
+		if($file_extension)
+			$input['name'] .= '.'.$file_extension;
+
+		// ensure we have a file name
+		$file_name = utf8::to_ascii($input['name']);
+
+		// uploads are not allowed
+		if(!Surfer::may_upload())
+			Logger::error(i18n::s('You are not allowed to perform this operation.'));
+
+		// ensure type is allowed
+		elseif(!Files::is_authorized($input['name']))
+			Logger::error(i18n::s('This type of file is not allowed.'));
+
+		// size exceeds php.ini settings -- UPLOAD_ERR_INI_SIZE
+		elseif(isset($input['error']) && ($input['error'] == 1))
+			Logger::error(i18n::s('The size of this file is over limit.'));
+
+		// size exceeds form limit -- UPLOAD_ERR_FORM_SIZE
+		elseif(isset($input['error']) && ($input['error'] == 2))
+			Logger::error(i18n::s('The size of this file is over limit.'));
+
+		// partial transfer -- UPLOAD_ERR_PARTIAL
+		elseif(isset($input['error']) && ($input['error'] == 3))
+			Logger::error(i18n::s('No file has been transmitted.'));
+
+		// no file -- UPLOAD_ERR_NO_FILE
+		elseif(isset($input['error']) && ($input['error'] == 4))
+			Logger::error(i18n::s('No file has been transmitted.'));
+
+		// zero bytes transmitted
+		elseif(!$input['size'])
+			Logger::error(i18n::s('No file has been transmitted.'));
+
+		// check provided upload name
+		elseif(!Safe::is_uploaded_file($file_upload))
+			Logger::error(i18n::s('Possible file attack.'));
+
+		// process uploaded data
+		else {
+		
+			// create folders
+			if($file_path)
+				Safe::make_path($file_path);
+
+			// sanity check
+			if($file_path && ($file_path[ strlen($file_path)-1 ] != '/'))
+				$file_path .= '/';
+
+			// move the uploaded file
+			if(!Safe::move_uploaded_file($file_upload, $context['path_to_root'].$file_path.$file_name))
+				Logger::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
+
+			// this will be filtered by umask anyway
+			else {
+				Safe::chmod($context['path_to_root'].$file_path.$file_name, $context['file_mask']);
+				
+				// invoke post-processing function
+				if($target && is_callable($target)) {
+					return call_user_func($target, $file_name, $context['path_to_root'].$file_path);
+				
+				// we have to update an anchor page
+				} elseif($target && is_string($target)) {
+				
+					// update an existing record for this anchor
+					if($match =& Files::get_by_anchor_and_name($target, $file_name))
+						$fields = $match;
+	
+					// create a new file record
+					else {
+						$fields = array();
+						$fields['file_name'] = $file_name;
+						$fields['file_size'] = filesize($context['path_to_root'].$file_path.$file_name);
+						$fields['file_href'] = '';
+						$fields['anchor'] = $target;
+					}
+	
+					// create the record in the database, and remember this post in comment
+					if($fields['id'] = Files::post($fields)) {
+						return "\n\n[file=".$fields['id'].']';
+					} else
+						return FALSE;
+				}
+
+				// so far so good
+				return $file_name;
+
+			}
+			
+		}
+		
+		// some error has occured
+		return FALSE;
+
+	}
+	
+	/**
 	 * search for some keywords in all files
 	 *
 	 * Only files matching following criteria are returned:
@@ -1908,7 +2153,7 @@ Class Files {
 	 * - file is restricted (active='R'), but surfer is a logged user
 	 * - file is restricted (active='N'), but surfer is an associate
 	 *
-	 * @param the search string
+	 * @param string searched tokens
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
@@ -1924,7 +2169,7 @@ Class Files {
 		}
 		
 		// limit the scope of the request
-		$where = "files.active='Y' OR files.active='X'";
+		$where = "files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
@@ -1958,7 +2203,7 @@ Class Files {
 
 		$fields = array();
 		$fields['id']			= "MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT";
-		$fields['active']		= "ENUM('Y','R','N', 'X') DEFAULT 'Y' NOT NULL";
+		$fields['active']		= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
 		$fields['active_set']	= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
 		$fields['alternate_href']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['anchor']		= "VARCHAR(64) DEFAULT 'section:1' NOT NULL";
@@ -2018,7 +2263,7 @@ Class Files {
 		global $context;
 
 		// limit the scope of the request
-		$where = "(files.active='Y' OR files.active='X'";
+		$where = "(files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_associate())
@@ -2052,7 +2297,7 @@ Class Files {
 			logger::profile('files::stat_for_anchor');
 
 		// limit the scope of the request
-		$where = "files.active='Y' OR files.active='X'";
+		$where = "files.active='Y'";
 		if(Surfer::is_member())
 			$where .= " OR files.active='R'";
 		if(Surfer::is_empowered('S'))
@@ -2073,5 +2318,11 @@ Class Files {
 // load localized strings
 if(is_callable(array('i18n', 'bind')))
 	i18n::bind('files');
+	
+// the maximum size for uploads
+global $context;
+$context['file_maximum_size'] = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
+if(!$context['file_maximum_size'])
+	$context['file_maximum_size'] = '2 M';
 
 ?>

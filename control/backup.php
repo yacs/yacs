@@ -84,6 +84,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../files/files.php';
 
 // load localized strings
 i18n::bind('control');
@@ -846,7 +847,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	// set the focus on the backup button
 	$context['text'] .= JS_PREFIX
 		.'$("go").focus();'."\n"
-		.JS_PREFIX;
+		.JS_SUFFIX;
 
 	// this may take several minutes
 	$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.')."</p>\n";
@@ -861,14 +862,9 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'"><div>'
 		.'<input type="hidden" name="action" value="restore" />';
 
-	// the maximum size for uploads
-	$file_maximum_size = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
-	if(!$file_maximum_size)
-		$file_maximum_size = '2 M';
-
 	// select a file
 	$context['text'] .= '<p>'.i18n::s('Select the file to upload')
-		.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')'.BR
+		.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'.BR
 		.'<input type="file" name="upload" size="30" /></p>';
 
 	// find available database files

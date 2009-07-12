@@ -172,8 +172,8 @@ elseif(isset($item['title']) && $item['title'])
 
 // modify this page
 if((!$zoom_type) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))) {
-	$context['page_menu'] = array_merge($context['page_menu'], array( Categories::get_url($id, 'edit') => i18n::s('Edit this category') ));
-	$context['page_menu'] = array_merge($context['page_menu'], array( Categories::get_url($id, 'delete') => i18n::s('Delete') ));
+	$context['page_menu'] += array( Categories::get_url($id, 'edit') => i18n::s('Edit this category') );
+	$context['page_menu'] += array( Categories::get_url($id, 'delete') => i18n::s('Delete') );
 }
 
 // not found -- help web crawlers
@@ -585,7 +585,7 @@ if(!isset($item['id'])) {
 
 			// count the number of files in this category
 			if($count = Files::count_for_anchor('category:'.$item['id'])) {
-				if($count > FILES_PER_PAGE)
+				if($count > 5)
 					$box['bar'] = array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 				// list files by date (default) or by title (option 'files_by_title')
@@ -607,7 +607,7 @@ if(!isset($item['id'])) {
 			// the command to post a new file
 			$url = 'files/edit.php?anchor='.urlencode('category:'.$item['id']);
 			if(Files::are_allowed($anchor, $item, TRUE))
-				$box['bar'] = array_merge($box['bar'], array( $url => i18n::s('Upload a file') ));
+				$box['bar'] += array( $url => i18n::s('Upload a file') );
 
 			// actually render the html for the section
 			if(is_array($box['bar']))
@@ -645,7 +645,7 @@ if(!isset($item['id'])) {
 			 else
 				$url = Categories::get_permalink($item).'#comments';
 			if($count = Comments::count_for_anchor('category:'.$item['id'])) {
-				if($count > COMMENTS_PER_PAGE)
+				if($count > 5)
 					$box['bar'] = array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 				// list comments by date
@@ -666,7 +666,7 @@ if(!isset($item['id'])) {
 			// the command to post a new comment
 			if(Comments::are_allowed($anchor, $item, TRUE)) {
 				$url = 'comments/edit.php?anchor='.urlencode('category:'.$item['id']);
-				$box['bar'] = array_merge($box['bar'], array( $url => i18n::s('Add a comment') ));
+				$box['bar'] += array( $url => i18n::s('Post a comment') );
 			}
 
 			// actually render the html
@@ -701,7 +701,7 @@ if(!isset($item['id'])) {
 
 			// count the number of links in this category
 			if($count = Links::count_for_anchor('category:'.$item['id'])) {
-				if($count > LINKS_PER_PAGE)
+				if($count > 5)
 					$box['bar'] = array('_count' => sprintf(i18n::ns('%d link', '%d links', $count), $count));
 
 				// list items by date (default) or by title (option 'links_by_title')
@@ -723,7 +723,7 @@ if(!isset($item['id'])) {
 			// the command to post a new link
 			if(Links::are_allowed($anchor, $item, TRUE)) {
 				$url = 'links/edit.php?anchor='.urlencode('category:'.$item['id']);
-				$box['bar'] = array_merge($box['bar'], array( $url => i18n::s('Add a link') ));
+				$box['bar'] += array( $url => i18n::s('Add a link') );
 			}
 
 			// actually render the html
@@ -791,7 +791,7 @@ if(!isset($item['id'])) {
 			// count the number of subcategories
 			$stats = Categories::stat_for_anchor('category:'.$item['id']);
 			if($stats['count'])
-				$box['bar'] = array('_count' => sprintf(i18n::ns('%d category', '%d categories', $stats['count']), $stats['count']));
+				$box['bar'] += array('_count' => sprintf(i18n::ns('%d category', '%d categories', $stats['count']), $stats['count']));
 
 			// list items by date (default) or by title (option 'categories_by_title')
 			$offset = ($zoom_index - 1) * $items_per_page;
@@ -809,7 +809,7 @@ if(!isset($item['id'])) {
 			// the command to post a new category
 			if($stats['count'] && Categories::are_allowed($anchor, $item)) {
 				$url = 'categories/edit.php?anchor='.urlencode('category:'.$item['id']);
-				$box['bar'] = array_merge($box['bar'], array( $url => i18n::s('Add a category') ));
+				$box['bar'] += array( $url => i18n::s('Add a category') );
 			}
 
 			// actually render the html for the section
@@ -850,11 +850,11 @@ if(!isset($item['id'])) {
 
 			// send a message to a category
 			if(($stats['count'] > 1) && Surfer::is_associate())
-				$box['bar'] = array_merge($box['bar'], array(Categories::get_url($item['id'], 'mail') => i18n::s('Send a message')));
+				$box['bar'] += array(Categories::get_url($item['id'], 'mail') => i18n::s('Send a message'));
 
 			// spread the list over several pages
 			if($stats['count'] > USERS_LIST_SIZE)
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d user', '%d users', $stats['count']), $stats['count'])));
+				$box['bar'] += array('_count' => sprintf(i18n::ns('%d user', '%d users', $stats['count']), $stats['count']));
 
 			// navigation commands for users
 			$home =& Categories::get_permalink($item);
@@ -920,22 +920,20 @@ if(!isset($item['id'])) {
 		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'edit'), i18n::s('Edit this category'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed
-		if(Images::are_allowed($anchor, $item)) {
-			Skin::define_img('IMAGE_TOOL_IMG', 'icons/tools/image.gif');
-			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']), IMAGE_TOOL_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or any image file, to illustrate this page.'));
-		}
+		if(Images::are_allowed($anchor, $item))
+			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']), i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or any image file, to illustrate this page.'));
 
 		// attach a file, if upload is allowed
 		if(Files::are_allowed($anchor, $item, TRUE))
-			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), FILE_TOOL_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
+			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
 
 		// comment this page if anchor does not prevent it
 		if(Comments::are_allowed($anchor, $item, TRUE))
-			$context['page_tools'][] = Skin::build_link(Comments::get_url('category:'.$item['id'], 'comment'), COMMENT_TOOL_IMG.i18n::s('Add a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
+			$context['page_tools'][] = Skin::build_link(Comments::get_url('category:'.$item['id'], 'comment'), i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 
 		// add a link
 		if(Links::are_allowed($anchor, $item, TRUE))
-			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('category:'.$item['id']), LINK_TOOL_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
+			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('category:'.$item['id']), i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 
 		// add a category
 		if(Categories::are_allowed($anchor, $item))
@@ -957,22 +955,16 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 // 	// mail this page
-// 	if(!$zoom_type && Surfer::is_empowered() && Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-// 		Skin::define_img('MAIL_TOOL_IMG', 'icons/tools/mail.gif');
-// 		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'mail'), MAIL_TOOL_IMG.i18n::s('Invite people'), 'basic', '', i18n::s('Spread the word'));
-// 	}
+// 	if(!$zoom_type && Surfer::is_empowered() && Surfer::get_email_address() && isset($context['with_email']) && ($context['with_email'] == 'Y'))
+// 		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'mail'), i18n::s('Invite people'), 'basic', '', i18n::s('Spread the word'));
 
 	// the command to track back
-	if(Surfer::is_logged()) {
-		Skin::define_img('TRACKBACK_IMG', 'icons/links/trackback.gif');
-		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('category:'.$item['id']), TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
-	}
+	if(Surfer::is_logged())
+		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('category:'.$item['id']), i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 
 	// print this page
-	if(Surfer::is_logged()) {
-		Skin::define_img('PRINT_TOOL_IMG', 'icons/tools/print.gif');
-		$lines[] = Skin::build_link(Categories::get_url($item['id'], 'print'), PRINT_TOOL_IMG.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
-	}
+	if(Surfer::is_logged())
+		$lines[] = Skin::build_link(Categories::get_url($item['id'], 'print'), i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
 
 	// in a side box
 	if(count($lines))
@@ -1004,7 +996,7 @@ if(!isset($item['id'])) {
 		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
 			$content .= BR.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'feed'), $item['title']));
 
-		$context['aside']['channels'] = Skin::build_box(i18n::s('Information channels'), $content, 'extra', 'feeds');
+		$context['aside']['channels'] = Skin::build_box(i18n::s('Monitor'), $content, 'extra', 'feeds');
 	}
 
 	// search on keyword, if any

@@ -438,7 +438,7 @@ Class Tables {
 
 		// check the target action
 		if(!preg_match('/^(delete|edit|fetch_as_csv|fetch_as_xml|view)$/', $action))
-			$action = 'view';
+			return 'tables/'.$action.'.php?id='.urlencode($id);
 
 		// normalize the link
 		return normalize_url(array('tables', 'table'), $action, $id);
@@ -573,7 +573,8 @@ Class Tables {
 		default:
 			include_once $context['path_to_root'].'tables/layout_tables.php';
 			$layout =& new Layout_tables();
-			$output =& $layout->layout($result, $variant);
+			$layout->set_variant($variant);
+			$output =& $layout->layout($result);
 			return $output;
 
 		}

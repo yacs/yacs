@@ -100,6 +100,10 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			elseif($item['edit_date'] >= $dead_line)
 				$suffix .= UPDATED_FLAG;
 
+			// the title has to be bigger than usual
+			$prefix .= '<span class="huge">';
+			$suffix = '</span>'.$suffix;
+			
 			// details and content
 			$details = array();
 			$content = array();
@@ -256,7 +260,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 
 			// layout details
 			if(count($content))
-				$suffix .= BR.'<span class="small">'.YAHOO_ITEM_PREFIX.implode(YAHOO_ITEM_SUFFIX.YAHOO_ITEM_PREFIX, $content).YAHOO_ITEM_SUFFIX."</span>\n";
+				$suffix .= BR.YAHOO_ITEM_PREFIX.implode(YAHOO_ITEM_SUFFIX.YAHOO_ITEM_PREFIX, $content).YAHOO_ITEM_SUFFIX."\n";
 
 			// use the title to label the link
 			$label = Skin::strip($item['title'], 50);

@@ -579,7 +579,7 @@ Class Dates {
 
 		// check the target action
 		if(!preg_match('/^(delete|edit|view)$/', $action))
-			$action = 'view';
+			return 'dates/'.$action.'.php?id='.urlencode($id);
 
 		// normalize the link
 		return normalize_url(array('dates', 'date'), $action, $id);

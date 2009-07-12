@@ -20,11 +20,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-
-// the maximum size for uploads
-$file_maximum_size = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
-if(!$file_maximum_size)
-	$file_maximum_size = '2 M';
+include_once '../files/files.php';
 
 // look for the id
 $id = NULL;
@@ -187,7 +183,7 @@ elseif(!Surfer::is_associate()) {
 	// the file
 	$label = i18n::s('File');
 	$input = '<input type="file" name="upload" id="focus" size="30" />'
-		.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')';
+		.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
 	$hint = i18n::s('Select the file to upload');
 	$fields[] = array($label, $input, $hint);
 

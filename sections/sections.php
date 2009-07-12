@@ -44,10 +44,10 @@
  * - 'navigation_boxes' - boxes on the left of the page
  * - 'partners' - our preferred partners
  * - 'polls' - some of the polls published on this site
- * - 'private' - private pages
  * - 'queries' - pages sent by surfers to submit their queries to the webmaster - created automatically in [script]query.php[/script]
  * - 'recipes' - a sample cookbook
-  *
+ * - 'threads' - private pages
+ *
  * @see letters/new.php
  * @see links/links.php
  * @see query.php
@@ -735,7 +735,7 @@ Class Sections {
 	 * list anchors that are part of the content tree
 	 *
 	 * This function is mainly used to list all containers of the content tree at once.
-	 * It is call to list sections and, in a second time, articles related to these
+	 * It is called to list sections and, in a second time, articles related to these
 	 * sections are actually listed.
 	 *
 	 * The variant is used to filter sections, as follows:
@@ -754,7 +754,7 @@ Class Sections {
 		$criteria = array();
 
 		// several anchors
-		if(is_array($anchor)) {
+		if(is_array($anchor) && count($anchor)) {
 			$items = array();
 			foreach($anchor as $token)
 				$items[] = "sections.anchor LIKE '".SQL::escape($token)."'";
@@ -762,7 +762,7 @@ Class Sections {
 			$target = 'index_panel';
 
 		// we are targeting a section index page
-		} elseif($anchor) {
+		} elseif(is_string($anchor)) {
 			$criteria[] = "sections.anchor LIKE '".SQL::escape($anchor)."'";
 			$target = 'index_panel';
 
@@ -800,9 +800,9 @@ Class Sections {
 			." AND ((sections.expiry_date is NULL)"
 			." OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
 
-		// limit to 50 sections
+		// ensure reasonable limit
 		$query = "SELECT sections.id FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE ".implode(' AND', $criteria)
+			." WHERE ".implode(' AND ', $criteria)
 			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
 		if(!$result =& SQL::query($query)) {
 			$output = NULL;
@@ -1247,6 +1247,9 @@ Class Sections {
 				}
 				$text = $family;
 			}
+			
+			// offer to move to the very top of the content tree
+			$text = '<input type="radio" name="anchor" value="" /> '.i18n::s('Move to the top of the content tree').BR.$text;
 		
 		}
 
@@ -1329,8 +1332,8 @@ Class Sections {
 		}
 
 		// check the target action
-		if(!preg_match('/^(delete|describe|duplicate|edit|feed|freemind|import|lock|mail|navigate|print|slideshow|view|view_as_freemind)$/', $action))
-			$action = 'view';
+		if(!preg_match('/^(delete|describe|duplicate|edit|feed|freemind|import|invite|lock|mail|navigate|print|slideshow|view|view_as_freemind)$/', $action))
+			return 'sections/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
 		return normalize_url(array('sections', 'section'), $action, $id, $name);
@@ -1365,6 +1368,39 @@ Class Sections {
 		// ensure this section has been linked to this user
 		return Members::check('user:'.$surfer_id, 'section:'.$id);
 	}
+
+	/**
+	 * check that the surfer owns a section
+	 *
+	 *
+	 * @param object parent anchor, if any
+	 * @param array section attributes
+	 * @param int optional reference to some user profile
+	 * @return TRUE or FALSE
+	 */
+	 function is_owned($anchor=NULL, $item=NULL, $user_id=NULL) {
+		global $context;
+
+		// id of requesting user
+		if(!$user_id && !Surfer::get_id())
+			return FALSE;
+		$user_id = Surfer::get_id();
+
+		// associates can do what they want
+		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
+			return TRUE;
+		
+		// surfer owns parent container
+		if(is_object($anchor) && $anchor->is_editable($user_id))
+			return TRUE;
+		
+		// surfer has created the section
+		if(isset($item['create_id']) && ($item['create_id'] == $user_id))
+			return TRUE;
+
+		// sorry
+		return FALSE;
+	 }
 
 	/**
 	 * list sections assigned to one surfer

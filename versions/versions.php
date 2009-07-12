@@ -172,7 +172,7 @@ Class Versions {
 		$item =& SQL::query_first($query);
 
 		// inflate the serialized object if necessary
-		if(isset($item['content']) && strncmp($item['content'], 'a:', 2))
+		if(isset($item['content']) && strncmp($item['content'], 'a:', 2) && is_callable('gzuncompress'))
 			$item['content'] = gzuncompress(base64_decode($item['content']));
 			
 		return $item;
@@ -207,7 +207,7 @@ Class Versions {
 
 		// check the target action
 		if(!preg_match('/^(delete|restore|view)$/', $action))
-			$action = 'view';
+			return 'versions/'.$action.'.php?id='.urlencode($id);
 
 		// normalize the link
 		return normalize_url(array('versions', 'version'), $action, $id);
@@ -340,7 +340,7 @@ Class Versions {
 		}
 
 		// inflate the serialized object if necessary
-		if(strncmp($item['content'], 'a:', 2))
+		if(strncmp($item['content'], 'a:', 2) && is_callable('gzuncompress'))
 			$item['content'] = gzuncompress(base64_decode($item['content']));
 			
 		// restore the anchor
@@ -384,8 +384,8 @@ Class Versions {
 		$content = serialize($fields);
 		
 		// save database space
-		if(strlen($content) > 128)
-			$content = base64_encode(gzcompress($content, 6));
+		if((strlen($content) > 128) && is_callable('gzcompress'))
+				$content = base64_encode(gzcompress($content, 6));
 
 		// versioning date
 		$versioning_date = isset($fields['edit_date']) ? $fields['edit_date'] : gmstrftime('%Y-%m-%d %H:%M:%S');

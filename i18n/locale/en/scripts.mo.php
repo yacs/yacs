@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:51 pm GMT. Please do not modify it manually.
+ * on July 4, 2009, 9:49 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-15 10:00+0200
-PO-Revision-Date: 2009-05-14 23:29+0100
+POT-Creation-Date: 2009-06-29 01:13+0200
+PO-Revision-Date: 2009-07-03 00:23+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -45,11 +45,9 @@ $_SESSION['l10n']['en']['Authors of all those scripts']='Authors of all those sc
 $_SESSION['l10n']['en']['Authors:']='Authors:';
 $_SESSION['l10n']['en']['Browse']='Browse';
 $_SESSION['l10n']['en']['1f78b7e2b77fdb3600d4c48d54fa3c0c']='Browse the source of this script';
-$_SESSION['l10n']['en']['Build']='Build';
-$_SESSION['l10n']['en']['d8e7d4132dce75fb1cba007b5e6d4997']='Build a reference store at this server';
+$_SESSION['l10n']['en']['Build the software']='Build the software';
 $_SESSION['l10n']['en']['Building documentation pages...']='Building documentation pages...';
-$_SESSION['l10n']['en']['29d27188960332e3ff93521ef989fb82']='Check PHP syntax of reference scripts';
-$_SESSION['l10n']['en']['Check scripts']='Check scripts';
+$_SESSION['l10n']['en']['Check software integrity']='Check software integrity';
 $_SESSION['l10n']['en']['Checking scripts...']='Checking scripts...';
 $_SESSION['l10n']['en']['f929120673a76106ca2ac698369c43fa']='Click on any link below to access the documentation extracted from each script (phpDoc).';
 $_SESSION['l10n']['en']['0287b0cc0f0423aed47d8030374bb1ed']='Click on the button below to actually update running scripts on your server. Please note that your server will be temporarily switched off, and that you will also have to refresh the database.';
@@ -187,7 +185,7 @@ $_SESSION['l10n']['en']['63230b1ac87d317b655a05224e031e1a']='Update the front pa
 $_SESSION['l10n']['en']['Updated script']='Updated script';
 $_SESSION['l10n']['en']['Updating scripts...']='Updating scripts...';
 $_SESSION['l10n']['en']['Used staged file %s']='Used staged file %s';
-$_SESSION['l10n']['en']['Validate']='Validate';
+$_SESSION['l10n']['en']['Validate PHP syntax']='Validate PHP syntax';
 $_SESSION['l10n']['en']['Version string (optional)']='Version string (optional)';
 $_SESSION['l10n']['en']['View PHP documentation']='View PHP documentation';
 $_SESSION['l10n']['en']['View the documentation page']='View the documentation page';

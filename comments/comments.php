@@ -46,7 +46,7 @@ Class Comments {
 			return FALSE;
 
 		// comments are not explicitly activated in item
-		if($explicit && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_comments\b/i', $item['options']))
+		if($explicit && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_(comments|wall)\b/i', $item['options']))
 			return FALSE;
 
 		// comments are prevented in anchor
@@ -125,10 +125,6 @@ Class Comments {
 
 		// anonymous contributions are allowed for this anchor
 		if(is_object($anchor) && $anchor->is_editable())
-			return TRUE;
-
-		// teasers are activated
-		if(Surfer::is_teased())
 			return TRUE;
 
 		// the default is to not allow for new comments
@@ -350,6 +346,31 @@ Class Comments {
 	}
 
 	/**
+	* build a small form to post a comment
+	*
+	* @param string reference to the anchor to attach the comment
+	* @param string the place to come back when complete
+	* @return string the HTML tags to put in the page
+	*/
+	function get_form($anchor, $follow_up='comments') {
+		global $context;
+
+		$menu = array(Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's'));
+				
+		if(Surfer::may_upload())
+			$menu[] = '<span class="details">'.sprintf(i18n::s('You may attach a file of up to %sbytes'), $context['file_maximum_size']).' <input type="hidden" name="file_type" value="upload" /><input type="file" name="upload" size="30" /></span>';
+		
+		$text = '<form method="post" enctype="multipart/form-data" action="'.$context['url_to_root'].'comments/edit.php" ><div style="margin: 1em 0;">'
+			.'<textarea name="description" id="description" rows="1" style="width: 80%" onfocus="Yacs.grow_panel(this);"></textarea>'
+			.'<input type="hidden" name="anchor" value="'.$anchor.'" />'
+			.'<input type="hidden" name="follow_up" value="'.$follow_up.'" />'
+			.Skin::finalize_list($menu, 'menu_bar')
+			.'</div></form>';
+
+		return $text;
+	}
+	
+	/**
 	 * get a <img> element
 	 *
 	 * @param the type ('suggestion', etc.')
@@ -498,13 +519,23 @@ Class Comments {
 	 * get a suitable layout
 	 *
 	 * @param object anchor that describes the layout that applies
+	 * @param array atributes for the current item
 	 * @return object an instance of a Layout interface
 	 */
-	function &get_layout($anchor) {
+	function &get_layout($anchor, $item=NULL) {
 		global $context;
 
+		// a wall
+		if((is_object($anchor) && $anchor->has_option('comments_as_wall'))) {
+			include_once '../comments/layout_comments_as_yabb.php';
+			$layout =& new Layout_comments_as_yabb();
+
+		} elseif(isset($item['options']) && preg_match('/\bcomments_as_wall\b/', $item['options'])) {
+			include_once '../comments/layout_comments_as_yabb.php';
+			$layout =& new Layout_comments_as_yabb();
+
 		// no anchor
-		if(!is_object($anchor)) {
+		} elseif(!is_object($anchor)) {
 			include_once '../comments/layout_comments.php';
 			$layout =& new Layout_comments();
 
@@ -902,7 +933,7 @@ Class Comments {
 
 		// check the target action
 		if(!preg_match('/^(delete|edit|promote|thread|view)$/', $action))
-			$action = 'view';
+			return 'comments/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
 		return normalize_url(array('comments', 'comment'), $action, $id);
@@ -957,7 +988,7 @@ Class Comments {
 	}
 
 	/**
-	 * list newest comments for one anchor
+	 * list comments by date for one anchor
 	 *
 	 * If variant is 'compact', the list start with the most recent comments.
 	 * Else comments are ordered depending of their edition date.
@@ -973,6 +1004,7 @@ Class Comments {
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
+	 * @param boolean TRUE for the wall, FALSE for a forum
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
 	 * @see articles/fetch_as_msword.php
@@ -984,13 +1016,19 @@ Class Comments {
 	 * @see comments/feed.php
 	 * @see sections/view.php
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor') {
+	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant='no_anchor', $reverse=FALSE) {
 		global $context;
 
+		// the wall or a forum
+		if($reverse)
+			$reverse = 'DESC';
+		else
+			$reverse = '';
+			
 		// the list of comments
 		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "
 			." WHERE comments.anchor LIKE '".SQL::escape($anchor)."'"
-			." ORDER BY comments.create_date LIMIT ".$offset.','.$count;
+			." ORDER BY comments.create_date ".$reverse." LIMIT ".$offset.','.$count;
 
 		$output =& Comments::list_selected(SQL::query($query), $variant);
 		return $output;

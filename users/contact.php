@@ -26,6 +26,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../comments/comments.php';	// to create new threads
+include_once '../files/files.php';			// to upload files
 include_once '../shared/mailer.php';		// to send messages
 
 // load the skin
@@ -77,7 +78,7 @@ if(isset($item['id']))
 
 // page title
 if(isset($item['id']) && Surfer::is($item['id']))
-	$context['page_title'] .= i18n::s('Private pages');
+	$context['page_title'] .= i18n::s('Threads');
 elseif(isset($item['nick_name']))
 	$context['page_title'] .= sprintf(i18n::s('Contact %s'), $item['full_name']?$item['full_name']:$item['nick_name']);
 
@@ -85,13 +86,8 @@ elseif(isset($item['nick_name']))
 if(count($context['error']))
 	;
 
-// not found
-elseif(!count($items)) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.'));
-
 // private pages are disallowed
-} elseif(isset($context['users_without_private_pages']) && ($context['users_without_private_pages'] == 'Y')) {
+elseif(isset($context['users_without_private_pages']) && ($context['users_without_private_pages'] == 'Y')) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
@@ -101,7 +97,7 @@ elseif(!count($items)) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // the place for private pages
-} elseif(!$anchor = Sections::lookup('private')) {
+} elseif(!$anchor = Sections::lookup('threads')) {
 	header('Status: 500 Internal Error', TRUE, 500);
 	Logger::error(i18n::s('Impossible to add a page.'));
 
@@ -114,7 +110,17 @@ elseif(!count($items)) {
 	$article['title'] = isset($_REQUEST['title']) ? $_REQUEST['title'] : utf8::transcode(Skin::build_date(gmstrftime('%Y-%m-%d %H:%M:%S GMT'), 'full'));
 	$article['active_set'] = 'N';	// this is private
 	$article['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S'); // no review is required
+	$article['options'] = 'view_as_tabs comments_as_wall';
 
+	// include some overlay
+	include_once '../overlays/overlay.php';
+	$overlay = Overlay::bind('thread');
+	$article['overlay'] = $overlay->save();
+	$article['overlay_id'] = $overlay->get_id();
+	
+	// ensure everything is positioned as expected
+	Surfer::empower();
+	
 	// post the new thread
 	if(!$article['id'] = Articles::post($article))
 		Logger::error(i18n::s('Impossible to add a page.'));
@@ -122,6 +128,11 @@ elseif(!count($items)) {
 	// ensure all surfers will be allowed to access this page
 	else {
 
+		// attach some file
+		if($file = Files::upload($_FILES['upload'], 'files/article/'.$article['id'], 'article:'.$article['id'])) {
+			$_REQUEST['message'] .= $file;
+		}
+		
 		// make a new comment out of received message, if any
 		if(isset($_REQUEST['message']) && trim($_REQUEST['message'])) {
 			$comment = array();
@@ -130,8 +141,11 @@ elseif(!count($items)) {
 			Comments::post($comment);
 		}
 
+		// page title
+		$context['page_title'] = i18n::s('Thank you for your contribution');
+
 		// feed-back to surfer
-		$context['text'] .= '<p>'.i18n::s('A new private page has been created. You can invite additional people later on if you wish.').'</p>';
+		$context['text'] .= '<p>'.i18n::s('A new thread has been created, and it will be listed in profiles of the persons that you have involved. You can invite additional people later on if you wish.').'</p>';
 
 		// increment the post counter of the surfer
 		Users::increment_posts(Surfer::get_id());
@@ -215,26 +229,44 @@ elseif(!count($items)) {
 
 			}
 
-		} else
-			Logger::error(i18n::s('No notification has been sent. Please share the address of the new page by yourself.'));
+		}
 
 	}
 
 	// follow-up commands
 	$menu = array();
 	if(isset($article['id']))
-		$menu = array(Articles::get_permalink($article) => i18n::s('View the page'));
+		$menu = array(Articles::get_permalink($article) => i18n::s('View the new thread'));
 	if((count($items) == 1) && ($item = $items[0]) && isset($item['id']))
 		$menu = array_merge($menu, array(Users::get_url($item['id'], 'view', $item['nick_name']) => sprintf(i18n::s('Back to %s'), $item['nick_name'])));
 	elseif(Surfer::get_id())
-		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => sprintf(i18n::s('Back to %s'), Surfer::get_name())));
+		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('Back to my profile')));
 	if(count($menu))
 		$context['text'] .= Skin::build_block(i18n::s('Where do you want to go now?').Skin::build_list($menu, 'menu_bar'), 'bottom');
 
 // layout the available contact options
-} else
-	$context['text'] .= Skin::build_user_contact($item);
+} elseif($threads = Sections::get('threads')) {
 
+	// do not link to this user profile
+	include_once $context['path_to_root'].'articles/layout_articles_as_timeline.php';
+	$layout =& new Layout_articles_as_thread();
+	$layout->set_variant($item['id']);
+
+	// i am looking at my own record
+	if(Surfer::get_id() == $item['id']) {
+
+		if($items =& Articles::list_assigned_by_date_for_anchor('section:'.$threads['id'], $item['id'], 0, 50, $layout, FALSE))
+			$context['text'] .= Skin::build_list($items, 'compact');
+
+	// navigating another profile
+	} else {
+
+		if($items =& Articles::list_assigned_by_date_for_anchor('section:'.$threads['id'], $item['id'], 0, 50, $layout, TRUE))
+			$context['text'] .= '<p>'.sprintf(i18n::s('Your threads with %s'), $item['full_name']).'</p>'.Skin::build_list($items, 'compact').'<p> </p>';
+
+	}
+	
+}
 
 // render the skin
 render_skin();

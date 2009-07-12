@@ -253,7 +253,7 @@ ol { /* a numbered list -- [list=1]...[/list], [list=a]...[/list], [list=A]...[/
 }
 
 p { /* add a space after each paragraph */
-	margin: 0 0 16px 0;
+	margin: 0 0 4px 0;
 	padding: 3px 0;
 }
 
@@ -304,7 +304,7 @@ td { /* an ordinary cell */
 textarea { /* change form elements */
 	color: black:
 	background-color: white;
-	border: #26a solid 1px;
+	border: #bfbfbf solid 1px;
 }
 
 textarea:focus { /* signal current input area */

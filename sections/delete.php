@@ -158,12 +158,6 @@ else {
 	// all details
 	$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details)).'</p>'.BR."\n";
 
-	// the introduction text, if any
-	$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
-
-	// main text
-	$context['text'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
-
 	// count items related to this section
 	$context['text'] .= Anchors::stat_related_to('section:'.$item['id'], i18n::s('Following items are attached to this record and will be deleted as well.'));
 

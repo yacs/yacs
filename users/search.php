@@ -160,7 +160,7 @@ elseif($cap)
 $home = 'users/search.php?search='.urlencode($search);
 $prefix = $home.'&page=';
 if(($navigate = Skin::navigate($home, $prefix, $cap, USERS_PER_PAGE, $page)) && @count($navigate))
-	$box['bar'] = array_merge($box['bar'], $navigate);
+	$box['bar'] += $navigate;
 
 // actually render the html
 if(@count($box['bar']))

@@ -476,33 +476,53 @@ Class Article extends Anchor {
 		if(!isset($this->item['id']))
 			return NULL;
 
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
+		switch($action) {
+		
+		// view comments
+		case 'comments':
+			// variants that start at the article page
+			if($this->has_option('view_as_tabs'))
+				return $this->get_url().'#_discussion';
+			if($this->is_interactive())
+				return $this->get_url().'#comments';
 
+			// start threads on a separate page
+			if($this->has_layout('alistapart'))
+				return Comments::get_url($this->get_reference(), 'list');
+
+			// layouts that start at the article page
+			else
+				return Articles::get_permalink($this->item).'#comments';
+		
+		// list of files
+		case 'files':
+			if($this->has_option('view_as_tabs'))
+				return $this->get_url().'#_attachments';
+			return Articles::get_permalink($this->item).'#files';
+		
+		// list of links
+		case 'links':
+			if($this->has_option('view_as_tabs'))
+				return $this->get_url().'#_attachments';
+			return Articles::get_permalink($this->item).'#links';
+		
 		// jump to parent page
-		if($action == 'parent')
+		case 'parent': 
+			if(!isset($this->anchor))
+				$this->anchor =& Anchors::get($this->item['anchor']);
+	
 			return $this->anchor->get_url();
 
-		// regular link
-		if($action == 'view')
+		// the permalink page
+		case 'view':
 			return Articles::get_permalink($this->item);
 
-		if($action != 'discuss')
+		// another action
+		default:
 			return Articles::get_url($this->item['id'], $action, $this->item['title'], $this->item['nick_name']);
 
-		// variants that start at the article page
-		if($this->is_interactive())
-			return $this->get_url().'#comments';
-
-		// start threads on a separate page
-		if($this->has_layout('alistapart'))
-			return Comments::get_url($this->get_reference(), 'list');
-
-		// layouts that start at the article page
-		else
-			return Articles::get_permalink($this->item).'#comments';
-
+		}
+		
 	}
 
 	/**
@@ -908,8 +928,6 @@ Class Article extends Anchor {
 				if(!(isset($this->item['thumbnail_url']) && trim($this->item['thumbnail_url'])) && ($url = Images::get_thumbnail_href($image)))
 					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
 
-			} elseif($origin) {
-				$query[] = "icon_url = '".SQL::escape($origin)."'";
 			}
 
 		// set an existing image as the article thumbnail
@@ -924,9 +942,8 @@ Class Article extends Anchor {
 					$url = Images::get_icon_href($image);
 
 				$query[] = "thumbnail_url = '".SQL::escape($url)."'";
-			} elseif($origin) {
+			} elseif($origin)
 				$query[] = "thumbnail_url = '".SQL::escape($origin)."'";
-			}
 
 			// do not remember minor changes
 			$silently = TRUE;

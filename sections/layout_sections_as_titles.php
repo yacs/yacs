@@ -59,8 +59,13 @@ Class Layout_sections_as_titles extends Layout_interface {
 				if(!preg_match('/^(\/|http:|https:|ftp:)/', $icon))
 					$icon = $context['url_to_root'].$icon;
 
+				// use parameter of the control panel for this one
+				$options = '';
+				if(isset($context['classes_for_thumbnail_images']))
+					$options = 'class="'.$context['classes_for_thumbnail_images'].'" ';
+					
 				// build the complete HTML element
-				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($hover).'"  />';
+				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($hover).'" '.$options.' />';
 
 			// use default icon if nothing to display
 			} else

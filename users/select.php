@@ -6,10 +6,8 @@
  *
  * This is the main tool used by associates to assign editors to pages they are managing.
  *
- * Only associates can use this script to assign users to sections and to articles.
- * This means that editors cannot delegate their power to someone else.
- *
- * Users are allowed to manage other users in their watch list.
+ * Associates can use this script to assign users to sections and to articles.
+ * Editors can also call this script to renounce rights they have on a section.
  *
  * Accept following invocations:
  * - select.php?member=article:12
@@ -32,11 +30,19 @@ if(isset($_REQUEST['member']))
 
 // associates can do what they want
 if(Surfer::is_associate())
-	$permitted = TRUE;
+	$permitted = 'all';
 
-// the page of the authenticated surfer
+// a member who manages his connections
 elseif(is_object($anchor) && Surfer::get_id() && ($anchor->get_reference() == 'user:'.Surfer::get_id()))
-	$permitted = TRUE;
+	$permitted = 'all';
+
+// a member who manages his section
+elseif(is_object($anchor) && Sections::is_owned($anchor))
+	$permitted = 'all';
+
+// a member who manages his editor rights
+elseif(is_object($anchor) && $anchor->is_assigned(FALSE))
+	$permitted = 'me';
 
 // the default is to disallow access
 else
@@ -51,17 +57,6 @@ if(is_object($anchor) && $anchor->is_viewable())
 else
 	$context['path_bar'] = array( 'users/' => i18n::s('People') );
 
-// the title of the page
-if(is_object($anchor)) {
-	if(!strncmp($anchor->get_reference(), 'user:', 5)) {
-		if(Surfer::is(intval(substr($anchor->get_reference(), 5))))
-			$context['page_title'] = i18n::s('My connections');
-		else
-			$context['page_title'] = sprintf(i18n::s('Connections of %s'), $anchor->get_title());
-	} else
-		$context['page_title'] = sprintf(i18n::s('Editors of %s'), $anchor->get_title());
-}
-
 // an anchor is mandatory
 if(!is_object($anchor))
 	Logger::error(i18n::s('No anchor has been found.'));
@@ -71,9 +66,24 @@ elseif(!$permitted) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-// build a form to associates some users to this item
-} else {
+// build a form to manage all users linked to this item
+} elseif($permitted == 'all') {
 
+	// the title of the page
+	if(is_object($anchor)) {
+		if(!strncmp($anchor->get_reference(), 'user:', 5)) {
+			if(Surfer::is(intval(substr($anchor->get_reference(), 5))))
+				$context['page_title'] = i18n::s('My connections');
+			else
+				$context['page_title'] = sprintf(i18n::s('Connections of %s'), $anchor->get_title());
+		} else {
+			$context['page_title'] = i18n::s('Manage editors');
+			
+			// splash message
+			$context['text'] .= '<p>'.sprintf(i18n::s('From this page you can add or unassign editors of %s'), $anchor->get_title()).'</p>';
+		}
+	}
+	
 	// look for the user through his nick name
 	if(isset($_REQUEST['assigned_name']) && ($user = Users::get($_REQUEST['assigned_name'])))
 		$_REQUEST['anchor'] = 'user:'.$user['id'];
@@ -154,7 +164,7 @@ elseif(!$permitted) {
 	$links = array();
 	$url = $anchor->get_url();
 	if(!strncmp($anchor->get_reference(), 'user:', 5))
-		$url .= '#~connections';
+		$url .= '#_connections';
 	$links[] = Skin::build_link($url, i18n::s('Done'), 'button');
 	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
 
@@ -162,6 +172,85 @@ elseif(!$permitted) {
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_suffix();
 
+// please suppress editor rights to this item
+} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'leave')) {
+
+	// break an assignment, and also purge the watch list
+	Members::free('user:'.Surfer::get_id(), $anchor->get_reference());
+	
+	// don't break symetric connections from another user
+	if($anchor->get_type() != 'user')
+		Members::free($anchor->get_reference(), 'user:'.Surfer::get_id());
+
+	// page title
+	$type = $anchor->get_type();
+	if($type == 'section')
+		$label = i18n::s('a section');
+	else
+		$label = i18n::s('a page');
+	$context['page_title'] = sprintf(i18n::s('You have left %s'), $label);
+		
+	// splash message
+	$context['text'] .= '<p>'.sprintf(i18n::s('The operation has completed, and you have no specific access rights to %s.'), Skin::build_link($anchor->get_url(), $anchor->get_title())).'</p>';
+
+	// back to the anchor page
+	$links = array();
+	$url = Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
+	$links[] = Skin::build_link($url, i18n::s('Done'), 'button');
+	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
+
+// confirm that i want to suppress my editor rights
+} else {
+
+	// page title
+	$type = $anchor->get_type();
+	if($type == 'section')
+		$label = i18n::s('a section');
+	else
+		$label = i18n::s('a page');
+	$context['page_title'] = sprintf(i18n::s('Leave %s'), $label);
+		
+	// splash message
+	if($type == 'section')
+		$context['text'] .= '<p>'.sprintf(i18n::s('You have been assigned as an editor of %s, and this allows you to post new content, to contribute to pages from other persons, and to be notified of changes.'), Skin::build_link($anchor->get_url(), $anchor->get_title())).'</p>';
+	else
+		$context['text'] .= '<p>'.sprintf(i18n::s('You have been assigned as an editor of %s, and this allows you to contribute to this page, and to be notified of changes.'), Skin::build_link($anchor->get_url(), $anchor->get_title())).'</p>';
+	
+	// cautioon on private areas
+	if($anchor->get_active() == 'N') {
+		if($type == 'section')
+			$context['text'] .= '<p>'.i18n::s('Access to this section is restricted. If you continue, it will become invisible to you, and you will not be able to even browse its content anymore.').'</p>';
+		else
+			$context['text'] .= '<p>'.i18n::s('Access to this page is restricted. If you continue, it will become invisible to you, and you will not be able to even browse its content anymore.').'</p>';
+	}
+	
+	// ask for confirmation
+	if($type == 'section')
+		$context['text'] .= '<p>'.i18n::s('You are about to suppress all your editing rights on this section.').'</p>';
+	else
+		$context['text'] .= '<p>'.i18n::s('You are about to suppress all your editing rights on this page.').'</p>';
+
+	$context['text'] .= '<p>'.i18n::s('Are you sure?').'</p>';
+	
+	// commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Yes'), NULL, NULL, 'confirmed');
+	$menu[] = Skin::build_link($anchor->get_url(), i18n::s('No'), 'span');
+
+	// render commands
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
+		.Skin::finalize_list($menu, 'menu_bar')
+		.'<input type="hidden" name="member" value="'.$anchor->get_reference().'" />'."\n"
+		.'<input type="hidden" name="action" value="leave" />'."\n"
+		.'</p></form>'."\n";
+
+	// set the focus
+	$context['text'] .= JS_PREFIX
+		.'// set the focus on first form field'."\n"
+		.'$("confirmed").focus();'."\n"
+		.JS_SUFFIX;
+
+	
 }
 
 // render the skin

@@ -128,6 +128,17 @@ Class Layout_sections_as_yabb extends Layout_interface {
 			if($details)
 				$details = BR.'<span class="details">'.$details."</span>\n";
 
+			// count posts here, and in children sections --up to three level of depth
+			if($anchors =& Sections::get_children_of_anchor('section:'.$item['id'])) {
+				if($anchors2 =& Sections::get_children_of_anchor($anchors))
+					$anchors2 = array_merge($anchors2, Sections::get_children_of_anchor($anchors2));
+				
+				$anchors = array_merge($anchors, $anchors2);
+			}
+			$anchors[] = 'section:'.$item['id'];
+			if(!$count = Articles::count_for_anchor($anchors))
+				$count = 0;
+
 			// get last post
 			$last_post = '--';
 			$article =& Articles::get_newest_for_anchor('section:'.$item['id'], TRUE);
@@ -166,9 +177,6 @@ Class Layout_sections_as_yabb extends Layout_interface {
 				}
 
 			}
-
-			if(!$count = Articles::count_for_anchor('section:'.$item['id']))
-				$count = 0;
 
 			// this is another row of the output
 			$text .= Skin::table_row(array($prefix.$title.$suffix.$details, 'center='.$count, $last_post));

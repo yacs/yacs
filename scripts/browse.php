@@ -90,11 +90,11 @@ else {
 	if($content && ($store == 'reference')) {
 
 		// browsing is safe
-		$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url($script, 'view') => i18n::s('View the documentation page') ));
+		$context['page_menu'] += array( Scripts::get_url($script, 'view') => i18n::s('View the documentation page') );
 
 		// protect from spammers and robots
 		if(Surfer::is_logged())
-			$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url($script, 'fetch') => i18n::s('Fetch the script file') ));
+			$context['page_menu'] += array( Scripts::get_url($script, 'fetch') => i18n::s('Fetch the script file') );
 	}
 
 	// highlight php code

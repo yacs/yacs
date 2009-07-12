@@ -35,19 +35,23 @@ Class Layout_articles_as_timeline extends Layout_interface {
 
 		// empty list
 		if(!SQL::count($result))
-			return $items;
+			return $text;
+
+		// sanity check
+		if(!isset($this->layout_variant))
+			$this->layout_variant = NULL;
 
 		// flag articles updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		$odd = TRUE;
 		while($item =& SQL::fetch($result)) {
 
@@ -65,12 +69,12 @@ Class Layout_articles_as_timeline extends Layout_interface {
 
 			// build a title
 			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
-				$title = $overlay->get_live_title($item);
+				$title = $overlay->get_live_title($item, $this->layout_variant);
 			else
 				$title = Codes::beautify_title($item['title']);
 
 			// initialize variables
-			$prefix = $suffix = '';
+			$prefix = $suffix = $icon = '';
 
 			// flag articles that are dead, or created or updated very recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
@@ -126,6 +130,10 @@ Class Layout_articles_as_timeline extends Layout_interface {
 			elseif($item['edit_date'] >= $dead_line)
 				$suffix .= UPDATED_FLAG;
 
+			// insert overlay data, if any
+			if(is_object($overlay))
+				$suffix .= $overlay->get_text('list', $item, $this->layout_variant);
+
 			// the hovering title
 			if($item['introduction'] && ($context['skins_with_details'] == 'Y'))
 				$hover = strip_tags(Codes::beautify_introduction($item['introduction']));
@@ -138,12 +146,43 @@ Class Layout_articles_as_timeline extends Layout_interface {
 			if(Surfer::is_member())
 				$hover .= ' [article='.$item['id'].']';
 
+			// add an image if available
+			$icon = '';
+			if($item['thumbnail_url'])
+				$icon = $item['thumbnail_url'];
+
+			// or inherit from the anchor
+			elseif(is_object($anchor)) {
+
+				// we are listing articles in the anchor page - use the anchor bullet
+				if($this->layout_variant == $anchor->get_reference()) {
+					$icon = $anchor->get_bullet_url();
+
+				// we are listing articles in a page that has a specific bullet - use it
+				} elseif(strpos(':', $this->layout_variant) && ($bulleted =& Anchors::get($this->layout_variant))) {
+					$icon = $bulleted->get_bullet_url();
+
+				// use anchor thumbnail
+				} else
+					$icon = $anchor->get_thumbnail_url();
+
+			}
+
+			// format the image
+			if($icon)
+				$icon = Skin::build_link($url, '<img src="'.$icon.'" />', 'basic', $hover);
+			
 			// list all components for this item
 			if($odd = !$odd)
 				$class = ' class="odd"';
 			else
 				$class = ' class="even"';
-			$text .= '<div'.$class.'>'.$prefix.Skin::build_link($url, Skin::strip($title, 30), 'basic', $hover).$suffix.'</div>';
+				
+			// use a table to layout the image properly
+			if($icon)
+				$text .= '<div'.$class.'><table class="decorated"><tr><td class="image" style="text-align: center">'.$icon.'</td><td class="content">'.$prefix.Skin::build_link($url, Skin::strip($title, 30), 'basic', $hover).$suffix.'</td></tr></table></div>';
+			else
+				$text .= '<div'.$class.'>'.$prefix.Skin::build_link($url, Skin::strip($title, 30), 'basic', $hover).$suffix.'</div>';
 
 		}
 

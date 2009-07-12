@@ -396,10 +396,21 @@ Class Articles {
 		$where .= " AND ((articles.expiry_date is NULL) "
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
 
+		// several anchors
+		if(is_array($anchor)) {
+			$items = array();
+			foreach($anchor as $token)
+				$items[] = "articles.anchor LIKE '".SQL::escape($token)."'";
+			$where_anchor = join(' OR ', $items);
+
+		// or only one
+		} else
+			$where_anchor = "articles.anchor LIKE '".SQL::escape($anchor)."'";
+
 		// select among available items
 		$query = "SELECT COUNT(*) as count"
 			." FROM ".SQL::table_name('articles')." AS articles"
-			." WHERE (articles.anchor LIKE '".SQL::escape($anchor)."') AND (".$where.")";
+			." WHERE (".$where_anchor.") AND (".$where.")";
 
 		return SQL::query_scalar($query);
 	}
@@ -919,7 +930,7 @@ Class Articles {
 
 		// check the target action
 		if(!preg_match('/^(delete|describe|duplicate|edit|export|fetch_as_msword|fetch_as_pdf|fetch_for_palm|lock|mail|move|navigate|print|publish|rate|stamp|unpublish|view)$/', $action))
-			$action = 'view';
+			return 'articles/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
 		return normalize_url(array('articles', 'article'), $action, $id, $name);

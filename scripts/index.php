@@ -105,7 +105,7 @@ if(Surfer::is_associate() && !file_exists('reference/footprints.php')) {
 	$context['text'] .= Skin::build_block(i18n::s('Incremental upgrades'), 'title');
 
 	// the status message
-	Safe::load('scripts/staging/footprints.php');
+	Safe::load('footprints.php');
 	if(isset($generation['date']) && $generation['date'])
 		$context['text'] .= '<p>'.sprintf(i18n::s('Last update took place on %s'), $generation['date']).'</p>'."\n";
 	unset($generation);
@@ -177,11 +177,14 @@ if(Surfer::is_associate()) {
 	// set the reference server
 	$context['page_tools'][] = Skin::build_link('scripts/configure.php', i18n::s('Configure'), 'basic');
 
+	// check script signatures
+	$context['page_tools'][] = Skin::build_link('scripts/check.php', i18n::s('Check software integrity'), 'basic');
+
 	// validate scripts
-	$context['page_tools'][] = Skin::build_link('scripts/validate.php', i18n::s('Validate'), 'basic');
+	$context['page_tools'][] = Skin::build_link('scripts/validate.php', i18n::s('Validate PHP syntax'), 'basic');
 
 	// build the reference here
-	$context['page_tools'][] = Skin::build_link('scripts/build.php', i18n::s('Build'), 'basic');
+	$context['page_tools'][] = Skin::build_link('scripts/build.php', i18n::s('Build the software'), 'basic');
 
 }
 

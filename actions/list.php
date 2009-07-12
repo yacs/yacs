@@ -94,7 +94,7 @@ if(Surfer::is_associate()
 		$link = 'actions/edit.php/'.str_replace(':', '/', $target_anchor);
 	else
 		$link = 'actions/edit.php?anchor='.$target_anchor;
-	$context['page_menu'] = array_merge($context['page_menu'], array( $link => i18n::s('Add an action') ));
+	$context['page_menu'] += array( $link => i18n::s('Add an action') );
 }
 
 // an anchor is mandatory
@@ -172,7 +172,7 @@ if(!is_object($anchor)) {
 		if($stats['count'] > $items_per_page) {
 
 			// count actions in the database
-			$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d action', '%d actions', $stats['count']), $stats['count'])));
+			$box['bar'] += array('_count' => sprintf(i18n::ns('%d action', '%d actions', $stats['count']), $stats['count']));
 
 			// navigation commands for actions, if necessary
 			$home = 'actions/list.php';
@@ -182,7 +182,7 @@ if(!is_object($anchor)) {
 				$prefix = $home.'/'.str_replace(':', '/', $target_anchor);
 			else
 				$prefix = $home.'?anchor='.$target_anchor.'&page=';
-			$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
+			$box['bar'] += Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page);
 		}
 
 		// query the database and layout that stuff

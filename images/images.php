@@ -383,7 +383,7 @@ Class Images {
 
 		// check the target action
 		if(!preg_match('/^(delete|edit|set_as_bullet|set_as_icon|set_as_thumbnail|view)$/', $action))
-			$action = 'view';
+			return 'images/'.$action.'.php?id='.urlencode($id);
 
 		// normalize the link
 		return normalize_url(array('images', 'image'), $action, $id);
@@ -741,7 +741,7 @@ Class Images {
 		$output =& SQL::query_first($query);
 		return $output;
 	}
-
+	
 }
 
 // load localized strings

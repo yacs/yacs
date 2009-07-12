@@ -62,7 +62,7 @@ $context['page_title'] = i18n::s('Files');
 // count files in the database
 $stats = Files::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d file', '%d files', $stats['count']), $stats['count'])));
+	$context['page_menu'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $stats['count']), $stats['count']));
 
 // stop hackers
 if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
@@ -80,7 +80,7 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 			$prefix = $home;
 		else
 			$prefix = $home.'?page=';
-		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
+		$context['page_menu'] += Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page);
 	}
 
 	// page main content

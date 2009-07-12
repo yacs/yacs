@@ -74,12 +74,12 @@ if($item['title'])
 
 // test links
 if($item['submit_feed'] == 'Y')
-	$context['page_menu'] = array_merge($context['page_menu'], array( Servers::get_url($id, 'test') => i18n::s('Test feed') ));
+	$context['page_menu'] += array( Servers::get_url($id, 'test') => i18n::s('Test feed') );
 
 // commands for associates
 if(Surfer::is_associate()) {
-	$context['page_menu'] = array_merge($context['page_menu'], array( Servers::get_url($id, 'edit') => i18n::s('Edit') ));
-	$context['page_menu'] = array_merge($context['page_menu'], array( Servers::get_url($id, 'delete') => i18n::s('Delete') ));
+	$context['page_menu'] += array( Servers::get_url($id, 'edit') => i18n::s('Edit') );
+	$context['page_menu'] += array( Servers::get_url($id, 'delete') => i18n::s('Delete') );
 }
 
 // not found

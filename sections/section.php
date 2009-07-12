@@ -94,8 +94,18 @@ Class Section extends Anchor {
 
 		// strings for comments
 		if($variant == 'comments') {
-
+		
 			switch($id) {
+
+			// title for these
+			case 'title':
+				if($this->has_layout('jive'))
+					return i18n::s('Replies');
+				if($this->has_layout('manual'))
+					return i18n::s('Notes');
+				if($this->has_layout('wiki'))
+					return i18n::s('Notes');
+				return i18n::s('Comments');
 
 			// many comments
 			case 'count_many':
@@ -199,7 +209,7 @@ Class Section extends Anchor {
 					return i18n::s('Annotate this page');
 				if($this->has_layout('wiki'))
 					return i18n::s('Annotate this page');
-				return i18n::s('Add a comment');
+				return i18n::s('Post a comment');
 
 			// page title to create a comment
 			case 'new_title':
@@ -209,7 +219,7 @@ Class Section extends Anchor {
 					return i18n::s('Annotate this page');
 				if($this->has_layout('wiki'))
 					return i18n::s('Annotate this page');
-				return i18n::s('Add a comment');
+				return i18n::s('Post a comment');
 
 			// command to view content
 			case 'view_command':
@@ -709,13 +719,40 @@ Class Section extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	function get_url($action='view') {
-		if(isset($this->item['id'])) {
-			if($action == 'view')
-				return Sections::get_permalink($this->item);
-			else
-				return Sections::get_url($this->item['id'], $action, $this->item['title'], $this->item['nick_name']);
+
+		// sanity check
+		if(!isset($this->item['id']))
+			return NULL;
+
+		switch($action) {
+		
+		// view comments
+		case 'comments':
+			if($this->has_option('view_as_tabs', FALSE))
+				return $this->get_url().'#_discussion';
+			return Sections::get_permalink($this->item).'#comments';
+
+		// list of files
+		case 'files':
+			if($this->has_option('view_as_tabs', FALSE))
+				return $this->get_url().'#_attachments';
+			return Sections::get_permalink($this->item).'#files';
+		
+		// list of links
+		case 'links':
+			if($this->has_option('view_as_tabs', FALSE))
+				return $this->get_url().'#_attachments';
+			return Sections::get_permalink($this->item).'#links';
+		
+		// the permalink page
+		case 'view':
+			return Sections::get_permalink($this->item);
+
+		// another action
+		default:
+			return Sections::get_url($this->item['id'], $action, $this->item['title'], $this->item['nick_name']);
+
 		}
-		return NULL;
 	}
 
 	/**
@@ -837,6 +874,7 @@ Class Section extends Anchor {
 			.'|articles_by_publication' 	// no way to revert from this
 			.'|articles_by_title'
 			.'|auto_publish'		// e.g. extra boxes aside a forum...
+			.'|comments_as_wall'
 			.'|files_by_title'
 			.'|links_by_title'
 			.'|no_comments' 		// e.g. master section vs. sub-forum
@@ -890,24 +928,26 @@ Class Section extends Anchor {
 	 function is_editable($user_id=NULL) {
 		global $context;
 
-		// cache the answer
-		if(isset($this->is_editable_cache))
-			return $this->is_editable_cache;
-
 		if(isset($this->item['id'])) {
 
 			// associates can always do what they want
 			if(Surfer::is_associate())
-				return $this->is_editable_cache = TRUE;
+				return TRUE;
 
+			logger::debug('1');
+			
 			// anonymous edition is allowed
 			if(($this->item['active'] == 'Y') && $this->has_option('anonymous_edit'))
-				return $this->is_editable_cache = TRUE;
+				return TRUE;
 
+			logger::debug('2');
+			
 			// members edition is allowed
 			if(($this->item['active'] == 'Y') && Surfer::is_empowered('M') && $this->has_option('members_edit'))
-				return $this->is_editable_cache = TRUE;
+				return TRUE;
 
+			logger::debug('3');
+			
 			// id of requesting user
 			if(!$user_id && Surfer::get_id())
 				$user_id = Surfer::get_id();
@@ -915,27 +955,31 @@ Class Section extends Anchor {
 			// authenticated subscriptors cannot contribute
 			if(!$user_id || Surfer::is_empowered('M')) {
 
+			logger::debug('4');
+			
 				// maybe the current surfer has been explicitly defined as a managing editor
 				if($user_id && Members::check('user:'.$user_id, 'section:'.$this->item['id']))
-					return $this->is_editable_cache = TRUE;
+					return TRUE;
 
 			}
 
 			// check the upper level container
 			if(isset($this->item['anchor'])) {
 
+			logger::debug('5');
+			
 				// save requests
 				if(!isset($this->anchor) || !$this->anchor)
 					$this->anchor =& Anchors::get($this->item['anchor']);
 
 				if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
-					return $this->is_editable_cache = TRUE;
+					return TRUE;
 
 			}
 		}
 		
 		// sorry
-		return $this->is_editable_cache = FALSE;
+		return FALSE;
 	 }
 
 	/**
@@ -1182,6 +1226,13 @@ Class Section extends Anchor {
 			if($image =& Images::get($origin)) {
 				if($url = Images::get_icon_href($image))
 					$query[] = "icon_url = '".SQL::escape($url)."'";
+
+				// also use it as thumnail if none has been defined yet
+				if(!(isset($this->item['thumbnail_url']) && trim($this->item['thumbnail_url'])) && ($url = Images::get_thumbnail_href($image)))
+					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
+
+			} elseif($origin) {
+				$query[] = "icon_url = '".SQL::escape($origin)."'";
 			}
 			$silently = TRUE;
 
@@ -1189,9 +1240,16 @@ Class Section extends Anchor {
 		} elseif($action == 'image:set_as_thumbnail') {
 			include_once $context['path_to_root'].'images/images.php';
 			if($image =& Images::get($origin)) {
-				if($url = Images::get_thumbnail_href($image))
-					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
-			}
+
+				// use the thumbnail for large files, or the image itself for smaller files
+				if($image['image_size'] > $context['thumbnail_threshold'])
+					$url = Images::get_thumbnail_href($image);
+				else
+					$url = Images::get_icon_href($image);
+				$query[] = "thumbnail_url = '".SQL::escape($url)."'";
+				
+			} elseif($origin)
+				$query[] = "thumbnail_url = '".SQL::escape($origin)."'";
 			$silently = TRUE;
 
 		// append a new image, and set it as the article thumbnail
@@ -1201,11 +1259,16 @@ Class Section extends Anchor {
 
 			include_once $context['path_to_root'].'images/images.php';
 			if($image =& Images::get($origin)) {
-				if($url = Images::get_thumbnail_href($image))
-					$query[] = "thumbnail_url = '".SQL::escape($url)."'";
-			} elseif($origin) {
+
+				// use the thumbnail for large files, or the image itself for smaller files
+				if($image['image_size'] > $context['thumbnail_threshold'])
+					$url = Images::get_thumbnail_href($image);
+				else
+					$url = Images::get_icon_href($image);
+				$query[] = "thumbnail_url = '".SQL::escape($url)."'";
+
+			} elseif($origin)
 				$query[] = "thumbnail_url = '".SQL::escape($origin)."'";
-			}
 
 			// do not remember minor changes
 			$silently = TRUE;

@@ -123,85 +123,6 @@ Class Surfer {
 	}
 
 	/**
-	 * build contact information for another user
-	 *
-	 * This function has to be called from the template, once the skin has been loaded.
-	 *
-	 * @param array attributes of the target user profile
-	 * @return string the HTML snippet to be put in page
-	 *
-	 * @see skins/skin_skeleton.php
-	 * @see users/contact.php
-	 * @see users/view.php
-	 */
-	function &build_user_contact($user) {
-		global $context;
-
-		// we return some text
-		$text = '';
-
-		// sanity check
-		if(!Surfer::get_id())
-			return $text;
-
-		// on-going pages
-		//
-		if($anchor = Sections::get('private')) {
-
-			// do not link to this user profile
-			include_once $context['path_to_root'].'articles/layout_articles_as_thread.php';
-			$layout =& new Layout_articles_as_thread();
-			$layout->set_variant($user['id']);
-
-			// i am looking at my own record
-			if(Surfer::get_id() == $user['id']) {
-
-				if($items =& Articles::list_assigned_by_date_for_anchor('section:'.$anchor['id'], $user['id'], 0, 50, $layout, FALSE))
-					$text .= Skin::build_list($items, 'compact');
-
-			// navigating another profile
-			} else {
-
-				if($items =& Articles::list_assigned_by_date_for_anchor('section:'.$anchor['id'], $user['id'], 0, 50, $layout, TRUE))
-					$text .= '<p>'.sprintf(i18n::s('Your private pages with %s'), $user['full_name']).'</p>'.Skin::build_list($items, 'compact').'<p> </p>';
-
-			}
-			
-			// link to all private pages
-			$text .= '<p>'.Skin::build_link(Sections::get_permalink($anchor), i18n::s('All threads'), 'basic').'</p>';
-
-		}
-
-		// co-browsing
-		if(Surfer::get_id() && (Surfer::get_id() != $user['id'])) {
-			$box = array( 'list' => array(), 'text' => '');
-
-			// some page or thread has been visited recently
-			include_once $context['path_to_root'].'users/visits.php';
-			if($items = Visits::list_for_user($user['id'])) {
-				foreach($items as $url => $label)
-					$box['list'] = array_merge($box['list'], array($url => sprintf(i18n::s('Join %s at %s'), $user['nick_name'], $label)));
-
-			// user is present if active during last 10 minutes (10*60 = 600), but not at some thread
-			} elseif(isset($user['click_date']) && ($user['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
-
-				// show place of last click
-				if(isset($user['click_anchor']) && ($anchor =& Anchors::get($user['click_anchor'])))
-					$box['list'] = array_merge($box['list'], array($anchor->get_url() => sprintf(i18n::s('Join %s at %s'), $user['nick_name'], $anchor->get_title())));
-
-			}
-
-			// make a box
-			if(count($box['list']))
-				$text .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'folded', 'co_browsing');
-
-		}
-
-		// return by reference
-		return $text;
-	}
-
-	/**
 	 * build the navigation menu for this surfer
 	 *
 	 * This function has to be called from the template, once the skin has been loaded.
@@ -1004,27 +925,20 @@ Class Surfer {
 	function may_contact($id=NULL) {
 		global $context;
 
-		// self mailing is not authorized
-		if($id && Surfer::is($id))
-			return FALSE;
-			
 		// associate can always do it
 		if(Surfer::is_associate())
 			return TRUE;
 
-		// communication between members is not allowed
-		if(!isset($context['users_with_email_display']))
-			return FALSE;
+		// communication between members is always fostered (intranet)
+		if(isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'Y'))
+			return TRUE;
 
-		if($context['users_with_email_display'] == 'N')
+		// communication between members is not allowed (internet)
+		if(isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'N'))
 			return FALSE;
 
 		// authenticated surfers can communicate through mail
 		if(Surfer::is_logged())
-			return TRUE;
-
-		// anonymous surfers can communicate by e-mail
-		if($context['users_with_email_display'] == 'Y')
 			return TRUE;
 
 		return FALSE;

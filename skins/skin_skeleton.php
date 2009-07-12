@@ -16,6 +16,7 @@
  * @tester Mordread Wallas
  * @tester Ghjmora
  * @tester Thierry Pinelli (ThierryP)
+ * @tester Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -341,19 +342,45 @@ Class Skin_Skeleton {
 	function &build_box_title($title, $url, $popup='') {
 		global $context;
 
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_box_title', 'start');
-
-		if(!$popup)
-			$popup = i18n::s('Information channels');
 		$text = $title.' '.Skin::build_link($url, TITLE_SHORTCUT, 'more', $popup);
-
-		if($context['with_profile'] == 'Y')
-			Logger::profile('Skin::build_box_title', 'stop');
 
 		return $text;
 	}
 
+	/**
+	 * add some content to a page
+	 *
+	 * @param string box unique id
+	 * @param string box title
+	 * @param string box content
+	 * @param array top menu bar
+	 * @param array bottom menu bar
+	 * @return string to be integrated into final rendering
+	 */
+	function &build_content($id, $title, $content, $top=NULL, $bottom=NULL) {
+		global $context;
+		
+		// we return some text
+		$text = '';
+		
+		// top menu bar
+		if(isset($top) && is_array($top) && count($top))
+			$text .= Skin::build_list($top, 'menu_bar');
+
+		// actual content
+		$text .= $content;
+		
+		// bottom menu bar
+		if(isset($bottom) && is_array($bottom) && count($bottom))
+			$text .= Skin::build_list($bottom, 'menu_bar');
+
+		// shape a complete box with title, id, etc.
+		$text = Skin::build_box($title, $text, 'header1', $id);
+
+		// job done
+		return $text;
+	}
+	 
 	/**
 	 * build a contextual menu for this page
 	 *
@@ -756,11 +783,11 @@ Class Skin_Skeleton {
 		// external div boundary
 		$text = '<dl class="floating_box"'.$id.'>'."\n";
 
-		// always add a header
-		$text .= '<dt><span>'.$title."</span></dt>\n";
-
 		// box content --add clear at the end to align images
-		$text .= '<dd>'.$content.'<br style="clear: both;" /></dd>';
+		$text .= '<dd>'.$content.'</dd>';
+
+		// always add a header
+		$text .= '<dt><span>'.$title.'</span><br style="clear: both;" /></dt>'."\n";
 
 		// external div boundary
 		$text .= '</dl>'."\n";
@@ -1137,9 +1164,15 @@ Class Skin_Skeleton {
 	 * @return the HTML to display
 	 *
 	 */
-	function &build_input($name, $value, $type) {
+	function &build_input($name, $value, $type, $onchange=NULL) {
 		global $context;
 
+		// some javascript to call on change
+		if($onchange)
+			$onchange = ' onchange="'.$onchange.'" ';
+		else
+			$onchange = '';
+			
 		switch($type) {
 		case 'date':
 
@@ -1148,7 +1181,7 @@ Class Skin_Skeleton {
 				$value = '';
 
 			// date stamps are handled in regular text fields
-			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" />';
+			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" '.$onchange.'/>';
 
 			// these are enhanced with jsCalendar, if present
 			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
@@ -1173,7 +1206,7 @@ Class Skin_Skeleton {
 				$value = '';
 
 			// date stamps are handled in regular text fields
-			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="20" maxlength="255" />'
+			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="20" maxlength="255" '.$onchange.' />'
 				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="" />';
 
 			// these are enhanced with jsCalendar, if present
@@ -1404,9 +1437,11 @@ Class Skin_Skeleton {
 				// count external clicks
 				$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
 
-				// a default title
+				// finalize the hovering title
 				if(!$href_title)
 					$href_title = ' title="'.encode_field(i18n::s('Browse in a separate window')).'"';
+				else
+					$href_title = ' title="'.encode_field(strip_tags($href_title)).'"';
 				
 			// internal link
 			} else {
@@ -1837,8 +1872,8 @@ Class Skin_Skeleton {
 
 				// adjust the class
 				$class= '';
-				if(($variant == 'column_1') || ($variant == 'column_2'))
-					$class = 'class="reflect" ';
+				if((($variant == 'column_1') || ($variant == 'column_2')) && isset($context['classes_for_thumbnail_images']))
+					$class = 'class="'.$context['classes_for_thumbnail_images'].'" ';
 					
 				// build the complete HTML element
 				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($label).'" '.$class.'/>';
@@ -2120,9 +2155,9 @@ Class Skin_Skeleton {
 			// avatar
 			if(isset($user['avatar_url']) && $user['avatar_url'])
 				$details[] =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar'.$more_styles.'" />', 'basic');
+			else if(Surfer::is_empowered())
+				$details[] =& Skin::build_link(Users::get_url($user['id'], 'select_avatar'), i18n::s('Add avatar'), 'basic');
 
-			// a link to the user profile
-			$details[] =& Skin::build_link($url, $user['nick_name'], 'user');
 
 			// date of post
 			if($more)
@@ -2760,24 +2795,6 @@ Class Skin_Skeleton {
 	}
 
 	/**
-	 * build contact information for another user
-	 *
-	 * Actually delegates the job to [code]Surfer::build_user_contact()[/code].
-	 * You can overload this function in your own skin to change this behaviour.
-	 *
-	 * @param array attributes of the target user profile
-	 * @return string the HTML snippet to be put in page
-	 *
-	 * @see shared/surfer.php
-	 */
-	function &build_user_contact($user) {
-		global $context;
-
-		$output =& Surfer::build_user_contact($user);
-		return $output;
-	}
-
-	/**
 	 * build the navigation menu for this surfer
 	 *
 	 * Actually delegates the job to [code]Surfer::build_user_menu()[/code].
@@ -2903,8 +2920,9 @@ Class Skin_Skeleton {
 	 * @param string file name for this image
 	 * @param string to be used if the file does not exists
 	 * @param string to be displayed in textual browsers
+	 * @param string options to be integrated into the img tag, if any
 	 */
-	function define_img($name, $file, $default='', $alternate='') {
+	function define_img($name, $file, $default='', $alternate='', $options='') {
 		global $context;
 
 		// sanity check
@@ -2913,9 +2931,9 @@ Class Skin_Skeleton {
 
 		// make an absolute path to image, in case of export (freemind, etc.)
 		if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/'.$file))
-			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'" /> ');
+			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.'/> ');
 		elseif($size = Safe::GetImageSize($context['path_to_root'].'skins/images/'.$file))
-			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].'skins/images/'.$file.'" '.$size[3].' alt="'.$alternate.'" /> ');
+			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].'skins/images/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.'/> ');
 		else
 			define($name, $default);
 	}
@@ -3339,7 +3357,7 @@ Class Skin_Skeleton {
 					if(is_array($label))
 						list($label, $icon) = $label;
 
-					$text .= '<li>'.COMPACT_LIST_ITEM_PREFIX.$icon.trim(strip_tags(str_replace('/> ', '/>', $label), '<a>')).COMPACT_LIST_ITEM_SUFFIX.'</li>'."\n";
+					$text .= '<li>'.COMPACT_LIST_ITEM_PREFIX.$icon.trim(str_replace('/> ', '/>', $label)).COMPACT_LIST_ITEM_SUFFIX.'</li>'."\n";
 				}
 
 				$text = COMPACT_LIST_PREFIX.'<ul class="compact">'."\n".$text.'</ul>'.COMPACT_LIST_SUFFIX."\n";
@@ -3386,6 +3404,9 @@ Class Skin_Skeleton {
 		if(!defined('ACTIONS_PER_PAGE'))
 			define('ACTIONS_PER_PAGE', 10);
 
+		// the image to add an article
+		Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.png');
+
 		// the maximum number of articles per page
 		if(!defined('ARTICLES_PER_PAGE'))
 			define('ARTICLES_PER_PAGE', 50);
@@ -3428,9 +3449,6 @@ Class Skin_Skeleton {
 		if(!defined('CATEGORIES_PER_PAGE'))
 			define('CATEGORIES_PER_PAGE', 40);
 
-		// the prefix icon used for comments in the tool set
-		Skin::define_img('COMMENT_TOOL_IMG', 'icons/tools/comment.gif');
-
 		// the maximum number of comments per page
 		if(!defined('COMMENTS_PER_PAGE'))
 			define('COMMENTS_PER_PAGE', 50);
@@ -3471,8 +3489,13 @@ Class Skin_Skeleton {
 		if(!defined('CRUMBS_SUFFIX'))
 			define('CRUMBS_SUFFIX', '&nbsp;&laquo; &nbsp; ');
 
+		// use parameter of the control panel for this one
+		$options = '';
+		if(isset($context['classes_for_thumbnail_images']))
+			$options = 'class="'.$context['classes_for_thumbnail_images'].'" ';
+			
 		// the img tag used with the [decorated] code; either a decorating icon, or equivalent to the bullet
-		Skin::define_img('DECORATED_IMG', 'icons/decorated.gif', BULLET_IMG);
+		Skin::define_img('DECORATED_IMG', 'icons/decorated.gif', BULLET_IMG, '*', $options);
 
 		// the bullet used to signal pages to be published
 		if(is_callable(array('i18n', 's')))
@@ -3668,6 +3691,9 @@ Class Skin_Skeleton {
 		if(!defined('S5_THEME'))
 			define('S5_THEME', 'i18n');
 
+		// the image to add a section
+		Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.png');
+
 		// the maximum number of sections attached to an anchor -- see sections/select.php
 		if(!defined('SECTIONS_LIST_SIZE'))
 			define('SECTIONS_LIST_SIZE', 40);
@@ -3738,7 +3764,7 @@ Class Skin_Skeleton {
 			define('TITLE_SHORTCUT', '&raquo;');
 
 		// the img tag used with 2-columns list; either a folder icon, or equivalent to the bullet
-		Skin::define_img('TWO_COLUMNS_IMG', 'icons/folder.gif', BULLET_IMG);
+		Skin::define_img('TWO_COLUMNS_IMG', 'icons/folder.gif', BULLET_IMG, '*', $options);
 
 		// the bullet used to signal updated pages
 		if(!defined('UPDATED_FLAG')) {

@@ -68,7 +68,7 @@ if(!Surfer::is_associate()) {
 	// count actions in the database
 	$stats = Actions::stat();
 	if($stats['count'])
-		$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d action', '%d actions', $stats['count']), $stats['count'])));
+		$context['page_menu'] += array('_count' => sprintf(i18n::ns('%d action', '%d actions', $stats['count']), $stats['count']));
 
 	// navigation commands for actions, if necessary
 	if($stats['count'] > $items_per_page) {
@@ -79,7 +79,7 @@ if(!Surfer::is_associate()) {
 			$prefix = $home;
 		else
 			$prefix = $home.'?page=';
-		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page));
+		$context['page_menu'] += Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page);
 	}
 
 	// seek the database

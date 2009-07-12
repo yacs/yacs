@@ -12,9 +12,9 @@
  * - 'global' - global pages
  * - 'navigation_boxes' - displayed at every page of the site, in the navigation panel
  * - 'processed_queries' - the archive of old queries
- * - 'private' - private pages
  * - 'queries' - pages sent by surfers to submit their queries to the webmaster
  * - 'templates' - models for new articles
+ * - 'threads' - private pages
  *
  * Additional sections may be created directly from within the content assistant, in [script]control/populate.php[/script].
  *
@@ -373,27 +373,6 @@ if(!$permitted) {
 			$text .= Logger::error_pop().BR."\n";
 	}
 
-	// 'private' section
-	if($section = Sections::get('private')) {
-		$text .= sprintf(i18n::s('A section "%s" already exists.'), i18n::c('Private pages')).BR."\n";
-	} else {
-		$fields = array();
-		$fields['nick_name'] = 'private';
-		$fields['title'] =& i18n::c('Private pages');
-		$fields['introduction'] =& i18n::c('For on-demand conversations and groups');
-		$fields['locked'] = 'N'; // no direct contributions
-		$fields['home_panel'] = 'none'; // content is not pushed at the front page
-		$fields['index_map'] = 'N'; // this is a special section
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
-		$fields['articles_layout'] = 'yabb'; // these are threads
-		$fields['content_options'] = 'with_deletions with_export_tools'; // allow editors to delete pages here
-		$fields['maximum_items'] = 20000; // limit the overall number of threads
-		if(Sections::post($fields))
-			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
-		else
-			$text .= Logger::error_pop().BR."\n";
-	}
-
 	// 'queries' section --after processed_queries
 	if(Sections::get('queries'))
 		$text .= sprintf(i18n::s('A section "%s" already exists.'), i18n::c('Queries')).BR."\n";
@@ -431,6 +410,27 @@ if(!$permitted) {
 		$fields['locked'] = 'Y'; // only associates can contribute
 		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		$fields['content_options'] = 'auto_publish'; // these will be reviewed anyway
+		if(Sections::post($fields))
+			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
+		else
+			$text .= Logger::error_pop().BR."\n";
+	}
+
+	// 'threads' section
+	if($section = Sections::get('threads')) {
+		$text .= sprintf(i18n::s('A section "%s" already exists.'), i18n::c('Threads')).BR."\n";
+	} else {
+		$fields = array();
+		$fields['nick_name'] = 'threads';
+		$fields['title'] =& i18n::c('Threads');
+		$fields['introduction'] =& i18n::c('For on-demand conversations and groups');
+		$fields['locked'] = 'N'; // no direct contributions
+		$fields['home_panel'] = 'none'; // content is not pushed at the front page
+		$fields['index_map'] = 'N'; // this is a special section
+		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
+		$fields['articles_layout'] = 'yabb'; // these are threads
+		$fields['content_options'] = 'with_deletions with_export_tools'; // allow editors to delete pages here
+		$fields['maximum_items'] = 20000; // limit the overall number of threads
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else

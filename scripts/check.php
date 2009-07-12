@@ -32,7 +32,7 @@ load_skin('scripts');
 $context['path_bar'] = array( 'scripts/' => i18n::s('Server software') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Check scripts');
+$context['page_title'] = i18n::s('Check software integrity');
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())

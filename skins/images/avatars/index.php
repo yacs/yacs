@@ -31,7 +31,7 @@ $context['page_title'] = i18n::s('The library of avatars');
 
 // logged users may change their avatar
 if(Surfer::is_logged())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'users/select_avatar.php' => i18n::s('Your avatar') ));
+	$context['page_menu'] += array( 'users/select_avatar.php' => i18n::s('Your avatar') );
 
 // list available avatars, except on error
 if(!count($context['error'])) {

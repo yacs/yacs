@@ -477,7 +477,8 @@ Class Codes {
 				"#^([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t ])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
-				"/^(-|\*|¤|\•)\s+(.+)$/im", /* lists hard-coded with -, *, ¤, or • -- no space ahead */
+//				"/^\<p\>(-|\*|¤|\•)\s+(.+)\<\/p\>$/im", /* lists hard-coded with -, *, ¤, or • -- no space ahead */
+//				"/^(-|\*|¤|\•)\s+(.+)$/m", /* lists hard-coded with -, *, ¤, or • -- no space ahead */
 				"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
 				"|\n[ \t]*>(\s*)|i",		/* quoted by > */
 				"|\n[ \t]*\|(\s*)|i",		/* quoted by | */
@@ -492,7 +493,8 @@ Class Codes {
 				"Skin::build_link('$1://$2', '$1://$2')",
 				"'$1'.Skin::build_link('$2://$3', '$2://$3')",
 				"'$1'.Skin::build_link('http://www.$2.$3$4', 'www.$2.$3$4')",
-				"<ul><li>$2</li></ul>",
+//				"Y<ul><li>$2</li></ul>Y",
+//				"x<ul><li>$2</li></ul>x",
 				BR."$1:$2",
 				BR.">$1",
 				BR."|$1",
@@ -1465,15 +1467,8 @@ Class Codes {
 				// where the file is
 				$path = 'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
 
-				// map the file on the ftp server
-				if($item['active'] == 'X') {
-					Safe::load('parameters/files.include.php');
-					$url_prefix = str_replace('//', '/', $context['files_url'].'/');
-
-				// or map the file on the regular web space
-				} else
-					$url_prefix = $context['url_to_home'].$context['url_to_root'];
-
+				// map the file on the regular web space
+				$url_prefix = $context['url_to_home'].$context['url_to_root'];
 
 				// redirect to the actual file
 				$target_href = $url_prefix.$path;
@@ -2163,6 +2158,9 @@ Class Codes {
 
 			else {
 
+				// maybe we want to illustrate this file
+				$output = Files::interact($item);
+				
 				// ensure we have a label for this link
 				if(isset($attributes[1]))
 					$text = $attributes[1];
@@ -2173,7 +2171,7 @@ Class Codes {
 				$url = Files::get_url($item['id'], 'view', $item['file_name']);
 
 				// return a complete anchor
-				$output =& Skin::build_link($url, $text, 'basic');
+				$output .= Skin::build_link($url, $text, 'basic');
 			}
 			return $output;
 
@@ -2195,7 +2193,7 @@ Class Codes {
 			if(isset($attributes[1]) && preg_match('/window/i', $attributes[1])) {
 				if(!isset($attributes[2]))
 					$attributes[2] = i18n::s('Play in a separate window');
-				$output = '<a href="'.Files::get_url($id, 'stream', $item['file_name']).'" onclick="window.open(this.href); return false;" class="button"><span>'.$attributes[2].'</span></a>';
+				$output = '<a href="'.Files::get_url($item['id'], 'stream', $item['file_name']).'" onclick="window.open(this.href); return false;" class="button"><span>'.$attributes[2].'</span></a>';
 				return $output;
 			}
 
@@ -2259,15 +2257,13 @@ Class Codes {
 
 				// pass parameters to the player
 				if($flashvars)
-					$flashvars = 'flv='.$url.'&'.str_replace('autostart=true', 'autoplay=1', $flashvars);
-				else
-					$flashvars = 'flv='.$url;
-				$flashvars .= '&width='.$width.'&height='.$height;
+					$flashvars = str_replace('autostart=true', 'autoplay=1', $flashvars).'&';
+				$flashvars .= 'width='.$width.'&height='.$height;
 
 				// the full object is built in Javascript --see parameters at http://flv-player.net/players/maxi/documentation/
 				$output = '<div id="flv_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.JS_PREFIX
-					.'var flashvars = { '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:1, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
+					.'var flashvars = { flv:"'.$url.'", '.str_replace(array('&', '='), array('", ', ':"'), $flashvars).'", autoload:1, margin:1, showiconplay:1, playeralpha:50, iconplaybgalpha:30, showloading:"always", ondoubleclick:"fullscreen" }'."\n"
 					.'var params = { allowfullscreen: "true", allowscriptaccess: "always" }'."\n"
 					.'var attributes = { id: "file_'.$item['id'].'", name: "file_'.$item['id'].'"}'."\n"
 					.'swfobject.embedSWF("'.$flvplayer_url.'", "flv_'.$item['id'].'", "'.$width.'", "'.$height.'", "9", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", flashvars, params);'."\n"

@@ -72,6 +72,7 @@ Class Links {
 			// members can contribute except if container is locked
 			if(isset($item['locked']) && ($item['locked'] == 'Y'))
 				return FALSE;
+
 			return TRUE;
 			
 		}
@@ -102,10 +103,6 @@ Class Links {
 
 		// anonymous contributions are allowed for this anchor
 		if(is_object($anchor) && $anchor->is_editable())
-			return TRUE;
-
-		// teasers are activated
-		if(Surfer::is_teased())
 			return TRUE;
 
 		// the default is to not allow for new links

@@ -43,7 +43,7 @@ $context['extra'] .= Skin::build_box(i18n::s('extra').' 2', DUMMY_TEXT, 'extra')
 $context['page_author'] = 'webmaestro, through some PHP script';
 
 // back to skin index
-$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/' => i18n::s('Themes') ));
+$context['page_menu'] += array( 'skins/' => i18n::s('Themes') );
 
 // $context['page_publisher'] - the publisher
 $context['page_publisher'] = 'webmaestro again, still through some PHP script';

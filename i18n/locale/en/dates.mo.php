@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on July 6, 2009, 3:08 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2009-05-28 16:29+0100
+POT-Creation-Date: 2009-06-29 01:13+0200
+PO-Revision-Date: 2009-07-03 00:22+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -43,7 +43,6 @@ $_SESSION['l10n']['en']['Edit the page']='Edit the page';
 $_SESSION['l10n']['en']['February']='February';
 $_SESSION['l10n']['en']['Get calendar']='Get calendar';
 $_SESSION['l10n']['en']['Help']='Help';
-$_SESSION['l10n']['en']['Information channels']='Information channels';
 $_SESSION['l10n']['en']['January']='January';
 $_SESSION['l10n']['en']['July']='July';
 $_SESSION['l10n']['en']['June']='June';
@@ -52,6 +51,7 @@ $_SESSION['l10n']['en']['Look for unused dates']='Look for unused dates';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['March']='March';
 $_SESSION['l10n']['en']['May']='May';
+$_SESSION['l10n']['en']['Monitor']='Monitor';
 $_SESSION['l10n']['en']['Navigation']='Navigation';
 $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.';
 $_SESSION['l10n']['en']['2d19c42e6baee867880d308ade61319c']='No event has been planned so far';

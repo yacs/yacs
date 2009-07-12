@@ -24,12 +24,11 @@ Class Layout_images extends Layout_interface {
 	 * - '<a valid anchor>' - example: 'section:123' - to list images attached to an anchor page
 	 *
 	 * @param resource the SQL result
-	 * @param string a variant, if any
-	 * @return string the rendered text
+	 * @return array one item per image
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result, $variant='full') {
+	function &layout(&$result) {
 		global $context;
 
 		// empty list
@@ -38,6 +37,9 @@ Class Layout_images extends Layout_interface {
 			return $output;
 		}
 
+		if(!isset($this->layout_variant))
+			$this->layout_variant = '';
+		
 		// flag images updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
@@ -66,6 +68,35 @@ Class Layout_images extends Layout_interface {
 			if($item['title'])
 				$suffix .= Skin::strip($item['title'], 10).BR;
 
+			// there is an anchor
+			if($item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
+
+				// the image id to put as text in the left column
+				if($this->layout_variant == $anchor->get_reference()) {
+
+					// help to insert in textarea
+					if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
+						$suffix .= '<a onclick="edit_insert(\'\', \' [image='.$item['id'].']\');return false;" title="insert" tabindex="2000">[image='.$item['id'].']</a>'
+							.' <a onclick="edit_insert(\'\', \' [image='.$item['id'].', left]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',left]</a>'
+							.' <a onclick="edit_insert(\'\', \' [image='.$item['id'].', right]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',right]</a>'
+							.' <a onclick="edit_insert(\'\', \' [image='.$item['id'].', center]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',center]</a>';
+
+					else
+						$suffix .= '[image='.$item['id'].']'
+							.' [image='.$item['id'].',left]'
+							.' [image='.$item['id'].',right]'
+							.' [image='.$item['id'].',center]';
+
+					$suffix .= BR;
+					
+				// show an anchor link
+				} else {
+					$anchor_url = $anchor->get_url();
+					$anchor_label = ucfirst($anchor->get_title());
+					$suffix .= sprintf(i18n::s('In %s'), Skin::build_link($anchor_url, $anchor_label)).BR;
+				}
+			}
+
 			// details
 			$details = array();
 
@@ -83,34 +114,7 @@ Class Layout_images extends Layout_interface {
 
 			// append details
 			if(count($details))
-				$suffix .= ucfirst(implode(', ', $details)).BR;
-
-			// there is an anchor
-			if($item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
-
-				// the image id to put as text in the left column
-				if($variant == $anchor->get_reference()) {
-
-					// help to insert in textarea
-					if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
-						$suffix .= '<a onclick="edit_insert(\'\', \' [image='.$item['id'].']\');return false;" title="insert" tabindex="2000">[image='.$item['id'].']</a>'
-							.' <a onclick="edit_insert(\'\', \' [image='.$item['id'].', left]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',left]</a>'
-							.' <a onclick="edit_insert(\'\', \' [image='.$item['id'].', right]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',right]</a>'
-							.' <a onclick="edit_insert(\'\', \' [image='.$item['id'].', center]\');return false;" title="insert" tabindex="2000">[image='.$item['id'].',center]</a>'.BR;
-
-					else
-						$suffix .= '[image='.$item['id'].']'
-							.' [image='.$item['id'].',left]'
-							.' [image='.$item['id'].',right]'
-							.' [image='.$item['id'].',center]'.BR;
-
-				// show an anchor link
-				} else {
-					$anchor_url = $anchor->get_url();
-					$anchor_label = ucfirst($anchor->get_title());
-					$suffix .= sprintf(i18n::s('In %s'), Skin::build_link($anchor_url, $anchor_label)).BR;
-				}
-			}
+				$suffix .= '<span class="details">'.ucfirst(implode(', ', $details)).'</span>'.BR;
 
 			// the menu bar
 			$menu = array();
@@ -121,13 +125,13 @@ Class Layout_images extends Layout_interface {
 
 			// use the image
 			if(Surfer::is_empowered() && Surfer::is_member()) {
-				if(preg_match('/\buser\b/', $variant))
+				if(preg_match('/\buser\b/', $this->layout_variant))
 					$menu = array_merge($menu, array( Images::get_url($item['id'], 'set_as_thumbnail') => i18n::s('Set as user avatar') ));
-				elseif(preg_match('/\b(article|category|section)\b/', $variant)) {
+				elseif(preg_match('/\b(article|category|section)\b/', $this->layout_variant)) {
 					$menu = array_merge($menu, array( Images::get_url($item['id'], 'set_as_icon') => i18n::s('Set as page icon') ));
 					$menu = array_merge($menu, array( Images::get_url($item['id'], 'set_as_thumbnail') => i18n::s('Set as page thumbnail') ));
 				}
-				if(preg_match('/^(section|category)\b/i', $variant))
+				if(preg_match('/^(section|category)\b/i', $this->layout_variant))
 					$menu = array_merge($menu, array( Images::get_url($item['id'], 'set_as_bullet') => i18n::s('Set as list bullet') ));
 			}
 

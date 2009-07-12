@@ -1,6 +1,6 @@
 <?php
 /**
- * update reference skins
+ * update misc. files
  *
  * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
  * @reference
@@ -9,27 +9,62 @@
 
 // splash message
 global $local;
-$local['label_en'] = 'Update reference skins';
-$local['label_fr'] = 'Mise &agrave; jour des styles de r&eacute;f&eacute;rence';
-echo get_local('label')."<br />\n";
+$local['label_en'] = 'Update miscelleanous files';
+$local['label_fr'] = 'Mise &agrave; jour compl&eacute;mentaire';
+echo i18n::user('label')."<br />\n";
 
 // the reference server to use
 @include_once $context['path_to_root'].'scripts/parameters.include.php';
 if(!isset($context['reference_server']) || !$context['reference_server'])
-	$context['reference_server'] = 'www.yetanothercommunitysystem.com';
+	$context['reference_server'] = 'www.yacs.fr';
 
 // files to fetch, from root path
 unset($files);
+$files[] = 'control/htaccess/basic/.htaccess';
+$files[] = 'control/htaccess/indexes/.htaccess';
+$files[] = 'included/browser/player_flv_maxi.swf';
+$files[] = 'included/browser/library.js';
+$files[] = 'included/fckeditor/editor/dialog/fck_spellerpages/spellerpages/blank.html';
+$files[] = 'included/fckeditor/editor/dialog/fck_spellerpages/spellerpages/server-scripts/spellchecker.php';
+$files[] = 'included/fckeditor/fckeditor.php';
+$files[] = 'included/fckeditor/fckeditor_php4.php';
+$files[] = 'included/fckeditor/fckeditor_php5.php';
+$files[] = 'shared/yacs.js';
+$files[] = 'skins/_reference/down.gif';
 $files[] = 'skins/_reference/yacs.css';
-$files[] = 'skins/_reference/ajax_spinner.gif';
-$files[] = 'skins/_reference/ajax_tab_bg.gif';
-$files[] = 'skins/_reference/ajax_tab_bg_active.gif';
-$files[] = 'skins/_reference/ajax_working.gif';
-$files[] = 'skins/_reference/nicetitle_background.png';
+$files[] = 'skins/_reference/up.gif';
 $files[] = 'skins/boxesandarrows/boxesandarrows.css';
 $files[] = 'skins/digital/digital.css';
+$files[] = 'skins/images/articles/add.png';
+$files[] = 'skins/images/articles/assign.png';
+$files[] = 'skins/images/articles/delete.png';
+$files[] = 'skins/images/articles/duplicate.png';
+$files[] = 'skins/images/articles/edit.png';
+$files[] = 'skins/images/articles/lock.png';
+$files[] = 'skins/images/articles/publish.png';
+$files[] = 'skins/images/articles/stamp.png';
+$files[] = 'skins/images/articles/unlock.png';
+$files[] = 'skins/images/articles/unpublish.png';
+$files[] = 'skins/images/articles/versions.png';
+$files[] = 'skins/images/comments/add.png';
+$files[] = 'skins/images/comments/delete.png';
+$files[] = 'skins/images/comments/edit.png';
+$files[] = 'skins/images/comments/list.png';
+$files[] = 'skins/images/images/add.png';
+$files[] = 'skins/images/sections/add.png';
+$files[] = 'skins/images/sections/assign.png';
+$files[] = 'skins/images/sections/delete.png';
+$files[] = 'skins/images/sections/edit.png';
+$files[] = 'skins/images/sections/email.png';
+$files[] = 'skins/images/sections/invite.png';
+$files[] = 'skins/images/sections/lock.png';
+$files[] = 'skins/images/sections/manage.png';
+$files[] = 'skins/images/sections/unlock.png';
+$files[] = 'skins/images/sections/versions.png';
+$files[] = 'skins/images/smileys/smash.gif';
 $files[] = 'skins/joi/joi.css';
 $files[] = 'skins/skeleton/skeleton.css';
+$files[] = 'tools/transform.xsl';
 
 // process every file
 $count = 0;
@@ -54,13 +89,13 @@ foreach($files as $file) {
 
 	// get the file locally
 	if(file_exists($local_reference))
-		$content = file_get_contents($local_reference);
+		$content = Safe::file_get_contents($local_reference);
 
 	// or get the file from reference server
 	elseif(($content = Link::fetch($remote_reference)) === FALSE) {
 		$local['error_en'] = 'Unable to get '.$file;
 		$local['error_fr'] = 'Impossible d\'obtenir '.$file;
-		echo get_local('error')."<br />\n";
+		echo i18n::user('error')."<br />\n";
 	}
 
 	// we have something in hand
@@ -79,11 +114,11 @@ foreach($files as $file) {
 		if(!Safe::file_put_contents($file, $content)) {
 			$local['label_en'] = 'Impossible to write to the file '.$file.'.';
 			$local['label_fr'] = 'Impossible d\'&eacute;crire le fichier '.$file.'.';
-			echo get_local('label')."<br />\n";
+			echo i18n::user('label')."<br />\n";
 		} else {
 			$local['label_en'] = 'has been updated';
 			$local['label_fr'] = 'a &eacute;t&eacute; mis &agrave; jour';
-			echo $file.' '.get_local('label')."<br />\n";
+			echo $file.' '.i18n::user('label')."<br />\n";
 		}
 
 	}
@@ -96,5 +131,5 @@ foreach($files as $file) {
 // basic reporting
 $local['label_en'] = 'files have been processed';
 $local['label_fr'] = 'fichiers ont &eacute;t&eacute; trait&eacute;s';
-echo $count.' '.get_local('label')."<br />\n";
+echo $count.' '.i18n::user('label')."<br />\n";
 ?>

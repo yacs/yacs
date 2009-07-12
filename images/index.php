@@ -73,7 +73,7 @@ if(!Surfer::is_associate()) {
 	// count images in the database
 	$stats = Images::stat();
 	if($stats['count'])
-		$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d image', '%d images', $stats['count']), $stats['count'])));
+		$context['page_menu'] += array('_count' => sprintf(i18n::ns('%d image', '%d images', $stats['count']), $stats['count']));
 
 	// navigation commands for images, if necessary
 	if($stats['count'] > IMAGES_PER_PAGE) {
@@ -84,7 +84,7 @@ if(!Surfer::is_associate()) {
 			$prefix = $home;
 		else
 			$prefix = $home.'?page=';
-		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], IMAGES_PER_PAGE, $page));
+		$context['page_menu'] += Skin::navigate($home, $prefix, $stats['count'], IMAGES_PER_PAGE, $page);
 	}
 
 	// page main content

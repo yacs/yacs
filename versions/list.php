@@ -128,7 +128,7 @@ if(!is_object($anchor)) {
 		if($stats['count'] > VERSIONS_PER_PAGE) {
 
 			// total count of versions
-			$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d version', '%d versions', $stats['count']), $stats['count'])));
+			$box['bar'] += array('_count' => sprintf(i18n::ns('%d version', '%d versions', $stats['count']), $stats['count']));
 
 			// navigation commands
 			$home = 'versions/list.php';
@@ -138,7 +138,7 @@ if(!is_object($anchor)) {
 				$prefix = $home.'/'.str_replace(':', '/', $anchor->get_reference());
 			else
 				$prefix = $home.'?id='.$anchor->get_reference().'&page=';
-			$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $stats['count'], VERSIONS_PER_PAGE, $page));
+			$box['bar'] += Skin::navigate($home, $prefix, $stats['count'], VERSIONS_PER_PAGE, $page);
 		}
 
 		// query the database and layout that stuff

@@ -47,7 +47,7 @@ $context['page_title'] = i18n::s('Dates');
 // count dates in the database
 $stats = Dates::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d date', '%d dates', $stats['count']), $stats['count'])));
+	$context['page_menu'] += array('_count' => sprintf(i18n::ns('%d date', '%d dates', $stats['count']), $stats['count']));
 
 // page main content
 $cache_id = 'dates/index.php#text';
@@ -79,7 +79,7 @@ if((!isset($context['skins_general_without_feed']) || ($context['skins_general_w
 	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
 		$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].'dates/fetch_ics.php', $context['site_name']));
 		
-	$context['aside']['channels'] = Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
+	$context['aside']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feeds');
 
 }
 

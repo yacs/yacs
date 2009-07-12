@@ -3,7 +3,6 @@
  * view one article
  *
  * @todo add 'add tag' button http://www.socialtext.com/products/tour/categories
- * @todo add list of watchers aside
  * @todo add a switcher to other pages of the section (moi-meme)
  * @todo link overlaid pages to a micro-summary page, as per Firefox 2
  *
@@ -185,6 +184,10 @@ elseif(isset($_REQUEST['files']) && ($zoom_index = $_REQUEST['files']))
 elseif(isset($_REQUEST['links']) && ($zoom_index = $_REQUEST['links']))
 	$zoom_type = 'links';
 
+// view.php?id=12&users=2
+elseif(isset($_REQUEST['users']) && ($zoom_index = $_REQUEST['users']))
+	$zoom_type = 'users';
+
 // view.php/12/files/2
 elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 	$zoom_type = $context['arguments'][1];
@@ -234,12 +237,6 @@ if(Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())
 elseif(isset($item['id']) && Articles::is_assigned($item['id']) && Surfer::is_member())
 	Surfer::empower();
 
-// readers have additional rights
-elseif(Surfer::is_logged() && is_object($anchor) && $anchor->is_assigned())
-	Surfer::empower('S');
-elseif(isset($item['id']) && Articles::is_assigned($item['id']) && Surfer::is_logged())
-	Surfer::empower('S');
-
 // anonymous edition is allowed here
 elseif(is_object($anchor) && $anchor->has_option('anonymous_edit'))
 	Surfer::empower();
@@ -255,6 +252,12 @@ elseif(Surfer::is_member() && isset($item['options']) && $item['options'] && pre
 // maybe this anonymous surfer is allowed to handle this item
 elseif(isset($item['handle']) && Surfer::may_handle($item['handle']))
 	Surfer::empower();
+
+// readers have additional rights
+elseif(Surfer::is_logged() && is_object($anchor) && $anchor->is_assigned())
+	Surfer::empower('S');
+elseif(isset($item['id']) && Articles::is_assigned($item['id']) && Surfer::is_logged())
+	Surfer::empower('S');
 
 //
 // is this surfer allowed to browse the page?
@@ -389,27 +392,27 @@ if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'
 
 // modify this page
 if(isset($item['id']) && !$zoom_type && $editable) {
-	Skin::define_img('EDIT_ARTICLE_IMG', 'icons/articles/edit.gif');
+	Skin::define_img('ARTICLES_EDIT_IMG', 'articles/edit.png');
 	if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
 		$label = i18n::s('Edit this page');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'edit') => array('', EDIT_ARTICLE_IMG.$label, '', 'basic', '', i18n::s('Update the content of this page')) ));
+	$context['page_menu'] += array( Articles::get_url($item['id'], 'edit') => array('', ARTICLES_EDIT_IMG.$label, '', 'basic', '', i18n::s('Update the content of this page')) );
 }
 
 // access previous versions, if any
 if(isset($item['id']) && !$zoom_type && $editable && $has_versions) {
-	Skin::define_img('HISTORY_TOOL_IMG', 'icons/tools/history.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url('article:'.$item['id'], 'list') => array('', HISTORY_TOOL_IMG.i18n::s('Versions'), '', 'basic', '', i18n::s('Restore a previous version if necessary')) ));
+	Skin::define_img('ARTICLES_VERSIONS_IMG', 'articles/versions.png');
+	$context['page_menu'] += array( Versions::get_url('article:'.$item['id'], 'list') => array('', ARTICLES_VERSIONS_IMG.i18n::s('Versions'), '', 'basic', '', i18n::s('Restore a previous version if necessary')) );
 }
 
 // publish this page
 if(isset($item['id']) && !$zoom_type && $publishable) {
 
 	if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) {
-		Skin::define_img('PUBLISH_ARTICLE_IMG', 'icons/articles/publish.gif');
-		$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'publish') => PUBLISH_ARTICLE_IMG.i18n::s('Publish') ));
+		Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.png');
+		$context['page_menu'] += array( Articles::get_url($item['id'], 'publish') => ARTICLES_PUBLISH_IMG.i18n::s('Publish') );
 	} else {
-		Skin::define_img('DRAFT_ARTICLE_IMG', 'icons/articles/draft.gif');
-		$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'unpublish') => DRAFT_ARTICLE_IMG.i18n::s('Draft') ));
+		Skin::define_img('ARTICLES_UNPUBLISH_IMG', 'articles/unpublish.png');
+		$context['page_menu'] += array( Articles::get_url($item['id'], 'unpublish') => ARTICLES_UNPUBLISH_IMG.i18n::s('Draft') );
 	}
 }
 
@@ -417,36 +420,36 @@ if(isset($item['id']) && !$zoom_type && $publishable) {
 if(isset($item['id']) && !$zoom_type && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))) {
 
 	if(!isset($item['locked']) || ($item['locked'] == 'N')) {
-		Skin::define_img('LOCK_TOOL_IMG', 'icons/tools/lock.gif');
-		$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'lock') => LOCK_TOOL_IMG.i18n::s('Lock') ));
+		Skin::define_img('ARTICLES_LOCK_IMG', 'articles/lock.png');
+		$context['page_menu'] += array( Articles::get_url($item['id'], 'lock') => ARTICLES_LOCK_IMG.i18n::s('Lock') );
 	} else {
-		Skin::define_img('UNLOCK_TOOL_IMG', 'icons/tools/unlock.gif');
-		$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'lock') => UNLOCK_TOOL_IMG.i18n::s('Unlock') ));
+		Skin::define_img('ARTICLES_UNLOCK_IMG', 'articles/unlock.png');
+		$context['page_menu'] += array( Articles::get_url($item['id'], 'lock') => ARTICLES_UNLOCK_IMG.i18n::s('Unlock') );
 	}
 }
 
 // assign command provided to associates
 if(isset($item['id']) && !$zoom_type && Surfer::is_associate()) {
-	Skin::define_img('ASSIGN_TOOL_IMG', 'icons/tools/assign.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Users::get_url('article:'.$item['id'], 'select') => ASSIGN_TOOL_IMG.i18n::s('Assign') ));
+	Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.png');
+	$context['page_menu'] += array( Users::get_url('article:'.$item['id'], 'select') => ARTICLES_ASSIGN_IMG.i18n::s('Manage editors') );
 }
 
 // review command provided to associates and section editors
 if(isset($item['id']) && !$zoom_type && Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
-	Skin::define_img('STAMP_ARTICLE_IMG', 'icons/articles/stamp.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'stamp') => STAMP_ARTICLE_IMG.i18n::s('Stamp') ));
+	Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.png');
+	$context['page_menu'] += array( Articles::get_url($item['id'], 'stamp') => ARTICLES_STAMP_IMG.i18n::s('Stamp') );
 }
 
 // delete command provided to associates and section editors
 if(isset($item['id']) && !$zoom_type && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))) {
-	Skin::define_img('DELETE_ARTICLE_IMG', 'icons/articles/delete.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'delete') => DELETE_ARTICLE_IMG.i18n::s('Delete') ));
+	Skin::define_img('ARTICLES_DELETE_IMG', 'articles/delete.png');
+	$context['page_menu'] += array( Articles::get_url($item['id'], 'delete') => ARTICLES_DELETE_IMG.i18n::s('Delete') );
 }
 
 // duplicate command provided to associates and section editors
 if(isset($item['id']) && !$zoom_type && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))) {
-	Skin::define_img('DUPLICATE_ARTICLE_IMG', 'icons/articles/duplicate.gif');
-	$context['page_menu'] = array_merge($context['page_menu'], array( Articles::get_url($item['id'], 'duplicate') => DUPLICATE_ARTICLE_IMG.i18n::s('Duplicate') ));
+	Skin::define_img('ARTICLES_DUPLICATE_IMG', 'articles/duplicate.png');
+	$context['page_menu'] += array( Articles::get_url($item['id'], 'duplicate') => ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate') );
 }
 
 // not found -- help web crawlers
@@ -906,7 +909,8 @@ if(!isset($item['id'])) {
 
 			// count the number of files in this article
 			if($count = Files::count_for_anchor('article:'.$item['id'])) {
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count)));
+				if($count > 5)
+					$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 				// list files by date (default) or by title (option files_by_title)
 				$offset = ($zoom_index - 1) * FILES_PER_PAGE;
@@ -924,14 +928,12 @@ if(!isset($item['id'])) {
 				// navigation commands for files
 				$home = Articles::get_permalink($item);
 				$prefix = Articles::get_url($item['id'], 'navigate', 'files');
-				$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
+				$box['bar'] += Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index);
 
-			}
-
-			// the command to post a new file
-			if(Files::are_allowed($anchor, $item)) {
-				$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-				$box['bar'] = array_merge($box['bar'], array( $link => FILE_TOOL_IMG.i18n::s('Upload a file') ));
+				// the command to post a new file
+				if(Files::are_allowed($anchor, $item))
+					$box['bar'] += array('files/edit.php?anchor='.urlencode('article:'.$item['id']) => FILE_TOOL_IMG.i18n::s('Upload a file'));
+	
 			}
 
 			// some files have been attached to this page
@@ -943,28 +945,13 @@ if(!isset($item['id'])) {
 					$label = i18n::s('Zip 20 first files');
 				else
 					$label = i18n::s('Zip all files');
-				$box['bar'] = array_merge($box['bar'], array( $link => $label ));
+				$box['bar'] += array( $link => $label );
 
-			}
-
-			// build a box
-			if($box['text']) {
-
-				// show commands
-				if(count($box['bar']) && ($context['skin_variant'] != 'mobile')) {
-
-					// append the menu bar at the end
-					$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-
-				}
-
-				// insert a full box
-				$box['text'] =& Skin::build_box(i18n::s('Files'), $box['text'], 'header1', 'files');
 			}
 
 			// there is some box content
-			if(trim($box['text']))
-				$text .= $box['text'];
+			if($box['text'])
+				$text .= Skin::build_content('files', i18n::s('Files'), $box['text'], $box['bar']);
 
 		}
 
@@ -981,6 +968,24 @@ if(!isset($item['id'])) {
 			else
 				$title_label = i18n::s('Comments');
 
+			// no layout yet
+			$layout = NULL;
+			
+			// new comments are allowed
+			if(Comments::are_allowed($anchor, $item)) {
+			
+				// we have a wall
+				if((is_object($anchor) && $anchor->has_option('comments_as_wall')) || preg_match('/\bcomments_as_wall\b/', $item['options'])) {
+				
+					// except if page is locked
+					if($item['locked'] != 'Y')
+						$comments_prefix = TRUE;
+						
+				// editors and associates can always contribute to a thread
+				} else
+					$comments_suffix = TRUE;
+			}
+			
 //			// label for one comment
 //			if(is_object($anchor) && $anchor->is_viewable())
 //				$comment_label = $anchor->get_label('comments', 'count_one');
@@ -997,10 +1002,10 @@ if(!isset($item['id'])) {
 			if(is_object($anchor) && $anchor->is_viewable())
 				$add_label = $anchor->get_label('comments', 'new_command');
 			else
-				$add_label = i18n::s('Add a comment');
+				$add_label = i18n::s('Post a comment');
 
 			// get a layout from anchor
-			$layout =& Comments::get_layout($anchor);
+			$layout =& Comments::get_layout($anchor, $item);
 
 			// provide author information to layout
 			if(is_object($layout) && $item['create_id'])
@@ -1020,12 +1025,17 @@ if(!isset($item['id'])) {
 			// build a complete box
 			$box = array('bar' => array(), 'prefix_bar' => array(), 'text' => '');
 
+			// feed the wall
+			if(isset($comments_prefix))
+				$box['text'] .= Comments::get_form('article:'.$item['id']);
+
 			// a navigation bar for these comments
 			if($count = Comments::count_for_anchor('article:'.$item['id'])) {
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count)));
+				if($count > 5)
+					$box['bar'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 				// list comments by date
-				$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout);
+				$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix));
 
 				// actually render the html
 				if(is_array($items))
@@ -1036,28 +1046,23 @@ if(!isset($item['id'])) {
 				// navigation commands for comments
 				$prefix = Comments::get_url('article:'.$item['id'], 'navigate');
 				$box['bar'] = array_merge($box['bar'],
-					Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index, FALSE, TRUE));
+					Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index));
 
-			}
-
-			// new comments are allowed
-			if(Comments::are_allowed($anchor, $item)) {
-				$box['bar'] = array_merge($box['bar'], array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENT_TOOL_IMG.$add_label, '', 'basic', '', i18n::s('Add a comment'))));
-
-				// also feature this command at the top
-				if($count > $items_per_page)
-					$box['prefix_bar'] = array_merge($box['prefix_bar'], array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENT_TOOL_IMG.$add_label, '', 'basic', '', i18n::s('Add a comment'))));
+				// new comments are allowed
+				if(isset($comments_suffix)) {
+					Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.png');
+					$box['bar'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.$add_label, '', 'basic', '', i18n::s('Post a comment')));
+	
+					// also feature this command at the top
+					if($count > 5)
+						$box['prefix_bar'] = array_merge($box['prefix_bar'], array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.$add_label, '', 'basic', '', i18n::s('Post a comment'))));
+	
+				}
 
 			}
 
 			// show commands
 			if(count($box['bar']) && ($context['skin_variant'] != 'mobile')) {
-
-				// shortcut to last comment in page
-				if(is_object($layout) && ($count > 7)) {
-					$box['prefix_bar'] = array_merge($box['prefix_bar'], array('#last_comment' => i18n::s('Page bottom')));
-					$box['text'] .= '<span id="last_comment" />';
-				}
 
 				// commands before the box
 				$box['text'] = Skin::build_list($box['prefix_bar'], 'menu_bar').$box['text'];
@@ -1097,7 +1102,8 @@ if(!isset($item['id'])) {
 
 			// a navigation bar for these links
 			if($count = Links::count_for_anchor('article:'.$item['id'])) {
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d link', '%d links', $count), $count)));
+				if($count > 5)
+					$box['bar'] += array('_count' => sprintf(i18n::ns('%d link', '%d links', $count), $count));
 
 				// list links by date (default) or by title (option links_by_title)
 				$offset = ($zoom_index - 1) * LINKS_PER_PAGE;
@@ -1115,40 +1121,18 @@ if(!isset($item['id'])) {
 				// navigation commands for links
 				$home = Articles::get_permalink($item);
 				$prefix = Articles::get_url($item['id'], 'navigate', 'links');
-				$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index));
-			}
+				$box['bar'] += Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index);
 
-			// new links are allowed
-			if(Links::are_allowed($anchor, $item)) {
-
-				// the command to post a new link
-				if($box['text'] && Surfer::is_member()) {
+				// new links are allowed
+				if(Links::are_allowed($anchor, $item)) {
 					Skin::define_img('NEW_LINK_IMG', 'icons/links/new.gif');
-					$link = 'links/edit.php?anchor='.urlencode('article:'.$item['id']);
-					$box['bar'] = array_merge($box['bar'], array( $link => NEW_LINK_IMG.i18n::s('Add a link') ));
+					$box['bar'] += array( 'links/edit.php?anchor='.urlencode('article:'.$item['id']) => NEW_LINK_IMG.i18n::s('Add a link') );
 				}
-
 			}
-
-			// build a box
-			if($box['text']) {
-
-				// show commands
-				if(count($box['bar']) && ($context['skin_variant'] != 'mobile')) {
-
-					// append the menu bar at the end
-					$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-
-				}
-
-				// insert a full box
-				$box['text'] =& Skin::build_box(i18n::s('Links'), $box['text'], 'header1', 'links');
-
-			}
-
+	
 			// there is some box content
-			if(trim($box['text']))
-				$text .= $box['text'];
+			if($box['text'])
+				$text .= Skin::build_content('links', i18n::s('Links'), $box['text'], $box['bar']);
 
 		}
 
@@ -1187,32 +1171,39 @@ if(!isset($item['id'])) {
 
 	// page tools
 	//
-	if(!$zoom_type && $editable) {
 
-		// modify this page
-		Skin::define_img('EDIT_ARTICLE_IMG', 'icons/articles/edit.gif');
+	// post an image, if upload is allowed
+	if(Images::are_allowed($anchor, $item)) {
+		if(isset($item['icon_url']) && $item['icon_url'])
+			$label = i18n::s('Change icon');
+		else
+			$label = i18n::s('Add icon');
+		$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=icon', $label, 'basic', i18n::s('You can upload a camera shot, a drawing, or any image file, to illustrate this page.'));
+	}
+
+	// modify this page
+	if($editable) {
 		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
 			$label = i18n::s('Edit this page');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), EDIT_ARTICLE_IMG.$label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
-
-		// post an image, if upload is allowed
-		if(Images::are_allowed($anchor, $item)) {
-			Skin::define_img('IMAGE_TOOL_IMG', 'icons/tools/image.gif');
-			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGE_TOOL_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or any image file, to illustrate this page.'));
-		}
-
-		// attach a file, if upload is allowed
-		if(Files::are_allowed($anchor, $item))
-			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), FILE_TOOL_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
-
-		// comment this page if anchor does not prevent it
-		if(Comments::are_allowed($anchor, $item))
-			$context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENT_TOOL_IMG.i18n::s('Add a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
-
-		// add a link
-		if(Links::are_allowed($anchor, $item))
-			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('article:'.$item['id']), LINK_TOOL_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
+		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'edit'), $label, 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 	}
+
+	// post an image, if upload is allowed
+	if(Images::are_allowed($anchor, $item)) {
+		$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or any image file, to illustrate this page.'));
+	}
+
+	// attach a file, if upload is allowed
+	if(Files::are_allowed($anchor, $item))
+		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('article:'.$item['id']), i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
+
+	// comment this page if anchor does not prevent it
+	if(Comments::are_allowed($anchor, $item))
+		$context['page_tools'][] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
+
+	// add a link
+	if(Links::are_allowed($anchor, $item))
+		$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('article:'.$item['id']), i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 
 	// the poster profile, if any, aside
 	if(isset($poster['id']) && is_object($anchor))
@@ -1231,16 +1222,12 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 	// mail this page
-	if(!$zoom_type && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		Skin::define_img('MAIL_TOOL_IMG', 'icons/tools/mail.gif');
-		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), MAIL_TOOL_IMG.i18n::s('Invite people'), 'basic', i18n::s('Spread the word'));
-	}
+	if(!$zoom_type && isset($context['with_email']) && ($context['with_email'] == 'Y'))
+		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'mail'), i18n::s('Invite people'), 'basic', i18n::s('Spread the word'));
 
 	// the command to track back
-	if(Surfer::is_logged()) {
-		Skin::define_img('TRACKBACK_IMG', 'icons/links/trackback.gif');
-		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), TRACKBACK_IMG.i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
-	}
+	if(Surfer::is_logged())
+		$lines[] = Skin::build_link('links/trackback.php?anchor='.urlencode('article:'.$item['id']), i18n::s('Reference this page'), 'basic', i18n::s('Various means to link to this page'));
 
 	// more tools
 	if(((isset($context['with_export_tools']) && ($context['with_export_tools'] == 'Y'))
@@ -1250,31 +1237,24 @@ if(!isset($item['id'])) {
 		if(Surfer::is_member() || (isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))) {
 
 			// get a PDF version
-			Skin::define_img('PDF_TOOL_IMG', 'icons/tools/pdf.gif');
-			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_pdf'), PDF_TOOL_IMG.i18n::s('Save as PDF'), 'basic', i18n::s('Save as PDF'));
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_pdf'), i18n::s('Save as PDF'), 'basic', i18n::s('Save as PDF'));
 
 			// open in Word
-			Skin::define_img('MSWORD_TOOL_IMG', 'icons/tools/word.gif');
-			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_msword'), MSWORD_TOOL_IMG.i18n::s('Copy in MS-Word'), 'basic', i18n::s('Copy in MS-Word'));
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_as_msword'), i18n::s('Copy in MS-Word'), 'basic', i18n::s('Copy in MS-Word'));
 
 			// get a palm version
-			Skin::define_img('PALM_TOOL_IMG', 'icons/tools/palm.gif');
-			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_for_palm'), PALM_TOOL_IMG.i18n::s('Save in Palm'), 'basic', i18n::s('Save in Palm'));
+			$lines[] = Skin::build_link(Articles::get_url($id, 'fetch_for_palm'), i18n::s('Save in Palm'), 'basic', i18n::s('Save in Palm'));
 
 		}
 	}
 
 	// export to XML command provided to associates -- complex command
-	if(!$zoom_type && Surfer::is_associate() && Surfer::has_all()) {
-		Skin::define_img('EXPORT_TOOL_IMG', 'icons/tools/export.gif');
-		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'export'), EXPORT_TOOL_IMG.i18n::s('Export to XML'), 'basic');
-	}
+	if(!$zoom_type && Surfer::is_associate() && Surfer::has_all())
+		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'export'), i18n::s('Export to XML'), 'basic');
 
 	// print this page
-	if(Surfer::is_logged() || (isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y'))) {
-		Skin::define_img('PRINT_TOOL_IMG', 'icons/tools/print.gif');
-		$lines[] = Skin::build_link(Articles::get_url($id, 'print'), PRINT_TOOL_IMG.i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
-	}
+	if(Surfer::is_logged() || (isset($context['with_anonymous_export_tools']) && ($context['with_anonymous_export_tools'] == 'Y')))
+		$lines[] = Skin::build_link(Articles::get_url($id, 'print'), i18n::s('Print this page'), 'basic', i18n::s('Get a paper copy of this page.'));
 
 	// in a side box
 	if(count($lines))
@@ -1316,7 +1296,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['aside']['channels'] = Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
+		$context['aside']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feeds');
 
 	// twin pages
 	if(isset($item['nick_name']) && $item['nick_name']) {

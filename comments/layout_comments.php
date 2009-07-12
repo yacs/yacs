@@ -64,19 +64,23 @@ Class Layout_comments extends Layout_interface {
 			else
 				$suffix .= ' '.Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
 
+			$menu = array();
+			
 			// the edition date
-			if($item['create_name'])
-				$suffix .= '&nbsp;'.Skin::build_date($item['create_date']);
+			if($item['create_date'])
+				$menu[] = Skin::build_date($item['create_date']);
 			else
-				$suffix .= '&nbsp;'.Skin::build_date($item['edit_date']);
+				$menu[] = Skin::build_date($item['edit_date']);
 
 			// the menu bar for associates, editors and poster
 			if(Comments::are_editable($anchor, $item)) {
-				$menu = array( Comments::get_url($item['id'], 'edit') => i18n::s('edit'),
-					Comments::get_url($item['id'], 'delete') => i18n::s('delete') );
-				$suffix .= ' '.Skin::build_list($menu, 'menu');
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'edit'), i18n::s('edit'), 'span');
+				$menu[] = Skin::build_link(Comments::get_url($item['id'], 'delete'), i18n::s('delete'), 'span');
 			}
 
+			if($menu)
+				$suffix .= ' -'.Skin::build_list($menu, 'menu');
+				
 			// new line
 			$suffix .= BR;
 

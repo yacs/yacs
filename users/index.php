@@ -80,7 +80,7 @@ $context['page_title'] = i18n::s('People');
 // count users in the database
 $stats = Users::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' =>sprintf(i18n::ns('%d user', '%d users', $stats['count']), $stats['count'])));
+	$context['page_menu'] += array('_count' =>sprintf(i18n::ns('%d user', '%d users', $stats['count']), $stats['count']));
 
 // the prefix hook for the index of members
 if(is_callable(array('Hooks', 'include_scripts')))
@@ -102,7 +102,7 @@ if(($page > 1) && (($page - 1) * USERS_PER_PAGE > $stats['count'])) {
 			$prefix = $home;
 		else
 			$prefix = $home.'?page=';
-		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], USERS_PER_PAGE, $page));
+		$context['page_menu'] += Skin::navigate($home, $prefix, $stats['count'], USERS_PER_PAGE, $page);
 	}
 	
 	// a search form for users

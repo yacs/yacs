@@ -214,7 +214,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 		SQL::free($result);
 
 		// headers
-		$headers = array(i18n::s('Thread'), 'center='.i18n::s('Poster'), 'center='.i18n::s('Replies'), 'center='.i18n::s('Views'), i18n::s('Last post'));
+		$headers = array(i18n::s('Topic'), 'center='.i18n::s('Poster'), 'center='.i18n::s('Replies'), 'center='.i18n::s('Views'), i18n::s('Last post'));
 		if(THREAD_IMG)
 			$headers = array_merge(array(''), $headers);
 

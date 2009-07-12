@@ -810,20 +810,13 @@ Class Members {
 	/**
 	 * list most recent sections related to a given user
 	 *
-	 * Only sections matching following criteria are returned:
-	 * - section is visible (active='Y')
-	 * - section is restricted (active='R'), but surfer is a logged user
-	 * - section is restricted (active='N'), but surfer is an associate
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
-	 * @param the target member
+	 * @param the target user id
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
-	 * @see users/print.php
-	 * @see users/view.php
+	 * @see shared/codes.php
 	 */
 	function &list_sections_for_user($user_id, $offset=0, $count=10, $variant='full') {
 		global $context;
@@ -845,8 +838,10 @@ Class Members {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// strip dead pages
-		$where .= " AND ((sections.expiry_date is NULL) "
-				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+		if(!Surfer::is_empowered()) {
+			$where .= " AND ((sections.expiry_date is NULL) "
+					."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+		}
 
 		// use sub-queries
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
@@ -885,6 +880,71 @@ Class Members {
 				."	AND ".$where
 				." ORDER BY sections.edit_date DESC, sections.title LIMIT ".$offset.','.$count.")"
 				." LIMIT ".$offset.','.$count;
+
+		}
+
+		// use existing listing facility
+		$output =& Sections::list_selected(SQL::query($query), $variant);
+		return $output;
+	}
+
+	/**
+	 * list watched sections for one user
+	 *
+	 * @param the target user id
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param string the list variant, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 *
+	 * @see shared/codes.php
+	 */
+	function &list_sections_by_date_for_member($member, $offset=0, $count=10, $variant='full') {
+		global $context;
+
+		// limit the scope of the request
+		$where = "sections.active='Y'";
+		if(Surfer::is_logged())
+			$where .= " OR sections.active='R'";
+		if(Surfer::is_empowered('S'))
+			$where .= " OR sections.active='N'";
+
+		// include managed sections
+		if(is_callable(array('Surfer', 'assigned_sections')) && count($my_sections = Surfer::assigned_sections()))
+			$where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
+
+		$where = '('.$where.')';
+
+		// current time
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+
+		// strip dead pages
+		if(!Surfer::is_empowered()) {
+			$where .= " AND ((sections.expiry_date is NULL) "
+					."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+		}
+
+		// use sub-queries
+		if(version_compare(SQL::version(), '4.1.0', '>=')) {
+
+			// sections attached to users watched sections by date
+			$query = "SELECT sections.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 9) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'section:%')) AS ids"
+				.", ".SQL::table_name('sections')." AS sections"
+				." WHERE (sections.id = ids.target)"
+				."	AND ".$where
+				." ORDER BY sections.edit_date DESC, sections.title LIMIT ".$offset.','.$count;
+
+		// use joined queries
+		} else {
+
+			// sections attached to users
+			$query = "SELECT sections.* FROM ".SQL::table_name('members')." AS members"
+				.", ".SQL::table_name('sections')." AS sections"
+				." WHERE (members.member LIKE '".SQL::escape($member)."')"
+				."	AND (members.anchor LIKE 'section:%')"
+				."	AND (sections.id = SUBSTRING(members.anchor, 9))"
+				."	AND ".$where
+				." ORDER BY sections.edit_date DESC, sections.title LIMIT ".$offset.','.$count;
 
 		}
 
@@ -1042,12 +1102,8 @@ Class Members {
 		$ids = array();
 		while($row =& SQL::fetch($result)) {
 
-			// not me
-			if(Surfer::get_id() && ($row['anchor'] == 'user:'.Surfer::get_id()))
-				continue;
-				
 			// avoid this one
-			if($to_avoid && ($row['anchor'] == 'user:'.$to_avoid))
+			if($to_avoid && ($row['anchor'] == $to_avoid))
 				continue;
 
 			// remember this id

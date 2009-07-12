@@ -180,7 +180,7 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 		// discuss this page, if comments have been activated at the index page, and if they are allowed here
 		include_once $context['path_to_root'].'comments/comments.php';
 		if(is_object($anchor) && $anchor->has_option('with_comments') && Comments::are_allowed($anchor, $item))
-			$menu = array_merge($menu, array(Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Add a comment')));
+			$menu = array_merge($menu, array(Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Post a comment')));
 
 		// info on related comments
 		if($count = Comments::count_for_anchor('article:'.$item['id'])) {

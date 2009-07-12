@@ -194,7 +194,7 @@ Class Servers {
 
 		// check the target action
 		if(!preg_match('/^(delete|edit|test|view)$/', $action))
-			$action = 'view';
+			return 'servers/'.$action.'.php?id='.urlencode($id);
 
 		// normalize the link
 		return normalize_url(array('servers', 'server'), $action, $id);

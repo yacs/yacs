@@ -23,12 +23,11 @@ Class Layout_files extends Layout_interface {
 	 * - 'no_author' to list items attached to one user profile
 	 *
 	 * @param resource the SQL result
-	 * @param string a variant, if any
 	 * @return array of resulting items, or NULL
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result, $variant='full') {
+	function &layout(&$result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -38,6 +37,10 @@ Class Layout_files extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
+		// sanity check
+		if(!isset($this->layout_variant))
+			$this->layout_variant = 'no_anchor';
+
 		// flag files updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
@@ -45,6 +48,7 @@ Class Layout_files extends Layout_interface {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// process all items in the list
+		include_once $context['path_to_root'].'files/files.php';
 		while($item =& SQL::fetch($result)) {
 
 			// initialize variables
@@ -62,33 +66,10 @@ Class Layout_files extends Layout_interface {
 			if(is_callable(array('Codes', 'initialize')))
 				Codes::initialize($url);
 
-			// insert dewplayer, if it exists, and if file is mp3
-			if(preg_match('/\.mp3$/i', $item['file_name']) && file_exists($context['path_to_root'].'included/browser/dewplayer.swf')) {
-
-				// the player
-				$dewplayer_url = $context['url_to_root'].'included/browser/dewplayer.swf';
-
-				// the mp3 file
-				if(isset($item['file_href']) && $item['file_href'])
-					$mp3_url = $item['file_href'];
-				else
-					$mp3_url = $context['url_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
-				$flashvars = 'son='.$mp3_url;
-
-				// combine the two in a single object
-				$prefix .= '<div id="mp3_'.$item['id'].'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
-					.JS_PREFIX
-			        .'var params = {};'."\n"
-			        .'params.base = "'.dirname($mp3_url).'/";'."\n"
-			        .'params.quality = "high";'."\n"
-			        .'params.wmode = "transparent";'."\n"
-			        .'params.menu = "false";'."\n"
-			        .'params.flashvars = "'.$flashvars.'";'."\n"
-					.'swfobject.embedSWF("'.$dewplayer_url.'", "mp3_'.$item['id'].'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-					.JS_SUFFIX.BR."\n";
-
-			}
-
+			// provide some file player, if any
+			if($player = Files::interact($item, 320, 240, '', FALSE))
+				$prefix .= $player.BR;
+			
 			// flag files uploaded recently
 			if($item['create_date'] >= $dead_line)
 				$prefix .= NEW_FLAG;
@@ -130,14 +111,14 @@ Class Layout_files extends Layout_interface {
 			$details = array();
 			
 			// anchor link
-			if(($variant != 'no_anchor') && ($variant != 'no_author') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
+			if(($this->layout_variant != 'no_anchor') && ($this->layout_variant != 'no_author') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
 				$anchor_url = $anchor->get_url();
 				$anchor_label = ucfirst($anchor->get_title());
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));
 			}
 
 			// file poster and last action
-			if($variant != 'no_author')
+			if($this->layout_variant != 'no_author')
 				$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 			else
 				$details[] = Skin::build_date($item['edit_date']);
@@ -187,10 +168,8 @@ Class Layout_files extends Layout_interface {
 				$icon = $item['thumbnail_url'];
 
 			// or reinforce file type
-			else {
-				include_once $context['path_to_root'].'files/files.php';
+			else
 				$icon = Files::get_icon_url($item['file_name']);
-			}
 
 			// show a reference to the file for members
 			$hover = i18n::s('Get the file');

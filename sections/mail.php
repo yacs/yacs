@@ -108,7 +108,7 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // no recipient has been found
-} elseif((!$recipients =& Members::list_users_by_posts_for_member('section:'.$item['id'], 0, 200, 'mail')) || !count($recipients))
+} elseif((!$recipients =& Members::list_users_by_posts_for_member('section:'.$item['id'], 0, 200, 'mail', 'user:'.Surfer::get_id())) || !count($recipients))
 	Logger::error(i18n::s('No recipient has been defined.'));
 
 // process submitted data
@@ -219,10 +219,6 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	// build the form
 	$context['text'] .= Skin::build_form($fields);
 
-	// get a copy of the sent message
-	if(Surfer::is_logged())
-		$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.').'</p>';
-
 	//
 	// bottom commands
 	//
@@ -237,6 +233,10 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+
+	// get a copy of the sent message
+	if(Surfer::is_logged())
+		$context['text'] .= '<p><input type="checkbox" name="self_copy" value="Y" checked="checked" /> '.i18n::s('Send me a copy of this message.').'</p>';
 
 	// transmit the id as a hidden field
 	$context['text'] .= '<input type="hidden" name="id" value="'.$item['id'].'" />';

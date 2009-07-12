@@ -717,7 +717,7 @@ Class Categories {
 
 		// check the target action
 		if(!preg_match('/^(delete|describe|edit|feed|mail|navigate|print|view)$/', $action))
-			$action = 'view';
+			return 'categories/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
 		return normalize_url(array('categories', 'category'), $action, $id, $name);

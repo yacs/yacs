@@ -21,12 +21,11 @@ Class Layout_tables extends Layout_interface {
 	 * - 'no_anchor' to list items attached to one particular anchor
 	 *
 	 * @param resource the SQL result
-	 * @param string a variant, if any
-	 * @return string the rendered text
+	 * @return array one item per image
 	 *
 	 * @see skins/layout.php
 	**/
-	function &layout(&$result, $variant='full') {
+	function &layout(&$result) {
 		global $context;
 
 		// we return an array of ($url => $attributes)
@@ -36,6 +35,9 @@ Class Layout_tables extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
+		if(!isset($this->layout_variant))
+			$this->layout_variant = 'no_anchor';
+		
 		// flag tables updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
@@ -83,14 +85,14 @@ Class Layout_tables extends Layout_interface {
 			}
 
 			// show an anchor link
-			if(($variant != 'no_anchor') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
+			if(($this->layout_variant != 'no_anchor') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
 				$anchor_url = $anchor->get_url();
 				$anchor_label = ucfirst($anchor->get_title());
 				$suffix .= BR.sprintf(i18n::s('In %s'), Skin::build_link($anchor_url, $anchor_label));
 			}
 
 			// the image id to put as text in the left column
-			if($variant == 'no_anchor')
+			if($this->layout_variant == 'no_anchor')
 				$icon .= '[table='.$item['id'].']';
 
 			// list all components for this item

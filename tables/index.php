@@ -72,7 +72,7 @@ if(!Surfer::is_associate()) {
 	// count tables in the database
 	$stats = Tables::stat();
 	if($stats['count'])
-		$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d table', '%d tables', $stats['count']), $stats['count'])));
+		$context['page_menu'] += array('_count' => sprintf(i18n::ns('%d table', '%d tables', $stats['count']), $stats['count']));
 
 	// navigation commands for tables, if necessary
 	if($stats['count'] > TABLES_PER_PAGE) {
@@ -83,7 +83,7 @@ if(!Surfer::is_associate()) {
 			$prefix = $home;
 		else
 			$prefix = $home.'?page=';
-		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], TABLES_PER_PAGE, $page));
+		$context['page_menu'] += Skin::navigate($home, $prefix, $stats['count'], TABLES_PER_PAGE, $page);
 	}
 
 	// page main content

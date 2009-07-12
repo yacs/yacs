@@ -2,8 +2,6 @@
 /**
  * create a new section or edit an existing one
  *
- * @todo list available overlays
- *
  * A button-based editor is used for the description field.
  * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
  *
@@ -321,14 +319,17 @@ if($with_form) {
 
 	// the form to edit a section
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
-
-	// form fields
 	$fields = array();
+
+	//
+	// panels
+	//
+	$panels = array();
 
 	//
 	// index tab - fields that contribute directly to the section index page
 	//
-	$index = '';
+	$text = '';
 
 	// the title
 	if(!is_object($overlay) || !($label = $overlay->get_label('title', isset($item['id'])?'edit':'new')))
@@ -367,74 +368,21 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// append regular fields
-	$index .= Skin::build_form($fields);
+	$text .= Skin::build_form($fields);
 	$fields = array();
 
-	// splash message for new items
-	if(!isset($item['id']))
-		$index .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
-
-	// images
-	else {
-		$box = '';
-
-		if(Surfer::may_upload()) {
-
-			// an horizontal table
-			$cells = array();
-
-			// the command to upload a regular image
-			$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), i18n::s('Add an image'), 'basic')
-				.BR.'<span class="details">'.i18n::s('Upload an image file and integrate it into the page. Big images will be rendered as clickable thumbnails.').'</span>';
-
-			// the command to upload page thumbnail
-			if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
-				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=thumbnail', i18n::s('Change page thumbnail').BR.'<img src="'.$item['thumbnail_url'].'" alt="" />', 'basic');
-			else
-				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=thumbnail', i18n::s('Add page thumbnail'), 'basic')
-					.BR.'<span class="details">'.i18n::s('Upload a small image to illustrate this page when it is listed into parent page.').'</span>';
-
-			// the command to upload page icon
-			if(isset($item['icon_url']) && $item['icon_url'])
-				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon', i18n::s('Change page icon').BR.'<img src="'.preg_replace('/\/images\/article\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />', 'basic');
-			else
-				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon', i18n::s('Add page icon'), 'basic')
-					.BR.'<span class="details">'.i18n::s('Upload an image to be displayed at page top. This will also be the default icon image for items attached to this page.').'</span>';
-
-			// display all commands
-			$box .= Skin::table_prefix('form').'<tr><td style="width: 200px">'.implode('</td><td style="padding-left: 3em; width: 200px">', $cells).'</td></tr></table>';
-
-			// the list of images
-			include_once '../images/images.php';
-			if($items = Images::list_by_date_for_anchor('section:'.$item['id'], 0, 50, NULL)) {
-
-				// help to insert in textarea
-				if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
-					$box .= '<p>'.i18n::s('Click on codes to insert images in the page.')."</p>\n";
-				else
-					$box .= '<p>'.i18n::s('Use codes to insert images in the page.')."</p>\n";
-
-				$box .= Skin::build_list($items, 'decorated');
-			}
-		}
-
-		// in a folded box
-		if($box)
-			$index .= Skin::build_box(i18n::s('Images'), $box, 'folded', 'edit_images');
-
-	}
-
-	// associates and editors can change the layout of the index page
+	// settings for sub-sections
+	//
 	if(Surfer::is_empowered()) {
 
 		// layout for sub-sections - 'compact', 'decorated', 'freemind', 'folded', 'inline', 'jive', 'map', 'titles', 'yabb', 'none' or custom - default is decorated
-		$label = i18n::s('Sections');
+		$label = i18n::s('Layout');
 		if(!isset($item['sections_count']) || ($item['sections_count'] < 1))
 			$item['sections_count'] = SECTIONS_PER_PAGE;
 		$input = sprintf(i18n::s('List up to %s sub-sections with the following layout:'), '<input type="text" name="sections_count" value="'.encode_field($item['sections_count']).'" size="2" />').BR;
 		$custom_layout = '';
 		if(!isset($item['sections_layout']))
-			$item['sections_layout'] = 'map';
+			$item['sections_layout'] = 'none';
 		elseif(!preg_match('/(compact|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $item['sections_layout'])) {
 			$custom_layout = $item['sections_layout'];
 			$item['sections_layout'] = 'custom';
@@ -485,8 +433,24 @@ if($with_form) {
 		$input .= '/> '.i18n::s('Do not list sub-sections.');
 		$fields[] = array($label, $input);
 
+		// content overlay
+		$label = i18n::s('Overlay');
+		$input = '<input type="text" name="section_overlay" size="20" value="'.encode_field(isset($item['section_overlay']) ? $item['section_overlay'] : '').'" maxlength="64" />';
+		$hint = sprintf(i18n::s('Script used to %s in this section'), Skin::build_link('overlays/', i18n::s('overlay sub-sections'), 'help'));
+		$fields[] = array($label, $input, $hint);
+
+		// append fields
+		$text .= Skin::build_box(i18n::s('Sub-sections'), Skin::build_form($fields), 'folded');
+		$fields = array();
+
+	}
+
+	// settings for attached pages
+	//
+	if(Surfer::is_empowered()) {
+
 		// layout for related articles
-		$label = i18n::s('Pages');
+		$label = i18n::s('Layout');
 		$input = i18n::s('List recent pages using the following layout:').BR;
 		$custom_layout = '';
 		if(!isset($item['articles_layout']))
@@ -557,158 +521,9 @@ if($with_form) {
 		$input .= '/> '.i18n::s('Do not display articles.').BR;
 		$fields[] = array($label, $input);
 
-		// rendering options
-		$label = i18n::s('Rendering');
-		$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
-			.JS_PREFIX
-			.'function append_to_options(keyword) {'."\n"
-			.'	var target = $("options");'."\n"
-			.'	target.value = target.value + " " + keyword;'."\n"
-			.'}'."\n"
-			.JS_SUFFIX."\n";
-		$keywords = array();
-		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_publication\')" style="cursor: pointer;">articles_by_publication</a> - '.i18n::s('Sort pages by publication date');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_rating\')" style="cursor: pointer;">articles_by_rating</a> - '.i18n::s('Sort pages by rating');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_title\')" style="cursor: pointer;">articles_by_title</a> - '.i18n::s('Sort pages by title');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_reverse_title\')" style="cursor: pointer;">articles_by_reverse_title</a> - '.i18n::s('Sort pages by reverse order of titles');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_reverse_rank\')" style="cursor: pointer;">articles_by_reverse_rank</a> - '.i18n::s('Sort pages by reverse rank');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'no_new_articles\')" style="cursor: pointer;">no_new_articles</a> - '.i18n::s('Do not list recent pages from sub-sections');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'with_files\')" style="cursor: pointer;">with_files</a> - '.i18n::s('Files can be added to the index page');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'with_links\')" style="cursor: pointer;">with_links</a> - '.i18n::s('Links can be added to the index page');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'with_creator_profile\')" style="cursor: pointer;">with_creator_profile</a> - '.i18n::s('Display profile of section creator');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'with_slideshow\')" style="cursor: pointer;">with_slideshow</a> - '.i18n::s('Display content as a S5 slideshow');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
-		$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'sections/view_as_foo_bar.php');
-		$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
-		$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
-		$keywords[] = '<a onclick="javascript:append_to_options(\'no_contextual_menu\')" style="cursor: pointer;">no_contextual_menu</a> - '.i18n::s('No information about surrounding sections');
-		$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
-		$fields[] = array($label, $input, $hint);
-
-		// trailer information
-		$label = i18n::s('Trailer');
-		$input = Surfer::get_editor('trailer', isset($item['trailer'])?$item['trailer']:'');
-		$hint = i18n::s('Text to be appended at the bottom of the page, after all other elements attached to this page.');
-		$fields[] = array($label, $input, $hint);
-
-		// extra information
-		$label = i18n::s('Extra');
-		$input = '<textarea name="extra" rows="6" cols="50">'.encode_field(isset($item['extra']) ? $item['extra'] : '').'</textarea>';
-		$hint = i18n::s('Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.');
-		$fields[] = array($label, $input, $hint);
-
-		// news can be either a static or an animated list
-		$label = i18n::s('News');
-		if(!isset($item['index_news_count']) || ($item['index_news_count'] < 1) || ($item['index_news_count'] > 7))
-			$item['index_news_count'] = 5;
-		$input = '<input type="radio" name="index_news" value="static"';
-		if(!isset($item['index_news']) || !preg_match('/(rotate|scroll|none)/', $item['index_news']))
-			$input .= ' checked="checked"';
-		$input .= '/> '.sprintf(i18n::s('List up to %s news aside.'), '<input type="text" name="index_news_count" value="'.encode_field($item['index_news_count']).'" size="2" />');
-		$input .= BR.'<input type="radio" name="index_news" value="scroll"';
-		if(isset($item['index_news']) && ($item['index_news'] == 'scroll'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Similar to the first option, except that displayed information is scrolling.');
-		$input .= BR.'<input type="radio" name="index_news" value="rotate"';
-		if(isset($item['index_news']) && ($item['index_news'] == 'rotate'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Similar to the first option, except that news are rotated.');
-		$input .= BR.'<input type="radio" name="index_news" value="none"';
-		if(isset($item['index_news']) && ($item['index_news'] == 'none'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Do not list news.');
-		$fields[] = array($label, $input);
-
-		// append fields
-		$index .= Skin::build_box(i18n::s('More content'), Skin::build_form($fields), 'folded');
-		$fields = array();
-
-	// preserve previous settings
-	} else {
-		if(isset($item['sections_count']))
-			$context['text'] .= '<input type="hidden" name="sections_count" value="'.encode_field($item['sections_count']).'" />';
-		if(isset($item['sections_layout']))
-			$context['text'] .= '<input type="hidden" name="sections_layout" value="'.encode_field($item['sections_layout']).'" />';
-		if(isset($item['articles_layout']))
-			$context['text'] .= '<input type="hidden" name="articles_layout" value="'.encode_field($item['articles_layout']).'" />';
-		if(isset($item['index_news_count']))
-			$context['text'] .= '<input type="hidden" name="index_news_count" value="'.encode_field($item['index_news_count']).'" />';
-		if(isset($item['index_news']))
-			$context['text'] .= '<input type="hidden" name="index_news" value="'.encode_field($item['index_news']).'" />';
-	}
-
-	// append fields
-	$index .= Skin::build_form($fields);
-	$fields = array();
-
-	//
-	// content tab - management of the content tree
-	//
-	$content = '';
-
-	// this section
-	//
-
-	// the parent section
-	if(!is_object($anchor) || isset($item['id'])) {
-		$label = i18n::s('Section');
-		if(isset($item['anchor']) && $item['anchor'])
-			$anchor_reference = $item['anchor'];
-		elseif(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
-			$anchor_reference = $_REQUEST['anchor'];
-		else
-			$anchor_reference = NULL;
-		$input = Sections::get_radio_buttons($anchor_reference);
-		$fields[] = array($label, $input);
-	} elseif(is_object($anchor))
-		$content .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
-
-	// the nick name
-	if(Surfer::is_empowered()) {
-		$label = i18n::s('Nick name');
-		$input = '<input type="text" name="nick_name" size="32" value="'.encode_field(isset($item['nick_name']) ? $item['nick_name'] : '').'" maxlength="64" accesskey="n" />';
-		$hint = sprintf(i18n::s('To designate a section by its name in the %s'), Skin::build_link('go.php', i18n::s('page selector'), 'help'));
-		$fields[] = array($label, $input, $hint);
-	}
-
-	// behaviors
-	if(Surfer::is_empowered()) {
-		$label = i18n::s('Behaviors');
-		$input = '<textarea name="behaviors" rows="2" cols="50">'.encode_field(isset($item['behaviors']) ? $item['behaviors'] : '').'</textarea>';
-		$hint = sprintf(i18n::s('One %s per line'), Skin::build_link('behaviors/', i18n::s('behavior'), 'help'));
-		$fields[] = array($label, $input, $hint);
-	}
-
-	// fields related to this section
-	$content .= Skin::build_form($fields);
-	$fields = array();
-
-	// settings for sub-sections
-	//
-	if(Surfer::is_empowered()) {
-
-		// content overlay
-		$label = i18n::s('Overlay');
-		$input = '<input type="text" name="section_overlay" size="20" value="'.encode_field(isset($item['section_overlay']) ? $item['section_overlay'] : '').'" maxlength="64" />';
-		$hint = sprintf(i18n::s('Script used to %s in this section'), Skin::build_link('overlays/', i18n::s('overlay sub-sections'), 'help'));
-		$fields[] = array($label, $input, $hint);
-
-		// append fields
-		$content .= Skin::build_box(i18n::s('Sub-sections'), Skin::build_form($fields), 'folded');
-		$fields = array();
-
-	}
-
-	// settings for attached pages
-	//
-	if(Surfer::is_empowered()) {
-
 		// content options
 		$label = i18n::s('Options');
-		$input = '<input type="text" name="content_options" id="content_options" size="55" value="'.encode_field(isset($item['content_options']) ? $item['content_options'] : '').'" maxlength="255" accesskey="o" />'
+		$input = '<input type="text" name="content_options" id="content_options" size="55" value="'.encode_field(isset($item['content_options']) ? $item['content_options'] : 'auto_publish').'" maxlength="255" accesskey="o" />'
 			.JS_PREFIX
 			.'function append_to_content_options(keyword) {'."\n"
 			.'	var target = $("content_options");'."\n"
@@ -721,7 +536,7 @@ if($with_form) {
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'auto_publish\')" style="cursor: pointer;">auto_publish</a> - '.i18n::s('Pages are not reviewed prior publication');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_chat\')" style="cursor: pointer;">view_as_chat</a> - '.i18n::s('Real-time collaboration');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
-		$keywords[] = 'view_as_foo_bar - '.i18n::s('Branch out to articles/view_as_foo_bar.php');
+		$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'sections/view_as_foo_bar.php');
 		if(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y'))
 			$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_details\')" style="cursor: pointer;">with_details</a> - '.i18n::s('Show page details to all surfers');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'without_rating\')" style="cursor: pointer;">without_rating</a> - '.i18n::s('Surfers are not allowed to rate pages in this section');
@@ -766,10 +581,284 @@ if($with_form) {
 		$fields[] = array($label, $input, $hint);
 
 		// append fields
-		$content .= Skin::build_box(i18n::s('Pages'), Skin::build_form($fields), 'folded');
+		$text .= Skin::build_box(i18n::s('Pages'), Skin::build_form($fields), 'folded');
 		$fields = array();
 
 	}
+
+	// rendering options
+	if(Surfer::is_empowered()) {
+
+		// trailer information
+		$label = i18n::s('Trailer');
+		$input = Surfer::get_editor('trailer', isset($item['trailer'])?$item['trailer']:'');
+		$hint = i18n::s('Text to be appended at the bottom of the page, after all other elements attached to this page.');
+		$fields[] = array($label, $input, $hint);
+
+		// extra information
+		$label = i18n::s('Extra');
+		$input = '<textarea name="extra" rows="6" cols="50">'.encode_field(isset($item['extra']) ? $item['extra'] : '').'</textarea>';
+		$hint = i18n::s('Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.');
+		$fields[] = array($label, $input, $hint);
+
+		// news can be either a static or an animated list
+		$label = i18n::s('News');
+		if(!isset($item['index_news_count']) || ($item['index_news_count'] < 1) || ($item['index_news_count'] > 7))
+			$item['index_news_count'] = 5;
+		$input = '<input type="radio" name="index_news" value="static"';
+		if(!isset($item['index_news']) || !preg_match('/(rotate|scroll|none)/', $item['index_news']))
+			$input .= ' checked="checked"';
+		$input .= '/> '.sprintf(i18n::s('List up to %s news aside.'), '<input type="text" name="index_news_count" value="'.encode_field($item['index_news_count']).'" size="2" />');
+		$input .= BR.'<input type="radio" name="index_news" value="scroll"';
+		if(isset($item['index_news']) && ($item['index_news'] == 'scroll'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Similar to the first option, except that displayed information is scrolling.');
+		$input .= BR.'<input type="radio" name="index_news" value="rotate"';
+		if(isset($item['index_news']) && ($item['index_news'] == 'rotate'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Similar to the first option, except that news are rotated.');
+		$input .= BR.'<input type="radio" name="index_news" value="none"';
+		if(isset($item['index_news']) && ($item['index_news'] == 'none'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Do not list news.');
+		$fields[] = array($label, $input);
+
+		// append fields
+		$text .= Skin::build_box(i18n::s('More content'), Skin::build_form($fields), 'folded');
+		$fields = array();
+
+	// preserve previous settings
+	} else {
+		if(isset($item['sections_count']))
+			$context['text'] .= '<input type="hidden" name="sections_count" value="'.encode_field($item['sections_count']).'" />';
+		if(isset($item['sections_layout']))
+			$context['text'] .= '<input type="hidden" name="sections_layout" value="'.encode_field($item['sections_layout']).'" />';
+		if(isset($item['articles_layout']))
+			$context['text'] .= '<input type="hidden" name="articles_layout" value="'.encode_field($item['articles_layout']).'" />';
+		if(isset($item['index_news_count']))
+			$context['text'] .= '<input type="hidden" name="index_news_count" value="'.encode_field($item['index_news_count']).'" />';
+		if(isset($item['index_news']))
+			$context['text'] .= '<input type="hidden" name="index_news" value="'.encode_field($item['index_news']).'" />';
+	}
+
+	// append fields
+	$text .= Skin::build_form($fields);
+	$fields = array();
+
+	// display in a separate panel
+	if($text)
+		$panels[] = array('index', i18n::s('Index page'), 'index_panel', $text);
+
+	//
+	// attachments tab
+	//
+	$text = '';
+	
+	// the icon url may be set after the page has been created
+	if(isset($item['id'])) {
+		$label = i18n::s('Icon');
+
+		// show the current icon
+		$input = '';
+		if(isset($item['icon_url']) && $item['icon_url']) {
+			$input .= '<img src="'.preg_replace('/\/images\/section\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />';
+			$command = i18n::s('Change');
+		} elseif(Surfer::may_upload()) {
+			$input .= '<span class="details">'.i18n::s('Upload an image to be displayed at page top. This will also be the default icon image for items attached to this page.').'</span>';
+			$command = i18n::s('Add an image');
+		}
+
+		$value = '';
+		if(isset($item['icon_url']) && $item['icon_url'])
+			$value = $item['icon_url'];
+		$input .= BR.'<input type="text" name="icon_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon', $command, 'basic').'</span>';
+		$fields[] = array($label, $input);
+	}
+
+	// the thumbnail url may be set after the page has been created
+	if(isset($item['id'])) {
+		$label = i18n::s('Thumbnail');
+
+		// show the current thumbnail
+		$input = '';
+		if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
+			$input .= '<img src="'.$item['thumbnail_url'].'" alt="" />';
+			$command = i18n::s('Change');
+		} elseif(Surfer::may_upload()) {
+			$input .= '<span class="details">'.i18n::s('Upload a small image to illustrate this page when it is listed into parent page.').'</span>';
+			$command = i18n::s('Add an image');
+		}
+
+		$input .= BR.'<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=thumbnail', $command, 'basic').'</span>';
+		$fields[] = array($label, $input);
+	}
+
+	// the bullet url may be set after the page has been created
+	if(isset($item['id'])) {
+		$label = i18n::s('Bullet');
+
+		// show the current bullet
+		$input = '';
+		if(isset($item['bullet_url']) && $item['bullet_url']) {
+			$input .= '<img src="'.$item['bullet_url'].'" alt="" />';
+			$command = i18n::s('Change');
+		} elseif(Surfer::may_upload()) {
+			$input .= '<span class="details">'.i18n::s('Upload a small image to decorate lists of sections and pages.').'</span>';
+			$command = i18n::s('Add an image');
+		}
+
+		$input .= BR.'<input type="text" name="bullet_url" size="55" value="'.encode_field(isset($item['bullet_url']) ? $item['bullet_url'] : '').'" maxlength="255" />';
+		if(Surfer::may_upload())
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=bullet', $command, 'basic').'</span>';
+		$fields[] = array($label, $input);
+	}
+
+	// end of regular fields
+	$text .= Skin::build_form($fields);
+	$fields = array();
+
+	// splash message for new items
+	if(!isset($item['id']))
+		$text .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
+
+	// images
+	else {
+		$box = '';
+
+		// menu at the top
+		$menu = array();
+		
+		// the command to add an image
+		if(Surfer::may_upload()) {
+			Skin::define_img(IMAGES_ADD_IMG, 'images/add.png');
+			$menu = array(Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic'));
+		}
+
+		// the list of images
+		include_once '../images/images.php';
+		if($items = Images::list_by_date_for_anchor('section:'.$item['id'], 0, 50, NULL)) {
+
+			// help to insert in textarea
+			if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
+				$menu[] = i18n::s('Click on codes to place images in the page.');
+			else
+				$menu[] = i18n::s('Use codes to place images in the page.');
+
+		}
+
+		if($menu)
+			$box .= Skin::finalize_list($menu, 'menu_bar');
+		if($items)
+			$box .= Skin::build_list($items, 'decorated');
+			
+		// in a folded box
+		if($box)
+			$text .= Skin::build_box(i18n::s('Images'), $box, 'unfolded', 'edit_images');
+
+	}
+
+	// if we are editing an existing article
+	if(isset($item['id'])) {
+
+		// locations are reserved to authenticated members
+		include_once '../locations/locations.php';
+		if(Locations::are_allowed($anchor, $item)) {
+			$menu = array( 'locations/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a location') );
+			$items = Locations::list_by_date_for_anchor('section:'.$item['id'], 0, 50);
+			$text .= Skin::build_box(i18n::s('Locations'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
+		}
+
+		// tables are reserved to associates
+		include_once '../tables/tables.php';
+		if(Tables::are_allowed($anchor, $item)) {
+			$menu = array( 'tables/edit.php?anchor='.urlencode('section:'.$item['id']) => i18n::s('Add a table') );
+			$items = Tables::list_by_date_for_anchor('section:'.$item['id'], 0, 50);
+			$text .= Skin::build_box(i18n::s('Tables'), Skin::build_list($menu, 'menu_bar').Skin::build_list($items, 'decorated'), 'folded');
+		}
+
+	}
+
+	// display in a separate panel
+	if($text)
+		$panels[] = array('attachments', i18n::s('Attachments'), 'attachments_panel', $text);
+
+	//
+	// options tab
+	//
+	$text = '';
+
+	// editors
+	if(isset($item['id']))
+		$label = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors'), 'basic');
+	else
+		$label = i18n::s('Editors');
+	if(isset($item['id']) && ($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
+		$input =& Skin::build_list($items, 'comma');
+	else
+		$input = i18n::s('No editor has been assigned to this section.');
+	if(Surfer::is_associate())
+		$hint = sprintf(i18n::s('Visit %s to change sections assigned to one person'), Skin::build_link('users/', i18n::s('user profiles'), 'basic'));
+	else
+		$hint = NULL;
+	$fields[] = array($label, $input, $hint);
+
+	// readers
+	$label = i18n::s('Readers');
+	if(isset($item['id']) && ($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 30, 'comma')))
+		$input =& Skin::build_list($items, 'comma');
+	else
+		$input = i18n::s('No reader has been assigned to this section.');
+	if(Surfer::is_associate())
+		$hint = sprintf(i18n::s('Visit %s to change sections assigned to one person'), Skin::build_link('users/', i18n::s('user profiles'), 'basic'));
+	else
+		$hint = NULL;
+	$fields[] = array($label, $input, $hint);
+
+	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
+	if(Surfer::is_empowered()) {
+		$label = i18n::s('Access');
+
+		// maybe a public page
+		$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
+		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Anyone may read this section').BR;
+
+
+		// maybe a restricted page
+		$input .= '<input type="radio" name="active_set" value="R"';
+		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Access is restricted to authenticated members').BR;
+
+		// or a hidden page
+		$input .= '<input type="radio" name="active_set" value="N"';
+		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Access is restricted to associates and editors');
+
+		$fields[] = array($label, $input);
+	}
+
+	// locked: Yes / No
+	$label = i18n::s('Locker');
+	$input = '<input type="radio" name="locked" value="N"';
+	if(!isset($item['locked']) || ($item['locked'] != 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Contributions are accepted').' '
+		.BR.'<input type="radio" name="locked" value="Y"';
+	if(isset($item['locked']) && ($item['locked'] == 'Y'))
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('Only associates and editors can add content');
+	$fields[] = array($label, $input);
+
+	// append fields
+	$text .= Skin::build_form($fields);
+	$fields = array();
 
 	// settings for parent or site map
 	//
@@ -827,18 +916,14 @@ if($with_form) {
 			$input .= '/> '.i18n::s('not displayed at the parent index page');
 			$parent .= '<p>'.$label.BR.$input.'</p>';
 
-			// one for layout options
-			$content .= Skin::build_box(sprintf(i18n::s('Contribution to "%s"'), $anchor->get_title()), $parent, 'folded');
-			$fields = array();
-
 		// preserve previous settings
 		} else {
 			if(isset($item['index_map']))
-				$content .= '<input type="hidden" name="index_map" value="'.encode_field($item['index_map']).'" />';
+				$text .= '<input type="hidden" name="index_map" value="'.encode_field($item['index_map']).'" />';
 			if(isset($item['rank']))
-				$content .= '<input type="hidden" name="rank" value="'.encode_field($item['rank']).'" />';
+				$text .= '<input type="hidden" name="rank" value="'.encode_field($item['rank']).'" />';
 			if(isset($item['index_panel']))
-				$content .= '<input type="hidden" name="index_panel" value="'.encode_field($item['index_panel']).'" />';
+				$text .= '<input type="hidden" name="index_panel" value="'.encode_field($item['index_panel']).'" />';
 		}
 
 	// layout options related to the site map
@@ -860,19 +945,68 @@ if($with_form) {
 			$input .= '/> '.i18n::s('listed only to associates, with other special sections, and never appears at the site front page').BR;
 			$parent .= '<p>'.$label.BR.$input.'</p>';
 
-			// one box for layout options
-			$content .= Skin::build_box(i18n::s('Appearance at the site map'), $parent, 'folded');
-			$fields = array();
-
 		// preserve previous settings
 		} else {
 			if(isset($item['index_map']))
-				$content .= '<input type="hidden" name="index_map" value="'.encode_field($item['index_map']).'" />';
+				$text .= '<input type="hidden" name="index_map" value="'.encode_field($item['index_map']).'" />';
 			if(isset($item['rank']))
-				$content .= '<input type="hidden" name="rank" value="'.encode_field($item['rank']).'" />';
+				$text .= '<input type="hidden" name="rank" value="'.encode_field($item['rank']).'" />';
 		}
 
 	}
+
+	// the activation date
+	if(Surfer::is_empowered()) {
+		$label = i18n::s('Activation date');
+
+		// adjust date from UTC time zone to surfer time zone
+		$value = '';
+		if(isset($item['activation_date']) && ($item['activation_date'] > NULL_DATE))
+			$value = Surfer::from_GMT($item['activation_date']);
+
+		$input = Skin::build_input('activation_date', $value, 'date_time');
+		$hint = i18n::s('YYYY-MM-DD HH:MM - To make this section appear in the future - automatically.');
+		$fields[] = array($label, $input, $hint);
+	}
+
+	// the expiry date
+	if(Surfer::is_empowered()) {
+		$label = i18n::s('Expiry date');
+
+		// adjust date from UTC time zone to surfer time zone
+		$value = '';
+		if(isset($item['expiry_date']) && ($item['expiry_date'] > NULL_DATE))
+			$value = Surfer::from_GMT($item['expiry_date']);
+
+		$input = Skin::build_input('expiry_date', $value, 'date_time');
+		$hint = i18n::s('YYYY-MM-DD HH:MM - Let the server hide sections on dead-lines - automatically.');
+		$fields[] = array($label, $input, $hint);
+	}
+
+	// the parent section
+	if(!is_object($anchor) || isset($item['id'])) {
+		$label = i18n::s('Section');
+		if(isset($item['anchor']) && $item['anchor'])
+			$anchor_reference = $item['anchor'];
+		elseif(isset($_REQUEST['anchor']) && $_REQUEST['anchor'])
+			$anchor_reference = $_REQUEST['anchor'];
+		else
+			$anchor_reference = NULL;
+		$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor_reference), 'folded');
+		$fields[] = array($label, $input);
+	} elseif(is_object($anchor))
+		$text .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
+
+	// append fields
+	$parent .= Skin::build_form($fields);
+	$fields = array();
+
+	// append fields
+	if(is_object($anchor))
+		$label = sprintf(i18n::s('Contribution to "%s"'), $anchor->get_title());
+	else
+		$label = i18n::s('Appearance at the site map');
+	$text .= Skin::build_box($label, $parent, 'folded');
 
 	// contribution to the front page
 	//
@@ -910,119 +1044,21 @@ if($with_form) {
 		$input .= '/> '.i18n::s('not displayed at the front page');
 
 		// one folded box for layout options
-		$content .= Skin::build_box(i18n::s('Contribution to the site front page'), $input, 'folded');
+		$text .= Skin::build_box(i18n::s('Contribution to the site front page'), $input, 'folded');
 
 	// preserve previous settings
 	} else {
 		if(isset($item['home_panel']))
-			$content .= '<input type="hidden" name="home_panel" value="'.encode_field($item['home_panel']).'" />';
+			$text .= '<input type="hidden" name="home_panel" value="'.encode_field($item['home_panel']).'" />';
 	}
 
-	// append fields
-	$content .= Skin::build_form($fields);
-	$fields = array();
-
-	//
-	// options tab
-	//
-	$options = '';
-
-	// editors
-	if(isset($item['id']))
-		$label = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors'), 'basic');
-	else
-		$label = i18n::s('Editors');
-	if(isset($item['id']) && ($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
-		$input =& Skin::build_list($items, 'comma');
-	else
-		$input = i18n::s('No editor has been assigned to this section.');
-	if(Surfer::is_associate())
-		$hint = sprintf(i18n::s('Visit %s to change sections assigned to one person'), Skin::build_link('users/', i18n::s('user profiles'), 'basic'));
-	else
-		$hint = NULL;
-	$fields[] = array($label, $input, $hint);
-
-	// readers
-	$label = i18n::s('Readers');
-	if(isset($item['id']) && ($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 30, 'comma')))
-		$input =& Skin::build_list($items, 'comma');
-	else
-		$input = i18n::s('No reader has been assigned to this section.');
-	if(Surfer::is_associate())
-		$hint = sprintf(i18n::s('Visit %s to change sections assigned to one person'), Skin::build_link('users/', i18n::s('user profiles'), 'basic'));
-	else
-		$hint = NULL;
-	$fields[] = array($label, $input, $hint);
-
-	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
+	// the nick name
 	if(Surfer::is_empowered()) {
-		$label = i18n::s('Visibility');
-
-		// maybe a public page
-		$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
-		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Anyone may read this section').BR;
-
-
-		// maybe a restricted page
-		$input .= '<input type="radio" name="active_set" value="R"';
-		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Access is restricted to authenticated members').BR;
-
-		// or a hidden page
-		$input .= '<input type="radio" name="active_set" value="N"';
-		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
-			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Access is restricted to associates and editors');
-
-		$fields[] = array($label, $input);
-	}
-
-	// locked: Yes / No
-	$label = i18n::s('Locked');
-	$input = '<input type="radio" name="locked" value="N"';
-	if(!isset($item['locked']) || ($item['locked'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('No - Contributions are accepted').' '
-		.BR.'<input type="radio" name="locked" value="Y"';
-	if(isset($item['locked']) && ($item['locked'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Yes - Only associates and editors can modify content');
-	$fields[] = array($label, $input);
-
-	// the activation date
-	if(Surfer::is_empowered()) {
-		$label = i18n::s('Activation date');
-
-		// adjust date from UTC time zone to surfer time zone
-		$value = '';
-		if(isset($item['activation_date']) && ($item['activation_date'] > NULL_DATE))
-			$value = Surfer::from_GMT($item['activation_date']);
-
-		$input = Skin::build_input('activation_date', $value, 'date_time');
-		$hint = i18n::s('YYYY-MM-DD HH:MM - To make this section appear in the future - automatically.');
+		$label = i18n::s('Nick name');
+		$input = '<input type="text" name="nick_name" size="32" value="'.encode_field(isset($item['nick_name']) ? $item['nick_name'] : '').'" maxlength="64" accesskey="n" />';
+		$hint = sprintf(i18n::s('To designate a section by its name in the %s'), Skin::build_link('go.php', i18n::s('page selector'), 'help'));
 		$fields[] = array($label, $input, $hint);
 	}
-
-	// the expiry date
-	if(Surfer::is_empowered()) {
-		$label = i18n::s('Expiry date');
-
-		// adjust date from UTC time zone to surfer time zone
-		$value = '';
-		if(isset($item['expiry_date']) && ($item['expiry_date'] > NULL_DATE))
-			$value = Surfer::from_GMT($item['expiry_date']);
-
-		$input = Skin::build_input('expiry_date', $value, 'date_time');
-		$hint = i18n::s('YYYY-MM-DD HH:MM - Let the server hide sections on dead-lines - automatically.');
-		$fields[] = array($label, $input, $hint);
-	}
-
-	// append fields
-	$options .= Skin::build_form($fields);
-	$fields = array();
 
 	// the family
 	if(Surfer::is_empowered()) {
@@ -1038,6 +1074,40 @@ if($with_form) {
 	$hint = i18n::s('Alternate title used in lists and in the contextual menu');
 	$fields[] = array($label, $input, $hint);
 
+	// rendering options
+	if(Surfer::is_empowered()) {
+		$label = i18n::s('Rendering');
+		$input = '<input type="text" name="options" id="options" size="55" value="'.encode_field(isset($item['options']) ? $item['options'] : '').'" maxlength="255" accesskey="o" />'
+			.JS_PREFIX
+			.'function append_to_options(keyword) {'."\n"
+			.'	var target = $("options");'."\n"
+			.'	target.value = target.value + " " + keyword;'."\n"
+			.'}'."\n"
+			.JS_SUFFIX."\n";
+		$keywords = array();
+		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_publication\')" style="cursor: pointer;">articles_by_publication</a> - '.i18n::s('Sort pages by publication date');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_rating\')" style="cursor: pointer;">articles_by_rating</a> - '.i18n::s('Sort pages by rating');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_title\')" style="cursor: pointer;">articles_by_title</a> - '.i18n::s('Sort pages by title');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_reverse_title\')" style="cursor: pointer;">articles_by_reverse_title</a> - '.i18n::s('Sort pages by reverse order of titles');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'articles_by_reverse_rank\')" style="cursor: pointer;">articles_by_reverse_rank</a> - '.i18n::s('Sort pages by reverse rank');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'with_deep_news\')" style="cursor: pointer;">with_deep_news</a> - '.i18n::s('List recent pages from sub-sections');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'with_files\')" style="cursor: pointer;">with_files</a> - '.i18n::s('Files can be added to the index page');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'with_links\')" style="cursor: pointer;">with_links</a> - '.i18n::s('Links can be added to the index page');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'with_creator_profile\')" style="cursor: pointer;">with_creator_profile</a> - '.i18n::s('Display profile of section creator');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread of discussion');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'comments_as_wall\')" style="cursor: pointer;">comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'with_slideshow\')" style="cursor: pointer;">with_slideshow</a> - '.i18n::s('Display content as a S5 slideshow');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
+		$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'sections/view_as_foo_bar.php');
+		$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
+		$keywords[] = 'variant_foo_bar - '.i18n::s('To load template_foo_bar.php instead of the regular template');
+		$keywords[] = '<a onclick="javascript:append_to_options(\'no_contextual_menu\')" style="cursor: pointer;">no_contextual_menu</a> - '.i18n::s('No information about surrounding sections');
+		$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
+		$fields[] = array($label, $input, $hint);
+	}
+
 	// language of this page
 	$label = i18n::s('Language');
 	$input = i18n::get_languages_select(isset($item['language'])?$item['language']:'');
@@ -1050,33 +1120,11 @@ if($with_form) {
 	$hint = i18n::s('Type here any XHTML tags to be put in page header.');
 	$fields[] = array($label, $input, $hint);
 
-	// the thumbnail url may be set after the section creation
-	if(isset($item['id']) && (Surfer::is_empowered())) {
-		$label = i18n::s('Thumbnail URL');
-		$input = '<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=thumbnail', i18n::s('Add an image'), 'basic').'</span>';
-		$hint = i18n::s('The image that illustrates the page at parent level or at the Site map.');
-		$fields[] = array($label, $input, $hint);
-	}
-
-	// the icon url may be set after the section creation
-	if(isset($item['id']) && (Surfer::is_empowered())) {
-		$label = i18n::s('Icon URL');
-		$input = '<input type="text" name="icon_url" size="55" value="'.encode_field(isset($item['icon_url']) ? $item['icon_url'] : '').'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon', i18n::s('Add an image'), 'basic').'</span>';
-		$hint = i18n::s('The image displayed at page top, and used as the default icon for related items.');
-		$fields[] = array($label, $input, $hint);
-	}
-
-	// the bullet url may be set after the section creation
-	if(isset($item['id']) && (Surfer::is_empowered())) {
-		$label = i18n::s('Bullet URL');
-		$input = '<input type="text" name="bullet_url" size="55" value="'.encode_field(isset($item['bullet_url']) ? $item['bullet_url'] : '').'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=bullet', i18n::s('Add an image'), 'basic').'</span>';
-		$hint = i18n::s('The default image that illustrates every related item.');
+	// behaviors
+	if(Surfer::is_empowered()) {
+		$label = i18n::s('Behaviors');
+		$input = '<textarea name="behaviors" rows="2" cols="50">'.encode_field(isset($item['behaviors']) ? $item['behaviors'] : '').'</textarea>';
+		$hint = sprintf(i18n::s('One %s per line'), Skin::build_link('behaviors/', i18n::s('behavior'), 'help'));
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -1130,29 +1178,26 @@ if($with_form) {
 
 	// remember the overlay type
 	} elseif(is_object($overlay))
-		$options .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'" />';
+		$text .= '<input type="hidden" name="overlay_type" value="'.encode_field($overlay->get_type()).'" />';
 
 	// add a folded box
 	if(count($fields)) {
-		$options .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folded');
+		$text .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folded');
 		$fields = array();
 	}
 
 	// append fields
-	$options .= Skin::build_form($fields);
+	$text .= Skin::build_form($fields);
 	$fields = array();
+
+	// display in a separate panel
+	if($text)
+		$panels[] = array('options', i18n::s('Options'), 'options_panel', $text);
 
 	//
 	// assemble all tabs
 	//
-	$all_tabs = array(
-		array('index', i18n::s('Index page'), 'index_panel', $index),
-		array('content', i18n::s('Content tree'), 'content_panel', $content),
-		array('options', i18n::s('Options'), 'options_panel', $options)
-		);
-
-	// let YACS do the hard job
-	$context['text'] .= Skin::build_tabs($all_tabs);
+	$context['text'] .= Skin::build_tabs($panels);
 
 	//
 	// bottom commands
@@ -1197,14 +1242,15 @@ if($with_form) {
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
 		.'	// title is mandatory'."\n"
-		.'	if(!container.title.value) {'."\n"
-		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
+		.'//	if(!container.title_index.value) {'."\n"
+		.'		alert(container.title_index.value);'."\n"
+		.'//		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
-		.'	}'."\n"
+		.'//	}'."\n"
 		."\n"
 		.'	// successful check'."\n"
-		.'	return true;'."\n"
+		.'//	return true;'."\n"
 		.'}'."\n"
 		."\n"
 		.'// update title'."\n"

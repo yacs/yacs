@@ -44,14 +44,6 @@
  * - associates can publish member uploads by changing the active field
  * - associates uploads are flagged according to the input form
  *
- * If the configuration enables it, associates can select to upload public files
- * into some FTP space. In this case the active flag will take the value 'X'.
- * Here are the rules used to take into account the fact that a file can not be transferred
- * from the web to the ftp or vice-versa:
- * - on first upload, an associate can select between X, A, R or N
- * - else if X was used, stick on it
- * - else an associate can select between A, R or N
- *
  * A button-based editor is used for the description field.
  * It's aiming to introduce most common [link=codes]codes/index.php[/link] supported by YACS.
  *
@@ -81,11 +73,6 @@
 include_once '../shared/global.php';
 include_once '../shared/xml.php';	// input validation
 include_once 'files.php';
-
-// the maximum size for uploads
-$file_maximum_size = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
-if(!$file_maximum_size)
-	$file_maximum_size = '2 M';
 
 // look for the id
 $id = NULL;
@@ -220,57 +207,42 @@ if(Surfer::is_crawler()) {
 		Versions::save($item, 'file:'.$item['id']);
 	}
 
+	// create an anchor if none has been provided
+	if(!is_object($anchor)) {
+
+		// set the title
+		$fields['title'] = ucfirst(strip_tags($_REQUEST['title']));
+
+		// most of time, it is more pertinent to move the description to the article itself
+		$fields['description'] = $_REQUEST['description'];
+		$_REQUEST['description'] = '';
+
+		// use the provided section
+		if($_REQUEST['section'])
+			$fields['anchor'] = $_REQUEST['section'];
+
+		// or select the default section
+		else
+			$fields['anchor'] = 'section:'.Sections::get_default();
+
+		// create a hosting article for this file
+		if($fields['id'] = Articles::post($fields)) {
+			$anchor =& Anchors::get('article:'.$fields['id']);
+			$_REQUEST['anchor'] = $anchor->get_reference();
+
+		}
+		$fields = array();
+	}
+
 	// a file has been uploaded
 	if(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
 
-		// access the temporary uploaded file
-		$file_upload = $_FILES['upload']['tmp_name'];
-
-		// $_FILES transcoding to utf8 is not automatic
-		$_FILES['upload']['name'] = utf8::encode($_FILES['upload']['name']);
-
-		// enhance file name
-		$file_name = $_FILES['upload']['name'];
-		$file_extension = '';
-		$position = strrpos($_FILES['upload']['name'], '.');
-		if($position !== FALSE) {
-			$file_name = substr($_FILES['upload']['name'], 0, $position);
-			$file_extension = strtolower(substr($_FILES['upload']['name'], $position+1));
-		}
-		$_FILES['upload']['name'] = str_replace(array('.', '_', '%20'), ' ', $file_name);
-		if($file_extension)
-			$_FILES['upload']['name'] .= '.'.$file_extension;
-
-		// ensure we have a file name
-		$file_name = utf8::to_ascii($_FILES['upload']['name']);
-		$_REQUEST['file_name'] = $file_name;
-
-		// create an anchor if none has been provided
-		if(!is_object($anchor)) {
-
-			// set the title
-			$fields['title'] = ucfirst(strip_tags($_REQUEST['title']));
-
-			// most of time, it is more pertinent to move the description to the article itself
-			$fields['description'] = $_REQUEST['description'];
-			$_REQUEST['description'] = '';
-
-			// use the provided section
-			if($_REQUEST['section'])
-				$fields['anchor'] = $_REQUEST['section'];
-
-			// or select the default section
-			else
-				$fields['anchor'] = 'section:'.Sections::get_default();
-
-			// create a hosting article for this file
-			if($fields['id'] = Articles::post($fields)) {
-				$anchor =& Anchors::get('article:'.$fields['id']);
-				$_REQUEST['anchor'] = $anchor->get_reference();
-
-			}
-			$fields = array();
-		}
+		// where to put this file
+		$file_path = 'files/'.$context['virtual_path'].str_replace(':', '/', $_REQUEST['anchor']);
+		
+		// attach some file
+		if($file_name = Files::upload($_FILES['upload'], $file_path))
+			$_REQUEST['file_name'] = $file_name;
 
 		// maybe this file has already been uploaded for this anchor
 		if(isset($_REQUEST['anchor']) && ($match =& Files::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
@@ -280,84 +252,12 @@ if(Surfer::is_crawler()) {
 			$item = $match;
 		}
 
-		// uploads are not allowed
-		if(!Surfer::may_upload())
-			Logger::error(i18n::s('You are not allowed to perform this operation.'));
-
-		// size exceeds php.ini settings -- UPLOAD_ERR_INI_SIZE
-		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 1))
-			Logger::error(i18n::s('The size of this file is over limit.'));
-
-		// size exceeds form limit -- UPLOAD_ERR_FORM_SIZE
-		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 2))
-			Logger::error(i18n::s('The size of this file is over limit.'));
-
-		// partial transfer -- UPLOAD_ERR_PARTIAL
-		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 3))
-			Logger::error(i18n::s('No file has been transmitted.'));
-
-		// no file -- UPLOAD_ERR_NO_FILE
-		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 4))
-			Logger::error(i18n::s('No file has been transmitted.'));
-
-		// zero bytes transmitted
-		elseif(!$_FILES['upload']['size'])
-			Logger::error(i18n::s('No file has been transmitted.'));
-
-		// an anchor is mandatory to put the file in the file system
-		elseif(!is_object($anchor))
-			Logger::error(i18n::s('No anchor has been found.'));
-
-		// check provided upload name
-		elseif(!Safe::is_uploaded_file($file_upload))
-			Logger::error(i18n::s('Possible file attack.'));
-
-		// put the file into the anonymous ftp space
-		elseif(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'X')) {
-			Safe::load('parameters/files.include.php');
-
-			// create folders
-			$file_path = str_replace('//', '/', $context['files_path'].'/files');
-			Safe::mkdir($file_path);
-			$file_path .= '/'.str_replace(':', '/', $anchor->get_reference());
-			Safe::mkdir(dirname($file_path));
-			Safe::mkdir($file_path);
-			$file_path .= '/';
-
-			// move the uploaded file
-			if(!Safe::move_uploaded_file($file_upload, $file_path.$file_name))
-				Logger::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
-
-			// this will be filtered by umask anyway
-			else
-				Safe::chmod($file_path.$file_name, $context['file_mask']);
-
-		// put the file into the regular web space
-		} else {
-
-			// create folders
-			$file_path = 'files/'.$context['virtual_path'].str_replace(':', '/', $anchor->get_reference());
-			Safe::make_path($file_path);
-
-			// make an absolute path
-			$file_path = $context['path_to_root'].$file_path.'/';
-
-			// move the uploaded file
-			if(!Safe::move_uploaded_file($file_upload, $file_path.$file_name))
-				Logger::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
-
-			// this will be filtered by umask anyway
-			else
-				Safe::chmod($file_path.$file_name, $context['file_mask']);
-
-		}
-
 		// remember file size
 		$_REQUEST['file_size'] = $_FILES['upload']['size'];
 
 		// silently delete the previous file if the name has changed
 		if($item['file_name'] && $file_name && ($item['file_name'] != $file_name) && isset($file_path))
-			Safe::unlink($file_path.$item['file_name']);
+			Safe::unlink($file_path.'/'.$item['file_name']);
 
 		// we have a real file, not a reference
 		$_REQUEST['file_href'] = '';
@@ -457,7 +357,7 @@ if(Surfer::is_crawler()) {
 		// follow-up commands -- do not use #files, because of thread layout, etc.
 		$menu = array();
 		if(is_object($anchor))
-			$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
+			$menu = array_merge($menu, array($anchor->get_url('files') => i18n::s('Back to main page')));
 		$menu = array_merge($menu, array(Files::get_url($_REQUEST['id'], 'view', $_REQUEST['file_name']) => i18n::s('Check the download page for this file')));
 		if(Surfer::may_upload())
 			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('file:'.$_REQUEST['id']) => i18n::s('Add an image')));
@@ -485,8 +385,8 @@ if(Surfer::is_crawler()) {
 		// clear cache
 		Files::clear($_REQUEST);
 
-		// forward to the anchor page -- do not use #files, because of thread layout, etc.
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url());
+		// forward to the anchor page
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('files'));
 
 	}
 
@@ -543,7 +443,7 @@ if($with_form) {
 			// an upload entry
 			$input .= '<dt><input type="radio" name="file_type" value="upload" checked="checked" />'.i18n::s('Upload a file').'</dt>'
 				.'<dd><input type="file" name="upload" id="upload" size="30" />'
-				.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')</dd>'."\n";
+				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')</dd>'."\n";
 
 			// or
 			$input .= '<dt>'.i18n::s('or').'</dt>';
@@ -568,7 +468,7 @@ if($with_form) {
 			// an upload entry
 			$input = '<input type="hidden" name="file_type" value="upload" />'
 				.'<input type="file" name="upload" id="upload" size="30" />'
-				.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')'."\n";
+				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'."\n";
 
 		}
 
@@ -602,7 +502,7 @@ if($with_form) {
 			// refresh the file
 			$input .= i18n::s('Select another file to replace the current one').BR
 				.'<input type="file" name="upload" id="upload" size="30" />'
-				.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')'."\n";
+				.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'."\n";
 
 
 		}
@@ -709,35 +609,21 @@ if($with_form) {
 	$hint = i18n::s('As this field may be searched by surfers, please choose adequate searchable words');
 	$fields[] = array($label, $input, $hint);
 
-	// associates may change the active flag: eXternal/public, Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
+	// associates may change the active flag: Yes/public, Restricted/logged, No/associates
 	if(Surfer::is_empowered() && Surfer::is_member()) {
 		$label = i18n::s('Visibility');
-		$input = '';
-		Safe::load('parameters/files.include.php');
-
-		// from a public ftp site
-		if(isset($item['active_set']) && (($item['active_set'] == 'X') || ((!isset($item['id'])) && isset($context['files_on_ftp']) && ($context['files_on_ftp'] == 'Y')))) {
-			$input .= '<input type="radio" name="active_set" value="X"';
-			if($item['active_set'] == 'X')
-				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('File can be downloaded from the anonymous ftp service').BR;
-		}
-
-		// or from this server
-		if(!isset($item['active_set']) || ($item['active_set'] != 'X')) {
-			$input .= '<input type="radio" name="active_set" value="Y" accesskey="v"';
-			if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
-				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('Anyone may download this file')
-				.BR.'<input type="radio" name="active_set" value="R"';
-			if(isset($item['active_set']) && ($item['active_set'] == 'R'))
-				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('Access is restricted to authenticated members')
-				.BR.'<input type="radio" name="active_set" value="N"';
-			if(isset($item['active_set']) && ($item['active_set'] == 'N'))
-				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('Access is restricted to associates and editors')."\n";
-		}
+		$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
+		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Anyone may download this file')
+			.BR.'<input type="radio" name="active_set" value="R"';
+		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Access is restricted to authenticated members')
+			.BR.'<input type="radio" name="active_set" value="N"';
+		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
+			$input .= ' checked="checked"';
+		$input .= '/> '.i18n::s('Access is restricted to associates and editors')."\n";
 		$fields[] = array($label, $input);
 	}
 

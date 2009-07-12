@@ -423,48 +423,6 @@ if($with_form) {
 	$panels['contact'] .= Skin::build_form($fields);
 	$fields = array();
 
-	// instant messaging
-	//
-
-	// the Jabber address
-	$label = sprintf(i18n::s('%s, or %s'), Skin::build_link('http://mail.google.com/', i18n::s('GMail'), 'external'), Skin::build_link('http://www.jabber.org/', i18n::s('Jabber'), 'external'));
-	$input = '<input type="text" name="jabber_address" size="40" value="'.encode_field(isset($item['jabber_address'])?$item['jabber_address']:'').'" />';
-	$fields[] = array($label, $input);
-
-	// the skype address
-	$label = Skin::build_link('http://www.skype.com/', i18n::s('Skype'), 'external');
-	$input = '<input type="text" name="skype_address" size="40" value="'.encode_field(isset($item['skype_address'])?$item['skype_address']:'').'" />';
-	$fields[] = array($label, $input);
-
-	// the Yahoo address
-	$label = Skin::build_link('http://messenger.yahoo.com/', i18n::s('Yahoo! Messenger'), 'external');
-	$input = '<input type="text" name="yahoo_address" size="40" value="'.encode_field(isset($item['yahoo_address'])?$item['yahoo_address']:'').'" />';
-	$fields[] = array($label, $input);
-
-	// the MSN address
-	$label = Skin::build_link('http://messenger.live.com/', i18n::s('Windows Live Messenger'), 'external');
-	$input = '<input type="text" name="msn_address" size="40" value="'.encode_field(isset($item['msn_address'])?$item['msn_address']:'').'" />';
-	$fields[] = array($label, $input);
-
-	// the AIM address
-	$label = Skin::build_link('http://www.aim.com/', i18n::s('AIM'), 'external');
-	$input = '<input type="text" name="aim_address" size="40" value="'.encode_field(isset($item['aim_address'])?$item['aim_address']:'').'" />';
-	$fields[] = array($label, $input);
-
-	// the IRC address
-	$label = Skin::build_link('http://www.irchelp.org/', i18n::s('IRC'), 'external');
-	$input = '<input type="text" name="irc_address" size="40" value="'.encode_field(isset($item['irc_address'])?$item['irc_address']:'').'" />';
-	$fields[] = array($label, $input);
-
-	// the ICQ number
-	$label = Skin::build_link('http://www.icq.com/', i18n::s('ICQ'), 'external');
-	$input = '<input type="text" name="icq_address" size="40" value="'.encode_field(isset($item['icq_address'])?$item['icq_address']:'').'" />';
-	$fields[] = array($label, $input);
-
-	// add a folded box
-	$panels['contact'] .= Skin::build_box(i18n::s('Instant messaging'), Skin::build_form($fields), 'folded');
-	$fields = array();
-
 	// business card
 	//
 
@@ -508,7 +466,7 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// extend the form
-	$panels['contact'] .= Skin::build_box(i18n::s('Contact information'), Skin::build_form($fields), 'folded');
+	$panels['contact'] .= Skin::build_box(i18n::s('Business card'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	// append the script used for data checking on the browser
@@ -516,6 +474,48 @@ if($with_form) {
 		.'// enable autocompletion for user names'."\n"
 		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("vcard_agent", "vcard_agent_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
 		.JS_SUFFIX;
+
+	// instant messaging
+	//
+
+	// the Jabber address
+	$label = sprintf(i18n::s('%s, or %s'), Skin::build_link('http://mail.google.com/', i18n::s('GMail'), 'external'), Skin::build_link('http://www.jabber.org/', i18n::s('Jabber'), 'external'));
+	$input = '<input type="text" name="jabber_address" size="40" value="'.encode_field(isset($item['jabber_address'])?$item['jabber_address']:'').'" />';
+	$fields[] = array($label, $input);
+
+	// the skype address
+	$label = Skin::build_link('http://www.skype.com/', i18n::s('Skype'), 'external');
+	$input = '<input type="text" name="skype_address" size="40" value="'.encode_field(isset($item['skype_address'])?$item['skype_address']:'').'" />';
+	$fields[] = array($label, $input);
+
+	// the Yahoo address
+	$label = Skin::build_link('http://messenger.yahoo.com/', i18n::s('Yahoo! Messenger'), 'external');
+	$input = '<input type="text" name="yahoo_address" size="40" value="'.encode_field(isset($item['yahoo_address'])?$item['yahoo_address']:'').'" />';
+	$fields[] = array($label, $input);
+
+	// the MSN address
+	$label = Skin::build_link('http://messenger.live.com/', i18n::s('Windows Live Messenger'), 'external');
+	$input = '<input type="text" name="msn_address" size="40" value="'.encode_field(isset($item['msn_address'])?$item['msn_address']:'').'" />';
+	$fields[] = array($label, $input);
+
+	// the AIM address
+	$label = Skin::build_link('http://www.aim.com/', i18n::s('AIM'), 'external');
+	$input = '<input type="text" name="aim_address" size="40" value="'.encode_field(isset($item['aim_address'])?$item['aim_address']:'').'" />';
+	$fields[] = array($label, $input);
+
+	// the IRC address
+	$label = Skin::build_link('http://www.irchelp.org/', i18n::s('IRC'), 'external');
+	$input = '<input type="text" name="irc_address" size="40" value="'.encode_field(isset($item['irc_address'])?$item['irc_address']:'').'" />';
+	$fields[] = array($label, $input);
+
+	// the ICQ number
+	$label = Skin::build_link('http://www.icq.com/', i18n::s('ICQ'), 'external');
+	$input = '<input type="text" name="icq_address" size="40" value="'.encode_field(isset($item['icq_address'])?$item['icq_address']:'').'" />';
+	$fields[] = array($label, $input);
+
+	// add a folded box
+	$panels['contact'] .= Skin::build_box(i18n::s('Instant messaging'), Skin::build_form($fields), 'folded');
+	$fields = array();
 
 	// pgp key
 	$label = i18n::s('PGP key or certificate');
@@ -722,7 +722,7 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// editor
-	$label = i18n::s('Default editor');
+	$label = i18n::s('Preferred editor');
 	$input = '<select name="selected_editor">';	// hack because of FCKEditor already uses 'editor'
 	if(isset($item['editor']))
 		;
@@ -799,7 +799,7 @@ if($with_form) {
 	// show all tabs
 	//
 	$all_tabs = array(
-		array('contact', i18n::s('Interactions'), 'contact_panel', $panels['contact']),
+		array('contact', i18n::s('Contact'), 'contact_panel', $panels['contact']),
 		array('information', i18n::s('Information'), 'information_panel', $panels['information']),
 		);
 

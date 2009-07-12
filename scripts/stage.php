@@ -51,6 +51,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../files/files.php';
 include_once '../links/link.php';
 include_once 'scripts.php';
 
@@ -60,11 +61,6 @@ Safe::load('parameters/scripts.include.php');
 // ensure we have a default reference server
 if(!isset($context['reference_server']) || !$context['reference_server'])
 	$context['reference_server'] = i18n::s('www.yacs.fr');
-
-// the maximum size for uploads
-$file_maximum_size = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
-if(!$file_maximum_size)
-	$file_maximum_size = '2 M';
 
 // no local file at the moment
 $id = NULL;
@@ -389,7 +385,7 @@ if($id) {
 	// the file
 	$label = i18n::s('File');
 	$input = '<input type="file" name="upload" id="focus" size="30" />'
-		.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')';
+		.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
 	$fields[] = array($label, $input);
 
 	// build the form

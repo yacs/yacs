@@ -29,11 +29,6 @@ include_once 'collections.php';
 if($user = Users::authenticate())
 	Surfer::empower($user['capability']);
 
-// the maximum size for uploads
-$file_maximum_size = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
-if(!$file_maximum_size)
-	$file_maximum_size = '2 M';
-
 // load the skin -- before loading the collection
 load_skin('collections');
 
@@ -199,7 +194,7 @@ elseif(!Surfer::is_associate()) {
 		// the file
 		$label = i18n::s('File');
 		$input = '<input type="file" name="upload" id="focus" size="30" />'
-			.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')';
+			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
 		$hint = i18n::s('Select the file to upload');
 		$fields[] = array($label, $input, $hint);
 

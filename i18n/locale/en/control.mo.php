@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on July 4, 2009, 9:49 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-14 23:14+0200
-PO-Revision-Date: 2009-05-14 23:20+0100
+POT-Creation-Date: 2009-06-29 01:13+0200
+PO-Revision-Date: 2009-07-03 00:22+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -343,7 +343,6 @@ $_SESSION['l10n']['en']['Press [p] to save parameters']='Press [p] to save param
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['02aa4479d8bc853b63099204452e4186']='Prevent this server to connect to others.';
 $_SESSION['l10n']['en']['Privacy statement']='Privacy statement';
-$_SESSION['l10n']['en']['Private pages']='Private pages';
 $_SESSION['l10n']['en']['Processed queries']='Processed queries';
 $_SESSION['l10n']['en']['fdaa13bbee38a240996c4f098bf3ae13']='Provide as much information as possible (development server).';
 $_SESSION['l10n']['en']['Proxy account']='Proxy account';
@@ -467,6 +466,7 @@ $_SESSION['l10n']['en']['c2883a13a53575308a41010403e41c2f']='This server uses th
 $_SESSION['l10n']['en']['019194adbb411721ef0122376d178444']='This site is powered by [link=YACS]http://www.yacs.fr/[/link], [link=PHP]http://www.php.net/[/link], and [link=MySQL]http://www.mysql.com/[/link] - a fast, easy-to-use site that lets you access, review, and download information that matters for you.';
 $_SESSION['l10n']['en']['06c9d7fc993053f7b3b01351d1b9fce8']='This system does not support the mapping of args in the URL.';
 $_SESSION['l10n']['en']['0af91edfa726acd4cf2f04676fe5dabf']='This system is not configured to send e-mail messages.';
+$_SESSION['l10n']['en']['Threads']='Threads';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
 $_SESSION['l10n']['en']['4a2663fa577bb3ac997c6c7cd701db18']='To install following bookmarklets, right-click over them and add them to your bookmarks or favorites. Then recall them at any time while browsing the Internet, to add content to this site.';
 $_SESSION['l10n']['en']['86afc75f7de95fed755b0c2073390060']='To share user information among several YACS servers configure below parameters specific to the table of users. Else keep fields empty.';

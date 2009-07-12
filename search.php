@@ -203,7 +203,7 @@ elseif($cap)
 $home = 'search.php?search='.urlencode($search);
 $prefix = $home.'&page=';
 if(($navigate = Skin::navigate($home, $prefix, $cap, ARTICLES_PER_PAGE, $page)) && @count($navigate))
-	$box['bar'] = array_merge($box['bar'], $navigate);
+	$box['bar'] += $navigate;
 
 // actually render the html
 if(@count($box['bar']))
@@ -348,7 +348,7 @@ $context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), i18n::s('This sear
 $lines = array();
 if($search)
 	$lines[] = Skin::build_link('services/search.php?search='.urlencode($search), i18n::s('Matching pages'), 'xml');
-$context['aside']['boxes'] .= Skin::build_box(i18n::s('Information channels'), join(BR, $lines), 'extra', 'feeds');
+$context['aside']['boxes'] .= Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feeds');
 
 // side bar with the list of most recent keywords
 $cache_id = 'search.php#keywords_by_date';

@@ -21,14 +21,12 @@ Class Layout_users_as_comma extends Layout_interface {
 	function &layout(&$result) {
 		global $context;
 
+		// we return some text
+		$text = '';
+		
 		// empty list
-		if(!$delta = SQL::count($result)) {
-			$output = array();
-			return $output;
-		}
-
-		// we return an array of ($url => $attributes)
-		$items = array();
+		if(!$delta = SQL::count($result))
+			return $text;
 
 		// flag users updated recently
 		if($context['site_revisit_after'] < 1)
@@ -40,6 +38,7 @@ Class Layout_users_as_comma extends Layout_interface {
 
 		// process all items in the list
 		$count = 0;
+		$items = array();
 		while($item =& SQL::fetch($result)) {
 
 			// url to view the user
@@ -76,8 +75,8 @@ Class Layout_users_as_comma extends Layout_interface {
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, $class, NULL, $hover);
 
-			// limit to one page of results
-			if(++$count >= 7)
+			// provide only some results
+			if(++$count >= 4)
 				break;
 		}
 
@@ -85,13 +84,13 @@ Class Layout_users_as_comma extends Layout_interface {
 		SQL::free($result);
 
 		// turn this to some text
-		$items = Skin::build_list($items, 'comma');
+		$text = Skin::build_list($items, 'comma');
 		
 		// some indications on the number of connections
 		if($delta -= $count)
-			$items .= ', ...';
+			$text .= ', ...';
 		
-		return $items;
+		return $text;
 	}
 
 }

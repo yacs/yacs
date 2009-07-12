@@ -78,30 +78,30 @@ else
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Back to main page') ));
+	$context['page_menu'] += array( $anchor->get_url() => i18n::s('Back to main page') );
 
 // react to this post
 if(Comments::are_allowed($anchor)) {
 
 	// allow posters to change their own comments
 	if(Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
-		$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'edit') => i18n::s('Edit') ));
+		$context['page_menu'] += array( Comments::get_url($item['id'], 'edit') => i18n::s('Edit') );
 
 	// allow surfers to react to contributions from other people
 	else {
 		Skin::define_img('NEW_COMMENT_IMG', 'icons/comments/new.gif');
-		$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'reply') => NEW_COMMENT_IMG.' '.i18n::s('React to this post') ));
-		$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'quote') => i18n::s('Quote') ));
+		$context['page_menu'] += array( Comments::get_url($item['id'], 'reply') => NEW_COMMENT_IMG.' '.i18n::s('React to this post') );
+		$context['page_menu'] += array( Comments::get_url($item['id'], 'quote') => i18n::s('Quote') );
 
 		if(Comments::are_editable($anchor, $item))
-			$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'edit') => i18n::s('Edit') ));
+			$context['page_menu'] += array( Comments::get_url($item['id'], 'edit') => i18n::s('Edit') );
 
 	}
 }
 
 // commands for associates, authenticated editors and author
 if($item['id'] && Comments::are_editable($anchor, $item))
-	$context['page_menu'] = array_merge($context['page_menu'], array( Comments::get_url($item['id'], 'delete') => i18n::s('Delete') ));
+	$context['page_menu'] += array( Comments::get_url($item['id'], 'delete') => i18n::s('Delete') );
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
@@ -209,8 +209,7 @@ if(!isset($item['id'])) {
 
 		// allow surfers to react to contributions from other people
 		else {
-			Skin::define_img('NEW_COMMENT_IMG', 'icons/comments/new.gif');
-			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'reply'), NEW_COMMENT_IMG.' '.i18n::s('Reply'), 'basic');
+			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'reply'), i18n::s('Reply'), 'basic');
 			$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'quote'), i18n::s('Quote'), 'basic');
 
 			if(Surfer::is_associate())

@@ -63,13 +63,9 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../files/files.php';
 include_once '../shared/xml.php';	// input validation
 include_once 'comments.php';
-
-// the maximum size for uploads
-$file_maximum_size = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
-if(!$file_maximum_size)
-	$file_maximum_size = '2 M';
 
 // what should we do?
 $action = '';
@@ -184,7 +180,7 @@ else
 if(is_object($anchor))
 	$context['page_title'] = sprintf(i18n::s('Comment: %s'), $anchor->get_title());
 else
-	$context['page_title'] = i18n::s('Add a comment');
+	$context['page_title'] = i18n::s('Post a comment');
 
 // always validate input syntax
 if(isset($_REQUEST['description']))
@@ -234,102 +230,10 @@ if(Surfer::is_crawler()) {
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
 
-	// only authenticated surfers are allowed to post links
-//	if(!Surfer::is_logged())
-//		$_REQUEST['description'] = preg_replace('/(http:|https:|ftp:|mailto:)[\w@\/\.]+/', '!!!', $_REQUEST['description']);
-
-	// attach file from member, if any
-	if(Surfer::is_member() && isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
-
-		// access the temporary uploaded file
-		$file_upload = $_FILES['upload']['tmp_name'];
-
-		// $_FILES transcoding to utf8 is not automatic
-		$_FILES['upload']['name'] = utf8::encode($_FILES['upload']['name']);
-
-		// enhance file name
-		$file_name = $_FILES['upload']['name'];
-		$file_extension = '';
-		$position = strrpos($_FILES['upload']['name'], '.');
-		if($position !== FALSE) {
-			$file_name = substr($_FILES['upload']['name'], 0, $position);
-			$file_extension = strtolower(substr($_FILES['upload']['name'], $position+1));
-		}
-		$_FILES['upload']['name'] = str_replace(array('.', '_', '%20'), ' ', $file_name);
-		if($file_extension)
-			$_FILES['upload']['name'] .= '.'.$file_extension;
-
-		// ensure we have a file name
-		$file_name = utf8::to_ascii($_FILES['upload']['name']);
-
-		// ensure type is allowed
-		include_once '../files/files.php';
-		if(!Files::is_authorized($_FILES['upload']['name']))
-			Logger::error(i18n::s('This type of file is not allowed.'));
-
-		// size exceeds php.ini settings -- UPLOAD_ERR_INI_SIZE
-		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 1))
-			Logger::error(i18n::s('The size of this file is over limit.'));
-
-		// size exceeds form limit -- UPLOAD_ERR_FORM_SIZE
-		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 2))
-			Logger::error(i18n::s('The size of this file is over limit.'));
-
-		// partial transfer -- UPLOAD_ERR_PARTIAL
-		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 3))
-			Logger::error(i18n::s('No file has been transmitted.'));
-
-		// no file -- UPLOAD_ERR_NO_FILE
-		elseif(isset($_FILES['upload']['error']) && ($_FILES['upload']['error'] == 4))
-			Logger::error(i18n::s('No file has been transmitted.'));
-
-		// zero bytes transmitted
-		elseif(!$_FILES['upload']['size'])
-			Logger::error(i18n::s('No file has been transmitted.'));
-
-		// check provided upload name
-		elseif(!Safe::is_uploaded_file($file_upload))
-			Logger::error(i18n::s('Possible file attack.'));
-
-		// process uploaded data
-		else {
-
-			// create folders
-			$file_path = 'files/'.str_replace(':', '/', $anchor->get_reference());
-			Safe::make_path($file_path);
-
-			// make an absolute path
-			$file_path = $context['path_to_root'].$file_path.'/';
-
-			// move the uploaded file
-			if(!Safe::move_uploaded_file($file_upload, $file_path.$file_name))
-				Logger::error(sprintf(i18n::s('Impossible to move the upload file to %s.'), $file_path.$file_name));
-
-			// this will be filtered by umask anyway
-			else {
-				Safe::chmod($file_path.$file_name, $context['file_mask']);
-
-				// update an existing record for this anchor
-				if($match =& Files::get_by_anchor_and_name($anchor->get_reference(), $file_name))
-					$fields = $match;
-
-				// create a new file record
-				else {
-					$fields = array();
-					$fields['file_name'] = $file_name;
-					$fields['file_size'] = $_FILES['upload']['size'];
-					$fields['file_href'] = '';
-					$fields['anchor'] = $anchor->get_reference();
-				}
-
-				// create the record in the database, and remember this post in comment
-				if($file_id = Files::post($fields))
-					$_REQUEST['description'] .= "\n\n[file=".$file_id.']';
-
-			}
-		}
-	}
-
+	// attach some file
+	if($file = Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', $anchor->get_reference()), $anchor->get_reference()))
+		$_REQUEST['description'] .= $file;
+		
 	// preview mode
 	if(isset($_REQUEST['preview']) && ($_REQUEST['preview'] == 'Y')) {
 		$item = $_REQUEST;
@@ -355,10 +259,6 @@ if(Surfer::is_crawler()) {
 		// thanks
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
-		// the type, except on wikis and manuals
-		if(is_object($anchor) && !$anchor->has_layout('manual') && !$anchor->has_layout('wiki'))
-			$context['text'] .= Comments::get_img($_REQUEST['type']);
-
 		// actual content
 		$context['text'] .= Codes::beautify($_REQUEST['description']);
 
@@ -368,7 +268,7 @@ if(Surfer::is_crawler()) {
 		if($anchor->has_layout('alistapart'))
 			$menu = array_merge($menu, array($anchor->get_url('parent') => $anchor->get_label('comments', 'thread_command')));
 		else
-			$menu = array_merge($menu, array($anchor->get_url('discuss') => $anchor->get_label('comments', 'thread_command')));
+			$menu = array_merge($menu, array($anchor->get_url('comments') => $anchor->get_label('comments', 'thread_command')));
 		if(Surfer::is_logged())
 			$menu = array_merge($menu, array(Comments::get_url($_REQUEST['id'], 'edit') => $anchor->get_label('comments', 'edit_command')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
@@ -403,7 +303,7 @@ if(Surfer::is_crawler()) {
 		Comments::clear($_REQUEST);
 
 		// forward to the updated thread
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('discuss'));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('comments'));
 
 	}
 
@@ -536,7 +436,7 @@ if($with_form) {
 		// an upload entry
 		$input = '<input type="hidden" name="file_type" value="upload" />'
 			.'<input type="file" name="upload" size="30" />'
-			.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')';
+			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
 
 		$fields[] = array($label, $input);
 
@@ -550,7 +450,7 @@ if($with_form) {
 	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's', 'submit_button');
 	$menu[] = '<a href="#" onclick="$(\'preview_flag\').setAttribute(\'value\', \'Y\'); $(\'submit_button\').click(); return false;" accesskey="p" title="'.i18n::s('Press [p] for preview').'"><span>'.i18n::s('Preview').'</span></a>';
 	if(is_object($anchor))
-		$menu[] = Skin::build_link($anchor->get_url('discuss'), i18n::s('Cancel'), 'span');
+		$menu[] = Skin::build_link($anchor->get_url('comments'), i18n::s('Cancel'), 'span');
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// associates and editors may decide to not stamp changes -- complex command

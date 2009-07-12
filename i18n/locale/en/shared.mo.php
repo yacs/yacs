@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:47 pm GMT. Please do not modify it manually.
+ * on July 5, 2009, 9:10 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
+POT-Creation-Date: 2009-06-29 01:13+0200
 PO-Revision-Date: 2009-05-14 23:29+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -24,12 +24,10 @@ $_SESSION['l10n']['en']['%d active now'.chr(0).'%d active now']='%d active now'.
 $_SESSION['l10n']['en']['be362d7d53a1254f538bfda2a9b7b995']='A member is required for this operation.';
 $_SESSION['l10n']['en']['Access collection']='Access collection';
 $_SESSION['l10n']['en']['Actions']='Actions';
-$_SESSION['l10n']['en']['All threads']='All threads';
 $_SESSION['l10n']['en']['faa341f8a37d82ae539d923a0854a176']='An anchor is required for this operation.';
 $_SESSION['l10n']['en']['Browse this map with Freemind']='Browse this map with Freemind';
 $_SESSION['l10n']['en']['Categories']='Categories';
 $_SESSION['l10n']['en']['5eceff9c59d2bdcf158b449fba7cbcac']='Check requests, publish submitted articles, review old pages';
-$_SESSION['l10n']['en']['Co-browsing']='Co-browsing';
 $_SESSION['l10n']['en']['Comments']='Comments';
 $_SESSION['l10n']['en']['cd18fb0e02dd6f7b80bf22c3c8133841']='Connection to the database has been lost';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
@@ -49,7 +47,6 @@ $_SESSION['l10n']['en']['Images']='Images';
 $_SESSION['l10n']['en']['Impossible to connect to %s.']='Impossible to connect to %s.';
 $_SESSION['l10n']['en']['Impossible to extract files.']='Impossible to extract files.';
 $_SESSION['l10n']['en']['Impossible to read %s.']='Impossible to read %s.';
-$_SESSION['l10n']['en']['Join %s at %s']='Join %s at %s';
 $_SESSION['l10n']['en']['Last edition']='Last edition';
 $_SESSION['l10n']['en']['Last stacking element: %s']='Last stacking element: %s';
 $_SESSION['l10n']['en']['Links']='Links';
@@ -92,7 +89,6 @@ $_SESSION['l10n']['en']['Visited']='Visited';
 $_SESSION['l10n']['en']['XML error: %s at line %d']='XML error: %s at line %d';
 $_SESSION['l10n']['en']['68e8557b5fa4d724688175816097ce17']='You are allowed to post any XHTML.';
 $_SESSION['l10n']['en']['a38baa11f8dc11db9fde342db9db7f07']='You will be considered as an anonymous surfer';
-$_SESSION['l10n']['en']['Your private pages with %s']='Your private pages with %s';
 $_SESSION['l10n']['en']['and analyzed']='and analyzed';
 $_SESSION['l10n']['en']['and optimized']='and optimized';
 $_SESSION['l10n']['en']['commented']='commented';

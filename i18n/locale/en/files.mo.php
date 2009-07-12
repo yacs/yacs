@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on July 5, 2009, 9:10 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
+POT-Creation-Date: 2009-07-03 00:19+0200
 PO-Revision-Date: 2008-11-10 16:57+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -90,7 +90,6 @@ $_SESSION['l10n']['en']['1af5ec71336204568c61feb93174a23f']='Existing reference 
 $_SESSION['l10n']['en']['Extensions']='Extensions';
 $_SESSION['l10n']['en']['FTP prefix']='FTP prefix';
 $_SESSION['l10n']['en']['File']='File';
-$_SESSION['l10n']['en']['0e8fcb6e5467da84b07201a54612e985']='File can be downloaded from the anonymous ftp service';
 $_SESSION['l10n']['en']['File size']='File size';
 $_SESSION['l10n']['en']['Files']='Files';
 $_SESSION['l10n']['en']['Files at %s']='Files at %s';
@@ -153,21 +152,17 @@ $_SESSION['l10n']['en']['1cdd6622263afc815074f3c7faed3a2c']='Paste here complica
 $_SESSION['l10n']['en']['Play']='Play';
 $_SESSION['l10n']['en']['7abd39f4bdad539867d6db43641caa51']='Please carefully select a section for your file';
 $_SESSION['l10n']['en']['534ee23f840c757e6d2f7ba56f2971c6']='Please note that the current shared version is %s if you absolutely require it.';
-$_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $_SESSION['l10n']['en']['c5427cc1c5d8c7f2fe75e6eb38ef3662']='Please set a meaningful title to be used instead of the file name in lists of files.';
 $_SESSION['l10n']['en']['Podcast']='Podcast';
 $_SESSION['l10n']['en']['Popular']='Popular';
 $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
 $_SESSION['l10n']['en']['Posted by']='Posted by';
-$_SESSION['l10n']['en']['Posts are not allowed here.']='Posts are not allowed here.';
 $_SESSION['l10n']['en']['Press [e] to edit']='Press [e] to edit';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
-$_SESSION['l10n']['en']['Previous edition by %s %s']='Previous edition by %s %s';
 $_SESSION['l10n']['en']['Previous image']='Previous image';
 $_SESSION['l10n']['en']['RSS feed']='RSS feed';
 $_SESSION['l10n']['en']['37ad9546a387c8d0623a2d297a553d2b']='Recommended tools are listed for each extension on download.';
-$_SESSION['l10n']['en']['Refresh from a local file']='Refresh from a local file';
 $_SESSION['l10n']['en']['Review files']='Review files';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Section']='Section';
@@ -217,7 +212,6 @@ $_SESSION['l10n']['en']['bf17c77b74c5350da902a6142f9a7a9d']='Upload a small imag
 $_SESSION['l10n']['en']['43e5a74e454bb7711c71226172c18b85']='Upload an image file and integrate it into the page. Big images will be rendered as clickable thumbnails.';
 $_SESSION['l10n']['en']['895d2910ebcbd5ade6985c6559d44621']='Upload an image to be displayed at page top. This will also be the default icon image for items attached to this page.';
 $_SESSION['l10n']['en']['Upload another file']='Upload another file';
-$_SESSION['l10n']['en']['Upload files']='Upload files';
 $_SESSION['l10n']['en']['Use FTP']='Use FTP';
 $_SESSION['l10n']['en']['145c71768eada2e93397ec134c387b13']='Use codes to insert images in the page.';
 $_SESSION['l10n']['en']['d1ec6c64d705f2700ae41fb5a3f440dc']='Use following codes to reference this item: %s';

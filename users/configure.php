@@ -25,10 +25,6 @@
  * sections that one member can create on his own. The default value is 0, which
  * means that users are prevented to extend their web space.
  *
- * [*] [code]users_with_alerts[/code] - By default YACS send an e-mail message
- * on each alert to some end user. If this parameter is set to 'Y', YACS will
- * detect present users and send them interactive alerts instead.
- *
  * [*] [code]users_with_anonymous_comments[/code] - If explicitly set to 'Y',
  * yacs will allow anonymous surfers to post comments to any public page.
  * By default, surfers are invited to register or to authenticate before posting.
@@ -338,18 +334,6 @@ elseif(!Surfer::is_associate()) {
 	//
 	$content = '';
 
-	// alert present users
-	$label = i18n::s('Alerts');
-	$input = '<input type="radio" name="users_with_alerts" value="N"';
-	if(!isset($context['users_with_alerts']) || ($context['users_with_alerts'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Watchers are notified by e-mail.');
-	$input .= BR.'<input type="radio" name="users_with_alerts" value="Y"';
-	if(isset($context['users_with_alerts']) && ($context['users_with_alerts'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Users receive interactive popups when they are present.');
-	$fields[] = array($label, $input);
-
 	// users_with_avatars
 	$label = i18n::s('Avatars');
 	$input = '<input type="radio" name="users_with_avatars" value="N"';
@@ -365,11 +349,11 @@ elseif(!Surfer::is_associate()) {
 	// spam protection
 	$label = i18n::s('Spam');
 	$input = '<input type="radio" name="users_with_email_display" value="N"';
-	if(!isset($context['users_with_email_display']) || ($context['users_with_email_display'] == 'N'))
+	if(isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'N'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Protect mail addresses as much as possible (for Internet servers).');
 	$input .= BR.'<input type="radio" name="users_with_email_display" value="R"';
-	if(isset($context['users_with_email_display']) && ($context['users_with_email_display'] == 'R'))
+	if(!isset($context['users_with_email_display']) || ($context['users_with_email_display'] == 'R'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Show email addresses to authenticated members.');
 	$input .= BR.'<input type="radio" name="users_with_email_display" value="Y"';
@@ -379,7 +363,7 @@ elseif(!Surfer::is_associate()) {
 	$fields[] = array($label, $input);
 
 	// without private pages
-	$label = i18n::s('Private pages');
+	$label = i18n::s('Threads');
 	$input = '<input type="radio" name="users_without_private_pages" value="N"';
 	if(!isset($context['users_without_private_pages']) || ($context['users_without_private_pages'] != 'Y'))
 		$input .= ' checked="checked"';
@@ -387,14 +371,14 @@ elseif(!Surfer::is_associate()) {
 	$input .= BR.'<input type="radio" name="users_without_private_pages" value="Y"';
 	if(isset($context['users_without_private_pages']) && ($context['users_without_private_pages'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Prevent members from creating private pages.');
+	$input .= '/> '.i18n::s('Prevent members from creating new threads.');
 	$fields[] = array($label, $input);
 
 	// users_maximum_managed_sections
 	if(!isset($context['users_maximum_managed_sections']) || !$context['users_maximum_managed_sections'] || ($context['users_maximum_managed_sections'] < 0))
 		$context['users_maximum_managed_sections'] = 0;
-	$label = i18n::s('Personal');
-	$input = sprintf(i18n::s('Each member may self-manage up to %s personal spaces.'), '<input type="text" name="users_maximum_managed_sections" size="2" value="'.encode_field($context['users_maximum_managed_sections']).'" maxlength="2" />');
+	$label = i18n::s('Groups');
+	$input = sprintf(i18n::s('Each member may create up to %s groups and blogs.'), '<input type="text" name="users_maximum_managed_sections" size="2" value="'.encode_field($context['users_maximum_managed_sections']).'" maxlength="2" />');
 	$hint = i18n::s('We recommend either 0 (members cannot extend their web space), or 3 (public, restricted, hidden).');
 	$fields[] = array($label, $input, $hint);
 
@@ -403,11 +387,11 @@ elseif(!Surfer::is_associate()) {
 	$input = '<input type="radio" name="users_without_teasers" value="N"';
 	if(!isset($context['users_without_teasers']) || ($context['users_without_teasers'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Anonymous surfers can see titles and teasers of restricted articles, and links to post content. They can move forward after authentication.');
+	$input .= '/> '.i18n::s('Anonymous surfers can see titles and teasers of pages with restricted access. They can move forward after authentication.');
 	$input .= BR.'<input type="radio" name="users_without_teasers" value="Y"';
 	if(isset($context['users_without_teasers']) && ($context['users_without_teasers'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Nothing from restricted pages and links to post is disclosed to non-members.');
+	$input .= '/> '.i18n::s('Nothing from restricted content is disclosed to non-members.');
 	$fields[] = array($label, $input);
 
 	// auto-archiving
@@ -594,8 +578,6 @@ elseif(!Surfer::is_associate()) {
 	$content .= '$context[\'users_maximum_managed_sections\']=\''.addcslashes($_REQUEST['users_maximum_managed_sections'], "\\'")."';\n";
 	if(isset($_REQUEST['users_overlay']))
 		$content .= '$context[\'users_overlay\']=\''.addcslashes($_REQUEST['users_overlay'], "\\'")."';\n";
-	if(isset($_REQUEST['users_with_alerts']))
-		$content .= '$context[\'users_with_alerts\']=\''.addcslashes($_REQUEST['users_with_alerts'], "\\'")."';\n";
 	if(isset($_REQUEST['users_with_avatars']))
 		$content .= '$context[\'users_with_avatars\']=\''.addcslashes($_REQUEST['users_with_avatars'], "\\'")."';\n";
 	if(isset($_REQUEST['users_with_anonymous_comments']))

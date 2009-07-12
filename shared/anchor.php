@@ -268,9 +268,9 @@ class Anchor {
 	 *
 	 * @return a valid url to be used in an <img> tag
 	 */
-	 function get_bullet_url() {
+	function get_bullet_url() {
 		 return NULL;
-	 }
+	}
 
 	/**
 	 * get the focus for this anchor
@@ -280,9 +280,9 @@ class Anchor {
 	 *
 	 * @return array of anchor references (e.g., array('section:123', 'article:456') )
 	 */
-	 function get_focus() {
+	function get_focus() {
 		 return NULL;
-	 }
+	}
 
 	/**
 	 * get the handle of this anchor
@@ -321,9 +321,9 @@ class Anchor {
 	 *
 	 * @return a valid url to be used in an <img> tag
 	 */
-	 function get_icon_url() {
+	function get_icon_url() {
 		 return NULL;
-	 }
+	}
 
 	 /**
 	  * provide a custom label
@@ -411,11 +411,11 @@ class Anchor {
 	 *
 	 * @return a string such as 'article:123', or 'section:456', etc.
 	 */
-	 function get_parent() {
+	function get_parent() {
 		if($this->item && isset($this->item['anchor']))
 			return $this->item['anchor'];
-		 return NULL;
-	 }
+		return NULL;
+	}
 
 	/**
 	 * get the path bar for this anchor
@@ -433,9 +433,9 @@ class Anchor {
 	 *
 	 * @return an array of $url => $label
 	 */
-	 function get_path_bar() {
-		 return array();
-	 }
+	function get_path_bar() {
+		return array();
+	}
 
 	/**
 	 * get the initial poster
@@ -450,41 +450,41 @@ class Anchor {
 	 *
 	 * @return an array of poster attributes
 	 */
-	 function &get_poster() {
-		 global $context;
+	function &get_poster() {
+		global $context;
 
-		 // look for a user record from id or from address
-		 $poster = NULL;
-		 if(isset($this->item['create_id']))
+		// look for a user record from id or from address
+		$poster = NULL;
+		if(isset($this->item['create_id']))
 			$poster = Users::get($this->item['create_id']);
-		 elseif(isset($this->item['create_address']))
+		elseif(isset($this->item['create_address']))
 			$poster = Users::get($this->item['create_address']);
 
 		 // some anchors do not feature create attributes
-		 elseif(isset($this->item['edit_id']))
+		elseif(isset($this->item['edit_id']))
 			$poster = Users::get($this->item['edit_id']);
-		 elseif(isset($this->item['edit_address']))
+		elseif(isset($this->item['edit_address']))
 			$poster = Users::get($this->item['edit_address']);
 
-		 // no user record has been found, use anchor data
-		 if(!isset($poster['id'])) {
-			 $poster = array();
-			 if(isset($this->item['create_address']))
+		// no user record has been found, use anchor data
+		if(!isset($poster['id'])) {
+			$poster = array();
+			if(isset($this->item['create_address']))
 				$poster['email'] = $this->item['create_address'];
-			 elseif(isset($this->item['edit_address']))
+			elseif(isset($this->item['edit_address']))
 				$poster['email'] = $this->item['edit_address'];
 
-		 }
+		}
 
-		 // nick name may have changed over time
-		 if(isset($this->item['create_name']))
+		// nick name may have changed over time
+		if(isset($this->item['create_name']))
 			$poster['nick_name'] = $this->item['create_name'];
-		 elseif(isset($this->item['edit_name']))
+		elseif(isset($this->item['edit_name']))
 			$poster['nick_name'] = $this->item['edit_name'];
 
-		 // return poster atributes
-		 return $poster;
-	 }
+		// return poster atributes
+		return $poster;
+	}
 
 	/**
 	 * get the prefix text
@@ -502,7 +502,7 @@ class Anchor {
 	 * @param string an indication to the anchor of the expected result
 	 * @return a string
 	 */
-	 function get_prefix($variant='') {
+	function get_prefix($variant='') {
 		global $context;
 
 		// sanity check
@@ -515,7 +515,7 @@ class Anchor {
 
 		// else return raw string
 		return '<div class="prefix">'.$this->item['prefix'].'</div>';
-	 }
+	}
 
 	/**
 	 * get the reference for this anchor
@@ -531,9 +531,9 @@ class Anchor {
 	 *
 	 * @return a string such as 'article:123', or 'section:456', etc.
 	 */
-	 function get_reference() {
-		 return NULL;
-	 }
+	function get_reference() {
+		return NULL;
+	}
 
 	/**
 	 * get suffix text
@@ -551,7 +551,7 @@ class Anchor {
 	 * @param string an indication to the anchor of the expected result
 	 * @return a string
 	 */
-	 function get_suffix($variant='') {
+	function get_suffix($variant='') {
 		global $context;
 
 		// sanity check
@@ -564,7 +564,7 @@ class Anchor {
 
 		// else return raw string
 		return '<div class="suffix">'.$this->item['suffix'].'</div>';
-	 }
+	}
 
 	/**
 	 * get some introductory text from this anchor
@@ -622,9 +622,9 @@ class Anchor {
 	 *
 	 * @return a valid url to be used in an &lt;img&gt; tag
 	 */
-	 function get_thumbnail_url() {
-		 return NULL;
-	 }
+	function get_thumbnail_url() {
+		return NULL;
+	}
 
 	/**
 	 * get the title for this anchor
@@ -642,11 +642,22 @@ class Anchor {
 	 *
 	 * @return a string
 	 */
-	 function get_title() {
+	function get_title() {
 		if($this->item)
 			return str_replace('& ', '&amp; ', $this->item['title']);
 		return $this->get_reference();
-	 }
+	}
+
+	/**
+	 * get the type of this anchor
+	 *
+	 * @return string e.g., 'article', 'category', 'section'
+	 */
+	function get_type() {
+		if(($reference = $this->get_reference()) && ($position = strpos($reference, ':')))
+			return substr($reference, 0, $position);
+		 return NULL;
+	}
 
 	/**
 	 * get the url to display the main page for this anchor
@@ -664,9 +675,9 @@ class Anchor {
 	 * @param string the targeted action ('view', 'print', 'edit', 'delete', ...)
 	 * @return an url to view the anchor page
 	 */
-	 function get_url($action='view') {
-		 return '** no url **';
-	 }
+	function get_url($action='view') {
+		return '** no url **';
+	}
 
 	/**
 	 * get the value of one attribute
@@ -696,7 +707,7 @@ class Anchor {
 	 * @param string the layout we are looking for
 	 * @return TRUE or FALSE, or the value of the matching option if any
 	 */
-	 function has_layout($option) {
+	function has_layout($option) {
 
 		// sanity check
 		if(!$this->item)
@@ -719,7 +730,7 @@ class Anchor {
 
 		// no match
 		return FALSE;
-	 }
+	}
 
 	/**
 	 * check that an option has been set for this anchor
@@ -912,7 +923,51 @@ class Anchor {
 		
 		// sorry
 		return $this->is_editable_cache = FALSE;
-	 }
+	}
+
+	/**
+	 * check that the surfer owns an anchor
+	 *
+	 * To be overloaded into derivated class if field has a different name
+	 *
+	 * @param int optional reference to some user profile
+	 * @return TRUE or FALSE
+	 */
+	 function is_owned($user_id=NULL) {
+		global $context;
+
+		// id of requesting user
+		if(!$user_id && !Surfer::get_id())
+			return FALSE;
+		$user_id = Surfer::get_id();
+
+		// associates can always do it
+		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
+			return TRUE;
+			
+		// we need some data to proceed
+		if(is_array($this->item)) {
+
+			// surfer has created this item
+			if(isset($this->item['create_id']) && ($user_id == $this->item['create_id']))
+				return TRUE;
+
+			// if container is owned it's ok too
+			if(isset($this->item['anchor'])) {
+
+				// save requests
+				if(!isset($this->anchor) || !$this->anchor)
+					$this->anchor =& Anchors::get($this->item['anchor']);
+
+				if(is_object($this->anchor) && $this->anchor->is_owned($user_id))
+					return TRUE;
+
+			}
+		}
+		
+		// sorry
+		return FALSE;
+	}
 
 	/**
 	 * determine if public access is allowed to the anchor

@@ -74,12 +74,12 @@ $context['page_title'] = i18n::s('Feed test');
 
 // back to the server record
 if($item['id'])
-	$context['page_menu'] = array_merge($context['page_menu'], array( Servers::get_url($item['id']) => i18n::s('Back to server profile') ));
+	$context['page_menu'] += array( Servers::get_url($item['id']) => i18n::s('Back to server profile') );
 
 // commands for associates
 if(Surfer::is_associate()) {
-	$context['page_menu'] = array_merge($context['page_menu'], array( Servers::get_url($id, 'edit') => i18n::s('Edit') ));
-	$context['page_menu'] = array_merge($context['page_menu'], array( Servers::get_url($id, 'delete') => i18n::s('Delete') ));
+	$context['page_menu'] += array( Servers::get_url($id, 'edit') => i18n::s('Edit') );
+	$context['page_menu'] += array( Servers::get_url($id, 'delete') => i18n::s('Delete') );
 }
 
 // stop crawlers

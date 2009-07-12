@@ -268,8 +268,8 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 		// count the number of files in this article
 		if($count = Files::count_for_anchor('article:'.$item['id'])) {
-			if($count > FILES_PER_PAGE)
-				$box['bar'] = array_merge($box['bar'], array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count)));
+			if($count > 5)
+				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 			// list files by date (default) or by title (option files_by_title)
 			include_once $context['path_to_root'].'files/files.php';
@@ -282,12 +282,12 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 			// navigation commands for files
 			$prefix = Articles::get_url($item['id'], 'navigate', 'files');
-			$box['bar'] = array_merge($box['bar'], Skin::navigate($url, $prefix, $count, FILES_PER_PAGE, 0));
+			$box['bar'] += Skin::navigate($url, $prefix, $count, FILES_PER_PAGE, 0);
 
 			// the command to post a new file, if allowed
 			if(Files::are_allowed($anchor, $item)) {
 				$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-				$box['bar'] = array_merge($box['bar'], array( $link => i18n::s('Upload a file') ));
+				$box['bar'] += array( $link => i18n::s('Upload a file') );
 			}
 
 			if(is_array($box['bar']) && ($context['skin_variant'] != 'mobile'))
@@ -308,7 +308,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		// discuss this page, if the index page can be commented, and comments are accepted at the article level
 		include_once $context['path_to_root'].'comments/comments.php';
 		if(Comments::are_allowed($anchor, $item))
-			$menu = array_merge($menu, array(Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Add a comment')));
+			$menu = array_merge($menu, array(Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Post a comment')));
 
 		// info on related comments
 		if($count = Comments::count_for_anchor('article:'.$item['id']))

@@ -522,10 +522,10 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['classes_for_thumbnail_images']) || !$context['classes_for_thumbnail_images'])
 		$context['classes_for_thumbnail_images'] = '';
 	$label = i18n::s('Styles');
-	$input = i18n::s('Avatars').'&nbsp;<input type="text" name="classes_for_avatar_images" size="10" value="'.encode_field($context['classes_for_avatar_images']).'" maxlength="255" />'
-		.' '.i18n::s('Icons').'&nbsp;<input type="text" name="classes_for_icon_images" size="10" value="'.encode_field($context['classes_for_icon_images']).'" maxlength="255" />'
-		.' '.i18n::s('Large').'&nbsp;<input type="text" name="classes_for_large_images" size="10" value="'.encode_field($context['classes_for_large_images']).'" maxlength="255" />'
-		.' '.i18n::s('Small').'&nbsp;<input type="text" name="classes_for_thumbnail_images" size="10" value="'.encode_field($context['classes_for_thumbnail_images']).'" maxlength="255" />';
+	$input = i18n::s('Avatars').'&nbsp;<input type="text" name="classes_for_avatar_images" size="15" value="'.encode_field($context['classes_for_avatar_images']).'" maxlength="255" />'
+		.' '.i18n::s('Icons').'&nbsp;<input type="text" name="classes_for_icon_images" size="15" value="'.encode_field($context['classes_for_icon_images']).'" maxlength="255" />'
+		.' '.i18n::s('Large').'&nbsp;<input type="text" name="classes_for_large_images" size="15" value="'.encode_field($context['classes_for_large_images']).'" maxlength="255" />'
+		.' '.i18n::s('Thumbnail').'&nbsp;<input type="text" name="classes_for_thumbnail_images" size="15" value="'.encode_field($context['classes_for_thumbnail_images']).'" maxlength="255" />';
 	$hint = i18n::s('Additional CSS classes to be used by Yacs. Example: "reflect"');
 	$fields[] = array($label, $input, $hint);
 

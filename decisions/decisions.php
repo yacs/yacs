@@ -556,7 +556,7 @@ Class Decisions {
 
 		// check the target action
 		if(!preg_match('/^(delete|edit|view)$/', $action))
-			$action = 'view';
+			return 'decisions/'.$action.'.php?id='.urlencode($id);
 
 		// normalize the link
 		return normalize_url(array('decisions', 'decision'), $action, $id);

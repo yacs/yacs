@@ -110,22 +110,22 @@ $context['extra']['contextual'] = Skin::build_box(i18n::s('contextual menu'), $t
 $context['page_author'] = 'webmaestro, through some PHP script';
 
 // back to skin index
-$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/' => i18n::s('Themes') ));
+$context['page_menu'] += array( 'skins/' => i18n::s('Themes') );
 
 // edit this skin
 if(isset($skin) && Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'skins/edit.php?skin='.$skin => i18n::s('Edit this theme') ));
+	$context['page_menu'] += array( 'skins/edit.php?skin='.$skin => i18n::s('Edit this theme') );
 
 // validate at w3c
-$context['page_menu'] = array_merge($context['page_menu'], array( 'http://validator.w3.org/check?uri=referer' => array('', i18n::s('Validate at w3c'), '', 'span') ));
+$context['page_menu'] += array( 'http://validator.w3.org/check?uri=referer' => array('', i18n::s('Validate at w3c'), '', 'span') );
 
 // use this skin for the site
 if(isset($skin) && Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array('control/configure.php?parameter=skin&amp;value=skins/'.$skin => i18n::s('Use this theme')));
+	$context['page_menu'] += array('control/configure.php?parameter=skin&amp;value=skins/'.$skin => i18n::s('Use this theme'));
 
 // derive this skin
 if(isset($skin) && Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array('skins/derive.php?skin='.$skin => i18n::s('Derive this theme')));
+	$context['page_menu'] += array('skins/derive.php?skin='.$skin => i18n::s('Derive this theme'));
 
 // $context['page_publisher'] - the publisher
 $context['page_publisher'] = 'webmaestro again, still through some PHP script';

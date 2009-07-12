@@ -1258,6 +1258,10 @@ var Yacs = {
 
 	},
 
+	grow_panel: function(handle) {
+		Element.setStyle(handle, {height: '10em'});
+	},
+	
 	/**
 	 * slide a panel
 	 *

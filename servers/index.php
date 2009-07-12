@@ -60,7 +60,7 @@ $context['page_title'] = i18n::s('Servers');
 // count servers in the database
 $stats = Servers::stat();
 if($stats['count'])
-	$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d server', '%d servers', $stats['count']), $stats['count'])));
+	$context['page_menu'] += array('_count' => sprintf(i18n::ns('%d server', '%d servers', $stats['count']), $stats['count']));
 
 // stop hackers
 if(($page > 1) && (($page - 1) * SERVERS_PER_PAGE > $stats['count'])) {
@@ -78,7 +78,7 @@ if(($page > 1) && (($page - 1) * SERVERS_PER_PAGE > $stats['count'])) {
 			$prefix = $home;
 		else
 			$prefix = $home.'?page=';
-		$context['page_menu'] = array_merge($context['page_menu'], Skin::navigate($home, $prefix, $stats['count'], SERVERS_PER_PAGE, $page));
+		$context['page_menu'] += Skin::navigate($home, $prefix, $stats['count'], SERVERS_PER_PAGE, $page);
 	}
 	
 	// seek the database

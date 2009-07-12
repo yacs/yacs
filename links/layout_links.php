@@ -37,6 +37,10 @@ Class Layout_links extends Layout_interface {
 		if(!SQL::count($result))
 			return $items;
 
+		// sanity check
+		if(!isset($this->layout_variant))
+			$this->layout_variant = 'no_anchor';
+
 		// flag links updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
@@ -60,17 +64,6 @@ Class Layout_links extends Layout_interface {
 			if($item['hits'] > 1)
 				$suffix .= ' ('.Skin::build_number($item['hits'], i18n::s('clicks')).') ';
 
-			// description
-			if($item['description'])
-				$suffix .= ' '.Codes::beautify($item['description']);
-
-			// the menu bar for associates and poster
-			if(Surfer::is_empowered() || Surfer::is($item['edit_id'])) {
-				$menu = array( 'links/edit.php?id='.$item['id'] => i18n::s('Edit'),
-					'links/delete.php?id='.$item['id'] => i18n::s('Delete') );
-				$suffix .= ' '.Skin::build_list($menu, 'menu');
-			}
-
 			// add a separator
 			if($suffix)
 				$suffix = ' - '.$suffix;
@@ -79,25 +72,35 @@ Class Layout_links extends Layout_interface {
 			$details = array();
 
 			// item poster
-			if($variant != 'no_author') {
+			if($this->layout_variant != 'no_author') {
 				if($item['edit_name'])
 					$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 			}
 
 			// show an anchor link
-			if(($variant != 'no_anchor') && ($variant != 'no_author') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
+			if(($this->layout_variant != 'no_anchor') && ($this->layout_variant != 'no_author') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
 				$anchor_url = $anchor->get_url();
 				$anchor_label = ucfirst($anchor->get_title());
-				$details[] = ' '.sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));
+				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));
+			}
+
+			// the menu bar for associates and poster
+			if(Surfer::is_empowered() || Surfer::is($item['edit_id'])) {
+				$details[] = Skin::build_link('links/edit.php?id='.$item['id'], i18n::s('edit'), 'span');
+				$details[] = Skin::build_link('links/delete.php?id='.$item['id'], i18n::s('delete'), 'span');
 			}
 
 			// append details to the suffix
 			if(count($details))
-				$suffix .= BR.'<span class="details">'.ucfirst(implode(', ', $details)).'</span>'."\n";
+				$suffix .= BR.Skin::finalize_list($details, 'menu');
+
+			// description
+			if($item['description'])
+				$suffix .= BR.Codes::beautify($item['description']);
 
 			// build the actual link to check it
-			if($variant == 'review')
+			if($this->layout_variant == 'review')
 				$icon = $item['link_url'];
 
 			// url is the link itself -- hack for xhtml compliance
@@ -105,10 +108,10 @@ Class Layout_links extends Layout_interface {
 
 			// let the rendering engine guess the type of link
 			$link_type = NULL;
-
+			
 			// except if we want to stay within this window
-			if(isset($item['link_target']) && ($item['link_target'] == 'I'))
-				$link_type = 'internal';
+			if(isset($item['link_target']) && ($item['link_target'] != 'I'))
+				$link_type = 'external';
 
 			// hovering title
 			$link_title = NULL;

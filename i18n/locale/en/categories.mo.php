@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:51 pm GMT. Please do not modify it manually.
+ * on July 5, 2009, 9:10 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2009-05-14 23:18+0100
+POT-Creation-Date: 2009-07-03 00:19+0200
+PO-Revision-Date: 2009-07-03 00:21+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -36,7 +36,6 @@ $_SESSION['l10n']['en']['A message has been sent to:']='A message has been sent 
 $_SESSION['l10n']['en']['21c58f77450af6e7fc86a17ada969ac2']='Access is restricted to associates';
 $_SESSION['l10n']['en']['71591a943ab0ff1e925f29270c9a6568']='Access is restricted to authenticated members';
 $_SESSION['l10n']['en']['Add a category']='Add a category';
-$_SESSION['l10n']['en']['Add a comment']='Add a comment';
 $_SESSION['l10n']['en']['Add a link']='Add a link';
 $_SESSION['l10n']['en']['Add an image']='Add an image';
 $_SESSION['l10n']['en']['Add page icon']='Add page icon';
@@ -99,7 +98,6 @@ $_SESSION['l10n']['en']['Images']='Images';
 $_SESSION['l10n']['en']['173cbab1842331c3e4fbf99b25f42e56']='Impossible to update the anchor.';
 $_SESSION['l10n']['en']['Impossible to update the item.']='Impossible to update the item.';
 $_SESSION['l10n']['en']['Index page']='Index page';
-$_SESSION['l10n']['en']['Information channels']='Information channels';
 $_SESSION['l10n']['en']['Internal search']='Internal search';
 $_SESSION['l10n']['en']['Introduction']='Introduction';
 $_SESSION['l10n']['en']['894fd4ae572fb027d0edd31e2e9d915c']='Is displayed at the front page, among other extra boxes';
@@ -121,6 +119,7 @@ $_SESSION['l10n']['en']['076258fa009ea3b6a42ad8ef12aca098']='Maybe some new page
 $_SESSION['l10n']['en']['Message content']='Message content';
 $_SESSION['l10n']['en']['45b0a300ae44fcf8ec94980438933ae9']='Message content can not be empty';
 $_SESSION['l10n']['en']['Message title']='Message title';
+$_SESSION['l10n']['en']['Monitor']='Monitor';
 $_SESSION['l10n']['en']['More']='More';
 $_SESSION['l10n']['en']['More content']='More content';
 $_SESSION['l10n']['en']['More options']='More options';
@@ -145,6 +144,7 @@ $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a me
 $_SESSION['l10n']['en']['1e15bcb69dd742712c3a2af4431b476e']='Please review the new page carefully and fix possible errors rapidly.';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $_SESSION['l10n']['en']['Popular']='Popular';
+$_SESSION['l10n']['en']['Post a comment']='Post a comment';
 $_SESSION['l10n']['en']['Prefix']='Prefix';
 $_SESSION['l10n']['en']['Press [e] to edit']='Press [e] to edit';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';

@@ -118,12 +118,11 @@ if(!is_object($anchor)) {
 
 	// a navigation bar for these files
 	if($count = Files::count_for_anchor($anchor->get_reference())) {
-		$context['page_menu'] = array_merge($context['page_menu'], array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count)));
+		$context['page_menu'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 		// navigation commands for files
 		$prefix = Files::get_url($anchor->get_reference(), 'navigate');
-		$context['page_menu'] = array_merge($context['page_menu'],
-			Skin::navigate($anchor->get_url('discuss'), $prefix, $count, $items_per_page, $page, FALSE));
+		$context['page_menu'] += Skin::navigate($anchor->get_url('files'), $prefix, $count, $items_per_page, $page, FALSE);
 
 		// list files by date or by title
 		if($anchor->has_option('files_by_title'))
@@ -160,10 +159,8 @@ if(!is_object($anchor)) {
 	//
 
 	// the command to post a new file, if this is allowed
-	if(Files::are_allowed($anchor)) {
-		Skin::define_img('NEW_FILE_IMG', 'icons/files/new.gif');
-		$context['page_tools'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), NEW_FILE_IMG.' '.i18n::s('Upload a file'));
-	}
+	if(Files::are_allowed($anchor))
+		$context['page_tools'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), i18n::s('Upload a file'));
 
 	// back to main page
 	$context['page_tools'][] = Skin::build_link($anchor->get_url(), i18n::s('Back to main page'));

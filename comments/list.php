@@ -106,14 +106,6 @@ if(is_object($anchor) && $anchor->is_viewable()) {
 } else
 	$context['page_title'] = i18n::s('Comments');
 
-// command to go back
-if(is_object($anchor) && $anchor->is_viewable()) {
-	if($anchor->has_layout('alistapart'))
-		$context['page_menu'] = array( $anchor->get_url('parent') => i18n::s('Back to main page') );
-	else
-		$context['page_menu'] = array( $anchor->get_url() => i18n::s('Back to main page') );
-}
-
 // an anchor is mandatory
 if(!is_object($anchor)) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -166,6 +158,11 @@ if(!is_object($anchor)) {
 		if(is_object($layout) && method_exists($layout, 'set_offset'))
 			$layout->set_offset($offset);
 
+		// reverse order
+		$reverted = FALSE;
+		if(is_object($anchor) && $anchor->has_option('comments_as_wall'))
+			$reverted = TRUE;
+		
 		// build a complete box
 		$box['bar'] = array();
 		$box['text'] = '';
@@ -174,18 +171,18 @@ if(!is_object($anchor)) {
 		include_once '../comments/comments.php';
 		if($count = Comments::count_for_anchor($anchor->get_reference())) {
 			if($count > 1) {
-				$box['bar'] = array_merge($box['bar'], array('_count' => $count.' '.$anchor->get_label('comments', 'count_many')));
+				$box['bar'] += array('_count' => $count.' '.$anchor->get_label('comments', 'count_many'));
 			} elseif($count == 1) {
-				$box['bar'] = array_merge($box['bar'], array('_count' => '1 '.$anchor->get_label('comments', 'count_one')));
+				$box['bar'] += array('_count' => '1 '.$anchor->get_label('comments', 'count_one'));
 			}
 
 			// navigation commands for comments
 			$prefix = Comments::get_url($anchor->get_reference(), 'navigate');
 			$box['bar'] = array_merge($box['bar'],
-				Skin::navigate($anchor->get_url('discuss'), $prefix, $count, $items_per_page, $page, FALSE));
+				Skin::navigate($anchor->get_url('comments'), $prefix, $count, $items_per_page, $page, FALSE));
 
 			// list comments by date
-			$items = Comments::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, $layout);
+			$items = Comments::list_by_date_for_anchor($anchor->get_reference(), $offset, $items_per_page, $layout, $reverted);
 
 			// actually render the html
 			if(is_array($items))
@@ -197,9 +194,9 @@ if(!is_object($anchor)) {
 
 		// the command to post a new comment, if this is allowed
 		if(Comments::are_allowed($anchor)) {
-			Skin::define_img('NEW_COMMENT_IMG', 'icons/comments/new.gif');
+			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.png');
 			$box['bar'] = array_merge($box['bar'],
-				array( Comments::get_url($anchor->get_reference(), 'comment') => NEW_COMMENT_IMG.' '.$anchor->get_label('comments', 'new_command') ));
+				array( Comments::get_url($anchor->get_reference(), 'comment') => COMMENTS_ADD_IMG.$anchor->get_label('comments', 'new_command') ));
 		}
 
 		// show commands
@@ -212,7 +209,7 @@ if(!is_object($anchor)) {
 			// shortcut to last comment in page
 			if(is_object($layout) && ($count > 3)) {
 
-				$box['bar'] = array_merge($box['bar'], array('#last_comment' => i18n::s('Page bottom')));
+				$box['bar'] += array('#last_comment' => i18n::s('Page bottom'));
 
 				$box['text'] .= '<span id="last_comment" />';
 			}
@@ -230,6 +227,16 @@ if(!is_object($anchor)) {
 		Cache::put($cache_id, $text, 'comments');
 	}
 	$context['text'] .= $text;
+
+	// command to go back
+	if(is_object($anchor) && $anchor->is_viewable()) {
+		$menu = array();
+		if($anchor->has_layout('alistapart'))
+			$menu[] = Skin::build_link( $anchor->get_url('parent'), i18n::s('Done'), 'button' );
+		else
+			$menu[] = Skin::build_link( $anchor->get_url(), i18n::s('Done'), 'button' );
+		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
+	}
 
 	// insert anchor suffix
 	if(is_object($anchor))

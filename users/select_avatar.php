@@ -28,6 +28,12 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../images/images.php';
+
+// the maximum size for uploads
+$image_maximum_size = str_replace('M', '000000', Safe::get_cfg_var('upload_max_filesize'));
+if((!$image_maximum_size) || $image_maximum_size > 20000000)
+	$image_maximum_size = 2000000;
 
 // look for the id
 $id = NULL;
@@ -64,10 +70,6 @@ $context['path_bar'] = array( 'users/' => i18n::s('People') );
 if(isset($item['nick_name']))
 	$context['page_title'] = sprintf(i18n::s('Select an avatar for %s'), $item['nick_name']);
 
-// command to go back
-if(isset($item['id']))
-	$context['page_menu'] = array( Users::get_url($item['id'], 'view', $item['nick_name']) => sprintf(i18n::s('Back to %s'), $item['nick_name']) );
-
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
@@ -103,79 +105,104 @@ elseif(!isset($item['id'])) {
 // the current avatar, if any
 if(isset($item['avatar_url']) && $item['avatar_url'])
 	$context['text'] .= '<p>'.sprintf(i18n::s('Current avatar: %s'), BR.'<img src="'.$item['avatar_url'].'" alt="avatar" style="avatar" />').'</p>'."\n";
+else
+	$context['text'] .= '<p>'.i18n::s('No avatar has been set for your profile.').'</p>';
 
 // list available avatars, except on error
-if(!count($context['error'])) {
+if(!count($context['error']) && isset($item['id'])) {
 
-	// save on network queries to gravatar.com
-	$cache_id = 'users/select_avatar.php?id='.$item['id'].'#gravatar';
-	if(!$text =& Cache::get($cache_id)) {
+	// upload an image
+	//
+	if(Images::are_allowed(NULL, $item)) {
+	
+		// the form to post an image
+		$text = '<form method="post" enctype="multipart/form-data" action="'.$context['url_to_root'].'images/edit.php" id="main_form"><div>'
+			.'<input type="hidden" name="anchor" value="user:'.$item['id'].'" />'
+			.'<input type="hidden" name="action" value="set_as_avatar" />';
+			
+		$fields = array();
+		
+		// the image
+		$text .= '<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'" />';
+		$text .= ' '.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+		$text .= BR.'<span class="details">'.i18n::s('Please select a .png, .gif or .jpeg image.').' (&lt;&nbsp;'.Skin::build_number($image_maximum_size, i18n::s('bytes')).')</span>';
+		
+		// end of the form
+		$text .= '</div></form>';
+	
+		// the script used for form handling at the browser
+		$text .= JS_PREFIX
+			.'// set the focus on first form field'."\n"
+			.'$("upload").focus();'."\n"
+			.JS_SUFFIX."\n";
 
-		// display the current gravatar, if any
-		if(isset($item['email']) && $item['email']) {
 
-			// the gravatar url
-			$url = 'http://www.gravatar.com/avatar.php?gravatar_id='.md5($item['email']);
+		$context['text'] .= Skin::build_content(NULL, i18n::s('Upload an image'), $text);
+	}
+	
+	// use the library
+	//
+	
+	// where images are
+	$path = 'skins/images/avatars';
 
-			// it is already in use
-			if(isset($item['avatar_url']) && ($url == $item['avatar_url']))
-				$text .= '<p>'.sprintf(i18n::s('Your are using your %s as current avatar.'), Skin::build_link('http://www.gravatar.com/', i18n::s('gravatar'), 'external')).'</p>'."\n";
+	// browse the path to list directories and files
+	if($dir = Safe::opendir($context['path_to_root'].$path)) {
+		$text = '';
 
-			// show it
-			else
-				$text .= '<p>'.sprintf(i18n::s('I have a %s and %s'), Skin::build_link('http://www.gravatar.com/', i18n::s('gravatar'), 'external'), '<a href="'.$context['url_to_root'].'users/select_avatar.php?id='.$id.'&avatar='.urlencode($url).'">'.i18n::s('would like to use it').'</a>')
-					.'</p>'."\n";
+		if(Surfer::may_upload())
+			$text .= '<p>'.i18n::s('Click on one image below to make it your new avatar.').'</p>'."\n";
+
+		// build the lists
+		while(($image = Safe::readdir($dir)) !== FALSE) {
+
+			// skip some files
+			if($image[0] == '.')
+				continue;
+
+			if(is_dir($context['path_to_root'].$path.'/'.$image))
+				continue;
+
+			// consider only images
+			if(!preg_match('/(\.gif|\.jpeg|\.jpg|\.png)$/i', $image))
+				continue;
+
+			// make clickable images
+			$text .= ' <a href="'.$context['url_to_root'].'users/select_avatar.php?id='.$id.'&avatar='.urlencode($context['url_to_root'].$path.'/'.$image).'">'
+				.'<img src="'.$context['url_to_root'].$path.'/'.$image.'" alt="'.$image.'" style="padding: 4px 4px 4px 4px;" /></a> ';
 
 		}
-
-		// put in cache
-		Cache::put($cache_id, $text, 'user:'.$item['id']);
+		Safe::closedir($dir);
 	}
-	$context['text'] .= $text;
+	
+	if($text)
+		$context['text'] .= Skin::build_content(NULL, i18n::s('Use the library'), $text);
 
-	// save on directory browsing
-	$cache_id = 'users/select_avatar.php?id='.$item['id'].'#library';
-	if(!$text =& Cache::get($cache_id)) {
+	// display the current gravatar, if any
+	if(isset($item['email']) && $item['email']) {
+		$text = '';
 
-		// where images are
-		$path = 'skins/images/avatars';
+		// the gravatar url
+		$url = 'http://www.gravatar.com/avatar.php?gravatar_id='.md5($item['email']);
 
-		// browse the path to list directories and files
-		if(!$dir = Safe::opendir($context['path_to_root'].$path))
-			Logger::error(sprintf(i18n::s('The directory %s does not exist.'), $path));
+		// it is already in use
+		if(isset($item['avatar_url']) && ($url == $item['avatar_url']))
+			$text .= '<p>'.sprintf(i18n::s('Your are using your %s as current avatar.'), Skin::build_link('http://www.gravatar.com/', i18n::s('gravatar'), 'external')).'</p>'."\n";
 
-		// list images
-		else {
+		// show it
+		else
+			$text .= '<p>'.sprintf(i18n::s('I have a %s and %s'), Skin::build_link('http://www.gravatar.com/', i18n::s('gravatar'), 'external'), '<a href="'.$context['url_to_root'].'users/select_avatar.php?id='.$id.'&avatar='.urlencode($url).'">'.i18n::s('would like to use it').'</a>')
+				.'</p>'."\n";
 
-			if(Surfer::may_upload())
-				$text .= '<p>'.sprintf(i18n::s('Click on one image below to make it your new avatar. Instead of using the library you may prefer to %s.'), Skin::build_link('images/edit.php?anchor=user:'.$item['id'].'&amp;action=avatar', i18n::s('upload your own avatar'), 'shortcut')).'</p>'."\n";
-
-			// build the lists
-			while(($item = Safe::readdir($dir)) !== FALSE) {
-
-				// skip some files
-				if($item[0] == '.')
-					continue;
-
-				if(is_dir($context['path_to_root'].$path.'/'.$item))
-					continue;
-
-				// consider only images
-				if(!preg_match('/(\.gif|\.jpeg|\.jpg|\.png)$/i', $item))
-					continue;
-
-				// make clickable images
-				$text .= ' <a href="'.$context['url_to_root'].'users/select_avatar.php?id='.$id.'&avatar='.urlencode($context['url_to_root'].$path.'/'.$item).'">'
-					.'<img src="'.$context['url_to_root'].$path.'/'.$item.'" alt="'.$item.'" style="padding: 4px 4px 4px 4px;" /></a> ';
-
-			}
-			Safe::closedir($dir);
-		}
-
-		// put in cache for one hour
-		Cache::put($cache_id, $text, 'path:'.$path, 3600);
+		$context['text'] .= Skin::build_content(NULL, i18n::s('Use a gravatar'), $text);
 	}
-	$context['text'] .= $text;
+
+	//
+	// bottom commands
+	//
+	$menu = array();
+	$menu[] = Skin::build_link(Users::get_url($item['id'], 'view', $item['nick_name']), i18n::s('Done'), 'button');
+	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 }
 

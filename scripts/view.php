@@ -91,15 +91,15 @@ if(!$script) {
 	if(($script != 'todo') && ($script != 'authors') && ($script != 'testers') && ($script != 'licenses')) {
 
 		// browsing is safe
-		$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url($script, 'browse') => i18n::s('Browse the source of this script') ));
+		$context['page_menu'] += array( Scripts::get_url($script, 'browse') => i18n::s('Browse the source of this script') );
 
 		// protect from spammers and robots
 		if(Surfer::is_logged())
-			$context['page_menu'] = array_merge($context['page_menu'], array( Scripts::get_url($script, 'fetch') => i18n::s('Fetch the script file') ));
+			$context['page_menu'] += array( Scripts::get_url($script, 'fetch') => i18n::s('Fetch the script file') );
 	}
 
 	// back to the index
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'scripts/' => i18n::s('Server software') ));
+	$context['page_menu'] += array( 'scripts/' => i18n::s('Server software') );
 }
 
 // render the skin

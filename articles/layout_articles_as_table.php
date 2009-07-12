@@ -121,8 +121,10 @@ Class Layout_articles_as_table extends Layout_interface {
 				$details[] = LINK_TOOL_IMG.' '.sprintf(i18n::ns('%d link', '%d links', $count), $count);
 
 			// comments
-			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), COMMENT_TOOL_IMG.' '.sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
+			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE)) {
+				Skin::define_img('COMMENTS_LIST_IMG', 'comments/list.png');
+				$details[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), COMMENTS_LIST_IMG.sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
+			}
 
 			// describe attachments
 			if(count($details))

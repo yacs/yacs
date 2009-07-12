@@ -17,7 +17,7 @@
  * - associates and editors are allowed to move forward
  * - permission is denied if the anchor is not viewable
  * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y' or 'X')
+ * - public access is allowed ('active' field == 'Y')
  * - permission denied is the default
  *
  * Moreover, detach operations require the surfer to be an authenticated member.
@@ -115,7 +115,7 @@ elseif(($item['active'] == 'R') && Surfer::is_empowered('M'))
 	$permitted = TRUE;
 
 // public access is allowed
-elseif(($item['active'] == 'Y') || ($item['active'] == 'X'))
+elseif($item['active'] == 'Y')
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -167,7 +167,7 @@ if(!isset($item['id']) || !$item['id']) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')) {
 
 	// file has to be mapped locally
-	if((isset($item['file_href']) && $item['file_href']) || (isset($item['active']) && ($item['active'] == 'X'))) {
+	if(isset($item['file_href']) && $item['file_href']) {
 		Safe::header('412 Precondition Failed');
 		Logger::error('Cannot read file locally');
 
@@ -189,7 +189,7 @@ if(!isset($item['id']) || !$item['id']) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'PUT')) {
 
 	// file has to be mapped locally
-	if((isset($item['file_href']) && $item['file_href']) || (isset($item['active']) && ($item['active'] == 'X'))) {
+	if(isset($item['file_href']) && $item['file_href']) {
 		Safe::header('412 Precondition Failed');
 		Logger::error('Cannot read file locally');
 
@@ -381,99 +381,91 @@ if(!isset($item['id']) || !$item['id']) {
 		// file attributes
 		$attributes = array();
 
-		// map the file on the ftp server
-		if($item['active'] == 'X') {
-			Safe::load('parameters/files.include.php');
-			$url_prefix = str_replace('//', '/', $context['files_url'].'/');
+		// map the file on the regular web space
+		$url_prefix = $context['url_to_home'].$context['url_to_root'];
 
-		// or map the file on the regular web space
-		} else {
-			$url_prefix = $context['url_to_home'].$context['url_to_root'];
+		// maybe we will pass the file through
+		if(!headers_sent() && ($handle = Safe::fopen($context['path_to_root'].$path, "rb")) && ($stat = Safe::fstat($handle))) {
 
-			// maybe we will pass the file through
-			if(!headers_sent() && ($handle = Safe::fopen($context['path_to_root'].$path, "rb")) && ($stat = Safe::fstat($handle))) {
+			// serve the right type
+			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name']));
 
-				// serve the right type
-				Safe::header('Content-Type: '.Files::get_mime_type($item['file_name']));
+			// suggest a name for the saved file
+			$file_name = str_replace('_', ' ', utf8::to_ascii($item['file_name']));
+			Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
 
-				// suggest a name for the saved file
-				$file_name = str_replace('_', ' ', utf8::to_ascii($item['file_name']));
-				Safe::header('Content-Disposition: attachment; filename="'.$file_name.'"');
+			// stream FLV files if required to do so
+			if((substr($item['file_name'], -4) == '.flv') && isset($_REQUEST['position']) && ($_REQUEST['position'] > 0) && ($_REQUEST['position'] < $stat['size'])) {
+				Safe::header('Content-Length: '.($stat['size']-$_REQUEST['position']+13));
 
-				// stream FLV files if required to do so
- 				if((substr($item['file_name'], -4) == '.flv') && isset($_REQUEST['position']) && ($_REQUEST['position'] > 0) && ($_REQUEST['position'] < $stat['size'])) {
- 					Safe::header('Content-Length: '.($stat['size']-$_REQUEST['position']+13));
- 
- 					echo 'FLV'.pack('C', 1).pack('C', 1).pack('N', 9).pack('N', 9);
- 					fseek($handle, $_REQUEST['position']);
- 					echo fread($handle, ($stat['size']-$_REQUEST['position']));
- 					fclose($handle);
- 					return;
- 				}
-
-				// file size
-				Safe::header('Content-Length: '.$stat['size']);
-
-				// load some file parser if one is available
-				$analyzer = NULL;
-				if(is_readable($context['path_to_root'].'included/getid3/getid3.php')) {
-					include_once $context['path_to_root'].'included/getid3/getid3.php';
-					$analyzer =& new getid3();
-				}
-
-				// parse file content, and streamline information
-				$data = array();
-				if(is_object($analyzer)) {
-					$data = $analyzer->analyze($context['path_to_root'].$path);
-					getid3_lib::CopyTagsToComments($data);
-				}
-
-				// specific to audio files
-				if(isset($data['mime_type']) && preg_match('%audio/(basic|mpeg|x-aiff|x-wave)%i', $data['mime_type'])) {
-
-					// specific to Winamp
-					Safe::header("icy-notice1: this requires winamp<BR>");
-					Safe::header("icy-notice2: provided by a YACS server<BR>");
-					Safe::header("icy-pub: 1");
-
-					// name
-					$name = array();
-					if($value = implode(' & ', @$data['comments_html']['artist']))
-						$name[] = $value;
-					if($value = implode(', ', @$data['comments_html']['title']))
-						$name[] = $value;
-					if($name = implode(' - ', $name))
-					Safe::header("icy-name: ".utf8::to_iso8859(utf8::transcode($name)));
-
-					// genre
-					if($value = implode(', ', @$data['comments_html']['genre']))
-						Safe::header("icy-genre: ".utf8::to_iso8859(utf8::transcode($value)));
-
-					// audio bitrate
-					if($value = @$data['audio']['bitrate'])
-						Safe::header("icy-br: ".substr($value, 0, -3));
-
-					// this server
-					Safe::header("icy-url: ".$context['url_to_home'].$context['url_to_root']);
-
-				}
-
-				// weak validator
-				$last_modified = gmdate('D, d M Y H:i:s', $stat['mtime']).' GMT';
-
-				// validate content in cache
-				if(http::validate($last_modified))
-					return;
-
-				// actual transmission except on a HEAD request
-				if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
-					fpassthru($handle);
+				echo 'FLV'.pack('C', 1).pack('C', 1).pack('N', 9).pack('N', 9);
+				fseek($handle, $_REQUEST['position']);
+				echo fread($handle, ($stat['size']-$_REQUEST['position']));
 				fclose($handle);
+				return;
+			}
 
-				// the post-processing hook, then exit
-				finalize_page(TRUE);
+			// file size
+			Safe::header('Content-Length: '.$stat['size']);
+
+			// load some file parser if one is available
+			$analyzer = NULL;
+			if(is_readable($context['path_to_root'].'included/getid3/getid3.php')) {
+				include_once $context['path_to_root'].'included/getid3/getid3.php';
+				$analyzer =& new getid3();
+			}
+
+			// parse file content, and streamline information
+			$data = array();
+			if(is_object($analyzer)) {
+				$data = $analyzer->analyze($context['path_to_root'].$path);
+				getid3_lib::CopyTagsToComments($data);
+			}
+
+			// specific to audio files
+			if(isset($data['mime_type']) && preg_match('%audio/(basic|mpeg|x-aiff|x-wave)%i', $data['mime_type'])) {
+
+				// specific to Winamp
+				Safe::header("icy-notice1: this requires winamp<BR>");
+				Safe::header("icy-notice2: provided by a YACS server<BR>");
+				Safe::header("icy-pub: 1");
+
+				// name
+				$name = array();
+				if($value = implode(' & ', @$data['comments_html']['artist']))
+					$name[] = $value;
+				if($value = implode(', ', @$data['comments_html']['title']))
+					$name[] = $value;
+				if($name = implode(' - ', $name))
+				Safe::header("icy-name: ".utf8::to_iso8859(utf8::transcode($name)));
+
+				// genre
+				if($value = implode(', ', @$data['comments_html']['genre']))
+					Safe::header("icy-genre: ".utf8::to_iso8859(utf8::transcode($value)));
+
+				// audio bitrate
+				if($value = @$data['audio']['bitrate'])
+					Safe::header("icy-br: ".substr($value, 0, -3));
+
+				// this server
+				Safe::header("icy-url: ".$context['url_to_home'].$context['url_to_root']);
 
 			}
+
+			// weak validator
+			$last_modified = gmdate('D, d M Y H:i:s', $stat['mtime']).' GMT';
+
+			// validate content in cache
+			if(http::validate($last_modified))
+				return;
+
+			// actual transmission except on a HEAD request
+			if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
+				fpassthru($handle);
+			fclose($handle);
+
+			// the post-processing hook, then exit
+			finalize_page(TRUE);
 
 		}
 

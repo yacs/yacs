@@ -100,18 +100,18 @@ else
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url() => i18n::s('Back to main page') ));
+	$context['page_menu'] += array( $anchor->get_url() => i18n::s('Back to main page') );
 
 // the edit command is available to associates, editors, and poster
 if($item['id'] && (Surfer::is_associate()
 	|| (is_object($anchor) && $anchor->is_editable())
 	|| Surfer::is($item['edit_id']))) {
-	$context['page_menu'] = array_merge($context['page_menu'], array( Images::get_url($item['id'], 'edit') => i18n::s('Update') ));
+	$context['page_menu'] += array( Images::get_url($item['id'], 'edit') => i18n::s('Update') );
 }
 
 // the delete command is available to associates and editors
 if($item['id'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())))
-	$context['page_menu'] = array_merge($context['page_menu'], array( Images::get_url($item['id'], 'delete') => i18n::s('Delete') ));
+	$context['page_menu'] += array( Images::get_url($item['id'], 'delete') => i18n::s('Delete') );
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {

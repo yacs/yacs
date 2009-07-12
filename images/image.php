@@ -226,6 +226,10 @@ Class Image {
 
 		}
 
+		// create target folder for the thumbnail
+		if($target_path = dirname($target))
+			Safe::make_path($target_path);
+
 		// we already have a small image
 		if(($thumbnail_width == $width) && ($thumbnail_height == $height)) {
 
@@ -280,6 +284,80 @@ Class Image {
 		// job done
 		ImageDestroy($thumbnail);
 		return TRUE;
+
+	}
+
+	/**
+	 * process one uploaded image
+	 *
+	 * @param string file name
+	 * @param string path to the file
+	 * @return void
+	 */
+	function upload($file_name, $file_path) {
+		global $context, $_REQUEST;
+		
+		// we accept only valid images
+		if(!$image_information = Safe::GetImageSize($file_path.$file_name))
+			Logger::error(sprintf(i18n::s('No image information in %s'), $file_path.$file_name));
+
+		// we accept only gif, jpeg and png
+		elseif(($image_information[2] != 1) && ($image_information[2] != 2) && ($image_information[2] != 3))
+			Logger::error(sprintf(i18n::s('Rejected file type %s'), $file_name));
+
+		// post-upload processing
+		else {
+		
+			// create folders
+			$_REQUEST['thumbnail_name'] = 'thumbs/'.$file_name;
+
+			// derive a thumbnail image
+			if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar'))
+				Image::shrink($file_path.$file_name, $file_path.$_REQUEST['thumbnail_name'], TRUE, TRUE);
+			else
+				Image::shrink($file_path.$file_name, $file_path.$_REQUEST['thumbnail_name'], FALSE, TRUE);
+
+			// always limit the size of avatar images
+			if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar')) {
+				if(Image::adjust($file_path.$file_name, TRUE, 'avatar'))
+					$_REQUEST['image_size'] = Safe::filesize($file_path.$file_name);
+
+			// always limit the size of icon images
+			} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_icon')) {
+				if(Image::adjust($file_path.$file_name, TRUE, 'avatar'))
+					$_REQUEST['image_size'] = Safe::filesize($file_path.$file_name);
+
+			// resize the image where applicable
+			} elseif(isset($_REQUEST['automatic_process'])) {
+				if(Image::adjust($file_path.$file_name, TRUE, 'standard'))
+					$_REQUEST['image_size'] = Safe::filesize($file_path.$file_name);
+
+			}
+
+			// all details
+			$details = array();
+
+			// extract exif information from JPEG files, if any -- BUGGY function !!!
+//			if(($image_information[2] == 2) && is_callable('read_exif_data') && ($attributes = read_exif_data($file_path.$file_name))) {
+//				foreach($attributes as $name => $value) {
+//					if(preg_match('/^(ApertureFNumber|CameraMake|CameraModel|DateTime|ExposureTime|FocalLength|ISOspeed)$/i', $name))
+//						$details[] = $name.': '.$value;
+//				}
+//			}
+
+			// image size
+			if($image_information = Safe::GetImageSize($file_path.$file_name)) {
+				$details[] = sprintf(i18n::c('Size: %s x %s'), $image_information[0], $image_information[1]);
+			}
+
+			// update image description
+			if(!isset($_REQUEST['description']))
+				$_REQUEST['description'] = '';
+			if((@count($details)) || ($_REQUEST['description'] == ''))
+				$_REQUEST['description'] .= "\n\n".'<p class="details">'.implode(BR."\n", $details)."</p>\n";
+				
+			return $file_name;
+		}
 
 	}
 

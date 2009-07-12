@@ -9,6 +9,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../files/files.php';
 include_once 'tables.php';
 
 // load the skin
@@ -197,15 +198,10 @@ elseif(!Surfer::is_associate()) {
 	// encode fields
 	$fields = array();
 
-	// the maximum size for uploads
-	$file_maximum_size = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));
-	if(!$file_maximum_size)
-		$file_maximum_size = '2 M';
-
 	// select a file
 	$label = i18n::s('File');
 	$input = '<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'" />'
-		.' (&lt;&nbsp;'.$file_maximum_size.i18n::s('bytes').')';
+		.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
 	$hint = i18n::s('Please select a CSV file (.csv or .xls)');
 	$fields[] = array($label, $input, $hint);
 

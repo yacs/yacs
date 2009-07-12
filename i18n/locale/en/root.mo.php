@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on July 6, 2009, 3:08 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-14 23:14+0200
-PO-Revision-Date: 2009-05-14 23:28+0100
+POT-Creation-Date: 2009-06-29 01:12+0200
+PO-Revision-Date: 2009-07-03 00:23+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -131,7 +131,6 @@ $_SESSION['l10n']['en']['f874f0a9f41bd4713a043cf3f63fcb96']='Include the list of
 $_SESSION['l10n']['en']['6273e526d97efbe332bef2f6091ae1ab']='Include the list of recent links';
 $_SESSION['l10n']['en']['486e0952e8d6e9039cce30a69fad5e18']='Include the list of servers that ping us';
 $_SESSION['l10n']['en']['d97d2e80e6779e3751e1dc0b2bad7d8a']='Index of %1$s, %2$s, %3$s and %4$s will show you instantaneously the freshest pages and the most read pages on this site. This can be an efficient way for you to reach the information you are looking after.';
-$_SESSION['l10n']['en']['Information channels']='Information channels';
 $_SESSION['l10n']['en']['Introduction']='Introduction';
 $_SESSION['l10n']['en']['b28971569500a82424aab29497bf6c18']='It is likely that we have changed the content of this site without warning you. Thank you for browsing %s and to refresh your bookmark.';
 $_SESSION['l10n']['en']['9b0e80bd74abe00faec2dc3e76113a60']='Let us a chance to know who you are';
@@ -151,6 +150,7 @@ $_SESSION['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields ar
 $_SESSION['l10n']['en']['Matching articles']='Matching articles';
 $_SESSION['l10n']['en']['Matching pages']='Matching pages';
 $_SESSION['l10n']['en']['May change configuration files']='May change configuration files';
+$_SESSION['l10n']['en']['Monitor']='Monitor';
 $_SESSION['l10n']['en']['More links']='More links';
 $_SESSION['l10n']['en']['More pages']='More pages';
 $_SESSION['l10n']['en']['Most HTML tags are removed.']='Most HTML tags are removed.';

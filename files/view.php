@@ -31,7 +31,7 @@
  * - permission is granted if the anchor is the profile of this member
  * - authenticated users may view their own posts
  * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y' or 'X')
+ * - public access is allowed ('active' field == 'Y')
  * - permission denied is the default
  *
  * Accept following invocations:
@@ -98,7 +98,7 @@ elseif(($item['active'] == 'R') && Surfer::is_member())
 	$permitted = TRUE;
 
 // public access is allowed
-elseif(($item['active'] == 'Y') || ($item['active'] == 'X'))
+elseif($item['active'] == 'Y')
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -159,19 +159,19 @@ if(isset($item['id']) && (Surfer::is_empowered() && Surfer::is_logged()) && Vers
 
 // back to the anchor page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array_merge($context['page_menu'], array( $anchor->get_url().'#files' => i18n::s('Back to main page') ));
+	$context['page_menu'] += array( $anchor->get_url().'#files' => i18n::s('Back to main page') );
 
 // edit command, if allowed to do so
 if(isset($item['id']) && $editable)
-	$context['page_menu'] = array_merge($context['page_menu'], array( Files::get_url($item['id'], 'edit') => i18n::s('Update this file') ));
+	$context['page_menu'] += array( Files::get_url($item['id'], 'edit') => i18n::s('Update this file') );
 
 // restore a previous version, if any
 if($has_versions && (Surfer::is_empowered() && Surfer::is_logged()))
-	$context['page_menu'] = array_merge($context['page_menu'], array( Versions::get_url('file:'.$item['id'], 'list') => i18n::s('Versions') ));
+	$context['page_menu'] += array( Versions::get_url('file:'.$item['id'], 'list') => i18n::s('Versions') );
 
 // delete command provided to associates and editors
 if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())))
-	$context['page_menu'] = array_merge($context['page_menu'], array( Files::get_url($item['id'], 'delete') => i18n::s('Delete') ));
+	$context['page_menu'] += array( Files::get_url($item['id'], 'delete') => i18n::s('Delete') );
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
@@ -284,7 +284,7 @@ if(!isset($item['id'])) {
 		$context['text'] .= $anchor->get_prefix();
 
 	// if we have a local file
-	if(($item['active'] != 'X') && (!isset($item['file_href']) || !$item['file_href'])) {
+	if(!isset($item['file_href']) || !$item['file_href']) {
 
 		// where the file is
 		$path = $context['path_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode(utf8::to_ascii($item['file_name']));
@@ -877,10 +877,8 @@ if(!isset($item['id'])) {
 		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('Update this file'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed
-		if(Images::are_allowed($anchor, $item)) {
-			Skin::define_img('IMAGE_TOOL_IMG', 'icons/tools/image.gif');
-			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']), IMAGE_TOOL_IMG.i18n::s('Add an image'), 'basic');
-		}
+		if(Images::are_allowed($anchor, $item))
+			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']), i18n::s('Add an image'), 'basic');
 
 	}
 

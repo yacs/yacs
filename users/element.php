@@ -114,6 +114,7 @@ if(!isset($item['id'])) {
 
 // list actions
 } elseif($action == 'actions') {
+	render_raw();
 
 	// we return some HTML
 	$output = '';
@@ -145,10 +146,17 @@ if(!isset($item['id'])) {
 
 // the watch list
 } elseif($action == 'watch') {
+	render_raw();
 
 	// we return some HTML
 	$output = '';
 
+	// manage command
+	$menu = array();
+	if(Surfer::is_associate() || (Surfer::get_id() == $item['id']))
+		$menu[] = Skin::build_link(Users::get_url('user:'.$item['id'], 'select'), i18n::s('Manage connections'), 'button');
+	$output .= Skin::finalize_list($menu, 'menu_bar');
+	
 	// list watched users by posts
 	if($items =& Members::list_connections_for_user('user:'.$item['id'], 0, 200, 'watch')) {
 		if(is_array($items))
@@ -159,12 +167,6 @@ if(!isset($item['id'])) {
 	else
 		$output .= '<p>'.sprintf(i18n::s('%s has not yet connected to other persons.'), $item['full_name']).'</p>';
 
-	// manage command
-	$menu = array();
-	if(Surfer::is_associate() || (Surfer::get_id() == $item['id']))
-		$menu[] = Skin::build_link(Users::get_url('user:'.$item['id'], 'select'), i18n::s('Manage connections'), 'button');
-	$output .= Skin::finalize_list($menu, 'menu_bar');
-	
 	// all followers
 	$followers = '';
 	
@@ -192,7 +194,7 @@ if(!isset($item['id'])) {
 
 		// suggest a new connection
 		if(!$in_watch_list)
-			$followers .= '<p style="margin: 1em 0;">'.Skin::build_link($link, sprintf(i18n::s('Connect to %s'), $item['full_name']), 'button', i18n::s('Add this person to your connections')).'</p>';
+			$followers .= '<p style="margin: 1em 0;">'.Skin::build_link($link, sprintf(i18n::s('Connect to %s'), $item['full_name']), 'button', i18n::s('Add this person to your contacts')).'</p>';
 
 	}
 

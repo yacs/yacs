@@ -91,7 +91,7 @@ if(!$item['id']) {
 		
 			$context['text'] .= '<p>'.sprintf(i18n::s('You have been connected to %s.'), Skin::build_link($anchor->get_url(), $anchor->get_title()))."</p>\n";
 
-			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind, disconnect me from this user.'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind, disconnect me from this person.'), 'basic');
 
 		// we are tracking a page
 		} else {
@@ -114,7 +114,7 @@ if(!$item['id']) {
 
 			$context['text'] .= '<p>'.sprintf(i18n::s('You are not connected to %s anymore.'), Skin::build_link($anchor->get_url(), $anchor->get_title()))."</p>\n";
 
-			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind, connect me to this user'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url($track, 'track'), i18n::s('I have changed my mind, connect me to this person'), 'basic');
 
 		// we are tracking a page
 		} else {
@@ -138,7 +138,7 @@ if(!$item['id']) {
 	// check the watch list
 	if(Surfer::get_id()) {
 		if(!strncmp($track, 'user:', 5))
-			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()).'#~connections', i18n::s('My connections'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()).'#_connections', i18n::s('My connections'), 'basic');
 		else
 			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()), i18n::s('My Profile'), 'basic');
 	}

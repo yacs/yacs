@@ -176,9 +176,10 @@ class zipfile {
 	 * @param string archive to handle
 	 * @param string the place where extracted files have to be placed
 	 * @param string the prefix to be removed from entry names (typically, 'yacs/')
+	 * @param function to be called on any file extracted
 	 * @return int the number of files that have been successfully extracted
 	 */
-	function explode($archive, $path='', $remove='') {
+	function explode($archive, $path='', $remove='', $callback=NULL) {
 		global $context;
 
 		// terminate path, if applicable
@@ -226,8 +227,13 @@ class zipfile {
 				$content = '';
 				
 			// write the extracted file
-			if(Safe::file_put_contents($path.$name, $content))
+			if(Safe::file_put_contents($path.$name, $content)) {
 				$count++;
+			
+				// callback function
+				if($callback)
+					$callback($path.$name);
+			}
 
 			// make room for next item
 			if(is_callable('zip_entry_close'))

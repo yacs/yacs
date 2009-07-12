@@ -155,9 +155,10 @@ Class Layout_articles_as_jive extends Layout_interface {
 				$content .= join(', ', $details).BR;
 
 			// the command to reply
-			if(Comments::are_allowed($anchor, $item))
-				$content .= Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENT_TOOL_IMG, 'basic')
-					.Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Add a comment'), 'basic')."\n";
+			if(Comments::are_allowed($anchor, $item)) {
+				Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.png');
+				$content .= Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic');
+			}
 
 			// count replies
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))

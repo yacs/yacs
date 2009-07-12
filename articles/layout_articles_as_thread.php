@@ -17,19 +17,19 @@ Class Layout_articles_as_thread extends Layout_interface {
 	 * list articles
 	 *
 	 * @param resource the SQL result
-	 * @return array of resulting items, or NULL
+	 * @return string
 	 *
 	 * @see skins/layout.php
 	**/
 	function &layout(&$result) {
 		global $context;
 
-		// we return an array of ($url => $attributes)
-		$items = array();
+		// we return some text
+		$text = '';
 
 		// empty list
 		if(!SQL::count($result))
-			return $items;
+			return $text;
 
 		// sanity check
 		if(!isset($this->layout_variant))
@@ -47,6 +47,7 @@ Class Layout_articles_as_thread extends Layout_interface {
 		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
+		$odd = TRUE;
 		while($item =& SQL::fetch($result)) {
 
 			// get the related overlay, if any
@@ -121,21 +122,71 @@ Class Layout_articles_as_thread extends Layout_interface {
 				$details[] = LOCKED_FLAG;
 
 			// page editors, except target surfer
-			if($friends =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma', $this->layout_variant))
+			if($friends =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma', $this->layout_variant, 'user:'.Surfer::get_id()))
 				$details[] = sprintf(i18n::s('with %s'), Skin::build_list($friends, 'comma'));
 
 			// combine in-line details
 			if(count($details))
 				$suffix .= ' - <span class="details">'.trim(implode(', ', $details)).'</span>';
 
+			// insert overlay data, if any
+			if(is_object($overlay))
+				$suffix .= $overlay->get_text('list', $item);
+
+			// last contribution
+			if($item['edit_action'])
+				$action = get_action_label($item['edit_action']).' ';
+			else
+				$action = i18n::s('edited');
+
+			if($item['edit_name'])
+				$suffix .= '<br /><span class="details">'.sprintf(i18n::s('%s by %s %s'), $action, Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date'])).'</span>';
+			else
+				$suffix .= '<br /><span class="details">'.$action.' '.Skin::build_date($item['edit_date']).'</span>';
+
+			// add an image if available
+			$icon = '';
+			if($item['thumbnail_url'])
+				$icon = $item['thumbnail_url'];
+
+			// or inherit from the anchor
+			elseif(is_object($anchor)) {
+
+				// we are listing articles in the anchor page - use the anchor bullet
+				if($this->layout_variant == $anchor->get_reference()) {
+					$icon = $anchor->get_bullet_url();
+
+				// we are listing articles in a page that has a specific bullet - use it
+				} elseif(strpos(':', $this->layout_variant) && ($bulleted =& Anchors::get($this->layout_variant))) {
+					$icon = $bulleted->get_bullet_url();
+
+				// use anchor thumbnail
+				} else
+					$icon = $anchor->get_thumbnail_url();
+
+			}
+
+			// format the image
+			if($icon)
+				$icon = Skin::build_link($url, '<img src="'.$icon.'" />', 'basic', $hover);
+			
 			// list all components for this item
-			$items[$url] = array($prefix, $title, $suffix, 'article', $icon);
+			if($odd = !$odd)
+				$class = ' class="odd"';
+			else
+				$class = ' class="even"';
+
+			// use a table to layout the image properly
+			if($icon)
+				$text .= '<div'.$class.'><table class="decorated"><tr><td class="image" style="text-align: center">'.$icon.'</td><td class="content">'.$prefix.Skin::build_link($url, Skin::strip($title, 30), 'basic', $hover).$suffix.'</td></tr></table></div>';
+			else
+				$text .= '<div'.$class.'>'.$prefix.Skin::build_link($url, Skin::strip($title, 30), 'basic', $hover).$suffix.'</div>';
 
 		}
 
 		// end of processing
 		SQL::free($result);
-		return $items;
+		return $text;
 	}
 
 }

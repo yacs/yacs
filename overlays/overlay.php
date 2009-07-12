@@ -235,9 +235,10 @@ class Overlay {
 	 * To be overloaded into derivated class
 	 *
 	 * @param array the hosting record, if any
+	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_details_text($host=NULL) {
+	function &get_details_text($host=NULL, $options=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -248,9 +249,10 @@ class Overlay {
 	 * To be overloaded into derivated class
 	 *
 	 * @param array the hosting record, if any
+	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_extra_text($host=NULL) {
+	function &get_extra_text($host=NULL, $options=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -323,9 +325,10 @@ class Overlay {
 	 * To be overloaded into derivated class
 	 *
 	 * @param array the hosting record, if any
+	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_list_text($host=NULL) {
+	function &get_list_text($host=NULL, $options=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -336,9 +339,10 @@ class Overlay {
 	 * To be overloaded into derivated class
 	 *
 	 * @param array the hosting record, if any
+	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_description($host=NULL) {
+	function &get_live_description($host=NULL, $options=NULL) {
 		$text = $host['description'];
 		return $text;
 	}
@@ -349,9 +353,10 @@ class Overlay {
 	 * To be overloaded into derivated class
 	 *
 	 * @param array the hosting record, if any
+	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_introduction($host=NULL) {
+	function &get_live_introduction($host=NULL, $options=NULL) {
 		$text = $host['introduction'];
 		return $text;
 	}
@@ -362,9 +367,10 @@ class Overlay {
 	 * To be overloaded into derivated class
 	 *
 	 * @param array the hosting record, if any
+	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_live_title($host=NULL) {
+	function &get_live_title($host=NULL, $options=NULL) {
 		$text = Codes::beautify_title($host['title']);
 		return $text;
 	}
@@ -406,50 +412,51 @@ class Overlay {
 	 *
 	 * @param string the variant code
 	 * @param array the hosting record, if any
+	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_text($variant='view', $host=NULL) {
+	function &get_text($variant='view', $host=NULL, $options=NULL) {
 		switch($variant) {
 
 		// live description
 		case 'description':
-			$text =& $this->get_live_description($host);
+			$text =& $this->get_live_description($host, $options);
 			return $text;
 
 		// small details
 		case 'details':
-			$text =& $this->get_details_text($host);
+			$text =& $this->get_details_text($host, $options);
 			return $text;
 
 		// extra side of the page
 		case 'extra':
-			$text =& $this->get_extra_text($host);
+			$text =& $this->get_extra_text($host, $options);
 			return $text;
 
 		// live introduction
 		case 'introduction':
-			$text =& $this->get_live_introduction($host);
+			$text =& $this->get_live_introduction($host, $options);
 			return $text;
 
 		// container is one item of a list
 		case 'list':
-			$text =& $this->get_list_text($host);
+			$text =& $this->get_list_text($host, $options);
 			return $text;
 
 		// live title
 		case 'title':
-			$text =& $this->get_live_title($host);
+			$text =& $this->get_live_title($host, $options);
 			return $text;
 
 		// at the bottom of the page, after the description field
 		case 'trailer':
-			$text =& $this->get_trailer_text($host);
+			$text =& $this->get_trailer_text($host, $options);
 			return $text;
 
 		// full page of the container
 		case 'view':
 		default:
-			$text =& $this->get_view_text($host);
+			$text =& $this->get_view_text($host, $options);
 			return $text;
 		}
 	}
@@ -460,9 +467,10 @@ class Overlay {
 	 * To be overloaded into derivated class
 	 *
 	 * @param array the hosting record, if any
+	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_trailer_text($host=NULL) {
+	function &get_trailer_text($host=NULL, $options=NULL) {
 		$text = '';
 		return $text;
 	}
@@ -484,9 +492,10 @@ class Overlay {
 	 * To be overloaded into derivated class
 	 *
 	 * @param array the hosting record, if any
+	 * @param mixed any other options
 	 * @return some HTML to be inserted into the resulting page
 	 */
-	function &get_view_text($host=NULL) {
+	function &get_view_text($host=NULL, $options=NULL) {
 		$text = '';
 		foreach($this->attributes as $label => $value) {
 			$text .= '<p>'.$label.': '.$value."</p>\n";

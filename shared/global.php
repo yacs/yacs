@@ -1041,6 +1041,17 @@ function render_skin($stamp=0) {
 		foreach($parameters as $parameter) {
 			if(isset($context['aside'][ $parameter ]))
 				$context['extra'] .= $context['aside'][ $parameter ];
+
+			elseif($parameter == 'icon') {
+				// configured styles
+				$more_styles = '';
+				if(isset($context['classes_for_icon_images']) && $context['classes_for_icon_images'])
+					$more_styles = ' '.encode_field($context['classes_for_icon_images']);
+		
+				if($context['page_image'])
+					$context['extra'] .= ICON_PREFIX.'<img src="'.$context['page_image'].'" style="margin: 0 0 2em 0;" class="icon'.$more_styles.'" alt="" />'.ICON_SUFFIX;
+			}
+				
 		}
 			
 		// shift extra content to the end - step 2
@@ -1061,11 +1072,12 @@ function render_skin($stamp=0) {
 				$context['navigation'] .= $context['aside'][ $parameter ];
 				
 			// include the full extra panel
-			elseif($parameter == 'extra')
+			elseif($parameter == 'extra') {
 				$context['navigation'] .= $context['extra'];
+				$context['extra'] = '';
 				
 			// a named page, but only during regular operation
-			elseif(file_exists($context['path_to_root'].'parameters/switch.on')) {
+			} elseif(file_exists($context['path_to_root'].'parameters/switch.on')) {
 			
 				// cache the item for performance
 				$cache_id = 'shared/global.php#render_skin#'.$parameter;
@@ -1266,6 +1278,9 @@ function render_skin($stamp=0) {
 			.'		editor_selector : "tinymce",'."\n"
 			.'		languages : "fr",'."\n"
 			.'		disk_cache : false,'."\n"
+			.'		relative_urls : false,'."\n"
+			.'		remove_script_host : true,'."\n"
+			.'		document_base_url : "'.$context['url_to_home'].$context['url_to_root'].'",'."\n"
 			.'		plugins : "safari,table,advhr,advimage,advlink,emotions,insertdatetime,searchreplace,paste,directionality,fullscreen,visualchars",'."\n"
 			.'		theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,formatselect,fontselect,fontsizeselect",'."\n"
 			.'		theme_advanced_buttons2 : "bold,italic,underline,strikethrough,|,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,|,removeformat",'."\n"

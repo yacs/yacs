@@ -687,7 +687,7 @@ if(Surfer::is_crawler()) {
 		$fields['sections_layout'] = 'inline'; // list content of sub-sections
 		$fields['articles_layout'] = 'manual'; // the default value
 		$fields['locked'] = 'Y'; // post in underlying chapters
-		$fields['options'] = 'no_new_articles'; // allpages are listed anyway
+		$fields['options'] = ''; //
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else

@@ -19,8 +19,8 @@ $context['page_title'] = i18n::s('The cloud of tags');
 
 // commands for associates
 if(Surfer::is_associate())
-	$context['page_menu'] = array_merge($context['page_menu'], array( 'categories/edit.php' => i18n::s('Add a category'),
-		'categories/check.php' => i18n::s('Maintenance') ));
+	$context['page_menu'] += array( 'categories/edit.php' => i18n::s('Add a category'),
+		'categories/check.php' => i18n::s('Maintenance') );
 
 // the list of active categories
 $cache_id = 'categories/cloud.php#content';
