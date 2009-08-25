@@ -81,12 +81,6 @@ else
 if(isset($item['title']))
 	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Delete'), $item['title']);
 
-// cancel
-if($item['id'])
-	$context['page_menu'] = array( Actions::get_url($item['id']) => i18n::s('Cancel') );
-elseif(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] = array( $anchor->get_url() => i18n::s('Cancel') );
-
 // not found
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -102,7 +96,7 @@ if(!isset($item['id'])) {
 
 	// touch the related anchor before actual deletion, since the action has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('action:delete', $item['id'], TRUE);
+		$anchor->touch('action:delete', $item['id']);
 
 	// back to the anchor page except on error
 	if(Actions::delete($item['id'])) {
@@ -125,9 +119,15 @@ if(!isset($item['id'])) {
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_prefix();
 
+	// commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this action'), NULL, NULL, 'confirmed');
+	if(is_object($anchor))
+		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
+
 	// the submit button
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-		.Skin::build_submit_button(i18n::s('Yes, I want to delete this action'), NULL, NULL, 'confirmed')."\n"
+		.Skin::finalize_list($menu, 'menu_bar')
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";
@@ -142,7 +142,7 @@ if(!isset($item['id'])) {
 	$context['text'] .= Skin::build_block($item['title'], 'title');
 
 	// display the full text
-	$context['text'] .= Skin::build_block($item['description'], 'description');
+	$context['text'] .= '<div style="margin: 1em 0;">'.Codes::beautify($item['description']).'</div>'."\n";
 
 	// action status
 	switch($item['status']) {
