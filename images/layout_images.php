@@ -126,7 +126,7 @@ Class Layout_images extends Layout_interface {
 			// use the image
 			if(Surfer::is_empowered() && Surfer::is_member()) {
 				if(preg_match('/\buser\b/', $this->layout_variant))
-					$menu = array_merge($menu, array( Images::get_url($item['id'], 'set_as_thumbnail') => i18n::s('Set as user avatar') ));
+					$menu = array_merge($menu, array( Images::get_url($item['id'], 'set_as_thumbnail') => i18n::s('Set as profile picture') ));
 				elseif(preg_match('/\b(article|category|section)\b/', $this->layout_variant)) {
 					$menu = array_merge($menu, array( Images::get_url($item['id'], 'set_as_icon') => i18n::s('Set as page icon') ));
 					$menu = array_merge($menu, array( Images::get_url($item['id'], 'set_as_thumbnail') => i18n::s('Set as page thumbnail') ));

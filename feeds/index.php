@@ -188,20 +188,20 @@ if(Surfer::is_associate())
 // an extra box with popular standard icons for newsfeeds
 $text = '';
 
-Skin::define_img('OPML_STANDARD_IMG', 'icons/standards/opml.png');
-$text .= Skin::build_link(Feeds::get_url('opml'), OPML_STANDARD_IMG, '').BR;
+Skin::define_img('FEEDS_OPML_IMG', 'feeds/opml.png');
+$text .= Skin::build_link(Feeds::get_url('opml'), FEEDS_OPML_IMG, '').BR;
 
-Skin::define_img('ATOM_0_3_STANDARD_IMG', 'icons/standards/atom_0.3.png');
-$text .= Skin::build_link(Feeds::get_url('atom'), ATOM_0_3_STANDARD_IMG, '').BR;
+Skin::define_img('FEEDS_ATOM_IMG', 'feeds/atom.png');
+$text .= Skin::build_link(Feeds::get_url('atom'), FEEDS_ATOM_IMG, '').BR;
 
-Skin::define_img('RSS_2_0_STANDARD_IMG', 'icons/standards/rss_2.0.png');
-$text .= Skin::build_link(Feeds::get_url('rss'), RSS_2_0_STANDARD_IMG, '').BR;
+Skin::define_img('FEEDS_RSS_2_0_IMG', 'feeds/rss_2.0.png');
+$text .= Skin::build_link(Feeds::get_url('rss'), FEEDS_RSS_2_0_IMG, '').BR;
 
-Skin::define_img('RSS_1_0_STANDARD_IMG', 'icons/standards/rss_1.0.png');
-$text .= Skin::build_link('feeds/rss_1.0.php', RSS_1_0_STANDARD_IMG, '').BR;
+Skin::define_img('FEEDS_RSS_1_0_IMG', 'feeds/rss_1.0.png');
+$text .= Skin::build_link('feeds/rss_1.0.php', FEEDS_RSS_1_0_IMG, '').BR;
 
-Skin::define_img('RSS_0_9_STANDARD_IMG', 'icons/standards/rss_0.9.png');
-$text .= Skin::build_link('feeds/rss_0.92.php', RSS_0_9_STANDARD_IMG, '').BR;
+Skin::define_img('FEEDS_RSS_0_9_IMG', 'feeds/rss_0.9.png');
+$text .= Skin::build_link('feeds/rss_0.92.php', FEEDS_RSS_0_9_IMG, '').BR;
 
 $context['aside']['channels'] = Skin::build_box(i18n::s('Pick a feed'), '<p>'.$text.'</p>', 'extra');
 

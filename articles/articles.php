@@ -929,7 +929,7 @@ Class Articles {
 		}
 
 		// check the target action
-		if(!preg_match('/^(delete|describe|duplicate|edit|export|fetch_as_msword|fetch_as_pdf|fetch_for_palm|lock|mail|move|navigate|print|publish|rate|stamp|unpublish|view)$/', $action))
+		if(!preg_match('/^(delete|describe|duplicate|edit|export|fetch_as_msword|fetch_as_pdf|lock|mail|move|navigate|print|publish|rate|stamp|unpublish|view)$/', $action))
 			return 'articles/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
@@ -1756,6 +1756,7 @@ Class Articles {
 		$query[] = "locked='".SQL::escape(isset($fields['locked']) ? $fields['locked'] : 'N')."'";
 		$query[] = "overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."'";
 		$query[] = "overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."'";
+		$query[] = "owner_id='".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id'])."'";
 		$query[] = "tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."'";
 		$query[] = "hits=0";
 		$query[] = "create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."'";
@@ -2031,6 +2032,8 @@ Class Articles {
 //			$query[] = "active='".SQL::escape($fields['active'])."',";
 //		if(Surfer::is_empowered() && Surfer::is_member())
 //			$query[] = "active_set='".SQL::escape($fields['active_set'])."',";
+		if(isset($fields['owner_id']) && Surfer::is_empowered() && Surfer::is_member())
+			$query[] = "owner_id='".SQL::escape($fields['owner_id'])."'";
 
 		// fields visible to authorized member
 		if(isset($fields['home_panel']))
@@ -2292,6 +2295,7 @@ Class Articles {
 		$fields['options']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['overlay']		= "TEXT NOT NULL";
 		$fields['overlay_id']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['owner_id']		= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['prefix']		= "TEXT NOT NULL";
 		$fields['publish_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['publish_date'] = "DATETIME";

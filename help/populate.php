@@ -143,10 +143,10 @@ if(!$permitted) {
 		$fields[] = array($label, $input);
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
-		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Anyone may read pages posted here').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Access is restricted to authenticated members').BR;
-		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Access is restricted to associates and editors');
+		$label = i18n::s('Access');
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
 		// home panel
@@ -1224,10 +1224,10 @@ if(!$permitted) {
 		$fields[] = array($label, $input);
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
-		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Anyone may read pages posted here').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Access is restricted to authenticated members').BR;
-		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Access is restricted to associates and editors');
+		$label = i18n::s('Access');
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
 		// home panel
@@ -1461,10 +1461,10 @@ if(!$permitted) {
 		$fields[] = array($label, $input, $hint);
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
-		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Anyone may read pages posted here').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Access is restricted to authenticated members').BR;
-		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Access is restricted to associates and editors');
+		$label = i18n::s('Access');
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
 		// home panel
@@ -1582,10 +1582,10 @@ if(!$permitted) {
 		$fields[] = array($label, $input, $hint);
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
-		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Anyone may read pages posted here').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Access is restricted to authenticated members').BR;
-		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Access is restricted to associates and editors');
+		$label = i18n::s('Access');
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
 		// home panel
@@ -1830,10 +1830,10 @@ if(!$permitted) {
 		$fields[] = array($label, $input);
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
-		$label = i18n::s('Visibility');
-		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Anyone may read pages posted here').BR;
-		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Access is restricted to authenticated members').BR;
-		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Access is restricted to associates and editors');
+		$label = i18n::s('Access');
+		$input = '<input type="radio" name="active" value="Y" accesskey="v" checked="checked" /> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
+		$input .= '<input type="radio" name="active" value="R" /> '.i18n::s('Community - Access is restricted to authenticated members').BR;
+		$input .= '<input type="radio" name="active" value="N" /> '.i18n::s('Private - Access is restricted to selected persons');
 		$fields[] = array($label, $input);
 
 		// home panel

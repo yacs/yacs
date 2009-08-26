@@ -107,11 +107,11 @@ if(Surfer::is_crawler()) {
 
 	// restricted to logged members
 	if($item['active'] == 'R')
-		$details[] = RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members');
+		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members');
 
 	// restricted to associates
 	elseif($item['active'] == 'N')
-		$details[] = PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates and editors');
+		$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons');
 
 	// rank for this section
 	if(Surfer::is_associate() && (intval($item['rank']) != 10000))

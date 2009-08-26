@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on August 24, 2009, 10:21 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-03-10 23:58+0100
-PO-Revision-Date: 2009-05-15 00:16+0100
+POT-Creation-Date: 2009-06-29 01:13+0200
+PO-Revision-Date: 2009-07-04 22:57+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -195,5 +195,6 @@ $_SESSION['l10n']['fr']['cd7b7f915e5924985dc9b06d2e6e6181']='l\'intégration a �
 $_SESSION['l10n']['fr']['64a67381ad95070994a35b50b0efb2b4']='le problème a été documenté et ses causes ont été identifiées';
 $_SESSION['l10n']['fr']['7c113dbb3009d0d4c4334955fd5f8f24']='le problème n\'a pas été reproduit';
 $_SESSION['l10n']['fr']['ff9a277d98f75d0d25e80d6b7bbfe798']='ceci a été reconnu comme un problème effectif';
+$_SESSION['l10n']['fr']['with %s']='avec %s';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

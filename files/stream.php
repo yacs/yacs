@@ -228,22 +228,33 @@ if(!$item['id']) {
 		$text = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 		break;
 
-	case 'asf':
-	case 'avi':
-	case 'divx':
-	case 'mkv':
+	case '3gp':
+	case 'flv':
+	case 'm4v':
 	case 'mov':
 	case 'mp4':
-	case 'mpe':
-	case 'mpeg':
-	case 'mpg':
-	case 'vob':
-		// we are returning a .m3u
-		$type = '.m3u';
-		$mime = 'audio/x-mpegurl';
+		// we are invoking some flash player
+		$type = '';
+		$mime = 'text/html';
 
-		// where the file actually is
-		$text = $target_href;
+		// load the full library
+		$script = 'included/browser/library.js';
+
+		// page preamble
+		$text = '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">'."\n"
+			.'<html>'."\n"
+			.'<head>'."\n"
+			.'<title>'.$item['title'].'</title>'."\n"
+			.'<script type="text/javascript" src="'.$context['url_to_root'].$script.'"></script>'."\n"
+			.'</head>'."\n"
+			.'<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">'."\n";
+
+		// render object full size
+		$text .= Codes::render_object('embed', $item['id']);
+
+		// page postamble
+		$text .= '</body>'."\n"
+				.'</html>'."\n";
 
 		break;
 
@@ -273,7 +284,6 @@ if(!$item['id']) {
 
 		break;
 
-	case 'flv':
 	case 'swf':
 		// display a large Flash file
 		$type = '';

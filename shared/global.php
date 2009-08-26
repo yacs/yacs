@@ -61,7 +61,7 @@ if(!defined('FORBIDDEN_IN_TEASERS'))
 
 // default value for url filtering in forms
 if(!defined('FORBIDDEN_IN_URLS'))
-	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\,+%\?=\-\[\]]+/');
+	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\,+%\?=\-\[\]*]+/');
 	
 // the right way to integrate javascript code
 if(!defined('JS_PREFIX'))

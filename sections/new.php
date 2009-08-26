@@ -94,6 +94,7 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['articles_layout']) && ($_REQUEST['articles_layout'] == 'group')) {
 		$_REQUEST['articles_layout'] = 'yabb';
 		$_REQUEST['options'] = trim($_REQUEST['options'].' view_as_tabs with_comments comments_as_wall');
+		$_REQUEST['locked'] = 'N'; // allow for group contributions
 		$_REQUEST['description'] = '[title]'.i18n::s('Discussions').'[/title]';
 		$with_children = TRUE;
 
@@ -109,6 +110,8 @@ if(Surfer::is_crawler()) {
 			$fields['rank'] = 40000; // at the end of the list
 			$fields['title'] = i18n::c('Groups');
 			$fields['options'] = 'no_contextual_menu';
+			$fields['sections_layout'] = 'compact';
+			$fields['articles_layout'] = 'none';
 			if(!$fields['id'] = Sections::post($fields)) {
 				Logger::remember('sections/new.php', 'Impossible to add a section.');
 				return;
@@ -136,6 +139,8 @@ if(Surfer::is_crawler()) {
 			$fields['rank'] = 40000; // at the end of the list
 			$fields['title'] = i18n::c('Blogs');
 			$fields['options'] = 'no_contextual_menu';
+			$fields['sections_layout'] = 'compact';
+			$fields['articles_layout'] = 'none';
 			if(!$fields['id'] = Sections::post($fields)) {
 				Logger::remember('sections/new.php', 'Impossible to add a section.');
 				return;
@@ -155,6 +160,12 @@ if(Surfer::is_crawler()) {
 	$anchor = $section;
 	$_REQUEST['anchor'] = $anchor->get_reference();
 	$_REQUEST['active_set'] = $_REQUEST['active'];
+
+	// do not break home page layout
+	$_REQUEST['home_panel'] = 'none';
+
+	// make it personal and avoid publishing step
+	$_REQUEST['content_options'] = 'with_extra_profile auto_publish';
 
 	// display the form on error
 	if(!$_REQUEST['id'] = Sections::post($_REQUEST)) {
@@ -256,38 +267,20 @@ if($with_form) {
 	$input .= EOT.i18n::s('A blog to share my daily mood, opinions and ideas');
 	$fields[] = array($label, $input);
 
-	// do not break home page layout
-	$context['text'] .= '<input type="hidden" name="home_panel" value="none" />';
-
-	// make it personal and avoid publishing step
-	$context['text'] .= '<input type="hidden" name="content_options" value="with_extra_profile auto_publish" />';
-
 	// the active flag: Yes/public, Restricted/logged, No/associates
-	$label = i18n::s('Visibility');
+	$label = i18n::s('Access');
 	$input = '<input type="radio" name="active" value="Y" accesskey="v"';
 	if(!isset($item['active']) || ($item['active'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Anyone may read this section').' '
+	$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers').' '
 		.BR.'<input type="radio" name="active" value="R"';
 	if(isset($item['active']) && ($item['active'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Access is restricted to authenticated members').' '
+	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated members').' '
 		.BR.'<input type="radio" name="active" value="N"';
 	if(isset($item['active']) && ($item['active'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Access is restricted to me and associates');
-	$fields[] = array($label, $input);
-
-	// locked: Yes / No
-	$label = i18n::s('Locker');
-	$input = '<input type="radio" name="locked" value="N"';
-	if(!isset($item['locked']) || ($item['locked'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Contributions are accepted').' '
-		.BR.'<input type="radio" name="locked" value="Y"';
-	if(isset($item['locked']) && ($item['locked'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Only me and associates can add content');
+	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
 	$fields[] = array($label, $input);
 
 	// the title

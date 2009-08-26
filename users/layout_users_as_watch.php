@@ -97,9 +97,9 @@ Class Layout_users_as_watch extends Layout_interface {
 		// some indications on the number of connections
 		if($delta -= $count) {
 			if($delta < 100)
-				$label = sprintf(i18n::ns('and %d other connection', 'and %d other connections', $delta), $delta);
+				$label = sprintf(i18n::ns('and %d other contact', 'and %d other contacts', $delta), $delta);
 			else
-				$label = i18n::s('and many more connections');
+				$label = i18n::s('and many more contacts');
 
 			$items .= '<p>'.$label.'</p>';
 		}

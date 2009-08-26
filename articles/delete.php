@@ -112,7 +112,7 @@ if(!isset($item['id'])) {
 
 	// touch the related anchor before actual deletion, since the image has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('article:delete', $item['id'], TRUE);
+		$anchor->touch('article:delete', $item['id']);
 
 	// attempt to delete
 	if(Articles::delete($item['id'])) {
@@ -144,23 +144,34 @@ else {
 	if(!$context['page_image'] && is_object($anchor))
 		$context['page_image'] = $anchor->get_icon_url();
 
+	// commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this page'), NULL, NULL, 'confirmed');
+	if(isset($item['id']))
+		$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
+
+	// render commands
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
+		.Skin::finalize_list($menu, 'menu_bar')
+		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
+		.'<input type="hidden" name="action" value="delete" />'."\n"
+		.'</p></form>'."\n";
+
+	// set the focus
+	$context['text'] .= JS_PREFIX
+		.'// set the focus on first form field'."\n"
+		.'$("confirmed").focus();'."\n"
+		.JS_SUFFIX;
+
+	// the title of the action
+	$context['text'] .= Skin::build_block($item['title'], 'title');
+
 	// the introduction text, if any
-	$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
+	$context['text'] .= '<div style="margin: 1em 0;">'.Codes::beautify($item['introduction']).'</div>'."\n";
 
 	// get text related to the overlay, if any
 	if(is_object($overlay))
 		$context['text'] .= $overlay->get_text('view', $item);
-
-	// the beautified description, which is the actual page body
-	if($item['description']) {
-
-		// use adequate label
-		if(is_object($overlay) && ($label = $overlay->get_label('description')))
-			$context['text'] .= Skin::build_block($label, 'title');
-
-		$context['text'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
-
-	}
 
 	// details
 	$details = array();
@@ -194,25 +205,6 @@ else {
 
 	// count items related to this article
 	$context['text'] .= Anchors::stat_related_to('article:'.$item['id'], i18n::s('Following items are attached to this record and will be deleted as well.'));
-
-	// commands
-	$menu = array();
-	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this page'), NULL, NULL, 'confirmed');
-	if(isset($item['id']))
-		$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
-
-	// render commands
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-		.Skin::finalize_list($menu, 'assistant_bar')
-		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
-		.'<input type="hidden" name="action" value="delete" />'."\n"
-		.'</p></form>'."\n";
-
-	// set the focus
-	$context['text'] .= JS_PREFIX
-		.'// set the focus on first form field'."\n"
-		.'$("confirmed").focus();'."\n"
-		.JS_SUFFIX;
 
 }
 

@@ -134,7 +134,7 @@ if(!Surfer::is_associate()) {
 	// commands
 	$menu = array();
 	$menu[] = Skin::build_submit_button(i18n::s('Build the .htaccess file'), NULL, NULL, 'confirmed');
-	$menu[] = Skin::build_link('/control/', i18n::s('Control Panel'), 'span');
+	$menu[] = Skin::build_link('control/', i18n::s('Control Panel'), 'span');
 
 	// render commands
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"

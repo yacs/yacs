@@ -327,7 +327,7 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= '<p>'.i18n::s('The image has become the page icon.').'</p>';
 		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar')) {
 			$action = 'image:set_as_avatar';
-			$context['text'] .= '<p>'.i18n::s('The image has become the profile avatar.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('The image has become the profile picture.').'</p>';
 		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_thumbnail')) {
 			$action = 'image:set_as_thumbnail';
 			$context['text'] .= '<p>'.i18n::s('This has become the thumbnail image of the page.').'</p>';
@@ -548,7 +548,7 @@ if($with_form) {
 
 		// add a folded box
 		if(count($fields)) {
-			$context['text'] .= Skin::build_box(i18n::s('Advanced options'), Skin::build_form($fields), 'folded');
+			$context['text'] .= Skin::build_box(i18n::s('Options'), Skin::build_form($fields), 'folded');
 			$fields = array();
 		}
 

@@ -72,6 +72,16 @@ load_skin('files', $anchor);
 if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
+// the path to this page
+if(is_object($anchor))
+	$context['path_bar'] = $anchor->get_path_bar();
+else
+	$context['path_bar'] = array( 'files/' => i18n::s('Files') );
+
+// the title of the page
+if(isset($item['file_name']))
+	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Delete'), $item['file_name']);
+
 // not found
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -87,7 +97,7 @@ if(!isset($item['id'])) {
 
 	// touch the related anchor before actual deletion, since the file has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('file:delete', $item['id'], TRUE);
+		$anchor->touch('file:delete', $item['id']);
 
 	// if no error, back to the anchor or to the index page
 	if(Files::delete($item['id'])) {
@@ -102,37 +112,27 @@ if(!isset($item['id'])) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
 	Logger::error(i18n::s('The deletion has not been confirmed.'));
 
-// the path to this page
-if(is_object($anchor))
-	$context['path_bar'] = $anchor->get_path_bar();
-else
-	$context['path_bar'] = array( 'files/' => i18n::s('Files') );
+// ask for confirmation
+else {
 
-// the title of the page
-if(isset($item['file_name']))
-	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Delete'), $item['file_name']);
+	// commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this file'), NULL, NULL, 'confirmed');
+	if(isset($item['id']))
+		$menu[] = Skin::build_link(Files::get_permalink($item), i18n::s('Cancel'), 'span');
 
-// display the confirmation form
-if($item['id']) {
+	// the submit button
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
+		.Skin::finalize_list($menu, 'menu_bar')
+		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
+		.'<input type="hidden" name="confirm" value="yes" />'."\n"
+		.'</p></form>'."\n";
 
-	// display the confirmation button only to allowed surfers
-	if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())
-		|| Surfer::is($item['create_id'])) {
-
-		// the submit button
-		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-			.Skin::build_submit_button(i18n::s('Yes, I want to delete this file'), NULL, NULL, 'confirmed')."\n"
-			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
-			.'<input type="hidden" name="confirm" value="yes" />'."\n"
-			.'</p></form>'."\n";
-
-		// set the focus
-		$context['text'] .= JS_PREFIX
-			.'// set the focus on first form field'."\n"
-			.'$("confirmed").focus();'."\n"
-			.JS_SUFFIX."\n";
-
-	}
+	// set the focus
+	$context['text'] .= JS_PREFIX
+		.'// set the focus on first form field'."\n"
+		.'$("confirmed").focus();'."\n"
+		.JS_SUFFIX."\n";
 
 	// use a table for the layout
 	$context['text'] .= Skin::table_prefix('form');
@@ -198,9 +198,9 @@ if($item['id']) {
 	// associates may change the active flag: Yes/public, Restricted/logged, No/associates
 	if(Surfer::is_associate()) {
 		if($item['active'] == 'N' && Surfer::is_associate())
-			$context['text'] .= Skin::table_row(array(i18n::s('Visibility'), 'left='.i18n::s('Access is restricted to associates and editors')), $lines++);
+			$context['text'] .= Skin::table_row(array(i18n::s('Access'), 'left='.i18n::s('Private - Access is restricted to selected persons')), $lines++);
 		elseif($item['active'] == 'R' && Surfer::is_member())
-			$context['text'] .= Skin::table_row(array(i18n::s('Visibility'), 'left='.i18n::s('Access is restricted to authenticated members')), $lines++);
+			$context['text'] .= Skin::table_row(array(i18n::s('Access'), 'left='.i18n::s('Community - Access is restricted to authenticated members')), $lines++);
 	}
 
 	// end of the table

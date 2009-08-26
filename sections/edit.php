@@ -243,9 +243,9 @@ if(Surfer::is_crawler()) {
 			if($_REQUEST['active'] != $item['active'])
 				Anchors::cascade('section:'.$item['id'], $_REQUEST['active']);
 
-			// touch the related anchor silently
+			// touch the related anchor
 			if(is_object($anchor))
-				$anchor->touch('section:update', $item['id'], TRUE);
+				$anchor->touch('section:update', $item['id']);
 
 			// display the updated page
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item));
@@ -541,7 +541,7 @@ if($with_form) {
 			$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_details\')" style="cursor: pointer;">with_details</a> - '.i18n::s('Show page details to all surfers');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'without_rating\')" style="cursor: pointer;">without_rating</a> - '.i18n::s('Surfers are not allowed to rate pages in this section');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'rate_as_digg\')" style="cursor: pointer;">rate_as_digg</a> - '.i18n::s('Ask explicitly for more votes');
-		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_export_tools\')" style="cursor: pointer;">with_export_tools</a> - '.i18n::s('Add conversion tools to PDF, MS-Word, Palm');
+		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_export_tools\')" style="cursor: pointer;">with_export_tools</a> - '.i18n::s('Add conversion tools to PDF, MS-Word');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_prefix_profile\')" style="cursor: pointer;">with_prefix_profile</a> - '.i18n::s('Introduce the poster before main text');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_suffix_profile\')" style="cursor: pointer;">with_suffix_profile</a> - '.i18n::s('Append some poster details at the bottom of the page');
 		$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_extra_profile\')" style="cursor: pointer;">with_extra_profile</a> - '.i18n::s('Append some poster details aside the page (adequate to most weblogs)');
@@ -664,7 +664,7 @@ if($with_form) {
 			$input .= '<img src="'.preg_replace('/\/images\/section\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />';
 			$command = i18n::s('Change');
 		} elseif(Surfer::may_upload()) {
-			$input .= '<span class="details">'.i18n::s('Upload an image to be displayed at page top. This will also be the default icon image for items attached to this page.').'</span>';
+			$input .= '<span class="details">'.i18n::s('Upload an image to be displayed at page top').'</span>';
 			$command = i18n::s('Add an image');
 		}
 
@@ -734,7 +734,7 @@ if($with_form) {
 		
 		// the command to add an image
 		if(Surfer::may_upload()) {
-			Skin::define_img(IMAGES_ADD_IMG, 'images/add.png');
+			Skin::define_img(IMAGES_ADD_IMG, 'images/add.gif');
 			$menu = array(Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic'));
 		}
 
@@ -761,7 +761,7 @@ if($with_form) {
 
 	}
 
-	// if we are editing an existing article
+	// if we are editing an existing item
 	if(isset($item['id'])) {
 
 		// locations are reserved to authenticated members
@@ -790,6 +790,16 @@ if($with_form) {
 	// options tab
 	//
 	$text = '';
+
+	// owner
+	if(isset($item['owner_id'])) {
+		$label = Skin::build_link(Sections::get_url($item['id'], 'assign'), i18n::s('Owner'), 'basic');
+		if($owner = Users::get($item['owner_id']))
+			$input =& Users::get_link($owner['full_name'], $owner['email'], $owner['id']);
+		else
+			$input = i18n::s('No owner profile has been found');
+		$fields[] = array($label, $input);
+	}
 
 	// editors
 	if(isset($item['id']))
@@ -826,20 +836,20 @@ if($with_form) {
 		$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
 		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
 			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Anyone may read this section').BR;
+		$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
 
 
 		// maybe a restricted page
 		$input .= '<input type="radio" name="active_set" value="R"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Access is restricted to authenticated members').BR;
+		$input .= '/> '.i18n::s('Community - Access is restricted to authenticated members').BR;
 
 		// or a hidden page
 		$input .= '<input type="radio" name="active_set" value="N"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
 			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Access is restricted to associates and editors');
+		$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
 
 		$fields[] = array($label, $input);
 	}
@@ -868,7 +878,7 @@ if($with_form) {
 	//
 	if(is_object($anchor)) {
 
-		// associates and editors may decide define how pages of this section are listed in upper level section index
+		// associates and editors may define how pages of this section are listed in upper level section index
 		if(Surfer::is_empowered()) {
 
 			// define how this section appears
@@ -965,7 +975,7 @@ if($with_form) {
 			$value = Surfer::from_GMT($item['activation_date']);
 
 		$input = Skin::build_input('activation_date', $value, 'date_time');
-		$hint = i18n::s('YYYY-MM-DD HH:MM - To make this section appear in the future - automatically.');
+		$hint = i18n::s('Publish content in the future - automatically');
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -979,7 +989,7 @@ if($with_form) {
 			$value = Surfer::from_GMT($item['expiry_date']);
 
 		$input = Skin::build_input('expiry_date', $value, 'date_time');
-		$hint = i18n::s('YYYY-MM-DD HH:MM - Let the server hide sections on dead-lines - automatically.');
+		$hint = i18n::s('Remove content on dead-line - automatically');
 		$fields[] = array($label, $input, $hint);
 	}
 

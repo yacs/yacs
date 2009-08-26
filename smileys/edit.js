@@ -1,8 +1,10 @@
-// to be loaded after codes/edit.js
-//
-// @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
-// @reference
-// @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+/**
+ * to be loaded after codes/edit.js
+ *
+ * @author Bernard Paques
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
 
 // the path to YACS root
 if(!url_to_root)
@@ -24,6 +26,6 @@ document.write('<div style="margin: 0px;">'
 	+ '<a href="#" onclick="edit_insert(\' :-/ \',\'\');return false;" title="undecided" tabindex="2011"><img src="' + url_to_root + 'skins/images/smileys/undecided.gif" /></a> '
 	+ '<a href="#" onclick="edit_insert(\' :-* \',\'\');return false;" title="kiss" tabindex="2012"><img src="' + url_to_root + 'skins/images/smileys/kiss.gif" /></a> '
 	+ '<a href="#" onclick="edit_insert(\' :\\\'( \',\'\');return false;" title="cry" tabindex="2013"><img src="' + url_to_root + 'skins/images/smileys/cry.gif" /></a> '
-	+ '<a href="' + url_to_root + 'smileys/index.php" onclick="window.open(this.href);return false;" tabindex="2014">>></a> '
+	+ '<a href="' + url_to_root + 'smileys/" onclick="window.open(this.href);return false;" tabindex="2014">>></a> '
 	+ '</div><br />');
 

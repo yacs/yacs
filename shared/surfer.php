@@ -473,8 +473,6 @@ Class Surfer {
 	/**
 	 * get the name of the current surfer, if known
 	 *
-	 * This function will remove mention of originating server for shadow records.
-	 *
 	 * @param string default name
 	 * @return string user short name, or NULL
 	 */

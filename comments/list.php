@@ -194,7 +194,7 @@ if(!is_object($anchor)) {
 
 		// the command to post a new comment, if this is allowed
 		if(Comments::are_allowed($anchor)) {
-			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.png');
+			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 			$box['bar'] = array_merge($box['bar'],
 				array( Comments::get_url($anchor->get_reference(), 'comment') => COMMENTS_ADD_IMG.$anchor->get_label('comments', 'new_command') ));
 		}

@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on August 24, 2009, 10:21 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
+POT-Creation-Date: 2009-08-04 10:21+0200
 PO-Revision-Date: 2008-11-16 21:51+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -48,7 +48,6 @@ $_SESSION['l10n']['fr']['75b652e3c70511a910d5ba8fdfe88194']='Et prenez le temps 
 $_SESSION['l10n']['fr']['Alternate link']='Lien alternatif';
 $_SESSION['l10n']['fr']['532321db0846e93e321be4e241054311']='Vous pouvez aussi télécharger ce fichier pour votre propre usage.';
 $_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
-$_SESSION['l10n']['fr']['Anyone may download this file']='Tout le monde peut télécharger ce fichier';
 $_SESSION['l10n']['fr']['Apple web server']='serveur d\'Apple';
 $_SESSION['l10n']['fr']['Artist']='Artiste';
 $_SESSION['l10n']['fr']['519471e63694deb32693cdb1e9f0342c']='Ce champ étant indexé pour les recherches, pensez à soigner votre formulation';
@@ -90,7 +89,6 @@ $_SESSION['l10n']['fr']['1af5ec71336204568c61feb93174a23f']='Référence existan
 $_SESSION['l10n']['fr']['Extensions']='Extensions';
 $_SESSION['l10n']['fr']['FTP prefix']='Préfixe d\'accès FTP';
 $_SESSION['l10n']['fr']['File']='Fichier';
-$_SESSION['l10n']['fr']['0e8fcb6e5467da84b07201a54612e985']='Ce fichier pourra être téléchargé depuis le service ftp anonyme';
 $_SESSION['l10n']['fr']['File size']='Taille du fichier';
 $_SESSION['l10n']['fr']['Files']='Fichiers';
 $_SESSION['l10n']['fr']['Files at %s']='Fichiers à %s';
@@ -153,21 +151,17 @@ $_SESSION['l10n']['fr']['1cdd6622263afc815074f3c7faed3a2c']='Coller ici la réf�
 $_SESSION['l10n']['fr']['Play']='Jouer';
 $_SESSION['l10n']['fr']['7abd39f4bdad539867d6db43641caa51']='Choisissez une section représentative de votre fichier';
 $_SESSION['l10n']['fr']['534ee23f840c757e6d2f7ba56f2971c6']='Bien entendu, la version actuelle reste %s si vous en avez absolument besoin.';
-$_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['c5427cc1c5d8c7f2fe75e6eb38ef3662']='Merci d\'indiquer un titre significatif, qui sera utilisé en lieu et place du nom du fichier dans les listes.';
 $_SESSION['l10n']['fr']['Podcast']='Podcast';
 $_SESSION['l10n']['fr']['Popular']='Hit-Parade';
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';
 $_SESSION['l10n']['fr']['Posted by']='Envoyé par';
-$_SESSION['l10n']['fr']['Posts are not allowed here.']='Les envois ne sont pas autorisés ici.';
 $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
-$_SESSION['l10n']['fr']['Previous edition by %s %s']='Modification précédente par %s %s';
 $_SESSION['l10n']['fr']['Previous image']='Image précédente';
 $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';
 $_SESSION['l10n']['fr']['37ad9546a387c8d0623a2d297a553d2b']='Les logiciels adaptés sont indiqués au moments du téléchargement.';
-$_SESSION['l10n']['fr']['Refresh from a local file']='Remplacer par un autre fichier local';
 $_SESSION['l10n']['fr']['Review files']='Fichiers à contrôler';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Section']='Section';
@@ -217,14 +211,12 @@ $_SESSION['l10n']['fr']['bf17c77b74c5350da902a6142f9a7a9d']='Téléverser une pe
 $_SESSION['l10n']['fr']['43e5a74e454bb7711c71226172c18b85']='Téléverser une image et l\'intégrer dans la page. Les grandes images seront transformées en vignettes cliquables.';
 $_SESSION['l10n']['fr']['895d2910ebcbd5ade6985c6559d44621']='Téléverser une image à afficher en haut de page. Elle sera l\'icône par défaut pour les éléments contenus dans la page.';
 $_SESSION['l10n']['fr']['Upload another file']='Ajouter un autre fichier';
-$_SESSION['l10n']['fr']['Upload files']='Envoyer des fichiers';
 $_SESSION['l10n']['fr']['Use FTP']='Utiliser FTP';
 $_SESSION['l10n']['fr']['145c71768eada2e93397ec134c387b13']='Utiliser les codes pour insérer les images dans la page.';
 $_SESSION['l10n']['fr']['d1ec6c64d705f2700ae41fb5a3f440dc']='Codes pour référencer ce fichier : %s';
 $_SESSION['l10n']['fr']['VLC media player']='VLC media player';
 $_SESSION['l10n']['fr']['Versions']='Versions';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
-$_SESSION['l10n']['fr']['Visibility']='Visibilité';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
 $_SESSION['l10n']['fr']['278d07f7dafd5749bb1bdd201beb6bf0']='Bien que nous ayons pris beaucoup de soins à empêcher l\'infection des fichiers publiés sur ce serveur, nous vous recommandons d\'employer et d\'activer sur votre ordinateur un logiciel anti-virus ad hoc pour obtenir une protection optimale.';

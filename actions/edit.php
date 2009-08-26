@@ -179,8 +179,8 @@ if(Surfer::is_crawler()) {
 	// reward the poster for new posts
 	} elseif(!$item['id']) {
 
-		// touch the related anchor silently
-		$anchor->touch('action:create', $_REQUEST['id'], TRUE);
+		// touch the related anchor
+		$anchor->touch('action:create', $_REQUEST['id']);
 
 		// clear the cache
 		Actions::clear($_REQUEST);
@@ -192,8 +192,7 @@ if(Surfer::is_crawler()) {
 		$context['page_title'] = i18n::s('Thank you for your contribution');
 
 		// action overview
-		$context['text'] .= Skin::build_block(i18n::s('Overview of your post:'), 'title')
-			.'<p><b>'.Codes::beautify_title($_REQUEST['title']).'</b></p>'
+		$context['text'] .= '<p><b>'.Codes::beautify_title($_REQUEST['title']).'</b></p>'
 			.Codes::beautify($_REQUEST['description']);
 
 		// follow-up commands
@@ -230,8 +229,8 @@ if(Surfer::is_crawler()) {
 	// update of an existing action
 	} else {
 
-		// touch the related anchor silently
-		$anchor->touch('action:update', $item['id'], TRUE);
+		// touch the related anchor
+		$anchor->touch('action:update', $item['id']);
 
 		// clear cache
 		Actions::clear($_REQUEST);

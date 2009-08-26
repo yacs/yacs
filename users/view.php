@@ -175,20 +175,6 @@ if(isset($item['full_name']) && $item['full_name']) {
 } elseif(isset($item['nick_name']))
 	$context['page_title'] = $item['nick_name'];
 
-// anyone can modify his own profile; associates can do what they want
-if(isset($item['id']) && !$zoom_type && Surfer::is_empowered()) {
-	Skin::define_img('EDIT_USER_IMG', 'icons/users/edit.gif');
-	$context['page_menu'] += array( Users::get_url($item['id'], 'edit') => EDIT_USER_IMG.i18n::s('Edit this profile') );
-}
-
-// only associates can delete user profiles; self-deletion may also be allowed
-if(isset($item['id']) && !$zoom_type && $permitted
-	&& (Surfer::is_associate()
-		|| (Surfer::is($item['id']) && (!isset($context['users_without_self_deletion']) || ($context['users_without_self_deletion'] != 'Y'))))) {
-
-	$context['page_menu'] += array( Users::get_url($item['id'], 'delete') => i18n::s('Delete') );
-}
-
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -323,12 +309,16 @@ if(!isset($item['id'])) {
 
 		// offer to extend personal spaces
 		$allowed = max($context['users_maximum_managed_sections'] - count(Surfer::personal_sections()), 0);
-		if(Surfer::is_member() && (Surfer::get_id() == $item['id']) && $allowed)
+		if(Surfer::is_member() && (Surfer::get_id() == $item['id']) && $allowed) {
+			Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 			$menu[] = Skin::build_link('sections/new.php', SECTIONS_ADD_IMG.i18n::s('Add a group or a blog'), 'span');
+		}
 
 		// associates can assign editors and readers
-		if(Surfer::is_associate())
-			$menu[] = Skin::build_link('sections/select.php?anchor=user:'.$item['id'], i18n::s('Manage'), 'span');
+		if(Surfer::is_associate()) {
+			Skin::define_img('SECTIONS_SELECT_IMG', 'sections/select.gif');
+			$menu[] = Skin::build_link('sections/select.php?anchor=user:'.$item['id'], SECTIONS_SELECT_IMG.i18n::s('Assign sections'), 'span');
+		}
 
 		if(count($menu))
 			$content .= Skin::finalize_list($menu, 'menu_bar');
@@ -341,58 +331,31 @@ if(!isset($item['id'])) {
 				$content .= $items;
 		}
 
-		// one box
-		if($content)
-			$contributions .= Skin::build_box(i18n::s('Managed sections'), $content, 'folded', 'assigned_sections');
-
-	}
-
-	// the list of watched sections
-	if(!$zoom_type) {
-		$content = '';
-
-		// list assigned by date
+		// the list of watched sections
 		if($items =& Members::list_sections_by_date_for_member('user:'.$item['id'], 0, 50, 'simple')) {
 			if(is_array($items))
-				$content .= Skin::build_list($items, 'compact');
-			else
-				$content .= $items;
+				$items = Skin::build_list($items, 'compact');
 		}
+
+		// in a side column
+		$aside = '';
+		if($items) {
+			if(Surfer::get_id() == $item['id'])
+				$aside .= '<p>'.i18n::s('You are notified when new content is added to one of the following web spaces. To remove a section from your watch list, browse it, and click on the Forget link aside.').'</p>';
+			$aside .= $items;
+		} elseif(Surfer::get_id() == $item['id'])
+			$aside = '<p>'.i18n::s('If you browse an interesting section, and want to be notified of new content posted there, click on the Watch link aside.').'</p>';
+			
+		// layout columns
+		if($aside)
+			$content = Skin::layout_horizontally($content, Skin::build_block(Skin::build_box(i18n::s('Watched sections'), $aside, 'sliding'), 'sidecolumn'));
 
 		// one box
 		if($content)
-			$content = '<p>'.i18n::s('You are notified when new content is added to one of the following web spaces. To remove a section from your watch list, browse it, and click on the Forget link aside.').'</p>'.$content;
-		else
-			$content = '<p>'.i18n::s('If you browse an interesting section, and want to be notified of new content posted there, click on the Watch link aside.').'</p>';
-			
-		$contributions .= Skin::build_box(i18n::s('Watched sections'), $content, 'folded', 'watched_sections');
+			$contributions .= Skin::build_box(i18n::s('Sections'), $content);
 
 	}
 
-	// co-browsing
-	if(Surfer::get_id() && (Surfer::get_id() != $item['id'])) {
-		$box = array( 'list' => array(), 'text' => '');
-
-		// some page or thread has been visited recently
-		if($items = Visits::list_for_user($item['id'])) {
-			foreach($items as $url => $label)
-				$box['list'] = array_merge($box['list'], array($url => sprintf(i18n::s('Join %s at %s'), $item['nick_name'], $label)));
-
-		// user is present if active during last 10 minutes (10*60 = 600), but not at some thread
-		} elseif(isset($item['click_date']) && ($item['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
-
-			// show place of last click
-			if(isset($item['click_anchor']) && ($anchor =& Anchors::get($item['click_anchor'])))
-				$box['list'] = array_merge($box['list'], array($anchor->get_url() => sprintf(i18n::s('Join %s at %s'), $item['nick_name'], $anchor->get_title())));
-
-		}
-
-		// make a box
-		if(count($box['list']))
-			$contributions .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($box['list'], 'compact'), 'folded', 'co_browsing');
-
-	}
-	
 	// contributed articles
 	//
 
@@ -447,10 +410,11 @@ if(!isset($item['id'])) {
 			$text .= '</div></form>';
 	
 			// in a folded box
+			Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 			if(Surfer::get_id() == $item['id'])
-				$box['text'] .= Skin::build_box(i18n::s('Start a thread'), $text, 'folded');
+				$box['text'] .= Skin::build_box(ARTICLES_ADD_IMG.i18n::s('Start a thread'), $text, 'sliding');
 			else
-				$box['text'] .= Skin::build_box(sprintf(i18n::s('Start a thread with %s'), $item['full_name']), $text, 'folded');
+				$box['text'] .= Skin::build_box(ARTICLES_ADD_IMG.sprintf(i18n::s('Start a thread with %s'), $item['full_name']?$item['full_name']:$item['nick_name']), $text, 'sliding');
 	
 			// append the script used for data checking on the browser
 			$box['text'] .= JS_PREFIX
@@ -473,14 +437,6 @@ if(!isset($item['id'])) {
 				.JS_SUFFIX;
 		}
 	
-		// most popular articles for this user
-		if(!$zoom_type && $items =& Articles::list_for_author_by('hits', $item['id'], 0, COMPACT_LIST_SIZE, 'hits')) {
-			if(is_array($items) && count($items))
-				$items = Skin::build_list($items, 'compact');
-			if($items)
-				$box['text'] .= Skin::build_box(i18n::s('Popular pages'), $items, 'sidebar', 'top_articles');
-		}
-
 		// count the number of articles for this user
 		$stats = Articles::stat_for_author($item['id']);
 		if($stats['count'] > ARTICLES_PER_PAGE)
@@ -493,8 +449,10 @@ if(!isset($item['id'])) {
 			Skin::navigate($home, $prefix, $stats['count'], ARTICLES_PER_PAGE, $zoom_index));
 
 		// the command to post a new article
-		if((Surfer::get_id() == $item['id']) && Surfer::is_member())
+		if((Surfer::get_id() == $item['id']) && Surfer::is_member()) {
+			Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 			$box['bar'] += array( 'articles/edit.php' => ARTICLES_ADD_IMG.i18n::s('Add a page') );
+		}
 
 		// append a menu bar before the list on pages 2, 3, ...
 		if(count($box['bar']) && ($zoom_index > 1))
@@ -508,11 +466,27 @@ if(!isset($item['id'])) {
 		$layout = new Layout_articles_as_timeline();
 		$layout->set_variant('user:'.$item['id']);
 		$items =& Members::list_articles_for_member_by('edition', 'user:'.$item['id'], $offset, ARTICLES_PER_PAGE, $layout);
+		$main_column = '';
 		if(is_array($items))
-			$box['text'] .= Skin::build_list($items, 'compact');
+			$main_column .= Skin::build_list($items, 'compact');
 		elseif($items)
-			$box['text'] .= $items;
+			$main_column .= $items;
 
+		// most popular articles for this user
+		$side_column = '';
+		if(!$zoom_type && $items =& Articles::list_for_author_by('hits', $item['id'], 0, COMPACT_LIST_SIZE, 'hits')) {
+			if(is_array($items) && count($items))
+				$items = Skin::build_list($items, 'compact');
+			if($items)
+				$side_column .= Skin::build_block(Skin::build_block(i18n::s('Popular pages'), 'subtitle').$items, 'sidecolumn', 'top_articles');
+		}
+
+		// layout the columns
+ 		if($side_column)
+ 			$box['text'] .= Skin::layout_horizontally($main_column, $side_column);
+ 		elseif($main_column)
+ 			$box['text'] .= $main_column;
+			
 		// append a menu bar below the list
 		if(count($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
@@ -530,11 +504,12 @@ if(!isset($item['id'])) {
 		$box['text'] = '';
 
 		//most popular files from this user
+		$side_column = '';
 		if($items = Files::list_by_hits_for_author($item['id'], 0, COMPACT_LIST_SIZE)) {
 			if(is_array($items) && count($items))
 				$items = Skin::build_list($items, 'compact');
 			if($items)
-				$box['text'] .= Skin::build_box(i18n::s('Popular files'), $items, 'sidebar', 'top_files');
+				$side_column .= Skin::build_block(Skin::build_block(i18n::s('Popular files'), 'subtitle').$items, 'sidecolumn', 'top_files');
 		}
 
 		// avoid links to this page
@@ -545,10 +520,16 @@ if(!isset($item['id'])) {
 
 		// list files by date
 		$items = Files::list_by_date_for_author($item['id'], 0, 20, $layout);
-
-		// actually render the html for the section
 		if(is_array($items))
-			$box['text'] .= Skin::build_list($items, 'compact');
+			$items = Skin::build_list($items, 'compact');
+
+		// layout the columns
+ 		if($side_column)
+ 			$box['text'] .= Skin::layout_horizontally($items, $side_column);
+ 		elseif($items)
+ 			$box['text'] .= $items;
+			
+		// actually render the html for the section
 		if($box['text'])
 			$contributions .= Skin::build_box(i18n::s('Files'), $box['text'], 'header1', 'contributed_files');
 
@@ -586,6 +567,30 @@ if(!isset($item['id'])) {
 		// the sidebar
 		$sidebar = '';
 		
+		// co-browsing
+		if(Surfer::get_id() && (Surfer::get_id() != $item['id'])) {
+			$visited = array();
+	
+			// some page or thread has been visited recently
+			if($items = Visits::list_for_user($item['id'])) {
+				foreach($items as $url => $label)
+					$visited = array_merge($visited, array($url => sprintf(i18n::s('Join %s at %s'), $item['nick_name'], $label)));
+	
+			// user is present if active during last 10 minutes (10*60 = 600), but not at some thread
+			} elseif(isset($item['click_date']) && ($item['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
+	
+				// show place of last click
+				if(isset($item['click_anchor']) && ($anchor =& Anchors::get($item['click_anchor'])))
+					$visited = array_merge($visited, array($anchor->get_url() => sprintf(i18n::s('Join %s at %s'), $item['nick_name'], $anchor->get_title())));
+	
+			}
+	
+			// make a box
+			if(count($visited))
+				$sidebar .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($visited, 'compact'), 'folded', 'co_browsing');
+	
+		}
+	
 		// business card
 		//
 		$rows = array();
@@ -697,9 +702,9 @@ if(!isset($item['id'])) {
 				if($item['active'] == 'Y')
 					$box .= '<p>'.i18n::s('Anyone may read this profile.').'</p>';
 				elseif($item['active'] == 'R')
-					$box .= '<p>'.RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members').'</p>';
+					$box .= '<p>'.RESTRICTED_FLAG.i18n::s('Community - Access is restricted to authenticated members').'</p>';
 				elseif($item['active'] == 'N')
-					$box .= '<p>'.PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates').'</p>';
+					$box .= '<p>'.PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').'</p>';
 			}
 
 			// signature
@@ -780,18 +785,21 @@ if(!isset($item['id'])) {
 		
 		// finalize the sidebar
 		if($sidebar)
-			$information .= Skin::build_box(NULL, $sidebar, 'sidebar');
+			$sidebar = Skin::build_block($sidebar, 'sidecolumn');
 			
+		// the main bar
+		$mainbar = '';
+		
 		// get text related to the overlay, if any
 		if(is_object($overlay))
-			$information .= $overlay->get_text('view', $item);
+			$mainbar .= $overlay->get_text('view', $item);
 
 		// the full text
-		$information .= Skin::build_block($item['description'], 'description');
+		$mainbar .= Skin::build_block($item['description'], 'description');
 
 		// birth date, if any, and only for authenticated memebers
 		if(isset($item['birth_date']) && ($item['birth_date'] > NULL_DATE) && Surfer::is_logged())
-			$information .= '<p>'.i18n::s('Birth date').' '.substr($item['birth_date'], 0, 10).'</p>';
+			$mainbar .= '<p>'.i18n::s('Birth date').' '.substr($item['birth_date'], 0, 10).'</p>';
 
 		// list files
 		//
@@ -803,14 +811,22 @@ if(!isset($item['id'])) {
 		$menu = array();
 
 		// the command to post a new file
-		if((Surfer::is($item['id']) || Surfer::is_associate()) && Surfer::may_upload())
-			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], i18n::s('Upload a file'), 'span');
+		if((Surfer::is($item['id']) || Surfer::is_associate()) && Surfer::may_upload()) {
+			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+			$menu[] = Skin::build_link('files/edit.php?anchor=user:'.$item['id'], FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'span');
+		}
 
 		if(count($menu))
 			$items .= Skin::finalize_list($menu, 'menu_bar');
 
 		if($items)
-			$information .= Skin::build_box(i18n::s('Files'), $items);
+			$mainbar .= Skin::build_box(i18n::s('Files'), $items);
+			
+		// layout columns
+		if($sidebar)
+			$information .= Skin::layout_horizontally($mainbar, $sidebar);
+		elseif($mainbar)
+			$information .= $mainbar;
 
 	}
 
@@ -826,7 +842,7 @@ if(!isset($item['id'])) {
 	// assemble tabs
 	//
 	if(!$zoom_type)
-		$panels[] = array('connections', i18n::s('Connections'), 'connections_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
+		$panels[] = array('connections', i18n::s('Contacts'), 'connections_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
 	if(!$zoom_type && Surfer::is_member())
 		$panels[] = array('actions', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'));
 
@@ -844,21 +860,31 @@ if(!isset($item['id'])) {
 	if(Surfer::is_empowered()) {
 
 		// change avatar
-		if(Surfer::is_empowered()) {
-			if(isset($item['avatar_url']) && $item['avatar_url'])
-				$label = i18n::s('Change avatar');
-			else
-				$label = i18n::s('Add avatar');
-			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'select_avatar'), $label, 'basic');
+		if(Surfer::is_empowered() && isset($item['avatar_url']) && $item['avatar_url']) {
+			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
+			$label = i18n::s('Change picture');
+			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'select_avatar'), IMAGES_ADD_IMG.$label, 'basic');
 		}
 
 		// modify this page
-		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), i18n::s('Edit this profile'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		Skin::define_img('USERS_EDIT_IMG', 'users/edit.gif');
+		$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'edit'), USERS_EDIT_IMG.i18n::s('Edit this profile'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// change password
-		if(!isset($context['users_authenticator']) || !$context['users_authenticator'])
-			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'password'), i18n::s('Change password'), 'basic');
+		if(!isset($context['users_authenticator']) || !$context['users_authenticator']) {
+			Skin::define_img('USERS_PASSWORD_IMG', 'users/password.gif');
+			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'password'), USERS_PASSWORD_IMG.i18n::s('Change password'), 'basic');
+		}
 
+		// only associates can delete user profiles; self-deletion may also be allowed
+		if(isset($item['id']) && !$zoom_type && $permitted
+			&& (Surfer::is_associate()
+				|| (Surfer::is($item['id']) && (!isset($context['users_without_self_deletion']) || ($context['users_without_self_deletion'] != 'Y'))))) {
+		
+			Skin::define_img('USERS_DELETE_IMG', 'users/delete.gif');
+			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'delete'), USERS_DELETE_IMG.i18n::s('Delete this profile'));
+		}
+		
 	}
 
 	// user profile aside
@@ -877,12 +903,16 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 	// logged users may download the vcard
-	if(Surfer::is_logged())
-		$lines[] = Skin::build_link(Users::get_url($item['id'], 'fetch_vcard', $item['nick_name']), i18n::s('Business card'), 'basic');
+	if(Surfer::is_logged()) {
+		Skin::define_img('USERS_VCARD_IMG', 'users/vcard.gif');
+		$lines[] = Skin::build_link(Users::get_url($item['id'], 'fetch_vcard', $item['nick_name']), USERS_VCARD_IMG.i18n::s('Business card'), 'basic');
+	}
 
 	// print this page
-	if(Surfer::is_logged())
-		$lines[] = Skin::build_link(Users::get_url($id, 'print'), i18n::s('Print this page'), 'basic');
+	if(Surfer::is_logged()) {
+		Skin::define_img('TOOLS_PRINT_IMG', 'tools/print.gif');
+		$lines[] = Skin::build_link(Users::get_url($id, 'print'), TOOLS_PRINT_IMG.i18n::s('Print this page'), 'basic');
+	}
 
 	// in a side box
 	if(count($lines))
@@ -900,8 +930,8 @@ if(!isset($item['id'])) {
 
 		// suggest a new connection
 		if(!Members::check('user:'.$item['id'], 'user:'.Surfer::get_id())) {
-			Skin::define_img('WATCH_TOOL_IMG', 'icons/tools/watch.gif');
-			$lines[] = Skin::build_link($link, WATCH_TOOL_IMG.i18n::s('Add to my contacts'), 'feed');
+			Skin::define_img('USERS_WATCH_IMG', 'users/watch.gif');
+			$lines[] = Skin::build_link($link, USERS_WATCH_IMG.i18n::s('Add to my contacts'), 'feed');
 		}
 
 	}

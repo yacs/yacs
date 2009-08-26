@@ -1152,6 +1152,10 @@ Class Users {
 			return FALSE;
 		}
 
+		// ensure we have a full name
+		if(!isset($fields['full_name']) || !trim($fields['full_name']))
+			$fields['full_name'] = $fields['nick_name'];
+
 		// password is required
 		if(!isset($fields['password']) || !trim($fields['password'])) {
 			Logger::error(i18n::s('Please indicate a password.'));
@@ -1420,6 +1424,10 @@ Class Users {
 			}
 
 		}
+
+		// ensure we have a full name
+		if(!isset($fields['full_name']) || !trim($fields['full_name']))
+			$fields['full_name'] = $fields['nick_name'];
 
 		// protect from hackers
 		if(isset($fields['avatar_url']))

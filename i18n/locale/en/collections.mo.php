@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 4, 2009, 9:49 pm GMT. Please do not modify it manually.
+ * on August 4, 2009, 1:21 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-06-29 01:13+0200
+POT-Creation-Date: 2009-08-04 10:21+0200
 PO-Revision-Date: 2008-11-02 23:13+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -24,10 +24,7 @@ $_SESSION['l10n']['en']['%d files have been extracted.']='%d files have been ext
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['4818dbf386b7133e0bca919a733f1329']='A pleasant way to watch photos and artwork';
-$_SESSION['l10n']['en']['21c58f77450af6e7fc86a17ada969ac2']='Access is restricted to associates';
-$_SESSION['l10n']['en']['71591a943ab0ff1e925f29270c9a6568']='Access is restricted to authenticated members';
 $_SESSION['l10n']['en']['Add a collection']='Add a collection';
-$_SESSION['l10n']['en']['10cc9759113e2217d67ba0a8539d260a']='Anyone may browse this collection';
 $_SESSION['l10n']['en']['Autoplay']='Autoplay';
 $_SESSION['l10n']['en']['Beginning']='Beginning';
 $_SESSION['l10n']['en']['Browse this directory']='Browse this directory';
@@ -107,7 +104,6 @@ $_SESSION['l10n']['en']['Upload a file']='Upload a file';
 $_SESSION['l10n']['en']['Use a short nick name']='Use a short nick name';
 $_SESSION['l10n']['en']['0f4b3533ba2217b9d4b0af33b2a61abb']='Use this form to give remote access to selected folders.';
 $_SESSION['l10n']['en']['VLC media player']='VLC media player';
-$_SESSION['l10n']['en']['Visibility']='Visibility';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';
 $_SESSION['l10n']['en']['Winamp player']='Winamp player';
 $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed to perform this operation in demonstration mode.';

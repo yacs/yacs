@@ -87,7 +87,7 @@ if(!isset($item['id'])) {
 
 	// touch the related anchor before actual deletion, since the date has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('date:delete', $item['id'], TRUE);
+		$anchor->touch('date:delete', $item['id']);
 
 	// if no error, back to the anchor or to the index page
 	if(Dates::delete($item['id'])) {
@@ -105,9 +105,15 @@ if(!isset($item['id'])) {
 // ask for confirmation
 else {
 
+	// commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this date'), NULL, NULL, 'confirmed');
+	if(is_object($anchor))
+		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
+
 	// the submit button
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-		.Skin::build_submit_button(i18n::s('Yes, I want to suppress this date'), NULL, NULL, 'confirmed')."\n"
+		.Skin::finalize_list($menu, 'menu_bar')
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";
@@ -121,12 +127,16 @@ else {
 	// the date
 	$context['text'] .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Target date'), Skin::build_date($item['date_stamp'], 'full')).'</p>';
 
+	// details
+	$details = array();
+
 	// information on uploader
 	if(Surfer::is_member() && $item['edit_name'])
 		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 	// the complete details
-	$context['text'] .= ucfirst(implode(', ', $details)).BR."\n";
+	if($details)
+		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
 }
 

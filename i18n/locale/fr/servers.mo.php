@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:51 pm GMT. Please do not modify it manually.
+ * on August 24, 2009, 10:17 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
+POT-Creation-Date: 2009-08-04 10:22+0200
 PO-Revision-Date: 2009-04-08 23:12+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -38,7 +38,6 @@ $_SESSION['l10n']['fr']['3b105025b68dcc9dd6fe9a921ec06dbb']='Services autorisés
 $_SESSION['l10n']['fr']['877cbda64d3cb855a25012834b11ff0a']='Enfin, vous pouvez désactiver certains services que nous fournissons habituellement.';
 $_SESSION['l10n']['fr']['b018c1910c6bb2c705747f1858656296']='Un enregistrement existe déjà pour le serveur %s';
 $_SESSION['l10n']['fr']['Another famous blogs aggregator']='Un autre consolidateur de blog célèbre';
-$_SESSION['l10n']['fr']['Anyone may read this profile.']='Tout le monde peut lire ce profil.';
 $_SESSION['l10n']['fr']['Back to server profile']='Retour au profil de serveur';
 $_SESSION['l10n']['fr']['Back to servers']='Retour aux serveurs';
 $_SESSION['l10n']['fr']['ab29426eac97a8fac53f1263996c2dc2']='Vérification à chaque requête transmise';
@@ -125,7 +124,6 @@ $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la configuration, merci de copier et de coller les lignes suivantes dans le fichier %s :';
 $_SESSION['l10n']['fr']['05c25c014684971c3965c042f951d35f']='Ne pas avertir ce serveur des mises à jour.';
 $_SESSION['l10n']['fr']['bad1797b6d17bd4ea44f1356dd17420b']='Utilisez cette page pour paramétrer les interactions avec l\'un des serveurs participant à notre communauté.';
-$_SESSION['l10n']['fr']['Visibility']='Visibilité';
 $_SESSION['l10n']['fr']['1304488e4595bb019f80d0c8a64d3150']='Services distants utilisés';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';

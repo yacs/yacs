@@ -30,7 +30,7 @@ if(is_callable('apache_get_modules')) {
 $context['text'] .= '<p>'.i18n::s('The default handler will be set to index.php.').'</p>';
 
 // good news
-$context['text'] .= '<p>'.sprintf(i18n::s('Apache has been configured with %s.'), 'AllowOverride Indexes').'</p>';
+$context['text'] .= '<p>'.sprintf(i18n::s('Please ensure that Apache has been configured with %s.'), 'AllowOverride Indexes').'</p>';
 
 // follow-up commands
 $follow_up = Skin::build_link('control/htaccess/', i18n::s('Done'), 'button');

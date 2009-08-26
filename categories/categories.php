@@ -1417,6 +1417,7 @@ Class Categories {
 			."options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."',"
 			."overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."',"
 			."overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."',"
+			."owner_id='".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id'])."', "
 			."path='".SQL::escape($path)."',"
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
 			."rank='".SQL::escape($fields['rank'])."',"
@@ -1814,6 +1815,7 @@ Class Categories {
 		$fields['options']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['overlay']		= "TEXT NOT NULL";
 		$fields['overlay_id']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['owner_id']		= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['path'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['prefix']		= "TEXT NOT NULL";
 		$fields['rank'] 		= "MEDIUMINT UNSIGNED DEFAULT 10000 NOT NULL";

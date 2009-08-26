@@ -27,11 +27,11 @@ load_skin('users');
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
-$context['page_title'] = i18n::s('The library of avatars');
+$context['page_title'] = i18n::s('The library of profile pictures');
 
 // logged users may change their avatar
 if(Surfer::is_logged())
-	$context['page_menu'] += array( 'users/select_avatar.php' => i18n::s('Your avatar') );
+	$context['page_menu'] += array( 'users/select_avatar.php' => i18n::s('Your picture') );
 
 // list available avatars, except on error
 if(!count($context['error'])) {
@@ -47,12 +47,11 @@ if(!count($context['error'])) {
 	else {
 
 		// offers to change the avatar
-		if(Surfer::is_logged()) {
-			$context['text'] .= '<p>'.sprintf(i18n::s('To check or change your avatar, go to %s.'), Skin::build_link('users/select_avatar.php', i18n::s('the avatar selection page'), 'shortcut')).'</p>'."\n";
-		}
+		if(Surfer::is_logged())
+			$context['text'] .= '<p>'.Skin::build_link('users/select_avatar.php', i18n::s('Change your own picture'), 'shortcut').'</p>'."\n";
 
 		// splash
-		$context['text'] .= '<p>'.i18n::s('This is the list of avatars available at this site.').'</p>'."\n";
+		$context['text'] .= '<p>'.i18n::s('This is the library of shared pictures available at this site.').'</p>'."\n";
 
 		// build the lists
 		while(($item = Safe::readdir($dir)) !== FALSE) {

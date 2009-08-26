@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on August 24, 2009, 10:21 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2008-11-16 21:53+0100
+POT-Creation-Date: 2009-06-29 01:13+0200
+PO-Revision-Date: 2009-07-04 22:57+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -126,7 +126,9 @@ $_SESSION['l10n']['fr']['Your name']='Votre nom';
 $_SESSION['l10n']['fr']['at %s']='à %s';
 $_SESSION['l10n']['fr']['authenticate']='vous authentifier';
 $_SESSION['l10n']['fr']['clicks']='clics';
+$_SESSION['l10n']['fr']['delete']='supprimer';
 $_SESSION['l10n']['fr']['74b5672945558b3b34f2599587f6c14c']='Adresse électronique, ou serveur web ; champ optionnel';
+$_SESSION['l10n']['fr']['edit']='modifier';
 $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
 $_SESSION['l10n']['fr']['in %s']='dans %s';
 $_SESSION['l10n']['fr']['smileys']='emoticons';

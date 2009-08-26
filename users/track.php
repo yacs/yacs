@@ -138,7 +138,7 @@ if(!$item['id']) {
 	// check the watch list
 	if(Surfer::get_id()) {
 		if(!strncmp($track, 'user:', 5))
-			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()).'#_connections', i18n::s('My connections'), 'basic');
+			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()).'#_connections', i18n::s('My contacts'), 'basic');
 		else
 			$menu[] = Skin::build_link(Users::get_url(Surfer::get_id()), i18n::s('My Profile'), 'basic');
 	}

@@ -96,11 +96,12 @@ if(!isset($item['id'])) {
 
 	// touch the related anchor before actual deletion, since the link has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('link:delete', $item['id'], TRUE);
+		$anchor->touch('link:delete', $item['id']);
 
 	// if no error, back to the anchor or to the index page
 	if(Links::delete($item['id'])) {
 		Links::clear($item);
+		
 		if(is_object($anchor))
 			Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url().'#links');
 		else
@@ -114,9 +115,15 @@ if(!isset($item['id'])) {
 // ask for confirmation
 else {
 
+	// commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this link'), NULL, NULL, 'confirmed');
+	if(is_object($anchor))
+		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
+
 	// the submit button
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-		.Skin::build_submit_button(i18n::s('Yes, I want to suppress this link'), NULL, NULL, 'confirmed')."\n"
+		.Skin::finalize_list($menu, 'menu_bar')
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";
@@ -133,6 +140,16 @@ else {
 	else
 		$context['text'] .= Skin::build_block($item['link_url'], 'title');
 
+	// the link url, if it has not already been used as title
+	if($item['title'])
+		$context['text'] .= '<p>'.$item['link_url']."</p>\n";
+
+	// display the full text
+	$context['text'] .= '<div style="margin: 1em 0;">'.Codes::beautify($item['description']).'</div>'."\n";
+
+	// details
+	$details = array();
+
 	// information on uploader
 	if(Surfer::is_member() && $item['edit_name'])
 		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
@@ -143,14 +160,7 @@ else {
 
 	// all details
 	if($details)
-		$context['text'] .= ucfirst(implode(', ', $details)).BR."\n";
-
-	// the link url, if it has not already been used as title
-	if($item['title'])
-		$context['text'] .= '<p>'.$item['link_url']."</p>\n";
-
-	// display the full text
-	$context['text'] .= Skin::build_block($item['description'], 'description');
+		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
 }
 

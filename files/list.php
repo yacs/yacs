@@ -147,8 +147,8 @@ if(!is_object($anchor)) {
 
 	// the command to post a new file, if this is allowed
 	if(Files::are_allowed($anchor)) {
-		Skin::define_img('NEW_FILE_IMG', 'icons/files/new.gif');
-		$context['page_menu'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), NEW_FILE_IMG.' '.i18n::s('Upload a file'));
+		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+		$context['page_menu'][] = Skin::build_link(Files::get_url($anchor->get_reference(), 'file'), FILES_UPLOAD_IMG.i18n::s('Upload a file'));
 	}
 
 	// command to go back

@@ -630,7 +630,6 @@ Class Decisions {
 	 *
 	 * @see articles/fetch_as_msword.php
 	 * @see articles/fetch_as_pdf.php
-	 * @see articles/fetch_for_palm.php
 	 * @see articles/print.php
 	 * @see articles/view.php
 	 * @see decisions/feed.php

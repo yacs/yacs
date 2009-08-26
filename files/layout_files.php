@@ -66,10 +66,10 @@ Class Layout_files extends Layout_interface {
 			if(is_callable(array('Codes', 'initialize')))
 				Codes::initialize($url);
 
-			// provide some file player, if any
-			if($player = Files::interact($item, 320, 240, '', FALSE))
-				$prefix .= $player.BR;
-			
+			// provide the dewplayer for mp3 files
+			if(preg_match('/\.mp3$/i', $item['file_name']))
+				$prefix .= Files::interact($item, 320, 240, '', FALSE).BR;
+				
 			// flag files uploaded recently
 			if($item['create_date'] >= $dead_line)
 				$prefix .= NEW_FLAG;

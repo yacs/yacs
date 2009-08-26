@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 4, 2009, 9:49 pm GMT. Please do not modify it manually.
+ * on August 26, 2009, 12:25 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-06-29 01:13+0200
-PO-Revision-Date: 2009-07-03 00:22+0100
+POT-Creation-Date: 2009-08-25 19:24+0200
+PO-Revision-Date: 2009-08-25 19:28+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -62,8 +62,8 @@ $_SESSION['l10n']['en']['%s - server software']='%s - server software';
 $_SESSION['l10n']['en']['aabc0967626adb06becb52f1d111ee19']='%s - shared directories and files';
 $_SESSION['l10n']['en']['63c82f286cf6a3295558a5f47bf5dc6a']='%s - shut the server down, or fire it up again';
 $_SESSION['l10n']['en']['8aa717dbf86d0e44261682c8f01aa966']='%s - smileys available for your posts';
-$_SESSION['l10n']['en']['b336d603cf98c3f79f114eb28df45c87']='%s - some avatars you may choose for your profile';
 $_SESSION['l10n']['en']['%s - some have %s']='%s - some have %s';
+$_SESSION['l10n']['en']['cbcc06fbe1c285289110cb2453558b69']='%s - some pictures you may choose for your profile';
 $_SESSION['l10n']['en']['be836c9c173ea40cff6ba90868f205a7']='%s - some upgrades are waiting for execution';
 $_SESSION['l10n']['en']['3ce5395cbcf2e9990bc30dec981da951']='%s - the safety tool; also useful to submit bulk SQL statements';
 $_SESSION['l10n']['en']['7fb8bdb871d74deeb64f9fbaf9eda641']='%s - to change rendering of dynamic Flash objects';
@@ -107,7 +107,6 @@ $_SESSION['l10n']['en']['All indexes will be (re)built.']='All indexes will be (
 $_SESSION['l10n']['en']['b3e8ce8c7a8ed8373c4db7d6cdbc9f0f']='All other trademarks, icons, and logos, shown or mentioned, are the property of their respective owners, including those associated with any solutions listed in [parameter=site_name]. Although [parameter=site_owner] does not own and is not responsible for all of the content on the site, we reserve the right to edit or remove any content at any time in any way we deem necessary, without any notification whatselver to the owner(s) of that content, to keep it better in line with our stated and/or unstated policies. [parameter=site_owner] is not responsible for any copyright laws violated by the applications listed herein, although we will do everything we can do resolve any disputes that may arise in this area.';
 $_SESSION['l10n']['en']['3601ebb2d1f7a4183e047d58ee8fb3cc']='Although some Internet users think cookies are a serious privacy issue, as web designers we think that they come in darned handy. This site uses cookies for basic account identification purposes, but that\'s as far as we go. We won\'t use any information from cookies to track your browsing sessions, attempt to extract personal information from them that we wouldn\'t otherwise have access to, or do any other naughty things with your cookies. If you don\'t agree with our use of cookies, you can configure most web browsers not to accept them. Even without a cookie, a significant part of this server will still be accessible to you (although you will lose the ability to do anything that requires you to be logged into the server).';
 $_SESSION['l10n']['en']['Apache .htaccess']='Apache .htaccess';
-$_SESSION['l10n']['en']['1ffbc6125d4d724ceaf9fc2f5a78ef72']='Apache has been configured with %s.';
 $_SESSION['l10n']['en']['Apply these SQL statements']='Apply these SQL statements';
 $_SESSION['l10n']['en']['Architecture']='Architecture';
 $_SESSION['l10n']['en']['61c49b8e6d3d365eb7781e3d47d1b58d']='Attempt to adapt the interface to the language indicated by the browser.';
@@ -328,6 +327,7 @@ $_SESSION['l10n']['en']['52609f36af990d3a21ca779eaad8d292']='Please configure so
 $_SESSION['l10n']['en']['Please configure your server']='Please configure your server';
 $_SESSION['l10n']['en']['Please create a database']='Please create a database';
 $_SESSION['l10n']['en']['Please create tables']='Please create tables';
+$_SESSION['l10n']['en']['20fca49c3ea848eab7624b345c5bcf6a']='Please ensure that Apache has been configured with %s.';
 $_SESSION['l10n']['en']['0807793f4a8fb75612181f3448c79dfb']='Please indicate below the name and password you will use to authenticate to this server.';
 $_SESSION['l10n']['en']['Please populate tables']='Please populate tables';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
@@ -476,7 +476,7 @@ $_SESSION['l10n']['en']['c084e53bb1a030ebb344d6f7e9314e44']='Type one or several
 $_SESSION['l10n']['en']['UPDATE commands separated by ;']='UPDATE commands separated by ;';
 $_SESSION['l10n']['en']['URL generation']='URL generation';
 $_SESSION['l10n']['en']['URL optimization']='URL optimization';
-$_SESSION['l10n']['en']['6dc930d1dc0fbb8a2988c7d852389b8f']='URL rewriting is also available.';
+$_SESSION['l10n']['en']['URL rewriting is available.']='URL rewriting is available.';
 $_SESSION['l10n']['en']['Update database content']='Update database content';
 $_SESSION['l10n']['en']['Update file permissions']='Update file permissions';
 $_SESSION['l10n']['en']['Update the database schema']='Update the database schema';

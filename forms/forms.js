@@ -1,9 +1,9 @@
 /**
- * The AJAX library used to create forms dynamically
+ * the AJAX library used to create forms dynamically
  *
  * This file extends prototype, etc., to enhance interactions with the end-user
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */

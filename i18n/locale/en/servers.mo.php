@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 4, 2009, 9:49 pm GMT. Please do not modify it manually.
+ * on August 26, 2009, 12:25 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2009-04-08 23:08+0100
+POT-Creation-Date: 2009-08-26 01:57+0200
+PO-Revision-Date: 2009-08-26 02:05+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -28,8 +28,7 @@ $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['e65ecdbceaab96361e9cabd171db6222']='A record has been created for server %s';
 $_SESSION['l10n']['en']['29ae395fb6ee23f2ca2c70c124ddf2c0']='Accept and process advertisements (<code>weblogUpdates.ping</code>) transmitted by this server to %s';
 $_SESSION['l10n']['en']['94a464898c7a931eb5d53f1420cdc3d4']='Accept and process search requests submitted by this server to %s';
-$_SESSION['l10n']['en']['21c58f77450af6e7fc86a17ada969ac2']='Access is restricted to associates';
-$_SESSION['l10n']['en']['71591a943ab0ff1e925f29270c9a6568']='Access is restricted to authenticated members';
+$_SESSION['l10n']['en']['Access']='Access';
 $_SESSION['l10n']['en']['Add a server']='Add a server';
 $_SESSION['l10n']['en']['Add a server profile']='Add a server profile';
 $_SESSION['l10n']['en']['53772f9573c476db020670cb2595011d']='Aggregate news from this server by reading the XML feed at %s';
@@ -38,10 +37,10 @@ $_SESSION['l10n']['en']['3b105025b68dcc9dd6fe9a921ec06dbb']='Allowed queries fro
 $_SESSION['l10n']['en']['877cbda64d3cb855a25012834b11ff0a']='Also, uncheck web services that we should not provide to the target server.';
 $_SESSION['l10n']['en']['b018c1910c6bb2c705747f1858656296']='An entry already exists for server %s';
 $_SESSION['l10n']['en']['Another famous blogs aggregator']='Another famous blogs aggregator';
-$_SESSION['l10n']['en']['Anyone may read this profile.']='Anyone may read this profile.';
 $_SESSION['l10n']['en']['Back to server profile']='Back to server profile';
 $_SESSION['l10n']['en']['Back to servers']='Back to servers';
 $_SESSION['l10n']['en']['ab29426eac97a8fac53f1263996c2dc2']='Checked on each server request to us';
+$_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
@@ -91,7 +90,9 @@ $_SESSION['l10n']['en']['Ping the cloud']='Ping the cloud';
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
 $_SESSION['l10n']['en']['Populate']='Populate';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
+$_SESSION['l10n']['en']['711abf22490c13c012c6eff77b7b2b9e']='Private - Access is restricted to selected persons';
 $_SESSION['l10n']['en']['47b78f39e64497e39883fac579c63f84']='Processing of queries received from this server';
+$_SESSION['l10n']['en']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Access is granted to anonymous surfers';
 $_SESSION['l10n']['en']['Received from feeding servers']='Received from feeding servers';
 $_SESSION['l10n']['en']['Related to %s']='Related to %s';
 $_SESSION['l10n']['en']['f29869af2b6e35819bc5a7c5872e8dca']='Remote calls are allowed by default. Uncheck boxes below to ban this server if necessary.';
@@ -125,7 +126,6 @@ $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
 $_SESSION['l10n']['en']['05c25c014684971c3965c042f951d35f']='Updates are not transmitted to this server.';
 $_SESSION['l10n']['en']['bad1797b6d17bd4ea44f1356dd17420b']='Use this page to describe network interactions with a peering server, part of the cloud we are in.';
-$_SESSION['l10n']['en']['Visibility']='Visibility';
 $_SESSION['l10n']['en']['1304488e4595bb019f80d0c8a64d3150']='Web services used from this server';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';

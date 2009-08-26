@@ -649,7 +649,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			$commands[] = sprintf(i18n::s('%s - smileys available for your posts'), Skin::build_link('smileys/', i18n::s('Smileys'), 'basic'));
 
 			// avatars
-			$commands[] = sprintf(i18n::s('%s - some avatars you may choose for your profile'), Skin::build_link('skins/images/avatars/', i18n::s('Avatars'), 'basic'));
+			$commands[] = sprintf(i18n::s('%s - some pictures you may choose for your profile'), Skin::build_link('skins/images/avatars/', i18n::s('Avatars'), 'basic'));
 
 			// usage information
 			if(Surfer::is_associate())

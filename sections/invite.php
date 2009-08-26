@@ -229,12 +229,12 @@ if(Surfer::is_crawler()) {
 		// look for a user with this nick name
 		} elseif(($user =& Users::get($recipient))) {
 		
-			// make this user an editor of the target section
+			// make this user an editor of the target section, and update his watch list as well
 			if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y'))
-				Members::assign('section:'.$item['id'], 'user:'.$user['id']);
+				Members::assign('user:'.$user['id'], 'section:'.$item['id']);
 
 			// always add the item to the watch list
-			Members::assign('user:'.$user['id'], 'section:'.$item['id']);
+			Members::assign('section:'.$item['id'], 'user:'.$user['id']);
 
 			// use this email address
 			if($user['email']) {
@@ -312,12 +312,12 @@ if(Surfer::is_crawler()) {
 	if(Surfer::is_empowered()) {
 		// share a private page
  		if($item['active'] == 'N')
-			$input .= '<input type="radio" name="provide_credentials" value="Y" checked="checked" /> '.i18n::s('to become section editors').BR;
+			$input .= '<input type="radio" name="provide_credentials" value="Y" checked="checked" /> '.i18n::s('to manage content').BR;
 
 		// page can be accessed by many people
 		else
-			$input .= '<input type="radio" name="provide_credentials" value="N" checked="checked" /> '.i18n::s('to review section content')
-				.' &nbsp; <input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('to become section editors').BR;
+			$input .= '<input type="radio" name="provide_credentials" value="N" checked="checked" /> '.i18n::s('to review content')
+				.' &nbsp; <input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('to manage content').BR;
 	}
 	$input .= '<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
 	$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');

@@ -21,7 +21,7 @@ $context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Configure'), i18n::
 
 if(is_callable('apache_get_modules')) {
 	if(in_array('mod_rewrite', apache_get_modules()))
-		$context['text'] .= '<p>'.i18n::s('URL rewriting is also available.').'</p>';
+		$context['text'] .= '<p>'.i18n::s('URL rewriting is available.').'</p>';
 	else
 		$context['text'] .= '<p>'.sprintf(i18n::s('Activate the following Apache module to allow URL rewriting: %s'), 'mod_rewrite').'</p>';
 }
@@ -30,7 +30,7 @@ if(is_callable('apache_get_modules')) {
 $context['text'] .= '<p>'.i18n::s('Directory browsing will be prevented globally.').'</p>';
 
 // good news
-$context['text'] .= '<p>'.sprintf(i18n::s('Apache has been configured with %s.'), 'AllowOverride Options').'</p>';
+$context['text'] .= '<p>'.sprintf(i18n::s('Please ensure that Apache has been configured with %s.'), 'AllowOverride Options').'</p>';
 
 // follow-up commands
 $follow_up = Skin::build_link('control/htaccess/', i18n::s('Done'), 'button');

@@ -68,7 +68,7 @@ $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
 if(isset($item['nick_name']))
-	$context['page_title'] = sprintf(i18n::s('Select an avatar for %s'), $item['nick_name']);
+	$context['page_title'] = sprintf(i18n::s('Select a picture for %s'), $item['nick_name']);
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -104,9 +104,9 @@ elseif(!isset($item['id'])) {
 
 // the current avatar, if any
 if(isset($item['avatar_url']) && $item['avatar_url'])
-	$context['text'] .= '<p>'.sprintf(i18n::s('Current avatar: %s'), BR.'<img src="'.$item['avatar_url'].'" alt="avatar" style="avatar" />').'</p>'."\n";
+	$context['text'] .= '<p>'.sprintf(i18n::s('Current picture: %s'), BR.'<img src="'.$item['avatar_url'].'" alt="avatar" style="avatar" />').'</p>'."\n";
 else
-	$context['text'] .= '<p>'.i18n::s('No avatar has been set for your profile.').'</p>';
+	$context['text'] .= '<p>'.i18n::s('No picture has been set for this profile.').'</p>';
 
 // list available avatars, except on error
 if(!count($context['error']) && isset($item['id'])) {
@@ -151,7 +151,7 @@ if(!count($context['error']) && isset($item['id'])) {
 		$text = '';
 
 		if(Surfer::may_upload())
-			$text .= '<p>'.i18n::s('Click on one image below to make it your new avatar.').'</p>'."\n";
+			$text .= '<p>'.i18n::s('Click on one image below to make it your new picture.').'</p>'."\n";
 
 		// build the lists
 		while(($image = Safe::readdir($dir)) !== FALSE) {
@@ -187,7 +187,7 @@ if(!count($context['error']) && isset($item['id'])) {
 
 		// it is already in use
 		if(isset($item['avatar_url']) && ($url == $item['avatar_url']))
-			$text .= '<p>'.sprintf(i18n::s('Your are using your %s as current avatar.'), Skin::build_link('http://www.gravatar.com/', i18n::s('gravatar'), 'external')).'</p>'."\n";
+			$text .= '<p>'.sprintf(i18n::s('Your are using your %s as current picture.'), Skin::build_link('http://www.gravatar.com/', i18n::s('gravatar'), 'external')).'</p>'."\n";
 
 		// show it
 		else

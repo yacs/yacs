@@ -29,6 +29,7 @@ Class Layout_files_as_feed extends Layout_interface {
 			return $items;
 
 		// process all items in the list
+		include_once $context['path_to_root'].'files/files.php';
 		while($item =& SQL::fetch($result)) {
 
 			// reset the rendering engine between items
@@ -78,7 +79,6 @@ Class Layout_files_as_feed extends Layout_interface {
 			$extensions = array();
 
 			// url for enclosure
-			include_once $context['path_to_root'].'files/files.php';
 			$type = Files::get_mime_type($item['file_name']);
 			$extensions[] = '<enclosure url="'.$context['url_to_home'].$context['url_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['file_name'].'"'
 				.' length="'.$item['file_size'].'"'

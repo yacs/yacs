@@ -16,7 +16,7 @@
  * Where applicable we have also mentioned the YACS codes related to styles.
  * You can find more information on YACS codes at codes/codes.php and related pages.
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -190,13 +190,13 @@ input[type="password"],
 input[type="text"] { /* change form elements */
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
-	color: black:
+	color: black;
 	background-color: #EFEFEF;
 	border: 1px solid #000000;
 }
 
 input:focus { /* help to locate the current field */
-	color: black:
+	color: black;
 }
 
 input[type="submit"] { /* change button appearance */
@@ -252,12 +252,12 @@ sup { /* shifted up -- [superscript]...[/superscript] */
 }
 
 select {
-	color: black:
+	color: black;
 	background-color: white;
 }
 
 select:focus { /* help to locate the current field */
-	color: black:
+	color: black;
 	background-color: #dedede;
 }
 
@@ -279,7 +279,7 @@ td { /* an ordinary table cell -- cells in [table]headers[body]content[/table] *
 }
 
 textarea { /* change form elements */
-	color: black:
+	color: black;
 	background-color: white;
 	border: #26a solid 1px;
 }
@@ -1305,7 +1305,6 @@ table.form td {
 	background: url("images/shadow_alpha.png") no-repeat bottom right !important; 	/* for firefox */
 	background: url("images/shadow.gif") no-repeat bottom right;					/* for IE */
 	margin: 10px 0 1em 6px !important;
-	*margin: 10px 0 1em 3px
 }
 
 .frame_image span img {
@@ -2046,4 +2045,3 @@ table.yabb { /* to introduce threads and comments -- see articles/layout_article
 	width: 100%;
 	margin: 0px;
 }
-

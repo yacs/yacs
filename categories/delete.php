@@ -76,7 +76,7 @@ if(!isset($item['id'])) {
 
 	// touch the related anchor before actual deletion, since the image has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('category:delete', $item['id'], TRUE);
+		$anchor->touch('category:delete', $item['id']);
 
 	// attempt to delete
 	if(Categories::delete($item['id'])) {
@@ -98,9 +98,15 @@ if(!isset($item['id'])) {
 // the form
 else {
 
+	// commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this category'), NULL, NULL, 'confirmed');
+	if(isset($item['id']))
+		$menu[] = Skin::build_link(Categories::get_permalink($item), i18n::s('Cancel'), 'span');
+
 	// the submit button
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-		.Skin::build_submit_button(i18n::s('Yes, I want to delete this category'), NULL, NULL, 'confirmed')."\n"
+		.Skin::finalize_list($menu, 'menu_bar')
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";
@@ -115,6 +121,16 @@ else {
 	if($item['title'])
 		$context['text'] .= Skin::build_block($item['title'], 'title');
 
+	// the introduction text, if any
+	$context['text'] .= '<div style="margin: 1em 0;">'.Codes::beautify($item['introduction']).'</div>'."\n";
+
+	// get text related to the overlay, if any
+	if(is_object($overlay))
+		$context['text'] .= $overlay->get_text('view', $item);
+
+	// details
+	$details = array();
+
 	// information on last editor
 	if($item['edit_name'])
 		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
@@ -126,12 +142,6 @@ else {
 	// all details
 	if(@count($details))
 		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
-
-	// the introduction text, if any
-	$context['text'] .= Skin::build_block($item['introduction'], 'introduction');
-
-	// main text
-	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 	// count items related to this category
 	$context['text'] .= Anchors::stat_related_to('category:'.$item['id'], i18n::s('Following items are attached to this record and will be deleted as well.'));

@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 4, 2009, 9:50 pm GMT. Please do not modify it manually.
+ * on August 4, 2009, 1:22 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-14 23:34+0200
+POT-Creation-Date: 2009-08-04 10:21+0200
 PO-Revision-Date: 2009-05-14 23:35+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -47,8 +47,6 @@ $_SESSION['l10n']['en']['0dd81ef71d965a55d04723a19fed88d5']='A description of wh
 $_SESSION['l10n']['en']['15a236ca9dd83d2cab7410724ee5595b']='A description of what this blog is about.';
 $_SESSION['l10n']['en']['be7c63c5610611e8ceb64ee9c69cfb7e']='A forum is made of one or several discussion boards, which are aiming to support threads of interaction between community members. Each topic started in a discussion board may feature images, photos, files, and related links.';
 $_SESSION['l10n']['en']['4b0cead0aa66572c23b024845b482b1d']='A section already exists for partners.';
-$_SESSION['l10n']['en']['16a5e32bfb6574ae5e6bd234b527b647']='Access is restricted to associates and editors';
-$_SESSION['l10n']['en']['71591a943ab0ff1e925f29270c9a6568']='Access is restricted to authenticated members';
 $_SESSION['l10n']['en']['Access the directory']='Access the directory';
 $_SESSION['l10n']['en']['Access the new blog']='Access the new blog';
 $_SESSION['l10n']['en']['Access the new book']='Access the new book';
@@ -91,7 +89,6 @@ $_SESSION['l10n']['en']['6aa580cd65f6ae334e440791240a8541']='Any authenticated m
 $_SESSION['l10n']['en']['28d5f28f4f46d219aee68301a1ac5b26']='Any authenticated member of the community is allowed to contribute to this blog. You should control community membership to avoid unappropriate material.';
 $_SESSION['l10n']['en']['b98e259a6a07123316a29c62a01074bc']='Any authenticated member of the community is allowed to contribute to this wiki. You should control community membership to avoid unappropriate material.';
 $_SESSION['l10n']['en']['97381141ba3bdb3590f8bc2c2dacdaac']='Any surfer is allowed to contribute anonymously to this wiki. Internet robots are prevented to submit new posts, however you should continuously review content to avoid unappropriate material.';
-$_SESSION['l10n']['en']['ce671086028c634c8ad4230c13ff370f']='Anyone may read pages posted here';
 $_SESSION['l10n']['en']['51b51a82b98ab273ff2dfc1380dcbb1f']='Anyone, including anonymous surfer, may contribute to this wiki.';
 $_SESSION['l10n']['en']['639ac84fde9fdcc2a2cb0931ed2de079']='Appears at site map, near book title';
 $_SESSION['l10n']['en']['bf576fa5c4f1d8c864d652092e8fee01']='Appears at site map, near section title';
@@ -249,7 +246,6 @@ $_SESSION['l10n']['en']['53dcb80b93f708c280ec1f9f2ae94e5d']='Use this assistant 
 $_SESSION['l10n']['en']['e82d6dd2c4baa3915e4bc720f6f0c0e6']='Used at index pages, and at the top of each page generated for this collection';
 $_SESSION['l10n']['en']['User Manual']='User Manual';
 $_SESSION['l10n']['en']['View the section']='View the section';
-$_SESSION['l10n']['en']['Visibility']='Visibility';
 $_SESSION['l10n']['en']['Vote']='Vote';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['Where to look for information?']='Where to look for information?';

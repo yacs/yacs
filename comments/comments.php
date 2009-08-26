@@ -157,7 +157,7 @@ Class Comments {
 			return TRUE;
 
 		// you have been assigned to the upper level
-		if(is_object($anchor) && $anchor->is_assigned())
+		if(is_object($anchor) && $anchor->is_owned())
 			return TRUE;
 
 		// the default is to not allow modifications
@@ -1009,7 +1009,6 @@ Class Comments {
 	 *
 	 * @see articles/fetch_as_msword.php
 	 * @see articles/fetch_as_pdf.php
-	 * @see articles/fetch_for_palm.php
 	 * @see articles/print.php
 	 * @see articles/view.php
 	 * @see categories/view.php

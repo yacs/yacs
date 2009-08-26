@@ -112,13 +112,6 @@ else
 // page title
 $context['page_title'] = i18n::s('Draft');
 
-// common commands for this page
-if(isset($_SERVER['HTTP_REFERER']))
-	$referer = $_SERVER['HTTP_REFERER'];
-else
-	$referer = 'articles/review.php';
-$context['page_menu'] = array( $referer => i18n::s('Back to main page') );
-
 // render the skin
 render_skin();
 

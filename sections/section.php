@@ -934,20 +934,14 @@ Class Section extends Anchor {
 			if(Surfer::is_associate())
 				return TRUE;
 
-			logger::debug('1');
-			
 			// anonymous edition is allowed
 			if(($this->item['active'] == 'Y') && $this->has_option('anonymous_edit'))
 				return TRUE;
 
-			logger::debug('2');
-			
 			// members edition is allowed
 			if(($this->item['active'] == 'Y') && Surfer::is_empowered('M') && $this->has_option('members_edit'))
 				return TRUE;
 
-			logger::debug('3');
-			
 			// id of requesting user
 			if(!$user_id && Surfer::get_id())
 				$user_id = Surfer::get_id();
@@ -955,8 +949,6 @@ Class Section extends Anchor {
 			// authenticated subscriptors cannot contribute
 			if(!$user_id || Surfer::is_empowered('M')) {
 
-			logger::debug('4');
-			
 				// maybe the current surfer has been explicitly defined as a managing editor
 				if($user_id && Members::check('user:'.$user_id, 'section:'.$this->item['id']))
 					return TRUE;
@@ -966,8 +958,6 @@ Class Section extends Anchor {
 			// check the upper level container
 			if(isset($this->item['anchor'])) {
 
-			logger::debug('5');
-			
 				// save requests
 				if(!isset($this->anchor) || !$this->anchor)
 					$this->anchor =& Anchors::get($this->item['anchor']);

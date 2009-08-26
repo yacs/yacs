@@ -332,25 +332,25 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
-	$label = i18n::s('Visibility');
+	$label = i18n::s('Access');
 
 	// maybe a public page
 	$input = '<input type="radio" name="active" value="Y" accesskey="v"';
 	if(!isset($item['active']) || ($item['active'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Anyone may read this form.').BR;
+	$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
 
 	// maybe a restricted page
 	$input .= '<input type="radio" name="active" value="R"';
 	if(isset($item['active']) && ($item['active'] == 'R'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Access is restricted to authenticated members').BR;
+	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated members').BR;
 
 	// or a hidden page
 	$input .= '<input type="radio" name="active" value="N"';
 	if(isset($item['active']) && ($item['active'] == 'N'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Access is restricted to associates')."\n";
+	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons')."\n";
 
 	$fields[] = array($label, $input);
 

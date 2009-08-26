@@ -12,7 +12,7 @@
  *
  * Following accounts are created:
  * - 'Alice' - an associate
- * - 'Bobby' - a member
+ * - 'Bob' - a member
  * - 'Carol' - a member
  * - 'Sophie' - a subscriber
  *
@@ -147,11 +147,11 @@ if(Surfer::is_crawler()) {
 	$text .= Skin::build_block(i18n::s('Users'), 'subtitle');
 
 	// 'Alice' is an associate
-	if(Users::get('Alice'))
-		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'Alice').BR."\n";
+	if(Users::get(i18n::c('Alice')))
+		$text .= sprintf(i18n::s('An account already exists for "%s".'), i18n::c('Alice')).BR."\n";
 	else {
 		$fields = array();
-		$fields['nick_name'] = 'Alice';
+		$fields['nick_name'] = i18n::c('Alice');
 		$fields['password'] = 'test';
 		$fields['confirm'] = 'test';
 		$fields['introduction'] = i18n::c('Sample associate profile');
@@ -162,13 +162,13 @@ if(Surfer::is_crawler()) {
 			$text .= Logger::error_pop().BR."\n";
 	}
 
-	// 'Bobby' is a member
-	if(Users::get('Bobby'))
-		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'Bobby').BR."\n";
+	// 'Bob' is a member
+	if(Users::get(i18n::c('Bob')))
+		$text .= sprintf(i18n::s('An account already exists for "%s".'), i18n::c('Bob')).BR."\n";
 	else {
 		$fields = array();
-		$fields['fill_name'] = i18n::c('Sponge Bob');
-		$fields['nick_name'] = 'Bobby';
+		$fields['full_name'] = i18n::c('Sponge Bob');
+		$fields['nick_name'] = i18n::c('Bob');
 		$fields['password'] = 'test';
 		$fields['confirm'] = 'test';
 		$fields['introduction'] = i18n::c('Sample person profile');
@@ -180,11 +180,11 @@ if(Surfer::is_crawler()) {
 	}
 
 	// 'Carol' is a member
-	if(Users::get('Carol'))
-		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'Carol').BR."\n";
+	if(Users::get(i18n::c('Carol')))
+		$text .= sprintf(i18n::s('An account already exists for "%s".'), i18n::c('Carol')).BR."\n";
 	else {
 		$fields = array();
-		$fields['nick_name'] = 'Carol';
+		$fields['nick_name'] = i18n::c('Carol');
 		$fields['password'] = 'test';
 		$fields['confirm'] = 'test';
 		$fields['introduction'] = i18n::c('Sample person profile');
@@ -196,11 +196,11 @@ if(Surfer::is_crawler()) {
 	}
 
 	// 'Sophie' is a subscriber
-	if(Users::get('Sophie'))
-		$text .= sprintf(i18n::s('An account already exists for "%s".'), 'Sophie').BR."\n";
+	if(Users::get(i18n::c('Sophie')))
+		$text .= sprintf(i18n::s('An account already exists for "%s".'), i18n::c('Sophie')).BR."\n";
 	else {
 		$fields = array();
-		$fields['nick_name'] = 'Sophie';
+		$fields['nick_name'] = i18n::c('Sophie');
 		$fields['password'] = 'test';
 		$fields['confirm'] = 'test';
 		$fields['introduction'] = i18n::c('Sample subscriber profile');
@@ -212,7 +212,7 @@ if(Surfer::is_crawler()) {
 	}
 
 	// distribute names
-	$names = array( 'Alice', 'Bobby', 'Carol' );
+	$names = array( i18n::c('Alice'), i18n::c('Bob'), i18n::c('Carol') );
 
 	// front page
 	//
@@ -611,9 +611,9 @@ if(Surfer::is_crawler()) {
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 
 			// bobby and carol as section editors
-			if($user = Users::get('Bobby'))
+			if($user = Users::get(i18n::c('Bob')))
 				Members::assign('user:'.$user['id'], 'section:'.$id);
-			if($user = Users::get('Carol'))
+			if($user = Users::get(i18n::c('Carol')))
 				Members::assign('user:'.$user['id'], 'section:'.$id);
 
 		} else

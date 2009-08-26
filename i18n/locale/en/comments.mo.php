@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 5, 2009, 9:10 pm GMT. Please do not modify it manually.
+ * on August 26, 2009, 12:25 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-07-03 00:19+0200
+POT-Creation-Date: 2009-08-25 19:24+0200
 PO-Revision-Date: 2009-07-03 00:21+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -81,7 +81,6 @@ $_SESSION['l10n']['en']['Promote']='Promote';
 $_SESSION['l10n']['en']['Promote a comment']='Promote a comment';
 $_SESSION['l10n']['en']['Quote']='Quote';
 $_SESSION['l10n']['en']['RSS feed']='RSS feed';
-$_SESSION['l10n']['en']['React to this post']='React to this post';
 $_SESSION['l10n']['en']['Recent comments at %s']='Recent comments at %s';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['Reply']='Reply';

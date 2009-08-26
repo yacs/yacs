@@ -412,7 +412,7 @@ elseif(!Surfer::is_associate()) {
 	$options .= '<p>'.$label.BR.$input."</p>\n";
 
 	// export tools global control
-	$label = i18n::s('Export tools convert pages to an alternate format or media (pdf, palm, word):');
+	$label = i18n::s('Export tools convert pages to an alternate format or media (pdf, word):');
 	$input = '<input type="radio" name="with_export_tools" value="N"';
 	if(!isset($context['with_export_tools']) || ($context['with_export_tools'] != 'Y'))
 		$input .= ' checked="checked"';
@@ -510,96 +510,72 @@ elseif(!Surfer::is_associate()) {
 	//
 	// handling images
 	//
-	$images = '<p>'.i18n::s('YACS uses the GD module of PHP to automatically resize submitted images when they are very large, and to build thumbnail images as well.')."</p>\n";
 
-	// additional classes for images
-	if(!isset($context['classes_for_avatar_images']) || !$context['classes_for_avatar_images'])
-		$context['classes_for_avatar_images'] = '';
+	// icons
+	$label = i18n::s('Icons');
 	if(!isset($context['classes_for_icon_images']) || !$context['classes_for_icon_images'])
-		$context['classes_for_icon_images'] = '';
-	if(!isset($context['classes_for_large_images']) || !$context['classes_for_large_images'])
-		$context['classes_for_large_images'] = '';
-	if(!isset($context['classes_for_thumbnail_images']) || !$context['classes_for_thumbnail_images'])
-		$context['classes_for_thumbnail_images'] = '';
-	$label = i18n::s('Styles');
-	$input = i18n::s('Avatars').'&nbsp;<input type="text" name="classes_for_avatar_images" size="15" value="'.encode_field($context['classes_for_avatar_images']).'" maxlength="255" />'
-		.' '.i18n::s('Icons').'&nbsp;<input type="text" name="classes_for_icon_images" size="15" value="'.encode_field($context['classes_for_icon_images']).'" maxlength="255" />'
-		.' '.i18n::s('Large').'&nbsp;<input type="text" name="classes_for_large_images" size="15" value="'.encode_field($context['classes_for_large_images']).'" maxlength="255" />'
-		.' '.i18n::s('Thumbnail').'&nbsp;<input type="text" name="classes_for_thumbnail_images" size="15" value="'.encode_field($context['classes_for_thumbnail_images']).'" maxlength="255" />';
-	$hint = i18n::s('Additional CSS classes to be used by Yacs. Example: "reflect"');
-	$fields[] = array($label, $input, $hint);
+		$context['classes_for_icon_images'] = 'reflect rheight10';
+	$input = i18n::s('CSS classes').'&nbsp;<input type="text" name="classes_for_icon_images" size="15" value="'.encode_field($context['classes_for_icon_images']).'" maxlength="255" />';
+	$fields[] = array($label, $input);
 
-	// standard width
-	if(!isset($context['standard_width']) || !$context['standard_width'])
-		$context['standard_width'] = 640;
-	$label = i18n::s('Standard width');
-	$input = '<input type="text" name="standard_width" size="5" value="'.encode_field($context['standard_width']).'" maxlength="5" />';
-	$hint = i18n::s('The maximum width for uploaded photos');
-	$fields[] = array($label, $input, $hint);
-
-	// standard heigth
-	if(!isset($context['standard_height']) || !$context['standard_height'])
-		$context['standard_height'] = 640;
-	$label = i18n::s('Standard height');
-	$input = '<input type="text" name="standard_height" size="5" value="'.encode_field($context['standard_height']).'" maxlength="5" />';
-	$hint = i18n::s('The maximum height for uploaded photos');
-	$fields[] = array($label, $input, $hint);
-
-	// avatar width
+	// profile pictures
+	$label = i18n::s('Profile pictures');
 	if(!isset($context['avatar_width']) || !$context['avatar_width'])
 		$context['avatar_width'] = 80;
-	$label = i18n::s('Avatar width');
-	$input = '<input type="text" name="avatar_width" size="5" value="'.encode_field($context['avatar_width']).'" maxlength="5" />';
-	$hint = i18n::s('The maximum number of pixels for the width of avatars');
-	$fields[] = array($label, $input, $hint);
-
-	// avatar heigth
 	if(!isset($context['avatar_height']) || !$context['avatar_height'])
 		$context['avatar_height'] = 80;
-	$label = i18n::s('Avatar height');
-	$input = '<input type="text" name="avatar_height" size="5" value="'.encode_field($context['avatar_height']).'" maxlength="5" />';
-	$hint = i18n::s('The maximum number of pixels for the height of avatars');
-	$fields[] = array($label, $input, $hint);
+	if(!isset($context['classes_for_avatar_images']) || !$context['classes_for_avatar_images'])
+		$context['classes_for_avatar_images'] = 'reflect rheight20';
+	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'), 
+		'<input type="text" name="avatar_width" size="5" value="'.encode_field($context['avatar_width']).'" maxlength="5" />',
+		'<input type="text" name="avatar_height" size="5" value="'.encode_field($context['avatar_height']).'" maxlength="5" />')
+		.'<p>'.i18n::s('CSS classes').'&nbsp;<input type="text" name="classes_for_avatar_images" size="15" value="'.encode_field($context['classes_for_large_images']).'" maxlength="255" /></p>';
+	$fields[] = array($label, $input);
 
-	// thumbnail threshold
-	if(!isset($context['thumbnail_threshold']) || !$context['thumbnail_threshold'])
-		$context['thumbnail_threshold'] = 20480;
-	$label = i18n::s('Thumbnail threshold');
-	$input = '<input type="text" name="thumbnail_threshold" size="10" value="'.encode_field($context['thumbnail_threshold']).'" maxlength="10" />';
-	$hint = i18n::s('The number of bytes to trigger the creation of a thumbnail');
-	$fields[] = array($label, $input, $hint);
+	// large images
+	$label = i18n::s('Large images');
+	if(!isset($context['standard_width']) || !$context['standard_width'])
+		$context['standard_width'] = 640;
+	if(!isset($context['standard_height']) || !$context['standard_height'])
+		$context['standard_height'] = 640;
+	if(!isset($context['classes_for_large_images']) || !$context['classes_for_large_images'])
+		$context['classes_for_large_images'] = 'reflect rheight10';
+	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'), 
+		'<input type="text" name="standard_width" size="5" value="'.encode_field($context['standard_width']).'" maxlength="5" />',
+		'<input type="text" name="standard_height" size="5" value="'.encode_field($context['standard_height']).'" maxlength="5" />')
+		.'<p>'.i18n::s('CSS classes').'&nbsp;<input type="text" name="classes_for_large_images" size="15" value="'.encode_field($context['classes_for_large_images']).'" maxlength="255" /></p>';
+	$fields[] = array($label, $input);
 
-	// thumbnail width
+	// thumbnail images
+	$label = i18n::s('Thumbnail images');
 	if(!isset($context['thumbnail_width']) || !$context['thumbnail_width'])
 		$context['thumbnail_width'] = 60;
-	$label = i18n::s('Thumbnail width');
-	$input = '<input type="text" name="thumbnail_width" size="5" value="'.encode_field($context['thumbnail_width']).'" maxlength="5" />';
-	$hint = i18n::s('The maximum number of pixels for the width of thumbnails');
-	$fields[] = array($label, $input, $hint);
-
-	// thumbnail heigth
 	if(!isset($context['thumbnail_height']) || !$context['thumbnail_height'])
 		$context['thumbnail_height'] = 60;
-	$label = i18n::s('Thumbnail height');
-	$input = '<input type="text" name="thumbnail_height" size="5" value="'.encode_field($context['thumbnail_height']).'" maxlength="5" />';
-	$hint = i18n::s('The maximum number of pixels for the height of thumbnails');
-	$fields[] = array($label, $input, $hint);
-
-	// thumbnail caption
-	$label = i18n::s('Thumbnail caption');
-	$input = '<input type="radio" name="thumbnails_without_caption" value="N"';
+	if(!isset($context['classes_for_thumbnail_images']) || !$context['classes_for_thumbnail_images'])
+		$context['classes_for_thumbnail_images'] = '';
+	if(!isset($context['thumbnail_threshold']) || !$context['thumbnail_threshold'])
+		$context['thumbnail_threshold'] = 20480;
+	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'), 
+		'<input type="text" name="thumbnail_width" size="5" value="'.encode_field($context['thumbnail_width']).'" maxlength="5" />',
+		'<input type="text" name="thumbnail_height" size="5" value="'.encode_field($context['thumbnail_height']).'" maxlength="5" />')
+		.'<p>'.i18n::s('CSS classes').'&nbsp;<input type="text" name="classes_for_thumbnail_images" size="15" value="'.encode_field($context['classes_for_large_images']).'" maxlength="255" /></p>'
+		.'<p>'.sprintf(i18n::s('Display the thumbnail image for images of more than %s bytes'), '<input type="text" name="thumbnail_threshold" size="10" value="'.encode_field($context['thumbnail_threshold']).'" maxlength="10" />')
+		.BR.'<input type="radio" name="thumbnails_without_caption" value="N"';
 	if(!isset($context['thumbnails_without_caption']) || ($context['thumbnails_without_caption'] != 'Y'))
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('Use titles as captions below thumbnail images');
 	$input .= BR.'<input type="radio" name="thumbnails_without_caption" value="Y"';
 	if(isset($context['thumbnails_without_caption']) && ($context['thumbnails_without_caption'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Only provide a hovering title, but no caption');
+	$input .= '/> '.i18n::s('Only provide a hovering title, but no caption').'</p>';
 	$fields[] = array($label, $input);
 
 	// build the form
-	$images .= Skin::build_form($fields);
+	$images = Skin::build_form($fields);
 	$fields = array();
+
+	$images .= '<p class="details">'.i18n::s('YACS uses the GD module of PHP to resize large pictures, and to create thumbnail images.')."</p>\n";
 
 	//
 	// handling freemind

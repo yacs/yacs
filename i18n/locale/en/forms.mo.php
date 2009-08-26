@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 4, 2009, 9:50 pm GMT. Please do not modify it manually.
+ * on August 4, 2009, 12:06 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: Yacs
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
+POT-Creation-Date: 2009-08-04 10:21+0200
 PO-Revision-Date: 2008-11-02 23:17+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -31,7 +31,6 @@ $_SESSION['l10n']['en']['Add a selection input field']='Add a selection input fi
 $_SESSION['l10n']['en']['Add a string input field']='Add a string input field';
 $_SESSION['l10n']['en']['Add some text']='Add some text';
 $_SESSION['l10n']['en']['de5b7203b45b8660746f749207ab2a51']='Also complements the title in lists featuring this page';
-$_SESSION['l10n']['en']['Anyone may read this form.']='Anyone may read this form.';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Capture']='Capture';
 $_SESSION['l10n']['en']['Content']='Content';
@@ -88,7 +87,6 @@ $_SESSION['l10n']['en']['1efb8b242d9578c697b28352622e20fe']='Use links below to 
 $_SESSION['l10n']['en']['36ab5b5ac398b5cfe4feb817d68c45f1']='Use the %s to populate this server.';
 $_SESSION['l10n']['en']['Use the form']='Use the form';
 $_SESSION['l10n']['en']['View the page']='View the page';
-$_SESSION['l10n']['en']['Visibility']='Visibility';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['f1cc08acab3cc275dc97cf752ad30fd2']='Yes, I want to suppress this form';

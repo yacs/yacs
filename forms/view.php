@@ -398,11 +398,11 @@ if($with_form) {
 
 		// restricted to logged members
 		if($item['active'] == 'R')
-			$details[] = RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members').BR."\n";
+			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members').BR."\n";
 
 		// restricted to associates
 		elseif($item['active'] == 'N')
-			$details[] = PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates').BR."\n";
+			$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons').BR."\n";
 
 		// all details
 		if(@count($details))

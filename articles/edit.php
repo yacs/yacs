@@ -643,7 +643,7 @@ if($with_form) {
 	$panels = array();
 
 	//
-	// information tab - the main part of the form
+	// information tab
 	//
 	$text = '';
 
@@ -772,7 +772,7 @@ if($with_form) {
 			$input = '<img src="'.preg_replace('/\/images\/article\/[0-9]+\//', "\\0thumbs/", $item['icon_url']).'" alt="" />';
 			$command = i18n::s('Change');
 		} else {
-			$input = '<span class="details">'.i18n::s('Upload an image to be displayed at page top. This will also be the default icon image for items attached to this page.').'</span>';
+			$input = '<span class="details">'.i18n::s('Upload an image to be displayed at page top').'</span>';
 			$command = i18n::s('Add an image');
 		}
 
@@ -821,7 +821,7 @@ if($with_form) {
 		
 		// the command to add an image
 		if(Surfer::may_upload()) {
-			Skin::define_img(IMAGES_ADD_IMG, 'images/add.png');
+			Skin::define_img(IMAGES_ADD_IMG, 'images/add.gif');
 			$menu = array(Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic'));
 		}
 
@@ -920,19 +920,19 @@ if($with_form) {
 		$input = '<input type="radio" name="active_set" value="Y" accesskey="v"';
 		if(!isset($item['active_set']) || ($item['active_set'] == 'Y'))
 			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Anyone may read this page').BR;
+		$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers').BR;
 
 		// maybe a restricted page
 		$input .= '<input type="radio" name="active_set" value="R"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Access is restricted to authenticated members').BR;
+		$input .= '/> '.i18n::s('Community - Access is restricted to authenticated members').BR;
 
 		// or a hidden page
 		$input .= '<input type="radio" name="active_set" value="N"';
 		if(isset($item['active_set']) && ($item['active_set'] == 'N'))
 			$input .= ' checked="checked"';
-		$input .= '/> '.i18n::s('Access is restricted to associates and editors')."\n";
+		$input .= '/> '.i18n::s('Private - Access is restricted to selected persons')."\n";
 
 		$fields[] = array($label, $input);
 	}
@@ -973,11 +973,11 @@ if($with_form) {
 	if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
 		$input = Surfer::from_GMT($item['publish_date']);
 	elseif(isset($item['id']) && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))) {
-		Skin::define_img('PUBLISH_ARTICLE_IMG', 'icons/articles/publish.gif');
-		$input = Skin::build_link(Articles::get_url($item['id'], 'publish'), PUBLISH_ARTICLE_IMG.i18n::s('Publish'), 'basic');
+		Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
+		$input = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'), 'basic');
 	} else {
-		Skin::define_img('DRAFT_ARTICLE_IMG', 'icons/articles/draft.gif');
-		$input = DRAFT_ARTICLE_IMG.i18n::s('not published');
+		Skin::define_img('ARTICLES_UNPUBLISHED_IMG', 'articles/unpublish.gif');
+		$input = ARTICLES_UNPUBLISH_IMG.i18n::s('not published');
 	}
 	$fields[] = array($label, $input);
 
@@ -1218,10 +1218,15 @@ if($with_form) {
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
 		.'	// title is mandatory'."\n"
-		.'	if(!container.title.value) {'."\n"
+		.'	if(!Yacs.trim(container.title.value)) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
+		.'		$("title").focus();'."\n"
 		.'		return false;'."\n"
+		.'	}'."\n"
+		.'	// extend validation --used in overlays'."\n"
+		.'	if(typeof validateOnSubmit == "function") {'."\n"
+		.'		return validateOnSubmit(container);'."\n"
 		.'	}'."\n"
 		."\n";
 

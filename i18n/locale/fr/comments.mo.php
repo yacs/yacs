@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on August 24, 2009, 10:21 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2008-11-16 21:50+0100
+POT-Creation-Date: 2009-07-03 00:19+0200
+PO-Revision-Date: 2009-07-04 22:54+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -28,7 +28,6 @@ $_SESSION['l10n']['fr']['%s:']='%s :';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['A question']='Une question';
 $_SESSION['l10n']['fr']['A suggestion']='Une suggestion';
-$_SESSION['l10n']['fr']['Add a comment']='Ajouter un commentaire';
 $_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Anonymous comment']='Commentaire anonyme';
 $_SESSION['l10n']['fr']['Associate']='Associé';
@@ -44,6 +43,7 @@ $_SESSION['l10n']['fr']['Comments for: %s']='Commentaires pour %s';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete a comment']='Effacer un commentaire';
 $_SESSION['l10n']['fr']['86c56a7a7f1de49541c9835d0e87b60b']='Ne pas changer la date de modification de la page principale.';
+$_SESSION['l10n']['fr']['Done']='Terminé';
 $_SESSION['l10n']['fr']['e1f523c999eb49f4167786b09262280c']='Ce serveur propose également un fil de nouvelles pour chaque article.';
 $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit your post below']='Modifiez votre texte ci-dessous';
@@ -55,7 +55,6 @@ $_SESSION['l10n']['fr']['I don\'t like...']='Je n\'aime pas...';
 $_SESSION['l10n']['fr']['I like...']='J\'aime...';
 $_SESSION['l10n']['fr']['9404597745d93a6898e464cbbc52c4dc']='Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur pourra alors positionner votre nom et votre adresse automatiquement dans les champs ci-dessous.';
 $_SESSION['l10n']['fr']['Impossible to add a page.']='Impossible d\'ajouter une page.';
-$_SESSION['l10n']['fr']['4f558b71711821123be27361218f04d5']='Impossible de déplacer le fichier vers %s.';
 $_SESSION['l10n']['fr']['Job has been completed']='C\'est fait';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
@@ -64,7 +63,6 @@ $_SESSION['l10n']['fr']['Most HTML tags are removed.']='La plupart des balises H
 $_SESSION['l10n']['fr']['My two cents']='Une contribution personnelle';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['f0aef7225e9f1cda90eb746e36e84868']='Aucun commentaire n\'a été transmis.';
-$_SESSION['l10n']['fr']['No file has been transmitted.']='Aucun fichier n\'a été transmis.';
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Page bottom']='Bas de page';
@@ -72,7 +70,7 @@ $_SESSION['l10n']['fr']['7a17d7031870526c6fc12193234221f7']='Choisissez un type 
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['Please type a valid comment']='Merci de taper un commentaire valide';
-$_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';
+$_SESSION['l10n']['fr']['Post a comment']='Ajouter un commentaire';
 $_SESSION['l10n']['fr']['Posted by']='Envoyé par';
 $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [p] for preview']='Appuyer sur [p] pour l\'aperçu';
@@ -96,11 +94,9 @@ $_SESSION['l10n']['fr']['Textarea']='Textarea';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['07952e6cca017e7cdff4505604da467f']='Effacement non confirmé';
 $_SESSION['l10n']['fr']['143d6ecade1db22e329a74e87c22b11f']='Promotion non confirmée';
-$_SESSION['l10n']['fr']['bd4dc509bead225fd09ffc2a29b1e07a']='La taille du fichier dépasse les limites autorisées.';
 $_SESSION['l10n']['fr']['This comment has inspired:']='Ce commentaire a inspiré :';
 $_SESSION['l10n']['fr']['18d140b9af759b4ec502696d7172360b']='Ce champ optionnel peut être laissé vide si vous le souhaitez.';
 $_SESSION['l10n']['fr']['4437c363be4e710f0bcd6a0d292a91eb']='Ce script autorise les apports de type Comment API ou Post-It par requêtes HTTP POST.';
-$_SESSION['l10n']['fr']['fb52e739654eb4d1981039c471bca260']='Ce type de fichier n\'est pas autorisé.';
 $_SESSION['l10n']['fr']['Threads']='Discussions';
 $_SESSION['l10n']['fr']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['fr']['0749c2e869a8f74bc91f87cc3643388e']='Trop d\'erreurs successives. Abandon';
@@ -114,6 +110,7 @@ $_SESSION['l10n']['fr']['6ea7b5a19127f511bec28a548295d614']='Oui, je veux suppri
 $_SESSION['l10n']['fr']['d3016a1561487b9f24ccb81618fea0e2']='Oui, je veux promouvoir ce commentaire en article';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['583547da9f1a19cbe30016004d2a0de2']='Vous pouvez copier et coller du texte à partir du champ ci-dessous pour construire votre envoi.';
+$_SESSION['l10n']['fr']['5220fcf38510b19c69fce5625ea7db78']='Vous pouvez envoyer un fichier de moins de %soctets';
 $_SESSION['l10n']['fr']['Your address']='Votre adresse';
 $_SESSION['l10n']['fr']['Your contribution']='Votre contribution';
 $_SESSION['l10n']['fr']['26d108ddac5f9af035390574928cd68d']='Votre contribution n\'a pas été envoyée.';

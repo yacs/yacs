@@ -893,10 +893,6 @@ class Anchor {
 	 function is_editable($user_id=NULL) {
 		global $context;
 
-		// cache the answer
-		if(isset($this->is_editable_cache))
-			return $this->is_editable_cache;
-
 		// we need some data to proceed
 		if(is_array($this->item)) {
 
@@ -906,7 +902,7 @@ class Anchor {
 
 			// surfer has provided the secret handle
 			if(isset($this->item['handle']) && Surfer::may_handle($this->item['handle']))
-				return $this->is_editable_cache = TRUE;
+				return TRUE;
 
 			// ensure the container allows for public access
 			if(isset($this->item['anchor'])) {
@@ -916,13 +912,13 @@ class Anchor {
 					$this->anchor =& Anchors::get($this->item['anchor']);
 
 				if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
-					return $this->is_editable_cache = TRUE;
+					return TRUE;
 
 			}
 		}
 		
 		// sorry
-		return $this->is_editable_cache = FALSE;
+		return FALSE;
 	}
 
 	/**
@@ -948,18 +944,18 @@ class Anchor {
 		// we need some data to proceed
 		if(is_array($this->item)) {
 
-			// surfer has created this item
-			if(isset($this->item['create_id']) && ($user_id == $this->item['create_id']))
+			// surfer owns this item
+			if(isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
 				return TRUE;
 
-			// if container is owned it's ok too
+			// if surfer manages parent container it's ok too
 			if(isset($this->item['anchor'])) {
 
 				// save requests
 				if(!isset($this->anchor) || !$this->anchor)
 					$this->anchor =& Anchors::get($this->item['anchor']);
 
-				if(is_object($this->anchor) && $this->anchor->is_owned($user_id))
+				if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
 					return TRUE;
 
 			}

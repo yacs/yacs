@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 5, 2009, 9:10 pm GMT. Please do not modify it manually.
+ * on August 26, 2009, 12:25 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-07-03 00:19+0200
-PO-Revision-Date: 2009-07-03 00:21+0100
+POT-Creation-Date: 2009-08-26 01:59+0200
+PO-Revision-Date: 2009-08-26 02:00+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -33,42 +33,41 @@ $_SESSION['l10n']['en']['%s by %s %s']='%s by %s %s';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['-- Root level']='-- Root level';
 $_SESSION['l10n']['en']['A message has been sent to:']='A message has been sent to:';
-$_SESSION['l10n']['en']['21c58f77450af6e7fc86a17ada969ac2']='Access is restricted to associates';
-$_SESSION['l10n']['en']['71591a943ab0ff1e925f29270c9a6568']='Access is restricted to authenticated members';
+$_SESSION['l10n']['en']['Access']='Access';
 $_SESSION['l10n']['en']['Add a category']='Add a category';
 $_SESSION['l10n']['en']['Add a link']='Add a link';
 $_SESSION['l10n']['en']['Add an image']='Add an image';
-$_SESSION['l10n']['en']['Add page icon']='Add page icon';
-$_SESSION['l10n']['en']['Add page thumbnail']='Add page thumbnail';
 $_SESSION['l10n']['en']['717b0d5012e8e4ce5a261c185245281d']='All categories that have been associated to this page:';
 $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
-$_SESSION['l10n']['en']['Anyone may read this category']='Anyone may read this category';
+$_SESSION['l10n']['en']['Appearance at the category tree']='Appearance at the category tree';
 $_SESSION['l10n']['en']['386980fc5327cd3e0b217ad44c09cb77']='Appears in list of categories near the title';
 $_SESSION['l10n']['en']['b4cb4dc2b17ff4ce51ca65cb8dcc7e98']='Apply a specific theme (in skins/foo_bar)';
 $_SESSION['l10n']['en']['Ask Jeeves']='Ask Jeeves';
 $_SESSION['l10n']['en']['Attach related files.']='Attach related files.';
+$_SESSION['l10n']['en']['Attachments']='Attachments';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
-$_SESSION['l10n']['en']['Bullet URL']='Bullet URL';
+$_SESSION['l10n']['en']['Bullet']='Bullet';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Categories']='Categories';
 $_SESSION['l10n']['en']['Categories for: %s']='Categories for: %s';
 $_SESSION['l10n']['en']['Categorize']='Categorize';
 $_SESSION['l10n']['en']['Category has expired %s']='Category has expired %s';
 $_SESSION['l10n']['en']['Category overlay']='Category overlay';
-$_SESSION['l10n']['en']['Change page icon']='Change page icon';
-$_SESSION['l10n']['en']['Change page thumbnail']='Change page thumbnail';
+$_SESSION['l10n']['en']['Change']='Change';
 $_SESSION['l10n']['en']['Change the overlay']='Change the overlay';
 $_SESSION['l10n']['en']['Classified pages']='Classified pages';
 $_SESSION['l10n']['en']['ab006b2530195974908cd8ab59b711b9']='Click on codes to insert images in the page.';
 $_SESSION['l10n']['en']['Cloud of tags']='Cloud of tags';
 $_SESSION['l10n']['en']['Code to reference this page: %s']='Code to reference this page: %s';
 $_SESSION['l10n']['en']['Comments']='Comments';
+$_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';
 $_SESSION['l10n']['en']['Complete tags']='Complete tags';
 $_SESSION['l10n']['en']['Contact']='Contact';
 $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
-$_SESSION['l10n']['en']['Content tree']='Content tree';
 $_SESSION['l10n']['en']['4158dec895b46349386efea0e7ee92a9']='Contribute to the web and link to relevant pages.';
+$_SESSION['l10n']['en']['Contribution to "%s"']='Contribution to "%s"';
 $_SESSION['l10n']['en']['Delete']='Delete';
+$_SESSION['l10n']['en']['Delete this category']='Delete this category';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['1a358d29caf897e54396073d4f58b0f6']='Do not change modification date.';
 $_SESSION['l10n']['en']['Do not display articles.']='Do not display articles.';
@@ -92,7 +91,7 @@ $_SESSION['l10n']['en']['Google']='Google';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Help index']='Help index';
 $_SESSION['l10n']['en']['3482364243c0c367e9481e1eb819366d']='Hit the submit button and post images afterwards.';
-$_SESSION['l10n']['en']['Icon URL']='Icon URL';
+$_SESSION['l10n']['en']['Icon']='Icon';
 $_SESSION['l10n']['en']['98b2e1b34b14f94d2493eb4999e0fd72']='Attention, des données peuvent être perdues si vous modifiez l\'overlay.';
 $_SESSION['l10n']['en']['Images']='Images';
 $_SESSION['l10n']['en']['173cbab1842331c3e4fbf99b25f42e56']='Impossible to update the anchor.';
@@ -106,7 +105,7 @@ $_SESSION['l10n']['en']['69e9514a2a1b621ba64224c2b94b62a4']='Is displayed on all
 $_SESSION['l10n']['en']['Keyword']='Keyword';
 $_SESSION['l10n']['en']['Keywords']='Keywords';
 $_SESSION['l10n']['en']['Keywords update']='Keywords update';
-$_SESSION['l10n']['en']['ac729d1d81031a7072b93897155f7651']='Let the server hide categories on dead-lines - automatically.';
+$_SESSION['l10n']['en']['Layout']='Layout';
 $_SESSION['l10n']['en']['Links']='Links';
 $_SESSION['l10n']['en']['932f09e2a8f6216bed67e5409a6369b0']='Links can be added to the index page';
 $_SESSION['l10n']['en']['5c9f11db5d207b187e5fa5775f23627d']='List recent pages using the following layout:';
@@ -149,6 +148,8 @@ $_SESSION['l10n']['en']['Prefix']='Prefix';
 $_SESSION['l10n']['en']['Press [e] to edit']='Press [e] to edit';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Print this page']='Print this page';
+$_SESSION['l10n']['en']['711abf22490c13c012c6eff77b7b2b9e']='Private - Access is restricted to selected persons';
+$_SESSION['l10n']['en']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Access is granted to anonymous surfers';
 $_SESSION['l10n']['en']['RSS feed']='RSS feed';
 $_SESSION['l10n']['en']['Rank']='Rank';
 $_SESSION['l10n']['en']['Rebuild title paths']='Rebuild title paths';
@@ -156,6 +157,7 @@ $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['Reference this page']='Reference this page';
 $_SESSION['l10n']['en']['9847ddc65a65e0caa0a0fe5b0df09857']='Regular categories are ranked at 10000.';
 $_SESSION['l10n']['en']['Related categories']='Related categories';
+$_SESSION['l10n']['en']['e498dcae23db686a9c5135bd8855740b']='Remove content on dead-line - automatically';
 $_SESSION['l10n']['en']['Rendering']='Rendering';
 $_SESSION['l10n']['en']['Request is invalid.']='Request is invalid.';
 $_SESSION['l10n']['en']['9dcd55ec867280d2a3afd1c82fd36aa7']='Scan pages and remember publication dates';
@@ -187,13 +189,10 @@ $_SESSION['l10n']['en']['15b447c7a95325a403b1ed99b405e008']='Text to be inserted
 $_SESSION['l10n']['en']['Textarea']='Textarea';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['The cloud of tags']='The cloud of tags';
-$_SESSION['l10n']['en']['f48c8fff1fe57f04cdb146e308881f7d']='The default image that illustrates every related item.';
 $_SESSION['l10n']['en']['07952e6cca017e7cdff4505604da467f']='The deletion has not been confirmed.';
-$_SESSION['l10n']['en']['98fdabae73800dc2aaab070de087a627']='The image displayed at page top, and used as the default icon for related items.';
-$_SESSION['l10n']['en']['a41202865c5326d9ba199205ac680c09']='The image that illustrates the page at parent level.';
 $_SESSION['l10n']['en']['3f571cc483bc60c2d095d4ccc55eaa32']='The index page itself is a thread';
 $_SESSION['l10n']['en']['ea53afa6a2e5fb30ef64772616161d8d']='This category is a specialized glossary of terms, made out of tags added to pages, and out of search requests.';
-$_SESSION['l10n']['en']['Thumbnail URL']='Thumbnail URL';
+$_SESSION['l10n']['en']['Thumbnail']='Thumbnail';
 $_SESSION['l10n']['en']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['d8ef00288000f0f98aafef9b53c2e08d']='To be inserted at the bottom of related pages.';
@@ -207,9 +206,9 @@ $_SESSION['l10n']['en']['8dba3e281bee8eeab2f14d6e4c0f5548']='Unknown anchor %s, 
 $_SESSION['l10n']['en']['e0d8b6d765ad12a441a66eeaa6e77e71']='Unknown member %s, record has been deleted';
 $_SESSION['l10n']['en']['Unlink']='Unlink';
 $_SESSION['l10n']['en']['Upload a file']='Upload a file';
+$_SESSION['l10n']['en']['e0b2c6741e58e471f3ec7eb946de4a5a']='Upload a small image to decorate lists of sections and pages.';
 $_SESSION['l10n']['en']['bf17c77b74c5350da902a6142f9a7a9d']='Upload a small image to illustrate this page when it is listed into parent page.';
-$_SESSION['l10n']['en']['43e5a74e454bb7711c71226172c18b85']='Upload an image file and integrate it into the page. Big images will be rendered as clickable thumbnails.';
-$_SESSION['l10n']['en']['895d2910ebcbd5ade6985c6559d44621']='Upload an image to be displayed at page top. This will also be the default icon image for items attached to this page.';
+$_SESSION['l10n']['en']['c2c4f79559d76d5b49a626fd7bf35631']='Upload an image to be displayed at page top';
 $_SESSION['l10n']['en']['Use an image']='Use an image';
 $_SESSION['l10n']['en']['145c71768eada2e93397ec134c387b13']='Use codes to insert images in the page.';
 $_SESSION['l10n']['en']['Use only plain ASCII, no HTML.']='Use only plain ASCII, no HTML.';
@@ -217,7 +216,6 @@ $_SESSION['l10n']['en']['Use the customized layout %s']='Use the customized layo
 $_SESSION['l10n']['en']['a9ac06b6f2238dbd54599d32e0fa95cf']='Use this thumbnail as the thumbnail of the page';
 $_SESSION['l10n']['en']['7095a3461ba51a372774ee8a1ce5d15b']='Various means to link to this page';
 $_SESSION['l10n']['en']['View the category']='View the category';
-$_SESSION['l10n']['en']['Visibility']='Visibility';
 $_SESSION['l10n']['en']['895d2c0142361017642213ba49731871']='Visit %s to get more interesting pages.';
 $_SESSION['l10n']['en']['6214aa6c778c69428ff7146f8e56867a']='Warning: No script exists for the customized layout %s';
 $_SESSION['l10n']['en']['Week of&nbsp;%s']='Week of&nbsp;%s';

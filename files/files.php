@@ -915,6 +915,17 @@ Class Files {
 	}
 
 	/**
+	 * get permanent address
+	 *
+	 * @param array page attributes
+	 * @return string the permalink
+	 */
+	function &get_permalink($item) {
+		$output = Files::get_url($item['id'], 'view', $item['file_name']);
+		return $output;
+	}
+
+	/**
 	 * get url of previous file
 	 *
 	 * This function is used to build navigation bars.
@@ -1050,26 +1061,6 @@ Class Files {
 
 	}
 
-	/**
-	 * look for potential audio streams
-	 *
-	 * Meta-data types are not matched (e.g., m3u).
-	 *
-	 * This function returns TRUE for following file types:
-	 * - aif	audio/aiff
-	 * - aiff	audio/aiff
-	 * - au
-	 * - mp2	audio
-	 * - mp3	audio
-	 * - ra 	real audio
-	 * - snd	audio/basic
-	 * - wav
-	 * - wma	audio/x-ms-wma
-	 *
-	 * @param string file name, including extension
-	 * @return TRUE or FALSE
-	 *
-	 */
 	/**
 	 * integrate some player for the file, if any
 	 *
@@ -1283,25 +1274,19 @@ Class Files {
 	/**
 	 * look for potential video streams
 	 *
-	 * Meta-data types are not matched (e.g., m3u).
-	 *
 	 * This function returns TRUE for following file types:
-	 * - asf
-	 * - avi
-	 * - divx
+	 * - 3gp
+	 * - flv
+	 * - m4v
 	 * - mov
 	 * - mp4
-	 * - mpe
-	 * - mpeg
-	 * - mpg
-	 * - wmv	audio/x-ms-wmv
 	 *
 	 * @param string file name, including extension
 	 * @return TRUE or FALSE
 	 *
 	 */
 	function is_video_stream($name) {
-		return preg_match('/\.(asf|avi|divx|mkv|mov|mp4|mpe|mpeg|mpg|vob|wmv)$/i', $name);
+		return preg_match('/\.(3gp|flv|m4v|mov|mp4)$/i', $name);
 	}
 
 	/**

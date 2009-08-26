@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 5, 2009, 9:10 pm GMT. Please do not modify it manually.
+ * on August 26, 2009, 12:25 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-06-29 01:13+0200
-PO-Revision-Date: 2009-07-03 00:22+0100
+POT-Creation-Date: 2009-08-25 19:24+0200
+PO-Revision-Date: 2009-08-25 19:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -26,7 +26,6 @@ $_SESSION['l10n']['en']['%d records have been processed']='%d records have been 
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s at %s']='%s at %s';
 $_SESSION['l10n']['en']['Add an image']='Add an image';
-$_SESSION['l10n']['en']['Advanced options']='Advanced options';
 $_SESSION['l10n']['en']['3fc73c8fd903f88de3a2c9a21aef3585']='Always use the thumbnail. Users will click on it to see the full image.';
 $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['5f06d8beed838647d20eadd205eeae4a']='Automatically resize the image if necessary';
@@ -71,6 +70,7 @@ $_SESSION['l10n']['en']['No image information in %s.']='No image information in 
 $_SESSION['l10n']['en']['No item has been found.']='No item has been found.';
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
 $_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
+$_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['92fdd78ee6bb759cae3b7d6e33a0552f']='Please carefully select a section for your image';
 $_SESSION['l10n']['en']['88100f21e63a26d7ae6895199f0d7475']='Please select a .png, .gif or .jpeg image.';
@@ -86,7 +86,7 @@ $_SESSION['l10n']['en']['654258af44eda1cd82146682083f5376']='Select another imag
 $_SESSION['l10n']['en']['Set as list bullet']='Set as list bullet';
 $_SESSION['l10n']['en']['Set as page icon']='Set as page icon';
 $_SESSION['l10n']['en']['Set as page thumbnail']='Set as page thumbnail';
-$_SESSION['l10n']['en']['Set as user avatar']='Set as user avatar';
+$_SESSION['l10n']['en']['Set as profile picture']='Set as profile picture';
 $_SESSION['l10n']['en']['Size: %s x %s']='Size: %s x %s';
 $_SESSION['l10n']['en']['aa3a8ca9e220321247cbab409332a013']='Smaller files are embedded as-is. The description and the source fields are more or less useless in this case.';
 $_SESSION['l10n']['en']['Source']='Source';
@@ -97,7 +97,7 @@ $_SESSION['l10n']['en']['Submit another image']='Submit another image';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['07952e6cca017e7cdff4505604da467f']='The deletion has not been confirmed.';
 $_SESSION['l10n']['en']['10bf8e765fdc93ec1af9246dee434ce2']='The image has become the page icon.';
-$_SESSION['l10n']['en']['d3622f7235c7ca933a702a3478cf6d7d']='The image has become the profile avatar.';
+$_SESSION['l10n']['en']['8dcc50155115940d05d944e21eaa194e']='The image has become the profile picture.';
 $_SESSION['l10n']['en']['c1bf92bb2cf089698dc8bc64adc5e8f0']='The image has been added at the end of the page.';
 $_SESSION['l10n']['en']['8260146cc33b9e04504109fd6edc42b2']='The image has been added to the page, and it also has been set as the page thumbnail.';
 $_SESSION['l10n']['en']['d3e704fca04137e80f8371810c69dcbf']='The image has been inserted at the beginning of the page.';
@@ -117,7 +117,7 @@ $_SESSION['l10n']['en']['Use an image']='Use an image';
 $_SESSION['l10n']['en']['View the page']='View the page';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
-$_SESSION['l10n']['en']['c5a91e56b962af3d03d1c6dbfb7a72ee']='Yes, I want to suppress this image';
+$_SESSION['l10n']['en']['5e9587fd9c1555607805b79c32dc82b8']='Yes, I want to delete this image';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['2874b33587f5b94cb21dbe46c62c39f3']='You can make this image point to any web page if you wish';
 $_SESSION['l10n']['en']['bytes']='bytes';

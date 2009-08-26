@@ -68,6 +68,14 @@ $context['text'] .= '<p><b>'.i18n::s('Drag and drop following elements').'</b></
 	.'<div class="sortable">2. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>'
 	.'<div class="sortable">3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>'
 	.'</div>'."\n";
+	
+// filtering floating numbers
+$context['text'] .= '<p><b>'.i18n::s('Interactive filters').'</b></p>'
+	.'<form>'
+	.'<p><input type="text" size="6" onkeypress="return Yacs.filterInteger(this, event)" /> - '.i18n::s('Enter an integer').'</p>'
+	.'<p><input type="text" size="6" onkeypress="return Yacs.filterFloat(this, event)" /> - '.i18n::s('Enter a floating number').'</p>'
+	.'</form>'."\n";
+	
 
 // some AJAX to make it work
 $context['page_footer'] .= JS_PREFIX

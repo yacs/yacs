@@ -1,9 +1,9 @@
 /**
- * The YACS AJAX shared library.
+ * the YACS AJAX shared library.
  *
  * This file extends prototype, etc., to enhance interactions with the end-user
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -361,6 +361,64 @@ var Yacs = {
 	},
 
 	/**
+	 * filter floating numbers
+	 *
+	 * usage: onkeypress="return Yacs.filterFloat(this, event)"
+	 *
+	 * @param handle of the filtered element
+	 * @param keyboard event
+	 */
+	filterFloat: function(handle, event) {
+		var key;
+		if(window.event) {
+			key = window.event.keyCode;
+		} else if(event)
+			key = event.which;
+		else
+			return true;
+	
+		// control keys
+		if((key==null) || (key<32))
+			return true;
+
+		// numbers
+		if((("0123456789,.+-").indexOf(String.fromCharCode(key)) > -1))
+			return true;
+
+		// filtered out
+		return false;
+	},
+	
+	/**
+	 * filter integer numbers
+	 *
+	 * usage: onkeypress="return Yacs.filterInteger(this, event)"
+	 *
+	 * @param handle of the filtered element
+	 * @param keyboard event
+	 */
+	filterInteger: function(handle, event) {
+		var key;
+		if(window.event) {
+			key = window.event.keyCode;
+		} else if(event)
+			key = event.which;
+		else
+			return true;
+	
+		// control keys
+		if((key==null) || (key<32))
+			return true;
+
+		// numbers
+		if((("0123456789+-").indexOf(String.fromCharCode(key)) > -1))
+			return true;
+
+		// filtered out
+		return false;
+	},
+	
+	/**
 	 * get the value of one cookie
 	 *
 	 * @param cookie name
@@ -412,6 +470,17 @@ var Yacs = {
 		return s;
 	},
 
+	/**
+	 * expand a commenting textarea
+	 *
+	 * This is used in walls
+	 *
+	 * @param handle to the item to expand
+	 */
+	grow_panel: function(handle) {
+		Element.setStyle(handle, {height: '10em'});
+	},
+	
 	/**
 	 * we have received an 'alert' notification
 	 *
@@ -795,6 +864,60 @@ var Yacs = {
 
 		// actual pre-load
 		loader.src = anchor.getAttribute('href');
+
+	},
+
+	/**
+	 * slide a panel
+	 *
+	 * @param the clicked item
+	 * @param string URL of the extending icon
+	 * @param string URL of the collapsing icon
+	 */
+	slide_panel: function(handle, down_href, up_href) {
+
+		// align to the parent container
+		var container = Element.up(handle);
+		Element.setStyle(container, {position: 'relative'});
+
+		// the panel to slide
+		var panel = Element.next(handle, 'div');
+		
+		// the sliding panel is positioned below the handle
+		var leftTop = Element.cumulativeOffset(container);
+
+		// the menu is visible on screen
+		if(leftTop.left + Element.getWidth(handle) - Element.getWidth(panel) > 0) {
+			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', right: '0px', zIndex: 20});
+		
+		// align on the left side instead
+		} else {
+			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', left: '0px', zIndex: 20});		
+		}
+		
+		// display the panel if it is not visible
+		if(panel.style.display == 'none') {
+		
+			new Effect.SlideDown(panel, {duration:.5, scaleContent:false});
+
+			// change the image (if there is an image)
+			var icon = Element.next(Element.down(handle, 'span'), 'img');
+			if(icon && up_href) {
+				icon.src = up_href;
+			}
+
+		// collapse the panel if it is visible
+		} else {
+		
+			new Effect.SlideUp(panel, {duration:.5, scaleContent:false});
+			
+			// change the image (if there is an image)
+			var icon = Element.next(Element.down(handle, 'span'), 'img');
+			if(icon && down_href) {
+				icon.src = down_href;
+			}
+
+		}
 
 	},
 
@@ -1258,62 +1381,20 @@ var Yacs = {
 
 	},
 
-	grow_panel: function(handle) {
-		Element.setStyle(handle, {height: '10em'});
-	},
-	
 	/**
-	 * slide a panel
+	 * trim strings
 	 *
-	 * @param the clicked item
-	 * @param string URL of the extending icon
-	 * @param string URL of the collapsing icon
+	 * a fast implementation based on http://blog.stevenlevithan.com/archives/faster-trim-javascript
+	 *
+	 * @param string some text to trim
+	 * @return string without leading and ending spaces
 	 */
-	slide_panel: function(handle, down_href, up_href) {
-
-		// align to the parent container
-		var container = Element.up(handle);
-		Element.setStyle(container, {position: 'relative'});
-
-		// the panel to slide
-		var panel = Element.next(handle, 'div');
-		
-		// the sliding panel is positioned below the handle
-		var leftTop = Element.cumulativeOffset(container);
-
-		// the menu is visible on screen
-		if(leftTop.left + Element.getWidth(handle) - Element.getWidth(panel) > 0) {
-			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', right: '0px', zIndex: 20});
-		
-		// align on the left side instead
-		} else {
-			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', left: '0px', zIndex: 20});		
-		}
-		
-		// display the panel if it is not visible
-		if(panel.style.display == 'none') {
-		
-			new Effect.SlideDown(panel, {duration:.5, scaleContent:false});
-
-			// change the image (if there is an image)
-			var icon = Element.down(handle, 'img');
-			if(icon && up_href) {
-				icon.src = up_href;
-			}
-
-		// collapse the panel if it is visible
-		} else {
-		
-			new Effect.SlideUp(panel, {duration:.5, scaleContent:false});
-			
-			// change the image (if there is an image)
-			var icon = Element.down(handle, 'img');
-			if(icon && down_href) {
-				icon.src = down_href;
-			}
-
-		}
-
+	trim: function(str) {
+		var	str = str.replace(/^\s\s*/, ''),
+			ws = /\s/,
+			i = str.length;
+		while(ws.test(str.charAt(--i)));
+		return str.slice(0, i + 1);
 	},
 
 	/**

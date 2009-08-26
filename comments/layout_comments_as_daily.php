@@ -78,7 +78,7 @@ Class Layout_comments_as_daily extends Layout_interface {
 				$class .= ' follow_up';
 
 			// name this comment
-			$text .= '<div id="comment_'.$item['id'].'" class="'.$class.' comment">'."\n".'<h3>';
+			$text .= '<div id="comment_'.$item['id'].'" class="'.$class.' comment">'."\n".'<h4>';
 
 			// comment #
 			$count++;
@@ -116,10 +116,11 @@ Class Layout_comments_as_daily extends Layout_interface {
 				$menu = array_merge($menu, array( Comments::get_url($item['id'], 'delete') => i18n::s('Delete') ));
 			}
 
-			$text .= ' -&nbsp;'.Skin::build_list($menu, 'menu');
+			if($menu)
+				$text .= ' -&nbsp;'.Skin::build_list($menu, 'menu');
 
 			// the note itself
-			$text .= '</h3>';
+			$text .= '</h4>';
 
 			// the comment itself
 			$text .= Skin::build_block($item['description'], 'description');

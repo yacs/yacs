@@ -309,7 +309,6 @@ class Overlay {
 	 * @see articles/edit.php
 	 * @see articles/fetch_as_msword.php
 	 * @see articles/fetch_as_pdf.php
-	 * @see articles/fetch_for_palm.php
 	 * @see articles/layout_articles_as_alistapart.php
 	 * @see articles/print.php
 	 * @see articles/view.php

@@ -210,14 +210,14 @@ $text .= '[toc]'.DUMMY_TEXT."\n"
 	.'<li>[script]skins/test.php[/script]</li>'."\n"
 	.'<li>'.Skin::build_link('skins/test.php', 'skins/test.php', 'shortcut').'</li>'."\n"
 	.'<li>'.Skin::strip(DUMMY_TEXT, 7, 'skins/test.php').'</li>'."\n"
-	.'<li>'.RESTRICTED_FLAG.i18n::s('Access is restricted to authenticated members').'</li>'."\n"
-	.'<li>'.PRIVATE_FLAG.i18n::s('Access is restricted to associates and editors').'</li>'."\n"
+	.'<li>'.RESTRICTED_FLAG.i18n::s('Community - Access is restricted to authenticated members').'</li>'."\n"
+	.'<li>'.PRIVATE_FLAG.i18n::s('Private - Access is restricted to selected persons').'</li>'."\n"
 	.'<li>'.i18n::s('This item is new').NEW_FLAG.'</li>'."\n"
 	.'<li>'.i18n::s('This item has been updated').UPDATED_FLAG.'</li>'."\n"
 	.'<li>'.DRAFT_FLAG.i18n::s('This item is a draft, and is not publicly visible').'</li>'."\n"
 	.'</ul>'."\n"
 	.'<p>[button='.i18n::s('Click to reload this page').']skins/test.php[/button]</p>'."\n"
-	.DUMMY_TEXT."\n"
+	.'<p>'.DUMMY_TEXT."</p>\n"
 	.' [title]'.i18n::s('level 1 title').'[/title] '."\n".DUMMY_TEXT."\n"
 			.' [subtitle]'.i18n::s('level 2 title').'[/subtitle] '."\n".DUMMY_TEXT;
 
@@ -238,6 +238,15 @@ $menu_bar = array('skins/test.php' => i18n::s('Test page'), 'skins/' => i18n::s(
 
 // $context['text'] - section with a menu bar
 $text .= Skin::build_box(i18n::s('with a menu bar'), DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT);
+
+// $context['text'] - test horizontal and vertical layouts
+$cells = array(Skin::layout_vertically(array(i18n::s('north').' - '.DUMMY_TEXT, 
+		Skin::layout_horizontally('left='.i18n::s('west').' - '.DUMMY_TEXT.DUMMY_TEXT, 
+			'center='.i18n::s('center').' - '.DUMMY_TEXT.DUMMY_TEXT, 
+			'right='.i18n::s('east').' - '.DUMMY_TEXT.DUMMY_TEXT),
+		i18n::s('south').' - '.DUMMY_TEXT)),
+	Skin::build_block(DUMMY_TEXT, 'sidecolumn'));
+$text .= Skin::build_box(i18n::s('horizontal and vertical layouts'), Skin::layout_horizontally($cells));
 
 // page neighbours
 $neighbours = array('#previous', i18n::s('Previous'), '#next', i18n::s('Next'), '#', 'index');

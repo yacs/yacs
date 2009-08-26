@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:51 pm GMT. Please do not modify it manually.
+ * on July 17, 2009, 9:27 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-29 13:33+0200
-PO-Revision-Date: 2009-05-29 13:40+0100
+POT-Creation-Date: 2009-07-03 00:19+0200
+PO-Revision-Date: 2009-07-04 23:18+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -38,7 +38,7 @@ $_SESSION['l10n']['fr']['A: ']='R:';
 $_SESSION['l10n']['fr']['16a5e32bfb6574ae5e6bd234b527b647']='Accès restreint aux associés et éditeurs';
 $_SESSION['l10n']['fr']['71591a943ab0ff1e925f29270c9a6568']='Accès restreint aux membres authentifiés';
 $_SESSION['l10n']['fr']['36c0c18db67904b2f6cfeb54c02162f3']='Ajouter des bookmarklets pour faciliter de futures contributions';
-$_SESSION['l10n']['fr']['Add a comment']='Ajouter un commentaire';
+$_SESSION['l10n']['fr']['Add avatar']='Ajouter un avatar';
 $_SESSION['l10n']['fr']['3bfbe71c51726d4b15304eeb0ca68255']='Ajouter des liens vers les pages des auteurs dans les listes d\'articles';
 $_SESSION['l10n']['fr']['b806ae6371651317705f356917784cb0']='Classes CSS insérées par Yacs. Exemple : "reflect"';
 $_SESSION['l10n']['fr']['9f1f1b8b8d31243820fba114a2da47a8']='Texte additionnel inséré à la fin de chaque page générée par YACS. Coller ici les balises &lt;script&gt; utilisées pour le suivi statistique des navigations.';
@@ -194,6 +194,7 @@ $_SESSION['l10n']['fr']['Permalink']='Permalink';
 $_SESSION['l10n']['fr']['5407f72b825d5a546bc759d46d6abd15']='Merci de rester réaliste. Ce paramètre sert à marquer les pages nouvelles ou mises à jour. Cette information figure également dans le méta-champ "revisit-after".';
 $_SESSION['l10n']['fr']['23c0e258bccdc30697a9879f43ccde0e']='Merci d\'aller jusqu\'à la fin de cette page pour vérifier les résultats de la construction du nouveau référentiel.';
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';
+$_SESSION['l10n']['fr']['Post a comment']='Ajouter un commentaire';
 $_SESSION['l10n']['fr']['Powered by %s']='Encore un serveur %s';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Previous']='Précédent';
@@ -235,7 +236,6 @@ $_SESSION['l10n']['fr']['Skin editor']='Editeur de style';
 $_SESSION['l10n']['fr']['Skin name']='Nom du nouveau style';
 $_SESSION['l10n']['fr']['Skin to test']='Style à tester';
 $_SESSION['l10n']['fr']['Skip to main content']='Aller au contenu principal';
-$_SESSION['l10n']['fr']['Small']='Vignette';
 $_SESSION['l10n']['fr']['Standard height']='Hauteur standard';
 $_SESSION['l10n']['fr']['Standard width']='Largeur standard';
 $_SESSION['l10n']['fr']['8416146ff57ddc1d7f11a6d1a9c66466']='Etape 1 - Choix du thème à utiliser';
@@ -272,6 +272,7 @@ $_SESSION['l10n']['fr']['c0f71f9198ac29742788b3ccf318c4be']='Cet élément est u
 $_SESSION['l10n']['fr']['This item is new']='Nouvel élément';
 $_SESSION['l10n']['fr']['d6b075de74bfd8969ee12b01b2e30a70']='Ce script vous permet d\'installer ou de mettre à jour un thème pour votre serveur YACS.';
 $_SESSION['l10n']['fr']['732264ed4e4dab9d8000a44832895dc1']='Ceci est répété sur plusieurs pages';
+$_SESSION['l10n']['fr']['Thumbnail']='Vignette';
 $_SESSION['l10n']['fr']['Thumbnail caption']='Titre de vignette';
 $_SESSION['l10n']['fr']['Thumbnail height']='Hauteur de vignette';
 $_SESSION['l10n']['fr']['Thumbnail threshold']='Seuil d\'utilisation des vignettes';

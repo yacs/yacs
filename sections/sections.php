@@ -83,7 +83,7 @@
  * [*] [code]no_neighbours[/code] - Use this setting to avoid previous / next links added by YACS to navigate a section.
  *
  * [*] [code]with_export_tools[/code] - Add tools to convert page text
- * to PDF, Palm, MS-Word or to a printer. These tools are not displayed by default.
+ * to PDF, MS-Word or to a printer. These tools are not displayed by default.
  * You may find useful to activate them to further help surfers to reuse published material.
  *
  * [*] [code]with_extra_profile[/code] - Display poster profile in the extra panel of the template.
@@ -1332,7 +1332,7 @@ Class Sections {
 		}
 
 		// check the target action
-		if(!preg_match('/^(delete|describe|duplicate|edit|feed|freemind|import|invite|lock|mail|navigate|print|slideshow|view|view_as_freemind)$/', $action))
+		if(!preg_match('/^(assign|delete|describe|duplicate|edit|feed|freemind|import|invite|lock|mail|navigate|print|slideshow|view|view_as_freemind)$/', $action))
 			return 'sections/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
@@ -1394,8 +1394,8 @@ Class Sections {
 		if(is_object($anchor) && $anchor->is_editable($user_id))
 			return TRUE;
 		
-		// surfer has created the section
-		if(isset($item['create_id']) && ($item['create_id'] == $user_id))
+		// surfer owns this section
+		if(isset($item['owner_id']) && ($item['owner_id'] == $user_id))
 			return TRUE;
 
 		// sorry
@@ -1975,12 +1975,12 @@ Class Sections {
 
 		// set layout for sections
 		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/(compact|custom|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $fields['sections_layout']))
-			$fields['sections_layout'] = 'map';
+			$fields['sections_layout'] = 'none';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
 				$fields['sections_layout'] = $fields['sections_custom_layout'];
 			else
-				$fields['sections_layout'] = 'map';
+				$fields['sections_layout'] = 'none';
 		}
 
 		// set layout for articles
@@ -2046,6 +2046,7 @@ Class Sections {
 			."options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."',"
 			."overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."',"
 			."overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."',"
+			."owner_id='".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id'])."', "
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
 			."rank='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : 10000)."',"
 			."section_overlay='".SQL::escape(isset($fields['section_overlay']) ? $fields['section_overlay'] : '')."',"
@@ -2283,6 +2284,8 @@ Class Sections {
 //			$query[] = "active='".SQL::escape($fields['active'])."',";
 //		if(Surfer::is_empowered() && Surfer::is_member())
 //			$query[] = "active_set='".SQL::escape($fields['active_set'])."',";
+		if(isset($fields['owner_id']) && Surfer::is_empowered() && Surfer::is_member())
+			$query[] = "owner_id='".SQL::escape($fields['owner_id'])."'";
 
 		// fields visible to authorized member
 		if(isset($fields['title']))
@@ -2524,6 +2527,7 @@ Class Sections {
 		$fields['options']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['overlay']		= "TEXT NOT NULL";
 		$fields['overlay_id']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['owner_id']		= "MEDIUMINT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['prefix']		= "TEXT NOT NULL";
 		$fields['rank'] 		= "MEDIUMINT UNSIGNED DEFAULT 10000 NOT NULL";
 		$fields['section_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";

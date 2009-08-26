@@ -36,8 +36,8 @@ if(Surfer::is_associate())
 elseif(is_object($anchor) && Surfer::get_id() && ($anchor->get_reference() == 'user:'.Surfer::get_id()))
 	$permitted = 'all';
 
-// a member who manages his section
-elseif(is_object($anchor) && Sections::is_owned($anchor))
+// a member who manages a parent section
+elseif(is_object($anchor) && $anchor->is_owned())
 	$permitted = 'all';
 
 // a member who manages his editor rights
@@ -73,9 +73,9 @@ elseif(!$permitted) {
 	if(is_object($anchor)) {
 		if(!strncmp($anchor->get_reference(), 'user:', 5)) {
 			if(Surfer::is(intval(substr($anchor->get_reference(), 5))))
-				$context['page_title'] = i18n::s('My connections');
+				$context['page_title'] = i18n::s('My contacts');
 			else
-				$context['page_title'] = sprintf(i18n::s('Connections of %s'), $anchor->get_title());
+				$context['page_title'] = sprintf(i18n::s('Contacts of %s'), $anchor->get_title());
 		} else {
 			$context['page_title'] = i18n::s('Manage editors');
 			

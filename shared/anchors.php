@@ -277,7 +277,7 @@ class Anchors {
 	 *
 	 * @param string a valid anchor (e.g., 'section:12', 'article:34')
 	 * @param boolean TRUE to always fetch a fresh instance, FALSE to enable cache
-	 * @return an array of named variables, or NULL if the anchor is unknown
+	 * @return object implementing the Anchor interface, or NULL if the anchor is unknown
 	 *
 	 * @see shared/anchor.php
 	 */

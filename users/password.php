@@ -252,7 +252,7 @@ if($with_form) {
 	$context['text'] .= Skin::finalize_list(array(
 		Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's'),
 		Skin::build_link(Users::get_url($item['id'], 'view', $item['nick_name']), i18n::s('Cancel'), 'span')
-		), 'menu_bar');
+		), 'assistant_bar');
 
 	// hidden field that have to be saved as well
 	if(isset($item['id']) && $item['id'])

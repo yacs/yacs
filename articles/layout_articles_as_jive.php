@@ -140,12 +140,16 @@ Class Layout_articles_as_jive extends Layout_interface {
 			$details = array();
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = Skin::build_link($url.'#files', FILE_TOOL_IMG.' '.sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE)) {
+				Skin::define_img('FILES_LIST_IMG', 'files/list.gif');
+				$details[] = Skin::build_link($url.'#files', FILES_LIST_IMG.sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+			}
 
 			// info on related links
-			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$details[] = LINK_TOOL_IMG.' '.sprintf(i18n::ns('%d link', '%d links', $count), $count);
+			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE)) {
+				Skin::define_img('LINKS_LIST_IMG', 'links/list.gif');
+				$details[] = LINKS_LIST_IMG.sprintf(i18n::ns('%d link', '%d links', $count), $count);
+			}
 
 			// more commands
 			$content .= '<p class="jive_menu">';
@@ -156,7 +160,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 
 			// the command to reply
 			if(Comments::are_allowed($anchor, $item)) {
-				Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.png');
+				Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 				$content .= Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic');
 			}
 
@@ -172,8 +176,8 @@ Class Layout_articles_as_jive extends Layout_interface {
 //						$link = 'users/track.php/article/'.$item['id'];
 //					else
 //						$link = 'users/track.php?article='.$item['id'];
-//					Skin::define_img('WATCH_TOOL_IMG', 'icons/tools/watch.gif');
-//					$content .= ' '.WATCH_TOOL_IMG.sprintf(i18n::s('%s this topic'), Skin::build_link($link, i18n::s('Watch')))."\n";
+//					Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
+//					$content .= ' '.TOOLS_WATCH_IMG.sprintf(i18n::s('%s this topic'), Skin::build_link($link, i18n::s('Watch')))."\n";
 //				}
 //			}
 

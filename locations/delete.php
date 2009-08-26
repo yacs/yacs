@@ -92,7 +92,7 @@ if(!isset($item['id'])) {
 
 	// touch the related anchor before actual deletion, since the location has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('location:delete', $item['id'], TRUE);
+		$anchor->touch('location:delete', $item['id']);
 
 	// if no error, back to the anchor or to the index page
 	if(Locations::delete($item['id'])) {
@@ -112,9 +112,15 @@ if(!isset($item['id'])) {
 // ask for confirmation
 } else {
 
+	// commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this location'), NULL, NULL, 'confirmed');
+	if(is_object($anchor))
+		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
+
 	// the submit button
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-		.Skin::build_submit_button(i18n::s('Yes, I want to suppress this location'), NULL, NULL, 'confirmed')."\n"
+		.Skin::finalize_list($menu, 'menu_bar')
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";
@@ -129,8 +135,9 @@ if(!isset($item['id'])) {
 	$context['text'] .= Skin::build_block($item['geo_place_name'], 'title');
 
 	// display the full text
-	$context['text'] .= Skin::build_block($item['description'], 'description');
+	$context['text'] .= '<div style="margin: 1em 0;">'.Codes::beautify($item['description']).'</div>'."\n";
 
+	// more details
 	$details = array();
 
 	// information on uploader
@@ -138,7 +145,8 @@ if(!isset($item['id'])) {
 		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 	// the complete details
-	$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+	if($details)
+		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
 }
 

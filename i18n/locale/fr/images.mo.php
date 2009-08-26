@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on August 24, 2009, 10:17 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2008-11-16 21:52+0100
+POT-Creation-Date: 2009-06-29 01:13+0200
+PO-Revision-Date: 2009-07-04 22:56+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -48,7 +48,6 @@ $_SESSION['l10n']['fr']['Images']='Images';
 $_SESSION['l10n']['fr']['Impossible to adjust image %s.']='Impossible d\'ajuster l\'image %s.';
 $_SESSION['l10n']['fr']['Impossible to copy file %s.']='Impossible de copier le fichier %s.';
 $_SESSION['l10n']['fr']['Impossible to create path %s.']='Impossible de créer le chemin %s.';
-$_SESSION['l10n']['fr']['dae25dec5277bd7d9c42223ee2ef7c0a']='Impossible de déplacer le fichier vers %s';
 $_SESSION['l10n']['fr']['Impossible to skrink image %s']='Impossible de réduire l\'image %s';
 $_SESSION['l10n']['fr']['Impossible to write to %s.']='Impossible d\'écrire dans %s.';
 $_SESSION['l10n']['fr']['In %s']='Dans %s';
@@ -76,7 +75,6 @@ $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['92fdd78ee6bb759cae3b7d6e33a0552f']='Choisissez l\'emplacement adéquat pour partager votre image';
 $_SESSION['l10n']['fr']['88100f21e63a26d7ae6895199f0d7475']='Merci de sélectionner une image .png, ou .gif ou .jpg';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
-$_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';
 $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Press to select a local file']='Choisir un fichier local';
@@ -99,12 +97,11 @@ $_SESSION['l10n']['fr']['Submit another image']='Envoyer une autre image';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['07952e6cca017e7cdff4505604da467f']='Effacement non confirmé';
 $_SESSION['l10n']['fr']['10bf8e765fdc93ec1af9246dee434ce2']='L\'image a été positionnée comme icône de page.';
-$_SESSION['l10n']['fr']['334ff432f80399dd793ebba2ce3e722c']='L\'image a été positionnée comme avatar.';
+$_SESSION['l10n']['fr']['d3622f7235c7ca933a702a3478cf6d7d']='L\'image est devenue l\'avatar de ce profil.';
 $_SESSION['l10n']['fr']['c1bf92bb2cf089698dc8bc64adc5e8f0']='L\'image a été insérée à la fin de la page.';
 $_SESSION['l10n']['fr']['8260146cc33b9e04504109fd6edc42b2']='L\'image a été ajoutée ; elle servira aussi de vignette de la page associée';
 $_SESSION['l10n']['fr']['d3e704fca04137e80f8371810c69dcbf']='L\'image a été insérée au début de la page.';
 $_SESSION['l10n']['fr']['13ce4a67266be09f717a339e084c1fc3']='L\'image servira de puce.';
-$_SESSION['l10n']['fr']['bd4dc509bead225fd09ffc2a29b1e07a']='La taille du fichier dépasse la limite autorisée.';
 $_SESSION['l10n']['fr']['dd5d3d8719d8abaf68ea9d57da282d79']='L\'image sera utilisée comme vignette de page.';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
 $_SESSION['l10n']['fr']['e90988ff1c028ea95de8bf1298d3eb58']='Ce script va créer une nouvelle page pour l\'image transmise. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc dans la barre de menu.';

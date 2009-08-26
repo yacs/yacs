@@ -211,6 +211,11 @@ Class Skin_Skeleton {
 			}
 			break;
 
+		case 'sidecolumn':
+			if($text)
+				$text = '<div'.$id.' class="sidecolumn">'.$text.'</div>';
+			break;
+
 		case 'subtitle':
 			if($text)
 				$text = '<h3'.$id.'><span>'.Codes::beautify_title($text).'</span></h3>';
@@ -248,6 +253,8 @@ Class Skin_Skeleton {
 	 * - 'header3' with a level 3 title
 	 * - 'navigation' for additional navigational information on page side
 	 * - 'sidebar' for some extra information in the main part of the page
+	 * - 'sidecolumn' for some extra information in the main part of the page
+	 * - 'sliding' for sliding content
 	 * - 'toc' for a table of content
 	 * - 'toq' for a table of questions
 	 * - 'unfolded' for a folded box with content
@@ -308,6 +315,14 @@ Class Skin_Skeleton {
 
 		case 'sidebar':
 			$output =& Skin::build_sidebar_box($title, $content, $id);
+			break;
+
+		case 'sidecolumn':
+			$output =& Skin::build_sidecolumn_box($title, $content, $id);
+			break;
+
+		case 'sliding':
+			$output =& Skin::build_sliding_box($title, $content, $id);
 			break;
 
 		case 'toc':
@@ -2155,8 +2170,10 @@ Class Skin_Skeleton {
 			// avatar
 			if(isset($user['avatar_url']) && $user['avatar_url'])
 				$details[] =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar'.$more_styles.'" />', 'basic');
-			else if(Surfer::is_empowered())
-				$details[] =& Skin::build_link(Users::get_url($user['id'], 'select_avatar'), i18n::s('Add avatar'), 'basic');
+			else if(Surfer::is_empowered()) {
+				Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
+				$details[] =& Skin::build_link(Users::get_url($user['id'], 'select_avatar'), IMAGES_ADD_IMG.i18n::s('Add picture'), 'basic');
+			}
 
 
 			// date of post
@@ -2325,6 +2342,45 @@ Class Skin_Skeleton {
 
 		// box content
 		$text .= '<div>'.$content.'</div>';
+
+		// external div boundary
+		$text .= '</div>'."\n";
+
+		return $text;
+	}
+
+	/**
+	 * build sliding content
+	 *
+	 * @param string the box title, if any
+	 * @param string the box content
+	 * @param string an optional unique id for this box
+	 * @return the HTML to display
+	 */
+	function &build_sliding_box($title, &$content, $id) {
+		global $context;
+
+		// we need a clickable title
+		if(!$title)
+			$title = i18n::s('Content');
+
+		// this box has a unique id
+		if($id)
+			$id = ' id="'.$id.'" ';
+
+		// external div boundary
+		$text = '<div class="sliding_box"'.$id.'>'."\n";
+
+		// an image to enhance rendering
+		$img = '';
+		if(SLIDE_DOWN_IMG_HREF)
+			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to fold/unfold')).'" title="'.encode_field(i18n::s('Click to fold/unfold')).'" /> ';
+
+		// title is optional
+		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slide_panel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\'); return false;"><span>'.$title.'</span>'.$img.'</a>';
+
+		// box content has no div, it is already structured
+		$text .= '<div class="panel" style="display: none;">'.$content.'</div>';
 
 		// external div boundary
 		$text .= '</div>'."\n";
@@ -2606,7 +2662,7 @@ Class Skin_Skeleton {
 			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to fold/unfold')).'" title="'.encode_field(i18n::s('Click to fold/unfold')).'" /> ';
 
 		// title is optional
-		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slide_panel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\'); return false;">'.$title.$img.'</a>';
+		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slide_panel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\'); return false;"><span>'.$title.'</span>'.$img.'</a>';
 
 		// box content has no div, it is already structured
 		$text .= '<div class="panel" style="display: none;">'.$content.'</div>';
@@ -3343,24 +3399,20 @@ Class Skin_Skeleton {
 				$text = '<div id="tabs">'.TABS_PREFIX.'<ul>'."\n".$text.'</ul>'.TABS_SUFFIX."</div>\n";
 				break;
 
-			// similar to compact, except tags are stripped
+			// similar to compact
 			case 'tools':
 
-				$line_count = 0;
 				foreach($list as $label) {
-
-					// between two items
-					if($line_count++)
-						$text .= COMPACT_LIST_SEPARATOR;
 
 					$icon = '';
 					if(is_array($label))
 						list($label, $icon) = $label;
 
-					$text .= '<li>'.COMPACT_LIST_ITEM_PREFIX.$icon.trim(str_replace('/> ', '/>', $label)).COMPACT_LIST_ITEM_SUFFIX.'</li>'."\n";
+					if($text)
+						$text .= BR;
+					$text .= $icon.$label;
 				}
 
-				$text = COMPACT_LIST_PREFIX.'<ul class="compact">'."\n".$text.'</ul>'.COMPACT_LIST_SUFFIX."\n";
 				break;
 
 			// the regular <ul> list -- icons are dropped, if any
@@ -3403,9 +3455,6 @@ Class Skin_Skeleton {
 		// the maximum number of actions per page
 		if(!defined('ACTIONS_PER_PAGE'))
 			define('ACTIONS_PER_PAGE', 10);
-
-		// the image to add an article
-		Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.png');
 
 		// the maximum number of articles per page
 		if(!defined('ARTICLES_PER_PAGE'))
@@ -3521,9 +3570,6 @@ Class Skin_Skeleton {
 		if(!defined('FAMILY_SUFFIX'))
 			define('FAMILY_SUFFIX', BR);
 
-		// the prefix icon used for images in the tool set
-		Skin::define_img('FILE_TOOL_IMG', 'icons/tools/file.gif');
-
 		// the maximum number of files per page
 		if(!defined('FILES_PER_PAGE'))
 			define('FILES_PER_PAGE', 30);
@@ -3551,7 +3597,7 @@ Class Skin_Skeleton {
 			define('HORIZONTAL_RULER', '<hr />');
 
 		// the prefix icon used for hot threads
-		Skin::define_img('HOT_THREAD_IMG', 'icons/articles/hot_thread.gif');
+		Skin::define_img('HOT_THREAD_IMG', 'articles/hot_thread.gif');
 
 		// the HTML to be inserted before an icon
 		if(!defined('ICON_PREFIX'))
@@ -3572,9 +3618,6 @@ Class Skin_Skeleton {
 		// the HTML string appended to an in-line menu
 		if(!defined('INLINE_MENU_SUFFIX'))
 			define('INLINE_MENU_SUFFIX', '</span>');
-
-		// the prefix icon used to add a link in the tool set
-		Skin::define_img('LINK_TOOL_IMG', 'icons/tools/link.gif');
 
 		// the maximum number of links per page
 		if(!defined('LINKS_PER_PAGE'))
@@ -3691,9 +3734,6 @@ Class Skin_Skeleton {
 		if(!defined('S5_THEME'))
 			define('S5_THEME', 'i18n');
 
-		// the image to add a section
-		Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.png');
-
 		// the maximum number of sections attached to an anchor -- see sections/select.php
 		if(!defined('SECTIONS_LIST_SIZE'))
 			define('SECTIONS_LIST_SIZE', 40);
@@ -3753,7 +3793,7 @@ Class Skin_Skeleton {
 			define('TABS_SUFFIX', '');
 
 		// the prefix icon used for regular threads
-		Skin::define_img('THREAD_IMG', 'icons/articles/thread.gif');
+		Skin::define_img('THREAD_IMG', 'articles/thread.gif');
 
 		// the maximum number of threads per page -- comments/index.php
 		if(!defined('THREADS_PER_PAGE'))
@@ -3828,6 +3868,152 @@ Class Skin_Skeleton {
 		return $text;
 	}
 
+	/**
+	 * layout strings horizontally
+	 *
+	 * @param mixed either an array of strings, or a string
+	 * @param string optional strings
+	 * @return string text to be returned to the browser
+	 */
+	function &layout_horizontally() {
+	
+		// we return some text
+		$text = '';
+		
+		// list all arguments
+		$count = func_num_args();
+		$arguments = func_get_args();
+		$style = 'west';
+		for($index = 0; $index < $count; $index++) {
+			$argument = $arguments[$index];
+		
+			// do the layout
+			if(is_array($argument)) {
+				$marker = count($argument);
+				foreach($argument as $token) {
+
+					// moving to last element
+					$marker -= 1;
+					if(!$marker)
+						$style = 'east';
+		
+					// adjust alignment if required						
+					if(!strncmp($token, 'left=', 5))
+						$text .= '<td class="'.$style.'"><div style="text-align: left;">'.substr($token, 5).'</div></td>';
+					elseif(!strncmp($token, 'center=', 7))
+						$text .= '<td class="'.$style.'"><div style="text-align: center;">'.substr($token, 7).'</div></td>';
+					elseif(!strncmp($token, 'right=', 6))
+						$text .= '<td class="'.$style.'"><div style="text-align: right;">'.substr($token, 6).'</div></td>';
+					else
+						$text .= '<td class="'.$style.'">'.$token.'</td>';
+						
+					// move to the center
+					$style = 'center';
+				}
+			} else {
+
+				// moving to last element
+				if($index + 1 == $count)
+					$style = 'east';
+	
+				// adjust alignment if required						
+				if(!strncmp($argument, 'left=', 5))
+					$text .= '<td class="'.$style.'"><div style="text-align: left;">'.substr($argument, 5).'</div></td>';
+				elseif(!strncmp($argument, 'center=', 7))
+					$text .= '<td class="'.$style.'"><div style="text-align: center;">'.substr($argument, 7).'</div></td>';
+				elseif(!strncmp($argument, 'right=', 6))
+					$text .= '<td class="'.$style.'"><div style="text-align: right;">'.substr($argument, 6).'</div></td>';
+				else
+					$text .= '<td class="'.$style.'">'.$argument.'</td>';
+			}
+			
+			// move from west to center
+			if(!$index)
+				$style = 'center';
+				
+		}
+		
+		// package the resulting string
+		if($text)
+			$text = '<table class="layout"><tbody><tr>'.$text.'</tr></tbody></table>';
+			
+		// job is done
+		return $text;
+	}
+	
+	/**
+	 * layout strings vertically
+	 *
+	 * @param mixed either an array of strings, or a string
+	 * @param string optional strings
+	 * @return string text to be returned to the browser
+	 */
+	function &layout_vertically() {
+	
+		// we return some text
+		$text = '';
+		
+		// list all arguments
+		$count = func_num_args();
+		$arguments = func_get_args();
+		$style = 'north';
+		for($index = 0; $index < $count; $index++) {
+			$argument = $arguments[$index];
+			
+			// do the layout
+			if(is_array($argument)) {
+				$marker = count($argument);
+				foreach($argument as $token) {
+				
+					// moving to last element
+					$marker -= 1;
+					if(!$marker)
+						$style = 'south';
+		
+					// adjust alignment if required
+					if(!strncmp($token, 'left=', 5))
+						$text .= '<tr><td class="'.$style.'"><div style="text-align: left;">'.substr($token, 5).'</div></td></tr>';
+					elseif(!strncmp($token, 'center=', 7))
+						$text .= '<tr><td class="'.$style.'"><div style="text-align: center;">'.substr($token, 7).'</div></td></tr>';
+					elseif(!strncmp($token, 'right=', 6))
+						$text .= '<tr><td class="'.$style.'"><div style="text-align: right;">'.substr($token, 6).'</div></td></tr>';
+					else
+						$text .= '<tr><td class="'.$style.'">'.$token.'</td></tr>';
+						
+					// move to the center
+					$style = 'equator';
+				}
+			} else {
+				
+				// moving to last element
+				if($index + 1 == $count)
+					$style = 'south';
+						
+				// adjust alignment if required
+				if(!strncmp($argument, 'left=', 5))
+					$text .= '<tr><td class="'.$style.'"><div style="text-align: left;">'.substr($argument, 5).'</div></td></tr>';
+				elseif(!strncmp($argument, 'center=', 7))
+					$text .= '<tr><td class="'.$style.'"><div style="text-align: center;">'.substr($argument, 7).'</div></td></tr>';
+				elseif(!strncmp($argument, 'right=', 6))
+					$text .= '<tr><td class="'.$style.'"><div style="text-align: right;">'.substr($argument, 6).'</div></td></tr>';
+				else
+					$text .= '<tr><td class="'.$style.'">'.$argument.'</td></tr>';
+			}
+				
+			// move from north to center
+			if(!$index)
+				$style = 'equator';
+				
+		}
+		
+		// package the resulting string
+		if($text)
+			$text = '<table class="layout"><tbody>'.$text.'</tbody></table>';
+			
+		// job is done
+		return $text;
+	}
+	
 	/**
 	 * build a navigation bar for pages
 	 *

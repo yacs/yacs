@@ -17,7 +17,7 @@
  * - AJAX threads
  * - AJAX users
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @author Thierry Pinelli (ThierryP)
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
@@ -293,7 +293,7 @@ div#tabs_bar ul li.tab-foreground a {
 
 div#tabs_panels {
 	width: auto;
-	padding: 0;
+	padding: 2px 0;
 	margin: 1em 0 0 0;
 	min-height: 200px;
 	overflow: auto;
@@ -398,7 +398,7 @@ div.follow_up { /* comments from page author */
 }
 
 /**
- * tags
+ * styles for tags
  */
 
 p.tags {
@@ -635,11 +635,46 @@ table.yabb { /* align comments below thumbnails in main content */
 	clear: left;
 }
 
+div.sliding_box div.panel,
 div.toc_box div.panel { /* content of sliding panels */
 	opacity: 0.9;
-	background-color: #eee;
+	background-color: #bbb;
 	padding: 1em;
 	width: 40em;
+	border: 7px #aaa solid;
+}
+
+/* vertical and horizontal layouts */
+
+table.layout {
+	width: 98%; /* not 100% because of IE6 */
+	border: none; /* we are only interested into the layout */
+}
+	
+table.layout tbody tr td {
+	padding: 0; /* save on space arounf cells */
+	margin: 0;
+	text-align: left; /* prefix cells with 'left=' or 'center=' or 'right=' to change alignment */
+	border: none; /* we are only interested into the layout */
+}
+
+table.layout tbody tr td.north,
+table.layout tbody tr td.equator { /* some room between rows */
+	padding-bottom: 2em;
+}
+
+table.layout tbody tr td.west,
+table.layout tbody tr td.center { /* some room between columns */
+	padding-right: 3em;
+}
+
+/* side column in a layout */
+
+div.sidecolumn {
+	background-color: #eaeaea;
+	padding: 1em 1em 2em 1em;
+	margin: 0;
+	max-width: 25em;
 }
 
 /* do not print commands */

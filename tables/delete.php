@@ -79,7 +79,7 @@ if(!isset($item['id'])) {
 
 	// touch the related anchor before actual deletion, since the table has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('table:delete', $item['id'], TRUE);
+		$anchor->touch('table:delete', $item['id']);
 
 	// delete and go back to the anchor or to the index page
 	if(Tables::delete($item['id'])) {
@@ -97,9 +97,15 @@ if(!isset($item['id'])) {
 // ask for confirmation
 else {
 
+	// commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this table'), NULL, NULL, 'confirmed');
+	if(is_object($anchor))
+		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
+
 	// the submit button
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-		.Skin::build_submit_button(i18n::s('Yes, I want to suppress this table'), NULL, NULL, 'confirmed')."\n"
+		.Skin::finalize_list($menu, 'menu_bar')
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";
@@ -114,17 +120,6 @@ else {
 	if(isset($item['title']))
 		$context['text'] .= Skin::build_block($item['title'], 'title');
 
-	// details
-	$details = array();
-
-	// information on uploader
-	if(Surfer::is_member() && $item['edit_name'])
-		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
-
-	// all details
-	if(count($details))
-		$context['text'] .= ucfirst(implode(', ', $details)).BR."\n";
-
 	// display the full text
 	$context['text'] .= Skin::build_block($item['description'], 'description');
 
@@ -135,6 +130,17 @@ else {
 	// display the query string, if any
 	if(isset($item['query']) && $item['query'])
 		$context['text'] .= BR.'<pre>'.$item['query'].'</pre>'.BR."\n";
+
+	// details
+	$details = array();
+
+	// information on uploader
+	if(Surfer::is_member() && $item['edit_name'])
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+
+	// all details
+	if($details)
+		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details)).'</p>'."\n";
 
 }
 

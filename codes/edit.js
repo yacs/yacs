@@ -1,9 +1,11 @@
-//
-// @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
-// @tester Fernand
-// @reference
-// @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
-//
+/**
+ * insert smart codes
+ *
+ * @author Bernard Paques
+ * @tester Fernand
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
 
 function countInstances(open,closed) {
 	 var ta = document.getElementById('edit_area');

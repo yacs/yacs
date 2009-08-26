@@ -294,7 +294,7 @@ if(Surfer::is_crawler()) {
 						$follow_up .= '<ul><li><b>'.Skin::build_link($_REQUEST['forward'], i18n::s('Proceed with what I was doing before registering')).'</a></b></li></ul>';
 
 					// select an avatar
-					$follow_up .= '<ul><li>'.sprintf(i18n::s('%s from the library'), '<a href="'.$context['url_to_root'].'users/select_avatar.php?id='.$_REQUEST['id'].'">'.i18n::s('Select an avatar').'</a>').'</li></ul>';
+					$follow_up .= '<ul><li><a href="'.$context['url_to_root'].'users/select_avatar.php?id='.$_REQUEST['id'].'">'.i18n::s('Select a picture from the library').'</a></li></ul>';
 
 					// post a new page
 					if(($item['capability'] == 'M') || ($item['capability'] == 'A'))
@@ -581,10 +581,10 @@ if($with_form) {
 
 			// the command to upload page avatar
 			if(isset($item['avatar_url']) && $item['avatar_url'])
-				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']).'&amp;action=avatar', i18n::s('Change avatar').BR.'<img src="'.preg_replace('/\/images\/article\/[0-9]+\//', "\\0thumbs/", $item['avatar_url']).'" alt="" />', 'basic');
+				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']).'&amp;action=avatar', i18n::s('Change picture').BR.'<img src="'.preg_replace('/\/images\/article\/[0-9]+\//', "\\0thumbs/", $item['avatar_url']).'" alt="" />', 'basic');
 			else
-				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']).'&amp;action=avatar', i18n::s('Add avatar'), 'basic')
-					.BR.'<span class="details">'.i18n::s('Upload an image to be displayed as your avatar.').'</span>';
+				$cells[] = Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']).'&amp;action=avatar', i18n::s('Add picture'), 'basic')
+					.BR.'<span class="details">'.i18n::s('Upload a personal picture for this profile.').'</span>';
 
 			// display all commands
 			$box .= Skin::table_prefix('form').'<tr><td style="width: 200px">'.implode('</td><td style="padding-left: 3em; width: 200px">', $cells).'</td></tr></table>';
@@ -631,11 +631,11 @@ if($with_form) {
 
 	// the avatar url
 	if(isset($item['id'])) {
-		$label = i18n::s('Avatar URL');
+		$label = i18n::s('Picture URL');
 		$input = '<input type="text" name="avatar_url" size="50" value="'.encode_field(isset($item['avatar_url'])?$item['avatar_url']:'').'" maxlength="255" />';
 		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']).'&amp;action=avatar', i18n::s('Add an image'), 'basic').'</span>';
-		$hint = sprintf(i18n::s('%s, paste your gravatar address, or use images attached to this profile, if any.'), Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Select an avatar from the library'), 'basic'));
+			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('user:'.$item['id']).'&amp;action=avatar', i18n::s('Add picture'), 'basic').'</span>';
+		$hint = sprintf(i18n::s('%s, paste your gravatar address, or use images attached to this profile, if any.'), Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Select a picture from the library'), 'basic'));
 		$fields[] = array($label, $input, $hint);
 	}
 
@@ -665,19 +665,19 @@ if($with_form) {
 
 	// associates may change the active flag: Yes/public, Restricted/logged, No/associates
 	if(Surfer::is_associate()) {
-		$label = i18n::s('Visibility');
+		$label = i18n::s('Access');
 		$input = '<input type="radio" name="active" value="Y"';
 		if(!isset($item['active']) || ($item['active'] == 'Y'))
 			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Anyone may read this profile.')
+		$input .= ' /> '.i18n::s('Public - Access is granted to anonymous surfers')
 			.BR.'<input type="radio" name="active" value="R"';
 		if(isset($item['active']) && ($item['active'] == 'R'))
 			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Access is restricted to authenticated members')
+		$input .= ' /> '.i18n::s('Community - Access is restricted to authenticated members')
 			.BR.'<input type="radio" name="active" value="N"';
 		if(isset($item['active']) && ($item['active'] == 'N'))
 			$input .= ' checked="checked"';
-		$input .= ' /> '.i18n::s('Access is restricted to associates')."\n";
+		$input .= ' /> '.i18n::s('Private - Access is restricted to selected persons')."\n";
 		$fields[] = array($label, $input);
 	}
 

@@ -79,7 +79,7 @@ if(!isset($item['id'])) {
 
 	// touch the related anchor before actual deletion, since the image has to be accessible at that time
 	if(is_object($anchor))
-		$anchor->touch('decision:delete', $item['id'], TRUE);
+		$anchor->touch('decision:delete', $item['id']);
 
 	// if no error, back to the anchor or to the index page
 	if(Decisions::delete($item['id'])) {
@@ -97,9 +97,15 @@ if(!isset($item['id'])) {
 // ask for confirmation
 else {
 
+	// commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this decision'), NULL, NULL, 'confirmed');
+	if(is_object($anchor))
+		$menu[] = Skin::build_link($anchor->get_url(), i18n::s('Cancel'), 'span');
+
 	// the submit button
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
-		.Skin::build_submit_button(i18n::s('Yes, I want to suppress this decision'), NULL, NULL, 'confirmed')."\n"
+		.Skin::finalize_list($menu, 'menu_bar')
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="confirm" value="yes" />'."\n"
 		.'</p></form>'."\n";
@@ -110,9 +116,11 @@ else {
 		.'$("confirmed").focus();'."\n"
 		.JS_SUFFIX;
 
-	// the title of the decision
-	if(isset($item['title']) && $item['title'])
-		$context['text'] .= Skin::build_block($item['title'], 'title');
+	// display the full decision
+	$context['text'] .= '<div style="margin: 1em 0;">'.Codes::beautify($item['description']).'</div>'."\n";
+
+	// details
+	$details = array();
 
 	// the poster of this decision
 	$details[] = sprintf(i18n::s('by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
@@ -124,9 +132,6 @@ else {
 	// the complete details
 	if($details)
 		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
-
-	// display the full decision
-	$context['text'] .= Skin::build_block($item['description'], 'description');
 
 }
 

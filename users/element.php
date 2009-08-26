@@ -119,6 +119,12 @@ if(!isset($item['id'])) {
 	// we return some HTML
 	$output = '';
 
+	// offer to add a new action
+	if(Surfer::is_member()) {
+		$menu = array( 'actions/edit.php?anchor=user:'.$item['id'] => i18n::s('Add an action') );
+		$output .= Skin::build_list($menu, 'menu_bar');
+	}
+
 	// query the database
 	include_once '../actions/actions.php';
 	$items = Actions::list_by_date_for_anchor('user:'.$item['id'], 0, ACTIONS_PER_PAGE);
@@ -130,12 +136,6 @@ if(!isset($item['id'])) {
 		$output .= $items;
 	elseif(Surfer::get_id() != $item['id'])
 		$output .= i18n::s('No action has been assigned to this person.');
-
-	// offer to add a new action
-	if(Surfer::is_member()) {
-		$menu = array( 'actions/edit.php?anchor=user:'.$item['id'] => i18n::s('Add an action') );
-		$output .= Skin::build_list($menu, 'menu_bar');
-	}
 
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
@@ -151,26 +151,31 @@ if(!isset($item['id'])) {
 	// we return some HTML
 	$output = '';
 
-	// manage command
+	// horizontal menu
 	$menu = array();
-	if(Surfer::is_associate() || (Surfer::get_id() == $item['id']))
-		$menu[] = Skin::build_link(Users::get_url('user:'.$item['id'], 'select'), i18n::s('Manage connections'), 'button');
+
+	// manage command
+	if(Surfer::is_associate() || (Surfer::get_id() == $item['id'])) {
+		Skin::define_img('USERS_WATCH_IMG', 'users/watch.gif');
+		$menu[] = Skin::build_link(Users::get_url('user:'.$item['id'], 'select'), USERS_WATCH_IMG.i18n::s('Manage contacts'), 'basic');
+	}
+
+	// build the menu
 	$output .= Skin::finalize_list($menu, 'menu_bar');
 	
 	// list watched users by posts
+	$watched = '';
 	if($items =& Members::list_connections_for_user('user:'.$item['id'], 0, 200, 'watch')) {
 		if(is_array($items))
 			$items = Skin::build_list($items, 'decorated');
-		$output .= $items;
+		$watched .= $items;
 	} elseif(Surfer::get_id() == $item['id'])
-		$output .= '<p>'.i18n::s('Click on the button below to add new connections.').'</p>';
+		$watched .= '<p>'.i18n::s('Click on the link above to add new contacts.').'</p>';
 	else
-		$output .= '<p>'.sprintf(i18n::s('%s has not yet connected to other persons.'), $item['full_name']).'</p>';
+		$watched .= '<p>'.sprintf(i18n::s('%s has not yet connected to other persons.'), $item['full_name']).'</p>';
 
-	// all followers
-	$followers = '';
-	
 	// the list of followers
+	$followers = '';
 	if($items =& Members::list_watchers_by_posts_for_anchor('user:'.$item['id'], 0, 500, 'compact')) {
 		if(is_array($items))
 			$items = Skin::build_list($items, 'compact');
@@ -184,23 +189,20 @@ if(!isset($item['id'])) {
 	// connect to people
 	if(Surfer::get_id() && (Surfer::get_id() != $item['id'])) {
 
-		// a link to toggle the connection
-		$link = Users::get_url('user:'.$item['id'], 'track');
-
-		// is the item on user watch list?
-		$in_watch_list = FALSE;
-		if(isset($item['id']) && Surfer::get_id())
-			$in_watch_list = Members::check('user:'.$item['id'], 'user:'.Surfer::get_id());
-
 		// suggest a new connection
-		if(!$in_watch_list)
-			$followers .= '<p style="margin: 1em 0;">'.Skin::build_link($link, sprintf(i18n::s('Connect to %s'), $item['full_name']), 'button', i18n::s('Add this person to your contacts')).'</p>';
+		if(!Members::check('user:'.$item['id'], 'user:'.Surfer::get_id())) {
+			Skin::define_img('USERS_WATCH_IMG', 'users/watch.gif');
+			$link = Users::get_url('user:'.$item['id'], 'track');
+			$followers .= '<p style="margin: 1em 0;">'.Skin::build_link($link, USERS_WATCH_IMG.sprintf(i18n::s('Connect to %s'), $item['full_name']), 'basic', i18n::s('Add this person to your contacts')).'</p>';
+		}
 
 	}
 
 	// put followers in a sidebar
 	if($followers)		
-		$output = Skin::build_box(NULL, $followers, 'sidebar').$output;
+		$output .= Skin::layout_horizontally($watched, Skin::build_block($followers, 'sidecolumn'));
+	else
+		$output .= $watched;
 			
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))

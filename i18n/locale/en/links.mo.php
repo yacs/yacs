@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 5, 2009, 9:10 pm GMT. Please do not modify it manually.
+ * on August 26, 2009, 12:25 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-06-29 01:13+0200
-PO-Revision-Date: 2009-07-03 00:22+0100
+POT-Creation-Date: 2009-08-25 19:24+0200
+PO-Revision-Date: 2009-08-25 19:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -113,7 +113,7 @@ $_SESSION['l10n']['en']['Web address']='Web address';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['ed1a1469554e9abea3b271c74351349f']='YACS ties automatically external links to this section on use. Therefore, you will have below a global picture of external sites that are referenced through your site.';
-$_SESSION['l10n']['en']['c4aa1be7823a997c37b1d50e98e0d2e1']='Yes, I want to suppress this link';
+$_SESSION['l10n']['en']['Yes, I want to delete this link']='Yes, I want to delete this link';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['946bc8276d88d2372cfcf4360faef05b']='You can either type a plain url (http://) or use [article=&lt;id&gt;] notation';
 $_SESSION['l10n']['en']['23e77d7a73b138b128b21ddc1e533e0b']='You can use following shortcuts to link to other pages of this server: %s';

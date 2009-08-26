@@ -311,7 +311,6 @@ Class Utf8 {
 	 * @see articles/export.php
 	 * @see articles/fetch_as_msword.php
 	 * @see articles/fetch_as_pdf.php
-	 * @see articles/fetch_for_palm.php
 	 * @see articles/ie_bookmarklet.php
 	 * @see files/edit.php
 	 * @see files/fetch.php

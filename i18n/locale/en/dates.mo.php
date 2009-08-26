@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 6, 2009, 3:08 pm GMT. Please do not modify it manually.
+ * on August 26, 2009, 12:25 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-06-29 01:13+0200
-PO-Revision-Date: 2009-07-03 00:22+0100
+POT-Creation-Date: 2009-08-25 19:24+0200
+PO-Revision-Date: 2009-08-25 19:28+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -32,6 +32,7 @@ $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['April']='April';
 $_SESSION['l10n']['en']['August']='August';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
+$_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Dates']='Dates';
 $_SESSION['l10n']['en']['December']='December';
 $_SESSION['l10n']['en']['Delete']='Delete';
@@ -80,7 +81,7 @@ $_SESSION['l10n']['en']['View the page']='View the page';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['YYYY-MM-DD']='YYYY-MM-DD';
-$_SESSION['l10n']['en']['6de98a80f6396f5b721c37aed9e2fd13']='Yes, I want to suppress this date';
+$_SESSION['l10n']['en']['Yes, I want to delete this date']='Yes, I want to delete this date';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['edited by %s %s']='edited by %s %s';
 $_SESSION['l10n']['en']['friday']='friday';

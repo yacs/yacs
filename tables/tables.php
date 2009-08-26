@@ -79,7 +79,8 @@ Class Tables {
 		// produce a table readable into MS-Excel
 		case 'csv':
 
-			$separator = ";";
+			// comma separated values
+			$separator = ",";
 
 			// one row for the title
 			if($table['title']) {

@@ -88,19 +88,19 @@ elseif(!Surfer::is_associate()) {
 			$hint = i18n::s('Delete to suppress');
 			$fields[] = array($label, $input, $hint);
 
-			$label = i18n::s('Visibility');
+			$label = i18n::s('Access');
 			$input = '<input type="radio" name="collection_visibilities['.$name.']" value="Y"';
 			if(!isset($visibility) || !$visibility || ($visibility == 'Y'))
 				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('Anyone may browse this collection');
+			$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers');
 			$input .= BR.'<input type="radio" name="collection_visibilities['.$name.']" value="R"';
 			if(isset($visibility) && ($visibility == 'R'))
 				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('Access is restricted to authenticated members');
+			$input .= '/> '.i18n::s('Community - Access is restricted to authenticated members');
 			$input .= BR.'<input type="radio" name="collection_visibilities['.$name.']" value="N"';
 			if(isset($visibility) && ($visibility == 'N'))
 				$input .= ' checked="checked"';
-			$input .= '/> '.i18n::s('Access is restricted to associates');
+			$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
 			$fields[] = array($label, $input);
 
 			$label = i18n::s('Label');
@@ -154,13 +154,13 @@ elseif(!Surfer::is_associate()) {
 	$hint = i18n::s('Use a short nick name');
 	$fields[] = array($label, $input, $hint);
 
-	$label = i18n::s('Visibility');
+	$label = i18n::s('Access');
 	$input = '<input type="radio" name="collection_visibilities[]" value="Y" checked="checked"';
-	$input .= '/> '.i18n::s('Anyone may browse this collection');
+	$input .= '/> '.i18n::s('Public - Access is granted to anonymous surfers');
 	$input .= BR.'<input type="radio" name="collection_visibilities[]" value="R"';
-	$input .= '/> '.i18n::s('Access is restricted to authenticated members');
+	$input .= '/> '.i18n::s('Community - Access is restricted to authenticated members');
 	$input .= BR.'<input type="radio" name="collection_visibilities[]" value="N"';
-	$input .= '/> '.i18n::s('Access is restricted to associates');
+	$input .= '/> '.i18n::s('Private - Access is restricted to selected persons');
 	$fields[] = array($label, $input);
 
 	$label = i18n::s('Label');

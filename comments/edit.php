@@ -137,6 +137,10 @@ if(isset($item['anchor']) && $item['anchor'])
 elseif($target_anchor)
 	$anchor =& Anchors::get($target_anchor);
 
+// parent owners have associate-like capabilities
+if(is_object($anchor) && $anchor->is_owned())
+	Surfer::empower();
+
 // associates and authenticated editors can modify any comment
 if(isset($item['id']) && Comments::are_editable($anchor, $item))
 	$permitted = TRUE;

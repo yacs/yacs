@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 4, 2009, 9:49 pm GMT. Please do not modify it manually.
+ * on August 26, 2009, 12:25 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
+POT-Creation-Date: 2009-08-25 19:24+0200
 PO-Revision-Date: 2008-11-02 23:08+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -55,7 +55,6 @@ $_SESSION['l10n']['en']['No title has been provided.']='No title has been provid
 $_SESSION['l10n']['en']['On-going']='On-going';
 $_SESSION['l10n']['en']['On-going actions']='On-going actions';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
-$_SESSION['l10n']['en']['Overview of your post:']='Overview of your post:';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $_SESSION['l10n']['en']['Posted by']='Posted by';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';

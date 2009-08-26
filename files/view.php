@@ -157,22 +157,6 @@ $has_versions = FALSE;
 if(isset($item['id']) && (Surfer::is_empowered() && Surfer::is_logged()) && Versions::count_for_anchor('file:'.$item['id']))
 	$has_versions = TRUE;
 
-// back to the anchor page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] += array( $anchor->get_url().'#files' => i18n::s('Back to main page') );
-
-// edit command, if allowed to do so
-if(isset($item['id']) && $editable)
-	$context['page_menu'] += array( Files::get_url($item['id'], 'edit') => i18n::s('Update this file') );
-
-// restore a previous version, if any
-if($has_versions && (Surfer::is_empowered() && Surfer::is_logged()))
-	$context['page_menu'] += array( Versions::get_url('file:'.$item['id'], 'list') => i18n::s('Versions') );
-
-// delete command provided to associates and editors
-if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())))
-	$context['page_menu'] += array( Files::get_url($item['id'], 'delete') => i18n::s('Delete') );
-
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -226,11 +210,11 @@ if(!isset($item['id'])) {
 	
 			// restricted to logged members
 			if($item['active'] == 'R')
-				$context['page_details'] .= RESTRICTED_FLAG.' '.i18n::s('Access is restricted to authenticated members').BR."\n";
+				$context['page_details'] .= RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members').BR."\n";
 	
 			// restricted to associates
 			elseif($item['active'] == 'N')
-				$context['page_details'] .= PRIVATE_FLAG.' '.i18n::s('Access is restricted to associates and editors').BR."\n";
+				$context['page_details'] .= PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons').BR."\n";
 	
 		}
 	
@@ -353,8 +337,8 @@ if(!isset($item['id'])) {
 		$description = '<p>'.sprintf(i18n::s('This file may be accessed on-demand. You may have to use an advanced media player such as %s (open source) or %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('www.winamp.com'), i18n::s('Winamp'), 'external')).'</p>';
 
 		// the label
-		Skin::define_img('PLAY_IMG', 'icons/files/play.gif');
-		$label = PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
+		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
+		$label = FILES_PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
@@ -370,8 +354,8 @@ if(!isset($item['id'])) {
 		$description = '<p>'.sprintf(i18n::s('This file may be accessed on-demand. You may have to use an advanced media player such as %s (open source) or %s (free).'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('www.winamp.com'), i18n::s('Winamp'), 'external')).'</p>';
 
 		// the label
-		Skin::define_img('PLAY_IMG', 'icons/files/play.gif');
-		$label = PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
+		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
+		$label = FILES_PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// use a definition list to enable customization of the download box
 		$context['text'] .= '<dl class="download">'
@@ -387,8 +371,8 @@ if(!isset($item['id'])) {
 		$description = '<p>'.i18n::s('This file allows for interactions over the web. If some Flash player has been installed at your workstation, click on the link to start the show.').'</p>';
 
 		// the label
-		Skin::define_img('PLAY_IMG', 'icons/files/play.gif');
-		$label = PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
+		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
+		$label = FILES_PLAY_IMG.' '.i18n::s('Play').' '.str_replace('_', ' ', $item['file_name']);
 
 		// where the file is
 //		$path = $context['url_to_home'].$context['url_to_root'].'files/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.rawurlencode(utf8::to_ascii($item['file_name']));
@@ -407,8 +391,8 @@ if(!isset($item['id'])) {
 		$description = '<p>'.i18n::s('If Flash or Java has been installed at your workstation, click on the link to browse this mind map.').'</p>';
 
 		// the label
-		Skin::define_img('PLAY_IMG', 'icons/files/play.gif');
-		$label = PLAY_IMG.' '.sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
+		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
+		$label = FILES_PLAY_IMG.' '.sprintf(i18n::s('Browse %s'), str_replace('_', ' ', $item['file_name']));
 
 		// hovering the link
 		$title = i18n::s('Open this map');
@@ -431,8 +415,8 @@ if(!isset($item['id'])) {
 //		$description = '<p>'.i18n::s('This file can be modified directly over the web. If a recent version of Microsoft Word has been installed at your workstation, click on the link to launch it.).'</p>';
 
 //		// the label
-//		Skin::define_img('PLAY_IMG', 'icons/files/play.gif');
-//		$label = PLAY_IMG.' '.sprintf(i18n::s('Edit %s'), str_replace('_', ' ', $item['file_name']));
+//		Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
+//		$label = FILES_PLAY_IMG.' '.sprintf(i18n::s('Edit %s'), str_replace('_', ' ', $item['file_name']));
 
 //		// hovering the link
 //		$title = i18n::s('Start Microsoft Word');
@@ -805,7 +789,7 @@ if(!isset($item['id'])) {
 	$title = i18n::s('Get a copy of this file');
 
 	// file is available to download
-	Skin::define_img('DOWNLOAD_IMG', 'icons/files/download.gif');
+	Skin::define_img('DOWNLOAD_IMG', 'files/download.gif');
 	$label = '<a href="'.$link.'" title="'.encode_field($title).'" id="file_download">'.DOWNLOAD_IMG.' '.sprintf(i18n::s('Download %s'), str_replace('_', ' ', $item['file_name'])).'</a>';
 
 	// use a definition list to enable customization of the download box
@@ -867,19 +851,34 @@ if(!isset($item['id'])) {
 	//
 
 	// back to the anchor page
-	if(is_object($anchor) && $anchor->is_viewable())
-		$context['page_tools'][] = Skin::build_link($anchor->get_url().'#files', i18n::s('Back to main page'));
+// 	if(is_object($anchor) && $anchor->is_viewable())
+// 		$context['page_tools'][] = Skin::build_link($anchor->get_url().'#files', i18n::s('Back to main page'));
 
 	// update tools
 	if($editable) {
 
 		// modify this page
-		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('Update this file'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+		Skin::define_img('FILES_EDIT_IMG', 'files/edit.gif');
+		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'edit'), FILES_EDIT_IMG.i18n::s('Update this file'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
 		// post an image, if upload is allowed
-		if(Images::are_allowed($anchor, $item))
-			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']), i18n::s('Add an image'), 'basic');
+		if(Images::are_allowed($anchor, $item)) {
+			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
+			$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic');
+		}
 
+	}
+
+	// restore a previous version, if any
+	if($has_versions && (Surfer::is_empowered() && Surfer::is_logged())) {
+		Skin::define_img('FILES_VERSIONS_IMG', 'files/versions.gif');
+		$context['page_tools'][] = Skin::build_link(Versions::get_url('file:'.$item['id'], 'list'), FILES_VERSIONS_IMG.i18n::s('Versions'));
+	}
+	
+	// delete command provided to associates and editors
+	if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))) {
+		Skin::define_img('FILES_DELETE_IMG', 'files/delete.gif');
+		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'delete'), FILES_DELETE_IMG.i18n::s('Delete this file'));
 	}
 
 	// the navigation sidebar

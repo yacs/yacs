@@ -335,15 +335,15 @@ elseif(!Surfer::is_associate()) {
 	$content = '';
 
 	// users_with_avatars
-	$label = i18n::s('Avatars');
+	$label = i18n::s('Pictures');
 	$input = '<input type="radio" name="users_with_avatars" value="N"';
 	if(!isset($context['users_with_avatars']) || ($context['users_with_avatars'] != 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Display the same icon for every person profile.');
+	$input .= '/> '.i18n::s('Display the same picture for every person profile.');
 	$input .= BR.'<input type="radio" name="users_with_avatars" value="Y"';
 	if(isset($context['users_with_avatars']) && ($context['users_with_avatars'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Display individual avatars.');
+	$input .= '/> '.i18n::s('Display individual pictures.');
 	$fields[] = array($label, $input);
 
 	// spam protection
@@ -379,8 +379,7 @@ elseif(!Surfer::is_associate()) {
 		$context['users_maximum_managed_sections'] = 0;
 	$label = i18n::s('Groups');
 	$input = sprintf(i18n::s('Each member may create up to %s groups and blogs.'), '<input type="text" name="users_maximum_managed_sections" size="2" value="'.encode_field($context['users_maximum_managed_sections']).'" maxlength="2" />');
-	$hint = i18n::s('We recommend either 0 (members cannot extend their web space), or 3 (public, restricted, hidden).');
-	$fields[] = array($label, $input, $hint);
+	$fields[] = array($label, $input);
 
 	// without teasers
 	$label = i18n::s('Teasers');
