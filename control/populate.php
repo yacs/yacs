@@ -110,8 +110,8 @@ if(!$permitted) {
 	$menu = array('control/' => i18n::s('Control Panel'));
 	$context['text'] .= Skin::build_list($menu, 'menu_bar');
 
-// ask for parameters
-} elseif(!isset($_REQUEST['nick_name']) || !$_REQUEST['nick_name']) {
+// ask for parameters on first installation
+} elseif((!isset($_REQUEST['nick_name']) || !$_REQUEST['nick_name']) && (!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))) {
 
 	// splash message
 	$context['text'] .= '<p>'.i18n::s('Please indicate below the name and password you will use to authenticate to this server.').'</p>'
@@ -189,53 +189,54 @@ if(!$permitted) {
 } else {
 
 	// on first installation
-	if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
+	if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
 		$context['text'] .= '<p>'.i18n::s('Review provided information and go to the bottom of the page to move forward.')."</a></p>\n";
 
-	// create an associate user account
-	if(isset($_REQUEST['nick_name']))
-		$user['nick_name']	= $_REQUEST['nick_name'];
-	else
-		$user['nick_name']	= 'admin';
-	if(isset($_REQUEST['password'])) {
-		$user['password']	= $_REQUEST['password'];
-		$user['confirm']	= $_REQUEST['confirm'];
-	} else {
-		list($usec, $sec) = explode(' ', microtime(), 2);
-		srand((float) $sec + ((float) $usec * 100000));
-		$user['password']	= 'az'.rand(1000, 9999);
-		$user['confirm']	= $user['password'];
-	}
-	$user['with_newsletters'] = 'Y';
-	$user['capability'] = 'A';	// make this user profile an associate
-	$user['active'] 	= 'Y';
-	$user['create_name'] = 'setup';
-	$user['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	$user['edit_name']	= 'setup';
-	$user['edit_date']	= gmstrftime('%Y-%m-%d %H:%M:%S');
-	$user['interface']	= 'C';	// access all configuration panels
-	$user['login_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-
-	// display error, if any
-	if(!Users::post($user)) {
-
-		// but do not mention that admin already exists...
-		if($user['nick_name'] == 'admin')
-			$context['error'] = array();
-
-	// remember the new user profile
-	} elseif($user =& Users::get($_REQUEST['nick_name'])) {
-
-		// we will create additional items on first installation
-		if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
-			$context['text'] .= Skin::build_block(i18n::s('Users'), 'subtitle');
-
-		$context['text'] .= '<p>'.sprintf(i18n::s('One associate profile "%s" has been created.'), $user['nick_name'])."</p>\n";
-
-		// impersonate the new created user profile on first installation
-		if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
-			Surfer::set($user);
-
+		// create an associate user account
+		if(isset($_REQUEST['nick_name']))
+			$user['nick_name']	= $_REQUEST['nick_name'];
+		else
+			$user['nick_name']	= 'admin';
+		if(isset($_REQUEST['password'])) {
+			$user['password']	= $_REQUEST['password'];
+			$user['confirm']	= $_REQUEST['confirm'];
+		} else {
+			list($usec, $sec) = explode(' ', microtime(), 2);
+			srand((float) $sec + ((float) $usec * 100000));
+			$user['password']	= 'az'.rand(1000, 9999);
+			$user['confirm']	= $user['password'];
+		}
+		$user['with_newsletters'] = 'Y';
+		$user['capability'] = 'A';	// make this user profile an associate
+		$user['active'] 	= 'Y';
+		$user['create_name'] = 'setup';
+		$user['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$user['edit_name']	= 'setup';
+		$user['edit_date']	= gmstrftime('%Y-%m-%d %H:%M:%S');
+		$user['interface']	= 'C';	// access all configuration panels
+		$user['login_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
+	
+		// display error, if any
+		if(!Users::post($user)) {
+	
+			// but do not mention that admin already exists...
+			if($user['nick_name'] == 'admin')
+				$context['error'] = array();
+	
+		// remember the new user profile
+		} elseif($user =& Users::get($_REQUEST['nick_name'])) {
+	
+			// we will create additional items on first installation
+			if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
+				$context['text'] .= Skin::build_block(i18n::s('Users'), 'subtitle');
+	
+			$context['text'] .= '<p>'.sprintf(i18n::s('One associate profile "%s" has been created.'), $user['nick_name'])."</p>\n";
+	
+			// impersonate the new created user profile on first installation
+			if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
+				Surfer::set($user);
+	
+		}
 	}
 
 	// create reference sections
@@ -639,8 +640,17 @@ if(!$permitted) {
 
 	// or back to the control panel
 	} else {
-		$menu = array('control/' => i18n::s('Control Panel'));
+	
+		// follow-up commands
+		$context['text'] .= '<h3>'.i18n::s('What do you want to do now?').'</h3>';
+
+		// follow-up commands
+		$menu = array();
+		$menu = array_merge($menu, array('sections/' => i18n::s('Check the updated Site Map')));
+		$menu = array_merge($menu, array('help/populate.php' => i18n::s('Launch the Content Assistant again')));
+		$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
+
 	}
 
 	// an associate account has been created

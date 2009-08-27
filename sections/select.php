@@ -45,7 +45,7 @@ else
 
 // the title of the page
 if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_title'] = sprintf(i18n::s('Sections for %s'), $anchor->get_title());
+	$context['page_title'] = sprintf(i18n::s('Sections of %s'), $anchor->get_title());
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -83,8 +83,18 @@ if(Surfer::is_crawler()) {
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_prefix();
 
+	// the form to link additional sections
+	if(!is_array($sections) || (count($sections) < SECTIONS_LIST_SIZE)) {
+		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><p>'
+			.i18n::s('To assign a section, look in the content tree below and assign one section at a time').BR.'<select name="member">'.Sections::get_options($sections).'</select>'
+			.' '.Skin::build_submit_button(' >> ')
+			.'<input type="hidden" name="anchor" value="'.encode_field($anchor->get_reference()).'">'
+			.'<input type="hidden" name="action" value="set">'
+			.'</p></form>'."\n";
+	}
+
 	// splash
-	$context['text'] .= '<p>'.i18n::s('Use this page to select or to deselect some sections.').'</p>';
+	$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('This is the list of sections assigned to %s'), $anchor->get_title()).'</p>';
 
 	// the current list of linked sections
 	if(($sections =& Members::list_sections_by_title_for_anchor($anchor->get_reference(), 0, SECTIONS_LIST_SIZE, 'raw')) && count($sections)) {
@@ -96,92 +106,101 @@ if(Surfer::is_crawler()) {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// browse the list
+		include_once $context['path_to_root'].'categories/categories.php';
+		include_once $context['path_to_root'].'comments/comments.php';
+		include_once $context['path_to_root'].'files/files.php';
+		include_once $context['path_to_root'].'links/links.php';
+		include_once $context['path_to_root'].'overlays/overlay.php';
 		foreach($sections as $id => $section) {
 
-			// make an url
-			$url = Sections::get_permalink($section);
+			// get the related overlay, if any
+			$overlay = Overlay::load($section);
 
-			// gather information on this section
-			$prefix = $suffix = $type = $icon = '';
+			// get parent anchor
+			$parent =& Anchors::get($section['anchor']);
 
-			// flag sections that are draft, dead, or created or updated very recently
-			if($section['activation_date'] >= $now)
-				$prefix .= DRAFT_FLAG;
-			elseif(($section['expiry_date'] > NULL_DATE) && ($section['expiry_date'] <= $now))
+			// the url to view this item
+			$url =& Sections::get_permalink($section);
+
+			// reset the rendering engine between items
+			Codes::initialize($url);
+
+			// use the title to label the link
+			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
+				$title = $overlay->get_live_title($section);
+			else
+				$title = Codes::beautify_title($section['title']);
+
+			// initialize variables
+			$prefix = $suffix = $icon = '';
+
+			// flag sticky pages
+			if($section['rank'] < 10000)
+				$prefix .= STICKY_FLAG;
+
+			// signal restricted and private sections
+			if($section['active'] == 'N')
+				$prefix .= PRIVATE_FLAG;
+			elseif($section['active'] == 'R')
+				$section .= RESTRICTED_FLAG;
+
+			// flag sections that are dead, or created or updated very recently
+			if(($section['expiry_date'] > NULL_DATE) && ($section['expiry_date'] <= $now))
 				$prefix .= EXPIRED_FLAG;
 			elseif($section['create_date'] >= $dead_line)
 				$suffix .= NEW_FLAG;
 			elseif($section['edit_date'] >= $dead_line)
 				$suffix .= UPDATED_FLAG;
 
-			// signal restricted and private sections
-			if($section['active'] == 'N')
-				$prefix .= PRIVATE_FLAG;
-			elseif($section['active'] == 'R')
-				$prefix .= RESTRICTED_FLAG;
+			// info on related comments
+			if($count = Comments::count_for_anchor('section:'.$section['id'], TRUE))
+				$suffix .= ' ('.$count.')';
 
-			// the introductory text
-			if($section['introduction'])
-				$suffix .= ' -&nbsp;'.Codes::beautify($section['introduction'], $section['options']);
+			// details
+			$details = array();
 
-			// use the title to label the link
-			$label = Codes::beautify_title($section['title']);
+			// info on related sections
+			if($count = Sections::count_for_anchor('section:'.$section['id']))
+				$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
 
-			// the icon to put in the left column
-			if($section['thumbnail_url'])
-				$icon = $section['thumbnail_url'];
+			// info on related articles
+			if($count = Articles::count_for_anchor('section:'.$section['id']))
+				$details[] = sprintf(i18n::ns('%d page', '%d pages', $count), $count);
 
+			// info on related files
+			if($count = Files::count_for_anchor('section:'.$section['id'], TRUE))
+				$details[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
+
+			// info on related links
+			if($count = Links::count_for_anchor('section:'.$section['id'], TRUE))
+				$details[] = sprintf(i18n::ns('%d link', '%d links', $count), $count);
+
+			// the parent link
+			if(is_object($parent))
+				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($parent->get_url(), ucfirst($parent->get_title()), 'section'));
+
+			// combine in-line details
+			if(count($details))
+				$suffix .= ' - <span class="details">'.trim(implode(', ', $details)).'</span>';
+
+			// surfer cannot be deselected
+			if(!strcmp($anchor->get_reference(), 'user:'.$section['owner_id']))
+				$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
+				
 			// build a unlink button for this section
-			if(Surfer::is_associate()) {
-				$suffix .= BR.'<form method="post" action="'.$context['script_url'].'"><div>'
-					.'<input type="hidden" name="anchor" value="'.encode_field($anchor->get_reference()).'">'
-					.'<input type="hidden" name="member" value="section:'.$section['id'].'">'
-					.'<input type="hidden" name="action" value="reset">'
-					.Skin::build_submit_button(i18n::s('Deselect'))
-					.'</div></form>';
+			elseif(Surfer::is_associate()) {
+				$link = $context['script_url'].'?anchor='.urlencode($anchor->get_reference()).'&amp;member=section:'.$section['id'].'&amp;action=reset';
+				$suffix .= ' - <span class="details">'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
 			}
 
-			// list sub-sections to be linked, if any
-			// display active and restricted items
-			$where = "sections.active='Y'";
-			if(Surfer::is_member())
-				$where .= " OR sections.active='R'";
-			if(Surfer::is_associate())
-				$where .= " OR sections.active='N'";
-
-			// only consider live sections
-			$where = '('.$where.') '
-				.' AND ((sections.expiry_date is NULL)'
-				."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
-
-			// limit the query to top level only
-			$query = "SELECT sections.id, sections.title "
-				." FROM ".SQL::table_name('sections')." AS sections "
-				." WHERE (".$where.") AND (sections.anchor='section:".$section['id']."')"
-				." ORDER BY sections.title";
-			$result =& SQL::query($query);
-			$sub_sections = array();
-			while($result && ($option =& SQL::fetch($result)))
-				$sub_sections['section:'.$option['id']] = $option['title'];
-
 			// format the item
-			$new_sections[$url] = array($prefix, $label, $suffix, $type, $icon);
+			$new_sections[$url] = array($prefix, $title, $suffix, $type, $icon);
 
 		}
 
 		// display attached sections with unlink buttons
 		$context['text'] .= Skin::build_list($new_sections, 'decorated');
 
-	}
-
-	// the form to link additional sections
-	if(!is_array($sections) || (count($sections) < SECTIONS_LIST_SIZE)) {
-		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><p>'
-			.i18n::s('Select another section:').' <select name="member">'.Sections::get_options($sections).'</select>'
-			.' '.Skin::build_submit_button(' >> ')
-			.'<input type="hidden" name="anchor" value="'.encode_field($anchor->get_reference()).'">'
-			.'<input type="hidden" name="action" value="set">'
-			.'</p></form>'."\n";
 	}
 
 	// back to the anchor page

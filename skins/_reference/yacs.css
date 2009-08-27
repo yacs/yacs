@@ -638,10 +638,10 @@ table.yabb { /* align comments below thumbnails in main content */
 div.sliding_box div.panel,
 div.toc_box div.panel { /* content of sliding panels */
 	opacity: 0.9;
-	background-color: #bbb;
+	background-color: #eeeeee;
 	padding: 1em;
-	width: 40em;
-	border: 7px #aaa solid;
+	width: 35em; /* beware of narrow layouts */
+	border: 7px #cccccc solid;
 }
 
 /* vertical and horizontal layouts */
@@ -652,10 +652,16 @@ table.layout {
 }
 	
 table.layout tbody tr td {
-	padding: 0; /* save on space arounf cells */
+	padding: 0; /* save on space around cells */
 	margin: 0;
 	text-align: left; /* prefix cells with 'left=' or 'center=' or 'right=' to change alignment */
 	border: none; /* we are only interested into the layout */
+	background: transparent none;
+}
+
+#main_panel table.layout tbody tr td {
+	border: none; /* we are only interested into the layout */
+	background: transparent none;
 }
 
 table.layout tbody tr td.north,

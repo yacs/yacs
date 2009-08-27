@@ -810,7 +810,7 @@ if($with_form) {
 
 	// splash message for new items
 	if(!isset($item['id']))
-		$text .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
+		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
 
 	// images
 	else {
@@ -905,7 +905,7 @@ if($with_form) {
 			$label = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors'), 'basic');
 		else
 			$label = i18n::s('Editors');
-		if(isset($item['id']) && ($items =& Members::list_editors_by_name_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
+		if(isset($item['id']) && ($items =& Members::list_editors_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
 			$input =& Skin::build_list($items, 'comma');
 		else
 			$input = i18n::s('Nobody has been assigned to this page.');
@@ -976,7 +976,7 @@ if($with_form) {
 		Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
 		$input = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'), 'basic');
 	} else {
-		Skin::define_img('ARTICLES_UNPUBLISHED_IMG', 'articles/unpublish.gif');
+		Skin::define_img('ARTICLES_UNPUBLISH_IMG', 'articles/unpublish.gif');
 		$input = ARTICLES_UNPUBLISH_IMG.i18n::s('not published');
 	}
 	$fields[] = array($label, $input);
@@ -1309,10 +1309,6 @@ if($with_form) {
 		$selected = ' selected="selected"';
 	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
 	$help .= '</select></p></form>';
-
-	// drive associates to the Content Assistant
-	if(Surfer::is_associate() && !isset($item['id']))
-		$help .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>'."\n";
 
 	// in a side box
 	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');

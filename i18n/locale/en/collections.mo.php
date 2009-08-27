@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 4, 2009, 1:21 pm GMT. Please do not modify it manually.
+ * on August 26, 2009, 3:26 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-04 10:21+0200
-PO-Revision-Date: 2008-11-02 23:13+0100
+POT-Creation-Date: 2009-08-26 01:57+0200
+PO-Revision-Date: 2009-08-26 02:00+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -24,6 +24,7 @@ $_SESSION['l10n']['en']['%d files have been extracted.']='%d files have been ext
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['4818dbf386b7133e0bca919a733f1329']='A pleasant way to watch photos and artwork';
+$_SESSION['l10n']['en']['Access']='Access';
 $_SESSION['l10n']['en']['Add a collection']='Add a collection';
 $_SESSION['l10n']['en']['Autoplay']='Autoplay';
 $_SESSION['l10n']['en']['Beginning']='Beginning';
@@ -33,6 +34,7 @@ $_SESSION['l10n']['en']['9953b8a98446c15990e30aa788d57d9d']='Click to view only 
 $_SESSION['l10n']['en']['Codec: %s']='Codec: %s';
 $_SESSION['l10n']['en']['Collection nick name']='Collection nick name';
 $_SESSION['l10n']['en']['Collections']='Collections';
+$_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
@@ -74,6 +76,8 @@ $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
 $_SESSION['l10n']['en']['Prefix']='Prefix';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Previous']='Previous';
+$_SESSION['l10n']['en']['711abf22490c13c012c6eff77b7b2b9e']='Private - Access is restricted to selected persons';
+$_SESSION['l10n']['en']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Access is granted to anonymous surfers';
 $_SESSION['l10n']['en']['Restricted access']='Restricted access';
 $_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
 $_SESSION['l10n']['en']['Select the slide to show']='Select the slide to show';

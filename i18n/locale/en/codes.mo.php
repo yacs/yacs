@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 4, 2009, 1:21 pm GMT. Please do not modify it manually.
+ * on August 26, 2009, 3:26 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-15 00:10+0200
-PO-Revision-Date: 2009-05-15 00:41+0100
+POT-Creation-Date: 2009-08-26 16:54+0200
+PO-Revision-Date: 2009-08-26 17:23+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -132,8 +132,8 @@ $_SESSION['l10n']['en']['da6825ad5bbda2d7313669c2f5304614']='Links (and shortcut
 $_SESSION['l10n']['en']['List item']='List item';
 $_SESSION['l10n']['en']['c48042b378c7e1a4d2cc72668bf53a1b']='Lists (with bullets, numbered, ...)';
 $_SESSION['l10n']['en']['Live codes']='Live codes';
-$_SESSION['l10n']['en']['0e26a9549bd6165868a225df0e58f55f']='Miscellaneous codes (flags, ...)';
-$_SESSION['l10n']['en']['Miscelleaneous codes']='Miscelleaneous codes';
+$_SESSION['l10n']['en']['Miscellaneous codes']='Miscellaneous codes';
+$_SESSION['l10n']['en']['056ceb8cc5e89e51dbb1dafe1a6bf49f']='Miscellaneous codes (charts, ...)';
 $_SESSION['l10n']['en']['Net income']='Net income';
 $_SESSION['l10n']['en']['Net income for last year,$2.100']='Net income for last year,$2.100';
 $_SESSION['l10n']['en']['Net income for last year;$2.100']='Net income for last year;$2.100';
@@ -193,6 +193,7 @@ $_SESSION['l10n']['en']['Sidebar']='Sidebar';
 $_SESSION['l10n']['en']['Sidebar with title']='Sidebar with title';
 $_SESSION['l10n']['en']['Small']='Small';
 $_SESSION['l10n']['en']['Speedy Rabbit']='Speedy Rabbit';
+$_SESSION['l10n']['en']['Static chart']='Static chart';
 $_SESSION['l10n']['en']['Stories']='Stories';
 $_SESSION['l10n']['en']['Stories|Jean[nl]de la Fontaine']='Stories|Jean[nl]de la Fontaine';
 $_SESSION['l10n']['en']['Subscript']='Subscript';

@@ -723,7 +723,7 @@ if($with_form) {
 
 	// splash message for new items
 	if(!isset($item['id']))
-		$text .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
+		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
 
 	// images
 	else {
@@ -793,7 +793,7 @@ if($with_form) {
 
 	// owner
 	if(isset($item['owner_id'])) {
-		$label = Skin::build_link(Sections::get_url($item['id'], 'assign'), i18n::s('Owner'), 'basic');
+		$label = Skin::build_link(Sections::get_url($item['id'], 'own'), i18n::s('Owner'), 'basic');
 		if($owner = Users::get($item['owner_id']))
 			$input =& Users::get_link($owner['full_name'], $owner['email'], $owner['id']);
 		else
@@ -806,7 +806,7 @@ if($with_form) {
 		$label = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors'), 'basic');
 	else
 		$label = i18n::s('Editors');
-	if(isset($item['id']) && ($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
+	if(isset($item['id']) && ($items =& Members::list_editors_for_member('section:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
 		$input =& Skin::build_list($items, 'comma');
 	else
 		$input = i18n::s('No editor has been assigned to this section.');

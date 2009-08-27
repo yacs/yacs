@@ -588,7 +588,7 @@ if($with_form) {
 
 	// splash message for new items
 	if(!isset($item['id']))
-		$text .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
+		$text .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
 
 	// images
 	else {
@@ -655,7 +655,7 @@ if($with_form) {
 	$fields[] = array($label, $input, $hint);
 
 	// sub-categories
-	$content .= Skin::build_box(i18n::s('Sub-categories'), Skin::build_form($fields), 'folded');
+	$text .= Skin::build_box(i18n::s('Sub-categories'), Skin::build_form($fields), 'folded');
 	$fields = array();
 
 	// display in a separate panel

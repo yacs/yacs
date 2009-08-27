@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 4, 2009, 1:22 pm GMT. Please do not modify it manually.
+ * on August 26, 2009, 3:27 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-04 10:21+0200
-PO-Revision-Date: 2009-05-14 23:35+0100
+POT-Creation-Date: 2009-08-26 16:54+0200
+PO-Revision-Date: 2009-08-26 17:24+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -23,8 +23,8 @@ X-Poedit-SourceCharset: utf-8
 $_SESSION['l10n']['en']['1c215e423c027bdfb2bd09d45b93e517']='%s (and shortcuts, buttons, ...)';
 $_SESSION['l10n']['en']['%s (and table of content)']='%s (and table of content)';
 $_SESSION['l10n']['en']['%s (bold, underline, ...)']='%s (bold, underline, ...)';
+$_SESSION['l10n']['en']['%s (charts, ...)']='%s (charts, ...)';
 $_SESSION['l10n']['en']['%s (cloud, locations, ...)']='%s (cloud, locations, ...)';
-$_SESSION['l10n']['en']['%s (flags, ...)']='%s (flags, ...)';
 $_SESSION['l10n']['en']['e99375c8a9b3d40bd68943d255f985ba']='%s (indentation, script, quote, ...)';
 $_SESSION['l10n']['en']['290a97caf421f8541edde8d138c74fd7']='%s (with bullets, numbered, ...)';
 $_SESSION['l10n']['en']['c2e69e9c320642be6d306f5dc59904fc']='%s (with headers, with grids, use CSV data, ...)';
@@ -47,6 +47,7 @@ $_SESSION['l10n']['en']['0dd81ef71d965a55d04723a19fed88d5']='A description of wh
 $_SESSION['l10n']['en']['15a236ca9dd83d2cab7410724ee5595b']='A description of what this blog is about.';
 $_SESSION['l10n']['en']['be7c63c5610611e8ceb64ee9c69cfb7e']='A forum is made of one or several discussion boards, which are aiming to support threads of interaction between community members. Each topic started in a discussion board may feature images, photos, files, and related links.';
 $_SESSION['l10n']['en']['4b0cead0aa66572c23b024845b482b1d']='A section already exists for partners.';
+$_SESSION['l10n']['en']['Access']='Access';
 $_SESSION['l10n']['en']['Access the directory']='Access the directory';
 $_SESSION['l10n']['en']['Access the new blog']='Access the new blog';
 $_SESSION['l10n']['en']['Access the new book']='Access the new book';
@@ -113,6 +114,7 @@ $_SESSION['l10n']['en']['Check the new forum']='Check the new forum';
 $_SESSION['l10n']['en']['Check the updated Site Map']='Check the updated Site Map';
 $_SESSION['l10n']['en']['efd5c51c4c0368779ba4a1cc048f29fa']='Click on file names to transfer them to your workstation, or to start a Video-on-demand session.';
 $_SESSION['l10n']['en']['Collection nick name']='Collection nick name';
+$_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';
 $_SESSION['l10n']['en']['Companion sections']='Companion sections';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure the page factory']='Configure the page factory';
@@ -156,7 +158,7 @@ $_SESSION['l10n']['en']['Licenses']='Licenses';
 $_SESSION['l10n']['en']['Links']='Links';
 $_SESSION['l10n']['en']['Lists']='Lists';
 $_SESSION['l10n']['en']['1886623f282774132024c863fc0e3ca4']='Local access to files; YACS installation directory is at "%s"';
-$_SESSION['l10n']['en']['Miscelleanous codes']='Miscelleanous codes';
+$_SESSION['l10n']['en']['Miscellaneous codes']='Miscellaneous codes';
 $_SESSION['l10n']['en']['My Blog']='My Blog';
 $_SESSION['l10n']['en']['My Collection']='My Collection';
 $_SESSION['l10n']['en']['Next step']='Next step';
@@ -183,6 +185,8 @@ $_SESSION['l10n']['en']['81eb7b907d022a63a8401e4090f21641']='Post original work 
 $_SESSION['l10n']['en']['Post your brand new ideas here!']='Post your brand new ideas here!';
 $_SESSION['l10n']['en']['6ee289163f01468f3861f7131b961100']='Prepended to the path of each file of the collection. Short and meaningful';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
+$_SESSION['l10n']['en']['711abf22490c13c012c6eff77b7b2b9e']='Private - Access is restricted to selected persons';
+$_SESSION['l10n']['en']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Access is granted to anonymous surfers';
 $_SESSION['l10n']['en']['Public files to download']='Public files to download';
 $_SESSION['l10n']['en']['Read, learn, and react!']='Read, learn, and react!';
 $_SESSION['l10n']['en']['Register']='Register';

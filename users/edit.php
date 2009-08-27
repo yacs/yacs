@@ -564,7 +564,7 @@ if($with_form) {
 
 	// splash message for new items
 	if(!isset($item['id']))
-		$panels['information'] .= '<p>'.i18n::s('Hit the submit button and post images afterwards.').'</p>';
+		$panels['information'] .= Skin::build_box(i18n::s('Images'), '<p>'.i18n::s('Submit the new page, and you will be able to add images afterwards.').'</p>', 'folded');
 
 	// images
 	else {

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 4, 2009, 12:06 pm GMT. Please do not modify it manually.
+ * on August 26, 2009, 3:26 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2008-11-30 22:34+0100
+POT-Creation-Date: 2009-08-25 19:24+0200
+PO-Revision-Date: 2009-08-25 19:29+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -98,7 +98,7 @@ $_SESSION['l10n']['en']['View a decision']='View a decision';
 $_SESSION['l10n']['en']['View this decision']='View this decision';
 $_SESSION['l10n']['en']['895d2c0142361017642213ba49731871']='Visit %s to get more interesting pages.';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
-$_SESSION['l10n']['en']['b9460a0ad6f4d2a9d0143cea3894b478']='Yes, I want to suppress this decision';
+$_SESSION['l10n']['en']['4bbc996082cd8d5286478b39627520bf']='Yes, I want to delete this decision';
 $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed to perform this operation in demonstration mode.';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['014e7364906ff7722f49f5ee247577fa']='You are personally invited to express your decision on following page.';

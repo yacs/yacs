@@ -404,59 +404,8 @@ if(!$permitted) {
 // initialize the database with sample data
 } elseif($action == 'build') {
 
-	/**
-	 * dynamically generate the page
-	 *
-	 * @see skins/index.php
-	 */
-	function send_body() {
-		global $context;
-
-		// first installation
-		if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
-			echo '<p>'.i18n::s('Review provided information and go to the bottom of the page to move forward.')."</a></p>\n";
-
-		// populate tables for sections
-		echo Skin::build_block(i18n::s('Sections'), 'subtitle');
-		include_once '../sections/populate.php';
-
-		// populate tables for categories
-		echo Skin::build_block(i18n::s('Categories'), 'subtitle');
-		include_once '../categories/populate.php';
-
-		// populate tables for articles
-		echo Skin::build_block(i18n::s('Pages'), 'subtitle');
-		include_once '../articles/populate.php';
-
-		// the populate hook
-		if(is_callable(array('Hooks', 'include_scripts')))
-			echo Hooks::include_scripts('control/populate.php');
-
-		// configure the interface on first installation
-		if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off')) {
-			echo '<form method="get" action="../skins/configure.php">'."\n"
-				.'<p class="assistant_bar">'.Skin::build_submit_button(i18n::s('Configure the page factory')).'</p>'."\n"
-				.'</form>'."\n";
-
-		// or back to the control panel
-		} else {
-
-			// follow-up commands
-			echo '<h3>'.i18n::s('What do you want to do now?').'</h3>';
-
-			// follow-up commands
-			$menu = array();
-			$menu = array_merge($menu, array('sections/' => i18n::s('Check the updated Site Map')));
-			$menu = array_merge($menu, array('help/populate.php' => i18n::s('Launch the Content Assistant again')));
-			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-			echo Skin::build_list($menu, 'menu_bar');
-
-		}
-
-		// new content has been created
-		Logger::remember('help/populate.php', 'content assistant has created new content');
-
-	}
+	// redo the basic steps of data creation
+	include_once '../control/populate.php';
 
 // create a collection
 } elseif($action == 'collection') {

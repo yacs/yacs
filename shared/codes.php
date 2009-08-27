@@ -149,6 +149,7 @@
  * - &#91;table].[body].[/table] - a table with headers
  * - &#91;csv]...[/csv] - import some data from Excel
  * - &#91;csv=;]...[/csv] - import some data from Excel
+ * - &#91;table.json] - format a table as json
  *
  * @see codes/tables.php
  *
@@ -195,6 +196,7 @@
  * @see codes/live.php
  *
  * Miscellaneous codes, demonstrated in [link]codes/misc.php[/link]:
+ * - &#91;chart]...[/chart] - draw a dynamic chart
  * - &#91;hint=&lt;help popup]...[/hint] - &lt;acronym tite="help popup">...&lt;/acronym>
  * - &#91;nl] - new line
  * - ----... - line break
@@ -816,6 +818,7 @@ Class Codes {
 				'/\n\n+[ \t]*\[\*\][ \t]*/ie',			// [*] (outside [list]...[/list])
 				'/\n?[ \t]*\[\*\][ \t]*/ie',
 				'/\[li\](.*?)\[\/li\]/is',				// [li]...[/li] (outside [list]...[/list])
+				'/\[chart=([^\]]+?)\](.*?)\[\/chart\]/ise',	// [chart=<width>, <height>, <params>]...[/chart]
 				'/\[embed=([^\]]+?)\]/ie',					// [embed=<id>, <width>, <height>, <params>] or [embed=<id>, window]
 				'/\[flash=([^\]]+?)\]/ie',					// [flash=<id>, <width>, <height>, <params>] or [flash=<id>, window]
 				'/\[sound=([^\]]+?)\]/ie',					// [sound=<id>]
@@ -900,6 +903,7 @@ Class Codes {
 				'/\[users=([^\]]+?)\]/ie',					// [users=present]
 				'/\[news=([^\]]+?)\]/ise',				// [news=flash]
 				'/\[table=([^\]]+?)\]/ise', 			// [table=<id>]
+				'/\[table\.json=([^\]]+?)\]/ise', 		// [table.json=<id>]
 				'/\[locations=([^\]]+?)\]/ise', 		// [locations=<id>]
 				'/\[location=([^\]]+?)\]/ise',			// [location=<id>]
 				'/\[wikipedia=([^\]]+?)\]/ise', 		// [wikipedia=keyword] or [wikipedia=keyword, title]
@@ -937,8 +941,8 @@ Class Codes {
 				"i18n::filter(Codes::fix_tags('$2'), '$1')", 						// [lang=xy]...[/lang]
 				"utf8::encode(str_replace('$1', '|', utf8::from_unicode(Codes::fix_tags('$2'))))",	// [csv=;]...[/csv]
 				"str_replace(',', '|', Codes::fix_tags('$1'))",						// [csv]...[/csv]
-				"Codes::render_table(Codes::fix_tags('$2'), '$1')",					// [table=variant]...[/table]
-				"Codes::render_table(Codes::fix_tags('$1'), '')", 					// [table]...[/table]
+				"Codes::render_static_table(Codes::fix_tags('$2'), '$1')",			// [table=variant]...[/table]
+				"Codes::render_static_table(Codes::fix_tags('$1'), '')",			// [table]...[/table]
 				"Codes::render_object('images', '$1')",								// [images=<ids>]
 				"'<div class=\"external_image\"><img src=\"'.encode_link('$1').'\" alt=\"\" /></div>'",	// [image]src[/image]
 				"'<div class=\"external_image\"><img src=\"'.encode_link('$2').'\" alt=\"'.encode_link('$1').'\" /></div>'", // [image=alt]src[/image]
@@ -1000,6 +1004,7 @@ Class Codes {
 				"BR.BR.BULLET_IMG.'&nbsp;'",										// standalone [*]
 				"BR.BULLET_IMG.'&nbsp;'",
 				'<li>\\1</li>', 													// [li]...[/li]
+				"Codes::render_chart(Codes::fix_tags('$2'), '$1')",					// [chart=<width>, <height>, <params>]...[/chart]
 				"Codes::render_object('embed', Codes::fix_tags('$1'))",				// [embed=<id>, <width>, <height>, <params>]
 				"Codes::render_object('embed', Codes::fix_tags('$1'))",				// [flash=<id>, <width>, <height>, <params>]
 				"Codes::render_object('sound', Codes::fix_tags('$1'))",				// [sound=<id>]
@@ -1083,7 +1088,8 @@ Class Codes {
 				"Codes::render_calendar('$1')", 									// [calendar=section:4029]
 				"Codes::render_users('$1')", 										// [users=present]
 				"Codes::render_news('$1')", 										// [news=flash]
-				"Codes::render_table('', '$1')",									// [table=<id>]
+				"Codes::render_dynamic_table('$1')",								// [table=<id>]
+				"Codes::render_dynamic_table('$1', 'json')",						// [table.json=<id>]
 				"Codes::render_locations('$1')",									// [locations=<id>]
 				"Codes::render_location('$1')",										// [location=<id>]
 				"Codes::render_wikipedia(Codes::fix_tags('$1'))",					// [wikipedia=keyword] or [wikipedia=keyword, title]
@@ -1226,6 +1232,62 @@ Class Codes {
 	}
 
 	/**
+	 * render a chart
+	 *
+	 * @param string chart data, in JSON format
+	 * @param string chart parameters
+	 * @return string the rendered text
+	**/
+	function &render_chart($data, $variant) {
+		global $context;
+		
+		// split parameters
+		$attributes = preg_split("/\s*,\s*/", $variant, 4);
+
+		// set a default size
+		if(!isset($attributes[0]))
+			$attributes[0] = 320;
+		if(!isset($attributes[1]))
+			$attributes[1] = 240;
+
+		// object attributes
+		$width = $attributes[0];
+		$height = $attributes[1];
+		$flashvars = '';
+		if(isset($attributes[2]))
+			$flashvars = $attributes[3];
+
+		// allow several charts to co-exist in the same page
+		static $chart_index;
+		if(!isset($chart_index))
+			$chart_index = 1;
+		else
+			$chart_index++;
+
+		$url = $context['url_to_home'].$context['url_to_root'].'included/browser/open-flash-chart.swf';
+		$text = '<div id="open_flash_chart_'.$chart_index.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
+			.JS_PREFIX
+			.'var params = {};'."\n"
+			.'params.base = "'.dirname($url).'/";'."\n"
+			.'params.quality = "high";'."\n"
+			.'params.wmode = "opaque";'."\n"
+			.'params.allowscriptaccess = "always";'."\n"
+			.'params.menu = "false";'."\n"
+			.'params.flashvars = "'.$flashvars.'";'."\n"
+			.'swfobject.embedSWF("'.$url.'", "open_flash_chart_'.$chart_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", {"get-data":"open_flash_chart_'.$chart_index.'"}, params);'."\n"
+			."\n"
+			.'var chart_data_'.$chart_index.' = '.trim(str_replace(array('<br />', "\n"), ' ', $data)).';'."\n"
+			."\n"
+			.'function open_flash_chart_'.$chart_index.'() {'."\n"
+			.'	return Object.toJSON(chart_data_'.$chart_index.');'."\n"
+			.'}'."\n"
+			.JS_SUFFIX;
+
+		return $text;
+
+	}
+
+	/**
 	 * render the cloud of tags
 	 *
 	 * @param string the number of items to list
@@ -1313,6 +1375,30 @@ Class Codes {
 		// job done
 		return $text;
 
+	}
+
+	/**
+	 * render a dynamic table
+	 *
+	 * @param string the table content
+	 * @param string the variant, if any
+	 * @return string the rendered text
+	**/
+	function &render_dynamic_table($id, $variant='inline') {
+		global $context;
+
+		// refresh on every page load
+		Cache::poison();
+
+		// set a default size
+		if(!isset($attributes[0]))
+			$attributes[0] = 320;
+		if(!isset($attributes[1]))
+			$attributes[1] = 240;
+
+		include_once $context['path_to_root'].'tables/tables.php';
+		$text = Tables::build($id, $variant);
+		return $text;
 	}
 
 	/**
@@ -3116,19 +3202,8 @@ Class Codes {
 	 * @param string the variant, if any
 	 * @return string the rendered text
 	**/
-	function render_table($content, $variant='') {
+	function render_static_table($content, $variant='') {
 		global $context;
-
-		// render an inline table
-		if(!$content) {
-
-			// refresh on every page load
-			Cache::poison();
-
-			include_once $context['path_to_root'].'tables/tables.php';
-			$output = Tables::build($variant, 'inline');
-			return $output;
-		}
 
 		// we are providing inline tables
 		if($variant)

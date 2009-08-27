@@ -9,7 +9,7 @@
 
 // splash message
 global $local;
-$local['label_en'] = 'Update miscelleanous files';
+$local['label_en'] = 'Update miscellaneous files';
 $local['label_fr'] = 'Mise &agrave; jour compl&eacute;mentaire';
 echo i18n::user('label')."<br />\n";
 
@@ -24,6 +24,7 @@ $files[] = 'codes/edit.js';
 $files[] = 'control/htaccess/basic/.htaccess';
 $files[] = 'control/htaccess/indexes/.htaccess';
 $files[] = 'forms/forms.js';
+$files[] = 'included/browser/open-flash-chart.swf';
 $files[] = 'included/browser/player_flv_maxi.swf';
 $files[] = 'included/browser/library.js';
 $files[] = 'included/fckeditor/editor/dialog/fck_spellerpages/spellerpages/blank.html';

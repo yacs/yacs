@@ -1040,7 +1040,7 @@ if(!isset($item['id'])) {
 
 		// list items
 		$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
-		if($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch')) {
+		if($items =& Members::list_editors_for_member('section:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch')) {
 			if(is_array($items))
 				$items = Skin::build_list($items, 'decorated');
 			$items = i18n::s('Following persons are entitled to manage content:').$items;
@@ -1053,8 +1053,8 @@ if(!isset($item['id'])) {
 			$watchers = i18n::s('Following persons are watching this section:').$watchers;
 		}
 		
-		// add to the wathc list -- $in_wath_list is set in sections/view.php
-		if(!$in_watch_list) {
+		// add to the watch list -- $in_wath_list is set in sections/view.php
+		if(Surfer::get_id() && !$in_watch_list) {
 			Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
 			$watchers .= '<p style="margin: 1em 0;">'.Skin::build_link(Sections::get_permalink($item), TOOLS_WATCH_IMG.i18n::s('Watch this section'), 'button', i18n::s('To be notified when new content is added')).'</p>';
 		}

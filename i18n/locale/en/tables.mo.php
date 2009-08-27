@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 4, 2009, 11:29 am GMT. Please do not modify it manually.
+ * on August 26, 2009, 3:26 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-06-29 01:13+0200
-PO-Revision-Date: 2008-10-21 18:33+0100
+POT-Creation-Date: 2009-08-26 16:54+0200
+PO-Revision-Date: 2009-08-25 19:37+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -29,6 +29,7 @@ $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['519471e63694deb32693cdb1e9f0342c']='As this field may be searched by surfers, please choose adequate searchable words';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['CSV (Excel)']='CSV (Excel)';
+$_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Colon character ";"']='Colon character ";"';
 $_SESSION['l10n']['en']['Comma character ","']='Comma character ","';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
@@ -105,7 +106,7 @@ $_SESSION['l10n']['en']['With index']='With index';
 $_SESSION['l10n']['en']['With zoom']='With zoom';
 $_SESSION['l10n']['en']['XML']='XML';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
-$_SESSION['l10n']['en']['fc147596de8ef766a79f77873f85378e']='Yes, I want to suppress this table';
+$_SESSION['l10n']['en']['948e060cc5f48890605c6c71f4b76bee']='Yes, I want to delete this table';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['Zoom']='Zoom';
 $_SESSION['l10n']['en']['bytes']='bytes';

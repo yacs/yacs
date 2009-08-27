@@ -54,6 +54,7 @@ Class Tables {
 	 *
 	 * Accept following variants:
 	 * - csv - to provide a downloadable csv page
+	 * - json - to provide all values in one column
 	 * - inline - to render tables within articles
 	 * - simple - the legacy fixed table
 	 * - sortable - click on column to sort the row
@@ -64,6 +65,20 @@ Class Tables {
 	 */
 	function build($id, $variant='simple') {
 		global $context;
+
+		// split parameters --only useful to json at the moment
+		$attributes = preg_split("/\s*,\s*/", $id, 3);
+		$id = $attributes[0];
+		
+		if(isset($attributes[1]))
+			$value_index = $attributes[1];
+		else
+			$value_index = 0;
+
+		if(isset($attributes[2]))
+			$tip_index = $attributes[2];
+		else
+			$tip_index = FALSE;
 
 		if(!($table =& Tables::get($id)))
 			return NULL;
@@ -146,6 +161,33 @@ Class Tables {
 				$text .= "\n";
 			}
 
+			return $text;
+
+		// a JSON set of values
+		case 'json':
+			
+			// consider all values of one column
+			$data = array();
+			while($row =& SQL::fetch_row($rows)) {
+			
+				// adjust types to not fool the json encoder
+				$datum = $row[ $value_index ];
+				if(preg_match('/^(\+|-){0,1}[0-9]+$/', $datum))
+					$datum = intval($datum);
+				elseif(preg_match('/^(\+|-){0,1}[0-9\.,]+$/', $datum))
+					$datum = floatval($datum);
+				elseif(preg_match('/^(true|false)$/i', $datum))
+					$datum = intval($datum);
+					
+				// add a tip, if any
+// 				if($tip_index !== FALSE)
+// 					$data[] = array( 'top' => $datum, 'tip' => $row[ $tip_index ] );
+// 				else
+					$data[] = $datum;
+			}
+
+			include_once $context['path_to_root'].'included/json.php';
+			$text .= json_encode2($data);
 			return $text;
 
 		// produce an HTML table

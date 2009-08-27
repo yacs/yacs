@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 26, 2009, 12:25 am GMT. Please do not modify it manually.
+ * on August 26, 2009, 5:36 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 02:02+0200
-PO-Revision-Date: 2009-08-26 02:02+0100
+POT-Creation-Date: 2009-08-26 16:54+0200
+PO-Revision-Date: 2009-08-26 17:24+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -102,7 +102,6 @@ $_SESSION['l10n']['en']['Get the file']='Get the file';
 $_SESSION['l10n']['en']['509711800a9dbc24a2be0857303e4330']='Ghostscript, Ghostview and GSview';
 $_SESSION['l10n']['en']['Google Desktop']='Google Desktop';
 $_SESSION['l10n']['en']['Help']='Help';
-$_SESSION['l10n']['en']['3482364243c0c367e9481e1eb819366d']='Hit the submit button and post images afterwards.';
 $_SESSION['l10n']['en']['Icon']='Icon';
 $_SESSION['l10n']['en']['09708bb93341b65317dde0e798deaaaf']='If Flash or Java has been installed at your workstation, click on the link to browse this mind map.';
 $_SESSION['l10n']['en']['f5bde952210906492f614252dedd0b21']='If the Adobe plug-in reports an error, please save the file on some hard drive and use this local copy to launch the Acrobat software.';
@@ -179,6 +178,7 @@ $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['Storage']='Storage';
 $_SESSION['l10n']['en']['Stream']='Stream';
 $_SESSION['l10n']['en']['Submit']='Submit';
+$_SESSION['l10n']['en']['bdeb1dc12f294e399cc258881ddba332']='Submit the new page, and you will be able to add images afterwards.';
 $_SESSION['l10n']['en']['Supported extensions']='Supported extensions';
 $_SESSION['l10n']['en']['TeX']='TeX';
 $_SESSION['l10n']['en']['Texinfo']='Texinfo';

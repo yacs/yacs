@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 26, 2009, 12:25 am GMT. Please do not modify it manually.
+ * on August 26, 2009, 5:36 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 01:59+0200
-PO-Revision-Date: 2009-08-26 02:00+0100
+POT-Creation-Date: 2009-08-26 16:54+0200
+PO-Revision-Date: 2009-08-26 17:22+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -135,7 +135,6 @@ $_SESSION['l10n']['en']['Get a paper copy of this page.']='Get a paper copy of t
 $_SESSION['l10n']['en']['Go to the front page']='Go to the front page';
 $_SESSION['l10n']['en']['Good']='Good';
 $_SESSION['l10n']['en']['Help']='Help';
-$_SESSION['l10n']['en']['3482364243c0c367e9481e1eb819366d']='Hit the submit button and post images afterwards.';
 $_SESSION['l10n']['en']['Home']='Home';
 $_SESSION['l10n']['en']['3ecb5d5cd1f2a3084e06e875ebcfafe3']='I confirm that the article looks ok';
 $_SESSION['l10n']['en']['28d7cc70ab433227b4d58e2f5c10b04d']='I have created a web page and would like you to check it, at the following address.';
@@ -306,6 +305,7 @@ $_SESSION['l10n']['en']['Stamp: %s']='Stamp: %s';
 $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['65c9b8000583ba183c3bbf5158616941']='Submit text when Enter is pressed.';
+$_SESSION['l10n']['en']['bdeb1dc12f294e399cc258881ddba332']='Submit the new page, and you will be able to add images afterwards.';
 $_SESSION['l10n']['en']['Submitted articles']='Submitted articles';
 $_SESSION['l10n']['en']['Submitted queries']='Submitted queries';
 $_SESSION['l10n']['en']['Suffix']='Suffix';

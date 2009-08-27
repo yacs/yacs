@@ -412,9 +412,9 @@ if(!isset($item['id'])) {
 			// in a folded box
 			Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 			if(Surfer::get_id() == $item['id'])
-				$box['text'] .= Skin::build_box(ARTICLES_ADD_IMG.i18n::s('Start a thread'), $text, 'sliding');
+				$box['text'] .= '<div  style="margin-bottom: 1em;">'.Skin::build_box(ARTICLES_ADD_IMG.i18n::s('Start a thread'), $text, 'sliding').'</div>';
 			else
-				$box['text'] .= Skin::build_box(ARTICLES_ADD_IMG.sprintf(i18n::s('Start a thread with %s'), $item['full_name']?$item['full_name']:$item['nick_name']), $text, 'sliding');
+				$box['text'] .= '<div style="margin-bottom: 1em;">'.Skin::build_box(ARTICLES_ADD_IMG.sprintf(i18n::s('Start a thread with %s'), $item['full_name']?$item['full_name']:$item['nick_name']), $text, 'sliding').'</div>';
 	
 			// append the script used for data checking on the browser
 			$box['text'] .= JS_PREFIX

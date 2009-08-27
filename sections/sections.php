@@ -1332,7 +1332,7 @@ Class Sections {
 		}
 
 		// check the target action
-		if(!preg_match('/^(assign|delete|describe|duplicate|edit|feed|freemind|import|invite|lock|mail|navigate|print|slideshow|view|view_as_freemind)$/', $action))
+		if(!preg_match('/^(delete|describe|duplicate|edit|feed|freemind|import|invite|lock|mail|navigate|own|print|slideshow|view|view_as_freemind)$/', $action))
 			return 'sections/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
@@ -1382,9 +1382,11 @@ Class Sections {
 		global $context;
 
 		// id of requesting user
-		if(!$user_id && !Surfer::get_id())
-			return FALSE;
-		$user_id = Surfer::get_id();
+		if(!$user_id) {
+			if(!Surfer::get_id())
+				return FALSE;
+			$user_id = Surfer::get_id();
+		}
 
 		// associates can do what they want
 		if(($user_id == Surfer::get_id()) && Surfer::is_associate())

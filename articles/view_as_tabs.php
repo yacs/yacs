@@ -752,7 +752,7 @@ if(!isset($item['id'])) {
 
 		// list items
 		$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
-		$items =& Members::list_editors_by_name_for_member('article:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch');
+		$items =& Members::list_editors_for_member('article:'.$item['id'], $offset, USERS_LIST_SIZE, 'watch');
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'decorated');
 		elseif(is_string($items))

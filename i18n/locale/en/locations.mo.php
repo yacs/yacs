@@ -3,14 +3,14 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 4, 2009, 11:29 am GMT. Please do not modify it manually.
+ * on August 26, 2009, 11:29 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2008-08-01 11:47+0100
-Last-Translator: Paques, Bernard
+POT-Creation-Date: 2009-08-25 19:24+0200
+PO-Revision-Date: 2009-08-25 19:32+0100
+Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -27,6 +27,7 @@ $_SESSION['l10n']['en']['Add a location']='Add a location';
 $_SESSION['l10n']['en']['da9a0fd4ad6b4e693496e34f79ee7dcf']='Address Map Coordinate (Lat/Long) Finder';
 $_SESSION['l10n']['en']['Analyzing table %s...']='Analyzing table %s...';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
+$_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Coordinates']='Coordinates';
 $_SESSION['l10n']['en']['Country']='Country';
 $_SESSION['l10n']['en']['Delete']='Delete';
@@ -85,7 +86,7 @@ $_SESSION['l10n']['en']['b76e939953ed01db8e5a10a9a47bc9ad']='Use the configurati
 $_SESSION['l10n']['en']['View the page']='View the page';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
-$_SESSION['l10n']['en']['b901765eb64cb1d802aa05207e85ee67']='Yes, I want to suppress this location';
+$_SESSION['l10n']['en']['8e537a10de9e86b2831f4650f9637d4d']='Yes, I want to delete this location';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['0734de3959ac0f71d53aa1be7653f294']='You must give a name to this location.';
 $_SESSION['l10n']['en']['at %s']='at %s';

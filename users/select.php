@@ -79,8 +79,6 @@ elseif(!$permitted) {
 		} else {
 			$context['page_title'] = i18n::s('Manage editors');
 			
-			// splash message
-			$context['text'] .= '<p>'.sprintf(i18n::s('From this page you can add or unassign editors of %s'), $anchor->get_title()).'</p>';
 		}
 	}
 	
@@ -102,12 +100,8 @@ elseif(!$permitted) {
 
 	}
 
-	// insert anchor prefix
-	if(is_object($anchor))
-		$context['text'] .= $anchor->get_prefix();
-
 	// splash
-	$context['text'] .= '<p>'.i18n::s('Type some letters to look for some name, then select one person at a time.').'</p>';
+	$context['text'] .= '<p>'.i18n::s('To add a person, type some letters to look for a name, then select one profile at a time.').'</p>';
 
 	// the form to link additional users
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
@@ -130,6 +124,9 @@ elseif(!$permitted) {
 	$assigned_users = array();
 	if(($users =& Members::list_connections_for_user($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
+		// splash message
+		$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('This is the current list of persons assigned to %s'), $anchor->get_title()).'</p>';
+
 		// browse the list
 		foreach($users as $id => $user) {
 
@@ -146,9 +143,15 @@ elseif(!$permitted) {
 			else
 				$label = $user['nick_name'];
 
+			// surfer cannot be deselected
+			if($anchor->is_owned($id, TRUE))
+				$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
+				
 			// add a link to unselect the user
-			$link = $context['script_url'].'?anchor=user:'.$id.'&amp;member='.urlencode($anchor->get_reference()).'&amp;action=reset';
-			$suffix .= ' - <span class="details">'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
+			else {
+				$link = $context['script_url'].'?anchor=user:'.$id.'&amp;member='.urlencode($anchor->get_reference()).'&amp;action=reset';
+				$suffix .= ' - <span class="details">'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
+			}
 
 			// format the item
 			$new_users[$url] = array($prefix, $label, $suffix, $type, $icon);
@@ -167,10 +170,6 @@ elseif(!$permitted) {
 		$url .= '#_connections';
 	$links[] = Skin::build_link($url, i18n::s('Done'), 'button');
 	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
-
-	// insert anchor suffix
-	if(is_object($anchor))
-		$context['text'] .= $anchor->get_suffix();
 
 // please suppress editor rights to this item
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'leave')) {

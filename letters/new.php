@@ -121,6 +121,7 @@ if(!Surfer::is_associate()) {
 		$context['title_prefix'] = '*** ';
 	if(!isset($context['title_suffix']))
 		$context['title_suffix'] = '';
+ 	$context['letter_body'] = '';
 
 	// the date
 // 	$context['letter_body'] = gmstrftime('%x', time())."\n\n";

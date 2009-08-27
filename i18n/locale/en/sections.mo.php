@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 26, 2009, 12:25 am GMT. Please do not modify it manually.
+ * on August 26, 2009, 5:36 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 02:05+0200
-PO-Revision-Date: 2009-08-26 02:05+0100
+POT-Creation-Date: 2009-08-26 17:26+0200
+PO-Revision-Date: 2009-08-26 17:25+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -131,13 +131,13 @@ $_SESSION['l10n']['en']['Contribution to "%s"']='Contribution to "%s"';
 $_SESSION['l10n']['en']['cfa1cb13d7bcaf9b98d6bbdd10ab6700']='Contribution to the site front page';
 $_SESSION['l10n']['en']['Contributions are accepted']='Contributions are accepted';
 $_SESSION['l10n']['en']['Copy of %s']='Copy of %s';
+$_SESSION['l10n']['en']['Current owner is %s']='Current owner is %s';
 $_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete a comment']='Delete a comment';
 $_SESSION['l10n']['en']['Delete a note']='Delete a note';
 $_SESSION['l10n']['en']['Delete a reply']='Delete a reply';
 $_SESSION['l10n']['en']['Delete this section']='Delete this section';
 $_SESSION['l10n']['en']['Description']='Description';
-$_SESSION['l10n']['en']['Deselect']='Deselect';
 $_SESSION['l10n']['en']['Disallow post of new comments']='Disallow post of new comments';
 $_SESSION['l10n']['en']['Disallow post of new links']='Disallow post of new links';
 $_SESSION['l10n']['en']['Discuss: %s']='Discuss: %s';
@@ -192,7 +192,6 @@ $_SESSION['l10n']['en']['Groups']='Groups';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Help index']='Help index';
 $_SESSION['l10n']['en']['Hidden pages']='Hidden pages';
-$_SESSION['l10n']['en']['3482364243c0c367e9481e1eb819366d']='Hit the submit button and post images afterwards.';
 $_SESSION['l10n']['en']['28d7cc70ab433227b4d58e2f5c10b04d']='I have created a web page and would like you to check it, at the following address.';
 $_SESSION['l10n']['en']['Icon']='Icon';
 $_SESSION['l10n']['en']['98b2e1b34b14f94d2493eb4999e0fd72']='If you change the overlay you may loose some data.';
@@ -287,6 +286,7 @@ $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Other sections']='Other sections';
 $_SESSION['l10n']['en']['Overlay']='Overlay';
 $_SESSION['l10n']['en']['Owner']='Owner';
+$_SESSION['l10n']['en']['Owner of %s']='Owner of %s';
 $_SESSION['l10n']['en']['Page']='Page';
 $_SESSION['l10n']['en']['Page bottom']='Page bottom';
 $_SESSION['l10n']['en']['Pages']='Pages';
@@ -344,10 +344,9 @@ $_SESSION['l10n']['en']['Section']='Section';
 $_SESSION['l10n']['en']['Section has expired %s']='Section has expired %s';
 $_SESSION['l10n']['en']['Section will be activated %s']='Section will be activated %s';
 $_SESSION['l10n']['en']['Sections']='Sections';
-$_SESSION['l10n']['en']['Sections for %s']='Sections for %s';
+$_SESSION['l10n']['en']['Sections of %s']='Sections of %s';
 $_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['Select all pages']='Select all pages';
-$_SESSION['l10n']['en']['Select another section:']='Select another section:';
 $_SESSION['l10n']['en']['20535dd4a4c7c09c812f0d918644a3c2']='Select items you want to manage, and click some button at the bottom of the page.';
 $_SESSION['l10n']['en']['Select parent container']='Select parent container';
 $_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
@@ -374,6 +373,7 @@ $_SESSION['l10n']['en']['Sort pages by title']='Sort pages by title';
 $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['Sub-sections']='Sub-sections';
 $_SESSION['l10n']['en']['Submit']='Submit';
+$_SESSION['l10n']['en']['bdeb1dc12f294e399cc258881ddba332']='Submit the new page, and you will be able to add images afterwards.';
 $_SESSION['l10n']['en']['Suffix']='Suffix';
 $_SESSION['l10n']['en']['Suffix separator']='Suffix separator';
 $_SESSION['l10n']['en']['fd807bc3514cbdaa40ee26b44c4b319e']='Surfers are not allowed to rate pages in this section';
@@ -388,6 +388,7 @@ $_SESSION['l10n']['en']['07952e6cca017e7cdff4505604da467f']='The deletion has no
 $_SESSION['l10n']['en']['d5c857e72defccb3ced7e7e844aa6bed']='The index page itself is a thread of discussion';
 $_SESSION['l10n']['en']['The personal space of %s']='The personal space of %s';
 $_SESSION['l10n']['en']['6f667d5aa6579c8239335c342b69c9c1']='This is a copy of the message you have sent, for your own record.';
+$_SESSION['l10n']['en']['6e2c92535cae4b70d0c1008c2343390b']='This is the list of sections assigned to %s';
 $_SESSION['l10n']['en']['39e10b20bc124e2c95c62a257481f4e7']='This is the right place to describe ways of working in this group.';
 $_SESSION['l10n']['en']['ef2ab1a8dc29b559e5212f607df064ce']='This is the right place to introduce yourself to new visitors.';
 $_SESSION['l10n']['en']['9ce08972f5d031a3009f6fcac6a64311']='This message has been generated automatically by %s since the new item has been posted by a user that is part of your watch list. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.';
@@ -400,11 +401,13 @@ $_SESSION['l10n']['en']['0b813fe606bc609174467563b5773314']='This web space has 
 $_SESSION['l10n']['en']['Thumbnail']='Thumbnail';
 $_SESSION['l10n']['en']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['en']['Title']='Title';
+$_SESSION['l10n']['en']['f3f96c1839e9e2352cec3a4f8843cadc']='To assign a section, look in the content tree below and assign one section at a time';
 $_SESSION['l10n']['en']['d8ef00288000f0f98aafef9b53c2e08d']='To be inserted at the bottom of related pages.';
 $_SESSION['l10n']['en']['c1966a9db995dd0212d9febf7be757e0']='To be inserted at the top of related pages.';
 $_SESSION['l10n']['en']['e0a79a4cf99bb99979d77e7c1842b190']='To be notified when new content is added';
 $_SESSION['l10n']['en']['0f16c85d61d352ba7e61533d2439a0cf']='To designate a section by its name in the %s';
 $_SESSION['l10n']['en']['74a19ba83faf8108003e4f4acf426719']='To load template_foo_bar.php instead of the regular template';
+$_SESSION['l10n']['en']['dd269e53b9cb005bb7d75f3f50266c09']='To transfer ownership to another person, type some letters of the name you are looking for.';
 $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive errors. Aborted';
 $_SESSION['l10n']['en']['Topics']='Topics';
 $_SESSION['l10n']['en']['f8bf5dcdd9714715ae047fbc19b0c035']='Topmost articles are displayed at the parent section page in distinct extra boxes.';
@@ -421,7 +424,6 @@ $_SESSION['l10n']['en']['b3e2e59bff01bca4659ac4f86a75fc2c']='Use codes to place 
 $_SESSION['l10n']['en']['Use only plain ASCII, no HTML.']='Use only plain ASCII, no HTML.';
 $_SESSION['l10n']['en']['36ab5b5ac398b5cfe4feb817d68c45f1']='Use the %s to populate this server.';
 $_SESSION['l10n']['en']['Use the customized layout %s']='Use the customized layout %s';
-$_SESSION['l10n']['en']['705448ec5fb15a32b84a6999b5bcbf1f']='Use this page to select or to deselect some sections.';
 $_SESSION['l10n']['en']['7095a3461ba51a372774ee8a1ce5d15b']='Various means to link to this page';
 $_SESSION['l10n']['en']['Versions']='Versions';
 $_SESSION['l10n']['en']['View the category']='View the category';
@@ -499,6 +501,7 @@ $_SESSION['l10n']['en']['note']='note';
 $_SESSION['l10n']['en']['notes']='notes';
 $_SESSION['l10n']['en']['overlay articles']='overlay articles';
 $_SESSION['l10n']['en']['overlay sub-sections']='overlay sub-sections';
+$_SESSION['l10n']['en']['owner']='owner';
 $_SESSION['l10n']['en']['page is locked.']='page is locked.';
 $_SESSION['l10n']['en']['page selector']='page selector';
 $_SESSION['l10n']['en']['posted by %s %s']='posted by %s %s';
@@ -512,6 +515,7 @@ $_SESSION['l10n']['en']['templates']='templates';
 $_SESSION['l10n']['en']['eb485c9b646eb69dd5d906801b4a1480']='titles - Use only titles and thumbnails.';
 $_SESSION['l10n']['en']['to manage content']='to manage content';
 $_SESSION['l10n']['en']['to review content']='to review content';
+$_SESSION['l10n']['en']['unassign']='unassign';
 $_SESSION['l10n']['en']['user profiles']='user profiles';
 $_SESSION['l10n']['en']['c65513c58815afcfffcf31202d2e9d72']='wiki - A set of editable and extensible pages';
 $_SESSION['l10n']['en']['yabb - A discussion board']='yabb - A discussion board';

@@ -713,7 +713,7 @@ Class Members {
 	 *
 	 * @see sections/view.php
 	 */
-	function &list_editors_by_name_for_member($member, $offset=0, $count=10, $variant=NULL) {
+	function &list_editors_for_member($member, $offset=0, $count=10, $variant=NULL) {
 		global $context;
 
 		// display active and restricted items
@@ -727,12 +727,12 @@ Class Members {
 		if(version_compare(SQL::version(), '4.1.0', '>=')) {
 
 			// the list of users
-			$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'user:%')) AS ids"
+			$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'user:%') ORDER BY members.edit_date) AS ids"
 				.", ".SQL::table_name('users')." AS users"
 				." WHERE (users.id = ids.target)"
 				."	AND ((users.capability = 'M') OR (users.capability = 'A'))"
 				."	AND (".$where.")"
-				." ORDER BY nick_name, edit_date DESC LIMIT ".$offset.','.$count;
+				." LIMIT ".$offset.','.$count;
 
 		// use joined queries
 		} else {
@@ -745,7 +745,7 @@ Class Members {
 				."	AND (users.id = SUBSTRING(members.anchor, 6))"
 				."	AND ((users.capability = 'M') OR (users.capability = 'A'))"
 				."	AND (".$where.")"
-				." ORDER BY users.nick_name, users.edit_date DESC LIMIT ".$offset.','.$count;
+				." ORDER BY members.edit_date LIMIT ".$offset.','.$count;
 
 		}
 

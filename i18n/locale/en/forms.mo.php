@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 4, 2009, 12:06 pm GMT. Please do not modify it manually.
+ * on August 26, 2009, 3:27 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: Yacs
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-04 10:21+0200
-PO-Revision-Date: 2008-11-02 23:17+0100
+POT-Creation-Date: 2009-08-26 01:57+0200
+PO-Revision-Date: 2009-08-26 02:03+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -24,8 +24,7 @@ $_SESSION['l10n']['en']['%d form'.chr(0).'%d forms']='%d form'.chr(0).'%d forms'
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['7959b059e4d93392b6cb781e9d9eaffc']='A new page has been created with submitted data. This will be reviewed by people in charge.';
-$_SESSION['l10n']['en']['21c58f77450af6e7fc86a17ada969ac2']='Access is restricted to associates';
-$_SESSION['l10n']['en']['71591a943ab0ff1e925f29270c9a6568']='Access is restricted to authenticated members';
+$_SESSION['l10n']['en']['Access']='Access';
 $_SESSION['l10n']['en']['Add a form']='Add a form';
 $_SESSION['l10n']['en']['Add a selection input field']='Add a selection input field';
 $_SESSION['l10n']['en']['Add a string input field']='Add a string input field';
@@ -33,6 +32,7 @@ $_SESSION['l10n']['en']['Add some text']='Add some text';
 $_SESSION['l10n']['en']['de5b7203b45b8660746f749207ab2a51']='Also complements the title in lists featuring this page';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Capture']='Capture';
+$_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';
 $_SESSION['l10n']['en']['Content']='Content';
 $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
 $_SESSION['l10n']['en']['Delete']='Delete';
@@ -67,7 +67,9 @@ $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a me
 $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
 $_SESSION['l10n']['en']['Post processing']='Post processing';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
+$_SESSION['l10n']['en']['711abf22490c13c012c6eff77b7b2b9e']='Private - Access is restricted to selected persons';
 $_SESSION['l10n']['en']['Processing']='Processing';
+$_SESSION['l10n']['en']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Access is granted to anonymous surfers';
 $_SESSION['l10n']['en']['474f9f13dfabde8542ecef34bd170aec']='Put your e-mail address to receive feed-back';
 $_SESSION['l10n']['en']['Regular sections']='Regular sections';
 $_SESSION['l10n']['en']['Related to %s']='Related to %s';

@@ -294,7 +294,7 @@ if($with_form) {
 
 	// introduce the web space
 	if(!isset($item['introduction']))
-		$item['introduction'] = i18n::s('This is the right place to introduce yourself to new visitors.');
+		$item['introduction'] = i18n::s('What is this new web space about?');
 		
 	$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field($item['introduction']).'</textarea>';
 	$hint = i18n::s('Appears at the site map, near section title');

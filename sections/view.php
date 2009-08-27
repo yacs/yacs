@@ -552,7 +552,7 @@ if(!isset($item['id'])) {
 
 			// section editors and readers
 			if(Surfer::is_empowered() && Surfer::is_logged()) {
-				if($items =& Members::list_editors_by_name_for_member('section:'.$item['id'], 0, 50, 'comma'))
+				if($items =& Members::list_editors_for_member('section:'.$item['id'], 0, 50, 'comma'))
 					$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), i18n::s('Editors')), Skin::build_list($items, 'comma'));
 
 				if($items =& Members::list_readers_by_name_for_member('section:'.$item['id'], 0, 50, 'comma'))
@@ -1573,7 +1573,7 @@ if(!isset($item['id'])) {
 
 		// one box per section
 		foreach($anchors as $anchor) {
-			$box = array();
+			$box = array('title' => '', 'text' => '');
 
 			// sanity check
 			if(!$section =& Anchors::get($anchor))

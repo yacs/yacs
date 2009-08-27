@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 26, 2009, 12:25 am GMT. Please do not modify it manually.
+ * on August 26, 2009, 5:36 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 01:59+0200
-PO-Revision-Date: 2009-08-26 02:00+0100
+POT-Creation-Date: 2009-08-26 16:54+0200
+PO-Revision-Date: 2009-08-26 17:23+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -90,7 +90,6 @@ $_SESSION['l10n']['en']['Get a paper copy of this page.']='Get a paper copy of t
 $_SESSION['l10n']['en']['Google']='Google';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Help index']='Help index';
-$_SESSION['l10n']['en']['3482364243c0c367e9481e1eb819366d']='Hit the submit button and post images afterwards.';
 $_SESSION['l10n']['en']['Icon']='Icon';
 $_SESSION['l10n']['en']['98b2e1b34b14f94d2493eb4999e0fd72']='Attention, des données peuvent être perdues si vous modifiez l\'overlay.';
 $_SESSION['l10n']['en']['Images']='Images';
@@ -182,6 +181,7 @@ $_SESSION['l10n']['en']['Special categories']='Special categories';
 $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['Sub-categories']='Sub-categories';
 $_SESSION['l10n']['en']['Submit']='Submit';
+$_SESSION['l10n']['en']['bdeb1dc12f294e399cc258881ddba332']='Submit the new page, and you will be able to add images afterwards.';
 $_SESSION['l10n']['en']['Suffix']='Suffix';
 $_SESSION['l10n']['en']['Technorati']='Technorati';
 $_SESSION['l10n']['en']['1191989b64153cc1569ba37769dff14b']='Text to be appended at the bottom of the page, after all other elements attached to this page.';

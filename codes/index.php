@@ -38,7 +38,7 @@ $help_links = array(
 		'codes/tables.php'	=> i18n::s('Tables (with headers, with grids, use CSV data, ...)'),
 		'codes/titles.php'	=> i18n::s('Titles and questions (and table of content)'),
 		'codes/live.php'	=> i18n::s('Dynamic queries (cloud, locations, ...)'),
-		'codes/misc.php'	=> i18n::s('Miscellaneous codes (flags, ...)')
+		'codes/misc.php'	=> i18n::s('Miscellaneous codes (charts, ...)')
 		);
 
 // the text of the page

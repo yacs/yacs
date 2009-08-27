@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 4, 2009, 8:47 am GMT. Please do not modify it manually.
+ * on August 26, 2009, 3:28 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-04 10:22+0200
-PO-Revision-Date: 2009-05-14 23:31+0100
+POT-Creation-Date: 2009-08-25 19:24+0200
+PO-Revision-Date: 2009-08-25 19:38+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -34,14 +34,17 @@ $_SESSION['l10n']['en']['b3390a8d554fe09cfe0a9781ad299561']='A user profile "%s"
 $_SESSION['l10n']['en']['AJAX demonstration']='AJAX demonstration';
 $_SESSION['l10n']['en']['Alert box']='Alert box';
 $_SESSION['l10n']['en']['Alert notification']='Alert notification';
+$_SESSION['l10n']['en']['Alice']='Alice';
 $_SESSION['l10n']['en']['b8b07936b356f7906cdd5ef6b01e7821']='An account already exists for "%s".';
 $_SESSION['l10n']['en']['Anonymous wiki']='Anonymous wiki';
 $_SESSION['l10n']['en']['717d50c64a625363713751145cf1f7ca']='Anyone can update pages in this section';
 $_SESSION['l10n']['en']['Assembling javascript files...']='Assembling javascript files...';
 $_SESSION['l10n']['en']['70871921675454ac43a2a5fe9444af55']='Authenticated members can update pages in this section';
 $_SESSION['l10n']['en']['Blog']='Blog';
+$_SESSION['l10n']['en']['Bob']='Bob';
 $_SESSION['l10n']['en']['Browse notification']='Browse notification';
 $_SESSION['l10n']['en']['Calendar']='Calendar';
+$_SESSION['l10n']['en']['Carol']='Carol';
 $_SESSION['l10n']['en']['Categories']='Categories';
 $_SESSION['l10n']['en']['Category "%s" already exists.']='Category "%s" already exists.';
 $_SESSION['l10n']['en']['Channels']='Channels';
@@ -67,6 +70,8 @@ $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['eeb1a5b1e84f84128d95eab10517665a']='Drag and drop following elements';
 $_SESSION['l10n']['en']['Edit me']='Edit me';
+$_SESSION['l10n']['en']['Enter a floating number']='Enter a floating number';
+$_SESSION['l10n']['en']['Enter an integer']='Enter an integer';
 $_SESSION['l10n']['en']['Event']='Event';
 $_SESSION['l10n']['en']['Events']='Events';
 $_SESSION['l10n']['en']['6bcc0edc066d340a8f1a614a6daf6c8b']='Every page in this section is featured in a nice-looking calendar.';
@@ -87,6 +92,7 @@ $_SESSION['l10n']['en']['Hello again']='Hello again';
 $_SESSION['l10n']['en']['Hello notification']='Hello notification';
 $_SESSION['l10n']['en']['Hello world']='Hello world';
 $_SESSION['l10n']['en']['Hover me to access tools']='Hover me to access tools';
+$_SESSION['l10n']['en']['Interactive filters']='Interactive filters';
 $_SESSION['l10n']['en']['Interactive support']='Interactive support';
 $_SESSION['l10n']['en']['d5651dd5d23d7e873001e4317f98bd94']='Launch the Content Assistant again';
 $_SESSION['l10n']['en']['Links']='Links';
@@ -142,6 +148,7 @@ $_SESSION['l10n']['en']['Sample yabb thread']='Sample yabb thread';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['Social bookmarking section']='Social bookmarking section';
+$_SESSION['l10n']['en']['Sophie']='Sophie';
 $_SESSION['l10n']['en']['Sponge Bob']='Sponge Bob';
 $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['Submit']='Submit';
