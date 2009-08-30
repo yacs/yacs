@@ -203,16 +203,16 @@ $text .= Skin::build_link('feeds/rss_1.0.php', FEEDS_RSS_1_0_IMG, '').BR;
 Skin::define_img('FEEDS_RSS_0_9_IMG', 'feeds/rss_0.9.png');
 $text .= Skin::build_link('feeds/rss_0.92.php', FEEDS_RSS_0_9_IMG, '').BR;
 
-$context['aside']['channels'] = Skin::build_box(i18n::s('Pick a feed'), '<p>'.$text.'</p>', 'extra');
+$context['components']['channels'] = Skin::build_box(i18n::s('Pick a feed'), '<p>'.$text.'</p>', 'extra');
 
 // public aggregrators
 if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')) {
 	$link = $context['url_to_home'].$context['url_to_root'].Feeds::get_url('rss');
-	$context['aside']['channels'] .= Skin::build_box(i18n::s('Aggregate this site'), '<p>'.join(BR, Skin::build_subscribers($link)).'</p>', 'extra');
+	$context['components']['channels'] .= Skin::build_box(i18n::s('Aggregate this site'), '<p>'.join(BR, Skin::build_subscribers($link)).'</p>', 'extra');
 }
 
 // referrals, if any
-$context['aside']['referrals'] = Skin::build_referrals('feeds/index.php');
+$context['components']['referrals'] = Skin::build_referrals('feeds/index.php');
 
 // render the skin
 render_skin();

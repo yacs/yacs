@@ -265,7 +265,7 @@ elseif(!Surfer::is_associate()) {
 }
 
 // referrals, if any
-$context['aside']['referrals'] = Skin::build_referrals('agents/index.php');
+$context['components']['referrals'] = Skin::build_referrals('agents/index.php');
 
 // render the skin
 render_skin();

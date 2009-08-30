@@ -229,7 +229,7 @@ elseif(!$permitted) {
 	else
 		$context['text'] .= '<p>'.i18n::s('You are about to suppress all your editing rights on this page.').'</p>';
 
-	$context['text'] .= '<p>'.i18n::s('Are you sure?').'</p>';
+	$bottom = '<p>'.i18n::s('Are you sure?').'</p>';
 	
 	// commands
 	$menu = array();
@@ -237,12 +237,15 @@ elseif(!$permitted) {
 	$menu[] = Skin::build_link($anchor->get_url(), i18n::s('No'), 'span');
 
 	// render commands
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
+	$bottom .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'."\n"
 		.Skin::finalize_list($menu, 'menu_bar')
 		.'<input type="hidden" name="member" value="'.$anchor->get_reference().'" />'."\n"
 		.'<input type="hidden" name="action" value="leave" />'."\n"
 		.'</p></form>'."\n";
 
+	//
+	$context['text'] .= Skin::build_block($bottom, 'bottom');
+	
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"

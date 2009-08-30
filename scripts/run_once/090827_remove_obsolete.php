@@ -32,6 +32,7 @@ if($items=Safe::glob($context['path_to_root'].'temporary/cache_*.mo.php')) {
 // files to delete, from root path
 $files = array();
 $files[] = 'articles/fetch_for_palm.php';
+$files[] = 'images/set_as_bullet.php';
 $files[] = 'included/php-pdb.php';
 $files[] = 'included/php-pdb_doc.php';
 $files[] = 'included/php-pdb_html.php';

@@ -104,109 +104,102 @@ if(!$item['id']) {
 	// initialize the rendering engine
 	Codes::initialize(Servers::get_url($item['id']));
 
-	// use the cache if possible
-	$cache_id = 'servers/view.php?id='.$item['id'].'#content';
-	if(!$text =& Cache::get($cache_id)) {
+	// the nick name
+	if($item['host_name'] && Surfer::is_associate())
+		$details[] = '"'.$item['host_name'].'"';
 
-		// the nick name
-		if($item['host_name'] && Surfer::is_associate())
-			$details[] = '"'.$item['host_name'].'"';
+	// information on last update
+	if($item['edit_name'])
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
-		// information on last update
-		if($item['edit_name'])
-			$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+	// restricted to logged members
+	if($item['active'] == 'R')
+		$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members').BR."\n";
 
-		// restricted to logged members
-		if($item['active'] == 'R')
-			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members').BR."\n";
+	// restricted to associates
+	elseif($item['active'] == 'N')
+		$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons').BR."\n";
 
-		// restricted to associates
-		elseif($item['active'] == 'N')
-			$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons').BR."\n";
+	// all details
+	if(@count($details))
+		$text .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
-		// all details
-		if(@count($details))
-			$text .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+	// insert anchor prefix
+	if(is_object($anchor))
+		$text .= $anchor->get_prefix();
 
-		// insert anchor prefix
+	// main url
+	if($item['main_url'])
+		$text .= '<p>'.sprintf(i18n::s('Main URL: %s'), Skin::build_link($item['main_url'], NULL, 'external'))."</p>\n";
+
+	// a section for remote services
+	$text .= Skin::build_block(i18n::s('Services accessed remotely'), 'subtitle');
+
+	// feed submission
+	if($item['submit_feed'] == 'Y') {
+		$menu = array(Servers::get_url($item['id'], 'test') => i18n::s('Test feed') );
+		$label = sprintf(i18n::s('News published at this server at %s - %s are fetched periodically'), Skin::build_link($item['feed_url'], NULL, 'external'), Skin::build_list($menu, 'menu'));
 		if(is_object($anchor))
-			$text .= $anchor->get_prefix();
+			$label .= BR.sprintf(i18n::s('and aggregated locally at %s'), Skin::build_link($anchor->get_url(), $anchor->get_title(), 'section'));
+	} else
+		$label = i18n::s('Do not check news from this server.');
+	$text .= '<p>'.$label."</p>\n";
 
-		// main url
-		if($item['main_url'])
-			$text .= '<p>'.sprintf(i18n::s('Main URL: %s'), Skin::build_link($item['main_url'], NULL, 'external'))."</p>\n";
+	// ping submission
+	if($item['submit_ping'] == 'Y')
+		$label = sprintf(i18n::s('This server has to be pinged on updates, by using XML-RPC calls <code>weblogUpdates.ping</code> at %s'), Skin::build_link($item['ping_url']));
+	else
+		$label = i18n::s('Updates are not transmitted to this server.');
+	$text .= '<p>'.$label."</p>\n";
 
-		// a section for remote services
-		$text .= Skin::build_block(i18n::s('Services accessed remotely'), 'subtitle');
+	// monitoring
+	if($item['submit_monitor'] == 'Y')
+		$label = sprintf(i18n::s('This server has to be polled, by using XML-RPC calls <code>monitor.ping</code> at %s'), Skin::build_link($item['monitor_url']));
+	else
+		$label = i18n::s('Do not poll this server to check its state.');
+	$text .= '<p>'.$label."</p>\n";
 
-		// feed submission
-		if($item['submit_feed'] == 'Y') {
-			$menu = array(Servers::get_url($item['id'], 'test') => i18n::s('Test feed') );
-			$label = sprintf(i18n::s('News published at this server at %s - %s are fetched periodically'), Skin::build_link($item['feed_url'], NULL, 'external'), Skin::build_list($menu, 'menu'));
-			if(is_object($anchor))
-				$label .= BR.sprintf(i18n::s('and aggregated locally at %s'), Skin::build_link($anchor->get_url(), $anchor->get_title(), 'section'));
-		} else
-			$label = i18n::s('Do not check news from this server.');
-		$text .= '<p>'.$label."</p>\n";
+	// search submission
+	if($item['submit_search'] == 'Y')
+		$label = sprintf(i18n::s('This server has to be included into searches, by using REST calls at %s'), Skin::build_link($item['search_url']));
+	else
+		$label = i18n::s('Do not submit search requests to this server.');
+	$text .= '<p>'.$label."</p>\n";
 
-		// ping submission
-		if($item['submit_ping'] == 'Y')
-			$label = sprintf(i18n::s('This server has to be pinged on updates, by using XML-RPC calls <code>weblogUpdates.ping</code> at %s'), Skin::build_link($item['ping_url']));
-		else
-			$label = i18n::s('Updates are not transmitted to this server.');
-		$text .= '<p>'.$label."</p>\n";
+	// a section for remote requests
+	$text .= Skin::build_block(i18n::s('Allowed queries from this server'), 'subtitle');
 
-		// monitoring
-		if($item['submit_monitor'] == 'Y')
-			$label = sprintf(i18n::s('This server has to be polled, by using XML-RPC calls <code>monitor.ping</code> at %s'), Skin::build_link($item['monitor_url']));
-		else
-			$label = i18n::s('Do not poll this server to check its state.');
-		$text .= '<p>'.$label."</p>\n";
+	// ping processing
+	if($item['process_ping'] == 'Y')
+		$label = sprintf(i18n::s('This server is allowed to advertise changes (<code>weblogUpdates.ping</code>) at %'), Skin::build_link('services/index.php#ping', i18n::s('the ping interface'), 'shortcut'));
+	else
+		$label = i18n::s('This server is not allowed to advertise changes.');
+	$text .= '<p>'.$label."</p>\n";
 
-		// search submission
-		if($item['submit_search'] == 'Y')
-			$label = sprintf(i18n::s('This server has to be included into searches, by using REST calls at %s'), Skin::build_link($item['search_url']));
-		else
-			$label = i18n::s('Do not submit search requests to this server.');
-		$text .= '<p>'.$label."</p>\n";
+	// search processing
+	if($item['process_search'] == 'Y')
+		$label = sprintf(i18n::s('This server is allowed to submit search requests at %s'), Skin::build_link('services/index.php#search', i18n::s('the search interface'), 'shortcut'));
+	else
+		$label = i18n::s('This server is not allowed to submit search requests.');
+	$text .= '<p>'.$label."</p>\n";
 
-		// a section for remote requests
-		$text .= Skin::build_block(i18n::s('Allowed queries from this server'), 'subtitle');
+	// monitoring
+	if($item['process_monitor'] == 'Y')
+		$label = sprintf(i18n::s('This server is allowed to submit monitoring requests (<code>monitor.ping</code>) at %s'), Skin::build_link('services/index.php#xml-rpc', i18n::s('the XML-RPC interface'), 'shortcut'));
+	else
+		$label = i18n::s('This server is not allowed to submit monitoring requests.');
+	$text .= '<p>'.$label."</p>\n";
 
-		// ping processing
-		if($item['process_ping'] == 'Y')
-			$label = sprintf(i18n::s('This server is allowed to advertise changes (<code>weblogUpdates.ping</code>) at %'), Skin::build_link('services/index.php#ping', i18n::s('the ping interface'), 'shortcut'));
-		else
-			$label = i18n::s('This server is not allowed to advertise changes.');
-		$text .= '<p>'.$label."</p>\n";
+	// a section for the description
+	if($item['description']) {
 
-		// search processing
-		if($item['process_search'] == 'Y')
-			$label = sprintf(i18n::s('This server is allowed to submit search requests at %s'), Skin::build_link('services/index.php#search', i18n::s('the search interface'), 'shortcut'));
-		else
-			$label = i18n::s('This server is not allowed to submit search requests.');
-		$text .= '<p>'.$label."</p>\n";
+		// display the full text
+		$text .= Skin::build_block(i18n::s('Server description'), 'subtitle');
 
-		// monitoring
-		if($item['process_monitor'] == 'Y')
-			$label = sprintf(i18n::s('This server is allowed to submit monitoring requests (<code>monitor.ping</code>) at %s'), Skin::build_link('services/index.php#xml-rpc', i18n::s('the XML-RPC interface'), 'shortcut'));
-		else
-			$label = i18n::s('This server is not allowed to submit monitoring requests.');
-		$text .= '<p>'.$label."</p>\n";
-
-		// a section for the description
-		if($item['description']) {
-
-			// display the full text
-			$text .= Skin::build_block(i18n::s('Server description'), 'subtitle');
-
-			// show the description
-			$text .= Skin::build_block($item['description'], 'description');
-		}
-
-		// save in cache
-		Cache::put($cache_id, $text, 'server:'.$item['id']);
+		// show the description
+		$text .= Skin::build_block($item['description'], 'description');
 	}
+
 	$context['text'] .= $text;
 
 	// insert anchor suffix
@@ -214,7 +207,7 @@ if(!$item['id']) {
 		$context['text'] .= $anchor->get_suffix();
 
 	// referrals, if any
-	$context['aside']['referrals'] =& Skin::build_referrals(Servers::get_url($item['id']));
+	$context['components']['referrals'] =& Skin::build_referrals(Servers::get_url($item['id']));
 }
 
 // render the skin

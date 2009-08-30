@@ -1,6 +1,6 @@
 <?php
 /**
- * invite participants to a section
+ * invite participants to a page
  *
  * This script has a form to post a mail message related to an existing page.
  *
@@ -49,7 +49,7 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item =& Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
@@ -76,9 +76,9 @@ elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == S
 
 // link to contribute
 if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y'))
-	$link = $context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id']); // to be expanded to credentials
+	$link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id']); // to be expanded to credentials
 else
-	$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
+	$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
 
 // message prefix
 if(isset($item['create_id']) && Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
@@ -100,6 +100,10 @@ elseif(Surfer::is_empowered())
 elseif(!Surfer::is_member())
 	$permitted = FALSE;
 
+// the anchor has to be viewable by this surfer
+elseif(is_object($anchor) && $anchor->is_viewable())
+	$permitted = TRUE;
+
 // the default is to disallow access
 else
 	$permitted = FALSE;
@@ -117,7 +121,7 @@ if(is_object($anchor))
 else
 	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 if(isset($item['id']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
 
 // page title
 if(isset($item['title']))
@@ -143,7 +147,7 @@ if(Surfer::is_crawler()) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'invite')));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'mail')));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
@@ -231,10 +235,10 @@ if(Surfer::is_crawler()) {
 		
 			// make this user an editor of the target section, and update his watch list as well
 			if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y'))
-				Members::assign('user:'.$user['id'], 'section:'.$item['id']);
+				Members::assign('user:'.$user['id'], 'article:'.$item['id']);
 
 			// always add the item to the watch list
-			Members::assign('section:'.$item['id'], 'user:'.$user['id']);
+			Members::assign('article:'.$item['id'], 'user:'.$user['id']);
 
 			// use this email address
 			if($user['email']) {
@@ -266,7 +270,7 @@ if(Surfer::is_crawler()) {
 			// build credentials --see users/login.php
 			$credentials = array();
 			$credentials[0] = 'visit';
-			$credentials[1] = 'section:'.$item['id'];
+			$credentials[1] = 'article:'.$item['id'];
 			$credentials[2] = $actual_recipient;
 			$credentials[3] = sprintf('%u', crc32($actual_recipient.':'.$item['handle']));
 
@@ -274,7 +278,7 @@ if(Surfer::is_crawler()) {
 			$link = Users::get_url($credentials, 'credentials');
 
 			// translate strings to allow for one-click authentication
-			$actual_message = str_replace(Sections::get_url($item['id']), $link, $message); // integrate credentials
+			$actual_message = str_replace(Articles::get_url($item['id']), $link, $message); // integrate credentials
 
 		// regular message
 		} else
@@ -294,8 +298,8 @@ if(Surfer::is_crawler()) {
 	// follow-up commands
 	$follow_up = i18n::s('What do you want to do now?');
 	$menu = array();
-	$menu = array_merge($menu, array(Sections::get_permalink($item) => i18n::s('Back to main page')));
-	$menu = array_merge($menu, array(Sections::get_url($item['id'], 'invite') => i18n::s('Invite participants')));
+	$menu = array_merge($menu, array(Articles::get_permalink($item) => i18n::s('Back to main page')));
+	$menu = array_merge($menu, array(Articles::get_url($item['id'], 'invite') => i18n::s('Invite participants')));
 	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -357,7 +361,7 @@ if(Surfer::is_crawler()) {
 
 	// cancel button
 	if(isset($item['id']))
-		$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Cancel'), 'span');
+		$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Cancel'), 'span');
 
 	// insert the menu in the page
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');

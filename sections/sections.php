@@ -1370,7 +1370,7 @@ Class Sections {
 	}
 
 	/**
-	 * check that the surfer owns a section
+	 * check if a surfer owns a section
 	 *
 	 *
 	 * @param object parent anchor, if any
@@ -1402,7 +1402,7 @@ Class Sections {
 
 		// sorry
 		return FALSE;
-	 }
+	}
 
 	/**
 	 * list sections assigned to one surfer
@@ -1939,8 +1939,6 @@ Class Sections {
 		}
 
 		// protect from hackers
-		if(isset($fields['bullet_url']))
-			$fields['bullet_url'] =& encode_link($fields['bullet_url']);
 		if(isset($fields['icon_url']))
 			$fields['icon_url'] =& encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
@@ -2016,7 +2014,6 @@ Class Sections {
 			."articles_layout='".SQL::escape(isset($fields['articles_layout']) ? $fields['articles_layout'] : 'decorated')."',"
 			."articles_templates='".SQL::escape(isset($fields['articles_templates']) ? $fields['articles_templates'] : '')."',"
 			."behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."',"
-			."bullet_url='".SQL::escape(isset($fields['bullet_url']) ? $fields['bullet_url'] : '')."',"
 			."content_options='".SQL::escape(isset($fields['content_options']) ? $fields['content_options'] : '')."',"
 			."content_overlay='".SQL::escape(isset($fields['content_overlay']) ? $fields['content_overlay'] : '')."',"
 			."create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."', "
@@ -2104,8 +2101,6 @@ Class Sections {
 		}
 
 		// protect from hackers
-		if(isset($fields['bullet_url']))
-			$fields['bullet_url'] =& encode_link($fields['bullet_url']);
 		if(isset($fields['icon_url']))
 			$fields['icon_url'] =& encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
@@ -2180,7 +2175,6 @@ Class Sections {
 			."articles_layout='".SQL::escape(isset($fields['articles_layout']) ? $fields['articles_layout'] : 'decorated')."',"
 			."articles_templates='".SQL::escape(isset($fields['articles_templates']) ? $fields['articles_templates'] : '')."',"
 			."behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."',"
-			."bullet_url='".SQL::escape(isset($fields['bullet_url']) ? $fields['bullet_url'] : '')."',"
 			."content_overlay='".SQL::escape(isset($fields['content_overlay']) ? $fields['content_overlay'] : '')."',"
 			."content_options='".SQL::escape(isset($fields['content_options']) ? $fields['content_options'] : '')."',"
 			."expiry_date='".SQL::escape($fields['expiry_date'])."',"
@@ -2496,7 +2490,6 @@ Class Sections {
 		$fields['articles_layout']	= "VARCHAR(255) DEFAULT 'decorated' NOT NULL";
 		$fields['articles_templates']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['behaviors']	= "TEXT NOT NULL";
-		$fields['bullet_url']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['content_options']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['content_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['create_address']	= "VARCHAR(128) DEFAULT '' NOT NULL";
@@ -2534,7 +2527,7 @@ Class Sections {
 		$fields['rank'] 		= "MEDIUMINT UNSIGNED DEFAULT 10000 NOT NULL";
 		$fields['section_overlay']	= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['sections_count']	= "SMALLINT UNSIGNED DEFAULT 5 NOT NULL";
-		$fields['sections_layout']	= "VARCHAR(255) DEFAULT 'map' NOT NULL";
+		$fields['sections_layout']	= "VARCHAR(255) DEFAULT 'none' NOT NULL";
 		$fields['suffix']		= "TEXT NOT NULL";
 		$fields['template'] 	= "TEXT NOT NULL";
 		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";

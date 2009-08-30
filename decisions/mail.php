@@ -259,7 +259,7 @@ if(Surfer::is_crawler()) {
 	$follow_up = i18n::s('What do you want to do now?');
 	$menu = array();
 	$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
-	$menu = array_merge($menu, array($context['script_url'] => i18n::s('Invite people')));
+	$menu = array_merge($menu, array($context['script_url'] => i18n::s('Invite participants')));
 	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -270,7 +270,7 @@ if(Surfer::is_crawler()) {
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// recipients
-	$label = i18n::s('Invite people');
+	$label = i18n::s('Invite participants');
 	$input = '<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
 	$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');
 	$fields[] = array($label, $input, $hint);

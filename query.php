@@ -74,7 +74,6 @@ if(Surfer::is_crawler()) {
 		$fields['active_set'] = 'N'; // for associates only
 		$fields['home_panel'] = 'none'; // content is not pushed at the front page
 		$fields['index_map'] = 'N'; // this is a special section
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 
 		// reference the new section
 		if($fields['id'] = Sections::post($fields))
@@ -302,7 +301,7 @@ if($with_form) {
 	// locate mandatory fields
 	$text .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
 
-	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $text, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $text, 'navigation', 'help');
 
 }
 

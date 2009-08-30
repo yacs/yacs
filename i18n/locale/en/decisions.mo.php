@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 26, 2009, 3:26 pm GMT. Please do not modify it manually.
+ * on August 30, 2009, 9:11 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-25 19:24+0200
+POT-Creation-Date: 2009-08-30 23:09+0200
 PO-Revision-Date: 2009-08-25 19:29+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -55,7 +55,6 @@ $_SESSION['l10n']['en']['22574ae3fe08b2cb5e911bab84f9ed13']='Enter nick names, o
 $_SESSION['l10n']['en']['fd674cf80651be8f2cc7d185d732b3ef']='Error while sending the message to %s';
 $_SESSION['l10n']['en']['9404597745d93a6898e464cbbc52c4dc']='If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.';
 $_SESSION['l10n']['en']['In %s']='In %s';
-$_SESSION['l10n']['en']['Invite people']='Invite people';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
 $_SESSION['l10n']['en']['Message content']='Message content';

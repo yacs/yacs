@@ -1316,8 +1316,6 @@ Class Categories {
 		}
 
 		// protect from hackers
-		if(isset($fields['bullet_url']))
-			$fields['bullet_url'] =& encode_link($fields['bullet_url']);
 		if(isset($fields['icon_url']))
 			$fields['icon_url'] =& encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
@@ -1460,8 +1458,6 @@ Class Categories {
 			return i18n::s('No title has been provided.');
 
 		// protect from hackers
-		if(isset($fields['bullet_url']))
-			$fields['bullet_url'] =& encode_link($fields['bullet_url']);
 		if(isset($fields['icon_url']))
 			$fields['icon_url'] =& encode_link($fields['icon_url']);
 		if(isset($fields['thumbnail_url']))
@@ -1790,7 +1786,6 @@ Class Categories {
 		$fields['active_set']	= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
 		$fields['anchor']		= "VARCHAR(64)";
 		$fields['articles_layout']	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['bullet_url']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['categories_count'] = "INT UNSIGNED NOT NULL";
 		$fields['categories_layout'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['categories_overlay'] = "VARCHAR(64) DEFAULT '' NOT NULL";

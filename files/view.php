@@ -882,26 +882,19 @@ if(!isset($item['id'])) {
 	}
 
 	// the navigation sidebar
-	$cache_id = 'files/view.php?id='.$item['id'].'#navigation';
-	if(!$text =& Cache::get($cache_id)) {
-
-		// buttons to display previous and next pages, if any
-		if(is_object($anchor)) {
-			$neighbours = $anchor->get_neighbours('file', $item);
-			$text .= Skin::neighbours($neighbours, 'sidebar');
-		}
-
-		// build a nice sidebar box
-		if($text)
-			$text =& Skin::build_box(i18n::s('Navigation'), $text, 'navigation', 'neighbours');
-
-		// save in cache
-		Cache::put($cache_id, $text, 'files');
+	if(is_object($anchor)) {
+		$neighbours = $anchor->get_neighbours('file', $item);
+		$text .= Skin::neighbours($neighbours, 'sidebar');
 	}
-	$context['aside']['neighbours'] = $text;
+
+	// build a nice sidebar box
+	if($text)
+		$text =& Skin::build_box(i18n::s('Navigation'), $text, 'navigation', 'neighbours');
+
+	$context['components']['neighbours'] = $text;
 
 	// referrals, if any
-	$context['aside']['referrals'] =& Skin::build_referrals(Files::get_url($item['id']));
+	$context['components']['referrals'] =& Skin::build_referrals(Files::get_url($item['id']));
 
 }
 

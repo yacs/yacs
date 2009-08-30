@@ -111,10 +111,10 @@ if(!$text =& Cache::get($cache_id)) {
 
 	Cache::put($cache_id, $text, 'articles');
 }
-$context['aside']['boxes'] = $text;
+$context['components']['boxes'] = $text;
 
 // referrals, if any
-$context['aside']['referrals'] = Skin::build_referrals('dates/month.php/'.$target);
+$context['components']['referrals'] = Skin::build_referrals('dates/month.php/'.$target);
 
 // render the skin
 render_skin();

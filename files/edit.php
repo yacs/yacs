@@ -430,7 +430,7 @@ if($with_form) {
 	if(!$anchor) {
 
 		// a splash message for new users
-		$context['text'] .= Skin::build_block(i18n::s('This script will create a brand new page for the uploaded file. If you would like to attach a file to an existing page, browse the target page instead and use the adequate command from the menu bar.'), 'caution')."\n";
+		$context['text'] .= Skin::build_block(i18n::s('This script will create a brand new page for the uploaded file. If you would like to attach a file to an existing page, browse the target page instead and use the adequate command from the menu.'), 'caution')."\n";
 
 		$label = i18n::s('Section');
 		$input = '<select name="section">'.Sections::get_options().'</select>';
@@ -564,7 +564,7 @@ if($with_form) {
 	
 	// the icon url may be set after the page has been created
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
-		$label = i18n::s('Icon');
+		$label = i18n::s('Image');
 
 		// show the current icon
 		if(isset($item['icon_url']) && $item['icon_url']) {
@@ -742,7 +742,7 @@ if($with_form) {
 		.'<p>'.i18n::s('Also, take the time to describe your post. This field is fully indexed for searches.').'</p>'
 		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
 		.'<p>'.i18n::s('Lastly, indicate the original source of the file if you know it, either with a name or, better, with a web address.').'</p>';
-	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

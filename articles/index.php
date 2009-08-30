@@ -143,7 +143,7 @@ if(Surfer::is_associate()) {
 
 // side bar with a rss feed, if this server is well populated
 if($stats['count'] > $items_per_page) {
-	$context['aside']['channels'] = Skin::build_box(i18n::s('Information channels'), Skin::build_link(Feeds::get_url('rss'), i18n::s('Recent pages'), 'xml')
+	$context['components']['channels'] = Skin::build_box(i18n::s('Information channels'), Skin::build_link(Feeds::get_url('rss'), i18n::s('Recent pages'), 'xml')
 		.BR.Skin::build_link(Feeds::get_url('articles'), i18n::s('Full content'), 'xml'), 'extra');
 }
 
@@ -173,10 +173,10 @@ if(!$text =& Cache::get($cache_id)) {
 	// cache it, whatever change, for 1 minute
 	Cache::put($cache_id, $text, 'stable', 60);
 }
-$context['aside']['boxes'] = $text;
+$context['components']['boxes'] = $text;
 
 // referrals, if any
-$context['aside']['referrals'] = Skin::build_referrals('articles/index.php');
+$context['components']['referrals'] = Skin::build_referrals('articles/index.php');
 
 // a meta link to a feeding page
 $context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Feeds::get_url('rss').'" title="RSS" type="application/rss+xml" />';

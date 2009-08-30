@@ -22,7 +22,6 @@
  * - append at the bottom of the page
  * - use as page icon
  * - use as page thumbnail
- * - use as bullet
  *
  * If the anchor is a user profile, the list is changed to:
  * - insert at the top of the page - reserved to associates on first upload
@@ -319,12 +318,8 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= '<p>'.implode(BR, $attributes)."</p>\n";
 
 		// the action
-		if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_bullet')) {
-			$action = 'image:set_as_bullet';
-			$context['text'] .= '<p>'.i18n::s('The image has been set as the new bullet.').'</p>';
-		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_icon')) {
+		if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_icon')) {
 			$action = 'image:set_as_icon';
-			$context['text'] .= '<p>'.i18n::s('The image has become the page icon.').'</p>';
 		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar')) {
 			$action = 'image:set_as_avatar';
 			$context['text'] .= '<p>'.i18n::s('The image has become the profile picture.').'</p>';
@@ -368,9 +363,7 @@ if(Surfer::is_crawler()) {
 	} else {
 
 		// the action
-		if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_bullet'))
-			$action = 'image:set_as_bullet';
-		elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_icon'))
+		if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_icon'))
 			$action = 'image:set_as_icon';
 		elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_avatar'))
 			$action = 'image:set_as_avatar';
@@ -403,6 +396,22 @@ if($with_form) {
 	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" id="main_form"><div>';
 	$fields = array();
 
+	// we are updating a user profile
+	if(is_object($anchor) && preg_match('/^user:/i', $anchor->get_reference()))
+		$context['text'] .= '<p>'.i18n::s('Please upload an image to illustrate this user profile').'</p>';
+
+	// explicit avatar
+	elseif($action == 'avatar')
+		$context['text'] .= '<p>'.i18n::s('Please upload an image to illustrate this user profile').'</p>';
+
+	// use as page thumbnail
+	elseif($action == 'thumbnail')
+		$context['text'] .= '<p>'.i18n::s('Please upload a thumbnail image for this page').'</p>';
+
+	// generic splash message
+	else
+		$context['text'] .= '<p>'.i18n::s('Please upload an image to illustrate this page').'</p>';
+
 	// the section
 	if($anchor)
 		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
@@ -410,7 +419,7 @@ if($with_form) {
 	else {
 
 		// a splash message for new users
-		$context['text'] .= Skin::build_block(i18n::s('This script will create a brand new page for the uploaded file. If you would like to add an image to an existing page, browse the target page instead and use the adequate command from the menu bar.'), 'caution')."\n";
+		$context['text'] .= Skin::build_block(i18n::s('This script will create a brand new page for the uploaded file. If you would like to add an image to an existing page, browse the target page instead and use the adequate command from the menu.'), 'caution')."\n";
 
 		$label = i18n::s('Section');
 		$input = '<select name="section">'.Sections::get_options().'</select>';
@@ -450,14 +459,14 @@ if($with_form) {
 			$input .= i18n::s('Select another image to replace the current one').BR;
 		$input .= '<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'" />'
 			.' (&lt;&nbsp;'.Skin::build_number($image_maximum_size, i18n::s('bytes')).')';
-		$hint = i18n::s('Please select a .png, .gif or .jpeg image.');
+		$hint = i18n::s('Select a .png, .gif or .jpeg image.');
 
 	}
 
 	$fields[] = array($label, $input, $hint);
 
 	// not just a bare upload
-	if(($action != 'avatar') && ($action != 'bullet') && ($action != 'icon') && ($action != 'thumbnail')) {
+	if(($action != 'avatar') && ($action != 'icon') && ($action != 'thumbnail')) {
 
 		// the title
 		$label = i18n::s('Title');
@@ -489,10 +498,6 @@ if($with_form) {
 	else if($action == 'avatar')
 		$context['text'] .= '<input type="hidden" name="action" value="set_as_avatar" />';
 
-	// use as page bullet
-	else if($action == 'bullet')
-		$context['text'] .= '<input type="hidden" name="action" value="set_as_bullet" />';
-
 	// use as page icon
 	elseif($action == 'icon') {
 
@@ -509,7 +514,7 @@ if($with_form) {
 		$context['text'] .= '<input type="hidden" name="action" value="set_as_thumbnail" />';
 
 	// not just a bare upload
-	if(($action != 'avatar') && ($action != 'bullet') && ($action != 'icon') && ($action != 'thumbnail')) {
+	if(($action != 'avatar') && ($action != 'icon') && ($action != 'thumbnail')) {
 
 		// the link url, but only for associates and authenticated editors
 		if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())) {
@@ -580,13 +585,13 @@ if($with_form) {
 		.JS_SUFFIX."\n";
 
 	// not just a bare upload
-	if(($action != 'avatar') && ($action != 'bullet') && ($action != 'icon') && ($action != 'thumbnail')) {
+	if(($action != 'avatar') && ($action != 'icon') && ($action != 'thumbnail')) {
 
 		// general help on this form
 		$help = '<p>'.i18n::s('Large files (i.e. exceeding 20&nbsp;kbytes) are published as thumbnails. By clicking on thumbnails people can access full-sized pictures. The title is visible while the mouse is over the thumbnail. The description and the source information are displayed along the full-sized picture.').'</p>'
 			.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
 			.'<p>'.i18n::s('Smaller files are embedded as-is. The description and the source fields are more or less useless in this case.').'</p>';
-		$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+		$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 	}
 

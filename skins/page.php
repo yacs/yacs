@@ -108,15 +108,71 @@
 		}
 
 	}
+	
+	/**
+	 * echo one skin component
+	 *
+	 * This function looks for a function into the skin library, then for a function in this script,
+	 * then it checks $context['components'].
+	 *
+	 * For example, for a component named 'foo', it checks successively:
+	 * - if Skin has a static member function named 'echo_foo'
+	 * - if Page has a static member function named 'echo_foo'
+	 * - if an article named 'foo' exists
+	 * - if a variable $context['components']['foo'] has been set
+	 *
+	 * @param string name of the component to output
+	 * @return boolean TRUE if the component has been echoed, FALSE otherwise
+	 *
+	 * @see skins/configure.php
+	 */
+	function component($name) {
+		global $context;
+		
+		// for component 'foo' we are looking for member function 'echo_foo'  from the skin
+		$from_skin = array('Skin', 'echo_'.$name);
+		if(is_callable($from_skin)) {
+			call_user_func($from_skin);
+			return TRUE;
+		}
+
+		// for component 'foo' we are looking for member function 'echo_foo'  from skins/page.php
+		$from_skin = array('Page', 'echo_'.$name);
+		if(is_callable($from_skin)) {
+			call_user_func($from_skin);
+			return TRUE;
+		}
+
+		// look a named page, but only during regular operation
+		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
+			if($item =& Articles::get($parameter)) {
+				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'component_'.$name);
+				return TRUE;
+			}
+		}
+
+		// for component 'foo', we look for data in $context['components']['foo']
+		if(isset($context['components'][ $name ])) {
+			echo $context['components'][ $name ];
+			return TRUE;
+		}
+		
+		// this component is unknown
+		return FALSE;
+	}
 
 	/**
 	 * send the main content of the page
 	 *
-	 * This function can be passed a list of elements to include, with following tokens:
+	 * If no parameter is provided, then yacs looks at the global parameter
+	 * $context['skins_main_components'] which is set into the configuration panel
+	 * for the page factory.
+	 *
+	 * You can override this behavior and pass a hard-coded list of elements to include, with following tokens:
 	 * - 'details' - page details, if any
 	 * - 'error' - the error block, if any
-	 * - 'icon' - page icon, if any
-	 * - 'menu' - page menu
+	 * - 'image' - page image, if any
+	 * - 'bar' - page menu bar
 	 * - 'tags' - page tags, if any
 	 * - 'text' - main content area
 	 * - 'title' - page title
@@ -131,7 +187,7 @@
 	 *
 	 * @param mixed a string of tokens, or a boolean
 	 */
-	function content($parameters=TRUE) {
+	function content($names=NULL) {
 		global $context;
 
 		// display the prefix, if any
@@ -139,106 +195,24 @@
 			echo $context['prefix']."\n";
 
 		// turn a boolean to a string
-		if(is_bool($parameters)) {
-			if($parameters)
-				$parameters = 'title error icon text tags details menu';
+		if(is_bool($names)) {
+			if($names)
+				$names = 'title error text tags details menu';
 			else
-				$parameters = 'title error icon text tags details';
+				$names = 'title error text tags details';
 				
 		// ensure we have something
-		} elseif(!$parameters)
-			$parameters = 'title error icon text tags details menu';
+		} elseif(!$names)
+			$names = $context['skins_main_components'];
 			
-		// make an array
-		if(is_string($parameters))
-			$parameters = explode(' ', $parameters);
+		// a list of components
+		if(is_string($names))
+			$names = explode(' ', $names);
 			
-		// do the job
-		foreach($parameters as $parameter) {
-		
-			switch($parameter) {
-
-			// page details
-			case 'details':
-				if(isset($context['page_details']) && $context['page_details'])
-					echo '<div id="page_details">'.$context['page_details']."</div>\n";
-				break;
+		// actual component generation
+		foreach($names as $name)
+			Page::component($name);
 			
-			// error block
-			case 'error':
-				if(is_callable(array('Skin', 'build_error_block')))
-					echo Skin::build_error_block();
-				break;
-			
-			// page icon
-			case 'icon':
-				if(isset($context['page_image']) && $context['page_image']) {
-				
-					// configured styles
-					$more_styles = '';
-					if(isset($context['classes_for_icon_images']) && $context['classes_for_icon_images'])
-						$more_styles = ' '.encode_field($context['classes_for_icon_images']);
-			
-					echo ICON_PREFIX.'<img src="'.$context['page_image'].'" class="icon'.$more_styles.'" alt="" />'.ICON_SUFFIX;
-				}
-				break;
-			
-			// page menu
-			case 'menu':
-				if(isset($context['page_menu']) && (@count($context['page_menu']) > 0))
-					echo Skin::build_list($context['page_menu'], 'page_menu');
-				break;
-			
-			// page tags
-			case 'tags':
-
-				if($context['page_tags']) {
-					$tags = explode(',', $context['page_tags']);
-					$line = '';
-					foreach($tags as $tag) {
-						if(!$tag = trim($tag))
-							continue;
-						if($category = Categories::get_by_keyword($tag))
-							$line .= Skin::build_link(Categories::get_permalink($category), $tag, 'basic').' ';
-						else
-							$line .= $tag.' ';
-					}
-					echo '<p class="tags">'.sprintf(i18n::s('Tags: %s'), rtrim($line, ' ')).'</p>'."\n";
-				}
-		
-				break;
-			
-			// page main content
-			case 'text':
-			
-				// render and display the content, if any
-				echo $context['text'];
-				$context['text'] = '';
-		
-				// display the dynamic content, if any
-				if(is_callable('send_body'))
-					send_body();
-		
-				// maybe some additional text has been created in send_body()
-				echo $context['text'];
-		
-				break;
-			
-			// page title
-			case 'title':
-				if(isset($context['page_title']) && $context['page_title'])
-					echo Skin::build_block($context['page_title'], 'page_title');
-				break;
-
-			// any variable from context
-			default:
-				if(isset($context[ $parameter ]))
-					echo $context[ $parameter ];
-				break;
-				
-			}
-		}
-
 		// display the suffix, if any
 		if(isset($context['suffix']) && $context['suffix'])
 			echo $context['suffix']."\n";
@@ -250,15 +224,249 @@
 	}
 
 	/**
-	 * show the extra panel of the page
+	 * echo the menu bar
 	 *
+	 * You can override this function into your skin
 	 */
-	function extra_panel() {
+	function echo_bar() {
+		global $context;
+	
+		// commands are listed into $context
+		if(isset($context['page_menu']) && (@count($context['page_menu']) > 0))
+			echo Skin::build_list($context['page_menu'], 'page_menu');
+			
+	}
+				
+	/**
+	 * echo page details
+	 *
+	 * You can override this function into your skin
+	 */
+	function echo_details() {
 		global $context;
 
+		// from $context	
+		if(isset($context['page_details']) && $context['page_details'])
+			echo '<div id="page_details">'.$context['page_details']."</div>\n";
+	}
+				
+	/**
+	 * echo the extra panel in a 2-column layout
+	 *
+	 * You can override this function into your skin
+	 */
+	function echo_extra() {
+		global $context;
+
+		// we don't want to create a full extra division
+		$names = explode(' ', $context['skins_extra_components']);
+		
+		// populate the extra panel
+		foreach($names as $name)
+			Page::component($name);
+			
 		// display complementary information, if any
 		if($context['extra'])
-			echo '<div id="extra_panel">'.$context['extra']."</div>\n";
+			echo $context['extra'];
+
+	}
+				
+	/**
+	 * echo error messages
+	 *
+	 * You can override this function into your skin
+	 */
+	function echo_error() {
+		global $context;
+
+		// delegate this to the skin
+		if(is_callable(array('Skin', 'build_error_block')))
+			echo Skin::build_error_block();
+	}
+				
+	/**
+	 * echo page main image
+	 *
+	 * You can override this function into your skin
+	 */
+	function echo_image() {
+		global $context;
+
+		// the URL to use is in $context	
+		if($context['page_image']) {
+		
+			// additional styles
+			$more_styles = '';
+			if(isset($context['classes_for_icon_images']) && $context['classes_for_icon_images'])
+				$more_styles = ' '.encode_field($context['classes_for_icon_images']);
+		
+			echo ICON_PREFIX.'<img src="'.$context['page_image'].'" style="margin: 0 0 2em 0;" class="icon'.$more_styles.'" alt="" />'.ICON_SUFFIX;
+				
+		}
+	}
+				
+	/**
+	 * echo the site menu
+	 *
+	 * You can override this function into your skin
+	 */
+	function echo_menu() {
+		global $context;
+	
+		// ensure normal conditions
+		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
+		
+			// use content of a named global page
+			if($item =& Articles::get('menu'))
+				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'main_menu');
+		}
+	}
+				
+	/**
+	 * echo tags
+	 *
+	 * You can override this function into your skin
+	 */
+	function echo_tags() {
+		global $context;
+	
+		// tags are listed into $context
+		if(isset($context['page_tags']) && $context['page_tags']) {
+			$tags = explode(',', $context['page_tags']);
+			$line = '';
+			foreach($tags as $tag) {
+				if(!$tag = trim($tag))
+					continue;
+				if($category = Categories::get_by_keyword($tag))
+					$line .= Skin::build_link(Categories::get_permalink($category), $tag, 'basic').' ';
+				else
+					$line .= $tag.' ';
+			}
+			echo '<p class="tags">'.sprintf(i18n::s('Tags: %s'), rtrim($line, ' ')).'</p>'."\n";
+		}
+
+	}
+				
+	/**
+	 * echo main text
+	 *
+	 * You can override this function into your skin
+	 */
+	function echo_text() {
+		global $context;
+	
+		// from $context
+		echo $context['text'];
+		$context['text'] = '';
+
+		// display the dynamic content, if any
+		if(is_callable('send_body'))
+			send_body();
+
+		// maybe some additional text has been created in send_body()
+		echo $context['text'];		
+
+	}
+				
+	/**
+	 * echo page title
+	 *
+	 * You can override this function into your skin
+	 */
+	function echo_title() {
+		global $context;
+	
+		// from $context
+		if(isset($context['page_title']) && $context['page_title'])
+			echo Skin::build_block($context['page_title'], 'page_title');
+
+	}
+				
+	/**
+	 * echo the toolbox
+	 *
+	 * You can override this function into your skin
+	 */
+	function echo_tools() {
+		global $context;
+	
+		// tools are listed into $context
+		if(isset($context['page_tools']) && (@count($context['page_tools']) > 0))
+			echo Skin::build_box(i18n::s('Tools'), Skin::finalize_list($context['page_tools'], 'tools'), 'extra', 'page_tools');
+
+	}
+				
+	/**
+	 * echo the user menu
+	 *
+	 * You can override this function into your skin
+	 */
+	function echo_user() {
+		global $context;
+	
+		// build menu content dynamically
+		if(is_callable(array('Users', 'get_url')) && ($menu = Skin::build_user_menu('basic')) && is_callable(array('i18n', 's'))) {
+			if(Surfer::is_logged())
+				$box_title = Surfer::get_name();
+			else
+				$box_title = i18n::s('User login');
+			echo Skin::build_box($box_title, $menu, 'navigation', 'user_menu');
+		}
+
+	}
+				
+	/**
+	 * echo the list of visited pages
+	 *
+	 * You can override this function into your skin
+	 */
+	function echo_visited() {
+		global $context;
+	
+		// visited pages are listed in session sapce
+		if(isset($_SESSION['visited']) && count($_SESSION['visited']) && is_callable(array('i18n', 's')))
+			echo Skin::build_box(i18n::s('Visited'), Skin::build_list($_SESSION['visited'], 'compact'), 'navigation', 'visited_pages');
+
+	}
+				
+	/**
+	 * show the extra panel of the page
+	 *
+	 * If no parameter is provided, the global attribute $context['skins_extra_components'] is used instead.
+	 *
+	 * @param string hard-coded list of components to put aside
+	 */
+	function extra_panel($names=NULL) {
+		global $context;
+
+		// use regular parameters
+		if(!$names)
+			$names = $context['skins_extra_components'];
+			
+		// nothing to do
+		if(!$names && !$context['extra'])
+			return;
+		
+		// avoid deadlocks due to misconfiguration
+		$names = str_replace('extra', '', $names);
+		
+		// in a separate division
+		echo '<div id="extra_panel">';
+
+		// a list of components
+		if(is_string($names))
+			$names = explode(' ', $names);
+			
+		// populate the extra panel
+		foreach($names as $name)
+			Page::component($name);
+			
+		// display complementary information, if any
+		if($context['extra'])
+			echo $context['extra'];
+
+		// close the extra panel
+		echo "</div>\n";
 
 	}
 
@@ -389,10 +597,26 @@
 
 	/**
 	 * show the side panel of the page
+	 *
+	 * If no parameter is provided, the global attribute $context['skins_navigation_components'] is used instead.
+	 *
+	 * @param string hard-coded list of components to put aside
 	 */
-	function side($dummy=TRUE) {
+	function side($names=NULL) {
 		global $context;
 
+		// use regular parameters
+		if(!$names)
+			$names = $context['skins_navigation_components'];
+			
+		// a list of components
+		if(is_string($names))
+			$names = explode(' ', $names);
+			
+		// populate the extra panel
+		foreach($names as $name)
+			Page::component($name);
+			
 		// append other items to the navigation panel
 		if($context['navigation'])
 			echo $context['navigation']."\n";

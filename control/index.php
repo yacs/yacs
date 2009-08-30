@@ -922,7 +922,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			$links[] = Skin::build_link('help/', i18n::s('Help'), 'shortcut');
 
 			// list modules in an extra box
-			$context['aside']['boxes'] = Skin::build_box(i18n::s('See also'), Skin::finalize_list($links, 'compact'), 'extra', 'tools_box');
+			$context['components']['boxes'] = Skin::build_box(i18n::s('See also'), Skin::finalize_list($links, 'compact'), 'extra', 'tools_box');
 
 			// list modules if a skin has been defined -- complex command
 			if(class_exists('Skin') && Surfer::has_all()) {
@@ -971,7 +971,7 @@ if(!file_exists('../parameters/control.include.php')) {
 					$links = array_merge($links, $more_links);
 
 				// list modules in an extra box
-				$context['aside']['boxes'] .= Skin::build_box(i18n::s('Modules'), Skin::finalize_list($links, 'compact'), 'extra');
+				$context['components']['boxes'] .= Skin::build_box(i18n::s('Modules'), Skin::finalize_list($links, 'compact'), 'extra');
 
 			}
 

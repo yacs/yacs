@@ -217,12 +217,12 @@ if(!isset($item['id'])) {
 		// save in cache
 		Cache::put($cache_id, $text, 'actions');
 	}
-	$context['aside']['neighbours'] = $text;
+	$context['components']['neighbours'] = $text;
 
 	//
 	// referrals, if any, in a sidebar
 	//
-	$context['aside']['referrals'] =& Skin::build_referrals(Actions::get_url($item['id']));
+	$context['components']['referrals'] =& Skin::build_referrals(Actions::get_url($item['id']));
 }
 
 // render the skin

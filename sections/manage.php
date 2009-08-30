@@ -196,7 +196,7 @@ if(is_object($anchor))
 if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
+	$context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
 if(isset($item['id']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title']));
 

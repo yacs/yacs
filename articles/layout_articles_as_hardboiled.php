@@ -241,7 +241,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 				// or inherit from the anchor
 				elseif(is_object($anchor))
-					$icon = $anchor->get_bullet_url();
+					$icon = $anchor->get_thumbnail_url();
 
 				// list all components for this item
 				$items[$url] = array($prefix, $title, $suffix, 'article', $icon);

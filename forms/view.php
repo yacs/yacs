@@ -586,7 +586,7 @@ if($with_form) {
 	$context['text'] .= $text;
 
 	// referrals, if any
-	$context['aside']['referrals'] =& Skin::build_referrals(Forms::get_url($item['id']));
+	$context['components']['referrals'] =& Skin::build_referrals(Forms::get_url($item['id']));
 }
 
 // render the skin

@@ -382,7 +382,7 @@ if(!isset($item['id'])) {
 	
 				// recipients
 				$label = i18n::s('Who do you want to involve?');
-				$input = '<textarea name="id" id="id" rows="3" style="width: 70%"></textarea><div id="id_choice" class="autocomplete"></div>';
+				$input = '<textarea name="id" id="id" rows="3" cols="50"></textarea><div id="id_choice" class="autocomplete"></div>';
 				$text .= '<p>'.$label.BR.$input.'</p>';
 	
 			// engage the browsed surfer
@@ -391,7 +391,7 @@ if(!isset($item['id'])) {
 	
 			// thread first contribution
 			$label = i18n::s('Provide context, and start the conversation');
-			$input = '<textarea name="message" rows="2" style="width: 70%" onfocus="Yacs.grow_panel(this);"></textarea>';
+			$input = '<textarea name="message" rows="2" cols="50" onfocus="Yacs.grow_panel(this);"></textarea>';
 			$text .= '<p>'.$label.BR.$input.'</p>';
 	
 			// uploads are allowed
@@ -888,15 +888,15 @@ if(!isset($item['id'])) {
 	}
 
 	// user profile aside
-	$context['aside']['profile'] = Skin::build_profile($item, 'extra');
+	$context['components']['profile'] = Skin::build_profile($item, 'extra');
 
 	// add extra information from the overlay, if any
 	if(is_object($overlay))
-		$context['aside']['overlay'] = $overlay->get_text('extra', $item);
+		$context['components']['overlay'] = $overlay->get_text('extra', $item);
 
 	// add extra information from this item, if any
 	if(isset($item['extra']) && $item['extra'])
-		$context['aside']['boxes'] = Codes::beautify_extra($item['extra']);
+		$context['components']['boxes'] = Codes::beautify_extra($item['extra']);
 
 	// 'Share' box
 	//
@@ -916,7 +916,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['aside']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
+		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
 
 	// 'Information channels' box
 	//
@@ -949,10 +949,10 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['aside']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feed');
+		$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feed');
 
 	// more boxes
-	$context['aside']['boxes'] = '';
+	$context['components']['boxes'] = '';
 		
 	// categories attached to this item, if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'categories')) {
@@ -975,12 +975,12 @@ if(!isset($item['id'])) {
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		if($box['text'])
-			$context['aside']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'navigation', 'categories');
+			$context['components']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'navigation', 'categories');
 
 	}
 
 	// referrals, if any
-	$context['aside']['referrals'] =& Skin::build_referrals(Users::get_url($item['id']));
+	$context['components']['referrals'] =& Skin::build_referrals(Users::get_url($item['id']));
 
 }
 

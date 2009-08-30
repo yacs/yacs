@@ -52,7 +52,6 @@ if(!$anchor = Sections::lookup('threads')) {
 	$fields['locked'] = 'N'; // no direct contributions
 	$fields['home_panel'] = 'none'; // content is not pushed at the front page
 	$fields['index_map'] = 'N'; // this is a special section
-	$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 	$fields['articles_layout'] = 'yabb'; // these are threads
 	$fields['content_options'] = 'with_deletions with_export_tools'; // allow editors to delete pages here
 	$fields['maximum_items'] = 20000; // limit the overall number of threads

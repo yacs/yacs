@@ -82,22 +82,14 @@ if(!Surfer::is_associate()) {
 		$context['page_menu'] += Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page);
 	}
 
-	// seek the database
-	$cache_id = 'actions/index.php#actions_by_date#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+	// query the database and layout that stuff
+	$offset = ($page - 1) * $items_per_page;
+	if($text = Actions::list_by_date($offset, $items_per_page, 'full')) {
 
-		// query the database and layout that stuff
-		$offset = ($page - 1) * $items_per_page;
-		if($text = Actions::list_by_date($offset, $items_per_page, 'full')) {
+		// we have an array to format
+		if(is_array($text))
+			$text =& Skin::build_list($text, 'decorated');
 
-			// we have an array to format
-			if(is_array($text))
-				$text =& Skin::build_list($text, 'decorated');
-
-		}
-
-		// cache this to speed subsequent queries
-		Cache::put($cache_id, $text, 'actions');
 	}
 	$context['text'] .= $text;
 
@@ -115,10 +107,10 @@ if(!$text =& Cache::get($cache_id)) {
 
 	Cache::put($cache_id, $text, 'articles');
 }
-$context['aside']['boxes'] = $text;
+$context['components']['boxes'] = $text;
 
 // referrals, if any
-$context['aside']['referrals'] = Skin::build_referrals('actions/index.php');
+$context['components']['referrals'] = Skin::build_referrals('actions/index.php');
 
 // render the skin
 render_skin();

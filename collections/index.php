@@ -92,7 +92,7 @@ if(Surfer::is_associate())
 	$context['page_tools'][] = Skin::build_link('collections/configure.php', i18n::s('Configure'), 'basic');
 
 // referrals, if any
-$context['aside']['referrals'] = Skin::build_referrals('collections/index.php');
+$context['components']['referrals'] = Skin::build_referrals('collections/index.php');
 
 // render the skin
 render_skin();

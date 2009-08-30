@@ -1,6 +1,6 @@
 <?php
 /**
- * delegate ownership of a section
+ * set section owner
  *
  * This script allows to transfer ownership of a section to another person.
  *
@@ -9,8 +9,8 @@
  * - permission denied is the default
  *
  * Accepted calls:
- * - delegate.php/&lt;id&gt;
- * - delegate.php?id=&lt;id&gt;
+ * - own.php/&lt;id&gt;
+ * - own.php?id=&lt;id&gt;
  *
  * @author Bernard Paques
  * @reference
@@ -55,7 +55,7 @@ if(is_object($anchor))
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
+	$context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
 if(isset($item['id']) && isset($item['title']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title']));
 

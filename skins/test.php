@@ -130,6 +130,9 @@ if(isset($skin) && Surfer::is_associate())
 // $context['page_publisher'] - the publisher
 $context['page_publisher'] = 'webmaestro again, still through some PHP script';
 
+// page tags
+$context['page_tags'] = i18n::s('tag 1, tag 2');
+
 // $context['page_title'] - the title of the page
 $context['page_title'] = i18n::s('Theme test');
 

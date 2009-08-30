@@ -342,13 +342,13 @@ if($search && ($page == 1)) {
 }
 
 // general help on this page
-$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), i18n::s('This search engine only display pages that have all words in it. <p>Also, only exact matches will be listed. Therefore "category" and "categories" won\'t give the same results. Note that "red" and "reds" may also give different results.</p>'), 'navigation', 'help');
+$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), i18n::s('This search engine only display pages that have all words in it. <p>Also, only exact matches will be listed. Therefore "category" and "categories" won\'t give the same results. Note that "red" and "reds" may also give different results.</p>'), 'navigation', 'help');
 
 // how to stay tuned
 $lines = array();
 if($search)
 	$lines[] = Skin::build_link('services/search.php?search='.urlencode($search), i18n::s('Matching pages'), 'xml');
-$context['aside']['boxes'] .= Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feeds');
+$context['components']['boxes'] .= Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feeds');
 
 // side bar with the list of most recent keywords
 $cache_id = 'search.php#keywords_by_date';
@@ -358,7 +358,7 @@ if(!$text =& Cache::get($cache_id)) {
 		$text =& Skin::build_box(i18n::s('Recent searches'), Skin::build_list($items, 'compact'), 'extra');
 	Cache::put($cache_id, $text, 'categories');
 }
-$context['aside']['boxes'] .= $text;
+$context['components']['boxes'] .= $text;
 
 // render the skin
 render_skin();

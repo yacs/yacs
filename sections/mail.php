@@ -1,25 +1,22 @@
 <?php
 /**
- * send a message to section editors
+ * send a message to section participants
  *
  * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
  *
  * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
  *
  * Surfer signature is appended to the message, if any.
- * Else a default signature is used instead, with a link to the front page of the web server.
+ * Else a default signature is used instead, with a link to the site front page.
  *
  * Senders can select to get a copy of messages.
  *
- * Messages are sent using utf-8, and are base64-encoded.
+ * Messages are sent using utf-8, and are either base64-encoded, or send as-is.
  *
  * @link http://www.sitepoint.com/article/advanced-email-php/3 Advanced email in PHP
  *
- * At the moment only associates and section editor are allowed to send messages
- * to section editors.
- *
  * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
- * of YACS runs in demonstration mode, and the message is not actually posted.
+ * of YACS runs in demonstration mode, and no message is actually posted.
  *
  * Accepted calls:
  * - mail.php/&lt;id&gt;
@@ -34,7 +31,7 @@
 include_once '../shared/global.php';
 
 // look for the id
-$id = NULL;
+$id = '';
 if(isset($_REQUEST['id']))
 	$id = $_REQUEST['id'];
 elseif(isset($context['arguments'][0]))
@@ -46,15 +43,23 @@ $item =& Sections::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
-if(isset($item['anchor']) && $item['anchor'])
+if(isset($item['anchor']))
 	$anchor =& Anchors::get($item['anchor']);
 
-// editors have associate-like capabilities
-if((isset($item['id']) && Sections::is_assigned($item['id']) && Surfer::is_member()) || (is_object($anchor) && $anchor->is_editable()))
-	Surfer::empower();
+// we are using surfer own address
+if(!Surfer::get_email_address())
+	$permitted = FALSE;
 
-// associates and editors can proceed
-if(Surfer::is_empowered())
+// associates can proceed
+elseif(Surfer::is_associate())
+	$permitted = TRUE;
+
+// section editors can proceed
+elseif(is_object($anchor) && $anchor->is_editable())
+	$permitted = TRUE;
+
+// section editors can proceed
+elseif(isset($item['id']) && Sections::is_assigned($item['id']))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -64,17 +69,21 @@ else
 // load the skin, maybe with a variant
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
-// the path to this page
-if(is_object($anchor) && $anchor->is_viewable())
+// clear the tab we are in, if any
+if(is_object($anchor))
+	$context['current_focus'] = $anchor->get_focus();
+
+// path to this page
+if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'sections/' => i18n::s('sections') );
+	$context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
 
-if($item['id'] && $item['title'])
+if(isset($item['id']) && $item['title'])
 	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title'] ));
 
-// the title of the page
-$context['page_title'] .= i18n::s('Send a message');
+// page title
+$context['page_title'] = i18n::s('Send a message');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -109,7 +118,7 @@ if(Surfer::is_crawler()) {
 
 // no recipient has been found
 } elseif((!$recipients =& Members::list_users_by_posts_for_member('section:'.$item['id'], 0, 200, 'mail', 'user:'.Surfer::get_id())) || !count($recipients))
-	Logger::error(i18n::s('No recipient has been defined.'));
+	Logger::error(i18n::s('No recipient has been found.'));
 
 // process submitted data
 elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {

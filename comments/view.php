@@ -215,7 +215,7 @@ if(!isset($item['id'])) {
 	//
 	// the referrals, if any, in a sidebar
 	//
-	$context['aside']['referrals'] =& Skin::build_referrals(Comments::get_url($item['id']));
+	$context['components']['referrals'] =& Skin::build_referrals(Comments::get_url($item['id']));
 
 }
 

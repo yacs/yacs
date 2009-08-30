@@ -103,7 +103,7 @@ if(Surfer::is_crawler()) {
 
 // no recipient has been found
 } elseif((!$recipients =& Members::list_users_by_posts_for_anchor('category:'.$item['id'], 0, 200, 'mail')) || !count($recipients))
-	Logger::error(i18n::s('No recipient has been defined.'));
+	Logger::error(i18n::s('No recipient has been found.'));
 
 // process submitted data
 elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {

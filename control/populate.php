@@ -253,7 +253,6 @@ if(!$permitted) {
 		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		$fields['content_options'] = 'auto_publish'; // ease the job of newbies
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
@@ -289,7 +288,6 @@ if(!$permitted) {
 		$fields['home_panel'] = 'extra_boxes'; // one extra box per article at the front page
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -308,7 +306,6 @@ if(!$permitted) {
 		$fields['home_panel'] = 'gadget_boxes'; // one gadget box per article at the front page
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -325,7 +322,6 @@ if(!$permitted) {
 		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		$fields['rank'] = '1000'; // before other special sections
 		$fields['content_options'] = 'auto_publish'; // these will be reviewed anyway
 		if(Sections::post($fields))
@@ -346,7 +342,6 @@ if(!$permitted) {
 		$fields['home_panel'] = 'none'; // special processing everywhere -- see skins/<skin>/template.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else
@@ -366,7 +361,6 @@ if(!$permitted) {
 		$fields['home_panel'] = 'none'; // special processing everywhere -- see skins/<skin>/template.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		$fields['rank'] = '20000'; // pushed at the end
 		if($processed_id = Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
@@ -387,7 +381,6 @@ if(!$permitted) {
 		$fields['home_panel'] = 'none'; // special processing everywhere -- see skins/<skin>/template.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		if($processed_id)
 			$fields['behaviors'] = 'move_on_article_access '.$processed_id; // a basic workflow
 		$fields['content_options'] = 'auto_publish'; // these will be reviewed anyway
@@ -409,7 +402,6 @@ if(!$permitted) {
 		$fields['home_panel'] = 'none'; // special processing everywhere -- see skins/<skin>/template.php
 		$fields['index_map'] = 'N'; // listed with special sections
 		$fields['locked'] = 'Y'; // only associates can contribute
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		$fields['content_options'] = 'auto_publish'; // these will be reviewed anyway
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
@@ -428,7 +420,6 @@ if(!$permitted) {
 		$fields['locked'] = 'N'; // no direct contributions
 		$fields['home_panel'] = 'none'; // content is not pushed at the front page
 		$fields['index_map'] = 'N'; // this is a special section
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		$fields['articles_layout'] = 'yabb'; // these are threads
 		$fields['content_options'] = 'with_deletions with_export_tools'; // allow editors to delete pages here
 		$fields['maximum_items'] = 20000; // limit the overall number of threads

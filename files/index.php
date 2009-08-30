@@ -114,7 +114,7 @@ if(Surfer::is_associate()) {
 // get news from rss
 $title = i18n::s('Podcast');
 $label = sprintf(i18n::s('You can list new public files through RSS by going %s'), Skin::build_link(Feeds::get_url('files'), 'here', 'xml'));
-$context['aside']['channels'] = Skin::build_box($title, $label, 'extra');
+$context['components']['channels'] = Skin::build_box($title, $label, 'extra');
 
 // page extra content
 $cache_id = 'files/index.php#extra';
@@ -142,10 +142,10 @@ if(!$text =& Cache::get($cache_id)) {
 	// cache, whatever change, for 5 minutes
 	Cache::put($cache_id, $text, 'stable', 300);
 }
-$context['aside']['boxes'] = $text;
+$context['components']['boxes'] = $text;
 
 // referrals, if any
-$context['aside']['referrals'] = Skin::build_referrals('files/index.php');
+$context['components']['referrals'] = Skin::build_referrals('files/index.php');
 
 // render the skin
 render_skin();

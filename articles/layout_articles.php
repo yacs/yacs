@@ -192,9 +192,9 @@ Class Layout_articles extends Layout_interface {
 			// at the user page
 			if(($this->layout_variant == 'no_author') && Surfer::get_id()) {
 				if(Members::check('article:'.$item['id'], 'user:'.Surfer::get_id()))
-					$label = i18n::s('Forget');
+					$label = i18n::s('Forget this page');
 				else
-					$label = i18n::s('Watch');
+					$label = i18n::s('Watch this page');
 				$menu = array( 'users/track.php?anchor='.urlencode('article:'.$item['id']) => $label );
 				$details [] = Skin::build_list($menu, 'menu');
 			}
@@ -235,21 +235,8 @@ Class Layout_articles extends Layout_interface {
 				$icon = $item['thumbnail_url'];
 
 			// or inherit from the anchor
-			elseif(is_object($anchor)) {
-
-				// we are listing articles in the anchor page - use the anchor bullet
-				if($this->layout_variant == $anchor->get_reference()) {
-					$icon = $anchor->get_bullet_url();
-
-				// we are listing articles in a page that has a specific bullet - use it
-				} elseif(strpos(':', $this->layout_variant) && ($bulleted =& Anchors::get($this->layout_variant))) {
-					$icon = $bulleted->get_bullet_url();
-
-				// use anchor thumbnail
-				} else
-					$icon = $anchor->get_thumbnail_url();
-
-			}
+			elseif(is_object($anchor))
+				$icon = $anchor->get_thumbnail_url();
 
 			// list all components for this item
 			$items[$url] = array($prefix, $title, $suffix, 'article', $icon);

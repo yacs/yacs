@@ -57,10 +57,10 @@ if(!$text =& Cache::get($cache_id)) {
 	// save for later use
 	Cache::put($cache_id, $text, 'articles');
 }
-$context['aside']['boxes'] = $text;
+$context['components']['boxes'] = $text;
 
 // referrals, if any
-$context['aside']['referrals'] =& Skin::build_referrals('categories/cloud.php');
+$context['components']['referrals'] =& Skin::build_referrals('categories/cloud.php');
 
 // render the skin
 render_skin();

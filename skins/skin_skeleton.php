@@ -3019,9 +3019,10 @@ Class Skin_Skeleton {
 	 * finalize context before page rendering
 	 *
 	 * This function is used to finalize the $context array before actual page rendering.
-	 * You can overlay this function in your skin to add content to $context['aside'] and then
-	 * change configuration parameters skins_extra_components and skins_navigation_components
-	 * to have these components taken into account by the rendering engine.
+	 * You can overlay this function in your skin to populate $context['components'] and then
+	 * use the configuration panel for the rendering factory to have these taken into account by yacs.
+	 *
+	 * @see skins/configure.php
 	 *
 	 */
 	function finalize_context() {

@@ -823,7 +823,7 @@ if(!$text =& Cache::get($cache_id)) {
 }
 
 // news
-$context['aside']['news'] = $text;
+$context['components']['news'] = $text;
 
 // save some database requests
 $cache_id = 'index.php#extra';
@@ -1004,11 +1004,11 @@ if(!$text =& Cache::get($cache_id)) {
 }
 
 // page extra content
-$context['aside']['boxes'] = $text;
+$context['components']['boxes'] = $text;
 
 // referrals, if any
 if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y')))
-	$context['aside']['referrals'] =& Skin::build_referrals('index.php');
+	$context['components']['referrals'] =& Skin::build_referrals('index.php');
 	
 //
 // compute navigation information -- $context['navigation']

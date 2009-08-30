@@ -276,7 +276,7 @@ elseif(!Surfer::is_associate()) {
 
 	// help box
 	$help = '<p>'.i18n::s('Use this page to configure agents, that is, scripts executed in the background without any human interaction.')."</p>\n";
-	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra');
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {

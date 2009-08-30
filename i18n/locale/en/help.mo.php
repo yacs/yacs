@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 26, 2009, 3:27 pm GMT. Please do not modify it manually.
+ * on August 30, 2009, 10:54 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 16:54+0200
+POT-Creation-Date: 2009-08-30 23:09+0200
 PO-Revision-Date: 2009-08-26 17:24+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -111,13 +111,11 @@ $_SESSION['l10n']['en']['efa831972565ad7edc0ed22fa70148da']='Browse %s to look f
 $_SESSION['l10n']['en']['Categories']='Categories';
 $_SESSION['l10n']['en']['a225f280790879a5cf526aacf3d83cac']='Change the value of the ranking field to prioritize partners.';
 $_SESSION['l10n']['en']['Check the new forum']='Check the new forum';
-$_SESSION['l10n']['en']['Check the updated Site Map']='Check the updated Site Map';
 $_SESSION['l10n']['en']['efd5c51c4c0368779ba4a1cc048f29fa']='Click on file names to transfer them to your workstation, or to start a Video-on-demand session.';
 $_SESSION['l10n']['en']['Collection nick name']='Collection nick name';
 $_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';
 $_SESSION['l10n']['en']['Companion sections']='Companion sections';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
-$_SESSION['l10n']['en']['Configure the page factory']='Configure the page factory';
 $_SESSION['l10n']['en']['8c68013ff17b0314c06d5fcacd1a5eda']='Congratulations, you have shared new content.';
 $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
 $_SESSION['l10n']['en']['b31f986e3a16349b6e7673205f455be3']='Content of this section should be:';
@@ -169,7 +167,6 @@ $_SESSION['l10n']['en']['367a1658352808bf926cc514380f1c5e']='Only associates and
 $_SESSION['l10n']['en']['Original pages']='Original pages';
 $_SESSION['l10n']['en']['Our collaborative place']='Our collaborative place';
 $_SESSION['l10n']['en']['Our wiki']='Our wiki';
-$_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['Partners']='Partners';
 $_SESSION['l10n']['en']['db558d12594d8c00541ccd6b3b801561']='Partners are listed at the front page, in a scrollable area.';
 $_SESSION['l10n']['en']['Path prefix']='Path prefix';
@@ -192,7 +189,6 @@ $_SESSION['l10n']['en']['Read, learn, and react!']='Read, learn, and react!';
 $_SESSION['l10n']['en']['Register']='Register';
 $_SESSION['l10n']['en']['d59af9dd2b9c79ec18a890303d5aa4b3']='Registered members of this site may start a thread on any subject here. Use this forum either to ask for support, or to share new ideas with other members of the community. Pages posted in the forum benefit from the full power of YACS, including the ability to create polls, to upload files and to attach links.';
 $_SESSION['l10n']['en']['20768c3050eb6163ee8e33e9e8174e5a']='Repeat the same string in successive boards that have to be grouped in the forum.';
-$_SESSION['l10n']['en']['8e8eb648edb57efc53bb3a619f5bd494']='Review provided information and go to the bottom of the page to move forward.';
 $_SESSION['l10n']['en']['Review submitted articles']='Review submitted articles';
 $_SESSION['l10n']['en']['Review your profile']='Review your profile';
 $_SESSION['l10n']['en']['Sample box']='Sample box';
@@ -201,7 +197,6 @@ $_SESSION['l10n']['en']['Section']='Section';
 $_SESSION['l10n']['en']['Section #%d']='Section #%d';
 $_SESSION['l10n']['en']['Section anchor']='Section anchor';
 $_SESSION['l10n']['en']['Section title']='Section title';
-$_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['Selected shortcuts']='Selected shortcuts';
 $_SESSION['l10n']['en']['Server software']='Server software';
 $_SESSION['l10n']['en']['Servers']='Servers';

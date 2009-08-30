@@ -769,7 +769,7 @@ $context['text'] .= Skin::table_suffix();
 $context['text'] = Codes::beautify($context['text']);
 
 // referrals, if any
-$context['aside']['referrals'] =& Skin::build_referrals('smileys/index.php');
+$context['components']['referrals'] =& Skin::build_referrals('smileys/index.php');
 
 // render the skin
 render_skin();

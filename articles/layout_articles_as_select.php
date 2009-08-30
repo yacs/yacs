@@ -61,8 +61,7 @@ Class Layout_articles_as_select extends Layout_interface {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// reset the rendering engine between items
-		if(is_callable(array('Codes', 'initialize')))
-			Codes::initialize(Articles::get_permalink($item));
+		Codes::initialize(Articles::get_permalink($item));
 
 		// initialize variables
 		$prefix = $suffix = $icon = '';

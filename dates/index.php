@@ -79,7 +79,7 @@ if((!isset($context['skins_general_without_feed']) || ($context['skins_general_w
 	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
 		$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].'dates/fetch_ics.php', $context['site_name']));
 		
-	$context['aside']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feeds');
+	$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feeds');
 
 }
 
@@ -94,10 +94,10 @@ if(!$text =& Cache::get($cache_id)) {
 
 	Cache::put($cache_id, $text, 'articles');
 }
-$context['aside']['boxes'] = $text;
+$context['components']['boxes'] = $text;
 
 // referrals, if any
-$context['aside']['referrals'] = Skin::build_referrals('dates/index.php');
+$context['components']['referrals'] = Skin::build_referrals('dates/index.php');
 
 // render the skin
 render_skin();

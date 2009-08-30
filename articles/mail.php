@@ -1,11 +1,6 @@
 <?php
 /**
- * mail an article
- *
- * This script has a form to post a mail message related to an existing page.
- *
- * When a message is sent to invited people, these may, or not, be part of
- * the community.
+ * send a message to article participants
  *
  * Long lines of the message are wrapped according to [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
  *
@@ -20,20 +15,10 @@
  *
  * @link http://www.sitepoint.com/article/advanced-email-php/3 Advanced email in PHP
  *
- * Restrictions apply on this page:
- * - surfer has to have an e-mail address
- * - associates and editors are allowed to move forward
- * - permission is denied if the anchor is not viewable
- * - article is restricted ('active' field == 'R'), but the surfer is an authenticated member
- * - public access is allowed ('active' field == 'Y'), and the surfer has been authenticated
- * - permission denied is the default
- *
  * If the file [code]parameters/demo.flag[/code] exists, the script assumes that this instance
  * of YACS runs in demonstration mode, and no message is actually posted.
  *
  * Accepted calls:
- * - mail.php/&lt;id&gt;
- * - mail.php?id=&lt;id&gt;
  * - mail.php/&lt;id&gt;
  * - mail.php?id=&lt;id&gt;
  *
@@ -72,46 +57,20 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
-// associates can do what they want
-if(Surfer::is_associate())
-	Surfer::empower();
-
-// anchor editors can do what they want
-elseif(is_object($anchor) && $anchor->is_assigned())
-	Surfer::empower();
-
-// surfer created the page
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
-	Surfer::empower();
-
-// link to contribute
-if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y'))
-	$link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id']); // to be expanded to credentials
-else
-	$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
-
-// message prefix
-if(isset($item['create_id']) && Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
-	$message_prefix = i18n::s('I have created a web page and would like you to check it, at the following address.')
-		."\n\n".$link."\n\n";
-else
-	$message_prefix = i18n::s('You are invited personally to check the following page.')
-		."\n\n".$link."\n\n";
-
 // we are using surfer own address
 if(!Surfer::get_email_address())
 	$permitted = FALSE;
 
-// associates and editors can do what they want
-elseif(Surfer::is_empowered())
+// associates can proceed
+elseif(Surfer::is_associate())
 	$permitted = TRUE;
 
-// function is available only to authenticated members --not subscribers
-elseif(!Surfer::is_member())
-	$permitted = FALSE;
+// section editors can proceed
+elseif(is_object($anchor) && $anchor->is_editable())
+	$permitted = TRUE;
 
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && $anchor->is_viewable())
+// article editors can proceed
+elseif(isset($item['id']) && Articles::is_assigned($item['id']))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -130,12 +89,12 @@ if(is_object($anchor))
 	$context['path_bar'] = $anchor->get_path_bar();
 else
 	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
-if(isset($item['id']))
+	
+if(isset($item['id']) && $item['title'])
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
 
 // page title
-if(isset($item['title']))
-	$context['page_title'] = sprintf(i18n::s('Share: %s'), $item['title']);
+$context['page_title'] = i18n::s('Send a message');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -169,25 +128,27 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
 // no recipient has been found
-} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && (!isset($_REQUEST['to']) || !$_REQUEST['to'])) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('Please provide a recipient address.'));
+} elseif((!$recipients =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, 200, 'mail', 'user:'.Surfer::get_id())) || !count($recipients))
+	Logger::error(i18n::s('No recipient has been found.'));
 
 // process submitted data
-} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
+elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// sender address
 	$from = Surfer::get_email_address();
 
 	// recipient(s) address(es)
-	$to = '';
-	if(isset($_REQUEST['to']))
-		$to = strip_tags($_REQUEST['to']);
-	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y')) {
-		if($to)
-			$to .= ', ';
-		$to .= $from;
+	$to = array();
+	foreach($recipients as $address => $label) {
+		if($label)
+			$to[] = '"'.$label.'" <'.$address.'>';
+		else
+			$to[] = $address;
 	}
+
+	// get a copy
+	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y') && $from)
+		$to[] = '"'.Surfer::get_name().'" <'.$from.'>';
 
 	// message subject
 	$subject = '';
@@ -195,9 +156,9 @@ if(Surfer::is_crawler()) {
 		$subject = strip_tags($_REQUEST['subject']);
 
 	// message body
-	$message = $message_prefix;
+	$message = '';
 	if(isset($_REQUEST['message']))
-		$message .= strip_tags($_REQUEST['message']);
+		$message = strip_tags($_REQUEST['message']);
 
 	// add a tail to the sent message
 	if($message) {
@@ -209,7 +170,7 @@ if(Surfer::is_crawler()) {
 
 		// else use default signature
 		else
-			$signature = sprintf(i18n::s('Visit %s to get more interesting pages.'), $context['url_to_home'].$context['url_to_root']);
+			$signature = sprintf(i18n::c('Visit %s to get more interesting pages.'), $context['url_to_home'].$context['url_to_root']);
 
 		// transform YACS code, if any
 		if(is_callable('Codes', 'render'))
@@ -224,126 +185,54 @@ if(Surfer::is_crawler()) {
 
 	}
 
-	// make an array of recipients
-	if(!is_array($to))
-		$to = explode(',', $to);
-
-	// process every recipient
+	// send the message
 	include_once $context['path_to_root'].'shared/mailer.php';
-	$posts = 0;
-	$actual_names = array();
-	foreach($to as $recipient) {
-		$recipient = trim($recipient);
+	if(Mailer::post($from, $to, $subject, $message)) {
 
-		// we have a valid e-mail address
-		if(preg_match('/\w+@\w+\.\w+/', $recipient)) {
-			if(strcmp($recipient, $from))
-				$actual_names[] = $recipient;
-		
-		// look for a user with this nick name
-		} elseif(($user =& Users::get($recipient)) && $user['email']) {
-			$recipient = $user['email'];
-			if(!strcmp($user['email'], $from))
-				;
-			elseif($user['full_name'])
-				$actual_names[] = $user['full_name'];
-			else
-				$actual_names[] = $user['nick_name'];
+		// feed-back to the sender
+		$context['text'] .= '<p>'.i18n::s('A message has been sent to:')."</p>\n".'<ul>'."\n";
+		foreach($to as $address)
+			$context['text'] .= '<li>'.encode_field($address).'</li>'."\n";
+		$context['text'] .= '</ul>'."\n";
 
-		// skip this recipient
-		} else {
-			Logger::error(sprintf(i18n::s('Error while sending the message to %s'), $recipient));
-			continue;
-		}
+		// back to the section page
+		$menu = array();
+		$menu[] = Skin::build_link(Articles::get_permalink($item), $item['title'], 'span');
+		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
-		// clean the provided string
-		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
-
-		// extract the actual e-mail address -- Foo Bar <foo@bar.com> => foo@bar.com
-		$tokens = explode(' ', $recipient);
-		$actual_recipient = trim(str_replace(array('<', '>'), '', $tokens[count($tokens)-1]));
-
-		// add credentials in message
-		if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y')) {
-
-			// build credentials --see users/login.php
-			$credentials = array();
-			$credentials[0] = 'visit';
-			$credentials[1] = 'article:'.$item['id'];
-			$credentials[2] = $actual_recipient;
-			$credentials[3] = sprintf('%u', crc32($actual_recipient.':'.$item['handle']));
-
-			// the secret link
-			$link = Users::get_url($credentials, 'credentials');
-
-			// translate strings to allow for one-click authentication
-			$actual_message = str_replace(Articles::get_url($item['id']), $link, $message); // integrate credentials
-
-		// regular message
-		} else
-			$actual_message = $message;
-
-		// change content for message poster
-		if(!strcmp($recipient, $from)) {
-			$actual_message = i18n::s('This is a copy of the message you have sent, for your own record.')."\n".'-------'."\n".join(', ', $actual_names)."\n".'-------'."\n\n".$actual_message;
-		}
-
-		// post it
-		if(Mailer::post($from, $actual_recipient, $subject, $actual_message))
-			$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), strip_tags($recipient)).'</p>';
 	}
 	Mailer::close();
 
-	// follow-up commands
-	$follow_up = i18n::s('What do you want to do now?');
-	$menu = array();
-	$menu = array_merge($menu, array(Articles::get_permalink($item) => i18n::s('Back to main page')));
-	$menu = array_merge($menu, array(Articles::get_url($item['id'], 'mail') => i18n::s('Invite people')));
-	$follow_up .= Skin::build_list($menu, 'menu_bar');
-	$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-// a form to send an invitation to several people
+// display the form
 } else {
+
+	// the list of recipients
+	$display = '';
+	foreach($recipients as $address => $label) {
+		if($display)
+			$display .= ', ';
+		if($label)
+			$display .= '"'.$label.'" &lt;'.$address.'&gt;';
+		else
+			$display .= $address;
+	}
+
+	// header
+	$context['text'] .= i18n::s('You are sending a message to:')
+		.'<div style="height: 5em; max-height: 5em; overflow: auto; border: 1px dotted #ccc; margin: 0 auto 1em 0">'.$display.'</div>'."\n";
 
 	// the form to send a message
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
-	$fields = array();
-
-	// recipients
-	$label = i18n::s('Invite people');
-	$input = '';
-	if(Surfer::is_empowered()) {
-		// share a private page
- 		if($item['active'] == 'N')
-			$input .= '<input type="radio" name="provide_credentials" value="Y" checked="checked" /> '.i18n::s('to manage content').BR;
-
-		// page can be accessed by many people
-		else
-			$input .= '<input type="radio" name="provide_credentials" value="N" checked="checked" /> '.i18n::s('to review content')
-				.' &nbsp; <input type="radio" name="provide_credentials" value="Y" /> '.i18n::s('to manage content').BR;
-	}
-	$input .= '<textarea name="to" id="names" rows="3" cols="50"></textarea><div id="names_choices" class="autocomplete"></div>';
-	$hint = i18n::s('Enter nick names, or email addresses, separated by commas.');
-	$fields[] = array($label, $input, $hint);
 
 	// the subject
 	$label = i18n::s('Message title');
-	$title = '';
-	if($name = Surfer::get_name())
-		$title = sprintf(i18n::s('Invitation: %s'), $item['title']);
-	$input = '<input type="text" name="subject" size="50" maxlength="255" value="'.encode_field($title).'" />';
-	$fields[] = array($label, $input);
-
-	// message author
-	$author = Surfer::get_name();
-	if($author_id = Surfer::get_id())
-		$author .= "\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($author_id, 'view', Surfer::get_name());
+	$input = '<input type="text" name="subject" id="subject" size="70" />';
+	$hint = i18n::s('Please provide a meaningful title.');
+	$fields[] = array($label, $input, $hint);
 
 	// the message
 	$label = i18n::s('Message content');
-	$content = i18n::s('Please let me thank you for your kind support.')."\n\n".$author;
-	$input = str_replace("\n", BR, $message_prefix)
-		.'<textarea name="message" rows="15" cols="50">'.encode_field($content).'</textarea>';
+	$input = '<textarea name="message" rows="15" cols="50"></textarea>';
 	$hint = i18n::s('Use only plain ASCII, no HTML.');
 	$fields[] = array($label, $input, $hint);
 
@@ -356,7 +245,7 @@ if(Surfer::is_crawler()) {
 	$menu = array();
 
 	// the submit button
-	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+	$menu[] = Skin::build_submit_button(i18n::s('Send'), i18n::s('Press [s] to submit data'), 's');
 
 	// cancel button
 	if(isset($item['id']))
@@ -379,13 +268,6 @@ if(Surfer::is_crawler()) {
 		.'// check that main fields are not empty'."\n"
 		.'func'.'tion validateDocumentPost(container) {'."\n"
 		."\n"
-		.'	// to is mandatory'."\n"
-		.'	if(!container.to.value) {'."\n"
-		.'		alert("'.i18n::s('Please provide a recipient address.').'");'."\n"
-		.'		Yacs.stopWorking();'."\n"
-		.'		return false;'."\n"
-		.'	}'."\n"
-		."\n"
 		.'	// title is mandatory'."\n"
 		.'	if(!container.subject.value) {'."\n"
 		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
@@ -395,7 +277,7 @@ if(Surfer::is_crawler()) {
 		."\n"
 		.'	// body is mandatory'."\n"
 		.'	if(!container.message.value) {'."\n"
-		.'		alert("'.i18n::s('Message content can not be empty.').'");'."\n"
+		.'		alert("'.i18n::s('Message content can not be empty').'");'."\n"
 		.'		Yacs.stopWorking();'."\n"
 		.'		return false;'."\n"
 		.'	}'."\n"
@@ -405,16 +287,9 @@ if(Surfer::is_crawler()) {
 		.'}'."\n"
 		."\n"
 		.'// set the focus on first form field'."\n"
-		.'Event.observe(window, "load", function() { $("names").focus() });'."\n"
+		.'$("subject").focus();'."\n"
 		."\n"
-		."\n"
-		.'// enable autocompletion'."\n"
-		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("names", "names_choices", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
 		.JS_SUFFIX;
-
-	// help message
-	$help = '<p>'.i18n::s('Recipient addresses are used only once, to send your message, and are not stored afterwards.').'</p>';
-	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 }
 

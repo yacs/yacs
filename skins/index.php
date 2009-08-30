@@ -237,11 +237,11 @@ if(Surfer::is_associate()) {
 // how to get a skin
 if(Surfer::is_associate()) {
 	$help = '<p>'.sprintf(i18n::s('Do not attempt to modify a reference theme directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('Derive a theme'), 'shortcut')).'</p>';
-	$context['aside']['boxes'] = Skin::build_box(i18n::s('How to get a theme?'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('How to get a theme?'), $help, 'navigation', 'help');
 }
 
 // referrals, if any
-$context['aside']['referrals'] =& Skin::build_referrals('skins/index.php');
+$context['components']['referrals'] =& Skin::build_referrals('skins/index.php');
 
 // render the skin
 render_skin();

@@ -11,7 +11,6 @@ include_once $context['path_to_root'].'categories/categories.php';
  * This class implements the Anchor interface for categories.
  *
  * Following behaviour has been defined for member functions:
- * - get_bullet_url() -- reuse the section bullet url, if any
  * - get_icon_url() -- reuse the category icon url, if any
  * - get_path_bar() -- one link to the category page
  * - get_prefix() -- provides the category prefix field
@@ -32,19 +31,6 @@ include_once $context['path_to_root'].'categories/categories.php';
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 Class Category extends Anchor {
-
-	/**
-	 * get the url to display bullet images
-	 *
-	 * @return an anchor to the icon image, or NULL
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_bullet_url() {
-		if(isset($this->item['bullet_url']))
-			return $this->item['bullet_url'];
-		return NULL;
-	}
 
 	/**
 	 * get the url to display the icon for this anchor
@@ -236,8 +222,6 @@ Class Category extends Anchor {
 			if($image =& Images::get($origin)) {
 
 				if($url = Images::get_icon_href($image)) {
-					if($this->item['bullet_url'] == $url)
-						$query[] = "bullet_url = ''";
 					if($this->item['icon_url'] == $url)
 						$query[] = "icon_url = ''";
 					if($this->item['thumbnail_url'] == $url)
@@ -245,23 +229,12 @@ Class Category extends Anchor {
 				}
 
 				if($url = Images::get_thumbnail_href($image)) {
-					if($this->item['bullet_url'] == $url)
-						$query[] = "bullet_url = ''";
 					if($this->item['icon_url'] == $url)
 						$query[] = "icon_url = ''";
 					if($this->item['thumbnail_url'] == $url)
 						$query[] = "thumbnail_url = ''";
 				}
 			}
-
-		// set an existing image as the category bullet
-		} elseif($action == 'image:set_as_bullet') {
-			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
-				if($url = Images::get_icon_href($image))
-					$query[] = "bullet_url = '".SQL::escape($url)."'";
-			}
-			$silently = TRUE;
 
 		// set an existing image as the category icon
 		} elseif($action == 'image:set_as_icon') {

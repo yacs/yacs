@@ -382,7 +382,7 @@ Class Images {
 		global $context;
 
 		// check the target action
-		if(!preg_match('/^(delete|edit|set_as_bullet|set_as_icon|set_as_thumbnail|view)$/', $action))
+		if(!preg_match('/^(delete|edit|set_as_icon|set_as_thumbnail|view)$/', $action))
 			return 'images/'.$action.'.php?id='.urlencode($id);
 
 		// normalize the link

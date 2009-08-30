@@ -216,9 +216,12 @@ if(Surfer::is_crawler()) {
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		$menu = array_merge($menu, array(Sections::get_permalink($_REQUEST) => i18n::s('View the section')));
+		if(isset($_REQUEST['articles_layout']) && ($_REQUEST['articles_layout'] == 'blog'))
+			$menu = array_merge($menu, array(Sections::get_permalink($_REQUEST) => i18n::s('View the new blog')));
+		else
+			$menu = array_merge($menu, array(Sections::get_permalink($_REQUEST) => i18n::s('View the new group')));
 		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add an image')));
+			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']).'&amp;action=icon' => i18n::s('Add an image')));
 		if(preg_match('/\bwith_files\b/i', $section->item['options']) && Surfer::may_upload())
 			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Upload a file')));
 		if(preg_match('/\bwith_links\b/i', $section->item['options']))
@@ -386,7 +389,7 @@ if($with_form) {
 	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
 	$help .= '</select></p></form>';
 
-	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

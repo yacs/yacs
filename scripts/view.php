@@ -85,7 +85,7 @@ if(!$script) {
 	$context['text'] = Codes::beautify($row['content']);
 
 	// referrals, if any
-	$context['aside']['referrals'] =& Skin::build_referrals(Scripts::get_url($script));
+	$context['components']['referrals'] =& Skin::build_referrals(Scripts::get_url($script));
 
 	// update the menu bar
 	if(($script != 'todo') && ($script != 'authors') && ($script != 'testers') && ($script != 'licenses')) {

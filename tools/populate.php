@@ -325,7 +325,6 @@ if(Surfer::is_crawler()) {
 		$fields['description'] = i18n::c('Every page in this section is featured in a nice-looking calendar.');
 		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
 		$fields['index_map'] = 'Y'; // listed with regular sections
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		$fields['content_options'] = 'auto_publish'; // ease the job
 		$fields['content_overlay'] = 'day'; // calendar layout
 		$fields['articles_templates'] = 'event_template';
@@ -392,7 +391,6 @@ if(Surfer::is_crawler()) {
 		$fields['description'] = i18n::c('Every page in this section supports interactive discussion and file sharing.');
 		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
 		$fields['index_map'] = 'Y'; // listed with regular sections
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		$fields['articles_layout'] = 'map'; // list threads appropriately
 		$fields['content_options'] = 'view_as_chat'; // change the rendering script for articles
 		$fields['maximum_items'] = 1000; // limit the overall number of threads
@@ -603,7 +601,6 @@ if(Surfer::is_crawler()) {
 		$fields = array();
 		$fields['nick_name'] = 'project';
 		$fields['title'] = i18n::c('Project');
-		$fields['articles_layout'] = 'decorated';
 		$fields['introduction'] = i18n::c('Sample project web space');
 		$fields['options'] = 'view_as_tabs';
 		$fields['sections_layout'] = 'folded'; // show many articles in sections tab
@@ -649,7 +646,6 @@ if(Surfer::is_crawler()) {
 		$fields['content_options'] = 'with_extra_profile'; // put poster profile aside
 		$fields['home_panel'] = 'none'; // special processing at the front page -- see index.php
 		$fields['introduction'] = i18n::c('For project members only');
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['nick_name']).BR."\n";
 		else

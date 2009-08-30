@@ -520,7 +520,6 @@ if(!Surfer::is_associate()) {
 		$fields['home_panel'] = 'none'; // content is not pushed at the front page
 		$fields['index_map'] = 'N'; // this is a special section
 		$fields['rank'] = 30000; // at the end of the list
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 
 		// reference the new section
 		if($fields['id'] = Sections::post($fields))

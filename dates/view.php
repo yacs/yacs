@@ -108,28 +108,22 @@ if(!isset($item['id'])) {
 	//
 	// the navigation sidebar
 	//
-	$cache_id = 'dates/view.php?id='.$item['id'].'#navigation';
-	if(!$text =& Cache::get($cache_id)) {
-
-		// buttons to display previous and next pages, if any
-		if(is_object($anchor)) {
-			$neighbours = $anchor->get_neighbours('date', $item);
-			$text .= Skin::neighbours($neighbours, 'sidebar');
-		}
-
-		// build a nice sidebar box
-		if($text)
-			$text =& Skin::build_box(i18n::s('Navigation'), $text, 'navigation', 'neighbours');
-
-		// save in cache
-		Cache::put($cache_id, $text, 'dates');
+	// buttons to display previous and next pages, if any
+	if(is_object($anchor)) {
+		$neighbours = $anchor->get_neighbours('date', $item);
+		$text .= Skin::neighbours($neighbours, 'sidebar');
 	}
-	$context['aside']['neighbours'] = $text;
+
+	// build a nice sidebar box
+	if($text)
+		$text =& Skin::build_box(i18n::s('Navigation'), $text, 'navigation', 'neighbours');
+
+	$context['components']['neighbours'] = $text;
 
 	//
 	// the referrals, if any, in a sidebar
 	//
-	$context['aside']['referrals'] =& Skin::build_referrals(Dates::get_url($item['id']));
+	$context['components']['referrals'] =& Skin::build_referrals(Dates::get_url($item['id']));
 
 }
 

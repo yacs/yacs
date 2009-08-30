@@ -721,8 +721,6 @@ if(!$permitted) {
 			$section['anchor'] = 'section:'.$item['id'];
 			$section['title'] = $_REQUEST['news_title'];
 			$section['introduction'] = $_REQUEST['news_introduction'];
-			$section['sections_layout'] = 'none';
-			$section['articles_layout'] = 'decorated';
 			$section['index_panel'] = 'scroller';
 			$section['home_panel'] = 'none';	// new pages are not pushed at the front page
 			$section['content_options'] = 'without_rating'; // show user profiles in a side panel
@@ -747,8 +745,6 @@ if(!$permitted) {
 			$section['anchor'] = 'section:'.$item['id'];
 			$section['title'] = $_REQUEST['gadget_title'];
 			$section['introduction'] = $_REQUEST['gadget_introduction'];
-			$section['sections_layout'] = 'none';
-			$section['articles_layout'] = 'decorated';
 			$section['index_panel'] = 'gadget_boxes';
 			$section['home_panel'] = 'none';	// new pages are not pushed at the front page
 			$section['content_options'] = 'without_rating';
@@ -773,8 +769,6 @@ if(!$permitted) {
 			$section['anchor'] = 'section:'.$item['id'];
 			$section['title'] = $_REQUEST['extra_title'];
 			$section['introduction'] = $_REQUEST['extra_introduction'];
-			$section['sections_layout'] = 'none';
-			$section['articles_layout'] = 'decorated';
 			$section['index_panel'] = 'extra_boxes';
 			$section['home_panel'] = 'none';	// new pages are not pushed at the front page
 			$section['content_options'] = 'without_rating';
@@ -1346,7 +1340,6 @@ if(!$permitted) {
 		$fields['home_panel'] = 'none'; // new pages are not pushed at the front page
 		$fields['index_map'] = 'Y'; // listed with ordinary sections
 		$fields['rank'] = 50000; // towards the end of the list
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		$fields['content_options'] = 'without_rating';
 		if($fields['id'] = Sections::post($fields)) {
 
@@ -1467,7 +1460,6 @@ if(!$permitted) {
 		$fields['index_map'] = 'Y'; // listed with ordinary sections
 		$fields['overlay'] = 'poll'; // poll management
 		$fields['rank'] = 10000; // default value
-		$fields['sections_layout'] = 'none'; // prevent creation of sub-sections
 		$fields['content_options'] = 'without_rating';
 		if($fields['id'] = Sections::post($fields)) {
 
@@ -1951,7 +1943,7 @@ if(!$permitted) {
 	// the help panel
 	$help = '<p>'.i18n::s('Turn any regular section to a photo album by adding images to posted pages.').'</p>'
 		.'<p>'.i18n::s('YACS creates weekly and monthly archives automatically. No specific action is required to create these.').'</p>';
-	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 	// contribution shortcuts
 	if(Surfer::is_member()) {
@@ -1967,7 +1959,7 @@ if(!$permitted) {
 
 		$label .= '</ul>'."\n";
 
-		$context['aside']['boxes'] .= Skin::build_box(i18n::s('Shortcuts'), $label, 'navigation');
+		$context['components']['boxes'] .= Skin::build_box(i18n::s('Shortcuts'), $label, 'navigation');
 	}
 
 }

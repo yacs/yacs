@@ -42,7 +42,6 @@
  * - diff() -- visualize diffeences for some attribute
  * - get_active() -- get the active attribute
  * - get_behaviors() -- to build the stack of all behaviors
- * - get_bullet_url() -- to reuse bullets set for anchors in sub-items
  * - get_focus() -- to retrieve the contextual path in content tree
  * - get_handle() -- to control access to protected resources
  * - get_icon_url() -- to reuse icons set for anchors in sub-items
@@ -257,19 +256,6 @@ class Anchor {
 
 		// cache and return the result
 		return $this->get_behaviors_cache =& $text;
-	}
-
-	/**
-	 * get the url to load the bullet icon set for the anchor
-	 *
-	 * A common concern of modern webmaster is to apply a reduced set of icons throughout all pages.
-	 * This function is aiming to retrieve the bullet image characterizing one anchor.
-	 * To be overloaded into derivated class
-	 *
-	 * @return a valid url to be used in an <img> tag
-	 */
-	function get_bullet_url() {
-		 return NULL;
 	}
 
 	/**

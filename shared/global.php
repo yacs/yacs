@@ -61,7 +61,7 @@ if(!defined('FORBIDDEN_IN_TEASERS'))
 
 // default value for url filtering in forms
 if(!defined('FORBIDDEN_IN_URLS'))
-	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\,+%\?=\-\[\]*]+/');
+	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\^\,+%\?=\-\[\]*]+/');
 	
 // the right way to integrate javascript code
 if(!defined('JS_PREFIX'))
@@ -81,8 +81,8 @@ $context['accepted_methods'] = 'GET,HEAD,OPTIONS,POST,PUT';
 // parameters of the scripts passed in the URL, if any
 $context['arguments'] = array();
 
-// pre-built extra and navigation boxes
-$context['aside'] = array();
+// pre-built extra and navigation boxes, and other components for the page factory -- see skins/configure.php
+$context['components'] = array();
 
 // type of object produced by YACS
 $context['content_type'] = 'text/html';
@@ -173,7 +173,10 @@ $context['site_icon'] = '';
 $context['site_slogan'] = '';
 
 // components to put in the extra panel --see skins/configure.php
-$context['skins_extra_components'] = 'profile tools news overlay boxes share channels twins neighbours contextual categories bookmarklets servers download referrals visited';
+$context['skins_extra_components'] = 'tools image profile news overlay boxes share channels twins neighbours contextual categories bookmarklets servers download referrals visited';
+
+// components to put in the main panel --see skins/configure.php
+$context['skins_main_components'] = 'title error text tags details bar';
 
 // components to put in the side panel --see skins/configure.php
 $context['skins_navigation_components'] = 'menu user navigation';
@@ -907,19 +910,6 @@ function render_skin($stamp=0) {
 	// don't do this on second rendering phase
 	if(!isset($context['embedded']) || ($context['embedded'] != 'suffix')) {
 	
-		// menu - common menu across pages
-		if(file_exists($context['path_to_root'].'parameters/switch.on')) {
-		
-			// cache the site menu for performance
-			$cache_id = 'shared/global.php#render_skin#menu';
-			if((!$text =& Cache::get($cache_id)) && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
-				if($item =& Articles::get('menu'))
-					$text =& Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'main_menu');
-				Cache::put($cache_id, $text, 'articles');
-			}
-			$context['aside']['menu'] = $text;
-		}
-				
 		// navigation - navigation boxes
 		if(file_exists($context['path_to_root'].'parameters/switch.on')) {
 		
@@ -995,106 +985,14 @@ function render_skin($stamp=0) {
 				Cache::put($cache_id, $text, 'various');
 	
 			}
-			$context['aside']['navigation'] = $text;
+			$context['navigation'] .= $text;
 		}
 			
 		
-		// tools - finalize page tools
-		if(count($context['page_tools']) > 0)
-			$context['aside']['tools'] = Skin::build_box(i18n::s('Tools'), Skin::finalize_list($context['page_tools'], 'tools'), 'extra', 'page_tools');
-
-		// user - user menu
-		if(is_callable(array('Users', 'get_url')) && ($menu = Skin::build_user_menu('basic')) && is_callable(array('i18n', 's'))) {
-			if(Surfer::is_logged()) {
-				$box_title = Surfer::get_name();
-			} else {
-				$box_title = i18n::s('User login');
-			}
-			$context['aside']['user'] = Skin::build_box($box_title, $menu, 'navigation', 'user_menu');
-		}
-
-		// visited - list pages visited previously at this site, if any
-		if(isset($_SESSION['visited']) && count($_SESSION['visited']) && is_callable(array('i18n', 's'))) {
-	
-			// box title
-			$title = i18n::s('Visited');
-	
-			// box content as a compact list
-			$text =& Skin::build_list($_SESSION['visited'], 'compact');
-	
-			// the list of recent pages
-			$context['aside']['visited'] = Skin::build_box($title, $text, 'navigation', 'visited_pages');
-		}
-
 		// finalize page context
 		if(is_callable(array('Skin', 'finalize_context')))
 			Skin::finalize_context();
 
-		// list extra components --before navigation components
-		$parameters = explode(' ', $context['skins_extra_components']);
-			
-		// shift extra content to the end - step 1
-		$tail = $context['extra'];
-		$context['extra'] = '';
-		
-		// populate the extra panel
-		foreach($parameters as $parameter) {
-			if(isset($context['aside'][ $parameter ]))
-				$context['extra'] .= $context['aside'][ $parameter ];
-
-			elseif($parameter == 'icon') {
-				// configured styles
-				$more_styles = '';
-				if(isset($context['classes_for_icon_images']) && $context['classes_for_icon_images'])
-					$more_styles = ' '.encode_field($context['classes_for_icon_images']);
-		
-				if($context['page_image'])
-					$context['extra'] .= ICON_PREFIX.'<img src="'.$context['page_image'].'" style="margin: 0 0 2em 0;" class="icon'.$more_styles.'" alt="" />'.ICON_SUFFIX;
-			}
-				
-		}
-			
-		// shift extra content to the end - step 2
-		$context['extra'] .= $tail;
-		
-		// list navigation components
-		$parameters = explode(' ', $context['skins_navigation_components']);
-			
-		// shift navigation content to the end - step 1
-		$tail = $context['navigation'];
-		$context['navigation'] = '';
-		
-		// populate the navigation panel
-		foreach($parameters as $parameter) {
-		
-			// part of context
-			if(isset($context['aside'][ $parameter ]))
-				$context['navigation'] .= $context['aside'][ $parameter ];
-				
-			// include the full extra panel
-			elseif($parameter == 'extra') {
-				$context['navigation'] .= $context['extra'];
-				$context['extra'] = '';
-				
-			// a named page, but only during regular operation
-			} elseif(file_exists($context['path_to_root'].'parameters/switch.on')) {
-			
-				// cache the item for performance
-				$cache_id = 'shared/global.php#render_skin#'.$parameter;
-				if((!$text =& Cache::get($cache_id)) && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
-					if($item =& Articles::get($parameter))
-						$text =& Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'box_'.$parameter);
-					Cache::put($cache_id, $text, 'articles');
-				}
-				$context['navigation'] .= $text;
-				
-			}
-	
-		}
-			
-		// shift navigation content to the end - step 2
-		$context['navigation'] .= $tail;
-		
 		// ensure adequate HTTP answer
 		if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] && !preg_match('/\b('.str_replace(',', '|', $context['accepted_methods']).')\b/', $_SERVER['REQUEST_METHOD'])) {
 			Safe::header('405 Method not allowed');

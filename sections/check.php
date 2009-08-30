@@ -17,7 +17,7 @@ include_once '../shared/global.php';
 load_skin('sections');
 
 // the path to this page
-$context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
+$context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
 
 // the title of the page
 $context['page_title'] = i18n::s('Maintenance');

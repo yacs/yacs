@@ -49,7 +49,7 @@ if(Surfer::is_associate()) {
 }
 
 // referrals, if any
-$context['aside']['referrals'] =& Skin::build_referrals('users/authenticators/index.php');
+$context['components']['referrals'] =& Skin::build_referrals('users/authenticators/index.php');
 
 // render the skin
 render_skin();

@@ -150,21 +150,8 @@ Class Layout_articles_as_thread extends Layout_interface {
 				$icon = $item['thumbnail_url'];
 
 			// or inherit from the anchor
-			elseif(is_object($anchor)) {
-
-				// we are listing articles in the anchor page - use the anchor bullet
-				if($this->layout_variant == $anchor->get_reference()) {
-					$icon = $anchor->get_bullet_url();
-
-				// we are listing articles in a page that has a specific bullet - use it
-				} elseif(strpos(':', $this->layout_variant) && ($bulleted =& Anchors::get($this->layout_variant))) {
-					$icon = $bulleted->get_bullet_url();
-
-				// use anchor thumbnail
-				} else
-					$icon = $anchor->get_thumbnail_url();
-
-			}
+			elseif(is_object($anchor))
+				$icon = $anchor->get_thumbnail_url();
 
 			// format the image
 			if($icon)

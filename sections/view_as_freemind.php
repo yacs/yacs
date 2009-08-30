@@ -77,7 +77,7 @@ else
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
 // the path to this page
-$context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
+$context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
 
 // the title of the page
 if(isset($item['title']) && $item['title'])

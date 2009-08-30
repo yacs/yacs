@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 24, 2009, 9:32 pm GMT. Please do not modify it manually.
+ * on August 29, 2009, 9:57 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
+POT-Creation-Date: 2009-08-25 19:24+0200
 PO-Revision-Date: 2008-11-16 21:54+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -85,7 +85,6 @@ $_SESSION['l10n']['fr']['b76e939953ed01db8e5a10a9a47bc9ad']='Utiliser le panneau
 $_SESSION['l10n']['fr']['View the page']='Voir la page';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';
-$_SESSION['l10n']['fr']['b901765eb64cb1d802aa05207e85ee67']='Oui, je veux supprimer cet emplacement';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['0734de3959ac0f71d53aa1be7653f294']='Vous devez donner un nom à cet emplacement.';
 $_SESSION['l10n']['fr']['at %s']='à %s';

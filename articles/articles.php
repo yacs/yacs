@@ -929,7 +929,7 @@ Class Articles {
 		}
 
 		// check the target action
-		if(!preg_match('/^(delete|describe|duplicate|edit|export|fetch_as_msword|fetch_as_pdf|lock|mail|move|navigate|print|publish|rate|stamp|unpublish|view)$/', $action))
+		if(!preg_match('/^(delete|describe|duplicate|edit|export|fetch_as_msword|fetch_as_pdf|invite|lock|mail|move|navigate|print|publish|rate|stamp|unpublish|view)$/', $action))
 			return 'articles/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
@@ -981,6 +981,41 @@ Class Articles {
 
 		// ensure this article has been linked to this user
 		return Members::check('user:'.$surfer_id, 'article:'.$id);
+	}
+
+	/**
+	 * check if a surfer owns a page
+	 *
+	 *
+	 * @param object parent anchor, if any
+	 * @param array page attributes
+	 * @param int optional reference to some user profile
+	 * @return TRUE or FALSE
+	 */
+	 function is_owned($anchor=NULL, $item=NULL, $user_id=NULL) {
+		global $context;
+
+		// id of requesting user
+		if(!$user_id) {
+			if(!Surfer::get_id())
+				return FALSE;
+			$user_id = Surfer::get_id();
+		}
+
+		// associates can do what they want
+		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
+			return TRUE;
+		
+		// surfer owns parent container
+		if(is_object($anchor) && $anchor->is_editable($user_id))
+			return TRUE;
+		
+		// surfer owns this page
+		if(isset($item['owner_id']) && ($item['owner_id'] == $user_id))
+			return TRUE;
+
+		// sorry
+		return FALSE;
 	}
 
 	/**

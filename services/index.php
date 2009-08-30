@@ -98,7 +98,7 @@ if(Surfer::is_associate())
 	$context['page_tools'][] = Skin::build_link('services/configure.php', i18n::s('Configure'), 'basic');
 
 // referrals, if any
-$context['aside']['referrals'] = Skin::build_referrals('services/index.php');
+$context['components']['referrals'] = Skin::build_referrals('services/index.php');
 
 // render the skin
 render_skin();

@@ -216,7 +216,7 @@ if(Surfer::is_associate()) {
 }
 
 // referrals, if any
-$context['aside']['referrals'] =& Skin::build_referrals('overlays/index.php');
+$context['components']['referrals'] =& Skin::build_referrals('overlays/index.php');
 
 // render the skin
 render_skin();

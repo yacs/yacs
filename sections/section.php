@@ -19,19 +19,6 @@ defined('YACS') or exit('Script must be included');
 Class Section extends Anchor {
 
 	/**
-	 * get the url to display bullet images
-	 *
-	 * @return an anchor to the icon image
-	 *
-	 * @see shared/anchor.php
-	 */
-	function get_bullet_url() {
-		if(isset($this->item['bullet_url']))
-			return $this->item['bullet_url'];
-		return NULL;
-	}
-
-	/**
 	 * get the focus for this anchor
 	 *
 	 * This function lists containers of the content tree,
@@ -1183,8 +1170,6 @@ Class Section extends Anchor {
 			if($image =& Images::get($origin)) {
 
 				if($url = Images::get_icon_href($image)) {
-					if($this->item['bullet_url'] == $url)
-						$query[] = "bullet_url = ''";
 					if($this->item['icon_url'] == $url)
 						$query[] = "icon_url = ''";
 					if($this->item['thumbnail_url'] == $url)
@@ -1192,23 +1177,12 @@ Class Section extends Anchor {
 				}
 
 				if($url = Images::get_thumbnail_href($image)) {
-					if($this->item['bullet_url'] == $url)
-						$query[] = "bullet_url = ''";
 					if($this->item['icon_url'] == $url)
 						$query[] = "icon_url = ''";
 					if($this->item['thumbnail_url'] == $url)
 						$query[] = "thumbnail_url = ''";
 				}
 			}
-
-		// set an existing image as the section bullet
-		} elseif($action == 'image:set_as_bullet') {
-			include_once $context['path_to_root'].'images/images.php';
-			if($image =& Images::get($origin)) {
-				if($url = Images::get_icon_href($image))
-					$query[] = "bullet_url = '".SQL::escape($url)."'";
-			}
-			$silently = TRUE;
 
 		// set an existing image as the section icon
 		} elseif($action == 'image:set_as_icon') {

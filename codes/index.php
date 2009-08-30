@@ -49,7 +49,7 @@ $context['text'] .= '<p>'.i18n::s('Codes allow you to specify formatting rules f
 	.'<p>'.sprintf(i18n::s('You can also browse links above in complement to the %s.'), Skin::build_link('skins/test.php', i18n::s('Theme test'), 'shortcut')).'</p>';
 
 // referrals, if any
-$context['aside']['referrals'] = Skin::build_referrals('codes/index.php');
+$context['components']['referrals'] = Skin::build_referrals('codes/index.php');
 
 // render the skin
 render_skin();

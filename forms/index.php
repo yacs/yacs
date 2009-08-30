@@ -82,7 +82,7 @@ if(Surfer::is_associate())
 	$context['page_tools'][] = Skin::build_link('forms/edit.php', i18n::s('Add a form'));
 
 // referrals, if any
-$context['aside']['referrals'] = Skin::build_referrals('forms/index.php');
+$context['components']['referrals'] = Skin::build_referrals('forms/index.php');
 
 // render the skin
 render_skin();

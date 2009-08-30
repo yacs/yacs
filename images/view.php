@@ -246,19 +246,19 @@ if(!isset($item['id'])) {
 	// general help on this page
 	//
 	$help = '<p>'.i18n::s('To save this image on your hard drive, drag the mouse above the image and use the right button. A contextual pop-up menu should appear. Select the adequate command depending on the browser used.').'</p>';
-	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 	// thumbnail, in an extra box
 	//
 	if(Surfer::is_associate() && $item['thumbnail_name'] && ($item['thumbnail_name'] != $item['image_name'])) {
 		$url = $context['url_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['thumbnail_name'];
-		$context['aside']['boxes'] .= Skin::build_box(i18n::s('Thumbnail'), '<img src="'.$url.'" />', 'extra');
+		$context['components']['boxes'] .= Skin::build_box(i18n::s('Thumbnail'), '<img src="'.$url.'" />', 'extra');
 	}
 
 	//
 	// referrals, if any
 	//
-	$context['aside']['referrals'] =& Skin::build_referrals(Images::get_url($item['id']));
+	$context['components']['referrals'] =& Skin::build_referrals(Images::get_url($item['id']));
 
 }
 

@@ -113,7 +113,7 @@ else
 load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
 
 // path to this page
-$context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
+$context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
 
 // page title
 $context['page_title'] = i18n::s('RSS feed');

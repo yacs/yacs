@@ -318,10 +318,90 @@ elseif(!Surfer::is_associate()) {
 	//
 	// components
 	//
-	$components = '';
+	$components = '<p>'.i18n::s('Following settings apply to all pages. If the skin features a 3-column layout, each panel will be displayed in a separate column. If the skins accomodates for 2 columns, only the main and navigation panels will be displayed. Put in the navigation panel the keyword "extra" where you want to integrate the extra panel.').'</p>';
 
+	// main components
+	$box = '';
+
+	// components to put in the main area
+	$label = i18n::s('Select and order components displayed in the main area of any page');
+	$input = '<textarea name="skins_main_components" id="skins_main_components"cols="60" rows="3">'.encode_field($context['skins_main_components']).'</textarea>';
+	$keywords = array();
+	$keywords[] = 'title - '.i18n::s('Page title');
+	$keywords[] = 'error - '.i18n::s('Error messages, if any');
+	$keywords[] = 'text - '.i18n::s('Page main content');
+	$keywords[] = 'tags - '.i18n::s('Page tags, if any');
+	$keywords[] = 'details - '.i18n::s('Complementary information, if any');
+	$keywords[] = 'bar - '.i18n::s('Page menu, if any');
+	$hint = i18n::s('Recommended components:').Skin::finalize_list($keywords, 'compact');
+	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
+
+	// build the box
+	$components .= Skin::build_box(i18n::s('Main panel'), $box);
+
+	// extra boxes
+	$box = '';
+
+	// components to put in the extra panel
+	$label = i18n::s('Extra boxes are displayed aside, and complement main content');
+	$input = '<textarea name="skins_extra_components" id="skins_extra_components"cols="60" rows="3">'.encode_field($context['skins_extra_components']).'</textarea>';
+	$keywords = array();
+	$keywords[] = 'tools - '.i18n::s('Page tools');
+	$keywords[] = 'image - '.i18n::s('Page image, if any');
+	$keywords[] = 'profile - '.i18n::s('User profile, if activated');
+	$keywords[] = 'news - '.i18n::s('Side news, if any');
+	$keywords[] = 'overlay - '.i18n::s('Overlay data, if any');
+	$keywords[] = 'boxes - '.i18n::s('Other extra boxes, if any');
+	$keywords[] = 'share - '.i18n::s('Commands to share the page, if any');
+	$keywords[] = 'channels - '.i18n::s('Commands to stay informed, if any');
+	$keywords[] = 'twins - '.i18n::s('Pages with the same name, if any');
+	$keywords[] = 'neighbours - '.i18n::s('Next and previous, if any');
+	$keywords[] = 'contextual - '.i18n::s('Sections around, if any');
+	$keywords[] = 'categories - '.i18n::s('Assign categories, for associates');
+	$keywords[] = 'bookmarklets - '.i18n::s('Links to contribute, if any');
+	$keywords[] = 'servers - '.i18n::s('Feeding servers, for associates');
+	$keywords[] = 'download - '.i18n::s('Get section content as a Freemind map');
+	$keywords[] = 'referrals - '.i18n::s('Links to this page, if any');
+	$keywords[] = 'visited - '.i18n::s('Visited pages, if any');
+	$hint = i18n::s('Recommended components:').Skin::finalize_list($keywords, 'compact');
+	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
+
+	// maximum number of extra boxes
+	if(!isset($context['site_extra_maximum']) || !$context['site_extra_maximum'])
+		$context['site_extra_maximum'] = 7;
+	$label = i18n::s('Maximum number of extra boxes');
+	$input = '<input type="text" name="site_extra_maximum" size="2" value="'.encode_field($context['site_extra_maximum']).'" maxlength="2" />';
+	$box .= '<p>'.$label.' '.$input."</p>\n";
+	
+	$components .= Skin::build_box(i18n::s('Extra panel'), $box);
+
+	// navigation boxes
+	$box = '';
+	
+	// components to put in the navigation panel
+	$label = i18n::s('Navigation boxes are looking similar at all pages');
+	$input = '<textarea name="skins_navigation_components" id="skins_navigation_components"cols="60" rows="3">'.encode_field($context['skins_navigation_components']).'</textarea>';
+	$keywords = array();
+	$keywords[] = 'menu - '.i18n::s('Site menu');
+	$keywords[] = 'user - '.i18n::s('User menu');
+	$keywords[] = 'extra - '.i18n::s('Include the extra panel, if your skin features a 2-column layout');
+	$keywords[] = 'navigation - '.i18n::s('Dynamic navigation boxes, if any');
+	$hint = i18n::s('Recommended components:').Skin::finalize_list($keywords, 'compact');
+	$box .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
+
+	// maximum number of navigation boxes
+	if(!isset($context['site_navigation_maximum']) || !$context['site_navigation_maximum'])
+		$context['site_navigation_maximum'] = 7;
+	$label = i18n::s('Maximum number of navigation boxes');
+	$input = '<input type="text" name="site_navigation_maximum" size="2" value="'.encode_field($context['site_navigation_maximum']).'" maxlength="2" />';
+	$box .= '<p>'.$label.' '.$input."</p>\n";
+	
+	$components .= Skin::build_box(i18n::s('Navigation panel'), $box);
+	
+	// search
+	$box = '';
+	
 	// search delegation
-	$label = i18n::s('Search');
 	$input = '<input type="radio" name="skins_delegate_search" value="N"';
 	if(!isset($context['skins_delegate_search']) || ($context['skins_delegate_search'] != 'Y'))
 		$input .= ' checked="checked"';
@@ -341,58 +421,10 @@ elseif(!Surfer::is_associate()) {
 			.'   <input type="hidden" name="output" value="xml_no_dtd" />'."\n"
 			.'   <input type="hidden" name="proxystylesheet" value="default_frontend" />'."\n"
 			.'</div></form>';
-	$input .= BR.'<textarea name="skins_search_form" id="skins_search_form"cols="60" rows="3">'.encode_field($context['skins_search_form']).'</textarea>';
-	$components .= '<p>'.$label.BR.$input."</p>\n";
-
-	// components to put in the navigation panel
-	$label = i18n::s('Order of navigation components');
-	$input = '<textarea name="skins_navigation_components" id="skins_navigation_components"cols="60" rows="3">'.encode_field($context['skins_navigation_components']).'</textarea>';
-	$keywords = array();
-	$keywords[] = 'menu - '.i18n::s('Site menu');
-	$keywords[] = 'user - '.i18n::s('User menu');
-	$keywords[] = 'extra - '.i18n::s('Include the extra panel in a 2-column layout');
-	$keywords[] = 'navigation - '.i18n::s('Dynamic navigation boxes, if any');
-	$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
-	$components .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
-
-	// maximum number of navigation boxes
-	if(!isset($context['site_navigation_maximum']) || !$context['site_navigation_maximum'])
-		$context['site_navigation_maximum'] = 7;
-	$label = i18n::s('Maximum number of navigation boxes');
-	$input = '<input type="text" name="site_navigation_maximum" size="2" value="'.encode_field($context['site_navigation_maximum']).'" maxlength="2" />';
-	$hint = i18n::s('Navigation boxes are displayed on page side, at all pages of the site.');
-	$components .= '<p>'.$label.' '.$input.BR.'<span class="details">'.$hint."</span></p>\n";
-
-	// components to put in the extra panel
-	$label = i18n::s('Order of extra components');
-	$input = '<textarea name="skins_extra_components" id="skins_extra_components"cols="60" rows="3">'.encode_field($context['skins_extra_components']).'</textarea>';
-	$keywords = array();
-	$keywords[] = 'profile - '.i18n::s('User profile, if activated');
-	$keywords[] = 'tools - '.i18n::s('Page tools');
-	$keywords[] = 'news - '.i18n::s('Side news, if any');
-	$keywords[] = 'overlay - '.i18n::s('Overlay data, if any');
-	$keywords[] = 'boxes - '.i18n::s('Extra boxes, if any');
-	$keywords[] = 'share - '.i18n::s('Commands to share the page, if any');
-	$keywords[] = 'channels - '.i18n::s('Commands to stay informed, if any');
-	$keywords[] = 'twins - '.i18n::s('Pages with the same name, if any');
-	$keywords[] = 'neighbours - '.i18n::s('Next and previous, if any');
-	$keywords[] = 'contextual - '.i18n::s('Sections around, if any');
-	$keywords[] = 'categories - '.i18n::s('Assign categories, for associates');
-	$keywords[] = 'bookmarklets - '.i18n::s('Links to contribute, if any');
-	$keywords[] = 'servers - '.i18n::s('Feeding servers, for associates');
-	$keywords[] = 'download - '.i18n::s('Get section content as a Freemind map');
-	$keywords[] = 'referrals - '.i18n::s('Links to this page, if any');
-	$keywords[] = 'visited - '.i18n::s('Visited pages, if any');
-	$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
-	$components .= '<p>'.sprintf(i18n::s('%s: %s'), $label, BR.$input).BR.'<span class="details">'.$hint."</span></p>\n";
-
-	// maximum number of extra boxes
-	if(!isset($context['site_extra_maximum']) || !$context['site_extra_maximum'])
-		$context['site_extra_maximum'] = 7;
-	$label = i18n::s('Maximum number of extra boxes');
-	$input = '<input type="text" name="site_extra_maximum" size="2" value="'.encode_field($context['site_extra_maximum']).'" maxlength="2" />';
-	$hint = i18n::s('Extra boxes are displayed on the side of pages to which they have been associated.');
-	$components .= '<p>'.$label.' '.$input.BR.'<span class="details">'.$hint."</span></p>\n";
+	$input .= BR.'<textarea name="skins_search_form" id="skins_search_form" rows="3" cols="50" style="width: 60%;" onfocus="Yacs.grow_panel(this);">'.encode_field($context['skins_search_form']).'</textarea>';
+	$box .= '<p>'.$input."</p>\n";
+	
+	$components .= Skin::build_box(i18n::s('Search requests'), $box);
 
 	//
 	// options
@@ -793,6 +825,8 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'skins_freemind_section_style\']=\''.addcslashes($_REQUEST['skins_freemind_section_style'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_search_form']) && $_REQUEST['skins_search_form'])
 		$content .= '$context[\'skins_search_form\']=\''.addcslashes($_REQUEST['skins_search_form'], "\\'")."';\n";
+	if(isset($_REQUEST['skins_main_components']) && $_REQUEST['skins_main_components'])
+		$content .= '$context[\'skins_main_components\']=\''.addcslashes($_REQUEST['skins_main_components'], "\\'")."';\n";
 	if(isset($_REQUEST['skins_navigation_components']) && $_REQUEST['skins_navigation_components'])
 		$content .= '$context[\'skins_navigation_components\']=\''.addcslashes($_REQUEST['skins_navigation_components'], "\\'")."';\n";
 	$content .= '$context[\'standard_width\']=\''.addcslashes($_REQUEST['standard_width'], "\\'")."';\n"

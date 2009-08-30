@@ -385,7 +385,7 @@ if($with_form) {
 	if(!$anchor) {
 
 		// a splash message for new users
-		$context['text'] .= Skin::build_block(i18n::s('This script will add this page to one of the sections listed below. If you would like to add a link to an existing page, browse the target page instead and use the adequate command from the menu bar.'), 'caution')."\n";
+		$context['text'] .= Skin::build_block(i18n::s('This script will add this page to one of the sections listed below. If you would like to add a link to an existing page, browse the target page instead and use the adequate command from the menu.'), 'caution')."\n";
 
 		$label = i18n::s('Section');
 		$input = '<select name="anchor">'.Sections::get_options(NULL, 'bookmarks').'</select>';
@@ -568,7 +568,7 @@ if($with_form) {
 		.'<p>'.i18n::s('Please set a meaningful title to be used instead of the link itself.').'</p>'
 		.'<p>'.i18n::s('Also, take the time to describe the link. This field is fully indexed for searches.').'</p>'
 		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
-	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 

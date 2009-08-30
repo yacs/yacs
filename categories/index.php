@@ -164,10 +164,10 @@ if(!$text =& Cache::get($cache_id)) {
 	// cache, whatever change, for 5 minutes
 	Cache::put($cache_id, $text, 'stable', 300);
 }
-$context['aside']['boxes'] = $text;
+$context['components']['boxes'] = $text;
 
 // referrals, if any
-$context['aside']['referrals'] = Skin::build_referrals('categories/index.php');
+$context['components']['referrals'] = Skin::build_referrals('categories/index.php');
 
 // render the skin
 render_skin();

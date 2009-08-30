@@ -128,11 +128,9 @@ Class Layout_images extends Layout_interface {
 				if(preg_match('/\buser\b/', $this->layout_variant))
 					$menu = array_merge($menu, array( Images::get_url($item['id'], 'set_as_thumbnail') => i18n::s('Set as profile picture') ));
 				elseif(preg_match('/\b(article|category|section)\b/', $this->layout_variant)) {
-					$menu = array_merge($menu, array( Images::get_url($item['id'], 'set_as_icon') => i18n::s('Set as page icon') ));
+					$menu = array_merge($menu, array( Images::get_url($item['id'], 'set_as_icon') => i18n::s('Set as page image') ));
 					$menu = array_merge($menu, array( Images::get_url($item['id'], 'set_as_thumbnail') => i18n::s('Set as page thumbnail') ));
 				}
-				if(preg_match('/^(section|category)\b/i', $this->layout_variant))
-					$menu = array_merge($menu, array( Images::get_url($item['id'], 'set_as_bullet') => i18n::s('Set as list bullet') ));
 			}
 
 			// delete the image

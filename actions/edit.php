@@ -359,7 +359,7 @@ if($with_form) {
 		.JS_SUFFIX;
 
 	// general help on this form
-	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'),
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'),
 		sprintf(i18n::s('<p>If possible, describe the whole action in its title. The description field should be used for additional non-essentiel details.</p><p>%s and %s are available to enhance text rendering.</p><p>Use the target field to designate the main web resource involved in the action.</p>'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')), 'navigation', 'help');
 
 }

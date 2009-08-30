@@ -41,7 +41,7 @@ load_skin('sections', $anchor);
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'sections/' => i18n::s('Sections') );
+	$context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
 
 // the title of the page
 if(is_object($anchor) && $anchor->is_viewable())

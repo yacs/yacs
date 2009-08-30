@@ -521,7 +521,7 @@ if($with_form) {
 
 	// the icon url may be set after the page has been created
 	if(isset($item['id'])) {
-		$label = i18n::s('Icon');
+		$label = i18n::s('Image');
 
 		// show the current icon
 		$input = '';
@@ -559,26 +559,6 @@ if($with_form) {
 		$input .= BR.'<input type="text" name="thumbnail_url" size="55" value="'.encode_field(isset($item['thumbnail_url']) ? $item['thumbnail_url'] : '').'" maxlength="255" />';
 		if(Surfer::may_upload())
 			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=thumbnail', $command, 'basic').'</span>';
-		$fields[] = array($label, $input);
-	}
-
-	// the bullet url may be set after the page has been created
-	if(isset($item['id'])) {
-		$label = i18n::s('Bullet');
-
-		// show the current bullet
-		$input = '';
-		if(isset($item['bullet_url']) && $item['bullet_url']) {
-			$input .= '<img src="'.$item['bullet_url'].'" alt="" />';
-			$command = i18n::s('Change');
-		} elseif(Surfer::may_upload()) {
-			$input .= '<span class="details">'.i18n::s('Upload a small image to decorate lists of sections and pages.').'</span>';
-			$command = i18n::s('Add an image');
-		}
-
-		$input .= BR.'<input type="text" name="bullet_url" size="55" value="'.encode_field(isset($item['bullet_url']) ? $item['bullet_url'] : '').'" maxlength="255" />';
-		if(Surfer::may_upload())
-			$input .= ' <span class="details">'.Skin::build_link('images/edit.php?anchor='.urlencode('category:'.$item['id']).'&amp;action=bullet', $command, 'basic').'</span>';
 		$fields[] = array($label, $input);
 	}
 
@@ -994,7 +974,7 @@ if($with_form) {
 	$help .= '</select></p></form>';
 
 	// in a side box
-	$context['aside']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 
 }
 
