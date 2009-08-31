@@ -107,7 +107,7 @@ if(!isset($item['id'])) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('The deletion has not been confirmed.'));
+	Logger::error(i18n::s('The action has not been confirmed.'));
 
 // ask for confirmation
 } else {

@@ -2,9 +2,6 @@
 /**
  * the main help index
  *
- * YACS is the acronym of 'Yet Another Community System'.
- * Of course, this name is a joke - Remember the old days of yacc on Unix?
- *
  * [title]What can I do with YACS?[/title]
  *
  * Following patterns should be considered only as examples of what can be achieved with YACS.

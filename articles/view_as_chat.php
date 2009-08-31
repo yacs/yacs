@@ -792,8 +792,8 @@ if(!isset($item['id'])) {
 			$lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), i18n::s('Recent comments'), 'xml');
 
 			// public aggregators
-			if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
-				$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), $item['title']));
+// 			if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+// 				$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), $item['title']));
 		}
 	}
 

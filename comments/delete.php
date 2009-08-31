@@ -99,7 +99,7 @@ if(Surfer::is_crawler()) {
 
 // deletion has to be confirmed
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST'))
-	Logger::error(i18n::s('The deletion has not been confirmed.'));
+	Logger::error(i18n::s('The action has not been confirmed.'));
 
 // ask for confirmation
 else {

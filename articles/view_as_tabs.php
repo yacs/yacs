@@ -604,7 +604,7 @@ if(!isset($item['id'])) {
 	}
 
 	//
-	// atachments tab
+	// attachments tab
 	//
 	$attachments = '';
 	$attachments_count = 0;
@@ -705,13 +705,13 @@ if(!isset($item['id'])) {
 			$box['bar'] += array('_count' => sprintf(i18n::ns('%d person', '%d persons', $estats['count']), $estats['count']));
 
 		// send a message to an article
-		if(($estats['count'] > 1) && Surfer::is_empowered() && Surfer::is_logged()) {
+		if(($estats['count'] > 1) && Surfer::is_empowered() && Surfer::is_logged() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 			Skin::define_img('ARTICLES_EMAIL_IMG', 'articles/email.gif');
 			$box['bar'] += array(Articles::get_url($item['id'], 'mail') => ARTICLES_EMAIL_IMG.i18n::s('Send a message'));
 		}
 
 		// assign command provided to associates and authenticated editors
-		if(Articles::is_owned($anchor, $item)) {
+		if(Articles::is_owned($anchor, $item) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 			Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
 			$box['bar'] += array(Articles::get_url($item['id'], 'invite') => ARTICLES_INVITE_IMG.i18n::s('Invite participants'));
 
@@ -953,8 +953,8 @@ if(!isset($item['id'])) {
 			$lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), i18n::s('Recent comments'), 'xml');
 
 			// public aggregators
-			if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
-				$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), $item['title']));
+// 			if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+// 				$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'), $item['title']));
 		}
 	}
 

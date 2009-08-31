@@ -39,7 +39,7 @@ Class PDF extends FPDF {
 			$this->SetSubject(utf8::to_iso8859(html_entity_decode($context['subject'], ENT_COMPAT, 'ISO-8859-15')));
 
 		// document creator (typically, the tool used to produce the document)
-		$this->SetCreator('Yet Another Community System (YACS)');
+		$this->SetCreator('yacs');
 
 		//
 		// PDF content

@@ -208,7 +208,7 @@ $fields['host_name'] = i18n::s('www.yacs.fr');
 if(Servers::get($fields['host_name']))
 	$text .= sprintf(i18n::s('An entry already exists for server %s'), $fields['host_name']).BR."\n";
 else {
-	$fields['title'] = 'Yet Another Community System';
+	$fields['title'] = 'yacs';
 	$fields['description'] = i18n::c('The origin server for the YACS system');
 	$fields['main_url'] = 'http://www.yacs.fr/';
 	$fields['submit_feed'] = 'Y';

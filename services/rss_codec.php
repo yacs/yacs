@@ -310,7 +310,7 @@ Class rss_Codec extends Codec {
 		}
 
 		$text .= '	<lastBuildDate>'.gmdate('D, d M Y H:i:s').' GMT</lastBuildDate>'."\n"
-			.'	<generator>Yet Another Community System</generator>'."\n"
+			.'	<generator>yacs</generator>'."\n"
 			.'	<docs>http://blogs.law.harvard.edu/tech/rss</docs>'."\n";
 		if(isset($context['time_to_live']) && ($context['time_to_live'] > 0))
 			$text .= '	<ttl>'.$context['time_to_live'].'</ttl>'."\n";

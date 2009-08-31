@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 26, 2009, 5:07 pm GMT. Please do not modify it manually.
+ * on August 31, 2009, 7:09 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-25 19:24+0200
-PO-Revision-Date: 2009-08-25 19:28+0100
+POT-Creation-Date: 2009-08-30 23:09+0200
+PO-Revision-Date: 2009-08-30 23:21+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -134,6 +134,7 @@ $_SESSION['l10n']['en']['Calling hook for %s']='Calling hook for %s';
 $_SESSION['l10n']['en']['8e07e599a50115975cc7302a74f50207']='Calls to phpinfo() are not allowed on this server.';
 $_SESSION['l10n']['en']['Categories']='Categories';
 $_SESSION['l10n']['en']['7da23e7e071174c2d71bed8dcf60a86c']='Check %s to manage and preview all available styles.';
+$_SESSION['l10n']['en']['Check the updated Site Map']='Check the updated Site Map';
 $_SESSION['l10n']['en']['Click here to register']='Click here to register';
 $_SESSION['l10n']['en']['dc0e3717334648d51cf3fba8d80bf04e']='Click on following links to assess actual capabilities of this server. In case of error, just come back to this page and move to next test.';
 $_SESSION['l10n']['en']['ce4433a46e56c75290b3bc45d03e84b1']='Click on following links to review or change parameters of this server.';
@@ -257,6 +258,7 @@ $_SESSION['l10n']['en']['Jump to the populate page']='Jump to the populate page'
 $_SESSION['l10n']['en']['Keywords']='Keywords';
 $_SESSION['l10n']['en']['Language detection']='Language detection';
 $_SESSION['l10n']['en']['Last record']='Last record';
+$_SESSION['l10n']['en']['d5651dd5d23d7e873001e4317f98bd94']='Launch the Content Assistant again';
 $_SESSION['l10n']['en']['Legal Stuff']='Legal Stuff';
 $_SESSION['l10n']['en']['Linking hook %s for %s']='Linking hook %s for %s';
 $_SESSION['l10n']['en']['Linking hooks']='Linking hooks';

@@ -537,6 +537,8 @@ if(!isset($item['id'])) {
 		break;
 
 	case 'doc':		// application/msword
+	case 'docm':
+	case 'docx':
 	case 'dot':
 	case 'rtf':
 		$description = '<p>'.sprintf(i18n::s('You are about to download a Microsoft Word document. If you do not have this software, you may download a free vizualiser from %s. Or you may prefer to use the free office solution from the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external'), Skin::build_link(i18n::s('www.openoffice.org'), i18n::s('Open Office web server'), 'external')).'</p>';
@@ -691,6 +693,8 @@ if(!isset($item['id'])) {
 		break;
 
 	case 'ppt':
+	case 'pptm':
+	case 'pptx':
 	case 'pps':
 		$description = '<p>'.sprintf(i18n::s('You are about to download a Microsoft Powerpoint document. If you do not have this software, you may download a free vizualiser from %s. Or you may prefer to use the free office solution from the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external'), Skin::build_link(i18n::s('www.openoffice.org'), i18n::s('Open Office web server'), 'external')).'</p>';
 		break;
@@ -740,6 +744,8 @@ if(!isset($item['id'])) {
 		break;
 
 	case 'xls':
+	case 'xlsm':
+	case 'xlsx':
 		$description = '<p>'.sprintf(i18n::s('You are about to download a Microsoft Excel document. If you do not have this software, you may download a free vizualiser from %s. Or you may prefer to use the free office solution from the %s.'), Skin::build_link(i18n::s('www.microsoft.com'), i18n::s('Microsoft web server'), 'external'), Skin::build_link(i18n::s('www.openoffice.org'), i18n::s('Open Office web server'), 'external')).'</p>';
 		break;
 

@@ -76,8 +76,8 @@ if((!isset($context['skins_general_without_feed']) || ($context['skins_general_w
 	$lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].'dates/fetch_ics.php', i18n::s('Get calendar'), 'basic');
 	
 	// public aggregators
-	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
-		$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].'dates/fetch_ics.php', $context['site_name']));
+// 	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+// 		$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].'dates/fetch_ics.php', $context['site_name']));
 		
 	$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feeds');
 

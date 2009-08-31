@@ -511,6 +511,8 @@ Class Files {
 				'divx' => $files_icons_url.'film_icon.gif',
 				'dll' => $files_icons_url.'exe_icon.gif',
 				'doc' => $files_icons_url.'word_icon.gif',
+				'docm' => $files_icons_url.'word_icon.gif',
+				'docx' => $files_icons_url.'word_icon.gif',
 				'dot' => $files_icons_url.'word_icon.gif',
 				'eml' => $files_icons_url.'text_icon.gif',
 				'eps' => $files_icons_url.'postscript_icon.gif',
@@ -580,6 +582,8 @@ Class Files {
 				'ppd' => $files_icons_url.'image_icon.gif',
 				'pps' => $files_icons_url.'powerpoint_icon.gif',
 				'ppt' => $files_icons_url.'powerpoint_icon.gif',
+				'pptm' => $files_icons_url.'powerpoint_icon.gif',
+				'pptx' => $files_icons_url.'powerpoint_icon.gif',
 				'prc' => $files_icons_url.'palm_icon.gif',
 				'ps' => $files_icons_url.'postscript_icon.gif',
 				'psd' => $files_icons_url.'image_icon.gif',
@@ -623,6 +627,8 @@ Class Files {
 				'wvx' => $files_icons_url.'midi_icon.gif',			// playlist
 				'xbm' => $files_icons_url.'image_icon.gif', 		// image/x-xbitmap
 				'xls' => $files_icons_url.'excel_icon.gif',
+				'xlsm' => $files_icons_url.'excel_icon.gif',
+				'xlsx' => $files_icons_url.'excel_icon.gif',
 				'xml' => $files_icons_url.'html_icon.gif',
 				'zip' => $files_icons_url.'zip_icon.gif',
 				'default' => $files_icons_url.'default_icon.gif' );
@@ -712,6 +718,8 @@ Class Files {
 				'divx' => 'video/vnd.divx ',
 				'dll' => 'application/download',
 				'doc' => 'application/msword',
+				'docm' => 'application/msword',
+				'docx' => 'application/msword',
 				'dot' => 'application/msword',
 				'eml' => 'text/html',		// message/rfc822
 				'eps' => 'application/postscript',	// postscript
@@ -782,6 +790,8 @@ Class Files {
 				'ppd' => 'application/pagemaker',
 				'pps' => 'application/vnd.ms-powerpoint',
 				'ppt' => 'application/vnd.ms-powerpoint',
+				'pptm' => 'application/vnd.ms-powerpoint',
+				'pptx' => 'application/vnd.ms-powerpoint',
 				'prc' => 'application/palmpilot',	// palm resource
 				'ps' => 'application/postscript',	// postscript
 				'psd' => 'image/photoshop', 		// photoshop
@@ -824,6 +834,8 @@ Class Files {
 				'wvx' => 'video/x-ms-wvx',	// windows media player video playlist
 				'xbm' => 'image/x-xbitmap',
 				'xls' => 'application/vnd.ms-excel',
+				'xlsm' => 'application/vnd.ms-excel',
+				'xlsx' => 'application/vnd.ms-excel',
 				'xml' => 'text/html',
 				'zip' => 'application/zip' );
 		}

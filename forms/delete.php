@@ -67,7 +67,7 @@ if(!isset($item['id'])) {
 
 // deletion has to be confirmed
 } elseif(isset($_form['REQUEST_METHOD']) && ($_form['REQUEST_METHOD'] == 'POST')) {
-	Logger::error(i18n::s('The deletion has not been confirmed.'));
+	Logger::error(i18n::s('The action has not been confirmed.'));
 
 }
 

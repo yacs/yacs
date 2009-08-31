@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 26, 2009, 5:36 pm GMT. Please do not modify it manually.
+ * on August 31, 2009, 6:59 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-25 19:24+0200
-PO-Revision-Date: 2009-08-25 19:31+0100
+POT-Creation-Date: 2009-08-30 23:09+0200
+PO-Revision-Date: 2009-08-30 23:22+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -73,8 +73,10 @@ $_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
 $_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['92fdd78ee6bb759cae3b7d6e33a0552f']='Please carefully select a section for your image';
-$_SESSION['l10n']['en']['88100f21e63a26d7ae6895199f0d7475']='Please select a .png, .gif or .jpeg image.';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
+$_SESSION['l10n']['en']['099081e47eb80812d2888ba8e17787df']='Please upload a thumbnail image for this page';
+$_SESSION['l10n']['en']['1afed7c110bc9567a9ecd5c1bbd696ae']='Please upload an image to illustrate this page';
+$_SESSION['l10n']['en']['9b8ed770822f72943dff2a03c11efdee']='Please upload an image to illustrate this user profile';
 $_SESSION['l10n']['en']['Press [e] to edit']='Press [e] to edit';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Press to select a local file']='Press to select a local file';
@@ -82,9 +84,9 @@ $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['Rejected file type %s']='Rejected file type %s';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Section']='Section';
+$_SESSION['l10n']['en']['9d1fc249d04226cb2db7398a29581bef']='Select a .png, .gif or .jpeg image.';
 $_SESSION['l10n']['en']['654258af44eda1cd82146682083f5376']='Select another image to replace the current one';
-$_SESSION['l10n']['en']['Set as list bullet']='Set as list bullet';
-$_SESSION['l10n']['en']['Set as page icon']='Set as page icon';
+$_SESSION['l10n']['en']['Set as page image']='Set as page image';
 $_SESSION['l10n']['en']['Set as page thumbnail']='Set as page thumbnail';
 $_SESSION['l10n']['en']['Set as profile picture']='Set as profile picture';
 $_SESSION['l10n']['en']['Size: %s x %s']='Size: %s x %s';
@@ -96,15 +98,13 @@ $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Submit another image']='Submit another image';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['07952e6cca017e7cdff4505604da467f']='The deletion has not been confirmed.';
-$_SESSION['l10n']['en']['10bf8e765fdc93ec1af9246dee434ce2']='The image has become the page icon.';
 $_SESSION['l10n']['en']['8dcc50155115940d05d944e21eaa194e']='The image has become the profile picture.';
 $_SESSION['l10n']['en']['c1bf92bb2cf089698dc8bc64adc5e8f0']='The image has been added at the end of the page.';
 $_SESSION['l10n']['en']['8260146cc33b9e04504109fd6edc42b2']='The image has been added to the page, and it also has been set as the page thumbnail.';
 $_SESSION['l10n']['en']['d3e704fca04137e80f8371810c69dcbf']='The image has been inserted at the beginning of the page.';
-$_SESSION['l10n']['en']['13ce4a67266be09f717a339e084c1fc3']='The image has been set as the new bullet.';
 $_SESSION['l10n']['en']['dd5d3d8719d8abaf68ea9d57da282d79']='This has become the thumbnail image of the page.';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
-$_SESSION['l10n']['en']['e90988ff1c028ea95de8bf1298d3eb58']='This script will create a brand new page for the uploaded file. If you would like to add an image to an existing page, browse the target page instead and use the adequate command from the menu bar.';
+$_SESSION['l10n']['en']['0a152c649dd8a64176d76ddaa8212337']='This script will create a brand new page for the uploaded file. If you would like to add an image to an existing page, browse the target page instead and use the adequate command from the menu.';
 $_SESSION['l10n']['en']['Thumbnail']='Thumbnail';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['cca4373c7c256d01ae0c54448cb5e209']='To save this image on your hard drive, drag the mouse above the image and use the right button. A contextual pop-up menu should appear. Select the adequate command depending on the browser used.';

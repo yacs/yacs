@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 26, 2009, 5:36 pm GMT. Please do not modify it manually.
+ * on August 31, 2009, 6:59 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 16:54+0200
-PO-Revision-Date: 2009-08-26 17:25+0100
+POT-Creation-Date: 2009-08-30 23:09+0200
+PO-Revision-Date: 2009-08-30 23:24+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -173,6 +173,7 @@ $_SESSION['l10n']['en']['c4ee000af107ab80885b2ac1b34a715b']='Following items are
 $_SESSION['l10n']['en']['163446b086f8add8a8b8e33171ddfbd0']='Following persons are connected to %s:';
 $_SESSION['l10n']['en']['d614549cb7e90eec397003bb71836197']='Following persons are connected to you:';
 $_SESSION['l10n']['en']['77e189517520ef55c530da2fd2835384']='For example, if you want to apply the authenticator <code>foo</code>, put that keyword in the %s.';
+$_SESSION['l10n']['en']['3344c36c5e8420204233380005970834']='For on-demand conversations and groups';
 $_SESSION['l10n']['en']['f4b772fbe3570851c2d16880d8e6e38f']='For the security of our members, you must make this request with the e-mail address you used when you registered. If your original e-mail address has expired or is no longer valid, please re-register. Unused accounts may be deleted without notice.';
 $_SESSION['l10n']['en']['From']='From';
 $_SESSION['l10n']['en']['From %s:']='From %s:';
@@ -311,7 +312,6 @@ $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a me
 $_SESSION['l10n']['en']['69218afa8966421e717318b0e6aa7894']='Please provide parameters to the authenticator.';
 $_SESSION['l10n']['en']['16bca9489fd2f3be29dd8b639ce99965']='Please provide your e-mail address and we will email your member name and password, and instructions for accessing your account.';
 $_SESSION['l10n']['en']['Please register or log in']='Please register or log in';
-$_SESSION['l10n']['en']['88100f21e63a26d7ae6895199f0d7475']='Please select a .png, .gif or .jpeg image.';
 $_SESSION['l10n']['en']['12fc8d23e0da8141d00630c0f2779650']='Please type something to search for.';
 $_SESSION['l10n']['en']['Popular files']='Popular files';
 $_SESSION['l10n']['en']['Popular pages']='Popular pages';
@@ -361,6 +361,7 @@ $_SESSION['l10n']['en']['706d4aa7c88cd69343d72b2f59b6780a']='Script used to %s a
 $_SESSION['l10n']['en']['Search']='Search';
 $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['See also']='See also';
+$_SESSION['l10n']['en']['9d1fc249d04226cb2db7398a29581bef']='Select a .png, .gif or .jpeg image.';
 $_SESSION['l10n']['en']['Select a picture for %s']='Select a picture for %s';
 $_SESSION['l10n']['en']['c3ddc38baed1d3d09f177e3c78865622']='Select a picture from the library';
 $_SESSION['l10n']['en']['abbb7ad09d40d7272c30569b47a44199']='Select your preferred tool to edit text.';

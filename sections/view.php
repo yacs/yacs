@@ -1664,8 +1664,8 @@ if(!isset($item['id'])) {
 			.BR.Skin::build_link($context['url_to_home'].$context['url_to_root'].Files::get_url('section:'.$item['id'], 'feed'), i18n::s('Recent files'), 'xml');
 
 		// public aggregators
-		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
-			$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'feed'), $item['title']));
+// 		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+// 			$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'feed'), $item['title']));
 
 	}
 

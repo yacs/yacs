@@ -125,7 +125,10 @@ elseif(!$permitted) {
 	if(($users =& Members::list_connections_for_user($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 		// splash message
-		$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('This is the current list of persons assigned to %s'), $anchor->get_title()).'</p>';
+		if(!strncmp($anchor->get_reference(), 'user:', 5))
+			$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('Contacts of %s'), $anchor->get_title()).'</p>';
+		else
+			$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('Persons assigned to %s'), $anchor->get_title()).'</p>';
 
 		// browse the list
 		foreach($users as $id => $user) {
@@ -167,7 +170,7 @@ elseif(!$permitted) {
 	$links = array();
 	$url = $anchor->get_url();
 	if(!strncmp($anchor->get_reference(), 'user:', 5))
-		$url .= '#_connections';
+		$url .= '#_contacts';
 	$links[] = Skin::build_link($url, i18n::s('Done'), 'button');
 	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
 

@@ -842,7 +842,7 @@ if(!isset($item['id'])) {
 	// assemble tabs
 	//
 	if(!$zoom_type)
-		$panels[] = array('connections', i18n::s('Contacts'), 'connections_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
+		$panels[] = array('contacts', i18n::s('Contacts'), 'contacts_panel', NULL, Users::get_url($item['id'], 'element', 'watch'));
 	if(!$zoom_type && Surfer::is_member())
 		$panels[] = array('actions', i18n::s('Actions'), 'actions_panel', NULL, Users::get_url($item['id'], 'element', 'actions'));
 
@@ -942,8 +942,8 @@ if(!isset($item['id'])) {
 		$lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'feed'), i18n::s('Recent pages'), 'xml');
 
 		// public aggregators
-		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
-			$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'feed'), $item['nick_name']));
+// 		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+// 			$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'feed'), $item['nick_name']));
 
 	}
 

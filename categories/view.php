@@ -945,8 +945,8 @@ if(!isset($item['id'])) {
 		$content = Skin::build_link($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'feed'), i18n::s('Recent pages'), 'xml');
 
 		// public aggregators
-		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
-			$content .= BR.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'feed'), $item['title']));
+// 		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
+// 			$content .= BR.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'feed'), $item['title']));
 
 		$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), $content, 'extra', 'feeds');
 	}

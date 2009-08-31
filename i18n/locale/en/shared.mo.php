@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 26, 2009, 5:36 pm GMT. Please do not modify it manually.
+ * on August 31, 2009, 6:59 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 16:54+0200
+POT-Creation-Date: 2009-08-30 23:09+0200
 PO-Revision-Date: 2009-05-14 23:29+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -76,16 +76,13 @@ $_SESSION['l10n']['en']['Table']='Table';
 $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['The table']='The table';
 $_SESSION['l10n']['en']['3e5db4a2ca0b72619890b0a6317167b5']='This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.';
-$_SESSION['l10n']['en']['Tools']='Tools';
 $_SESSION['l10n']['en']['b14e57cf6aea5bcf8b57974ce6a1545d']='Type exactly the following 5 chars:';
 $_SESSION['l10n']['en']['User']='User';
-$_SESSION['l10n']['en']['User login']='User login';
 $_SESSION['l10n']['en']['Versions']='Versions';
 $_SESSION['l10n']['en']['6bb9e1aa16d4d6776927b05fc4fdb6f1']='View all data this site knows about you';
 $_SESSION['l10n']['en']['View the category']='View the category';
 $_SESSION['l10n']['en']['View this comment']='View this comment';
 $_SESSION['l10n']['en']['View this decision']='View this decision';
-$_SESSION['l10n']['en']['Visited']='Visited';
 $_SESSION['l10n']['en']['XML error: %s at line %d']='XML error: %s at line %d';
 $_SESSION['l10n']['en']['68e8557b5fa4d724688175816097ce17']='You are allowed to post any XHTML.';
 $_SESSION['l10n']['en']['a38baa11f8dc11db9fde342db9db7f07']='You will be considered as an anonymous surfer';

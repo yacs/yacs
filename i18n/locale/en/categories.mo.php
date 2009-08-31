@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 26, 2009, 5:36 pm GMT. Please do not modify it manually.
+ * on August 31, 2009, 6:59 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 16:54+0200
-PO-Revision-Date: 2009-08-26 17:23+0100
+POT-Creation-Date: 2009-08-30 23:09+0200
+PO-Revision-Date: 2009-08-30 23:20+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -46,7 +46,6 @@ $_SESSION['l10n']['en']['Ask Jeeves']='Ask Jeeves';
 $_SESSION['l10n']['en']['Attach related files.']='Attach related files.';
 $_SESSION['l10n']['en']['Attachments']='Attachments';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
-$_SESSION['l10n']['en']['Bullet']='Bullet';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Categories']='Categories';
 $_SESSION['l10n']['en']['Categories for: %s']='Categories for: %s';
@@ -90,8 +89,8 @@ $_SESSION['l10n']['en']['Get a paper copy of this page.']='Get a paper copy of t
 $_SESSION['l10n']['en']['Google']='Google';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Help index']='Help index';
-$_SESSION['l10n']['en']['Icon']='Icon';
 $_SESSION['l10n']['en']['98b2e1b34b14f94d2493eb4999e0fd72']='Attention, des données peuvent être perdues si vous modifiez l\'overlay.';
+$_SESSION['l10n']['en']['Image']='Image';
 $_SESSION['l10n']['en']['Images']='Images';
 $_SESSION['l10n']['en']['173cbab1842331c3e4fbf99b25f42e56']='Impossible to update the anchor.';
 $_SESSION['l10n']['en']['Impossible to update the item.']='Impossible to update the item.';
@@ -129,7 +128,7 @@ $_SESSION['l10n']['en']['No item has been found.']='No item has been found.';
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
 $_SESSION['l10n']['en']['No keyword to search for.']='No keyword to search for.';
 $_SESSION['l10n']['en']['22ce3d88217e83036f3285bba141bfe3']='No overlay has been selected yet.';
-$_SESSION['l10n']['en']['No recipient has been defined.']='No recipient has been defined.';
+$_SESSION['l10n']['en']['No recipient has been found.']='No recipient has been found.';
 $_SESSION['l10n']['en']['No title has been provided.']='No title has been provided.';
 $_SESSION['l10n']['en']['b0f806749991a1314b97a00231ee673c']='No, thank you to not handle excerpts for this category';
 $_SESSION['l10n']['en']['Options']='Options';
@@ -206,7 +205,6 @@ $_SESSION['l10n']['en']['8dba3e281bee8eeab2f14d6e4c0f5548']='Unknown anchor %s, 
 $_SESSION['l10n']['en']['e0d8b6d765ad12a441a66eeaa6e77e71']='Unknown member %s, record has been deleted';
 $_SESSION['l10n']['en']['Unlink']='Unlink';
 $_SESSION['l10n']['en']['Upload a file']='Upload a file';
-$_SESSION['l10n']['en']['e0b2c6741e58e471f3ec7eb946de4a5a']='Upload a small image to decorate lists of sections and pages.';
 $_SESSION['l10n']['en']['bf17c77b74c5350da902a6142f9a7a9d']='Upload a small image to illustrate this page when it is listed into parent page.';
 $_SESSION['l10n']['en']['c2c4f79559d76d5b49a626fd7bf35631']='Upload an image to be displayed at page top';
 $_SESSION['l10n']['en']['Use an image']='Use an image';
@@ -227,7 +225,7 @@ $_SESSION['l10n']['en']['3585bbc26a41b43aecfc0a9b67c7be74']='Yes, I want to dele
 $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed to perform this operation in demonstration mode.';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['You are sending a message to:']='You are sending a message to:';
-$_SESSION['l10n']['en']['9ca8d2e9612efc220fe8fd01538f9e22']='You can upload a camera shot, a drawing, or any image file, to illustrate this page.';
+$_SESSION['l10n']['en']['20cf45e0c01e6acc47459231610d3463']='You can upload a camera shot, a drawing, or another image file.';
 $_SESSION['l10n']['en']['d202c53d9ea1bb14a44814af246dbcf4']='You may combine several keywords:';
 $_SESSION['l10n']['en']['3826678d554b3f49614db283670da2ca']='alistapart - Display entirely the last published page';
 $_SESSION['l10n']['en']['28a8beb390c049ec3274337a68b552e7']='at all pages, among other navigation boxes';

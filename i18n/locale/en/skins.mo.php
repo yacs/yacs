@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 26, 2009, 5:36 pm GMT. Please do not modify it manually.
+ * on August 31, 2009, 6:59 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 01:57+0200
-PO-Revision-Date: 2009-08-26 02:06+0100
+POT-Creation-Date: 2009-08-30 23:09+0200
+PO-Revision-Date: 2009-08-30 23:23+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -63,6 +63,7 @@ $_SESSION['l10n']['en']['Color: %s']='Color: %s';
 $_SESSION['l10n']['en']['7b8b184e437fa18729c21ab3a9625bed']='Commands to share the page, if any';
 $_SESSION['l10n']['en']['415674b7415e0cddd5b728d3a1d3f00e']='Commands to stay informed, if any';
 $_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';
+$_SESSION['l10n']['en']['109b3de113f9002c492c903a28fde2c6']='Complementary information, if any';
 $_SESSION['l10n']['en']['Components']='Components';
 $_SESSION['l10n']['en']['4669e64a262daee067f971af4ba69082']='Compute page elements dynamically';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
@@ -101,18 +102,20 @@ $_SESSION['l10n']['en']['Edges']='Edges';
 $_SESSION['l10n']['en']['Edit this page']='Edit this page';
 $_SESSION['l10n']['en']['Edit this theme']='Edit this theme';
 $_SESSION['l10n']['en']['Empty template file']='Empty template file';
+$_SESSION['l10n']['en']['Error messages, if any']='Error messages, if any';
 $_SESSION['l10n']['en']['Error while processing %s.']='Error while processing %s.';
 $_SESSION['l10n']['en']['87883fe947bf5f6cc49f2a1087c6a1fb']='Example: "2002-2008, Acme incorporated"; inserted in the "copyright" meta field';
 $_SESSION['l10n']['en']['f06f8caf07ff3ae46f165c7d9e01124b']='Export tools are displayed only in sections with option \'with_export_tools\'';
 $_SESSION['l10n']['en']['d7e2ef2e0ee49871db66aab68eb84aaa']='Export tools are shown only to members';
 $_SESSION['l10n']['en']['7ec2a580c60504fb5a2abdff77661c9f']='Export tools convert pages to an alternate format or media (pdf, word):';
 $_SESSION['l10n']['en']['Export tools visibility']='Export tools visibility';
-$_SESSION['l10n']['en']['6f13facc773bc3af218aee81435911c4']='Extra boxes are displayed on the side of pages to which they have been associated.';
-$_SESSION['l10n']['en']['Extra boxes, if any']='Extra boxes, if any';
+$_SESSION['l10n']['en']['91c9e7b9ae24afb801cef448f32a9dcc']='Extra boxes are displayed aside, and complement main content';
+$_SESSION['l10n']['en']['Extra panel']='Extra panel';
 $_SESSION['l10n']['en']['Feeding servers, for associates']='Feeding servers, for associates';
 $_SESSION['l10n']['en']['4ee8525f2a3e8f8c87ef5f265c7a010b']='Feel free to change and adjust files at skins/%s to better suit your needs.';
 $_SESSION['l10n']['en']['File']='File';
 $_SESSION['l10n']['en']['Files']='Files';
+$_SESSION['l10n']['en']['9d39980e4202da84927692d9d8db7d24']='Following settings apply to all pages. If the skin features a 3-column layout, each panel will be displayed in a separate column. If the skins accomodates for 2 columns, only the main and navigation panels will be displayed. Put in the navigation panel the keyword "extra" where you want to integrate the extra panel.';
 $_SESSION['l10n']['en']['73600b132a68877c6e0a20c42c314aec']='For more information on skins, visit %s';
 $_SESSION['l10n']['en']['Freemind']='Freemind';
 $_SESSION['l10n']['en']['Front page']='Front page';
@@ -142,7 +145,7 @@ $_SESSION['l10n']['en']['Impossible to extract files.']='Impossible to extract f
 $_SESSION['l10n']['en']['Impossible to read %s.']='Impossible to read %s.';
 $_SESSION['l10n']['en']['Impossible to write to %s.']='Impossible to write to %s.';
 $_SESSION['l10n']['en']['In %s']='In %s';
-$_SESSION['l10n']['en']['1b85e383241c69e5fd3d0db9d1dd69e1']='Include the extra panel in a 2-column layout';
+$_SESSION['l10n']['en']['2d3e09adc8853ee1a8585d25b6e636b7']='Include the extra panel, if your skin features a 2-column layout';
 $_SESSION['l10n']['en']['Information channels']='Information channels';
 $_SESSION['l10n']['en']['Install skin %s']='Install skin %s';
 $_SESSION['l10n']['en']['Keywords']='Keywords';
@@ -156,6 +159,7 @@ $_SESSION['l10n']['en']['394696e18a3f9710112dba6eb0785880']='List RSS feeds in s
 $_SESSION['l10n']['en']['8d738a7752e01ee40429f028c1153b3e']='List pages visited during a session';
 $_SESSION['l10n']['en']['Listing files...']='Listing files...';
 $_SESSION['l10n']['en']['Main node']='Main node';
+$_SESSION['l10n']['en']['Main panel']='Main panel';
 $_SESSION['l10n']['en']['5b26a56b7dda650e50f8441575df6619']='Make your choice among available themes at this server:';
 $_SESSION['l10n']['en']['Maximum number of extra boxes']='Maximum number of extra boxes';
 $_SESSION['l10n']['en']['7a4c5f39b8d735814d991c857c6b3583']='Maximum number of navigation boxes';
@@ -166,7 +170,8 @@ $_SESSION['l10n']['en']['Monthly calendar']='Monthly calendar';
 $_SESSION['l10n']['en']['More']='More';
 $_SESSION['l10n']['en']['More in %s']='More in %s';
 $_SESSION['l10n']['en']['More pages']='More pages';
-$_SESSION['l10n']['en']['362a7539279b60ab610db4e8ba909b2c']='Navigation boxes are displayed on page side, at all pages of the site.';
+$_SESSION['l10n']['en']['0ea64d397f291e9bd09373bd4936d928']='Navigation boxes are looking similar at all pages';
+$_SESSION['l10n']['en']['Navigation panel']='Navigation panel';
 $_SESSION['l10n']['en']['Next']='Next';
 $_SESSION['l10n']['en']['Next and previous, if any']='Next and previous, if any';
 $_SESSION['l10n']['en']['8efade0a8f036f70a78a2d6d10bcc125']='No blogging block has been found.';
@@ -178,13 +183,17 @@ $_SESSION['l10n']['en']['Nothing has been received.']='Nothing has been received
 $_SESSION['l10n']['en']['ab391baebcdc847c30dbf10dc09449a8']='Only provide a hovering title, but no caption';
 $_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
 $_SESSION['l10n']['en']['Options']='Options';
-$_SESSION['l10n']['en']['Order of extra components']='Order of extra components';
-$_SESSION['l10n']['en']['Order of navigation components']='Order of navigation components';
 $_SESSION['l10n']['en']['Origin page']='Origin page';
+$_SESSION['l10n']['en']['Other extra boxes, if any']='Other extra boxes, if any';
 $_SESSION['l10n']['en']['f3bd8368814dbceba72f20db12519684']='Other tags to be inserted into the head section, as meta fields. Please double check generated code to avoid mistakes.  You can use this field to add meta information to your site, that will be used by search engines or software robots. Example: &lt;meta name="dmoz.id" content="put here the dmoz branch for your site"&gt;';
 $_SESSION['l10n']['en']['Overlay data, if any']='Overlay data, if any';
 $_SESSION['l10n']['en']['Page factory']='Page factory';
+$_SESSION['l10n']['en']['Page image, if any']='Page image, if any';
+$_SESSION['l10n']['en']['Page main content']='Page main content';
+$_SESSION['l10n']['en']['Page menu, if any']='Page menu, if any';
 $_SESSION['l10n']['en']['2a2b90566a09f65139fa651916b3a45d']='Page prepared in %.2f seconds for %s';
+$_SESSION['l10n']['en']['Page tags, if any']='Page tags, if any';
+$_SESSION['l10n']['en']['Page title']='Page title';
 $_SESSION['l10n']['en']['Page tools']='Page tools';
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['e74ca937f6902df4bcb150a96b4634b7']='Pages with the same name, if any';
@@ -208,16 +217,18 @@ $_SESSION['l10n']['en']['Rate this page']='Rate this page';
 $_SESSION['l10n']['en']['Rating: %s']='Rating: %s';
 $_SESSION['l10n']['en']['Read more']='Read more';
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
+$_SESSION['l10n']['en']['Recommended components:']='Recommended components:';
 $_SESSION['l10n']['en']['Reference this page']='Reference this page';
 $_SESSION['l10n']['en']['Referrals']='Referrals';
 $_SESSION['l10n']['en']['8e8eb648edb57efc53bb3a619f5bd494']='Review provided information and go to the bottom of the page to move forward.';
-$_SESSION['l10n']['en']['Search']='Search';
+$_SESSION['l10n']['en']['Search requests']='Search requests';
 $_SESSION['l10n']['en']['Search...']='Search...';
 $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['Sections around, if any']='Sections around, if any';
 $_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['See server profile']='See server profile';
 $_SESSION['l10n']['en']['Select a theme']='Select a theme';
+$_SESSION['l10n']['en']['28f69b001a1f3bd3a842e03da4ac42db']='Select and order components displayed in the main area of any page';
 $_SESSION['l10n']['en']['57c4e35328db5b95afd3a49c16072cca']='Select the archive file that you want to install remotely.';
 $_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
 $_SESSION['l10n']['en']['Send a message']='Send a message';
@@ -265,6 +276,7 @@ $_SESSION['l10n']['en']['d6b075de74bfd8969ee12b01b2e30a70']='This script allows 
 $_SESSION['l10n']['en']['732264ed4e4dab9d8000a44832895dc1']='This tag line will be repeated at a number of pages';
 $_SESSION['l10n']['en']['Thumbnail images']='Thumbnail images';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
+$_SESSION['l10n']['en']['Tools']='Tools';
 $_SESSION['l10n']['en']['Trailer']='Trailer';
 $_SESSION['l10n']['en']['8addb3b5e126c5905fc1f9c4c81aa4c0']='Up to two lines of text, used in the "description" meta field to help search engines';
 $_SESSION['l10n']['en']['Upload a file']='Upload a file';
@@ -277,6 +289,7 @@ $_SESSION['l10n']['en']['4dbcd5d34528269c00894cf96c2016cf']='Use the following f
 $_SESSION['l10n']['en']['fccef9015ad37c239d92b4f0119dd0d9']='Use this page while developing or checking a theme, then activate the theme and move to %s to finalize your work.';
 $_SESSION['l10n']['en']['Use this theme']='Use this theme';
 $_SESSION['l10n']['en']['1e70893dc23cfb432d7eb47930c8764b']='Use titles as captions below thumbnail images';
+$_SESSION['l10n']['en']['User login']='User login';
 $_SESSION['l10n']['en']['User menu']='User menu';
 $_SESSION['l10n']['en']['User profile, if activated']='User profile, if activated';
 $_SESSION['l10n']['en']['Usual delay between updates']='Usual delay between updates';
@@ -285,6 +298,7 @@ $_SESSION['l10n']['en']['View person profile']='View person profile';
 $_SESSION['l10n']['en']['View the category']='View the category';
 $_SESSION['l10n']['en']['View the page']='View the page';
 $_SESSION['l10n']['en']['View this comment']='View this comment';
+$_SESSION['l10n']['en']['Visited']='Visited';
 $_SESSION['l10n']['en']['Visited pages, if any']='Visited pages, if any';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['What\'s New?']='What\'s New?';
@@ -297,7 +311,6 @@ $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['169dbe1e15bea547371df14376d4fb80']='You can now visit the index of themes, and select the one you prefer.';
 $_SESSION['l10n']['en']['6aa04f19a0e5ba58a3f2ec185e2687ca']='You can use default values and change these later on. Hit the button at the bottom of the page to move forward.';
-$_SESSION['l10n']['en']['d202c53d9ea1bb14a44814af246dbcf4']='You may combine several keywords:';
 $_SESSION['l10n']['en']['Your picture']='Your picture';
 $_SESSION['l10n']['en']['about']='about';
 $_SESSION['l10n']['en']['about this site']='about this site';
@@ -338,6 +351,7 @@ $_SESSION['l10n']['en']['private']='private';
 $_SESSION['l10n']['en']['restricted']='restricted';
 $_SESSION['l10n']['en']['sidebar box']='sidebar box';
 $_SESSION['l10n']['en']['south']='south';
+$_SESSION['l10n']['en']['tag 1, tag 2']='tag 1, tag 2';
 $_SESSION['l10n']['en']['to everybody']='to everybody';
 $_SESSION['l10n']['en']['to publish']='to publish';
 $_SESSION['l10n']['en']['updated']='updated';
