@@ -24,9 +24,10 @@ Class Images {
 	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
+	 * @param string the type of item, e.g., 'section'
 	 * @return TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL) {
+	function are_allowed($anchor=NULL, $item=NULL, $variant='article') {
 		global $context;
 
 		// images are prevented in item
@@ -45,50 +46,46 @@ Class Images {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
+		// surfer is owning this item
+		if(isset($item['id']) && ($variant == 'article') && Articles::is_owned($anchor, $item))
+			return TRUE;
+		if(is_object($anchor) && ($variant == 'file') && $anchor->is_owned())
+			return TRUE;
+// 		if(isset($item['id']) && ($variant == 'category') && Categories::is_owned($anchor, $item))
+// 			return TRUE;
+		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item))
+			return TRUE;
+		if(isset($item['id']) && ($variant == 'user') && (Surfer::get_id() == $item['id']))
+			return TRUE;
+			
+		// item has been locked
+		if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// anchor has been locked --only used when there is no item provided
+		if(!$item['id'] && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
+
 		// container is hidden
 		if(isset($item['active']) && ($item['active'] == 'N')) {
 		
-			// filter editors
-			if(!Surfer::is_empowered())
-				return FALSE;
-				
-			// editors will have to unlock the container to contribute
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				return FALSE;
-			return TRUE;
+			// surfer has been assigned to this item
+			if(isset($item['id']) && ($variant == 'article') && Articles::is_assigned($item['id']))
+				return TRUE;
+// 			if(isset($item['id']) && ($variant == 'category') && Categories::is_assigned($item['id']))
+// 				return TRUE;
+			if(isset($item['id']) && ($variant == 'section') && Sections::is_assigned($item['id']))
+				return TRUE;			
 			
 		// container is restricted
 		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
 		
-			// filter members
-			if(!Surfer::is_member())
-				return FALSE;
-				
-			// editors can proceed
-			if(Surfer::is_empowered())
+			// only members can proceed
+			if(Surfer::is_member())
 				return TRUE;
-				
-			// members can contribute except if container is locked
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				return FALSE;
-			return TRUE;
 			
-		}
-
-		// surfer has special privileges
-		if(Surfer::is_empowered())
-			return TRUE;
-
-		// item has been locked
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
-			return FALSE;
-
-		// anchor has been locked --only used when there is no item provided
-		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
-			return FALSE;
-
-		// authenticated members can always add images
-		if(Surfer::is_member())
+		// authenticated members and subscribers are allowed to add images
+		} elseif(Surfer::is_logged())
 			return TRUE;
 
 		// anonymous contributions are allowed for this section
@@ -101,10 +98,6 @@ Class Images {
 
 		// anonymous contributions are allowed for this anchor
 		if(is_object($anchor) && $anchor->is_editable())
-			return TRUE;
-
-		// teasers are activated
-		if(Surfer::is_teased())
 			return TRUE;
 
 		// the default is to not allow for new images
@@ -602,7 +595,7 @@ Class Images {
 			$fields['use_thumbnail'] = 'Y'; 	// only associates can select to not moderate image sizes
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// update the existing record
 		if(isset($fields['id'])) {
@@ -619,7 +612,7 @@ Class Images {
 					."thumbnail_name='".SQL::escape($fields['thumbnail_name'])."',"
 					."image_size='".SQL::escape($fields['image_size'])."',"
 					."edit_name='".SQL::escape($fields['edit_name'])."',"
-					."edit_id='".SQL::escape($fields['edit_id'])."',"
+					."edit_id=".SQL::escape($fields['edit_id']).","
 					."edit_address='".SQL::escape($fields['edit_address'])."',"
 					."edit_date='".SQL::escape($fields['edit_date'])."',";
 			}
@@ -648,7 +641,7 @@ Class Images {
 				."thumbnail_name='".SQL::escape(isset($fields['thumbnail_name']) ? $fields['thumbnail_name'] : '')."',"
 				."link_url='".SQL::escape(isset($fields['link_url']) ? $fields['link_url'] : '')."',"
 				."edit_name='".SQL::escape($fields['edit_name'])."',"
-				."edit_id='".SQL::escape($fields['edit_id'])."',"
+				."edit_id=".SQL::escape($fields['edit_id']).","
 				."edit_address='".SQL::escape($fields['edit_address'])."',"
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
 

@@ -400,7 +400,7 @@ Class Versions {
 			."anchor='".SQL::escape($anchor)."',"
 			."content='".SQL::escape($content)."',"
 			."edit_name='".SQL::escape(isset($fields['edit_name']) ? $fields['edit_name'] : Surfer::get_name())."', "
-			."edit_id='".SQL::escape(isset($fields['edit_id']) ? $fields['edit_id'] : Surfer::get_id())."', "
+			."edit_id=".SQL::escape(isset($fields['edit_id']) ? $fields['edit_id'] : Surfer::get_id()).", "
 			."edit_address='".SQL::escape(isset($fields['edit_address']) ? $fields['edit_address'] : Surfer::get_email_address())."', "
 			."edit_date='".SQL::escape($versioning_date)."'";
 

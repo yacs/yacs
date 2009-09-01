@@ -219,14 +219,6 @@ Class Articles {
 	function are_allowed($anchor=NULL, $item=NULL) {
 		global $context;
 
-		// articles are prevented in item
-		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_articles\b/i', $item['options']))
-			return FALSE;
-
-		// articles are prevented in anchor
-		if(is_object($anchor) && $anchor->has_option('no_articles'))
-			return FALSE;
-
 		// articles are prevented in item, through layout
 		if(isset($item['articles_layout']) && ($item['articles_layout'] == 'none'))
 			return FALSE;
@@ -239,45 +231,15 @@ Class Articles {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
-		// container is hidden
-		if(isset($item['active']) && ($item['active'] == 'N')) {
-		
-			// filter editors
-			if(!Surfer::is_empowered())
-				return FALSE;
-				
-			// editors will have to unlock the container to contribute
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				return FALSE;
+		// surfer owns this space
+		if(Articles::is_owned($anchor, $item))
 			return TRUE;
-			
-		// container is restricted
-		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
-		
-			// filter members
-			if(!Surfer::is_member())
-				return FALSE;
-				
-			// editors can proceed
-			if(Surfer::is_empowered())
-				return TRUE;
-				
-			// members can contribute except if container is locked
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				return FALSE;
-			return TRUE;
-			
-		}
 
-		// editors can always add pages to public sections
-		if(Surfer::is_empowered())
-			return TRUE;
-			
 		// container has been locked
 		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
 
-		// anchor has been locked --only used when there is no item provided
+		// anchor has been locked
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
@@ -372,6 +334,10 @@ Class Articles {
 		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
 
+		// include managed pages for editors
+		if(count($my_articles = Surfer::assigned_articles()))
+			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+
 		$where = '('.$where.')';
 
 		// avoid sticky articles
@@ -388,7 +354,7 @@ Class Articles {
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
-			$where .= " AND ((articles.create_id='".Surfer::get_id()."') OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')))";
 		}
 
@@ -617,25 +583,22 @@ Class Articles {
 		global $context;
 
 		// display active items
-		$active = "(articles.active='Y'";
+		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
 		if(Surfer::is_teased())
-			$active .= " OR articles.active='R'";
+			$where .= " OR articles.active='R'";
 
 		// include hidden sections for associates
 		if(Surfer::is_associate())
-			$active .= " OR articles.active='N'";
+			$where .= " OR articles.active='N'";
+
+		// include managed pages for editors
+		if(count($my_articles = Surfer::assigned_articles()))
+			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
 
 		// end of active filter
-		$active .= ")";
-
-// 		// use only live sections
-// 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-// 		$criteria[] = "((sections.activation_date is NULL)"
-// 			." OR (sections.activation_date <= '".$now."'))"
-// 			." AND ((sections.expiry_date is NULL)"
-// 			." OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+		$where = '('.$where.')';
 
 		// list up to 200 sections
 		$query = "SELECT articles.id FROM ".SQL::table_name('articles')." AS articles"
@@ -684,6 +647,11 @@ Class Articles {
 			$where .= " OR articles.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR articles.active='N'";
+			
+		// include managed pages for editors
+		if(count($my_articles = Surfer::assigned_articles()))
+			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+
 		$where = "(".$where.")";
 
 		// just get the newest page
@@ -739,6 +707,11 @@ Class Articles {
 			$where .= " OR articles.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
+
+		// include managed pages for editors
+		if(count($my_articles = Surfer::assigned_articles()))
+			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+
 		$where = '('.$where.')';
 
 		// current time
@@ -821,6 +794,11 @@ Class Articles {
 			$where .= " OR articles.active='R'";
 		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
+
+		// include managed pages for editors
+		if(count($my_articles = Surfer::assigned_articles()))
+			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+
 		$where = '('.$where.')';
 
 		// current time
@@ -929,7 +907,7 @@ Class Articles {
 		}
 
 		// check the target action
-		if(!preg_match('/^(delete|describe|duplicate|edit|export|fetch_as_msword|fetch_as_pdf|invite|lock|mail|move|navigate|print|publish|rate|stamp|unpublish|view)$/', $action))
+		if(!preg_match('/^(delete|describe|duplicate|edit|export|fetch_as_msword|fetch_as_pdf|invite|lock|mail|move|navigate|own|print|publish|rate|stamp|unpublish|view)$/', $action))
 			return 'articles/'.$action.'.php?id='.urlencode($id).'&action='.urlencode($name);
 
 		// normalize the link
@@ -1153,7 +1131,7 @@ Class Articles {
 		global $context;
 
 		// select among active items
-		$where = "(articles.active='Y'";
+		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
 		if(Surfer::is_teased())
@@ -1167,7 +1145,9 @@ Class Articles {
 		if(count($my_sections = Surfer::assigned_sections()))
 			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_sections)."'";
 
-		$where .= ")";
+		// include managed pages for editors
+		if(count($my_articles = Surfer::assigned_articles()))
+			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
 
 		// bracket OR statements
 		$where = '('.$where.')';
@@ -1205,9 +1185,7 @@ Class Articles {
 		// avoid articles pushed away from the front page
 		$sections_where = '';
 		if(isset($context['skin_variant']) && ($context['skin_variant'] == 'home')) {
-			$sections_where .= " AND (sections.home_panel LIKE 'main')"
-				." AND (sections.index_map LIKE 'Y')"
-				." AND (articles.home_panel LIKE 'main')";
+			$sections_where .= " AND (sections.home_panel LIKE 'main')";
 		}
 
 		// composite fields
@@ -1372,6 +1350,10 @@ Class Articles {
 		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
 
+		// include managed pages for editors
+		if(count($my_articles = Surfer::assigned_articles()))
+			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+
 		// a dynamic where clause
 		$where = '('.$where.')';
 
@@ -1393,7 +1375,7 @@ Class Articles {
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!is_callable(array('Surfer', 'is_empowered')) || !Surfer::is_empowered()) {
-			$where .= " AND ((articles.create_id='".Surfer::get_id()."') OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where .= " AND ((articles.owner_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')))";
 		}
 
@@ -1534,6 +1516,10 @@ Class Articles {
 		// add hidden items to associates, editors and readers
 		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
+
+		// include managed pages for editors
+		if(count($my_articles = Surfer::assigned_articles()))
+			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
 
 		// bracket OR statements
 		$where = '('.$where.')';
@@ -1713,7 +1699,7 @@ Class Articles {
 			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// reinforce date formats
 		if(!isset($fields['create_date']) || ($fields['create_date'] <= NULL_DATE))
@@ -1751,28 +1737,15 @@ Class Articles {
 			$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
 		}
 
-		// fields that are visible only to associates and to authenticated editors -- see articles/edit.php
-		if(Surfer::is_empowered() && Surfer::is_member()) {
-			$query[] = "nick_name='".SQL::escape(isset($fields['nick_name']) ? $fields['nick_name'] : '')."'";
-			$query[] = "behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."'";
-			$query[] = "extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."'";
-			$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
-			$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
-			$query[] = "rank='".SQL::escape($fields['rank'])."'";
-			$query[] = "meta='".SQL::escape(isset($fields['meta']) ? $fields['meta'] : '')."'";
-			$query[] = "options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."'";
-			$query[] = "trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
-		} else {
-			$query[] = "nick_name=''";
-			$query[] = "behaviors=''";
-			$query[] = "extra=''";
-			$query[] = "icon_url=''";
-			$query[] = "thumbnail_url=''";
-			$query[] = "rank=10000";
-			$query[] = "meta=''";
-			$query[] = "options=''";
-			$query[] = "trailer=''";
-		}
+		$query[] = "nick_name='".SQL::escape(isset($fields['nick_name']) ? $fields['nick_name'] : '')."'";
+		$query[] = "behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."'";
+		$query[] = "extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."'";
+		$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
+		$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
+		$query[] = "rank='".SQL::escape($fields['rank'])."'";
+		$query[] = "meta='".SQL::escape(isset($fields['meta']) ? $fields['meta'] : '')."'";
+		$query[] = "options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."'";
+		$query[] = "trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
 
 		// controlled fields
 		$query[] = "active='".SQL::escape($fields['active'])."'";
@@ -1782,7 +1755,6 @@ Class Articles {
 		$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
 		$query[] = "anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1)";
 		$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
-		$query[] = "home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."'";
 		$query[] = "title='".SQL::escape($fields['title'])."'";
 		$query[] = "source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."'";
 		$query[] = "introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."'";
@@ -1791,7 +1763,7 @@ Class Articles {
 		$query[] = "locked='".SQL::escape(isset($fields['locked']) ? $fields['locked'] : 'N')."'";
 		$query[] = "overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."'";
 		$query[] = "overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."'";
-		$query[] = "owner_id='".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id'])."'";
+		$query[] = "owner_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']);
 		$query[] = "tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."'";
 		$query[] = "hits=0";
 		$query[] = "create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."'";
@@ -1918,7 +1890,7 @@ Class Articles {
 			$fields['thumbnail_url'] = preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']);
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// reinforce date formats
 		if(!isset($fields['publish_date']) || ($fields['publish_date'] <= NULL_DATE))
@@ -1966,7 +1938,6 @@ Class Articles {
 		$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
 		$query[] = "anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1)";
 		$query[] = "anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1)";
-		$query[] = "home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."'";
 		$query[] = "title='".SQL::escape($fields['title'])."'";
 		$query[] = "source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."'";
 		$query[] = "introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."'";
@@ -2018,7 +1989,7 @@ Class Articles {
 	**/
 	function put_attributes(&$fields) {
 		global $context;
-
+		
 		// id cannot be empty
 		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
 			Logger::error(i18n::s('No item has the provided id.'));
@@ -2026,7 +1997,7 @@ Class Articles {
 		}
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// quey components
 		$query = array();
@@ -2042,37 +2013,32 @@ Class Articles {
 		if(isset($fields['suffix']) && Surfer::is_associate())
 			$query[] = "suffix='".SQL::escape($fields['suffix'])."'";
 
-		// fields that are visible only to associates and to editors -- see articles/edit.php
-		if(isset($fields['nick_name']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['nick_name']))
 			$query[] = "nick_name='".SQL::escape($fields['nick_name'])."'";
-		if(isset($fields['behaviors']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['behaviors']))
 			$query[] = "behaviors='".SQL::escape($fields['behaviors'])."'";
-		if(isset($fields['extra']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['extra']))
 			$query[] = "extra='".SQL::escape($fields['extra'])."'";
-		if(isset($fields['icon_url']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['icon_url']))
 			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";
-		if(isset($fields['rank']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['rank']))
 			$query[] = "rank='".SQL::escape($fields['rank'])."'";
-		if(isset($fields['thumbnail_url']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['thumbnail_url']))
 			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
-		if(isset($fields['locked']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['locked']))
 			$query[] = "locked='".SQL::escape($fields['locked'])."'";
-		if(isset($fields['meta']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['meta']))
 			$query[] = "meta='".SQL::escape($fields['meta'])."'";
-		if(isset($fields['options']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['options']))
 			$query[] = "options='".SQL::escape($fields['options'])."'";
-		if(isset($fields['trailer']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['trailer']))
 			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
-//		if(Surfer::is_empowered() && Surfer::is_member())
+//		if(Surfer::is_empowered())
 //			$query[] = "active='".SQL::escape($fields['active'])."',";
-//		if(Surfer::is_empowered() && Surfer::is_member())
+//		if(Surfer::is_empowered())
 //			$query[] = "active_set='".SQL::escape($fields['active_set'])."',";
-		if(isset($fields['owner_id']) && Surfer::is_empowered() && Surfer::is_member())
-			$query[] = "owner_id='".SQL::escape($fields['owner_id'])."'";
-
-		// fields visible to authorized member
-		if(isset($fields['home_panel']))
-			$query[] = "home_panel='".SQL::escape($fields['home_panel'])."'";
+		if(isset($fields['owner_id']))
+			$query[] = "owner_id=".SQL::escape($fields['owner_id']);
 		if(isset($fields['title']))
 			$query[] = "title='".SQL::escape($fields['title'])."'";
 		if(isset($fields['source']))
@@ -2089,7 +2055,7 @@ Class Articles {
 			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
 		if(isset($fields['publish_date']) && Surfer::is_empowered()) {
 			$query[] = "publish_name='".SQL::escape(isset($fields['publish_name']) ? $fields['publish_name'] : $fields['edit_name'])."'";
-			$query[] = "publish_id='".SQL::escape(isset($fields['publish_id']) ? $fields['publish_id'] : $fields['edit_id'])."'";
+			$query[] = "publish_id=".SQL::escape(isset($fields['publish_id']) ? $fields['publish_id'] : $fields['edit_id']);
 			$query[] = "publish_address='".SQL::escape(isset($fields['publish_address']) ? $fields['publish_address'] : $fields['edit_address'])."'";
 			$query[] = "publish_date='".SQL::escape($fields['publish_date'])."'";
 		}
@@ -2104,7 +2070,7 @@ Class Articles {
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y') || !Surfer::is_empowered()) {
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
-			$query[] = "edit_id='".SQL::escape($fields['edit_id'])."'";
+			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
 			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
 			$query[] = "edit_action='article:update'";
 			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -2114,6 +2080,9 @@ Class Articles {
 		$query = "UPDATE ".SQL::table_name('articles')
 			." SET ".implode(', ', $query)
 			." WHERE id = ".SQL::escape($fields['id']);
+			
+		logger::query($query, 'SQL');
+		
 		if(!SQL::query($query))
 			return FALSE;
 
@@ -2259,6 +2228,10 @@ Class Articles {
 		elseif(Surfer::is_associate())
 			$where .= " OR articles.active='N'";
 
+		// include managed pages for editors
+		if(count($my_articles = Surfer::assigned_articles()))
+			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+
 		$where = "(".$where.")";
 
 		// current time
@@ -2320,7 +2293,6 @@ Class Articles {
 		$fields['extra']		= "TEXT NOT NULL";
 		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
-		$fields['home_panel']	= "VARCHAR(255) DEFAULT 'main' NOT NULL";
 		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['introduction'] = "TEXT NOT NULL";
 		$fields['language'] 	= "VARCHAR(64) DEFAULT '' NOT NULL";
@@ -2360,7 +2332,6 @@ Class Articles {
 		$indexes['INDEX expiry_date']	= "(expiry_date)";
 		$indexes['INDEX handle']		= "(handle)";
 		$indexes['INDEX hits']			= "(hits)";
-		$indexes['INDEX home_panel']	= "(home_panel)";
 		$indexes['INDEX language']		= "(language)";
 		$indexes['INDEX locked']		= "(locked)";
 		$indexes['INDEX nick_name'] 	= "(nick_name)";
@@ -2479,11 +2450,11 @@ Class Articles {
 
 		if($publication_stamp > 0)
 			$query[] = "publish_name='".SQL::escape(isset($publisher['name']) ? $publisher['name'] : Surfer::get_name())."',"
-				."publish_id='".SQL::escape(isset($publisher['id']) ? $publisher['id'] : Surfer::get_id())."',"
+				."publish_id=".SQL::escape(isset($publisher['id']) ? $publisher['id'] : Surfer::get_id()).","
 				."publish_address='".SQL::escape(isset($publisher['address']) ? $publisher['address'] : Surfer::get_email_address())."',"
 				."publish_date='".gmstrftime('%Y-%m-%d %H:%M:%S', $publication_stamp)."',"
 				."edit_name='".SQL::escape(isset($publisher['name']) ? $publisher['name'] : Surfer::get_name())."',"
-				."edit_id='".SQL::escape(isset($publisher['id']) ? $publisher['id'] : Surfer::get_id())."',"
+				."edit_id=".SQL::escape(isset($publisher['id']) ? $publisher['id'] : Surfer::get_id()).","
 				."edit_address='".SQL::escape(isset($publisher['address']) ? $publisher['address'] : Surfer::get_email_address())."',"
 				."edit_action='article:publish',"
 				."edit_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'";
@@ -2518,7 +2489,6 @@ Class Articles {
 	 * - article has been officially published
 	 * - an expiry date has not been defined, or is not yet passed
 	 * - related section is regularly displayed at the front page
-	 * - article is allowed to be displayed at the front page of the server (home_panel != 'none')
 	 *
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 *
@@ -2538,6 +2508,10 @@ Class Articles {
 		if(Surfer::is_associate())
 			$where .= " OR articles.active='N'";
 
+		// include managed pages for editors
+		if(count($my_articles = Surfer::assigned_articles()))
+			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+
 		$where = '('.$where.')';
 
 		// current time
@@ -2552,9 +2526,7 @@ Class Articles {
 				."OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
 
 		// avoid articles pushed away from the front page
-		$where .= ' AND ((sections.home_panel = "main") OR (sections.home_panel = "none"))'
-			.' AND (sections.index_map = "Y")'
-			.' AND (articles.home_panel = "main")';
+		$where .= ' AND ((sections.home_panel = "main") OR (sections.home_panel = "none"))';
 
 
 		// select among available items
@@ -2603,6 +2575,10 @@ Class Articles {
 		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
 
+		// include managed pages for editors
+		if(count($my_articles = Surfer::assigned_articles()))
+			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+
 		$where = '('.$where.')';
 
 		// avoid sticky articles
@@ -2619,7 +2595,7 @@ Class Articles {
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
-			$where .= " AND ((articles.create_id='".Surfer::get_id()."') OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')))";
 		}
 
@@ -2668,6 +2644,10 @@ Class Articles {
 		if(Surfer::is_associate())
 			$where .= " OR articles.active='N'";
 
+		// include managed pages for editors
+		if(count($my_articles = Surfer::assigned_articles()))
+			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+
 		$where = '('.$where.')';
 
 		// current time
@@ -2713,16 +2693,17 @@ Class Articles {
 			return i18n::s('No item has the provided id.');
 
 		// set default values
-		$fields = Surfer::check_default_editor(array());
+		$fields = array();
+		Surfer::check_default_editor($fields);
 
 		// update an existing record, except the date
 		$query = "UPDATE ".SQL::table_name('articles')." SET "
 			." publish_name='',"
-			." publish_id='',"
+			." publish_id=0,"
 			." publish_address='',"
 			." publish_date='',"
 			." edit_name='".SQL::escape($fields['edit_name'])."',"
-			." edit_id='".SQL::escape($fields['edit_id'])."',"
+			." edit_id=".SQL::escape($fields['edit_id']).","
 			." edit_address='".SQL::escape($fields['edit_address'])."',"
 			." edit_action='article:update'"
 			." WHERE id = ".SQL::escape($id);

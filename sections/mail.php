@@ -46,16 +46,8 @@ $anchor = NULL;
 if(isset($item['anchor']))
 	$anchor =& Anchors::get($item['anchor']);
 
-// we are using surfer own address
-if(!Surfer::get_email_address())
-	$permitted = FALSE;
-
-// associates can proceed
-elseif(Surfer::is_associate())
-	$permitted = TRUE;
-
-// section editors can proceed
-elseif(is_object($anchor) && $anchor->is_editable())
+// owners can proceed
+if(Sections::is_owned($anchor, $item))
 	$permitted = TRUE;
 
 // section editors can proceed

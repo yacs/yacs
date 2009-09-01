@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 31, 2009, 7:00 am GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:22 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-30 23:09+0200
-PO-Revision-Date: 2009-08-26 02:05+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:03+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -105,7 +105,7 @@ $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['62533653dfc1015ddcfc5c356a6497a1']='Submit periodic XML-RPC calls of <code>monitor.ping</code> at %s';
 $_SESSION['l10n']['en']['5ec9e6d4a0ddc6ce82848a3e9f4b097f']='Submit search queries to this server, by REST calls at %s';
 $_SESSION['l10n']['en']['Test feed']='Test feed';
-$_SESSION['l10n']['en']['07952e6cca017e7cdff4505604da467f']='The deletion has not been confirmed.';
+$_SESSION['l10n']['en']['5135051eb31da8ef238ed65c0b0816df']='The action has not been confirmed.';
 $_SESSION['l10n']['en']['The famous pinging gateway']='The famous pinging gateway';
 $_SESSION['l10n']['en']['3513760fe3e0b14f2af4cc30a501d92a']='The following configuration has been saved into the file %s.';
 $_SESSION['l10n']['en']['b35f3dccc8f244827d9d66a6ab1840b5']='The origin server for the YACS system';

@@ -64,6 +64,65 @@ Class Surfer {
 	}
 	
 	/**
+	 * list articles assigned to this surfer
+	 *
+	 * If a member is acting as a managing editor for some articles,
+	 * this function returns ids of these articles.
+	 *
+	 * For subscribers, this function will return the list of accessible articles.
+	 *
+	 * @param int id of the surfer to consider
+	 * @param int maximum number of articles to return
+	 * @return array ids of managed articles
+	 */
+	function assigned_articles($id=NULL, $maximum=200) {
+		global $context;
+
+		// default to current surfer
+		if(!$id)
+			$id = Surfer::get_id();
+
+		// sanity check
+		if(!$id)
+			return array();
+
+		// query the database only once
+		static $cache;
+		if(!isset($cache))
+			$cache = array();
+		if(isset($cache[ $id ]))
+			return $cache[ $id ];
+		$cache[ $id ] = array();
+
+		// only consider live articles
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
+		$where = "((articles.expiry_date is NULL)"
+			."	OR (articles.expiry_date <= '".NULL_DATE."') OR (articles.expiry_date > '".$now."'))";
+
+		// the list of articles
+		$query = "SELECT articles.id FROM ".SQL::table_name('members')." AS members"
+			.", ".SQL::table_name('articles')." AS articles"
+			." WHERE (members.anchor LIKE 'user:".SQL::escape($id)."')"
+			."	AND (members.member_type = 'article')"
+			."	AND (members.member_id = articles.id)"
+			."	AND (".$where.")"
+			." ORDER BY members.edit_date DESC LIMIT 0, ".$maximum;
+
+		// submit a silent query because at setup tables don't exist
+		if(($result =& SQL::query($query, TRUE))) {
+
+			// build the list
+			while($row =& SQL::fetch($result))
+				$cache[ $id ][] = $row['id'];
+
+		}
+
+		// done
+		return $cache[ $id ];
+
+	}
+
+	/**
 	 * list sections assigned to this surfer
 	 *
 	 * If a member is acting as a managing editor for some sections,
@@ -75,7 +134,7 @@ Class Surfer {
 	 * @param int maximum number of sections to return
 	 * @return array ids of managed sections
 	 */
-	function assigned_sections($id=NULL, $maximum=21) {
+	function assigned_sections($id=NULL, $maximum=200) {
 		global $context;
 
 		// default to current surfer
@@ -106,7 +165,7 @@ Class Surfer {
 			."	AND (members.member_type = 'section')"
 			."	AND (members.member_id = sections.id)"
 			."	AND (".$where.")"
-			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 0, ".$maximum;
+			." ORDER BY members.edit_date DESC LIMIT 0, ".$maximum;
 
 		// submit a silent query because at setup tables don't exist
 		if(($result =& SQL::query($query, TRUE))) {
@@ -204,7 +263,6 @@ Class Surfer {
 	 * to ensure attributes 'edit_name', 'edit_id', 'edit_address' and 'edit_date' have been properly set.
 	 *
 	 * @param array attributes to check
-	 * @return updated attributes
 	 *
 	 * @see actions/actions.php
 	 * @see articles/articles.php
@@ -218,7 +276,7 @@ Class Surfer {
 	 * @see tables/tables.php
 	 * @see users/users.php
 	 */
-	function check_default_editor($fields) {
+	function check_default_editor(&$fields) {
 
 		// if a name has been set, do not impersonate the surfer at other fields
 		if(!isset($fields['edit_name']) || !$fields['edit_name']) {
@@ -251,8 +309,6 @@ Class Surfer {
 		if(!isset($fields['edit_date']) || ($fields['edit_date'] <= NULL_DATE))
 			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 
-		// done
-		return $fields;
 	}
 
 	/**
@@ -785,12 +841,12 @@ Class Surfer {
 	function is_teased() {
 		global $context;
 
-		// sanity check
-		if(Surfer::is_logged())
-			return TRUE;
-
 		// never tease crawlers
 		if(Surfer::is_crawler())
+			return FALSE;
+
+		// no need to tease logged surfers
+		if(Surfer::is_logged())
 			return FALSE;
 
 		// use global parameter

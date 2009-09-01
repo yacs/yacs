@@ -4,7 +4,6 @@
  *
  * @todo if an image is uploaded as a file, also compute and use the thumbnail automatically
  * @todo do not change date if silent is checked
- * @todo allow for a move to another anchor (Lucrecius)
  * @todo if extension is not allowed, and if associates, add a shortcut to configuration panel for files
  *
  * If no anchor has been provided to host the file, this script will create one.

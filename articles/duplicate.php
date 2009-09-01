@@ -13,7 +13,6 @@
  * Restrictions apply on this page:
  * - associates and authenticated editors are allowed to move forward
  * - permission is denied if the anchor is not viewable by this surfer
- * - permission is denied if the article has been published, and if revision are forbidden ('users_without_revision' == 'Y')
  * - logged surfers may decide to duplicate their own posts
  * - else permission is denied
  *
@@ -67,10 +66,6 @@ if(Surfer::is_empowered())
 
 // the anchor has to be viewable by this surfer
 elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// revision of published pages is prohibited
-elseif(($item['publish_date'] > NULL_DATE) && isset($context['users_without_revision']) && ($context['users_without_revision'] == 'Y'))
 	$permitted = FALSE;
 
 // authenticated surfers may duplicate their own posts

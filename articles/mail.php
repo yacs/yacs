@@ -57,16 +57,8 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
-// we are using surfer own address
-if(!Surfer::get_email_address())
-	$permitted = FALSE;
-
-// associates can proceed
-elseif(Surfer::is_associate())
-	$permitted = TRUE;
-
-// section editors can proceed
-elseif(is_object($anchor) && $anchor->is_editable())
+// owners can proceed
+if(Articles::is_owned($anchor, $item))
 	$permitted = TRUE;
 
 // article editors can proceed
@@ -134,7 +126,7 @@ if(Surfer::is_crawler()) {
 // process submitted data
 elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
-	// sender address
+	// we are using surfer own address
 	$from = Surfer::get_email_address();
 
 	// recipient(s) address(es)

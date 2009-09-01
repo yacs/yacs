@@ -518,7 +518,7 @@ if(!Surfer::is_associate()) {
 		$fields['description'] = i18n::c('YACS puts automatically sent letters into this section.');
 		$fields['locked'] = 'Y'; // no direct contributions
 		$fields['home_panel'] = 'none'; // content is not pushed at the front page
-		$fields['index_map'] = 'N'; // this is a special section
+		$fields['index_map'] = 'N'; // listed only to associates
 		$fields['rank'] = 30000; // at the end of the list
 
 		// reference the new section

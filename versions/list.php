@@ -47,16 +47,8 @@ else
 	$page = 1;
 $page = max(1,intval($page));
 
-// ensure editors have the same rights than associates
-if(is_object($anchor) && $anchor->is_editable())
-	Surfer::empower();
-
-// associates and editors can do what they want
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && $anchor->is_viewable())
+// only anchor owners can proceed
+if(is_object($anchor) && $anchor->is_owned())
 	$permitted = TRUE;
 
 // the default is to disallow access

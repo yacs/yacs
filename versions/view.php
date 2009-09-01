@@ -8,9 +8,7 @@
  *
  * The extra panel also features top popular referrals in a sidebar box, if applicable.
  *
- * Restrictions apply on this page:
- * - associates and editors are allowed to move forward
- * - else permission is denied
+ * Only anchor owners can proceed
  *
  * Accept following invocations:
  * - view.php/12
@@ -45,8 +43,8 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// associates and editors can do what they want
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
+// you have to own the object to handle versions
+if(is_object($anchor) && $anchor->is_owned())
 	$permitted = TRUE;
 
 // the default is to deny access

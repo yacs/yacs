@@ -263,8 +263,7 @@ if($with_form) {
 	$ping_option = FALSE;
 	$trackback_option = FALSE;
 	if(is_object($anchor) && $anchor->is_public()
-			&& (isset($item['active']) && ($item['active'] == 'Y'))
-			&& (!isset($item['home_panel']) || ($item['home_panel'] != 'none')) ) {
+			&& (isset($item['active']) && ($item['active'] == 'Y')) ) {
 		$ping_option = TRUE;
 		$trackback_option = TRUE;
 	}

@@ -207,12 +207,6 @@ if(!isset($item['id'])) {
 		elseif($item['active'] == 'N')
 			$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons');
 
-		// home panel
-		if(Surfer::is_associate()) {
-			if(isset($item['home_panel']) && ($item['home_panel'] == 'none'))
-				$details[] = i18n::s('This page is NOT displayed at the front page.');
-		}
-
 		// expired article
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if((Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()))
@@ -601,7 +595,7 @@ if(!isset($item['id'])) {
 	}
 
 	// access previous versions, if any
-	if($editable && $has_versions) {
+	if($has_versions && Articles::is_owned($anchor, $item)) {
 		Skin::define_img('ARTICLES_VERSIONS_IMG', 'articles/versions.gif');
 		$context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), ARTICLES_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 	}

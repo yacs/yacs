@@ -725,7 +725,7 @@ Class Locations {
 		}
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// extract latitude and longitude
 		if(isset($fields['geo_position']) && $fields['geo_position'])
@@ -753,7 +753,7 @@ Class Locations {
 			if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 				$query .= ", "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id='".SQL::escape($fields['edit_id'])."', "
+				."edit_id=".SQL::escape($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
 			}
@@ -773,7 +773,7 @@ Class Locations {
 				."geo_country='".SQL::escape(isset($fields['geo_country']) ? $fields['geo_country'] : '')."', "
 				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."', "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id='".SQL::escape($fields['edit_id'])."', "
+				."edit_id=".SQL::escape($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
 

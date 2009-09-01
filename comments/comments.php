@@ -35,22 +35,22 @@ Class Comments {
 	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
-	 * @param boolean TRUE to ask for option 'with_comments'
+	 * @param string the type of item, e.g., 'section'
 	 * @return TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL, $explicit=FALSE) {
+	function are_allowed($anchor=NULL, $item=NULL, $variant='article') {
 		global $context;
 
 		// comments are prevented in item
-		if(!$explicit && isset($item['options']) && is_string($item['options']) && preg_match('/\bno_comments\b/i', $item['options']))
+		if(($variant == 'article') && isset($item['options']) && is_string($item['options']) && preg_match('/\bno_comments\b/i', $item['options']))
 			return FALSE;
 
 		// comments are not explicitly activated in item
-		if($explicit && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_(comments|wall)\b/i', $item['options']))
+		if(($variant != 'article') && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_(comments|wall)\b/i', $item['options']))
 			return FALSE;
 
 		// comments are prevented in anchor
-		if(is_object($anchor) && $anchor->has_option('no_comments'))
+		if(!$item && is_object($anchor) && $anchor->has_option('no_comments'))
 			return FALSE;
 
 		// surfer is an associate
@@ -61,54 +61,42 @@ Class Comments {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
+		// surfer is owning this item
+		if(isset($item['id']) && ($variant == 'article') && Articles::is_owned($anchor, $item))
+			return TRUE;
+// 		if(isset($item['id']) && ($variant == 'category') && Categories::is_owned($anchor, $item))
+// 			return TRUE;
+		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item))
+			return TRUE;
+			
+		// editors cannot contribute if container has been locked
+		if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// anchor has been locked --only used when there is no item provided
+		if(!$item['id'] && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
+
 		// container is hidden
 		if(isset($item['active']) && ($item['active'] == 'N')) {
 		
-			// filter editors
-			if(!Surfer::is_empowered())
-				return FALSE;
-				
-			// editors will have to unlock the container to contribute
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				return FALSE;
-			return TRUE;
+			// surfer has been assigned to this item
+			if(isset($item['id']) && ($variant == 'article') && Articles::is_assigned($item['id']))
+				return TRUE;
+// 			if(isset($item['id']) && ($variant == 'category') && Categories::is_assigned($item['id']))
+// 				return TRUE;
+			if(isset($item['id']) && ($variant == 'section') && Sections::is_assigned($item['id']))
+				return TRUE;			
 			
 		// container is restricted
 		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
 		
-			// filter members
-			if(!Surfer::is_member())
-				return FALSE;
-				
-			// editors can proceed
-			if(Surfer::is_empowered())
+			// only members can proceed
+			if(Surfer::is_member())
 				return TRUE;
 				
-			// members can contribute except if container is locked
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				return FALSE;
-			return TRUE;
-			
-		}
-
-		// editors can always comment public pages
-		if(Surfer::is_empowered())
-			return TRUE;
-			
-		// surfer created the page
-		if(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
-			return TRUE;
-
-		// container has been locked
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
-			return FALSE;
-
-		// anchor has been locked --only used when there is no item provided
-		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
-			return FALSE;
-
 		// authenticated members and subscribers are allowed to add comments
-		if(Surfer::is_logged())
+		} elseif(Surfer::is_logged())
 			return TRUE;
 			
 		// anonymous surfers are allowed to contribute
@@ -1252,7 +1240,7 @@ Class Comments {
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
-			$where .= " AND ((articles.create_id='".Surfer::get_id()."') OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')))";
 		}
 
@@ -1377,7 +1365,7 @@ Class Comments {
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
-			$where .= " AND ((articles.create_id='".Surfer::get_id()."') OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where .= " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')))";
 		}
 
@@ -1455,7 +1443,7 @@ Class Comments {
 		}
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 		$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// reinforce date formats
@@ -1486,7 +1474,7 @@ Class Comments {
 			if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 				$query .= ", "
 					."edit_name='".SQL::escape($fields['edit_name'])."', "
-					."edit_id='".SQL::escape($fields['edit_id'])."', "
+					."edit_id=".SQL::escape($fields['edit_id']).", "
 					."edit_address='".SQL::escape($fields['edit_address'])."', "
 					."edit_action='comment:update', "
 					."edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -1505,11 +1493,11 @@ Class Comments {
 				."type='".SQL::escape(isset($fields['type']) ? $fields['type'] : 'attention')."', "
 				."description='".SQL::escape($fields['description'])."', "
 				."create_name='".SQL::escape($fields['edit_name'])."', "
-				."create_id='".SQL::escape($fields['edit_id'])."', "
+				."create_id=".SQL::escape($fields['edit_id']).", "
 				."create_address='".SQL::escape($fields['edit_address'])."', "
 				."create_date='".SQL::escape($fields['create_date'])."', "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id='".SQL::escape($fields['edit_id'])."', "
+				."edit_id=".SQL::escape($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_action='comment:create', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";

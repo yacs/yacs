@@ -148,6 +148,7 @@ Class Members {
 		// don't go further if the membership already exists
 		$query = "SELECT id  FROM ".SQL::table_name('members')
 			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."') LIMIT 0, 1";
+			
 		if(SQL::query_count($query))
 			return $cache[$anchor.':'.$member] = TRUE;
 

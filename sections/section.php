@@ -933,15 +933,6 @@ Class Section extends Anchor {
 			if(!$user_id && Surfer::get_id())
 				$user_id = Surfer::get_id();
 
-			// authenticated subscriptors cannot contribute
-			if(!$user_id || Surfer::is_empowered('M')) {
-
-				// maybe the current surfer has been explicitly defined as a managing editor
-				if($user_id && Members::check('user:'.$user_id, 'section:'.$this->item['id']))
-					return TRUE;
-
-			}
-
 			// check the upper level container
 			if(isset($this->item['anchor'])) {
 
@@ -949,8 +940,8 @@ Class Section extends Anchor {
 				if(!isset($this->anchor) || !$this->anchor)
 					$this->anchor =& Anchors::get($this->item['anchor']);
 
-				if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
-					return TRUE;
+				// check for ownership
+				return Sections::is_owned($this->anchor, $this->item);
 
 			}
 		}
@@ -1252,7 +1243,7 @@ Class Section extends Anchor {
 		// stamp the update
 		if(!$silently)
 			$query[] = "edit_name='".SQL::escape(Surfer::get_name())."',"
-				."edit_id='".SQL::escape(Surfer::get_id())."',"
+				."edit_id=".SQL::escape(Surfer::get_id()).","
 				."edit_address='".SQL::escape(Surfer::get_email_address())."',"
 				."edit_action='$action',"
 				."edit_date='".SQL::escape(gmstrftime('%Y-%m-%d %H:%M:%S'))."'";
@@ -1482,6 +1473,10 @@ Class Section extends Anchor {
 				Users::alert_watchers('user:'.Surfer::get_id(), $mail2, $notification);
 
 		}
+
+		// add this page to the watch list of the contributor, on any action
+		if(Surfer::get_id())
+			Members::assign('section:'.$this->item['id'], 'user:'.Surfer::get_id());
 
 		// always clear the cache, even on no update
 		Sections::clear($this->item);

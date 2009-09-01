@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 31, 2009, 6:59 am GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:22 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-30 23:09+0200
-PO-Revision-Date: 2009-08-30 23:22+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:03+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -92,7 +92,7 @@ $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Submit another link']='Submit another link';
 $_SESSION['l10n']['en']['Target window']='Target window';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
-$_SESSION['l10n']['en']['07952e6cca017e7cdff4505604da467f']='The deletion has not been confirmed.';
+$_SESSION['l10n']['en']['5135051eb31da8ef238ed65c0b0816df']='The action has not been confirmed.';
 $_SESSION['l10n']['en']['851fe463cc87e64921bd418eeaa3194c']='The link has been successfully recorded.';
 $_SESSION['l10n']['en']['bb76e300225d0626f317e27811fb1737']='The remote address that is referencing content at this site';
 $_SESSION['l10n']['en']['The title of your page']='The title of your page';

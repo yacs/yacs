@@ -115,7 +115,7 @@ if(Surfer::is_associate() && !file_exists('reference/footprints.php')) {
 		$context['reference_server'] = i18n::s('www.yacs.fr');
 
 	// offer to upgrade
-	$context['text'] .= '<p>'.Skin::build_link('scripts/stage.php', i18n::s('Update scripts'))."</p>\n";
+	$context['text'] .= '<p>'.Skin::build_link('scripts/stage.php', i18n::s('Update the software'))."</p>\n";
 
 }
 
@@ -172,7 +172,7 @@ if(Surfer::is_associate()) {
 		$context['page_tools'][] = Skin::build_link('scripts/run_once.php', i18n::s('Run once'), 'basic');
 
 	// stage from reference server
-	$context['page_tools'][] = Skin::build_link('scripts/stage.php', i18n::s('Update'), 'basic');
+	$context['page_tools'][] = Skin::build_link('scripts/stage.php', i18n::s('Update the software'), 'basic');
 
 	// set the reference server
 	$context['page_tools'][] = Skin::build_link('scripts/configure.php', i18n::s('Configure'), 'basic');

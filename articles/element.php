@@ -84,17 +84,6 @@ elseif(Surfer::is_member() && isset($item['options']) && $item['options'] && pre
 if(Surfer::is_empowered())
 	$permitted = TRUE;
 
-// surfer created the page and the page has not been published
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())
-	&& (!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) )
-	$permitted = TRUE;
-
-// surfer has created the published page and revisions are allowed
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())
-	&& isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)
-	&& (!isset($context['users_without_revision']) || ($context['users_without_revision'] != 'Y')) )
-	$permitted = TRUE;
-
 // the default is to disallow access
 else
 	$permitted = FALSE;

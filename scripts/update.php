@@ -48,7 +48,7 @@ load_skin('scripts');
 $context['path_bar'] = array( 'scripts/' => i18n::s('Server software') );
 
 // the title of the page
-$context['page_title'] = i18n::s('Update scripts');
+$context['page_title'] = i18n::s('Update the software');
 
 // anonymous users are invited to log in or to register
 if(!Surfer::is_logged())

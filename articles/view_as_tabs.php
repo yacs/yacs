@@ -10,10 +10,6 @@
  * - Attachments - with files and links
  * - Discussion - A thread of contributions, not in real-time
  *
- * Details about this page are displayed if:
- * - surfer is a site associate or a section editor
- * - surfer is a member and ( ( global parameter content_without_details != Y ) or ( section option with_details == Y ) )
- *
  * The extra panel has following elements:
  * - extra information from the article itself, if any
  * - toolbox for page author, editors, and associates
@@ -242,12 +238,6 @@ if(!isset($item['id'])) {
 		// restricted to associates
 		elseif($item['active'] == 'N')
 			$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons');
-
-		// home panel
-		if(Surfer::is_associate()) {
-			if(isset($item['home_panel']) && ($item['home_panel'] == 'none'))
-				$details[] = i18n::s('This page is NOT displayed at the front page.');
-		}
 
 		// expired article
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
@@ -817,7 +807,7 @@ if(!isset($item['id'])) {
 	}
 
 	// access previous versions, if any
-	if($editable && $has_versions) {
+	if($has_versions && Articles::is_owned($anchor, $item)) {
 		Skin::define_img('ARTICLES_VERSIONS_IMG', 'articles/versions.gif');
 		$context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), ARTICLES_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 	}
@@ -881,7 +871,7 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 	// mail this page
-	if(!$zoom_type && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	if((Articles::is_owned($anchor, $item) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
 		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
 	}

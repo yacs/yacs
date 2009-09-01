@@ -2,7 +2,7 @@
 /**
  * layout sections as an index page of Yahoo!
  *
- * With this layout up to three sub-items are listed as well.
+ * With this layout several sub-items are listed as well.
  * These can be either sub-sections and/or articles, depending of relative availability of both kind of items.
  *
  * @see sections/sections.php

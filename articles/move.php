@@ -43,12 +43,8 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']) && $item['overlay'])
 	$overlay = Overlay::load($item);
 
-// authenticated editors can do what they want on items anchored here
-if(Surfer::is_logged() && is_object($anchor) && $anchor->is_editable())
-	Surfer::empower();
-
-// associates and editors can do what they want
-if(Surfer::is_empowered())
+// owners can do what they want
+if(Articles::is_owned($anchor, $item))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -128,7 +124,7 @@ elseif(!isset($item['id'])) {
 // maybe this article cannot be modified anymore
 } elseif(isset($item['locked']) && ($item['locked'] == 'Y') && !Surfer::is_empowered()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('This page has been locked and you are not allowed to modify it.'));
+	Logger::error(i18n::s('This page has been locked.'));
 
 // do the job
 } else {

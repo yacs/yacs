@@ -283,7 +283,7 @@ Class Forms {
 		}
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// set conservative default values
 		if(!isset($fields['active']) || !$fields['active'])
@@ -312,7 +312,7 @@ Class Forms {
 			if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 				$query .= ", "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id='".SQL::escape($fields['edit_id'])."', "
+				."edit_id=".SQL::escape($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
 			}
@@ -336,7 +336,7 @@ Class Forms {
 				."nick_name='".SQL::escape($fields['nick_name'])."', "
 				."title='".SQL::escape($fields['title'])."', "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id='".SQL::escape($fields['edit_id'])."', "
+				."edit_id=".SQL::escape($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
 

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 31, 2009, 6:59 am GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:22 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-30 23:09+0200
-PO-Revision-Date: 2009-08-30 23:24+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:04+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -92,7 +92,6 @@ $_SESSION['l10n']['en']['4128cfdf11ea0df8da8a6770bc9984d7']='Associates have to 
 $_SESSION['l10n']['en']['eb6a6edda550644a64d0c8d220fb50f4']='At your request, a copy was also sent to %s';
 $_SESSION['l10n']['en']['Authenticate with password %s']='Authenticate with password %s';
 $_SESSION['l10n']['en']['Authenticated externally.']='Authenticated externally.';
-$_SESSION['l10n']['en']['ab70f618778ee6c8fa452521c94b9f0d']='Authenticated members are allowed to modify articles they have posted.';
 $_SESSION['l10n']['en']['6021d3dd0571ef65b5bcf61d2cd09cbc']='Authenticated members are allowed to post images and files.';
 $_SESSION['l10n']['en']['816c9a402dbb6753bef8bde81ebdecc3']='Authenticated members are allowed to submit new content.';
 $_SESSION['l10n']['en']['Authentication']='Authentication';
@@ -296,6 +295,7 @@ $_SESSION['l10n']['en']['Password']='Password';
 $_SESSION['l10n']['en']['Password confirmation']='Password confirmation';
 $_SESSION['l10n']['en']['0907a526998e1cb6371e1510c92665f8']='Paste here the public key you would like to share with others.';
 $_SESSION['l10n']['en']['People']='People';
+$_SESSION['l10n']['en']['Persons assigned to %s']='Persons assigned to %s';
 $_SESSION['l10n']['en']['Phone number']='Phone number';
 $_SESSION['l10n']['en']['Physical address']='Physical address';
 $_SESSION['l10n']['en']['Picture URL']='Picture URL';
@@ -353,8 +353,6 @@ $_SESSION['l10n']['en']['Request is invalid.']='Request is invalid.';
 $_SESSION['l10n']['en']['Results']='Results';
 $_SESSION['l10n']['en']['Review profiles']='Review profiles';
 $_SESSION['l10n']['en']['Review queue']='Review queue';
-$_SESSION['l10n']['en']['Revisions']='Revisions';
-$_SESSION['l10n']['en']['e020d67b58a644221b33cd2fc7559a55']='Revisions are forbidden after publication, except from associates.';
 $_SESSION['l10n']['en']['3f198a683dbf9c5d9abee63865732cce']='Screen is not shared with other people.';
 $_SESSION['l10n']['en']['Screening']='Screening';
 $_SESSION['l10n']['en']['706d4aa7c88cd69343d72b2f59b6780a']='Script used to %s at this server';
@@ -397,7 +395,7 @@ $_SESSION['l10n']['en']['Textarea']='Textarea';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['aa9896da4a99a1f62887a04bf5147cfd']='Thank you for your interest into %s.';
 $_SESSION['l10n']['en']['99ae026a1274f31e0343f55a90e999cf']='The PHP run-time configuration does not allow for any upload.';
-$_SESSION['l10n']['en']['07952e6cca017e7cdff4505604da467f']='The deletion has not been confirmed.';
+$_SESSION['l10n']['en']['5135051eb31da8ef238ed65c0b0816df']='The action has not been confirmed.';
 $_SESSION['l10n']['en']['3513760fe3e0b14f2af4cc30a501d92a']='The following configuration has been saved into the file %s.';
 $_SESSION['l10n']['en']['31236255c8239cb2f992178fb8872cb8']='The network address to be used to reach your workstation, if not %s';
 $_SESSION['l10n']['en']['59f14effabdef43524d654af0196c3eb']='The nick name has to be unique throughout the database of users.';
@@ -405,7 +403,6 @@ $_SESSION['l10n']['en']['3f7ae37483d52d2963e9f0071071da13']='The operation has c
 $_SESSION['l10n']['en']['44a4d985054ef8844e8835e907c1548c']='The page has been added to your watch list. You will receive electronic messages to warn you on each future update.';
 $_SESSION['l10n']['en']['629bd7ed75c38be4a100ccacd8ce3176']='The page has been removed from your watch list. You won\'t receive any message about it anymore.';
 $_SESSION['l10n']['en']['e447dd31e3be3b3e2dfc44dda8ea6723']='The page you requested is available only to registered members.';
-$_SESSION['l10n']['en']['6efd466bd73f990bcd6b454eb37cdc72']='This is the current list of persons assigned to %s';
 $_SESSION['l10n']['en']['13a7ba24ba8e59fff329ee7821676228']='This member does not accept e-mail messages.';
 $_SESSION['l10n']['en']['99a8fd1957a4bdb9c681ffa773253508']='This message has been automatically sent to you to confirm a change of your profile at %s.';
 $_SESSION['l10n']['en']['a758d605f47ab0be47f469aba40a4873']='This message relates to your account at %s.';

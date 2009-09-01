@@ -62,16 +62,8 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
-// associates can do what they want
-if(Surfer::is_associate())
-	Surfer::empower();
-
-// anchor editors can do what they want
-elseif(is_object($anchor) && $anchor->is_assigned())
-	Surfer::empower();
-
-// surfer created the page
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id()))
+// owners can do what they want
+if(Sections::is_owned($anchor, $item))
 	Surfer::empower();
 
 // link to contribute
@@ -88,17 +80,17 @@ else
 	$message_prefix = i18n::s('You are invited personally to check the following page.')
 		."\n\n".$link."\n\n";
 
-// we are using surfer own address
-if(!Surfer::get_email_address())
-	$permitted = FALSE;
-
 // associates and editors can do what they want
-elseif(Surfer::is_empowered())
+if(Surfer::is_empowered())
 	$permitted = TRUE;
 
 // function is available only to authenticated members --not subscribers
 elseif(!Surfer::is_member())
 	$permitted = FALSE;
+
+// help to share public items
+elseif(isset($item['active']) && ($item['active'] == 'Y'))
+	$permitted = TRUE;
 
 // the default is to disallow access
 else

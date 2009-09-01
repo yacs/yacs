@@ -286,37 +286,6 @@ elseif($item['active'] == 'Y')
 else
 	$permitted = FALSE;
 
-//
-// is this surfer allowed to change the page?
-//
-
-// page is not defined
-if(!isset($item['id']))
-	$editable = FALSE;
-	
-// associates can always change a section
-elseif(Surfer::is_associate())
-	$editable = TRUE;
-	
-// editors can edit this section, except if it locked and hidden
-elseif(Surfer::is_empowered()) {
-	if(($item['locked'] == 'Y') && ($item['active'] == 'N'))
-		$editable = FALSE;
-	else
-		$editable = TRUE;
-
-// this page cannot be modified anymore
-} elseif($item['locked'] == 'Y')
-	$editable = FALSE;
-
-// the anchor has to be editable by this surfer
-elseif(is_object($anchor) && $anchor->is_editable())
-	$editable = TRUE;
-
-// the default is to disallow modifications
-else
-	$editable = FALSE;
-
 // is the page on user watch list?
 $in_watch_list = FALSE;
 if(Surfer::is_logged() && isset($item['id']))
@@ -517,7 +486,7 @@ if(!isset($item['id'])) {
 			// at the site map
 			} else {
 
-				if(isset($item['index_map']) && ($item['index_map'] == 'N'))
+				if(isset($item['index_map']) && ($item['index_map'] != 'Y'))
 					$details[] = i18n::s('Is not publicly listed at the Site Map. Is listed with special sections, but only to associates.');
 			}
 
@@ -627,303 +596,396 @@ if(!isset($item['id'])) {
 	//
 	// update main panel -- $context['text']
 	//
+	$text = '';
 
-	// cache varies on $zoom_type and $zoom_index, or on $page
+	// insert anchor prefix
+	if(is_object($anchor))
+		$text .= $anchor->get_prefix();
+
+	// display very few things if we are on a follow-up page (comments, files, etc.)
 	if($zoom_type)
-		$cache_id = 'sections/view.php?id='.$item['id'].'#text#'.$zoom_type.'#'.$zoom_index;
-	else
-		$cache_id = 'sections/view.php?id='.$item['id'].'#text#'.$page;
-	if(!$text =& Cache::get($cache_id)) {
+		$text .= Codes::beautify($item['introduction'], $item['options']);
 
-		// insert anchor prefix
-		if(is_object($anchor))
-			$text .= $anchor->get_prefix();
+	// else expose full details
+	else {
 
-		// display very few things if we are on a follow-up page (comments, files, etc.)
-		if($zoom_type)
-			$text .= Codes::beautify($item['introduction'], $item['options']);
+		// only at the first page
+		if($page == 1) {
 
-		// else expose full details
-		else {
+			// the introduction text, if any
+			if(is_object($overlay))
+				$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
+			elseif(isset($item['introduction']) && trim($item['introduction']))
+				$text .= Skin::build_block($item['introduction'], 'introduction');
 
-			// only at the first page
-			if($page == 1) {
+			// get text related to the overlay, if any
+			if(is_object($overlay))
+				$text .= $overlay->get_text('view', $item);
 
-				// the introduction text, if any
-				if(is_object($overlay))
-					$text .= Skin::build_block($overlay->get_text('introduction', $item), 'introduction');
-				elseif(isset($item['introduction']) && trim($item['introduction']))
-					$text .= Skin::build_block($item['introduction'], 'introduction');
+		}
 
-				// get text related to the overlay, if any
-				if(is_object($overlay))
-					$text .= $overlay->get_text('view', $item);
+		// filter description, if necessary
+		if(is_object($overlay))
+			$description = $overlay->get_text('description', $item);
+		else
+			$description = $item['description'];
+			
+		// the beautified description, which is the actual page body
+		if($description) {
+
+			// use adequate label
+			if(is_object($overlay) && ($label = $overlay->get_label('description')))
+				$text .= Skin::build_block($label, 'title');
+
+			// provide only the requested page
+			$pages = preg_split('/\s*\[page\]\s*/is', $description);
+			if($page > count($pages))
+				$page = count($pages);
+			if($page < 1)
+				$page = 1;
+			$description = $pages[ $page-1 ];
+
+			// if there are several pages, remove toc and toq codes
+			if(count($pages) > 1)
+				$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
+
+			// beautify the target page
+			$text .= Skin::build_block($description, 'description', '', $item['options']);
+
+			// if there are several pages, add navigation commands to browse them
+			if(count($pages) > 1) {
+				$page_menu = array( '_' => i18n::s('Pages') );
+				$home =& Sections::get_permalink($item);
+				$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
+				$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
+
+				$text .= Skin::build_list($page_menu, 'menu_bar');
+			}
+
+		}
+
+		// add trailer information from the overlay, if any
+		if(is_object($overlay))
+			$text .= $overlay->get_text('trailer', $item);
+
+	}
+
+	//
+	// gadget boxes
+	//
+
+	// gadget boxes are featured only at the main index page
+	if(!$zoom_type) {
+
+		// all boxes
+		$content = '';
+
+		// one gadget box per article, from sub-sections
+		if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'gadget_boxes')) {
+
+			// up to 6 articles to be displayed as gadget boxes
+			if($items =& Articles::list_for_anchor_by('edition', $anchors, 0, 7, 'boxes')) {
+				foreach($items as $title => $attributes)
+					$content .= Skin::build_box($title, $attributes['content'], 'gadget', $attributes['id'])."\n";
+			}
+		}
+
+		// one gadget box per section, from sub-sections
+		if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'gadget')) {
+
+			// one box per section
+			foreach($anchors as $anchor) {
+			
+				// sanity check
+				if(!$section =& Anchors::get($anchor))
+					continue;
+
+				$box = array( 'title' => '', 'list' => array(), 'text' => '');
+
+				// link to the section page from box title
+				$box['title'] =& Skin::build_box_title($section->get_title(), $section->get_url(), i18n::s('View the section'));
+
+				// add sub-sections, if any
+				if($related = Sections::list_by_title_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1, 'compact')) {
+					foreach($related as $url => $label) {
+						if(is_array($label))
+							$label = $label[0].' '.$label[1];
+						$box['list'] = array_merge($box['list'], array($url => array('', $label, '', 'basic')));
+					}
+				}
+
+				// list matching articles
+				if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items =& Articles::list_for_anchor_by('edition', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
+					$box['list'] = array_merge($box['list'], $items);
+
+				// add matching links, if any
+				if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Links::list_by_date_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
+					$box['list'] = array_merge($box['list'], $items);
+
+				// more at the section page
+				if(count($box['list']) > COMPACT_LIST_SIZE) {
+					@array_splice($box['list'], COMPACT_LIST_SIZE);
+
+					// link to the section page
+					$box['list'] = array_merge($box['list'], array($section->get_url() => i18n::s('More pages').MORE_IMG));
+				}
+
+				// render the html for the box
+				if(count($box['list']))
+					$box['text'] =& Skin::build_list($box['list'], 'compact');
+
+				// display content of the section itself
+				elseif($description = $section->get_value('description')) {
+					$box['text'] .= Skin::build_block($description, 'description', '', $item['options']);
+
+				// give a chance to associates to populate empty sections
+				 } elseif(Surfer::is_empowered())
+					$box['text'] = Skin::build_link($section->get_url(), i18n::s('View the section'), 'shortcut');
+
+				// append a box
+				if($box['text'])
+					$content .= Skin::build_box($box['title'], $box['text'], 'gadget');
 
 			}
 
-			// filter description, if necessary
-			if(is_object($overlay))
-				$description = $overlay->get_text('description', $item);
+		}
+
+		// leverage CSS
+		if($content)
+			$content = '<p id="gadgets_prefix"> </p>'."\n".$content.'<p id="gadgets_suffix"> </p>'."\n";
+
+		// add after main menu bar
+		$text .= $content;
+	}
+
+	//
+	// sub-sections, if any
+	//
+
+	// the list of related sections if not at another follow-up page
+	if(!$zoom_type || ($zoom_type == 'sections')) {
+
+		// display sub-sections as a Freemind map, except to search engines
+		if(isset($item['sections_layout']) && ($item['sections_layout'] == 'freemind') && !Surfer::is_crawler()) {
+			$text .= Codes::render_freemind('section:'.$item['id'].', 100%, 400px');
+
+		// use a regular layout
+		} elseif(!isset($item['sections_layout']) || ($item['sections_layout'] != 'none')) {
+
+			// select a layout
+			if(!isset($item['sections_layout']) || !$item['sections_layout']) {
+				include_once 'layout_sections.php';
+				$layout =& new Layout_sections();
+			} elseif($item['sections_layout'] == 'decorated') {
+				include_once 'layout_sections.php';
+				$layout =& new Layout_sections();
+			} elseif($item['sections_layout'] == 'map') {
+				include_once 'layout_sections_as_yahoo.php';
+				$layout =& new Layout_sections_as_yahoo();
+			} elseif(is_readable($context['path_to_root'].'sections/layout_sections_as_'.$item['sections_layout'].'.php')) {
+				$name = 'layout_sections_as_'.$item['sections_layout'];
+				include_once $name.'.php';
+				$layout =& new $name;
+			} else {
+
+				// useful warning for associates
+				if(Surfer::is_associate())
+					Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['sections_layout']));
+
+				include_once '../sections/layout_sections.php';
+				$layout =& new Layout_sections();
+			}
+
+			// the maximum number of sections per page
+			if(isset($item['sections_count']) && ($item['sections_count'] > 1))
+				$items_per_page = $item['sections_count'];
+			elseif(is_object($layout))
+				$items_per_page = $layout->items_per_page();
 			else
-				$description = $item['description'];
-				
-			// the beautified description, which is the actual page body
-			if($description) {
+				$items_per_page = SECTIONS_PER_PAGE;
 
-				// use adequate label
-				if(is_object($overlay) && ($label = $overlay->get_label('description')))
-					$text .= Skin::build_block($label, 'title');
+			// build a complete box
+			$box = array('bar' => array(), 'text' => '');
 
-				// provide only the requested page
-				$pages = preg_split('/\s*\[page\]\s*/is', $description);
-				if($page > count($pages))
-					$page = count($pages);
-				if($page < 1)
-					$page = 1;
-				$description = $pages[ $page-1 ];
+			// count the number of subsections
+			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
+				if($count > 5)
+					$box['bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
 
-				// if there are several pages, remove toc and toq codes
-				if(count($pages) > 1)
-					$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
+				// list items by title
+				$offset = ($zoom_index - 1) * $items_per_page;
+				$items = Sections::list_by_title_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout);
 
-				// beautify the target page
-				$text .= Skin::build_block($description, 'description', '', $item['options']);
+				// navigation commands for sections
+				$home =& Sections::get_permalink($item);
+				$prefix = Sections::get_url($item['id'], 'navigate', 'sections');
+				$box['bar'] = array_merge($box['bar'],
+					Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index));
 
-				// if there are several pages, add navigation commands to browse them
-				if(count($pages) > 1) {
-					$page_menu = array( '_' => i18n::s('Pages') );
-					$home =& Sections::get_permalink($item);
-					$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
-					$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
-
-					$text .= Skin::build_list($page_menu, 'menu_bar');
-				}
+				// actually render the html for the section
+				if(is_array($items) && is_string($item['sections_layout']) && ($item['sections_layout'] == 'compact'))
+					$box['text'] .= Skin::build_list($items, 'compact');
+				elseif(is_array($items) && is_string($layout) && ($layout == 'decorated'))
+					$box['text'] .= Skin::build_list($items, 'decorated');
+				elseif(is_array($items))
+					$box['text'] .= Skin::build_list($items, '2-columns');
+				elseif(is_string($items))
+					$box['text'] .= $items;
 
 			}
 
-			// add trailer information from the overlay, if any
-			if(is_object($overlay))
-				$text .= $overlay->get_text('trailer', $item);
+			// the command to add a new section
+			if(Sections::are_allowed($anchor, $item)) {
+				Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
+				$box['bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.i18n::s('Add a section'));
+			}
+
+			// integrate commands in bottom menu
+			if(count($box['bar']))
+				$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
+
+			// there is some box content
+			if($box['text'])
+				$text .= $box['text'];
+
+		}
+	}
+
+	//
+	// articles related to this section, or to sub-sections
+	//
+
+	// the list of related articles if not at another follow-up page
+	if(!$zoom_type || ($zoom_type == 'articles')) {
+
+		// this is a slideshow
+		if(preg_match('/\bwith_slideshow\b/i', $item['options'])) {
+
+			// explain what we are talking about
+			$description = '<p>'.sprintf(i18n::s('Content of this section has been designed as an interactive on-line presentation. Navigate using the keyboard or a pointing device as usual. Use letter C to display control, and letter B to switch to/from a black screen. Based on the %s technology.'), Skin::build_link('http://www.meyerweb.com/eric/tools/s5/', i18n::s('S5'), 'external')).'</p>';
+
+			// the label
+			Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
+			$label = FILES_PLAY_IMG.' '.sprintf(i18n::s('Play %s'), str_replace('_', ' ', $item['title']));
+
+			// hovering the link
+			$title = i18n::s('Start');
+
+			// use a definition list to enable customization of the download box
+			$text .= '<dl class="download">'
+				.'<dt>'.Skin::build_link(Sections::get_url($item['id'], 'slideshow'), $label, 'basic', $title).'</dt>'
+				.'<dd>'.$description.'</dd></dl>'."\n";
 
 		}
 
-		//
-		// gadget boxes
-		//
+		// only associates and editors can list pages of a slideshow
+		if(Surfer::is_empowered() || !preg_match('/\bwith_slideshow\b/i', $item['options'])) {
 
-		// gadget boxes are featured only at the main index page
-		if(!$zoom_type) {
+			// delegate rendering to the overlay, where applicable
+			if(is_object($content_overlay) && ($overlaid = $content_overlay->render('articles', 'section:'.$item['id'], $zoom_index))) {
+				$text .= $overlaid;
 
-			// all boxes
-			$content = '';
-
-			// one gadget box per article, from sub-sections
-			if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'gadget_boxes')) {
-
-				// up to 6 articles to be displayed as gadget boxes
-				if($items =& Articles::list_for_anchor_by('edition', $anchors, 0, 7, 'boxes')) {
-					foreach($items as $title => $attributes)
-						$content .= Skin::build_box($title, $attributes['content'], 'gadget', $attributes['id'])."\n";
-				}
-			}
-
-			// one gadget box per section, from sub-sections
-			if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'gadget')) {
-
-				// one box per section
-				foreach($anchors as $anchor) {
-				
-					// sanity check
-					if(!$section =& Anchors::get($anchor))
-						continue;
-
-					$box = array( 'title' => '', 'list' => array(), 'text' => '');
-
-					// link to the section page from box title
-					$box['title'] =& Skin::build_box_title($section->get_title(), $section->get_url(), i18n::s('View the section'));
-
-					// add sub-sections, if any
-					if($related = Sections::list_by_title_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1, 'compact')) {
-						foreach($related as $url => $label) {
-							if(is_array($label))
-								$label = $label[0].' '.$label[1];
-							$box['list'] = array_merge($box['list'], array($url => array('', $label, '', 'basic')));
-						}
-					}
-
-					// list matching articles
-					if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items =& Articles::list_for_anchor_by('edition', $anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-						$box['list'] = array_merge($box['list'], $items);
-
-					// add matching links, if any
-					if((COMPACT_LIST_SIZE >= count($box['list'])) && ($items = Links::list_by_date_for_anchor($anchor, 0, COMPACT_LIST_SIZE+1 - count($box['list']), 'compact')))
-						$box['list'] = array_merge($box['list'], $items);
-
-					// more at the section page
-					if(count($box['list']) > COMPACT_LIST_SIZE) {
-						@array_splice($box['list'], COMPACT_LIST_SIZE);
-
-						// link to the section page
-						$box['list'] = array_merge($box['list'], array($section->get_url() => i18n::s('More pages').MORE_IMG));
-					}
-
-					// render the html for the box
-					if(count($box['list']))
-						$box['text'] =& Skin::build_list($box['list'], 'compact');
-
-					// display content of the section itself
-					elseif($description = $section->get_value('description')) {
-						$box['text'] .= Skin::build_block($description, 'description', '', $item['options']);
-
-					// give a chance to associates to populate empty sections
-					 } elseif(Surfer::is_empowered())
-						$box['text'] = Skin::build_link($section->get_url(), i18n::s('View the section'), 'shortcut');
-
-					// append a box
-					if($box['text'])
-						$content .= Skin::build_box($box['title'], $box['text'], 'gadget');
-
-				}
-
-			}
-
-			// leverage CSS
-			if($content)
-				$content = '<p id="gadgets_prefix"> </p>'."\n".$content.'<p id="gadgets_suffix"> </p>'."\n";
-
-			// add after main menu bar
-			$text .= $content;
-		}
-
-		//
-		// sub-sections, if any
-		//
-
-		// the list of related sections if not at another follow-up page
-		if(!$zoom_type || ($zoom_type == 'sections')) {
-
-			// display sub-sections as a Freemind map, except to search engines
-			if(isset($item['sections_layout']) && ($item['sections_layout'] == 'freemind') && !Surfer::is_crawler()) {
-				$text .= Codes::render_freemind('section:'.$item['id'].', 100%, 400px');
-
-			// use a regular layout
-			} elseif(!isset($item['sections_layout']) || ($item['sections_layout'] != 'none')) {
+			// regular rendering
+			} elseif(!isset($item['articles_layout']) || ($item['articles_layout'] != 'none')) {
 
 				// select a layout
-				if(!isset($item['sections_layout']) || !$item['sections_layout']) {
-					include_once 'layout_sections.php';
-					$layout =& new Layout_sections();
-				} elseif($item['sections_layout'] == 'decorated') {
-					include_once 'layout_sections.php';
-					$layout =& new Layout_sections();
-				} elseif($item['sections_layout'] == 'map') {
-					include_once 'layout_sections_as_yahoo.php';
-					$layout =& new Layout_sections_as_yahoo();
-				} elseif(is_readable($context['path_to_root'].'sections/layout_sections_as_'.$item['sections_layout'].'.php')) {
-					$name = 'layout_sections_as_'.$item['sections_layout'];
-					include_once $name.'.php';
+				if(!isset($item['articles_layout']) || !$item['articles_layout']) {
+					include_once '../articles/layout_articles.php';
+					$layout =& new Layout_articles();
+				} elseif($item['articles_layout'] == 'decorated') {
+					include_once '../articles/layout_articles.php';
+					$layout =& new Layout_articles();
+				} elseif($item['articles_layout'] == 'map') {
+					include_once '../articles/layout_articles_as_yahoo.php';
+					$layout =& new Layout_articles_as_yahoo();
+				} elseif($item['articles_layout'] == 'wiki') {
+					include_once '../articles/layout_articles.php';
+					$layout =& new Layout_articles();
+				} elseif(is_readable($context['path_to_root'].'articles/layout_articles_as_'.$item['articles_layout'].'.php')) {
+					$name = 'layout_articles_as_'.$item['articles_layout'];
+					include_once $context['path_to_root'].'articles/'.$name.'.php';
 					$layout =& new $name;
 				} else {
 
 					// useful warning for associates
 					if(Surfer::is_associate())
-						Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['sections_layout']));
+						Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['articles_layout']));
 
-					include_once '../sections/layout_sections.php';
-					$layout =& new Layout_sections();
+					include_once '../articles/layout_articles.php';
+					$layout =& new Layout_articles();
 				}
 
-				// the maximum number of sections per page
-				if(isset($item['sections_count']) && ($item['sections_count'] > 1))
-					$items_per_page = $item['sections_count'];
-				elseif(is_object($layout))
+				// avoid links to this page
+				if(is_object($layout) && is_callable(array($layout, 'set_variant')))
+					$layout->set_variant('section:'.$item['id']);
+
+				// the maximum number of articles per page
+				if(is_object($layout))
 					$items_per_page = $layout->items_per_page();
 				else
-					$items_per_page = SECTIONS_PER_PAGE;
+					$items_per_page = ARTICLES_PER_PAGE;
 
-				// build a complete box
+				// create a box
 				$box = array('bar' => array(), 'text' => '');
 
-				// count the number of subsections
-				if($count = Sections::count_for_anchor('section:'.$item['id'])) {
-					if($count > 5)
-						$box['bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
+				// sort and list articles
+				$offset = ($zoom_index - 1) * $items_per_page;
+				if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
+					$order = $matches[1];
+				elseif(is_callable(array($layout, 'items_order')))
+					$order = $layout->items_order();
+				else
+					$order = 'edition';
+				$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
+					
+				// no navigation bar with alistapart
+				if(!isset($item['articles_layout']) || ($item['articles_layout'] != 'alistapart')) {
 
-					// list items by title
-					$offset = ($zoom_index - 1) * $items_per_page;
-					$items = Sections::list_by_title_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout);
+					// count the number of articles in this section
+					if($count = Articles::count_for_anchor('section:'.$item['id'])) {
+						if($count > 5)
+							$box['bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
 
-					// navigation commands for sections
-					$home =& Sections::get_permalink($item);
-					$prefix = Sections::get_url($item['id'], 'navigate', 'sections');
-					$box['bar'] = array_merge($box['bar'],
-						Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index));
+						// navigation commands for articles
+						$home =& Sections::get_permalink($item);
+						$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
+						$box['bar'] = array_merge($box['bar'],
+							Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index));
 
-					// actually render the html for the section
-					if(is_array($items) && is_string($item['sections_layout']) && ($item['sections_layout'] == 'compact'))
-						$box['text'] .= Skin::build_list($items, 'compact');
-					elseif(is_array($items) && is_string($layout) && ($layout == 'decorated'))
-						$box['text'] .= Skin::build_list($items, 'decorated');
-					elseif(is_array($items))
-						$box['text'] .= Skin::build_list($items, '2-columns');
-					elseif(is_string($items))
-						$box['text'] .= $items;
+					}
 
+					// the command to post a new page
+					if(Articles::are_allowed($anchor, $item)) {
+
+						Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
+						$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
+						if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
+							;
+						else
+							$label = ARTICLES_ADD_IMG.i18n::s('Add a page');
+						$box['bar'] += array( $url => $label );
+
+					}
 				}
 
-				// the command to add a new section
-				if(Sections::are_allowed($anchor, $item)) {
-					Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
-					$box['bar'] += array('sections/edit.php?anchor='.urlencode('section:'.$item['id']) => SECTIONS_ADD_IMG.i18n::s('Add a section'));
-				}
+				// actually render the html for the box
+				if(is_array($items) && isset($item['articles_layout']) && ($item['articles_layout'] == 'compact'))
+					$box['text'] .= Skin::build_list($items, 'compact');
+				elseif(is_array($items))
+					$box['text'] .= Skin::build_list($items, 'decorated');
+				elseif(is_string($items))
+					$box['text'] .= $items;
 
-				// integrate commands in bottom menu
-				if(count($box['bar']))
+				// show commands
+				if(@count($box['bar']) && ($context['skin_variant'] != 'mobile'))
 					$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
 
 				// there is some box content
-				if($box['text'])
+				if(trim($box['text']))
 					$text .= $box['text'];
 
-			}
-		}
-
-		//
-		// articles related to this section, or to sub-sections
-		//
-
-		// the list of related articles if not at another follow-up page
-		if(!$zoom_type || ($zoom_type == 'articles')) {
-
-			// this is a slideshow
-			if(preg_match('/\bwith_slideshow\b/i', $item['options'])) {
-
-				// explain what we are talking about
-				$description = '<p>'.sprintf(i18n::s('Content of this section has been designed as an interactive on-line presentation. Navigate using the keyboard or a pointing device as usual. Use letter C to display control, and letter B to switch to/from a black screen. Based on the %s technology.'), Skin::build_link('http://www.meyerweb.com/eric/tools/s5/', i18n::s('S5'), 'external')).'</p>';
-
-				// the label
-				Skin::define_img('FILES_PLAY_IMG', 'files/play.gif');
-				$label = FILES_PLAY_IMG.' '.sprintf(i18n::s('Play %s'), str_replace('_', ' ', $item['title']));
-
-				// hovering the link
-				$title = i18n::s('Start');
-
-				// use a definition list to enable customization of the download box
-				$text .= '<dl class="download">'
-					.'<dt>'.Skin::build_link(Sections::get_url($item['id'], 'slideshow'), $label, 'basic', $title).'</dt>'
-					.'<dd>'.$description.'</dd></dl>'."\n";
-
-			}
-
-			// only associates and editors can list pages of a slideshow
-			if(Surfer::is_empowered() || !preg_match('/\bwith_slideshow\b/i', $item['options'])) {
-
-				// delegate rendering to the overlay, where applicable
-				if(is_object($content_overlay) && ($overlaid = $content_overlay->render('articles', 'section:'.$item['id'], $zoom_index))) {
-					$text .= $overlaid;
-
-				// regular rendering
-				} elseif(!isset($item['articles_layout']) || ($item['articles_layout'] != 'none')) {
+				// newest articles of main sub-sections, if not at another follow-up page
+				if(!$zoom_type && preg_match('/\bwith_deep_news\b/i', $item['options'])) {
 
 					// select a layout
 					if(!isset($item['articles_layout']) || !$item['articles_layout']) {
@@ -962,426 +1024,319 @@ if(!isset($item['id'])) {
 					else
 						$items_per_page = ARTICLES_PER_PAGE;
 
-					// create a box
-					$box = array('bar' => array(), 'text' => '');
+					// sub-sections targeting the main area
+					if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'main')) {
 
-					// sort and list articles
-					$offset = ($zoom_index - 1) * $items_per_page;
-					if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
-						$order = $matches[1];
-					elseif(is_callable(array($layout, 'items_order')))
-						$order = $layout->items_order();
-					else
-						$order = 'edition';
-					$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
-						
-					// no navigation bar with alistapart
-					if(!isset($item['articles_layout']) || ($item['articles_layout'] != 'alistapart')) {
-
-						// count the number of articles in this section
-						if($count = Articles::count_for_anchor('section:'.$item['id'])) {
-							if($count > 5)
-								$box['bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
-
-							// navigation commands for articles
-							$home =& Sections::get_permalink($item);
-							$prefix = Sections::get_url($item['id'], 'navigate', 'articles');
-							$box['bar'] = array_merge($box['bar'],
-								Skin::navigate($home, $prefix, $count, $items_per_page, $zoom_index));
-
-						}
-
-						// the command to post a new page
-						if(Articles::are_allowed($anchor, $item)) {
-
-							Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
-							$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
-							if(is_object($content_overlay) && ($label = $content_overlay->get_label('new_command')))
-								;
-							else
-								$label = ARTICLES_ADD_IMG.i18n::s('Add a page');
-							$box['bar'] += array( $url => $label );
-
-						}
-					}
-
-					// actually render the html for the box
-					if(is_array($items) && isset($item['articles_layout']) && ($item['articles_layout'] == 'compact'))
-						$box['text'] .= Skin::build_list($items, 'compact');
-					elseif(is_array($items))
-						$box['text'] .= Skin::build_list($items, 'decorated');
-					elseif(is_string($items))
-						$box['text'] .= $items;
-
-					// show commands
-					if(@count($box['bar']) && ($context['skin_variant'] != 'mobile'))
-						$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
-
-					// there is some box content
-					if(trim($box['text']))
-						$text .= $box['text'];
-
-					// newest articles of main sub-sections, if not at another follow-up page
-					if(!$zoom_type && preg_match('/\bwith_deep_news\b/i', $item['options'])) {
-
-						// select a layout
-						if(!isset($item['articles_layout']) || !$item['articles_layout']) {
-							include_once '../articles/layout_articles.php';
-							$layout =& new Layout_articles();
-						} elseif($item['articles_layout'] == 'decorated') {
-							include_once '../articles/layout_articles.php';
-							$layout =& new Layout_articles();
-						} elseif($item['articles_layout'] == 'map') {
-							include_once '../articles/layout_articles_as_yahoo.php';
-							$layout =& new Layout_articles_as_yahoo();
-						} elseif($item['articles_layout'] == 'wiki') {
-							include_once '../articles/layout_articles.php';
-							$layout =& new Layout_articles();
-						} elseif(is_readable($context['path_to_root'].'articles/layout_articles_as_'.$item['articles_layout'].'.php')) {
-							$name = 'layout_articles_as_'.$item['articles_layout'];
-							include_once $context['path_to_root'].'articles/'.$name.'.php';
-							$layout =& new $name;
-						} else {
-
-							// useful warning for associates
-							if(Surfer::is_associate())
-								Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['articles_layout']));
-
-							include_once '../articles/layout_articles.php';
-							$layout =& new Layout_articles();
-						}
-
-						// avoid links to this page
-						if(is_object($layout) && is_callable(array($layout, 'set_variant')))
-							$layout->set_variant('section:'.$item['id']);
-
-						// the maximum number of articles per page
-						if(is_object($layout))
-							$items_per_page = $layout->items_per_page();
+						// use ordering options set for the section
+						if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
+							$order = $matches[1];
 						else
-							$items_per_page = ARTICLES_PER_PAGE;
+							$order = 'edition';
+						$items =& Articles::list_for_anchor_by($order, $anchors, 0, $items_per_page, $layout);
 
-						// sub-sections targeting the main area
-						if($anchors =& Sections::get_anchors_for_anchor('section:'.$item['id'], 'main')) {
+						// actually render the html for the section
+						$content = '';
+						if(is_array($items) && is_string($item['articles_layout']) && ($item['articles_layout'] == 'compact'))
+							$content .= Skin::build_list($items, 'compact');
+						elseif(is_array($items))
+							$content .= Skin::build_list($items, 'decorated');
+						elseif(is_string($items))
+							$content .= $items;
 
-							// use ordering options set for the section
-							if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
-								$order = $matches[1];
-							else
-								$order = 'edition';
-							$items =& Articles::list_for_anchor_by($order, $anchors, 0, $items_per_page, $layout);
-
-							// actually render the html for the section
-							$content = '';
-							if(is_array($items) && is_string($item['articles_layout']) && ($item['articles_layout'] == 'compact'))
-								$content .= Skin::build_list($items, 'compact');
-							elseif(is_array($items))
-								$content .= Skin::build_list($items, 'decorated');
-							elseif(is_string($items))
-								$content .= $items;
-
-							// part of the main content
-							if($content)
-								$text .= Skin::build_box(i18n::s('What is new?'), $content, 'header1', 'what_is_new');
-						}
+						// part of the main content
+						if($content)
+							$text .= Skin::build_box(i18n::s('What is new?'), $content, 'header1', 'what_is_new');
 					}
 				}
 			}
+		}
 
-		// show hidden articles to associates and editors
-		} elseif( (!$zoom_type || ($zoom_type == 'articles'))
-			&& isset($item['articles_layout']) && ($item['articles_layout'] == 'none')
-			&& Surfer::is_empowered() ) {
+	// show hidden articles to associates and editors
+	} elseif( (!$zoom_type || ($zoom_type == 'articles'))
+		&& isset($item['articles_layout']) && ($item['articles_layout'] == 'none')
+		&& Surfer::is_empowered() ) {
 
-			// make a compact list
-			include_once '../articles/layout_articles_as_compact.php';
-			$layout =& new Layout_articles_as_compact();
+		// make a compact list
+		include_once '../articles/layout_articles_as_compact.php';
+		$layout =& new Layout_articles_as_compact();
 
-			// avoid links to this page
-			if(is_object($layout) && is_callable(array($layout, 'set_variant')))
-				$layout->set_variant('section:'.$item['id']);
+		// avoid links to this page
+		if(is_object($layout) && is_callable(array($layout, 'set_variant')))
+			$layout->set_variant('section:'.$item['id']);
 
-			// the maximum number of articles per page
-			if(is_object($layout))
-				$items_per_page = $layout->items_per_page();
+		// the maximum number of articles per page
+		if(is_object($layout))
+			$items_per_page = $layout->items_per_page();
+		else
+			$items_per_page = ARTICLES_PER_PAGE;
+
+		// list articles by date (default) or by title (option 'articles_by_title')
+		$offset = ($zoom_index - 1) * $items_per_page;
+		if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
+			$order = $matches[1];
+		else
+			$order = 'edition';
+		$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
+
+		// actually render the html for the box
+		$content = '';
+		if(is_array($items))
+			$content = Skin::build_list($items, 'compact');
+		else
+			$content = $items;
+
+		// make a complete box
+		if($content)
+			$text .= Skin::build_box(i18n::s('Hidden pages'), $content, 'header1', 'articles');
+	}
+
+	//
+	// files attached to this section
+	//
+
+	// the list of related files if not at another follow-up page
+	if(!$zoom_type || ($zoom_type == 'files')) {
+
+		// build a complete box
+		$box = array('bar' => array(), 'text' => '');
+
+		// count the number of files in this section
+		if($count = Files::count_for_anchor('section:'.$item['id'])) {
+			if($count > 5)
+				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
+
+			// list files by date (default) or by title (option 'files_by_title')
+			$offset = ($zoom_index - 1) * FILES_PER_PAGE;
+			if(preg_match('/\bfiles_by_title\b/i', $item['options']))
+				$items = Files::list_by_title_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE);
 			else
-				$items_per_page = ARTICLES_PER_PAGE;
+				$items = Files::list_by_date_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE);
 
-			// list articles by date (default) or by title (option 'articles_by_title')
-			$offset = ($zoom_index - 1) * $items_per_page;
-			if(preg_match('/\barticles_by_([a-z_]+)\b/i', $item['options'], $matches))
-				$order = $matches[1];
-			else
-				$order = 'edition';
-			$items =& Articles::list_for_anchor_by($order, 'section:'.$item['id'], $offset, $items_per_page, $layout);
-
-			// actually render the html for the box
-			$content = '';
+			// actually render the html
 			if(is_array($items))
-				$content = Skin::build_list($items, 'compact');
-			else
-				$content = $items;
+				$box['text'] .= Skin::build_list($items, 'decorated');
+			elseif(is_string($items))
+				$box['text'] .= $items;
 
-			// make a complete box
-			if($content)
-				$text .= Skin::build_box(i18n::s('Hidden pages'), $content, 'header1', 'articles');
-		}
-
-		//
-		// files attached to this section
-		//
-
-		// the list of related files if not at another follow-up page
-		if(!$zoom_type || ($zoom_type == 'files')) {
-
-			// build a complete box
-			$box = array('bar' => array(), 'text' => '');
-
-			// count the number of files in this section
-			if($count = Files::count_for_anchor('section:'.$item['id'])) {
-				if($count > 5)
-					$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
-
-				// list files by date (default) or by title (option 'files_by_title')
-				$offset = ($zoom_index - 1) * FILES_PER_PAGE;
-				if(preg_match('/\bfiles_by_title\b/i', $item['options']))
-					$items = Files::list_by_title_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE);
-				else
-					$items = Files::list_by_date_for_anchor('section:'.$item['id'], $offset, FILES_PER_PAGE);
-
-				// actually render the html
-				if(is_array($items))
-					$box['text'] .= Skin::build_list($items, 'decorated');
-				elseif(is_string($items))
-					$box['text'] .= $items;
-
-				// navigation commands for files
-				$home =& Sections::get_permalink($item);
-				$prefix = Sections::get_url($item['id'], 'navigate', 'files');
-				$box['bar'] = array_merge($box['bar'],
-					Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
-
-			}
-
-			// the command to post a new file -- check 'with_files' option
-			if(Files::are_allowed($anchor, $item, TRUE)) {
-				Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-				$box['bar'] += array('files/edit.php?anchor='.urlencode('section:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Upload a file') );
-			}
-
-			// integrate the nemu bar
-			if(count($box['bar']) && ($context['skin_variant'] != 'mobile'))
-				$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
-
-			// build a box
-			if(trim($box['text']))
-				$text .= Skin::build_box(i18n::s('Files'), $box['text'], 'header1', 'files');
+			// navigation commands for files
+			$home =& Sections::get_permalink($item);
+			$prefix = Sections::get_url($item['id'], 'navigate', 'files');
+			$box['bar'] = array_merge($box['bar'],
+				Skin::navigate($home, $prefix, $count, FILES_PER_PAGE, $zoom_index));
 
 		}
 
-		//
-		// attached comments
-		//
-
-		// the list of related comments if not at another follow-up page
-		if(!$zoom_type || ($zoom_type == 'comments')) {
-
-			// title label
-			if($section =& Anchors::get('section:'.$item['id']))
-				$title_label = $section->get_label('comments', 'title');
-			else
-				$title_label = i18n::s('Comments');
-
-			// new comments are allowed -- check option 'with_comments'
-			if(Comments::are_allowed($anchor, $item, TRUE)) {
-				if(preg_match('/\bcomments_as_wall\b/i', $item['options']))
-					$comments_prefix = TRUE;
-				else
-					$comments_suffix = TRUE;
-			}
-			
-			// layout is defined in options
-			if($item['articles_layout'] == 'boxesandarrows') {
-				include_once '../comments/layout_comments_as_boxesandarrows.php';
-				$layout =& new Layout_comments_as_boxesandarrows();
-
-			} elseif($item['articles_layout'] == 'daily') {
-				include_once '../comments/layout_comments_as_daily.php';
-				$layout =& new Layout_comments_as_daily();
-
-			} elseif($item['articles_layout'] == 'jive') {
-				include_once '../comments/layout_comments_as_jive.php';
-				$layout =& new Layout_comments_as_jive();
-
-			} elseif($item['articles_layout'] == 'manual') {
-				include_once '../comments/layout_comments_as_manual.php';
-				$layout =& new Layout_comments_as_manual();
-
-			} elseif($item['articles_layout'] == 'yabb') {
-				include_once '../comments/layout_comments_as_yabb.php';
-				$layout =& new Layout_comments_as_yabb();
-
-			} else {
-				include_once '../comments/layout_comments_as_yabb.php';
-				$layout =& new Layout_comments_as_yabb();
-			}
-
-			// the maximum number of comments per page
-			if(is_object($layout))
-				$items_per_page = $layout->items_per_page();
-			else
-				$items_per_page = COMMENTS_PER_PAGE;
-
-			// the first comment to list
-			$offset = ($zoom_index - 1) * $items_per_page;
-			if(is_object($layout) && method_exists($layout, 'set_offset'))
-				$layout->set_offset($offset);
-
-			// build a complete box
-			$box = array('bar' => array(), 'text' => '');
-
-			// new comments are allowed
-			if(isset($comments_prefix))
-				$box['text'] .= Comments::get_form('section:'.$item['id']);
-
-			// a navigation bar for these comments
-			if($zoom_type && ($zoom_type == 'comments'))
-				$link = '_count';
-			if($count = Comments::count_for_anchor('section:'.$item['id'])) {
-				if($count > 5)
-					$box['bar'] += array($link => sprintf(i18n::s('%d comments'), $count));
-
-				// list comments by date
-				$items = Comments::list_by_date_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix));
-
-				// actually render the html
-				if(is_array($items))
-					$box['text'] .= Skin::build_list($items, 'rows');
-				elseif(is_string($items))
-					$box['text'] .= $items;
-
-				// navigation commands for comments
-				$prefix = Comments::get_url('section:'.$item['id'], 'navigate');
-				$box['bar'] = array_merge($box['bar'],
-					Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index, FALSE, TRUE));
-
-			}
-
-			// new comments are allowed
-			if(isset($comments_suffix)) {
-				Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-				$box['bar'] += array( Comments::get_url('section:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.i18n::s('Post a comment'), '', 'basic', '', i18n::s('Express yourself, and say what you think.')));
-			}
-
-			// show commands
-			if(count($box['bar']) && ($context['skin_variant'] != 'mobile'))
-				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-
-			// insert a full box
-			if($box['text'])
-				$box['text'] =& Skin::build_box($title_label, $box['text'], 'header1', 'comments');
-
-
-			// there is some box content
-			if(trim($box['text']))
-				$text .= $box['text'];
-
+		// the command to post a new file -- check 'with_files' option
+		if(Files::are_allowed($anchor, $item, 'section')) {
+			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+			$box['bar'] += array('files/edit.php?anchor='.urlencode('section:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Upload a file') );
 		}
 
-		//
-		// links attached to this section
-		//
+		// integrate the nemu bar
+		if(count($box['bar']) && ($context['skin_variant'] != 'mobile'))
+			$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
 
-		// the list of related links if not at another follow-up page
-		if(!$zoom_type || ($zoom_type == 'links')) {
-
-			// build a complete box
-			$box = array('bar' => array(), 'text' => '');
-
-			// a navigation bar for these links
-			if($count = Links::count_for_anchor('section:'.$item['id'])) {
-				if($count > 5)
-					$box['bar'] += array('_count' => sprintf(i18n::ns('%d link', '%d links', $count), $count));
-
-				// list links by date (default) or by title (option 'links_by_title')
-				$offset = ($zoom_index - 1) * LINKS_PER_PAGE;
-				if(preg_match('/\blinks_by_title\b/i', $item['options']))
-					$items = Links::list_by_title_for_anchor('section:'.$item['id'], $offset, LINKS_PER_PAGE, 'no_anchor');
-				else
-					$items = Links::list_by_date_for_anchor('section:'.$item['id'], $offset, LINKS_PER_PAGE, 'no_anchor');
-
-				// actually render the html
-				if(is_array($items))
-					$box['text'] .= Skin::build_list($items, 'rows');
-				elseif(is_string($items))
-					$box['text'] .= $items;
-
-				// navigation commands for links
-				$home =& Sections::get_permalink($item);
-				$prefix = Sections::get_url($item['id'], 'navigate', 'links');
-				$box['bar'] = array_merge($box['bar'],
-					Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index));
-
-			}
-
-			// new links are allowed -- check option 'with_links'
-			if(Links::are_allowed($anchor, $item, TRUE)) {
-				Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
-				$box['bar'] += array('links/edit.php?anchor='.urlencode('section:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link') );
-			}
-
-			// integrate the menu bar at the end
-			if(count($box['bar']) && ($context['skin_variant'] != 'mobile'))
-				$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
-
-			// build a box
-			if(trim($box['text']))
-				$text .= Skin::build_box(i18n::s('Links'), $box['text'], 'header1', 'links');
-
-		}
-
-		//
-		// inactive sub sections
-		//
-
-		// associates may list special sections as well
-		if(!$zoom_type && Surfer::is_empowered()) {
-
-			// no special item yet
-			$items = array();
-
-			// if sub-sections are rendered by Freemind applet, also provide regular links to empowered surfers
-			if(isset($item['sections_layout']) && ($item['sections_layout'] == 'freemind'))
-				$items = Sections::list_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact');
-
-			// append inactive sections, if any
-			$items = array_merge($items, Sections::list_inactive_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact'));
-
-			// we have an array to format
-			if(count($items)) {
-				$content =& Skin::build_list($items, 'compact');
-
-				// displayed as another box
-				$text .= Skin::build_box(i18n::s('Other sections'), $content, 'header1', 'other_sections');
-
-			}
-		}
-
-		//
-		// trailer information
-		//
-
-		// add trailer information from this item, if any
-		if(isset($item['trailer']) && trim($item['trailer']))
-			$text .= Codes::beautify($item['trailer']);
-
-		//
-		// save in cache
-		//
-
-		Cache::put($cache_id, $text, 'section:'.$item['id']);
+		// build a box
+		if(trim($box['text']))
+			$text .= Skin::build_box(i18n::s('Files'), $box['text'], 'header1', 'files');
 
 	}
+
+	//
+	// attached comments
+	//
+
+	// the list of related comments if not at another follow-up page
+	if(!$zoom_type || ($zoom_type == 'comments')) {
+
+		// title label
+		if($section =& Anchors::get('section:'.$item['id']))
+			$title_label = $section->get_label('comments', 'title');
+		else
+			$title_label = i18n::s('Comments');
+
+		// new comments are allowed -- check option 'with_comments'
+		if(Comments::are_allowed($anchor, $item, 'section')) {
+			if(preg_match('/\bcomments_as_wall\b/i', $item['options']))
+				$comments_prefix = TRUE;
+			else
+				$comments_suffix = TRUE;
+		}
+		
+		// layout is defined in options
+		if($item['articles_layout'] == 'boxesandarrows') {
+			include_once '../comments/layout_comments_as_boxesandarrows.php';
+			$layout =& new Layout_comments_as_boxesandarrows();
+
+		} elseif($item['articles_layout'] == 'daily') {
+			include_once '../comments/layout_comments_as_daily.php';
+			$layout =& new Layout_comments_as_daily();
+
+		} elseif($item['articles_layout'] == 'jive') {
+			include_once '../comments/layout_comments_as_jive.php';
+			$layout =& new Layout_comments_as_jive();
+
+		} elseif($item['articles_layout'] == 'manual') {
+			include_once '../comments/layout_comments_as_manual.php';
+			$layout =& new Layout_comments_as_manual();
+
+		} elseif($item['articles_layout'] == 'yabb') {
+			include_once '../comments/layout_comments_as_yabb.php';
+			$layout =& new Layout_comments_as_yabb();
+
+		} else {
+			include_once '../comments/layout_comments_as_yabb.php';
+			$layout =& new Layout_comments_as_yabb();
+		}
+
+		// the maximum number of comments per page
+		if(is_object($layout))
+			$items_per_page = $layout->items_per_page();
+		else
+			$items_per_page = COMMENTS_PER_PAGE;
+
+		// the first comment to list
+		$offset = ($zoom_index - 1) * $items_per_page;
+		if(is_object($layout) && method_exists($layout, 'set_offset'))
+			$layout->set_offset($offset);
+
+		// build a complete box
+		$box = array('bar' => array(), 'text' => '');
+
+		// new comments are allowed
+		if(isset($comments_prefix))
+			$box['text'] .= Comments::get_form('section:'.$item['id']);
+
+		// a navigation bar for these comments
+		if($zoom_type && ($zoom_type == 'comments'))
+			$link = '_count';
+		if($count = Comments::count_for_anchor('section:'.$item['id'])) {
+			if($count > 5)
+				$box['bar'] += array($link => sprintf(i18n::s('%d comments'), $count));
+
+			// list comments by date
+			$items = Comments::list_by_date_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix));
+
+			// actually render the html
+			if(is_array($items))
+				$box['text'] .= Skin::build_list($items, 'rows');
+			elseif(is_string($items))
+				$box['text'] .= $items;
+
+			// navigation commands for comments
+			$prefix = Comments::get_url('section:'.$item['id'], 'navigate');
+			$box['bar'] = array_merge($box['bar'],
+				Skin::navigate(NULL, $prefix, $count, $items_per_page, $zoom_index, FALSE, TRUE));
+
+		}
+
+		// new comments are allowed
+		if(isset($comments_suffix)) {
+			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
+			$box['bar'] += array( Comments::get_url('section:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.i18n::s('Post a comment'), '', 'basic', '', i18n::s('Express yourself, and say what you think.')));
+		}
+
+		// show commands
+		if(count($box['bar']) && ($context['skin_variant'] != 'mobile'))
+			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
+
+		// insert a full box
+		if($box['text'])
+			$box['text'] =& Skin::build_box($title_label, $box['text'], 'header1', 'comments');
+
+
+		// there is some box content
+		if(trim($box['text']))
+			$text .= $box['text'];
+
+	}
+
+	//
+	// links attached to this section
+	//
+
+	// the list of related links if not at another follow-up page
+	if(!$zoom_type || ($zoom_type == 'links')) {
+
+		// build a complete box
+		$box = array('bar' => array(), 'text' => '');
+
+		// a navigation bar for these links
+		if($count = Links::count_for_anchor('section:'.$item['id'])) {
+			if($count > 5)
+				$box['bar'] += array('_count' => sprintf(i18n::ns('%d link', '%d links', $count), $count));
+
+			// list links by date (default) or by title (option 'links_by_title')
+			$offset = ($zoom_index - 1) * LINKS_PER_PAGE;
+			if(preg_match('/\blinks_by_title\b/i', $item['options']))
+				$items = Links::list_by_title_for_anchor('section:'.$item['id'], $offset, LINKS_PER_PAGE, 'no_anchor');
+			else
+				$items = Links::list_by_date_for_anchor('section:'.$item['id'], $offset, LINKS_PER_PAGE, 'no_anchor');
+
+			// actually render the html
+			if(is_array($items))
+				$box['text'] .= Skin::build_list($items, 'rows');
+			elseif(is_string($items))
+				$box['text'] .= $items;
+
+			// navigation commands for links
+			$home =& Sections::get_permalink($item);
+			$prefix = Sections::get_url($item['id'], 'navigate', 'links');
+			$box['bar'] = array_merge($box['bar'],
+				Skin::navigate($home, $prefix, $count, LINKS_PER_PAGE, $zoom_index));
+
+		}
+
+		// new links are allowed -- check option 'with_links'
+		if(Links::are_allowed($anchor, $item, 'section')) {
+			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
+			$box['bar'] += array('links/edit.php?anchor='.urlencode('section:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link') );
+		}
+
+		// integrate the menu bar at the end
+		if(count($box['bar']) && ($context['skin_variant'] != 'mobile'))
+			$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
+
+		// build a box
+		if(trim($box['text']))
+			$text .= Skin::build_box(i18n::s('Links'), $box['text'], 'header1', 'links');
+
+	}
+
+	//
+	// inactive sub sections
+	//
+
+	// associates may list special sections as well
+	if(!$zoom_type && Surfer::is_empowered()) {
+
+		// no special item yet
+		$items = array();
+
+		// if sub-sections are rendered by Freemind applet, also provide regular links to empowered surfers
+		if(isset($item['sections_layout']) && ($item['sections_layout'] == 'freemind'))
+			$items = Sections::list_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact');
+
+		// append inactive sections, if any
+		$items = array_merge($items, Sections::list_inactive_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact'));
+
+		// we have an array to format
+		if(count($items)) {
+			$content =& Skin::build_list($items, 'compact');
+
+			// displayed as another box
+			$text .= Skin::build_box(i18n::s('Other sections'), $content, 'header1', 'other_sections');
+
+		}
+	}
+
+	//
+	// trailer information
+	//
+
+	// add trailer information from this item, if any
+	if(isset($item['trailer']) && trim($item['trailer']))
+		$text .= Codes::beautify($item['trailer']);
 
 	// update the main content panel
 	$context['text'] .= $text;
@@ -1414,43 +1369,43 @@ if(!isset($item['id'])) {
 
 	}
 
-	// sub sections are allowed
-	if($editable) {
+	// add a section
+	if(Sections::are_allowed($anchor, $item)) {
+		Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
+		$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), SECTIONS_ADD_IMG.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
+	}
+		
+	// comment this page if anchor does not prevent it
+	if(Comments::are_allowed($anchor, $item, 'section')) {
+		Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
+		$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
+	}
 
-		// add a section
-		if(Sections::are_allowed($anchor, $item)) {
-			Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
-			$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), SECTIONS_ADD_IMG.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
-		}
-			
-		// comment this page if anchor does not prevent it
-		if(Comments::are_allowed($anchor, $item, TRUE)) {
-			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-			$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
-		}
+	// attach a file, if upload is allowed
+	if(Files::are_allowed($anchor, $item, 'section')) {
+		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
+	}
 
-		// attach a file, if upload is allowed
-		if(Files::are_allowed($anchor, $item, TRUE)) {
-			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
-		}
+	// add a link
+	if(Links::are_allowed($anchor, $item, 'section')) {
+		Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
+		$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
+	}
 
-		// add a link
-		if(Links::are_allowed($anchor, $item, TRUE)) {
-			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
-			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
-		}
+	// post an image, if upload is allowed
+	if(Images::are_allowed($anchor, $item, 'section')) {
+		Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
+		if(isset($item['icon_url']) && $item['icon_url'])
+			$link = 'images/edit.php?anchor='.urlencode('section:'.$item['id']);
+		else
+			$link = 'images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon';
+		$context['page_tools'][] = Skin::build_link($link, IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+	}
 
-		// post an image, if upload is allowed
-		if(Images::are_allowed($anchor, $item)) {
-			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-			if(isset($item['icon_url']) && $item['icon_url'])
-				$link = 'images/edit.php?anchor='.urlencode('section:'.$item['id']);
-			else
-				$link = 'images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon';
-			$context['page_tools'][] = Skin::build_link($link, IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
-		}
-
+	// commands for section owners
+	if(Sections::is_owned($anchor, $item)) {
+	
 		// modify this page
 		Skin::define_img('SECTIONS_EDIT_IMG', 'sections/edit.gif');
 		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
@@ -1619,7 +1574,7 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 	// add participants
-	if(Sections::is_owned($anchor, $item)) {
+	if(Sections::is_owned($anchor, $item) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
 		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), SECTIONS_INVITE_IMG.i18n::s('Invite participants'), 'basic');
 	}
@@ -1757,7 +1712,7 @@ if(!isset($item['id'])) {
 		}
 
 		// bookmark bookmarklet, if links are allowed
-		if(Links::are_allowed($anchor, $item, TRUE)) {
+		if(Links::are_allowed($anchor, $item, 'section')) {
 			$bookmarklet = "javascript:function findFrame(f){var i;try{isThere=f.document.selection.createRange().text;}catch(e){isThere='';}if(isThere==''){for(i=0;i&lt;f.frames.length;i++){findFrame(f.frames[i]);}}else{s=isThere}return s}"
 				."var s='';"
 				."d=document;"

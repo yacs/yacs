@@ -1188,7 +1188,7 @@ Class Users {
 			$fields['avatar_url'] =& encode_link($fields['avatar_url']);
 
 		// remember who is changing this record
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// reinforce date formats
 		if(!isset($fields['create_date']) || ($fields['create_date'] <= NULL_DATE))
@@ -1253,12 +1253,12 @@ Class Users {
 			."birth_date='".SQL::escape($fields['birth_date'])."', "
 			."capability='".SQL::escape($fields['capability'])."', "
 			."create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."', "
-			."create_id='".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id'])."', "
+			."create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
 			."create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."', "
 			."create_date='".SQL::escape($fields['create_date'])."', "
 			."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."', "
 			."edit_name='".SQL::escape($fields['edit_name'])."', "
-			."edit_id='".SQL::escape($fields['edit_id'])."', "
+			."edit_id=".SQL::escape($fields['edit_id']).", "
 			."edit_address='".SQL::escape($fields['edit_address'])."', "
 			."edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'new')."', "
 			."edit_date='".SQL::escape($fields['edit_date'])."', "
@@ -1434,7 +1434,7 @@ Class Users {
 			$fields['avatar_url'] =& encode_link($fields['avatar_url']);
 
 		// remember who is changing this record
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// set default values
 		if(!isset($fields['active']) || !$fields['active'])
@@ -1537,7 +1537,7 @@ Class Users {
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 			$query .= ", "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id='".SQL::escape($fields['edit_id'])."', "
+				."edit_id=".SQL::escape($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_action='user:update', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";

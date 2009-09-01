@@ -74,13 +74,14 @@ Class Actions {
 		}
 
 		// set default values
-		$fields = Surfer::check_default_editor(array());
+		$fields = array();
+		Surfer::check_default_editor($fields);
 
 		// update an existing record
 		$query = "UPDATE ".SQL::table_name('actions')." SET "
 			." status='".SQL::escape($status)."',"
 			." edit_name='".SQL::escape($fields['edit_name'])."',"
-			." edit_id='".SQL::escape($fields['edit_id'])."',"
+			." edit_id=".SQL::escape($fields['edit_id']).","
 			." edit_address='".SQL::escape($fields['edit_address'])."',"
 			." edit_date='".SQL::escape($fields['edit_date'])."'"
 			." WHERE id = ".SQL::escape($id);
@@ -627,7 +628,7 @@ Class Actions {
 			$fields['status'] = '0';
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// reinforce date formats
 		if(!isset($fields['create_date']) || ($fields['create_date'] <= NULL_DATE))
@@ -655,7 +656,7 @@ Class Actions {
 			if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 				$query .= ", "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id='".SQL::escape($fields['edit_id'])."', "
+				."edit_id=".SQL::escape($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
 			}
@@ -674,11 +675,11 @@ Class Actions {
 				."status_date='".SQL::escape($fields['status_date'])."', "
 				."target_url='".SQL::escape(isset($fields['target_url']) ? $fields['target_url'] : '')."', "
 				."create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."', "
-				."create_id='".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id'])."', "
+				."create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
 				."create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."', "
 				."create_date='".SQL::escape($fields['create_date'])."', "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id='".SQL::escape($fields['edit_id'])."', "
+				."edit_id=".SQL::escape($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
 

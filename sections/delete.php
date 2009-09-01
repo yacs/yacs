@@ -49,16 +49,8 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// editors of upper containers have associate-like capabilities
-if(is_object($anchor) && $anchor->is_editable())
-	Surfer::empower();
-
-// associates and editors are always authorized
-if(Surfer::is_empowered())
-	$permitted = TRUE;
-
-// creator may delete his section
-elseif(Surfer::is_member() && isset($item['create_id']) && (Surfer::get_id() == $item['create_id']))
+// owners associate-like capabilities
+if(Sections::is_owned($anchor, $item))
 	$permitted = TRUE;
 
 // the default is to disallow access

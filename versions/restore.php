@@ -5,9 +5,7 @@
  * Restoring a version means the anchor state is changed to a past version.
  * Also, the version, and more recent versions, are suppressed from the database.
  *
- * Restrictions apply on this page:
- * - associates and authenticated editors are allowed to move forward
- * - permission denied is the default
+ * Only anchor owners can proceed
  *
  * Accept following invocations:
  * - restore.php/12
@@ -42,8 +40,8 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// associates and editors can do what they want
-if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))
+// you have to own the object to handle versions
+if(is_object($anchor) && $anchor->is_owned())
 	$permitted = TRUE;
 
 // the default is to deny access

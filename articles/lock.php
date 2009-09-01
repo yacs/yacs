@@ -37,17 +37,8 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// editors can do what they want on items anchored here
-if(is_object($anchor) && $anchor->is_editable())
-	Surfer::empower();
-
-// associates and editors can do what they want
-if(Surfer::is_empowered() || (is_object($anchor) && $anchor->is_editable()))
-	$permitted = TRUE;
-
-// surfer created the page and the page has not been published
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())
-	&& (!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) )
+// owners can do what they want
+if(Articles::is_owned($anchor, $item))
 	$permitted = TRUE;
 
 // the default is to disallow access

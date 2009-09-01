@@ -86,11 +86,6 @@
  * Associates will have to create new user profiles when required.
  * Also, the user menu only appears to authenticated users.
  *
- * [*] [code]users_without_revision[/code] - By default YACS allows revisions after publication by authors.
- * If this parameter is explicitly set to 'Y', members may not modify their own posts after publication.
- * When set to 'Y', this parameter prevents posters to modify their submission in forums.
- * Note that members are always allowed to modify the comments, images, files, and links they have posted.
- *
  * [*] [code]users_without_robot_check[/code] - By default YACS adds random data in forms submitted by anonymous surfers.
  * If this parameter is explicitly set to 'Y', this check does not take place anymore, which ease the task on intranet servers.
  *
@@ -444,18 +439,6 @@ elseif(!Surfer::is_associate()) {
 	$input .= '/> '.i18n::s('Every post is published (Wiki mode).');
 	$fields[] = array($label, $input);
 
-	// revision control
-	$label = i18n::s('Revisions');
-	$input = '<input type="radio" name="users_without_revision" value="N"';
-	if(!isset($context['users_without_revision']) || ($context['users_without_revision'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Authenticated members are allowed to modify articles they have posted.');
-	$input .= BR.'<input type="radio" name="users_without_revision" value="Y"';
-	if(isset($context['users_without_revision']) && ($context['users_without_revision'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Revisions are forbidden after publication, except from associates.');
-	$fields[] = array($label, $input);
-
 	// upload control
 	$label = i18n::s('Uploads');
 	if(!ini_get('file_uploads')) {
@@ -601,8 +584,6 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'users_without_login_welcome\']=\''.addcslashes($_REQUEST['users_without_login_welcome'], "\\'")."';\n";
 	if(isset($_REQUEST['users_without_private_pages']))
 		$content .= '$context[\'users_without_private_pages\']=\''.addcslashes($_REQUEST['users_without_private_pages'], "\\'")."';\n";
-	if(isset($_REQUEST['users_without_revision']))
-		$content .= '$context[\'users_without_revision\']=\''.addcslashes($_REQUEST['users_without_revision'], "\\'")."';\n";
 	if(isset($_REQUEST['users_without_registration']))
 		$content .= '$context[\'users_without_registration\']=\''.addcslashes($_REQUEST['users_without_registration'], "\\'")."';\n";
 	if(isset($_REQUEST['users_without_robot_check']))

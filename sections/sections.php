@@ -257,19 +257,6 @@ Class Sections {
 	 * This function returns TRUE if sections can be added to some place,
 	 * and FALSE otherwise.
 	 *
-	 * The function prevents the creation of new sections when:
-	 * - the global parameter 'users_without_submission' has been set to 'Y'
-	 * - provided item has been locked
-	 * - item has some option 'no_sections' that prevents new sections
-	 * - the anchor has some option 'no_sections' that prevents new sections
-	 *
-	 * Then the function allows for new sections when:
-	 * - surfer has been authenticated as a valid member
-	 * - or parameter 'users_without_teasers' has not been set to 'Y'
-	 *
-	 * Then, ultimately, the default is not allow for the creation of new
-	 * sections.
-	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
 	 * @return TRUE or FALSE
@@ -277,78 +264,12 @@ Class Sections {
 	function are_allowed($anchor=NULL, $item=NULL) {
 		global $context;
 
-		// sections are prevented in item
-		if(isset($item['options']) && is_string($item['options']) && preg_match('/\bno_sections\b/i', $item['options']))
-			return FALSE;
-
-		// sections are prevented in anchor
-		if(is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_sections', FALSE))
-			return FALSE;
-
 		// sections are prevented in this item through layout
 		if(isset($item['sections_layout']) && ($item['sections_layout'] == 'none'))
 			return FALSE;
 
-		// surfer is an associate
-		if(Surfer::is_associate())
-			return TRUE;
-
-		// submissions have been disallowed
-		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
-			return FALSE;
-
-		// container is hidden
-		if(isset($item['active']) && ($item['active'] == 'N')) {
-		
-			// filter editors
-			if(!Surfer::is_empowered())
-				return FALSE;
-				
-			// editors will have to unlock the container to contribute
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				return FALSE;
-			return TRUE;
-			
-		// container is restricted
-		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
-		
-			// filter members
-			if(!Surfer::is_member())
-				return FALSE;
-				
-			// editors can proceed
-			if(Surfer::is_empowered())
-				return TRUE;
-				
-			// members can contribute except if container is locked
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				return FALSE;
-			return TRUE;
-			
-		}
-
-		// surfer has special privileges
-		if(Surfer::is_empowered())
-			return TRUE;
-
-		// item has been locked
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
-			return FALSE;
-
-		// anchor has been locked --only used when there is no item provided
-		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
-			return FALSE;
-
-// anonymous contributions are allowed for this section
-// 		if(isset($item['content_options']) && preg_match('/\banonymous_edit\b/i', $item['content_options']))
-// 			return TRUE;
-// 
-// anonymous contributions are allowed for this item
-// 		if(isset($item['options']) && preg_match('/\banonymous_edit\b/i', $item['options']))
-// 			return TRUE;
-// 
-		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
+		// surfer owns the section
+		if(Sections::is_owned($anchor, $item))
 			return TRUE;
 
 		// the default is to not allow for new sections
@@ -428,7 +349,7 @@ Class Sections {
 		$where .= ")";
 
 		// hide sections removed from index maps
-		$where .= " AND ((sections.index_map IS NULL) OR (sections.index_map != 'N'))";
+		$where .= " AND (sections.index_map = 'N')";
 
 		// non-associates will have only live sections
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
@@ -773,7 +694,7 @@ Class Sections {
 
 		// list sections listed in the main panel
 		if($variant == 'index')
-			$criteria[] = "((sections.index_map IS NULL) OR (sections.index_map = 'Y'))";
+			$criteria[] = "(sections.index_map = 'Y')";
 
 		// list sections that produce main content
 		else
@@ -855,7 +776,7 @@ Class Sections {
 		$where .= ")";
 
 		// hide sections removed from site map
-		$where .= " AND ((sections.index_map IS NULL) OR (sections.index_map != 'N'))";
+		$where .= " AND (sections.index_map = 'Y')";
 
 		// only consider live sections
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
@@ -1130,14 +1051,13 @@ Class Sections {
 
 		$text = '';
 		
-		if(!$current)
-			return $text;
+// 		if(!$current)
+// 			return $text;
 			
 		if(!strncmp($current, 'section:', 8))
 			$current = substr($current, 8);
 			
-		if(!$item = Sections::get($current))
-			return $text;
+		$item = Sections::get($current);
 			
 		// list everything to associates
 		if(Surfer::is_associate())
@@ -1165,21 +1085,25 @@ Class Sections {
 		$where .= ")";
 	
 		// list children sections
-		$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE (anchor LIKE 'section:".$item['id']."')".$where
-			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
-		if($result =& SQL::query($query)) {
-
-			// process all matching sections
-			$children = '';
-			while($row =& SQL::fetch($result)) {
+		if(isset($item['id'])) {
+		
+			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
+				." WHERE (anchor LIKE 'section:".$item['id']."')".$where
+				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
+			if($result =& SQL::query($query)) {
+	
+				// process all matching sections
+				$children = '';
+				while($row =& SQL::fetch($result)) {
+					if($children)
+						$children .= BR;
+					$children .= '<input type="radio" name="anchor" value="section:'.$row['id'].'" /> '.Skin::build_link(Sections::get_permalink($row), Codes::beautify_title($row['title']));
+				}
 				if($children)
-					$children .= BR;
-				$children .= '<input type="radio" name="anchor" value="section:'.$row['id'].'" /> '.Skin::build_link(Sections::get_permalink($row), Codes::beautify_title($row['title']));
+					$text .= '<input type="radio" name="anchor" value="section:'.$item['id'].'" checked="checked" /> '.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title']))
+						.'<div style="margin: 0 0 0 3em">'.$children.'</div>';
 			}
-			if($children)
-				$text .= '<input type="radio" name="anchor" value="section:'.$item['id'].'" checked="checked" /> '.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title']))
-					.'<div style="margin: 0 0 0 3em">'.$children.'</div>';
+			
 		}
 		
 		// list sections at the same level
@@ -1226,7 +1150,7 @@ Class Sections {
 				." WHERE (sections.anchor='' OR sections.anchor IS NULL)".$where;
 				
 			if(!Surfer::is_associate())
-				$query .= " AND ((sections.index_map IS NULL) OR (sections.index_map != 'N'))";
+				$query .= " AND (sections.index_map = 'Y')";
 				
 			$query .= " ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
 			if($result =& SQL::query($query)) {
@@ -1249,13 +1173,13 @@ Class Sections {
 			}
 			
 			// offer to move to the very top of the content tree
-			$text = '<input type="radio" name="anchor" value="" /> '.i18n::s('Move to the top of the content tree').BR.$text;
+			$text = '<input type="radio" name="anchor" value="" checked="checked" /> '.i18n::s('Move to the top of the content tree').BR.$text;
 		
 		}
 
 		// at least show where we are
-		if(!$text)
-			$text .= '<input type="hidden" name="anchor" value="section:'.$row['id'].'" />'.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title']));
+		if(!$text && isset($item['id']))
+			$text .= '<input type="hidden" name="anchor" value="section:'.$item['id'].'" />'.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title']));
 
 		return $text;
 	}
@@ -1563,7 +1487,7 @@ Class Sections {
 	 * - section is visible (active='Y')
 	 * - or section is restricted (active='R'), but surfer is a logged user
 	 * - or section is hidden (active='N'), but surfer is an associate
-	 * - section is publicly available (index_map != 'N')
+	 * - section is publicly available (index_map = 'Y')
 	 * - an activation date has not been defined, or is over
 	 * - an expiry date has not been defined, or is not yet passed
 	 * - if called remotely, section is not locked
@@ -1620,7 +1544,7 @@ Class Sections {
 		$where .= " AND (sections.index_panel LIKE 'main')";
 
 		// hide sections removed from index maps
-		$where .= " AND ((sections.index_map IS NULL) OR (sections.index_map != 'N'))";
+		$where .= " AND (sections.index_map = 'Y')";
 
 		// non-associates will have only live sections
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
@@ -1776,7 +1700,7 @@ Class Sections {
 			$where .= " OR (sections.index_panel != 'main')";
 
 			// add sections removed from normal index map
-			$where .= " OR (sections.index_map = 'N')";
+			$where .= " OR (sections.index_map != 'Y')";
 
 			// end of scope
 			$where .= ')';
@@ -1945,7 +1869,7 @@ Class Sections {
 			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// reinforce date formats
 		if(!isset($fields['activation_date']) || ($fields['activation_date'] <= NULL_DATE))
@@ -2018,13 +1942,13 @@ Class Sections {
 			."content_overlay='".SQL::escape(isset($fields['content_overlay']) ? $fields['content_overlay'] : '')."',"
 			."create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."', "
 			."create_date='".SQL::escape($fields['create_date'])."',"
-			."create_id='".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id'])."', "
+			."create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
 			."create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."', "
 			."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
 			."edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'section:create')."', "
 			."edit_address='".SQL::escape($fields['edit_address'])."', "
 			."edit_date='".SQL::escape($fields['edit_date'])."',"
-			."edit_id='".SQL::escape($fields['edit_id'])."', "
+			."edit_id=".SQL::escape($fields['edit_id']).", "
 			."edit_name='".SQL::escape($fields['edit_name'])."', "
 			."expiry_date='".SQL::escape($fields['expiry_date'])."',"
 			."extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."',"
@@ -2045,7 +1969,7 @@ Class Sections {
 			."options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."',"
 			."overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."',"
 			."overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."',"
-			."owner_id='".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id'])."', "
+			."owner_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
 			."rank='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : 10000)."',"
 			."section_overlay='".SQL::escape(isset($fields['section_overlay']) ? $fields['section_overlay'] : '')."',"
@@ -2063,12 +1987,6 @@ Class Sections {
 
 		// remember the id of the new item
 		$fields['id'] = SQL::get_last_id($context['connection']);
-
-		// turn author to page editor and update author's watch list
-// 		if(isset($fields['edit_id']) && $fields['edit_id']) {
-// 			Members::assign('user:'.$fields['edit_id'], 'section:'.$fields['id']);
-// 			Members::assign('section:'.$fields['id'], 'user:'.$fields['edit_id']);
-// 		}
 
 		// clear the cache
 		Sections::clear($fields);
@@ -2107,7 +2025,7 @@ Class Sections {
 			$fields['thumbnail_url'] =& encode_link($fields['thumbnail_url']);
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// reinforce date formats
 		if(!isset($fields['activation_date']) || ($fields['activation_date'] <= NULL_DATE))
@@ -2163,12 +2081,9 @@ Class Sections {
 		$query = "UPDATE ".SQL::table_name('sections')." SET ";
 
 		// fields that are visible only to associates
-		if(Surfer::is_associate())
-			$query .= "anchor='".SQL::escape($fields['anchor'])."',"
-				."home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."',";
-
-		// fields also visible to editors
-		$query .= "title='".SQL::escape($fields['title'])."',"
+		$query .= "anchor='".SQL::escape($fields['anchor'])."',"
+			."home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."',"
+			."title='".SQL::escape($fields['title'])."',"
 			."activation_date='".SQL::escape($fields['activation_date'])."',"
 			."active='".SQL::escape($fields['active'])."',"
 			."active_set='".SQL::escape($fields['active_set'])."',"
@@ -2208,7 +2123,7 @@ Class Sections {
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 			$query .= ",\n"
 				."edit_name='".SQL::escape($fields['edit_name'])."',"
-				."edit_id='".SQL::escape($fields['edit_id'])."',"
+				."edit_id=".SQL::escape($fields['edit_id']).","
 				."edit_address='".SQL::escape($fields['edit_address'])."',"
 				."edit_action='section:update',"
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -2242,48 +2157,43 @@ Class Sections {
 		}
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// quey components
 		$query = array();
 
-		// anchor this page to another place
 		if(isset($fields['anchor']))
 			$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
 		if(isset($fields['prefix']) && Surfer::is_associate())
 			$query[] = "prefix='".SQL::escape($fields['prefix'])."'";
 		if(isset($fields['suffix']) && Surfer::is_associate())
 			$query[] = "suffix='".SQL::escape($fields['suffix'])."'";
-
-		// fields that are visible only to associates and to editors -- see articles/edit.php
-		if(isset($fields['nick_name']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['nick_name']))
 			$query[] = "nick_name='".SQL::escape($fields['nick_name'])."'";
-		if(isset($fields['behaviors']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['behaviors']))
 			$query[] = "behaviors='".SQL::escape($fields['behaviors'])."'";
-		if(isset($fields['extra']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['extra']))
 			$query[] = "extra='".SQL::escape($fields['extra'])."'";
-		if(isset($fields['icon_url']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['icon_url']))
 			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";
-		if(isset($fields['rank']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['rank']))
 			$query[] = "rank='".SQL::escape($fields['rank'])."'";
-		if(isset($fields['thumbnail_url']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['thumbnail_url']))
 			$query[] = "thumbnail_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['thumbnail_url']))."'";
-		if(isset($fields['locked']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['locked']))
 			$query[] = "locked='".SQL::escape($fields['locked'])."'";
-		if(isset($fields['meta']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['meta']))
 			$query[] = "meta='".SQL::escape($fields['meta'])."'";
-		if(isset($fields['options']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['options']))
 			$query[] = "options='".SQL::escape($fields['options'])."'";
-		if(isset($fields['trailer']) && Surfer::is_empowered() && Surfer::is_member())
+		if(isset($fields['trailer']))
 			$query[] = "trailer='".SQL::escape($fields['trailer'])."'";
-//		if(Surfer::is_empowered() && Surfer::is_member())
+//		if(Surfer::is_empowered())
 //			$query[] = "active='".SQL::escape($fields['active'])."',";
-//		if(Surfer::is_empowered() && Surfer::is_member())
+//		if(Surfer::is_empowered())
 //			$query[] = "active_set='".SQL::escape($fields['active_set'])."',";
-		if(isset($fields['owner_id']) && Surfer::is_empowered() && Surfer::is_member())
-			$query[] = "owner_id='".SQL::escape($fields['owner_id'])."'";
-
-		// fields visible to authorized member
+		if(isset($fields['owner_id']))
+			$query[] = "owner_id=".SQL::escape($fields['owner_id']);
 		if(isset($fields['title']))
 			$query[] = "title='".SQL::escape($fields['title'])."'";
 		if(isset($fields['introduction']))
@@ -2304,7 +2214,7 @@ Class Sections {
 		// maybe a silent update
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y') || !Surfer::is_empowered()) {
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
-			$query[] = "edit_id='".SQL::escape($fields['edit_id'])."'";
+			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
 			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
 			$query[] = "edit_action='article:update'";
 			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -2366,14 +2276,14 @@ Class Sections {
 		$options = preg_replace('/\bskin_.+\b/i', '', $item['options']).' skin_'.$directory;
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor(array());
+		Surfer::check_default_editor(array());
 
 		// update an existing record
 		$query = "UPDATE ".SQL::table_name('sections')." SET "
 			."template='".SQL::escape($template)."',\n"
 			."options='".SQL::escape($options)."',\n"
 			."edit_name='".SQL::escape($fields['edit_name'])."',\n"
-			."edit_id='".SQL::escape($fields['edit_id'])."',\n"
+			."edit_id=".SQL::escape($fields['edit_id']).",\n"
 			."edit_address='".SQL::escape($fields['edit_address'])."',\n"
 			."edit_action='section:update',\n"
 			."edit_date='".SQL::escape($fields['edit_date'])."'\n"
@@ -2496,6 +2406,7 @@ Class Sections {
 		$fields['create_date']	= "DATETIME";
 		$fields['create_id']	= "MEDIUMINT UNSIGNED DEFAULT 1 NOT NULL";
 		$fields['create_name']	= "VARCHAR(128) DEFAULT '' NOT NULL";
+		$fields['description']	= "TEXT NOT NULL";
 		$fields['edit_action']	= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_address'] = "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['edit_date']	= "DATETIME";
@@ -2504,16 +2415,15 @@ Class Sections {
 		$fields['expiry_date']	= "DATETIME";
 		$fields['extra']		= "TEXT NOT NULL";
 		$fields['family']		= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['index_title']	= "VARCHAR(255) DEFAULT '' NOT NULL";
-		$fields['introduction'] = "TEXT NOT NULL";
-		$fields['description']	= "TEXT NOT NULL";
 		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
 		$fields['home_panel']	= "VARCHAR(255) DEFAULT 'main' NOT NULL";
+		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['index_map']	= "ENUM('Y', 'N') DEFAULT 'Y' NOT NULL";
 		$fields['index_news']	= "VARCHAR(255) DEFAULT 'static' NOT NULL";
 		$fields['index_news_count'] = "SMALLINT UNSIGNED DEFAULT 5 NOT NULL";
 		$fields['index_panel']	= "VARCHAR(255) DEFAULT 'main' NOT NULL";
+		$fields['index_title']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['introduction'] = "TEXT NOT NULL";
 		$fields['language'] 	= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['locked']		= "ENUM('Y', 'N') DEFAULT 'N' NOT NULL";
 		$fields['maximum_items']	= "MEDIUMINT UNSIGNED";
@@ -2609,7 +2519,7 @@ Class Sections {
 			$where .= ")";
 
 			// hide sections removed from index maps
-			$where .= " AND ((sections.index_map IS NULL) OR (sections.index_map != 'N'))";
+			$where .= " AND (sections.index_map = 'Y')";
 
 			// non-associates will have only live sections
 			$now = gmstrftime('%Y-%m-%d %H:%M:%S');

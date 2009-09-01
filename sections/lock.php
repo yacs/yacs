@@ -5,7 +5,7 @@
  * This script is an easy way to lock or unlock a section.
  *
  * The permission assessment is based upon following rules applied in the provided orders:
- * - associates and editors are allowed to move forward
+ * - associates and owners are allowed to move forward
  * - permission denied is the default
  *
  * Accepted calls:
@@ -36,12 +36,8 @@ $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// editors have associate-like capabilities
-if((isset($item['id']) && Sections::is_assigned($item['id']) && Surfer::is_member()) || (is_object($anchor) && $anchor->is_editable()))
-	Surfer::empower();
-
-// associates and editors can proceed
-if(Surfer::is_empowered())
+// owners have associate-like capabilities
+if(Sections::is_owned($anchor, $item))
 	$permitted = TRUE;
 
 // the default is to disallow access

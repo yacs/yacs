@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 31, 2009, 7:27 am GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:24 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 16:54+0200
-PO-Revision-Date: 2009-08-25 19:37+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:03+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -93,7 +93,7 @@ $_SESSION['l10n']['en']['1dfdf4b58d994ec209f5bc7f3711fb01']='Table will be dropp
 $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['Tabulation character']='Tabulation character';
 $_SESSION['l10n']['en']['17ab77ed5dc36bd833ad93203a00f4ee']='The SELECT command submitted to the database';
-$_SESSION['l10n']['en']['07952e6cca017e7cdff4505604da467f']='The deletion has not been confirmed.';
+$_SESSION['l10n']['en']['5135051eb31da8ef238ed65c0b0816df']='The action has not been confirmed.';
 $_SESSION['l10n']['en']['35c1b3ef0d372df0083c9198a71172fb']='The first column links to a detail page';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
 $_SESSION['l10n']['en']['8f9530ed279d7911ad4a48008be56b92']='This script allows for the upload of data to some table of the database.';

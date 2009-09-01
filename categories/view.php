@@ -572,7 +572,7 @@ if(!isset($item['id'])) {
 
 		// the command to post a new file
 		$url = 'files/edit.php?anchor='.urlencode('category:'.$item['id']);
-		if(Files::are_allowed($anchor, $item, TRUE)) {
+		if(Files::are_allowed($anchor, $item, 'category')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 			$box['bar'] += array( $url => FILES_UPLOAD_IMG.i18n::s('Upload a file') );
 		}
@@ -624,7 +624,7 @@ if(!isset($item['id'])) {
 		}
 
 		// the command to post a new comment
-		if(Comments::are_allowed($anchor, $item, TRUE)) {
+		if(Comments::are_allowed($anchor, $item, 'category')) {
 			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 			$url = 'comments/edit.php?anchor='.urlencode('category:'.$item['id']);
 			$box['bar'] += array( $url => COMMENTS_ADD_IMG.i18n::s('Post a comment') );
@@ -674,7 +674,7 @@ if(!isset($item['id'])) {
 		}
 
 		// the command to post a new link
-		if(Links::are_allowed($anchor, $item, TRUE)) {
+		if(Links::are_allowed($anchor, $item, 'category')) {
 			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 			$url = 'links/edit.php?anchor='.urlencode('category:'.$item['id']);
 			$box['bar'] += array( $url => LINKS_ADD_IMG.i18n::s('Add a link') );
@@ -857,7 +857,7 @@ if(!isset($item['id'])) {
 		}
 
 		// post an image, if upload is allowed
-		if(Images::are_allowed($anchor, $item)) {
+		if(Images::are_allowed($anchor, $item, 'category')) {
 			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 			if(isset($item['icon_url']) && $item['icon_url'])
 				$link = 'images/edit.php?anchor='.urlencode('category:'.$item['id']);
@@ -867,19 +867,19 @@ if(!isset($item['id'])) {
 		}
 
 		// attach a file, if upload is allowed
-		if(Files::are_allowed($anchor, $item, TRUE)) {
+		if(Files::are_allowed($anchor, $item, 'category')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('category:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
 		}
 
 		// comment this page if anchor does not prevent it
-		if(Comments::are_allowed($anchor, $item, TRUE)) {
+		if(Comments::are_allowed($anchor, $item, 'category')) {
 			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
 			$context['page_tools'][] = Skin::build_link(Comments::get_url('category:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
 		}
 
 		// add a link
-		if(Links::are_allowed($anchor, $item, TRUE)) {
+		if(Links::are_allowed($anchor, $item, 'category')) {
 			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('category:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 		}

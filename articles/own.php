@@ -1,10 +1,10 @@
 <?php
 /**
- * set section owner
+ * set article owner
  *
- * This script allows to transfer ownership of a section to another person.
+ * This script allows to transfer ownership of an article to another person.
  *
- * Of course, only associates and section owners can proceed.
+ * Of course, only associates and article owners can proceed.
  *
  * Accepted calls:
  * - own.php/&lt;id&gt;
@@ -27,15 +27,15 @@ elseif(isset($context['arguments'][0]))
 $id = strip_tags($id);
 
 // get the item from the database
-$item =& Sections::get($id);
+$item =& Articles::get($id);
 
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
-// oly section owners can proceed
-if(Sections::is_owned($anchor, $item))
+// oly article owners can proceed
+if(Articles::is_owned($anchor, $item))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -43,7 +43,7 @@ else
 	$permitted = FALSE;
 
 // load the skin, maybe with a variant
-load_skin('sections', $anchor, isset($item['options']) ? $item['options'] : '');
+load_skin('articles', $anchor, isset($item['options']) ? $item['options'] : '');
 
 // clear the tab we are in, if any
 if(is_object($anchor))
@@ -53,9 +53,9 @@ if(is_object($anchor))
 if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 else
-	$context['path_bar'] = array( 'sections/' => i18n::s('Site map') );
+	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
 if(isset($item['id']) && isset($item['title']))
-	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title']));
+	$context['path_bar'] = array_merge($context['path_bar'], array(articles::get_permalink($item) => $item['title']));
 
 // page title
 if(isset($item['title']))
@@ -76,7 +76,7 @@ if(Surfer::is_crawler()) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'own')));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'own')));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
@@ -94,11 +94,11 @@ if(Surfer::is_crawler()) {
 	
 		// assign a user, and also update his watch list
 		$attributes = array( 'id' => $item['id'], 'owner_id' => $user['id'] );
-		Sections::put_attributes($attributes);
-		Members::assign($_REQUEST['anchor'], 'section:'.$item['id']);
-		Members::assign('section:'.$item['id'], $_REQUEST['anchor']);
+		Articles::put_attributes($attributes);
+		Members::assign($_REQUEST['anchor'], 'article:'.$item['id']);
+		Members::assign('article:'.$item['id'], $_REQUEST['anchor']);
 		
-		$context['text'] .= '<p>'.sprintf(i18n::s('Current owner is %s'), Users::get_link($user['full_name'], $user['address'], $user['id'])).'</p>';
+		$context['text'] .= '<p>CHANGED TO '.sprintf(i18n::s('Current owner is %s'), Users::get_link($user['full_name'], $user['address'], $user['id'])).'</p>';
 
 	// name current owner
 	} elseif(isset($item['owner_id']) && ($owner =& Users::get($item['owner_id']))) {
@@ -128,7 +128,7 @@ if(Surfer::is_crawler()) {
 
 	// back to the anchor page
 	$links = array();
-	$links[] = Skin::build_link(Sections::get_permalink($item).'#_users', i18n::s('Done'), 'button');
+	$links[] = Skin::build_link(articles::get_permalink($item).'#_users', i18n::s('Done'), 'button');
 	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
 
 }

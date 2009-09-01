@@ -197,7 +197,7 @@ if(!isset($item['id'])) {
 			// at the site map
 			} else {
 
-				if(isset($item['index_map']) && ($item['index_map'] == 'N'))
+				if(isset($item['index_map']) && ($item['index_map'] != 'Y'))
 					$details[] = i18n::s('Is not publicly listed at the Site Map. Is listed with special sections, but only to associates.');
 			}
 
@@ -725,7 +725,7 @@ if(!isset($item['id'])) {
 			$title_label = i18n::s('Comments');
 	
 		// new comments are allowed -- check option 'with_comments'
-		if(Comments::are_allowed($anchor, $item, TRUE)) {
+		if(Comments::are_allowed($anchor, $item, 'section')) {
 			if(preg_match('/\bcomments_as_wall\b/i', $item['options']))
 				$comments_prefix = TRUE;
 			else
@@ -1004,15 +1004,20 @@ if(!isset($item['id'])) {
 			$box['bar'] += array('_count' => sprintf(i18n::ns('%d editor', '%d editors', $estats['count']), $estats['count']));
 
 		// send a message to a section
-		if(($estats['count'] > 1) && Surfer::is_empowered() && Surfer::is_logged()) {
+		if(($estats['count'] > 1) && Surfer::is_empowered() && Surfer::is_logged() && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 			Skin::define_img('SECTIONS_EMAIL_IMG', 'sections/email.gif');
 			$box['bar'] += array(Sections::get_url($item['id'], 'mail') => SECTIONS_EMAIL_IMG.i18n::s('Send a message'));
 		}
 
-		// assign command provided to associates and authenticated editors
-		if(Sections::is_owned($anchor, $item)) {
+		// invite command provided to owners
+		if(Sections::is_owned($anchor, $item) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 			Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
 			$box['bar'] += array(Sections::get_url($item['id'], 'invite') => SECTIONS_INVITE_IMG.i18n::s('Invite participants'));
+
+		// assign command provided to owners
+		} elseif(Sections::is_owned($anchor, $item)) {
+			Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
+			$box['bar'] += array(Users::get_url('section:'.$item['id'], 'select') => SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
 
 		// allow editors to leave their position
 		} elseif(Sections::is_assigned($item['id'])) {
@@ -1100,42 +1105,43 @@ if(!isset($item['id'])) {
 
 	}
 
-	if($editable) {
+	// add a section
+	if(Sections::are_allowed($anchor, $item)) {
+		Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
+		$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), SECTIONS_ADD_IMG.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
+	}
+		
+	// comment this page if anchor does not prevent it
+	if(Comments::are_allowed($anchor, $item, 'section')) {
+		Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
+		$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
+	}
 
-		// add a section
-		if(Sections::are_allowed($anchor, $item)) {
-			Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
-			$context['page_tools'][] = Skin::build_link('sections/edit.php?anchor='.urlencode('section:'.$item['id']), SECTIONS_ADD_IMG.i18n::s('Add a section'), 'basic', i18n::s('Add a section'));
-		}
-			
-		// comment this page if anchor does not prevent it
-		if(Comments::are_allowed($anchor, $item, TRUE)) {
-			Skin::define_img('COMMENTS_ADD_IMG', 'comments/add.gif');
-			$context['page_tools'][] = Skin::build_link(Comments::get_url('section:'.$item['id'], 'comment'), COMMENTS_ADD_IMG.i18n::s('Post a comment'), 'basic', i18n::s('Express yourself, and say what you think.'));
-		}
+	// attach a file, if upload is allowed
+	if(Files::are_allowed($anchor, $item, 'section')) {
+		Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
+		$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
+	}
 
-		// attach a file, if upload is allowed
-		if(Files::are_allowed($anchor, $item, TRUE)) {
-			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
-			$context['page_tools'][] = Skin::build_link('files/edit.php?anchor='.urlencode('section:'.$item['id']), FILES_UPLOAD_IMG.i18n::s('Upload a file'), 'basic', i18n::s('Attach related files.'));
-		}
+	// add a link
+	if(Links::are_allowed($anchor, $item, 'section')) {
+		Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
+		$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
+	}
 
-		// add a link
-		if(Links::are_allowed($anchor, $item, TRUE)) {
-			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
-			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('section:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
-		}
+	// post an image, if upload is allowed
+	if(Images::are_allowed($anchor, $item, 'section')) {
+		Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
+		if(isset($item['icon_url']) && $item['icon_url'])
+			$link = 'images/edit.php?anchor='.urlencode('section:'.$item['id']);
+		else
+			$link = 'images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon';
+		$context['page_tools'][] = Skin::build_link($link, IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+	}
 
-		// post an image, if upload is allowed
-		if(Images::are_allowed($anchor, $item)) {
-			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-			if(isset($item['icon_url']) && $item['icon_url'])
-				$link = 'images/edit.php?anchor='.urlencode('section:'.$item['id']);
-			else
-				$link = 'images/edit.php?anchor='.urlencode('section:'.$item['id']).'&amp;action=icon';
-			$context['page_tools'][] = Skin::build_link($link, IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
-		}
-
+	// commands for section owners
+	if(Sections::is_owned($anchor, $item)) {
+	
 		// modify this page
 		Skin::define_img('SECTIONS_EDIT_IMG', 'sections/edit.gif');
 		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
@@ -1304,7 +1310,7 @@ if(!isset($item['id'])) {
 	$lines = array();
 
 	// add participants
-	if(Sections::is_owned($anchor, $item)) {
+	if(Sections::is_owned($anchor, $item) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
 		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), SECTIONS_INVITE_IMG.i18n::s('Invite participants'), 'basic');
 	}

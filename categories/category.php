@@ -290,7 +290,7 @@ Class Category extends Anchor {
 		// stamp the update
 		if(!$silently)
 			$query[] = "edit_name='".Surfer::get_name()."',"
-				."edit_id='".Surfer::get_id()."',"
+				."edit_id=".Surfer::get_id().","
 				."edit_address='".Surfer::get_email_address()."',"
 				."edit_action='$action',"
 				."edit_date='".strftime('%Y-%m-%d %H:%M:%S')."'";

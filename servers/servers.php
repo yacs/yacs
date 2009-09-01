@@ -470,7 +470,7 @@ Class Servers {
 			$query = "UPDATE ".SQL::table_name('servers')." SET "
 				."title='".SQL::escape($title)."', "
 				."edit_name='ping', "
-				."edit_id='', "
+				."edit_id=0, "
 				."edit_address='', "
 				."edit_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'"
 				." WHERE id = ".SQL::escape($item['id']);
@@ -486,7 +486,7 @@ Class Servers {
 				."title='".SQL::escape($title)."', "
 				."main_url='".SQL::escape($url)."', "
 				."edit_name='".SQL::escape($title)."', "
-				."edit_id='', "
+				."edit_id=0, "
 				."edit_address='', "
 				."edit_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."'";
 
@@ -570,7 +570,7 @@ Class Servers {
 			$fields['process_search'] = 'N';
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// update the existing record
 		if(isset($fields['id'])) {
@@ -608,7 +608,7 @@ Class Servers {
 			if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 				$query .= ", "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id='".SQL::escape($fields['edit_id'])."', "
+				."edit_id=".SQL::escape($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
 			}
@@ -648,7 +648,7 @@ Class Servers {
 
 				."active='".SQL::escape($fields['active'])."', "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id='".SQL::escape($fields['edit_id'])."', "
+				."edit_id=".SQL::escape($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";
 

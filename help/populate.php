@@ -198,7 +198,6 @@ if(!$permitted) {
 		$fields['description'] = $_REQUEST['description'];
 		$fields['active_set'] = $_REQUEST['active'];
 		$fields['home_panel'] = $_REQUEST['home_panel'];
-		$fields['index_map'] = 'Y'; // listed with ordinary sections
 		$fields['section_layout'] = 'map';
 		$fields['options'] = 'with_creator_profile articles_by_publication';
 		$fields['articles_layout'] = 'daily'; // the preferred layout for blogs
@@ -349,7 +348,6 @@ if(!$permitted) {
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['description'] = $_REQUEST['description'];
 		$fields['home_panel'] = 'none'; // new pages are not pushed at the front page
-		$fields['index_map'] = 'Y'; // listed with ordinary sections
 		$fields['index_panel'] = 'none'; // new pages are not pushed at the parent section index
 		$fields['articles_layout'] = 'manual'; // the preferred layout for books
 		$fields['sections_layout'] = 'inline'; // the preferred layout for books
@@ -366,7 +364,6 @@ if(!$permitted) {
 				$sub_section['title'] = $_REQUEST['titles'][$index];
 				$sub_section['introduction'] = $_REQUEST['introductions'][$index];
 				$sub_section['home_panel'] = 'none'; // not pushed to the front page
-				$sub_section['index_map'] = 'Y'; // listed with ordinary sections
 				$sub_section['index_panel'] = 'none'; // not listed at parent section
 				$sub_section['articles_layout'] = 'manual'; // the preferred layout for books
 				$sub_section['sections_layout'] = 'inline'; // the preferred layout for books
@@ -917,7 +914,6 @@ if(!$permitted) {
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['description'] = $_REQUEST['description'];
 		$fields['home_panel'] = 'none'; // not pushed to the front page
-		$fields['index_map'] = 'Y'; // listed with ordinary sections
 		$fields['index_panel'] = 'none'; // not listed at parent section
 		$fields['articles_layout'] = 'yabb'; // the preferred layout for discussion boards
 		$fields['sections_layout'] = 'yabb'; // the preferred layout for a forum
@@ -934,7 +930,6 @@ if(!$permitted) {
 				$sub_section['title'] = $_REQUEST['titles'][$index];
 				$sub_section['introduction'] = $_REQUEST['introductions'][$index];
 				$sub_section['home_panel'] = 'none'; // not pushed to the front page
-				$sub_section['index_map'] = 'Y'; // listed with ordinary sections
 				$sub_section['index_panel'] = 'none'; // not listed at parent section
 				$sub_section['articles_layout'] = 'yabb'; // the preferred layout for discussion boards
 				$sub_section['sections_layout'] = 'yabb'; // the preferred layout for a forum
@@ -1222,7 +1217,6 @@ if(!$permitted) {
 		$fields['description'] = $_REQUEST['description'];
 		$fields['active_set'] = $_REQUEST['active'];
 		$fields['home_panel'] = $_REQUEST['home_panel'];
-		$fields['index_map'] = 'Y'; // listed with ordinary sections
 		if($_REQUEST['profile'] == 'extra')
 			$fields['content_options'] = 'with_extra_profil with_export_tools';
 		elseif($_REQUEST['profile'] == 'prefix')
@@ -1338,7 +1332,6 @@ if(!$permitted) {
 		$fields['title'] = $_REQUEST['title'];
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['home_panel'] = 'none'; // new pages are not pushed at the front page
-		$fields['index_map'] = 'Y'; // listed with ordinary sections
 		$fields['rank'] = 50000; // towards the end of the list
 		$fields['content_options'] = 'without_rating';
 		if($fields['id'] = Sections::post($fields)) {
@@ -1457,7 +1450,6 @@ if(!$permitted) {
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['active_set'] = $_REQUEST['active'];
 		$fields['home_panel'] = $_REQUEST['home_panel'];
-		$fields['index_map'] = 'Y'; // listed with ordinary sections
 		$fields['overlay'] = 'poll'; // poll management
 		$fields['rank'] = 10000; // default value
 		$fields['content_options'] = 'without_rating';
@@ -1577,7 +1569,6 @@ if(!$permitted) {
 		$fields['introduction'] = $_REQUEST['introduction'];
 		$fields['active_set'] = $_REQUEST['active'];
 		$fields['home_panel'] = $_REQUEST['home_panel'];
-		$fields['index_map'] = 'Y'; // listed with ordinary sections
 		$fields['content_options'] = 'with_export_tools';
 		$fields['overlay'] = 'recipe'; // recipe management
 		$fields['rank'] = 10000; // default value
@@ -1826,7 +1817,6 @@ if(!$permitted) {
 		$fields['description'] = $_REQUEST['description'];
 		$fields['active_set'] = $_REQUEST['active'];
 		$fields['home_panel'] = $_REQUEST['home_panel'];
-		$fields['index_map'] = 'Y'; // listed with ordinary sections
 		$fields['articles_layout'] = 'wiki'; // the preferred layout for wikis
 		$fields['options'] = 'articles_by_title'; // alphabetical order
 		$fields['content_options'] = 'auto_publish with_export_tools';

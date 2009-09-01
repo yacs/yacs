@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 31, 2009, 8:01 am GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:22 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-30 23:09+0200
-PO-Revision-Date: 2008-11-02 23:08+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:00+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -69,7 +69,7 @@ $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['Target address']='Target address';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['495e87f04f0246c5e3ae83e2f3df4580']='The URL of the target page for this action, if any';
-$_SESSION['l10n']['en']['270fe73e78407a1fe4ccf8eb9b9f99bb']='The deletion has not been confirmed';
+$_SESSION['l10n']['en']['5135051eb31da8ef238ed65c0b0816df']='The action has not been confirmed.';
 $_SESSION['l10n']['en']['9cec816052ab7b14408c4549ecc5b2c8']='The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.
 
 Sender: %s

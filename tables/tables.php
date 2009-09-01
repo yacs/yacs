@@ -663,7 +663,7 @@ Class Tables {
 			$fields['with_zoom'] = 'N';
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// maybe we have to modify an existing table
 		if(isset($fields['id'])) {
@@ -684,7 +684,7 @@ Class Tables {
 				."with_number='".SQL::escape(isset($fields['with_number']) ? $fields['with_number'] : '')."',"
 				."with_zoom='".SQL::escape(isset($fields['with_zoom']) ? $fields['with_zoom'] : '')."',"
 				."edit_name='".SQL::escape($fields['edit_name'])."',"
-				."edit_id='".SQL::escape($fields['edit_id'])."',"
+				."edit_id=".SQL::escape($fields['edit_id']).","
 				."edit_address='".SQL::escape($fields['edit_address'])."',"
 				."edit_date='".SQL::escape($fields['edit_date'])."'"
 				." WHERE id = ".SQL::escape($fields['id']);
@@ -702,7 +702,7 @@ Class Tables {
 				."with_number='".SQL::escape(isset($fields['with_number']) ? $fields['with_number'] : '')."',"
 				."with_zoom='".SQL::escape(isset($fields['with_zoom']) ? $fields['with_zoom'] : '')."',"
 				."edit_name='".($fields['edit_name'])."',"
-				."edit_id='".($fields['edit_id'])."',"
+				."edit_id=".($fields['edit_id']).","
 				."edit_address='".($fields['edit_address'])."',"
 				."edit_date='".($fields['edit_date'])."'";
 

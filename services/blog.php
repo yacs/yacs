@@ -538,7 +538,7 @@ else {
 				Surfer::empower();
 			
 			// surfer is a page editor
-			elseif(Articles::is_assigned($item['id'], $user['id']) && is_object($anchor) && $anchor->has_option('with_deletions'))
+			elseif(Articles::is_owned($anchor, $item))
 				Surfer::empower();
 			
 			// operation is restricted

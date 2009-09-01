@@ -71,18 +71,22 @@ Class Files {
 	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
-	 * @param boolean TRUE to ask for option 'with_files'
+	 * @param string the type of item, e.g., 'section'
 	 * @return TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL, $explicit=FALSE) {
+	function are_allowed($anchor=NULL, $item=NULL, $variant='article') {
 		global $context;
 
 		// files are prevented in item
-		if(!$explicit && isset($item['options']) && is_string($item['options']) && preg_match('/\bno_files\b/i', $item['options']))
+		if(($variant == 'article') && isset($item['options']) && is_string($item['options']) && preg_match('/\bno_files\b/i', $item['options']))
 			return FALSE;
 
 		// files are not explicitly activated in item
-		if($explicit && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_files\b/i', $item['options']))
+		if(($variant != 'article') && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_files\b/i', $item['options']))
+			return FALSE;
+
+		// files are prevented in anchor
+		if(!$item && is_object($anchor) && $anchor->has_option('no_files'))
 			return FALSE;
 
 		// surfer is not allowed to upload a file
@@ -97,51 +101,42 @@ Class Files {
 		if(isset($context['users_without_submission']) && ($context['users_without_submission'] == 'Y'))
 			return FALSE;
 
+		// surfer is owning this item
+		if(isset($item['id']) && ($variant == 'article') && Articles::is_owned($anchor, $item))
+			return TRUE;
+// 		if(isset($item['id']) && ($variant == 'category') && Categories::is_owned($anchor, $item))
+// 			return TRUE;
+		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item))
+			return TRUE;
+			
+		// item has been locked
+		if(isset($item['locked']) && ($item['locked'] == 'Y'))
+			return FALSE;
+
+		// anchor has been locked --only used when there is no item provided
+		if(!$item['id'] && is_object($anchor) && $anchor->has_option('locked'))
+			return FALSE;
+
 		// container is hidden
 		if(isset($item['active']) && ($item['active'] == 'N')) {
 		
-			// filter editors
-			if(!Surfer::is_empowered())
-				return FALSE;
-				
-			// editors will have to unlock the container to contribute
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				return FALSE;
-			return TRUE;
+			// surfer has been assigned to this item
+			if(isset($item['id']) && ($variant == 'article') && Articles::is_assigned($item['id']))
+				return TRUE;
+// 			if(isset($item['id']) && ($variant == 'category') && Categories::is_assigned($item['id']))
+// 				return TRUE;
+			if(isset($item['id']) && ($variant == 'section') && Sections::is_assigned($item['id']))
+				return TRUE;			
 			
 		// container is restricted
 		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
 		
-			// filter members
-			if(!Surfer::is_member())
-				return FALSE;
-				
-			// editors can proceed
-			if(Surfer::is_empowered())
+			// only members can proceed
+			if(Surfer::is_member())
 				return TRUE;
-				
-			// members can contribute except if container is locked
-			if(isset($item['locked']) && ($item['locked'] == 'Y'))
-				return FALSE;
-
-			return TRUE;
 			
-		}
-
-		// editors can always upload files to public containers
-		if(Surfer::is_empowered())
-			return TRUE;
-			
-		// item has been locked
-		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
-			return FALSE;
-
-		// anchor has been locked --only used when there is no item provided
-		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
-			return FALSE;
-
-		// authenticated members are allowed to add files
-		if(Surfer::is_member())
+		// authenticated members and subscribers are allowed to add files
+		} elseif(Surfer::is_logged())
 			return TRUE;
 
 		// anonymous contributions are allowed for this container
@@ -1903,7 +1898,7 @@ Class Files {
 		$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// reinforce date formats
 		if(!isset($fields['create_date']) || ($fields['create_date'] <= NULL_DATE))
@@ -1925,11 +1920,11 @@ Class Files {
 				$query .= "file_name='".SQL::escape($fields['file_name'])."',"
 					."file_size='".SQL::escape($fields['file_size'])."',"
 					."create_name='".SQL::escape($fields['edit_name'])."',"
-					."create_id='".SQL::escape($fields['edit_id'])."',"
+					."create_id=".SQL::escape($fields['edit_id']).","
 					."create_address='".SQL::escape($fields['edit_address'])."',"
 					."create_date='".SQL::escape($fields['edit_date'])."',"
 					."edit_name='".SQL::escape($fields['edit_name'])."',"
-					."edit_id='".SQL::escape($fields['edit_id'])."',"
+					."edit_id=".SQL::escape($fields['edit_id']).","
 					."edit_address='".SQL::escape($fields['edit_address'])."',"
 					."edit_action='file:update',"
 					."edit_date='".SQL::escape($fields['edit_date'])."',"
@@ -1986,11 +1981,11 @@ Class Files {
 
 			// always stamp the first upload
 			$query .= "create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."',"
-				."create_id='".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id'])."',"
+				."create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).","
 				."create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."',"
 				."create_date='".SQL::escape($fields['create_date'])."',"
 				."edit_name='".SQL::escape($fields['edit_name'])."',"
-				."edit_id='".SQL::escape($fields['edit_id'])."',"
+				."edit_id=".SQL::escape($fields['edit_id']).","
 				."edit_address='".SQL::escape($fields['edit_address'])."',"
 				."edit_action='file:create',"
 				."edit_date='".SQL::escape($fields['edit_date'])."',"

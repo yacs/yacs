@@ -109,20 +109,8 @@ elseif(isset($_REQUEST['action']) && $_REQUEST['action'])
 	$action = $_REQUEST['action'];
 $action = strip_tags($action);
 
-// editors of upper containers have associate-like capabilities
-if(Surfer::is_member() && is_object($anchor) && $anchor->is_editable())
-	Surfer::empower();
-
-// editors can do what they want on items anchored here
-elseif(Surfer::is_member() && isset($item['id']) && Sections::is_assigned($item['id']))
-	Surfer::empower();
-
-// associates are always authorized
-if(Surfer::is_associate())
-	$permitted = TRUE;
-
-// editors are also authorized
-elseif(Surfer::is_empowered())
+// only owners can proceed
+if(Sections::is_owned($anchor, $item))
 	$permitted = TRUE;
 
 // the default is to disallow access

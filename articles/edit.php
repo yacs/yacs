@@ -158,23 +158,19 @@ elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 } elseif(!isset($item['id']) && is_object($anchor) && ($overlay_class = $anchor->get_overlay()))
 	$overlay = Overlay::bind($overlay_class);
 
-// section editors can do what they want
-if(is_object($anchor) && $anchor->is_editable())
-	Surfer::empower();
-
-// article editors can also do what they want
-elseif(isset($item['id']) && Articles::is_assigned($item['id']))
-	Surfer::empower();
-
-// surfer has been explicitly invited to collaborate
-elseif(isset($item['handle']) && Surfer::may_handle($item['handle']))
+// owners can do what they want
+if(Articles::is_owned($anchor, $item))
 	Surfer::empower();
 
 // anonymous edition is allowed here
+elseif(is_object($anchor) && $anchor->has_option('anonymous_edit'))
+	Surfer::empower();
 elseif(isset($item['options']) && $item['options'] && preg_match('/\banonymous_edit\b/i', $item['options']))
 	Surfer::empower();
 
 // members edition is allowed here
+elseif(Surfer::is_member() && is_object($anchor) && $anchor->has_option('members_edit'))
+	Surfer::empower();
 elseif(Surfer::is_member() && isset($item['options']) && $item['options'] && preg_match('/\bmembers_edit\b/i', $item['options']))
 	Surfer::empower();
 
@@ -182,23 +178,8 @@ elseif(Surfer::is_member() && isset($item['options']) && $item['options'] && pre
 if(Surfer::is_empowered())
 	$permitted = TRUE;
 
-// surfer created the page and the page has not been published
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())
-	&& (!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) )
-	$permitted = TRUE;
-
-// surfer has created the published page and revisions are allowed
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())
-	&& isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)
-	&& (!isset($context['users_without_revision']) || ($context['users_without_revision'] != 'Y')) )
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
 // only authenticated members can post new articles, and only if submissions are accepted
-elseif(!isset($item['id']) && Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y')))
+elseif(!isset($item['id']) && Articles::are_allowed($anchor))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -355,12 +336,12 @@ if(Surfer::is_crawler()) {
 // maybe posts are not allowed here
 } elseif(!isset($item['id']) && (is_object($anchor) && $anchor->has_option('locked')) && !Surfer::is_empowered()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('This web space has been locked, and you cannot submit a new page.'));
+	Logger::error(i18n::s('This page has been locked.'));
 
 // maybe this page cannot be modified anymore
 } elseif(isset($item['locked']) && ($item['locked'] == 'Y') && !Surfer::is_empowered()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('This page has been locked and you are not allowed to modify it.'));
+	Logger::error(i18n::s('This page has been locked.'));
 
 // an error occured
 } elseif(count($context['error'])) {
@@ -892,15 +873,27 @@ if($with_form) {
 
 	// display in a separate panel
 	if($text)
-		$panels[] = array('attachments', i18n::s('Attachments'), 'embedded_panel', $text);
+		$panels[] = array('attachments', i18n::s('Attachments'), 'attachments_panel', $text);
 
 	//
 	// options tab
 	//
 	$text = '';
 
-	// editors
-	if(Surfer::is_associate()) {
+	// provide information to section owner
+	if(Sections::is_owned($anchor, $item)) {
+	
+		// owner
+		if(isset($item['owner_id'])) {
+			$label = Skin::build_link(Articles::get_url($item['id'], 'own'), i18n::s('Owner'), 'basic');
+			if($owner = Users::get($item['owner_id']))
+				$input =& Users::get_link($owner['full_name'], $owner['email'], $owner['id']);
+			else
+				$input = i18n::s('No owner profile has been found');
+			$fields[] = array($label, $input);
+		}
+
+		// editors
 		if(isset($item['id']))
 			$label = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors'), 'basic');
 		else
@@ -910,6 +903,7 @@ if($with_form) {
 		else
 			$input = i18n::s('Nobody has been assigned to this page.');
 		$fields[] = array($label, $input);
+
 	}
 
 	// the active flag: Yes/public, Restricted/logged, No/associates --we don't care about inheritance, to enable security changes afterwards
@@ -989,14 +983,17 @@ if($with_form) {
 		$input = i18n::s('never');
 	$fields[] = array($label, $input);
 
-	// the section
-	if(!is_object($anchor) || isset($item['id'])) {
-		$label = i18n::s('Section');
-		$anchor_reference = $item['anchor'] ? $item['anchor'] : $_REQUEST['anchor'];
-		$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor_reference), 'folded');
-		$fields[] = array($label, $input);
-	} elseif(is_object($anchor))
-		$text .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
+	// the parent section
+	if(is_object($anchor)) {
+	
+		if(isset($item['id']) && $anchor->is_editable()) {
+			$label = i18n::s('Section');
+			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference()), 'folded');
+			$fields[] = array($label, $input);
+		} else
+			$text .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
+		
+	}
 
 	// append fields
 	if(is_object($anchor))
@@ -1005,25 +1002,6 @@ if($with_form) {
 		$label = i18n::s('Contribution to parent container');
 	$text .= Skin::build_box($label, Skin::build_form($fields), 'folded');
 	$fields = array();
-
-	// home panel
-	$front = '';
-	if(!isset($item['active']) || ($item['active'] == 'Y')) {
-		$front = i18n::s('This page should be:').BR;
-		$front .= '<input type="radio" name="home_panel" value="main"';
-		if(!isset($item['home_panel']) || ($item['home_panel'] == '') || ($item['home_panel'] == 'main'))
-			$front .= ' checked="checked"';
-		$front .= '/> '.i18n::s('processed as usual, according to section settings')
-			.BR.'<input type="radio" name="home_panel" value="none"';
-		if(isset($item['home_panel']) && ($item['home_panel'] == 'none'))
-			$front .= ' checked="checked"';
-		$front .= '/> '.i18n::s('not displayed at the front page').' ';
-
-	}
-
-	// add a folded box
-	if($front)
-		$text .= Skin::build_box(i18n::s('Contribution to the site front page'), $front, 'folded');
 
 	// the nick name
 	if(Surfer::is_empowered() && Surfer::is_member()) {

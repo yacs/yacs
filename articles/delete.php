@@ -8,7 +8,6 @@
  * Restrictions apply on this page:
  * - associates and authenticated editors are allowed to move forward
  * - permission is denied if the anchor is not viewable by this surfer
- * - permission is denied if the article has been published, and if revision are forbidden ('users_without_revision' == 'Y')
  * - logged surfers may decide to delete their own posts
  * - else permission is denied
  *
@@ -50,28 +49,12 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
-// editors have associate-like capabilities
-if(Surfer::is_member() && is_object($anchor) && $anchor->is_editable())
+// only owners can proceed
+if(Articles::is_owned($anchor, $item))
 	Surfer::empower();
 
 // associates and section editors can do what they want
-if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))
-	$permitted = TRUE;
-
-// page editors may be allowed to proceed
-elseif(isset($item['id']) && Articles::is_assigned($item['id']) && is_object($anchor) && $anchor->has_option('with_deletions'))
-	$permitted = TRUE;
-
-// the anchor has to be viewable by this surfer
-elseif(is_object($anchor) && !$anchor->is_viewable())
-	$permitted = FALSE;
-
-// revision of published pages is prohibited
-elseif(($item['publish_date'] > NULL_DATE) && isset($context['users_without_revision']) && ($context['users_without_revision'] == 'Y'))
-	$permitted = FALSE;
-
-// authenticated surfers may suppress their own posts
-elseif(Surfer::is($item['create_id']))
+if(Surfer::is_empowered())
 	$permitted = TRUE;
 
 // the default is to deny access

@@ -223,10 +223,8 @@ $behaviors = NULL;
 if(isset($item['id']))
 	$behaviors =& new Behaviors($item, $anchor);
 
-// editors can do what they want on items anchored here
-if(Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())
-	Surfer::empower();
-elseif(isset($item['id']) && Articles::is_assigned($item['id']) && Surfer::is_member())
+// owners can do what they want
+if(Articles::is_owned($anchor, $item))
 	Surfer::empower();
 
 // anonymous edition is allowed here
@@ -299,16 +297,6 @@ elseif(isset($item['locked']) && ($item['locked'] == 'Y'))
 elseif(!isset($item['id']) && (is_object($anchor) && $anchor->has_option('locked')))
 	$editable = FALSE;
 
-// surfer created the page and the page has not been published
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())
-	&& (!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) )
-	$editable = TRUE;
-
-// surfer has created the published page and revisions are allowed
-elseif(Surfer::get_id() && isset($item['create_id']) && ($item['create_id'] == Surfer::get_id())
-	&& isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE) && (!isset($context['users_without_revision']) || ($context['users_without_revision'] != 'Y')))
-	$editable = TRUE;
-
 // the anchor has to be editable by this surfer
 elseif(is_object($anchor) && $anchor->is_editable())
 	$editable = TRUE;
@@ -338,7 +326,7 @@ if(isset($item['id']) && Surfer::get_id())
 
 // has this page some versions?
 $has_versions = FALSE;
-if(isset($item['id']) && !$zoom_type && $editable && Versions::count_for_anchor('article:'.$item['id']))
+if(isset($item['id']) && !$zoom_type && Surfer::is_empowered() && Versions::count_for_anchor('article:'.$item['id']))
 	$has_versions = TRUE;
 
 // load the skin, maybe with a variant
@@ -551,12 +539,6 @@ if(!isset($item['id'])) {
 		// restricted to associates
 		elseif($item['active'] == 'N')
 			$details[] = PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons');
-
-		// home panel
-		if(Surfer::is_associate()) {
-			if(isset($item['home_panel']) && ($item['home_panel'] == 'none'))
-				$details[] = i18n::s('This page is NOT displayed at the front page.');
-		}
 
 		// expired article
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
@@ -1121,7 +1103,7 @@ if(!isset($item['id'])) {
 	}
 
 	// access previous versions, if any
-	if($editable && $has_versions) {
+	if($has_versions && Articles::is_owned($anchor, $item)) {
 		Skin::define_img('ARTICLES_VERSIONS_IMG', 'articles/versions.gif');
 		$context['page_tools'][] = Skin::build_link(Versions::get_url('article:'.$item['id'], 'list'), ARTICLES_VERSIONS_IMG.i18n::s('Versions'), 'basic', i18n::s('Restore a previous version if necessary'));
 	}

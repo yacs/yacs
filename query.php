@@ -73,7 +73,7 @@ if(Surfer::is_crawler()) {
 		$fields['locked'] = 'Y'; // no direct contributions
 		$fields['active_set'] = 'N'; // for associates only
 		$fields['home_panel'] = 'none'; // content is not pushed at the front page
-		$fields['index_map'] = 'N'; // this is a special section
+		$fields['index_map'] = 'N'; // listed only to associates
 
 		// reference the new section
 		if($fields['id'] = Sections::post($fields))

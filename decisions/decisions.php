@@ -805,7 +805,7 @@ Class Decisions {
 			$fields['edit_address'] =& encode_link($fields['edit_address']);
 
 		// set default values for this editor
-		$fields = Surfer::check_default_editor($fields);
+		Surfer::check_default_editor($fields);
 
 		// reinforce date formats
 		if(!isset($fields['create_date']) || ($fields['create_date'] <= NULL_DATE))
@@ -834,7 +834,7 @@ Class Decisions {
 			if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 				$query .= ", "
 					."edit_name='".SQL::escape($fields['edit_name'])."', "
-					."edit_id='".SQL::escape($fields['edit_id'])."', "
+					."edit_id=".SQL::escape($fields['edit_id']).", "
 					."edit_address='".SQL::escape($fields['edit_address'])."', "
 					."edit_action='decision:update', "
 					."edit_date='".SQL::escape($fields['edit_date'])."'";
@@ -852,11 +852,11 @@ Class Decisions {
 				."type='".SQL::escape(isset($fields['type']) ? $fields['type'] : 'attention')."', "
 				."description='".SQL::escape($fields['description'])."', "
 				."create_name='".SQL::escape($fields['edit_name'])."', "
-				."create_id='".SQL::escape($fields['edit_id'])."', "
+				."create_id=".SQL::escape($fields['edit_id']).", "
 				."create_address='".SQL::escape($fields['edit_address'])."', "
 				."create_date='".SQL::escape($fields['create_date'])."', "
 				."edit_name='".SQL::escape($fields['edit_name'])."', "
-				."edit_id='".SQL::escape($fields['edit_id'])."', "
+				."edit_id=".SQL::escape($fields['edit_id']).", "
 				."edit_address='".SQL::escape($fields['edit_address'])."', "
 				."edit_action='decision:create', "
 				."edit_date='".SQL::escape($fields['edit_date'])."'";

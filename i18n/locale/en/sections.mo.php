@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 31, 2009, 6:59 am GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:22 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-30 23:09+0200
-PO-Revision-Date: 2009-08-30 23:22+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:03+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -159,7 +159,6 @@ $_SESSION['l10n']['en']['Edit this note']='Edit this note';
 $_SESSION['l10n']['en']['Edit this section']='Edit this section';
 $_SESSION['l10n']['en']['Edit: %s']='Edit: %s';
 $_SESSION['l10n']['en']['Editors']='Editors';
-$_SESSION['l10n']['en']['6c49f41e1b81e6ebcbfec6b6ff006c47']='Editors are allowed to delete pages';
 $_SESSION['l10n']['en']['End of the presentation']='End of the presentation';
 $_SESSION['l10n']['en']['afb7b68bf930c793832d36380219bfff']='Ensure this post is valid XHTML.';
 $_SESSION['l10n']['en']['22574ae3fe08b2cb5e911bab84f9ed13']='Enter nick names, or email addresses, separated by commas.';
@@ -381,7 +380,7 @@ $_SESSION['l10n']['en']['1191989b64153cc1569ba37769dff14b']='Text to be appended
 $_SESSION['l10n']['en']['15b447c7a95325a403b1ed99b405e008']='Text to be inserted in the panel aside the page. Use [box.extra=title]content[/box] or plain HTML.';
 $_SESSION['l10n']['en']['Textarea']='Textarea';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
-$_SESSION['l10n']['en']['07952e6cca017e7cdff4505604da467f']='The deletion has not been confirmed.';
+$_SESSION['l10n']['en']['5135051eb31da8ef238ed65c0b0816df']='The action has not been confirmed.';
 $_SESSION['l10n']['en']['d5c857e72defccb3ced7e7e844aa6bed']='The index page itself is a thread of discussion';
 $_SESSION['l10n']['en']['The personal space of %s']='The personal space of %s';
 $_SESSION['l10n']['en']['6f667d5aa6579c8239335c342b69c9c1']='This is a copy of the message you have sent, for your own record.';
@@ -389,11 +388,9 @@ $_SESSION['l10n']['en']['6e2c92535cae4b70d0c1008c2343390b']='This is the list of
 $_SESSION['l10n']['en']['39e10b20bc124e2c95c62a257481f4e7']='This is the right place to describe ways of working in this group.';
 $_SESSION['l10n']['en']['9ce08972f5d031a3009f6fcac6a64311']='This message has been generated automatically by %s since the new item has been posted by a user that is part of your watch list. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.';
 $_SESSION['l10n']['en']['e7be5f52e5a99ec100497b26e329ae50']='This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the following section, or its parent sections, and click on the Forget link.';
-$_SESSION['l10n']['en']['832f7df35b30df4b7aa5b5489f934bdb']='This page has been locked and you are not allowed to modify it.';
 $_SESSION['l10n']['en']['68a8ce4d4f86fd03043efdf1db0149f9']='This script allows you to upload static web pages and to make dynamic articles in the database.';
 $_SESSION['l10n']['en']['1190d320eff8ee387e9000dc17d7c36e']='This section has no content to manage.';
 $_SESSION['l10n']['en']['This section should be:']='This section should be:';
-$_SESSION['l10n']['en']['0b813fe606bc609174467563b5773314']='This web space has been locked, and you cannot submit a new page.';
 $_SESSION['l10n']['en']['Thumbnail']='Thumbnail';
 $_SESSION['l10n']['en']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['en']['Title']='Title';

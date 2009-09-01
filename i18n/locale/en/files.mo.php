@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 31, 2009, 6:59 am GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:22 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-30 23:09+0200
-PO-Revision-Date: 2009-08-30 23:21+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:02+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -183,8 +183,8 @@ $_SESSION['l10n']['en']['Supported extensions']='Supported extensions';
 $_SESSION['l10n']['en']['TeX']='TeX';
 $_SESSION['l10n']['en']['Texinfo']='Texinfo';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
+$_SESSION['l10n']['en']['5135051eb31da8ef238ed65c0b0816df']='The action has not been confirmed.';
 $_SESSION['l10n']['en']['92614de230ce73690ed8e21c34a4694b']='The assignment has been successfully cleared, and the file is again available for download.';
-$_SESSION['l10n']['en']['07952e6cca017e7cdff4505604da467f']='The deletion has not been confirmed.';
 $_SESSION['l10n']['en']['5cc2dd91632c7724b85a3bcf3a2ef281']='The download should start automatically within seconds. Else hit the provided link to trigger it manually.';
 $_SESSION['l10n']['en']['3513760fe3e0b14f2af4cc30a501d92a']='The following configuration has been saved into the file %s.';
 $_SESSION['l10n']['en']['07ab23fe8e7747f0f09e51f142768727']='The ftp:// address that is inserted in links used to download files remotely';

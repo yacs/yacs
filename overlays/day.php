@@ -167,7 +167,7 @@ class Day extends Overlay {
 		$id = $host['id'];
 
 		// set default values for this editor
-		$this->attributes = Surfer::check_default_editor($this->attributes);
+		Surfer::check_default_editor($this->attributes);
 
 		// we use the existing back-end for dates
 		include_once $context['path_to_root'].'dates/dates.php';
