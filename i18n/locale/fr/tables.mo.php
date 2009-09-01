@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 24, 2009, 10:23 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:48 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-06-29 01:13+0200
-PO-Revision-Date: 2008-11-16 21:57+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:21+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -29,6 +29,7 @@ $_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['519471e63694deb32693cdb1e9f0342c']='Ce champ étant indexé pour les recherches, pensez à soigner votre formulation';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['CSV (Excel)']='CSV (Excel)';
+$_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Colon character ";"']='Caractère point-virgule ";"';
 $_SESSION['l10n']['fr']['Comma character ","']='Caractère virgule ","';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
@@ -92,7 +93,7 @@ $_SESSION['l10n']['fr']['1dfdf4b58d994ec209f5bc7f3711fb01']='La table va être d
 $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['Tabulation character']='Caractère de tabulation';
 $_SESSION['l10n']['fr']['17ab77ed5dc36bd833ad93203a00f4ee']='La commande SELECT soumise à la base de données';
-$_SESSION['l10n']['fr']['07952e6cca017e7cdff4505604da467f']='Effacement non confirmé';
+$_SESSION['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
 $_SESSION['l10n']['fr']['35c1b3ef0d372df0083c9198a71172fb']='La première colonne pointe sur une page de détails';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
 $_SESSION['l10n']['fr']['8f9530ed279d7911ad4a48008be56b92']='Ce script charge le contenu d\'une table de la base de données.';
@@ -105,7 +106,7 @@ $_SESSION['l10n']['fr']['With index']='Avec index';
 $_SESSION['l10n']['fr']['With zoom']='Avec zoom';
 $_SESSION['l10n']['fr']['XML']='XML';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';
-$_SESSION['l10n']['fr']['fc147596de8ef766a79f77873f85378e']='Oui, je veux supprimer cette table';
+$_SESSION['l10n']['fr']['948e060cc5f48890605c6c71f4b76bee']='Oui, je veux supprimer cette table';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à effectuer cette opération.';
 $_SESSION['l10n']['fr']['Zoom']='Zoom';
 $_SESSION['l10n']['fr']['bytes']='octets';

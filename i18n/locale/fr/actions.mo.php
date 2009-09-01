@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 17, 2009, 9:27 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:46 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2008-11-16 21:48+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:04+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -55,7 +55,6 @@ $_SESSION['l10n']['fr']['No title has been provided.']='Aucun titre n\'a été f
 $_SESSION['l10n']['fr']['On-going']='En cours';
 $_SESSION['l10n']['fr']['On-going actions']='Actions en cours';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
-$_SESSION['l10n']['fr']['Overview of your post:']='Aperçu de votre envoi :';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['Posted by']='Envoyé par';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
@@ -70,7 +69,7 @@ $_SESSION['l10n']['fr']['Submit']='Envoyer';
 $_SESSION['l10n']['fr']['Target address']='Adresse cible';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['495e87f04f0246c5e3ae83e2f3df4580']='Une URL relative à cette action, le cas échéant';
-$_SESSION['l10n']['fr']['270fe73e78407a1fe4ccf8eb9b9f99bb']='La suppression n\'a pas été confirmée';
+$_SESSION['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
 $_SESSION['l10n']['fr']['9cec816052ab7b14408c4549ecc5b2c8']='L\'action suivante a été ajoutée à votre liste de tâches. Merci de la prendre en compte dans les meilleurs délais.
 
 Emetteur : %s

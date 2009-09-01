@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:47 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-14 23:14+0200
-PO-Revision-Date: 2009-05-14 23:51+0100
+POT-Creation-Date: 2009-08-30 23:09+0200
+PO-Revision-Date: 2009-07-04 22:58+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -131,7 +131,6 @@ $_SESSION['l10n']['fr']['f874f0a9f41bd4713a043cf3f63fcb96']='Inclure la liste de
 $_SESSION['l10n']['fr']['6273e526d97efbe332bef2f6091ae1ab']='Inclure la liste des liens récents';
 $_SESSION['l10n']['fr']['486e0952e8d6e9039cce30a69fad5e18']='Inclure la liste des serveurs qui nous ont avertis';
 $_SESSION['l10n']['fr']['d97d2e80e6779e3751e1dc0b2bad7d8a']='Consultez les index des %1$s, des %2$s, des %3$s et des %4$s pour connaitre les pages nouvelles. Ceci est un moyen efficace d\'atteindre l\'information que vous recherchez.';
-$_SESSION['l10n']['fr']['Information channels']='Fils d\'information';
 $_SESSION['l10n']['fr']['Introduction']='Introduction';
 $_SESSION['l10n']['fr']['b28971569500a82424aab29497bf6c18']='Il est possible que nous ayons modifié le contenu de ce site sans vous en avertir. Merci de naviguer à partir de %s pour rafraichir vos signets.';
 $_SESSION['l10n']['fr']['9b0e80bd74abe00faec2dc3e76113a60']='Donnez-nous une chance de mieux vous connaitre';
@@ -151,6 +150,7 @@ $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='Les champs obligato
 $_SESSION['l10n']['fr']['Matching articles']='Pages trouvées';
 $_SESSION['l10n']['fr']['Matching pages']='Pages trouvées';
 $_SESSION['l10n']['fr']['May change configuration files']='Autorisé à modifier les fichiers de configuration';
+$_SESSION['l10n']['fr']['Monitor']='Surveiller';
 $_SESSION['l10n']['fr']['More links']='Autres liens';
 $_SESSION['l10n']['fr']['More pages']='Autres pages';
 $_SESSION['l10n']['fr']['Most HTML tags are removed.']='La plupart des balises HTML sont retirées.';

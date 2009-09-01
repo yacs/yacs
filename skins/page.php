@@ -143,20 +143,20 @@
 			return TRUE;
 		}
 
-		// look a named page, but only during regular operation
-		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
-			if($item =& Articles::get($parameter)) {
-				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'component_'.$name);
-				return TRUE;
-			}
-		}
-
 		// for component 'foo', we look for data in $context['components']['foo']
 		if(isset($context['components'][ $name ])) {
 			echo $context['components'][ $name ];
 			return TRUE;
 		}
 		
+		// look a named page, but only during regular operation
+		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
+			if($item =& Articles::get($name)) {
+				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'component_'.$name);
+				return TRUE;
+			}
+		}
+
 		// this component is unknown
 		return FALSE;
 	}

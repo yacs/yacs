@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 24, 2009, 10:21 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:46 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-07-03 00:19+0200
-PO-Revision-Date: 2009-07-04 22:54+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:17+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -81,7 +81,6 @@ $_SESSION['l10n']['fr']['Promote']='Promouvoir';
 $_SESSION['l10n']['fr']['Promote a comment']='Promouvoir un commentaire';
 $_SESSION['l10n']['fr']['Quote']='Citer';
 $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';
-$_SESSION['l10n']['fr']['React to this post']='Réagir à cet envoi';
 $_SESSION['l10n']['fr']['Recent comments at %s']='Commentaires à %s';
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
 $_SESSION['l10n']['fr']['Reply']='Répondre';
@@ -92,8 +91,7 @@ $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Subscriber']='Souscripteur';
 $_SESSION['l10n']['fr']['Textarea']='Textarea';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
-$_SESSION['l10n']['fr']['07952e6cca017e7cdff4505604da467f']='Effacement non confirmé';
-$_SESSION['l10n']['fr']['143d6ecade1db22e329a74e87c22b11f']='Promotion non confirmée';
+$_SESSION['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
 $_SESSION['l10n']['fr']['This comment has inspired:']='Ce commentaire a inspiré :';
 $_SESSION['l10n']['fr']['18d140b9af759b4ec502696d7172360b']='Ce champ optionnel peut être laissé vide si vous le souhaitez.';
 $_SESSION['l10n']['fr']['4437c363be4e710f0bcd6a0d292a91eb']='Ce script autorise les apports de type Comment API ou Post-It par requêtes HTTP POST.';

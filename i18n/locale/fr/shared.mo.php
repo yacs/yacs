@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on July 17, 2009, 9:27 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:45 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-06-29 01:13+0200
+POT-Creation-Date: 2009-09-02 01:21+0200
 PO-Revision-Date: 2009-05-14 23:53+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -76,16 +76,13 @@ $_SESSION['l10n']['fr']['Table']='Table';
 $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['The table']='La table';
 $_SESSION['l10n']['fr']['3e5db4a2ca0b72619890b0a6317167b5']='Ce message a été généré automatiquement par %s. Pour arrêter ces alertes dynamiques vous pouvez suivre le lien suivant et retirer votre adresse des destinaires des événements système.';
-$_SESSION['l10n']['fr']['Tools']='Outils';
 $_SESSION['l10n']['fr']['b14e57cf6aea5bcf8b57974ce6a1545d']='Tapez exactement les 5 caractères suivants :';
 $_SESSION['l10n']['fr']['User']='Utilisateur';
-$_SESSION['l10n']['fr']['User login']='Authentification';
 $_SESSION['l10n']['fr']['Versions']='Versions';
 $_SESSION['l10n']['fr']['6bb9e1aa16d4d6776927b05fc4fdb6f1']='Voir toutes les informations vous concernant';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
 $_SESSION['l10n']['fr']['View this comment']='Voir ce commentaire';
 $_SESSION['l10n']['fr']['View this decision']='Voir cette décision';
-$_SESSION['l10n']['fr']['Visited']='Visites';
 $_SESSION['l10n']['fr']['XML error: %s at line %d']='Erreur XML : %s à la ligne %d';
 $_SESSION['l10n']['fr']['68e8557b5fa4d724688175816097ce17']='Vous pouvez envoyer du XHTML.';
 $_SESSION['l10n']['fr']['a38baa11f8dc11db9fde342db9db7f07']='Pour redevenir un surfeur anonyme';

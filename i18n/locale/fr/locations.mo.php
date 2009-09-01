@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 29, 2009, 9:57 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:46 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-25 19:24+0200
-PO-Revision-Date: 2008-11-16 21:54+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:20+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -27,6 +27,7 @@ $_SESSION['l10n']['fr']['Add a location']='Ajouter un emplacement';
 $_SESSION['l10n']['fr']['da9a0fd4ad6b4e693496e34f79ee7dcf']='Recherche de coordonnées géographiques';
 $_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
+$_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Coordinates']='Coordonnées géographiques';
 $_SESSION['l10n']['fr']['Country']='Pays';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
@@ -73,7 +74,7 @@ $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Street address, city, country']='Adresse, ville, pays';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
-$_SESSION['l10n']['fr']['07952e6cca017e7cdff4505604da467f']='Effacement non confirmé';
+$_SESSION['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
 $_SESSION['l10n']['fr']['f0c3075295bb680dfc25c2d8501f6bd8']='L\'emplacement a été ajouté en fin de page.';
 $_SESSION['l10n']['fr']['1c6c717b524d281f4d7cfb3c9a1ebae4']='L\'adresse a été encodée comme suit';
 $_SESSION['l10n']['fr']['This address has not been found']='Cette adresse n\'a pu être localisée';
@@ -85,6 +86,7 @@ $_SESSION['l10n']['fr']['b76e939953ed01db8e5a10a9a47bc9ad']='Utiliser le panneau
 $_SESSION['l10n']['fr']['View the page']='Voir la page';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';
+$_SESSION['l10n']['fr']['8e537a10de9e86b2831f4650f9637d4d']='Oui, je veux supprimer cet emplacement';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['0734de3959ac0f71d53aa1be7653f294']='Vous devez donner un nom à cet emplacement.';
 $_SESSION['l10n']['fr']['at %s']='à %s';

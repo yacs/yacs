@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:46 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: Yacs
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-15 00:10+0200
-PO-Revision-Date: 2009-05-15 00:42+0100
+POT-Creation-Date: 2009-08-26 16:54+0200
+PO-Revision-Date: 2009-08-31 00:48+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -132,8 +132,8 @@ $_SESSION['l10n']['fr']['da6825ad5bbda2d7313669c2f5304614']='Liens (et raccourci
 $_SESSION['l10n']['fr']['List item']='Elément de liste';
 $_SESSION['l10n']['fr']['c48042b378c7e1a4d2cc72668bf53a1b']='Listes (à puces, numérotées...)';
 $_SESSION['l10n']['fr']['Live codes']='Codes dynamiques';
-$_SESSION['l10n']['fr']['0e26a9549bd6165868a225df0e58f55f']='Codes divers (drapeaux...)';
-$_SESSION['l10n']['fr']['Miscelleaneous codes']='Codes divers';
+$_SESSION['l10n']['fr']['Miscellaneous codes']='Codes divers';
+$_SESSION['l10n']['fr']['056ceb8cc5e89e51dbb1dafe1a6bf49f']='Codes divers (graphiques...)';
 $_SESSION['l10n']['fr']['Net income']='Revenus net';
 $_SESSION['l10n']['fr']['Net income for last year,$2.100']='Revenus de l\'année dernière, $2.100';
 $_SESSION['l10n']['fr']['Net income for last year;$2.100']='Revenus de l\'année dernière;$2.100';
@@ -193,6 +193,7 @@ $_SESSION['l10n']['fr']['Sidebar']='Boîte de côté';
 $_SESSION['l10n']['fr']['Sidebar with title']='Boîte de côté avec titre';
 $_SESSION['l10n']['fr']['Small']='Petit';
 $_SESSION['l10n']['fr']['Speedy Rabbit']='Speedy Rabbit';
+$_SESSION['l10n']['fr']['Static chart']='Graphique fixe';
 $_SESSION['l10n']['fr']['Stories']='Fables';
 $_SESSION['l10n']['fr']['Stories|Jean[nl]de la Fontaine']='Fables|Jean[nl]de la Fontaine';
 $_SESSION['l10n']['fr']['Subscript']='Sous-exposant';

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:51 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:45 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-15 10:00+0200
-PO-Revision-Date: 2009-05-14 23:52+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:12+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -45,11 +45,9 @@ $_SESSION['l10n']['fr']['Authors of all those scripts']='Les auteurs de ces scri
 $_SESSION['l10n']['fr']['Authors:']='Auteurs :';
 $_SESSION['l10n']['fr']['Browse']='Parcourir';
 $_SESSION['l10n']['fr']['1f78b7e2b77fdb3600d4c48d54fa3c0c']='Visualiser ce script';
-$_SESSION['l10n']['fr']['Build']='Construire';
-$_SESSION['l10n']['fr']['d8e7d4132dce75fb1cba007b5e6d4997']='Construire un référentiel logiciel sur ce serveur';
+$_SESSION['l10n']['fr']['Build the software']='Construire le logiciel';
 $_SESSION['l10n']['fr']['Building documentation pages...']='Création des pages de documentation...';
-$_SESSION['l10n']['fr']['29d27188960332e3ff93521ef989fb82']='Validation de la syntaxe PHP des scripts de référence';
-$_SESSION['l10n']['fr']['Check scripts']='Vérification des scripts';
+$_SESSION['l10n']['fr']['Check software integrity']='Vérifier l\'intégrité du logiciel';
 $_SESSION['l10n']['fr']['Checking scripts...']='Vérification des scripts...';
 $_SESSION['l10n']['fr']['f929120673a76106ca2ac698369c43fa']='Sélectionner l\'un des liens ci-dessous pour accéder aux pages de documentation extraites des scripts (phpDocs).';
 $_SESSION['l10n']['fr']['0287b0cc0f0423aed47d8030374bb1ed']='Cliquer sur le bouton ci-dessous pour modifier les scripts de votre serveur. Merci de noter que le serveur sera temporairement fermé, et que vous aurez aussi à mettre à jour la base de données.';
@@ -181,13 +179,12 @@ $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la con
 $_SESSION['l10n']['fr']['To do']='A faire';
 $_SESSION['l10n']['fr']['To-do list']='Les choses à faire';
 $_SESSION['l10n']['fr']['ec5a7caff04bc5e29717418edb604efb']='Vous pouvez aussi choisir de remplir le répertoire %s manuellement. Ensuite vous pourrez lancer %s.';
-$_SESSION['l10n']['fr']['Update']='Mettre à jour';
-$_SESSION['l10n']['fr']['Update scripts']='Mettre les scripts à jour';
 $_SESSION['l10n']['fr']['63230b1ac87d317b655a05224e031e1a']='Mise à jour de la page d\'accueil :';
+$_SESSION['l10n']['fr']['Update the software']='Mettre le logiciel à jour';
 $_SESSION['l10n']['fr']['Updated script']='Script mis à jour';
 $_SESSION['l10n']['fr']['Updating scripts...']='Mise à jour des scripts...';
 $_SESSION['l10n']['fr']['Used staged file %s']='Utilisation du fichier %s';
-$_SESSION['l10n']['fr']['Validate']='Valider';
+$_SESSION['l10n']['fr']['Validate PHP syntax']='Valider la syntaxe PHP';
 $_SESSION['l10n']['fr']['Version string (optional)']='Numéro de version (optionnel)';
 $_SESSION['l10n']['fr']['View PHP documentation']='Documentation d\'un script';
 $_SESSION['l10n']['fr']['View the documentation page']='Voir la documentation';

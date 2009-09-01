@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:46 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2008-12-05 23:24+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:18+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ $_SESSION['l10n']['fr']['22574ae3fe08b2cb5e911bab84f9ed13']='Entrez les noms ou 
 $_SESSION['l10n']['fr']['fd674cf80651be8f2cc7d185d732b3ef']='Erreur pendant la transmission du message vers %s';
 $_SESSION['l10n']['fr']['9404597745d93a6898e464cbbc52c4dc']='Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur pourra alors positionner votre nom et votre adresse automatiquement dans les champs ci-dessous.';
 $_SESSION['l10n']['fr']['In %s']='Dans %s';
-$_SESSION['l10n']['fr']['Invite people']='Inviter des personnes';
+$_SESSION['l10n']['fr']['Invite participants']='Inviter des participants';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['Message content']='Contenu du message';
@@ -87,7 +87,7 @@ $_SESSION['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie
 $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
-$_SESSION['l10n']['fr']['07952e6cca017e7cdff4505604da467f']='Effacement non confirmé';
+$_SESSION['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
 $_SESSION['l10n']['fr']['This has been rejected']='Ceci a été rejeté';
 $_SESSION['l10n']['fr']['6f667d5aa6579c8239335c342b69c9c1']='Ceci est une copie du message que vous avez envoyé, pour mémoire.';
 $_SESSION['l10n']['fr']['22786ead8b70a0b635dcbcac71ac5f2e']='Ce champ optionnel peut être laissé vide si vous le souhaitez';
@@ -98,7 +98,7 @@ $_SESSION['l10n']['fr']['View a decision']='Voir une décision';
 $_SESSION['l10n']['fr']['View this decision']='Voir cette décision';
 $_SESSION['l10n']['fr']['895d2c0142361017642213ba49731871']='Visitez %s pour lire d\'autres pages intéressantes.';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
-$_SESSION['l10n']['fr']['b9460a0ad6f4d2a9d0143cea3894b478']='Oui, je veux supprimer cette décision';
+$_SESSION['l10n']['fr']['4bbc996082cd8d5286478b39627520bf']='Oui, je veux supprimer cette décision';
 $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas autorisé à faire cette opération en mode démonstration.';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['014e7364906ff7722f49f5ee247577fa']='Vous êtes invité personnellement à donner votre accord sur la page référencée ci-dessous.';

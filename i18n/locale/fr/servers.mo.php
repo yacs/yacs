@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 24, 2009, 10:17 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:46 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-04 10:22+0200
-PO-Revision-Date: 2009-04-08 23:12+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:21+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -28,8 +28,7 @@ $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['e65ecdbceaab96361e9cabd171db6222']='Un enregistrement a été créé pour le serveur %s';
 $_SESSION['l10n']['fr']['29ae395fb6ee23f2ca2c70c124ddf2c0']='Accepter et traiter les mises à jour (<code>weblogUpdates.ping</code>) envoyées par ce serveur à %s';
 $_SESSION['l10n']['fr']['94a464898c7a931eb5d53f1420cdc3d4']='Accepter et traiter les requêtes de recherche envoyées par ce serveur à %s';
-$_SESSION['l10n']['fr']['21c58f77450af6e7fc86a17ada969ac2']='Accès restreint aux associés';
-$_SESSION['l10n']['fr']['71591a943ab0ff1e925f29270c9a6568']='Accès restreint aux membres authentifiés';
+$_SESSION['l10n']['fr']['Access']='Accès';
 $_SESSION['l10n']['fr']['Add a server']='Ajouter un serveur';
 $_SESSION['l10n']['fr']['Add a server profile']='Ajouter un serveur';
 $_SESSION['l10n']['fr']['53772f9573c476db020670cb2595011d']='Aggréger les nouvelles de ce site par lecture du fil XML à l\'adresse %s';
@@ -41,6 +40,7 @@ $_SESSION['l10n']['fr']['Another famous blogs aggregator']='Un autre consolidate
 $_SESSION['l10n']['fr']['Back to server profile']='Retour au profil de serveur';
 $_SESSION['l10n']['fr']['Back to servers']='Retour aux serveurs';
 $_SESSION['l10n']['fr']['ab29426eac97a8fac53f1263996c2dc2']='Vérification à chaque requête transmise';
+$_SESSION['l10n']['fr']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Communauté - Accès restreint aux membres authentifiés';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configuration';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
@@ -90,7 +90,9 @@ $_SESSION['l10n']['fr']['Ping the cloud']='Avertir les serveurs';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['Populate']='Peupler les serveurs';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
+$_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
 $_SESSION['l10n']['fr']['47b78f39e64497e39883fac579c63f84']='Services autorisés pour ce serveur';
+$_SESSION['l10n']['fr']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Accès autorisé aux surfeurs anonymes';
 $_SESSION['l10n']['fr']['Received from feeding servers']='Les informations transmises par les autres serveurs';
 $_SESSION['l10n']['fr']['Related to %s']='Attaché à %s';
 $_SESSION['l10n']['fr']['f29869af2b6e35819bc5a7c5872e8dca']='Les appels distants sont autorisés par défaut. Décocher les cases ci-dessous pour invalider un serveur indélicat en cas de besoin.';
@@ -103,7 +105,7 @@ $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['62533653dfc1015ddcfc5c356a6497a1']='Envoyer périodiquement des requêtes XML-RPC de <code>monitor.ping</code> à l\'adresse %s';
 $_SESSION['l10n']['fr']['5ec9e6d4a0ddc6ce82848a3e9f4b097f']='Rechercher sur ce serveur, par apple REST de l\'adresse %s';
 $_SESSION['l10n']['fr']['Test feed']='Tester RSS';
-$_SESSION['l10n']['fr']['07952e6cca017e7cdff4505604da467f']='Effacement non confirmé';
+$_SESSION['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
 $_SESSION['l10n']['fr']['The famous pinging gateway']='Le distributeur de ping';
 $_SESSION['l10n']['fr']['3513760fe3e0b14f2af4cc30a501d92a']='La configuration suivante a été enregistrée dans le fichier %s.';
 $_SESSION['l10n']['fr']['b35f3dccc8f244827d9d66a6ab1840b5']='Le serveur d\'origine du système YACS';

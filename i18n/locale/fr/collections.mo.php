@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:47 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2008-11-23 23:46+0100
+POT-Creation-Date: 2009-08-26 01:57+0200
+PO-Revision-Date: 2009-08-30 23:41+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -24,10 +24,8 @@ $_SESSION['l10n']['fr']['%d files have been extracted.']='%d fichiers ont été 
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['4818dbf386b7133e0bca919a733f1329']='Un moyen agréable de visionner photos et images d\'art';
-$_SESSION['l10n']['fr']['21c58f77450af6e7fc86a17ada969ac2']='Accès restreint aux associés';
-$_SESSION['l10n']['fr']['71591a943ab0ff1e925f29270c9a6568']='Accès restreint aux membres authentifiés';
+$_SESSION['l10n']['fr']['Access']='Accès';
 $_SESSION['l10n']['fr']['Add a collection']='Ajouter une collection';
-$_SESSION['l10n']['fr']['10cc9759113e2217d67ba0a8539d260a']='Tout le monde peut accéder à cette collection';
 $_SESSION['l10n']['fr']['Autoplay']='Automatique';
 $_SESSION['l10n']['fr']['Beginning']='Début';
 $_SESSION['l10n']['fr']['Browse this directory']='Naviguer sur ce répertoire';
@@ -36,6 +34,7 @@ $_SESSION['l10n']['fr']['9953b8a98446c15990e30aa788d57d9d']='Cliquer pour voir s
 $_SESSION['l10n']['fr']['Codec: %s']='Codec : %s';
 $_SESSION['l10n']['fr']['Collection nick name']='Identifiant de collection';
 $_SESSION['l10n']['fr']['Collections']='Collections';
+$_SESSION['l10n']['fr']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Communauté - Accès restreint aux membres authentifiés';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
@@ -77,6 +76,8 @@ $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque su
 $_SESSION['l10n']['fr']['Prefix']='Préfixe';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Previous']='Précédent';
+$_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
+$_SESSION['l10n']['fr']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Accès autorisé aux surfeurs anonymes';
 $_SESSION['l10n']['fr']['Restricted access']='Accès restreint';
 $_SESSION['l10n']['fr']['Select the file to upload']='Choisissez le fichier à transmettre';
 $_SESSION['l10n']['fr']['Select the slide to show']='Choisir l\'image à afficher';
@@ -107,7 +108,6 @@ $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['Use a short nick name']='Utilisez un nom court';
 $_SESSION['l10n']['fr']['0f4b3533ba2217b9d4b0af33b2a61abb']='Utilisez ce formulaire pour donner l\'accès à certains dossiers.';
 $_SESSION['l10n']['fr']['VLC media player']='VLC media player';
-$_SESSION['l10n']['fr']['Visibility']='Visibilité';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
 $_SESSION['l10n']['fr']['Winamp player']='Winamp player';
 $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas autorisé à faire cette opération en mode démonstration.';

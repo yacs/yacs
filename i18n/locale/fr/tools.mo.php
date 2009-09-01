@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:48 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-14 23:14+0200
-PO-Revision-Date: 2009-05-14 23:58+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-08-31 00:33+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -34,14 +34,17 @@ $_SESSION['l10n']['fr']['b3390a8d554fe09cfe0a9781ad299561']='Un compte "%s" a é
 $_SESSION['l10n']['fr']['AJAX demonstration']='Démonstration AJAX';
 $_SESSION['l10n']['fr']['Alert box']='Boîte d\'alerte';
 $_SESSION['l10n']['fr']['Alert notification']='Notification d\'alerte';
+$_SESSION['l10n']['fr']['Alice']='Alice';
 $_SESSION['l10n']['fr']['b8b07936b356f7906cdd5ef6b01e7821']='Un compte existe déjà pour "%s".';
 $_SESSION['l10n']['fr']['Anonymous wiki']='Wiki anonyme';
 $_SESSION['l10n']['fr']['717d50c64a625363713751145cf1f7ca']='Tout surfer peut modifier le contenu de cette section';
 $_SESSION['l10n']['fr']['Assembling javascript files...']='Assemblage des fichiers Javascripts ...';
 $_SESSION['l10n']['fr']['70871921675454ac43a2a5fe9444af55']='Les membres authentifiés peuvent modifier les pages de cette section';
 $_SESSION['l10n']['fr']['Blog']='Blog';
+$_SESSION['l10n']['fr']['Bob']='Bob';
 $_SESSION['l10n']['fr']['Browse notification']='Notification de co-navigation';
 $_SESSION['l10n']['fr']['Calendar']='Calendrier';
+$_SESSION['l10n']['fr']['Carol']='Carole';
 $_SESSION['l10n']['fr']['Categories']='Catégories';
 $_SESSION['l10n']['fr']['Category "%s" already exists.']='La catégorie "%s" existe déjà.';
 $_SESSION['l10n']['fr']['Channels']='Chaînes';
@@ -67,6 +70,8 @@ $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['eeb1a5b1e84f84128d95eab10517665a']='Tirez et déplacez les éléments suivants';
 $_SESSION['l10n']['fr']['Edit me']='A éditer';
+$_SESSION['l10n']['fr']['Enter a floating number']='Entrer un nombre décimal';
+$_SESSION['l10n']['fr']['Enter an integer']='Entrer un nombre entier';
 $_SESSION['l10n']['fr']['Event']='Evénement';
 $_SESSION['l10n']['fr']['Events']='Evénements';
 $_SESSION['l10n']['fr']['6bcc0edc066d340a8f1a614a6daf6c8b']='Chaque page de cette section est un événement à une date précise.';
@@ -87,6 +92,7 @@ $_SESSION['l10n']['fr']['Hello again']='Bonjour de nouveau';
 $_SESSION['l10n']['fr']['Hello notification']='Notification de contact';
 $_SESSION['l10n']['fr']['Hello world']='Bonjour le monde';
 $_SESSION['l10n']['fr']['Hover me to access tools']='Survolez moi pour accèder aux outils';
+$_SESSION['l10n']['fr']['Interactive filters']='Filtres interactifs';
 $_SESSION['l10n']['fr']['Interactive support']='Support en ligne';
 $_SESSION['l10n']['fr']['d5651dd5d23d7e873001e4317f98bd94']='Relancer l\'assistant de contenu';
 $_SESSION['l10n']['fr']['Links']='Liens';
@@ -142,6 +148,7 @@ $_SESSION['l10n']['fr']['Sample yabb thread']='Discussion yabb de démonstration
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Sections']='Sections';
 $_SESSION['l10n']['fr']['Social bookmarking section']='Section de liens partagés';
+$_SESSION['l10n']['fr']['Sophie']='Sophie';
 $_SESSION['l10n']['fr']['Sponge Bob']='Bob l\'Eponge';
 $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Submit']='Envoyer';

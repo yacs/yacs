@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:47 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: Yacs
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-28 16:27+0200
-PO-Revision-Date: 2009-05-15 00:18+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:19+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -24,16 +24,15 @@ $_SESSION['l10n']['fr']['%d form'.chr(0).'%d forms']='%d formulaire'.chr(0).'%d 
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['7959b059e4d93392b6cb781e9d9eaffc']='Une nouvelle page a été créée avec les informations fournies. Elle va être traitée dans les plus brefs délais.';
-$_SESSION['l10n']['fr']['21c58f77450af6e7fc86a17ada969ac2']='Accès restreint aux associés';
-$_SESSION['l10n']['fr']['71591a943ab0ff1e925f29270c9a6568']='Accès restreint aux membres authentifiés';
+$_SESSION['l10n']['fr']['Access']='Accès';
 $_SESSION['l10n']['fr']['Add a form']='Ajouter un formulaire';
 $_SESSION['l10n']['fr']['Add a selection input field']='Ajouter un champ de sélection';
 $_SESSION['l10n']['fr']['Add a string input field']='Ajouter un champ de saisie';
 $_SESSION['l10n']['fr']['Add some text']='Ajouter du texte';
 $_SESSION['l10n']['fr']['de5b7203b45b8660746f749207ab2a51']='Complète le titre dans les listes où la page apparait';
-$_SESSION['l10n']['fr']['Anyone may read this form.']='Tout le monde peut utiliser ce formulaire.';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Capture']='Enregistrement';
+$_SESSION['l10n']['fr']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Communauté - Accès restreint aux membres authentifiés';
 $_SESSION['l10n']['fr']['Content']='Contenu';
 $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
@@ -68,7 +67,9 @@ $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer u
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';
 $_SESSION['l10n']['fr']['Post processing']='Traitement de cet envoi';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
+$_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
 $_SESSION['l10n']['fr']['Processing']='Traitement';
+$_SESSION['l10n']['fr']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Accès autorisé aux surfeurs anonymes';
 $_SESSION['l10n']['fr']['474f9f13dfabde8542ecef34bd170aec']='Pour être notifié des réactions';
 $_SESSION['l10n']['fr']['Regular sections']='Sections normales';
 $_SESSION['l10n']['fr']['Related to %s']='Attaché à %s';
@@ -78,7 +79,7 @@ $_SESSION['l10n']['fr']['Sent by %s in %s']='Envoyé par %s dans %s';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Textarea']='Textarea';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
-$_SESSION['l10n']['fr']['07952e6cca017e7cdff4505604da467f']='Effacement non confirmé.';
+$_SESSION['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
 $_SESSION['l10n']['fr']['bd4dc509bead225fd09ffc2a29b1e07a']='La taille du fichier dépasse la limite autorisée.';
 $_SESSION['l10n']['fr']['TinyMCE']='TinyMCE';
 $_SESSION['l10n']['fr']['Title']='Titre';
@@ -88,7 +89,6 @@ $_SESSION['l10n']['fr']['1efb8b242d9578c697b28352622e20fe']='Utilisez les liens 
 $_SESSION['l10n']['fr']['36ab5b5ac398b5cfe4feb817d68c45f1']='Utilisez l\'%s pour peupler ce serveur.';
 $_SESSION['l10n']['fr']['Use the form']='Utiliser le formulaire';
 $_SESSION['l10n']['fr']['View the page']='Voir la page';
-$_SESSION['l10n']['fr']['Visibility']='Visibilité';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que souhaitez-vous faire maintenant ?';
 $_SESSION['l10n']['fr']['YACS codes']='les codes YACS';
 $_SESSION['l10n']['fr']['f1cc08acab3cc275dc97cf752ad30fd2']='Oui, je veux supprimer ce formulaire';

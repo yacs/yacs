@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:45 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-14 23:14+0200
-PO-Revision-Date: 2009-05-14 23:42+0100
+POT-Creation-Date: 2009-08-30 23:09+0200
+PO-Revision-Date: 2009-08-30 23:42+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -62,8 +62,8 @@ $_SESSION['l10n']['fr']['%s - server software']='%s - gestionnaire du serveur';
 $_SESSION['l10n']['fr']['aabc0967626adb06becb52f1d111ee19']='%s - répertoires et fichiers partagés';
 $_SESSION['l10n']['fr']['63c82f286cf6a3295558a5f47bf5dc6a']='%s - stopper et redémarrer votre serveur';
 $_SESSION['l10n']['fr']['8aa717dbf86d0e44261682c8f01aa966']='%s - les émoticons pour exprimer vos sentiments';
-$_SESSION['l10n']['fr']['b336d603cf98c3f79f114eb28df45c87']='%s - quelques avatars pour votre profil';
 $_SESSION['l10n']['fr']['%s - some have %s']='%s - certaines ont des %s';
+$_SESSION['l10n']['fr']['cbcc06fbe1c285289110cb2453558b69']='%s - quelques images à utiliser sur votre profil';
 $_SESSION['l10n']['fr']['be836c9c173ea40cff6ba90868f205a7']='%s - il y a des mises à jour en attente';
 $_SESSION['l10n']['fr']['3ce5395cbcf2e9990bc30dec981da951']='%s - l\'outil de sécurité indispensable';
 $_SESSION['l10n']['fr']['7fb8bdb871d74deeb64f9fbaf9eda641']='%s - pour modifier le rendu visuel des objets Flash dynamiques';
@@ -107,7 +107,6 @@ $_SESSION['l10n']['fr']['All indexes will be (re)built.']='Tous les index seront
 $_SESSION['l10n']['fr']['b3e8ce8c7a8ed8373c4db7d6cdbc9f0f']='Les marques ou images montrées ou mentionnées restent la propriété de leurs propriétaires respectifs, y compris ceux associés aux solutions listées sur [parameter=site_name]. [parameter=site_owner] se réserve le droit de corriger ou supprimer tout contenu à chaque fois que cela sera nécessaire, sans devoir notifier l\'auteur initial de l\'information concernée. [parameter=site_owner] ne saurait être tenu pour responsable des violations de droit d\'auteur initié par des membres de la communauté, même si tout sera mis en oeuvre pour résoudre les problèmes éventuels.';
 $_SESSION['l10n']['fr']['3601ebb2d1f7a4183e047d58ee8fb3cc']='Ce site utilise les cookies comme mécanisme standard de gestion de session. Nous n\'utilisons pas les cookies pour suivre les sessions de navigation individuelles, ni pour faire d\'autres choses indélicates. Si vous n\'êtes pas d\'accord avec cette politique, merci de configurer votre navigateur pour ne pas accepter les cookies de ce site. Une partie significative de ce site vous restera accessible, même si vous perdrez la faculté de vous authentifier et de contribuer.';
 $_SESSION['l10n']['fr']['Apache .htaccess']='Apache .htaccess';
-$_SESSION['l10n']['fr']['1ffbc6125d4d724ceaf9fc2f5a78ef72']='Apache a été configuré avec %s.';
 $_SESSION['l10n']['fr']['Apply these SQL statements']='Exécuter les commandes SQL';
 $_SESSION['l10n']['fr']['Architecture']='Architecture';
 $_SESSION['l10n']['fr']['61c49b8e6d3d365eb7781e3d47d1b58d']='Essayer de s\'adapter à la langue indiquée par le navigateur.';
@@ -135,6 +134,7 @@ $_SESSION['l10n']['fr']['Calling hook for %s']='Extension d\'appel pour %s';
 $_SESSION['l10n']['fr']['8e07e599a50115975cc7302a74f50207']='Les appels à phpinfo() ne sont pas autorisés sur ce serveur.';
 $_SESSION['l10n']['fr']['Categories']='Catégories';
 $_SESSION['l10n']['fr']['7da23e7e071174c2d71bed8dcf60a86c']='Vérifiez %s pour visualiser et gérer les styles disponibles.';
+$_SESSION['l10n']['fr']['Check the updated Site Map']='Visiter la Carte du Site mise à jour';
 $_SESSION['l10n']['fr']['Click here to register']='Cliquez ici pour vous enregistrer';
 $_SESSION['l10n']['fr']['dc0e3717334648d51cf3fba8d80bf04e']='Cliquer sur les liens suivants pour évaluer les possibilités de votre serveur. En cas d\'erreur, revenir manuellement sur cette page et passer au test suivant.';
 $_SESSION['l10n']['fr']['ce4433a46e56c75290b3bc45d03e84b1']='Utilisez les liens suivants pour contrôler ou modifier les paramètres de ce site.';
@@ -258,6 +258,7 @@ $_SESSION['l10n']['fr']['Jump to the populate page']='Créer les données de bas
 $_SESSION['l10n']['fr']['Keywords']='Mots-clés';
 $_SESSION['l10n']['fr']['Language detection']='Détection du langage';
 $_SESSION['l10n']['fr']['Last record']='Dernier enregistrement';
+$_SESSION['l10n']['fr']['d5651dd5d23d7e873001e4317f98bd94']='Relancer l\'Assistant de Contenu';
 $_SESSION['l10n']['fr']['Legal Stuff']='Informations légales';
 $_SESSION['l10n']['fr']['Linking hook %s for %s']='Liaison de l\'extension %s pour %s';
 $_SESSION['l10n']['fr']['Linking hooks']='Extensions par liaison';
@@ -277,7 +278,7 @@ $_SESSION['l10n']['fr']['a0a138f7c7a0a568136d4b42b292cc36']='Limite des envois d
 $_SESSION['l10n']['fr']['Memory']='Mémoire';
 $_SESSION['l10n']['fr']['Menu']='Menu';
 $_SESSION['l10n']['fr']['Messages encoding']='Encodage des messages';
-$_SESSION['l10n']['fr']['a4c286ab3a3ba22f7bb2bb80d4e031d9']='Avec la valeur 0 la file d\'attente d\'envoi est désactiver';
+$_SESSION['l10n']['fr']['a4c286ab3a3ba22f7bb2bb80d4e031d9']='Avec la valeur 0 la file d\'attente d\'envoi est désactivée';
 $_SESSION['l10n']['fr']['8d706527cec6425ce288c51c4c20571e']='Les tables manquantes seront créées.';
 $_SESSION['l10n']['fr']['Models to be duplicated']='Modèles pour les nouvelles pages';
 $_SESSION['l10n']['fr']['Modules']='Modules';
@@ -328,6 +329,7 @@ $_SESSION['l10n']['fr']['52609f36af990d3a21ca779eaad8d292']='Merci de configurer
 $_SESSION['l10n']['fr']['Please configure your server']='Merci de configurer votre serveur';
 $_SESSION['l10n']['fr']['Please create a database']='Merci de créer une base de données';
 $_SESSION['l10n']['fr']['Please create tables']='Merci de créer la structure des données';
+$_SESSION['l10n']['fr']['20fca49c3ea848eab7624b345c5bcf6a']='Vérifier que Apache a été configuré avec %s.';
 $_SESSION['l10n']['fr']['0807793f4a8fb75612181f3448c79dfb']='Merci d\'indiquer ci-dessous les nom et mot de passe que vous utiliserez pour vous authentifier.';
 $_SESSION['l10n']['fr']['Please populate tables']='Merci d\'initialiser la base de données';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
@@ -343,7 +345,6 @@ $_SESSION['l10n']['fr']['Press [p] to save parameters']='Appuyer sur [p] pour sa
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['02aa4479d8bc853b63099204452e4186']='Empêcher ce serveur de se connecter à d\'autres.';
 $_SESSION['l10n']['fr']['Privacy statement']='Protection de la vie privée';
-$_SESSION['l10n']['fr']['Private pages']='Pages privées';
 $_SESSION['l10n']['fr']['Processed queries']='Requêtes traitées';
 $_SESSION['l10n']['fr']['fdaa13bbee38a240996c4f098bf3ae13']='Fournir autant d\'information que possible (serveur de développement).';
 $_SESSION['l10n']['fr']['Proxy account']='Compte de proxy';
@@ -467,6 +468,7 @@ $_SESSION['l10n']['fr']['c2883a13a53575308a41010403e41c2f']='Ce serveur utilise 
 $_SESSION['l10n']['fr']['019194adbb411721ef0122376d178444']='Ce site est propulsé par [link=YACS]http://www.yacs.fr/[/link], [link=PHP]http://www.php.net/[/link], et [link=MySQL]http://"www.mysql.com/[/link] - un site rapide, facile d\'utilisation, qui vous permet de consulter, de lire et de télécharger l\'information qui vous intéresse.';
 $_SESSION['l10n']['fr']['06c9d7fc993053f7b3b01351d1b9fce8']='Ce système ne supporte pas l\'insertion des paramètres dans le chemin d\'accès.';
 $_SESSION['l10n']['fr']['0af91edfa726acd4cf2f04676fe5dabf']='Ce système n\'est pas configuré pour l\'envoi de messages électroniques.';
+$_SESSION['l10n']['fr']['Threads']='Conversations';
 $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la configuration, merci de copier et de coller les lignes suivantes dans le fichier %s :';
 $_SESSION['l10n']['fr']['4a2663fa577bb3ac997c6c7cd701db18']='Pour installer les bookmarklets suivants, cliquer-droit au-dessus des liens et les ajouter à vos signets ou favoris. Ils seront ainsi disponibles à tout moment pour référencer une page trouvée sur Internet sur ce serveur.';
 $_SESSION['l10n']['fr']['86afc75f7de95fed755b0c2073390060']='Pour partager les comptes utilisateurs entre plusieurs serveurs, indiquez ci-dessous où trouver la table des utilisateurs. Sinon, gardez les champs vides.';
@@ -476,7 +478,7 @@ $_SESSION['l10n']['fr']['c084e53bb1a030ebb344d6f7e9314e44']='Indiquez ci-dessous
 $_SESSION['l10n']['fr']['UPDATE commands separated by ;']='Commandes UPDATE séparées par des ;';
 $_SESSION['l10n']['fr']['URL generation']='Génération des liens';
 $_SESSION['l10n']['fr']['URL optimization']='Optimisation d\'adressage';
-$_SESSION['l10n']['fr']['6dc930d1dc0fbb8a2988c7d852389b8f']='La ré-écriture des liens est disponible.';
+$_SESSION['l10n']['fr']['URL rewriting is available.']='La ré-écriture des liens est disponible.';
 $_SESSION['l10n']['fr']['Update database content']='Modification de la base de données';
 $_SESSION['l10n']['fr']['Update file permissions']='Mise à jour des permissions';
 $_SESSION['l10n']['fr']['Update the database schema']='Mise à jour de la base de données';

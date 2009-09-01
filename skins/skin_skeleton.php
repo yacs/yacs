@@ -3403,15 +3403,17 @@ Class Skin_Skeleton {
 			// similar to compact
 			case 'tools':
 
-				foreach($list as $label) {
-
-					$icon = '';
-					if(is_array($label))
-						list($label, $icon) = $label;
-
-					if($text)
-						$text .= BR;
-					$text .= $icon.$label;
+				if($list) {
+					foreach($list as $label) {
+	
+						$icon = '';
+						if(is_array($label))
+							list($label, $icon) = $label;
+	
+						if($text)
+							$text .= BR;
+						$text .= $icon.$label;
+					}
 				}
 
 				break;

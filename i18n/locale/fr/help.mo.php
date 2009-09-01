@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:47 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-05-14 23:34+0200
-PO-Revision-Date: 2009-05-14 23:50+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-08-30 23:50+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -23,8 +23,8 @@ X-Poedit-Language: French
 $_SESSION['l10n']['fr']['1c215e423c027bdfb2bd09d45b93e517']='%s (et raccourcis, boutons, ...)';
 $_SESSION['l10n']['fr']['%s (and table of content)']='%s (et table des matières)';
 $_SESSION['l10n']['fr']['%s (bold, underline, ...)']='%s (gras, souligné, ...)';
+$_SESSION['l10n']['fr']['%s (charts, ...)']='%s (graphiques, ...)';
 $_SESSION['l10n']['fr']['%s (cloud, locations, ...)']='%s (nuage, emplacements, ...)';
-$_SESSION['l10n']['fr']['%s (flags, ...)']='%s (drapeaux, ...)';
 $_SESSION['l10n']['fr']['e99375c8a9b3d40bd68943d255f985ba']='%s (indentation, script, citation, ...)';
 $_SESSION['l10n']['fr']['290a97caf421f8541edde8d138c74fd7']='%s (avec puces, numérotées, ...)';
 $_SESSION['l10n']['fr']['c2e69e9c320642be6d306f5dc59904fc']='%s (avec en-tête, avec grille, données CSV, ...)';
@@ -47,8 +47,7 @@ $_SESSION['l10n']['fr']['0dd81ef71d965a55d04723a19fed88d5']='Une description du 
 $_SESSION['l10n']['fr']['15a236ca9dd83d2cab7410724ee5595b']='Une description du sujet de ce blog';
 $_SESSION['l10n']['fr']['be7c63c5610611e8ceb64ee9c69cfb7e']='Un forum de discussion est constitué d\'une ou plusieurs rubriques destinées à l\'interaction rapide entre les membres d\'une communauté. Chaque sujet démarré sur le forum peut être associé à des images, des photos, des fichiers ou des liens web.';
 $_SESSION['l10n']['fr']['4b0cead0aa66572c23b024845b482b1d']='Une section existe déjà pour les partenaires.';
-$_SESSION['l10n']['fr']['16a5e32bfb6574ae5e6bd234b527b647']='Accès restreint aux associés et aux éditeurs';
-$_SESSION['l10n']['fr']['71591a943ab0ff1e925f29270c9a6568']='Accès restreint aux membres authentifiés';
+$_SESSION['l10n']['fr']['Access']='Accès';
 $_SESSION['l10n']['fr']['Access the directory']='Accéder au répertoire';
 $_SESSION['l10n']['fr']['Access the new blog']='Accéder au nouveau blog';
 $_SESSION['l10n']['fr']['Access the new book']='Accéder au nouveau livre';
@@ -91,7 +90,6 @@ $_SESSION['l10n']['fr']['6aa580cd65f6ae334e440791240a8541']='Tout membre authent
 $_SESSION['l10n']['fr']['28d5f28f4f46d219aee68301a1ac5b26']='Tout membre authentifié de la communauté est autorisé à contribuer librement. Contrôlez soigneusement les nouveaux membres pour éviter tout contenu inapproprié.';
 $_SESSION['l10n']['fr']['b98e259a6a07123316a29c62a01074bc']='Tout membre authentifié est autorisé à contribuer librement. Contrôlez soigneusement les nouveaux membres pour éviter tout contenu inapproprié.';
 $_SESSION['l10n']['fr']['97381141ba3bdb3590f8bc2c2dacdaac']='Tout surfeurs, même anonyme, est autorisé à contribuer librement. Vous devriez surveiller le contenu de votre wiki régulièrement pour éviter tout contenu inapproprié.';
-$_SESSION['l10n']['fr']['ce671086028c634c8ad4230c13ff370f']='Tout le monde peut lire les pages postées ici';
 $_SESSION['l10n']['fr']['51b51a82b98ab273ff2dfc1380dcbb1f']='Tout le monde, y compris les surfeurs anonymes, peut contribuer à ce wiki.';
 $_SESSION['l10n']['fr']['639ac84fde9fdcc2a2cb0931ed2de079']='Apparaît sur la carte du site, près du titre du livre';
 $_SESSION['l10n']['fr']['bf576fa5c4f1d8c864d652092e8fee01']='Apparaît sur la carte du site, près du titre de la section';
@@ -113,12 +111,11 @@ $_SESSION['l10n']['fr']['efa831972565ad7edc0ed22fa70148da']='Visitez %s pour obt
 $_SESSION['l10n']['fr']['Categories']='Catégories';
 $_SESSION['l10n']['fr']['a225f280790879a5cf526aacf3d83cac']='Modifier la valeur du champ rang pour ajuster l\'ordre d\'importance de vos partenaires.';
 $_SESSION['l10n']['fr']['Check the new forum']='Vérifier le nouveau forum de discussion';
-$_SESSION['l10n']['fr']['Check the updated Site Map']='Visiter la Carte du Site mise à jour';
 $_SESSION['l10n']['fr']['efd5c51c4c0368779ba4a1cc048f29fa']='Cliquez sur un nom de fichier pour le transférer vers votre machine, ou pour déclencher une session de vidéo à la demande.';
 $_SESSION['l10n']['fr']['Collection nick name']='Nom de la collection';
+$_SESSION['l10n']['fr']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Communauté - Accès restreint aux membres authentifiés';
 $_SESSION['l10n']['fr']['Companion sections']='Composants annexes';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
-$_SESSION['l10n']['fr']['Configure the page factory']='Configurer la fabrication des pages';
 $_SESSION['l10n']['fr']['8c68013ff17b0314c06d5fcacd1a5eda']='Félicitations, votre contribution a bien été enregistrée.';
 $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['b31f986e3a16349b6e7673205f455be3']='Le contenu de cette section est :';
@@ -159,7 +156,7 @@ $_SESSION['l10n']['fr']['Licenses']='Licences';
 $_SESSION['l10n']['fr']['Links']='Liens';
 $_SESSION['l10n']['fr']['Lists']='Listes';
 $_SESSION['l10n']['fr']['1886623f282774132024c863fc0e3ca4']='Accès local aux fichiers. Le répertoire d\'installation de YACS est "%s"';
-$_SESSION['l10n']['fr']['Miscelleanous codes']='Codes divers';
+$_SESSION['l10n']['fr']['Miscellaneous codes']='Codes divers';
 $_SESSION['l10n']['fr']['My Blog']='Mon blog';
 $_SESSION['l10n']['fr']['My Collection']='Ma collection';
 $_SESSION['l10n']['fr']['Next step']='Etape suivante';
@@ -170,7 +167,6 @@ $_SESSION['l10n']['fr']['367a1658352808bf926cc514380f1c5e']='Contribution restre
 $_SESSION['l10n']['fr']['Original pages']='Publications originales';
 $_SESSION['l10n']['fr']['Our collaborative place']='Notre espace de travail collaboratif';
 $_SESSION['l10n']['fr']['Our wiki']='Notre wiki';
-$_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['Partners']='Partenaires';
 $_SESSION['l10n']['fr']['db558d12594d8c00541ccd6b3b801561']='Les partenaires sont listés sur la page d\'accueil, dans un panneau animé.';
 $_SESSION['l10n']['fr']['Path prefix']='Préfixe de chemin';
@@ -186,12 +182,13 @@ $_SESSION['l10n']['fr']['81eb7b907d022a63a8401e4090f21641']='Publier des origina
 $_SESSION['l10n']['fr']['Post your brand new ideas here!']='La meilleure place pour exprimer vos idées';
 $_SESSION['l10n']['fr']['6ee289163f01468f3861f7131b961100']='Inséré devant le chemin d\'accès aux fichiers de la collection. Court de préférence';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
+$_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
+$_SESSION['l10n']['fr']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Accès autorisé aux surfeurs anonymes';
 $_SESSION['l10n']['fr']['Public files to download']='Fichiers à télécharger';
 $_SESSION['l10n']['fr']['Read, learn, and react!']='Lisez, apprenez, réagissez !';
 $_SESSION['l10n']['fr']['Register']='Enregistrez-vous';
 $_SESSION['l10n']['fr']['d59af9dd2b9c79ec18a890303d5aa4b3']='Les membres enregistrés peuvent démarrer un fil de discussion ici. Utilisez ce forum pour demander du support ou pour partager vos nouvelles idées avec les autres membres de cette communauté. Les pages postées dans le forum bénéficient de la puissance de YACS, y compris l\'envoi de sondages, le téléchargement de fichiers ou encore l\'attachement de liens web.';
 $_SESSION['l10n']['fr']['20768c3050eb6163ee8e33e9e8174e5a']='Répéter la même chaîne dans les rubriques à regrouper sur le forum';
-$_SESSION['l10n']['fr']['8e8eb648edb57efc53bb3a619f5bd494']='Vérifiez l\'information jusqu\'en bas de page pour aller à l\'étape suivante.';
 $_SESSION['l10n']['fr']['Review submitted articles']='Vérifier les articles envoyés';
 $_SESSION['l10n']['fr']['Review your profile']='Vérifier votre profil';
 $_SESSION['l10n']['fr']['Sample box']='Boîte d\'exemple';
@@ -200,7 +197,6 @@ $_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['Section #%d']='section n°%d';
 $_SESSION['l10n']['fr']['Section anchor']='Point d\'ancrage';
 $_SESSION['l10n']['fr']['Section title']='Titre de section';
-$_SESSION['l10n']['fr']['Sections']='Sections';
 $_SESSION['l10n']['fr']['Selected shortcuts']='Raccourcis';
 $_SESSION['l10n']['fr']['Server software']='Logiciel serveur';
 $_SESSION['l10n']['fr']['Servers']='Serveurs';
@@ -249,7 +245,6 @@ $_SESSION['l10n']['fr']['53dcb80b93f708c280ec1f9f2ae94e5d']='Utilisez cet assist
 $_SESSION['l10n']['fr']['e82d6dd2c4baa3915e4bc720f6f0c0e6']='Utilisé sur les pages d\'index, et en haut de chaque page de cette collection';
 $_SESSION['l10n']['fr']['User Manual']='Manuel utilisateur';
 $_SESSION['l10n']['fr']['View the section']='Voir la section';
-$_SESSION['l10n']['fr']['Visibility']='Visibilité';
 $_SESSION['l10n']['fr']['Vote']='Vote';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['Where to look for information?']='Où rechercher de l\'information ?';

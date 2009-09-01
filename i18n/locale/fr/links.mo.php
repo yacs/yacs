@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on August 24, 2009, 10:21 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:46 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-06-29 01:13+0200
-PO-Revision-Date: 2009-07-04 22:57+0100
+POT-Creation-Date: 2009-09-02 00:59+0200
+PO-Revision-Date: 2009-09-02 01:19+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -92,13 +92,13 @@ $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['Submit another link']='Envoyer un autre lien';
 $_SESSION['l10n']['fr']['Target window']='Fenêtre cible';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
-$_SESSION['l10n']['fr']['07952e6cca017e7cdff4505604da467f']='Effacement non confirmé';
+$_SESSION['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
 $_SESSION['l10n']['fr']['851fe463cc87e64921bd418eeaa3194c']='Le lien a été enregistré';
 $_SESSION['l10n']['fr']['bb76e300225d0626f317e27811fb1737']='L\'adresse distante qui référence quelque information sur ce serveur';
 $_SESSION['l10n']['fr']['The title of your page']='Le titre de votre page';
 $_SESSION['l10n']['fr']['18d140b9af759b4ec502696d7172360b']='Champ optionnel.';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
-$_SESSION['l10n']['fr']['c7630d058107f3f2d2e0d13c96c80ef2']='Ce scritp va ajouter un nouveau lien à l\'une des sections ci-dessous. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc dans la barre de menu.';
+$_SESSION['l10n']['fr']['ab8108ace13178f35a29024b21c0fc26']='Ce scritp va ajouter un nouveau lien à l\'une des sections ci-dessous. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc dans le menu.';
 $_SESSION['l10n']['fr']['7d3b8663e49511737554c31b7e3bebdd']='Ce serveur respecte la %s telle qu\'annoncée par Ben et Mena Trott. A ce sujet, veuillez noter que tout serveur %s utilise le trackback pour référencer jusqu\'à sept liens lors de la publication d\'un article.';
 $_SESSION['l10n']['fr']['a3dec8fa1135b7cdbc8b08e8958d4e03']='Ce qui apparaît près du lien lorsque la souris est placée au-dessus';
 $_SESSION['l10n']['fr']['Title']='Titre';
@@ -113,7 +113,7 @@ $_SESSION['l10n']['fr']['Web address']='Adresse web';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';
 $_SESSION['l10n']['fr']['ed1a1469554e9abea3b271c74351349f']='YACS place les liens externes dans cette section lorsqu\'ils sont utlisés. Vous avez ainsi ci-dessous une bonne visibilité des sites externes accèdés à travers votre site.';
-$_SESSION['l10n']['fr']['c4aa1be7823a997c37b1d50e98e0d2e1']='Oui, je veux supprimer ce lien';
+$_SESSION['l10n']['fr']['Yes, I want to delete this link']='Oui, je veux supprimer ce lien';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['946bc8276d88d2372cfcf4360faef05b']='Vous pouvez taper une URL (http://) ou un raccourci (notation [article=&lt;id&gt;])';
 $_SESSION['l10n']['fr']['23e77d7a73b138b128b21ddc1e533e0b']='Vous pouvez utiliser les raccourcis suivants pour créer des liens vers d\'autres pages de ce serveur : %s';

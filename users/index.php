@@ -155,14 +155,9 @@ $context['page_tools'][] = Skin::build_link('users/review.php', i18n::s('Review 
 // side bar with the list of present users --don't cache, this will change on each request anyway
 $context['components']['boxes'] = '';
 include_once $context['path_to_root'].'users/visits.php';
-if($items = Users::list_present(0, COMPACT_LIST_SIZE, 'compact')) {
+if($items = Users::list_present(0, COMPACT_LIST_SIZE, 'compact'))
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Present users'), $items, 'extra');
 
-	// also mention the total number of present users
-	$stat = Users::stat_present();
-	if($stat['count'] > 1)
-		$items = array_merge($items, array('_' => sprintf(i18n::ns('%d active now', '%d active now', $stat['count']), $stat['count'])));
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Present users'), Skin::build_list($items, 'compact'), 'extra');
-}
 
 // page extra content
 $cache_id = 'users/index.php#extra';

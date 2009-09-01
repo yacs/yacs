@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on June 4, 2009, 7:52 pm GMT. Please do not modify it manually.
+ * on September 1, 2009, 11:48 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2009-04-07 12:54+0200
-PO-Revision-Date: 2008-11-16 21:56+0100
+PO-Revision-Date: 2009-09-02 01:12+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -62,7 +62,7 @@ $_SESSION['l10n']['fr']['Name of the updated server']='Nom du serveur mis à jou
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No file data has been received.']='Aucun fichier n\'a été transmis.';
 $_SESSION['l10n']['fr']['Ping interface']='Interface Ping';
-$_SESSION['l10n']['fr']['32f16b405d7ec3c7f7a2175487b60cc3']='Merci de vous enregistrer à l\'adresse %s avant de  blogger';
+$_SESSION['l10n']['fr']['32f16b405d7ec3c7f7a2175487b60cc3']='Merci de vous enregistrer à l\'adresse %s avant de blogger';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Sample blog client']='Exemple de client blog';
 $_SESSION['l10n']['fr']['Sample ping client']='Exemple de client ping';
