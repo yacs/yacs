@@ -273,7 +273,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu = array_merge($menu, array($section->get_url() => i18n::s('View the section')));
 		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Add an image')));
+			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']).'&amp;action=icon' => i18n::s('Add an image')));
 		if(preg_match('/\bwith_files\b/i', $section->item['options']) && Surfer::may_upload())
 			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('section:'.$_REQUEST['id']) => i18n::s('Upload a file')));
 		if(preg_match('/\bwith_links\b/i', $section->item['options']))
@@ -677,7 +677,7 @@ if($with_form) {
 		
 		// the command to add an image
 		if(Surfer::may_upload()) {
-			Skin::define_img(IMAGES_ADD_IMG, 'images/add.gif');
+			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 			$menu = array(Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic'));
 		}
 

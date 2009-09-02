@@ -1085,64 +1085,6 @@ Class Surfer {
 	}
 
 	/**
-	 * list personal sections for one surfer
-	 *
-	 * If a member is acting as a managing editor for some sections,
-	 * this function returns ids of these sections, if he has created them.
-	 *
-	 * @param int id of the surfer to consider
-	 * @param int maximum number of sections to return
-	 * @return array ids of managed sections
-	 */
-	function personal_sections($id=NULL, $maximum=21) {
-		global $context;
-
-		// default to current surfer
-		if(!$id)
-			$id = Surfer::get_id();
-
-		// sanity check
-		if(!$id)
-			return array();
-
-		// query the database only once
-		static $my_sections;
-		if(isset($my_sections))
-			return $my_sections;
-		$my_sections = array();
-
-		// sections have been created by this surfer
-		$where = "(sections.create_id = '".SQL::escape($id)."')";
-
-		// only consider live sections
-		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$where .= " AND ((sections.expiry_date is NULL)"
-			."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
-
-		// the list of sections
-		$query = "SELECT sections.id FROM ".SQL::table_name('members')." AS members"
-			.", ".SQL::table_name('sections')." AS sections"
-			." WHERE (members.anchor LIKE 'user:".SQL::escape($id)."')"
-			."	AND (members.member_type = 'section')"
-			."	AND (members.member_id = sections.id)"
-			."	AND ".$where
-			." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 0, ".$maximum;
-
-		// submit a silent query because at setup tables don't exist
-		if(($result =& SQL::query($query, TRUE))) {
-
-			// build the list
-			while($row =& SQL::fetch($result))
-				$my_sections[] = $row['id'];
-
-		}
-
-		// done
-		return $my_sections;
-
-	}
-
-	/**
 	 * kill the current session
 	 *
 	 * This function deletes almost everything related to the current session,

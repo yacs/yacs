@@ -290,8 +290,8 @@ Class Members {
 			$where .= " OR articles.active='N'";
 
 		// include managed sections
-		if(count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_sections)."'";
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
 		$where .= ")";
 
@@ -392,8 +392,8 @@ Class Members {
 			$where .= " OR articles.active='N'";
 
 		// include managed sections
-		if(count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_sections)."'";
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
 		$where .= ")";
 
@@ -830,8 +830,8 @@ Class Members {
 			$where .= " OR sections.active='N'";
 
 		// include managed sections
-		if(is_callable(array('Surfer', 'assigned_sections')) && count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
 
 		$where = '('.$where.')';
 
@@ -911,8 +911,8 @@ Class Members {
 			$where .= " OR sections.active='N'";
 
 		// include managed sections
-		if(is_callable(array('Surfer', 'assigned_sections')) && count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
 
 		$where = '('.$where.')';
 
@@ -1238,8 +1238,8 @@ Class Members {
 			$where .= " OR articles.active='N'";
 
 		// include managed sections
-		if(count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_sections)."'";
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
 		$where .= ")";
 

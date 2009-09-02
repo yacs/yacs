@@ -178,8 +178,22 @@ Class Dates {
 				$day_content = array();
 			}
 
+			// use the image as a link to the target page
+			if($icon) {
+
+				// fix relative path
+				if(!preg_match('/^(\/|http:|https:|ftp:)/', $icon))
+					$icon = $context['url_to_root'].$icon;
+
+				// build the complete HTML element
+				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($label).'" style="float: left; padding: 0.5em 0.5em 0.5em 0"/>';
+				
+				$icon =& Skin::build_link($date_link, $icon, 'basic');
+			}
+
+
 			// content for this date
-			$day_content[] = $prefix.Skin::build_link($date_link, $label, $type).$suffix;
+			$day_content[] = $icon.$prefix.Skin::build_link($date_link, $label, $type).$suffix;
 
 			// close current month
 			if($current_month && ($month != $current_month))

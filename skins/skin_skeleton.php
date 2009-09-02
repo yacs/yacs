@@ -626,10 +626,22 @@ Class Skin_Skeleton {
 
 		// day only
 		if($variant == 'day') {
-			if($language == 'fr')
-				$output = $items['mday'].' '.$months[$items['mon']].' '.($items['year']);
-			else
-				$output = $months[$items['mon']].' '.$items['mday'].' '.($items['year']);
+		
+			// same year, don't mention it
+			if($items['year'] == $today['year']) {
+				if($language == 'fr')
+					$output = $items['mday'].' '.$months[$items['mon']];
+				else
+					$output = $months[$items['mon']].' '.$items['mday'];
+					
+			// different year
+			} else {
+				if($language == 'fr')
+					$output = $items['mday'].' '.$months[$items['mon']].' '.($items['year']);
+				else
+					$output = $months[$items['mon']].' '.$items['mday'].' '.($items['year']);
+			}
+			
 			return $output;
 		}
 
@@ -834,7 +846,7 @@ Class Skin_Skeleton {
 
 		// we need a clickable title
 		if(!$title)
-			$title = i18n::s('Click to fold/unfold');
+			$title = i18n::s('Click to slide');
 
 		if($id)
 			$id = ' id="'.$id.'"';
@@ -842,11 +854,11 @@ Class Skin_Skeleton {
 		// maybe we have an image to enhance rendering
 		$img = '';
 		if(FOLDER_EXTEND_IMG_HREF)
-			$img = '<img src="'.FOLDER_EXTEND_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to fold/unfold')).'" title="'.encode_field(i18n::s('Click to fold/unfold')).'" /> ';
+			$img = '<img src="'.FOLDER_EXTEND_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
-		// Yacs.toggle_folder() is in shared/yacs.js
+		// Yacs.toggle_folder() is in shared/yacs.js -- div.folder_body div is required for slide effect to work
 		$text = '<div class="folder_box"'.$id.'><a class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.$title.'</a>'
-			.'<div class="folder_body" style="display: none">'.$content."</div></div>\n";
+			.'<div class="folder_body" style="display: none"><span>'.$content."</span></div></div>\n";
 
 		// pass by reference
 		return $text;
@@ -2368,13 +2380,13 @@ Class Skin_Skeleton {
 		if($id)
 			$id = ' id="'.$id.'" ';
 
-		// external div boundary
-		$text = '<div class="sliding_box"'.$id.'>'."\n";
+		// external boundary
+		$text = '<div class="sliding_box" style="display: inline;"'.$id.'>'."\n";
 
 		// an image to enhance rendering
 		$img = '';
 		if(SLIDE_DOWN_IMG_HREF)
-			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to fold/unfold')).'" title="'.encode_field(i18n::s('Click to fold/unfold')).'" /> ';
+			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 		// title is optional
 		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slide_panel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\'); return false;"><span>'.$title.'</span>'.$img.'</a>';
@@ -2382,7 +2394,7 @@ Class Skin_Skeleton {
 		// box content has no div, it is already structured
 		$text .= '<div class="panel" style="display: none;">'.$content.'</div>';
 
-		// external div boundary
+		// external boundary
 		$text .= '</div>'."\n";
 
 		return $text;
@@ -2659,7 +2671,7 @@ Class Skin_Skeleton {
 		// an image to enhance rendering
 		$img = '';
 		if(SLIDE_DOWN_IMG_HREF)
-			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to fold/unfold')).'" title="'.encode_field(i18n::s('Click to fold/unfold')).'" /> ';
+			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 		// title is optional
 		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slide_panel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\'); return false;"><span>'.$title.'</span>'.$img.'</a>';
@@ -2831,7 +2843,7 @@ Class Skin_Skeleton {
 
 		// we need a clickable title
 		if(!$title)
-			$title = i18n::s('Click to fold/unfold');
+			$title = i18n::s('Click to slide');
 
 		if($id)
 			$id = ' id="'.$id.'"';
@@ -2839,7 +2851,7 @@ Class Skin_Skeleton {
 		// maybe we have an image to enhance rendering
 		$img = '';
 		if(FOLDER_PACK_IMG_HREF)
-			$img = '<img src="'.FOLDER_PACK_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to fold/unfold')).'" title="'.encode_field(i18n::s('Click to fold/unfold')).'" /> ';
+			$img = '<img src="'.FOLDER_PACK_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 		// Yacs.toggle_folder() is in shared/yacs.js
 		$text = '<div class="folder_box"'.$id.'><a class="folder_header" onclick="javascript:Yacs.toggle_folder(this, \''.FOLDER_EXTEND_IMG_HREF.'\', \''.FOLDER_PACK_IMG_HREF.'\'); return false;">'.$img.$title.'</a>'

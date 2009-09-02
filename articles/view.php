@@ -486,6 +486,7 @@ if(!isset($item['id'])) {
 	//
 	// set page details -- $context['page_details']
 	//
+	$text = '';
 
 	// do not mention details at follow-up pages, nor to crawlers
 	if(!$zoom_type && !Surfer::is_crawler()) {

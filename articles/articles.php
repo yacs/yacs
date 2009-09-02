@@ -335,8 +335,8 @@ Class Articles {
 			$where .= " OR articles.active='N'";
 
 		// include managed pages for editors
-		if(count($my_articles = Surfer::assigned_articles()))
-			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where = '('.$where.')';
 
@@ -594,8 +594,8 @@ Class Articles {
 			$where .= " OR articles.active='N'";
 
 		// include managed pages for editors
-		if(count($my_articles = Surfer::assigned_articles()))
-			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		// end of active filter
 		$where = '('.$where.')';
@@ -649,8 +649,8 @@ Class Articles {
 			$where .= " OR articles.active='N'";
 			
 		// include managed pages for editors
-		if(count($my_articles = Surfer::assigned_articles()))
-			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where = "(".$where.")";
 
@@ -709,8 +709,8 @@ Class Articles {
 			$where .= " OR articles.active='N'";
 
 		// include managed pages for editors
-		if(count($my_articles = Surfer::assigned_articles()))
-			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where = '('.$where.')';
 
@@ -796,8 +796,8 @@ Class Articles {
 			$where .= " OR articles.active='N'";
 
 		// include managed pages for editors
-		if(count($my_articles = Surfer::assigned_articles()))
-			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where = '('.$where.')';
 
@@ -1142,12 +1142,12 @@ Class Articles {
 			$where .= " OR articles.active='N'";
 
 		// include articles from managed sections
-		if(count($my_sections = Surfer::assigned_sections()))
-			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_sections)."'";
+		if($my_sections = Surfer::assigned_sections())
+			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
 		// include managed pages for editors
-		if(count($my_articles = Surfer::assigned_articles()))
-			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		// bracket OR statements
 		$where = '('.$where.')';
@@ -1351,8 +1351,8 @@ Class Articles {
 			$where .= " OR articles.active='N'";
 
 		// include managed pages for editors
-		if(count($my_articles = Surfer::assigned_articles()))
-			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		// a dynamic where clause
 		$where = '('.$where.')';
@@ -1518,8 +1518,8 @@ Class Articles {
 			$where .= " OR articles.active='N'";
 
 		// include managed pages for editors
-		if(count($my_articles = Surfer::assigned_articles()))
-			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		// bracket OR statements
 		$where = '('.$where.')';
@@ -2204,9 +2204,9 @@ Class Articles {
 				$sections_where .= " OR sections.id = ".str_replace('section:', '', $reference);
 
 			//include managed sections
-			if(count($my_sections = Surfer::assigned_sections())) {
-				$sections_where .= " OR sections.id = ".join(" OR sections.id = ", $my_sections);
-				$sections_where .= " OR sections.anchor LIKE 'section:".join("' OR sections.anchor LIKE 'section:", $my_sections)."'";
+			if($my_sections = Surfer::assigned_sections()) {
+				$sections_where .= " OR sections.id IN (".join(", ", $my_sections).")";
+				$sections_where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 			}
 
 		}
@@ -2229,8 +2229,8 @@ Class Articles {
 			$where .= " OR articles.active='N'";
 
 		// include managed pages for editors
-		if(count($my_articles = Surfer::assigned_articles()))
-			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where = "(".$where.")";
 
@@ -2509,8 +2509,8 @@ Class Articles {
 			$where .= " OR articles.active='N'";
 
 		// include managed pages for editors
-		if(count($my_articles = Surfer::assigned_articles()))
-			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where = '('.$where.')';
 
@@ -2576,8 +2576,8 @@ Class Articles {
 			$where .= " OR articles.active='N'";
 
 		// include managed pages for editors
-		if(count($my_articles = Surfer::assigned_articles()))
-			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where = '('.$where.')';
 
@@ -2645,8 +2645,8 @@ Class Articles {
 			$where .= " OR articles.active='N'";
 
 		// include managed pages for editors
-		if(count($my_articles = Surfer::assigned_articles()))
-			$where .= " OR articles.id = ".join(" OR articles.id = ", $my_articles);
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where = '('.$where.')';
 

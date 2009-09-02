@@ -2994,7 +2994,7 @@ Class Codes {
 		}
 
 		// scope is limited to one section
-		if(strpos($anchor, 'section:') === 0) {
+		if(!strncmp($anchor, 'section:', 8)) {
 
 			// look at this level
 			$anchors = array($anchor);
@@ -3016,50 +3016,47 @@ Class Codes {
 			}
 
 			// query the database and layout that stuff
-			$text =& Articles::list_for_anchor_by('random', $anchors, 0, 1, 'raw');
-
+			$item =& Articles::list_for_anchor_by('random', $anchors, 0, 1, 'raw');
+			
 		// scope is limited to one author
-		} elseif(strpos($anchor, 'user:') === 0)
-			$text =& Articles::list_for_author_by('random', str_replace('user:', '', $anchor), 0, 1, 'raw');
+		} elseif(!strncmp($anchor, 'user:', 5))
+			$item =& Articles::list_for_author_by('random', str_replace('user:', '', $anchor), 0, 1, 'raw');
 
 		// consider all pages
 		else
-			$text =& Articles::list_by('random', 0, 1, 'raw');
+			$item =& Articles::list_by('random', 0, 1, 'raw');
 
 		// we have an array to format
- 		if(is_array($text)) {
-	 		foreach($text as $id => $item) {
+ 		if(isset($item['id'])) {
 
-				// make a link to the target page
-		 		$link =& Articles::get_permalink($item);
-		 		if(!$label)
-		 			$label = Skin::strip($item['title']);
-	 			$text =& Skin::build_link($link, $label, 'article');
+			// make a link to the target page
+			$link =& Articles::get_permalink($item);
+			if(!$label)
+				$label = Skin::strip($item['title']);
+			$text =& Skin::build_link($link, $label, 'article');
 
-	 			if($layout == 'description') {
+			if($layout == 'description') {
 
-					// the introduction text, if any
-					$text .= BR.Codes::beautify($item['introduction']);
+				// the introduction text, if any
+				$text .= BR.Codes::beautify($item['introduction']);
 
-					// load overlay, if any
-					if(isset($item['overlay']) && $item['overlay']) {
-						include_once '../overlays/overlay.php';
-						$overlay = Overlay::load($item);
+				// load overlay, if any
+				if(isset($item['overlay']) && $item['overlay']) {
+					include_once '../overlays/overlay.php';
+					$overlay = Overlay::load($item);
 
-						// get text related to the overlay, if any
-						if(is_object($overlay))
-							$text .= $overlay->get_text('view', $item);
+					// get text related to the overlay, if any
+					if(is_object($overlay))
+						$text .= $overlay->get_text('view', $item);
 
-					}
+				}
 
-					// the description, which is the actual page body
-					$text .= '<div>'.Codes::beautify($item['description']).'</div>';
+				// the description, which is the actual page body
+				$text .= '<div>'.Codes::beautify($item['description']).'</div>';
 
-		 		}
-		 		break;
-	 		}
+			}
  		}
-
+ 		
 		// job done
 		return $text;
 	}

@@ -910,7 +910,7 @@ if(!isset($item['id'])) {
 		}
 
 		// the command to post a new file -- check 'with_files' option
-		if(Files::are_allowed($anchor, $item, TRUE)) {
+		if(Files::are_allowed($anchor, $item, 'section')) {
 			Skin::define_img('FILES_UPLOAD_IMG', 'files/upload.gif');
 			$box['bar'] += array('files/edit.php?anchor='.urlencode('section:'.$item['id']) => FILES_UPLOAD_IMG.i18n::s('Upload a file') );
 		}
@@ -959,7 +959,7 @@ if(!isset($item['id'])) {
 		}
 
 		// new links are allowed -- check option 'with_links'
-		if(Links::are_allowed($anchor, $item, TRUE)) {
+		if(Links::are_allowed($anchor, $item, 'section')) {
 			Skin::define_img('LINKS_ADD_IMG', 'links/add.gif');
 			$box['bar'] += array('links/edit.php?anchor='.urlencode('section:'.$item['id']) => LINKS_ADD_IMG.i18n::s('Add a link') );
 		}
@@ -1029,7 +1029,7 @@ if(!isset($item['id'])) {
 		// navigation commands for users
 		$home = Sections::get_permalink($item).'#_users';
 		$prefix = Sections::get_url($item['id'], 'navigate', 'users');
-		$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $stats['count'], USERS_LIST_SIZE, $zoom_index));
+		$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $estats['count'], USERS_LIST_SIZE, $zoom_index));
 
 		// list editors
 		$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
@@ -1448,7 +1448,7 @@ if(!isset($item['id'])) {
 		}
 
 		// bookmark bookmarklet, if links are allowed
-		if(Links::are_allowed($anchor, $item, TRUE)) {
+		if(Links::are_allowed($anchor, $item, 'section')) {
 			$bookmarklet = "javascript:function findFrame(f){var i;try{isThere=f.document.selection.createRange().text;}catch(e){isThere='';}if(isThere==''){for(i=0;i&lt;f.frames.length;i++){findFrame(f.frames[i]);}}else{s=isThere}return s}"
 				."var s='';"
 				."d=document;"

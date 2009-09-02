@@ -359,7 +359,7 @@ if(Surfer::is_crawler()) {
 			$menu = array_merge($menu, array($anchor->get_url('files') => i18n::s('Back to main page')));
 		$menu = array_merge($menu, array(Files::get_url($_REQUEST['id'], 'view', $_REQUEST['file_name']) => i18n::s('Check the download page for this file')));
 		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('file:'.$_REQUEST['id']) => i18n::s('Add an image')));
+			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('file:'.$_REQUEST['id']).'&amp;action=icon' => i18n::s('Add an image')));
 		if(is_object($anchor) && Surfer::may_upload())
 			$menu = array_merge($menu, array('files/edit.php?anchor='.$anchor->get_reference() => i18n::s('Upload another file')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
@@ -619,7 +619,7 @@ if($with_form) {
 		
 		// the command to add an image
 		if(Surfer::may_upload()) {
-			Skin::define_img(IMAGES_ADD_IMG, 'images/add.gif');
+			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
 			$menu = array(Skin::build_link('images/edit.php?anchor='.urlencode('file:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic'));
 		}
 

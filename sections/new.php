@@ -43,7 +43,7 @@ if(!Surfer::is_member())
 	$permitted = FALSE;
 
 // ensure a maximum number of managed sections
-elseif(($existing_sections = Surfer::personal_sections()) && (count($existing_sections) >= $context['users_maximum_managed_sections']))
+elseif(($existing_sections = Sections::count_for_owner()) && ($existing_sections >= $context['users_maximum_managed_sections']))
 	$permitted = FALSE;
 
 // all checks have been passed
@@ -246,11 +246,11 @@ if($with_form) {
 	if(!isset($item['title'])) {
 
 		// first section
-		if(!isset($existing_sections) || !count($existing_sections))
+		if(!isset($existing_sections) || !$existing_sections)
 			$item['title'] = sprintf(i18n::s('The personal space of %s'), Surfer::get_name());
 
 		// second section
-		elseif(count($existing_sections) == 1)
+		elseif($existing_sections == 1)
 			$item['title'] = sprintf(i18n::s('Another personal space of %s'), Surfer::get_name());
 
 		// subsequent section

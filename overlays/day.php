@@ -30,7 +30,7 @@ class Day extends Overlay {
 
 		// the target day
 		$label = i18n::s('Day');
-		$input = Skin::build_input('date_stamp', isset($this->attributes['date_stamp'])?$this->attributes['date_stamp']:'', 'date');
+		$input = Skin::build_input('date_stamp', isset($this->attributes['date_stamp'])?$this->attributes['date_stamp']:gmstrftime('%Y-%m-%d'), 'date');
 		$hint = i18n::s('Use format YYYY-MM-DD');
 		$fields[] = array($label, $input, $hint);
 
@@ -118,6 +118,26 @@ class Day extends Overlay {
 	}
 
 	/**
+	 * display a live title
+	 *
+	 * Add the actual date to page title
+	 *
+	 * @see overlays/overlay.php
+	 *
+	 * @param array the hosting record, if any
+	 * @return some HTML to be inserted into the resulting page
+	 */
+	function &get_live_title($host=NULL) {
+	
+		$text = Codes::beautify_title($host['title']);
+
+		if(isset($this->attributes['date_stamp']))
+			$text .= ' ['.Skin::build_date($this->attributes['date_stamp'], 'day').']';
+
+		return $text;
+	}
+
+	/**
 	 * display the content of one instance
 	 *
 	 * @see overlays/overlay.php
@@ -129,10 +149,6 @@ class Day extends Overlay {
 		global $context;
 
 		$text = '';
-
-		// the date
-		if(isset($this->attributes['date_stamp']))
-			$text = '<p class="day">'.Skin::build_date($this->attributes['date_stamp'], 'day')."</p>\n";
 		return $text;
 	}
 
@@ -236,7 +252,7 @@ class Day extends Overlay {
 	/**
 	 * list dates at some anchor
 	 *
-	 * @param string type of replaced items
+	 * @param string type of replaced items (e.g., 'articles')
 	 * @param string the anchor to consider (e.g., 'section:123')
 	 * @param int page index
 	 * @return string to be inserted in resulting web page, or NULL
@@ -247,18 +263,11 @@ class Day extends Overlay {
 		// instead of articles
 		if($type != 'articles')
 			return NULL;
+			
+		// get the containing page
+		$container =& Anchors::get($anchor);
 
-		// text to be embedded in the resulting page
-		$text = '';
-
-		// empowered users can contribute
-		if(Surfer::is_empowered()) {
-			$menu = array();
-			$menu[] = Skin::build_link('articles/edit.php?anchor='.urlencode($anchor), i18n::s('Add an event'), 'span');
-			$text = Skin::finalize_list($menu, 'menu_bar');
-		}
-
-		// a list of dates
+		// handle dates
 		include_once $context['path_to_root'].'dates/dates.php';
 
 		// the maximum number of articles per page
@@ -272,6 +281,48 @@ class Day extends Overlay {
 		$with_past_dates = FALSE;
 		if(preg_match('/\bwith_past_dates\b/i', $this->attributes['overlay_parameters']))
 			$with_past_dates = TRUE;
+
+		// menu to be displayed at the top
+		$menu = array();
+		
+		// empowered users can contribute
+		if(Articles::are_allowed($container)) {
+			Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
+			$menu[] = '<div style="display: inline">'.Skin::build_link('articles/edit.php?anchor='.urlencode($anchor), ARTICLES_ADD_IMG.i18n::s('Add an event'), 'span').'</div>';
+		}
+
+		// ensure access to past dates
+		if(!$with_past_dates && ($items = Dates::list_past_for_anchor($anchor, $offset, DATES_PER_PAGE, 'compact'))) {
+
+			// turn an array to a string
+			if(is_array($items))
+				$items =& Skin::build_list($items, 'compact');
+
+			// navigation bar
+			$bar = array();
+
+			// count the number of dates in this section
+			$stats = Dates::stat_past_for_anchor($anchor);
+			if($stats['count'] > DATES_PER_PAGE)
+				$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('%d date', '%d dates', $stats['count']), $stats['count'])));
+
+			// navigation commands for dates
+			$section = Sections::get($anchor);
+			$home =& Sections::get_permalink($section);
+			$prefix = Sections::get_url($section['id'], 'navigate', 'articles');
+			$bar = array_merge($bar, Skin::navigate($home, $prefix, $stats['count'], DATES_PER_PAGE, $page));
+
+			// display the bar
+			if(is_array($bar))
+				$items = Skin::build_list($bar, 'menu_bar').$items;
+
+			// in a separate box
+			$menu[] = Skin::build_box(i18n::s('Past dates'), $items, 'sliding', 'past_dates');
+
+		}
+
+		// menu displayed towards the top of the page
+		$text = Skin::finalize_list($menu, 'menu_bar');
 
 		// build a list of events
 		if(preg_match('/\blayout_as_list\b/i', $this->attributes['overlay_parameters'])) {
@@ -324,36 +375,6 @@ class Day extends Overlay {
 			// layout all these dates
 			if($items)
 				$text .= Dates::build_months($items);
-		}
-
-		// ensure empowered surfers can access past dates
-		if(!$with_past_dates && Surfer::is_empowered() && ($items = Dates::list_past_for_anchor($anchor, $offset, DATES_PER_PAGE, 'compact'))) {
-
-			// turn an array to a string
-			if(is_array($items))
-				$items =& Skin::build_list($items, 'compact');
-
-			// navigation bar
-			$bar = array();
-
-			// count the number of dates in this section
-			$stats = Dates::stat_past_for_anchor($anchor);
-			if($stats['count'] > DATES_PER_PAGE)
-				$bar = array_merge($bar, array('_count' => sprintf(i18n::ns('%d date', '%d dates', $stats['count']), $stats['count'])));
-
-			// navigation commands for dates
-			$section = Sections::get($anchor);
-			$home =& Sections::get_permalink($section);
-			$prefix = Sections::get_url($section['id'], 'navigate', 'articles');
-			$bar = array_merge($bar, Skin::navigate($home, $prefix, $stats['count'], DATES_PER_PAGE, $page));
-
-			// display the bar
-			if(is_array($bar))
-				$items = Skin::build_list($bar, 'menu_bar').$items;
-
-			// in a separate box
-			$text .= Skin::build_box(i18n::s('Past dates'), $items, 'folded', 'past_dates');
-
 		}
 
 		// integrate this into the page

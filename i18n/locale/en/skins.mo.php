@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 1, 2009, 11:22 pm GMT. Please do not modify it manually.
+ * on September 2, 2009, 8:27 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-30 23:09+0200
-PO-Revision-Date: 2009-08-30 23:23+0100
+POT-Creation-Date: 2009-09-02 22:24+0200
+PO-Revision-Date: 2009-09-02 22:24+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -56,8 +56,8 @@ $_SESSION['l10n']['en']['Calendar of this year']='Calendar of this year';
 $_SESSION['l10n']['en']['Canvas']='Canvas';
 $_SESSION['l10n']['en']['Change your own picture']='Change your own picture';
 $_SESSION['l10n']['en']['ea7fa6962ef375d9d49226af5933fd79']='Click on any thumbnail image below to change the current theme.';
-$_SESSION['l10n']['en']['Click to fold/unfold']='Click to fold/unfold';
 $_SESSION['l10n']['en']['Click to reload this page']='Click to reload this page';
+$_SESSION['l10n']['en']['Click to slide']='Click to slide';
 $_SESSION['l10n']['en']['Click to sort']='Click to sort';
 $_SESSION['l10n']['en']['Color: %s']='Color: %s';
 $_SESSION['l10n']['en']['7b8b184e437fa18729c21ab3a9625bed']='Commands to share the page, if any';

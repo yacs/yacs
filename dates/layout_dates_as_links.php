@@ -36,12 +36,12 @@ Class Layout_dates_as_links extends Layout_interface {
 
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
-
+		
 			// the url to use
 			$url =& Articles::get_permalink($item);
 
 			// initialize variables
-			$prefix = $suffix = '';
+			$prefix = $suffix = $icon = '';
 
 			// signal restricted and private dates/articles
 			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE))
@@ -65,8 +65,10 @@ Class Layout_dates_as_links extends Layout_interface {
 			else
 				$label = Skin::build_date($item['date_stamp'], 'day');
 
+			$icon = $item['thumbnail_url'];
+			
 			// list all components for this item
-			$items[$url] = array($prefix, $label, $suffix, 'date', NULL, $item['date_stamp']);
+			$items[$url] = array($prefix, $label, $suffix, 'date', $icon, $item['date_stamp']);
 
 		}
 

@@ -54,7 +54,7 @@ Class Layout_dates_as_compact extends Layout_interface {
 			
 			// append the date of the event
 			if(isset($item['date_stamp']) && $item['date_stamp'])
-				$label .= ' ['.date('Ymd', SQL::strtotime($item['date_stamp'])).']';
+				$label .= ' ['.Skin::build_date($item['date_stamp'], 'day').']';
 
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, 'basic', NULL);

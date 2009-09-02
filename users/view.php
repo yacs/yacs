@@ -308,8 +308,7 @@ if(!isset($item['id'])) {
 			$context['users_maximum_managed_sections'] = 0;
 
 		// offer to extend personal spaces
-		$allowed = max($context['users_maximum_managed_sections'] - count(Surfer::personal_sections()), 0);
-		if(Surfer::is_member() && (Surfer::get_id() == $item['id']) && $allowed) {
+		if(Surfer::is($item['id']) && Surfer::is_member() && ($context['users_maximum_managed_sections'] > Sections::count_for_owner())) {
 			Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 			$menu[] = Skin::build_link('sections/new.php', SECTIONS_ADD_IMG.i18n::s('Add a group or a blog'), 'span');
 		}

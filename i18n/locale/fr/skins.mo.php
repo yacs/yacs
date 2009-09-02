@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 1, 2009, 11:45 pm GMT. Please do not modify it manually.
+ * on September 2, 2009, 8:27 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-30 23:09+0200
-PO-Revision-Date: 2009-08-31 00:31+0100
+POT-Creation-Date: 2009-09-02 22:24+0200
+PO-Revision-Date: 2009-09-02 22:26+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -56,8 +56,8 @@ $_SESSION['l10n']['fr']['Calendar of this year']='Calendrier de cette année';
 $_SESSION['l10n']['fr']['Canvas']='Canevas';
 $_SESSION['l10n']['fr']['Change your own picture']='Changer votre propre image';
 $_SESSION['l10n']['fr']['ea7fa6962ef375d9d49226af5933fd79']='Cliquez sur l\'une des images ci-dessous pour changer le thème actif.';
-$_SESSION['l10n']['fr']['Click to fold/unfold']='Cliquer pour plier/déplier';
 $_SESSION['l10n']['fr']['Click to reload this page']='Recharger cette page';
+$_SESSION['l10n']['fr']['Click to slide']='Cliquer pour faire apparaitre';
 $_SESSION['l10n']['fr']['Click to sort']='Cliquer pour trier';
 $_SESSION['l10n']['fr']['Color: %s']='Couleur : %s';
 $_SESSION['l10n']['fr']['7b8b184e437fa18729c21ab3a9625bed']='Commandes pour partager cette page, si présentes';

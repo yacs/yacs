@@ -761,7 +761,7 @@ if(!isset($item['id'])) {
 	//
 	// sub-sections, if any
 	//
-
+	
 	// the list of related sections if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'sections')) {
 
@@ -809,6 +809,7 @@ if(!isset($item['id'])) {
 
 			// count the number of subsections
 			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
+
 				if($count > 5)
 					$box['bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
 

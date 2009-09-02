@@ -60,7 +60,7 @@ class Mailer {
 		global $context;
 
 		// nothing to do
-		if(!isset($context['mail_handle']))
+		if(!isset($context['mail_handle']) || !is_resource($context['mail_handle']))
 			return;
 			
 		// close the session
