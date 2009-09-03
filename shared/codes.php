@@ -1162,9 +1162,9 @@ Class Codes {
 
 		// get records
 		if(strpos($anchor, 'section:') === 0)
-			$items =& Dates::list_for_prefix(NULL, 'links', $anchor);
+			$items =& Dates::list_for_prefix(NULL, 'compact', $anchor);
 		else
-			$items =& Dates::list_for_prefix(NULL, 'links', NULL);
+			$items =& Dates::list_for_prefix(NULL, 'compact', NULL);
 
 		// build calendar for current month
 		$text =& Dates::build_months($items, FALSE, TRUE, FALSE, TRUE, gmstrftime('%Y'), gmstrftime('%m'), 'compact calendar');
@@ -2977,7 +2977,7 @@ Class Codes {
 		// we return some text;
 		$text = '';
 
-		// number of items to display
+		// label is explicit
 		$label = '';
 		if($position = strrpos($anchor, ',')) {
 			$label = trim(substr($anchor, $position+1));
@@ -3016,44 +3016,49 @@ Class Codes {
 			}
 
 			// query the database and layout that stuff
-			$item =& Articles::list_for_anchor_by('random', $anchors, 0, 1, 'raw');
+			$items =& Articles::list_for_anchor_by('random', $anchors, 0, 1, 'raw');
 			
 		// scope is limited to one author
 		} elseif(!strncmp($anchor, 'user:', 5))
-			$item =& Articles::list_for_author_by('random', str_replace('user:', '', $anchor), 0, 1, 'raw');
+			$items =& Articles::list_for_author_by('random', str_replace('user:', '', $anchor), 0, 1, 'raw');
 
 		// consider all pages
 		else
-			$item =& Articles::list_by('random', 0, 1, 'raw');
+			$items =& Articles::list_by('random', 0, 1, 'raw');
 
 		// we have an array to format
- 		if(isset($item['id'])) {
+ 		if($items) {
+ 			foreach($items as $id => $item) {
 
-			// make a link to the target page
-			$link =& Articles::get_permalink($item);
-			if(!$label)
-				$label = Skin::strip($item['title']);
-			$text =& Skin::build_link($link, $label, 'article');
-
-			if($layout == 'description') {
-
-				// the introduction text, if any
-				$text .= BR.Codes::beautify($item['introduction']);
-
-				// load overlay, if any
-				if(isset($item['overlay']) && $item['overlay']) {
-					include_once '../overlays/overlay.php';
-					$overlay = Overlay::load($item);
-
-					// get text related to the overlay, if any
-					if(is_object($overlay))
-						$text .= $overlay->get_text('view', $item);
-
+				// make a link to the target page
+				$link =& Articles::get_permalink($item);
+				if(!$label)
+					$label = Skin::strip($item['title']);
+				$text =& Skin::build_link($link, $label, 'article');
+	
+				if($layout == 'description') {
+	
+					// the introduction text, if any
+					$text .= BR.Codes::beautify($item['introduction']);
+	
+					// load overlay, if any
+					if(isset($item['overlay']) && $item['overlay']) {
+						include_once '../overlays/overlay.php';
+						$overlay = Overlay::load($item);
+	
+						// get text related to the overlay, if any
+						if(is_object($overlay))
+							$text .= $overlay->get_text('view', $item);
+	
+					}
+	
+					// the description, which is the actual page body
+					$text .= '<div>'.Codes::beautify($item['description']).'</div>';
+	
 				}
-
-				// the description, which is the actual page body
-				$text .= '<div>'.Codes::beautify($item['description']).'</div>';
-
+				
+				// we take only one item
+				break;
 			}
  		}
  		
@@ -3178,7 +3183,7 @@ Class Codes {
 
 		// scope is limited to one author
 		elseif(strpos($anchor, 'user:') === 0)
-			$text =& Members::list_sections_for_user(str_replace('user:', '', $anchor), 0, $count, $layout);
+			$text =& Members::list_sections_by_title_for_anchor($anchor, 0, $count, $layout);
 
 		// consider all pages
 		else

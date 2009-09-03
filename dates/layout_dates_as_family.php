@@ -2,6 +2,9 @@
 /**
  * group events by dates
  *
+ * This is used by the overlay overlays/day.php, when parameter 'layout_as_list' is set.
+ *
+ * @see overlays/day.php
  *
  * @author Bernard Paques
  * @author GnapZ

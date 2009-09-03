@@ -1044,7 +1044,7 @@ Class Categories {
 		$where .= " AND (categories.active='Y'";
 
 		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR categories.active='R'";
 
 		// list hidden categories to associates and to editors

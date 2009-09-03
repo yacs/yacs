@@ -201,7 +201,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 		}
 
 		// select all rows
-		$cells = array('<input type="checkbox" class="row_selector" onchange="cascade_selection_to_all_article_rows(this);" />', i18n::s('Select all pages'), '');
+		$cells = array('<input type="checkbox" class="row_selector" onchange="cascade_selection_to_all_article_rows(this);" />', i18n::s('Select all'), '');
 		$text .= Skin::table_row($cells, $count++);
 
 		// table suffix

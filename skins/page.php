@@ -35,13 +35,15 @@
 		if($context['skin_variant'])
 			$id = ' id="'.$context['skin_variant'].'"';
 
+		// put skin name in body class, to allow for CSS superseding
+		$classes = array(str_replace('skins/', '', $context['skin']));
+
 		// we do have some extra content to render
-		$class = '';
 		if($context['extra'])
-			$class = ' class="extra"';
+			$classes[] = 'extra';
 
 		// start the body
-		echo '<body'.$id.$class.'>'."\n";
+		echo '<body'.$id.' class="'.join(' ', $classes).'">'."\n";
 
 		// shortcuts for text readers
 		echo '<p class="away">';
@@ -132,6 +134,7 @@
 		// for component 'foo' we are looking for member function 'echo_foo'  from the skin
 		$from_skin = array('Skin', 'echo_'.$name);
 		if(is_callable($from_skin)) {
+			logger::debug($name, 'in skin');
 			call_user_func($from_skin);
 			return TRUE;
 		}
@@ -139,6 +142,7 @@
 		// for component 'foo' we are looking for member function 'echo_foo'  from skins/page.php
 		$from_skin = array('Page', 'echo_'.$name);
 		if(is_callable($from_skin)) {
+			logger::debug($name, 'in page.php');
 			call_user_func($from_skin);
 			return TRUE;
 		}
@@ -152,6 +156,7 @@
 		// look a named page, but only during regular operation
 		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
 			if($item =& Articles::get($name)) {
+				logger::debug($name, 'in a named page');
 				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'component_'.$name);
 				return TRUE;
 			}

@@ -327,7 +327,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates, editors and readers may see everything
@@ -586,7 +586,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// include hidden sections for associates
@@ -1047,7 +1047,7 @@ Class Articles {
 		$where = "(articles.active='Y'";
 
 		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// list hidden articles to associates, editors and to readers
@@ -1134,7 +1134,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates can access hidden articles
@@ -1343,7 +1343,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates, editors and readers may see everything
@@ -1442,7 +1442,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates, editors, readers, and page authors may see everything
@@ -1458,7 +1458,7 @@ Class Articles {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// list only articles contributed by this author
-		$where .= " AND (articles.create_id = ".$author_id.")";
+		$where .= " AND ((articles.create_id = ".$author_id.") OR (articles.owner_id = ".$author_id."))";
 
 		// only original author and associates will see draft articles
 		if(!Surfer::is_member() || (!Surfer::is_associate() && (Surfer::get_id() != $author_id)))
@@ -1510,7 +1510,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// add hidden items to associates, editors and readers
@@ -2081,8 +2081,6 @@ Class Articles {
 			." SET ".implode(', ', $query)
 			." WHERE id = ".SQL::escape($fields['id']);
 			
-		logger::query($query, 'SQL');
-		
 		if(!SQL::query($query))
 			return FALSE;
 
@@ -2219,7 +2217,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates can access hidden articles
@@ -2501,7 +2499,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates can access hidden articles
@@ -2568,7 +2566,7 @@ Class Articles {
 		$where = "articles.active='Y'";
 
 		// add restricted items to authenticated surfers, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates, editors and readers may see everything
@@ -2654,7 +2652,7 @@ Class Articles {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// list only articles contributed by this author
-		$where .= " AND (articles.create_id = ".SQL::escape($author_id).")";
+		$where .= " AND ((articles.create_id = ".SQL::escape($author_id).") OR (articles.owner_id = ".SQL::escape($author_id)."))";
 
 		// only original author and associates will see draft articles
 		if(!Surfer::is_member() || (!Surfer::is_associate() && (Surfer::get_id() != $author_id)))

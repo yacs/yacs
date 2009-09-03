@@ -1135,40 +1135,6 @@ span#family { /* within section title -- see sections/view.php */
 	font-size: 6pt; /* we don't care to be not resized by IE */
 }
 
-dl.floating_box { /* float to the left */
-	float: left;
-	display: table-cell;
-	margin-right: 2em;
-	text-align: center;
-	padding: 6px;
-	border: 1px solid transparent;
-}
-
-dl.floating_box:hover {
-	background-color: #fee;
-	border: 1px solid #ddd;
-}
-
-dl.floating_box a {
-	text-decoration: none;
-}
-
-dl.floating_box dd { /* center box content */
-	text-align: center;
-	border: none;
-	padding: 0;
-	margin: 0;
-}
-
-dl.floating_box dt { /* center box title */
-	text-align: center;
-	border: none;
-	font-weight: bold;
-	font-size: 1.2em;
-	padding: 0;
-	margin: 0;
-}
-
 div.folder_body { /* the body of an unfolded box -- [folder]...[/folder] */
 	border-left: 1px solid #bfbfbf;
 	padding: 3px 0 0.3em 1em;

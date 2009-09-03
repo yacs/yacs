@@ -11,20 +11,17 @@
  * By default the article will be posted in the first public section appearing at the site map.
  *
  * Depending on the user selection, the image upload may be followed by one action among following option:
- * - insert at the top of the page - reserved to associates on first upload
  * - append at the bottom of the page
  * - append at the bottom of the page, and set as thumbnail
  * - use as page icon
  * - use as page thumbnail
  *
  * If the anchor is a section or a category, the previous list is changed to:
- * - insert at the top of the page - reserved to associates on first upload
  * - append at the bottom of the page
  * - use as page icon
  * - use as page thumbnail
  *
  * If the anchor is a user profile, the list is changed to:
- * - insert at the top of the page - reserved to associates on first upload
  * - append at the bottom of the page
  * - use as user avatar --animated image files are accepted
  *
@@ -263,8 +260,6 @@ if(Surfer::is_crawler()) {
 		if($file_name = Files::upload($_FILES['upload'], $file_path, array('Image', 'upload')))
 			$_REQUEST['image_name'] = $file_name;
 
-//		logger::error($file_name.' is ok');
-		
 		// maybe this image has already been uploaded for this anchor
 		if(isset($_REQUEST['anchor']) && ($match =& Images::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
 
@@ -328,13 +323,10 @@ if(Surfer::is_crawler()) {
 			$context['text'] .= '<p>'.i18n::s('This has become the thumbnail image of the page.').'</p>';
 		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set_as_both')) {
 			$action = 'image:set_as_both';
-			$context['text'] .= '<p>'.i18n::s('The image has been added to the page, and it also has been set as the page thumbnail.').'</p>';
-		} elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'insert')) {
-			$action = 'image:insert';
-			$context['text'] .= '<p>'.i18n::s('The image has been inserted at the beginning of the page.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('The image has been added, and it also has been set as the page thumbnail.').'</p>';
 		} else {
 			$action = 'image:create';
-			$context['text'] .= '<p>'.i18n::s('The image has been added at the end of the page.').'</p>';
+			$context['text'] .= '<p>'.i18n::s('The image has been inserted.').'</p>';
 		}
 
 		// touch the related anchor

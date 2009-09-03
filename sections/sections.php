@@ -644,7 +644,7 @@ Class Sections {
 		$active = "(sections.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$active .= " OR sections.active='R'";
 
 		// include hidden sections for associates
@@ -731,7 +731,7 @@ Class Sections {
 		$active = "(sections.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$active .= " OR sections.active='R'";
 
 		// include hidden sections for associates
@@ -1097,7 +1097,7 @@ Class Sections {
 			$where = " AND ((sections.active='Y')";
 	
 			// add restricted items to logged members, or if teasers are allowed
-			if(Surfer::is_teased())
+			if(Surfer::is_logged() || Surfer::is_teased())
 				$where .= " OR (sections.active='R')";
 				
 		}
@@ -1385,7 +1385,7 @@ Class Sections {
 		$where .= " AND (sections.active='Y'";
 
 		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
 		// list hidden sections to associates and to editors
@@ -1425,7 +1425,7 @@ Class Sections {
 		$where = "sections.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
 		// add hidden items to associates, editors and readers
@@ -1471,7 +1471,7 @@ Class Sections {
 		$where = "sections.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
 		// add hidden items to associates, editors and readers
@@ -1551,7 +1551,7 @@ Class Sections {
 		$where .= " AND (sections.active='Y'";
 
 		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
 		// list hidden sections to associates, editors and subscribers
@@ -1633,7 +1633,7 @@ Class Sections {
 		$where .= " AND (sections.active='Y'";
 
 		// add restricted items to logged members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
 		// list hidden sections to associates, editors and subscribers
@@ -2353,7 +2353,7 @@ Class Sections {
 		$where = "sections.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
 		if(Surfer::is_associate())

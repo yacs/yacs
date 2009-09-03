@@ -356,7 +356,7 @@ class Day extends Overlay {
 			} else {
 
 				// show future dates on first page
-				if(($page == 1) && ($items = Dates::list_future_for_anchor($anchor, 0, 500, 'family')))
+				if(($page == 1) && ($items = Dates::list_future_for_anchor($anchor, 0, 500, 'family', TRUE)))
 					$text .= $items;
 
 			}
@@ -368,9 +368,9 @@ class Day extends Overlay {
 			if($with_past_dates)
 				$items = Dates::list_for_anchor($anchor, 0, 500, 'links');
 
-			// only show future dates
+			// only show future dates, and trackback to first of current month
 			else
-				$items = Dates::list_future_for_anchor($anchor, 0, 500, 'links');
+				$items = Dates::list_future_for_anchor($anchor, 0, 500, 'links', TRUE);
 
 			// layout all these dates
 			if($items)

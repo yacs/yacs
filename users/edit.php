@@ -593,7 +593,7 @@ if($with_form) {
 
 		// the list of images
 		include_once '../images/images.php';
-		if($items = Images::list_by_date_for_anchor('user:'.$item['id'], 0, 50)) {
+		if($items = Images::list_by_date_for_anchor('user:'.$item['id'])) {
 
 			// help to insert in textarea
 			if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))

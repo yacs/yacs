@@ -185,6 +185,7 @@ if(!isset($item['id'])) {
 	//
 	// page details -- $context['page_details']
 	//
+	$text = '';
 
 	// do not mention details to crawlers
 	if(!Surfer::is_crawler()) {
@@ -378,6 +379,45 @@ if(!isset($item['id'])) {
 
 	}
 
+	// filter description, if necessary
+	if(is_object($overlay))
+		$description = $overlay->get_text('description', $item);
+	else
+		$description = $item['description'];
+				
+	// the beautified description, which is the actual page body
+	if($description) {
+
+		// use adequate label
+		if(is_object($overlay) && ($label = $overlay->get_label('description')))
+			$information .= Skin::build_block($label, 'title');
+
+		// provide only the requested page
+		$pages = preg_split('/\s*\[page\]\s*/is', $description);
+		if($page > count($pages))
+			$page = count($pages);
+		if($page < 1)
+			$page = 1;
+		$description = $pages[ $page-1 ];
+
+		// if there are several pages, remove toc and toq codes
+		if(count($pages) > 1)
+			$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
+
+		// beautify the target page
+		$context['text'] .= Skin::build_block($description, 'description', '', $item['options']);
+
+		// if there are several pages, add navigation commands to browse them
+		if(count($pages) > 1) {
+			$page_menu = array( '_' => i18n::s('Pages') );
+			$home =& Sections::get_permalink($item);
+			$prefix = Sections::get_url($item['id'], 'navigate', 'pages');
+			$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
+
+			$context['text'] .= Skin::build_list($page_menu, 'menu_bar');
+		}
+	}
+
 	//
 	// panels
 	//
@@ -426,45 +466,6 @@ if(!isset($item['id'])) {
 	// get text related to the overlay, if any
 	if(is_object($overlay))
 		$information .= $overlay->get_text('view', $item);
-
-	// filter description, if necessary
-	if(is_object($overlay))
-		$description = $overlay->get_text('description', $item);
-	else
-		$description = $item['description'];
-				
-	// the beautified description, which is the actual page body
-	if($description) {
-
-		// use adequate label
-		if(is_object($overlay) && ($label = $overlay->get_label('description')))
-			$information .= Skin::build_block($label, 'title');
-
-		// provide only the requested page
-		$pages = preg_split('/\s*\[page\]\s*/is', $description);
-		if($page > count($pages))
-			$page = count($pages);
-		if($page < 1)
-			$page = 1;
-		$description = $pages[ $page-1 ];
-
-		// if there are several pages, remove toc and toq codes
-		if(count($pages) > 1)
-			$description = preg_replace('/\s*\[(toc|toq)\]\s*/is', '', $description);
-
-		// beautify the target page
-		$information .= Skin::build_block($description, 'description', '', $item['options']);
-
-		// if there are several pages, add navigation commands to browse them
-		if(count($pages) > 1) {
-			$page_menu = array( '_' => i18n::s('Pages') );
-			$home =& Sections::get_permalink($item);
-			$prefix = Sections::get_url($item['id'], 'navigate', 'pages');
-			$page_menu = array_merge($page_menu, Skin::navigate($home, $prefix, count($pages), 1, $page));
-
-			$information .= Skin::build_list($page_menu, 'menu_bar');
-		}
-	}
 
 	// add trailer information from the overlay, if any
 	if(is_object($overlay))
@@ -714,7 +715,7 @@ if(!isset($item['id'])) {
 		// navigation commands for users
 		$home = Articles::get_permalink($item);
 		$prefix = Articles::get_url($item['id'], 'navigate', 'users');
-		$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $stats['count'], USERS_LIST_SIZE, $zoom_index));
+		$box['bar'] = array_merge($box['bar'], Skin::navigate($home, $prefix, $estats['count'], USERS_LIST_SIZE, $zoom_index));
 
 		// list editors
 		$offset = ($zoom_index - 1) * USERS_LIST_SIZE;
@@ -791,11 +792,7 @@ if(!isset($item['id'])) {
 	// post an image, if upload is allowed
 	if(Images::are_allowed($anchor, $item)) {
 		Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-		if(isset($item['icon_url']) && $item['icon_url'])
-			$link = 'images/edit.php?anchor='.urlencode('article:'.$item['id']);
-		else
-			$link = 'images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=icon';
-		$context['page_tools'][] = Skin::build_link($link, IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+		$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 	}
 
 	// modify this page

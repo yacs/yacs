@@ -173,7 +173,7 @@ Class Forms {
 		$where = "forms.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR forms.active='R'";
 
 		// add hidden items to associates

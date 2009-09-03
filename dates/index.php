@@ -2,8 +2,6 @@
 /**
  * the index page for dates
  *
- * @todo add upcoming.php, like in http://www.atwonline.com/events/upcoming.html
- *
  * For a comprehensive description of dates, you should check the database abstraction script
  * at [script]dates/dates.php[/script].
  *

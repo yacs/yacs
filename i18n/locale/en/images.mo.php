@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 2, 2009, 8:27 pm GMT. Please do not modify it manually.
+ * on September 3, 2009, 11:17 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-02 00:59+0200
-PO-Revision-Date: 2009-09-02 01:02+0100
+POT-Creation-Date: 2009-09-04 01:11+0200
+PO-Revision-Date: 2009-09-04 01:13+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -99,9 +99,8 @@ $_SESSION['l10n']['en']['Submit another image']='Submit another image';
 $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your contribution';
 $_SESSION['l10n']['en']['5135051eb31da8ef238ed65c0b0816df']='The action has not been confirmed.';
 $_SESSION['l10n']['en']['8dcc50155115940d05d944e21eaa194e']='The image has become the profile picture.';
-$_SESSION['l10n']['en']['c1bf92bb2cf089698dc8bc64adc5e8f0']='The image has been added at the end of the page.';
-$_SESSION['l10n']['en']['8260146cc33b9e04504109fd6edc42b2']='The image has been added to the page, and it also has been set as the page thumbnail.';
-$_SESSION['l10n']['en']['d3e704fca04137e80f8371810c69dcbf']='The image has been inserted at the beginning of the page.';
+$_SESSION['l10n']['en']['e4266389d13f25ec6161078dd7621e30']='The image has been added, and it also has been set as the page thumbnail.';
+$_SESSION['l10n']['en']['The image has been inserted.']='The image has been inserted.';
 $_SESSION['l10n']['en']['dd5d3d8719d8abaf68ea9d57da282d79']='This has become the thumbnail image of the page.';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
 $_SESSION['l10n']['en']['0a152c649dd8a64176d76ddaa8212337']='This script will create a brand new page for the uploaded file. If you would like to add an image to an existing page, browse the target page instead and use the adequate command from the menu.';

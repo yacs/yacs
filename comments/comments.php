@@ -1220,7 +1220,7 @@ Class Comments {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates, editors and readers may see everything
@@ -1345,7 +1345,7 @@ Class Comments {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates, editors and readers may see everything

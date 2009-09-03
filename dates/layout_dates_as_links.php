@@ -2,6 +2,8 @@
 /**
  * layout dates as links to pages
  *
+ * This is used to layout dates within cells of a table calendar.
+ *
  * @see dates/dates.php
  *
  * @author Bernard Paques
@@ -65,6 +67,7 @@ Class Layout_dates_as_links extends Layout_interface {
 			else
 				$label = Skin::build_date($item['date_stamp'], 'day');
 
+			// maybe this page has a thumbnail image
 			$icon = $item['thumbnail_url'];
 			
 			// list all components for this item

@@ -434,7 +434,7 @@ Class Images {
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 * @see images/images.php#list_selected for $variant description
 	 */
-	function &list_by_date_for_anchor($anchor, $offset=0, $count=20, $variant=NULL) {
+	function &list_by_date_for_anchor($anchor, $offset=0, $count=50, $variant=NULL) {
 		global $context;
 
 		// use the anchor itself as the default variant

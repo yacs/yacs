@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 2, 2009, 8:26 pm GMT. Please do not modify it manually.
+ * on September 3, 2009, 11:17 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-02 22:19+0200
-PO-Revision-Date: 2009-09-02 01:20+0100
+POT-Creation-Date: 2009-09-04 01:11+0200
+PO-Revision-Date: 2009-09-04 01:16+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -342,7 +342,7 @@ $_SESSION['l10n']['fr']['Section will be activated %s']='Cette section sera acti
 $_SESSION['l10n']['fr']['Sections']='Sections';
 $_SESSION['l10n']['fr']['Sections of %s']='Sections de %s';
 $_SESSION['l10n']['fr']['See also']='Voir aussi';
-$_SESSION['l10n']['fr']['Select all pages']='Sélectionner toutes les pages';
+$_SESSION['l10n']['fr']['Select all']='Tout sélectionner';
 $_SESSION['l10n']['fr']['20535dd4a4c7c09c812f0d918644a3c2']='Sélectionner les éléments à manipuler, puis cliquer sur l\'un des boutons en bas de page.';
 $_SESSION['l10n']['fr']['Select parent container']='Selectionner une autre section';
 $_SESSION['l10n']['fr']['Select the file to upload']='Choisissez le fichier à transmettre';

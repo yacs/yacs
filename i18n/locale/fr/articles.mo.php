@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 2, 2009, 8:26 pm GMT. Please do not modify it manually.
+ * on September 3, 2009, 11:17 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-02 22:19+0200
-PO-Revision-Date: 2009-09-02 01:09+0100
+POT-Creation-Date: 2009-09-04 01:11+0200
+PO-Revision-Date: 2009-09-04 01:14+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -284,7 +284,7 @@ $_SESSION['l10n']['fr']['Screen shared by %s']='Ecran partagé par %s';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f seconds.';
 $_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['See also']='Voir aussi';
-$_SESSION['l10n']['fr']['Select all pages']='Sélectionner toutes les pages';
+$_SESSION['l10n']['fr']['Select all']='Tout sélectionner';
 $_SESSION['l10n']['fr']['Select parent container']='Choisir une autre section';
 $_SESSION['l10n']['fr']['Select the file to upload']='Choisissez le fichier à transmettre';
 $_SESSION['l10n']['fr']['0e47211d01c4146ec82ef084405f3603']='Choisissez la langue employée pour cette page';

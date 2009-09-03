@@ -75,8 +75,8 @@ $chart_data = '{ "elements": [
 $context['text'] .= '[title]'.i18n::s('Static chart').' [escape][chart]...[/chart][/escape][/title]'
 	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][chart=480, 320]'."\n".$chart_data."\n".'[/chart][/escape]</td>'
-	.'<td>[chart=480, 320]'."\n".$chart_data."\n".'[/chart]</td></tr>'
+	.'<tr><td class="sample">[escape][chart=320, 256]'."\n".$chart_data."\n".'[/chart][/escape]</td>'
+	.'<td>[chart=320, 256]'."\n".$chart_data."\n".'[/chart]</td></tr>'
 	.Skin::table_suffix();
 
 // a sketched chart
@@ -87,8 +87,8 @@ $chart_data = '{ "elements": [ { "type": "bar_sketch", "colour": "#81AC00", "out
 $context['text'] .= '[title]'.i18n::s('Static chart').' [escape][chart]...[/chart][/escape][/title]'
 	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][chart=480, 320]'."\n".$chart_data."\n".'[/chart][/escape]</td>'
-	.'<td>[chart=480, 320]'."\n".$chart_data."\n".'[/chart]</td></tr>'
+	.'<tr><td class="sample">[escape][chart=320, 256]'."\n".$chart_data."\n".'[/chart][/escape]</td>'
+	.'<td>[chart=320, 256]'."\n".$chart_data."\n".'[/chart]</td></tr>'
 	.Skin::table_suffix();
 
 // a glassy barchart
@@ -98,8 +98,8 @@ $chart_data = '{"elements":[{"type":"bar_glass","values":[9,8,7,6,5,4,3,2,1]}],"
 $context['text'] .= '[title]'.i18n::s('Static chart').' [escape][chart]...[/chart][/escape][/title]'
 	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][chart=480, 320]'."\n".$chart_data."\n".'[/chart][/escape]</td>'
-	.'<td>[chart=480, 320]'."\n".$chart_data."\n".'[/chart]</td></tr>'
+	.'<tr><td class="sample">[escape][chart=320, 256]'."\n".$chart_data."\n".'[/chart][/escape]</td>'
+	.'<td>[chart=320, 256]'."\n".$chart_data."\n".'[/chart]</td></tr>'
 	.Skin::table_suffix();
 
 // a radar chart
@@ -111,7 +111,7 @@ $chart_data = '{ "elements": [
 
 "title": { "text": "Radar Chart" }, 
 
-"radar_axis": { "max": 5, "colour": "#DAD5E0", "grid-colour": "#DAD5E0", "labels": { "labels": [ "Zero", "", "", "Middle", "", "High" ], "colour": "#9F819F" }, "spoke-labels": { "labels": [ "Strength", "Smarts", "Sweet Tooth", "Armour", "Max Hit Points", "foo", "Looks Like a Monkey" ], "colour": "#9F819F" } }, "tooltip": { "mouse": 1 }, 
+"radar_axis": { "max": 5, "colour": "#DAD5E0", "grid-colour": "#DAD5E0", "labels": { "labels": [ "Zero", "", "", "Middle", "", "High" ], "colour": "#9F819F" }, "spoke-labels": { "labels": [ "Strength", "Smarts", "Sweet Tooth", "Armour", "Max Hit Points", "foo", "bar" ], "colour": "#9F819F" } }, "tooltip": { "mouse": 1 }, 
 
 "bg_colour": "#ffffff" }';
 
@@ -119,8 +119,8 @@ $chart_data = '{ "elements": [
 $context['text'] .= '[title]'.i18n::s('Static chart').' [escape][chart]...[/chart][/escape][/title]'
 	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][chart=480, 320]'."\n".$chart_data."\n".'[/chart][/escape]</td>'
-	.'<td>[chart=480, 320]'."\n".$chart_data."\n".'[/chart]</td></tr>'
+	.'<tr><td class="sample">[escape][chart=320, 256]'."\n".$chart_data."\n".'[/chart][/escape]</td>'
+	.'<td>[chart=320, 256]'."\n".$chart_data."\n".'[/chart]</td></tr>'
 	.Skin::table_suffix();
 
 // implicit formating

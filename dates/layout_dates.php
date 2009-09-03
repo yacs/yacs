@@ -101,13 +101,6 @@ Class Layout_dates extends Layout_interface {
 			if($item['rating_count'])
 				$details[] = Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
-// 			// show an anchor date
-// 			if(($variant != 'no_anchor') && ($variant != 'no_author') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
-// 				$anchor_url = $anchor->get_url();
-// 				$anchor_label = ucfirst($anchor->get_title());
-// 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));
-// 			}
-
 			// all details
 			if(count($details))
 				$suffix .= BR.'<span class="details">'.ucfirst(implode(', ', $details)).'</span>';
@@ -117,7 +110,7 @@ Class Layout_dates extends Layout_interface {
 				$icon = $item['thumbnail_url'];
 
 			// list all components for this item
-			$items[$url] = array($prefix, $label, $suffix, 'date', $icon);
+			$items[$url] = array($prefix, $label, $suffix, 'date', $icon, $item['date_stamp']);
 
 		}
 

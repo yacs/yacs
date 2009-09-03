@@ -1,7 +1,7 @@
 Welcome in the world of YACS!
 
-About Yet Another Community System (YACS)
-=========================================
+About yacs
+==========
 
 YACS is a powerful set of PHP scripts that allow you to maintain a dynamic web
 server either on the Internet, within your company, or at home.

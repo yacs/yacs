@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 2, 2009, 8:27 pm GMT. Please do not modify it manually.
+ * on September 3, 2009, 11:17 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-02 00:59+0200
-PO-Revision-Date: 2009-09-02 01:19+0100
+POT-Creation-Date: 2009-09-04 01:11+0200
+PO-Revision-Date: 2009-09-04 01:15+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -99,9 +99,8 @@ $_SESSION['l10n']['fr']['Submit another image']='Envoyer une autre image';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
 $_SESSION['l10n']['fr']['8dcc50155115940d05d944e21eaa194e']='L\'image illustre ce profil.';
-$_SESSION['l10n']['fr']['c1bf92bb2cf089698dc8bc64adc5e8f0']='L\'image a été insérée à la fin de la page.';
-$_SESSION['l10n']['fr']['8260146cc33b9e04504109fd6edc42b2']='L\'image a été ajoutée ; elle servira aussi de vignette de la page associée';
-$_SESSION['l10n']['fr']['d3e704fca04137e80f8371810c69dcbf']='L\'image a été insérée au début de la page.';
+$_SESSION['l10n']['fr']['e4266389d13f25ec6161078dd7621e30']='L\'image a été ajoutée ; elle servira aussi de vignette.';
+$_SESSION['l10n']['fr']['The image has been inserted.']='L\'image a été insérée.';
 $_SESSION['l10n']['fr']['dd5d3d8719d8abaf68ea9d57da282d79']='L\'image sera utilisée comme vignette de page.';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
 $_SESSION['l10n']['fr']['0a152c649dd8a64176d76ddaa8212337']='Ce script va créer une nouvelle page pour l\'image transmise. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc dans le menu.';

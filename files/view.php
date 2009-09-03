@@ -888,6 +888,7 @@ if(!isset($item['id'])) {
 	}
 
 	// the navigation sidebar
+	$text = '';
 	if(is_object($anchor)) {
 		$neighbours = $anchor->get_neighbours('file', $item);
 		$text .= Skin::neighbours($neighbours, 'sidebar');

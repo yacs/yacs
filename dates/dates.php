@@ -115,7 +115,11 @@ Class Dates {
 		if(!isset($day_content_index))
 			$day_content_index = 1;
 
-		$content = join(BR, $content);
+		// a compact list of items for the day
+		if($compact)
+			$content = Skin::finalize_list($content, 'compact');
+		else
+			$content = join(BR, $content);
 
 		if($compact) {
 			$id = 'day_content_'.$day_content_index++;
@@ -186,9 +190,7 @@ Class Dates {
 					$icon = $context['url_to_root'].$icon;
 
 				// build the complete HTML element
-				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($label).'" style="float: left; padding: 0.5em 0.5em 0.5em 0"/>';
-				
-				$icon =& Skin::build_link($date_link, $icon, 'basic');
+				$icon = Skin::build_link($date_link, '<img src="'.$icon.'" alt="" title="'.encode_field($label).'"/>', 'basic').BR;
 			}
 
 
@@ -335,29 +337,35 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
 
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
+
+		$where = "(".$where.")";
+		
 		// current time
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// put only published pages in boxes
 		if(isset($variant) && ($variant == 'boxes')) {
-			$where = "(".$where.") AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where = " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')";
 
 		// provide published pages to anonymous surfers
 		} elseif(!Surfer::is_logged()) {
-			$where = "(".$where.") AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where = " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')";
 
 		// logged surfers that are non-associates are restricted to their own articles, plus published articles
 		} elseif(!Surfer::is_empowered()) {
-			$where = "(".$where.") AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
+			$where = " AND ((articles.create_id=".Surfer::get_id().") OR (NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')))";
 		}
 
@@ -663,12 +671,16 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
+
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		// finalize ACL
 		$where = '('.$where.')';
@@ -720,12 +732,16 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
+
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where = '('.$where.')';
 
@@ -827,12 +843,16 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
+
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		// bracket everything
 		$where = "(".$where.")";
@@ -883,7 +903,7 @@ Class Dates {
 	 * @see dates/index.php
 	 */
 	function &list_future($offset=0, $count=100, $variant='family') {
-		$output =& Dates::list_future_for_anchor(NULL, $offset, $count, $variant);
+		$output =& Dates::list_future_for_anchor(NULL, $offset, $count, $variant, TRUE);
 		return $output;
 	}
 
@@ -894,21 +914,26 @@ Class Dates {
 	 * @param int the offset from the start of the list; usually, 0 or 1
 	 * @param int the number of items to display
 	 * @param string the list variant, if any
+	 * @param boolean trackback to first day of current month
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $type, $icon, $date)
 	 */
-	function &list_future_for_anchor($anchor, $offset=0, $count=100, $variant='family') {
+	function &list_future_for_anchor($anchor, $offset=0, $count=100, $variant='family', $back_to_first = FALSE) {
 		global $context;
 
 		// select among active items
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
+
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		// finalize ACL
 		$where = '('.$where.')';
@@ -933,7 +958,10 @@ Class Dates {
 		}
 
 		// starting this month
-		$match = gmstrftime('%Y-%m-01');
+		if($back_to_first)
+			$match = gmstrftime('%Y-%m-01');
+		else
+			$match = gmstrftime('%Y-%m-%d');
 
 		// only for one anchor
 		if($anchor)
@@ -967,12 +995,16 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
+
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		// finalize ACL
 		$where = '('.$where.')';
@@ -1218,12 +1250,16 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
+
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where = '('.$where.')';
 
@@ -1273,12 +1309,16 @@ Class Dates {
 		$where = "articles.active='Y'";
 
 		// add restricted items to members, or if teasers are allowed
-		if(Surfer::is_teased())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
 
 		// associates may see everything
 		if(Surfer::is_empowered())
 			$where .= " OR articles.active='N'";
+
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where = '('.$where.')';
 

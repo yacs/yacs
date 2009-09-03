@@ -368,16 +368,6 @@ Class User extends Anchor {
 			if(SQL::strtotime($this->item['edit_date']) + 6*60*60 < time())
 				$silently = TRUE;
 
-		// add a reference to a new image at the top the description
-		} elseif($action == 'image:insert') {
-			$action = 'image:create';
-			if($origin && !preg_match('/\[image='.$origin.'.*?\]/', $this->item['description']))
-				$query[] = "description = '".SQL::escape('[image='.$origin.'] '.$this->item['description'])."'";
-
-			// only refresh stamp if image update occurs within 6 hours after last edition
-			if(SQL::strtotime($this->item['edit_date']) + 6*60*60 < time())
-				$silently = TRUE;
-
 		// suppress a reference to an image that has been deleted
 		} elseif($action == 'image:delete') {
 

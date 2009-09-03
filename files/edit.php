@@ -257,7 +257,7 @@ if(Surfer::is_crawler()) {
 		// silently delete the previous file if the name has changed
 		if($item['file_name'] && $file_name && ($item['file_name'] != $file_name) && isset($file_path))
 			Safe::unlink($file_path.'/'.$item['file_name']);
-
+			
 		// we have a real file, not a reference
 		$_REQUEST['file_href'] = '';
 
@@ -359,7 +359,7 @@ if(Surfer::is_crawler()) {
 			$menu = array_merge($menu, array($anchor->get_url('files') => i18n::s('Back to main page')));
 		$menu = array_merge($menu, array(Files::get_url($_REQUEST['id'], 'view', $_REQUEST['file_name']) => i18n::s('Check the download page for this file')));
 		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('file:'.$_REQUEST['id']).'&amp;action=icon' => i18n::s('Add an image')));
+			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('file:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(is_object($anchor) && Surfer::may_upload())
 			$menu = array_merge($menu, array('files/edit.php?anchor='.$anchor->get_reference() => i18n::s('Upload another file')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
@@ -551,12 +551,6 @@ if($with_form) {
 		$panels[] = array('information', i18n::s('Information'), 'information_panel', $text);
 
 	//
-	// append tabs from the overlay, if any
-	//
-	if(is_object($overlay) && ($more_tabs = $overlay->get_tabs('edit', $item)))
- 		$panels = array_merge($panels, $more_tabs);
-
-	//
 	// attachments tab
 	//
 	$text = '';
@@ -625,7 +619,7 @@ if($with_form) {
 
 		// the list of images
 		include_once '../images/images.php';
-		if($items = Images::list_by_date_for_anchor('file:'.$item['id'], 0, 50, NULL)) {
+		if($items = Images::list_by_date_for_anchor('file:'.$item['id'])) {
 
 			// help to insert in textarea
 			if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))

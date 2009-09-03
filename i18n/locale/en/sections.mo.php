@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 2, 2009, 8:26 pm GMT. Please do not modify it manually.
+ * on September 3, 2009, 11:17 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-02 22:19+0200
-PO-Revision-Date: 2009-09-02 01:03+0100
+POT-Creation-Date: 2009-09-04 01:11+0200
+PO-Revision-Date: 2009-09-04 01:13+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -342,7 +342,7 @@ $_SESSION['l10n']['en']['Section will be activated %s']='Section will be activat
 $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['Sections of %s']='Sections of %s';
 $_SESSION['l10n']['en']['See also']='See also';
-$_SESSION['l10n']['en']['Select all pages']='Select all pages';
+$_SESSION['l10n']['en']['Select all']='Select all';
 $_SESSION['l10n']['en']['20535dd4a4c7c09c812f0d918644a3c2']='Select items you want to manage, and click some button at the bottom of the page.';
 $_SESSION['l10n']['en']['Select parent container']='Select parent container';
 $_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';

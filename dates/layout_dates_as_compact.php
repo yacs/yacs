@@ -21,14 +21,12 @@ Class Layout_dates_as_compact extends Layout_interface {
 	function &layout(&$result) {
 		global $context;
 
-		// empty list
-		if(!SQL::count($result)) {
-			$output = array();
-			return $output;
-		}
-
 		// we return an array of ($url => $attributes)
 		$items = array();
+
+		// empty list
+		if(!SQL::count($result))
+			return $items;
 
 		// flag dates updated recently
 		if($context['site_revisit_after'] < 1)
@@ -38,26 +36,39 @@ Class Layout_dates_as_compact extends Layout_interface {
 
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
-
-			// url to view the date
+		
+			// the url to use
 			$url =& Articles::get_permalink($item);
 
 			// initialize variables
-			$prefix = $suffix = '';
+			$prefix = $suffix = $icon = '';
 
-			// flag new dates
+			// signal restricted and private dates/articles
+			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE))
+				$prefix .= DRAFT_FLAG;
+
+			// signal restricted and private dates/articles
+			if(!isset($item['active']))
+				;
+			elseif($item['active'] == 'N')
+				$prefix .= PRIVATE_FLAG;
+			elseif($item['active'] == 'R')
+				$prefix .= RESTRICTED_FLAG;
+
+			// flag new dates/articles
 			if($item['edit_date'] >= $dead_line)
 				$suffix .= NEW_FLAG;
 
 			// build a valid label
-			$label = Codes::beautify_title($item['title']);
-			
-			// append the date of the event
-			if(isset($item['date_stamp']) && $item['date_stamp'])
-				$label .= ' ['.Skin::build_date($item['date_stamp'], 'day').']';
+			if(isset($item['title'])) {
+				$label = Codes::beautify_title($item['title']);
+				if(isset($item['date_stamp']))
+					$label .= ' ['.Skin::build_date($item['date_stamp'], 'day').']';
+			} else
+				$label = Skin::build_date($item['date_stamp'], 'day');
 
 			// list all components for this item
-			$items[$url] = array($prefix, $label, $suffix, 'basic', NULL);
+			$items[$url] = array($prefix, $label, $suffix, 'basic', NULL, $item['date_stamp']);
 
 		}
 

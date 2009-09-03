@@ -825,9 +825,7 @@ var Yacs = {
 			}
 
 			// image title -- <a><span><img title="" ...
-			var imageTitle = Element.firstDescendant(Element.firstDescendant(anchor)).getAttribute('title');
-//			if(!imageTitle)
-//				imageTitle = Element.firstDescendant(Element.firstDescendant(anchor)).getAttribute('alt');
+			var imageTitle = Element.down(anchor, 'img').getAttribute('title');
 
 			// image href
 			var imageReference = '<div id="modal_image_panel"><img src="'+anchor.getAttribute('href')+'" width="'+loader.width+'" height="'+loader.height+'" /></div>';
@@ -881,7 +879,7 @@ var Yacs = {
 		Element.setStyle(container, {position: 'relative'});
 
 		// the panel to slide
-		var panel = Element.next(handle, 'div');
+		var panel = Element.next(handle, '.panel');
 		
 		// the sliding panel is positioned below the handle
 		var leftTop = Element.cumulativeOffset(container);
@@ -898,7 +896,7 @@ var Yacs = {
 		// display the panel if it is not visible
 		if(panel.style.display == 'none') {
 		
-			new Effect.SlideDown(panel, {duration:.5, scaleContent:false});
+			new Effect.SlideDown(panel, {duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
 			var icon = Element.next(Element.down(handle, 'span'), 'img');
@@ -909,7 +907,7 @@ var Yacs = {
 		// collapse the panel if it is visible
 		} else {
 		
-			new Effect.SlideUp(panel, {duration:.5, scaleContent:false});
+			new Effect.SlideUp(panel, {duration:.3, scaleContent:false});
 			
 			// change the image (if there is an image)
 			var icon = Element.next(Element.down(handle, 'span'), 'img');
@@ -1353,28 +1351,31 @@ var Yacs = {
 	 * @param string URL of the extending icon
 	 * @param string URL of the collapsing icon
 	 */
-	toggle_folder: function(node, plus_href, minus_href) {
+	toggle_folder: function(handle, down_href, up_href) {
 
-		// unfold the branch if it is not visible
-		if(node.nextSibling.style.display == 'none') {
-			node.nextSibling.style.display = 'block';
+		// the panel to slide
+		var panel = Element.next(handle, '.folder_body');
+		
+		// display the panel if it is not visible
+		if(panel.style.display == 'none') {
+		
+			new Effect.SlideDown(panel, {duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
-			if(node.childNodes.length > 0) {
-				if(node.childNodes.item(0).nodeName == "IMG") {
-					node.childNodes.item(0).src = minus_href;
-				}
-			}
+ 			var icon = Element.down(handle, 'img');
+ 			if(icon && up_href) {
+ 				icon.src = up_href;
+ 			}
 
-		// collapse the branch if it is visible
+		// collapse the panel if it is visible
 		} else {
-			node.nextSibling.style.display = 'none';
-
+		
+			new Effect.SlideUp(panel, {duration:.3, scaleContent:false});
+			
 			// change the image (if there is an image)
-			if(node.childNodes.length > 0) {
-				if(node.childNodes.item(0).nodeName == "IMG") {
-					node.childNodes.item(0).src = plus_href;
-				}
+			var icon = Element.down(handle, 'img');
+			if(icon && down_href) {
+				icon.src = down_href;
 			}
 
 		}

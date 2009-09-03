@@ -579,11 +579,7 @@ if(!isset($item['id'])) {
 	// post an image, if upload is allowed
 	if(Images::are_allowed($anchor, $item)) {
 		Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-		if(isset($item['icon_url']) && $item['icon_url'])
-			$link = 'images/edit.php?anchor='.urlencode('article:'.$item['id']);
-		else
-			$link = 'images/edit.php?anchor='.urlencode('article:'.$item['id']).'&amp;action=icon';
-		$context['page_tools'][] = Skin::build_link($link, IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
+		$context['page_tools'][] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic', i18n::s('You can upload a camera shot, a drawing, or another image file.'));
 	}
 
 	// modify this page

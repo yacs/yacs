@@ -241,7 +241,7 @@ if(Surfer::is_crawler()) {
 		$menu = array();
 		$menu = array_merge($menu, array($category->get_url() => i18n::s('View the category')));
 		if(Surfer::may_upload())
-			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']).'&amp;action=icon' => i18n::s('Add an image')));
+			$menu = array_merge($menu, array('images/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Add an image')));
 		if(preg_match('/\bwith_files\b/i', $category->item['options']) && Surfer::may_upload())
 			$menu = array_merge($menu, array('files/edit.php?anchor='.urlencode('category:'.$_REQUEST['id']) => i18n::s('Upload a file')));
 		if(!preg_match('/\bno_links\b/i', $category->item['options']))
@@ -587,7 +587,7 @@ if($with_form) {
 
 			// the list of images
 			include_once '../images/images.php';
-			if($items = Images::list_by_date_for_anchor('category:'.$item['id'], 0, 50)) {
+			if($items = Images::list_by_date_for_anchor('category:'.$item['id'])) {
 
 				// help to insert in textarea
 				if(!isset($_SESSION['surfer_editor']) || ($_SESSION['surfer_editor'] == 'yacs'))
