@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 3, 2009, 11:17 pm GMT. Please do not modify it manually.
+ * on September 4, 2009, 1:37 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-30 23:09+0200
-PO-Revision-Date: 2009-08-30 23:42+0100
+POT-Creation-Date: 2009-09-04 15:30+0200
+PO-Revision-Date: 2009-09-04 15:33+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -214,7 +214,7 @@ $_SESSION['l10n']['fr']['Flash']='Flash';
 $_SESSION['l10n']['fr']['adaee044121addf6d3c8da46446dd2d5']='Les extensions suivantes ont été détectées et intégrées dans le fichier parameters/hooks.include.php.';
 $_SESSION['l10n']['fr']['a70352bea3305cc427af218bf51b2e14']='Les paramètres suivants peuvent être fournis par l\'hébergeur de votre serveur, ou par quelque administrateur de base de données. Si vous gérez votre propre serveur, la base de données doit être créée avant de poursuivre le script d\'installation. Vous trouverez plus d\'informations à ce sujet dans le fichier %s.';
 $_SESSION['l10n']['fr']['For example: %s']='Par exemple : %s';
-$_SESSION['l10n']['fr']['3344c36c5e8420204233380005970834']='Pour les conversations et les groupes privés';
+$_SESSION['l10n']['fr']['For on-demand conversations']='Pour les conversations à la demande';
 $_SESSION['l10n']['fr']['Front page']='Page d\'accueil';
 $_SESSION['l10n']['fr']['GIF support is NOT enabled']='Le format GIF n\'est PAS supporté';
 $_SESSION['l10n']['fr']['GIF support is enabled']='Le format GIF est supporté';

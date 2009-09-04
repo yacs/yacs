@@ -566,7 +566,7 @@ class Messages {
 		
 		// no anchor to use
 		if(!$anchor) {
-			Logger::remember('agents/messages.php', 'No valid anchor has been found');
+			Logger::remember('agents/messages.php', 'No anchor has been found');
 			return NULL;
 		}
 

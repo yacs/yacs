@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 3, 2009, 11:17 pm GMT. Please do not modify it manually.
+ * on September 4, 2009, 1:37 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-04 01:11+0200
-PO-Revision-Date: 2009-09-02 01:04+0100
+POT-Creation-Date: 2009-09-04 15:30+0200
+PO-Revision-Date: 2009-09-04 15:32+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -171,7 +171,7 @@ $_SESSION['l10n']['en']['c4ee000af107ab80885b2ac1b34a715b']='Following items are
 $_SESSION['l10n']['en']['163446b086f8add8a8b8e33171ddfbd0']='Following persons are connected to %s:';
 $_SESSION['l10n']['en']['d614549cb7e90eec397003bb71836197']='Following persons are connected to you:';
 $_SESSION['l10n']['en']['77e189517520ef55c530da2fd2835384']='For example, if you want to apply the authenticator <code>foo</code>, put that keyword in the %s.';
-$_SESSION['l10n']['en']['3344c36c5e8420204233380005970834']='For on-demand conversations and groups';
+$_SESSION['l10n']['en']['For on-demand conversations']='For on-demand conversations';
 $_SESSION['l10n']['en']['f4b772fbe3570851c2d16880d8e6e38f']='For the security of our members, you must make this request with the e-mail address you used when you registered. If your original e-mail address has expired or is no longer valid, please re-register. Unused accounts may be deleted without notice.';
 $_SESSION['l10n']['en']['From']='From';
 $_SESSION['l10n']['en']['From %s:']='From %s:';

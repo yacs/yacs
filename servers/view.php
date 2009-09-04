@@ -100,6 +100,7 @@ if(!$item['id']) {
 
 // display the server profile
 } else {
+	$text = '';
 
 	// initialize the rendering engine
 	Codes::initialize(Servers::get_url($item['id']));

@@ -93,7 +93,7 @@ if(Surfer::is_crawler()) {
 	$with_children = FALSE;
 	if(isset($_REQUEST['articles_layout']) && ($_REQUEST['articles_layout'] == 'group')) {
 		$_REQUEST['articles_layout'] = 'yabb';
-		$_REQUEST['options'] = trim($_REQUEST['options'].' view_as_tabs with_comments comments_as_wall with_files with_links');
+		$_REQUEST['options'] = 'view_as_tabs with_comments comments_as_wall with_files with_links';
 		$_REQUEST['locked'] = 'N'; // allow for group contributions
 		$_REQUEST['description'] = '[title]'.i18n::s('Discussions').'[/title]';
 		$with_children = TRUE;
@@ -124,7 +124,7 @@ if(Surfer::is_crawler()) {
 
 	// we are creating a blog
 	} else {
-		$_REQUEST['options'] = trim($_REQUEST['options'].' with_creator_profile');
+		$_REQUEST['options'] = 'with_creator_profile';
 		$_REQUEST['locked'] = 'Y'; // no direct contributions
 
 		// put all blogs at the same place

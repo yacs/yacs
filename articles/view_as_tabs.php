@@ -389,8 +389,8 @@ if(!isset($item['id'])) {
 	if($description) {
 
 		// use adequate label
-		if(is_object($overlay) && ($label = $overlay->get_label('description')))
-			$information .= Skin::build_block($label, 'title');
+// 		if(is_object($overlay) && ($label = $overlay->get_label('description')))
+// 			$context['text'] .= Skin::build_block($label, 'title');
 
 		// provide only the requested page
 		$pages = preg_split('/\s*\[page\]\s*/is', $description);

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 3, 2009, 11:17 pm GMT. Please do not modify it manually.
+ * on September 4, 2009, 1:37 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-02 00:59+0200
-PO-Revision-Date: 2009-09-02 01:12+0100
+POT-Creation-Date: 2009-09-04 15:30+0200
+PO-Revision-Date: 2009-09-04 15:36+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -38,7 +38,6 @@ $_SESSION['l10n']['fr']['%s is not a reference script']='%s n\'est pas un script
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['57a91a00a0090847fa77bc330b8d0048']='***%s n\'a pas de bloc de documentation';
 $_SESSION['l10n']['fr']['d7c33da221e415774d9998a7b72a6894']='Tous les scripts de référence sont inclus afin de mettre en évidence les erreurs de syntaxe potentielles.';
-$_SESSION['l10n']['fr']['0849802468e0c6d722eec053818e29fd']='Ce script sait aussi traiter les archives placées dans le répertoire %s.';
 $_SESSION['l10n']['fr']['Apply a patch']='Appliquer un correctif';
 $_SESSION['l10n']['fr']['Authors']='Auteurs';
 $_SESSION['l10n']['fr']['Authors of all those scripts']='Les auteurs de ces scripts';
@@ -65,6 +64,8 @@ $_SESSION['l10n']['fr']['Current content of %s']='Contenu actuel de %s';
 $_SESSION['l10n']['fr']['Database maintenance']='Maintenance de la base de données';
 $_SESSION['l10n']['fr']['Delta']='Delta';
 $_SESSION['l10n']['fr']['Diff']='Différences';
+$_SESSION['l10n']['fr']['Direct staging']='Mise à jour directe du tampon';
+$_SESSION['l10n']['fr']['Direct upload']='Téléversement direct';
 $_SESSION['l10n']['fr']['Documentation:']='Documentation :';
 $_SESSION['l10n']['fr']['0921d24545886ddc275df7dbeb5f1f60']='Téléchargement des nouveaux scripts. Merci de patienter...';
 $_SESSION['l10n']['fr']['fb5b688a46f488433ccf03e8cd202ff8']='Télécharger les mises à jour';
@@ -84,6 +85,7 @@ $_SESSION['l10n']['fr']['5fb5d19214fea207c4dbe61257dc122a']='Les scripts suivant
 $_SESSION['l10n']['fr']['34e722ddfb61e8ad5add0a504191a4bd']='Les signatures des scripts de référence ont été sauvées dans le fichier scripts/staging/footprints.php.';
 $_SESSION['l10n']['fr']['d21b3bb11a0882cb4e238cfed7116468']='Téléchargement des nouveaux scripts. Merci de patienter...';
 $_SESSION['l10n']['fr']['f54ea64d8dee657b114df50642d65028']='Si aucune erreur n\'est apparue, construisez le référentiel >>';
+$_SESSION['l10n']['fr']['bcec9f01df6197e8863578ef82963f32']='Si le fichier s\'avère trop important, vous pouvez le téléverser par vos propres moyens, par exemple par FTP, dans le répertoire %s.';
 $_SESSION['l10n']['fr']['cdd05d95cbee44c26ee8a50ff096142c']='Si vous effectuez la mise à jour depuis un serveur de référence, merci d\'indiquer son adresse ci-dessous (nom ou adresse IP)';
 $_SESSION['l10n']['fr']['906eaa480ec3e336c5c85f87204b5d09']='Impossible d\'effectuer la mise à jour à partir de %s';
 $_SESSION['l10n']['fr']['Impossible to copy file %s.']='Impossible de lire le fichier %s.';
@@ -95,6 +97,7 @@ $_SESSION['l10n']['fr']['Impossible to write to %s.']='Impossible d\'écrire dan
 $_SESSION['l10n']['fr']['Including reference scripts...']='Inclusion des scripts de référence...';
 $_SESSION['l10n']['fr']['Incremental upgrades']='Mises à jour incrémentales';
 $_SESSION['l10n']['fr']['be4dd7fe739e6b8a49ea5b6e4f3b6130']='Indiquez seulement le nom DNS ou l\'adresse IP du serveur de référence. Ni plus, ni moins.';
+$_SESSION['l10n']['fr']['Indirect upload']='Téléversement indirect';
 $_SESSION['l10n']['fr']['Install all hooks']='Recherche des extensions';
 $_SESSION['l10n']['fr']['Install release %s']='Installer la version %s';
 $_SESSION['l10n']['fr']['1777ef3dc94382bc1f2d3b0789c8cd07']='Index invalide. L\'opération est abandonnée.';
@@ -105,7 +108,6 @@ $_SESSION['l10n']['fr']['Licenses for all those scripts']='Les licences d\'usage
 $_SESSION['l10n']['fr']['Listing files...']='Inventaire des fichiers ...';
 $_SESSION['l10n']['fr']['Merge']='Combiné';
 $_SESSION['l10n']['fr']['Meta data have been saved in %s']='Les méta-données ont été sauvées dans le fichier %s.';
-$_SESSION['l10n']['fr']['No archive has been found.']='Aucune archive n\'a été trouvée.';
 $_SESSION['l10n']['fr']['No comments to report on!']='Aucun commentaire à rapporter !';
 $_SESSION['l10n']['fr']['a7eebcca25b9c52515bb5006fd7a9894']='Aucun fichier n\'a été téléchargé. Les scripts sur votre serveur sont à jour par rapport au serveur de référence.';
 $_SESSION['l10n']['fr']['No file has been updated.']='Aucun fichier n\'a été mis à modifié.';
@@ -120,8 +122,8 @@ $_SESSION['l10n']['fr']['On the to-do list:']='Reste à faire';
 $_SESSION['l10n']['fr']['On-going archive preparation...']='Constitution de l\'archive de référence...';
 $_SESSION['l10n']['fr']['On-line Documentation']='Documentation en ligne';
 $_SESSION['l10n']['fr']['Original script']='Script original';
-$_SESSION['l10n']['fr']['Out-of-band staging']='Chargement indirect';
 $_SESSION['l10n']['fr']['Output']='Format';
+$_SESSION['l10n']['fr']['65aed931da2dc90bac674b7af0cb1f93']='Choisissez le fichier d\'archive qui sera utilisé pour la mise à jour.';
 $_SESSION['l10n']['fr']['23c0e258bccdc30697a9879f43ccde0e']='Merci d\'aller jusqu\'à la fin de cette page pour vérifier les résultats de la construction du nouveau référentiel.';
 $_SESSION['l10n']['fr']['Please indicate a script name.']='Merci de désigner le script à envoyer.';
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'attaque sur le fichier.';
@@ -150,11 +152,8 @@ $_SESSION['l10n']['fr']['566d0d95543c767bdcf85de12e960ed5']='Certaines mise à j
 $_SESSION['l10n']['fr']['6debedbfed424367cc1350f0daa835db']='Certaines mises à jour sont manquantes. Merci de vérifier le serveur de référence.';
 $_SESSION['l10n']['fr']['Stage updated scripts']='Commencer la mise à jour des scripts';
 $_SESSION['l10n']['fr']['Staging %s']='Téléchargement de %s';
-$_SESSION['l10n']['fr']['Staging individual files']='Chargement des scripts modifiés';
-$_SESSION['l10n']['fr']['Staging local archive']='Chargement d\'une archive locale';
 $_SESSION['l10n']['fr']['Staging script: %s']='Mise à jour : %s';
 $_SESSION['l10n']['fr']['Staging scripts']='Scripts en attente de mise à jour';
-$_SESSION['l10n']['fr']['Staging uploaded archive']='Chargement global à travers le réseau';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';
 $_SESSION['l10n']['fr']['585684d24b799cdf51eea00be8d01ce5']='Suppression du fichier des empreintes pour empêcher les mises à jour distantes...';
 $_SESSION['l10n']['fr']['Tabular']='Tabulaire';
@@ -172,7 +171,6 @@ $_SESSION['l10n']['fr']['6d3f35f205a9737c4903aeea0ecf69c3']='Le téléchargement
 $_SESSION['l10n']['fr']['70cb399cd9a65b364cf5e6a6aeb5b826']='Ce script charge localement les nouveaux scripts pour, ensuite, réaliser la mise à jour de votre serveur YACS.';
 $_SESSION['l10n']['fr']['9318d1b5d3d36f809d8bfc34dfcbc651']='Ce script vous permet d\'envoyer une archive pour corriger le fonctionnement du logiciel. Veuillez noter que n\'importe quel fichier peut être modifié au cours de l\'opération. Il convient donc de choisir soigneusement la source du correctif, et de vous assurer que le fichier envoyé correspond rigoureusement à votre situation.';
 $_SESSION['l10n']['fr']['efabacb228094d9caf39960e0ee3d581']='Ce script va modifier les scripts courants sur votre serveur.';
-$_SESSION['l10n']['fr']['2031f98df7ffa05dd0dce40a1e4dd33d']='Ce script va comparer vos scripts avec ceux du serveur de référence. Puis il va tenter de préparer des mises à jour dans un répertoire d\'attente. Vous pourrez ensuite contrôler chacune de ces mises à jour avant de les mettre en oeuvre sur votre site.';
 $_SESSION['l10n']['fr']['8c47d8f7f07c52b3459b2b3aee1697f7']='Ce script va analyser les scripts php pour bâtir l\'ensemble de référence que d\'autres serveurs pourront utiliser pour les mises à jour.';
 $_SESSION['l10n']['fr']['88d8b28ce8399082184ba6b11f296c5a']='Cet outil va inclure la plupart des scripts PHP de votre serveur. Les possibles erreurs de syntaxe devraient être repérées facilement.';
 $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la configuration merci de copier et de coller les lignes suivantes dans le fichier %s :';
@@ -190,17 +188,14 @@ $_SESSION['l10n']['fr']['View PHP documentation']='Documentation d\'un script';
 $_SESSION['l10n']['fr']['View the documentation page']='Voir la documentation';
 $_SESSION['l10n']['fr']['4891dc48d8c73ee707ac2df17dade22d']='Attention ! Certains scripts n\'ont pas été mis à jour.';
 $_SESSION['l10n']['fr']['f1ce5d9609440ef5da411f7524e7c4e5']='La requête est transmise au serveur immédiatement après un clic sur le bouton. Cependant, le traitement est si important que vous pourriez avoir à attendre plusieurs minutes avant d\'obtenir une réponse à l\'écran. Merci de votre patience.';
-$_SESSION['l10n']['fr']['b461e0f9fffa10740926f985b0751d7d']='Un clic de souris suffit pour démarrer la requête. Ce traitement peut engendrer de nombreux échanges avec le serveur de référence et vous pouvez avoir à attendre plusieurs minutes avant d\'obtenir une réponse à l\'écran.';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
 $_SESSION['l10n']['fr']['d559da2d5ef39b1cf370637e57f73439']='Oui, je veux mettre à jour les scripts de ce serveur';
 $_SESSION['l10n']['fr']['979dbd34bf070bb0ebfefc81b4db409f']='Oui, je veux (re)construire le référentiel';
 $_SESSION['l10n']['fr']['3dbe345a3888c5e44d93b553d4d57be4']='Oui, je veux vérifier les scripts de ce serveur';
-$_SESSION['l10n']['fr']['91951e2c21f9723d07cdf625647696bd']='Oui, je veux télécharger les mises à jour à partir de %s';
 $_SESSION['l10n']['fr']['Yes, I want to validate scripts']='Oui, je veux valider les scripts';
 $_SESSION['l10n']['fr']['4f0a13e1852c41c44f2e69bd08452676']='Oui. Si le script index.php est mis à jour dans le répertoire de YACS, il sera dupliqué au niveau du dessus de l\'arborescence des fichiers.';
 $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas autorisé à faire cette opération en mode démonstration.';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à effectuer cette opération.';
-$_SESSION['l10n']['fr']['d42b8878a8b3ce96fcdd64314ee458ab']='Vous pouvez préférer télécharger l\'archive contenant tous les scripts de YACS.';
 $_SESSION['l10n']['fr']['bytes']='octets';
 $_SESSION['l10n']['fr']['configure']='configuration';
 $_SESSION['l10n']['fr']['gdiff']='gdiff';

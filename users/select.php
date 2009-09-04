@@ -41,7 +41,7 @@ elseif(is_object($anchor) && $anchor->is_owned())
 	$permitted = 'all';
 
 // a member who manages his editor rights
-elseif(is_object($anchor) && $anchor->is_assigned(FALSE))
+elseif(is_object($anchor) && $anchor->is_assigned(Surfer::get_id(), FALSE))
 	$permitted = 'me';
 
 // the default is to disallow access

@@ -348,6 +348,7 @@ if(!isset($item['id'])) {
 	//
 	// main panel -- $context['text']
 	//
+	$text = '';
 
 	// display very few things if we are on a follow-up page
 	if($zoom_type) {
@@ -398,6 +399,9 @@ if(!isset($item['id'])) {
 	if(((!$zoom_type) || ($zoom_type == 'sections'))
 		&& (!isset($item['sections_layout']) || ($item['sections_layout'] != 'none'))) {
 
+		// build a complete box
+		$box = array('bar' => array(), 'text' => '');
+
 		// select a layout
 		if(!isset($item['sections_layout']) || !$item['sections_layout']) {
 			include_once '../sections/layout_sections.php';
@@ -428,10 +432,6 @@ if(!isset($item['id'])) {
 		else
 			$items_per_page = SECTIONS_PER_PAGE;
 
-		// build a complete box
-		$box['bar'] = array();
-		$box['text'] = '';
-
 		// count the number of sections in this category
 		$stats = Members::stat_sections_for_anchor('category:'.$item['id']);
 		if($stats['count'] > SECTIONS_PER_PAGE)
@@ -454,12 +454,10 @@ if(!isset($item['id'])) {
 			$box['text'] .= $items;
 		if(is_array($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-		if($box['text'])
-			$text = $box['text'];
 
 		// in a separate panel
-		if(trim($text))
-			$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', $text);
+		if($box['text'])
+			$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', $box['text']);
 	}
 
 	//
@@ -471,8 +469,7 @@ if(!isset($item['id'])) {
 		&& (!isset($item['articles_layout']) || ($item['articles_layout'] != 'none'))) {
 
 		// build a complete box
-		$box['bar'] = array();
-		$box['text'] = '';
+		$box = array('bar' => array(), 'text' => '');
 
 		// select a layout
 		if(!isset($item['articles_layout']) || !$item['articles_layout']) {
@@ -529,12 +526,10 @@ if(!isset($item['id'])) {
 			$box['text'] .= $items;
 		if(is_array($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-		if($box['text'])
-			$text = $box['text'];
 
 		// in a separate panel
-		if(trim($text))
-			$panels[] = array('articles', i18n::s('Pages'), 'articles_panel', $text);
+		if($box['text'])
+			$panels[] = array('articles', i18n::s('Pages'), 'articles_panel', $box['text']);
 	}
 
 
@@ -546,8 +541,7 @@ if(!isset($item['id'])) {
 	if((!$zoom_type) || ($zoom_type == 'files')) {
 
 		// build a complete box
-		$box['bar'] = array();
-		$box['text'] = '';
+		$box = array('bar' => array(), 'text' => '');
 
 		// count the number of files in this category
 		if($count = Files::count_for_anchor('category:'.$item['id'])) {
@@ -580,12 +574,10 @@ if(!isset($item['id'])) {
 		// actually render the html for the section
 		if(is_array($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-		if($box['text'])
-			$text = $box['text'];
 
 		// in a separate panel
-		if(trim($text))
-			$panels[] = array('files', i18n::s('Files'), 'files_panel', $text);
+		if($box['text'])
+			$panels[] = array('files', i18n::s('Files'), 'files_panel', $box['text']);
 	}
 
 	//
@@ -596,8 +588,7 @@ if(!isset($item['id'])) {
 	if((!$zoom_type) || ($zoom_type == 'comments')) {
 
 		// build a complete box
-		$box['bar'] = array();
-		$box['text'] = '';
+		$box = array('bar' => array(), 'text' => '');
 
 		// count the number of comments in this category
 		if($zoom_type == 'comments')
@@ -633,12 +624,10 @@ if(!isset($item['id'])) {
 		// actually render the html
 		if(is_array($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-		if($box['text'])
-			$text = $box['text'];
 
 		// in a separate panel
-		if(trim($text))
-			$panels[] = array('comments', i18n::s('Comments'), 'comments_panel', $text);
+		if($box['text'])
+			$panels[] = array('comments', i18n::s('Comments'), 'comments_panel', $box['text']);
 	}
 
 	//
@@ -649,8 +638,7 @@ if(!isset($item['id'])) {
 	if(((!$zoom_type) || ($zoom_type == 'links'))) {
 
 		// build a complete box
-		$box['bar'] = array();
-		$box['text'] = '';
+		$box = array('bar' => array(), 'text' => '');
 
 		// count the number of links in this category
 		if($count = Links::count_for_anchor('category:'.$item['id'])) {
@@ -683,22 +671,22 @@ if(!isset($item['id'])) {
 		// actually render the html
 		if(is_array($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-		if($box['text'])
-			$text = $box['text'];
 
 		// in a separate panel
-		if(trim($text))
-			$panels[] = array('links', i18n::s('Links'), 'links_panel', $text);
+		if($box['text'])
+			$panels[] = array('links', i18n::s('Links'), 'links_panel', $box['text']);
 	}
 
 	//
 	// sub-categories of this category
 	//
-	$categories = '';
 
 	// the list of related categories if not at another follow-up page
 	if( (!isset($zoom_type) || !$zoom_type || ($zoom_type == 'categories'))
 		&& (!isset($item['categories_layout']) || ($item['categories_layout'] != 'none')) ) {
+
+		// build a complete box
+		$box = array('bar' => array(), 'text' => '');
 
 		// select a layout
 		if(!isset($item['categories_layout']) || !$item['categories_layout']) {
@@ -729,10 +717,6 @@ if(!isset($item['id'])) {
 			$items_per_page = $layout->items_per_page();
 		else
 			$items_per_page = CATEGORIES_PER_PAGE;
-
-		// build a complete box
-		$box['bar'] = array();
-		$box['text'] = '';
 
 		// count the number of subcategories
 		$stats = Categories::stat_for_anchor('category:'.$item['id']);
@@ -765,12 +749,10 @@ if(!isset($item['id'])) {
 			$box['text'] .= $items;
 		if(is_array($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-		if($box['text'])
-			$text = $box['text'];
 
 		// in a separate panel
-		if(trim($text))
-			$panels[] = array('categories', i18n::s('Categories'), 'categories_panel', $text);
+		if($box['text'])
+			$panels[] = array('categories', i18n::s('Categories'), 'categories_panel', $box['text']);
 	}
 
 	//
@@ -813,12 +795,10 @@ if(!isset($item['id'])) {
 			$box['text'] .= $items;
 		if(is_array($box['bar']) && (($stats['count'] - $offset) > 5))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
-		if($box['text'])
-			$text =$box['text'];
 
 		// in a separate panel
-		if(trim($text))
-			$panels[] = array('users', i18n::s('Persons'), 'users_panel', $text);
+		if($box['text'])
+			$panels[] = array('users', i18n::s('Persons'), 'users_panel', $box['text']);
 	}
 
 	//

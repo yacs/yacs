@@ -48,12 +48,12 @@ if(!$anchor = Sections::lookup('threads')) {
 	$fields = array();
 	$fields['nick_name'] = 'threads';
 	$fields['title'] =& i18n::c('Threads');
-	$fields['introduction'] =& i18n::c('For on-demand conversations and groups');
+	$fields['introduction'] =& i18n::c('For on-demand conversations');
 	$fields['locked'] = 'N'; // no direct contributions
 	$fields['home_panel'] = 'none'; // content is not pushed at the front page
 	$fields['index_map'] = 'N'; // listed only to associates
 	$fields['articles_layout'] = 'yabb'; // these are threads
-	$fields['content_options'] = 'with_export_tools'; // allow editors to delete pages here
+	$fields['content_options'] = 'with_export_tools auto_publish with_comments_as_wall';
 	$fields['maximum_items'] = 20000; // limit the overall number of threads
 	Sections::post($fields);
 }

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 3, 2009, 11:17 pm GMT. Please do not modify it manually.
+ * on September 4, 2009, 1:37 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-04 01:11+0200
-PO-Revision-Date: 2009-09-02 01:15+0100
+POT-Creation-Date: 2009-09-04 15:30+0200
+PO-Revision-Date: 2009-09-04 15:37+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -171,7 +171,7 @@ $_SESSION['l10n']['fr']['c4ee000af107ab80885b2ac1b34a715b']='Les éléments suiv
 $_SESSION['l10n']['fr']['163446b086f8add8a8b8e33171ddfbd0']='Les personnes connectées à %s :';
 $_SESSION['l10n']['fr']['d614549cb7e90eec397003bb71836197']='Les personnes qui vous sont connectées :';
 $_SESSION['l10n']['fr']['77e189517520ef55c530da2fd2835384']='Par exemple, pour utiliser l\'uathentificateur <code>foo</code>, placez ce mot-clé dans le %s.';
-$_SESSION['l10n']['fr']['3344c36c5e8420204233380005970834']='Pour les conversations et les groupes à la demande';
+$_SESSION['l10n']['fr']['For on-demand conversations']='Pour les conversations privées';
 $_SESSION['l10n']['fr']['f4b772fbe3570851c2d16880d8e6e38f']='Pour la sécurité de nos utilisateurs, votre requête doit mentionner l\'adresse électronique indiquée dans votre fiche lors de sa création. Si cette adresse n\'est plus valide, alors enregistrez-vous de nouveau. Les comptes inutilisés sont purgés périodiquement.';
 $_SESSION['l10n']['fr']['From']='Lieu';
 $_SESSION['l10n']['fr']['From %s:']='De %s :';

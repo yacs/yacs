@@ -884,7 +884,7 @@ if($with_form) {
 	if(Sections::is_owned($anchor, $item)) {
 	
 		// owner
-		if(isset($item['owner_id'])) {
+		if(isset($item['id']) && isset($item['owner_id'])) {
 			$label = Skin::build_link(Articles::get_url($item['id'], 'own'), i18n::s('Owner'), 'basic');
 			if($owner = Users::get($item['owner_id']))
 				$input =& Users::get_link($owner['full_name'], $owner['email'], $owner['id']);

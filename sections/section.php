@@ -915,11 +915,19 @@ Class Section extends Anchor {
 	 function is_editable($user_id=NULL) {
 		global $context;
 
-		if(isset($this->item['id'])) {
+		// associates can always do what they want
+		if(Surfer::is_associate())
+			return TRUE;
 
-			// associates can always do what they want
-			if(Surfer::is_associate())
-				return TRUE;
+		// id of requesting user
+		if(!$user_id && Surfer::get_id())
+			$user_id = Surfer::get_id();
+
+		// surfer owns this item
+		if(isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
+			return TRUE;
+
+		if(isset($this->item['id'])) {
 
 			// anonymous edition is allowed
 			if(($this->item['active'] == 'Y') && $this->has_option('anonymous_edit'))
@@ -929,10 +937,6 @@ Class Section extends Anchor {
 			if(($this->item['active'] == 'Y') && Surfer::is_empowered('M') && $this->has_option('members_edit'))
 				return TRUE;
 
-			// id of requesting user
-			if(!$user_id && Surfer::get_id())
-				$user_id = Surfer::get_id();
-
 			// check the upper level container
 			if(isset($this->item['anchor'])) {
 
@@ -941,7 +945,8 @@ Class Section extends Anchor {
 					$this->anchor =& Anchors::get($this->item['anchor']);
 
 				// check for ownership
-				return Sections::is_owned($this->anchor, $this->item);
+				if(is_object($this->anchor))
+					return $this->anchor->is_assigned($user_id);
 
 			}
 		}

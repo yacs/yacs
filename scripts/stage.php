@@ -374,10 +374,10 @@ if($id) {
 		Logger::error(sprintf(i18n::s('Extended processing time is not allowed on this server. In case of trouble, please upload individual files manually to the <code>scripts/staging</code> directory, using your preferred FTP tool or equivalent. When this is completed, jump to %s to complete the software update.'), Skin::build_link('scripts/update.php', i18n::s('the update script'), 'basic')));
 
 	// option #1 - in-band upload
-	$context['text'] .= Skin::build_block(i18n::s('Staging uploaded archive'), 'title');
+	$context['text'] .= Skin::build_block(i18n::s('Direct upload'), 'title');
 
 	// upload an archive
-	$context['text'] .= '<p>'.i18n::s('You may prefer to upload the software archive that you want to stage.').'</p>';
+	$context['text'] .= '<p>'.i18n::s('Pick-up and upload the archive file to use for the upgrade.').'</p>';
 
 	// the form to post an file
 	$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'"><div>';
@@ -401,10 +401,10 @@ if($id) {
 	$context['text'] .= '<p>'.i18n::s('The upload will start on your click. Then the archive will be exploded to stage files. You may have to wait for minutes before getting a response displayed.').'</p>';
 
 	// option #2 - out-of-band upload
-	$context['text'] .= Skin::build_block(i18n::s('Staging local archive'), 'title');
+	$context['text'] .= Skin::build_block(i18n::s('Indirect upload'), 'title');
 
 	// use an available archive
-	$context['text'] .= '<p>'.sprintf(i18n::s('Alternatively, this script is able to handle archives that have been put in the directory %s.'), '<code>inbox/yacs</code>').'</p>';
+	$context['text'] .= '<p>'.sprintf(i18n::s('If the file is too large for the web, you can upload it by yourself, for example with FTP, in the directory %s.'), '<code>inbox/yacs</code>').'</p>';
 
 	// find available skin archives
 	$archives = array();
@@ -445,9 +445,9 @@ if($id) {
 		// this may take several minutes
 		$context['text'] .= '<p>'.i18n::s('Click to explode the selected archive. You may have to wait for some time before getting a response displayed.').'</p>';
 
-	} else
-		$context['text'] .= '<p>'.i18n::s('No archive has been found.').'</p>';
+	}
 
+/*
 	// option #3 - on-line staging
 	$context['text'] .= Skin::build_block(i18n::s('Staging individual files'), 'title');
 
@@ -467,9 +467,9 @@ if($id) {
 
 	// this may take several minutes
 	$context['text'] .= '<p>'.i18n::s('When you will click on the button the server will immediately start to stage updated scripts. However, because of the time requested to complete data exchanges, you may have to wait for minutes before getting a response displayed.').'</p>';
-
+*/
 	// option #4 - out-of-band staging
-	$context['text'] .= Skin::build_block(i18n::s('Out-of-band staging'), 'title');
+	$context['text'] .= Skin::build_block(i18n::s('Direct staging'), 'title');
 
 	// upload an archive
 	$context['text'] .= '<p>'.sprintf(i18n::s('Ultimately, you can populate the directory %s by yourself. On completion you can start the %s.'), '<code>scripts/staging</code>', Skin::build_link('scripts/update.php', i18n::s('update process'))).'</p>';

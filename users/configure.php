@@ -373,7 +373,7 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['users_maximum_managed_sections']) || !$context['users_maximum_managed_sections'] || ($context['users_maximum_managed_sections'] < 0))
 		$context['users_maximum_managed_sections'] = 0;
 	$label = i18n::s('Groups');
-	$input = sprintf(i18n::s('Each member may create up to %s groups and blogs.'), '<input type="text" name="users_maximum_managed_sections" size="2" value="'.encode_field($context['users_maximum_managed_sections']).'" maxlength="2" />');
+	$input = sprintf(i18n::s('Each member may create up to %s groups and blogs.'), '<input type="text" name="users_maximum_managed_sections" size="6" value="'.encode_field($context['users_maximum_managed_sections']).'" maxlength="6" />');
 	$fields[] = array($label, $input);
 
 	// without teasers

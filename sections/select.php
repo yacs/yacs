@@ -83,10 +83,13 @@ if(Surfer::is_crawler()) {
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_prefix();
 
+	// the current list of linked sections
+	$sections =& Members::list_sections_by_title_for_anchor($anchor->get_reference(), 0, SECTIONS_LIST_SIZE, 'raw');
+
 	// the form to link additional sections
 	if(!is_array($sections) || (count($sections) < SECTIONS_LIST_SIZE)) {
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><p>'
-			.i18n::s('To assign a section, look in the content tree below and assign one section at a time').BR.'<select name="member">'.Sections::get_options($sections).'</select>'
+			.i18n::s('To assign a section, look in the content tree below and assign one section at a time').BR.'<select name="member">'.Sections::get_options(NULL, $sections).'</select>'
 			.' '.Skin::build_submit_button(' >> ')
 			.'<input type="hidden" name="anchor" value="'.encode_field($anchor->get_reference()).'">'
 			.'<input type="hidden" name="action" value="set">'
@@ -96,8 +99,8 @@ if(Surfer::is_crawler()) {
 	// splash
 	$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('This is the list of sections assigned to %s'), $anchor->get_title()).'</p>';
 
-	// the current list of linked sections
-	if(($sections =& Members::list_sections_by_title_for_anchor($anchor->get_reference(), 0, SECTIONS_LIST_SIZE, 'raw')) && count($sections)) {
+	// layout assigned sections
+	if($sections) {
 
 		// flag sections updated recently
 		if($context['site_revisit_after'] < 1)
@@ -194,7 +197,7 @@ if(Surfer::is_crawler()) {
 			}
 
 			// format the item
-			$new_sections[$url] = array($prefix, $title, $suffix, $type, $icon);
+			$new_sections[$url] = array($prefix, $title, $suffix, 'section', $icon);
 
 		}
 

@@ -14,7 +14,7 @@
  * Surfer signature is appended to the message, if any.
  * Else a default signature is used instead, with a link to the site front page.
  *
- * Senders can select to get a copy of messages.
+ * Senders can get a copy of messages if they want.
  *
  * Messages are sent using utf-8, and are either base64-encoded, or send as-is.
  *
@@ -303,7 +303,7 @@ if(Surfer::is_crawler()) {
 	$input = '';
 	if(Surfer::is_empowered()) {
 		// share a private page
- 		if($item['active'] == 'N')
+		if($item['active'] == 'N')
 			$input .= '<input type="radio" name="provide_credentials" value="Y" checked="checked" /> '.i18n::s('to manage content').BR;
 
 		// page can be accessed by many people

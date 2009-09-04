@@ -368,9 +368,9 @@ Class Users {
 			." LIMIT 1";
 		$output =& SQL::query_first($query, FALSE, $context['users_connection']);
 
-		// save in cache
-		if(isset($output['id']))
-			$cache[ $output['id'] ] = $output;
+		// ensure we have a full name
+		if(!isset($output['full_name']) || !$output['full_name'])
+			$output['full_name'] = $output['nick_name'];
 
 		include_once $context['path_to_root'].'users/visits.php';
 
@@ -386,6 +386,10 @@ Class Users {
 		elseif(isset($output['id']))
 			$output['is_present'] = FALSE;
 
+		// save in cache
+		if(isset($output['id']))
+			$cache[ $output['id'] ] = $output;
+			
 		// return by reference
 		return $output;
 	}
@@ -1393,6 +1397,9 @@ Class Users {
 			return FALSE;
 		}
 
+		// remember who is changing this record
+		Surfer::check_default_editor($fields);
+
 		// if a password change
 		if(isset($fields['password'])) {
 
@@ -1423,45 +1430,42 @@ Class Users {
 				return FALSE;
 			}
 
+			// ensure we have a full name
+			if(!isset($fields['full_name']) || !trim($fields['full_name']))
+				$fields['full_name'] = $fields['nick_name'];
+	
+			// protect from hackers
+			if(isset($fields['avatar_url']))
+				$fields['avatar_url'] =& encode_link($fields['avatar_url']);
+
+			// set default values
+			if(!isset($fields['active']) || !$fields['active'])
+				$fields['active'] = 'Y';
+			if(isset($fields['selected_editor']))
+				$fields['editor'] = $fields['selected_editor'];	// hack because of FCKEditor already uses 'editor'
+			elseif(isset($context['users_default_editor']))
+				$fields['editor'] = $context['users_default_editor'];
+			else
+				$fields['editor'] = 'yacs';
+			if(!isset($fields['interface']) || ($fields['interface'] != 'C'))
+				$fields['interface'] = 'I';
+			if(!isset($fields['with_newsletters']) || ($fields['with_newsletters'] != 'Y'))
+				$fields['with_newsletters'] = 'N';
+			if(!isset($fields['without_alerts']) || ($fields['without_alerts'] != 'N'))
+				$fields['without_alerts'] = 'Y';
+			if(!isset($fields['without_confirmations']) || ($fields['without_confirmations'] != 'N'))
+				$fields['without_confirmations'] = 'Y';
+			if(!isset($fields['without_messages']) || ($fields['without_messages'] != 'N'))
+				$fields['without_messages'] = 'Y';
+	
+			if(!isset($fields['birth_date']) || !$fields['birth_date'])
+				$fields['birth_date'] = NULL_DATE;
+				
+			// clean provided tags
+			if(isset($fields['tags']))
+				$fields['tags'] = trim($fields['tags'], " \t.:,!?");
+
 		}
-
-		// ensure we have a full name
-		if(!isset($fields['full_name']) || !trim($fields['full_name']))
-			$fields['full_name'] = $fields['nick_name'];
-
-		// protect from hackers
-		if(isset($fields['avatar_url']))
-			$fields['avatar_url'] =& encode_link($fields['avatar_url']);
-
-		// remember who is changing this record
-		Surfer::check_default_editor($fields);
-
-		// set default values
-		if(!isset($fields['active']) || !$fields['active'])
-			$fields['active'] = 'Y';
-		if(isset($fields['selected_editor']))
-			$fields['editor'] = $fields['selected_editor'];	// hack because of FCKEditor already uses 'editor'
-		elseif(isset($context['users_default_editor']))
-			$fields['editor'] = $context['users_default_editor'];
-		else
-			$fields['editor'] = 'yacs';
-		if(!isset($fields['interface']) || ($fields['interface'] != 'C'))
-			$fields['interface'] = 'I';
-		if(!isset($fields['with_newsletters']) || ($fields['with_newsletters'] != 'Y'))
-			$fields['with_newsletters'] = 'N';
-		if(!isset($fields['without_alerts']) || ($fields['without_alerts'] != 'N'))
-			$fields['without_alerts'] = 'Y';
-		if(!isset($fields['without_confirmations']) || ($fields['without_confirmations'] != 'N'))
-			$fields['without_confirmations'] = 'Y';
-		if(!isset($fields['without_messages']) || ($fields['without_messages'] != 'N'))
-			$fields['without_messages'] = 'Y';
-
-		if(!isset($fields['birth_date']) || !$fields['birth_date'])
-			$fields['birth_date'] = NULL_DATE;
-			
-		// clean provided tags
-		if(isset($fields['tags']))
-			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
 
 		// save new settings in session and in cookie
 		if(Surfer::is($fields['id'])) {

@@ -817,9 +817,11 @@ class Anchor {
 	 *
 	 * To be overloaded into derivated class if field has a different name
 	 *
+	 * @param integer id of the user that may be assigned
+	 * @param boolean TRUE to climb the list of containers up to the top
 	 * @return TRUE or FALSE
 	 */
-	 function is_assigned($cascade=TRUE) {
+	 function is_assigned($user_id=NULL, $cascade=TRUE) {
 		global $context;
 
 		// cache the answer
@@ -829,11 +831,11 @@ class Anchor {
 		if(isset($this->item['id'])) {
 
 			// article has been assigned to this logged user
-			if(Articles::is_assigned($this->item['id']))
+			if(Articles::is_assigned($this->item['id'], $user_id))
 				return $this->is_assigned_cache = TRUE;
 
 			// section has been assigned to this logged user
-			if(Sections::is_assigned($this->item['id']))
+			if(Sections::is_assigned($this->item['id'], $user_id))
 				return $this->is_assigned_cache = TRUE;
 
 			// cascade rights inherited from container
@@ -843,7 +845,7 @@ class Anchor {
 				if(!isset($this->anchor) || !$this->anchor)
 					$this->anchor =& Anchors::get($this->item['anchor']);
 
-				if(is_object($this->anchor) && $this->anchor->is_assigned($cascade))
+				if(is_object($this->anchor) && $this->anchor->is_assigned($user_id, $cascade))
 					return $this->is_assigned_cache = TRUE;
 
 			}
@@ -879,28 +881,28 @@ class Anchor {
 	 function is_editable($user_id=NULL) {
 		global $context;
 
-		// we need some data to proceed
-		if(is_array($this->item)) {
+		// id of requesting user
+		if(!$user_id && Surfer::get_id())
+			$user_id = Surfer::get_id();
 
-			// id of requesting user
-			if(!$user_id && Surfer::get_id())
-				$user_id = Surfer::get_id();
+		// surfer has provided the secret handle
+		if(isset($this->item['handle']) && Surfer::may_handle($this->item['handle']))
+			return TRUE;
 
-			// surfer has provided the secret handle
-			if(isset($this->item['handle']) && Surfer::may_handle($this->item['handle']))
+		// surfer owns this item
+		if(isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
+			return TRUE;
+
+		// ensure the container allows for public access
+		if(isset($this->item['anchor'])) {
+
+			// save requests
+			if(!isset($this->anchor) || !$this->anchor)
+				$this->anchor =& Anchors::get($this->item['anchor']);
+
+			if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
 				return TRUE;
 
-			// ensure the container allows for public access
-			if(isset($this->item['anchor'])) {
-
-				// save requests
-				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor =& Anchors::get($this->item['anchor']);
-
-				if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
-					return TRUE;
-
-			}
 		}
 		
 		// sorry
@@ -925,29 +927,28 @@ class Anchor {
 				return FALSE;
 			$user_id = Surfer::get_id();
 		}
-
+		
 		// associates can always do it, except in strict mode
 		if(!$strict && ($user_id == Surfer::get_id()) && Surfer::is_associate())
 			return TRUE;
 			
-		// we need some data to proceed
-		if(is_array($this->item)) {
+		// surfer owns this item
+		if(isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
+			return TRUE;
 
-			// surfer owns this item
-			if(isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
+		// if surfer manages parent container it's ok too
+		if(!$strict && isset($this->item['anchor'])) {
+
+			// save requests
+			if(!isset($this->anchor) || !$this->anchor)
+				$this->anchor =& Anchors::get($this->item['anchor']);
+
+			if(is_object($this->anchor) && $this->anchor->is_assigned($user_id))
 				return TRUE;
 
-			// if surfer manages parent container it's ok too
-			if(!$strict && isset($this->item['anchor'])) {
+			if(is_object($this->anchor) && $this->anchor->is_owned($user_id))
+				return TRUE;
 
-				// save requests
-				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor =& Anchors::get($this->item['anchor']);
-
-				if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
-					return TRUE;
-
-			}
 		}
 		
 		// sorry

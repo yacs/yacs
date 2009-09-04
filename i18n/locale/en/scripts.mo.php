@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 3, 2009, 11:17 pm GMT. Please do not modify it manually.
+ * on September 4, 2009, 1:37 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-02 00:59+0200
-PO-Revision-Date: 2009-09-02 01:03+0100
+POT-Creation-Date: 2009-09-04 15:30+0200
+PO-Revision-Date: 2009-09-04 15:32+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -38,7 +38,6 @@ $_SESSION['l10n']['en']['%s is not a reference script']='%s is not a reference s
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
 $_SESSION['l10n']['en']['57a91a00a0090847fa77bc330b8d0048']='*** %s has no documentation block';
 $_SESSION['l10n']['en']['d7c33da221e415774d9998a7b72a6894']='All reference scripts are included, to show evidence of possible syntax errors.';
-$_SESSION['l10n']['en']['0849802468e0c6d722eec053818e29fd']='Alternatively, this script is able to handle archives that have been put in the directory %s.';
 $_SESSION['l10n']['en']['Apply a patch']='Apply a patch';
 $_SESSION['l10n']['en']['Authors']='Authors';
 $_SESSION['l10n']['en']['Authors of all those scripts']='Authors of all those scripts';
@@ -65,6 +64,8 @@ $_SESSION['l10n']['en']['Current content of %s']='Current content of %s';
 $_SESSION['l10n']['en']['Database maintenance']='Database maintenance';
 $_SESSION['l10n']['en']['Delta']='Delta';
 $_SESSION['l10n']['en']['Diff']='Diff';
+$_SESSION['l10n']['en']['Direct staging']='Direct staging';
+$_SESSION['l10n']['en']['Direct upload']='Direct upload';
 $_SESSION['l10n']['en']['Documentation:']='Documentation:';
 $_SESSION['l10n']['en']['0921d24545886ddc275df7dbeb5f1f60']='Download of updated scripts. Please wait...';
 $_SESSION['l10n']['en']['fb5b688a46f488433ccf03e8cd202ff8']='Download updates from the reference server';
@@ -84,6 +85,7 @@ $_SESSION['l10n']['en']['5fb5d19214fea207c4dbe61257dc122a']='Following scripts h
 $_SESSION['l10n']['en']['34e722ddfb61e8ad5add0a504191a4bd']='Footprints of reference scripts have been saved in file scripts/staging/footprints.php.';
 $_SESSION['l10n']['en']['d21b3bb11a0882cb4e238cfed7116468']='Generating script documentation, please wait...';
 $_SESSION['l10n']['en']['f54ea64d8dee657b114df50642d65028']='If no error has popped up, build the reference set >>';
+$_SESSION['l10n']['en']['bcec9f01df6197e8863578ef82963f32']='If the file is too large for the web, you can upload it by yourself, for example with FTP, in the directory %s.';
 $_SESSION['l10n']['en']['cdd05d95cbee44c26ee8a50ff096142c']='If you are using some reference server to download updated pieces of software, please type its address below (name or IP address)';
 $_SESSION['l10n']['en']['906eaa480ec3e336c5c85f87204b5d09']='Impossible to complete update of the staging store from %s';
 $_SESSION['l10n']['en']['Impossible to copy file %s.']='Impossible to copy file %s.';
@@ -95,6 +97,7 @@ $_SESSION['l10n']['en']['Impossible to write to %s.']='Impossible to write to %s
 $_SESSION['l10n']['en']['Including reference scripts...']='Including reference scripts...';
 $_SESSION['l10n']['en']['Incremental upgrades']='Incremental upgrades';
 $_SESSION['l10n']['en']['be4dd7fe739e6b8a49ea5b6e4f3b6130']='Indicate only the DNS name or IP address of the reference server; nothing more, nothing less.';
+$_SESSION['l10n']['en']['Indirect upload']='Indirect upload';
 $_SESSION['l10n']['en']['Install all hooks']='Install all hooks';
 $_SESSION['l10n']['en']['Install release %s']='Install release %s';
 $_SESSION['l10n']['en']['1777ef3dc94382bc1f2d3b0789c8cd07']='Invalid reference index. Staging has been cancelled.';
@@ -105,7 +108,6 @@ $_SESSION['l10n']['en']['Licenses for all those scripts']='Licenses for all thos
 $_SESSION['l10n']['en']['Listing files...']='Listing files...';
 $_SESSION['l10n']['en']['Merge']='Merge';
 $_SESSION['l10n']['en']['Meta data have been saved in %s']='Meta data have been saved in %s';
-$_SESSION['l10n']['en']['No archive has been found.']='No archive has been found.';
 $_SESSION['l10n']['en']['No comments to report on!']='No comments to report on!';
 $_SESSION['l10n']['en']['a7eebcca25b9c52515bb5006fd7a9894']='No file has been staged. Scripts on your server are exact copies of the reference set.';
 $_SESSION['l10n']['en']['No file has been updated.']='No file has been updated.';
@@ -120,8 +122,8 @@ $_SESSION['l10n']['en']['On the to-do list:']='On the to-do list:';
 $_SESSION['l10n']['en']['On-going archive preparation...']='On-going archive preparation...';
 $_SESSION['l10n']['en']['On-line Documentation']='On-line Documentation';
 $_SESSION['l10n']['en']['Original script']='Original script';
-$_SESSION['l10n']['en']['Out-of-band staging']='Out-of-band staging';
 $_SESSION['l10n']['en']['Output']='Output';
+$_SESSION['l10n']['en']['65aed931da2dc90bac674b7af0cb1f93']='Pick-up and upload the archive file to use for the upgrade.';
 $_SESSION['l10n']['en']['23c0e258bccdc30697a9879f43ccde0e']='Please go to the end of this page to check results of the building process.';
 $_SESSION['l10n']['en']['Please indicate a script name.']='Please indicate a script name.';
 $_SESSION['l10n']['en']['Possible file attack.']='Possible file attack.';
@@ -150,11 +152,8 @@ $_SESSION['l10n']['en']['566d0d95543c767bdcf85de12e960ed5']='Some updated files 
 $_SESSION['l10n']['en']['6debedbfed424367cc1350f0daa835db']='Some updated files are missing. Please check the reference server.';
 $_SESSION['l10n']['en']['Stage updated scripts']='Stage updated scripts';
 $_SESSION['l10n']['en']['Staging %s']='Staging %s';
-$_SESSION['l10n']['en']['Staging individual files']='Staging individual files';
-$_SESSION['l10n']['en']['Staging local archive']='Staging local archive';
 $_SESSION['l10n']['en']['Staging script: %s']='Staging script: %s';
 $_SESSION['l10n']['en']['Staging scripts']='Staging scripts';
-$_SESSION['l10n']['en']['Staging uploaded archive']='Staging uploaded archive';
 $_SESSION['l10n']['en']['Submit']='Submit';
 $_SESSION['l10n']['en']['585684d24b799cdf51eea00be8d01ce5']='Suppressing the footprints file to disable remote updates...';
 $_SESSION['l10n']['en']['Tabular']='Tabular';
@@ -172,7 +171,6 @@ $_SESSION['l10n']['en']['6d3f35f205a9737c4903aeea0ecf69c3']='The upload will sta
 $_SESSION['l10n']['en']['70cb399cd9a65b364cf5e6a6aeb5b826']='This script allows you to stage new scripts that will then be used to update your YACS server.';
 $_SESSION['l10n']['en']['9318d1b5d3d36f809d8bfc34dfcbc651']='This script allows you to upload an archive file and to extract its content to patch running scripts. Please note that any file may be modified during the process, therefore the need to trust the patch provider, and to carefully select a patch adapted to your current situation.';
 $_SESSION['l10n']['en']['efabacb228094d9caf39960e0ee3d581']='This script will change running scripts at your server.';
-$_SESSION['l10n']['en']['2031f98df7ffa05dd0dce40a1e4dd33d']='This script will compare the running scripts with those available on the reference server. Then it will attempt to download updated files in a staging directory. You will then be able to manually review updated scripts before actually using them on your site.';
 $_SESSION['l10n']['en']['8c47d8f7f07c52b3459b2b3aee1697f7']='This script will scan current php scripts and build the related reference store that other servers may use to update their software.';
 $_SESSION['l10n']['en']['88d8b28ce8399082184ba6b11f296c5a']='This tool will include most of the running reference PHP scripts. Any syntax error should be spotted easily.';
 $_SESSION['l10n']['en']['2879e4072ff5d8ea656b127262875171']='To actually change the configuration, please copy and paste following lines by yourself in file %s.';
@@ -190,17 +188,14 @@ $_SESSION['l10n']['en']['View PHP documentation']='View PHP documentation';
 $_SESSION['l10n']['en']['View the documentation page']='View the documentation page';
 $_SESSION['l10n']['en']['4891dc48d8c73ee707ac2df17dade22d']='Warning! Some files have not been updated.';
 $_SESSION['l10n']['en']['f1ce5d9609440ef5da411f7524e7c4e5']='When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.';
-$_SESSION['l10n']['en']['b461e0f9fffa10740926f985b0751d7d']='When you will click on the button the server will immediately start to stage updated scripts. However, because of the time requested to complete data exchanges, you may have to wait for minutes before getting a response displayed.';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';
 $_SESSION['l10n']['en']['d559da2d5ef39b1cf370637e57f73439']='Yes, I have checked every updates and want to update scripts on this server';
 $_SESSION['l10n']['en']['979dbd34bf070bb0ebfefc81b4db409f']='Yes, I want to (re)build the reference store';
 $_SESSION['l10n']['en']['3dbe345a3888c5e44d93b553d4d57be4']='Yes, I want to check scripts on this server';
-$_SESSION['l10n']['en']['91951e2c21f9723d07cdf625647696bd']='Yes, I want to stage files from %s';
 $_SESSION['l10n']['en']['Yes, I want to validate scripts']='Yes, I want to validate scripts';
 $_SESSION['l10n']['en']['4f0a13e1852c41c44f2e69bd08452676']='Yes. If the script index.php is updated into the YACS directory, it will be duplicated at the upper directory as well';
 $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed to perform this operation in demonstration mode.';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
-$_SESSION['l10n']['en']['d42b8878a8b3ce96fcdd64314ee458ab']='You may prefer to upload the software archive that you want to stage.';
 $_SESSION['l10n']['en']['bytes']='bytes';
 $_SESSION['l10n']['en']['configure']='configure';
 $_SESSION['l10n']['en']['gdiff']='gdiff';

@@ -874,7 +874,7 @@ Class Sections {
 	 * This function uses the cache to save on database requests.
 	 *
 	 * @param string the current anchor to an existing section (e.g., 'section:12')
-	 * @param string the reference of the current section (i.e., 'section:234'), to be avoided, or 'no_subsections'
+	 * @param array list of sections made of $id => $attributes
 	 * @return the HTML to insert in the page
 	 *
 	 * @see articles/edit.php
@@ -888,78 +888,44 @@ Class Sections {
 	function get_options($default=NULL, $to_avoid=NULL) {
 		global $context;
 
-		// use the cache
-		$cache_id = 'sections/sections.php/get_options/'.$default.'/'.$to_avoid;
-		if(!$text =& Cache::get($cache_id)) {
+		// all options
+		$text = '';
 
-			// all options
-			$text = '';
+		// we don't want a default section
+		if($default == 'none')
+			$default = NULL;
 
-// 			// assigned sections come first
-// 			if(($assigned = Surfer::assigned_sections()) && count($assigned)) {
+		// use the default section
+		elseif(!$default)
+			$default = 'section:'.Sections::get_default();
 
-// 				// in a separate group
-// 				$text .= '<optgroup label="'.i18n::s('Assigned sections').'">';
+		// list sections recursively
+		$text .= Sections::get_options_for_anchor(NULL, '', $default, $to_avoid);
 
-// 				// one option per assigned section
-// 				foreach($assigned as $assigned_id) {
-// 					if($section =& Anchors::get('section:'.$assigned_id))
-// 						$text .= '<option value="'.$section->get_reference().'">'.Skin::strip($section->get_title())."</option>\n";
-// 				}
+		// associates can also see inactive sections at the top level
+		if(Surfer::is_associate() && ($sections = Sections::list_inactive_by_title_for_anchor(NULL, 0, 100, 'raw'))) {
 
-// 				// end of group
-// 				$text .= "</optgroup>\n";
-// 			}
+			$text .= '<optgroup label="'.i18n::s('Other sections').'">';
 
-			// we don't want a default section
-			if($default == 'none')
-				$default = NULL;
+			// add to text
+			foreach($sections as $id => $attributes) {
+			
+				if(Sections::match($id, $to_avoid))
+					continue;
 
-			// use the default section
-			elseif(!$default)
-				$default = 'section:'.Sections::get_default();
+				// this section
+				$reference = 'section:'.$id;
+				$text .= '<option value="'.$reference.'"';
+				if($default && ($default == $reference))
+					$text .= ' selected="selected"';
+				$text .= '>'.Skin::strip($attributes['title'])."</option>\n";
 
-			// in a separate group
-// 			if($assigned && count($assigned))
-// 				$text .= '<optgroup label="'.i18n::s('Site map').'">';
+				// list sub-sections recursively
+				$text .= Sections::get_options_for_anchor($reference, '&nbsp;&nbsp;', $default, $to_avoid);
 
-			// list sections recursively
-			$text .= Sections::get_options_for_anchor(NULL, '', $default, $to_avoid);
-
-			// end of group
-// 			if($assigned && count($assigned))
-// 				$text .= "</optgroup>\n";
-
-			// associates can also see inactive sections at the top level
-			if(Surfer::is_associate() && ($sections = Sections::list_inactive_by_title_for_anchor(NULL, 0, 100, 'raw'))) {
-
-				$text .= '<optgroup label="'.i18n::s('Other sections').'">';
-
-				// add to text
-				foreach($sections as $id => $attributes) {
-
-					$reference = 'section:'.$id;
-
-					// skip some sections
-					if(preg_match('/^'.preg_quote($reference, '/').'$/', $to_avoid))
-						continue;
-
-					// this section
-					$text .= '<option value="'.$reference.'"';
-					if($default && ($default == $reference))
-						$text .= ' selected="selected"';
-					$text .= '>'.Skin::strip($attributes['title'])."</option>\n";
-
-					// list sub-sections recursively
-					$text .= Sections::get_options_for_anchor($reference, '&nbsp;&nbsp;', $default, $to_avoid);
-
-				}
-
-				$text .= "</optgroup>\n";
 			}
 
-			// save in cache
-			Cache::put($cache_id, $text, 'sections');
+			$text .= "</optgroup>\n";
 		}
 
 		return $text;
@@ -973,10 +939,11 @@ Class Sections {
 	 * @param string the current anchor to an existing section (e.g., 'section:12')
 	 * @param string spaces to prepend before section name -- to reflect depth
 	 * @param string the reference of the default section
-	 * @param string the reference of the current section (i.e., 'section:234'), to be avoided, or 'no_subsections'
+	 * @param array list of sections made of $id => $attributes
 	 * @return the HTML to insert in the page
 	 *
 	 */
+	 
 	function get_options_for_anchor($anchor, $spaces, $default, $to_avoid) {
 		global $context;
 
@@ -988,13 +955,11 @@ Class Sections {
 
 			foreach($sections as $id => $attributes) {
 
-				$reference = 'section:'.$id;
-
-				// skip some sections
-				if(preg_match('/^'.preg_quote($reference, '/').'$/', $to_avoid))
+				if(Sections::match($id, $to_avoid))
 					continue;
 
 				// this section
+				$reference = 'section:'.$id;
 				$text .= '<option value="'.$reference.'"';
 
 				// the section is locked
@@ -1022,13 +987,11 @@ Class Sections {
 
 				foreach($sections as $id => $attributes) {
 
-					$reference = 'section:'.$id;
-
-					// skip some sections
-					if(preg_match('/^'.preg_quote($reference, '/').'$/', $to_avoid))
+					if(Sections::match($id, $to_avoid))
 						continue;
-
+	
 					// this section
+					$reference = 'section:'.$id;
 					$text .= '<option value="'.$reference.'"';
 					if($default && ($default == $reference))
 						$text .= ' selected="selected"';
@@ -1339,18 +1302,18 @@ Class Sections {
 			$user_id = Surfer::get_id();
 		}
 
-		// associates can do what they want
-		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
-			return TRUE;
-		
-		// surfer owns parent container
-		if(is_object($anchor) && $anchor->is_editable($user_id))
-			return TRUE;
-		
 		// surfer owns this section
 		if(isset($item['owner_id']) && ($item['owner_id'] == $user_id))
 			return TRUE;
 
+		// associates can do what they want
+		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
+			return TRUE;
+		
+		// surfer can edit parent container
+		if(is_object($anchor) && $anchor->is_assigned($user_id))
+			return TRUE;
+		
 		// sorry
 		return FALSE;
 	}
@@ -1866,6 +1829,35 @@ Class Sections {
 		return NULL;
 	}
 
+	/**
+	 * look for a section in a list
+	 *
+	 * @param int id of the section we are looking for
+	 * @param mixed int or array($id => $attributes)
+	 * @return boolean TRUE if match, FALSE otherwise
+	 */
+	function match($id, $items) {
+		global $context;
+		
+		return FALSE;
+		
+		// sanity check
+		if(!$items)
+			return FALSE;
+		
+		// exact match
+		if(is_int($items))
+			return ($id == $items);
+			
+		// array search
+		if(is_array($items))
+			return isset($items[ $id ]);
+				
+		// no match
+		return FALSE;
+
+	}
+		
 	/**
 	 * post a new section
 	 *

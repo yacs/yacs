@@ -258,6 +258,19 @@ if(Surfer::is_crawler()) {
 		if($item['file_name'] && $file_name && ($item['file_name'] != $file_name) && isset($file_path))
 			Safe::unlink($file_path.'/'.$item['file_name']);
 			
+		// if the file is an image, create a thumbnail for it
+		if(($image_information = Safe::GetImageSize($file_path.'/'.$file_name)) && ($image_information[2] >= 1) && ($image_information[2] <= 3)) {
+		
+			// derive a thumbnail image
+			$thumbnail_name = 'thumbs/'.$file_name;
+			include_once $context['path_to_root'].'images/image.php';
+			Image::shrink($context['path_to_root'].$file_path.'/'.$file_name, $context['path_to_root'].$file_path.'/'.$thumbnail_name, FALSE, TRUE);
+
+			// remember the address of the thumbnail
+			$_REQUEST['thumbnail_url'] = $context['url_to_root'].$file_path.'/'.$thumbnail_name;
+			
+		}		
+
 		// we have a real file, not a reference
 		$_REQUEST['file_href'] = '';
 
@@ -340,6 +353,8 @@ if(Surfer::is_crawler()) {
 
 		// show file attributes
 		$attributes = array();
+		if(isset($_REQUEST['thumbnail_url']) && $_REQUEST['thumbnail_url'])
+			$attributes[] = '<img src="'.$_REQUEST['thumbnail_url'].'" />';
 		if($_REQUEST['file_name'])
 			$attributes[] = $_REQUEST['file_name'];
 		if($_REQUEST['file_size'])

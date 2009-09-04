@@ -416,12 +416,12 @@ if(!$permitted) {
 		$fields = array();
 		$fields['nick_name'] = 'threads';
 		$fields['title'] =& i18n::c('Threads');
-		$fields['introduction'] =& i18n::c('For on-demand conversations and groups');
+		$fields['introduction'] =& i18n::c('For on-demand conversations');
 		$fields['locked'] = 'Y'; // no direct contributions
 		$fields['home_panel'] = 'none'; // content is not pushed at the front page
 		$fields['index_map'] = 'N'; // this is a special section
 		$fields['articles_layout'] = 'yabb'; // these are threads
-		$fields['content_options'] = 'with_export_tools'; // allow editors to delete pages here
+		$fields['content_options'] = 'with_export_tools auto_publish with_comments_as_wall';
 		$fields['maximum_items'] = 20000; // limit the overall number of threads
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";

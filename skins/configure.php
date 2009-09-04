@@ -561,7 +561,7 @@ elseif(!Surfer::is_associate()) {
 	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'), 
 		'<input type="text" name="avatar_width" size="5" value="'.encode_field($context['avatar_width']).'" maxlength="5" />',
 		'<input type="text" name="avatar_height" size="5" value="'.encode_field($context['avatar_height']).'" maxlength="5" />')
-		.'<p>'.i18n::s('CSS classes').'&nbsp;<input type="text" name="classes_for_avatar_images" size="15" value="'.encode_field($context['classes_for_large_images']).'" maxlength="255" /></p>';
+		.'<p>'.i18n::s('CSS classes').'&nbsp;<input type="text" name="classes_for_avatar_images" size="15" value="'.encode_field($context['classes_for_avatar_images']).'" maxlength="255" /></p>';
 	$fields[] = array($label, $input);
 
 	// large images
@@ -591,7 +591,7 @@ elseif(!Surfer::is_associate()) {
 	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'), 
 		'<input type="text" name="thumbnail_width" size="5" value="'.encode_field($context['thumbnail_width']).'" maxlength="5" />',
 		'<input type="text" name="thumbnail_height" size="5" value="'.encode_field($context['thumbnail_height']).'" maxlength="5" />')
-		.'<p>'.i18n::s('CSS classes').'&nbsp;<input type="text" name="classes_for_thumbnail_images" size="15" value="'.encode_field($context['classes_for_large_images']).'" maxlength="255" /></p>'
+		.'<p>'.i18n::s('CSS classes').'&nbsp;<input type="text" name="classes_for_thumbnail_images" size="15" value="'.encode_field($context['classes_for_thumbnail_images']).'" maxlength="255" /></p>'
 		.'<p>'.sprintf(i18n::s('Display the thumbnail image for images of more than %s bytes'), '<input type="text" name="thumbnail_threshold" size="10" value="'.encode_field($context['thumbnail_threshold']).'" maxlength="10" />')
 		.BR.'<input type="radio" name="thumbnails_without_caption" value="N"';
 	if(!isset($context['thumbnails_without_caption']) || ($context['thumbnails_without_caption'] != 'Y'))

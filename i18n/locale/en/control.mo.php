@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 3, 2009, 11:17 pm GMT. Please do not modify it manually.
+ * on September 4, 2009, 1:37 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-30 23:09+0200
-PO-Revision-Date: 2009-08-30 23:21+0100
+POT-Creation-Date: 2009-09-04 15:30+0200
+PO-Revision-Date: 2009-09-04 15:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -214,7 +214,7 @@ $_SESSION['l10n']['en']['Flash']='Flash';
 $_SESSION['l10n']['en']['adaee044121addf6d3c8da46446dd2d5']='Following hooks have been detected and integrated into the file parameters/hooks.include.php';
 $_SESSION['l10n']['en']['a70352bea3305cc427af218bf51b2e14']='Following parameters may be provided by your Internet Service Provider (ISP), or by some database manager. If you manage your own server, the database should have been created before moving forward. You may check the %s file for further information.';
 $_SESSION['l10n']['en']['For example: %s']='For example: %s';
-$_SESSION['l10n']['en']['3344c36c5e8420204233380005970834']='For on-demand conversations and groups';
+$_SESSION['l10n']['en']['For on-demand conversations']='For on-demand conversations';
 $_SESSION['l10n']['en']['Front page']='Front page';
 $_SESSION['l10n']['en']['GIF support is NOT enabled']='GIF support is NOT enabled';
 $_SESSION['l10n']['en']['GIF support is enabled']='GIF support is enabled';
