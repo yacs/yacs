@@ -1,6 +1,6 @@
 <?php
 // This file has been created by the building script scripts/build.php
-// on September 9, 2009, 11:00 pm GMT, for Bernard Paques. Please do not modify it manually.
+// on September 9, 2009, 11:14 pm GMT, for Bernard Paques. Please do not modify it manually.
 global $footprints;
 if(!isset($footprints)) $footprints = array();
 $footprints['actions/accept.php']=array(154, 'b4e65b6301cb3efe9f25391433552360', '051b4f9d7be147b6ef9165468ba9ccd9');
@@ -448,7 +448,7 @@ $footprints['scripts/run_once/090823_fix_articles_owners.php']=array(26, 'cfda91
 $footprints['scripts/run_once/090823_fix_categories_owners.php']=array(26, 'dc43c8a6e50384031d01b6f53bb35094', '66972115390baea2f330b3f2bdeafece');
 $footprints['scripts/run_once/090827_remove_obsolete.php']=array(213, 'fe8516c04939d24771b38e624b7e5f95', '96610f48a83847de499f847793705a35');
 $footprints['scripts/run_once/090830_fix_sections_layout.php']=array(46, '7d1053949f2fdda40a959fd08f31a440', '3fe6d7c6af816ca2bcefe0aecdfec694');
-$footprints['scripts/run_once/090903_misc_update.php']=array(184, '9242267c9d4600d11f6ff1a4aab3d300', '30a647c66eddfbd355e01ffd4023773f');
+$footprints['scripts/run_once/090909_misc_update.php']=array(184, '9242267c9d4600d11f6ff1a4aab3d300', '30a647c66eddfbd355e01ffd4023773f');
 $footprints['scripts/scripts.php']=array(761, '12177c694ba14cf890b0957b9eb8388f', 'a34ecdd479638b1638381c346d6d7a1b');
 $footprints['scripts/stage.php']=array(482, 'd14d4df7709e9fd41eb5e62ac45a7853', '0db9b111d9ffe7436fc4f63eed20f7e4');
 $footprints['scripts/update.php']=array(354, 'e66ba6b6d9809a034969033881cb73e0', 'a7660848231ab0168121aea73147ed21');
@@ -677,7 +677,7 @@ $footprints['versions/versions.php']=array(473, '3dbf8fa40b316c333f00b0f2354beac
 $footprints['versions/view.php']=array(158, 'de7104b07ac27bcc1b0bce9129ba8cbc', '8e6bcb49b768c48decb1c6ee51c160c3');
 global $generation;
 if(!isset($generation)) $generation = array();
-$generation['date']='090909-23:00:10 GMT';
+$generation['date']='090909-23:14:13 GMT';
 $generation['server']='127.0.0.1';
 $generation['version']='9.8beta31.9';
 $generation['scripts']='672'; // number of reference scripts
