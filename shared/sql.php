@@ -906,7 +906,7 @@ Class SQL {
 		// empty list
 		if(!SQL::count($result))
 			return $output;
-
+			
 		// get first column of first row
 		if(($row = SQL::fetch_row($result)) && isset($row[0]))
 			$output = $row[0];

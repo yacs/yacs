@@ -174,7 +174,7 @@ class Overlay {
 
 		// create the instance
 		if(class_exists($type)) {
-			$overlay =& new $type;
+			$overlay = new $type;
 			$overlay->attributes = array();
 			$overlay->attributes['overlay_type'] = $type;
 			$overlay->attributes['overlay_parameters'] = $parameters;

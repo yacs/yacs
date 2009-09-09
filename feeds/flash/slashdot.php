@@ -100,7 +100,7 @@ include_once 'outfuncs.php';
 // silently exists if Ming is broken -- scripts/validate.php
 if(!class_exists('SWFMovie'))
 	return;
-$m =& new SWFMovie();
+$m = new SWFMovie();
 if(isset($context['flash_width']) && $context['flash_width'])
 	$width = $context['flash_width'];
 else
@@ -121,7 +121,7 @@ if(isset($context['flash_background_r'])
 $m->setRate(24.0);
 
 // make a hit region for the button
-$hit =& new SWFShape();
+$hit = new SWFShape();
 $hit->setRightFill($hit->addFill(0,0,0));
 $hit->movePenTo(0, 0);
 $hit->drawLine($width, 0);
@@ -136,9 +136,9 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD')) 
 	if(!isset($context['flash_font']) || !$context['flash_font'])
 		$context['flash_font'] = 'Bimini.fdb';
 	if(@is_readable($context['flash_font']))
-		$f =& new SWFFont($context['flash_font']);
+		$f = new SWFFont($context['flash_font']);
 	else
-		$f =& new SWFFont("_sans");
+		$f = new SWFFont("_sans");
 	$font_height = 0;
 
 	if(!isset($context['flash_font_r']) || (!$r = intval($context['flash_font_r'])))
@@ -152,7 +152,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD')) 
 
 	for($i=0; $i<$count; ++$i)
 	{
-		$t =& new SWFText();
+		$t = new SWFText();
 		$t->setFont($f);
 		$t->setColor($r, $g, $b);
 		$my_height = $height;
@@ -167,7 +167,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD')) 
 		$t->moveTo($x[$i], $y[$i]);
 		$t->addUTF8String($titles[$i]);
 
-		$buttons[$i] =& new SWFButton();
+		$buttons[$i] = new SWFButton();
 		$buttons[$i]->addShape($hit, SWFBUTTON_HIT);
 		$buttons[$i]->addShape($t, SWFBUTTON_OVER | SWFBUTTON_UP | SWFBUTTON_DOWN);
 		$buttons[$i]->addAction(new SWFAction("getURL('".$links[$i]."', '');"), SWFBUTTON_MOUSEUP);

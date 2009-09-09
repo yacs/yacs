@@ -1214,7 +1214,7 @@ class Messages {
 		
 		// parse article content
 		include_once $context['path_to_root'].'articles/article.php';
-		$article =& new Article();
+		$article = new Article();
 		$entry_fields = array();
 		$entry_fields = $article->parse($text, $entry_fields);
 

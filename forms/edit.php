@@ -102,7 +102,7 @@ if(Surfer::is_crawler()) {
 
 	// list assigned sections, if any
 	include_once '../sections/layout_sections_as_select.php';
-	$layout =& new Layout_sections_as_select();
+	$layout = new Layout_sections_as_select();
 	$layout->set_variant('forms/edit.php?anchor=section:');
 	if(($assigned = Surfer::assigned_sections()) && count($assigned)) {
 

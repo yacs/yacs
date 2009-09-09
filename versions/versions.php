@@ -294,13 +294,13 @@ Class Versions {
 
 		case 'compact':
 			include_once $context['path_to_root'].'versions/layout_versions_as_compact.php';
-			$layout =& new Layout_versions_as_compact();
+			$layout = new Layout_versions_as_compact();
 			$output =& $layout->layout($result);
 			return $output;
 
 		default:
 			include_once $context['path_to_root'].'versions/layout_versions.php';
-			$layout =& new Layout_versions();
+			$layout = new Layout_versions();
 			$output =& $layout->layout($result);
 			return $output;
 

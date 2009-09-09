@@ -35,12 +35,16 @@ Class Comments {
 	 *
 	 * @param object an instance of the Anchor interface, if any
 	 * @param array a set of item attributes, if any
-	 * @param string the type of item, e.g., 'section'
+	 * @param string the type of item, e.g., 'section', or a reference, e.g., 'article:123'
 	 * @return TRUE or FALSE
 	 */
 	function are_allowed($anchor=NULL, $item=NULL, $variant='article') {
 		global $context;
 
+		// turn a reference to a type
+		if($position = strpos($variant, ':'))
+			$variant = substr($variant, 0, $position);
+			
 		// comments are prevented in item
 		if(($variant == 'article') && isset($item['options']) && is_string($item['options']) && preg_match('/\bno_comments\b/i', $item['options']))
 			return FALSE;
@@ -516,46 +520,46 @@ Class Comments {
 		// a wall
 		if((is_object($anchor) && $anchor->has_option('comments_as_wall'))) {
 			include_once '../comments/layout_comments_as_yabb.php';
-			$layout =& new Layout_comments_as_yabb();
+			$layout = new Layout_comments_as_yabb();
 
 		} elseif(isset($item['options']) && preg_match('/\bcomments_as_wall\b/', $item['options'])) {
 			include_once '../comments/layout_comments_as_yabb.php';
-			$layout =& new Layout_comments_as_yabb();
+			$layout = new Layout_comments_as_yabb();
 
 		// no anchor
 		} elseif(!is_object($anchor)) {
 			include_once '../comments/layout_comments.php';
-			$layout =& new Layout_comments();
+			$layout = new Layout_comments();
 
 		// layout is defined in anchor
 		} elseif(is_object($anchor) && $anchor->has_layout('boxesandarrows')) {
 			include_once '../comments/layout_comments_as_boxesandarrows.php';
-			$layout =& new Layout_comments_as_boxesandarrows();
+			$layout = new Layout_comments_as_boxesandarrows();
 
 		} elseif(is_object($anchor) && $anchor->has_layout('daily')) {
 			include_once '../comments/layout_comments_as_daily.php';
-			$layout =& new Layout_comments_as_daily();
+			$layout = new Layout_comments_as_daily();
 
 		} elseif(is_object($anchor) && $anchor->has_layout('jive')) {
 			include_once '../comments/layout_comments_as_jive.php';
-			$layout =& new Layout_comments_as_jive();
+			$layout = new Layout_comments_as_jive();
 
 		} elseif(is_object($anchor) && $anchor->has_layout('manual')) {
 			include_once '../comments/layout_comments_as_manual.php';
-			$layout =& new Layout_comments_as_manual();
+			$layout = new Layout_comments_as_manual();
 
 		} elseif(is_object($anchor) && $anchor->has_layout('wiki')) {
 			include_once '../comments/layout_comments_as_wiki.php';
-			$layout =& new Layout_comments_as_wiki();
+			$layout = new Layout_comments_as_wiki();
 
 		} elseif(is_object($anchor) && $anchor->has_layout('yabb')) {
 			include_once '../comments/layout_comments_as_yabb.php';
-			$layout =& new Layout_comments_as_yabb();
+			$layout = new Layout_comments_as_yabb();
 
 		// regular case
 		} else {
 			include_once '../comments/layout_comments.php';
-			$layout =& new Layout_comments();
+			$layout = new Layout_comments();
 		}
 
 		// job done
@@ -1135,7 +1139,7 @@ Class Comments {
 			$name = 'layout_comments_as_'.$attributes[0];
 			if(is_readable($context['path_to_root'].'comments/'.$name.'.php')) {
 				include_once $context['path_to_root'].'comments/'.$name.'.php';
-				$layout =& new $name;
+				$layout = new $name;
 
 				// provide parameters to the layout
 				if(isset($attributes[1]))
@@ -1147,7 +1151,7 @@ Class Comments {
 		// use default layout
 		if(!$layout) {
 			include_once $context['path_to_root'].'comments/layout_comments.php';
-			$layout =& new Layout_comments();
+			$layout = new Layout_comments();
 			$layout->set_variant($variant);
 		}
 

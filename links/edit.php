@@ -424,7 +424,7 @@ if($with_form) {
 
 		// the name, if any
 		$label = i18n::s('Your name');
-		$input = '<input type="text" name="edit_name" size="45" maxlength="128" accesskey="n" value="'.encode_field(isset($_REQUEST['edit_name']) ? $_REQUEST['edit_name'] : Surfer::get_name()).'" />';
+		$input = '<input type="text" name="edit_name" size="45" maxlength="128" accesskey="n" value="'.encode_field(isset($_REQUEST['edit_name']) ? $_REQUEST['edit_name'] : Surfer::get_name(' ')).'" />';
 		$hint = i18n::s('This optional field can be left blank if you wish.');
 		$fields[] = array($label, $input, $hint);
 

@@ -264,7 +264,7 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 
 	// do not link to this user profile
 	include_once $context['path_to_root'].'articles/layout_articles_as_timeline.php';
-	$layout =& new Layout_articles_as_thread();
+	$layout = new Layout_articles_as_thread();
 	$layout->set_variant($item['id']);
 
 	// i am looking at my own record

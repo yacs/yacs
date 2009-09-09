@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 4, 2009, 1:37 pm GMT. Please do not modify it manually.
+ * on September 9, 2009, 10:52 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-04 15:30+0200
-PO-Revision-Date: 2009-09-04 15:32+0100
+POT-Creation-Date: 2009-09-09 10:00+0200
+PO-Revision-Date: 2009-09-09 10:02+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -68,7 +68,6 @@ $_SESSION['l10n']['en']['Direct staging']='Direct staging';
 $_SESSION['l10n']['en']['Direct upload']='Direct upload';
 $_SESSION['l10n']['en']['Documentation:']='Documentation:';
 $_SESSION['l10n']['en']['0921d24545886ddc275df7dbeb5f1f60']='Download of updated scripts. Please wait...';
-$_SESSION['l10n']['en']['fb5b688a46f488433ccf03e8cd202ff8']='Download updates from the reference server';
 $_SESSION['l10n']['en']['21bc65a56a523f1a5f5edad7e87bf2a8']='ERROR: File %s is missing or corrupted.';
 $_SESSION['l10n']['en']['6a2c769d729b50a589114cb6f3a6ca3b']='ERROR: Impossible to write to the file %s. The configuration has not been saved.';
 $_SESSION['l10n']['en']['98564239e79262aa70b133bc80f289ae']='Enable remote servers to update from this reference store.';
@@ -86,7 +85,7 @@ $_SESSION['l10n']['en']['34e722ddfb61e8ad5add0a504191a4bd']='Footprints of refer
 $_SESSION['l10n']['en']['d21b3bb11a0882cb4e238cfed7116468']='Generating script documentation, please wait...';
 $_SESSION['l10n']['en']['f54ea64d8dee657b114df50642d65028']='If no error has popped up, build the reference set >>';
 $_SESSION['l10n']['en']['bcec9f01df6197e8863578ef82963f32']='If the file is too large for the web, you can upload it by yourself, for example with FTP, in the directory %s.';
-$_SESSION['l10n']['en']['cdd05d95cbee44c26ee8a50ff096142c']='If you are using some reference server to download updated pieces of software, please type its address below (name or IP address)';
+$_SESSION['l10n']['en']['b042cae3f3fe5af6224194d2b5936fc0']='If you are using some reference server to download updated scripts, please type its address below (name or IP address)';
 $_SESSION['l10n']['en']['906eaa480ec3e336c5c85f87204b5d09']='Impossible to complete update of the staging store from %s';
 $_SESSION['l10n']['en']['Impossible to copy file %s.']='Impossible to copy file %s.';
 $_SESSION['l10n']['en']['Impossible to create path %s.']='Impossible to create path %s.';
@@ -96,7 +95,7 @@ $_SESSION['l10n']['en']['Impossible to read %s.']='Impossible to read %s.';
 $_SESSION['l10n']['en']['Impossible to write to %s.']='Impossible to write to %s.';
 $_SESSION['l10n']['en']['Including reference scripts...']='Including reference scripts...';
 $_SESSION['l10n']['en']['Incremental upgrades']='Incremental upgrades';
-$_SESSION['l10n']['en']['be4dd7fe739e6b8a49ea5b6e4f3b6130']='Indicate only the DNS name or IP address of the reference server; nothing more, nothing less.';
+$_SESSION['l10n']['en']['c7420dec7221f4b3f646f4bd0ff210fa']='Indicate only the DNS name or IP address of the reference server.';
 $_SESSION['l10n']['en']['Indirect upload']='Indirect upload';
 $_SESSION['l10n']['en']['Install all hooks']='Install all hooks';
 $_SESSION['l10n']['en']['Install release %s']='Install release %s';
@@ -136,6 +135,7 @@ $_SESSION['l10n']['en']['Review']='Review';
 $_SESSION['l10n']['en']['5bf3b809e693a9ac0b4dcf5e6e4e028a']='Review downloaded scripts before the update';
 $_SESSION['l10n']['en']['Run once']='Run once';
 $_SESSION['l10n']['en']['Run one-time scripts']='Run one-time scripts';
+$_SESSION['l10n']['en']['a09ec6a44e8678d5cbbb8a7c5f5ba286']='Running scripts are exact copies of the reference set.';
 $_SESSION['l10n']['en']['Script %s does not exist']='Script %s does not exist';
 $_SESSION['l10n']['en']['Script comparison']='Script comparison';
 $_SESSION['l10n']['en']['Script does not exist']='Script does not exist';
@@ -148,8 +148,7 @@ $_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['See also:']='See also:';
 $_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
 $_SESSION['l10n']['en']['Server software']='Server software';
-$_SESSION['l10n']['en']['566d0d95543c767bdcf85de12e960ed5']='Some updated files are missing. Please check the reference server below.';
-$_SESSION['l10n']['en']['6debedbfed424367cc1350f0daa835db']='Some updated files are missing. Please check the reference server.';
+$_SESSION['l10n']['en']['Some updated files are missing.']='Some updated files are missing.';
 $_SESSION['l10n']['en']['Stage updated scripts']='Stage updated scripts';
 $_SESSION['l10n']['en']['Staging %s']='Staging %s';
 $_SESSION['l10n']['en']['Staging script: %s']='Staging script: %s';

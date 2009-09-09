@@ -259,10 +259,6 @@ Class Articles {
 		if(is_object($anchor) && $anchor->is_editable())
 			return TRUE;
 
-		// teasers are activated
-		if(Surfer::is_teased())
-			return TRUE;
-
 		// the default is to not allow for new articles
 		return FALSE;
 	}
@@ -1606,7 +1602,7 @@ Class Articles {
 			$name = 'layout_articles_as_'.$attributes[0];
 			if(is_readable($context['path_to_root'].'articles/'.$name.'.php')) {
 				include_once $context['path_to_root'].'articles/'.$name.'.php';
-				$layout =& new $name;
+				$layout = new $name;
 
 				// provide parameters to the layout
 				if(isset($attributes[1]))
@@ -1618,7 +1614,7 @@ Class Articles {
 		// use default layout
 		if(!$layout) {
 			include_once $context['path_to_root'].'articles/layout_articles.php';
-			$layout =& new Layout_articles();
+			$layout = new Layout_articles();
 			$layout->set_variant($variant);
 		}
 
@@ -2413,7 +2409,7 @@ Class Articles {
 		else
 			return sprintf(i18n::s('"%s" is not a valid date'), $publication);
 
-		// no expiration date
+		// no expiry date
 		if(!isset($expiry) || !$expiry)
 			$expiry_stamp = 0;
 

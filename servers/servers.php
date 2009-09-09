@@ -382,13 +382,13 @@ Class Servers {
 
 		case 'compact':
 			include_once $context['path_to_root'].'servers/layout_servers_as_compact.php';
-			$layout =& new Layout_servers_as_compact();
+			$layout = new Layout_servers_as_compact();
 			$output =& $layout->layout($result);
 			return $output;
 
 		case 'dates':
 			include_once $context['path_to_root'].'servers/layout_servers_as_dates.php';
-			$layout =& new Layout_servers_as_dates();
+			$layout = new Layout_servers_as_dates();
 			$output =& $layout->layout($result);
 			return $output;
 
@@ -431,7 +431,7 @@ Class Servers {
 
 		default:
 			include_once $context['path_to_root'].'servers/layout_servers.php';
-			$layout =& new Layout_servers();
+			$layout = new Layout_servers();
 			$output =& $layout->layout($result);
 			return $output;
 

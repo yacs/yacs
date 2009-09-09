@@ -459,17 +459,17 @@ if(!isset($item['id'])) {
 				// select a layout
 				if(!isset($item['sections_layout']) || !$item['sections_layout']) {
 					include_once 'layout_sections.php';
-					$layout =& new Layout_sections();
+					$layout = new Layout_sections();
 				} elseif($item['sections_layout'] == 'decorated') {
 					include_once 'layout_sections.php';
-					$layout =& new Layout_sections();
+					$layout = new Layout_sections();
 				} elseif($item['sections_layout'] == 'map') {
 					include_once 'layout_sections_as_yahoo.php';
-					$layout =& new Layout_sections_as_yahoo();
+					$layout = new Layout_sections_as_yahoo();
 				} elseif(is_readable($context['path_to_root'].'sections/layout_sections_as_'.$item['sections_layout'].'.php')) {
 					$name = 'layout_sections_as_'.$item['sections_layout'];
 					include_once $name.'.php';
-					$layout =& new $name;
+					$layout = new $name;
 				} else {
 	
 					// useful warning for associates
@@ -477,7 +477,7 @@ if(!isset($item['id'])) {
 						Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['sections_layout']));
 	
 					include_once '../sections/layout_sections.php';
-					$layout =& new Layout_sections();
+					$layout = new Layout_sections();
 				}
 	
 				// the maximum number of sections per page
@@ -572,20 +572,20 @@ if(!isset($item['id'])) {
 					// select a layout
 					if(!isset($item['articles_layout']) || !$item['articles_layout']) {
 						include_once '../articles/layout_articles.php';
-						$layout =& new Layout_articles();
+						$layout = new Layout_articles();
 					} elseif($item['articles_layout'] == 'decorated') {
 						include_once '../articles/layout_articles.php';
-						$layout =& new Layout_articles();
+						$layout = new Layout_articles();
 					} elseif($item['articles_layout'] == 'map') {
 						include_once '../articles/layout_articles_as_yahoo.php';
-						$layout =& new Layout_articles_as_yahoo();
+						$layout = new Layout_articles_as_yahoo();
 					} elseif($item['articles_layout'] == 'wiki') {
 						include_once '../articles/layout_articles.php';
-						$layout =& new Layout_articles();
+						$layout = new Layout_articles();
 					} elseif(is_readable($context['path_to_root'].'articles/layout_articles_as_'.$item['articles_layout'].'.php')) {
 						$name = 'layout_articles_as_'.$item['articles_layout'];
 						include_once $context['path_to_root'].'articles/'.$name.'.php';
-						$layout =& new $name;
+						$layout = new $name;
 					} else {
 	
 						// useful warning for associates
@@ -593,7 +593,7 @@ if(!isset($item['id'])) {
 							Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $item['articles_layout']));
 	
 						include_once '../articles/layout_articles.php';
-						$layout =& new Layout_articles();
+						$layout = new Layout_articles();
 					}
 	
 					// avoid links to this page
@@ -686,7 +686,7 @@ if(!isset($item['id'])) {
 	
 			// make a compact list
 			include_once '../articles/layout_articles_as_compact.php';
-			$layout =& new Layout_articles_as_compact();
+			$layout = new Layout_articles_as_compact();
 	
 			// avoid links to this page
 			if(is_object($layout) && is_callable(array($layout, 'set_variant')))
@@ -732,30 +732,30 @@ if(!isset($item['id'])) {
 				$comments_suffix = TRUE;
 		}
 		
-		// layout is defined in options
+		// layout is adapted to those for pages
 		if($item['articles_layout'] == 'boxesandarrows') {
 			include_once '../comments/layout_comments_as_boxesandarrows.php';
-			$layout =& new Layout_comments_as_boxesandarrows();
+			$layout = new Layout_comments_as_boxesandarrows();
 	
 		} elseif($item['articles_layout'] == 'daily') {
 			include_once '../comments/layout_comments_as_daily.php';
-			$layout =& new Layout_comments_as_daily();
+			$layout = new Layout_comments_as_daily();
 	
 		} elseif($item['articles_layout'] == 'jive') {
 			include_once '../comments/layout_comments_as_jive.php';
-			$layout =& new Layout_comments_as_jive();
+			$layout = new Layout_comments_as_jive();
 	
 		} elseif($item['articles_layout'] == 'manual') {
 			include_once '../comments/layout_comments_as_manual.php';
-			$layout =& new Layout_comments_as_manual();
+			$layout = new Layout_comments_as_manual();
 	
 		} elseif($item['articles_layout'] == 'yabb') {
 			include_once '../comments/layout_comments_as_yabb.php';
-			$layout =& new Layout_comments_as_yabb();
+			$layout = new Layout_comments_as_yabb();
 	
 		} else {
 			include_once '../comments/layout_comments_as_yabb.php';
-			$layout =& new Layout_comments_as_yabb();
+			$layout = new Layout_comments_as_yabb();
 		}
 	
 		// the maximum number of comments per page
@@ -777,14 +777,12 @@ if(!isset($item['id'])) {
 			$box['text'] .= Comments::get_form('section:'.$item['id']);
 	
 		// a navigation bar for these comments
-		if($zoom_type && ($zoom_type == 'comments'))
-			$link = '_count';
 		if($count = Comments::count_for_anchor('section:'.$item['id'])) {
 			if($count > 5)
-				$box['bar'] += array($link => sprintf(i18n::s('%d comments'), $count));
+				$box['bar'] += array('_count' => sprintf(i18n::s('%d comments'), $count));
 	
 			// list comments by date
-			$items = Comments::list_by_date_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix));
+			$items = Comments::list_by_date_for_anchor('section:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix) || preg_match('/\bcomments_as_wall\b/i', $item['options']));
 	
 			// actually render the html
 			if(is_array($items))
@@ -810,12 +808,6 @@ if(!isset($item['id'])) {
 	
 			// show commands
 			if(count($box['bar']) && ($context['skin_variant'] != 'mobile')) {
-	
-				// shortcut to last comment in page
-				if(is_object($layout) && ($stats['count'] > 7)) {
-					$box['text'] = Skin::build_list(array('#last_comment' => i18n::s('Page bottom')), 'menu_bar').$box['text'];
-					$box['text'] .= '<span id="last_comment" />';
-				}
 	
 				// append the menu bar at the end
 				$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');

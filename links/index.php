@@ -79,7 +79,7 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 		switch($context['root_articles_layout']) {
 			case 'daily':
 				include 'layout_links_as_daily.php';
-				$layout =& new Layout_links_as_daily();
+				$layout = new Layout_links_as_daily();
 				break;
 			default:
 				$layout = 'full';

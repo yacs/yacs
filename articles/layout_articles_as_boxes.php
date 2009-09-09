@@ -82,7 +82,7 @@ Class Layout_articles_as_boxes extends Layout_interface {
 			$parts = array();
 
 			// if the page is publicly available, show introduction and link to full content
-			$article =& new Article();
+			$article = new Article();
 			$article->load_by_content($item, Anchors::get($item['anchor']));
 			if($article->is_public()) {
 

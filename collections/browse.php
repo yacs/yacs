@@ -254,7 +254,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 				$analyzer = NULL;
 				if(is_readable($context['path_to_root'].'included/getid3/getid3.php')) {
 					include_once $context['path_to_root'].'included/getid3/getid3.php';
-					$analyzer =& new getid3();
+					$analyzer = new getid3();
 				}
 
 				// flag articles updated recently

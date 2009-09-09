@@ -86,7 +86,7 @@
  *
  * [php]
  * // create a recipe
- * $recipe =& new Recipe();
+ * $recipe = new Recipe();
  *
  * // display an empty form with adequate fields
  * $form = '<form method="post">';

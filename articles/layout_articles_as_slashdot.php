@@ -136,7 +136,7 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 
 			// else ask for a teaser
 			elseif(!is_object($overlay)) {
-				$article =& new Article();
+				$article = new Article();
 				$article->load_by_content($item);
 				$content .= $article->get_teaser('teaser');
 			}

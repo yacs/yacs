@@ -595,7 +595,7 @@ Class Actions {
 
 		// regular layout
 		include_once $context['path_to_root'].'actions/layout_actions.php';
-		$layout =& new Layout_actions();
+		$layout = new Layout_actions();
 		$output =& $layout->layout($result);
 		return $output;
 	}

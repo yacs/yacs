@@ -274,7 +274,7 @@ if(Surfer::is_crawler()) {
 
 	// list assigned sections, if any
 	include_once '../sections/layout_sections_as_select.php';
-	$layout =& new Layout_sections_as_select();
+	$layout = new Layout_sections_as_select();
 	if(($assigned = Surfer::assigned_sections()) && count($assigned)) {
 
 		// one section at a time

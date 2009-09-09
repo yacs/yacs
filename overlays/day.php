@@ -317,7 +317,7 @@ class Day extends Overlay {
 				$items = Skin::build_list($bar, 'menu_bar').$items;
 
 			// in a separate box
-			$menu[] = Skin::build_box(i18n::s('Past dates'), $items, 'sliding', 'past_dates');
+			$menu[] = Skin::build_sliding_box(i18n::s('Past dates'), $items, 'past_dates', TRUE);
 
 		}
 

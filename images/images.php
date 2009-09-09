@@ -539,7 +539,7 @@ Class Images {
 			$name = 'layout_images_as_'.$attributes[0];
 			if(is_readable($context['path_to_root'].'images/'.$name.'.php')) {
 				include_once $context['path_to_root'].'images/'.$name.'.php';
-				$layout =& new $name;
+				$layout = new $name;
 
 				// provide parameters to the layout
 				if(isset($attributes[1]))
@@ -551,7 +551,7 @@ Class Images {
 		// use default layout
 		if(!$layout) {
 			include_once $context['path_to_root'].'images/layout_images.php';
-			$layout =& new Layout_images();
+			$layout = new Layout_images();
 			$layout->set_variant($variant);
 		}
 

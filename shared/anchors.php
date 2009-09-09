@@ -298,27 +298,27 @@ class Anchors {
 		switch($attributes[0]) {
 		case 'article':
 			include_once $context['path_to_root'].'articles/article.php';
-			$anchor =& new Article();
+			$anchor = new Article();
 			$anchor->load_by_id($attributes[1], $mutable);
 			break;;
 		case 'category':
 			include_once $context['path_to_root'].'categories/category.php';
-			$anchor =& new Category();
+			$anchor = new Category();
 			$anchor->load_by_id($attributes[1], $mutable);
 			break;
 		case 'file':
 			include_once $context['path_to_root'].'files/file.php';
-			$anchor =& new File();
+			$anchor = new File();
 			$anchor->load_by_id($attributes[1], $mutable);
 			break;;
 		case 'section':
 			include_once $context['path_to_root'].'sections/section.php';
-			$anchor =& new Section();
+			$anchor = new Section();
 			$anchor->load_by_id($attributes[1], $mutable);
 			break;
 		case 'user':
 			include_once $context['path_to_root'].'users/user.php';
-			$anchor =& new User();
+			$anchor = new User();
 			$anchor->load_by_id($attributes[1], $mutable);
 			break;
 		default:

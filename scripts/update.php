@@ -229,10 +229,10 @@ elseif(!Surfer::is_associate()) {
 
 	// report on missing files, if any
 	if($missing_files) {
-		$context['text'] .= '<p>'.FAILURE_PREFIX.i18n::s('Some updated files are missing. Please check the reference server below.').FAILURE_SUFFIX."</p>\n";
+		$context['text'] .= '<p>'.FAILURE_PREFIX.i18n::s('Some updated files are missing.').FAILURE_SUFFIX."</p>\n";
 
 		// forward to the staging script
-		$menu = array('scripts/stage.php' => i18n::s('Download updates from the reference server'));
+		$menu = array('scripts/stage.php' => i18n::s('Stage updated scripts'));
 		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 	}
 
@@ -317,7 +317,7 @@ elseif(!Surfer::is_associate()) {
 
 	// missing files
 	if($missing_files) {
-		$context['text'] .= '<p>'.i18n::s('Some updated files are missing. Please check the reference server.')."</p>\n";
+		$context['text'] .= '<p>'.i18n::s('Some updated files are missing.')."</p>\n";
 
 		// forward to the staging script
 		$menu = array('scripts/stage.php' => i18n::s('Stage updated scripts'));
@@ -325,7 +325,7 @@ elseif(!Surfer::is_associate()) {
 
 	// server is up to date
 	} elseif(!$staging_files) {
-		$context['text'] .= '<p>'.i18n::s('Scripts on your server are exact copies of the reference set.')."</p>\n";
+		$context['text'] .= '<p>'.i18n::s('Running scripts are exact copies of the reference set.')."</p>\n";
 
 		// forward to the index page
 		$menu = array('scripts/' => i18n::s('Server software'));

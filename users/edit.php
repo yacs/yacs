@@ -3,8 +3,6 @@
  * create a new user or edit an existing one
  *
  * @todo on subscriptor application, post a query page when there is no messaging facility (gnapz)
- * @todo select preferred language for alert messages
- * @todo if a profile is modified, send a message to the target user to let him know about it
  * @todo derive this to users/subscribe.php
  *
  * This page can be used by anonymous surfers that would like to register, by logged

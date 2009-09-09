@@ -67,7 +67,7 @@ if(isset($item['anchor']) && $item['anchor'])
 $behaviors = NULL;
 include_once '../behaviors/behaviors.php';
 if(isset($item['id']))
-	$behaviors =& new Behaviors($item, $anchor);
+	$behaviors = new Behaviors($item, $anchor);
 
 // associates and editors can do what they want
 if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
@@ -125,7 +125,7 @@ if(!isset($item['id'])) {
 
 	// build a zip archive
 	include_once '../shared/zipfile.php';
-	$zipfile =& new zipfile();
+	$zipfile = new zipfile();
 
 	// get related files from the database
 	$items = array();

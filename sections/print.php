@@ -160,13 +160,13 @@ if(Surfer::is_crawler()) {
 		$layout = 'compact';
 	elseif($item['sections_layout'] == 'inline') {
 		include_once '../sections/layout_sections_as_inline.php';
-		$layout =& new Layout_sections_as_inline();
+		$layout = new Layout_sections_as_inline();
 	} elseif($item['sections_layout'] == 'map') {
 		include_once '../sections/layout_sections_as_yahoo.php';
-		$layout =& new Layout_sections_as_yahoo();
+		$layout = new Layout_sections_as_yahoo();
 	} elseif($item['sections_layout'] == 'yabb') {
 		include_once '../sections/layout_sections_as_yabb.php';
-		$layout =& new Layout_sections_as_yabb();
+		$layout = new Layout_sections_as_yabb();
 	} else
 		$layout = 'decorated';
 
@@ -205,22 +205,22 @@ if(Surfer::is_crawler()) {
 		$layout = NULL;
 	elseif($item['articles_layout'] == 'boxesandarrows') {
 		include_once '../articles/layout_articles_as_boxesandarrows.php';
-		$layout =& new Layout_articles_as_boxesandarrows();
+		$layout = new Layout_articles_as_boxesandarrows();
 	} elseif($item['articles_layout'] == 'daily') {
 		include_once '../articles/layout_articles_as_daily.php';
-		$layout =& new Layout_articles_as_daily();
+		$layout = new Layout_articles_as_daily();
 	} elseif($item['articles_layout'] == 'jive') {
 		include_once '../articles/layout_articles_as_jive.php';
-		$layout =& new Layout_articles_as_jive();
+		$layout = new Layout_articles_as_jive();
 	} elseif($item['articles_layout'] == 'manual') {
 		include_once '../articles/layout_articles_as_manual.php';
-		$layout =& new Layout_articles_as_manual();
+		$layout = new Layout_articles_as_manual();
 	} elseif($item['articles_layout'] == 'table') {
 		include_once '../articles/layout_articles_as_table.php';
-		$layout =& new Layout_articles_as_table();
+		$layout = new Layout_articles_as_table();
 	} elseif($item['articles_layout'] == 'yabb') {
 		include_once '../articles/layout_articles_as_yabb.php';
-		$layout =& new Layout_articles_as_yabb();
+		$layout = new Layout_articles_as_yabb();
 	} elseif($item['articles_layout'] == 'compact')
 		$layout = 'compact';
 	else
@@ -289,32 +289,32 @@ if(Surfer::is_crawler()) {
 	// layout as defined in options
 	if($item['articles_layout'] == 'boxesandarrows') {
 		include_once '../comments/layout_comments_as_boxesandarrows.php';
-		$layout =& new Layout_comments_as_boxesandarrows();
+		$layout = new Layout_comments_as_boxesandarrows();
 
 	} elseif($item['articles_layout'] == 'daily') {
 		include_once '../comments/layout_comments_as_daily.php';
-		$layout =& new Layout_comments_as_daily();
+		$layout = new Layout_comments_as_daily();
 
 	} elseif($item['articles_layout'] == 'jive') {
 		include_once '../comments/layout_comments_as_jive.php';
-		$layout =& new Layout_comments_as_jive();
+		$layout = new Layout_comments_as_jive();
 
 	} elseif($item['articles_layout'] == 'manual') {
 		include_once '../comments/layout_comments_as_manual.php';
-		$layout =& new Layout_comments_as_manual();
+		$layout = new Layout_comments_as_manual();
 
 	} elseif($item['articles_layout'] == 'yabb') {
 		include_once '../comments/layout_comments_as_yabb.php';
-		$layout =& new Layout_comments_as_yabb();
+		$layout = new Layout_comments_as_yabb();
 
 	// layout as defined by general parameter
 	} elseif($context['root_articles_layout'] == 'boxesandarrows') {
 		include_once '../comments/layout_comments_as_boxesandarrows.php';
-		$layout =& new Layout_comments_as_boxesandarrows();
+		$layout = new Layout_comments_as_boxesandarrows();
 
 	} elseif($context['root_articles_layout'] == 'daily') {
 		include_once '../comments/layout_comments_as_daily.php';
-		$layout =& new Layout_comments_as_daily();
+		$layout = new Layout_comments_as_daily();
 
 	} else
 		$layout = 'no_anchor';

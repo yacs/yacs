@@ -119,7 +119,7 @@ if($id) {
 	// explode the archive
 	else {
 		include_once $context['path_to_root'].'included/tar.php';
-		$handle =& new Archive_Tar($id);
+		$handle = new Archive_Tar($id);
 
 		if($handle->extract($context['path_to_root'].'skins'))
 			$success = TRUE;

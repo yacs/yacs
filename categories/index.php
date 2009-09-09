@@ -78,7 +78,7 @@ if(($page > 1) && (($page - 1) * CATEGORIES_PER_PAGE > $stats['count'])) {
 	
 		// do it the Yahoo! style
 		include_once '../categories/layout_categories_as_yahoo.php';
-		$layout =& new Layout_categories_as_yahoo();
+		$layout = new Layout_categories_as_yahoo();
 	
 		// the list of active categories
 		$offset = ($page - 1) * CATEGORIES_PER_PAGE;

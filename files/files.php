@@ -1804,7 +1804,7 @@ Class Files {
 			$name = 'layout_files_as_'.$attributes[0];
 			if(is_readable($context['path_to_root'].'files/'.$name.'.php')) {
 				include_once $context['path_to_root'].'files/'.$name.'.php';
-				$layout =& new $name;
+				$layout = new $name;
 
 				// provide parameters to the layout
 				if(isset($attributes[1]))
@@ -1816,7 +1816,7 @@ Class Files {
 		// use default layout
 		if(!$layout) {
 			include_once $context['path_to_root'].'files/layout_files.php';
-			$layout =& new Layout_files();
+			$layout = new Layout_files();
 			$layout->set_variant($variant);
 		}
 

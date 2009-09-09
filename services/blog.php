@@ -470,7 +470,7 @@ if(isset($context['debug_blog']) && ($context['debug_blog'] == 'Y'))
 // load the adequate codec
 include_once 'codec.php';
 include_once 'xml_rpc_codec.php';
-$codec =& new xml_rpc_Codec();
+$codec = new xml_rpc_Codec();
 
 // regular decoding
 if(isset($raw_data) && $raw_data) {
@@ -596,7 +596,7 @@ else {
 				Versions::save($item, 'article:'.$item['id']);
 	
 				// parse article content
-				$article =& new Article();
+				$article = new Article();
 				$fields = $article->parse($content, $item);
 	
 				// publish if in wiki mode, or if section is configured for auto-publishing,
@@ -951,7 +951,7 @@ else {
 		else {
 		
 			// parse article content
-			$article =& new Article();
+			$article = new Article();
 			$fields = $article->parse($content, $content);
 
 			// build fields
@@ -1092,7 +1092,7 @@ else {
 				Versions::save($item, 'article:'.$item['id']);
 	
 				// parse article content
-				$article =& new Article();
+				$article = new Article();
 				$fields = $article->parse($content['description'], $item);
 	
 				if($content['title'])
@@ -1461,7 +1461,7 @@ else {
 		else {
 		
 			// parse article content
-			$article =& new Article();
+			$article = new Article();
 			$fields = $article->parse($content['description'], $content);
 
 			// creation date

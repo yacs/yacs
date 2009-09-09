@@ -63,7 +63,7 @@ elseif(!Surfer::is_associate()) {
 	// the reference server
 	if(!isset($context['reference_server']))
 		$context['reference_server'] = i18n::s('www.yacs.fr');
-	$label = i18n::s('If you are using some reference server to download updated pieces of software, please type its address below (name or IP address)');
+	$label = i18n::s('If you are using some reference server to download updated scripts, please type its address below (name or IP address)');
 	$input = '<input type="text" name="reference_server" id="reference_server" size="45" value="'.encode_field($context['reference_server']).'" maxlength="255" />';
 	$context['text'] .= '<p>'.$label.BR.$input."</p>\n";
 
@@ -113,7 +113,7 @@ elseif(!Surfer::is_associate()) {
 		.JS_SUFFIX."\n";
 
 	// general help on this form
-	$help = '<p>'.i18n::s('Indicate only the DNS name or IP address of the reference server; nothing more, nothing less.').'</p>';
+	$help = '<p>'.i18n::s('Indicate only the DNS name or IP address of the reference server.').'</p>';
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {

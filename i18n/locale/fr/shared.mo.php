@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 4, 2009, 1:37 pm GMT. Please do not modify it manually.
+ * on September 9, 2009, 10:52 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-04 01:11+0200
-PO-Revision-Date: 2009-05-14 23:53+0100
+POT-Creation-Date: 2009-09-10 00:52+0200
+PO-Revision-Date: 2009-09-10 00:51+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -88,6 +88,7 @@ $_SESSION['l10n']['fr']['68e8557b5fa4d724688175816097ce17']='Vous pouvez envoyer
 $_SESSION['l10n']['fr']['a38baa11f8dc11db9fde342db9db7f07']='Pour redevenir un surfeur anonyme';
 $_SESSION['l10n']['fr']['and analyzed']='et analysée';
 $_SESSION['l10n']['fr']['and optimized']='et optimisée';
+$_SESSION['l10n']['fr']['anonymous']='anonyme';
 $_SESSION['l10n']['fr']['commented']='commenté';
 $_SESSION['l10n']['fr']['created']='créé';
 $_SESSION['l10n']['fr']['edited']='modifié';

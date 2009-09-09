@@ -135,7 +135,7 @@ if($context['charset'] == 'utf-8')
 // load the adequate codec
 include_once 'codec.php';
 include_once 'xml_rpc_codec.php';
-$codec =& new xml_rpc_Codec();
+$codec = new xml_rpc_Codec();
 
 // parse xml parameters
 $result = $codec->import_request($raw_data);

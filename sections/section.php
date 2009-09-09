@@ -1476,10 +1476,6 @@ Class Section extends Anchor {
 
 		}
 
-		// add this page to the watch list of the contributor, on any action
-		if(Surfer::get_id())
-			Members::assign('section:'.$this->item['id'], 'user:'.Surfer::get_id());
-
 		// always clear the cache, even on no update
 		Sections::clear($this->item);
 

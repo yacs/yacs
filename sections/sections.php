@@ -387,11 +387,11 @@ Class Sections {
 			return 0;
 
 		// sections are owned by this surfer
-		$where = "(sections.owner_id = '".SQL::escape($id)."')";
+		$where = "(sections.owner_id = ".SQL::escape($id).")";
 
 		// count sections
 		$query = "SELECT COUNT(*) as count FROM ".SQL::table_name('sections')." AS sections WHERE ".$where;
-		$output =& SQL::query_scalar($query);
+		$output = SQL::query_scalar($query);
 		return $output;
 	}
 
@@ -842,7 +842,7 @@ Class Sections {
 			$name = 'layout_sections_as_'.$attributes[0];
 			if(is_readable($context['path_to_root'].'sections/'.$name.'.php')) {
 				include_once $context['path_to_root'].'sections/'.$name.'.php';
-				$layout =& new $name;
+				$layout = new $name;
 
 				// provide parameters to the layout
 				if(isset($attributes[1]))
@@ -854,7 +854,7 @@ Class Sections {
 		// use default layout
 		if(!$layout) {
 			include_once $context['path_to_root'].'sections/layout_sections.php';
-			$layout =& new Layout_sections();
+			$layout = new Layout_sections();
 			$layout->set_variant($variant);
 		}
 

@@ -82,7 +82,7 @@ if($context['charset'] == 'utf-8')
 // load the adequate codec
 include_once 'codec.php';
 include_once 'xml_rpc_codec.php';
-$codec =& new xml_rpc_Codec();
+$codec = new xml_rpc_Codec();
 
 // parse xml parameters -- use rawurldecode() instead urldecode(), else you will loose + signs
 $result = $codec->import_request(rawurldecode($raw_data));

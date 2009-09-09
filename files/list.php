@@ -99,7 +99,7 @@ if(!is_object($anchor)) {
 	$context['prefix'] .= $anchor->get_prefix();
 
 	include_once '../files/layout_files.php';
-	$layout =& new Layout_files();
+	$layout = new Layout_files();
 
 	// provide anthor information to layout
 	if(is_object($layout))

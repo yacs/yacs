@@ -79,7 +79,7 @@ class Authenticator {
 
 		// create the instance
 		if(class_exists($type)) {
-			$authenticator =& new $type;
+			$authenticator = new $type;
 			$authenticator->attributes = array();
 			$authenticator->attributes['authenticator_type'] = $type;
 			$authenticator->attributes['authenticator_parameters'] = $parameters;

@@ -368,6 +368,45 @@ if(!isset($item['id'])) {
 	// compute main panel -- $context['text']
 	//
 
+	// insert anchor prefix
+	if(is_object($anchor))
+		$context['text'] .= $anchor->get_prefix();
+
+	// article rating, if the anchor allows for it, and if no rating has already been registered
+	if(is_object($anchor) && !$anchor->has_option('without_rating') && $anchor->has_option('rate_as_digg')) {
+
+		// rating
+		if($item['rating_count'])
+			$rating_label = sprintf(i18n::ns('%s vote', '%s votes', $item['rating_count']), '<span class="big">'.$item['rating_count'].'</span>'.BR);
+		else
+			$rating_label = i18n::s('No vote');
+
+		// a rating has already been registered
+		$digg = '';
+		if(isset($_COOKIE['rating_'.$item['id']]))
+			Cache::poison();
+
+		// where the surfer can rate this item
+		else
+			$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>';
+
+		// rendering
+		$context['text'] .= '<div class="digg"><div class="votes">'.$rating_label.'</div>'
+			.$digg
+			.'</div>';
+
+		// signal DIGG
+		define('DIGG', TRUE);
+	}
+
+	// special layout for digg
+	if(defined('DIGG'))
+		$context['text'] .= '<div class="digg_content">';
+
+	// the poster profile, if any, at the beginning of the first page
+	if(isset($poster['id']) && is_object($anchor))
+		$context['text'] .= $anchor->get_user_profile($poster, 'prefix', Skin::build_date($item['create_date']));
+
 	// only at the first page
 	if($page == 1) {
 
@@ -418,6 +457,14 @@ if(!isset($item['id'])) {
 		}
 	}
 
+	// special layout for digg
+	if(defined('DIGG'))
+		$context['text'] .= '</div>';
+
+	// the poster profile, if any, at the end of the page
+	if(isset($poster['id']) && is_object($anchor))
+		$context['text'] .= $anchor->get_user_profile($poster, 'suffix', Skin::build_date($item['create_date']));
+
 	//
 	// panels
 	//
@@ -427,41 +474,6 @@ if(!isset($item['id'])) {
 	// information tab
 	//
 	$information = '';
-
-	// insert anchor prefix
-	if(is_object($anchor))
-		$information .= $anchor->get_prefix();
-
-	// article rating, if the anchor allows for it, and if no rating has already been registered
-	if(is_object($anchor) && !$anchor->has_option('without_rating') && $anchor->has_option('rate_as_digg')) {
-
-		// rating
-		if($item['rating_count'])
-			$rating_label = sprintf(i18n::ns('%s vote', '%s votes', $item['rating_count']), '<span class="big">'.$item['rating_count'].'</span>'.BR);
-		else
-			$rating_label = i18n::s('No vote');
-
-		// a rating has already been registered
-		$digg = '';
-		if(isset($_COOKIE['rating_'.$item['id']]))
-			Cache::poison();
-
-		// where the surfer can rate this item
-		else
-			$digg = '<div class="rate">'.Skin::build_link(Articles::get_url($item['id'], 'rate'), i18n::s('Rate it'), 'basic').'</div>';
-
-		// rendering
-		$information .= '<div class="digg"><div class="votes">'.$rating_label.'</div>'
-			.$digg
-			.'</div>';
-
-		// signal DIGG
-		define('DIGG', TRUE);
-	}
-
-	// the poster profile, if any, at the beginning of the first page
-	if(isset($poster['id']) && is_object($anchor))
-		$information .= $anchor->get_user_profile($poster, 'prefix', Skin::build_date($item['create_date']));
 
 	// get text related to the overlay, if any
 	if(is_object($overlay))
@@ -475,17 +487,9 @@ if(!isset($item['id'])) {
 	if(isset($item['trailer']) && trim($item['trailer']))
 		$information .= Codes::beautify($item['trailer']);
 
-	// the poster profile, if any, at the end of the page
-	if(isset($poster['id']) && is_object($anchor))
-		$information .= $anchor->get_user_profile($poster, 'suffix', Skin::build_date($item['create_date']));
-
 	// insert anchor suffix
 	if(is_object($anchor))
 		$information .= $anchor->get_suffix();
-
-	// special layout for digg
-	if(defined('DIGG'))
-		$information = '<div class="digg_content">'.$information.'</div>';
 
 	// display in a separate panel
 	if($information)
@@ -560,7 +564,7 @@ if(!isset($item['id'])) {
 			$box['bottom'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 			
 			// list comments by date
-			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix));
+			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix) || preg_match('/\bcomments_as_wall\b/i', $item['options']));
 
 			// actually render the html
 			if(is_array($items))

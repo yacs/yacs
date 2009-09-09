@@ -153,12 +153,8 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
 	$permitted = TRUE;
 
-// maybe posts are not allowed here
-elseif(($action != 'edit') && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered())
-	$permitted = FALSE;
-
-// only authenticated surfers can post new comments, except if anonymous posts have been allowed
-elseif(($action != 'edit') && (Surfer::is_logged() || (isset($context['users_with_anonymous_comments']) && ($context['users_with_anonymous_comments'] == 'Y'))))
+// ensure that new comments are alowed
+elseif(($action != 'edit') && is_object($anchor) && Comments::are_allowed($anchor, $item, $anchor->get_reference()))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -235,7 +231,7 @@ if(Surfer::is_crawler()) {
 	Surfer::track($_REQUEST);
 
 	// attach some file
-	if($file = Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', $anchor->get_reference()), $anchor->get_reference()))
+	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', $anchor->get_reference()), $anchor->get_reference()))
 		$_REQUEST['description'] .= $file;
 		
 	// preview mode
@@ -386,7 +382,7 @@ if($with_form) {
 
 		// the name, if any
 		$label = i18n::s('Your name');
-		$input = '<input type="text" name="edit_name" size="45" maxlength="128" accesskey="n" value="'.encode_field(isset($_REQUEST['edit_name']) ? $_REQUEST['edit_name'] : Surfer::get_name()).'" />';
+		$input = '<input type="text" name="edit_name" size="45" maxlength="128" accesskey="n" value="'.encode_field(isset($_REQUEST['edit_name']) ? $_REQUEST['edit_name'] : Surfer::get_name(' ')).'" />';
 		$hint = i18n::s('This optional field can be left blank if you wish.');
 		$fields[] = array($label, $input, $hint);
 

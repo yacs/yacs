@@ -204,8 +204,12 @@
 				$names = 'title error text tags details';
 				
 		// ensure we have something
-		} elseif(!$names)
-			$names = $context['skins_main_components'];
+		} elseif(!$names) {
+			if(isset($context['skins_main_components']))
+				$names = $context['skins_main_components'];
+			else
+				$names = 'title error text tags details bar';
+		}
 			
 		// a list of components
 		if(is_string($names))

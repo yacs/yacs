@@ -237,7 +237,7 @@ Class Forms {
 			$name = 'layout_forms_as_'.$attributes[0];
 			if(is_readable($context['path_to_root'].'forms/'.$name.'.php')) {
 				include_once $context['path_to_root'].'forms/'.$name.'.php';
-				$layout =& new $name;
+				$layout = new $name;
 
 				// provide parameters to the layout
 				if(isset($attributes[1]))
@@ -249,7 +249,7 @@ Class Forms {
 		// use default layout
 		if(!$layout) {
 			include_once $context['path_to_root'].'forms/layout_forms.php';
-			$layout =& new Layout_forms();
+			$layout = new Layout_forms();
 			$layout->set_variant($variant);
 		}
 

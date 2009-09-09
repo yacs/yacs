@@ -147,7 +147,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 			// else ask for a teaser
 			elseif(!is_object($overlay)) {
 				include_once $context['path_to_root'].'articles/article.php';
-				$article =& new Article();
+				$article = new Article();
 				$article->load_by_content($item);
 				$content .= $article->get_teaser('teaser');
 			}

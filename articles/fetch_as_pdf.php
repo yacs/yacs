@@ -313,7 +313,7 @@ if(Surfer::is_crawler()) {
 		define('FPDF_FONTPATH', $context['path_to_root'].'included/font/');
 	include_once '../included/fpdf.php';
 	include_once '../shared/pdf.php';
-	$pdf =& new PDF();
+	$pdf = new PDF();
 	$text = $pdf->encode($text);
 
 	//

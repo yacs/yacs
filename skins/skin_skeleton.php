@@ -1155,7 +1155,7 @@ Class Skin_Skeleton {
 				$external = TRUE;
 				
 			if($external)
-				$text = '<a href="'.$link.'" onclick="window.open(this.href); return false;">'.$image.'</a>';
+				$text .= '<a href="'.$link.'" onclick="window.open(this.href); return false;">'.$image.'</a>';
 			else
 				$text .= '<a href="'.$link.'">'.$image.'</a>';
 			
@@ -1208,15 +1208,19 @@ Class Skin_Skeleton {
 				$value = '';
 
 			// date stamps are handled in regular text fields
-			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" '.$onchange.'/>';
+			$text = '<input type="text" name="'.$name.'" id="'.$name.'" value="'.encode_field($value).'" size="15" maxlength="15" '.$onchange.'/>'
+				.'<img src="'.$context['url_to_root'].'included/jscalendar/img.gif" id="'.$name.'_trigger" style="border: none; cursor: pointer;" title="Date selector" onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" alt="" />';
 
 			// these are enhanced with jsCalendar, if present
 			if(file_exists($context['path_to_root'].'included/jscalendar/calendar.js') || file_exists($context['path_to_root'].'included/jscalendar/calendar.js.jsmin')) {
 				$text .= JS_PREFIX
 					.'Event.observe(window, "load", function() { Calendar.setup({'."\n"
 					.'	inputField	:	"'.$name.'",'."\n"
-					.'	displayArea :	"'.$name.'",'."\n"
-					.'	ifFormat	:	"%Y-%m-%d"'."\n"
+					.'	ifFormat	:	"%Y-%m-%d",'."\n"
+					.'	showsTime	:	false,'."\n"
+					.'	button		:	 "'.$name.'_trigger",'."\n"
+					.'	align		:	 "CC",'."\n"
+					.'	singleClick :	 true'."\n"
 					.'}); });'."\n"
 					.JS_SUFFIX."\n";
 
@@ -1878,7 +1882,7 @@ Class Skin_Skeleton {
 
 			// ease the handling of css, but only for links
 			if(($variant == 'tabs') || ($variant == 'menu_bar') || (($type == 'basic') && ($variant == 'page_menu')))
-				if($url[0] != '_')
+				if(isset($url[0]) && ($url[0] != '_'))
 					$label = '<span>'.$label.'</span>';
 
 			// the beautified link --if $url is '_', Skin::build_link() will return the label alone
@@ -2367,9 +2371,10 @@ Class Skin_Skeleton {
 	 * @param string the box title, if any
 	 * @param string the box content
 	 * @param string an optional unique id for this box
+	 * @param boolean TRUE to align left border of the sliding panel
 	 * @return the HTML to display
 	 */
-	function &build_sliding_box($title, &$content, $id) {
+	function &build_sliding_box($title, &$content, $id, $onLeft=NULL) {
 		global $context;
 
 		// we need a clickable title
@@ -2388,8 +2393,15 @@ Class Skin_Skeleton {
 		if(SLIDE_DOWN_IMG_HREF)
 			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
+		if($onLeft === TRUE)
+			$onLeft = ', true';
+		elseif($onLeft === FALSE)
+			$onLeft = ', false';
+		else
+			$onLeft = '';
+			
 		// title is optional
-		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slide_panel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\'); return false;"><span>'.$title.'</span>'.$img.'</a>';
+		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slide_panel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\''.$onLeft.'); return false;"><span>'.$title.'</span>'.$img.'</a>';
 
 		// box content has no div, it is already structured
 		$text .= '<div class="panel" style="display: none;">'.$content.'</div>';

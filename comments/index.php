@@ -75,7 +75,7 @@ if(($page > 1) && (($page - 1) * THREADS_PER_PAGE > $stats['count'])) {
 	
 		// load the layout to use
 		include_once $context['path_to_root'].'articles/layout_articles_as_yabb.php';
-		$layout =& new Layout_articles_as_yabb();
+		$layout = new Layout_articles_as_yabb();
 	
 		// query the database and layout that stuff
 		if(!$text = Comments::list_threads_by_date($offset, THREADS_PER_PAGE, $layout))

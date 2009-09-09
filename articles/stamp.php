@@ -136,7 +136,7 @@ if(Surfer::is_crawler()) {
 		Logger::error($error);
 
 	else
-		$context['text'] .= '<p>'.i18n::s('The expiry date has been successfully changed.')."</p>\n";
+		$context['text'] .= '<p>'.i18n::s('The expiry date has been changed.')."</p>\n";
 
 	// touch the related anchor
 	if(is_object($anchor))
@@ -148,7 +148,7 @@ if(Surfer::is_crawler()) {
 	// follow-up commands
 	$follow_up = i18n::s('Where do you want to go now?');
 	$menu = array();
-	$menu = array_merge($menu, array(Articles::get_permalink($item) => i18n::s('Back to main page')));
+	$menu = array_merge($menu, array(Articles::get_permalink($item) => i18n::s('Back to the page')));
 	$menu = array_merge($menu, array('articles/review.php#expired' => i18n::s('Review queue')));
 	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');
@@ -160,35 +160,34 @@ if(Surfer::is_crawler()) {
 	if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE))
 	 	$_REQUEST['publish_date'] = Surfer::to_GMT($_REQUEST['publish_date']);
 
-	// invalid date
+	// reset the publication date
 	if(!isset($_REQUEST['publish_date']) || ($_REQUEST['publish_date'] <= '0000-00-00')) {
-		Logger::error(i18n::s('Publication date is invalid.'));
+		$query = "UPDATE ".SQL::table_name('articles')." SET publish_date='".NULL_DATE."' WHERE id = ".SQL::escape($item['id']);
+		SQL::query($query);
+
+		$context['text'] .= '<p>'.i18n::s('The publication date has been removed.')."</p>\n";
 
 	// update the database
 	} elseif($error = Articles::stamp($item['id'], $_REQUEST['publish_date']))
 		Logger::error($error);
 
-	// post-processing tasks
-	else {
+	else
+		$context['text'] .= '<p>'.i18n::s('The publication date has been changed.')."</p>\n";
+		
+	// touch the related anchor
+	if(is_object($anchor))
+		$anchor->touch('article:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
 
-		// touch the related anchor
-		if(is_object($anchor))
-			$anchor->touch('article:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );
+	// clear the cache
+	Articles::clear($item);
 
-		// clear the cache
-		Articles::clear($item);
-
-		$context['text'] .= '<p>'.i18n::s('The publication date has been successfully changed.')."</p>\n";
-
-		// follow-up commands
-		$follow_up = i18n::s('Where do you want to go now?');
-		$menu = array();
-		$menu = array_merge($menu, array(Articles::get_permalink($item) => i18n::s('Back to main page')));
-		$menu = array_merge($menu, array('articles/review.php' => i18n::s('Review queue')));
-		$follow_up .= Skin::build_list($menu, 'menu_bar');
-		$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-	}
+	// follow-up commands
+	$follow_up = i18n::s('Where do you want to go now?');
+	$menu = array();
+	$menu = array_merge($menu, array(Articles::get_permalink($item) => i18n::s('Back to the page')));
+	$menu = array_merge($menu, array('articles/review.php' => i18n::s('Review queue')));
+	$follow_up .= Skin::build_list($menu, 'menu_bar');
+	$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 // display the form on GET
 } else
@@ -198,20 +197,20 @@ if(Surfer::is_crawler()) {
 if($with_form) {
 
 	// review the article
-	$context['text'] .= Skin::build_block(i18n::s('Validate'), 'title');
+	$context['text'] .= Skin::build_block(i18n::s('Review date'), 'title');
 
 	// splash
-	$context['text'] .= '<p>'.i18n::s('Click on the button below to purge the article from the review queue.').'</p>'."\n";
+	$context['text'] .= '<p>'.i18n::s('Click on the button below to purge the page from the review queue.').'</p>'."\n";
 
 	// the submit button
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" name="form_1"><div>'."\n"
-		.Skin::build_submit_button(i18n::s('I confirm that the article looks ok'))."\n"
+		.Skin::build_submit_button(i18n::s('Page content is accurate'))."\n"
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="action" value="review" />'."\n"
 		.'</div></form>'."\n";
 
-	// expiry the article
-	$context['text'] .= Skin::build_block(i18n::s('Expire'), 'title');
+	// expire the article
+	$context['text'] .= Skin::build_block(i18n::s('Expiry date'), 'title');
 
 	// change the expiry date
 	if(isset($item['expiry_date']) && ($item['expiry_date'] > NULL_DATE)) {
@@ -223,17 +222,17 @@ if($with_form) {
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" name="form_2"><div>'."\n";
 
 		// catch user input
-		$context['text'] .= '<p>'.sprintf(i18n::s('Mask the article to ordinary surfers after the %s'), Skin::build_input('expiry_date', $value, 'date_time')).'</p>';
+		$context['text'] .= sprintf(i18n::s('Expire the page after the %s'), Skin::build_input('expiry_date', $value, 'date_time'));
 
 		// the submit button
-		$context['text'] .= Skin::build_submit_button(i18n::s('Change the expiry date (YYYY-MM-DD HH:MM)'))."\n"
+		$context['text'] .= Skin::build_submit_button(i18n::s('Save the date'))."\n"
 			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 			.'<input type="hidden" name="action" value="expiry" />'."\n"
 			.'</div></form>'."\n";
 
 		// a form to remove the date
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><div>'."\n"
-			.Skin::build_submit_button(i18n::s('Remove the expiry date'))."\n"
+			.Skin::build_submit_button(i18n::s('Remove expiry date'))."\n"
 			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 			.'<input type="hidden" name="action" value="expiry" />'."\n"
 			.'<input type="hidden" name="expiry_date" value="" />'."\n"
@@ -246,10 +245,10 @@ if($with_form) {
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" name="form_2"><div>'."\n";
 
 		// catch user input
-		$context['text'] .= '<p>'.sprintf(i18n::s('Mask the article to ordinary surfers after the %s'), Skin::build_input('expiry_date', NULL, 'date_time')).'</p>';
+		$context['text'] .= sprintf(i18n::s('Expire the page after the %s'), Skin::build_input('expiry_date', NULL, 'date_time'));
 
 		// the submit button
-		$context['text'] .= Skin::build_submit_button(i18n::s('Set an expiry date (YYYY-MM-DD HH:MM)'))."\n"
+		$context['text'] .= Skin::build_submit_button(i18n::s('Save the date'))."\n"
 			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 			.'<input type="hidden" name="action" value="expiry" />'."\n"
 			.'</div></form>'."\n";
@@ -257,7 +256,7 @@ if($with_form) {
 	}
 
 	// change or delete the publishing date
-	$context['text'] .= Skin::build_block(i18n::s('Publication'), 'title');
+	$context['text'] .= Skin::build_block(i18n::s('Publication date'), 'title');
 
 	// change the publication date
 	if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE)) {
@@ -269,12 +268,20 @@ if($with_form) {
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" name="form_3"><div>'."\n";
 
 		// catch user input
-		$context['text'] .= '<p>'.sprintf(i18n::s('Change the publication date to %s'), Skin::build_input('publish_date', $value, 'date_time')).'</p>';
+		$context['text'] .= sprintf(i18n::s('Change the publication date to %s'), Skin::build_input('publish_date', $value, 'date_time'));
 
 		// the submit button
-		$context['text'] .= Skin::build_submit_button(i18n::s('Save the new date (YYYY-MM-DD HH:MM)'))."\n"
+		$context['text'] .= Skin::build_submit_button(i18n::s('Save the date'))."\n"
 			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 			.'<input type="hidden" name="action" value="publish" />'."\n"
+			.'</div></form>'."\n";
+
+		// a form to remove the date
+		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><div>'."\n"
+			.Skin::build_submit_button(i18n::s('Change to draft mode'))."\n"
+			.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
+			.'<input type="hidden" name="action" value="publish" />'."\n"
+			.'<input type="hidden" name="publish_date" value="" />'."\n"
 			.'</div></form>'."\n";
 
 	// set a new publication date

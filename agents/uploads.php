@@ -92,7 +92,7 @@ class Uploads {
 
 		// parse article content
 		include_once $context['path_to_root'].'articles/article.php';
-		$article =& new Article();
+		$article = new Article();
 		$fields = $article->parse($text);
 
 		// if no title, use the first line

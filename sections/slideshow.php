@@ -123,7 +123,7 @@ if(!isset($item['id'])) {
 
 	// select a layout
 	include_once '../articles/layout_articles_as_slides.php';
-	$layout =& new Layout_articles_as_slides();
+	$layout = new Layout_articles_as_slides();
 
 	// the maximum number of articles per page
 	if(is_object($layout))

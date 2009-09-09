@@ -234,7 +234,7 @@ elseif(!Surfer::is_associate()) {
 
 	// get a parser
 	include_once 'phpdoc.php';
-	$documentation =& new PhpDoc;
+	$documentation = new PhpDoc;
 
 	// purge the existing documentation, if any
 	$documentation->purge();
@@ -370,7 +370,7 @@ elseif(!Surfer::is_associate()) {
 
 	// start the zip file
 	include_once '../shared/zipfile.php';
-	$zipfile =& new zipfile();
+	$zipfile = new zipfile();
 	
 	// place all files into a single directory --fixed time to allow cacheability
 	$zipfile->store('yacs/', 0);
@@ -419,7 +419,7 @@ elseif(!Surfer::is_associate()) {
 
 	// start the tar file
 	include_once '../included/tar.php';
-	$tarfile =& new Archive_Tar($context['path_to_root'].$file_name.'.tgz');
+	$tarfile = new Archive_Tar($context['path_to_root'].$file_name.'.tgz');
 
 	// extend the tar file as well
 	if($tarfile->createModify($all_files, '', $file_path))

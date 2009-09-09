@@ -282,7 +282,7 @@ Class Surfer {
 		if(!isset($fields['edit_name']) || !$fields['edit_name']) {
 
 			// default value for editor name
-			$fields['edit_name'] = Surfer::get_name();
+			$fields['edit_name'] = Surfer::get_name(TRUE);
 
 			// default value for editor id
 			if(!isset($fields['edit_id']) || !$fields['edit_id'])
@@ -308,7 +308,7 @@ Class Surfer {
 		// default value for edition date (GMT)
 		if(!isset($fields['edit_date']) || ($fields['edit_date'] <= NULL_DATE))
 			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-
+			
 	}
 
 	/**
@@ -423,7 +423,7 @@ Class Surfer {
 		if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor') && is_readable($context['path_to_root'].'included/fckeditor/fckeditor.php')) {
 
 			include_once($context['path_to_root'].'included/fckeditor/fckeditor.php');
-			$handle =& new FCKeditor($name);
+			$handle = new FCKeditor($name);
 			$handle->BasePath = $context['url_to_root'].'included/fckeditor/';
 			$handle->Value = $value;
 			$handle->Height = '400' ;
@@ -536,15 +536,23 @@ Class Surfer {
 		global $context;
 
 		// use session data
-		if(isset($_SESSION['surfer_name']))
+		if(isset($_SESSION['surfer_name']) && $_SESSION['surfer_name'])
 			return $_SESSION['surfer_name'];
 
 		// use cookie
-		if(isset($_COOKIE['surfer_name']))
+		if(isset($_COOKIE['surfer_name']) && $_COOKIE['surfer_name'])
 			return $_COOKIE['surfer_name'];
 
-		// surfer is unknown
-		return $default;
+		// we have some default string to use
+		if($default)
+			return $default;
+
+		// use network address
+		if(isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'])
+			return $_SERVER['REMOTE_ADDR'];
+			
+		// really anonymous!
+		return i18n::s('anonymous');
 	}
 
 	/**

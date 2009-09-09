@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 4, 2009, 1:38 pm GMT. Please do not modify it manually.
+ * on September 9, 2009, 10:58 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-02 00:59+0200
-PO-Revision-Date: 2009-08-25 19:38+0100
+POT-Creation-Date: 2009-09-09 10:00+0200
+PO-Revision-Date: 2009-09-09 10:03+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -182,6 +182,7 @@ $_SESSION['l10n']['en']['d94aaf4fa30ddc7d9d1074f60c074ff3']='Use this page model
 $_SESSION['l10n']['en']['86e1bb0529b582dccf265b7e6656ad13']='Use this page model to add a page that can be modified by any surfer';
 $_SESSION['l10n']['en']['Useful Bytes: %d bytes']='Useful Bytes: %d bytes';
 $_SESSION['l10n']['en']['Users']='Users';
+$_SESSION['l10n']['en']['Video session by MeBeam: %s']='Video session by MeBeam: %s';
 $_SESSION['l10n']['en']['Visual control of filtered data']='Visual control of filtered data';
 $_SESSION['l10n']['en']['f97b1321e05c23df5a37e76329c16098']='We will use this to contact you back';
 $_SESSION['l10n']['en']['Web Reference: %s']='Web Reference: %s';

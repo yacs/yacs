@@ -86,7 +86,7 @@ if(isset($item['anchor']) && $item['anchor'])
 $behaviors = NULL;
 include_once '../behaviors/behaviors.php';
 if(isset($item['id']))
-	$behaviors =& new Behaviors($item, $anchor);
+	$behaviors = new Behaviors($item, $anchor);
 
 // associates and editors can do what they want
 if(Surfer::is_empowered() || (is_object($anchor) && $anchor->is_editable()))

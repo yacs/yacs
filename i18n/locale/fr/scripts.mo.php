@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 4, 2009, 1:37 pm GMT. Please do not modify it manually.
+ * on September 9, 2009, 10:52 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-04 15:30+0200
-PO-Revision-Date: 2009-09-04 15:36+0100
+POT-Creation-Date: 2009-09-09 10:00+0200
+PO-Revision-Date: 2009-09-09 10:09+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -68,7 +68,6 @@ $_SESSION['l10n']['fr']['Direct staging']='Mise à jour directe du tampon';
 $_SESSION['l10n']['fr']['Direct upload']='Téléversement direct';
 $_SESSION['l10n']['fr']['Documentation:']='Documentation :';
 $_SESSION['l10n']['fr']['0921d24545886ddc275df7dbeb5f1f60']='Téléchargement des nouveaux scripts. Merci de patienter...';
-$_SESSION['l10n']['fr']['fb5b688a46f488433ccf03e8cd202ff8']='Télécharger les mises à jour';
 $_SESSION['l10n']['fr']['21bc65a56a523f1a5f5edad7e87bf2a8']='Erreur :  le fichier %s est corrompu.';
 $_SESSION['l10n']['fr']['6a2c769d729b50a589114cb6f3a6ca3b']='ERREUR : impossible d\'écrire dans le fichier %s. La configuration n\'a pas été sauvegardée.';
 $_SESSION['l10n']['fr']['98564239e79262aa70b133bc80f289ae']='Permettre aux serveurs distants de se synchroniser sur le nouveau référentiel.';
@@ -86,7 +85,7 @@ $_SESSION['l10n']['fr']['34e722ddfb61e8ad5add0a504191a4bd']='Les signatures des 
 $_SESSION['l10n']['fr']['d21b3bb11a0882cb4e238cfed7116468']='Téléchargement des nouveaux scripts. Merci de patienter...';
 $_SESSION['l10n']['fr']['f54ea64d8dee657b114df50642d65028']='Si aucune erreur n\'est apparue, construisez le référentiel >>';
 $_SESSION['l10n']['fr']['bcec9f01df6197e8863578ef82963f32']='Si le fichier s\'avère trop important, vous pouvez le téléverser par vos propres moyens, par exemple par FTP, dans le répertoire %s.';
-$_SESSION['l10n']['fr']['cdd05d95cbee44c26ee8a50ff096142c']='Si vous effectuez la mise à jour depuis un serveur de référence, merci d\'indiquer son adresse ci-dessous (nom ou adresse IP)';
+$_SESSION['l10n']['fr']['b042cae3f3fe5af6224194d2b5936fc0']='Si vous effectuez la mise à jour depuis un serveur de référence, merci d\'indiquer son adresse ci-dessous (nom ou adresse IP)';
 $_SESSION['l10n']['fr']['906eaa480ec3e336c5c85f87204b5d09']='Impossible d\'effectuer la mise à jour à partir de %s';
 $_SESSION['l10n']['fr']['Impossible to copy file %s.']='Impossible de lire le fichier %s.';
 $_SESSION['l10n']['fr']['Impossible to create path %s.']='Impossible de créer le chemin %s.';
@@ -96,7 +95,7 @@ $_SESSION['l10n']['fr']['Impossible to read %s.']='Impossible de lire %s.';
 $_SESSION['l10n']['fr']['Impossible to write to %s.']='Impossible d\'écrire dans %s.';
 $_SESSION['l10n']['fr']['Including reference scripts...']='Inclusion des scripts de référence...';
 $_SESSION['l10n']['fr']['Incremental upgrades']='Mises à jour incrémentales';
-$_SESSION['l10n']['fr']['be4dd7fe739e6b8a49ea5b6e4f3b6130']='Indiquez seulement le nom DNS ou l\'adresse IP du serveur de référence. Ni plus, ni moins.';
+$_SESSION['l10n']['fr']['c7420dec7221f4b3f646f4bd0ff210fa']='Indiquez seulement le nom DNS ou l\'adresse IP du serveur de référence.';
 $_SESSION['l10n']['fr']['Indirect upload']='Téléversement indirect';
 $_SESSION['l10n']['fr']['Install all hooks']='Recherche des extensions';
 $_SESSION['l10n']['fr']['Install release %s']='Installer la version %s';
@@ -136,6 +135,7 @@ $_SESSION['l10n']['fr']['Review']='Visualiser';
 $_SESSION['l10n']['fr']['5bf3b809e693a9ac0b4dcf5e6e4e028a']='Contrôler les nouveaux scripts avant la mise à jour';
 $_SESSION['l10n']['fr']['Run once']='Exécution unique';
 $_SESSION['l10n']['fr']['Run one-time scripts']='Chargement des scripts à exécution unique';
+$_SESSION['l10n']['fr']['a09ec6a44e8678d5cbbb8a7c5f5ba286']='Les scripts sont à jour par rapport à l\'ensemble de référence.';
 $_SESSION['l10n']['fr']['Script %s does not exist']='Le script %s n\'existe pas';
 $_SESSION['l10n']['fr']['Script comparison']='Différences entre deux scripts';
 $_SESSION['l10n']['fr']['Script does not exist']='Le script n\'existe pas';
@@ -148,8 +148,7 @@ $_SESSION['l10n']['fr']['See also']='Voir aussi';
 $_SESSION['l10n']['fr']['See also:']='Voir aussi :';
 $_SESSION['l10n']['fr']['Select the file to upload']='Choisissez le fichier à transmettre';
 $_SESSION['l10n']['fr']['Server software']='Logiciel serveur';
-$_SESSION['l10n']['fr']['566d0d95543c767bdcf85de12e960ed5']='Certaines mise à jour sont manquantes. Merci de vérifier le contenu du serveur de référence ci-dessous.';
-$_SESSION['l10n']['fr']['6debedbfed424367cc1350f0daa835db']='Certaines mises à jour sont manquantes. Merci de vérifier le serveur de référence.';
+$_SESSION['l10n']['fr']['Some updated files are missing.']='Certains fichiers mis à jour sont absents.';
 $_SESSION['l10n']['fr']['Stage updated scripts']='Commencer la mise à jour des scripts';
 $_SESSION['l10n']['fr']['Staging %s']='Téléchargement de %s';
 $_SESSION['l10n']['fr']['Staging script: %s']='Mise à jour : %s';

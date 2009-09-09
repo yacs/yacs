@@ -1082,7 +1082,7 @@ Class Dates {
 			$name = 'layout_dates_as_'.$attributes[0];
 			if(is_readable($context['path_to_root'].'dates/'.$name.'.php')) {
 				include_once $context['path_to_root'].'dates/'.$name.'.php';
-				$layout =& new $name;
+				$layout = new $name;
 
 				// provide parameters to the layout
 				if(isset($attributes[1]))
@@ -1094,7 +1094,7 @@ Class Dates {
 		// use default layout
 		if(!$layout) {
 			include_once $context['path_to_root'].'dates/layout_dates.php';
-			$layout =& new Layout_dates();
+			$layout = new Layout_dates();
 			$layout->set_variant($variant);
 		}
 

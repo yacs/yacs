@@ -1260,7 +1260,7 @@ Class Categories {
 			$name = 'layout_categories_as_'.$attributes[0];
 			if(is_readable($context['path_to_root'].'categories/'.$name.'.php')) {
 				include_once $context['path_to_root'].'categories/'.$name.'.php';
-				$layout =& new $name;
+				$layout = new $name;
 
 				// provide parameters to the layout
 				if(isset($attributes[1]))
@@ -1272,7 +1272,7 @@ Class Categories {
 		// use default layout
 		if(!$layout) {
 			include_once $context['path_to_root'].'categories/layout_categories.php';
-			$layout =& new Layout_categories();
+			$layout = new Layout_categories();
 			$layout->set_variant($variant);
 		}
 

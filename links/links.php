@@ -718,7 +718,7 @@ Class Links {
 			$name = 'layout_links_as_'.$attributes[0];
 			if(is_readable($context['path_to_root'].'links/'.$name.'.php')) {
 				include_once $context['path_to_root'].'links/'.$name.'.php';
-				$layout =& new $name;
+				$layout = new $name;
 
 				// provide parameters to the layout
 				if(isset($attributes[1]))
@@ -730,7 +730,7 @@ Class Links {
 		// use default layout
 		if(!$layout) {
 			include_once $context['path_to_root'].'links/layout_links.php';
-			$layout =& new Layout_links();
+			$layout = new Layout_links();
 			$layout->set_variant($variant);
 		}
 

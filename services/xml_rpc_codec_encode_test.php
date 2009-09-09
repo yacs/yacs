@@ -12,7 +12,7 @@
 // load the adequate codec
 include_once 'codec.php';
 include_once 'xml_rpc_codec.php';
-$codec =& new xml_rpc_Codec();
+$codec = new xml_rpc_Codec();
 
 $values = $codec->encode('hello world', 'string');
 //$values = array('hello world', $codec->encode('hello world', 'base64'), $codec->encode(time(), 'date'));

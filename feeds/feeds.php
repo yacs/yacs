@@ -167,12 +167,12 @@ class Feeds {
 		// decode from atom
 		if(strpos($content, '<feed ')) {
 			include_once $context['path_to_root'].'services/atom_codec.php';
-			$codec =& new atom_Codec();
+			$codec = new atom_Codec();
 
 		// the default is to decode as RSS
 		} else {
 			include_once $context['path_to_root'].'services/rss_codec.php';
-			$codec =& new RSS_Codec();
+			$codec = new RSS_Codec();
 		}
 
 		// decode the result

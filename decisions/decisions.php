@@ -713,7 +713,7 @@ Class Decisions {
 			$name = 'layout_decisions_as_'.$attributes[0];
 			if(is_readable($context['path_to_root'].'decisions/'.$name.'.php')) {
 				include_once $context['path_to_root'].'decisions/'.$name.'.php';
-				$layout =& new $name;
+				$layout = new $name;
 
 				// provide parameters to the layout
 				if(isset($attributes[1]))
@@ -725,7 +725,7 @@ Class Decisions {
 		// use default layout
 		if(!$layout) {
 			include_once $context['path_to_root'].'decisions/layout_decisions.php';
-			$layout =& new Layout_decisions();
+			$layout = new Layout_decisions();
 			$layout->set_variant($variant);
 		}
 

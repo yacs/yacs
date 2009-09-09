@@ -99,7 +99,7 @@ Class Layout_articles_as_news extends Layout_interface {
 
 			// else use a teaser, if no overlay
 			} elseif(!is_object($overlay)) {
-				$article =& new Article();
+				$article = new Article();
 				$article->load_by_content($item);
 				$suffix .= $article->get_teaser('teaser');
 			}

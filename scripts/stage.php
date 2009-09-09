@@ -1,6 +1,6 @@
 <?php
 /**
- * stage files from the reference server
+ * stage updated files
  *
  * As explained into [script]scripts/index.php[/script], the local staging store is built after a reference store.
  *
@@ -194,7 +194,7 @@ if($id) {
 	// explode the archive
 	else {
 		include_once $context['path_to_root'].'included/tar.php';
-		$handle =& new Archive_Tar($id);
+		$handle = new Archive_Tar($id);
 
 		if($handle->extractModify($context['path_to_root'].'scripts/staging', 'yacs'))
 			$success = TRUE;

@@ -221,7 +221,7 @@ if(isset($item['id'])) {
 // get related behaviors, if any
 $behaviors = NULL;
 if(isset($item['id']))
-	$behaviors =& new Behaviors($item, $anchor);
+	$behaviors = new Behaviors($item, $anchor);
 
 // owners can do what they want
 if(Articles::is_owned($anchor, $item))
@@ -261,10 +261,6 @@ if(Surfer::is_empowered('S'))
 elseif(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('articles/view.php', 'article:'.$item['id']))
 	$permitted = FALSE;
 
-// poster can always view the page
-elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
-	$permitted = TRUE;
-
 // the anchor has to be viewable by this surfer
 elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
@@ -280,7 +276,7 @@ elseif(isset($item['active']) && ($item['active'] == 'Y'))
 // the default is to disallow access
 else
 	$permitted = FALSE;
-
+	
 //
 // is this surfer allowed to change the page?
 //
@@ -372,8 +368,10 @@ if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
 	Logger::error(i18n::s('No item has the provided id.'));
+	if($_SERVER['REQUEST_METHOD'] == 'GET')
+		Safe::redirect($context['url_to_home'].$context['url_to_root']);
 
 // permission denied
 } elseif(!$permitted) {
@@ -387,7 +385,7 @@ if(!isset($item['id'])) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // stop crawlers on non-published pages
-} elseif((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && !Surfer::is_logged()) {
+} elseif((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
@@ -936,7 +934,7 @@ if(!isset($item['id'])) {
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 			// list comments by date
-			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix));
+			$items = Comments::list_by_date_for_anchor('article:'.$item['id'], $offset, $items_per_page, $layout, isset($comments_prefix) || preg_match('/\bcomments_as_wall\b/i', $item['options']));
 
 			// actually render the html
 			if(is_array($items))

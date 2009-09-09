@@ -34,6 +34,9 @@ include_once '../comments/comments.php';	// initiate the wall
 // the maximum number of personal sections per user
 if(!isset($context['users_maximum_managed_sections']))
 	$context['users_maximum_managed_sections'] = 0;
+	
+// count sections owned by this surfer
+$existing_sections = Sections::count_for_owner();
 
 // load the skin before assessing permissions
 load_skin('sections');
@@ -41,9 +44,13 @@ load_skin('sections');
 // surfer has to be an authenticated member --not accessible to subscribers
 if(!Surfer::is_member())
 	$permitted = FALSE;
+	
+// associates can always add sections
+elseif(Surfer::is_associate())
+	$permitted = TRUE;
 
 // ensure a maximum number of managed sections
-elseif(($existing_sections = Sections::count_for_owner()) && ($existing_sections >= $context['users_maximum_managed_sections']))
+elseif($existing_sections >= $context['users_maximum_managed_sections'])
 	$permitted = FALSE;
 
 // all checks have been passed
@@ -155,7 +162,7 @@ if(Surfer::is_crawler()) {
 	
 	// anchor the new section here
 	include_once 'section.php';
-	$section =& new Section();
+	$section = new Section();
 	$section->load_by_content($anchor);
 	$anchor = $section;
 	$_REQUEST['anchor'] = $anchor->get_reference();
@@ -255,7 +262,7 @@ if($with_form) {
 
 		// subsequent section
 		else
-			$item['title'] = sprintf(i18n::s('Another personal space of %s (%d)'), Surfer::get_name(), count($existing_sections));
+			$item['title'] = sprintf(i18n::s('Another personal space of %s (%d)'), Surfer::get_name(), $existing_sections+1);
 	}
 
 	// the form to edit a section

@@ -135,7 +135,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 				$suffix .= BR.Codes::beautify_introduction($item['introduction']);
 
 			// page size for comments
-			$layout =& new Layout_comments_as_yabb();
+			$layout = new Layout_comments_as_yabb();
 
 			// shortcuts to comments pages
 			if(isset($item['comments_count']) && ($pages = (integer)ceil($item['comments_count'] / $layout->items_per_page())) && ($pages > 1)) {

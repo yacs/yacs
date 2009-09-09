@@ -96,7 +96,7 @@ if(isset($item['anchor']) && $item['anchor'])
 $behaviors = NULL;
 include_once '../behaviors/behaviors.php';
 if(isset($item['id']))
-	$behaviors =& new Behaviors($item, $anchor);
+	$behaviors = new Behaviors($item, $anchor);
 
 // readers have additional rights
 if(is_object($anchor) && $anchor->is_assigned())
@@ -412,7 +412,7 @@ if(!isset($item['id']) || !$item['id']) {
 			$analyzer = NULL;
 			if(is_readable($context['path_to_root'].'included/getid3/getid3.php')) {
 				include_once $context['path_to_root'].'included/getid3/getid3.php';
-				$analyzer =& new getid3();
+				$analyzer = new getid3();
 			}
 
 			// parse file content, and streamline information

@@ -114,11 +114,11 @@ if($page > 10) {
 		switch($context['root_articles_layout']) {
 			case 'boxesandarrows':
 				include_once 'layout_sections_as_boxesandarrows.php';
-				$layout =& new Layout_sections_as_boxesandarrows();
+				$layout = new Layout_sections_as_boxesandarrows();
 				break;
 			default:
 				include_once 'layout_sections_as_yahoo.php';
-				$layout =& new Layout_sections_as_yahoo();
+				$layout = new Layout_sections_as_yahoo();
 				$layout->set_variant(20); // show more elements at the site map
 				break;
 		}
@@ -162,11 +162,11 @@ if($page > 10) {
 			switch($context['root_articles_layout']) {
 				case 'boxesandarrows':
 					include_once 'layout_sections_as_boxesandarrows.php';
-					$layout =& new Layout_sections_as_boxesandarrows();
+					$layout = new Layout_sections_as_boxesandarrows();
 					break;
 				default:
 					include_once 'layout_sections_as_yahoo.php';
-					$layout =& new Layout_sections_as_yahoo();
+					$layout = new Layout_sections_as_yahoo();
 					$layout->set_variant(20); // show more elements at the site map
 					break;
 			}

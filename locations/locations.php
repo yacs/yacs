@@ -493,7 +493,7 @@ Class Locations {
 			$name = 'layout_locations_as_'.$attributes[0];
 			if(is_readable($context['path_to_root'].'locations/'.$name.'.php')) {
 				include_once $context['path_to_root'].'locations/'.$name.'.php';
-				$layout =& new $name;
+				$layout = new $name;
 
 				// provide parameters to the layout
 				if(isset($attributes[1]))
@@ -505,7 +505,7 @@ Class Locations {
 		// use default layout
 		if(!$layout) {
 			include_once $context['path_to_root'].'locations/layout_locations.php';
-			$layout =& new Layout_locations();
+			$layout = new Layout_locations();
 			$layout->set_variant($variant);
 		}
 

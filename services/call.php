@@ -325,7 +325,7 @@ Class Call {
 		// select a codec handler
 		include_once $context['path_to_root'].'services/codec.php';
 		include_once $context['path_to_root'].'services/rss_codec.php';
-		$codec =& new RSS_Codec();
+		$codec = new RSS_Codec();
 		if(!is_object($codec))
 			return array(FALSE, 'Impossible to load codec RSS_Codec');
 

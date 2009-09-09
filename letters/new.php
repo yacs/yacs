@@ -90,6 +90,20 @@ $context['page_title'] = i18n::s('Post a letter');
 // load parameters for letters
 Safe::load('parameters/letters.include.php');
 
+// default values if no configuration file is available
+if(!isset($context['letter_body']))
+	$context['letter_body'] = '';
+if(!isset($context['letter_prefix']))
+	$context['letter_prefix'] = '';
+if(!isset($context['letter_suffix']))
+	$context['letter_suffix'] = '';
+if(!isset($context['letter_title']))
+	$context['letter_title'] = '';
+if(!isset($context['title_prefix']))
+	$context['title_prefix'] = '*** ';
+if(!isset($context['title_suffix']))
+	$context['title_suffix'] = '';
+
 // if no reply-to, use the one of the logged user
 if(!isset($context['letter_reply_to']) || !$context['letter_reply_to'])
 	$context['letter_reply_to'] = Surfer::get_email_address();
@@ -111,20 +125,6 @@ if(!Surfer::is_associate()) {
 
 // prepare some announcement
 } elseif(isset($action) && ($action == 'announcement')) {
-
-	// default values if no configuration file is available
-	if(!isset($context['letter_prefix']))
-		$context['letter_prefix'] = '';
-	if(!isset($context['letter_suffix']))
-		$context['letter_suffix'] = '';
-	if(!isset($context['title_prefix']))
-		$context['title_prefix'] = '*** ';
-	if(!isset($context['title_suffix']))
-		$context['title_suffix'] = '';
- 	$context['letter_body'] = '';
-
-	// the date
-// 	$context['letter_body'] = gmstrftime('%x', time())."\n\n";
 
 	// the letter prefix
 	if($context['letter_prefix'])
@@ -207,19 +207,6 @@ if(!Surfer::is_associate()) {
 
 // prepare a digest
 } elseif(isset($action) && ($action == 'digest')) {
-
-	// default values if no configuration file is available
-	if(!isset($context['letter_prefix']))
-		$context['letter_prefix'] = '';
-	if(!isset($context['letter_suffix']))
-		$context['letter_suffix'] = '';
-	if(!isset($context['title_prefix']))
-		$context['title_prefix'] = '*** ';
-	if(!isset($context['title_suffix']))
-		$context['title_suffix'] = '';
-
-	// letter content
- 	$context['letter_body'] = '';
 
 	// the letter prefix
 	if($context['letter_prefix'])
@@ -359,25 +346,12 @@ if(!Surfer::is_associate()) {
 // list featured pages
 } elseif(isset($action) && ($action == 'featured')) {
 
-	// default values if no configuration file is available
-	if(!isset($context['letter_prefix']))
-		$context['letter_prefix'] = '';
-	if(!isset($context['letter_suffix']))
-		$context['letter_suffix'] = '';
-	if(!isset($context['title_prefix']))
-		$context['title_prefix'] = '*** ';
-	if(!isset($context['title_suffix']))
-		$context['title_suffix'] = '';
-
-	// the date
-// 	$context['letter_body'] = gmstrftime('%x', time())."\n";
-
 	// the letter prefix
 	if($context['letter_prefix'])
 		$context['letter_body'] .= $context['letter_prefix']."\n";
 
 	// re-use parameter for featured pages at the front page
-	if($context['root_featured_count'] < 1)
+	if(!isset($context['root_featured_count']) || ($context['root_featured_count'] < 1))
 		$context['root_featured_count'] = 7;
 
 	// the category used to assign featured pages
@@ -441,7 +415,7 @@ if(!Surfer::is_associate()) {
 	$hint = i18n::s('Used as message subject line');
 	$fields[] = array($label, $input, $hint);
 
-	// the letter content
+	// letter content
 	$label = i18n::s('Content');
 	$input = '<textarea name="letter_body" rows="30" cols="50">'.encode_field($context['letter_body']).'</textarea>';
 	$hint = i18n::s('Use only plain ASCII at the moment');

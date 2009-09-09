@@ -609,13 +609,13 @@ Class Tables {
 
 		case 'compact':
 			include_once $context['path_to_root'].'tables/layout_tables_as_compact.php';
-			$layout =& new Layout_tables_as_compact();
+			$layout = new Layout_tables_as_compact();
 			$output =& $layout->layout($result);
 			return $output;
 
 		default:
 			include_once $context['path_to_root'].'tables/layout_tables.php';
-			$layout =& new Layout_tables();
+			$layout = new Layout_tables();
 			$layout->set_variant($variant);
 			$output =& $layout->layout($result);
 			return $output;

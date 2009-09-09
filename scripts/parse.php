@@ -72,7 +72,7 @@ if(!$script) {
 else {
 
 	include_once 'phpdoc.php';
-	$tool =& new PhpDoc;
+	$tool = new PhpDoc;
 
 	// parse the file
 	$context['text'] .= $tool->parse($script, '');

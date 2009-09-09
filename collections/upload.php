@@ -151,7 +151,7 @@ elseif(!Surfer::is_associate()) {
 			// explode the archive
 			else {
 				include_once $context['path_to_root'].'included/tar.php';
-				$handle =& new Archive_Tar($temporary);
+				$handle = new Archive_Tar($temporary);
 
 				if($handle->extract($item['actual_path']))
 					$success = TRUE;

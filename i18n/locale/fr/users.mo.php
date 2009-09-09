@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 4, 2009, 1:37 pm GMT. Please do not modify it manually.
+ * on September 9, 2009, 10:52 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-04 15:30+0200
-PO-Revision-Date: 2009-09-04 15:37+0100
+POT-Creation-Date: 2009-09-10 00:00+0200
+PO-Revision-Date: 2009-09-09 23:33+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -114,7 +114,7 @@ $_SESSION['l10n']['fr']['Change picture']='Changer l\'image';
 $_SESSION['l10n']['fr']['Click here to register']='Cliquez ici pour vous enregistrer';
 $_SESSION['l10n']['fr']['ab006b2530195974908cd8ab59b711b9']='Cliquer sur les codes pour insérer les images dans la page.';
 $_SESSION['l10n']['fr']['0d31f10bcbbf938368199591c71a14f8']='Cliquez sur l\'une des images ci-dessous pour la faire afficher sur le profil.';
-$_SESSION['l10n']['fr']['b2a44a89c0565f3c8de24ae7d687230c']='Cliquez sur le lien ci-dessous pour ajouter de nouvelles contacts.';
+$_SESSION['l10n']['fr']['b2a44a89c0565f3c8de24ae7d687230c']='Cliquez sur le lien ci-dessus pour ajouter de nouveaux contacts.';
 $_SESSION['l10n']['fr']['7fb096f01683499a98de8b53f0fdef56']='Cliquez sur le lien ci-dessous pour activer votre compte.';
 $_SESSION['l10n']['fr']['Co-browsing']='Co-navigation';
 $_SESSION['l10n']['fr']['Code to reference this user: %s']='Code pour référencer cette personne : %s';

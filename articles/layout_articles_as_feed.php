@@ -91,7 +91,7 @@ Class Layout_articles_as_feed extends Layout_interface {
 			}
 
 			// some introductory text for this article
-			$article =& new Article();
+			$article = new Article();
 			$article->load_by_content($item);
 			$introduction = $article->get_teaser('teaser');
 

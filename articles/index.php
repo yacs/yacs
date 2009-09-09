@@ -101,7 +101,7 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 		switch($context['root_articles_layout']) {
 			case 'boxesandarrows':
 				include_once 'layout_articles_as_boxesandarrows.php';
-				$layout =& new Layout_articles_as_boxesandarrows();
+				$layout = new Layout_articles_as_boxesandarrows();
 				break;
 			default:
 				$layout = 'decorated';

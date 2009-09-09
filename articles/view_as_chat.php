@@ -729,6 +729,12 @@ if(!isset($item['id'])) {
 	//
 	$lines = array();
 
+	// mail this page
+	if(!$zoom_type && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+		Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
+		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
+	}
+
 	// the command to track back
 	if(Surfer::is_logged()) {
 		Skin::define_img('TOOLS_TRACKBACK_IMG', 'tools/trackback.gif');

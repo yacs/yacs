@@ -308,7 +308,8 @@ if(!isset($item['id'])) {
 			$context['users_maximum_managed_sections'] = 0;
 
 		// offer to extend personal spaces
-		if(Surfer::is($item['id']) && Surfer::is_member() && ($context['users_maximum_managed_sections'] > Sections::count_for_owner())) {
+		if(Surfer::is($item['id']) && Surfer::is_member() && 
+			(Surfer::is_associate() || ($context['users_maximum_managed_sections'] > Sections::count_for_owner())) ) {
 			Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 			$menu[] = Skin::build_link('sections/new.php', SECTIONS_ADD_IMG.i18n::s('Add a group or a blog'), 'span');
 		}
@@ -347,7 +348,7 @@ if(!isset($item['id'])) {
 			
 		// layout columns
 		if($aside)
-			$content = Skin::layout_horizontally($content, Skin::build_block(Skin::build_box(i18n::s('Watched sections'), $aside, 'sliding'), 'sidecolumn'));
+			$content = Skin::layout_horizontally($content, Skin::build_block(Skin::build_sliding_box(i18n::s('Watched sections'), $aside, 'watched_section', FALSE), 'sidecolumn'));
 
 		// one box
 		if($content)
@@ -411,9 +412,9 @@ if(!isset($item['id'])) {
 			// in a folded box
 			Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 			if(Surfer::get_id() == $item['id'])
-				$box['text'] .= '<div  style="margin-bottom: 1em;">'.Skin::build_box(ARTICLES_ADD_IMG.i18n::s('Start a thread'), $text, 'sliding').'</div>';
+				$box['text'] .= '<div  style="margin-bottom: 1em;">'.Skin::build_sliding_box(ARTICLES_ADD_IMG.i18n::s('Start a thread'), $text, 'new_thread', TRUE).'</div>';
 			else
-				$box['text'] .= '<div style="margin-bottom: 1em;">'.Skin::build_box(ARTICLES_ADD_IMG.sprintf(i18n::s('Start a thread with %s'), $item['full_name']?$item['full_name']:$item['nick_name']), $text, 'sliding').'</div>';
+				$box['text'] .= '<div style="margin-bottom: 1em;">'.Skin::build_sliding_box(ARTICLES_ADD_IMG.sprintf(i18n::s('Start a thread with %s'), $item['full_name']?$item['full_name']:$item['nick_name']), $text, 'new_thread', TRUE).'</div>';
 	
 			// append the script used for data checking on the browser
 			$box['text'] .= JS_PREFIX
@@ -513,7 +514,7 @@ if(!isset($item['id'])) {
 
 		// avoid links to this page
 		include_once '../files/layout_files_as_simple.php';
-		$layout =& new Layout_files_as_simple();
+		$layout = new Layout_files_as_simple();
 		if(is_object($layout))
 			$layout->set_variant('user:'.$item['id']);
 
