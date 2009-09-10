@@ -185,7 +185,7 @@ if(!isset($item['id'])) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Users::get_url($item['id'])));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Users::get_permalink($item)));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
@@ -196,14 +196,14 @@ if(!isset($item['id'])) {
 
 	// allow back-referencing from overlay
 	$item['self_reference'] = 'user:'.$item['id'];
-	$item['self_url'] = $context['url_to_root'].Users::get_url($item['id']);
+	$item['self_url'] = $context['url_to_root'].Users::get_permalink($item);
 
 
 	// remember surfer visit
-	Surfer::is_visiting(Users::get_url($item['id'], 'view', $item['nick_name']), $item['full_name']?$item['full_name']:$item['nick_name'], 'user:'.$item['id'], $item['active']);
+	Surfer::is_visiting(Users::get_permalink($item), $item['full_name']?$item['full_name']:$item['nick_name'], 'user:'.$item['id'], $item['active']);
 
 	// initialize the rendering engine
-	Codes::initialize(Users::get_url($item['id'], 'view', $item['nick_name']));
+	Codes::initialize(Users::get_permalink($item));
 
 	//
 	// meta-information -- $context['page_header'], etc.
@@ -229,8 +229,8 @@ if(!isset($item['id'])) {
 	if(!Surfer::is_crawler()) {
 
 		// tags, if any
-		if(isset($item['tags']) && $item['tags'])
-			$context['page_tags'] = $item['tags'];
+		if(isset($item['tags']))
+			$context['page_tags'] =& Skin::build_tags($item['tags'], 'user:'.$item['id']);
 	
 		// one detail per line
 		$context['page_details'] .= '<p class="details">';
@@ -443,7 +443,7 @@ if(!isset($item['id'])) {
 			$box['bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $stats['count']), $stats['count']));
 
 		// navigation commands for articles
-		$home = Users::get_url($item['id'], 'view', $item['nick_name']);
+		$home = Users::get_permalink($item);
 		$prefix = Users::get_url($item['id'], 'navigate', 'articles');
 		$box['bar'] = array_merge($box['bar'],
 			Skin::navigate($home, $prefix, $stats['count'], ARTICLES_PER_PAGE, $zoom_index));
@@ -593,27 +593,32 @@ if(!isset($item['id'])) {
 	
 		// business card
 		//
-		$rows = array();
+		$text = '';
 
+		// full name
+		$text .= '<p>'.$item['full_name'];
+		
 		// title, if any
 		if(isset($item['vcard_title']) && $item['vcard_title'])
-			$rows[] = array(i18n::s('Title'), $item['vcard_title']);
+			$text .= BR.$item['vcard_title'];
 
 		// organization, if any
 		if(isset($item['vcard_organization']) && $item['vcard_organization'])
-			$rows[] = array(i18n::s('Organization'), $item['vcard_organization']);
+			$text .= BR.$item['vcard_organization'];
 
 		// physical address, if any
 		if(isset($item['vcard_label']) && $item['vcard_label'])
-			$rows[] = array(i18n::s('Physical address'), str_replace("\n", BR, $item['vcard_label']));
+			$text .= BR.str_replace("\n", BR, $item['vcard_label']);
+			
+		$text.= '</p><p>';
 
 		// phone number, if any
 		if(isset($item['phone_number']) && $item['phone_number'])
-			$rows[] = array(i18n::s('Phone number'), $item['phone_number']);
+			$text .= sprintf(i18n::s('%s: %s'), i18n::s('Phone number'), $item['phone_number']);
 
 		// alternate number, if any
 		if(isset($item['alternate_number']) && $item['alternate_number'])
-			$rows[] = array(i18n::s('Alternate number'), $item['alternate_number']);
+			$text .= BR.sprintf(i18n::s('%s: %s'), i18n::s('Alternate number'), $item['alternate_number']);
 
 		// email address - not showed to anonymous surfers for spam protection
 		if(isset($item['email']) && $item['email'] && (Surfer::is($item['id']) || Surfer::may_contact($item['id']))) {
@@ -625,23 +630,25 @@ if(!isset($item['id'])) {
 			else
 				$label = Skin::build_link('mailto:'.$item['email'], $item['email'], 'email');
 
-			$rows[] = array(i18n::s('E-mail address'), $label);
+			$text .= BR.$label;
 		}
 
 		// web address, if any
 		if(isset($item['web_address']) && $item['web_address'])
-			$rows[] = array(i18n::s('Web address'), Skin::build_link($item['web_address'], $item['web_address'], 'external'));
+			$text .= BR.Skin::build_link($item['web_address'], $item['web_address'], 'external');
 
 		// agent, if any
 		if(isset($item['vcard_agent']) && $item['vcard_agent']) {
+			$text .= '</p><p>';
 			if($agent =& Users::get($item['vcard_agent']))
-				$rows[] = array(i18n::s('Alternate contact'), Skin::build_link(Users::get_url($agent['id'], 'view', $agent['nick_name'], $agent['full_name']), $agent['full_name']?$agent['full_name']:$agent['nick_name'], 'user'));
+				$text .= sprintf(i18n::s('%s: %s'), i18n::s('Alternate contact'), Skin::build_link(Users::get_permalink($agent), $agent['full_name']?$agent['full_name']:$agent['nick_name'], 'user'));
 			else
-				$rows[] = array(i18n::s('Alternate contact'), $item['vcard_agent']);
+				$text .= sprintf(i18n::s('%s: %s'), i18n::s('Alternate contact'), $item['vcard_agent']);
 		}
 
-		if(count($rows))
-			$sidebar .= Skin::build_box(i18n::s('Business card'), Skin::table(NULL, $rows, 'wide'), 'unfolded');
+		$text .= '</p>';
+		
+		$sidebar .= Skin::build_box(i18n::s('Business card'), $text, 'unfolded');
 
 		// do not let robots steal addresses
 		$box = array( 'bar' => array(), 'text' => '');
@@ -649,6 +656,10 @@ if(!isset($item['id'])) {
 
 			// put contact addresses in a table
 			$rows = array();
+
+			// a clickable twitter address
+			if(isset($item['twitter_address']) && $item['twitter_address'])
+				$rows[] = array(i18n::s('Twitter'), Skin::build_presence($item['twitter_address'], 'twitter').' '.Skin::build_link('http://www.twitter.com/'.$item['twitter_address'], $item['twitter_address']) );
 
 			// a clickable jabber address
 			if(isset($item['jabber_address']) && $item['jabber_address'])
@@ -686,7 +697,7 @@ if(!isset($item['id'])) {
 
 		// a full box
 		if($box['text'])
-			$sidebar .= Skin::build_box(i18n::s('Instant messaging'), $box['text'], 'folded');
+			$sidebar .= Skin::build_box(i18n::s('Instant communication'), $box['text'], 'folded');
 
 		// pgp key
 		if(isset($item['pgp_key']) && $item['pgp_key'])

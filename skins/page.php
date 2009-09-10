@@ -337,19 +337,8 @@
 		global $context;
 	
 		// tags are listed into $context
-		if(isset($context['page_tags']) && $context['page_tags']) {
-			$tags = explode(',', $context['page_tags']);
-			$line = '';
-			foreach($tags as $tag) {
-				if(!$tag = trim($tag))
-					continue;
-				if($category = Categories::get_by_keyword($tag))
-					$line .= Skin::build_link(Categories::get_permalink($category), $tag, 'basic').' ';
-				else
-					$line .= $tag.' ';
-			}
-			echo '<p class="tags">'.sprintf(i18n::s('Tags: %s'), rtrim($line, ' ')).'</p>'."\n";
-		}
+		if(isset($context['page_tags']) && $context['page_tags'])
+			echo '<p class="tags">'.sprintf(i18n::s('Tags: %s'), $context['page_tags']).'</p>'."\n";
 
 	}
 				

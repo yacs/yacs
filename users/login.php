@@ -238,7 +238,7 @@ if(Surfer::is_crawler()) {
 			$follow_up = i18n::s('What do you want to do now?');
 			$menu = array();
 			$menu = array_merge($menu, array('users/password.php' => i18n::s('Change password')));
-			$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('My profile')));
+			$menu = array_merge($menu, array(Surfer::get_permalink() => i18n::s('My profile')));
 			$follow_up .= Skin::build_list($menu, 'menu_bar');
 			$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
@@ -373,7 +373,7 @@ if(Surfer::is_crawler()) {
 		// a link to the user profile
 		$cells = array();
 		$cells[] = i18n::s('Your personal record');
-		$url = Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
+		$url = Surfer::get_permalink();
 		$cells[] = 'left='.Skin::build_link($url, Surfer::get_name(), 'user');
 		$information .= Skin::table_row($cells, $lines++);
 
@@ -466,7 +466,7 @@ if(Surfer::is_crawler()) {
 			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
 		if(Surfer::is_member() && isset($_REQUEST['login_forward']) && !preg_match('/^articles\/edit.php/', $_REQUEST['login_forward']))
 			$menu = array_merge($menu, array('articles/edit.php' => i18n::s('Add a page')));
-		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('My profile')));
+		$menu = array_merge($menu, array(Surfer::get_permalink() => i18n::s('My profile')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 

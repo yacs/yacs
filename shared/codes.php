@@ -2769,7 +2769,7 @@ Class Codes {
 					$text = ucfirst($item['nick_name']);
 
 				// make a link to the target page
-				$url = Users::get_url($item['id'], 'view', $item['nick_name']);
+				$url = Users::get_permalink($item);
 
 				// return a complete anchor
 				$output =& Skin::build_link($url, $text, $type);

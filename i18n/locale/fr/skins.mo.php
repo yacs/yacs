@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 9, 2009, 10:52 pm GMT. Please do not modify it manually.
+ * on September 10, 2009, 11:16 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-10 00:52+0200
-PO-Revision-Date: 2009-09-02 22:26+0100
+POT-Creation-Date: 2009-09-11 01:01+0200
+PO-Revision-Date: 2009-09-11 01:05+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -298,6 +298,7 @@ $_SESSION['l10n']['fr']['View person profile']='Voir le profil de cette personne
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
 $_SESSION['l10n']['fr']['View the page']='Voir la page';
 $_SESSION['l10n']['fr']['View this comment']='Voir ce commentaire';
+$_SESSION['l10n']['fr']['Visit this Twitter page']='Visiter sur Twitter';
 $_SESSION['l10n']['fr']['Visited']='Pages visitées';
 $_SESSION['l10n']['fr']['Visited pages, if any']='Pages visitées';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';

@@ -200,10 +200,8 @@ Class Surfer {
 			// all available commands
 			$menu = array();
 
-			if(Surfer::get_id() && is_callable(array('Users', 'get_url'))) {
-				$link = Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
+			if($link = Surfer::get_permalink())
 				$menu[$link] = array('', i18n::s('My profile'), '', $type, '', i18n::s('View all data this site knows about you'));
-			}
 
 			if(Surfer::is_associate())
 				$menu['articles/review.php'] = array('', i18n::s('Review queue'), '', $type, '', i18n::s('Check requests, publish submitted articles, review old pages'));
@@ -326,6 +324,32 @@ Class Surfer {
 			$context['empowered'] = $capability;
 	}
 
+	/**
+	 * format surfer recipient address
+	 *
+	 * @return string "Foo Bar" <foo@acme.com>, or NULL
+	 */
+	function from() {
+	
+		$text = '';
+		
+		// use surfer full name if possible
+		if($name = Surfer::get_name())
+			$text .= '"'.str_replace('"', '', $name).'" ';
+			
+		// add the email address
+		if($address = Surfer::get_email_address())
+			$text .= '<'.$address.'>';
+			
+		// nothing found
+		$text = trim($text);
+		if(!$text)
+			return NULL;
+			
+		// job done
+		return $text;
+	}
+	
 	/**
 	 * adjust a date to surfer time zone
 	 *
@@ -553,6 +577,17 @@ Class Surfer {
 			
 		// really anonymous!
 		return i18n::s('anonymous');
+	}
+
+	/**
+	 * get profile address for this surfer, if known
+	 *
+	 * @return string web link to the target user profile, or NULL
+	 */
+	function get_permalink() {
+		if(Surfer::get_id() && is_callable(array('Users', 'get_url')))
+			return Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
+		return NULL;
 	}
 
 	/**

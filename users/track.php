@@ -45,7 +45,7 @@ load_skin('users');
 // the path to this page
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
 if(Surfer::is_logged())
-	$context['path_bar'] = array_merge($context['path_bar'], array( Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => Surfer::get_name() ));
+	$context['path_bar'] = array_merge($context['path_bar'], array( Surfer::get_permalink() => Surfer::get_name() ));
 
 // the title of the page
 $context['page_title'] = i18n::s('Watch list');

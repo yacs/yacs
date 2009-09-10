@@ -58,7 +58,7 @@ Class Layout_versions extends Layout_interface {
 
 			// if option 'anonymous_edit', anonymous surfers may view versions
 			if(Surfer::is_empowered() || Surfer::is($item['edit_id']))
-				$suffix .= ' '.Skin::build_link(Versions::get_url($item['id'], 'view'), i18n::s('view'), 'button');
+				$suffix .= ' '.Skin::build_link(Versions::get_url($item['id'], 'view'), i18n::s('compare to current version'), 'button');
 
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, 'version', $icon);

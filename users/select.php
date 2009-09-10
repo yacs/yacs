@@ -86,10 +86,32 @@ elseif(!$permitted) {
 	if(isset($_REQUEST['assigned_name']) && ($user = Users::get($_REQUEST['assigned_name'])))
 		$_REQUEST['anchor'] = 'user:'.$user['id'];
 
-	// assign a user, and also update his watch list
+	// set a new assignment
 	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set') && isset($_REQUEST['anchor']) && isset($_REQUEST['member'])) {
-		Members::assign($_REQUEST['anchor'], $_REQUEST['member']);
-		if(!preg_match('/^user:/', $_REQUEST['member']))
+		if(!Members::check($_REQUEST['anchor'], $_REQUEST['member'])) {
+		
+			// assign a person (the anchor) to this object (the member)
+			Members::assign($_REQUEST['anchor'], $_REQUEST['member']);
+			
+			// notify a person that is followed
+			if(!strncmp($_REQUEST['member'], 'user:', 5) && isset($user['email']) && $user['email'] && ($user['without_alerts'] != 'Y')) {
+
+				// contact target user by e-mail
+				$subject = sprintf(i18n::c('%s is following you'), strip_tags($user['full_name']));
+				$message = sprintf(i18n::c('%s will receive notifications when you will create new content at %s'), $user['full_name'], $context['site_name'])
+					."\n\n".ucfirst(strip_tags($user['title']))
+					."\n".$context['url_to_home'].$context['url_to_root'].Users::get_permalink($user);
+
+				// enable threading
+				$headers = Mailer::set_thread(NULL, $anchor);
+
+				// allow for cross-referencing			
+				Mailer::post(Surfer::from(), $user['email'], $subject, $message, NULL, $headers);
+			}
+		}
+		
+		// update the watch list of this person (the anchor)
+		if(strncmp($_REQUEST['member'], 'user:', 5))
 			Members::assign($_REQUEST['member'], $_REQUEST['anchor']);
 
 	// break an assignment, and also purge the watch list
@@ -137,7 +159,7 @@ elseif(!$permitted) {
 			$assigned_users[] = $id;
 
 			// make an url
-			$url = Users::get_url($id, 'view', isset($user['nick_name'])?$user['nick_name']:'');
+			$url = Users::get_permalink($user);
 
 			// gather information on this user
 			$prefix = $suffix = $type = $icon = '';
@@ -174,6 +196,27 @@ elseif(!$permitted) {
 	$links[] = Skin::build_link($url, i18n::s('Done'), 'button');
 	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
 
+	// adding editors
+	if(strncmp($_REQUEST['member'], 'user:', 5)) {
+		if(Surfer::may_mail()) {
+			$help = sprintf(i18n::s('%s if you have to assign new persons and to notify them in a single operation.'), Skin::build_link($anchor->get_url('invite'), i18n::s('Invite participants')));
+	
+			// in a side box
+			$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+		}
+		
+	// adding contacts
+	} else {
+		if(Surfer::may_mail()) {
+			$help = i18n::s('Each new contact will be notified that you are following him.');
+	
+			// in a side box
+			$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+		}
+	}
+		
+
+
 // please suppress editor rights to this item
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'leave')) {
 
@@ -197,7 +240,7 @@ elseif(!$permitted) {
 
 	// back to the anchor page
 	$links = array();
-	$url = Users::get_url(Surfer::get_id(), 'view', Surfer::get_name());
+	$url = Surfer::get_permalink();
 	$links[] = Skin::build_link($url, i18n::s('Done'), 'button');
 	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
 

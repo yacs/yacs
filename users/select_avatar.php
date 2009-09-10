@@ -201,7 +201,7 @@ if(!count($context['error']) && isset($item['id'])) {
 	// bottom commands
 	//
 	$menu = array();
-	$menu[] = Skin::build_link(Users::get_url($item['id'], 'view', $item['nick_name']), i18n::s('Done'), 'button');
+	$menu[] = Skin::build_link(Users::get_permalink($item), i18n::s('Done'), 'button');
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 }

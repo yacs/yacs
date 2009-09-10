@@ -125,10 +125,6 @@ if(isset($item['title']) && $item['title'])
 else
 	$context['page_title'] = i18n::s('Vote for a poll');
 
-// common commands for this page
-if(isset($_SERVER['HTTP_REFERER']))
-	$context['page_menu'] = array( $_SERVER['HTTP_REFERER'] => i18n::s('Back to main page') );
-
 // no subject
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);

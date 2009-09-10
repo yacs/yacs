@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 9, 2009, 10:52 pm GMT. Please do not modify it manually.
+ * on September 10, 2009, 11:16 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-10 00:00+0200
-PO-Revision-Date: 2009-09-09 23:33+0100
+POT-Creation-Date: 2009-09-11 01:01+0200
+PO-Revision-Date: 2009-09-11 01:12+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -28,12 +28,14 @@ $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s p
 $_SESSION['l10n']['fr']['%s by %s']='%s par %s';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
 $_SESSION['l10n']['fr']['7402bb42ec1df7b068f1564d0b6eb8da']='%s ne s\'est pas encore connecté à d\'autres personnes.';
+$_SESSION['l10n']['fr']['f6a30870fcfe0baeb6caff3d3b9c2c6c']='%s si vous devez assigner des personnes et les notifier en une seule opération.';
+$_SESSION['l10n']['fr']['%s is following you']='%s vous a choisi comme contact';
 $_SESSION['l10n']['fr']['%s is unknown.']='%s est inconnu';
+$_SESSION['l10n']['fr']['94c9350ef42ae3892cb8b83e566c67ec']='%s sera notifié de chaque contribution que vous ferez sur %s';
 $_SESSION['l10n']['fr']['e7f2567d23d845a4439372c59aab8e4d']='%s souhaiterait partager une page privée avec vous';
 $_SESSION['l10n']['fr']['%s, and get basic directions']='%s, et obtenir quelques informations essentielles';
 $_SESSION['l10n']['fr']['4f1a57d5f64c6ae8131cb8a32c10d007']='%s, peut-être avec des images et/ou des fichiers';
 $_SESSION['l10n']['fr']['%s, or %s']='%s, ou %s';
-$_SESSION['l10n']['fr']['c7d340e6a04109f8b54497caf4734b85']='%s, coller l\'emplacement de votre gravatar, ou utiliser les images attachées à ce profil.';
 $_SESSION['l10n']['fr']['73dc258b46053edc7a29ff4fa365d963']='%s pour mieux préciser aux autres qui vous êtes';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
 $_SESSION['l10n']['fr']['32b6f7b9d1655209f90721fedf07c0c2']='(ne souhaite pas recevoir les lettres d\'information)';
@@ -54,7 +56,6 @@ $_SESSION['l10n']['fr']['Add a section']='Ajouter une section';
 $_SESSION['l10n']['fr']['Add a user']='Ajouter un utilisateur';
 $_SESSION['l10n']['fr']['Add an action']='Ajouter une action';
 $_SESSION['l10n']['fr']['Add an image']='Ajouter une image';
-$_SESSION['l10n']['fr']['Add picture']='Ajouter une image';
 $_SESSION['l10n']['fr']['88a955fcffb8f63b46e2ecabaff4ef80']='Ajouter cette personne à vos contacts';
 $_SESSION['l10n']['fr']['Add to my contacts']='Ajouter à mes contacts';
 $_SESSION['l10n']['fr']['9ab3b896499b39b9f109e5aefc844d61']='Bloquer les robots anonymes (serveur public).';
@@ -89,6 +90,7 @@ $_SESSION['l10n']['fr']['Assign sections']='Assigner des sections';
 $_SESSION['l10n']['fr']['Associate']='Associé';
 $_SESSION['l10n']['fr']['4128cfdf11ea0df8da8a6770bc9984d7']='Les associés valident les inscriptions (communauté fermée).';
 $_SESSION['l10n']['fr']['eb6a6edda550644a64d0c8d220fb50f4']='Comme demandé, une copie a aussi été envoyée vers votre adresse a %s';
+$_SESSION['l10n']['fr']['Attachments']='Pièces jointes';
 $_SESSION['l10n']['fr']['Authenticate with password %s']='Mot de passe %s';
 $_SESSION['l10n']['fr']['Authenticated externally.']='Authentifiés extérieurement.';
 $_SESSION['l10n']['fr']['6021d3dd0571ef65b5bcf61d2cd09cbc']='Tout membre authentifié est autorisé à envoyer des images ou des fichiers.';
@@ -112,7 +114,7 @@ $_SESSION['l10n']['fr']['ed04cc084ae94b5055918b25c4b2aa6f']='Attention : Ce lien
 $_SESSION['l10n']['fr']['Change password']='Changer le mot de passe';
 $_SESSION['l10n']['fr']['Change picture']='Changer l\'image';
 $_SESSION['l10n']['fr']['Click here to register']='Cliquez ici pour vous enregistrer';
-$_SESSION['l10n']['fr']['ab006b2530195974908cd8ab59b711b9']='Cliquer sur les codes pour insérer les images dans la page.';
+$_SESSION['l10n']['fr']['f4714de50b293a7e0c8cc916b23d85fc']='Cliquer sur les codes pour placer les images dans la page.';
 $_SESSION['l10n']['fr']['0d31f10bcbbf938368199591c71a14f8']='Cliquez sur l\'une des images ci-dessous pour la faire afficher sur le profil.';
 $_SESSION['l10n']['fr']['b2a44a89c0565f3c8de24ae7d687230c']='Cliquez sur le lien ci-dessus pour ajouter de nouveaux contacts.';
 $_SESSION['l10n']['fr']['7fb096f01683499a98de8b53f0fdef56']='Cliquez sur le lien ci-dessous pour activer votre compte.';
@@ -155,6 +157,7 @@ $_SESSION['l10n']['fr']['fb0d9333cb60f25b5b1a13b04db64697']='Ce système n\'a pa
 $_SESSION['l10n']['fr']['E-mail usage']='Courrier électronique';
 $_SESSION['l10n']['fr']['6a2c769d729b50a589114cb6f3a6ca3b']='ERREUR : Impossible d\'écrire dans le fichier %s. La configuration n\'a pas été sauvegardée.';
 $_SESSION['l10n']['fr']['91d3b884c054ecc0e6b500eb901f36a5']='Chaque personne peut créer jusqu\'à %s groupes ou blogs.';
+$_SESSION['l10n']['fr']['bef1b2a9edae98f3d599dc8bccb09fa7']='Chaque personne ajoutée sera notifiée qu\'elle fait partie de vos contacts.';
 $_SESSION['l10n']['fr']['Edit my profile']='Modifier mon profil';
 $_SESSION['l10n']['fr']['Edit this profile']='Modifier ce profil';
 $_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
@@ -210,11 +213,12 @@ $_SESSION['l10n']['fr']['a350a37b83357d22a2107eb5735c8efa']='Impossible d\'envoy
 $_SESSION['l10n']['fr']['694b4e8e0256603d6ab0aee66495cf6e']='Impossible d\'envoyer un mot de passe à %s.';
 $_SESSION['l10n']['fr']['Improved interface']='Interface améliorée';
 $_SESSION['l10n']['fr']['Information']='Informations';
-$_SESSION['l10n']['fr']['Instant messaging']='Messagerie instantanée';
+$_SESSION['l10n']['fr']['Instant communication']='Communication instantanée';
 $_SESSION['l10n']['fr']['Interface']='Interface';
 $_SESSION['l10n']['fr']['Introduction']='Introduction';
 $_SESSION['l10n']['fr']['Invalid authenticator type.']='Type d\'authentifieur invalide.';
 $_SESSION['l10n']['fr']['Invalid banner message from %s.']='Message de bannière invalide reçu de %s.';
+$_SESSION['l10n']['fr']['Invite participants']='Inviter des participants';
 $_SESSION['l10n']['fr']['Jabber']='Jabber';
 $_SESSION['l10n']['fr']['Join %s at %s']='Joindre %s à %s';
 $_SESSION['l10n']['fr']['LDAP %s: bad value \'%s\'.']='LDAP %s : valeur incorrecte \'%s\'.';
@@ -292,7 +296,6 @@ $_SESSION['l10n']['fr']['PGP key or certificate']='Clé PGP ou certificat';
 $_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['Password']='Mot de passe';
 $_SESSION['l10n']['fr']['Password confirmation']='Confirmation du mot de passe';
-$_SESSION['l10n']['fr']['0907a526998e1cb6371e1510c92665f8']='Coller ici la clé publique que vous souhaitez partager';
 $_SESSION['l10n']['fr']['People']='Personnes';
 $_SESSION['l10n']['fr']['Persons assigned to %s']='Personnes assignées à %s';
 $_SESSION['l10n']['fr']['Phone number']='Numéro de téléphone';
@@ -373,7 +376,6 @@ $_SESSION['l10n']['fr']['Share']='Partage';
 $_SESSION['l10n']['fr']['e47d04bbe5a79b797e0184d5b6c5f8a5']='Partager les adresses de courrier électronique autant que possible (pour les serveurs intranet).';
 $_SESSION['l10n']['fr']['Share screen']='Partager l\'écran';
 $_SESSION['l10n']['fr']['86214b25bcf6b75ae74bb86bab3bdaa9']='Montrer les adresses de courrier électronique aux membres.';
-$_SESSION['l10n']['fr']['Side information']='Informations de côté';
 $_SESSION['l10n']['fr']['Signature']='Signature';
 $_SESSION['l10n']['fr']['Site map']='Carte du site';
 $_SESSION['l10n']['fr']['Skype']='Skype';
@@ -414,17 +416,16 @@ $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la con
 $_SESSION['l10n']['fr']['5ee5081b787778a1bf2dc50267afcdb8']='Tapez quelques lettres du nom recherché, puis sélectionner une personne à la fois.';
 $_SESSION['l10n']['fr']['18eedbd621c48e8de9a3ec32a672c05d']='Ajouté à vos commentaires et messages. Séparé par des traits du texte principal.';
 $_SESSION['l10n']['fr']['d16733532bc1f048a8bfd6230b0876d3']='Pour empêcher les autres personnes de vous contacter, visitez votre profil, à l\'adresse suivante, et changez les préférences.';
+$_SESSION['l10n']['fr']['Twitter']='Twitter';
 $_SESSION['l10n']['fr']['Unknown LDAP option %s.']='Option LDAP %s inconnue.';
 $_SESSION['l10n']['fr']['Unknown authenticator type %s']='Type d\'authentifieur %s inconnu';
 $_SESSION['l10n']['fr']['Update all user profiles.']='Changer tous les profils.';
 $_SESSION['l10n']['fr']['Updated: %s']='Modification : %s';
 $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
-$_SESSION['l10n']['fr']['8b112f7c101295a5591de6eb2c641590']='Envoyer une image personnelle pour ce profil.';
 $_SESSION['l10n']['fr']['Upload an image']='Téléverser une image';
-$_SESSION['l10n']['fr']['43e5a74e454bb7711c71226172c18b85']='Téléverser une image et l\'intégrer dans la page. Les grandes images seront transformées en vignettes cliquables.';
 $_SESSION['l10n']['fr']['Uploads']='Téléchargements';
 $_SESSION['l10n']['fr']['Use a gravatar']='Utiliser un gravatar';
-$_SESSION['l10n']['fr']['145c71768eada2e93397ec134c387b13']='Utiliser les codes pour insérer les images dans la page.';
+$_SESSION['l10n']['fr']['b3e2e59bff01bca4659ac4f86a75fc2c']='Utiliser les codes pour placer les images dans la page.';
 $_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Tapez du texte sans attribut HTML';
 $_SESSION['l10n']['fr']['Use the authenticator %s']='Utiliser l\'authentifieur %s';
 $_SESSION['l10n']['fr']['Use the library']='Utiliser la librairie';

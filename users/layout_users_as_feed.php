@@ -35,10 +35,10 @@ Class Layout_users_as_feed extends Layout_interface {
 
 			// reset the rendering engine between items
 			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize(Users::get_url($item['id'], 'view', $item['nick_name']));
+				Codes::initialize(Users::get_permalink($item));
 
 			// url to view the user profile
-			$url = $context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name']);
+			$url = $context['url_to_home'].$context['url_to_root'].Users::get_permalink($item);
 
 			// time of last update
 			$time = SQL::strtotime($item['edit_date']);

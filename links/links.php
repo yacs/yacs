@@ -1454,7 +1454,7 @@ Class Links {
 			// user link
 			case 'user':
 				if($item =& Users::get($matches[2]))
-					return array(Users::get_url($item['id'], 'view', $item['nick_name']), $item['full_name']?$item['full_name']:$item['nick_name']);
+					return array(Users::get_permalink($item), $item['full_name']?$item['full_name']:$item['nick_name']);
 				return array('', $text, '');
 
 			}

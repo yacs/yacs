@@ -73,7 +73,7 @@ elseif(Users::validate($item['id'])) {
 	// follow-up commands
 	$follow_up = i18n::s('Where do you want to go now?');
 	$menu = array();
-	$menu = array_merge($menu, array(Users::get_url($item['id'], 'view', $item['nick_name']) => i18n::s('My profile')));
+	$menu = array_merge($menu, array(Users::get_permalink($item) => i18n::s('My profile')));
 	$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
 	$follow_up .= Skin::build_list($menu, 'menu_bar');
 	$context['text'] .= Skin::build_block($follow_up, 'bottom');

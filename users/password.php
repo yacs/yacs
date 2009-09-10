@@ -153,9 +153,12 @@ if(Surfer::is_crawler()) {
 		$message .= "\n".sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help/')."\n"
 			."\n".sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
 
+		// enable threading
+		$headers = Mailer::set_thread(NULL, 'user:'.$item['id']);
+			
 		// post the confirmation message
 		include_once $context['path_to_root'].'shared/mailer.php';
-		Mailer::notify($item['email'], $subject, $message);
+		Mailer::notify(NULL, $item['email'], $subject, $message, $headers);
 
 		// feed-back message
 		$context['text'] .= '<p>'.i18n::s('A reminder message has been sent to you. Check your mailbox and use provided information to authenticate to this site.').'</p>';
@@ -204,7 +207,7 @@ if(Surfer::is_crawler()) {
 
 	// display the updated page
 	} else
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name']));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_permalink($item));
 
 // display the form on GET
 } else
@@ -251,7 +254,7 @@ if($with_form) {
 	// bottom commands
 	$context['text'] .= Skin::finalize_list(array(
 		Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's'),
-		Skin::build_link(Users::get_url($item['id'], 'view', $item['nick_name']), i18n::s('Cancel'), 'span')
+		Skin::build_link(Users::get_permalink($item), i18n::s('Cancel'), 'span')
 		), 'assistant_bar');
 
 	// hidden field that have to be saved as well

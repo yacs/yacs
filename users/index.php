@@ -20,7 +20,7 @@
  * It also has navigation links to page among profiles.
  * Commands are available to associates to either create a new user profile or to review noticeable user profiles.
  *
- * Contact shortcuts are included as well to registered Skype, Yahoo, MSN, etc...
+ * Contact shortcuts are included as well to popular systems such as Twitter, GMail, Skype, Yahoo, MSN, etc...
  *
  * A list of most new users is displayed as a sidebox. Also, a shortcut to the search form has been added.
  *

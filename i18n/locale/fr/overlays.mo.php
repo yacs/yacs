@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 9, 2009, 10:52 pm GMT. Please do not modify it manually.
+ * on September 10, 2009, 11:16 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-02 22:19+0200
+POT-Creation-Date: 2009-09-11 01:01+0200
 PO-Revision-Date: 2009-07-04 22:57+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -48,7 +48,6 @@ $_SESSION['l10n']['fr']['Answer 1']='Réponse 1';
 $_SESSION['l10n']['fr']['Answer 2']='Réponse 2';
 $_SESSION['l10n']['fr']['Answer 3']='Réponse 3';
 $_SESSION['l10n']['fr']['Associates only']='Seulement les associés';
-$_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['CSV']='CSV';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Cancelled']='Annulé';

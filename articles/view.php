@@ -490,8 +490,8 @@ if(!isset($item['id'])) {
 	if(!$zoom_type && !Surfer::is_crawler()) {
 
 		// tags, if any
-		if(isset($item['tags']) && $item['tags'])
-			$context['page_tags'] = $item['tags'];
+		if(isset($item['tags']))
+			$context['page_tags'] =& Skin::build_tags($item['tags'], 'article:'.$item['id']);
 
 		// one detail per line
 		$text .= '<p class="details">';

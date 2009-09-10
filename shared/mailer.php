@@ -387,9 +387,11 @@ class Mailer {
 	 *
 	 * This is the function used by yacs to notify community members of various events.
 	 *
+	 * @param string sender address, use default system parameter if NULL
 	 * @param string recipient address
 	 * @param string subject
 	 * @param string actual message
+	 * @param mixed to be given to Mailer::post()
 	 * @return TRUE on success, FALSE otherwise
 	 *
 	 * @see agents/messages.php
@@ -398,7 +400,7 @@ class Mailer {
 	 * @see shared/logger.php
 	 * @see users/users.php
 	 */
-	function notify($to, $subject, $message) {
+	function notify($from, $to, $subject, $message, $headers='') {
 		global $context;
 
 		// email services have to be activated
@@ -406,13 +408,15 @@ class Mailer {
 			return FALSE;
 
 		// ensure we have a sender
-		if(isset($context['mail_from']) && $context['mail_from'])
-			$from = $context['mail_from'];
-		else
-			$from = 'yacs at '.$context['host_name'];
+		if(!$from) {
+			if(isset($context['mail_from']) && $context['mail_from'])
+				$from = $context['mail_from'];
+			else
+				$from = 'yacs at '.$context['host_name'];
+		}
 
 		// do the job -- don't stop on error
-		if(Mailer::post($from, $to, $subject, $message))
+		if(Mailer::post($from, $to, $subject, $message, $headers))
 			return TRUE;
 		return FALSE;
 	}
@@ -963,6 +967,37 @@ class Mailer {
 		return 1;
 	}
 
+	/**
+	 * prepare for message threading
+	 *
+	 * @link http://www.jwz.org/doc/threading.html message threading
+	 *
+	 * @param string unique id for this message
+	 * @param string thread context for this message
+	 * @return array headers to be used by Mailer::post()
+	 */
+	function set_thread($this_id=NULL, $parent_id=NULL) {
+		global $context;
+	
+		$headers = array();
+		
+		// just help to overcome spam filters
+		if(!$this_id)
+			$this_id = time();
+			
+		// Message-ID: header
+		$header[] = 'Message-ID: <'.str_replace(array('@', '>', ':'), array('', '', '.'), $this_id).'@'.$context['host_name'].'>';
+
+		// In-Reply-To: header
+		if($parent_id) {
+			if(is_object($parent_id))
+				$parent_id = $parent_id->get_reference();
+			$header[] = 'In-Reply-To: <'.str_replace(array('@', '>', ':'), array('', '', '.'), $parent_id).'@'.$context['host_name'].'>';
+		}
+		
+		return $headers;
+	}
+	
 	/**
 	 * create tables for queued messages
 	 */

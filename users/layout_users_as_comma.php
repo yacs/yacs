@@ -42,7 +42,7 @@ Class Layout_users_as_comma extends Layout_interface {
 		while($item =& SQL::fetch($result)) {
 
 			// url to view the user
-			$url = Users::get_url($item['id'], 'view', $item['nick_name']);
+			$url = Users::get_permalink($item);
 
 			// initialize variables
 			$prefix = $suffix = '';

@@ -135,7 +135,7 @@ if(!($id = trim($id)) || !preg_match('/\w/', $id)) {
 
 // look in user profiles
 } elseif($item =& Users::get($id)) {
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name']));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_permalink($item));
 
 // not found
 } else {

@@ -55,7 +55,7 @@ Class Layout_users_as_watch extends Layout_interface {
 				$hover .= ' [user='.$item['id'].']';
 
 			// the url to view this item
-			$url = Users::get_url($item['id'], 'view', $item['nick_name']);
+			$url = Users::get_permalink($item);
 
 			// use full name, then nick name
 			if(isset($item['full_name']) && $item['full_name']) {

@@ -302,7 +302,7 @@ class Logger {
 
 			// actual mail message
 			include_once $context['path_to_root'].'shared/mailer.php';
-			Mailer::notify($context['mail_logger_recipient'], $label, $description);
+			Mailer::notify(NULL, $context['mail_logger_recipient'], $label, $description);
 		}
 	}
 

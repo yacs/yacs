@@ -50,7 +50,7 @@ Class Layout_users extends Layout_interface {
 			$prefix = $suffix = $icon = '';
 
 			// the url to view this item
-			$url = Users::get_url($item['id'], 'view', $item['nick_name']);
+			$url = Users::get_permalink($item);
 
 			// reset the rendering engine between items
 			if(is_callable(array('Codes', 'initialize')))
@@ -82,37 +82,8 @@ Class Layout_users extends Layout_interface {
 			}
 
 			// show contact information
-			if(Surfer::may_contact()) {
-
-				// jabber
-				if(isset($item['jabber_address']) && $item['jabber_address'])
-					$suffix .= ' '.Skin::build_presence($item['jabber_address'], 'jabber');
-
-				// skype
-				if(isset($item['skype_address']) && $item['skype_address'])
-					$suffix .= ' '.Skin::build_presence($item['skype_address'], 'skype');
-
-				// yahoo
-				if(isset($item['yahoo_address']) && $item['yahoo_address'])
-					$suffix .= ' '.Skin::build_presence($item['yahoo_address'], 'yahoo');
-
-				// msn
-				if(isset($item['msn_address']) && $item['msn_address'])
-					$suffix .= ' '.Skin::build_presence($item['msn_address'], 'msn');
-
-				// aim
-				if(isset($item['aim_address']) && $item['aim_address'])
-					$suffix .= ' '.Skin::build_presence($item['aim_address'], 'aim');
-
-				// irc
-				if(isset($item['irc_address']) && $item['irc_address'])
-					$suffix .= ' '.Skin::build_presence($item['irc_address'], 'irc');
-
-				// icq
-				if(isset($item['icq_address']) && $item['icq_address'])
-					$suffix .= ' '.Skin::build_presence($item['icq_address'], 'icq');
-
-			}
+			if(Surfer::may_contact())
+				$suffix .= Users::build_presence($item);
 
 			// the introduction
 			if($item['introduction']) {

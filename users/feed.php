@@ -107,7 +107,7 @@ if(!isset($item['id'])) {
 
 		// set channel information
 		$values['channel']['title'] = $item['full_name'] ? $item['full_name'] : $item['nick_name'];
-		$values['channel']['link'] = $context['url_to_home'].$context['url_to_root'].Users::get_url($item['id']);
+		$values['channel']['link'] = $context['url_to_home'].$context['url_to_root'].Users::get_permalink($item);
 		$values['channel']['description'] = $item['introduction'];
 
 		// the image for this channel

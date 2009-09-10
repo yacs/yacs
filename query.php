@@ -163,9 +163,15 @@ if(Surfer::is_crawler()) {
 			// message body
 			$message = sprintf(i18n::s("Your query will now be reviewed by one of the associates of this community. It is likely that this will be done within the next 24 hours at the latest.\n\nYou can check the status of your query at the following address:\n\n%s\n\nWe would like to thank you for your interest in our web site."), $link);
 
+			// enable threading
+			if(isset($item['id']))
+				$headers = Mailer::set_thread('article:'.$item['id']);
+			else
+				$headers = '';
+			
 			// actual post - don't stop on error
 			include_once $context['path_to_root'].'shared/mailer.php';
-			Mailer::notify($to, $subject, $message);
+			Mailer::notify(NULL, $to, $subject, $message, $headers);
 
 		}
 

@@ -37,7 +37,7 @@ $context['page_title'] = sprintf(i18n::s('Video session by MeBeam: %s'), $id);
 
 // a link to share the 
 // insert the mebeam Flash agent
-$context['text'] .= '<object  width="100%" height="480" id="mebeam_control" align="middle">'."\n"
+$context['text'] .= '<object  width="512" height="460" id="mebeam_control" align="middle">'."\n"
 	.' <param name="allowScriptAccess" value="always" >'."\n"
 	.' <param name="movie" value="http://www.mebeam.com/mebeam.swf">'."\n"
 	.' <param name="quality" value="best" >'."\n"
@@ -45,7 +45,7 @@ $context['text'] .= '<object  width="100%" height="480" id="mebeam_control" alig
 	."\n"
 	.' <param name="salign" value="t" >'."\n"
 	.' <param name="flashvars" value="room='.$id.'">'."\n"
-	.' <embed  flashvars="room='.$id.'" src="http://www.mebeam.com/mebeam.swf" quality="best" scale="noscale" salign="t"  width="1000" height="480" name="mebeam_control"  align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" >'."\n"
+	.' <embed  flashvars="room='.$id.'" src="http://www.mebeam.com/mebeam.swf" quality="best" scale="noscale" salign="t"  width="512" height="460" name="mebeam_control"  align="middle" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" >'."\n"
 	.'</object>';
 
 // render the page according to the loaded skin

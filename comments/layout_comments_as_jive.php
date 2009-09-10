@@ -12,7 +12,7 @@
  * - status (associate, member, subscriber)
  * - number of posts
  * - registration date
- * - contact icons, if any (aim, icq, irc, jabber, msn, skype, yahoo)
+ * - contact icons, if any (aim, icq, irc, jabber, msn, skype, twitter, yahoo)
  *
  * The comment icon is also a link to the comment permalink.
  *
@@ -103,37 +103,7 @@ Class Layout_comments_as_jive extends Layout_interface {
 
 			// show contact information
 			if(Surfer::may_contact()) {
-
-				$contacts = '';
-
-				// jabber
-				if(isset($poster['jabber_address']) && $poster['jabber_address'])
-					$contacts .= ' '.Skin::build_presence($poster['jabber_address'], 'jabber');
-
-				// skype
-				if(isset($poster['skype_address']) && $poster['skype_address'])
-					$contacts .= ' '.Skin::build_presence($poster['skype_address'], 'skype');
-
-				// yahoo
-				if(isset($poster['yahoo_address']) && $poster['yahoo_address'])
-					$contacts .= ' '.Skin::build_presence($poster['yahoo_address'], 'yahoo');
-
-				// msn
-				if(isset($poster['msn_address']) && $poster['msn_address'])
-					$contacts .= ' '.Skin::build_presence($poster['msn_address'], 'msn');
-
-				// aim
-				if(isset($poster['aim_address']) && $poster['aim_address'])
-					$contacts .= ' '.Skin::build_presence($poster['aim_address'], 'aim');
-
-				// irc
-				if(isset($poster['irc_address']) && $poster['irc_address'])
-					$contacts .= ' '.Skin::build_presence($poster['irc_address'], 'irc');
-
-				// icq
-				if(isset($poster['icq_address']) && $poster['icq_address'])
-					$contacts .= ' '.Skin::build_presence($poster['icq_address'], 'icq');
-
+				$contacts = Users::build_presence($poster);
 				if($contacts)
 					$author_details[] = $contacts;
 			}

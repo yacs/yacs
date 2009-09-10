@@ -58,6 +58,38 @@
 Class Versions {
 
 	/**
+	 * ensure that two arrays are different
+	 *
+	 * @param array initial version of an object
+	 * @param array updated version, or supposed so
+	 * @param array list of attributes to check
+	 * @return boolean TRUE if the arrays are different, FALSE otherwise
+	 */
+	function are_different($previous, $current, $names=NULL) {
+	
+		// sanity check
+		if(!is_array($names) || !$names)
+			$names = array('description', 'extra', 'introduction', 'overlay', 'tags', 'title', 'trailer');
+			
+		// check each attribute
+		foreach($names as $name) {
+		
+			// skip undefined attributes
+			if(!isset($previous[ $name ]))
+				continue;
+			if(!isset($current[ $name ]))
+				continue;
+		
+			// stop on first difference found
+			if(strcmp($previous[ $name ], $current[ $name ]))
+				return TRUE;
+				
+		}
+		
+		// no difference has been found
+		return FALSE;
+	}
+	/**
 	 * count available versions
 	 *
 	 * @param string the selected anchor (e.g., 'section:12')
@@ -363,6 +395,9 @@ Class Versions {
 	/**
 	 * remember a version
 	 *
+	 * Save previous version of some object in the database.
+	 * It is recommended to call Versions::are_different() before calling Versions::save(), to
+	 * ensure that something change has taken place.
 	 * This function populates the error context, where applicable.
 	 *
 	 * @param array an array of fields
@@ -391,9 +426,9 @@ Class Versions {
 		$versioning_date = isset($fields['edit_date']) ? $fields['edit_date'] : gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// delete previous versions for this day
-		$query = "DELETE FROM ".SQL::table_name('versions')
-			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (edit_date LIKE '".substr($versioning_date, 0, 10)."%')";
-		SQL::query($query);
+// 		$query = "DELETE FROM ".SQL::table_name('versions')
+// 			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (edit_date LIKE '".substr($versioning_date, 0, 10)."%')";
+// 		SQL::query($query);
 
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('versions')." SET "

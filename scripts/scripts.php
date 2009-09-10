@@ -694,12 +694,15 @@ class Scripts {
 				else
 					$text .= $right.' ';
 
-			} else
-				$text .= $right.' ';
+			} elseif($right) {
+				if(($right[0] != '<') && $text && ($text[strlen($text)-1] != '>'))
+					$text .= ' ';
+				$text .= $right;
+			}
 		}
 
 		// recombine added words
-		$text = str_replace(array('</del> <del>', '</ins> <ins>'), ' ', $text);
+		$text = trim(str_replace(array('</del> <del>', '</ins> <ins>'), ' ', $text));
 
 		// return the result of the whole comparison
 		return $text;

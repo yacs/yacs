@@ -2009,7 +2009,7 @@ Class Skin_Skeleton {
 	/**
 	 * show presence information
 	 *
-	 * Supports 'aim', 'icq', 'irc', 'jabber', 'msn', 'skype' and 'yahoo' variants.
+	 * Supports 'aim', 'icq', 'irc', 'jabber', 'msn', 'skype', 'twitter' and 'yahoo' variants.
 	 *
 	 * @link http://www.mozilla.org/projects/rt-messaging/chatzilla/irc-urls.html irc: urls in Mozilla
 	 * @link http://forum.osnn.net/archive/index.php/t-2010.html sending a message to MSN user w/java script
@@ -2065,6 +2065,12 @@ Class Skin_Skeleton {
 			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If Skype software is installed, click to open a Skype session')).'">'.SKYPE_IMG.'</a>';
 			break;
 
+		case 'twitter':
+			$url = 'http://www.twitter.com/'.urlencode(trim($text));
+			Skin::define_img('TWITTER_IMG', 'icons/pagers/twitter.gif', 'Twitter', 'Twitter');
+			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('Visit this Twitter page')).'">'.TWITTER_IMG.'</a>';
+			break;
+
 		case 'yahoo':
 			$url = 'ymsgr:sendim?'.urlencode(trim($text));
 			Skin::define_img('YAHOO_IMG', 'icons/pagers/yahoo.gif', 'Yahoo!', 'Yahoo!');
@@ -2105,7 +2111,7 @@ Class Skin_Skeleton {
 		$label = (isset($user['full_name'])&&$user['full_name']) ? $user['full_name'] : $user['nick_name'];
 
 		// link to the user profile
-		$url = Users::get_url($user['id'], 'view', $user['nick_name']);
+		$url = Users::get_permalink($user);
 
 		// configured styles
 		$more_styles = '';
@@ -2211,38 +2217,9 @@ Class Skin_Skeleton {
 			// show contact information
 			if(Surfer::may_contact()) {
 
-				$contacts = array();
-
-				// jabber
-				if(isset($user['jabber_address']) && $user['jabber_address'])
-					$contacts[] = Skin::build_presence($user['jabber_address'], 'jabber');
-
-				// skype
-				if(isset($user['skype_address']) && $user['skype_address'])
-					$contacts[] = Skin::build_presence($user['skype_address'], 'skype');
-
-				// yahoo
-				if(isset($user['yahoo_address']) && $user['yahoo_address'])
-					$contacts[] = Skin::build_presence($user['yahoo_address'], 'yahoo');
-
-				// msn
-				if(isset($user['msn_address']) && $user['msn_address'])
-					$contacts[] = Skin::build_presence($user['msn_address'], 'msn');
-
-				// aim
-				if(isset($user['aim_address']) && $user['aim_address'])
-					$contacts[] = Skin::build_presence($user['aim_address'], 'aim');
-
-				// irc
-				if(isset($user['irc_address']) && $user['irc_address'])
-					$contacts[] = Skin::build_presence($user['irc_address'], 'irc');
-
-				// icq
-				if(isset($user['icq_address']) && $user['icq_address'])
-					$contacts[] = Skin::build_presence($user['icq_address'], 'icq');
-
+				$contacts = Users::build_presence($user);
 				if($contacts)
-					$text .= BR.implode(' ', $contacts);
+					$text .= BR.$contacts;
 			}
 
 			// everything in an extra box
@@ -2589,6 +2566,33 @@ Class Skin_Skeleton {
 		return $text;
 	}
 
+	/**
+	 *
+	 * @param string the full list of tags
+	 * @param string reference to their anchor
+	 * @return string HTML tags to be put in the resulting page
+	 */
+	function &build_tags($tags, $reference) {
+	
+		$text = '';
+		
+		// list existing tags
+		$tags = explode(',', $tags);
+		foreach($tags as $tag) {
+			if(!$tag = trim($tag))
+				continue;
+			if($category = Categories::get_by_keyword($tag))
+				$text .= Skin::build_link(Categories::get_permalink($category), $tag, 'basic').' ';
+			else
+				$text .= $tag.' ';
+		}
+		$text = rtrim($text, ' ');
+
+		// a link to add a tag
+		
+		return $text;
+	}
+	
 	/**
 	 * format a time stamp
 	 *

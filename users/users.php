@@ -86,7 +86,7 @@ Class Users {
 
 		// post a message to this particular user
 		include_once $context['path_to_root'].'shared/mailer.php';
-		return Mailer::notify($user['email'], $mail['subject'], $mail['message']);
+		return Mailer::notify(Surfer::from(), $user['email'], $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'');
 
 	}
 
@@ -198,6 +198,50 @@ Class Users {
 
 		// tough luck
 		return NULL;
+	}
+
+	/**
+	 * all presence icons for a surfer
+	 *
+	 * @param array user record
+	 * @return string HTML tags
+	 */
+	function build_presence($item) {
+		$contacts = array();
+		
+		// twitter
+		if(isset($item['twitter_address']) && $item['twitter_address'])
+			$contacts[] = Skin::build_presence($item['twitter_address'], 'twitter');
+
+		// jabber
+		if(isset($item['jabber_address']) && $item['jabber_address'])
+			$contacts[] = Skin::build_presence($item['jabber_address'], 'jabber');
+
+		// skype
+		if(isset($item['skype_address']) && $item['skype_address'])
+			$contacts[] = Skin::build_presence($item['skype_address'], 'skype');
+
+		// yahoo
+		if(isset($item['yahoo_address']) && $item['yahoo_address'])
+			$contacts[] = Skin::build_presence($item['yahoo_address'], 'yahoo');
+
+		// msn
+		if(isset($item['msn_address']) && $item['msn_address'])
+			$contacts[] = Skin::build_presence($item['msn_address'], 'msn');
+
+		// aim
+		if(isset($item['aim_address']) && $item['aim_address'])
+			$contacts[] = Skin::build_presence($item['aim_address'], 'aim');
+
+		// irc
+		if(isset($item['irc_address']) && $item['irc_address'])
+			$contacts[] = Skin::build_presence($item['irc_address'], 'irc');
+
+		// icq
+		if(isset($item['icq_address']) && $item['icq_address'])
+			$contacts[] = Skin::build_presence($item['icq_address'], 'icq');
+			
+		return join(' ', $contacts);
 	}
 
 	/**
@@ -444,6 +488,17 @@ Class Users {
 			return Skin::build_link($email, $name, NULL, $hover);
 		else
 			return $name;
+	}
+
+	/**
+	 * get permanent address
+	 *
+	 * @param array page attributes
+	 * @return string the permalink
+	 */
+	function &get_permalink($item) {
+		$output = Users::get_url($item['id'], 'view', isset($item['full_name'])?$item['full_name']:$item['nick_name']);
+		return $output;
 	}
 
 	/**
@@ -1290,6 +1345,7 @@ Class Users {
 			."signature='".SQL::escape(isset($fields['signature']) ? $fields['signature'] : '')."', "
 			."skype_address='".SQL::escape(isset($fields['skype_address']) ? $fields['skype_address'] : '')."', "
 			."tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."', "
+			."twitter_address='".SQL::escape(isset($fields['twitter_address']) ? $fields['twitter_address'] : '')."', "
 			."vcard_agent='".SQL::escape(isset($fields['vcard_agent']) ? $fields['vcard_agent'] : '')."', "
 			."vcard_label='".SQL::escape(isset($fields['vcard_label']) ? $fields['vcard_label'] : '')."', "
 			."vcard_organization='".SQL::escape(isset($fields['vcard_organization']) ? $fields['vcard_organization'] : '')."', "
@@ -1359,9 +1415,12 @@ Class Users {
 			$message .= "\n".sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help/')."\n"
 				."\n".sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
 
+			// enable threading
+			$headers = Mailer::set_thread('user:'.$fields['id']);
+			
 			// post the confirmation message
 			include_once $context['path_to_root'].'shared/mailer.php';
-			Mailer::notify($fields['email'], $subject, $message);
+			Mailer::notify(NULL, $fields['email'], $subject, $message, $headers);
 
 		}
 
@@ -1516,6 +1575,7 @@ Class Users {
 				."signature='".SQL::escape(isset($fields['signature']) ? $fields['signature'] : '')."', "
 				."skype_address='".SQL::escape(isset($fields['skype_address']) ? $fields['skype_address'] : '')."', "
 				."tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."', "
+				."twitter_address='".SQL::escape(isset($fields['twitter_address']) ? $fields['twitter_address'] : '')."', "
 				."vcard_agent='".SQL::escape(isset($fields['vcard_agent']) ? $fields['vcard_agent'] : '')."', "
 				."vcard_label='".SQL::escape(isset($fields['vcard_label']) ? $fields['vcard_label'] : '')."', "
 				."vcard_organization='".SQL::escape(isset($fields['vcard_organization']) ? $fields['vcard_organization'] : '')."', "
@@ -1579,9 +1639,12 @@ Class Users {
 				.sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help/')."\n"
 				.sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
 
+			// enable threading
+			$headers = Mailer::set_thread(NULL, 'user:'.$item['id']);
+			
 			// post the confirmation message
 			include_once $context['path_to_root'].'shared/mailer.php';
-			Mailer::notify($item['email'], $subject, $message);
+			Mailer::notify(NULL, $item['email'], $subject, $message, $headers);
 
 		}
 
@@ -1699,6 +1762,7 @@ Class Users {
 		$fields['signature']	= "TEXT NOT NULL";
 		$fields['skype_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['tags'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['twitter_address'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['vcard_agent']	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['vcard_label']	= "TEXT NOT NULL";
 		$fields['vcard_organization']	= "VARCHAR(255) DEFAULT '' NOT NULL";

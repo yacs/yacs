@@ -145,7 +145,7 @@ if(!isset($item['id'])) {
 	if($item['web_address'])
 		$text .= '		<foaf:homepage rdf:resource="'.encode_field($item['web_address']).'" />'."\n";
 	else
-		$text .= '		<foaf:homepage rdf:resource="'.encode_field($context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name'])).'" />'."\n";
+		$text .= '		<foaf:homepage rdf:resource="'.encode_field($context['url_to_home'].$context['url_to_root'].Users::get_permalink($item)).'" />'."\n";
 
 	// the user avatar
 	if($item['avatar_url']) {

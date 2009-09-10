@@ -89,7 +89,7 @@ if(is_array($id)) {
 // the path to this page
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
 if(isset($item['id']))
-	$context['path_bar'] = array_merge($context['path_bar'], array( Users::get_url($item['id'], 'view', $item['nick_name']) => $item['full_name']?$item['full_name']:$item['nick_name'] ));
+	$context['path_bar'] = array_merge($context['path_bar'], array( Users::get_permalink($item) => $item['full_name']?$item['full_name']:$item['nick_name'] ));
 
 // page title
 if(isset($item['id']) && Surfer::is($item['id']))
@@ -182,8 +182,8 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 		// email has to be activated
 		if(isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 
-				// each recipient, one at a time
-				foreach($items as $item) {
+			// each recipient, one at a time
+			foreach($items as $item) {
 
 				// you cannot write to yourself
 				if(isset($item['id']) && (Surfer::get_id() == $item['id']))
@@ -217,13 +217,16 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 				} else
 					$mail['message'] .= Articles::get_permalink($article);
 
+				// enable threading
+				$mail['headers'] = Mailer::set_thread('article:'.$article['id'], $anchor);
+			
 				// target is known here
 				if(isset($item['id'])) {
 
 					// suggest to change user preferences if applicable
 					$mail['message'] .= "\n\n"
 						.i18n::c('To prevent other surfers from contacting you, please visit your profile at the following address, and change preferences.')
-						."\n\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($item['id'], 'view', $item['nick_name'])
+						."\n\n".$context['url_to_home'].$context['url_to_root'].Users::get_permalink($item)
 						."\n\n";
 
 					// also prepare an interactive alert
@@ -239,7 +242,7 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 						Logger::error(sprintf(i18n::s('Impossible to send a message to %s.'), $item['nick_name']));
 
 				// we only have a recipient address
-				} elseif($item['email'] && !Mailer::notify($item['email'], $mail['subject'], $mail['message']))
+				} elseif($item['email'] && !Mailer::notify(Surfer::from(), $item['email'], $mail['subject'], $mail['message'], $mail['headers']))
 					Logger::error(sprintf(i18n::s('Impossible to send a message to %s.'), $item['email']));
 
 			}
@@ -253,9 +256,9 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 	if(isset($article['id']))
 		$menu = array(Articles::get_permalink($article) => i18n::s('View the new thread'));
 	if((count($items) == 1) && ($item = $items[0]) && isset($item['id']))
-		$menu = array_merge($menu, array(Users::get_url($item['id'], 'view', $item['nick_name']) => sprintf(i18n::s('Back to %s'), $item['nick_name'])));
+		$menu = array_merge($menu, array(Users::get_permalink($item) => sprintf(i18n::s('Back to %s'), $item['nick_name'])));
 	elseif(Surfer::get_id())
-		$menu = array_merge($menu, array(Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('Back to my profile')));
+		$menu = array_merge($menu, array(Surfer::get_permalink() => i18n::s('Back to my profile')));
 	if(count($menu))
 		$context['text'] .= Skin::build_block(i18n::s('Where do you want to go now?').Skin::build_list($menu, 'menu_bar'), 'bottom');
 

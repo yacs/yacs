@@ -716,6 +716,7 @@ div.sidecolumn {
 	padding: 1em 1em 2em 1em;
 	margin: 0;
 	max-width: 25em;
+	min-width: 20em;
 }
 
 /* do not print commands */

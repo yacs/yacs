@@ -1302,7 +1302,7 @@ Class Section extends Anchor {
 						."\n\n"
 						.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted by a user that is part of your watch list. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.'), $context['site_name'])
 						."\n\n".ucfirst(strip_tags(Surfer::get_name()))
-						."\n".$context['url_to_home'].$context['url_to_root'].Users::get_url(Surfer::get_id(), 'view', Surfer::get_name())
+						."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink()
 						."\n\n";
 
 				}
@@ -1350,7 +1350,7 @@ Class Section extends Anchor {
 						."\n\n"
 						.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted by a user that is part of your watch list. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.'), $context['site_name'])
 						."\n\n".ucfirst(strip_tags(Surfer::get_name()))
-						."\n".$context['url_to_home'].$context['url_to_root'].Users::get_url(Surfer::get_id(), 'view', Surfer::get_name())
+						."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink()
 						."\n\n";
 
 				}
@@ -1390,7 +1390,7 @@ Class Section extends Anchor {
 						."\n\n"
 						.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted by a user that is part of your watch list. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.'), $context['site_name'])
 						."\n\n".ucfirst(strip_tags(Surfer::get_name()))
-						."\n".$context['url_to_home'].$context['url_to_root'].Users::get_url(Surfer::get_id(), 'view', Surfer::get_name())
+						."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink()
 						."\n\n";
 
 				}
@@ -1437,7 +1437,7 @@ Class Section extends Anchor {
 						."\n\n"
 						.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted by a user that is part of your watch list. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.'), $context['site_name'])
 						."\n\n".ucfirst(strip_tags(Surfer::get_name()))
-						."\n".$context['url_to_home'].$context['url_to_root'].Users::get_url(Surfer::get_id(), 'view', Surfer::get_name())
+						."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink()
 						."\n\n";
 
 				}

@@ -157,7 +157,7 @@ if(!is_object($anchor)) {
 
 	// back to the anchor page
 	$links = array();
-	$links[] = Skin::build_link($anchor->get_url(), i18n::s('Latest version'), 'button');
+	$links[] = Skin::build_link($anchor->get_url(), i18n::s('Done'), 'button');
 	$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
 
 	// insert anchor suffix

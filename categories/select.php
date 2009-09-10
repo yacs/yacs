@@ -96,16 +96,24 @@ if(Surfer::is_crawler()) {
 
 	}
 
-	// back to the anchor page
-	if(is_object($anchor))
-		$context['page_menu'] = array($anchor->get_url() => i18n::s('Back to main page'));
-
 	// insert anchor prefix
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_prefix();
 
 	// the current list of linked categories
-	if(($categories =& Members::list_categories_by_title_for_member($member, 0, CATEGORIES_LIST_SIZE, 'raw')) && count($categories)) {
+	$categories =& Members::list_categories_by_title_for_member($member, 0, CATEGORIES_LIST_SIZE, 'raw');
+
+	// the form to link additional categories
+	if(!is_array($categories) || (count($categories) < CATEGORIES_LIST_SIZE)) {
+		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><div style="margin-bottom: 2em;">'
+			.i18n::s('Select a category').' <select name="anchor">'.Categories::get_options($categories).'</select>'
+			.' '.Skin::build_submit_button(i18n::s('Categorize'))
+			.'<input type="hidden" name="member" value="'.encode_field($member).'">'
+			.'</div></form>'."\n";
+	}
+
+	// the current list of linked categories
+	if(count($categories)) {
 
 		// display attached categories with unlink buttons
 		$context['text'] .= '<p>'.i18n::s('All categories that have been associated to this page:').'</p>';
@@ -183,15 +191,6 @@ if(Surfer::is_crawler()) {
 		// display attached categories with unlink buttons
 		$context['text'] .= Skin::build_list($new_categories, 'decorated');
 
-	}
-
-	// the form to link additional categories
-	if(!is_array($categories) || (count($categories) < CATEGORIES_LIST_SIZE)) {
-		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><div>'
-			.i18n::s('Select a category').' <select name="anchor">'.Categories::get_options($categories).'</select>'
-			.' '.Skin::build_submit_button(i18n::s('Categorize'))
-			.'<input type="hidden" name="member" value="'.encode_field($member).'">'
-			.'</div></form>'."\n";
 	}
 
 	// insert anchor suffix

@@ -110,6 +110,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../shared/xml.php';	// input validation
+include_once '../versions/versions.php'; // roll-back
 
 // allow for direct login
 if(isset($_REQUEST['account']) && isset($_REQUEST['password'])) {
@@ -431,10 +432,8 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['self_url'] = $context['url_to_root'].Articles::get_permalink($_REQUEST);
 
 		// remember the previous version
-		if($item['id']) {
-			include_once '../versions/versions.php';
+		if($item['id'] && Versions::are_different($item, $_REQUEST))
 			Versions::save($item, 'article:'.$item['id']);
-		}
 
 		// change to another overlay
 		if(isset($_REQUEST['overlay_type']) && $_REQUEST['overlay_type'] && Surfer::is_associate())
@@ -703,6 +702,12 @@ if($with_form) {
 		$hint = '';
 	$fields[] = array($label, $input, $hint);
 
+	// tags
+	$label = i18n::s('Tags');
+	$input = '<input type="text" name="tags" id="tags" value="'.encode_field(isset($item['tags'])?$item['tags']:'').'" size="45" maxlength="255" accesskey="t" /><div id="tags_choices" class="autocomplete"></div>';
+	$hint = i18n::s('A comma-separated list of keywords');
+	$fields[] = array($label, $input, $hint);
+
 	// end of regular fields
 	$text .= Skin::build_form($fields);
 	$fields = array();
@@ -738,12 +743,6 @@ if($with_form) {
 	//
 	$text = '';
 	
-	// tags
-	$label = i18n::s('Tags');
-	$input = '<input type="text" name="tags" id="tags" value="'.encode_field(isset($item['tags'])?$item['tags']:'').'" size="45" maxlength="255" accesskey="t" /><div id="tags_choices" class="autocomplete"></div>';
-	$hint = i18n::s('A comma-separated list of keywords');
-	$fields[] = array($label, $input, $hint);
-
 	// the icon url may be set after the page has been created
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
 		$label = i18n::s('Image');

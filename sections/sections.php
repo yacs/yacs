@@ -1254,6 +1254,29 @@ Class Sections {
 	}
 
 	/**
+	 * set the hits counter - errors are not reported, if any
+	 *
+	 * Hits are aiming to track service usage of anonymous and of authenticated users.
+	 * Normally this function is not called is the surfer is either an associates or an editor for this section.
+	 *
+	 * @param the id of the section to update
+	 *
+	 * @see sections/view.php
+	 */
+	function increment_hits($id) {
+		global $context;
+
+		// id cannot be empty
+		if(!$id || !is_numeric($id))
+			return;
+
+		// do the job
+		$query = "UPDATE ".SQL::table_name('sections')." SET hits=hits+1 WHERE id = ".SQL::escape($id);
+		SQL::query($query);
+
+	}
+
+	/**
 	 * has the surfer been assign to this section?
 	 *
 	 * This would be the case either:
@@ -2377,29 +2400,6 @@ Class Sections {
 
 		$output =& Sections::list_selected(SQL::query($query), $variant);
 		return $output;
-	}
-
-	/**
-	 * set the hits counter - errors are not reported, if any
-	 *
-	 * Hits are aiming to track service usage of anonymous and of authenticated users.
-	 * Normally this function is not called is the surfer is either an associates or an editor for this section.
-	 *
-	 * @param the id of the section to update
-	 *
-	 * @see sections/view.php
-	 */
-	function increment_hits($id) {
-		global $context;
-
-		// id cannot be empty
-		if(!$id || !is_numeric($id))
-			return;
-
-		// do the job
-		$query = "UPDATE ".SQL::table_name('sections')." SET hits=hits+1 WHERE id = ".SQL::escape($id);
-		SQL::query($query);
-
 	}
 
 	/**
