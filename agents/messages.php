@@ -1392,10 +1392,10 @@ class Messages {
 					.i18n::c('Thank you for your contribution');
 
 				// enable threading
+				include_once $context['path_to_root'].'shared/mailer.php';
 				$headers = Mailer::set_thread($article->get_reference(), $section);
 			
 				// send a mail message
-				include_once $context['path_to_root'].'shared/mailer.php';
 				Mailer::notify(NULL, $post_sender, 'Re: '.$post_subject, $message, $headers);
 			}
 

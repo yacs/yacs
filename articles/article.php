@@ -1056,6 +1056,7 @@ Class Article extends Anchor {
 			$mail['message'] = sprintf($mail['template'], $mail['title'], $mail['link'], $mail['action']);
 
 			// threads all messages for this page
+			include_once $context['path_to_root'].'shared/mailer.php';
 			$mail['headers'] = Mailer::set_thread(NULL, 'article:'.$this->item['id']);
 			
 			// regular poster
@@ -1082,10 +1083,8 @@ Class Article extends Anchor {
 			} elseif($this->item['create_address']) {
 
 				// send an alert if surfer is not the poster
-				if(!Surfer::get_email_address() || (Surfer::get_email_address() != $this->item['create_address'])) {
-					include_once $context['path_to_root'].'shared/mailer.php';
+				if(!Surfer::get_email_address() || (Surfer::get_email_address() != $this->item['create_address']))
 					Mailer::notify(Surfer::from(), $this->item['create_address'], $mail['subject'], $mail['message'], $mail['headers']);
-				}
 
 			}
 

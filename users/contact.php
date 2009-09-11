@@ -218,6 +218,7 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 					$mail['message'] .= Articles::get_permalink($article);
 
 				// enable threading
+				include_once $context['path_to_root'].'shared/mailer.php';
 				$mail['headers'] = Mailer::set_thread('article:'.$article['id'], $anchor);
 			
 				// target is known here

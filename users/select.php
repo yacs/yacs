@@ -103,6 +103,7 @@ elseif(!$permitted) {
 					."\n".$context['url_to_home'].$context['url_to_root'].Users::get_permalink($user);
 
 				// enable threading
+				include_once $context['path_to_root'].'shared/mailer.php';
 				$headers = Mailer::set_thread(NULL, $anchor);
 
 				// allow for cross-referencing			

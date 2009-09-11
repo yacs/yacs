@@ -214,10 +214,10 @@ if(Surfer::is_crawler()) {
 			$message = sprintf(i18n::s("The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.\n\nSender: %s\n\n%s\n\n%s\n\n"), Surfer::get_name(), strip_tags(preg_replace('/<br *\/>/i', "\n", Codes::beautify($_REQUEST['description']))), $context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']));
 
 			// enable threading
+			include_once $context['path_to_root'].'shared/mailer.php';
 			$headers = Mailer::set_thread('action:'.$_REQUEST['id'], $anchor);
 			
 			// actual post - don't stop on error
-			include_once $context['path_to_root'].'shared/mailer.php';
 			Mailer::notify(Surfer::from(), $to, $subject, $message, $headers);
 
 		}

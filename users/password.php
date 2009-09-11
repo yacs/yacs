@@ -154,10 +154,10 @@ if(Surfer::is_crawler()) {
 			."\n".sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
 
 		// enable threading
+		include_once $context['path_to_root'].'shared/mailer.php';
 		$headers = Mailer::set_thread(NULL, 'user:'.$item['id']);
 			
 		// post the confirmation message
-		include_once $context['path_to_root'].'shared/mailer.php';
 		Mailer::notify(NULL, $item['email'], $subject, $message, $headers);
 
 		// feed-back message
