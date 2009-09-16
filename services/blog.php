@@ -534,7 +534,7 @@ else {
 			Surfer::empower($user['capability']);
 		
 			// surfer is a section editor
-			if(Surfer::is_member($user['capability']) && is_object($anchor) && $anchor->is_editable($user['id']))
+			if(Surfer::is_member($user['capability']) && is_object($anchor) && $anchor->is_assigned($user['id']))
 				Surfer::empower();
 			
 			// surfer is a page editor
@@ -579,7 +579,7 @@ else {
 			Surfer::empower($user['capability']);
 		
 			// surfer is a section editor
-			if(Surfer::is_member($user['capability']) && is_object($anchor) && $anchor->is_editable($user['id']))
+			if(Surfer::is_member($user['capability']) && is_object($anchor) && $anchor->is_assigned($user['id']))
 				Surfer::empower();
 			
 			// surfer is a page editor
@@ -603,7 +603,7 @@ else {
 				// or if the surfer asks for it and add sufficient rights
 				if( ($context['users_with_auto_publish'] == 'Y')
 					|| (is_object($anchor) && $anchor->has_option('auto_publish'))
-					|| ($publish && (($user['capability'] == 'A') || (is_object($anchor) && $anchor->is_editable($user['id'])))) ) {
+					|| ($publish && (($user['capability'] == 'A') || (is_object($anchor) && $anchor->is_assigned($user['id'])))) ) {
 					$fields['publish_name'] = $user['nick_name'];
 					$fields['publish_id'] = $user['id'];
 					$fields['publish_address'] = $user['email'];
@@ -691,7 +691,7 @@ else {
 				$permitted = TRUE;
 			
 			// hidden page
-			elseif(($item['active'] == 'N') && $anchor->is_editable($user['id']))
+			elseif(($item['active'] == 'N') && $anchor->is_assigned($user['id']))
 				$permitted = TRUE;
 				
 			// assigned page
@@ -763,7 +763,7 @@ else {
 			Surfer::empower($user['capability']);
 		
 			// surfer is a section editor
-			if(Surfer::is_member($user['capability']) && is_object($section) && $section->is_editable($user['id']))
+			if(Surfer::is_member($user['capability']) && is_object($section) && $section->is_assigned($user['id']))
 				Surfer::empower();
 			
 			// surfer is a page editor
@@ -822,7 +822,7 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown blog %s at %s'), $blogid, $context['url_to_home']) );
 
 		// restrict access to associates and editors
-		elseif(($user['capability'] != 'A') && !$section->is_editable($user['id']))
+		elseif(($user['capability'] != 'A') && !$section->is_assigned($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// provide the existing template
@@ -941,11 +941,11 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// hidden section
-		elseif(($user['capability'] != 'A') && ($item['active'] == 'N') && !$section->is_editable($user['id']))
+		elseif(($user['capability'] != 'A') && ($item['active'] == 'N') && !$section->is_assigned($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// locked section
-		elseif(($item['locked'] == 'Y') && ($user['capability'] != 'A') && !$section->is_editable($user['id']))
+		elseif(($item['locked'] == 'Y') && ($user['capability'] != 'A') && !$section->is_assigned($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
@@ -966,7 +966,7 @@ else {
 			// or if the surfer asks for it and add sufficient rights
 			if( ($context['users_with_auto_publish'] == 'Y')
 				|| (is_object($section) && $section->has_option('auto_publish'))
-				|| ($publish && (($user['capability'] == 'A') || (is_object($section) && $section->is_editable($user['id'])))) ) {
+				|| ($publish && (($user['capability'] == 'A') || (is_object($section) && $section->is_assigned($user['id'])))) ) {
 				$fields['publish_name'] = $user['nick_name'];
 				$fields['publish_id'] = $user['id'];
 				$fields['publish_address'] = $user['email'];
@@ -1038,7 +1038,7 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown blog %s at %s'), $blogid, $context['url_to_home']) );
 
 		// restrict access to associates and editors
-		elseif(($user['capability'] != 'A') && !$section->is_editable($user['id']))
+		elseif(($user['capability'] != 'A') && !$section->is_assigned($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// we actually process only 'main' type
@@ -1075,7 +1075,7 @@ else {
 			Surfer::empower($user['capability']);
 		
 			// surfer is a section editor
-			if(Surfer::is_member($user['capability']) && is_object($anchor) && $anchor->is_editable($user['id']))
+			if(Surfer::is_member($user['capability']) && is_object($anchor) && $anchor->is_assigned($user['id']))
 				Surfer::empower();
 			
 			// surfer is a page editor
@@ -1102,7 +1102,7 @@ else {
 				// or if the surfer asks for it and add sufficient rights
 				if( ($context['users_with_auto_publish'] == 'Y')
 					|| (is_object($anchor) && $anchor->has_option('auto_publish'))
-					|| ($publish && (($user['capability'] == 'A') || (is_object($anchor) && $anchor->is_editable($user['id'])))) ) {
+					|| ($publish && (($user['capability'] == 'A') || (is_object($anchor) && $anchor->is_assigned($user['id'])))) ) {
 					$fields['publish_name'] = $user['nick_name'];
 					$fields['publish_id'] = $user['id'];
 					$fields['publish_address'] = $user['email'];
@@ -1227,7 +1227,7 @@ else {
 				$permitted = TRUE;
 			
 			// hidden page
-			elseif(($item['active'] == 'N') && $anchor->is_editable($user['id']))
+			elseif(($item['active'] == 'N') && $anchor->is_assigned($user['id']))
 				$permitted = TRUE;
 				
 			// assigned page
@@ -1291,7 +1291,7 @@ else {
 			Surfer::empower($user['capability']);
 		
 			// surfer is a section editor
-			if(Surfer::is_member($user['capability']) && is_object($section) && $section->is_editable($user['id']))
+			if(Surfer::is_member($user['capability']) && is_object($section) && $section->is_assigned($user['id']))
 				Surfer::empower();
 			
 			// surfer is a page editor
@@ -1369,11 +1369,11 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// hidden section
-		elseif(($user['capability'] != 'A') && ($item['active'] == 'N') && !$section->is_editable($user['id']))
+		elseif(($user['capability'] != 'A') && ($item['active'] == 'N') && !$section->is_assigned($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// locked section
-		elseif(($item['locked'] == 'Y') && ($user['capability'] != 'A') && !$section->is_editable($user['id']))
+		elseif(($item['locked'] == 'Y') && ($user['capability'] != 'A') && !$section->is_assigned($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
@@ -1451,11 +1451,11 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// hidden section
-		elseif(($user['capability'] != 'A') && ($item['active'] == 'N') && !$section->is_editable($user['id']))
+		elseif(($user['capability'] != 'A') && ($item['active'] == 'N') && !$section->is_assigned($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		// locked section
-		elseif(($item['locked'] == 'Y') && ($user['capability'] != 'A') && !$section->is_editable($user['id']))
+		elseif(($item['locked'] == 'Y') && ($user['capability'] != 'A') && !$section->is_assigned($user['id']))
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
@@ -1491,7 +1491,7 @@ else {
 			// or if the surfer asks for it and add sufficient rights
 			if( ($context['users_with_auto_publish'] == 'Y')
 				|| (is_object($section) && $section->has_option('auto_publish'))
-				|| ($publish && (($user['capability'] == 'A') || (is_object($section) && $section->is_editable($user['id'])))) ) {
+				|| ($publish && (($user['capability'] == 'A') || (is_object($section) && $section->is_assigned($user['id'])))) ) {
 				$fields['publish_name'] = $user['nick_name'];
 				$fields['publish_id'] = $user['id'];
 				$fields['publish_address'] = $user['email'];

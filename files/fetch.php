@@ -103,7 +103,7 @@ if(is_object($anchor) && $anchor->is_assigned())
 	Surfer::empower('S');
 
 // associates, editors and readers can view the page
-if(Surfer::is_empowered('S') || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_empowered('S') || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer

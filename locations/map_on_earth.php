@@ -4,9 +4,6 @@
  *
  * This script computes an image with a dot on the earth map.
  *
- * If cache has been activated, this script handle ETag.
- * Also, Cache-Control enables caching for some time, even through HTTPS.
- *
  * @author Bernard Paques
  * @author GnapZ
  * @reference

@@ -7,10 +7,6 @@
  *
  * @link http://evamoraga.net/efectokiwano/mm/
  *
- * If following features are enabled, this script will use them:
- * - compression - Through gzip, we have observed a shift from 3566 bytes to 881 bytes, meaning one Ethernet frame rather than three
- * - cache - Cache is supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * Restrictions apply on this page:
  * - if no section id is provided, access is granted
  * - associates and editors are allowed to move forward
@@ -55,7 +51,7 @@ if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
-if(Surfer::is_empowered('M') && (isset($item['id']) && isset($user['id']) && (Sections::is_assigned($item['id'], $user['id']))) || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_empowered('M') && (isset($item['id']) && isset($user['id']) && (Sections::is_assigned($item['id'], $user['id']))) || (is_object($anchor) && $anchor->is_assigned()))
 	Surfer::empower('A');
 
 // access to main map is always granted

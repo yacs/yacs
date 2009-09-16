@@ -73,24 +73,20 @@ else
 	$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
 
 // message prefix
-if(isset($item['create_id']) && Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
-	$message_prefix = i18n::s('I have created a web page and would like you to check it, at the following address.')
-		."\n\n".$link."\n\n";
-else
-	$message_prefix = i18n::s('You are invited personally to check the following page.')
-		."\n\n".$link."\n\n";
+$message_prefix = i18n::s('I would like to invite you to the following page.')
+	."\n\n".$link."\n\n";
 
 // associates and editors can do what they want
 if(Surfer::is_empowered())
 	$permitted = TRUE;
 
-// function is available only to authenticated members --not subscribers
-elseif(!Surfer::is_member())
-	$permitted = FALSE;
-
 // help to share public items
 elseif(isset($item['active']) && ($item['active'] == 'Y'))
 	$permitted = TRUE;
+
+// function is available only to authenticated members --not subscribers
+elseif(!Surfer::is_member())
+	$permitted = FALSE;
 
 // the default is to disallow access
 else
@@ -135,7 +131,7 @@ if(Surfer::is_crawler()) {
 
 	// anonymous users are invited to log in or to register
 	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'mail')));
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'invite')));
 
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
@@ -151,17 +147,25 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('Please provide a recipient address.'));
 
+// stop robots
+} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && Surfer::may_be_a_robot()) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('Please prove you are not a robot.'));
+
 // process submitted data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
+	// track anonymous surfers
+	Surfer::track($_REQUEST);
+
 	// sender address
-	$from = Surfer::get_email_address();
+	$from = Surfer::from();
 
 	// recipient(s) address(es)
 	$to = '';
 	if(isset($_REQUEST['to']))
 		$to = strip_tags($_REQUEST['to']);
-	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y')) {
+	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y') && strpos($from, '@')) {
 		if($to)
 			$to .= ', ';
 		$to .= $from;
@@ -297,6 +301,31 @@ if(Surfer::is_crawler()) {
 	// the form to send a message
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 	$fields = array();
+
+	// additional fields for anonymous surfers
+	if(!Surfer::is_logged()) {
+
+		// splash
+		$login_url = $context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_url($item['id'], 'invite'));
+		$context['text'] .= '<p>'.sprintf(i18n::s('If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.'), Skin::build_link($login_url, 'authenticate'))."</p>\n";
+
+		// the name, if any
+		$label = i18n::s('Your name');
+		$input = '<input type="text" name="edit_name" size="45" maxlength="128" accesskey="n" value="'.encode_field(Surfer::get_name(' ')).'" />';
+		$hint = i18n::s('Let us a chance to know who you are');
+		$fields[] = array($label, $input, $hint);
+
+		// the address, if any
+		$label = i18n::s('Your e-mail address');
+		$input = '<input type="text" name="edit_address" size="45" maxlength="128" accesskey="a" value="'.encode_field(Surfer::get_email_address()).'" />';
+		$hint = i18n::s('Put your e-mail address to receive feed-back');
+		$fields[] = array($label, $input, $hint);
+
+		// stop robots
+		if($field = Surfer::get_robot_stopper())
+			$fields[] = $field;
+
+	}
 
 	// recipients
 	$label = i18n::s('Invite participants');

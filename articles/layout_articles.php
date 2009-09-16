@@ -2,7 +2,7 @@
 /**
  * layout articles
  *
- * This is the default layout for articles (Decorated).
+ * This is the default layout for articles.
  *
  * @see articles/index.php
  * @see articles/articles.php

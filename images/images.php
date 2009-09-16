@@ -97,7 +97,7 @@ Class Images {
 			return TRUE;
 
 		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
+		if(is_object($anchor) && $anchor->is_assigned())
 			return TRUE;
 
 		// the default is to not allow for new images

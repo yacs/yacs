@@ -134,7 +134,7 @@ if(Surfer::is_crawler()) {
 elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// sender address
-	$from = Surfer::get_email_address();
+	$from = Surfer::from();
 
 	// recipient(s) address(es)
 	$to = strip_tags($item['email']);

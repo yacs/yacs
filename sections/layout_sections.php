@@ -21,10 +21,9 @@ Class Layout_sections extends Layout_interface {
 	 *
 	 * Accept following variants:
 	 * - 'full' - include anchor information -- also the default value
-	 * - 'select' - like 'full', but urls are links to the article editor form - used at articles/edit.php
 	 *
 	 * @param resource the SQL result
-	 * @return string the rendered text
+	 * @return array of resulting items, or NULL
 	 *
 	 * @see skins/layout.php
 	**/
@@ -49,22 +48,33 @@ Class Layout_sections extends Layout_interface {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// process all items in the list
+		include_once $context['path_to_root'].'categories/categories.php';
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
+		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
 
+			// get the related overlay, if any
+			$overlay = Overlay::load($item);
+
+			// get the main anchor
+			$anchor =& Anchors::get($item['anchor']);
+
 			// the url to view this item
-			if($this->layout_variant == 'select')
-				$url = 'articles/edit.php?anchor='.urlencode('section:'.$item['id']);
-			else
-				$url =& Sections::get_permalink($item);
+			$url =& Sections::get_permalink($item);
 
 			// reset the rendering engine between items
 			Codes::initialize($url);
 
+			// use the title to label the link
+			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
+				$title = $overlay->get_live_title($item);
+			else
+				$title = Codes::beautify_title($item['title']);
+
 			// initialize variables
-			$prefix = $label = $suffix = $icon = '';
+			$prefix = $suffix = $icon = '';
 
 			// not too many details on mobiles
 			if($this->layout_variant != 'mobile') {
@@ -211,14 +221,6 @@ Class Layout_sections extends Layout_interface {
 
 			}
 
-			// start the label with family, if any
-			$label = '';
-			if($item['family'])
-				$label = Codes::beautify_title($item['family']).' - ';
-
-			// use the title to label the link
-			$label .= Codes::beautify_title($item['title']);
-
 			// the icon to put in the left column
 			if($item['thumbnail_url'])
 				$icon = $item['thumbnail_url'];
@@ -227,7 +229,7 @@ Class Layout_sections extends Layout_interface {
 			$hover = i18n::s('View the section');
 
 			// list all components for this item
-			$items[$url] = array($prefix, $label, $suffix, 'section', $icon, $hover);
+			$items[$url] = array($prefix, $title, $suffix, 'section', $icon, $hover);
 
 		}
 

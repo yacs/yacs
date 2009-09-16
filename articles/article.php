@@ -531,46 +531,67 @@ Class Article extends Anchor {
 	 * An anonymous surfer is considered as an editor if he has provided the secret handle.
 	 *
 	 * @param int optional reference to some user profile
+	 * @param boolean TRUE to climb the list of containers up to the top
 	 * @return TRUE or FALSE
 	 */
-	 function is_editable($user_id=NULL) {
+	 function is_assigned($user_id=NULL, $cascade=TRUE) {
 		global $context;
 
-		// cache the answer
-		if(isset($this->is_editable_cache))
-			return $this->is_editable_cache;
-
 		// we need some data to proceed
-		if(isset($this->item['id'])) {
+		if(!isset($this->item['id']))
+			return FALSE;
 
-			// id of requesting user
-			if(!$user_id && Surfer::get_id())
-				$user_id = Surfer::get_id();
+		// id of requesting user
+		if(!$user_id && Surfer::get_id())
+			$user_id = Surfer::get_id();
+			
+		// anonymous is allowed
+		if(!$user_id)
+			$user_id = 0;
 
-			// anonymous surfer has provided the secret handle
-			if(isset($this->item['handle']) && Surfer::may_handle($this->item['handle']))
-				return $this->is_editable_cache = TRUE;
+		// create the cache
+		if(!isset($this->is_assigned_cache))
+			$this->is_assigned_cache = array();
 
-			// article has been assigned to this surfer
-			if($user_id && Members::check('user:'.$user_id, 'article:'.$this->item['id']))
-				return $this->is_editable_cache = TRUE;
+		// cache the answer
+		if(isset($this->is_assigned_cache[$user_id]))
+			return $this->is_assigned_cache[$user_id];
 
-			// ensure the container allows for public access
-			if(isset($this->item['anchor'])) {
+		// anonymous surfer has provided the secret handle
+		if(isset($this->item['handle']) && Surfer::may_handle($this->item['handle']))
+			return $this->is_assigned_cache[$user_id] = TRUE;
 
-				// save requests
-				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor =& Anchors::get($this->item['anchor']);
+		// surfer owns this item
+		if($user_id && isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
+			return $this->is_assigned_cache[$user_id] = TRUE;
 
-				if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
-					return $this->is_editable_cache = TRUE;
+		// article has been assigned to this surfer
+		if($user_id && Members::check('user:'.$user_id, 'article:'.$this->item['id']))
+			return $this->is_assigned_cache[$user_id] = TRUE;
 
-			}
+		// anonymous edition is allowed
+		if(($this->item['active'] == 'Y') && $this->has_option('anonymous_edit'))
+			return $this->is_assigned_cache[$user_id] = TRUE;
+
+		// members edition is allowed
+		if(($this->item['active'] == 'Y') && Surfer::is_empowered('M') && $this->has_option('members_edit'))
+			return $this->is_assigned_cache[$user_id] = TRUE;
+
+		// container may be edited
+		if($cascade && isset($this->item['anchor'])) {
+
+			// save requests
+			if(!isset($this->anchor) || !$this->anchor)
+				$this->anchor =& Anchors::get($this->item['anchor']);
+
+			// check for ownership
+			if(is_object($this->anchor))
+				return $this->is_assigned_cache[$user_id] = $this->anchor->is_assigned($user_id);
 
 		}
-		
+
 		// sorry
-		return $this->is_editable_cache = FALSE;
+		return $this->is_assigned_cache[$user_id] = FALSE;
 	 }
 
 	/**
@@ -580,20 +601,14 @@ Class Article extends Anchor {
 	 */
 	function is_interactive() {
 
-		// article has been configured to be viewed as a thread
-		if(isset($this->item['options']) && preg_match('/\bview_as_chat\b/i', $this->item['options']))
-			return TRUE;
-		if(isset($this->item['options']) && preg_match('/\bview_as_thread\b/i', $this->item['options']))
-			return TRUE;
-
 		// get the parent
 		if(!isset($this->anchor))
 			$this->anchor =& Anchors::get($this->item['anchor']);
 
 		// section asks for threads
-		if(is_object($this->anchor) && $this->anchor->has_option('view_as_chat'))
+		if(Articles::has_option('view_as_chat', $this->anchor, $this->item))
 			return TRUE;
-		if(is_object($this->anchor) && $this->anchor->has_option('view_as_thread'))
+		if(Articles::has_option('view_as_thread', $this->anchor, $this->item))
 			return TRUE;
 
 		// not an interactive page
@@ -788,7 +803,7 @@ Class Article extends Anchor {
 	 * @see articles/edit.php
 	 * @see shared/anchor.php
 	 */
-	function touch($action, $origin, $silently = FALSE) {
+	function touch($action, $origin=NULL, $silently = FALSE) {
 		global $context;
 
 		// don't go further on import
@@ -798,6 +813,16 @@ Class Article extends Anchor {
 		// no article bound
 		if(!isset($this->item['id']))
 			return;
+			
+		// clear floating objects
+		if($action == 'clear') {
+			$this->item['description'] .= ' [clear]';
+			$query = "UPDATE ".SQL::table_name('articles')." SET description='".SQL::escape($this->item['description'])."'"
+				." WHERE id = ".SQL::escape($this->item['id']);
+			SQL::query($query);
+
+			return;
+		}
 
 		// sanity check
 		if(!$origin) {
@@ -870,11 +895,13 @@ Class Article extends Anchor {
 
 				// list has already started
 				if(preg_match('/\[image=[^\]]+?\]\s*$/', $this->item['description']))
-					$query[] = "description = '".SQL::escape($this->item['description'].' [image='.$origin.']')."'";
+					$this->item['description'] .= ' [image='.$origin.']';
 
 				// starting a new list of images
 				else
-					$query[] = "description = '".SQL::escape($this->item['description']."\n\n".'[image='.$origin.']')."'";
+					$this->item['description'] .= "\n\n".'[image='.$origin.']';
+
+				$query[] = "description = '".SQL::escape($this->item['description'])."'";
 			}
 
 			// also use it as thumnail if none has been defined yet

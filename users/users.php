@@ -1242,42 +1242,8 @@ Class Users {
 
 		}
 
-		// protect from hackers
-		if(isset($fields['avatar_url']))
-			$fields['avatar_url'] =& encode_link($fields['avatar_url']);
-
 		// remember who is changing this record
 		Surfer::check_default_editor($fields);
-
-		// reinforce date formats
-		if(!isset($fields['create_date']) || ($fields['create_date'] <= NULL_DATE))
-			$fields['create_date'] = $fields['edit_date'];
-		if(!isset($fields['post_date']) || ($fields['post_date'] <= NULL_DATE))
-			$fields['post_date'] = $fields['edit_date'];
-
-		// set default values
-		if(!isset($fields['active']) || !trim($fields['active']))
-			$fields['active'] = 'Y';
-		if(isset($fields['selected_editor']))
-			$fields['editor'] = $fields['selected_editor'];	// hack because of FCKEditor already uses 'editor'
-		elseif(isset($context['users_default_editor']))
-			$fields['editor'] = $context['users_default_editor'];
-		else
-			$fields['editor'] = 'yacs';
-		if(!isset($fields['interface']) || ($fields['interface'] != 'C'))
-			$fields['interface'] = 'I';
-		if(!isset($fields['with_newsletters']) || ($fields['with_newsletters'] != 'N'))
-			$fields['with_newsletters'] = 'Y';
-		if(!isset($fields['without_alerts']) || ($fields['without_alerts'] != 'Y'))
-			$fields['without_alerts'] = 'N';
-		if(!isset($fields['without_confirmations']) || ($fields['without_confirmations'] != 'Y'))
-			$fields['without_confirmations'] = 'N';
-		if(!isset($fields['without_messages']) || ($fields['without_messages'] != 'Y'))
-			$fields['without_messages'] = 'N';
-
-		// clean provided tags
-		if(isset($fields['tags']))
-			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
 
 		// save new settings in session and in cookie
 		if(isset($fields['id']) && Surfer::is($fields['id'])) {
@@ -1293,70 +1259,131 @@ Class Users {
 			}
 		}
 		
+
+		// fields to update
+		$query = array();
+
+		// on import
+		if(isset($fields['id']))
+			$query[] = "id=".SQL::escape($fields['id']);
+			
+		if(!isset($fields['active']) || !trim($fields['active']))
+			$fields['active'] = 'Y';
+		$query[] = "active='".SQL::escape($fields['active'])."'";
+
+		$query[] = "aim_address='".SQL::escape(isset($fields['aim_address']) ? $fields['aim_address'] : '')."'";
+		$query[] = "alternate_number='".SQL::escape(isset($fields['alternate_number']) ? $fields['alternate_number'] : '')."'";
+
+		// protect from hackers
+		if(isset($fields['avatar_url']))
+			$fields['avatar_url'] =& encode_link($fields['avatar_url']);
+		$query[] = "avatar_url='".SQL::escape(isset($fields['avatar_url']) ? $fields['avatar_url'] : '')."'";
+
 		if(!isset($fields['birth_date']) || !$fields['birth_date'])
 			$fields['birth_date'] = NULL_DATE;
+		$query[] = "birth_date='".SQL::escape($fields['birth_date'])."'";
+
+		$query[] = "capability='".SQL::escape($fields['capability'])."'";
+
+		$query[] = "create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."'";
+		
+		if(isset($fields['create_id']) || $fields['edit_id'])
+			$query[] = "create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']);
+
+		$query[] = "create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."'";
+
+		if(!isset($fields['create_date']) || ($fields['create_date'] <= NULL_DATE))
+			$fields['create_date'] = $fields['edit_date'];
+		$query[] = "create_date='".SQL::escape($fields['create_date'])."'";
+		$query[] = "description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."'";
+		$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
+		$query[] = "edit_id=".SQL::escape($fields['edit_id']);
+		$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
+		$query[] = "edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'new')."'";
+		$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
+
+		if(isset($fields['selected_editor']))
+			$fields['editor'] = $fields['selected_editor'];	// hack because of FCKEditor already uses 'editor'
+		elseif(isset($context['users_default_editor']))
+			$fields['editor'] = $context['users_default_editor'];
+		else
+			$fields['editor'] = 'yacs';
+		$query[] = "editor='".SQL::escape($fields['editor'])."'";
+
+		$query[] = "email='".SQL::escape(isset($fields['email']) ? $fields['email'] : '')."'";
+
+		$query[] = "from_where='".SQL::escape(isset($fields['from_where']) ? $fields['from_where'] : '')."'";
+		$query[] = "full_name='".SQL::escape(isset($fields['full_name']) ? $fields['full_name'] : '')."'";
 
 		// create a handle for this user
 		if(!isset($fields['handle']) || !trim($fields['handle']))
 			$fields['handle'] = md5(rand());
+		$query[] = "handle='".SQL::escape($fields['handle'])."'";
 
-		// insert a new record
-		$query = "INSERT INTO ".SQL::table_name('users')." SET ";
-		if(isset($fields['id']))
-			$query .= "id='".SQL::escape($fields['id'])."',";
-		$query .= "email='".SQL::escape(isset($fields['email']) ? $fields['email'] : '')."', "
-			."active='".SQL::escape($fields['active'])."', "
-			."aim_address='".SQL::escape(isset($fields['aim_address']) ? $fields['aim_address'] : '')."', "
-			."alternate_number='".SQL::escape(isset($fields['alternate_number']) ? $fields['alternate_number'] : '')."', "
-			."avatar_url='".SQL::escape(isset($fields['avatar_url']) ? $fields['avatar_url'] : '')."', "
-			."birth_date='".SQL::escape($fields['birth_date'])."', "
-			."capability='".SQL::escape($fields['capability'])."', "
-			."create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."', "
-			."create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).", "
-			."create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."', "
-			."create_date='".SQL::escape($fields['create_date'])."', "
-			."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."', "
-			."edit_name='".SQL::escape($fields['edit_name'])."', "
-			."edit_id=".SQL::escape($fields['edit_id']).", "
-			."edit_address='".SQL::escape($fields['edit_address'])."', "
-			."edit_action='".SQL::escape(isset($fields['edit_action']) ? $fields['edit_action'] : 'new')."', "
-			."edit_date='".SQL::escape($fields['edit_date'])."', "
-			."editor='".SQL::escape($fields['editor'])."', "
-			."from_where='".SQL::escape(isset($fields['from_where']) ? $fields['from_where'] : '')."', "
-			."full_name='".SQL::escape(isset($fields['full_name']) ? $fields['full_name'] : '')."', "
-			."handle='".SQL::escape($fields['handle'])."', "
-			."icq_address='".SQL::escape(isset($fields['icq_address']) ? $fields['icq_address'] : '')."', "
-			."interface='".SQL::escape($fields['interface'])."', "
-			."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."', "
-			."irc_address='".SQL::escape(isset($fields['irc_address']) ? $fields['irc_address'] : '')."', "
-			."jabber_address='".SQL::escape(isset($fields['jabber_address']) ? $fields['jabber_address'] : '')."', "
-			."language='".SQL::escape(isset($fields['language']) ? $fields['language'] : '')."', "
-			."msn_address='".SQL::escape(isset($fields['msn_address']) ? $fields['msn_address'] : '')."', "
-			."nick_name='".SQL::escape($fields['nick_name'])."', "
-			."options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."', "
-			."overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."',"
-			."overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."',"
-			."password='".SQL::escape(isset($fields['password']) ? $fields['password'] : '')."', "
-			."pgp_key='".SQL::escape(isset($fields['pgp_key']) ? $fields['pgp_key'] : '')."', "
-			."phone_number='".SQL::escape(isset($fields['phone_number']) ? $fields['phone_number'] : '')."', "
-			."post_date='".SQL::escape($fields['post_date'])."', "
-			."posts=".SQL::escape(isset($fields['posts']) ? $fields['posts'] : '0').", "
-			."proxy_address='".SQL::escape(isset($fields['proxy_address']) ? $fields['proxy_address'] : '')."', "
-			."signature='".SQL::escape(isset($fields['signature']) ? $fields['signature'] : '')."', "
-			."skype_address='".SQL::escape(isset($fields['skype_address']) ? $fields['skype_address'] : '')."', "
-			."tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."', "
-			."twitter_address='".SQL::escape(isset($fields['twitter_address']) ? $fields['twitter_address'] : '')."', "
-			."vcard_agent='".SQL::escape(isset($fields['vcard_agent']) ? $fields['vcard_agent'] : '')."', "
-			."vcard_label='".SQL::escape(isset($fields['vcard_label']) ? $fields['vcard_label'] : '')."', "
-			."vcard_organization='".SQL::escape(isset($fields['vcard_organization']) ? $fields['vcard_organization'] : '')."', "
-			."vcard_title='".SQL::escape(isset($fields['vcard_title']) ? $fields['vcard_title'] : '')."', "
-			."web_address='".SQL::escape(isset($fields['web_address']) ? $fields['web_address'] : '')."', "
-			."with_newsletters='".($fields['with_newsletters'])."', "
-			."with_sharing='".(isset($fields['with_sharing']) ? $fields['with_sharing'] : 'N')."', "
-			."without_alerts='".($fields['without_alerts'])."', "
-			."without_confirmations='".($fields['without_confirmations'])."', "
-			."without_messages='".($fields['without_messages'])."', "
-			."yahoo_address='".SQL::escape(isset($fields['yahoo_address']) ? $fields['yahoo_address'] : '')."'";
+		$query[] = "icq_address='".SQL::escape(isset($fields['icq_address']) ? $fields['icq_address'] : '')."'";
+
+		if(!isset($fields['interface']) || ($fields['interface'] != 'C'))
+			$fields['interface'] = 'I';
+		$query[] = "interface='".SQL::escape($fields['interface'])."'";
+
+		$query[] = "introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."'";
+		$query[] = "irc_address='".SQL::escape(isset($fields['irc_address']) ? $fields['irc_address'] : '')."'";
+		$query[] = "jabber_address='".SQL::escape(isset($fields['jabber_address']) ? $fields['jabber_address'] : '')."'";
+		$query[] = "language='".SQL::escape(isset($fields['language']) ? $fields['language'] : '')."'";
+		$query[] = "msn_address='".SQL::escape(isset($fields['msn_address']) ? $fields['msn_address'] : '')."'";
+		$query[] = "nick_name='".SQL::escape($fields['nick_name'])."'";
+		$query[] = "options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."'";
+		$query[] = "overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."'";
+		$query[] = "overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."'";
+		$query[] = "password='".SQL::escape(isset($fields['password']) ? $fields['password'] : '')."'";
+		$query[] = "pgp_key='".SQL::escape(isset($fields['pgp_key']) ? $fields['pgp_key'] : '')."'";
+		$query[] = "phone_number='".SQL::escape(isset($fields['phone_number']) ? $fields['phone_number'] : '')."'";
+
+		if(!isset($fields['post_date']) || ($fields['post_date'] <= NULL_DATE))
+			$fields['post_date'] = $fields['edit_date'];
+		$query[] = "post_date='".SQL::escape($fields['post_date'])."'";
+
+		$query[] = "posts=".SQL::escape(isset($fields['posts']) ? $fields['posts'] : '0');
+		$query[] = "proxy_address='".SQL::escape(isset($fields['proxy_address']) ? $fields['proxy_address'] : '')."'";
+		$query[] = "signature='".SQL::escape(isset($fields['signature']) ? $fields['signature'] : '')."'";
+		$query[] = "skype_address='".SQL::escape(isset($fields['skype_address']) ? $fields['skype_address'] : '')."'";
+
+		// clean provided tags
+		if(isset($fields['tags']))
+			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
+		$query[] = "tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."'";
+
+		$query[] = "twitter_address='".SQL::escape(isset($fields['twitter_address']) ? $fields['twitter_address'] : '')."'";
+		$query[] = "vcard_agent='".SQL::escape(isset($fields['vcard_agent']) ? $fields['vcard_agent'] : '')."'";
+		$query[] = "vcard_label='".SQL::escape(isset($fields['vcard_label']) ? $fields['vcard_label'] : '')."'";
+		$query[] = "vcard_organization='".SQL::escape(isset($fields['vcard_organization']) ? $fields['vcard_organization'] : '')."'";
+		$query[] = "vcard_title='".SQL::escape(isset($fields['vcard_title']) ? $fields['vcard_title'] : '')."'";
+		$query[] = "web_address='".SQL::escape(isset($fields['web_address']) ? $fields['web_address'] : '')."'";
+
+		if(!isset($fields['with_newsletters']) || ($fields['with_newsletters'] != 'N'))
+			$fields['with_newsletters'] = 'Y';
+		$query[] = "with_newsletters='".$fields['with_newsletters']."'";
+
+		if(!isset($fields['with_sharing']) || ($fields['with_sharing'] != 'Y'))
+			$fields['with_sharing'] = 'N';
+		$query[] = "with_sharing='".$fields['with_sharing']."'";
+
+		if(!isset($fields['without_alerts']) || ($fields['without_alerts'] != 'Y'))
+			$fields['without_alerts'] = 'N';
+		$query[] = "without_alerts='".$fields['without_alerts']."'";
+
+		if(!isset($fields['without_confirmations']) || ($fields['without_confirmations'] != 'Y'))
+			$fields['without_confirmations'] = 'N';
+		$query[] = "without_confirmations='".$fields['without_confirmations']."'";
+
+		if(!isset($fields['without_messages']) || ($fields['without_messages'] != 'Y'))
+			$fields['without_messages'] = 'N';
+		$query[] = "without_messages='".$fields['without_messages']."'";
+
+		$query[] = "yahoo_address='".SQL::escape(isset($fields['yahoo_address']) ? $fields['yahoo_address'] : '')."'";
+
+		// insert statement
+		$query = "INSERT INTO ".SQL::table_name('users')." SET ".implode(', ', $query);
 
 		// actual insert
 		if(SQL::query($query, FALSE, $context['users_connection']) === FALSE)

@@ -16,11 +16,6 @@
  *
  * @link http://www.imc.org/pdi/vcard-21.txt
  *
- * If following features are enabled, this script will use them:
- * - compression - using gzip
- * - cache - supported through ETag and Last-Modified, not mentioning the setting of Content-Length;
- * Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * Restrictions apply on this page:
  * - associates are allowed to move forward
  * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member

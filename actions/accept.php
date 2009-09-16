@@ -62,7 +62,7 @@ if(is_object($anchor) && Surfer::may_handle($anchor->get_handle()))
 	Surfer::empower();
 
 // associates and editors can do what they want
-if(Surfer::is_empowered() || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_empowered() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer

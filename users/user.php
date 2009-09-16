@@ -16,8 +16,8 @@ defined('YACS') or exit('Script must be included');
  * get_title() -- provide the user full name
  * get_thumbnail_url() -- reuse the user thumbnail url, if any
  * get_url() -- link to users/view.php/id
- * has_option() -- depending on the content of the editors field
- * is_editable() -- depending on the content of the editors field
+ * has_option()
+ * is_assigned()
  * touch() -- remember the last action in the user record
  *
  * @author Bernard Paques
@@ -297,7 +297,7 @@ Class User extends Anchor {
 	 *
 	 * @see shared/anchor.php
 	 */
-	 function is_editable($user_id=NULL) {
+	 function is_assigned($user_id=NULL) {
 	 
 		// id of requesting user
 		if(!$user_id && Surfer::get_id())

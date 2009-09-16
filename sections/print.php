@@ -39,7 +39,7 @@ if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
-if((isset($item['id']) && Sections::is_assigned($item['id'])) || (is_object($anchor) && $anchor->is_editable()))
+if((isset($item['id']) && Sections::is_assigned($item['id'])) || (is_object($anchor) && $anchor->is_assigned()))
 	Surfer::empower();
 
 // associates and editors are always authorized

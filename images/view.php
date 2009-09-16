@@ -64,7 +64,7 @@ if(!isset($item['id']))
 	$editable = FALSE;
 
 // associates and editors are allowed to change the file
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$editable = TRUE;
 
 // the original poster can change the file as well
@@ -104,13 +104,13 @@ if(is_object($anchor) && $anchor->is_viewable())
 
 // the edit command is available to associates, editors, and poster
 if($item['id'] && (Surfer::is_associate()
-	|| (is_object($anchor) && $anchor->is_editable())
+	|| (is_object($anchor) && $anchor->is_assigned())
 	|| Surfer::is($item['edit_id']))) {
 	$context['page_menu'] += array( Images::get_url($item['id'], 'edit') => i18n::s('Update') );
 }
 
 // the delete command is available to associates and editors
-if($item['id'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())))
+if($item['id'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())))
 	$context['page_menu'] += array( Images::get_url($item['id'], 'delete') => i18n::s('Delete') );
 
 // not found -- help web crawlers

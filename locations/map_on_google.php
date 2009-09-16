@@ -4,10 +4,6 @@
  *
  * This script integrates with Google Map to achieve a nice localized rendering.
  *
- * If cache has been activated, this script handle ETag.
- * Also, Cache-Control enables caching for some time, even through HTTPS.
- *
- *
  * Accepted calls:
  * - map_on_google.php/&lt;section&gt;/&lt;id&gt;
  * - map_on_google.php?anchor=&lt;section:id&gt;

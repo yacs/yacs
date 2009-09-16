@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 10, 2009, 11:16 pm GMT. Please do not modify it manually.
+ * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-11 01:01+0200
-PO-Revision-Date: 2009-09-09 10:06+0100
+POT-Creation-Date: 2009-09-17 01:02+0200
+PO-Revision-Date: 2009-09-17 01:08+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -66,6 +66,7 @@ $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['Back to the page']='Retour à la page';
 $_SESSION['l10n']['fr']['Branch out to %s']='Débrancher vers %s';
 $_SESSION['l10n']['fr']['Browse in a separate window']='Lire dans une autre fenêtre';
+$_SESSION['l10n']['fr']['Bulk upload']='Téléversement multiple';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Categories: %s']='Catégories : %s';
 $_SESSION['l10n']['fr']['Change']='Changer';
@@ -138,7 +139,7 @@ $_SESSION['l10n']['fr']['Go to the front page']='Aller à la page d\'accueil';
 $_SESSION['l10n']['fr']['Good']='Bien';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Home']='Accueil';
-$_SESSION['l10n']['fr']['28d7cc70ab433227b4d58e2f5c10b04d']='J\'ai créé une page web et souhaiterais que vous la lisiez, à l\'adresse suivante.';
+$_SESSION['l10n']['fr']['6198ff8c87cda7d2c4e9972f51412f95']='Je vous invite à consulter la page suivante.';
 $_SESSION['l10n']['fr']['98b2e1b34b14f94d2493eb4999e0fd72']='Vous pouvez perdre des informations si vous changez l\'overlay.';
 $_SESSION['l10n']['fr']['9404597745d93a6898e464cbbc52c4dc']='Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur pourra alors positionner votre nom et votre adresse automatiquement dans les champs ci-dessous.';
 $_SESSION['l10n']['fr']['Image']='Image';
@@ -378,7 +379,6 @@ $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller m
 $_SESSION['l10n']['fr']['YACS codes']='les codes YACS';
 $_SESSION['l10n']['fr']['Yes, I want to delete this page']='Oui, je veux supprimer cette page';
 $_SESSION['l10n']['fr']['04146ec8fe89237f264f39cfdcc6a395']='Oui, je veux dupliquer cette page';
-$_SESSION['l10n']['fr']['08c45ec2009b953b316933e075906922']='Vous êtes invité à consulter la page suivante.';
 $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas autorisé à faire cette opération en mode démonstration.';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['You are rating: %s']='Vous êtes en train de noter : %s';

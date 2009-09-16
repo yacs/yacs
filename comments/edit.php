@@ -138,11 +138,12 @@ elseif($target_anchor)
 	$anchor =& Anchors::get($target_anchor);
 
 // parent owners have associate-like capabilities
-if(is_object($anchor) && $anchor->is_owned())
+if(is_object($anchor) && $anchor->is_owned()) {
 	Surfer::empower();
-
+	$permitted = TRUE;
+	
 // associates and authenticated editors can modify any comment
-if(isset($item['id']) && Comments::are_editable($anchor, $item))
+} elseif(($action != 'edit') && Comments::are_editable($anchor, $item))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
@@ -153,7 +154,7 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
 	$permitted = TRUE;
 
-// ensure that new comments are alowed
+// ensure that new comments are allowed
 elseif(($action != 'edit') && is_object($anchor) && Comments::are_allowed($anchor, $item, $anchor->get_reference()))
 	$permitted = TRUE;
 
@@ -454,7 +455,7 @@ if($with_form) {
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// associates and editors may decide to not stamp changes -- complex command
-	if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) && Surfer::has_all())
+	if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) && Surfer::has_all())
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').'</p>';
 
 	// transmit the id as a hidden field

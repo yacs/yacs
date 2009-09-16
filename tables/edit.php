@@ -54,7 +54,7 @@ elseif($target_anchor)
 	$anchor =& Anchors::get($target_anchor);
 
 // associates and editors can do what they want
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the default is to disallow access

@@ -28,8 +28,7 @@ include_once '../links/links.php';
 include_once '../locations/locations.php';
 
 // ensure browser always look for fresh data
-Safe::header("Cache-Control: no-cache, must-revalidate");
-Safe::header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+http::expire(0);
 
 // stop here on scripts/validate.php
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))

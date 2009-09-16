@@ -209,13 +209,13 @@ if(!isset($item['id'])) {
 
 		// expired article
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		if((Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()))
+		if((Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned()))
 				&& ($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now)) {
 			$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Page has expired %s'), Skin::build_date($item['expiry_date']));
 		}
 
 		// article editors, for associates and section editors
-		if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) && ($items =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
+		if((Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) && ($items =& Members::list_users_by_posts_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
 			$details[] = sprintf(i18n::s('%s: %s'), Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors')), Skin::build_list($items, 'comma'));
 
 		// no more details
@@ -227,7 +227,7 @@ if(!isset($item['id'])) {
 
 		// the creator of this article, if associate or if editor or if not prevented globally or if section option
 		if($item['create_date']
-			&& (Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable())
+			&& (Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned())
 					|| ((!isset($context['content_without_details']) || ($context['content_without_details'] != 'Y')) || (is_object($anchor) && $anchor->has_option('with_details')) ) ) ) {
 
 			if($item['create_name'])
@@ -240,7 +240,7 @@ if(!isset($item['id'])) {
 		// the publisher of this article, if any
 		if(($item['publish_date'] > NULL_DATE)
 			&& !strpos($item['edit_action'], ':publish')
-			&& (Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()))) {
+			&& (Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned()))) {
 
 			if($item['publish_name'])
 				$details[] = sprintf(i18n::s('published by %s %s'), Users::get_link($item['publish_name'], $item['publish_address'], $item['publish_id']), Skin::build_date($item['publish_date']));
@@ -255,7 +255,7 @@ if(!isset($item['id'])) {
 		// publication is the last action
 		elseif(strpos($item['edit_action'], ':publish'))
 			;
-		elseif(Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable())
+		elseif(Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned())
 			|| ((!isset($context['content_without_details']) || ($context['content_without_details'] != 'Y')) || (is_object($anchor) && $anchor->has_option('with_details')) ) ) {
 
 			if($item['edit_action'])
@@ -276,7 +276,7 @@ if(!isset($item['id'])) {
 
 		// signal articles to be published
 		if(($item['publish_date'] <= NULL_DATE)) {
-			if(Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()))
+			if(Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned()))
 				$label = Skin::build_link(Articles::get_url($item['id'], 'publish'), i18n::s('not published'));
 			else
 				$label = i18n::s('not published');
@@ -285,7 +285,7 @@ if(!isset($item['id'])) {
 
 		// the number of hits
 		if(($item['hits'] > 1)
-			&& (Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable())
+			&& (Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned())
 					|| ((!isset($context['content_without_details']) || ($context['content_without_details'] != 'Y')) || (is_object($anchor) && $anchor->has_option('with_details')) ) ) ) {
 
 			// flag popular pages
@@ -294,7 +294,7 @@ if(!isset($item['id'])) {
 				$popular = POPULAR_FLAG;
 
 			// actually show numbers only to associates and editors
-			if(Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()) )
+			if(Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned()) )
 				$details[] = $popular.Skin::build_number($item['hits'], i18n::s('hits'));
 
 			// show first hits
@@ -307,7 +307,7 @@ if(!isset($item['id'])) {
 		}
 
 		// rank for this article
-		if((Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable())) && (intval($item['rank']) != 10000))
+		if((Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned())) && (intval($item['rank']) != 10000))
 			$details[] = '{'.$item['rank'].'}';
 
 		// locked article
@@ -607,13 +607,13 @@ if(!isset($item['id'])) {
 	}
 
 	// review command provided to associates and section editors
-	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
+	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) {
 		Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
 	}
 	
 	// lock command provided to associates and authenticated editors
-	if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())) {
+	if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())) {
 	
 		if(!isset($item['locked']) || ($item['locked'] == 'N')) {
 			Skin::define_img('ARTICLES_LOCK_IMG', 'articles/lock.gif');
@@ -625,7 +625,7 @@ if(!isset($item['id'])) {
 	}
 	
 	// delete command provided to associates and section editors
-	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
+	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) {
 		Skin::define_img('ARTICLES_DELETE_IMG', 'articles/delete.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), ARTICLES_DELETE_IMG.i18n::s('Delete this page'));
 	}
@@ -670,7 +670,7 @@ if(!isset($item['id'])) {
 	}
 
 	// list files by date (default) or by title (option files_by_title)
-	if(preg_match('/\bfiles_by_title\b/i', $item['options']))
+	if(Articles::has_option('files_by_title', $anchor, $item))
 		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 20, 'compact');
 	else
 		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 20, 'compact');
@@ -701,7 +701,7 @@ if(!isset($item['id'])) {
 	}
 
 	// list links by date (default) or by title (option links_by_title)
-	if(preg_match('/\blinks_by_title\b/i', $item['options']))
+	if(Articles::has_option('links_by_title', $anchor, $item))
 		$items = Links::list_by_title_for_anchor('article:'.$item['id'], 0, 20, 'compact');
 	else
 		$items = Links::list_by_date_for_anchor('article:'.$item['id'], 0, 20, 'compact');

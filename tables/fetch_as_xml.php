@@ -2,10 +2,6 @@
 /**
  * download one table using XML
  *
- * If following features are enabled, this script will use them:
- * - compression - using gzip
- * - cache - supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * Permission to access the table is denied if the anchor is not viewable by this surfer.
  *
  * Accept following invocations:

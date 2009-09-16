@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 10, 2009, 11:16 pm GMT. Please do not modify it manually.
+ * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-11 01:01+0200
-PO-Revision-Date: 2009-09-11 01:12+0100
+POT-Creation-Date: 2009-09-17 01:02+0200
+PO-Revision-Date: 2009-09-14 21:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -175,7 +175,7 @@ $_SESSION['l10n']['fr']['163446b086f8add8a8b8e33171ddfbd0']='Les personnes conne
 $_SESSION['l10n']['fr']['d614549cb7e90eec397003bb71836197']='Les personnes qui vous sont connectées :';
 $_SESSION['l10n']['fr']['77e189517520ef55c530da2fd2835384']='Par exemple, pour utiliser l\'uathentificateur <code>foo</code>, placez ce mot-clé dans le %s.';
 $_SESSION['l10n']['fr']['For on-demand conversations']='Pour les conversations privées';
-$_SESSION['l10n']['fr']['f4b772fbe3570851c2d16880d8e6e38f']='Pour la sécurité de nos utilisateurs, votre requête doit mentionner l\'adresse électronique indiquée dans votre fiche lors de sa création. Si cette adresse n\'est plus valide, alors enregistrez-vous de nouveau. Les comptes inutilisés sont purgés périodiquement.';
+$_SESSION['l10n']['fr']['f4b772fbe3570851c2d16880d8e6e38f']='Pour la sécurité de nos utilisateurs, votre requête doit mentionner l\'adresse électronique indiquée dans votre profil. Si cette adresse n\'est plus valide, alors enregistrez-vous de nouveau. Les comptes inutilisés sont purgés périodiquement.';
 $_SESSION['l10n']['fr']['From']='Lieu';
 $_SESSION['l10n']['fr']['From %s:']='De %s :';
 $_SESSION['l10n']['fr']['Front page']='Page d\'accueil';
@@ -252,7 +252,7 @@ $_SESSION['l10n']['fr']['Most recent members']='Les membres les plus récents';
 $_SESSION['l10n']['fr']['Move forward']='Continuer';
 $_SESSION['l10n']['fr']['My Profile']='Mon profil';
 $_SESSION['l10n']['fr']['My contacts']='Mes contacts';
-$_SESSION['l10n']['fr']['My profile']='Ma fiche';
+$_SESSION['l10n']['fr']['My profile']='Mon profil';
 $_SESSION['l10n']['fr']['Navigate']='Naviguer';
 $_SESSION['l10n']['fr']['Network address']='Adresse réseau';
 $_SESSION['l10n']['fr']['New associate: %s']='Nouvel associé : %s';

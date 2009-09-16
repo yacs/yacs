@@ -9,10 +9,6 @@
  * - members can see active and restricted articles ('active field == 'Y' or 'R')
  * - associates and editors can see all articles
  *
- * If following features are enabled, this script will use them:
- * - compression - using gzip
- * - cache - supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * Restrictions apply on this page:
  * - associates and editors are allowed to move forward
  * - creator is allowed to view the page
@@ -68,7 +64,7 @@ if(isset($item['handle']) && Surfer::may_handle($item['handle']))
 	Surfer::empower();
 
 // associates and editors can do what they want
-if(Surfer::is_empowered() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_empowered() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // poster can always view the page
@@ -176,7 +172,7 @@ if(Surfer::is_crawler()) {
 
 	// list files by date (default) or by title (option files_by_title)
 	$items = array();
-	if(isset($item['options']) && preg_match('/\bfiles_by_title\b/i', $item['options']))
+	if(Articles::has_option('files_by_title', $anchor, $item))
 		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 50, 'compact');
 	else
 		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'compact');
@@ -202,7 +198,7 @@ if(Surfer::is_crawler()) {
 
 	// list links by date (default) or by title (option links_by_title)
 	$items = array();
-	if(isset($item['options']) && preg_match('/\blinks_by_title\b/i', $item['options']))
+	if(Articles::has_option('links_by_title', $anchor, $item))
 		$items = Links::list_by_title_for_anchor('article:'.$item['id'], 0, 50, 'compact');
 	else
 		$items = Links::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'compact');

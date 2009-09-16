@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 10, 2009, 11:16 pm GMT. Please do not modify it manually.
+ * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-11 01:01+0200
-PO-Revision-Date: 2009-09-09 10:01+0100
+POT-Creation-Date: 2009-09-17 01:02+0200
+PO-Revision-Date: 2009-09-17 01:04+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -66,6 +66,7 @@ $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Back to the page']='Back to the page';
 $_SESSION['l10n']['en']['Branch out to %s']='Branch out to %s';
 $_SESSION['l10n']['en']['Browse in a separate window']='Browse in a separate window';
+$_SESSION['l10n']['en']['Bulk upload']='Bulk upload';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Categories: %s']='Categories: %s';
 $_SESSION['l10n']['en']['Change']='Change';
@@ -138,7 +139,7 @@ $_SESSION['l10n']['en']['Go to the front page']='Go to the front page';
 $_SESSION['l10n']['en']['Good']='Good';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Home']='Home';
-$_SESSION['l10n']['en']['28d7cc70ab433227b4d58e2f5c10b04d']='I have created a web page and would like you to check it, at the following address.';
+$_SESSION['l10n']['en']['6198ff8c87cda7d2c4e9972f51412f95']='I would like to invite you to the following page.';
 $_SESSION['l10n']['en']['98b2e1b34b14f94d2493eb4999e0fd72']='If you change the overlay you may loose some data.';
 $_SESSION['l10n']['en']['9404597745d93a6898e464cbbc52c4dc']='If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.';
 $_SESSION['l10n']['en']['Image']='Image';
@@ -378,7 +379,6 @@ $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go
 $_SESSION['l10n']['en']['YACS codes']='YACS codes';
 $_SESSION['l10n']['en']['Yes, I want to delete this page']='Yes, I want to delete this page';
 $_SESSION['l10n']['en']['04146ec8fe89237f264f39cfdcc6a395']='Yes, I want to duplicate this page';
-$_SESSION['l10n']['en']['08c45ec2009b953b316933e075906922']='You are invited personally to check the following page.';
 $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed to perform this operation in demonstration mode.';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['You are rating: %s']='You are rating: %s';

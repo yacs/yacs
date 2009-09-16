@@ -3,7 +3,8 @@
  * stream a file
  *
  * This script turns a YACS server into a pseudo-streaming server.
- * On intranets or at home, with VLC or Winamp or Windows Media Player installed at workstations, it allows people to view films on-demand.
+ * On intranets or at home, with VLC or Winamp or Windows Media Player installed at workstations, 
+ * it allows people to view films on-demand.
  *
  * @link http://www.videolan.org/vlc/  VLC media player
  *
@@ -89,7 +90,7 @@ if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
 // associates and editors can do what they want
-if(Surfer::is_empowered() || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_empowered() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
@@ -116,7 +117,7 @@ else
 $editable = FALSE;
 
 // except for associates and editors
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$editable = TRUE;
 
 // and except for poster
@@ -159,7 +160,7 @@ if($item['id'] && $editable)
 	$context['page_menu'] += array( Files::get_url($item['id'], 'edit') => i18n::s('Edit') );
 
 // delete command provided to associates and editors
-if($item['id'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())))
+if($item['id'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())))
 	$context['page_menu'] += array( Files::get_url($item['id'], 'delete') => i18n::s('Delete') );
 
 // not found

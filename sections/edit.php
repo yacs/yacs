@@ -359,7 +359,7 @@ if($with_form) {
 	// settings for sub-sections
 	//
 
-	// layout for sub-sections - 'compact', 'decorated', 'freemind', 'folded', 'inline', 'jive', 'map', 'titles', 'yabb', 'none' or custom - default is decorated
+	// layout for sub-sections - default is 'decorated'
 	$label = i18n::s('Layout');
 	if(!isset($item['sections_count']) || ($item['sections_count'] < 1))
 		$item['sections_count'] = SECTIONS_PER_PAGE;
@@ -367,7 +367,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['sections_layout']))
 		$item['sections_layout'] = 'none';
-	elseif(!preg_match('/(compact|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $item['sections_layout'])) {
+	elseif(!preg_match('/(accordion|compact|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $item['sections_layout'])) {
 		$custom_layout = $item['sections_layout'];
 		$item['sections_layout'] = 'custom';
 	}
@@ -379,6 +379,10 @@ if($with_form) {
 	if($item['sections_layout'] == 'map')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!')
+		.BR.'<input type="radio" name="sections_layout" value="accordion"';
+	if($item['sections_layout'] == 'accordion')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('accordion - Expose one item at a time in a stack')
 		.BR.'<input type="radio" name="sections_layout" value="freemind"';
 	if($item['sections_layout'] == 'freemind')
 		$input .= ' checked="checked"';
@@ -436,7 +440,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/(alistapart|boxesandarrows|compact|daily|decorated|digg|jive|manual|map|none|slashdot|table|wiki|yabb)/', $item['articles_layout'])) {
+	elseif(!preg_match('/(accordion|alistapart|boxesandarrows|compact|daily|decorated|digg|jive|manual|map|none|slashdot|table|wiki|yabb)/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
@@ -456,6 +460,10 @@ if($with_form) {
 	if($item['articles_layout'] == 'map')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('map - Map in two columns, like Yahoo!');
+	$input .= BR.'<input type="radio" name="articles_layout" value="accordion"';
+	if($item['articles_layout'] == 'accordion')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('accordion - Expose one item at a time in a stack');
 	$input .= BR.'<input type="radio" name="articles_layout" value="table"';
 	if($item['articles_layout'] == 'table')
 		$input .= ' checked="checked"';
@@ -512,9 +520,16 @@ if($with_form) {
 		.'}'."\n"
 		.JS_SUFFIX."\n";
 	$keywords = array();
+	$keywords[] = '<a onclick="javascript:append_to_content_options(\'auto_publish\')" style="cursor: pointer;">auto_publish</a> - '.i18n::s('Pages are not reviewed prior publication');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'anonymous_edit\')" style="cursor: pointer;">anonymous_edit</a> - '.i18n::s('Allow anonymous surfers to change content');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'members_edit\')" style="cursor: pointer;">members_edit</a> - '.i18n::s('Allow members to change content');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'auto_publish\')" style="cursor: pointer;">auto_publish</a> - '.i18n::s('Pages are not reviewed prior publication');
+	$keywords[] = '<a onclick="append_to_options(\'comments_as_wall\')" style="cursor: pointer;">comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
+	$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_comments\')" style="cursor: pointer;">no_comments</a> - '.i18n::s('Disallow post of new comments');
+		$keywords[] = '<a onclick="append_to_options(\'files_by_title\')" style="cursor: pointer;">files_by_title</a> - '.i18n::s('Sort files by title (and not by date)');
+		$keywords[] = '<a onclick="append_to_options(\'no_files\')" style="cursor: pointer;">no_files</a> - '.i18n::s('Prevent the upload of new files');
+		$keywords[] = '<a onclick="append_to_options(\'links_by_title\')" style="cursor: pointer;">links_by_title</a> - '.i18n::s('Sort links by title (and not by date)');
+	$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_links\')" style="cursor: pointer;">no_links</a> - '.i18n::s('Disallow post of new links');
+	$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_neighbours\')" style="cursor: pointer;">no_neighbours</a> - '.i18n::s('Prevent YACS to add links to previous and next pages in the same section');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_chat\')" style="cursor: pointer;">view_as_chat</a> - '.i18n::s('Real-time collaboration');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
 	$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'sections/view_as_foo_bar.php');
@@ -526,9 +541,6 @@ if($with_form) {
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_prefix_profile\')" style="cursor: pointer;">with_prefix_profile</a> - '.i18n::s('Introduce the poster before main text');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_suffix_profile\')" style="cursor: pointer;">with_suffix_profile</a> - '.i18n::s('Append some poster details at the bottom of the page');
 	$keywords[] = '<a onclick="javascript:append_to_content_options(\'with_extra_profile\')" style="cursor: pointer;">with_extra_profile</a> - '.i18n::s('Append some poster details aside the page (adequate to most weblogs)');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_comments\')" style="cursor: pointer;">no_comments</a> - '.i18n::s('Disallow post of new comments');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_links\')" style="cursor: pointer;">no_links</a> - '.i18n::s('Disallow post of new links');
-	$keywords[] = '<a onclick="javascript:append_to_content_options(\'no_neighbours\')" style="cursor: pointer;">no_neighbours</a> - '.i18n::s('Prevent YACS to add links to previous and next pages in the same section');
 	$hint = i18n::s('You may combine several keywords:').Skin::finalize_list($keywords, 'compact');
 	$fields[] = array($label, $input, $hint);
 
@@ -925,7 +937,7 @@ if($with_form) {
 	// the parent section
 	if(is_object($anchor)) {
 	
-		if(isset($item['id']) && $anchor->is_editable()) {
+		if(isset($item['id']) && $anchor->is_assigned()) {
 			$label = i18n::s('Section');
 			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference()), 'folded');
 			$fields[] = array($label, $input);

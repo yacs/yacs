@@ -1350,6 +1350,48 @@ var Yacs = {
 	},
 
 	/**
+	 * toggle a box in an accordion
+	 *
+	 * @param the box
+	 * @param string URL of the extending icon
+	 * @param string URL of the collapsing icon
+	 * @param string accordion id
+	 */
+	toggle_accordion: function(handle, down_href, up_href, accordion) {
+
+		// the new active box
+		var toExtend = Element.next(handle, '.accordion_content');
+
+		// close all boxes in the accordion
+ 		$$('.'+accordion).each( function(item) { 
+ 		
+ 			var panel = Element.down(item, '.accordion_content');
+			if((toExtend != panel) && (panel.style.display != 'none')) {
+				new Effect.SlideUp(panel, {duration:.3, scaleContent:false});
+  			
+				// change the image (if there is an image)
+				var icon = Element.down(item, 'a').down('img');
+				if(icon && down_href) {
+					icon.src = down_href;
+				}
+			}
+ 
+ 		} );
+
+		// only extend closed elements
+		if(toExtend.style.display == 'none') {
+			new Effect.SlideDown(toExtend, {duration:.3, scaleContent:false});
+	
+			// change the image (if there is an image)
+			var icon = Element.down(handle, 'img');
+			if(icon && up_href) {
+				icon.src = up_href;
+			}
+		}
+
+	},
+
+	/**
 	 * toggle a folded box
 	 *
 	 * @param the box

@@ -34,10 +34,6 @@
  *
  * @link http://support.microsoft.com/default.aspx?scid=kb;[LN];834489	Microsoft Knowledge Base Article - 834489
  *
- * If following features are enabled, this script will use them:
- * - compression - Through gzip, we have observed a shift from 3566 bytes to 881 bytes, meaning one Ethernet frame rather than three
- * - cache - Cache is supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * Restrictions apply on this page:
  * - associates and editors are allowed to move forward
  * - permission is denied if the anchor is not viewable
@@ -86,7 +82,7 @@ if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
-if(Surfer::is_empowered('M') && (isset($item['id']) && isset($user['id']) && (Sections::is_assigned($item['id'], $user['id']))) || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_empowered('M') && (isset($item['id']) && isset($user['id']) && (Sections::is_assigned($item['id'], $user['id']))) || (is_object($anchor) && $anchor->is_assigned()))
 	Surfer::empower('A');
 
 // associates and editors are always authorized

@@ -20,7 +20,6 @@ include_once $context['path_to_root'].'categories/categories.php';
  * - get_thumbnail_url() -- reuse the category thumbnail url, if any
  * - get_url() -- link to categories/view.php/id
  * - has_option() -- depending on the content of the editors field
- * - is_editable() -- depending on the content of the editors field
  * - touch() -- remember the last action in the category record
  *
  * @see shared/anchor.php

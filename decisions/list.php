@@ -65,7 +65,7 @@ else
 $page = max(1,intval($page));
 
 // ensure editors have the same rights than associates
-if(is_object($anchor) && $anchor->is_editable())
+if(is_object($anchor) && $anchor->is_assigned())
 	Surfer::empower();
 
 // the anchor may control the script
@@ -73,7 +73,7 @@ if(is_object($anchor) && is_callable(array($anchor, 'allows')) && !$anchor->allo
 	$permitted = FALSE;
 
 // associates and editors can do what they want
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer

@@ -26,8 +26,7 @@ include_once '../shared/global.php';
 include_once 'files.php';
 
 // ensure browser always look for fresh data
-Safe::header("Cache-Control: no-cache, must-revalidate");
-Safe::header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+http::expire(0);
 
 // visited item
 $anchor = NULL;

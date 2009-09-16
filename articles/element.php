@@ -27,8 +27,7 @@
 include_once '../shared/global.php';
 
 // ensure browser always look for fresh data
-Safe::header("Cache-Control: no-cache, must-revalidate");
-Safe::header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+http::expire(0);
 
 // look for the id
 $id = NULL;
@@ -69,15 +68,15 @@ if(isset($item['handle']) && Surfer::may_handle($item['handle']))
 	Surfer::empower();
 
 // editors can do what they want on items anchored here
-elseif(isset($item['id']) && Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_editable()))
+elseif(isset($item['id']) && Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_assigned()))
 	Surfer::empower();
 
 // anonymous edition is allowed here
-elseif(isset($item['options']) && $item['options'] && preg_match('/\banonymous_edit\b/i', $item['options']))
+elseif(Articles::has_option('anonymous_edit', $anchor, $item))
 	Surfer::empower();
 
 // members edition is allowed here
-elseif(Surfer::is_member() && isset($item['options']) && $item['options'] && preg_match('/\bmembers_edit\b/i', $item['options']))
+elseif(Surfer::is_member() && Articles::has_option('members_edit', $anchor, $item))
 	Surfer::empower();
 
 // associates and editors can do what they want

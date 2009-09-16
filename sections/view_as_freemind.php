@@ -46,7 +46,7 @@ if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
-if(Surfer::is_empowered('M') && (isset($item['id']) && isset($user['id']) && (Sections::is_assigned($item['id'], $user['id']))) || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_empowered('M') && (isset($item['id']) && isset($user['id']) && (Sections::is_assigned($item['id'], $user['id']))) || (is_object($anchor) && $anchor->is_assigned()))
 	Surfer::empower('A');
 
 // access to main map is always granted

@@ -2,8 +2,6 @@
 /**
  * upload a new image or update an existing one
  *
- * @todo allow for the upload of an archive of files
- *
  * If no anchor has been provided to host the image, this script will create one.
  * The title given for the image, or the file name, will be used as the page title.
  * On direct uploads the sender will have the opportunity to select in which section
@@ -121,7 +119,7 @@ elseif(isset($context['arguments'][1]))
 	$anchor =& Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
 
 // editors can do what they want on items anchored here
-if(is_object($anchor) && $anchor->is_editable())
+if(is_object($anchor) && $anchor->is_assigned())
 	Surfer::empower();
 
 // do not accept new files if uploads have been disallowed
@@ -129,7 +127,7 @@ if(!isset($item['id']) && !Surfer::may_upload())
 	$permitted = FALSE;
 
 // associates and editors can do what they want
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
@@ -185,6 +183,11 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// an anchor is mandatory
+} elseif(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Logger::error(i18n::s('No anchor has been found.'));
+
 // permission denied
 } elseif(!$permitted) {
 
@@ -218,38 +221,6 @@ if(Surfer::is_crawler()) {
 // process uploaded data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
-	// create an anchor if none has been provided
-	if(!is_object($anchor)) {
-
-		// set the title
-		if(isset($_REQUEST['title']) && $_REQUEST['title'])
-			$fields['title'] = ucfirst(strip_tags($_REQUEST['title']));
-		else
-			$fields['title'] = ucfirst(strip_tags($file_name));
-
-		// most of time, it is more pertinent to move the description to the article itself
-		$fields['description'] = $_REQUEST['description'];
-		$_REQUEST['description'] = '';
-
-		$fields['source'] = $_REQUEST['source'];
-		$_REQUEST['source'] = '';
-
-		// use the provided section
-		if($_REQUEST['section'])
-			$fields['anchor'] = $_REQUEST['section'];
-
-		// or select the default section
-		else
-			$fields['anchor'] = 'section:'.Sections::get_default();
-
-		// create a hosting article for this image
-		if($fields['id'] = Articles::post($fields)) {
-			$anchor =& Anchors::get('article:'.$fields['id']);
-			$_REQUEST['anchor'] = $anchor->get_reference();
-		}
-		$fields = array();
-	}
-
 	// a file has been uploaded
 	if(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
 
@@ -272,11 +243,11 @@ if(Surfer::is_crawler()) {
 		$_REQUEST['image_size'] = $_FILES['upload']['size'];
 
 		// silently delete the previous file if the name has changed
-		if($item['image_name'] && $file_name && ($item['image_name'] != $file_name) && isset($file_path)) {
-			Safe::unlink($file_path.'/'.$item['file_name']);
+		if(isset($item['image_name']) && $item['image_name'] && $file_name && ($item['image_name'] != $file_name) && isset($file_path)) {
+			Safe::unlink($file_path.'/'.$item['image_name']);
 			Safe::unlink($file_path.'/'.$item['thumbnail_name']);
 		}
-
+			
 	// nothing has been posted
 	} elseif(!isset($_REQUEST['id']))
 		Logger::error(i18n::s('No file has been transmitted.'));
@@ -332,9 +303,6 @@ if(Surfer::is_crawler()) {
 		// touch the related anchor
 		$anchor->touch($action, $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
-		// clear cache
-		Images::clear($_REQUEST);
-
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
@@ -343,6 +311,9 @@ if(Surfer::is_crawler()) {
 		$menu = array_merge($menu, array('images/edit.php?anchor='.$anchor->get_reference() => i18n::s('Submit another image')));
 		$follow_up .= Skin::build_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
+
+		// clear cache
+		Images::clear($_REQUEST);
 
 		// log the submission by a non-associate
 		if(!Surfer::is_associate() && is_object($anchor)) {
@@ -390,34 +361,23 @@ if($with_form) {
 
 	// we are updating a user profile
 	if(is_object($anchor) && preg_match('/^user:/i', $anchor->get_reference()))
-		$context['text'] .= '<p>'.i18n::s('Please upload an image to illustrate this user profile').'</p>';
+		$context['text'] .= '<p>'.i18n::s('Please upload an image to illustrate this user profile.').'</p>';
 
 	// explicit avatar
 	elseif($action == 'avatar')
-		$context['text'] .= '<p>'.i18n::s('Please upload an image to illustrate this user profile').'</p>';
+		$context['text'] .= '<p>'.i18n::s('Please upload an image to illustrate this user profile.').'</p>';
 
 	// use as page thumbnail
 	elseif($action == 'thumbnail')
-		$context['text'] .= '<p>'.i18n::s('Please upload a thumbnail image for this page').'</p>';
+		$context['text'] .= '<p>'.i18n::s('Please upload a thumbnail image for this page.').'</p>';
 
 	// generic splash message
-	else
-		$context['text'] .= '<p>'.i18n::s('Please upload an image to illustrate this page').'</p>';
+	elseif(is_object($anchor))
+		$context['text'] .= '<p>'.sprintf(i18n::s('Please upload an image to illustrate this page. To transmit several images in one single operation, go to %s instead.'), Skin::build_link('images/upload.php?anchor='.urlencode($anchor->get_reference()), i18n::s('Bulk upload'), 'shortcut')).'</p>';
 
 	// the section
 	if($anchor)
 		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
-
-	else {
-
-		// a splash message for new users
-		$context['text'] .= Skin::build_block(i18n::s('This script will create a brand new page for the uploaded file. If you would like to add an image to an existing page, browse the target page instead and use the adequate command from the menu.'), 'caution')."\n";
-
-		$label = i18n::s('Section');
-		$input = '<select name="section">'.Sections::get_options().'</select>';
-		$hint = i18n::s('Please carefully select a section for your image');
-		$fields[] = array($label, $input, $hint);
-	}
 
 	// the image
 	$label = i18n::s('Image');
@@ -509,7 +469,7 @@ if($with_form) {
 	if(($action != 'avatar') && ($action != 'icon') && ($action != 'thumbnail')) {
 
 		// the link url, but only for associates and authenticated editors
-		if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())) {
+		if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())) {
 			$label = i18n::s('Link');
 			$input = '<input type="text" name="link_url" size="50" value="'.encode_field(isset($item['link_url'])?$item['link_url']:'').'" maxlength="255" accesskey="l" />';
 			$hint = i18n::s('You can make this image point to any web page if you wish');
@@ -525,7 +485,7 @@ if($with_form) {
 		}
 
 		// how to use the thumbnail
-		if((Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))) {
+		if((Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))) {
 			$label = i18n::s('Insert a thumbnail');
 			$input = '<input type="radio" name="use_thumbnail" value="Y"';
 			if(!isset($item['use_thumbnail']) || ($item['use_thumbnail'] == 'Y'))
@@ -560,7 +520,7 @@ if($with_form) {
 	$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	// associates may decide to not stamp changes -- complex command
-	if(isset($item['id']) && $item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable())) && Surfer::has_all())
+	if(isset($item['id']) && $item['id'] && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())) && Surfer::has_all())
 		$context['text'] .= '<p><input type="checkbox" name="silent" value="Y" /> '.i18n::s('Do not change modification date of the main page.').'</p>';
 
 	// transmit the id as a hidden field

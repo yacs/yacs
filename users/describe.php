@@ -28,10 +28,6 @@
  * </rdf:RDF>
  * [/snippet]
  *
- * If following features are enabled, this script will use them:
- * - compression - Using gzip, if accepted by user agent
- * - cache - Cache is supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * Restrictions apply on this page:
  * - associates are allowed to move forward
  * - this is the page of the authenticated surfer

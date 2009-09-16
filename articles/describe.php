@@ -19,10 +19,6 @@
  *	</rdf:RDF>
  * [/snippet]
  *
- * If following features are enabled, this script will use them:
- * - compression - Using gzip, if accepted by user agent
- * - cache - Cache is supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * Restrictions apply on this page:
  * - associates and editors are allowed to move forward
  * - creator is allowed to view the page
@@ -74,7 +70,7 @@ if(isset($item['handle']) && Surfer::may_handle($item['handle']))
 	Surfer::empower();
 
 // associates and editors can do what they want
-if(Surfer::is_empowered() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_empowered() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // poster can always view the page

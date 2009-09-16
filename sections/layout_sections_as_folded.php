@@ -45,9 +45,16 @@ Class Layout_sections_as_folded extends Layout_interface {
 		include_once $context['path_to_root'].'links/links.php';
 		while($item =& SQL::fetch($result)) {
 
+			// get the related overlay, if any
+			$overlay = Overlay::load($item);
+
+			// get the main anchor
+			$anchor =& Anchors::get($item['anchor']);
+
 			// one box per section
-			$box['title'] = '';
-			$box['text'] = '';
+			$box = array('title' => '', 'text' => '');
+			
+			// box content
 			$elements = array();
 
 			// start the label with family, if any
@@ -55,7 +62,10 @@ Class Layout_sections_as_folded extends Layout_interface {
 				$box['title'] = Skin::strip($item['family'], 30).' - ';
 
 			// use the title to label the link
-			$box['title'] .= Skin::strip($item['title'], 50);
+			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
+				$box['title'] .= $overlay->get_live_title($item);
+			else
+				$box['title'] .= Codes::beautify_title($item['title']);
 
 			$details = array();
 
@@ -102,7 +112,7 @@ Class Layout_sections_as_folded extends Layout_interface {
 			}
 
 			// info on related files
-			if(isset($item['options']) && preg_match('/\bfiles_by_title\b/i', $item['options']))
+			if(Sections::has_option('files_by_title', $anchor, $item))
 				$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
 			else
 				$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
@@ -123,7 +133,7 @@ Class Layout_sections_as_folded extends Layout_interface {
 			}
 
 			// info on related comments
-			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
+			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact', Sections::has_option('comments_as_wall', $anchor, $item))) {
 
 				// mention the number of sections in folded title
 				$details[] = sprintf(i18n::ns('%d comment', '%d comments', count($items)), count($items));
@@ -141,7 +151,7 @@ Class Layout_sections_as_folded extends Layout_interface {
 			}
 
 			// info on related links
-			if(isset($item['options']) && preg_match('/\blinks_by_title\b/i', $item['options']))
+			if(Sections::has_option('links_by_title', $anchor, $item))
 				$items = Links::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
 			else
 				$items = Links::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
@@ -170,14 +180,40 @@ Class Layout_sections_as_folded extends Layout_interface {
 			else
 				$elements[] = Skin::build_link(Sections::get_permalink($item), i18n::s('View the section'), 'shortcut');
 
-			// make a full list
-			if(count($elements))
-				$box['text'] = '<ul><li>'.implode('</li>'."\n".'<li>', $elements).'</li></ul>'."\n";
-
 			// complement title
 			if(count($details))
-				$box['title'] .= ' ('.join(', ', $details).')';
+				$box['title'] .= ' <span class="details">('.join(', ', $details).')</details>';
 
+			// insert introduction, if any
+			if($item['introduction'])
+				$box['text'] .= Codes::beautify_introduction($item['introduction']);
+
+			// make a full list
+			if(count($elements))
+				$box['text'] .= '<ul><li>'.implode('</li>'."\n".'<li>', $elements).'</li></ul>'."\n";
+
+			// if we have an icon for this section, use it
+			if(isset($item['thumbnail_url']) && $item['thumbnail_url']) {
+
+				// adjust the class
+				$class= '';
+				if(isset($context['classes_for_thumbnail_images']))
+					$class = 'class="'.$context['classes_for_thumbnail_images'].'" ';
+					
+				// build the complete HTML element
+				$icon = '<img src="'.$item['thumbnail_url'].'" alt="" title="'.encode_field(Codes::beautify_title($item['title'])).'" '.$class.'/>';
+				
+				// make it clickable
+				$link = Skin::build_link(Sections::get_permalink($item), $icon, 'basic');
+				
+				// put this aside
+				$box['text'] = '<table class="decorated"><tr>'
+					.'<td class="image">'.$link.'</td>'
+					.'<td class="content">'.$box['text'].'</td>'
+					.'</tr></table>';
+
+			}
+				
 			// always make a box
 			$text .= Skin::build_box($box['title'], $box['text'], 'folded');
 

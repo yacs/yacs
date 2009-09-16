@@ -416,7 +416,7 @@ class Mailer {
 		}
 
 		// do the job -- don't stop on error
-		if(Mailer::post($from, $to, $subject, $message, $headers))
+		if(Mailer::post($from, $to, $subject, $message, NULL, $headers))
 			return TRUE;
 		return FALSE;
 	}
@@ -529,7 +529,7 @@ class Mailer {
 		
 		// use surfer own address
 		if(!$from)
-			$from = Surfer::get_email_address();
+			$from = Surfer::from();
 
 		// email services have to be activated
 		if(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {

@@ -47,10 +47,6 @@
  * </rss>
  * [/snippet]
  *
- * If following features are enabled, this script will use them:
- * - compression - Through gzip, we have observed a shift from 2900 bytes to 909 bytes, meaning one Ethernet frame rather than two
- * - cache - Cache is supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * @link http://www.tbray.org/ongoing/When/200x/2003/08/02/RSSNumbers RSS Flow, Measured
  * @link http://rss.lockergnome.com/archives/help/006601.phtml Optimising your feed
  *

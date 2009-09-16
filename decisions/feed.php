@@ -10,10 +10,6 @@
  * - time - the date and time of decision last modification
  * - author - the last contributor to the decision
  *
- * If following features are enabled, this script will use them:
- * - compression - Through gzip, we have observed a shift from 3098 bytes to 751 bytes, meaning one Ethernet frame rather than three
- * - cache - Cache is supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * Restrictions apply on this page:
  * - associates and editors are allowed to move forward
  * - permission is denied if the anchor is not viewable
@@ -64,7 +60,7 @@ if(!$anchor) {
 }
 
 // associates and editors can do what they want
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer

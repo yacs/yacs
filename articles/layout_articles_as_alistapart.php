@@ -49,6 +49,9 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
 
+		// menu at page bottom
+		$this->menu = array();
+		
 		// build a list of articles
 		$item_count = 0;
 		$future = array();
@@ -121,11 +124,15 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 		// build the list of future articles
 		if(@count($future))
-			$text = Skin::build_box(i18n::s('Pages under preparation'), Skin::build_list($future, 'compact')).$text;
+			$this->menu[] = Skin::build_sliding_box(i18n::s('Pages under preparation'), Skin::build_list($future, 'compact'), NULL, TRUE);
 
 		// build the list of other articles
 		if(@count($others))
-			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($others, 'compact'));
+			$this->menu[] = Skin::build_sliding_box(i18n::s('Previous pages'), Skin::build_list($others, 'compact'), NULL, TRUE);
+
+		// talk about it
+		if(@count($this->menu))
+			$text .= Skin::build_box((strlen($text) > 1024) ? i18n::s('Follow-up') : '', Skin::finalize_list($this->menu, 'menu_bar'));
 
 		// end of processing
 		SQL::free($result);
@@ -259,7 +266,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		//
 
 		// if this surfer is an editor of this article, show hidden files as well
-		if(Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_editable()))
+		if(Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_assigned()))
 			Surfer::empower();
 
 		// build a complete box
@@ -273,7 +280,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 			// list files by date (default) or by title (option files_by_title)
 			include_once $context['path_to_root'].'files/files.php';
-			if(preg_match('/\bfiles_by_title\b/i', $item['options']))
+			if(Articles::has_option('files_by_title', $anchor, $item))
 				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'no_anchor');
 			else
 				$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'no_anchor');
@@ -302,17 +309,14 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		// bottom page menu
 		//
 
-		// a page menu
-		$menu = array();
-
 		// discuss this page, if the index page can be commented, and comments are accepted at the article level
 		include_once $context['path_to_root'].'comments/comments.php';
 		if(Comments::are_allowed($anchor, $item))
-			$menu = array_merge($menu, array(Comments::get_url('article:'.$item['id'], 'comment') => i18n::s('Post a comment')));
+			$this->menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Post a comment'));
 
 		// info on related comments
 		if($count = Comments::count_for_anchor('article:'.$item['id']))
-			$menu = array_merge($menu, array(Comments::get_url('article:'.$item['id'], 'list') => sprintf(i18n::ns('%d comment', '%d comments', $count), $count)));
+			$this->menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 		// new links are accepted at the index page and at the article level
 		if(is_object($anchor) && $anchor->has_option('with_links')
@@ -323,14 +327,14 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu = array_merge($menu, array($link => i18n::s('Reference this page')));
+			$this->menu[] = Skin::build_link($link, i18n::s('Reference this page'));
 
 		}
 
 		// info on related links
 		include_once $context['path_to_root'].'links/links.php';
 		if($count = Links::count_for_anchor('article:'.$item['id']))
-			$menu = array_merge($menu, array($url.'#links' => sprintf(i18n::ns('%d link', '%d links', $count), $count)));
+			$this->menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count));
 
 		// new files are accepted at the index page and at the article level
 		if(is_object($anchor) && $anchor->has_option('with_files')
@@ -342,22 +346,18 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 					$link = 'files/edit.php/article/'.$item['id'];
 				else
 					$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-				$menu = array_merge($menu, array($link => i18n::s('Upload a file')));
+				$this->menu[] = Skin::build_link($link, i18n::s('Upload a file'));
 			}
 
 		}
 
 		// modify this page
 		if(Surfer::is_empowered())
-			$menu = array_merge($menu, array( Articles::get_url($item['id'], 'edit') => i18n::s('Edit') ));
+			$this->menu[] = Skin::build_link(Articles::get_url($item['id'], 'edit'), i18n::s('Edit'));
 
 		// view permalink
 		if(Surfer::is_empowered())
-			$menu = array_merge($menu, array( $url => i18n::s('Permalink') ));
-
-		// talk about it
-		if(@count($menu))
-			$text .= Skin::build_box((strlen($text) > 1024) ? i18n::s('Follow-up') : '', Skin::build_list($menu, 'menu_bar'));
+			$this->menu[] = Skin::build_link($url, i18n::s('Permalink'));
 
 		// returned the formatted content
 		return $text;

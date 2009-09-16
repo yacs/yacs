@@ -14,10 +14,6 @@
  *
  * Additionally, the provided XML links to a cascaded style sheet, enabling further rendering enhancements.
  *
- * If following features are enabled, this script will use them:
- * - compression - Through gzip, we have observed a shift from 2900 bytes to 909 bytes, meaning one Ethernet frame rather than two
- * - cache - Cache is supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

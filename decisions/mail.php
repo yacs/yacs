@@ -67,7 +67,7 @@ elseif(isset($context['arguments'][1]))
 $action = strip_tags($action);
 
 // anchor editors can do what they want
-if(is_object($anchor) && $anchor->is_editable())
+if(is_object($anchor) && $anchor->is_assigned())
 	Surfer::empower();
 
 // the page on balance
@@ -157,7 +157,7 @@ if(Surfer::is_crawler()) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// sender address
-	$from = Surfer::get_email_address();
+	$from = Surfer::from();
 
 	// recipient(s) address(es)
 	$to = '';

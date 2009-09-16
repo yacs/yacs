@@ -51,19 +51,19 @@ if(isset($item['handle']) && Surfer::may_handle($item['handle']))
 	Surfer::empower();
 
 // editors can do what they want on items anchored here
-elseif(Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()))
+elseif(Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned()))
 	Surfer::empower();
 
 // anonymous edition is allowed here
-elseif(isset($item['options']) && $item['options'] && preg_match('/\banonymous_edit\b/i', $item['options']))
+elseif(Articles::has_option('anonymous_edit', $anchor, $item))
 	Surfer::empower();
 
 // members edition is allowed here
-elseif(Surfer::is_member() && isset($item['options']) && $item['options'] && preg_match('/\bmembers_edit\b/i', $item['options']))
+elseif(Surfer::is_member() && Articles::has_option('members_edit', $anchor, $item))
 	Surfer::empower();
 
 // associates and editors can do what they want
-if(Surfer::is_empowered() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_empowered() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // poster can always view the page
@@ -170,7 +170,7 @@ if(Surfer::is_crawler()) {
 	// list files by date (default) or by title (option files_by_title)
 	include_once '../files/files.php';
 	$items = array();
-	if(isset($item['options']) && preg_match('/\bfiles_by_title\b/i', $item['options']))
+	if(Articles::has_option('files_by_title', $anchor, $item))
 		$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, 50, 'compact');
 	else
 		$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'compact');
@@ -198,7 +198,7 @@ if(Surfer::is_crawler()) {
 	// list links by date (default) or by title (option links_by_title)
 	include_once '../links/links.php';
 	$items = array();
-	if(isset($item['options']) && preg_match('/\blinks_by_title\b/i', $item['options']))
+	if(Articles::has_option('links_by_title', $anchor, $item))
 		$items = Links::list_by_title_for_anchor('article:'.$item['id'], 0, 50, 'compact');
 	else
 		$items = Links::list_by_date_for_anchor('article:'.$item['id'], 0, 50, 'compact');

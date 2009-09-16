@@ -439,8 +439,8 @@ if($with_form) {
 			$text .= '<p>'.sprintf(i18n::s('If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.'), Skin::build_link($login_url, 'authenticate'))."</p>\n";
 
 			// the name, if any
-			$label = i18n::s('Your name').' *';
-			$input = '<input type="text" name="edit_name" size="45" maxlength="128" accesskey="n" value="'.encode_field(Surfer::get_name()).'" />';
+			$label = i18n::s('Your name');
+			$input = '<input type="text" name="edit_name" size="45" maxlength="128" accesskey="n" value="'.encode_field(Surfer::get_name(' ')).'" />';
 			$hint = i18n::s('Let us a chance to know who you are');
 			$fields[] = array($label, $input, $hint);
 

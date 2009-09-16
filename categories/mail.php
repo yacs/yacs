@@ -109,7 +109,7 @@ if(Surfer::is_crawler()) {
 elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// sender address
-	$from = Surfer::get_email_address();
+	$from = Surfer::from();
 
 	// recipient(s) address(es)
 	$to = array();
@@ -118,7 +118,7 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 	// get a copy
 	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y') && $from)
-		$to[] = '"'.Surfer::get_name().'" <'.$from.'>';
+		$to[] = $from;
 
 	// message subject
 	$subject = '';

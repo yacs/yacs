@@ -33,12 +33,6 @@
  *
  * To get a simpler regular feed go to [script]feeds/rss_2.0.php[/script].
  *
- * If following features are enabled, this script will use them:
- * - compression - Through gzip, we have observed a shift from 4766 bytes to 1111 bytes,
- * meaning one Ethernet frame rather than three
- * - cache - Cache is supported through ETag and by setting Content-Length; Also, Cache-Control enables caching
- * for some time, even through HTTPS
- *
  * @link http://www.tbray.org/ongoing/When/200x/2003/08/02/RSSNumbers RSS Flow, Measured
  * @link http://rss.lockergnome.com/archives/help/006601.phtml Optimising your feed
  *

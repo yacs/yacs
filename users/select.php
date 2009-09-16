@@ -99,7 +99,7 @@ elseif(!$permitted) {
 				// contact target user by e-mail
 				$subject = sprintf(i18n::c('%s is following you'), strip_tags($user['full_name']));
 				$message = sprintf(i18n::c('%s will receive notifications when you will create new content at %s'), $user['full_name'], $context['site_name'])
-					."\n\n".ucfirst(strip_tags($user['title']))
+					."\n\n".ucfirst(strip_tags($user['full_name']))
 					."\n".$context['url_to_home'].$context['url_to_root'].Users::get_permalink($user);
 
 				// enable threading

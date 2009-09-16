@@ -59,7 +59,7 @@ if(is_object($anchor))
 	$context['page_menu'] += array( $anchor->get_url() => i18n::s('Back to main page') );
 
 // commands for associates and editors
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
+if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) {
 	$context['page_menu'] += array( dates::get_url($id, 'edit') => i18n::s('Edit') );
 	$context['page_menu'] += array( dates::get_url($id, 'delete') => i18n::s('Delete') );
 

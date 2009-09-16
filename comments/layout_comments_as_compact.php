@@ -44,8 +44,12 @@ Class Layout_comments_as_compact extends Layout_interface {
 			if($item['create_name'])
 				$label .= ucfirst($item['create_name']).' ';
 
-			// time of last update
-			$label .= Skin::build_date($item['edit_date']);
+			// time of creation
+			$label .= Skin::build_date($item['create_date']);
+			
+			// text beginning
+			if($text = Skin::strip($item['description'], 10, NULL, NULL))
+				$suffix = ' - '.$text;
 
 			// list all components for this item
 			$items[$url] = array($prefix, $label, $suffix, 'comment', $icon);

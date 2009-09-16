@@ -49,7 +49,7 @@ class Mutable extends Overlay {
 			$this->attributes['overlay_id'] = '';
 			
 		// only associates can change the overlay id
-		if(Surfer::is_associate()) { // isset($host['anchor']) && ($parent =&  Anchors::get($host['anchor'])) && $parent->is_editable()) {
+		if(Surfer::is_associate()) { // isset($host['anchor']) && ($parent =&  Anchors::get($host['anchor'])) && $parent->is_assigned()) {
 			$label = i18n::s('Overlay identifier');
 			$input = '<input type="text" name="overlay_id" value="'.encode_field($this->attributes['overlay_id']).'" />';
 		} else {

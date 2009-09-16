@@ -65,7 +65,6 @@
  * - has_option() -- to cascade options from an anchor to related items
  * - has_value() -- check the value of some attribute
  * - is_assigned() -- to check explicit assignments for the current surfer
- * - is_editable() -- to cascade rights from an anchor to related items
  * - is_public() -- to prevent actions on restricted sections
  * - is_viewable() -- to check visibility to surfer
  * - load_by_content() -- a trick to turn an array to an object
@@ -99,7 +98,7 @@
  * $context['text'] .= $anchor->get_prefix('thread');
  *
  * // the surfer may edit this item if he/she is an editor of the section
- * if($anchor->is_editable()) {
+ * if($anchor->is_assigned()) {
  *	 ...
  * }
  *
@@ -780,7 +779,7 @@ class Anchor {
 			return TRUE;
 
 		// climb the anchoring chain
-		if(isset($this->item['anchor']) && $this->item['anchor']) {
+		if(!$leaf && isset($this->item['anchor']) && $this->item['anchor']) {
 
 			// save requests
 			if(!$this->anchor)
@@ -813,49 +812,6 @@ class Anchor {
 	}
 
 	/**
-	 * look for explicit rights from parent container
-	 *
-	 * To be overloaded into derivated class if field has a different name
-	 *
-	 * @param integer id of the user that may be assigned
-	 * @param boolean TRUE to climb the list of containers up to the top
-	 * @return TRUE or FALSE
-	 */
-	 function is_assigned($user_id=NULL, $cascade=TRUE) {
-		global $context;
-
-		// cache the answer
-		if(isset($this->is_assigned_cache))
-			return $this->is_assigned_cache;
-
-		if(isset($this->item['id'])) {
-
-			// article has been assigned to this logged user
-			if(Articles::is_assigned($this->item['id'], $user_id))
-				return $this->is_assigned_cache = TRUE;
-
-			// section has been assigned to this logged user
-			if(Sections::is_assigned($this->item['id'], $user_id))
-				return $this->is_assigned_cache = TRUE;
-
-			// cascade rights inherited from container
-			if($cascade && isset($this->item['anchor'])) {
-
-				// save requests
-				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor =& Anchors::get($this->item['anchor']);
-
-				if(is_object($this->anchor) && $this->anchor->is_assigned($user_id, $cascade))
-					return $this->is_assigned_cache = TRUE;
-
-			}
-		}
-
-		// sorry
-		return $this->is_assigned_cache = FALSE;
-	 }
-
-	/**
 	 * check that the surfer is an editor of an anchor
 	 *
 	 * This function is used to control the authority delegation from the anchor.
@@ -864,7 +820,7 @@ class Anchor {
 	 * you can use following code to check that:
 	 * [php]
 	 * $anchor =& Anchors::get($article['anchor']);
-	 * if($anchor->is_editable() {
+	 * if($anchor->is_assigned() {
 	 *	 ...
 	 * }
 	 * [/php]
@@ -876,37 +832,55 @@ class Anchor {
 	 * To be overloaded into derivated class if field has a different name
 	 *
 	 * @param int optional reference to some user profile
+	 * @param boolean TRUE to climb the list of containers up to the top
 	 * @return TRUE or FALSE
 	 */
-	 function is_editable($user_id=NULL) {
+	 function is_assigned($user_id=NULL, $cascade=TRUE) {
 		global $context;
+
+		// we need some data to proceed
+		if(!isset($this->item['id']))
+			return FALSE;
 
 		// id of requesting user
 		if(!$user_id && Surfer::get_id())
 			$user_id = Surfer::get_id();
+			
+		// anonymous is allowed
+		if(!$user_id)
+			$user_id = 0;
+
+		// create the cache
+		if(!isset($this->is_assigned_cache))
+			$this->is_assigned_cache = array();
+
+		// cache the answer
+		if(isset($this->is_assigned_cache[$user_id]))
+			return $this->is_assigned_cache[$user_id];
 
 		// surfer has provided the secret handle
 		if(isset($this->item['handle']) && Surfer::may_handle($this->item['handle']))
-			return TRUE;
+			return $this->is_assigned_cache[$user_id] = TRUE;
 
 		// surfer owns this item
-		if(isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
-			return TRUE;
+		if($user_id && isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
+			return $this->is_assigned_cache[$user_id] = TRUE;
 
 		// ensure the container allows for public access
-		if(isset($this->item['anchor'])) {
+		if($cascade && isset($this->item['anchor'])) {
 
 			// save requests
 			if(!isset($this->anchor) || !$this->anchor)
 				$this->anchor =& Anchors::get($this->item['anchor']);
 
-			if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
-				return TRUE;
+			// check for ownership
+			if(is_object($this->anchor))
+				return $this->is_assigned_cache[$user_id] = $this->anchor->is_assigned($user_id);
 
 		}
 		
 		// sorry
-		return FALSE;
+		return $this->is_assigned_cache[$user_id] = FALSE;
 	}
 
 	/**
@@ -1008,57 +982,29 @@ class Anchor {
 	 function is_viewable($user_id=NULL) {
 		global $context;
 
-		// cache the answer
-		if(isset($this->is_viewable_cache))
-			return $this->is_viewable_cache;
+		// we need some data to proceed
+		if(!isset($this->item['id']))
+			return FALSE;
 
-		if(is_array($this->item)) {
+		// section is public
+		if(isset($this->item['active']) && ($this->item['active'] == 'Y'))
+			return TRUE;
+			
+		// id of requesting user
+		if(!$user_id && Surfer::get_id())
+			$user_id = Surfer::get_id();
+			
+		// anonymous is allowed
+		if(!$user_id)
+			$user_id = 0;
 
-			// id of requesting user
-			if(!$user_id && Surfer::get_id())
-				$user_id = Surfer::get_id();
+		// section is opened to members
+		if($user_id && isset($this->item['active']) && ($this->item['active'] == 'R'))
+			return TRUE;
+			
+		// anchor has to be assigned
+		return $this->is_assigned($user_id);
 
-			// associates and editors can do what they want
-			if(Surfer::is_associate() || $this->is_editable($user_id))
-				return $this->is_viewable_cache = TRUE;
-
-			// maybe the logged surfer is the creator
-			if($this->item['create_id'] && $user_id && ($this->item['create_id'] == $user_id))
-				return $this->is_viewable_cache = TRUE;
-
-			// anonymous surfer has provided the secret handle
-			if(isset($this->item['handle']) && Surfer::may_handle($this->item['handle']))
-				return $this->is_viewable_cache = TRUE;
-
-			// cascade rights inherited from container
-			if(isset($this->item['anchor'])) {
-
-				// save requests
-				if(!isset($this->anchor) || !$this->anchor)
-					$this->anchor =& Anchors::get($this->item['anchor']);
-
-				// parent container has been assigned to this surfer
-				if(is_object($this->anchor) && $this->anchor->is_editable($user_id))
-					return $this->is_viewable_cache = TRUE;
-
-				// parent container is not visible
-				if(is_object($this->anchor) && !$this->anchor->is_viewable($user_id))
-					return $this->is_viewable_cache = FALSE;
-
-			}
-
-			// access is restricted to logged surfers
-			if(($this->item['active'] == 'R') && $user_id)
-				return $this->is_viewable_cache = TRUE;
-
-			// public access to the anchor is allowed
-			if($this->item['active'] == 'Y')
-				return $this->is_viewable_cache = TRUE;
-
-		}
-
-		// sorry
-		return $this->is_viewable_cache = FALSE;
 	 }
 
 	/**

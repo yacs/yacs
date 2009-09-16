@@ -172,7 +172,7 @@ if(Surfer::is_crawler()) {
 	$_REQUEST['home_panel'] = 'none';
 
 	// make it personal and avoid publishing step
-	$_REQUEST['content_options'] = 'with_extra_profile auto_publish';
+	$_REQUEST['content_options'] = 'with_extra_profile auto_publish comments_as_wall';
 
 	// display the form on error
 	if(!$_REQUEST['id'] = Sections::post($_REQUEST)) {

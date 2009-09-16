@@ -2,10 +2,6 @@
 /**
  * download form content as CSV
  *
- * If following features are enabled, this script will use them:
- * - compression - using gzip
- * - cache - supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * The permission assessment is based upon following rules applied in this order:
  * - associates and editors are allowed to move forward
  * - creator is allowed to view the page

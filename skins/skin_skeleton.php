@@ -23,6 +23,81 @@
 Class Skin_Skeleton {
 
 	/**
+	 * build a box part of one accordion
+	 *
+	 * @param string the box title, if any
+	 * @param string the box content
+	 * @param string the accordion id, used as CSS class
+	 * @return the HTML to display
+	 */
+	function &build_accordion_box($title, &$content, $id) {
+		global $context;
+
+		// we need a clickable title
+		if(!$title)
+			$title = i18n::s('Click to slide');
+
+		// maybe we have an image to enhance rendering
+		$img = '';
+
+		// the icon to close accordion boxes
+		if(!defined('ACCORDION_CLOSE_IMG_HREF')) {
+			$file = 'accordion/minus.jpg';
+			if(file_exists($context['path_to_root'].$context['skin'].'/'.$file))
+				define('ACCORDION_CLOSE_IMG_HREF', $context['url_to_root'].$context['skin'].'/'.$file);
+			elseif(file_exists($context['path_to_root'].'skins/images/icons/'.$file))
+				define('ACCORDION_CLOSE_IMG_HREF', $context['url_to_root'].'skins/images/icons/'.$file);
+			else
+				define('ACCORDION_CLOSE_IMG_HREF', '');
+		}
+
+		// the icon to open accordion boxes
+		if(!defined('ACCORDION_OPEN_IMG_HREF')) {
+			$file = 'accordion/plus.jpg';
+			if(file_exists($context['path_to_root'].$context['skin'].'/'.$file))
+				define('ACCORDION_OPEN_IMG_HREF', $context['url_to_root'].$context['skin'].'/'.$file);
+			elseif(file_exists($context['path_to_root'].'skins/images/icons/'.$file))
+				define('ACCORDION_OPEN_IMG_HREF', $context['url_to_root'].'skins/images/icons/'.$file);
+			else
+				define('ACCORDION_OPEN_IMG_HREF', '');
+		}
+
+		// detect first box of the accordion
+		static $fused;
+		if(!isset($fused))
+			$fused = array();
+
+		// first box is always open
+		if(!isset($fused[ $id ])) {
+
+			$style = '';
+			
+			if(ACCORDION_CLOSE_IMG_HREF)
+				$img = '<img src="'.ACCORDION_CLOSE_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+
+			// close following boxes
+			$fused[ $id ] = TRUE;
+			
+		// following boxes are closed
+		} else {
+
+			$style = ' style="display: none"';
+			
+			if(ACCORDION_OPEN_IMG_HREF)
+				$img = '<img src="'.ACCORDION_OPEN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
+
+		}
+		
+		// Yacs.toggle_folder() is in shared/yacs.js -- div.folder_body div is required for slide effect to work
+		$text = '<div class="accordion_handle accordion_'.$id.'"><a href="#" class="accordion_link" onclick="javascript:Yacs.toggle_accordion(this, \''.ACCORDION_OPEN_IMG_HREF.'\', \''.ACCORDION_CLOSE_IMG_HREF.'\', \'accordion_'.$id.'\'); return false;">'.$img.$title.'</a>'
+			.'<div class="accordion_content"'.$style.'><div>'.$content."</div></div></div>\n";
+
+		// pass by reference
+		return $text;
+
+	}
+
+	/**
 	 * decorate some text
 	 *
 	 * Useful for highlighting snippets of code or other types of text information
@@ -1145,7 +1220,7 @@ Class Skin_Skeleton {
 		$image = '<span><img src="'.$href.'" alt="'.encode_field(strip_tags($alt)).'"  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' /></span>';
 
 		// add a link
-		if($link && preg_match('/\.(gif|jpeg|jpg|png)$/', $link) && !preg_match('/\blarge\b/', $variant))
+		if($link && preg_match('/\.(gif|jpeg|jpg|png)$/i', $link) && !preg_match('/\blarge\b/', $variant))
 			$text .= '<a href="'.$link.'" class="image_show">'.$image.'</a>';
 		elseif($link) {
 			$external = FALSE;
@@ -2068,7 +2143,7 @@ Class Skin_Skeleton {
 		case 'twitter':
 			$url = 'http://www.twitter.com/'.urlencode(trim($text));
 			Skin::define_img('TWITTER_IMG', 'icons/pagers/twitter.gif', 'Twitter', 'Twitter');
-			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('Visit this Twitter page')).'">'.TWITTER_IMG.'</a>';
+			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('Visit the Twitter page')).'">'.TWITTER_IMG.'</a>';
 			break;
 
 		case 'yahoo':
@@ -4565,10 +4640,13 @@ Class Skin_Skeleton {
 
 		// suppress all YACS codes
 		} else
-			$text = Codes::strip($text);
+			$text = Codes::strip($text, TRUE);
 
 		// strip most html, except <a> for anchored names, <br> for new lines, <img> for bullets and <span> for css
-		$text = trim(strip_tags($text, $allowed_html));
+		if($allowed_html)
+			$text = trim(strip_tags($text, $allowed_html));
+		else
+			$text = trim(strip_tags($text));
 
 		// count overall words
 		$overall = count(preg_split("/[ \t,\.;\?!]+/", $text, -1, PREG_SPLIT_NO_EMPTY));

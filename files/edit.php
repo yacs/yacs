@@ -102,7 +102,7 @@ if(!isset($item['id']) && !Surfer::may_upload())
 	$permitted = FALSE;
 
 // associates and editors can upload new files
-elseif(!isset($item['id']) && is_object($anchor) && $anchor->is_editable())
+elseif(!isset($item['id']) && is_object($anchor) && $anchor->is_assigned())
 	$permitted = TRUE;
 
 // associates and parent owners can modify files
@@ -162,6 +162,11 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// an anchor is mandatory
+} elseif(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Logger::error(i18n::s('No anchor has been found.'));
+
 // permission denied
 } elseif(!$permitted) {
 
@@ -206,33 +211,6 @@ if(Surfer::is_crawler()) {
 		Versions::save($item, 'file:'.$item['id']);
 	}
 
-	// create an anchor if none has been provided
-	if(!is_object($anchor)) {
-
-		// set the title
-		$fields['title'] = ucfirst(strip_tags($_REQUEST['title']));
-
-		// most of time, it is more pertinent to move the description to the article itself
-		$fields['description'] = $_REQUEST['description'];
-		$_REQUEST['description'] = '';
-
-		// use the provided section
-		if($_REQUEST['section'])
-			$fields['anchor'] = $_REQUEST['section'];
-
-		// or select the default section
-		else
-			$fields['anchor'] = 'section:'.Sections::get_default();
-
-		// create a hosting article for this file
-		if($fields['id'] = Articles::post($fields)) {
-			$anchor =& Anchors::get('article:'.$fields['id']);
-			$_REQUEST['anchor'] = $anchor->get_reference();
-
-		}
-		$fields = array();
-	}
-
 	// a file has been uploaded
 	if(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
 
@@ -270,7 +248,7 @@ if(Surfer::is_crawler()) {
 			$_REQUEST['thumbnail_url'] = $context['url_to_root'].$file_path.'/'.$thumbnail_name;
 			
 		}		
-
+		
 		// we have a real file, not a reference
 		$_REQUEST['file_href'] = '';
 
@@ -440,18 +418,6 @@ if($with_form) {
 	//
 	$text = '';
 
-	// this is a direct upload, we need to select a section
-	if(!$anchor) {
-
-		// a splash message for new users
-		$context['text'] .= Skin::build_block(i18n::s('This script will create a brand new page for the uploaded file. If you would like to attach a file to an existing page, browse the target page instead and use the adequate command from the menu.'), 'caution')."\n";
-
-		$label = i18n::s('Section');
-		$input = '<select name="section">'.Sections::get_options().'</select>';
-		$hint = i18n::s('Please carefully select a section for your file');
-		$fields[] = array($label, $input, $hint);
-	}
-
 	// the file itself
 	$label = i18n::s('File');
 	$input = '';
@@ -511,7 +477,7 @@ if($with_form) {
 
 		// downloads and file size
 		$other_details = array();
-		if($item['hits'] > 1)
+		if(isset($item['hits']) && ($item['hits'] > 1))
 			$other_details[] = Skin::build_number($item['hits'], i18n::s('downloads'));
 		if(isset($item['file_size']) && ($item['file_size'] > 1))
 			$other_details[] = Skin::build_number($item['file_size'], i18n::s('bytes'));

@@ -833,25 +833,6 @@ function load_skin($variant='', $anchor=NULL, $options='') {
  * Else the new page will be transmitted to the requestor.
  * This mechanism is very efficient for article pages, for which an edition date can be precisely assessed.
  *
- * This script does not set or modify other attributes in responses.
- * These attributes may be set directly in scripts according to following suggestions:
- *
- * [*] Internet Explorer may have strange behaviour with the [code]Expire[/code] attribute.
- * It does not take into account very short-term expiration date and does not validate after the deadline.
- * On the other hand, setting an expiration date is useful to fix the 'download a .zip file directly from the browser' bug.
- * We recommend to set this attribute in all scripts related to file transfers and download, and to not set it
- * at all in every other script.
- *
- * [*] The [code]Cache-Control[/code] attribute allows for cache-control.
- * It has been primarily designed for HTTP/1.1 agents, and few proxies seem to handle it correctly at the moment.
- * However to explicitly declare that the output of some script may be cached for three hours by intermediate proxies,
- * you can use [code]Safe::header("Cache-Control: public, max-age=10800");[/code].
- * On the other hand, if only the user-agent (i.e., the browser) is allowed to cache something,
- * you can use [code]Safe::header("Cache-Control: private, max-age=10800");[/code].
- *
- * [*] What to do with [code]Pragma:[/code]? Well, almost nothing; this is used only by some legacy browsers.
- * If you want an old browser to cache some object, use [code]Safe::header("Pragma:");[/code].
- *
  * Post-processing hooks are triggered after all HTML is returned to the browser,
  * including the poor-man's cron so the user who kicks off the cron jobs should not notice any delay.
  *

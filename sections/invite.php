@@ -73,11 +73,7 @@ else
 	$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item);
 
 // message prefix
-if(isset($item['create_id']) && Surfer::get_id() && ($item['create_id'] == Surfer::get_id()))
-	$message_prefix = i18n::s('I have created a web page and would like you to check it, at the following address.')
-		."\n\n".$link."\n\n";
-else
-	$message_prefix = i18n::s('You are invited personally to check the following page.')
+$message_prefix = i18n::s('I would like to invite you to the following page.')
 		."\n\n".$link."\n\n";
 
 // associates and editors can do what they want
@@ -155,7 +151,7 @@ if(Surfer::is_crawler()) {
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// sender address
-	$from = Surfer::get_email_address();
+	$from = Surfer::from();
 
 	// recipient(s) address(es)
 	$to = '';

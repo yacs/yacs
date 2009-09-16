@@ -110,7 +110,7 @@ if(!isset($item['id']))
 	$editable = FALSE;
 
 // associates and editors are allowed to change the file
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
+elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$editable = TRUE;
 
 // the original poster can change the file as well
@@ -145,7 +145,7 @@ elseif(isset($item['file_name']))
 	$context['page_title'] = str_replace('_', ' ', $item['file_name']);
 
 // editors have associate-like capabilities
-if(is_object($anchor) && $anchor->is_editable())
+if(is_object($anchor) && $anchor->is_assigned())
 	Surfer::empower();
 
 // change default behavior
@@ -206,7 +206,7 @@ if(!isset($item['id'])) {
 		$context['page_details'] .= '<p class="details">';
 	
 		// warns associate, poster and editor if not active
-		if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()) || Surfer::is($item['create_id'])) {
+		if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()) || Surfer::is($item['create_id'])) {
 	
 			// restricted to logged members
 			if($item['active'] == 'R')
@@ -882,7 +882,7 @@ if(!isset($item['id'])) {
 	}
 	
 	// delete command provided to associates and editors
-	if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))) {
+	if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))) {
 		Skin::define_img('FILES_DELETE_IMG', 'files/delete.gif');
 		$context['page_tools'][] = Skin::build_link(Files::get_url($item['id'], 'delete'), FILES_DELETE_IMG.i18n::s('Delete this file'));
 	}

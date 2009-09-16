@@ -73,7 +73,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 
 // the edit command is available to associates, editors, target member, and poster
 if($item['id'] && (Surfer::is_associate()
-	|| (is_object($anchor) && $anchor->is_editable())
+	|| (is_object($anchor) && $anchor->is_assigned())
 	|| (Surfer::is_member() && ($item['anchor'] == 'user:'.Surfer::get_id()))
 	|| Surfer::is($item['create_id']))) {
 
@@ -82,7 +82,7 @@ if($item['id'] && (Surfer::is_associate()
 
 // the delete command is available to associates, editors, target member, and poster
 if($item['id'] && (Surfer::is_associate()
-	|| (is_object($anchor) && $anchor->is_editable())
+	|| (is_object($anchor) && $anchor->is_assigned())
 	|| (Surfer::is_member() && ($item['anchor'] == 'user:'.Surfer::get_id()))
 	|| Surfer::is($item['create_id']))) {
 

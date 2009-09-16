@@ -27,7 +27,7 @@ Class Links {
 		global $context;
 
 		// links are prevented in item
-		if(($variant == 'article') && isset($item['options']) && is_string($item['options']) && preg_match('/\bno_links\b/i', $item['options']))
+		if(($variant == 'article') && Articles::has_option('no_links', $anchor, $item))
 			return FALSE;
 
 		// links are not explicitly activated in item
@@ -93,7 +93,7 @@ Class Links {
 			return TRUE;
 
 		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
+		if(is_object($anchor) && $anchor->is_assigned())
 			return TRUE;
 
 		// the default is to not allow for new links

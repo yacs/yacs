@@ -424,7 +424,7 @@ class Safe {
 
 		// ensure call is allowed
 		if(is_readable($file) && is_callable('GetImageSize'))
-			$output = GetImageSize($file);
+			$output = @GetImageSize($file);
 		else
 			$output = FALSE;
 

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 10, 2009, 11:16 pm GMT. Please do not modify it manually.
+ * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-11 01:01+0200
-PO-Revision-Date: 2009-09-04 01:16+0100
+POT-Creation-Date: 2009-09-17 01:22+0200
+PO-Revision-Date: 2009-09-17 01:21+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -90,7 +90,7 @@ $_SESSION['l10n']['fr']['Associate pages below to']='Associer les pages ci-desso
 $_SESSION['l10n']['fr']['Attach related files.']='Attacher les fichiers en rapport avec cette page.';
 $_SESSION['l10n']['fr']['Attachments']='Pièces jointes';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
-$_SESSION['l10n']['fr']['Back to my profile']='Retour à ma fiche';
+$_SESSION['l10n']['fr']['Back to my profile']='Retour à mon profil';
 $_SESSION['l10n']['fr']['Back to the section']='Retour à la section';
 $_SESSION['l10n']['fr']['Back to web browsing']='Retourner à la navigation';
 $_SESSION['l10n']['fr']['Bad request.']='Demande invalide.';
@@ -188,7 +188,7 @@ $_SESSION['l10n']['fr']['Groups']='Groupes';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Help index']='Index de l\'aide';
 $_SESSION['l10n']['fr']['Hidden pages']='Pages masquées';
-$_SESSION['l10n']['fr']['28d7cc70ab433227b4d58e2f5c10b04d']='J\'ai créé une page web et souhaiterais que vous la lisiez, à l\'adresse suivante.';
+$_SESSION['l10n']['fr']['6198ff8c87cda7d2c4e9972f51412f95']='Je vous invite à consulter la page suivante.';
 $_SESSION['l10n']['fr']['98b2e1b34b14f94d2493eb4999e0fd72']='Vous pouvez perdre des informations si vous changez l\'overlay.';
 $_SESSION['l10n']['fr']['Image']='Image';
 $_SESSION['l10n']['fr']['Image %d of %d']='Image %d de %d';
@@ -303,6 +303,7 @@ $_SESSION['l10n']['fr']['Prefix separator']='Séparateur de préfixe';
 $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['c0df1f223de6a16ea0b417f65a0ca2af']='Ne pas insérer de liens vers les pages suivantes et précédentes de la même section';
+$_SESSION['l10n']['fr']['Prevent the upload of new files']='Empêcher l\'envoi de fichiers';
 $_SESSION['l10n']['fr']['Previous']='Précédent';
 $_SESSION['l10n']['fr']['Print this page']='Imprimer cette page';
 $_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
@@ -444,13 +445,13 @@ $_SESSION['l10n']['fr']['ee4412509c53262bbe9d2b3dc15da8c7']='Oui, je veux suppri
 $_SESSION['l10n']['fr']['ba135d27de8807647e93dc88e2fcfb4f']='Oui, je souhaite transformer ce commentaire en article';
 $_SESSION['l10n']['fr']['10fe651b94bdfe7f8141222983510e8b']='Oui, je souhaite transformer cette annotation en article';
 $_SESSION['l10n']['fr']['9000f53992b9d67ef89821c66bc7450d']='Oui, je souhaite transformer cette réponse en article';
-$_SESSION['l10n']['fr']['08c45ec2009b953b316933e075906922']='Vous êtes invité à consulter la page suivante.';
 $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas autorisé à faire cette opération en mode démonstration.';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à effectuer cette opération.';
 $_SESSION['l10n']['fr']['You are sending a message to:']='Vous écrivez à :';
 $_SESSION['l10n']['fr']['20cf45e0c01e6acc47459231610d3463']='Vous pouvez télécharger une photo, un dessin ou une image.';
 $_SESSION['l10n']['fr']['d202c53d9ea1bb14a44814af246dbcf4']='Vous pouvez combiner plusieurs mots-clés :';
 $_SESSION['l10n']['fr']['82e1e4fa4163a6bb6fce5575a9d86438']='Votre message est en cours d\'acheminement vers %s';
+$_SESSION['l10n']['fr']['3a123eb381c7b77022d31740519e6c0e']='accordion - Exposer un élément à la fois dans une pile';
 $_SESSION['l10n']['fr']['3826678d554b3f49614db283670da2ca']='alistapart - Dernier article dans son intégralité';
 $_SESSION['l10n']['fr']['behavior']='comportement';
 $_SESSION['l10n']['fr']['70c052690de9189737835cc5ad18869e']='boxesandarrows - Cliquer sur les titres pour lire les articles';

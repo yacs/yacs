@@ -1129,7 +1129,7 @@ Class Sections {
 				$text .= '<input type="radio" name="anchor" value="section:'.$item['id'].'" checked="checked" /> '.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title']));
 
 			// move to parent
-			if($parent->is_editable() || !$parent->has_option('locked'))
+			if($parent->is_assigned() || !$parent->has_option('locked'))
 				$text = '<input type="radio" name="anchor" value="'.$parent->get_reference().'" /> '.Skin::build_link($parent->get_url(), $parent->get_title())
 					.'<div style="margin: 0 0 0 3em">'.$text.'</div>';
 
@@ -1251,6 +1251,35 @@ Class Sections {
 
 		// normalize the link
 		return normalize_url(array('sections', 'section'), $action, $id, $name);
+	}
+
+	/**
+	 * check if an option has been set for a page
+	 *
+	 * The option can be set either in the page itself, or cascaded from parent sections.
+	 *
+	 * @param string the option
+	 * @param object parent anchor, if any
+	 * @param array page attributes
+	 * @return TRUE or FALSE
+	 */
+	 function has_option($option, $anchor=NULL, $item=NULL) {
+		global $context;
+
+		// sanity check
+		if(!$option)
+			return FALSE;
+			
+		// option check for this page
+		if(isset($item['options']) && (strpos($item['options'], $option) !== FALSE))
+			return TRUE;
+		
+		// check in anchor
+		if(is_object($anchor) && $anchor->has_option($option, FALSE))
+			return TRUE;
+			
+		// sorry
+		return FALSE;
 	}
 
 	/**
@@ -1940,7 +1969,7 @@ Class Sections {
 			$fields['rank'] = 10000;
 
 		// set layout for sections
-		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/(compact|custom|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $fields['sections_layout']))
+		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/(accordion|compact|custom|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $fields['sections_layout']))
 			$fields['sections_layout'] = 'none';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
@@ -1950,7 +1979,7 @@ Class Sections {
 		}
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(alistapart|boxesandarrows|compact|daily|decorated|digg|jive|manual|map|none|slashdot|table|threads|wiki|yabb)/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|boxesandarrows|compact|daily|decorated|digg|jive|manual|map|none|slashdot|table|threads|wiki|yabb)/', $fields['articles_layout']))
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])
@@ -1964,6 +1993,14 @@ Class Sections {
 			$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 		else
 			$fields['active'] = $fields['active_set'];
+
+		// create a random handle for this section
+		if(!isset($fields['handle']))
+			$fields['handle'] = md5(mt_rand());
+		$query[] = "handle='".SQL::escape($fields['handle'])."'";
+
+		// allow surfer to access this section during his session
+		Surfer::add_handle($fields['handle']);
 
 		// insert a new record
 		$query = "INSERT INTO ".SQL::table_name('sections')." SET ";
@@ -2015,7 +2052,7 @@ Class Sections {
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
 			."rank='".SQL::escape(isset($fields['rank']) ? $fields['rank'] : 10000)."',"
 			."section_overlay='".SQL::escape(isset($fields['section_overlay']) ? $fields['section_overlay'] : '')."',"
-			."sections_count=".SQL::escape(isset($fields['sections_count']) ? $fields['sections_count'] : 5).","
+			."sections_count=".SQL::escape(isset($fields['sections_count']) ? $fields['sections_count'] : 30).","
 			."sections_layout='".SQL::escape(isset($fields['sections_layout']) ? $fields['sections_layout'] : 'map')."',"
 			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
 			."template='".SQL::escape(isset($fields['template']) ? $fields['template'] : '')."',"
@@ -2094,7 +2131,7 @@ Class Sections {
 			$fields['rank'] = 10000;
 
 		// set layout for sections
-		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/(compact|custom|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $fields['sections_layout']))
+		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/(accordion|compact|custom|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $fields['sections_layout']))
 			$fields['sections_layout'] = 'map';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
@@ -2104,7 +2141,7 @@ Class Sections {
 		}
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(alistapart|boxesandarrows|compact|custom|daily|decorated|digg|jive|manual|map|none|slashdot|table|threads|wiki|yabb)/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|boxesandarrows|compact|custom|daily|decorated|digg|jive|manual|map|none|slashdot|table|threads|wiki|yabb)/', $fields['articles_layout']))
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])
@@ -2155,7 +2192,7 @@ Class Sections {
 			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
 			."rank='".SQL::escape($fields['rank'])."',"
 			."section_overlay='".SQL::escape(isset($fields['section_overlay']) ? $fields['section_overlay'] : '')."',"
-			."sections_count='".SQL::escape(isset($fields['sections_count']) ? $fields['sections_count'] : 5)."',"
+			."sections_count='".SQL::escape(isset($fields['sections_count']) ? $fields['sections_count'] : 30)."',"
 			."sections_layout='".SQL::escape(isset($fields['sections_layout']) ? $fields['sections_layout'] : 'map')."',"
 			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
 			."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',"
@@ -2435,6 +2472,7 @@ Class Sections {
 		$fields['extra']		= "TEXT NOT NULL";
 		$fields['family']		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['hits'] 		= "INT UNSIGNED DEFAULT 0 NOT NULL";
+		$fields['handle']		= "VARCHAR(128) DEFAULT '' NOT NULL";
 		$fields['home_panel']	= "VARCHAR(255) DEFAULT 'main' NOT NULL";
 		$fields['icon_url'] 	= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['index_map']	= "ENUM('Y', 'N') DEFAULT 'Y' NOT NULL";
@@ -2473,6 +2511,7 @@ Class Sections {
 		$indexes['INDEX edit_date'] 	= "(edit_date)";
 		$indexes['INDEX edit_id']		= "(edit_id)";
 		$indexes['INDEX expiry_date']	= "(expiry_date)";
+		$indexes['INDEX handle']		= "(handle)";
 		$indexes['INDEX hits']			= "(hits)";
 		$indexes['INDEX home_panel']	= "(home_panel)";
 		$indexes['INDEX index_map'] 	= "(index_map)";

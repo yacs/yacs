@@ -292,21 +292,26 @@ Class Image {
 	 *
 	 * @param string file name
 	 * @param string path to the file
-	 * @return void
+	 * @param boolean TRUE to not report on errors
+	 * @return boolean TRUE on correct processing, FALSE otherwise
 	 */
-	function upload($file_name, $file_path) {
+	function upload($file_name, $file_path, $silent=FALSE) {
 		global $context, $_REQUEST;
 		
 		// we accept only valid images
-		if(!$image_information = Safe::GetImageSize($file_path.$file_name))
-			Logger::error(sprintf(i18n::s('No image information in %s'), $file_path.$file_name));
+		if(!$image_information = Safe::GetImageSize($file_path.$file_name)) {
+			if(!$silent)
+				Logger::error(sprintf(i18n::s('No image information in %s'), $file_path.$file_name));
+			return FALSE;
 
 		// we accept only gif, jpeg and png
-		elseif(($image_information[2] != 1) && ($image_information[2] != 2) && ($image_information[2] != 3))
-			Logger::error(sprintf(i18n::s('Rejected file type %s'), $file_name));
+		} elseif(($image_information[2] != 1) && ($image_information[2] != 2) && ($image_information[2] != 3)) {
+			if(!$silent)
+				Logger::error(sprintf(i18n::s('Rejected file type %s'), $file_name));
+			return FALSE;
 
 		// post-upload processing
-		else {
+		} else {
 		
 			// create folders
 			$_REQUEST['thumbnail_name'] = 'thumbs/'.$file_name;
@@ -356,7 +361,7 @@ Class Image {
 			if((@count($details)) || ($_REQUEST['description'] == ''))
 				$_REQUEST['description'] .= "\n\n".'<p class="details">'.implode(BR."\n", $details)."</p>\n";
 				
-			return $file_name;
+			return TRUE;
 		}
 
 	}

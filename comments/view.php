@@ -207,7 +207,7 @@ if(!isset($item['id'])) {
 	}
 	
 	// turn this to an article
-	if((Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))) {
+	if((Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))) {
 		Skin::define_img('COMMENTS_PROMOTE_IMG', 'comments/promote.gif');
 		$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'promote'), COMMENTS_PROMOTE_IMG.i18n::s('Promote'));
 	}

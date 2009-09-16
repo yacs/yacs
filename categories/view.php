@@ -136,7 +136,7 @@ elseif(isset($item['overlay_id']))
 	$overlay = Overlay::bind($item['overlay_id']);
 
 // associates and editors can do what they want
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
@@ -295,7 +295,7 @@ if(!isset($item['id'])) {
 		$details = array();
 
 		// additional details for associates and editors
-		if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
+		if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) {
 
 			// the creator of this category
 			if($item['create_date'])

@@ -52,7 +52,7 @@ class Move_on_article_access extends Behavior {
 				$origin = $target;
 
 			// only container editors can proceed
-			if($origin->is_editable()) {
+			if($origin->is_assigned()) {
 				
 				// load target section
 				$tokens = explode(' ', $this->parameters, 2);

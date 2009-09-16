@@ -19,10 +19,6 @@
  *	</rdf:RDF>
  * [/snippet]
  *
- * If following features are enabled, this script will use them:
- * - compression - Using gzip, if accepted by user agent
- * - cache - Cache is supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * Restrictions apply on this page:
  * - associates and editors are allowed to move forward
  * - permission is denied if the anchor is not viewable
@@ -67,7 +63,7 @@ if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
 // editors have associate-like capabilities
-if((isset($item['id']) && Sections::is_assigned($item['id'])) || (is_object($anchor) && $anchor->is_editable()))
+if((isset($item['id']) && Sections::is_assigned($item['id'])) || (is_object($anchor) && $anchor->is_assigned()))
 	Surfer::empower();
 
 // associates and editors are always authorized

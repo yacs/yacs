@@ -15,11 +15,6 @@
  * - fetch.php?script=/skins/skeleton/skin.php
  * - fetch.php?script=/skins/skeleton/skin.php,/skins/skeleton/template.php
  *
- * If following features are enabled, this script will use them:
- * - compression - using gzip
- * - cache - supported through ETag and Last-Modified, not mentioning the setting of Content-Length;
- * Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * @author Bernard Paques
  * @author GnapZ
  * @reference

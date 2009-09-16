@@ -276,11 +276,11 @@ Class Surfer {
 	 */
 	function check_default_editor(&$fields) {
 
-		// if a name has been set, do not impersonate the surfer at other fields
-		if(!isset($fields['edit_name']) || !$fields['edit_name']) {
+		// surfer is the editor
+		if(!isset($fields['edit_name']) || !trim($fields['edit_name'])) {
 
 			// default value for editor name
-			$fields['edit_name'] = Surfer::get_name(TRUE);
+			$fields['edit_name'] = Surfer::get_name();
 
 			// default value for editor id
 			if(!isset($fields['edit_id']) || !$fields['edit_id'])
@@ -290,7 +290,7 @@ Class Surfer {
 			if(!isset($fields['edit_address']) || !$fields['edit_address'])
 				$fields['edit_address'] = Surfer::get_email_address();
 
-		// SQL statements assume following fields have been set
+		// if a name has been set, do not impersonate the surfer at other fields
 		} else {
 
 			// default value for editor id
@@ -543,7 +543,7 @@ Class Surfer {
 		if(isset($context['url_to_root']) && (!isset($_SESSION['server_id']) || ($_SESSION['server_id'] == $context['url_to_root']))) {
 
 			// use session data
-			if(isset($_SESSION['surfer_id']))
+			if(isset($_SESSION['surfer_id']) && $_SESSION['surfer_id'])
 				return $_SESSION['surfer_id'];
 
 		}
@@ -560,11 +560,11 @@ Class Surfer {
 		global $context;
 
 		// use session data
-		if(isset($_SESSION['surfer_name']) && $_SESSION['surfer_name'])
+		if(isset($_SESSION['surfer_name']) && trim($_SESSION['surfer_name']))
 			return $_SESSION['surfer_name'];
 
 		// use cookie
-		if(isset($_COOKIE['surfer_name']) && $_COOKIE['surfer_name'])
+		if(isset($_COOKIE['surfer_name']) && trim($_COOKIE['surfer_name']))
 			return $_COOKIE['surfer_name'];
 
 		// we have some default string to use
@@ -572,7 +572,7 @@ Class Surfer {
 			return $default;
 
 		// use network address
-		if(isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'])
+		if(isset($_SERVER['REMOTE_ADDR']) && trim($_SERVER['REMOTE_ADDR']))
 			return $_SERVER['REMOTE_ADDR'];
 			
 		// really anonymous!
@@ -1102,10 +1102,6 @@ Class Surfer {
 		// sanity check
 		if(!$capability)
 			$capability = Surfer::get_capability();
-
-		// only authenticated members can upload files
-		if(!Surfer::is_member() && ($capability == '?'))
-			return FALSE;
 
 		// server limitation
 		if(!ini_get('file_uploads'))

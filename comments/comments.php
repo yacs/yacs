@@ -46,7 +46,7 @@ Class Comments {
 			$variant = substr($variant, 0, $position);
 			
 		// comments are prevented in item
-		if(($variant == 'article') && isset($item['options']) && is_string($item['options']) && preg_match('/\bno_comments\b/i', $item['options']))
+		if(($variant == 'article') && Articles::has_option('no_comments', $anchor, $item))
 			return FALSE;
 
 		// comments are not explicitly activated in item
@@ -116,7 +116,7 @@ Class Comments {
 			return TRUE;
 
 		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
+		if(is_object($anchor) && $anchor->is_assigned())
 			return TRUE;
 
 		// the default is to not allow for new comments

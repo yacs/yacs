@@ -116,7 +116,7 @@
  * - users/login.php -- show the login form or process POSTed arguments
  * - users/login.php?url=... -- the same, with a URL to be used on success
  * - users/login.php/... -- authenticate surfer using providing credentials
- * - users/login.php/?credentials=... -- use provided credentials
+ * - users/login.php?credentials=... -- use provided credentials
  *
  * @author Bernard Paques
  * @author GnapZ
@@ -244,8 +244,8 @@ if(Surfer::is_crawler()) {
 
 		}
 
-	// surfer is an invited visitor --'invite' is legacy, and should be removed in 2008
-	} elseif(isset($credentials[0]) && (($credentials[0] == 'visit') || ($credentials[0] == 'invite'))) {
+	// surfer is an invited visitor
+	} elseif(isset($credentials[0]) && ($credentials[0] == 'visit')) {
 
 		// get an anchor
 		if(!isset($credentials[1]) || (!$anchor =& Anchors::get($credentials[1])))
@@ -266,12 +266,13 @@ if(Surfer::is_crawler()) {
 			$tokens = explode(' ', $credentials[2]);
 			$address = trim(str_replace(array('<', '>'), '', $tokens[count($tokens)-1]));
 
-			// ensure authenticated surfer is also an editor of the visited page
-			if($id = Surfer::get_id())
+			// if surfer has been authenticated, make him an editor of the target page, and update his watch list
+			if($id = Surfer::get_id()) {
 				Members::assign('user:'.$id, $anchor->get_reference());
+				Members::assign($anchor->get_reference(), 'user:'.$id);
 
 			// start a new session
-			else {
+			} else {
 
 				// look for a surfer with this address
 				if(!$user = Users::get($address)) {
@@ -280,19 +281,14 @@ if(Surfer::is_crawler()) {
 					$user['email'] = $address;
 				}
 
-				// note date of login
-				$update_flag = FALSE;
-				if(!isset($user['id']))
-					;
-				elseif(!Surfer::get_id() || (Surfer::get_id() != $user['id']))
-					$update_flag = TRUE;
-
 				// save surfer profile in session context
-				Surfer::set($user, $update_flag);
+				Surfer::set($user, TRUE);
 
 				// ensure this user profile is also an editor of the visited page
-				if(isset($user['id']))
+				if(isset($user['id'])) {
 					Members::assign('user:'.$user['id'], $anchor->get_reference());
+					Members::assign($anchor->get_reference(), 'user:'.$user['id']);
+				}
 
 			}
 

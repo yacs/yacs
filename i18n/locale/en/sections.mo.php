@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 10, 2009, 11:16 pm GMT. Please do not modify it manually.
+ * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-11 01:01+0200
-PO-Revision-Date: 2009-09-04 01:13+0100
+POT-Creation-Date: 2009-09-17 01:22+0200
+PO-Revision-Date: 2009-09-17 01:06+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -188,7 +188,7 @@ $_SESSION['l10n']['en']['Groups']='Groups';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['Help index']='Help index';
 $_SESSION['l10n']['en']['Hidden pages']='Hidden pages';
-$_SESSION['l10n']['en']['28d7cc70ab433227b4d58e2f5c10b04d']='I have created a web page and would like you to check it, at the following address.';
+$_SESSION['l10n']['en']['6198ff8c87cda7d2c4e9972f51412f95']='I would like to invite you to the following page.';
 $_SESSION['l10n']['en']['98b2e1b34b14f94d2493eb4999e0fd72']='If you change the overlay you may loose some data.';
 $_SESSION['l10n']['en']['Image']='Image';
 $_SESSION['l10n']['en']['Image %d of %d']='Image %d of %d';
@@ -303,6 +303,7 @@ $_SESSION['l10n']['en']['Prefix separator']='Prefix separator';
 $_SESSION['l10n']['en']['Press [e] to edit']='Press [e] to edit';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['c0df1f223de6a16ea0b417f65a0ca2af']='Prevent YACS to add links to previous and next pages in the same section';
+$_SESSION['l10n']['en']['Prevent the upload of new files']='Prevent the upload of new files';
 $_SESSION['l10n']['en']['Previous']='Previous';
 $_SESSION['l10n']['en']['Print this page']='Print this page';
 $_SESSION['l10n']['en']['711abf22490c13c012c6eff77b7b2b9e']='Private - Access is restricted to selected persons';
@@ -444,13 +445,13 @@ $_SESSION['l10n']['en']['ee4412509c53262bbe9d2b3dc15da8c7']='Yes, I want to dele
 $_SESSION['l10n']['en']['ba135d27de8807647e93dc88e2fcfb4f']='Yes, I want to turn this comment to an article';
 $_SESSION['l10n']['en']['10fe651b94bdfe7f8141222983510e8b']='Yes, I want to turn this note to an article';
 $_SESSION['l10n']['en']['9000f53992b9d67ef89821c66bc7450d']='Yes, I want to turn this reply to an article';
-$_SESSION['l10n']['en']['08c45ec2009b953b316933e075906922']='You are invited personally to check the following page.';
 $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed to perform this operation in demonstration mode.';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['You are sending a message to:']='You are sending a message to:';
 $_SESSION['l10n']['en']['20cf45e0c01e6acc47459231610d3463']='You can upload a camera shot, a drawing, or another image file.';
 $_SESSION['l10n']['en']['d202c53d9ea1bb14a44814af246dbcf4']='You may combine several keywords:';
 $_SESSION['l10n']['en']['82e1e4fa4163a6bb6fce5575a9d86438']='Your message is being transmitted to %s';
+$_SESSION['l10n']['en']['3a123eb381c7b77022d31740519e6c0e']='accordion - Expose one item at a time in a stack';
 $_SESSION['l10n']['en']['3826678d554b3f49614db283670da2ca']='alistapart - Display entirely the last published page';
 $_SESSION['l10n']['en']['behavior']='behavior';
 $_SESSION['l10n']['en']['70c052690de9189737835cc5ad18869e']='boxesandarrows - Click on titles to read articles';

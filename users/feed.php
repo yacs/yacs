@@ -12,10 +12,6 @@
  * - section - the label of the section from where the article is originated
  * - image - the absolute url to fetch a related image, if any
  *
- * If following features are enabled, this script will use them:
- * - compression - Through gzip, we have observed a shift from 3566 bytes to 881 bytes, meaning one Ethernet frame rather than three
- * - cache - Cache is supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * Restrictions apply on this page:
  * - associates are allowed to move forward
  * - access is restricted ('active' field == 'R'), but the surfer is an authenticated member

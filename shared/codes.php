@@ -479,8 +479,8 @@ Class Codes {
 				"#^([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t ])([a-z]+?)://([a-z0-9_\-\.\~\/@&;:=%$\?]+)#ie", /* make URL clickable */
 				"#([\n\t \(])www\.([a-z0-9\-]+)\.([a-z0-9_\-\.\~]+)((?:/[^,< \r\n\)]*)?)#ie",	/* web server */
-//				"/^\<p\>(-|\*|¤|\•)\s+(.+)\<\/p\>$/im", /* lists hard-coded with -, *, ¤, or • -- no space ahead */
-//				"/^(-|\*|¤|\•)\s+(.+)$/m", /* lists hard-coded with -, *, ¤, or • -- no space ahead */
+				"/^\<p\>(-|\*)\s+(.+)\<\/p\>$/im", /* lists hard-coded with -, *, ¤, or • -- no space ahead */
+				"/^(-|\*)\s+(.+)$/m", /* lists hard-coded with -, *, ¤, or • -- no space ahead */
 				"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
 				"|\n[ \t]*>(\s*)|i",		/* quoted by > */
 				"|\n[ \t]*\|(\s*)|i",		/* quoted by | */
@@ -495,8 +495,8 @@ Class Codes {
 				"Skin::build_link('$1://$2', '$1://$2')",
 				"'$1'.Skin::build_link('$2://$3', '$2://$3')",
 				"'$1'.Skin::build_link('http://www.$2.$3$4', 'www.$2.$3$4')",
-//				"Y<ul><li>$2</li></ul>Y",
-//				"x<ul><li>$2</li></ul>x",
+				"<ul><li>$2</li></ul>",
+				"<ul><li>$2</li></ul>",
 				BR."$1:$2",
 				BR.">$1",
 				BR."|$1",
@@ -744,6 +744,7 @@ Class Codes {
 //			$replace[] = ;
 
 			$pattern = array(
+				"|<!-- .* -->|i",								// remove HTML comments
 				'/\[escape\](.*?)\[\/escape\]/ise', 	// [escape]...[/escape] (before everything)
 				'/\[php\](.*?)\[\/php\]/ise',			// [php]...[/php]
 				'/\[snippet\](.*?)\[\/snippet\]/ise',	// [snippet]...[/snippet]
@@ -930,6 +931,7 @@ Class Codes {
 		static $replace;
 		if(!isset($replace)) {
 			$replace = array(
+				'',																// delete HTML comments
 				"Codes::render_escaped(Codes::fix_tags('$1'))",						// [escape]...[/escape]
 				"Codes::render_pre(Codes::fix_tags('$1'), 'php')",					// [php]...[/php]
 				"Codes::render_pre(Codes::fix_tags('$1'), 'snippet')",				// [snippet]...[/snippet]

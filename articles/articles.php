@@ -247,7 +247,7 @@ Class Articles {
 		if(Surfer::is_member())
 			return TRUE;
 
-		// anonymous contributions are allowed in this container
+		// anonymous contributions are allowed
 		if(isset($item['content_options']) && preg_match('/\banonymous_edit\b/i', $item['content_options']))
 			return TRUE;
 
@@ -256,7 +256,7 @@ Class Articles {
 			return TRUE;
 
 		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
+		if(is_object($anchor) && $anchor->is_assigned())
 			return TRUE;
 
 		// the default is to not allow for new articles
@@ -911,6 +911,35 @@ Class Articles {
 	}
 
 	/**
+	 * check if an option has been set for a page
+	 *
+	 * The option can be set either in the page itself, or cascaded from parent sections.
+	 *
+	 * @param string the option
+	 * @param object parent anchor, if any
+	 * @param array page attributes
+	 * @return TRUE or FALSE
+	 */
+	 function has_option($option, $anchor=NULL, $item=NULL) {
+		global $context;
+
+		// sanity check
+		if(!$option)
+			return FALSE;
+			
+		// option check for this page
+		if(isset($item['options']) && (strpos($item['options'], $option) !== FALSE))
+			return TRUE;
+		
+		// check in anchor
+		if(is_object($anchor) && $anchor->has_option($option, FALSE))
+			return TRUE;
+			
+		// sorry
+		return FALSE;
+	}
+
+	/**
 	 * set the hits counter - errors are not reported, if any
 	 *
 	 * @param the id of the article to update
@@ -981,7 +1010,7 @@ Class Articles {
 			return TRUE;
 		
 		// surfer owns parent container
-		if(is_object($anchor) && $anchor->is_editable($user_id))
+		if(is_object($anchor) && $anchor->is_assigned($user_id))
 			return TRUE;
 		
 		// surfer owns this page
@@ -1720,7 +1749,7 @@ Class Articles {
 		// cascade anchor access rights
 		$fields['active'] = $anchor->ceil_rights($fields['active_set']);
 
-		// all row updates
+		// fields to update
 		$query = array();
 
 		// on import

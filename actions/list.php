@@ -87,7 +87,7 @@ else
 
 // the command to create a new action is available to associates, editors and target member
 if(Surfer::is_associate()
-	|| (is_object($anchor) && $anchor->is_editable())
+	|| (is_object($anchor) && $anchor->is_assigned())
 	|| (Surfer::is_member() && ($target_anchor == 'user:'.Surfer::get_id()))) {
 
 	if($context['with_friendly_urls'] == 'Y')

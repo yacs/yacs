@@ -106,7 +106,7 @@ if(!isset($context['title_suffix']))
 
 // if no reply-to, use the one of the logged user
 if(!isset($context['letter_reply_to']) || !$context['letter_reply_to'])
-	$context['letter_reply_to'] = Surfer::get_email_address();
+	$context['letter_reply_to'] = Surfer::from();
 
 // restrictions: for associates only
 if(!Surfer::is_associate()) {

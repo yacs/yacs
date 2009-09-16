@@ -510,10 +510,8 @@ if(!isset($item['id'])) {
 					// actually render the html for the section
 					if(is_array($items) && is_string($item['sections_layout']) && ($item['sections_layout'] == 'compact'))
 						$box['text'] .= Skin::build_list($items, 'compact');
-					elseif(is_array($items) && is_string($layout) && ($layout == 'decorated'))
-						$box['text'] .= Skin::build_list($items, 'decorated');
 					elseif(is_array($items))
-						$box['text'] .= Skin::build_list($items, '2-columns');
+						$box['text'] .= Skin::build_list($items, 'decorated');
 					elseif(is_string($items))
 						$box['text'] .= $items;
 	
@@ -657,7 +655,7 @@ if(!isset($item['id'])) {
 						$box['text'] .= Skin::build_list($items, 'decorated');
 					elseif(is_string($items))
 						$box['text'] .= $items;
-	
+						
 					// part of the main content
 					if($box['text']) {
 	

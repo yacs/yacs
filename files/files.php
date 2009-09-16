@@ -78,7 +78,7 @@ Class Files {
 		global $context;
 
 		// files are prevented in item
-		if(($variant == 'article') && isset($item['options']) && is_string($item['options']) && preg_match('/\bno_files\b/i', $item['options']))
+		if(($variant == 'article') && Articles::has_option('no_files', $anchor, $item))
 			return FALSE;
 
 		// files are not explicitly activated in item
@@ -86,7 +86,7 @@ Class Files {
 			return FALSE;
 
 		// files are prevented in anchor
-		if(!$item && is_object($anchor) && $anchor->has_option('no_files'))
+		if(!$item && is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_files'))
 			return FALSE;
 
 		// surfer is not allowed to upload a file
@@ -148,7 +148,7 @@ Class Files {
 			return TRUE;
 
 		// anonymous contributions are allowed for this anchor
-		if(is_object($anchor) && $anchor->is_editable())
+		if(is_object($anchor) && $anchor->is_assigned())
 			return TRUE;
 
 		// the default is to not allow for new files
@@ -1960,36 +1960,31 @@ Class Files {
 
 			$query = "INSERT INTO ".SQL::table_name('files')." SET ";
 			$query .= "anchor='".SQL::escape($fields['anchor'])."',"
+				."active='".SQL::escape($fields['active'])."',"
+				."active_set='".SQL::escape($fields['active_set'])."',"
+				."alternate_href='".SQL::escape(isset($fields['alternate_href']) ? $fields['alternate_href'] : '')."',"
 				."anchor_id=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', -1),"
 				."anchor_type=SUBSTRING_INDEX('".SQL::escape($fields['anchor'])."', ':', 1),"
-				."file_name='".SQL::escape($fields['file_name'])."',"
-				."file_size='".SQL::escape($fields['file_size'])."',"
-				."title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."',"
-				."alternate_href='".SQL::escape(isset($fields['alternate_href']) ? $fields['alternate_href'] : '')."',"
 				."behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."',"
-				."file_href='".SQL::escape(isset($fields['file_href']) ? $fields['file_href'] : '')."',"
-				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
-				."keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."',"
-				."source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."',";
-
-			// fields that are visible only to authenticated associates and editors
-			if(Surfer::is_empowered() && Surfer::is_member())
-				$query .= "active='".SQL::escape($fields['active'])."',"
-					."active_set='".SQL::escape($fields['active_set'])."',"
-					."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
-					."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',";
-
-			// always stamp the first upload
-			$query .= "create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."',"
+				."create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."',"
 				."create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']).","
 				."create_address='".SQL::escape(isset($fields['create_address']) ? $fields['create_address'] : $fields['edit_address'])."',"
 				."create_date='".SQL::escape($fields['create_date'])."',"
+				."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
 				."edit_name='".SQL::escape($fields['edit_name'])."',"
 				."edit_id=".SQL::escape($fields['edit_id']).","
 				."edit_address='".SQL::escape($fields['edit_address'])."',"
 				."edit_action='file:create',"
 				."edit_date='".SQL::escape($fields['edit_date'])."',"
-				."hits=0";
+				."file_name='".SQL::escape($fields['file_name'])."',"
+				."file_href='".SQL::escape(isset($fields['file_href']) ? $fields['file_href'] : '')."',"
+				."file_size='".SQL::escape($fields['file_size'])."',"
+				."hits=0,"
+				."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
+				."keywords='".SQL::escape(isset($fields['keywords']) ? $fields['keywords'] : '')."',"
+				."source='".SQL::escape(isset($fields['source']) ? $fields['source'] : '')."',"
+				."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',"
+				."title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."'";
 
 			// actual insert
 			if(SQL::query($query) === FALSE)
@@ -2022,8 +2017,8 @@ Class Files {
 	function upload($input, $file_path, $target=NULL) {
 		global $context, $_FILES, $_REQUEST;
 		
-		// attach file from member, if any
-		if(!Surfer::is_member() || !isset($input['name']) || !$input['name'] || ($input['name'] == 'none'))
+		// do we have a file?
+		if(!isset($input['name']) || !$input['name'] || ($input['name'] == 'none'))
 			return FALSE;
 
 		// access the temporary uploaded file
@@ -2100,7 +2095,7 @@ Class Files {
 				
 				// invoke post-processing function
 				if($target && is_callable($target)) {
-					return call_user_func($target, $file_name, $context['path_to_root'].$file_path);
+					call_user_func($target, $file_name, $context['path_to_root'].$file_path);
 				
 				// we have to update an anchor page
 				} elseif($target && is_string($target)) {

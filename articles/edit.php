@@ -163,16 +163,16 @@ elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 if(Articles::is_owned($anchor, $item))
 	Surfer::empower();
 
+// this page cannot be modified anymore
+elseif(isset($item['locked']) && ($item['locked'] == 'Y'))
+	;
+
 // anonymous edition is allowed here
-elseif(is_object($anchor) && $anchor->has_option('anonymous_edit'))
-	Surfer::empower();
-elseif(isset($item['options']) && $item['options'] && preg_match('/\banonymous_edit\b/i', $item['options']))
+elseif(Articles::has_option('anonymous_edit', $anchor, $item))
 	Surfer::empower();
 
 // members edition is allowed here
-elseif(Surfer::is_member() && is_object($anchor) && $anchor->has_option('members_edit'))
-	Surfer::empower();
-elseif(Surfer::is_member() && isset($item['options']) && $item['options'] && preg_match('/\bmembers_edit\b/i', $item['options']))
+elseif(Surfer::is_member() && Articles::has_option('members_edit', $anchor, $item))
 	Surfer::empower();
 
 // associates and editors can do what they want
@@ -640,8 +640,8 @@ if($with_form) {
 		$text .= '<p>'.sprintf(i18n::s('If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.'), Skin::build_link($login_url, 'authenticate'))."</p>\n";
 
 		// the name, if any
-		$label = i18n::s('Your name').' *';
-		$input = '<input type="text" name="edit_name" size="45" maxlength="128" accesskey="n" value="'.encode_field(Surfer::get_name()).'" />';
+		$label = i18n::s('Your name');
+		$input = '<input type="text" name="edit_name" size="45" maxlength="128" accesskey="n" value="'.encode_field(Surfer::get_name(' ')).'" />';
 		$hint = i18n::s('Let us a chance to know who you are');
 		$fields[] = array($label, $input, $hint);
 
@@ -802,7 +802,9 @@ if($with_form) {
 		// the command to add an image
 		if(Surfer::may_upload()) {
 			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-			$menu = array(Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic'));
+			$menu[] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic');
+
+			$menu[] = Skin::build_link('images/upload.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Bulk upload'), 'basic');
 		}
 
 		// the list of images
@@ -965,7 +967,7 @@ if($with_form) {
 	$label = i18n::s('Publication date');
 	if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
 		$input = Surfer::from_GMT($item['publish_date']);
-	elseif(isset($item['id']) && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_editable()))) {
+	elseif(isset($item['id']) && (Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))) {
 		Skin::define_img('ARTICLES_PUBLISH_IMG', 'articles/publish.gif');
 		$input = Skin::build_link(Articles::get_url($item['id'], 'publish'), ARTICLES_PUBLISH_IMG.i18n::s('Publish'), 'basic');
 	} else {
@@ -985,7 +987,7 @@ if($with_form) {
 	// the parent section
 	if(is_object($anchor)) {
 	
-		if(isset($item['id']) && $anchor->is_editable()) {
+		if(isset($item['id']) && $anchor->is_assigned()) {
 			$label = i18n::s('Section');
 			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference()), 'folded');
 			$fields[] = array($label, $input);

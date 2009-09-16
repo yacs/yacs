@@ -10,10 +10,6 @@
  * - time - the date and time of comment last modification
  * - author - the last contributor to the comment
  *
- * If following features are enabled, this script will use them:
- * - compression - Through gzip, we have observed a shift from 3098 bytes to 751 bytes, meaning one Ethernet frame rather than three
- * - cache - Cache is supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * Access is granted only if the surfer is allowed to view the anchor page.
  *
  * Accept following invocations:

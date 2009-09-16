@@ -73,7 +73,7 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('No anchor has been found.'));
 
 // operation is restricted to associates and editors
-} elseif(!Surfer::is_associate() && !$anchor->is_editable()) {
+} elseif(!Surfer::is_associate() && !$anchor->is_assigned()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 

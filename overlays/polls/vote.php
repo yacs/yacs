@@ -87,7 +87,7 @@ $next = strip_tags($next);
 //
 
 // associates and editors can do what they want
-if(Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_associate() || Articles::is_assigned($id) || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // poster can always view the page

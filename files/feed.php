@@ -29,10 +29,6 @@
  *	</item>
  * [/snippet]
  *
- * If following features are enabled, this script will use them:
- * - compression - Through gzip, we have observed a shift from 3566 bytes to 881 bytes, meaning one Ethernet frame rather than three
- * - cache - Cache is supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * Anonymous access is authorized, but only public files will be listed.
  *
  * @link http://blogs.law.harvard.edu/tech/rss RSS 2.0 Specification
@@ -88,7 +84,7 @@ if(!$anchor) {
 }
 
 // associates and editors can do what they want
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable()))
+if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer

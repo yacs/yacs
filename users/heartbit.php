@@ -32,10 +32,7 @@ include_once '../shared/global.php';
 include_once 'notifications.php';
 
 // ensure browser always look for fresh data
-Safe::header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-Safe::header("Cache-Control: no-store, no-cache, must-revalidate");
-Safe::header("Cache-Control: post-check=0, pre-check=0", false);
-Safe::header("Pragma: no-cache");
+http::expire(0);
 
 // surfer has to be logged --provide a short response
 if(!Surfer::get_id()) {

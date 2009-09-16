@@ -80,7 +80,7 @@ if(is_object($anchor) && $anchor->is_viewable())
 	$context['page_menu'] += array( $anchor->get_url() => i18n::s('Back to main page') );
 
 // only associates and editors are allowed to alter or delete tables
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
+if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) {
 	$context['page_menu'] += array( Tables::get_url($id, 'edit') => i18n::s('Edit') );
 	$context['page_menu'] += array( Tables::get_url($id, 'delete') => i18n::s('Delete') );
 }
@@ -130,7 +130,7 @@ if(!isset($item['id'])) {
 		$context['text'] .= Tables::build($item['id'], 'sortable');
 
 	// display the query string to associates and editors
-	if(isset($item['query']) && $item['query'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())))
+	if(isset($item['query']) && $item['query'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())))
 		$context['text'] .= Skin::build_box(i18n::s('Query string'), Skin::build_block(encode_field($item['query']), 'code'), 'folded');
 
 	// insert anchor suffix
@@ -141,7 +141,7 @@ if(!isset($item['id'])) {
 	//
 	$context['page_tools'][] = Skin::build_link(Tables::get_url($id, 'fetch_as_csv'), i18n::s('CSV (Excel)'));
 	$context['page_tools'][] = Skin::build_link(Tables::get_url($id, 'fetch_as_xml'), i18n::s('XML'));
-	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_editable())) {
+	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) {
 		$context['page_tools'][] = Skin::build_link(Tables::get_url($id, 'edit'), i18n::s('Edit'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 //		$context['page_tools'][] = Skin::build_link(Tables::get_url($id, 'delete'), i18n::s('Delete'));
 	}

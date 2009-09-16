@@ -16,10 +16,6 @@
  * The BlogID used from the front page is the identification number of the default section,
  * which is the section named 'default', if any, or the first public section of the site map.
  *
- * If following features are enabled, this script will use them:
- * - compression - Using gzip, if accepted by user agent
- * - cache - Cache is supported through ETag and by setting Content-Length; Also, Cache-Control enables caching for some time, even through HTTPS
- *
  * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License

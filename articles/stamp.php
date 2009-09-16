@@ -78,7 +78,7 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('No item has the provided id.'));
 
 // publication is restricted to associates and editors
-} elseif(!Surfer::is_associate() && (!Surfer::is_member() || !is_object($anchor) || !$anchor->is_editable())) {
+} elseif(!Surfer::is_associate() && (!Surfer::is_member() || !is_object($anchor) || !$anchor->is_assigned())) {
 
 	// anonymous users are invited to log in
 	if(!Surfer::is_logged())

@@ -247,7 +247,7 @@ if(isset($item['id']))
 	$behaviors = new Behaviors($item, $anchor);
 
 // editors can do what they want on items anchored here
-if((isset($item['id']) && Sections::is_assigned($item['id']) && Surfer::is_member()) || (is_object($anchor) && $anchor->is_editable()))
+if((isset($item['id']) && Sections::is_assigned($item['id']) && Surfer::is_member()) || (is_object($anchor) && $anchor->is_assigned()))
 	Surfer::empower();
 
 // readers have additional rights
@@ -826,10 +826,8 @@ if(!isset($item['id'])) {
 				// actually render the html for the section
 				if(is_array($items) && is_string($item['sections_layout']) && ($item['sections_layout'] == 'compact'))
 					$box['text'] .= Skin::build_list($items, 'compact');
-				elseif(is_array($items) && is_string($layout) && ($layout == 'decorated'))
-					$box['text'] .= Skin::build_list($items, 'decorated');
 				elseif(is_array($items))
-					$box['text'] .= Skin::build_list($items, '2-columns');
+					$box['text'] .= Skin::build_list($items, 'decorated');
 				elseif(is_string($items))
 					$box['text'] .= $items;
 

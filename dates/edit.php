@@ -80,7 +80,7 @@ if(Surfer::is_crawler()) {
 
 // anyone can modify a date he/she posted previously; associates and editors can modify everything
 elseif(isset($item['id']) && ($item['edit_id'] != Surfer::get_id())
-	&& !Surfer::is_associate() && is_object($anchor) && !$anchor->is_editable()) {
+	&& !Surfer::is_associate() && is_object($anchor) && !$anchor->is_assigned()) {
 
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));

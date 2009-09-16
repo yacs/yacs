@@ -43,9 +43,16 @@ Class Layout_sections_as_inline extends Layout_interface {
 		include_once $context['path_to_root'].'files/files.php';
 		while($item =& SQL::fetch($result)) {
 
+			// get the related overlay, if any
+			$overlay = Overlay::load($item);
+
+			// get the main anchor
+			$anchor =& Anchors::get($item['anchor']);
+
 			// one box per section
-			$box['title'] = '';
-			$box['text'] = '';
+			$box = array('title' => '', 'text' => '');
+			
+			// box content
 			$elements = array();
 
 			// start the label with family, if any
@@ -53,7 +60,10 @@ Class Layout_sections_as_inline extends Layout_interface {
 				$box['title'] .= Skin::strip($item['family'], 30).' - ';
 
 			// use the title to label the link
-			$box['title'] .= Skin::strip($item['title'], 50);
+			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
+				$box['title'] .= $overlay->get_live_title($item);
+			else
+				$box['title'] .= Codes::beautify_title($item['title']);
 
 			// the url to view this item
 			$url =& Sections::get_permalink($item);
@@ -94,7 +104,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 			}
 
 			// info on related files
-			if(isset($item['options']) && preg_match('/\bfiles_by_title\b/i', $item['options']))
+			if(Sections::has_option('files_by_title', $anchor, $item))
 				$items = Files::list_by_title_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
 			else
 				$items = Files::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact');
@@ -110,7 +120,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 			}
 
 			// info on related comments
-			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact')) {
+			if($items = Comments::list_by_date_for_anchor('section:'.$item['id'], 0, MAXIMUM_ITEMS_PER_SECTION+1, 'compact', Sections::has_option('comments_as_wall', $anchor, $item))) {
 				foreach($items as $url => $label) {
 					$prefix = $suffix = '';
 					if(is_array($label)) {

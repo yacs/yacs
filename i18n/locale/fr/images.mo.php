@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 10, 2009, 11:16 pm GMT. Please do not modify it manually.
+ * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-04 01:11+0200
-PO-Revision-Date: 2009-09-04 01:15+0100
+POT-Creation-Date: 2009-09-17 01:02+0200
+PO-Revision-Date: 2009-09-17 01:20+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -22,6 +22,7 @@ X-Poedit-SourceCharset: utf-8
 ';
 $_SESSION['l10n']['fr']['%d bytes']='%d  octets';
 $_SESSION['l10n']['fr']['%d image'.chr(0).'%d images']='%d image'.chr(0).'%d images';
+$_SESSION['l10n']['fr']['a9d89a5b92766d7ef349f99edb45d0a3']='%d image a été traitée.'.chr(0).'%d images ont été traitées.';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s at %s']='%s à %s';
@@ -30,6 +31,7 @@ $_SESSION['l10n']['fr']['3fc73c8fd903f88de3a2c9a21aef3585']='Toujours. Les utili
 $_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['5f06d8beed838647d20eadd205eeae4a']='Redimensionner l\'image si nécessaire';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
+$_SESSION['l10n']['fr']['Bulk upload']='Téléversement multiple';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Cannot copy image to %s']='Impossible de copier vers %s';
 $_SESSION['l10n']['fr']['c156e2550e8cfa17dd2a0eb590ef4664']='Impossible d\'écrire l\'image ajustée %s.';
@@ -39,6 +41,7 @@ $_SESSION['l10n']['fr']['Description']='Description';
 $_SESSION['l10n']['fr']['86c56a7a7f1de49541c9835d0e87b60b']='Ne pas changer la date de modification de la page principale.';
 $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit the page']='Modifier la page';
+$_SESSION['l10n']['fr']['File']='Fichier';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['9682a62dc71d0ff3810a8c4021be91cf']='Si vous avez obtenu ce fichier de sources extérieures, merci de l\'indiquer ici';
 $_SESSION['l10n']['fr']['Image']='Image';
@@ -60,9 +63,11 @@ $_SESSION['l10n']['fr']['Look for unused images']='Détecter les images non util
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
 $_SESSION['l10n']['fr']['0ee8653fe59981924e657c90a8ec6d3b']='Jamais. Les temps de réponse pour certains utilisateurs sur liaison modem pourront être dégradés pour des images de grande taille.';
 $_SESSION['l10n']['fr']['New image in %s']='Nouvelle image dans %s';
+$_SESSION['l10n']['fr']['New images in %s']='Nouvelles images dans %s';
 $_SESSION['l10n']['fr']['187dda6e61cbaa5d6f3cd75f5804bb2d']='Pas de support GD ou type d\'image inconnu dans %s.';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No file has been transmitted.']='Aucune image n\'a été transmis.';
+$_SESSION['l10n']['fr']['No image has been processed.']='Aucune image n\'a été traitée.';
 $_SESSION['l10n']['fr']['No image has been uploaded yet.']='Aucune image n\'a été téléchargée';
 $_SESSION['l10n']['fr']['No image has been uploaded.']='Aucune image n\'a été téléchargée';
 $_SESSION['l10n']['fr']['No image information in %s']='Aucune image valide dans %s';
@@ -73,10 +78,11 @@ $_SESSION['l10n']['fr']['Operation has failed.']='Impossible de mener l\'opérat
 $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['92fdd78ee6bb759cae3b7d6e33a0552f']='Choisissez l\'emplacement adéquat pour partager votre image';
+$_SESSION['l10n']['fr']['Please provide an archive file.']='Merci de choisir le fichier archive à téléverser.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
-$_SESSION['l10n']['fr']['099081e47eb80812d2888ba8e17787df']='Envoyer une vignette pour cette page.';
-$_SESSION['l10n']['fr']['1afed7c110bc9567a9ecd5c1bbd696ae']='Envoyer une image pour illustrer cette page';
-$_SESSION['l10n']['fr']['9b8ed770822f72943dff2a03c11efdee']='Envoyer une image pour illustrer ce profil utilisateur';
+$_SESSION['l10n']['fr']['16f90961d2f522242b4ab751e6de2bf0']='Merci de choisir une vignette pour cette page.';
+$_SESSION['l10n']['fr']['fce930068166cb1cb2bf32f92187f249']='Choisissez une image pour illustrer cette page. Vous pouvez préférer le %s si vous souhaitez téléversez plusieurs images en une seule opération.';
+$_SESSION['l10n']['fr']['d1aeca581bb0be803f575ba9614b4c59']='Merci de choisir une image pour illustrer ce profil utilisateur';
 $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Press to select a local file']='Choisir un fichier local';
@@ -85,6 +91,7 @@ $_SESSION['l10n']['fr']['Rejected file type %s']='Type de fichier invalide %s';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
 $_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['9d1fc249d04226cb2db7398a29581bef']='Choisir une image .png, ou .gif ou .jpg';
+$_SESSION['l10n']['fr']['f06c5e8a565ea2a7d2bcee451c4b8920']='Choisir une archive au format .zip, .tar, .tar.gz ou .tgz.';
 $_SESSION['l10n']['fr']['654258af44eda1cd82146682083f5376']='Choisissez une autre image pour remplacer l\'image courante';
 $_SESSION['l10n']['fr']['Set as page image']='Utiliser comme image de page';
 $_SESSION['l10n']['fr']['Set as page thumbnail']='Comme vignette de page, dans les listes';
@@ -106,6 +113,7 @@ $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrou
 $_SESSION['l10n']['fr']['0a152c649dd8a64176d76ddaa8212337']='Ce script va créer une nouvelle page pour l\'image transmise. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc dans le menu.';
 $_SESSION['l10n']['fr']['Thumbnail']='Vignette';
 $_SESSION['l10n']['fr']['Title']='Titre';
+$_SESSION['l10n']['fr']['cebc18f08271fe39d2af31291412d973']='Pour créer des albums photos vous pouvez téléverser plusieurs images à la fois, en les combinant dans un fichier archive. En une seule opération le serveur va extraire chaque image, la retailler si nécessaire, créer une vignette, puis toutes les images seront intégrées dans la page.';
 $_SESSION['l10n']['fr']['cca4373c7c256d01ae0c54448cb5e209']='Pour sauver l\'image sur votre disque dur tirer la souris au-dessus de l\'image et utiliser le bouton droit. Un menu contextuel devrait apparaître. Choisir la commande ad hoc pour sauver l\'image, en fonction du navigateur utilisé.';
 $_SESSION['l10n']['fr']['0749c2e869a8f74bc91f87cc3643388e']='Trop d\'erreurs successives. Abandon';
 $_SESSION['l10n']['fr']['Unknown image type in %s.']='Type d\'image inconnu dans %s.';
@@ -115,6 +123,7 @@ $_SESSION['l10n']['fr']['Update an image']='Mettre une image à jour';
 $_SESSION['l10n']['fr']['Use an image']='Utiliser une image';
 $_SESSION['l10n']['fr']['View the page']='Voir la page';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
+$_SESSION['l10n']['fr']['f1ce5d9609440ef5da411f7524e7c4e5']='Le serveur sera sollicité dès votre clic sur le bouton. Toutefois, l\'ampleur des traitements à effectuer peut induire un temps de réponse assez long, jusqu\'à quelques minutes. Merci de votre patience.';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';
 $_SESSION['l10n']['fr']['5e9587fd9c1555607805b79c32dc82b8']='Oui, je veux supprimer cette image';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
