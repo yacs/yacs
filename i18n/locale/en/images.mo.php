@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
+ * on September 20, 2009, 9:54 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:02+0200
+POT-Creation-Date: 2009-09-20 23:45+0200
 PO-Revision-Date: 2009-09-17 01:06+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -77,7 +77,6 @@ $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provide
 $_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
 $_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
-$_SESSION['l10n']['en']['92fdd78ee6bb759cae3b7d6e33a0552f']='Please carefully select a section for your image';
 $_SESSION['l10n']['en']['Please provide an archive file.']='Please provide an archive file.';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $_SESSION['l10n']['en']['16f90961d2f522242b4ab751e6de2bf0']='Please upload a thumbnail image for this page.';
@@ -89,7 +88,6 @@ $_SESSION['l10n']['en']['Press to select a local file']='Press to select a local
 $_SESSION['l10n']['en']['Recent pages']='Recent pages';
 $_SESSION['l10n']['en']['Rejected file type %s']='Rejected file type %s';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
-$_SESSION['l10n']['en']['Section']='Section';
 $_SESSION['l10n']['en']['9d1fc249d04226cb2db7398a29581bef']='Select a .png, .gif or .jpeg image.';
 $_SESSION['l10n']['en']['f06c5e8a565ea2a7d2bcee451c4b8920']='Select a .zip, .tar, .tar.gz or .tgz archive.';
 $_SESSION['l10n']['en']['654258af44eda1cd82146682083f5376']='Select another image to replace the current one';
@@ -110,7 +108,6 @@ $_SESSION['l10n']['en']['e4266389d13f25ec6161078dd7621e30']='The image has been 
 $_SESSION['l10n']['en']['The image has been inserted.']='The image has been inserted.';
 $_SESSION['l10n']['en']['dd5d3d8719d8abaf68ea9d57da282d79']='This has become the thumbnail image of the page.';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
-$_SESSION['l10n']['en']['0a152c649dd8a64176d76ddaa8212337']='This script will create a brand new page for the uploaded file. If you would like to add an image to an existing page, browse the target page instead and use the adequate command from the menu.';
 $_SESSION['l10n']['en']['Thumbnail']='Thumbnail';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['cebc18f08271fe39d2af31291412d973']='To create nice picture albums, upload archive files that combine several images. In one operation the server will extract each image, resize it if necessary, create a thumbnail image, and integrate the image into the page.';

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
+ * on September 20, 2009, 9:54 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:02+0200
-PO-Revision-Date: 2009-09-14 21:31+0100
+POT-Creation-Date: 2009-09-20 23:45+0200
+PO-Revision-Date: 2009-09-20 23:53+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -92,6 +92,7 @@ $_SESSION['l10n']['fr']['4128cfdf11ea0df8da8a6770bc9984d7']='Les associés valid
 $_SESSION['l10n']['fr']['eb6a6edda550644a64d0c8d220fb50f4']='Comme demandé, une copie a aussi été envoyée vers votre adresse a %s';
 $_SESSION['l10n']['fr']['Attachments']='Pièces jointes';
 $_SESSION['l10n']['fr']['Authenticate with password %s']='Mot de passe %s';
+$_SESSION['l10n']['fr']['Authenticate with this profile']='Choisir ce profil';
 $_SESSION['l10n']['fr']['Authenticated externally.']='Authentifiés extérieurement.';
 $_SESSION['l10n']['fr']['6021d3dd0571ef65b5bcf61d2cd09cbc']='Tout membre authentifié est autorisé à envoyer des images ou des fichiers.';
 $_SESSION['l10n']['fr']['816c9a402dbb6753bef8bde81ebdecc3']='Tout membre authentifié est autorisé à ajouter du contenu nouveau.';
@@ -99,7 +100,6 @@ $_SESSION['l10n']['fr']['Authentication']='Authentification';
 $_SESSION['l10n']['fr']['Authenticators']='Authentification';
 $_SESSION['l10n']['fr']['41fc857c53b5476eb325975632e3c0f4']='Les authenticateurs ci-dessous facilitent l\'intégration de votre serveur à un gestionnaire d\'utilisateurs existant.';
 $_SESSION['l10n']['fr']['c3de0b752b07de4f2eb99411d157b134']='Désactiver l\'archivage automatique.';
-$_SESSION['l10n']['fr']['Automatic recovery']='Résolution automatique';
 $_SESSION['l10n']['fr']['Back to %s']='Retour à %s';
 $_SESSION['l10n']['fr']['Back to my profile']='Retour à mon profil';
 $_SESSION['l10n']['fr']['Banned']='Banni';
@@ -149,6 +149,7 @@ $_SESSION['l10n']['fr']['b0f228c1db9ae48ae34f50e4829dcc58']='Afficher le panneau
 $_SESSION['l10n']['fr']['Displayed aside your pages']='Affiché sur le côté de vos pages';
 $_SESSION['l10n']['fr']['1a358d29caf897e54396073d4f58b0f6']='Ne pas changer la date de modification.';
 $_SESSION['l10n']['fr']['Do not display this item.']='Ne pas afficher cet élément.';
+$_SESSION['l10n']['fr']['Do you need more help?']='Avez-vous besoin de plus d\'aide ?';
 $_SESSION['l10n']['fr']['Done']='Terminé';
 $_SESSION['l10n']['fr']['E-mail']='Courriel';
 $_SESSION['l10n']['fr']['E-mail address']='Adresse e-mail';
@@ -175,7 +176,6 @@ $_SESSION['l10n']['fr']['163446b086f8add8a8b8e33171ddfbd0']='Les personnes conne
 $_SESSION['l10n']['fr']['d614549cb7e90eec397003bb71836197']='Les personnes qui vous sont connectées :';
 $_SESSION['l10n']['fr']['77e189517520ef55c530da2fd2835384']='Par exemple, pour utiliser l\'uathentificateur <code>foo</code>, placez ce mot-clé dans le %s.';
 $_SESSION['l10n']['fr']['For on-demand conversations']='Pour les conversations privées';
-$_SESSION['l10n']['fr']['f4b772fbe3570851c2d16880d8e6e38f']='Pour la sécurité de nos utilisateurs, votre requête doit mentionner l\'adresse électronique indiquée dans votre profil. Si cette adresse n\'est plus valide, alors enregistrez-vous de nouveau. Les comptes inutilisés sont purgés périodiquement.';
 $_SESSION['l10n']['fr']['From']='Lieu';
 $_SESSION['l10n']['fr']['From %s:']='De %s :';
 $_SESSION['l10n']['fr']['Front page']='Page d\'accueil';
@@ -188,6 +188,7 @@ $_SESSION['l10n']['fr']['GMail']='GMail';
 $_SESSION['l10n']['fr']['Go the main help page']='Aller à la page d\'aide principale';
 $_SESSION['l10n']['fr']['Google map']='Carte Google';
 $_SESSION['l10n']['fr']['Groups']='Groupes';
+$_SESSION['l10n']['fr']['Have you lost your password?']='Avez-vous perdu votre mot de passe ?';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['I have a %s and %s']='J\'ai un %s et %s';
 $_SESSION['l10n']['fr']['c5bd1556bd67a19b020b13dcefe04756']='J\'ai changé d\'avis, et souhaite me reconnecter à cette personne';
@@ -239,7 +240,6 @@ $_SESSION['l10n']['fr']['Mail to %s']='Ecrire à %s';
 $_SESSION['l10n']['fr']['Manage contacts']='Gérer les contacts';
 $_SESSION['l10n']['fr']['Manage editors']='Gérer les éditeurs';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='* signale les champs obligatoires';
-$_SESSION['l10n']['fr']['Manual recovery']='Résolution manuelle';
 $_SESSION['l10n']['fr']['Member']='Membre';
 $_SESSION['l10n']['fr']['b47ab5ca1f0719fb37d3645017bcae45']='Membre de cette communauté, avec la possibilité de contribuer au contenu du serveur.';
 $_SESSION['l10n']['fr']['f41a5c8d67ea2e6781eaff28c00e4aa9']='Les membres authentifiés envoient des articles, et les associés valident leur publication (mode éditeur), sauf dans les sections dotées de l\'option <code>auto_publish</code>.';
@@ -296,6 +296,7 @@ $_SESSION['l10n']['fr']['PGP key or certificate']='Clé PGP ou certificat';
 $_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['Password']='Mot de passe';
 $_SESSION['l10n']['fr']['Password confirmation']='Confirmation du mot de passe';
+$_SESSION['l10n']['fr']['Password has been changed.']='Le mot de passe a été changé.';
 $_SESSION['l10n']['fr']['People']='Personnes';
 $_SESSION['l10n']['fr']['Persons assigned to %s']='Personnes assignées à %s';
 $_SESSION['l10n']['fr']['Phone number']='Numéro de téléphone';
@@ -304,6 +305,7 @@ $_SESSION['l10n']['fr']['Picture URL']='URL de l\'image';
 $_SESSION['l10n']['fr']['Pictures']='Images';
 $_SESSION['l10n']['fr']['8c38a999d084de2f0ee7abb984b1f91c']='Merci d\'activer la librairie LDAP.';
 $_SESSION['l10n']['fr']['ffb6aa9a43a233acdad78532f79a6120']='Choisissez un surnom significatif et non encore utilisé';
+$_SESSION['l10n']['fr']['9aedf8a1dde06b834911bd634b103f33']='Voulez-vous recevoir un message pour vous authentifier sur le compte suivant ?';
 $_SESSION['l10n']['fr']['9255b3acd25d09f8a29801ea4ebf964c']='Merci de confirmer votre mot de passe.';
 $_SESSION['l10n']['fr']['Please confirm your password.']='Merci de confirmer votre mot de passe';
 $_SESSION['l10n']['fr']['Please indicate a nick name.']='Merci d\'indiquer un surnom.';
@@ -312,7 +314,6 @@ $_SESSION['l10n']['fr']['5830392e1d0c7d2eb29ade20c07f3328']='Veuillez noter qu\'
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['69218afa8966421e717318b0e6aa7894']='Indiquez les paramètres pour l\'authentification.';
-$_SESSION['l10n']['fr']['16bca9489fd2f3be29dd8b639ce99965']='Il vous suffit de nous faire parvenir votre adresse de courrier électronique et nous vous renverrons les informations nécessaires pour accéder à votre compte.';
 $_SESSION['l10n']['fr']['Please register or log in']='Merci de vous faire connaître';
 $_SESSION['l10n']['fr']['12fc8d23e0da8141d00630c0f2779650']='Merci d\'indiquer les mots recherchés';
 $_SESSION['l10n']['fr']['Popular files']='Fichiers populaires';
@@ -427,6 +428,7 @@ $_SESSION['l10n']['fr']['Uploads']='Téléchargements';
 $_SESSION['l10n']['fr']['Use a gravatar']='Utiliser un gravatar';
 $_SESSION['l10n']['fr']['b3e2e59bff01bca4659ac4f86a75fc2c']='Utiliser les codes pour placer les images dans la page.';
 $_SESSION['l10n']['fr']['Use only plain ASCII, no HTML.']='Tapez du texte sans attribut HTML';
+$_SESSION['l10n']['fr']['Use the %s to ask for help']='Utilisez le %s pour demander de l\'aide';
 $_SESSION['l10n']['fr']['Use the authenticator %s']='Utiliser l\'authentifieur %s';
 $_SESSION['l10n']['fr']['Use the library']='Utiliser la librairie';
 $_SESSION['l10n']['fr']['User profiles to be reviewed']='Utilisateurs à passer en revue';
@@ -440,7 +442,7 @@ $_SESSION['l10n']['fr']['895d2c0142361017642213ba49731871']='Visitez %s pour lir
 $_SESSION['l10n']['fr']['2470a7b84e0565efbfd25c51005b44b5']='Attendez une heure avant de vous authentifier à nouveau.';
 $_SESSION['l10n']['fr']['Watch list']='Pages surveillées';
 $_SESSION['l10n']['fr']['Watched sections']='Sections surveillées';
-$_SESSION['l10n']['fr']['eb744021a7ee797390e41d73fbd00d10']='Nous conservons seulement une copie de ce profil. Merci de modifier le mot de passe pour ce compte sur le serveur %s.';
+$_SESSION['l10n']['fr']['3b9f16a2d4a75ed76b06726e46487cd8']='Nous conservons seulement une copie de ce profil. Merci de gérer ce compte à %s';
 $_SESSION['l10n']['fr']['8eb4650f62d1155f4ebd825daf0bbc28']='De préférence au moins 4 chiffres, 2 lettres et 1 signe de ponctuation';
 $_SESSION['l10n']['fr']['97696bdc35f03f28bcec5cd1e4f89f2c']='Nous conservons l\'information fournie et ne la partageons en aucune façon.';
 $_SESSION['l10n']['fr']['Web address']='Adresse web';
@@ -477,7 +479,6 @@ $_SESSION['l10n']['fr']['You have been connected to %s.']='Votre êtes connecté
 $_SESSION['l10n']['fr']['e43059e2a3aeeb662faeba22ed92cc00']='Vous avez été authentifié.';
 $_SESSION['l10n']['fr']['You have left %s']='Votre avez quitté %s';
 $_SESSION['l10n']['fr']['5220fcf38510b19c69fce5625ea7db78']='Vous pouvez envoyer un fichier de moins de %soctets';
-$_SESSION['l10n']['fr']['73e918a2370a3a8ae1ff138147e8c98c']='Utilisez le %s pour demander la réinitialisation de votre mot de passe.';
 $_SESSION['l10n']['fr']['9a1f2865f57db1f35d8529e39dee41a9']='Vous devez indiquer un surnom ou une adresse électronique valide';
 $_SESSION['l10n']['fr']['You must provide a nick name.']='Vous devez indiquer un surnom.';
 $_SESSION['l10n']['fr']['You must provide a password.']='Vous devez taper un mot de passe.';

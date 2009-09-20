@@ -44,7 +44,7 @@ if(isset($item['password'])) {
 		$origin = $parts['host'];
 }
 
-// do not always show the edition form
+// optional processing steps
 $with_form = FALSE;
 
 // load the skin
@@ -54,7 +54,9 @@ load_skin('users');
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
-if(isset($item['full_name']) && $item['full_name'])
+if(!Surfer::is_logged())
+	$context['page_title'] = i18n::s('Lost password');
+elseif(isset($item['full_name']) && $item['full_name'])
 	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Password'), $item['full_name']);
 elseif(isset($item['nick_name']))
 	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Password'), $item['nick_name']);
@@ -75,139 +77,119 @@ if(Surfer::is_crawler()) {
 } elseif(!isset($item['id']) || !$item['id']) {
 	$context['page_title'] = i18n::s('Lost password');
 
-	// mail has been enabled at this site
-	if(isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	// redirect to the query form if mail has been enabled at this site
+	if(!isset($context['with_email']) || ($context['with_email'] != 'Y'))
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'query.php');
 
-		$context['text'] .= Skin::build_block(i18n::s('Automatic recovery'), 'title');
-
-		// splash message
-		$context['text'] .= '<p>'.i18n::s('If you have registered to this site, type your nick name below and we will send you a web link to authenticate.').'</p>';
-
-		// the form to edit a user
-		$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';
-		$fields = array();
-
-		// the nick name
-		$label = i18n::s('Nick name');
-		$input = '<input type="text" name="id" size="40" />';
-		$fields[] = array($label, $input);
-
-		// stop replay attacks and robots
-		if($field = Surfer::get_robot_stopper())
-			$fields[] = $field;
-
-		// build the form
-		$context['text'] .= Skin::build_form($fields);
-
-		// the submit button
-		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";
-
-		// end of the form
-		$context['text'] .= '</div></form>';
-
-		$context['text'] .= Skin::build_block(i18n::s('Manual recovery'), 'title');
-
-	}
-
-	// the help message
-	$context['text'] .= '<p>'.sprintf(i18n::s('You may use the %s to ask for a password reset.'), Skin::build_link('query.php', i18n::s('query form'))).'</p>'
-		.'<p>'.i18n::s('Please provide your e-mail address and we will email your member name and password, and instructions for accessing your account.').'</p>'
-		.'<p>'.i18n::s('For the security of our members, you must make this request with the e-mail address you used when you registered. If your original e-mail address has expired or is no longer valid, please re-register. Unused accounts may be deleted without notice.').'</p>';
-
+	// ask for nick name
+	$with_form = TRUE;
+	
 // anonymous surfers that are recovering from lost password
 } elseif(!Surfer::is_logged()) {
-	$context['page_title'] = i18n::s('Lost password');
 
-	// stop robots
-	if(Surfer::may_be_a_robot()) {
-		Logger::error(i18n::s('Please prove you are not a robot.'));
+	// redirect to the query form if mail has been enabled at this site
+	if(!isset($context['with_email']) || ($context['with_email'] != 'Y'))
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'query.php');
 
-	// we have a target address, which is the correct one, and mail has been activated
-	} elseif(isset($item['email']) && trim($item['email']) && !strcmp($id, $item['nick_name']) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+	// redirect also if this user has no email address
+	if(!isset($item['email']) || !trim($item['email']))
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].'query.php');
 
+	// direct arrival
+	if(Surfer::may_be_a_robot())
+		$with_form = TRUE;
+
+	// send authentication message
+	else {
+	
 		// message title
 		$subject = sprintf(i18n::s('Your account at %s'), strip_tags($context['site_name']));
-
+	
 		// top of the message
 		$message = sprintf(i18n::s('This message relates to your account at %s.'), strip_tags($context['site_name']))."\n"
 			."\n".$context['url_to_home'].$context['url_to_root']."\n";
-
+	
 		// mention nick name
 		$message .= "\n".sprintf(i18n::s('Your nick name is %s'), $item['nick_name'])."\n";
-
+	
 		// build credentials --see users/login.php
 		$credentials = array();
 		$credentials[0] = 'login';
 		$credentials[1] = $id;
 		$credentials[2] = rand(1000, 9999);
 		$credentials[3] = sprintf('%u', crc32($credentials[2].':'.$item['handle']));
-
+	
 		// direct link to login page
 		$message .= "\n".i18n::s('Record this message and use the following link to authenticate to the site at any time:')."\n"
 			."\n".$context['url_to_home'].$context['url_to_root'].Users::get_url($credentials, 'credentials')."\n";
-
+	
 		// caution note
 		$message .= "\n".i18n::s('Caution: This hyperlink contains your login credentials encrypted. Please be aware anyone who uses this link will have full access to your account.')."\n";
-
+	
 		// bottom of the message
 		$message .= "\n".sprintf(i18n::s('On-line help is available at %s'), $context['url_to_home'].$context['url_to_root'].'help/')."\n"
 			."\n".sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
-
+	
 		// enable threading
 		include_once $context['path_to_root'].'shared/mailer.php';
 		$headers = Mailer::set_thread(NULL, 'user:'.$item['id']);
 			
 		// post the confirmation message
 		Mailer::notify(NULL, $item['email'], $subject, $message, $headers);
-
+	
 		// feed-back message
 		$context['text'] .= '<p>'.i18n::s('A reminder message has been sent to you. Check your mailbox and use provided information to authenticate to this site.').'</p>';
-
-		// go to the login form
-		$menu = array('users/login.php' => i18n::s('Login'));
-		$context['text'] .= Skin::build_list($menu, 'menu_bar');
 		
-	// an on-line help message
-	} else {
-
-		$context['text'] .= '<p>'.sprintf(i18n::s('You may use the %s to ask for a password reset.'), Skin::build_link('query.php', i18n::s('query form'))).'</p>'
-			.'<p>'.i18n::s('Please provide your e-mail address and we will email your member name and password, and instructions for accessing your account.').'</p>'
-			.'<p>'.i18n::s('For the security of our members, you must make this request with the e-mail address you used when you registered. If your original e-mail address has expired or is no longer valid, please re-register. Unused accounts may be deleted without notice.').'</p>';
-
+		// back to the anchor page
+		$links = array();
+		$links[] = Skin::build_link('users/login.php', i18n::s('Login'));
+		$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
+		
 	}
 
-// restrictions: anyone can modify its own profile; associates can modify everything
-} elseif(($item['id'] != Surfer::get_id()) && !Surfer::is_associate()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // redirect to the origin server
 } elseif($origin) {
-	Logger::error(sprintf(i18n::s('We are only keeping a shadow record for this profile. Please change the password for this account at %s'), Skin::build_link('http://'.$origin, $origin, 'external')));
+	Logger::error(sprintf(i18n::s('We are only keeping a shadow record for this profile. Please handle this account at %s'), Skin::build_link('http://'.$origin, $origin, 'external')));
 
-// some data have been posted
-} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
+// password is changing
+} elseif(isset($_REQUEST['confirm'])) {
 
+	// restrictions: anyone can modify its own profile; associates can modify everything
+	if(($item['id'] != Surfer::get_id()) && !Surfer::is_associate()) {
+		Safe::header('Status: 401 Forbidden', TRUE, 401);
+		Logger::error(i18n::s('You are not allowed to perform this operation.'));
+	
 	// passwords have to be confirmed
-	if(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] != $_REQUEST['password'])) {
+	} elseif(!isset($_REQUEST['password']) || !$_REQUEST['password'] || strcmp($_REQUEST['confirm'], $_REQUEST['password'])) {
 		Logger::error(i18n::s('Please confirm your new password.'));
-		$item = $_REQUEST;
 		$with_form = TRUE;
 
 	// stop robots and replay attacks
 	} elseif(Surfer::may_be_a_robot()) {
 		Logger::error(i18n::s('Please prove you are not a robot.'));
-		$item = $_REQUEST;
 		$with_form = TRUE;
 
 	// display the form on error
 	} elseif(!Users::put($_REQUEST)) {
-		$item = $_REQUEST;
 		$with_form = TRUE;
 
-	// display the updated page
-	} else
+	// save one click to associates
+	} elseif(Surfer::is_associate())
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].Users::get_permalink($item));
+
+	// follow-up
+	else {
+	
+		// splash message
+		$context['text'] .= '<p>'.i18n::s('Password has been changed.').'</p>';
+	
+		// back to the anchor page
+		$links = array();
+		$links[] = Skin::build_link(Users::get_permalink($item), i18n::s('Done'), 'button');
+		$context['text'] .= Skin::finalize_list($links, 'assistant_bar');
+		
+	}
 
 // display the form on GET
 } else
@@ -216,34 +198,57 @@ if(Surfer::is_crawler()) {
 // display the form
 if($with_form) {
 
-	// the form to edit a user
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+	// splash message
+	if(!isset($item['id']))
+		$context['text'] .= '<p>'.i18n::s('If you have registered to this site, type your nick name below and we will send you a web link to authenticate.').'</p>';
+	elseif(!Surfer::is_logged())
+		$context['text'] .= '<p>'.i18n::s('Please confirm that you would like to receive a message to authenticate to the following account.').'</p>';	
+
+	// the form
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>';
 	$fields = array();
 
-	// the full name
+	// get nick name
+	if(!isset($item['id'])) {
+		$label = i18n::s('Nick name');
+		$input = '<input type="text" name="id" size="40" />';
+		$fields[] = array($label, $input);
+	}
+
+	// display full name
 	if(isset($item['full_name']) && $item['full_name']) {
 		$label = i18n::s('Full name');
 		$field = $item['full_name'];
 		$fields[] = array($label, $field);
 	}
 
-	// the email address
+	// display email address
 	if(isset($item['email']) && $item['email']) {
 		$label = i18n::s('E-mail address');
 		$field = $item['email'];
 		$fields[] = array($label, $field);
 	}
 
-	// the password
-	$label = i18n::s('New password');
-	$input = '<input type="password" name="password" id="password" size="20" value="'.encode_field(isset($_REQUEST['password']) ? $_REQUEST['password'] : '').'" />';
-	$fields[] = array($label, $input);
+	// surfer is changing password
+	if(Surfer::is_logged()) {
+	
+		// the password
+		$label = i18n::s('New password');
+		$input = '<input type="password" name="password" id="password" size="20" value="'.encode_field(isset($_REQUEST['password']) ? $_REQUEST['password'] : '').'" />';
+		$fields[] = array($label, $input);
+	
+		// the password has to be repeated for confirmation
+		$label = i18n::s('Password confirmation');
+		$input = '<input type="password" name="confirm" size="20" value="'.encode_field(isset($_REQUEST['confirm']) ? $_REQUEST['confirm'] : '').'" />';
+		$fields[] = array($label, $input);
+	
+		// append the script used for data checking on the browser
+		$context['text'] .= JS_PREFIX
+			.'$("password").focus();'."\n"
+			.JS_SUFFIX."\n";
 
-	// the password has to be repeated for confirmation
-	$label = i18n::s('Password confirmation');
-	$input = '<input type="password" name="confirm" size="20" value="'.encode_field(isset($_REQUEST['confirm']) ? $_REQUEST['confirm'] : '').'" />';
-	$fields[] = array($label, $input);
-
+	}
+	
 	// stop replay attacks and robots
 	if($field = Surfer::get_robot_stopper())
 		$fields[] = $field;
@@ -263,20 +268,6 @@ if($with_form) {
 
 	// end of the form
 	$context['text'] .= '</div></form>';
-
-	// append the script used for data checking on the browser
-	$context['text'] .= JS_PREFIX
-		.'// check that main fields are not empty'."\n"
-		.'func'.'tion validateDocumentPost(container) {'."\n"
-		."\n"
-		.'	// successful check'."\n"
-		.'	return true;'."\n"
-		.'}'."\n"
-		."\n"
-		.'// set the focus on first form field'."\n"
-		.'$("password").focus();'."\n"
-		."\n"
-		.JS_SUFFIX."\n";
 }
 
 // render the skin

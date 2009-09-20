@@ -73,6 +73,14 @@ Class Comments {
 		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item))
 			return TRUE;
 			
+		// section is public, and surfer is an editor of it
+		if(($variant == 'section') && isset($item['active']) && ($item['active'] != 'N') && isset($item['id']) && Sections::is_assigned($item['id']))
+			return TRUE;
+
+		// section is public, and surfer is an editor of it
+		if(!$anchor->is_hidden() && $anchor->is_assigned())
+			return TRUE;
+
 		// editors cannot contribute if container has been locked
 		if(isset($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;

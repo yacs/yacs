@@ -509,28 +509,21 @@ if(Surfer::is_crawler()) {
 		// reset the current session
 		Surfer::reset();
 
-		Logger::error(i18n::s('Failed authentication'));
+		// share status
+		Logger::error(i18n::s('Failed authentication'), FALSE);
 
-		// follow-up commands
-		$follow_up = i18n::s('Where do you want to go now?');
-		$menu = array();
+		// help surfer to recover
+		if($items =& Users::search($name, 0, 7, 'password')) {
+			// display candidate profiles
+			if(is_array($items))
+				$items =& Skin::build_list($items, 'decorated');
+			$context['text'] .= Skin::build_box(i18n::s('Have you lost your password?'), $items);
 
-		// step back
-		if(isset($_REQUEST['login_forward']))
-			$menu = array_merge($menu, array($_REQUEST['login_forward'] => i18n::s('Move forward')));
-		elseif(isset($_SERVER['HTTP_REFERER']))
-			$menu = array_merge($menu, array($_SERVER['HTTP_REFERER'] => i18n::s('Move forward') ));
+		}
 
-		// authenticate again
-		$menu = array_merge($menu, array('users/password.php' => i18n::s('Lost password')));
-
-		// go to the front page
-		$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
-
-		// display the menu
-		$follow_up .= Skin::build_list($menu, 'menu_bar');
-		$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
+		// ask for support
+		$context['text'] .= Skin::build_box(i18n::s('Do you need more help?'), '<p>'.sprintf(i18n::s('Use the %s to ask for help'), Skin::build_link('query.php', i18n::s('query form'))).'</p>');
+		
 	}
 
 // provide the empty form by default

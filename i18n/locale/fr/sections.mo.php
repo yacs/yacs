@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
+ * on September 20, 2009, 9:54 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:22+0200
+POT-Creation-Date: 2009-09-20 23:45+0200
 PO-Revision-Date: 2009-09-17 01:21+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -68,7 +68,6 @@ $_SESSION['l10n']['fr']['7c21ef7da5dc4f5c2933d009b916bdd3']='Ajouter des outils 
 $_SESSION['l10n']['fr']['Add new content to this section']='Ajouter du contenu à cette section';
 $_SESSION['l10n']['fr']['4c5f93a83d5bdf6cb8d38ef1d7056175']='Tous les caractères après cette chaîne seront supprimés';
 $_SESSION['l10n']['fr']['d467e1d6f6f52ea9e7934fc95eef8ea6']='Tous les caractères avant cette chaîne seront supprimés';
-$_SESSION['l10n']['fr']['All pages']='Toutes les pages';
 $_SESSION['l10n']['fr']['c148006ede24ddc2d95717ec7d80aeb4']='Les surfeurs anonymes peuvent changer le contenu';
 $_SESSION['l10n']['fr']['938ce40939cb309af06c1cc6644797dc']='Favoriser les interactions entre les gens';
 $_SESSION['l10n']['fr']['Allow members to change content']='Les membres peuvent changer le contenu';

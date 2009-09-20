@@ -100,10 +100,7 @@ if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
 // path to this page
-if(is_object($anchor))
-	$context['path_bar'] = $anchor->get_path_bar();
-else
-	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
+$context['path_bar'] = Surfer::get_path_bar($anchor, FALSE);
 if(isset($item['id']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Sections::get_permalink($item) => $item['title']));
 
@@ -251,6 +248,18 @@ if(Surfer::is_crawler()) {
 		// add credentials in message
 		if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y')) {
 
+			// ensure the section has a private handle
+			if(!isset($item['handle']) || !$item['handle']) {
+				$item['handle'] = md5(mt_rand());
+				
+				// save in the database
+				$fields = array();
+				$fields['id'] = $item['id'];
+				$fields['handle'] = $item['id'];
+				$fields['silent'] = 'Y';
+				Sections::put_attributes($fields);
+			}
+				
 			// build credentials --see users/login.php
 			$credentials = array();
 			$credentials[0] = 'visit';

@@ -234,6 +234,10 @@ Class Articles {
 		// surfer owns this space
 		if(Articles::is_owned($anchor, $item))
 			return TRUE;
+			
+		// section is public, and surfer is an editor of it
+		if(isset($item['active']) && ($item['active'] != 'N') && isset($item['id']) && Sections::is_assigned($item['id']))
+			return TRUE;
 
 		// container has been locked
 		if(isset($item['locked']) && is_string($item['locked']) && ($item['locked'] == 'Y'))
@@ -1010,13 +1014,17 @@ Class Articles {
 			return TRUE;
 		
 		// surfer owns parent container
-		if(is_object($anchor) && $anchor->is_assigned($user_id))
+		if(is_object($anchor) && $anchor->is_owned($user_id))
 			return TRUE;
 		
 		// surfer owns this page
 		if(isset($item['owner_id']) && ($item['owner_id'] == $user_id))
 			return TRUE;
 
+		// item exists, and surfer has been assigned to parent container
+		if(isset($item['id']) && is_object($anchor) && $anchor->is_assigned($user_id))
+			return TRUE;
+		
 		// sorry
 		return FALSE;
 	}
@@ -2044,6 +2052,8 @@ Class Articles {
 			$query[] = "behaviors='".SQL::escape($fields['behaviors'])."'";
 		if(isset($fields['extra']))
 			$query[] = "extra='".SQL::escape($fields['extra'])."'";
+		if(isset($fields['handle']))
+			$query[] = "handle='".SQL::escape($fields['handle'])."'";
 		if(isset($fields['icon_url']))
 			$query[] = "icon_url='".SQL::escape(preg_replace('/[^\w\/\.,:%&\?=-]+/', '_', $fields['icon_url']))."'";
 		if(isset($fields['rank']))
@@ -2093,7 +2103,7 @@ Class Articles {
 			return TRUE;
 
 		// maybe a silent update
-		if(!isset($fields['silent']) || ($fields['silent'] != 'Y') || !Surfer::is_empowered()) {
+		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
 			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
 			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";

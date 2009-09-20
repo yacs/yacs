@@ -205,9 +205,9 @@ class zipfile {
 			// full name, as recorded in the archive
 			if(!$name = zip_entry_name($item))
 				continue;
-
+				
 			// sanity check
-			if((strlen($name) < 1) || (($name[0] != '/') && (($name[0] < 'A') || ($name[0] > 'z'))))
+			if((strlen($name) < 1) || (($name[0] != '/') && (($name[0] < ' ') || ($name[0] > 'z'))))
 				continue;
 
 			// directories are created on actual content

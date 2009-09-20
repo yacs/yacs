@@ -198,10 +198,7 @@ if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
 // path to this page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['path_bar'] = $anchor->get_path_bar();
-else
-	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
+$context['path_bar'] = Surfer::get_path_bar($anchor);
 if(isset($item['id']) && isset($item['title']))
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
 

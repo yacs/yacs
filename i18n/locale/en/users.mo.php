@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
+ * on September 20, 2009, 9:54 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:02+0200
-PO-Revision-Date: 2009-09-11 01:04+0100
+POT-Creation-Date: 2009-09-20 23:45+0200
+PO-Revision-Date: 2009-09-20 23:47+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -92,6 +92,7 @@ $_SESSION['l10n']['en']['4128cfdf11ea0df8da8a6770bc9984d7']='Associates have to 
 $_SESSION['l10n']['en']['eb6a6edda550644a64d0c8d220fb50f4']='At your request, a copy was also sent to %s';
 $_SESSION['l10n']['en']['Attachments']='Attachments';
 $_SESSION['l10n']['en']['Authenticate with password %s']='Authenticate with password %s';
+$_SESSION['l10n']['en']['Authenticate with this profile']='Authenticate with this profile';
 $_SESSION['l10n']['en']['Authenticated externally.']='Authenticated externally.';
 $_SESSION['l10n']['en']['6021d3dd0571ef65b5bcf61d2cd09cbc']='Authenticated members are allowed to post images and files.';
 $_SESSION['l10n']['en']['816c9a402dbb6753bef8bde81ebdecc3']='Authenticated members are allowed to submit new content.';
@@ -99,7 +100,6 @@ $_SESSION['l10n']['en']['Authentication']='Authentication';
 $_SESSION['l10n']['en']['Authenticators']='Authenticators';
 $_SESSION['l10n']['en']['41fc857c53b5476eb325975632e3c0f4']='Authenticators listed below can be used to link this server to an existing list of users.';
 $_SESSION['l10n']['en']['c3de0b752b07de4f2eb99411d157b134']='Automatic archiving is disabled.';
-$_SESSION['l10n']['en']['Automatic recovery']='Automatic recovery';
 $_SESSION['l10n']['en']['Back to %s']='Back to %s';
 $_SESSION['l10n']['en']['Back to my profile']='Back to my profile';
 $_SESSION['l10n']['en']['Banned']='Banned';
@@ -149,6 +149,7 @@ $_SESSION['l10n']['en']['b0f228c1db9ae48ae34f50e4829dcc58']='Display welcome pan
 $_SESSION['l10n']['en']['Displayed aside your pages']='Displayed aside your pages';
 $_SESSION['l10n']['en']['1a358d29caf897e54396073d4f58b0f6']='Do not change modification date.';
 $_SESSION['l10n']['en']['Do not display this item.']='Do not display this item.';
+$_SESSION['l10n']['en']['Do you need more help?']='Do you need more help?';
 $_SESSION['l10n']['en']['Done']='Done';
 $_SESSION['l10n']['en']['E-mail']='E-mail';
 $_SESSION['l10n']['en']['E-mail address']='E-mail address';
@@ -175,7 +176,6 @@ $_SESSION['l10n']['en']['163446b086f8add8a8b8e33171ddfbd0']='Following persons a
 $_SESSION['l10n']['en']['d614549cb7e90eec397003bb71836197']='Following persons are connected to you:';
 $_SESSION['l10n']['en']['77e189517520ef55c530da2fd2835384']='For example, if you want to apply the authenticator <code>foo</code>, put that keyword in the %s.';
 $_SESSION['l10n']['en']['For on-demand conversations']='For on-demand conversations';
-$_SESSION['l10n']['en']['f4b772fbe3570851c2d16880d8e6e38f']='For the security of our members, you must make this request with the e-mail address you used when you registered. If your original e-mail address has expired or is no longer valid, please re-register. Unused accounts may be deleted without notice.';
 $_SESSION['l10n']['en']['From']='From';
 $_SESSION['l10n']['en']['From %s:']='From %s:';
 $_SESSION['l10n']['en']['Front page']='Front page';
@@ -188,6 +188,7 @@ $_SESSION['l10n']['en']['GMail']='GMail';
 $_SESSION['l10n']['en']['Go the main help page']='Go the main help page';
 $_SESSION['l10n']['en']['Google map']='Google map';
 $_SESSION['l10n']['en']['Groups']='Groups';
+$_SESSION['l10n']['en']['Have you lost your password?']='Have you lost your password?';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['I have a %s and %s']='I have a %s and %s';
 $_SESSION['l10n']['en']['c5bd1556bd67a19b020b13dcefe04756']='I have changed my mind, connect me to this person';
@@ -239,7 +240,6 @@ $_SESSION['l10n']['en']['Mail to %s']='Mail to %s';
 $_SESSION['l10n']['en']['Manage contacts']='Manage contacts';
 $_SESSION['l10n']['en']['Manage editors']='Manage editors';
 $_SESSION['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields are marked with a *';
-$_SESSION['l10n']['en']['Manual recovery']='Manual recovery';
 $_SESSION['l10n']['en']['Member']='Member';
 $_SESSION['l10n']['en']['b47ab5ca1f0719fb37d3645017bcae45']='Member of this community, with contribution rights to this server.';
 $_SESSION['l10n']['en']['f41a5c8d67ea2e6781eaff28c00e4aa9']='Members submit articles and associates publish them (review mode), except in sections configured with option <code>auto_publish</code>.';
@@ -296,6 +296,7 @@ $_SESSION['l10n']['en']['PGP key or certificate']='PGP key or certificate';
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['Password']='Password';
 $_SESSION['l10n']['en']['Password confirmation']='Password confirmation';
+$_SESSION['l10n']['en']['Password has been changed.']='Password has been changed.';
 $_SESSION['l10n']['en']['People']='People';
 $_SESSION['l10n']['en']['Persons assigned to %s']='Persons assigned to %s';
 $_SESSION['l10n']['en']['Phone number']='Phone number';
@@ -304,6 +305,7 @@ $_SESSION['l10n']['en']['Picture URL']='Picture URL';
 $_SESSION['l10n']['en']['Pictures']='Pictures';
 $_SESSION['l10n']['en']['8c38a999d084de2f0ee7abb984b1f91c']='Please activate the LDAP library.';
 $_SESSION['l10n']['en']['ffb6aa9a43a233acdad78532f79a6120']='Please carefully select a meaningful and unused nick name.';
+$_SESSION['l10n']['en']['9aedf8a1dde06b834911bd634b103f33']='Please confirm that you would like to receive a message to authenticate to the following account.';
 $_SESSION['l10n']['en']['9255b3acd25d09f8a29801ea4ebf964c']='Please confirm your new password.';
 $_SESSION['l10n']['en']['Please confirm your password.']='Please confirm your password.';
 $_SESSION['l10n']['en']['Please indicate a nick name.']='Please indicate a nick name.';
@@ -312,7 +314,6 @@ $_SESSION['l10n']['en']['5830392e1d0c7d2eb29ade20c07f3328']='Please note that wh
 $_SESSION['l10n']['en']['55b1b6540e545b13d42d5091aef77d83']='Please prove you are not a robot.';
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
 $_SESSION['l10n']['en']['69218afa8966421e717318b0e6aa7894']='Please provide parameters to the authenticator.';
-$_SESSION['l10n']['en']['16bca9489fd2f3be29dd8b639ce99965']='Please provide your e-mail address and we will email your member name and password, and instructions for accessing your account.';
 $_SESSION['l10n']['en']['Please register or log in']='Please register or log in';
 $_SESSION['l10n']['en']['12fc8d23e0da8141d00630c0f2779650']='Please type something to search for.';
 $_SESSION['l10n']['en']['Popular files']='Popular files';
@@ -427,6 +428,7 @@ $_SESSION['l10n']['en']['Uploads']='Uploads';
 $_SESSION['l10n']['en']['Use a gravatar']='Use a gravatar';
 $_SESSION['l10n']['en']['b3e2e59bff01bca4659ac4f86a75fc2c']='Use codes to place images in the page.';
 $_SESSION['l10n']['en']['Use only plain ASCII, no HTML.']='Use only plain ASCII, no HTML.';
+$_SESSION['l10n']['en']['Use the %s to ask for help']='Use the %s to ask for help';
 $_SESSION['l10n']['en']['Use the authenticator %s']='Use the authenticator %s';
 $_SESSION['l10n']['en']['Use the library']='Use the library';
 $_SESSION['l10n']['en']['User profiles to be reviewed']='User profiles to be reviewed';
@@ -440,7 +442,7 @@ $_SESSION['l10n']['en']['895d2c0142361017642213ba49731871']='Visit %s to get mor
 $_SESSION['l10n']['en']['2470a7b84e0565efbfd25c51005b44b5']='Wait for one hour to recover from too many failed authentications.';
 $_SESSION['l10n']['en']['Watch list']='Watch list';
 $_SESSION['l10n']['en']['Watched sections']='Watched sections';
-$_SESSION['l10n']['en']['eb744021a7ee797390e41d73fbd00d10']='We are only keeping a shadow record for this profile. Please change the password for this account at %s';
+$_SESSION['l10n']['en']['3b9f16a2d4a75ed76b06726e46487cd8']='We are only keeping a shadow record for this profile. Please handle this account at %s';
 $_SESSION['l10n']['en']['8eb4650f62d1155f4ebd825daf0bbc28']='We suggest at least 4 numbers, two letters, and a punctuation sign - in any order';
 $_SESSION['l10n']['en']['97696bdc35f03f28bcec5cd1e4f89f2c']='We won\'t disclose personal information about you or your company to anyone outside this site.';
 $_SESSION['l10n']['en']['Web address']='Web address';
@@ -477,7 +479,6 @@ $_SESSION['l10n']['en']['You have been connected to %s.']='You have been connect
 $_SESSION['l10n']['en']['e43059e2a3aeeb662faeba22ed92cc00']='You have been successfully authenticated.';
 $_SESSION['l10n']['en']['You have left %s']='You have left %s';
 $_SESSION['l10n']['en']['5220fcf38510b19c69fce5625ea7db78']='You may attach a file of up to %sbytes';
-$_SESSION['l10n']['en']['73e918a2370a3a8ae1ff138147e8c98c']='You may use the %s to ask for a password reset.';
 $_SESSION['l10n']['en']['9a1f2865f57db1f35d8529e39dee41a9']='You must provide a nick name or an email address.';
 $_SESSION['l10n']['en']['You must provide a nick name.']='You must provide a nick name.';
 $_SESSION['l10n']['en']['You must provide a password.']='You must provide a password.';

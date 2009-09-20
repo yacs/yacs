@@ -182,7 +182,7 @@ Class Layout_sections_as_folded extends Layout_interface {
 
 			// complement title
 			if(count($details))
-				$box['title'] .= ' <span class="details">('.join(', ', $details).')</details>';
+				$box['title'] .= ' <span class="details">('.join(', ', $details).')</span>';
 
 			// insert introduction, if any
 			if($item['introduction'])

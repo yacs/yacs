@@ -69,18 +69,18 @@ Class Layout_users_as_watch extends Layout_interface {
 			elseif($item['edit_date'] >= $dead_line)
 				$suffix = UPDATED_FLAG.' ';
 
-			// do not use description because of codes such as location, etc
-			if(isset($item['introduction']) && $item['introduction'])
-				$suffix .= ' - '.Codes::beautify($item['introduction']);
-
 			// show contact information
 			if(Surfer::may_contact() && ($contacts = Users::build_presence($item)))
 				$suffix .= ' '.$contacts;
 
+			// do not use description because of codes such as location, etc
+			if(isset($item['introduction']) && $item['introduction'])
+				$suffix .= ' - '.Codes::beautify($item['introduction']);
+
 			// get last posts for this author
 			$articles =& Members::list_articles_for_member_by('edition', 'user:'.$item['id'], 0, 3, 'compact');
 			if(is_array($articles))
-				$suffix .= Skin::build_list($articles, 'compact');
+				$suffix .= Skin::build_list($articles, 'details');
 			else
 				$suffix .= $articles;
 

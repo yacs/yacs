@@ -2279,6 +2279,8 @@ Class Sections {
 			$query[] = "introduction='".SQL::escape($fields['introduction'])."'";
 		if(isset($fields['description']))
 			$query[] = "description='".SQL::escape($fields['description'])."'";
+		if(isset($fields['handle']))
+			$query[] = "handle='".SQL::escape($fields['handle'])."'";
 		if(isset($fields['language']))
 			$query[] = "language='".SQL::escape($fields['language'])."'";
 		if(isset($fields['overlay']))
@@ -2291,7 +2293,7 @@ Class Sections {
 			return TRUE;
 
 		// maybe a silent update
-		if(!isset($fields['silent']) || ($fields['silent'] != 'Y') || !Surfer::is_empowered()) {
+		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
 			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
 			$query[] = "edit_id=".SQL::escape($fields['edit_id']);
 			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";

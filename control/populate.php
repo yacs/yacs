@@ -269,7 +269,6 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Pages');
 		$fields['introduction'] = i18n::c('The default place for new pages');
 		$fields['description'] = '';
-		$fields['sections_layout'] = 'decorated';
 		if(Sections::post($fields))
 			$text .= sprintf(i18n::s('A section "%s" has been created.'), $fields['title']).BR."\n";
 		else

@@ -580,6 +580,29 @@ Class Surfer {
 	}
 
 	/**
+	 * update navigation context
+	 *
+	 * @return string web link to the target user profile, or NULL
+	 */
+	function get_path_bar($anchor=NULL, $all_articles=TRUE) {
+	
+		// section is visible to this user
+		if(is_object($anchor) && $anchor->is_viewable())
+			return $anchor->get_path_bar();
+			
+		// go back to surfer's profile
+		if(Surfer::get_id() && is_callable(array('Users', 'get_url')))
+			return array( Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('My pages') );
+			
+		// list all public pages
+		if($all_articles)
+			return array( 'articles/' => i18n::s('All pages') );
+			
+		// no context, sorry
+		return NULL;
+	}
+
+	/**
 	 * get profile address for this surfer, if known
 	 *
 	 * @return string web link to the target user profile, or NULL
@@ -1252,7 +1275,7 @@ Class Surfer {
 
 		// remember silently the date of the last login
 		if($update_flag && isset($fields['id'])) {
-			$query = "UPDATE ".SQL::table_name('users')." SET login_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."', login_address='".$_SERVER['REMOTE_ADDR']."' WHERE id = ".$fields['id'];
+			$query = "UPDATE ".SQL::table_name('users')." SET login_date='".gmstrftime('%Y-%m-%d %H:%M:%S')."', login_address='".$_SERVER['REMOTE_ADDR']."', authenticate_failures=0 WHERE id = ".$fields['id'];
 			SQL::query($query, FALSE, $context['users_connection']);
 		}
 

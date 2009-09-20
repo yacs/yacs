@@ -131,9 +131,13 @@ class Poll extends Overlay {
 		global $context;
 
 		// are votes still allowed?
-		$enable_votes = TRUE;
-		if(isset($host['locked']) && ($host['locked'] == 'Y'))
+		if(isset($_COOKIE['poll_'.$host['id']])) {
 			$enable_votes = FALSE;
+			cache::poison();
+		} elseif(isset($host['locked']) && ($host['locked'] == 'Y'))
+			$enable_votes = FALSE;
+		else
+			$enable_votes = TRUE;
 
 		// show voting form and results if asked for
 		if(isset($host['options']) && preg_match('/\bpoll_with_results\b/i', $host['options']))
@@ -159,9 +163,13 @@ class Poll extends Overlay {
 		global $context;
 
 		// are votes still allowed?
-		$enable_votes = TRUE;
-		if(isset($host['locked']) && ($host['locked'] == 'Y'))
+		if(isset($_COOKIE['poll_'.$host['id']])) {
 			$enable_votes = FALSE;
+			cache::poison();
+		} elseif(isset($host['locked']) && ($host['locked'] == 'Y'))
+			$enable_votes = FALSE;
+		else
+			$enable_votes = TRUE;
 
 		// at the main page, show full content
 		$text = $this->get_text_to_view($host, $enable_votes);

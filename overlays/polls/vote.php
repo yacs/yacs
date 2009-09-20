@@ -114,10 +114,7 @@ else
 load_skin('polls', $anchor);
 
 // the path to this page
-if(is_object($anchor))
-	$context['path_bar'] = $anchor->get_path_bar();
-else
-	$context['path_bar'] = array( 'articles/' => 'All pages' );
+$context['path_bar'] = Surfer::get_path_bar($anchor);
 
 // the title of the page
 if(isset($item['title']) && $item['title'])
@@ -143,7 +140,7 @@ if(!isset($item['id'])) {
 	Logger::error(i18n::s('Not a valid vote'));
 
 // a vote has already been registered
-} elseif(isset($_COOKIE['poll_'.$id])) {
+} elseif(isset($_COOKIE['poll_'.$item['id']])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You have already voted'));
 

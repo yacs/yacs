@@ -64,53 +64,6 @@ defined('YACS') or exit('Script must be included');
 // load the skin, maybe with a variant
 load_skin('view_as_chat', $anchor, isset($item['options']) ? $item['options'] : '');
 
-// clear the tab we are in, if any
-if(is_object($anchor))
-	$context['current_focus'] = $anchor->get_focus();
-
-// path to this page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['path_bar'] = $anchor->get_path_bar();
-else
-	$context['path_bar'] = array( 'articles/' => i18n::s('All pages') );
-
-// page title
-if(is_object($overlay))
-	$context['page_title'] = $overlay->get_text('title', $item);
-elseif(isset($item['title']))
-	$context['page_title'] = $item['title'];
-
-// page language, if any
-if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'))
-	$context['page_language'] = $item['language'];
-
-// change default behavior
-if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('articles/view.php', 'article:'.$item['id']))
-	$permitted = FALSE;
-
-// not found -- help web crawlers
-if(!isset($item['id'])) {
-	Safe::header('Status: 404 Not Found', TRUE, 404);
-	Logger::error(i18n::s('No item has the provided id.'));
-
-// permission denied
-} elseif(!$permitted) {
-
-	// anonymous users are invited to log in or to register
-	if(!Surfer::is_logged())
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].'users/login.php?url='.urlencode(Articles::get_permalink($item)));
-
-	// permission denied to authenticated user
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('You are not allowed to perform this operation.'));
-
-// stop crawlers on non-published pages
-} elseif((!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE)) && !Surfer::is_logged()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('You are not allowed to perform this operation.'));
-
-// display the thread
-} else {
 
 	// behaviors can change page menu
 	if(is_object($behaviors))
@@ -1006,7 +959,6 @@ if(!isset($item['id'])) {
 		$context['page_footer'] .= JS_SUFFIX;
 	}
 
-}
 
 // render the skin
 render_skin();

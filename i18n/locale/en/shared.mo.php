@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
+ * on September 20, 2009, 9:54 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:22+0200
-PO-Revision-Date: 2009-09-10 00:49+0100
+POT-Creation-Date: 2009-09-20 23:45+0200
+PO-Revision-Date: 2009-09-20 23:46+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -24,6 +24,7 @@ $_SESSION['l10n']['en']['%d active now'.chr(0).'%d active now']='%d active now'.
 $_SESSION['l10n']['en']['be362d7d53a1254f538bfda2a9b7b995']='A member is required for this operation.';
 $_SESSION['l10n']['en']['Access collection']='Access collection';
 $_SESSION['l10n']['en']['Actions']='Actions';
+$_SESSION['l10n']['en']['All pages']='All pages';
 $_SESSION['l10n']['en']['faa341f8a37d82ae539d923a0854a176']='An anchor is required for this operation.';
 $_SESSION['l10n']['en']['Browse this map with Freemind']='Browse this map with Freemind';
 $_SESSION['l10n']['en']['Categories']='Categories';
@@ -54,6 +55,7 @@ $_SESSION['l10n']['en']['Locations']='Locations';
 $_SESSION['l10n']['en']['Login']='Login';
 $_SESSION['l10n']['en']['Logout']='Logout';
 $_SESSION['l10n']['en']['Lost password']='Lost password';
+$_SESSION['l10n']['en']['My pages']='My pages';
 $_SESSION['l10n']['en']['My profile']='My profile';
 $_SESSION['l10n']['en']['No item has been found.']='No item has been found.';
 $_SESSION['l10n']['en']['No message']='No message';

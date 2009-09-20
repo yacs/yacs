@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
+ * on September 20, 2009, 9:54 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:02+0200
+POT-Creation-Date: 2009-09-20 23:45+0200
 PO-Revision-Date: 2009-09-02 01:02+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -149,7 +149,6 @@ $_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['1cdd6622263afc815074f3c7faed3a2c']='Paste here complicated peer-to-peer href (ed2k, torrent, etc.)';
 $_SESSION['l10n']['en']['Play']='Play';
-$_SESSION['l10n']['en']['7abd39f4bdad539867d6db43641caa51']='Please carefully select a section for your file';
 $_SESSION['l10n']['en']['534ee23f840c757e6d2f7ba56f2971c6']='Please note that the current shared version is %s if you absolutely require it.';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $_SESSION['l10n']['en']['c5427cc1c5d8c7f2fe75e6eb38ef3662']='Please set a meaningful title to be used instead of the file name in lists of files.';
@@ -166,7 +165,6 @@ $_SESSION['l10n']['en']['RSS feed']='RSS feed';
 $_SESSION['l10n']['en']['37ad9546a387c8d0623a2d297a553d2b']='Recommended tools are listed for each extension on download.';
 $_SESSION['l10n']['en']['Review files']='Review files';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
-$_SESSION['l10n']['en']['Section']='Section';
 $_SESSION['l10n']['en']['e38356c677eda6ec20dd764987901cff']='Select another file to replace the current one';
 $_SESSION['l10n']['en']['af2a005d7d6b0ad003b4d99792b184cc']='Share an existing reference (ftp://, http://, ...)';
 $_SESSION['l10n']['en']['40532f5eb978ba028e43d957a661c3b2']='Shared files are not put in the database, but in the file system of the web server.';
@@ -196,7 +194,6 @@ $_SESSION['l10n']['en']['1776aecef24f2d097ff0f00b141bce7b']='This file has been 
 $_SESSION['l10n']['en']['100229cfe97b886f2e3cea81dbd9d1ec']='This file has been assigned to you %s, and you are encouraged to %s as soon as possible.';
 $_SESSION['l10n']['en']['2d4b92c7af8bc664500b7a0599619a30']='This file may be accessed on-demand. You may have to use an advanced media player such as %s (open source) or %s (free).';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
-$_SESSION['l10n']['en']['493485c7bd8de9cad43c62621f0aa8a2']='This script will create a brand new page for the uploaded file. If you would like to attach a file to an existing page, browse the target page instead and use the adequate command from the menu.';
 $_SESSION['l10n']['en']['fb52e739654eb4d1981039c471bca260']='This type of file is not allowed.';
 $_SESSION['l10n']['en']['Thumbnail']='Thumbnail';
 $_SESSION['l10n']['en']['Title']='Title';

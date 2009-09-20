@@ -497,7 +497,7 @@ Class Users {
 	 * @return string the permalink
 	 */
 	function &get_permalink($item) {
-		$output = Users::get_url($item['id'], 'view', isset($item['full_name'])?$item['full_name']:$item['nick_name']);
+		$output = Users::get_url($item['id'], 'view', isset($item['full_name'])?$item['full_name']:( isset($item['nick_name'])?$item['nick_name']:'' ));
 		return $output;
 	}
 
@@ -1050,10 +1050,6 @@ Class Users {
 		$authenticated = FALSE;
 		$item = NULL;
 
-		// up to three authentication attempts during last hour
-		$blocked = FALSE;
-		$authentication_horizon = gmstrftime('%Y-%m-%d %H:%M:%S', time()-3600);
-
 		// search a user profile locally
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
 			." WHERE users.email LIKE '".SQL::escape($name)."' OR users.nick_name LIKE '".SQL::escape($name)."' OR users.full_name LIKE '".SQL::escape($name)."'";
@@ -1061,12 +1057,12 @@ Class Users {
 
 			// the user has been explicitly banned
 			if($item['capability'] == '?')
-				$authenticated = FALSE;
+				return NULL;
 
 			// more than three failed authentications during previous hour
-			elseif(($item['authenticate_date'] > $authentication_horizon) && ($item['authenticate_failures'] >= 3)) {
-				$authenticated = FALSE;
-				$blocked = TRUE;
+			elseif(($item['authenticate_failures'] >= 3) && ($item['authenticate_date'] > gmstrftime('%Y-%m-%d %H:%M:%S', time()-3600))) {
+				Logger::error(i18n::s('Wait for one hour to recover from too many failed authentications.'));
+				return NULL;
 
 			// successful local check
 			} elseif(md5($password) == $item['password'])
@@ -1075,7 +1071,7 @@ Class Users {
 		}
 
 		// we have to authenticate externally, if this has been explicitly allowed
-		if(!$authenticated && !$blocked && isset($context['users_authenticator']) && $context['users_authenticator']) {
+		if(!$authenticated && isset($context['users_authenticator']) && $context['users_authenticator']) {
 
 			// load and configure an authenticator instance
 			include_once $context['path_to_root'].'users/authenticator.php';
@@ -1119,7 +1115,7 @@ Class Users {
 		if(!$authenticated && isset($item['id'])) {
 
 			// increment failing authentications during last hour
-			if(isset($item['authenticate_date']) && ($item['authenticate_date'] >= $authentication_horizon)) {
+			if(isset($item['authenticate_date']) && ($item['authenticate_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-3600))) {
 
 				$query = "UPDATE ".SQL::table_name('users')
 					." SET authenticate_failures=authenticate_failures+1"
@@ -1551,20 +1547,21 @@ Class Users {
 			if(isset($fields['tags']))
 				$fields['tags'] = trim($fields['tags'], " \t.:,!?");
 
-		}
-
-		// save new settings in session and in cookie
-		if(Surfer::is($fields['id'])) {
-
-			// change preferred editor
-			$_SESSION['surfer_editor'] = $fields['editor'];
-			Safe::setcookie('surfer_editor', $fields['editor'], NULL, '/');
-
-			// change preferred language
-			if(isset($fields['language']) && ($_SESSION['surfer_language'] != $fields['language'])) {
-				$_SESSION['surfer_language'] = $fields['language'];
-				$_SESSION['l10n_modules'] = array();
+			// save new settings in session and in cookie
+			if(Surfer::is($fields['id'])) {
+	
+				// change preferred editor
+				$_SESSION['surfer_editor'] = $fields['editor'];
+				Safe::setcookie('surfer_editor', $fields['editor'], NULL, '/');
+	
+				// change preferred language
+				if(isset($fields['language']) && ($_SESSION['surfer_language'] != $fields['language'])) {
+					$_SESSION['surfer_language'] = $fields['language'];
+					$_SESSION['l10n_modules'] = array();
+				}
 			}
+
+
 		}
 
 		// update an existing record
@@ -1725,7 +1722,7 @@ Class Users {
 		// the list of users
 		$query = "SELECT * FROM ".SQL::table_name('users')." AS users"
 			." WHERE (".$where.") AND (".$match.")"
-			." ORDER BY users.nick_name, users.edit_date DESC"
+			." ORDER BY users.login_date DESC"
 			." LIMIT ".$offset.','.$count;
 
 		$output =& Users::list_selected(SQL::query($query, FALSE, $context['users_connection']), $variant);

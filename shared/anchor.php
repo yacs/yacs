@@ -884,6 +884,27 @@ class Anchor {
 	}
 
 	/**
+	 * determine if only selected persons can access this anchor
+	 *
+	 * To be overloaded into derivated class if field has a different name
+	 *
+	 * @return TRUE or FALSE
+	 */
+	 function is_hidden() {
+
+		// sanity check
+		if(!is_array($this->item))
+			return FALSE;
+
+		// the anchor is public
+		if(isset($this->item['active']) && ($this->item['active'] == 'N'))
+			return TRUE;
+
+		// not hidden
+		return FALSE;
+	}
+
+	/**
 	 * check that the surfer owns an anchor
 	 *
 	 * To be overloaded into derivated class if field has a different name

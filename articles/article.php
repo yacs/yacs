@@ -1072,6 +1072,18 @@ Class Article extends Anchor {
 			// alert page poster
 			//
 
+			// ensure the article has a private handle
+			if(!isset($this->item['handle']) || !$this->item['handle']) {
+				$this->item['handle'] = md5(mt_rand());
+				
+				// save in the database
+				$fields = array();
+				$fields['id'] = $this->item['id'];
+				$fields['handle'] = $this->item['id'];
+				$fields['silent'] = 'Y';
+				Articles::put_attributes($fields);
+			}				
+
 			// link sent to page poster has login credentials --see users/login.php
 			$credentials = array();
 			$credentials[0] = 'edit';

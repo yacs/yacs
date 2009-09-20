@@ -449,6 +449,7 @@ if(Surfer::is_crawler()) {
 				$attributes = array();
 				$attributes['id'] = $article['id'];
 				$attributes['publish_date'] = NULL_DATE;
+				$attributes['silent'] = 'Y';
 				if(Articles::put_attributes($attributes))
 					$count++;
 
@@ -807,6 +808,7 @@ if(Surfer::is_crawler()) {
 			$attributes = array();
 			$attributes['id'] = $id;
 			$attributes['anchor'] = $destination->get_reference();
+			$attributes['silent'] = 'Y'; // preserve dates of actual modifications
 			if(Articles::put_attributes($attributes))
 				$count++;
 		}
@@ -834,6 +836,7 @@ if(Surfer::is_crawler()) {
 			$attributes = array();
 			$attributes['id'] = $id;
 			$attributes['anchor'] = $destination->get_reference();
+			$attributes['silent'] = 'Y'; // preserve dates of actual modifications
 			if(Sections::put_attributes($attributes))
 				$count++;
 		}
@@ -904,6 +907,7 @@ if(Surfer::is_crawler()) {
 			$attributes = array();
 			$attributes['id'] = intval(substr($name, 13));
 			$attributes['rank'] = intval($value);
+			$attributes['silent'] = 'Y'; // preserve dates of actual modifications
 			if(Articles::put_attributes($attributes))
 				$count++;
 		}
@@ -912,6 +916,7 @@ if(Surfer::is_crawler()) {
 			$attributes = array();
 			$attributes['id'] = intval(substr($name, 13));
 			$attributes['rank'] = intval($value);
+			$attributes['silent'] = 'Y'; // preserve dates of actual modifications
 			if(Sections::put_attributes($attributes))
 				$count++;
 		}

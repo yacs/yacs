@@ -82,6 +82,10 @@ Class Layout_comments_as_yabb extends Layout_interface {
 
 			$author .= '<span class="details">';
 
+			// show contact information
+			if(Surfer::may_contact())
+				$author .= Users::build_presence($poster);
+
 			// from where
 			if(isset($poster['from_where']) && $poster['from_where'])
 				$author .= BR.sprintf(i18n::s('from %s'), Codes::beautify($poster['from_where']));
@@ -100,10 +104,6 @@ Class Layout_comments_as_yabb extends Layout_interface {
 			// + posts
 			if(isset($poster['posts']))
 				$author .= BR.$capability.sprintf(i18n::ns('%d post', '%d posts', $poster['posts']), $poster['posts']);
-
-			// show contact information
-			if(Surfer::may_contact())
-				$author .= Users::build_presence($poster);
 
 			// put everything in the author cell
 			$author .= '</span>';

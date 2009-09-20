@@ -143,7 +143,7 @@ if(is_object($anchor) && $anchor->is_owned()) {
 	$permitted = TRUE;
 	
 // associates and authenticated editors can modify any comment
-} elseif(($action != 'edit') && Comments::are_editable($anchor, $item))
+} elseif(($action != 'edit') && Comments::are_allowed($anchor, $item))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer

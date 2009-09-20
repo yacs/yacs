@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
+ * on September 20, 2009, 9:54 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:22+0200
-PO-Revision-Date: 2009-09-10 00:51+0100
+POT-Creation-Date: 2009-09-20 23:45+0200
+PO-Revision-Date: 2009-09-20 23:49+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -24,6 +24,7 @@ $_SESSION['l10n']['fr']['%d active now'.chr(0).'%d active now']='%d actif mainte
 $_SESSION['l10n']['fr']['be362d7d53a1254f538bfda2a9b7b995']='Un membre est requis pour cette opération.';
 $_SESSION['l10n']['fr']['Access collection']='Voir la collection';
 $_SESSION['l10n']['fr']['Actions']='Actions';
+$_SESSION['l10n']['fr']['All pages']='Toutes les pages';
 $_SESSION['l10n']['fr']['faa341f8a37d82ae539d923a0854a176']='Une ancre est requise pour cette opération.';
 $_SESSION['l10n']['fr']['Browse this map with Freemind']='Charger cette carte dans Freemind';
 $_SESSION['l10n']['fr']['Categories']='Catégories';
@@ -54,6 +55,7 @@ $_SESSION['l10n']['fr']['Locations']='Emplacements';
 $_SESSION['l10n']['fr']['Login']='Authentification';
 $_SESSION['l10n']['fr']['Logout']='Clore la session';
 $_SESSION['l10n']['fr']['Lost password']='Mot de passe perdu';
+$_SESSION['l10n']['fr']['My pages']='Mes pages';
 $_SESSION['l10n']['fr']['My profile']='Mon profil';
 $_SESSION['l10n']['fr']['No item has been found.']='Aucun élément n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No message']='Le corps du message est vide';

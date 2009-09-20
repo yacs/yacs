@@ -51,11 +51,16 @@ class Logger {
 	 * add some error message
 	 *
 	 * @param string the additional error message
+	 * @param boolean if FALSE, do not add message if there is already one
 	 *
 	 */
-	function error($line) {
+	function error($line, $multiple=TRUE) {
 		global $context;
 
+		// there is already one message
+		if($context['error'] && !$multiple)
+			return;
+			
 		// sanity check
 		if(!$line)
 			return;

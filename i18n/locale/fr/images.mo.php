@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 16, 2009, 11:22 pm GMT. Please do not modify it manually.
+ * on September 20, 2009, 9:54 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:02+0200
+POT-Creation-Date: 2009-09-20 23:45+0200
 PO-Revision-Date: 2009-09-17 01:20+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -77,7 +77,6 @@ $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['Operation has failed.']='Impossible de mener l\'opération à son terme';
 $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
-$_SESSION['l10n']['fr']['92fdd78ee6bb759cae3b7d6e33a0552f']='Choisissez l\'emplacement adéquat pour partager votre image';
 $_SESSION['l10n']['fr']['Please provide an archive file.']='Merci de choisir le fichier archive à téléverser.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['16f90961d2f522242b4ab751e6de2bf0']='Merci de choisir une vignette pour cette page.';
@@ -89,7 +88,6 @@ $_SESSION['l10n']['fr']['Press to select a local file']='Choisir un fichier loca
 $_SESSION['l10n']['fr']['Recent pages']='Pages récentes';
 $_SESSION['l10n']['fr']['Rejected file type %s']='Type de fichier invalide %s';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
-$_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['9d1fc249d04226cb2db7398a29581bef']='Choisir une image .png, ou .gif ou .jpg';
 $_SESSION['l10n']['fr']['f06c5e8a565ea2a7d2bcee451c4b8920']='Choisir une archive au format .zip, .tar, .tar.gz ou .tgz.';
 $_SESSION['l10n']['fr']['654258af44eda1cd82146682083f5376']='Choisissez une autre image pour remplacer l\'image courante';
@@ -110,7 +108,6 @@ $_SESSION['l10n']['fr']['e4266389d13f25ec6161078dd7621e30']='L\'image a été aj
 $_SESSION['l10n']['fr']['The image has been inserted.']='L\'image a été insérée.';
 $_SESSION['l10n']['fr']['dd5d3d8719d8abaf68ea9d57da282d79']='L\'image sera utilisée comme vignette de page.';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
-$_SESSION['l10n']['fr']['0a152c649dd8a64176d76ddaa8212337']='Ce script va créer une nouvelle page pour l\'image transmise. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc dans le menu.';
 $_SESSION['l10n']['fr']['Thumbnail']='Vignette';
 $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['cebc18f08271fe39d2af31291412d973']='Pour créer des albums photos vous pouvez téléverser plusieurs images à la fois, en les combinant dans un fichier archive. En une seule opération le serveur va extraire chaque image, la retailler si nécessaire, créer une vignette, puis toutes les images seront intégrées dans la page.';

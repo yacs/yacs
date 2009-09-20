@@ -121,7 +121,19 @@ if(Surfer::is_crawler()) {
 		// use the secret handle to access the query
 		$link = '';
 		$status = '';
-		if(($item =& Articles::get($_REQUEST['id'])) && $item['handle']) {
+		if($item =& Articles::get($_REQUEST['id'])) {
+
+			// ensure the article has a private handle
+			if(!isset($item['handle']) || !$item['handle']) {
+				$item['handle'] = md5(mt_rand());
+				
+				// save in the database
+				$fields = array();
+				$fields['id'] = $item['id'];
+				$fields['handle'] = $item['id'];
+				$fields['silent'] = 'Y';
+				Articles::put_attributes($fields);
+			}				
 
 			// build credentials --see users/login.php
 			$credentials = array();

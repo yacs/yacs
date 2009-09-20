@@ -35,15 +35,13 @@
 		if($context['skin_variant'])
 			$id = ' id="'.$context['skin_variant'].'"';
 
-		// put skin name in body class, to allow for CSS superseding
-		$classes = array(str_replace('skins/', '', $context['skin']));
-
 		// we do have some extra content to render
+		$classes = '';
 		if($context['extra'])
-			$classes[] = 'extra';
+			$classes = ' classes="extra"';
 
 		// start the body
-		echo '<body'.$id.' class="'.join(' ', $classes).'">'."\n";
+		echo '<body'.$id.$classes.'>'."\n";
 
 		// shortcuts for text readers
 		echo '<p class="away">';

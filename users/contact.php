@@ -203,6 +203,18 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 				// provide credentials by e-mail
 				if(isset($item['email'])) {
 
+					// ensure the article has a private handle
+					if(!isset($article['handle']) || !$article['handle']) {
+						$article['handle'] = md5(mt_rand());
+						
+						// save in the database
+						$fields = array();
+						$fields['id'] = $article['id'];
+						$fields['handle'] = $article['id'];
+						$fields['silent'] = 'Y';
+						Articles::put_attributes($fields);
+					}				
+
 					// build credentials --see users/login.php
 					$credentials = array();
 					$credentials[0] = 'visit';

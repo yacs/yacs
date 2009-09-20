@@ -1839,6 +1839,7 @@ Class Skin_Skeleton {
 	 * - 'compact' - a <ul class="compact"> list
 	 * - 'crumbs' - a list of containers -- should be called once per page
 	 * - 'decorated' - to prefix each item with an icon
+	 * - 'details' - a compact list of details
 	 * - 'menu' - an in-line set of commands (e.g., edit, delete, etc.)
 	 * - 'menu_bar' - an horizontal bar of commands
 	 * - 'news' - a list of articles, with ids to handle them through Javascript
@@ -3229,6 +3230,7 @@ Class Skin_Skeleton {
 
 			// use css selector: ul.compact, or customize constants in skin.php -- icons are dropped, if any
 			case 'compact':
+			case 'details':
 			case 'hits':
 			case 'rating':
 			case 'simple':
@@ -3243,6 +3245,10 @@ Class Skin_Skeleton {
 						if(is_array($label))
 							$label = $label[0];
 
+						// make it small
+						if($variant == 'details')
+							$label = '<span class="details">'.$label.'</span>';
+				
 						$text .= '<li>'.$label.'</li>'."\n";
 					}
 
@@ -3261,6 +3267,10 @@ Class Skin_Skeleton {
 						// drop the icon
 						if(is_array($label))
 							$label = $label[0];
+
+						// make it small
+						if($variant == 'details')
+							$label = '<span class="details">'.$label.'</span>';
 
 						$text .= '<li>'.COMPACT_LIST_ITEM_PREFIX.$label.COMPACT_LIST_ITEM_SUFFIX.'</li>'."\n";
 					}

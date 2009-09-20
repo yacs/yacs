@@ -1359,14 +1359,15 @@ var Yacs = {
 	 */
 	toggle_accordion: function(handle, down_href, up_href, accordion) {
 
-		// the new active box
-		var toExtend = Element.next(handle, '.accordion_content');
+		// the toggled panel
+		var toggled = Element.next(handle, '.accordion_content');
+		var processed = false;
 
 		// close all boxes in the accordion
  		$$('.'+accordion).each( function(item) { 
  		
  			var panel = Element.down(item, '.accordion_content');
-			if((toExtend != panel) && (panel.style.display != 'none')) {
+			if(panel.style.display != 'none') {
 				new Effect.SlideUp(panel, {duration:.3, scaleContent:false});
   			
 				// change the image (if there is an image)
@@ -1374,13 +1375,19 @@ var Yacs = {
 				if(icon && down_href) {
 					icon.src = down_href;
 				}
+				
+				// clicked box has been closed
+				if(toggled == panel) {
+					processed = true;
+				}
+				
 			}
  
  		} );
 
-		// only extend closed elements
-		if(toExtend.style.display == 'none') {
-			new Effect.SlideDown(toExtend, {duration:.3, scaleContent:false});
+		// only extend closed elements that have not been processed during this click
+		if((toggled.style.display == 'none') && !processed) {
+			new Effect.SlideDown(toggled, {duration:.3, scaleContent:false});
 	
 			// change the image (if there is an image)
 			var icon = Element.down(handle, 'img');
