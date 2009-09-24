@@ -109,7 +109,7 @@ if($page > 10) {
 	// page main content
 	$cache_id = 'sections/index.php#text#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
-	
+
 		// load the layout to use
 		switch($context['root_articles_layout']) {
 			case 'boxesandarrows':
@@ -122,21 +122,21 @@ if($page > 10) {
 				$layout->set_variant(20); // show more elements at the site map
 				break;
 		}
-	
+
 		// the list of active sections
 		$offset = ($page - 1) * $items_per_page;
 		if(!$items =& Sections::list_by_title_for_anchor(NULL, $offset, $items_per_page, $layout))
 			$items = '<p>'.i18n::s('No regular section has been created yet.').'</p>';
-	
+
 		// we have an array to format
 		if(is_array($items))
 			$items =& Skin::build_list($items, '2-columns');
-	
+
 		// navigation commands for sections, if necessary
 		if($count > 5) {
-		
+
 			$menu = array('_count' => Skin::build_number($count, i18n::s('sections')));
-		
+
 			$home = 'sections/';
 			if($context['with_friendly_urls'] == 'Y')
 				$prefix = $home.'index.php/';
@@ -145,19 +145,19 @@ if($page > 10) {
 			else
 				$prefix = $home.'?page=';
 			$menu = array_merge($menu, Skin::navigate($home, $prefix, $count, $items_per_page, $page));
-			
+
 			// add a menu at the bottom
 			$text .= Skin::build_list($menu, 'menu_bar');
-	
+
 		}
 
 		// make a box
 		if($items)
 			$text .= Skin::build_box('', $items, 'header1', 'sections');
-	
+
 		// associates may list specific sections as well
 		if(($page == 1) && Surfer::is_associate()) {
-	
+
 			// load the layout to use
 			switch($context['root_articles_layout']) {
 				case 'boxesandarrows':
@@ -170,20 +170,20 @@ if($page > 10) {
 					$layout->set_variant(20); // show more elements at the site map
 					break;
 			}
-	
+
 			// query the database and layout that stuff
 			if($items = Sections::list_inactive_by_title_for_anchor(NULL, 0, 50, $layout)) {
-	
+
 				// we have an array to format
 				if(is_array($items))
 					$items = Skin::build_list($items, '2-columns');
-	
+
 				// displayed as another page section
 				$text .= Skin::build_box(i18n::s('Other sections'), $items, 'header1', 'other_sections');
-	
+
 			}
 		}
-	
+
 		// cache this to speed subsequent queries
 		Cache::put($cache_id, $text, 'sections');
 	}
@@ -236,15 +236,15 @@ if(!$text =& Cache::get($cache_id)) {
 	}
 
 	// download content
-	if(Surfer::is_associate() && (!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y')) ) {
-
-		// box content
-		$content = Skin::build_link(Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name']).'.mm'), i18n::s('Freemind map'), 'basic');
-
-		// in a sidebar box
-		$text .= Skin::build_box(i18n::s('Download'), $content, 'navigation');
-
-	}
+// 	if(Surfer::is_associate() && (!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y')) ) {
+//
+// 		// box content
+// 		$content = Skin::build_link(Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name']).'.mm'), i18n::s('Freemind map'), 'basic');
+//
+// 		// in a sidebar box
+// 		$text .= Skin::build_box(i18n::s('Download'), $content, 'navigation');
+//
+// 	}
 
 	// save, whatever change, for 5 minutes
 	Cache::put($cache_id, $text, 'stable', 300);

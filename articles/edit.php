@@ -739,7 +739,7 @@ if($with_form) {
 	// attachments tab
 	//
 	$text = '';
-	
+
 	// the icon url may be set after the page has been created
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
 		$label = i18n::s('Image');
@@ -795,7 +795,7 @@ if($with_form) {
 
 		// menu at the top
 		$menu = array();
-		
+
 		// the command to add an image
 		if(Surfer::may_upload()) {
 			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
@@ -820,7 +820,7 @@ if($with_form) {
 			$box .= Skin::finalize_list($menu, 'menu_bar');
 		if($items)
 			$box .= Skin::build_list($items, 'decorated');
-			
+
 		// in a folded box
 		if($box)
 			$text .= Skin::build_box(i18n::s('Images'), $box, 'unfolded', 'edit_images');
@@ -880,26 +880,25 @@ if($with_form) {
 
 	// provide information to section owner
 	if(Sections::is_owned($anchor, $item)) {
-	
+
 		// owner
 		if(isset($item['id']) && isset($item['owner_id'])) {
-			$label = Skin::build_link(Articles::get_url($item['id'], 'own'), i18n::s('Owner'), 'basic');
+			$label = i18n::s('Owner');
 			if($owner = Users::get($item['owner_id']))
 				$input =& Users::get_link($owner['full_name'], $owner['email'], $owner['id']);
 			else
-				$input = i18n::s('No owner profile has been found');
+				$input = i18n::s('No owner has been found.');
+			$input .= ' <span class="details">'.Skin::build_link(Articles::get_url($item['id'], 'own'), i18n::s('Change'), 'basic').'</span>';
 			$fields[] = array($label, $input);
 		}
 
 		// editors
-		if(isset($item['id']))
-			$label = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Editors'), 'basic');
-		else
-			$label = i18n::s('Editors');
+		$label = i18n::s('Editors');
 		if(isset($item['id']) && ($items =& Members::list_editors_for_member('article:'.$item['id'], 0, USERS_LIST_SIZE, 'comma')))
 			$input =& Skin::build_list($items, 'comma');
 		else
 			$input = i18n::s('Nobody has been assigned to this page.');
+		$input .= ' <span class="details">'.Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Change'), 'basic').'</span>';
 		$fields[] = array($label, $input);
 
 	}
@@ -983,14 +982,14 @@ if($with_form) {
 
 	// the parent section
 	if(is_object($anchor)) {
-	
+
 		if(isset($item['id']) && $anchor->is_assigned()) {
 			$label = i18n::s('Section');
 			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference()), 'folded');
 			$fields[] = array($label, $input);
 		} else
 			$text .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
-		
+
 	}
 
 	// append fields

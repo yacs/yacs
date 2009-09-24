@@ -540,7 +540,7 @@ if(Surfer::is_crawler()) {
 		$fields['title'] = i18n::c('Blog');
 		$fields['introduction'] = i18n::c('Sample blogging place');
 		$fields['section_layout'] = 'map';
-		$fields['options'] = 'with_creator_profile articles_by_publication';
+		$fields['options'] = 'with_owner_profile articles_by_publication';
 		$fields['articles_layout'] = 'daily'; // that's a blog
 		$fields['content_options'] = 'with_extra_profile'; // let surfers rate their readings
 		if(Sections::post($fields))

@@ -85,11 +85,6 @@ class Day extends Overlay {
 			return i18n::s('Add an event');
 			break;
 
-		// publish command
-		case 'publish_command':
-			return i18n::s('Add an event');
-			break;
-
 		// page title
 		case 'page_title':
 
@@ -131,7 +126,7 @@ class Day extends Overlay {
 	
 		$text = Codes::beautify_title($host['title']);
 
-		if(isset($this->attributes['date_stamp']))
+		if(isset($this->attributes['date_stamp']) && ($this->attributes['date_stamp'] > NULL_DATE))
 			$text .= ' ['.Skin::build_date($this->attributes['date_stamp'], 'day').']';
 
 		return $text;

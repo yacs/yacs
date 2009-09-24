@@ -19,11 +19,6 @@ include_once 'image.php';	// image processing
 include_once 'images.php';
 include_once '../files/files.php'; //file upload
 
-// the maximum size for uploads
-$image_maximum_size = str_replace('M', '000000', Safe::get_cfg_var('upload_max_filesize'));
-if((!$image_maximum_size) || $image_maximum_size > 20000000)
-	$image_maximum_size = 2000000;
-
 // get the related anchor, if any
 $anchor = NULL;
 if(isset($item['anchor']))
@@ -279,7 +274,7 @@ if($with_form) {
 	// the upload entry requires rights to upload
 	$label = i18n::s('File');
 	$input = '<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'" />'
-		.' (&lt;&nbsp;'.Skin::build_number($image_maximum_size, i18n::s('bytes')).')';
+		.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
 	$hint = i18n::s('Select a .zip, .tar, .tar.gz or .tgz archive.');
 	$fields[] = array($label, $input, $hint);
 

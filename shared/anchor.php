@@ -209,7 +209,7 @@ class Anchor {
 		return $output;
 
 	}
-		
+
 	/**
 	 * get the active attribute
 	 *
@@ -845,7 +845,7 @@ class Anchor {
 		// id of requesting user
 		if(!$user_id && Surfer::get_id())
 			$user_id = Surfer::get_id();
-			
+
 		// anonymous is allowed
 		if(!$user_id)
 			$user_id = 0;
@@ -878,7 +878,7 @@ class Anchor {
 				return $this->is_assigned_cache[$user_id] = $this->anchor->is_assigned($user_id);
 
 		}
-		
+
 		// sorry
 		return $this->is_assigned_cache[$user_id] = FALSE;
 	}
@@ -922,11 +922,11 @@ class Anchor {
 				return FALSE;
 			$user_id = Surfer::get_id();
 		}
-		
+
 		// associates can always do it, except in strict mode
 		if(!$strict && ($user_id == Surfer::get_id()) && Surfer::is_associate())
 			return TRUE;
-			
+
 		// surfer owns this item
 		if(isset($this->item['owner_id']) && ($user_id == $this->item['owner_id']))
 			return TRUE;
@@ -945,7 +945,7 @@ class Anchor {
 				return TRUE;
 
 		}
-		
+
 		// sorry
 		return FALSE;
 	}
@@ -1010,11 +1010,11 @@ class Anchor {
 		// section is public
 		if(isset($this->item['active']) && ($this->item['active'] == 'Y'))
 			return TRUE;
-			
+
 		// id of requesting user
 		if(!$user_id && Surfer::get_id())
 			$user_id = Surfer::get_id();
-			
+
 		// anonymous is allowed
 		if(!$user_id)
 			$user_id = 0;
@@ -1022,7 +1022,7 @@ class Anchor {
 		// section is opened to members
 		if($user_id && isset($this->item['active']) && ($this->item['active'] == 'R'))
 			return TRUE;
-			
+
 		// anchor has to be assigned
 		return $this->is_assigned($user_id);
 

@@ -34,7 +34,7 @@ include_once '../comments/comments.php';	// initiate the wall
 // the maximum number of personal sections per user
 if(!isset($context['users_maximum_managed_sections']))
 	$context['users_maximum_managed_sections'] = 0;
-	
+
 // count sections owned by this surfer
 $existing_sections = Sections::count_for_owner();
 
@@ -44,7 +44,7 @@ load_skin('sections');
 // surfer has to be an authenticated member --not accessible to subscribers
 if(!Surfer::is_member())
 	$permitted = FALSE;
-	
+
 // associates can always add sections
 elseif(Surfer::is_associate())
 	$permitted = TRUE;
@@ -107,7 +107,7 @@ if(Surfer::is_crawler()) {
 
 		// put all groups at the same place
 		if(!($anchor =& Sections::get('groups'))) {
-	
+
 			$fields = array();
 			$fields['nick_name'] = 'groups';
 			$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
@@ -123,20 +123,20 @@ if(Surfer::is_crawler()) {
 				Logger::remember('sections/new.php', 'Impossible to add a section.');
 				return;
 			}
-	
+
 			// retrieve the new section
 			$anchor =& Sections::get('groups');
-	
+
 		}
 
 	// we are creating a blog
 	} else {
-		$_REQUEST['options'] = 'with_creator_profile';
+		$_REQUEST['options'] = 'with_owner_profile';
 		$_REQUEST['locked'] = 'Y'; // no direct contributions
 
 		// put all blogs at the same place
 		if(!($anchor =& Sections::get('blogs'))) {
-	
+
 			$fields = array();
 			$fields['nick_name'] = 'blogs';
 			$fields['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
@@ -152,14 +152,14 @@ if(Surfer::is_crawler()) {
 				Logger::remember('sections/new.php', 'Impossible to add a section.');
 				return;
 			}
-	
+
 			// retrieve the new section
 			$anchor =& Sections::get('blogs');
-	
+
 		}
 
 	}
-	
+
 	// anchor the new section here
 	include_once 'section.php';
 	$section = new Section();
@@ -191,7 +191,7 @@ if(Surfer::is_crawler()) {
 		// touch the related anchor
 		if(is_object($anchor))
 			$anchor->touch('section:create', $_REQUEST['id'], isset($_REQUEST['active']) && ($_REQUEST['active'] != 'Y'));
-			
+
 		// add content if required to do so
 		if($with_children) {
 
@@ -205,13 +205,13 @@ if(Surfer::is_crawler()) {
 			$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
 			$fields['rank'] = 1000; // sticky page
 			Articles::post($fields);
-				
+
 			// a first comment
 			$fields = array();
 			$fields['anchor'] = 'section:'.$_REQUEST['id'];
 			$fields['description'] = sprintf(i18n::c('Welcome to the group "%s"'), $_REQUEST['title']);
 			Comments::post($fields);
-				
+
 		}
 
 		// increment the post counter of the surfer
@@ -305,7 +305,7 @@ if($with_form) {
 	// introduce the web space
 	if(!isset($item['introduction']))
 		$item['introduction'] = i18n::s('What is this new web space about?');
-		
+
 	$input = '<textarea name="introduction" rows="2" cols="50" accesskey="i">'.encode_field($item['introduction']).'</textarea>';
 	$hint = i18n::s('Appears at the site map, near section title');
 	$fields[] = array($label, $input, $hint);

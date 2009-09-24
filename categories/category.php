@@ -310,7 +310,7 @@ Class Category extends Anchor {
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))
-			$this->anchor->touch('category:edit', $this->item['id'], TRUE);
+			$this->anchor->touch('category:update', $this->item['id'], TRUE);
 
 	}
 

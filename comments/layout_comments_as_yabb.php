@@ -44,12 +44,13 @@ Class Layout_comments_as_yabb extends Layout_interface {
 	**/
 	function &layout(&$result) {
 		global $context;
+		
+		// we return some text
+		$output = '';
 
 		// empty list
-		if(!SQL::count($result)) {
-			$output = array();
+		if(!SQL::count($result))
 			return $output;
-		}
 
 		// flag comments updated recently
 		if($context['site_revisit_after'] < 1)
@@ -64,31 +65,42 @@ Class Layout_comments_as_yabb extends Layout_interface {
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);
 
-			// poster name
-			if($item['create_name'])
-				$author = Users::get_link($item['create_name'], $item['create_address'], $item['create_id']);
-			else
-				$author = Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
-
 			// get record
-			if($item['create_name'])
-				$poster =& Users::get($item['create_id']);
-			else
-				$poster =& Users::get($item['edit_id']);
+			if($item['create_name']) {
+				if(!$poster =& Users::get($item['create_id'])) {
+					$poster = array();
+					$poster['id'] = 0;
+					$poster['full_name'] = $item['create_name'];
+					$poster['email'] = $item['create_address'];
+				}
+			} else {
+				if(!$poster =& Users::get($item['edit_id'])) {
+					$poster = array();
+					$poster['id'] = 0;
+					$poster['full_name'] = $item['edit_name'];
+					$poster['email'] = $item['edit_address'];
+				}
+			}
 
+			// author description
+			$author = '';
+			
 			// avatar
 			if(isset($poster['avatar_url']) && $poster['avatar_url'])
-				$author .= BR.'<img src="'.$poster['avatar_url'].'" alt="avatar" title="avatar" class="avatar" />';
+				$author .= '<img src="'.$poster['avatar_url'].'" alt="avatar" title="avatar" class="avatar" />'.BR;
+
+			// link to poster, if possible
+			$author .= Users::get_link($poster['full_name'], $poster['email'], $poster['id']);
 
 			$author .= '<span class="details">';
 
 			// show contact information
-			if(Surfer::may_contact())
-				$author .= Users::build_presence($poster);
+			if(Surfer::may_contact() && ($presence = Users::build_presence($poster)))
+				$author .= BR.$presence;
 
 			// from where
 			if(isset($poster['from_where']) && $poster['from_where'])
-				$author .= BR.sprintf(i18n::s('from %s'), Codes::beautify($poster['from_where']));
+				$author .= sprintf(i18n::s('from %s'), Codes::beautify($poster['from_where']));
 
 			// guest/member/associate
 			$capability = '';
@@ -189,18 +201,18 @@ Class Layout_comments_as_yabb extends Layout_interface {
 			return '';
 
 		// return a table
-		$text = Skin::table_prefix('yabb');
+		$output = Skin::table_prefix('yabb');
 		$count = 1;
 		foreach($rows as $row) {
 			if($count%2)
-				$text .= '<tr class="odd">'.$row.'</tr>';
+				$output .= '<tr class="odd">'.$row.'</tr>';
 			else
-				$text .= '<tr class="even">'.$row.'</tr>';
+				$output .= '<tr class="even">'.$row.'</tr>';
 			$count++;
 		}
-		$text .= '</table>';
+		$output .= '</table>';
 
-		return $text;
+		return $output;
 	}
 }
 

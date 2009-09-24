@@ -152,6 +152,18 @@ if(Surfer::is_crawler()) {
 // process submitted data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
+	// ensure the article has a private handle
+	if(!isset($item['handle']) || !$item['handle']) {
+		$item['handle'] = md5(mt_rand());
+
+		// save in the database
+		$fields = array();
+		$fields['id'] = $item['id'];
+		$fields['handle'] = $item['id'];
+		$fields['silent'] = 'Y';
+		Articles::put_attributes($fields);
+	}
+
 	// track anonymous surfers
 	Surfer::track($_REQUEST);
 
@@ -209,81 +221,65 @@ if(Surfer::is_crawler()) {
 
 	// process every recipient
 	include_once $context['path_to_root'].'shared/mailer.php';
-	$posts = 0;
 	$actual_names = array();
 	foreach($to as $recipient) {
-		$recipient = trim($recipient);
+
+		// clean the provided string
+		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
+
+		// assume regular message
+		$actual_message = $message;
 
 		// we have a valid e-mail address
 		if(preg_match('/\w+@\w+\.\w+/', $recipient)) {
-			if(strcmp($recipient, $from))
-				$actual_names[] = $recipient;
-		
+
+			// add credentials in message
+			if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y')) {
+
+				// extract the actual e-mail address -- Foo Bar <foo@bar.com> => foo@bar.com
+				$tokens = explode(' ', $recipient);
+				$actual_recipient = trim(str_replace(array('<', '>'), '', $tokens[count($tokens)-1]));
+
+				// build credentials --see users/login.php
+				$credentials = array();
+				$credentials[0] = 'visit';
+				$credentials[1] = 'article:'.$item['id'];
+				$credentials[2] = $actual_recipient;
+				$credentials[3] = sprintf('%u', crc32($actual_recipient.':'.$item['handle']));
+
+				// the secret link
+				$link = Users::get_url($credentials, 'credentials');
+
+				// translate strings to allow for one-click authentication
+				$actual_message = str_replace(Articles::get_url($item['id']), $link, $message);
+			}
+
 		// look for a user with this nick name
 		} elseif(($user =& Users::get($recipient))) {
-		
-			// make this user an editor of the target section, and update his watch list as well
+
+			// make this user an editor of the target section
 			if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y'))
 				Members::assign('user:'.$user['id'], 'article:'.$item['id']);
 
 			// always add the item to the watch list
 			Members::assign('article:'.$item['id'], 'user:'.$user['id']);
 
+			// this person has no email address
+			if(!$user['email'])
+				continue;
+
 			// use this email address
-			if($user['email']) {
-				$recipient = $user['email'];
-				if(!strcmp($user['email'], $from))
-					;
-				elseif($user['full_name'])
-					$actual_names[] = $user['full_name'];
-				else
-					$actual_names[] = $user['nick_name'];
-			}
+			if($user['full_name'])
+				$recipient = '"'.$user['full_name'].'" <'.$user['email'].'>';
+			else
+				$recipient = '"'.$user['nick_name'].'" <'.$user['email'].'>';
 
 		// skip this recipient
 		} else {
-			Logger::error(sprintf(i18n::s('Error while sending the message to %s'), $recipient));
+			if($recipient)
+				Logger::error(sprintf(i18n::s('Error while sending the message to %s'), $recipient));
 			continue;
 		}
-
-		// clean the provided string
-		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
-
-		// extract the actual e-mail address -- Foo Bar <foo@bar.com> => foo@bar.com
-		$tokens = explode(' ', $recipient);
-		$actual_recipient = trim(str_replace(array('<', '>'), '', $tokens[count($tokens)-1]));
-
-		// add credentials in message
-		if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y')) {
-
-			// ensure the article has a private handle
-			if(!isset($item['handle']) || !$item['handle']) {
-				$item['handle'] = md5(mt_rand());
-				
-				// save in the database
-				$fields = array();
-				$fields['id'] = $item['id'];
-				$fields['handle'] = $item['id'];
-				$fields['silent'] = 'Y';
-				Articles::put_attributes($fields);
-			}				
-
-			// build credentials --see users/login.php
-			$credentials = array();
-			$credentials[0] = 'visit';
-			$credentials[1] = 'article:'.$item['id'];
-			$credentials[2] = $actual_recipient;
-			$credentials[3] = sprintf('%u', crc32($actual_recipient.':'.$item['handle']));
-
-			// the secret link
-			$link = Users::get_url($credentials, 'credentials');
-
-			// translate strings to allow for one-click authentication
-			$actual_message = str_replace(Articles::get_url($item['id']), $link, $message); // integrate credentials
-
-		// regular message
-		} else
-			$actual_message = $message;
 
 		// change content for message poster
 		if(!strcmp($recipient, $from)) {
@@ -291,10 +287,14 @@ if(Surfer::is_crawler()) {
 		}
 
 		// post it
-		if(Mailer::post($from, $actual_recipient, $subject, $actual_message))
-			$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), strip_tags($recipient)).'</p>';
+		if(Mailer::post($from, $recipient, $subject, $actual_message))
+			$actual_names[] = htmlspecialchars($recipient);
 	}
 	Mailer::close();
+
+	// display the list of actual recipients
+	if($actual_names)
+		$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), Skin::finalize_list($actual_names, 'compact')).'</p>';
 
 	// follow-up commands
 	$follow_up = i18n::s('What do you want to do now?');

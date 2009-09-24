@@ -833,7 +833,7 @@ Class Sections {
 
 		// no layout yet
 		$layout = NULL;
-		
+
 		// separate options from layout name
 		$attributes = explode(' ', $variant, 2);
 
@@ -847,7 +847,7 @@ Class Sections {
 				// provide parameters to the layout
 				if(isset($attributes[1]))
 					$layout->set_variant($attributes[1]);
-		
+
 			}
 		}
 
@@ -909,7 +909,7 @@ Class Sections {
 
 			// add to text
 			foreach($sections as $id => $attributes) {
-			
+
 				if(Sections::match($id, $to_avoid))
 					continue;
 
@@ -943,7 +943,7 @@ Class Sections {
 	 * @return the HTML to insert in the page
 	 *
 	 */
-	 
+
 	function get_options_for_anchor($anchor, $spaces, $default, $to_avoid) {
 		global $context;
 
@@ -989,7 +989,7 @@ Class Sections {
 
 					if(Sections::match($id, $to_avoid))
 						continue;
-	
+
 					// this section
 					$reference = 'section:'.$id;
 					$text .= '<option value="'.$reference.'"';
@@ -1040,31 +1040,31 @@ Class Sections {
 		global $context;
 
 		$text = '';
-		
+
 // 		if(!$current)
 // 			return $text;
-			
+
 		if(!strncmp($current, 'section:', 8))
 			$current = substr($current, 8);
-			
+
 		$item = Sections::get($current);
-			
+
 		// list everything to associates
 		if(Surfer::is_associate())
 			$where = " AND (sections.active='Y' OR sections.active='R' OR sections.active='N'";
 
 		// list unlocked sections
 		else {
-		
+
 			// display active items
 			$where = " AND ((sections.active='Y')";
-	
+
 			// add restricted items to logged members, or if teasers are allowed
 			if(Surfer::is_logged() || Surfer::is_teased())
 				$where .= " OR (sections.active='R')";
-				
+
 		}
-		
+
 		// include managed sections for editors
 		if($my_sections = Surfer::assigned_sections()) {
 			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
@@ -1073,15 +1073,15 @@ Class Sections {
 
 		// end of scope
 		$where .= ")";
-	
+
 		// list children sections
 		if(isset($item['id'])) {
-		
+
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 				." WHERE (anchor LIKE 'section:".$item['id']."')".$where
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
 			if($result =& SQL::query($query)) {
-	
+
 				// process all matching sections
 				$children = '';
 				while($row =& SQL::fetch($result)) {
@@ -1093,9 +1093,9 @@ Class Sections {
 					$text .= '<input type="radio" name="anchor" value="section:'.$item['id'].'" checked="checked" /> '.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title']))
 						.'<div style="margin: 0 0 0 3em">'.$children.'</div>';
 			}
-			
+
 		}
-		
+
 		// list sections at the same level
 		if(isset($item['anchor']) && ($parent =& Anchors::get($item['anchor']))) {
 
@@ -1103,28 +1103,28 @@ Class Sections {
 				." WHERE (anchor LIKE '".$item['anchor']."')".$where
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
 			if($result =& SQL::query($query)) {
-	
+
 				// brothers and sisters
 				$family = '';
 				while($row =& SQL::fetch($result)) {
 
 					if($family && strncmp(substr($family, -6), '</div>', 6))
 						$family .= BR;
-						
+
 					if($row['id'] == $item['id']) {
-					
+
 						if($text)
 							$family .= $text;
 						else
 							$family .= '<input type="radio" name="anchor" value="section:'.$item['id'].'" checked="checked" /> '.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title']));
-							
-					} else 
+
+					} else
 						$family .= '<input type="radio" name="anchor" value="section:'.$row['id'].'" /> '.Skin::build_link(Sections::get_permalink($row), Codes::beautify_title($row['title']));
 				}
 				if($family)
 					$text = $family;
 			}
-		
+
 			if(!$text)
 				$text .= '<input type="radio" name="anchor" value="section:'.$item['id'].'" checked="checked" /> '.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title']));
 
@@ -1135,36 +1135,36 @@ Class Sections {
 
 		// list top-level sections
 		} else {
-		
+
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
 				." WHERE (sections.anchor='' OR sections.anchor IS NULL)".$where;
-				
+
 			if(!Surfer::is_associate())
 				$query .= " AND (sections.index_map = 'Y')";
-				
+
 			$query .= " ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
 			if($result =& SQL::query($query)) {
-	
+
 				// process all matching sections
 				$family = '';
 				while($row =& SQL::fetch($result)) {
-						
+
 					if($row['id'] == $item['id']) {
-					
+
 						if($text)
 							$family .= $text;
 						else
 							$family .= '<input type="radio" name="anchor" value="section:'.$item['id'].'" checked="checked" /> '.Skin::build_link(Sections::get_permalink($item), Codes::beautify_title($item['title'])).BR;
-							
-					} else 
+
+					} else
 						$family .= '<input type="radio" name="anchor" value="section:'.$row['id'].'" /> '.Skin::build_link(Sections::get_permalink($row), Codes::beautify_title($row['title'])).BR;
 				}
 				$text = $family;
 			}
-			
+
 			// offer to move to the very top of the content tree
 			$text = '<input type="radio" name="anchor" value="" checked="checked" /> '.i18n::s('Move to the top of the content tree').BR.$text;
-		
+
 		}
 
 		// at least show where we are
@@ -1204,6 +1204,16 @@ Class Sections {
 		// use nick name instead of regular name, if one is provided
 		if($alternate_name && ($context['with_alternate_urls'] == 'Y'))
 			$name = str_replace('_', ' ', $alternate_name);
+
+		// the service to check for updates
+		if($action == 'check') {
+			if($context['with_friendly_urls'] == 'Y')
+				return 'services/check.php/section/'.rawurlencode($id);
+			elseif($context['with_friendly_urls'] == 'R')
+				return 'services/check.php?id='.urlencode('section:'.$id);
+			else
+				return 'services/check.php?id='.urlencode('section:'.$id);
+		}
 
 		// the RSD link
 		if($action == 'EditURI') {
@@ -1269,15 +1279,15 @@ Class Sections {
 		// sanity check
 		if(!$option)
 			return FALSE;
-			
+
 		// option check for this page
 		if(isset($item['options']) && (strpos($item['options'], $option) !== FALSE))
 			return TRUE;
-		
+
 		// check in anchor
-		if(is_object($anchor) && $anchor->has_option($option, FALSE))
+		if(is_object($anchor) && $anchor->has_option($option))
 			return TRUE;
-			
+
 		// sorry
 		return FALSE;
 	}
@@ -1361,11 +1371,11 @@ Class Sections {
 		// associates can do what they want
 		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
 			return TRUE;
-		
+
 		// surfer can edit parent container
 		if(is_object($anchor) && $anchor->is_assigned($user_id))
 			return TRUE;
-		
+
 		// sorry
 		return FALSE;
 	}
@@ -1612,12 +1622,12 @@ Class Sections {
 			$silent = TRUE;
 		else
 			$silent = FALSE;
-		
+
 		// provide context to layout
 		$layout =& Sections::get_layout($variant);
 		if($anchor)
 			$layout->set_variant($anchor);
-			
+
 		// do the job
 		$output =& Sections::list_selected(SQL::query($query, $silent), $layout);
 		return $output;
@@ -1814,7 +1824,7 @@ Class Sections {
 
 		// get a layout
 		$layout =& Sections::get_layout($variant);
-		
+
 		// do the job
 		$output =& $layout->layout($result);
 		return $output;
@@ -1890,26 +1900,26 @@ Class Sections {
 	 */
 	function match($id, $items) {
 		global $context;
-		
+
 		return FALSE;
-		
+
 		// sanity check
 		if(!$items)
 			return FALSE;
-		
+
 		// exact match
 		if(is_int($items))
 			return ($id == $items);
-			
+
 		// array search
 		if(is_array($items))
 			return isset($items[ $id ]);
-				
+
 		// no match
 		return FALSE;
 
 	}
-		
+
 	/**
 	 * post a new section
 	 *
@@ -2156,60 +2166,63 @@ Class Sections {
 		else
 			$fields['active'] = $fields['active_set'];
 
-		// update an existing record
-		$query = "UPDATE ".SQL::table_name('sections')." SET ";
+		// fields to update
+		$query = array();
 
-		// fields that are visible only to associates
-		$query .= "anchor='".SQL::escape($fields['anchor'])."',"
-			."home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."',"
-			."title='".SQL::escape($fields['title'])."',"
-			."activation_date='".SQL::escape($fields['activation_date'])."',"
-			."active='".SQL::escape($fields['active'])."',"
-			."active_set='".SQL::escape($fields['active_set'])."',"
-			."articles_layout='".SQL::escape(isset($fields['articles_layout']) ? $fields['articles_layout'] : 'decorated')."',"
-			."articles_templates='".SQL::escape(isset($fields['articles_templates']) ? $fields['articles_templates'] : '')."',"
-			."behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."',"
-			."content_overlay='".SQL::escape(isset($fields['content_overlay']) ? $fields['content_overlay'] : '')."',"
-			."content_options='".SQL::escape(isset($fields['content_options']) ? $fields['content_options'] : '')."',"
-			."expiry_date='".SQL::escape($fields['expiry_date'])."',"
-			."extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."',"
-			."family='".SQL::escape($fields['family'])."',"
-			."icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."',"
-			."index_map='".SQL::escape(isset($fields['index_map']) ? $fields['index_map'] : 'Y')."',"
-			."index_news='".SQL::escape(isset($fields['index_news']) ? $fields['index_news'] : 'static')."',"
-			."index_news_count=".SQL::escape(isset($fields['index_news_count']) ? $fields['index_news_count'] : 5).","
-			."index_panel='".SQL::escape(isset($fields['index_panel']) ? $fields['index_panel'] : 'main')."',"
-			."index_title='".SQL::escape(isset($fields['index_title']) ? $fields['index_title'] : '')."',"
-			."introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."',"
-			."description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."',"
-			."nick_name='".SQL::escape(isset($fields['nick_name']) ? $fields['nick_name'] : '')."',"
-			."language='".SQL::escape(isset($fields['language']) ? $fields['language'] : '')."',"
-			."locked='".SQL::escape(isset($fields['locked']) ? $fields['locked'] : 'N')."',"
-			."meta='".SQL::escape(isset($fields['meta']) ? $fields['meta'] : '')."',"
-			."options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."',"
-			."overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."',"
-			."overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."',"
-			."prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."',"
-			."rank='".SQL::escape($fields['rank'])."',"
-			."section_overlay='".SQL::escape(isset($fields['section_overlay']) ? $fields['section_overlay'] : '')."',"
-			."sections_count='".SQL::escape(isset($fields['sections_count']) ? $fields['sections_count'] : 30)."',"
-			."sections_layout='".SQL::escape(isset($fields['sections_layout']) ? $fields['sections_layout'] : 'map')."',"
-			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
-			."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',"
-			."trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
+		// regular fields
+		$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
+		$query[] = "title='".SQL::escape($fields['title'])."'";
+		$query[] = "activation_date='".SQL::escape($fields['activation_date'])."'";
+		$query[] = "active='".SQL::escape($fields['active'])."'";
+		$query[] = "active_set='".SQL::escape($fields['active_set'])."'";
+		$query[] = "articles_layout='".SQL::escape(isset($fields['articles_layout']) ? $fields['articles_layout'] : 'decorated')."'";
+		$query[] = "content_options='".SQL::escape(isset($fields['content_options']) ? $fields['content_options'] : '')."'";
+		$query[] = "expiry_date='".SQL::escape($fields['expiry_date'])."'";
+		$query[] = "extra='".SQL::escape(isset($fields['extra']) ? $fields['extra'] : '')."'";
+		$query[] = "family='".SQL::escape($fields['family'])."'";
+		$query[] = "icon_url='".SQL::escape(isset($fields['icon_url']) ? $fields['icon_url'] : '')."'";
+		$query[] = "index_map='".SQL::escape(isset($fields['index_map']) ? $fields['index_map'] : 'Y')."'";
+		$query[] = "index_news='".SQL::escape(isset($fields['index_news']) ? $fields['index_news'] : 'static')."'";
+		$query[] = "index_news_count=".SQL::escape(isset($fields['index_news_count']) ? $fields['index_news_count'] : 5);
+		$query[] = "index_panel='".SQL::escape(isset($fields['index_panel']) ? $fields['index_panel'] : 'main')."'";
+		$query[] = "index_title='".SQL::escape(isset($fields['index_title']) ? $fields['index_title'] : '')."'";
+		$query[] = "introduction='".SQL::escape(isset($fields['introduction']) ? $fields['introduction'] : '')."'";
+		$query[] = "description='".SQL::escape(isset($fields['description']) ? $fields['description'] : '')."'";
+		$query[] = "nick_name='".SQL::escape(isset($fields['nick_name']) ? $fields['nick_name'] : '')."'";
+		$query[] = "language='".SQL::escape(isset($fields['language']) ? $fields['language'] : '')."'";
+		$query[] = "locked='".SQL::escape(isset($fields['locked']) ? $fields['locked'] : 'N')."'";
+		$query[] = "meta='".SQL::escape(isset($fields['meta']) ? $fields['meta'] : '')."'";
+		$query[] = "options='".SQL::escape(isset($fields['options']) ? $fields['options'] : '')."'";
+		$query[] = "prefix='".SQL::escape(isset($fields['prefix']) ? $fields['prefix'] : '')."'";
+		$query[] = "rank='".SQL::escape($fields['rank'])."'";
+		$query[] = "section_overlay='".SQL::escape(isset($fields['section_overlay']) ? $fields['section_overlay'] : '')."'";
+		$query[] = "sections_count='".SQL::escape(isset($fields['sections_count']) ? $fields['sections_count'] : 30)."'";
+		$query[] = "sections_layout='".SQL::escape(isset($fields['sections_layout']) ? $fields['sections_layout'] : 'map')."'";
+		$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
+		$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
+		$query[] = "trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
+
+		// fields visible only to associates
+		if(Surfer::is_associate()) {
+			$query[] = "articles_templates='".SQL::escape(isset($fields['articles_templates']) ? $fields['articles_templates'] : '')."'";
+			$query[] = "behaviors='".SQL::escape(isset($fields['behaviors']) ? $fields['behaviors'] : '')."'";
+			$query[] = "content_overlay='".SQL::escape(isset($fields['content_overlay']) ? $fields['content_overlay'] : '')."'";
+			$query[] = "home_panel='".SQL::escape(isset($fields['home_panel']) ? $fields['home_panel'] : 'main')."'";
+			$query[] = "overlay='".SQL::escape(isset($fields['overlay']) ? $fields['overlay'] : '')."'";
+			$query[] = "overlay_id='".SQL::escape(isset($fields['overlay_id']) ? $fields['overlay_id'] : '')."'";
+		}
 
 		// don't stamp silent updates
 		if(!isset($fields['silent']) || ($fields['silent'] != 'Y')) {
-			$query .= ",\n"
-				."edit_name='".SQL::escape($fields['edit_name'])."',"
-				."edit_id=".SQL::escape($fields['edit_id']).","
-				."edit_address='".SQL::escape($fields['edit_address'])."',"
-				."edit_action='section:update',"
-				."edit_date='".SQL::escape($fields['edit_date'])."'";
+			$query[] = "edit_name='".SQL::escape($fields['edit_name'])."'";
+			$query[] = "edit_id=".SQL::escape($fields['edit_id'])."";
+			$query[] = "edit_address='".SQL::escape($fields['edit_address'])."'";
+			$query[] = "edit_action='section:update'";
+			$query[] = "edit_date='".SQL::escape($fields['edit_date'])."'";
 		}
 
-		// actual update query
-		$query .= " WHERE id = ".SQL::escape($fields['id']);
+		// update an existing record
+		$query = "UPDATE ".SQL::table_name('sections')." SET ".implode(', ', $query)." WHERE id = ".SQL::escape($fields['id']);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
 
@@ -2402,7 +2415,7 @@ Class Sections {
 			$output = NULL;
 			return $output;
 		}
-		
+
 		// limit the scope of the request
 		$where = "sections.active='Y'";
 
@@ -2605,5 +2618,5 @@ Class Sections {
 // load localized strings
 if(is_callable(array('i18n', 'bind')))
 	i18n::bind('sections');
-	
+
 ?>

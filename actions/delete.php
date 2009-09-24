@@ -115,10 +115,6 @@ if(!isset($item['id'])) {
 	if(is_object($anchor))
 		$context['page_image'] = $anchor->get_icon_url();
 
-	// insert anchor prefix
-	if(is_object($anchor))
-		$context['text'] .= $anchor->get_prefix();
-
 	// commands
 	$menu = array();
 	$menu[] = Skin::build_submit_button(i18n::s('Yes, I want to delete this action'), NULL, NULL, 'confirmed');

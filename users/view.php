@@ -391,7 +391,7 @@ if(!isset($item['id'])) {
 	
 			// thread first contribution
 			$label = i18n::s('Provide context, and start the conversation');
-			$input = '<textarea name="message" rows="2" cols="50" onfocus="Yacs.grow_panel(this);"></textarea>';
+			$input = '<textarea name="message" rows="2" cols="50" onfocus="Yacs.growPanel(this);"></textarea>';
 			$text .= '<p>'.$label.BR.$input.'</p>';
 	
 			// uploads are allowed

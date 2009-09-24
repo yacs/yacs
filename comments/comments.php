@@ -360,9 +360,11 @@ Class Comments {
 		if(Surfer::may_upload())
 			$menu[] = '<span class="details">'.sprintf(i18n::s('You may attach a file of up to %sbytes'), $context['file_maximum_size']).' <input type="hidden" name="file_type" value="upload" /><input type="file" name="upload" size="30" /></span>';
 		
-		$text = '<form method="post" enctype="multipart/form-data" action="'.$context['url_to_root'].'comments/edit.php" ><div style="margin: 1em 0;">'
-			.'<textarea name="description" id="description" rows="1" cols="50" style="width: 60%;" onfocus="Yacs.grow_panel(this);"></textarea>'
-			.'<input type="hidden" name="anchor" value="'.$anchor.'" />'
+		$text = '<form method="post" enctype="multipart/form-data" action="'.$context['url_to_root'].'comments/edit.php" ><div style="margin: 1em 0;">';
+		
+		$text .= Surfer::get_editor('description', '', TRUE);
+				
+		$text .= '<input type="hidden" name="anchor" value="'.$anchor.'" />'
 			.'<input type="hidden" name="follow_up" value="'.$follow_up.'" />'
 			.Skin::finalize_list($menu, 'menu_bar')
 			.'</div></form>';

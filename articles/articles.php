@@ -234,7 +234,7 @@ Class Articles {
 		// surfer owns this space
 		if(Articles::is_owned($anchor, $item))
 			return TRUE;
-			
+
 		// section is public, and surfer is an editor of it
 		if(isset($item['active']) && ($item['active'] != 'N') && isset($item['id']) && Sections::is_assigned($item['id']))
 			return TRUE;
@@ -647,7 +647,7 @@ Class Articles {
 			$where .= " OR articles.active='R'";
 		if(Surfer::is_associate())
 			$where .= " OR articles.active='N'";
-			
+
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
 			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
@@ -930,15 +930,15 @@ Class Articles {
 		// sanity check
 		if(!$option)
 			return FALSE;
-			
+
 		// option check for this page
 		if(isset($item['options']) && (strpos($item['options'], $option) !== FALSE))
 			return TRUE;
-		
+
 		// check in anchor
-		if(is_object($anchor) && $anchor->has_option($option, FALSE))
+		if(is_object($anchor) && $anchor->has_option($option))
 			return TRUE;
-			
+
 		// sorry
 		return FALSE;
 	}
@@ -1012,11 +1012,11 @@ Class Articles {
 		// associates can do what they want
 		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
 			return TRUE;
-		
+
 		// surfer owns parent container
 		if(is_object($anchor) && $anchor->is_owned($user_id))
 			return TRUE;
-		
+
 		// surfer owns this page
 		if(isset($item['owner_id']) && ($item['owner_id'] == $user_id))
 			return TRUE;
@@ -1024,7 +1024,7 @@ Class Articles {
 		// item exists, and surfer has been assigned to parent container
 		if(isset($item['id']) && is_object($anchor) && $anchor->is_assigned($user_id))
 			return TRUE;
-		
+
 		// sorry
 		return FALSE;
 	}
@@ -1110,7 +1110,7 @@ Class Articles {
 			$where .= " AND (articles.locked != 'Y')";
 		else
 			$where .= " AND (articles.locked = 'Y')";
-		
+
 		// limit to pages shared with this surfer
 		if($shared_page)
 			$query = "SELECT articles.*"
@@ -1225,7 +1225,7 @@ Class Articles {
 		$more_fields = '';
 		if($order == 'review')
 			$more_fields = ', GREATEST(articles.edit_date, articles.review_date) AS stamp';
-			
+
 		// order of the resulting set
 		$order = Articles::_get_order($order);
 
@@ -1630,7 +1630,7 @@ Class Articles {
 
 		// no layout yet
 		$layout = NULL;
-		
+
 		// separate options from layout name
 		$attributes = explode(' ', $variant, 2);
 
@@ -1644,7 +1644,7 @@ Class Articles {
 				// provide parameters to the layout
 				if(isset($attributes[1]))
 					$layout->set_variant($attributes[1]);
-		
+
 			}
 		}
 
@@ -1762,7 +1762,7 @@ Class Articles {
 
 		// on import
 		if(isset($fields['id']))
-			$query[] = "id='".SQL::escape($fields['id'])."'";
+			$query[] = "id=".SQL::escape($fields['id']);
 
 		// fields that are visible only to associates -- see articles/edit.php
 		if(Surfer::is_associate()) {
@@ -2022,7 +2022,7 @@ Class Articles {
 	**/
 	function put_attributes(&$fields) {
 		global $context;
-		
+
 		// id cannot be empty
 		if(!isset($fields['id']) || !is_numeric($fields['id'])) {
 			Logger::error(i18n::s('No item has the provided id.'));
@@ -2115,7 +2115,7 @@ Class Articles {
 		$query = "UPDATE ".SQL::table_name('articles')
 			." SET ".implode(', ', $query)
 			." WHERE id = ".SQL::escape($fields['id']);
-			
+
 		if(!SQL::query($query))
 			return FALSE;
 
@@ -2207,7 +2207,7 @@ Class Articles {
 			$output = NULL;
 			return $output;
 		}
-		
+
 		// search is restricted to one section
 		$sections_where = '';
 		if($section_id) {

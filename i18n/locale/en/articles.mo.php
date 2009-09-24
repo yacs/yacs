@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 20, 2009, 9:54 pm GMT. Please do not modify it manually.
+ * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-20 23:45+0200
-PO-Revision-Date: 2009-09-17 01:04+0100
+POT-Creation-Date: 2009-09-24 23:45+0200
+PO-Revision-Date: 2009-09-24 23:51+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -195,7 +195,7 @@ $_SESSION['l10n']['en']['Nick name']='Nick name';
 $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.';
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
 $_SESSION['l10n']['en']['22ce3d88217e83036f3285bba141bfe3']='No overlay has been selected yet.';
-$_SESSION['l10n']['en']['No owner profile has been found']='No owner profile has been found';
+$_SESSION['l10n']['en']['No owner has been found.']='No owner has been found.';
 $_SESSION['l10n']['en']['No recipient has been found.']='No recipient has been found.';
 $_SESSION['l10n']['en']['No title has been provided.']='No title has been provided.';
 $_SESSION['l10n']['en']['No vote']='No vote';

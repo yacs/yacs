@@ -45,8 +45,8 @@ if(isset($_SERVER['REMOTE_ADDR']) && !headers_sent() && (session_id() == ''))
 
 // used in many technical specifications
 if(!defined('CRLF'))
-	define('CRLF', "\x0D\x0A");	
-	
+	define('CRLF', "\x0D\x0A");
+
 // default value for name filtering in forms (e.g. 'edit_name' filled by anonymous surfers)
 if(!defined('FORBIDDEN_IN_NAMES'))
 	define('FORBIDDEN_IN_NAMES', '/[<>{}\(\)]+/');
@@ -62,7 +62,7 @@ if(!defined('FORBIDDEN_IN_TEASERS'))
 // default value for url filtering in forms
 if(!defined('FORBIDDEN_IN_URLS'))
 	define('FORBIDDEN_IN_URLS', '/[^\w~_:@\/\.&#;\^\,+%\?=\-\[\]*]+/');
-	
+
 // the right way to integrate javascript code
 if(!defined('JS_PREFIX'))
 	define('JS_PREFIX', '<script type="text/javascript">//<![CDATA['."\n");
@@ -390,7 +390,7 @@ elseif(isset($_SERVER['ORIG_PATH_INFO']) && $_SERVER['ORIG_PATH_INFO']) {
 	// sometimes this is corrupted by CGI interface (e.g., 1and1) and ORIG_PATH_INFO takes the value of ORIG_SCRIPT_NAME
 	if(isset($_SERVER['ORIG_SCRIPT_NAME']) && !strcmp($_SERVER['ORIG_PATH_INFO'], $_SERVER['ORIG_SCRIPT_NAME']))
 		;
-		
+
 	else
 		$path_info = $_SERVER['ORIG_PATH_INFO'];
 }
@@ -717,7 +717,7 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	// ensure tools are accessible
 	if((strpos($context['skins_extra_components'], 'tools') === FALSE) && (strpos($context['skins_navigation_components'], 'tools') === FALSE))
 		$context['skins_extra_components'] = 'tools '.$context['skins_extra_components'];
-		
+
 	// load skin basic library
 	include_once $context['path_to_root'].'skins/skin_skeleton.php';
 
@@ -874,7 +874,7 @@ function render_skin($stamp=0) {
 				$text = '{user_menu}';
 				return $text;
 			}
-			
+
 			function &finalize_list($list, $kind) {
 				$text = '{list}';
 				return $text;
@@ -890,55 +890,55 @@ function render_skin($stamp=0) {
 
 	// don't do this on second rendering phase
 	if(!isset($context['embedded']) || ($context['embedded'] != 'suffix')) {
-	
+
 		// navigation - navigation boxes
 		if(file_exists($context['path_to_root'].'parameters/switch.on')) {
-		
+
 			// cache dynamic boxes for performance, and if the database can be accessed
 			$cache_id = 'shared/global.php#render_skin#navigation';
 			if((!$text =& Cache::get($cache_id)) && !defined('NO_MODEL_PRELOAD')) {
-	
+
 				// navigation boxes in cache
 				global $global_navigation_box_index;
 				if(!isset($global_navigation_box_index))
 					$global_navigation_box_index = 20;
 				else
 					$global_navigation_box_index += 20;
-	
+
 				// the maximum number of boxes is a global parameter
 				if(!isset($context['site_navigation_maximum']) || !$context['site_navigation_maximum'])
 					$context['site_navigation_maximum'] = 7;
-	
+
 				// navigation boxes from the dedicated section
 				$anchor = Sections::lookup('navigation_boxes');
-	
+
 				if($anchor && ($rows =& Articles::list_for_anchor_by('publication', $anchor, 0, $context['site_navigation_maximum'], 'boxes'))) {
-	
+
 					// one box per article
 					foreach($rows as $title => $attributes)
 						$text .= "\n".Skin::build_box($title, $attributes['content'], 'navigation', $attributes['id'])."\n";
-	
+
 					// cap the total number of navigation boxes
 					$context['site_navigation_maximum'] -= count($rows);
 				}
-	
+
 				// navigation boxes made from categories
 				include_once $context['path_to_root'].'categories/categories.php';
 				if($categories = Categories::list_by_date_for_display('site:all', 0, $context['site_navigation_maximum'], 'raw')) {
-	
+
 					// one box per category
 					foreach($categories as $id => $attributes) {
-	
+
 						// box title
 						$label = Skin::strip($attributes['title']);
-	
+
 						// link to the category page from box title
 						if(is_callable(array('i18n', 's')))
 							$label =& Skin::build_box_title($label, Categories::get_permalink($attributes), i18n::s('View the category'));
-	
+
 						// list sub categories
 						$items = Categories::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact');
-	
+
 						// list linked articles
 						include_once $context['path_to_root'].'links/links.php';
 						if($articles =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
@@ -946,7 +946,7 @@ function render_skin($stamp=0) {
 								$items = array_merge($items, $articles);
 							else
 								$items = $articles;
-	
+
 						// else list links
 						} elseif($links = Links::list_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact')) {
 							if($items)
@@ -954,22 +954,22 @@ function render_skin($stamp=0) {
 							else
 								$items = $links;
 						}
-	
+
 						// display what has to be displayed
 						if($items)
 							$text .= Skin::build_box($label, Skin::build_list($items, 'articles'), 'navigation')."\n";
-	
+
 					}
 				}
-	
+
 				// save on requests
 				Cache::put($cache_id, $text, 'various');
-	
+
 			}
 			$context['navigation'] .= $text;
 		}
-			
-		
+
+
 		// finalize page context
 		if(is_callable(array('Skin', 'finalize_context')))
 			Skin::finalize_context();
@@ -994,7 +994,7 @@ function render_skin($stamp=0) {
 	// close pending connections
 	if(is_callable(array('Mailer', 'close')))
 		Mailer::close();
-		
+
 	// profiling mode
 	if($context['with_profile'] == 'Y')
 		logger::profile('render_skin', 'start');
@@ -1062,12 +1062,12 @@ function render_skin($stamp=0) {
 		$last_modified = NULL;
 		if($stamp > 1000000)
 			$last_modified = gmdate('D, d M Y H:i:s', $stamp).' GMT';
-		
+
 		// manage web cache
 		if(http::validate($last_modified, $etag))
 			return;
 
-		
+
 	}
 
 	// if it was a HEAD request, stop here
@@ -1207,13 +1207,13 @@ function render_skin($stamp=0) {
 			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/calendar.js'.'.jsmin"></script>'."\n";
 		else
 			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/calendar.js"></script>'."\n";
-	
+
 		if(file_exists($context['path_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js')) {
 			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/lang/calendar-'.strtolower($context['language']).'.js"></script>'."\n";
 		} else {
 			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/lang/calendar-en.js"></script>'."\n";
 		}
-	
+
 		if(file_exists($context['path_to_root'].'included/jscalendar/calendar-setup.js'.'.jsmin'))
 			$context['page_footer'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscalendar/calendar-setup.js'.'.jsmin"></script>'."\n";
 		else

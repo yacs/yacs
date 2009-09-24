@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 20, 2009, 9:54 pm GMT. Please do not modify it manually.
+ * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-20 23:45+0200
+POT-Creation-Date: 2009-09-24 23:45+0200
 PO-Revision-Date: 2009-09-17 01:22+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -74,7 +74,6 @@ $_SESSION['l10n']['fr']['4930118894d6683ec6a58335ed846ba1']='Félicitations, les
 $_SESSION['l10n']['fr']['Contact mail address']='Adresse de contact électronique';
 $_SESSION['l10n']['fr']['Content']='Contenu';
 $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
-$_SESSION['l10n']['fr']['ac401adc11996ead19ea7430b43471ce']='Autoriser le téléchargement des sections sous forme de carte mentale Freemind';
 $_SESSION['l10n']['fr']['Contribute']='Exprimez-vous';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Copy and transcode files']='Copier et transcoder les fichiers';
@@ -94,8 +93,6 @@ $_SESSION['l10n']['fr']['Display referrals:']='Afficher les références externe
 $_SESSION['l10n']['fr']['1fc6d9cbd42f8d53b1f49fc4ad5de46f']='Afficher la vignette pour les images de plus de %s octets';
 $_SESSION['l10n']['fr']['a89b4c84880e8bda201cb11bf755f594']='Attention de ne pas modifier un thème de référence, vos changements seraient écrasés à la prochaine mise à jour du logiciel. %s pour préserver votre travail.';
 $_SESSION['l10n']['fr']['Do not display this item.']='Ne pas afficher cet élément.';
-$_SESSION['l10n']['fr']['d97c62965b0ceb848500786010a8d06a']='Ne pas ajouter de liens vers les cartes Freemind';
-$_SESSION['l10n']['fr']['Download']='Télécharger';
 $_SESSION['l10n']['fr']['402f06c63fe84ae575c8427315da185b']='Boîtes de navigation dynamiques';
 $_SESSION['l10n']['fr']['6a2c769d729b50a589114cb6f3a6ca3b']='ERREUR: Impossible d\'écrire dans le fichier %s. Les paramètres n\'ont pas été sauvegardés.';
 $_SESSION['l10n']['fr']['Edges']='Lignes';

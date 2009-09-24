@@ -372,12 +372,12 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Maximum number of extra boxes');
 	$input = '<input type="text" name="site_extra_maximum" size="2" value="'.encode_field($context['site_extra_maximum']).'" maxlength="2" />';
 	$box .= '<p>'.$label.' '.$input."</p>\n";
-	
+
 	$components .= Skin::build_box(i18n::s('Extra panel'), $box);
 
 	// navigation boxes
 	$box = '';
-	
+
 	// components to put in the navigation panel
 	$label = i18n::s('Navigation boxes are looking similar at all pages');
 	$input = '<textarea name="skins_navigation_components" id="skins_navigation_components"cols="60" rows="3">'.encode_field($context['skins_navigation_components']).'</textarea>';
@@ -395,12 +395,12 @@ elseif(!Surfer::is_associate()) {
 	$label = i18n::s('Maximum number of navigation boxes');
 	$input = '<input type="text" name="site_navigation_maximum" size="2" value="'.encode_field($context['site_navigation_maximum']).'" maxlength="2" />';
 	$box .= '<p>'.$label.' '.$input."</p>\n";
-	
+
 	$components .= Skin::build_box(i18n::s('Navigation panel'), $box);
-	
+
 	// search
 	$box = '';
-	
+
 	// search delegation
 	$input = '<input type="radio" name="skins_delegate_search" value="N"';
 	if(!isset($context['skins_delegate_search']) || ($context['skins_delegate_search'] != 'Y'))
@@ -410,7 +410,7 @@ elseif(!Surfer::is_associate()) {
 	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'Y'))
 		$input .= ' checked="checked"';
 	$input .= ' onclick="$(skins_search_form).disabled=0"/> '.i18n::s('Use the following form to delegate search requests');
-	
+
 	// default to Google appliance
 	if(!isset($context['skins_search_form']) || !$context['skins_search_form'])
 		$context['skins_search_form'] = '<form method="get" action="http://search.mycompany.com/search"><div>'."\n"
@@ -421,9 +421,9 @@ elseif(!Surfer::is_associate()) {
 			.'   <input type="hidden" name="output" value="xml_no_dtd" />'."\n"
 			.'   <input type="hidden" name="proxystylesheet" value="default_frontend" />'."\n"
 			.'</div></form>';
-	$input .= BR.'<textarea name="skins_search_form" id="skins_search_form" rows="3" cols="50" style="width: 60%;" onfocus="Yacs.grow_panel(this);">'.encode_field($context['skins_search_form']).'</textarea>';
+	$input .= BR.'<textarea name="skins_search_form" id="skins_search_form" rows="3" cols="50" style="width: 60%;" onfocus="Yacs.growPanel(this);">'.encode_field($context['skins_search_form']).'</textarea>';
 	$box .= '<p>'.$input."</p>\n";
-	
+
 	$components .= Skin::build_box(i18n::s('Search requests'), $box);
 
 	//
@@ -558,7 +558,7 @@ elseif(!Surfer::is_associate()) {
 		$context['avatar_height'] = 80;
 	if(!isset($context['classes_for_avatar_images']) || !$context['classes_for_avatar_images'])
 		$context['classes_for_avatar_images'] = 'reflect rheight20';
-	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'), 
+	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'),
 		'<input type="text" name="avatar_width" size="5" value="'.encode_field($context['avatar_width']).'" maxlength="5" />',
 		'<input type="text" name="avatar_height" size="5" value="'.encode_field($context['avatar_height']).'" maxlength="5" />')
 		.'<p>'.i18n::s('CSS classes').'&nbsp;<input type="text" name="classes_for_avatar_images" size="15" value="'.encode_field($context['classes_for_avatar_images']).'" maxlength="255" /></p>';
@@ -572,7 +572,7 @@ elseif(!Surfer::is_associate()) {
 		$context['standard_height'] = 640;
 	if(!isset($context['classes_for_large_images']) || !$context['classes_for_large_images'])
 		$context['classes_for_large_images'] = 'reflect rheight10';
-	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'), 
+	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'),
 		'<input type="text" name="standard_width" size="5" value="'.encode_field($context['standard_width']).'" maxlength="5" />',
 		'<input type="text" name="standard_height" size="5" value="'.encode_field($context['standard_height']).'" maxlength="5" />')
 		.'<p>'.i18n::s('CSS classes').'&nbsp;<input type="text" name="classes_for_large_images" size="15" value="'.encode_field($context['classes_for_large_images']).'" maxlength="255" /></p>';
@@ -588,7 +588,7 @@ elseif(!Surfer::is_associate()) {
 		$context['classes_for_thumbnail_images'] = '';
 	if(!isset($context['thumbnail_threshold']) || !$context['thumbnail_threshold'])
 		$context['thumbnail_threshold'] = 20480;
-	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'), 
+	$input = sprintf(i18n::s('Maximum of %s pixels width by %s pixels height'),
 		'<input type="text" name="thumbnail_width" size="5" value="'.encode_field($context['thumbnail_width']).'" maxlength="5" />',
 		'<input type="text" name="thumbnail_height" size="5" value="'.encode_field($context['thumbnail_height']).'" maxlength="5" />')
 		.'<p>'.i18n::s('CSS classes').'&nbsp;<input type="text" name="classes_for_thumbnail_images" size="15" value="'.encode_field($context['classes_for_thumbnail_images']).'" maxlength="255" /></p>'
@@ -615,16 +615,16 @@ elseif(!Surfer::is_associate()) {
 	$freemind = '';
 
 	// without freemind
-	$label = i18n::s('Download');
-	$input = '<input type="radio" name="pages_without_freemind" value="N"';
-	if(!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Content of sections can be downloaded as Freemind maps');
-	$input .= BR.'<input type="radio" name="pages_without_freemind" value="Y"';
-	if(isset($context['pages_without_freemind']) && ($context['pages_without_freemind'] == 'Y'))
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Do not offer links to get Freemind maps');
-	$fields[] = array($label, $input);
+// 	$label = i18n::s('Download');
+// 	$input = '<input type="radio" name="pages_without_freemind" value="N"';
+// 	if(!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y'))
+// 		$input .= ' checked="checked"';
+// 	$input .= '/> '.i18n::s('Content of sections can be downloaded as Freemind maps');
+// 	$input .= BR.'<input type="radio" name="pages_without_freemind" value="Y"';
+// 	if(isset($context['pages_without_freemind']) && ($context['pages_without_freemind'] == 'Y'))
+// 		$input .= ' checked="checked"';
+// 	$input .= '/> '.i18n::s('Do not offer links to get Freemind maps');
+// 	$fields[] = array($label, $input);
 
 	// freemind canvas
 	if(!isset($context['skins_freemind_canvas_height']))
@@ -775,8 +775,8 @@ elseif(!Surfer::is_associate()) {
 		$content .= '$context[\'content_without_details\']=\''.addcslashes($_REQUEST['content_without_details'], "\\'")."';\n";
 	if(isset($_REQUEST['pages_without_bookmarklets']))
 		$content .= '$context[\'pages_without_bookmarklets\']=\''.addcslashes($_REQUEST['pages_without_bookmarklets'], "\\'")."';\n";
-	if(isset($_REQUEST['pages_without_freemind']))
-		$content .= '$context[\'pages_without_freemind\']=\''.addcslashes($_REQUEST['pages_without_freemind'], "\\'")."';\n";
+// 	if(isset($_REQUEST['pages_without_freemind']))
+// 		$content .= '$context[\'pages_without_freemind\']=\''.addcslashes($_REQUEST['pages_without_freemind'], "\\'")."';\n";
 	if(isset($_REQUEST['pages_without_history']))
 		$content .= '$context[\'pages_without_history\']=\''.addcslashes($_REQUEST['pages_without_history'], "\\'")."';\n";
 	if(isset($_REQUEST['site_extra_maximum']) && intval($_REQUEST['site_extra_maximum']))

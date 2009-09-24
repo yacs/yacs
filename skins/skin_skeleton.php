@@ -71,23 +71,23 @@ Class Skin_Skeleton {
 		if(!isset($fused[ $id ])) {
 
 			$style = '';
-			
+
 			if(ACCORDION_CLOSE_IMG_HREF)
 				$img = '<img src="'.ACCORDION_CLOSE_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 			// close following boxes
 			$fused[ $id ] = TRUE;
-			
+
 		// following boxes are closed
 		} else {
 
 			$style = ' style="display: none"';
-			
+
 			if(ACCORDION_OPEN_IMG_HREF)
 				$img = '<img src="'.ACCORDION_OPEN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 		}
-		
+
 		// Yacs.toggle_folder() is in shared/yacs.js -- div.folder_body div is required for slide effect to work
 		$text = '<div class="accordion_handle accordion_'.$id.'"><a href="#" class="accordion_link" onclick="javascript:Yacs.toggle_accordion(this, \''.ACCORDION_OPEN_IMG_HREF.'\', \''.ACCORDION_CLOSE_IMG_HREF.'\', \'accordion_'.$id.'\'); return false;">'.$img.$title.'</a>'
 			.'<div class="accordion_content"'.$style.'><div>'.$content."</div></div></div>\n";
@@ -160,7 +160,7 @@ Class Skin_Skeleton {
 
 		// sanity check
 		$text = trim($text);
-			
+
 		// make the id explicit
 		if($id)
 			$id = ' id="'.$id.'" ';
@@ -268,21 +268,21 @@ Class Skin_Skeleton {
 				$text = '<div'.$id.' style="text-align: right;">'.$text.'</div>';
 			break;
 
-		case 'search':	
-		
+		case 'search':
+
 			if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'Y') && isset($context['skins_search_form']) && $context['skins_search_form'])
 				$text = str_replace('%s', encode_field($text), $context['skins_search_form']);
 			else {
 				if(!$text)
 					$text = i18n::s('Search...');
-					
+
 				$text = '<form action="'.$context['url_to_root'].'search.php" method="get">'
 					.'<p style="margin: 0; padding: 0;">'
 					.'<input type="text" name="search" size="10" value="'.encode_field($text).'" onfocus="this.value=\'\'" maxlength="128" />'
 					.Skin::build_submit_button('&raquo;')
 					.'</p>'
 					.'</form>';
-					
+
 			}
 			break;
 
@@ -449,17 +449,17 @@ Class Skin_Skeleton {
 	 */
 	function &build_content($id, $title, $content, $top=NULL, $bottom=NULL) {
 		global $context;
-		
+
 		// we return some text
 		$text = '';
-		
+
 		// top menu bar
 		if(isset($top) && is_array($top) && count($top))
 			$text .= Skin::build_list($top, 'menu_bar');
 
 		// actual content
 		$text .= $content;
-		
+
 		// bottom menu bar
 		if(isset($bottom) && is_array($bottom) && count($bottom))
 			$text .= Skin::build_list($bottom, 'menu_bar');
@@ -470,7 +470,7 @@ Class Skin_Skeleton {
 		// job done
 		return $text;
 	}
-	 
+
 	/**
 	 * build a contextual menu for this page
 	 *
@@ -701,14 +701,14 @@ Class Skin_Skeleton {
 
 		// day only
 		if($variant == 'day') {
-		
+
 			// same year, don't mention it
 			if($items['year'] == $today['year']) {
 				if($language == 'fr')
 					$output = $items['mday'].' '.$months[$items['mon']];
 				else
 					$output = $months[$items['mon']].' '.$items['mday'];
-					
+
 			// different year
 			} else {
 				if($language == 'fr')
@@ -716,7 +716,7 @@ Class Skin_Skeleton {
 				else
 					$output = $months[$items['mon']].' '.$items['mday'].' '.($items['year']);
 			}
-			
+
 			return $output;
 		}
 
@@ -1011,7 +1011,7 @@ Class Skin_Skeleton {
 
 			// put the hint after the field
 			if($hint)
-				$input .= '<br style="clear: both;" /><div class="tiny">'.$hint.'</div>';
+				$input .= '<br style="clear: both;" /><span class="tiny">'.$hint.'</span>';
 
 			$cells = array();
 			switch($variant) {
@@ -1215,7 +1215,7 @@ Class Skin_Skeleton {
 			$more_styles = ' class="'.encode_field($context['classes_for_thumbnail_images']).'"';
 		elseif(($variant == 'avatar') && isset($context['classes_for_avatar_images']) && $context['classes_for_avatar_images'])
 			$more_styles = ' class="'.encode_field($context['classes_for_avatar_images']).'"';
-			
+
 		// the image itself
 		$image = '<span><img src="'.$href.'" alt="'.encode_field(strip_tags($alt)).'"  title="'.encode_field(strip_tags($hover)).'"'.$more_styles.' /></span>';
 
@@ -1228,12 +1228,12 @@ Class Skin_Skeleton {
 				$external = TRUE;
 			elseif(!strncmp($link, 'https:', 6) && strncmp($link, 'https://'.$context['host_name'], strlen('https://'.$context['host_name'])))
 				$external = TRUE;
-				
+
 			if($external)
 				$text .= '<a href="'.$link.'" onclick="window.open(this.href); return false;">'.$image.'</a>';
 			else
 				$text .= '<a href="'.$link.'">'.$image.'</a>';
-			
+
 		} else
 			$text .= $image;
 
@@ -1274,7 +1274,7 @@ Class Skin_Skeleton {
 			$onchange = ' onchange="'.$onchange.'" ';
 		else
 			$onchange = '';
-			
+
 		switch($type) {
 		case 'date':
 
@@ -1306,7 +1306,7 @@ Class Skin_Skeleton {
 			return $text;
 
 		case 'date_time':
-		
+
 			// do not display 0s on screen
 			if($value <= '0000-00-00 00:00:00')
 				$value = '';
@@ -1396,7 +1396,7 @@ Class Skin_Skeleton {
 		// be sure to have a label
 		if(!$label)
 			$label = $url;
-			
+
 		// limit the size of labels when they are links
 		if(!strncmp($label, 'http:', 5) || !strncmp($label, 'https:', 6) || !strncmp($label, 'ftp:', 4)) {
 			if(strlen($label) > 50)
@@ -1520,10 +1520,10 @@ Class Skin_Skeleton {
 		if(is_callable(array('Surfer', 'is_crawler')) && Surfer::is_crawler()) {
 			$variant = 'basic';
 			$href_title = '';
-			
+
 		// format for a human being
 		} else {
-		
+
 			// flag external links
 			$external = ($variant == 'external');
 			if(!strncmp($url, 'http:', 5) && strncmp($url, 'http://'.$context['host_name'], strlen('http://'.$context['host_name'])))
@@ -1532,14 +1532,14 @@ Class Skin_Skeleton {
 				$external = TRUE;
 			elseif(!strncmp($url, 'ftp:', 4) && strncmp($url, 'ftp://'.$context['host_name'], strlen('ftp://'.$context['host_name'])))
 				$external = TRUE;
-			
+
 			// default tagging for external links
 			if(!$variant && $external)
 				$variant = 'external';
 
 			// default processing for external links
 			if($external) {
-			
+
 				// count external clicks
 				$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
 
@@ -1548,10 +1548,10 @@ Class Skin_Skeleton {
 					$href_title = ' title="'.encode_field(i18n::s('Browse in a separate window')).'"';
 				else
 					$href_title = ' title="'.encode_field(strip_tags($href_title)).'"';
-				
+
 			// internal link
 			} else {
-			
+
 				// finalize the hovering title
 				if($href_title)
 					$href_title = ' title="'.encode_field(strip_tags($href_title)).'"';
@@ -1582,11 +1582,11 @@ Class Skin_Skeleton {
 			// always open external links in a separate window
 			if($external)
 				$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="window.open(this.href); return false;"><span>'.$label.'</span></a>';
-				
+
 			// stay in the same window
 			else
 				$text = '<a href="'.$url.'"'.$href_title.' class="button" onclick="this.blur();"'.$attributes.'><span>'.$label.'</span></a>';
-				
+
 			break;
 
 		case 'category':
@@ -1871,7 +1871,7 @@ Class Skin_Skeleton {
 			$output = '';
 			return $output;
 		}
-		
+
 		// split the list in separate columns
 		if(($variant == '2-columns') || ($variant == 'yahoo')) {
 
@@ -1981,10 +1981,10 @@ Class Skin_Skeleton {
 				$class= '';
 				if((($variant == 'column_1') || ($variant == 'column_2')) && isset($context['classes_for_thumbnail_images']))
 					$class = 'class="'.$context['classes_for_thumbnail_images'].'" ';
-					
+
 				// build the complete HTML element
 				$icon = '<img src="'.$icon.'" alt="" title="'.encode_field($label).'" '.$class.'/>';
-				
+
 			// use default icon if nothing to display
 			} else
 				$icon = $default_icon;
@@ -2193,7 +2193,7 @@ Class Skin_Skeleton {
 		$more_styles = '';
 		if(isset($context['classes_for_avatar_images']) && $context['classes_for_avatar_images'])
 			$more_styles = ' '.encode_field($context['classes_for_avatar_images']);
-			
+
 		// depending of what we want to do
 		switch($variant) {
 
@@ -2203,8 +2203,15 @@ Class Skin_Skeleton {
 
 			// avatar
 			$avatar = '';
-			if(isset($user['avatar_url']) && $user['avatar_url'])
-				$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
+			if(isset($user['avatar_url']) && $user['avatar_url']) {
+				$thumb = '';
+				if($position = strrpos($user['avatar_url'], '/'))
+					$thumb = substr($user['avatar_url'], 0, $position).'/thumbs'.substr($user['avatar_url'], $position);
+				if(is_readable($context['path_to_root'].str_replace($context['url_to_root'], '', $thumb)))
+					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="avatar" title="avatar" class="avatar left_image" />', 'basic');
+				else
+					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
+			}
 
 			// several items
 			$details = array();
@@ -2237,8 +2244,15 @@ Class Skin_Skeleton {
 
 			// avatar
 			$avatar = '';
-			if(isset($user['avatar_url']) && $user['avatar_url'])
-				$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
+			if(isset($user['avatar_url']) && $user['avatar_url']) {
+				$thumb = '';
+				if($position = strrpos($user['avatar_url'], '/'))
+					$thumb = substr($user['avatar_url'], 0, $position).'/thumbs'.substr($user['avatar_url'], $position);
+				if(is_readable($context['path_to_root'].str_replace($context['url_to_root'], '', $thumb)))
+					$avatar =& Skin::build_link($url, '<img src="'.$thumb.'" alt="avatar" title="avatar" class="avatar left_image" />', 'basic');
+				else
+					$avatar =& Skin::build_link($url, '<img src="'.$user['avatar_url'].'" alt="avatar" title="avatar" class="avatar left_image'.$more_styles.'" />', 'basic');
+			}
 
 			// date of post
 			if($more)
@@ -2246,7 +2260,11 @@ Class Skin_Skeleton {
 
 			// from where
 			if(isset($user['from_where']) && $user['from_where'])
-				$text .= sprintf(i18n::s('from %s'), Codes::beautify($user['from_where'])).BR;
+				$text .= sprintf(i18n::s('from %s'), Codes::beautify($user['from_where']));
+
+			// display details
+			if($text)
+				$text = '<span class="details">'.$text.'</span>'.BR;
 
 			// use the introduction field, if any
 			if(isset($user['introduction']) && $user['introduction'])
@@ -2452,9 +2470,9 @@ Class Skin_Skeleton {
 			$onLeft = ', false';
 		else
 			$onLeft = '';
-			
+
 		// title is optional
-		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slide_panel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\''.$onLeft.'); return false;"><span>'.$title.'</span>'.$img.'</a>';
+		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slidePanel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\''.$onLeft.'); return false;"><span>'.$title.'</span>'.$img.'</a>';
 
 		// box content has no div, it is already structured
 		$text .= '<div class="panel" style="display: none;">'.$content.'</div>';
@@ -2649,9 +2667,9 @@ Class Skin_Skeleton {
 	 * @return string HTML tags to be put in the resulting page
 	 */
 	function &build_tags($tags, $reference) {
-	
+
 		$text = '';
-		
+
 		// list existing tags
 		$tags = explode(',', $tags);
 		foreach($tags as $tag) {
@@ -2665,10 +2683,10 @@ Class Skin_Skeleton {
 		$text = rtrim($text, ' ');
 
 		// a link to add a tag
-		
+
 		return $text;
 	}
-	
+
 	/**
 	 * format a time stamp
 	 *
@@ -2766,7 +2784,7 @@ Class Skin_Skeleton {
 			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
 		// title is optional
-		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slide_panel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\'); return false;"><span>'.$title.'</span>'.$img.'</a>';
+		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slidePanel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\'); return false;"><span>'.$title.'</span>'.$img.'</a>';
 
 		// box content has no div, it is already structured
 		$text .= '<div class="panel" style="display: none;">'.$content.'</div>';
@@ -3131,9 +3149,9 @@ Class Skin_Skeleton {
 	 */
 	function finalize_context() {
 		global $context;
-		
+
 	}
-	
+
 	/**
 	 * finalize a list
 	 *
@@ -3248,7 +3266,7 @@ Class Skin_Skeleton {
 						// make it small
 						if($variant == 'details')
 							$label = '<span class="details">'.$label.'</span>';
-				
+
 						$text .= '<li>'.$label.'</li>'."\n";
 					}
 
@@ -3518,11 +3536,11 @@ Class Skin_Skeleton {
 
 				if($list) {
 					foreach($list as $label) {
-	
+
 						$icon = '';
 						if(is_array($label))
 							list($label, $icon) = $label;
-	
+
 						if($text)
 							$text .= BR;
 						$text .= $icon.$label;
@@ -3658,7 +3676,7 @@ Class Skin_Skeleton {
 		$options = '';
 		if(isset($context['classes_for_thumbnail_images']))
 			$options = 'class="'.$context['classes_for_thumbnail_images'].'" ';
-			
+
 		// the img tag used with the [decorated] code; either a decorating icon, or equivalent to the bullet
 		Skin::define_img('DECORATED_IMG', 'icons/decorated.gif', BULLET_IMG, '*', $options);
 
@@ -3992,17 +4010,17 @@ Class Skin_Skeleton {
 	 * @return string text to be returned to the browser
 	 */
 	function &layout_horizontally() {
-	
+
 		// we return some text
 		$text = '';
-		
+
 		// list all arguments
 		$count = func_num_args();
 		$arguments = func_get_args();
 		$style = 'west';
 		for($index = 0; $index < $count; $index++) {
 			$argument = $arguments[$index];
-		
+
 			// do the layout
 			if(is_array($argument)) {
 				$marker = count($argument);
@@ -4012,8 +4030,8 @@ Class Skin_Skeleton {
 					$marker -= 1;
 					if(!$marker)
 						$style = 'east';
-		
-					// adjust alignment if required						
+
+					// adjust alignment if required
 					if(!strncmp($token, 'left=', 5))
 						$text .= '<td class="'.$style.'"><div style="text-align: left;">'.substr($token, 5).'</div></td>';
 					elseif(!strncmp($token, 'center=', 7))
@@ -4022,7 +4040,7 @@ Class Skin_Skeleton {
 						$text .= '<td class="'.$style.'"><div style="text-align: right;">'.substr($token, 6).'</div></td>';
 					else
 						$text .= '<td class="'.$style.'">'.$token.'</td>';
-						
+
 					// move to the center
 					$style = 'center';
 				}
@@ -4031,8 +4049,8 @@ Class Skin_Skeleton {
 				// moving to last element
 				if($index + 1 == $count)
 					$style = 'east';
-	
-				// adjust alignment if required						
+
+				// adjust alignment if required
 				if(!strncmp($argument, 'left=', 5))
 					$text .= '<td class="'.$style.'"><div style="text-align: left;">'.substr($argument, 5).'</div></td>';
 				elseif(!strncmp($argument, 'center=', 7))
@@ -4042,21 +4060,21 @@ Class Skin_Skeleton {
 				else
 					$text .= '<td class="'.$style.'">'.$argument.'</td>';
 			}
-			
+
 			// move from west to center
 			if(!$index)
 				$style = 'center';
-				
+
 		}
-		
+
 		// package the resulting string
 		if($text)
 			$text = '<table class="layout"><tbody><tr>'.$text.'</tr></tbody></table>';
-			
+
 		// job is done
 		return $text;
 	}
-	
+
 	/**
 	 * layout strings vertically
 	 *
@@ -4065,27 +4083,27 @@ Class Skin_Skeleton {
 	 * @return string text to be returned to the browser
 	 */
 	function &layout_vertically() {
-	
+
 		// we return some text
 		$text = '';
-		
+
 		// list all arguments
 		$count = func_num_args();
 		$arguments = func_get_args();
 		$style = 'north';
 		for($index = 0; $index < $count; $index++) {
 			$argument = $arguments[$index];
-			
+
 			// do the layout
 			if(is_array($argument)) {
 				$marker = count($argument);
 				foreach($argument as $token) {
-				
+
 					// moving to last element
 					$marker -= 1;
 					if(!$marker)
 						$style = 'south';
-		
+
 					// adjust alignment if required
 					if(!strncmp($token, 'left=', 5))
 						$text .= '<tr><td class="'.$style.'"><div style="text-align: left;">'.substr($token, 5).'</div></td></tr>';
@@ -4095,16 +4113,16 @@ Class Skin_Skeleton {
 						$text .= '<tr><td class="'.$style.'"><div style="text-align: right;">'.substr($token, 6).'</div></td></tr>';
 					else
 						$text .= '<tr><td class="'.$style.'">'.$token.'</td></tr>';
-						
+
 					// move to the center
 					$style = 'equator';
 				}
 			} else {
-				
+
 				// moving to last element
 				if($index + 1 == $count)
 					$style = 'south';
-						
+
 				// adjust alignment if required
 				if(!strncmp($argument, 'left=', 5))
 					$text .= '<tr><td class="'.$style.'"><div style="text-align: left;">'.substr($argument, 5).'</div></td></tr>';
@@ -4115,21 +4133,21 @@ Class Skin_Skeleton {
 				else
 					$text .= '<tr><td class="'.$style.'">'.$argument.'</td></tr>';
 			}
-				
+
 			// move from north to center
 			if(!$index)
 				$style = 'equator';
-				
+
 		}
-		
+
 		// package the resulting string
 		if($text)
 			$text = '<table class="layout"><tbody>'.$text.'</tbody></table>';
-			
+
 		// job is done
 		return $text;
 	}
-	
+
 	/**
 	 * build a navigation bar for pages
 	 *
@@ -4230,7 +4248,7 @@ Class Skin_Skeleton {
 					$label = $first.'-'.$last;
 				else
 					$label = $first;
-					
+
 				if(($index != 1) && ($index < $page_index - 2)) {
 					if(!$skipped) {
 						$url = '_';
@@ -4265,12 +4283,11 @@ Class Skin_Skeleton {
 
 				$bar = array_merge($bar, array( $prefix.$page_index => array('', $label, '', 'basic') ));
 
-				if(++$count >= 2)
+				if((++$count >= 2) && ($last + $page_size < $range)) {
+					$bar[] = '...';
 					break;
+				}
 			}
-
-			if($range > $last)
-				$bar[] = '...';
 
 		// link to next page
 		} elseif($range == $last+1) {

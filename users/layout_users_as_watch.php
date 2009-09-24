@@ -59,7 +59,7 @@ Class Layout_users_as_watch extends Layout_interface {
 
 			// use full name, then nick name
 			if(isset($item['full_name']) && $item['full_name']) {
-				$title = $item['full_name'].' ('.$item['nick_name'].')';
+				$title = $item['full_name'];
 			} elseif(isset($item['nick_name']))
 				$title = $item['nick_name'];
 
@@ -101,7 +101,7 @@ Class Layout_users_as_watch extends Layout_interface {
 
 		// turn this to some text
 		$items = Skin::build_list($items, 'decorated');
-		
+
 		// some indications on the number of connections
 		if($delta -= $count) {
 			if($delta < 100)
@@ -111,7 +111,7 @@ Class Layout_users_as_watch extends Layout_interface {
 
 			$items .= '<p>'.$label.'</p>';
 		}
-		
+
 		return $items;
 	}
 }

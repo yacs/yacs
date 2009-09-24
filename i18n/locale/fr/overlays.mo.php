@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 20, 2009, 9:54 pm GMT. Please do not modify it manually.
+ * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-20 23:45+0200
-PO-Revision-Date: 2009-07-04 22:57+0100
+POT-Creation-Date: 2009-09-24 09:36+0200
+PO-Revision-Date: 2009-09-24 09:57+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -30,6 +30,7 @@ $_SESSION['l10n']['fr']['%d votes up to now']='%d votes à ce jour';
 $_SESSION['l10n']['fr']['%s has been changed']='%s a été modifié';
 $_SESSION['l10n']['fr']['(to be defined)']='(à définir)';
 $_SESSION['l10n']['fr']['508b20ca4f8ac036f229430fe3ff9f44']='Une solution est disponible';
+$_SESSION['l10n']['fr']['Add a meeting']='Ajouter une réunion';
 $_SESSION['l10n']['fr']['Add a poll']='Ajouter un sondage';
 $_SESSION['l10n']['fr']['Add a recipe']='Ajouter une recette';
 $_SESSION['l10n']['fr']['Add an answer']='Ajouter une réponse';
@@ -59,7 +60,9 @@ $_SESSION['l10n']['fr']['Closing']='Clotûre';
 $_SESSION['l10n']['fr']['Cooking time: %s']='Temps de cuisson : %s';
 $_SESSION['l10n']['fr']['Count']='Votes';
 $_SESSION['l10n']['fr']['Creation']='Création';
+$_SESSION['l10n']['fr']['Date']='Date';
 $_SESSION['l10n']['fr']['Day']='Date';
+$_SESSION['l10n']['fr']['Delete a meeting']='Supprimer une réunion';
 $_SESSION['l10n']['fr']['Delete a poll']='Supprimer un sondage';
 $_SESSION['l10n']['fr']['Delete a recipe']='Supprimer une recette';
 $_SESSION['l10n']['fr']['Delete an issue']='Supprimer un problème';
@@ -70,17 +73,21 @@ $_SESSION['l10n']['fr']['Delete vote record']='Supprimer un vote';
 $_SESSION['l10n']['fr']['3a3b25f4e391141657beeff9142a1f95']='Ne comptez ni temps de cuisson, ni temps de macération';
 $_SESSION['l10n']['fr']['972fb6125aea5c537de038bc4c4ec749']='Ne comptez pas le temps de préchauffage du four';
 $_SESSION['l10n']['fr']['0b2114b611cad7dea0df1f3ba9e2114f']='Ne trichez pas et commencez à  zéro';
+$_SESSION['l10n']['fr']['Duration']='Durée';
+$_SESSION['l10n']['fr']['Edit a meeting']='Modifier une réunion';
 $_SESSION['l10n']['fr']['Edit a poll']='Modifier un sondage';
 $_SESSION['l10n']['fr']['Edit a recipe']='Modifier une recette';
 $_SESSION['l10n']['fr']['Edit an issue']='Modifier un problème';
 $_SESSION['l10n']['fr']['Edit one day']='Modifier une journée';
 $_SESSION['l10n']['fr']['Edit petition record']='Modifier une pétition';
 $_SESSION['l10n']['fr']['Edit this event']='Modifier cet événement';
+$_SESSION['l10n']['fr']['Edit this meeting']='Modifier cette réunion';
 $_SESSION['l10n']['fr']['Edit vote record']='Editer un vote';
 $_SESSION['l10n']['fr']['Editors of this section']='Les éditeurs de cette section';
 $_SESSION['l10n']['fr']['72dd7146984597567b26a39f53414753']='Les éditeurs de cette section peuvent signer.';
 $_SESSION['l10n']['fr']['e26a8eba9b60b1603a6b7c0b195e720e']='Les éditeurs de cette section sont autorisés à voter';
 $_SESSION['l10n']['fr']['End date']='Fermeture des votes';
+$_SESSION['l10n']['fr']['Enter a valid %s account']='Utiliser un compte %s valide';
 $_SESSION['l10n']['fr']['Export data']='Exporter les données';
 $_SESSION['l10n']['fr']['Export to XML']='Convertir en XML';
 $_SESSION['l10n']['fr']['Express your vote']='Exprimez-vous et votez';
@@ -96,9 +103,11 @@ $_SESSION['l10n']['fr']['3255269415cd8f6dd43d89ca6baf94d0']='Dans le formulaire 
 $_SESSION['l10n']['fr']['Ingredients']='Ingrédients';
 $_SESSION['l10n']['fr']['Ingredients: %s']='Ingrédients : %s';
 $_SESSION['l10n']['fr']['Issue description']='Description du problème';
+$_SESSION['l10n']['fr']['Join the meeting']='Joindre la réunion';
 $_SESSION['l10n']['fr']['0985e124a45dcdf669edf50555f0141b']='Rédiger des sondages aussi simples que possible.';
 $_SESSION['l10n']['fr']['Navigation box']='Boîte de navigation';
 $_SESSION['l10n']['fr']['New day']='Nouvelle journée';
+$_SESSION['l10n']['fr']['New meeting']='Nouvelle réunion';
 $_SESSION['l10n']['fr']['New petition']='Nouvelle pétition';
 $_SESSION['l10n']['fr']['New vote']='Nouveau vote';
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
@@ -131,6 +140,7 @@ $_SESSION['l10n']['fr']['25198a808cce51d35165ff8dd17efdc9']='Le problème est ef
 $_SESSION['l10n']['fr']['Qualification']='Qualification';
 $_SESSION['l10n']['fr']['Reproduced']='Reproduit';
 $_SESSION['l10n']['fr']['Resolution']='Résolution';
+$_SESSION['l10n']['fr']['Room']='Rendez-vous';
 $_SESSION['l10n']['fr']['Scope']='Etendue';
 $_SESSION['l10n']['fr']['See ballot papers']='Voir les décisions';
 $_SESSION['l10n']['fr']['Sign this petition']='Exprimez-vous et signez';
@@ -179,12 +189,14 @@ $_SESSION['l10n']['fr']['Voters:']='Votants :';
 $_SESSION['l10n']['fr']['250fe802ec02ecd45326259e3a1c2677']='Si possible, merci de standardiser vos recettes pour 4 convives.';
 $_SESSION['l10n']['fr']['YYYY-MM-AA HH:MM']='AAAA-MM-JJ HH:MM';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
+$_SESSION['l10n']['fr']['5d26169f96b33e33b7fb475da8b45937']='Vous pouvez étendre la durée pendant la réunion si vous le souhaitez';
 $_SESSION['l10n']['fr']['You have already signed']='Vous avez déjà signé';
 $_SESSION['l10n']['fr']['You have already voted']='Vous avez déjà voté';
 $_SESSION['l10n']['fr']['7b788a7306ddeb706b4bd083a706a82d']='Vous devez attendre la fin du vote pour accéder aux votes';
 $_SESSION['l10n']['fr']['03f4ec8b939b65c4961805f376336a6e']='Vous allez changer certains attributs d\'overlay nommé.';
 $_SESSION['l10n']['fr']['a0ec7c5d0004b7a1b7b2fae7e1f9c937']='une solution a été rendue disponible';
 $_SESSION['l10n']['fr']['f2aff1bbeedc515b67d5bdd23d14939c']='une solution immédiate a été fournie';
+$_SESSION['l10n']['fr']['hour(s)']='heure(s)';
 $_SESSION['l10n']['fr']['now']='maintenant';
 $_SESSION['l10n']['fr']['site map']='carte du site';
 $_SESSION['l10n']['fr']['f45ba9f57bb01466a84dc31eedac5687']='aucune solution n\'a été développée';

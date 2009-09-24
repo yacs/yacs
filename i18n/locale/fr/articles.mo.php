@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 20, 2009, 9:54 pm GMT. Please do not modify it manually.
+ * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-20 23:45+0200
-PO-Revision-Date: 2009-09-17 01:08+0100
+POT-Creation-Date: 2009-09-24 23:45+0200
+PO-Revision-Date: 2009-09-24 23:53+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -195,7 +195,7 @@ $_SESSION['l10n']['fr']['Nick name']='Surnom';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['22ce3d88217e83036f3285bba141bfe3']='Aucun overlay n\'a été sélectionné.';
-$_SESSION['l10n']['fr']['No owner profile has been found']='Aucun propriétaire n\'a été trouvé';
+$_SESSION['l10n']['fr']['No owner has been found.']='Aucun propriétaire n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No recipient has been found.']='Aucun destinataire n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No title has been provided.']='Aucun titre n\'a été fourni.';
 $_SESSION['l10n']['fr']['No vote']='Aucun vote';

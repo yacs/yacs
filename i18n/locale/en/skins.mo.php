@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 20, 2009, 9:54 pm GMT. Please do not modify it manually.
+ * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-20 23:45+0200
+POT-Creation-Date: 2009-09-24 23:45+0200
 PO-Revision-Date: 2009-09-17 01:07+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -74,7 +74,6 @@ $_SESSION['l10n']['en']['4930118894d6683ec6a58335ed846ba1']='Congratulations, th
 $_SESSION['l10n']['en']['Contact mail address']='Contact mail address';
 $_SESSION['l10n']['en']['Content']='Content';
 $_SESSION['l10n']['en']['Content Assistant']='Content Assistant';
-$_SESSION['l10n']['en']['ac401adc11996ead19ea7430b43471ce']='Content of sections can be downloaded as Freemind maps';
 $_SESSION['l10n']['en']['Contribute']='Contribute';
 $_SESSION['l10n']['en']['Control Panel']='Control Panel';
 $_SESSION['l10n']['en']['Copy and transcode files']='Copy and transcode files';
@@ -94,8 +93,6 @@ $_SESSION['l10n']['en']['Display referrals:']='Display referrals:';
 $_SESSION['l10n']['en']['1fc6d9cbd42f8d53b1f49fc4ad5de46f']='Display the thumbnail image for images of more than %s bytes';
 $_SESSION['l10n']['en']['a89b4c84880e8bda201cb11bf755f594']='Do not attempt to modify a reference theme directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.';
 $_SESSION['l10n']['en']['Do not display this item.']='Do not display this item.';
-$_SESSION['l10n']['en']['d97c62965b0ceb848500786010a8d06a']='Do not offer links to get Freemind maps';
-$_SESSION['l10n']['en']['Download']='Download';
 $_SESSION['l10n']['en']['402f06c63fe84ae575c8427315da185b']='Dynamic navigation boxes, if any';
 $_SESSION['l10n']['en']['6a2c769d729b50a589114cb6f3a6ca3b']='ERROR: Impossible to write to the file %s. The configuration has not been saved.';
 $_SESSION['l10n']['en']['Edges']='Edges';

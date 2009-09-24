@@ -822,6 +822,9 @@ Class Section extends Anchor {
 	 * all articles, but also all attached files and images of these articles,
 	 * will feature the theme 'boxes'.
 	 *
+	 * If second parameter is TRUE, we are looking for an option that applies to articles of this section.
+	 * Else we are looking for an option that applies to this section only.
+	 *
 	 * @param string the option we are looking for
 	 * @param boolean TRUE if coming from content leaf, FALSE if coming from content branch
 	 * @return TRUE or FALSE, or the value of the matching option if any
@@ -1216,7 +1219,7 @@ Class Section extends Anchor {
 		}
 
 		// send alerts on new item, except for pages in special sections
-		if(isset($this->item['index_map']) && ($this->item['index_map'] == 'Y') && preg_match('/:(create|insert)$/i', $action)) {
+		if(isset($this->item['index_map']) && ($this->item['index_map'] == 'Y') && preg_match('/:create$/i', $action)) {
 
 			// poster name, if applicable
 			if(!$surfer = Surfer::get_name())
@@ -1328,8 +1331,8 @@ Class Section extends Anchor {
 					$surfer = i18n::c('(anonymous)');
 
 				// message subjects
-				$mail['subject'] = sprintf(i18n::c('%s has been commented by %s'), ucfirst(strip_tags($this->item['title'])), $surfer);
-				$mail2['subject'] = sprintf(i18n::c('%s has been commented by %s'), ucfirst(strip_tags($this->item['title'])), $surfer);
+				$mail['subject'] = sprintf(i18n::c('Update: %s'), strip_tags($this->item['title']));
+				$mail2['subject'] = sprintf(i18n::c('Update: %s'), strip_tags($this->item['title']));
 
 				// message content
 				$mail['message'] = i18n::c('Click on the following link to read the new comment')
@@ -1373,8 +1376,8 @@ Class Section extends Anchor {
 				$title = strip_tags($this->item['title']);
 
 				// message titles
-				$mail['subject'] = sprintf(i18n::c('%s in %s'), $action_label, $title);
-				$mail2['subject'] = sprintf(i18n::c('%s in %s'), $action_label, $title);
+				$mail['subject'] = sprintf(i18n::c('Update: %s'), $title);
+				$mail2['subject'] = sprintf(i18n::c('Update: %s'), $title);
 
 				// message body
 				$mail['message'] = i18n::c('A new item has been added to the following section').
@@ -1443,7 +1446,7 @@ Class Section extends Anchor {
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))
-			$this->anchor->touch('article:edit', $this->item['id'], TRUE);
+			$this->anchor->touch('section:update', $this->item['id'], TRUE);
 
 	}
 

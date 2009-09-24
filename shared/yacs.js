@@ -477,7 +477,7 @@ var Yacs = {
 	 *
 	 * @param handle to the item to expand
 	 */
-	grow_panel: function(handle) {
+	growPanel: function(handle) {
 		Element.setStyle(handle, {height: '10em'});
 	},
 	
@@ -873,7 +873,7 @@ var Yacs = {
 	 * @param string URL of the collapsing icon
 	 * @param boolean TRUE to align to the left of the container, FALSE otherwise
 	 */
-	slide_panel: function(handle, down_href, up_href, onLeft) {
+	slidePanel: function(handle, down_href, up_href, onLeft) {
 
 		// align to the parent container
 		var container = Element.up(handle);

@@ -96,10 +96,6 @@ if(Surfer::is_crawler()) {
 
 	}
 
-	// insert anchor prefix
-	if(is_object($anchor))
-		$context['text'] .= $anchor->get_prefix();
-
 	// the current list of linked categories
 	$categories =& Members::list_categories_by_title_for_member($member, 0, CATEGORIES_LIST_SIZE, 'raw');
 

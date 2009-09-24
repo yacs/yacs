@@ -14,7 +14,7 @@
  * This script is conforming to the Simple Mail Transfer Protocol (SMTP), including
  * extensions related to security and authentication. If openssl is available, it can connect
  * to mail servers using the SSL/TLS protocol. For authentication, CRAM-MD5, LOGIN and PLAIN
- * mechanisms are provided. Alternatively, authentication can also be done using POP3 before 
+ * mechanisms are provided. Alternatively, authentication can also be done using POP3 before
  * the start of the SMTP session.
  *
  * @link http://www.rfc-editor.org/rfc/rfc5321.txt SMTP specification
@@ -62,7 +62,7 @@ class Mailer {
 		// nothing to do
 		if(!isset($context['mail_handle']) || !is_resource($context['mail_handle']))
 			return;
-			
+
 		// close the session
 		$request = 'QUIT';
 		fputs($context['mail_handle'], $request.CRLF);
@@ -75,9 +75,9 @@ class Mailer {
 		// break the network session
 		fclose($context['mail_handle']);
 		unset($context['mail_handle']);
-		
+
 	}
-	
+
 	/**
 	 * connect to the mail server
 	 *
@@ -119,11 +119,11 @@ class Mailer {
 	 */
 	function connect() {
 		global $context;
-		
+
 		// we already have an open handle
 		if(isset($context['mail_handle']))
 			return $context['mail_handle'];
-			
+
 		// email services have to be activated
 		if(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
 			Logger::error(i18n::s('E-mail has not been enabled on this system.'));
@@ -132,35 +132,35 @@ class Mailer {
 
 		// define target smtp server
 		$port = 25;
-		if(isset($context['mail_server'])) {		
+		if(isset($context['mail_server'])) {
 			$server = $context['mail_server'];
-			
+
 			// use alternate port if required to do so
 			if(preg_match('/^(.+):([0-9]+)$/', $server, $matches)) {
 				$server = $matches[1];
 				$port = intval($matches[2]);
-			}			
-			
+			}
+
 		}
-		
+
 		// ensure that we can support tls communications
 		if(isset($server) && !strncmp($server, 'ssl://', 6) && is_callable('extension_loaded') && !extension_loaded('openssl')) {
 			logger::remember('shared/mailer.php', 'Load the OpenSSL extension to support secured transmissions to mail server '.$server);
 			return FALSE;
 		}
-			
+
 		// go for POP authentication
 		if(isset($server) && isset($context['mail_variant']) && ($context['mail_variant'] == 'pop3')) {
-		
+
 			// authenticate to a pop3 server
 			if(isset($context['mail_account']) && isset($context['mail_password'])) {
-			
+
 				// select which port to use
 				if(strncmp($server, 'ssl://', 6))
 					$pop3_port = 110;
 				else
 					$pop3_port = 995;
-					
+
 				// open a network connection
 				if(!$handle = Safe::fsockopen($server, $pop3_port, $errno, $errstr, 10)) {
 					if($context['debug_mail'] == 'Y')
@@ -171,7 +171,7 @@ class Mailer {
 
 				// ensure enough execution time
 				Safe::set_time_limit(30);
-		
+
 				// get server banner
 				if(($reply = fgets($handle)) === FALSE) {
 					Logger::remember('shared/mailer.php', 'Impossible to get banner of '.$server);
@@ -180,7 +180,7 @@ class Mailer {
 				}
 				if($context['debug_mail'] == 'Y')
 					Logger::remember('shared/mailer.php', 'POP <-', $reply, 'debug');
-		
+
 				// expecting an OK
 				if(strncmp($reply, '+OK', 3)) {
 					Logger::remember('shared/mailer.php', 'Mail service is closed at '.$server, $reply);
@@ -193,7 +193,7 @@ class Mailer {
 				fputs($handle, $request.CRLF);
 				if($context['debug_mail'] == 'Y')
 					Logger::remember('shared/mailer.php', 'POP ->', $request, 'debug');
-	
+
 				// expecting an OK
 				if(($reply = fgets($handle)) === FALSE) {
 					Logger::remember('shared/mailer.php', 'No reply to USER command at '.$server);
@@ -202,19 +202,19 @@ class Mailer {
 				}
 				if($context['debug_mail'] == 'Y')
 					Logger::remember('shared/mailer.php', 'POP <-', $reply, 'debug');
-	
+
 				if(strncmp($reply, '+OK', 3)) {
 					Logger::remember('shared/mailer.php', 'Unknown account '.$context['mail_account'].' at '.$server, $reply);
 					fclose($handle);
 					return FALSE;
 				}
-	
+
 				// send password
 				$request = 'PASS '.$context['mail_password'];
 				fputs($handle, $request.CRLF);
 				if($context['debug_mail'] == 'Y')
 					Logger::remember('shared/mailer.php', 'POP ->', $request, 'debug');
-	
+
 				// expecting an OK
 				if(($reply = fgets($handle)) === FALSE) {
 					Logger::remember('shared/mailer.php', 'No reply to PASS command at '.$server);
@@ -223,7 +223,7 @@ class Mailer {
 				}
 				if($context['debug_mail'] == 'Y')
 					Logger::remember('shared/mailer.php', 'POP <-', $reply, 'debug');
-	
+
 				if(strncmp($reply, '+OK', 3)) {
 					Logger::remember('shared/mailer.php', 'Invalid password for account '.$account.' at '.$server, $reply);
 					fclose($handle);
@@ -233,11 +233,11 @@ class Mailer {
 				// we just wanted to authenticate
 				fclose($handle);
 			}
-		}			
+		}
 
 		// we manage directly the SMTP transaction
 		if(isset($server) && isset($context['mail_variant']) && (($context['mail_variant'] == 'pop3') || ($context['mail_variant'] == 'smtp'))) {
-		
+
 			// open a network connection
 			if(!$handle = Safe::fsockopen($server, $port, $errno, $errstr, 10)) {
 				if($context['debug_mail'] == 'Y')
@@ -245,17 +245,17 @@ class Mailer {
 				Logger::remember('shared/mailer.php', sprintf('Impossible to connect to %s', $server.':'.$port));
 				return FALSE;
 			}
-	
+
 			// ensure enough execution time
 			Safe::set_time_limit(30);
-	
+
 			// get server banner
 			if(($response = Mailer::parse_response($handle, 220)) === FALSE) {
 				Logger::remember('shared/mailer.php', 'Impossible to get banner of '.$server);
 				fclose($handle);
 				return FALSE;
 			}
-	
+
 			// provide our logical name
 			if(strpos($response, 'ESMTP'))
 				$request = 'EHLO '.$context['host_name'];
@@ -264,14 +264,14 @@ class Mailer {
 			fputs($handle, $request.CRLF);
 			if($context['debug_mail'] == 'Y')
 				Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
-	
+
 			// expecting a welcome message
 			if(($response = Mailer::parse_response($handle, 250)) === FALSE) {
 				Logger::remember('shared/mailer.php', 'Command EHLO has been rejected at '.$server);
 				fclose($handle);
 				return FALSE;
 			}
-	
+
 			// authenticate as per SMTP protocol extension
 			if(isset($context['mail_account']) && isset($context['mail_password']) && preg_match('/^AUTH (.+)$/m', $response, $matches)) {
 
@@ -289,7 +289,7 @@ class Mailer {
 						return FALSE;
 					}
 					$challenge = base64_decode($response);
-					
+
 					// from password to a 64 bytes block
 					if(strlen($context['mail_password']) < 64)
 						$key = str_pad($context['mail_password'], 64, chr(0));
@@ -302,13 +302,13 @@ class Mailer {
 					$inner = $key ^ str_repeat(chr(0x36), 64);
 					$outer = $key ^ str_repeat(chr(0x5C), 64);
 					$digest = md5( $outer . pack('H32', md5( $inner . $challenge )) );
-					
+
 					// answer the challenge
 					$request = base64_encode($context['mail_account'].' '.$digest);
 					fputs($handle, $request.CRLF);
 					if($context['debug_mail'] == 'Y')
 						Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
-				
+
 				// LOGIN
 				} elseif(strpos($matches[1], 'LOGIN') !== FALSE) {
 
@@ -321,7 +321,7 @@ class Mailer {
 						fclose($handle);
 						return FALSE;
 					}
-	
+
 					$request = base64_encode($context['mail_account']);
 					fputs($handle, $request.CRLF);
 					if($context['debug_mail'] == 'Y')
@@ -331,12 +331,12 @@ class Mailer {
 						fclose($handle);
 						return FALSE;
 					}
-	
+
 					$request = base64_encode($context['mail_password']);
 					fputs($handle, $request.CRLF);
 					if($context['debug_mail'] == 'Y')
 						Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
-				
+
 				// PLAIN
 				} elseif(strpos($matches[1], 'PLAIN') !== FALSE) {
 
@@ -344,7 +344,7 @@ class Mailer {
 					fputs($handle, $request.CRLF);
 					if($context['debug_mail'] == 'Y')
 						Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
-		
+
 				}
 
 				// expecting an OK
@@ -353,24 +353,24 @@ class Mailer {
 					fclose($handle);
 					return FALSE;
 				}
-	
+
 			}
-			
+
 			// ready to submit messages
 			$context['mail_handle'] = $handle;
 			return $handle;
 
 		// rely on system settings and PHP
 		} elseif(is_callable('mail')) {
-		
+
 			// set the SMTP server
 			if($server)
 				Safe::ini_set('SMTP', $server);
-		
+
 			// set the SMTP sender
 			if(isset($context['mail_from']) && $context['mail_from'])
 				Safe::ini_set('sendmail_from', $context['mail_from']);
-					
+
 			// ready to submit messages
 			$context['mail_handle'] = TRUE;
 			return TRUE;
@@ -381,7 +381,7 @@ class Mailer {
 		return FALSE;
 
 	}
-	
+
 	/**
 	 * send a short email message
 	 *
@@ -444,20 +444,20 @@ class Mailer {
 			if($response)
 				$response .= "\n";
 			$response .= substr($line, 4);
-			
+
 			// continue on next line
 			if($line[3] == '-')
 				continue;
-				
+
 			// check status code
 			if(substr($line, 0, 3) != $expected)
 				return FALSE;
 			return $response;
-			
+
 		}
 
 	}
-	
+
 	/**
 	 * build and transmit a complex e-mail messages
 	 *
@@ -473,14 +473,14 @@ class Mailer {
 	 * This function will ensure that only one mail message is send to a recipient,
 	 * by maintaining an internal list of addresses that have been processed.
 	 * Therefore, if this function is called several times, with some repeated recipients,
-	 * those will receive only the first message, and other messages to the same address 
+	 * those will receive only the first message, and other messages to the same address
 	 * will be dropped.
 	 *
 	 * Bracketed recipients, such as ##Foo Bar <foo@bar.com>##, are handled properly,
 	 * meaning ##foo@bar.com## is transmitted to the mailing function, while
 	 * the string ##To : Foo Bar <foo@bar.com>## is added to headers.
 	 *
-	 * If an array of messages is provided to the function, it is turned to a multi-part 
+	 * If an array of messages is provided to the function, it is turned to a multi-part
 	 * message, as in the following example:
 	 *
 	 * [php]
@@ -493,7 +493,7 @@ class Mailer {
 	 * If you don't provide a charset, then UTF-8 is used. Also, it is recommended to
 	 * begin with the bare text, and to have the rich format part comming after, as in the example.
 	 *
-	 * Long lines of text/plain parts are wrapped according to 
+	 * Long lines of text/plain parts are wrapped according to
 	 * [link=Dan's suggestion]http://mailformat.dan.info/body/linelength.html[/link].
 	 *
 	 * @link http://mailformat.dan.info/body/linelength.html Dan's Mail Format Site: Body: Line Length
@@ -526,7 +526,7 @@ class Mailer {
 	 */
 	function post($from, $to, $subject, $message, $attachments=NULL, $headers='') {
 		global $context;
-		
+
 		// use surfer own address
 		if(!$from)
 			$from = Surfer::from();
@@ -599,11 +599,11 @@ class Mailer {
 		}
 		if(!$attachments)
 			$attachments = array();
-			
+
 		// we need some boundary string
 		if((count($message) + count($attachments)) > 1)
 			$boundary = md5(time());
-				
+
 		// wrapping threshold
 		if(!defined('WRAPPING_LENGTH'))
 			define('WRAPPING_LENGTH', 70);
@@ -623,43 +623,43 @@ class Mailer {
 				$part = '';
 				foreach($lines as $line)
 					$part .= wordwrap($line, WRAPPING_LENGTH, ' '.CRLF, 0).CRLF;
-		
+
 				// ensure utf-8
 				$part = utf8::from_unicode($part);
-				
+
 				// encoding rule
 				if(!isset($context['mail_encoding']) || ($context['mail_encoding'] != '8bit'))
 					$context['mail_encoding'] = 'base64';
-		
+
 				// encode the message for it transfer
 				if($context['mail_encoding'] == 'base64') {
 					$part = chunk_split(base64_encode($part));
 					$content_encoding = 'base64';
 				}
-			}	
+			}
 
 			// only one part
 			if(count($message) == 1) {
 				$content_type = $type;
 				$body = $part;
-				
+
 			// one part among several
 			} else {
 
 				if(!$content_type)
 					$content_type = 'multipart/alternative; boundary="'.$boundary.'-internal"';
-			
+
 				if(!$body)
 					$body = 'This is a multi-part message in MIME format.'.CRLF;
-					
+
 				$body .= CRLF.'--'.$boundary.'-internal'
 					.CRLF.'Content-Type: '.$type
 					.CRLF.'Content-Transfer-Encoding: '.$content_encoding
 					.CRLF.CRLF.$part."\n";
-					
+
 			}
 		}
-		
+
 		// finalize the body
 		if(count($message) > 1)
 			$body .= CRLF.'--'.$boundary.'-internal--';
@@ -667,33 +667,33 @@ class Mailer {
 		// a mix of things
 		if(count($attachments)) {
 
-				// the current body becomes the first part of a larger message		
+				// the current body becomes the first part of a larger message
 				if(!strncmp($content_type, 'multipart/', 10))
 					$content_encoding = '';
 				else
 					$content_encoding = CRLF.'Content-Transfer-Encoding: '.$content_encoding;
-					
+
 				$body = 'This is a multi-part message in MIME format.'.CRLF
 					.CRLF.'--'.$boundary.'-external'
 					.CRLF.'Content-Type: '.$content_type
 					.$content_encoding
 					.CRLF.CRLF.$body."\n";
-					
+
 				$content_type = 'multipart/mixed; boundary="'.$boundary.'-external"';
 				$content_encoding = '';
-				
+
 				// process every file
 				include_once $context['path_to_root'].'files/files.php';
 				foreach($attachments as $name) {
-				
+
 					// read file content
 					if(!$content = Safe::file_get_contents($name))
 						continue;
-						
+
 					// append it to mail message
 					$basename = basename($name);
 					$type = Files::get_mime_type($basename);
-					
+
 					$body .= CRLF.'--'.$boundary.'-external'
 						.CRLF.'Content-Type: '.$type.'; name="'.$basename.'"'
 						.CRLF.'Content-Transfer-Encoding: base64'
@@ -703,8 +703,8 @@ class Mailer {
 				$body .= CRLF.'--'.$boundary.'-external--';
 
 		}
-		
-		
+
+
 		// Content-Type: header
 		if($content_type && !preg_match('/^Content-Type: /im', $headers))
 			$headers .= "\n".'Content-Type: '.$content_type;
@@ -776,7 +776,7 @@ class Mailer {
 	 */
 	function process($recipient, $subject, $message, $headers='') {
 		global $context;
-		
+
 		// email services have to be activated
 		if(!isset($context['with_email']) || ($context['with_email'] != 'Y')) {
 			Logger::error(i18n::s('E-mail has not been enabled on this system.'));
@@ -797,12 +797,12 @@ class Mailer {
 			Logger::error(i18n::s('No message'));
 			return 0;
 		}
-			
+
 		// decode recipient for log
 		$decoded_recipient = $recipient;
 		if(preg_match('/^=\?[^\?]+\?B\?(.*)=$/i', $recipient, $matches))
 			$decoded_recipient = base64_decode($matches[1]);
-			
+
 		// extract the actual e-mail address -- Foo Bar <foo@bar.com> => foo@bar.com
 		$tokens = explode(' ', $decoded_recipient);
 		$actual_recipient = trim(str_replace(array('<', '>'), '', $tokens[count($tokens)-1]));
@@ -815,66 +815,66 @@ class Mailer {
 		// connect to the mail server
 		if(!isset($context['mail_handle']) && !Mailer::connect())
 			return 0;
-			
+
 		// we manage directly the SMTP transaction
 		if(isset($context['mail_variant']) && (($context['mail_variant'] == 'pop3') || ($context['mail_variant'] == 'smtp'))) {
-			$handle = $context['mail_handle'];			
-		
+			$handle = $context['mail_handle'];
+
 			// determine the From: address
 			if(isset($context['mail_from']) && $context['mail_from'])
 				$from = $context['mail_from'];
 			else
 				$from = $context['host_name'];
-			
+
 			// the adress to use on error
 			if(preg_match('/<([^>]+)>/', $from, $matches))
 				$address = $matches[1];
 			else
 				$address = trim($from);
-				
+
 			// say who we are
 			$request = 'MAIL FROM:<'.$address.'>';
 			fputs($handle, $request.CRLF);
 			if($context['debug_mail'] == 'Y')
 				Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
-	
+
 			// expecting an OK
 			if(Mailer::parse_response($handle, 250) === FALSE) {
 				Logger::remember('shared/mailer.php', 'Command MAIL FROM has been rejected at '.$server);
 				Mailer::close();
 				return 0;
 			}
-	
+
 			// provide destination address
 			$request = 'RCPT TO:<'.$actual_recipient.'>';
 			fputs($handle, $request.CRLF);
 			if($context['debug_mail'] == 'Y')
 				Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
-	
+
 			// expecting an OK
 			if(Mailer::parse_response($handle, 250) === FALSE) {
 				Logger::remember('shared/mailer.php', 'Command RCPT TO has been rejected at '.$server);
 				Mailer::close();
 				return 0;
 			}
-	
+
 			// actual transmission
 			$request = 'DATA';
 			fputs($handle, $request.CRLF);
 			if($context['debug_mail'] == 'Y')
 				Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
-	
+
 			// expecting an OK
 			if(Mailer::parse_response($handle, 354) === FALSE) {
 				Logger::remember('shared/mailer.php', 'Command DATA has been rejected at '.$server);
 				Mailer::close();
 				return 0;
 			}
-	
+
 			// make some text out of an array
 			if(is_array($headers))
 				$headers = implode("\n", $headers);
-	
+
 			// From: header
 			if(!preg_match('/^From: /im', $headers))
 				$headers .= "\n".'From: '.$from;
@@ -885,28 +885,28 @@ class Mailer {
 
 			// prepare message headers
 			$headers = trim($headers."\n".'Subject: '.$subject)."\n";
-			
+
 			// reenforce SMTP specification
 			$headers = str_replace("\n", CRLF, $headers);
-			
+
 			// append message body
 			$request = $headers.CRLF.$message.CRLF.'.'.CRLF;
-			
+
 			// actual post
 			fputs($handle, $request);
 			if($context['debug_mail'] == 'Y')
 				Logger::remember('shared/mailer.php', 'SMTP ->', $request, 'debug');
-	
+
 			// expecting an OK
 			if(Mailer::parse_response($handle, 250) === FALSE) {
 				Logger::remember('shared/mailer.php', 'Message has been rejected at '.$server);
 				Mailer::close();
 				return 0;
 			}
-	
+
 		// rely on system settings and PHP
 		} elseif(is_callable('mail')) {
-		
+
 			// submit the post
 			if(!@mail($actual_recipient, $subject, $message, $headers)) {
 				if(isset($context['debug_mail']) && ($context['debug_mail'] == 'Y'))
@@ -932,7 +932,7 @@ class Mailer {
 		return 1;
 
 	}
-	
+
 	/**
 	 * defer the processing of one message
 	 *
@@ -978,13 +978,13 @@ class Mailer {
 	 */
 	function set_thread($this_id=NULL, $parent_id=NULL) {
 		global $context;
-	
+
 		$headers = array();
-		
+
 		// just help to overcome spam filters
 		if(!$this_id)
 			$this_id = time();
-			
+
 		// Message-ID: header
 		$header[] = 'Message-ID: <'.str_replace(array('@', '>', ':'), array('', '', '.'), $this_id).'@'.$context['host_name'].'>';
 
@@ -994,10 +994,10 @@ class Mailer {
 				$parent_id = $parent_id->get_reference();
 			$header[] = 'In-Reply-To: <'.str_replace(array('@', '>', ':'), array('', '', '.'), $parent_id).'@'.$context['host_name'].'>';
 		}
-		
+
 		return $headers;
 	}
-	
+
 	/**
 	 * create tables for queued messages
 	 */
@@ -1095,7 +1095,7 @@ class Mailer {
 
 			// leak is maximum after one hour
 			$leak = intval($context['mail_hourly_maximum'] * ( time() - $stamp ) / 3600);
-			
+
 			// preserve previous value until actual leak
 			if($leak < 1)
 				return;
@@ -1142,7 +1142,7 @@ class Mailer {
 					}
 
 				}
-				
+
 				// close connection
 				Mailer::close();
 			}

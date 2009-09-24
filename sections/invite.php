@@ -74,19 +74,19 @@ else
 
 // message prefix
 $message_prefix = i18n::s('I would like to invite you to the following page.')
-		."\n\n".$link."\n\n";
+	."\n\n".$link."\n\n";
 
 // associates and editors can do what they want
 if(Surfer::is_empowered())
 	$permitted = TRUE;
 
-// function is available only to authenticated members --not subscribers
-elseif(!Surfer::is_member())
-	$permitted = FALSE;
-
 // help to share public items
 elseif(isset($item['active']) && ($item['active'] == 'Y'))
 	$permitted = TRUE;
+
+// function is available only to authenticated members --not subscribers
+elseif(!Surfer::is_member())
+	$permitted = FALSE;
 
 // the default is to disallow access
 else
@@ -144,8 +144,28 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('Please provide a recipient address.'));
 
+// stop robots
+} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST') && Surfer::may_be_a_robot()) {
+	Safe::header('Status: 401 Forbidden', TRUE, 401);
+	Logger::error(i18n::s('Please prove you are not a robot.'));
+
 // process submitted data
 } elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
+
+	// ensure the section has a private handle
+	if(!isset($item['handle']) || !$item['handle']) {
+		$item['handle'] = md5(mt_rand());
+
+		// save in the database
+		$fields = array();
+		$fields['id'] = $item['id'];
+		$fields['handle'] = $item['id'];
+		$fields['silent'] = 'Y';
+		Sections::put_attributes($fields);
+	}
+
+	// track anonymous surfers
+	Surfer::track($_REQUEST);
 
 	// sender address
 	$from = Surfer::from();
@@ -154,7 +174,7 @@ if(Surfer::is_crawler()) {
 	$to = '';
 	if(isset($_REQUEST['to']))
 		$to = strip_tags($_REQUEST['to']);
-	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y')) {
+	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y') && strpos($from, '@')) {
 		if($to)
 			$to .= ', ';
 		$to .= $from;
@@ -201,81 +221,66 @@ if(Surfer::is_crawler()) {
 
 	// process every recipient
 	include_once $context['path_to_root'].'shared/mailer.php';
-	$posts = 0;
 	$actual_names = array();
 	foreach($to as $recipient) {
-		$recipient = trim($recipient);
+
+		// clean the provided string
+		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
+
+		// assume regular message
+		$actual_message = $message;
 
 		// we have a valid e-mail address
 		if(preg_match('/\w+@\w+\.\w+/', $recipient)) {
-			if(strcmp($recipient, $from))
-				$actual_names[] = $recipient;
-		
+
+			// add credentials in message
+			if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y')) {
+
+				// extract the actual e-mail address -- Foo Bar <foo@bar.com> => foo@bar.com
+				$tokens = explode(' ', $recipient);
+				$actual_recipient = trim(str_replace(array('<', '>'), '', $tokens[count($tokens)-1]));
+
+				// build credentials --see users/login.php
+				$credentials = array();
+				$credentials[0] = 'visit';
+				$credentials[1] = 'section:'.$item['id'];
+				$credentials[2] = $actual_recipient;
+				$credentials[3] = sprintf('%u', crc32($actual_recipient.':'.$item['handle']));
+
+				// the secret link
+				$link = Users::get_url($credentials, 'credentials');
+
+				// translate strings to allow for one-click authentication
+				$actual_message = str_replace(Sections::get_url($item['id']), $link, $message);
+
+			}
+
 		// look for a user with this nick name
 		} elseif(($user =& Users::get($recipient))) {
-		
-			// make this user an editor of the target section, and update his watch list as well
+
+			// make this user an editor of the target section
 			if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y'))
 				Members::assign('user:'.$user['id'], 'section:'.$item['id']);
 
 			// always add the item to the watch list
 			Members::assign('section:'.$item['id'], 'user:'.$user['id']);
 
+			// this person has no email address
+			if(!$user['email'])
+				continue;
+
 			// use this email address
-			if($user['email']) {
-				$recipient = $user['email'];
-				if(!strcmp($user['email'], $from))
-					;
-				elseif($user['full_name'])
-					$actual_names[] = $user['full_name'];
-				else
-					$actual_names[] = $user['nick_name'];
-			}
+			if($user['full_name'])
+				$recipient = '"'.$user['full_name'].'" <'.$user['email'].'>';
+			else
+				$recipient = '"'.$user['nick_name'].'" <'.$user['email'].'>';
 
 		// skip this recipient
 		} else {
-			Logger::error(sprintf(i18n::s('Error while sending the message to %s'), $recipient));
+			if($recipient)
+				Logger::error(sprintf(i18n::s('Error while sending the message to %s'), $recipient));
 			continue;
 		}
-
-		// clean the provided string
-		$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
-
-		// extract the actual e-mail address -- Foo Bar <foo@bar.com> => foo@bar.com
-		$tokens = explode(' ', $recipient);
-		$actual_recipient = trim(str_replace(array('<', '>'), '', $tokens[count($tokens)-1]));
-
-		// add credentials in message
-		if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y')) {
-
-			// ensure the section has a private handle
-			if(!isset($item['handle']) || !$item['handle']) {
-				$item['handle'] = md5(mt_rand());
-				
-				// save in the database
-				$fields = array();
-				$fields['id'] = $item['id'];
-				$fields['handle'] = $item['id'];
-				$fields['silent'] = 'Y';
-				Sections::put_attributes($fields);
-			}
-				
-			// build credentials --see users/login.php
-			$credentials = array();
-			$credentials[0] = 'visit';
-			$credentials[1] = 'section:'.$item['id'];
-			$credentials[2] = $actual_recipient;
-			$credentials[3] = sprintf('%u', crc32($actual_recipient.':'.$item['handle']));
-
-			// the secret link
-			$link = Users::get_url($credentials, 'credentials');
-
-			// translate strings to allow for one-click authentication
-			$actual_message = str_replace(Sections::get_url($item['id']), $link, $message); // integrate credentials
-
-		// regular message
-		} else
-			$actual_message = $message;
 
 		// change content for message poster
 		if(!strcmp($recipient, $from)) {
@@ -283,10 +288,14 @@ if(Surfer::is_crawler()) {
 		}
 
 		// post it
-		if(Mailer::post($from, $actual_recipient, $subject, $actual_message))
-			$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), strip_tags($recipient)).'</p>';
+		if(Mailer::post($from, $recipient, $subject, $actual_message))
+			$actual_names[] = htmlspecialchars($recipient);
 	}
 	Mailer::close();
+
+	// display the list of actual recipients
+	if($actual_names)
+		$context['text'] .= '<p>'.sprintf(i18n::s('Your message is being transmitted to %s'), Skin::finalize_list($actual_names, 'compact')).'</p>';
 
 	// follow-up commands
 	$follow_up = i18n::s('What do you want to do now?');
@@ -302,6 +311,31 @@ if(Surfer::is_crawler()) {
 	// the form to send a message
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 	$fields = array();
+
+	// additional fields for anonymous surfers
+	if(!Surfer::is_logged()) {
+
+		// splash
+		$login_url = $context['url_to_root'].'users/login.php?url='.urlencode(Sections::get_url($item['id'], 'invite'));
+		$context['text'] .= '<p>'.sprintf(i18n::s('If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.'), Skin::build_link($login_url, 'authenticate'))."</p>\n";
+
+		// the name, if any
+		$label = i18n::s('Your name');
+		$input = '<input type="text" name="edit_name" size="45" maxlength="128" accesskey="n" value="'.encode_field(Surfer::get_name(' ')).'" />';
+		$hint = i18n::s('Let us a chance to know who you are');
+		$fields[] = array($label, $input, $hint);
+
+		// the address, if any
+		$label = i18n::s('Your e-mail address');
+		$input = '<input type="text" name="edit_address" size="45" maxlength="128" accesskey="a" value="'.encode_field(Surfer::get_email_address()).'" />';
+		$hint = i18n::s('Put your e-mail address to receive feed-back');
+		$fields[] = array($label, $input, $hint);
+
+		// stop robots
+		if($field = Surfer::get_robot_stopper())
+			$fields[] = $field;
+
+	}
 
 	// recipients
 	$label = i18n::s('Invite participants');

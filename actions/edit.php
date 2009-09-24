@@ -216,7 +216,7 @@ if(Surfer::is_crawler()) {
 			// enable threading
 			include_once $context['path_to_root'].'shared/mailer.php';
 			$headers = Mailer::set_thread('action:'.$_REQUEST['id'], $anchor);
-			
+
 			// actual post - don't stop on error
 			Mailer::notify(Surfer::from(), $to, $subject, $message, $headers);
 
@@ -252,10 +252,6 @@ if($with_form) {
 	// the anchor thumbnail, if any
 	if(is_object($anchor))
 		$context['page_image'] = $anchor->get_thumbnail_url();
-
-	// insert anchor prefix
-	if(is_object($anchor))
-		$context['text'] .= $anchor->get_prefix();
 
 	// splash message
 	$context['text'] .= '<p>'.i18n::s('You can use actions to notify immediately other members of new things to do. Actions are sent by email where possible. Else they are listed at login time.')."</p>\n";

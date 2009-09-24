@@ -1040,8 +1040,8 @@ Class Article extends Anchor {
 		if($this->is_interactive())
 			;
 
-		// send alert
-		elseif(preg_match('/:(create|insert|update)$/i', $action)) {
+		// send alert only on new stuff
+		elseif(preg_match('/:create$/i', $action)) {
 
 			// mail message
 			$mail = array();
@@ -1155,7 +1155,7 @@ Class Article extends Anchor {
 
 		// propagate the touch upwards silently -- we only want to purge the cache
 		if(is_object($this->anchor))
-			$this->anchor->touch('article:edit', $this->item['id'], TRUE);
+			$this->anchor->touch('article:update', $this->item['id'], TRUE);
 
 	}
 

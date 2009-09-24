@@ -62,7 +62,7 @@ Class Surfer {
 			$_SESSION['surfer_handles'][] = $handle;
 
 	}
-	
+
 	/**
 	 * list articles assigned to this surfer
 	 *
@@ -306,7 +306,7 @@ Class Surfer {
 		// default value for edition date (GMT)
 		if(!isset($fields['edit_date']) || ($fields['edit_date'] <= NULL_DATE))
 			$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-			
+
 	}
 
 	/**
@@ -319,7 +319,7 @@ Class Surfer {
 	 */
 	function empower($capability='A') {
 		global $context;
-		
+
 		if(($capability == '?') || ($capability == 'S') || ($capability == 'M') || ($capability == 'A'))
 			$context['empowered'] = $capability;
 	}
@@ -330,26 +330,26 @@ Class Surfer {
 	 * @return string "Foo Bar" <foo@acme.com>, or NULL
 	 */
 	function from() {
-	
+
 		$text = '';
-		
+
 		// use surfer full name if possible
 		if($name = Surfer::get_name())
 			$text .= '"'.str_replace('"', '', $name).'" ';
-			
+
 		// add the email address
 		if($address = Surfer::get_email_address())
 			$text .= '<'.$address.'>';
-			
+
 		// nothing found
 		$text = trim($text);
 		if(!$text)
 			return NULL;
-			
+
 		// job done
 		return $text;
 	}
-	
+
 	/**
 	 * adjust a date to surfer time zone
 	 *
@@ -431,9 +431,10 @@ Class Surfer {
 	 *
 	 * @param string the name of the editing field
 	 * @param string content to be put in the editor
+	 * @param boolean TRUE to grow the control on focus
 	 * @return string to be inserted in the XHTML flow
 	 */
-	function get_editor($name='description', $value='') {
+	function get_editor($name='description', $value='', $spring=FALSE) {
 		global $context;
 
 		// returned string
@@ -444,7 +445,7 @@ Class Surfer {
 			$_SESSION['surfer_editor'] = $context['users_default_editor'];
 
 		// fckeditor
-		if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor') && is_readable($context['path_to_root'].'included/fckeditor/fckeditor.php')) {
+		if(isset($_SESSION['surfer_editor']) && ($_SESSION['surfer_editor'] == 'fckeditor') && is_readable($context['path_to_root'].'included/fckeditor/fckeditor.php') && !$spring) {
 
 			include_once($context['path_to_root'].'included/fckeditor/fckeditor.php');
 			$handle = new FCKeditor($name);
@@ -463,11 +464,20 @@ Class Surfer {
 			// load the TinyMCE script -- see shared/global.php
 			$context['javascript']['tinymce'] = TRUE;
 
+			// a growing control
+			if($spring)
+				$text .= '<textarea name="description" id="description" rows="1" cols="50" style="width: 60%;" onfocus="Yacs.growPanel(this); if(navigator.appName==\'Microsoft Internet Explorer\'){initialize_editor()};tinyMCE.execCommand(\'mceAddControl\', true, \'description\');tinyMCE.get(\'description\').focus();"></textarea>';
+
 			// the textarea that will be handled by TinyMCE
-			$text .= '<div><textarea name="'.$name.'" class="tinymce" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
+			else
+				$text .= '<div><textarea name="'.$name.'" class="tinymce" rows="25" cols="50" accesskey="c">'.encode_field($value).'</textarea></div>';
 
 			// signal an advanced editor
 			$text .= '<input type="hidden" name="editor" value="tinymce" />';
+
+		// a textarea that grow on focus
+		} elseif($spring) {
+			$text .= '<textarea name="'.$name.'" id="'.$name.'" rows="1" cols="50" style="width: 60%;" onfocus="Yacs.growPanel(this);"></textarea>';
 
 		// default to plain editor -- BR after the Textarea is mandatory
 		} else {
@@ -574,7 +584,7 @@ Class Surfer {
 		// use network address
 		if(isset($_SERVER['REMOTE_ADDR']) && trim($_SERVER['REMOTE_ADDR']))
 			return $_SERVER['REMOTE_ADDR'];
-			
+
 		// really anonymous!
 		return i18n::s('anonymous');
 	}
@@ -585,19 +595,19 @@ Class Surfer {
 	 * @return string web link to the target user profile, or NULL
 	 */
 	function get_path_bar($anchor=NULL, $all_articles=TRUE) {
-	
+
 		// section is visible to this user
 		if(is_object($anchor) && $anchor->is_viewable())
 			return $anchor->get_path_bar();
-			
+
 		// go back to surfer's profile
 		if(Surfer::get_id() && is_callable(array('Users', 'get_url')))
 			return array( Users::get_url(Surfer::get_id(), 'view', Surfer::get_name()) => i18n::s('My pages') );
-			
+
 		// list all public pages
 		if($all_articles)
 			return array( 'articles/' => i18n::s('All pages') );
-			
+
 		// no context, sorry
 		return NULL;
 	}

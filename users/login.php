@@ -475,7 +475,7 @@ if(Surfer::is_crawler()) {
 
 		// more boxes
 		$context['components']['boxes'] = '';
-		
+
 		// contribution links, in an extra box
 		if(Surfer::is_member()) {
 			$links = array();
@@ -523,7 +523,7 @@ if(Surfer::is_crawler()) {
 
 		// ask for support
 		$context['text'] .= Skin::build_box(i18n::s('Do you need more help?'), '<p>'.sprintf(i18n::s('Use the %s to ask for help'), Skin::build_link('query.php', i18n::s('query form'))).'</p>');
-		
+
 	}
 
 // provide the empty form by default
