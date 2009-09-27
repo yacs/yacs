@@ -23,19 +23,39 @@ Class Links {
 	 * @param string the type of item, e.g., 'section'
 	 * @return TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL, $variant='article') {
+	function are_allowed($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
+
+		// guess the variant
+		if(!$variant) {
+
+			// most frequent case
+			if(isset($item['id']))
+				$variant = 'article';
+
+			// we have no item, look at anchor type
+			elseif(is_object($anchor))
+				$variant = $anchor->get_type();
+
+			// sanity check
+			else
+				return FALSE;
+		}
 
 		// links are prevented in item
 		if(($variant == 'article') && Articles::has_option('no_links', $anchor, $item))
+			return FALSE;
+
+		// links are prevented in anchor
+		if(!$item && is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_links'))
 			return FALSE;
 
 		// links are not explicitly activated in item
 		if(($variant != 'article') && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_links\b/i', $item['options']))
 			return FALSE;
 
-		// links are prevented in anchor
-		if(!$item && is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_links'))
+		// links are not explicitly activated in container
+		if(($variant != 'article') && !$item && is_object($anchor) && !$anchor->has_option('with_links', FALSE))
 			return FALSE;
 
 		// surfer is an associate
@@ -53,7 +73,15 @@ Class Links {
 // 			return TRUE;
 		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item))
 			return TRUE;
-			
+
+		// section is not private, and surfer is an editor of it
+		if(($variant != 'article') && isset($item['active']) && ($item['active'] != 'N') && isset($item['id']) && Sections::is_assigned($item['id']))
+			return TRUE;
+
+		// section is not private, and surfer is an editor of it
+		if(($variant != 'article') && !isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			return TRUE;
+
 		// item has been locked
 		if(isset($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
@@ -64,22 +92,22 @@ Class Links {
 
 		// container is hidden
 		if(isset($item['active']) && ($item['active'] == 'N')) {
-		
+
 			// surfer has been assigned to this item
 			if(isset($item['id']) && ($variant == 'article') && Articles::is_assigned($item['id']))
 				return TRUE;
 // 			if(isset($item['id']) && ($variant == 'category') && Categories::is_assigned($item['id']))
 // 				return TRUE;
 			if(isset($item['id']) && ($variant == 'section') && Sections::is_assigned($item['id']))
-				return TRUE;			
-			
+				return TRUE;
+
 		// container is restricted
 		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
-		
+
 			// only members can proceed
 			if(Surfer::is_member())
 				return TRUE;
-			
+
 		// authenticated members and subscribers are allowed to add links
 		} elseif(Surfer::is_logged())
 			return TRUE;
@@ -709,7 +737,7 @@ Class Links {
 
 		// no layout yet
 		$layout = NULL;
-		
+
 		// separate options from layout name
 		$attributes = explode(' ', $variant, 2);
 
@@ -723,7 +751,7 @@ Class Links {
 				// provide parameters to the layout
 				if(isset($attributes[1]))
 					$layout->set_variant($attributes[1]);
-		
+
 			}
 		}
 
@@ -737,7 +765,7 @@ Class Links {
 		// do the job
 		$output =& $layout->layout($result);
 		return $output;
-		
+
 	}
 
 	/**
@@ -1267,7 +1295,7 @@ Class Links {
 			$output = NULL;
 			return $output;
 		}
-		
+
 		// match
 		$match = '';
 		$words = preg_split('/\s/', $pattern);

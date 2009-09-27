@@ -150,12 +150,13 @@ elseif(isset($context['arguments'][1]))
 elseif(isset($item['anchor']))
 	$anchor =& Anchors::get($item['anchor']);
 
-// editors can do what they want on items anchored here
-if(is_object($anchor) && $anchor->is_assigned())
+// anchor owners can do what they want
+if(is_object($anchor) && $anchor->is_owned()) {
 	Surfer::empower();
+	$permitted = TRUE;
 
-// associates and editors can do what they want
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
+// editors can move forward
+} elseif(!isset($item['id']) && Links::are_allowed($anchor, $item))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
@@ -163,15 +164,7 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
 // surfer owns the item
-elseif(isset($item['edit_id']) && ($item['edit_id'] == Surfer::get_id()))
-	$permitted = TRUE;
-
-// authenticated members are allowed to add links to existing pages
-elseif(Surfer::is_member() && is_object($anchor))
-	$permitted = TRUE;
-
-// authenticated members can post new items if submission is allowed
-elseif(Surfer::is_member() && !isset($item['id']) && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y')))
+elseif(isset($item['edit_id']) && Surfer::is($item['edit_id']))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -247,11 +240,6 @@ if(Surfer::is_crawler()) {
 	// permission denied to authenticated user
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
-
-// maybe posts are not allowed here
-} elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('This page has been locked.'));
 
 // an error occured
 } elseif(count($context['error'])) {

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
+ * on September 27, 2009, 8:30 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-24 23:45+0200
-PO-Revision-Date: 2009-09-17 01:22+0100
+POT-Creation-Date: 2009-09-27 21:52+0200
+PO-Revision-Date: 2009-09-27 21:57+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -120,6 +120,7 @@ $_SESSION['l10n']['fr']['GeoTags Search Engine']='Moteur de recherche GeoTags';
 $_SESSION['l10n']['fr']['Geocoding Service']='Service de Geocoding';
 $_SESSION['l10n']['fr']['Geographical position']='Position géographique';
 $_SESSION['l10n']['fr']['fbffe723787b0edf518f4ee687637d79']='Télécharger le contenu sous forme de carte mentale Freemind';
+$_SESSION['l10n']['fr']['Go']='Go';
 $_SESSION['l10n']['fr']['Go to the documentation page']='Voir la documentation';
 $_SESSION['l10n']['fr']['Head']='En-tête (Head)';
 $_SESSION['l10n']['fr']['Height: %s']='Hauteur : %s';
@@ -196,6 +197,7 @@ $_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['e74ca937f6902df4bcb150a96b4634b7']='Pages avec le même nom, s\'il y en a';
 $_SESSION['l10n']['fr']['People']='Personnes';
 $_SESSION['l10n']['fr']['Permalink']='Permalink';
+$_SESSION['l10n']['fr']['Persons']='Personnes';
 $_SESSION['l10n']['fr']['5407f72b825d5a546bc759d46d6abd15']='Merci de rester réaliste. Ce paramètre sert à marquer les pages nouvelles ou mises à jour. Cette information figure également dans le méta-champ "revisit-after".';
 $_SESSION['l10n']['fr']['23c0e258bccdc30697a9879f43ccde0e']='Merci d\'aller jusqu\'à la fin de cette page pour vérifier les résultats de la construction du nouveau référentiel.';
 $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque sur le fichier.';

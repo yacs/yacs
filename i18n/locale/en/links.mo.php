@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
+ * on September 27, 2009, 8:30 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-02 00:59+0200
+POT-Creation-Date: 2009-09-27 21:52+0200
 PO-Revision-Date: 2009-09-02 01:03+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -97,7 +97,6 @@ $_SESSION['l10n']['en']['851fe463cc87e64921bd418eeaa3194c']='The link has been s
 $_SESSION['l10n']['en']['bb76e300225d0626f317e27811fb1737']='The remote address that is referencing content at this site';
 $_SESSION['l10n']['en']['The title of your page']='The title of your page';
 $_SESSION['l10n']['en']['18d140b9af759b4ec502696d7172360b']='This optional field can be left blank if you wish.';
-$_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
 $_SESSION['l10n']['en']['ab8108ace13178f35a29024b21c0fc26']='This script will add this page to one of the sections listed below. If you would like to add a link to an existing page, browse the target page instead and use the adequate command from the menu.';
 $_SESSION['l10n']['en']['7d3b8663e49511737554c31b7e3bebdd']='This server supports the %s created by Ben Trott and Mena Trott. Please note that any %s system attempts to trackback up to seven links from each published page.';
 $_SESSION['l10n']['en']['a3dec8fa1135b7cdbc8b08e8958d4e03']='This will appear near the link when the mouse is placed on top of it';

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
+ * on September 27, 2009, 8:30 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-24 09:36+0200
-PO-Revision-Date: 2009-09-17 01:20+0100
+POT-Creation-Date: 2009-09-27 21:52+0200
+PO-Revision-Date: 2009-09-27 21:56+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -43,7 +43,7 @@ $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit the page']='Modifier la page';
 $_SESSION['l10n']['fr']['File']='Fichier';
 $_SESSION['l10n']['fr']['Help']='Aide';
-$_SESSION['l10n']['fr']['9682a62dc71d0ff3810a8c4021be91cf']='Si vous avez obtenu ce fichier de sources extérieures, merci de l\'indiquer ici';
+$_SESSION['l10n']['fr']['2cdb58b860a83f0b75b0a382ef1c8ba0']='Si vous avez obtenu ce fichier de sources extérieures, merci de l\'indiquer ici';
 $_SESSION['l10n']['fr']['Image']='Image';
 $_SESSION['l10n']['fr']['Image processing']='Traitement de l\'image';
 $_SESSION['l10n']['fr']['Images']='Images';

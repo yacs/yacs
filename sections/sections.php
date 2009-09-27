@@ -277,6 +277,57 @@ Class Sections {
 	}
 
 	/**
+	 * document modification dates for this item
+	 *
+	 * @param object anchor of the section
+	 * @param array the section to be documented
+	 * @return array strings detailed labels
+	 */
+	function &build_dates($anchor, $item) {
+		global $context;
+
+		// we return an array of strings
+		$details = array();
+
+		// we do want details for this page
+		if(strpos($item['options'], 'with_details') !== FALSE)
+			;
+
+		// no details please
+		elseif(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y') && !Sections::is_owned($anchor, $item))
+			return $details;
+
+		// post date and author
+		if($item['create_date']) {
+
+			// creation and last modification happen on same day by the same person
+			if(!strcmp(substr($item['create_date'], 0, 10), substr($item['edit_date'], 0, 10)) && ($item['create_id'] == $item['edit_id']))
+				;
+
+			// mention creation date
+			elseif($item['create_name'])
+				$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
+			else
+				$details[] = Skin::build_date($item['create_date']);
+
+		}
+
+		// last modification
+		if($item['edit_action'])
+			$action = get_action_label($item['edit_action']).' ';
+		else
+			$action = i18n::s('edited');
+
+		if($item['edit_name'])
+			$details[] = sprintf(i18n::s('%s by %s %s'), $action, Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+		else
+			$details[] = $action.' '.Skin::build_date($item['edit_date']);
+
+		// job done
+		return $details;
+	}
+
+	/**
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes
@@ -1368,12 +1419,16 @@ Class Sections {
 		if(isset($item['owner_id']) && ($item['owner_id'] == $user_id))
 			return TRUE;
 
-		// associates can do what they want
-		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
+		// we are owning the anchor anyway
+		if(is_object($anchor) && $anchor->is_owned($user_id))
 			return TRUE;
 
-		// surfer can edit parent container
-		if(is_object($anchor) && $anchor->is_assigned($user_id))
+		// we are editing an item, and surfer is assigned to parent section
+		if(isset($item['id']) && is_object($anchor) && $anchor->is_assigned($user_id))
+			return TRUE;
+
+		// associates can do what they want
+		if(Surfer::is($user_id) && Surfer::is_associate())
 			return TRUE;
 
 		// sorry

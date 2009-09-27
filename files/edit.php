@@ -2,8 +2,6 @@
 /**
  * upload a new file or update an existing one
  *
- * @todo if an image is uploaded as a file, also compute and use the thumbnail automatically
- * @todo do not change date if silent is checked
  * @todo if extension is not allowed, and if associates, add a shortcut to configuration panel for files
  *
  * If no anchor has been provided to host the file, this script will create one.
@@ -93,29 +91,18 @@ elseif(isset($_REQUEST['anchor']))
 elseif(isset($context['arguments'][1]))
 	$anchor =& Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
 
-// parent owners have associate-like capabilities
-if(is_object($anchor) && $anchor->is_owned())
+// owners can do what they want
+if(is_object($anchor) && $anchor->is_owned()) {
 	Surfer::empower();
-
-// do not accept new files if uploads have been disallowed
-if(!isset($item['id']) && !Surfer::may_upload())
-	$permitted = FALSE;
-
-// associates and editors can upload new files
-elseif(!isset($item['id']) && is_object($anchor) && $anchor->is_assigned())
 	$permitted = TRUE;
 
-// associates and parent owners can modify files
-elseif(isset($item['id']) && Surfer::is_empowered())
+// do not accept new files if uploads have been disallowed
+} elseif(!isset($item['id']) && Files::are_allowed($anchor))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
 elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
-
-// authenticated members can post new items if submission is allowed
-elseif(!isset($item['id']) && Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y')))
-	$permitted = TRUE;
 
 // the original poster can change the file
 elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
@@ -187,11 +174,6 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-// maybe posts are not allowed here
-} elseif(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked') && !Surfer::is_empowered()) {
-	Safe::header('Status: 401 Forbidden', TRUE, 401);
-	Logger::error(i18n::s('This page has been locked.'));
-
 // extension is not allowed
 } elseif(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && !Files::is_authorized($_FILES['upload']['name'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
@@ -216,7 +198,7 @@ if(Surfer::is_crawler()) {
 
 		// where to put this file
 		$file_path = 'files/'.$context['virtual_path'].str_replace(':', '/', $_REQUEST['anchor']);
-		
+
 		// attach some file
 		if($file_name = Files::upload($_FILES['upload'], $file_path))
 			$_REQUEST['file_name'] = $file_name;
@@ -235,10 +217,10 @@ if(Surfer::is_crawler()) {
 		// silently delete the previous file if the name has changed
 		if($item['file_name'] && $file_name && ($item['file_name'] != $file_name) && isset($file_path))
 			Safe::unlink($file_path.'/'.$item['file_name']);
-			
+
 		// if the file is an image, create a thumbnail for it
 		if(($image_information = Safe::GetImageSize($file_path.'/'.$file_name)) && ($image_information[2] >= 1) && ($image_information[2] <= 3)) {
-		
+
 			// derive a thumbnail image
 			$thumbnail_name = 'thumbs/'.$file_name;
 			include_once $context['path_to_root'].'images/image.php';
@@ -246,9 +228,9 @@ if(Surfer::is_crawler()) {
 
 			// remember the address of the thumbnail
 			$_REQUEST['thumbnail_url'] = $context['url_to_root'].$file_path.'/'.$thumbnail_name;
-			
-		}		
-		
+
+		}
+
 		// we have a real file, not a reference
 		$_REQUEST['file_href'] = '';
 
@@ -535,7 +517,7 @@ if($with_form) {
 	// attachments tab
 	//
 	$text = '';
-	
+
 	// the icon url may be set after the page has been created
 	if(isset($item['id']) && Surfer::is_empowered() && Surfer::is_member()) {
 		$label = i18n::s('Image');
@@ -591,7 +573,7 @@ if($with_form) {
 
 		// menu at the top
 		$menu = array();
-		
+
 		// the command to add an image
 		if(Surfer::may_upload()) {
 			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
@@ -614,7 +596,7 @@ if($with_form) {
 			$box .= Skin::finalize_list($menu, 'menu_bar');
 		if($items)
 			$box .= Skin::build_list($items, 'decorated');
-			
+
 		// in a folded box
 		if($box)
 			$text .= Skin::build_box(i18n::s('Images'), $box, 'unfolded');
@@ -655,7 +637,7 @@ if($with_form) {
 	// the source
 	$label = i18n::s('Source');
 	$input = '<input type="text" name="source" size="45" value="'.encode_field(isset($item['source'])?$item['source']:'').'" maxlength="255" accesskey="u" />';
-	$hint = i18n::s('If you have get this file from outside source, please describe it here');
+	$hint = i18n::s('If you have got this file from outside source, please describe it here');
 	$fields[] = array($label, $input, $hint);
 
 	// keywords

@@ -97,7 +97,7 @@ Class Layout_users extends Layout_interface {
 			$details = array();
 
 			// capability
-			if(Surfer::is_associate() && ($item['capability'] == 'A'))
+			if($item['capability'] == 'A')
 				$details[] = i18n::s('Associate');
 			elseif($item['capability'] == 'S')
 				$details[] = i18n::s('Subscriber');

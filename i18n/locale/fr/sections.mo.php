@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
+ * on September 27, 2009, 8:28 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-25 00:02+0200
-PO-Revision-Date: 2009-09-25 00:00+0100
+POT-Creation-Date: 2009-09-27 22:21+0200
+PO-Revision-Date: 2009-09-27 22:25+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -239,6 +239,7 @@ $_SESSION['l10n']['fr']['Message title']='Titre du message';
 $_SESSION['l10n']['fr']['Messages']='Messages';
 $_SESSION['l10n']['fr']['Meta information']='Meta-information';
 $_SESSION['l10n']['fr']['Moderator: %s'.chr(0).'Moderators: %s']='Modérateur : %s'.chr(0).'Modérateurs : %s';
+$_SESSION['l10n']['fr']['Modification: %s']='Mise à jour : %s';
 $_SESSION['l10n']['fr']['Monitor']='Surveiller';
 $_SESSION['l10n']['fr']['More']='La suite';
 $_SESSION['l10n']['fr']['More content']='Plus de contenu';
@@ -409,7 +410,6 @@ $_SESSION['l10n']['fr']['3d95ce6c80d00bc9abd6f771d7d54bec']='Balises XHTML addit
 $_SESSION['l10n']['fr']['Unlock']='Déverrouiller';
 $_SESSION['l10n']['fr']['Update a note']='Modifier une annotation';
 $_SESSION['l10n']['fr']['Update a reply']='Modifier une réponse';
-$_SESSION['l10n']['fr']['Update: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['bf17c77b74c5350da902a6142f9a7a9d']='Téléverser une petite image pour illustrer cette page au niveau de son parent.';
 $_SESSION['l10n']['fr']['c2c4f79559d76d5b49a626fd7bf35631']='Envoyer une image à afficher en haut de page';

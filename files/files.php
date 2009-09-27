@@ -74,19 +74,39 @@ Class Files {
 	 * @param string the type of item, e.g., 'section'
 	 * @return TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL, $variant='article') {
+	function are_allowed($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
+
+		// guess the variant
+		if(!$variant) {
+
+			// most frequent case
+			if(isset($item['id']))
+				$variant = 'article';
+
+			// we have no item, look at anchor type
+			elseif(is_object($anchor))
+				$variant = $anchor->get_type();
+
+			// sanity check
+			else
+				return FALSE;
+		}
 
 		// files are prevented in item
 		if(($variant == 'article') && Articles::has_option('no_files', $anchor, $item))
+			return FALSE;
+
+		// files are prevented in anchor
+		if(!$item && is_object($anchor) && $anchor->has_option('no_files'))
 			return FALSE;
 
 		// files are not explicitly activated in item
 		if(($variant != 'article') && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_files\b/i', $item['options']))
 			return FALSE;
 
-		// files are prevented in anchor
-		if(!$item && is_object($anchor) && is_callable(array($anchor, 'has_option')) && $anchor->has_option('no_files'))
+		// files are not explicitly activated in container
+		if(($variant != 'article') && !$item && is_object($anchor) && !$anchor->has_option('with_files', FALSE))
 			return FALSE;
 
 		// surfer is not allowed to upload a file
@@ -108,33 +128,41 @@ Class Files {
 // 			return TRUE;
 		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item))
 			return TRUE;
-			
+
+		// section is not private, and surfer is an editor of it
+		if(($variant != 'article') && isset($item['active']) && ($item['active'] != 'N') && isset($item['id']) && Sections::is_assigned($item['id']))
+			return TRUE;
+
+		// section is not private, and surfer is an editor of it
+		if(($variant != 'article') && !isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+			return TRUE;
+
 		// item has been locked
 		if(isset($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
 
 		// anchor has been locked --only used when there is no item provided
-		if(!$item['id'] && is_object($anchor) && $anchor->has_option('locked'))
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
 		// container is hidden
 		if(isset($item['active']) && ($item['active'] == 'N')) {
-		
+
 			// surfer has been assigned to this item
 			if(isset($item['id']) && ($variant == 'article') && Articles::is_assigned($item['id']))
 				return TRUE;
 // 			if(isset($item['id']) && ($variant == 'category') && Categories::is_assigned($item['id']))
 // 				return TRUE;
 			if(isset($item['id']) && ($variant == 'section') && Sections::is_assigned($item['id']))
-				return TRUE;			
-			
+				return TRUE;
+
 		// container is restricted
 		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
-		
+
 			// only members can proceed
 			if(Surfer::is_member())
 				return TRUE;
-			
+
 		// authenticated members and subscribers are allowed to add files
 		} elseif(Surfer::is_logged())
 			return TRUE;
@@ -1078,32 +1106,32 @@ Class Files {
 	 */
 	function interact($item, $width=320, $height=240, $flashvars='', $with_icon=TRUE) {
 		global $context;
-		
+
 		static $counter;
 		if(!isset($counter))
 			$counter = 1;
 		else
 			$counter++;
-			
+
 		// several ways to play flash
 		switch(strtolower(substr($item['file_name'], -3))) {
 
 		// audio file handled by dewplayer
 		case 'mp3':
-		
+
 			// only if the player is available
 			if(file_exists($context['path_to_root'].'included/browser/dewplayer.swf')) {
-	
+
 				// the player
 				$dewplayer_url = $context['url_to_root'].'included/browser/dewplayer.swf';
-	
+
 				// the mp3 file
 				if(isset($item['file_href']) && $item['file_href'])
 					$mp3_url = $item['file_href'];
 				else
 					$mp3_url = $context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 				$flashvars = 'son='.$mp3_url;
-	
+
 				// combine the two in a single object
 				return '<div id="interact_'.$counter.'" class="no_print">Flash plugin or Javascript are turned off. Activate both and reload to view the object</div>'."\n"
 					.JS_PREFIX
@@ -1115,16 +1143,16 @@ Class Files {
 					.'params.flashvars = "'.$flashvars.'";'."\n"
 					.'swfobject.embedSWF("'.$dewplayer_url.'", "interact_'.$counter.'", "200", "20", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
 					.JS_SUFFIX.BR."\n";
-	
+
 			}
 
 		// native flash
 		case 'swf':
-		
+
 			// where to get the file
 			if(isset($item['file_href']) && $item['file_href'])
 				$url = $item['file_href'];
-				
+
 			// we provide the native file because of basename
 			else
 				$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
@@ -1155,7 +1183,7 @@ Class Files {
 			// file is elsewhere
 			if(isset($item['file_href']) && $item['file_href'])
 				$url = $item['file_href'];
-				
+
 			// prevent leeching (the flv player will provide session cookie, etc)
 			else
 				$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
@@ -1179,7 +1207,7 @@ Class Files {
 
 		if(!$with_icon)
 			return '';
-			
+
 		// explicit icon
 		if($item['thumbnail_url'])
 			$icon = $item['thumbnail_url'];
@@ -1193,10 +1221,10 @@ Class Files {
 			$icon = '<img src="'.$icon.'" />';
 			return Skin::build_link(Files::get_url($item['id'], Files::is_stream($item['file_name'])?'stream':'fetch', $item['file_name']), $icon, 'basic').BR;
 		}
-			
+
 		// nothing special
 		return '';
-		
+
 	}
 
 	function is_audio_stream($name) {
@@ -1795,7 +1823,7 @@ Class Files {
 
 		// no layout yet
 		$layout = NULL;
-		
+
 		// separate options from layout name
 		$attributes = explode(' ', $variant, 2);
 
@@ -1809,7 +1837,7 @@ Class Files {
 				// provide parameters to the layout
 				if(isset($attributes[1]))
 					$layout->set_variant($attributes[1]);
-		
+
 			}
 		}
 
@@ -1823,7 +1851,7 @@ Class Files {
 		// do the job
 		$output =& $layout->layout($result);
 		return $output;
-		
+
 	}
 
 	/**
@@ -2016,7 +2044,7 @@ Class Files {
 	 */
 	function upload($input, $file_path, $target=NULL) {
 		global $context, $_FILES, $_REQUEST;
-		
+
 		// do we have a file?
 		if(!isset($input['name']) || !$input['name'] || ($input['name'] == 'none'))
 			return FALSE;
@@ -2076,7 +2104,7 @@ Class Files {
 
 		// process uploaded data
 		else {
-		
+
 			// create folders
 			if($file_path)
 				Safe::make_path($file_path);
@@ -2092,18 +2120,18 @@ Class Files {
 			// this will be filtered by umask anyway
 			else {
 				Safe::chmod($context['path_to_root'].$file_path.$file_name, $context['file_mask']);
-				
+
 				// invoke post-processing function
 				if($target && is_callable($target)) {
 					call_user_func($target, $file_name, $context['path_to_root'].$file_path);
-				
+
 				// we have to update an anchor page
 				} elseif($target && is_string($target)) {
-				
+
 					// update an existing record for this anchor
 					if($match =& Files::get_by_anchor_and_name($target, $file_name))
 						$fields = $match;
-	
+
 					// create a new file record
 					else {
 						$fields = array();
@@ -2112,19 +2140,19 @@ Class Files {
 						$fields['file_href'] = '';
 						$fields['anchor'] = $target;
 					}
-	
+
 					// if the file is an image, create a thumbnail for it
 					if(($image_information = Safe::GetImageSize($file_path.$file_name)) && ($image_information[2] >= 1) && ($image_information[2] <= 3)) {
-					
+
 						// derive a thumbnail image
 						$thumbnail_name = 'thumbs/'.$file_name;
 						include_once $context['path_to_root'].'images/image.php';
 						Image::shrink($context['path_to_root'].$file_path.$file_name, $context['path_to_root'].$file_path.$thumbnail_name, FALSE, TRUE);
-			
+
 						// remember the address of the thumbnail
 						$fields['thumbnail_url'] = $context['url_to_root'].$file_path.$thumbnail_name;
-			
-					}		
+
+					}
 
 					// create the record in the database, and remember this post in comment
 					if($fields['id'] = Files::post($fields)) {
@@ -2137,14 +2165,14 @@ Class Files {
 				return $file_name;
 
 			}
-			
+
 		}
-		
+
 		// some error has occured
 		return FALSE;
 
 	}
-	
+
 	/**
 	 * search for some keywords in all files
 	 *
@@ -2167,7 +2195,7 @@ Class Files {
 			$output = NULL;
 			return $output;
 		}
-		
+
 		// limit the scope of the request
 		$where = "files.active='Y'";
 		if(Surfer::is_member())
@@ -2318,7 +2346,7 @@ Class Files {
 // load localized strings
 if(is_callable(array('i18n', 'bind')))
 	i18n::bind('files');
-	
+
 // the maximum size for uploads
 global $context;
 $context['file_maximum_size'] = str_replace('M', ' M', Safe::get_cfg_var('upload_max_filesize'));

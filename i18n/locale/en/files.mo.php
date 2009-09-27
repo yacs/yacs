@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
+ * on September 27, 2009, 8:30 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-20 23:45+0200
-PO-Revision-Date: 2009-09-02 01:02+0100
+POT-Creation-Date: 2009-09-27 21:52+0200
+PO-Revision-Date: 2009-09-27 21:53+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -105,7 +105,7 @@ $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['09708bb93341b65317dde0e798deaaaf']='If Flash or Java has been installed at your workstation, click on the link to browse this mind map.';
 $_SESSION['l10n']['en']['f5bde952210906492f614252dedd0b21']='If the Adobe plug-in reports an error, please save the file on some hard drive and use this local copy to launch the Acrobat software.';
 $_SESSION['l10n']['en']['2ab437e9863287d3b69b9e0cdc1f8024']='If you cannot upload files because of permissions settings, use the configuration panel for users to disable all uploads.';
-$_SESSION['l10n']['en']['274dee40a72a2da7468cb23ddd84ee40']='If you have get this file from outside source, please describe it here';
+$_SESSION['l10n']['en']['c0ffaa282bf7024132b29f5544fb4df0']='If you have got this file from outside source, please describe it here';
 $_SESSION['l10n']['en']['a9dc0459a1fe4e8573e0046b4ba8e4bb']='If you have installed some BitTorrent client software, you may prefer click on the following torrent link: %s';
 $_SESSION['l10n']['en']['6b10d5461809d38d5e90d39a67071ed4']='If you have installed some Overnet, Emule, or Edonkey client software, you may prefer click on the following ed2k link: %s';
 $_SESSION['l10n']['en']['Image']='Image';
@@ -193,7 +193,6 @@ $_SESSION['l10n']['en']['7604df7ab947daaf747a5e725bafadce']='This file allows fo
 $_SESSION['l10n']['en']['1776aecef24f2d097ff0f00b141bce7b']='This file has been assigned to %s %s, and it is likely that an updated version will be made available soon.';
 $_SESSION['l10n']['en']['100229cfe97b886f2e3cea81dbd9d1ec']='This file has been assigned to you %s, and you are encouraged to %s as soon as possible.';
 $_SESSION['l10n']['en']['2d4b92c7af8bc664500b7a0599619a30']='This file may be accessed on-demand. You may have to use an advanced media player such as %s (open source) or %s (free).';
-$_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
 $_SESSION['l10n']['en']['fb52e739654eb4d1981039c471bca260']='This type of file is not allowed.';
 $_SESSION['l10n']['en']['Thumbnail']='Thumbnail';
 $_SESSION['l10n']['en']['Title']='Title';

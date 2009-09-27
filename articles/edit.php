@@ -163,6 +163,10 @@ elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 if(Articles::is_owned($anchor, $item))
 	Surfer::empower();
 
+// allow editors to contribute to public sections
+elseif(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+	Surfer::empower();
+
 // this page cannot be modified anymore
 elseif(isset($item['locked']) && ($item['locked'] == 'Y'))
 	;

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
+ * on September 27, 2009, 8:28 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-24 23:45+0200
-PO-Revision-Date: 2009-09-24 23:51+0100
+POT-Creation-Date: 2009-09-27 22:22+0200
+PO-Revision-Date: 2009-09-27 22:26+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -28,7 +28,6 @@ $_SESSION['l10n']['en']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages'
 $_SESSION['l10n']['en']['%d person'.chr(0).'%d persons']='%d person'.chr(0).'%d persons';
 $_SESSION['l10n']['en']['%d rate'.chr(0).'%d rates']='%d rate'.chr(0).'%d rates';
 $_SESSION['l10n']['en']['%d records have been processed']='%d records have been processed';
-$_SESSION['l10n']['en']['%s %s']='%s %s';
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s by %s']='%s by %s';
 $_SESSION['l10n']['en']['%s by %s %s']='%s by %s %s';
@@ -178,6 +177,7 @@ $_SESSION['l10n']['en']['45b0a300ae44fcf8ec94980438933ae9']='Message content can
 $_SESSION['l10n']['en']['27e4e516d735c2be8c7f81d26d82ced5']='Message content can not be empty.';
 $_SESSION['l10n']['en']['Message title']='Message title';
 $_SESSION['l10n']['en']['Meta information']='Meta information';
+$_SESSION['l10n']['en']['Modification: %s']='Modification: %s';
 $_SESSION['l10n']['en']['Monitor']='Monitor';
 $_SESSION['l10n']['en']['More']='More';
 $_SESSION['l10n']['en']['More content']='More content';
@@ -354,7 +354,6 @@ $_SESSION['l10n']['en']['Trackback']='Trackback';
 $_SESSION['l10n']['en']['Trailer']='Trailer';
 $_SESSION['l10n']['en']['3d95ce6c80d00bc9abd6f771d7d54bec']='Type here any XHTML tags to be put in page header.';
 $_SESSION['l10n']['en']['Unlock']='Unlock';
-$_SESSION['l10n']['en']['Update: %s']='Update: %s';
 $_SESSION['l10n']['en']['Updated %s']='Updated %s';
 $_SESSION['l10n']['en']['Upload a file']='Upload a file';
 $_SESSION['l10n']['en']['bf17c77b74c5350da902a6142f9a7a9d']='Upload a small image to illustrate this page when it is listed into parent page.';
@@ -410,7 +409,6 @@ $_SESSION['l10n']['en']['none']='none';
 $_SESSION['l10n']['en']['not published']='not published';
 $_SESSION['l10n']['en']['page is locked.']='page is locked.';
 $_SESSION['l10n']['en']['posted by %s %s']='posted by %s %s';
-$_SESSION['l10n']['en']['published %s']='published %s';
 $_SESSION['l10n']['en']['published by %s %s']='published by %s %s';
 $_SESSION['l10n']['en']['reviewed %s']='reviewed %s';
 $_SESSION['l10n']['en']['smileys']='smileys';

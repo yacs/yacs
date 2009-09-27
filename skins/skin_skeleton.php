@@ -276,10 +276,12 @@ Class Skin_Skeleton {
 				if(!$text)
 					$text = i18n::s('Search...');
 
-				$text = '<form action="'.$context['url_to_root'].'search.php" method="get">'
+				$text = '<form action="'.$context['url_to_root'].'search.php" method="get" id="search_box">'
 					.'<p style="margin: 0; padding: 0;">'
 					.'<input type="text" name="search" size="10" value="'.encode_field($text).'" onfocus="this.value=\'\'" maxlength="128" />'
-					.Skin::build_submit_button('&raquo;')
+					.Skin::build_submit_button(i18n::s('Go')).BR
+					.'<input type="radio" name="s" onchange="$(\'search_box\').action=\''.$context['url_to_root'].'search.php\'" checked="checked">'.Skin::build_link('sections/', i18n::s('Content'), 'basic')
+					.' <input type="radio" name="s" onchange="$(\'search_box\').action=\''.$context['url_to_root'].'users/search.php\'">'.Skin::build_link('users/', i18n::s('Persons'), 'basic')
 					.'</p>'
 					.'</form>';
 
@@ -2236,7 +2238,7 @@ Class Skin_Skeleton {
 			if($text)
 				$text = ' -- '.$text;
 
-			$text = '<div class="top">'.$avatar.Skin::build_link($url, $label, 'user').$text.'</div>'."\n";
+			$text = '<div class="top">'.$avatar.Skin::build_link($url, $label, 'user').$text.'</div><br style="clear: left;" />';
 			break;
 
 		// at the end of the page
@@ -2274,7 +2276,7 @@ Class Skin_Skeleton {
 			if($text)
 				$text = ' -- '.$text;
 
-			$text = '<address>'.$avatar.Skin::build_link($url, $label, 'user').$text.'</address>'."\n";
+			$text = '<address>'.$avatar.Skin::build_link($url, $label, 'user').$text.'</address><br style="clear: left;" />';
 			break;
 
 		// in a sidebox

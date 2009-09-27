@@ -55,35 +55,35 @@ Class Images {
 // 			return TRUE;
 		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item))
 			return TRUE;
-		if(isset($item['id']) && ($variant == 'user') && (Surfer::get_id() == $item['id']))
+		if(isset($item['id']) && ($variant == 'user') && Surfer::is($item['id']))
 			return TRUE;
-			
+
 		// item has been locked
 		if(isset($item['locked']) && ($item['locked'] == 'Y'))
 			return FALSE;
 
 		// anchor has been locked --only used when there is no item provided
-		if(!$item['id'] && is_object($anchor) && $anchor->has_option('locked'))
+		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
 		// container is hidden
 		if(isset($item['active']) && ($item['active'] == 'N')) {
-		
+
 			// surfer has been assigned to this item
 			if(isset($item['id']) && ($variant == 'article') && Articles::is_assigned($item['id']))
 				return TRUE;
 // 			if(isset($item['id']) && ($variant == 'category') && Categories::is_assigned($item['id']))
 // 				return TRUE;
 			if(isset($item['id']) && ($variant == 'section') && Sections::is_assigned($item['id']))
-				return TRUE;			
-			
+				return TRUE;
+
 		// container is restricted
 		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
-		
+
 			// only members can proceed
 			if(Surfer::is_member())
 				return TRUE;
-			
+
 		// authenticated members and subscribers are allowed to add images
 		} elseif(Surfer::is_logged())
 			return TRUE;
@@ -530,7 +530,7 @@ Class Images {
 
 		// no layout yet
 		$layout = NULL;
-		
+
 		// separate options from layout name
 		$attributes = explode(' ', $variant, 2);
 
@@ -544,7 +544,7 @@ Class Images {
 				// provide parameters to the layout
 				if(isset($attributes[1]))
 					$layout->set_variant($attributes[1]);
-		
+
 			}
 		}
 
@@ -558,7 +558,7 @@ Class Images {
 		// do the job
 		$output =& $layout->layout($result);
 		return $output;
-		
+
 	}
 
 	/**
@@ -734,7 +734,7 @@ Class Images {
 		$output =& SQL::query_first($query);
 		return $output;
 	}
-	
+
 }
 
 // load localized strings

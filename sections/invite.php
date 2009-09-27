@@ -284,7 +284,7 @@ if(Surfer::is_crawler()) {
 
 		// change content for message poster
 		if(!strcmp($recipient, $from)) {
-			$actual_message = i18n::s('This is a copy of the message you have sent, for your own record.')."\n".'-------'."\n".join(', ', $actual_names)."\n".'-------'."\n\n".$actual_message;
+			$actual_message = i18n::s('This is a copy of the message you have sent, for your own record.')."\n".'-------'."\n".htmlspecialchars_decode(join(', ', $actual_names))."\n".'-------'."\n\n".$actual_message;
 		}
 
 		// post it

@@ -118,16 +118,20 @@ elseif(isset($_REQUEST['anchor']))
 elseif(isset($context['arguments'][1]))
 	$anchor =& Anchors::get($context['arguments'][0].':'.$context['arguments'][1]);
 
-// editors can do what they want on items anchored here
-if(is_object($anchor) && $anchor->is_assigned())
+// owners can do what they want on items anchored here
+if(is_object($anchor) && $anchor->is_owned())
 	Surfer::empower();
 
 // do not accept new files if uploads have been disallowed
 if(!isset($item['id']) && !Surfer::may_upload())
 	$permitted = FALSE;
 
-// associates and editors can do what they want
-elseif(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))
+// associates and owners can do what they want
+elseif(Surfer::is_empowered())
+	$permitted = TRUE;
+
+// editors can upload new files
+elseif(!isset($item['id']) && is_object($anchor) && $anchor->is_assigned())
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
@@ -135,15 +139,11 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
 // surfer owns the item
-elseif(isset($item['edit_id']) && ($item['edit_id'] == Surfer::get_id()))
-	$permitted = TRUE;
-
-// authenticated members are allowed to add images to existing pages
-elseif(Surfer::is_member() && is_object($anchor))
+elseif(isset($item['edit_id']) && Surfer::is($item['edit_id']))
 	$permitted = TRUE;
 
 // authenticated members can post new items if submission is allowed
-elseif(Surfer::is_member() && !isset($item['id']) && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y')))
+elseif(!isset($item['id']) && Surfer::is_member() && (!isset($context['users_without_submission']) || ($context['users_without_submission'] != 'Y')))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -226,7 +226,7 @@ if(Surfer::is_crawler()) {
 
 		// where to put this file
 		$file_path = 'images/'.$context['virtual_path'].str_replace(':', '/', $_REQUEST['anchor']);
-		
+
 		// attach some file
 		if($file_name = Files::upload($_FILES['upload'], $file_path, array('Image', 'upload')))
 			$_REQUEST['image_name'] = $file_name;
@@ -247,7 +247,7 @@ if(Surfer::is_crawler()) {
 			Safe::unlink($file_path.'/'.$item['image_name']);
 			Safe::unlink($file_path.'/'.$item['thumbnail_name']);
 		}
-			
+
 	// nothing has been posted
 	} elseif(!isset($_REQUEST['id']))
 		Logger::error(i18n::s('No file has been transmitted.'));
@@ -433,7 +433,7 @@ if($with_form) {
 		// the source
 		$label = i18n::s('Source');
 		$input = '<input type="text" name="source" size="45" value="'.encode_field(isset($item['source'])?$item['source']:'').'" maxlength="255" accesskey="u" />';
-		$hint = i18n::s('If you have get this file from outside sources, please reference these sources here');
+		$hint = i18n::s('If you have got this file from outside sources, please reference these sources here');
 		$fields[] = array($label, $input, $hint);
 
 	}

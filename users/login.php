@@ -152,7 +152,7 @@ if($credentials && ($credentials = base64_decode($credentials))) {
 load_skin('users');
 
 // page title
-$context['page_title'] = i18n::s('Authentication');
+$context['page_title'] = i18n::s('Who are you?');
 
 // stop crawlers
 if(Surfer::is_crawler()) {
@@ -519,10 +519,21 @@ if(Surfer::is_crawler()) {
 				$items =& Skin::build_list($items, 'decorated');
 			$context['text'] .= Skin::build_box(i18n::s('Have you lost your password?'), $items);
 
+		// offer to register, if possible
+		} elseif(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y')) {
+
+			if(isset($_REQUEST['url'])) {
+				$link = 'users/edit.php?forward='.htmlentities(urlencode($_REQUEST['url']));
+			} elseif(isset($_SERVER['HTTP_REFERER'])) {
+				$link = 'users/edit.php?forward='.htmlentities(urlencode($_SERVER['HTTP_REFERER']));
+			} else
+				$link = 'users/edit.php';
+
+			$context['text'] .= Skin::build_box(i18n::s('Create your profile'), sprintf(i18n::s('Registration is FREE and offers great benefits. %s if you are not yet a member of %s.'), Skin::build_link($link, i18n::s('Click here to register'), 'shortcut'), $context['site_name']));
 		}
 
 		// ask for support
-		$context['text'] .= Skin::build_box(i18n::s('Do you need more help?'), '<p>'.sprintf(i18n::s('Use the %s to ask for help'), Skin::build_link('query.php', i18n::s('query form'))).'</p>');
+		$context['text'] .= Skin::build_box(i18n::s('Do you need more help?'), '<p>'.sprintf(i18n::s('Use the %s to ask for help'), Skin::build_link('query.php', i18n::s('query form'), 'shortcut')).'</p>');
 
 	}
 
@@ -530,34 +541,17 @@ if(Surfer::is_crawler()) {
 } else {
 
 	// the page title
-	$context['page_title'] = i18n::s('Please register or log in');
-
-	// the introduction, for protected pages only
 	if(isset($_REQUEST['url']))
-		$context['text'] .= Skin::build_block(i18n::s('The page you requested is available only to registered members.'), 'introduction');
+		$context['page_title'] = i18n::s('The page you requested is available only to registered members.');
 
-	// offer a self-registration, if allowed
-	if(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y')) {
-
-		if(isset($_REQUEST['url'])) {
-			$link = 'users/edit.php?forward='.htmlentities(urlencode($_REQUEST['url']));
-		} elseif(isset($_SERVER['HTTP_REFERER'])) {
-			$link = 'users/edit.php?forward='.htmlentities(urlencode($_SERVER['HTTP_REFERER']));
-		} else
-			$link = 'users/edit.php';
-
-		$context['text'] .= '<p>'.sprintf(i18n::s('Registration is FREE and offers great benefits. %s if you are not yet a member of %s.'), Skin::build_link($link, i18n::s('Click here to register'), 'shortcut'), $context['site_name'])."</p>\n";
-	}
+	// the place to authenticate
+	$main_column = '';
 
 	// the form
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+	$main_column .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
 	// the title
-	$context['text'] .= Skin::build_block(i18n::s('Already registered? Please authenticate:'), 'subtitle');
-
-	// lay fields in a table
-	$context['text'] .= Skin::table_prefix('form');
-	$lines = 1;
+	$main_column .= Skin::build_block(i18n::s('Please authenticate'), 'title');
 
 	// use cookie, if any
 	$name = '';
@@ -565,19 +559,14 @@ if(Surfer::is_crawler()) {
 		$name = $_COOKIE['surfer_name'];
 
 	// the id or email field
-	$cells = array();
-	$cells[] = i18n::s('Your nick name, or e-mail address');
-	$cells[] = '<input type="text" name="login_name" id="login_name" size="45" maxlength="255" value="'.encode_field($name).'" />'."\n";
-	$context['text'] .= Skin::table_row($cells, $lines++);
+	$label = i18n::s('Your nick name, or e-mail address');
+	$input = '<input type="text" name="login_name" id="login_name" size="45" maxlength="255" value="'.encode_field($name).'" />'."\n";
+	$main_column .= '<p>'.$label.BR.$input.'</p>';
 
 	// the password
-	$cells = array();
-	$cells[] = i18n::s('Password');
-	$cells[] = '<input type="password" name="login_password" size="45" maxlength="255" />'."\n";
-	$context['text'] .= Skin::table_row($cells, $lines++);
-
-	// end of the table
-	$context['text'] .= Skin::table_suffix();
+	$label = i18n::s('Password');
+	$input = '<input type="password" name="login_password" size="45" maxlength="255" />'."\n";
+	$main_column .= '<p>'.$label.BR.$input.'</p>';
 
 	// bottom commands
 	$menu = array();
@@ -589,16 +578,36 @@ if(Surfer::is_crawler()) {
 	$menu[] = Skin::build_link('users/password.php', i18n::s('Lost password'), 'span');
 
 	// insert the menu in the page
-	$context['text'] .= Skin::finalize_list($menu, 'menu_bar');
+	$main_column .= Skin::finalize_list($menu, 'menu_bar');
 
 	// save the forwarding url as well
 	if(isset($_REQUEST['url']))
-		$context['text'] .= '<p><input type="hidden" name="login_forward" value="'.encode_field($context['url_to_root'].$_REQUEST['url']).'" /></p>';
+		$main_column .= '<p><input type="hidden" name="login_forward" value="'.encode_field($context['url_to_root'].$_REQUEST['url']).'" /></p>';
 	elseif(isset($_SERVER['HTTP_REFERER']))
-		$context['text'] .= '<p><input type="hidden" name="login_forward" value="'.encode_field($_SERVER['HTTP_REFERER']).'" /></p>';
+		$main_column .= '<p><input type="hidden" name="login_forward" value="'.encode_field($_SERVER['HTTP_REFERER']).'" /></p>';
 
 	// end of the form
-	$context['text'] .= '</div></form>';
+	$main_column .= '</div></form>';
+
+	// offer a self-registration, if allowed
+	$side_column = '';
+	if(!isset($context['users_without_registration']) || ($context['users_without_registration'] != 'Y')) {
+
+		if(isset($_REQUEST['url'])) {
+			$link = 'users/edit.php?forward='.htmlentities(urlencode($_REQUEST['url']));
+		} elseif(isset($_SERVER['HTTP_REFERER'])) {
+			$link = 'users/edit.php?forward='.htmlentities(urlencode($_SERVER['HTTP_REFERER']));
+		} else
+			$link = 'users/edit.php';
+
+		$side_column .= Skin::build_block(Skin::build_block(i18n::s('Create your profile'), 'title').sprintf(i18n::s('Registration is FREE and offers great benefits. %s if you are not yet a member of %s.'), Skin::build_link($link, i18n::s('Click here to register'), 'shortcut'), $context['site_name']), 'sidecolumn');
+	}
+
+	// layout the columns
+	if($side_column)
+		$context['text'] .= Skin::layout_horizontally($main_column, $side_column);
+	elseif($main_column)
+		$context['text'] .= $main_column;
 
 	// the script used for data checking on the browser
 	$context['text'] .= JS_PREFIX

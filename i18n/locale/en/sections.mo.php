@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
+ * on September 27, 2009, 8:28 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-25 00:02+0200
-PO-Revision-Date: 2009-09-24 23:53+0100
+POT-Creation-Date: 2009-09-27 22:21+0200
+PO-Revision-Date: 2009-09-27 22:27+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -239,6 +239,7 @@ $_SESSION['l10n']['en']['Message title']='Message title';
 $_SESSION['l10n']['en']['Messages']='Messages';
 $_SESSION['l10n']['en']['Meta information']='Meta information';
 $_SESSION['l10n']['en']['Moderator: %s'.chr(0).'Moderators: %s']='Moderator: %s'.chr(0).'Moderators: %s';
+$_SESSION['l10n']['en']['Modification: %s']='Modification: %s';
 $_SESSION['l10n']['en']['Monitor']='Monitor';
 $_SESSION['l10n']['en']['More']='More';
 $_SESSION['l10n']['en']['More content']='More content';
@@ -409,7 +410,6 @@ $_SESSION['l10n']['en']['3d95ce6c80d00bc9abd6f771d7d54bec']='Type here any XHTML
 $_SESSION['l10n']['en']['Unlock']='Unlock';
 $_SESSION['l10n']['en']['Update a note']='Update a note';
 $_SESSION['l10n']['en']['Update a reply']='Update a reply';
-$_SESSION['l10n']['en']['Update: %s']='Update: %s';
 $_SESSION['l10n']['en']['Upload a file']='Upload a file';
 $_SESSION['l10n']['en']['bf17c77b74c5350da902a6142f9a7a9d']='Upload a small image to illustrate this page when it is listed into parent page.';
 $_SESSION['l10n']['en']['c2c4f79559d76d5b49a626fd7bf35631']='Upload an image to be displayed at page top';

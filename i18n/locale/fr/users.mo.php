@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
+ * on September 27, 2009, 8:28 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-24 23:45+0200
-PO-Revision-Date: 2009-09-20 23:53+0100
+POT-Creation-Date: 2009-09-27 21:52+0200
+PO-Revision-Date: 2009-09-27 22:04+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -66,7 +66,6 @@ $_SESSION['l10n']['fr']['f93cd0795b806575553c056bb0afc19b']='Autoriser les autre
 $_SESSION['l10n']['fr']['Allow remote access using VNC.']='Permettre l\'accès distant avec VNC.';
 $_SESSION['l10n']['fr']['a6b11d32679b197b5ae8ca0a9bba18c6']='Permettre l\'accès distant avec NetMeeting.';
 $_SESSION['l10n']['fr']['Allowed Tags']='Balises autorisées';
-$_SESSION['l10n']['fr']['74d0b11cdaef4837b7811af4e6a739e1']='Si vous êtes déjà enregistré, merci de vous authentifier ci-dessous';
 $_SESSION['l10n']['fr']['Alternate contact']='Autre contact';
 $_SESSION['l10n']['fr']['Alternate number']='Autre numéro';
 $_SESSION['l10n']['fr']['4de1199155fabaaff5afe283243d3666']='Toujour accepter les envois anonymes (serveur intranet).';
@@ -137,6 +136,7 @@ $_SESSION['l10n']['fr']['Content']='Contenu';
 $_SESSION['l10n']['fr']['Contribute']='Contribuer';
 $_SESSION['l10n']['fr']['Contributions']='Contributions';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
+$_SESSION['l10n']['fr']['Create your profile']='Créer votre profil';
 $_SESSION['l10n']['fr']['Current picture: %s']='Image actuelle : %s';
 $_SESSION['l10n']['fr']['Dashboard']='Tableau de bord';
 $_SESSION['l10n']['fr']['Default editor']='Editeur par défaut';
@@ -199,7 +199,7 @@ $_SESSION['l10n']['fr']['ICQ']='ICQ';
 $_SESSION['l10n']['fr']['IRC']='IRC';
 $_SESSION['l10n']['fr']['Identification']='Identification';
 $_SESSION['l10n']['fr']['5e35ff0f4d7fcd41dfc15c1154a62db2']='Si vous êtes déjà enregistré, mais que vous ne vous rappelez plus votre mot de passe, %s';
-$_SESSION['l10n']['fr']['1498240d7dd8ef3a4fbafc8af43a360c']='Pour observer une section intéressante, et être averti des ajouts, cliquez sur le lien Surveiller sur le côté de la page.';
+$_SESSION['l10n']['fr']['1498240d7dd8ef3a4fbafc8af43a360c']='Pour observer une section intéressante, et être averti des ajouts, cliquez sur le lien Surveiller sur le côté des pages que vous visitez.';
 $_SESSION['l10n']['fr']['6e4919c1fd24c857329f8e04012e2fb4']='Si vous vous êtes enregistré sur ce site, indiquez votre surnom et nous vous enverrons un lien à cliquer pour vous authentifier.';
 $_SESSION['l10n']['fr']['If your home page is not here.']='Si votre page d\'accueil n\'est pas sur ce système.';
 $_SESSION['l10n']['fr']['Image %d of %d']='Image %d de %d';
@@ -304,6 +304,7 @@ $_SESSION['l10n']['fr']['Physical address']='Adresse postale';
 $_SESSION['l10n']['fr']['Picture URL']='URL de l\'image';
 $_SESSION['l10n']['fr']['Pictures']='Images';
 $_SESSION['l10n']['fr']['8c38a999d084de2f0ee7abb984b1f91c']='Merci d\'activer la librairie LDAP.';
+$_SESSION['l10n']['fr']['Please authenticate']='Faites-vous reconnaitre';
 $_SESSION['l10n']['fr']['ffb6aa9a43a233acdad78532f79a6120']='Choisissez un surnom significatif et non encore utilisé';
 $_SESSION['l10n']['fr']['9aedf8a1dde06b834911bd634b103f33']='Voulez-vous recevoir un message pour vous authentifier sur le compte suivant ?';
 $_SESSION['l10n']['fr']['9255b3acd25d09f8a29801ea4ebf964c']='Merci de confirmer votre mot de passe.';
@@ -314,7 +315,6 @@ $_SESSION['l10n']['fr']['5830392e1d0c7d2eb29ade20c07f3328']='Veuillez noter qu\'
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['69218afa8966421e717318b0e6aa7894']='Indiquez les paramètres pour l\'authentification.';
-$_SESSION['l10n']['fr']['Please register or log in']='Merci de vous faire connaître';
 $_SESSION['l10n']['fr']['12fc8d23e0da8141d00630c0f2779650']='Merci d\'indiquer les mots recherchés';
 $_SESSION['l10n']['fr']['Popular files']='Fichiers populaires';
 $_SESSION['l10n']['fr']['Popular pages']='Pages populaires';
@@ -451,6 +451,7 @@ $_SESSION['l10n']['fr']['Welcome!']='Bienvenue !';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['What do you want to talk about?']='Quel sujet voulez-vous aborder ?';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où souhaitez-vous aller à présent ?';
+$_SESSION['l10n']['fr']['Who are you?']='Qui êtes-vous ?';
 $_SESSION['l10n']['fr']['Who do you want to involve?']='Qui souhaitez-vous faire participer ?';
 $_SESSION['l10n']['fr']['Windows Live Messenger']='Windows Live Messenger';
 $_SESSION['l10n']['fr']['e8b0bf4ec723bbdbad754aa045742c38']='Voulez-vous consulter la page ?';

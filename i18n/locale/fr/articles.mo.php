@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
+ * on September 27, 2009, 8:28 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-24 23:45+0200
-PO-Revision-Date: 2009-09-24 23:53+0100
+POT-Creation-Date: 2009-09-27 22:22+0200
+PO-Revision-Date: 2009-09-27 22:24+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -28,7 +28,6 @@ $_SESSION['l10n']['fr']['%d page'.chr(0).'%d pages']='%d page'.chr(0).'%d pages'
 $_SESSION['l10n']['fr']['%d person'.chr(0).'%d persons']='%d personne'.chr(0).'%d personnes';
 $_SESSION['l10n']['fr']['%d rate'.chr(0).'%d rates']='%d vote'.chr(0).'%d votes';
 $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements ont été traités';
-$_SESSION['l10n']['fr']['%s %s']='%s %s';
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s by %s']='%s par %s';
 $_SESSION['l10n']['fr']['%s by %s %s']='%s par %s %s';
@@ -178,6 +177,7 @@ $_SESSION['l10n']['fr']['45b0a300ae44fcf8ec94980438933ae9']='Le corps du message
 $_SESSION['l10n']['fr']['27e4e516d735c2be8c7f81d26d82ced5']='Le corps du message ne peut pas être vide.';
 $_SESSION['l10n']['fr']['Message title']='Titre du message';
 $_SESSION['l10n']['fr']['Meta information']='Meta-information';
+$_SESSION['l10n']['fr']['Modification: %s']='Mise à jour : %s';
 $_SESSION['l10n']['fr']['Monitor']='Surveiller';
 $_SESSION['l10n']['fr']['More']='La suite';
 $_SESSION['l10n']['fr']['More content']='Contenu additionnel';
@@ -354,7 +354,6 @@ $_SESSION['l10n']['fr']['Trackback']='Référencer';
 $_SESSION['l10n']['fr']['Trailer']='Bas de page';
 $_SESSION['l10n']['fr']['3d95ce6c80d00bc9abd6f771d7d54bec']='Tapez ici les balises XHTML additionnelles à placer dans l\'en-tête de page.';
 $_SESSION['l10n']['fr']['Unlock']='Déverrouiller';
-$_SESSION['l10n']['fr']['Update: %s']='Mise à jour : %s';
 $_SESSION['l10n']['fr']['Updated %s']='Mis à jour %s';
 $_SESSION['l10n']['fr']['Upload a file']='Ajouter un fichier';
 $_SESSION['l10n']['fr']['bf17c77b74c5350da902a6142f9a7a9d']='Téléverser une petite image pour illustrer cette page au niveau de son parent.';
@@ -410,7 +409,6 @@ $_SESSION['l10n']['fr']['none']='aucun';
 $_SESSION['l10n']['fr']['not published']='à publier';
 $_SESSION['l10n']['fr']['page is locked.']='la page est verrouillée.';
 $_SESSION['l10n']['fr']['posted by %s %s']='posté par %s %s';
-$_SESSION['l10n']['fr']['published %s']='publié %s';
 $_SESSION['l10n']['fr']['published by %s %s']='publié par %s %s';
 $_SESSION['l10n']['fr']['reviewed %s']='mis à jour %s';
 $_SESSION['l10n']['fr']['smileys']='les emoticons';

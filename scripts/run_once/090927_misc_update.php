@@ -20,6 +20,7 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 unset($files);
+$files[] = 'included/tiny_mce/themes/advanced/skins/default/content.css';
 $files[] = 'shared/yacs.js';
 $files[] = 'skins/_reference/yacs.css';
 $files[] = 'skins/images/icons/accordion/minus.jpg';

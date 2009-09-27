@@ -153,24 +153,7 @@ Class Layout_articles_as_table extends Layout_interface {
 			}
 
 			// more details
-			$details = array();
-
-			// posting date
-			if($item['create_date'])
-				$details[] = Skin::build_date($item['create_date']);
-
-			// last modification by creator, and less than 24 hours between creation and last edition
-			if(($item['create_date'] > NULL_DATE) && ($item['create_id'] == $item['edit_id'])
-					&& (strtotime($item['create_date'])+24*60*60 >= strtotime($item['edit_date'])))
-				;
-
-			// publication is the last action
-			elseif(($item['publish_date'] > NULL_DATE) && strpos($item['edit_action'], ':publish'))
-				;
-
-			// the last action
-			else
-				$details[] = get_action_label($item['edit_action']).' '.Skin::build_date($item['edit_date']);
+			$details =& Articles::build_dates($anchor, $item);
 
 			// signal locked articles
 			if(isset($item['locked']) && ($item['locked'] == 'Y'))

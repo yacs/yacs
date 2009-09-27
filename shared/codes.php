@@ -658,7 +658,7 @@ Class Codes {
 
 		// remove slashes added by preg_replace -- only for double quotes
 		$text = str_replace('\"', '"', $text);
-		
+
 		// done
 		return $text;
 	}
@@ -695,7 +695,7 @@ Class Codes {
 		global $codes_base;
 		if($main_target)
 			$codes_base = $context['url_to_root'].$main_target;
-			
+
 	}
 
 	/**
@@ -717,13 +717,13 @@ Class Codes {
 	 */
 	function &render($text) {
 		global $context;
-		
+
 		// streamline newlines, even if this has been done elsewhere
 		$text = str_replace(array("\r\n", "\r"), "\n", $text);
 
 		// prevent wysiwyg editors to bracket our own tags
 		$text = preg_replace('/^<p>(\[.+\])<\/p>$/m', '\\1', $text);
-		
+
  		// initialize only once
 		static $pattern;
 		if(!isset($pattern)) {
@@ -988,7 +988,7 @@ Class Codes {
 				"HORIZONTAL_RULER", 												// [---], [___]
 				"HORIZONTAL_RULER", 												// ----
 				'<ins>\\1</ins>',													// [inserted]...[/inserted]
-				' <del>\\1</del>',													// --...-- 
+				' <del>\\1</del>',													// --...--
 				'<del>\\1</del>',													// [deleted]...[/deleted]
 				'<b>\\1</b>',														// **...**
 				'<b>\\1</b>',														// [b]...[/b]
@@ -1242,7 +1242,7 @@ Class Codes {
 	**/
 	function &render_chart($data, $variant) {
 		global $context;
-		
+
 		// split parameters
 		$attributes = preg_split("/\s*,\s*/", $variant, 4);
 
@@ -1411,7 +1411,7 @@ Class Codes {
 	 * @return string the rendered text
 	**/
 	function &render_email($address, $text) {
-	
+
 		// be sure to display something
 		if(!$text)
 			$text = $address;
@@ -1419,7 +1419,7 @@ Class Codes {
 		// specify a scheme if not done yet
 		if(!preg_match('/^[a-z]+:/i', $address))
 			$address = 'mailto:'.$address;
-			
+
 		// return a complete anchor
 		$output = Skin::build_link($address, $text, 'email');
 		return $output;
@@ -1634,10 +1634,10 @@ Class Codes {
 		// sanity check
 		if(!$text)
 			$text = 'Hello->World!';
-			
+
 		// remove tags put by WYSIWYG editors
 		$text = strip_tags(str_replace(array('&gt;', '&lt;', '&amp;', '&quot;', '\"'), array('>', '<', '&', '"', '"'), str_replace(array('<br />', '</p>'), "\n", $text)));
-		
+
 		// build the .dot content
 		switch($variant) {
 		case 'digraph':
@@ -1645,23 +1645,23 @@ Class Codes {
 			$text = 'digraph G { '.$text.' }'."\n";
 			break;
 		}
-			
+
 		// id for this object
 		$hash = md5($text);
-		
+
 		// path to cached files
 		$path = $context['path_to_root'].'temporary/graphviz.';
-		
+
 		// we cache content
 		if($content = Safe::file_get_contents($path.$hash.'.html'))
 			return $content;
-			
+
 		// build a .dot file
 		if(!Safe::file_put_contents($path.$hash.'.dot', $text)) {
 			$content = '[error writing .dot file]';
 			return $content;
 		}
-		
+
 		// process the .dot file
 		if(isset($context['dot.command']))
 			$command = $context['dot.command'];
@@ -2248,7 +2248,7 @@ Class Codes {
 
 				// maybe we want to illustrate this file
 				$output = Files::interact($item);
-				
+
 				// ensure we have a label for this link
 				if(isset($attributes[1]))
 					$text = $attributes[1];
@@ -2303,11 +2303,11 @@ Class Codes {
 
 			// native flash
 			case 'swf':
-			
+
 				// where to get the file
 				if(isset($item['file_href']) && $item['file_href'])
 					$url = $item['file_href'];
-					
+
 				// we provide the native file because of basename
 				else
 					$url = $context['url_to_home'].$context['url_to_root'].'files/'.str_replace(':', '/', $item['anchor']).'/'.rawurlencode($item['file_name']);
@@ -2338,7 +2338,7 @@ Class Codes {
 				// file is elsewhere
 				if(isset($item['file_href']) && $item['file_href'])
 					$url = $item['file_href'];
-					
+
 				// prevent leeching (the flv player will provide session cookie, etc)
 				else
 					$url = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
@@ -2799,12 +2799,12 @@ Class Codes {
 		// change new lines
 		$text = trim(str_replace("\r", '', str_replace(array("<br>\n", "<br/>\n", "<br />\n", '<br>', '<br/>', '<br />'), "\n", $text)));
 
-		// caught from tinymce		
+		// caught from tinymce
 		if(preg_match('/<p>(.*)<\/p>$/s', $text, $matches)) {
 			$text = $matches[1];
 			$text = str_replace(array('&amp;', '<p>', '</p>'), array('&', '', "\n"), $text);
 		}
-		
+
 		// match some php code
 		$explicit = FALSE;
 		if(preg_match('/<\?php\s/', $text))
@@ -2813,7 +2813,7 @@ Class Codes {
 			$text = '<?'.'php'."\n".$text."\n".'?'.'>';
 			$explicit = TRUE;
 		}
-		
+
 		// highlight php code, if any
 		if($variant == 'php') {
 
@@ -2825,7 +2825,7 @@ Class Codes {
 // 			$text = '';
 // 			foreach($lines as $line)
 // 				$text .= wordwrap($line, 100, " \n", 0)."\n";
-	
+
 			// handle newlines and indentations properly
 			$text = str_replace(array("\n<span", "\n</code", "\n</pre", "\n</span"), array('<span', '</code', '</pre', '</span'), Safe::highlight_string($text));
 
@@ -2841,7 +2841,7 @@ Class Codes {
 		$search = array(	'[',		']',		':',		'//',			'##',			'**',			'++',			'--',			'__');
 		$replace = array(	'&#91;',	'&#93;',	'&#58;',	'&#47;&#47;',	'&#35;&#35;',	'&#42;&#42;',	'&#43;&#43;',	'&#45;&#45;',	'&#95;&#95;');
 		$output = '<pre>'.str_replace($search, $replace, $text).'</pre>';
-		
+
 		return $output;
 
 	}
@@ -3019,7 +3019,7 @@ Class Codes {
 
 			// query the database and layout that stuff
 			$items =& Articles::list_for_anchor_by('random', $anchors, 0, 1, 'raw');
-			
+
 		// scope is limited to one author
 		} elseif(!strncmp($anchor, 'user:', 5))
 			$items =& Articles::list_for_author_by('random', str_replace('user:', '', $anchor), 0, 1, 'raw');
@@ -3037,33 +3037,33 @@ Class Codes {
 				if(!$label)
 					$label = Skin::strip($item['title']);
 				$text =& Skin::build_link($link, $label, 'article');
-	
+
 				if($layout == 'description') {
-	
+
 					// the introduction text, if any
 					$text .= BR.Codes::beautify($item['introduction']);
-	
+
 					// load overlay, if any
 					if(isset($item['overlay']) && $item['overlay']) {
 						include_once '../overlays/overlay.php';
 						$overlay = Overlay::load($item);
-	
+
 						// get text related to the overlay, if any
 						if(is_object($overlay))
 							$text .= $overlay->get_text('view', $item);
-	
+
 					}
-	
+
 					// the description, which is the actual page body
 					$text .= '<div>'.Codes::beautify($item['description']).'</div>';
-	
+
 				}
-				
+
 				// we take only one item
 				break;
 			}
  		}
- 		
+
 		// job done
 		return $text;
 	}
@@ -3266,22 +3266,22 @@ Class Codes {
 
 		// nothing to return yet
 		$output = '';
-		
+
 		// list of questions for a FAQ
 		if($variant == 'questions') {
 
 			// only if the table is not empty
 			global $codes_toq;
 			if(isset($codes_toq) && $codes_toq) {
-				
+
 				// to be rendered by css, using selector .toq_box ul, etc.
 				$text = '<ul>'."\n";
 				foreach($codes_toq as $link)
 					$text .= '<li>'.$link.'</li>'."\n";
 				$text .= '</ul>'."\n";
-	
+
 				$output =& Skin::build_box('', $text, 'toq');
-				
+
 			}
 
 		// list of titles
@@ -3290,7 +3290,7 @@ Class Codes {
 			// only if the table is not empty
 			global $codes_toc;
 			if(isset($codes_toc) && $codes_toc) {
-			
+
 				// to be rendered by css, using selector .toc_box ul, etc.
 				// <ul>
 				// <li>1. link</li> 		0 -> 1
@@ -3309,36 +3309,36 @@ Class Codes {
 				$previous_level = 0;
 				foreach($codes_toc as $attributes) {
 					list($level, $link) = $attributes;
-					
+
 					if($previous_level == $level)
 						$text .= '</li>'."\n";
-					
+
 					else {
-					
+
 						if($previous_level < $level) {
-							$text .= '<ul>'; 
+							$text .= '<ul>';
 							$previous_level++;
 							while($previous_level < $level) {
 								$text .= '<li><ul>'."\n";
 								$previous_level++;
 							}
 						}
-							
+
 						if($previous_level > $level) {
-							$text .= '</li>'; 
+							$text .= '</li>';
 							while($previous_level > $level) {
 								$text .= '</ul></li>'."\n";
 								$previous_level--;
 							}
 						}
 					}
-	
+
 					$text .= '<li>'.$link;
-	
+
 				}
-	
+
 				if($previous_level > 0) {
-					$text .= '</li>'; 
+					$text .= '</li>';
 					while($previous_level > 0) {
 						if($previous_level > 1)
 							$text .= '</ul></li>'."\n";
@@ -3347,13 +3347,13 @@ Class Codes {
 						$previous_level--;
 					}
 				}
-	
+
 				$output =& Skin::build_box('', $text, 'toc');
-				
+
 			}
 
 		}
-		
+
 		return $output;
 	}
 
@@ -3696,7 +3696,7 @@ Class Codes {
 		// suppress bracketed words
 		if($suppress_all_brackets)
 			$output = trim(preg_replace('/\[(.+?)\]/s', ' ', $output));
-			
+
 		return $output;
 	}
 }

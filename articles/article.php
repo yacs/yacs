@@ -477,7 +477,7 @@ Class Article extends Anchor {
 			return NULL;
 
 		switch($action) {
-		
+
 		// view comments
 		case 'comments':
 			// variants that start at the article page
@@ -493,24 +493,24 @@ Class Article extends Anchor {
 			// layouts that start at the article page
 			else
 				return Articles::get_permalink($this->item).'#comments';
-		
+
 		// list of files
 		case 'files':
 			if($this->has_option('view_as_tabs'))
 				return $this->get_url().'#_attachments';
 			return Articles::get_permalink($this->item).'#files';
-		
+
 		// list of links
 		case 'links':
 			if($this->has_option('view_as_tabs'))
 				return $this->get_url().'#_attachments';
 			return Articles::get_permalink($this->item).'#links';
-		
+
 		// jump to parent page
-		case 'parent': 
+		case 'parent':
 			if(!isset($this->anchor))
 				$this->anchor =& Anchors::get($this->item['anchor']);
-	
+
 			return $this->anchor->get_url();
 
 		// the permalink page
@@ -522,7 +522,7 @@ Class Article extends Anchor {
 			return Articles::get_url($this->item['id'], $action, $this->item['title'], $this->item['nick_name']);
 
 		}
-		
+
 	}
 
 	/**
@@ -544,7 +544,7 @@ Class Article extends Anchor {
 		// id of requesting user
 		if(!$user_id && Surfer::get_id())
 			$user_id = Surfer::get_id();
-			
+
 		// anonymous is allowed
 		if(!$user_id)
 			$user_id = 0;
@@ -813,7 +813,7 @@ Class Article extends Anchor {
 		// no article bound
 		if(!isset($this->item['id']))
 			return;
-			
+
 		// clear floating objects
 		if($action == 'clear') {
 			$this->item['description'] .= ' [clear]';
@@ -842,16 +842,16 @@ Class Article extends Anchor {
 
 		// a new file has been attached
 		} elseif(($action == 'file:create') || ($action == 'file:update')) {
-		
+
 			// identify specific files
 			$label = '';
 			if($item =& Files::get($origin)) {
-			
+
 				// give it to the Flash player
 				if(isset($item['file_name']) && Files::is_embeddable($item['file_name']))
 					$label = '[embed='.$origin.', 320, 240]';
-					
-				
+
+
 			}
 
 			// we are in some interactive thread
@@ -860,7 +860,7 @@ Class Article extends Anchor {
 				// default is to download the file
 				if(!$label)
 					$label = '[download='.$origin.']';
-				
+
 				// this is the first contribution to the thread
 				include_once $context['path_to_root'].'comments/comments.php';
 				if(!$comment = Comments::get_newest_for_anchor('article:'.$this->item['id'])) {
@@ -887,7 +887,7 @@ Class Article extends Anchor {
 			// include flash videos in a regular page
 			} elseif($label)
 				$query[] = "description = '".SQL::escape($this->item['description'].' '.$label)."'";
-			
+
 
 		// append a reference to a new image to the description
 		} elseif($action == 'image:create') {
@@ -1047,7 +1047,7 @@ Class Article extends Anchor {
 			$mail = array();
 
 			// mail subject
-			$mail['subject'] = sprintf(i18n::c('Update: %s'), strip_tags($this->item['title']));
+			$mail['subject'] = sprintf(i18n::c('Modification: %s'), strip_tags($this->item['title']));
 
 			// mail template -- title, link, action
 			$mail['template'] = i18n::c('The following page has been updated')."\n\n%s\n%s\n\n%s";
@@ -1075,14 +1075,14 @@ Class Article extends Anchor {
 			// ensure the article has a private handle
 			if(!isset($this->item['handle']) || !$this->item['handle']) {
 				$this->item['handle'] = md5(mt_rand());
-				
+
 				// save in the database
 				$fields = array();
 				$fields['id'] = $this->item['id'];
 				$fields['handle'] = $this->item['id'];
 				$fields['silent'] = 'Y';
 				Articles::put_attributes($fields);
-			}				
+			}
 
 			// link sent to page poster has login credentials --see users/login.php
 			$credentials = array();
@@ -1097,7 +1097,7 @@ Class Article extends Anchor {
 			// threads all messages for this page
 			include_once $context['path_to_root'].'shared/mailer.php';
 			$mail['headers'] = Mailer::set_thread(NULL, 'article:'.$this->item['id']);
-			
+
 			// regular poster
 			if($this->item['create_id']) {
 				include_once $context['path_to_root'].'users/visits.php';

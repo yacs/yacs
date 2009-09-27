@@ -97,55 +97,7 @@ if(!Surfer::is_crawler()) {
 		$text .= ucfirst(implode(BR."\n", $details)).BR."\n";
 
 	// details
-	$details = array();
-
-	// the creator of this article, if associate or if editor or if not prevented globally or if section option
-	if($item['create_date'] && (Articles::is_owned($anchor, $item)
-		|| ((!isset($context['content_without_details']) || ($context['content_without_details'] != 'Y')) || (is_object($anchor) && $anchor->has_option('with_details')) ) ) ) {
-
-		if($item['create_name'])
-			$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
-		else
-			$details[] = Skin::build_date($item['create_date']);
-
-	}
-
-	// the publisher of this article, if any
-	if(($item['publish_date'] > NULL_DATE)
-		&& !strpos($item['edit_action'], ':publish')
-		&& (Surfer::is_associate() || Articles::is_assigned($item['id']) || (is_object($anchor) && $anchor->is_assigned()))) {
-
-		if($item['publish_name'])
-			$details[] = sprintf(i18n::s('published by %s %s'), Users::get_link($item['publish_name'], $item['publish_address'], $item['publish_id']), Skin::build_date($item['publish_date']));
-		else
-			$details[] = Skin::build_date($item['publish_date']);
-	}
-
-	// last modification by creator, and less than 24 hours between creation and last edition
-	if(($item['create_date'] > NULL_DATE) && ($item['create_id'] == $item['edit_id'])
-			&& (SQL::strtotime($item['create_date'])+24*60*60 >= SQL::strtotime($item['edit_date'])))
-		;
-	// publication is the last action
-	elseif(strpos($item['edit_action'], ':publish'))
-		;
-	elseif(Articles::is_owned($anchor, $item)
-		|| ((!isset($context['content_without_details']) || ($context['content_without_details'] != 'Y')) || Articles::has_option('with_details', $anchor, $item)) ) {
-
-		if($item['edit_action'])
-			$action = get_action_label($item['edit_action']).' ';
-		else
-			$action = i18n::s('edited');
-
-		if($item['edit_name'])
-			$details[] = sprintf(i18n::s('%s by %s %s'), $action, Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
-		else
-			$details[] = $action.' '.Skin::build_date($item['edit_date']);
-
-	}
-
-	// last revision, if any
-	if(isset($item['review_date']) && ($item['review_date'] > NULL_DATE) && Surfer::is_associate())
-		$details[] = sprintf(i18n::s('reviewed %s'), Skin::build_date($item['review_date'], 'no_hour'));
+	$details =& Articles::build_dates($anchor, $item);
 
 	// signal articles to be published
 	if(($item['publish_date'] <= NULL_DATE)) {
@@ -337,7 +289,7 @@ if($information)
 //
 // append tabs from the overlay, if any -- they have been captured in articles/view.php
 //
-if(isset($context['tabs']) && @count($context['tabs']))
+if(isset($context['tabs']) && is_array($context['tabs']))
 	$panels = array_merge($panels, $context['tabs']);
 
 //

@@ -420,7 +420,7 @@ if(is_callable(array('Hooks', 'include_scripts')))
 // last resort
 $context['text'] .= Skin::build_block(i18n::s('Not satisfied yet?'), 'title')
 	.'<ul>'
-	.'<li>'.sprintf(i18n::s('Use the %s to ask for help'), Skin::build_link('query.php', i18n::s('query form'))).'</li>'
+	.'<li>'.sprintf(i18n::s('Use the %s to ask for help'), Skin::build_link('query.php', i18n::s('query form'), 'shortcut')).'</li>'
 	.'<li>'.sprintf(i18n::s('Browse %s to look for additional support'), Skin::build_link('http://www.yacs.fr/')).'</li>'
 	.'<li>'.Skin::build_link('http://www.google.com/', i18n::s('Search at Google')).'</li>'
 	.'</ul>';

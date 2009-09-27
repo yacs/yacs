@@ -13,10 +13,6 @@
  * - The real-time chatting space, built upon a specialized layout for comments
  * - The list of related links
  *
- * Details about this page are displayed if:
- * - surfer is a site associate or a section editor
- * - surfer is a member and ( ( global parameter content_without_details != Y ) or ( section option with_details == Y ) )
- *
  * The extra panel has following elements:
  * - extra information from the article itself, if any
  * - toolbox for page author, editors, and associates

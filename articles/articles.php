@@ -235,8 +235,12 @@ Class Articles {
 		if(Articles::is_owned($anchor, $item))
 			return TRUE;
 
-		// section is public, and surfer is an editor of it
+		// section is not private, and surfer is an editor of it
 		if(isset($item['active']) && ($item['active'] != 'N') && isset($item['id']) && Sections::is_assigned($item['id']))
+			return TRUE;
+
+		// section is not private, and surfer is an editor of it
+		if(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 
 		// container has been locked
@@ -265,6 +269,71 @@ Class Articles {
 
 		// the default is to not allow for new articles
 		return FALSE;
+	}
+
+	/**
+	 * document modification dates for this item
+	 *
+	 * @param object anchor of the article
+	 * @param array the article to be documented
+	 * @return array strings detailed labels
+	 */
+	function &build_dates($anchor, $item) {
+		global $context;
+
+		// we return an array of strings
+		$details = array();
+
+		// we do want details for this page
+		if(strpos($item['options'], 'with_details') !== FALSE)
+			;
+
+		// no details please
+		elseif(isset($context['content_without_details']) && ($context['content_without_details'] == 'Y') && !Articles::is_owned($anchor, $item))
+			return $details;
+
+		// post date and author
+		if($item['create_date']) {
+
+			// creation and last modification happen on same day by the same person
+			if(!strcmp(substr($item['create_date'], 0, 10), substr($item['edit_date'], 0, 10)) && ($item['create_id'] == $item['edit_id']))
+				;
+
+			// mention creation date
+			elseif($item['create_name'])
+				$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
+			else
+				$details[] = Skin::build_date($item['create_date']);
+
+		}
+
+		// publication date and contributor
+		if(($item['publish_date'] > NULL_DATE) && ($item['publish_id'] != $item['create_id']) && !strpos($item['edit_action'], ':publish')) {
+
+			if($item['publish_name'])
+				$details[] = sprintf(i18n::s('published by %s %s'), Users::get_link($item['publish_name'], $item['publish_address'], $item['publish_id']), Skin::build_date($item['publish_date']));
+			else
+				$details[] = Skin::build_date($item['publish_date']);
+
+		}
+
+		// last modification
+		if($item['edit_action'])
+			$action = get_action_label($item['edit_action']).' ';
+		else
+			$action = i18n::s('edited');
+
+		if($item['edit_name'])
+			$details[] = sprintf(i18n::s('%s by %s %s'), $action, Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+		else
+			$details[] = $action.' '.Skin::build_date($item['edit_date']);
+
+		// last revision, if any
+		if(isset($item['review_date']) && ($item['review_date'] > NULL_DATE) && Surfer::is_associate())
+			$details[] = sprintf(i18n::s('reviewed %s'), Skin::build_date($item['review_date'], 'no_hour'));
+
+		// job done
+		return $details;
 	}
 
 	/**
@@ -1009,20 +1078,20 @@ Class Articles {
 			$user_id = Surfer::get_id();
 		}
 
-		// associates can do what they want
-		if(($user_id == Surfer::get_id()) && Surfer::is_associate())
+		// surfer owns this page
+		if(isset($item['owner_id']) && ($item['owner_id'] == $user_id))
 			return TRUE;
 
 		// surfer owns parent container
 		if(is_object($anchor) && $anchor->is_owned($user_id))
 			return TRUE;
 
-		// surfer owns this page
-		if(isset($item['owner_id']) && ($item['owner_id'] == $user_id))
-			return TRUE;
-
 		// item exists, and surfer has been assigned to parent container
 		if(isset($item['id']) && is_object($anchor) && $anchor->is_assigned($user_id))
+			return TRUE;
+
+		// associates can do what they want
+		if(Surfer::is($user_id) && Surfer::is_associate())
 			return TRUE;
 
 		// sorry

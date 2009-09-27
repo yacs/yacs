@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 24, 2009, 10:02 pm GMT. Please do not modify it manually.
+ * on September 27, 2009, 8:30 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-02 00:59+0200
+POT-Creation-Date: 2009-09-27 21:52+0200
 PO-Revision-Date: 2009-09-02 01:19+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -97,7 +97,6 @@ $_SESSION['l10n']['fr']['851fe463cc87e64921bd418eeaa3194c']='Le lien a été enr
 $_SESSION['l10n']['fr']['bb76e300225d0626f317e27811fb1737']='L\'adresse distante qui référence quelque information sur ce serveur';
 $_SESSION['l10n']['fr']['The title of your page']='Le titre de votre page';
 $_SESSION['l10n']['fr']['18d140b9af759b4ec502696d7172360b']='Champ optionnel.';
-$_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
 $_SESSION['l10n']['fr']['ab8108ace13178f35a29024b21c0fc26']='Ce scritp va ajouter un nouveau lien à l\'une des sections ci-dessous. Si vous souhaitez compléter une page existante, veuillez plutôt visualiser la page en question et utiliser la commande ad hoc dans le menu.';
 $_SESSION['l10n']['fr']['7d3b8663e49511737554c31b7e3bebdd']='Ce serveur respecte la %s telle qu\'annoncée par Ben et Mena Trott. A ce sujet, veuillez noter que tout serveur %s utilise le trackback pour référencer jusqu\'à sept liens lors de la publication d\'un article.';
 $_SESSION['l10n']['fr']['a3dec8fa1135b7cdbc8b08e8958d4e03']='Ce qui apparaît près du lien lorsque la souris est placée au-dessus';

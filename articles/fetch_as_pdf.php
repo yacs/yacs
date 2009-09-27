@@ -216,48 +216,7 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= utf8::to_unicode(Codes::beautify($item['trailer']));
 
 	// gather details
-	$details = array();
-
-	// the creator of this article, if any, and if different from the publisher and if more than 24 hours before last edition
-	if(Surfer::is_member() && isset($item['create_date']) && ($item['create_id'] != $item['publish_id'])
-		&& (SQL::strtotime($item['create_date'])+24*60*60 < SQL::strtotime($item['edit_date']))) {
-
-		$details[] = sprintf(i18n::s('posted by %s %s'), ucfirst($item['create_name']), Skin::build_date($item['create_date']));
-	}
-
-	// the publisher of this article, if any
-	if(isset($item['publish_name']) && $item['publish_name']) {
-
-		// show publisher to members
-		if(Surfer::is_member()) {
-			$details[] = sprintf(i18n::s('published by %s %s'), ucfirst($item['publish_name']), Skin::build_date($item['publish_date']));
-
-		// show only publication date
-		} elseif($item['publish_date'])
-			$details[] = sprintf(i18n::s('published %s'), Skin::build_date($item['publish_date']));
-
-	}
-
-	// the last edition of this article, if different from creation/publication date
-	if(isset($item['create_date']) && $item['create_date'] && ($item['edit_date'] == $item['create_date']))
-		;
-	elseif(isset($item['publish_date']) && $item['publish_date'] && ($item['edit_date'] == $item['publish_date']))
-		;
-	elseif(Surfer::is_member()) {
-
-		// label for the last action
-		if($item['edit_action'])
-			$action = get_action_label($item['edit_action']);
-		else
-			$action = i18n::s('edited');
-
-		// show last modifier, if any
-		if($item['edit_name'])
-			$details[] = sprintf(i18n::s('%s by %s %s'), $action, ucfirst($item['edit_name']), Skin::build_date($item['edit_date']));
-		else
-			$details[] = sprintf(i18n::s('%s %s'), $action, Skin::build_date($item['edit_date']));
-
-	}
+	$details =& Articles::build_dates($anchor, $item);
 
 	// all details
 	if(count($details))

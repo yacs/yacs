@@ -141,7 +141,7 @@ elseif($target_anchor)
 if(is_object($anchor) && $anchor->is_owned()) {
 	Surfer::empower();
 	$permitted = TRUE;
-	
+
 // associates and authenticated editors can modify any comment
 } elseif(($action != 'edit') && Comments::are_allowed($anchor, $item))
 	$permitted = TRUE;
@@ -152,10 +152,6 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 
 // surfer created the comment
 elseif(isset($item['create_id']) && Surfer::is($item['create_id']))
-	$permitted = TRUE;
-
-// ensure that new comments are allowed
-elseif(($action != 'edit') && is_object($anchor) && Comments::are_allowed($anchor, $item, $anchor->get_reference()))
 	$permitted = TRUE;
 
 // the default is to disallow access
@@ -234,7 +230,7 @@ if(Surfer::is_crawler()) {
 	// attach some file
 	if(isset($_FILES['upload']) && $file = Files::upload($_FILES['upload'], 'files/'.$context['virtual_path'].str_replace(':', '/', $anchor->get_reference()), $anchor->get_reference()))
 		$_REQUEST['description'] .= $file;
-		
+
 	// preview mode
 	if(isset($_REQUEST['preview']) && ($_REQUEST['preview'] == 'Y')) {
 		$item = $_REQUEST;

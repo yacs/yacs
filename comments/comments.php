@@ -38,23 +38,39 @@ Class Comments {
 	 * @param string the type of item, e.g., 'section', or a reference, e.g., 'article:123'
 	 * @return TRUE or FALSE
 	 */
-	function are_allowed($anchor=NULL, $item=NULL, $variant='article') {
+	function are_allowed($anchor=NULL, $item=NULL, $variant=NULL) {
 		global $context;
 
-		// turn a reference to a type
-		if($position = strpos($variant, ':'))
-			$variant = substr($variant, 0, $position);
-			
+		// guess the variant
+		if(!$variant) {
+
+			// most frequent case
+			if(isset($item['id']))
+				$variant = 'article';
+
+			// we have no item, look at anchor type
+			elseif(is_object($anchor))
+				$variant = $anchor->get_type();
+
+			// sanity check
+			else
+				return FALSE;
+		}
+
 		// comments are prevented in item
 		if(($variant == 'article') && Articles::has_option('no_comments', $anchor, $item))
+			return FALSE;
+
+		// comments are prevented in anchor
+		if(!$item && is_object($anchor) && $anchor->has_option('no_comments'))
 			return FALSE;
 
 		// comments are not explicitly activated in item
 		if(($variant != 'article') && isset($item['options']) && is_string($item['options']) && !preg_match('/\bwith_(comments|wall)\b/i', $item['options']))
 			return FALSE;
 
-		// comments are prevented in anchor
-		if(!$item && is_object($anchor) && $anchor->has_option('no_comments'))
+		// comments are not explicitly activated in item
+		if(($variant != 'article') && !$item && is_object($anchor) && !$anchor->has_option('with_comments', FALSE) && !$anchor->has_option('with_wall', FALSE))
 			return FALSE;
 
 		// surfer is an associate
@@ -72,13 +88,13 @@ Class Comments {
 // 			return TRUE;
 		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item))
 			return TRUE;
-			
-		// section is public, and surfer is an editor of it
-		if(($variant == 'section') && isset($item['active']) && ($item['active'] != 'N') && isset($item['id']) && Sections::is_assigned($item['id']))
+
+		// section is not private, and surfer is an editor of it
+		if(($variant != 'article') && isset($item['active']) && ($item['active'] != 'N') && isset($item['id']) && Sections::is_assigned($item['id']))
 			return TRUE;
 
-		// section is public, and surfer is an editor of it
-		if(!$anchor->is_hidden() && $anchor->is_assigned())
+		// section is not private, and surfer is an editor of it
+		if(($variant != 'article') && !isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 			return TRUE;
 
 		// editors cannot contribute if container has been locked
@@ -91,26 +107,26 @@ Class Comments {
 
 		// container is hidden
 		if(isset($item['active']) && ($item['active'] == 'N')) {
-		
+
 			// surfer has been assigned to this item
 			if(isset($item['id']) && ($variant == 'article') && Articles::is_assigned($item['id']))
 				return TRUE;
 // 			if(isset($item['id']) && ($variant == 'category') && Categories::is_assigned($item['id']))
 // 				return TRUE;
 			if(isset($item['id']) && ($variant == 'section') && Sections::is_assigned($item['id']))
-				return TRUE;			
-			
+				return TRUE;
+
 		// container is restricted
 		} elseif(isset($item['active']) && ($item['active'] == 'R')) {
-		
+
 			// only members can proceed
 			if(Surfer::is_member())
 				return TRUE;
-				
+
 		// authenticated members and subscribers are allowed to add comments
 		} elseif(Surfer::is_logged())
 			return TRUE;
-			
+
 		// anonymous surfers are allowed to contribute
 		if(isset($context['users_with_anonymous_comments']) && ($context['users_with_anonymous_comments'] == 'Y'))
 			return TRUE;
@@ -356,14 +372,14 @@ Class Comments {
 		global $context;
 
 		$menu = array(Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's'));
-				
+
 		if(Surfer::may_upload())
 			$menu[] = '<span class="details">'.sprintf(i18n::s('You may attach a file of up to %sbytes'), $context['file_maximum_size']).' <input type="hidden" name="file_type" value="upload" /><input type="file" name="upload" size="30" /></span>';
-		
+
 		$text = '<form method="post" enctype="multipart/form-data" action="'.$context['url_to_root'].'comments/edit.php" ><div style="margin: 1em 0;">';
-		
+
 		$text .= Surfer::get_editor('description', '', TRUE);
-				
+
 		$text .= '<input type="hidden" name="anchor" value="'.$anchor.'" />'
 			.'<input type="hidden" name="follow_up" value="'.$follow_up.'" />'
 			.Skin::finalize_list($menu, 'menu_bar')
@@ -371,7 +387,7 @@ Class Comments {
 
 		return $text;
 	}
-	
+
 	/**
 	 * get a <img> element
 	 *
@@ -1025,7 +1041,7 @@ Class Comments {
 			$reverse = 'DESC';
 		else
 			$reverse = '';
-			
+
 		// the list of comments
 		$query = "SELECT * FROM ".SQL::table_name('comments')." AS comments "
 			." WHERE comments.anchor LIKE '".SQL::escape($anchor)."'"
@@ -1140,7 +1156,7 @@ Class Comments {
 
 		// no layout yet
 		$layout = NULL;
-		
+
 		// separate options from layout name
 		$attributes = explode(' ', $variant, 2);
 
@@ -1154,7 +1170,7 @@ Class Comments {
 				// provide parameters to the layout
 				if(isset($attributes[1]))
 					$layout->set_variant($attributes[1]);
-		
+
 			}
 		}
 
@@ -1168,7 +1184,7 @@ Class Comments {
 		// do the job
 		$output =& $layout->layout($result);
 		return $output;
-		
+
 	}
 
 	/**
@@ -1654,7 +1670,7 @@ Class Comments {
 			$output = NULL;
 			return $output;
 		}
-		
+
 		// match
 		$match = '';
 		$words = preg_split('/\s/', $pattern);

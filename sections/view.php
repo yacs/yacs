@@ -522,49 +522,29 @@ if(!isset($item['id'])) {
 		if(count($details))
 			$text .= ucfirst(implode(BR."\n", $details)).BR."\n";
 
-		// other details
-		$details = array();
-
 		// additional details for associates and editors
 		if(Surfer::is_empowered()) {
 
-			// the creator of this section
-			if($item['create_date'])
-				$details[] = sprintf(i18n::s('posted by %s %s'), Users::get_link($item['create_name'], $item['create_address'], $item['create_id']), Skin::build_date($item['create_date']));
-
-			// hide last edition if done by creator, and if less than 24 hours between creation and last edition
-			if($item['create_date'] && ($item['create_id'] == $item['edit_id'])
-					&& (SQL::strtotime($item['create_date'])+24*60*60 >= SQL::strtotime($item['edit_date'])))
-				;
-
-			// the last edition of this section
-			else {
-
-				if($item['edit_action'])
-					$action = get_action_label($item['edit_action']);
-				else
-					$action = i18n::s('edited');
-
-				$details[] = sprintf(i18n::s('%s by %s %s'), $action, Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
-			}
+			// other details
+			$details =& Sections::build_dates($anchor, $item);
 
 			// the number of hits
 			if($item['hits'] > 1)
 				$details[] = Skin::build_number($item['hits'], i18n::s('hits'));
 
+			// rank for this section
+			if(intval($item['rank']) != 10000)
+				$details[] = '{'.$item['rank'].'}';
+
+			// locked section
+			if($item['locked'] ==  'Y')
+				$details[] = LOCKED_FLAG.' '.i18n::s('page is locked.');
+
+			// inline details
+			if(count($details))
+				$text .= ucfirst(implode(', ', $details));
+
 		}
-
-		// rank for this section
-		if(Surfer::is_empowered() && Surfer::is_logged() && (intval($item['rank']) != 10000))
-			$details[] = '{'.$item['rank'].'}';
-
-		// locked section
-		if(Surfer::is_empowered() && Surfer::is_logged() && ($item['locked'] ==  'Y') )
-			$details[] = LOCKED_FLAG.' '.i18n::s('page is locked.');
-
-		// inline details
-		if(count($details))
-			$text .= ucfirst(implode(', ', $details));
 
 		// reference this item
 		if(Surfer::is_member()) {
@@ -799,9 +779,9 @@ if(!isset($item['id'])) {
 		&& isset($context['current_focus']) && ($menu =& Skin::build_contextual_menu($context['current_focus']))) {
 
 		// use title from topmost level
-		if(count($context['current_focus']) && ($anchor =& Anchors::get($context['current_focus'][0]))) {
-			$box_title = $anchor->get_title();
-			$box_url = $anchor->get_url();
+		if(count($context['current_focus']) && ($topmost =& Anchors::get($context['current_focus'][0]))) {
+			$box_title = $topmost->get_title();
+			$box_url = $topmost->get_url();
 
 		// generic title
 		} else {

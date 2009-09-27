@@ -81,7 +81,7 @@ Class Section extends Anchor {
 
 		// strings for comments
 		if($variant == 'comments') {
-		
+
 			switch($id) {
 
 			// title for these
@@ -712,7 +712,7 @@ Class Section extends Anchor {
 			return NULL;
 
 		switch($action) {
-		
+
 		// view comments
 		case 'comments':
 			if($this->has_option('view_as_tabs', FALSE))
@@ -724,13 +724,13 @@ Class Section extends Anchor {
 			if($this->has_option('view_as_tabs', FALSE))
 				return $this->get_url().'#_attachments';
 			return Sections::get_permalink($this->item).'#files';
-		
+
 		// list of links
 		case 'links':
 			if($this->has_option('view_as_tabs', FALSE))
 				return $this->get_url().'#_attachments';
 			return Sections::get_permalink($this->item).'#links';
-		
+
 		// the permalink page
 		case 'view':
 			return Sections::get_permalink($this->item);
@@ -924,9 +924,9 @@ Class Section extends Anchor {
 			return FALSE;
 
 		// id of requesting user
-		if(!$user_id && Surfer::get_id())
+		if(!$user_id)
 			$user_id = Surfer::get_id();
-			
+
 		// anonymous is allowed
 		if(!$user_id)
 			$user_id = 0;
@@ -1165,7 +1165,7 @@ Class Section extends Anchor {
 				else
 					$url = Images::get_icon_href($image);
 				$query[] = "thumbnail_url = '".SQL::escape($url)."'";
-				
+
 			} elseif($origin)
 				$query[] = "thumbnail_url = '".SQL::escape($origin)."'";
 			$silently = TRUE;
@@ -1331,8 +1331,8 @@ Class Section extends Anchor {
 					$surfer = i18n::c('(anonymous)');
 
 				// message subjects
-				$mail['subject'] = sprintf(i18n::c('Update: %s'), strip_tags($this->item['title']));
-				$mail2['subject'] = sprintf(i18n::c('Update: %s'), strip_tags($this->item['title']));
+				$mail['subject'] = sprintf(i18n::c('Modification: %s'), strip_tags($this->item['title']));
+				$mail2['subject'] = sprintf(i18n::c('Modification: %s'), strip_tags($this->item['title']));
 
 				// message content
 				$mail['message'] = i18n::c('Click on the following link to read the new comment')
@@ -1376,8 +1376,8 @@ Class Section extends Anchor {
 				$title = strip_tags($this->item['title']);
 
 				// message titles
-				$mail['subject'] = sprintf(i18n::c('Update: %s'), $title);
-				$mail2['subject'] = sprintf(i18n::c('Update: %s'), $title);
+				$mail['subject'] = sprintf(i18n::c('Modification: %s'), $title);
+				$mail2['subject'] = sprintf(i18n::c('Modification: %s'), $title);
 
 				// message body
 				$mail['message'] = i18n::c('A new item has been added to the following section').
