@@ -902,7 +902,8 @@ if($with_form) {
 			$input =& Skin::build_list($items, 'comma');
 		else
 			$input = i18n::s('Nobody has been assigned to this page.');
-		$input .= ' <span class="details">'.Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Change'), 'basic').'</span>';
+		if(isset($item['id']))
+			$input .= ' <span class="details">'.Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), i18n::s('Change'), 'basic').'</span>';
 		$fields[] = array($label, $input);
 
 	}

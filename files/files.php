@@ -1059,15 +1059,15 @@ Class Files {
 		}
 
 		// clear assignment
-		if($action == 'clear') {
+		if($action == 'release') {
 			$action = 'fetch';
-			$name = 'clear';
+			$name = 'release';
 		}
 
-		// detach the file
-		if($action == 'detach') {
+		// reserve the file
+		if($action == 'reserve') {
 			$action = 'fetch';
-			$name = 'detach';
+			$name = 'reserve';
 		}
 
 		// check the target action

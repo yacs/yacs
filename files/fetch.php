@@ -6,9 +6,9 @@
 
  * By default the script provides content of the target file.
  * Depending of the optional action parameter, behaviour is changed as follows:
- * - 'clear' - assignment information is cleared, and no download takes place
+ * - 'release' - assignment information is cleared, and no download takes place
  * - 'confirm' - force the download of a file
- * - 'detach' - the file is assigned to the member who has downloaded the file
+ * - 'reserve' - the file is assigned to the member who has downloaded the file
  *
  * File content is provided in pass-through mode most of the time, meaning this
  * script does not unveil the real web path to target file.
@@ -44,8 +44,8 @@
  * Accept following invocations:
  * - fetch.php/12
  * - fetch.php?id=12
- * - fetch.php/12/clear
- * - fetch.php?id=12&action=clear
+ * - fetch.php/12/release
+ * - fetch.php?id=12&action=release
  * - fetch.php/12/confirm
  * - fetch.php?id=12&action=confirm
  * - fetch.php/12/detach
@@ -150,6 +150,11 @@ if(!isset($item['id']) || !$item['id']) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Logger::error(i18n::s('No item has been found.'));
 
+// an anchor is mandatory
+} elseif(!is_object($anchor)) {
+	Safe::header('Status: 404 Not Found', TRUE, 404);
+	Logger::error(i18n::s('No anchor has been found.'));
+
 // permission denied
 } elseif(!$permitted) {
 
@@ -246,53 +251,54 @@ if(!isset($item['id']) || !$item['id']) {
 	}
 
 // clear assignment information, if any
-} elseif(isset($item['assign_id']) && ($item['assign_id'] >= 1) && ($action == 'clear') && (Surfer::is_empowered() || ($item['assign_id'] == Surfer::get_id()))) {
+} elseif(($action == 'release') && ($anchor->is_assigned() || (isset($item['assign_id']) && Surfer::is($item['assign_id'])))) {
 
 	// clear assignment information
-	if(Files::assign($item['id'], NULL)) {
-		$context['text'] .= '<p>'.i18n::s('The assignment has been successfully cleared, and the file is again available for download.').'</p>';
+	if(Files::assign($item['id'], NULL))
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('files'));
 
-		// clear the cache for files
-		$topics = array('files', 'file:'.$item['id'], $item['anchor'], 'user:'.$item['assign_id']);
-		Cache::clear($topics);
+	// change page title
+	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Release reservation'), $context['page_title']);
 
 	// feed-back to surfer
-	} else
-		Logger::error(i18n::s('Operation has failed.'));
+	Logger::error(i18n::s('Operation has failed.'));
 
 	// follow-up commands
-	$follow_up = '<p>'.i18n::s('Where do you want to go now?').'</p>';
-	$menu = array();
-	if(is_object($anchor))
-		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
-	$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download page')));
-	$follow_up .= Skin::build_list($menu, 'menu_bar');
-	$context['text'] .= Skin::build_block($follow_up, 'bottom');
+	$context['text'] .= Skin::build_block(Skin::build_link($anchor->get_url('files'), i18n::s('Done'), 'button'), 'bottom');
 
 // file has not been assigned, and surfer has not confirmed the detach yet
-} elseif((!isset($item['assign_id']) || !$item['assign_id']) && ($action == 'detach') && Surfer::is_member()) {
+} elseif(($action == 'reserve') && (!isset($item['assign_id']) || !$item['assign_id']) && Surfer::get_id()) {
 
-	// help on detach
-	$context['text'] .= '<p>'.i18n::s('You have asked to detach the file, and this will be recorded by the server. You are expected to change the provided document, and then to upload an updated version here. In the meantime other surfers will be advised to delay their downloads.').'</p>';
+	// assign the file to this surfer
+	$user = array('nick_name' => Surfer::get_name(), 'id' => Surfer::get_id(), 'email' => Surfer::get_email_address());
+	if(Files::assign($item['id'], $user))
+		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('files'));
 
-	// help on download
-	$context['text'] .= '<p>'.i18n::s('Alternatively, you may download a copy of this file for you own usage.').'</p>';
+	// change page title
+	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Reserve'), $context['page_title']);
+
+	// help the surfer
+	Logger::error(i18n::s('Operation has failed.'));
+
+	// follow-up commands
+	$context['text'] .= Skin::build_block(Skin::build_link($anchor->get_url('files'), i18n::s('Done'), 'button'), 'bottom');
+
+// file has been reserved, and surfer is not owner
+} elseif(($action != 'confirm') && isset($item['assign_id']) && $item['assign_id'] && !Surfer::is($item['assign_id'])) {
+
+	// inform surfer
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('This file has been assigned to %s %s, and it is likely that an updated version will be made available soon.'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date'])), 'caution');
 
 	// commands
 	$menu = array();
-	$menu[] = Skin::build_submit_button(i18n::s('Detach this file'), NULL, NULL, 'confirmed');
-	$menu[] = Skin::build_link(Files::get_url($item['id'], 'fetch', $item['file_name']), i18n::s('Download a copy'));
-	if(isset($_SERVER['HTTP_REFERER']))
-		$referer = $_SERVER['HTTP_REFERER'];
-	else
-		$referer = Files::get_url($item['id'], 'view', $item['file_name']);
-	$menu[] = Skin::build_link($referer, i18n::s('Cancel'), 'span');
+	$menu[] = Skin::build_submit_button(i18n::s('Download this file'), NULL, NULL, 'confirmed', 'no_spin_on_click');
+	$menu[] = Skin::build_link($anchor->get_url('files'), i18n::s('Cancel'), 'span');
 
 	// to get the actual file
 	$target_href = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
 
 	// render commands
-	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="window.open(\''.encode_field($target_href).'\',\'_blank\',\'width=0,height=0\'); return true;" id="main_form"><div>'."\n"
+	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><div>'."\n"
 		.Skin::finalize_list($menu, 'assistant_bar')
 		.'<input type="hidden" name="id" value="'.$item['id'].'" />'."\n"
 		.'<input type="hidden" name="action" value="confirm" />'."\n"
@@ -304,62 +310,7 @@ if(!isset($item['id']) || !$item['id']) {
 		.'$("confirmed").focus();'."\n"
 		.JS_SUFFIX."\n";
 
-// file has not been assigned, and surfer has confirmed the detach
-} elseif((!isset($item['assign_id']) || !$item['assign_id']) && ($action == 'confirm') && Surfer::is_member()) {
-
-	// to get the actual file
-	$target_href = $context['url_to_home'].$context['url_to_root'].Files::get_url($item['id'], 'fetch', $item['file_name']);
-
-	// help the surfer
-	$context['text'] .= '<p>'.i18n::s('You are requesting the following file:').'</p>'."\n";
-
-	$context['text'] .= '<p><a href="'.encode_field($target_href).'">'.$item['file_name'].'</a></p>'."\n";
-
-	// automatic or not
-	$context['text'] .= '<p>'.i18n::s('The download should start automatically within seconds. Else hit the provided link to trigger it manually.').'</p>'."\n";
-
-	// assign the file to this surfer
-	$user = array('nick_name' => Surfer::get_name(), 'id' => Surfer::get_id(), 'email' => Surfer::get_email_address());
-	if(Files::assign($item['id'], $user)) {
-		$context['text'] .= '<p>'.i18n::s('Since the file has been assigned to you, other surfers will be discouraged to download copies from the server until you upload an updated version.').'</p>'."\n";
-
-		// clear the cache for files
-		$topics = array('files', 'file:'.$item['id'], $item['anchor'], 'user:'.$user['id']);
-		Cache::clear($topics);
-
-	// feed-back to surfer
-	} else
-		Logger::error(i18n::s('Operation has failed.'));
-
-	// follow-up commands
-	$follow_up = '<p>'.i18n::s('Where do you want to go now?').'</p>';
-	$menu = array();
-	if(is_object($anchor))
-		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
-	$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download page')));
-	$follow_up .= Skin::build_list($menu, 'menu_bar');
-	$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-// file has been detached, and download has not been confirmed, and surfer is not owner
-} elseif(isset($item['assign_id']) && ($item['assign_id'] >= 1) && !(($action == 'confirm') || ($item['assign_id'] == Surfer::get_id()))) {
-
-	// inform surfer
-	$context['text'] .= '<p>'.sprintf(i18n::s('This file has been assigned to %s %s, and it is likely that an updated version will be made available soon.'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date'])).'</p>';
-
-	$context['text'] .= '<p>'.i18n::s('You are encouraged to wait for a fresher version to be available before moving forward.').'</p>';
-
-	$context['text'] .= '<p>'.sprintf(i18n::s('Please note that the current shared version is %s if you absolutely require it.'), Skin::build_link(Files::get_url($item['id'], 'confirm'), i18n::s('still available for download'), 'basic')).'</p>'."\n";
-
-	// follow-up commands
-	$follow_up = '<p>'.i18n::s('Where do you want to go now?').'</p>';
-	$menu = array();
-	if(is_object($anchor))
-		$menu = array_merge($menu, array($anchor->get_url() => i18n::s('Back to main page')));
-	$menu = array_merge($menu, array(Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download page')));
-	$follow_up .= Skin::build_list($menu, 'menu_bar');
-	$context['text'] .= Skin::build_block($follow_up, 'bottom');
-
-// actual transfer
+//actual transfer
 } elseif($item['id'] && $item['anchor']) {
 
 	// increment the number of downloads
@@ -387,8 +338,9 @@ if(!isset($item['id']) || !$item['id']) {
 		// maybe we will pass the file through
 		if(!headers_sent() && ($handle = Safe::fopen($context['path_to_root'].$path, "rb")) && ($stat = Safe::fstat($handle))) {
 
-			// serve the right type
-			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name']));
+			// serve the right type --avoid opening in Word and Excel, this is confusing most end-users
+//			Safe::header('Content-Type: '.Files::get_mime_type($item['file_name']));
+			Safe::header('Content-Type: application/download');
 
 			// suggest a name for the saved file
 			$file_name = str_replace('_', ' ', utf8::to_ascii($item['file_name']));

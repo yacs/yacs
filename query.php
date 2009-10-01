@@ -126,14 +126,14 @@ if(Surfer::is_crawler()) {
 			// ensure the article has a private handle
 			if(!isset($item['handle']) || !$item['handle']) {
 				$item['handle'] = md5(mt_rand());
-				
+
 				// save in the database
 				$fields = array();
 				$fields['id'] = $item['id'];
 				$fields['handle'] = $item['id'];
 				$fields['silent'] = 'Y';
 				Articles::put_attributes($fields);
-			}				
+			}
 
 			// build credentials --see users/login.php
 			$credentials = array();
@@ -181,7 +181,7 @@ if(Surfer::is_crawler()) {
 				$headers = Mailer::set_thread('article:'.$item['id']);
 			else
 				$headers = '';
-			
+
 			// actual post - don't stop on error
 			Mailer::notify(NULL, $to, $subject, $message, $headers);
 

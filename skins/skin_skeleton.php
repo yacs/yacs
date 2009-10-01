@@ -280,8 +280,8 @@ Class Skin_Skeleton {
 					.'<p style="margin: 0; padding: 0;">'
 					.'<input type="text" name="search" size="10" value="'.encode_field($text).'" onfocus="this.value=\'\'" maxlength="128" />'
 					.Skin::build_submit_button(i18n::s('Go')).BR
-					.'<input type="radio" name="s" onchange="$(\'search_box\').action=\''.$context['url_to_root'].'search.php\'" checked="checked">'.Skin::build_link('sections/', i18n::s('Content'), 'basic')
-					.' <input type="radio" name="s" onchange="$(\'search_box\').action=\''.$context['url_to_root'].'users/search.php\'">'.Skin::build_link('users/', i18n::s('Persons'), 'basic')
+					.'<input type="radio" name="s" id="s_content" onchange="$(\'search_box\').action=\''.$context['url_to_root'].'search.php\'" checked="checked" style="margin: 3px 2px 1px 0; padding: 0" /><label for="s_content">'.Skin::build_link('sections/', i18n::s('Content'), 'basic').'</label>'
+					.BR.'<input type="radio" name="s" id="s_persons" onchange="$(\'search_box\').action=\''.$context['url_to_root'].'users/search.php\'" style="margin: 2px 3px 1px 0; padding: 0" /><label for="s_persons">'.Skin::build_link('users/', i18n::s('Persons'), 'basic').'</label>'
 					.'</p>'
 					.'</form>';
 

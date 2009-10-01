@@ -103,11 +103,11 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 	if(count($details))
 		$text .= ucfirst(implode(BR, $details)).BR;
 
+	// other details
+	$details =& Sections::build_dates($anchor, $item);
+
 	// additional details for associates and editors
 	if(Surfer::is_empowered()) {
-
-		// other details
-		$details =& Sections::build_dates($anchor, $item);
 
 		// the number of hits
 		if($item['hits'] > 1)
@@ -121,14 +121,14 @@ if(!$zoom_type && !Surfer::is_crawler()) {
 		if($item['locked'] ==  'Y')
 			$details[] = LOCKED_FLAG.' '.i18n::s('page is locked.');
 
-		// inline details
-		if(count($details))
-			$text .= ucfirst(implode(', ', $details));
-
 	}
 
+	// inline details
+	if(count($details))
+		$text .= ucfirst(implode(', ', $details));
+
 	// reference this item
-	if(Surfer::is_member()) {
+	if(Surfer::is_logged()) {
 		$text .= BR.sprintf(i18n::s('Code to reference this page: %s'), '[section='.$item['id'].']');
 
 		// the nick name

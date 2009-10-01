@@ -57,7 +57,7 @@ if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
 // editors can do what they want on items anchored here
-if(Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())
+if(Surfer::get_id() && is_object($anchor) && $anchor->is_owned())
 	Surfer::empower();
 
 // associates and authenticated editors can do what they want

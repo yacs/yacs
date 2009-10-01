@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 27, 2009, 8:30 pm GMT. Please do not modify it manually.
+ * on September 30, 2009, 9:51 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-24 09:36+0200
-PO-Revision-Date: 2009-09-24 09:52+0100
+POT-Creation-Date: 2009-09-30 20:42+0200
+PO-Revision-Date: 2009-09-30 20:48+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -37,6 +37,7 @@ $_SESSION['l10n']['en']['Add an answer']='Add an answer';
 $_SESSION['l10n']['en']['Add an event']='Add an event';
 $_SESSION['l10n']['en']['Add an issue']='Add an issue';
 $_SESSION['l10n']['en']['Additional information']='Additional information';
+$_SESSION['l10n']['en']['Address']='Address';
 $_SESSION['l10n']['en']['All members of the community']='All members of the community';
 $_SESSION['l10n']['en']['105c9bbc916246192e58d48e0fa8c7bd']='All members of the community are allowed to sign.';
 $_SESSION['l10n']['en']['e1a0abbb6a700d35ad41223bb6b67e4b']='All members of the community are allowed to vote';
@@ -87,6 +88,7 @@ $_SESSION['l10n']['en']['Editors of this section']='Editors of this section';
 $_SESSION['l10n']['en']['72dd7146984597567b26a39f53414753']='Editors of this section are allowed to sign.';
 $_SESSION['l10n']['en']['e26a8eba9b60b1603a6b7c0b195e720e']='Editors of this section are allowed to vote';
 $_SESSION['l10n']['en']['End date']='End date';
+$_SESSION['l10n']['en']['Enrolment is open']='Enrolment is open';
 $_SESSION['l10n']['en']['Enter a valid %s account']='Enter a valid %s account';
 $_SESSION['l10n']['en']['Export data']='Export data';
 $_SESSION['l10n']['en']['Export to XML']='Export to XML';
@@ -105,6 +107,12 @@ $_SESSION['l10n']['en']['Ingredients: %s']='Ingredients: %s';
 $_SESSION['l10n']['en']['Issue description']='Issue description';
 $_SESSION['l10n']['en']['Join the meeting']='Join the meeting';
 $_SESSION['l10n']['en']['0985e124a45dcdf669edf50555f0141b']='Keep your polls as simple to understand as possible.';
+$_SESSION['l10n']['en']['Management']='Management';
+$_SESSION['l10n']['en']['Meeting enrolment']='Meeting enrolment';
+$_SESSION['l10n']['en']['Meeting has started']='Meeting has started';
+$_SESSION['l10n']['en']['Meeting is over']='Meeting is over';
+$_SESSION['l10n']['en']['Meeting is starting']='Meeting is starting';
+$_SESSION['l10n']['en']['Meeting preparation']='Meeting preparation';
 $_SESSION['l10n']['en']['Navigation box']='Navigation box';
 $_SESSION['l10n']['en']['New day']='New day';
 $_SESSION['l10n']['en']['New meeting']='New meeting';
@@ -126,13 +134,17 @@ $_SESSION['l10n']['en']['Overlay trailer']='Overlay trailer';
 $_SESSION['l10n']['en']['Overlays']='Overlays';
 $_SESSION['l10n']['en']['3dc503593a3195b9e277f5f6e3972aec']='Overlays listed below can be used to customise articles attached to some sections.';
 $_SESSION['l10n']['en']['Past dates']='Past dates';
+$_SESSION['l10n']['en']['005eb26c2b2b960de5955d5a12032093']='Paste the address of the meeting place';
 $_SESSION['l10n']['en']['People to be served: %s']='People to be served: %s';
 $_SESSION['l10n']['en']['Persons to be served']='Persons to be served';
 $_SESSION['l10n']['en']['Petition has been closed.']='Petition has been closed.';
 $_SESSION['l10n']['en']['Petition has ended on %s.']='Petition has ended on %s.';
 $_SESSION['l10n']['en']['Petition is currently open.']='Petition is currently open.';
 $_SESSION['l10n']['en']['Petition is open until %s.']='Petition is open until %s.';
+$_SESSION['l10n']['en']['e263f0f80d01c4425818659d674ce33f']='Please click on the button below to join the meeting.';
 $_SESSION['l10n']['en']['fbfec63a77f8d801db1c826c3bf28a8d']='Please provide an overlay identifier';
+$_SESSION['l10n']['en']['Please wait']='Please wait';
+$_SESSION['l10n']['en']['6902a87872c84f33a4e80962f5d0e9f9']='Please wait until the meeting begins.';
 $_SESSION['l10n']['en']['Preparation steps']='Preparation steps';
 $_SESSION['l10n']['en']['Press [s] to submit data']='Press [s] to submit data';
 $_SESSION['l10n']['en']['Problem has been recorded']='Problem has been recorded';
@@ -186,6 +198,7 @@ $_SESSION['l10n']['en']['Vote will start on %s']='Vote will start on %s';
 $_SESSION['l10n']['en']['b3789f282dc0c6c7351d0bad4ed72e6e']='Vote will take place between %s and %s';
 $_SESSION['l10n']['en']['Voters']='Voters';
 $_SESSION['l10n']['en']['Voters:']='Voters:';
+$_SESSION['l10n']['en']['Waiting for meeting start']='Waiting for meeting start';
 $_SESSION['l10n']['en']['250fe802ec02ecd45326259e3a1c2677']='We are trying to standardize recipes for 4 people.';
 $_SESSION['l10n']['en']['YYYY-MM-AA HH:MM']='YYYY-MM-AA HH:MM';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';

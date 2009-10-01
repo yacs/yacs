@@ -1072,42 +1072,19 @@ Class Article extends Anchor {
 			// alert page poster
 			//
 
-			// ensure the article has a private handle
-			if(!isset($this->item['handle']) || !$this->item['handle']) {
-				$this->item['handle'] = md5(mt_rand());
-
-				// save in the database
-				$fields = array();
-				$fields['id'] = $this->item['id'];
-				$fields['handle'] = $this->item['id'];
-				$fields['silent'] = 'Y';
-				Articles::put_attributes($fields);
-			}
-
-			// link sent to page poster has login credentials --see users/login.php
-			$credentials = array();
-			$credentials[0] = 'edit';
-			$credentials[1] = 'article:'.$this->item['id'];
-			$credentials[2] = sprintf('%u', crc32($this->item['create_name'].':'.$this->item['handle']));
-			$mail['link'] = $context['url_to_home'].$context['url_to_root'].Users::get_url($credentials, 'credentials');
-
-			// poster benefits from the secret handle to access the article
-			$mail['message'] = sprintf($mail['template'], $mail['title'], $mail['link'], $mail['action']);
-
 			// threads all messages for this page
 			include_once $context['path_to_root'].'shared/mailer.php';
 			$mail['headers'] = Mailer::set_thread(NULL, 'article:'.$this->item['id']);
 
 			// regular poster
 			if($this->item['create_id']) {
-				include_once $context['path_to_root'].'users/visits.php';
+
+				// regular accounts don't have the secret handle
+				$mail['link'] =  $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
+				$mail['message'] = sprintf($mail['template'], $mail['title'], $mail['link'], $mail['action']);
 
 				// to not send alerts to myself
 				if(Surfer::get_id() && (Surfer::get_id() == $this->item['create_id']))
-					;
-
-				// page creator is already looking at the page
-				elseif(Visits::check_user_at_anchor($this->item['create_id'], 'article:'.$this->item['id']))
 					;
 
 				// no surfer with this id
@@ -1120,6 +1097,28 @@ Class Article extends Anchor {
 
 			// we have only a mail address for this poster
 			} elseif($this->item['create_address']) {
+
+				// ensure the article has a private handle
+				if(!isset($this->item['handle']) || !$this->item['handle']) {
+					$this->item['handle'] = md5(mt_rand());
+
+					// save in the database
+					$fields = array();
+					$fields['id'] = $this->item['id'];
+					$fields['handle'] = $this->item['id'];
+					$fields['silent'] = 'Y';
+					Articles::put_attributes($fields);
+				}
+
+				// link sent to page poster has login credentials --see users/login.php
+				$credentials = array();
+				$credentials[0] = 'edit';
+				$credentials[1] = 'article:'.$this->item['id'];
+				$credentials[2] = sprintf('%u', crc32($this->item['create_name'].':'.$this->item['handle']));
+				$mail['link'] = $context['url_to_home'].$context['url_to_root'].Users::get_url($credentials, 'credentials');
+
+				// poster benefits from the secret handle to access the article
+				$mail['message'] = sprintf($mail['template'], $mail['title'], $mail['link'], $mail['action']);
 
 				// send an alert if surfer is not the poster
 				if(!Surfer::get_email_address() || (Surfer::get_email_address() != $this->item['create_address']))

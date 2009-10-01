@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 27, 2009, 8:30 pm GMT. Please do not modify it manually.
+ * on September 28, 2009, 9:46 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2009-09-17 01:02+0200
-PO-Revision-Date: 2009-05-14 23:49+0100
+PO-Revision-Date: 2009-09-28 21:35+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ $_SESSION['l10n']['fr']['Font height']='Hauteur des caractères';
 $_SESSION['l10n']['fr']['Front page']='Page d\'accueil';
 $_SESSION['l10n']['fr']['Google']='Google';
 $_SESSION['l10n']['fr']['Help']='Aide';
-$_SESSION['l10n']['fr']['2bc3aea35cf1d8a6ecf0a697c6ea622f']='Si vous n\'êtes pas familier des fils de nouvelles, sachez qu\'il s\'agit de quelque chose de simple. Tout d\'abord, installez sur votre poste de travail une application ad hoc, telle que %s ou %s. Puis copiez l\'un des liens ci-dessous et collez-le dans la boîte de souscription de votre application. Voir Google pour plus d\'informations sur %s.';
+$_SESSION['l10n']['fr']['2bc3aea35cf1d8a6ecf0a697c6ea622f']='Si vous n\'êtes pas familier des fils de nouvelles, sachez qu\'il s\'agit de quelque chose de simple. Tout d\'abord, installez sur votre poste de travail une application adaptée, par exemple %s ou %s. Puis copiez l\'un des liens ci-dessous et collez-le dans la boîte de souscription de votre application. Voir Google pour plus d\'informations sur %s.';
 $_SESSION['l10n']['fr']['b65ce82b0a1ebf640da137c9130e53ce']='En minutes. Compter 60 pour une heure, etc. Valeur minimum de 5 minutes';
 $_SESSION['l10n']['fr']['Inbound']='Réception';
 $_SESSION['l10n']['fr']['Inbound feeds']='Connecteurs d\'entrée';

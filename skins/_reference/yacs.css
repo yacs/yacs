@@ -31,7 +31,7 @@ del {
 	color: #644;
 	background-color: #f88;
 }
-	
+
 ins {
 	color: #644;
 	background-color: #bbf;
@@ -309,7 +309,7 @@ div#tabs_panels div.panel-foreground {
 div#tabs_panels div.panel-background div.sidebar_box { /* show sidebars in visible tabs */
 	display: block;
 }
-	
+
 div#tabs_panels div.panel-background {
 /*	display: none;  do not hide tab content, this may kill Google Maps */
 	position: absolute;
@@ -320,7 +320,7 @@ div#tabs_panels div.panel-background {
 div#tabs_panels div.panel-background div.sidebar_box { /* mask sidebars in hidden tabs */
 	display: none;
 }
-	
+
 /**
  * styles for threads
  *
@@ -685,7 +685,7 @@ table.layout {
 	width: 98%; /* not 100% because of IE6 */
 	border: none; /* we are only interested into the layout */
 }
-	
+
 table.layout tbody tr td {
 	padding: 0; /* save on space around cells */
 	margin: 0;
@@ -755,6 +755,19 @@ div.accordion_content {
 	margin-bottom: 0;
 }
 
+p.caution { /* draw attention to a warning message */
+	margin: 1em 0 1em 0;
+	padding: 1em;
+	border: 1px solid #f66;
+	background-color: #faa;
+}
+
+p.note { /* draw attention to a note */
+	margin: 1em 0 1em 0;
+	padding: 1em;
+	border: 1px solid #f66;
+	background-color: #faa;
+}
 
 /* do not print commands */
 
@@ -773,7 +786,7 @@ div.accordion_content {
 	#navigation_panel {	/* repeated across pages */
 		display: none;
 	}
-	
+
 	#main_panel { margin: 0px 0px 20px 0px; } /* no margin please */
 
 

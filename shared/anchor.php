@@ -938,8 +938,8 @@ class Anchor {
 			if(!isset($this->anchor) || !$this->anchor)
 				$this->anchor =& Anchors::get($this->item['anchor']);
 
-			if(is_object($this->anchor) && $this->anchor->is_assigned($user_id))
-				return TRUE;
+// 			if(is_object($this->anchor) && $this->anchor->is_assigned($user_id))
+// 				return TRUE;
 
 			if(is_object($this->anchor) && $this->anchor->is_owned($user_id))
 				return TRUE;

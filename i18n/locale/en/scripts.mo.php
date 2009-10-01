@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 27, 2009, 8:30 pm GMT. Please do not modify it manually.
+ * on September 30, 2009, 9:51 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:02+0200
+POT-Creation-Date: 2009-09-30 20:42+0200
 PO-Revision-Date: 2009-09-09 10:02+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -77,7 +77,6 @@ $_SESSION['l10n']['en']['c2894838835b4148cf032856000493b1']='Extended processing
 $_SESSION['l10n']['en']['Extensions']='Extensions';
 $_SESSION['l10n']['en']['Fetch']='Fetch';
 $_SESSION['l10n']['en']['Fetch the script file']='Fetch the script file';
-$_SESSION['l10n']['en']['File']='File';
 $_SESSION['l10n']['en']['File %s is not part of Yacs.']='File %s is not part of Yacs.';
 $_SESSION['l10n']['en']['File has been corrupted!']='File has been corrupted!';
 $_SESSION['l10n']['en']['5fb5d19214fea207c4dbe61257dc122a']='Following scripts have to be included separately:';
@@ -146,7 +145,6 @@ $_SESSION['l10n']['en']['442157aeb88329e05938a62be1e1a634']='Scripts of your ser
 $_SESSION['l10n']['en']['0512760eebdcf81e2df56adff7063fb1']='Scripts on your server are exact copies of the reference set.';
 $_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['See also:']='See also:';
-$_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
 $_SESSION['l10n']['en']['Server software']='Server software';
 $_SESSION['l10n']['en']['Some updated files are missing.']='Some updated files are missing.';
 $_SESSION['l10n']['en']['Stage updated scripts']='Stage updated scripts';

@@ -75,7 +75,7 @@ if(Surfer::is_crawler()) {
 	Logger::error(i18n::s('No item has the provided id.'));
 
 // publication is restricted to associates and editors
-} elseif(!Surfer::is_associate() && (!Surfer::is_member() || !is_object($anchor) || !$anchor->is_assigned())) {
+} elseif(!Surfer::is_associate() && (!Surfer::is_member() || !is_object($anchor) || !$anchor->is_owned())) {
 
 	// anonymous users are invited to log in
 	if(!Surfer::is_logged())
@@ -170,7 +170,7 @@ if(Surfer::is_crawler()) {
 
 	else
 		$context['text'] .= '<p>'.i18n::s('The publication date has been changed.')."</p>\n";
-		
+
 	// touch the related anchor
 	if(is_object($anchor))
 		$anchor->touch('article:update', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y') );

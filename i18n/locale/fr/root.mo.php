@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 27, 2009, 8:31 pm GMT. Please do not modify it manually.
+ * on September 28, 2009, 9:46 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2009-09-20 23:45+0200
-PO-Revision-Date: 2009-07-04 22:58+0100
+PO-Revision-Date: 2009-09-28 21:50+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -82,7 +82,7 @@ $_SESSION['l10n']['fr']['Content Assistant']='Assistant de contenu';
 $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Cover article']='Article de couverture';
 $_SESSION['l10n']['fr']['Cover page']='Page de couverture';
-$_SESSION['l10n']['fr']['Details of your request']='Détails de votre requête';
+$_SESSION['l10n']['fr']['Details of your request']='Détail de votre requête';
 $_SESSION['l10n']['fr']['ba24d5060afced839ed90699c279b0bb']='Afficher %s articles sur la page d\'accueil. Indiquer un nombre seulement si la valeur par défaut ne vous convient pas.';
 $_SESSION['l10n']['fr']['88221df7e286a0d70ee52e6092d7cd3d']='Afficher seulement la page la plus récente, et un menu pour accèder aux pages précédentes. Cette mise en page convient aux sites avec un petit nombre de publications.';
 $_SESSION['l10n']['fr']['7e5c4649689d0c5508f1fe78e462851c']='Afficher l\'article de couverture sur la page d\'accueil';
@@ -174,7 +174,7 @@ $_SESSION['l10n']['fr']['Pages']='Pages';
 $_SESSION['l10n']['fr']['Peers']='Serveurs';
 $_SESSION['l10n']['fr']['People']='Personnes';
 $_SESSION['l10n']['fr']['Permissions']='Permissions';
-$_SESSION['l10n']['fr']['ee000dc19f71134ce7edb91992abf0a7']='Merci de remplir le formulaire, qui sera envoyé automatiquement aux responsables du site. Soyez aussi précis que possible, et indiquez votre adresse de courrier électronique pour nous laissez une chance de vous recontacter.';
+$_SESSION['l10n']['fr']['ee000dc19f71134ce7edb91992abf0a7']='Merci de remplir le formulaire, qui sera envoyé automatiquement aux responsables du site. Soyez aussi précis que possible, et indiquez votre adresse de courrier électronique pour nous laisser une chance de vous recontacter.';
 $_SESSION['l10n']['fr']['Please give your e-mail address']='Merci d\'indiquer votre adresse de courrier électronique';
 $_SESSION['l10n']['fr']['fca72c3af562cba7e6ca571491374387']='Merci d\'indiquer votre prénom et nom de famille';
 $_SESSION['l10n']['fr']['c39731557afab7cdc18067d593b4d02f']='Merci d\'indiquer le nom recherché.';

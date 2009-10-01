@@ -37,7 +37,7 @@ elseif(is_object($anchor) && Surfer::get_id() && ($anchor->get_reference() == 'u
 	$permitted = 'all';
 
 // a member who manages a parent section
-elseif(is_object($anchor) && $anchor->is_owned())
+elseif(Surfer::is_member() && is_object($anchor) && $anchor->is_owned())
 	$permitted = 'all';
 
 // a member who manages his editor rights
@@ -78,10 +78,10 @@ elseif(!$permitted) {
 				$context['page_title'] = sprintf(i18n::s('Contacts of %s'), $anchor->get_title());
 		} else {
 			$context['page_title'] = i18n::s('Manage editors');
-			
+
 		}
 	}
-	
+
 	// look for the user through his nick name
 	if(isset($_REQUEST['assigned_name']) && ($user = Users::get($_REQUEST['assigned_name'])))
 		$_REQUEST['anchor'] = 'user:'.$user['id'];
@@ -89,10 +89,10 @@ elseif(!$permitted) {
 	// set a new assignment
 	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set') && isset($_REQUEST['anchor']) && isset($_REQUEST['member'])) {
 		if(!Members::check($_REQUEST['anchor'], $_REQUEST['member'])) {
-		
+
 			// assign a person (the anchor) to this object (the member)
 			Members::assign($_REQUEST['anchor'], $_REQUEST['member']);
-			
+
 			// notify a person that is followed
 			if(!strncmp($_REQUEST['member'], 'user:', 5) && isset($user['email']) && $user['email'] && ($user['without_alerts'] != 'Y')) {
 
@@ -106,11 +106,11 @@ elseif(!$permitted) {
 				include_once $context['path_to_root'].'shared/mailer.php';
 				$headers = Mailer::set_thread(NULL, $anchor);
 
-				// allow for cross-referencing			
+				// allow for cross-referencing
 				Mailer::post(Surfer::from(), $user['email'], $subject, $message, NULL, $headers);
 			}
 		}
-		
+
 		// update the watch list of this person (the anchor)
 		if(strncmp($_REQUEST['member'], 'user:', 5))
 			Members::assign($_REQUEST['member'], $_REQUEST['anchor']);
@@ -172,7 +172,7 @@ elseif(!$permitted) {
 			// surfer cannot be deselected
 			if($anchor->is_owned($id, TRUE))
 				$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
-				
+
 			// add a link to unselect the user
 			else {
 				$link = $context['script_url'].'?anchor=user:'.$id.'&amp;member='.urlencode($anchor->get_reference()).'&amp;action=reset';
@@ -201,21 +201,21 @@ elseif(!$permitted) {
 	if(strncmp($_REQUEST['member'], 'user:', 5)) {
 		if(Surfer::may_mail()) {
 			$help = sprintf(i18n::s('%s if you have to assign new persons and to notify them in a single operation.'), Skin::build_link($anchor->get_url('invite'), i18n::s('Invite participants')));
-	
+
 			// in a side box
 			$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 		}
-		
+
 	// adding contacts
 	} else {
 		if(Surfer::may_mail()) {
 			$help = i18n::s('Each new contact will be notified that you are following him.');
-	
+
 			// in a side box
 			$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
 		}
 	}
-		
+
 
 
 // please suppress editor rights to this item
@@ -223,7 +223,7 @@ elseif(!$permitted) {
 
 	// break an assignment, and also purge the watch list
 	Members::free('user:'.Surfer::get_id(), $anchor->get_reference());
-	
+
 	// don't break symetric connections from another user
 	if($anchor->get_type() != 'user')
 		Members::free($anchor->get_reference(), 'user:'.Surfer::get_id());
@@ -235,7 +235,7 @@ elseif(!$permitted) {
 	else
 		$label = i18n::s('a page');
 	$context['page_title'] = sprintf(i18n::s('You have left %s'), $label);
-		
+
 	// splash message
 	$context['text'] .= '<p>'.sprintf(i18n::s('The operation has completed, and you have no specific access rights to %s.'), Skin::build_link($anchor->get_url(), $anchor->get_title())).'</p>';
 
@@ -255,13 +255,13 @@ elseif(!$permitted) {
 	else
 		$label = i18n::s('a page');
 	$context['page_title'] = sprintf(i18n::s('Leave %s'), $label);
-		
+
 	// splash message
 	if($type == 'section')
 		$context['text'] .= '<p>'.sprintf(i18n::s('You have been assigned as an editor of %s, and this allows you to post new content, to contribute to pages from other persons, and to be notified of changes.'), Skin::build_link($anchor->get_url(), $anchor->get_title())).'</p>';
 	else
 		$context['text'] .= '<p>'.sprintf(i18n::s('You have been assigned as an editor of %s, and this allows you to contribute to this page, and to be notified of changes.'), Skin::build_link($anchor->get_url(), $anchor->get_title())).'</p>';
-	
+
 	// cautioon on private areas
 	if($anchor->get_active() == 'N') {
 		if($type == 'section')
@@ -269,7 +269,7 @@ elseif(!$permitted) {
 		else
 			$context['text'] .= '<p>'.i18n::s('Access to this page is restricted. If you continue, it will become invisible to you, and you will not be able to even browse its content anymore.').'</p>';
 	}
-	
+
 	// ask for confirmation
 	if($type == 'section')
 		$context['text'] .= '<p>'.i18n::s('You are about to suppress all your editing rights on this section.').'</p>';
@@ -277,7 +277,7 @@ elseif(!$permitted) {
 		$context['text'] .= '<p>'.i18n::s('You are about to suppress all your editing rights on this page.').'</p>';
 
 	$bottom = '<p>'.i18n::s('Are you sure?').'</p>';
-	
+
 	// commands
 	$menu = array();
 	$menu[] = Skin::build_submit_button(i18n::s('Yes'), NULL, NULL, 'confirmed');
@@ -292,14 +292,14 @@ elseif(!$permitted) {
 
 	//
 	$context['text'] .= Skin::build_block($bottom, 'bottom');
-	
+
 	// set the focus
 	$context['text'] .= JS_PREFIX
 		.'// set the focus on first form field'."\n"
 		.'$("confirmed").focus();'."\n"
 		.JS_SUFFIX;
 
-	
+
 }
 
 // render the skin

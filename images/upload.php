@@ -124,7 +124,7 @@ if(Surfer::is_crawler()) {
 
 		// where to put this file
 		$file_path = 'images/'.$context['virtual_path'].str_replace(':', '/', $_REQUEST['anchor']);
-		
+
 		// explode a .zip file
 		if(preg_match('/\.zip$/i', $_FILES['upload']['name'])) {
 			include_once '../shared/zipfile.php';
@@ -132,41 +132,41 @@ if(Surfer::is_crawler()) {
 
 			function explode_callback($name) {
 				global $context;
-				
+
 //				$context['text'] .= 'extracting '.$name.BR;
 			}
-			
+
 			// extract archive components and save them in mentioned directory
 			if($count = $zipfile->explode($_FILES['upload']['tmp_name'], $file_path, '', 'explode_callback')) {
 				$context['text'] .= '<p>'.sprintf('%d files have been extracted.', $count)."</p>\n";
 				$exploded = TRUE;
 			} else
 				Logger::error(sprintf('Nothing has been extracted from %s.', $_FILES['upload']['name']));
-	
+
 		// explode a tar file
 		} elseif(preg_match('/\.(tar|tar.gz|tgz)$/i', $_FILES['upload']['name'])) {
-		
+
 			// ensure we have the external library to explode other kinds of archives
 			if(!is_readable('../included/tar.php'))
 					Logger::error('Impossible to extract files.');
-		
+
 			// explode the archive
 			else {
 				include_once $context['path_to_root'].'included/tar.php';
 				$handle = new Archive_Tar($_FILES['upload']['tmp_name']);
-		
+
 				if($handle->extract($context['path_to_root'].$file_path)) {
 					$context['text'] .= '<p>'.'Files have been extracted.'."</p>\n";
 					$exploded = TRUE;
 				} else
 					Logger::error(sprintf('Nothing has been extracted from %s.', $_FILES['upload']['name']));
-		
+
 			}
 
 		// nothing to do
 		} else
 			Logger::error(i18n::s('Please provide an archive file.'));
-		
+
 	// nothing has been posted
 	} else
 		Logger::error(i18n::s('No file has been transmitted.'));
@@ -190,7 +190,7 @@ if(Surfer::is_crawler()) {
 				// special directory names
 				if(($node == '.') || ($node == '..'))
 					continue;
-					
+
 				// process special nodes
 				if($node[0] == '.')
 					continue;
@@ -198,13 +198,13 @@ if(Surfer::is_crawler()) {
 				// an image has been found --skip non-images
 				if(Image::upload($node, $context['path_to_root'].$file_path.'/', TRUE)) {
 					$count++;
-				
+
 					// resize the image where applicable
 					Image::adjust($context['path_to_root'].$file_path.'/'.$node, TRUE, 'standard');
 
 					// if the file does not exist yet
 					if(!$item =& Images::get_by_anchor_and_name($anchor->get_reference(), $node)) {
-					
+
 						// create a new image record for this file
 						$item = array();
 						$item['anchor'] = $anchor->get_reference();
@@ -213,12 +213,12 @@ if(Surfer::is_crawler()) {
 						$item['image_size'] = Safe::filesize($file_path.'/'.$node);
 						$item['id'] = Images::post($item);
 					}
-					
+
 					// ensure that the image is in anchor description field
 					if(isset($item['id']))
 						$anchor->touch('image:create', $item['id']);
 
-				}					
+				}
 			}
 			Safe::closedir($handle);
 		}
@@ -226,13 +226,13 @@ if(Surfer::is_crawler()) {
 		// clear floating thumbnails
 		if($count)
 			$anchor->touch('clear');
-			
+
 		// provide feed-back to surfer
 		if($count)
 			$context['text'] .= '<p>'.sprintf(i18n::ns('%d image has been processed.', '%d images have been processed.', $count), $count).'</p>';
 		else
 			$context['text'] .= '<p>'.i18n::s('No image has been processed.').'</p>';
-			
+
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
@@ -272,15 +272,9 @@ if($with_form) {
 		$context['text'] .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
 
 	// the upload entry requires rights to upload
-	$label = i18n::s('File');
-	$input = '<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'" />'
-		.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
-	$hint = i18n::s('Select a .zip, .tar, .tar.gz or .tgz archive.');
-	$fields[] = array($label, $input, $hint);
-
-	// we are now entering the advanced options section
-	$context['text'] .= Skin::build_form($fields);
-	$fields = array();
+	$context['text'] .= '<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'" />'
+		.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')'
+		.BR.'<span class="details">'.i18n::s('Select a .zip, .tar, .tar.gz or .tgz archive.').'</span>';
 
 	// bottom commands
 	$menu = array();

@@ -46,7 +46,7 @@ if(isset($item['anchor']) && $item['anchor'])
 	$anchor =& Anchors::get($item['anchor']);
 
 // associates and authenticated editors can do what they want
-if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))
+if(Surfer::is_associate() || (Surfer::get_id() && is_object($anchor) && $anchor->is_assigned()))
 	$permitted = TRUE;
 
 // the anchor has to be viewable by this surfer
@@ -54,7 +54,7 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
 // the item is anchored to the profile of this member
-elseif(Surfer::is_member() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
+elseif(Surfer::get_id() && !strcmp($item['anchor'], 'user:'.Surfer::get_id()))
 	$permitted = TRUE;
 
 // authenticated surfers may suppress their own posts
@@ -91,6 +91,18 @@ if(!isset($item['id'])) {
 } elseif(!$permitted) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
+
+// file has been reserved
+} elseif(isset($item['assign_id']) && $item['assign_id'] && !Surfer::is($item['assign_id'])) {
+
+	// prevent updates
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('This file has been reserved by %s %s, and it is likely that an updated version will be made available soon.'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date'])), 'caution');
+
+	// follow-up commands
+	$menu = array();
+	$menu[] = Skin::build_link($anchor->get_url('files'), i18n::s('Done'), 'button');
+	$menu[] = Skin::build_link(Files::get_url($item['id'], 'release'), i18n::s('Release reservation'), 'span');
+	$context['text'] .= Skin::build_block(Skin::finalize_list($menu, 'menu_bar'), 'bottom');
 
 // deletion is confirmed
 } elseif(isset($_REQUEST['confirm']) && ($_REQUEST['confirm'] == 'yes')) {

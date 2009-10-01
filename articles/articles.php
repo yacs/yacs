@@ -251,8 +251,8 @@ Class Articles {
 		if(!isset($item['id']) && is_object($anchor) && $anchor->has_option('locked'))
 			return FALSE;
 
-		// authenticated members are allowed to add articles
-		if(Surfer::is_member())
+		// authenticated members and subscribers are allowed to add articles
+		if(Surfer::get_id())
 			return TRUE;
 
 		// anonymous contributions are allowed
@@ -1062,7 +1062,6 @@ Class Articles {
 	/**
 	 * check if a surfer owns a page
 	 *
-	 *
 	 * @param object parent anchor, if any
 	 * @param array page attributes
 	 * @param int optional reference to some user profile
@@ -1087,8 +1086,8 @@ Class Articles {
 			return TRUE;
 
 		// item exists, and surfer has been assigned to parent container
-		if(isset($item['id']) && is_object($anchor) && $anchor->is_assigned($user_id))
-			return TRUE;
+// 		if(isset($item['id']) && is_object($anchor) && $anchor->is_assigned($user_id))
+// 			return TRUE;
 
 		// associates can do what they want
 		if(Surfer::is($user_id) && Surfer::is_associate())

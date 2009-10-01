@@ -2,7 +2,7 @@
 /**
  * describe one issue
  *
- * @todo add a field to scope the case: cosmetic (issue with the interface), behaviour (functional issue), system-wide (critical issue)  
+ * @todo add a field to scope the case: cosmetic (issue with the interface), behaviour (functional issue), system-wide (critical issue)
  *
  * This overlay is aiming to track status of various kinds of issue, as per following workflow:
  * [snippet]
@@ -285,7 +285,6 @@ class Issue extends Overlay {
 	 * Display additional information in panels.
 	 *
 	 * Accepted action codes:
-	 * - 'view' - embedded into the main viewing page
 	 * - 'edit' - embedded into the main form page
 	 *
 	 * @see overlays/overlay.php
@@ -306,29 +305,12 @@ class Issue extends Overlay {
 		//
 		$tracking = '';
 
-		// display items
-		if($variant == 'view') {
-
-			// build a link to the solution manager page, if any
-			if(!isset($this->attributes['manager']) || !$this->attributes['manager'])
-				;
-			elseif($user =& Users::get($this->attributes['manager']))
-				$tracking .= '<p>'.i18n::s('Solution Manager:').' '.Users::get_link($this->attributes['manager'], NULL, $user['id']).'</p>';
-			else
-				$tracking .= '<p>'.i18n::s('Solution Manager:').' '.ucfirst($this->attributes['manager']).'</p>';
-	
-			// the status and history
-			$history = '';
-			if(isset($host['self_reference']))
-				$history = Issue::get_history($host['self_reference']);
-			$tracking .= Issue::get_status_label($this->attributes['status']).$history;
-	
 		// only associates and editors can change the status
-		} elseif(($variant == 'edit') && Surfer::is_empowered()) {
+		if(($variant == 'edit') && Surfer::is_empowered()) {
 
 			// no solution manager on initial form
 			if(isset($host['id'])) {
-	
+
 				// solution manager
 				if(!isset($this->attributes['manager']) || !$this->attributes['manager'])
 					$this->attributes['manager'] = '';
@@ -336,15 +318,15 @@ class Issue extends Overlay {
 					.' <input type="text" name="manager" id="manager" value ="'.encode_field($this->attributes['manager']).'" size="25" maxlength="32" />'
 					.'<div id="manager_choice" class="autocomplete"></div>'
 					.BR.'<span class="small">'.i18n::s('Type some letters of the name and select in the list').'</span></div>';
-		
+
 				// append the script used for autocompletion
 				$tracking .= JS_PREFIX
 					.'// enable autocompletion for user names'."\n"
 					.'Event.observe(window, "load", function() { new Ajax.Autocompleter("manager", "manager_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4 }); });'."\n"
 					.JS_SUFFIX;
-	
+
 			}
-	
+
 			// step 1 - created
 			if(!isset($host['create_date']) || !$host['create_date'])
 				$host['create_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
@@ -423,6 +405,21 @@ class Issue extends Overlay {
 	 */
 	function &get_view_text($host=NULL) {
 		$text = '';
+
+		// build a link to the solution manager page, if any
+		if(!isset($this->attributes['manager']) || !$this->attributes['manager'])
+			;
+		elseif($user =& Users::get($this->attributes['manager']))
+			$text .= '<p>'.i18n::s('Solution Manager:').' '.Users::get_link($this->attributes['manager'], NULL, $user['id']).'</p>';
+		else
+			$text .= '<p>'.i18n::s('Solution Manager:').' '.ucfirst($this->attributes['manager']).'</p>';
+
+		// the status and history
+		$history = '';
+		if(isset($host['self_reference']))
+			$history = Issue::get_history($host['self_reference']);
+		$text .= Issue::get_status_label($this->attributes['status']).$history;
+
 		return $text;
 	}
 

@@ -315,13 +315,14 @@ Class Surfer {
 	 * This function is used to flag editors, and any surfer which benefits from
 	 * extended rights for the duration of the current script.
 	 *
-	 * @param string new capability of this surfer, '?', 'M' or 'A'
+	 * @param string new capability of this surfer, '?', 'S', 'M' or 'A'
 	 */
 	function empower($capability='A') {
 		global $context;
 
 		if(($capability == '?') || ($capability == 'S') || ($capability == 'M') || ($capability == 'A'))
 			$context['empowered'] = $capability;
+
 	}
 
 	/**

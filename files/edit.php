@@ -174,6 +174,15 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// file has been reserved
+} elseif(isset($item['assign_id']) && $item['assign_id'] && !Surfer::is($item['assign_id']) && !$anchor->is_owned()) {
+
+	// prevent updates
+	$context['text'] .= Skin::build_block(sprintf(i18n::s('This file has been reserved by %s %s, and it is likely that an updated version will be made available soon.'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date'])), 'caution');
+
+	// follow-up commands
+	$context['text'] .= Skin::build_block(Skin::build_link($anchor->get_url('files'), i18n::s('Done'), 'button'), 'bottom');
+
 // extension is not allowed
 } elseif(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && !Files::is_authorized($_FILES['upload']['name'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
@@ -371,19 +380,9 @@ if(Surfer::is_crawler()) {
 // display the form
 if($with_form) {
 
-	// file has been assigned
-	if(isset($item['assign_id']) && $item['assign_id']) {
-
-		// surfer is the owner
-		if(Surfer::is_member() && (Surfer::get_id() == $item['assign_id'])) {
-			$context['text'] .= Skin::build_block(sprintf(i18n::s('This file has been assigned to you %s, and you are encouraged to %s as soon as possible.'), Skin::build_date($item['assign_date']), i18n::s('upload an updated version')), 'note');
-
-		// file has been assigned to another surfer
-		} else {
-			$context['text'] .= Skin::build_block(sprintf(i18n::s('This file has been assigned to %s %s, and it is likely that an updated version will be made available soon.'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date']))
-				.' '.i18n::s('You are encouraged to wait for a fresher version to be available before moving forward.'), 'caution');
-		}
-
+	// prevent updates from section owner or associate
+	if(isset($item['assign_id']) && $item['assign_id'] && !Surfer::is($item['assign_id'])) {
+		$context['text'] .= Skin::build_block(sprintf(i18n::s('This file has been reserved by %s %s, and it is likely that an updated version will be made available soon.'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date'])), 'caution');
 	}
 
 	// the form to edit a file

@@ -134,14 +134,8 @@ elseif(!Surfer::is_associate()) {
 		$context['text'] .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" id="main_form"><div>';
 
 		// the file
-		$label = i18n::s('File');
-		$input = '<input type="file" name="upload" id="focus" size="30" />'
+		$context['text'] .= '<input type="file" name="upload" id="focus" size="30" />'
 			.' (&lt;&nbsp;'.$context['file_maximum_size'].i18n::s('bytes').')';
-		$hint = i18n::s('Select the file to upload');
-		$fields[] = array($label, $input, $hint);
-
-		// build the form
-		$context['text'] .= Skin::build_form($fields);
 
 		// the submit button
 		$context['text'] .= '<p>'.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's').'</p>'."\n";

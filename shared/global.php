@@ -1058,10 +1058,10 @@ function render_skin($stamp=0) {
 
 		}
 
-		// validate the content if stamp is ok
+		// validate the content if stamp is ok --buggy with IE6, sorry
 		$last_modified = NULL;
-		if($stamp > 1000000)
-			$last_modified = gmdate('D, d M Y H:i:s', $stamp).' GMT';
+// 		if($stamp > 1000000)
+// 			$last_modified = gmdate('D, d M Y H:i:s', $stamp).' GMT';
 
 		// manage web cache
 		if(http::validate($last_modified, $etag))

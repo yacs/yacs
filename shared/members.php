@@ -148,7 +148,7 @@ Class Members {
 		// don't go further if the membership already exists
 		$query = "SELECT id  FROM ".SQL::table_name('members')
 			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."') LIMIT 0, 1";
-			
+
 		if(SQL::query_count($query))
 			return $cache[$anchor.':'.$member] = TRUE;
 
@@ -293,6 +293,10 @@ Class Members {
 		if($my_sections = Surfer::assigned_sections())
 			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
 
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
+
 		$where .= ")";
 
 		// current time
@@ -348,7 +352,7 @@ Class Members {
 
 		if(count($sections_where))
 			$query .= ")";
-			
+
 		$query .= " ORDER BY edit_date DESC, title LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
@@ -394,6 +398,10 @@ Class Members {
 		// include managed sections
 		if($my_sections = Surfer::assigned_sections())
 			$where .= " OR articles.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
 
 		$where .= ")";
 
@@ -457,13 +465,17 @@ Class Members {
 		if(count($my_items = Surfer::assigned_sections()))
 			$where .= " OR articles.anchor='section:".join("' OR articles.anchor='section:", $my_items)."'";
 
+		// include managed pages for editors
+		if($my_articles = Surfer::assigned_articles())
+			$where .= " OR articles.id IN (".join(', ', $my_articles).")";
+
 		$where .= ")";
 
 		// current time
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// show only published articles if not looking at self record
-		if(!Surfer::get_id() || ($member != 'user:'.Surfer::get_id())) 
+		if(!Surfer::get_id() || ($member != 'user:'.Surfer::get_id()))
 			$where .= " AND NOT ((articles.publish_date is NULL) OR (articles.publish_date <= '0000-00-00'))"
 				." AND (articles.publish_date < '".$now."')";
 
@@ -496,9 +508,9 @@ Class Members {
 				."	AND ".$where;
 
 		}
-		
+
 		// include managed articles at self record
-		if((Surfer::is_associate() || (Surfer::get_id() && ($member == 'user:'.Surfer::get_id()))) 
+		if((Surfer::is_associate() || (Surfer::get_id() && ($member == 'user:'.Surfer::get_id())))
 			&& count($my_items = Articles::list_assigned_by_date_for_anchor(NULL, str_replace('user:', '', $member), 0, 20, 'ids')))
 			$query = "(SELECT articles.* FROM ".SQL::table_name('articles')." AS articles"
 				." WHERE (articles.id=".join(") OR (articles.id=", $my_items)."))"
@@ -731,7 +743,7 @@ Class Members {
 			$query = "SELECT users.* FROM (SELECT DISTINCT CAST(SUBSTRING(members.anchor, 6) AS UNSIGNED) AS target FROM ".SQL::table_name('members')." AS members WHERE (members.member LIKE '".SQL::escape($member)."') AND (members.anchor LIKE 'user:%') ORDER BY members.edit_date) AS ids"
 				.", ".SQL::table_name('users')." AS users"
 				." WHERE (users.id = ids.target)"
-				."	AND ((users.capability = 'M') OR (users.capability = 'A'))"
+				."	AND (users.capability IN ('S', 'M', 'A'))"
 				."	AND (".$where.")"
 				." LIMIT ".$offset.','.$count;
 
@@ -744,7 +756,7 @@ Class Members {
 				." WHERE (members.member LIKE '".SQL::escape($member)."')"
 				."	AND (members.anchor LIKE 'user:%')"
 				."	AND (users.id = SUBSTRING(members.anchor, 6))"
-				."	AND ((users.capability = 'M') OR (users.capability = 'A'))"
+				."	AND (users.capability IN ('S', 'M', 'A'))"
 				."	AND (".$where.")"
 				." ORDER BY members.edit_date LIMIT ".$offset.','.$count;
 

@@ -201,41 +201,41 @@ if(!isset($item['id'])) {
 			}
 			$context['page_details'] .= '<p>'.sprintf(i18n::s('Source: %s'), $item['source'])."</p>\n";
 		}
-	
+
 		// all details
 		$context['page_details'] .= '<p class="details">';
-	
+
 		// warns associate, poster and editor if not active
 		if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()) || Surfer::is($item['create_id'])) {
-	
+
 			// restricted to logged members
 			if($item['active'] == 'R')
 				$context['page_details'] .= RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members').BR."\n";
-	
+
 			// restricted to associates
 			elseif($item['active'] == 'N')
 				$context['page_details'] .= PRIVATE_FLAG.' '.i18n::s('Private - Access is restricted to selected persons').BR."\n";
-	
+
 		}
-	
+
 		$details = array();
-	
+
 		// information on upload
 		if(Surfer::is_logged())
 			$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 		else
 			$details[] = Skin::build_date($item['edit_date']);
-	
+
 		// all details
 		$context['page_details'] .= ucfirst(implode(', ', $details));
-	
+
 		// reference this item
 		if(Surfer::is_member())
 			$context['page_details'] .= BR.sprintf(i18n::s('Use following codes to reference this item: %s'), '[file='.$item['id'].'] or [download='.$item['id'].']');
-	
+
 		// end of details
 		$context['page_details'] .= '</p>';
-		
+
 	}
 
 	// file details
@@ -257,8 +257,13 @@ if(!isset($item['id'])) {
 		$details[] = Skin::build_number($item['hits'], i18n::s('downloads'));
 
 	// file has been assigned
-	if(isset($item['assign_id']) && $item['assign_id'])
-		$details[] = DRAFT_FLAG.i18n::s('pending refresh');
+	if(isset($item['assign_id']) && $item['assign_id']) {
+		// who has been assigned?
+		if(Surfer::is($item['assign_id']))
+			$details[] = DRAFT_FLAG.sprintf(i18n::s('reserved by you %s'), Skin::build_date($item['assign_date']));
+		else
+			$details[] = DRAFT_FLAG.sprintf(i18n::s('reserved by %s %s'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date']));
+	}
 
 	// display these details
 	$context['text'] .= '<span class="details">'.ucfirst(implode(', ', $details)).'</span></p>';
@@ -460,14 +465,9 @@ if(!isset($item['id'])) {
 	// file has been assigned
 	if(isset($item['assign_id']) && $item['assign_id']) {
 
-		// surfer is the owner
+		// reminder to file owner
 		if(Surfer::is_member() && (Surfer::get_id() == $item['assign_id'])) {
-			$context['text'] .= Skin::build_block(sprintf(i18n::s('This file has been assigned to you %s, and you are encouraged to %s as soon as possible.'), Skin::build_date($item['assign_date']), Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('upload an updated version'), 'basic')), 'note');
-
-		// file has been assigned to another surfer
-		} else {
-			$context['text'] .= Skin::build_block(sprintf(i18n::s('This file has been assigned to %s %s, and it is likely that an updated version will be made available soon.'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date']))
-				.' '.i18n::s('You are encouraged to wait for a fresher version to be available before moving forward.'), 'caution');
+			$context['text'] .= Skin::build_block(sprintf(i18n::s('You have reserved this file %s, and you are encouraged to %s as soon as possible, or to %s.'), Skin::build_date($item['assign_date']), Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('upload an updated version'), 'basic'), Skin::build_link(Files::get_url($item['id'], 'fetch', 'release'), i18n::s('release reservation'), 'basic')), 'note');
 		}
 
 	}
@@ -807,16 +807,16 @@ if(!isset($item['id'])) {
 	if(isset($item['id']) && $editable && Surfer::may_upload() && Surfer::is_member() && (!isset($item['assign_id']) || ($item['assign_id'] < 1))) {
 
 		// the detach link
-		$link = $context['url_to_root'].Files::get_url($item['id'], 'detach');
+		$link = $context['url_to_root'].Files::get_url($item['id'], 'reserve');
 
 		// hovering the link
-		$title = i18n::s('Signal others that you are working on this file');
+		$title = i18n::s('Prevent other persons from changing this file until you update it');
 
 		// surfer is allowed to change the file
-		$label = '<a href="'.$link.'" title="'.encode_field($title).'" id="file_detach">'.DOWNLOAD_IMG.' '.i18n::s('Detach the file if you are intended to change its content').'</a>';
+		$label = '<a href="'.$link.'" title="'.encode_field($title).'" id="file_detach">'.DOWNLOAD_IMG.' '.i18n::s('Reserve this file if you are intended to change its content').'</a>';
 
 		// add some explanations
-		$description = i18n::s('You will get a copy of the file, and other surfers will be warned that you are working on it until next upload.');
+		$description = i18n::s('Other surfers will be warned that you are working on it, until you upload a new version or release the reservation.');
 
 		// use a definition list to enable customization of the detach box
 		$context['text'] .= '<dl class="download detach">'
@@ -880,7 +880,7 @@ if(!isset($item['id'])) {
 		Skin::define_img('FILES_VERSIONS_IMG', 'files/versions.gif');
 		$context['page_tools'][] = Skin::build_link(Versions::get_url('file:'.$item['id'], 'list'), FILES_VERSIONS_IMG.i18n::s('Versions'));
 	}
-	
+
 	// delete command provided to associates and editors
 	if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))) {
 		Skin::define_img('FILES_DELETE_IMG', 'files/delete.gif');

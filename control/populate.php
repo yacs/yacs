@@ -215,27 +215,27 @@ if(!$permitted) {
 		$user['edit_date']	= gmstrftime('%Y-%m-%d %H:%M:%S');
 		$user['interface']	= 'C';	// access all configuration panels
 		$user['login_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	
+
 		// display error, if any
 		if(!Users::post($user)) {
-	
+
 			// but do not mention that admin already exists...
 			if($user['nick_name'] == 'admin')
 				$context['error'] = array();
-	
+
 		// remember the new user profile
 		} elseif($user =& Users::get($_REQUEST['nick_name'])) {
-	
+
 			// we will create additional items on first installation
 			if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
 				$context['text'] .= Skin::build_block(i18n::s('Users'), 'subtitle');
-	
+
 			$context['text'] .= '<p>'.sprintf(i18n::s('One associate profile "%s" has been created.'), $user['nick_name'])."</p>\n";
-	
+
 			// impersonate the new created user profile on first installation
 			if(!file_exists('../parameters/switch.on') && !file_exists('../parameters/switch.off'))
 				Surfer::set($user);
-	
+
 		}
 	}
 
@@ -570,11 +570,9 @@ if(!$permitted) {
 		$fields['title'] = i18n::c('Menu');
 		$fields['active_set'] = 'N'; // this page is integrated into every page anyway
 		$fields['introduction'] = '';
-		$fields['description'] = '[search]'."\n"
-			.'[menu='.i18n::c('Home').']'.$context['url_to_root'].'[/menu]'."\n"
-			.'[submenu='.i18n::c('Site map').']sections/[/submenu]'."\n"
+		$fields['description'] = '[menu='.i18n::c('Home').']'.$context['url_to_root'].'[/menu]'."\n"
+			.'[search]'."\n"
 			.'[submenu='.i18n::c('Categories').']categories/[/submenu]'."\n"
-			.'[submenu='.i18n::c('People').']users/[/submenu]'."\n"
 			.'[submenu='.i18n::c('Help').']help/[/submenu]'."\n";
 		$fields['locked'] = 'Y'; // only associates can change this page
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
@@ -630,7 +628,7 @@ if(!$permitted) {
 
 	// or back to the control panel
 	} else {
-	
+
 		// follow-up commands
 		$context['text'] .= '<h3>'.i18n::s('What do you want to do now?').'</h3>';
 

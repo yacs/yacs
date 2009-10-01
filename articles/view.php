@@ -989,14 +989,11 @@ if(!isset($item['id'])) {
 		if(Comments::are_allowed($anchor, $item)) {
 
 			// we have a wall
-			if(Articles::has_option('comments_as_wall', $anchor, $item)) {
-
-				// except if page is locked
-				if($item['locked'] != 'Y')
-					$comments_prefix = TRUE;
+			if(Articles::has_option('comments_as_wall', $anchor, $item))
+				$comments_prefix = TRUE;
 
 			// editors and associates can always contribute to a thread
-			} else
+			else
 				$comments_suffix = TRUE;
 		}
 
@@ -1229,7 +1226,7 @@ if(!isset($item['id'])) {
 	}
 
 	// review command provided to associates and section editors
-	if(Articles::is_owned($anchor, $item)) {
+	if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_owned())) {
 		Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
 	}
@@ -1253,13 +1250,13 @@ if(!isset($item['id'])) {
 	}
 
 	// duplicate command provided to associates and section editors
-	if(isset($item['id']) && !$zoom_type && is_object($anchor) && $anchor->is_assigned()) {
+	if(isset($item['id']) && !$zoom_type && is_object($anchor) && $anchor->is_owned()) {
 		Skin::define_img('ARTICLES_DUPLICATE_IMG', 'articles/duplicate.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate'));
 	}
 
-	// assign command provided to page owners
- 	if(Articles::is_owned($anchor, $item)) {
+	// assign command provided to container owners
+ 	if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_owned())) {
  		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
  		$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
  	}

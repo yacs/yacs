@@ -51,8 +51,8 @@ Class Layout_files extends Layout_interface {
 		include_once $context['path_to_root'].'files/files.php';
 		while($item =& SQL::fetch($result)) {
 
-			// initialize variables
-			$prefix = $suffix = $icon = '';
+			// get the main anchor
+			$anchor =& Anchors::get($item['anchor']);
 
 			// stream the file, except for mp3, which benefit from the dewplayer
 			if(Files::is_stream($item['file_name']) && !(preg_match('/\.mp3$/i', $item['file_name']) && file_exists($context['path_to_root'].'included/browser/dewplayer.swf')))
@@ -66,19 +66,18 @@ Class Layout_files extends Layout_interface {
 			if(is_callable(array('Codes', 'initialize')))
 				Codes::initialize($url);
 
+			// initialize variables
+			$prefix = $suffix = $icon = '';
+
 			// provide the dewplayer for mp3 files
 			if(preg_match('/\.mp3$/i', $item['file_name']))
 				$prefix .= Files::interact($item, 320, 240, '', FALSE).BR;
-				
+
 			// flag files uploaded recently
 			if($item['create_date'] >= $dead_line)
 				$prefix .= NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
 				$prefix .= UPDATED_FLAG;
-
-			// file has been detached
-			if(isset($item['assign_id']) && $item['assign_id'])
-				$prefix .= DRAFT_FLAG;
 
 			// signal restricted and private files
 			if($item['active'] == 'N')
@@ -109,9 +108,9 @@ Class Layout_files extends Layout_interface {
 
 			// append details
 			$details = array();
-			
+
 			// anchor link
-			if(($this->layout_variant != 'no_anchor') && ($this->layout_variant != 'no_author') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
+			if(($this->layout_variant != 'no_anchor') && ($this->layout_variant != 'no_author') && $anchor) {
 				$anchor_url = $anchor->get_url();
 				$anchor_label = ucfirst($anchor->get_title());
 				$details[] = sprintf(i18n::s('in %s'), Skin::build_link($anchor_url, $anchor_label, 'article'));
@@ -127,33 +126,35 @@ Class Layout_files extends Layout_interface {
 			if(isset($item['assign_id']) && $item['assign_id']) {
 
 				// who has been assigned?
-				if($item['assign_id'] == Surfer::get_id())
-					$details[] = sprintf(i18n::s('assigned to you %s'), Skin::build_date($item['assign_date']));
+				if(Surfer::is($item['assign_id']))
+					$details[] = DRAFT_FLAG.sprintf(i18n::s('reserved by you %s'), Skin::build_date($item['assign_date']));
 				else
-					$details[] = sprintf(i18n::s('detached by %s %s'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date']));
+					$details[] = DRAFT_FLAG.sprintf(i18n::s('reserved by %s %s'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date']));
 			}
 
-			// view the file
-			$details[] = Skin::build_link(Files::get_url($item['id'], 'view', $item['file_name']), i18n::s('Zoom'), 'span');
-
 			// detach or edit the file
-			if((Surfer::is_empowered() && Surfer::is_member())
+			if((is_object($anchor) && $anchor->is_owned())
 				|| Surfer::is($item['create_id'])
 				|| (Surfer::is_member() && (!isset($context['users_without_file_overloads']) || ($context['users_without_file_overloads'] != 'Y'))) ) {
 
-				if(!isset($item['assign_id']) || ($item['assign_id'] < 1))
-					$details[] = Skin::build_link(Files::get_url($item['id'], 'detach'), i18n::s('Detach'), 'span');
+				if(!isset($item['assign_id']) || !$item['assign_id'] || Surfer::is($item['assign_id']) || (is_object($anchor) && $anchor->is_owned()))
+					$details[] = Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('update'), 'span', i18n::s('Share a new version of this file, or change details'));
 
-				$details[] = Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('Update'), 'span');
+				if(!isset($item['assign_id']) || !$item['assign_id'])
+					$details[] = Skin::build_link(Files::get_url($item['id'], 'reserve'), i18n::s('reserve'), 'span', i18n::s('Prevent other persons from changing this file until you update it'));
+
 			}
 
-			// clear assignment
-			if(isset($item['assign_id']) && $item['assign_id'] && Surfer::is_associate())
-				$details[] = Skin::build_link(Files::get_url($item['id'], 'clear'), i18n::s('Unassign'), 'span');
+			// release reservation
+			if(isset($item['assign_id']) && $item['assign_id'] && (Surfer::is($item['assign_id']) || (is_object($anchor) && $anchor->is_owned())))
+				$details[] = Skin::build_link(Files::get_url($item['id'], 'release'), i18n::s('release reservation'), 'span', i18n::s('Allow other persons to update this file'));
+
+			// view the file
+			$details[] = Skin::build_link(Files::get_url($item['id'], 'view', $item['file_name']), i18n::s('details'), 'span', i18n::s('View file details'));
 
 			// delete the file
 			if((Surfer::is_empowered() && Surfer::is_member()) || Surfer::is($item['create_id']))
-				$details[] = Skin::build_link(Files::get_url($item['id'], 'delete'), i18n::s('Delete'), 'span');
+				$details[] = Skin::build_link(Files::get_url($item['id'], 'delete'), i18n::s('delete'), 'span', i18n::s('Drop file content'));
 
 			// append the menu, if any
 			if(count($details))

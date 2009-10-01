@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 27, 2009, 8:30 pm GMT. Please do not modify it manually.
+ * on September 30, 2009, 9:51 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-27 21:52+0200
+POT-Creation-Date: 2009-09-30 20:42+0200
 PO-Revision-Date: 2009-09-27 21:54+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -110,7 +110,6 @@ $_SESSION['l10n']['en']['91c9e7b9ae24afb801cef448f32a9dcc']='Extra boxes are dis
 $_SESSION['l10n']['en']['Extra panel']='Extra panel';
 $_SESSION['l10n']['en']['Feeding servers, for associates']='Feeding servers, for associates';
 $_SESSION['l10n']['en']['4ee8525f2a3e8f8c87ef5f265c7a010b']='Feel free to change and adjust files at skins/%s to better suit your needs.';
-$_SESSION['l10n']['en']['File']='File';
 $_SESSION['l10n']['en']['Files']='Files';
 $_SESSION['l10n']['en']['9d39980e4202da84927692d9d8db7d24']='Following settings apply to all pages. If the skin features a 3-column layout, each panel will be displayed in a separate column. If the skins accomodates for 2 columns, only the main and navigation panels will be displayed. Put in the navigation panel the keyword "extra" where you want to integrate the extra panel.';
 $_SESSION['l10n']['en']['73600b132a68877c6e0a20c42c314aec']='For more information on skins, visit %s';
@@ -229,7 +228,6 @@ $_SESSION['l10n']['en']['See server profile']='See server profile';
 $_SESSION['l10n']['en']['Select a theme']='Select a theme';
 $_SESSION['l10n']['en']['28f69b001a1f3bd3a842e03da4ac42db']='Select and order components displayed in the main area of any page';
 $_SESSION['l10n']['en']['57c4e35328db5b95afd3a49c16072cca']='Select the archive file that you want to install remotely.';
-$_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
 $_SESSION['l10n']['en']['Send a message']='Send a message';
 $_SESSION['l10n']['en']['Server software']='Server software';
 $_SESSION['l10n']['en']['2edc299457cb5a86e2025f301b0fa01d']='Short and meaningful title, such as "My little big server", used almost everywhere, and appended to the title of every page of this site';

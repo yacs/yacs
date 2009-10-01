@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 27, 2009, 8:31 pm GMT. Please do not modify it manually.
+ * on September 30, 2009, 9:52 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 01:57+0200
+POT-Creation-Date: 2009-09-30 20:42+0200
 PO-Revision-Date: 2009-08-26 02:00+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -48,7 +48,6 @@ $_SESSION['l10n']['en']['Duration: %s']='Duration: %s';
 $_SESSION['l10n']['en']['6a2c769d729b50a589114cb6f3a6ca3b']='ERROR: Impossible to write to the file %s. The configuration has not been saved.';
 $_SESSION['l10n']['en']['Error while processing %s.']='Error while processing %s.';
 $_SESSION['l10n']['en']['Fetch this file']='Fetch this file';
-$_SESSION['l10n']['en']['File']='File';
 $_SESSION['l10n']['en']['File collections']='File collections';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['89eeb188c9e91da714bf79594424190a']='If you are looking for a good piece of software to manage streaming music and video, download %s or %s.';
@@ -79,7 +78,6 @@ $_SESSION['l10n']['en']['Previous']='Previous';
 $_SESSION['l10n']['en']['711abf22490c13c012c6eff77b7b2b9e']='Private - Access is restricted to selected persons';
 $_SESSION['l10n']['en']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Access is granted to anonymous surfers';
 $_SESSION['l10n']['en']['Restricted access']='Restricted access';
-$_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
 $_SESSION['l10n']['en']['Select the slide to show']='Select the slide to show';
 $_SESSION['l10n']['en']['Size']='Size';
 $_SESSION['l10n']['en']['Start']='Start';

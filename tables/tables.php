@@ -69,7 +69,7 @@ Class Tables {
 		// split parameters --only useful to json at the moment
 		$attributes = preg_split("/\s*,\s*/", $id, 3);
 		$id = $attributes[0];
-		
+
 		if(isset($attributes[1]))
 			$value_index = $attributes[1];
 		else
@@ -165,11 +165,11 @@ Class Tables {
 
 		// a JSON set of values
 		case 'json':
-			
+
 			// consider all values of one column
 			$data = array();
 			while($row =& SQL::fetch_row($rows)) {
-			
+
 				// adjust types to not fool the json encoder
 				$datum = $row[ $value_index ];
 				if(preg_match('/^(\+|-){0,1}[0-9]+$/', $datum))
@@ -178,7 +178,7 @@ Class Tables {
 					$datum = floatval($datum);
 				elseif(preg_match('/^(true|false)$/i', $datum))
 					$datum = intval($datum);
-					
+
 				// add a tip, if any
 // 				if($tip_index !== FALSE)
 // 					$data[] = array( 'top' => $datum, 'tip' => $row[ $tip_index ] );
@@ -208,7 +208,7 @@ Class Tables {
 				if(Surfer::is_logged()) {
 					$item_bar = array_merge($item_bar, array(Tables::get_url($id, 'fetch_as_csv') => i18n::s('CSV (Excel)')));
 					$item_bar = array_merge($item_bar, array(Tables::get_url($id, 'fetch_as_xml') => i18n::s('XML')));
-					$item_bar = array_merge($item_bar, array(Tables::get_url($id) => i18n::s('Zoom')));
+					$item_bar = array_merge($item_bar, array(Tables::get_url($id) => i18n::s('more')));
 				}
 				if(Surfer::is_associate()) {
 					$item_bar = array_merge($item_bar, array(Tables::get_url($id, 'edit') => i18n::s('Edit')));

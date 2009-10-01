@@ -506,7 +506,7 @@ if(!isset($item['id'])) {
 			$details[] = EXPIRED_FLAG.' '.sprintf(i18n::s('Section has expired %s'), Skin::build_date($item['expiry_date']));
 
 		// section editors and readers
-		if(Surfer::is_empowered() && Surfer::is_logged()) {
+		if(Surfer::is_logged()) {
 			if($items =& Members::list_editors_for_member('section:'.$item['id'], 0, 50, 'comma'))
 				$details[] = sprintf(i18n::s('%s: %s'), i18n::s('Editors'), Skin::build_list($items, 'comma'));
 
