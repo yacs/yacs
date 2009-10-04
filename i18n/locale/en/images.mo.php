@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 30, 2009, 9:51 pm GMT. Please do not modify it manually.
+ * on October 4, 2009, 7:35 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-30 20:42+0200
-PO-Revision-Date: 2009-09-27 21:53+0100
+POT-Creation-Date: 2009-10-03 00:35+0200
+PO-Revision-Date: 2009-10-04 09:21+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -35,11 +35,10 @@ $_SESSION['l10n']['en']['Bulk upload']='Bulk upload';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Cannot copy image to %s']='Cannot copy image to %s';
 $_SESSION['l10n']['en']['c156e2550e8cfa17dd2a0eb590ef4664']='Cannot write adjusted image to %s.';
-$_SESSION['l10n']['en']['Delete']='Delete';
 $_SESSION['l10n']['en']['Delete an image']='Delete an image';
+$_SESSION['l10n']['en']['Delete this image']='Delete this image';
 $_SESSION['l10n']['en']['Description']='Description';
 $_SESSION['l10n']['en']['86c56a7a7f1de49541c9835d0e87b60b']='Do not change modification date of the main page.';
-$_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit the page']='Edit the page';
 $_SESSION['l10n']['en']['Help']='Help';
 $_SESSION['l10n']['en']['2cdb58b860a83f0b75b0a382ef1c8ba0']='If you have got this file from outside sources, please reference these sources here';
@@ -93,7 +92,6 @@ $_SESSION['l10n']['en']['654258af44eda1cd82146682083f5376']='Select another imag
 $_SESSION['l10n']['en']['Set as page image']='Set as page image';
 $_SESSION['l10n']['en']['Set as page thumbnail']='Set as page thumbnail';
 $_SESSION['l10n']['en']['Set as profile picture']='Set as profile picture';
-$_SESSION['l10n']['en']['Size: %s x %s']='Size: %s x %s';
 $_SESSION['l10n']['en']['aa3a8ca9e220321247cbab409332a013']='Smaller files are embedded as-is. The description and the source fields are more or less useless in this case.';
 $_SESSION['l10n']['en']['Source']='Source';
 $_SESSION['l10n']['en']['Source: %s']='Source: %s';
@@ -114,8 +112,8 @@ $_SESSION['l10n']['en']['cca4373c7c256d01ae0c54448cb5e209']='To save this image 
 $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive errors. Aborted';
 $_SESSION['l10n']['en']['Unknown image type in %s.']='Unknown image type in %s.';
 $_SESSION['l10n']['en']['Unused: %s']='Unused: %s';
-$_SESSION['l10n']['en']['Update']='Update';
 $_SESSION['l10n']['en']['Update an image']='Update an image';
+$_SESSION['l10n']['en']['Update this image']='Update this image';
 $_SESSION['l10n']['en']['Use an image']='Use an image';
 $_SESSION['l10n']['en']['View the page']='View the page';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';

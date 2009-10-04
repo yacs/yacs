@@ -74,9 +74,6 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			// permalink
 			$url =& Articles::get_permalink($item);
 
-			// reset the rendering engine between items
-			Codes::initialize($url);
-
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);
 

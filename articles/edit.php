@@ -507,6 +507,9 @@ if(Surfer::is_crawler()) {
 		else
 			$context['text'] .= i18n::s('<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>');
 
+		// list persons that have been notified
+		$context['text'] .= Mailer::get_recipients(i18n::s('Persons that have been notified of your post'));
+
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
@@ -1113,7 +1116,7 @@ if($with_form) {
 			}
 			Safe::closedir($dir);
 			if(@count($overlays)) {
-				sort($overlays);
+				natsort($overlays);
 				foreach($overlays as $overlay_name) {
 					$selected = '';
 					if($overlay_name == $overlay_type)

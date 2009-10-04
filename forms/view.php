@@ -410,180 +410,177 @@ if($with_form) {
 
 	}
 
-	// use the cache if possible
-	$cache_id = 'forms/view.php?id='.$item['id'].'#content';
-	if(!$text =& Cache::get($cache_id)) {
+	// show the description
+	$text .= Skin::build_block($item['description'], 'description');
 
-		// show the description
-		$text .= Skin::build_block($item['description'], 'description');
+	// the form
+	$text .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
-		// the form
-		$text .= '<form method="post" enctype="multipart/form-data" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
+	// form fields
+	$fields = array();
 
-		// form fields
-		$fields = array();
+	// transmit the id as a hidden field
+	$text .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
 
-		// transmit the id as a hidden field
-		$text .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
+	// additional fields for anonymous surfers
+	if(!Surfer::is_logged()) {
 
-		// additional fields for anonymous surfers
-		if(!Surfer::is_logged()) {
+		// splash
+		if(isset($item['id']))
+			$login_url = $context['url_to_root'].'users/login.php?url='.urlencode('forms/view.php?id='.$item['id']);
+		elseif(is_object($anchor))
+			$login_url = $context['url_to_root'].'users/login.php?url='.urlencode('forms/view.php?anchor='.$anchor->get_reference());
+		else
+			$login_url = $context['url_to_root'].'users/login.php?url='.urlencode('forms/view.php');
+		$text .= '<p>'.sprintf(i18n::s('If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.'), Skin::build_link($login_url, 'authenticate'))."</p>\n";
 
-			// splash
-			if(isset($item['id']))
-				$login_url = $context['url_to_root'].'users/login.php?url='.urlencode('forms/view.php?id='.$item['id']);
-			elseif(is_object($anchor))
-				$login_url = $context['url_to_root'].'users/login.php?url='.urlencode('forms/view.php?anchor='.$anchor->get_reference());
-			else
-				$login_url = $context['url_to_root'].'users/login.php?url='.urlencode('forms/view.php');
-			$text .= '<p>'.sprintf(i18n::s('If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.'), Skin::build_link($login_url, 'authenticate'))."</p>\n";
+		// the name, if any
+		$label = i18n::s('Your name');
+		$input = '<input type="text" name="edit_name" size="45" maxlength="128" accesskey="n" value="'.encode_field(Surfer::get_name(' ')).'" />';
+		$hint = i18n::s('Let us a chance to know who you are');
+		$fields[] = array($label, $input, $hint);
 
-			// the name, if any
+		// the address, if any
+		$label = i18n::s('Your e-mail address');
+		$input = '<input type="text" name="edit_address" size="45" maxlength="128" accesskey="a" value="'.encode_field(Surfer::get_email_address()).'" />';
+		$hint = i18n::s('Put your e-mail address to receive feed-back');
+		$fields[] = array($label, $input, $hint);
+
+		// stop robots
+		if($field = Surfer::get_robot_stopper())
+			$fields[] = $field;
+
+	} else {
+
+		// the name, if any
+		if($value = Surfer::get_name()) {
 			$label = i18n::s('Your name');
-			$input = '<input type="text" name="edit_name" size="45" maxlength="128" accesskey="n" value="'.encode_field(Surfer::get_name(' ')).'" />';
-			$hint = i18n::s('Let us a chance to know who you are');
-			$fields[] = array($label, $input, $hint);
+			$fields[] = array($label, $value);
+		}
 
-			// the address, if any
+		// the address, if any
+		if($value = Surfer::get_email_address()) {
 			$label = i18n::s('Your e-mail address');
-			$input = '<input type="text" name="edit_address" size="45" maxlength="128" accesskey="a" value="'.encode_field(Surfer::get_email_address()).'" />';
-			$hint = i18n::s('Put your e-mail address to receive feed-back');
-			$fields[] = array($label, $input, $hint);
-
-			// stop robots
-			if($field = Surfer::get_robot_stopper())
-				$fields[] = $field;
-
-		} else {
-
-			// the name, if any
-			if($value = Surfer::get_name()) {
-				$label = i18n::s('Your name');
-				$fields[] = array($label, $value);
-			}
-
-			// the address, if any
-			if($value = Surfer::get_email_address()) {
-				$label = i18n::s('Your e-mail address');
-				$fields[] = array($label, $value);
-			}
-
+			$fields[] = array($label, $value);
 		}
 
-		// we are now entering regular fields
-		$text .= Skin::build_form($fields);
-		$fields = array();
-
-		// the title
-		$title = sprintf('%s - %s', Surfer::get_name(i18n::s('Your name')), $item['title']);
-		$text .= Skin::build_block(i18n::s('Title'), 'subtitle')."\n"
-			.'<textarea name="title" id="title" rows="2" cols="50" accesskey="t">'.$title.'</textarea>'
-			.BR.'<span class="tiny">'.i18n::s('Please provide a meaningful title.').'</span>'.BR;
-
-
-		// build the user form
-		if($item['content']) {
-
-			// list all fields in sequence
-			$fields = Safe::json_decode($item['content']);
-
-			foreach($fields as $field) {
-
-				// sanity check
-				if(!isset($field['class']))
-					continue;
-
-				switch($field['class']) {
-
-				// upload a file
-				case 'file':
-					if(Surfer::may_upload())
-						$text .= '<input type="file" name="'.encode_field($field['name']).'" size="45" maxlength="255" />';
-					break;
-
-				// insert a field to get some text
-				case 'label':
-					if(isset($field['type']) && ($field['type'] == 'title'))
-						$text .= Skin::build_block($field['text'], 'title')."\n";
-					elseif(isset($field['type']) && ($field['type'] == 'subtitle'))
-						$text .= Skin::build_block($field['text'], 'subtitle')."\n";
-					else
-						$text .= '<div>'.$field['text'].'</div>';
-					break;
-
-				// insert a field to select among several options
-				case 'list':
-					$options = array();
-					$lines = explode("\n", $field['text']);
-					foreach($lines as $line) {
-						if(preg_match('!/(.+?)/\s*(.+)$!', $line, $matches))
-							$options[] = array($matches[1], $matches[2]);
-					}
-					if(isset($field['type']) && ($field['type'] == 'drop')) {
-						$text .= '<select name="'.encode_field($field['name']).'">'."\n";
-						foreach($options as $option) {
-							$text .= '<option value="'.encode_field($option[0]).'"> '.$option[1]."</option>\n";
-						}
-						$text .= '</select>'."\n";
-					} elseif(isset($field['type']) && ($field['type'] == 'check')) {
-						foreach($options as $option) {
-							$text .= '<input type="checkbox" name="'.encode_field($field['name']).'[]" value="'.encode_field($option[0]).'" /> '.$option[1].BR."\n";
-						}
-					} else {
-						foreach($options as $option) {
-							$text .= '<input type="radio" name="'.encode_field($field['name']).'" value="'.encode_field($option[0]).'" /> '.$option[1].BR."\n";
-						}
-					}
-					break;
-
-				// display some text
-				case 'text':
-					if(isset($field['type']) && ($field['type'] == 'textarea'))
-						$text .= '<textarea name="'.encode_field($field['name']).'" rows="7" cols="50"></textarea>';
-					elseif(isset($field['type']) && ($field['type'] == 'password'))
-						$text .= '<input type="password" name="'.encode_field($field['name']).'" size="45" maxlength="255" />';
-					else
-						$text .= '<input type="text" name="'.encode_field($field['name']).'" size="45" maxlength="255" />';
-					break;
-				}
-			}
-		}
-
-		// bottom commands
-		$menu = array();
-		$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
-		if(Surfer::is_associate()) {
-			$menu[] = Skin::build_link(Forms::get_url($item['id'], 'edit'), i18n::s('Edit'), 'span');
-			$menu[] = Skin::build_link(Forms::get_url($item['id'], 'delete'), i18n::s('Delete'), 'span');
-		}
-		$menu[] = Skin::build_link('forms/', i18n::s('Cancel'), 'span');
-		$text .= Skin::finalize_list($menu, 'assistant_bar');
-
-		// end of the form
-		$text .= '</div></form>';
-
-		// the script used for form handling at the browser
-		$context['page_footer'] .= JS_PREFIX
-			.'// check that main fields are not empty'."\n"
-			.'func'.'tion validateDocumentPost(container) {'."\n"
-			."\n"
-			.'	// title is mandatory'."\n"
-//					.'	if(!container.title.value) {'."\n"
-//					.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
-//					.'		Yacs.stopWorking();'."\n"
-//					.'		return false;'."\n"
-//					.'	}'."\n"
-			."\n"
-			.'	// successful check'."\n"
-			.'	return true;'."\n"
-			.'}'."\n"
-			."\n"
-			.JS_SUFFIX."\n";
-
-		// save in cache
-		Cache::put($cache_id, $text, 'form:'.$item['id']);
 	}
+
+	// we are now entering regular fields
+	$text .= Skin::build_form($fields);
+	$fields = array();
+
+	// the title
+	$title = sprintf('%s - %s', Surfer::get_name(i18n::s('Your name')), $item['title']);
+	$text .= Skin::build_block(i18n::s('Title'), 'subtitle')."\n"
+		.'<textarea name="title" id="title" rows="2" cols="50" accesskey="t">'.$title.'</textarea>'
+		.BR.'<span class="tiny">'.i18n::s('Please provide a meaningful title.').'</span>'.BR;
+
+
+	// build the user form
+	if($item['content']) {
+
+		// list all fields in sequence
+		$fields = Safe::json_decode($item['content']);
+
+		foreach($fields as $field) {
+
+			// sanity check
+			if(!isset($field['class']))
+				continue;
+
+			switch($field['class']) {
+
+			// upload a file
+			case 'file':
+				if(Surfer::may_upload())
+					$text .= '<input type="file" name="'.encode_field($field['name']).'" size="45" maxlength="255" />';
+				break;
+
+			// insert a field to get some text
+			case 'label':
+				if(isset($field['type']) && ($field['type'] == 'title'))
+					$text .= Skin::build_block($field['text'], 'title')."\n";
+				elseif(isset($field['type']) && ($field['type'] == 'subtitle'))
+					$text .= Skin::build_block($field['text'], 'subtitle')."\n";
+				else
+					$text .= '<div>'.$field['text'].'</div>';
+				break;
+
+			// insert a field to select among several options
+			case 'list':
+				$options = array();
+				$lines = explode("\n", $field['text']);
+				foreach($lines as $line) {
+					if(preg_match('!/(.+?)/\s*(.+)$!', $line, $matches))
+						$options[] = array($matches[1], $matches[2]);
+				}
+				if(isset($field['type']) && ($field['type'] == 'drop')) {
+					$text .= '<select name="'.encode_field($field['name']).'">'."\n";
+					foreach($options as $option) {
+						$text .= '<option value="'.encode_field($option[0]).'"> '.$option[1]."</option>\n";
+					}
+					$text .= '</select>'."\n";
+				} elseif(isset($field['type']) && ($field['type'] == 'check')) {
+					foreach($options as $option) {
+						$text .= '<input type="checkbox" name="'.encode_field($field['name']).'[]" value="'.encode_field($option[0]).'" /> '.$option[1].BR."\n";
+					}
+				} else {
+					foreach($options as $option) {
+						$text .= '<input type="radio" name="'.encode_field($field['name']).'" value="'.encode_field($option[0]).'" /> '.$option[1].BR."\n";
+					}
+				}
+				break;
+
+			// display some text
+			case 'text':
+				if(isset($field['type']) && ($field['type'] == 'textarea'))
+					$text .= '<textarea name="'.encode_field($field['name']).'" rows="7" cols="50"></textarea>';
+				elseif(isset($field['type']) && ($field['type'] == 'password'))
+					$text .= '<input type="password" name="'.encode_field($field['name']).'" size="45" maxlength="255" />';
+				else
+					$text .= '<input type="text" name="'.encode_field($field['name']).'" size="45" maxlength="255" />';
+				break;
+			}
+		}
+	}
+
+	// bottom commands
+	$menu = array();
+	$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
+	$menu[] = Skin::build_link('forms/', i18n::s('Cancel'), 'span');
+	$text .= Skin::finalize_list($menu, 'assistant_bar');
+
+	// end of the form
+	$text .= '</div></form>';
+
+	// the script used for form handling at the browser
+	$context['page_footer'] .= JS_PREFIX
+		.'// check that main fields are not empty'."\n"
+		.'func'.'tion validateDocumentPost(container) {'."\n"
+		."\n"
+		.'	// title is mandatory'."\n"
+//		.'	if(!container.title.value) {'."\n"
+//		.'		alert("'.i18n::s('Please provide a meaningful title.').'");'."\n"
+//		.'		Yacs.stopWorking();'."\n"
+//		.'		return false;'."\n"
+//		.'	}'."\n"
+		."\n"
+		.'	// successful check'."\n"
+		.'	return true;'."\n"
+		.'}'."\n"
+		."\n"
+		.JS_SUFFIX."\n";
+
+	// put in page
 	$context['text'] .= $text;
+
+	// page tools
+	//
+	if(Surfer::is_associate()) {
+		$context['page_tools'][] = Skin::build_link(Forms::get_url($item['id'], 'edit'), i18n::s('Edit'));
+		$context['page_tools'][] = Skin::build_link(Forms::get_url($item['id'], 'delete'), i18n::s('Delete'));
+	}
 
 	// referrals, if any
 	$context['components']['referrals'] =& Skin::build_referrals(Forms::get_url($item['id']));

@@ -52,10 +52,6 @@ Class Layout_users extends Layout_interface {
 			// the url to view this item
 			$url = Users::get_permalink($item);
 
-			// reset the rendering engine between items
-			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize($url);
-
 			// flag profiles updated recently
 			if($item['create_date'] >= $dead_line)
 				$suffix .= NEW_FLAG;

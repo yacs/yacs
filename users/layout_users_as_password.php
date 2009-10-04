@@ -48,10 +48,6 @@ Class Layout_users_as_password extends Layout_interface {
 			// the url to view this item
 			$url = Users::get_permalink($item);
 
-			// reset the rendering engine between items
-			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize($url);
-
 			// flag profiles updated recently
 			if($item['create_date'] >= $dead_line)
 				$suffix .= NEW_FLAG;
@@ -111,7 +107,7 @@ Class Layout_users_as_password extends Layout_interface {
 
 			// the command to ask for a new password
 			$suffix .= '<p style="padding: 0.5em 0 0.5em 0">'.Skin::build_link(Users::get_url($item['id'], 'password', $item['nick_name']), i18n::s('Authenticate with this profile'), 'button').'</p>';
-			
+
 			// use the avatar, if any
 			if(isset($item['avatar_url']))
 				$icon = $item['avatar_url'];

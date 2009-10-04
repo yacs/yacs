@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 30, 2009, 9:51 pm GMT. Please do not modify it manually.
+ * on October 4, 2009, 10:07 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 16:54+0200
-PO-Revision-Date: 2009-08-26 17:23+0100
+POT-Creation-Date: 2009-10-04 23:58+0200
+PO-Revision-Date: 2009-10-04 09:33+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -77,7 +77,7 @@ $_SESSION['l10n']['en']['Decorated']='Decorated';
 $_SESSION['l10n']['en']['Deleted']='Deleted';
 $_SESSION['l10n']['en']['Direct location']='Direct location';
 $_SESSION['l10n']['en']['Download shortcut']='Download shortcut';
-$_SESSION['l10n']['en']['1741cd1a458b97d470749bf8822e6cb1']='Dynamic queries (cloud, locations, ...)';
+$_SESSION['l10n']['en']['ea59feda132178673e121b00b4480aba']='Dynamic queries (updates, content, ...)';
 $_SESSION['l10n']['en']['Edited %s']='Edited %s';
 $_SESSION['l10n']['en']['Events']='Events';
 $_SESSION['l10n']['en']['Example']='Example';
@@ -143,11 +143,13 @@ $_SESSION['l10n']['en']['Net income increase,10%']='Net income increase,10%';
 $_SESSION['l10n']['en']['Net income increase;10%']='Net income increase;10%';
 $_SESSION['l10n']['en']['New']='New';
 $_SESSION['l10n']['en']['Newline']='Newline';
+$_SESSION['l10n']['en']['Newsfeed']='Newsfeed';
 $_SESSION['l10n']['en']['Next page']='Next page';
 $_SESSION['l10n']['en']['Note']='Note';
 $_SESSION['l10n']['en']['Numbered list']='Numbered list';
 $_SESSION['l10n']['en']['b10864753937b4ee40593b74e977d1b5']='Numerous surfers like this section of our site';
 $_SESSION['l10n']['en']['d057d02c739cd864371dc5a86e169cc2']='On this page we are introducing codes related to dynamic queries of site content.';
+$_SESSION['l10n']['en']['799467c8a096ae3d1028f1e68c5aad6a']='On this page we are introducing codes related to widgets and badges.';
 $_SESSION['l10n']['en']['c298a582fd5eca9557337a5992cab220']='On this page we are introducing some formatting codes and live examples of utilization.';
 $_SESSION['l10n']['en']['ec554755e32e4c379c6a88b459ec1eea']='On this page we are showing how to add headlines, questions, and related table of contents.';
 $_SESSION['l10n']['en']['6128839b22ea6d54926a7624d914171d']='On this page we are showing how to build simple tables. Use the char |, or tab, or two successive spaces, to separate column elements.';
@@ -227,6 +229,8 @@ $_SESSION['l10n']['en']['Tiny']='Tiny';
 $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['6184e898709cdf3f494ee0b9b4f4622f']='Titles and questions (and table of content)';
 $_SESSION['l10n']['en']['Turtle']='Turtle';
+$_SESSION['l10n']['en']['Twitter profile']='Twitter profile';
+$_SESSION['l10n']['en']['Twitter search']='Twitter search';
 $_SESSION['l10n']['en']['e7c98872d2958038379bf65515bdf960']='Type ##cwd ../foo/bar## to visit an interesting directory.';
 $_SESSION['l10n']['en']['adb1193aeda8c1867709de58a4674b6d']='Type [code]cwd ../foo/bar[/code] to visit an interesting directory.';
 $_SESSION['l10n']['en']['Underlined']='Underlined';
@@ -240,6 +244,8 @@ $_SESSION['l10n']['en']['d3414a796527ec4826b0028041b25a0a']='Use the simplest fo
 $_SESSION['l10n']['en']['User shortcut']='User shortcut';
 $_SESSION['l10n']['en']['44ef644d7e15c956a0063a57642e776f']='Using a different separator between cells.';
 $_SESSION['l10n']['en']['eacdc0fd60082cdddb6c01361e56abcf']='Various methods are presented to link your pages to others.';
+$_SESSION['l10n']['en']['Widgets']='Widgets';
+$_SESSION['l10n']['en']['950560e6b1f75a11c75397a634c920d1']='Widgets (twitter, calendar, ...)';
 $_SESSION['l10n']['en']['Wiki bold']='Wiki bold';
 $_SESSION['l10n']['en']['Wiki deletion']='Wiki deletion';
 $_SESSION['l10n']['en']['Wiki insertion']='Wiki insertion';

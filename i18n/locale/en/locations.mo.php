@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 30, 2009, 9:51 pm GMT. Please do not modify it manually.
+ * on October 4, 2009, 7:37 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:02+0200
+POT-Creation-Date: 2009-10-03 00:35+0200
 PO-Revision-Date: 2009-09-02 01:03+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -51,7 +51,6 @@ $_SESSION['l10n']['en']['abf8fdccef1fa38d977f0824c5b5a6a6']='Locations related t
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Look for unused locations']='Look for unused locations';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
-$_SESSION['l10n']['en']['Navigation']='Navigation';
 $_SESSION['l10n']['en']['New location in %s']='New location in %s';
 $_SESSION['l10n']['en']['No anchor has been found.']='No anchor has been found.';
 $_SESSION['l10n']['en']['No image to use as a map.']='No image to use as a map.';

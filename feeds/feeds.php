@@ -139,78 +139,28 @@ class Feeds {
 			return NULL;
 		}
 
-		// sometime parse_url() adds a '_'
-		$items['host'] = rtrim($items['host'], '_');
+		// use simplepie
+		include_once $context['path_to_root'].'included/simplepie.inc';
+		$feed = new SimplePie($feed_url, $context['path_to_root'].'temporary');
+		$feed->init();
 
-		// avoid local loops
-		if(($items['host'] == $context['host_name']) || ($items['host'] == 'localhost') || ($items['host'] == '127.0.0.1')) {
-			Logger::remember('feeds/feeds.php', 'Local feed is skipped at '.$feed_url);
-			return NULL;
-		}
-
-		// we only want XML
-		$headers = "Accept: text/xml\015\012";
-
-		// are we in debug mode
-		$debug = '';
-		if(isset($context['debug_feeds']) && ($context['debug_feeds'] == 'Y'))
-			$debug = 'feeds/feeds.php';
-
-		// actual fetch
-		include_once $context['path_to_root'].'links/link.php';
-		if(($content = Link::fetch($feed_url, $headers, '', $debug)) == FALSE)
-			return NULL;
-
-		// select a codec
-		include_once $context['path_to_root'].'services/codec.php';
-
-		// decode from atom
-		if(strpos($content, '<feed ')) {
-			include_once $context['path_to_root'].'services/atom_codec.php';
-			$codec = new atom_Codec();
-
-		// the default is to decode as RSS
-		} else {
-			include_once $context['path_to_root'].'services/rss_codec.php';
-			$codec = new RSS_Codec();
-		}
-
-		// decode the result
-		$result = $codec->import_response($content, $headers, NULL);
-		if(!$result[0]) {
-			Logger::remember('feeds/feeds.php', 'Impossible to decode XML response from '.$feed_url);
-			return NULL;
-		}
-
-		// streamline date processing
+		// make an array
 		$items = array();
-		foreach($result[1] as $item) {
+		foreach($feed->get_items() as $item) {
 
-			// preserved attributes
-			$transcoded = array();
-			$transcoded['title'] = isset($item['title']) ? $item['title'] : '';
-			$transcoded['description'] = isset($item['description']) ? $item['description'] : '';
-			$transcoded['link'] = isset($item['link']) ? $item['link'] : '';
-			$transcoded['category'] = isset($item['category']) ? $item['category'] : '';
-			$transcoded['author'] = isset($item['author']) ? $item['author'] : '';
+			$category = '';
+			foreach($item->get_categories() as $one)
+				$category .= $one->get_label().', ';
+			$category = rtrim($category, ', ');
 
-			// transcode pubDate
-			if(isset($item['pubDate']) && $item['pubDate'])
-				$transcoded['pubDate'] = gmstrftime('%Y-%m-%d %H:%M:%S', Feeds::decode_date($item['pubDate']));
-
-			// use Atom
-			elseif(isset($item['issued']) && $item['issued'])
-				$transcoded['pubDate'] = gmstrftime('%Y-%m-%d %H:%M:%S', Feeds::decode_date($item['issued']));
-
-			// use DC
-			elseif(isset($item['dc']['date']) && $item['dc']['date'])
-				$transcoded['pubDate'] = gmstrftime('%Y-%m-%d %H:%M:%S', Feeds::decode_date($item['dc']['date']));
-
-			// default stamp
-			else
-				$transcoded['pubDate'] = gmstrftime('%Y-%m-%d %H:%M:%S', time());
-
-			$items[] = $transcoded;
+			$items[] = array(
+				'author' => $item->get_author(),
+				'category' => $category,
+				'description' => $item->get_content(),
+				'link' => $item->get_permalink(),
+				'pubDate' => $item->get_date('r'),
+				'title' => $item->get_title()
+				);
 		}
 
 		// and returns it

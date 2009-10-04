@@ -424,7 +424,7 @@ if($id) {
 
 		// alphabetical order
 		if(@count($archives))
-			sort($archives);
+			natsort($archives);
 
 	}
 

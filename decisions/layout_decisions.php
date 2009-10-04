@@ -108,19 +108,9 @@ Class Layout_decisions extends Layout_interface {
 			// new line
 			$suffix .= BR;
 
-			// add an anchor for this decision
-			$suffix .= '<a name="decision_'.$item['id'].'" ></a>';
-
 			// description
 			if($description = ucfirst(trim(Codes::beautify($item['description']))))
 					$suffix .= ' '.$description;
-
-			// show an anchor decision
-			if(($variant != 'no_anchor') && $item['anchor'] && ($anchor =& Anchors::get($item['anchor']))) {
-				$anchor_url = $anchor->get_url();
-				$anchor_label = ucfirst($anchor->get_title());
-				$suffix .= BR.sprintf(i18n::s('In %s'), Skin::build_link($anchor_url, $anchor_label, 'shortcut'))."\n";
-			}
 
 			// url to view the decision
 			$url = Decisions::get_url($item['id']);

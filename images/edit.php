@@ -303,6 +303,9 @@ if(Surfer::is_crawler()) {
 		// touch the related anchor
 		$anchor->touch($action, $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
+		// list persons that have been notified
+		$context['text'] .= Mailer::get_recipients(i18n::s('Persons that have been notified of your post'));
+
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();

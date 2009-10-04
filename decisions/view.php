@@ -74,18 +74,6 @@ if(is_object($anchor))
 else
 	$context['page_title'] = i18n::s('View a decision');
 
-// back to the anchor page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] += array( $anchor->get_url() => i18n::s('Back to main page') );
-
-// commands for associates and author, but not for editors
-if($item['id'] && (Surfer::is_associate() || Surfer::is($item['create_id'])) )
-	$context['page_menu'] += array( decisions::get_url($item['id'], 'edit') => i18n::s('Edit') );
-
-// commands for associates
-if($item['id'] && Surfer::is_associate())
-	$context['page_menu'] += array( decisions::get_url($item['id'], 'delete') => i18n::s('Delete') );
-
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -180,6 +168,20 @@ if(!isset($item['id'])) {
 	// insert anchor suffix
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_suffix();
+
+	// back to the anchor page
+	if(is_object($anchor) && $anchor->is_viewable()) {
+		$menu = array(Skin::build_link($anchor->get_url(), i18n::s('Back to main page'), 'button'));
+		$context['text'] .= Skin::build_block(Skin::finalize_list($menu, 'menu_bar'), 'bottom');
+	}
+
+	// commands for associates and author, but not for editors
+	if($item['id'] && (Surfer::is_associate() || Surfer::is($item['create_id'])) )
+		$context['page_tools'][] = Skin::build_link(Decisions::get_url($item['id'], 'edit'), i18n::s('Edit'));
+
+	// commands for associates
+	if($item['id'] && Surfer::is_associate())
+		$context['page_tools'][] = Skin::build_link(Decisions::get_url($item['id'], 'delete'), i18n::s('Delete'));
 
 	//
 	// the referrals, if any, in a sidebar

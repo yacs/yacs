@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 30, 2009, 9:51 pm GMT. Please do not modify it manually.
+ * on October 4, 2009, 7:36 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-04 15:30+0200
-PO-Revision-Date: 2009-09-02 01:03+0100
+POT-Creation-Date: 2009-10-04 09:18+0200
+PO-Revision-Date: 2009-10-04 09:22+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -37,7 +37,7 @@ $_SESSION['l10n']['en']['3b105025b68dcc9dd6fe9a921ec06dbb']='Allowed queries fro
 $_SESSION['l10n']['en']['877cbda64d3cb855a25012834b11ff0a']='Also, uncheck web services that we should not provide to the target server.';
 $_SESSION['l10n']['en']['b018c1910c6bb2c705747f1858656296']='An entry already exists for server %s';
 $_SESSION['l10n']['en']['Another famous blogs aggregator']='Another famous blogs aggregator';
-$_SESSION['l10n']['en']['Back to server profile']='Back to server profile';
+$_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Back to servers']='Back to servers';
 $_SESSION['l10n']['en']['ab29426eac97a8fac53f1263996c2dc2']='Checked on each server request to us';
 $_SESSION['l10n']['en']['5d8cecfd4216db192c7b72dfb4e2c0e5']='Community - Access is restricted to authenticated members';

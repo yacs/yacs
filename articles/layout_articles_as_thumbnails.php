@@ -42,9 +42,6 @@ Class Layout_articles_as_thumbnails extends Layout_interface {
 			// the url to view this item
 			$url =& Articles::get_permalink($item);
 
-			// reset the rendering engine between items
-			Codes::initialize($url);
-
 			// use the skin to shape it -- no title, partner name is in the image itself
 			$text .= Skin::build_image('left', $item['thumbnail_url'], '', $url);
 

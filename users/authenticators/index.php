@@ -36,7 +36,7 @@ if ($dir = Safe::opendir($context['path_to_root'].'users/authenticators')) {
 	}
 	Safe::closedir($dir);
 	if(@count($authenticators)) {
-		sort($authenticators);
+		natsort($authenticators);
 		foreach($authenticators as $authenticator)
 			$context['text'] .= '<li>'.$authenticator."</li>\n";
 	}

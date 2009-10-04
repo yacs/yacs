@@ -383,6 +383,42 @@ class Mailer {
 	}
 
 	/**
+	 * retrieve recipients of last post
+	 *
+	 * This is useful to list all persons notified after a post for example.
+	 *
+	 * @param string title of the folded box generated
+	 * @return mixed text to be integrated into the page, or array with one item per recipient, or ''
+	 */
+	function get_recipients($title=NULL) {
+		global $context;
+
+		// return the bare list
+		if(!$title)
+			return $context['mailer_recipients'];
+
+		// nothing to show
+		if(!Surfer::get_id() || !isset($context['mailer_recipients']))
+			return '';
+
+		// build a nice list
+		$list = array();
+		if(count($context['mailer_recipients']) > 50)
+			$count = 30;	// list only 30 first recipients
+		else
+			$count = 100;	//never reached
+		foreach($context['mailer_recipients'] as $recipient) {
+			$list[] = htmlspecialchars($recipient);
+			if($count-- ==1) {
+				$list[] = sprintf(i18n::s('and %d other persons'), count($context['mailer_recipients'])-30);
+				break;
+			}
+		}
+		return Skin::build_box($title, Skin::finalize_list($list, 'compact'), 'folded');
+
+	}
+
+	/**
 	 * send a short email message
 	 *
 	 * This is the function used by yacs to notify community members of various events.
@@ -725,9 +761,8 @@ class Mailer {
 			$to = explode(',', $to);
 
 		// the list of recipients contacted during overall script execution
-		static $already_processed;
-		if(!isset($already_processed))
-			$already_processed = array();
+		if(!isset($context['mailer_recipients']))
+			$context['mailer_recipients'] = array();
 
 		// process every recipient
 		$posts = 0;
@@ -736,19 +771,15 @@ class Mailer {
 			// clean the provided string
 			$recipient = trim(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $recipient));
 
-			// extract the actual e-mail address -- Foo Bar <foo@bar.com> => foo@bar.com
-			$tokens = explode(' ', $recipient);
-			$actual_recipient = trim(str_replace(array('<', '>'), '', $tokens[count($tokens)-1]));
-
 			// this e-mail address has already been processed
-			if(in_array($actual_recipient, $already_processed)) {
+			if(in_array($recipient, $context['mailer_recipients'])) {
 				if(isset($context['debug_mail']) && ($context['debug_mail'] == 'Y'))
-					Logger::remember('shared/mailer.php', 'Skipping recipient already processed', $actual_recipient, 'debug');
+					Logger::remember('shared/mailer.php', 'Skipping recipient already processed', $recipient, 'debug');
 				continue;
 
 			// remember this recipient
 			} else
-				$already_processed[] = $actual_recipient;
+				$context['mailer_recipients'][] = $recipient;
 
 			// queue the message
 			Mailer::queue($recipient, $encoded_subject, $body, $headers);

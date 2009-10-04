@@ -1170,9 +1170,8 @@ if(!isset($item['id'])) {
 	$context['text'] .= $text;
 
 	//
-	// extra panel -- most content is cached, except commands specific to current surfer
+	// extra panel
 	//
-
 
 	// page tools
 	//
@@ -1225,8 +1224,8 @@ if(!isset($item['id'])) {
 
 	}
 
-	// review command provided to associates and section editors
-	if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_owned())) {
+	// review command provided to container owners
+	if(Articles::is_owned($anchor, NULL)) {
 		Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
 	}
@@ -1249,14 +1248,14 @@ if(!isset($item['id'])) {
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), ARTICLES_DELETE_IMG.i18n::s('Delete this page'));
 	}
 
-	// duplicate command provided to associates and section editors
-	if(isset($item['id']) && !$zoom_type && is_object($anchor) && $anchor->is_owned()) {
+	// duplicate command provided to container owners
+	if(isset($item['id']) && is_object($anchor) && $anchor->is_owned()) {
 		Skin::define_img('ARTICLES_DUPLICATE_IMG', 'articles/duplicate.gif');
 		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate'));
 	}
 
-	// assign command provided to container owners
- 	if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_owned())) {
+	// assign command provided to page owners
+ 	if(Articles::is_owned($anchor, $item)) {
  		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
  		$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
  	}
@@ -1310,14 +1309,7 @@ if(!isset($item['id'])) {
 
 }
 
-// stamp the page
-$last_modified = SQL::strtotime($item['edit_date']);
-
-// at the minimum, consider the date of the last configuration change
-if($last_configured = Safe::filemtime('../parameters/control.include.php'))
-	$last_modified = max($last_modified, $last_configured);
-
 // render the skin
-render_skin($last_modified);
+render_skin();
 
 ?>

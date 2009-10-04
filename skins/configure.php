@@ -406,6 +406,10 @@ elseif(!Surfer::is_associate()) {
 	if(!isset($context['skins_delegate_search']) || ($context['skins_delegate_search'] != 'Y'))
 		$input .= ' checked="checked"';
 	$input .= ' onclick="$(skins_search_form).disabled=1"/> '.i18n::s('Process search requests internally, by requesting the back-end database');
+	$input .= BR.'<input type="radio" name="skins_delegate_search" value="S"';
+	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'S'))
+		$input .= ' checked="checked"';
+	$input .= ' onclick="$(skins_search_form).disabled=1"/> '.i18n::s('Add radio buttons to distinguish searches in content from searches in users');
 	$input .= BR.'<input type="radio" name="skins_delegate_search" value="Y"';
 	if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'Y'))
 		$input .= ' checked="checked"';

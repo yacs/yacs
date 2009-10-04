@@ -83,7 +83,7 @@ var Yacs = {
 
 		// hash encoding to JSON
 		parameters = Object.toJSON(parameters);
-		
+
 		// start an ajax transaction
 		var handle = new Ajax.Request(url_to_root + 'services/json_rpc.php', {
 			method: 'post',
@@ -126,9 +126,9 @@ var Yacs = {
 	 */
 	clickImage: function() {
 		Yacs.showImage(this);
-		return false; 
+		return false;
 	},
-	
+
 	/**
 	 * close the modal box
 	 */
@@ -376,7 +376,7 @@ var Yacs = {
 			key = event.which;
 		else
 			return true;
-	
+
 		// control keys
 		if((key==null) || (key<32))
 			return true;
@@ -388,7 +388,7 @@ var Yacs = {
 		// filtered out
 		return false;
 	},
-	
+
 	/**
 	 * filter integer numbers
 	 *
@@ -405,7 +405,7 @@ var Yacs = {
 			key = event.which;
 		else
 			return true;
-	
+
 		// control keys
 		if((key==null) || (key<32))
 			return true;
@@ -417,7 +417,7 @@ var Yacs = {
 		// filtered out
 		return false;
 	},
-	
+
 	/**
 	 * get the value of one cookie
 	 *
@@ -480,7 +480,7 @@ var Yacs = {
 	growPanel: function(handle) {
 		Element.setStyle(handle, {height: '10em'});
 	},
-	
+
 	/**
 	 * we have received an 'alert' notification
 	 *
@@ -881,26 +881,26 @@ var Yacs = {
 
 		// the panel to slide
 		var panel = Element.next(handle, '.panel');
-		
+
 		// align the sliding panel
 		if((onLeft !== true) && (onLeft !== false)) {
-		
+
 			// the menu is visible on screen
 			onLeft = (Element.getWidth(panel) > (Element.cumulativeOffset(container).left + Element.getWidth(handle)));
 		}
-		
+
 		// align left borders
 		if(onLeft) {
-			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', left: '0px', zIndex: 20});		
-		
+			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', left: '0px', zIndex: 20});
+
 		// align right borders
 		} else {
 			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', right: '0px', zIndex: 20});
 		}
-		
+
 		// display the panel if it is not visible
 		if(panel.style.display == 'none') {
-		
+
 			new Effect.SlideDown(panel, {duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
@@ -911,9 +911,9 @@ var Yacs = {
 
 		// collapse the panel if it is visible
 		} else {
-		
+
 			new Effect.SlideUp(panel, {duration:.3, scaleContent:false});
-			
+
 			// change the image (if there is an image)
 			var icon = Element.next(Element.down(handle, 'span'), 'img');
 			if(icon && down_href) {
@@ -921,6 +921,20 @@ var Yacs = {
 			}
 
 		}
+
+	},
+
+	/**
+	 * show the spinning wheel
+	 *
+	 * This function displays a nice spinning image while loading the page.
+	 *
+	 * @param string id of the target CSS container
+	 *
+	 */
+	spin: function(panel) {
+
+		$(panel).innerHTML = '<img alt="*" src="' + Yacs.spinningImage.src + '" style="vertical-align:-3px" />';
 
 	},
 
@@ -1183,28 +1197,28 @@ var Yacs = {
 		var id;
 		for(id in tabs) {
 			if(tabs.hasOwnProperty(id)) {
-			
+
 				// instrument this tab
 				Event.observe($(id), 'click', Yacs.tabsEvent);
-				
+
 				// we are on first tab
 				if(!Yacs.tabs_current) {
 					Yacs.tabs_current = id;
 				}
 			}
 		}
-		
+
 		// move to the right tab
 		new PeriodicalExecuter(function(pe) {
 
 			// where are we?
 			if(window.location.hash.length > 1) {
 				var hash = document.location.hash.substr(1,document.location.hash.length);
-				
+
 				// are we already there?
 				if(Yacs.tabs_current == hash)
 					return;
-					
+
 				// change to this tab
 				for(id in tabs) {
 					if(id == hash) {
@@ -1212,14 +1226,14 @@ var Yacs = {
 						break;
 					}
 				}
-				
+
 				// wait until next change of hash
 				Yacs.tabs_current = hash;
 			}
 
 		}, 0.5);
 
-		
+
 		// move to the right tab
 	},
 
@@ -1232,14 +1246,14 @@ var Yacs = {
 		var iterator;
 		for(iterator in Yacs.tabs_list) {
 			if(id == $(iterator).id) {
-			
+
 				// remember our state
 				window.location.hash = id;
 				Yacs.tabs_current = id;
-				
+
 				// update the tab
 				$(iterator).className = 'tab-foreground';
-				
+
 				// update the panel
 				$(Yacs.tabs_list[iterator][0]).className = 'panel-foreground';
 
@@ -1249,10 +1263,10 @@ var Yacs = {
 				}
 
 			} else {
-			
+
 				// update the tab
 				$(iterator).className = 'tab-background';
-				
+
 				// update the panel
 				$(Yacs.tabs_list[iterator][0]).className = 'panel-background';
 			}
@@ -1279,7 +1293,7 @@ var Yacs = {
 
 		// display the target tab
 		Yacs.tabsDisplay(clicked.id);
-		
+
 		// do not propagate event
 		Event.stop(e);
 	},
@@ -1364,31 +1378,31 @@ var Yacs = {
 		var processed = false;
 
 		// close all boxes in the accordion
- 		$$('.'+accordion).each( function(item) { 
- 		
+ 		$$('.'+accordion).each( function(item) {
+
  			var panel = Element.down(item, '.accordion_content');
 			if(panel.style.display != 'none') {
 				new Effect.SlideUp(panel, {duration:.3, scaleContent:false});
-  			
+
 				// change the image (if there is an image)
 				var icon = Element.down(item, 'a').down('img');
 				if(icon && down_href) {
 					icon.src = down_href;
 				}
-				
+
 				// clicked box has been closed
 				if(toggled == panel) {
 					processed = true;
 				}
-				
+
 			}
- 
+
  		} );
 
 		// only extend closed elements that have not been processed during this click
 		if((toggled.style.display == 'none') && !processed) {
 			new Effect.SlideDown(toggled, {duration:.3, scaleContent:false});
-	
+
 			// change the image (if there is an image)
 			var icon = Element.down(handle, 'img');
 			if(icon && up_href) {
@@ -1409,10 +1423,10 @@ var Yacs = {
 
 		// the panel to slide
 		var panel = Element.next(handle, '.folder_body');
-		
+
 		// display the panel if it is not visible
 		if(panel.style.display == 'none') {
-		
+
 			new Effect.SlideDown(panel, {duration:.3, scaleContent:false});
 
 			// change the image (if there is an image)
@@ -1423,9 +1437,9 @@ var Yacs = {
 
 		// collapse the panel if it is visible
 		} else {
-		
+
 			new Effect.SlideUp(panel, {duration:.3, scaleContent:false});
-			
+
 			// change the image (if there is an image)
 			var icon = Element.down(handle, 'img');
 			if(icon && down_href) {

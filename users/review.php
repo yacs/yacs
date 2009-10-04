@@ -35,9 +35,6 @@ $context['path_bar'] = array( 'users/' => i18n::s('People') );
 // the title of the page
 $context['page_title'] = i18n::s('User profiles to be reviewed');
 
-// the menu bar for this page
-$context['page_menu'] = array( 'users/' => i18n::s('People') );
-
 // list newest profiles
 if($rows = Users::list_by_date(0, 10, 'full')) {
 	$context['text'] .= Skin::build_block(i18n::s('Most recent members'), 'title');
@@ -66,6 +63,9 @@ if(Surfer::is_associate() && ($rows = Users::list_by_login_date())) {
 	else
 		$context['text'] .= $rows;
 }
+
+// the menu bar for this page
+$context['page_tools'][] = Skin::build_link('users/', i18n::s('People'));
 
 // render the skin
 render_skin();

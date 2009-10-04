@@ -335,14 +335,14 @@ if($publishable) {
 
 }
 
-// review command provided to associates and section editors
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) {
+// review command provided to container owners
+if(Articles::is_owned($anchor, NULL)) {
 	Skin::define_img('ARTICLES_STAMP_IMG', 'articles/stamp.gif');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'stamp'), ARTICLES_STAMP_IMG.i18n::s('Stamp'));
 }
 
 // lock command provided to associates and authenticated editors
-if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned())) {
+if(Articles::is_owned($anchor, $item)) {
 
 	if(!isset($item['locked']) || ($item['locked'] == 'N')) {
 		Skin::define_img('ARTICLES_LOCK_IMG', 'articles/lock.gif');
@@ -353,13 +353,13 @@ if(Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anch
 	}
 }
 
-// delete command provided to associates and section editors
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) {
+// delete command provided to page owners
+if(Articles::is_owned($anchor, $item)) {
 	Skin::define_img('ARTICLES_DELETE_IMG', 'articles/delete.gif');
 	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'delete'), ARTICLES_DELETE_IMG.i18n::s('Delete this page'));
 }
 
-// assign command provided to page owners
+// assign command provided to owners
 if(Articles::is_owned($anchor, $item)) {
 	Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
 	$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));

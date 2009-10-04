@@ -62,10 +62,6 @@ Class Layout_files extends Layout_interface {
 			else
 				$url = Files::get_url($item['id'], 'fetch', $item['file_name']);
 
-			// reset the rendering engine between items
-			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize($url);
-
 			// initialize variables
 			$prefix = $suffix = $icon = '';
 

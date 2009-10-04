@@ -192,7 +192,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 			if(count($directories_in_path)) {
 
 				// parse the list
-				sort($directories_in_path);
+				natsort($directories_in_path);
 				foreach($directories_in_path as $node) {
 
 					// one line per folder
@@ -263,7 +263,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 				$dead_line = mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y"));
 
 				// parse the list
-				sort($files_in_path);
+				natsort($files_in_path);
 				foreach($files_in_path as $node) {
 
 					// process file name

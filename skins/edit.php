@@ -127,7 +127,7 @@ elseif(!Surfer::is_associate()) {
 
 		// list items by alphabetical order
 		if(@count($items)) {
-			sort($items);
+			natsort($items);
 			foreach($items as $item)
 				$context['text'] .= $item;
 		}
@@ -156,7 +156,7 @@ elseif(!Surfer::is_associate()) {
 
 		// list items by alphabetical order
 		if(@count($items)) {
-			sort($items);
+			natsort($items);
 			foreach($items as $item)
 				$context['text'] .= $item;
 		}

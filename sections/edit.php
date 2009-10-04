@@ -268,6 +268,9 @@ if(Surfer::is_crawler()) {
 
 		$context['text'] .= '<p>'.i18n::s('Please review the new page carefully and fix possible errors rapidly.').'</p>';
 
+		// list persons that have been notified
+		$context['text'] .= Mailer::get_recipients(i18n::s('Persons that have been notified of your post'));
+
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
@@ -934,7 +937,7 @@ if($with_form) {
 
 		if(isset($item['id']) && $anchor->is_assigned()) {
 			$label = i18n::s('Section');
-			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference()), 'folded');
+			$input =& Skin::build_box(i18n::s('Select parent container'), Sections::get_radio_buttons($anchor->get_reference(), $item['id']), 'folded');
 			$fields[] = array($label, $input);
 		} else
 			$text .= '<input type="hidden" name="anchor" value="'.$anchor->get_reference().'" />';
@@ -1102,7 +1105,7 @@ if($with_form) {
 			}
 			Safe::closedir($dir);
 			if(@count($overlays)) {
-				sort($overlays);
+				natsort($overlays);
 				foreach($overlays as $overlay_name) {
 					$selected = '';
 					if($overlay_name == $overlay_type)
@@ -1123,10 +1126,6 @@ if($with_form) {
 		$text .= Skin::build_box(i18n::s('More options'), Skin::build_form($fields), 'folded');
 		$fields = array();
 	}
-
-	// append fields
-	$text .= Skin::build_form($fields);
-	$fields = array();
 
 	// display in a separate panel
 	if($text)

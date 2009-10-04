@@ -54,20 +54,6 @@ else
 if(is_object($anchor))
 	$context['page_title'] = $anchor->get_title();
 
-// back to the anchor page
-if(is_object($anchor))
-	$context['page_menu'] += array( $anchor->get_url() => i18n::s('Back to main page') );
-
-// commands for associates and editors
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) {
-	$context['page_menu'] += array( dates::get_url($id, 'edit') => i18n::s('Edit') );
-	$context['page_menu'] += array( dates::get_url($id, 'delete') => i18n::s('Delete') );
-
-// commands for the author
-} elseif(Surfer::is($item['edit_id'])) {
-	$context['page_menu'] += array( dates::get_url($item['id'], 'edit') => i18n::s('Edit') );
-}
-
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -78,16 +64,6 @@ if(!isset($item['id'])) {
 
 	// initialize the rendering engine
 	Codes::initialize(Dates::get_url($item['id']));
-	$details = array();
-
-	// information on uploader
-	if(Surfer::is_member() && $item['edit_name'])
-		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
-
-	// page details
-	if(is_array($details))
-		$context['page_details'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
-
 	// insert anchor prefix
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_prefix();
@@ -97,15 +73,40 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('%s: %s'), i18n::s('Target date'), Skin::build_date($item['date_stamp'], 'full'))."</p>\n";
 	}
 
+	$details = array();
+
+	// information on uploader
+	if(Surfer::is_member() && $item['edit_name'])
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+
+	// page details
+	if(is_array($details))
+		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+
 	// insert anchor suffix
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_suffix();
+
+	// back to the anchor page
+	if(is_object($anchor) && $anchor->is_viewable()) {
+		$menu = array(Skin::build_link($anchor->get_url(), i18n::s('Back to main page'), 'button'));
+		$context['text'] .= Skin::build_block(Skin::finalize_list($menu, 'menu_bar'), 'bottom');
+	}
 
 	//
 	// populate the extra panel
 	//
 
-	//
+	// commands for associates and editors
+	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) {
+		$context['page_tools'][] = Skin::build_link(Dates::get_url($id, 'edit'), i18n::s('Edit'));
+		$context['page_tools'][] = Skin::build_link(Dates::get_url($id, 'delete'), i18n::s('Delete'));
+
+	// commands for the author
+	} elseif(Surfer::is($item['edit_id'])) {
+		$context['page_tools'][] = Skin::build_link(Dates::get_url($id, 'edit'), i18n::s('Edit'));
+	}
+
 	// the navigation sidebar
 	//
 	// buttons to display previous and next pages, if any
@@ -120,7 +121,6 @@ if(!isset($item['id'])) {
 
 	$context['components']['neighbours'] = $text;
 
-	//
 	// the referrals, if any, in a sidebar
 	//
 	$context['components']['referrals'] =& Skin::build_referrals(Dates::get_url($item['id']));

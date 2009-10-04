@@ -179,7 +179,6 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	}
 
 	// send the message
-	include_once $context['path_to_root'].'shared/mailer.php';
 	if(Mailer::post($from, $to, $subject, $message)) {
 
 		// feed-back to the sender

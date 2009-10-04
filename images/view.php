@@ -98,21 +98,6 @@ if($item['title'])
 else
 	$context['page_title'] = $item['image_name'];
 
-// back to the anchor page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] += array( $anchor->get_url() => i18n::s('Back to main page') );
-
-// the edit command is available to associates, editors, and poster
-if($item['id'] && (Surfer::is_associate()
-	|| (is_object($anchor) && $anchor->is_assigned())
-	|| Surfer::is($item['edit_id']))) {
-	$context['page_menu'] += array( Images::get_url($item['id'], 'edit') => i18n::s('Update') );
-}
-
-// the delete command is available to associates and editors
-if($item['id'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())))
-	$context['page_menu'] += array( Images::get_url($item['id'], 'delete') => i18n::s('Delete') );
-
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -134,45 +119,6 @@ if(!isset($item['id'])) {
 
 	// initialize the rendering engine
 	Codes::initialize(Images::get_url($item['id']));
-
-	// page details
-	//
-	$context['page_details'] .= '<p class="details">';
-
-	// display the source, if any, but only to authenticated surfers
-	if($item['source'] && Surfer::is_logged()) {
-		if(preg_match('/http:\/\/([^\s]+)/', $item['source'], $matches))
-			$item['source'] = Skin::build_link($matches[0], $matches[0], 'external');
-		else {
-			include_once '../links/links.php';
-			if($attributes = Links::transform_reference($item['source'])) {
-				list($link, $title, $description) = $attributes;
-				$item['source'] = Skin::build_link($link, $title);
-			}
-		}
-		$context['page_details'] .= sprintf(i18n::s('Source: %s'), $item['source']).BR;
-	}
-
-	// other details
-	$details = array();
-
-	// the file name, if it has not already been used as title
-	if(Surfer::is_associate() &&$item['title'])
-		$details[] = $item['image_name'];
-
-	// image size
-	if(Surfer::is_associate() && ($item['image_size'] > 1))
-		$details[] = sprintf(i18n::s('%d bytes'), $item['image_size']);
-
-	// information on uploader
-	if(Surfer::is_logged() && $item['edit_name'])
-		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
-
-	// all details
-	if(count($details))
-		$context['page_details'] .= ucfirst(implode(', ', $details));
-
-	$context['page_details'] .= "</p>\n";
 
 	// page main content
 	//
@@ -238,10 +184,58 @@ if(!isset($item['id'])) {
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_suffix();
 
+	// page details
+	//
+	$details = array();
+
+	// display the source, if any, but only to authenticated surfers
+	if($item['source'] && Surfer::is_logged()) {
+		if(preg_match('/http:\/\/([^\s]+)/', $item['source'], $matches))
+			$item['source'] = Skin::build_link($matches[0], $matches[0], 'external');
+		else {
+			include_once '../links/links.php';
+			if($attributes = Links::transform_reference($item['source'])) {
+				list($link, $title, $description) = $attributes;
+				$item['source'] = Skin::build_link($link, $title);
+			}
+		}
+		$details[] = sprintf(i18n::s('Source: %s'), $item['source']).BR;
+	}
+
+	// the file name, if it has not already been used as title
+	if(Surfer::is_associate() && $item['title'])
+		$details[] = $item['image_name'];
+
+	// image size
+	if(Surfer::is_associate() && ($item['image_size'] > 1))
+		$details[] = sprintf(i18n::s('%d bytes'), $item['image_size']);
+
+	// information on uploader
+	if(Surfer::is_logged() && $item['edit_name'])
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+
+	// all details
+	if(count($details))
+		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details)).'</p>';
+
+	// back to the anchor page
+	if(is_object($anchor) && $anchor->is_viewable()) {
+		$menu = array(Skin::build_link($anchor->get_url(), i18n::s('Back to main page'), 'button'));
+		$context['text'] .= Skin::build_block(Skin::finalize_list($menu, 'menu_bar'), 'bottom');
+	}
+
 	// page tools
 	//
-	if($editable)
-		$context['page_tools'][] = Skin::build_link(Images::get_url($item['id'], 'edit'), i18n::s('Update'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+	if($editable) {
+		Skin::define_img('IMAGES_EDIT_IMG', 'images/edit.gif');
+		$context['page_tools'][] = Skin::build_link(Images::get_url($item['id'], 'edit'), IMAGES_EDIT_IMG.i18n::s('Update this image'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
+	}
+
+	// the delete command is available to associates and editors
+	if($item['id'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned()))) {
+		Skin::define_img('IMAGES_DELETE_IMG', 'images/delete.gif');
+		$context['page_tools'][] = Skin::build_link(Images::get_url($item['id'], 'delete'), IMAGES_DELETE_IMG.i18n::s('Delete this image'));
+	}
 
 	// general help on this page
 	//
@@ -255,7 +249,6 @@ if(!isset($item['id'])) {
 		$context['components']['boxes'] .= Skin::build_box(i18n::s('Thumbnail'), '<img src="'.$url.'" />', 'extra');
 	}
 
-	//
 	// referrals, if any
 	//
 	$context['components']['referrals'] =& Skin::build_referrals(Images::get_url($item['id']));

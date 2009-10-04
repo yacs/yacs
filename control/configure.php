@@ -704,7 +704,7 @@ if(!Surfer::is_associate()) {
 		}
 		Safe::closedir($dir);
 		if(count($skins)) {
-			sort($skins);
+			natsort($skins);
 			foreach($skins as $item)
 				$skin .= '<p>'.$item.'</p>';
 		}

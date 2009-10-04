@@ -77,10 +77,6 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			// the url to view this item
 			$url =& Sections::get_permalink($item);
 
-			// reset the rendering engine between items
-			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize($url);
-
 			// initialize variables
 			$prefix = $label = $suffix = $icon = '';
 
@@ -103,7 +99,7 @@ Class Layout_sections_as_yahoo extends Layout_interface {
 			// the title has to be bigger than usual
 			$prefix .= '<span class="huge">';
 			$suffix = '</span>'.$suffix;
-			
+
 			// details and content
 			$details = array();
 			$content = array();

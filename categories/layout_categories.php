@@ -49,10 +49,6 @@ Class Layout_categories extends Layout_interface {
 			// url to read the full category
 			$url =& Categories::get_permalink($item);
 
-			// initialize the rendering engine
-			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize($url);
-
 			// initialize variables
 			$prefix = $suffix = $icon = '';
 

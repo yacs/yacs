@@ -57,10 +57,6 @@ Class Layout_dates extends Layout_interface {
 			// the url to view this item
 			$url =& Articles::get_permalink($item);
 
-			// reset the rendering engine between items
-			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize($url);
-
 			// build a valid label
 			$label = Codes::beautify_title($item['title']);
 

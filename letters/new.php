@@ -57,7 +57,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once $context['path_to_root'].'shared/values.php';	// letters.digest.stamp
+include_once '../shared/values.php';	// letters.digest.stamp
 
 // what to do
 $action = '';
@@ -605,7 +605,6 @@ if(!Surfer::is_associate()) {
 
 	// do the job
 	if($recipients_processed) {
-		include_once '../shared/mailer.php';
 		$recipients_ok = Mailer::post($from, $to, $subject, $message);
 		Mailer::close();
 

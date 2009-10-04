@@ -60,7 +60,7 @@ class Logger {
 		// there is already one message
 		if($context['error'] && !$multiple)
 			return;
-			
+
 		// sanity check
 		if(!$line)
 			return;
@@ -306,7 +306,6 @@ class Logger {
 				."\n\n".$context['url_to_home'].$context['url_to_root'].'control/configure.php';
 
 			// actual mail message
-			include_once $context['path_to_root'].'shared/mailer.php';
 			Mailer::notify(NULL, $context['mail_logger_recipient'], $label, $description);
 		}
 	}

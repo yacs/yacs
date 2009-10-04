@@ -77,7 +77,7 @@ if(is_object($anchor))
 	$context['current_focus'] = $anchor->get_focus();
 
 // path to this page
-$context['path_bar'] = Surfer::get_path_bar($anchor);	
+$context['path_bar'] = Surfer::get_path_bar($anchor);
 if(isset($item['id']) && $item['title'])
 	$context['path_bar'] = array_merge($context['path_bar'], array(Articles::get_permalink($item) => $item['title']));
 
@@ -174,7 +174,6 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 	}
 
 	// send the message
-	include_once $context['path_to_root'].'shared/mailer.php';
 	if(Mailer::post($from, $to, $subject, $message)) {
 
 		// feed-back to the sender

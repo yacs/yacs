@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 30, 2009, 9:51 pm GMT. Please do not modify it manually.
+ * on October 4, 2009, 7:35 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-30 23:44+0200
+POT-Creation-Date: 2009-10-03 00:35+0200
 PO-Revision-Date: 2009-09-30 23:27+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -70,7 +70,6 @@ $_SESSION['l10n']['en']['Divx Player']='Divx Player';
 $_SESSION['l10n']['en']['86c56a7a7f1de49541c9835d0e87b60b']='Do not change modification date of the main page.';
 $_SESSION['l10n']['en']['30c9a4dd552758f029f01ca2ebe1a69e']='Do not know how to stream this file type';
 $_SESSION['l10n']['en']['Done']='Done';
-$_SESSION['l10n']['en']['Download']='Download';
 $_SESSION['l10n']['en']['Download %s']='Download %s';
 $_SESSION['l10n']['en']['Download from peers']='Download from peers';
 $_SESSION['l10n']['en']['Download this file']='Download this file';
@@ -79,7 +78,6 @@ $_SESSION['l10n']['en']['Drop file content']='Drop file content';
 $_SESSION['l10n']['en']['Duration']='Duration';
 $_SESSION['l10n']['en']['6a2c769d729b50a589114cb6f3a6ca3b']='ERROR: Impossible to write to the file %s. The configuration has not been saved.';
 $_SESSION['l10n']['en']['EasyGPS']='EasyGPS';
-$_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Estimated download time:']='Estimated download time:';
 $_SESSION['l10n']['en']['1af5ec71336204568c61feb93174a23f']='Existing reference (ftp://, http://, ...)';
 $_SESSION['l10n']['en']['Extensions']='Extensions';

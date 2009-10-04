@@ -390,7 +390,8 @@ if(!Surfer::is_logged() || Surfer::is_member()) {
 		.'<li>'.sprintf(i18n::s('%s (indentation, script, quote, ...)'), Skin::build_link('codes/blocks.php', i18n::s('Blocks'))).'</li>'
 		.'<li>'.sprintf(i18n::s('%s (with headers, with grids, use CSV data, ...)'), Skin::build_link('codes/tables.php', i18n::s('Tables'))).'</li>'
 		.'<li>'.sprintf(i18n::s('%s (and table of content)'), Skin::build_link('codes/titles.php', i18n::s('Titles and questions'))).'</li>'
-		.'<li>'.sprintf(i18n::s('%s (cloud, locations, ...)'), Skin::build_link('codes/live.php', i18n::s('Dynamic queries'))).'</li>'
+		.'<li>'.sprintf(i18n::s('%s (updates, content, ...)'), Skin::build_link('codes/live.php', i18n::s('Dynamic queries'))).'</li>'
+		.'<li>'.sprintf(i18n::s('%s (twitter, calendar, ...)'), Skin::build_link('codes/widgets.php', i18n::s('Widgets'))).'</li>'
 		.'<li>'.sprintf(i18n::s('%s (charts, ...)'), Skin::build_link('codes/misc.php', i18n::s('Miscellaneous codes'))).'</li>'
 		.'</ul>';
 

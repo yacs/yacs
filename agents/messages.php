@@ -344,17 +344,17 @@ class Messages {
 				$content_type = $header['value'];
 				break;
 			}
-			
+
 		// nothing has been created yet
 		$reference = NULL;
-		
+
 		// text type -- create a page or a comment out of it
 		if(preg_match('/^text\//i', $content_type)) {
-		
+
 			// transcode content, if necessary
 			if(preg_match('/-(8859|1252)/', $content_type))
 				$content = utf8::from_iso8859($content);
-				
+
 			$reference = Messages::submit_page($entity_headers, $content, $user, $anchor, $target);
 
 		// image type -- save as an image file and create a page to reference it
@@ -382,7 +382,7 @@ class Messages {
 				Logger::remember('agents/messages.php', 'Empty multipart message', $content);
 				return NULL;
 			}
-			
+
 			// if multipart/alternative, select only one entity
 			if(preg_match('/^multipart\/alternative/i', $content_type)) {
 
@@ -392,7 +392,7 @@ class Messages {
 					// stop when we actually create some content
 					if($reference = Messages::process_entity($entities[ count($entities)-2 ], $user, $anchor, $target))
 						break;
-						
+
 				}
 
 			// we have a mix of entities to save
@@ -403,11 +403,11 @@ class Messages {
 
  					// process one entity
 					$reference = Messages::process_entity($entities[$index], $user, $anchor, $target);
-					
+
 					// post everything at the same place
 					if(!$anchor)
 						$anchor = $reference;
-						
+
 					// combine all elements at one single place
 					if(!$target)
 						$target = $reference;
@@ -429,16 +429,16 @@ class Messages {
 			Logger::remember('agents/messages.php', 'Do not know how to process type '.$content_type);
 			return NULL;
 		}
-		
+
 		// job done
 		return $reference;
-		
+
 	}
 
 	/**
 	 * process one message
 	 *
-	 * This function looks for a target anchor in message title. It also performs some security 
+	 * This function looks for a target anchor in message title. It also performs some security
 	 * checks before accepting actual submission.
 	 *
 	 * The subject line may indicate the container for the post, as per following patterns:
@@ -555,15 +555,15 @@ class Messages {
 				}
 				break;
 			}
-			
+
 		// anchor is defined in queue parameters
 		if(!$anchor && $section)
 			$anchor = 'section:'.$section;
-			
+
 		// use default section
 		if(!$anchor && ($section = Sections::get_default()))
 			$anchor = 'section:'.$section;
-		
+
 		// no anchor to use
 		if(!$anchor) {
 			Logger::remember('agents/messages.php', 'No anchor has been found');
@@ -573,7 +573,7 @@ class Messages {
 		// do the job
 		include_once $context['path_to_root'].'comments/comments.php';
 		if($reference = Messages::process_entity($entity, $user, $anchor, NULL)) {
-		
+
 			// trigger hooks
 			if(is_callable(array('Hooks', 'include_scripts'))) {
 
@@ -595,7 +595,7 @@ class Messages {
 			}
 
 		}
-		
+
 	}
 
 	/**
@@ -632,14 +632,14 @@ class Messages {
 		if(preg_match('/^(.+):([0-9]+)$/', $server, $matches)) {
 			$server = $matches[1];
 			$port = intval($matches[2]);
-		}			
-			
+		}
+
 		// ensure that we can support tls communications
 		if(isset($server) && !strncmp($server, 'ssl://', 6) && is_callable('extension_loaded') && !extension_loaded('openssl')) {
 			Logger::remember('agents/messages.php', 'Load the OpenSSL extension to support secured transmissions to mail server '.$server);
 			return 0;
 		}
-			
+
 		// open a network connection
 		if(!$handle = Safe::fsockopen($server, $port, $errno, $errstr, 10)) {
 			Logger::remember('agents/messages.php', sprintf('Impossible to connect to %s', $server));
@@ -1169,7 +1169,7 @@ class Messages {
 
 		// insert the image in the anchor page
 		$host->touch('image:create', $item['id'], TRUE);
-		
+
 		return 'image:'.$item['id'];
 
 	}
@@ -1211,7 +1211,7 @@ class Messages {
 			else
 				break;
 		}
-		
+
 		// parse article content
 		include_once $context['path_to_root'].'articles/article.php';
 		$article = new Article();
@@ -1233,7 +1233,7 @@ class Messages {
 
 		// strip extra text
 		$entry_fields['description'] = trim(preg_replace('/\(See attached file: [^\)]+?\)/', '', $entry_fields['description']));
-		
+
 		// anchor this item to something
 		$entry_fields['anchor'] = $anchor;
 
@@ -1259,28 +1259,28 @@ class Messages {
 		if(!isset($entry_fields['edit_address']))
 			$entry_fields['edit_address'] = $user['email'];
 
-		
+
 		// we have to extend an existing article --this entity is mutable
 		if($target && !strncmp($target, 'article:', 8) && ($article =& Articles::get(substr($target, 8), TRUE))) {
-		
+
 			// append the text to article description field
 			$fields = array();
 			$fields['id'] = $article['id'];
 			$fields['description'] = $article['description'] . $entry_fields['description'];
 			$fields['silent'] = TRUE;
 			Articles::put_attributes($fields);
-		
+
 			return $target;
-		
+
 		// we have to extend an existing comment --this entity is mutable
 		} elseif($target && !strncmp($target, 'comment:', 8) && ($comment =& Comments::get(substr($target, 8), TRUE))) {
-		
+
 			// append the text to comment description field
 			$comment['description'] .= $entry_fields['description'];
 			Comments::post($comment);
-			
+
 			return $target;
-		
+
 		// we have to comment an existing page
 		} elseif(!strncmp($anchor, 'article:', 8)) {
 
@@ -1392,9 +1392,8 @@ class Messages {
 					.i18n::c('Thank you for your contribution');
 
 				// enable threading
-				include_once $context['path_to_root'].'shared/mailer.php';
 				$headers = Mailer::set_thread($article->get_reference(), $section);
-			
+
 				// send a mail message
 				Mailer::notify(NULL, $post_sender, 'Re: '.$post_subject, $message, $headers);
 			}
@@ -1416,7 +1415,7 @@ class Messages {
 
 			return 'article:'.$entry_fields['id'];
 		}
-		
+
 
 		// job ends
 		return NULL;

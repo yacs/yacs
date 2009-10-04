@@ -72,9 +72,6 @@ Class Layout_sections_as_manage extends Layout_interface {
 			// the url to view this item
 			$url =& Sections::get_permalink($item);
 
-			// reset the rendering engine between items
-			Codes::initialize($url);
-
 			// column to select the row
 			$cells[] = '<input type="checkbox" name="selected_sections[]" class="row_selector" value="'.$item['id'].'" />';
 

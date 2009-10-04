@@ -49,10 +49,6 @@ Class Layout_versions extends Layout_interface {
 			// the url to view this item
 			$url = '_'.$item['id']; // Versions::get_url($item['id']);
 
-			// reset the rendering engine between items
-			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize($url);
-
 			// version description
 			$label = sprintf(i18n::s('edited by %s %s'), ucfirst($item['edit_name']), Skin::build_date($item['edit_date']));
 

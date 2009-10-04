@@ -62,10 +62,6 @@ if(isset($item['id']) && isset($item['title']))
 // the title of the page
 $context['page_title'] = i18n::s('Lock');
 
-// command to go back
-if(isset($item['id']))
-	$context['page_menu'] = array( Sections::get_permalink($item) => i18n::s('Back to the section') );
-
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);

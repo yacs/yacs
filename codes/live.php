@@ -7,15 +7,10 @@
  * - &#91;sections=section:&lt;id>] - sub-sections
  * - &#91;sections=self] - sections assigned to current surfer
  * - &#91;sections=user:&lt;id>] - sections assigned to given user
- * - &#91;freemind] - a Freemind map of site content
- * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
- * - &#91;freemind=section:&lt;id>, width, height] - a Freemind map of a section and its content
  * - &#91;categories] - category tree
  * - &#91;categories=category:&lt;id>] - sub-categories
  * - &#91;categories=self] - categories assigned to current surfer
  * - &#91;categories=user:&lt;id>] - categories assigned to given user
- * - &#91;cloud] - the tags used at this site
- * - &#91;cloud=12] - maximum count of tags used at this site
  * - &#91;published] - most recent published pages, in a compact list
  * - &#91;published=section:&lt;id>] - articles published most recently in the given section
  * - &#91;published=category:&lt;id>] - articles published most recently in the given category
@@ -34,11 +29,6 @@
  * - &#91;voted=section:&lt;id>] - articles of fame in the given section
  * - &#91;voted=self] - personal hits
  * - &#91;voted=user:&lt;id>] - personal hits
- * - &#91;calendar] - events for this month
- * - &#91;calendar=section:&lt;id>] - dates in one section
- * - &#91;locations=all] - newest locations
- * - &#91;locations=users] - map user locations on Google maps
- * - &#91;location=latitude, longitude, label] - to build a dynamic map
  * - &#91;collections] - list available collections
  * - &#91;users=present] - list of users present on site
  *
@@ -91,15 +81,6 @@ $context['text'] .= '[title]'.i18n::s('Assigned sections').' [escape][sections=s
 	.'<td>[sections.folded=self]</td></tr>'
 	.Skin::table_suffix();
 
-// [freemind]
-$context['text'] .= '[title]'.i18n::s('A dynamic Freemind map').' [escape][freemind] [freemind=section:&lt;id&gt;][/escape][/title]'
-	.'<p>'.i18n::s('Use the simplest form to navigate site content is a mind map, or limit the scope to one section and related sub-sections.').'</p>'
-	.Skin::table_prefix('wide grid')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][freemind=section:default, 100%, 300px][/escape]</td>'
-	.'<td>[freemind=section:default, 100%, 300px]</td></tr>'
-	.Skin::table_suffix();
-
 // [categories]
 $context['text'] .= '[title]'.i18n::s('Categories').' [escape][categories] [categories=category:&lt;id&gt;][/escape][/title]'
 	.Skin::table_prefix('wide grid')
@@ -114,15 +95,6 @@ $context['text'] .= '[title]'.i18n::s('Assigned categories').' [escape][categori
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][categories=self][/escape]</td>'
 	.'<td>[categories=self]</td></tr>'
-	.Skin::table_suffix();
-
-// [cloud]
-$context['text'] .= '[title]'.i18n::s('Cloud of tags').' [escape][cloud] [cloud=&lt;40&gt;][/escape][/title]'
-	.'<p>'.i18n::s('Use the parameter to adjust the number of tags listed.').'</p>'
-	.Skin::table_prefix('wide grid')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][cloud][/escape]</td>'
-	.'<td>[cloud]</td></tr>'
 	.Skin::table_suffix();
 
 // [published]
@@ -191,22 +163,6 @@ $context['text'] .= '[title]'.i18n::s('Personal hits').' [escape][voted=self] [v
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][voted=self][/escape]</td>'
 	.'<td>[voted=self]</td></tr>'
-	.Skin::table_suffix();
-
-// [calendar]
-$context['text'] .= '[title]'.i18n::s('Events').' [escape][calendar][/escape][/title]'
-	.Skin::table_prefix('wide grid')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][calendar][/escape]</td>'
-	.'<td>[calendar]</td></tr>'
-	.Skin::table_suffix();
-
-// [location=latitude, longitude, label]
-$context['text'] .= '[title]'.i18n::s('Direct location').' [escape][location=latitude, longitude, label][/escape][/title]'
-	.Skin::table_prefix('wide grid')
-	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][location=48.871264, 2.307558, Paris][/escape]</td>'
-	.'<td>[location=48.871264, 2.307558, Paris]</td></tr>'
 	.Skin::table_suffix();
 
 // [collections]

@@ -64,21 +64,6 @@ else
 if($item['geo_place_name'])
 	$context['page_title'] = $item['geo_place_name'];
 
-// back to the anchor page
-if(is_object($anchor))
-	$context['page_menu'] += array( $anchor->get_url() => i18n::s('Back to main page') );
-
-// commands for associates and editors
-if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) {
-	$context['page_menu'] += array( Locations::get_url($id, 'edit') => i18n::s('Edit') );
-	$context['page_menu'] += array( Locations::get_url($id, 'delete') => i18n::s('Delete') );
-
-// commands for the author
-} elseif(Surfer::is($item['edit_id'])) {
-	$context['page_menu'] = array_merge($context['page_menu'],
-		array( Locations::get_url($item['id'], 'edit') => i18n::s('Edit') ));
-}
-
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -89,15 +74,6 @@ if(!isset($item['id'])) {
 
 	// initialize the rendering engine
 	Codes::initialize(Locations::get_url($item['id']));
-
-	// information on uploader
-	$details = array();
-	if(Surfer::is_member() && $item['edit_name'])
-		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
-
-	// page details
-	if(is_array($details))
-		$context['page_details'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// insert anchor prefix
 	if(is_object($anchor))
@@ -199,37 +175,40 @@ if(!isset($item['id'])) {
 	// display the full text
 	$context['text'] .= Skin::build_block($item['description'], 'description');
 
+	// information on uploader
+	$details = array();
+	if(Surfer::is_member() && $item['edit_name'])
+		$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
+
+	// page details
+	if(is_array($details))
+		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+
 	// insert anchor suffix
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_suffix();
+
+	// back to the anchor page
+	if(is_object($anchor) && $anchor->is_viewable()) {
+		$menu = array(Skin::build_link($anchor->get_url(), i18n::s('Back to main page'), 'button'));
+		$context['text'] .= Skin::build_block(Skin::finalize_list($menu, 'menu_bar'), 'bottom');
+	}
 
 	//
 	// populate the extra panel
 	//
 
-	//
-	// the navigation sidebar
-	//
-	$cache_id = 'locations/view.php?id='.$item['id'].'#navigation';
-	if(!$text =& Cache::get($cache_id)) {
+	// commands for associates and editors
+	if(Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())) {
+		$context['page_tools'][] = Skin::build_link(Locations::get_url($id, 'edit'), i18n::s('Edit'));
+		$context['page_tools'][] = Skin::build_link(Locations::get_url($id, 'delete'), i18n::s('Delete'));
 
-		// buttons to display previous and next pages, if any
-		if(is_object($anchor)) {
-			$neighbours = $anchor->get_neighbours('location', $item);
-			$text .= Skin::neighbours($neighbours, 'sidebar');
-		}
-
-		// build a nice sidebar box
-		if($text)
-			$text =& Skin::build_box(i18n::s('Navigation'), $text, 'navigation', 'neighbours');
-
-		// save in cache
-		Cache::put($cache_id, $text, 'locations');
+	// commands for the author
+	} elseif(Surfer::is($item['edit_id'])) {
+		$context['page_tools'][] = Skin::build_link(Locations::get_url($item['id'], 'edit'), i18n::s('Edit'));
 	}
-	$context['components']['neighbours'] = $text;
 
-	//
-	// the referrals, if any, in a sidebar
+	// referrals, if any, in a sidebar
 	//
 	$context['components']['referrals'] =& Skin::build_referrals(Locations::get_url($item['id']));
 

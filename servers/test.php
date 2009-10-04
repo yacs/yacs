@@ -26,6 +26,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'servers.php';
+include_once '../feeds/feeds.php';	// to read feeds
 
 // look for the id
 $id = NULL;
@@ -72,16 +73,6 @@ $context['path_bar'] = array( 'servers/' => i18n::s('Servers') );
 // the title of the page
 $context['page_title'] = i18n::s('Feed test');
 
-// back to the server record
-if($item['id'])
-	$context['page_menu'] += array( Servers::get_url($item['id']) => i18n::s('Back to server profile') );
-
-// commands for associates
-if(Surfer::is_associate()) {
-	$context['page_menu'] += array( Servers::get_url($id, 'edit') => i18n::s('Edit') );
-	$context['page_menu'] += array( Servers::get_url($id, 'delete') => i18n::s('Delete') );
-}
-
 // stop crawlers
 if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
@@ -103,7 +94,7 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
-// display the server profile
+// display server profile
 } else {
 
 	// the nick name
@@ -144,7 +135,6 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Feed URL: %s'), Skin::build_link($item['feed_url'], NULL, 'external'))."</p>\n";
 
 		// fetch news from the provided link
-		include_once $context['path_to_root'].'feeds/feeds.php';
 		if((!$news = Feeds::get_remote_news_from($item['feed_url'])) || !is_array($news))
 			$context['text'] .= '<p>'.i18n::s('Nothing to read from this feed.')."</p>\n";
 
@@ -212,6 +202,18 @@ if(Surfer::is_crawler()) {
 	// insert anchor suffix
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_suffix();
+
+	// back to the anchor page
+	if($item['id']) {
+		$menu = array(Skin::build_link(Servers::get_url($item['id']), i18n::s('Back to main page'), 'button'));
+		$context['text'] .= Skin::build_block(Skin::finalize_list($menu, 'menu_bar'), 'bottom');
+	}
+
+	// commands for associates
+	if(Surfer::is_associate()) {
+		$context['page_tools'][] = Skin::build_link(Servers::get_url($id, 'edit'), i18n::s('Edit'));
+		$context['page_tools'][] = Skin::build_link(Servers::get_url($id, 'delete'), i18n::s('Delete'));
+	}
 
 }
 

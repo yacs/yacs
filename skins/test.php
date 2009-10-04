@@ -157,7 +157,7 @@ if ($dir = Safe::opendir("../skins")) {
 	}
 	Safe::closedir($dir);
 	if(@count($skins)) {
-		sort($skins);
+		natsort($skins);
 		foreach($skins as $skin)
 			$context['prefix'] .= $skin;
 	}
@@ -243,9 +243,9 @@ $menu_bar = array('skins/test.php' => i18n::s('Test page'), 'skins/' => i18n::s(
 $text .= Skin::build_box(i18n::s('with a menu bar'), DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT);
 
 // $context['text'] - test horizontal and vertical layouts
-$cells = array(Skin::layout_vertically(array(i18n::s('north').' - '.DUMMY_TEXT, 
-		Skin::layout_horizontally('left='.i18n::s('west').' - '.DUMMY_TEXT.DUMMY_TEXT, 
-			'center='.i18n::s('center').' - '.DUMMY_TEXT.DUMMY_TEXT, 
+$cells = array(Skin::layout_vertically(array(i18n::s('north').' - '.DUMMY_TEXT,
+		Skin::layout_horizontally('left='.i18n::s('west').' - '.DUMMY_TEXT.DUMMY_TEXT,
+			'center='.i18n::s('center').' - '.DUMMY_TEXT.DUMMY_TEXT,
 			'right='.i18n::s('east').' - '.DUMMY_TEXT.DUMMY_TEXT),
 		i18n::s('south').' - '.DUMMY_TEXT)),
 	Skin::build_block(DUMMY_TEXT, 'sidecolumn'));

@@ -890,7 +890,7 @@ if((SQL::query($query) !== FALSE) && !Surfer::is_associate()
 
 		// alphabetical order
 		if(@count($archives))
-			sort($archives);
+			natsort($archives);
 
 	}
 

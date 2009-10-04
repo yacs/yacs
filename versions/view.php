@@ -90,31 +90,28 @@ if(!isset($item['id'])) {
 // display the version
 } else {
 
-	// initialize the rendering engine
-//	Codes::initialize(Versions::get_url($item['id']));
-
 	// display details for this version
 	$context['text'] .= '<dl class="version">'."\n";
 	if(($attributes = Safe::unserialize($item['content'])) && @count($attributes)) {
-	
+
 		$fields = array( 'title' => array(i18n::s('Title'), '', FALSE),
 			'introduction' => array('', '', TRUE),
-			'overlay' => array('', '', FALSE, i18n::s('Content of the overlay has changed')), 
-			'description' => array('', '', TRUE), 
-			'tags' => array(i18n::s('Tags'), '', TRUE), 
-			'trailer' => array(i18n::s('Trailer'), BR, FALSE), 
+			'overlay' => array('', '', FALSE, i18n::s('Content of the overlay has changed')),
+			'description' => array('', '', TRUE),
+			'tags' => array(i18n::s('Tags'), '', TRUE),
+			'trailer' => array(i18n::s('Trailer'), BR, FALSE),
 			'extra' => array(i18n::s('Extra'), BR, FALSE) );
-		
+
 		foreach($fields as $name => $params) {
-		
+
 			if(isset($attributes[ $name ])) {
 				$compared = $anchor->diff($name, $attributes[ $name ]);
 				if($params[2] || strcmp($compared, $attributes[ $name ])) {
-				
+
 					// use a constant string instead of showing differences
 					if(isset($params[3]))
 						$compared = '<ins>'.$params[3].'</ins>';
-						
+
 					if($params[0])
 						$context['text'] .= '<div style="margin-bottom: 1em;">'.sprintf(i18n::s('%s: %s'), $params[0], $params[1].$compared).'</div>';
 					else
@@ -122,7 +119,7 @@ if(!isset($item['id'])) {
 				}
 			}
 		}
-			
+
 // 		$rows = array();
 // 		foreach($attributes as $name => $value) {
 // 			if(is_string($value) && $value && preg_match('/(active|anchor|locked|rank|title)$/', $name))

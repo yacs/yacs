@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 30, 2009, 9:51 pm GMT. Please do not modify it manually.
+ * on October 4, 2009, 7:37 am GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-28 23:55+0100
+POT-Creation-Date: 2009-10-03 00:35+0200
 PO-Revision-Date: 2008-07-07 19:00+0100
 Last-Translator: Paques, Bernard
 Language-Team: Bernard Paques
@@ -36,7 +36,6 @@ $_SESSION['l10n']['en']['No behavior %s has been found.']='No behavior %s has be
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
 $_SESSION['l10n']['en']['614c6463818719e073fb0932f2215525']='No parameter has been provided to %s';
 $_SESSION['l10n']['en']['Yes']='Yes';
-$_SESSION['l10n']['en']['3487ae0aa6ed0bdd7ecc67de9093cd40']='Your agreement has been recorded.';
 $_SESSION['l10n']['en']['c01e1a3fe47daac09949712b6af2ec93']='Your agreement is required to access the target page. Sorry for any inconvenience.';
 $_SESSION['l10n']['en']['site map']='site map';
 $_SESSION['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';

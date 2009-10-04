@@ -37,7 +37,8 @@ $help_links = array(
 		'codes/blocks.php'	=> i18n::s('Blocks (indentation, script, quote, ...)'),
 		'codes/tables.php'	=> i18n::s('Tables (with headers, with grids, use CSV data, ...)'),
 		'codes/titles.php'	=> i18n::s('Titles and questions (and table of content)'),
-		'codes/live.php'	=> i18n::s('Dynamic queries (cloud, locations, ...)'),
+		'codes/live.php'	=> i18n::s('Dynamic queries (updates, content, ...)'),
+		'codes/widgets.php'	=> i18n::s('Widgets (twitter, calendar, ...)'),
 		'codes/misc.php'	=> i18n::s('Miscellaneous codes (charts, ...)')
 		);
 

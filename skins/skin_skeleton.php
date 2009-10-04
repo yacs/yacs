@@ -270,9 +270,12 @@ Class Skin_Skeleton {
 
 		case 'search':
 
+			// delegate search requests to an external web address
 			if(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'Y') && isset($context['skins_search_form']) && $context['skins_search_form'])
 				$text = str_replace('%s', encode_field($text), $context['skins_search_form']);
-			else {
+
+			// combine search in content and search in users
+			elseif(isset($context['skins_delegate_search']) && ($context['skins_delegate_search'] == 'S')) {
 				if(!$text)
 					$text = i18n::s('Search...');
 
@@ -282,6 +285,18 @@ Class Skin_Skeleton {
 					.Skin::build_submit_button(i18n::s('Go')).BR
 					.'<input type="radio" name="s" id="s_content" onchange="$(\'search_box\').action=\''.$context['url_to_root'].'search.php\'" checked="checked" style="margin: 3px 2px 1px 0; padding: 0" /><label for="s_content">'.Skin::build_link('sections/', i18n::s('Content'), 'basic').'</label>'
 					.BR.'<input type="radio" name="s" id="s_persons" onchange="$(\'search_box\').action=\''.$context['url_to_root'].'users/search.php\'" style="margin: 2px 3px 1px 0; padding: 0" /><label for="s_persons">'.Skin::build_link('users/', i18n::s('Persons'), 'basic').'</label>'
+					.'</p>'
+					.'</form>';
+
+			// simples search form
+			} else {
+				if(!$text)
+					$text = i18n::s('Search...');
+
+				$text = '<form action="'.$context['url_to_root'].'search.php" method="get" id="search_box">'
+					.'<p style="margin: 0; padding: 0;">'
+					.'<input type="text" name="search" size="10" value="'.encode_field($text).'" onfocus="this.value=\'\'" maxlength="128" />'
+					.Skin::build_submit_button(i18n::s('Go'))
 					.'</p>'
 					.'</form>';
 

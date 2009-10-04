@@ -67,7 +67,7 @@ load_skin('services');
 $raw_data = file_get_contents("php://input");
 
 // save the raw request if debug mode
-//if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
+if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
 	Logger::remember('services/json_rpc.php', 'json_rpc request', rawurldecode($raw_data), 'debug');
 
 // transcode to our internal charset
@@ -119,16 +119,16 @@ else
 // encode the response as a JSON string
 $response = Safe::json_encode($response);
 
+// save the response if debug mode
+if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
+	Logger::remember('services/json_rpc.php', 'json_rpc response', $response, 'debug');
+
 // handle the output correctly
 render_raw('application/json; charset='.$context['charset']);
 
 // actual transmission except on a HEAD request
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 	echo $response;
-
-// save the response if debug mode
-if(isset($context['debug_rpc']) && ($context['debug_rpc'] == 'Y'))
-	Logger::remember('services/json_rpc.php', 'json_rpc response', $response, 'debug');
 
 // the post-processing hook
 finalize_page();

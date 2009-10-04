@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 30, 2009, 9:51 pm GMT. Please do not modify it manually.
+ * on October 4, 2009, 10:07 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-20 23:45+0200
-PO-Revision-Date: 2009-09-02 01:02+0100
+POT-Creation-Date: 2009-10-04 23:58+0200
+PO-Revision-Date: 2009-10-05 00:02+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -53,7 +53,6 @@ $_SESSION['l10n']['en']['Edited by']='Edited by';
 $_SESSION['l10n']['en']['22574ae3fe08b2cb5e911bab84f9ed13']='Enter nick names, or email addresses, separated by commas.';
 $_SESSION['l10n']['en']['fd674cf80651be8f2cc7d185d732b3ef']='Error while sending the message to %s';
 $_SESSION['l10n']['en']['9404597745d93a6898e464cbbc52c4dc']='If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.';
-$_SESSION['l10n']['en']['In %s']='In %s';
 $_SESSION['l10n']['en']['Invite participants']='Invite participants';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
@@ -67,6 +66,7 @@ $_SESSION['l10n']['en']['b96aca9f6d136363f1c15754d8da15df']='No decision has bee
 $_SESSION['l10n']['en']['No item has the provided id.']='No item has the provided id.';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Page to review']='Page to review';
+$_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have been notified of your post';
 $_SESSION['l10n']['en']['87c663a3043f841f20b28627d553226a']='Please let me thank you for your kind support.';
 $_SESSION['l10n']['en']['18faa0424454d526a56213d8253eb6ec']='Please provide a meaningful title.';
 $_SESSION['l10n']['en']['b415a5c94f6a4a564921362b1e8516ac']='Please provide a recipient address.';

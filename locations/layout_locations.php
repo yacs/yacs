@@ -54,10 +54,6 @@ Class Layout_locations extends Layout_interface {
 			// the url to view this item
 			$url = Locations::get_url($item['id']);
 
-			// reset the rendering engine between items
-			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize($url);
-
 			// build a valid label
 			if($item['geo_place_name'])
 				$label = Skin::strip($item['geo_place_name'], 10);

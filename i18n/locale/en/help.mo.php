@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 30, 2009, 9:52 pm GMT. Please do not modify it manually.
+ * on October 4, 2009, 10:07 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-02 00:59+0200
-PO-Revision-Date: 2009-08-26 17:24+0100
+POT-Creation-Date: 2009-10-04 09:30+0200
+PO-Revision-Date: 2009-10-04 09:34+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -24,8 +24,9 @@ $_SESSION['l10n']['en']['1c215e423c027bdfb2bd09d45b93e517']='%s (and shortcuts, 
 $_SESSION['l10n']['en']['%s (and table of content)']='%s (and table of content)';
 $_SESSION['l10n']['en']['%s (bold, underline, ...)']='%s (bold, underline, ...)';
 $_SESSION['l10n']['en']['%s (charts, ...)']='%s (charts, ...)';
-$_SESSION['l10n']['en']['%s (cloud, locations, ...)']='%s (cloud, locations, ...)';
 $_SESSION['l10n']['en']['e99375c8a9b3d40bd68943d255f985ba']='%s (indentation, script, quote, ...)';
+$_SESSION['l10n']['en']['%s (twitter, calendar, ...)']='%s (twitter, calendar, ...)';
+$_SESSION['l10n']['en']['%s (updates, content, ...)']='%s (updates, content, ...)';
 $_SESSION['l10n']['en']['290a97caf421f8541edde8d138c74fd7']='%s (with bullets, numbered, ...)';
 $_SESSION['l10n']['en']['c2e69e9c320642be6d306f5dc59904fc']='%s (with headers, with grids, use CSV data, ...)';
 $_SESSION['l10n']['en']['%s LGPL and variations']='%s LGPL and variations';
@@ -249,6 +250,7 @@ $_SESSION['l10n']['en']['Vote']='Vote';
 $_SESSION['l10n']['en']['What do you want to do now?']='What do you want to do now?';
 $_SESSION['l10n']['en']['Where to look for information?']='Where to look for information?';
 $_SESSION['l10n']['en']['94f97d397e935f910a2a78d8019fe99b']='While you\'re browsing, don\'t hesitate to comment visited pages, to send images or files, or to share some interesting link you may have';
+$_SESSION['l10n']['en']['Widgets']='Widgets';
 $_SESSION['l10n']['en']['Wiki Title']='Wiki Title';
 $_SESSION['l10n']['en']['Wiki anchor']='Wiki anchor';
 $_SESSION['l10n']['en']['a811fc34530c214a895b4aad8f65d948']='With YACS, a book is an hierarchy of sections and of pages.';

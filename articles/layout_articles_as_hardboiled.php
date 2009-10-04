@@ -70,9 +70,6 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			// the url to view this item
 			$url =& Articles::get_permalink($item);
 
-			// reset the rendering engine between items
-			Codes::initialize($url);
-
 			// one box per article
 			$prefix = $suffix = '';
 

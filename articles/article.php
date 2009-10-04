@@ -483,6 +483,7 @@ Class Article extends Anchor {
 			// variants that start at the article page
 			if($this->has_option('view_as_tabs'))
 				return $this->get_url().'#_discussion';
+
 			if($this->is_interactive())
 				return $this->get_url().'#comments';
 
@@ -491,8 +492,7 @@ Class Article extends Anchor {
 				return Comments::get_url($this->get_reference(), 'list');
 
 			// layouts that start at the article page
-			else
-				return Articles::get_permalink($this->item).'#comments';
+			return Articles::get_permalink($this->item).'#comments';
 
 		// list of files
 		case 'files':
@@ -1073,7 +1073,6 @@ Class Article extends Anchor {
 			//
 
 			// threads all messages for this page
-			include_once $context['path_to_root'].'shared/mailer.php';
 			$mail['headers'] = Mailer::set_thread(NULL, 'article:'.$this->item['id']);
 
 			// regular poster

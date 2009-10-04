@@ -35,7 +35,7 @@ if ($dir = Safe::opendir($context['path_to_root'].'tools')) {
 	}
 	Safe::closedir($dir);
 	if(@count($tools)) {
-		sort($tools);
+		natsort($tools);
 		foreach($tools as $tool)
 			$context['text'] .= '<li>'.$tool."</li>\n";
 	}

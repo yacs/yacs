@@ -65,7 +65,7 @@ Class Layout_comments extends Layout_interface {
 				$suffix .= ' '.Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']);
 
 			$menu = array();
-			
+
 			// the edition date
 			if($item['create_date'])
 				$menu[] = Skin::build_date($item['create_date']);
@@ -79,13 +79,10 @@ Class Layout_comments extends Layout_interface {
 			}
 
 			if($menu)
-				$suffix .= ' -'.Skin::build_list($menu, 'menu');
-				
+				$suffix .= ' -'.Skin::finalize_list($menu, 'menu');
+
 			// new line
 			$suffix .= BR;
-
-			// add an anchor for this comment
-			$suffix .= '<a name="comment_'.$item['id'].'" ></a>';
 
 			// description
 			if($description = ucfirst(trim(Codes::beautify($item['description']))))

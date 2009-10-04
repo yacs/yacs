@@ -157,7 +157,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 		}
 
 		// list found files in a playlist
-		sort($files_in_path);
+		natsort($files_in_path);
 		$text = '#EXTM3U'."\n";
 
 		$index = 0;
@@ -218,7 +218,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 		// strong validator
 		$etag = '"'.md5($text).'"';
-	
+
 		// manage web cache
 		if(http::validate(NULL, $etag))
 			return;

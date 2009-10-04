@@ -1,42 +1,31 @@
 <?php
 /**
- * update javascript, etc.
+ * update misc. files
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 // splash message
 global $local;
-$local['label_en'] = 'Update AJAX';
-$local['label_fr'] = 'Mise &agrave; jour de AJAX';
-echo get_local('label')."<br />\n";
+$local['label_en'] = 'Update miscellaneous files';
+$local['label_fr'] = 'Mise &agrave; jour compl&eacute;mentaire';
+echo i18n::user('label')."<br />\n";
 
 // the reference server to use
 @include_once $context['path_to_root'].'scripts/parameters.include.php';
 if(!isset($context['reference_server']) || !$context['reference_server'])
-	$context['reference_server'] = 'www.yetanothercommunitysystem.com';
+	$context['reference_server'] = 'www.yacs.fr';
 
 // files to fetch, from root path
 unset($files);
-$files[] = 'included/browser/builder.js.jsmin';
-$files[] = 'included/browser/controls.js.jsmin';
-$files[] = 'included/browser/document_write.js.jsmin';
-$files[] = 'included/browser/dragdrop.js.jsmin';
-$files[] = 'included/browser/effects.js.jsmin';
-$files[] = 'included/browser/expressinstall.swf';
-$files[] = 'included/browser/prototype.js.jsmin';
-$files[] = 'included/browser/scriptaculous.js.jsmin';
-$files[] = 'included/browser/slider.js.jsmin';
-$files[] = 'included/browser/sound.js.jsmin';
-$files[] = 'included/browser/swfobject.js.jsmin';
-$files[] = 'included/browser/unittest.js.jsmin';
+$files[] = 'included/simplepie.inc';
+$files[] = 'included/tiny_mce/themes/advanced/skins/default/content.css';
 $files[] = 'shared/yacs.js';
-$files[] = 'skins/_reference/ajax_spinner.gif';
-$files[] = 'skins/_reference/tag_bg.gif';
 $files[] = 'skins/_reference/yacs.css';
-$files[] = 'temporary/cache_included_browser_minify.js';
+$files[] = 'skins/images/icons/accordion/minus.jpg';
+$files[] = 'skins/images/icons/accordion/plus.jpg';
 
 // process every file
 $count = 0;
@@ -61,13 +50,13 @@ foreach($files as $file) {
 
 	// get the file locally
 	if(file_exists($local_reference))
-		$content = file_get_contents($local_reference);
+		$content = Safe::file_get_contents($local_reference);
 
 	// or get the file from reference server
 	elseif(($content = Link::fetch($remote_reference)) === FALSE) {
 		$local['error_en'] = 'Unable to get '.$file;
 		$local['error_fr'] = 'Impossible d\'obtenir '.$file;
-		echo get_local('error')."<br />\n";
+		echo i18n::user('error')."<br />\n";
 	}
 
 	// we have something in hand
@@ -86,11 +75,11 @@ foreach($files as $file) {
 		if(!Safe::file_put_contents($file, $content)) {
 			$local['label_en'] = 'Impossible to write to the file '.$file.'.';
 			$local['label_fr'] = 'Impossible d\'&eacute;crire le fichier '.$file.'.';
-			echo get_local('label')."<br />\n";
+			echo i18n::user('label')."<br />\n";
 		} else {
 			$local['label_en'] = 'has been updated';
 			$local['label_fr'] = 'a &eacute;t&eacute; mis &agrave; jour';
-			echo $file.' '.get_local('label')."<br />\n";
+			echo $file.' '.i18n::user('label')."<br />\n";
 		}
 
 	}
@@ -103,5 +92,5 @@ foreach($files as $file) {
 // basic reporting
 $local['label_en'] = 'files have been processed';
 $local['label_fr'] = 'fichiers ont &eacute;t&eacute; trait&eacute;s';
-echo $count.' '.get_local('label')."<br />\n";
+echo $count.' '.i18n::user('label')."<br />\n";
 ?>

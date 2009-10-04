@@ -25,9 +25,8 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../comments/comments.php';	// to create new threads
-include_once '../files/files.php';			// to upload files
-include_once '../shared/mailer.php';		// to send messages
+include_once '../comments/comments.php';	// create new threads
+include_once '../files/files.php';			// upload files
 
 // load the skin
 load_skin('users');
@@ -132,10 +131,10 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 	$overlay = Overlay::bind('thread');
 	$article['overlay'] = $overlay->save();
 	$article['overlay_id'] = $overlay->get_id();
-	
+
 	// ensure everything is positioned as expected
 	Surfer::empower();
-	
+
 	// post the new thread
 	if(!$article['id'] = Articles::post($article))
 		Logger::error(i18n::s('Impossible to add a page.'));
@@ -147,7 +146,7 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 		if($file = Files::upload($_FILES['upload'], 'files/article/'.$article['id'], 'article:'.$article['id'])) {
 			$_REQUEST['message'] .= $file;
 		}
-		
+
 		// make a new comment out of received message, if any
 		if(isset($_REQUEST['message']) && trim($_REQUEST['message'])) {
 			$comment = array();
@@ -206,14 +205,14 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 					// ensure the article has a private handle
 					if(!isset($article['handle']) || !$article['handle']) {
 						$article['handle'] = md5(mt_rand());
-						
+
 						// save in the database
 						$fields = array();
 						$fields['id'] = $article['id'];
 						$fields['handle'] = $article['id'];
 						$fields['silent'] = 'Y';
 						Articles::put_attributes($fields);
-					}				
+					}
 
 					// build credentials --see users/login.php
 					$credentials = array();
@@ -230,9 +229,8 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 					$mail['message'] .= Articles::get_permalink($article);
 
 				// enable threading
-				include_once $context['path_to_root'].'shared/mailer.php';
 				$mail['headers'] = Mailer::set_thread('article:'.$article['id'], $anchor);
-			
+
 				// target is known here
 				if(isset($item['id'])) {
 
@@ -296,7 +294,7 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 			$context['text'] .= '<p>'.sprintf(i18n::s('Your threads with %s'), $item['full_name']).'</p>'.Skin::build_list($items, 'compact').'<p> </p>';
 
 	}
-	
+
 }
 
 // render the skin

@@ -84,9 +84,14 @@ Class Users {
 		if(!isset($mail['subject']) || !$mail['subject'] || !isset($mail['message']))
 			return FALSE;
 
+		// use this email address
+		if($user['full_name'])
+			$recipient = '"'.str_replace(array(',', '"'), ' ', $user['full_name']).'" <'.$user['email'].'>';
+		else
+			$recipient = '"'.str_replace(array(',', '"'), ' ', $user['nick_name']).'" <'.$user['email'].'>';
+
 		// post a message to this particular user
-		include_once $context['path_to_root'].'shared/mailer.php';
-		return Mailer::notify(Surfer::from(), $user['email'], $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'');
+		return Mailer::notify(Surfer::from(), $recipient, $mail['subject'], $mail['message'], isset($mail['headers'])?$mail['headers']:'');
 
 	}
 
@@ -208,7 +213,7 @@ Class Users {
 	 */
 	function build_presence($item) {
 		$contacts = array();
-		
+
 		// twitter
 		if(isset($item['twitter_address']) && $item['twitter_address'])
 			$contacts[] = Skin::build_presence($item['twitter_address'], 'twitter');
@@ -240,7 +245,7 @@ Class Users {
 		// icq
 		if(isset($item['icq_address']) && $item['icq_address'])
 			$contacts[] = Skin::build_presence($item['icq_address'], 'icq');
-			
+
 		return join(' ', $contacts);
 	}
 
@@ -433,7 +438,7 @@ Class Users {
 		// save in cache
 		if(isset($output['id']))
 			$cache[ $output['id'] ] = $output;
-			
+
 		// return by reference
 		return $output;
 	}
@@ -944,7 +949,7 @@ Class Users {
 
 		// no layout yet
 		$layout = NULL;
-		
+
 		// separate options from layout name
 		$attributes = explode(' ', $variant, 2);
 
@@ -958,7 +963,7 @@ Class Users {
 				// provide parameters to the layout
 				if(isset($attributes[1]))
 					$layout->set_variant($attributes[1]);
-		
+
 			}
 		}
 
@@ -972,7 +977,7 @@ Class Users {
 		// do the job
 		$output =& $layout->layout($result);
 		return $output;
-		
+
 	}
 
 	/**
@@ -1187,7 +1192,7 @@ Class Users {
 			Logger::error(i18n::s('Please indicate a nick name.'));
 			return FALSE;
 		}
-		
+
 		// some weird users put spaces around
 		$fields['nick_name'] = trim($fields['nick_name']);
 
@@ -1254,7 +1259,7 @@ Class Users {
 				$_SESSION['l10n_modules'] = array();
 			}
 		}
-		
+
 
 		// fields to update
 		$query = array();
@@ -1262,7 +1267,7 @@ Class Users {
 		// on import
 		if(isset($fields['id']))
 			$query[] = "id=".SQL::escape($fields['id']);
-			
+
 		if(!isset($fields['active']) || !trim($fields['active']))
 			$fields['active'] = 'Y';
 		$query[] = "active='".SQL::escape($fields['active'])."'";
@@ -1282,7 +1287,7 @@ Class Users {
 		$query[] = "capability='".SQL::escape($fields['capability'])."'";
 
 		$query[] = "create_name='".SQL::escape(isset($fields['create_name']) ? $fields['create_name'] : $fields['edit_name'])."'";
-		
+
 		if(isset($fields['create_id']) || $fields['edit_id'])
 			$query[] = "create_id=".SQL::escape(isset($fields['create_id']) ? $fields['create_id'] : $fields['edit_id']);
 
@@ -1439,9 +1444,8 @@ Class Users {
 				."\n".sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
 
 			// enable threading
-			include_once $context['path_to_root'].'shared/mailer.php';
 			$headers = Mailer::set_thread('user:'.$fields['id']);
-			
+
 			// post the confirmation message
 			Mailer::notify(NULL, $fields['email'], $subject, $message, $headers);
 
@@ -1505,7 +1509,7 @@ Class Users {
 
 			// some weird users put spaces around
 			$fields['nick_name'] = trim($fields['nick_name']);
-	
+
 			// nick_name may be already used
 			if(($used =& Users::get($fields['nick_name'])) && ($used['id'] != $fields['id'])) {
 				Logger::error(i18n::s('Another member already has this nick name. Please select a different one.'));
@@ -1515,7 +1519,7 @@ Class Users {
 			// ensure we have a full name
 			if(!isset($fields['full_name']) || !trim($fields['full_name']))
 				$fields['full_name'] = $fields['nick_name'];
-	
+
 			// protect from hackers
 			if(isset($fields['avatar_url']))
 				$fields['avatar_url'] =& encode_link($fields['avatar_url']);
@@ -1539,21 +1543,21 @@ Class Users {
 				$fields['without_confirmations'] = 'Y';
 			if(!isset($fields['without_messages']) || ($fields['without_messages'] != 'N'))
 				$fields['without_messages'] = 'Y';
-	
+
 			if(!isset($fields['birth_date']) || !$fields['birth_date'])
 				$fields['birth_date'] = NULL_DATE;
-				
+
 			// clean provided tags
 			if(isset($fields['tags']))
 				$fields['tags'] = trim($fields['tags'], " \t.:,!?");
 
 			// save new settings in session and in cookie
 			if(Surfer::is($fields['id'])) {
-	
+
 				// change preferred editor
 				$_SESSION['surfer_editor'] = $fields['editor'];
 				Safe::setcookie('surfer_editor', $fields['editor'], NULL, '/');
-	
+
 				// change preferred language
 				if(isset($fields['language']) && ($_SESSION['surfer_language'] != $fields['language'])) {
 					$_SESSION['surfer_language'] = $fields['language'];
@@ -1664,9 +1668,8 @@ Class Users {
 				.sprintf(i18n::s('Thank you for your interest into %s.'), strip_tags($context['site_name']))."\n";
 
 			// enable threading
-			include_once $context['path_to_root'].'shared/mailer.php';
 			$headers = Mailer::set_thread(NULL, 'user:'.$item['id']);
-			
+
 			// post the confirmation message
 			Mailer::notify(NULL, $item['email'], $subject, $message, $headers);
 
@@ -1699,7 +1702,7 @@ Class Users {
 			$output = NULL;
 			return $output;
 		}
-		
+
 		// limit the scope of the request
 		$where = "users.active='Y'";
 		if(Surfer::is_logged())

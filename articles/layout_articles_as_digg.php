@@ -74,9 +74,6 @@ Class Layout_articles_as_digg extends Layout_interface {
 			// the url to view this item
 			$url =& Articles::get_permalink($item);
 
-			// reset the rendering engine between items
-			Codes::initialize($url);
-
 			// make a live title
 			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
 				$title = $overlay->get_live_title($item);

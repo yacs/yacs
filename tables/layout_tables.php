@@ -37,7 +37,7 @@ Class Layout_tables extends Layout_interface {
 
 		if(!isset($this->layout_variant))
 			$this->layout_variant = 'no_anchor';
-		
+
 		// flag tables updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
@@ -52,10 +52,6 @@ Class Layout_tables extends Layout_interface {
 
 			// the url to view this item
 			$url = Tables::get_url($item['id']);
-
-			// reset the rendering engine between items
-			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize($url);
 
 			// flag tables created or updated very recently
 			if(isset($item['create_date']) && ($item['create_date'] >= $dead_line))

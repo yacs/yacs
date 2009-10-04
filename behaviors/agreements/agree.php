@@ -45,7 +45,7 @@ i18n::bind('behaviors');
 load_skin('agreements', $anchor);
 
 // no subject
-if(!$id)
+if(!is_object($anchor))
 	Logger::error(i18n::s('No item has the provided id.'));
 
 // update session data
@@ -56,7 +56,7 @@ else {
 		$_SESSION['agreements'] = array();
 
 	// append the new agreement
-	$_SESSION['agreements'][] = $id;
+	$_SESSION['agreements'][] = $anchor->get_reference();
 
 	// revisit referer
 	if(isset($_SERVER['HTTP_REFERER']))
@@ -70,12 +70,6 @@ if(is_object($anchor))
 // the title of the page
 if(is_object($anchor))
 	$context['page_title'] = $anchor->get_title();
-else
-	$context['page_title'] = i18n::s('Your agreement has been recorded.');
-
-// common commands for this page
-if(isset($_SERVER['HTTP_REFERER']))
-	$context['page_menu'] = array( $_SERVER['HTTP_REFERER'] => i18n::s('Back to main page') );
 
 // render the skin
 render_skin();

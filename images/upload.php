@@ -233,6 +233,9 @@ if(Surfer::is_crawler()) {
 		else
 			$context['text'] .= '<p>'.i18n::s('No image has been processed.').'</p>';
 
+		// list persons that have been notified
+		$context['text'] .= Mailer::get_recipients(i18n::s('Persons that have been notified of your post'));
+
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();

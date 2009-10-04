@@ -67,28 +67,6 @@ else
 if(isset($item['title']))
 	$context['page_title'] = $item['title'];
 
-// back to the anchor page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] += array( $anchor->get_url() => i18n::s('Back to main page') );
-
-// the edit command is available to associates, editors, target member, and poster
-if($item['id'] && (Surfer::is_associate()
-	|| (is_object($anchor) && $anchor->is_assigned())
-	|| (Surfer::is_member() && ($item['anchor'] == 'user:'.Surfer::get_id()))
-	|| Surfer::is($item['create_id']))) {
-
-	$context['page_menu'] += array( Actions::get_url($item['id'], 'edit') => i18n::s('Edit') );
-}
-
-// the delete command is available to associates, editors, target member, and poster
-if($item['id'] && (Surfer::is_associate()
-	|| (is_object($anchor) && $anchor->is_assigned())
-	|| (Surfer::is_member() && ($item['anchor'] == 'user:'.Surfer::get_id()))
-	|| Surfer::is($item['create_id']))) {
-
-	$context['page_menu'] += array( Actions::get_url($item['id'], 'delete') => i18n::s('Delete') );
-}
-
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -198,28 +176,37 @@ if(!isset($item['id'])) {
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_suffix();
 
-	//
-	// the navigation sidebar
-	//
-	$cache_id = 'actions/view.php?id='.$item['id'].'#navigation';
-	if(!$text =& Cache::get($cache_id)) {
-
-		// buttons to display previous and next pages, if any
-		if(is_object($anchor)) {
-			$neighbours = $anchor->get_neighbours('action', $item);
-			$text .= Skin::neighbours($neighbours, 'sidebar');
-		}
-
-		// build a nice sidebar box
-		if($text)
-			$text =& Skin::build_box(i18n::s('Navigation'), $text, 'navigation', 'neighbours');
-
-		// save in cache
-		Cache::put($cache_id, $text, 'actions');
+	// back to the anchor page
+	if(is_object($anchor) && $anchor->is_viewable()) {
+		$menu = array(Skin::build_link($anchor->get_url(), i18n::s('Back to main page'), 'button'));
+		$context['text'] .= Skin::build_block(Skin::finalize_list($menu, 'menu_bar'), 'bottom');
 	}
-	$context['components']['neighbours'] = $text;
 
 	//
+	// extra panel
+	//
+
+	// page tools
+	//
+
+	// the edit command is available to associates, editors, target member, and poster
+	if($item['id'] && (Surfer::is_associate()
+		|| (is_object($anchor) && $anchor->is_assigned())
+		|| (Surfer::is_member() && ($item['anchor'] == 'user:'.Surfer::get_id()))
+		|| Surfer::is($item['create_id']))) {
+
+		$context['page_tools'][] = Skin::build_link(Actions::get_url($item['id'], 'edit'), i18n::s('Edit'));
+	}
+
+	// the delete command is available to associates, editors, target member, and poster
+	if($item['id'] && (Surfer::is_associate()
+		|| (is_object($anchor) && $anchor->is_assigned())
+		|| (Surfer::is_member() && ($item['anchor'] == 'user:'.Surfer::get_id()))
+		|| Surfer::is($item['create_id']))) {
+
+		$context['page_tools'][] = Skin::build_link(Actions::get_url($item['id'], 'delete'), i18n::s('Delete'));
+	}
+
 	// referrals, if any, in a sidebar
 	//
 	$context['components']['referrals'] =& Skin::build_referrals(Actions::get_url($item['id']));

@@ -212,7 +212,7 @@ function include_hook($path) {
 global $hooks, $action;
 
 // scan only selected sub-directories
-$scanned = array('', 'agents', 'articles', 'categories', 'control', 'files', 'included', 'overlays', 'parameters', 'sections', 'services', 'shared', 'tools', 'users');
+$scanned = array('', 'agents', 'articles', 'categories', 'control', 'feeds', 'files', 'included', 'overlays', 'parameters', 'sections', 'services', 'shared', 'tools', 'users');
 
 // ensure that the user is an associate, except on first install
 if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_exists('../parameters/switch.off'))) {
@@ -287,7 +287,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 				// description
 				if($description = i18n::l($hook, 'description'))
 					$description .= BR;
-					
+
 				// user information
 				$text = '<dt>'.$input.' <b>'.i18n::l($hook, 'label').'</b></dt><dd>'.$description."\n";
 
@@ -315,7 +315,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 				// description
 				if($description = i18n::l($hook, 'description'))
 					$description .= BR;
-					
+
 				// user information
 				$text = '<dt>'.$input.' <b>'.i18n::l($hook, 'label').'</b></dt><dd>'.$description."\n";
 
@@ -346,7 +346,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 				// description
 				if($description = i18n::l($hook, 'description'))
 					$description .= BR;
-					
+
 				// user information
 				$text = '<dt>'.$input.' <b>'.i18n::l($hook, 'label').'</b></dt><dd>'.$description."\n";
 
@@ -374,7 +374,7 @@ if(!Surfer::is_associate() && (file_exists('../parameters/switch.on') || file_ex
 				// description
 				if($description = i18n::l($hook, 'description'))
 					$description .= BR;
-					
+
 				// user information
 				$text = '<dt>'.$input.' <b>'.i18n::l($hook, 'label').'</b></dt><dd>'.$description."\n";
 

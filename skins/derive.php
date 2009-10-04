@@ -259,7 +259,7 @@ elseif(!Surfer::is_associate()) {
 		}
 		Safe::closedir($dir);
 		if(@count($skins)) {
-			sort($skins);
+			natsort($skins);
 			foreach($skins as $skin)
 				$box['text'] .= $skin;
 		}

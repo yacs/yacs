@@ -48,10 +48,6 @@ Class Layout_actions extends Layout_interface {
 			// the url to view this item
 			$url = Actions::get_url($item['id']);
 
-			// reset the rendering engine between items
-			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize($url);
-
 			// action title
 			$label = $item['title'];
 

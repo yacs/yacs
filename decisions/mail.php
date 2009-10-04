@@ -206,7 +206,6 @@ if(Surfer::is_crawler()) {
 		$to = explode(',', $to);
 
 	// process every recipient
-	include_once $context['path_to_root'].'shared/mailer.php';
 	$posts = 0;
 	$actual_names = array();
 	foreach($to as $recipient) {
@@ -216,7 +215,7 @@ if(Surfer::is_crawler()) {
 		if(preg_match('/\w+@\w+\.\w+/', $recipient)) {
 			if(strcmp($recipient, $from))
 				$actual_names[] = $recipient;
-		
+
 		// look for a user with this nick name
 		} elseif(($user =& Users::get($recipient)) && $user['email']) {
 			$recipient = $user['email'];

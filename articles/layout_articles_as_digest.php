@@ -44,9 +44,6 @@ Class Layout_articles_as_digest extends Layout_interface {
 			// the url to view this item
 			$url =& Articles::get_permalink($item);
 
-			// reset the rendering engine between items
-			Codes::initialize($url);
-
 			// provide an absolute link
 			$url = $context['url_to_home'].$context['url_to_root'].$url;
 

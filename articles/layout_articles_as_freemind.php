@@ -66,9 +66,6 @@ Class Layout_articles_as_freemind extends Layout_interface {
 			// the url to view this item
 			$url =& Articles::get_permalink($item);
 
-			// reset the rendering engine between items
-			Codes::initialize($url);
-
 			// build a title
 			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
 				$title = $overlay->get_live_title($item);

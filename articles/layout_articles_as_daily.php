@@ -82,9 +82,6 @@ Class Layout_articles_as_daily extends Layout_interface {
 			// permalink
 			$url =& Articles::get_permalink($item);
 
-			// reset the rendering engine between items
-			Codes::initialize($url);
-
 			// what's the date today?
 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
 				$current_date = substr($item['publish_date'], 0, 10);
@@ -170,7 +167,7 @@ Class Layout_articles_as_daily extends Layout_interface {
 
 			// a compact list of attached files
 			if($count = Files::count_for_anchor('article:'.$item['id'])) {
-	
+
 				// list files by date (default) or by title (option files_by_title)
 				if(Articles::has_option('files_by_title', $anchor, $item))
 					$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'compact');
@@ -178,11 +175,11 @@ Class Layout_articles_as_daily extends Layout_interface {
 					$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'compact');
 				if(is_array($items))
 					$items = Skin::build_list($items, 'compact');
-	
+
 				if($items)
 					$box['content'] .= Skin::build_box(i18n::s('Files'), $items, 'header2');
 			}
-	
+
 			// build a menu
 			$menu = array();
 

@@ -72,16 +72,6 @@ $context['path_bar'] = array( 'servers/' => i18n::s('Servers') );
 if($item['title'])
 	$context['page_title'] = $item['title'];
 
-// test links
-if($item['submit_feed'] == 'Y')
-	$context['page_menu'] += array( Servers::get_url($id, 'test') => i18n::s('Test feed') );
-
-// commands for associates
-if(Surfer::is_associate()) {
-	$context['page_menu'] += array( Servers::get_url($id, 'edit') => i18n::s('Edit') );
-	$context['page_menu'] += array( Servers::get_url($id, 'delete') => i18n::s('Delete') );
-}
-
 // not found
 if(!$item['id']) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -123,7 +113,7 @@ if(!$item['id']) {
 
 	// all details
 	if(@count($details))
-		$text .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
+		$context['page_details'] .= '<p class="details">'.ucfirst(implode(', ', $details))."</p>\n";
 
 	// insert anchor prefix
 	if(is_object($anchor))
@@ -206,6 +196,16 @@ if(!$item['id']) {
 	// insert anchor suffix
 	if(is_object($anchor))
 		$context['text'] .= $anchor->get_suffix();
+
+	// test links
+	if($item['submit_feed'] == 'Y')
+		$context['page_tools'][] = Skin::build_link(Servers::get_url($id, 'test'), i18n::s('Test feed'));
+
+	// commands for associates
+	if(Surfer::is_associate()) {
+		$context['page_tools'][] = Skin::build_link(Servers::get_url($id, 'edit'), i18n::s('Edit'));
+		$context['page_tools'][] = Skin::build_link(Servers::get_url($id, 'delete'), i18n::s('Delete'));
+	}
 
 	// referrals, if any
 	$context['components']['referrals'] =& Skin::build_referrals(Servers::get_url($item['id']));

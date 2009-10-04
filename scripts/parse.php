@@ -53,13 +53,6 @@ if($script)
 else
 	$context['page_title'] = i18n::s('View PHP documentation');
 
-// menu bar
-if($script) {
-	$context['page_menu'] = array( 'scripts/browse.php?script='.$script => i18n::s('Browse'),
-		'scripts/fetch.php?script='.$script => i18n::s('Fetch'),
-		'scripts/' => i18n::s('Server software') );
-}
-
 // no script has been provided
 if(!$script) {
 	Logger::error(i18n::s('No script has been provided.'));
@@ -80,6 +73,11 @@ else {
 	// generate the php documentation for this script
 //	$context['page_title'] = $tool->index[$script];
 	$context['text'] .= Codes::beautify('[toc] '.$tool->comments[$script]);
+
+	// menu bar
+	$context['page_tools'][] = Skin::build_link('scripts/browse.php?script='.$script, i18n::s('Browse'));
+	$context['page_tools'][] = Skin::build_link('scripts/fetch.php?script='.$script, i18n::s('Fetch'));
+	$context['page_tools'][] = Skin::build_link('scripts/', i18n::s('Server software'));
 
 }
 

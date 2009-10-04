@@ -168,7 +168,6 @@ function send_body() {
 		echo Notifications::setup();
 
 		// create tables for messages
-		include_once '../shared/mailer.php';
 		echo Mailer::setup();
 
 		// create tables for visits

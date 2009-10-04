@@ -3,7 +3,7 @@
  * stream a file
  *
  * This script turns a YACS server into a pseudo-streaming server.
- * On intranets or at home, with VLC or Winamp or Windows Media Player installed at workstations, 
+ * On intranets or at home, with VLC or Winamp or Windows Media Player installed at workstations,
  * it allows people to view films on-demand.
  *
  * @link http://www.videolan.org/vlc/  VLC media player
@@ -146,22 +146,6 @@ else
 // change default behavior
 if(isset($item['id']) && is_object($behaviors) && !$behaviors->allow('files/stream.php', 'file:'.$item['id']))
 	$permitted = FALSE;
-
-// back to the anchor page
-if(is_object($anchor) && $anchor->is_viewable())
-	$context['page_menu'] += array( $anchor->get_url().'#files' => i18n::s('Back to main page') );
-
-// download command
-if($item['id'] && $permitted)
-	$context['page_menu'] += array( Files::get_url($item['id'], 'view', $item['file_name']) => i18n::s('Download') );
-
-// edit command, if allowed to do so
-if($item['id'] && $editable)
-	$context['page_menu'] += array( Files::get_url($item['id'], 'edit') => i18n::s('Edit') );
-
-// delete command provided to associates and editors
-if($item['id'] && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_assigned())))
-	$context['page_menu'] += array( Files::get_url($item['id'], 'delete') => i18n::s('Delete') );
 
 // not found
 if(!$item['id']) {
@@ -404,7 +388,7 @@ if(!$item['id']) {
 
 		// strong validator
 		$etag = '"'.md5($text).'"';
-	
+
 		// manage web cache
 		if(http::validate(NULL, $etag))
 			return;

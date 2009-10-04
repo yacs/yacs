@@ -31,10 +31,6 @@ Class Layout_links_as_feed extends Layout_interface {
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
 
-			// reset the rendering engine between items
-			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize(Links::get_url($item['id']));
-
 			// get the anchor for this link
 			if($item['anchor'])
 				$anchor =& Anchors::get($item['anchor']);

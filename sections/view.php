@@ -1819,14 +1819,7 @@ if(!isset($item['id'])) {
 
 }
 
-// stamp the page
-$last_modified = SQL::strtotime($item['edit_date']);
-
-// at the minimum, consider the date of the last configuration change
-if($last_configured = Safe::filemtime('../parameters/control.include.php'))
-	$last_modified = max($last_modified, $last_configured);
-
 // render the skin
-render_skin($last_modified);
+render_skin();
 
 ?>

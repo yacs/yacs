@@ -202,7 +202,7 @@ if ($dir = Safe::opendir($context['path_to_root'].'overlays')) {
 	}
 	Safe::closedir($dir);
 	if(@count($overlays)) {
-		sort($overlays);
+		natsort($overlays);
 		foreach($overlays as $overlay)
 			$context['text'] .= '<li>'.$overlay."</li>\n";
 	}

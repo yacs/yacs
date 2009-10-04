@@ -602,7 +602,7 @@ if($with_form) {
 			$box .= Skin::finalize_list($menu, 'menu_bar');
 		if($items)
 			$box .= Skin::build_list($items, 'decorated');
-			
+
 		// in a folded box
 		if($box)
 			$text .= Skin::build_box(i18n::s('Images'), $box, 'unfolded', 'edit_images');
@@ -839,7 +839,7 @@ if($with_form) {
 			}
 			Safe::closedir($dir);
 			if(@count($overlays)) {
-				sort($overlays);
+				natsort($overlays);
 				foreach($overlays as $overlay_name) {
 					$selected = '';
 					if($overlay_name == $overlay_type)

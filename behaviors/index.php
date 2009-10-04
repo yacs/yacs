@@ -43,7 +43,7 @@ if ($dir = Safe::opendir($context['path_to_root'].'behaviors')) {
 	}
 	Safe::closedir($dir);
 	if(@count($behaviors)) {
-		sort($behaviors);
+		natsort($behaviors);
 		foreach($behaviors as $behavior)
 			$context['text'] .= '<li>'.$behavior."</li>\n";
 	}

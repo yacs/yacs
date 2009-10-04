@@ -158,15 +158,10 @@
  * - &#91;sections=section:&lt;id>] - sub-sections
  * - &#91;sections=self] - sections assigned to current surfer
  * - &#91;sections=user:&lt;id>] - sections assigned to given user
- * - &#91;freemind] - a Freemind map of site content
- * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
- * - &#91;freemind=section:&lt;id>, width, height] - a Freemind map of a section and its content
  * - &#91;categories] - category tree
  * - &#91;categories=category:&lt;id>] - sub-categories
  * - &#91;categories=self] - categories assigned to current surfer
  * - &#91;categories=user:&lt;id>] - categories assigned to given user
- * - &#91;cloud] - the tags used at this site
- * - &#91;cloud=12] - maximum count of tags used at this site
  * - &#91;published] - most recent published pages, in a compact list
  * - &#91;published=section:&lt;id>] - articles published most recently in the given section
  * - &#91;published=category:&lt;id>] - articles published most recently in the given category
@@ -185,15 +180,28 @@
  * - &#91;voted=section:&lt;id>] - articles of fame in the given section
  * - &#91;voted=self] - personal hits
  * - &#91;voted=user:&lt;id>] - personal hits
+ * - &#91;collections] - list available collections
+ * - &#91;users=present] - list of users present on site
+ *
+ * @see codes/live.php
+ *
+ * Widgets, demonstrated in [link]codes/widgets.php[/link]:
+ * - &#91;newsfeed=url] - integrate a newsfeed dynamically
+ * - &#91;newsfeed.embed=url] - integrate a newsfeed dynamically
+ * - &#91;twitter=id] - twitter updates of one person
+ * - &#91;tsearch=token] - twitter search on a given topic
+ * - &#91;freemind] - a Freemind map of site content
+ * - &#91;freemind=section:&lt;id>] - a Freemind map of a section and its content
+ * - &#91;freemind=section:&lt;id>, width, height] - a Freemind map of a section and its content
+ * - &#91;cloud] - the tags used at this site
+ * - &#91;cloud=12] - maximum count of tags used at this site
  * - &#91;calendar] - events for this month
  * - &#91;calendar=section:&lt;id>] - dates in one section
  * - &#91;locations=all] - newest locations
  * - &#91;locations=users] - map user locations on Google maps
  * - &#91;location=latitude, longitude, label] - to build a dynamic map
- * - &#91;collections] - list available collections
- * - &#91;users=present] - list of users present on site
  *
- * @see codes/live.php
+ * @see codes/widgets.php
  *
  * Miscellaneous codes, demonstrated in [link]codes/misc.php[/link]:
  * - &#91;chart]...[/chart] - draw a dynamic chart
@@ -692,9 +700,8 @@ Class Codes {
 	function initialize($main_target=NULL) {
 		global $context;
 
-		global $codes_base;
 		if($main_target)
-			$codes_base = $context['url_to_root'].$main_target;
+			$context['self_url'] = $context['url_to_root'].$main_target;
 
 	}
 
@@ -857,6 +864,11 @@ Class Codes {
 				'/\[question\](.*?)\[\/question\]\n*/ise',	// [question]...[/question]
 				'/\[question\]/ise',						// [question]
 				'/\[answer\]/ise',							// [answer]
+				'/\[newsfeed=([^\]]+?)\]/ise',				// [newsfeed=url]
+				'/\[newsfeed\.([^=\]]+?)=([^\]]+?)\]/ise',	// [newsfeed.variant=url]
+				'/\[twitter=([^\]]+?)\]/ise',				// [twitter=id]
+				'/\[tsearch=([^\]]+?)\]/ise',				// [tsearch=id]
+				'/\[retweet\]/ise',							// [retweet]
 				'/\[scroller\](.*?)\[\/scroller\]/ise', 	// [scroller]...[/scroller]
 				'/\[toq\]\n*/ise',							// [toq] (table of questions)
 				'/\[title\](.*?)\[\/title\]\n*/is', 		// [title]...[/title]
@@ -1044,6 +1056,11 @@ Class Codes {
 				"Codes::render_title(Codes::fix_tags('$1'), 'question')", 			// [question]...[/question]
 				"QUESTION_FLAG",													// [question]
 				"ANSWER_FLAG",														// [answer]
+				"Codes::render_newsfeed('$1', 'ajax')",								// [newsfeed=url]
+				"Codes::render_newsfeed('$2', '$1')",								// [newsfeed=url]
+				"Codes::render_twitter('$1')",										// [twitter=id]
+				"Codes::render_twitter_search('$1')",								// [tsearch=id]
+				"Codes::render_retweet()",											// [retweet]
 				"Codes::render_animated(Codes::fix_tags('$1'), 'scroller')",		// [scroller]...[/scroller]
 				"Codes::render_table_of('questions')",								// [toq]
 				'[header1]\\1[/header1]',											// [title]...[/title]
@@ -1928,6 +1945,46 @@ Class Codes {
 		default:
 			$text = '??'.$variant.'??';
 			return $text;
+		}
+	}
+
+	/**
+	 * integrate content of a newsfeed
+	 *
+	 * @param string address of the newsfeed to get
+	 * @return string the rendered text
+	**/
+	function &render_newsfeed($url, $variant='ajax') {
+		global $context;
+
+		// we allow multiple calls
+		static $count;
+		if(!isset($count))
+			$count = 1;
+		else
+			$count++;
+
+		switch($variant) {
+
+		case 'ajax': // asynchronous loading
+		default:
+
+			$text = '<div id="newsfeed_'.$count.'" class="no_print"></div>'."\n"
+			.JS_PREFIX
+			.'Event.observe(window, "load", function() { Yacs.spin("newsfeed_'.$count.'"); Yacs.call( { method: \'feed.proxy\', params: { url: \''.$url.'\' } }, function(s) { if(s.text) { $("newsfeed_'.$count.'").update(s.text.toString()); } else { $("newsfeed_'.$count.'").update(""); } } ) } );'."\n"
+			.JS_SUFFIX;
+
+			return $text;
+
+		case 'embed': // integrate newsfeed into the page
+
+			include_once $context['path_to_root'].'feeds/proxy_hook.php';
+			$parameters = array('url' => $url);
+			if($output = Proxy_hook::serve($parameters))
+				$text = $output['text'];
+
+			return $text;
+
 		}
 	}
 
@@ -3142,7 +3199,25 @@ Class Codes {
 	}
 
 	/**
-	 * render a compact list of sections
+	 * render tweetmeme button
+	 *
+	 * @return string the rendered text
+	**/
+	function &render_retweet() {
+		global $context;
+
+		// we return some text --$context['self_url'] already has $context['url_to_root'] in it
+		$text = JS_PREFIX
+			.'tweetmeme_url = "'.$context['url_to_home'].$context['self_url'].'";'."\n"
+			.JS_SUFFIX
+			.'<script type="text/javascript" src="http://tweetmeme.com/i/scripts/button.js"></script>';
+
+		// job done
+		return $text;
+	}
+
+	/**
+	 * render a list of sections
 	 *
 	 * The provided anchor can reference:
 	 * - a section 'section:123'
@@ -3365,17 +3440,13 @@ Class Codes {
 	 * @return string the rendered text
 	**/
 	function &render_title($text, $variant) {
-		global $codes_base, $codes_toc, $codes_toq, $context;
-
-		// ensure we have a base reference to use
-		if(!$codes_base)
-			$codes_base = $context['self_url'];
+		global $codes_toc, $codes_toq, $context;
 
 		// remember questions
 		if($variant == 'question') {
 			$index = count($codes_toq)+1;
 			$id = 'question_'.$index;
-			$url = $codes_base.'#'.$id;
+			$url = $context['self_url'].'#'.$id;
 			$codes_toq[] = Skin::build_link($url, ucfirst($text), 'basic');
 			$text = QUESTION_FLAG.$text;
 
@@ -3383,41 +3454,171 @@ Class Codes {
 		} elseif($variant == 'header1') {
 			$index = count($codes_toc)+1;
 			$id = 'title_'.$index;
-			$url = $codes_base.'#'.$id;
+			$url = $context['self_url'].'#'.$id;
 			$codes_toc[] = array(1, Skin::build_link($url, ucfirst($text), 'basic'));
 
 		// remember level 2 titles ([subtitle]...[/subtitle] or [header2]...[/header2])
 		} elseif($variant == 'header2') {
 			$index = count($codes_toc)+1;
 			$id = 'title_'.$index;
-			$url = $codes_base.'#'.$id;
+			$url = $context['self_url'].'#'.$id;
 			$codes_toc[] = array(2, Skin::build_link($url, ucfirst($text), 'basic'));
 
 		// remember level 3 titles
 		} elseif($variant == 'header3') {
 			$index = count($codes_toc)+1;
 			$id = 'title_'.$index;
-			$url = $codes_base.'#'.$id;
+			$url = $context['self_url'].'#'.$id;
 			$codes_toc[] = array(3, Skin::build_link($url, ucfirst($text), 'basic'));
 
 		// remember level 4 titles
 		} elseif($variant == 'header4') {
 			$index = count($codes_toc)+1;
 			$id = 'title_'.$index;
-			$url = $codes_base.'#'.$id;
+			$url = $context['self_url'].'#'.$id;
 			$codes_toc[] = array(4, Skin::build_link($url, ucfirst($text), 'basic'));
 
 		// remember level 5 titles
 		} elseif($variant == 'header5') {
 			$index = count($codes_toc)+1;
 			$id = 'title_'.$index;
-			$url = $codes_base.'#'.$id;
+			$url = $context['self_url'].'#'.$id;
 			$codes_toc[] = array(5, Skin::build_link($url, ucfirst($text), 'basic'));
 		}
 
 		// the rendered text
 		$output =& Skin::build_block($text, $variant, $id);
 		return $output;
+	}
+
+	/**
+	 * render twitter profile
+	 *
+	 * @param string twitter id to display, plus optional parameters, if any
+	 * @return string the rendered text
+	**/
+	function &render_twitter($id) {
+		global $context;
+
+		// up to 4 parameters: id, width, height, styles
+		$attributes = preg_split("/\s*,\s*/", $id, 4);
+		$id = $attributes[0];
+
+		// width
+		if(isset($attributes[1]))
+			$width = $attributes[1];
+		else
+			$width = 250;
+
+		// height
+		if(isset($attributes[2]))
+			$height = $attributes[2];
+		else
+			$height = 300;
+
+		// theme
+		if(isset($attributes[3]))
+			$theme = $attributes[3];
+		else
+			$theme = 'theme: { shell: {'."\n"
+				.'      background: "#3082af",'."\n"
+				.'      color: "#ffffff"'."\n"
+				.'    },'."\n"
+				.'    tweets: {'."\n"
+				.'      background: "#ffffff",'."\n"
+				.'      color: "#444444",'."\n"
+				.'      links: "#1985b5"'."\n"
+				.'    }}';
+
+		// allow multiple widgets
+		static $count;
+		if(!isset($count))
+			$count = 1;
+		else
+			$count++;
+
+		// we return some text --$context['self_url'] already has $context['url_to_root'] in it
+		$text = '<div id="twitter_'.$count.'"></div>'."\n"
+			.'<script src="http://widgets.twimg.com/j/1/widget.js" type="text/javascript"></script>'."\n"
+			.'<link href="http://widgets.twimg.com/j/1/widget.css" type="text/css" rel="stylesheet" />'."\n"
+			.'<script type="text/javascript">'."\n"
+			.'new TWTR.Widget({'."\n"
+			.'  profile: true,'."\n"
+			.'  id: "twitter_'.$count.'",'."\n"
+			.'  loop: true,'."\n"
+			.'  width: '.$width.','."\n"
+			.'  height: '.$height.','."\n"
+			.'  '.$theme."\n"
+			.'}).render().setProfile("'.$id.'").start();'."\n"
+			.'</script>';
+
+		// job done
+		return $text;
+	}
+
+	/**
+	 * render twitter search
+	 *
+	 * @param string twitter searched keywords, plus optional parameters, if any
+	 * @return string the rendered text
+	**/
+	function &render_twitter_search($id) {
+		global $context;
+
+		// up to 4 parameters: id, width, height, styles
+		$attributes = preg_split("/\s*,\s*/", $id, 4);
+		$id = $attributes[0];
+
+		// width
+		if(isset($attributes[1]))
+			$width = $attributes[1];
+		else
+			$width = 250;
+
+		// height
+		if(isset($attributes[2]))
+			$height = $attributes[2];
+		else
+			$height = 300;
+
+		// theme
+		if(isset($attributes[3]))
+			$theme = $attributes[3];
+		else
+			$theme = 'theme: { shell: {'."\n"
+				.'      background: "#3082af",'."\n"
+				.'      color: "#ffffff"'."\n"
+				.'    },'."\n"
+				.'    tweets: {'."\n"
+				.'      background: "#ffffff",'."\n"
+				.'      color: "#444444",'."\n"
+				.'      links: "#1985b5"'."\n"
+				.'    }}';
+
+		// allow multiple widgets
+		static $count;
+		if(!isset($count))
+			$count = 1;
+		else
+			$count++;
+
+		// $context['self_url'] already has $context['url_to_root'] in it
+		$text = '<div id="tsearch_'.$count.'"></div>'."\n"
+			.'<script src="http://widgets.twimg.com/j/1/widget.js" type="text/javascript"></script>'."\n"
+			.'<link href="http://widgets.twimg.com/j/1/widget.css" type="text/css" rel="stylesheet" />'."\n"
+			.'<script type="text/javascript">'."\n"
+			.'new TWTR.Widget({'."\n"
+			.'  search: "'.str_replace('"', '', $id).'",'."\n"
+			.'  id: "tsearch_'.$count.'",'."\n"
+			.'  loop: true,'."\n"
+			.'  width: '.$width.','."\n"
+			.'  height: '.$height.','."\n"
+			.'  '.$theme."\n"
+			.'}).render().start();'."\n"
+			.'</script>';
+
+		// job done
+		return $text;
 	}
 
 	/**

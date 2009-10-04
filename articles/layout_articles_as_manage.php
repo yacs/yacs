@@ -73,9 +73,6 @@ Class Layout_articles_as_manage extends Layout_interface {
 			// the url to view this item
 			$url =& Articles::get_permalink($item);
 
-			// reset the rendering engine between items
-			Codes::initialize($url);
-
 			// column to select the row
 			$cells[] = '<input type="checkbox" name="selected_articles[]" class="row_selector" value="'.$item['id'].'" />';
 

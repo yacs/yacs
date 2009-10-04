@@ -32,9 +32,6 @@ Class Layout_files_as_feed extends Layout_interface {
 		include_once $context['path_to_root'].'files/files.php';
 		while($item =& SQL::fetch($result)) {
 
-			// reset the rendering engine between items
-			Codes::initialize(Files::get_url($item['id'], 'view', $item['file_name']));
-
 			// get the anchor for this file
 			if($item['anchor'])
 				$anchor =& Anchors::get($item['anchor']);

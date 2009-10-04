@@ -220,7 +220,6 @@ if(Surfer::is_crawler()) {
 		$to = explode(',', $to);
 
 	// process every recipient
-	include_once $context['path_to_root'].'shared/mailer.php';
 	$actual_names = array();
 	foreach($to as $recipient) {
 

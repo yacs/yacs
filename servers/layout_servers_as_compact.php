@@ -48,10 +48,6 @@ Class Layout_servers_as_compact extends Layout_interface {
 			// the url to view this item
 			$url = Servers::get_url($item['id']);
 
-			// reset the rendering engine between items
-			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize($url);
-
 			// use the title as a label
 			$label = Skin::strip($item['title'], 10);
 

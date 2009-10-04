@@ -77,9 +77,6 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 			// permalink
 			$url =& Articles::get_permalink($item);
 
-			// reset the rendering engine between items
-			Codes::initialize($url);
-
 			// get the related overlay, if any
 			$overlay = Overlay::load($item);
 

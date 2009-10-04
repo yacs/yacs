@@ -110,10 +110,6 @@ Class Layout_sections_as_select extends Layout_interface {
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
-		// reset the rendering engine between items
-		if(is_callable(array('Codes', 'initialize')))
-			Codes::initialize(Sections::get_permalink($item));
-
 		// initialize variables
 		$prefix = $suffix = $icon = '';
 

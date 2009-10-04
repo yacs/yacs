@@ -150,7 +150,7 @@ Class Image {
 	 */
 	function shrink($original, $target, $fixed=FALSE, $verbose=TRUE) {
 		global $context;
-		
+
 		// get file name
 		$file_name = basename($original);
 
@@ -297,7 +297,7 @@ Class Image {
 	 */
 	function upload($file_name, $file_path, $silent=FALSE) {
 		global $context, $_REQUEST;
-		
+
 		// we accept only valid images
 		if(!$image_information = Safe::GetImageSize($file_path.$file_name)) {
 			if(!$silent)
@@ -312,7 +312,7 @@ Class Image {
 
 		// post-upload processing
 		} else {
-		
+
 			// create folders
 			$_REQUEST['thumbnail_name'] = 'thumbs/'.$file_name;
 
@@ -339,28 +339,6 @@ Class Image {
 
 			}
 
-			// all details
-			$details = array();
-
-			// extract exif information from JPEG files, if any -- BUGGY function !!!
-//			if(($image_information[2] == 2) && is_callable('read_exif_data') && ($attributes = read_exif_data($file_path.$file_name))) {
-//				foreach($attributes as $name => $value) {
-//					if(preg_match('/^(ApertureFNumber|CameraMake|CameraModel|DateTime|ExposureTime|FocalLength|ISOspeed)$/i', $name))
-//						$details[] = $name.': '.$value;
-//				}
-//			}
-
-			// image size
-			if($image_information = Safe::GetImageSize($file_path.$file_name)) {
-				$details[] = sprintf(i18n::c('Size: %s x %s'), $image_information[0], $image_information[1]);
-			}
-
-			// update image description
-			if(!isset($_REQUEST['description']))
-				$_REQUEST['description'] = '';
-			if((@count($details)) || ($_REQUEST['description'] == ''))
-				$_REQUEST['description'] .= "\n\n".'<p class="details">'.implode(BR."\n", $details)."</p>\n";
-				
 			return TRUE;
 		}
 

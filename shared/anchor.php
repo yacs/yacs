@@ -779,12 +779,13 @@ class Anchor {
 			return TRUE;
 
 		// climb the anchoring chain
-		if(!$leaf && isset($this->item['anchor']) && $this->item['anchor']) {
+		if($leaf && isset($this->item['anchor']) && $this->item['anchor']) {
 
-			// save requests
+			// cache requests
 			if(!$this->anchor)
 				$this->anchor =& Anchors::get($this->item['anchor']);
 
+			// ask the anchor
 			if(is_object($this->anchor))
 				return $this->anchor->has_option($option, $leaf);
 		}

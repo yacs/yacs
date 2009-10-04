@@ -39,7 +39,7 @@ Class Layout_images extends Layout_interface {
 
 		if(!isset($this->layout_variant))
 			$this->layout_variant = '';
-		
+
 		// flag images updated recently
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
@@ -57,10 +57,6 @@ Class Layout_images extends Layout_interface {
 
 			// the url to view this item
 			$url = Images::get_url($item['id']);
-
-			// reset the rendering engine between items
-			if(is_callable(array('Codes', 'initialize')))
-				Codes::initialize($url);
 
 			$label = '_';
 
@@ -88,7 +84,7 @@ Class Layout_images extends Layout_interface {
 							.' [image='.$item['id'].',center]';
 
 					$suffix .= BR;
-					
+
 				// show an anchor link
 				} else {
 					$anchor_url = $anchor->get_url();
@@ -121,7 +117,7 @@ Class Layout_images extends Layout_interface {
 
 			// change the image
 			if(Surfer::is_empowered() || Surfer::is($item['edit_id']))
-				$menu = array_merge($menu, array( Images::get_url($item['id'], 'edit') => i18n::s('Edit') ));
+				$menu = array_merge($menu, array( Images::get_url($item['id'], 'edit') => i18n::s('Update this image') ));
 
 			// use the image
 			if(Surfer::is_empowered() && Surfer::is_member()) {
@@ -135,7 +131,7 @@ Class Layout_images extends Layout_interface {
 
 			// delete the image
 			if(Surfer::is_empowered() || Surfer::is($item['edit_id']))
-				$menu = array_merge($menu, array( Images::get_url($item['id'], 'delete') => i18n::s('Delete') ));
+				$menu = array_merge($menu, array( Images::get_url($item['id'], 'delete') => i18n::s('Delete this image') ));
 
 			if(count($menu))
 				$suffix .= Skin::build_list($menu, 'menu');

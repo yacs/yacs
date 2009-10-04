@@ -20,6 +20,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Jan Boen
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -119,6 +120,8 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 		// do the show
 		else {
+			// sort files naturally
+			natsort($files_in_path);
 
 			// controls
 			$context['text'] .= '<p id="slide_controls">'."\n";

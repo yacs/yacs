@@ -836,9 +836,8 @@ function load_skin($variant='', $anchor=NULL, $options='') {
  * Post-processing hooks are triggered after all HTML is returned to the browser,
  * including the poor-man's cron so the user who kicks off the cron jobs should not notice any delay.
  *
- * @param int the time() to be used as the Last-Modified date of the page, if any
  */
-function render_skin($stamp=0) {
+function render_skin() {
 	global $context, $local; // put here ALL global variables to be included in template, including $local
 
 	// allow for only one call -- see scripts/validate.php
@@ -1007,64 +1006,68 @@ function render_skin($stamp=0) {
 	Safe::header('Vary: Accept-Encoding, Cookie, ETag, If-None-Match, Set-Cookie');
 
 	// handle web cache
-	if(($stamp >= 0) && !(isset($context['without_http_cache']) && ($context['without_http_cache'] == 'Y')) && !headers_sent()) {
+	if(!isset($context['without_http_cache']) || ($context['without_http_cache'] != 'Y')) {
 
 		// ask for revalidation
 		http::expire(0);
 
 		// validate the content if hash is ok - content depends also on configuration files and on surfer capability
 		$etag = NULL;
-		if($context['text'] && !is_callable('send_body')) {
 
-			// concatenate significant content
-			$content = '';
-			if(isset($context['debug']) && count($context['debug']))
-				$content .= implode(':', $context['debug']).':';
-			if(isset($context['error']) && count($context['error']))
-				$content .= implode(':', $context['error']).':';
+		// don't cache too dynamic content
+		if(is_callable('send_body'))
+			;
+
+		// don't cache debugging messages, nor errors
+		elseif(isset($context['debug']) && count($context['debug']))
+			;
+		elseif(isset($context['error']) && count($context['error']))
+			;
+
+		// we rely on progressive hash
+		elseif(is_callable('hash_init')) {
+
+			// using MD5
+			$h = hash_init('md5');
+
 			if(isset($context['extra']))
-				$content .= $context['extra'].':';
+				hash_update($h, $context['extra']);
 			if(isset($context['navigation']))
-				$content .= $context['navigation'].':';
+				hash_update($h, $context['navigation']);
 			if(isset($context['page_details']))
-				$content .= $context['page_details'].':';
+				hash_update($h, $context['page_details']);
 			if(isset($context['page_image']))
-				$content .= $context['page_image'].':';
+				hash_update($h, $context['page_image']);
 			if(isset($context['page_menu']))
-				$content .= Skin::build_list($context['page_menu'], 'compact').':';
+				hash_update($h, Skin::build_list($context['page_menu'], 'compact'));
 			if(isset($context['page_title']))
-				$content .= $context['page_title'].':';
+				hash_update($h, $context['page_title']);
 			if(isset($context['prefix']))
-				$content .= $context['prefix'].':';
+				hash_update($h, $context['prefix']);
 			if(isset($context['suffix']))
-				$content .= $context['suffix'].':';
+				hash_update($h, $context['suffix']);
 			if(isset($context['text']))
-				$content .= $context['text'].':';
+				hash_update($h, $context['text']);
 			if(isset($context['etag']))
-				$content .= $context['etag'].':';
-			$content .= Safe::filemtime($context['path_to_root'].'parameters/control.include.php').':'
-				.Safe::filemtime($context['path_to_root'].'parameters/skins.include.php');
+				hash_update($h, $context['etag']);
+			hash_update($h, Safe::filemtime($context['path_to_root'].'parameters/control.include.php').':'
+				.Safe::filemtime($context['path_to_root'].'parameters/skins.include.php'));
 
 			// not the same content for editors
-			if(is_callable(array('Surfer', 'get_capability')))
-				$content .= ':'.Surfer::get_capability();
+			if(is_callable(array('Surfer', 'get_id')))
+				hash_update($h, Surfer::get_id());
 
 			// not the same content for associates
-			if(is_callable(array('Surfer', 'is_associate')) && Surfer::is_associate())
-				$content .= ':A';
+			if(is_callable(array('Surfer', 'get_name')))
+				hash_update($h, Surfer::get_name());
 
 			// hash content to create the etag string
-			$etag = '"'.md5($content).'"';
+			$etag = '"'.hash_final($h).'"';
 
 		}
 
-		// validate the content if stamp is ok --buggy with IE6, sorry
-		$last_modified = NULL;
-// 		if($stamp > 1000000)
-// 			$last_modified = gmdate('D, d M Y H:i:s', $stamp).' GMT';
-
 		// manage web cache
-		if(http::validate($last_modified, $etag))
+		if(http::validate(NULL, $etag))
 			return;
 
 
@@ -1681,6 +1684,9 @@ function get_action_label($action) {
 // the library for membership
 if(!defined('NO_MODEL_PRELOAD'))
 	include_once $context['path_to_root'].'shared/members.php';
+
+// the library for messages
+include_once $context['path_to_root'].'shared/mailer.php';
 
 // load parameters for web services -- including debugging
 if(!defined('NO_CONTROLLER_PRELOAD'))

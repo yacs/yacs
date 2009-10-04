@@ -125,9 +125,6 @@ if(Surfer::is_crawler()) {
 			// the url to view this item
 			$url =& Sections::get_permalink($section);
 
-			// reset the rendering engine between items
-			Codes::initialize($url);
-
 			// use the title to label the link
 			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
 				$title = $overlay->get_live_title($section);
@@ -189,7 +186,7 @@ if(Surfer::is_crawler()) {
 			// surfer cannot be deselected
 			if(!strcmp($anchor->get_reference(), 'user:'.$section['owner_id']))
 				$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
-				
+
 			// build a unlink button for this section
 			elseif(Surfer::is_associate()) {
 				$link = $context['script_url'].'?anchor='.urlencode($anchor->get_reference()).'&amp;member=section:'.$section['id'].'&amp;action=reset';

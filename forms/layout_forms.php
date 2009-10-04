@@ -46,9 +46,6 @@ Class Layout_forms extends Layout_interface {
 			// the url to view this item
 			$url = Forms::get_url($item['id'], 'view', $item['title']);
 
-			// reset the rendering engine between items
-			Codes::initialize($url);
-
 			// use the title to label the link
 			$title = Codes::beautify_title($item['title']);
 
