@@ -41,7 +41,7 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../shared/xml.php';	// input validation
+include_once '../shared/xml.php';		// input validation
 include_once 'actions.php';
 
 // look for the id
@@ -195,6 +195,9 @@ if(Surfer::is_crawler()) {
 		$context['text'] .= '<p><b>'.Codes::beautify_title($_REQUEST['title']).'</b></p>'
 			.Codes::beautify($_REQUEST['description']);
 
+		// list persons that have been notified
+		$context['text'] .= Mailer::get_recipients(i18n::s('Persons that have been notified of your post'));
+
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
@@ -214,7 +217,6 @@ if(Surfer::is_crawler()) {
 			$message = sprintf(i18n::s("The following action has been added to your to-do list. Please process it as soon as possible to ensure minimal delay.\n\nSender: %s\n\n%s\n\n%s\n\n"), Surfer::get_name(), strip_tags(preg_replace('/<br *\/>/i', "\n", Codes::beautify($_REQUEST['description']))), $context['url_to_home'].$context['url_to_root'].Actions::get_url($_REQUEST['id']));
 
 			// enable threading
-			include_once $context['path_to_root'].'shared/mailer.php';
 			$headers = Mailer::set_thread('action:'.$_REQUEST['id'], $anchor);
 
 			// actual post - don't stop on error
