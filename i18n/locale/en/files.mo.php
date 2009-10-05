@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on October 4, 2009, 7:35 am GMT. Please do not modify it manually.
+ * on October 5, 2009, 8:15 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-10-03 00:35+0200
-PO-Revision-Date: 2009-09-30 23:27+0100
+POT-Creation-Date: 2009-10-05 17:26+0200
+PO-Revision-Date: 2009-10-05 00:02+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -145,6 +145,7 @@ $_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['4a6bd811816f43d2d60e858ba1b41651']='Other surfers will be warned that you are working on it, until you upload a new version or release the reservation.';
 $_SESSION['l10n']['en']['1cdd6622263afc815074f3c7faed3a2c']='Paste here complicated peer-to-peer href (ed2k, torrent, etc.)';
+$_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have been notified of your post';
 $_SESSION['l10n']['en']['Play']='Play';
 $_SESSION['l10n']['en']['5e62db8093e10b969f25c03ef2b2872f']='Please select the action to perform.';
 $_SESSION['l10n']['en']['c5427cc1c5d8c7f2fe75e6eb38ef3662']='Please set a meaningful title to be used instead of the file name in lists of files.';

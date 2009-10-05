@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on October 4, 2009, 7:35 am GMT. Please do not modify it manually.
+ * on October 5, 2009, 8:15 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-27 21:52+0200
-PO-Revision-Date: 2009-09-02 01:03+0100
+POT-Creation-Date: 2009-10-04 23:58+0200
+PO-Revision-Date: 2009-10-05 00:02+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -73,6 +73,7 @@ $_SESSION['l10n']['en']['0fb9e6055d4a788a90ac09118a7e4653']='Normalize referrals
 $_SESSION['l10n']['en']['54e29b42a59e1e8727ac836e3f2bd4e6']='Open a separate window for external links';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
 $_SESSION['l10n']['en']['Page address (permalink):']='Page address (permalink):';
+$_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have been notified of your post';
 $_SESSION['l10n']['en']['61ab86a39172b19e7cd47a8dec28c0e1']='Please carefully select a section for your link';
 $_SESSION['l10n']['en']['5fe5e48f55363ee013cf40d603c317dd']='Please feel free to blog about this particular page, and to trackback to it.';
 $_SESSION['l10n']['en']['55b1b6540e545b13d42d5091aef77d83']='Please prove you are not a robot.';

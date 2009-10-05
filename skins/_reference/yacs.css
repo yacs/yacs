@@ -24,7 +24,7 @@
  */
 
 /**
- * standard tags
+ * standard XHTML tags
  */
 
 del {
@@ -40,6 +40,7 @@ ins {
 
 pre {
 	overflow: auto; /* add an horizontal bar to browse long lines of code, if necessary */
+	max-width: 410px; /* ensure we fit in narrowed layouts */
 }
 
 table {
@@ -637,8 +638,8 @@ dl.floating_box dd { /* center box content */
 dl.floating_box dt { /* center box title */
 	text-align: center;
 	border: none;
-	font-weight: bold;
-	font-size: 1.2em;
+	font-weight: normal;
+	font-size: 1em;
 	padding: 0;
 	margin: 0;
 }

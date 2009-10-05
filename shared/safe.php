@@ -753,7 +753,7 @@ class Safe {
 		return FALSE;
 
 	}
-	
+
 	/**
 	 * content of index.php created by yacs
 	 *
@@ -965,8 +965,14 @@ class Safe {
 			return TRUE;
 
 		// ensure call is allowed
-		if(is_callable('rmdir'))
+		if(is_callable('rmdir')) {
+
+			// remove 'index.php', if any
+			Safe::unlink($path.'/index.php');
+
+			// do remove the directory
 			return @rmdir($path);
+		}
 
 		// tough luck
 		return FALSE;
@@ -1026,7 +1032,7 @@ class Safe {
 		if(!is_callable('shell_exec'))
 			return NULL;
 
-		// do the job	
+		// do the job
 		$outcome = shell_exec($text);
 		return $outcome;
 	}

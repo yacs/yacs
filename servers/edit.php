@@ -183,7 +183,7 @@ if($with_form) {
 	if(isset($item['submit_feed']) && ($item['submit_feed'] == 'Y'))
 		$input .= ' checked="checked"';
 	if(!isset($item['feed_url']) || !$item['feed_url'])
-		$item['feed_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/feeds/rss_2.0.php';
+		$item['feed_url'] = 'http://'.(isset($item['host_name'])?$item['host_name']:'__server__').'/feeds/rss.php';
 	$input .= '/> '.sprintf(i18n::s('Aggregate news from this server by reading the XML feed at %s'), '<input type="text" name="feed_url" size="50" value="'.encode_field($item['feed_url']).'" />');
 
 	// set a default anchor

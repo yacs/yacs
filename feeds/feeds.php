@@ -156,10 +156,10 @@ class Feeds {
 			$items[] = array(
 				'author' => $item->get_author(),
 				'category' => $category,
-				'description' => $item->get_content(),
+				'description' => Codes::beautify_implied($item->get_content()),
 				'link' => $item->get_permalink(),
 				'pubDate' => $item->get_date('r'),
-				'title' => $item->get_title()
+				'title' => Codes::beautify_title($item->get_title())
 				);
 		}
 
@@ -173,13 +173,13 @@ class Feeds {
 	 * Depending on parameter '[code]with_friendly_urls[/code]' and on action,
 	 * following results can be observed:
 	 *
-	 * - atom - feeds/atom_0.3.php or feeds/atom.xml
-	 * - articles - articles/feed.php or feeds/articles.xml
-	 * - comments - comments/feed.php or feeds/comments.xml
-	 * - files - files/feed.php or feeds/files.xml
-	 * - opml - feeds/describe.php or feeds/opml.xml
-	 * - rss - feeds/rss_2.0.php or feeds/rss.xml
-	 * - foo_bar - feeds/foo_bar.php or feeds/foo_bar.xml
+	 * - atom - feeds/atom.php or feeds/atom
+	 * - articles - articles/feed.php or feeds/articles
+	 * - comments - comments/feed.php or feeds/comments
+	 * - files - files/feed.php or feeds/files
+	 * - opml - feeds/describe.php or feeds/opml
+	 * - rss - feeds/rss.php or feeds/rss
+	 * - foo_bar - feeds/foo_bar.php or feeds/foo_bar
 	 *
 	 * @param string the expected feed ('atom', 'articles', 'comments', 'files', ...)
 	 * @return string a normalized reference
@@ -196,7 +196,7 @@ class Feeds {
 		// the default is to trigger actual PHP scripts
 		switch($id) {
 		case 'atom':
-			return 'feeds/atom_0.3.php';
+			return 'feeds/atom.php';
 		case 'articles':
 			return 'articles/feed.php';
 		case 'comments':
@@ -206,7 +206,7 @@ class Feeds {
 		case 'opml':
 			return 'feeds/describe.php';
 		case 'rss':
-			return 'feeds/rss_2.0.php';
+			return 'feeds/rss.php';
 		default:
 			return 'feeds/'.$id.'.php';
 		}

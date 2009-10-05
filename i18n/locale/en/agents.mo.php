@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on October 4, 2009, 7:35 am GMT. Please do not modify it manually.
+ * on October 5, 2009, 8:15 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:02+0200
-PO-Revision-Date: 2008-11-02 23:09+0100
+POT-Creation-Date: 2009-10-05 15:59+0200
+PO-Revision-Date: 2009-10-05 16:03+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -22,7 +22,6 @@ X-Poedit-Language: English
 ';
 $_SESSION['l10n']['en']['%s has been updated']='%s has been updated';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
-$_SESSION['l10n']['en']['1fa29870e0d67260cf186d325428dd30']='<p>This is the list of most recent events at %s</p><p>You can also use following shortcuts to get more information for this server:</p><ul><li><a href="%s">Go to the front page (%s)</a></li><li><a href="%s">Go to the control panel (%s)</a></li></ul>';
 $_SESSION['l10n']['en']['83e6e48752cf497b046199e45dd354ed']='A list of e-mail addresses allowed to post to this queue, or \'any_member\', \'any_subscriber\', or \'anyone\' (do not replicate associates addresses)';
 $_SESSION['l10n']['en']['65f61dbb9945e97556e5d3b7e4526662']='A regularity expression to be matched by incoming messages to be accepted (e.g., \'X-Originating-IP:  [21.18.33.9]\')';
 $_SESSION['l10n']['en']['Account name']='Account name';
@@ -56,6 +55,7 @@ $_SESSION['l10n']['en']['8b1d3446a4c669f3bd4d3f369babf4db']='Mail accounts from 
 $_SESSION['l10n']['en']['Maximum time']='Maximum time';
 $_SESSION['l10n']['en']['Messages']='Messages';
 $_SESSION['l10n']['en']['Minimum time']='Minimum time';
+$_SESSION['l10n']['en']['Most recent events at %s']='Most recent events at %s';
 $_SESSION['l10n']['en']['New submission: %s']='New submission: %s';
 $_SESSION['l10n']['en']['Nick name']='Nick name';
 $_SESSION['l10n']['en']['c5ca4820ba3d0beb8ff07061d5feebb3']='Nickname or id of the default section for new pages (e.g., \'45\')';

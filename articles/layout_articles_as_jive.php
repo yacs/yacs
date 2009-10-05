@@ -165,18 +165,17 @@ Class Layout_articles_as_jive extends Layout_interface {
 			if($count = Comments::count_for_anchor('article:'.$item['id'], TRUE))
 				$content .= ' ('.Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic').') ';
 
-// would require a cache per user
-//			// the command to watch this topic
-//			if(Surfer::get_id() && ($item['create_id'] != Surfer::get_id()) && ($item['publish_id'] != Surfer::get_id())) {
-//				if(!Members::check('article:'.$item['id'], 'user:'.Surfer::get_id())) {
-//					if($context['with_friendly_urls'] == 'Y')
-//						$link = 'users/track.php/article/'.$item['id'];
-//					else
-//						$link = 'users/track.php?article='.$item['id'];
-//					Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
-//					$content .= ' '.TOOLS_WATCH_IMG.sprintf(i18n::s('%s this topic'), Skin::build_link($link, i18n::s('Watch')))."\n";
-//				}
-//			}
+			// the command to watch this topic
+			if(Surfer::get_id() && ($item['create_id'] != Surfer::get_id()) && ($item['publish_id'] != Surfer::get_id())) {
+				if(!Members::check('article:'.$item['id'], 'user:'.Surfer::get_id())) {
+					if($context['with_friendly_urls'] == 'Y')
+						$link = 'users/track.php/article/'.$item['id'];
+					else
+						$link = 'users/track.php?article='.$item['id'];
+					Skin::define_img('TOOLS_WATCH_IMG', 'tools/watch.gif');
+					$content .= ' '.TOOLS_WATCH_IMG.Skin::build_link($link, i18n::s('Watch this page'))."\n";
+				}
+			}
 
 			// end the row
 			$text .= $content.'</p></td></tr>';

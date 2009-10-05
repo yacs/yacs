@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on October 4, 2009, 7:35 am GMT. Please do not modify it manually.
+ * on October 5, 2009, 8:15 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-10-03 00:35+0200
-PO-Revision-Date: 2009-09-27 22:27+0100
+POT-Creation-Date: 2009-10-05 15:59+0200
+PO-Revision-Date: 2009-10-05 16:04+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -286,6 +286,7 @@ $_SESSION['l10n']['en']['Page']='Page';
 $_SESSION['l10n']['en']['Pages']='Pages';
 $_SESSION['l10n']['en']['9395d63e2f35e55bb88eb5c03c766146']='Pages are not reviewed prior publication';
 $_SESSION['l10n']['en']['Persons']='Persons';
+$_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have been notified of your post';
 $_SESSION['l10n']['en']['Play %s']='Play %s';
 $_SESSION['l10n']['en']['ed85a2a609bc10e316ded371a55e5531']='Please confirm that you want to delete following pages.';
 $_SESSION['l10n']['en']['be72d222dbc7f97ae5604c94564f135e']='Please describe the new section and hit the submit button. You will then be able to post images, files and links on subsequent forms.';
@@ -460,6 +461,7 @@ $_SESSION['l10n']['en']['70c052690de9189737835cc5ad18869e']='boxesandarrows - Cl
 $_SESSION['l10n']['en']['by %s']='by %s';
 $_SESSION['l10n']['en']['by %s, %s']='by %s, %s';
 $_SESSION['l10n']['en']['bytes']='bytes';
+$_SESSION['l10n']['en']['e6d2246cdeb87f5b8fecefb9264f80cf']='carrousel - Animate clickable images';
 $_SESSION['l10n']['en']['comment']='comment';
 $_SESSION['l10n']['en']['comments']='comments';
 $_SESSION['l10n']['en']['e7dd29c2c008dce9b7ed980a40e31858']='compact - A compact list of items';

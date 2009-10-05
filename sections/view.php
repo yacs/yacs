@@ -1126,7 +1126,7 @@ if(!isset($item['id'])) {
 			// count the number of subsections
 			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
 
-				if($count > 5)
+				if($count > 20)
 					$box['top_bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
 
 				// navigation commands for sections
@@ -1255,7 +1255,7 @@ if(!isset($item['id'])) {
 
 					// count the number of articles in this section
 					if($count = Articles::count_for_anchor('section:'.$item['id'])) {
-						if($count > 5)
+						if($count > 20)
 							$box['top_bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
 
 						// navigation commands for articles
@@ -1431,7 +1431,7 @@ if(!isset($item['id'])) {
 
 		// count the number of files in this section
 		if($count = Files::count_for_anchor('section:'.$item['id'])) {
-			if($count > 5)
+			if($count > 20)
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 			// list files by date (default) or by title (option 'files_by_title')
@@ -1540,7 +1540,7 @@ if(!isset($item['id'])) {
 		if($zoom_type && ($zoom_type == 'comments'))
 			$link = '_count';
 		if($count = Comments::count_for_anchor('section:'.$item['id'])) {
-			if($count > 5)
+			if($count > 20)
 				$box['bar'] += array($link => sprintf(i18n::s('%d comments'), $count));
 
 			// list comments by date
@@ -1592,7 +1592,7 @@ if(!isset($item['id'])) {
 
 		// a navigation bar for these links
 		if($count = Links::count_for_anchor('section:'.$item['id'])) {
-			if($count > 5)
+			if($count > 20)
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d link', '%d links', $count), $count));
 
 			// list links by date (default) or by title (option 'links_by_title')
@@ -1648,15 +1648,13 @@ if(!isset($item['id'])) {
 
 		// append inactive sections, if any
 		$items = array_merge($items, Sections::list_inactive_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact'));
+		if(count($items))
+			$items =& Skin::build_list($items, 'compact');
 
-		// we have an array to format
-		if(count($items)) {
-			$content =& Skin::build_list($items, 'compact');
+		// displayed as another box
+		if($items)
+			$context['page_menu'] += array('_other_sections' => Skin::build_box(i18n::s('Other sections'), $items, 'sliding'));
 
-			// displayed as another box
-			$text .= Skin::build_box(i18n::s('Other sections'), $content, 'header1', 'other_sections');
-
-		}
 	}
 
 	//

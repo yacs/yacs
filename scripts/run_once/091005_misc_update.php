@@ -2,14 +2,14 @@
 /**
  * update misc. files
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 // splash message
 global $local;
-$local['label_en'] = 'Update miscelleanous files';
+$local['label_en'] = 'Update miscellaneous files';
 $local['label_fr'] = 'Mise &agrave; jour compl&eacute;mentaire';
 echo i18n::user('label')."<br />\n";
 
@@ -19,11 +19,28 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 	$context['reference_server'] = 'www.yacs.fr';
 
 // files to fetch, from root path
-unset($files);
-$files[] = 'included/browser/flvplayer.swf';
+$files = array();
+$files[] = 'codes/edit.js';
+$files[] = 'control/htaccess/basic/.htaccess';
+$files[] = 'control/htaccess/indexes/.htaccess';
+$files[] = 'control/htaccess/options/.htaccess';
+$files[] = 'forms/forms.js';
+$files[] = 'included/browser/carrousel.swf';
+$files[] = 'included/browser/open-flash-chart.swf';
+$files[] = 'included/browser/player_flv_maxi.swf';
 $files[] = 'included/browser/library.js';
+$files[] = 'included/fckeditor/editor/dialog/fck_spellerpages/spellerpages/blank.html';
+$files[] = 'included/fckeditor/editor/dialog/fck_spellerpages/spellerpages/server-scripts/spellchecker.php';
+$files[] = 'included/fckeditor/fckeditor.php';
+$files[] = 'included/fckeditor/fckeditor_php4.php';
+$files[] = 'included/fckeditor/fckeditor_php5.php';
+$files[] = 'included/simplepie.inc';
+$files[] = 'included/tiny_mce/themes/advanced/skins/default/content.css';
+$files[] = 'included/tiny_mce/themes/advanced/skins/default/ui.css';
+$files[] = 'readme.txt';
 $files[] = 'shared/yacs.js';
-$files[] = 'skins/_reference/yacs.css';
+$files[] = 'smileys/edit.js';
+$files[] = 'tools/transform.xsl';
 
 // process every file
 $count = 0;

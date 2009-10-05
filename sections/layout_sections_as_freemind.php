@@ -117,8 +117,9 @@ Class Layout_sections_as_freemind extends Layout_interface {
 			if(($item['create_date'] >= $dead_line) || ($item['edit_date'] >= $dead_line))
 				$details[] = Skin::build_date($item['edit_date']);
 
-			// content of this section, as Freemind nodes
-			$content = Sections::list_by_title_for_anchor('section:'.$item['id'], 0, 50, 'freemind');
+			// count related sections, if any
+			if($count = Sections::count_for_anchor('section:'.$item['id']))
+				$details[] = sprintf(i18n::ns('%d section', '%d sections', $count), $count);
 
 			// count related articles, if any
 			if($count = Articles::count_for_anchor('section:'.$item['id'])) {

@@ -239,7 +239,7 @@ Class Cache {
 
 		$output = NULL;
 		if($id)
-			$output = $context['path_to_root'].'temporary/cache_'.str_replace(array('/', '\\', '#'), '_', $id);
+			$output = 'temporary/cache_'.str_replace(array(':', '/', '\\', '#'), '_', $id);
 		return $output;
 	}
 

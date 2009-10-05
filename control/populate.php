@@ -550,7 +550,7 @@ if(!$permitted) {
 		$fields['nick_name'] = 'extra_rss';
 		$fields['title'] = i18n::c('Information channels');
 		$fields['introduction'] = '';
-		$fields['description'] = Skin::build_link('feeds/rss_2.0.php', i18n::c('Recent pages'), 'xml')
+		$fields['description'] = Skin::build_link('feeds/rss.php', i18n::c('Recent pages'), 'xml')
 			.BR.Skin::build_link('feeds/', i18n::c('Information channels'), 'shortcut');
 		$fields['locked'] = 'Y'; // only associates can change this page
 		$fields['publish_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');

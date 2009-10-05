@@ -28,7 +28,7 @@
  *
  *
  * This script secretely features a link to the main RSS feeder for this site, namely:
- * [code]&lt;link rel="alternate" href="http://.../feeds/rss_2.0.php" title="RSS" type="application/rss+xml" /&gt;[/code]
+ * [code]&lt;link rel="alternate" href="http://.../feeds/rss.php" title="RSS" type="application/rss+xml" /&gt;[/code]
  *
  * The prefix hook is used to invoke any software extension bound as follows:
  * - id: 'users/index.php#prefix'
@@ -104,7 +104,7 @@ if(($page > 1) && (($page - 1) * USERS_PER_PAGE > $stats['count'])) {
 			$prefix = $home.'?page=';
 		$context['page_menu'] += Skin::navigate($home, $prefix, $stats['count'], USERS_PER_PAGE, $page);
 	}
-	
+
 	// a search form for users
 	$context['text'] .= '<form action="'.$context['url_to_root'].'users/search.php" method="get">'
 		.'<p>'
@@ -120,16 +120,16 @@ if(($page > 1) && (($page - 1) * USERS_PER_PAGE > $stats['count'])) {
 	// look up the database to find the list of users
 	$cache_id = 'users/index.php#text#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
-	
+
 		// query the database and layout that stuff
 		$offset = ($page - 1) * USERS_PER_PAGE;
 		if(!$text = Users::list_by_posts($offset, USERS_PER_PAGE, 'full'))
 			$text = '<p>'.i18n::s('No item has been found.').'</p>';
-	
+
 		// we have an array to format
 		if(is_array($text))
 			$text =& Skin::build_list($text, 'decorated');
-	
+
 		// cache this to speed subsequent queries
 		Cache::put($cache_id, $text, 'users');
 	}

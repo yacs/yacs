@@ -28,7 +28,7 @@
  *
  * This script secretely features a link to the main RSS feeder for this site, namely:
  *
- * [code]&lt;link rel="alternate" href="http://.../feeds/rss_2.0.php" title="RSS" type="application/rss+xml" /&gt;[/code]
+ * [code]&lt;link rel="alternate" href="http://.../feeds/rss.php" title="RSS" type="application/rss+xml" /&gt;[/code]
  *
  * Restrictions apply on this page:
  * - anonymous users can see only active pages (the 'active' field == 'Y')
@@ -92,11 +92,11 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 			$prefix = $home.'?page=';
 		$context['page_menu'] += Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page);
 	}
-	
+
 	// page main content
 	$cache_id = 'articles/index.php#text#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
-	
+
 		// load the layout to use
 		switch($context['root_articles_layout']) {
 			case 'boxesandarrows':
@@ -107,22 +107,22 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 				$layout = 'decorated';
 				break;
 		}
-	
+
 		// query the database and layout that stuff
 		$offset = ($page - 1) * $items_per_page;
 		if($text =& Articles::list_by('publication', $offset, $items_per_page, $layout)) {
-	
+
 			// we have an array to format
 			if(is_array($text))
 				$text =& Skin::build_list($text, 'decorated');
-	
+
 		}
-	
+
 		// cache this to speed subsequent queries
 		Cache::put($cache_id, $text, 'articles');
 	}
 	$context['text'] .= $text;
-	
+
 }
 
 //

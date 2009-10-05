@@ -38,8 +38,11 @@ i18n::bind('root');
 load_skin('sitemap');
 
 // get the list from the cache, if possible
-$cache_id = 'sitemap.php#content';
-if(!$text =& Cache::get($cache_id)) {
+$cache_id = Cache::hash('sitemap').'.xml';
+
+// save for 5 minutes
+if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id)+300 < time()) || (!$text = Safe::file_get_contents($context['path_to_root'].$cache_id))) {
+	$text = '';
 
 	// the preamble
 	$text = '<?xml version="1.0" encoding="'.$context['charset'].'"?>'."\n"
@@ -99,8 +102,9 @@ if(!$text =& Cache::get($cache_id)) {
 	// the postamble
 	$text .= '</urlset>'."\n";
 
-	// save in cache for the next request
-	Cache::put($cache_id, $text, 'articles');
+	// put in cache
+	Safe::file_put_contents($cache_id, $text);
+
 }
 
 //
@@ -120,7 +124,7 @@ http::expire(1800);
 
 // strong validator
 $etag = '"'.md5($text).'"';
-	
+
 // manage web cache
 if(http::validate(NULL, $etag))
 	return;

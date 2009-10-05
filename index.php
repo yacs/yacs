@@ -202,7 +202,7 @@
  * [title]Meta information[/title]
  *
  * A feeding link has been included, in order to let robots browse this resource when necessary.
- * See [script]feeds/rss_2.0.php[/script] for more information.
+ * See [script]feeds/rss.php[/script] for more information.
  *
  * Simlarly, a meta-link to our blogging API is added, to allow for easy
  * auto-discovery of server capability.
@@ -1009,7 +1009,7 @@ $context['components']['boxes'] = $text;
 // referrals, if any
 if(Surfer::is_associate() || (isset($context['with_referrals']) && ($context['with_referrals'] == 'Y')))
 	$context['components']['referrals'] =& Skin::build_referrals('index.php');
-	
+
 //
 // compute navigation information -- $context['navigation']
 //

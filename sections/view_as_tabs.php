@@ -347,7 +347,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 			// count the number of subsections
 			if($count = Sections::count_for_anchor('section:'.$item['id'])) {
 
-				if($count > 5)
+				if($count > 20)
 					$box['top_bar'] = array('_count' => sprintf(i18n::ns('%d section', '%d sections', $count), $count));
 
 				// navigation commands for sections
@@ -472,7 +472,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 
 					// count the number of articles in this section
 					if($count = Articles::count_for_anchor('section:'.$item['id'])) {
-						if($count > 5)
+						if($count > 20)
 							$box['top_bar'] += array('_count' => sprintf(i18n::ns('%d page', '%d pages', $count), $count));
 
 						// navigation commands for articles
@@ -633,7 +633,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 
 	// a navigation bar for these comments
 	if($count = Comments::count_for_anchor('section:'.$item['id'])) {
-		if($count > 5)
+		if($count > 20)
 			$box['bar'] += array('_count' => sprintf(i18n::s('%d comments'), $count));
 
 		// list comments by date
@@ -695,13 +695,13 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 		$items = array_merge($items, Sections::list_inactive_by_title_for_anchor('section:'.$item['id'], 0, 50, 'compact'));
 
 		// we have an array to format
-		if(count($items)) {
-			$content =& Skin::build_list($items, 'compact');
+		if(count($items))
+			$items =& Skin::build_list($items, 'compact');
 
-			// displayed as another box
-			$text .= Skin::build_box(i18n::s('Other sections'), $content, 'header1', 'other_sections');
+		// displayed as another box
+		if($items)
+			$context['page_menu'] += array('_other_sections' => Skin::build_box(i18n::s('Other sections'), $items, 'sliding'));
 
-		}
 	}
 
 	// trailer information
@@ -738,7 +738,7 @@ if(!$zoom_type || ($zoom_type == 'files')) {
 	// count the number of files in this section
 	if($count = Files::count_for_anchor('section:'.$item['id'])) {
 		$attachments_count += $count;
-		if($count > 5)
+		if($count > 20)
 			$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 		// list files by date (default) or by title (option 'files_by_title')
@@ -787,7 +787,7 @@ if(!$zoom_type || ($zoom_type == 'links')) {
 	// count the number of links in this section
 	if($count = Links::count_for_anchor('section:'.$item['id'])) {
 		$attachments_count += $count;
-		if($count > 5)
+		if($count > 20)
 			$box['bar'] += array('_count' => sprintf(i18n::ns('%d link', '%d links', $count), $count));
 
 		// list links by date (default) or by title (option 'links_by_title')

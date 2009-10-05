@@ -93,8 +93,8 @@ Class Layout_sections_as_jive extends Layout_interface {
 				$suffix = EXPIRED_FLAG.' ';
 			elseif($item['create_date'] >= $dead_line)
 				$suffix = NEW_FLAG.' ';
-//			elseif($item['edit_date'] >= $dead_line)
-//				$suffix = UPDATED_FLAG.' ';
+			elseif($item['edit_date'] >= $dead_line)
+				$suffix = UPDATED_FLAG.' ';
 
 			// this is another row of the output
 			if((isset($stats['count']) && $stats['count']) || Surfer::is_empowered()) {
@@ -151,19 +151,19 @@ Class Layout_sections_as_jive extends Layout_interface {
 			}
 
 			// more details
-			$details = '';
+			$details = array();
 
 			// board introduction
 			if($item['introduction'])
-				$details .= Codes::beautify_introduction($item['introduction']);
+				$details[] = Codes::beautify_introduction($item['introduction']);
 
 			// indicate the total number of threads here
 			if(($count = Articles::count_for_anchor('section:'.$item['id'])) && ($count >= 5))
-				$details .= ' -&nbsp;'.sprintf(i18n::s('%d threads'), $count).'&nbsp;&raquo;';
+				$details[] = sprintf(i18n::s('%d threads'), $count).'&nbsp;&raquo;';
 
 			// link to the section index page
 			if($details)
-				$details = Skin::build_link(Sections::get_permalink($item), $details, 'basic');
+				$details = Skin::build_link(Sections::get_permalink($item), join(' -&nbsp;', $details), 'basic');
 
 			// add a command for new post
 			$poster = '';

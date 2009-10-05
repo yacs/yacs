@@ -90,9 +90,6 @@ Class Codec {
 		case 'JSON-RPC':
 			include_once $context['path_to_root'].'services/json_rpc_codec.php';
 			return new JSON_RPC_Codec();
-		case 'slashdot':
-			include_once $context['path_to_root'].'services/slashdot_codec.php';
-			return new slashdot_Codec();
 		case 'XML-RPC':
 			include_once $context['path_to_root'].'services/xml_rpc_codec.php';
 			return new XML_RPC_Codec();

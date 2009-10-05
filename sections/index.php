@@ -133,7 +133,7 @@ if($page > 10) {
 			$items =& Skin::build_list($items, '2-columns');
 
 		// navigation commands for sections, if necessary
-		if($count > 5) {
+		if($count > 20) {
 
 			$menu = array('_count' => Skin::build_number($count, i18n::s('sections')));
 

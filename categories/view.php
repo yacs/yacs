@@ -118,7 +118,7 @@ elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 // sanity check
 if($zoom_index < 1)
 	$zoom_index = 1;
-	
+
 // get the item from the database
 $item =& Categories::get($id);
 
@@ -265,7 +265,7 @@ if(!isset($item['id'])) {
 		// add details from the overlay, if any
 		if(is_object($overlay) && ($more = $overlay->get_text('details', $item)))
 			$details[] = $more;
-	
+
 		// restricted to logged members
 		if($item['active'] == 'R')
 			$details[] = RESTRICTED_FLAG.' '.i18n::s('Community - Access is restricted to authenticated members');
@@ -545,7 +545,7 @@ if(!isset($item['id'])) {
 
 		// count the number of files in this category
 		if($count = Files::count_for_anchor('category:'.$item['id'])) {
-			if($count > 5)
+			if($count > 20)
 				$box['bar'] = array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 			// list files by date (default) or by title (option 'files_by_title')
@@ -596,7 +596,7 @@ if(!isset($item['id'])) {
 		 else
 			$url = Categories::get_permalink($item).'#comments';
 		if($count = Comments::count_for_anchor('category:'.$item['id'])) {
-			if($count > 5)
+			if($count > 20)
 				$box['bar'] = array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 			// list comments by date
@@ -642,7 +642,7 @@ if(!isset($item['id'])) {
 
 		// count the number of links in this category
 		if($count = Links::count_for_anchor('category:'.$item['id'])) {
-			if($count > 5)
+			if($count > 20)
 				$box['bar'] = array('_count' => sprintf(i18n::ns('%d link', '%d links', $count), $count));
 
 			// list items by date (default) or by title (option 'links_by_title')

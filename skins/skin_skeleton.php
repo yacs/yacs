@@ -3117,7 +3117,7 @@ Class Skin_Skeleton {
 	 * @param string to be displayed in textual browsers
 	 * @param string options to be integrated into the img tag, if any
 	 */
-	function define_img($name, $file, $default='', $alternate='', $options='') {
+	function define_img($name, $file, $default='', $alternate='*', $options='') {
 		global $context;
 
 		// sanity check

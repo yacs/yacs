@@ -921,7 +921,7 @@ if(!isset($item['id'])) {
 
 		// count the number of files in this article
 		if($count = Files::count_for_anchor('article:'.$item['id'])) {
-			if($count > 5)
+			if($count > 20)
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 			// list files by date (default) or by title (option files_by_title)
@@ -1042,7 +1042,7 @@ if(!isset($item['id'])) {
 
 		// a navigation bar for these comments
 		if($count = Comments::count_for_anchor('article:'.$item['id'])) {
-			if($count > 5)
+			if($count > 20)
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
 
 			// list comments by date
@@ -1066,7 +1066,7 @@ if(!isset($item['id'])) {
 			$box['bar'] += array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.$add_label, '', 'basic', '', i18n::s('Post a comment')));
 
 			// also feature this command at the top
-			if($count > 5)
+			if($count > 20)
 				$box['prefix_bar'] = array_merge($box['prefix_bar'], array( Comments::get_url('article:'.$item['id'], 'comment') => array('', COMMENTS_ADD_IMG.$add_label, '', 'basic', '', i18n::s('Post a comment'))));
 
 		}
@@ -1112,7 +1112,7 @@ if(!isset($item['id'])) {
 
 		// a navigation bar for these links
 		if($count = Links::count_for_anchor('article:'.$item['id'])) {
-			if($count > 5)
+			if($count > 20)
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d link', '%d links', $count), $count));
 
 			// list links by date (default) or by title (option links_by_title)

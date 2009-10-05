@@ -132,10 +132,13 @@ if($id && !isset($item['id'])) {
 
 	// get the list from the cache, if possible
 	if(isset($item['id']))
-		$cache_id = 'sections/freemind.php?id='.$item['id'];
+		$cache_id = Cache::hash('sections/freemind/'.$item['id']).'.xml';
 	else
-		$cache_id = 'sections/freemind.php';
-	if(!$text =& Cache::get($cache_id)) {
+		$cache_id = Cache::hash('sections/freemind').'.xml';
+
+	// save for 5 minutes
+	if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id)+300 < time()) || (!$text = Safe::file_get_contents($context['path_to_root'].$cache_id))) {
+		$text = '';
 
 		// default parameter values
 		$freemind_main_bgcolor = ' BACKGROUND_COLOR="#ffffff"';
@@ -255,8 +258,9 @@ if($id && !isset($item['id'])) {
 		$text .= '</node>'."\n"
 			.'</map>';
 
-		// save in cache for 5 hours, because of numerous requests - 5*60*60 = 18000
-		Cache::put($cache_id, $text, 'stable', 18000);
+		// put in cache
+		Safe::file_put_contents($cache_id, $text);
+
 	}
 
 	//
@@ -281,7 +285,7 @@ if($id && !isset($item['id'])) {
 
 	// strong validator
 	$etag = '"'.md5($text).'"';
-	
+
 	// manage web cache
 	if(http::validate(NULL, $etag))
 		return;

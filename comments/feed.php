@@ -93,10 +93,13 @@ if(!$permitted) {
 
 	// get the list from the cache, if possible
 	if(is_object($anchor))
-		$cache_id = 'comments/feed.php?anchor='.$anchor->get_reference().'#channel';
+		$cache_id = Cache::hash('comments/feed/'.$anchor->get_reference).'.xml';
 	else
-		$cache_id = 'comments/feed.php#channel';
-	if(!$text =& Cache::get($cache_id)) {
+		$cache_id = Cache::hash('comments/feed').'.xml';
+
+	// save for 5 minutes
+	if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id)+300 < time()) || (!$text = Safe::file_get_contents($context['path_to_root'].$cache_id))) {
+		$text = '';
 
 		// loads feeding parameters
 		Safe::load('parameters/feeds.include.php');
@@ -130,8 +133,9 @@ if(!$permitted) {
 		$result = rss_Codec::encode($values);
 		$text = @$result[1];
 
-		// save in cache for the next request
-		Cache::put($cache_id, $text, 'comments');
+		// put in cache
+		Safe::file_put_contents($cache_id, $text);
+
 	}
 
 	//
@@ -156,7 +160,7 @@ if(!$permitted) {
 
 	// strong validator
 	$etag = '"'.md5($text).'"';
-	
+
 	// manage web cache
 	if(http::validate(NULL, $etag))
 		return;

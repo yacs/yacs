@@ -94,8 +94,11 @@ include_once '../shared/global.php';
 load_skin('feeds');
 
 // get the list from the cache, if possible
-$cache_id = 'feeds/rss_2.0.php#news';
-if(!$text =& Cache::get($cache_id)) {
+$cache_id = Cache::hash('feeds/rss').'.xml';
+
+// save for 5 minutes
+if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id)+300 < time()) || (!$text = Safe::file_get_contents($context['path_to_root'].$cache_id))) {
+	$text = '';
 
 	// load feeding parameters
 	Safe::load('parameters/feeds.include.php');
@@ -131,8 +134,9 @@ if(!$text =& Cache::get($cache_id)) {
 	$result = rss_Codec::encode($values);
 	$text = @$result[1];
 
-	// save in cache for the next request
-	Cache::put($cache_id, $text, 'articles');
+	// put in cache
+	Safe::file_put_contents($cache_id, $text);
+
 }
 
 //
@@ -153,7 +157,7 @@ http::expire(1800);
 
 // strong validator
 $etag = '"'.md5($text).'"';
-	
+
 // manage web cache
 if(http::validate(NULL, $etag))
 	return;

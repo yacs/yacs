@@ -54,16 +54,16 @@ $context['text'] .= "\n".'[toc]'."\n";
 $context['text'] .= '[title]'.i18n::s('Newsfeed').' [escape][newsfeed=&lt;url&gt;][/escape][/title]'
 	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][newsfeed=http://www.yacs.fr/feeds/rss_2.0.php][/escape]</td>'
-	.'<td>[newsfeed=http://www.yacs.fr/feeds/rss_2.0.php]</td></tr>'
+	.'<tr><td class="sample">[escape][newsfeed=http://www.yacs.fr/feeds/rss.php][/escape]</td>'
+	.'<td>[newsfeed=http://www.yacs.fr/feeds/rss.php]</td></tr>'
 	.Skin::table_suffix();
 
 // [newsfeed.embed]
 $context['text'] .= '[title]'.i18n::s('Newsfeed').' [escape][newsfeed.embed=&lt;url&gt;][/escape][/title]'
 	.Skin::table_prefix('wide grid')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
-	.'<tr><td class="sample">[escape][newsfeed.embed=http://www.yacs.fr/feeds/rss_2.0.php][/escape]</td>'
-	.'<td>[newsfeed.embed=http://www.yacs.fr/feeds/rss_2.0.php]</td></tr>'
+	.'<tr><td class="sample">[escape][newsfeed.embed=http://www.yacs.fr/feeds/rss.php][/escape]</td>'
+	.'<td>[newsfeed.embed=http://www.yacs.fr/feeds/rss.php]</td></tr>'
 	.Skin::table_suffix();
 
 // [twitter]

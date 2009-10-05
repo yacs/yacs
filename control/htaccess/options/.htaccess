@@ -65,11 +65,11 @@ Options -Indexes
 	# feeds
 	#
 	RewriteRule feeds/articles$  articles/feed.php	[QSA,L]
-	RewriteRule feeds/atom$  feeds/atom_0.3.php  [QSA,L]
+	RewriteRule feeds/atom$  feeds/atom.php  [QSA,L]
 	RewriteRule feeds/comments$  comments/feed.php	[QSA,L]
 	RewriteRule feeds/files$  files/feed.php  [QSA,L]
 	RewriteRule feeds/opml$  feeds/describe.php  [QSA,L]
-	RewriteRule feeds/rss$	feeds/rss_2.0.php  [QSA,L]
+	RewriteRule feeds/rss$	feeds/rss.php  [QSA,L]
 
 	# files
 	#

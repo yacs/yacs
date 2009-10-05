@@ -2,8 +2,6 @@
 /**
  * atom encoder and decoder
  *
- * We are not providing the &lt;author&gt; field anymore because of the risk to expose e-mail addresses to spammers.
- *
  * @link http://www.ietf.org/rfc/rfc4287.txt Atom Format
  * @link http://postneo.com/icbm/ ICBM atom module
  *
@@ -11,7 +9,6 @@
  * @see categories/feed.php
  * @see comments/feed.php
  * @see feeds/feeds.php
- * @see feeds/atom_2.0.php
  * @see sections/feed.php
  * @see services/call.php
  * @see services/codec.php
@@ -159,7 +156,7 @@ Class Atom_Codec extends Codec {
 //		logger::debug('[/'.$element.']');
 
 		if($element == 'entry') {
-		
+
 			// transcode to expected labels
 			$entry = array();
 			foreach($this->current_entry as $label => $value) {
@@ -169,10 +166,10 @@ Class Atom_Codec extends Codec {
 					$entry['description'] = $value;
 				else
 					$entry[ $label ] = $value;
-				
+
 			}
 			$this->entries[] = $entry;
-			
+
 			$this->current_entry = array();
 			array_shift($this->elements_stack);
 		} elseif($element == 'feed' or $element == 'author' or $element == 'textinput' or $element == 'image')
@@ -277,7 +274,7 @@ Class Atom_Codec extends Codec {
 			.'	<link>'.encode_link($feed_link).'</link>'."\n";
 
 // 		if(isset($values['feed']['image']) && $values['feed']['image'] && ($size = Safe::GetImageSize($values['feed']['image']))) {
-// 
+//
 // 			$text .= '	<image>'."\n"
 // 				.'		<url>'.encode_link($values['feed']['image']).'</url>'."\n"
 // 				.'		<width>'.$size[0].'</width>'."\n"
@@ -285,7 +282,7 @@ Class Atom_Codec extends Codec {
 // 				.'		<title>'.atom_codec::clean($feed_title).'</title>'."\n"
 // 				.'		<link>'.encode_link($feed_link).'</link>'."\n"
 // 				.'	</image>'."\n";
-// 
+//
 // 		}
 
 // 		if(isset($context['preferred_language']) && $context['preferred_language'])
@@ -339,20 +336,20 @@ Class Atom_Codec extends Codec {
 // 				if($description)
 // 					$text .= '		<body xmlns="http://www.w3.org/1999/xhtml">'.preg_replace('/&(?!(amp|#\d+);)/i', '&amp;', utf8::transcode($description))."</body>\n";
 // //					$text .= '		<content:encoded><![CDATA[ '.$description." ]]></content:encoded>\n";
-// 
+//
 // do not express mail addresses, but only creator name, which is between ()
 // 				if(preg_match('/\((.*?)\)/', $author, $matches)) {
 // //					$text .= '		<author>'.atom_codec::clean($author)."</author>\n";
 // 					$text .= '		<dc:creator>'.atom_codec::clean($matches[1])."</dc:creator>\n";
 // 				}
-// 
+//
 // do not put any attribute, it would kill FeedReader
 // 				if($section)
 // 					$text .= '		<category>'.encode_field(strip_tags($section))."</category>\n";
-// 
+//
 // 				if(intval($time))
 // 					$text .= '		<pubDate>'.gmdate('D, d M Y H:i:s', intval($time))." GMT</pubDate>\n";
-// 
+//
 				// add any extension (eg, slash:comments, wfw:commentatom, trackback:ping)
 				if(isset($extensions)) {
 

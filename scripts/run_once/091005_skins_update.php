@@ -1,40 +1,25 @@
 <?php
 /**
- * update misc. files
+ * update reference skins
  *
- * @author Bernard Paques
+ * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 // splash message
 global $local;
-$local['label_en'] = 'Update miscellaneous files';
-$local['label_fr'] = 'Mise &agrave; jour compl&eacute;mentaire';
+$local['label_en'] = 'Update reference skins';
+$local['label_fr'] = 'Mise &agrave; jour des styles de r&eacute;f&eacute;rence';
 echo i18n::user('label')."<br />\n";
 
 // the reference server to use
 @include_once $context['path_to_root'].'scripts/parameters.include.php';
 if(!isset($context['reference_server']) || !$context['reference_server'])
-	$context['reference_server'] = 'www.yacs.fr';
+	$context['reference_server'] = 'www.yetanothercommunitysystem.com';
 
 // files to fetch, from root path
 unset($files);
-$files[] = 'codes/edit.js';
-$files[] = 'control/htaccess/basic/.htaccess';
-$files[] = 'control/htaccess/indexes/.htaccess';
-$files[] = 'forms/forms.js';
-$files[] = 'included/browser/open-flash-chart.swf';
-$files[] = 'included/browser/player_flv_maxi.swf';
-$files[] = 'included/browser/library.js';
-$files[] = 'included/fckeditor/editor/dialog/fck_spellerpages/spellerpages/blank.html';
-$files[] = 'included/fckeditor/editor/dialog/fck_spellerpages/spellerpages/server-scripts/spellchecker.php';
-$files[] = 'included/fckeditor/fckeditor.php';
-$files[] = 'included/fckeditor/fckeditor_php4.php';
-$files[] = 'included/fckeditor/fckeditor_php5.php';
-$files[] = 'included/tiny_mce/themes/advanced/skins/default/content.css';
-$files[] = 'included/tiny_mce/themes/advanced/skins/default/ui.css';
-$files[] = 'shared/yacs.js';
 $files[] = 'skins/_reference/down.gif';
 $files[] = 'skins/_reference/yacs.css';
 $files[] = 'skins/_reference/up.gif';
@@ -82,9 +67,13 @@ $files[] = 'skins/images/files/list.gif';
 $files[] = 'skins/images/files/play.gif';
 $files[] = 'skins/images/files/upload.gif';
 $files[] = 'skins/images/files/versions.gif';
+$files[] = 'skins/images/icons/accordion/minus.jpg';
+$files[] = 'skins/images/icons/accordion/plus.jpg';
+$files[] = 'skins/images/icons/pagers/twitter.gif';
 $files[] = 'skins/images/images/add.gif';
 $files[] = 'skins/images/images/delete.gif';
 $files[] = 'skins/images/images/edit.gif';
+$files[] = 'skins/images/layouts/carrousel_bubble.png';
 $files[] = 'skins/images/links/add.gif';
 $files[] = 'skins/images/links/delete.gif';
 $files[] = 'skins/images/links/edit.gif';
@@ -112,8 +101,6 @@ $files[] = 'skins/images/users/vcard.gif';
 $files[] = 'skins/images/users/watch.gif';
 $files[] = 'skins/joi/joi.css';
 $files[] = 'skins/skeleton/skeleton.css';
-$files[] = 'smileys/edit.js';
-$files[] = 'tools/transform.xsl';
 
 // process every file
 $count = 0;

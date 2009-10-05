@@ -15,10 +15,9 @@
  * generated files, and that's it.
  *
  * Resources are available in several formats:
- * - atom_0.3.php supports the version 0.3 of the ATOM standard
- * - rss_2.0.php supports the version 2.0 of the RSS standard
- * - rss_1.0.php supports the version 1.0 of the RDF/RSS standard
- * - rss_0.92.php is for older pieces of software
+ * - atom.php supports the version 0.3 of the ATOM standard
+ * - rss.php supports the version 2.0 of the RSS standard
+ * - rdf.php supports the version 1.0 of the RDF/RSS standard
  * - describe.php is an OPML list of most important feeds at this site
  *
  * More specific outbound feeds are available at [script]sections/feed.php[/script],
@@ -78,27 +77,27 @@ if(!$text =& Cache::get($cache_id)) {
 	$outbound .= '<p>'.i18n::s('Regular individuals will feed their preferred news reader with one of the links below:')."</p>\n";
 
 	$links = array(
-			Feeds::get_url('rss')	=> array('', i18n::s('RSS 2.0 format'), '', 'xml'),
-			Feeds::get_url('atom')	=> array('', i18n::s('ATOM 0.3 format'), '', 'xml'),
-			'feeds/rss_1.0.php' 	=> array('', i18n::s('RDF/RSS 1.0 format'), '', 'xml'),
-			'feeds/rss_0.92.php'	=> array('', i18n::s('RSS 0.92 format'), '', 'xml'),
+			Feeds::get_url('rss')	=> array('', i18n::s('RSS format'), '', 'xml'),
+			Feeds::get_url('atom')	=> array('', i18n::s('ATOM format'), '', 'xml'),
+			'feeds/rdf.php' 	=> array('', i18n::s('RDF/RSS format'), '', 'xml'),
 			Feeds::get_url('opml')	=> array('', i18n::s('Index of main channels in OPML format'), '', 'xml')
 			);
 
 	$outbound .= Skin::build_list($links, 'bullets');
 
 	// feeds for power users
-	$outbound .= '<p>'.i18n::s('Advanced bloggers can also use (heavy) RSS 2.0 feeds:').'</p>';
+	$outbound .= '<p>'.i18n::s('Advanced bloggers can also use heavy feeds:').'</p>';
 
 	$links = array(
 			Feeds::get_url('articles')	=> array('', i18n::s('recent articles, integral version'), '', 'xml'),
+			Feeds::get_url('files')	=> array('', i18n::s('recent files'), '', 'xml'),
 			Feeds::get_url('comments')	=> array('', i18n::s('recent comments'), '', 'xml'),
 			);
 
 	$outbound .= Skin::build_list($links, 'bullets');
 
 	// feeding files
-	$outbound .= '<p>'.sprintf(i18n::s('YACS enables automatic downloads and %s through a feed dedicated to %s (RSS 2.0).'), Skin::build_link(i18n::s('http://en.wikipedia.org/wiki/Podcasting'), i18n::s('podcasting'), 'external'), Skin::build_link(Feeds::get_url('files'), i18n::s('recent files'), 'xml')).'</p>';
+	$outbound .= '<p>'.sprintf(i18n::s('YACS enables automatic downloads and %s through a feed dedicated to %s.'), Skin::build_link(i18n::s('http://en.wikipedia.org/wiki/Podcasting'), i18n::s('podcasting'), 'external'), Skin::build_link(Feeds::get_url('files'), i18n::s('recent files'), 'xml')).'</p>';
 
 	// other outbound feeds
 	$outbound .= '<p>'.i18n::s('More specific outbound feeds are also available. Look for the XML button at other places:').'</p>'."\n<ul>\n"
@@ -113,7 +112,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// feeding events
 	if(Surfer::is_associate())
-		$outbound .= '<li>'.sprintf(i18n::s('As a an associate, you can also access the %s (RSS 2.0).'), Skin::build_link('agents/feed.php', i18n::s('event log'), 'xml')).'</li>';
+		$outbound .= '<li>'.sprintf(i18n::s('As a an associate, you can also access the %s.'), Skin::build_link('agents/feed.php', i18n::s('event log'), 'xml')).'</li>';
 
 	// end of outbound feeds
 	$outbound.= "\n</ul>\n";
@@ -194,14 +193,11 @@ $text .= Skin::build_link(Feeds::get_url('opml'), FEEDS_OPML_IMG, '').BR;
 Skin::define_img('FEEDS_ATOM_IMG', 'feeds/atom.png');
 $text .= Skin::build_link(Feeds::get_url('atom'), FEEDS_ATOM_IMG, '').BR;
 
-Skin::define_img('FEEDS_RSS_2_0_IMG', 'feeds/rss_2.0.png');
-$text .= Skin::build_link(Feeds::get_url('rss'), FEEDS_RSS_2_0_IMG, '').BR;
+Skin::define_img('FEEDS_RSS_IMG', 'feeds/rss_2.0.png');
+$text .= Skin::build_link(Feeds::get_url('rss'), FEEDS_RSS_IMG, '').BR;
 
-Skin::define_img('FEEDS_RSS_1_0_IMG', 'feeds/rss_1.0.png');
-$text .= Skin::build_link('feeds/rss_1.0.php', FEEDS_RSS_1_0_IMG, '').BR;
-
-Skin::define_img('FEEDS_RSS_0_9_IMG', 'feeds/rss_0.9.png');
-$text .= Skin::build_link('feeds/rss_0.92.php', FEEDS_RSS_0_9_IMG, '').BR;
+Skin::define_img('FEEDS_RDF_IMG', 'feeds/rss_1.0.png');
+$text .= Skin::build_link('feeds/rdf.php', FEEDS_RDF_IMG, '').BR;
 
 $context['components']['channels'] = Skin::build_box(i18n::s('Pick a feed'), '<p>'.$text.'</p>', 'extra');
 

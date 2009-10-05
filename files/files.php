@@ -321,6 +321,8 @@ Class Files {
 		// actual deletion of the file
 		list($anchor_type, $anchor_id) = explode(':', $item['anchor'], 2);
 		Safe::unlink($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/'.$item['file_name']);
+		Safe::unlink($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/thumbs/'.$item['file_name']);
+		Safe::rmdir($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id.'/thumbs');
 		Safe::rmdir($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type.'/'.$anchor_id);
 		Safe::rmdir($context['path_to_root'].'files/'.$context['virtual_path'].$anchor_type);
 

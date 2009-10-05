@@ -371,7 +371,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['sections_layout']))
 		$item['sections_layout'] = 'none';
-	elseif(!preg_match('/(accordion|compact|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $item['sections_layout'])) {
+	elseif(!preg_match('/(accordion|carrousel|compact|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $item['sections_layout'])) {
 		$custom_layout = $item['sections_layout'];
 		$item['sections_layout'] = 'custom';
 	}
@@ -387,6 +387,14 @@ if($with_form) {
 	if($item['sections_layout'] == 'accordion')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('accordion - Expose one item at a time in a stack')
+		.BR.'<input type="radio" name="sections_layout" value="carrousel"';
+	if($item['sections_layout'] == 'carrousel')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('carrousel - Animate clickable images')
+		.BR.'<input type="radio" name="sections_layout" value="titles"';
+	if($item['sections_layout'] == 'titles')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails.')
 		.BR.'<input type="radio" name="sections_layout" value="freemind"';
 	if($item['sections_layout'] == 'freemind')
 		$input .= ' checked="checked"';
@@ -411,14 +419,10 @@ if($with_form) {
 	if($item['sections_layout'] == 'compact')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('compact - In a compact list, like DMOZ.')
-		.BR.'<input type="radio" name="sections_layout" value="titles"';
-	if($item['sections_layout'] == 'titles')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails.')
-		.BR.'<input type="radio" name="sections_layout" value="custom"';
+		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
 	if($item['sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" />')
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_sections_layout\').checked=1" />')
 		.BR.'<input type="radio" name="sections_layout" value="none"';
 	if($item['sections_layout'] == 'none')
 		$input .= ' checked="checked"';
@@ -446,7 +450,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/(accordion|alistapart|boxesandarrows|compact|daily|decorated|digg|jive|manual|map|none|slashdot|table|wiki|yabb)/', $item['articles_layout'])) {
+	elseif(!preg_match('/(accordion|alistapart|boxesandarrows|carrousel|compact|daily|decorated|digg|jive|manual|map|none|slashdot|table|titles|wiki|yabb)/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
@@ -469,8 +473,16 @@ if($with_form) {
 	$input .= BR.'<input type="radio" name="articles_layout" value="accordion"';
 	if($item['articles_layout'] == 'accordion')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('accordion - Expose one item at a time in a stack');
-	$input .= BR.'<input type="radio" name="articles_layout" value="table"';
+	$input .= '/> '.i18n::s('accordion - Expose one item at a time in a stack')
+		.BR.'<input type="radio" name="articles_layout" value="carrousel"';
+	if($item['articles_layout'] == 'carrousel')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('carrousel - Animate clickable images')
+		.BR.'<input type="radio" name="articles_layout" value="titles"';
+	if($item['articles_layout'] == 'titles')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails.')
+		.BR.'<input type="radio" name="articles_layout" value="table"';
 	if($item['articles_layout'] == 'table')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('table - A table of recent pages');
@@ -506,10 +518,10 @@ if($with_form) {
 	if($item['articles_layout'] == 'compact')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('compact - A compact list of items');
-	$input .= BR.'<input type="radio" name="articles_layout" value="custom"';
+	$input .= BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
 	if($item['articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" />');
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_articles_layout\').checked=1" />');
 	$input .= BR.'<input type="radio" name="articles_layout" value="none"';
 	if($item['articles_layout'] == 'none')
 		$input .= ' checked="checked"';

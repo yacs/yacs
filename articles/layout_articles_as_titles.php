@@ -1,18 +1,17 @@
 <?php
 /**
- * layout sections as a set of titles with thumbnails
+ * layout articles as a set of titles with thumbnails
  *
- * @see sections/sections.php
+ * @see articles/articles.php
  *
  * @author Bernard Paques
- * @author Thierry Pinelli [email]contact@vdp-digital.com[/email]
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
-Class Layout_sections_as_titles extends Layout_interface {
+Class Layout_articles_as_titles extends Layout_interface {
 
 	/**
-	 * list sections
+	 * list articles
 	 *
 	 * @param resource the SQL result
 	 * @return string the rendered text
@@ -35,11 +34,8 @@ Class Layout_sections_as_titles extends Layout_interface {
 		// process all items in the list
 		while($item =& SQL::fetch($result)) {
 
-			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
-
 			// the url to view this item
-			$url =& Sections::get_permalink($item);
+			$url =& Articles::get_permalink($item);
 
 			// use the title to label the link
 			$title = Skin::strip($item['title'], 50);
@@ -50,20 +46,13 @@ Class Layout_sections_as_titles extends Layout_interface {
 
 			// add a link to the main page
 			else
-				$hover = i18n::s('View the section');
+				$hover = i18n::s('View the page');
 
-			// title is a link to the target section
+			// title is a link to the target article
 			$title =& Skin::build_link($url, $title, 'basic', $hover);
 
-			// look for an image
-			$icon = '';
-			if(isset($item['thumbnail_url']) && $item['thumbnail_url'])
-				$icon = $item['thumbnail_url'];
-			elseif(is_object($anchor))
-				$icon = $anchor->get_thumbnail_url();
-
-			// use the thumbnail for this section
-			if($icon) {
+			// use the thumbnail for this article
+			if($icon = trim($item['thumbnail_url'])) {
 
 				// fix relative path
 				if(!preg_match('/^(\/|http:|https:|ftp:)/', $icon))

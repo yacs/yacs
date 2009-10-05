@@ -401,7 +401,7 @@ $box = array('bar' => array(), 'text' => '');
 // a navigation bar for these files
 if($count = Files::count_for_anchor('article:'.$item['id'])) {
 	$attachments_count += $count;
-	if($count > 5)
+	if($count > 20)
 		$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 	// list files by date (default) or by title (option files_by_title)
@@ -434,7 +434,7 @@ $box = array('bar' => array(), 'text' => '');
 // a navigation bar for these links
 if($count = Links::count_for_anchor('article:'.$item['id'])) {
 	$attachments_count += $count;
-	if($count > 5)
+	if($count > 20)
 		$box['bar'] += array('_count' => sprintf(i18n::ns('%d link', '%d links', $count), $count));
 
 	// list links by date (default) or by title (option links_by_title)

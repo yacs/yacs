@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on October 4, 2009, 7:35 am GMT. Please do not modify it manually.
+ * on October 5, 2009, 8:15 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-10-03 00:35+0200
-PO-Revision-Date: 2009-09-27 22:26+0100
+POT-Creation-Date: 2009-10-05 16:07+0200
+PO-Revision-Date: 2009-10-05 00:01+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -222,6 +222,7 @@ $_SESSION['l10n']['en']['5700db55198757763a877ab05d5c6542']='Parse links and tra
 $_SESSION['l10n']['en']['Participants']='Participants';
 $_SESSION['l10n']['en']['Permalink']='Permalink';
 $_SESSION['l10n']['en']['Persons']='Persons';
+$_SESSION['l10n']['en']['59a20faf70a31e83dd8346a12d3fd93a']='Persons that have been notified of your post';
 $_SESSION['l10n']['en']['Ping']='Ping';
 $_SESSION['l10n']['en']['7ddc27bb7cf70408e6ca481071e4270f']='Please carefully select a model for your page.';
 $_SESSION['l10n']['en']['247995c3285df0a70d924ad9d3385e88']='Please carefully select a section for your page.';

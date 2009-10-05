@@ -90,129 +90,116 @@ if(!$permitted) {
 // provide requested data
 } else {
 
-	// get the list from the cache, if possible
-	$cache_id = 'agents/feed.php#news';
-	if(!$text =& Cache::get($cache_id)) {
+	// loads feeding parameters
+	Safe::load('parameters/feeds.include.php');
 
-		// loads feeding parameters
-		Safe::load('parameters/feeds.include.php');
+	// set preamble strings
+	$title = sprintf(i18n::s('Event log at %s'), strip_tags($context['site_name']));
 
-		// set preamble strings
-		$title = sprintf(i18n::s('Event log at %s'), strip_tags($context['site_name']));
+	// provide shortcuts for this site
+	$splash = sprintf(i18n::s('Most recent events at %s'), $context['host_name']);
 
-		// provide shortcuts for this site
-		$splash = sprintf(i18n::s('<p>This is the list of most recent events at %s</p><p>You can also use following shortcuts to get more information for this server:</p><ul><li><a href="%s">Go to the front page (%s)</a></li><li><a href="%s">Go to the control panel (%s)</a></li></ul>'),
-				$context['host_name'],
-				$context['url_to_home'].$context['url_to_root'],
-				$context['url_to_root'],
-				$context['url_to_home'].$context['url_to_root'].'control/',
-				$context['url_to_root'].'control/');
-
-		// the preamble
-		$text = '<?xml version="1.0" encoding="'.$context['charset'].'"?>'."\n"
-			.'<rss version="2.0">'."\n"
-			.'<channel>'."\n"
-			.'	<title>'.encode_field($title).'</title>'."\n"
-			.'	<link>'.$context['url_to_home'].$context['url_to_root'].'agents/</link>'."\n"
-			.'	<description><![CDATA[ '.$splash.' ]]></description>'."\n";
-		if(isset($context['powered_by_image']) && $context['powered_by_image'] && ($size = Safe::GetImageSize($context['path_to_root'].$context['powered_by_image'])) ) {
-			$text .= '	<image>'."\n"
-				.'		<url>'.$context['url_to_home'].$context['url_to_root'].$context['powered_by_image'].'</url>'."\n"
-				.'		<width>'.$size[0].'</width>'."\n"
-				.'		<height>'.$size[1].'</height>'."\n"
-				.'		<title>'.encode_field($title).'</title>'."\n"
-				.'		<link>'.$context['url_to_home'].$context['url_to_root'].'agents/</link>'."\n"
-				.'	</image>'."\n";
-		}
-		if($context['preferred_language'])
-			$text .= '	<language>'.encode_field($context['preferred_language']).'</language>'."\n";
-		$text .= '	<lastBuildDate>'.gmdate('D, d M Y H:i:s').' GMT</lastBuildDate>'."\n"
-			.'	<generator>yacs</generator>'."\n"
-			.'	<docs>http://blogs.law.harvard.edu/tech/rss</docs>'."\n"
-			.'	<ttl>5</ttl>'."\n";
-
-		// list last events
-		$events = Logger::get_tail(50, 'all');
-		if(is_array($events)) {
-
-			// the actual list of events
-			foreach($events as $event) {
-				list($stamp, $surfer, $script, $label, $description) = $event;
-
-			// formatting patterns
-			$search = array(
-				"|\r\n|",
-				"|<br\s*/>\n+|i",		/* don't insert additional \n after <br /> */
-				"|\n\n+[ \t]*-\s+|i",	/* hard-coded lists with - */
-				"|\n[ \t]*-\s+|i",
-				"|\n\n+[ \t]*\.\s+|i",	/* hard-coded lists with . */
-				"|\n[ \t]*\.\s+|i",
-				"|\n\n+[ \t]*\*\s+|i",	/* hard-coded lists with * */
-				"|\n[ \t]*\*\s+|i",
-				"|\n\n+[ \t]*¤\s+|i",	/* hard-coded lists with ¤ */
-				"|\n[ \t]*¤\s+|i",
-				"|\n\n+[ \t]*\•\s+|i",	/* hard-coded lists with • */
-				"|\n[ \t]*\•\s+|i",
-				"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
-				"|\n[ \t]*>(\s*)|i",		/* quoted by >*/
-				"|\n[ \t]*\|(\s*)|i",		/* quoted by | */
-				"#([\n\t ])([a-z]+?)://([^, <>{}\n\r]+)#is", /* make URL clickable */
-				"#^([a-z]+?)://([^, <>{}\n\r]+)#is",
-				"#([\n\t ])www\.([a-z0-9\-]+)\.([a-z0-9\-.\~]+)((?:/[^,< \n\r]*)?)#is",
-				"#([\n\t ])([a-z0-9\-_.]+?)@([^,< \.\n\r]+\.[^,< \n\r]+)#is",
-				"|\n\n|i"				/* force an html space between paragraphs */
-				);
-
-			$replace = array(
-				"\n",
-				BR,
-				BR.BR."- ",
-				BR."- ",
-				BR.BR."- ",
-				BR."- ",
-				BR.BR."- ",
-				BR."- ",
-				BR.BR."- ",
-				BR."- ",
-				BR.BR."• ",
-				BR."• ",
-				BR."$1:$2",
-				BR.">$1",
-				BR."|$1",
-				"$1<a href=\"$2://$3\">$2://$3</a>",
-				"<a href=\"$1://$2\">$1://$2</a>",
-				"$1<a href=\"http://www.$2.$3$4\">http://www.$2.$3$4</a>",
-				"$1<a href=\"mailto:$2@$3\">$2@$3</a>",
-				BR.BR
-				);
-
-				// build an extensive description field
-				$description = nl2br(preg_replace($search, $replace, $description))
-					.'<p>'.$script.((strlen($surfer) > 1)?' for '.$surfer:'').' on '.$stamp."</p>";
-
-				// build a unique id
-				$id = md5($label.$description.$stamp.$script.$surfer);
-
-				// output one story
-				$text .= "\n".' <item>'."\n"
-					.'		<title>'.encode_field(strip_tags($label))."</title>\n"
-					.'		<description><![CDATA[ '.$description." ]]></description>\n"
-					.'		<pubDate>'.gmdate('D, d M Y H:i:s', SQL::strtotime($stamp))." GMT</pubDate>\n"
-					.'		<link>'.$context['url_to_home'].$context['url_to_root'].'agents/?subject=events&amp;id='.$id."</link>\n"
-					.'		<guid isPermaLink="false">'.$id."</guid>\n"
-					.'		<category>'.encode_field($script)."</category>\n"
-					."	</item>\n";
-
-			}
-		}
-
-		// the postamble
-		$text .= "\n	</channel>\n"
-			.'</rss>';
-
-		// save in cache during 5 minutes
-		Cache::put($cache_id, $text, 'events', 300);
+	// the preamble
+	$text = '<?xml version="1.0" encoding="'.$context['charset'].'"?>'."\n"
+		.'<rss version="2.0">'."\n"
+		.'<channel>'."\n"
+		.'	<title>'.encode_field($title).'</title>'."\n"
+		.'	<link>'.$context['url_to_home'].$context['url_to_root'].'agents/</link>'."\n"
+		.'	<description><![CDATA[ '.$splash.' ]]></description>'."\n";
+	if(isset($context['powered_by_image']) && $context['powered_by_image'] && ($size = Safe::GetImageSize($context['path_to_root'].$context['powered_by_image'])) ) {
+		$text .= '	<image>'."\n"
+			.'		<url>'.$context['url_to_home'].$context['url_to_root'].$context['powered_by_image'].'</url>'."\n"
+			.'		<width>'.$size[0].'</width>'."\n"
+			.'		<height>'.$size[1].'</height>'."\n"
+			.'		<title>'.encode_field($title).'</title>'."\n"
+			.'		<link>'.$context['url_to_home'].$context['url_to_root'].'agents/</link>'."\n"
+			.'	</image>'."\n";
 	}
+	if($context['preferred_language'])
+		$text .= '	<language>'.encode_field($context['preferred_language']).'</language>'."\n";
+	$text .= '	<lastBuildDate>'.gmdate('D, d M Y H:i:s').' GMT</lastBuildDate>'."\n"
+		.'	<generator>yacs</generator>'."\n"
+		.'	<docs>http://blogs.law.harvard.edu/tech/rss</docs>'."\n"
+		.'	<ttl>5</ttl>'."\n";
+
+	// list last events
+	$events = Logger::get_tail(50, 'all');
+	if(is_array($events)) {
+
+		// the actual list of events
+		foreach($events as $event) {
+			list($stamp, $surfer, $script, $label, $description) = $event;
+
+		// formatting patterns
+		$search = array(
+			"|\r\n|",
+			"|<br\s*/>\n+|i",		/* don't insert additional \n after <br /> */
+			"|\n\n+[ \t]*-\s+|i",	/* hard-coded lists with - */
+			"|\n[ \t]*-\s+|i",
+			"|\n\n+[ \t]*\.\s+|i",	/* hard-coded lists with . */
+			"|\n[ \t]*\.\s+|i",
+			"|\n\n+[ \t]*\*\s+|i",	/* hard-coded lists with * */
+			"|\n[ \t]*\*\s+|i",
+			"|\n\n+[ \t]*¤\s+|i",	/* hard-coded lists with ¤ */
+			"|\n[ \t]*¤\s+|i",
+			"|\n\n+[ \t]*\•\s+|i",	/* hard-coded lists with • */
+			"|\n[ \t]*\•\s+|i",
+			"/\n[ \t]*(From|To|cc|bcc|Subject|Date):(\s*)/i",	/* common message headers */
+			"|\n[ \t]*>(\s*)|i",		/* quoted by >*/
+			"|\n[ \t]*\|(\s*)|i",		/* quoted by | */
+			"#([\n\t ])([a-z]+?)://([^, <>{}\n\r]+)#is", /* make URL clickable */
+			"#^([a-z]+?)://([^, <>{}\n\r]+)#is",
+			"#([\n\t ])www\.([a-z0-9\-]+)\.([a-z0-9\-.\~]+)((?:/[^,< \n\r]*)?)#is",
+			"#([\n\t ])([a-z0-9\-_.]+?)@([^,< \.\n\r]+\.[^,< \n\r]+)#is",
+			"|\n\n|i"				/* force an html space between paragraphs */
+			);
+
+		$replace = array(
+			"\n",
+			BR,
+			BR.BR."- ",
+			BR."- ",
+			BR.BR."- ",
+			BR."- ",
+			BR.BR."- ",
+			BR."- ",
+			BR.BR."- ",
+			BR."- ",
+			BR.BR."• ",
+			BR."• ",
+			BR."$1:$2",
+			BR.">$1",
+			BR."|$1",
+			"$1<a href=\"$2://$3\">$2://$3</a>",
+			"<a href=\"$1://$2\">$1://$2</a>",
+			"$1<a href=\"http://www.$2.$3$4\">http://www.$2.$3$4</a>",
+			"$1<a href=\"mailto:$2@$3\">$2@$3</a>",
+			BR.BR
+			);
+
+			// build an extensive description field
+			$description = nl2br(preg_replace($search, $replace, $description))
+				.'<p>'.$script.((strlen($surfer) > 1)?' for '.$surfer:'').' on '.$stamp."</p>";
+
+			// build a unique id
+			$id = md5($label.$description.$stamp.$script.$surfer);
+
+			// output one story
+			$text .= "\n".' <item>'."\n"
+				.'		<title>'.encode_field(strip_tags($label))."</title>\n"
+				.'		<description><![CDATA[ '.$description." ]]></description>\n"
+				.'		<pubDate>'.gmdate('D, d M Y H:i:s', SQL::strtotime($stamp))." GMT</pubDate>\n"
+				.'		<link>'.$context['url_to_home'].$context['url_to_root'].'agents/?subject=events&amp;id='.$id."</link>\n"
+				.'		<guid isPermaLink="false">'.$id."</guid>\n"
+				.'		<category>'.encode_field($script)."</category>\n"
+				."	</item>\n";
+
+		}
+	}
+
+	// the postamble
+	$text .= "\n	</channel>\n"
+		.'</rss>';
 
 	//
 	// transfer to the user agent
@@ -233,7 +220,7 @@ if(!$permitted) {
 
 	// strong validator
 	$etag = '"'.md5($text).'"';
-	
+
 	// manage web cache
 	if(http::validate(NULL, $etag))
 		return;

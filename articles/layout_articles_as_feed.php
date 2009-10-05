@@ -44,11 +44,8 @@ Class Layout_articles_as_feed extends Layout_interface {
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);
 
-			// the url to view this item
-			$url =& Articles::get_permalink($item);
-
 			// provide an absolute link
-			$url = $context['url_to_home'].$context['url_to_root'].$url;
+			$url = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
 
 			// build a title
 			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
@@ -106,7 +103,8 @@ Class Layout_articles_as_feed extends Layout_interface {
 			$extensions = array();
 
 			// url for comments
-			$extensions[] = '<comments>'.encode_link($url.'#comments').'</comments>';
+			if(is_object($anchor))
+				$extensions[] = '<comments>'.encode_link($context['url_to_root'].$anchor->get_url('comments')).'</comments>';
 
 			// count comments
 			$comment_count = Comments::count_for_anchor('article:'.$item['id']);

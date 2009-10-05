@@ -1607,23 +1607,6 @@ Class Codes {
 			.'params.menu = "false";'."\n"
 			.'params.flashvars = "'.$flashvars.'";'."\n"
 			.'swfobject.embedSWF("'.$url.'", "freemind_viewer_'.$freemind_viewer_index.'", "'.$width.'", "'.$height.'", "6", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/expressinstall.swf", false, params);'."\n"
-
-//			// the following does not work under IE7...
-//			.'	var applet = document.createElement("embed");'."\n"
-// //			.'	applet.setAttribute("classid", "clsid:8AD9C840-044E-11D1-B3E9-00805F499D93");'."\n"
-//			.'	applet.setAttribute("code", "freemind.main.FreeMindApplet.class");'."\n"
-//			.'	applet.setAttribute("archive", "'.$context['url_to_home'].$context['url_to_root'].'included/browser/freemindbrowser.jar");'."\n"
-//			.'	applet.setAttribute("type", "application/x-java-applet;version=1.4");'."\n"
-//			.'	applet.setAttribute("modes", "freemind.modes.browsemode.BrowseMode");'."\n"
-//			.'	applet.setAttribute("browsemode_initial_map", "'.$target_href.'");'."\n"
-//			.'	applet.setAttribute("initial_mode", "Browse");'."\n"
-//			.'	applet.setAttribute("selection_method", "selection_method_direct");'."\n"
-//			.'	applet.setAttribute("width", "'.$width.'");'."\n"
-//			.'	applet.setAttribute("height", "'.$height.'");'."\n"
-//			.'	applet.setAttribute("scriptable", "false");'."\n"
-//			.'	var handle = $("freemind_viewer_'.$freemind_viewer_index.'");'."\n"
-//			.'	handle.replaceChild(applet, handle.childNodes[0]);'."\n"
-//			.'}'."\n"
 			.JS_SUFFIX."\n";
 
 		// offer to download a copy of the map

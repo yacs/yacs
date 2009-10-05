@@ -272,7 +272,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 		// count the number of files in this article
 		if($count = Files::count_for_anchor('article:'.$item['id'])) {
-			if($count > 5)
+			if($count > 20)
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 			// list files by date (default) or by title (option files_by_title)

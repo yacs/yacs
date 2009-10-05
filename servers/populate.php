@@ -212,7 +212,7 @@ else {
 	$fields['description'] = i18n::c('The origin server for the YACS system');
 	$fields['main_url'] = 'http://www.yacs.fr/';
 	$fields['submit_feed'] = 'Y';
-	$fields['feed_url'] = 'http://www.yacs.fr/feeds/rss_2.0.php';
+	$fields['feed_url'] = 'http://www.yacs.fr/feeds/rss.php';
 	$fields['submit_ping'] = 'Y';
 	$fields['ping_url'] = 'http://www.yacs.fr/services/ping.php';
 	$fields['submit_search'] = 'N';

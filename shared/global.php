@@ -1039,7 +1039,7 @@ function render_skin() {
 			if(isset($context['page_image']))
 				hash_update($h, $context['page_image']);
 			if(isset($context['page_menu']))
-				hash_update($h, Skin::build_list($context['page_menu'], 'compact'));
+				hash_update($h, Skin::build_list($context['page_menu'], 'page_menu'));
 			if(isset($context['page_title']))
 				hash_update($h, $context['page_title']);
 			if(isset($context['prefix']))

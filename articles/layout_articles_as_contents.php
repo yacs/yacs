@@ -42,11 +42,8 @@ Class Layout_articles_as_contents extends Layout_interface {
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);
 
-			// the url to view this item
-			$url =& Articles::get_permalink($item);
-
 			// provide an absolute link
-			$url = $context['url_to_home'].$context['url_to_root'].$url;
+			$url = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
 
 			// time of last update
 			$time = SQL::strtotime($item['edit_date']);
@@ -111,20 +108,20 @@ Class Layout_articles_as_contents extends Layout_interface {
 			$extensions = array();
 
 			// url for comments
-			$extensions[] = '<comments>'.$url.'#comments</comments>';
+			$extensions[] = '<comments>'.encode_link($context['url_to_root'].$anchor->get_url('comments')).'</comments>';
 
 			// count comments
 			$comment_count = Comments::count_for_anchor('article:'.$item['id']);
 			$extensions[] = '<slash:comments>'.$comment_count."</slash:comments>";
 
 			// the comment post url
-			$extensions[] = '<wfw:comment>'.$context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'service.comment')."</wfw:comment>";
+			$extensions[] = '<wfw:comment>'.encode_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'service.comment'))."</wfw:comment>";
 
 			// the comment Rss url
-			$extensions[] = '<wfw:commentRss>'.$context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed')."</wfw:commentRss>";
+			$extensions[] = '<wfw:commentRss>'.encode_link($context['url_to_home'].$context['url_to_root'].Comments::get_url('article:'.$item['id'], 'feed'))."</wfw:commentRss>";
 
 			// the trackback url
-			$extensions[] = '<trackback:ping>'.$context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor=article:'.$item['id']."</trackback:ping>"; // no trackback:about;
+			$extensions[] = '<trackback:ping>'.encode_link($context['url_to_home'].$context['url_to_root'].'links/trackback.php?anchor='.urlencode('article:'.$item['id']))."</trackback:ping>"; // no trackback:about;
 
 			// list all components for this item
 			$items[$url] = array($time, $title, $author, $section, $icon, $introduction, $description, $extensions);

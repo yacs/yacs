@@ -69,8 +69,11 @@ include_once '../shared/global.php';
 load_skin('feeds');
 
 // get the list from the cache, if possible
-$cache_id = 'feeds/rss_1.0.php#news';
-if(!$text =& Cache::get($cache_id)) {
+$cache_id = Cache::hash('feeds/rdf').'.xml';
+
+// save for 5 minutes
+if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path_to_root'].$cache_id)+300 < time()) || (!$text = Safe::file_get_contents($context['path_to_root'].$cache_id))) {
+	$text = '';
 
 	// loads feeding parameters
 	Safe::load('parameters/feeds.include.php');
@@ -125,13 +128,16 @@ if(!$text =& Cache::get($cache_id)) {
 		foreach($rows as $url => $attributes) {
 			list($time, $title, $author, $section, $image, $description) = $attributes;
 
+			// encode links
+			$url = str_replace('&', '&amp;', $url);
+
 			// the index of resources
 			$text .= '		<rdf:li rdf:resource="'.$url.'" />'."\n";
 
 			// output of one story
 			$items .= "\n".'<item rdf:about="'.$url.'">'."\n"
 				.'	<title>'.encode_field(strip_tags($title))."</title>\n"
-				."	<link>$url</link>\n"
+				."	<link>".$url."</link>\n"
 				.'	<description>'.encode_field(strip_tags($description)).' ('.gmdate('D, d M Y H:i:s', intval($time))." GMT)</description>\n";
 			$items .= "</item>\n";
 
@@ -149,8 +155,9 @@ if(!$text =& Cache::get($cache_id)) {
 	// the suffix
 	$text .= "\n</rdf:RDF>";
 
-	// save in cache for the next request
-	Cache::put($cache_id, $text, 'articles');
+	// put in cache
+	Safe::file_put_contents($cache_id, $text);
+
 }
 
 //
@@ -171,7 +178,7 @@ http::expire(1800);
 
 // strong validator
 $etag = '"'.md5($text).'"';
-	
+
 // manage web cache
 if(http::validate(NULL, $etag))
 	return;

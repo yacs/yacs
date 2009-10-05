@@ -19,7 +19,7 @@
  * @see categories/feed.php
  * @see comments/feed.php
  * @see feeds/feeds.php
- * @see feeds/rss_2.0.php
+ * @see feeds/rss.php
  * @see sections/feed.php
  * @see services/call.php
  * @see services/codec.php
