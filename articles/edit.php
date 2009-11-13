@@ -452,6 +452,9 @@ if(Surfer::is_crawler()) {
 		// else display the updated page
 		} else {
 
+			// touch the related anchor
+			$anchor->touch('article:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
 			// cascade changes on access rights
 			if($_REQUEST['active'] != $item['active'])
 				Anchors::cascade('article:'.$item['id'], $_REQUEST['active']);
@@ -484,6 +487,9 @@ if(Surfer::is_crawler()) {
 		// increment the post counter of the surfer
 		if(Surfer::get_id())
 			Users::increment_posts(Surfer::get_id());
+
+		// touch the related anchor
+		$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// get the new item
 		$article =& Anchors::get('article:'.$_REQUEST['id'], TRUE);
@@ -1294,7 +1300,7 @@ if($with_form) {
 	$help .= '</select></p></form>';
 
 	// in a side box
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 }
 

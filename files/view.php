@@ -468,6 +468,11 @@ if(!isset($item['id'])) {
 		// reminder to file owner
 		if(Surfer::is_member() && (Surfer::get_id() == $item['assign_id'])) {
 			$context['text'] .= Skin::build_block(sprintf(i18n::s('You have reserved this file %s, and you are encouraged to %s as soon as possible, or to %s.'), Skin::build_date($item['assign_date']), Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('upload an updated version'), 'basic'), Skin::build_link(Files::get_url($item['id'], 'fetch', 'release'), i18n::s('release reservation'), 'basic')), 'note');
+
+		// information to other surfers
+		} else {
+			$context['text'] .= Skin::build_block(sprintf(i18n::s('This file has been assigned to %s %s, and it is likely that an updated version will be made available soon.'), Users::get_link($item['assign_name'], $item['assign_address'], $item['assign_id']), Skin::build_date($item['assign_date'])), 'note');
+
 		}
 
 	}
@@ -896,7 +901,7 @@ if(!isset($item['id'])) {
 
 	// build a nice sidebar box
 	if($text)
-		$text =& Skin::build_box(i18n::s('Navigation'), $text, 'navigation', 'neighbours');
+		$text =& Skin::build_box(i18n::s('Navigation'), $text, 'extra', 'neighbours');
 
 	$context['components']['neighbours'] = $text;
 

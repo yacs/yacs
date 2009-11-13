@@ -85,7 +85,7 @@ Class Layout_articles_as_digg extends Layout_interface {
 
 			// section opening
 			if($item_count == 1)
-				$text .= '<div id="home_north">'."\n";
+				$text .= '<div class="newest">'."\n";
 
 			// reset everything
 			$content = $prefix = $label = $suffix = $icon = '';
@@ -209,9 +209,14 @@ Class Layout_articles_as_digg extends Layout_interface {
 			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
 				$menu = array_merge($menu, array( $anchor->get_url() => $anchor->get_title() ));
 
-			// list up to three categories by title, if any
-			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+			// list categories by title, if any
+			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
 				foreach($items as $id => $attributes) {
+
+					// add background color to distinguish this category against others
+					if(isset($attributes['background_color']) && $attributes['background_color'])
+						$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
+
 					$menu = array_merge($menu, array( Categories::get_permalink($attributes) => $attributes['title'] ));
 				}
 			}

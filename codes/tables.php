@@ -47,7 +47,7 @@ $context['text'] .= "\n".'[toc]'."\n";
 // [table]...[/table]
 $context['text'] .=  '[title]'.i18n::s('Table').' [escape][table]...[/table][/escape][/title]'
 	.'<p>'.i18n::s('In this example cells are separated by tabulation characters or by 2 spaces.').'</p>'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][table]'."\n"
 		.i18n::s('Rabbit')."\t".i18n::s('Turtle')."\n"
@@ -62,7 +62,7 @@ $context['text'] .=  '[title]'.i18n::s('Table').' [escape][table]...[/table][/es
 // [table=grid]...[/table]
 $context['text'] .= '[title]'.i18n::s('Table').' [escape][table=grid]...[/table][/escape][/title]'
 	.'<p>'.i18n::s('In this example cells are separated by the | character.').'</p>'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][table=grid]'."\n"
 		.i18n::s('Rabbit|Turtle')."\n"
@@ -77,7 +77,7 @@ $context['text'] .= '[title]'.i18n::s('Table').' [escape][table=grid]...[/table]
 // [table=tiny]...[/table]
 $context['text'] .= '[title]'.i18n::s('Table').' [escape][table=tiny]...[/table][/escape][/title]'
 	.'<p>Actually any style can be applied to the generated table.</p>'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][table=tiny]'."\n"
 		.i18n::s('Rabbit|Turtle')."\n"
@@ -91,7 +91,7 @@ $context['text'] .= '[title]'.i18n::s('Table').' [escape][table=tiny]...[/table]
 
 // [table]...[body]...[/table]
 $context['text'] .= '[title]'.i18n::s('Separate headers from the body').' [escape][table]...[body]...[/table][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][table=grid]'."\n"
 		.i18n::s('First Name|Last Name')."\n"
@@ -109,7 +109,7 @@ $context['text'] .= '[title]'.i18n::s('Separate headers from the body').' [escap
 
 // cells alignment
 $context['text'] .= '[title]'.i18n::s('Explicit cells alignment').'[/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][table=grid]'."\n"
 		.'left='.i18n::s('Full Name').'| center='.i18n::s('Birth Year').'| right='.i18n::s('Net income')."\n"
@@ -127,7 +127,7 @@ $context['text'] .= '[title]'.i18n::s('Explicit cells alignment').'[/title]'
 
 // [table]...[csv]...[/csv]...[/table]
 $context['text'] .= '[title]'.i18n::s('Comma-separated values').' [escape][table][csv]...[/csv][/table][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][table=grid]'."\n"
 		.'[csv]'."\n"
@@ -148,7 +148,7 @@ $context['text'] .= '[title]'.i18n::s('Comma-separated values').' [escape][table
 // [table]...[csv=;]...[/csv]...[/table]
 $context['text'] .= '[title]'.i18n::s('Comma-separated values').' [escape][table][csv=;]...[/csv][/table][/escape][/title]'
 	.'<p>'.i18n::s('Using a different separator between cells.').'</p>'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][table=grid]'."\n"
 		.'[csv=;]'."\n"
@@ -171,7 +171,7 @@ $context['text'] = Codes::beautify($context['text']);
 
 // general help on this page
 $help = '<p>'.sprintf(i18n::s('Please note that actual rendering depends on the selected %s.'), Skin::build_link('skins/', i18n::s('skin'), 'shortcut')).'</p>';
-$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 // render the skin
 render_skin();

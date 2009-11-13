@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on October 5, 2009, 8:36 pm GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:13 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-10-03 00:35+0200
+POT-Creation-Date: 2009-11-13 00:13+0100
 PO-Revision-Date: 2009-09-09 10:02+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
@@ -53,7 +53,6 @@ $_SESSION['l10n']['en']['0287b0cc0f0423aed47d8030374bb1ed']='Click on the button
 $_SESSION['l10n']['en']['b4e54fc784adf87f21663798386f1dd1']='Click on the button below to check running scripts on your server.';
 $_SESSION['l10n']['en']['6c98ceb46e5216e76aca18f2c790e061']='Click to explode the selected archive. You may have to wait for some time before getting a response displayed.';
 $_SESSION['l10n']['en']['Compare']='Compare';
-$_SESSION['l10n']['en']['Compress reference PHP scripts.']='Compress reference PHP scripts.';
 $_SESSION['l10n']['en']['Configuration parameters']='Configuration parameters';
 $_SESSION['l10n']['en']['Configure']='Configure';
 $_SESSION['l10n']['en']['Configure again']='Configure again';
@@ -178,7 +177,6 @@ $_SESSION['l10n']['en']['63230b1ac87d317b655a05224e031e1a']='Update the front pa
 $_SESSION['l10n']['en']['Update the software']='Update the software';
 $_SESSION['l10n']['en']['Updated script']='Updated script';
 $_SESSION['l10n']['en']['Updating scripts...']='Updating scripts...';
-$_SESSION['l10n']['en']['Used staged file %s']='Used staged file %s';
 $_SESSION['l10n']['en']['Validate PHP syntax']='Validate PHP syntax';
 $_SESSION['l10n']['en']['Version string (optional)']='Version string (optional)';
 $_SESSION['l10n']['en']['View PHP documentation']='View PHP documentation';

@@ -80,7 +80,7 @@ Class Layout_sections_as_freemind extends Layout_interface {
 			$url =& Sections::get_permalink($item);
 
 			// initialize variables
-			$prefix = $suffix = $rating = '';
+			$prefix = $suffix = $rating = $content = '';
 
 			// flag expired pages
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
@@ -174,23 +174,7 @@ Class Layout_sections_as_freemind extends Layout_interface {
 				$rating = Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count']));
 
 			// link to this section within node if there is no content
-			$link = '';
-			if(!$content)
-				$link = ' LINK="'.encode_field($context['url_to_home'].$context['url_to_root'].$url).'"';
-
-			// else append a node to browse the section
-			else {
-				$content .= '<node '
-					.$freemind_section_bgcolor
-					.$freemind_section_color
-					.$freemind_section_style
-					.' TEXT="'.encode_field(utf8::to_hex('<html>'.i18n::s('View the section').'</html>')).'"'
-					.' LINK="'.encode_field($context['url_to_home'].$context['url_to_root'].$url).'">'."\n";
-				if($differentiate)
-					$content .= $various_attributes[$various_index][1];
-				$content .= '</node>'."\n";
-			}
-
+			$link = ' LINK="'.encode_field($context['url_to_home'].$context['url_to_root'].$url).'"';
 
 			// attributes of this node
 			if($differentiate) {

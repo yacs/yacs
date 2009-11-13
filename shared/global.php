@@ -1042,6 +1042,8 @@ function render_skin() {
 				hash_update($h, Skin::build_list($context['page_menu'], 'page_menu'));
 			if(isset($context['page_title']))
 				hash_update($h, $context['page_title']);
+			if(isset($context['page_tags']))
+				hash_update($h, $context['page_tags']);
 			if(isset($context['prefix']))
 				hash_update($h, $context['prefix']);
 			if(isset($context['suffix']))
@@ -1182,6 +1184,10 @@ function render_skin() {
 
 	// load a bunch of included scripts in one step, including prototype --we are doing that in the header, because of Event.observe(window, "load", ... in $context['text']
 	$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/browser/library.js"></script>'."\n";
+
+	// activate jscolor, if available
+	if(isset($context['javascript']['jscolor']) && file_exists($context['path_to_root'].'included/jscolor/jscolor.js'))
+		$context['page_header'] .= '<script type="text/javascript" src="'.$context['url_to_root'].'included/jscolor/jscolor.js"></script>'."\n";
 
 // 	// load the google library
 // 	if(isset($context['google_api_key']) && $context['google_api_key'])
@@ -1635,6 +1641,12 @@ function get_action_label($action) {
 
 	case 'file:update':
 		return i18n::s('file updated');
+
+	case 'file:release':
+		return i18n::s('file released');
+
+	case 'file:reserve':
+		return i18n::s('file reserved');
 
 	case 'image:create':
 		return i18n::s('image uploaded');

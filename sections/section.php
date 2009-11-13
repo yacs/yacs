@@ -877,7 +877,6 @@ Class Section extends Anchor {
 			.'|with_links'			// no way ...
 			.'|with_prefix_profile' // only in discussion boards
 //			.'|without_rating'
-			.'|with_slideshow'
 			.'|with_suffix_profile)/';	// only in authoring sections
 
 		// climb the anchoring chain, if any, but only for options to be cascaded
@@ -1219,58 +1218,36 @@ Class Section extends Anchor {
 		}
 
 		// send alerts on new item, except for pages in special sections
-		if(isset($this->item['index_map']) && ($this->item['index_map'] == 'Y') && preg_match('/:create$/i', $action)) {
+		if(preg_match('/:create$/i', $action) && isset($this->item['index_map']) && ($this->item['index_map'] == 'Y') && !$this->is_interactive()) {
 
 			// poster name, if applicable
 			if(!$surfer = Surfer::get_name())
 				$surfer = i18n::c('(anonymous)');
 
-			// mail message to section watchers and to poster watchers
+			// mail message
 			$mail = array();
-			$mail2 = array();
 
-			// notification
-			$notification = array();
-			$notification['type'] = 'alert';
-			$notification['action'] = $action;
-			$notification['nick_name'] = Surfer::get_name();
+			// message subject
+			$mail['subject'] = sprintf(i18n::c('Modification: %s'), strip_tags($this->item['title']));
+
+			// nothing done yet
+			$title = $link = '';
 
 			// an article has been added to the section
 			if(strpos($action, 'article') === 0) {
 				if((!$target = Articles::get($origin)) || !$target['id'])
 					return;
 
-				// message subjects
-				$mail['subject'] = sprintf(i18n::c('%s: %s'), ucfirst(strip_tags($this->item['title'])), strip_tags($target['title']));
-				$mail2['subject'] = sprintf(i18n::c('%s: %s'), ucfirst(strip_tags($this->item['title'])), strip_tags($target['title']));
+				// message components
+				$action = sprintf(i18n::c('A page has been submitted by %s'), $surfer);
+				$title = ucfirst(strip_tags($target['title']));
+				$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
 
-				// message to section watcher
-				$mail['message'] = sprintf(i18n::c('A page has been submitted by %s'), $surfer)
-					."\n\n".ucfirst(strip_tags($target['title']))
-					."\n".$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target)
-					."\n\n"
-					.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the following section, or its parent sections, and click on the Forget link.'), $context['site_name'])
-					."\n\n".ucfirst(strip_tags($this->item['title']))
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item)
-					."\n\n";
+				// message subject
+				$mail['subject'] = sprintf(i18n::c('%s: %s'), ucfirst(strip_tags($this->item['title'])), $title);
 
-				// message to poster watcher
-				if(Surfer::get_id()) {
-
-					$mail2['message'] = sprintf(i18n::c('A page has been submitted by %s'), $surfer)
-						."\n\n".ucfirst(strip_tags($target['title']))
-						."\n".$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target)
-						."\n\n"
-						.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted by a user that is part of your watch list. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.'), $context['site_name'])
-						."\n\n".ucfirst(strip_tags(Surfer::get_name()))
-						."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink()
-						."\n\n";
-
-				}
-
-				// notification content
-				$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($target);
-				$notification['title'] = utf8::to_unicode($target['title']);
+				// threads messages
+				$mail['headers'] = Mailer::set_thread('article:'.$target['id'], $this->get_reference());
 
 			// a file has been added to the section
 			} else if(strpos($action, 'file') === 0) {
@@ -1284,41 +1261,12 @@ Class Section extends Anchor {
 				else
 					$title = $target['file_name'];
 
-				// message subjects
-				$mail['subject'] = sprintf(i18n::c('%s: %s'), ucfirst(strip_tags($this->item['title'])), strip_tags($title));
-				$mail2['subject'] = sprintf(i18n::c('%s: %s'), ucfirst(strip_tags($this->item['title'])), strip_tags($title));
+				// message components
+				$action = sprintf(i18n::c('A file has been uploaded by %s'), $surfer);
+				$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($target);
 
-				// add poster name if applicable
-				if(!$surfer = Surfer::get_name())
-					$surfer = i18n::c('(anonymous)');
-
-				// message to section watcher
-				$mail['message'] = sprintf(i18n::c('A file has been uploaded by %s'), $surfer)
-					."\n\n".ucfirst(strip_tags($title))
-					."\n".$context['url_to_home'].$context['url_to_root'].Files::get_url($target['id'])
-					."\n\n"
-					.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the following section, or its parent sections, and click on the Forget link.'), $context['site_name'])
-					."\n\n".ucfirst(strip_tags($this->item['title']))
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item)
-					."\n\n";
-
-				// message to poster watcher
-				if(Surfer::get_id()) {
-
-					$mail2['message'] = sprintf(i18n::c('A file has been uploaded by %s'), $surfer)
-						."\n\n".ucfirst(strip_tags($title))
-						."\n".$context['url_to_home'].$context['url_to_root'].Files::get_url($target['id'])
-						."\n\n"
-						.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted by a user that is part of your watch list. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.'), $context['site_name'])
-						."\n\n".ucfirst(strip_tags(Surfer::get_name()))
-						."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink()
-						."\n\n";
-
-				}
-
-				// notification content
-				$notification['address'] = $context['url_to_home'].$context['url_to_root'].Files::get_url($target['id']);
-				$notification['title'] = utf8::to_unicode($title);
+				// threads messages
+				$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
 
 			// a comment has been added to the section
 			} else if(strpos($action, 'comment') === 0) {
@@ -1326,114 +1274,59 @@ Class Section extends Anchor {
 				if((!$target = Comments::get($origin)) || !$target['id'])
 					return;
 
-				// add poster name if applicable
-				if(!$surfer = Surfer::get_name())
-					$surfer = i18n::c('(anonymous)');
+				// message components
+				$action = sprintf(i18n::c('%s has posted a comment'), $surfer);
+				$title = Skin::strip($target['description'], 10, NULL, NULL);
+				$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id']);
 
-				// message subjects
-				$mail['subject'] = sprintf(i18n::c('Modification: %s'), strip_tags($this->item['title']));
-				$mail2['subject'] = sprintf(i18n::c('Modification: %s'), strip_tags($this->item['title']));
-
-				// message content
-				$mail['message'] = i18n::c('Click on the following link to read the new comment')
-					."\n\n".$context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id'])
-					."\n\n"
-					.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the following section, or its parent sections, and click on the Forget link.'), $context['site_name'])
-					."\n\n".ucfirst(strip_tags($this->item['title']))
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item)
-					."\n\n";
-
-				// message to poster watcher
-				if(Surfer::get_id()) {
-
-					$mail2['message'] = i18n::c('Click on the following link to read the new comment')
-						."\n\n".$context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id'])
-						."\n\n"
-						.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted by a user that is part of your watch list. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.'), $context['site_name'])
-						."\n\n".ucfirst(strip_tags(Surfer::get_name()))
-						."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink()
-						."\n\n";
-
-				}
-
-				// notification content
-				$notification['address'] = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id']);
-				$notification['title'] = utf8::to_unicode($this->item['title']);
+				// threads messages
+				$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
 
 			// something else has been added to the section
 			} else {
 
-				// a label for the action
-				$action_label = ucfirst(get_action_label($action));
-
 				// add poster name if applicable
 				if($surfer = Surfer::get_name())
-					$action = sprintf(i18n::c('%s by %s'), $action_label, $surfer);
+					$action = sprintf(i18n::c('%s by %s'), get_action_label($action), $surfer);
 				else
-					$action = $action_label;
+					$action = get_action_label($action);
 
-				// section title
-				$title = strip_tags($this->item['title']);
+				// message components
+				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));
+				$link = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item);
 
-				// message titles
-				$mail['subject'] = sprintf(i18n::c('Modification: %s'), $title);
-				$mail2['subject'] = sprintf(i18n::c('Modification: %s'), $title);
-
-				// message body
-				$mail['message'] = i18n::c('A new item has been added to the following section').
-					"\n\n".sprintf(i18n::c('%s in %s'), $action, $title)
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item)
-					."\n\n"
-					.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the following section, or its parent sections, and click on the Forget link.'), $context['site_name'])
-					."\n\n".$title
-					."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item)
-					."\n\n";
-
-				// message to poster watcher
-				if(Surfer::get_id()) {
-
-					$mail2['message'] = i18n::c('A new item has been added to the following section').
-						"\n\n".sprintf(i18n::c('%s in %s'), $action, $title)
-						."\n".$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item)
-						."\n\n"
-						.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted by a user that is part of your watch list. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.'), $context['site_name'])
-						."\n\n".ucfirst(strip_tags(Surfer::get_name()))
-						."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink()
-						."\n\n";
-
-				}
-
-				// notification content
-				$notification['address'] = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($this->item);
-				$notification['title'] = utf8::to_unicode($title);
+				// threads messages
+				$mail['headers'] = Mailer::set_thread(NULL, $this->get_reference());
 
 			}
 
-			// look more precisely at this object
-			$anchor =& Anchors::get('section:'.$this->item['id']);
+			// message to watchers
+			$mail['message'] =& Mailer::build_notification($action, $title, $link, 1);
 
-			// no watch in interactive threads
-			if(is_object($anchor) && !$anchor->has_option('view_as_chat') && !$anchor->has_option('view_as_thread')) {
+			// the path of containers to this item
+			$containers = $this->get_focus();
 
-				// the path of containers to this item
-				$containers = $anchor->get_focus();
-
-				// autorized users
-				$restricted = NULL;
-				if(($anchor->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($containers))) {
-					foreach($editors as $editor)
-						if(strpos($editor, 'user:') === 0)
-							$restricted[] = substr($editor, strlen('user:'));
-				}
-
-				// alert all watchers at once
-				Users::alert_watchers($containers, $mail, $notification, $restricted);
-
+			// autorized users
+			$restricted = NULL;
+			if(($this->get_active() == 'N') && ($editors =& Members::list_anchors_for_member($containers))) {
+				foreach($editors as $editor)
+					if(strpos($editor, 'user:') === 0)
+						$restricted[] = substr($editor, strlen('user:'));
 			}
 
-			// alert watchers of this poster
-			if(Surfer::get_id())
-				Users::alert_watchers('user:'.Surfer::get_id(), $mail2, $notification);
+			// alert all watchers at once
+			Users::alert_watchers($containers, $mail, $restricted);
+
+			// alert connections, except on private pages
+			if($this->item['active'] != 'N') {
+
+				// message to connections
+				$mail['message'] =& Mailer::build_notification($action, $title, $link, 2);
+
+				// alert connections
+				if(Surfer::get_id())
+					Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+			}
 
 		}
 

@@ -6,8 +6,6 @@
  *
  * Subsequent articles are listed below an horizontal line, with text only.
  *
- * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
- *
  * @author Bernard Paques
  * @tester Thierry Pinelli (ThierryP)
  * @reference
@@ -57,11 +55,6 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			return $output;
 		}
 
-		// flag articles updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
 		// build a list of articles
 		$text = '';
 		$others = array();
@@ -69,77 +62,54 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
+		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
 
 			// permalink
 			$url =& Articles::get_permalink($item);
-
-			// get the anchor
-			$anchor =& Anchors::get($item['anchor']);
 
 			// next item
 			$item_count += 1;
 
 			// section opening
 			if($item_count == 1) {
-				$text .= '<div id="home_north">'."\n";
+				$text .= '<div class="newest">'."\n";
 			} elseif($item_count == 2) {
-				$text .= '<div id="home_south">'."\n";
+				$text .= '<div class="recent">'."\n";
 			}
 
 			// layout first article
 			if($item_count == 1) {
-
-				// the icon to put aside
-				$icon = '';
-				if($item['icon_url']) {
-					$icon = $item['icon_url'];
-				} elseif(is_object($anchor)) {
-					$icon = $anchor->get_icon_url();
-				}
-				if($icon)
-					$text .= '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="left_image" alt="" /></a>';
-
-				$text .= $this->layout_first($item, $anchor, $dead_line);
+				$text .= $this->layout_first($item);
 
 			// layout newest articles
 			} elseif($item_count <= 4) {
 
-				// the icon to put aside
-				$icon = '';
-				if($item['thumbnail_url']) {
-					$icon = $item['thumbnail_url'];
-				} elseif(is_object($anchor)) {
-					$icon = $anchor->get_thumbnail_url();
-				}
-				if($icon)
-					$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="left_image" alt="" /></a>';
-
 				// the style to apply
 				switch($item_count) {
 				case 2:
-					$text .= '<div id="home_west">';
+					$text .= '<div class="west">';
 					break;
 				case 3:
-					$text .= '<div id="home_center">';
+					$text .= '<div class="center">';
 					break;
 				case 4:
-					$text .= '<div id="home_east">';
+					$text .= '<div class="east">';
 					break;
 				}
-				$text .= $icon.$this->layout_newest($item, $anchor).'</div>';
+				$text .= $this->layout_newest($item).'</div>';
 
 			// layout recent articles
 			} else
-				$others[ $url ] = $this->layout_recent($item, $anchor, $dead_line);
+				$others[ $url ] = $this->layout_recent($item);
 
-			// close #home_north
+			// close newest
 			if($item_count == 1)
-				$text .= '</div>'."\n";
+				$text .= '<br style="clear: left;" /></div>'."\n";
 
-			// extend the #home_south in case of floats
+			// extend the recent in case of floats
 			elseif($item_count == 4)
-				$text .= '<p style="clear: left;">&nbsp;</p></div>'."\n";
+				$text .= '<br style="clear: left;" /></div>'."\n";
 
 		}
 
@@ -153,7 +123,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			// link to articles index
 			$others['articles/'] = array('', i18n::s('All pages'), '', 'shortcut');
 
-			// make section box
+			// make box
 			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($others, 'decorated'));
 		}
 
@@ -167,43 +137,50 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 	 * layout one of the newest articles
 	 *
 	 * @param array the article
-	 * @param object the anchor of this article, if any
 	 * @return string the rendered text
 	**/
-	function layout_first($item, $anchor, $dead_line) {
+	function layout_first($item) {
 		global $context;
 
 		// permalink
 		$url =& Articles::get_permalink($item);
 
 		// get the related overlay, if any
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		$overlay = Overlay::load($item);
 
-		// the title
-		$title = Codes::beautify_title($item['title']);
+		// get the anchor
+		$anchor =& Anchors::get($item['anchor']);
+
+		// the icon to put aside
+		$icon = '';
+		if($item['thumbnail_url'])
+			$icon = $item['thumbnail_url'];
+		elseif(is_object($anchor))
+			$icon = $anchor->get_thumbnail_url();
+		if($icon)
+			$icon = '<img src="'.$icon.'" class="left_image" alt="" />';
+
+		// use the title to label the link
+		if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
+			$title = $overlay->get_live_title($item);
+		else
+			$title = Codes::beautify_title($item['title']);
 
 		// rating
 		if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 			$title .= ' '.Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 		// pack in a block
-		$text = Skin::build_block($title, 'title', 'article_'.$item['id']);
+		$text = '<h2>'.Skin::build_link($url, $icon.$title, 'basic').'</h2>';
 
-		// introduction
-		$text .= '<p>';
+		// the introduction
+		$text .= '<p style="margin-top: 0;">';
 
 		// signal restricted and private articles
 		if($item['active'] == 'N')
 			$text .= PRIVATE_FLAG.' ';
 		elseif($item['active'] == 'R')
 			$text .= RESTRICTED_FLAG.' ';
-
-		// flag articles updated recently
-		if($item['create_date'] >= $dead_line)
-			$text .= ' '.NEW_FLAG;
-		elseif($item['edit_date'] >= $dead_line)
-			$text .= ' '.UPDATED_FLAG;
 
 		// the author
 		$author = '';
@@ -235,7 +212,6 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 		// info on related comments
-		include_once $context['path_to_root'].'comments/comments.php';
 		$link = Comments::get_url('article:'.$item['id'], 'list');
 		if($count = Comments::count_for_anchor('article:'.$item['id']))
 			$menu[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
@@ -248,19 +224,8 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		if($count = Links::count_for_anchor('article:'.$item['id']))
 			$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
-		// trackback
-		if($context['with_friendly_urls'] == 'Y')
-			$link = 'links/trackback.php/article/'.$item['id'];
-		else
-			$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-		$menu = array_merge($menu, array( $link => i18n::s('Reference this page') ));
-
-		// link to the anchor page
-		if(is_object($anchor))
-			$menu = array_merge($menu, array( $anchor->get_url() => $anchor->get_title() ));
-
 		// append a menu
-		$text .= Skin::build_list($menu, 'menu_bar');
+		$text .= BR.Skin::build_list($menu, 'menu');
 
 		return $text;
 	}
@@ -269,31 +234,44 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 	 * layout one of the newest articles
 	 *
 	 * @param array the article
-	 * @param object the anchor of this article, if any
 	 * @return string the rendered text
-	**/
-	function layout_newest($item, $anchor) {
+	 */
+	function layout_newest($item) {
 		global $context;
 
 		// permalink
 		$url =& Articles::get_permalink($item);
 
 		// get the related overlay, if any
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		$overlay = Overlay::load($item);
 
-		// the title
-		$title = Codes::beautify_title($item['title']);
+		// get the anchor
+		$anchor =& Anchors::get($item['anchor']);
+
+		// the icon to put aside
+		$icon = '';
+		if($item['thumbnail_url'])
+			$icon = $item['thumbnail_url'];
+		elseif(is_object($anchor))
+			$icon = $anchor->get_thumbnail_url();
+		if($icon)
+			$icon = '<img src="'.$icon.'" class="left_image" alt="" />';
+
+		// use the title to label the link
+		if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
+			$title = $overlay->get_live_title($item);
+		else
+			$title = Codes::beautify_title($item['title']);
 
 		// rating
 		if($item['rating_count'] && !(is_object($anchor) && $anchor->has_option('without_rating')))
 			$title .= ' '.Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic');
 
 		// pack in a block
-		$text = Skin::build_block($title, 'subtitle', 'article_'.$item['id']);
+		$text = '<h3>'.Skin::build_link($url, $icon.$title, 'basic').'</h3>';
 
 		// the introduction
-		$text .= '<p style="clear:left">';
+		$text .= '<p style="margin-top: 0;">';
 
 		// signal restricted and private articles
 		if($item['active'] == 'N')
@@ -301,29 +279,19 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		elseif($item['active'] == 'R')
 			$text .= RESTRICTED_FLAG.' ';
 
-		// flag articles updated recently
-		if($context['site_revisit_after'] < 1)
-			$context['site_revisit_after'] = 2;
-		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
-
-		if($item['create_date'] >= $dead_line)
-			$text .= ' '.NEW_FLAG;
-		elseif($item['edit_date'] >= $dead_line)
-			$text .= ' '.UPDATED_FLAG;
-
 		// the author
 		$author = '';
 		if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y'))
 			$author = sprintf(i18n::s('by %s'), $item['create_name']).' ';
 
 		// date
-		$text .= '<span class="details">'.$author.Skin::build_date($item['publish_date']).' - </span>';
+		$text .= '<span class="details">'.$author.Skin::build_date($item['publish_date']).'</span>';
 
 		// the introductory text
 		if($item['introduction'])
-			$text .= Codes::beautify_introduction($item['introduction']);
-		elseif(!is_object($overlay))
-			$text .= Skin::cap(Codes::beautify($item['description'], $item['options']), 25, $url);
+			$text .= ' - '.Codes::beautify_introduction($item['introduction']);
+		elseif(!is_object($overlay) && $item['description'])
+			$text .= ' - '.Skin::cap(Codes::beautify($item['description'], $item['options']), 25, $url);
 
 		// end of the introduction
 		$text .= '</p>'."\n";
@@ -340,27 +308,14 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 			$text .= BR.Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 		// info on related comments
-		include_once $context['path_to_root'].'comments/comments.php';
 		if($count = Comments::count_for_anchor('article:'.$item['id'])) {
 			$link = Comments::get_url('article:'.$item['id'], 'list');
 			$text .= ' - '.Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 		}
 
-		// trackback
-		if($context['with_friendly_urls'] == 'Y')
-			$link = 'links/trackback.php/article/'.$item['id'];
-		else
-			$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-		$text .= BR.Skin::build_link($link, i18n::s('Reference this page'), 'basic');
-
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id']))
 			$text .= ' - '.Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
-
-		// link to the anchor page
-		if(is_object($anchor)) {
-			$text .= BR.Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic');
-		}
 
 		// end of details
 		$text .= '</p>';
@@ -372,24 +327,28 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 	 * layout one recent article
 	 *
 	 * @param array the article
-	 * @param object the anchor of this article, if any
-	 * @param string the minimum stamp for newest articles
 	 * @return an array ($prefix, $label, $suffix)
 	**/
-	function layout_recent($item, $anchor, $dead_line) {
+	function layout_recent($item) {
 		global $context;
 
 		// permalink
 		$url =& Articles::get_permalink($item);
 
+		// get the related overlay, if any
+		$overlay = Overlay::load($item);
+
+		// get the anchor
+		$anchor =& Anchors::get($item['anchor']);
+
+		// use the title to label the link
+		if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
+			$title = $overlay->get_live_title($item);
+		else
+			$title = Codes::beautify_title($item['title']);
+
 		// reset everything
 		$prefix = $suffix = '';
-
-		// flag articles updated recently
-		if($item['create_date'] >= $dead_line)
-			$prefix .= ' '.NEW_FLAG;
-		elseif($item['edit_date'] >= $dead_line)
-			$prefix .= ' '.UPDATED_FLAG;
 
 		// signal restricted and private articles
 		if($item['active'] == 'N')
@@ -423,7 +382,7 @@ Class Layout_home_articles_as_newspaper extends Layout_interface {
 		$suffix .= '</span>';
 
 		// insert an array of links
-		return array($prefix, $item['title'], $suffix);
+		return array($prefix, $title, $suffix);
 	}
 }
 

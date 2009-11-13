@@ -14,7 +14,7 @@
  *	 <ul>
  *	 <li>p#header_title</li>
  *	 <li>p#header_slogan</li>
- *	 <li>ul#tabs</li>
+ *	 <li>div.tabs</li>
  *	 </ul>
  * <li>div#wrapper</li>
  *	<ul>
@@ -78,6 +78,9 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
 
 	// we have one style sheet for everything -- media="all" means it is not loaded by Netscape Navigator 4
 	echo "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'skins/digital/digital.css" type="text/css" media="all" />'."\n";
+
+	// nice titles
+	echo "\t".'<link rel="stylesheet" href="'.$context['url_to_root'].'skins/digital/nicetitle.css" type="text/css" media="all" />'."\n";
 
 	// implement the 'you are here' feature
 	if($focus = Page::top_focus()) {

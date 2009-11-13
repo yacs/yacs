@@ -74,10 +74,10 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 		// this is us!
 		'library.js',
-		
+
 		// already compressed
 		'swfobject.js'
-		
+
 		);
 
 	// process all js files in included/browser
@@ -149,7 +149,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 	// effects
 	if($context['with_debug'] == 'Y')
 		Logger::remember('included/browser/build.php', 'effects.js', '', 'debug');
-	
+
 	// load effects.js
 	if(file_exists($context['path_to_root'].'included/browser/effects.js'.'.jsmin'))
 		$name = $context['path_to_root'].'included/browser/effects.js'.'.jsmin';
@@ -163,7 +163,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 
 		// the target file
 		'library.js',
-		
+
 		// already loaded
 		'effects.js', 'prototype.js',
 
@@ -199,7 +199,7 @@ elseif(!Surfer::is_associate() && !(file_exists($context['path_to_root'].'parame
 	// save the library file
 	Safe::file_put_contents($context['path_to_root'].'included/browser/library.js', $text);
 	$context['text'] .= sprintf('%s has %d %s', 'included/browser/library.js', Safe::filesize($context['path_to_root'].'included/browser/library.js'), i18n::s('bytes')).'</p>';
-	
+
 	// display the execution time
 	$time = round(get_micro_time() - $context['start_time'], 2);
 	$context['text'] .= '<p>'.sprintf(i18n::s('Script terminated in %.2f seconds.'), $time).'</p>';

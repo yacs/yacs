@@ -529,7 +529,7 @@ if(isset($_REQUEST['target'])) {
 
 // general help on this page
 $help = sprintf(i18n::s('Go to the %s and check debug mode for <code>call</code> has been set, if you want to record HTTP requests and responses.'), Skin::build_link('services/configure.php', i18n::s('configuration panel for services'), 'shortcut'))."\n";
-$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 render_skin();
 

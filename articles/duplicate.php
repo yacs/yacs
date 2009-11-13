@@ -69,7 +69,7 @@ elseif(is_object($anchor) && !$anchor->is_viewable())
 	$permitted = FALSE;
 
 // authenticated surfers may duplicate their own posts
-elseif(Surfer::is($item['create_id']))
+elseif(Surfer::is($item['owner_id']))
 	$permitted = TRUE;
 
 // the default is to deny access

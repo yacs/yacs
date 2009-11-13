@@ -26,7 +26,7 @@ include_once 'scripts.php';
 
 define('FAILURE_PREFIX', '<span style="color: red;">');
 define('FAILURE_SUFFIX', '</span>');
-		
+
 // what to do
 $action = '';
 if(isset($_REQUEST['action']))
@@ -106,13 +106,7 @@ elseif(!Surfer::is_associate()) {
 		if(is_readable($context['path_to_root'].$file) && ($result = Scripts::hash($file))) {
 
 			// double check
-			if($attributes[1] != $result[1])
-				;
-
-			elseif(isset($attributes[2]) && ($attributes[2] != $result[3]))
-				;
-
-			else
+			if($attributes[1] == $result[1])
 				continue;
 
 		}
@@ -263,13 +257,7 @@ elseif(!Surfer::is_associate()) {
 		if(is_readable($context['path_to_root'].$file) && ($result = Scripts::hash($file))) {
 
 			// double check
-			if($attributes[1] != $result[1])
-				;
-
-			elseif(isset($attributes[2]) && ($attributes[2] != $result[3]))
-				;
-
-			else
+			if($attributes[1] == $result[1])
 				continue;
 
 		}
@@ -294,7 +282,7 @@ elseif(!Surfer::is_associate()) {
 
 		// ensure we have an exact copy
 		$result = Scripts::hash('scripts/staging/'.$file);
-		if(($attributes[1] != $result[1]) && (isset($attributes[2]) && ($attributes[2] != $result[3]))) {
+		if($attributes[1] != $result[1]) {
 			$box .= sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), $file).BR."\n";
 			$missing_files++;
 			continue;

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:48 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:19 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-24 23:45+0200
-PO-Revision-Date: 2009-09-02 01:17+0100
+POT-Creation-Date: 2009-11-09 19:19+0100
+PO-Revision-Date: 2009-10-07 00:52+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -45,6 +45,7 @@ $_SESSION['l10n']['fr']['b4cb4dc2b17ff4ce51ca65cb8dcc7e98']='Appliquer un thème
 $_SESSION['l10n']['fr']['Ask Jeeves']='Ask Jeeves';
 $_SESSION['l10n']['fr']['Attach related files.']='Attacher les fichiers en rapport avec cette page.';
 $_SESSION['l10n']['fr']['Attachments']='Pièces jointes';
+$_SESSION['l10n']['fr']['Background color']='Couleur d\'arrière-plan';
 $_SESSION['l10n']['fr']['Cancel']='Annuler';
 $_SESSION['l10n']['fr']['Categories']='Catégories';
 $_SESSION['l10n']['fr']['Categories for: %s']='Catégories pour : %s';
@@ -73,7 +74,7 @@ $_SESSION['l10n']['fr']['Do not list sections.']='Ne pas lister les sections.';
 $_SESSION['l10n']['fr']['Do not list sub-categories.']='Ne pas lister les sous-catégories.';
 $_SESSION['l10n']['fr']['fb0d9333cb60f25b5b1a13b04db64697']='Ce système n\'est pas configuré pour l\'envoi de messages électroniques.';
 $_SESSION['l10n']['fr']['Edit this category']='Modifier cette catégorie';
-$_SESSION['l10n']['fr']['Edit: %s']='Edition : %s';
+$_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['afb7b68bf930c793832d36380219bfff']='Vérifier que le contenu est du XHTML valide.';
 $_SESSION['l10n']['fr']['Excerpts']='Extraits';
 $_SESSION['l10n']['fr']['Expiry date']='Date d\'expiration';
@@ -114,9 +115,10 @@ $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='* signale les champ
 $_SESSION['l10n']['fr']['076258fa009ea3b6a42ad8ef12aca098']='Vous pourriez peut-être lister d\'autres pages ou d\'autres éléments en soumettant le mot-clé qui suit à notre moteur de recherche. Qui sait ? %s';
 $_SESSION['l10n']['fr']['Message content']='Contenu du message';
 $_SESSION['l10n']['fr']['45b0a300ae44fcf8ec94980438933ae9']='Le corps du message ne peut pas être vide.';
+$_SESSION['l10n']['fr']['Message recipients']='Destinataires du message';
 $_SESSION['l10n']['fr']['Message title']='Titre du message';
 $_SESSION['l10n']['fr']['Monitor']='Surveiller';
-$_SESSION['l10n']['fr']['More']='La suite';
+$_SESSION['l10n']['fr']['More']='Suite';
 $_SESSION['l10n']['fr']['More content']='Contenu additionnel';
 $_SESSION['l10n']['fr']['More options']='Plus d\'options';
 $_SESSION['l10n']['fr']['More specific:']='Plus précis :';
@@ -196,6 +198,7 @@ $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['d8ef00288000f0f98aafef9b53c2e08d']='Inséré vers le bas des pages associées.';
 $_SESSION['l10n']['fr']['c1966a9db995dd0212d9febf7be757e0']='Inséré vers le haut des pages associées.';
 $_SESSION['l10n']['fr']['To designate a category by name']='Pour désigner une catégorie par son nom';
+$_SESSION['l10n']['fr']['fa09bb542328a06fca03740c95c19f22']='Pour surligner cette catégorie dans les listes';
 $_SESSION['l10n']['fr']['74a19ba83faf8108003e4f4acf426719']='Pour charger template_foo_bar.php à la place du modèle normal';
 $_SESSION['l10n']['fr']['9e9dfd283bcf9e91034d1f81ac4b04aa']='Pour associer un motif de recherche à cette catégorie';
 $_SESSION['l10n']['fr']['0749c2e869a8f74bc91f87cc3643388e']='Trop d\'erreurs successives. Abandon';
@@ -223,10 +226,10 @@ $_SESSION['l10n']['fr']['Yahoo!']='Yahoo!';
 $_SESSION['l10n']['fr']['3585bbc26a41b43aecfc0a9b67c7be74']='Oui, je veux supprimer cette catégorie';
 $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas autorisé à faire cette opération en mode démonstration.';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à modifier cette catégorie.';
-$_SESSION['l10n']['fr']['You are sending a message to:']='Vous écrivez à :';
 $_SESSION['l10n']['fr']['20cf45e0c01e6acc47459231610d3463']='Vous pouvez télécharger une photo, un dessin ou une image.';
 $_SESSION['l10n']['fr']['d202c53d9ea1bb14a44814af246dbcf4']='Vous pouvez combiner plusieurs mots-clés :';
 $_SESSION['l10n']['fr']['3826678d554b3f49614db283670da2ca']='alistapart - Dernier article dans son intégralité';
+$_SESSION['l10n']['fr']['and %d other persons']='et %d autres personnes';
 $_SESSION['l10n']['fr']['28a8beb390c049ec3274337a68b552e7']='sur toutes les pages, parmi les boîtes de navigation';
 $_SESSION['l10n']['fr']['at articles index']='sur l\'index des articles';
 $_SESSION['l10n']['fr']['at files index']='sur l\'index des fichiers';
@@ -234,7 +237,6 @@ $_SESSION['l10n']['fr']['at links index']='sur l\'index des liens';
 $_SESSION['l10n']['fr']['at site map']='sur la carte du site';
 $_SESSION['l10n']['fr']['21bba8f9b0118df8d40223e2e199154e']='sur la page d\'accueil, parmi les boîtes extra';
 $_SESSION['l10n']['fr']['at users index']='sur l\'index des utilisateurs';
-$_SESSION['l10n']['fr']['70c052690de9189737835cc5ad18869e']='boxesandarrows - Cliquer sur les titres pour lire les articles';
 $_SESSION['l10n']['fr']['categories']='catégories';
 $_SESSION['l10n']['fr']['aa00cbbac581ee176441d1e92a17ee3e']='clouds - Lister les sous-catégories comme un nuage.';
 $_SESSION['l10n']['fr']['e7dd29c2c008dce9b7ed980a40e31858']='compact - Une liste compacte';

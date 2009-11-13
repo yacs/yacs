@@ -9,6 +9,7 @@
  *
  * @author Bernard Paques
  * @author GnapZ
+ * @author Alexis Raimbault
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -72,10 +73,11 @@ Class Layout_links extends Layout_interface {
 			$details = array();
 
 			// item poster
-			if($this->layout_variant != 'no_author') {
-				if($item['edit_name'])
+			if($item['edit_name'] && ($this->layout_variant != 'no_author')) {
+				if(Surfer::is_member()
+					|| (!isset($context['content_without_details']) || ($context['content_without_details'] != 'Y'))
+					|| (is_object($anchor) && $anchor->has_option('with_details')) )
 					$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
-
 			}
 
 			// show an anchor link
@@ -108,7 +110,7 @@ Class Layout_links extends Layout_interface {
 
 			// let the rendering engine guess the type of link
 			$link_type = NULL;
-			
+
 			// except if we want to stay within this window
 			if(isset($item['link_target']) && ($item['link_target'] != 'I'))
 				$link_type = 'external';

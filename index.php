@@ -115,9 +115,9 @@
  * This layout is suitable for weblogs. It is the default value. See [script]skins/layout_home_articles_as_daily.php[/script]
  * - [code]newspaper[/code] - Focus on the last published article, and list some articles published previously.
  * This layout is suitable for most sites. See [script]skins/layout_home_articles_as_newspaper.php[/script]
- * - [code]boxesandarrows[/code] - List the last ten most recent pages.
+ * - [code]hardboiled[/code] - List the last ten most recent pages.
  * Previous articles may be accessed through sections, or through the index of articles.
- * This layout is suitable for sites providing several different kinds of information. See [script]skins/layout_home_articles_as_boxesandarrows.php[/script]
+ * This layout is suitable for sites providing several different kinds of information. See [script]skins/layout_home_articles_as_hardboiled.php[/script]
  * - [code]slashdot[/code] - List the last ten most recent pages.
  * Previous articles may be accessed through sections, or through the index of articles.
  * This layout is suitable for sites providing several different kinds of information. See [script]skins/layout_home_articles_as_slashdot.php[/script]
@@ -906,7 +906,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// append a box
 			if($box['text'])
-				$text .= Skin::build_box($box['title'], $box['text'], 'navigation');
+				$text .= Skin::build_box($box['title'], $box['text'], 'extra');
 
 		}
 	}
@@ -995,7 +995,7 @@ if(!$text =& Cache::get($cache_id)) {
 				$items['articles/'] = i18n::s('All pages').MORE_IMG;
 			}
 
-			$text .= Skin::build_box(i18n::s('Recent Pages'), Skin::build_list($items, 'compact'), 'navigation');
+			$text .= Skin::build_box(i18n::s('Recent Pages'), Skin::build_list($items, 'compact'), 'extra');
 		}
 	}
 

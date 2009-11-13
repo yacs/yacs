@@ -78,7 +78,7 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 
 			// section opening
 			if($item_count == 1)
-				$text .= '<div id="home_north">'."\n";
+				$text .= '<div class="newest">'."\n";
 
 			// reset everything
 			$content = $prefix = $label = $suffix = $icon = '';

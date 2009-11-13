@@ -56,20 +56,25 @@ if(file_exists($context['path_to_root'].'skins/'.$skin.'/template.php'))
 // load the skin
 load_skin('skins');
 
-define('DUMMY_TEXT', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-	.' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-	.' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
-	.' Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+if(!defined('DUMMY_TEXT'))
+	define('DUMMY_TEXT', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+		.' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+		.' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+		.' Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
 
 $items = array('_1' => 'Lorem ipsum dolor sit amet', '_2' => 'Excepteur sint occaecat cupidatat non proident', '_3' => 'Ut enim ad minim veniam');
 
 define('COMPACT_LIST', Skin::build_list($items, 'compact'));
 
-// alphabetical order
-
 // // $context['error'] - to report run time errors
 if($context['with_debug'] == 'Y')
 	Logger::error(i18n::s('error messages, if any'));
+
+// minimum site parameters
+if(!$context['site_name'])
+	$context['site_name'] = i18n::s('Site name');
+if(!$context['site_slogan'])
+	$context['site_slogan'] = i18n::s('Site slogan');
 
 // $context['navigation'] - navigation boxes
 $context['navigation'] .= Skin::build_box(i18n::s('navigation').' 1', DUMMY_TEXT, 'navigation');
@@ -104,7 +109,7 @@ $text = Skin::build_tree(array(array('#', '', i18n::s('menu').' 1', '', 'close')
 	array('#', '', i18n::s('menu').' 3', '', 'close'),
 	array('#', '', i18n::s('menu').' 4', '', 'close')
 	));
-$context['extra']['contextual'] = Skin::build_box(i18n::s('contextual menu'), $text, 'navigation', 'contextual_menu');
+$context['components']['contextual'] = Skin::build_box(i18n::s('contextual menu'), $text, 'extra', 'contextual_menu');
 
 // $context['page_author'] - the author
 $context['page_author'] = 'webmaestro, through some PHP script';
@@ -145,6 +150,7 @@ $context['prefix'] .= i18n::s('Skin to test').' <select name="skin">';
 if ($dir = Safe::opendir("../skins")) {
 
 	// valid skins have a template.php
+	$skins = array();
 	while(($file = Safe::readdir($dir)) !== FALSE) {
 		if(($file[0] == '.') || !is_dir('../skins/'.$file))
 			continue;
@@ -156,32 +162,26 @@ if ($dir = Safe::opendir("../skins")) {
 		$skins[] = '<option value="'.$file.'"'.$checked.'>'.$file."</option>\n";
 	}
 	Safe::closedir($dir);
-	if(@count($skins)) {
+	if(count($skins)) {
 		natsort($skins);
 		foreach($skins as $skin)
 			$context['prefix'] .= $skin;
 	}
 }
-$context['prefix'] .= '</select> '.Skin::build_submit_button(' &raquo; ').'</p></form>';
+$context['prefix'] .= '</select> '.Skin::build_submit_button(i18n::s('Go')).'</p></form>';
 
 // $context['prefix'] - some prefix data
 $context['prefix'] .= '<p>'.sprintf(i18n::s('Use this page while developing or checking a theme, then activate the theme and move to %s to finalize your work.'), Skin::build_link('codes/', i18n::s('help pages on YACS codes'), 'shortcut')).'</p>';
 
+// several panels
+$panels = array();
+
+// regular panel
 // will be derivated to $context['text'] after codes::beautify()
 $text = '';
 
 // $context['text']
 $text .= DUMMY_TEXT;
-
-// $context['text'] - with gadgets -- see index.php and sections/view.php
-$text .= "\n".'<p id="gadgets_prefix"> </p>'."\n"
-	.Skin::build_box(i18n::s('gadget').' 1', DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 2', DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 3', DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 4', DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 5', DUMMY_TEXT, 'gadget')
-	.Skin::build_box(i18n::s('gadget').' 6', DUMMY_TEXT, 'gadget')
-	.'<p id="gadgets_suffix"> </p>'."\n";
 
 // $context['text'] - introduction
 $text .= Skin::build_block(DUMMY_TEXT, 'introduction');
@@ -242,15 +242,6 @@ $menu_bar = array('skins/test.php' => i18n::s('Test page'), 'skins/' => i18n::s(
 // $context['text'] - section with a menu bar
 $text .= Skin::build_box(i18n::s('with a menu bar'), DUMMY_TEXT.Skin::build_list($menu_bar, 'menu_bar').DUMMY_TEXT);
 
-// $context['text'] - test horizontal and vertical layouts
-$cells = array(Skin::layout_vertically(array(i18n::s('north').' - '.DUMMY_TEXT,
-		Skin::layout_horizontally('left='.i18n::s('west').' - '.DUMMY_TEXT.DUMMY_TEXT,
-			'center='.i18n::s('center').' - '.DUMMY_TEXT.DUMMY_TEXT,
-			'right='.i18n::s('east').' - '.DUMMY_TEXT.DUMMY_TEXT),
-		i18n::s('south').' - '.DUMMY_TEXT)),
-	Skin::build_block(DUMMY_TEXT, 'sidecolumn'));
-$text .= Skin::build_box(i18n::s('horizontal and vertical layouts'), Skin::layout_horizontally($cells));
-
 // page neighbours
 $neighbours = array('#previous', i18n::s('Previous'), '#next', i18n::s('Next'), '#', 'index');
 
@@ -264,8 +255,29 @@ $user['nick_name'] = 'Geek101';
 $user['introduction'] = DUMMY_TEXT;
 $text .= Skin::build_profile($user, 'suffix');
 
-// beautify everything and display the result
-$context['text'] .= Codes::beautify($text);
+// finalize this panel
+$panels[] = array('b', i18n::s('Text'), 'b_panel', Codes::beautify($text));
+
+// gadgets panel
+//
+$text = DUMMY_TEXT;
+
+// $context['text'] - with gadgets -- see index.php and sections/view.php
+$text .= "\n".'<p id="gadgets_prefix"> </p>'."\n"
+	.Skin::build_box(i18n::s('gadget').' 1', DUMMY_TEXT, 'gadget')
+	.Skin::build_box(i18n::s('gadget').' 2', DUMMY_TEXT, 'gadget')
+	.Skin::build_box(i18n::s('gadget').' 3', DUMMY_TEXT, 'gadget')
+	.Skin::build_box(i18n::s('gadget').' 4', DUMMY_TEXT, 'gadget')
+	.Skin::build_box(i18n::s('gadget').' 5', DUMMY_TEXT, 'gadget')
+	.Skin::build_box(i18n::s('gadget').' 6', DUMMY_TEXT, 'gadget')
+	.'<p id="gadgets_suffix"> </p>'."\n";
+
+// finalize this panel
+$panels[] = array('g', i18n::s('Gadgets'), 'g_panel', Codes::beautify($text));
+
+// assemble all panels
+//
+$context['text'] .= Skin::build_tabs($panels);
 
 // render the skin
 render_skin();

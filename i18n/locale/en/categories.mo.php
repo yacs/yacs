@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on October 5, 2009, 8:15 pm GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:19 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-10-04 23:58+0200
-PO-Revision-Date: 2009-09-02 01:01+0100
+POT-Creation-Date: 2009-11-09 19:19+0100
+PO-Revision-Date: 2009-10-07 00:47+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -45,6 +45,7 @@ $_SESSION['l10n']['en']['b4cb4dc2b17ff4ce51ca65cb8dcc7e98']='Apply a specific th
 $_SESSION['l10n']['en']['Ask Jeeves']='Ask Jeeves';
 $_SESSION['l10n']['en']['Attach related files.']='Attach related files.';
 $_SESSION['l10n']['en']['Attachments']='Attachments';
+$_SESSION['l10n']['en']['Background color']='Background color';
 $_SESSION['l10n']['en']['Cancel']='Cancel';
 $_SESSION['l10n']['en']['Categories']='Categories';
 $_SESSION['l10n']['en']['Categories for: %s']='Categories for: %s';
@@ -114,6 +115,7 @@ $_SESSION['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields ar
 $_SESSION['l10n']['en']['076258fa009ea3b6a42ad8ef12aca098']='Maybe some new pages or additional material can be found by submitting the following keyword to our search engine. Give it a try. %s';
 $_SESSION['l10n']['en']['Message content']='Message content';
 $_SESSION['l10n']['en']['45b0a300ae44fcf8ec94980438933ae9']='Message content can not be empty';
+$_SESSION['l10n']['en']['Message recipients']='Message recipients';
 $_SESSION['l10n']['en']['Message title']='Message title';
 $_SESSION['l10n']['en']['Monitor']='Monitor';
 $_SESSION['l10n']['en']['More']='More';
@@ -196,6 +198,7 @@ $_SESSION['l10n']['en']['Title']='Title';
 $_SESSION['l10n']['en']['d8ef00288000f0f98aafef9b53c2e08d']='To be inserted at the bottom of related pages.';
 $_SESSION['l10n']['en']['c1966a9db995dd0212d9febf7be757e0']='To be inserted at the top of related pages.';
 $_SESSION['l10n']['en']['To designate a category by name']='To designate a category by name';
+$_SESSION['l10n']['en']['fa09bb542328a06fca03740c95c19f22']='To highlight this category in lists';
 $_SESSION['l10n']['en']['74a19ba83faf8108003e4f4acf426719']='To load template_foo_bar.php instead of the regular template';
 $_SESSION['l10n']['en']['9e9dfd283bcf9e91034d1f81ac4b04aa']='To relate this category to some search pattern';
 $_SESSION['l10n']['en']['0749c2e869a8f74bc91f87cc3643388e']='Too many successive errors. Aborted';
@@ -223,10 +226,10 @@ $_SESSION['l10n']['en']['Yahoo!']='Yahoo!';
 $_SESSION['l10n']['en']['3585bbc26a41b43aecfc0a9b67c7be74']='Yes, I want to delete this category';
 $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed to perform this operation in demonstration mode.';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
-$_SESSION['l10n']['en']['You are sending a message to:']='You are sending a message to:';
 $_SESSION['l10n']['en']['20cf45e0c01e6acc47459231610d3463']='You can upload a camera shot, a drawing, or another image file.';
 $_SESSION['l10n']['en']['d202c53d9ea1bb14a44814af246dbcf4']='You may combine several keywords:';
 $_SESSION['l10n']['en']['3826678d554b3f49614db283670da2ca']='alistapart - Display entirely the last published page';
+$_SESSION['l10n']['en']['and %d other persons']='and %d other persons';
 $_SESSION['l10n']['en']['28a8beb390c049ec3274337a68b552e7']='at all pages, among other navigation boxes';
 $_SESSION['l10n']['en']['at articles index']='at articles index';
 $_SESSION['l10n']['en']['at files index']='at files index';
@@ -234,7 +237,6 @@ $_SESSION['l10n']['en']['at links index']='at links index';
 $_SESSION['l10n']['en']['at site map']='at site map';
 $_SESSION['l10n']['en']['21bba8f9b0118df8d40223e2e199154e']='at the front page, among other extra boxes';
 $_SESSION['l10n']['en']['at users index']='at users index';
-$_SESSION['l10n']['en']['70c052690de9189737835cc5ad18869e']='boxesandarrows - Click on titles to read articles';
 $_SESSION['l10n']['en']['categories']='categories';
 $_SESSION['l10n']['en']['aa00cbbac581ee176441d1e92a17ee3e']='clouds - List sub-categories as clouds.';
 $_SESSION['l10n']['en']['e7dd29c2c008dce9b7ed980a40e31858']='compact - A compact list of items';

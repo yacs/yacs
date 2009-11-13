@@ -156,12 +156,12 @@ if(!isset($item['id'])) {
 	// manage command
 	if(Surfer::is_associate() || (Surfer::get_id() == $item['id'])) {
 		Skin::define_img('USERS_WATCH_IMG', 'users/watch.gif');
-		$menu[] = Skin::build_link(Users::get_url('user:'.$item['id'], 'select'), USERS_WATCH_IMG.i18n::s('Manage contacts'), 'basic');
+		$menu[] = Skin::build_link(Users::get_url('user:'.$item['id'], 'select'), USERS_WATCH_IMG.i18n::s('Manage contacts'), 'span');
 	}
 
 	// build the menu
 	$output .= Skin::finalize_list($menu, 'menu_bar');
-	
+
 	// list watched users by posts
 	$watched = '';
 	if($items =& Members::list_connections_for_user('user:'.$item['id'], 0, 200, 'watch')) {
@@ -182,9 +182,9 @@ if(!isset($item['id'])) {
 			$followers .= '<p>'.i18n::s('Following persons are connected to you:').'</p>'.$items;
 		else
 			$followers .= '<p>'.sprintf(i18n::s('Following persons are connected to %s:'), $item['full_name']).'</p>'.$items;
-			
+
 	}
-	
+
 	// connect to people
 	if(Surfer::get_id() && (Surfer::get_id() != $item['id'])) {
 
@@ -198,11 +198,11 @@ if(!isset($item['id'])) {
 	}
 
 	// put followers in a sidebar
-	if($followers)		
+	if($followers)
 		$output .= Skin::layout_horizontally($watched, Skin::build_block($followers, 'sidecolumn'));
 	else
 		$output .= $watched;
-			
+
 	// actual transmission except on a HEAD request
 	if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] != 'HEAD'))
 		echo $output;

@@ -521,11 +521,4 @@ class Anchors {
 
 }
 
-// obsoleted by Anchors::get on August, 20th, 2007
-//
-function &get_anchor($id, $mutable=FALSE) {
-	$output =& Anchors::get($id, $mutable);
-	return $output;
-}
-
 ?>

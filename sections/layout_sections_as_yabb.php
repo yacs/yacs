@@ -132,7 +132,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 			if($anchors =& Sections::get_children_of_anchor('section:'.$item['id'])) {
 				if($anchors2 =& Sections::get_children_of_anchor($anchors))
 					$anchors2 = array_merge($anchors2, Sections::get_children_of_anchor($anchors2));
-				
+
 				$anchors = array_merge($anchors, $anchors2);
 			}
 			$anchors[] = 'section:'.$item['id'];

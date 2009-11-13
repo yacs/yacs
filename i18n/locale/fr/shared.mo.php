@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:48 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:14 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-24 09:36+0200
-PO-Revision-Date: 2009-09-20 23:49+0100
+POT-Creation-Date: 2009-11-09 19:19+0100
+PO-Revision-Date: 2009-11-09 20:22+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -21,6 +21,7 @@ X-Poedit-SourceCharset: utf-8
 X-Poedit-Language: French
 ';
 $_SESSION['l10n']['fr']['%d active now'.chr(0).'%d active now']='%d actif maintenant'.chr(0).'%d actifs maintenant';
+$_SESSION['l10n']['fr']['%s by %s']='%s par %s';
 $_SESSION['l10n']['fr']['be362d7d53a1254f538bfda2a9b7b995']='Un membre est requis pour cette opération.';
 $_SESSION['l10n']['fr']['Access collection']='Voir la collection';
 $_SESSION['l10n']['fr']['Actions']='Actions';
@@ -77,6 +78,8 @@ $_SESSION['l10n']['fr']['fc2edca5afeada33fbd4d829f8da5047']='Commandes système,
 $_SESSION['l10n']['fr']['Table']='Table';
 $_SESSION['l10n']['fr']['Tables']='Tables';
 $_SESSION['l10n']['fr']['The table']='La table';
+$_SESSION['l10n']['fr']['49c915d733aa70a024b480150f68083f']='Ce message a été généré automatiquement par %s car le nouvel élément a été attaché à un espace web qui fait partie de votre liste de surveillance. Pour arrêter les alertes automatiques visiter la page et cliquer sur le lien Oublier.';
+$_SESSION['l10n']['fr']['f2eef2fdffa0e2a2c849b8b6e012c5c1']='Ce message a été généré automatiquement par %s car la page a été postée par un utilisateur qui fait partie de votre liste de surveillance. Pour arrêter les alertes automatiques merci de visiter le profil suivant et de cliquer sur le lien Déconnecter.';
 $_SESSION['l10n']['fr']['3e5db4a2ca0b72619890b0a6317167b5']='Ce message a été généré automatiquement par %s. Pour arrêter ces alertes dynamiques vous pouvez suivre le lien suivant et retirer votre adresse des destinaires des événements système.';
 $_SESSION['l10n']['fr']['b14e57cf6aea5bcf8b57974ce6a1545d']='Tapez exactement les 5 caractères suivants :';
 $_SESSION['l10n']['fr']['User']='Utilisateur';
@@ -88,12 +91,15 @@ $_SESSION['l10n']['fr']['View this decision']='Voir cette décision';
 $_SESSION['l10n']['fr']['XML error: %s at line %d']='Erreur XML : %s à la ligne %d';
 $_SESSION['l10n']['fr']['68e8557b5fa4d724688175816097ce17']='Vous pouvez envoyer du XHTML.';
 $_SESSION['l10n']['fr']['a38baa11f8dc11db9fde342db9db7f07']='Pour redevenir un surfeur anonyme';
+$_SESSION['l10n']['fr']['and %d other persons']='et %d autres personnes';
 $_SESSION['l10n']['fr']['and analyzed']='et analysée';
 $_SESSION['l10n']['fr']['and optimized']='et optimisée';
 $_SESSION['l10n']['fr']['anonymous']='anonyme';
 $_SESSION['l10n']['fr']['commented']='commenté';
 $_SESSION['l10n']['fr']['created']='créé';
 $_SESSION['l10n']['fr']['edited']='modifié';
+$_SESSION['l10n']['fr']['file released']='fichier libéré';
+$_SESSION['l10n']['fr']['file reserved']='fichier réservé';
 $_SESSION['l10n']['fr']['file updated']='fichier modifié';
 $_SESSION['l10n']['fr']['file uploaded']='fichier attaché';
 $_SESSION['l10n']['fr']['has been created']='a été créée';

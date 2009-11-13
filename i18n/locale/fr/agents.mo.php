@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:48 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:19 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:02+0200
-PO-Revision-Date: 2009-05-15 00:13+0100
+POT-Creation-Date: 2009-10-05 15:59+0200
+PO-Revision-Date: 2009-10-05 16:05+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -22,7 +22,6 @@ X-Poedit-Language: French
 ';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
-$_SESSION['l10n']['fr']['1fa29870e0d67260cf186d325428dd30']='<p>Voici la liste des événements récents à %s</p><p>Vous pouvez obtenir plus d\'information à l\'aide des raccourcis suivants :</p><ul><li><a href="%s">Allez à la page frontale (%s)</a></li><li><a href="%s">Allez sur le Panneau de contrôle (%s)</a></li></ul>';
 $_SESSION['l10n']['fr']['83e6e48752cf497b046199e45dd354ed']='Liste des adresses autorisées, ou \'any_member\', \'any_subscriber\' ou \'anyone\'. Les associés ont toujours le droit de poster des messages, il est inutile de répéter leurs adresses.';
 $_SESSION['l10n']['fr']['65f61dbb9945e97556e5d3b7e4526662']='Une expression régulière qui doit correspondre aux messages reçus pour qu\'ils soient acceptés (exemple : \'X-Originating-IP:  [21.18.33.9]\')';
 $_SESSION['l10n']['fr']['Account name']='Intitulé du compte';
@@ -56,6 +55,7 @@ $_SESSION['l10n']['fr']['8b1d3446a4c669f3bd4d3f369babf4db']='Comptes de messager
 $_SESSION['l10n']['fr']['Maximum time']='Temps maximum';
 $_SESSION['l10n']['fr']['Messages']='Messages';
 $_SESSION['l10n']['fr']['Minimum time']='Temps minimum';
+$_SESSION['l10n']['fr']['Most recent events at %s']='Evénements récents à %s';
 $_SESSION['l10n']['fr']['New submission: %s']='Nouvel envoi : %s';
 $_SESSION['l10n']['fr']['Nick name']='Surnom';
 $_SESSION['l10n']['fr']['c5ca4820ba3d0beb8ff07061d5feebb3']='Surnom ou identifiant de la section utilisée pour les nouveaux messages (exemple : 45)';

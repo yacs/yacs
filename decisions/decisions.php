@@ -221,7 +221,7 @@ Class Decisions {
 			if(!defined('NO_IMG')) {
 
 				// else use default image file
-				$file = 'skins/images/decisions/no.gif';
+				$file = 'skins/_reference/decisions/no.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
 					define('NO_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="No" /> ');
 				else
@@ -237,7 +237,7 @@ Class Decisions {
 			if(!defined('YES_IMG')) {
 
 				// else use default image file
-				$file = 'skins/images/decisions/yes.gif';
+				$file = 'skins/_reference/decisions/yes.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
 					define('YES_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
@@ -443,14 +443,14 @@ Class Decisions {
 	 */
 	function &get_results_label_for_anchor($anchor) {
 		global $context;
-		
+
 		// no text yet
 		$text = '';
-		
+
 		// decisions for this vote
 		if(!$results = Decisions::get_results_for_anchor($anchor))
 			return $text;
-			
+
 		list($total, $yes, $no) = $results;
 		if(!$total)
 			return $text;
@@ -467,7 +467,7 @@ Class Decisions {
 
 	}
 
-	
+
 	/**
 	 * get a default title from the type selected
 	 *
@@ -704,7 +704,7 @@ Class Decisions {
 
 		// no layout yet
 		$layout = NULL;
-		
+
 		// separate options from layout name
 		$attributes = explode(' ', $variant, 2);
 
@@ -718,7 +718,7 @@ Class Decisions {
 				// provide parameters to the layout
 				if(isset($attributes[1]))
 					$layout->set_variant($attributes[1]);
-		
+
 			}
 		}
 
@@ -732,7 +732,7 @@ Class Decisions {
 		// do the job
 		$output =& $layout->layout($result);
 		return $output;
-		
+
 	}
 
 	/**
@@ -896,7 +896,7 @@ Class Decisions {
 			$output = NULL;
 			return $output;
 		}
-		
+
 		// match
 		$match = '';
 		$words = preg_split('/\s/', $pattern);

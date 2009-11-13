@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:49 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:19 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: Yacs
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2008-11-28 23:55+0100
+POT-Creation-Date: 2009-10-03 00:35+0200
 PO-Revision-Date: 2008-11-16 21:49+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -36,7 +36,6 @@ $_SESSION['l10n']['fr']['No behavior %s has been found.']='Aucun comportement %s
 $_SESSION['l10n']['fr']['No item has the provided id.']='Aucun élément n\'a été trouvé.';
 $_SESSION['l10n']['fr']['614c6463818719e073fb0932f2215525']='Aucun paramètre n\'a été fourni pour %s';
 $_SESSION['l10n']['fr']['Yes']='Oui';
-$_SESSION['l10n']['fr']['3487ae0aa6ed0bdd7ecc67de9093cd40']='Votre accord a été enregistré.';
 $_SESSION['l10n']['fr']['c01e1a3fe47daac09949712b6af2ec93']='Votre accord est nécessaire pour accèder à la page désirée.';
 $_SESSION['l10n']['fr']['site map']='carte du site';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';

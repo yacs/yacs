@@ -57,13 +57,13 @@ elseif(!Surfer::is_associate()) {
 	function check_file($node) {
 		global $context;
 		global $footprints;
-	
+
 		$key = substr($node, strlen($context['path_to_root']));
 
 		// no extension to check
 		if(strpos($key, '.') === FALSE)
 			;
-			
+
 		// skip the staging directory
 		elseif(!strncmp($node, 'scripts/staging', 16))
 			;
@@ -71,11 +71,11 @@ elseif(!Surfer::is_associate()) {
 		// the main signature file
 		elseif(!strcmp($key, 'footprints.php'))
 			;
-			
+
 		// an index file created by yacs
 		elseif(!strncmp(substr($key, -9), 'index.php', 9) && ($content = Safe::file_get_contents($node)) && !strcmp($content, Safe::mkdir_index_content()))
 			;
-			
+
 		// a localized set of string
 		elseif(!strncmp($key, 'temporary/cache_i18n_locale_', 28))
 			;
@@ -86,14 +86,14 @@ elseif(!Surfer::is_associate()) {
 			// one of the parameter files created by yacs
 			if(preg_match('/parameters\/(agents|collections|control|feeds|files|hooks|letters|root|scripts|services|skins|users)\.include\.php$/i', $key))
 				;
-				
+
 			elseif(isset($footprints[$key])) {
 				$expected = $footprints[$key];
 				$actual = Scripts::hash($node);
-				
-				if(($expected[0] != $actual[0]) || (($expected[1] != $actual[1]) && ($expected[2] != $actual[3])))
+
+				if(($expected[0] != $actual[0]) || ($expected[1] != $actual[1]))
 					$context['text'] .= sprintf(i18n::s('ERROR: File %s is missing or corrupted.'), $key).BR."\n";
-	
+
 			} else
 				$context['text'] .= sprintf(i18n::s('File %s is not part of Yacs.'), $key).BR."\n";
 
@@ -101,7 +101,7 @@ elseif(!Surfer::is_associate()) {
 		} elseif(!preg_match('/\.(bak|bat|css|done|dtd|fdb|flv|gif|ico|jpeg|jpg|js|jsmin|htc|htm|html|mo|off|on|pdf|png|po|pot|reg|sh|sql|swf|tgz|txt|xml|zip)$/i', $key))
 			$context['text'] .= sprintf(i18n::s('File %s is not part of Yacs.'), $key).BR."\n";
 
-	}			
+	}
 
 
 		// ensure enough execution time
@@ -110,7 +110,7 @@ elseif(!Surfer::is_associate()) {
 	// list of updated scripts
 	$context['text'] .= '<p>'.i18n::s('Checking scripts...').BR."\n";
 	Scripts::walk_files_at($context['path_to_root'], 'check_file');
-	
+
 } else {
 
 	// splash message

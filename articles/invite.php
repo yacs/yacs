@@ -62,10 +62,6 @@ include_once '../overlays/overlay.php';
 if(isset($item['overlay']))
 	$overlay = Overlay::load($item);
 
-// owners can do what they want
-if(Articles::is_owned($anchor, $item))
-	Surfer::empower();
-
 // link to contribute
 if(Surfer::is_empowered() && isset($_REQUEST['provide_credentials']) && ($_REQUEST['provide_credentials'] == 'Y'))
 	$link = $context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id']); // to be expanded to credentials
@@ -76,6 +72,10 @@ else
 $message_prefix = i18n::s('I would like to invite you to the following page.')
 	."\n\n".$link."\n\n";
 
+// owners can do what they want
+if(Articles::is_owned($anchor, $item))
+	Surfer::empower();
+
 // associates and editors can do what they want
 if(Surfer::is_empowered())
 	$permitted = TRUE;
@@ -83,10 +83,6 @@ if(Surfer::is_empowered())
 // help to share public items
 elseif(isset($item['active']) && ($item['active'] == 'Y'))
 	$permitted = TRUE;
-
-// function is available only to authenticated members --not subscribers
-elseif(!Surfer::is_member())
-	$permitted = FALSE;
 
 // the default is to disallow access
 else

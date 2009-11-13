@@ -487,7 +487,7 @@ if(Surfer::is_crawler()) {
 				$links = array_merge($links, array( 'users/edit.php' => i18n::s('Add a user') ));
 			}
 
-			$context['components']['boxes'] .= Skin::build_box(i18n::s('Contribute'), Skin::build_list($links, 'compact'), 'navigation');
+			$context['components']['boxes'] .= Skin::build_box(i18n::s('Contribute'), Skin::build_list($links, 'compact'), 'extra');
 		}
 
 		// navigation links, in an extra box
@@ -498,7 +498,7 @@ if(Surfer::is_crawler()) {
 		$links = array_merge($links, array( 'categories/' => i18n::s('Categories') ));
 		$links = array_merge($links, array( 'search.php' => i18n::s('Search') ));
 
-		$context['components']['boxes'] .= Skin::build_box(i18n::s('Navigate'), Skin::build_list($links, 'compact'), 'navigation');
+		$context['components']['boxes'] .= Skin::build_box(i18n::s('Navigate'), Skin::build_list($links, 'compact'), 'extra');
 
 	// failed authentication
 	} else {
@@ -646,7 +646,7 @@ if(Surfer::is_crawler()) {
 	// the help panel
 	$help = '<p>'.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'</p>'
 		.'<p>'.sprintf(i18n::s('If you already are a registered member, but do not remember your username and/or password, %s.'), Skin::build_link('users/password.php', i18n::s('click here'))).'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 }
 

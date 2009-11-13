@@ -383,6 +383,69 @@ class Mailer {
 	}
 
 	/**
+	 * format a message
+	 *
+	 * This function prepares a localized message
+	 *
+	 * Depending of the reason, the message will have the following kind of trail:
+	 * - 0 - no trail
+	 * - 1 - you are watching the container
+	 * - 2 - you are watching the poster
+	 *
+	 * @param string coded action (e.g., 'article:create') or full description
+	 * @param string title of the target page
+	 * @param string link to the target page
+	 * @param int reason for notification
+	 * @return string text to be put in message
+	 */
+	function &build_notification($action, $title, $link, $reason=0) {
+		global $context;
+
+		// decode action
+		if(strpos($action, ':create')) {
+			if($surfer = Surfer::get_name())
+				$action = sprintf(i18n::c('%s by %s'), ucfirst(get_action_label($action)), $surfer);
+			else
+				$action = ucfirst(get_action_label($action));
+		}
+
+		// clean title
+		$title = strip_tags($title);
+
+		// decode the reason
+		switch($reason) {
+
+		case 0: // no trail
+		default:
+			$reason = '';
+			break;
+
+		case 1: // you are watching the container
+			$reason = "\n\n"
+				.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the page and click on the Forget link.'), $context['site_name']);
+			break;
+
+		case 2: // you are watching the poster
+			$reason = "\n\n"
+				.sprintf(i18n::c('This message has been generated automatically by %s since you are connected to the person who posted the new item. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.'), $context['site_name'])
+				."\n\n".ucfirst(strip_tags(Surfer::get_name()))
+				."\n".$context['url_to_home'].$context['url_to_root'].Surfer::get_permalink()
+				."\n\n";
+			break;
+
+		}
+
+		// allow for localized templates
+		$template = i18n::get_template('mail_notification');
+
+		// assemble everything
+		$text = sprintf($template, $action, $title, $link).$reason;
+
+		// job done
+		return $text;
+	}
+
+	/**
 	 * retrieve recipients of last post
 	 *
 	 * This is useful to list all persons notified after a post for example.
@@ -393,13 +456,13 @@ class Mailer {
 	function get_recipients($title=NULL) {
 		global $context;
 
-		// return the bare list
-		if(!$title)
-			return $context['mailer_recipients'];
-
 		// nothing to show
 		if(!Surfer::get_id() || !isset($context['mailer_recipients']))
 			return '';
+
+		// return the bare list
+		if(!$title)
+			return $context['mailer_recipients'];
 
 		// build a nice list
 		$list = array();

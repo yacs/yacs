@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:49 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:19 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:02+0200
-PO-Revision-Date: 2009-09-02 01:20+0100
+POT-Creation-Date: 2009-10-04 23:58+0200
+PO-Revision-Date: 2009-10-05 00:05+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -51,7 +51,6 @@ $_SESSION['l10n']['fr']['abf8fdccef1fa38d977f0824c5b5a6a6']='Emplacements des me
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Look for unused locations']='Détecter les emplacements inutilisés';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
-$_SESSION['l10n']['fr']['Navigation']='Navigation';
 $_SESSION['l10n']['fr']['New location in %s']='Nouvel emplacement dans %s';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
 $_SESSION['l10n']['fr']['No image to use as a map.']='Pas d\'image de fond de carte.';
@@ -60,6 +59,7 @@ $_SESSION['l10n']['fr']['95eeec18709a90fc951edc69a4187d66']='Aucun emplacement n
 $_SESSION['l10n']['fr']['a9864baa813ec36afd9d1d510045645a']='Impossible de créer une image dynamique';
 $_SESSION['l10n']['fr']['On page %s']='Sur la page %s';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
+$_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
 $_SESSION['l10n']['fr']['Place name']='Lieu géographique';
 $_SESSION['l10n']['fr']['b7e4d1da92d8d2dbf79a14a8e486cd67']='Merci d\'indiquer un titre pour cet emplacement';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';

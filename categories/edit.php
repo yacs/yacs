@@ -39,6 +39,9 @@ include_once '../shared/global.php';
 include_once '../shared/xml.php';	// input validation
 include_once 'categories.php';
 
+// load jscolor library
+$context['javascript']['jscolor'] = TRUE;
+
 // look for the id
 $id = NULL;
 if(isset($_REQUEST['id']))
@@ -342,10 +345,10 @@ if($with_form) {
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('clouds - List sub-categories as clouds.');
 
-	$input .= BR.'<input type="radio" name="categories_layout" value="custom"';
+	$input .= BR.'<input type="radio" name="categories_layout" value="custom" id="custom_categories_layout"';
 	if($item['categories_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="categories_custom_layout" value="'.encode_field($custom_layout).'" size="32" />');
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="categories_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_categories_layout\').checked=1" />');
 	$input .= BR.'<input type="radio" name="categories_layout" value="none"';
 	if($item['categories_layout'] == 'none')
 		$input .= ' checked="checked"';
@@ -364,7 +367,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['sections_layout']) || !$item['sections_layout'])
 		$item['sections_layout'] = 'map';
-	elseif(!preg_match('/(compact|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $item['sections_layout'])) {
+	elseif(!preg_match('/(compact|decorated|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)/', $item['sections_layout'])) {
 		$custom_layout = $item['sections_layout'];
 		$item['sections_layout'] = 'custom';
 	}
@@ -372,6 +375,10 @@ if($with_form) {
 	if($item['sections_layout'] == 'decorated')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('decorated - As a decorated list.')
+		.BR.'<input type="radio" name="sections_layout" value="slashdot"';
+	if($item['sections_layout'] == 'slashdot')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('slashdot - List most recent pages equally')
 		.BR.'<input type="radio" name="sections_layout" value="map"';
 	if($item['sections_layout'] == 'map')
 		$input .= ' checked="checked"';
@@ -404,10 +411,10 @@ if($with_form) {
 	if($item['sections_layout'] == 'titles')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails.')
-		.BR.'<input type="radio" name="sections_layout" value="custom"';
+		.BR.'<input type="radio" name="sections_layout" value="custom" id="custom_sections_layout"';
 	if($item['sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" />')
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_sections_layout\').checked=1" />')
 		.BR.'<input type="radio" name="sections_layout" value="none"';
 	if($item['sections_layout'] == 'none')
 		$input .= ' checked="checked"';
@@ -424,7 +431,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']) || !$item['articles_layout'])
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/(alistapart|boxesandarrows|compact|daily|decorated|digg|jive|manual|map|none|slashdot|table|wiki|yabb)/', $item['articles_layout'])) {
+	elseif(!preg_match('/(alistapart|compact|daily|decorated|digg|jive|manual|map|none|slashdot|table|wiki|yabb)/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
@@ -452,10 +459,6 @@ if($with_form) {
 	if($item['articles_layout'] == 'daily')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('daily - A list of stamped pages (blog)');
-	$input .= BR.'<input type="radio" name="articles_layout" value="boxesandarrows"';
-	if($item['articles_layout'] == 'boxesandarrows')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('boxesandarrows - Click on titles to read articles');
 	$input .= BR.'<input type="radio" name="articles_layout" value="jive"';
 	if($item['articles_layout'] == 'jive')
 		$input .= ' checked="checked"';
@@ -480,10 +483,10 @@ if($with_form) {
 	if($item['articles_layout'] == 'compact')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('compact - A compact list of items');
-	$input .= BR.'<input type="radio" name="articles_layout" value="custom"';
+	$input .= BR.'<input type="radio" name="articles_layout" value="custom" id="custom_articles_layout"';
 	if($item['articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" />');
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="articles_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_articles_layout\').checked=1" />');
 	$input .= BR.'<input type="radio" name="articles_layout" value="none"';
 	if($item['articles_layout'] == 'none')
 		$input .= ' checked="checked"';
@@ -770,6 +773,12 @@ if($with_form) {
 		$text .= Skin::build_box(i18n::s('Excerpts'), $input, 'folded');
 	}
 
+	// the background color
+	$label = i18n::s('Background color');
+	$input = '<input class="color {hash:true,required:false}" name="background_color" size="10" value="'.encode_field(isset($item['background_color'])?$item['background_color']:'').'" maxlength="8" />';
+	$hint = i18n::s('To highlight this category in lists');
+	$fields[] = array($label, $input, $hint);
+
 	// the nick name
 	$label = i18n::s('Nick name');
 	$input = '<input type="text" name="nick_name" size="32" value="'.encode_field(isset($item['nick_name'])?$item['nick_name']:'').'" maxlength="64" accesskey="n" />';
@@ -974,7 +983,7 @@ if($with_form) {
 	$help .= '</select></p></form>';
 
 	// in a side box
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 }
 

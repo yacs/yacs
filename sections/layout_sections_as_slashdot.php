@@ -1,0 +1,204 @@
+<?php
+/**
+ * look for newest headlines in each section
+ *
+ * @author Bernard Paques
+ * @reference
+ * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
+ */
+Class Layout_sections_as_slashdot extends Layout_interface {
+
+	/**
+	 * the preferred number of items for this layout
+	 *
+	 * @return 10
+	 *
+	 * @see skins/layout.php
+	 */
+	function items_per_page() {
+		return 10;
+	}
+
+	/**
+	 * list articles as slashdot do
+	 *
+	 * @param resource the SQL result
+	 * @return string the rendered text
+	 *
+	 * @see skins/layout.php
+	**/
+	function &layout(&$result) {
+		global $context;
+
+		// we return some text
+		$text = '';
+
+		// empty list
+		if(!SQL::count($result))
+			return $text;
+
+		// flag articles updated recently
+		if($context['site_revisit_after'] < 1)
+			$context['site_revisit_after'] = 2;
+		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
+
+		// layout in a table
+		$text = Skin::table_prefix('wide');
+
+		// 'even' is used for title rows, 'odd' for detail rows
+		$class_title = 'odd';
+		$class_detail = 'even';
+
+		// build a list of sections
+		$family = '';
+		include_once $context['path_to_root'].'articles/article.php';
+		include_once $context['path_to_root'].'categories/categories.php';
+		include_once $context['path_to_root'].'comments/comments.php';
+		include_once $context['path_to_root'].'files/files.php';
+		include_once $context['path_to_root'].'links/links.php';
+		include_once $context['path_to_root'].'overlays/overlay.php';
+		while($item =& SQL::fetch($result)) {
+
+			// change the family
+			if($item['family'] != $family) {
+				$family = $item['family'];
+
+				$text .= '<tr class="'.$class_title.'"><td class="family">'.$family.'&nbsp;</td></tr>'."\n";
+			}
+
+			// document this section
+			$content = $prefix = $title = $suffix = $icon = '';
+			$menu = array();
+
+			// permalink
+			$url =& Sections::get_permalink($item);
+
+			// get the anchor
+			$anchor =& Anchors::get($item['anchor']);
+
+			// get the related overlay, if any
+			$overlay = Overlay::load($item);
+
+			// use the title to label the link
+			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
+				$title .= $overlay->get_live_title($item);
+			else
+				$title .= Codes::beautify_title($item['title']);
+
+			// signal restricted and private sections
+			if($item['active'] == 'N')
+				$prefix .= PRIVATE_FLAG.' ';
+			elseif($item['active'] == 'R')
+				$prefix .= RESTRICTED_FLAG.' ';
+
+			// this is another row of the output
+			$text .= '<tr class="'.$class_title.'"><th>'.$prefix.Skin::build_link($url, $title, 'basic', i18n::s('View the section')).$suffix.'</th></tr>'."\n";
+
+			// document most recent page here
+			$content = $prefix = $title = $suffix = $icon = '';
+			$menu = array();
+
+			// branches of this tree
+			$anchors =& Sections::get_children_of_anchor('section:'.$item['id']);
+			$anchors[] = 'section:'.$item['id'];
+
+			// get last post
+			$article =& Articles::get_newest_for_anchor($anchors, TRUE);
+			if($article['id']) {
+
+				// permalink
+				$url =& Articles::get_permalink($article);
+
+				// get the anchor
+				$anchor =& Anchors::get($article['anchor']);
+
+				// get the related overlay, if any
+				$overlay = Overlay::load($article);
+
+				// use the title to label the link
+				if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
+					$title .= $overlay->get_live_title($article);
+				else
+					$title .= Codes::beautify_title($article['title']);
+
+				// signal restricted and private articles
+				if($article['active'] == 'N')
+					$prefix .= PRIVATE_FLAG.' ';
+				elseif($article['active'] == 'R')
+					$prefix .= RESTRICTED_FLAG.' ';
+
+				// the icon to put aside
+				if($article['thumbnail_url'])
+					$icon = $article['thumbnail_url'];
+
+				// the icon to put aside
+				if(!$icon && is_object($anchor))
+					$icon = $anchor->get_thumbnail_url();
+				if($icon)
+					$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('View the page')).'" title="'.encode_field(i18n::s('View the page')).'" /></a>';
+
+				// the introductory text
+				if($article['introduction'])
+					$content .= Codes::beautify_introduction($article['introduction']);
+
+				// else ask for a teaser
+				elseif(!is_object($overlay)) {
+					$handle = new Article();
+					$handle->load_by_content($article);
+					$content .= $handle->get_teaser('teaser');
+				}
+
+				// insert overlay data, if any
+				if(is_object($overlay))
+					$content .= $overlay->get_text('list', $article);
+
+				// link to description, if any
+				if(trim($article['description']))
+					$menu[] = Skin::build_link($url, i18n::s('Read more').MORE_IMG, 'span', i18n::s('View the page'));
+
+				// info on related files
+				if($count = Files::count_for_anchor('article:'.$article['id']))
+					$menu[] = sprintf(i18n::ns('%d file', '%d files', $count), $count);
+
+				// info on related comments
+				if($count = Comments::count_for_anchor('article:'.$article['id']))
+					$menu[] = sprintf(i18n::ns('%d comment', '%d comments', $count), $count);
+
+				// discuss
+				if(Comments::are_allowed($anchor, $article))
+					$menu[] = Skin::build_link(Comments::get_url('article:'.$article['id'], 'comment'), i18n::s('Discuss'), 'span');
+
+				// the main anchor link
+				if(is_object($anchor) && (!isset($this->layout_variant) || ($article['anchor'] != $this->layout_variant)))
+					$menu[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'span', i18n::s('View the section'));
+
+				// list up to three categories by title, if any
+				if($items =& Members::list_categories_by_title_for_member('article:'.$article['id'], 0, 3, 'raw')) {
+					foreach($items as $id => $attributes) {
+						$menu[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'span');
+					}
+				}
+
+				// append a menu
+				$content .= '<p>'.Skin::finalize_list($menu, 'menu').'</p>';
+
+				// this is another row of the output
+				$text .= '<tr class="'.$class_detail.'"><td>'
+					.'<h2 class="top"><span>'.Skin::build_link($url, $prefix.$title.$suffix, 'basic', i18n::s('View the page')).'</span></h2>'
+					.'<div class="content">'.$icon.$content.'</div>'
+					.'</td></tr>'."\n";
+
+			}
+
+
+		}
+
+		// end of processing
+		SQL::free($result);
+
+		$text .= Skin::table_suffix();
+		return $text;
+	}
+}
+
+?>

@@ -24,9 +24,6 @@ Class Skin extends Skin_Skeleton {
 		define('BR', '<br />');
 		define('EOT', ' />');
 
-		// the HTML used to prefix an answer
-		define('ANSWER_FLAG', '<img src="'.$context['url_to_root'].$context['skin'].'/images/answer.gif" width="23" height="30" alt="" class="left_image" />');
-
 		// the bullet prefix for compact lists
 		define('COMPACT_LIST_ITEM_PREFIX', '&raquo;&nbsp;');
 
@@ -35,12 +32,6 @@ Class Skin extends Skin_Skeleton {
 
 		// the HTML string appended to submenu items [submenu]
 		define('MENU_2_SUFFIX', BR);
-
-		// the HTML used to append to a stripped text
-		define('MORE_IMG', '&raquo;<img src="'.$context['url_to_root'].$context['skin'].'/icons/zoom.png" width="15" height="11" alt="" />');
-
-		// the HTML used to prefix a question
-		define('QUESTION_FLAG', '<img src="'.$context['url_to_root'].$context['skin'].'/images/question.gif" width="16" height="15" alt="" /> ');
 
 		// ensure extra boxes are displayed in this 2-columns layout
 		if(strpos($context['skins_navigation_components'], 'extra') === FALSE)

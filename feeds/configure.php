@@ -220,7 +220,7 @@ elseif(!Surfer::is_associate()) {
 
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('To ban some hosts or domains, go to the %s.'), Skin::build_link('servers/configure.php', i18n::s('configuration panel for servers'), 'shortcut')).'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {

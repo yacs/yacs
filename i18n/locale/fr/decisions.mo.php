@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:49 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:13 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-20 23:45+0200
-PO-Revision-Date: 2009-09-02 01:18+0100
+POT-Creation-Date: 2009-10-04 23:58+0200
+PO-Revision-Date: 2009-10-05 00:05+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -53,7 +53,6 @@ $_SESSION['l10n']['fr']['Edited by']='Modifié par';
 $_SESSION['l10n']['fr']['22574ae3fe08b2cb5e911bab84f9ed13']='Entrez les noms ou les adresses, séparés par des virgules.';
 $_SESSION['l10n']['fr']['fd674cf80651be8f2cc7d185d732b3ef']='Erreur pendant la transmission du message vers %s';
 $_SESSION['l10n']['fr']['9404597745d93a6898e464cbbc52c4dc']='Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur pourra alors positionner votre nom et votre adresse automatiquement dans les champs ci-dessous.';
-$_SESSION['l10n']['fr']['In %s']='Dans %s';
 $_SESSION['l10n']['fr']['Invite participants']='Inviter des participants';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
@@ -67,6 +66,7 @@ $_SESSION['l10n']['fr']['b96aca9f6d136363f1c15754d8da15df']='Aucune décision n\
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Page to review']='Page concernée';
+$_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
 $_SESSION['l10n']['fr']['87c663a3043f841f20b28627d553226a']='Merci par avance de votre contribution.';
 $_SESSION['l10n']['fr']['18faa0424454d526a56213d8253eb6ec']='Merci d\'indiquer un titre significatif.';
 $_SESSION['l10n']['fr']['b415a5c94f6a4a564921362b1e8516ac']='Merci d\'indiquer une adresse de réception.';

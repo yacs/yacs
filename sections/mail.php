@@ -108,8 +108,8 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
-// no recipient has been found
-} elseif((!$recipients =& Members::list_users_by_posts_for_member('section:'.$item['id'], 0, 200, 'mail', 'user:'.Surfer::get_id())) || !count($recipients))
+// send message to all watchers
+} elseif((!$recipients =& Members::list_users_by_posts_for_anchor('section:'.$item['id'], 0, 200, 'mail', 'user:'.Surfer::get_id())) || !count($recipients))
 	Logger::error(i18n::s('No recipient has been found.'));
 
 // process submitted data
@@ -186,20 +186,20 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 // display the form
 } else {
 
-	// the list of recipients
-	$display = '';
+	// build a nice list of recipients
+	$list = array();
+	if(count($recipients) > 50)
+		$count = 30;	// list only 30 first recipients
+	else
+		$count = 100;	//never reached
 	foreach($recipients as $address => $label) {
-		if($display)
-			$display .= ', ';
-		if($label)
-			$display .= '"'.$label.'" &lt;'.$address.'&gt;';
-		else
-			$display .= $address;
+		$list[] = '"'.$label.'" &lt;'.$address.'&gt;';
+		if($count-- ==1) {
+			$list[] = sprintf(i18n::s('and %d other persons'), count($recipients)-30);
+			break;
+		}
 	}
-
-	// header
-	$context['text'] .= i18n::s('You are sending a message to:')
-		.'<div style="height: 5em; max-height: 5em; overflow: auto; border: 1px dotted #ccc; margin: 0 auto 1em 0">'.$display.'</div>'."\n";
+	$context['text'] .= Skin::build_box(i18n::s('Message recipients').' ('.count($recipients).')', Skin::finalize_list($list, 'compact'), 'folded');
 
 	// the form to send a message
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';

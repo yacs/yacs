@@ -48,17 +48,28 @@ class Proxy_hook {
 
 		// make a string
 		$output['text'] = '';
+		$even = true;
 		foreach($feed->get_items() as $item) {
 
-			$content = '<strong><a href="'.$item->get_permalink().'">'.$item->get_title().'</a></strong>'."\n";
+			// allow for alternate layout
+			if($even)
+				$class = 'class="even"';
+			else
+				$class = 'class="odd"';
+			$even = !$even;
 
-			if($enclosure = $item->get_enclosure())
-				$content .= '<a href="'.$item->get_permalink().'"><img src="'.$enclosure->get_thumbnail().'" class="left_image" style="margin-right: 1em;"/></a>';
+			// box title and details
+			$content = '<dt '.$class.'>'.Skin::build_link($item->get_permalink(), $item->get_title())
+				.BR.'<span class="details">'.Skin::build_date($item->get_date('U')).'</span></dt><dd '.$class.'>';
 
-			$content .= '<div>'.$item->get_description()."\n"
-				.BR.'<span class="details">'.Skin::build_date($item->get_date('U')).'</span></div>';
+			// box content
+			if(($enclosure = $item->get_enclosure()) && ($thumbnail = $enclosure->get_thumbnail()))
+				$content .= '<a href="'.$item->get_permalink().'"><img src="'.$thumbnail.'" class="left_image" style="margin-right: 1em;"/></a>';
 
-			$output['text'] .= '<div class="newsfeed_item">'."\n".$content.'<br clear="left" /></div>'."\n";
+			$content .= '<div style="margin: 0.5em 0 1em 0;">'.$item->get_description()."</div></dd>\n";
+
+			// wrap the full box
+			$output['text'] .= '<dl class="newsfeed_item">'."\n".$content.'<br clear="left" /></dl>'."\n";
 
 		}
 

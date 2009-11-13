@@ -1401,7 +1401,7 @@ Class Links {
 	 * @see sections/sections.php
 	 * @see sections/view.php
 	 * @see skins/layout_home_articles_as_alistapart.php
-	 * @see skins/layout_home_articles_as_boxesandarrows.php
+	 * @see skins/layout_home_articles_as_hardboiled.php
 	 * @see skins/layout_home_articles_as_daily.php
 	 * @see skins/layout_home_articles_as_newspaper.php
 	 * @see skins/layout_home_articles_as_slashdot.php

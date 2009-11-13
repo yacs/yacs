@@ -83,17 +83,17 @@ Class Layout_sections_as_carrousel extends Layout_interface {
 				.'		<titles>'."\n"
 				.'			<style>font-size: 14px; font-family: Verdana, _serif; color: #000000;</style>'."\n"
 				.'			<position>above center</position>			  <!-- [above, below] [left,center,right]-->'."\n"
-				.'			<background>'.$context['url_to_home'].$context['url_to_root'].'skins/images/layouts/carrousel_bubble.png</background>	   <!-- image url -->'."\n"
+				.'			<background>'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/layouts/carrousel_bubble.png</background>	   <!-- image url -->'."\n"
 				.'			<scale9>35 35 35 35</scale9>				 <!-- [0,1000] pixels -->'."\n"
 				.'			<padding>8 15 10 15</padding>					<!-- [-1000,1000] pixels -->'."\n"
 				.'		</titles>'."\n"
 				.'	</options>'."\n";
 
 			// get a default image
-			if(Safe::GetImageSize($context['path_to_root'].$context['skin'].'/icons/folder.gif'))
-				$default_href = $context['url_to_root'].$context['skin'].'/icons/folder.gif';
-			elseif($size = Safe::GetImageSize($context['path_to_root'].'skins/images/icons/folder.gif'))
-				$default_href = $context['url_to_root'].'skins/images/icons/folder.gif';
+			if(Safe::GetImageSize($context['path_to_root'].$context['skin'].'/layouts/map.gif'))
+				$default_href = $context['url_to_root'].$context['skin'].'/layouts/map.gif';
+			elseif($size = Safe::GetImageSize($context['path_to_root'].'skins/_reference/layouts/map.gif'))
+				$default_href = $context['url_to_root'].'skins/_reference/layouts/map.gif';
 			else
 				$default_href = NULL;
 

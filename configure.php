@@ -34,10 +34,10 @@
  * Previous articles may be accessed through a menu.
  * This layout is suitable for small sites with a low activity, maybe with a single section of pages.
  * Implemented at [script]skins/layout_home_articles_as_alistapart.php[/script].
- * - 'boxesandarrows' - List the last ten most recent pages.
+ * - 'hardboiled' - List the last ten most recent pages.
  * Previous articles may be accessed through sections, or through the index of articles.
  * This layout is suitable for sites providing several different kinds of information.
- * Implemented at [script]skins/layout_home_articles_as_boxesandarrows.php[/script].
+ * Implemented at [script]skins/layout_home_articles_as_hardboiled.php[/script].
  * - 'compact' - A simple list of titles.
  * Implemented at [script]articles/layout_articles_as_compact.php[/script].
  * - 'daily' (this is also the default value) - Make titles out of publication dates.
@@ -248,10 +248,10 @@ elseif(!Surfer::is_associate()) {
 	if($context['root_sections_layout'] == 'titles')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('titles - Use only titles and thumbnails.')
-		.BR.'<input type="radio" name="root_sections_layout" value="custom"';
+		.BR.'<input type="radio" name="root_sections_layout" value="custom" id="custom_sections_layout"';
 	if($context['root_sections_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" />');
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="sections_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_sections_layout\').checked=1" />');
 	$fields[] = array($label, $input);
 
 	// use flash to animate recent pages
@@ -290,7 +290,7 @@ elseif(!Surfer::is_associate()) {
 	$custom_layout = '';
 	if(!isset($context['root_articles_layout']) || !$context['root_articles_layout'])
 		$context['root_articles_layout'] = 'daily';
-	elseif(!preg_match('/(alistapart|boxesandarrows|compact|daily|decorated|digg|newspaper|no_articles|slashdot)/', $context['root_articles_layout'])) {
+	elseif(!preg_match('/(alistapart|compact|daily|decorated|digg|hardboiled|newspaper|no_articles|slashdot)/', $context['root_articles_layout'])) {
 		$custom_layout = $context['root_articles_layout'];
 		$context['root_articles_layout'] = 'custom';
 	}
@@ -309,12 +309,12 @@ elseif(!Surfer::is_associate()) {
 	$input .= '/>newspaper - '.i18n::s('Focus on the last published article, and on the three articles published previously.')
 		.' '.Skin::build_link('skins/layout_home_articles_as_newspaper.jpg', i18n::s('Preview'), 'help').BR;
 
-	// boxesandarrows
-	$input .= '<input type="radio" name="root_articles_layout" value="boxesandarrows"';
-	if($context['root_articles_layout'] == 'boxesandarrows')
+	// hardboiled
+	$input .= '<input type="radio" name="root_articles_layout" value="hardboiled"';
+	if($context['root_articles_layout'] == 'hardboiled')
 		$input .= ' checked="checked"';
-	$input .= '/>boxesandarrows - '.i18n::s('Focus on the last two most recent articles, then list previous pages. Click on article titles to read full text.')
-		.' '.Skin::build_link('skins/layout_home_articles_as_boxesandarrows.jpg', i18n::s('Preview'), 'help').BR;
+	$input .= '/>hardboiled - '.i18n::s('Focus on the last two most recent articles, then list previous pages. Click on article titles to read full text.')
+		.' '.Skin::build_link('skins/layout_home_articles_as_hardboiled.jpg', i18n::s('Preview'), 'help').BR;
 
 	// slashdot
 	$input .= '<input type="radio" name="root_articles_layout" value="slashdot"';
@@ -349,10 +349,10 @@ elseif(!Surfer::is_associate()) {
 		.' '.Skin::build_link('skins/layout_home_articles_as_alistapart.jpg', i18n::s('Preview'), 'help').BR;
 
 	// custom
-	$input .= '<input type="radio" name="root_articles_layout" value="custom"';
+	$input .= '<input type="radio" name="root_articles_layout" value="custom" id="custom_articles_layout"';
 	if($context['root_articles_layout'] == 'custom')
 		$input .= ' checked="checked"';
-	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="home_custom_layout" value="'.encode_field($custom_layout).'" size="32" />').BR;
+	$input .= '/> '.sprintf(i18n::s('Use the customized layout %s'), '<input type="text" name="home_custom_layout" value="'.encode_field($custom_layout).'" size="32" onfocus="$(\'custom_articles_layout\').checked=1" />').BR;
 
 	// no article
 	$input .= '<p><input type="radio" name="root_articles_layout" value="no_articles"';
@@ -546,7 +546,7 @@ elseif(!Surfer::is_associate()) {
 	}
 
 	// ensure we have a valid layout for articles
-	if(!isset($_REQUEST['root_articles_layout']) || !$_REQUEST['root_articles_layout'] || !preg_match('/(alistapart|boxesandarrows|compact|custom|daily|decorated|digg|newspaper|no_articles|slashdot)/', $_REQUEST['root_articles_layout']))
+	if(!isset($_REQUEST['root_articles_layout']) || !$_REQUEST['root_articles_layout'] || !preg_match('/(alistapart|compact|custom|daily|decorated|digg|hardboiled|newspaper|no_articles|slashdot)/', $_REQUEST['root_articles_layout']))
 		$_REQUEST['root_articles_layout'] = 'daily';
 	elseif($_REQUEST['root_articles_layout'] == 'custom') {
 		if(isset($_REQUEST['home_custom_layout']) && $_REQUEST['home_custom_layout'])

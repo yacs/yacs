@@ -240,7 +240,7 @@ if(!isset($item['id'])) {
 	// general help on this page
 	//
 	$help = '<p>'.i18n::s('To save this image on your hard drive, drag the mouse above the image and use the right button. A contextual pop-up menu should appear. Select the adequate command depending on the browser used.').'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 	// thumbnail, in an extra box
 	//

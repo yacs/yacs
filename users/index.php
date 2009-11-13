@@ -108,10 +108,17 @@ if(($page > 1) && (($page - 1) * USERS_PER_PAGE > $stats['count'])) {
 	// a search form for users
 	$context['text'] .= '<form action="'.$context['url_to_root'].'users/search.php" method="get">'
 		.'<p>'
-		.'<input type="text" name="search" size="40" value="'.encode_field(i18n::s('Look for some user')).'" onfocus="this.value=\'\'" maxlength="128" />'
-		.Skin::build_submit_button('&raquo;')
+		.'<input type="text" name="search" id="search" size="40" value="'.encode_field(i18n::s('Look for some user')).'" onfocus="this.value=\'\'" maxlength="128" />'
+		.Skin::build_submit_button(i18n::s('Go'))
 		.'</p>'
 		."</form>\n";
+
+	// set the focus on the button
+	$context['text'] .= JS_PREFIX
+		.'$("search").focus();'."\n"
+		.JS_SUFFIX;
+
+
 
 // // map users on Google Maps
 // if($stats['count'] && isset($context['google_api_key']) && $context['google_api_key'])
@@ -177,7 +184,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// box content
 			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
-				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'navigation')."\n";
+				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'extra')."\n";
 		}
 	}
 

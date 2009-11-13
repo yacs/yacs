@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 9:46 pm GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:13 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:02+0200
-PO-Revision-Date: 2009-09-28 21:35+0100
+POT-Creation-Date: 2009-11-13 00:13+0100
+PO-Revision-Date: 2009-10-05 16:10+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -22,11 +22,11 @@ X-Poedit-SourceCharset: utf-8
 ';
 $_SESSION['l10n']['fr']['%s has been updated']='%s a été mis à jour';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
-$_SESSION['l10n']['fr']['ATOM 0.3 format']='Format ATOM 0.3';
-$_SESSION['l10n']['fr']['6d98e789fd5d4ae9a80538dee178d7f5']='Les bloggers avancés profiteront des fils RSS 2.0 "lourds" :';
+$_SESSION['l10n']['fr']['ATOM format']='Format ATOM';
+$_SESSION['l10n']['fr']['511b73e58dc09fe6f655f99363e0a3e9']='Les bloggers avancés profiteront des fils "lourds" :';
 $_SESSION['l10n']['fr']['Aggregate this site']='Agrégez les nouvelles';
 $_SESSION['l10n']['fr']['15e88f3b3601560d8f8c9f72bedbcb2f']='Un nombre entier, en décimal ou en hexa, exemple : 0x11';
-$_SESSION['l10n']['fr']['ac77ef6a6501f885293f052c5fe6a3c6']='En tant qu\'associé, vous pouvez accéder à la log des %s (RSS 2.0).';
+$_SESSION['l10n']['fr']['04aeb87e6e5ba6b945d8bd89815c7bbc']='En tant qu\'associé, vous pouvez accéder à la log des %s.';
 $_SESSION['l10n']['fr']['Background Blue']='Fond bleu';
 $_SESSION['l10n']['fr']['Background Green']='Fond vert';
 $_SESSION['l10n']['fr']['Background Red']='Fond rouge';
@@ -81,9 +81,8 @@ $_SESSION['l10n']['fr']['Outbound feeds']='Connecteurs de sortie';
 $_SESSION['l10n']['fr']['Pages with full content']='Pages avec contenu intégral';
 $_SESSION['l10n']['fr']['Pick a feed']='Choisissez une source';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
-$_SESSION['l10n']['fr']['RDF/RSS 1.0 format']='Format RDF/RSS 1.0';
-$_SESSION['l10n']['fr']['RSS 0.92 format']='Format RSS 0.92';
-$_SESSION['l10n']['fr']['RSS 2.0 format']='Format RSS 2.0';
+$_SESSION['l10n']['fr']['RDF/RSS format']='Format RDF/RSS';
+$_SESSION['l10n']['fr']['RSS format']='Format RSS';
 $_SESSION['l10n']['fr']['RSS newsreaders']='les lecteurs RSS';
 $_SESSION['l10n']['fr']['Received from feeding servers']='Lues sur des fils de nouvelles';
 $_SESSION['l10n']['fr']['c2896e46c677a09b912a3e21d74948b2']='Utilisez l\'un des liens ci-dessous pour alimenter votre lecteur de nouvelles :';
@@ -106,7 +105,7 @@ $_SESSION['l10n']['fr']['1067d44616fe8e1d0ba70d8a76f038fa']='A réserver aux pha
 $_SESSION['l10n']['fr']['e6e4478f7cdeb18974aab4f4c2643022']='Naviguez sur %s, ils disposent de fils de nouvelles pour suivre les contributions de chaque personne.';
 $_SESSION['l10n']['fr']['Webmaster mail address']='Adresse du webmaster';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
-$_SESSION['l10n']['fr']['12c90def4963d70b65219770235e19c5']='YACS permet le téléchargement automatique et le %s avec ce fil consacré aux %s (RSS 2.0).';
+$_SESSION['l10n']['fr']['6f4e4e1fc5c3a0078a20909241735e38']='YACS permet le téléchargement automatique et le %s avec ce fil consacré aux %s.';
 $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas autorisé à faire cette opération en mode démonstration.';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['03bb2a0a72616eecd80fc3f8be047cf9']='Vous pouvez aussi construire un fil de nouvelles sur la base de notre %s.';

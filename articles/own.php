@@ -88,27 +88,27 @@ if(Surfer::is_crawler()) {
 
 	// transfer ownership
 	if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'set') && isset($_REQUEST['anchor'])) {
-	
+
 		// assign a user, and also update his watch list
 		$attributes = array( 'id' => $item['id'], 'owner_id' => $user['id'] );
 		Articles::put_attributes($attributes);
 		Members::assign($_REQUEST['anchor'], 'article:'.$item['id']);
 		Members::assign('article:'.$item['id'], $_REQUEST['anchor']);
-		
+
 		$context['text'] .= '<p>'.sprintf(i18n::s('Current owner is %s'), Users::get_link($user['full_name'], $user['email'], $user['id'])).'</p>';
 
 	// name current owner
 	} elseif(isset($item['owner_id']) && ($owner =& Users::get($item['owner_id']))) {
 		$context['text'] .= '<p>'.sprintf(i18n::s('Current owner is %s'), Users::get_link($owner['full_name'], $owner['email'], $owner['id'])).'</p>';
-			
+
 	}
-	
+
 	// delegate to another person
 	$context['text'] .= '<p style="margin-top: 2em;">'.i18n::s('To transfer ownership to another person, type some letters of the name you are looking for.').'</p>';
 
 	// the form to link additional users
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" id="main_form"><p>'
-		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" /><div id="name_choices" class="autocomplete"></div> <span id="ajax_spinner" style="display: none"><img src="'.$context['url_to_root'].'skins/_reference/ajax_completer.gif" alt="Working..." /></span>'
+		.'<input type="text" name="assigned_name" id="name" size="45" maxlength="255" /><div id="name_choices" class="autocomplete"></div> <span id="ajax_spinner" style="display: none"><img src="'.$context['url_to_root'].'skins/_reference/ajax/ajax_completer.gif" alt="Working..." /></span>'
 		.'<input type="hidden" name="id" value="'.encode_field($item['id']).'">'
 		.'<input type="hidden" name="action" value="set">'
 		.'</p></form>'."\n";

@@ -555,13 +555,13 @@ var Yacs = {
 
 		var prefix = '';
 		if(handle.hasClassName('sortable')) {
-			prefix += '<span class="onHoverLeft drag_handle"><img src="'+url_to_root+'skins/_reference/on_demand_handle.png" width="16" height="16" alt="Drag" /></span>';
+			prefix += '<span class="onHoverLeft drag_handle"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_handle.png" width="16" height="16" alt="Drag" /></span>';
 		}
 		var suffix = '<span class="onHoverRight">';
 		if(handle.hasClassName('mutable')) {
-			suffix += '<a href="#" onclick="Yacs.toggleProperties(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
+			suffix += '<a href="#" onclick="Yacs.toggleProperties(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_properties.png" width="16" height="16" alt="Properties" /></a>';
 		}
-		suffix += '<a href="#" onclick="Element.remove(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
+		suffix += '<a href="#" onclick="Element.remove(\''+handle.identify()+'\'); return false;"><img src="'+url_to_root+'skins/_reference/ajax/on_demand_delete.png" width="16" height="16" alt="Delete" /></a></span>';
 		var here = new Element.insert(handle, { top: suffix + prefix });
 
 		handle.onmouseout = function () { Yacs.mouseOut(this); return false; };
@@ -617,11 +617,11 @@ var Yacs = {
 
 		// pre-load the spinning image used during ajax updates
 		Yacs.spinningImage = new Image();
-		Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax_spinner.gif';
+		Yacs.spinningImage.src = url_to_root + 'skins/_reference/ajax/ajax_spinner.gif';
 
 		// pre-load the image used at the working overlay
 		Yacs.workingImage = new Image();
-		Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax_working.gif';
+		Yacs.workingImage.src = url_to_root + 'skins/_reference/ajax/ajax_working.gif';
 
 		// change the behavior of buttons used for data submission, except those with style 'no_spin_on_click'
 		var buttons = $$('button');
@@ -891,11 +891,11 @@ var Yacs = {
 
 		// align left borders
 		if(onLeft) {
-			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', left: '0px', zIndex: 20});
+			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px'});
 
 		// align right borders
 		} else {
-			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', right: '0px', zIndex: 20});
+			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px'});
 		}
 
 		// display the panel if it is not visible
@@ -952,12 +952,12 @@ var Yacs = {
 		//
 		// <div id="yacsWorkingOverlay">
 		//	<div>
-		//		<img src="/yacs/skins/_reference/ajax_working.gif"/>
+		//		<img src="/yacs/skins/_reference/ajax/ajax_working.gif"/>
 		//	</div>
 		// </div>
 
 		var objWorkingImage = document.createElement("img");
-		objWorkingImage.setAttribute('src', url_to_root + 'skins/_reference/ajax_working.gif');
+		objWorkingImage.setAttribute('src', url_to_root + 'skins/_reference/ajax/ajax_working.gif');
 
 		var objCentered = document.createElement("div");
 		Element.setStyle(objCentered, { position: 'absolute', top: '30%', left: '0%', height: '25%', width: '100%', textAlign: 'center', lineHeight: '0' });
@@ -1209,7 +1209,7 @@ var Yacs = {
 		}
 
 		// move to the right tab
-		new PeriodicalExecuter(function(pe) {
+//		new PeriodicalExecuter(function(pe) {
 
 			// where are we?
 			if(window.location.hash.length > 1) {
@@ -1231,10 +1231,9 @@ var Yacs = {
 				Yacs.tabs_current = hash;
 			}
 
-		}, 0.5);
+//		}, 0.5);
 
 
-		// move to the right tab
 	},
 
 	/**
@@ -1242,25 +1241,15 @@ var Yacs = {
 	 */
 	tabsDisplay: function(id) {
 
-		// activate the clicked tab -- see skins/_reference/ajax.css
+		// fade away all other tabs
+		var newCurrent;
 		var iterator;
+		var panel;
 		for(iterator in Yacs.tabs_list) {
+
+			panel = Yacs.tabs_list[iterator][0];
 			if(id == $(iterator).id) {
-
-				// remember our state
-				window.location.hash = id;
-				Yacs.tabs_current = id;
-
-				// update the tab
-				$(iterator).className = 'tab-foreground';
-
-				// update the panel
-				$(Yacs.tabs_list[iterator][0]).className = 'panel-foreground';
-
-				// load panel content, if necessary
-				if(Yacs.tabs_list[iterator].length > 1) {
-					Yacs.updateOnce(Yacs.tabs_list[iterator][0], Yacs.tabs_list[iterator][1], Yacs.tabs_args);
-				}
+				newCurrent = iterator;
 
 			} else {
 
@@ -1268,9 +1257,34 @@ var Yacs = {
 				$(iterator).className = 'tab-background';
 
 				// update the panel
-				$(Yacs.tabs_list[iterator][0]).className = 'panel-background';
+				if($(panel).style.display != 'none') {
+					new Effect.Fade(panel, {duration:.1, scaleContent:false});
+				}
+				$(panel).className = 'panel-background';
 			}
 		}
+
+		// activate the clicked tab -- see skins/_reference/ajax.css
+		panel = Yacs.tabs_list[newCurrent][0];
+
+		// remember our state
+		window.location.hash = id;
+		Yacs.tabs_current = id;
+
+		// update the tab
+		$(newCurrent).className = 'tab-foreground';
+
+		// update the panel
+		if($(panel).style.display == 'none') {
+			new Effect.Appear(panel, {duration:.1, scaleContent:false});
+		}
+		$(panel).className = 'panel-foreground';
+
+		// load panel content, if necessary
+		if(Yacs.tabs_list[newCurrent].length > 1) {
+			Yacs.updateOnce(panel, Yacs.tabs_list[newCurrent][1], Yacs.tabs_args);
+		}
+
 	},
 
 	/**

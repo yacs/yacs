@@ -83,6 +83,10 @@ elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 if(Sections::is_owned($anchor, $item))
 	$permitted = TRUE;
 
+// editors of parent sections can create sub-sections
+elseif(!isset($item['id']) && is_object($anchor) && $anchor->is_assigned())
+	$permitted = TRUE;
+
 // the default is to disallow access
 else
 	$permitted = FALSE;
@@ -356,6 +360,12 @@ if($with_form) {
 		$hint = '';
 	$fields[] = array($label, $input, $hint);
 
+	// tags
+	$label = i18n::s('Tags');
+	$input = '<input type="text" name="tags" id="tags" value="'.encode_field(isset($item['tags'])?$item['tags']:'').'" size="45" maxlength="255" accesskey="t" /><div id="tags_choices" class="autocomplete"></div>';
+	$hint = i18n::s('A comma-separated list of keywords');
+	$fields[] = array($label, $input, $hint);
+
 	// append regular fields
 	$text .= Skin::build_form($fields);
 	$fields = array();
@@ -371,7 +381,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['sections_layout']))
 		$item['sections_layout'] = 'none';
-	elseif(!preg_match('/(accordion|carrousel|compact|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $item['sections_layout'])) {
+	elseif(!preg_match('/(accordion|carrousel|compact|decorated|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)/', $item['sections_layout'])) {
 		$custom_layout = $item['sections_layout'];
 		$item['sections_layout'] = 'custom';
 	}
@@ -379,6 +389,10 @@ if($with_form) {
 	if($item['sections_layout'] == 'decorated')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('decorated - As a decorated list.')
+		.BR.'<input type="radio" name="sections_layout" value="slashdot"';
+	if($item['sections_layout'] == 'slashdot')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('slashdot - List most recent pages equally')
 		.BR.'<input type="radio" name="sections_layout" value="map"';
 	if($item['sections_layout'] == 'map')
 		$input .= ' checked="checked"';
@@ -450,7 +464,7 @@ if($with_form) {
 	$custom_layout = '';
 	if(!isset($item['articles_layout']))
 		$item['articles_layout'] = 'decorated';
-	elseif(!preg_match('/(accordion|alistapart|boxesandarrows|carrousel|compact|daily|decorated|digg|jive|manual|map|none|slashdot|table|titles|wiki|yabb)/', $item['articles_layout'])) {
+	elseif(!preg_match('/(accordion|alistapart|carrousel|compact|daily|decorated|digg|hardboiled|jive|manual|map|newspaper|none|slashdot|table|tagged|titles|wiki|yabb)/', $item['articles_layout'])) {
 		$custom_layout = $item['articles_layout'];
 		$item['articles_layout'] = 'custom';
 	}
@@ -490,10 +504,14 @@ if($with_form) {
 	if($item['articles_layout'] == 'daily')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('daily - A list of stamped pages (blog)');
-	$input .= BR.'<input type="radio" name="articles_layout" value="boxesandarrows"';
-	if($item['articles_layout'] == 'boxesandarrows')
+	$input .= BR.'<input type="radio" name="articles_layout" value="newspaper"';
+	if($item['articles_layout'] == 'newspaper')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('boxesandarrows - Click on titles to read articles');
+	$input .= '/> '.i18n::s('newspaper - Highlight four most recent pages');
+	$input .= BR.'<input type="radio" name="articles_layout" value="hardboiled"';
+	if($item['articles_layout'] == 'hardboiled')
+		$input .= ' checked="checked"';
+	$input .= '/> '.i18n::s('hardboiled - Highlight two most recent pages');
 	$input .= BR.'<input type="radio" name="articles_layout" value="jive"';
 	if($item['articles_layout'] == 'jive')
 		$input .= ' checked="checked"';
@@ -506,14 +524,10 @@ if($with_form) {
 	if($item['articles_layout'] == 'alistapart')
 		$input .= ' checked="checked"';
 	$input .= '/> '.i18n::s('alistapart - Display entirely the last published page');
-	$input .= BR.'<input type="radio" name="articles_layout" value="wiki"';
-	if($item['articles_layout'] == 'wiki')
+	$input .= BR.'<input type="radio" name="articles_layout" value="tagged"';
+	if($item['articles_layout'] == 'tagged')
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('wiki - A set of editable and extensible pages');
-	$input .= BR.'<input type="radio" name="articles_layout" value="manual"';
-	if($item['articles_layout'] == 'manual')
-		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('manual - A hierarchy of article titles');
+	$input .= '/> '.i18n::s('tagged - Titles and tags');
 	$input .= BR.'<input type="radio" name="articles_layout" value="compact"';
 	if($item['articles_layout'] == 'compact')
 		$input .= ' checked="checked"';
@@ -1052,7 +1066,6 @@ if($with_form) {
 	$keywords[] = '<a onclick="javascript:append_to_options(\'with_owner_profile\')" style="cursor: pointer;">with_owner_profile</a> - '.i18n::s('Display profile of section creator');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'with_comments\')" style="cursor: pointer;">with_comments</a> - '.i18n::s('The index page itself is a thread of discussion');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'comments_as_wall\')" style="cursor: pointer;">comments_as_wall</a> - '.i18n::s('Allow easy interactions between people');
-	$keywords[] = '<a onclick="javascript:append_to_options(\'with_slideshow\')" style="cursor: pointer;">with_slideshow</a> - '.i18n::s('Display content as a S5 slideshow');
 	$keywords[] = '<a onclick="javascript:append_to_options(\'view_as_tabs\')" style="cursor: pointer;">view_as_tabs</a> - '.i18n::s('Tabbed panels');
 	$keywords[] = 'view_as_foo_bar - '.sprintf(i18n::s('Branch out to %s'), 'sections/view_as_foo_bar.php');
 	$keywords[] = 'skin_foo_bar - '.i18n::s('Apply a specific theme (in skins/foo_bar)');
@@ -1243,6 +1256,9 @@ if($with_form) {
 		."\n"
 		.'// set the focus on first form field'."\n"
 		.'$("index_title").focus();'."\n"
+		."\n"
+		.'// enable tags autocompletion'."\n"
+		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("tags", "tags_choices", "'.$context['url_to_root'].'categories/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
 		.JS_SUFFIX."\n";
 
 	// content of the help box
@@ -1279,7 +1295,7 @@ if($with_form) {
 		$help .= '<p>'.sprintf(i18n::s('Use the %s to populate this server.'), Skin::build_link('help/populate.php', i18n::s('Content Assistant'), 'shortcut')).'</p>'."\n";
 
 	// in a side box
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 }
 

@@ -25,7 +25,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 	}
 
 	/**
-	 * list articles as boxesandarrows do
+	 * list articles
 	 *
 	 * @param resource the SQL result
 	 * @return string the rendered text
@@ -33,7 +33,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 	 * @see skins/layout.php
 	**/
 	function &layout(&$result) {
-		global $context, $local;
+		global $context;
 
 		// we return some text
 		$text = '';
@@ -49,13 +49,14 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
 
 		// build a list of articles
-		include_once $context['path_to_root'].'articles/article.php';
-		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
-		include_once $context['path_to_root'].'categories/categories.php';
-		include_once $context['path_to_root'].'overlays/overlay.php';
 		$item_count = 0;
 		$items = array();
+		include_once $context['path_to_root'].'articles/article.php';
+		include_once $context['path_to_root'].'categories/categories.php';
+		include_once $context['path_to_root'].'comments/comments.php';
+		include_once $context['path_to_root'].'files/files.php';
+		include_once $context['path_to_root'].'links/links.php';
+		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
 
 			// next item
@@ -75,7 +76,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 
 			// build a box around two first articles
 			if($item_count == 1)
-				$text .= '<div id="home_south">'."\n";
+				$text .= '<div class="recent">'."\n";
 			elseif($item_count == 3)
 				$text .= '</div><br style="clear: left;" />'."\n";
 
@@ -85,10 +86,10 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 				// style to apply
 				switch($item_count) {
 				case 1:
-					$text .= '<div id="home_west">';
+					$text .= '<div class="left">';
 					break;
 				case 2:
-					$text .= '<div id="home_east">';
+					$text .= '<div class="right">';
 					break;
 				}
 
@@ -208,10 +209,15 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 				if(($item['rank'] != 10000) && Surfer::is_empowered())
 					$suffix .= ' {'.$item['rank'].'} ';
 
-				// list up to three categories by title, if any
+				// list categories by title, if any
 				$anchors = array();
-				if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+				if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
 					foreach($members as $id => $attributes) {
+
+						// add background color to distinguish this category against others
+						if(isset($attributes['background_color']) && $attributes['background_color'])
+							$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
+
 						if($this->layout_variant != 'category:'.$id)
 							$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'category');
 					}
@@ -269,7 +275,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 	 * @return string the rendered text
 	**/
 	function layout_newest($item, $anchor) {
-		global $context, $local;
+		global $context;
 
 		// get the related overlay, if any
 		$overlay = Overlay::load($item);
@@ -300,7 +306,7 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$suffix .= Skin::build_link(Articles::get_url($item['id'], 'rate'), Skin::build_rating_img((int)round($item['rating_sum'] / $item['rating_count'])), 'basic', i18n::s('Rate this page'));
 
 		// use the title as a link to the page
-		$text .= $prefix.'<b>'.Skin::build_link($url, $title, 'basic', i18n::s('View the page')).'</b>'.$suffix;
+		$text .= '<h3><span>'.$prefix.Skin::build_link($url, $title, 'basic', i18n::s('View the page')).$suffix.'</span></h3>';
 
 		// details
 		$details = array();
@@ -332,17 +338,22 @@ Class Layout_articles_as_hardboiled extends Layout_interface {
 			$text .= $overlay->get_text('list', $item);
 
 		// read this article
-		$text .= '<p class="details right">'.Skin::build_link($url, i18n::s('View the page'), 'basic');
+		$text .= '<p class="details">'.Skin::build_link($url, i18n::s('View the page'), 'basic');
 
 		// info on related files
 		if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
 			$text .= ' ('.Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic').')';
 
 		// list up to three categories by title, if any
-		if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+		if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
 			$text .= BR;
 			$first_category = TRUE;
 			foreach($items as $id => $attributes) {
+
+				// add background color to distinguish this category against others
+				if(isset($attributes['background_color']) && $attributes['background_color'])
+					$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
+
 				if(!$first_category)
 					$text .= ',';
 				$text .= ' '.Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic', i18n::s('More pages'));

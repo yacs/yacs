@@ -126,7 +126,7 @@ elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 // sanity check
 if($zoom_index < 1)
 	$zoom_index = 1;
-	
+
 // get the item from the database
 $item =& Users::get($id);
 
@@ -231,58 +231,58 @@ if(!isset($item['id'])) {
 		// tags, if any
 		if(isset($item['tags']))
 			$context['page_tags'] =& Skin::build_tags($item['tags'], 'user:'.$item['id']);
-	
+
 		// one detail per line
 		$context['page_details'] .= '<p class="details">';
 		$details = array();
-	
+
 		// add details from the overlay, if any
 		if(is_object($overlay) && ($more = $overlay->get_text('details', $item)))
 			$details[] = $more;
-		
+
 		// the capability field is displayed only to logged users
 		if(!Surfer::is_logged())
 			;
 		elseif($item['capability'] == 'A')
 			$details[] = i18n::s('Associate');
-	
+
 		elseif($item['capability'] == 'M')
 			$details[] = i18n::s('Member');
-	
+
 		elseif($item['capability'] == 'S')
 			$details[] = i18n::s('Subscriber');
-	
+
 		elseif($item['capability'] == '?') {
 			$details[] = EXPIRED_FLAG.i18n::s('Banned');
-			
+
 			// also make it clear to community member
 			Skin::error('This person has been banned and is not allowed to authenticate anymore.');
 		}
-	
+
 		// the number of posts
 		if(isset($item['posts']) && ($item['posts'] > 1))
 			$details[] = sprintf(i18n::s('%d posts'), $item['posts']);
-	
+
 		// the date of last login
 		if(Surfer::is_associate() && isset($item['login_date']) && $item['login_date'])
 			$details[] = sprintf(i18n::s('last login %s'), Skin::build_date($item['login_date']));
-	
+
 		// the date of registration
 		if(isset($item['create_date']) && $item['create_date'])
 			$details[] = sprintf(i18n::s('registered %s'), Skin::build_date($item['create_date']));
-	
+
 		// combine these three items into one
 		if(count($details))
 			$context['page_details'] .= ucfirst(implode(', ', $details));
-	
+
 		// reference this item
 		if(Surfer::is_member())
 			$context['page_details'] .= BR.sprintf(i18n::s('Code to reference this user: %s'), '[user='.$item['nick_name'].']');
-	
+
 		$context['page_details'] .= '</p>';
-		
+
 	}
-	
+
 	//
 	// tabbed panels
 	//
@@ -308,7 +308,7 @@ if(!isset($item['id'])) {
 			$context['users_maximum_managed_sections'] = 0;
 
 		// offer to extend personal spaces
-		if(Surfer::is($item['id']) && Surfer::is_member() && 
+		if(Surfer::is($item['id']) && Surfer::is_member() &&
 			(Surfer::is_associate() || ($context['users_maximum_managed_sections'] > Sections::count_for_owner())) ) {
 			Skin::define_img('SECTIONS_ADD_IMG', 'sections/add.gif');
 			$menu[] = Skin::build_link('sections/new.php', SECTIONS_ADD_IMG.i18n::s('Add a group or a blog'), 'span');
@@ -345,7 +345,7 @@ if(!isset($item['id'])) {
 			$aside .= $items;
 		} elseif(Surfer::get_id() == $item['id'])
 			$aside = '<p>'.i18n::s('If you browse an interesting section, and want to be notified of new content posted there, click on the Watch link aside.').'</p>';
-			
+
 		// layout columns
 		if($aside)
 			$content = Skin::layout_horizontally($content, Skin::build_block(Skin::build_sliding_box(i18n::s('Watched sections'), $aside, 'watched_section', FALSE), 'sidecolumn'));
@@ -371,51 +371,51 @@ if(!isset($item['id'])) {
 			// start a new private page
 			//
 			$text = '<form method="post" enctype="multipart/form-data" action="'.$context['url_to_root'].'users/contact.php" onsubmit="return validateDocumentPost(this)" ><div>';
-	
+
 			// thread title
 			$label = i18n::s('What do you want to talk about?');
 			$input = '<input type="text" name="title" style="width: 70%" maxlength="255" />';
 			$text .= '<p>'.$label.BR.$input.'</p>';
-	
+
 			// on my page, engage with anybody
 			if(Surfer::get_id() == $item['id']) {
-	
+
 				// recipients
 				$label = i18n::s('Who do you want to involve?');
 				$input = '<textarea name="id" id="id" rows="3" cols="50"></textarea><div id="id_choice" class="autocomplete"></div>';
 				$text .= '<p>'.$label.BR.$input.'</p>';
-	
+
 			// engage the browsed surfer
 			} else
 				$text .= '<input type="hidden" name="id" value="'.$item['id'].'" />';
-	
+
 			// thread first contribution
 			$label = i18n::s('Provide context, and start the conversation');
 			$input = '<textarea name="message" rows="2" cols="50" onfocus="Yacs.growPanel(this);"></textarea>';
 			$text .= '<p>'.$label.BR.$input.'</p>';
-	
+
 			// uploads are allowed
 			if(Surfer::may_upload()) {
 				$label = sprintf(i18n::s('You may attach a file of up to %sbytes'), $context['file_maximum_size']);
 				$input = '<input type="file" name="upload" style="width: 30em" />';
 				$text .= '<p class="details">'.$label.BR.$input.'</p>';
 			}
-			
+
 			// bottom commands
 			$menu = array();
 			$menu[] = Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 			$text .= Skin::finalize_list($menu, 'menu_bar');
-	
+
 			// end of the form
 			$text .= '</div></form>';
-	
+
 			// in a folded box
 			Skin::define_img('ARTICLES_ADD_IMG', 'articles/add.gif');
 			if(Surfer::get_id() == $item['id'])
 				$box['text'] .= '<div  style="margin-bottom: 1em;">'.Skin::build_sliding_box(ARTICLES_ADD_IMG.i18n::s('Start a thread'), $text, 'new_thread', TRUE).'</div>';
 			else
 				$box['text'] .= '<div style="margin-bottom: 1em;">'.Skin::build_sliding_box(ARTICLES_ADD_IMG.sprintf(i18n::s('Start a thread with %s'), $item['full_name']?$item['full_name']:$item['nick_name']), $text, 'new_thread', TRUE).'</div>';
-	
+
 			// append the script used for data checking on the browser
 			$box['text'] .= JS_PREFIX
 				.'// check that main fields are not empty'."\n"
@@ -436,7 +436,7 @@ if(!isset($item['id'])) {
 				.'Event.observe(window, "load", function() { new Ajax.Autocompleter("id", "id_choice", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: "," }); });'."\n"
 				.JS_SUFFIX;
 		}
-	
+
 		// count the number of articles for this user
 		$stats = Articles::stat_for_author($item['id']);
 		if($stats['count'] > ARTICLES_PER_PAGE)
@@ -486,7 +486,7 @@ if(!isset($item['id'])) {
  			$box['text'] .= Skin::layout_horizontally($main_column, $side_column);
  		elseif($main_column)
  			$box['text'] .= $main_column;
-			
+
 		// append a menu bar below the list
 		if(count($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
@@ -528,7 +528,7 @@ if(!isset($item['id'])) {
  			$box['text'] .= Skin::layout_horizontally($items, $side_column);
  		elseif($items)
  			$box['text'] .= $items;
-			
+
 		// actually render the html for the section
 		if($box['text'])
 			$contributions .= Skin::build_box(i18n::s('Files'), $box['text'], 'header1', 'contributed_files');
@@ -566,38 +566,38 @@ if(!isset($item['id'])) {
 
 		// the sidebar
 		$sidebar = '';
-		
+
 		// co-browsing
 		if(Surfer::get_id() && (Surfer::get_id() != $item['id'])) {
 			$visited = array();
-	
+
 			// some page or thread has been visited recently
 			if($items = Visits::list_for_user($item['id'])) {
 				foreach($items as $url => $label)
 					$visited = array_merge($visited, array($url => sprintf(i18n::s('Join %s at %s'), $item['nick_name'], $label)));
-	
+
 			// user is present if active during last 10 minutes (10*60 = 600), but not at some thread
 			} elseif(isset($item['click_date']) && ($item['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600))) {
-	
+
 				// show place of last click
 				if(isset($item['click_anchor']) && ($anchor =& Anchors::get($item['click_anchor'])))
 					$visited = array_merge($visited, array($anchor->get_url() => sprintf(i18n::s('Join %s at %s'), $item['nick_name'], $anchor->get_title())));
-	
+
 			}
-	
+
 			// make a box
 			if(count($visited))
 				$sidebar .= Skin::build_box(i18n::s('Co-browsing'), Skin::build_list($visited, 'compact'), 'folded', 'co_browsing');
-	
+
 		}
-	
+
 		// business card
 		//
 		$text = '';
 
 		// full name
 		$text .= '<p>'.$item['full_name'];
-		
+
 		// title, if any
 		if(isset($item['vcard_title']) && $item['vcard_title'])
 			$text .= BR.$item['vcard_title'];
@@ -609,7 +609,7 @@ if(!isset($item['id'])) {
 		// physical address, if any
 		if(isset($item['vcard_label']) && $item['vcard_label'])
 			$text .= BR.str_replace("\n", BR, $item['vcard_label']);
-			
+
 		$text.= '</p><p>';
 
 		// phone number, if any
@@ -647,7 +647,7 @@ if(!isset($item['id'])) {
 		}
 
 		$text .= '</p>';
-		
+
 		$sidebar .= Skin::build_box(i18n::s('Business card'), $text, 'unfolded');
 
 		// do not let robots steal addresses
@@ -793,14 +793,14 @@ if(!isset($item['id'])) {
 				$sidebar .= Skin::build_box(i18n::s('Preferences'), $box, 'folded');
 
 		}
-		
+
 		// finalize the sidebar
 		if($sidebar)
 			$sidebar = Skin::build_block($sidebar, 'sidecolumn');
-			
+
 		// the main bar
 		$mainbar = '';
-		
+
 		// get text related to the overlay, if any
 		if(is_object($overlay))
 			$mainbar .= $overlay->get_text('view', $item);
@@ -832,7 +832,7 @@ if(!isset($item['id'])) {
 
 		if($items)
 			$mainbar .= Skin::build_box(i18n::s('Files'), $items);
-			
+
 		// layout columns
 		if($sidebar)
 			$information .= Skin::layout_horizontally($mainbar, $sidebar);
@@ -849,7 +849,7 @@ if(!isset($item['id'])) {
 	//
 	if(is_object($overlay) && ($more_tabs = $overlay->get_tabs('view', $item)))
  		$panels = array_merge($panels, $more_tabs);
-	
+
 	// assemble tabs
 	//
 	if(!$zoom_type)
@@ -891,11 +891,11 @@ if(!isset($item['id'])) {
 		if(isset($item['id']) && !$zoom_type && $permitted
 			&& (Surfer::is_associate()
 				|| (Surfer::is($item['id']) && (!isset($context['users_without_self_deletion']) || ($context['users_without_self_deletion'] != 'Y'))))) {
-		
+
 			Skin::define_img('USERS_DELETE_IMG', 'users/delete.gif');
 			$context['page_tools'][] = Skin::build_link(Users::get_url($item['id'], 'delete'), USERS_DELETE_IMG.i18n::s('Delete this profile'));
 		}
-		
+
 	}
 
 	// user profile aside
@@ -964,7 +964,7 @@ if(!isset($item['id'])) {
 
 	// more boxes
 	$context['components']['boxes'] = '';
-		
+
 	// categories attached to this item, if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'categories')) {
 
@@ -986,7 +986,7 @@ if(!isset($item['id'])) {
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		if($box['text'])
-			$context['components']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'navigation', 'categories');
+			$context['components']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'extra', 'categories');
 
 	}
 

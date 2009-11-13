@@ -142,9 +142,6 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 	// insert the dynamic footer, if any, including inline scripts
 	echo $context['page_footer'];
 
-	// nice titles
-	echo "\t".'<script type="text/javascript" src="'.$context['url_to_root'].'skins/joi/nicetitle.js"></script>'."\n";
-
 	// end of page
 	echo '</body>'."\n"
 		.'</html>';

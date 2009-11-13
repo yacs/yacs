@@ -83,7 +83,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 				$text .= RESTRICTED_FLAG.' ';
 
 			// use the title as a link to the page
-			$text .= Skin::build_link($url, $title, 'basic');
+			$text .= Skin::build_link($url, '<strong>'.$title.'</strong>', 'basic');
 
 			// flag articles updated recently
 			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
@@ -112,6 +112,10 @@ Class Layout_articles_as_jive extends Layout_interface {
 			// add details to the title
 			if(count($details))
 				$text .= '<p class="details">'.join(', ', $details).'</p>';
+
+			// display all tags
+			if($item['tags'])
+				$text .= BR.'<span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
 
 			// next cell for the content
 			$text .= '</td><td width="70%">';
@@ -149,7 +153,7 @@ Class Layout_articles_as_jive extends Layout_interface {
 			}
 
 			// more commands
-			$content .= '<p class="jive_menu">';
+			$content .= '<p class="menu_bar">';
 
 			// describe attachments
 			if(count($details))

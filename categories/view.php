@@ -170,6 +170,10 @@ if(is_object($overlay))
 elseif(isset($item['title']) && $item['title'])
 	$context['page_title'] = $item['title'];
 
+// set title background
+if(isset($item['background_color']) && $item['background_color'])
+	$context['page_title'] = '<span style="background-color: '.$item['background_color'].'; padding: 0 2px 0 2px;">'.$context['page_title'].'</span>';
+
 // not found -- help web crawlers
 if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
@@ -932,7 +936,7 @@ if(!isset($item['id'])) {
 
 		// internal search
 		$label = sprintf(i18n::s('Maybe some new pages or additional material can be found by submitting the following keyword to our search engine. Give it a try. %s'), Codes::beautify('[search='.$item['keywords'].']'));
-		$content .= Skin::build_box(i18n::s('Internal search'), $label, 'navigation');
+		$content .= Skin::build_box(i18n::s('Internal search'), $label, 'extra');
 
 		// external search
 		$content = '<p>'.sprintf(i18n::s('Search for %s at:'), $item['keywords']).' ';
@@ -957,7 +961,7 @@ if(!isset($item['id'])) {
 		$content .= Skin::build_link($link, i18n::s('Technorati'), 'external').'.';
 
 		$content .= "</p>\n";
-		$context['components']['boxes'] .= Skin::build_box(i18n::s('External search'), $content, 'navigation');
+		$context['components']['boxes'] .= Skin::build_box(i18n::s('External search'), $content, 'extra');
 
 	}
 

@@ -717,7 +717,7 @@ if($with_form) {
 	// attachments tab
 	//
 	$text = '';
-	
+
 	// the avatar url
 	if(isset($item['id'])) {
 		$label = i18n::s('Picture URL');
@@ -732,7 +732,7 @@ if($with_form) {
 		$input .= '<input type="text" name="avatar_url" size="55" value="'.encode_field($value).'" maxlength="255" />';
 
 		$input .= ' <span class="details">'.Skin::build_link(Users::get_url($item['id'], 'select_avatar'), i18n::s('Change picture'), 'basic').'</span>';
-			
+
 		$fields[] = array($label, $input);
 	}
 
@@ -750,7 +750,7 @@ if($with_form) {
 
 		// menu at the top
 		$menu = array();
-		
+
 		// the command to add an image
 		if(Surfer::may_upload()) {
 			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
@@ -773,31 +773,31 @@ if($with_form) {
 			$box .= Skin::finalize_list($menu, 'menu_bar');
 		if($items)
 			$box .= Skin::build_list($items, 'decorated');
-			
+
 		// in a folded box
 		if($box)
 			$text .= Skin::build_box(i18n::s('Images'), $box, 'unfolded');
-			
+
 		// related locations
 		$box = '';
-	
+
 		// the menu to post a new location
 		$menu = array( 'locations/edit.php?anchor=user:'.$item['id'] => i18n::s('Add a location') );
 		$box .= Skin::build_list($menu, 'menu_bar');
-	
+
 		// the list of locations
 		include_once '../locations/locations.php';
 		$items = Locations::list_by_date_for_anchor('user:'.$item['id']);
 		$box .= Skin::build_list($items, 'decorated');
-	
+
 		// in a folded box
 		if($box)
 			$text .= Skin::build_box(i18n::s('Locations'), $box, 'folded');
-	
+
 		// pgp key
 		$label = i18n::s('PGP key or certificate');
 		$input = '<textarea name="pgp_key" rows="5" cols="50">'.encode_field(isset($item['pgp_key'])?$item['pgp_key']:'').'</textarea>';
-	
+
 		// add a folded box
 		$text .= Skin::build_box(i18n::s('Public key'), $label.BR.$input, 'folded');
 		$fields = array();
@@ -939,7 +939,7 @@ if($with_form) {
 	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
 	$help .= '</select></p></form>';
 
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 }
 

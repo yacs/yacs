@@ -70,11 +70,11 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 			$prefix = $home.'?page=';
 		$context['page_menu'] += Skin::navigate($home, $prefix, $stats['count'], $items_per_page, $page);
 	}
-	
+
 	// page main content
 	$cache_id = 'links/index.php#text#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
-	
+
 		// load the layout to use
 		switch($context['root_articles_layout']) {
 			case 'daily':
@@ -85,21 +85,21 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 				$layout = 'full';
 				break;
 		}
-	
+
 		// query the database and layout that stuff
 		$offset = ($page - 1) * $items_per_page;
 		if(!$text = Links::list_by_date($offset, $items_per_page, $layout))
 			$text = '<p>'.i18n::s('No link has been recorded yet.').'</p>';
-	
+
 		// we have an array to format
 		if(is_array($text))
 			$text =& Skin::build_list($text, 'decorated');
-	
+
 		// cache this to speed subsequent queries
 		Cache::put($cache_id, $text, 'links');
 	}
 	$context['text'] .= $text;
-	
+
 }
 
 // page tools
@@ -127,7 +127,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// box content
 			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
-				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'navigation')."\n";
+				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'extra')."\n";
 		}
 	}
 

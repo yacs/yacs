@@ -660,8 +660,9 @@ class Safe {
 	 *
 	 * @param string file name, relative to installation directory
 	 * @return boolean TRUE if file has been included, FALSE otherwise
+	 * @param boolean TRUE to force a reload, FALSE to load the file only once
 	 */
-	function load($file) {
+	function load($file, $reload=FALSE) {
 		global $context;
 
 		// translate the path
@@ -671,8 +672,11 @@ class Safe {
 		if(!is_readable($file))
 			return FALSE;
 
-		// include it
-		include_once $file;
+		// include it as many times as necessary
+		if($reload)
+			include $file;
+		else
+			include_once $file;
 
 		return TRUE;
 	}

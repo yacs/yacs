@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:48 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:14 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-27 21:52+0200
-PO-Revision-Date: 2009-09-27 22:04+0100
+POT-Creation-Date: 2009-11-09 21:27+0100
+PO-Revision-Date: 2009-11-09 21:29+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -185,6 +185,7 @@ $_SESSION['l10n']['fr']['GMT+%d hours']='GMT+%d heures';
 $_SESSION['l10n']['fr']['GMT+1 hour']='GMT+1 heure';
 $_SESSION['l10n']['fr']['GMT-1 hour']='GMT-1 heure';
 $_SESSION['l10n']['fr']['GMail']='GMail';
+$_SESSION['l10n']['fr']['Go']='Go';
 $_SESSION['l10n']['fr']['Go the main help page']='Aller à la page d\'aide principale';
 $_SESSION['l10n']['fr']['Google map']='Carte Google';
 $_SESSION['l10n']['fr']['Groups']='Groupes';
@@ -248,6 +249,7 @@ $_SESSION['l10n']['fr']['Message content']='Contenu du message';
 $_SESSION['l10n']['fr']['45b0a300ae44fcf8ec94980438933ae9']='Le corps du message ne peut pas être vide';
 $_SESSION['l10n']['fr']['Message title']='Titre du message';
 $_SESSION['l10n']['fr']['Monitor']='Surveiller';
+$_SESSION['l10n']['fr']['More']='Suite';
 $_SESSION['l10n']['fr']['Most recent members']='Les membres les plus récents';
 $_SESSION['l10n']['fr']['Move forward']='Continuer';
 $_SESSION['l10n']['fr']['My Profile']='Mon profil';

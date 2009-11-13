@@ -283,41 +283,39 @@ class Scripts {
 	 * hash the content of one file
 	 *
 	 * @param string the path of the target file
-	 * @return an array of ($lines, $hash, $content, $compressed), or NULL if not part of the reference set
+	 * @return an array of ($lines, $hash), or NULL if not part of the reference set
 	 */
 	function hash($file) {
 		global $context;
 
 		// only process php scripts
-		if(!preg_match('/(\.php|\.php\.done)$/i', basename($file)))
+		if(!strpos(basename($file), '.php'))
 			return NULL;
 
-		// read the file
-		if(!$content = Safe::file_get_contents($file))
+		// check file content
+		if(!$handle = Safe::fopen($file, 'rb'))
 			return NULL;
-		$content = trim($content);
-
-		// hash only reference scripts
-		if(!preg_match('/\*\s+@reference/i', $content))
-			return NULL;
-
-		// streamline new lines
-		$content = str_replace("\r", '', $content);
 
 		// count lines
-		$count = substr_count($content, "\n")+1;
+		$reference = FALSE;
+		$count = 0;
+		while($line = fgets($handle)) {
+			$count++;
+			if(strpos($line, '@reference'))
+				$reference = TRUE;
+		}
+		fclose($handle);
 
-		// hash the regular content
-		$content_hash = md5(str_replace("\n", '', $content));
+		// only accept reference scripts
+		if(!$reference)
+			return NULL;
 
-		// suppress comments and also, leading spaces
-		$compressed = preg_replace(array('|/\*.*?\*/|s', '|^\s+|m', '|^//.*?$|m'), '', $content);
-
-		// hash the compressed content
-		$compressed_hash = md5($compressed);
+		// compute md5 signature
+		if(!$hash = md5_file(Safe::realpath($file)))
+			return NULL;
 
 		// return the result
-		return array($count, $content_hash, $content, $compressed_hash, $compressed);
+		return array($count, $hash);
 	}
 
 	/**
@@ -329,7 +327,7 @@ class Scripts {
 	function &hbreak(&$text) {
 		global $context;
 
-		
+
 		// locate pre-formatted areas
 		$areas = preg_split('/<(code|pre)>(.*?)<\/\1>/is', trim($text), -1, PREG_SPLIT_DELIM_CAPTURE);
 
@@ -393,7 +391,7 @@ class Scripts {
 		// preserve HTML tags
 		$old_tokens = Scripts::hbreak($original);
 		$new_tokens = Scripts::hbreak($updated);
-		
+
 		// do the job
 		$output =& Scripts::sdiff($old_tokens, $new_tokens);
 		return $output;
@@ -402,7 +400,7 @@ class Scripts {
 	/**
 	 * list all files below a certain path
 	 *
-	 * Also print '.' and '!' while scanning the path to animate the resulting screen, 
+	 * Also print '.' and '!' while scanning the path to animate the resulting screen,
 	 * if the verbose parameter is set to TRUE.
 	 *
 	 * Node names starting with a '.' character are skipped, except if they match the last parameter.
@@ -423,7 +421,7 @@ class Scripts {
 
 		// sanity check
 		$path = rtrim($path, '/');
-		
+
 		// make a real path
 		if($handle = Safe::opendir($path)) {
 
@@ -433,14 +431,14 @@ class Scripts {
 				// special directory names
 				if(($node == '.') || ($node == '..'))
 					continue;
-					
+
 				// process special nodes
 				if($node[0] == '.') {
-				
+
 					// skip this item
 					if(!$special || (strpos($node, $special) === FALSE))
 						continue;
-					
+
 				}
 
 				// make a real name
@@ -471,7 +469,7 @@ class Scripts {
 						$relative = '';
 					else
 						$relative = $path;
-					
+
 					// append the item to the list
 					$files[] = array($relative, $node);
 
@@ -507,7 +505,6 @@ class Scripts {
 	 * @see scripts/build.php
 	 */
 	function list_scripts_at($path) {
-
 		global $context, $script_count;
 
 		// we want a list of files
@@ -538,11 +535,11 @@ class Scripts {
 				if(is_dir($target_translated)) {
 
 					// skip files and images, because of so many sub directories
-					if(preg_match('/(files|images)\//', $path))
+					if((strpos($path, 'files/') !== FALSE) || (strpos($path, 'images/') !== FALSE))
 						continue;
 
 					// already included
-					if(preg_match('/included\//', $path))
+					if(strpos($path, 'included/') !== FALSE)
 						continue;
 
 					// extend the list recursively
@@ -721,7 +718,7 @@ class Scripts {
 
 		// sanity check
 		$path = rtrim($path, '/');
-		
+
 		// list all files at this level
 		$directories = array();
 		if($handle = Safe::opendir($path)) {
@@ -732,14 +729,14 @@ class Scripts {
 				// special directory names
 				if(($node == '.') || ($node == '..'))
 					continue;
-					
+
 				// process special nodes
 				if($node[0] == '.')
 					continue;
-					
+
 				// make a real name
 				$target = $path.'/'.$node;
-				
+
 				// scan a sub directory
 				if(is_dir($target))
 					$directories[] = $target;
@@ -755,7 +752,7 @@ class Scripts {
 		// walk sub-directories as well
 		foreach($directories as $directory)
 			Scripts::walk_files_at($directory, $call_back);
-			
+
 	}
 
 

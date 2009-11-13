@@ -49,7 +49,7 @@ Class Layout_links_as_daily extends Layout_interface {
 				// insert a complete box for the previous date
 				if($box['content']) {
 					if($in_north)
-						$text .= '<div id="home_north">'."\n";
+						$text .= '<div class="newest">'."\n";
 					$text .= Skin::build_box($box['title'], $box['content']);
 					if($in_north)
 						$text .= '</div>'."\n";
@@ -119,7 +119,7 @@ Class Layout_links_as_daily extends Layout_interface {
 
 		// close the on-going box
 		if($in_north)
-			$text .= '<div id="home_north">'."\n";
+			$text .= '<div class="newest">'."\n";
 		$text .= Skin::build_box($box['title'], $box['content']);
 		if($in_north)
 			$text .= '</div>'."\n";

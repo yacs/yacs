@@ -165,7 +165,7 @@ Class Collections {
 		if(!is_array($collections_icons)) {
 
 			// path to item icons, relative to server root
-			$collections_icons_url = $context['url_to_root'].'skins/images/files_inline/';
+			$collections_icons_url = $context['url_to_root'].'skins/_reference/files_inline/';
 
 			// icons related to file types
 			$collections_icons = array(

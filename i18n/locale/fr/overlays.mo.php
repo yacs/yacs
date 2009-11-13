@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:48 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:13 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-24 09:36+0200
-PO-Revision-Date: 2009-09-24 09:57+0100
+POT-Creation-Date: 2009-09-30 20:42+0200
+PO-Revision-Date: 2009-09-30 23:48+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -37,6 +37,7 @@ $_SESSION['l10n']['fr']['Add an answer']='Ajouter une réponse';
 $_SESSION['l10n']['fr']['Add an event']='Ajouter un événement';
 $_SESSION['l10n']['fr']['Add an issue']='Ajouter un problème';
 $_SESSION['l10n']['fr']['Additional information']='Information complémentaire';
+$_SESSION['l10n']['fr']['Address']='Adresse';
 $_SESSION['l10n']['fr']['All members of the community']='Tous les membres de la communauté';
 $_SESSION['l10n']['fr']['105c9bbc916246192e58d48e0fa8c7bd']='Tous les membres de la communauté peuvent signer.';
 $_SESSION['l10n']['fr']['e1a0abbb6a700d35ad41223bb6b67e4b']='Tous les membres de la communauté sont autorisé à voter';
@@ -87,6 +88,7 @@ $_SESSION['l10n']['fr']['Editors of this section']='Les éditeurs de cette secti
 $_SESSION['l10n']['fr']['72dd7146984597567b26a39f53414753']='Les éditeurs de cette section peuvent signer.';
 $_SESSION['l10n']['fr']['e26a8eba9b60b1603a6b7c0b195e720e']='Les éditeurs de cette section sont autorisés à voter';
 $_SESSION['l10n']['fr']['End date']='Fermeture des votes';
+$_SESSION['l10n']['fr']['Enrolment is open']='Les inscriptions sont ouvertes';
 $_SESSION['l10n']['fr']['Enter a valid %s account']='Utiliser un compte %s valide';
 $_SESSION['l10n']['fr']['Export data']='Exporter les données';
 $_SESSION['l10n']['fr']['Export to XML']='Convertir en XML';
@@ -105,6 +107,12 @@ $_SESSION['l10n']['fr']['Ingredients: %s']='Ingrédients : %s';
 $_SESSION['l10n']['fr']['Issue description']='Description du problème';
 $_SESSION['l10n']['fr']['Join the meeting']='Joindre la réunion';
 $_SESSION['l10n']['fr']['0985e124a45dcdf669edf50555f0141b']='Rédiger des sondages aussi simples que possible.';
+$_SESSION['l10n']['fr']['Management']='Gestion';
+$_SESSION['l10n']['fr']['Meeting enrolment']='Inscriptions à la réunion';
+$_SESSION['l10n']['fr']['Meeting has started']='La réunion a commencé';
+$_SESSION['l10n']['fr']['Meeting is over']='La réunion est terminée';
+$_SESSION['l10n']['fr']['Meeting is starting']='La réunion commence';
+$_SESSION['l10n']['fr']['Meeting preparation']='Préparation de la réunion';
 $_SESSION['l10n']['fr']['Navigation box']='Boîte de navigation';
 $_SESSION['l10n']['fr']['New day']='Nouvelle journée';
 $_SESSION['l10n']['fr']['New meeting']='Nouvelle réunion';
@@ -126,13 +134,17 @@ $_SESSION['l10n']['fr']['Overlay trailer']='Bas de page géré par l\'overlay';
 $_SESSION['l10n']['fr']['Overlays']='Overlays';
 $_SESSION['l10n']['fr']['3dc503593a3195b9e277f5f6e3972aec']='Les overlays listés ci-dessous peuvent être utilisés pour personnaliser les articles attachés à une section.';
 $_SESSION['l10n']['fr']['Past dates']='Dates précédentes';
+$_SESSION['l10n']['fr']['005eb26c2b2b960de5955d5a12032093']='Coller l\'adresse de la réunion';
 $_SESSION['l10n']['fr']['People to be served: %s']='Nombre de parts : %s';
 $_SESSION['l10n']['fr']['Persons to be served']='Nombre de convives';
 $_SESSION['l10n']['fr']['Petition has been closed.']='La pétition est fermée.';
 $_SESSION['l10n']['fr']['Petition has ended on %s.']='La pétition est fermée depuis le %s.';
 $_SESSION['l10n']['fr']['Petition is currently open.']='La pétition est ouverte.';
 $_SESSION['l10n']['fr']['Petition is open until %s.']='La pétition est ouverte jusqu\'au %s.';
+$_SESSION['l10n']['fr']['e263f0f80d01c4425818659d674ce33f']='Merci de cliquer sur le bouton ci-dessous pour rejoindre la réunion.';
 $_SESSION['l10n']['fr']['fbfec63a77f8d801db1c826c3bf28a8d']='Merci d\'indiquer un identifiant d\'overlay';
+$_SESSION['l10n']['fr']['Please wait']='Merci de patienter';
+$_SESSION['l10n']['fr']['6902a87872c84f33a4e80962f5d0e9f9']='Merci d\'attendre le début de la réunion.';
 $_SESSION['l10n']['fr']['Preparation steps']='Etapes de la recette';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
 $_SESSION['l10n']['fr']['Problem has been recorded']='Le problème a été enregistré';
@@ -186,6 +198,7 @@ $_SESSION['l10n']['fr']['Vote will start on %s']='Le vote commencera le %s';
 $_SESSION['l10n']['fr']['b3789f282dc0c6c7351d0bad4ed72e6e']='Le vote se déroulera du %s au %s';
 $_SESSION['l10n']['fr']['Voters']='Votants';
 $_SESSION['l10n']['fr']['Voters:']='Votants :';
+$_SESSION['l10n']['fr']['Waiting for meeting start']='En attendant le début de la réunion';
 $_SESSION['l10n']['fr']['250fe802ec02ecd45326259e3a1c2677']='Si possible, merci de standardiser vos recettes pour 4 convives.';
 $_SESSION['l10n']['fr']['YYYY-MM-AA HH:MM']='AAAA-MM-JJ HH:MM';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';

@@ -127,6 +127,10 @@ Class Layout_articles_as_manual extends Layout_interface {
 			if(count($details))
 				$suffix .= ' <span class="details">'.join(', ', $details).'</span>';
 
+			// display all tags
+			if($item['tags'])
+				$suffix .= ' <span class="details">- '.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
+
 			// make a link
 			$label = $prefix.Skin::build_link($url, $title, 'basic').$suffix;
 

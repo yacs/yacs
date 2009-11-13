@@ -111,17 +111,9 @@ if($page > 10) {
 	if(!$text =& Cache::get($cache_id)) {
 
 		// load the layout to use
-		switch($context['root_articles_layout']) {
-			case 'boxesandarrows':
-				include_once 'layout_sections_as_boxesandarrows.php';
-				$layout = new Layout_sections_as_boxesandarrows();
-				break;
-			default:
-				include_once 'layout_sections_as_yahoo.php';
-				$layout = new Layout_sections_as_yahoo();
-				$layout->set_variant(20); // show more elements at the site map
-				break;
-		}
+		include_once 'layout_sections_as_yahoo.php';
+		$layout = new Layout_sections_as_yahoo();
+		$layout->set_variant(20); // show more elements at the site map
 
 		// the list of active sections
 		$offset = ($page - 1) * $items_per_page;
@@ -159,17 +151,9 @@ if($page > 10) {
 		if(($page == 1) && Surfer::is_associate()) {
 
 			// load the layout to use
-			switch($context['root_articles_layout']) {
-				case 'boxesandarrows':
-					include_once 'layout_sections_as_boxesandarrows.php';
-					$layout = new Layout_sections_as_boxesandarrows();
-					break;
-				default:
-					include_once 'layout_sections_as_yahoo.php';
-					$layout = new Layout_sections_as_yahoo();
-					$layout->set_variant(20); // show more elements at the site map
-					break;
-			}
+			include_once 'layout_sections_as_yahoo.php';
+			$layout = new Layout_sections_as_yahoo();
+			$layout->set_variant(20); // show more elements at the site map
 
 			// query the database and layout that stuff
 			if($items = Sections::list_inactive_by_title_for_anchor(NULL, 0, 50, $layout)) {
@@ -231,7 +215,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// box content
 			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
-				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'navigation')."\n";
+				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'extra')."\n";
 		}
 	}
 
@@ -242,7 +226,7 @@ if(!$text =& Cache::get($cache_id)) {
 // 		$content = Skin::build_link(Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name']).'.mm'), i18n::s('Freemind map'), 'basic');
 //
 // 		// in a sidebar box
-// 		$text .= Skin::build_box(i18n::s('Download'), $content, 'navigation');
+// 		$text .= Skin::build_box(i18n::s('Download'), $content, 'extra');
 //
 // 	}
 

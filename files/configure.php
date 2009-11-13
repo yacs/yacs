@@ -164,7 +164,7 @@ elseif(!Surfer::is_associate()) {
 	// general help on this form
 	$help = '<p>'.i18n::s('Shared files are not put in the database, but in the file system of the web server.').'</p>'
 		.'<p>'.i18n::s('If you cannot upload files because of permissions settings, use the configuration panel for users to disable all uploads.').'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {

@@ -163,8 +163,11 @@ else {
 		$text = '';
 
 		// the style title
-		if($label = i18n::l($attributes, 'label'))
+		if($label = i18n::l($attributes, 'label')) {
+			if($context['skin'] == $id)
+				$label .= ' <span class="details">'.i18n::s('current theme').'</span>';
 			$text .= Skin::build_block($label, 'subtitle');
+		}
 
 		// style description
 		if($description = i18n::l($attributes, 'description'))
@@ -182,6 +185,10 @@ else {
 			// this skin is not yet used
 			if($context['skin'] != $id)
 				$menu = array_merge($menu, array('control/configure.php?parameter=skin&value='.$id => i18n::s('Use this theme')));
+
+			// configure the theme
+			if(file_exists($context['path_to_root'].$id.'/configure.php'))
+				$menu = array_merge($menu, array($id.'/configure.php' => i18n::s('Configure this theme')));
 
 			// edit this skin
 			$menu = array_merge($menu, array('skins/edit.php?skin='.substr($id, 6) => i18n::s('Edit this theme')));
@@ -213,9 +220,19 @@ else {
 
 			}
 
-			// display a clickable image
-			$img = '<img src="'.$context['url_to_root'].$id.'/'.$attributes['thumbnail'].'" alt="" title="'.encode_field($label).'" />';
-			$text .= BR.Skin::build_link($link, $img);
+			// hightlight the current skin
+			$style = '';
+			if($context['skin'] == $id)
+				$style = ' style="border: 6px solid #888"';
+
+			// the thumbnail that represents this theme
+			$img = '<img src="'.$context['url_to_root'].$id.'/'.$attributes['thumbnail'].'" alt="" title="'.encode_field($label).'"'.$style.' />';
+
+			// a clickable image to change the theme
+			if($context['skin'] != $id)
+				$text .= BR.Skin::build_link($link, $img);
+			else
+				$text .= BR.$img;
 		}
 
 		// pack it together
@@ -237,7 +254,7 @@ if(Surfer::is_associate()) {
 // how to get a skin
 if(Surfer::is_associate()) {
 	$help = '<p>'.sprintf(i18n::s('Do not attempt to modify a reference theme directly, your changes would be overwritten on next software update. %s instead to preserve your work over time.'), Skin::build_link('skins/derive.php', i18n::s('Derive a theme'), 'shortcut')).'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('How to get a theme?'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('How to get a theme?'), $help, 'extra', 'help');
 }
 
 // referrals, if any

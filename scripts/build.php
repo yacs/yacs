@@ -4,7 +4,6 @@
  *
  * @todo add sample configuration scripts
  * @todo produce a .sql file to create database
- * @todo produce a tgz archive as well
  *
  * This script behaves as follows:
  * - the script aborts if the user is not an associate
@@ -76,7 +75,7 @@ include_once 'scripts.php';
 // the place to build the reference repository
 if(!isset($context['path_to_reference']))
 	$context['path_to_reference'] = preg_replace('|/[^/]+/\.\./|', '/', $context['path_to_root'].'../yacs.reference/');
-		
+
 // load localized strings
 i18n::bind('scripts');
 
@@ -116,9 +115,6 @@ elseif(!Surfer::is_associate()) {
 
 	// the submit button
 	$context['text'] .= BR.Skin::build_submit_button(i18n::s('Yes, I want to (re)build the reference store'), NULL, NULL, 'confirmed');
-
-	// compress reference scripts
-	$context['text'] .= BR.'<input type="checkbox" name="compress_scripts" value="Y" /> '.i18n::s('Compress reference PHP scripts.');
 
 	// footprints files
 	$context['text'] .= BR.'<input type="checkbox" name="enable_footprints" value="Y" checked="checked" /> '.i18n::s('Enable remote servers to update from this reference store.');
@@ -177,7 +173,7 @@ elseif(!Surfer::is_associate()) {
 			$file = $name;
 
 		// silently skip configuration files
-		if(preg_match('/\.(include)\.php$/', $file))
+		if(strpos($file, '.include.php'))
 			continue;
 
 		// process only reference scripts
@@ -186,24 +182,18 @@ elseif(!Surfer::is_associate()) {
 			continue;
 		}
 
-		// store the footprint for later use --number of lines, content hash, compressed hash
-		$footprints[$file] = array($footprint[0], $footprint[1], $footprint[3]);
-
-		// save compressed or plain content
-		if(isset($_REQUEST['compress_scripts']) && ($_REQUEST['compress_scripts'] == 'Y'))
-			$content = $footprint[4];
-		else
-			$content = $footprint[2];
+		// store the footprint for later use --number of lines, content hash
+		$footprints[$file] = array($footprint[0], $footprint[1]);
 
 		// ensure a clean reference store
 		Safe::unlink($context['path_to_reference'].$file);
-		
+
 		// create adequate path
 		if(!Safe::make_path($context['path_to_reference'].dirname($file)))
 			$context['text'] .= sprintf(i18n::s('Impossible to create path %s.'), $context['path_to_reference'].dirname($file)).BR."\n";
 
 		// copy file content into the reference store
-		elseif(!Safe::file_put_contents($context['path_to_reference'].$file, $content))
+		elseif(!Safe::copy($context['path_to_root'].$file, $context['path_to_reference'].$file))
 			$context['text'] .= sprintf(i18n::s('Impossible to copy file %s.'), $file).BR."\n";
 
 		// post-processing
@@ -276,8 +266,8 @@ elseif(!Surfer::is_associate()) {
 
 		// update footprints
 		if(!isset($footprints[$file]) && ($footprint = Scripts::hash($context['path_to_reference'].$file)))
-			$footprints[$file] = array($footprint[0], $footprint[1], $footprint[3]);
-			
+			$footprints[$file] = $footprint;
+
 		// ensure we have enough time to process next script
 		Safe::set_time_limit(30);
 
@@ -316,7 +306,7 @@ elseif(!Surfer::is_associate()) {
 		$global_lines = 0;
 
 		foreach($footprints as $file => $footprint) {
-			$content .= "\$footprints['$file']=array($footprint[0], '$footprint[1]', '$footprint[2]');\n";
+			$content .= "\$footprints['$file']=array($footprint[0], '$footprint[1]');\n";
 
 			// global statistics
 			$global_scripts += 1;
@@ -361,7 +351,7 @@ elseif(!Surfer::is_associate()) {
 
 	// also update our own version
 	Safe::file_put_contents($context['path_to_root'].'footprints.php', $content);
-	
+
 	// splash message
 	$context['text'] .= '<p>'.i18n::s('On-going archive preparation...')."\n";
 
@@ -371,7 +361,7 @@ elseif(!Surfer::is_associate()) {
 	// start the zip file
 	include_once '../shared/zipfile.php';
 	$zipfile = new zipfile();
-	
+
 	// place all files into a single directory --fixed time to allow cacheability
 	$zipfile->store('yacs/', 0);
 
@@ -395,10 +385,10 @@ elseif(!Surfer::is_associate()) {
 			// store binary data
 			else
 				$zipfile->store('yacs/'.$file, Safe::filemtime($file_path.$file), $content);
-				
+
 			// to be included in tar file as well
 			$all_files[] = $file_path.$file;
-			
+
 		} else
 			$context['text'] .= BR.'cannot read '.$file_path.$file;
 
@@ -424,7 +414,7 @@ elseif(!Surfer::is_associate()) {
 	// extend the tar file as well
 	if($tarfile->createModify($all_files, '', $file_path))
 		$context['text'] .= BR.Skin::build_link($file_name.'.tgz', $file_name.'.tgz', 'basic');
-			
+
 	$context['text'] .= "</p>\n";
 
 	// display the execution time

@@ -86,16 +86,16 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 	// page main content
 	$cache_id = 'files/index.php#text#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
-	
+
 		// the list of files
 		$offset = ($page - 1) * $items_per_page;
 		if(!$text = Files::list_by_date($offset, $items_per_page, 'full'))
 			$text = '<p>'.i18n::s('No file has been uploaded yet.').'</p>';
-	
+
 		// we have an array to format
 		if(is_array($text))
 			$text = Skin::build_list($text, 'decorated');
-	
+
 		// cache this to speed subsequent queries
 		Cache::put($cache_id, $text, 'files');
 	}
@@ -135,7 +135,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// box content
 			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
-				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'navigation')."\n";
+				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'extra')."\n";
 		}
 	}
 

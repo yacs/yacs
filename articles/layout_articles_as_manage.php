@@ -165,12 +165,18 @@ Class Layout_articles_as_manage extends Layout_interface {
 
 			// list up to three categories by title, if any, and if not on a mobile
 			$anchors = array();
-			if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 5, 'raw')) {
-				foreach($members as $id => $attributes)
-					$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'category');
+			if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
+				foreach($members as $id => $attributes) {
+
+					// add background color to distinguish this category against others
+					if(isset($attributes['background_color']) && $attributes['background_color'])
+						$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
+
+					$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic');
+				}
 			}
 			if(count($anchors))
-				$suffix .= BR.sprintf(i18n::s('In %s'), implode(' | ', $anchors));
+				$suffix .= BR.sprintf(i18n::s('In %s'), implode(' / ', $anchors));
 
 			// end of details
 			$suffix .= '</span>';

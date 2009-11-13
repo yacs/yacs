@@ -26,11 +26,12 @@ Class Layout_users extends Layout_interface {
 	function &layout(&$result, $variant='full') {
 		global $context;
 
+		// we return an array of ($url => $attributes)
+		$items = array();
+
 		// empty list
-		if(!SQL::count($result)) {
-			$output = array();
-			return $output;
-		}
+		if(!SQL::count($result))
+			return $items;
 
 		// flag users updated recently
 		if($context['site_revisit_after'] < 1)
@@ -40,10 +41,8 @@ Class Layout_users extends Layout_interface {
 		// flag idle users
 		$idle = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 600);
 
-		// we return an array of ($url => $attributes)
-		$items = array();
-
 		// process all items in the list
+		include_once $context['path_to_root'].'categories/categories.php';
 		while($item =& SQL::fetch($result)) {
 
 			// initialize variables
@@ -88,6 +87,10 @@ Class Layout_users extends Layout_interface {
 				else
 					$suffix .= ' -&nbsp;'.$item['introduction'];
 			}
+
+			// display all tags
+			if($item['tags'])
+				$suffix .= ' <span class="tags">'.Skin::build_tags($item['tags'], 'user:'.$item['id']).'</span>';
 
 			// details
 			$details = array();

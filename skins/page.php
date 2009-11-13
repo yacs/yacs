@@ -38,7 +38,7 @@
 		// we do have some extra content to render
 		$classes = '';
 		if($context['extra'])
-			$classes = ' classes="extra"';
+			$classes = ' class="extra"';
 
 		// start the body
 		echo '<body'.$id.$classes.'>'."\n";
@@ -108,9 +108,11 @@
 		}
 
 	}
-	
+
 	/**
 	 * echo one skin component
+	 *
+	 * @todo cache dynamic pages in user context for a while
 	 *
 	 * This function looks for a function into the skin library, then for a function in this script,
 	 * then it checks $context['components'].
@@ -126,9 +128,9 @@
 	 *
 	 * @see skins/configure.php
 	 */
-	function component($name) {
+	function component($name, $variant='navigation') {
 		global $context;
-		
+
 		// for component 'foo' we are looking for member function 'echo_foo'  from the skin
 		$from_skin = array('Skin', 'echo_'.$name);
 		if(is_callable($from_skin)) {
@@ -148,11 +150,11 @@
 			echo $context['components'][ $name ];
 			return TRUE;
 		}
-		
+
 		// look a named page, but only during regular operation
 		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
 			if($item =& Articles::get($name)) {
-				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'component_'.$name);
+				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), $variant, 'component_'.$name);
 				return TRUE;
 			}
 		}
@@ -178,7 +180,7 @@
 	 * - 'title' - page title
 	 * - any value from $context array
 	 *
-	 * For example, call Page::content('title special tags error icon text details menu') to 
+	 * For example, call Page::content('title special tags error icon text details menu') to
 	 * embed $context['special'] string below page title, and to display tags towards top of page.
 	 *
 	 * The parameter can also have a boolean value, which is equivalent to the following:
@@ -200,7 +202,7 @@
 				$names = 'title error text tags details menu';
 			else
 				$names = 'title error text tags details';
-				
+
 		// ensure we have something
 		} elseif(!$names) {
 			if(isset($context['skins_main_components']))
@@ -208,15 +210,15 @@
 			else
 				$names = 'title error text tags details bar';
 		}
-			
+
 		// a list of components
 		if(is_string($names))
 			$names = explode(' ', $names);
-			
+
 		// actual component generation
 		foreach($names as $name)
 			Page::component($name);
-			
+
 		// display the suffix, if any
 		if(isset($context['suffix']) && $context['suffix'])
 			echo $context['suffix']."\n";
@@ -234,13 +236,13 @@
 	 */
 	function echo_bar() {
 		global $context;
-	
+
 		// commands are listed into $context
 		if(isset($context['page_menu']) && (@count($context['page_menu']) > 0))
 			echo Skin::build_list($context['page_menu'], 'page_menu');
-			
+
 	}
-				
+
 	/**
 	 * echo page details
 	 *
@@ -249,11 +251,11 @@
 	function echo_details() {
 		global $context;
 
-		// from $context	
+		// from $context
 		if(isset($context['page_details']) && $context['page_details'])
 			echo '<div id="page_details">'.$context['page_details']."</div>\n";
 	}
-				
+
 	/**
 	 * echo the extra panel in a 2-column layout
 	 *
@@ -264,17 +266,17 @@
 
 		// we don't want to create a full extra division
 		$names = explode(' ', $context['skins_extra_components']);
-		
+
 		// populate the extra panel
 		foreach($names as $name)
-			Page::component($name);
-			
+			Page::component($name, 'extra');
+
 		// display complementary information, if any
 		if($context['extra'])
 			echo $context['extra'];
 
 	}
-				
+
 	/**
 	 * echo error messages
 	 *
@@ -287,7 +289,7 @@
 		if(is_callable(array('Skin', 'build_error_block')))
 			echo Skin::build_error_block();
 	}
-				
+
 	/**
 	 * echo page main image
 	 *
@@ -296,19 +298,19 @@
 	function echo_image() {
 		global $context;
 
-		// the URL to use is in $context	
+		// the URL to use is in $context
 		if($context['page_image']) {
-		
+
 			// additional styles
 			$more_styles = '';
 			if(isset($context['classes_for_icon_images']) && $context['classes_for_icon_images'])
 				$more_styles = ' '.encode_field($context['classes_for_icon_images']);
-		
+
 			echo ICON_PREFIX.'<img src="'.$context['page_image'].'" style="margin: 0 0 2em 0;" class="icon'.$more_styles.'" alt="" />'.ICON_SUFFIX;
-				
+
 		}
 	}
-				
+
 	/**
 	 * echo the site menu
 	 *
@@ -316,16 +318,16 @@
 	 */
 	function echo_menu() {
 		global $context;
-	
+
 		// ensure normal conditions
 		if(file_exists($context['path_to_root'].'parameters/switch.on') && is_callable(array('Articles', 'get')) && is_callable(array('Codes', 'beautify'))) {
-		
+
 			// use content of a named global page
 			if($item =& Articles::get('menu'))
 				echo Skin::build_box(Codes::beautify_title($item['title']), Codes::beautify($item['description']), 'navigation', 'main_menu');
 		}
 	}
-				
+
 	/**
 	 * echo tags
 	 *
@@ -333,13 +335,13 @@
 	 */
 	function echo_tags() {
 		global $context;
-	
+
 		// tags are listed into $context
 		if(isset($context['page_tags']) && $context['page_tags'])
 			echo '<p class="tags">'.sprintf(i18n::s('Tags: %s'), $context['page_tags']).'</p>'."\n";
 
 	}
-				
+
 	/**
 	 * echo main text
 	 *
@@ -347,7 +349,7 @@
 	 */
 	function echo_text() {
 		global $context;
-	
+
 		// from $context
 		echo $context['text'];
 		$context['text'] = '';
@@ -357,10 +359,10 @@
 			send_body();
 
 		// maybe some additional text has been created in send_body()
-		echo $context['text'];		
+		echo $context['text'];
 
 	}
-				
+
 	/**
 	 * echo page title
 	 *
@@ -368,13 +370,13 @@
 	 */
 	function echo_title() {
 		global $context;
-	
+
 		// from $context
 		if(isset($context['page_title']) && $context['page_title'])
 			echo Skin::build_block($context['page_title'], 'page_title');
 
 	}
-				
+
 	/**
 	 * echo the toolbox
 	 *
@@ -382,13 +384,13 @@
 	 */
 	function echo_tools() {
 		global $context;
-	
+
 		// tools are listed into $context
 		if(isset($context['page_tools']) && (@count($context['page_tools']) > 0))
 			echo Skin::build_box(i18n::s('Tools'), Skin::finalize_list($context['page_tools'], 'tools'), 'extra', 'page_tools');
 
 	}
-				
+
 	/**
 	 * echo the user menu
 	 *
@@ -396,7 +398,7 @@
 	 */
 	function echo_user() {
 		global $context;
-	
+
 		// build menu content dynamically
 		if(is_callable(array('Users', 'get_url')) && ($menu = Skin::build_user_menu('basic')) && is_callable(array('i18n', 's'))) {
 			if(Surfer::is_logged())
@@ -407,7 +409,7 @@
 		}
 
 	}
-				
+
 	/**
 	 * echo the list of visited pages
 	 *
@@ -415,51 +417,54 @@
 	 */
 	function echo_visited() {
 		global $context;
-	
-		// visited pages are listed in session sapce
+
+		// visited pages are listed in session space
 		if(isset($_SESSION['visited']) && count($_SESSION['visited']) && is_callable(array('i18n', 's')))
-			echo Skin::build_box(i18n::s('Visited'), Skin::build_list($_SESSION['visited'], 'compact'), 'navigation', 'visited_pages');
+			echo Skin::build_box(i18n::s('Visited'), Skin::build_list($_SESSION['visited'], 'compact'), 'extra', 'visited_pages');
 
 	}
-				
+
 	/**
 	 * show the extra panel of the page
 	 *
 	 * If no parameter is provided, the global attribute $context['skins_extra_components'] is used instead.
 	 *
 	 * @param string hard-coded list of components to put aside
+	 * @param boolean TRUE to generate the div#extra_panel, FALSE otherwise
 	 */
-	function extra_panel($names=NULL) {
+	function extra_panel($names=NULL, $in_division=TRUE) {
 		global $context;
 
 		// use regular parameters
 		if(!$names)
 			$names = $context['skins_extra_components'];
-			
+
 		// nothing to do
 		if(!$names && !$context['extra'])
 			return;
-		
+
 		// avoid deadlocks due to misconfiguration
 		$names = str_replace('extra', '', $names);
-		
+
 		// in a separate division
-		echo '<div id="extra_panel">';
+		if($in_division)
+			echo '<div id="extra_panel">';
 
 		// a list of components
 		if(is_string($names))
 			$names = explode(' ', $names);
-			
+
 		// populate the extra panel
 		foreach($names as $name)
-			Page::component($name);
-			
+			Page::component($name, 'extra');
+
 		// display complementary information, if any
 		if($context['extra'])
 			echo $context['extra'];
 
 		// close the extra panel
-		echo "</div>\n";
+		if($in_division)
+			echo "</div>\n";
 
 	}
 
@@ -601,19 +606,19 @@
 		// use regular parameters
 		if(!$names)
 			$names = $context['skins_navigation_components'];
-			
+
 		// a list of components
 		if(is_string($names))
 			$names = explode(' ', $names);
-			
+
 		// populate the extra panel
 		foreach($names as $name)
-			Page::component($name);
-			
+			Page::component($name, 'navigation');
+
 		// append other items to the navigation panel
 		if($context['navigation'])
 			echo $context['navigation']."\n";
-			
+
 	}
 
 	/**
@@ -634,7 +639,7 @@
 		// only for live servers
 		if(!file_exists($context['path_to_root'].'parameters/switch.on'))
 			return;
-		
+
 		// cache this across requests
 		$cache_id = 'skins/page.php#tabs';
 		if(!$text =& Cache::get($cache_id)) {

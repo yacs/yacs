@@ -96,7 +96,7 @@ $context['text'] .= "\n".'[toc]'."\n";
 
 // url
 $context['text'] .= '[title]'.i18n::s('External link').' [escape]&lt;url&gt;[/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('You can visit www.cisco.com or http://www.nortel.com, or have a chat at irc://irc.eu.be.ofloo.net/').'[/escape]</td>'
 	.'<td>'.i18n::s('You can visit www.cisco.com or http://www.nortel.com, or have a chat at irc://irc.eu.be.ofloo.net/').'</td></tr>'
@@ -104,7 +104,7 @@ $context['text'] .= '[title]'.i18n::s('External link').' [escape]&lt;url&gt;[/es
 
 // [link]url[/link] - external
 $context['text'] .= '[title]'.i18n::s('External link').' [escape][link]&lt;url&gt;[/link][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('You can visit [link]www.cisco.com[/link] or [link]http://www.nortel.com[/link], or have a chat at [link]irc://irc.eu.be.ofloo.net/[/link]').'[/escape]</td>'
 	.'<td>'.i18n::s('You can visit [link]www.cisco.com[/link] or [link]http://www.nortel.com[/link], or have a chat at [link]irc://irc.eu.be.ofloo.net/[/link]').'</td></tr>'
@@ -112,7 +112,7 @@ $context['text'] .= '[title]'.i18n::s('External link').' [escape][link]&lt;url&g
 
 // [link]url[/link] - internal
 $context['text'] .= '[title]'.i18n::s('Internal link').' [escape][link]&lt;url&gt;[/link][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('You can visit [link]codes/basic.php[/link] or [link]index.php[/link]').'[/escape]</td>'
 	.'<td>'.i18n::s('You can visit [link]codes/basic.php[/link] or [link]index.php[/link]').'</td></tr>'
@@ -120,7 +120,7 @@ $context['text'] .= '[title]'.i18n::s('Internal link').' [escape][link]&lt;url&g
 
 // [label|url]
 $context['text'] .= '[title]'.i18n::s('Labelled link').' [escape][&lt;label&gt;|&lt;url&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('You can visit [Cisco On Line|www.cisco.com]').'[/escape]</td>'
 	.'<td>'.i18n::s('You can visit [Cisco On Line|www.cisco.com]').'</td></tr>'
@@ -128,7 +128,7 @@ $context['text'] .= '[title]'.i18n::s('Labelled link').' [escape][&lt;label&gt;|
 
 // [link=label]url[/link]
 $context['text'] .= '[title]'.i18n::s('Labelled link').' [escape][link=&lt;label&gt;]&lt;url&gt;[/link][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('You can visit [link=Cisco On Line]www.cisco.com[/link]').'[/escape]</td>'
 	.'<td>'.i18n::s('You can visit [link=Cisco On Line]www.cisco.com[/link]').'</td></tr>'
@@ -136,7 +136,7 @@ $context['text'] .= '[title]'.i18n::s('Labelled link').' [escape][link=&lt;label
 
 // [button=label]url[/button]
 $context['text'] .= '[title]'.i18n::s('Labelled button').' [escape][button=&lt;label&gt;]&lt;url&gt;[/button][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('You can visit [button=Cisco On Line]www.cisco.com[/button]').'[/escape]</td>'
 	.'<td>'.i18n::s('You can visit [button=Cisco On Line]www.cisco.com[/button]').'</td></tr>'
@@ -144,7 +144,7 @@ $context['text'] .= '[title]'.i18n::s('Labelled button').' [escape][button=&lt;l
 
 // address
 $context['text'] .= '[title]'.i18n::s('e-mail address').' [escape]&lt;address&gt;[/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('You can send a message at webmaster@acme.com').'[/escape]</td>'
 	.'<td>'.i18n::s('You can send a message at webmaster@acme.com').'</td></tr>'
@@ -152,7 +152,7 @@ $context['text'] .= '[title]'.i18n::s('e-mail address').' [escape]&lt;address&gt
 
 // [email]address[/email]
 $context['text'] .= '[title]'.i18n::s('e-mail address').' [escape][email]&lt;address&gt;[/email][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('You can send a message at [email]webmaster@acme.com[/email]').'[/escape]</td>'
 	.'<td>'.i18n::s('You can send a message at [email]webmaster@acme.com[/email]').'</td></tr>'
@@ -160,7 +160,7 @@ $context['text'] .= '[title]'.i18n::s('e-mail address').' [escape][email]&lt;add
 
 // [email=label]address[/email]
 $context['text'] .= '[title]'.i18n::s('Labelled e-mail address').' [escape][email=&lt;label&gt;]&lt;address&gt;[/email][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('You can send a message to our [email=support team]webmaster@acme.com[/email]').'[/escape]</td>'
 	.'<td>'.i18n::s('You can send a message to our [email=support team]webmaster@acme.com[/email]').'</td></tr>'
@@ -168,7 +168,7 @@ $context['text'] .= '[title]'.i18n::s('Labelled e-mail address').' [escape][emai
 
 // [go=monthly, monthly archive]
 $context['text'] .= '[title]'.i18n::s('Selector').' [escape][go=&lt;name&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Please use our [go=monthly, monthly archive] for reference').'[/escape]</td>'
 	.'<td>'.i18n::s('Please use our [go=monthly, monthly archive] for reference').'</td></tr>'
@@ -176,7 +176,7 @@ $context['text'] .= '[title]'.i18n::s('Selector').' [escape][go=&lt;name&gt;, &l
 
 // [article=id]
 $context['text'] .= '[title]'.i18n::s('Page shortcut').' [escape][article=&lt;id&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.sprintf(i18n::s('Have a look at %s'), '[article='.$article_id.']').'[/escape]</td>'
 	.'<td>'.sprintf(i18n::s('Have a look at %s'), '[article='.$article_id.']').'</td></tr>'
@@ -184,7 +184,7 @@ $context['text'] .= '[title]'.i18n::s('Page shortcut').' [escape][article=&lt;id
 
 // [article=id, label]
 $context['text'] .= '[title]'.i18n::s('Page shortcut').' [escape][article=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.sprintf(i18n::s('Have a look at %s'), '[article='.$article_id.', bla bla bla]').'[/escape]</td>'
 	.'<td>'.sprintf(i18n::s('Have a look at %s'), '[article='.$article_id.', bla bla bla]').'</td></tr>'
@@ -192,7 +192,7 @@ $context['text'] .= '[title]'.i18n::s('Page shortcut').' [escape][article=&lt;id
 
 // [article.description=id]
 $context['text'] .= '[title]'.i18n::s('Page').' [escape][article.description=&lt;id&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][article.description='.$article_id.'][/escape]</td>'
 	.'<td>[article.description='.$article_id.']</td></tr>'
@@ -200,7 +200,7 @@ $context['text'] .= '[title]'.i18n::s('Page').' [escape][article.description=&lt
 
 // [previous=id]
 $context['text'] .= '[title]'.i18n::s('Previous page').' [escape][previous=&lt;id&gt;] [previous=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][previous='.$article_id.'][/escape]</td>'
 	.'<td>[previous='.$article_id.']</td></tr>'
@@ -208,7 +208,7 @@ $context['text'] .= '[title]'.i18n::s('Previous page').' [escape][previous=&lt;i
 
 // [next=id]
 $context['text'] .= '[title]'.i18n::s('Next page').' [escape][next=&lt;id&gt;] [next=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][next='.$article_id.'][/escape]</td>'
 	.'<td>[next='.$article_id.']</td></tr>'
@@ -216,7 +216,7 @@ $context['text'] .= '[title]'.i18n::s('Next page').' [escape][next=&lt;id&gt;] [
 
 // [random=section:id]
 $context['text'] .= '[title]'.i18n::s('Random').' [escape][random] [random=section:&lt;id&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][random] [random=section:'.$section_id.'][/escape]</td>'
 	.'<td>[random] [random=section:'.$section_id.']</td></tr>'
@@ -224,7 +224,7 @@ $context['text'] .= '[title]'.i18n::s('Random').' [escape][random] [random=secti
 
 // [section=id]
 $context['text'] .= '[title]'.i18n::s('Section shortcut').' [escape][section=&lt;id&gt;] [section=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.sprintf(i18n::s('Have a look at %s'), '[section='.$section_id.']').'[/escape]</td>'
 	.'<td>'.sprintf(i18n::s('Have a look at %s'), '[section='.$section_id.']').'</td></tr>'
@@ -232,7 +232,7 @@ $context['text'] .= '[title]'.i18n::s('Section shortcut').' [escape][section=&lt
 
 // [category=id]
 $context['text'] .= '[title]'.i18n::s('Category shortcut').' [escape][category=&lt;id&gt;] [category=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.sprintf(i18n::s('Have a look at %s'), '[category=featured]').'[/escape]</td>'
 	.'<td>'.sprintf(i18n::s('Have a look at %s'), '[category=featured]').'</td></tr>'
@@ -240,7 +240,7 @@ $context['text'] .= '[title]'.i18n::s('Category shortcut').' [escape][category=&
 
 // [category.description=id]
 $context['text'] .= '[title]'.i18n::s('Category').' [escape][category.description=&lt;id&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][category.description=featured][/escape]</td>'
 	.'<td>[category.description=featured]</td></tr>'
@@ -248,7 +248,7 @@ $context['text'] .= '[title]'.i18n::s('Category').' [escape][category.descriptio
 
 // [user=id]
 $context['text'] .= '[title]'.i18n::s('User shortcut').' [escape][user=&lt;id&gt;] [user=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.sprintf(i18n::s('Have a look at %s'), '[user='.Surfer::get_id().']').'[/escape]</td>'
 	.'<td>'.sprintf(i18n::s('Have a look at %s'), '[user='.Surfer::get_id().']').'</td></tr>'
@@ -256,7 +256,7 @@ $context['text'] .= '[title]'.i18n::s('User shortcut').' [escape][user=&lt;id&gt
 
 // [server=id]
 $context['text'] .= '[title]'.i18n::s('Server shortcut').' [escape][server=&lt;id&gt;] [server=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Click to view the page of [server=2, this server]').'[/escape]</td>'
 	.'<td>'.i18n::s('Click to view the page of [server=2, this server]').'</td></tr>'
@@ -264,7 +264,7 @@ $context['text'] .= '[title]'.i18n::s('Server shortcut').' [escape][server=&lt;i
 
 // [file=id]
 $context['text'] .= '[title]'.i18n::s('File shortcut').' [escape][file=&lt;id&gt;] [file=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.sprintf(i18n::s('Have a look at %s'), '[file='.$file_id.']').'[/escape]</td>'
 	.'<td>'.sprintf(i18n::s('Have a look at %s'), '[file='.$file_id.']').'</td></tr>'
@@ -272,7 +272,7 @@ $context['text'] .= '[title]'.i18n::s('File shortcut').' [escape][file=&lt;id&gt
 
 // [download=id]
 $context['text'] .= '[title]'.i18n::s('Download shortcut').' [escape][download=&lt;id&gt;] [download=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.sprintf(i18n::s('Click to %s'), '[download='.$file_id.', '.i18n::s('download the file').']').'[/escape]</td>'
 	.'<td>'.sprintf(i18n::s('Click to %s'), '[download='.$file_id.', '.i18n::s('download the file').']').'</td></tr>'
@@ -280,7 +280,7 @@ $context['text'] .= '[title]'.i18n::s('Download shortcut').' [escape][download=&
 
 // [action=id]
 $context['text'] .= '[title]'.i18n::s('Action shortcut').' [escape][action=&lt;id&gt;] [action=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Click to view the page of [action=2, this action]').'[/escape]</td>'
 	.'<td>'.i18n::s('Click to view the page of [action=2, this action]').'</td></tr>'
@@ -288,7 +288,7 @@ $context['text'] .= '[title]'.i18n::s('Action shortcut').' [escape][action=&lt;i
 
 // [comment=id]
 $context['text'] .= '[title]'.i18n::s('Comment shortcut').' [escape][comment=&lt;id&gt;] [comment=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Click to view the page of [comment=2, this comment]').'[/escape]</td>'
 	.'<td>'.i18n::s('Click to view the page of [comment=2, this comment]').'</td></tr>'
@@ -296,7 +296,7 @@ $context['text'] .= '[title]'.i18n::s('Comment shortcut').' [escape][comment=&lt
 
 // [decision=id]
 $context['text'] .= '[title]'.i18n::s('Decision shortcut').' [escape][decision=&lt;id&gt;] [decision=&lt;id&gt;, &lt;label&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Click to view the page of [decision=2, this decision]').'[/escape]</td>'
 	.'<td>'.i18n::s('Click to view the page of [decision=2, this decision]').'</td></tr>'
@@ -304,7 +304,7 @@ $context['text'] .= '[title]'.i18n::s('Decision shortcut').' [escape][decision=&
 
 // [script]index.php[/script]
 $context['text'] .= '[title]'.i18n::s('Script shortcut').' [escape][script]&lt;path/script.php&gt;[/script][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('You can access the documentation for the script [script]shared/codes.php[/script]').'[/escape]</td>'
 	.'<td>'.i18n::s('You can access the documentation for the script [script]shared/codes.php[/script]').'</td></tr>'
@@ -312,7 +312,7 @@ $context['text'] .= '[title]'.i18n::s('Script shortcut').' [escape][script]&lt;p
 
 // [search=yacs]
 $context['text'] .= '[title]'.i18n::s('Search').' [escape][search] [search=&lt;words&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('All you want to know on [search=yacs]').'[/escape]</td>'
 	.'<td>'.i18n::s('All you want to know on [search=yacs]').'</td></tr>'
@@ -320,7 +320,7 @@ $context['text'] .= '[title]'.i18n::s('Search').' [escape][search] [search=&lt;w
 
 // [wikipedia=keyword, label]
 $context['text'] .= '[title]'.i18n::s('Wikipedia').' [escape][wikipedia=keyword] [wikipedia=keyword, label][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('All you want to know on [wikipedia=Web_2, the web 2.0]').'[/escape]</td>'
 	.'<td>'.i18n::s('All you want to know on [wikipedia=Web_2, the web 2.0]').'</td></tr>'
@@ -331,7 +331,7 @@ $context['text'] = Codes::beautify($context['text']);
 
 // general help on this page
 $help = '<p>'.sprintf(i18n::s('Please note that actual rendering depends on the selected %s.'), Skin::build_link('skins/', i18n::s('skin'), 'shortcut')).'</p>';
-$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 // render the skin
 render_skin();

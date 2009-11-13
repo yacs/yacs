@@ -52,7 +52,7 @@ $context['text'] .= "\n".'[toc]'."\n";
 
 // [newsfeed]
 $context['text'] .= '[title]'.i18n::s('Newsfeed').' [escape][newsfeed=&lt;url&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][newsfeed=http://www.yacs.fr/feeds/rss.php][/escape]</td>'
 	.'<td>[newsfeed=http://www.yacs.fr/feeds/rss.php]</td></tr>'
@@ -60,7 +60,7 @@ $context['text'] .= '[title]'.i18n::s('Newsfeed').' [escape][newsfeed=&lt;url&gt
 
 // [newsfeed.embed]
 $context['text'] .= '[title]'.i18n::s('Newsfeed').' [escape][newsfeed.embed=&lt;url&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][newsfeed.embed=http://www.yacs.fr/feeds/rss.php][/escape]</td>'
 	.'<td>[newsfeed.embed=http://www.yacs.fr/feeds/rss.php]</td></tr>'
@@ -68,7 +68,7 @@ $context['text'] .= '[title]'.i18n::s('Newsfeed').' [escape][newsfeed.embed=&lt;
 
 // [twitter]
 $context['text'] .= '[title]'.i18n::s('Twitter profile').' [escape][twitter=&lt;id&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][twitter=bernard357][/escape]</td>'
 	.'<td>[twitter=bernard357]</td></tr>'
@@ -76,7 +76,7 @@ $context['text'] .= '[title]'.i18n::s('Twitter profile').' [escape][twitter=&lt;
 
 // [tsearch]
 $context['text'] .= '[title]'.i18n::s('Twitter search').' [escape][tsearch=&lt;keyword&gt;][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][tsearch=#yacs, 300, 200, subject: \'yacs\'][/escape]</td>'
 	.'<td>[tsearch=#yacs, 300, 200, subject: \'yacs\']</td></tr>'
@@ -85,7 +85,7 @@ $context['text'] .= '[title]'.i18n::s('Twitter search').' [escape][tsearch=&lt;k
 // [freemind]
 $context['text'] .= '[title]'.i18n::s('A dynamic Freemind map').' [escape][freemind] [freemind=section:&lt;id&gt;][/escape][/title]'
 	.'<p>'.i18n::s('Use the simplest form to navigate site content is a mind map, or limit the scope to one section and related sub-sections.').'</p>'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][freemind=section:default, 100%, 300px][/escape]</td>'
 	.'<td>[freemind=section:default, 100%, 300px]</td></tr>'
@@ -94,7 +94,7 @@ $context['text'] .= '[title]'.i18n::s('A dynamic Freemind map').' [escape][freem
 // [cloud]
 $context['text'] .= '[title]'.i18n::s('Cloud of tags').' [escape][cloud] [cloud=&lt;40&gt;][/escape][/title]'
 	.'<p>'.i18n::s('Use the parameter to adjust the number of tags listed.').'</p>'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][cloud][/escape]</td>'
 	.'<td>[cloud]</td></tr>'
@@ -102,7 +102,7 @@ $context['text'] .= '[title]'.i18n::s('Cloud of tags').' [escape][cloud] [cloud=
 
 // [calendar]
 $context['text'] .= '[title]'.i18n::s('Events').' [escape][calendar][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][calendar][/escape]</td>'
 	.'<td>[calendar]</td></tr>'
@@ -110,7 +110,7 @@ $context['text'] .= '[title]'.i18n::s('Events').' [escape][calendar][/escape][/t
 
 // [location=latitude, longitude, label]
 $context['text'] .= '[title]'.i18n::s('Direct location').' [escape][location=latitude, longitude, label][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][location=48.871264, 2.307558, Paris][/escape]</td>'
 	.'<td>[location=48.871264, 2.307558, Paris]</td></tr>'
@@ -121,7 +121,7 @@ $context['text'] = Codes::beautify($context['text']);
 
 // general help on this page
 $help = '<p>'.sprintf(i18n::s('Please note that actual rendering depends on the selected %s.'), Skin::build_link('skins/', i18n::s('skin'), 'shortcut')).'</p>';
-$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 // render the skin
 render_skin();

@@ -58,7 +58,7 @@ $context['text'] .= "\n".'[toc]'."\n";
 
 // [toc]
 $context['text'] .= '[title]'.i18n::s('Table of content').' [escape][toc][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][toc][/escape]</td>'
 	.'<td>[toc]</td></tr>'
@@ -66,7 +66,7 @@ $context['text'] .= '[title]'.i18n::s('Table of content').' [escape][toc][/escap
 
 // [title]...[/title]
 $context['text'] .= '[title]'.i18n::s('Title').' [escape][title]...[/title][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape][nl][nl]'
 		.'[escape][title]'.i18n::s('Rabbit and Turtle').'[/title][/escape][nl]'
@@ -78,7 +78,7 @@ $context['text'] .= '[title]'.i18n::s('Title').' [escape][title]...[/title][/esc
 
 // [subtitle]...[/subtitle]
 $context['text'] .= '[title]'.i18n::s('Subtitle').' [escape][subtitle]...[/subtitle][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape][nl][nl]'
 		.'[escape][subtitle]'.i18n::s('Rabbit and Turtle').'[/subtitle][/escape][nl]'
@@ -90,7 +90,7 @@ $context['text'] .= '[title]'.i18n::s('Subtitle').' [escape][subtitle]...[/subti
 
 // ==...==
 $context['text'] .= '[title]'.i18n::s('Header level 1').' [escape]==...==[/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape][nl]'
 		.'[escape]=='.i18n::s('Rabbit and Turtle').'==[/escape][nl]'
@@ -102,7 +102,7 @@ $context['text'] .= '[title]'.i18n::s('Header level 1').' [escape]==...==[/escap
 
 // [header1]...[/header1]
 $context['text'] .= '[title]'.i18n::s('Header level 1').' [escape][header1]...[/header1][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape][nl][nl]'
 		.'[escape][header1]'.i18n::s('Rabbit and Turtle').'[/header1][/escape][nl]'
@@ -114,7 +114,7 @@ $context['text'] .= '[title]'.i18n::s('Header level 1').' [escape][header1]...[/
 
 // ===...===
 $context['text'] .= '[title]'.i18n::s('Header level 2').' [escape]===...===[/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape][nl]'
 		.'[escape]==='.i18n::s('Rabbit and Turtle').'===[/escape][nl]'
@@ -126,7 +126,7 @@ $context['text'] .= '[title]'.i18n::s('Header level 2').' [escape]===...===[/esc
 
 // [header2]...[/header2]
 $context['text'] .= '[title]'.i18n::s('Header level 2').' [escape][header2]...[/header2][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape][nl][nl]'
 		.'[escape][header2]'.i18n::s('Rabbit and Turtle').'[/header2][/escape][nl]'
@@ -138,7 +138,7 @@ $context['text'] .= '[title]'.i18n::s('Header level 2').' [escape][header2]...[/
 
 // ====...====
 $context['text'] .= '[title]'.i18n::s('Header level 3').' [escape]====...====[/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape][nl]'
 		.'[escape]===='.i18n::s('Rabbit and Turtle').'====[/escape][nl]'
@@ -150,7 +150,7 @@ $context['text'] .= '[title]'.i18n::s('Header level 3').' [escape]====...====[/e
 
 // [header3]...[/header3]
 $context['text'] .= '[title]'.i18n::s('Header level 3').' [escape][header3]...[/header3][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape][nl][nl]'
 		.'[escape][header3]'.i18n::s('Rabbit and Turtle').'[/header3][/escape][nl]'
@@ -162,7 +162,7 @@ $context['text'] .= '[title]'.i18n::s('Header level 3').' [escape][header3]...[/
 
 // =====...=====
 $context['text'] .= '[title]'.i18n::s('Header level 4').' [escape]=====...=====[/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape][nl]'
 		.'[escape]====='.i18n::s('Rabbit and Turtle').'=====[/escape][nl]'
@@ -174,7 +174,7 @@ $context['text'] .= '[title]'.i18n::s('Header level 4').' [escape]=====...=====[
 
 // [header4]...[/header4]
 $context['text'] .= '[title]'.i18n::s('Header level 4').' [escape][header4]...[/header4][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape][nl][nl]'
 		.'[escape][header4]'.i18n::s('Rabbit and Turtle').'[/header4][/escape][nl]'
@@ -186,7 +186,7 @@ $context['text'] .= '[title]'.i18n::s('Header level 4').' [escape][header4]...[/
 
 // ======...======
 $context['text'] .= '[title]'.i18n::s('Header level 5').' [escape]======...======[/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape][nl]'
 		.'[escape]======'.i18n::s('Rabbit and Turtle').'======[/escape][nl]'
@@ -198,7 +198,7 @@ $context['text'] .= '[title]'.i18n::s('Header level 5').' [escape]======...=====
 
 // [header5]...[/header5]
 $context['text'] .= '[title]'.i18n::s('Header level 5').' [escape][header5]...[/header5][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape][nl][nl]'
 		.'[escape][header5]'.i18n::s('Rabbit and Turtle').'[/header5][/escape][nl]'
@@ -210,7 +210,7 @@ $context['text'] .= '[title]'.i18n::s('Header level 5').' [escape][header5]...[/
 
 // [toq]
 $context['text'] .= '[title]'.i18n::s('Table of Questions').' [escape][toq][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][toq][/escape]</td>'
 	.'<td>[toq]</td></tr>'
@@ -218,7 +218,7 @@ $context['text'] .= '[title]'.i18n::s('Table of Questions').' [escape][toq][/esc
 
 // [question]...[/question]
 $context['text'] .= '[title]'.i18n::s('Question-title').' [escape][question]...[/question][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][question]'.i18n::s('But where will this rabbit be in some minutes?').'[/question][/escape]</td>'
 	.'<td>[question]'.i18n::s('But where will this rabbit be in some minutes?').'[/question]</td></tr>'
@@ -226,7 +226,7 @@ $context['text'] .= '[title]'.i18n::s('Question-title').' [escape][question]...[
 
 // [question]
 $context['text'] .= '[title]'.i18n::s('Question').' [escape][question][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][question]'.i18n::s('But where is this rabbit right now?').'[/escape]</td>'
 	.'<td>[question]'.i18n::s('But where is this rabbit right now?').'</td></tr>'
@@ -234,7 +234,7 @@ $context['text'] .= '[title]'.i18n::s('Question').' [escape][question][/escape][
 
 // [answer]
 $context['text'] .= '[title]'.i18n::s('Answer').' [escape][answer][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][answer]'.i18n::s('I do not know, but it depends also on the turtle speed...').'[/escape]</td>'
 	.'<td>[answer]'.i18n::s('I do not know, but it depends also on the turtle speed...').'</td></tr>'
@@ -245,7 +245,7 @@ $context['text'] = Codes::beautify($context['text']);
 
 // general help on this page
 $help = '<p>'.sprintf(i18n::s('Please note that actual rendering depends on the selected %s.'), Skin::build_link('skins/', i18n::s('skin'), 'shortcut')).'</p>';
-$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 // render the skin
 render_skin();

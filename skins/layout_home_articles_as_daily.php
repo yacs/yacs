@@ -2,12 +2,9 @@
 /**
  * layout articles as a daily weblog do
  *
- * @todo bug with sidebar and skin::cap()
- * @todo bug with links and skin::cap()
- *
- * This layout is made of dates, followed by section boxes.
+ * This layout is made of dates, followed by articles displayed in boxes.
  * Each date is written before a horizontal ruler (e.g., &lt;hr&gt;).
- * Each article has its own section box.
+ * Each article has its own box.
  * Post title is used as box title.
  * Box content is made of several components:
  * - a time stamp, followed by a link to the section, plus up to three links to related categories
@@ -22,6 +19,8 @@
  * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
  *
  * @author Bernard Paques
+ * @author GnapZ
+ * @author Thierry Pinelli (ThierryP)
  * @tester Timster
  * @tester Alain Lesage (Lasares)
  * @reference
@@ -43,7 +42,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 	/**
 	 * the preferred number of items for this layout
 	 *
-	 * @return 5, to list the five most recent entries
+	 * @return 10, to list the ten most recent entries
 	 *
 	 * @see skins/layout.php
 	 */
@@ -62,6 +61,9 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 	function &layout(&$result) {
 		global $context;
 
+		// we return some text
+		$text = '';
+
 		// empty list
 		if(!SQL::count($result)) {
 			$label = i18n::s('No page to display.');
@@ -72,12 +74,12 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 		}
 
 		// flag articles updated recently
+		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 		if($context['site_revisit_after'] < 1)
 			$context['site_revisit_after'] = 2;
 		$dead_line = gmstrftime('%Y-%m-%d %H:%M:%S', mktime(0,0,0,date("m"),date("d")-$context['site_revisit_after'],date("Y")));
 
 		// build a list of articles
-		$text = '';
 		$box['content'] = '';
 		$box['title'] = '';
 		include_once $context['path_to_root'].'categories/categories.php';
@@ -87,37 +89,48 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
 
-			// permalink
-			$url =& Articles::get_permalink($item);
+			// get the related overlay, if any
+			$overlay = Overlay::load($item);
 
 			// get the anchor
 			$anchor =& Anchors::get($item['anchor']);
 
-			// get the related overlay, if any
-			$overlay = Overlay::load($item);
+			// permalink
+			$url =& Articles::get_permalink($item);
 
 			// what's the date today?
-			$current_date = substr($item['publish_date'], 0, 10);
+			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
+				$current_date = substr($item['publish_date'], 0, 10);
+			else
+				$current_date = DRAFT_FLAG.i18n::s('not published');
 
 			// very first box
 			if(!isset($previous_date)) {
-				$text .= '<div id="home_north">'."\n";
+				$text .= '<div class="newest">'."\n";
 				$in_north = TRUE;
 				$text .= '<p class="date">'.Skin::build_date($item['publish_date'], 'no_hour')."</p>\n";
 				$previous_date = $current_date;
 			}
 
-			// not the same date
+			// not the same publication date
 			if($previous_date != $current_date) {
 				if($in_north)
 					$text .= '</div>'.BR.BR."\n";
 				$in_north = FALSE;
-				$text .= '<p class="date">'.Skin::build_date($item['publish_date'], 'no_hour')."</p>\n";
+				if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
+					$text .= '<p class="date">'.Skin::build_date($item['publish_date'], 'no_hour')."</p>\n";
 				$previous_date = $current_date;
 			}
 
-			// make a section box
-			$box['title'] = Codes::beautify_title($item['title']);
+			// always flag articles to be published
+			if(!isset($item['publish_date']) || ($item['publish_date'] <= NULL_DATE))
+				$text .= '<p class="date">'.$current_date."</p>\n";
+
+			// make a live title
+			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
+				$box['title'] = $overlay->get_live_title($item);
+			else
+				$box['title'] = Codes::beautify_title($item['title']);
 
 			// the icon to put aside - never use anchor images
 			if($item['icon_url'])
@@ -127,22 +140,16 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			$details = array();
 
 			// flag articles updated recently
-			if($item['create_date'] >= $dead_line)
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+				$details[] = EXPIRED_FLAG;
+			elseif($item['create_date'] >= $dead_line)
 				$details[] = NEW_FLAG;
 			elseif($item['edit_date'] >= $dead_line)
 				$detaisl[] = UPDATED_FLAG;
 
 			// publication hour
-			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
-				$details[] = Skin::build_time($item['publish_date']);
-
-			// the creator and editor of this article
-			if(isset($context['with_author_information']) && ($context['with_author_information'] == 'Y')) {
-				if($item['edit_name'] == $item['create_name'])
-					$details[] = sprintf(i18n::s('by %s'), ucfirst($item['create_name']));
-				else
-					$details[] = sprintf(i18n::s('by %s, %s'), ucfirst($item['create_name']), ucfirst($item['edit_name']));
-			}
+// 			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
+// 				$details[] = Skin::build_time($item['publish_date']);
 
 			// signal restricted and private articles
 			if($item['active'] == 'N')
@@ -169,15 +176,29 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 				$box['content'] .= '<p class="details">'.implode(' ~ ', $details).'</p>'."\n";
 
 			// the introduction text, if any
-			if(trim($item['introduction']))
-				$box['content'] .= Skin::build_block($item['introduction'], 'introduction');
+			$box['content'] .= Skin::build_block($item['introduction'], 'introduction');
 
 			// insert overlay data, if any
 			if(is_object($overlay))
-				$box['content'] .= $overlay->get_text('list', $item).BR.BR."\n";
+				$box['content'] .= $overlay->get_text('list', $item);
 
 			// the description
 			$box['content'] .= Skin::build_block($item['description'], 'description', '', $item['options']);
+
+			// a compact list of attached files
+			if($count = Files::count_for_anchor('article:'.$item['id'])) {
+
+				// list files by date (default) or by title (option files_by_title)
+				if(Articles::has_option('files_by_title', $anchor, $item))
+					$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'compact');
+				else
+					$items = Files::list_by_date_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'compact');
+				if(is_array($items))
+					$items = Skin::build_list($items, 'compact');
+
+				if($items)
+					$box['content'] .= Skin::build_box(i18n::s('Files'), $items, 'header2');
+			}
 
 			// build a menu
 			$menu = array();
@@ -186,21 +207,19 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			$menu[] = Skin::build_link($url, i18n::s('Permalink'), 'basic');
 
 			// info on related files
-			if($count = Files::count_for_anchor('article:'.$item['id']))
+			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
 				$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
 
 			// info on related comments
-			if($count = Comments::count_for_anchor('article:'.$item['id'])) {
-				$link = Comments::get_url('article:'.$item['id'], 'list');
-				$menu[] = Skin::build_link($link, sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
-			}
+			if($count = Comments::count_for_anchor('article:'.$item['id']))
+				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
 
 			// comment
 			if(Comments::are_allowed($anchor, $item))
 				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
 
 			// info on related links
-			if($count = Links::count_for_anchor('article:'.$item['id']))
+			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
 				$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
 
 			// trackback
@@ -212,7 +231,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 
 			// a menu bar, but flushed to the right
 			if(count($menu))
-				$box['content'] .= '<p class="daily_menu" style="clear: left; text-align: right">'.MENU_PREFIX.implode(MENU_SEPARATOR, $menu).MENU_SUFFIX."</p>\n";
+				$box['content'] .= '<p class="menu_bar right" style="clear: left;">'.MENU_PREFIX.implode(MENU_SEPARATOR, $menu).MENU_SUFFIX."</p>\n";
 
 			$text .= Skin::build_box($box['title'], $box['content'], 'header1', 'article_'.$item['id']);
 			$box['content'] = '';
@@ -225,18 +244,6 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 
 		// end of processing
 		SQL::free($result);
-
-		// add links to archives
-		$anchor =& Categories::get(i18n::c('monthly'));
-		if(isset($anchor['id']) && ($items = Categories::list_by_date_for_anchor('category:'.$anchor['id'], 0, COMPACT_LIST_SIZE, 'compact'))) {
-			$text .= '<p class="date">'.i18n::s('Previous pages')."</p>\n";
-			$tokens = array();
-			foreach($items as $url => $attributes)
-				$tokens[] = Skin::build_link($url, $attributes[1], 'basic');
-			$tokens[] = Skin::build_link(Categories::get_permalink($anchor), i18n::s('Archives'), 'basic');
-			$text .= '<p class="details">'.implode(' ~ ', $tokens)."</p>\n";
-		}
-
 		return $text;
 	}
 }

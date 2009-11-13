@@ -790,7 +790,7 @@ rem ----------------------------------------------------------------------------
 SET MODULE=skins
 echo --- %MODULE% module
 echo --- templates/%MODULE%.pot generation
-xgettext  %MODULE%/*.php %MODULE%/boxesandarrows/*.php %MODULE%/digital/*.php %MODULE%/joi/*.php %MODULE%/skeleton/*.php %MODULE%/images/avatars/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
+xgettext  %MODULE%/*.php %MODULE%/_reference/avatars/*.php %MODULE%/boxesandarrows/*.php %MODULE%/digital/*.php %MODULE%/flexible/*.php %MODULE%/joi/*.php %MODULE%/skeleton/*.php --output=i18n/templates/%MODULE%.pot --default-domain=%MODULE% --keyword=c --keyword=nc:1,2 --keyword=s --keyword=ns:1,2 --language=php
 
 if exist i18n/locale/en/%MODULE%.po goto update_skins_en
 echo --- locale/en/%MODULE%.po generation

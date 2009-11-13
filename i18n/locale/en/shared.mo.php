@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on October 5, 2009, 4:05 pm GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:14 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-10-05 17:26+0200
-PO-Revision-Date: 2009-10-05 00:03+0100
+POT-Creation-Date: 2009-11-09 19:19+0100
+PO-Revision-Date: 2009-11-09 19:28+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -21,6 +21,7 @@ X-Poedit-SourceCharset: utf-8
 X-Poedit-Language: English
 ';
 $_SESSION['l10n']['en']['%d active now'.chr(0).'%d active now']='%d active now'.chr(0).'%d active now';
+$_SESSION['l10n']['en']['%s by %s']='%s by %s';
 $_SESSION['l10n']['en']['be362d7d53a1254f538bfda2a9b7b995']='A member is required for this operation.';
 $_SESSION['l10n']['en']['Access collection']='Access collection';
 $_SESSION['l10n']['en']['Actions']='Actions';
@@ -77,6 +78,8 @@ $_SESSION['l10n']['en']['fc2edca5afeada33fbd4d829f8da5047']='System commands, co
 $_SESSION['l10n']['en']['Table']='Table';
 $_SESSION['l10n']['en']['Tables']='Tables';
 $_SESSION['l10n']['en']['The table']='The table';
+$_SESSION['l10n']['en']['49c915d733aa70a024b480150f68083f']='This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the page and click on the Forget link.';
+$_SESSION['l10n']['en']['f2eef2fdffa0e2a2c849b8b6e012c5c1']='This message has been generated automatically by %s since you are connected to the person who posted the new item. If you wish to stop these automatic alerts please visit the following user profile and click on the Disconnect link.';
 $_SESSION['l10n']['en']['3e5db4a2ca0b72619890b0a6317167b5']='This message has been generated automatically by %s. If you wish to stop these automatic alerts please visit the following link and remove your address from recipients of system events.';
 $_SESSION['l10n']['en']['b14e57cf6aea5bcf8b57974ce6a1545d']='Type exactly the following 5 chars:';
 $_SESSION['l10n']['en']['User']='User';
@@ -95,6 +98,8 @@ $_SESSION['l10n']['en']['anonymous']='anonymous';
 $_SESSION['l10n']['en']['commented']='commented';
 $_SESSION['l10n']['en']['created']='created';
 $_SESSION['l10n']['en']['edited']='edited';
+$_SESSION['l10n']['en']['file released']='file released';
+$_SESSION['l10n']['en']['file reserved']='file reserved';
 $_SESSION['l10n']['en']['file updated']='file updated';
 $_SESSION['l10n']['en']['file uploaded']='file uploaded';
 $_SESSION['l10n']['en']['has been created']='has been created';

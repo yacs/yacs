@@ -48,7 +48,7 @@ Class Layout_sections_as_jive extends Layout_interface {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// layout in a table
-		$text = Skin::table_prefix('wide grid');
+		$text = Skin::table_prefix('wide');
 
 		// 'even' is used for title rows, 'odd' for detail rows
 		$class_title = 'odd';
@@ -164,6 +164,8 @@ Class Layout_sections_as_jive extends Layout_interface {
 			// link to the section index page
 			if($details)
 				$details = Skin::build_link(Sections::get_permalink($item), join(' -&nbsp;', $details), 'basic');
+			else
+				$details = '';
 
 			// add a command for new post
 			$poster = '';

@@ -117,7 +117,7 @@ if(!isset($item['id'])) {
 
 	// build a nice sidebar box
 	if($text)
-		$text =& Skin::build_box(i18n::s('Navigation'), $text, 'navigation', 'neighbours');
+		$text =& Skin::build_box(i18n::s('Navigation'), $text, 'extra', 'neighbours');
 
 	$context['components']['neighbours'] = $text;
 

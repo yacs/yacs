@@ -595,27 +595,6 @@ Class Article extends Anchor {
 	 }
 
 	/**
-	 * is this an interactive thread?
-	 *
-	 * @return TRUE is this page supports interactions, FALSE otherwise
-	 */
-	function is_interactive() {
-
-		// get the parent
-		if(!isset($this->anchor))
-			$this->anchor =& Anchors::get($this->item['anchor']);
-
-		// section asks for threads
-		if(Articles::has_option('view_as_chat', $this->anchor, $this->item))
-			return TRUE;
-		if(Articles::has_option('view_as_thread', $this->anchor, $this->item))
-			return TRUE;
-
-		// not an interactive page
-		return FALSE;
-	}
-
-	/**
 	 * load the related item
 	 *
 	 * @param int the id of the record to load
@@ -1036,12 +1015,12 @@ Class Article extends Anchor {
 		if(isset($this->item['anchor']) && $this->item['anchor'])
 			$anchor =& Anchors::get($this->item['anchor']);
 
-		// no alerts on interactive pages
-		if($this->is_interactive())
-			;
-
 		// send alert only on new stuff
-		elseif(preg_match('/:create$/i', $action)) {
+		if(preg_match('/:create$/i', $action) && !$this->is_interactive()) {
+
+			// poster name, if applicable
+			if(!$surfer = Surfer::get_name())
+				$surfer = i18n::c('(anonymous)');
 
 			// mail message
 			$mail = array();
@@ -1049,95 +1028,76 @@ Class Article extends Anchor {
 			// mail subject
 			$mail['subject'] = sprintf(i18n::c('Modification: %s'), strip_tags($this->item['title']));
 
-			// mail template -- title, link, action
-			$mail['template'] = i18n::c('The following page has been updated')."\n\n%s\n%s\n\n%s";
+			// nothing done yet
+			$title = $link = '';
 
-			// title comes first
-			$mail['title'] = strip_tags($this->item['title']);
+			// a file has been added to the page
+			if(strpos($action, 'file') === 0) {
+				include_once $context['path_to_root'].'files/files.php';
+				if((!$target = Files::get($origin)) || !$target['id'])
+					return;
 
-			// action comes last
-			if($surfer = Surfer::get_name())
-				$mail['action'] = sprintf(i18n::c('%s by %s'), ucfirst(get_action_label($action)), $surfer);
-			else
-				$mail['action'] = ucfirst(get_action_label($action));
+				// file title
+				if($target['title'])
+					$title = $target['title'];
+				else
+					$title = $target['file_name'];
 
-			// notification
-			$notification = array();
-			$notification['type'] = 'alert';
-			$notification['action'] = $action;
-			$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
-			$notification['nick_name'] = Surfer::get_name();
-			$notification['title'] = utf8::to_unicode($this->item['title']);
+				// message components
+				$action = sprintf(i18n::c('A file has been uploaded by %s'), $surfer);
+				$link = $context['url_to_home'].$context['url_to_root'].Files::get_permalink($target);
 
-			// alert page poster
-			//
+				// threads messages
+				$mail['headers'] = Mailer::set_thread('file:'.$target['id'], $this->get_reference());
 
-			// threads all messages for this page
-			$mail['headers'] = Mailer::set_thread(NULL, 'article:'.$this->item['id']);
+			// a comment has been added to the page
+			} else if(strpos($action, 'comment') === 0) {
+				include_once $context['path_to_root'].'comments/comments.php';
+				if((!$target = Comments::get($origin)) || !$target['id'])
+					return;
 
-			// regular poster
-			if($this->item['create_id']) {
+				// message components
+				$action = sprintf(i18n::c('%s has posted a comment'), $surfer);
+				$title = Skin::strip($target['description'], 10, NULL, NULL);
+				$link = $context['url_to_home'].$context['url_to_root'].Comments::get_url($target['id']);
 
-				// regular accounts don't have the secret handle
-				$mail['link'] =  $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
-				$mail['message'] = sprintf($mail['template'], $mail['title'], $mail['link'], $mail['action']);
+				// threads messages
+				$mail['headers'] = Mailer::set_thread('comment:'.$target['id'], $this->get_reference());
 
-				// to not send alerts to myself
-				if(Surfer::get_id() && (Surfer::get_id() == $this->item['create_id']))
-					;
+			// something else has been added to the section
+			} else {
 
-				// no surfer with this id
-				elseif(!$creator = Users::get($this->item['create_id']))
-					;
+				// add poster name if applicable
+				if($surfer = Surfer::get_name())
+					$action = sprintf(i18n::c('%s by %s'), get_action_label($action), $surfer);
+				else
+					$action = get_action_label($action);
 
-				// ensure this surfer wants to be alerted
-				elseif($creator['without_alerts'] != 'Y')
-					Users::alert($creator, $mail, $notification);
+				// message components
+				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));
+				$link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
 
-			// we have only a mail address for this poster
-			} elseif($this->item['create_address']) {
-
-				// ensure the article has a private handle
-				if(!isset($this->item['handle']) || !$this->item['handle']) {
-					$this->item['handle'] = md5(mt_rand());
-
-					// save in the database
-					$fields = array();
-					$fields['id'] = $this->item['id'];
-					$fields['handle'] = $this->item['id'];
-					$fields['silent'] = 'Y';
-					Articles::put_attributes($fields);
-				}
-
-				// link sent to page poster has login credentials --see users/login.php
-				$credentials = array();
-				$credentials[0] = 'edit';
-				$credentials[1] = 'article:'.$this->item['id'];
-				$credentials[2] = sprintf('%u', crc32($this->item['create_name'].':'.$this->item['handle']));
-				$mail['link'] = $context['url_to_home'].$context['url_to_root'].Users::get_url($credentials, 'credentials');
-
-				// poster benefits from the secret handle to access the article
-				$mail['message'] = sprintf($mail['template'], $mail['title'], $mail['link'], $mail['action']);
-
-				// send an alert if surfer is not the poster
-				if(!Surfer::get_email_address() || (Surfer::get_email_address() != $this->item['create_address']))
-					Mailer::notify(Surfer::from(), $this->item['create_address'], $mail['subject'], $mail['message'], $mail['headers']);
+				// threads messages
+				$mail['headers'] = Mailer::set_thread(NULL, $this->get_reference());
 
 			}
 
-			// alert page watchers
-			//
+			// message to watchers
+			$mail['message'] =& Mailer::build_notification($action, $title, $link, 1);
 
-			// watchers don't have the secret handle
-			$mail['link'] =  $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($this->item);
+			// alert watchers
+			Users::alert_watchers('article:'.$this->item['id'], $mail);
 
-			// poster benefits from the secret handle to access the article
-			$mail['message'] = sprintf($mail['template'], $mail['title'], $mail['link'], $mail['action'])
-				."\n\n"
-				.sprintf(i18n::c('This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the page and click on the Forget link.'), $context['site_name']);
+			// alert connexions, except on private pages
+			if($this->item['active'] != 'N') {
 
-			// alert all watchers
-			Users::alert_watchers('article:'.$this->item['id'], $mail, $notification);
+				// message to connexions
+				$mail['message'] =& Mailer::build_notification($action, $title, $link, 2);
+
+				// alert connexions
+				if(Surfer::get_id())
+					Users::alert_watchers('user:'.Surfer::get_id(), $mail);
+			}
 		}
 
 		// add this page to the watch list of the contributor, on any action

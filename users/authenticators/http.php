@@ -45,7 +45,7 @@ Class Http_Authenticator extends Authenticator {
 		}
 
 		// extract parameters
-		$parameters = split(" ", $this->attributes['authenticator_parameters']);
+		$parameters = explode(" ", $this->attributes['authenticator_parameters']);
 
 		// ensure a minimum number of parameters
 		if(count($parameters) != 3) {

@@ -72,8 +72,6 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 			// the icon to put aside
 			if($item['thumbnail_url'])
 				$icon = $item['thumbnail_url'];
-			elseif(is_object($anchor))
-				$icon = $anchor->get_thumbnail_url();
 
 			if($icon)
 				$icon = '<a href="'.$context['url_to_root'].$url.'"><img src="'.$icon.'" class="right_image" alt="'.encode_field(i18n::s('More')).'" title="'.encode_field(i18n::s('More')).'" /></a>';
@@ -115,9 +113,9 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 					$details[] = sprintf(i18n::s('by %s, %s'), ucfirst($item['create_name']), ucfirst($item['edit_name']));
 			}
 
-			// the publish date
-			if($item['publish_date'] > NULL_DATE)
-				$details[] = Skin::build_date($item['publish_date']);
+			// the modification date
+			if($item['edit_date'] > NULL_DATE)
+				$details[] = Skin::build_date($item['edit_date']);
 
 			// signal locked articles
 			if(isset($item['locked']) && ($item['locked'] == 'Y'))
@@ -173,18 +171,23 @@ Class Layout_articles_as_slashdot extends Layout_interface {
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
 			$menu = array_merge($menu, array( $link => i18n::s('Reference this page') ));
 
-			// list up to three categories by title, if any
-			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+			// list categories by title, if any
+			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
 				foreach($items as $id => $attributes) {
+
+					// add background color to distinguish this category against others
+					if(isset($attributes['background_color']) && $attributes['background_color'])
+						$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
+
 					$menu = array_merge($menu, array( Categories::get_permalink($attributes) => $attributes['title'] ));
 				}
 			}
 
 			// append a menu
-			$content .= '<p class="details">'.Skin::build_list($menu, 'menu').'</p>';
+			$content .= '<p>'.Skin::build_list($menu, 'menu').'</p>';
 
 			// insert a complete box
-			$text .= Skin::build_box($icon.$prefix.$title.$suffix, $content, 'header1', 'article_'.$item['id']);
+			$text .= Skin::build_box(Skin::build_link($url, $prefix.$title.$suffix, 'basic', i18n::s('View the page')), $icon.$content, 'header1', 'article_'.$item['id']);
 
 		}
 

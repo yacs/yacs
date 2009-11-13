@@ -33,11 +33,11 @@ class Smileys {
 		$tag = $matches[1];
 
 		// ensure a file exists for this tag
-		if(!file_exists($context['path_to_root'].'skins/images/smileys/'.$tag.'.gif'))
+		if(!file_exists($context['path_to_root'].'skins/_reference/smileys/'.$tag.'.gif'))
 			return $matches[0];
 
 		// make a valid reference to an image
-		return ' <img src="'.$context['url_to_root'].'skins/images/smileys/'.$tag.'.gif" alt="'.$tag.'" /> ';
+		return ' <img src="'.$context['url_to_root'].'skins/_reference/smileys/'.$tag.'.gif" alt="'.$tag.'" /> ';
 
 	}
 
@@ -66,7 +66,7 @@ class Smileys {
 			$pattern = array();
 			$replace = array();
 
-			$prefix = ' <img src="'.$context['url_to_root'].'skins/images/smileys/';
+			$prefix = ' <img src="'.$context['url_to_root'].'skins/_reference/smileys/';
 			$suffix = '" alt="" /> ';
 
 			$pattern[] = '>:(';

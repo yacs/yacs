@@ -646,7 +646,7 @@ if(Articles::is_owned($anchor, $item)) {
 // duplicate command provided to container owners
 if(isset($item['id']) && is_object($anchor) && $anchor->is_owned()) {
 	Skin::define_img('ARTICLES_DUPLICATE_IMG', 'articles/duplicate.gif');
-	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate'));
+	$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate this page'));
 }
 
 // assign command provided to page owners
@@ -701,6 +701,10 @@ $context['page_footer'] .= JS_PREFIX
 	.'setTimeout("PeriodicalCheck.subscribe()", 120000);'."\n"
 	."\n"
 	.JS_SUFFIX;
+
+// use date of last modification into etag computation
+if(isset($item['edit_date']))
+	$context['etag'] = $item['edit_date'];
 
 // render the skin
 render_skin();

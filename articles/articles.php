@@ -340,18 +340,8 @@ Class Articles {
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes
-	 * @param boolean TRUE if page is new, FALSE otherwise
 	 */
-	function clear(&$item, $is_new = FALSE) {
-
-		// touch the related anchor
-		if(isset($item['id']) && isset($item['anchor']) && ($anchor =& Anchors::get($item['anchor']))) {
-			if($is_new)
-				$anchor->touch('article:create', $item['id'], isset($item['silent']) && ($item['silent'] == 'Y'));
-			else
-				$anchor->touch('article:update', $item['id'], isset($item['silent']) && ($item['silent'] == 'Y'));
-		}
-
+	function clear(&$item) {
 
 		// where this item can be displayed
 		$topics = array('articles', 'sections', 'categories', 'users');
@@ -607,10 +597,6 @@ Class Articles {
 		$id = (string)$id;
 		$id = utf8::encode($id);
 
-//		// strip extra text from enhanced ids '3-page-title' -> '3'
-//		if($position = strpos($id, '-'))
-//			$id = substr($id, 0, $position);
-
 		// cache previous answers
 		static $cache;
 		if(!is_array($cache))
@@ -712,9 +698,9 @@ Class Articles {
 
 		// select among active and restricted items
 		$where = "articles.active='Y'";
-		if(Surfer::is_logged())
+		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR articles.active='R'";
-		if(Surfer::is_associate())
+		if(Surfer::is_empowered('S'))
 			$where .= " OR articles.active='N'";
 
 		// include managed pages for editors
@@ -724,8 +710,22 @@ Class Articles {
 		$where = "(".$where.")";
 
 		// just get the newest page
-		if($anchor)
-			$where = "(articles.anchor LIKE '".SQL::escape($anchor)."') AND ".$where;
+		if($anchor) {
+
+			// several anchors
+			if(is_array($anchor)) {
+				$items = array();
+				foreach($anchor as $token)
+					$items[] = "articles.anchor LIKE '".SQL::escape($token)."'";
+				$where_anchor = join(' OR ', $items);
+
+			// or only one
+			} else
+				$where_anchor = "articles.anchor LIKE '".SQL::escape($anchor)."'";
+
+			$where = '('.$where_anchor.') AND ('.$where.')';
+
+		}
 
 		// current time
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
@@ -1914,8 +1914,8 @@ Class Articles {
 			Members::assign('article:'.$fields['id'], 'user:'.$fields['edit_id']);
 		}
 
-		// clear the cache, and touch the anchor
-		Articles::clear($fields, TRUE);
+		// clear the cache
+		Articles::clear($fields);
 
 		// return the id of the new item
 		return $fields['id'];

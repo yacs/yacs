@@ -63,7 +63,7 @@ Class Layout_articles_as_select extends Layout_interface {
 		// initialize variables
 		$prefix = $suffix = $icon = '';
 
-		// flag sections that are draft, dead, or created or updated very recently
+		// flag sections that are created or updated very recently
 		if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
 			$prefix .= EXPIRED_FLAG;
 		elseif($item['create_date'] >= $dead_line)

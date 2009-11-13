@@ -768,6 +768,30 @@ Class i18n {
 	}
 
 	/**
+	 * provide a localized template
+	 *
+	 * @param string type of the expected template
+	 * @return string text of the template
+	 */
+	function &get_template($id) {
+
+		// depending of the expected template
+		switch($id) {
+
+		case 'mail_notification':
+		default:
+
+			// action, then title and link
+			$text = "%s\n%s\n\n%s";
+			break;
+
+		}
+
+		// job done
+		return $text;
+	}
+
+	/**
 	 * the database of time zones
 	 *
 	 * @return array of ($shift => $label)
@@ -963,12 +987,12 @@ Class i18n {
 		// english is the default
 		elseif(!isset($context['language']))
 			$context['language'] = 'en';
-			
+
 		// set the country, if known
 		if(isset($_SERVER['GEOIP_COUNTRY_CODE'])) {
 			$context['country_code'] = $_SERVER['GEOIP_COUNTRY_CODE'];
 			$context['country'] = i18n::get_country_label($_SERVER['GEOIP_COUNTRY_CODE']);
-		}	
+		}
 
 	}
 
@@ -1184,9 +1208,6 @@ Class i18n {
 			else
 				$translated = fread($handle, $length);
 
-			// transcode UTF-8 to Unicode
-// 			$translated = utf8::to_unicode($translated);
-
 			// save in memory
 			$hash =& i18n::hash($original);
 			$_SESSION['l10n'][$language][$hash] = $translated;
@@ -1275,7 +1296,7 @@ Class i18n {
 		$count = intval($count);
 		if($count < 1)
 			$count = 1;
-			
+
 		// select language used by community
 		if(isset($context['preferred_language']))
 			$locale = $context['preferred_language'];
@@ -1334,7 +1355,7 @@ Class i18n {
 		$count = intval($count);
 		if($count < 1)
 			$count = 1;
-			
+
 		// select language used by surfer
 		if(isset($context['language']))
 			$locale = $context['language'];

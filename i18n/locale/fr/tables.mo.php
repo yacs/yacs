@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:49 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:13 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:02+0200
-PO-Revision-Date: 2009-09-02 01:21+0100
+POT-Creation-Date: 2009-10-03 00:35+0200
+PO-Revision-Date: 2009-09-30 23:49+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -108,9 +108,9 @@ $_SESSION['l10n']['fr']['XML']='XML';
 $_SESSION['l10n']['fr']['YACS codes']='codes YACS';
 $_SESSION['l10n']['fr']['948e060cc5f48890605c6c71f4b76bee']='Oui, je veux supprimer cette table';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à effectuer cette opération.';
-$_SESSION['l10n']['fr']['Zoom']='Zoom';
 $_SESSION['l10n']['fr']['bytes']='octets';
 $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
+$_SESSION['l10n']['fr']['more']='suite';
 $_SESSION['l10n']['fr']['smileys']='emoticons';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

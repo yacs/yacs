@@ -2,7 +2,7 @@
 /**
  * assign an icon to a user from the avatar library
  *
- * The avatar library is the directory '[code]skins/images/avatars[/code]' under the YACS installation directory.
+ * The avatar library is the directory '[code]skins/_reference/avatars[/code]' under the YACS installation directory.
  * Upload some files through FTP there, and they will become useful resources for all members of your community.
  *
  * If there is a gravatar it is displayed as well.
@@ -114,22 +114,22 @@ if(!count($context['error']) && isset($item['id'])) {
 	// upload an image
 	//
 	if(Images::are_allowed(NULL, $item, 'user')) {
-	
+
 		// the form to post an image
 		$text = '<form method="post" enctype="multipart/form-data" action="'.$context['url_to_root'].'images/edit.php" id="main_form"><div>'
 			.'<input type="hidden" name="anchor" value="user:'.$item['id'].'" />'
 			.'<input type="hidden" name="action" value="set_as_avatar" />';
-			
+
 		$fields = array();
-		
+
 		// the image
 		$text .= '<input type="file" name="upload" id="upload" size="30" accesskey="i" title="'.encode_field(i18n::s('Press to select a local file')).'" />';
 		$text .= ' '.Skin::build_submit_button(i18n::s('Submit'), i18n::s('Press [s] to submit data'), 's');
 		$text .= BR.'<span class="details">'.i18n::s('Select a .png, .gif or .jpeg image.').' (&lt;&nbsp;'.Skin::build_number($image_maximum_size, i18n::s('bytes')).')</span>';
-		
+
 		// end of the form
 		$text .= '</div></form>';
-	
+
 		// the script used for form handling at the browser
 		$text .= JS_PREFIX
 			.'// set the focus on first form field'."\n"
@@ -139,12 +139,12 @@ if(!count($context['error']) && isset($item['id'])) {
 
 		$context['text'] .= Skin::build_content(NULL, i18n::s('Upload an image'), $text);
 	}
-	
+
 	// use the library
 	//
-	
+
 	// where images are
-	$path = 'skins/images/avatars';
+	$path = 'skins/_reference/avatars';
 
 	// browse the path to list directories and files
 	if($dir = Safe::opendir($context['path_to_root'].$path)) {
@@ -174,7 +174,7 @@ if(!count($context['error']) && isset($item['id'])) {
 		}
 		Safe::closedir($dir);
 	}
-	
+
 	if($text)
 		$context['text'] .= Skin::build_content(NULL, i18n::s('Use the library'), $text);
 

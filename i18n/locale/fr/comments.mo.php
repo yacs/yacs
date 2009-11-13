@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:48 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:19 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-27 21:52+0200
-PO-Revision-Date: 2009-09-02 01:17+0100
+POT-Creation-Date: 2009-11-09 19:19+0100
+PO-Revision-Date: 2009-10-05 00:04+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -66,6 +66,7 @@ $_SESSION['l10n']['fr']['f0aef7225e9f1cda90eb746e36e84868']='Aucun commentaire n
 $_SESSION['l10n']['fr']['No item has the provided id.']='Identifiant inconnu.';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Page bottom']='Bas de page';
+$_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
 $_SESSION['l10n']['fr']['7a17d7031870526c6fc12193234221f7']='Choisissez un type de commentaire représentatif de votre contribution.';
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';

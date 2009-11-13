@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 27, 2009, 8:32 pm GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:13 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2009-09-17 01:02+0200
-PO-Revision-Date: 2009-09-02 01:12+0100
+PO-Revision-Date: 2009-10-06 15:58+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -48,7 +48,7 @@ $_SESSION['l10n']['fr']['Documentation:']='Documentation :';
 $_SESSION['l10n']['fr']['6a2c769d729b50a589114cb6f3a6ca3b']='ERREUR : impossible d\'écrire dans le fichier %s. La configuration n\'a pas été sauvegardée.';
 $_SESSION['l10n']['fr']['Generic JSON-RPC interface']='Interface JSON-RPC générique';
 $_SESSION['l10n']['fr']['Generic XML-RPC interface']='Interface XML-RPC générique';
-$_SESSION['l10n']['fr']['Go']='Contacter';
+$_SESSION['l10n']['fr']['Go']='Go';
 $_SESSION['l10n']['fr']['37cc548a33139f309e8e319d6ab3bf6b']='Allez dans le %s et assurez-vous que le mode de mise au point pour les <code>call</code> a été sélectionné si vous souhaitez enregistrer les requêtes et réponses HTTP.';
 $_SESSION['l10n']['fr']['deb98ab230081a96a6dd968bd9724d0c']='Allez dans le %s et assurez-vous que le mode de mise au point pour les <code>rpc</code> a été sélectionné si vous souhaitez enregistrer les requêtes et réponses HTTP.';
 $_SESSION['l10n']['fr']['Google API key']='Clé d\'API Google';

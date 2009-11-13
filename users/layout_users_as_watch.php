@@ -79,9 +79,11 @@ Class Layout_users_as_watch extends Layout_interface {
 
 			// get last posts for this author
 			$articles =& Members::list_articles_for_member_by('edition', 'user:'.$item['id'], 0, 3, 'compact');
-			if(is_array($articles))
-				$suffix .= Skin::build_list($articles, 'details');
-			else
+			if(is_array($articles) && $articles) {
+				$articles += array(Users::get_permalink($item) => i18n::s('More'));
+				$articles = Skin::build_list($articles, 'details');
+			}
+			if($articles)
 				$suffix .= $articles;
 
 			// use the avatar, if any

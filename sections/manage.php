@@ -2,6 +2,8 @@
 /**
  * manage section content.
  *
+ * @todo draft does not work (charron)
+ *
  * This script allows to select several items, and to apply one command to the set.
  *
  * Available operations for articles include:
@@ -90,7 +92,7 @@ elseif(isset($context['arguments'][1]) && isset($context['arguments'][2])) {
 // sanity check
 if($zoom_index < 1)
 	$zoom_index = 1;
-	
+
 // get the item from the database
 $item =& Sections::get($id);
 
@@ -136,7 +138,7 @@ if(isset($_REQUEST['selected_articles']) && ($count = @count($_REQUEST['selected
 			if($bucket-- >= 0)
 				$items[] = Skin::build_link(Articles::get_permalink($article), $article['title'], 'article');
 			$selected_articles .= '<input type="hidden" name="selected_articles[]" value="'.$article['id'].'" />';
-		}		
+		}
 	}
 
 	// a hint on non-listed pages
@@ -395,7 +397,7 @@ if(Surfer::is_crawler()) {
 
 		// clear the cache for this section
 		Sections::clear($item);
-		
+
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been deleted.', '%d pages have been deleted.', $count), $count).'</p>';
 
@@ -418,7 +420,7 @@ if(Surfer::is_crawler()) {
 
 		// clear the cache for this section
 		Sections::clear($item);
-		
+
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been deleted.', '%d pages have been deleted.', $count), $count).'</p>';
 
@@ -458,7 +460,7 @@ if(Surfer::is_crawler()) {
 
 		// clear the cache for this section
 		Sections::clear($item);
-		
+
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been changed to draft mode.', '%d pages have been changed to draft mode.', $count), $count).'</p>';
 
@@ -679,7 +681,7 @@ if(Surfer::is_crawler()) {
 
 		// clear the cache for this section
 		Sections::clear($item);
-		
+
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been locked.', '%d pages have been locked.', $count), $count).'</p>';
 
@@ -719,7 +721,7 @@ if(Surfer::is_crawler()) {
 
 		// clear the cache for this section
 		Sections::clear($item);
-		
+
 		// report on results
 		$context['text'] .= '<p>'.sprintf(i18n::ns('%d page has been locked.', '%d pages have been locked.', $count), $count).'</p>';
 
@@ -1079,7 +1081,7 @@ if(Surfer::is_crawler()) {
 
 		// a list of commands
 		$options = '<select name="act_on_articles" id="act_on_articles"><option>-- '.i18n::s('Action').'</option>';
-		
+
 		// categorize selected pages
 		$options .= '<option value="associate_articles">'.i18n::s('Categorize').'</option>';
 
@@ -1108,7 +1110,7 @@ if(Surfer::is_crawler()) {
 		$options .= '<option value="rank_articles">'.i18n::s('Order').'</options>';
 
 		// end of options
-		$options .= '</select> <a href="#" class="button" onclick="submit_selected_articles(); return false;"><span>&raquo;</span></a> ';
+		$options .= '</select> <a href="#" class="button" onclick="submit_selected_articles(); return false;"><span>'.i18n::s('Go').'</span></a> ';
 
 		// all commands
 		$menu = array();
@@ -1116,7 +1118,7 @@ if(Surfer::is_crawler()) {
 
 		// back to section
 		$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Cancel'), 'span');
-		
+
 		// finalize the menu
 		$text .= BR.Skin::finalize_list($menu, 'menu_bar');
 
@@ -1194,7 +1196,7 @@ if(Surfer::is_crawler()) {
 
 		// a list of commands
 		$options = '<select name="act_on_sections" id="act_on_sections"><option>-- '.i18n::s('Action').'</option>';
-		
+
 		// categorize selected pages
 		$options .= '<option value="associate_sections">'.i18n::s('Categorize').'</option>';
 
@@ -1215,14 +1217,14 @@ if(Surfer::is_crawler()) {
 
 		// order pages
 		$options .= '<option value="rank_sections">'.i18n::s('Order').'</option>';
-		
+
 		// end of options
-		$options .= '</select> <a href="#" class="button" onclick="submit_selected_sections(); return false;"><span>&raquo;</span></a> ';
+		$options .= '</select> <a href="#" class="button" onclick="submit_selected_sections(); return false;"><span>'.i18n::s('Go').'</span></a> ';
 
 		// all commands
 		$menu = array();
 		$menu[] = $options;
-		
+
 		// back to section
 		$menu[] = Skin::build_link(Sections::get_permalink($item), i18n::s('Cancel'), 'span');
 

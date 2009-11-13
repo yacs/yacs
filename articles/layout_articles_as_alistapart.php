@@ -56,6 +56,9 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		$item_count = 0;
 		$future = array();
 		$others = array();
+		include_once $context['path_to_root'].'comments/comments.php';
+		include_once $context['path_to_root'].'files/files.php';
+		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
 
@@ -108,11 +111,15 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 				$item_count += 1;
 
 				// layout the newest article
-				if($item_count == 1)
+				if($item_count == 1) {
 					$text .= $this->layout_newest($item);
 
+				// display all tags
+				if($item['tags'])
+					$context['page_tags'] = '<span class="tags">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
+
 				// layout recent articles
-				else
+				} else
 					$others[$url] = array($prefix, $title, $suffix);
 
 			}
@@ -248,7 +255,7 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 
 			// use adequate label
 			if(is_object($overlay) && ($label = $overlay->get_label('description')))
-				$context['text'] .= Skin::build_block($label, 'title');
+				$text .= Skin::build_block($label, 'title');
 
 			$text .= Skin::build_block($item['description'], 'description', '', $item['options']);
 
@@ -276,7 +283,6 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 				$box['bar'] += array('_count' => sprintf(i18n::ns('%d file', '%d files', $count), $count));
 
 			// list files by date (default) or by title (option files_by_title)
-			include_once $context['path_to_root'].'files/files.php';
 			if(Articles::has_option('files_by_title', $anchor, $item))
 				$items = Files::list_by_title_for_anchor('article:'.$item['id'], 0, FILES_PER_PAGE, 'no_anchor');
 			else
@@ -307,7 +313,6 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		//
 
 		// discuss this page, if the index page can be commented, and comments are accepted at the article level
-		include_once $context['path_to_root'].'comments/comments.php';
 		if(Comments::are_allowed($anchor, $item))
 			$this->menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Post a comment'));
 
@@ -329,7 +334,6 @@ Class Layout_articles_as_alistapart extends Layout_interface {
 		}
 
 		// info on related links
-		include_once $context['path_to_root'].'links/links.php';
 		if($count = Links::count_for_anchor('article:'.$item['id']))
 			$this->menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count));
 

@@ -242,6 +242,7 @@ elseif(!Surfer::is_associate()) {
 	if ($dir = Safe::opendir("../skins")) {
 
 		// valid skins have a template.php
+		$skins = array();
 		while(($file = Safe::readdir($dir)) !== FALSE) {
 			if(($file[0] == '.') || !is_dir('../skins/'.$file))
 				continue;
@@ -258,7 +259,7 @@ elseif(!Surfer::is_associate()) {
 			$skins[] = '<option value="'.$file.'"'.$checked.'>'.$file."</option>\n";
 		}
 		Safe::closedir($dir);
-		if(@count($skins)) {
+		if(count($skins)) {
 			natsort($skins);
 			foreach($skins as $skin)
 				$box['text'] .= $skin;
@@ -297,7 +298,7 @@ elseif(!Surfer::is_associate()) {
 
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('For more information on skins, visit %s'), Skin::build_link(i18n::s('http://www.yacs.fr/'), 'the YACS web site', 'external')).'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 }
 

@@ -513,7 +513,7 @@ Class Files {
 		if(!is_array($files_icons)) {
 
 			// path to file icons, relative to server root
-			$files_icons_url = 'skins/images/files/';
+			$files_icons_url = 'skins/_reference/files/';
 
 			// icons related to file types
 			$files_icons = array(
@@ -1294,7 +1294,7 @@ Class Files {
 	 *
 	 */
 	function is_embeddable($name) {
-		return preg_match('/\.(flv|mov|m4v|mp4|swf)$/i', $name);
+		return preg_match('/\.(flv|mov|m4v|mp4)$/i', $name);
 	}
 
 	/**

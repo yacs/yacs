@@ -133,9 +133,14 @@ Class Layout_articles_as_table extends Layout_interface {
 
 			// anchors
 			$anchors = array();
-			if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+			if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
 				foreach($members as $category_id => $attributes) {
-					$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'category');
+
+					// add background color to distinguish this category against others
+					if(isset($attributes['background_color']) && $attributes['background_color'])
+						$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
+
+					$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic');
 				}
 			}
 			if(@count($anchors))

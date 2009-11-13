@@ -15,7 +15,7 @@ defined('YACS') or exit('Script must be included');
 <head>
 <?php // use styles only to mask content ?>
 	<style type="text/css">
-		.details, .menu, .no_print, .page_menu, .path, #navigation_panel, #extra_panel, #header_panel, #footer_panel { display: none; }
+		.menu, .no_print, .page_menu, .path, #navigation_panel, #extra_panel, #header_panel, #footer_panel { display: none; }
 		.small, .tiny, .toc_box { font-size: smaller; }
 	</style>
 <?php // other components of the head

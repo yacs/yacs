@@ -253,15 +253,18 @@ if(!isset($item['id']) || !$item['id']) {
 // clear assignment information, if any
 } elseif(($action == 'release') && ($anchor->is_assigned() || (isset($item['assign_id']) && Surfer::is($item['assign_id'])))) {
 
-	// clear assignment information
-	if(Files::assign($item['id'], NULL))
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('files'));
-
 	// change page title
 	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Release reservation'), $context['page_title']);
 
-	// feed-back to surfer
-	Logger::error(i18n::s('Operation has failed.'));
+	// clear assignment information
+	if(Files::assign($item['id'], NULL)) {
+
+		// inform surfer
+		$context['text'] .= '<p>'.i18n::s('You have released this file, and other surfers can reserve it for revision.').'</p>';
+
+	// help the surfer
+	} else
+		Logger::error(i18n::s('Operation has failed.'));
 
 	// follow-up commands
 	$context['text'] .= Skin::build_block(Skin::build_link($anchor->get_url('files'), i18n::s('Done'), 'button'), 'bottom');
@@ -269,16 +272,19 @@ if(!isset($item['id']) || !$item['id']) {
 // file has not been assigned, and surfer has not confirmed the detach yet
 } elseif(($action == 'reserve') && (!isset($item['assign_id']) || !$item['assign_id']) && Surfer::get_id()) {
 
-	// assign the file to this surfer
-	$user = array('nick_name' => Surfer::get_name(), 'id' => Surfer::get_id(), 'email' => Surfer::get_email_address());
-	if(Files::assign($item['id'], $user))
-		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('files'));
-
 	// change page title
 	$context['page_title'] = sprintf(i18n::s('%s: %s'), i18n::s('Reserve'), $context['page_title']);
 
+	// assign the file to this surfer
+	$user = array('nick_name' => Surfer::get_name(), 'id' => Surfer::get_id(), 'email' => Surfer::get_email_address());
+	if(Files::assign($item['id'], $user)) {
+
+		// inform surfer
+		$context['text'] .= '<p>'.sprintf(i18n::s('You have reserved this file, and you are encouraged to %s as soon as possible, or to %s.'), Skin::build_link(Files::get_url($item['id'], 'edit'), i18n::s('upload an updated version'), 'basic'), Skin::build_link(Files::get_url($item['id'], 'fetch', 'release'), i18n::s('release reservation'), 'basic')).'</p>';
+
 	// help the surfer
-	Logger::error(i18n::s('Operation has failed.'));
+	} else
+		Logger::error(i18n::s('Operation has failed.'));
 
 	// follow-up commands
 	$context['text'] .= Skin::build_block(Skin::build_link($anchor->get_url('files'), i18n::s('Done'), 'button'), 'bottom');

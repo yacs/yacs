@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on October 5, 2009, 8:15 pm GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:14 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-10-05 16:07+0200
-PO-Revision-Date: 2009-10-05 00:01+0100
+POT-Creation-Date: 2009-11-09 19:19+0100
+PO-Revision-Date: 2009-11-09 19:26+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -31,13 +31,17 @@ $_SESSION['l10n']['en']['%d records have been processed']='%d records have been 
 $_SESSION['l10n']['en']['4228e9a02a84a307b6992b4c781bd7b8']='%s and %s are available to enhance text rendering.';
 $_SESSION['l10n']['en']['%s by %s']='%s by %s';
 $_SESSION['l10n']['en']['%s by %s %s']='%s by %s %s';
+$_SESSION['l10n']['en']['%s has posted a comment']='%s has posted a comment';
+$_SESSION['l10n']['en']['%s in %s']='%s in %s';
 $_SESSION['l10n']['en']['%s vote'.chr(0).'%s votes']='%s vote'.chr(0).'%s votes';
 $_SESSION['l10n']['en']['%s: %s']='%s: %s';
+$_SESSION['l10n']['en']['(anonymous)']='(anonymous)';
 $_SESSION['l10n']['en']['10000']='10000';
 $_SESSION['l10n']['en']['0ca45ffa169a38619afd4a1a16c62332']='<p>Don\'t forget to publish the new page someday. Review the page, enhance it and then click on the Publish command to make it publicly available.</p>';
 $_SESSION['l10n']['en']['18d7b1ad712e8d2c1d84e48d9ed1b103']='<p>The new page has been successfully published. Please review it now to ensure that it reflects your mind.</p>';
 $_SESSION['l10n']['en']['75f7fa82ced121791f3dc2124599df75']='<p>The new page will now be reviewed before its publication. It is likely that this will be done within the next 24 hours at the latest.</p>';
 $_SESSION['l10n']['en']['c8e8765c2b28f43d6edb308e5dab306e']='A comma-separated list of keywords';
+$_SESSION['l10n']['en']['A file has been uploaded by %s']='A file has been uploaded by %s';
 $_SESSION['l10n']['en']['A message has been sent to:']='A message has been sent to:';
 $_SESSION['l10n']['en']['Abstract']='Abstract';
 $_SESSION['l10n']['en']['Access']='Access';
@@ -101,6 +105,7 @@ $_SESSION['l10n']['en']['cac81c405d80a8fe1815f9f9c9d453f2']='Do you agree to rel
 $_SESSION['l10n']['en']['Done']='Done';
 $_SESSION['l10n']['en']['Draft']='Draft';
 $_SESSION['l10n']['en']['Duplicate']='Duplicate';
+$_SESSION['l10n']['en']['Duplicate this page']='Duplicate this page';
 $_SESSION['l10n']['en']['fb0d9333cb60f25b5b1a13b04db64697']='E-mail has not been enabled on this system.';
 $_SESSION['l10n']['en']['Edit']='Edit';
 $_SESSION['l10n']['en']['Edit the page']='Edit the page';
@@ -175,13 +180,13 @@ $_SESSION['l10n']['en']['be2b5e247910fa0abc3137df3a3b2c67']='Mention your source
 $_SESSION['l10n']['en']['Message content']='Message content';
 $_SESSION['l10n']['en']['45b0a300ae44fcf8ec94980438933ae9']='Message content can not be empty';
 $_SESSION['l10n']['en']['27e4e516d735c2be8c7f81d26d82ced5']='Message content can not be empty.';
+$_SESSION['l10n']['en']['Message recipients']='Message recipients';
 $_SESSION['l10n']['en']['Message title']='Message title';
 $_SESSION['l10n']['en']['Meta information']='Meta information';
 $_SESSION['l10n']['en']['Modification: %s']='Modification: %s';
 $_SESSION['l10n']['en']['Monitor']='Monitor';
 $_SESSION['l10n']['en']['More']='More';
 $_SESSION['l10n']['en']['More content']='More content';
-$_SESSION['l10n']['en']['More in %s']='More in %s';
 $_SESSION['l10n']['en']['More options']='More options';
 $_SESSION['l10n']['en']['More pages']='More pages';
 $_SESSION['l10n']['en']['Most recent comments']='Most recent comments';
@@ -327,7 +332,6 @@ $_SESSION['l10n']['en']['Thank you for your contribution']='Thank you for your c
 $_SESSION['l10n']['en']['5135051eb31da8ef238ed65c0b0816df']='The action has not been confirmed.';
 $_SESSION['l10n']['en']['6864563bf771627fd6dfffd29bb33013']='The expiry date has been changed.';
 $_SESSION['l10n']['en']['8ee01a298eb1c8116adde65c61a6aeae']='The expiry date has been removed.';
-$_SESSION['l10n']['en']['f2f4aef2eaa98590cb41a70e9fa68f30']='The following page has been updated';
 $_SESSION['l10n']['en']['26483fdaa783e62461e9f3a52ed12ba6']='The original page is located at %s';
 $_SESSION['l10n']['en']['The page has been duplicated.']='The page has been duplicated.';
 $_SESSION['l10n']['en']['42e194519739cba320c281e8e1f8dde4']='The page has been stamped as being reviewed today.';
@@ -337,7 +341,6 @@ $_SESSION['l10n']['en']['e19d1d51fcb39f09b7a4f917bb493d97']='The publication dat
 $_SESSION['l10n']['en']['d8f916cadc17b7983d4a54bc98ef0972']='The text has been entirely tagged, and implicit transformations do not apply. YACS codes are processed as usual.';
 $_SESSION['l10n']['en']['6f667d5aa6579c8239335c342b69c9c1']='This is a copy of the message you have sent, for your own record.';
 $_SESSION['l10n']['en']['38b77492862aef3e5f2894c4c1379167']='This is a draft document. Do not publish the page, even if auto-publish has been enabled.';
-$_SESSION['l10n']['en']['49c915d733aa70a024b480150f68083f']='This message has been generated automatically by %s since the new item has been posted in a web space that is part of your watch list. If you wish to stop these automatic alerts please visit the page and click on the Forget link.';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';
 $_SESSION['l10n']['en']['5ba6a855747f2ced505ea08ed6ec0b2b']='This publication should be advertised at:';
 $_SESSION['l10n']['en']['Thumbnail']='Thumbnail';
@@ -382,7 +385,6 @@ $_SESSION['l10n']['en']['04146ec8fe89237f264f39cfdcc6a395']='Yes, I want to dupl
 $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed to perform this operation in demonstration mode.';
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['You are rating: %s']='You are rating: %s';
-$_SESSION['l10n']['en']['You are sending a message to:']='You are sending a message to:';
 $_SESSION['l10n']['en']['20cf45e0c01e6acc47459231610d3463']='You can upload a camera shot, a drawing, or another image file.';
 $_SESSION['l10n']['en']['a3a2b3bf813a809123d852d392cfb697']='You have already rated his page.';
 $_SESSION['l10n']['en']['d202c53d9ea1bb14a44814af246dbcf4']='You may combine several keywords:';
@@ -394,6 +396,7 @@ $_SESSION['l10n']['en']['Your sections']='Your sections';
 $_SESSION['l10n']['en']['Zip 20 first files']='Zip 20 first files';
 $_SESSION['l10n']['en']['Zip all files']='Zip all files';
 $_SESSION['l10n']['en']['advertised']='advertised';
+$_SESSION['l10n']['en']['and %d other persons']='and %d other persons';
 $_SESSION['l10n']['en']['by %s']='by %s';
 $_SESSION['l10n']['en']['by %s, %s']='by %s, %s';
 $_SESSION['l10n']['en']['bytes']='bytes';
@@ -416,6 +419,5 @@ $_SESSION['l10n']['en']['smileys']='smileys';
 $_SESSION['l10n']['en']['sticky']='sticky';
 $_SESSION['l10n']['en']['to manage content']='to manage content';
 $_SESSION['l10n']['en']['to review content']='to review content';
-$_SESSION['l10n']['en']['with %s']='with %s';
 $_SESSION['l10n']['en']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

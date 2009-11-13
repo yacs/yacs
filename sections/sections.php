@@ -141,12 +141,6 @@
  * [title]How to change sections layout?[/title]
  *
  *
- * [*] [code]boxesandarrows[/code]
- *
- * @see sections/layout_sections_as_boxesandarrows.php
- * @see articles/layout_articles_as_boxesandarrows.php
- * @see comments/layout_comments_as_boxesandarrows.php
- *
  * [*] [code]manual[/code]
  *
  * @see articles/layout_articles_as_manual.php
@@ -170,7 +164,7 @@
  * For anchored sections, the parameter 'index_panel' defines how their content is handled on index pages of their parent section.
  *
  * [*] '[code]main[/code]' - The default value.
- * Use the layout specified in the field 'articles_layout' of the parent section ('daily', 'boxesandarrows', etc.)
+ * Use the layout specified in the field 'articles_layout' of the parent section ('daily', etc.)
  *
  * [*] '[code]extra[/code]' - Summarize most recent entries in an extra box at the index page.
  * May prove to be useful with discussion boards.
@@ -212,7 +206,7 @@
  * This can be changed through the 'home_panel' field.
  *
  * [*] '[code]main[/code]' - The default value.
- * Use the main layout specified in the configuration panel for skins ('alistapart', 'boxesandarrows', etc.)
+ * Use the main layout specified in the configuration panel for skins ('alistapart', etc.)
  *
  * [*] '[code]extra[/code]' - Summarize most recent entries in an extra box at the front page.
  * May prove to be useful with discussion boards.
@@ -1123,12 +1117,12 @@ Class Sections {
 		// end of scope
 		$where .= ")";
 
-		// list children sections
+		// list all children sections
 		$children = '';
 		if(isset($item['id'])) {
 
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE (anchor LIKE 'section:".$item['id']."')".$where
+				." WHERE (anchor LIKE 'section:".$item['id']."')"
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
 			if($result =& SQL::query($query)) {
 				while($row =& SQL::fetch($result)) {
@@ -1148,7 +1142,7 @@ Class Sections {
 		if(isset($item['anchor']) && ($parent =& Anchors::get($item['anchor']))) {
 
 			$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-				." WHERE (anchor LIKE '".$item['anchor']."')".$where
+				." WHERE (anchor LIKE '".$item['anchor']."')"
 				." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
 			if($result =& SQL::query($query)) {
 
@@ -1208,7 +1202,7 @@ Class Sections {
 			// list special sections to associates
 			if(Surfer::is_associate()) {
 				$query = "SELECT * FROM ".SQL::table_name('sections')." AS sections"
-					." WHERE (sections.anchor='' OR sections.anchor IS NULL)".$where
+					." WHERE (sections.anchor='' OR sections.anchor IS NULL)"
 					." AND (sections.index_map != 'Y')"
 					." ORDER BY sections.rank, sections.title, sections.edit_date DESC LIMIT 200";
 				if($result =& SQL::query($query)) {
@@ -1306,22 +1300,10 @@ Class Sections {
 
 		// the prefix for managing content
 		if($action == 'manage') {
-// 			if($context['with_friendly_urls'] == 'Y') {
-// 				if($name)
-// 					return 'sections/manage.php/'.rawurlencode($id).'/'.rawurlencode($name).'/';
-// 				else
-// 					return 'sections/manage.php/'.rawurlencode($id);
-// 			} elseif($context['with_friendly_urls'] == 'R') {
-// 				if($name)
-// 					return 'sections/manage.php/'.rawurlencode($id).'/'.rawurlencode($name).'-';
-// 				else
-// 					return 'sections/manage.php/'.rawurlencode($id);
-// 			} else {
-				if($name)
-					return 'sections/manage.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
-				else
-					return 'sections/manage.php?id='.urlencode($id);
-//			}
+			if($name)
+				return 'sections/manage.php?id='.urlencode($id).'&amp;'.urlencode($name).'=';
+			else
+				return 'sections/manage.php?id='.urlencode($id);
 		}
 
 		// check the target action
@@ -1878,7 +1860,6 @@ Class Sections {
 	 * @param string 'full', etc or object, i.e., an instance of Layout_Interface
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 *
-	 * @see skins/boxesandarrows/template.php
 	 */
 	function &list_selected(&$result, $variant='full') {
 		global $context;
@@ -2052,7 +2033,7 @@ Class Sections {
 			$fields['rank'] = 10000;
 
 		// set layout for sections
-		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/(accordion|carrousel|compact|custom|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $fields['sections_layout']))
+		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/(accordion|carrousel|compact|custom|decorated|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)/', $fields['sections_layout']))
 			$fields['sections_layout'] = 'none';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
@@ -2062,7 +2043,7 @@ Class Sections {
 		}
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|boxesandarrows|carrousel|compact|daily|decorated|digg|jive|manual|map|none|slashdot|table|threads|titles|wiki|yabb)/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|custom|compact|daily|decorated|digg|hardboiled|jive|manual|map|newspaper|none|slashdot|table|tagged|threads|titles|wiki|yabb)/', $fields['articles_layout']))
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])
@@ -2070,6 +2051,10 @@ Class Sections {
 			else
 				$fields['articles_layout'] = 'decorated';
 		}
+
+		// clean provided tags
+		if(isset($fields['tags']))
+			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
 
 		// cascade anchor access rights
 		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
@@ -2138,6 +2123,7 @@ Class Sections {
 			."sections_count=".SQL::escape(isset($fields['sections_count']) ? $fields['sections_count'] : 30).","
 			."sections_layout='".SQL::escape(isset($fields['sections_layout']) ? $fields['sections_layout'] : 'map')."',"
 			."suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."',"
+			."tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."',"
 			."template='".SQL::escape(isset($fields['template']) ? $fields['template'] : '')."',"
 			."thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."',"
 			."title='".SQL::escape(isset($fields['title']) ? $fields['title'] : '')."',"
@@ -2149,6 +2135,10 @@ Class Sections {
 
 		// remember the id of the new item
 		$fields['id'] = SQL::get_last_id($context['connection']);
+
+		// assign the page to related categories
+		include_once $context['path_to_root'].'categories/categories.php';
+		Categories::remember('section:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
 		// clear the cache
 		Sections::clear($fields);
@@ -2214,7 +2204,7 @@ Class Sections {
 			$fields['rank'] = 10000;
 
 		// set layout for sections
-		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/(accordion|carrousel|compact|custom|decorated|folded|freemind|inline|jive|map|titles|yabb|none)/', $fields['sections_layout']))
+		if(!isset($fields['sections_layout']) || !$fields['sections_layout'] || !preg_match('/(accordion|carrousel|compact|custom|decorated|folded|freemind|inline|jive|map|slashdot|titles|yabb|none)/', $fields['sections_layout']))
 			$fields['sections_layout'] = 'map';
 		elseif($fields['sections_layout'] == 'custom') {
 			if(isset($fields['sections_custom_layout']) && $fields['sections_custom_layout'])
@@ -2224,7 +2214,7 @@ Class Sections {
 		}
 
 		// set layout for articles
-		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|boxesandarrows|carrousel|compact|custom|daily|decorated|digg|jive|manual|map|none|slashdot|table|threads|wiki|yabb)/', $fields['articles_layout']))
+		if(!isset($fields['articles_layout']) || !$fields['articles_layout'] || !preg_match('/(accordion|alistapart|carrousel|compact|custom|daily|decorated|digg|hardboiled|jive|manual|map|newspaper|none|slashdot|table|tagged|threads|titles|wiki|yabb)/', $fields['articles_layout']))
 			$fields['articles_layout'] = 'decorated';
 		elseif($fields['articles_layout'] == 'custom') {
 			if(isset($fields['articles_custom_layout']) && $fields['articles_custom_layout'])
@@ -2232,6 +2222,10 @@ Class Sections {
 			else
 				$fields['articles_layout'] = 'decorated';
 		}
+
+		// clean provided tags
+		if(isset($fields['tags']))
+			$fields['tags'] = trim($fields['tags'], " \t.:,!?");
 
 		// cascade anchor access rights
 		if(isset($fields['anchor']) && ($anchor =& Anchors::get($fields['anchor'])))
@@ -2272,6 +2266,7 @@ Class Sections {
 		$query[] = "sections_count='".SQL::escape(isset($fields['sections_count']) ? $fields['sections_count'] : 30)."'";
 		$query[] = "sections_layout='".SQL::escape(isset($fields['sections_layout']) ? $fields['sections_layout'] : 'map')."'";
 		$query[] = "suffix='".SQL::escape(isset($fields['suffix']) ? $fields['suffix'] : '')."'";
+		$query[] = "tags='".SQL::escape(isset($fields['tags']) ? $fields['tags'] : '')."'";
 		$query[] = "thumbnail_url='".SQL::escape(isset($fields['thumbnail_url']) ? $fields['thumbnail_url'] : '')."'";
 		$query[] = "trailer='".SQL::escape(isset($fields['trailer']) ? $fields['trailer'] : '')."'";
 
@@ -2298,6 +2293,10 @@ Class Sections {
 		$query = "UPDATE ".SQL::table_name('sections')." SET ".implode(', ', $query)." WHERE id = ".SQL::escape($fields['id']);
 		if(SQL::query($query) === FALSE)
 			return FALSE;
+
+		// assign the page to related categories
+		include_once $context['path_to_root'].'categories/categories.php';
+		Categories::remember('section:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
 		// clear the cache
 		Sections::clear($fields);
@@ -2373,6 +2372,9 @@ Class Sections {
 			$query[] = "overlay='".SQL::escape($fields['overlay'])."'";
 		if(isset($fields['overlay_id']))
 			$query[] = "overlay_id='".SQL::escape($fields['overlay_id'])."'";
+
+		if(isset($fields['tags']))
+			$query[] = "tags='".SQL::escape($fields['tags'])."'";
 
 		// nothing to update
 		if(!count($query))
@@ -2584,6 +2586,7 @@ Class Sections {
 		$fields['sections_count']	= "SMALLINT UNSIGNED DEFAULT 5 NOT NULL";
 		$fields['sections_layout']	= "VARCHAR(255) DEFAULT 'none' NOT NULL";
 		$fields['suffix']		= "TEXT NOT NULL";
+		$fields['tags'] 		= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['template'] 	= "TEXT NOT NULL";
 		$fields['thumbnail_url']= "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['title']		= "VARCHAR(255) DEFAULT '' NOT NULL";
@@ -2631,7 +2634,6 @@ Class Sections {
 	 * @see sections/delete.php
 	 * @see sections/index.php
 	 * @see sections/layout_sections.php
-	 * @see sections/layout_sections_as_boxesandarrows.php
 	 * @see sections/layout_sections_as_yahoo.php
 	 * @see sections/view.php
 	 */

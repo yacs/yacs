@@ -1251,7 +1251,7 @@ Class Categories {
 
 		// no layout yet
 		$layout = NULL;
-		
+
 		// separate options from layout name
 		$attributes = explode(' ', $variant, 2);
 
@@ -1265,7 +1265,7 @@ Class Categories {
 				// provide parameters to the layout
 				if(isset($attributes[1]))
 					$layout->set_variant($attributes[1]);
-		
+
 			}
 		}
 
@@ -1392,6 +1392,7 @@ Class Categories {
 			."active='".SQL::escape($fields['active'])."',"
 			."active_set='".SQL::escape($fields['active_set'])."',"
 			."articles_layout='".SQL::escape($fields['articles_layout'])."',"
+			."background_color='".SQL::escape(isset($fields['background_color'])?$fields['background_color']:'')."',"
 			."categories_count=".SQL::escape(isset($fields['categories_count'])?$fields['categories_count']:5).","
 			."categories_layout='".SQL::escape($fields['categories_layout'])."',"
 			."categories_overlay='".SQL::escape(isset($fields['categories_overlay']) ? $fields['categories_overlay'] : '')."',"
@@ -1524,6 +1525,7 @@ Class Categories {
 			."active='".SQL::escape($fields['active'])."',"
 			."active_set='".SQL::escape($fields['active_set'])."',"
 			."articles_layout='".SQL::escape($fields['articles_layout'])."',"
+			."background_color='".SQL::escape(isset($fields['background_color'])?$fields['background_color']:'')."',"
 			."categories_count='".SQL::escape($fields['categories_count'])."' ,"
 			."categories_layout='".SQL::escape($fields['categories_layout'])."',"
 			."categories_overlay='".SQL::escape(isset($fields['categories_overlay']) ? $fields['categories_overlay'] : '')."',"
@@ -1671,6 +1673,7 @@ Class Categories {
 			}
 
 			// one category per tag
+			$assigned = array();
 			foreach($tags as $title) {
 
 				// create a category if tag is unknown
@@ -1690,6 +1693,22 @@ Class Categories {
 				// link page to the category
 				if($category) {
 					Members::assign($category, $reference);
+					$assigned[] = $category;
+				}
+			}
+
+			// clean assignments for removed tags
+			// the list of members
+			$query = "SELECT anchor FROM ".SQL::table_name('members')
+				." WHERE (member LIKE '".SQL::escape($reference)."') AND (anchor LIKE 'category:%')"
+				." LIMIT 0, 500";
+			if($result =& SQL::query($query)) {
+
+				while($row =& SQL::fetch($result)) {
+					if(in_array($row['anchor'], $assigned))
+						continue;
+					if(($category =& Anchors::get($row['anchor'])) && ($category->get_parent() == $root_category))
+						Members::free($row['anchor'], $reference);
 				}
 			}
 		}
@@ -1720,7 +1739,7 @@ Class Categories {
 			$output = NULL;
 			return $output;
 		}
-		
+
 		// limit the scope of the request
 		$where = "categories.active='Y'";
 		if(Surfer::is_member())
@@ -1786,6 +1805,7 @@ Class Categories {
 		$fields['active_set']	= "ENUM('Y','R','N') DEFAULT 'Y' NOT NULL";
 		$fields['anchor']		= "VARCHAR(64)";
 		$fields['articles_layout']	= "VARCHAR(255) DEFAULT '' NOT NULL";
+		$fields['background_color']	= "VARCHAR(64) DEFAULT '' NOT NULL";
 		$fields['categories_count'] = "INT UNSIGNED NOT NULL";
 		$fields['categories_layout'] = "VARCHAR(255) DEFAULT '' NOT NULL";
 		$fields['categories_overlay'] = "VARCHAR(64) DEFAULT '' NOT NULL";

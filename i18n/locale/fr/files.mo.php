@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:48 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:19 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-27 21:52+0200
-PO-Revision-Date: 2009-09-27 21:56+0100
+POT-Creation-Date: 2009-11-09 19:19+0100
+PO-Revision-Date: 2009-11-09 20:14+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -40,9 +40,9 @@ $_SESSION['l10n']['fr']['Add an image']='Ajouter une image';
 $_SESSION['l10n']['fr']['Additional extensions']='Extensions additionnelles';
 $_SESSION['l10n']['fr']['Adobe web server']='serveur d\'Adobe';
 $_SESSION['l10n']['fr']['All files']='Tous les fichiers';
+$_SESSION['l10n']['fr']['13747571934a2f1255e4febc2cdfc21b']='Permettre à d\'autres personnes de modifier ce fichier';
 $_SESSION['l10n']['fr']['75b652e3c70511a910d5ba8fdfe88194']='Et prenez le temps de décrire votre envoi. Le champ de description est complètement indexé afin de faciliter les recherches plein texte.';
 $_SESSION['l10n']['fr']['Alternate link']='Lien alternatif';
-$_SESSION['l10n']['fr']['532321db0846e93e321be4e241054311']='Vous pouvez aussi télécharger ce fichier pour votre propre usage.';
 $_SESSION['l10n']['fr']['Analyzing table %s...']='Analyse de la table %s ...';
 $_SESSION['l10n']['fr']['Apple web server']='serveur d\'Apple';
 $_SESSION['l10n']['fr']['Artist']='Artiste';
@@ -66,22 +66,18 @@ $_SESSION['l10n']['fr']['Control Panel']='Panneau de contrôle';
 $_SESSION['l10n']['fr']['Delete']='Supprimer';
 $_SESSION['l10n']['fr']['Delete this file']='Supprimer ce fichier';
 $_SESSION['l10n']['fr']['Description']='Description';
-$_SESSION['l10n']['fr']['Detach']='Détacher';
-$_SESSION['l10n']['fr']['fef235d2bce5b36e1ebea93dd696c943']='Détacher le fichier si vous souhaitez modifier son contenu';
-$_SESSION['l10n']['fr']['Detach this file']='Détacher ce fichier';
 $_SESSION['l10n']['fr']['Divx Player']='Divx Player';
 $_SESSION['l10n']['fr']['86c56a7a7f1de49541c9835d0e87b60b']='Ne pas changer la date de modification de la page principale.';
 $_SESSION['l10n']['fr']['30c9a4dd552758f029f01ca2ebe1a69e']='Impossible de streamer ce type de fichier';
-$_SESSION['l10n']['fr']['Download']='Télécharger';
+$_SESSION['l10n']['fr']['Done']='Terminé';
 $_SESSION['l10n']['fr']['Download %s']='Télécharger %s';
-$_SESSION['l10n']['fr']['Download a copy']='Télécharger';
 $_SESSION['l10n']['fr']['Download from peers']='Téléchargez en peer-to-peer';
-$_SESSION['l10n']['fr']['Download page']='Page de téléchargement';
+$_SESSION['l10n']['fr']['Download this file']='Télécharger ce fichier';
 $_SESSION['l10n']['fr']['Downloads']='Téléchargements';
+$_SESSION['l10n']['fr']['Drop file content']='Supprimer le contenu de ce fichier';
 $_SESSION['l10n']['fr']['Duration']='Durée';
 $_SESSION['l10n']['fr']['6a2c769d729b50a589114cb6f3a6ca3b']='ERREUR : Impossible d\'écrire dans le fichier %s. La configuration n\'a pas été sauvegardée.';
 $_SESSION['l10n']['fr']['EasyGPS']='EasyGPS';
-$_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Estimated download time:']='Durée estimée du téléchargement :';
 $_SESSION['l10n']['fr']['1af5ec71336204568c61feb93174a23f']='Référence existante (ftp://, http://, ...)';
 $_SESSION['l10n']['fr']['Extensions']='Extensions';
@@ -147,9 +143,10 @@ $_SESSION['l10n']['fr']['OpenOffice web server']='serveur d\'OpenOffice';
 $_SESSION['l10n']['fr']['Operation has failed.']='L\'opération a échoué.';
 $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
+$_SESSION['l10n']['fr']['4a6bd811816f43d2d60e858ba1b41651']='Les autres personnes seront prévenues que vous travaillez sur ce fichier, jusqu\'à la mise à jour d\'une nouvelle version, ou l\'annulation de la réservation.';
 $_SESSION['l10n']['fr']['1cdd6622263afc815074f3c7faed3a2c']='Coller ici la référence P2P (ed2k, torrent, etc.)';
+$_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
 $_SESSION['l10n']['fr']['Play']='Jouer';
-$_SESSION['l10n']['fr']['534ee23f840c757e6d2f7ba56f2971c6']='Bien entendu, la version actuelle reste %s si vous en avez absolument besoin.';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['c5427cc1c5d8c7f2fe75e6eb38ef3662']='Merci d\'indiquer un titre significatif, qui sera utilisé en lieu et place du nom du fichier dans les listes.';
 $_SESSION['l10n']['fr']['Podcast']='Podcast';
@@ -158,18 +155,21 @@ $_SESSION['l10n']['fr']['Possible file attack.']='Possibilité d\'une attaque su
 $_SESSION['l10n']['fr']['Posted by']='Envoyé par';
 $_SESSION['l10n']['fr']['Press [e] to edit']='Appuyer sur [e] pour modifier';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';
+$_SESSION['l10n']['fr']['fc0f2f82c3a214a6c50adb3aea6fa1d3']='Empêcher d\'autres personnes de modifier ce fichier pendant que vous le mettez à jour';
 $_SESSION['l10n']['fr']['Previous image']='Image précédente';
 $_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
 $_SESSION['l10n']['fr']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Accès autorisé aux surfeurs anonymes';
 $_SESSION['l10n']['fr']['RSS feed']='Fil RSS';
 $_SESSION['l10n']['fr']['37ad9546a387c8d0623a2d297a553d2b']='Les logiciels adaptés sont indiqués au moments du téléchargement.';
+$_SESSION['l10n']['fr']['Release reservation']='Annuler la réservation';
+$_SESSION['l10n']['fr']['Reserve']='Réserver';
+$_SESSION['l10n']['fr']['4b7a9cc519bf0b451a0443b0d43cc5c6']='Réservez ce fichier si vous souhaitez modifier son contenu';
 $_SESSION['l10n']['fr']['Review files']='Fichiers à contrôler';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f secondes.';
-$_SESSION['l10n']['fr']['e38356c677eda6ec20dd764987901cff']='Choisir un autre fichier de remplacement';
+$_SESSION['l10n']['fr']['e38356c677eda6ec20dd764987901cff']='Choisir un fichier de remplacement';
+$_SESSION['l10n']['fr']['07e95f02fa0e855fbae77653fb7853b9']='Partager une nouvelle version de ce fichier, ou modifier les détails';
 $_SESSION['l10n']['fr']['af2a005d7d6b0ad003b4d99792b184cc']='Partager une référence existante (ftp://, http://, ...)';
 $_SESSION['l10n']['fr']['40532f5eb978ba028e43d957a661c3b2']='Les fichiers partagés ne sont pas rangés dans la base de donnée, mais dans le système de fichiers du serveur.';
-$_SESSION['l10n']['fr']['f2f114c0e2707be7f5a32c572a340293']='Indiquez aux autres que vous êtes en train de travailler sur ce fichier';
-$_SESSION['l10n']['fr']['0a87d519ca53087ec9b9172752c10f89']='Puisque le fichier vous a été assigné, les autres usagers seront incités à patienter jusqu\'à votre prochaine mise à jour avant de le télécharger.';
 $_SESSION['l10n']['fr']['Source']='Source';
 $_SESSION['l10n']['fr']['Source: %s']='Source : %s';
 $_SESSION['l10n']['fr']['Start']='Commencer';
@@ -182,7 +182,6 @@ $_SESSION['l10n']['fr']['TeX']='TeX';
 $_SESSION['l10n']['fr']['Texinfo']='Texinfo';
 $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contribution';
 $_SESSION['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
-$_SESSION['l10n']['fr']['92614de230ce73690ed8e21c34a4694b']='L\'assignation a été supprimée, et le fichier est de nouveau disponible pour téléchargement.';
 $_SESSION['l10n']['fr']['5cc2dd91632c7724b85a3bcf3a2ef281']='Le téléchargement devrait commencer automatiquement. Sinon, utilisez le lien fourni pour le déclencher manuellement.';
 $_SESSION['l10n']['fr']['3513760fe3e0b14f2af4cc30a501d92a']='La configuration suivante a été enregistrée dans le fichier %s.';
 $_SESSION['l10n']['fr']['07ab23fe8e7747f0f09e51f142768727']='L\'adresse ftp:// insérée dans les liens utilisés pour obtenir les fichiers';
@@ -191,15 +190,13 @@ $_SESSION['l10n']['fr']['bd4dc509bead225fd09ffc2a29b1e07a']='La taille du fichie
 $_SESSION['l10n']['fr']['b912496983adb05d5a6cb563dacfde61']='Le fichier a été enregistré.';
 $_SESSION['l10n']['fr']['7604df7ab947daaf747a5e725bafadce']='Ce format de fichier autorise les interactions à travers le web. Si votre machine est capable de traiter les fichiers Flash, cliquez sur le lien pour lancer la présentation.';
 $_SESSION['l10n']['fr']['1776aecef24f2d097ff0f00b141bce7b']='Ce fichier a été assigné à %s %s, et une nouvelle version sera mise à disposition bientôt.';
-$_SESSION['l10n']['fr']['100229cfe97b886f2e3cea81dbd9d1ec']='Ce fichier vous a été assigné %s, et nous comptons sur vous pour %s dès que possible.';
+$_SESSION['l10n']['fr']['e88ad9b865a3a37cab22969e5e62f8d7']='Ce fichier a été réservé par %s %s, et une nouvelle version sera mise à disposition bientôt.';
 $_SESSION['l10n']['fr']['2d4b92c7af8bc664500b7a0599619a30']='Ce fichier est disponible à la demande. Pour cela, vous pourrez avoir besoin d\'un lecteur multimédia avancé tel que %s (logiciel libre) ou %s (gratuit).';
 $_SESSION['l10n']['fr']['fb52e739654eb4d1981039c471bca260']='Ce type de fichier n\'est pas autorisé.';
 $_SESSION['l10n']['fr']['Thumbnail']='Vignette';
 $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['2879e4072ff5d8ea656b127262875171']='Pour changer la configuration, merci de copier et de coller les lignes suivantes dans le fichier %s :';
 $_SESSION['l10n']['fr']['0749c2e869a8f74bc91f87cc3643388e']='Trop d\'erreurs successives. Abandon';
-$_SESSION['l10n']['fr']['Unassign']='Dé-assigner';
-$_SESSION['l10n']['fr']['Update']='Modifier';
 $_SESSION['l10n']['fr']['Update this file']='Modifier ce fichier';
 $_SESSION['l10n']['fr']['Update: %s']='Modifier : %s';
 $_SESSION['l10n']['fr']['Updated by']='Mis à jour par';
@@ -212,6 +209,7 @@ $_SESSION['l10n']['fr']['145c71768eada2e93397ec134c387b13']='Utiliser les codes 
 $_SESSION['l10n']['fr']['d1ec6c64d705f2700ae41fb5a3f440dc']='Codes pour référencer ce fichier : %s';
 $_SESSION['l10n']['fr']['VLC media player']='VLC media player';
 $_SESSION['l10n']['fr']['Versions']='Versions';
+$_SESSION['l10n']['fr']['View file details']='Voir les détails du fichier';
 $_SESSION['l10n']['fr']['View the category']='Voir la catégorie';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
@@ -262,18 +260,17 @@ $_SESSION['l10n']['fr']['2e08d5c387fe254fb43773d2e50b35bd']='Vous êtes sur le p
 $_SESSION['l10n']['fr']['672e13ab1652ec91da237dcd5b67f538']='Vous êtes sur le point de télécharger un document au format %s, utilisé pour la documentation des projets %s.';
 $_SESSION['l10n']['fr']['43bb5a4aa1e7fd8680e8e5dc4f0d83e3']='Vous êtes sur le point de télécharger quelques commandes SQL.';
 $_SESSION['l10n']['fr']['2fc4300f36b56699ba80a02ef417c5e1']='Vous êtes sur le point de télécharger un peu de texte.';
-$_SESSION['l10n']['fr']['5b03816d77ec938472b7b5ac69a8b1d2']='Nous vous recommandons d\'attendre une version mise à jour avant d\'aller plus loin.';
 $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas autorisé à faire cette opération en mode démonstration.';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['c646f6a271bae14b7e820e3256e0073f']='Vous avez demandé le fichier suivant :';
 $_SESSION['l10n']['fr']['e82715de19a7ef2251f0ddcbf9386aec']='Vous pouvez lister les fichiers publics, au format RSS, %s';
-$_SESSION['l10n']['fr']['18d025a92e3e39b0b4ca394c62f7b180']='Vous avez demandé à détacher le fichier, et ceci va être enregistré par le serveur. Après avoir modifié le document fourni, vous devrez télécharger la nouvelle version. Pendant ce temps, il sera conseillé aux autres usagers d\'attendre votre mise à jour.';
+$_SESSION['l10n']['fr']['0e012d22920808320525a823ee194846']='Vous avez annulé la réservation de ce fichier, et les autres surfeurs peuvent le réserver à leur tour.';
+$_SESSION['l10n']['fr']['63f6b9c9890894412665d49ff5988f44']='Vous avez réservé ce fichier %s, et nous comptons sur vous pour %s ou pour %s dès que possible.';
+$_SESSION['l10n']['fr']['7a59dfa544047ca2efb088fba01f38e5']='Vous avez réservé ce fichier, et nous comptons sur vous pour %s ou pour %s dès que possible.';
 $_SESSION['l10n']['fr']['c6bf5a71ad259e86797b8b20da9a7826']='Vous pouvez aussi cliquez sur le lien suivant : %s';
-$_SESSION['l10n']['fr']['0215eeea7e1e33d458316497672e0f4b']='Pour obtenir une copie du fichier, et pour signalez aux autres que vous travailler dessus, jusqu\'au prochain téléchargement.';
-$_SESSION['l10n']['fr']['Zoom']='Zoom';
-$_SESSION['l10n']['fr']['assigned to you %s']='vous a été assigné %s';
 $_SESSION['l10n']['fr']['bytes']='octets';
-$_SESSION['l10n']['fr']['detached by %s %s']='détaché par %s %s';
+$_SESSION['l10n']['fr']['delete']='supprimer';
+$_SESSION['l10n']['fr']['details']='détails';
 $_SESSION['l10n']['fr']['downloads']='téléchargements';
 $_SESSION['l10n']['fr']['edited by %s %s']='modifié par %s %s';
 $_SESSION['l10n']['fr']['http://desktop.google.com/']='http://desktop.google.com/';
@@ -294,11 +291,14 @@ $_SESSION['l10n']['fr']['http://www.wireshark.org/']='http://www.wireshark.org/'
 $_SESSION['l10n']['fr']['iTunes']='iTunes';
 $_SESSION['l10n']['fr']['in %s']='dans %s';
 $_SESSION['l10n']['fr']['or']='ou';
-$_SESSION['l10n']['fr']['pending refresh']='en cours de mise à jour';
 $_SESSION['l10n']['fr']['posted by %s %s']='posté par %s %s';
+$_SESSION['l10n']['fr']['release reservation']='annuler la réservation';
+$_SESSION['l10n']['fr']['reserve']='réserver';
+$_SESSION['l10n']['fr']['reserved by %s %s']='réservé par %s %s';
+$_SESSION['l10n']['fr']['reserved by you %s']='réservé par vous %s';
 $_SESSION['l10n']['fr']['smileys']='emoticons';
-$_SESSION['l10n']['fr']['still available for download']='disponible en téléchargement';
 $_SESSION['l10n']['fr']['ultimatezip']='ultimatezip';
+$_SESSION['l10n']['fr']['update']='modifier';
 $_SESSION['l10n']['fr']['upload an updated version']='télécharger une version mise à jour';
 $_SESSION['l10n']['fr']['www.acdsee.com']='www.acdsee.com';
 $_SESSION['l10n']['fr']['www.adobe.com']='www.adobe.com';

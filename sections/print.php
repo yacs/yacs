@@ -203,10 +203,7 @@ if(Surfer::is_crawler()) {
 	// select a layout
 	if(!isset($item['articles_layout']))
 		$layout = NULL;
-	elseif($item['articles_layout'] == 'boxesandarrows') {
-		include_once '../articles/layout_articles_as_boxesandarrows.php';
-		$layout = new Layout_articles_as_boxesandarrows();
-	} elseif($item['articles_layout'] == 'daily') {
+	elseif($item['articles_layout'] == 'daily') {
 		include_once '../articles/layout_articles_as_daily.php';
 		$layout = new Layout_articles_as_daily();
 	} elseif($item['articles_layout'] == 'jive') {
@@ -287,11 +284,7 @@ if(Surfer::is_crawler()) {
 	//
 
 	// layout as defined in options
-	if($item['articles_layout'] == 'boxesandarrows') {
-		include_once '../comments/layout_comments_as_boxesandarrows.php';
-		$layout = new Layout_comments_as_boxesandarrows();
-
-	} elseif($item['articles_layout'] == 'daily') {
+	if($item['articles_layout'] == 'daily') {
 		include_once '../comments/layout_comments_as_daily.php';
 		$layout = new Layout_comments_as_daily();
 
@@ -308,10 +301,6 @@ if(Surfer::is_crawler()) {
 		$layout = new Layout_comments_as_yabb();
 
 	// layout as defined by general parameter
-	} elseif($context['root_articles_layout'] == 'boxesandarrows') {
-		include_once '../comments/layout_comments_as_boxesandarrows.php';
-		$layout = new Layout_comments_as_boxesandarrows();
-
 	} elseif($context['root_articles_layout'] == 'daily') {
 		include_once '../comments/layout_comments_as_daily.php';
 		$layout = new Layout_comments_as_daily();

@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:48 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:19 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-24 23:45+0200
-PO-Revision-Date: 2009-09-02 01:04+0100
+POT-Creation-Date: 2009-10-04 23:58+0200
+PO-Revision-Date: 2009-10-05 00:04+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -46,7 +46,6 @@ $_SESSION['l10n']['fr']['Edited by']='Modifié par';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['Look for orphan records']='Recherche des enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
-$_SESSION['l10n']['fr']['Navigation']='Navigation';
 $_SESSION['l10n']['fr']['New action for %s']='Nouvelle action pour %s';
 $_SESSION['l10n']['fr']['New action: %s']='Nouvelle action : %s';
 $_SESSION['l10n']['fr']['No anchor has been found.']='Aucun ancrage n\'a été trouvé.';
@@ -55,6 +54,7 @@ $_SESSION['l10n']['fr']['No title has been provided.']='Aucun titre n\'a été f
 $_SESSION['l10n']['fr']['On-going']='En cours';
 $_SESSION['l10n']['fr']['On-going actions']='Actions en cours';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
+$_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
 $_SESSION['l10n']['fr']['5e62db8093e10b969f25c03ef2b2872f']='Merci de choisir l\'opération à effectuer.';
 $_SESSION['l10n']['fr']['Posted by']='Envoyé par';
 $_SESSION['l10n']['fr']['Press [s] to submit data']='Appuyer sur [s] pour envoyer les informations';

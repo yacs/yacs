@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:48 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:19 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-27 21:52+0200
-PO-Revision-Date: 2009-09-02 01:19+0100
+POT-Creation-Date: 2009-11-09 19:19+0100
+PO-Revision-Date: 2009-10-05 00:05+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -73,6 +73,7 @@ $_SESSION['l10n']['fr']['0fb9e6055d4a788a90ac09118a7e4653']='Normaliser les réf
 $_SESSION['l10n']['fr']['54e29b42a59e1e8727ac836e3f2bd4e6']='Ouvrir une fenêtre séparée pour les liens exterieurs';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
 $_SESSION['l10n']['fr']['Page address (permalink):']='Adresse de l\'article (permalink) :';
+$_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
 $_SESSION['l10n']['fr']['61ab86a39172b19e7cd47a8dec28c0e1']='Choisissez l\'emplacement adéquat pour partager votre lien';
 $_SESSION['l10n']['fr']['5fe5e48f55363ee013cf40d603c317dd']='Merci de bloguer cette page, ou de la référencer (trackback).';
 $_SESSION['l10n']['fr']['55b1b6540e545b13d42d5091aef77d83']='Merci de prouver que vous n\'êtes pas un robot.';

@@ -21,7 +21,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 	function &layout(&$result) {
 		global $context;
 
-		// allow for multiple calls		
+		// allow for multiple calls
 		static $accordion_id;
 		if(!isset($accordion_id))
 			$accordion_id = 1;
@@ -55,7 +55,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 
 			// one box per page
 			$box = array('title' => '', 'text' => '');
-			
+
 			// box content
 			$elements = array();
 
@@ -131,7 +131,11 @@ Class Layout_articles_as_accordion extends Layout_interface {
 
 			// a link to the page
 			$elements[] = Skin::build_link(Articles::get_permalink($item), i18n::s('More').MORE_IMG, 'basic', i18n::s('View the page'));
-				
+
+			// display all tags
+			if($item['tags'])
+				$elements[] = '<span class="details">'.Skin::build_tags($item['tags'], 'article:'.$item['id']).'</span>';
+
 			// complement title
 			if(count($details))
 				$box['title'] .= ' <span class="details">('.join(', ', $details).')</span>';
@@ -163,13 +167,13 @@ Class Layout_articles_as_accordion extends Layout_interface {
 				$class= '';
 				if(isset($context['classes_for_thumbnail_images']))
 					$class = 'class="'.$context['classes_for_thumbnail_images'].'" ';
-					
+
 				// build the complete HTML element
 				$icon = '<img src="'.$item['thumbnail_url'].'" alt="" title="'.encode_field(Codes::beautify_title($item['title'])).'" '.$class.'/>';
-				
+
 				// make it clickable
 				$link = Skin::build_link(Articles::get_permalink($item), $icon, 'basic');
-				
+
 				// put this aside
 				$box['text'] = '<table class="decorated"><tr>'
 					.'<td class="image">'.$link.'</td>'
@@ -177,7 +181,7 @@ Class Layout_articles_as_accordion extends Layout_interface {
 					.'</tr></table>';
 
 			}
-							
+
 			// always make a box
 			$text .= Skin::build_accordion_box($box['title'], $box['text'], 'article_'.$accordion_id);
 

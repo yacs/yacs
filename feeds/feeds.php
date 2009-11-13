@@ -149,9 +149,11 @@ class Feeds {
 		foreach($feed->get_items() as $item) {
 
 			$category = '';
-			foreach($item->get_categories() as $one)
-				$category .= $one->get_label().', ';
-			$category = rtrim($category, ', ');
+			if(($categories = $item->get_categories()) && is_array($categories))
+				foreach($categories as $one)
+					$category .= $one->get_label().', ';
+			if($category)
+				$category = rtrim($category, ', ');
 
 			$items[] = array(
 				'author' => $item->get_author(),

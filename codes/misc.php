@@ -60,32 +60,32 @@ $context['text'] .= '<p>'.i18n::s('On this page we are introducing some formatti
 $context['text'] .= "\n".'[toc]'."\n";
 
 // multiple lines
-$chart_data = '{ "elements": [ 
-	
-	{ "type": "line", "values": [ 2, 2, 2, 6, 3, 4, 1, 3, 5 ], "dot-style": { "type": "dot", "dot-size": 5, "colour": "#DFC329" }, "width": 4, "colour": "#DFC329", "text": "Line 1", "font-size": 10 }, 
-	
-	{ "type": "line", "values": [ 7, 8, 8, 7, 11, 12, 13, 7, 12 ], "dot-style": { "type": "star", "dot-size": 5 }, "width": 1, "colour": "#6363AC", "text": "Line 2", "font-size": 10 }, 
-	
-	{ "type": "line", "values": [ 16, 17, 14, 17, 18, 18, 18, 16, 16 ], "width": 1, "colour": "#5E4725", "text": "Line 3", "font-size": 10 } ], 
-	
-	"title": { "text": "Three lines example" }, 
+$chart_data = '{ "elements": [
+
+	{ "type": "line", "values": [ 2, 2, 2, 6, 3, 4, 1, 3, 5 ], "dot-style": { "type": "dot", "dot-size": 5, "colour": "#DFC329" }, "width": 4, "colour": "#DFC329", "text": "Line 1", "font-size": 10 },
+
+	{ "type": "line", "values": [ 7, 8, 8, 7, 11, 12, 13, 7, 12 ], "dot-style": { "type": "star", "dot-size": 5 }, "width": 1, "colour": "#6363AC", "text": "Line 2", "font-size": 10 },
+
+	{ "type": "line", "values": [ 16, 17, 14, 17, 18, 18, 18, 16, 16 ], "width": 1, "colour": "#5E4725", "text": "Line 3", "font-size": 10 } ],
+
+	"title": { "text": "Three lines example" },
 	"y_axis": { "min": 0, "max": 20, "steps": 5 } }';
 
 // [chart]...[/chart]
 $context['text'] .= '[title]'.i18n::s('Static chart').' [escape][chart]...[/chart][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][chart=320, 256]'."\n".$chart_data."\n".'[/chart][/escape]</td>'
 	.'<td>[chart=320, 256]'."\n".$chart_data."\n".'[/chart]</td></tr>'
 	.Skin::table_suffix();
 
 // a sketched chart
-$chart_data = '{ "elements": [ { "type": "bar_sketch", "colour": "#81AC00", "outline-colour": "#567300", "offset": 5, "values": [ 6, 7, { "top": 3, "tip": "Hello #val#" }, 3, 4, { "top": 3, "tip": "Hello #val#" }, { "top": 3, "tip": "Hello #val#" }, 7, { "top": 3, "tip": "Hello #val#" }, { "top": 3, "tip": "Hello #val#" }, 10, 11 ] } ], 
+$chart_data = '{ "elements": [ { "type": "bar_sketch", "colour": "#81AC00", "outline-colour": "#567300", "offset": 5, "values": [ 6, 7, { "top": 3, "tip": "Hello #val#" }, 3, 4, { "top": 3, "tip": "Hello #val#" }, { "top": 3, "tip": "Hello #val#" }, 7, { "top": 3, "tip": "Hello #val#" }, { "top": 3, "tip": "Hello #val#" }, 10, 11 ] } ],
 "title": { "text": "Wed Aug 26 2009", "style": "{color: #567300; font-size: 14px}" } }';
-	
+
 // [chart]...[/chart]
 $context['text'] .= '[title]'.i18n::s('Static chart').' [escape][chart]...[/chart][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][chart=320, 256]'."\n".$chart_data."\n".'[/chart][/escape]</td>'
 	.'<td>[chart=320, 256]'."\n".$chart_data."\n".'[/chart]</td></tr>'
@@ -96,28 +96,28 @@ $chart_data = '{"elements":[{"type":"bar_glass","values":[9,8,7,6,5,4,3,2,1]}],"
 
 // [chart]...[/chart]
 $context['text'] .= '[title]'.i18n::s('Static chart').' [escape][chart]...[/chart][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][chart=320, 256]'."\n".$chart_data."\n".'[/chart][/escape]</td>'
 	.'<td>[chart=320, 256]'."\n".$chart_data."\n".'[/chart]</td></tr>'
 	.Skin::table_suffix();
 
 // a radar chart
-$chart_data = '{ "elements": [ 
+$chart_data = '{ "elements": [
 
-{ "type": "line", "values": [ 3, 4, 5, 4, 3, 3, 2.5 ], "dot-style": { "type": "hollow-dot", "colour": "#FBB829", "dot-size": 4 }, "width": 1, "colour": "#FBB829", "tip": "Gold #val#", "text": "Mr Gold", "font-size": 10 }, 
+{ "type": "line", "values": [ 3, 4, 5, 4, 3, 3, 2.5 ], "dot-style": { "type": "hollow-dot", "colour": "#FBB829", "dot-size": 4 }, "width": 1, "colour": "#FBB829", "tip": "Gold #val#", "text": "Mr Gold", "font-size": 10 },
 
-{ "type": "line", "values": [ 2, 2, 2, 2, 2, 2, 2 ], "dot-style": { "type": "star", "colour": "#8000FF", "dot-size": 4 }, "width": 1, "colour": "#8000FF", "tip": "Purple #val#", "text": "Mr Purple", "font-size": 10, "loop": true } ], 
+{ "type": "line", "values": [ 2, 2, 2, 2, 2, 2, 2 ], "dot-style": { "type": "star", "colour": "#8000FF", "dot-size": 4 }, "width": 1, "colour": "#8000FF", "tip": "Purple #val#", "text": "Mr Purple", "font-size": 10, "loop": true } ],
 
-"title": { "text": "Radar Chart" }, 
+"title": { "text": "Radar Chart" },
 
-"radar_axis": { "max": 5, "colour": "#DAD5E0", "grid-colour": "#DAD5E0", "labels": { "labels": [ "Zero", "", "", "Middle", "", "High" ], "colour": "#9F819F" }, "spoke-labels": { "labels": [ "Strength", "Smarts", "Sweet Tooth", "Armour", "Max Hit Points", "foo", "bar" ], "colour": "#9F819F" } }, "tooltip": { "mouse": 1 }, 
+"radar_axis": { "max": 5, "colour": "#DAD5E0", "grid-colour": "#DAD5E0", "labels": { "labels": [ "Zero", "", "", "Middle", "", "High" ], "colour": "#9F819F" }, "spoke-labels": { "labels": [ "Strength", "Smarts", "Sweet Tooth", "Armour", "Max Hit Points", "foo", "bar" ], "colour": "#9F819F" } }, "tooltip": { "mouse": 1 },
 
 "bg_colour": "#ffffff" }';
 
 // [chart]...[/chart]
 $context['text'] .= '[title]'.i18n::s('Static chart').' [escape][chart]...[/chart][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][chart=320, 256]'."\n".$chart_data."\n".'[/chart][/escape]</td>'
 	.'<td>[chart=320, 256]'."\n".$chart_data."\n".'[/chart]</td></tr>'
@@ -125,7 +125,7 @@ $context['text'] .= '[title]'.i18n::s('Static chart').' [escape][chart]...[/char
 
 // implicit formating
 $context['text'] .= '[title]'.i18n::s('Implicit formatting').'[/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('hello')."\n"
 	.i18n::s('world')."\n"
@@ -169,7 +169,7 @@ $context['text'] .= '[title]'.i18n::s('Implicit formatting').'[/title]'
 
 // [hint=help]...[/hint]
 $context['text'] .= '[title]'.i18n::s('Hint').' [escape][hint=&lt;help popup&gt;]...[/hint][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('YACS is based on international standards, including [hint=eXtended Markup Language]XML[/hint].').'[/escape]</td>'
 	.'<td>'.i18n::s('YACS is based on international standards, including [hint=eXtended Markup Language]XML[/hint].').'</td></tr>'
@@ -177,7 +177,7 @@ $context['text'] .= '[title]'.i18n::s('Hint').' [escape][hint=&lt;help popup&gt;
 
 // [nl]
 $context['text'] .= '[title]'.i18n::s('Newline').' [escape]...[nl]...[/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'[/escape]</td>'
 	.'<td>'.i18n::s('But where will this rabbit be in some minutes?[nl]I don\'t know, but it depends also on the turtle speed...').'</td></tr>'
@@ -185,7 +185,7 @@ $context['text'] .= '[title]'.i18n::s('Newline').' [escape]...[nl]...[/escape][/
 
 // [---]
 $context['text'] .= '[title]'.i18n::s('Ruler').' [escape]...[---] or [___]...[/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('But where will this rabbit be in some minutes?[---]I don\'t know, but it depends also on the turtle speed...').'[/escape]</td>'
 	.'<td>'.i18n::s('But where will this rabbit be in some minutes?[---]I don\'t know, but it depends also on the turtle speed...').'</td></tr>'
@@ -193,7 +193,7 @@ $context['text'] .= '[title]'.i18n::s('Ruler').' [escape]...[---] or [___]...[/e
 
 // [new]
 $context['text'] .= '[title]'.i18n::s('New').' [escape]...[new]...[/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Our newsletter has been published!').' [new][/escape]</td>'
 	.'<td>'.i18n::s('Our newsletter has been published!').' [new]</td></tr>'
@@ -201,7 +201,7 @@ $context['text'] .= '[title]'.i18n::s('New').' [escape]...[new]...[/escape][/tit
 
 // [popular]
 $context['text'] .= '[title]'.i18n::s('Popular').' [escape]...[popular]...[/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape]'.i18n::s('Numerous surfers like this section of our site').' [popular][/escape]</td>'
 	.'<td>'.i18n::s('Numerous surfers like this section of our site').' [popular]</td></tr>'
@@ -209,7 +209,7 @@ $context['text'] .= '[title]'.i18n::s('Popular').' [escape]...[popular]...[/esca
 
 // flags
 $context['text'] .= '[title]'.i18n::s('Flags').' [escape][be] [ca] [ch] [de] [en] [es] [fr] [gb] [gr] [it] [pt] [us][/escape][/title]'
-	.Skin::table_prefix('wide grid')
+	.Skin::table_prefix('wide')
 	.Skin::table_row(array(i18n::s('Example'), i18n::s('Rendering')), 'header')
 	.'<tr><td class="sample">[escape][be] [ca] [ch] [de] [en] [es] [fr] [gb] [gr] [it] [pt] [us][/escape]</td>'
 	.'<td>[be] [ca] [ch] [de] [en] [es] [fr] [gb] [gr] [it] [pt] [us]</td></tr>'
@@ -220,7 +220,7 @@ $context['text'] = Codes::beautify($context['text']);
 
 // general help on this page
 $help = '<p>'.sprintf(i18n::s('Please note that actual rendering depends on the selected %s.'), Skin::build_link('skins/', i18n::s('skin'), 'shortcut')).'</p>';
-$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 // render the skin
 render_skin();

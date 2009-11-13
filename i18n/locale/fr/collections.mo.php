@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 27, 2009, 8:31 pm GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:13 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 01:57+0200
+POT-Creation-Date: 2009-10-04 23:58+0200
 PO-Revision-Date: 2009-08-30 23:41+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -48,7 +48,6 @@ $_SESSION['l10n']['fr']['Duration: %s']='Durée : %s';
 $_SESSION['l10n']['fr']['6a2c769d729b50a589114cb6f3a6ca3b']='ERREUR : Impossible d\'écrire dans le fichier %s. La configuration n\'a pas été sauvegardée.';
 $_SESSION['l10n']['fr']['Error while processing %s.']='Erreur pendant le traitement de %s.';
 $_SESSION['l10n']['fr']['Fetch this file']='Transférer ce fichier';
-$_SESSION['l10n']['fr']['File']='Fichier';
 $_SESSION['l10n']['fr']['File collections']='Collections de fichiers';
 $_SESSION['l10n']['fr']['Help']='Aide';
 $_SESSION['l10n']['fr']['89eeb188c9e91da714bf79594424190a']='Si vous recherchez un excellent logiciel pour gérer les flots de musique et de vidéos (en streaming), téléchargez le %s ou %s.';
@@ -79,7 +78,6 @@ $_SESSION['l10n']['fr']['Previous']='Précédent';
 $_SESSION['l10n']['fr']['711abf22490c13c012c6eff77b7b2b9e']='Privé - Accès limité à quelques personnes';
 $_SESSION['l10n']['fr']['52f50411390c8c743f9567d7c3f4fc6a']='Public - Accès autorisé aux surfeurs anonymes';
 $_SESSION['l10n']['fr']['Restricted access']='Accès restreint';
-$_SESSION['l10n']['fr']['Select the file to upload']='Choisissez le fichier à transmettre';
 $_SESSION['l10n']['fr']['Select the slide to show']='Choisir l\'image à afficher';
 $_SESSION['l10n']['fr']['Size']='Taille';
 $_SESSION['l10n']['fr']['Start']='Démarrer';

@@ -318,7 +318,7 @@ if($with_form) {
 	// locate mandatory fields
 	$text .= '<p>'.i18n::s('Mandatory fields are marked with a *').'</p>';
 
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $text, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $text, 'extra', 'help');
 
 }
 

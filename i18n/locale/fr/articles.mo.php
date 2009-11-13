@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 28, 2009, 7:48 am GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:14 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-27 22:22+0200
-PO-Revision-Date: 2009-09-27 22:24+0100
+POT-Creation-Date: 2009-11-09 19:19+0100
+PO-Revision-Date: 2009-11-09 19:25+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -31,13 +31,17 @@ $_SESSION['l10n']['fr']['%d records have been processed']='%d enregistrements on
 $_SESSION['l10n']['fr']['4228e9a02a84a307b6992b4c781bd7b8']='Utilisez %s et %s pour embellir le texte.';
 $_SESSION['l10n']['fr']['%s by %s']='%s par %s';
 $_SESSION['l10n']['fr']['%s by %s %s']='%s par %s %s';
+$_SESSION['l10n']['fr']['%s has posted a comment']='%s a posté un commentaire';
+$_SESSION['l10n']['fr']['%s in %s']='%s dans %s';
 $_SESSION['l10n']['fr']['%s vote'.chr(0).'%s votes']='%s vote'.chr(0).'%s votes';
 $_SESSION['l10n']['fr']['%s: %s']='%s : %s';
+$_SESSION['l10n']['fr']['(anonymous)']='(anonyme)';
 $_SESSION['l10n']['fr']['10000']='10000';
 $_SESSION['l10n']['fr']['0ca45ffa169a38619afd4a1a16c62332']='<p>N\'oubliez pas de publier la nouvelle page un jour ou l\'autre. Editez la page, améliorer la, puis cliquez sur la commande Publier pour la rendre disponible à tous.</p>';
 $_SESSION['l10n']['fr']['18d7b1ad712e8d2c1d84e48d9ed1b103']='<p>La nouvelle page a été publiée avec succès. Merci de vous relire afin d\'éviter toute erreur involontaire.</p>';
 $_SESSION['l10n']['fr']['75f7fa82ced121791f3dc2124599df75']='<p>La nouvelle page va être controlée avant sa publication. Normalement ce processus prend moins de 24 heures, en fonction de la disponibilité des uns et des autres.</p>';
 $_SESSION['l10n']['fr']['c8e8765c2b28f43d6edb308e5dab306e']='Une liste de mots-clés, séparés par des virgules';
+$_SESSION['l10n']['fr']['A file has been uploaded by %s']='Un fichier a été envoyé par %s';
 $_SESSION['l10n']['fr']['A message has been sent to:']='Un message a été envoyé à :';
 $_SESSION['l10n']['fr']['Abstract']='Résumé';
 $_SESSION['l10n']['fr']['Access']='Accès';
@@ -101,6 +105,7 @@ $_SESSION['l10n']['fr']['cac81c405d80a8fe1815f9f9c9d453f2']='Souhaitez-vous rech
 $_SESSION['l10n']['fr']['Done']='Terminé';
 $_SESSION['l10n']['fr']['Draft']='Brouillon';
 $_SESSION['l10n']['fr']['Duplicate']='Dupliquer';
+$_SESSION['l10n']['fr']['Duplicate this page']='Dupliquer cette page';
 $_SESSION['l10n']['fr']['fb0d9333cb60f25b5b1a13b04db64697']='Ce système n\'est pas configuré pour l\'envoi de messages électroniques.';
 $_SESSION['l10n']['fr']['Edit']='Modifier';
 $_SESSION['l10n']['fr']['Edit the page']='Modifier la page';
@@ -175,13 +180,13 @@ $_SESSION['l10n']['fr']['be2b5e247910fa0abc3137df3a3b2c67']='Mentionnez vos sour
 $_SESSION['l10n']['fr']['Message content']='Contenu du message';
 $_SESSION['l10n']['fr']['45b0a300ae44fcf8ec94980438933ae9']='Le corps du message ne peut pas être vide';
 $_SESSION['l10n']['fr']['27e4e516d735c2be8c7f81d26d82ced5']='Le corps du message ne peut pas être vide.';
+$_SESSION['l10n']['fr']['Message recipients']='Destinataires du message';
 $_SESSION['l10n']['fr']['Message title']='Titre du message';
 $_SESSION['l10n']['fr']['Meta information']='Meta-information';
 $_SESSION['l10n']['fr']['Modification: %s']='Mise à jour : %s';
 $_SESSION['l10n']['fr']['Monitor']='Surveiller';
-$_SESSION['l10n']['fr']['More']='La suite';
+$_SESSION['l10n']['fr']['More']='Suite';
 $_SESSION['l10n']['fr']['More content']='Contenu additionnel';
-$_SESSION['l10n']['fr']['More in %s']='En savoir plus dans %s';
 $_SESSION['l10n']['fr']['More options']='Plus d\'options';
 $_SESSION['l10n']['fr']['More pages']='Autres pages';
 $_SESSION['l10n']['fr']['Most recent comments']='Les commentaires les plus récents';
@@ -222,6 +227,7 @@ $_SESSION['l10n']['fr']['5700db55198757763a877ab05d5c6542']='Analyser les liens 
 $_SESSION['l10n']['fr']['Participants']='Participants';
 $_SESSION['l10n']['fr']['Permalink']='Permalink';
 $_SESSION['l10n']['fr']['Persons']='Personnes';
+$_SESSION['l10n']['fr']['59a20faf70a31e83dd8346a12d3fd93a']='Personnes averties de votre envoi';
 $_SESSION['l10n']['fr']['Ping']='Ping';
 $_SESSION['l10n']['fr']['7ddc27bb7cf70408e6ca481071e4270f']='Choisissez le modèle de page à utiliser.';
 $_SESSION['l10n']['fr']['247995c3285df0a70d924ad9d3385e88']='Choisissez où placer la nouvelle page';
@@ -326,7 +332,6 @@ $_SESSION['l10n']['fr']['Thank you for your contribution']='Merci de votre contr
 $_SESSION['l10n']['fr']['5135051eb31da8ef238ed65c0b0816df']='L\'action n\'a pas été confirmée.';
 $_SESSION['l10n']['fr']['6864563bf771627fd6dfffd29bb33013']='La date d\'expiration à été supprimée.';
 $_SESSION['l10n']['fr']['8ee01a298eb1c8116adde65c61a6aeae']='La date d\'échéance à été supprimée.';
-$_SESSION['l10n']['fr']['f2f4aef2eaa98590cb41a70e9fa68f30']='La page suivante a été mise à jour';
 $_SESSION['l10n']['fr']['26483fdaa783e62461e9f3a52ed12ba6']='La page originale est à l\'adresse %s';
 $_SESSION['l10n']['fr']['The page has been duplicated.']='La page a été dupliquée.';
 $_SESSION['l10n']['fr']['42e194519739cba320c281e8e1f8dde4']='La révision, datée d\'aujourd\'hui, a été enregistrée.';
@@ -336,7 +341,6 @@ $_SESSION['l10n']['fr']['e19d1d51fcb39f09b7a4f917bb493d97']='La date de publicat
 $_SESSION['l10n']['fr']['d8f916cadc17b7983d4a54bc98ef0972']='Le texte a été entièrement balisé et les transformations implicites sont inutiles. Traiter les codes YACS comme d\'habitude.';
 $_SESSION['l10n']['fr']['6f667d5aa6579c8239335c342b69c9c1']='Ceci est une copie du message que vous avez envoyé, pour mémoire.';
 $_SESSION['l10n']['fr']['38b77492862aef3e5f2894c4c1379167']='Cette page est un brouillon. Ne pas la publier, même si la publication automatique est activée.';
-$_SESSION['l10n']['fr']['49c915d733aa70a024b480150f68083f']='Ce message a été généré automatiquement par %s car le nouvel élément a été attaché à un espace web qui fait partie de votre liste de surveillance. Pour arrêter les alertes automatiques visiter la page et cliquer sur le lien Oublier.';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';
 $_SESSION['l10n']['fr']['5ba6a855747f2ced505ea08ed6ec0b2b']='Faire la publicité de cette publication :';
 $_SESSION['l10n']['fr']['Thumbnail']='Vignette';
@@ -381,7 +385,6 @@ $_SESSION['l10n']['fr']['04146ec8fe89237f264f39cfdcc6a395']='Oui, je veux dupliq
 $_SESSION['l10n']['fr']['f2dc676b7cd35c9c7c975703bad0824c']='Vous n\'êtes pas autorisé à faire cette opération en mode démonstration.';
 $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas autorisé à faire cette opération.';
 $_SESSION['l10n']['fr']['You are rating: %s']='Vous êtes en train de noter : %s';
-$_SESSION['l10n']['fr']['You are sending a message to:']='Vous allez envoyer un message à :';
 $_SESSION['l10n']['fr']['20cf45e0c01e6acc47459231610d3463']='Vous pouvez télécharger une photo, un dessin ou une image.';
 $_SESSION['l10n']['fr']['a3a2b3bf813a809123d852d392cfb697']='Vous avez déjà noté cette page.';
 $_SESSION['l10n']['fr']['d202c53d9ea1bb14a44814af246dbcf4']='Vous pouvez combiner plusieurs mots-clés :';
@@ -393,6 +396,7 @@ $_SESSION['l10n']['fr']['Your sections']='Vos sections';
 $_SESSION['l10n']['fr']['Zip 20 first files']='Zip des 20 premiers fichiers';
 $_SESSION['l10n']['fr']['Zip all files']='Zip de tous les fichiers';
 $_SESSION['l10n']['fr']['advertised']='contacté';
+$_SESSION['l10n']['fr']['and %d other persons']='et %d autres personnes';
 $_SESSION['l10n']['fr']['by %s']='par %s';
 $_SESSION['l10n']['fr']['by %s, %s']='par %s, %s';
 $_SESSION['l10n']['fr']['bytes']='octets';
@@ -415,6 +419,5 @@ $_SESSION['l10n']['fr']['smileys']='les emoticons';
 $_SESSION['l10n']['fr']['sticky']='classées';
 $_SESSION['l10n']['fr']['to manage content']='à modifier le contenu';
 $_SESSION['l10n']['fr']['to review content']='à consulter le contenu';
-$_SESSION['l10n']['fr']['with %s']='avec %s';
 $_SESSION['l10n']['fr']['_plural']='nplurals=2; plural=(n != 1);';
 ?>

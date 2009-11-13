@@ -233,7 +233,7 @@ elseif(!Surfer::is_associate()) {
 
 	// general help on this form
 	$help = '<p>'.i18n::s('Use this form to give remote access to selected folders.')."</p>\n";
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {

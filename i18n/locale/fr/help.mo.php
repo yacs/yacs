@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 27, 2009, 8:31 pm GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:13 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-02 00:59+0200
-PO-Revision-Date: 2009-08-30 23:50+0100
+POT-Creation-Date: 2009-11-09 19:19+0100
+PO-Revision-Date: 2009-10-04 09:32+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -24,8 +24,9 @@ $_SESSION['l10n']['fr']['1c215e423c027bdfb2bd09d45b93e517']='%s (et raccourcis, 
 $_SESSION['l10n']['fr']['%s (and table of content)']='%s (et table des matières)';
 $_SESSION['l10n']['fr']['%s (bold, underline, ...)']='%s (gras, souligné, ...)';
 $_SESSION['l10n']['fr']['%s (charts, ...)']='%s (graphiques, ...)';
-$_SESSION['l10n']['fr']['%s (cloud, locations, ...)']='%s (nuage, emplacements, ...)';
 $_SESSION['l10n']['fr']['e99375c8a9b3d40bd68943d255f985ba']='%s (indentation, script, citation, ...)';
+$_SESSION['l10n']['fr']['%s (twitter, calendar, ...)']='%s (twitter, calendrier, ...)';
+$_SESSION['l10n']['fr']['%s (updates, content, ...)']='%s (mises à jour, contenu, ...)';
 $_SESSION['l10n']['fr']['290a97caf421f8541edde8d138c74fd7']='%s (avec puces, numérotées, ...)';
 $_SESSION['l10n']['fr']['c2e69e9c320642be6d306f5dc59904fc']='%s (avec en-tête, avec grille, données CSV, ...)';
 $_SESSION['l10n']['fr']['%s LGPL and variations']='%s LGPL et autres';
@@ -249,6 +250,7 @@ $_SESSION['l10n']['fr']['Vote']='Vote';
 $_SESSION['l10n']['fr']['What do you want to do now?']='Que voulez-vous faire à présent ?';
 $_SESSION['l10n']['fr']['Where to look for information?']='Où rechercher de l\'information ?';
 $_SESSION['l10n']['fr']['94f97d397e935f910a2a78d8019fe99b']='Pendant votre navigation, n\'hésitez pas à commenter les pages visitées, à ajouter images et fichiers, ou à partager les adresses web intéressantes.';
+$_SESSION['l10n']['fr']['Widgets']='Widgets';
 $_SESSION['l10n']['fr']['Wiki Title']='Titre du wiki';
 $_SESSION['l10n']['fr']['Wiki anchor']='Point d\'ancrage';
 $_SESSION['l10n']['fr']['a811fc34530c214a895b4aad8f65d948']='Avec YACS, un livre électronique est une hiérarchie de rubriques et de pages.';

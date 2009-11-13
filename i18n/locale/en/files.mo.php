@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on October 5, 2009, 8:15 pm GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:19 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-10-05 17:26+0200
-PO-Revision-Date: 2009-10-05 00:02+0100
+POT-Creation-Date: 2009-11-09 19:19+0100
+PO-Revision-Date: 2009-11-09 19:27+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -264,7 +264,9 @@ $_SESSION['l10n']['en']['f2dc676b7cd35c9c7c975703bad0824c']='You are not allowed
 $_SESSION['l10n']['en']['3a7e4261f6cce22de8c07d2856dcc0f7']='You are not allowed to perform this operation.';
 $_SESSION['l10n']['en']['c646f6a271bae14b7e820e3256e0073f']='You are requesting the following file:';
 $_SESSION['l10n']['en']['e82715de19a7ef2251f0ddcbf9386aec']='You can list new public files through RSS by going %s';
+$_SESSION['l10n']['en']['0e012d22920808320525a823ee194846']='You have released this file, and other surfers can reserve it for revision.';
 $_SESSION['l10n']['en']['63f6b9c9890894412665d49ff5988f44']='You have reserved this file %s, and you are encouraged to %s as soon as possible, or to %s.';
+$_SESSION['l10n']['en']['7a59dfa544047ca2efb088fba01f38e5']='You have reserved this file, and you are encouraged to %s as soon as possible, or to %s.';
 $_SESSION['l10n']['en']['c6bf5a71ad259e86797b8b20da9a7826']='You may prefer to use the following link: %s';
 $_SESSION['l10n']['en']['bytes']='bytes';
 $_SESSION['l10n']['en']['delete']='delete';

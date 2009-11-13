@@ -240,16 +240,8 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 						."\n\n".$context['url_to_home'].$context['url_to_root'].Users::get_permalink($item)
 						."\n\n";
 
-					// also prepare an interactive alert
-					$notification = array();
-					$notification['nick_name'] = Surfer::get_name();
-					$notification['recipient'] = $item['id'];
-					$notification['type'] = 'hello';
-					$notification['address'] = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($article);
-					$notification['reference'] = 'article:'.$article['id'];
-
 					// alert the target user
-					if(!Users::alert($item, $mail, $notification))
+					if(!Users::alert($item, $mail))
 						Logger::error(sprintf(i18n::s('Impossible to send a message to %s.'), $item['nick_name']));
 
 				// we only have a recipient address
@@ -278,7 +270,7 @@ elseif(isset($context['users_without_private_pages']) && ($context['users_withou
 
 	// do not link to this user profile
 	include_once $context['path_to_root'].'articles/layout_articles_as_timeline.php';
-	$layout = new Layout_articles_as_thread();
+	$layout = new Layout_articles_as_timeline();
 	$layout->set_variant($item['id']);
 
 	// i am looking at my own record

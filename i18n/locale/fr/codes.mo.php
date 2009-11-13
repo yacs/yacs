@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 27, 2009, 8:31 pm GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:13 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: Yacs
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-08-26 16:54+0200
-PO-Revision-Date: 2009-08-31 00:48+0100
+POT-Creation-Date: 2009-10-04 23:58+0200
+PO-Revision-Date: 2009-10-04 09:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -77,7 +77,7 @@ $_SESSION['l10n']['fr']['Decorated']='Décoré';
 $_SESSION['l10n']['fr']['Deleted']='Supprimé';
 $_SESSION['l10n']['fr']['Direct location']='Emplacement direct';
 $_SESSION['l10n']['fr']['Download shortcut']='Raccourci de téléchargement';
-$_SESSION['l10n']['fr']['1741cd1a458b97d470749bf8822e6cb1']='Requêtes dynamiques (nuages, emplacements, ...)';
+$_SESSION['l10n']['fr']['ea59feda132178673e121b00b4480aba']='Requêtes dynamiques (mises à jour, contenu, ...)';
 $_SESSION['l10n']['fr']['Edited %s']='Mis à jour %s';
 $_SESSION['l10n']['fr']['Events']='Evénements';
 $_SESSION['l10n']['fr']['Example']='Exemple';
@@ -143,11 +143,13 @@ $_SESSION['l10n']['fr']['Net income increase,10%']='Augmentation de revenus, 10%
 $_SESSION['l10n']['fr']['Net income increase;10%']='Augmentation de revenus;10%';
 $_SESSION['l10n']['fr']['New']='Nouveau';
 $_SESSION['l10n']['fr']['Newline']='Saut de ligne ("newligne" en anglais)';
+$_SESSION['l10n']['fr']['Newsfeed']='Fil de nouvelles';
 $_SESSION['l10n']['fr']['Next page']='Page suivante';
 $_SESSION['l10n']['fr']['Note']='Note';
 $_SESSION['l10n']['fr']['Numbered list']='Liste numérotée';
 $_SESSION['l10n']['fr']['b10864753937b4ee40593b74e977d1b5']='Cette section est prisée par de nombreux internautes';
 $_SESSION['l10n']['fr']['d057d02c739cd864371dc5a86e169cc2']='Cette page présente certains codes de contrôles ainsi que des exemples d\'utilisation.';
+$_SESSION['l10n']['fr']['799467c8a096ae3d1028f1e68c5aad6a']='Cette page présente certains codes de contrôles ainsi que des exemples d\'utilisation.';
 $_SESSION['l10n']['fr']['c298a582fd5eca9557337a5992cab220']='Cette page présente certains codes de contrôles ainsi que des exemples d\'utilisation.';
 $_SESSION['l10n']['fr']['ec554755e32e4c379c6a88b459ec1eea']='Cette page montre comment ajouter des titres, des questions, ainsi que les tables récapitulatives correspondantes.';
 $_SESSION['l10n']['fr']['6128839b22ea6d54926a7624d914171d']='Cette page montre comment construire des tables simples, à raison d\'une ligne de texte par ligne de table. Utilisez le caractère |, ou une tabulation, ou un double espace, pour séparer les données de chaque colonne.';
@@ -227,6 +229,8 @@ $_SESSION['l10n']['fr']['Tiny']='Minuscule';
 $_SESSION['l10n']['fr']['Title']='Titre';
 $_SESSION['l10n']['fr']['6184e898709cdf3f494ee0b9b4f4622f']='Titres et question (et table des matières)';
 $_SESSION['l10n']['fr']['Turtle']='Tortue';
+$_SESSION['l10n']['fr']['Twitter profile']='Profil Twitter';
+$_SESSION['l10n']['fr']['Twitter search']='Recherche Twitter';
 $_SESSION['l10n']['fr']['e7c98872d2958038379bf65515bdf960']='Tapez ##cwd ../ici/là## pour visiter un répertoire intéressant.';
 $_SESSION['l10n']['fr']['adb1193aeda8c1867709de58a4674b6d']='Tapez [code]cwd ../ici/là[/code] pour visiter un répertoire intéressant.';
 $_SESSION['l10n']['fr']['Underlined']='Souligné';
@@ -240,6 +244,8 @@ $_SESSION['l10n']['fr']['d3414a796527ec4826b0028041b25a0a']='Utilisez la forme s
 $_SESSION['l10n']['fr']['User shortcut']='Utilisateur';
 $_SESSION['l10n']['fr']['44ef644d7e15c956a0063a57642e776f']='Utilisation d\'un séparateur spécifique entre les cellules.';
 $_SESSION['l10n']['fr']['eacdc0fd60082cdddb6c01361e56abcf']='Présentation des nombreuses possibilités de liaison de vos pages vers d\'autres.';
+$_SESSION['l10n']['fr']['Widgets']='Widgets';
+$_SESSION['l10n']['fr']['950560e6b1f75a11c75397a634c920d1']='Widgets (twitter, calendrier, ...)';
 $_SESSION['l10n']['fr']['Wiki bold']='Mise en gras wiki';
 $_SESSION['l10n']['fr']['Wiki deletion']='Suppression wiki';
 $_SESSION['l10n']['fr']['Wiki insertion']='Insertion wiki';

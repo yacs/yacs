@@ -97,20 +97,9 @@ if(($page > 1) && (($page - 1) * $items_per_page > $stats['count'])) {
 	$cache_id = 'articles/index.php#text#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
 
-		// load the layout to use
-		switch($context['root_articles_layout']) {
-			case 'boxesandarrows':
-				include_once 'layout_articles_as_boxesandarrows.php';
-				$layout = new Layout_articles_as_boxesandarrows();
-				break;
-			default:
-				$layout = 'decorated';
-				break;
-		}
-
 		// query the database and layout that stuff
 		$offset = ($page - 1) * $items_per_page;
-		if($text =& Articles::list_by('publication', $offset, $items_per_page, $layout)) {
+		if($text =& Articles::list_by('publication', $offset, $items_per_page)) {
 
 			// we have an array to format
 			if(is_array($text))
@@ -166,7 +155,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// box content
 			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
-				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'navigation')."\n";
+				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'extra')."\n";
 		}
 	}
 

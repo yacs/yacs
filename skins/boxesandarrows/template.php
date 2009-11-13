@@ -47,11 +47,11 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
 	// implement the 'you are here' feature
 	if($focus = Page::top_focus()) {
 		echo "\t".'<style type="text/css" media="screen">'."\n"
-			."\t\t".'#tabs li#'.$focus.' a {'."\n"
+			."\t\t".'div.tabs li#'.$focus.' a {'."\n"
 			."\t\t\t".'background-position: 0% -44px;'."\n"
 			."\t\t\t".'border-bottom: 1px solid #fff;'."\n"
 			."\t\t".'}'."\n"
-			."\t\t".'#tabs li#'.$focus.' a span {'."\n"
+			."\t\t".'div.tabs li#'.$focus.' a span {'."\n"
 			."\t\t\t".'color: #039;'."\n"
 			."\t\t\t".'background-position: 100% -44px;'."\n"
 			."\t\t".'}'."\n"
@@ -162,9 +162,6 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 
 	// insert the footer
 	echo $context['page_footer'];
-
-	// nice titles
-	echo "\t".'<script type="text/javascript" src="'.$context['url_to_root'].'skins/boxesandarrows/nicetitle.js"></script>'."\n";
 
 	// end of page
 	echo '</body>'."\n"

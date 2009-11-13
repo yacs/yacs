@@ -199,6 +199,36 @@ Class Members {
 	}
 
 	/**
+	 * unlink one anchor with another item
+	 *
+	 * @param string the anchor id (e.g., 'article:12')
+	 * @param string the member id (e.g., 'file:23')
+	 * @return string either a null string, or some text describing an error to be inserted into the html response
+	**/
+	function free($anchor, $member) {
+		global $context;
+
+		// anchor cannot be empty
+		if(!$anchor)
+			return i18n::s('An anchor is required for this operation.');
+
+		// member cannot be empty
+		if(!$member)
+			return i18n::s('A member is required for this operation.');
+
+		// delete all matching records in the database
+		$query = "DELETE FROM ".SQL::table_name('members')
+			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."')";
+		SQL::query($query);
+
+		// clear the cache
+		Cache::clear(array($anchor, $member));
+
+		// end of job
+		return NULL;
+	}
+
+	/**
 	 * list all anchors for one member
 	 *
 	 * @param mixed the member (e.g., 'article:42') or a list of members
@@ -602,7 +632,6 @@ Class Members {
 	 *
 	 * @see articles/view.php
 	 * @see articles/layout_articles.php
-	 * @see articles/layout_articles_as_boxesandarrows.php
 	 * @see articles/layout_articles_as_daily.php
 	 * @see articles/layout_articles_as_slashdot.php
 	 * @see categories/select.php
@@ -1101,10 +1130,10 @@ Class Members {
 
 		// security constraint
 		if($restricted && is_array($restricted))
-			$where .= " AND (users.id = ".join(" OR users.id = ", $restricted).")";
+			$where .= " AND (users.id IN (".join(", ", $restricted)."))";
 
 		// the list of users
-		$query = "SELECT users.* FROM ".SQL::table_name('members')." AS members"
+		$query = "SELECT users.id, users.nick_name, users.full_name, users.email, users.without_alerts FROM ".SQL::table_name('members')." AS members"
 			.", ".SQL::table_name('users')." AS users"
 			." WHERE ".$where
 			."	AND (members.member_type LIKE 'user')"
@@ -1377,36 +1406,6 @@ Class Members {
 				." WHERE (anchor LIKE '".SQL::escape($father)."') AND (member LIKE '".SQL::escape($member)."')";
 			SQL::query($query);
 		}
-
-		// end of job
-		return NULL;
-	}
-
-	/**
-	 * unlink one anchor with another item
-	 *
-	 * @param string the anchor id (e.g., 'article:12')
-	 * @param string the member id (e.g., 'file:23')
-	 * @return string either a null string, or some text describing an error to be inserted into the html response
-	**/
-	function free($anchor, $member) {
-		global $context;
-
-		// anchor cannot be empty
-		if(!$anchor)
-			return i18n::s('An anchor is required for this operation.');
-
-		// member cannot be empty
-		if(!$member)
-			return i18n::s('A member is required for this operation.');
-
-		// delete all matching records in the database
-		$query = "DELETE FROM ".SQL::table_name('members')
-			." WHERE (anchor LIKE '".SQL::escape($anchor)."') AND (member LIKE '".SQL::escape($member)."')";
-		SQL::query($query);
-
-		// clear the cache
-		Cache::clear(array($anchor, $member));
 
 		// end of job
 		return NULL;

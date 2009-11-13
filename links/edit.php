@@ -559,7 +559,7 @@ if($with_form) {
 		.'<p>'.i18n::s('Please set a meaningful title to be used instead of the link itself.').'</p>'
 		.'<p>'.i18n::s('Also, take the time to describe the link. This field is fully indexed for searches.').'</p>'
 		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 }
 

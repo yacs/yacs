@@ -47,8 +47,8 @@ $item = Collections::get($id);
 
 // icons used to depict files and folders
 $icons = array();
-$icons['folder_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder.png" width="13" height="16" alt="" />';
-$icons['folder_up_icon'] = '<img src="'.$context['url_to_root'].'skins/images/files_inline/folder_up.gif" width="15" height="16" alt="" />';
+$icons['folder_icon'] = '<img src="'.$context['url_to_root'].'skins/_reference/files_inline/folder.png" width="13" height="16" alt="" />';
+$icons['folder_up_icon'] = '<img src="'.$context['url_to_root'].'skins/_reference/files_inline/folder_up.gif" width="15" height="16" alt="" />';
 
 // the path to this page
 $context['path_bar'] = array( 'collections/' => i18n::s('File collections') );

@@ -342,7 +342,7 @@ if($search && ($page == 1)) {
 }
 
 // general help on this page
-$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), i18n::s('This search engine only display pages that have all words in it. <p>Also, only exact matches will be listed. Therefore "category" and "categories" won\'t give the same results. Note that "red" and "reds" may also give different results.</p>'), 'navigation', 'help');
+$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), i18n::s('This search engine only display pages that have all words in it. <p>Also, only exact matches will be listed. Therefore "category" and "categories" won\'t give the same results. Note that "red" and "reds" may also give different results.</p>'), 'extra', 'help');
 
 // how to stay tuned
 $lines = array();

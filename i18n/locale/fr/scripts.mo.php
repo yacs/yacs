@@ -3,12 +3,12 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on September 27, 2009, 8:30 pm GMT. Please do not modify it manually.
+ * on November 12, 2009, 11:13 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-09-17 01:02+0200
+POT-Creation-Date: 2009-11-13 00:13+0100
 PO-Revision-Date: 2009-09-09 10:09+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -53,7 +53,6 @@ $_SESSION['l10n']['fr']['0287b0cc0f0423aed47d8030374bb1ed']='Cliquer sur le bout
 $_SESSION['l10n']['fr']['b4e54fc784adf87f21663798386f1dd1']='Cliquer sur le bouton ci-dessous pour vérifier les scripts mis en oeuvre sur ce serveur.';
 $_SESSION['l10n']['fr']['6c98ceb46e5216e76aca18f2c790e061']='Cliquer pour extraire les fichiers. Vous pouvez avoir à attendre avant d\'obtenir une réponse à l\'écran.';
 $_SESSION['l10n']['fr']['Compare']='Comparer';
-$_SESSION['l10n']['fr']['Compress reference PHP scripts.']='Compresser les scripts PHP de référence.';
 $_SESSION['l10n']['fr']['Configuration parameters']='Paramètres de configuration';
 $_SESSION['l10n']['fr']['Configure']='Configurer';
 $_SESSION['l10n']['fr']['Configure again']='Configurer de nouveau';
@@ -77,7 +76,6 @@ $_SESSION['l10n']['fr']['c2894838835b4148cf032856000493b1']='Le temps de traitem
 $_SESSION['l10n']['fr']['Extensions']='Extensions';
 $_SESSION['l10n']['fr']['Fetch']='Obtenir';
 $_SESSION['l10n']['fr']['Fetch the script file']='Obtenir ce script';
-$_SESSION['l10n']['fr']['File']='Fichier';
 $_SESSION['l10n']['fr']['File %s is not part of Yacs.']='Le fichier %s ne fait pas partie de Yacs.';
 $_SESSION['l10n']['fr']['File has been corrupted!']='Le fichier a été corrompu !';
 $_SESSION['l10n']['fr']['5fb5d19214fea207c4dbe61257dc122a']='Les scripts suivants doivent être inclus séparément :';
@@ -146,7 +144,6 @@ $_SESSION['l10n']['fr']['442157aeb88329e05938a62be1e1a634']='Les scripts de votr
 $_SESSION['l10n']['fr']['0512760eebdcf81e2df56adff7063fb1']='Les scripts sur votre serveur sont à jour par rapport à l\'ensemble de référence.';
 $_SESSION['l10n']['fr']['See also']='Voir aussi';
 $_SESSION['l10n']['fr']['See also:']='Voir aussi :';
-$_SESSION['l10n']['fr']['Select the file to upload']='Choisissez le fichier à transmettre';
 $_SESSION['l10n']['fr']['Server software']='Logiciel serveur';
 $_SESSION['l10n']['fr']['Some updated files are missing.']='Certains fichiers mis à jour sont absents.';
 $_SESSION['l10n']['fr']['Stage updated scripts']='Commencer la mise à jour des scripts';
@@ -180,7 +177,6 @@ $_SESSION['l10n']['fr']['63230b1ac87d317b655a05224e031e1a']='Mise à jour de la 
 $_SESSION['l10n']['fr']['Update the software']='Mettre le logiciel à jour';
 $_SESSION['l10n']['fr']['Updated script']='Script mis à jour';
 $_SESSION['l10n']['fr']['Updating scripts...']='Mise à jour des scripts...';
-$_SESSION['l10n']['fr']['Used staged file %s']='Utilisation du fichier %s';
 $_SESSION['l10n']['fr']['Validate PHP syntax']='Valider la syntaxe PHP';
 $_SESSION['l10n']['fr']['Version string (optional)']='Numéro de version (optionnel)';
 $_SESSION['l10n']['fr']['View PHP documentation']='Documentation d\'un script';

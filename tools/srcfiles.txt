@@ -25,7 +25,7 @@ sections    sections/*.php
 servers     servers/*.php
 services    services/*.php
 shared      shared/*.php
-skins       skins/*.php       skins/boxesandarrows/*.php       skins/digital/*.php       skins/images/avatars/*.php       skins/joi/*.php       skins/skeleton/*.php
+skins       skins/*.php       skins/_reference/avatars/*.php       skins/boxesandarrows/*.php       skins/digital/*.php       skins/flexible/*.php       skins/joi/*.php       skins/skeleton/*.php
 smileys     smileys/*.php
 tools       tools/*.php
 tables      tables/*.php

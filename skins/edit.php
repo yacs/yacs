@@ -132,7 +132,7 @@ elseif(!Surfer::is_associate()) {
 				$context['text'] .= $item;
 		}
 	}
-	$context['text'] .= '</select> '.Skin::build_submit_button(' &raquo; ').'</p></form>';
+	$context['text'] .= '</select> '.Skin::build_submit_button(i18n::s('Go')).'</p></form>';
 
 	// list all cascaded style sheets and template.php for this skin
 	$context['text'] .= '<form method="get" action="'.$context['script_url'].'"><p>'
@@ -161,7 +161,7 @@ elseif(!Surfer::is_associate()) {
 				$context['text'] .= $item;
 		}
 	}
-	$context['text'] .= '</select> '.Skin::build_submit_button(' &raquo; ').'</p></form>';
+	$context['text'] .= '</select> '.Skin::build_submit_button(i18n::s('Go')).'</p></form>';
 
 	// allow for content modification
 	if($file) {

@@ -13,7 +13,6 @@
  * - The link to add a comment is labelled 'Add your own comment'.
  *
  * This applies to following layouts:
- * - boxesandarrows
  * - compact
  * - daily
  * - decorated
@@ -162,7 +161,7 @@ if(!is_object($anchor)) {
 		$reverted = FALSE;
 		if(is_object($anchor) && $anchor->has_option('comments_as_wall'))
 			$reverted = TRUE;
-		
+
 		// build a complete box
 		$box['bar'] = array();
 		$box['text'] = '';

@@ -712,7 +712,7 @@ if(!isset($item['id'])) {
 
 		// build a nice sidebar box
 		if(isset($neighbours) && ($content = Skin::neighbours($neighbours, 'sidebar')))
-			$context['components']['neighbours'] = Skin::build_box(i18n::s('Navigation'), $content, 'navigation', 'neighbours');
+			$context['components']['neighbours'] = Skin::build_box(i18n::s('Navigation'), $content, 'extra', 'neighbours');
 
 	}
 
@@ -733,7 +733,7 @@ if(!isset($item['id'])) {
 
 		// in a navigation box
 		$box_popup = '';
-		$context['components']['contextual'] = Skin::build_box($box_title, $menu, 'navigation', 'contextual_menu', $box_url, $box_popup);
+		$context['components']['contextual'] = Skin::build_box($box_title, $menu, 'extra', 'contextual_menu', $box_url, $box_popup);
 	}
 
 	// categories attached to this article, if not at another follow-up page
@@ -757,7 +757,7 @@ if(!isset($item['id'])) {
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		if($box['text'])
-			$context['components']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'navigation', 'categories');
+			$context['components']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'extra', 'categories');
 
 	}
 
@@ -1251,7 +1251,7 @@ if(!isset($item['id'])) {
 	// duplicate command provided to container owners
 	if(isset($item['id']) && is_object($anchor) && $anchor->is_owned()) {
 		Skin::define_img('ARTICLES_DUPLICATE_IMG', 'articles/duplicate.gif');
-		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate'));
+		$context['page_tools'][] = Skin::build_link(Articles::get_url($item['id'], 'duplicate'), ARTICLES_DUPLICATE_IMG.i18n::s('Duplicate this page'));
 	}
 
 	// assign command provided to page owners
@@ -1308,6 +1308,10 @@ if(!isset($item['id'])) {
 		.JS_SUFFIX;
 
 }
+
+// use date of last modification into etag computation
+if(isset($item['edit_date']))
+	$context['etag'] = $item['edit_date'];
 
 // render the skin
 render_skin();

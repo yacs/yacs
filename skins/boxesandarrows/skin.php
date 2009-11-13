@@ -25,16 +25,10 @@ Class Skin extends Skin_Skeleton {
 		define('EOT', ' />');
 
 		// the bullet used to prefix list items
-		define('BULLET_IMG', '<img src="'.$context['url_to_root'].$context['skin'].'/images/art_end.gif" width="8" height="8" alt="" />');
+		Skin::define_img('BULLET_IMG', 'codes/art_end.gif');
 
 		// the bullet prefix for compact lists
 		define('COMPACT_LIST_ITEM_PREFIX', '&raquo;&nbsp;');
-
-		// the bullet used with the [decorated] code; often equivalent to [*]
-		define('DECORATED_IMG', '<img src="'.$context['url_to_root'].$context['skin'].'/images/art_end.gif" width="8" height="8" alt="" />');
-
-		// the HTML used to append to a stripped text
-		define('MORE_IMG', '<img src="'.$context['url_to_root'].$context['skin'].'/icons/zoom.png" width="15" height="11" alt="" />');
 
 		// ensure extra boxes are displayed in this 2-columns layout
 		if(strpos($context['skins_navigation_components'], 'extra') === FALSE)

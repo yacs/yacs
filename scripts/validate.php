@@ -118,7 +118,7 @@ function send_body() {
 				$file= $name;
 
 			// skip run once scripts
-			if(preg_match('/run_once\//i', $file))
+			if(strpos($file, 'run_once/'))
 				continue;
 
 			// don't include ourself
@@ -129,20 +129,28 @@ function send_body() {
 			if(!Scripts::hash($file))
 				continue;
 
-			// get script content
-			if(!$content = Safe::file_get_contents($context['path_to_root'].$file)) {
+			// check file content
+			if(!$handle = Safe::fopen($file, 'rb')) {
 				echo sprintf(i18n::s('%s has no readable content.'), $file).BR."\n";
 				continue;
 			}
 
+			// look at the beginning of the file
+			if(!$header = fread($handle, 16384)) {
+				echo sprintf(i18n::s('%s has no readable content.'), $file).BR."\n";
+				fclose($handle);
+				continue;
+			}
+			fclose($handle);
+
 			// skip scripts that generate content asynchronously
-			if(preg_match('/(send_body|page::content)\(/i', $content)) {
+			if(stripos($header, 'send_body') || stripos($header, 'page::content')) {
 				$links_to_be_checked_manually[$file] = '(asynchronous)';
 				continue;
 			}
 
 			// skip scripts that would redefine our skin
-			if(preg_match('/class\s+skin\s+extends\s+skin_skeleton/i', $content)) {
+			if(stripos($header, 'extends skin_skeleton')) {
 				$links_to_be_checked_manually[$file] = '(skin)';
 				continue;
 			}

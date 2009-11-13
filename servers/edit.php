@@ -342,7 +342,7 @@ if($with_form) {
 		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
 		.'<p>'.i18n::s('Then configure and trigger web services that we will use remotely.').'</p>'
 		.'<p>'.i18n::s('Also, uncheck web services that we should not provide to the target server.').'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 }
 

@@ -15,10 +15,6 @@
  * - other unique styles
  * - classes
  *
- * For contextual rules, uniqueness comes before classes.
- * This means that '#main_panel code' and '#main_panel a.article' are placed into the second section.
- * And 'p.menu_bar' is in the last section.
- *
  * Where applicable we have also mentioned the YACS codes related to styles.
  * You can find more information on YACS codes at codes/codes.php and related pages.
  *
@@ -67,25 +63,6 @@ a img { /* avoid borders around images used as links */
 	border: none;
 }
 
-acronym { /* help in a popup -- [hint]...[/hint] */
-	border-bottom: 1px dotted #ccc;
-	cursor: help;
-}
-
-address { /* a author profile towards the end of the main panel -- see articles/view.php */
-	display: block;
-	color: #666666;
-	font-weight: normal;
-	line-height: 1.2em;
-	background-color: #fff;
-	margin: 6px 0 5px 0;
-	padding: 6px;
-	border: 1px solid #bfbfbf;
-}
-
-b { /* bold -- [b]...[/b] */
-}
-
 body { /* most elements will inherit some of these attributes */
 	color: #444;
 	background-color: #fff;
@@ -101,44 +78,6 @@ body { /* most elements will inherit some of these attributes */
 		width: 770px; /* equals width of wrapper */
 	}
 
-}
-
-blockquote { /* someone has been cited -- [quote]...[/quote] */
-	border-left: 2px solid #bfbfbf;
-	margin: 0;
-	padding: 0 0 0 3px;
-}
-
-@media screen { /* not on printers */
-
-	blockquote { /* prefix quotes with a nice image */
-		padding-left: 25px;
-		background: url("images/left_quote.gif") top left no-repeat;
-		border: none;
-	}
-
-	blockquote .quote_prefix span { /* instead of the bare quote char */
-		display: none;
-	}
-}
-
-br { /* new line -- [nl] */
-}
-
-center { /* is this one deprecated? -- [center]...[/center] */
-}
-
-code { /* some code sample -- [code]...[/code] */
-	font-family: "Courier New", Courier, monospace;
-	font-size: 1em;
-}
-
-del { /* deleted -- [deleted]...[/deleted] */
-}
-
-form { /* inline rendering for all browsers */
-	margin: 0;
-	padding: 0;
 }
 
 h1 { /* appears only once, with the page title */
@@ -171,16 +110,6 @@ h3 { /* a second level of heading in the main panel -- [subtitle]...[/subtitle] 
 	border-bottom: 1px dotted #ccc;
 }
 
-hr { /* an ordinary horizontal rule --- [---], [___] */
-	height: 0px;
-	border-width: 1px;
-	border-color: #888;
-	border-style: none none dotted none;
-}
-
-i { /* italic -- [i]...[/i] */
-}
-
 img { /* a standard image */
 	margin: 0;
 	padding: 0;
@@ -197,24 +126,8 @@ input:focus { /* help to locate the current field */
 	color: black:
 }
 
-ins { /* inserted -- [inserted]...[/inserted] */
-}
-
 li { /* avoid justification alignment */
 	text-align: left;
-}
-
-marquee { /* horizontal scroller -- [scroller]...[/scroller] */
-}
-
-ol { /* a numbered list -- [list=1]...[/list], [list=a]...[/list], [list=A]...[/list], [list=i]...[/list], [list=I]...[/list] */
-	margin: 0.5em 0 1em 1em;
-	padding: 0 0 0 1em;
-}
-
-p { /* add a space after each paragraph */
-	margin: 0 0 0.75em 0;
-	padding: 0;
 }
 
 #footer_panel p { /* in the footer, make top and bottom spaces look equal */
@@ -222,15 +135,8 @@ p { /* add a space after each paragraph */
 }
 
 pre { /* a block of sample lines -- [php]...[/php], [snippet]...[/snippet] */
-	font-family: "Courier New", Courier, monospace;
-	font-size: 0.9em;
 	background-color: #f7f7f7;
-	padding: 4px;
-	border-right: 1px solid #888;
-	border-bottom: 1px solid #888;
-	white-space: pre;
 	width: 400px;
-	overflow: auto;
 }
 
 select {
@@ -243,30 +149,8 @@ select:focus { /* help to locate the current field */
 	background-color: #dedede;
 }
 
-sub { /* shifted down -- [subscript]...[/subscript] */
-}
-
-sup { /* shifted up -- [superscript]...[/superscript] */
-}
-
 table { /* an ordinary table -- [table]...[/table] */
-	border-collapse: collapse;
-	border-bottom: 1px solid #bfbfbf;
-	border-right: 1px solid #bfbfbf;
 	max-width: 530px;
-	margin: 0;
-	padding: 0;
-	margin-left: 2px; /* because rendering glitch in control panel */
-}
-
-td { /* an ordinary cell */
-	font-size: x-small;
-	border-top: 1px solid #bfbfbf;
-	border-left: 1px solid #bfbfbf;
-	margin: 0;
-	padding: 4px;
-	vertical-align: top;
-    text-align: left;
 }
 
 textarea { /* ensure form fields fit in the layout */
@@ -278,21 +162,6 @@ textarea { /* ensure form fields fit in the layout */
 textarea:focus { /* signal current input area */
 	color: black;
 	background-color: #dedede;
-}
-
-th { /* an ordinary table header -- headers in [table]headers[body]content[/table] */
-	font-weight: normal;
-	font-size: x-small;
-	text-align: left;
-	border-top: 1px solid #bfbfbf;
-	border-left: 1px solid #bfbfbf;
-	margin: 0;
-	padding: 4px;
-	color: #444;
-	background-color: #ddd;
-}
-
-u { /* underlined -- [u]...[/u] */
 }
 
 ul { /* an ordinary list -- [list]...[/list] */
@@ -454,19 +323,6 @@ dl#categories dd ul li { /* space between links */
 	padding: 0;
 }
 
-p#crumbs { /* path to this page -- see template script */
-	font-family: sans-serif;
-	font-size: 7pt; /* we accept IE don't resize */
-	padding: 0;
-	margin: 0 0 20px 0;
-}
-
-@media print { /* do not print context information */
-	p#crumbs {
-		display: none;
-	}
-}
-
 #featured { /* the navigation box for statically featured pages -- index.php, sections/view.php */
 }
 
@@ -542,18 +398,6 @@ dl#gadget_6.gadget_box dd { /* content of gadget box #6 */
 dl#gadget_6.gadget_box dt { /* header of gadget box #6 */
 }
 
-#gadgets_prefix { /* comes before gadget boxes */
-	clear: left; /* align properly after site map, if any */
-	margin: 0;
-	padding: 0;
-}
-
-#gadgets_suffix { /* comes after gadget boxes */
-	clear: left; /* compensate for left-floated boxes */
-	margin: 0; /* ignored by firefox anyway */
-	padding: 0 0 2em 0; /* make some room after gadget boxes */
-}
-
 #header_slogan { /* appears towards the top of the page -- see template script */
 	float: left;
 	clear: left;
@@ -577,55 +421,9 @@ dl#gadget_6.gadget_box dt { /* header of gadget box #6 */
 
 @media screen { /* for the home page, only on large screens -- index.php */
 
-	#home_center { /* a centered article at the home page, in layout: newspaper */
-		border-left: 1px dotted #bfbfbf;
-		margin: 0 0 1em 0.5em;
-	    padding: 0 0 0 0.5em;
-	    float: left;
-	    width: 170px;
-	}
-
-	#home_east { /* the rightmost article at the home page, in layouts: boxesandarrows, newspaper */
-		border-left: 1px dotted #bfbfbf;
-		margin: 0 0 1em 0.5em;
-	    padding: 0 0 0 0.5em;
-	    float: left;
-	    width: 170px; /* wider with boxesandarrows than with newspaper */
-	}
-
-	#home_north { /* the most new article at the home page, in layouts: daily, newspaper, slashdot */
+	#newest { /* the most new article at the home page, in layouts: daily, newspaper, slashdot */
 	    border: 1px solid #fa0;
-	    margin: 0.5em 0 0.5em 0;
-	    padding: 0 0.5em;
 	    width: 530px;
-	}
-
-	#home_north h2 { /* space above title to be partly delegated to the containing div */
-	    margin-top: 0.5em;
-	}
-
-	#home_north .date { /* space above date to be partly delegated to the containing div */
-	    margin-top: 0.5em;
-	}
-
-	#home_north div.section_box { /* limit bottom space */
-	    margin: 0;
-	    padding: 0 0.5em;
-	}
-
-	#home_west { /* the leftmost article at the home page, in layouts: boxesandarrows, newspaper */
-		margin: 0 0 1em 0;
-	    padding: 0;
-	    float: left;
-	    width: 165px; /* wider with boxesandarrows than with newspaper */
-	}
-
-	#home_south h3 { /* titles within home_east, home_center and home_west, for layout: newspaper */
-		margin-top: 0;
-		border: none;
-		font-weight: bold;
-		font-style: normal;
-		font-size: small;
 	}
 
 }
@@ -706,10 +504,6 @@ dl#scrolling_news dd ul { /* a list with no bullet */
 	list-style: none;
 }
 
-#sections a.section { /* a link to a section, in some site map -- index.php, sections/index.php, sections/view.php */
-	font-weight: bold;
-}
-
 #tools img { /* towards bottom of the page -- see articles/view.php */
 	margin-right: 4px; /* space between icons and labels */
 }
@@ -724,33 +518,8 @@ dl#user_menu dd ul { /* commands that apply to this user -- see template script 
  * styles by classes
  */
 
-@media screen { /* not on printers */
-
-	#main_panel a.article { /* the image near a link to an article -- [article=id], [article=id, label] */
-		padding-right: 13px;
-		background: url("icons/document.png") right no-repeat;
-	}
-
-	* html #main_panel a.article { /* ie kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
-
-}
-
 img.avatar { /* an image representing a member -- do not float it! */
 	margin: 4px; /* some space around the image */
-}
-
-p.away { /* not visible for ordinary browsers -- accessibility tweak */
-	position: absolute;
-	left: -999px;
-	width: 990px;
-}
-
-.big { /* bigger than default, but smaller than .huge -- [big]...[/big] */
-	font-size: 2em;
-	line-height: 1.1em;
 }
 
 a.button { /* a link that mimic a form button -- [button]url[/button], [button=label]url[/button] */
@@ -813,23 +582,6 @@ table.calendar td.spot {
 	font-weight: bold;
 }
 
-@media screen { /* not on printers */
-
-	#main_panel a.category { /* the image near a link to a category -- [category=id], [category=id, label] */
-		padding-right: 16px;
-		background: url("icons/section.png") right no-repeat;
-	}
-
-	* html #main_panel a.category { /* ie kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
-
-}
-
-p.caution { /* a warning paragraph -- [caution]...[/caution] -- see also CAUTION_FLAG in skins/skin_skeleton.php */
-}
-
 .center_image { /* an image in the middle of the page [image=xx, center] */
 	display: block;
 	position: relative;
@@ -879,13 +631,6 @@ dl.column dd { /* column actual content */
 	overflow: hidden; /* kill oversized links */
 }
 
-dl.column dd,
-dl.column dd a.category,
-dl.column dd .details,
-dl.column dd a.section { /* make content look larger in single column */
-	font-size: 107%;
-}
-
 dl.column dd p,
 dl.column dd ul { /* vertical margins within a box */
 	margin-top: 0.2em;
@@ -904,72 +649,12 @@ dl.column dt img { /* align the image */
 	padding: 0;
 }
 
-dl.column_1,
-dl.column_2 { /* left or right column out of two -- index.php, sections/index.php, sections/view.php, categories/index.php, etc. */
-    margin: 0 8px 8px 0;
-    padding: 0;
-    width: 260px;
-    float: left;
-}
-
-dl.column_1 dd,
-dl.column_2 dd { /* column actual content */
-	margin: 0 0 1em 0;
-	padding: 1px 0 0.4em 0.7em;
-	overflow: hidden; /* kill oversized links */
-}
-
-dl.column_1 dd p,
-dl.column_1 dd ul,
-dl.column_2 dd p,
-dl.column_2 dd ul { /* space around content elements */
-	margin-top: 0.2em;
-	margin-bottom: 0.2em;
-}
-
-dl.column_1 dt,
-dl.column_2 dt { /* the image aside the column */
-	clear: left;
-	text-align: left;
-	border: 0;
-	margin: 0;
-	padding: 2px 0 2px 0;
-}
-
-dl.column_1 dt img,
-dl.column_2 dt img { /* align the image */
-	margin: 0;
-	padding: 0;
-}
-
-.comic { /* use a special font -- [style=comic]...[/style] */
-	font-family: "Comic Sans MS", cursive;
-}
-
-@media screen { /* not on printers */
-
-	#main_panel a.comment { /* the image near a link to a comment -- [comment=id], [comment=id, label] */
-		padding-right: 17px;
-		background: url("icons/news.png") right no-repeat;
-	}
-
-	* html #main_panel a.comment { /* ie kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
-
-}
-
 @media screen { /* not on printers */
 
 	div.comment div {	/* some blog comment -- comments/layout_comments_as_daily.php */
 		margin-left: 1em;
 	}
 
-}
-
-.cursive { /* use a cursive font -- [style=cursive]...[/style] */
-	font-family: cursive;
 }
 
 p.date { /* date of a post, above its title -- articles/layout_articles_as_daily.php & skins/layout_articles_as_daily.php */
@@ -983,39 +668,6 @@ p.date { /* date of a post, above its title -- articles/layout_articles_as_daily
 	text-align: left;
 }
 
-table.decorated { /* a 2-column table, with images on the left -- [decorated]...[/decorated] */
-	border-spacing: 0;
-	border: none;
-}
-
-table.decorated td {
-	border: none;
-	margin: 0;
-	padding: 0.3em 8px 0.3em 8px;
-}
-
-table.decorated td img { /* align the decorating image with decorated text */
-	margin-top: 6px;
-}
-
-.details { /* a set of details */
-	font-family: sans-serif;
-	font-size: 7pt;
-	color: #888; /* less contrasted than regular text */
-}
-
-.details a { /* faded into text */
-	font-weight: normal;
-	color: #666;
-}
-
-p.details { /* stick to previous and next elements */
-	margin-top: 0;
-	margin-bottom: 0;
-	padding-top: 0;
-	padding-bottom: 0;
-}
-
 dl.download dd { /* the description below a download link -- see files/view.php */
 	margin-left: 0;
 }
@@ -1025,67 +677,8 @@ dl.download dt { /* the link to download a file -- see files/view.php */
 	font-weight: bold;
 }
 
-@media screen { /* not on printers */
-
-	.draft { /* signal draft pages with a neat image */
-		padding-right: 10px;
-		margin-right: 2px;
-		background: url("icons/to_publish.gif") right no-repeat;
-	}
-
-	.draft span { /* mask default text */
-		display: none;
-	}
-
-}
-
-@media screen { /* not on printers */
-
-	#main_panel a.email { /* the image near a link to an email address -- [email]address[/email], [email=label]address[/email] */
-		padding-right: 18px;
-		background: url("icons/mailto.png") right no-repeat;
-	}
-
-	* html #main_panel a.email { /* ie kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
-
-}
-
-div.error { /* report on abnormal conditions */
-	color: red;
-}
-
 div.even { /* stacked with div.odd */
 	padding: 0.5em 0;
-}
-
-@media screen { /* not on printers */
-
-	.expired { /* display a neat image to flag expired pages */
-		padding-right: 16px;
-		margin-right: 2px;
-		background: url("icons/expired.gif") right no-repeat;
-	}
-
-	.expired span { /* mask default text */
-		display: none;
-	}
-}
-
-@media screen { /* not on printers */
-
-	#main_panel a.external { /* the image near an external link -- [link]href[/link], [link=label]href[/link] */
-		padding-right: 15px;
-		background: url("icons/link.png") right no-repeat;
-	}
-
-	* html #main_panel a.external { /* ie kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
-
 }
 
 div.external_image { /* display an image hosted elsewhere -- [img]url[/img] */
@@ -1110,39 +703,6 @@ span#family { /* within section title -- see sections/view.php */
 	background-color: #8D90AB;
 	text-align: left;
 	padding: 4px;
-}
-
-.fantasy { /* various rendering, you have been warned -- [style=fantasy]...[/style] */
-	font-family: fantasy;
-}
-
-@media screen { /* not on printers */
-
-	#main_panel a.file { /* the image near a link to view file details -- [file=id], [file=id, label] */
-		padding-right: 15px;
-		background: url("icons/download.png") right no-repeat;
-	}
-
-	* html #main_panel a.file { /* ie kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
-
-}
-
-.flag { /* compact meta-information -- [flag]foo bar[/flag], but also [new], [popular], [updated] -- see also .new, .popular, .updated */
-	color: red;
-	font-size: 6pt; /* we don't care to be not resized by IE */
-}
-
-div.folder_body { /* the body of an unfolded box -- [folder]...[/folder] */
-	border-left: 1px solid #bfbfbf;
-	padding: 3px 0 0.3em 1em;
-	margin-left: 4px; /* right below the folding image */
-}
-
-a.folder_header { /* not an ordinary link */
-	font-weight: bold;
 }
 
 table.form { /* a table used to present form fields */
@@ -1178,35 +738,6 @@ table.form td {
 	clear: left;
 }
 
-dl.gadget_box { /* container of one gadget box -- also see #gadget_1, etc. -- from index.php, sections/view.php */
-    margin: 0 8px 8px 0;
-    padding: 0;
-    width: 260px;
-    float: left;
-}
-
-dl.gadget_box dd { /* body of one gadget box */
-	margin-left: 0;
-}
-
-dl.gadget_box dt { /* header of one gadget box */
-	color: #333;
-	font-weight: bold;
-	font-size: x-small;
-	font-style: normal;
-	margin: 20px 0 0 0;
-	padding: 0 0 3px 0;
-	border: none;
-}
-
-dl.gadget_box ul.compact { /* a list of articles in a gadget box */
-	font-size: 10px;
-}
-
-table.grid td { /* a table where cells have borders */
-	/* nothing to do here, with this skin all tables have a grid */
-}
-
 .hide { /* text readers will show it */
 	display: none;
 }
@@ -1223,11 +754,6 @@ table.grid td { /* a table where cells have borders */
 	background-color: #FF8080;
 }
 
-.huge { /* bigger than .big -- [huge]...[/huge] */
-	font-size: 250%;
-	line-height: 1.1em;
-}
-
 img.icon { /* main image of an article, or of some section -- $context[page_image'], handled in template script */
 	margin: 6px;
 }
@@ -1238,10 +764,6 @@ br.images_prefix { /* before a set of thumbnails, to align them correctly -- [im
 
 br.images_suffix { /* after a set of thumbnails, to align following text properly -- [/images] */
 	clear: left;
-}
-
-.indent { /* shift to the right -- [indent]...[/indent] */
-	margin: 0.3em 0 0.5em 3em;
 }
 
 .inline_image { /* an embedded image (not the thumbnail, which is .thumbnail_image) */
@@ -1264,36 +786,9 @@ br.images_suffix { /* after a set of thumbnails, to align following text properl
 	clear: left;
 }
 
-.introduction { /* before the main content of an article -- articles/view.php, sections/view.php, categories/view.php */
-	background-color: #f7f7f7;
-	padding: 3px;
-}
-
-table.jive { /* to introduce threads and comments -- see articles/layout_articles_as_jive.php */
-	border-collapse: collapse;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
+table.jive {
 	max-width: 550px;
 	width: 550px;
-	margin: 0;
-	padding: 0;
-}
-
-table.jive tr td { /* separate lines */
-	margin: 0;
-	padding: 8px;
-	overflow: auto;
-}
-
-table.jive tr th { /* table header */
-	font-weight: bold;
-	margin: 0;
-	padding: 8px;
-}
-
-p.jive_menu { /* commands below every jive item */
-	margin: 1em 0 0 0;
 }
 
 .left_image { /* an image floated to the left -- [image=xx, left] */
@@ -1365,81 +860,12 @@ dl.manual_comments dt.even {
 	font-size: 7pt; /* not rezisable by IE PC */
 }
 
-.menu_bar { /* an horizontal menu of commands, below a section title */
-	clear: left;
-	font-family: sans-serif;
-	font-size: 1em;
-	font-weight: normal;
-	margin: 4px 0 10px 0;
-	padding: 0;
-}
-
-.my_style { /* featured in help pages -- [style=my_style] -- codes/basic.php */
-	color: blue;
-}
-
-table.neighbours { /* previous and next links -- images/view.php */
-	clear: left;
-	border: none;
-	margin: 0;
-}
-
-table.neighbours tr td {
-	border: none;
-}
-
-table.neighbours tr td.next {
-	border: none;
-	padding: 1em 0 1em 3em;
-}
-
-table.neighbours tr td.option {
-	border: none;
-	padding: 1em 2em 1em 2em;
-}
-
-table.neighbours tr td.previous {
-	border: none;
-	padding: 1em 3em 1em 0;
-}
-
-@media screen { /* not on printers */
-
-	.new { /* display a neat image as a flag -- [new] -- see also .flag */
-		padding-right: 18px;
-		margin-right: 2px;
-		background: url("icons/new.gif") right no-repeat;
-	}
-
-	.new span { /* mask default text */
-		display: none;
-	}
-}
-
-@media screen { /* not on printers */
-	#main_panel a.next { /* shortcut to next page -- [next=id], [next=id, label] */
-	}
-}
-
-p.note { /* a noticeable paragraph -- [note]...[/note] -- see also NOTICE_FLAG in skins/skin_skeleton.php */
-}
-
 div.odd { /* stacked with div.even */
 	padding: 0.5em 0;
 }
 
 #main_panel td.odd { /* one row out of two, but only in the main panel */
 	background-color: #fff8ff;
-}
-
-div.overlay { /* in lists, and before the main content of an article -- articles/view.php */
-	padding: 0;
-	margin: 0;
-}
-
-div.overlay p { /* one component of some overlay content */
-	padding: 0;
-	margin: 0;
 }
 
 dl.poll { /* layout poll results */
@@ -1460,55 +886,6 @@ dl.poll dt { /* label of one answer */
 	padding: 2px 3px 2px 0;
 	float: left;
     width: 110px;
-}
-
-@media screen { /* not on printers */
-
-	.popular { /* display a neat image as a flag -- [popular] -- see also .flag */
-		padding-right: 24px;
-		margin-right: 2px;
-		background: url("icons/popular.gif") right no-repeat;
-	}
-
-	.popular span {	/* mask default text */
-		display: none;
-	}
-
-}
-
-@media screen { /* not on printers */
-	#main_panel a.previous { /* shortcut to previous page -- [previous=id], [previous=id, label] */
-	}
-}
-
-@media screen { /* not on printers */
-
-	.private { /* display a neat image to flag private items */
-		padding-right: 15px;
-		background: url("icons/private.png") right no-repeat;
-	}
-
-	.private span { /* mask text */
-		display: none;
-	}
-
-}
-
-@media screen { /* not on printers */
-
-	.restricted { /* display a neat image to flag restricted items */
-		padding-right: 15px;
-		background: url("icons/restricted.png") right no-repeat;
-	}
-
-	.restricted span { /* mask text */
-		display: none;
-	}
-
-}
-
-.right { /* flushed to the right -- [right] */
-	text-align: right;
 }
 
 .right_image { /* an image floated to the rift -- [image=xx, right] */
@@ -1540,24 +917,6 @@ dl.poll dt { /* label of one answer */
 	margin-top: 0;
 }
 
-.sans-serif { /* use a sans-serif font -- [style=sans-serif]...[/style] */
-	font-family: sans-serif;
-}
-
-@media screen { /* not on printers */
-
-	#main_panel a.script { /* the image near a link to a phpDoc page -- [script]path/script.php[/script] */
-		padding-right: 14px;
-		background: url("icons/server.png") right no-repeat;
-	}
-
-	* html #main_panel a.script { /* ie kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
-
-}
-
 .scroller_inside { /* the internal div of a scroller */
 	position: relative;
 }
@@ -1570,62 +929,14 @@ dl.poll dt { /* label of one answer */
 /*	clip: rect(0 185 200 0); /* combined width and height */
 }
 
-@media screen { /* not on printers */
-
-	#main_panel a.section { /* the image near a link to a section -- [section=id], [section=id, label] */
-		padding-right: 16px;
-		background: url("icons/section.png") right no-repeat;
-	}
-
-	* html #main_panel a.section { /* ie kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
-
-}
-
 div.section_box { /* components of the main content */
 	clear: left;
 	margin: 0;
 	padding: 0 0 2em 0;
 }
 
-.serif { /* use a serif font -- [style=serif]...[/style] */
-	font-family: serif;
-}
-
-@media screen { /* not on printers */
-
-	#main_panel a.server { /* the image near a link to a server profile -- [server=id], [server=id, label] */
-		padding-right: 14px;
-		background: url("icons/server.png") right no-repeat;
-	}
-
-	* html #main_panel a.server { /* ie kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
-
-}
-
-@media screen { /* not on printers */
-
-	#main_panel a.shortcut { /* the image near a local link */
-		padding-right: 15px;
-		background: url("icons/shortcut.png") right no-repeat;
-	}
-
-	* html #main_panel a.shortcut { /* ie kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
-
-}
-
 div.sidebar_box { /* somewhere in the main panel -- [sidebar]...[/sidebar] */
 	float: left;
-	min-width: 10em;
-	max-width: 20em;
 	margin: 0.5em 1em 0.3em 0;
 }
 
@@ -1635,7 +946,6 @@ div.sidebar_box div { /* body of one sidebar box */
 	font-weight: normal;
 	font-size: 8pt;
 	text-align: left;
-	margin: 0;
 	padding: 2px;
 	border: 1px solid #bfbfbf;
 }
@@ -1653,7 +963,6 @@ div.sidebar_box h3 { /* header of one sidebar box -- the 'foo bar' of [sidebar=f
 	border-right: 1px solid #bfbfbf;
 }
 
-.small, /* smaller than default, but larger than .tiny -- [small]...[/small] */
 table.small tr td { /* [table=small]...[/table] */
 	font-family: sans-serif;
 	font-size: 7pt;
@@ -1694,145 +1003,6 @@ tr.odd td.sorted {
 	margin-top: 0;
 }
 
-.tiny, /* smaller than .small -- [tiny]...[/tiny] */
-table.tiny tr td { /* [table=tiny]...[/table] */
-	font-family: sans-serif;
-	font-size: 7pt;
-}
-
-.toc_box { /* table of content -- [toc] */
-	color: #666666;
-	font-weight: normal;
-	font-size: 8pt;
-	line-height: 1.2em;
-	margin: 6px 0 5px 0;
-	padding: 0px;
-}
-
-#main_panel div.toc_box ul { /* first level of the toc */
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-#main_panel div.toc_box ul ul { /* second level of the toc */
-	margin-left: 1.5em;
-	padding: 0;
-	list-style: square;
-}
-
-.toq_box { /* table of questions -- [toq] */
-	color: #666666;
-	font-weight: normal;
-	font-size: 8pt;
-	line-height: 1.2em;
-	background-color: #eee;
-	margin: 6px 0 5px 0;
-	padding: 6px;
-	border: 1px solid #bfbfbf;
-}
-
-#main_panel div.toq_box ul { /* a list of questions */
-	margin-top: 0;
-	margin-bottom: 0;
-	list-style: square;
-}
-
-#contextual_menu ul.tree { /* shape a tree of links -- see build_tree() in skins/skin_skeleton.php */
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	font-family: arial, sans-serif;
-	font-size: 10px;
-	line-height: 14px;
-}
-
-#contextual_menu ul.tree ul { /* indent all levels, except level 1 */
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	font-family: arial, sans-serif;
-	font-size: 10px;
-	line-height: 14px;
-	background-image: url("icons/tree/vertical.gif");
-	background-repeat: repeat-y;
-	background-position: 0px 0px;
-}
-
-#contextual_menu ul.tree li { /* every branch of the tree */
-	margin: 0;
-	padding-top: 0;
-}
-
-#contextual_menu ul.tree_level_1 li { /* top-level branch of the tree is left-aligned */
-	padding-left: 0;
-}
-
-#contextual_menu ul.tree_level_2 li,
-#contextual_menu ul.tree_level_3 li,
-#contextual_menu ul.tree_level_4 li,
-#contextual_menu ul.tree_level_5 li { /* other levels are indented */
-	padding-left: 14px;
-	background-image: url("icons/tree/node.gif");
-	background-repeat: no-repeat;
-	background-position: 0px 0px;
-}
-
-#contextual_menu ul.tree_level_2 li.last,
-#contextual_menu ul.tree_level_3 li.last,
-#contextual_menu ul.tree_level_4 li.last,
-#contextual_menu ul.tree_level_5 li.last { /* last item of a branch */
-	background-image: url("icons/tree/last.gif");
-	background-color: #fff; /* mask the default ul background --use the exact underlying background color */
-	background-repeat: no-repeat;
-	background-position: 0px 0px;
-}
-
-#contextual_menu ul.tree li a.below,
-#contextual_menu ul.tree li a.close { /* focus is not here */
-	padding-left: 16px;
-	background: url("icons/tree/close.gif") top left no-repeat;
-}
-
-#contextual_menu ul.tree li a.current,
-#contextual_menu ul.tree li a.open { /* item has the current focus */
-	padding-left: 16px;
-	background: url("icons/tree/open.gif") top left no-repeat;
-}
-
-@media screen { /* not on printers */
-
-	.updated { /* flag modified pages -- [updated] -- see also .flag */
-		padding-left: 31px;
-		margin-left: 2px;
-		background: url("icons/updated.gif") left no-repeat;
-	}
-
-	.updated span { /* mask default text */
-		display: none;
-	}
-
-}
-
-@media screen { /* not on printers */
-
-	#main_panel a.user { /* the image near a link to a user profile -- [user=id], [user=id, label] */
-		padding-right: 15px;
-		background: url("icons/zoom.png") right no-repeat;
-	}
-
-	* html #main_panel a.user { /* ie kills trailing rendering on long links */
-		padding-right: 0px;
-		background: none;
-	}
-
-}
-
-table.wide { /* to introduce threads and comments -- see articles/layout_articles_as_jive.php */
-	width: 99%;
-	margin: 1px;
-}
-
 dl.wiki_comments { /* to list comments in a wiki -- see comments/layout_comments_as_wiki.php */
 }
 
@@ -1864,8 +1034,4 @@ dl.wiki_comments dt.even {
 	border-bottom: 1px solid #aaf;
 }
 
-table.yabb { /* to introduce threads and comments -- see articles/layout_articles_as_yabb.php */
-	width: 99%;
-	margin: 0px;
-}
 

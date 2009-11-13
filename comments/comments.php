@@ -394,7 +394,6 @@ Class Comments {
 	 * @param the type ('suggestion', etc.')
 	 * @return a suitable HTML element
 	 *
-	 * @see comments/layout_comments_as_boxesandarrows.php
 	 * @see comments/layout_comments_as_daily.php
 	 * @see comments/layout_comments_as_jive.php
 	 * @see comments/layout_comments_as_manual.php
@@ -414,7 +413,7 @@ Class Comments {
 			if(!defined('ATTENTION_IMG')) {
 
 				// else use default image file
-				$file = 'skins/images/comments/attention.gif';
+				$file = 'skins/_reference/comments/attention.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
 					define('ATTENTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
@@ -429,7 +428,7 @@ Class Comments {
 			if(!defined('DONE_IMG')) {
 
 				// else use default image file
-				$file = 'skins/images/comments/done.gif';
+				$file = 'skins/_reference/comments/done.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
 					define('DONE_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
@@ -445,7 +444,7 @@ Class Comments {
 			if(!defined('IDEA_IMG')) {
 
 				// else use default image file
-				$file = 'skins/images/comments/idea.gif';
+				$file = 'skins/_reference/comments/idea.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
 					define('IDEA_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
@@ -460,7 +459,7 @@ Class Comments {
 			if(!defined('INFORMATION_IMG')) {
 
 				// else use default image file
-				$file = 'skins/images/comments/information.gif';
+				$file = 'skins/_reference/comments/information.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
 					define('INFORMATION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
@@ -475,7 +474,7 @@ Class Comments {
 			if(!defined('QUESTION_IMG')) {
 
 				// else use default image file
-				$file = 'skins/images/comments/question.gif';
+				$file = 'skins/_reference/comments/question.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
 					define('QUESTION_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
@@ -491,7 +490,7 @@ Class Comments {
 			if(!defined('THUMBS_DOWN_IMG')) {
 
 				// else use default image file
-				$file = 'skins/images/comments/thumbs_down.gif';
+				$file = 'skins/_reference/comments/thumbs_down.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
 					define('THUMBS_DOWN_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
@@ -507,7 +506,7 @@ Class Comments {
 			if(!defined('THUMBS_UP_IMG')) {
 
 				// else use default image file
-				$file = 'skins/images/comments/thumbs_up.gif';
+				$file = 'skins/_reference/comments/thumbs_up.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
 					define('THUMBS_UP_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
@@ -522,7 +521,7 @@ Class Comments {
 			if(!defined('WARNING_IMG')) {
 
 				// else use default image file
-				$file = 'skins/images/comments/warning.gif';
+				$file = 'skins/_reference/comments/warning.gif';
 				if($size = Safe::GetImageSize($context['path_to_root'].$file))
 					define('WARNING_IMG', '<img src="'.$context['url_to_root'].$file.'" '.$size[3].' alt="" /> ');
 				else
@@ -558,10 +557,6 @@ Class Comments {
 			$layout = new Layout_comments();
 
 		// layout is defined in anchor
-		} elseif(is_object($anchor) && $anchor->has_layout('boxesandarrows')) {
-			include_once '../comments/layout_comments_as_boxesandarrows.php';
-			$layout = new Layout_comments_as_boxesandarrows();
-
 		} elseif(is_object($anchor) && $anchor->has_layout('daily')) {
 			include_once '../comments/layout_comments_as_daily.php';
 			$layout = new Layout_comments_as_daily();
@@ -1774,7 +1769,6 @@ Class Comments {
 	 * @see categories/delete.php
 	 * @see categories/view.php
 	 * @see sections/delete.php
-	 * @see sections/layout_sections_as_boxesandarrows.php
 	 * @see sections/sections.php
 	 * @see sections/view.php
 	 * @see skins/layout_home_articles_as_alistapart.php

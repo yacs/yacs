@@ -68,7 +68,7 @@ Class Layout_articles_as_titles extends Layout_interface {
 
 			// use default icon if nothing to display
 			} else
-				$icon = TWO_COLUMNS_IMG;
+				$icon = MAP_IMG;
 
 			// use the image as a link to the target page
 			$icon =& Skin::build_link($url, $icon, 'basic', $hover);

@@ -150,9 +150,14 @@ Class Layout_articles_as_yabb extends Layout_interface {
 				$anchors[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'basic', i18n::s('In this section'));
 
 
-			// list up to three categories by title, if any
-			if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
+			// list categories by title, if any
+			if($members =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 7, 'raw')) {
 				foreach($members as $category_id => $attributes) {
+
+					// add background color to distinguish this category against others
+					if(isset($attributes['background_color']) && $attributes['background_color'])
+						$attributes['title'] = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$attributes['title'].'</span>';
+
 					if(!isset($this->layout_variant) || ($this->layout_variant != 'category:'.$category_id))
 						$anchors[] = Skin::build_link(Categories::get_permalink($attributes), $attributes['title'], 'basic', i18n::s('Related topics'));
 				}
@@ -160,7 +165,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 
 			// list section and categories in the suffix
 			if(@count($anchors))
-				$suffix .= '<p class="details">'.sprintf(i18n::s('In %s'), implode(' | ', $anchors)).'</p>';
+				$suffix .= '<p class="details">'.implode(' ', $anchors).'</p>';
 
 			// the creator of this article
 			$starter = '';

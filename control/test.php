@@ -45,6 +45,7 @@
  * @author Bernard Paques
  * @author GnapZ
  * @tester Geoffroy Raimbault
+ * @tester Christian Loubechine
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
@@ -52,8 +53,9 @@
 // include global declarations
 include_once '../shared/global.php';
 
-// should generate an error message if something has already been output
-header('X-Scramble-Detection', 'scramble detection');
+// detect libraries that would have uncorrectly generated some text or spaces
+if($context['with_debug'] == 'Y')
+	Safe::header('X-Scramble-Detection', 'scramble detection');
 
 // if it was a HEAD request, stop here
 if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'HEAD'))

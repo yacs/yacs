@@ -221,7 +221,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			$text = '<p>'.i18n::s('The following table reports on current content of this server. Click on any link to get more details.').'</p>';
 
 			// use a neat table for the layout
-			$text .= Skin::table_prefix('wide grid');
+			$text .= Skin::table_prefix('wide');
 			$text .= Skin::table_row(array(i18n::s('Table'), 'center='.i18n::s('Records'), 'center='.i18n::s('First record'), 'center='.i18n::s('Last record')), 'header');
 			$lines = 2;
 
@@ -649,7 +649,7 @@ if(!file_exists('../parameters/control.include.php')) {
 			$commands[] = sprintf(i18n::s('%s - smileys available for your posts'), Skin::build_link('smileys/', i18n::s('Smileys'), 'basic'));
 
 			// avatars
-			$commands[] = sprintf(i18n::s('%s - some pictures you may choose for your profile'), Skin::build_link('skins/images/avatars/', i18n::s('Avatars'), 'basic'));
+			$commands[] = sprintf(i18n::s('%s - some pictures you may choose for your profile'), Skin::build_link('skins/_reference/avatars/', i18n::s('Avatars'), 'basic'));
 
 			// usage information
 			if(Surfer::is_associate())

@@ -30,7 +30,7 @@ Class Skin_Skeleton {
 	 * @param string the accordion id, used as CSS class
 	 * @return the HTML to display
 	 */
-	function &build_accordion_box($title, &$content, $id) {
+	function &build_accordion_box($title, $content, $id) {
 		global $context;
 
 		// we need a clickable title
@@ -41,26 +41,10 @@ Class Skin_Skeleton {
 		$img = '';
 
 		// the icon to close accordion boxes
-		if(!defined('ACCORDION_CLOSE_IMG_HREF')) {
-			$file = 'accordion/minus.jpg';
-			if(file_exists($context['path_to_root'].$context['skin'].'/'.$file))
-				define('ACCORDION_CLOSE_IMG_HREF', $context['url_to_root'].$context['skin'].'/'.$file);
-			elseif(file_exists($context['path_to_root'].'skins/images/icons/'.$file))
-				define('ACCORDION_CLOSE_IMG_HREF', $context['url_to_root'].'skins/images/icons/'.$file);
-			else
-				define('ACCORDION_CLOSE_IMG_HREF', '');
-		}
+		Skin::define_img_href('ACCORDION_CLOSE_IMG_HREF', 'layouts/accordion_minus.jpg');
 
 		// the icon to open accordion boxes
-		if(!defined('ACCORDION_OPEN_IMG_HREF')) {
-			$file = 'accordion/plus.jpg';
-			if(file_exists($context['path_to_root'].$context['skin'].'/'.$file))
-				define('ACCORDION_OPEN_IMG_HREF', $context['url_to_root'].$context['skin'].'/'.$file);
-			elseif(file_exists($context['path_to_root'].'skins/images/icons/'.$file))
-				define('ACCORDION_OPEN_IMG_HREF', $context['url_to_root'].'skins/images/icons/'.$file);
-			else
-				define('ACCORDION_OPEN_IMG_HREF', '');
-		}
+		Skin::define_img_href('ACCORDION_OPEN_IMG_HREF', 'layouts/accordion_plus.jpg');
 
 		// detect first box of the accordion
 		static $fused;
@@ -88,7 +72,7 @@ Class Skin_Skeleton {
 
 		}
 
-		// Yacs.toggle_folder() is in shared/yacs.js -- div.folder_body div is required for slide effect to work
+		// Yacs.toggle_folder() is in shared/yacs.js -- div.accordion_content div is required for slide effect to work
 		$text = '<div class="accordion_handle accordion_'.$id.'"><a href="#" class="accordion_link" onclick="javascript:Yacs.toggle_accordion(this, \''.ACCORDION_OPEN_IMG_HREF.'\', \''.ACCORDION_CLOSE_IMG_HREF.'\', \'accordion_'.$id.'\'); return false;">'.$img.$title.'</a>'
 			.'<div class="accordion_content"'.$style.'><div>'.$content."</div></div></div>\n";
 
@@ -174,14 +158,14 @@ Class Skin_Skeleton {
 			break;
 
 		case 'caution':
-			Skin::define_img('CAUTION_FLAG', 'icons/codes/caution.gif', i18n::s('<b>Warning:</b> '), '!!!');
+			Skin::define_img('CAUTION_FLAG', 'codes/caution.gif', i18n::s('<b>Warning:</b> '), '!!!');
 			if($text)
-				$text = '<p class="caution"'.$id.'>'.CAUTION_FLAG.$text.'</p>';
+				$text = '<div class="caution"'.$id.'>'.CAUTION_FLAG.$text.'</div>';
 			break;
 
 		case 'center':
 			if($text)
-				$text = '<p style="text-align: center;" '.$id.'>'.$text.'</p>';
+				$text = '<div class="center"'.$id.'>'.$text.'</div>';
 			break;
 
 		case 'code':
@@ -208,11 +192,13 @@ Class Skin_Skeleton {
 			break;
 
 		case 'header1':
+		case 'title':
 			if($text)
 				$text = '<h2'.$id.'><span>'.Codes::beautify_title($text).'</span></h2>';
 			break;
 
 		case 'header2':
+		case 'subtitle':
 			if($text)
 				$text = '<h3'.$id.'><span>'.Codes::beautify_title($text).'</span></h3>';
 			break;
@@ -243,9 +229,9 @@ Class Skin_Skeleton {
 			break;
 
 		case 'note':
-			Skin::define_img('NOTICE_FLAG', 'icons/codes/note.gif', i18n::s('<b>Note:</b> '));
+			Skin::define_img('NOTICE_FLAG', 'codes/note.gif', i18n::s('<b>Note:</b> '));
 			if($text)
-				$text = '<p class="note"'.$id.'>'.NOTICE_FLAG.$text.'</p>'."\n";
+				$text = '<div class="note"'.$id.'>'.NOTICE_FLAG.$text.'</div>';
 			break;
 
 		case 'page_title':
@@ -265,7 +251,7 @@ Class Skin_Skeleton {
 
 		case 'right':
 			if($text)
-				$text = '<div'.$id.' style="text-align: right;">'.$text.'</div>';
+				$text = '<div'.$id.' class="right">'.$text.'</div>';
 			break;
 
 		case 'search':
@@ -306,16 +292,6 @@ Class Skin_Skeleton {
 		case 'sidecolumn':
 			if($text)
 				$text = '<div'.$id.' class="sidecolumn">'.$text.'</div>';
-			break;
-
-		case 'subtitle':
-			if($text)
-				$text = '<h3'.$id.'><span>'.Codes::beautify_title($text).'</span></h3>';
-			break;
-
-		case 'title':
-			if($text)
-				$text = '<h2'.$id.'><span>'.Codes::beautify_title($text).'</span></h2>';
 			break;
 
 		default:
@@ -906,7 +882,7 @@ Class Skin_Skeleton {
 		$text .= '<dd>'.$content.'</dd>';
 
 		// always add a header
-		$text .= '<dt><span>'.$title.'</span><br style="clear: both;" /></dt>'."\n";
+		$text .= '<dt><span>'.$title.'</span></dt>'."\n";
 
 		// external div boundary
 		$text .= '</dl>'."\n";
@@ -933,8 +909,14 @@ Class Skin_Skeleton {
 	 * @see sections/edit.php
 	 * @see users/edit.php
 	 */
-	function &build_folded_box($title, &$content, $id='') {
+	function &build_folded_box($title, $content, $id='') {
 		global $context;
+
+		// the icon used to stretch folder divisions
+		Skin::define_img_href('FOLDER_EXTEND_IMG_HREF', 'layouts/folder_plus.gif');
+
+		// the icon used to pack folder divisions
+		Skin::define_img_href('FOLDER_PACK_IMG_HREF', 'layouts/folder_minus.gif');
 
 		// we need a clickable title
 		if(!$title)
@@ -997,7 +979,7 @@ Class Skin_Skeleton {
 			return $text;
 
 		// use a table for the layout
-		$text .= Skin::table_prefix('form');
+		$text .= Skin::table_prefix('layout');
 		$lines = 1;
 
 		// parse each field
@@ -1037,8 +1019,8 @@ Class Skin_Skeleton {
 				break;
 			case '2-columns':
 			default:
-				$cells[] = $label;
-				$cells[] = $input;
+				$cells[] = 'west='.$label;
+				$cells[] = 'east='.$input;
 				break;
 			}
 			$text .= Skin::table_row($cells, $lines++);
@@ -1120,7 +1102,7 @@ Class Skin_Skeleton {
 		}
 
 		// external div boundary
-		$text = '<div class="header_box"'.$id.'>'."\n";
+		$text = '<div class="box"'.$id.'>'."\n";
 
 		// map the level to a given tag
 		if($variant == 'header3')
@@ -1135,7 +1117,7 @@ Class Skin_Skeleton {
 			$text .= '<'.$tag.'><span>'.$title.'</span></'.$tag.">\n";
 
 		// box content
-		$text .= '<div>'.$content.'</div>';
+		$text .= '<div class="content">'.$content.'</div>';
 
 		// external div boundary
 		$text .= '</div>'."\n";
@@ -1674,11 +1656,11 @@ Class Skin_Skeleton {
 			break;
 
 		case 'menu_1':
-			$text = MENU_1_PREFIX.'<a href="'.$url.'"'.$href_title.' class="menu_1"'.$attributes.'>'.$label.'</a>'.MENU_1_SUFFIX;
+			$text = MENU_1_PREFIX.'<a href="'.$url.'"'.$href_title.' class="menu_1"'.$attributes.'><span>'.$label.'</span></a>'.MENU_1_SUFFIX;
 			break;
 
 		case 'menu_2':
-			$text = MENU_2_PREFIX.'<a href="'.$url.'"'.$href_title.' class="menu_2"'.$attributes.'>'.$label.'</a>'.MENU_2_SUFFIX;
+			$text = MENU_2_PREFIX.'<a href="'.$url.'"'.$href_title.' class="menu_2"'.$attributes.'><span>'.$label.'</span></a>'.MENU_2_SUFFIX;
 			break;
 
 		case 'month':
@@ -1809,7 +1791,7 @@ Class Skin_Skeleton {
 			if(!$href_title)
 				$href_title = ' title="'.encode_field(i18n::s('Provide this link to specialized software, such as a RSS news reader')).'"';
 
-			Skin::define_img('XML_IMG', 'icons/xml.gif');
+			Skin::define_img('XML_IMG', 'tools/xml.gif');
 			$text = '<a href="'.$url.'"'.$href_title.' class="xml"'
 				.' onclick="window.open(this.href); return false;"'
 				.' onkeypress="window.open(this.href); return false;" rel="nofollow">'.XML_IMG.$label.'</a>';
@@ -1908,11 +1890,11 @@ Class Skin_Skeleton {
 			$text = '<p class="columns_prefix" />';
 
 			// build the left column
-			$text .= Skin::build_list($column_1, 'column_1', TWO_COLUMNS_IMG, $new_window);
+			$text .= Skin::build_list($column_1, 'column_1', MAP_IMG, $new_window);
 
 			// build the right column
 			if(count($column_2))
-				$text .= Skin::build_list($column_2, 'column_2', TWO_COLUMNS_IMG, $new_window);
+				$text .= Skin::build_list($column_2, 'column_2', MAP_IMG, $new_window);
 
 			// clear text after columns
 			$text .= '<p class="columns_suffix" />';
@@ -1934,7 +1916,7 @@ Class Skin_Skeleton {
 		elseif($variant == 'decorated')
 			$default_icon = DECORATED_IMG;
 		elseif(($variant == '1-column') || ($variant == '2-columns'))
-			$default_icon = TWO_COLUMNS_IMG;
+			$default_icon = MAP_IMG;
 
 		// parse and transform the list
 		$list = array();
@@ -1973,10 +1955,18 @@ Class Skin_Skeleton {
 			if(($variant == 'crumbs') || ($variant == 'tabs'))
 				$label = strip_tags($label, '<img>');
 
+			if($variant == 'column_1')
+				$label = '<span class="box_header">'.$label.'</span>';
+
 			// ease the handling of css, but only for links
-			if(($variant == 'tabs') || ($variant == 'menu_bar') || (($type == 'basic') && ($variant == 'page_menu')))
-				if(isset($url[0]) && ($url[0] != '_'))
+			if(($variant == 'tabs') || ($variant == 'menu_bar') || (($type == 'basic') && ($variant == 'page_menu'))) {
+				if(count($list) == 0)
+					$label = '<span class="first">'.$label.'</span>';
+				elseif(count($list)+1 == count($items))
+					$label = '<span class="last">'.$label.'</span>';
+				else
 					$label = '<span>'.$label.'</span>';
+			}
 
 			// the beautified link --if $url is '_', Skin::build_link() will return the label alone
 			$link = '';
@@ -1996,7 +1986,7 @@ Class Skin_Skeleton {
 
 				// adjust the class
 				$class= '';
-				if((($variant == 'column_1') || ($variant == 'column_2')) && isset($context['classes_for_thumbnail_images']))
+				if((($variant == 'column_1') || ($variant == 'column_2')) && isset($context['classes_for_thumbnail_images']) && $context['classes_for_thumbnail_images'])
 					$class = 'class="'.$context['classes_for_thumbnail_images'].'" ';
 
 				// build the complete HTML element
@@ -2123,50 +2113,50 @@ Class Skin_Skeleton {
 
 		case 'aim':
 			$url = 'aim:goim?screenname='.urlencode(trim($text));
-			Skin::define_img('AIM_IMG', 'icons/pagers/aim.gif', 'AIM', 'AIM');
+			Skin::define_img('AIM_IMG', 'pagers/aim.gif', 'AIM', 'AIM');
 			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If AOL Instant Messenger has been installed, click to open a session')).'">'.AIM_IMG.'</a>';
 			break;
 
 		case 'icq':
 			$url = 'http://www.icq.com/whitepages/wwp.php?to='.urlencode(trim($text)).'&amp;action=message';
-			Skin::define_img('ICQ_IMG', 'icons/pagers/icq.gif', 'ICQ', 'ICQ');
+			Skin::define_img('ICQ_IMG', 'pagers/icq.gif', 'ICQ', 'ICQ');
 			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If ICQ has been installed, click to open a session')).'">'.ICQ_IMG.'</a>';
 			break;
 
 		case 'irc':
 			$url = 'irc://'.urlencode(trim($text));
-			Skin::define_img('IRC_IMG', 'icons/pagers/irc.gif', 'IRC', 'IRC');
+			Skin::define_img('IRC_IMG', 'pagers/irc.gif', 'IRC', 'IRC');
 			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If some IRC software has been installed, click to open a session')).'">'.IRC_IMG.'</a>';
 			break;
 
 		case 'jabber':
 			// as per http://juberti.blogspot.com/2006/11/gtalk-uri.html
 			$url = 'gtalk:chat?jid='.urlencode(trim($text));
-			Skin::define_img('JABBER_IMG', 'icons/pagers/jabber.gif', 'Jabber', 'Jabber');
+			Skin::define_img('JABBER_IMG', 'pagers/jabber.gif', 'Jabber', 'Jabber');
 			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If some Jabber software has been installed, click to open a session')).'">'.JABBER_IMG.'</a>';
 			break;
 
 		case 'msn':
 			$url = "javascript:MsgrApp.LaunchIMUI('".trim($text)."')";
-			Skin::define_img('MSN_IMG', 'icons/pagers/msn.gif', 'MSN', 'MSN');
+			Skin::define_img('MSN_IMG', 'pagers/msn.gif', 'MSN', 'MSN');
 			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If Windows Live Messenger has been installed, click to open a session')).'">'.MSN_IMG.'</a>';
 			break;
 
 		case 'skype':
 			$url = 'callto://'.urlencode(trim($text));
-			Skin::define_img('SKYPE_IMG', 'icons/pagers/skype.gif', 'Skype', 'Skype');
+			Skin::define_img('SKYPE_IMG', 'pagers/skype.gif', 'Skype', 'Skype');
 			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If Skype software is installed, click to open a Skype session')).'">'.SKYPE_IMG.'</a>';
 			break;
 
 		case 'twitter':
 			$url = 'http://www.twitter.com/'.urlencode(trim($text));
-			Skin::define_img('TWITTER_IMG', 'icons/pagers/twitter.gif', 'Twitter', 'Twitter');
+			Skin::define_img('TWITTER_IMG', 'pagers/twitter.gif', 'Twitter', 'Twitter');
 			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('Visit the Twitter page')).'">'.TWITTER_IMG.'</a>';
 			break;
 
 		case 'yahoo':
 			$url = 'ymsgr:sendim?'.urlencode(trim($text));
-			Skin::define_img('YAHOO_IMG', 'icons/pagers/yahoo.gif', 'Yahoo!', 'Yahoo!');
+			Skin::define_img('YAHOO_IMG', 'pagers/yahoo.gif', 'Yahoo!', 'Yahoo!');
 			$output = '<a href="'.$url.'" title="'.encode_field(i18n::s('If Yahoo Messenger has been installed, click to open session')).'">'.YAHOO_IMG.'</a>';
 			break;
 
@@ -2367,19 +2357,19 @@ Class Skin_Skeleton {
 		global $context;
 
 		if($rating == 1) {
-			Skin::define_img('RATING_1_IMG', 'icons/rating/rated_1.gif', '*', '*');
+			Skin::define_img('RATING_1_IMG', 'rating/rated_1.gif', '*', '*');
 			$output = RATING_1_IMG;
 		} elseif($rating == 2) {
-			Skin::define_img('RATING_2_IMG', 'icons/rating/rated_2.gif', '**', '**');
+			Skin::define_img('RATING_2_IMG', 'rating/rated_2.gif', '**', '**');
 			$output = RATING_2_IMG;
 		} elseif($rating == 3) {
-			Skin::define_img('RATING_3_IMG', 'icons/rating/rated_3.gif', '***', '***');
+			Skin::define_img('RATING_3_IMG', 'rating/rated_3.gif', '***', '***');
 			$output = RATING_3_IMG;
 		} elseif($rating == 4) {
-			Skin::define_img('RATING_4_IMG', 'icons/rating/rated_4.gif', '****', '****');
+			Skin::define_img('RATING_4_IMG', 'rating/rated_4.gif', '****', '****');
 			$output = RATING_4_IMG;
 		} elseif($rating == 5) {
-			Skin::define_img('RATING_5_IMG', 'icons/rating/rated_5.gif', '*****', '*****');
+			Skin::define_img('RATING_5_IMG', 'rating/rated_5.gif', '*****', '*****');
 			$output = RATING_5_IMG;
 		} else
 			$output = '';
@@ -2404,7 +2394,7 @@ Class Skin_Skeleton {
 				// box content in a sidebar box
 				include_once $context['path_to_root'].'agents/referrals.php';
 				if($items = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].$script))
-					$output =& Skin::build_box(i18n::s('Referrals'), $items, 'navigation', 'referrals');
+					$output =& Skin::build_box(i18n::s('Referrals'), $items, 'extra', 'referrals');
 
 				// save in cache for 5 minutes 60 * 5 = 300
 				Cache::put($cache_id, $output, 'stable', 300);
@@ -2442,10 +2432,11 @@ Class Skin_Skeleton {
 		$text = '<div class="sidebar_box"'.$id.'>'."\n";
 
 		// always add a header
-		$text .= '<h3><span>'.$title."</span></h3>\n";
+		if($title)
+			$text .= '<h3><span>'.$title."</span></h3>\n";
 
 		// box content
-		$text .= '<div>'.$content.'</div>';
+		$text .= '<div class="sidebar_body">'.$content.'</div>';
 
 		// external div boundary
 		$text .= '</div>'."\n";
@@ -2464,6 +2455,12 @@ Class Skin_Skeleton {
 	 */
 	function &build_sliding_box($title, &$content, $id, $onLeft=NULL) {
 		global $context;
+
+		// the icon used to slide down
+		Skin::define_img_href('SLIDE_DOWN_IMG_HREF', 'layouts/slide_down.gif');
+
+		// the icon used to slide up
+		Skin::define_img_href('SLIDE_UP_IMG_HREF', 'layouts/slide_up.gif');
 
 		// we need a clickable title
 		if(!$title)
@@ -2521,15 +2518,15 @@ Class Skin_Skeleton {
 		$items = array();
 
 		// an easy link to addthis bookmarks
-		if(file_exists($context['path_to_root'].'skins/images/feeds/addthis0-bm.gif'))
+		if(file_exists($context['path_to_root'].'skins/_reference/feeds/addthis0-bm.gif'))
 			$items[] = '<a href="http://www.addthis.com/bookmark.php?pub='.urlencode($context['site_name']).'&amp;url='.urlencode($url).'&amp;title='.urlencode($title).'" onclick="window.open(this.href); return false;">'
-				.'<img src="'.$context['url_to_root'].'skins/images/feeds/addthis0-bm.gif" width="83" height="16" alt="AddThis Social Bookmark Button" />'
+				.'<img src="'.$context['url_to_root'].'skins/_reference/feeds/addthis0-bm.gif" width="83" height="16" alt="AddThis Social Bookmark Button" />'
 				.'</a>';
 
 		// an easy link to addthis feeds
-		if(file_exists($context['path_to_root'].'skins/images/feeds/addthis0-fd.gif'))
+		if(file_exists($context['path_to_root'].'skins/_reference/feeds/addthis0-fd.gif'))
 			$items[] = '<a href="http://www.addthis.com/feed.php?&amp;h1='.urlencode($url).'&amp;t1='.urlencode($title).'pub='.urlencode($context['site_name']).'" onclick="window.open(this.href); return false;">'
-				.'<img src="'.$context['url_to_root'].'skins/images/feeds/addthis0-fd.gif" width="83" height="16" alt="AddThis Feed Button" />'
+				.'<img src="'.$context['url_to_root'].'skins/_reference/feeds/addthis0-fd.gif" width="83" height="16" alt="AddThis Feed Button" />'
 				.'</a>';
 
 		// job done
@@ -2583,9 +2580,6 @@ Class Skin_Skeleton {
 
 	/**
 	 * build tabs
-	 *
-	 * You should call this function only once in a script, because it uses
-	 * dedicated ids for the generated divs.
 	 *
 	 * [php]
 	 * $context['text'] .= Skin::build_tabs(array(
@@ -2692,9 +2686,14 @@ Class Skin_Skeleton {
 		foreach($tags as $tag) {
 			if(!$tag = trim($tag))
 				continue;
-			if($category = Categories::get_by_keyword($tag))
+			if($category = Categories::get_by_keyword($tag)) {
+
+				// add background color to distinguish this category against others
+				if(isset($category['background_color']) && $category['background_color'])
+					$tag = '<span style="background-color: '.$category['background_color'].'; padding: 0 3px 0 3px;">'.$tag.'</span>';
+
 				$text .= Skin::build_link(Categories::get_permalink($category), $tag, 'basic').' ';
-			else
+			} else
 				$text .= $tag.' ';
 		}
 		$text = rtrim($text, ' ');
@@ -2783,6 +2782,12 @@ Class Skin_Skeleton {
 	 */
 	function &build_toc_box($title, &$content, $id) {
 		global $context;
+
+		// the icon used to slide down
+		Skin::define_img_href('SLIDE_DOWN_IMG_HREF', 'layouts/slide_down.gif');
+
+		// the icon used to slide up
+		Skin::define_img_href('SLIDE_UP_IMG_HREF', 'layouts/slide_up.gif');
 
 		// we need a clickable title
 		if(!$title)
@@ -2968,6 +2973,12 @@ Class Skin_Skeleton {
 	function &build_unfolded_box($title, &$content, $id='') {
 		global $context;
 
+		// the icon used to stretch folder divisions
+		Skin::define_img_href('FOLDER_EXTEND_IMG_HREF', 'layouts/folder_plus.gif');
+
+		// the icon used to pack folder divisions
+		Skin::define_img_href('FOLDER_PACK_IMG_HREF', 'layouts/folder_minus.gif');
+
 		// we need a clickable title
 		if(!$title)
 			$title = i18n::s('Click to slide');
@@ -3127,8 +3138,32 @@ Class Skin_Skeleton {
 		// make an absolute path to image, in case of export (freemind, etc.)
 		if($size = Safe::GetImageSize($context['path_to_root'].$context['skin'].'/'.$file))
 			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.'/> ');
-		elseif($size = Safe::GetImageSize($context['path_to_root'].'skins/images/'.$file))
-			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].'skins/images/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.'/> ');
+		elseif($size = Safe::GetImageSize($context['path_to_root'].'skins/_reference/'.$file))
+			define($name, '<img src="'.$context['url_to_home'].$context['url_to_root'].'skins/_reference/'.$file.'" '.$size[3].' alt="'.$alternate.'" '.$options.'/> ');
+		else
+			define($name, $default);
+	}
+
+	/**
+	 * define a constant img tag
+	 *
+	 * mainly called from initialize(), in skins/skin_skeleton.php, and as Skin::initialize()
+	 *
+	 * @param string constant name, in upper case
+	 * @param string file name for this image
+	 */
+	function define_img_href($name, $file, $default='') {
+		global $context;
+
+		// sanity check
+		if(defined($name))
+			return;
+
+		// make an absolute path to image, in case of export (freemind, etc.)
+		if(file_exists($context['path_to_root'].$context['skin'].'/'.$file))
+			define($name, $context['url_to_home'].$context['url_to_root'].$context['skin'].'/'.$file);
+		elseif(file_exists($context['path_to_root'].'skins/_reference/'.$file))
+			define($name, $context['url_to_home'].$context['url_to_root'].'skins/_reference/'.$file);
 		else
 			define($name, $default);
 	}
@@ -3401,13 +3436,8 @@ Class Skin_Skeleton {
 					if(is_array($label))
 						$label = $label[0];
 
-					// mark first and last items
-					if($line_count == 1)
-						$text .= '<span class="first">'.$label.'</span>';
-					elseif($line_count == count($list))
-						$text .= '<span class="last">'.$label.'</span>';
-					else
-						$text .= $label;
+					$text .= $label;
+
 				}
 
 				$text = '<p class="menu_bar">'.MENU_PREFIX.$text.MENU_SUFFIX."</p>\n";
@@ -3530,7 +3560,7 @@ Class Skin_Skeleton {
 				$text = '<div class="stack">'.implode("\n", $stack).'</div>';
 				break;
 
-			// to handle tabs; use css selector div#tabs, etc. or override constants in skin.php
+			// to handle tabs; use css selector div.tabs, etc. or override constants in skin.php
 			case 'tabs':
 
 				$line_count = 0;
@@ -3545,7 +3575,7 @@ Class Skin_Skeleton {
 					$text .= '<li'.$id.'>'.TABS_ITEM_PREFIX.$label.TABS_ITEM_SUFFIX.'</li>'."\n";
 				}
 
-				$text = '<div id="tabs">'.TABS_PREFIX.'<ul>'."\n".$text.'</ul>'.TABS_SUFFIX."</div>\n";
+				$text = '<div class="tabs">'.TABS_PREFIX.'<ul>'."\n".$text.'</ul>'.TABS_SUFFIX."</div>\n";
 				break;
 
 			// similar to compact
@@ -3632,10 +3662,10 @@ Class Skin_Skeleton {
 			$text = i18n::s('A: ');
 		else
 			$text = 'A: ';
-		Skin::define_img('ANSWER_FLAG', 'icons/answer.gif', $text, '!!');
+		Skin::define_img('ANSWER_FLAG', 'codes/answer.gif', $text, '!!');
 
 		// the bullet used to prefix list items
-		Skin::define_img('BULLET_IMG', 'icons/bullet.gif', '¤', '-');
+		Skin::define_img('BULLET_IMG', 'codes/bullet.gif', '*', '-');
 
 		// the HTML string inserted between categories
 		if(!defined('CATEGORY_PATH_SEPARATOR'))
@@ -3695,23 +3725,21 @@ Class Skin_Skeleton {
 			$options = 'class="'.$context['classes_for_thumbnail_images'].'" ';
 
 		// the img tag used with the [decorated] code; either a decorating icon, or equivalent to the bullet
-		Skin::define_img('DECORATED_IMG', 'icons/decorated.gif', BULLET_IMG, '*', $options);
+		Skin::define_img('DECORATED_IMG', 'layouts/decorated.gif', BULLET_IMG, '*', $options);
 
 		// the bullet used to signal pages to be published
 		if(is_callable(array('i18n', 's')))
 			$text = i18n::s('to publish');
 		else
 			$text = 'to publish';
-		Skin::define_img('DRAFT_FLAG', 'icons/to_publish.gif', '<span class="draft flag"><span> '.$text.' </span>&nbsp;</span>', $text);
+		Skin::define_img('DRAFT_FLAG', 'tools/draft.gif', '!', $text);
 
 		// the bullet used to signal expired pages
-		if(!defined('EXPIRED_FLAG')) {
-			if(is_callable(array('i18n', 's')))
-				$text = i18n::s('expired');
-			else
-				$text = 'expired';
-			define('EXPIRED_FLAG', '<span class="expired flag"><span> ('.$text.') </span>&nbsp;</span>');
-		}
+		if(is_callable(array('i18n', 's')))
+			$text = i18n::s('expired');
+		else
+			$text = 'expired';
+		Skin::define_img('EXPIRED_FLAG', 'tools/expired.gif', '!', $text);
 
 		// the HTML to be inserted before section family
 		if(!defined('FAMILY_PREFIX'))
@@ -3724,24 +3752,6 @@ Class Skin_Skeleton {
 		// the maximum number of files per page
 		if(!defined('FILES_PER_PAGE'))
 			define('FILES_PER_PAGE', 30);
-
-		// the icon used to stretch folder divisions
-		if(!defined('FOLDER_EXTEND_IMG_HREF')) {
-			$file = $context['skin'].'/icons/folder_extend.gif';
-			if(file_exists($context['path_to_root'].$file))
-				define('FOLDER_EXTEND_IMG_HREF', $context['url_to_root'].$file);
-			else
-				define('FOLDER_EXTEND_IMG_HREF', '');
-		}
-
-		// the icon used to pack folder divisions
-		if(!defined('FOLDER_PACK_IMG_HREF')) {
-			$file = $context['skin'].'/icons/folder_pack.gif';
-			if(file_exists($context['path_to_root'].$file))
-				define('FOLDER_PACK_IMG_HREF', $context['url_to_root'].$file);
-			else
-				define('FOLDER_PACK_IMG_HREF', '');
-		}
 
 		// the horizontal ruler
 		if(!defined('HORIZONTAL_RULER'))
@@ -3775,7 +3785,10 @@ Class Skin_Skeleton {
 			define('LINKS_PER_PAGE', 200);
 
 		// the HTML used to signal a locked page
-		Skin::define_img('LOCKED_FLAG', 'icons/locked.gif', '%');
+		Skin::define_img('LOCKED_FLAG', 'tools/locked.gif', '%');
+
+		// the img tag used with 2-columns list; either a folder icon, or equivalent to the bullet
+		Skin::define_img('MAP_IMG', 'layouts/map.gif', DECORATED_IMG, '*', $options);
 
 		// the HTML string used to prefix topmenu items [menu]
 		if(!defined('MENU_1_PREFIX'))
@@ -3783,15 +3796,15 @@ Class Skin_Skeleton {
 
 		// the HTML string appended to topmenu items [menu]
 		if(!defined('MENU_1_SUFFIX'))
-			define('MENU_1_SUFFIX', BR);
+			define('MENU_1_SUFFIX', '');
 
 		// the HTML string used to prefix submenu items [submenu]
 		if(!defined('MENU_2_PREFIX'))
-			define('MENU_2_PREFIX', '&raquo;&nbsp;');
+			define('MENU_2_PREFIX', '');
 
 		// the HTML string appended to submenu items [submenu]
 		if(!defined('MENU_2_SUFFIX'))
-			define('MENU_2_SUFFIX', BR);
+			define('MENU_2_SUFFIX', '');
 
 		// the HTML string used to prefix a menu
 		if(!defined('MENU_PREFIX'))
@@ -3806,7 +3819,7 @@ Class Skin_Skeleton {
 			define('MENU_SUFFIX', '');
 
 		// the HTML used to append to a stripped text
-		Skin::define_img('MORE_IMG', 'icons/more.gif', ' &raquo;');
+		Skin::define_img('MORE_IMG', 'tools/more.gif', ' &raquo;');
 
 		// the bullet used to signal new pages
 		if(!defined('NEW_FLAG')) {
@@ -3863,27 +3876,21 @@ Class Skin_Skeleton {
 			$text = i18n::s('private');
 		else
 			$text = 'private';
-		Skin::define_img('PRIVATE_FLAG', 'icons/private.png', '('.$text.')');
+		Skin::define_img('PRIVATE_FLAG', 'tools/private.gif', '('.$text.')');
 
 		// the HTML to signal a question
 		if(is_callable(array('i18n', 's')))
 			$text = i18n::s('Q: ');
 		else
 			$text = 'Q: ';
-		Skin::define_img('QUESTION_FLAG', 'icons/question.gif', $text, '?');
+		Skin::define_img('QUESTION_FLAG', 'codes/question.gif', $text, '?');
 
 		// the bullet used to signal restricted pages
 		if(is_callable(array('i18n', 's')))
 			$text = i18n::s('restricted');
 		else
 			$text = 'restricted';
-		Skin::define_img('RESTRICTED_FLAG', 'icons/restricted.png', '('.$text.')');
-
-		// the theme to use for on-line presentations
-		if(!defined('S5_THEME') && file_exists($context['path_to_root'].$context['skin'].'/s5/yacs/slides.css'))
-			define('S5_THEME', 'yacs');
-		if(!defined('S5_THEME'))
-			define('S5_THEME', 'i18n');
+		Skin::define_img('RESTRICTED_FLAG', 'tools/restricted.gif', '('.$text.')');
 
 		// the maximum number of sections attached to an anchor -- see sections/select.php
 		if(!defined('SECTIONS_LIST_SIZE'))
@@ -3901,35 +3908,17 @@ Class Skin_Skeleton {
 		if(!defined('SITE_NAME_SUFFIX'))
 			define('SITE_NAME_SUFFIX', '');
 
-		// the icon used to slide down
-		if(!defined('SLIDE_DOWN_IMG_HREF')) {
-			$file = 'skins/_reference/down.gif';
-			if(file_exists($context['path_to_root'].$file))
-				define('SLIDE_DOWN_IMG_HREF', $context['url_to_root'].$file);
-			else
-				define('SLIDE_DOWN_IMG_HREF', '');
-		}
-
-		// the icon used to slide up
-		if(!defined('SLIDE_UP_IMG_HREF')) {
-			$file = 'skins/_reference/up.gif';
-			if(file_exists($context['path_to_root'].$file))
-				define('SLIDE_UP_IMG_HREF', $context['url_to_root'].$file);
-			else
-				define('SLIDE_UP_IMG_HREF', '');
-		}
-
 		// the HTML used to signal sticky pages
 		if(!defined('STICKY_FLAG'))
 			define('STICKY_FLAG', '');
 
 		// the HTML string appended to each item of the site bar
 		if(!defined('TABS_ITEM_SUFFIX'))
-			define('TABS_ITEM_SUFFIX', '</span>');
+			define('TABS_ITEM_SUFFIX', '');
 
 		// the HTML string used to prefix each item of the site bar
 		if(!defined('TABS_ITEM_PREFIX'))
-			define('TABS_ITEM_PREFIX', '<span>');
+			define('TABS_ITEM_PREFIX', '');
 
 		// the HTML string used to prefix the site bar
 		if(!defined('TABS_PREFIX'))
@@ -3953,9 +3942,6 @@ Class Skin_Skeleton {
 		// the HTML to signal a shortcut after a title
 		if(!defined('TITLE_SHORTCUT'))
 			define('TITLE_SHORTCUT', '&raquo;');
-
-		// the img tag used with 2-columns list; either a folder icon, or equivalent to the bullet
-		Skin::define_img('TWO_COLUMNS_IMG', 'icons/folder.gif', BULLET_IMG, '*', $options);
 
 		// the bullet used to signal updated pages
 		if(!defined('UPDATED_FLAG')) {
@@ -4404,10 +4390,10 @@ Class Skin_Skeleton {
 
 		case 'slideshow':	// images/view.php
 
-			Skin::define_img('PREVIOUS_PREFIX', 'icons/previous_icon.gif', '&lt;&lt; ');
+			Skin::define_img('PREVIOUS_PREFIX', 'tools/previous.gif', '&lt;&lt; ');
 			$previous_label = PREVIOUS_PREFIX.$previous_label;
 
-			Skin::define_img('NEXT_SUFFIX', 'icons/next_icon.gif', ' &gt;&gt;');
+			Skin::define_img('NEXT_SUFFIX', 'tools/next.gif', ' &gt;&gt;');
 			$next_label = $next_label.NEXT_SUFFIX;
 
 			break;
@@ -4801,12 +4787,6 @@ Class Skin_Skeleton {
 		$current_table_has_body = FALSE;
 
 		switch($variant) {
-		case 'form':
-			$text = '<table class="form">'."\n";
-			break;
-		case 'grid':
-			$text = '<table class="grid">'."\n";
-			break;
 		case '100%':
 		case 'wide':
 			$text = '<table class="wide">'."\n";
@@ -4922,8 +4902,14 @@ Class Skin_Skeleton {
 		$text = '';
 		$count = 1;
 		foreach($cells as $cell) {
+			// west=...
+			if(preg_match('/^west=(.*)$/is', $cell, $matches))
+				$text .= $cell_opened.' class="west">'.$matches[1].$cell_suffix;
+			// east=...
+			elseif(preg_match('/^east=(.*)$/is', $cell, $matches))
+				$text .= $cell_opened.' class="east">'.$matches[1].$cell_suffix;
 			// right=...
-			if(preg_match('/^\s*right=(.*)$/is', $cell, $matches))
+			elseif(preg_match('/^\s*right=(.*)$/is', $cell, $matches))
 				$text .= $cell_opened.' style="text-align: right;">'.$matches[1].$cell_suffix;
 			// center=...
 			elseif(preg_match('/^\s*center=(.*)$/is', $cell, $matches))

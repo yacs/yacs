@@ -125,6 +125,10 @@ if(Surfer::is_crawler()) {
 
 			$label = Skin::strip($attributes['title']);
 
+			// add background color to distinguish this category against others
+			if(isset($attributes['background_color']) && $attributes['background_color'])
+				$label = '<span style="background-color: '.$attributes['background_color'].'; padding: 0 3px 0 3px;">'.$label.'</span>';
+
 			// build a unlink button for this category
 			if(Surfer::is_associate()) {
 				$suffix .= BR.'<form method="post" action="'.$context['script_url'].'"><div>'

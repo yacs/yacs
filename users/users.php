@@ -41,27 +41,32 @@ Class Users {
 	/**
 	 * alert one user
 	 *
-	 * This script sends an e-mail message.
+	 * This function sends messages only to users ready to receive alerts and notifications.
 	 *
-	 * @todo use the notification to create an action?
-	 *
-	 * This function will ensure that only one alert is send to a user,
+	 * It ensures that only one alert is send to a user,
 	 * by maintaining an internal list of ids that have been processed.
 	 *
 	 * @param mixed an array of attributes, or only an id of the user profile
-	 * @param array components of a mail message to be submitted to Mailer::notify() (i.e., $mail['subject'], $mail['message'])
-	 * @param array components of a notification to be submitted to Notifications::post()
+	 * @param array components of a mail message to be submitted to Mailer::notify()
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function alert($user, $mail, $notification=NULL) {
+	function alert($user, $mail) {
 		global $context;
 
 		// retrieve user attributes
 		if(!isset($user['id']) && !$user =& Users::get($user))
 			return FALSE;
 
+		// a valid address is required for e-mail...
+		if(!isset($user['email']) || !$user['email'])
+			return FALSE;
+
 		// ensure poster wants alerts
 		if(isset($user['without_alerts']) && ($user['without_alerts'] == 'Y'))
+			return FALSE;
+
+		// sanity check
+		if(!isset($mail['subject']) || !$mail['subject'] || !isset($mail['message']))
 			return FALSE;
 
 		// the list of users notified during overall script execution
@@ -76,14 +81,6 @@ Class Users {
 		// remember this recipient
 		$already_processed[] = $user['id'];
 
-		// a valid address is required for e-mail...
-		if(!isset($user['email']) || !$user['email'])
-			return FALSE;
-
-		// obviously we need a valid message as well
-		if(!isset($mail['subject']) || !$mail['subject'] || !isset($mail['message']))
-			return FALSE;
-
 		// use this email address
 		if($user['full_name'])
 			$recipient = '"'.str_replace(array(',', '"'), ' ', $user['full_name']).'" <'.$user['email'].'>';
@@ -96,44 +93,29 @@ Class Users {
 	}
 
 	/**
-	 * alert all watchers of one anchor
-	 *
-	 * This script send either real-time notifications or asynchronous
-	 * e-mail messages, depending of the presence of each watcher.
-	 *
-	 * Users who are currently visiting the target anchor are skipped silently.
+	 * alert watchers of one anchor
 	 *
 	 * @param mixed, either reference of the updated anchor, or array for containers path
 	 * @param array components of a mail message to be submitted to Mailer::notify() (i.e., $mail['subject'], $mail['message'])
-	 * @param array components of a notification to be submitted to Notifications::post()
 	 * @param array users assigned to the reference, if any
 	 * @return TRUE on success, FALSE otherwise
 	 */
-	function alert_watchers($reference, $mail, $notification=NULL, $restricted=NULL) {
+	function alert_watchers($reference, $mail, $restricted=NULL) {
 		global $context;
 
 		// list watchers, including watchers of containers of this page
-		if($items =& Members::list_watchers_by_posts_for_anchor($reference, 0, 500, 'raw', $restricted)) {
-
-			// who is visiting this page
-			if(is_array($reference))
-				$reference = $reference[0];
+		if($items =& Members::list_watchers_by_posts_for_anchor($reference, 0, 1000, 'raw', $restricted)) {
 
 			// check every watcher
-			include_once $context['path_to_root'].'users/visits.php';
 			foreach($items as $id => $attributes) {
 
 				// current surfer is already watching the thing
 				if(Surfer::get_id() && (Surfer::get_id() == $id))
 					continue;
 
-				// the user is already visiting this page
-				if(Visits::check_user_at_anchor($id, $reference))
-					continue;
-
 				// ensure this surfer wants to be alerted
-				elseif($attributes['without_alerts'] != 'Y')
-					Users::alert($attributes, $mail, $notification);
+				if($attributes['without_alerts'] != 'Y')
+					Users::alert($attributes, $mail);
 			}
 		}
 

@@ -148,7 +148,7 @@ if(!isset($item['id'])) {
 	$help .= '<p><ins>'.i18n::s('Text inserted since that version.').'</ins></p>'
 		.'<p><del>'.i18n::s('Text suppressed from this version.').'</del></p>'
 		.'<p>'.i18n::s('Caution: restoration can not be reversed!').'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 	//
 	// the navigation sidebar
@@ -163,7 +163,7 @@ if(!isset($item['id'])) {
 
 	// build a nice sidebar box
 	if($text)
-		$text =& Skin::build_box(i18n::s('Navigation'), $text, 'navigation', 'neighbours');
+		$text =& Skin::build_box(i18n::s('Navigation'), $text, 'extra', 'neighbours');
 
 	$context['components']['neighbours'] = $text;
 

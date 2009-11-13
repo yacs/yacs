@@ -283,9 +283,6 @@ if($id) {
 					if($attributes[1] == $result[1])
 						continue;
 
-					// in case content has been compressed
-					if(isset($attributes[2]) && ($attributes[2] == $result[3]))
-						continue;
 				}
 
 				// do we have a suitable copy in staging repository?
@@ -293,7 +290,7 @@ if($id) {
 				if(is_readable($context['path_to_root'].$staged) && ($result = Scripts::hash($staged))) {
 
 					// used staged file
-					$context['text'] .= sprintf(i18n::s('Used staged file %s'), $file).BR."\n";
+					$context['text'] .= sprintf(i18n::s('Using staged file %s'), $file).BR."\n";
 
 					$staging_files++;
 					continue;
@@ -322,7 +319,7 @@ if($id) {
 
 				// ensure we have an exact copy by comparing hashes
 				$staging_hash = Scripts::hash('scripts/staging/'.$file);
-				if(($attributes[1] != $staging_hash[1]) && (isset($attributes[2]) && ($attributes[2] != $staging_hash[3]))) {
+				if($attributes[1] != $staging_hash[1]) {
 					$context['text'] .= i18n::s('File has been corrupted!').BR."\n";
 					$errors++;
 					continue;

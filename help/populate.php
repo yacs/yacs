@@ -2,10 +2,6 @@
 /**
  * populate the database
  *
- * @todo allow for the creation of a calendar in a section
- * @todo allow for the creation of a s5 presentation
- * @todo allow for the capture of a remote rss feed in a new section
- *
  * This script helps to create records in the database.
  *
  * The script populates the database according to the value of the parameter 'action':
@@ -1933,7 +1929,7 @@ if(!$permitted) {
 	// the help panel
 	$help = '<p>'.i18n::s('Turn any regular section to a photo album by adding images to posted pages.').'</p>'
 		.'<p>'.i18n::s('YACS creates weekly and monthly archives automatically. No specific action is required to create these.').'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 	// contribution shortcuts
 	if(Surfer::is_member()) {
@@ -1949,7 +1945,7 @@ if(!$permitted) {
 
 		$label .= '</ul>'."\n";
 
-		$context['components']['boxes'] .= Skin::build_box(i18n::s('Shortcuts'), $label, 'navigation');
+		$context['components']['boxes'] .= Skin::build_box(i18n::s('Shortcuts'), $label, 'extra');
 	}
 
 }

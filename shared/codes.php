@@ -797,7 +797,6 @@ Class Codes {
 				'/\[decorated\](.*?)\[\/decorated\]/ise',// [decorated]...[/decorated]
 				'/\[style=([^\]]+?)\](.*?)\[\/style\]/ise', // [style=variant]...[/style]
 				'/\[hint=([^\]]+?)\](.*?)\[\/hint\]/is',	// [hint=help]...[/hint]
-				'/\[caption\](.*?)\[\/caption\]/ise',	// [caption]...[/caption]
 				'/\[tiny\](.*?)\[\/tiny\]/ise', 		// [tiny]...[/tiny]
 				'/\[small\](.*?)\[\/small\]/ise',		// [small]...[/small]
 				'/\[big\](.*?)\[\/big\]/ise',			// [big]...[/big]
@@ -989,7 +988,6 @@ Class Codes {
 				"Skin::build_block(Codes::fix_tags('$1'), 'decorated')",			// [decorated]...[/decorated]
 				"Skin::build_block(Codes::fix_tags('$2'), '$1')", 					// [style=variant]...[/style]
 				'<acronym title="\\1">\\2</acronym>',								// [hint=help]...[/hint]
-				"Skin::build_block(Codes::fix_tags('$1'), 'caption')",				// [caption]...[/caption]
 				"Skin::build_block(Codes::fix_tags('$1'), 'tiny')",					// [tiny]...[/tiny]
 				"Skin::build_block(Codes::fix_tags('$1'), 'small')",				// [small]...[/small]
 				"Skin::build_block(Codes::fix_tags('$1'), 'big')",					// [big]...[/big]
@@ -1113,18 +1111,18 @@ Class Codes {
 				"Codes::render_location('$1')",										// [location=<id>]
 				"Codes::render_wikipedia(Codes::fix_tags('$1'))",					// [wikipedia=keyword] or [wikipedia=keyword, title]
 				"Codes::render_graphviz('$1', 'digraph')",							// [digraph]...[/digraph]
-				' <img src="'.$context['url_to_root'].'skins/images/flags/be.gif" alt="" /> ', // [be] belgian flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/ca.gif" alt="" /> ', // [ca] canadian flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/ch.gif" alt="" /> ', // [ch] swiss flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/de.gif" alt="" /> ', // [de] german flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/gb.gif" alt="" /> ', // [en] english flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/es.gif" alt="" /> ', // [es] spanish flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/fr.gif" alt="" /> ', // [fr] french flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/gb.gif" alt="" /> ', // [gb] english flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/gr.gif" alt="" /> ', // [gr] greek flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/it.gif" alt="" /> ', // [it] italian flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/pt.gif" alt="" /> ', // [pt] portuguese flag
-				' <img src="'.$context['url_to_root'].'skins/images/flags/us.gif" alt="" /> ', // [us] us flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/be.gif" alt="" /> ', // [be] belgian flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/ca.gif" alt="" /> ', // [ca] canadian flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/ch.gif" alt="" /> ', // [ch] swiss flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/de.gif" alt="" /> ', // [de] german flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/gb.gif" alt="" /> ', // [en] english flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/es.gif" alt="" /> ', // [es] spanish flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/fr.gif" alt="" /> ', // [fr] french flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/gb.gif" alt="" /> ', // [gb] english flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/gr.gif" alt="" /> ', // [gr] greek flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/it.gif" alt="" /> ', // [it] italian flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/pt.gif" alt="" /> ', // [pt] portuguese flag
+				' <img src="'.$context['url_to_root'].'skins/_reference/flags/us.gif" alt="" /> ', // [us] us flag
 				' <br style="clear: both;" /> ',									// [clear]
 				BR, 																// [nl]
 				BR																	// [br] (deprecated by [nl])

@@ -396,7 +396,7 @@ if($with_form) {
 	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
 	$help .= '</select></p></form>';
 
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 }
 

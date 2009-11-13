@@ -202,6 +202,9 @@ if(Surfer::is_crawler()) {
 		Versions::save($item, 'file:'.$item['id']);
 	}
 
+	// just an update of the record
+	$action = 'file:update';
+
 	// a file has been uploaded
 	if(isset($_FILES['upload']['name']) && $_FILES['upload']['name'] && ($_FILES['upload']['name'] != 'none')) {
 
@@ -209,8 +212,12 @@ if(Surfer::is_crawler()) {
 		$file_path = 'files/'.$context['virtual_path'].str_replace(':', '/', $_REQUEST['anchor']);
 
 		// attach some file
-		if($file_name = Files::upload($_FILES['upload'], $file_path))
+		if($file_name = Files::upload($_FILES['upload'], $file_path)) {
 			$_REQUEST['file_name'] = $file_name;
+
+			// actually, a new file
+			$action = 'file:create';
+		}
 
 		// maybe this file has already been uploaded for this anchor
 		if(isset($_REQUEST['anchor']) && ($match =& Files::get_by_anchor_and_name($_REQUEST['anchor'], $file_name))) {
@@ -256,37 +263,9 @@ if(Surfer::is_crawler()) {
 		// ensure we have a file name
 		$_REQUEST['file_name'] = utf8::to_ascii(str_replace('%20', ' ', basename($_REQUEST['file_href'])));
 
-		// create an anchor if none has been provided
-		if(!is_object($anchor)) {
-
-			// set the title
-			$fields['title'] = ucfirst(strip_tags($_REQUEST['title']));
-
-			// most of time, it is more pertinent to move the description to the article itself
-			$fields['description'] = $_REQUEST['description'];
-			$_REQUEST['description'] = '';
-
-			// use the provided section, if any
-			if($_REQUEST['section'])
-				$fields['anchor'] = $_REQUEST['section'];
-
-			// select the default section
-			else
-				$fields['anchor'] = 'section:'.Sections::get_default();
-
-			// create a hosting article for this file
-			if($fields['id'] = Articles::post($fields)) {
-				$anchor =& Anchors::get('article:'.$fields['id']);
-				$_REQUEST['anchor'] = $anchor->get_reference();
-			}
-			$fields = array();
-		}
-
 	// nothing has been posted
-	} elseif(!isset($_REQUEST['id'])) {
+	} elseif(!isset($_REQUEST['id']))
 		Logger::error(i18n::s('No file has been transmitted.'));
-
-	}
 
 	// make the file name searchable on initial post
 	if(!isset($_REQUEST['id']) && isset($_REQUEST['file_name']))
@@ -305,8 +284,8 @@ if(Surfer::is_crawler()) {
 		$item = $_REQUEST;
 		$with_form = TRUE;
 
-	// reward the poster for new posts
-	} elseif(!isset($item['id'])) {
+	// reward the poster for new posts, or for actual upload
+	} elseif(!isset($item['id']) || ($action == 'file:create')) {
 
 		// always touch the related anchor on new posts
 		$anchor->touch('file:create', $_REQUEST['id']);
@@ -362,14 +341,14 @@ if(Surfer::is_crawler()) {
 	// forward to the updated page
 	} else {
 
-		// increment the post counter of the surfer
-		Users::increment_posts(Surfer::get_id());
-
 		// touch the related anchor
 		$anchor->touch('file:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// clear cache
 		Files::clear($_REQUEST);
+
+		// increment the post counter of the surfer
+		Users::increment_posts(Surfer::get_id());
 
 		// forward to the anchor page
 		Safe::redirect($context['url_to_home'].$context['url_to_root'].$anchor->get_url('files'));
@@ -700,7 +679,7 @@ if($with_form) {
 		.'<p>'.i18n::s('Also, take the time to describe your post. This field is fully indexed for searches.').'</p>'
 		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>'
 		.'<p>'.i18n::s('Lastly, indicate the original source of the file if you know it, either with a name or, better, with a web address.').'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'navigation', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
 
 }
 
