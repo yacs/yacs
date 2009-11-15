@@ -1955,7 +1955,7 @@ Class Skin_Skeleton {
 			if(($variant == 'crumbs') || ($variant == 'tabs'))
 				$label = strip_tags($label, '<img>');
 
-			if($variant == 'column_1')
+			if(($variant == 'column_1') || ($variant == 'column_2'))
 				$label = '<span class="box_header">'.$label.'</span>';
 
 			// ease the handling of css, but only for links
@@ -4436,8 +4436,6 @@ Class Skin_Skeleton {
 			$text .= '<ul>';
 			if($previous)
 				$text .= '<li class="previous">'.$previous.'</li>';
-//			if($option)
-//				$text .= '<li class="option">'.$option.'</li>';
 			if($next)
 				$text .= '<li class="next">'.$next.'</li>';
 			$text .= '</ul>';
@@ -4509,10 +4507,8 @@ Class Skin_Skeleton {
 
 			$text .= "\n".'// from item '.$from.' to item '.$to."\n"
 				.'function rotate_'.$from.'() {'."\n"
-				.'	handle = $("'.$from.'");'."\n"
-				.'	handle.style.display="none";'."\n"
-				.'	handle = $("'.$to.'");'."\n"
-				.'	handle.style.display="block";'."\n"
+				.'	new Effect.Fade($("'.$from.'"), {duration:.3, scaleContent:false});'."\n"
+				.'	new Effect.Appear($("'.$to.'"), {duration:.3, scaleContent:false, queue:\'end\'});'."\n"
 				.'	setTimeout("rotate_'.$to.'()",5000);'."\n"
 				.'}'."\n";
 		}
@@ -4584,11 +4580,11 @@ Class Skin_Skeleton {
 			.'	current = parseInt(handle.style.'.$object_parameter.') - scroller_'.$scroller_id.'_speed;'."\n"
 			.'	if(current < scroller_'.$scroller_id.'_stop)'."\n"
 			.'		current = scroller_'.$scroller_id.'_start;'."\n"
-			.'	handle.style.'.$object_parameter.' = current+"px";'."\n"
+			.'	handle.setStyle({\'position\': \'absolute\', \''.$object_parameter.'\': current+"px"});'."\n"
 			.'}'."\n"
 			."\n"
 			.'// initialise scroller when window loads'."\n"
-			.'window.onload = function() {'."\n"
+			.'document.observe("dom:loaded", function() {'."\n"
 			."\n"
 			.'	// locate the inside div'."\n"
 			.'	handle = $("scroller_'.$scroller_id.'");'."\n"
@@ -4605,7 +4601,7 @@ Class Skin_Skeleton {
 			.'	// start scrolling'."\n"
 			.'	interval = setInterval("scroll_scroller_'.$scroller_id.'()", 200);'."\n"
 			."\n"
-			.'}'."\n"
+			.'})'."\n"
 			."\n"
 			.JS_SUFFIX."\n";
 

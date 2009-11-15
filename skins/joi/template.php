@@ -115,9 +115,6 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 	// end of the main panel
 	echo '</div>'."\n";
 
-	// separator for text readers
-	echo '<hr class="hide" />'."\n";
-
 	// the side panel
 	echo '<div id="side_panel">'."\n";
 

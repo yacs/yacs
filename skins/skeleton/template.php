@@ -157,9 +157,6 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'prefix')) {
 // build the suffix only once
 if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 
-	// separator for text readers
-	echo '<hr class="hide" />'."\n";
-
 	// end of the main panel
 	echo '</div>'."\n";
 
@@ -178,9 +175,6 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 
 	// add a drop shadow
 	echo '<div id="wrapper_suffix"></div>'."\n";
-
-	// separator for text readers
-	echo '<hr class="hide" />'."\n";
 
 	// end of the wrapper
 	echo '</div>'."\n";

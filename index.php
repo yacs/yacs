@@ -2,9 +2,6 @@
 /**
  * welcome in the world of YACS
  *
- * @todo add fame.php to list most popular items (NickR)
- * @todo calendar view of articles (agnes)
- *
  * Well, this script is the front page of a YACS server.
  *
  * If you are looking for general information about YACS, including design principles, please look at [script]help/index.php[/script].

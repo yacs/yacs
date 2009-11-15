@@ -420,77 +420,6 @@ p#header_title  a { /* a link to the home page */
 	padding: 0;
 }
 
-#news { /* the navigation box for static news -- index.php, sections/view.php */
-}
-
-#news ul { /* the list of news */
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-#news hr { /* simple rule between items */
-	border-top: none;
-	border-left: none;
-	border-right: none;
-	border-bottom: 1px dotted #447;
-	height: 0px;
-}
-
-p#page_menu { /* an horizontal menu of commands */
-	display: inline; /* we are part of a div.dotted */
-	margin: 0 0 8px 0;
-	font-family: sans-serif;
-	font: 11px/14px verdana, arial, helvetica, sans-serif;
-	font-weight: normal;
-}
-
-p#page_menu a {
-	font-family: sans-serif;
-	font: 11px/14px verdana, arial, helvetica, sans-serif;
-	font-weight: normal;
-}
-
-@media print { /* do not print the page menu */
-	p#page_menu {
-		display: none;
-	}
-}
-
-dl#rotating_news dd { /* the navigation box for rotating news -- index.php, sections/view.php */
-	height: 12em; /* should be taller than longer element */
-	overflow: hidden; /* strip the tail, if any */
-	width: auto;
-}
-
-dl#rotating_news dd hr { /* items are displayed one at a time, and the separator is useless */
-	display: none;
-}
-
-dl#rotating_news dd ul { /* the actual list of news */
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-#scrolling_news div.scroller_outside { /* the navigation box for scrolling news -- index.php, sections/view.php */
-	height: 200px; /* the height of the scrolling area */
-}
-
-#scrolling_news hr { /* separate items */
-	border-top: none;
-	border-left: none;
-	border-right: none;
-	border-bottom: 1px dotted #447;
-	height: 0px;
-}
-
-#scrolling_news ul { /* a list with no bullet */
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
 body#slideshow { /* background for slideshows */
 	background: white;
 }
@@ -577,37 +506,6 @@ body#slideshow { /* background for slideshows */
  * styles by classes
  */
 
-img.avatar { /* an image representing a member -- do not float it! */
-	margin: 3px; /* some space around the image */
-}
-
-a.button { /* a link that mimic a form button -- [button]url[/button], [button=label]url[/button] */
-	border-color: #dcdcdc #696969 #696969 #dcdcdc;
-	border-style: solid;
-	border-width: 2px;
-	text-align: center;
-	padding: 4px;
-	line-height: 2em;
-}
-
-a.button,
-a:visited.button {
-	background-color: #c0c0c0;
-    color: #202020;
-	text-decoration: none;
-}
-
-a:active.button { /* click on button */
-	background-color: #cfcfcf;
-    color: #202040;
-	border-color: #696969 #dcdcdc #a9a9a9 #696969;
-}
-
-a:hover.button { /* hover a button */
-	background-color: #cfcfcf;
-    color: #202040;
-}
-
 table.calendar { /* add bottom and right borders to the table*/
 	border-spacing: 0;
 	border-collapse: collapse;
@@ -644,123 +542,12 @@ table.calendar td.spot {
 	font-weight: bold;
 }
 
-.center_image { /* an image in the middle of the page [image=xx, center] */
-	display: block;
-	position: relative;
-	clear: left;
-	text-align: center;
-	margin-top: 8px;
-	margin-bottom: 8px;
-}
-
-.center_image img { /* add a small border to all centered images */
-	border: 1px solid #333;
-}
-
-.center_image .large img {
-	background-color: #fff;
-	padding: 4px;
-}
-
-.center_image .image_caption { /* image caption */
-	display: block;
-	clear: left;
-	text-align: center;
-	padding: 0 4px 8px 4px;
-	margin: 0 0 8px 0;
-}
-
-table.collections { /* a list of downloadable files -- see collections/browse.php */
-	border-spacing: 0;
-	border: none;
-}
-
-table.collections a img {
-	border: none;
-}
-
-table.collections td {
-	border: none;
-	margin: 0;
-	padding: 0.3em 8px 0.3em 8px;
-}
-
-table.collections th {
-	border: none;
-	margin: 0;
-	padding: 0.3em 8px 0.3em 8px;
-}
-
-dl.column { /* one single column -- index.php */
-    margin: 1em 8px 8px 0;
-    padding: 0;
-}
-
-dl.column dd { /* column actual content */
-	margin: 0 0 1em 2em;
-	padding: 0 0 0 4px;
-	border-left: dotted 1px #D6CCBD;
-	overflow: hidden; /* kill oversized links */
-}
-
-dl.column dd p,
-dl.column dd ul { /* vertical margins within a box */
-	margin-top: 0.2em;
-	margin-bottom: 0.2em;
-}
-
-dl.column dt { /* the image aside the column */
-	clear: left;
-	border: 0;
-	margin: 0;
-	padding: 2px 0 2px 0;
-}
-
-dl.column dt img { /* align the image */
-	margin: 0;
-	padding: 0;
-}
-
 dl.column_1 dd,
 dl.column_2 dd { /* column actual content */
 	margin: 0 0 1em 25px;
 	padding: 1px 0 0.4em 0.7em;
 	border-left: dotted 1px #D6CCBD;
 	border-bottom: dotted 1px #D6CCBD;
-}
-
-@media screen { /* not on printers */
-
-	div.comment div {	/* some blog comment -- comments/layout_comments_as_daily.php */
-		margin-left: 1em;
-	}
-
-}
-
-ul.compact,
-#main_panel ul.compact,
-#side_panel ul.compact { /* we use our own item prefix -- see the skin script */
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-#main_panel ul.compact li,
-#side_panel ul.compact li { /* remove default bullet */
-    margin: 0;
-    padding: 0;
-    background: none;
-}
-
-p.date { /* date of a post, above its title -- articles/layout_articles_as_daily.php & skins/layout_home_articles_as_daily.php */
-	color: #888;
-	font: 11px/14px verdana, arial, helvetica, sans-serif;
-	margin-top: 1.5em;
-	margin-bottom: 0;
-	padding-bottom: 4px;
-	width: 100%;
-	border-bottom: 1px solid #ddd;
-	text-align: right;
 }
 
 #main_panel .details { /* less contrasted than regular text */
@@ -777,15 +564,6 @@ p.date { /* date of a post, above its title -- articles/layout_articles_as_daily
 	font-size: 11px; /* all text is small on side panel */
 }
 
-dl.download dd { /* the description below a download link -- see files/view.php */
-	margin-left: 0;
-}
-
-dl.download dt { /* the link to download a file -- see files/view.php */
-	margin-bottom: 1em;
-	font-weight: bold;
-}
-
 div.even { /* stacked with div.odd */
 	padding: 0.5em 0;
 }
@@ -796,79 +574,11 @@ div.even { /* stacked with div.odd */
 	list-style: disc;
 }
 
-div.external_image { /* display an image hosted elsewhere -- [img]url[/img] */
-	max-width: 400px; /* clip the image to preserve comments layout */
-	width: 400px;
-	overflow: hidden;
-}
-
-span#family { /* within section title -- see sections/view.php */
-	font-weight: normal;
-	font-size: 12px;
-	font-style: normal;
-	line-height: 12px;
-	color: #66a;
-}
-
-.family,
-.family a { /* to introduce several successive sections in a forum -- see sections/layout_sections_as_yabb.php */
-	font-weight: normal;
-	font-size: 12px;
-	font-style: normal;
-	background-color: #eee;
-	text-align: left;
-	padding: 4px;
-}
-
-table.form { /* a table used to present form fields */
-	border: none;
-}
-
-table.form td {
-	border: none;
-	margin: 0;
-	padding: 0.3em 0.5em 0.5em 0;
-}
-
-.frame_image span { /* a framed image -- [image=123,frame] */
-	float: left;
-	display: block;
-	background: url("images/shadow_alpha.png") no-repeat bottom right !important; 	/* for firefox */
-	background: url("images/shadow.gif") no-repeat bottom right;					/* for IE */
-	margin: 10px 0 1em 6px !important;
-}
-
-.frame_image span img {
-	display: block;
-	position: relative;
-	background-color: #fff;
-	border: 1px solid #a9a9a9;
-	margin: -6px 6px 6px -6px;
-	padding: 4px;
-}
-
-.frame_image span .image_caption { /* a nice panel with the title below the image */
-	text-align: left;
-	margin: -6px 6px 6px -6px;
-	padding: 10px;
-	background-color: #F0F0F0;
-	font-size: small;
-}
-
-.frame_image span.suffix { /* ensure following text flows below the image */
-	display: block;
-	clear: left;
-}
-
 dl.gadget_box { /* container of one gadget box -- also see #gadget_1, etc. -- from index.php, sections/view.php */
 	padding: 0;
 	margin: 0 1em 1em 0;
 	float: left;
 	width: 45%;
-}
-
-.hide { /* text readers will show it */
-	display: none;
 }
 
 .highlight1 { /* to locate words looked for, following a search request */
@@ -881,124 +591,6 @@ dl.gadget_box { /* container of one gadget box -- also see #gadget_1, etc. -- fr
 
 .highlight3 {
 	background-color: #FF8080;
-}
-
-img.icon { /* main image of an article, or of some section -- $context[page_image'], handled in template script */
-	border: 5px solid #ccc; /* add a border */
-	float: right;
-	margin: 6px 6px 10px 10px;
-	padding: 0;
-}
-
-br.images_prefix { /* before a set of thumbnails, to align them correctly -- [images] */
-	clear: left;
-}
-
-br.images_suffix { /* after a set of thumbnails, to align following text properly -- [/images] */
-	clear: left;
-}
-
-.inline_image { /* an embedded image (not the thumbnail, which is .thumbnail_image) */
-	margin: 8px 8px 8px 0;
-	text-align: left;
-}
-
-.inline_image .large {	/* a frame aligned to the left */
-	float: left;
-	display: block;
-	background: url("images/shadow_alpha.png") no-repeat bottom right !important; 	/* for firefox */
-	background: url("images/shadow.gif") no-repeat bottom right;					/* for IE */
-	margin: 10px 0 0 6px;
-	padding: 0;
-}
-
-.inline_image .large img {
-	display: block;
-	position: relative;
-	background-color: #fff;
-	border: 1px solid #a9a9a9;
-	margin: -6px 6px 6px -6px;
-	padding: 4px;
-}
-
-.inline_image .image_caption {	 /* image caption */
-	display: block;
-	clear: left;
-	text-align: left;
-	padding: 0 12px 8px 12px;
-	margin: 0 0 8px 0;
-}
-
-.left_image { /* an image floated to the left -- [image=xx, left] */
-	display: block;
-	float: left;
-	margin: 8px 8px 8px 0;
-	text-align: center;
-}
-
-.left_image .image_caption {	/* image caption */
-	display: block;
-	clear: left;
-	text-align: center;
-	padding: 0 4px 8px 4px;
-	margin: 0 0 8px 0;
-}
-
-.left_image .large {	/* a frame aligned to the left */
-	float: left;
-	display: block;
-	background: transparent url("images/shadow_alpha.png") no-repeat bottom right !important; 	/* for firefox */
-	background: transparent url("images/shadow.gif") no-repeat bottom right;					/* for IE */
-	margin: 10px 0 0 6px;
-	padding: 0;
-}
-
-.left_image .large img {
-	display: block;
-	position: relative;
-	background-color: #fff;
-	margin: -6px 6px 6px -6px;
-	padding: 4px;
-	border: 1px solid #a9a9a9;
-}
-
-dl.manual_comments { /* to list comments in a manual -- see comments/layout_comments_as_manual.php */
-	margin: 0 1em 0 0;
-	padding: 0;
-}
-
-dl.manual_comments dd { /* body of one note */
-	margin: 0 0 1em 0;
-	padding: 0.3em 1em 1em 1em;
-}
-
-dl.manual_comments dd.odd {
-	border-left: 1px solid #daa;
-	border-right: 1px solid #daa;
-	border-bottom: 1px solid #daa;
-}
-
-dl.manual_comments dd.even {
-	border-left: 1px solid #aaf;
-	border-right: 1px solid #aaf;
-	border-bottom: 1px solid #aaf;
-}
-
-dl.manual_comments dt { /* header of one note */
-	margin: 1em 0 0 0;
-	padding: 1em 1em 2px 1em;
-}
-
-dl.manual_comments dt.odd {
-	border-top: 1px solid #daa;
-	border-left: 1px solid #daa;
-	border-right: 1px solid #daa;
-}
-
-dl.manual_comments dt.even {
-	border-top: 1px solid #aaf;
-	border-left: 1px solid #aaf;
-	border-right: 1px solid #aaf;
 }
 
 .menu { /* a small inline menu, almost anywhere */
@@ -1019,108 +611,8 @@ div.odd { /* stacked with div.even */
 /*	background-color: #dfcb99; */
 }
 
-dl.poll { /* layout poll results */
-    margin: 1em 8px 8px 0;
-    padding: 0;
-}
-
-dl.poll dd { /* horizontal bar for one answer */
-	white-space: nowrap; /* to replace <nobr> */
-	margin: 0 0 1em 2em;
-	padding: 6px 0 0 0;
-}
-
-dl.poll dt { /* label of one answer */
-	clear: left;
-	border: 0;
-	margin: 0;
-	padding: 2px 3px 2px 0;
-	float: left;
-    width: 110px;
-}
-
-.right_image { /* an image floated to the rift -- [image=xx, right] */
-	float: right;
-	margin: 8px 0 8px 8px;
-	text-align: center;
-}
-
-.right_image .large {	/* a frame aligned to the right, yes, 'left' leads to right alignment... */
-	float: left;
-	display: block;
-	background: url("images/shadow_alpha.png") no-repeat bottom right !important; 	/* for firefox */
-	background: url("images/shadow.gif") no-repeat bottom right;					/* for IE */
-	margin: 10px 0 0 6px;
-	padding: 0;
-}
-
-.right_image .large img {
-	display: block;
-	position: relative;
-	background-color: #fff;
-	border: 1px solid #a9a9a9;
-	margin: -6px 6px 6px -6px;
-	padding: 4px;
-}
-
-.right_image .image_caption { /* image caption */
-	display: block;
-	clear: left;
-	text-align: center;
-	padding: 0 4px 8px 4px;
-	margin: 0 0 8px 0;
-}
-
-.scroller_inside { /* the internal div of a scroller */
-	position: relative;
-}
-
-.scroller_outside { /* the external div of a scroller */
-	overflow: hidden; /* strip the tail, if any */
-	position: relative; /* let the inside scroller work correctly */
-}
-
-div.section_box { /* components of the main content */
-	clear: left;
-    margin-top: 10px;
-}
-
-table.small tr td { /* [table=small]...[/table] */
-	font-family: sans-serif;
-	font-size: 0.8em;
-}
-
-td.sorted { /* for tables handled through javascript -- see tables/sort.js */
-	background-color: #f0f0f0;
-}
-
-th.sorted {
-	background-color: #c4c0c4;
-}
-
-tr.odd td.sorted {
-	background-color: #F4F0F4;
-}
-
-.thumbnail_image { /* float thumbnails to align them */
-	float: left;
-	display: table-cell;
-	margin-right: 8px;
-	text-align: center;
-	height: 150px;	/* to align with actual thumbnail height set in configuration panel for skins */
-	width: 120px;	/* to align with actual thumbnail width set in configuration panel for skins */
-}
-
 .thumbnail_image img { /* add a small border to images */
 	border: 1px solid #333;
-}
-
-.thumbnail_image .image_caption { /* caption */
-	display: block;
-	text-align: center;
-	font-size: 7pt;
-	padding-top: 0;
-	margin-top: 0;
 }
 
 /*
@@ -1141,33 +633,3 @@ div.metadata {
 	color: #666;
 }
 
-dl.wiki_comments { /* to list comments in a wiki -- see comments/layout_comments_as_wiki.php */
-}
-
-dl.wiki_comments dd { /* body of one note */
-	margin: 0 0 2em 4px;
-	padding: 0.5em 1em 0.5em 1em;
-}
-
-dl.wiki_comments dd.odd {
-	border-left: 1px solid #daa;
-}
-
-dl.wiki_comments dd.even {
-	border-left: 1px solid #aaf;
-}
-
-dl.wiki_comments dt { /* header of one note */
-	margin: 0;
-	padding: 0 0 2px 0;
-	display: inline;
-	margin-right: auto;
-}
-
-dl.wiki_comments dt.odd {
-	border-bottom: 1px solid #daa;
-}
-
-dl.wiki_comments dt.even {
-	border-bottom: 1px solid #aaf;
-}

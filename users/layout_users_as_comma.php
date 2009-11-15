@@ -23,7 +23,7 @@ Class Layout_users_as_comma extends Layout_interface {
 
 		// we return some text
 		$text = '';
-		
+
 		// empty list
 		if(!$delta = SQL::count($result))
 			return $text;
@@ -48,17 +48,17 @@ Class Layout_users_as_comma extends Layout_interface {
 			$prefix = $suffix = '';
 
 			// signal restricted and private users
-			if($item['active'] == 'N')
+			if(isset($item['active']) && ($item['active'] == 'N'))
 				$prefix .= PRIVATE_FLAG;
-			elseif($item['active'] == 'R')
+			elseif(isset($item['active']) && ($item['active'] == 'R'))
 				$prefix .= RESTRICTED_FLAG;
 
 			// signal banned profiles
-			if($item['capability'] == '?')
+			if(isset($item['capability']) && ($item['capability'] == '?'))
 				$prefix .= EXPIRED_FLAG;
 
 			// item title
-			if($item['full_name']) {
+			if(isset($item['full_name']) && $item['full_name']) {
 				$label = ucfirst(Skin::strip($item['full_name'], 10));
 				$hover = $item['nick_name'];
 			} else {
@@ -85,11 +85,11 @@ Class Layout_users_as_comma extends Layout_interface {
 
 		// turn this to some text
 		$text = Skin::build_list($items, 'comma');
-		
+
 		// some indications on the number of connections
 		if($delta -= $count)
 			$text .= ', ...';
-		
+
 		return $text;
 	}
 

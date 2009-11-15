@@ -136,9 +136,6 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 	// ensure we have some content
 	echo '<br style="clear: left;" />&nbsp;'."\n";
 
-	// separator for text readers
-	echo '<hr class="hide" />'."\n";
-
 	// end of the main panel
 	echo '</div>'."\n";
 
@@ -153,9 +150,6 @@ if(!isset($context['embedded']) || ($context['embedded'] == 'suffix')) {
 
 	// end of the footer panel
 	echo '</div>'."\n";
-
-	// separator for text readers
-	echo '<hr class="hide" />'."\n";
 
 	// end of the wrapper
 	echo '</div>'."\n";
