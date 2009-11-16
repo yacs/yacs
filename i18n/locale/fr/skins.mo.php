@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 12, 2009, 11:19 pm GMT. Please do not modify it manually.
+ * on November 16, 2009, 5:08 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-13 00:13+0100
-PO-Revision-Date: 2009-11-09 21:29+0100
+POT-Creation-Date: 2009-11-16 18:02+0100
+PO-Revision-Date: 2009-11-16 18:08+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -176,7 +176,6 @@ $_SESSION['l10n']['fr']['Impossible to read %s.']='Impossible de lire %s.';
 $_SESSION['l10n']['fr']['Impossible to write to %s.']='Impossible d\'écrire dans %s.';
 $_SESSION['l10n']['fr']['In %s']='Dans %s';
 $_SESSION['l10n']['fr']['2d3e09adc8853ee1a8585d25b6e636b7']='Inclure le panneau extra, pour un thème à 2 colonnes';
-$_SESSION['l10n']['fr']['Information channels']='Fils d\'information';
 $_SESSION['l10n']['fr']['Install skin %s']='Installer le style %s';
 $_SESSION['l10n']['fr']['Keywords']='Mots-clés';
 $_SESSION['l10n']['fr']['8962bcb765ae897c885bcd0cd1506038']='Mots-clés séparés par des virgules, placés dans le champ "keyword" pour les moteurs de recherche';
@@ -291,7 +290,6 @@ $_SESSION['l10n']['fr']['Site owner']='Propriétaire du site';
 $_SESSION['l10n']['fr']['Site slogan']='Slogan du site';
 $_SESSION['l10n']['fr']['Skin editor']='Editeur de style';
 $_SESSION['l10n']['fr']['Skin name']='Nom du nouveau style';
-$_SESSION['l10n']['fr']['Skin to test']='Style à tester';
 $_SESSION['l10n']['fr']['Skip to main content']='Aller au contenu principal';
 $_SESSION['l10n']['fr']['Slogan']='Slogan';
 $_SESSION['l10n']['fr']['8416146ff57ddc1d7f11a6d1a9c66466']='Etape 1 - Choix du thème à utiliser';
@@ -319,6 +317,7 @@ $_SESSION['l10n']['fr']['4da65a506a9f759b2f0b2badde77ae83']='Le fichier cible %s
 $_SESSION['l10n']['fr']['df3cdecf1977397d7fd3f5b6448d5109']='Le fichier cible %s peut avoir été corrompu. Merci de vérifier ceci manuellement, et de restaurer le fichier de secours avec l\'extension .bak si besoin.';
 $_SESSION['l10n']['fr']['8b4e5b0a826bfac053c6e2afe0854b06']='L\'adresse web d\'une image représentant votre site. Pour remplacer le défaut "favicon.ico", le cas échéant.';
 $_SESSION['l10n']['fr']['Theme test']='Test de thème';
+$_SESSION['l10n']['fr']['Theme to test']='Thème à tester';
 $_SESSION['l10n']['fr']['Themes']='Thèmes';
 $_SESSION['l10n']['fr']['Thickness: %s']='Epaisseur : %s';
 $_SESSION['l10n']['fr']['b9577db74b566f48f50c139a691cf7e1']='Voici la librairie des images disponibles sur ce site.';
@@ -400,6 +399,7 @@ $_SESSION['l10n']['fr']['h:i a']='H:i';
 $_SESSION['l10n']['fr']['help pages on YACS codes']='pages d\'aides consacrées aux codes YACS';
 $_SESSION['l10n']['fr']['hits']='lectures';
 $_SESSION['l10n']['fr']['http://www.yacs.fr/']='http://www.yacs.fr/';
+$_SESSION['l10n']['fr']['information channels']='fils d\'information';
 $_SESSION['l10n']['fr']['left']='gauche';
 $_SESSION['l10n']['fr']['level 1 title']='titre de niveau 1';
 $_SESSION['l10n']['fr']['level 2 title']='titre de niveau 2';
@@ -413,6 +413,7 @@ $_SESSION['l10n']['fr']['new']='nouveau';
 $_SESSION['l10n']['fr']['not published']='à publier';
 $_SESSION['l10n']['fr']['only to associates']='seulement aux associés';
 $_SESSION['l10n']['fr']['other cases']='autres cas';
+$_SESSION['l10n']['fr']['4a17db97e087537b49d29f3627b9f430']='page préparée en %.2f secondes pour %s';
 $_SESSION['l10n']['fr']['popular']='populaire';
 $_SESSION['l10n']['fr']['powered by %s']='un serveur %s';
 $_SESSION['l10n']['fr']['privacy statement']='protection de la vie privée';

@@ -117,13 +117,13 @@ img { /* a standard image */
 
 input[type="password"],
 input[type="text"] { /* change form elements */
-	color: black:
+	color: black;
 	background-color: white;
 	border: #26a solid 1px;
 }
 
 input:focus { /* help to locate the current field */
-	color: black:
+	color: black;
 	background-color:#dedede;
 }
 
@@ -153,17 +153,17 @@ pre { /* a block of sample lines -- [php]...[/php], [snippet]...[/snippet] */
 }
 
 select {
-	color: black:
+	color: black;
 	background-color: white;
 }
 
 select:focus { /* help to locate the current field */
-	color: black:
+	color: black;
 	background-color: #dedede;
 }
 
 textarea { /* change form elements */
-	color: black:
+	color: black;
 	background-color: white;
 	border: #bfbfbf solid 1px;
 }
@@ -179,9 +179,8 @@ textarea:focus { /* signal current input area */
 
 #footer_panel { /* comes after everything */
 	margin: 0;
-	padding: 0;
-	width: 100%;
-	max-width: 90em;
+	padding: 1em;
+	width: 99%;
 	text-align: center;
 	font-size: 0.8em;
 	font-weight: normal;
@@ -203,7 +202,7 @@ textarea:focus { /* signal current input area */
 	background-image: url("images/header_background.jpg");
 	margin: 0;
 	padding: 0;
-	width: 100%;
+	width: 99%;
 	max-width: 90em;
 	position: relative;
 	min-height: 5em;
@@ -213,7 +212,7 @@ textarea:focus { /* signal current input area */
 	border-color: #000;
 }
 
-@media print { /* do not print heading information, including #tabs */
+@media print { /* do not print heading information, including div.tabs */
 
 	#header_panel {
 		display: none;
@@ -224,9 +223,9 @@ textarea:focus { /* signal current input area */
 @media screen { /* only on a wide screen */
 
 	#main_panel { /* where the actual content is */
-		margin: 0;
-		padding: 0 1em 1em 1em;
-		width: 72%;
+		margin: 0 1em 0 0;
+		padding: 0;
+		width: 70%;
 		float: right;
 		text-align: justify;
 	}
@@ -395,14 +394,14 @@ body#slideshow h1 { /* title for slideshows */
 
 /* the global navigation bar -- see template script */
 
-#tabs,
-#tabs a { /* text appearance in tabs */
+div.tabs,
+div.tabs a { /* text appearance in tabs */
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 0.8em;;
 	font-weight: normal;
 }
 
-#tabs ul { /* position tabs */
+div.tabs ul { /* position tabs */
 	width: auto;
 	position: absolute;
 	bottom: 0;
@@ -413,7 +412,7 @@ body#slideshow h1 { /* title for slideshows */
 	z-index: 10;
 }
 
-#tabs ul li { /* tab top left corner */
+div.tabs ul li { /* tab top left corner */
 	float: right;
 	background: transparent url("images/navigation_tab.gif") no-repeat 100% -600px;
 	padding: 0 6px 0 0;
@@ -421,21 +420,25 @@ body#slideshow h1 { /* title for slideshows */
 	border-bottom: 1px solid #515358;
 }
 
-#tabs ul li:hover { /* change tab background on hovering */
+div.tabs ul li:hover { /* change tab background on hovering */
 	background-position: 100% -400px;
 	cursor: pointer; /* else ie 6 is lost */
 }
 
-#tabs ul li a { /* tab top right corner */
+div.tabs ul li a { /* tab top right corner */
 	float: left;
 	display: block;
 	padding: 4px 4px 4px 10px;
 	background: transparent url("images/navigation_tab.gif") no-repeat 0% -600px;
+}
+
+div.tabs ul li a,
+div.tabs ul li a span{ /* link text */
 	color: #fff;
 	text-decoration: none;
 }
 
-#tabs ul li:hover a { /* change tab background on hovering */
+div.tabs ul li:hover a { /* change tab background on hovering */
 	background-position: 0% -400px;
 }
 
@@ -457,7 +460,7 @@ body#slideshow h1 { /* title for slideshows */
 		font-size: 3px; /* for IE */
 		margin: 0;
 		padding: 0 0 5px 0;
-		width: 99%;
+		width: 100%;
 	}
 
 	#wrapper_suffix { /* bottom decoration */
@@ -466,7 +469,7 @@ body#slideshow h1 { /* title for slideshows */
 		font-size: 3px; /* for IE */
 		margin: 0;
 		padding: 5px 0 0 0;
-		width: 99%;
+		width: 100%;
 	}
 
 }
@@ -699,6 +702,16 @@ div.sidebar_box { /* somewhere in the main panel -- [sidebar]...[/sidebar] */
 div.sidebar_box h3 { /* header of one sidebar box -- the 'foo bar' of [sidebar=foo bar]...[/sidebar] */
 	margin: 0;
 	padding: 0;
+	background-color: transparent;
+	color: inherit;
+	border: none;
+	font-size: 1em;
+	text-align: inherit;
+}
+
+div.sidebar_box div.sidebar_body {
+	padding: 0.5em 0 1em 0;
+	border: none;
 }
 
 .thumbnail_image img { /* add a small border to images */

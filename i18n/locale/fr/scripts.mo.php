@@ -3,13 +3,13 @@
  * cache localized strings
  *
  * This file has been created by the script i18n/i18n.php
- * on November 12, 2009, 11:13 pm GMT. Please do not modify it manually.
+ * on November 16, 2009, 5:18 pm GMT. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
 POT-Creation-Date: 2009-11-13 00:13+0100
-PO-Revision-Date: 2009-09-09 10:09+0100
+PO-Revision-Date: 2009-11-16 18:07+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -177,6 +177,7 @@ $_SESSION['l10n']['fr']['63230b1ac87d317b655a05224e031e1a']='Mise à jour de la 
 $_SESSION['l10n']['fr']['Update the software']='Mettre le logiciel à jour';
 $_SESSION['l10n']['fr']['Updated script']='Script mis à jour';
 $_SESSION['l10n']['fr']['Updating scripts...']='Mise à jour des scripts...';
+$_SESSION['l10n']['fr']['Using staged file %s']='Mise en oeuvre du fichier %s';
 $_SESSION['l10n']['fr']['Validate PHP syntax']='Valider la syntaxe PHP';
 $_SESSION['l10n']['fr']['Version string (optional)']='Numéro de version (optionnel)';
 $_SESSION['l10n']['fr']['View PHP documentation']='Documentation d\'un script';

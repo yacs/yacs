@@ -39,7 +39,6 @@
  * - body#home -- at the front page
  * - body#sections -- section page, or section index
  * - body#articles -- regular page, or index of articles
- * - body.extra -- when some extra content has been inserted in the page
  *
  * @author Bernard Paques
  * @reference

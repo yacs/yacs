@@ -49,17 +49,17 @@ Class Layout_users_as_compact extends Layout_interface {
 			$prefix = $suffix = '';
 
 			// signal restricted and private users
-			if($item['active'] == 'N')
+			if(isset($item['active']) && ($item['active'] == 'N'))
 				$prefix .= PRIVATE_FLAG;
-			elseif($item['active'] == 'R')
+			elseif(isset($item['active']) && ($item['active'] == 'R'))
 				$prefix .= RESTRICTED_FLAG;
 
 			// signal banned profiles
-			if($item['capability'] == '?')
+			if(isset($item['active']) && ($item['capability'] == '?'))
 				$prefix .= EXPIRED_FLAG;
 
 			// item title
-			if($item['full_name']) {
+			if(isset($item['full_name']) && $item['full_name']) {
 				$label = ucfirst(Skin::strip($item['full_name'], 10));
 				$hover = $item['nick_name'];
 			} else {
@@ -86,7 +86,7 @@ Class Layout_users_as_compact extends Layout_interface {
 
 		// turn this to some text
 		$items = Skin::build_list($items, 'compact');
-		
+
 		// some indications on the number of connections
 		if($delta -= $count) {
 			if($delta < 100)
@@ -96,7 +96,7 @@ Class Layout_users_as_compact extends Layout_interface {
 
 			$items .= '<p>'.$label.'</p>';
 		}
-		
+
 		return $items;
 	}
 

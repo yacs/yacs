@@ -486,35 +486,39 @@
 		// add footer prefix
 		echo $prefix;
 
+		$details = array();
+
 		// execution time and surfer name, for logged user only (not for indexing robots!)
 		if(is_callable(array('Surfer', 'get_name')) && Surfer::get_name() && is_callable(array('i18n', 's'))) {
 			$execution_time = round(get_micro_time() - $context['start_time'], 2);
-			echo sprintf(i18n::s('Page prepared in %.2f seconds for %s'), $execution_time, ucwords(Surfer::get_name())).BR;
+			$details[] = sprintf(i18n::s('page prepared in %.2f seconds for %s'), $execution_time, ucwords(Surfer::get_name()));
 		}
 
 		// site copyright
-		if(isset($context['site_copyright']))
-			echo '&copy; '.$context['site_copyright']."\n";
+		if(isset($context['site_copyright']) && $context['site_copyright'])
+			$details[] = '&copy; '.$context['site_copyright']."\n";
 
 		// a command to authenticate
 		if(is_callable(array('Surfer', 'is_logged')) && !Surfer::is_logged() && is_callable(array('i18n', 's')))
-			echo ' - '.Skin::build_link('users/login.php', i18n::s('login'), 'basic').' ';
+			$details[] = Skin::build_link('users/login.php', i18n::s('login'), 'basic');
 
 		// about this site
 		if(is_callable(array('i18n', 's')) && is_callable(array('Articles', 'get_url')))
-			echo ' - '.Skin::build_link(Articles::get_url('about'), i18n::s('about this site'), 'basic').' ';
+			$details[] = Skin::build_link(Articles::get_url('about'), i18n::s('about this site'), 'basic');
 
 		// privacy statement
 		if(is_callable(array('i18n', 's')) && is_callable(array('Articles', 'get_url')))
-			echo ' - '.Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic').' ';
+			$details[] = Skin::build_link(Articles::get_url('privacy'), i18n::s('privacy statement'), 'basic');
 
 		// a reference to YACS
 		if(is_callable(array('i18n', 's')) && ($context['host_name'] != 'www.yacs.fr'))
-			echo ' - '.sprintf(i18n::s('powered by %s'), Skin::build_link(i18n::s('http://www.yacs.fr/'), 'Yacs', 'external'));
+			$details[] = sprintf(i18n::s('powered by %s'), Skin::build_link(i18n::s('http://www.yacs.fr/'), 'Yacs', 'external'));
 
 		// all our feeds
 		if(is_callable(array('i18n', 's')))
-			echo ' - '.Skin::build_link('feeds/', i18n::s('Information channels'), 'basic');
+			$details[] = Skin::build_link('feeds/', i18n::s('information channels'), 'basic');
+
+		echo join(' -&nbsp;', $details);
 
 		// add footer suffix
 		echo $suffix;

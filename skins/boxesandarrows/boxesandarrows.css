@@ -222,6 +222,7 @@ th { /* an ordinary table header -- headers in [table]headers[body]content[/tabl
 	font: lighter 36px arial, helvetica, sans-serif;
 	color: #000000;
 	letter-spacing: 1px;
+	width: 98%; /* to avoid bottom slider */
 }
 
 #header_panel a,

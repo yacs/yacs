@@ -117,13 +117,13 @@ img { /* a standard image */
 
 input[type="password"],
 input[type="text"] { /* ensure form fields fit in the layout */
-	color: black:
+	color: black;
 	background-color: white;
 	max-width: 300px;
 }
 
 input:focus { /* help to locate the current field */
-	color: black:
+	color: black;
 }
 
 li { /* avoid justification alignment */
@@ -140,12 +140,12 @@ pre { /* a block of sample lines -- [php]...[/php], [snippet]...[/snippet] */
 }
 
 select {
-	color: black:
+	color: black;
 	background-color: white;
 }
 
 select:focus { /* help to locate the current field */
-	color: black:
+	color: black;
 	background-color: #dedede;
 }
 
@@ -154,7 +154,7 @@ table { /* an ordinary table -- [table]...[/table] */
 }
 
 textarea { /* ensure form fields fit in the layout */
-	color: black:
+	color: black;
 	background-color: white;
 	max-width: 400px;
 }
@@ -342,20 +342,38 @@ dl#featured.extra_box dd ul { /* the list of featured pages */
 
 /* two gadget boxes per row -- look at index.php and sections/view.php  */
 
+dl.gadget_box {
+	background-color: transparent;
+	background-image: none;
+	width: 250px;
+}
+
 dl#gadget_1.gadget_box dd { /* content of gadget box #1 */
+	border: none;
 	border-top: 2px solid #866C52;
 	padding: 3px 0 0 0;
+	background-color: transparent;
+	background-image: none;
 }
 
 dl#gadget_1.gadget_box dt { /* header of gadget box #1 */
+	border: none;
+	background-color: transparent;
+	background-image: none;
 }
 
 dl#gadget_2.gadget_box dd { /* content of gadget box #2 */
+	border: none;
 	border-right: 2px solid #866C52;
 	padding: 0 3px 0 0;
+	background-color: transparent;
+	background-image: none;
 }
 
 dl#gadget_2.gadget_box dt { /* header of gadget box #2 */
+	border: none;
+	background-color: transparent;
+	background-image: none;
 }
 
 dl#gadget_3.gadget_box { /* new line for gadget box #3 */
@@ -363,19 +381,31 @@ dl#gadget_3.gadget_box { /* new line for gadget box #3 */
 }
 
 dl#gadget_3.gadget_box dd { /* content of gadget box #3 */
+	border: none;
 	border-left: 2px solid #866C52;
 	padding: 0 0 0 3px;
+	background-color: transparent;
+	background-image: none;
 }
 
 dl#gadget_3.gadget_box dt { /* header of gadget box #3 */
+	border: none;
+	background-color: transparent;
+	background-image: none;
 }
 
 dl#gadget_4.gadget_box dd { /* content of gadget box #4 */
+	border: none;
 	border-bottom: 2px solid #866C52;
 	padding: 0 0 5px 0;
+	background-color: transparent;
+	background-image: none;
 }
 
 dl#gadget_4.gadget_box dt { /* header of gadget box #4 */
+	border: none;
+	background-color: transparent;
+	background-image: none;
 }
 
 dl#gadget_5.gadget_box { /* new line for gadget box #5 */
@@ -383,19 +413,31 @@ dl#gadget_5.gadget_box { /* new line for gadget box #5 */
 }
 
 dl#gadget_5.gadget_box dd { /* content of gadget box #5 */
-	border-left: 2px solid #866C52;
+	border: none;
+	border-top: 2px solid #866C52;
 	padding: 0 0 0 3px;
+	background-color: transparent;
+	background-image: none;
 }
 
 dl#gadget_5.gadget_box dt { /* header of gadget box #5 */
+	border: none;
+	background-color: transparent;
+	background-image: none;
 }
 
 dl#gadget_6.gadget_box dd { /* content of gadget box #6 */
-	border-bottom: 2px solid #866C52;
+	border: none;
+	border-right: 2px solid #866C52;
 	padding: 0 0 5px 0;
+	background-color: transparent;
+	background-image: none;
 }
 
 dl#gadget_6.gadget_box dt { /* header of gadget box #6 */
+	border: none;
+	background-color: transparent;
+	background-image: none;
 }
 
 #header_slogan { /* appears towards the top of the page -- see template script */

@@ -41,7 +41,6 @@ p { /* add some space below each paragraph */
 div.tabs {
       float:left;
       width:100%;
-      background-color: #BBD9EE;
       line-height: 1em;
 }
 
@@ -444,8 +443,10 @@ table.neighbours tr td.previous { /* to the left */
 
 table.layout {
 /*	margin: 0 auto; */
-	width: 98%; /* not 100% because of IE6 */
+	width: 99%; /* not 100% because of IE6 */
 	border: none; /* we are only interested into the layout */
+	margin: 0;
+	padding: 0;
 }
 
 table.layout tbody tr td.center,
@@ -453,7 +454,8 @@ table.layout tbody tr td.east,
 table.layout tbody tr td.west,
 table.layout tbody tr td.north,
 table.layout tbody tr td.equator,
-table.layout tbody tr td.south {
+table.layout tbody tr td.south,
+table.layout tbody tr td{
 	padding: 0; /* save on space around cells */
 	margin: 0;
 	text-align: left; /* prefix cells with 'left=' or 'center=' or 'right=' to change alignment */
@@ -464,9 +466,11 @@ table.layout tbody tr td.south {
 table.layout tbody tr.even td.center,
 table.layout tbody tr.even td.east,
 table.layout tbody tr.even td.west,
+table.layout tbody tr.even td,
 table.layout tbody tr.odd td.center,
 table.layout tbody tr.odd td.east,
-table.layout tbody tr.odd td.west { /* some space around content when background is paint */
+table.layout tbody tr.odd td.west,
+table.layout tbody tr.odd td { /* some space around content when background is paint */
 	padding: 0.5em;
 }
 
@@ -482,7 +486,7 @@ table.layout tbody tr td.center { /* some room between columns */
 
 /* explorer tree (in #contextual_menu) */
 
-ul.tree { /* shape a tree of links -- see build_tree() in skins/skin_skeleton.php */
+dl#contextual_menu ul.tree { /* shape a tree of links -- see build_tree() in skins/skin_skeleton.php */
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -491,7 +495,7 @@ ul.tree { /* shape a tree of links -- see build_tree() in skins/skin_skeleton.ph
 	line-height: 14px;
 }
 
-ul.tree ul { /* indent all levels, except level 1 */
+dl#contextual_menu ul.tree ul { /* indent all levels, except level 1 */
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -503,51 +507,43 @@ ul.tree ul { /* indent all levels, except level 1 */
 	background-position: 0px 100%;
 }
 
-ul.tree li { /* every branch of the tree */
+dl#contextual_menu ul.tree li { /* every branch of the tree */
 	margin: 0;
 	padding-top: 0;
 	text-align: left;
 }
 
-ul.tree_level_1 li { /* top-level branch of the tree is left-aligned */
+dl#contextual_menu ul.tree_level_1 li { /* top-level branch of the tree is left-aligned */
 	padding-left: 0;
 }
 
-ul.tree_level_2 li,
-ul.tree_level_3 li,
-ul.tree_level_4 li,
-ul.tree_level_5 li { /* other levels are indented */
+dl#contextual_menu ul.tree_level_2 li,
+dl#contextual_menu ul.tree_level_3 li,
+dl#contextual_menu ul.tree_level_4 li,
+dl#contextual_menu ul.tree_level_5 li { /* other levels are indented */
 	padding-left: 14px;
 	background-image: url("tree/node.gif");
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
 }
 
-ul.tree_level_2 li.last,
-ul.tree_level_3 li.last,
-ul.tree_level_4 li.last,
-ul.tree_level_5 li.last { /* last item of a branch */
+dl#contextual_menu ul.tree_level_2 li.last,
+dl#contextual_menu ul.tree_level_3 li.last,
+dl#contextual_menu ul.tree_level_4 li.last,
+dl#contextual_menu ul.tree_level_5 li.last { /* last item of a branch */
 	background-image: url("tree/last.gif");
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
 }
 
-ul.tree li a.below,
-ul.tree li a.close,
-#extra_panel ul.tree li a.below,
-#extra_panel ul.tree li a.close,
-#side_panel ul.tree li a.below,
-#side_panel ul.tree li a.close { /* focus is not here */
+dl#contextual_menu ul.tree li a.below,
+dl#contextual_menu ul.tree li a.close { /* focus is not here */
 	padding-left: 16px;
 	background: url("tree/close.gif") no-repeat top left;
 }
 
-ul.tree li a.current,
-ul.tree li a.open,
-#extra_panel ul.tree li a.current,
-#extra_panel ul.tree li a.open,
-#side_panel ul.tree li a.current,
-#side_panel ul.tree li a.open { /* item has the current focus */
+dl#contextual_menu ul.tree li a.current,
+dl#contextual_menu ul.tree li a.open { /* item has the current focus */
 	color: #333;
 	padding-left: 16px;
 	background: url("tree/open.gif") no-repeat top left;
@@ -816,7 +812,7 @@ a:hover.button { /* hover a button */
 
 ul { /* [list]...[/list] -- an ordinary list */
 	margin: 0.5em 0 1em 0;
-	padding: 0 0 0 1em;
+	padding: 0 0 0 1.1em;
 }
 
 ol { /* [list=1]...[/list], [list=a]...[/list], [list=A]...[/list], [list=i]...[/list], [list=I]...[/list] -- a numbered list */
@@ -1065,10 +1061,6 @@ table.wide { /* a table that takes as much space as possible horizontally */
 /*************************
  * styles demonstrated into help page codes/titles.php
  *************************/
-
-h1, h2, h3, h4, h5, h6 { /* font for titles */
-	font-family: Calibri, "Trebuchet MS", sans-serif;
-}
 
 h1 { /* appears only once, with the page title */
 	font-size: 1.5em;
@@ -2832,3 +2824,7 @@ a img {
 
 }
 
+#header_panel {
+	position: relative; /* allow for absolute positioning inside */
+	overflow: hidden; /* oversized components should not break the layout */
+}

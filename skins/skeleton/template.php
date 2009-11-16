@@ -36,7 +36,6 @@
  * - body#home -- at the front page
  * - body#sections -- section page, or section index
  * - body#articles -- regular page, or index of articles
- * - body.extra -- when some extra content has been inserted in the page
  *
  * Background images have been submitted gracefully by [link=Dave Child]http://www.ilovejackdaniels.com/[/link], who is really a gentleman.
  *

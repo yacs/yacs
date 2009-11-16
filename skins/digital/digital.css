@@ -145,13 +145,13 @@ img { /* a standard image */
 
 input[type="password"],
 input[type="text"] { /* change form elements */
-	color: black:
+	color: black;
 	background-color: white;
 	border: #26a solid 1px;
 }
 
 input:focus { /* help to locate the current field */
-	color: black:
+	color: black;
 	background-color:#dedede;
 }
 
@@ -180,17 +180,17 @@ pre { /* a block of sample lines -- [php]...[/php], [snippet]...[/snippet] */
 }
 
 select {
-	color: black:
+	color: black;
 	background-color: white;
 }
 
 select:focus { /* help to locate the current field */
-	color: black:
+	color: black;
 	background-color: #dedede;
 }
 
 textarea { /* change form elements */
-	color: black:
+	color: black;
 	background-color: white;
 	border: #bfbfbf solid 1px;
 }
@@ -300,6 +300,8 @@ body#sections #extra_panel dl dt { /* enhance box titles on wider panels */
 	width: 100%;
 	margin: 0;
 	height: 95px; /* also influences the top of #extra_panel */
+	position: relative;
+	overflow: hidden;
 }
 
 @media print { /* do not print heading information */
@@ -568,7 +570,7 @@ body#slideshow h1 { /* title for slideshows */
 
 div.tabs { /* the global navigation bar -- see template script */
 	position: absolute;
-	top: 73px;
+	top: 75px;
 	left: 178px;
 	margin: 0; /* need for IE Mac */
 	padding: 0;
@@ -654,7 +656,6 @@ a.button:visited { /* a link that mimic a form button -- [button]url[/button], [
 	color: #2e523b;
 	line-height: 0;
 	background: transparent url('images/button_yellow.png') no-repeat 0 0;
-	background-color: none;
 	height: 30px;
 	margin: 0 6px 0 0;
 	padding: 0 10px 0 0;

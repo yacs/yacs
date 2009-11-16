@@ -27,12 +27,6 @@ Class Skin extends Skin_Skeleton {
 		// the bullet prefix for compact lists
 		define('COMPACT_LIST_ITEM_PREFIX', '&raquo;&nbsp;');
 
-		// the HTML string used to prefix submenu items [submenu]
-		define('MENU_2_PREFIX', '&raquo;&nbsp;');
-
-		// the HTML string appended to submenu items [submenu]
-		define('MENU_2_SUFFIX', BR);
-
 		// ensure extra boxes are displayed in this 2-columns layout
 		if(strpos($context['skins_navigation_components'], 'extra') === FALSE)
 			$context['skins_navigation_components'] = str_replace('navigation', 'extra navigation', $context['skins_navigation_components']);

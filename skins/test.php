@@ -146,7 +146,7 @@ $context['path_bar'] = array( 'skins/' => i18n::s('Themes'));
 
 // $context['prefix'] - also list skins available on this system
 $context['prefix'] .= '<form method="get" action="'.$context['script_url'].'"><p>';
-$context['prefix'] .= i18n::s('Skin to test').' <select name="skin">';
+$context['prefix'] .= i18n::s('Theme to test').' <select name="skin">';
 if ($dir = Safe::opendir("../skins")) {
 
 	// valid skins have a template.php
