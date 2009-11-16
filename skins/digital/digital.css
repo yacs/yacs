@@ -20,9 +20,6 @@
  * - The size of the left column is set in style #side_panel,
  * and it is also used as left margin in styles div.tabs and #wrapper.
  *
- * - The size of the right extra column is set in styles '#extra_panel'
- * and 'body.extra div#main_panel'
- *
  * - The size of this column may be adjusted by using section nick_names.
  * You will have to change right margin of the main panel accordingly.
  * For example, adjust the style 'body#home #extra_panel' and the style
@@ -316,13 +313,10 @@ body#sections #extra_panel dl dt { /* enhance box titles on wider panels */
 
 	div#main_panel { /* where the actual content is */
 		margin: 0;
+		margin-right: 132px;
 		padding: 0 1em 1em 1em;
 		text-align: justify;
 		z-index: -1;
-	}
-
-	body.extra div#main_panel { /* display a third column aside */
-		margin-right: 132px;
 	}
 
 	body#home div#main_panel { /* wider at the home page, because of large news  */
