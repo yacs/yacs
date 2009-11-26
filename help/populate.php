@@ -1929,7 +1929,7 @@ if(!$permitted) {
 	// the help panel
 	$help = '<p>'.i18n::s('Turn any regular section to a photo album by adding images to posted pages.').'</p>'
 		.'<p>'.i18n::s('YACS creates weekly and monthly archives automatically. No specific action is required to create these.').'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 	// contribution shortcuts
 	if(Surfer::is_member()) {
@@ -1945,7 +1945,7 @@ if(!$permitted) {
 
 		$label .= '</ul>'."\n";
 
-		$context['components']['boxes'] .= Skin::build_box(i18n::s('Shortcuts'), $label, 'extra');
+		$context['components']['boxes'] .= Skin::build_box(i18n::s('Shortcuts'), $label, 'boxes');
 	}
 
 }

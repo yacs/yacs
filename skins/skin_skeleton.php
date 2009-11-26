@@ -369,7 +369,6 @@ Class Skin_Skeleton {
 		case 'header1':
 		case 'header2':
 		case 'header3':
-		default:
 			$output =& Skin::build_header_box($title, $content, $id, $variant);
 			break;
 
@@ -403,6 +402,20 @@ Class Skin_Skeleton {
 
 		case 'unfolded':
 			$output =& Skin::build_unfolded_box($title, $content, $id);
+			break;
+
+		default:
+
+			// displayed in the navigation panel
+			if(isset($context['skins_navigation_components']) && (strpos($context['skins_navigation_components'], $variant) !== FALSE))
+				$output =& Skin::build_navigation_box($title, $content, $id);
+
+			// displayed in the extra panel
+			elseif(isset($context['skins_extra_components']) && (strpos($context['skins_extra_components'], $variant) !== FALSE))
+				$output =& Skin::build_extra_box($title, $content, $id);
+
+			else
+				$output =& Skin::build_header_box($title, $content, $id, $variant);
 			break;
 
 		}
@@ -2324,7 +2337,7 @@ Class Skin_Skeleton {
 			}
 
 			// everything in an extra box
-			$text = Skin::build_box($label, $text, 'extra');
+			$text = Skin::build_box($label, $text, 'profile');
 			break;
 		}
 
@@ -2394,7 +2407,7 @@ Class Skin_Skeleton {
 				// box content in a sidebar box
 				include_once $context['path_to_root'].'agents/referrals.php';
 				if($items = Referrals::list_by_hits_for_url($context['url_to_root_parameter'].$script))
-					$output =& Skin::build_box(i18n::s('Referrals'), $items, 'extra', 'referrals');
+					$output =& Skin::build_box(i18n::s('Referrals'), $items, 'referrals', 'referrals');
 
 				// save in cache for 5 minutes 60 * 5 = 300
 				Cache::put($cache_id, $output, 'stable', 300);

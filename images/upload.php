@@ -211,6 +211,7 @@ if(Surfer::is_crawler()) {
 						$item['image_name'] = $node;
 						$item['thumbnail_name'] = 'thumbs/'.$node;
 						$item['image_size'] = Safe::filesize($file_path.'/'.$node);
+						$item['use_thumbnail'] = 'A'; // ensure it is always displayed as a clickable small image
 						$item['id'] = Images::post($item);
 					}
 

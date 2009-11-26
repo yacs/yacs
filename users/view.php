@@ -167,13 +167,17 @@ load_skin('users');
 $context['path_bar'] = array( 'users/' => i18n::s('People') );
 
 // the title of the page
+if(isset($item['active']) && ($item['active'] == 'R'))
+	$context['page_title'] .= RESTRICTED_FLAG.' ';
+elseif(isset($item['active']) && ($item['active'] == 'N'))
+	$context['page_title'] .= PRIVATE_FLAG.' ';
 if(isset($item['full_name']) && $item['full_name']) {
 	if($item['full_name'] != $item['nick_name'])
-		$context['page_title'] = $item['full_name'].' <span style="font-size: smaller;">- '.$item['nick_name'].'</span>';
+		$context['page_title'] .= $item['full_name'].' <span style="font-size: smaller;">- '.$item['nick_name'].'</span>';
 	else
-		$context['page_title'] = $item['full_name'];
+		$context['page_title'] .= $item['full_name'];
 } elseif(isset($item['nick_name']))
-	$context['page_title'] = $item['nick_name'];
+	$context['page_title'] .= $item['nick_name'];
 
 // not found -- help web crawlers
 if(!isset($item['id'])) {
@@ -927,7 +931,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
+		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'share', 'share');
 
 	// 'Information channels' box
 	//
@@ -960,10 +964,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feed');
-
-	// more boxes
-	$context['components']['boxes'] = '';
+		$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'channels', 'feed');
 
 	// categories attached to this item, if not at another follow-up page
 	if(!$zoom_type || ($zoom_type == 'categories')) {
@@ -986,7 +987,7 @@ if(!isset($item['id'])) {
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		if($box['text'])
-			$context['components']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'extra', 'categories');
+			$context['components']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'categories', 'categories');
 
 	}
 

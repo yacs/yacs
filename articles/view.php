@@ -330,10 +330,14 @@ if(is_object($anchor))
 $context['path_bar'] = Surfer::get_path_bar($anchor);
 
 // page title
+if(isset($item['active']) && ($item['active'] == 'R'))
+	$context['page_title'] .= RESTRICTED_FLAG.' ';
+elseif(isset($item['active']) && ($item['active'] == 'N'))
+	$context['page_title'] .= PRIVATE_FLAG.' ';
 if(is_object($overlay))
-	$context['page_title'] = $overlay->get_text('title', $item);
+	$context['page_title'] .= $overlay->get_text('title', $item);
 elseif(isset($item['title']))
-	$context['page_title'] = $item['title'];
+	$context['page_title'] .= $item['title'];
 
 // page language, if any
 if(isset($item['language']) && $item['language'] && ($item['language'] != 'none'))
@@ -650,7 +654,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
+		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'share', 'share');
 
 	// 'Information channels' box
 	//
@@ -688,7 +692,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feeds');
+		$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'channels', 'feeds');
 
 	// twin pages
 	if(isset($item['nick_name']) && $item['nick_name']) {
@@ -703,7 +707,7 @@ if(!isset($item['id'])) {
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		if($box['text'])
-			$context['components']['twins'] = Skin::build_box(i18n::s('Related'), $box['text'], 'extra', 'twins');
+			$context['components']['twins'] = Skin::build_box(i18n::s('Related'), $box['text'], 'twins', 'twins');
 
 	}
 
@@ -712,7 +716,7 @@ if(!isset($item['id'])) {
 
 		// build a nice sidebar box
 		if(isset($neighbours) && ($content = Skin::neighbours($neighbours, 'sidebar')))
-			$context['components']['neighbours'] = Skin::build_box(i18n::s('Navigation'), $content, 'extra', 'neighbours');
+			$context['components']['neighbours'] = Skin::build_box(i18n::s('Navigation'), $content, 'neighbours', 'neighbours');
 
 	}
 
@@ -733,7 +737,7 @@ if(!isset($item['id'])) {
 
 		// in a navigation box
 		$box_popup = '';
-		$context['components']['contextual'] = Skin::build_box($box_title, $menu, 'extra', 'contextual_menu', $box_url, $box_popup);
+		$context['components']['contextual'] = Skin::build_box($box_title, $menu, 'contextual', 'contextual_menu', $box_url, $box_popup);
 	}
 
 	// categories attached to this article, if not at another follow-up page
@@ -757,7 +761,7 @@ if(!isset($item['id'])) {
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		if($box['text'])
-			$context['components']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'extra', 'categories');
+			$context['components']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'categories', 'categories');
 
 	}
 
@@ -1259,53 +1263,6 @@ if(!isset($item['id'])) {
  		Skin::define_img('ARTICLES_ASSIGN_IMG', 'articles/assign.gif');
  		$context['page_tools'][] = Skin::build_link(Users::get_url('article:'.$item['id'], 'select'), ARTICLES_ASSIGN_IMG.i18n::s('Manage editors'));
  	}
-
-	//
-	// reload this page if it changes
-	//
-	$context['page_footer'] .= JS_PREFIX
-		."\n"
-		.'// reload this page on update'."\n"
-		.'var PeriodicalCheck = {'."\n"
-		."\n"
-		.'	url: "'.$context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'check').'",'."\n"
-		.'	timestamp: '.SQL::strtotime($item['edit_date']).','."\n"
-		."\n"
-		.'	initialize: function() { },'."\n"
-		."\n"
-		.'	subscribe: function() {'."\n"
-		.'		this.ajax = new Ajax.Request(PeriodicalCheck.url, {'."\n"
-		.'			method: "get",'."\n"
-		.'			requestHeaders: {Accept: "application/json"},'."\n"
-		.'			onSuccess: PeriodicalCheck.updateOnSuccess,'."\n"
-		.'			onFailure: PeriodicalCheck.updateOnFailure });'."\n"
-		.'	},'."\n"
-		."\n"
-		.'	updateOnSuccess: function(transport) {'."\n"
-		.'		var response = transport.responseText.evalJSON(true);'."\n"
-		.'		// page has been updated'."\n"
-		.'		if(PeriodicalCheck.timestamp && response["timestamp"] && (PeriodicalCheck.timestamp != response["timestamp"])) {'."\n"
-		.'			// reflect updater name in window title'."\n"
-		.'			if(typeof this.windowOriginalTitle != "string")'."\n"
-		.'				this.windowOriginalTitle = document.title;'."\n"
-		.'			document.title = "[" + response["name"] + "] " + this.windowOriginalTitle;'."\n"
-		.'			// smart reload of the page'."\n"
-		.'			new Ajax.Updater( { success: $$("body")[0] }, window.location, { method: "get" } );'."\n"
-		.'		}'."\n"
-		.'		// wait for more time'."\n"
-		.'		setTimeout("PeriodicalCheck.subscribe()", 120000);'."\n"
-		.'	},'."\n"
-		."\n"
-		.'	updateOnFailure: function(transport) {'."\n"
-		.'		setTimeout("PeriodicalCheck.subscribe()", 600000);'."\n"
-		.'	}'."\n"
-		."\n"
-		.'}'."\n"
-		."\n"
-		.'// look for some page update'."\n"
-		.'setTimeout("PeriodicalCheck.subscribe()", 120000);'."\n"
-		."\n"
-		.JS_SUFFIX;
 
 }
 

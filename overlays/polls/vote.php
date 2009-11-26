@@ -168,6 +168,10 @@ if(!isset($item['id'])) {
 	// update the record
 	$item['overlay'] = serialize($overlay->attributes);
 
+	// touch the related anchor
+	if($article = Anchor::load_by_content($item, $anchor))
+		$article->touch('vote', $item['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
 	// update the database
 	if(!Articles::put($item))
 		;

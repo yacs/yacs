@@ -298,7 +298,7 @@ elseif(!Surfer::is_associate()) {
 
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('For more information on skins, visit %s'), Skin::build_link(i18n::s('http://www.yacs.fr/'), 'the YACS web site', 'external')).'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }
 

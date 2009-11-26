@@ -112,6 +112,13 @@ echo '<form action="'.$context['script_url'].'" method="post"><div>'
 	.'<input type="hidden" name="hello" value="world">'
 	.'</div></form>'."\n";
 
+// session test
+if(isset($_SESSION['test_hits']))
+	$_SESSION['test_hits'] += 1;
+else
+	$_SESSION['test_hits'] = 1;
+echo '<p>'.sprintf(i18n::s('Session variables are stored correctly if the counter increments on page reload: %s'), $_SESSION['test_hits']).'</p>'."\n";
+
 // reflect data sent by the user agent
 if(@count($_REQUEST)) {
 	echo '<p>'.i18n::s('Submitted request:').BR."\n";
@@ -139,17 +146,12 @@ if(@count($_COOKIE)) {
 // session data -- this is safe, we are only reflecting data for this surfer
 if(@count($_SESSION)) {
 	echo '<p>'.i18n::s('Session data:').BR."\n";
-	foreach($_SESSION as $name => $value)
-		echo '$_SESSION[\''.$name.'\']='.$value.BR."\n";
+	foreach($_SESSION as $name => $value) {
+		if(!is_array($value))
+			echo '$_SESSION[\''.$name.'\']='.$value.BR."\n";
+	}
 	echo "</p>\n";
 }
-
-// session test
-if(isset($_SESSION['test_hits']))
-	$_SESSION['test_hits'] += 1;
-else
-	$_SESSION['test_hits'] = 1;
-echo '<p>'.sprintf(i18n::s('Session variables are stored correctly if the counter increments on page reload: %s'), $_SESSION['test_hits']).'</p>'."\n";
 
 // yacs version
 if(!isset($generation['version']))
@@ -180,21 +182,6 @@ if(Surfer::is_associate()) {
 }
 echo '$context[\'charset\']='.$context['charset'].BR."\n";
 
-// run-time information
-if(Surfer::is_associate()) {
-	echo '<p>';
-
-	// current directory
-	if(is_callable('getcwd'))
-		echo 'getcwd()='.getcwd().BR."\n";
-
-	// PHP SAPI name
-	if(is_callable('php_sapi_name'))
-		echo 'php_sapi_name()='.php_sapi_name().BR."\n";
-
-	echo "</p>\n";
-}
-
 // server attributes -- not in demonstration mode
 if(@count($_SERVER) && !file_exists($context['path_to_root'].'parameters/demo.flag')) {
 	echo '<p>'.i18n::s('Server attributes:').BR."\n";
@@ -220,17 +207,19 @@ echo JS_PREFIX
 $offset = intval((strtotime(date('M d Y H:i:s')) - strtotime(gmdate('M d Y H:i:s'))) / 3600);
 echo '<p>'.i18n::s('Server GMT offset:').' UTC '.(($offset > 0) ? "+" : "").$offset.' '.i18n::s('hour(s)').' ('.date('Y-M-d H:i:s').")</p>\n";
 
-// list output handlers
-if(!is_callable('ob_list_handlers')) {
-	echo '<p>'.i18n::s('ob_list_handlers() cannot be invoked')."</p>\n";
-} else {
-	$handlers = ob_list_handlers();
-	if(count($handlers)) {
-		echo '<p>'.i18n::s('Output handlers:').BR."\n";
-		foreach($handlers as $name => $value)
-			echo '[\''.$name.'\']='.$value.BR."\n";
-		echo "</p>\n";
-	}
+// run-time information
+if(Surfer::is_associate()) {
+	echo '<p>';
+
+	// current directory
+	if(is_callable('getcwd'))
+		echo 'getcwd()='.getcwd().BR."\n";
+
+	// PHP SAPI name
+	if(is_callable('php_sapi_name'))
+		echo 'php_sapi_name()='.php_sapi_name().BR."\n";
+
+	echo "</p>\n";
 }
 
 // do not reveal names of accounts used on server side

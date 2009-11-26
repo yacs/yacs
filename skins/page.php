@@ -112,16 +112,14 @@
 	/**
 	 * echo one skin component
 	 *
-	 * @todo cache dynamic pages in user context for a while
-	 *
 	 * This function looks for a function into the skin library, then for a function in this script,
 	 * then it checks $context['components'].
 	 *
 	 * For example, for a component named 'foo', it checks successively:
 	 * - if Skin has a static member function named 'echo_foo'
 	 * - if Page has a static member function named 'echo_foo'
-	 * - if an article named 'foo' exists
 	 * - if a variable $context['components']['foo'] has been set
+	 * - if an article named 'foo' exists
 	 *
 	 * @param string name of the component to output
 	 * @return boolean TRUE if the component has been echoed, FALSE otherwise
@@ -138,7 +136,7 @@
 			return TRUE;
 		}
 
-		// for component 'foo' we are looking for member function 'echo_foo'  from skins/page.php
+		// for component 'foo' we are looking for member function 'echo_foo' in skins/page.php
 		$from_skin = array('Page', 'echo_'.$name);
 		if(is_callable($from_skin)) {
 			call_user_func($from_skin);
@@ -199,7 +197,7 @@
 		// turn a boolean to a string
 		if(is_bool($names)) {
 			if($names)
-				$names = 'title error text tags details menu';
+				$names = 'title error text tags details bar';
 			else
 				$names = 'title error text tags details';
 

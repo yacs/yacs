@@ -768,7 +768,7 @@ if(!$text =& Cache::get($cache_id)) {
 					$box_id = 'featured';
 
 				// make an extra box -- the css id is either #featured, #scrolling_featured or #rotating_featured
-				$text .= Skin::build_box($title, $items, 'extra', $box_id);
+				$text .= Skin::build_box($title, $items, 'news', $box_id);
 			}
 		}
 	}
@@ -810,7 +810,7 @@ if(!$text =& Cache::get($cache_id)) {
 					$box['id'] = 'news';
 
 				// make an extra box -- the css id is either #news, #scrolling_news or #rotating_news
-				$text .= Skin::build_box(i18n::s('News'), $box['text'], 'extra', $box['id']);
+				$text .= Skin::build_box(i18n::s('News'), $box['text'], 'news', $box['id']);
 			}
 		}
 	}
@@ -836,7 +836,7 @@ if(!$text =& Cache::get($cache_id)) {
 		// articles to be displayed as extra boxes
 		if($items =& Articles::list_for_anchor_by('publication', $anchors, 0, $context['site_extra_maximum'], 'boxes')) {
 			foreach($items as $title => $attributes)
-				$text .= Skin::build_box($title, $attributes['content'], 'extra', $attributes['id'])."\n";
+				$text .= Skin::build_box($title, $attributes['content'], 'boxes', $attributes['id'])."\n";
 		}
 
 	}
@@ -903,7 +903,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// append a box
 			if($box['text'])
-				$text .= Skin::build_box($box['title'], $box['text'], 'extra');
+				$text .= Skin::build_box($box['title'], $box['text'], 'boxes');
 
 		}
 	}
@@ -940,7 +940,7 @@ if(!$text =& Cache::get($cache_id)) {
 				$box['list'] = array_merge($box['list'], array(Categories::get_permalink($attributes) => i18n::s('More pages').MORE_IMG));
 			}
 
-			$text .= Skin::build_box($label, Skin::build_list($box['list'], 'compact'), 'extra')."\n";
+			$text .= Skin::build_box($label, Skin::build_list($box['list'], 'compact'), 'boxes')."\n";
 
 		}
 	}
@@ -976,7 +976,7 @@ if(!$text =& Cache::get($cache_id)) {
 				$box['text'] .= $overlay->get_text('box', $item);
 
 			if($content)
-				$text .= Skin::build_box($box['title'], $box['text'], 'extra', 'extra_poll');
+				$text .= Skin::build_box($box['title'], $box['text'], 'boxes', 'extra_poll');
 		}
 	}
 
@@ -992,7 +992,7 @@ if(!$text =& Cache::get($cache_id)) {
 				$items['articles/'] = i18n::s('All pages').MORE_IMG;
 			}
 
-			$text .= Skin::build_box(i18n::s('Recent Pages'), Skin::build_list($items, 'compact'), 'extra');
+			$text .= Skin::build_box(i18n::s('Recent Pages'), Skin::build_list($items, 'compact'), 'boxes');
 		}
 	}
 

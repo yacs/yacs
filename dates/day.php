@@ -61,43 +61,43 @@ if((strlen($target) < 8) || (strlen($target) > 10)) {
 		Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	} else {
-	
+
 		// cache between modifications
 		$cache_id = 'dates/day.php#text#'.$target;
 		if(!$text =& Cache::get($cache_id)) {
-		
+
 			// draw one day
 			if($items = Dates::list_for_day($year, $month, $day, 'decorated'))
 				$text .= Skin::build_list($items, 'decorated');
 			else
 				$text .= '<p>'.i18n::s('Nothing has been recorded for this date.').'</p>';
-		
+
 			// robots cannot navigate
 			if(!Surfer::is_crawler()) {
-			
+
 				// previous day
 				$previous = gmstrftime('%Y/%m/%d', gmmktime(0, 0, 0, $month, $day-1, $year));
-			
+
 				// next day
 				$next = gmstrftime('%Y/%m/%d', gmmktime(0, 0, 0, $month, $day+1, $year));
-			
+
 				// neighbours
 				$neighbours = array(Dates::get_url($previous, 'day'), Skin::build_date($previous, 'standalone'),
 					Dates::get_url($next, 'day'), Skin::build_date($next, 'standalone'),
 					Dates::get_url($year.'/'.$month, 'month'), Dates::get_month_label($year.'/'.$month));
-			
+
 				// links to display previous and next days
 				$text .= Skin::neighbours($neighbours, 'slideshow');
 
-			} 
-			
+			}
+
 			// cache, whatever change, for 1 minute
 			Cache::put($cache_id, $text, 'stable', 60);
 		}
-		
+
 		// in the main panel
 		$context['text'] .= $text;
-		
+
 	}
 }
 
@@ -105,7 +105,7 @@ if((strlen($target) < 8) || (strlen($target) > 10)) {
 $cache_id = 'dates/day.php#extra';
 if(!$text =& Cache::get($cache_id)) {
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
-		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'extra');
+		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'boxes');
 
 	Cache::put($cache_id, $text, 'articles');
 }

@@ -204,30 +204,30 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 			$menu = array();
 
 			// read the article
-			$menu[] = Skin::build_link($url, i18n::s('Permalink'), 'basic');
+			$menu[] = Skin::build_link($url, i18n::s('Permalink'), 'span');
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))
-				$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'basic');
+				$menu[] = Skin::build_link($url.'#files', sprintf(i18n::ns('%d file', '%d files', $count), $count), 'span');
 
 			// info on related comments
 			if($count = Comments::count_for_anchor('article:'.$item['id']))
-				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'basic');
+				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
 
 			// comment
 			if(Comments::are_allowed($anchor, $item))
-				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'basic');
+				$menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Discuss'), 'span');
 
 			// info on related links
 			if($count = Links::count_for_anchor('article:'.$item['id'], TRUE))
-				$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'basic');
+				$menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
 
 			// trackback
 			if($context['with_friendly_urls'] == 'Y')
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$menu[] = Skin::build_link($link, i18n::s('Reference this page'), 'basic');
+			$menu[] = Skin::build_link($link, i18n::s('Reference this page'), 'span');
 
 			// a menu bar, but flushed to the right
 			if(count($menu))

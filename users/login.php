@@ -451,9 +451,9 @@ if(Surfer::is_crawler()) {
 		$follow_up = i18n::s('Where do you want to go now?');
 		$menu = array();
 		if(isset($_REQUEST['login_forward']))
-			$menu = array_merge($menu, array($_REQUEST['login_forward'] => i18n::s('Move forward')));
+			$menu = array_merge($menu, array($_REQUEST['login_forward'] => array(NULL, i18n::s('Move forward'), NULL, 'button')));
 		elseif(isset($_SERVER['HTTP_REFERER']) && !preg_match('/users\/login\.php/', $_SERVER['HTTP_REFERER']))
-			$menu = array_merge($menu, array($_SERVER['HTTP_REFERER'] => i18n::s('Move forward')));
+			$menu = array_merge($menu, array($_SERVER['HTTP_REFERER'] => array(NULL, i18n::s('Move forward'), NULL, 'button')));
 		else
 			$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
 		if(Surfer::is_associate())
@@ -473,9 +473,6 @@ if(Surfer::is_crawler()) {
 		// user profile aside
 		$context['components']['profile'] = Skin::build_profile($user, 'extra');
 
-		// more boxes
-		$context['components']['boxes'] = '';
-
 		// contribution links, in an extra box
 		if(Surfer::is_member()) {
 			$links = array();
@@ -487,7 +484,7 @@ if(Surfer::is_crawler()) {
 				$links = array_merge($links, array( 'users/edit.php' => i18n::s('Add a user') ));
 			}
 
-			$context['components']['boxes'] .= Skin::build_box(i18n::s('Contribute'), Skin::build_list($links, 'compact'), 'extra');
+			$context['components']['boxes'] .= Skin::build_box(i18n::s('Contribute'), Skin::build_list($links, 'compact'), 'boxes');
 		}
 
 		// navigation links, in an extra box
@@ -498,7 +495,7 @@ if(Surfer::is_crawler()) {
 		$links = array_merge($links, array( 'categories/' => i18n::s('Categories') ));
 		$links = array_merge($links, array( 'search.php' => i18n::s('Search') ));
 
-		$context['components']['boxes'] .= Skin::build_box(i18n::s('Navigate'), Skin::build_list($links, 'compact'), 'extra');
+		$context['components']['boxes'] .= Skin::build_box(i18n::s('Navigate'), Skin::build_list($links, 'compact'), 'boxes');
 
 	// failed authentication
 	} else {
@@ -646,7 +643,7 @@ if(Surfer::is_crawler()) {
 	// the help panel
 	$help = '<p>'.i18n::s('Your browser must accept cookies in order to successfully register and log in.').'</p>'
 		.'<p>'.sprintf(i18n::s('If you already are a registered member, but do not remember your username and/or password, %s.'), Skin::build_link('users/password.php', i18n::s('click here'))).'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }
 

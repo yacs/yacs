@@ -158,10 +158,10 @@ class Feeds {
 			$items[] = array(
 				'author' => $item->get_author(),
 				'category' => $category,
-				'description' => Codes::beautify_implied($item->get_content()),
+				'description' => $item->get_content(),
 				'link' => $item->get_permalink(),
 				'pubDate' => $item->get_date('r'),
-				'title' => Codes::beautify_title($item->get_title())
+				'title' => $item->get_title()
 				);
 		}
 
@@ -251,6 +251,11 @@ class Feeds {
 	function tick_hook($forced=FALSE) {
 		global $context;
 
+		// load librairies only once
+		include_once $context['path_to_root'].'links/links.php';
+		include_once $context['path_to_root'].'servers/servers.php';
+		include_once $context['path_to_root'].'shared/values.php';	// feeds.tick
+
 		// get feeding parameters
 		Safe::load('parameters/feeds.include.php');
 
@@ -260,14 +265,13 @@ class Feeds {
 
 		// do not wait for the end of a feeding cycle
 		if($forced)
-			$threshold = gmstrftime('%Y-%m-%d %H:%M:%S GMT');
+			$threshold = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// do not process servers that have been polled recently
 		else
-			$threshold = gmstrftime('%Y-%m-%d %H:%M:%S GMT', time() - $context['minutes_between_feeds'] * 60);
+			$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - ($context['minutes_between_feeds'] * 60));
 
 		// get a batch of feeders
-		include_once $context['path_to_root'].'servers/servers.php';
 		if(!$feeders = Servers::list_for_feed(0, 1, 'feed'))
 			return 'feeds/feeds.php: no feed has been defined'.BR;
 
@@ -275,7 +279,6 @@ class Feeds {
 		$start_time = get_micro_time();
 
 		// list banned tokens
-		include_once $context['path_to_root'].'servers/servers.php';
 		$banned_pattern = Servers::get_banned_pattern();
 
 		// browse each feed
@@ -287,7 +290,7 @@ class Feeds {
 
 			// skip servers processed recently
 			if($stamp > $threshold)
-				return 'feeds/feeds.php: wait until '.gmdate('r', time()+strtotime($stamp)-strtotime($threshold)).' GMT'.BR;
+				continue;
 
 			// flag this record to enable round-robin even on error
 			Servers::stamp($server_id);
@@ -320,7 +323,6 @@ class Feeds {
 
 			// process retrieved links
 			$links = 0;
-			include_once $context['path_to_root'].'links/links.php';
 			foreach($news as $item) {
 
 
@@ -368,7 +370,6 @@ class Feeds {
 			$count += 1;
 
 			// remember tick date
-			include_once $context['path_to_root'].'shared/values.php';	// feeds.tick
 			Values::set('feeds.tick.'.$feed_url, $links);
 		}
 

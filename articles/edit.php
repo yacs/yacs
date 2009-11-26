@@ -164,7 +164,7 @@ if(Articles::is_owned($anchor, $item))
 	Surfer::empower();
 
 // allow editors to contribute to public sections
-elseif(!isset($item['id']) && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
+elseif(Surfer::get_id() && is_object($anchor) && !$anchor->is_hidden() && $anchor->is_assigned())
 	Surfer::empower();
 
 // this page cannot be modified anymore
@@ -812,9 +812,9 @@ if($with_form) {
 		// the command to add an image
 		if(Surfer::may_upload()) {
 			Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
-			$menu[] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic');
+			$menu[] = Skin::build_link('images/edit.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'span');
 
-			$menu[] = Skin::build_link('images/upload.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Bulk upload'), 'basic');
+			$menu[] = Skin::build_link('images/upload.php?anchor='.urlencode('article:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Bulk upload'), 'span');
 		}
 
 		// the list of images
@@ -1300,7 +1300,7 @@ if($with_form) {
 	$help .= '</select></p></form>';
 
 	// in a side box
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }
 

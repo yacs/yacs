@@ -1184,8 +1184,7 @@ Class i18n {
 				.'/**'."\n"
 				.' * cache localized strings'."\n"
 				.' *'."\n"
-				.' * This file has been created by the script i18n/i18n.php'."\n"
-				.' * on '.gmdate("F j, Y, g:i a").' GMT. Please do not modify it manually.'."\n"
+				.' * This file has been created by the script i18n/i18n.php. Please do not modify it manually.'."\n"
 				.' * @reference'."\n"
 				.' */'."\n";
 

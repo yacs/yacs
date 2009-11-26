@@ -385,7 +385,7 @@ if(Surfer::is_crawler()) {
 	// general help on this form
 	$help = '<p>'.sprintf(i18n::s('This server supports the %s created by Ben Trott and Mena Trott. Please note that any %s system attempts to trackback up to seven links from each published page.'), Skin::build_link('http://www.movabletype.org/docs/mttrackback.html', i18n::s('trackback specification'), 'external'), Skin::build_link('http://www.yacs.fr/', 'Yacs', 'external')).'</p>'
 		.'<p>'.i18n::s('You can use this form to manually trackback your pages to this site.').'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }
 

@@ -328,11 +328,11 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 
 		// discuss this page, if the index page can be commented, and comments are accepted at the article level
 		if(Comments::are_allowed($anchor, $item))
-			$this->menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Post a comment'));
+			$this->menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'comment'), i18n::s('Post a comment'), 'span');
 
 		// info on related comments
 		if($count = Comments::count_for_anchor('article:'.$item['id']))
-			$this->menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count));
+			$this->menu[] = Skin::build_link(Comments::get_url('article:'.$item['id'], 'list'), sprintf(i18n::ns('%d comment', '%d comments', $count), $count), 'span');
 
 		// new links are accepted at the index page and at the article level
 		if(is_object($anchor) && $anchor->has_option('with_links')
@@ -343,13 +343,13 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 				$link = 'links/trackback.php/article/'.$item['id'];
 			else
 				$link = 'links/trackback.php?anchor='.urlencode('article:'.$item['id']);
-			$this->menu[] = Skin::build_link($link, i18n::s('Reference this page'));
+			$this->menu[] = Skin::build_link($link, i18n::s('Reference this page'), 'span');
 
 		}
 
 		// info on related links
 		if($count = Links::count_for_anchor('article:'.$item['id']))
-			$this->menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count));
+			$this->menu[] = Skin::build_link($url.'#links', sprintf(i18n::ns('%d link', '%d links', $count), $count), 'span');
 
 		// new files are accepted at the index page and at the article level
 		if(is_object($anchor) && $anchor->has_option('with_files')
@@ -361,18 +361,18 @@ Class Layout_home_articles_as_alistapart extends Layout_interface {
 					$link = 'files/edit.php/article/'.$item['id'];
 				else
 					$link = 'files/edit.php?anchor='.urlencode('article:'.$item['id']);
-				$this->menu[] = Skin::build_link($link, i18n::s('Upload a file'));
+				$this->menu[] = Skin::build_link($link, i18n::s('Upload a file'), 'span');
 			}
 
 		}
 
 		// modify this page
 		if(Surfer::is_empowered())
-			$this->menu[] = Skin::build_link(Articles::get_url($item['id'], 'edit'), i18n::s('Edit'));
+			$this->menu[] = Skin::build_link(Articles::get_url($item['id'], 'edit'), i18n::s('Edit'), 'span');
 
 		// view permalink
 		if(Surfer::is_empowered())
-			$this->menu[] = Skin::build_link($url, i18n::s('Permalink'));
+			$this->menu[] = Skin::build_link($url, i18n::s('Permalink'), 'span');
 
 		// returned the formatted content
 		return $text;

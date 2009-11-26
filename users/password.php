@@ -242,7 +242,7 @@ if($with_form) {
 		$fields[] = array($label, $input);
 
 		// append the script used for data checking on the browser
-		$context['text'] .= JS_PREFIX
+		$context['page_footer'] .= JS_PREFIX
 			.'$("password").focus();'."\n"
 			.JS_SUFFIX."\n";
 

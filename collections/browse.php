@@ -452,7 +452,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 	// general help
 	$help = '<p>'.i18n::s('Click on file names to transfer them to your workstation, or to start a Play-on-demand session.').'</p>'
 		.'<p>'.sprintf(i18n::s('If you are looking for a good piece of software to manage streaming music and video, download %s or %s.'), Skin::build_link(i18n::s('http://www.videolan.org/vlc/'), i18n::s('VLC media player'), 'external'), Skin::build_link(i18n::s('http://www.winamp.com/'), i18n::s('Winamp player'), 'external')).'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }
 

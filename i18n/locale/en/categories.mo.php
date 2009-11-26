@@ -2,14 +2,13 @@
 /**
  * cache localized strings
  *
- * This file has been created by the script i18n/i18n.php
- * on November 16, 2009, 5:08 pm GMT. Please do not modify it manually.
+ * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-09 19:19+0100
-PO-Revision-Date: 2009-10-07 00:47+0100
+POT-Creation-Date: 2009-11-26 22:50+0100
+PO-Revision-Date: 2009-11-23 17:39+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -111,6 +110,7 @@ $_SESSION['l10n']['en']['ecc7ab4a52b62f6e4deb6339dc119ec5']='List up to %s secti
 $_SESSION['l10n']['en']['b50b92192131c5e24b75ab0be52428e8']='List up to %s sub-categories with the following layout:';
 $_SESSION['l10n']['en']['Look for orphan records']='Look for orphan records';
 $_SESSION['l10n']['en']['Maintenance']='Maintenance';
+$_SESSION['l10n']['en']['Manage members']='Manage members';
 $_SESSION['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields are marked with a *';
 $_SESSION['l10n']['en']['076258fa009ea3b6a42ad8ef12aca098']='Maybe some new pages or additional material can be found by submitting the following keyword to our search engine. Give it a try. %s';
 $_SESSION['l10n']['en']['Message content']='Message content';

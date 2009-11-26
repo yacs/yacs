@@ -69,22 +69,22 @@ if(($page > 1) && (($page - 1) * THREADS_PER_PAGE > $stats['count'])) {
 	// page main content
 	$cache_id = 'comments/index.php#text#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
-	
+
 		// the first comment to list
 		$offset = ($page - 1) * THREADS_PER_PAGE;
-	
+
 		// load the layout to use
 		include_once $context['path_to_root'].'articles/layout_articles_as_yabb.php';
 		$layout = new Layout_articles_as_yabb();
-	
+
 		// query the database and layout that stuff
 		if(!$text = Comments::list_threads_by_date($offset, THREADS_PER_PAGE, $layout))
 			$context['text'] .= '<p>'.i18n::s('No comment has been transmitted.').'</p>';
-	
+
 		// we have an array to format
 		if(is_array($text))
 			$text =& Skin::build_list($text, 'rows');
-	
+
 		// cache, whatever changes, for 1 minute
 		Cache::put($cache_id, $text, 'stable', 60);
 	}
@@ -102,7 +102,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
-		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'extra');
+		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'boxes');
 
 	Cache::put($cache_id, $text, 'articles');
 }

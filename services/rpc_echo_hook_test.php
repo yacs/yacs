@@ -84,7 +84,7 @@ if(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) 
 
 // general help on this page
 $help = sprintf(i18n::s('Go to the %s and check debug mode for <code>rpc</code> has been set, if you want to record HTTP requests and responses.'), Skin::build_link('services/configure.php', i18n::s('configuration panel for services'), 'shortcut'))."\n";
-$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 render_skin();
 

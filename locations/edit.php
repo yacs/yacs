@@ -337,7 +337,7 @@ if($with_form) {
 		.'<li>'.Skin::build_link(i18n::s('http://www.travelgis.com/geocode/Default.aspx'), i18n::s('Free Geocoding Service for 22 Countries'), 'external').'</li>'
 		.'</ul>'
 		.'<p>'.sprintf(i18n::s('%s and %s are available to enhance text rendering.'), Skin::build_link('codes/', i18n::s('YACS codes'), 'help'), Skin::build_link('smileys/', i18n::s('smileys'), 'help')).'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }
 

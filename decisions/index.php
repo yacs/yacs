@@ -67,18 +67,18 @@ if(($page > 1) && (($page - 1) * THREADS_PER_PAGE > $stats['count'])) {
 	// page main content
 	$cache_id = 'decisions/index.php#text#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
-	
+
 		// the first decision to list
 		$offset = ($page - 1) * THREADS_PER_PAGE;
-	
+
 		// query the database and layout that stuff
 		if(!$text = Decisions::list_threads_by_date($offset, THREADS_PER_PAGE, 'decorated'))
 			$text = '<p>'.i18n::s('No decision has been recorded yet.').'</p>';
-	
+
 		// we have an array to format
 		elseif(is_array($text))
 			$text =& Skin::build_list($text, 'rows');
-	
+
 		// cache, whatever change, for 1 minute
 		Cache::put($cache_id, $text, 'stable', 60);
 	}
@@ -96,7 +96,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
-		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'extra');
+		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'boxes');
 
 	Cache::put($cache_id, $text, 'articles');
 }

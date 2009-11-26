@@ -2,6 +2,8 @@
 /**
  * search among pages
  *
+ * @todo search locally, and offer extension to Google (assistant-like)
+ * @todo bug on limited search to some top-level section
  * @todo allow for a search limited to users
  * @todo allow for a search limited to files
  * @todo introduce boolean searches, depending on MySQL version (> 4.0.1)
@@ -342,20 +344,20 @@ if($search && ($page == 1)) {
 }
 
 // general help on this page
-$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), i18n::s('This search engine only display pages that have all words in it. <p>Also, only exact matches will be listed. Therefore "category" and "categories" won\'t give the same results. Note that "red" and "reds" may also give different results.</p>'), 'extra', 'help');
+$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), i18n::s('This search engine only display pages that have all words in it. <p>Also, only exact matches will be listed. Therefore "category" and "categories" won\'t give the same results. Note that "red" and "reds" may also give different results.</p>'), 'boxes', 'help');
 
 // how to stay tuned
 $lines = array();
 if($search)
 	$lines[] = Skin::build_link('services/search.php?search='.urlencode($search), i18n::s('Matching pages'), 'xml');
-$context['components']['boxes'] .= Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feeds');
+$context['components']['boxes'] .= Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'boxes', 'feeds');
 
 // side bar with the list of most recent keywords
 $cache_id = 'search.php#keywords_by_date';
 if(!$text =& Cache::get($cache_id)) {
 	include_once 'categories/categories.php';
 	if($items = Categories::list_keywords_by_date(0, COMPACT_LIST_SIZE))
-		$text =& Skin::build_box(i18n::s('Recent searches'), Skin::build_list($items, 'compact'), 'extra');
+		$text =& Skin::build_box(i18n::s('Recent searches'), Skin::build_list($items, 'compact'), 'boxes');
 	Cache::put($cache_id, $text, 'categories');
 }
 $context['components']['boxes'] .= $text;

@@ -2588,7 +2588,7 @@ Class Codes {
 					$label =& Skin::build_image($variant, $href, $title, $link);
 
 					// add item to the stack
-					$items[ $href ]  = array('', $label, '', 'image', NULL);
+					$items[]  = $label;
 
 				}
 
@@ -2599,7 +2599,7 @@ Class Codes {
 			if(count($items)) {
 
 				// stack items
-				$output = Skin::build_list($items, 'stack');
+				$output = Skin::finalize_list($items, 'stack');
 
 				// rotate items
 				$output = Skin::rotate($output);

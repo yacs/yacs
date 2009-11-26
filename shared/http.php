@@ -34,7 +34,7 @@ class http {
 	 * @param int number of seconds to cache (default: 30 minutes)
 	 */
 	function expire($time=1800) {
-	
+
 		// ask for revalidation - 'no-cache' is mandatory for IE6 !!!
 		if(!$time || ($time < 1)) {
 			Safe::header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
@@ -46,7 +46,33 @@ class http {
 			Safe::header('Pragma: ');
 		}
 	}
-	
+
+	/**
+	 * get base part of the URI to the current script
+	 *
+	 * This should be used for users passing through proxies.
+	 *
+	 * @return string the base URI
+	 */
+	function get_base_uri() {
+		global $context, $_SERVER;
+
+		// host name
+		if(isset($_SERVER['HTTP_VIA']) && ($tags = explode(' ', $_SERVER['HTTP_VIA'], 3)) && isset($tags[1]))
+			$host_name = rtrim($tags[1], ' ,'); // from outer proxy
+		else
+			$host_name = $context['host_name']; // from running configuration
+
+		// URL
+		$root_url = '';
+		if(isset($_SERVER['X_FORWARDED_BASE']) && $_SERVER['X_FORWARDED_BASE'])
+			$root_url .= $_SERVER['X_FORWARDED_BASE']; // from reverse proxy
+		$root_url .= $context['url_to_root']; // from running configuration
+
+		// done.
+		return 'http://'.$host_name.$root_url;
+	}
+
 	/**
 	 * validate data from user agent
 	 *
@@ -55,14 +81,14 @@ class http {
 	 * @return boolean TRUE if the client has provided the right headers, FALSE otherwise
 	 */
 	function validate($last_modified, $etag=NULL) {
-	
+
 		// not cached yet
 		$cached = FALSE;
-		
+
 		// web cache is not managed
 		if(isset($context['without_http_cache']) && ($context['without_http_cache'] == 'Y'))
 			return FALSE;
-	
+
 		// validate the content if date of last modification is the same
 		if($last_modified && isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && ($if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']))) {
 			if(($if_modified_since == $last_modified) && !isset($_SERVER['HTTP_IF_NONE_MATCH']))
@@ -92,7 +118,7 @@ class http {
 
 			// the client should use data in cache
 			Safe::header('Status: 304 Not Modified', TRUE, 304);
-			
+
 		// set meta information to allow for cache
 		} else {
 

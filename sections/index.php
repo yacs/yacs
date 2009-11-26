@@ -196,13 +196,13 @@ if(!$text =& Cache::get($cache_id)) {
 	$lines[] = Skin::build_link('search.php', i18n::s('Search'));
 	$lines[] = Skin::build_link('help/', i18n::s('Help index'));
 	$lines[] = Skin::build_link('query.php', i18n::s('Contact'));
-	$text .= Skin::build_box(i18n::s('See also'), Skin::finalize_list($lines, 'compact'), 'extra');
+	$text .= Skin::build_box(i18n::s('See also'), Skin::finalize_list($lines, 'compact'), 'boxes');
 
 	// list monthly publications in an extra box
 	include_once '../categories/categories.php';
 	$anchor =& Categories::get(i18n::c('monthly'));
 	if(isset($anchor['id']) && ($items = Categories::list_by_date_for_anchor('category:'.$anchor['id'], 0, COMPACT_LIST_SIZE, 'compact'))) {
-		$text .= Skin::build_box($anchor['title'], Skin::build_list($items, 'compact'), 'extra')."\n";
+		$text .= Skin::build_box($anchor['title'], Skin::build_list($items, 'compact'), 'boxes')."\n";
 	}
 
 	// side boxes for related categories, if any
@@ -215,25 +215,25 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// box content
 			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
-				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'extra')."\n";
+				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'boxes')."\n";
 		}
 	}
-
-	// download content
-// 	if(Surfer::is_associate() && (!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y')) ) {
-//
-// 		// box content
-// 		$content = Skin::build_link(Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name']).'.mm'), i18n::s('Freemind map'), 'basic');
-//
-// 		// in a sidebar box
-// 		$text .= Skin::build_box(i18n::s('Download'), $content, 'extra');
-//
-// 	}
 
 	// save, whatever change, for 5 minutes
 	Cache::put($cache_id, $text, 'stable', 300);
 }
 $context['components']['boxes'] = $text;
+
+// download content
+if(Surfer::is_associate() && (!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y')) ) {
+
+	// box content
+	$content = Skin::build_link(Sections::get_url('all', 'freemind', utf8::to_ascii($context['site_name']).'.mm'), i18n::s('Freemind map'), 'basic');
+
+	// in a sidebar box
+	$context['components']['download'] .= Skin::build_box(i18n::s('Download'), $content, 'download');
+
+}
 
 // referrals, if any
 $context['components']['referrals'] = Skin::build_referrals('sections/index.php');

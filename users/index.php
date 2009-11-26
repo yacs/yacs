@@ -160,10 +160,9 @@ if(isset($context['google_api_key']) && $context['google_api_key'])
 $context['page_tools'][] = Skin::build_link('users/review.php', i18n::s('Review profiles'));
 
 // side bar with the list of present users --don't cache, this will change on each request anyway
-$context['components']['boxes'] = '';
 include_once $context['path_to_root'].'users/visits.php';
 if($items = Users::list_present(0, COMPACT_LIST_SIZE, 'compact'))
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Present users'), $items, 'extra');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Present users'), $items, 'boxes');
 
 
 // page extra content
@@ -172,7 +171,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// side bar with the list of newest users
 	if($items = Users::list_by_date(0, COMPACT_LIST_SIZE, 'compact'))
-		$text .= Skin::build_box(i18n::s('Newest Members'), Skin::build_list($items, 'compact'), 'extra');
+		$text .= Skin::build_box(i18n::s('Newest Members'), Skin::build_list($items, 'compact'), 'boxes');
 
 	// side boxes for related categories, if any
 	include_once '../categories/categories.php';
@@ -184,7 +183,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// box content
 			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
-				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'extra')."\n";
+				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'boxes')."\n";
 		}
 	}
 

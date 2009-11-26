@@ -133,7 +133,7 @@ if(Surfer::is_associate()) {
 // side bar with a rss feed, if this server is well populated
 if($stats['count'] > $items_per_page) {
 	$context['components']['channels'] = Skin::build_box(i18n::s('Information channels'), Skin::build_link(Feeds::get_url('rss'), i18n::s('Recent pages'), 'xml')
-		.BR.Skin::build_link(Feeds::get_url('articles'), i18n::s('Full content'), 'xml'), 'extra');
+		.BR.Skin::build_link(Feeds::get_url('articles'), i18n::s('Full content'), 'xml'), 'channels');
 }
 
 // page extra information
@@ -143,7 +143,7 @@ if(!$text =& Cache::get($cache_id)) {
 	// side bar with the list of most popular articles, if this server is well populated
 	if($stats['count'] > $items_per_page) {
 		if($items =& Articles::list_by('hits', 0, COMPACT_LIST_SIZE, 'compact'))
-			$text .= Skin::build_box(i18n::s('Popular'), Skin::build_list($items, 'compact'), 'extra');
+			$text .= Skin::build_box(i18n::s('Popular'), Skin::build_list($items, 'compact'), 'boxes');
 	}
 
 	// side boxes for related categories, if any
@@ -155,7 +155,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// box content
 			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
-				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'extra')."\n";
+				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'boxes')."\n";
 		}
 	}
 

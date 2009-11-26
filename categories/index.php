@@ -75,25 +75,25 @@ if(($page > 1) && (($page - 1) * CATEGORIES_PER_PAGE > $stats['count'])) {
 	// page main content
 	$cache_id = 'categories/index.php#text#'.$page;
 	if(!$text =& Cache::get($cache_id)) {
-	
+
 		// do it the Yahoo! style
 		include_once '../categories/layout_categories_as_yahoo.php';
 		$layout = new Layout_categories_as_yahoo();
-	
+
 		// the list of active categories
 		$offset = ($page - 1) * CATEGORIES_PER_PAGE;
 		if(!$text = Categories::list_by_title_for_anchor(NULL, $offset, CATEGORIES_PER_PAGE, $layout))
 			$text = '<p>'.i18n::s('No category has been created yet.').'</p>';
-	
+
 		// we have an array to format
 		if(is_array($text))
 			$text =& Skin::build_list($text, '2-columns');
-			
+
 		// navigation commands for categories, if necessary
 		if($stats['count'] > CATEGORIES_PER_PAGE) {
-		
+
 			$menu = array('_count' => Skin::build_number($stats['count'], i18n::s('categories')));
-			
+
 			$home = 'categories/';
 			if($context['with_friendly_urls'] == 'Y')
 				$prefix = $home.'index.php/';
@@ -102,31 +102,31 @@ if(($page > 1) && (($page - 1) * CATEGORIES_PER_PAGE > $stats['count'])) {
 			else
 				$prefix = $home.'?page=';
 			$menu = array_merge($menu, Skin::navigate($home, $prefix, $stats['count'], CATEGORIES_PER_PAGE, $page));
-			
+
 			// add a menu at the bottom
 			$text .= Skin::build_list($menu, 'menu_bar');
-	
+
 		}
 
 		// make a box
 		if($text)
 			$text =& Skin::build_box('', $text, 'header1', 'categories');
-	
+
 		// associates may list specific categories as well
 		if(($page == 1) && Surfer::is_associate()) {
-	
+
 			// query the database and layout that stuff
 			if($items = Categories::list_inactive_by_title(0,25)) {
-	
+
 				// we have an array to format
 				if(is_array($items))
 					$items = Skin::build_list($items, '2-columns');
-	
+
 				// displayed as another page section
 				$text .= Skin::build_box(i18n::s('Special categories'), $items, 'header1', 'inactive_categories');
 			}
 		}
-	
+
 		// cache this to speed subsequent queries
 		Cache::put($cache_id, $text, 'categories');
 	}
@@ -151,13 +151,13 @@ if(!$text =& Cache::get($cache_id)) {
 		'search.php' => i18n::s('Search'),
 		'help/' => i18n::s('Help index'),
 		'query.php' => i18n::s('Contact'));
-	$text .= Skin::build_box(i18n::s('See also'), Skin::build_list($links, 'compact'), 'extra');
+	$text .= Skin::build_box(i18n::s('See also'), Skin::build_list($links, 'compact'), 'boxes');
 
 	// side bar with the list of most popular articles, if this server is well populated
 	if($stats['count'] > CATEGORIES_PER_PAGE) {
 		if($items = Categories::list_by_hits(0, COMPACT_LIST_SIZE, 'compact')) {
 			$title = i18n::s('Popular');
-			$text .= Skin::build_box($title, Skin::build_list($items, 'compact'), 'extra');
+			$text .= Skin::build_box($title, Skin::build_list($items, 'compact'), 'boxes');
 		}
 	}
 

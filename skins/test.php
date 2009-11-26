@@ -109,7 +109,7 @@ $text = Skin::build_tree(array(array('#', '', i18n::s('menu').' 1', '', 'close')
 	array('#', '', i18n::s('menu').' 3', '', 'close'),
 	array('#', '', i18n::s('menu').' 4', '', 'close')
 	));
-$context['components']['contextual'] = Skin::build_box(i18n::s('contextual menu'), $text, 'extra', 'contextual_menu');
+$context['components']['contextual'] = Skin::build_box(i18n::s('contextual menu'), $text, 'contextual', 'contextual_menu');
 
 // $context['page_author'] - the author
 $context['page_author'] = 'webmaestro, through some PHP script';

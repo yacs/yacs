@@ -219,10 +219,8 @@ if(!isset($item['id'])) {
 		$context['text'] .= '<p class="details">'.ucfirst(implode(', ', $details)).'</p>';
 
 	// back to the anchor page
-	if(is_object($anchor) && $anchor->is_viewable()) {
-		$menu = array(Skin::build_link($anchor->get_url(), i18n::s('Back to main page'), 'button'));
-		$context['text'] .= Skin::build_block(Skin::finalize_list($menu, 'menu_bar'), 'bottom');
-	}
+	if(is_object($anchor) && $anchor->is_viewable())
+		$context['text'] .= Skin::build_block(Skin::build_link($anchor->get_url(), i18n::s('Back to main page'), 'button'), 'bottom');
 
 	// page tools
 	//
@@ -240,13 +238,13 @@ if(!isset($item['id'])) {
 	// general help on this page
 	//
 	$help = '<p>'.i18n::s('To save this image on your hard drive, drag the mouse above the image and use the right button. A contextual pop-up menu should appear. Select the adequate command depending on the browser used.').'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 	// thumbnail, in an extra box
 	//
 	if(Surfer::is_associate() && $item['thumbnail_name'] && ($item['thumbnail_name'] != $item['image_name'])) {
 		$url = $context['url_to_root'].'images/'.$context['virtual_path'].str_replace(':', '/', $item['anchor']).'/'.$item['thumbnail_name'];
-		$context['components']['boxes'] .= Skin::build_box(i18n::s('Thumbnail'), '<img src="'.$url.'" />', 'extra');
+		$context['components']['boxes'] .= Skin::build_box(i18n::s('Thumbnail'), '<img src="'.$url.'" />', 'boxes');
 	}
 
 	// referrals, if any

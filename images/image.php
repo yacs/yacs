@@ -140,6 +140,42 @@ Class Image {
 	}
 
 	/**
+	 * position a background image
+	 *
+	 * @param string image name
+	 * @return string to be integrated into background CSS rule
+	 *
+	 */
+	function as_background($name) {
+		$repeat = 'repeat';
+		if(strpos($name, '-x.'))
+			$repeat = 'repeat-x top left';
+		elseif(strpos($name, '-m.'))
+			$repeat = 'no-repeat top center';
+		elseif(strpos($name, '-b.'))
+			$repeat = 'repeat-x bottom left';
+		elseif(strpos($name, '-bm.'))
+			$repeat = 'no-repeat bottom center';
+		elseif(strpos($name, '-bl.'))
+			$repeat = 'no-repeat bottom left';
+		elseif(strpos($name, '-br.'))
+			$repeat = 'no-repeat bottom right';
+		elseif(strpos($name, '-l.'))
+			$repeat = 'no-repeat top left';
+		elseif(strpos($name, '-r.'))
+			$repeat = 'no-repeat top right';
+		elseif(strpos($name, '-y.'))
+			$repeat = 'repeat-y top left';
+		elseif(strpos($name, '-ym.'))
+			$repeat = 'repeat-y top center';
+		elseif(strpos($name, '-yr.'))
+			$repeat = 'repeat-y top right';
+
+		$text = 'url('.$name.') '.$repeat;
+		return $text;
+	}
+
+	/**
 	 * create a thumbnail
 	 *
 	 * @param string the full path to the original file

@@ -21,6 +21,12 @@
  * standard XHTML tags, in alphabetical order, that are not related to some yacs code
  *************************/
 
+body {
+	font-family: Georgia, Times, serif;
+	font-size: 13px;
+	line-height: 18px;
+}
+
 form { /* inline rendering for all browsers */
 	margin: 0;
 	padding: 0;
@@ -28,9 +34,17 @@ form { /* inline rendering for all browsers */
 
 p { /* add some space below each paragraph */
 	clear: none;
-	margin: 0 0 0.75em 0;
+	margin: 0 0 1.3em 0;
 	padding: 0;
 }
+
+h1 { font-size: 5.0em; }
+
+h2 { font-size: 4.0em; }
+
+h3 { font-size: 3.0em; }
+
+h4 { font-size: 2.0em; }
 
 /*************************
  * styles demonstrated into test page skins/test.php
@@ -379,6 +393,13 @@ p.menu_bar a span { /* secondary background image */
 	margin: 0;
 	padding: 0px 7px 0px 0px;
 	background: transparent url("links/menu_bar.gif") no-repeat bottom right;
+}
+
+p.menu_bar a.button,
+p.menu_bar a.button span,
+p.menu_bar a.button:hover,
+p.menu_bar a.button:hover span { /* no specific background image for buttons */
+	background-image: none;
 }
 
 p.menu_bar a span.first { /* first command of the menu */

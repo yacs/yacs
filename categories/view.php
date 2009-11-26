@@ -165,10 +165,14 @@ else
 	$context['path_bar'] = array( 'categories/' => i18n::s('Categories') );
 
 // page title
+if(isset($item['active']) && ($item['active'] == 'R'))
+	$context['page_title'] .= RESTRICTED_FLAG.' ';
+elseif(isset($item['active']) && ($item['active'] == 'N'))
+	$context['page_title'] .= PRIVATE_FLAG.' ';
 if(is_object($overlay))
-	$context['page_title'] = $overlay->get_text('title', $item);
-elseif(isset($item['title']) && $item['title'])
-	$context['page_title'] = $item['title'];
+	$context['page_title'] .= $overlay->get_text('title', $item);
+elseif(isset($item['title']))
+	$context['page_title'] .= $item['title'];
 
 // set title background
 if(isset($item['background_color']) && $item['background_color'])
@@ -864,13 +868,17 @@ if(!isset($item['id'])) {
 			$context['page_tools'][] = Skin::build_link('links/edit.php?anchor='.urlencode('category:'.$item['id']), LINKS_ADD_IMG.i18n::s('Add a link'), 'basic', i18n::s('Contribute to the web and link to relevant pages.'));
 		}
 
-		// modify this page
+		// modify this item
 		Skin::define_img('CATEGORIES_EDIT_IMG', 'categories/edit.gif');
 		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'edit'), CATEGORIES_EDIT_IMG.i18n::s('Edit this category'), 'basic', i18n::s('Press [e] to edit'), FALSE, 'e');
 
+		// delete this item
 		Skin::define_img('CATEGORIES_DELETE_IMG', 'categories/delete.gif');
-		$context['page_tools'][] = Skin::build_link(Categories::get_url($id, 'delete'), CATEGORIES_DELETE_IMG.i18n::s('Delete this category'));
+		$context['page_tools'][] = Skin::build_link(Categories::get_url($item['id'], 'delete'), CATEGORIES_DELETE_IMG.i18n::s('Delete this category'));
 
+		// mange persons assigned to this category
+		Skin::define_img('CATEGORIES_ASSIGN_IMG', 'categories/assign.gif');
+		$context['page_tools'][] = Skin::build_link(Users::get_url('category:'.$item['id'], 'select'), CATEGORIES_ASSIGN_IMG.i18n::s('Manage members'));
 	}
 
 	// add extra information from the overlay, if any
@@ -878,7 +886,6 @@ if(!isset($item['id'])) {
 		$context['components']['overlay'] = $overlay->get_text('extra', $item);
 
 	// add extra information from this item, if any
-	$context['components']['boxes'] = '';
 	if(isset($item['extra']) && $item['extra'])
 		$context['components']['boxes'] = Codes::beautify_extra($item['extra']);
 
@@ -900,7 +907,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
+		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'share', 'share');
 
 // 		// twin pages
 // 		if(isset($item['nick_name']) && $item['nick_name']) {
@@ -915,7 +922,7 @@ if(!isset($item['id'])) {
 // 			if(is_array($items))
 // 				$box['text'] .= Skin::build_list($items, 'compact');
 // 			if($box['text'])
-// 				$context['components']['twins'] = Skin::build_box(i18n::s('Related'), $box['text'], 'extra', 'twins');
+// 				$context['components']['twins'] = Skin::build_box(i18n::s('Related'), $box['text'], 'twins', 'twins');
 
 // 		}
 
@@ -928,7 +935,7 @@ if(!isset($item['id'])) {
 // 		if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
 // 			$content .= BR.join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].Categories::get_url($item['id'], 'feed'), $item['title']));
 
-		$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), $content, 'extra', 'feeds');
+		$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), $content, 'channels', 'feeds');
 	}
 
 	// search on keyword, if any
@@ -961,7 +968,7 @@ if(!isset($item['id'])) {
 		$content .= Skin::build_link($link, i18n::s('Technorati'), 'external').'.';
 
 		$content .= "</p>\n";
-		$context['components']['boxes'] .= Skin::build_box(i18n::s('External search'), $content, 'extra');
+		$context['components']['boxes'] .= Skin::build_box(i18n::s('External search'), $content, 'boxes');
 
 	}
 

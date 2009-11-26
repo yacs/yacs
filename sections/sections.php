@@ -2026,7 +2026,7 @@ Class Sections {
 		if(!isset($fields['index_map']) || !$fields['index_map'])
 			$fields['index_map'] = 'Y';
 		if(!isset($fields['index_news']) || !$fields['index_news'])
-			$fields['index_news'] = 'static';
+			$fields['index_news'] = 'none'; // save on requests
 		if(!isset($fields['index_panel']) || !$fields['index_panel'])
 			$fields['index_panel'] = 'main';
 		if(!isset($fields['rank']) || !$fields['rank'])
@@ -2237,7 +2237,7 @@ Class Sections {
 		$query = array();
 
 		// regular fields
-		$query[] = "anchor='".SQL::escape($fields['anchor'])."'";
+		$query[] = "anchor='".SQL::escape(isset($fields['anchor'])?$fields['anchor']:'')."'";
 		$query[] = "title='".SQL::escape($fields['title'])."'";
 		$query[] = "activation_date='".SQL::escape($fields['activation_date'])."'";
 		$query[] = "active='".SQL::escape($fields['active'])."'";

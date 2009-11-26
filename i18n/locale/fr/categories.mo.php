@@ -2,14 +2,13 @@
 /**
  * cache localized strings
  *
- * This file has been created by the script i18n/i18n.php
- * on November 16, 2009, 5:08 pm GMT. Please do not modify it manually.
+ * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-09 19:19+0100
-PO-Revision-Date: 2009-10-07 00:52+0100
+POT-Creation-Date: 2009-11-26 22:50+0100
+PO-Revision-Date: 2009-11-23 17:41+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -111,6 +110,7 @@ $_SESSION['l10n']['fr']['ecc7ab4a52b62f6e4deb6339dc119ec5']='Lister jusqu\'à %s
 $_SESSION['l10n']['fr']['b50b92192131c5e24b75ab0be52428e8']='Lister jusqu\'à %s sous-catégories avec la mise en page suivante :';
 $_SESSION['l10n']['fr']['Look for orphan records']='Détecter les enregistrements orphelins';
 $_SESSION['l10n']['fr']['Maintenance']='Maintenance';
+$_SESSION['l10n']['fr']['Manage members']='Gérer les membres';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='* signale les champs obligatoires';
 $_SESSION['l10n']['fr']['076258fa009ea3b6a42ad8ef12aca098']='Vous pourriez peut-être lister d\'autres pages ou d\'autres éléments en soumettant le mot-clé qui suit à notre moteur de recherche. Qui sait ? %s';
 $_SESSION['l10n']['fr']['Message content']='Contenu du message';

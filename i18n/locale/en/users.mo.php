@@ -2,14 +2,13 @@
 /**
  * cache localized strings
  *
- * This file has been created by the script i18n/i18n.php
- * on November 16, 2009, 5:08 pm GMT. Please do not modify it manually.
+ * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-09 21:27+0100
-PO-Revision-Date: 2009-11-09 21:31+0100
+POT-Creation-Date: 2009-11-26 22:50+0100
+PO-Revision-Date: 2009-11-26 22:52+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -171,6 +170,7 @@ $_SESSION['l10n']['en']['Files']='Files';
 $_SESSION['l10n']['en']['2e3a5a5400dcb9378c4c32a61a21989b']='Files can be modified only by their original authors, plus associates and editors.';
 $_SESSION['l10n']['en']['First name(s)']='First name(s)';
 $_SESSION['l10n']['en']['1169885c9e3a40bebae7aeb820ae460e']='First names followed by last names';
+$_SESSION['l10n']['en']['cf126c8beeba972970c5a32b846e54b8']='Following editors inherit from assignments at parent containers';
 $_SESSION['l10n']['en']['c4ee000af107ab80885b2ac1b34a715b']='Following items are attached to this record and will be deleted as well.';
 $_SESSION['l10n']['en']['163446b086f8add8a8b8e33171ddfbd0']='Following persons are connected to %s:';
 $_SESSION['l10n']['en']['d614549cb7e90eec397003bb71836197']='Following persons are connected to you:';
@@ -243,6 +243,7 @@ $_SESSION['l10n']['en']['Manage editors']='Manage editors';
 $_SESSION['l10n']['en']['a68152799578dccdb3f6831c0950a723']='Mandatory fields are marked with a *';
 $_SESSION['l10n']['en']['Member']='Member';
 $_SESSION['l10n']['en']['b47ab5ca1f0719fb37d3645017bcae45']='Member of this community, with contribution rights to this server.';
+$_SESSION['l10n']['en']['Members of %s']='Members of %s';
 $_SESSION['l10n']['en']['f41a5c8d67ea2e6781eaff28c00e4aa9']='Members submit articles and associates publish them (review mode), except in sections configured with option <code>auto_publish</code>.';
 $_SESSION['l10n']['en']['Membership']='Membership';
 $_SESSION['l10n']['en']['Message content']='Message content';
@@ -367,6 +368,7 @@ $_SESSION['l10n']['en']['See also']='See also';
 $_SESSION['l10n']['en']['9d1fc249d04226cb2db7398a29581bef']='Select a .png, .gif or .jpeg image.';
 $_SESSION['l10n']['en']['Select a picture for %s']='Select a picture for %s';
 $_SESSION['l10n']['en']['c3ddc38baed1d3d09f177e3c78865622']='Select a picture from the library';
+$_SESSION['l10n']['en']['Select all']='Select all';
 $_SESSION['l10n']['en']['abbb7ad09d40d7272c30569b47a44199']='Select your preferred tool to edit text.';
 $_SESSION['l10n']['en']['Self-deletion']='Self-deletion';
 $_SESSION['l10n']['en']['c135a8dca58a3d9943aeac7d94451d30']='Self-registrating surfer will become a member (open community).';

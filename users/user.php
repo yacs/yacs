@@ -221,7 +221,10 @@ Class User extends Anchor {
 		// then this user
 		if(isset($this->item['id'])) {
 			$url = $this->get_url();
-			$label = $this->item['nick_name'];
+			if(isset($this->item['full_name']) && $this->item['full_name'])
+				$label = $this->item['full_name'];
+			else
+				$label = $this->item['nick_name'];
 			$output = array_merge($output, array($url => $label));
 		}
 
@@ -298,14 +301,14 @@ Class User extends Anchor {
 	 * @see shared/anchor.php
 	 */
 	 function is_assigned($user_id=NULL) {
-	 
+
 		// id of requesting user
 		if(!$user_id && Surfer::get_id())
 			$user_id = Surfer::get_id();
 
 		if(isset($this->item['id']) && ($user_id == $this->item['id']))
 			return TRUE;
-			
+
 		return FALSE;
 	 }
 

@@ -83,6 +83,20 @@ $context['arguments'] = array();
 
 // pre-built extra and navigation boxes, and other components for the page factory -- see skins/configure.php
 $context['components'] = array();
+$context['components']['bookmarklets'] = '';
+$context['components']['boxes'] = '';
+$context['components']['categories'] = '';
+$context['components']['channels'] = '';
+$context['components']['contextual'] = '';
+$context['components']['download'] = '';
+$context['components']['neighbours'] = '';
+$context['components']['news'] = '';
+$context['components']['overlay'] = '';
+$context['components']['profile'] = '';
+$context['components']['referrals'] = '';
+$context['components']['servers'] = '';
+$context['components']['share'] = '';
+$context['components']['twins'] = '';
 
 // type of object produced by YACS
 $context['content_type'] = 'text/html';
@@ -274,13 +288,16 @@ if($context['with_profile'] == 'Y')
 
 // the name of this server
 if(isset($_SERVER['HTTP_HOST']))
-	$context['host_name'] = strip_tags($_SERVER['HTTP_HOST']); // from HTTP request
+	$context['host_name'] = $_SERVER['HTTP_HOST']; // from HTTP request
 elseif(!isset($_SERVER['REMOTE_ADDR']) && isset($context['main_host']))
 	$context['host_name'] = $context['main_host'];	// pretend we are a virtual host during crontab job
 elseif(isset($_SERVER['SERVER_NAME']))
-	$context['host_name'] = strip_tags($_SERVER['SERVER_NAME']); // from web daemon configuration file
+	$context['host_name'] = $_SERVER['SERVER_NAME']; // from web daemon configuration file
 else
 	$context['host_name'] = 'localhost';
+
+// stop hackers
+$context['host_name'] = strip_tags($context['host_name']);
 
 // strip port number, if any
 if($here = strrpos($context['host_name'], ':'))

@@ -114,7 +114,7 @@ if(Surfer::is_associate()) {
 // get news from rss
 $title = i18n::s('Podcast');
 $label = sprintf(i18n::s('You can list new public files through RSS by going %s'), Skin::build_link(Feeds::get_url('files'), 'here', 'xml'));
-$context['components']['channels'] = Skin::build_box($title, $label, 'extra');
+$context['components']['channels'] = Skin::build_box($title, $label, 'channels');
 
 // page extra content
 $cache_id = 'files/index.php#extra';
@@ -122,7 +122,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// side bar with the list of most popular files
 	if($items = Files::list_by_hits(0, COMPACT_LIST_SIZE, 'compact')) {
-		$text .= Skin::build_box(i18n::s('Popular'), Skin::build_list($items, 'compact'), 'extra');
+		$text .= Skin::build_box(i18n::s('Popular'), Skin::build_list($items, 'compact'), 'boxes');
 	}
 
 	// side boxes for related categories, if any
@@ -135,7 +135,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 			// box content
 			if($items =& Members::list_articles_by_date_for_anchor('category:'.$id, 0, COMPACT_LIST_SIZE, 'compact'))
-				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'extra')."\n";
+				$text .= Skin::build_box($label, Skin::build_list($items, 'compact'), 'boxes')."\n";
 		}
 	}
 

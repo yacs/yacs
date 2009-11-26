@@ -2,13 +2,12 @@
 /**
  * cache localized strings
  *
- * This file has been created by the script i18n/i18n.php
- * on November 16, 2009, 5:08 pm GMT. Please do not modify it manually.
+ * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-13 00:13+0100
+POT-Creation-Date: 2009-11-26 22:50+0100
 PO-Revision-Date: 2009-11-09 20:18+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -143,6 +142,7 @@ $_SESSION['l10n']['fr']['Do not display articles.']='Ne pas afficher les article
 $_SESSION['l10n']['fr']['Do not list news.']='Ne pas lister les nouvelles.';
 $_SESSION['l10n']['fr']['Do not list sub-sections.']='Ne pas lister les rubriques.';
 $_SESSION['l10n']['fr']['Done']='Terminé';
+$_SESSION['l10n']['fr']['Download']='Télécharger';
 $_SESSION['l10n']['fr']['Draft']='Brouillon';
 $_SESSION['l10n']['fr']['Duplicate']='Dupliquer';
 $_SESSION['l10n']['fr']['Duplicate following pages in']='Dupliquer les pages suivantes dans';
@@ -179,6 +179,7 @@ $_SESSION['l10n']['fr']['133d59e8385525c4f2ed28a6c3f13b2f']='Les personnes suiva
 $_SESSION['l10n']['fr']['b5a1100a9d8f4aece2f91a2b605a91e7']='Les personnes suivantes surveillent cette page :';
 $_SESSION['l10n']['fr']['Forget this section']='Oublier cette section';
 $_SESSION['l10n']['fr']['Freemind']='Freemind';
+$_SESSION['l10n']['fr']['Freemind map']='Carte Freemind';
 $_SESSION['l10n']['fr']['Get a paper copy of this page.']='Obtenir une copie papier de cette page.';
 $_SESSION['l10n']['fr']['Go']='Go';
 $_SESSION['l10n']['fr']['Group policy']='Règles de fonctionnement';

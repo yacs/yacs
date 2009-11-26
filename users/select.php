@@ -7,7 +7,7 @@
  * This is the main tool used by associates to assign editors to pages they are managing.
  *
  * Associates can use this script to assign users to sections and to articles.
- * Editors can also call this script to renounce rights they have on a section.
+ * Editors can also call this script to remove rights they have on a section.
  *
  * Accept following invocations:
  * - select.php?member=article:12
@@ -76,6 +76,8 @@ elseif(!$permitted) {
 				$context['page_title'] = i18n::s('My contacts');
 			else
 				$context['page_title'] = sprintf(i18n::s('Contacts of %s'), $anchor->get_title());
+		} elseif(!strncmp($anchor->get_reference(), 'category:', 9)) {
+			$context['page_title'] = sprintf(i18n::s('Members of %s'), $anchor->get_title());
 		} else {
 			$context['page_title'] = i18n::s('Manage editors');
 
@@ -142,21 +144,88 @@ elseif(!$permitted) {
 		.'Event.observe(window, "load", function() { new Ajax.Autocompleter("name", "name_choices", "'.$context['url_to_root'].'users/complete.php", { paramName: "q", minChars: 1, frequency: 0.4, tokens: ",", afterUpdateElement: function(text, li) { $("ajax_spinner").style.display = "inline"; $("main_form").submit() }, indicator: "ajax_spinner" }); });'."\n"
 		.JS_SUFFIX;
 
-	// the current list of linked users
-	$assigned_users = array();
-	if(($users =& Members::list_connections_for_user($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
+	// the current list of category members
+	if(!strncmp($anchor->get_reference(), 'category:', 9) && ($users =& Members::list_users_by_posts_for_anchor($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
 
 		// splash message
-		if(!strncmp($anchor->get_reference(), 'user:', 5))
-			$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('Contacts of %s'), $anchor->get_title()).'</p>';
-		else
-			$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('Persons assigned to %s'), $anchor->get_title()).'</p>';
+		$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('Persons assigned to %s'), $anchor->get_title()).'</p>';
 
 		// browse the list
 		foreach($users as $id => $user) {
 
-			// this one has already been assigned
-			$assigned_users[] = $id;
+			// make an url
+			$url = Users::get_permalink($user);
+
+			// gather information on this user
+			$prefix = $suffix = $type = $icon = '';
+			if(isset($user['full_name']) && $user['full_name'])
+				$label = $user['full_name'].' ('.$user['nick_name'].')';
+			else
+				$label = $user['nick_name'];
+
+			// surfer cannot be deselected
+			if($anchor->is_owned($id, TRUE))
+				$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
+
+			// add a link to unselect the user
+			else {
+				$link = $context['script_url'].'?anchor=user:'.$id.'&amp;member='.urlencode($anchor->get_reference()).'&amp;action=reset';
+				$suffix .= ' - <span class="details">'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
+			}
+
+			// format the item
+			$new_users[$url] = array($prefix, $label, $suffix, $type, $icon);
+
+		}
+
+		// display attached users with unlink buttons
+		$context['text'] .= '<p>'.Skin::build_list($new_users, 'compact').'</p>';
+
+	// the current list of linked users
+	} elseif(!strncmp($anchor->get_reference(), 'user:', 5) && ($users =& Members::list_connections_for_user($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
+
+		// splash message
+		$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('Contacts of %s'), $anchor->get_title()).'</p>';
+
+		// browse the list
+		foreach($users as $id => $user) {
+
+			// make an url
+			$url = Users::get_permalink($user);
+
+			// gather information on this user
+			$prefix = $suffix = $type = $icon = '';
+			if(isset($user['full_name']) && $user['full_name'])
+				$label = $user['full_name'].' ('.$user['nick_name'].')';
+			else
+				$label = $user['nick_name'];
+
+			// surfer cannot be deselected
+			if($anchor->is_owned($id, TRUE))
+				$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
+
+			// add a link to unselect the user
+			else {
+				$link = $context['script_url'].'?anchor=user:'.$id.'&amp;member='.urlencode($anchor->get_reference()).'&amp;action=reset';
+				$suffix .= ' - <span class="details">'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
+			}
+
+			// format the item
+			$new_users[$url] = array($prefix, $label, $suffix, $type, $icon);
+
+		}
+
+		// display attached users with unlink buttons
+		$context['text'] .= '<p>'.Skin::build_list($new_users, 'compact').'</p>';
+
+	// users assigned to this anchor
+	} elseif(($users =& Members::list_users_by_posts_for_member($anchor->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
+
+		// splash message
+		$context['text'] .= '<p style="margin-top: 2em;">'.sprintf(i18n::s('Persons assigned to %s'), $anchor->get_title()).'</p>';
+
+		// browse the list
+		foreach($users as $id => $user) {
 
 			// make an url
 			$url = Users::get_permalink($user);
@@ -188,6 +257,53 @@ elseif(!$permitted) {
 
 	}
 
+	// list also editors of parent containers
+	$inherited = '';
+	$handle = $anchor->get_parent();
+	while($handle && ($parent = Anchors::get($handle))) {
+		$handle = $parent->get_parent();
+
+		if(($users =& Members::list_users_by_posts_for_member($parent->get_reference(), 0, 5*USERS_LIST_SIZE, 'raw')) && count($users)) {
+
+			// browse the list
+			$items = array();
+			foreach($users as $id => $user) {
+
+				// make an url
+				$url = Users::get_permalink($user);
+
+				// gather information on this user
+				$prefix = $suffix = $type = $icon = '';
+				if(isset($user['full_name']) && $user['full_name'])
+					$label = $user['full_name'].' ('.$user['nick_name'].')';
+				else
+					$label = $user['nick_name'];
+
+				// surfer cannot be deselected
+				if($parent->is_owned($id, TRUE))
+					$suffix .= ' - <span class="details">'.i18n::s('owner').'</span>';
+
+				// add a link to unselect the user
+				elseif(Surfer::is_associate()) {
+					$link = $context['script_url'].'?anchor=user:'.$id.'&amp;member='.urlencode($parent->get_reference()).'&amp;action=reset';
+					$suffix .= ' - <span class="details">'.Skin::build_link($link, i18n::s('unassign'), 'basic').'</span>';
+				}
+
+				// format the item
+				$items[$url] = array($prefix, $label, $suffix, $type, $icon);
+
+			}
+
+			// display attached users with unlink buttons
+			$inherited .= Skin::build_box(sprintf(i18n::s('Persons assigned to %s'), $parent->get_title()), Skin::build_list($items, 'compact'), 'folded');
+
+		}
+	}
+
+	if($inherited) {
+		$context['text'] .= '<div style="margin-top: 2em;">'.i18n::s('Following editors inherit from assignments at parent containers').'</div>'.$inherited;
+	}
+
 	// back to the anchor page
 	$links = array();
 	$url = $anchor->get_url();
@@ -202,7 +318,7 @@ elseif(!$permitted) {
 			$help = sprintf(i18n::s('%s if you have to assign new persons and to notify them in a single operation.'), Skin::build_link($anchor->get_url('invite'), i18n::s('Invite participants')));
 
 			// in a side box
-			$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+			$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 		}
 
 	// adding contacts
@@ -211,7 +327,7 @@ elseif(!$permitted) {
 			$help = i18n::s('Each new contact will be notified that you are following him.');
 
 			// in a side box
-			$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+			$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 		}
 	}
 

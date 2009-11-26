@@ -65,19 +65,19 @@ $context['text'] .= $text;
 // page tools
 if(Surfer::is_associate())
 	$context['page_tools'][] = Skin::build_link('dates/check.php', i18n::s('Maintenance'), 'basic');
-	
+
 // subscribe to this calendar
 if((!isset($context['skins_general_without_feed']) || ($context['skins_general_without_feed'] != 'Y')) ) {
 
 	$lines = array();
 
 	$lines[] = Skin::build_link($context['url_to_home'].$context['url_to_root'].'dates/fetch_ics.php', i18n::s('Get calendar'), 'basic');
-	
+
 	// public aggregators
 // 	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y'))
 // 		$lines[] = join(BR, Skin::build_subscribers($context['url_to_home'].$context['url_to_root'].'dates/fetch_ics.php', $context['site_name']));
-		
-	$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feeds');
+
+	$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'channels', 'feeds');
 
 }
 
@@ -88,7 +88,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
-		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'extra');
+		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'boxes');
 
 	Cache::put($cache_id, $text, 'articles');
 }

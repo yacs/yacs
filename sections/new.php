@@ -223,7 +223,7 @@ if(Surfer::is_crawler()) {
 		// follow-up commands
 		$follow_up = i18n::s('What do you want to do now?');
 		$menu = array();
-		if(isset($_REQUEST['articles_layout']) && ($_REQUEST['articles_layout'] == 'blog'))
+		if(isset($_REQUEST['articles_layout']) && ($_REQUEST['articles_layout'] == 'daily'))
 			$menu = array_merge($menu, array(Sections::get_permalink($_REQUEST) => i18n::s('View the new blog')));
 		else
 			$menu = array_merge($menu, array(Sections::get_permalink($_REQUEST) => i18n::s('View the new group')));
@@ -396,7 +396,7 @@ if($with_form) {
 	$help .= '<option value="yacs"'.$selected.'>'.i18n::s('Textarea')."</option>\n";
 	$help .= '</select></p></form>';
 
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }
 

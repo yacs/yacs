@@ -166,7 +166,7 @@ if(!is_object($anchor)) {
 
 	// page help
 	$help = '<p>'.i18n::s('Select a version to check differences with the current page. Only the last modification for any given date is saved in the database.').'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }
 

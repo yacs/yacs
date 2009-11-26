@@ -381,7 +381,7 @@ if(isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 
 // thread participants
 if(!isset($item['locked']) || ($item['locked'] != 'Y'))
-	$text .= Skin::build_box(i18n::s('Participants'), '<div id="thread_roster_panel"></div>'.$invite, 'extra', 'roster');
+	$text .= Skin::build_box(i18n::s('Participants'), '<div id="thread_roster_panel"></div>'.$invite, 'boxes', 'roster');
 
 // files
 //
@@ -412,7 +412,7 @@ if(is_array($items)) {
 
 // display this aside the thread
 if($items.$invite)
-	$text .= Skin::build_box(i18n::s('Files'), '<div id="thread_files_panel">'.$items.'</div>'.$invite, 'extra', 'files');
+	$text .= Skin::build_box(i18n::s('Files'), '<div id="thread_files_panel">'.$items.'</div>'.$invite, 'boxes', 'files');
 
 // links
 //
@@ -437,7 +437,7 @@ if(is_array($items))
 
 // display this aside the thread
 if($items.$invite)
-	$text .= Skin::build_box(i18n::s('Links'), '<div>'.$items.'</div>'.$invite, 'extra', 'links');
+	$text .= Skin::build_box(i18n::s('Links'), '<div>'.$items.'</div>'.$invite, 'boxes', 'links');
 
 // add extra information from this item, if any
 if(isset($item['extra']) && $item['extra'])

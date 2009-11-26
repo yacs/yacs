@@ -320,16 +320,20 @@ if(is_object($anchor) && $anchor->is_viewable())
 	$context['path_bar'] = $anchor->get_path_bar();
 
 // page title
+if(isset($item['active']) && ($item['active'] == 'R'))
+	$context['page_title'] .= RESTRICTED_FLAG.' ';
+elseif(isset($item['active']) && ($item['active'] == 'N'))
+	$context['page_title'] .= PRIVATE_FLAG.' ';
 if(isset($item['index_title']) && $item['index_title']) {
 	if(is_object($overlay))
-		$context['page_title'] = $overlay->get_text('title', $item);
+		$context['page_title'] .= $overlay->get_text('title', $item);
 	elseif(isset($item['index_title']) && $item['index_title'])
-		$context['page_title'] = $item['index_title'];
+		$context['page_title'] .= $item['index_title'];
 } elseif(isset($item['title']) && $item['title']) {
 	if(is_object($overlay))
-		$context['page_title'] = $overlay->get_text('title', $item);
+		$context['page_title'] .= $overlay->get_text('title', $item);
 	elseif(isset($item['title']) && $item['title'])
-		$context['page_title'] = $item['title'];
+		$context['page_title'] .= $item['title'];
 }
 
 // insert page family, if any
@@ -611,7 +615,7 @@ if(!isset($item['id'])) {
 					$box['id'] = 'news';
 
 				// make an extra box -- the css id is either #news, #scrolling_news or #rotating_news
-				$context['components']['news'] = Skin::build_box(i18n::s('In the news'), $box['text'], 'extra', $box['id']);
+				$context['components']['news'] = Skin::build_box(i18n::s('In the news'), $box['text'], 'news', $box['id']);
 			}
 		}
 	}
@@ -619,9 +623,6 @@ if(!isset($item['id'])) {
 	// add extra information from the overlay, if any
 	if(is_object($overlay))
 		$context['components']['overlay'] = $overlay->get_text('extra', $item);
-
-	// more extra boxes
-	$context['components']['boxes'] = '';
 
 	// add extra information from this item, if any
 	if(isset($item['extra']) && $item['extra'])
@@ -637,7 +638,7 @@ if(!isset($item['id'])) {
 		// articles to be displayed as extra boxes
 		if($items =& Articles::list_for_anchor_by('publication', $anchors, 0, $context['site_extra_maximum'], 'boxes')) {
 			foreach($items as $title => $attributes)
-				$context['components']['boxes'] .= Skin::build_box($title, $attributes['content'], 'extra', $attributes['id'])."\n";
+				$context['components']['boxes'] .= Skin::build_box($title, $attributes['content'], 'boxes', $attributes['id'])."\n";
 		}
 
 	}
@@ -689,7 +690,7 @@ if(!isset($item['id'])) {
 
 			// append a box
 			if($box['text'])
-				$context['components']['boxes'] .= Skin::build_box($box['title'], $box['text'], 'extra');
+				$context['components']['boxes'] .= Skin::build_box($box['title'], $box['text'], 'boxes');
 
 		}
 	}
@@ -718,7 +719,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'extra', 'share');
+		$context['components']['share'] = Skin::build_box(i18n::s('Share'), Skin::finalize_list($lines, 'tools'), 'share', 'share');
 
 	// 'Information channels' box
 	$lines = array();
@@ -757,7 +758,7 @@ if(!isset($item['id'])) {
 
 	// in a side box
 	if(count($lines))
-		$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'extra', 'feeds');
+		$context['components']['channels'] = Skin::build_box(i18n::s('Monitor'), join(BR, $lines), 'channels', 'feeds');
 
 	// twin pages
 	if(isset($item['nick_name']) && $item['nick_name']) {
@@ -772,7 +773,7 @@ if(!isset($item['id'])) {
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		if($box['text'])
-			$context['components']['twins'] = Skin::build_box(i18n::s('Related'), $box['text'], 'extra', 'twins');
+			$context['components']['twins'] = Skin::build_box(i18n::s('Related'), $box['text'], 'twins', 'twins');
 
 	}
 
@@ -794,7 +795,7 @@ if(!isset($item['id'])) {
 
 		// in a navigation box
 		$box_popup = '';
-		$context['components']['contextual'] = Skin::build_box($box_title, $menu, 'extra', 'contextual_menu', $box_url, $box_popup)."\n";
+		$context['components']['contextual'] = Skin::build_box($box_title, $menu, 'contextual', 'contextual_menu', $box_url, $box_popup)."\n";
 	}
 
 	// categories attached to this section
@@ -818,7 +819,7 @@ if(!isset($item['id'])) {
 		if(is_array($items))
 			$box['text'] .= Skin::build_list($items, 'compact');
 		if($box['text'])
-			$context['components']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'extra', 'categories');
+			$context['components']['categories'] = Skin::build_box(i18n::s('See also'), $box['text'], 'categories', 'categories');
 
 	}
 
@@ -865,7 +866,7 @@ if(!isset($item['id'])) {
 		if(count($bookmarklets)) {
 			$label = i18n::ns('Bookmark following link to contribute here:', 'Bookmark following links to contribute here:', count($bookmarklets))."\n<ul>".'<li>'.implode('</li><li>', $bookmarklets).'</li></ul>'."\n";
 
-			$context['components']['bookmarklets'] = Skin::build_box(i18n::s('Bookmarklets to contribute'), $label, 'extra', 'bookmarklets');
+			$context['components']['bookmarklets'] = Skin::build_box(i18n::s('Bookmarklets to contribute'), $label, 'bookmarklets', 'bookmarklets');
 		}
 	}
 
@@ -873,19 +874,19 @@ if(!isset($item['id'])) {
 // 	if(Surfer::is_associate() && ($content = Servers::list_by_date_for_anchor('section:'.$item['id']))) {
 // 		if(is_array($content))
 // 			$content =& Skin::build_list($content, 'compact');
-// 		$context['components']['servers'] = Skin::build_box(i18n::s('Related servers'), $content, 'extra', 'servers');
+// 		$context['components']['servers'] = Skin::build_box(i18n::s('Related servers'), $content, 'servers', 'servers');
 // 	}
 
 	// download content
-// 	if(Surfer::is_member() && !$zoom_type && (!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y')) ) {
-//
-// 		// box content
-// 		$content = Skin::build_link(Sections::get_url($item['id'], 'freemind', utf8::to_ascii($context['site_name'].' - '.strip_tags(Codes::beautify_title(trim($item['title']))).'.mm')), i18n::s('Freemind map'), 'basic');
-//
-// 		// in a sidebar box
-// 		$context['components']['download'] = Skin::build_box(i18n::s('Download'), $content, 'extra');
-//
-// 	}
+	if(Surfer::is_empowered() && !$zoom_type && (!isset($context['pages_without_freemind']) || ($context['pages_without_freemind'] != 'Y')) ) {
+
+		// box content
+		$content = Skin::build_link(Sections::get_url($item['id'], 'freemind', utf8::to_ascii($context['site_name'].' - '.strip_tags(Codes::beautify_title(trim($item['title']))).'.mm')), i18n::s('Freemind map'), 'basic');
+
+		// in a sidebar box
+		$context['components']['download'] = Skin::build_box(i18n::s('Download'), $content, 'download');
+
+	}
 
 	// referrals, if any
 	$context['components']['referrals'] =& Skin::build_referrals(Sections::get_permalink($item));
@@ -1748,53 +1749,6 @@ if(!isset($item['id'])) {
 		}
 
 	}
-
-	//
-	// reload this page if it changes
-	//
-	$context['page_footer'] .= JS_PREFIX
-		."\n"
-		.'// reload this page on update'."\n"
-		.'var PeriodicalCheck = {'."\n"
-		."\n"
-		.'	url: "'.$context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'check').'",'."\n"
-		.'	timestamp: '.SQL::strtotime($item['edit_date']).','."\n"
-		."\n"
-		.'	initialize: function() { },'."\n"
-		."\n"
-		.'	subscribe: function() {'."\n"
-		.'		this.ajax = new Ajax.Request(PeriodicalCheck.url, {'."\n"
-		.'			method: "get",'."\n"
-		.'			requestHeaders: {Accept: "application/json"},'."\n"
-		.'			onSuccess: PeriodicalCheck.updateOnSuccess,'."\n"
-		.'			onFailure: PeriodicalCheck.updateOnFailure });'."\n"
-		.'	},'."\n"
-		."\n"
-		.'	updateOnSuccess: function(transport) {'."\n"
-		.'		var response = transport.responseText.evalJSON(true);'."\n"
-		.'		// page has been updated'."\n"
-		.'		if(PeriodicalCheck.timestamp && response["timestamp"] && (PeriodicalCheck.timestamp != response["timestamp"])) {'."\n"
-		.'			// reflect updater name in window title'."\n"
-		.'			if(typeof this.windowOriginalTitle != "string")'."\n"
-		.'				this.windowOriginalTitle = document.title;'."\n"
-		.'			document.title = "[" + response["name"] + "] " + this.windowOriginalTitle;'."\n"
-		.'			// smart reload of the page'."\n"
-		.'			new Ajax.Updater( { success: $$("body")[0] }, window.location, { method: "get" } );'."\n"
-		.'		}'."\n"
-		.'		// wait for more time'."\n"
-		.'		setTimeout("PeriodicalCheck.subscribe()", 120000);'."\n"
-		.'	},'."\n"
-		."\n"
-		.'	updateOnFailure: function(transport) {'."\n"
-		.'		setTimeout("PeriodicalCheck.subscribe()", 600000);'."\n"
-		.'	}'."\n"
-		."\n"
-		.'}'."\n"
-		."\n"
-		.'// look for some page update'."\n"
-		.'setTimeout("PeriodicalCheck.subscribe()", 120000);'."\n"
-		."\n"
-		.JS_SUFFIX;
 
 }
 

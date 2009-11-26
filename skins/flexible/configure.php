@@ -2,6 +2,7 @@
 /**
  * configure parameters for the skin
  *
+ * @link http://matthewjamestaylor.com/blog/fixed-width-or-liquid-layout.htm The Holy Grail 3 column Liquid Layout or fixed width
  * @link http://www.smashingmagazine.com/2008/03/05/blog-headers-for-free-download/ Beautiful headers provided for free
  * @link http://exploding-boy.com/images/cssmenus2/menus.html tabs provided for free
  *
@@ -12,6 +13,7 @@
 
 // common definitions and initial processing
 include_once '../../shared/global.php';
+include_once '../../images/image.php'; 	// background handling
 
 // load jscolor library
 $context['javascript']['jscolor'] = TRUE;
@@ -460,38 +462,6 @@ elseif(!Surfer::is_associate()) {
 	}
 
 	/**
-	 * position a background image
-	 */
-	function background_image($name) {
-		$repeat = 'repeat';
-		if(strpos($name, '-x.'))
-			$repeat = 'repeat-x top left';
-		elseif(strpos($name, '-m.'))
-			$repeat = 'no-repeat top center';
-		elseif(strpos($name, '-b.'))
-			$repeat = 'repeat-x bottom left';
-		elseif(strpos($name, '-bm.'))
-			$repeat = 'no-repeat bottom center';
-		elseif(strpos($name, '-bl.'))
-			$repeat = 'no-repeat bottom left';
-		elseif(strpos($name, '-br.'))
-			$repeat = 'no-repeat bottom right';
-		elseif(strpos($name, '-l.'))
-			$repeat = 'no-repeat top left';
-		elseif(strpos($name, '-r.'))
-			$repeat = 'no-repeat top right';
-		elseif(strpos($name, '-y.'))
-			$repeat = 'repeat-y top left';
-		elseif(strpos($name, '-ym.'))
-			$repeat = 'repeat-y top center';
-		elseif(strpos($name, '-yr.'))
-			$repeat = 'repeat-y top right';
-
-		$text = 'url('.$name.') '.$repeat;
-		return $text;
-	}
-
-	/**
 	 * help to select a background
 	 */
 	function background_helper($name, $sample, $path='skins/flexible/panels') {
@@ -545,10 +515,11 @@ elseif(!Surfer::is_associate()) {
 				$checked = '';
 				if(strpos($context[$name], $item)) {
 					$checked = ' checked="checked"';
-					$text .= JS_PREFIX."$('".$sample."').setStyle({'background': '".$fixed_color." ".background_image($context['url_to_root'].$path.'/'.$item)."'});".JS_SUFFIX;
+					$text .= JS_PREFIX."$('".$sample."').setStyle({'background': '".$fixed_color." ".Image::as_background($context['url_to_root'].$path.'/'.$item)."'});".JS_SUFFIX;
 				}
-				$items[] = '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent '.background_image($context['url_to_root'].$path.'/'.$item).'">&nbsp;</div>'
-					.'<input type="radio" name="'.$name.'" value="'.$fixed_color.' '.background_image($context['url_to_root'].$path.'/'.$item).'"'.$checked.' onchange="this.value = $(\'background_fixed_color_'.$count.'\').value + \' '.background_image($context['url_to_root'].$path.'/'.$item).'\'; $(\''.$sample.'\').setStyle({\'background\': this.value})" /></div>';
+				$items[] = '<div style="text-align: center; float:left; width: 150px; margin: 0 10px 20px 0; background-color: #ddd"><div style="width: 150px; height: 70px; background: transparent '.Image::as_background($context['url_to_root'].$path.'/'.$item).'">&nbsp;</div>'
+					.'<input type="radio" name="'.$name.'" value="'.$fixed_color.' '.Image::as_background($context['url_to_root'].$path.'/'.$item).'"'.$checked.' onchange="this.value = $(\'background_fixed_color_'.$count.'\').value + \' '.Image::as_background($context['url_to_root'].$path.'/'.$item).'\'; $(\''.$sample.'\').setStyle({\'background\': this.value})" />'
+					.' '.Skin::build_link('skins/display.php?id='.urlencode($path.'/'.$item), '*', 'help').'</div>';
 			}
 			Safe::closedir($dir);
 
@@ -1705,7 +1676,7 @@ elseif(!Surfer::is_associate()) {
 
 	// general help on this form
 	$help = '<p>'.i18n::s('You are encouraged to check the test page each time you submit some modifications. You may need several iterations to refine the actual rendering of your theme.').'</p>';
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 // no modifications in demo mode
 } elseif(file_exists($context['path_to_root'].'parameters/demo.flag')) {

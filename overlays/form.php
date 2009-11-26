@@ -52,7 +52,7 @@ class Form extends Overlay {
 			$menu = array();
 			$menu[] = Skin::build_link($this->get_url($host['id'], 'fetch_as_csv'), i18n::s('CSV'), 'button');
 			$menu[] = Skin::build_link(Articles::get_url($host['id'], 'export'), i18n::s('Export to XML'), 'span');
-			$text = Skin::build_box(i18n::s('Export data'), Skin::finalize_list($menu, 'menu_bar'), 'extra');
+			$text = Skin::build_box(i18n::s('Export data'), Skin::finalize_list($menu, 'menu_bar'), 'overlay');
 		} else
 			$text = '';
 		return $text;

@@ -52,7 +52,7 @@ if(!$text =& Cache::get($cache_id)) {
 		'search.php' => i18n::s('Search'),
 		'help/' => i18n::s('Help index'),
 		'query.php' => i18n::s('Contact'));
-	$text .= Skin::build_box(i18n::s('See also'), Skin::build_list($links, 'compact'), 'extra')."\n";
+	$text .= Skin::build_box(i18n::s('See also'), Skin::build_list($links, 'compact'), 'boxes')."\n";
 
 	// save for later use
 	Cache::put($cache_id, $text, 'articles');

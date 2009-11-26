@@ -199,12 +199,12 @@ $text .= Skin::build_link(Feeds::get_url('rss'), FEEDS_RSS_IMG, '').BR;
 Skin::define_img('FEEDS_RDF_IMG', 'feeds/rss_1.0.png');
 $text .= Skin::build_link('feeds/rdf.php', FEEDS_RDF_IMG, '').BR;
 
-$context['components']['channels'] = Skin::build_box(i18n::s('Pick a feed'), '<p>'.$text.'</p>', 'extra');
+$context['components']['channels'] = Skin::build_box(i18n::s('Pick a feed'), '<p>'.$text.'</p>', 'channels');
 
 // public aggregrators
 if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')) {
 	$link = $context['url_to_home'].$context['url_to_root'].Feeds::get_url('rss');
-	$context['components']['channels'] .= Skin::build_box(i18n::s('Aggregate this site'), '<p>'.join(BR, Skin::build_subscribers($link)).'</p>', 'extra');
+	$context['components']['channels'] .= Skin::build_box(i18n::s('Aggregate this site'), '<p>'.join(BR, Skin::build_subscribers($link)).'</p>', 'channels');
 }
 
 // referrals, if any

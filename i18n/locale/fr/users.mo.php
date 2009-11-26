@@ -2,14 +2,13 @@
 /**
  * cache localized strings
  *
- * This file has been created by the script i18n/i18n.php
- * on November 16, 2009, 5:08 pm GMT. Please do not modify it manually.
+ * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-09 21:27+0100
-PO-Revision-Date: 2009-11-09 21:29+0100
+POT-Creation-Date: 2009-11-26 22:50+0100
+PO-Revision-Date: 2009-11-26 22:55+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -171,6 +170,7 @@ $_SESSION['l10n']['fr']['Files']='Fichiers';
 $_SESSION['l10n']['fr']['2e3a5a5400dcb9378c4c32a61a21989b']='Les fichiers peuvent être modifiés seulement par leurs auteurs, plus les associés et les éditeurs.';
 $_SESSION['l10n']['fr']['First name(s)']='Prénom(s)';
 $_SESSION['l10n']['fr']['1169885c9e3a40bebae7aeb820ae460e']='Prénom suivi du nom de famille';
+$_SESSION['l10n']['fr']['cf126c8beeba972970c5a32b846e54b8']='Les éditeurs suivants héritent de droits sur un conteneur parent';
 $_SESSION['l10n']['fr']['c4ee000af107ab80885b2ac1b34a715b']='Les éléments suivants vont aussi être supprimés.';
 $_SESSION['l10n']['fr']['163446b086f8add8a8b8e33171ddfbd0']='Les personnes connectées à %s :';
 $_SESSION['l10n']['fr']['d614549cb7e90eec397003bb71836197']='Les personnes qui vous sont connectées :';
@@ -243,6 +243,7 @@ $_SESSION['l10n']['fr']['Manage editors']='Gérer les éditeurs';
 $_SESSION['l10n']['fr']['a68152799578dccdb3f6831c0950a723']='* signale les champs obligatoires';
 $_SESSION['l10n']['fr']['Member']='Membre';
 $_SESSION['l10n']['fr']['b47ab5ca1f0719fb37d3645017bcae45']='Membre de cette communauté, avec la possibilité de contribuer au contenu du serveur.';
+$_SESSION['l10n']['fr']['Members of %s']='Membres de %s';
 $_SESSION['l10n']['fr']['f41a5c8d67ea2e6781eaff28c00e4aa9']='Les membres authentifiés envoient des articles, et les associés valident leur publication (mode éditeur), sauf dans les sections dotées de l\'option <code>auto_publish</code>.';
 $_SESSION['l10n']['fr']['Membership']='Statut';
 $_SESSION['l10n']['fr']['Message content']='Contenu du message';
@@ -367,6 +368,7 @@ $_SESSION['l10n']['fr']['See also']='Voir aussi';
 $_SESSION['l10n']['fr']['9d1fc249d04226cb2db7398a29581bef']='Choisir une image .png, .gif ou .jpeg';
 $_SESSION['l10n']['fr']['Select a picture for %s']='Choisir une image pour %s';
 $_SESSION['l10n']['fr']['c3ddc38baed1d3d09f177e3c78865622']='Choisir une image de la librairie';
+$_SESSION['l10n']['fr']['Select all']='Tout sélectionner';
 $_SESSION['l10n']['fr']['abbb7ad09d40d7272c30569b47a44199']='Choisissez votre outil préféré pour modifier les textes.';
 $_SESSION['l10n']['fr']['Self-deletion']='Auto-effacement';
 $_SESSION['l10n']['fr']['c135a8dca58a3d9943aeac7d94451d30']='Les surfeurs sont enregistrés comme membres (communauté ouverte).';

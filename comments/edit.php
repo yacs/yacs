@@ -567,7 +567,7 @@ if($with_form) {
 	$help .= '</select></p></form>';
 
 	// in a sidebar box
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }
 

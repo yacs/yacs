@@ -63,39 +63,39 @@ if((strlen($target) < 6) && (strlen($target) > 7)) {
 		Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 	} else {
-	
+
 		// page main content
 		$cache_id = 'dates/month.php#text#'.$target;
 		if(!$text =& Cache::get($cache_id)) {
-	
+
 			// robots cannot navigate
 			if(!Surfer::is_crawler()) {
-			
+
 				// previous month
 				$previous = gmstrftime('%Y/%m', gmmktime(0, 0, 0, $month-1, 1, $year));
-			
+
 				// next month
 				$next = gmstrftime('%Y/%m', gmmktime(0, 0, 0, $month+1, 1, $year));
-			
+
 				// neighbours
 				$neighbours = array(Dates::get_url($previous, 'month'), Dates::get_month_label($previous),
 					Dates::get_url($next, 'month'), Dates::get_month_label($next),
 					Dates::get_url($year, 'year'), $year);
-			
+
 				// links to display previous and next months
 				$text .= Skin::neighbours($neighbours, 'slideshow');
 
 			}
-			
+
 			// get items for this month
 			$items =& Dates::list_for_month($year, $month, 'links');
-		
+
 			// draw one month - force an empty month
 			$text .= Dates::build_months($items, FALSE, FALSE, TRUE, FALSE, $year, $month);
-		
+
 			// cache, whatever change, for 5 minutes
 			Cache::put($cache_id, $text, 'stable', 300);
-		
+
 		}
 		$context['text'] .= $text;
 	}
@@ -107,7 +107,7 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// side bar with the list of most recent pages
 	if($items =& Articles::list_by('publication', 0, COMPACT_LIST_SIZE, 'compact'))
-		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'extra');
+		$text =& Skin::build_box(i18n::s('Recent pages'), Skin::build_list($items, 'compact'), 'boxes');
 
 	Cache::put($cache_id, $text, 'articles');
 }

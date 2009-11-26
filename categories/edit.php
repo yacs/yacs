@@ -584,8 +584,8 @@ if($with_form) {
 
 			// the command to add an image
 			if(Surfer::may_upload()) {
-				Skin::define_img(IMAGES_ADD_IMG, 'images/add.gif');
-				$menu = array(Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'basic'));
+				Skin::define_img('IMAGES_ADD_IMG', 'images/add.gif');
+				$menu = array(Skin::build_link('images/edit.php?anchor='.urlencode('section:'.$item['id']), IMAGES_ADD_IMG.i18n::s('Add an image'), 'span'));
 			}
 
 			// the list of images
@@ -983,7 +983,7 @@ if($with_form) {
 	$help .= '</select></p></form>';
 
 	// in a side box
-	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'extra', 'help');
+	$context['components']['boxes'] = Skin::build_box(i18n::s('Help'), $help, 'boxes', 'help');
 
 }
 

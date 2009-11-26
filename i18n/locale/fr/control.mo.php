@@ -2,13 +2,12 @@
 /**
  * cache localized strings
  *
- * This file has been created by the script i18n/i18n.php
- * on November 16, 2009, 5:08 pm GMT. Please do not modify it manually.
+ * This file has been created by the script i18n/i18n.php. Please do not modify it manually.
  * @reference
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-09 19:19+0100
+POT-Creation-Date: 2009-11-26 22:50+0100
 PO-Revision-Date: 2009-09-28 21:46+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -306,7 +305,6 @@ $_SESSION['l10n']['fr']['b9b51efa9e98cd6fba682f9a520471fb']='Option : informatio
 $_SESSION['l10n']['fr']['fefea1833988f1eb19f3e18eaab2c6b4']='Option : rediriger les requêtes vers l\'adresse';
 $_SESSION['l10n']['fr']['Options (URL rewriting)']='Options (ré-écriture des liens)';
 $_SESSION['l10n']['fr']['Outbound requests']='Requêtes sortantes';
-$_SESSION['l10n']['fr']['Output handlers:']='Fonctions de sortie :';
 $_SESSION['l10n']['fr']['Overview']='Aperçu';
 $_SESSION['l10n']['fr']['Owner']='Propriétaire';
 $_SESSION['l10n']['fr']['PNG support is enabled']='Le format PNG est supporté';
@@ -554,7 +552,6 @@ $_SESSION['l10n']['fr']['identifier: %s']='identifiant : %s';
 $_SESSION['l10n']['fr']['images']='images';
 $_SESSION['l10n']['fr']['link: %s']='lien : %s';
 $_SESSION['l10n']['fr']['monthly']='mensuel';
-$_SESSION['l10n']['fr']['a9e7e7fb870a8edb4049b690db04f2d3']='ob_list_handlers() ne peut pas être appelée';
 $_SESSION['l10n']['fr']['c76283153207b31d4f2b0570d5acad31']='ou utiliser le fichier suivant du répertoire %s :';
 $_SESSION['l10n']['fr']['overlays']='Overlays';
 $_SESSION['l10n']['fr']['phpinfo()']='phpinfo()';

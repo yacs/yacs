@@ -1011,53 +1011,6 @@ if(Sections::is_owned($anchor, $item)) {
 
 }
 
-//
-// reload this page if it changes
-//
-$context['page_footer'] .= JS_PREFIX
-	."\n"
-	.'// reload this page on update'."\n"
-	.'var PeriodicalCheck = {'."\n"
-	."\n"
-	.'	url: "'.$context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'check').'",'."\n"
-	.'	timestamp: '.SQL::strtotime($item['edit_date']).','."\n"
-	."\n"
-	.'	initialize: function() { },'."\n"
-	."\n"
-	.'	subscribe: function() {'."\n"
-	.'		this.ajax = new Ajax.Request(PeriodicalCheck.url, {'."\n"
-	.'			method: "get",'."\n"
-	.'			requestHeaders: {Accept: "application/json"},'."\n"
-	.'			onSuccess: PeriodicalCheck.updateOnSuccess,'."\n"
-	.'			onFailure: PeriodicalCheck.updateOnFailure });'."\n"
-	.'	},'."\n"
-	."\n"
-	.'	updateOnSuccess: function(transport) {'."\n"
-	.'		var response = transport.responseText.evalJSON(true);'."\n"
-	.'		// page has been updated'."\n"
-	.'		if(PeriodicalCheck.timestamp && response["timestamp"] && (PeriodicalCheck.timestamp != response["timestamp"])) {'."\n"
-	.'			// reflect updater name in window title'."\n"
-	.'			if(typeof this.windowOriginalTitle != "string")'."\n"
-	.'				this.windowOriginalTitle = document.title;'."\n"
-	.'			document.title = "[" + response["name"] + "] " + this.windowOriginalTitle;'."\n"
-	.'			// smart reload of the page'."\n"
-	.'			new Ajax.Updater( { success: $$("body")[0] }, window.location, { method: "get" } );'."\n"
-	.'		}'."\n"
-	.'		// wait for more time'."\n"
-	.'		setTimeout("PeriodicalCheck.subscribe()", 120000);'."\n"
-	.'	},'."\n"
-	."\n"
-	.'	updateOnFailure: function(transport) {'."\n"
-	.'		setTimeout("PeriodicalCheck.subscribe()", 600000);'."\n"
-	.'	}'."\n"
-	."\n"
-	.'}'."\n"
-	."\n"
-	.'// look for some page update'."\n"
-	.'setTimeout("PeriodicalCheck.subscribe()", 120000);'."\n"
-	."\n"
-	.JS_SUFFIX;
-
 // use date of last modification into etag computation
 if(isset($item['edit_date']))
 	$context['etag'] = $item['edit_date'];

@@ -826,6 +826,43 @@ Class Surfer {
 	}
 
 	/**
+	 * useful if we have several versions of content to provide
+	 *
+	 * @link http://notnotmobile.appspot.com/ Mobile Device Detection
+	 *
+	 * @return boolean TRUE if a large browser is used, FALSE otherwise
+	 */
+	function is_desktop() {
+		global $context;
+
+		// parse request headers
+		if(!is_callable('apache_request_headers'))
+			return FALSE;
+		if(!$headers = apache_request_headers())
+			return FALSE;
+
+		// look at specific attributes
+		$values = '';
+		foreach($headers as $name => $value)
+ 			$values .= $value.' ';
+
+		// not a desktop, for sure
+		if(preg_match('/(iphone|ipod|blackberry|android|palm|windows\s+ce)/i', $values))
+			return FALSE;
+
+		// a desktop operating system, for sure
+		if(preg_match('/(windows|linux|os\s+[x9]|solaris|bsd)/i', $values))
+			return TRUE;
+
+		// a crawler, for sure
+		if(preg_match('/(spider|crawl|slurp|bot)/i', $values))
+			return TRUE;
+
+		// we don't know
+		return FALSE;
+	}
+
+	/**
 	 * is this a super user?
 	 *
 	 * @param string checked capability for this surfer, '?', 'M' or 'A'
