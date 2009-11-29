@@ -73,7 +73,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 			$url =& Sections::get_permalink($item);
 
 			// column to select the row
-			$cells[] = '<input type="checkbox" name="selected_sections[]" class="row_selector" value="'.$item['id'].'" />';
+			$cells[] = '<input type="checkbox" name="selected_sections[]" id="section_selector_'.$count.'" class="row_selector" value="'.$item['id'].'" />';
 
 			// use the title to label the link
 			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
@@ -209,7 +209,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 			$cells[] = $prefix.Skin::build_link($url, $title, 'section').' - '.Skin::finalize_list($commands, 'menu').$suffix;
 
 			// ranking
-			$cells[] = '<input type="text" size="5" name="section_rank_'.$item['id'].'" value="'.$item['rank'].'" />';
+			$cells[] = '<input type="text" size="5" name="section_rank_'.$item['id'].'" value="'.$item['rank'].'" onfocus="$(\'section_selector_'.$count.'\').checked = true;" onchange="$(\'act_on_sections\').selectedIndex = 6;" />';
 
 			// append the row
 			$text .= Skin::table_row($cells, $count++);

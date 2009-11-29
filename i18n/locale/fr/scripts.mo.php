@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-13 00:13+0100
-PO-Revision-Date: 2009-11-16 18:07+0100
+POT-Creation-Date: 2009-11-28 22:03+0100
+PO-Revision-Date: 2009-11-29 23:34+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -184,7 +184,7 @@ $_SESSION['l10n']['fr']['View the documentation page']='Voir la documentation';
 $_SESSION['l10n']['fr']['4891dc48d8c73ee707ac2df17dade22d']='Attention ! Certains scripts n\'ont pas été mis à jour.';
 $_SESSION['l10n']['fr']['f1ce5d9609440ef5da411f7524e7c4e5']='La requête est transmise au serveur immédiatement après un clic sur le bouton. Cependant, le traitement est si important que vous pourriez avoir à attendre plusieurs minutes avant d\'obtenir une réponse à l\'écran. Merci de votre patience.';
 $_SESSION['l10n']['fr']['Where do you want to go now?']='Où voulez-vous aller à présent ?';
-$_SESSION['l10n']['fr']['d559da2d5ef39b1cf370637e57f73439']='Oui, je veux mettre à jour les scripts de ce serveur';
+$_SESSION['l10n']['fr']['b83c8a3ff5dbda47313db599106fef89']='Oui, j\'ai vérifié chaque élément, et souhaite mettre à jour les scripts de ce serveur';
 $_SESSION['l10n']['fr']['979dbd34bf070bb0ebfefc81b4db409f']='Oui, je veux (re)construire le référentiel';
 $_SESSION['l10n']['fr']['3dbe345a3888c5e44d93b553d4d57be4']='Oui, je veux vérifier les scripts de ce serveur';
 $_SESSION['l10n']['fr']['Yes, I want to validate scripts']='Oui, je veux valider les scripts';

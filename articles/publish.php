@@ -134,7 +134,14 @@ if(Surfer::is_crawler()) {
 	// post-processing tasks
 	else {
 
+		// advertise watchers
+		$anchor->touch('article:create', $item['id']);
+
+		// splash messages
 		$context['text'] .= '<p>'.i18n::s('The page has been successfully published.')."</p>\n";
+
+		// list persons that have been notified
+		$context['text'] .= Mailer::get_recipients(i18n::s('Persons that have been notified of your post'));
 
 		// trackback option
 		if(isset($_REQUEST['trackback_option']) && ($_REQUEST['trackback_option'] == 'Y')) {

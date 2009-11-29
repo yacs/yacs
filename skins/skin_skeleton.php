@@ -2466,7 +2466,7 @@ Class Skin_Skeleton {
 	 * @param boolean TRUE to align left border of the sliding panel
 	 * @return the HTML to display
 	 */
-	function &build_sliding_box($title, &$content, $id, $onLeft=NULL) {
+	function &build_sliding_box($title, &$content, $id, $onLeft=TRUE, $down=TRUE) {
 		global $context;
 
 		// the icon used to slide down
@@ -2491,15 +2491,18 @@ Class Skin_Skeleton {
 		if(SLIDE_DOWN_IMG_HREF)
 			$img = '<img src="'.SLIDE_DOWN_IMG_HREF.'" alt="'.encode_field(i18n::s('Click to slide')).'" title="'.encode_field(i18n::s('Click to slide')).'" /> ';
 
-		if($onLeft === TRUE)
-			$onLeft = ', true';
-		elseif($onLeft === FALSE)
+		if($onLeft === FALSE)
 			$onLeft = ', false';
 		else
-			$onLeft = '';
+			$onLeft = ', true';
+
+		if($down === FALSE)
+			$down = ', false';
+		else
+			$down = ', true';
 
 		// title is optional
-		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slidePanel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\''.$onLeft.'); return false;"><span>'.$title.'</span>'.$img.'</a>';
+		$text .= '<a href="#" class="handle" onclick="javascript:Yacs.slidePanel(this, \''.SLIDE_DOWN_IMG_HREF.'\', \''.SLIDE_UP_IMG_HREF.'\''.$onLeft.$down.'); return false;"><span>'.$title.'</span>'.$img.'</a>';
 
 		// box content has no div, it is already structured
 		$text .= '<div class="panel" style="display: none;">'.$content.'</div>';

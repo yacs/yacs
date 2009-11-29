@@ -234,18 +234,18 @@ if(($page == 1) && !$section_id) {
 		$no_result = FALSE;
 	}
 
-	// search in sections
-	if($rows = Sections::search($search)) {
-		$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
-		$no_result = FALSE;
-	}
-
 	// search in users
 	if($rows = Users::search($search)) {
 		$panels[] = array('users', i18n::s('People'), 'users_panel', Skin::build_list($rows, 'decorated'));
 		$no_result = FALSE;
 	}
 
+}
+
+// search in sections
+if($rows = Sections::search_in_section($section_id, $search)) {
+	$panels[] = array('sections', i18n::s('Sections'), 'sections_panel', Skin::build_list($rows, 'decorated'));
+	$no_result = FALSE;
 }
 
 // assemble all tabs

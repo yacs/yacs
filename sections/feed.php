@@ -161,13 +161,13 @@ if(!isset($item['id']) || !$item['id']) {
 		$anchors = array_merge($anchors, $topics);
 
 		// second level of depth
-		if(count($topics) && (count($anchors) < 50)) {
+		if(count($topics) && (count($anchors) < 500)) {
 			$topics =& Sections::get_children_of_anchor($topics, 'main');
 			$anchors = array_merge($anchors, $topics);
 		}
 
 		// third level of depth
-		if(count($topics) && (count($anchors) < 50)) {
+		if(count($topics) && (count($anchors) < 500)) {
 			$topics =& Sections::get_children_of_anchor($topics, 'main');
 			$anchors = array_merge($anchors, $topics);
 		}
@@ -203,7 +203,7 @@ if(!isset($item['id']) || !$item['id']) {
 
 	// strong validator
 	$etag = '"'.md5($text).'"';
-	
+
 	// manage web cache
 	if(http::validate(NULL, $etag))
 		return;

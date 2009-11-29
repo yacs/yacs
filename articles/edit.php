@@ -4,7 +4,6 @@
  *
  * @todo allow for the upload of one file on page creation
  * @todo add a toggle to not display the introduction in the main page
- * @todo add some hook to validate posts (TheAlchemist)
  *
  * This is the main script used to post a new page, or to modify an existing one.
  *
@@ -452,8 +451,9 @@ if(Surfer::is_crawler()) {
 		// else display the updated page
 		} else {
 
-			// touch the related anchor
-			$anchor->touch('article:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+			// touch the related anchor, but only if the page has been published
+			if(isset($item['publish_date']) && ($item['publish_date'] > NULL_DATE))
+				$anchor->touch('article:update', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 			// cascade changes on access rights
 			if($_REQUEST['active'] != $item['active'])
@@ -488,8 +488,9 @@ if(Surfer::is_crawler()) {
 		if(Surfer::get_id())
 			Users::increment_posts(Surfer::get_id());
 
-		// touch the related anchor
-		$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+		// touch the related anchor, but only if the page has been published
+		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE))
+			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
 
 		// get the new item
 		$article =& Anchors::get('article:'.$_REQUEST['id'], TRUE);
@@ -1184,7 +1185,7 @@ if($with_form) {
 
 	// do not apply implicit transformations
 	if(!isset($item['id']))
-		$input[] = '<input type="checkbox" name="option_formatted" value="Y" /> '.i18n::s('The text has been entirely tagged, and implicit transformations do not apply. YACS codes are processed as usual.');
+		$input[] = '<input type="checkbox" name="option_formatted" value="Y" /> '.i18n::s('Avoid implicit transformations (links, lists, ...), but process yacs codes as usual.');
 
 	// validate page content
 	if(Surfer::is_associate())

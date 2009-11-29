@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-13 00:13+0100
-PO-Revision-Date: 2009-11-16 18:04+0100
+POT-Creation-Date: 2009-11-28 22:03+0100
+PO-Revision-Date: 2009-11-29 23:31+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -184,7 +184,7 @@ $_SESSION['l10n']['en']['View the documentation page']='View the documentation p
 $_SESSION['l10n']['en']['4891dc48d8c73ee707ac2df17dade22d']='Warning! Some files have not been updated.';
 $_SESSION['l10n']['en']['f1ce5d9609440ef5da411f7524e7c4e5']='When you will click on the button the server will be immediately requested to proceed. However, because of the so many things to do on the back-end, you may have to wait for minutes before getting a response displayed. Thank you for your patience.';
 $_SESSION['l10n']['en']['Where do you want to go now?']='Where do you want to go now?';
-$_SESSION['l10n']['en']['d559da2d5ef39b1cf370637e57f73439']='Yes, I have checked every updates and want to update scripts on this server';
+$_SESSION['l10n']['en']['b83c8a3ff5dbda47313db599106fef89']='Yes, I have checked every item and want to update scripts on this server';
 $_SESSION['l10n']['en']['979dbd34bf070bb0ebfefc81b4db409f']='Yes, I want to (re)build the reference store';
 $_SESSION['l10n']['en']['3dbe345a3888c5e44d93b553d4d57be4']='Yes, I want to check scripts on this server';
 $_SESSION['l10n']['en']['Yes, I want to validate scripts']='Yes, I want to validate scripts';

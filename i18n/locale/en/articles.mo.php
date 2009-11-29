@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-26 22:50+0100
-PO-Revision-Date: 2009-11-09 19:26+0100
+POT-Creation-Date: 2009-11-29 23:29+0100
+PO-Revision-Date: 2009-11-29 23:30+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -64,6 +64,7 @@ $_SESSION['l10n']['en']['Attach related files.']='Attach related files.';
 $_SESSION['l10n']['en']['Attachments']='Attachments';
 $_SESSION['l10n']['en']['0f2961abae55e4d8e874ec8a659e54b5']='Authenticate or register to contribute to this thread';
 $_SESSION['l10n']['en']['Average']='Average';
+$_SESSION['l10n']['en']['a07f485af87dbb93287556793449ca3f']='Avoid implicit transformations (links, lists, ...), but process yacs codes as usual.';
 $_SESSION['l10n']['en']['Back to main page']='Back to main page';
 $_SESSION['l10n']['en']['Back to the page']='Back to the page';
 $_SESSION['l10n']['en']['Branch out to %s']='Branch out to %s';
@@ -337,7 +338,6 @@ $_SESSION['l10n']['en']['42e194519739cba320c281e8e1f8dde4']='The page has been s
 $_SESSION['l10n']['en']['c784dae7fc29d8c1f54a4f9497ebae2f']='The page has been successfully published.';
 $_SESSION['l10n']['en']['2cc171975411f4b265ff24cd051fa9cd']='The publication date has been changed.';
 $_SESSION['l10n']['en']['e19d1d51fcb39f09b7a4f917bb493d97']='The publication date has been removed.';
-$_SESSION['l10n']['en']['d8f916cadc17b7983d4a54bc98ef0972']='The text has been entirely tagged, and implicit transformations do not apply. YACS codes are processed as usual.';
 $_SESSION['l10n']['en']['6f667d5aa6579c8239335c342b69c9c1']='This is a copy of the message you have sent, for your own record.';
 $_SESSION['l10n']['en']['38b77492862aef3e5f2894c4c1379167']='This is a draft document. Do not publish the page, even if auto-publish has been enabled.';
 $_SESSION['l10n']['en']['This page has been locked.']='This page has been locked.';

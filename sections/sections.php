@@ -2467,22 +2467,34 @@ Class Sections {
 	/**
 	 * search for some keywords in all sections
 	 *
-	 * Only sections matching following criteria are returned:
-	 * - section is visible (active='Y')
-	 * - section is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - section is hidden (active='N'), but surfer is an associate
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
 	 * @param the search string
-	 * @param int the offset from the start of the list; usually, 0 or 1 - default is 0
-	 * @param int the number of items to display - default is 10
-	 * @param string the list variant, if any - default is 'full'
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param mixed the layout, if any
 	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
+	 */
+	function &search($pattern, $offset=0, $count=50, $layout='decorated') {
+		global $context;
+
+		$output =& Sections::search_in_section(NULL, $pattern, $offset, $count, $layout);
+		return $output;
+	}
+
+	/**
+	 * search for some keywords in sub-sections
+	 *
+	 * This function also searches in sub-sections, with up to three levels of depth.
 	 *
 	 * @see search.php
+	 *
+	 * @param the id of the section to look in
+	 * @param the search string
+	 * @param int the offset from the start of the list; usually, 0 or 1
+	 * @param int the number of items to display
+	 * @param mixed the layout, if any
+	 * @return NULL on error, else an ordered array with $url => ($prefix, $label, $suffix, $icon)
 	 */
-	function &search($pattern, $offset=0, $count=50, $variant='full') {
+	function &search_in_section($section_id, $pattern, $offset=0, $count=10, $layout='decorated') {
 		global $context;
 
 		// sanity check
@@ -2491,41 +2503,82 @@ Class Sections {
 			return $output;
 		}
 
-		// limit the scope of the request
+		// search is restricted to one section
+		$sections_where = '';
+		if($section_id) {
+			$sections_where = "sections.id = ".SQL::escape($section_id);
+
+			// look for children
+			$anchors = array();
+
+			// first level of depth
+			$topics =& Sections::get_children_of_anchor('section:'.$section_id, 'main');
+			$anchors = array_merge($anchors, $topics);
+
+			// second level of depth
+			if(count($topics) && (count($anchors) < 500)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// third level of depth
+			if(count($topics) && (count($anchors) < 500)) {
+				$topics =& Sections::get_children_of_anchor($topics, 'main');
+				$anchors = array_merge($anchors, $topics);
+			}
+
+			// extend the search clause
+			foreach($anchors as $reference)
+				$sections_where .= " OR sections.id = ".str_replace('section:', '', $reference);
+
+		}
+
+		// select among active sections
+		if($sections_where)
+			$sections_where = " AND (".$sections_where.")";
+
+		// select among active sections
 		$where = "sections.active='Y'";
 
-		// add restricted items to members, or if teasers are allowed
+		// add restricted items to authenticated surfers, or if teasers are allowed
 		if(Surfer::is_logged() || Surfer::is_teased())
 			$where .= " OR sections.active='R'";
 
-		if(Surfer::is_associate())
+		// associates can access hidden articles
+		if(is_string($layout) && ($layout == 'feed'))
+			;
+		elseif(Surfer::is_associate())
 			$where .= " OR sections.active='N'";
 
-		// only consider live sections
+		// include managed pages for editors
+		if($my_sections = Surfer::assigned_sections()) {
+			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
+			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+		}
+
+		$where = "(".$where.")";
+
+		// current time
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
-		$where = "(".$where.")"
-			." AND ((sections.activation_date is NULL)"
-			."	OR (sections.activation_date <= '".$now."'))"
-			." AND ((sections.expiry_date is NULL)"
-			."	OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
+
+		// only consider live sections
+		$where .= " AND ((sections.expiry_date is NULL) "
+				."OR (sections.expiry_date <= '".NULL_DATE."') OR (sections.expiry_date > '".$now."'))";
 
 		// match
 		$match = '';
 		$words = preg_split('/\s/', $pattern);
-		while($word = each($words)) {
-			if($match)
-				$match .= ' AND ';
-			$match .=  "MATCH(title, introduction, description) AGAINST('".SQL::escape($word['value'])."')";
-		}
+		while($word = each($words))
+			$match .=  " AND MATCH(title, introduction, description) AGAINST('".SQL::escape($word['value'])."')";
 
-		// list sections
+		// the list of articles
 		$query = "SELECT sections.*"
 			." FROM ".SQL::table_name('sections')." AS sections"
-			." WHERE (".$where.") AND ".$match
+			." WHERE (".$where.")".$sections_where.$match
 			." ORDER BY sections.edit_date DESC"
 			." LIMIT ".$offset.','.$count;
 
-		$output =& Sections::list_selected(SQL::query($query), $variant);
+		$output =& Sections::list_selected(SQL::query($query), $layout);
 		return $output;
 	}
 

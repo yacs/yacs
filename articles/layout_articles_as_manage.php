@@ -74,7 +74,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 			$url =& Articles::get_permalink($item);
 
 			// column to select the row
-			$cells[] = '<input type="checkbox" name="selected_articles[]" class="row_selector" value="'.$item['id'].'" />';
+			$cells[] = '<input type="checkbox" name="selected_articles[]" id="article_selector_'.$count.'" class="row_selector" value="'.$item['id'].'" />';
 
 			// use the title to label the link
 			if(is_object($overlay) && is_callable(array($overlay, 'get_live_title')))
@@ -197,7 +197,7 @@ Class Layout_articles_as_manage extends Layout_interface {
 			$cells[] = $prefix.Skin::build_link($url, $title, 'article').' - '.Skin::finalize_list($commands, 'menu').$suffix;
 
 			// ranking
-			$cells[] = '<input type="text" size="5" name="article_rank_'.$item['id'].'" value="'.$item['rank'].'" />';
+			$cells[] = '<input type="text" size="5" name="article_rank_'.$item['id'].'" value="'.$item['rank'].'" onfocus="$(\'article_selector_'.$count.'\').checked = true;" onchange="$(\'act_on_articles\').selectedIndex = 9;" />';
 
 			// append the row
 			$text .= Skin::table_row($cells, $count++);

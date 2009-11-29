@@ -1629,7 +1629,7 @@ if(!isset($item['id'])) {
 
 		// displayed as another box
 		if($items)
-			$context['page_menu'] += array('_other_sections' => Skin::build_box(i18n::s('Other sections'), $items, 'sliding'));
+			$context['page_menu'] += array('_other_sections' => Skin::build_sliding_box(i18n::s('Other sections'), $items, NULL, TRUE, FALSE));
 
 	}
 

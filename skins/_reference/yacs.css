@@ -2796,7 +2796,7 @@ div.toc_box div.panel { /* content of sliding panels */
 	opacity: 0.9;
 	background-color: #eeeeee;
 	padding: 1em;
-	width: 30em; /* beware of narrow layouts */
+	width: 35em; /* beware of narrow layouts */
 	border: 7px #cccccc solid;
 }
 

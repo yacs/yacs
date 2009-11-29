@@ -328,7 +328,7 @@ elseif(!Surfer::is_associate()) {
 
 		// propose to update the server
 		$context['text'] .= '<form method="post" action="'.$context['script_url'].'"><p>'
-			.Skin::build_submit_button(i18n::s('Yes, I have checked every updates and want to update scripts on this server'))
+			.Skin::build_submit_button(i18n::s('Yes, I have checked every item and want to update scripts on this server'))
 			.'<input type="hidden" name="action" value="confirmed" />'
 			.'</p></form>'."\n";
 

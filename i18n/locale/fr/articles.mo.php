@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-26 22:50+0100
-PO-Revision-Date: 2009-11-09 19:25+0100
+POT-Creation-Date: 2009-11-29 23:29+0100
+PO-Revision-Date: 2009-11-29 23:33+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -64,6 +64,7 @@ $_SESSION['l10n']['fr']['Attach related files.']='Attacher les fichiers en rappo
 $_SESSION['l10n']['fr']['Attachments']='Pièces jointes';
 $_SESSION['l10n']['fr']['0f2961abae55e4d8e874ec8a659e54b5']='Authentifiez-vous ou enregistrez-vous pour contribuer à ce fil de discussion';
 $_SESSION['l10n']['fr']['Average']='Moyen';
+$_SESSION['l10n']['fr']['a07f485af87dbb93287556793449ca3f']='Eviter les transformations implicites (liens, listes, ...), mais traiter les codes yacs normalement.';
 $_SESSION['l10n']['fr']['Back to main page']='Retour à la page principale';
 $_SESSION['l10n']['fr']['Back to the page']='Retour à la page';
 $_SESSION['l10n']['fr']['Branch out to %s']='Débrancher vers %s';
@@ -337,7 +338,6 @@ $_SESSION['l10n']['fr']['42e194519739cba320c281e8e1f8dde4']='La révision, daté
 $_SESSION['l10n']['fr']['c784dae7fc29d8c1f54a4f9497ebae2f']='La page a été publiée avec succès.';
 $_SESSION['l10n']['fr']['2cc171975411f4b265ff24cd051fa9cd']='La date de publication a été modifiée.';
 $_SESSION['l10n']['fr']['e19d1d51fcb39f09b7a4f917bb493d97']='La date de publication à été supprimée.';
-$_SESSION['l10n']['fr']['d8f916cadc17b7983d4a54bc98ef0972']='Le texte a été entièrement balisé et les transformations implicites sont inutiles. Traiter les codes YACS comme d\'habitude.';
 $_SESSION['l10n']['fr']['6f667d5aa6579c8239335c342b69c9c1']='Ceci est une copie du message que vous avez envoyé, pour mémoire.';
 $_SESSION['l10n']['fr']['38b77492862aef3e5f2894c4c1379167']='Cette page est un brouillon. Ne pas la publier, même si la publication automatique est activée.';
 $_SESSION['l10n']['fr']['This page has been locked.']='Cette page a été verrouillée.';

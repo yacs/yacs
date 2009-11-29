@@ -2220,14 +2220,6 @@ Class Articles {
 	/**
 	 * search for some keywords in all articles
 	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - article is restricted (active='N'), but surfer is an associate
-	 * - article has been officially published, or the surfer is a logged user
-	 * - an expiry date has not been defined, or is not yet passed
-	 *
 	 * @see search.php
 	 * @see services/search.php
 	 * @see categories/set_keyword.php
@@ -2249,14 +2241,6 @@ Class Articles {
 	 * search for some keywords articles anchored to one precise section
 	 *
 	 * This function also searches in sub-sections, with up to three levels of depth.
-	 *
-	 * Only articles matching following criteria are returned:
-	 * - article is visible (active='Y')
-	 * - article is restricted (active='R'), but the surfer is an authenticated member,
-	 * or YACS is allowed to show restricted teasers
-	 * - article is restricted (active='N'), but surfer is an associate
-	 * - article has been officially published, or the surfer is a logged user
-	 * - an expiry date has not been defined, or is not yet passed
 	 *
 	 * @see search.php
 	 *
@@ -2289,13 +2273,13 @@ Class Articles {
 			$anchors = array_merge($anchors, $topics);
 
 			// second level of depth
-			if(count($topics) && (count($anchors) < 50)) {
+			if(count($topics) && (count($anchors) < 500)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
 
 			// third level of depth
-			if(count($topics) && (count($anchors) < 50)) {
+			if(count($topics) && (count($anchors) < 500)) {
 				$topics =& Sections::get_children_of_anchor($topics, 'main');
 				$anchors = array_merge($anchors, $topics);
 			}
@@ -2303,12 +2287,6 @@ Class Articles {
 			// extend the search clause
 			foreach($anchors as $reference)
 				$sections_where .= " OR sections.id = ".str_replace('section:', '', $reference);
-
-			//include managed sections
-			if($my_sections = Surfer::assigned_sections()) {
-				$sections_where .= " OR sections.id IN (".join(", ", $my_sections).")";
-				$sections_where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
-			}
 
 		}
 
@@ -2328,6 +2306,12 @@ Class Articles {
 			;
 		elseif(Surfer::is_associate())
 			$where .= " OR articles.active='N'";
+
+		//include managed sections
+		if($my_sections = Surfer::assigned_sections()) {
+			$where .= " OR sections.id IN (".join(", ", $my_sections).")";
+			$where .= " OR sections.anchor IN ('section:".join("', 'section:", $my_sections)."')";
+		}
 
 		// include managed pages for editors
 		if($my_articles = Surfer::assigned_articles())
@@ -2358,7 +2342,7 @@ Class Articles {
 			." FROM (".SQL::table_name('articles')." AS articles"
 			.", ".SQL::table_name('sections')." AS sections)"
 			." WHERE ((articles.anchor_type LIKE 'section') AND (articles.anchor_id = sections.id))"
-			."	AND (".$where.")".$match.$sections_where
+			."	AND (".$where.")".$sections_where.$match
 			." ORDER BY articles.edit_date DESC"
 			." LIMIT ".$offset.','.$count;
 

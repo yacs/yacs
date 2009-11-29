@@ -451,19 +451,17 @@ if(Surfer::is_crawler()) {
 		$follow_up = i18n::s('Where do you want to go now?');
 		$menu = array();
 		if(isset($_REQUEST['login_forward']))
-			$menu = array_merge($menu, array($_REQUEST['login_forward'] => array(NULL, i18n::s('Move forward'), NULL, 'button')));
+			$menu[] = Skin::build_link($_REQUEST['login_forward'], i18n::s('Move forward'), 'button');
 		elseif(isset($_SERVER['HTTP_REFERER']) && !preg_match('/users\/login\.php/', $_SERVER['HTTP_REFERER']))
-			$menu = array_merge($menu, array($_SERVER['HTTP_REFERER'] => array(NULL, i18n::s('Move forward'), NULL, 'button')));
+			$menu[] = Skin::build_link($_SERVER['HTTP_REFERER'], i18n::s('Move forward'), 'button');
 		else
-			$menu = array_merge($menu, array($context['url_to_root'] => i18n::s('Front page')));
+			$menu[] = Skin::build_link($context['url_to_root'], i18n::s('Front page'), 'button');
 		if(Surfer::is_associate())
-			$menu = array_merge($menu, array('articles/review.php' => i18n::s('Review queue')));
+			$menu[] = Skin::build_link('articles/review.php', i18n::s('Review queue'), 'span');
 		if(Surfer::is_associate())
-			$menu = array_merge($menu, array('control/' => i18n::s('Control Panel')));
-		if(Surfer::is_member() && isset($_REQUEST['login_forward']) && !preg_match('/^articles\/edit.php/', $_REQUEST['login_forward']))
-			$menu = array_merge($menu, array('articles/edit.php' => i18n::s('Add a page')));
-		$menu = array_merge($menu, array(Surfer::get_permalink() => i18n::s('My profile')));
-		$follow_up .= Skin::build_list($menu, 'menu_bar');
+			$menu[] = Skin::build_link('control/', i18n::s('Control Panel'), 'span');
+		$menu[] = Skin::build_link(Surfer::get_permalink(), i18n::s('My profile'), 'span');
+		$follow_up .= Skin::finalize_list($menu, 'menu_bar');
 		$context['text'] .= Skin::build_block($follow_up, 'bottom');
 
 		//

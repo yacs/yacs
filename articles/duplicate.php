@@ -2,8 +2,6 @@
 /**
  * duplicate an article
  *
- * @todo add a selection of target section (Francois Charron)
- *
  * This script calls for confirmation, then actually duplicates an article.
  * Images of the original article are duplicated as well, as other attached
  * items such as files, links, or comments, but also tables and locations.

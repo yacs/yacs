@@ -871,9 +871,10 @@ var Yacs = {
 	 * @param the clicked item
 	 * @param string URL of the extending icon
 	 * @param string URL of the collapsing icon
-	 * @param boolean TRUE to align to the left of the container, FALSE otherwise
+	 * @param boolean TRUE to align to the left of the container, FALSE to align on right edge
+	 * @param boolean TRUE to slide down, FALSE to slide up
 	 */
-	slidePanel: function(handle, down_href, up_href, onLeft) {
+	slidePanel: function(handle, down_href, up_href, onLeft, down) {
 
 		// align to the parent container
 		var container = Element.up(handle);
@@ -884,18 +885,27 @@ var Yacs = {
 
 		// align the sliding panel
 		if((onLeft !== true) && (onLeft !== false)) {
-
-			// the menu is visible on screen
 			onLeft = (Element.getWidth(panel) > (Element.cumulativeOffset(container).left + Element.getWidth(handle)));
 		}
 
-		// align left borders
-		if(onLeft) {
-			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px'});
+		if((down !== true) && (down !== false)) {
+			down = true;
+		}
 
-		// align right borders
-		} else {
-			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px'});
+		// do the alignment
+		if(onLeft && down) {
+			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', left: 0});
+
+		}
+		if(onLeft && !down) {
+			Element.setStyle(panel, {position: 'absolute', bottom: container.getHeight() + 'px', left: 0});
+
+		}
+		if(!onLeft && down) {
+			Element.setStyle(panel, {position: 'absolute', top: container.getHeight() + 'px', right: 0});
+		}
+		if(!onLeft && !down) {
+			Element.setStyle(panel, {position: 'absolute', bottom: container.getHeight() + 'px', right: 0});
 		}
 
 		// display the panel if it is not visible
