@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-26 22:50+0100
-PO-Revision-Date: 2009-11-09 19:28+0100
+POT-Creation-Date: 2009-11-30 10:37+0100
+PO-Revision-Date: 2009-11-30 10:38+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -348,7 +348,7 @@ $_SESSION['l10n']['en']['Section will be activated %s']='Section will be activat
 $_SESSION['l10n']['en']['Sections']='Sections';
 $_SESSION['l10n']['en']['Sections of %s']='Sections of %s';
 $_SESSION['l10n']['en']['See also']='See also';
-$_SESSION['l10n']['en']['Select all']='Select all';
+$_SESSION['l10n']['en']['Select all/none']='Select all/none';
 $_SESSION['l10n']['en']['20535dd4a4c7c09c812f0d918644a3c2']='Select items you want to manage, and click some button at the bottom of the page.';
 $_SESSION['l10n']['en']['Select parent container']='Select parent container';
 $_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
@@ -461,7 +461,6 @@ $_SESSION['l10n']['en']['82e1e4fa4163a6bb6fce5575a9d86438']='Your message is bei
 $_SESSION['l10n']['en']['Your name']='Your name';
 $_SESSION['l10n']['en']['3a123eb381c7b77022d31740519e6c0e']='accordion - Expose one item at a time in a stack';
 $_SESSION['l10n']['en']['3826678d554b3f49614db283670da2ca']='alistapart - Display entirely the last published page';
-$_SESSION['l10n']['en']['and %d other persons']='and %d other persons';
 $_SESSION['l10n']['en']['behavior']='behavior';
 $_SESSION['l10n']['en']['by %s']='by %s';
 $_SESSION['l10n']['en']['by %s, %s']='by %s, %s';

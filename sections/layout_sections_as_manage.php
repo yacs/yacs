@@ -216,7 +216,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 		}
 
 		// select all rows
-		$cells = array('<input type="checkbox" class="row_selector" onchange="cascade_selection_to_all_section_rows(this);" />', i18n::s('Select all'), '');
+		$cells = array('<input type="checkbox" class="row_selector" onchange="cascade_selection_to_all_section_rows(this);" />', i18n::s('Select all/none'), '');
 		$text .= Skin::table_row($cells, $count++);
 
 		// table suffix

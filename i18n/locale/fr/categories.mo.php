@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-26 22:50+0100
-PO-Revision-Date: 2009-11-23 17:41+0100
+POT-Creation-Date: 2009-11-30 10:37+0100
+PO-Revision-Date: 2009-11-30 10:54+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -71,6 +71,7 @@ $_SESSION['l10n']['fr']['1a358d29caf897e54396073d4f58b0f6']='Ne pas changer la d
 $_SESSION['l10n']['fr']['Do not display articles.']='Ne pas afficher les articles';
 $_SESSION['l10n']['fr']['Do not list sections.']='Ne pas lister les sections.';
 $_SESSION['l10n']['fr']['Do not list sub-categories.']='Ne pas lister les sous-catégories.';
+$_SESSION['l10n']['fr']['Done']='Terminé';
 $_SESSION['l10n']['fr']['fb0d9333cb60f25b5b1a13b04db64697']='Ce système n\'est pas configuré pour l\'envoi de messages électroniques.';
 $_SESSION['l10n']['fr']['Edit this category']='Modifier cette catégorie';
 $_SESSION['l10n']['fr']['Edit: %s']='Modifier : %s';
@@ -229,7 +230,6 @@ $_SESSION['l10n']['fr']['3a7e4261f6cce22de8c07d2856dcc0f7']='Vous n\'êtes pas a
 $_SESSION['l10n']['fr']['20cf45e0c01e6acc47459231610d3463']='Vous pouvez télécharger une photo, un dessin ou une image.';
 $_SESSION['l10n']['fr']['d202c53d9ea1bb14a44814af246dbcf4']='Vous pouvez combiner plusieurs mots-clés :';
 $_SESSION['l10n']['fr']['3826678d554b3f49614db283670da2ca']='alistapart - Dernier article dans son intégralité';
-$_SESSION['l10n']['fr']['and %d other persons']='et %d autres personnes';
 $_SESSION['l10n']['fr']['28a8beb390c049ec3274337a68b552e7']='sur toutes les pages, parmi les boîtes de navigation';
 $_SESSION['l10n']['fr']['at articles index']='sur l\'index des articles';
 $_SESSION['l10n']['fr']['at files index']='sur l\'index des fichiers';

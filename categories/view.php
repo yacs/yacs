@@ -777,8 +777,10 @@ if(!isset($item['id'])) {
 		$stats = Members::stat_users_for_anchor('category:'.$item['id']);
 
 		// send a message to a category
-		if(($stats['count'] > 1) && Surfer::is_associate())
-			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => i18n::s('Send a message'));
+		if(($stats['count'] > 1) && Surfer::is_associate()) {
+			Skin::define_img('CATEGORIES_EMAIL_IMG', 'categories/email.gif');
+			$box['bar'] += array(Categories::get_url($item['id'], 'mail') => CATEGORIES_EMAIL_IMG.i18n::s('Send a message'));
+		}
 
 		// spread the list over several pages
 		if($stats['count'] > USERS_LIST_SIZE)

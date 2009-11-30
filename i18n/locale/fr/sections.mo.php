@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-26 22:50+0100
-PO-Revision-Date: 2009-11-09 20:18+0100
+POT-Creation-Date: 2009-11-30 10:37+0100
+PO-Revision-Date: 2009-11-30 10:55+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -348,7 +348,7 @@ $_SESSION['l10n']['fr']['Section will be activated %s']='Cette section sera acti
 $_SESSION['l10n']['fr']['Sections']='Sections';
 $_SESSION['l10n']['fr']['Sections of %s']='Sections de %s';
 $_SESSION['l10n']['fr']['See also']='Voir aussi';
-$_SESSION['l10n']['fr']['Select all']='Tout sélectionner';
+$_SESSION['l10n']['fr']['Select all/none']='Tous/aucun';
 $_SESSION['l10n']['fr']['20535dd4a4c7c09c812f0d918644a3c2']='Sélectionner les éléments à manipuler, puis cliquer sur l\'un des boutons en bas de page.';
 $_SESSION['l10n']['fr']['Select parent container']='Selectionner une autre section';
 $_SESSION['l10n']['fr']['Select the file to upload']='Choisissez le fichier à transmettre';
@@ -461,7 +461,6 @@ $_SESSION['l10n']['fr']['82e1e4fa4163a6bb6fce5575a9d86438']='Votre message est e
 $_SESSION['l10n']['fr']['Your name']='Votre nom';
 $_SESSION['l10n']['fr']['3a123eb381c7b77022d31740519e6c0e']='accordion - Exposer un élément à la fois dans une pile';
 $_SESSION['l10n']['fr']['3826678d554b3f49614db283670da2ca']='alistapart - Dernier article dans son intégralité';
-$_SESSION['l10n']['fr']['and %d other persons']='et %d autres personnes';
 $_SESSION['l10n']['fr']['behavior']='comportement';
 $_SESSION['l10n']['fr']['by %s']='par %s';
 $_SESSION['l10n']['fr']['by %s, %s']='par %s, %s';

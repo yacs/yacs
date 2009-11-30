@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-29 23:29+0100
-PO-Revision-Date: 2009-11-29 23:30+0100
+POT-Creation-Date: 2009-11-30 10:37+0100
+PO-Revision-Date: 2009-11-30 10:33+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -290,7 +290,7 @@ $_SESSION['l10n']['en']['Screen shared by %s']='Screen shared by %s';
 $_SESSION['l10n']['en']['febdc97b3364eed1800a92d7af393c97']='Script terminated in %.2f seconds.';
 $_SESSION['l10n']['en']['Section']='Section';
 $_SESSION['l10n']['en']['See also']='See also';
-$_SESSION['l10n']['en']['Select all']='Select all';
+$_SESSION['l10n']['en']['Select all/none']='Select all/none';
 $_SESSION['l10n']['en']['Select parent container']='Select parent container';
 $_SESSION['l10n']['en']['Select the file to upload']='Select the file to upload';
 $_SESSION['l10n']['en']['0e47211d01c4146ec82ef084405f3603']='Select the language used for this page';
@@ -395,7 +395,6 @@ $_SESSION['l10n']['en']['Your sections']='Your sections';
 $_SESSION['l10n']['en']['Zip 20 first files']='Zip 20 first files';
 $_SESSION['l10n']['en']['Zip all files']='Zip all files';
 $_SESSION['l10n']['en']['advertised']='advertised';
-$_SESSION['l10n']['en']['and %d other persons']='and %d other persons';
 $_SESSION['l10n']['en']['by %s']='by %s';
 $_SESSION['l10n']['en']['by %s, %s']='by %s, %s';
 $_SESSION['l10n']['en']['bytes']='bytes';

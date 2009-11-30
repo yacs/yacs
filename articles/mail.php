@@ -115,24 +115,16 @@ if(Surfer::is_crawler()) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation in demonstration mode.'));
 
-// send message to all watchers
-} elseif((!$recipients =& Members::list_users_by_posts_for_anchor('article:'.$item['id'], 0, 200, 'mail', 'user:'.Surfer::get_id())) || !count($recipients))
-	Logger::error(i18n::s('No recipient has been found.'));
-
 // process submitted data
-elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
+} elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST')) {
 
 	// we are using surfer own address
 	$from = Surfer::from();
 
 	// recipient(s) address(es)
 	$to = array();
-	foreach($recipients as $address => $label) {
-		if($label)
-			$to[] = '"'.$label.'" <'.$address.'>';
-		else
-			$to[] = $address;
-	}
+	foreach($_REQUEST['selected_users'] as $address)
+		$to[] = $address;
 
 	// get a copy
 	if(isset($_REQUEST['self_copy']) && ($_REQUEST['self_copy'] == 'Y') && $from)
@@ -184,42 +176,34 @@ elseif(isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == 'POST
 
 		// back to the section page
 		$menu = array();
-		$menu[] = Skin::build_link(Articles::get_permalink($item), $item['title'], 'span');
+		$menu[] = Skin::build_link(Articles::get_permalink($item), i18n::s('Done'), 'button');
 		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 
 	}
 	Mailer::close();
 
+// send message to all watchers
+} elseif((!$recipients =& Members::list_users_by_posts_for_anchor('article:'.$item['id'], 0, 200, 'mail', 'user:'.Surfer::get_id())) || !count($recipients)) {
+	Logger::error(i18n::s('No recipient has been found.'));
+
 // display the form
 } else {
-
-	// build a nice list of recipients
-	$list = array();
-	if(count($recipients) > 50)
-		$count = 30;	// list only 30 first recipients
-	else
-		$count = 100;	//never reached
-	foreach($recipients as $address => $label) {
-		$list[] = '"'.$label.'" &lt;'.$address.'&gt;';
-		if($count-- ==1) {
-			$list[] = sprintf(i18n::s('and %d other persons'), count($recipients)-30);
-			break;
-		}
-	}
-	$context['text'] .= Skin::build_box(i18n::s('Message recipients').' ('.count($recipients).')', Skin::finalize_list($list, 'compact'), 'folded');
 
 	// the form to send a message
 	$context['text'] .= '<form method="post" action="'.$context['script_url'].'" onsubmit="return validateDocumentPost(this)" id="main_form"><div>';
 
+	// build a nice list of recipients
+	$context['text'] .= Skin::build_box(i18n::s('Message recipients'), $recipients, 'folded');
+
 	// the subject
 	$label = i18n::s('Message title');
-	$input = '<input type="text" name="subject" id="subject" size="70" />';
+	$input = '<input type="text" name="subject" id="subject" size="70" value="'.encode_field($item['title']).'" />';
 	$hint = i18n::s('Please provide a meaningful title.');
 	$fields[] = array($label, $input, $hint);
 
 	// the message
 	$label = i18n::s('Message content');
-	$input = '<textarea name="message" rows="15" cols="50"></textarea>';
+	$input = '<textarea name="message" rows="15" cols="50">'."\n\n\n\n".$item['title']."\n".$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'</textarea>';
 	$hint = i18n::s('Use only plain ASCII, no HTML.');
 	$fields[] = array($label, $input, $hint);
 

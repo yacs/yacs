@@ -2694,10 +2694,12 @@ Class Skin_Skeleton {
 	 * @return string HTML tags to be put in the resulting page
 	 */
 	function &build_tags($tags, $reference) {
+		global $context;
 
 		$text = '';
 
 		// list existing tags
+		include_once $context['path_to_root'].'categories/categories.php';
 		$tags = explode(',', $tags);
 		foreach($tags as $tag) {
 			if(!$tag = trim($tag))

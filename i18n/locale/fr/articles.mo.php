@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-29 23:29+0100
-PO-Revision-Date: 2009-11-29 23:33+0100
+POT-Creation-Date: 2009-11-30 10:37+0100
+PO-Revision-Date: 2009-11-30 10:54+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -290,7 +290,7 @@ $_SESSION['l10n']['fr']['Screen shared by %s']='Ecran partagé par %s';
 $_SESSION['l10n']['fr']['febdc97b3364eed1800a92d7af393c97']='Script terminé en %.2f seconds.';
 $_SESSION['l10n']['fr']['Section']='Section';
 $_SESSION['l10n']['fr']['See also']='Voir aussi';
-$_SESSION['l10n']['fr']['Select all']='Tout sélectionner';
+$_SESSION['l10n']['fr']['Select all/none']='Tous/aucun';
 $_SESSION['l10n']['fr']['Select parent container']='Choisir une autre section';
 $_SESSION['l10n']['fr']['Select the file to upload']='Choisissez le fichier à transmettre';
 $_SESSION['l10n']['fr']['0e47211d01c4146ec82ef084405f3603']='Choisissez la langue employée pour cette page';
@@ -395,7 +395,6 @@ $_SESSION['l10n']['fr']['Your sections']='Vos sections';
 $_SESSION['l10n']['fr']['Zip 20 first files']='Zip des 20 premiers fichiers';
 $_SESSION['l10n']['fr']['Zip all files']='Zip de tous les fichiers';
 $_SESSION['l10n']['fr']['advertised']='contacté';
-$_SESSION['l10n']['fr']['and %d other persons']='et %d autres personnes';
 $_SESSION['l10n']['fr']['by %s']='par %s';
 $_SESSION['l10n']['fr']['by %s, %s']='par %s, %s';
 $_SESSION['l10n']['fr']['bytes']='octets';

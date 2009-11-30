@@ -55,11 +55,15 @@ Class Layout_users_as_mail extends Layout_interface {
 			if(!$item['email'])
 				continue;
 
+			// do not write to myself
+			if($item['id'] == Surfer::get_id())
+				continue;
+
 			// get the related overlay, if any
 			$overlay = Overlay::load($item);
 
 			// column to select the row
-			$text .= '<input type="checkbox" name="selected_users[]" class="row_selector" value="'.encode_field($item['email']).'" />';
+			$text .= '<input type="checkbox" name="selected_users[]" class="row_selector" value="'.encode_field($item['email']).'" checked="checked" />';
 
 			// signal restricted and private users
 			if($item['active'] == 'N')
@@ -97,7 +101,7 @@ Class Layout_users_as_mail extends Layout_interface {
 		}
 
 		// select all rows
-		$text .= '<input type="checkbox" class="row_selector" onchange="cascade_selection_to_all_user_rows(this);" /> '.i18n::s('Select all');
+		$text .= '<input type="checkbox" class="row_selector" onchange="cascade_selection_to_all_user_rows(this);" checked="checked" /> '.i18n::s('Select all/none');
 
 		// div suffix
 		$text .= '</div>';

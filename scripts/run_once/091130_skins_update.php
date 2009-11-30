@@ -77,6 +77,7 @@ $files[] = 'skins/_reference/categories/add.gif';
 $files[] = 'skins/_reference/categories/assign.gif';
 $files[] = 'skins/_reference/categories/delete.gif';
 $files[] = 'skins/_reference/categories/edit.gif';
+$files[] = 'skins/_reference/categories/email.gif';
 $files[] = 'skins/_reference/codes/answer.gif';
 $files[] = 'skins/_reference/codes/bullet.png';
 $files[] = 'skins/_reference/codes/caution.gif';

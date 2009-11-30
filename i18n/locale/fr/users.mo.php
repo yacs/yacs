@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-29 22:46+0100
-PO-Revision-Date: 2009-11-26 22:55+0100
+POT-Creation-Date: 2009-11-30 10:32+0100
+PO-Revision-Date: 2009-11-30 10:56+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -368,7 +368,7 @@ $_SESSION['l10n']['fr']['See also']='Voir aussi';
 $_SESSION['l10n']['fr']['9d1fc249d04226cb2db7398a29581bef']='Choisir une image .png, .gif ou .jpeg';
 $_SESSION['l10n']['fr']['Select a picture for %s']='Choisir une image pour %s';
 $_SESSION['l10n']['fr']['c3ddc38baed1d3d09f177e3c78865622']='Choisir une image de la librairie';
-$_SESSION['l10n']['fr']['Select all']='Tout sélectionner';
+$_SESSION['l10n']['fr']['Select all/none']='Tous/aucun';
 $_SESSION['l10n']['fr']['abbb7ad09d40d7272c30569b47a44199']='Choisissez votre outil préféré pour modifier les textes.';
 $_SESSION['l10n']['fr']['Self-deletion']='Auto-effacement';
 $_SESSION['l10n']['fr']['c135a8dca58a3d9943aeac7d94451d30']='Les surfeurs sont enregistrés comme membres (communauté ouverte).';
