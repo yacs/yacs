@@ -38,6 +38,9 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
+include_once '../links/links.php'; // used for link processing
+include_once '../servers/servers.php'; // servers to be advertised
+include_once '../services/call.php'; // xml-rpc
 
 // look for the id
 $id = NULL;
@@ -150,8 +153,7 @@ if(Surfer::is_crawler()) {
 			$raw = $item['introduction'].' '.$item['source'].' '.$item['description'];
 
 			// pingback & trackback
-			include_once '../links/links.php';
-			list($links, $created, $advertised, $skipped) = Links::ping($raw, 'article:'.$item['id']);
+			list($links, $advertised, $skipped) = Links::ping($raw, 'article:'.$item['id']);
 
 			// report on processed links
 			if(@count($links)) {
@@ -162,10 +164,6 @@ if(Surfer::is_crawler()) {
 
 					// the link itself
 					$context['text'] .= '<li>'.Skin::build_link($link);
-
-					// link is new in the database
-					if(is_array($created) && in_array($link, $created))
-						$context['text'] .= ' ('.i18n::s('created').') ';
 
 					// link has been pinged
 					if(is_array($advertised) && in_array($link, $advertised))
@@ -191,7 +189,6 @@ if(Surfer::is_crawler()) {
 		if(isset($_REQUEST['ping_option']) && ($_REQUEST['ping_option'] == 'Y')) {
 
 			// list servers to be advertised
-			include_once '../servers/servers.php';
 			if($servers = Servers::list_for_ping(0, COMPACT_LIST_SIZE, 'ping')) {
 
 				$context['text'] .= '<p>'.i18n::s('Following web sites have been advertised:').'</p><ul>';
@@ -200,9 +197,8 @@ if(Surfer::is_crawler()) {
 				foreach($servers as $server_url => $attributes) {
 					list($server_ping, $server_label) = $attributes;
 
-					include_once '../services/call.php';
 					$milestone = get_micro_time();
-					$result = @Call::invoke($server_ping, 'weblogUpdates.ping', array(strip_tags($context['site_name']), $context['url_to_home'].$context['url_to_root']), 'XML-RPC');
+					$result = @Call::invoke($server_ping, 'weblogUpdates.ping', array(strip_tags($context['site_name']), $context['url_to_home'].$context['url_to_root'].$anchor()->get_url()), 'XML-RPC');
 					if($result[0])
 						$label = round(get_micro_time() - $milestone, 2).' sec.';
 					else
@@ -288,7 +284,6 @@ if($with_form) {
 	$label = i18n::s('Ping');
 
 	// list servers to be advertised
-	include_once '../servers/servers.php';
 	if($servers = Servers::list_for_ping(0, COMPACT_LIST_SIZE, 'ping')) {
 
 		// list targeted servers

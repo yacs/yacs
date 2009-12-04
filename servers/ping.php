@@ -14,6 +14,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once 'servers.php';
+include_once '../services/call.php'; // for xml-rpc pings
 
 // load the skin
 load_skin('servers');
@@ -42,7 +43,6 @@ elseif(!Surfer::is_associate()) {
 } elseif(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'ping')) {
 
 	// list servers to be advertised
-	include_once '../servers/servers.php';
 	if($servers = Servers::list_for_ping(0, 20, 'ping')) {
 
 		$context['text'] .= '<p>'.i18n::s('Following web sites have been contacted:').'</p><ul>';
@@ -51,7 +51,6 @@ elseif(!Surfer::is_associate()) {
 		foreach($servers as $server_url => $attributes) {
 			list($server_ping, $server_label) = $attributes;
 
-			include_once '../services/call.php';
 			$milestone = get_micro_time();
 			$result = @Call::invoke($server_ping, 'weblogUpdates.ping', array(strip_tags($context['site_name']), $context['url_to_home'].$context['url_to_root']), 'XML-RPC');
 			if($result[0])

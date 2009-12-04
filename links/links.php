@@ -812,13 +812,15 @@ Class Links {
 	 *
 	 * @param string the referencing text that has to be scanned
 	 * @param string the local anchor of the referencing text (e.g., 'article:124')
-	 * @return array list($links, $created, $advertised, $skipped)
+	 * @return array list($links, $advertised, $skipped)
 	 *
 	 * @link http://www.movabletype.org/docs/mttrackback.html TrackBack Technical Specification
 	 * @link http://www.hixie.ch/specs/pingback/pingback Pingback specification
 	 */
 	function ping($text, $anchor) {
 		global $context;
+
+		include_once $context['path_to_root'].'links/link.php';
 
 		// render all codes
 		if(is_callable(array('Codes', 'beautify')))
@@ -849,7 +851,6 @@ Class Links {
 
 		// analyze found links
 		$links_processed = array();
-		$links_created = array();
 		$links_advertised = array();
 		$links_skipped = array();
 		foreach($unique_links as $url => $dummy) {
@@ -865,7 +866,6 @@ Class Links {
 			}
 
 			// skip invalid links
-			include_once $context['path_to_root'].'links/link.php';
 			if(($content = Link::fetch($url, '', '', 'links/links.php')) === FALSE) {
 				$links_skipped[] = $url;
 				continue;
@@ -880,27 +880,6 @@ Class Links {
 			// stats
 			$links_processed[] = $url;
 
-			// do not create records for links that already exist
-			if(Links::have($url))
-				continue;
-
-			// create records only for external links
-			if(preg_match('/^'.preg_quote($context['url_to_home'], '/').'\b/i', $url))
-				continue;
-
-			// find a title for this link
-			if(preg_match('/<title>(.*?)<\/title>/i', $pages[$url], $matches))
-				$fields['title'] = $matches[1];
-			elseif(preg_match('/<h1>(.*?)<\/h1>/i', $pages[$url], $matches))
-				$fields['title'] = $matches[1];
-
-			// create a new link in the database
-			$fields['anchor'] = $anchor;
-			$fields['link_url'] = $url;
-			if($fields['id'] = Links::post($fields)) {
-				Links::clear($fields);
-				$links_created[] = $url;
-			}
 		}
 
 		// locate the anchor object for this text, we need its url
@@ -936,7 +915,7 @@ Class Links {
 			}
 		}
 
-		return array($links_processed, $links_created, $links_advertised, $links_skipped);
+		return array($links_processed, $links_advertised, $links_skipped);
 	}
 
 	/**

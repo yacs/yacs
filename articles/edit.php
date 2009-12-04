@@ -489,8 +489,35 @@ if(Surfer::is_crawler()) {
 			Users::increment_posts(Surfer::get_id());
 
 		// touch the related anchor, but only if the page has been published
-		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE))
+		if(isset($_REQUEST['publish_date']) && ($_REQUEST['publish_date'] > NULL_DATE)) {
 			$anchor->touch('article:create', $_REQUEST['id'], isset($_REQUEST['silent']) && ($_REQUEST['silent'] == 'Y'));
+
+			// advertise public pages
+			if(isset($_REQUEST['active']) && ($_REQUEST['active'] == 'Y')) {
+
+				// pingback, if any
+				Links::ping($_REQUEST['introduction'].' '.$_REQUEST['source'].' '.$_REQUEST['description'], 'article:'.$_REQUEST['id']);
+
+				// list servers to be advertised
+				if($servers = Servers::list_for_ping(0, COMPACT_LIST_SIZE, 'ping')) {
+
+					// ping each server
+					foreach($servers as $server_url => $attributes) {
+						list($server_ping, $server_label) = $attributes;
+
+						$result = @Call::invoke($server_ping, 'weblogUpdates.ping', array(strip_tags($context['site_name']), $context['url_to_home'].$context['url_to_root'].$anchor()->get_url()), 'XML-RPC');
+
+					}
+
+				}
+
+			}
+
+			// 'publish' hook
+			if(is_callable(array('Hooks', 'include_scripts')))
+				Hooks::include_scripts('publish', $_REQUEST['id']);
+
+		}
 
 		// get the new item
 		$article =& Anchors::get('article:'.$_REQUEST['id'], TRUE);

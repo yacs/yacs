@@ -529,18 +529,18 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown postid %s at %s'), $postid, $context['url_to_home']) );
 
 		else {
-		
+
 			// surfer may be an associate
 			Surfer::empower($user['capability']);
-		
+
 			// surfer is a section editor
 			if(Surfer::is_member($user['capability']) && is_object($anchor) && $anchor->is_assigned($user['id']))
 				Surfer::empower();
-			
+
 			// surfer is a page editor
 			elseif(Articles::is_owned($anchor, $item))
 				Surfer::empower();
-			
+
 			// operation is restricted
 			if(!Surfer::is_empowered())
 				$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
@@ -548,7 +548,7 @@ else {
 			// delete the article
 			elseif(!Articles::delete($item['id']))
 				$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to delete record of postid %s'), $postid) );
-	
+
 			else {
 				Cache::clear();
 				$response = TRUE;
@@ -574,31 +574,31 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown postid %s at %s'), $postid, $context['url_to_home']) );
 
 		else {
-		
+
 			// surfer may be an associate
 			Surfer::empower($user['capability']);
-		
+
 			// surfer is a section editor
 			if(Surfer::is_member($user['capability']) && is_object($anchor) && $anchor->is_assigned($user['id']))
 				Surfer::empower();
-			
+
 			// surfer is a page editor
 			elseif(Articles::is_assigned($item['id'], $user['id']))
 				Surfer::empower();
-			
+
 			// operation is restricted
 			if(!Surfer::is_empowered())
 				$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 			else {
-			
+
 				// remember the previous version
 				Versions::save($item, 'article:'.$item['id']);
-	
+
 				// parse article content
 				$article = new Article();
 				$fields = $article->parse($content, $item);
-	
+
 				// publish if in wiki mode, or if section is configured for auto-publishing,
 				// or if the surfer asks for it and add sufficient rights
 				if( ($context['users_with_auto_publish'] == 'Y')
@@ -613,31 +613,31 @@ else {
 				$fields['edit_id'] = $user['id'];
 				$fields['edit_address'] = $user['email'];
 				$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	
+
 				// update the article
 				if(!Articles::put($fields))
 					$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to update record of postid %s'), $postid) );
-	
+
 				else {
 					$response = TRUE;
-	
+
 					// if the page has been published
 					if($fields['publish_date'] > NULL_DATE) {
-	
+
 						// advertise public pages
 						if(($section['active'] == 'Y') && ($item['active'] == 'Y')) {
-	
+
 							// pingback, if any
 							Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$postid);
-	
+
 						}
-	
+
 						// 'publish' hook
 						if(is_callable(array('Hooks', 'include_scripts')))
 							Hooks::include_scripts('publish', $item['id']);
-	
+
 					}
-	
+
 					// list the article in categories
 					$keywords = '';
 					if(isset($fields['tags']))
@@ -646,7 +646,7 @@ else {
 						$keywords .= ', '.$content['mt_keywords'];
 					$keywords = trim($keywords, ', ');
 					Categories::remember('article:'.$item['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
-	
+
 				}
 			}
 		}
@@ -674,54 +674,54 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
-		
+
 			// surfer may be an associate
 			Surfer::empower($user['capability']);
-		
+
 			// surfer is an associate
 			if($user['capability'] == 'A')
 				$permitted = TRUE;
-				
+
 			// public page
 			elseif(($item['active'] == 'Y') && $anchor->is_viewable($user['id']))
 				$permitted = TRUE;
-			
+
 			// restricted page
 			elseif(($item['active'] == 'R') && $anchor->is_viewable($user['id']))
 				$permitted = TRUE;
-			
+
 			// hidden page
 			elseif(($item['active'] == 'N') && $anchor->is_assigned($user['id']))
 				$permitted = TRUE;
-				
+
 			// assigned page
 			elseif(Articles::is_assigned($item['id'], $user['id']))
 				$permitted = TRUE;
-				
+
 			// sorry
 			else
 				$permitted = FALSE;
-			
+
 			// restrict gets in protected section
 			if(!$permitted)
 				$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 			else {
-	
+
 				// page title - don't put a carriage return at the end, w.bloggar will keep it
 				$content = '<title>'.$item['title'].'</title>';
-	
+
 				// edit the introduction if one exists
 				if($item['introduction'])
 					$content .= '<introduction>'.$item['introduction']."</introduction>\n";
-	
+
 				// edit the source if one exists
 				if($item['source'])
 					$content .= '<source>'.$item['source']."</source>\n";
-	
+
 				// page content
 				$content .= $item['description'];
-	
+
 				// build the complete response
 				$response = array(
 					'dateCreated' => $codec->encode($item['edit_date'], 'date'),
@@ -758,18 +758,18 @@ else {
 
 		// list articles
 		else {
-		
+
 			// surfer may be an associate
 			Surfer::empower($user['capability']);
-		
+
 			// surfer is a section editor
 			if(Surfer::is_member($user['capability']) && is_object($section) && $section->is_assigned($user['id']))
 				Surfer::empower();
-			
+
 			// surfer is a page editor
 			elseif(Articles::is_assigned($item['id'], $user['id']))
 				Surfer::empower();
-			
+
 			$response = array();
 			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw');
 			if(is_array($items)) {
@@ -949,7 +949,7 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
-		
+
 			// parse article content
 			$article = new Article();
 			$fields = $article->parse($content, $content);
@@ -1070,34 +1070,34 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => sprintf(i18n::c('Unknown postid %s at %s'), $postid, $context['url_to_home']) );
 
 		else {
-		
+
 			// surfer may be an associate
 			Surfer::empower($user['capability']);
-		
+
 			// surfer is a section editor
 			if(Surfer::is_member($user['capability']) && is_object($anchor) && $anchor->is_assigned($user['id']))
 				Surfer::empower();
-			
+
 			// surfer is a page editor
 			elseif(Articles::is_assigned($item['id'], $user['id']))
 				Surfer::empower();
-			
+
 			// operation is restricted
 			if(!Surfer::is_empowered())
 				$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 			else {
-			
+
 				// remember the previous page version
 				Versions::save($item, 'article:'.$item['id']);
-	
+
 				// parse article content
 				$article = new Article();
 				$fields = $article->parse($content['description'], $item);
-	
+
 				if($content['title'])
 					$fields['title'] = $content['title'];
-	
+
 				// publish if in wiki mode, or if section is configured for auto-publishing,
 				// or if the surfer asks for it and add sufficient rights
 				if( ($context['users_with_auto_publish'] == 'Y')
@@ -1112,30 +1112,30 @@ else {
 				$fields['edit_id'] = $user['id'];
 				$fields['edit_address'] = $user['email'];
 				$fields['edit_date'] = gmstrftime('%Y-%m-%d %H:%M:%S');
-	
+
 				// update the article
 				if(!Articles::put($fields))
 					$response = array( 'faultCode' => -32500, 'faultString' => sprintf(i18n::c('Impossible to update record of postid %s'), $postid) );
-	
+
 				else {
 					$response = TRUE;
-	
+
 					// if the page has been published
 					if($fields['publish_date'] > NULL_DATE) {
-	
+
 						// advertise public pages
 						if($anchor->is_public() && ($item['active'] == 'Y')) {
-	
+
 							// pingback, if any
 							Links::ping($fields['introduction'].' '.$fields['source'].' '.$fields['description'], 'article:'.$postid);
 						}
-	
+
 						// 'publish' hook
 						if(is_callable(array('Hooks', 'include_scripts')))
 							Hooks::include_scripts('publish', $item['id']);
-	
+
 					}
-	
+
 					// list the article in categories
 					$keywords = '';
 					if(isset($fields['tags']))
@@ -1144,7 +1144,7 @@ else {
 						$keywords .= ', '.$content['mt_keywords'];
 					$keywords = trim($keywords, ', ');
 					Categories::remember('article:'.$item['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, $keywords);
-	
+
 				}
 			}
 		}
@@ -1210,34 +1210,34 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
-		
+
 			// surfer may be an associate
 			Surfer::empower($user['capability']);
-		
+
 			// surfer is an associate
 			if($user['capability'] == 'A')
 				$permitted = TRUE;
-				
+
 			// public page
 			elseif(($item['active'] == 'Y') && $anchor->is_viewable($user['id']))
 				$permitted = TRUE;
-			
+
 			// restricted page
 			elseif(($item['active'] == 'R') && $anchor->is_viewable($user['id']))
 				$permitted = TRUE;
-			
+
 			// hidden page
 			elseif(($item['active'] == 'N') && $anchor->is_assigned($user['id']))
 				$permitted = TRUE;
-				
+
 			// assigned page
 			elseif(Articles::is_assigned($item['id'], $user['id']))
 				$permitted = TRUE;
-				
+
 			// sorry
 			else
 				$permitted = FALSE;
-			
+
 			// restrict gets in protected section
 			if(!$permitted)
 				$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
@@ -1286,18 +1286,18 @@ else {
 
 		// lists posts
 		else {
-		
+
 			// surfer may be an associate
 			Surfer::empower($user['capability']);
-		
+
 			// surfer is a section editor
 			if(Surfer::is_member($user['capability']) && is_object($section) && $section->is_assigned($user['id']))
 				Surfer::empower();
-			
+
 			// surfer is a page editor
 			elseif(Articles::is_assigned($item['id'], $user['id']))
 				Surfer::empower();
-			
+
 			$response = array();
 			$items =& Articles::list_for_anchor_by('edition', 'section:'.$blogid, 0, min($numberOfPosts, 30), 'raw');
 			if(is_array($items)) {
@@ -1377,7 +1377,7 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
-		
+
 			// get a safe path
 			$file_path = 'files/'.$context['virtual_path'].'section/'.$item['id'];
 
@@ -1459,7 +1459,7 @@ else {
 			$response = array( 'faultCode' => -32602, 'faultString' => i18n::c('You are not allowed to perform this operation.') );
 
 		else {
-		
+
 			// parse article content
 			$article = new Article();
 			$fields = $article->parse($content['description'], $content);
@@ -1643,7 +1643,7 @@ else {
 
 		// lists posts
 		else {
-		
+
 			$response = array();
 			$items =& Articles::list_for_anchor_by('edition', 'section:'.$item['id'], 0, min($numberOfPosts, 30), 'raw');
 			if(is_array($items)) {
