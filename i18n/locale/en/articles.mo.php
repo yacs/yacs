@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-30 10:37+0100
-PO-Revision-Date: 2009-11-30 10:33+0100
+POT-Creation-Date: 2009-12-07 00:33+0100
+PO-Revision-Date: 2009-12-07 00:33+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -301,6 +301,8 @@ $_SESSION['l10n']['en']['Send me a copy of this message.']='Send me a copy of th
 $_SESSION['l10n']['en']['Sent by %s']='Sent by %s';
 $_SESSION['l10n']['en']['Sent by %s in %s']='Sent by %s in %s';
 $_SESSION['l10n']['en']['Share']='Share';
+$_SESSION['l10n']['en']['Share at Facebook']='Share at Facebook';
+$_SESSION['l10n']['en']['Share at Twitter']='Share at Twitter';
 $_SESSION['l10n']['en']['Share screen with NetMeeting']='Share screen with NetMeeting';
 $_SESSION['l10n']['en']['Share screen with VNC']='Share screen with VNC';
 $_SESSION['l10n']['en']['Share: %s']='Share: %s';
@@ -398,7 +400,6 @@ $_SESSION['l10n']['en']['advertised']='advertised';
 $_SESSION['l10n']['en']['by %s']='by %s';
 $_SESSION['l10n']['en']['by %s, %s']='by %s, %s';
 $_SESSION['l10n']['en']['bytes']='bytes';
-$_SESSION['l10n']['en']['created']='created';
 $_SESSION['l10n']['en']['delete']='delete';
 $_SESSION['l10n']['en']['edit']='edit';
 $_SESSION['l10n']['en']['edited']='edited';

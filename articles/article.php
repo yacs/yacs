@@ -1015,8 +1015,8 @@ Class Article extends Anchor {
 		if(isset($this->item['anchor']) && $this->item['anchor'])
 			$anchor =& Anchors::get($this->item['anchor']);
 
-		// send alert only on new stuff
-		if(preg_match('/:create$/i', $action) && !$this->is_interactive()) {
+		// send alert only on new stuff, and if the page has been published
+		if(preg_match('/:create$/i', $action) && !$this->is_interactive() && isset($this->item['publish_date']) &&  ($this->item['publish_date'] > NULL_DATE)) {
 
 			// poster name, if applicable
 			if(!$surfer = Surfer::get_name())

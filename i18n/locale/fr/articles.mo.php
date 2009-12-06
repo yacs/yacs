@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-30 10:37+0100
-PO-Revision-Date: 2009-11-30 10:54+0100
+POT-Creation-Date: 2009-12-07 00:33+0100
+PO-Revision-Date: 2009-12-07 00:35+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -301,6 +301,8 @@ $_SESSION['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie
 $_SESSION['l10n']['fr']['Sent by %s']='Envoyé par %s';
 $_SESSION['l10n']['fr']['Sent by %s in %s']='Envoyé par %s dans %s';
 $_SESSION['l10n']['fr']['Share']='Partage';
+$_SESSION['l10n']['fr']['Share at Facebook']='Partager sur Facebook';
+$_SESSION['l10n']['fr']['Share at Twitter']='Partager sur Twitter';
 $_SESSION['l10n']['fr']['Share screen with NetMeeting']='Partager l\'écran avec NetMeeting';
 $_SESSION['l10n']['fr']['Share screen with VNC']='Partager l\'écran avec VNC';
 $_SESSION['l10n']['fr']['Share: %s']='Partager : %s';
@@ -398,7 +400,6 @@ $_SESSION['l10n']['fr']['advertised']='contacté';
 $_SESSION['l10n']['fr']['by %s']='par %s';
 $_SESSION['l10n']['fr']['by %s, %s']='par %s, %s';
 $_SESSION['l10n']['fr']['bytes']='octets';
-$_SESSION['l10n']['fr']['created']='créé';
 $_SESSION['l10n']['fr']['delete']='supprimer';
 $_SESSION['l10n']['fr']['edit']='modifier';
 $_SESSION['l10n']['fr']['edited']='modifié';

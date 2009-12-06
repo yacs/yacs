@@ -612,6 +612,16 @@ if(!isset($item['id'])) {
 	//
 	$lines = array();
 
+	// facebook & twitter
+	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')) {
+		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
+		$lines[] = Skin::build_link('http://www.facebook.com/share.php?u='.urlencode($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)).'&t='.urlencode($item['title']), PAGERS_FACEBOOK_IMG.i18n::s('Share at Facebook'), 'basic', i18n::s('Spread the word'));
+
+		Skin::define_img('PAGERS_TWITTER_IMG', 'pagers/twitter.gif');
+		$lines[] = Skin::build_link('http://twitter.com/home?status='.urlencode($item['title'].' '.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)), PAGERS_TWITTER_IMG.i18n::s('Share at Twitter'), 'basic', i18n::s('Spread the word'));
+
+	}
+
 	// mail this page
 	if((Articles::is_owned($anchor, $item) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
