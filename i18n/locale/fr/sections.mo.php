@@ -7,7 +7,7 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-30 10:37+0100
+POT-Creation-Date: 2009-12-07 14:57+0100
 PO-Revision-Date: 2009-11-30 10:55+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
@@ -277,7 +277,6 @@ $_SESSION['l10n']['fr']['bc9e1ae097aa296b3e304e2d12888466']='Rien n\'a été ext
 $_SESSION['l10n']['fr']['Nothing has been received.']='Rien n\'a été reçu.';
 $_SESSION['l10n']['fr']['One %s per line']='Un %s par ligne';
 $_SESSION['l10n']['fr']['0036d35feb7fd2c4c6545c79b7e41cf4']='Une ou plusieurs %s. Ce réglage annule la définition d\'overlay.';
-$_SESSION['l10n']['fr']['d5acf9a5fcf4cd0af0a62e65090a9a2a']='Seuls les associés et les éditeurs peuvent modifier le contenu';
 $_SESSION['l10n']['fr']['Operation has failed.']='L\'opération a échoué.';
 $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Order']='Trier';

@@ -2076,7 +2076,7 @@ elseif(!Surfer::is_associate()) {
 				.'	font-weight: '.$context['flexible_tabs_weight'].';'."\n"
 				.'}'."\n"
 				."\n"
-				.'div.tabs ul li a.hover span { /* mouse is hovering */'."\n"
+				.'div.tabs ul li a:hover span { /* mouse is hovering */'."\n"
 				.'	color: '.$context['flexible_tabs_h_color'].';'."\n"
 				.'}';
 		} else

@@ -636,6 +636,10 @@ if(!file_exists('../parameters/control.include.php')) {
 			// collections
 			$commands[] = sprintf(i18n::s('%s - shared directories and files'), Skin::build_link('collections/', i18n::s('File collections'), 'basic'));
 
+			// upload some CSV
+			if(Surfer::is_associate())
+				$commands[] = sprintf(i18n::s('%s - update the database'), Skin::build_link('tables/import.php', i18n::s('Upload a .CSV file'), 'basic'));
+
 			// available feeds
 			$commands[] = sprintf(i18n::s('%s - all feeds available (RSS, ATOM)'), Skin::build_link('feeds/', i18n::s('Information channels'), 'basic'));
 

@@ -194,6 +194,12 @@ if(!isset($item['id'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// re-enforce the canonical link
+} elseif($context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
+	Safe::header('Location: '.$canonical);
+	Logger::error(Skin::build_link($canonical));
+
 // display the category
 } else {
 
@@ -226,6 +232,9 @@ if(!isset($item['id'])) {
 	//
 	// page meta information -- $context['page_header'], etc.
 	//
+
+	// add canonical link
+	$context['page_header'] .= "\n".'<link rel="canonical" href="'.$context['url_to_home'].$context['url_to_root'].Categories::get_permalink($item).'" />';
 
 	// a meta link to a feeding page
 	$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_root'].Categories::get_url($item['id'], 'feed').'" title="RSS" type="application/rss+xml" />';

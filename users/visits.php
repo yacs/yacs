@@ -2,7 +2,7 @@
 /**
  * the database abstraction layer for visits
  *
- * This class takes care of presence information. It receives probes generated
+ * This class takes care of visits. It receives probes generated
  * automatically in the background during site browsing, that mention the anchor
  * of the visited page.
  *
@@ -15,10 +15,7 @@
  * surfer presence continuously when several pages are jointly browsed,
  * which is the case with private conversations, and with channels.
  *
- * Probes are recorded and considered accurate for 1 minute and a half, that is,
- * 90 seconds. This value is quite high, but this is because someone can switch
- * to another page for some time, for example to upload a file, and then come
- * back to the monitored page.
+ * Visit are considered obsolete after three days = 259200 seconds
  *
  * @author Bernard Paques
  * @reference
@@ -34,7 +31,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return TRUE on recent visit, FALSE otherwise
 	 */
-	function check_user_at_anchor($user_id, $anchor, $timeout=90) {
+	function check_user_at_anchor($user_id, $anchor, $timeout=259200) {
 		global $context;
 
 		// sanity check
@@ -65,7 +62,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return array a compact list of links, or NULL
 	 */
-	function &list_for_user($user, $count=3, $timeout=90) {
+	function &list_for_user($user, $count=3, $timeout=259200) {
 		global $context;
 
 		// return by reference
@@ -135,7 +132,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return array a compact list of user profiles
 	 */
-	function &list_users($offset=0, $count=30, $layout='compact', $timeout=90) {
+	function &list_users($offset=0, $count=30, $layout='compact', $timeout=259200) {
 		global $context;
 
 		// return by reference
@@ -174,7 +171,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return array a compact list of user profiles
 	 */
-	function &list_users_at_anchor($anchor, $offset=0, $count=30, $layout='compact', $timeout=90) {
+	function &list_users_at_anchor($anchor, $offset=0, $count=30, $layout='compact', $timeout=259200) {
 		global $context;
 
 		// return by reference
@@ -215,7 +212,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return TRUE if the user is present, FALSE otherwise
 	 */
-	function prove_presence_of($user, $timeout=90) {
+	function prove_presence_of($user, $timeout=3600) {
 		global $context;
 
 		// sanity check
@@ -288,7 +285,7 @@ Class Visits {
 	 *
 	 * @see control/index.php
 	 */
-	function &stat($timeout=90) {
+	function &stat($timeout=259200) {
 		global $context;
 
 		// only consider recent presence records
@@ -310,7 +307,7 @@ Class Visits {
 	 * @param int maximum age of visit, in seconds
 	 * @return the resulting ($count, $min_date, $max_date) array
 	 */
-	function &stat_for_anchor($anchor, $timeout=90) {
+	function &stat_for_anchor($anchor, $timeout=259200) {
 		global $context;
 
 		// sanity check
@@ -368,8 +365,8 @@ Class Visits {
 		if(isset($_SERVER['HTTP_X_MOZ']) && ($_SERVER['HTTP_X_MOZ'] == 'prefetch'))
 			return FALSE;
 
-		// delete obsoleted presence records as well
-		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 90);
+		// delete visit records after 3 days = 3*24*60*60 = 259200
+		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 259200);
 
 		// suppress previous record, if any --do not report on error, if any
 		$query = "DELETE FROM ".SQL::table_name('visits')

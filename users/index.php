@@ -161,7 +161,7 @@ $context['page_tools'][] = Skin::build_link('users/review.php', i18n::s('Review 
 
 // side bar with the list of present users --don't cache, this will change on each request anyway
 include_once $context['path_to_root'].'users/visits.php';
-if($items = Users::list_present(0, COMPACT_LIST_SIZE, 'compact'))
+if($items = Users::list_present(0, 200, 'compact'))
 	$context['components']['boxes'] = Skin::build_box(i18n::s('Present users'), $items, 'boxes');
 
 

@@ -92,6 +92,12 @@ if(!isset($item['id'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// re-enforce the canonical link
+} elseif($context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Comments::get_url($item['id'])) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
+	Safe::header('Location: '.$canonical);
+	Logger::error(Skin::build_link($canonical));
+
 // display the comment
 } else {
 
@@ -167,7 +173,7 @@ if(!isset($item['id'])) {
 		$menu = array(Skin::build_link($anchor->get_url(), i18n::s('Back to main page'), 'button'));
 		$context['text'] .= Skin::finalize_list($menu, 'assistant_bar');
 	}
-	
+
 	//
 	// extra panel -- $context['extra']
 	//
@@ -205,7 +211,7 @@ if(!isset($item['id'])) {
 		Skin::define_img('COMMENTS_DELETE_IMG', 'comments/delete.gif');
 		$context['page_tools'][] = Skin::build_link(Comments::get_url($item['id'], 'delete'), COMMENTS_DELETE_IMG.i18n::s('Delete'));
 	}
-	
+
 	// turn this to an article
 	if((Surfer::is_associate() || (Surfer::is_member() && is_object($anchor) && $anchor->is_assigned()))) {
 		Skin::define_img('COMMENTS_PROMOTE_IMG', 'comments/promote.gif');

@@ -97,9 +97,7 @@ Class Layout_sections_as_jive extends Layout_interface {
 				$suffix = UPDATED_FLAG.' ';
 
 			// this is another row of the output
-			if((isset($stats['count']) && $stats['count']) || Surfer::is_empowered()) {
-				$text .= '<tr class="'.$class_title.'"><th>'.$prefix.$title.$suffix.'</th><th>'.i18n::s('Poster').'</th><th>'.i18n::s('Messages').'</th><th>'.i18n::s('Last active').'</th></tr>'."\n";
-			}
+			$text .= '<tr class="'.$class_title.'"><th>'.$prefix.$title.$suffix.'</th><th>'.i18n::s('Poster').'</th><th>'.i18n::s('Messages').'</th><th>'.i18n::s('Last active').'</th></tr>'."\n";
 			$count = 1;
 
 			// get last posts for this board --avoid sticky pages

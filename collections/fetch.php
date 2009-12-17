@@ -175,7 +175,7 @@ if(!isset($item['collection']) || !$item['collection']) {
 
 		// let the web server provide the actual file
 		if(!headers_sent()) {
-			Safe::header('Status: 301 moved Permanently', TRUE, 301);
+			Safe::header('Status: 301 Moved Permanently', TRUE, 301);
 			Safe::header('Location: '.$item['actual_url']);
 
 		// this one may be blocked by anti-popup software

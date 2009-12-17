@@ -109,6 +109,8 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../shared/xml.php';	// input validation
+include_once '../links/links.php'; // links
+include_once '../servers/servers.php'; // servers
 include_once '../versions/versions.php'; // roll-back
 
 // allow for direct login
@@ -979,7 +981,7 @@ if($with_form) {
 		.BR.'<input type="radio" name="locked" value="Y"';
 	if(isset($item['locked']) && ($item['locked'] == 'Y'))
 		$input .= ' checked="checked"';
-	$input .= '/> '.i18n::s('Only associates and editors can add content');
+	$input .= '/> '.i18n::s('Only associates and owners can add content');
 	$fields[] = array($label, $input);
 
 	// append fields

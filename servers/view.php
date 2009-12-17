@@ -88,6 +88,12 @@ if(!$item['id']) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// re-enforce the canonical link
+} elseif($context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Servers::get_url($item['id'])) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
+	Safe::header('Location: '.$canonical);
+	Logger::error(Skin::build_link($canonical));
+
 // display the server profile
 } else {
 	$text = '';

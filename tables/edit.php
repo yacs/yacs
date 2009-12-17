@@ -5,7 +5,7 @@
  * This script attempts to validate the new or updated article description against a standard PHP XML parser.
  * The objective is to spot malformed or unordered HTML and XHTML tags. No more, no less.
  *
- * Only associates and editors can post and edit tables.
+ * Only associates and owners can post and edit tables.
  *
  * Accepted calls:
  * - edit.php/&lt;type&gt;/&lt;id&gt;			create a new table for this anchor

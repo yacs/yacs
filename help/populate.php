@@ -134,7 +134,7 @@ if(!$permitted) {
 
 		// the contribution flag: Yes/public, Restricted/logged, No/associates
 		$label = i18n::s('Contribution');
-		$input = '<input type="radio" name="contribution" value="N" accesskey="c" checked="checked" /> '.i18n::s('Only associates and editors can contribute.').BR;
+		$input = '<input type="radio" name="contribution" value="N" accesskey="c" checked="checked" /> '.i18n::s('Only associates and owners can contribute.').BR;
 		$input .= '<input type="radio" name="contribution" value="R" /> '.i18n::s('Any authenticated member can contribute.');
 		$fields[] = array($label, $input);
 
@@ -198,7 +198,7 @@ if(!$permitted) {
 		$fields['options'] = 'with_owner_profile articles_by_publication';
 		$fields['articles_layout'] = 'daily'; // the preferred layout for blogs
 		$fields['content_options'] = 'with_extra_profile'; // show user profiles in a side panel
-		if($_REQUEST['contribution'] == 'N')	// only associates and editors can contribute
+		if($_REQUEST['contribution'] == 'N')	// only associates and owners can contribute
 			$fields['locked'] = 'Y';
 		$fields['rank'] = 10000; // default value
 		if($fields['id'] = Sections::post($fields)) {
@@ -1754,7 +1754,7 @@ if(!$permitted) {
 		$label = i18n::s('Contribution');
 		$input = '<input type="radio" name="contribution" value="Y" accesskey="c" checked="checked" /> '.i18n::s('Anyone, including anonymous surfer, may contribute to this wiki.').BR;
 		$input .= '<input type="radio" name="contribution" value="R" /> '.i18n::s('Any authenticated member can contribute.').BR;
-		$input .= '<input type="radio" name="contribution" value="N" /> '.i18n::s('Only associates and editors can contribute.');
+		$input .= '<input type="radio" name="contribution" value="N" /> '.i18n::s('Only associates and owners can contribute.');
 		$fields[] = array($label, $input);
 
 		// the active flag: Yes/public, Restricted/logged, No/associates
@@ -1820,7 +1820,7 @@ if(!$permitted) {
 			$fields['content_options'] .= ' anonymous_edit';
 		elseif($_REQUEST['contribution'] == 'R')	// only members can contribute
 			$fields['content_options'] .= ' members_edit';
-		elseif($_REQUEST['contribution'] == 'N')	// only associates and editors can contribute
+		elseif($_REQUEST['contribution'] == 'N')	// only associates and owners can contribute
 			$fields['locked'] = 'Y';
 		$fields['rank'] = 10000; // default value
 		if($fields['id'] = Sections::post($fields)) {

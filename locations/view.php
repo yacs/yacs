@@ -69,6 +69,12 @@ if(!isset($item['id'])) {
 	Safe::header('Status: 404 Not Found', TRUE, 404);
 	Logger::error(i18n::s('No item has the provided id.'));
 
+// re-enforce the canonical link
+} elseif($context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Locations::get_url($item['id'])) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
+	Safe::header('Location: '.$canonical);
+	Logger::error(Skin::build_link($canonical));
+
 // display the location full size
 } else {
 

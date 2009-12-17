@@ -1553,7 +1553,7 @@ Class Skin_Skeleton {
 			if($external) {
 
 				// count external clicks
-				$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
+//				$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
 
 				// finalize the hovering title
 				if(!$href_title)
@@ -1659,7 +1659,7 @@ Class Skin_Skeleton {
 		case 'internal': // like external, but stay in the same window
 
 			// count external clicks
-			$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
+//			$url = $context['url_to_root'].'links/click.php?url='.urlencode($url);
 
 			// a default title
 			if(!$href_title)

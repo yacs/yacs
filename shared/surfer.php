@@ -997,8 +997,8 @@ Class Surfer {
 				$_SESSION['visited'] = array();
 			$_SESSION['visited'] = array_merge(array($link => $label), $_SESSION['visited']);
 
-			// limit to 7 most recent pages
-			if(count($_SESSION['visited']) > 7)
+			// limit to 20 most recent pages
+			if(count($_SESSION['visited']) > 20)
 				array_pop($_SESSION['visited']);
 
 		}

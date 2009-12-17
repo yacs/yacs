@@ -189,7 +189,6 @@ Class Links {
 	 *
 	 * @param string the external url that is targeted
 	 *
-	 * @see links/click.php
 	 */
 	function click($url) {
 		global $context;
@@ -375,7 +374,6 @@ Class Links {
 	 * @param int the id of the link, or the target url
 	 * @return the resulting $item array, with at least keys: 'id', 'title', 'description', etc.
 	 *
-	 * @see links/click.php
 	 * @see links/delete.php
 	 * @see links/edit.php
 	 */

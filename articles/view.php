@@ -2,6 +2,7 @@
 /**
  * view one article
  *
+ * @todo add redirection to re-enforce canonical link (Thierry)
  * @todo add 'add tag' button http://www.socialtext.com/products/tour/categories
  * @todo add a switcher to other pages of the section (moi-meme)
  *
@@ -368,6 +369,12 @@ if(!isset($item['id'])) {
 	Safe::header('Status: 401 Forbidden', TRUE, 401);
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
+// re-enforce the canonical link
+} elseif($context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
+	Safe::header('Location: '.$canonical);
+	Logger::error(Skin::build_link($canonical));
+
 // display the article
 } else {
 
@@ -414,16 +421,19 @@ if(!isset($item['id'])) {
 	if(isset($item['meta']) && $item['meta'])
 		$context['page_header'] .= $item['meta'];
 
+	// add canonical link
+	$context['page_header'] .= "\n".'<link rel="canonical" href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'" />';
+
 	// a meta link to prefetch the next page
 	if(isset($neighbours[2]) && $neighbours[2])
-		$context['page_header'] .= "\n".'<link rel="next" href="'.$context['url_to_root'].$neighbours[2].'" title="'.encode_field($neighbours[3]).'" />';
+		$context['page_header'] .= "\n".'<link rel="next" href="'.$context['url_to_home'].$context['url_to_root'].$neighbours[2].'" title="'.encode_field($neighbours[3]).'" />';
 
 	// a meta link to the section front page
 	if(is_object($anchor))
-		$context['page_header'] .= "\n".'<link rel="contents" href="'.$context['url_to_root'].$anchor->get_url().'" title="'.encode_field($anchor->get_title()).'" type="text/html" />';
+		$context['page_header'] .= "\n".'<link rel="contents" href="'.$context['url_to_home'].$context['url_to_root'].$anchor->get_url().'" title="'.encode_field($anchor->get_title()).'" type="text/html" />';
 
 	// a meta link to a description page (actually, rdf)
-	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_root'].Articles::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml" />';
+	$context['page_header'] .= "\n".'<link rel="meta" href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_url($item['id'], 'describe').'" title="Meta Information" type="application/rdf+xml" />';
 
 	// implement the trackback interface
 	$permanent_link = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item);
@@ -612,6 +622,12 @@ if(!isset($item['id'])) {
 	//
 	$lines = array();
 
+	// mail this page
+	if((Articles::is_owned($anchor, $item) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
+		Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
+		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
+	}
+
 	// facebook & twitter
 	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')) {
 		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
@@ -620,12 +636,6 @@ if(!isset($item['id'])) {
 		Skin::define_img('PAGERS_TWITTER_IMG', 'pagers/twitter.gif');
 		$lines[] = Skin::build_link('http://twitter.com/home?status='.urlencode($item['title'].' '.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)), PAGERS_TWITTER_IMG.i18n::s('Share at Twitter'), 'basic', i18n::s('Spread the word'));
 
-	}
-
-	// mail this page
-	if((Articles::is_owned($anchor, $item) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
-		Skin::define_img('ARTICLES_INVITE_IMG', 'articles/invite.gif');
-		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
 	}
 
 	// the command to track back
