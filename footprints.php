@@ -1,6 +1,6 @@
 <?php
 // This file has been created by the building script scripts/build.php
-// on January 2, 2010, 10:41 pm GMT, for Bernard Paques. Please do not modify it manually.
+// on January 2, 2010, 10:52 pm GMT, for Bernard Paques. Please do not modify it manually.
 global $footprints;
 if(!isset($footprints)) $footprints = array();
 $footprints['actions/accept.php']=array(154, 'f0225d2d2a62a187f5049e03671f5bae');
@@ -437,7 +437,7 @@ $footprints['scripts/run_once/091130_skins_update.php']=array(810, '21c0b27b3c18
 $footprints['scripts/run_once/091218_skins_update.php']=array(97, 'cb12aa4c90545c7237c894a90672fd49');
 $footprints['scripts/run_once/100102_htaccess_update.php']=array(91, '604b415515cf5638c76269e14a8ab271');
 $footprints['scripts/run_once/100102_remove_obsolete.php']=array(62, 'f3eca250405256569cd84c57de825fa1');
-$footprints['scripts/run_once/100102_skins_mobile.php']=array(119, '756980a65814a589c4af0f7f447b59d5');
+$footprints['scripts/run_once/100102_skins_mobile.php']=array(113, '8d52f2d512760540c84ba574d8a65ea9');
 $footprints['scripts/scripts.php']=array(761, '30c7ec84b85b72474c1320f801a5ba47');
 $footprints['scripts/stage.php']=array(473, 'b5f40dc5355acdd5a4bf92e796262daf');
 $footprints['scripts/update.php']=array(342, '598113fae3d584ddcce6d8ff2d5ab606');
@@ -665,9 +665,9 @@ $footprints['versions/versions.php']=array(508, 'd141ece81a849f6001dd197c5bddf0a
 $footprints['versions/view.php']=array(185, '9d748e8703b86177ee58492d3f95536b');
 global $generation;
 if(!isset($generation)) $generation = array();
-$generation['date']='100102-22:41:58 GMT';
+$generation['date']='100102-22:52:13 GMT';
 $generation['server']='localhost';
 $generation['version']='10.1.2alpha';
 $generation['scripts']='660'; // number of reference scripts
-$generation['lines']='192327'; // lines of code
+$generation['lines']='192321'; // lines of code
 ?>

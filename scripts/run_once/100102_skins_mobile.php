@@ -20,13 +20,6 @@ if(!isset($context['reference_server']) || !$context['reference_server'])
 
 // files to fetch, from root path
 unset($files);
-$files[] = 'skins/_reference/yacs.css';
-$files[] = 'skins/boxesandarrows/boxesandarrows.css';
-$files[] = 'skins/digital/digital.css';
-$files[] = 'skins/digital/nicetitle.css';
-$files[] = 'skins/skeleton/nicetitle.css';
-$files[] = 'skins/skeleton/skeleton.css';
-
 $files[] = 'skins/_mobile/iui/blueButton.png';
 $files[] = 'skins/_mobile/iui/toggleOn.png';
 $files[] = 'skins/_mobile/iui/backButton.png';
@@ -49,6 +42,7 @@ $files[] = 'skins/_mobile/iui/toolbar.png';
 $files[] = 'skins/_mobile/iui/selection.png';
 $files[] = 'skins/_mobile/LICENSE.txt';
 $files[] = 'skins/_mobile/NOTICE.txt';
+$files[] = 'skins/_reference/pagers/linkedin.gif';
 
 // process every file
 $count = 0;
