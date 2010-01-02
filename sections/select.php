@@ -109,9 +109,7 @@ if(Surfer::is_crawler()) {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// browse the list
-		include_once $context['path_to_root'].'categories/categories.php';
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		foreach($sections as $id => $section) {

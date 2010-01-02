@@ -44,7 +44,6 @@ Class Layout_sections_as_select extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		$family = '';
 		while($item =& SQL::fetch($result)) {
@@ -97,7 +96,6 @@ Class Layout_sections_as_select extends Layout_interface {
 
 		// this function is invoked directly from articles/edit.php
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 
 		// sanity check

@@ -40,7 +40,6 @@ Class Layout_sections_as_inline extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		while($item =& SQL::fetch($result)) {
 
 			// get the related overlay, if any
@@ -51,7 +50,7 @@ Class Layout_sections_as_inline extends Layout_interface {
 
 			// one box per section
 			$box = array('title' => '', 'text' => '');
-			
+
 			// box content
 			$elements = array();
 

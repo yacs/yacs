@@ -174,7 +174,6 @@ if(!$text =& Cache::get($cache_id)) {
 		$text .= Skin::build_box(i18n::s('Newest Members'), Skin::build_list($items, 'compact'), 'boxes');
 
 	// side boxes for related categories, if any
-	include_once '../categories/categories.php';
 	if($categories = Categories::list_by_date_for_display('user:index', 0, 7, 'raw')) {
 		foreach($categories as $id => $attributes) {
 

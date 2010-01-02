@@ -147,7 +147,6 @@ if(Surfer::is_crawler()) {
 	$section = Skin::build_block(i18n::s('Files'), 'title');
 
 	// list files by date (default) or by title (option :files_by_title:)
-	include_once '../files/files.php';
 	if(preg_match('/\bfiles_by_title\b/i', $item['options']))
 		$items = Files::list_by_title_for_anchor('category:'.$item['id'], 0, 50);
 	else

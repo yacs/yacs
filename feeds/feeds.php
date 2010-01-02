@@ -197,16 +197,18 @@ class Feeds {
 
 		// the default is to trigger actual PHP scripts
 		switch($id) {
-		case 'atom':
-			return 'feeds/atom.php';
 		case 'articles':
 			return 'articles/feed.php';
+		case 'atom':
+			return 'feeds/atom.php';
 		case 'comments':
 			return 'comments/feed.php';
 		case 'files':
 			return 'files/feed.php';
 		case 'opml':
 			return 'feeds/describe.php';
+		case 'rdf':
+			return 'feeds/rdf.php';
 		case 'rss':
 			return 'feeds/rss.php';
 		default:

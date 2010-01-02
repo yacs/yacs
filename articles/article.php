@@ -1,7 +1,4 @@
 <?php
-// stop hackers
-defined('YACS') or exit('Script must be included');
-
 /**
  * the article anchor
  *
@@ -120,10 +117,6 @@ Class Article extends Anchor {
 
 		// previous and next files
 		} elseif($type == 'file') {
-
-			// load the adequate library
-			include_once $context['path_to_root'].'files/files.php';
-
 
 			// select appropriate order
 			if(preg_match('/\bfiles_by_title\b/', $this->item['options']))
@@ -1033,7 +1026,6 @@ Class Article extends Anchor {
 
 			// a file has been added to the page
 			if(strpos($action, 'file') === 0) {
-				include_once $context['path_to_root'].'files/files.php';
 				if((!$target = Files::get($origin)) || !$target['id'])
 					return;
 
@@ -1069,9 +1061,9 @@ Class Article extends Anchor {
 
 				// add poster name if applicable
 				if($surfer = Surfer::get_name())
-					$action = sprintf(i18n::c('%s by %s'), get_action_label($action), $surfer);
+					$action = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), $surfer);
 				else
-					$action = get_action_label($action);
+					$action = Anchors::get_action_label($action);
 
 				// message components
 				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));
@@ -1103,6 +1095,9 @@ Class Article extends Anchor {
 		// add this page to the watch list of the contributor, on any action
 		if(Surfer::get_id())
 			Members::assign('article:'.$this->item['id'], 'user:'.Surfer::get_id());
+
+		// surfer is visiting this page
+		Surfer::is_visiting($this->get_url(), $this->get_title(), 'article:'.$this->item['id'], $this->item['active']);
 
 		// always clear the cache, even on no update
 		Articles::clear($this->item);
@@ -1156,6 +1151,9 @@ Class Article extends Anchor {
 	}
 
 }
+
+// stop hackers
+defined('YACS') or exit('Script must be included');
 
 // load localized strings
 if(is_callable(array('i18n', 'bind')))

@@ -86,7 +86,6 @@
 
 // common libraries
 include_once '../shared/global.php';
-include_once '../categories/categories.php';
 include_once '../comments/comments.php';
 include_once '../tables/tables.php';
 

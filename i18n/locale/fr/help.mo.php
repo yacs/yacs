@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-12-07 14:57+0100
-PO-Revision-Date: 2009-10-04 09:32+0100
+POT-Creation-Date: 2010-01-02 23:33+0100
+PO-Revision-Date: 2009-12-18 00:04+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -163,6 +163,7 @@ $_SESSION['l10n']['fr']['Next step']='Etape suivante';
 $_SESSION['l10n']['fr']['Not satisfied yet?']='Toujours pas comblé ?';
 $_SESSION['l10n']['fr']['aef83ebcdddad79a0d2077d3233a68df']='Bien sûr, vous pouvez utiliser les formulaires habituels pour les cas simples :';
 $_SESSION['l10n']['fr']['On page side']='Sur le côté de la page';
+$_SESSION['l10n']['fr']['a75814c5682e4262e7f7a1c341469363']='Contribution restreinte aux associés et aux propriétaires.';
 $_SESSION['l10n']['fr']['Original pages']='Publications originales';
 $_SESSION['l10n']['fr']['Our collaborative place']='Notre espace de travail collaboratif';
 $_SESSION['l10n']['fr']['Our wiki']='Notre wiki';

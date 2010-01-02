@@ -129,7 +129,7 @@ if(!$permitted) {
 
 	// get the list from the cache, if possible
 	if(is_object($anchor))
-		$cache_id = Cache::hash('files/feed/'.$anchor->get_reference).'.xml';
+		$cache_id = Cache::hash('files/feed/'.$anchor->get_reference()).'.xml';
 	else
 		$cache_id = Cache::hash('files/feed').'.xml';
 

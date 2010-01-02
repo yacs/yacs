@@ -605,7 +605,6 @@ Class Members {
 			." ORDER BY importance DESC, title, edit_date DESC LIMIT ".$offset.','.$count;
 
 		// use existing listing facility
-		include_once $context['path_to_root'].'categories/categories.php';
 		$output =& Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}
@@ -683,7 +682,6 @@ Class Members {
 		}
 
 		// use existing listing facility
-		include_once $context['path_to_root'].'categories/categories.php';
 		$output =& Categories::list_selected(SQL::query($query), $variant);
 		return $output;
 	}

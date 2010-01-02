@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-12-07 14:57+0100
-PO-Revision-Date: 2009-11-30 10:38+0100
+POT-Creation-Date: 2010-01-02 23:33+0100
+PO-Revision-Date: 2010-01-02 23:35+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -277,6 +277,7 @@ $_SESSION['l10n']['en']['bc9e1ae097aa296b3e304e2d12888466']='Nothing has been ex
 $_SESSION['l10n']['en']['Nothing has been received.']='Nothing has been received.';
 $_SESSION['l10n']['en']['One %s per line']='One %s per line';
 $_SESSION['l10n']['en']['0036d35feb7fd2c4c6545c79b7e41cf4']='One or several %s. This setting overrides the overlay setting.';
+$_SESSION['l10n']['en']['0198bfb6af2fd6cfa2978411e8458058']='Only associates and owners can add content';
 $_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
 $_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Order']='Order';
@@ -358,6 +359,9 @@ $_SESSION['l10n']['en']['Send me a copy of this message.']='Send me a copy of th
 $_SESSION['l10n']['en']['Sent by %s']='Sent by %s';
 $_SESSION['l10n']['en']['Sent by %s in %s']='Sent by %s in %s';
 $_SESSION['l10n']['en']['Share']='Share';
+$_SESSION['l10n']['en']['Share at Facebook']='Share at Facebook';
+$_SESSION['l10n']['en']['Share at LinkedIn']='Share at LinkedIn';
+$_SESSION['l10n']['en']['Share at Twitter']='Share at Twitter';
 $_SESSION['l10n']['en']['Share: %s']='Share: %s';
 $_SESSION['l10n']['en']['Shortcut: %s']='Shortcut: %s';
 $_SESSION['l10n']['en']['f4d16a9e1c0a2805e57b3f5db79b382b']='Show page details to all surfers';
@@ -372,6 +376,7 @@ $_SESSION['l10n']['en']['f34e5dbd8866016b47fa59985e3726f2']='Sort pages by rever
 $_SESSION['l10n']['en']['Sort pages by reverse rank']='Sort pages by reverse rank';
 $_SESSION['l10n']['en']['Sort pages by title']='Sort pages by title';
 $_SESSION['l10n']['en']['Source: %s']='Source: %s';
+$_SESSION['l10n']['en']['Spread the word']='Spread the word';
 $_SESSION['l10n']['en']['Start']='Start';
 $_SESSION['l10n']['en']['Sub-sections']='Sub-sections';
 $_SESSION['l10n']['en']['Submit']='Submit';

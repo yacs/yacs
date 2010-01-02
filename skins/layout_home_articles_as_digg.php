@@ -59,7 +59,6 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 		$text = '';
 		$item_count = 0;
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
@@ -192,7 +191,6 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 				$menu = array_merge($menu, array( $anchor->get_url() => $anchor->get_title() ));
 
 			// list up to three categories by title, if any
-			include_once $context['path_to_root'].'categories/categories.php';
 			if($items =& Members::list_categories_by_title_for_member('article:'.$item['id'], 0, 3, 'raw')) {
 				foreach($items as $id => $attributes) {
 					$menu = array_merge($menu, array( Categories::get_permalink($attributes) => $attributes['title'] ));
@@ -214,7 +212,6 @@ Class Layout_home_articles_as_digg extends Layout_interface {
 		SQL::free($result);
 
 		// add links to archives
-		include_once $context['path_to_root'].'categories/categories.php';
 		$anchor =& Categories::get(i18n::c('monthly'));
 		if(isset($anchor['id']) && ($items = Categories::list_by_date_for_anchor('category:'.$anchor['id'], 0, COMPACT_LIST_SIZE, 'compact')))
 			$text .= Skin::build_box(i18n::s('Previous pages'), Skin::build_list($items, 'menu_bar'));

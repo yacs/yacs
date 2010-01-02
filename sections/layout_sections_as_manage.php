@@ -53,9 +53,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 		$text .= Skin::table_row($cells, 'header');
 
 		// process all items in the list
-		include_once $context['path_to_root'].'categories/categories.php';
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 
@@ -172,7 +170,7 @@ Class Layout_sections_as_manage extends Layout_interface {
 			}
 
 			// the last action
-			$details[] = get_action_label($item['edit_action']).' '.Skin::build_date($item['edit_date']);
+			$details[] = Anchors::get_action_label($item['edit_action']).' '.Skin::build_date($item['edit_date']);
 
 			// the number of hits
 			if(Surfer::is_logged() && ($item['hits'] > 1))

@@ -221,7 +221,7 @@ Class Notifications {
 			if(strpos($output['action'], ':create')) {
 
 				$lines[] = sprintf(i18n::s('New page: %s'), $output['title'])."\n"
-					.sprintf(i18n::s('%s by %s'), ucfirst(get_action_label($output['action'])), $output['nick_name'])."\n";
+					.sprintf(i18n::s('%s by %s'), ucfirst(Anchors::get_action_label($output['action'])), $output['nick_name'])."\n";
 
 				// surfer prompt
 				$lines[] = i18n::s('Would you like to browse the page?');
@@ -231,7 +231,7 @@ Class Notifications {
 
 				// provide a localized message
 				$lines[] = sprintf(i18n::s('Updated: %s'), $output['title'])."\n"
-					.sprintf(i18n::s('%s by %s'), ucfirst(get_action_label($output['action'])), $output['nick_name'])."\n";
+					.sprintf(i18n::s('%s by %s'), ucfirst(Anchors::get_action_label($output['action'])), $output['nick_name'])."\n";
 
 				// surfer prompt
 				$lines[] = i18n::s('Would you like to browse the page?');

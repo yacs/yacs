@@ -22,7 +22,6 @@ Class Layout_articles extends Layout_interface {
 	 * - 'hits', compact plus the number of hits
 	 * - 'no_author', for articles in the user page
 	 * - 'category:xxx', if the list is displayed at categories/view.php
-	 * - 'mobile', for mobile devices
 	 * - 'section:xxx', if the list is displayed at sections/view.php
 	 *
 	 * @param resource the SQL result
@@ -51,9 +50,7 @@ Class Layout_articles extends Layout_interface {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// process all items in the list
-		include_once $context['path_to_root'].'categories/categories.php';
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
@@ -80,18 +77,13 @@ Class Layout_articles extends Layout_interface {
 			if($item['rank'] < 10000)
 				$prefix .= STICKY_FLAG;
 
-			// not too many details on mobiles
-			if($this->layout_variant != 'mobile') {
-
-				// flag articles that are dead, or created or updated very recently
-				if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
-					$prefix .= EXPIRED_FLAG;
-				elseif($item['create_date'] >= $dead_line)
-					$suffix .= NEW_FLAG;
-				elseif($item['edit_date'] >= $dead_line)
-					$suffix .= UPDATED_FLAG;
-
-			}
+			// flag articles that are dead, or created or updated very recently
+			if(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+				$prefix .= EXPIRED_FLAG;
+			elseif($item['create_date'] >= $dead_line)
+				$suffix .= NEW_FLAG;
+			elseif($item['edit_date'] >= $dead_line)
+				$suffix .= UPDATED_FLAG;
 
 			// signal articles to be published
 			if(($item['publish_date'] <= NULL_DATE) || ($item['publish_date'] > gmstrftime('%Y-%m-%d %H:%M:%S')))
@@ -154,7 +146,7 @@ Class Layout_articles extends Layout_interface {
 				}
 
 				// the last action
-				$details[] = get_action_label($item['edit_action']).' '.Skin::build_date($item['edit_date']);
+				$details[] = Anchors::get_action_label($item['edit_action']).' '.Skin::build_date($item['edit_date']);
 
 				// the number of hits
 				if(Surfer::is_logged() && ($item['hits'] > 1))
@@ -207,13 +199,8 @@ Class Layout_articles extends Layout_interface {
 			if(is_object($anchor) && (!isset($this->layout_variant) || ($item['anchor'] != $this->layout_variant)))
 				$anchors[] = Skin::build_link($anchor->get_url(), ucfirst($anchor->get_title()), 'section');
 
-			// on mobile, the section is a header
-			if($this->layout_variant == 'mobile') {
-				if(is_object($anchor))
-					$prefix = '<b>'.$anchor->get_title().'</b>'.BR."\n".$prefix;
-
-			// else, list section and categories in the suffix
-			} elseif(@count($anchors))
+			// list section and categories in the suffix
+			if(@count($anchors))
 				$suffix .= sprintf(i18n::s('In %s'), implode(' | ', $anchors));
 
 			// end of details

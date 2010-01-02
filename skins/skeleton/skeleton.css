@@ -456,7 +456,7 @@ div.tabs ul li:hover a { /* change tab background on hovering */
 @media screen { /* on large screens */
 
 	#wrapper_prefix { /* top decoration */
-		background: url("images/yacs_top.png") no-repeat 25% 0px;
+		background: transparent url("images/yacs_top.png") no-repeat 25% 0px;
 		font-size: 3px; /* for IE */
 		margin: 0;
 		padding: 0 0 5px 0;
@@ -464,7 +464,7 @@ div.tabs ul li:hover a { /* change tab background on hovering */
 	}
 
 	#wrapper_suffix { /* bottom decoration */
-		background: url("images/yacs_bottom.png") no-repeat 25% 100%;
+		background: transparent url("images/yacs_bottom.png") no-repeat 25% 100%;
 		clear: both;
 		font-size: 3px; /* for IE */
 		margin: 0;
@@ -675,7 +675,7 @@ table.jive tr.odd {
 	.new { /* [new] -- display a neat image as a flag */
 		padding-right: 33px;
 		margin-right: 2px;
-		background: url("tools/new.gif") no-repeat right;
+		background: transparent url("tools/new.gif") no-repeat right;
 	}
 
 }
@@ -723,7 +723,7 @@ div.sidebar_box div.sidebar_body {
 	.updated { /* flag modified pages -- see also .flag */
 		padding-right: 60px;
 		margin-right: 2px;
-		background: url("tools/updated.gif") no-repeat right;
+		background: transparent url("tools/updated.gif") no-repeat right;
 	}
 
 }

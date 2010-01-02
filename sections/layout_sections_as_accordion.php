@@ -21,7 +21,7 @@ Class Layout_sections_as_accordion extends Layout_interface {
 	function &layout(&$result) {
 		global $context;
 
-		// allow for multiple calls		
+		// allow for multiple calls
 		static $accordion_id;
 		if(!isset($accordion_id))
 			$accordion_id = 1;
@@ -43,7 +43,6 @@ Class Layout_sections_as_accordion extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		while($item =& SQL::fetch($result)) {
 
@@ -55,7 +54,7 @@ Class Layout_sections_as_accordion extends Layout_interface {
 
 			// one box per section
 			$box = array('title' => '', 'text' => '');
-			
+
 			// box content
 			$elements = array();
 
@@ -182,7 +181,7 @@ Class Layout_sections_as_accordion extends Layout_interface {
 			// else allow to view the section anyway
 			else
 				$elements[] = Skin::build_link(Sections::get_permalink($item), i18n::s('View the section'), 'shortcut');
-				
+
 			// complement title
 			if(count($details))
 				$box['title'] .= ' <span class="details">('.join(', ', $details).')</span>';
@@ -202,13 +201,13 @@ Class Layout_sections_as_accordion extends Layout_interface {
 				$class= '';
 				if(isset($context['classes_for_thumbnail_images']))
 					$class = 'class="'.$context['classes_for_thumbnail_images'].'" ';
-					
+
 				// build the complete HTML element
 				$icon = '<img src="'.$item['thumbnail_url'].'" alt="" title="'.encode_field(Codes::beautify_title($item['title'])).'" '.$class.'/>';
-				
+
 				// make it clickable
 				$link = Skin::build_link(Sections::get_permalink($item), $icon, 'basic');
-				
+
 				// put this aside
 				$box['text'] = '<table class="decorated"><tr>'
 					.'<td class="image">'.$link.'</td>'
@@ -216,7 +215,7 @@ Class Layout_sections_as_accordion extends Layout_interface {
 					.'</tr></table>';
 
 			}
-							
+
 			// always make a box
 			$text .= Skin::build_accordion_box($box['title'], $box['text'], 'section_'.$accordion_id);
 

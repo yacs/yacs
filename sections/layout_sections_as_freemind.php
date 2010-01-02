@@ -72,7 +72,6 @@ Class Layout_sections_as_freemind extends Layout_interface {
 		$various_index = 0; // style selector for current section
 		$articles_per_page = 10; // to break the list of related articles
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		while($item =& SQL::fetch($result)) {
 

@@ -60,7 +60,6 @@
 
 // common definitions and initial processing
 include_once 'shared/global.php';
-include_once 'categories/categories.php';
 include_once 'forms/forms.php';
 
 // look for the id

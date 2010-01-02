@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-30 10:32+0100
-PO-Revision-Date: 2009-11-16 18:08+0100
+POT-Creation-Date: 2010-01-02 23:33+0100
+PO-Revision-Date: 2010-01-02 23:04+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -73,7 +73,7 @@ $_SESSION['l10n']['fr']['ea7fa6962ef375d9d49226af5933fd79']='Cliquez sur l\'une 
 $_SESSION['l10n']['fr']['Click to reload this page']='Recharger cette page';
 $_SESSION['l10n']['fr']['Click to slide']='Cliquer pour faire apparaitre';
 $_SESSION['l10n']['fr']['Click to sort']='Cliquer pour trier';
-$_SESSION['l10n']['fr']['Color']='Coleur';
+$_SESSION['l10n']['fr']['Color']='Couleur';
 $_SESSION['l10n']['fr']['Color: %s']='Couleur : %s';
 $_SESSION['l10n']['fr']['Columns']='Colonnes';
 $_SESSION['l10n']['fr']['7b8b184e437fa18729c21ab3a9625bed']='Commandes pour partager cette page, si présentes';

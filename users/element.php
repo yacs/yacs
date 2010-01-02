@@ -23,7 +23,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../files/files.php';
 include_once '../links/links.php';
 include_once '../locations/locations.php';
 

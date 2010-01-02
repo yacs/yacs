@@ -246,7 +246,6 @@ else
 	exit('The file shared/global.php has not been found. Please reinstall or mention home directory in file yacs.home or configure the YACS_HOME environment variable.');
 
 // load libraries used in this script
-include_once $context['path_to_root'].'categories/categories.php';
 include_once $context['path_to_root'].'links/links.php';
 
 // load localized strings
@@ -270,24 +269,6 @@ if(isset($context['root_sections_at_home']) && ($context['root_sections_at_home'
 }
 
 //
-// compute page meta-information -- $context['page_header'], etc.
-//
-
-// a meta link to a feeding page
-include_once $context['path_to_root'].'feeds/feeds.php';
-$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_home'].$context['url_to_root'].Feeds::get_url('rss').'" title="RSS" type="application/rss+xml" />';
-
-// a meta link to our blogging interface
-$context['page_header'] .= "\n".'<link rel="EditURI" href="'.$context['url_to_home'].$context['url_to_root'].'services/describe.php" title="RSD" type="application/rsd+xml" />';
-
-// ICBM and geo.position
-if($context['site_position'] && !preg_match('/geo\.position/', $context['page_header'])) {
-	$context['page_header'] .= "\n".'<meta name="ICBM" content="'.$context['site_position'].'" />'
-		."\n".'<meta name="geo.position" content="'.$context['site_position'].'" />'
-		."\n".'<meta name="DC.title" content="'.encode_field(strip_tags($context['site_name'])).'" />';
-}
-
-//
 // load the cover page
 //
 
@@ -301,15 +282,21 @@ elseif($anchor = Sections::lookup('covers'))
 // compute page title -- $context['page_title']
 //
 
-if(isset($cover_page['title']) && ($context['skin_variant'] != 'mobile') && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] == 'full')))
+if(isset($cover_page['title']) && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] == 'full')))
 	$context['page_title'] = $cover_page['title'];
+
+// use mobile version
+if(!Surfer::is_desktop()) {
+	include 'index_on_mobile.php';
+	return;
+}
 
 //
 // compute main panel -- $context['text']
 //
 
 // the cover article is not displayed on a mobile device
-if(($context['skin_variant'] != 'mobile') && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
+if((!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
 
 	// load the cover page --  may be changed in skin.php if necessary
 	if(isset($cover_page['id']))
@@ -326,11 +313,11 @@ if(!$text =& Cache::get($cache_id)) {
 		$text .= Hooks::include_scripts('index.php#prefix');
 
 	// most recent articles listed in flash, if ming module is available
-	if(isset($context['root_flash_at_home']) && ($context['root_flash_at_home'] == 'Y') && ($context['skin_variant'] != 'mobile'))
+	if(isset($context['root_flash_at_home']) && ($context['root_flash_at_home'] == 'Y'))
 		$text .= Codes::beautify('[news=flash]');
 
 	// gadget boxes, but not on mobiles
-	if((!isset($context['root_gadget_boxes_at_home']) || ($context['root_gadget_boxes_at_home'] == 'Y')) && ($context['skin_variant'] != 'mobile')) {
+	if((!isset($context['root_gadget_boxes_at_home']) || ($context['root_gadget_boxes_at_home'] == 'Y'))) {
 
 		// build an array of boxes
 		$gadget_boxes = array();
@@ -544,45 +531,38 @@ if(!$text =& Cache::get($cache_id)) {
 		$text .= Hooks::include_scripts('index.php');
 
 	// the list of most recent articles
+	switch($context['root_articles_layout']) {
+	case 'compact':
+		include_once $context['path_to_root'].'articles/layout_articles_as_compact.php';
+		$layout = new Layout_articles_as_compact();
+		break;
+	case 'decorated':
+		include_once $context['path_to_root'].'articles/layout_articles.php';
+		$layout = new Layout_articles();
+		break;
+	case 'no_articles':
+		$layout = NULL;
+		break;
+	default:
 
-	// the special case of mobile devices
-	if($context['skin_variant'] == 'mobile')
-		$layout = 'mobile';
+		// load layout, if one exists, for the home page
+		if(is_readable($context['path_to_root'].'skins/layout_home_articles_as_'.$context['root_articles_layout'].'.php')) {
+			$name = 'layout_home_articles_as_'.$context['root_articles_layout'];
+			include_once $context['path_to_root'].'skins/'.$name.'.php';
+			$layout = new $name;
 
-	// load the layout to use
-	else
-		switch($context['root_articles_layout']) {
-		case 'compact':
-			include_once $context['path_to_root'].'articles/layout_articles_as_compact.php';
-			$layout = new Layout_articles_as_compact();
-			break;
-		case 'decorated':
-			include_once $context['path_to_root'].'articles/layout_articles.php';
-			$layout = new Layout_articles();
-			break;
-		case 'no_articles':
-			$layout = NULL;
-			break;
-		default:
+		// no layout to use
+		} else {
 
-			// load layout, if one exists, for the home page
-			if(is_readable($context['path_to_root'].'skins/layout_home_articles_as_'.$context['root_articles_layout'].'.php')) {
-				$name = 'layout_home_articles_as_'.$context['root_articles_layout'];
-				include_once $context['path_to_root'].'skins/'.$name.'.php';
-				$layout = new $name;
+			// useful warning for associates
+			if(Surfer::is_associate())
+				Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_articles_layout']));
 
-			// no layout to use
-			} else {
-
-				// useful warning for associates
-				if(Surfer::is_associate())
-					Logger::error(sprintf(i18n::s('Warning: No script exists for the customized layout %s'), $context['root_articles_layout']));
-
-				// load default layout
-				include_once $context['path_to_root'].'skins/layout_home_articles_as_daily.php';
-				$layout = new Layout_home_articles_as_daily();
-			}
+			// load default layout
+			include_once $context['path_to_root'].'skins/layout_home_articles_as_daily.php';
+			$layout = new Layout_home_articles_as_daily();
 		}
+	}
 
 	// the maximum number of articles
 	if(isset($context['root_articles_count_at_home']) && ($context['root_articles_count_at_home'] > 0))
@@ -633,9 +613,7 @@ if(!$text =& Cache::get($cache_id)) {
 		$items['articles/'] = array('', i18n::s('All pages'), '', 'shortcut');
 
 		// make a string out of the array
-		if($context['skin_variant'] == 'mobile')
-			$items = date('j/n/Y')."\n<hr />\n".Skin::build_list($items, 'rows')."<hr>\n";
-		elseif(isset($context['root_articles_layout']) && ($context['root_articles_layout'] == 'compact'))
+		if(isset($context['root_articles_layout']) && ($context['root_articles_layout'] == 'compact'))
 			$items =& Skin::build_list($items, 'compact');
 		else
 			$items =& Skin::build_list($items, 'decorated');
@@ -654,7 +632,7 @@ if(!$text =& Cache::get($cache_id)) {
 	$text .= $items;
 
 	// list recent files, except on mobiles
-	if(isset($context['home_with_recent_files']) && ($context['home_with_recent_files'] == 'Y') && ($context['skin_variant'] != 'mobile')){
+	if(isset($context['home_with_recent_files']) && ($context['home_with_recent_files'] == 'Y')){
 
 		// box title
 		$title = i18n::s('Recent files');
@@ -663,14 +641,13 @@ if(!$text =& Cache::get($cache_id)) {
 		$title =& Skin::build_box_title($title, 'files/', i18n::s('Files'));
 
 		// list most recent files
-		include_once $context['path_to_root'].'files/files.php';
 		if($items = Files::list_by_date(0, COMPACT_LIST_SIZE, 'dates'))
 			$text .= Skin::build_box($title, Skin::build_list($items, 'compact'), 'header1', 'recent_files');
 
 	}
 
 	// list recent links, except on mobiles
-	if(isset($context['home_with_recent_links']) && ($context['home_with_recent_links'] == 'Y') && ($context['skin_variant'] != 'mobile')){
+	if(isset($context['home_with_recent_links']) && ($context['home_with_recent_links'] == 'Y')){
 
 		// box title
 		$title = i18n::s('Recent links');
@@ -696,7 +673,7 @@ if(!$text =& Cache::get($cache_id)) {
 $context['text'] .= $text;
 
 // the cover article is not displayed on a mobile device
-if(($context['skin_variant'] != 'mobile') && (!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
+if((!isset($context['root_cover_at_home']) || ($context['root_cover_at_home'] != 'none'))) {
 
 	// may be changed in skin.php if necessary
 	if(isset($cover_page['trailer']))
@@ -1030,7 +1007,6 @@ if(!$text =& Cache::get($cache_id)) {
 
 	// list most popular files
 	if(isset($context['home_with_top_files']) && ($context['home_with_top_files'] == 'Y')) {
-		include_once $context['path_to_root'].'files/files.php';
 		if($items = Files::list_by_hits(0, COMPACT_LIST_SIZE, 'compact'))
 			$text .= Skin::build_box(i18n::s('Popular Files'), Skin::build_list($items, 'compact'), 'navigation', 'popular_files');
 	}

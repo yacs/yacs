@@ -8,10 +8,7 @@
  */
 
 // stop hackers
-if(!defined('YACS')) {
-	echo 'Script must be included';
-	return;
-}
+defined('YACS') or exit('Script must be included');
 
 // let this module appear in the setup script
 global $hooks;

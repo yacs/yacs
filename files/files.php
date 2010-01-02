@@ -1333,7 +1333,6 @@ Class Files {
 	 * the following example:
 	 * [php]
 	 * // side bar with the list of most recent files
-	 * include_once 'files/files.php';
 	 * $items = Files::list_by_date(0, 10);
 	 * $text = Skin::build_list($items, 'compact');
 	 * $context['text'] .= Skin::build_box($title, $text, 'navigation');
@@ -1392,7 +1391,6 @@ Class Files {
 	 *
 	 * Example:
 	 * [php]
-	 * include_once 'files/files.php';
 	 * $items = Files::list_by_date_for_anchor('section:12', 0, 10);
 	 * $context['text'] .= Skin::build_list($items, 'compact');
 	 * [/php]
@@ -1496,7 +1494,6 @@ Class Files {
 	 *
 	 * Example:
 	 * [php]
-	 * include_once 'files/files.php';
 	 * $items = Files::list_by_date_for_author(12, 0, 10);
 	 * $context['text'] .= Skin::build_list($items, 'compact');
 	 * [/php]
@@ -1533,7 +1530,6 @@ Class Files {
 	 *
 	 * To build a simple box of most read files, use following example:
 	 * [php]
-	 * include_once '../files/files.php';
 	 * $context['text'] .= Skin::build_list(Files::list_by_hits(), 'compact');
 	 * [/php]
 	 *
@@ -1584,7 +1580,6 @@ Class Files {
 	 *
 	 * Example:
 	 * [php]
-	 * include_once 'files/files.php';
 	 * $items = Files::list_by_hits_for_author(12, 0, 10);
 	 * $context['text'] .= Skin::build_list($items, 'compact');
 	 * [/php]
@@ -1693,7 +1688,6 @@ Class Files {
 	 *
 	 * Example:
 	 * [php]
-	 * include_once '../files/files.php';
 	 * $items = Files::list_by_title_for_anchor('article:12');
 	 * $context['text'] .= Skin::build_list($items, 'decorated');
 	 * [/php]

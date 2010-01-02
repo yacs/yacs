@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-12-07 13:33+0100
-PO-Revision-Date: 2009-12-07 00:35+0100
+POT-Creation-Date: 2010-01-02 23:33+0100
+PO-Revision-Date: 2010-01-02 23:36+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -142,7 +142,6 @@ $_SESSION['l10n']['fr']['Get a paper copy of this page.']='Obtenir une copie pap
 $_SESSION['l10n']['fr']['Go to the front page']='Aller à la page d\'accueil';
 $_SESSION['l10n']['fr']['Good']='Bien';
 $_SESSION['l10n']['fr']['Help']='Aide';
-$_SESSION['l10n']['fr']['Home']='Accueil';
 $_SESSION['l10n']['fr']['6198ff8c87cda7d2c4e9972f51412f95']='Je vous invite à consulter la page suivante.';
 $_SESSION['l10n']['fr']['98b2e1b34b14f94d2493eb4999e0fd72']='Vous pouvez perdre des informations si vous changez l\'overlay.';
 $_SESSION['l10n']['fr']['9404597745d93a6898e464cbbc52c4dc']='Si vous avez ouvert un compte sur ce site, merci de vous %s. Le serveur pourra alors positionner votre nom et votre adresse automatiquement dans les champs ci-dessous.';
@@ -208,6 +207,7 @@ $_SESSION['l10n']['fr']['eade49618563da311f01c557b52f763a']='Personne n\'a été
 $_SESSION['l10n']['fr']['Nothing has been received.']='Rien n\'a été reçu.';
 $_SESSION['l10n']['fr']['Oldest articles']='Articles anciens';
 $_SESSION['l10n']['fr']['One page of comments']='Une page de commentaires';
+$_SESSION['l10n']['fr']['0198bfb6af2fd6cfa2978411e8458058']='Seuls les associés et les propriétaires peuvent ajouter du contenu';
 $_SESSION['l10n']['fr']['Operation has failed.']='L\'opération a échoué.';
 $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Orphan: %s']='Orphelin : %s';
@@ -301,6 +301,7 @@ $_SESSION['l10n']['fr']['Sent by %s']='Envoyé par %s';
 $_SESSION['l10n']['fr']['Sent by %s in %s']='Envoyé par %s dans %s';
 $_SESSION['l10n']['fr']['Share']='Partage';
 $_SESSION['l10n']['fr']['Share at Facebook']='Partager sur Facebook';
+$_SESSION['l10n']['fr']['Share at LinkedIn']='Partager sur LinkedIn';
 $_SESSION['l10n']['fr']['Share at Twitter']='Partager sur Twitter';
 $_SESSION['l10n']['fr']['Share screen with NetMeeting']='Partager l\'écran avec NetMeeting';
 $_SESSION['l10n']['fr']['Share screen with VNC']='Partager l\'écran avec VNC';

@@ -25,7 +25,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../files/files.php';	// for attached files
 include_once 'forms.php';
 
 // look for the id

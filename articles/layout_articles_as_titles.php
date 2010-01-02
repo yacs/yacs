@@ -32,7 +32,15 @@ Class Layout_articles_as_titles extends Layout_interface {
 		$text .= '<br style="clear: left" />';
 
 		// process all items in the list
+		$family = '';
 		while($item =& SQL::fetch($result)) {
+
+			// change the family
+			if($item['family'] != $family) {
+				$family = $item['family'];
+
+				$text .= '<br clear="left" /><div class="floating_family">'.$family.'&nbsp;</div>'."\n";
+			}
 
 			// the url to view this item
 			$url =& Articles::get_permalink($item);

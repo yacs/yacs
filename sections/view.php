@@ -152,9 +152,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../behaviors/behaviors.php';
-include_once '../categories/categories.php';	// tags and categories
 include_once '../comments/comments.php';		// attached comments and notes
-include_once '../files/files.php';				// attached files
 include_once '../images/images.php';			// attached images
 include_once '../links/links.php';				// related pages
 include_once '../overlays/overlay.php';
@@ -361,7 +359,7 @@ if(!isset($item['id'])) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link
-} elseif($context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+} elseif(!$zoom_type && $context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
 	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
 	Safe::header('Location: '.$canonical);
 	Logger::error(Skin::build_link($canonical));
@@ -408,7 +406,8 @@ if(!isset($item['id'])) {
 		$context['page_header'] .= $item['meta'];
 
 	// add canonical link
-	$context['page_header'] .= "\n".'<link rel="canonical" href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'" />';
+	if(!$zoom_type)
+		$context['page_header'] .= "\n".'<link rel="canonical" href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'" />';
 
 	// a meta link to a feeding page
 	$context['page_header'] .= "\n".'<link rel="alternate" href="'.$context['url_to_home'].$context['url_to_root'].Sections::get_url($item['id'], 'feed').'" title="RSS" type="application/rss+xml" />';
@@ -712,6 +711,19 @@ if(!isset($item['id'])) {
 	if((Sections::is_owned($anchor, $item) || ($item['active'] == 'Y')) && isset($context['with_email']) && ($context['with_email'] == 'Y')) {
 		Skin::define_img('SECTIONS_INVITE_IMG', 'sections/invite.gif');
 		$lines[] = Skin::build_link(Sections::get_url($item['id'], 'invite'), SECTIONS_INVITE_IMG.i18n::s('Invite participants'), 'basic');
+	}
+
+	// facebook, twitter, linkedin
+	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')) {
+		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
+		$lines[] = Skin::build_link('http://www.facebook.com/share.php?u='.urlencode($context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item)).'&t='.urlencode($item['title']), PAGERS_FACEBOOK_IMG.i18n::s('Share at Facebook'), 'basic', i18n::s('Spread the word'));
+
+		Skin::define_img('PAGERS_TWITTER_IMG', 'pagers/twitter.gif');
+		$lines[] = Skin::build_link('http://twitter.com/home?status='.urlencode($item['title'].' '.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item)), PAGERS_TWITTER_IMG.i18n::s('Share at Twitter'), 'basic', i18n::s('Spread the word'));
+
+		Skin::define_img('PAGERS_LINKEDIN_IMG', 'pagers/linkedin.gif');
+		$lines[] = Skin::build_link('http://www.linkedin.com/shareArticle?mini=true&url='.$context['url_to_home'].$context['url_to_root'].Sections::get_permalink($item).'&title='.urlencode($item['title']).'&summary='.urlencode($item['introduction']).'&source='.urlencode(is_object($anchor)?$anchor->get_title():$context['site_name']), PAGERS_LINKEDIN_IMG.i18n::s('Share at LinkedIn'), 'basic', i18n::s('Spread the word'));
+
 	}
 
 	// the command to track back
@@ -1451,7 +1463,7 @@ if(!isset($item['id'])) {
 		}
 
 		// integrate the nemu bar
-		if(count($box['bar']) && ($context['skin_variant'] != 'mobile'))
+		if(count($box['bar']))
 			$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
 
 		// build a box
@@ -1551,7 +1563,7 @@ if(!isset($item['id'])) {
 		}
 
 		// show commands
-		if(count($box['bar']) && ($context['skin_variant'] != 'mobile'))
+		if(count($box['bar']))
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');
 
 		// insert a full box
@@ -1608,7 +1620,7 @@ if(!isset($item['id'])) {
 		}
 
 		// integrate the menu bar at the end
-		if(count($box['bar']) && ($context['skin_variant'] != 'mobile'))
+		if(count($box['bar']))
 			$box['text'] = Skin::build_list($box['bar'], 'menu_bar').$box['text'];
 
 		// build a box
@@ -1712,9 +1724,9 @@ if(!isset($item['id'])) {
 	}
 
 	// commands for section owners
-	if(Sections::is_owned($anchor, $item)) {
+	if(Sections::is_owned($anchor, $item, TRUE)) {
 
-		// modify this page
+		// modify this section
 		Skin::define_img('SECTIONS_EDIT_IMG', 'sections/edit.gif');
 		if(!is_object($overlay) || (!$label = $overlay->get_label('edit_command')))
 			$label = i18n::s('Edit this section');
@@ -1746,17 +1758,12 @@ if(!isset($item['id'])) {
 		}
 
 		// duplicate command provided to container owners
-		if(isset($item['id']) && (Surfer::is_associate() || (is_object($anchor) && $anchor->is_owned()))) {
-			Skin::define_img('SECTIONS_DUPLICATE_IMG', 'sections/duplicate.gif');
-			$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'duplicate'), SECTIONS_DUPLICATE_IMG.i18n::s('Duplicate this section'));
-		}
+		Skin::define_img('SECTIONS_DUPLICATE_IMG', 'sections/duplicate.gif');
+		$context['page_tools'][] = Skin::build_link(Sections::get_url($item['id'], 'duplicate'), SECTIONS_DUPLICATE_IMG.i18n::s('Duplicate this section'));
 
 		// assign editors
-		if(Sections::is_owned($anchor, $item)) {
-			Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
-			$context['page_tools'][] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
-		}
-
+		Skin::define_img('SECTIONS_ASSIGN_IMG', 'sections/assign.gif');
+		$context['page_tools'][] = Skin::build_link(Users::get_url('section:'.$item['id'], 'select'), SECTIONS_ASSIGN_IMG.i18n::s('Manage editors'));
 	}
 
 }

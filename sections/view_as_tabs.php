@@ -633,7 +633,7 @@ if(!$zoom_type || ($zoom_type == 'articles') || ($zoom_type == 'comments') || ($
 	if($box['text']) {
 
 		// show commands
-		if(count($box['bar']) && ($context['skin_variant'] != 'mobile')) {
+		if(count($box['bar'])) {
 
 			// append the menu bar at the end
 			$box['text'] .= Skin::build_list($box['bar'], 'menu_bar');

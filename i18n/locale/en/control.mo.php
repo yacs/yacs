@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-11-26 22:50+0100
-PO-Revision-Date: 2009-09-04 15:31+0100
+POT-Creation-Date: 2010-01-02 23:33+0100
+PO-Revision-Date: 2009-12-18 00:00+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -68,6 +68,7 @@ $_SESSION['l10n']['en']['3ce5395cbcf2e9990bc30dec981da951']='%s - the safety too
 $_SESSION['l10n']['en']['7fb8bdb871d74deeb64f9fbaf9eda641']='%s - to change rendering of dynamic Flash objects';
 $_SESSION['l10n']['en']['3ce7abe06263d5fe79f484e7bc5eb48e']='%s - to extend accepted types and to make uploaded files available from FTP';
 $_SESSION['l10n']['en']['dd2c532fa9b8be8ad88e6e2cc7c6a2c8']='%s - to share and stream existing directories and files';
+$_SESSION['l10n']['en']['%s - update the database']='%s - update the database';
 $_SESSION['l10n']['en']['0fedded00746a3e31879ae9403932bc9']='%s - you may enhance %s of some sections';
 $_SESSION['l10n']['en']['%s has been created']='%s has been created';
 $_SESSION['l10n']['en']['%s has been deleted']='%s has been deleted';
@@ -482,6 +483,7 @@ $_SESSION['l10n']['en']['Update file permissions']='Update file permissions';
 $_SESSION['l10n']['en']['Update the database schema']='Update the database schema';
 $_SESSION['l10n']['en']['Updating file permissions...']='Updating file permissions...';
 $_SESSION['l10n']['en']['Updating the database...']='Updating the database...';
+$_SESSION['l10n']['en']['Upload a .CSV file']='Upload a .CSV file';
 $_SESSION['l10n']['en']['Use a form']='Use a form';
 $_SESSION['l10n']['en']['3241fbb4d5ac7366f2ab22648b42d7b4']='Use below parameters to handle electronic mail messages.';
 $_SESSION['l10n']['en']['Use nick names instead.']='Use nick names instead.';

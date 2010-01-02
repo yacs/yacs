@@ -78,7 +78,6 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 		.'	</url>'."\n\n";
 
 	// main categories
-	include_once 'categories/categories.php';
 	if($items = Categories::list_by_date(0, 25, 'raw'))
 		foreach($items as $id => $item)
 			$text .= '	<url>'."\n"

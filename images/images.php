@@ -53,7 +53,7 @@ Class Images {
 			return TRUE;
 // 		if(isset($item['id']) && ($variant == 'category') && Categories::is_owned($anchor, $item))
 // 			return TRUE;
-		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item))
+		if(isset($item['id']) && ($variant == 'section') && Sections::is_owned($anchor, $item, TRUE))
 			return TRUE;
 		if(isset($item['id']) && ($variant == 'user') && Surfer::is($item['id']))
 			return TRUE;

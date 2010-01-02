@@ -160,7 +160,6 @@ if(Surfer::is_crawler()) {
 	$section = Skin::build_block(i18n::s('Files'), 'title');
 
 	// list files by date
-	include_once '../files/files.php';
 	$items = Files::list_by_date_for_anchor('user:'.$item['id'], 0, 50, 'compact');
 
 	// actually render the html for the section

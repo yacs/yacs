@@ -177,7 +177,7 @@ if(!is_object($anchor)) {
 			Skin::navigate(Decisions::get_url($anchor->get_reference(), 'list'), $prefix, $stats['count'], DECISIONS_PER_PAGE, $page, FALSE));
 
 		// show commands
-		if(@count($box['bar']) && ($context['skin_variant'] != 'mobile')) {
+		if(@count($box['bar'])) {
 			$menu_bar =& Skin::build_list($box['bar'], 'menu_bar');
 
 			// append the menu bar at the end

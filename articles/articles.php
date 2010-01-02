@@ -319,7 +319,7 @@ Class Articles {
 
 		// last modification
 		if($item['edit_action'])
-			$action = get_action_label($item['edit_action']).' ';
+			$action = Anchors::get_action_label($item['edit_action']).' ';
 		else
 			$action = i18n::s('edited');
 
@@ -1084,10 +1084,6 @@ Class Articles {
 		// surfer owns parent container
 		if(is_object($anchor) && $anchor->is_owned($user_id))
 			return TRUE;
-
-		// item exists, and surfer has been assigned to parent container
-// 		if(isset($item['id']) && is_object($anchor) && $anchor->is_assigned($user_id))
-// 			return TRUE;
 
 		// associates can do what they want
 		if(Surfer::is($user_id) && Surfer::is_associate())
@@ -1905,7 +1901,6 @@ Class Articles {
 		$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// assign the page to related categories
-		include_once $context['path_to_root'].'categories/categories.php';
 		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
 		// turn author to page editor and update author's watch list
@@ -2072,7 +2067,6 @@ Class Articles {
 			return FALSE;
 
 		// list the article in categories
-		include_once $context['path_to_root'].'categories/categories.php';
 		Categories::remember('article:'.$fields['id'], isset($fields['publish_date']) ? $fields['publish_date'] : NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
 		// clear the cache
@@ -2554,10 +2548,8 @@ Class Articles {
 			return NULL;
 
 		// remember the publication in weekly and monthly categories
-		if($publication_stamp > 0) {
-			include_once $context['path_to_root'].'categories/categories.php';
+		if($publication_stamp > 0)
 			Categories::remember('article:'.$id, gmstrftime('%Y-%m-%d %H:%M:%S', $publication_stamp));
-		}
 
 		// end of job
 		return NULL;

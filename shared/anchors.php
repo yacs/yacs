@@ -41,7 +41,6 @@ class Anchors {
 		if(strpos($reference, 'category:') === 0) {
 
 			// cascade to sub-categories
-			include_once $context['path_to_root'].'categories/categories.php';
 			if($items = Categories::list_for_anchor($reference, 'raw')) {
 
 				// cascade to each section individually
@@ -79,7 +78,6 @@ class Anchors {
 		}
 
 		// cascade to files --up to 3000
-		include_once $context['path_to_root'].'files/files.php';
 		if($items = Files::list_by_date_for_anchor($reference, 0, 3000, 'raw')) {
 
 			// cascade to each section individually
@@ -138,7 +136,6 @@ class Anchors {
 		Articles::delete_for_anchor($anchor);
 
 		// delete related categories
-		include_once $context['path_to_root'].'categories/categories.php';
 		Categories::delete_for_anchor($anchor);
 
 		// delete related comments
@@ -154,7 +151,6 @@ class Anchors {
 		Decisions::delete_for_anchor($anchor);
 
 		// delete related files
-		include_once $context['path_to_root'].'files/files.php';
 		Files::delete_for_anchor($anchor);
 
 		// delete related images
@@ -216,7 +212,6 @@ class Anchors {
 		Articles::duplicate_for_anchor($from_anchor, $to_anchor);
 
 		// duplicate related categories
-		include_once $context['path_to_root'].'categories/categories.php';
 		Categories::duplicate_for_anchor($from_anchor, $to_anchor);
 
 		// duplicate related comments
@@ -228,7 +223,6 @@ class Anchors {
 		// do not duplicate related decisions -- this will be done through overlays
 
 		// duplicate related files
-		include_once $context['path_to_root'].'files/files.php';
 		Files::duplicate_for_anchor($from_anchor, $to_anchor);
 
 		// duplicate related images
@@ -334,6 +328,124 @@ class Anchors {
 	}
 
 	/**
+	 * get the label for an action
+	 *
+	 * Following actions codes have been defined:
+	 * - 'article:create'
+	 * - 'article:update'
+	 * - 'article:publish'
+	 * - 'article:review'
+	 * - 'section:create'
+	 * - 'section:update'
+	 * - 'comment:create'
+	 * - 'comment:update'
+	 * - 'file:create'
+	 * - 'file:update'
+	 * - 'link:create'
+	 * - 'link:update'
+	 * - 'link:stamp'
+	 * - 'image:create'
+	 * - 'image:update'
+	 * - 'image:set_as_icon'
+	 * - 'location:create'
+	 * - 'location:update'
+	 * - 'table:create'
+	 * - 'table:update'
+	 * - 'user:create'
+	 * - 'user:update'
+	 *
+	 * @param string the action code example: 'article:publish', 'image:create'
+	 * @return a string
+	 * @see shared/anchor.php#touch
+	 */
+	function get_action_label($action) {
+
+		if(preg_match('/.*:import/i', $action))
+			return i18n::s('imported');
+
+		switch($action) {
+		case 'article:create':
+			return i18n::s('created');
+
+		case 'article:update':
+			return i18n::s('edited');
+
+		case 'article:publish':
+			return i18n::s('published');
+
+		case 'article:review':
+			return i18n::s('reviewed');
+
+		case 'section:create':
+			return i18n::s('section created');
+
+		case 'section:update':
+			return i18n::s('section updated');
+
+		case 'comment:create':
+			return i18n::s('commented');
+
+		case 'comment:update':
+			return i18n::s('edited');
+
+		case 'file:create':
+			return i18n::s('file uploaded');
+
+		case 'file:update':
+			return i18n::s('file updated');
+
+		case 'file:release':
+			return i18n::s('file released');
+
+		case 'file:reserve':
+			return i18n::s('file reserved');
+
+		case 'image:create':
+			return i18n::s('image uploaded');
+
+		case 'image:update':
+			return i18n::s('image updated');
+
+		case 'image:set_as_icon':
+			return i18n::s('icon set');
+
+		case 'link:create':
+		case 'link:feed':
+			return i18n::s('link posted');
+
+		case 'link:update':
+			return i18n::s('link updated');
+
+		case 'link:stamp':
+			return i18n::s('page updated');
+
+		case 'location:create':
+			return i18n::s('location created');
+
+		case 'location:update':
+			return i18n::s('location updated');
+
+		case 'table:create':
+			return i18n::s('table posted');
+
+		case 'table:update':
+			return i18n::s('table updated');
+
+		case 'thread:update':
+			return i18n::s('new message');
+
+		case 'user:create':
+			return i18n::s('new user');
+
+		case 'user:update':
+			return i18n::s('profile updated');
+
+		default:
+			return i18n::s('edited');
+		}
+	}
+
+	/**
 	 * count related items
 	 *
 	 * This function draws a nice table to show how many items are related to
@@ -420,7 +532,6 @@ class Anchors {
 		}
 
 		// stats for related files
-		include_once $context['path_to_root'].'files/files.php';
 		if(($stats = Files::stat_for_anchor($anchor)) && $stats['count']) {
 			$cells = array();
 			$cells[] = i18n::s('Files');

@@ -1,7 +1,4 @@
 <?php
-// stop hackers
-defined('YACS') or exit('Script must be included');
-
 /**
  * the implementation of anchor for users
  *
@@ -98,10 +95,6 @@ Class User extends Anchor {
 
 		// previous and next files
 		} elseif($type == 'file') {
-
-			// load the adequate library
-			include_once $context['path_to_root'].'files/files.php';
-
 
 			// select appropriate order
 			if(preg_match('/\bfiles_by_title\b/', $this->item['options']))
@@ -504,5 +497,8 @@ Class User extends Anchor {
 	}
 
 }
+
+// stop hackers
+defined('YACS') or exit('Script must be included');
 
 ?>

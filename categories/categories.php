@@ -733,7 +733,6 @@ Class Categories {
 	 *
 	 * To build a simple box of the newest categories in your main index page, just use:
 	 * [php]
-	 * include_once 'categories/categories.php';
 	 * $items = Categories::list_by_date(0, 10);
 	 * $context['text'] .= Skin::build_list($items, 'compact');
 	 * [/php]
@@ -873,7 +872,6 @@ Class Categories {
 	 *
 	 * To build a simple box of the most read categories in your main index page, just use:
 	 * [php]
-	 * include_once 'categories/categories.php';
 	 * $items = Categories::list_by_hits(0, 10);
 	 * $context['text'] .= Skin::build_list($items, 'compact');
 	 * [/php]
@@ -968,7 +966,6 @@ Class Categories {
 	 *
 	 * To build a simple box of the root level categories in your main index page, just use:
 	 * [php]
-	 * include 'categories/categories.php';
 	 * if($items = Categories::list_by_title_for_anchor(NULL))
 	 *	 $context['text'] .= Skin::build_list($items, '2-columns');
 	 * [/php]

@@ -37,7 +37,6 @@
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 include_once '../shared/global.php';
-include_once '../files/files.php';
 
 // the skin under test
 $skin = '';

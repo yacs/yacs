@@ -263,7 +263,7 @@ Class Sections {
 			return FALSE;
 
 		// surfer owns the section
-		if(Sections::is_owned($anchor, $item))
+		if(Sections::is_owned($anchor, $item, TRUE))
 			return TRUE;
 
 		// the default is to not allow for new sections
@@ -308,7 +308,7 @@ Class Sections {
 
 		// last modification
 		if($item['edit_action'])
-			$action = get_action_label($item['edit_action']).' ';
+			$action = Anchors::get_action_label($item['edit_action']).' ';
 		else
 			$action = i18n::s('edited');
 
@@ -1402,18 +1402,16 @@ Class Sections {
 	 *
 	 * @param object parent anchor, if any
 	 * @param array section attributes
-	 * @param int optional reference to some user profile
+	 * @param boolean FALSE if the surfer can be an editor of parent section
 	 * @return TRUE or FALSE
 	 */
-	 function is_owned($anchor=NULL, $item=NULL, $user_id=NULL) {
+	 function is_owned($anchor=NULL, $item=NULL, $strict=FALSE) {
 		global $context;
 
 		// id of requesting user
-		if(!$user_id) {
-			if(!Surfer::get_id())
-				return FALSE;
-			$user_id = Surfer::get_id();
-		}
+		if(!Surfer::get_id())
+			return FALSE;
+		$user_id = Surfer::get_id();
 
 		// surfer owns this section
 		if(isset($item['owner_id']) && ($item['owner_id'] == $user_id))
@@ -1424,7 +1422,7 @@ Class Sections {
 			return TRUE;
 
 		// we are editing an item, and surfer is assigned to parent section
-		if(isset($item['id']) && is_object($anchor) && $anchor->is_assigned($user_id))
+		if(!$strict && isset($item['id']) && is_object($anchor) && $anchor->is_assigned($user_id))
 			return TRUE;
 
 		// associates can do what they want
@@ -2137,7 +2135,6 @@ Class Sections {
 		$fields['id'] = SQL::get_last_id($context['connection']);
 
 		// assign the page to related categories
-		include_once $context['path_to_root'].'categories/categories.php';
 		Categories::remember('section:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
 		// clear the cache
@@ -2295,7 +2292,6 @@ Class Sections {
 			return FALSE;
 
 		// assign the page to related categories
-		include_once $context['path_to_root'].'categories/categories.php';
 		Categories::remember('section:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
 		// clear the cache

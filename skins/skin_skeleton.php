@@ -2699,7 +2699,6 @@ Class Skin_Skeleton {
 		$text = '';
 
 		// list existing tags
-		include_once $context['path_to_root'].'categories/categories.php';
 		$tags = explode(',', $tags);
 		foreach($tags as $tag) {
 			if(!$tag = trim($tag))

@@ -80,7 +80,7 @@ elseif(isset($_SESSION['pasted_variant']) && $_SESSION['pasted_variant']) {
 	$overlay = Overlay::bind($overlay_class);
 
 // owners have associate-like capabilities
-if(Sections::is_owned($anchor, $item))
+if(Sections::is_owned($anchor, $item, TRUE))
 	$permitted = TRUE;
 
 // editors of parent sections can create sub-sections

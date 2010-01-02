@@ -310,10 +310,6 @@ $virtual = 'virtual_'.preg_replace('/^www\./', '', $context['host_name']);
 if(Safe::load('parameters/'.$virtual.'.include.php'))
 	$context['virtual_path'] = $virtual.'/';
 
-// start with a default skin
-if(!isset($context['skin']) && is_dir($context['path_to_root'].'skins/digital'))
-	$context['skin'] = 'skins/digital';
-
 // ensure we have a site name
 if(!isset($context['site_name']))
 	$context['site_name'] = $context['host_name'];
@@ -436,7 +432,7 @@ if(!defined('NO_CONTROLLER_PRELOAD'))
 	Safe::load('parameters/hooks.include.php');
 
 //
-// Transcoding stuff -- after setting of skin variant
+// Transcoding stuff
 //
 
 /**
@@ -595,16 +591,43 @@ if(!defined('NO_MODEL_PRELOAD')) {
 }
 
 //
-// User information
+// All containers that will be referred in shared/anchors.php afterwards
 //
-
-// the database of site members
-if(!defined('NO_MODEL_PRELOAD'))
+if(!defined('NO_MODEL_PRELOAD')) {
+	include_once $context['path_to_root'].'articles/articles.php';
+	include_once $context['path_to_root'].'categories/categories.php';
+	include_once $context['path_to_root'].'files/files.php';
+	include_once $context['path_to_root'].'sections/sections.php';
 	include_once $context['path_to_root'].'users/users.php';
 
-// load users parameters -- see users/configure.php
-if(!defined('NO_MODEL_PRELOAD'))
+	// load users parameters -- see users/configure.php
 	Safe::load('parameters/users.include.php');
+}
+
+//
+// Anchor stuff -- see shared/anchor.php for more information
+//
+
+if(!defined('NO_MODEL_PRELOAD')) {
+
+	// load the anchor interface
+	include_once $context['path_to_root'].'shared/anchor.php';
+
+	// global functions related to anchors
+	include_once $context['path_to_root'].'shared/anchors.php';
+
+}
+
+// the library for membership
+if(!defined('NO_MODEL_PRELOAD'))
+	include_once $context['path_to_root'].'shared/members.php';
+
+// the library for messages
+include_once $context['path_to_root'].'shared/mailer.php';
+
+// load parameters for web services -- including debugging
+if(!defined('NO_CONTROLLER_PRELOAD'))
+	Safe::load('parameters/services.include.php');
 
 // our knowledge about current surfer -- after the definition of path_to_root parameter, and after the loading of user parameters
 include_once $context['path_to_root'].'shared/surfer.php';
@@ -618,16 +641,16 @@ if(file_exists($context['path_to_root'].'parameters/switch.off') && !Surfer::is_
 	Safe::redirect($context['url_to_home'].$context['url_to_root'].'control/closed.php');
 
 //
-// Content basic information -- articles and sections
-//
-if(!defined('NO_MODEL_PRELOAD'))
-	include_once $context['path_to_root'].'articles/articles.php';
-if(!defined('NO_MODEL_PRELOAD'))
-	include_once $context['path_to_root'].'sections/sections.php';
-
-//
 // Skin and rendering -- see skins/index.php for more information
 //
+
+// use special skin for handhelds
+if(!Surfer::is_desktop())
+	$context['skin'] = 'skins/_mobile.php';
+
+// start with a default skin
+elseif(!isset($context['skin']) && is_dir($context['path_to_root'].'skins/digital'))
+	$context['skin'] = 'skins/digital';
 
 // load the layout interface, if we have access to some data
 if(!defined('NO_MODEL_PRELOAD'))
@@ -636,12 +659,6 @@ if(!defined('NO_MODEL_PRELOAD'))
 // skin variant is asked for explicitly
 if(isset($_REQUEST['variant']) && $_REQUEST['variant'])
 	$context['skin_variant'] = basename(preg_replace(FORBIDDEN_IN_PATHS, '_', strip_tags($_REQUEST['variant'])));
-
-// force the skin variant if polled by AvantGo
-if(!isset($context['skin_variant']) && is_callable('getenv') && base64_decode(getenv("HTTP_X_AVANTGO_DEVICEOS"))) {
-	$context['skin_variant'] = 'mobile';
-	Logger::debug('polled by AvantGo');
-}
 
 // the layout for the home page is used at several places
 if(!isset($context['root_articles_layout']) || !$context['root_articles_layout'])
@@ -757,12 +774,8 @@ function load_skin($variant='', $anchor=NULL, $options='') {
 	// the library of smileys
 	include_once $context['path_to_root'].'smileys/smileys.php';
 
-	// skin variant is already set -- maybe already set as 'mobile'
-	if(isset($context['skin_variant']))
-		;
-
 	// use item variant
-	elseif($options && preg_match('/\bvariant_(.+?)\b/i', $options, $matches))
+	if($options && preg_match('/\bvariant_(.+?)\b/i', $options, $matches))
 		$context['skin_variant'] = $matches[1];
 
 	// use anchor variant
@@ -939,7 +952,6 @@ function render_skin() {
 				}
 
 				// navigation boxes made from categories
-				include_once $context['path_to_root'].'categories/categories.php';
 				if($categories = Categories::list_by_date_for_display('site:all', 0, $context['site_navigation_maximum'], 'raw')) {
 
 					// one box per category
@@ -1579,147 +1591,6 @@ function yacs_handler($content) {
 	return $data;
 }
 
-
-//
-// Anchor stuff -- see shared/anchor.php for more information
-//
-
-// load the anchor interface
-if(!defined('NO_MODEL_PRELOAD'))
-	include_once $context['path_to_root'].'shared/anchor.php';
-
-// global functions related to anchors
-if(!defined('NO_MODEL_PRELOAD'))
-	include_once $context['path_to_root'].'shared/anchors.php';
-
-/**
- * get the label for an action
- *
- * Following actions codes have been defined:
- * - 'article:create'
- * - 'article:update'
- * - 'article:publish'
- * - 'article:review'
- * - 'section:create'
- * - 'section:update'
- * - 'comment:create'
- * - 'comment:update'
- * - 'file:create'
- * - 'file:update'
- * - 'link:create'
- * - 'link:update'
- * - 'link:stamp'
- * - 'image:create'
- * - 'image:update'
- * - 'image:set_as_icon'
- * - 'location:create'
- * - 'location:update'
- * - 'table:create'
- * - 'table:update'
- * - 'user:create'
- * - 'user:update'
- *
- * @param string the action code example: 'article:publish', 'image:create'
- * @return a string
- * @see shared/anchor.php#touch
- */
-function get_action_label($action) {
-
-	if(preg_match('/.*:import/i', $action))
-		return i18n::s('imported');
-
-	switch($action) {
-	case 'article:create':
-		return i18n::s('created');
-
-	case 'article:update':
-		return i18n::s('edited');
-
-	case 'article:publish':
-		return i18n::s('published');
-
-	case 'article:review':
-		return i18n::s('reviewed');
-
-	case 'section:create':
-		return i18n::s('section created');
-
-	case 'section:update':
-		return i18n::s('section updated');
-
-	case 'comment:create':
-		return i18n::s('commented');
-
-	case 'comment:update':
-		return i18n::s('edited');
-
-	case 'file:create':
-		return i18n::s('file uploaded');
-
-	case 'file:update':
-		return i18n::s('file updated');
-
-	case 'file:release':
-		return i18n::s('file released');
-
-	case 'file:reserve':
-		return i18n::s('file reserved');
-
-	case 'image:create':
-		return i18n::s('image uploaded');
-
-	case 'image:update':
-		return i18n::s('image updated');
-
-	case 'image:set_as_icon':
-		return i18n::s('icon set');
-
-	case 'link:create':
-	case 'link:feed':
-		return i18n::s('link posted');
-
-	case 'link:update':
-		return i18n::s('link updated');
-
-	case 'link:stamp':
-		return i18n::s('page updated');
-
-	case 'location:create':
-		return i18n::s('location created');
-
-	case 'location:update':
-		return i18n::s('location updated');
-
-	case 'table:create':
-		return i18n::s('table posted');
-
-	case 'table:update':
-		return i18n::s('table updated');
-
-	case 'thread:update':
-		return i18n::s('new message');
-
-	case 'user:create':
-		return i18n::s('new user');
-
-	case 'user:update':
-		return i18n::s('profile updated');
-
-	default:
-		return i18n::s('edited');
-	}
-}
-
-// the library for membership
-if(!defined('NO_MODEL_PRELOAD'))
-	include_once $context['path_to_root'].'shared/members.php';
-
-// the library for messages
-include_once $context['path_to_root'].'shared/mailer.php';
-
-// load parameters for web services -- including debugging
-if(!defined('NO_CONTROLLER_PRELOAD'))
-	Safe::load('parameters/services.include.php');
 
 /**
  * normalize links

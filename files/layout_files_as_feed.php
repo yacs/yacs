@@ -29,7 +29,6 @@ Class Layout_files_as_feed extends Layout_interface {
 			return $items;
 
 		// process all items in the list
-		include_once $context['path_to_root'].'files/files.php';
 		while($item =& SQL::fetch($result)) {
 
 			// get the anchor for this file
@@ -66,6 +65,13 @@ Class Layout_files_as_feed extends Layout_interface {
 
 			// cap the number of words
 			$description = Skin::cap($description, 300);
+
+			// always add a link to container
+			if(is_object($anchor)) {
+				if($description)
+					$description .= BR;
+				$description .= sprintf(i18n::s('in %s'), Skin::build_link($anchor->get_url(), $anchor->get_title(), 'basic'));
+			}
 
 			// fix image references
 			$description = preg_replace('/"\/([^">]+?)"/', '"'.$context['url_to_home'].'/\\1"', $description);

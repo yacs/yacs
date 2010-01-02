@@ -926,7 +926,6 @@ class Messages {
 		}
 
 		// we don't accept all extensions
-		include_once $context['path_to_root'].'files/files.php';
 		if(!Files::is_authorized($file_name)) {
 			Logger::remember('agents/messages.php', 'Rejected file type for '.$file_path.$file_name);
 			return NULL;
@@ -987,7 +986,6 @@ class Messages {
 		$item['edit_address'] = $user['email'];
 
 		// create a file record in the database
-		include_once $context['path_to_root'].'files/files.php';
 		if(!$item['id'] = Files::post($item)) {
 			Logger::remember('agents/messages.php', Logger::error_pop());
 			return NULL;

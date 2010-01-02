@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['fr']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-12-07 14:57+0100
-PO-Revision-Date: 2009-11-30 10:55+0100
+POT-Creation-Date: 2010-01-02 23:33+0100
+PO-Revision-Date: 2010-01-02 23:38+0100
 Last-Translator: Bernard Paques
 Language-Team: Agnès Rambaud, Bernard Paques
 MIME-Version: 1.0
@@ -277,6 +277,7 @@ $_SESSION['l10n']['fr']['bc9e1ae097aa296b3e304e2d12888466']='Rien n\'a été ext
 $_SESSION['l10n']['fr']['Nothing has been received.']='Rien n\'a été reçu.';
 $_SESSION['l10n']['fr']['One %s per line']='Un %s par ligne';
 $_SESSION['l10n']['fr']['0036d35feb7fd2c4c6545c79b7e41cf4']='Une ou plusieurs %s. Ce réglage annule la définition d\'overlay.';
+$_SESSION['l10n']['fr']['0198bfb6af2fd6cfa2978411e8458058']='Seuls les associés et les propriétaires peuvent ajouter du contenu';
 $_SESSION['l10n']['fr']['Operation has failed.']='L\'opération a échoué.';
 $_SESSION['l10n']['fr']['Options']='Options';
 $_SESSION['l10n']['fr']['Order']='Trier';
@@ -358,6 +359,9 @@ $_SESSION['l10n']['fr']['Send me a copy of this message.']='M\'envoyer une copie
 $_SESSION['l10n']['fr']['Sent by %s']='Envoyé par %s';
 $_SESSION['l10n']['fr']['Sent by %s in %s']='Envoyé par %s dans %s';
 $_SESSION['l10n']['fr']['Share']='Partage';
+$_SESSION['l10n']['fr']['Share at Facebook']='Partager sur Facebook';
+$_SESSION['l10n']['fr']['Share at LinkedIn']='Partager sur LinkedIn';
+$_SESSION['l10n']['fr']['Share at Twitter']='Partager sur Twitter';
 $_SESSION['l10n']['fr']['Share: %s']='Partager : %s';
 $_SESSION['l10n']['fr']['Shortcut: %s']='Raccourci : %s';
 $_SESSION['l10n']['fr']['f4d16a9e1c0a2805e57b3f5db79b382b']='Montrer les détails à tous les surfeurs';
@@ -372,6 +376,7 @@ $_SESSION['l10n']['fr']['f34e5dbd8866016b47fa59985e3726f2']='Trier les pages par
 $_SESSION['l10n']['fr']['Sort pages by reverse rank']='Trier les pages par ordre inverse de priorité';
 $_SESSION['l10n']['fr']['Sort pages by title']='Trier les pages par titre';
 $_SESSION['l10n']['fr']['Source: %s']='Source : %s';
+$_SESSION['l10n']['fr']['Spread the word']='Diffuser l\'information';
 $_SESSION['l10n']['fr']['Start']='Commencer';
 $_SESSION['l10n']['fr']['Sub-sections']='Sous-sections';
 $_SESSION['l10n']['fr']['Submit']='Enregistrer';

@@ -315,7 +315,6 @@ if(!file_exists('../parameters/control.include.php')) {
 				$text .= Skin::table_row(array(SQL::table_name('decisions'), i18n::s('unknown or empty table'), ' ', ' '), $lines++);
 
 			// files
-			include_once '../files/files.php';
 			if($stats = Files::stat()) {
 				$cells = array();
 				$size = '';

@@ -47,7 +47,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../files/files.php';
 include_once 'collections.php';
 
 // check network credentials, if any

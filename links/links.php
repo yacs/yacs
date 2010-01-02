@@ -1437,7 +1437,6 @@ Class Links {
 
 			// file link
 			case 'file':
-				include_once $context['path_to_root'].'files/files.php';
 				if($item =& Files::get($matches[2]))
 					return array(Files::get_url($matches[2]), $item['title']?$item['title']:str_replace('_', ' ', ucfirst($item['file_name'])));
 				return array('', $text, '');
@@ -1451,7 +1450,6 @@ Class Links {
 
 			// category link
 			case 'category':
-				include_once $context['path_to_root'].'categories/categories.php';
 				if($item =& Categories::get($matches[2]))
 					return array(Categories::get_permalink($item), $item['title'], $item['introduction']);
 				return array('', $text, '');

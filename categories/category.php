@@ -1,10 +1,4 @@
 <?php
-// stop hackers
-defined('YACS') or exit('Script must be included');
-
-// load libraries
-include_once $context['path_to_root'].'categories/categories.php';
-
 /**
  * the implementation of anchor for categories
  *
@@ -354,6 +348,9 @@ Class Category extends Anchor {
 
 
 }
+
+// stop hackers
+defined('YACS') or exit('Script must be included');
 
 // load localized strings
 if(is_callable(array('i18n', 'bind')))

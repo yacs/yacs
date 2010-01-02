@@ -112,7 +112,7 @@ h1 { /* appears only once, with the page title */
 	font-size: 1.5em;
 	font-weight: bold;
 	text-align: left;
-	background: url("images/h1_background.gif") no-repeat left bottom;
+	background: transparent url("images/h1_background.gif") no-repeat left bottom;
 }
 
 h2 { /* appears in the main content panel, to introduce sections of the page -- [title]...[/title], [question]...[/question] */
@@ -230,7 +230,7 @@ body#sections #extra_panel { /* wider at the site map, and on section index page
 }
 
 #extra_panel dl dt { /* box titles on narrow panels */
-	background: #E9E9E9;
+	background-color: #E9E9E9;
 }
 
 body#home #extra_panel dl dt,
@@ -639,7 +639,9 @@ dl#user_menu ul { /* commands that apply to this user -- see template script */
  */
 
 a.button,
-a.button:visited { /* a link that mimic a form button -- [button]url[/button], [button=label]url[/button] */
+a.button:visited,
+p.menu_bar a.button,
+p.menu_bar a.button:visited { /* a link that mimic a form button -- [button]url[/button], [button=label]url[/button] */
 	display: -moz-inline-box; /* mandatory for firefox 2 */
 	display: inline-block;
 	cursor: pointer;
@@ -656,7 +658,8 @@ a.button:visited { /* a link that mimic a form button -- [button]url[/button], [
 	vertical-align: middle;
 }
 
-a.button span {
+a.button span,
+p.menu_bar a.button span {
 	display: inline-block;
 	cursor: pointer;
 	border: none;
@@ -711,15 +714,19 @@ span.button button {
 }
 
 a.button:hover,
-span.button:hover {
-	background-position:0 -60px;
+span.button:hover,
+p.menu_bar a.button:hover,
+p.menu_bar span.button:hover {
+	background-position: 0 -60px;
 	color:#222;
 	text-decoration:none;
 }
 
 a.button:hover span,
-span.button:hover button {
-	background-position:100% -60px;
+span.button:hover button,
+p.menu_bar a.button:hover span,
+p.menu_bar span.button:hover button {
+	background-position: 100% -60px;
 }
 
 a.button:active span, span.button:focus button {
@@ -853,7 +860,7 @@ dl dd a.menu_2 {
 	.new { /* [new] -- display a neat image as a flag */
 		padding-right: 33px;
 		margin-right: 2px;
-		background: url("tools/new.gif") no-repeat right;
+		background: transparent url("tools/new.gif") no-repeat right;
 	}
 
 }
@@ -871,7 +878,7 @@ div.odd { /* stacked with div.even */
 	.updated { /* flag modified pages -- see also .flag */
 		padding-right: 60px;
 		margin-right: 2px;
-		background: url("tools/updated.gif") no-repeat right;
+		background: transparent url("tools/updated.gif") no-repeat right;
 	}
 
 }

@@ -451,7 +451,7 @@ table.neighbours tr td.previous { /* to the left */
 	.updated { /* flag modified pages */
 		padding-right: 27px;
 		margin-right: 2px;
-		background: url("tools/updated.gif") no-repeat right;
+		background: transparent url("tools/updated.gif") no-repeat right;
 	}
 
 	.updated span {	/* mask default text */
@@ -503,6 +503,10 @@ table.layout tbody tr td.equator { /* some room between rows */
 table.layout tbody tr td.west,
 table.layout tbody tr td.center { /* some room between columns */
 	padding-right: 3em;
+}
+
+table.form { /* legacy stuff */
+	border: none;
 }
 
 /* explorer tree (in #contextual_menu) */
@@ -560,14 +564,14 @@ dl#contextual_menu ul.tree_level_5 li.last { /* last item of a branch */
 dl#contextual_menu ul.tree li a.below,
 dl#contextual_menu ul.tree li a.close { /* focus is not here */
 	padding-left: 16px;
-	background: url("tree/close.gif") no-repeat top left;
+	background: transparent url("tree/close.gif") no-repeat top left;
 }
 
 dl#contextual_menu ul.tree li a.current,
 dl#contextual_menu ul.tree li a.open { /* item has the current focus */
 	color: #333;
 	padding-left: 16px;
-	background: url("tree/open.gif") no-repeat top left;
+	background: transparent url("tree/open.gif") no-repeat top left;
 }
 
 
@@ -675,7 +679,7 @@ a img {
 
 	#main_panel a.article { /* the image near a link to an article -- [article=id], [article=id, label] */
 		padding-right: 13px;
-		background: url("links/article.png") no-repeat right;
+		background: transparent url("links/article.png") no-repeat right;
 	}
 
 	* html #main_panel a.article { /* ie6 kills trailing rendering on long links */
@@ -716,7 +720,7 @@ a:hover.button { /* hover a button */
 
 	#main_panel a.category { /* the image near a link to a category -- [category=id], [category=id, label] */
 		padding-right: 16px;
-		background: url("links/category.png") no-repeat right;
+		background: transparent url("links/category.png") no-repeat right;
 	}
 
 	* html #main_panel a.category { /* ie6 kills trailing rendering on long links */
@@ -726,7 +730,7 @@ a:hover.button { /* hover a button */
 
 	#main_panel a.comment { /* the image near a link to a comment -- [comment=id], [comment=id, label] */
 		padding-right: 17px;
-		background: url("links/comment.png") no-repeat right;
+		background: transparent url("links/comment.png") no-repeat right;
 	}
 
 	* html #main_panel a.comment { /* ie6 kills trailing rendering on long links */
@@ -736,7 +740,7 @@ a:hover.button { /* hover a button */
 
 	#main_panel a.email { /* the image near a link to an email address -- [email]address[/email], [email=label]address[/email] */
 		padding-right: 18px;
-		background: url("links/email.png") no-repeat right;
+		background: transparent url("links/email.png") no-repeat right;
 	}
 
 	* html #main_panel a.email { /* ie6i kills trailing rendering on long links */
@@ -746,7 +750,7 @@ a:hover.button { /* hover a button */
 
 	#main_panel a.external { /* the image near an external link -- [link]href[/link], [link=label]href[/link] */
 		padding-right: 15px;
-		background: url("links/external.png") no-repeat right;
+		background: transparent url("links/external.png") no-repeat right;
 	}
 
 	* html #main_panel a.external { /* ie6 kills trailing rendering on long links */
@@ -756,7 +760,7 @@ a:hover.button { /* hover a button */
 
 	#main_panel a.file { /* the image near a link to view file details -- [file=id], [file=id, label] */
 		padding-right: 15px;
-		background: url("links/file.png") no-repeat right;
+		background: transparent url("links/file.png") no-repeat right;
 	}
 
 	* html #main_panel a.file { /* ie6 kills trailing rendering on long links */
@@ -786,7 +790,7 @@ a:hover.button { /* hover a button */
 
 	#main_panel a.section { /* the image near a link to a section -- [section=id], [section=id, label] */
 		padding-right: 16px;
-		background: url("links/section.png") no-repeat right;
+		background: transparent url("links/section.png") no-repeat right;
 	}
 
 	* html #main_panel a.section { /* ie6 kills trailing rendering on long links */
@@ -796,7 +800,7 @@ a:hover.button { /* hover a button */
 
 	#main_panel a.server { /* the image near a link to a server profile -- [server=id], [server=id, label] */
 		padding-right: 14px;
-		background: url("links/server.png") no-repeat right;
+		background: transparent url("links/server.png") no-repeat right;
 	}
 
 	* html #main_panel a.server { /* ie6 kills trailing rendering on long links */
@@ -806,7 +810,7 @@ a:hover.button { /* hover a button */
 
 	#main_panel a.shortcut { /* the image near a local link */
 		padding-right: 15px;
-		background: url("links/shortcut.png") no-repeat right;
+		background: transparent url("links/shortcut.png") no-repeat right;
 	}
 
 	* html #main_panel a.shortcut { /* ie6 kills trailing rendering on long links */
@@ -816,7 +820,7 @@ a:hover.button { /* hover a button */
 
 	#main_panel a.user { /* the image near a link to a user profile -- [user=id], [user=id, label] */
 		padding-right: 12px;
-		background: url("links/user.png") no-repeat right;
+		background: transparent url("links/user.png") no-repeat right;
 	}
 
 	* html #main_panel a.user { /* ie6 kills trailing rendering on long links */
@@ -923,7 +927,7 @@ blockquote { /* [quote]...[/quote] -- to cite someone */
 
 	blockquote {
 		padding-left: 25px; /* prefix quotes with a nice image */
-		background: url("codes/quote.gif") no-repeat top left;
+		background: transparent url("codes/quote.gif") no-repeat top left;
 	}
 
 	blockquote span.quote_prefix { /* mask the bare quote char */
@@ -1060,13 +1064,14 @@ table.grid { /* [table=grid]...[/table] - enhance table borders*/
 	border: none;
 }
 
-table.grid td,
-table.grid th { /* a cell in a grid */
+table.grid tbody tr td,
+table.grid tbody tr th { /* a cell in a grid */
 	border: 2px ridge #bfbfbf;
+	padding: 0.5em;
 }
 
-table.tiny tr td,
-table.tiny tr th { /* [table=tiny]...[/table] */
+table.tiny tbody tr td,
+table.tiny tbody tr th { /* [table=tiny]...[/table] */
 	font-family: sans-serif;
 	font-size: 9px;
 	line-height: 10pt;
@@ -1239,7 +1244,7 @@ hr { /* an ordinary horizontal rule --- [---], [___] */
 	.new { /* [new] -- display a neat image as a flag */
 		padding-right: 18px;
 		margin-right: 2px;
-		background: url("tools/new.gif") no-repeat right;
+		background: transparent url("tools/new.gif") no-repeat right;
 	}
 
 	.new span { /* mask default text -- see also .flag */
@@ -1252,7 +1257,7 @@ hr { /* an ordinary horizontal rule --- [---], [___] */
 	.popular { /* [popular] -- display a neat image as a flag */
 		padding-right: 24px;
 		margin-right: 2px;
-		background: url("tools/popular.gif") no-repeat right;
+		background:  transparent url("tools/popular.gif") no-repeat right;
 	}
 
 	.popular span {	/* mask default text -- see also .flag */
@@ -2261,6 +2266,7 @@ div.recent div.east { /* the second newest item */
  *
  *
  * @see articles/layout_articles_as_titles.php
+ * @see sections/layout_sections_as_titles.php
  */
 
 dl.floating_box { /* float to the left */
@@ -2293,6 +2299,19 @@ dl.floating_box dt { /* center box title */
 	font-size: 1em;
 	padding: 0;
 	margin: 0;
+}
+
+div.floating_family { /* break between boxes */
+	display: block;
+	font-size: 1.2em;
+	text-decoration: none;
+	background-color: #F5F5F5;
+	border-top: 1px solid #FFFFFF;
+	border-bottom: none;
+	color: #666;
+	margin-bottom: 1px;
+	padding: 9px 1em 6px 1em;
+	z-index: 10;
 }
 
 /**

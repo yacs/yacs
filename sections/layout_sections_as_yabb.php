@@ -165,7 +165,7 @@ Class Layout_sections_as_yabb extends Layout_interface {
 
 						// label the action
 						if(isset($article['edit_action']))
-							$action = get_action_label($article['edit_action']);
+							$action = Anchors::get_action_label($article['edit_action']);
 						else
 							$action = i18n::s('edited');
 

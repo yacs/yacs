@@ -82,9 +82,7 @@ Class Layout_home_articles_as_daily extends Layout_interface {
 		// build a list of articles
 		$box['content'] = '';
 		$box['title'] = '';
-		include_once $context['path_to_root'].'categories/categories.php';
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {

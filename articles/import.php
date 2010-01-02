@@ -12,7 +12,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../files/files.php';
 
 // do not always show the edition form
 $with_form = FALSE;

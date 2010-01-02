@@ -75,7 +75,6 @@ Class Layout_categories_as_inline extends Layout_interface {
 			}
 
 			// info on related files
-			include_once $context['path_to_root'].'files/files.php';
 			if(isset($item['options']) && preg_match('/\bfiles_by_title\b/i', $item['options']))
 				$items = Files::list_by_title_for_anchor('category:'.$item['id'], 0, COMPACT_LIST_SIZE);
 			else

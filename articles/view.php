@@ -119,9 +119,7 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../behaviors/behaviors.php';
-include_once '../categories/categories.php';	// tags and categories
 include_once '../comments/comments.php';		// attached comments and notes
-include_once '../files/files.php';				// attached files
 include_once '../images/images.php';			// attached images
 include_once '../links/links.php';				// related pages
 include_once '../locations/locations.php';
@@ -370,7 +368,7 @@ if(!isset($item['id'])) {
 	Logger::error(i18n::s('You are not allowed to perform this operation.'));
 
 // re-enforce the canonical link
-} elseif($context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
+} elseif(!$zoom_type && $context['self_url'] && ($canonical = $context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)) && strncmp($context['self_url'], $canonical, strlen($canonical))) {
 	Safe::header('Status: 301 Moved Permanently', TRUE, 301);
 	Safe::header('Location: '.$canonical);
 	Logger::error(Skin::build_link($canonical));
@@ -400,7 +398,7 @@ if(!isset($item['id'])) {
 
 	// neighbours information
 	$neighbours = NULL;
-	if(Articles::has_option('no_neighbours', $anchor, $item) && ($context['skin_variant'] != 'mobile'))
+	if(Articles::has_option('no_neighbours', $anchor, $item))
 		$neighbours = $anchor->get_neighbours('article', $item);
 
 	//
@@ -422,7 +420,8 @@ if(!isset($item['id'])) {
 		$context['page_header'] .= $item['meta'];
 
 	// add canonical link
-	$context['page_header'] .= "\n".'<link rel="canonical" href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'" />';
+	if(!$zoom_type)
+		$context['page_header'] .= "\n".'<link rel="canonical" href="'.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'" />';
 
 	// a meta link to prefetch the next page
 	if(isset($neighbours[2]) && $neighbours[2])
@@ -628,13 +627,16 @@ if(!isset($item['id'])) {
 		$lines[] = Skin::build_link(Articles::get_url($item['id'], 'invite'), ARTICLES_INVITE_IMG.i18n::s('Invite participants'), 'basic', i18n::s('Spread the word'));
 	}
 
-	// facebook & twitter
+	// facebook, twitter, linkedin
 	if(!isset($context['without_internet_visibility']) || ($context['without_internet_visibility'] != 'Y')) {
 		Skin::define_img('PAGERS_FACEBOOK_IMG', 'pagers/facebook.gif');
 		$lines[] = Skin::build_link('http://www.facebook.com/share.php?u='.urlencode($context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)).'&t='.urlencode($item['title']), PAGERS_FACEBOOK_IMG.i18n::s('Share at Facebook'), 'basic', i18n::s('Spread the word'));
 
 		Skin::define_img('PAGERS_TWITTER_IMG', 'pagers/twitter.gif');
 		$lines[] = Skin::build_link('http://twitter.com/home?status='.urlencode($item['title'].' '.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item)), PAGERS_TWITTER_IMG.i18n::s('Share at Twitter'), 'basic', i18n::s('Spread the word'));
+
+		Skin::define_img('PAGERS_LINKEDIN_IMG', 'pagers/linkedin.gif');
+		$lines[] = Skin::build_link('http://www.linkedin.com/shareArticle?mini=true&url='.$context['url_to_home'].$context['url_to_root'].Articles::get_permalink($item).'&title='.urlencode($item['title']).'&summary='.urlencode($item['introduction']).'&source='.urlencode($anchor->get_title()), PAGERS_LINKEDIN_IMG.i18n::s('Share at LinkedIn'), 'basic', i18n::s('Spread the word'));
 
 	}
 
@@ -732,7 +734,7 @@ if(!isset($item['id'])) {
 	}
 
 	// links to previous and next pages in this section, if any
-	if(is_object($anchor) && !$anchor->has_option('no_neighbours') && ($context['skin_variant'] != 'mobile')) {
+	if(is_object($anchor) && !$anchor->has_option('no_neighbours')) {
 
 		// build a nice sidebar box
 		if(isset($neighbours) && ($content = Skin::neighbours($neighbours, 'sidebar')))
@@ -798,7 +800,10 @@ if(!isset($item['id'])) {
 		$context['tabs'] = $overlay->get_tabs('view', $item);
 
 	// branch to another script
-	if(isset($item['options']) && preg_match('/\bview_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
+	if(!Surfer::is_desktop()) {
+		include 'view_on_mobile.php';
+		return;
+	} elseif(isset($item['options']) && preg_match('/\bview_as_[a-zA-Z0-9_\.]+?\b/i', $item['options'], $matches) && is_readable($matches[0].'.php')) {
 		include $matches[0].'.php';
 		return;
 	} elseif(is_object($anchor) && ($viewer = $anchor->has_option('view_as')) && is_readable('view_as_'.$viewer.'.php')) {
@@ -829,13 +834,6 @@ if(!isset($item['id'])) {
 		// buttons to display previous and next pages, if any
 		if(is_object($anchor) && $anchor->has_layout('manual'))
 			$text .= Skin::neighbours($neighbours, 'manual');
-
-		// link to the front page if on a mobile device
-		if($context['skin_variant'] == 'mobile') {
-
-			// use the same link than AvantGo to our front page
-			$text .= '<p>'.date('j/n/Y').' - <a href="'.$context['url_to_root'].'">'.i18n::s('Home').'</a></p>'."\n";
-		}
 
 		// the poster profile, if any, at the beginning of the first page
 		if(($page == 1) && isset($poster['id']) && is_object($anchor))
@@ -1096,7 +1094,7 @@ if(!isset($item['id'])) {
 		}
 
 		// show commands
-		if(count($box['bar']) && ($context['skin_variant'] != 'mobile')) {
+		if(count($box['bar'])) {
 
 			// commands before the box
 			$box['text'] = Skin::build_list($box['prefix_bar'], 'menu_bar').$box['text'];

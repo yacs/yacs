@@ -49,7 +49,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../categories/categories.php';	// to categorize a set of pages
 
 // look for the id
 $id = NULL;

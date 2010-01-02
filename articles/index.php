@@ -48,7 +48,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../categories/categories.php'; // categories displayed here
 include_once '../feeds/feeds.php'; // some links to newsfeeds
 
 // which page should be displayed

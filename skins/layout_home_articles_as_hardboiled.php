@@ -64,9 +64,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 		$item_count = 0;
 		$items = array();
 		include_once $context['path_to_root'].'articles/article.php';
-		include_once $context['path_to_root'].'categories/categories.php';
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
@@ -187,7 +185,7 @@ Class Layout_home_articles_as_hardboiled extends Layout_interface {
 				}
 
 				// the last action
-				$details[] = get_action_label($item['edit_action']).' '.Skin::build_date($item['edit_date']);
+				$details[] = Anchors::get_action_label($item['edit_action']).' '.Skin::build_date($item['edit_date']);
 
 				// the number of hits
 				if(Surfer::is_logged() && ($item['hits'] > 1))

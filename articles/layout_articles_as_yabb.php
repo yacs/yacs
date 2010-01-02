@@ -55,7 +55,6 @@ Class Layout_articles_as_yabb extends Layout_interface {
 
 		// build a list of articles
 		$rows = array();
-		include_once $context['path_to_root'].'categories/categories.php';
 		include_once $context['path_to_root'].'comments/layout_comments_as_yabb.php';
 		include_once $context['path_to_root'].'comments/comments.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
@@ -183,7 +182,7 @@ Class Layout_articles_as_yabb extends Layout_interface {
 
 					// label the action
 					if(isset($item['edit_action']))
-						$user .= get_action_label($item['edit_action']).' ';
+						$user .= Anchors::get_action_label($item['edit_action']).' ';
 
 					// name of last editor
 					$user .= sprintf(i18n::s('by %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']));

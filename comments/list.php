@@ -199,7 +199,7 @@ if(!is_object($anchor)) {
 		}
 
 		// show commands
-		if(@count($box['bar']) && ($context['skin_variant'] != 'mobile')) {
+		if(@count($box['bar'])) {
 
 			// append the menu bar at the end
 			if((strlen($box['text']) > 10) && $count)

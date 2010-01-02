@@ -447,8 +447,6 @@
  */
 include_once '../shared/global.php';
 include_once '../articles/article.php';
-include_once '../categories/categories.php';
-include_once '../files/files.php';
 include_once '../links/links.php';
 include_once '../sections/section.php';
 include_once '../versions/versions.php';

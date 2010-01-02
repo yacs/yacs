@@ -45,7 +45,6 @@
 
 // common libraries
 include_once '../shared/global.php';
-include_once '../categories/categories.php';
 
 // what to do
 $action = '';

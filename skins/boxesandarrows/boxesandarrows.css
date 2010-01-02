@@ -279,7 +279,7 @@ ul li {
     margin: 0;
     padding: 0;
     padding-left: 12px;
-    background: url("codes/art_end.gif") no-repeat 0px 4px;
+    background: transparent url("codes/art_end.gif") no-repeat 0px 4px;
   }
 
 table#wrapper td#side_panel { /* complementary information related to this page */

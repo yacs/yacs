@@ -221,14 +221,12 @@ if($box['text'])
 if(($page == 1) && !$section_id) {
 
 	// search in categories
-	include_once $context['path_to_root'].'categories/categories.php';
 	if($rows = Categories::search($search)) {
 		$panels[] = array('categories', i18n::s('Categories'), 'categories_panel', Skin::build_list($rows, 'decorated'));
 		$no_result = FALSE;
 	}
 
 	// search in files
-	include_once $context['path_to_root'].'files/files.php';
 	if($rows = Files::search($search)) {
 		$panels[] = array('files', i18n::s('Files'), 'files_panel', Skin::build_list($rows, 'decorated'));
 		$no_result = FALSE;
@@ -355,7 +353,6 @@ $context['components']['boxes'] .= Skin::build_box(i18n::s('Monitor'), join(BR, 
 // side bar with the list of most recent keywords
 $cache_id = 'search.php#keywords_by_date';
 if(!$text =& Cache::get($cache_id)) {
-	include_once 'categories/categories.php';
 	if($items = Categories::list_keywords_by_date(0, COMPACT_LIST_SIZE))
 		$text =& Skin::build_box(i18n::s('Recent searches'), Skin::build_list($items, 'compact'), 'boxes');
 	Cache::put($cache_id, $text, 'categories');

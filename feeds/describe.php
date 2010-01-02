@@ -80,7 +80,6 @@ if(!file_exists($context['path_to_root'].$cache_id) || (filemtime($context['path
 			$text .= '	<outline type="rss" title="'.encode_field(strip_tags($attributes['title']).$suffix).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Sections::get_url($id, 'feed').'"'." />\n";
 
 	// one feed per category
-	include_once '../categories/categories.php';
 	if($items = Categories::list_by_date(0, COMPACT_LIST_SIZE, 'raw'))
 		foreach($items as $id => $attributes)
 			$text .= '	<outline type="rss" title="'.encode_field(strip_tags($attributes['title']).$suffix).'" xmlurl="'.$context['url_to_home'].$context['url_to_root'].Categories::get_url($id, 'feed').'"'." />\n";

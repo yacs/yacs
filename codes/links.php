@@ -56,7 +56,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../files/files.php';
 
 // load localized strings
 i18n::bind('codes');

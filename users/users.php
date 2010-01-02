@@ -259,29 +259,6 @@ Class Users {
 	}
 
 	/**
-	 * check the presence of some user
-	 *
-	 * @param mixed an array of attributes, or only an id of the user profile
-	 * @return TRUE if the user is present, FALSE otherwise
-	 */
-	function check_presence_of($user) {
-		global $context;
-
-		// retrieve user attributes
-		if(!isset($user['id']) && (!$user =& Users::get($user)))
-			return FALSE;
-
-		// only consider recent clicks; 300 seconds = 5 minutes
-		$threshold = gmstrftime('%Y-%m-%d %H:%M:%S', time() - 300);
-		if(isset($user['click_date']) && ($user['click_date'] >= $threshold))
-			return TRUE;
-
-		// rely on recent visits
-		include_once $context['path_to_root'].'users/visits.php';
-		return Visits::prove_presence_of($user['id']);
-	}
-
-	/**
 	 * clear cache entries for one item
 	 *
 	 * @param array item attributes
@@ -403,14 +380,8 @@ Class Users {
 		if((!isset($output['full_name']) || !$output['full_name']) && isset($output['nick_name']))
 			$output['full_name'] = $output['nick_name'];
 
-		include_once $context['path_to_root'].'users/visits.php';
-
 		// user is present if active during last 10 minutes (10*60 = 600)
 		if(isset($output['click_date']) && ($output['click_date'] >= gmstrftime('%Y-%m-%d %H:%M:%S', time()-600)))
-			$output['is_present'] = TRUE;
-
-		// some page or thread is currently observed
-		elseif(isset($output['id']) && ($items = Visits::list_for_user($output['id'])))
 			$output['is_present'] = TRUE;
 
 		// user is not present
@@ -1379,7 +1350,6 @@ Class Users {
 		}
 
 		// list the user in categories
-		include_once $context['path_to_root'].'categories/categories.php';
 		Categories::remember('user:'.$fields['id'], NULL_DATE, isset($fields['tags']) ? $fields['tags'] : '');
 
 		// clear the cache for users
@@ -1622,10 +1592,8 @@ Class Users {
 		SQL::query($query, FALSE, $context['users_connection']);
 
 		// list the user in categories
-		if(isset($fields['tags']) && $fields['tags']) {
-			include_once $context['path_to_root'].'categories/categories.php';
+		if(isset($fields['tags']) && $fields['tags'])
 			Categories::remember('user:'.$item['id'], NULL_DATE, $fields['tags']);
-		}
 
 		// clear all the cache on profile update, because of avatars, etc.
 		$fields['id'] = $item['id'];

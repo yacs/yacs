@@ -1,26 +1,26 @@
 <?php
 /**
- * update reference skins
+ * update misc. files
  *
- * @author Bernard Paques [email]bernard.paques@bigfoot.com[/email]
+ * @author Bernard Paques
  * @reference
  * @license http://www.gnu.org/copyleft/lesser.txt GNU Lesser General Public License
  */
 
 // splash message
 global $local;
-$local['label_en'] = 'Update reference skins';
-$local['label_fr'] = 'Mise &agrave; jour des styles de r&eacute;f&eacute;rence';
+$local['label_en'] = 'Update miscellaneous files';
+$local['label_fr'] = 'Mise &agrave; jour compl&eacute;mentaire';
 echo i18n::user('label')."<br />\n";
 
 // the reference server to use
 @include_once $context['path_to_root'].'scripts/parameters.include.php';
 if(!isset($context['reference_server']) || !$context['reference_server'])
-	$context['reference_server'] = 'www.yetanothercommunitysystem.com';
+	$context['reference_server'] = 'www.yacs.fr';
 
 // files to fetch, from root path
-unset($files);
-$files[] = 'skins/_reference/pagers/facebook.gif';
+$files = array();
+$files[] = 'control/htaccess/options/.htaccess';
 
 // process every file
 $count = 0;

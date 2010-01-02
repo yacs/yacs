@@ -47,7 +47,6 @@ Class Layout_dates extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		while($item =& SQL::fetch($result)) {
 
@@ -79,7 +78,7 @@ Class Layout_dates extends Layout_interface {
 					$details[] = sprintf(i18n::s('edited by %s %s'), Users::get_link($item['edit_name'], $item['edit_address'], $item['edit_id']), Skin::build_date($item['edit_date']));
 
 			} else
-				$details[] = get_action_label($item['edit_action']);
+				$details[] = Anchors::get_action_label($item['edit_action']);
 
 			// info on related files
 			if($count = Files::count_for_anchor('article:'.$item['id'], TRUE))

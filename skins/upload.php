@@ -20,7 +20,6 @@
 
 // common definitions and initial processing
 include_once '../shared/global.php';
-include_once '../files/files.php';
 
 // the target file
 $id = NULL;

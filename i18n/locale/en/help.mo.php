@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-12-07 14:57+0100
-PO-Revision-Date: 2009-10-04 09:34+0100
+POT-Creation-Date: 2010-01-02 23:33+0100
+PO-Revision-Date: 2009-12-18 00:00+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -163,6 +163,7 @@ $_SESSION['l10n']['en']['Next step']='Next step';
 $_SESSION['l10n']['en']['Not satisfied yet?']='Not satisfied yet?';
 $_SESSION['l10n']['en']['aef83ebcdddad79a0d2077d3233a68df']='Of course, you may also use regular editors to create simple items:';
 $_SESSION['l10n']['en']['On page side']='On page side';
+$_SESSION['l10n']['en']['a75814c5682e4262e7f7a1c341469363']='Only associates and owners can contribute.';
 $_SESSION['l10n']['en']['Original pages']='Original pages';
 $_SESSION['l10n']['en']['Our collaborative place']='Our collaborative place';
 $_SESSION['l10n']['en']['Our wiki']='Our wiki';

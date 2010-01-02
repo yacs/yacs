@@ -1,10 +1,4 @@
 <?php
-// stop hackers
-defined('YACS') or exit('Script must be included');
-
-// load libraries
-include_once $context['path_to_root'].'files/files.php';
-
 /**
  * the file anchor
  *
@@ -425,5 +419,8 @@ Class File extends Anchor {
 	}
 
 }
+
+// stop hackers
+defined('YACS') or exit('Script must be included');
 
 ?>

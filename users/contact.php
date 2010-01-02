@@ -26,7 +26,6 @@
 // common definitions and initial processing
 include_once '../shared/global.php';
 include_once '../comments/comments.php';	// create new threads
-include_once '../files/files.php';			// upload files
 
 // load the skin
 load_skin('users');

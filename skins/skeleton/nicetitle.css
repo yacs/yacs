@@ -8,7 +8,7 @@ div.nicetitle {
     font-family: Verdana, Helvetica, Arial, sans-serif;
     width: 25em;
     font-weight: bold;
-    background: url("images/nicetitle_background.png");
+    background-image: url("images/nicetitle_background.png");
 }
 
 div.nicetitle p {

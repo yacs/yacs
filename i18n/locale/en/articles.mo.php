@@ -7,8 +7,8 @@
  */
 $_SESSION['l10n']['en']['_headers']='Project-Id-Version: YACS
 Report-Msgid-Bugs-To: 
-POT-Creation-Date: 2009-12-07 13:33+0100
-PO-Revision-Date: 2009-12-07 00:33+0100
+POT-Creation-Date: 2010-01-02 23:33+0100
+PO-Revision-Date: 2010-01-02 23:34+0100
 Last-Translator: Bernard Paques
 Language-Team: Bernard Paques
 MIME-Version: 1.0
@@ -142,7 +142,6 @@ $_SESSION['l10n']['en']['Get a paper copy of this page.']='Get a paper copy of t
 $_SESSION['l10n']['en']['Go to the front page']='Go to the front page';
 $_SESSION['l10n']['en']['Good']='Good';
 $_SESSION['l10n']['en']['Help']='Help';
-$_SESSION['l10n']['en']['Home']='Home';
 $_SESSION['l10n']['en']['6198ff8c87cda7d2c4e9972f51412f95']='I would like to invite you to the following page.';
 $_SESSION['l10n']['en']['98b2e1b34b14f94d2493eb4999e0fd72']='If you change the overlay you may loose some data.';
 $_SESSION['l10n']['en']['9404597745d93a6898e464cbbc52c4dc']='If you have previously registered to this site, please %s. Then the server will automatically put your name and address in following fields.';
@@ -208,6 +207,7 @@ $_SESSION['l10n']['en']['eade49618563da311f01c557b52f763a']='Nobody has been ass
 $_SESSION['l10n']['en']['Nothing has been received.']='Nothing has been received.';
 $_SESSION['l10n']['en']['Oldest articles']='Oldest articles';
 $_SESSION['l10n']['en']['One page of comments']='One page of comments';
+$_SESSION['l10n']['en']['0198bfb6af2fd6cfa2978411e8458058']='Only associates and owners can add content';
 $_SESSION['l10n']['en']['Operation has failed.']='Operation has failed.';
 $_SESSION['l10n']['en']['Options']='Options';
 $_SESSION['l10n']['en']['Orphan: %s']='Orphan: %s';
@@ -301,6 +301,7 @@ $_SESSION['l10n']['en']['Sent by %s']='Sent by %s';
 $_SESSION['l10n']['en']['Sent by %s in %s']='Sent by %s in %s';
 $_SESSION['l10n']['en']['Share']='Share';
 $_SESSION['l10n']['en']['Share at Facebook']='Share at Facebook';
+$_SESSION['l10n']['en']['Share at LinkedIn']='Share at LinkedIn';
 $_SESSION['l10n']['en']['Share at Twitter']='Share at Twitter';
 $_SESSION['l10n']['en']['Share screen with NetMeeting']='Share screen with NetMeeting';
 $_SESSION['l10n']['en']['Share screen with VNC']='Share screen with VNC';

@@ -32,7 +32,6 @@ Class Layout_categories_as_cloud extends Layout_interface {
 		$total = 0;
 		$minimum = 10000;
 		$maximum = 0;
-		include_once $context['path_to_root'].'categories/categories.php';
 		while($item =& SQL::fetch($result)) {
 
 			// this will be sorted alphabetically

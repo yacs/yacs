@@ -355,7 +355,6 @@ if(!Surfer::is_associate()) {
 		$context['root_featured_count'] = 7;
 
 	// the category used to assign featured pages
-	include_once '../categories/categories.php';
 	$anchor =& Categories::get(i18n::c('featured'));
 	if(isset($anchor['id']) && ($items =& Members::list_articles_by_date_for_anchor('category:'.$anchor['id'], 0, $context['root_featured_count'], 'digest'))) {
 

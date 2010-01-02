@@ -83,7 +83,6 @@ include_once '../shared/global.php';
 include_once '../shared/xml.php';	// input validation
 include_once 'image.php';	// image processing
 include_once 'images.php';
-include_once '../files/files.php'; //file upload
 
 // the maximum size for uploads
 $image_maximum_size = str_replace('M', '000000', Safe::get_cfg_var('upload_max_filesize'));

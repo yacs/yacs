@@ -1507,9 +1507,6 @@ Class Codes {
 	function &render_freemind($id) {
 		global $context;
 
-		// web reference to the target Freemind map file
-		include_once $context['path_to_root'].'files/files.php';
-
 		// process parameters
 		$attributes = preg_split("/\s*,\s*/", $id, 3);
 		switch(count($attributes)) {
@@ -2107,7 +2104,6 @@ Class Codes {
 
 		// link to a category
 		case 'category':
-			include_once $context['path_to_root'].'categories/categories.php';
 
 			// maybe an alternate title has been provided
 			$attributes = preg_split("/\s*,\s*/", $id, 2);
@@ -2137,7 +2133,6 @@ Class Codes {
 
 		// insert category description
 		case 'category.description':
-			include_once $context['path_to_root'].'categories/categories.php';
 
 			// maybe an alternate title has been provided
 			$attributes = preg_split("/\s*,\s*/", $id, 2);
@@ -2243,7 +2238,6 @@ Class Codes {
 
 		// link to a download
 		case 'download':
-			include_once $context['path_to_root'].'files/files.php';
 
 			// maybe an alternate title has been provided
 			$attributes = preg_split("/\s*,\s*/", $id, 2);
@@ -2272,7 +2266,6 @@ Class Codes {
 
 		// link to a file
 		case 'file':
-			include_once $context['path_to_root'].'files/files.php';
 
 			// maybe an alternate title has been provided
 			$attributes = preg_split("/\s*,\s*/", $id, 2);
@@ -2303,7 +2296,6 @@ Class Codes {
 
 		// render a multimedia file
 		case 'embed':
-			include_once $context['path_to_root'].'files/files.php';
 
 			// split parameters
 			$attributes = preg_split("/\s*,\s*/", $id, 4);
@@ -2725,7 +2717,6 @@ Class Codes {
 
 		// render a sound object
 		case 'sound':
-			include_once $context['path_to_root'].'files/files.php';
 
 			// maybe an alternate title has been provided
 			$attributes = preg_split("/\s*,\s*/", $id, 2);

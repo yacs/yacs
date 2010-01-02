@@ -19,7 +19,6 @@
 
 // common definitions and initial processing
 include_once '../../shared/global.php';
-include_once '../../files/files.php';
 
 // load the skin
 load_skin('skins');

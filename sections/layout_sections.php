@@ -48,9 +48,7 @@ Class Layout_sections extends Layout_interface {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// process all items in the list
-		include_once $context['path_to_root'].'categories/categories.php';
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		while($item =& SQL::fetch($result)) {
@@ -73,20 +71,15 @@ Class Layout_sections extends Layout_interface {
 			// initialize variables
 			$prefix = $suffix = $icon = '';
 
-			// not too many details on mobiles
-			if($this->layout_variant != 'mobile') {
-
-				// flag sections that are draft, dead, or created or updated very recently
-				if($item['activation_date'] >= $now)
-					$prefix .= DRAFT_FLAG;
-				elseif(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
-					$prefix .= EXPIRED_FLAG;
-				elseif($item['create_date'] >= $dead_line)
-					$suffix .= NEW_FLAG;
-				elseif($item['edit_date'] >= $dead_line)
-					$suffix .= UPDATED_FLAG;
-
-			}
+			// flag sections that are draft, dead, or created or updated very recently
+			if($item['activation_date'] >= $now)
+				$prefix .= DRAFT_FLAG;
+			elseif(($item['expiry_date'] > NULL_DATE) && ($item['expiry_date'] <= $now))
+				$prefix .= EXPIRED_FLAG;
+			elseif($item['create_date'] >= $dead_line)
+				$suffix .= NEW_FLAG;
+			elseif($item['edit_date'] >= $dead_line)
+				$suffix .= UPDATED_FLAG;
 
 			// signal restricted and private sections
 			if($item['active'] == 'N')

@@ -189,7 +189,6 @@ function send_body() {
 		echo Tables::setup();
 
 		// create tables for files
-		include_once '../files/files.php';
 		echo Files::setup();
 
 		// create tables for links
@@ -209,7 +208,6 @@ function send_body() {
 		echo Decisions::setup();
 
 		// create tables for categories
-		include_once '../categories/categories.php';
 		echo Categories::setup();
 
 		// create tables for members

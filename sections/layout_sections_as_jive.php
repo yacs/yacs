@@ -57,7 +57,6 @@ Class Layout_sections_as_jive extends Layout_interface {
 		// build a list of sections
 		$family = '';
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		while($item =& SQL::fetch($result)) {
 
@@ -134,7 +133,7 @@ Class Layout_sections_as_jive extends Layout_interface {
 
 						// label the action
 						if(isset($article['edit_action']))
-							$action = get_action_label($article['edit_action']);
+							$action = Anchors::get_action_label($article['edit_action']);
 						else
 							$action = i18n::s('edited');
 

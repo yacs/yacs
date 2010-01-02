@@ -49,7 +49,6 @@ Class Layout_articles_as_timeline extends Layout_interface {
 
 		// process all items in the list
 		include_once $context['path_to_root'].'comments/comments.php';
-		include_once $context['path_to_root'].'files/files.php';
 		include_once $context['path_to_root'].'links/links.php';
 		include_once $context['path_to_root'].'overlays/overlay.php';
 		$odd = TRUE;
@@ -112,7 +111,7 @@ Class Layout_articles_as_timeline extends Layout_interface {
 
 			// last contribution
 			if($item['edit_action'])
-				$action = get_action_label($item['edit_action']).' ';
+				$action = Anchors::get_action_label($item['edit_action']).' ';
 			else
 				$action = i18n::s('edited');
 

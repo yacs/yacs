@@ -1,7 +1,4 @@
 <?php
-// stop hackers
-defined('YACS') or exit('Script must be included');
-
 /**
  * the implementation of anchor for sections
  *
@@ -316,10 +313,6 @@ Class Section extends Anchor {
 
 		// previous and next files
 		} elseif($type == 'file') {
-
-			// load the adequate library
-			include_once $context['path_to_root'].'files/files.php';
-
 
 			// select appropriate order
 			if(preg_match('/\bfiles_by_title\b/', $this->item['options']))
@@ -769,10 +762,6 @@ Class Section extends Anchor {
 	 */
 	function get_user_profile($user, $variant='prefix', $more='') {
 		global $context;
-
-		// no user profile on mobiles
-		if(isset($context['skin_variant']) && ($context['skin_variant'] == 'mobile'))
-			return '';
 
 		// depending on the variant considered
 		switch($variant) {
@@ -1251,7 +1240,6 @@ Class Section extends Anchor {
 
 			// a file has been added to the section
 			} else if(strpos($action, 'file') === 0) {
-				include_once $context['path_to_root'].'files/files.php';
 				if((!$target = Files::get($origin)) || !$target['id'])
 					return;
 
@@ -1287,9 +1275,9 @@ Class Section extends Anchor {
 
 				// add poster name if applicable
 				if($surfer = Surfer::get_name())
-					$action = sprintf(i18n::c('%s by %s'), get_action_label($action), $surfer);
+					$action = sprintf(i18n::c('%s by %s'), Anchors::get_action_label($action), $surfer);
 				else
-					$action = get_action_label($action);
+					$action = Anchors::get_action_label($action);
 
 				// message components
 				$title = sprintf(i18n::c('%s in %s'), ucfirst($action), strip_tags($this->item['title']));
@@ -1382,6 +1370,9 @@ Class Section extends Anchor {
 	}
 
 }
+
+// stop hackers
+defined('YACS') or exit('Script must be included');
 
 // load localized strings
 if(is_callable(array('i18n', 'bind')))

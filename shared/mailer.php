@@ -404,9 +404,9 @@ class Mailer {
 		// decode action
 		if(strpos($action, ':create')) {
 			if($surfer = Surfer::get_name())
-				$action = sprintf(i18n::c('%s by %s'), ucfirst(get_action_label($action)), $surfer);
+				$action = sprintf(i18n::c('%s by %s'), ucfirst(Anchors::get_action_label($action)), $surfer);
 			else
-				$action = ucfirst(get_action_label($action));
+				$action = ucfirst(Anchors::get_action_label($action));
 		}
 
 		// clean title
@@ -782,7 +782,6 @@ class Mailer {
 				$content_encoding = '';
 
 				// process every file
-				include_once $context['path_to_root'].'files/files.php';
 				foreach($attachments as $name) {
 
 					// read file content

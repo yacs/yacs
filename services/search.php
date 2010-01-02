@@ -110,7 +110,6 @@ switch($type) {
 
 	// search in files
 	case 'files':
-		include_once $context['path_to_root'].'files/files.php';
 		$values['items'] = Files::search($search, 0, 30, 'feed');
 		break;
 

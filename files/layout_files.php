@@ -48,7 +48,6 @@ Class Layout_files extends Layout_interface {
 		$now = gmstrftime('%Y-%m-%d %H:%M:%S');
 
 		// process all items in the list
-		include_once $context['path_to_root'].'files/files.php';
 		while($item =& SQL::fetch($result)) {
 
 			// get the main anchor
